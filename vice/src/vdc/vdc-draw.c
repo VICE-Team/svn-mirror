@@ -431,20 +431,24 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
     BYTE *p;
     DWORD *table_ptr, *pdl_ptr, *pdh_ptr;
 
-    unsigned int i;
-
+    unsigned int i, charwidth;
+    if (vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
+        charwidth = 2 * (vdc.regs[22] >> 4);
+    } else { /* 80 column mode */
+        charwidth = 1 + (vdc.regs[22] >> 4);
+    }
     p = vdc.raster.draw_buffer_ptr
         + vdc.border_width
         - (vdc.regs[22] >> 4)
         + ((vdc.regs[25] & 0x10) ? 1 : 0)
         + vdc.xsmooth
-        + xs * ((vdc.regs[25] & 0x10) ? 16 : 8);
+        + xs * charwidth;
     table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
     pdl_ptr = pdl_table + ((vdc.regs[26] & 0x0f) << 4);
     pdh_ptr = pdh_table + ((vdc.regs[26] & 0x0f) << 4);
 
     if (vdc.regs[25] & 0x10) { /* double pixel mode */
-        for (i = xs; i <= (unsigned int)xe; i++, p += 16) {
+        for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
             DWORD *pdwl = pdl_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
             DWORD *pdwh = pdh_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
             int d = cache->foreground_data[i];
@@ -454,7 +458,7 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
             *((DWORD *)p + 3) = *(pdwl + (d & 0x0f));
         }
     } else { /* normal text size */
-        for (i = xs; i <= (unsigned int)xe; i++, p += 8) {
+        for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) { /* FIXME rendering in the intercharacter gap when charwidth >8 */
             DWORD *ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
             int d = cache->foreground_data[i];
             *((DWORD *)p) = *(ptr + (d >> 4));
@@ -635,20 +639,24 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
     DWORD *table_ptr, *pdl_ptr, *pdh_ptr;
     DWORD *ptr, *pdwl, *pdwh;
 
-    unsigned int i, d, j, fg, bg;
-
+    unsigned int i, d, j, fg, bg, charwidth;
+    if (vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
+        charwidth = 2 * (vdc.regs[22] >> 4);
+    } else { /* 80 column mode */
+        charwidth = 1 + (vdc.regs[22] >> 4);
+    }
     p = vdc.raster.draw_buffer_ptr
         + vdc.border_width
         + vdc.xsmooth
         - (vdc.regs[22] >> 4)
         + ((vdc.regs[25] & 0x10) ? 1 : 0)
-        + xs * ((vdc.regs[25] & 0x10) ? 16 : 8);
+        + xs * charwidth;
 
     /* TODO: See if we even need to split these renderers between attr/mono, because the attr data is filled either way. draw_std_text_cached mode() doesn't differentiate */
     if (vdc.regs[25] & 0x40) {
         /* attribute mode */
         if (vdc.regs[25] & 0x10) { /* double pixel mode */
-            for (i = xs; i <= (unsigned int)xe; i++, p += 16) {
+            for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
                 d = cache->foreground_data[i];
                 pdwl = pdl_table + ((cache->color_data_1[i] & 0x0f) << 8) + (cache->color_data_1[i] & 0xf0);
                 pdwh = pdh_table + ((cache->color_data_1[i] & 0x0f) << 8) + (cache->color_data_1[i] & 0xf0);
@@ -658,7 +666,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
                 *((DWORD *)p + 3) = *(pdwl + (d & 0x0f));
             }
         } else { /* normal text size */
-            for (i = xs; i <= (unsigned int)xe; i++, p += 8) {
+            for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
                 d = cache->foreground_data[i];
 
                 table_ptr = hr_table + (cache->color_data_1[i] & 0xf0);
@@ -674,7 +682,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
             pdl_ptr = pdl_table + ((vdc.regs[26] & 0x0f) << 4);
             pdh_ptr = pdh_table + ((vdc.regs[26] & 0x0f) << 4);
             
-            for (i = xs; i <= (unsigned int)xe; i++, p += 16) {
+            for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
                 d = cache->foreground_data[i];
                 pdwl = pdl_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
                 pdwh = pdh_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
@@ -686,7 +694,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
         } else { /* normal text size */
             table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
-            for (i = xs; i <= (unsigned int)xe; i++, p += 8) {
+            for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
                 d = cache->foreground_data[i];
 
                 ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
