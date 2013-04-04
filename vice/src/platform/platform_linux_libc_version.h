@@ -30,27 +30,31 @@
 #define QUOTE(x) XQUOTE(x)
 #define XQUOTE(x) #x
 
-/* Linux old libc / glibc version discovery */
-#if !defined(PLATFORM_OS) && defined(__GNU_LIBRARY__)
-#  if (__GNU_LIBRARY__ < 6)
-#    define PLATFORM_OS "Linux libc " QUOTE(__GNU_LIBRARY__) "." QUOTE(__GNU_LIBRARY_MINOR__)
-#  else
-#    define PLATORM_OS "Linux glibc " QUOTE(__GLIBC__) "." QUOTE(__GLIBC__MINOR__)
-#  endif
-#endif
+#ifdef __linux__
 
 /* Linux uClibc version discovery */
-#if !defined(PLATFORM_OS) && defined(__UCLIBC__)
-#define PLATFORM_OS "Linux uClibc " QUOTE(__UCLIBC_MAJOR__) "." QUOTE(__UCLIBC_MINOR__) "." QUOTE(__UCLIBC_SUBLEVEL__)
-#endif
+#  if !defined(PLATFORM_OS) && defined(__UCLIBC__)
+#    define PLATFORM_OS "Linux uClibc " QUOTE(__UCLIBC_MAJOR__) "." QUOTE(__UCLIBC_MINOR__) "." QUOTE(__UCLIBC_SUBLEVEL__)
+#  endif
 
 /* Linux dietlibc discovery */
-#if !defined(PLATFORM_OS) && defined(__dietlibc__)
-#define PLATFORM_OS "Linux dietlibc"
-#endif
+#  if !defined(PLATFORM_OS) && defined(__dietlibc__)
+#    define PLATFORM_OS "Linux dietlibc"
+#  endif
 
-#ifndef PLATFORM_OS
-#define PLATFORM_OS "Linux"
+/* Linux old libc / glibc version discovery */
+#  if !defined(PLATFORM_OS) && defined(_LINUX_C_LIB_VERSION) && defined(_LINUX_C_LIB_VERSION_MAJOR)
+#    if (_LINUX_C_LIB_VERSION_MAJOR < 6)
+#      define PLATFORM_OS "Linux libc " _LINUX_C_LIB_VERSION
+#    else
+#      define PLATORM_OS "Linux glibc " QUOTE(__GLIBC__) "." QUOTE(__GLIBC__MINOR__)
+#    endif
+#  endif
+
+#  ifndef PLATFORM_OS
+#    define PLATFORM_OS "Linux"
+#  endif
+
 #endif
 
 #endif
