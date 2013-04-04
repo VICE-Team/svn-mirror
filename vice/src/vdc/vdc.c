@@ -555,7 +555,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
             vdc.row_counter++;
             /* check if we are at the end of the display */
             if (vdc.row_counter == vdc.regs[6]) {
-                // vdc.last_displayed_line = vdc.raster.current_line;
+                /* vdc.last_displayed_line = vdc.raster.current_line; */
                 /* FIXME - this is really a hack to lock in the screen/attr addresses at the next raster alarm handler */
                 vdc.screen_ypix = vdc.raster.current_line - vdc.border_height;
             }

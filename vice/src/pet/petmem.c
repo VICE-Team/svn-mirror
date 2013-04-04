@@ -196,9 +196,9 @@ void rom_store(WORD addr, BYTE value)
 BYTE rom6809_read(WORD addr)
 {
     return mem_6809rom[addr - ROM6809_BASE];
-    //BYTE val = mem_6809rom[addr - ROM6809_BASE];
-    //printf("rom6809_read %04x -> %02x\n", addr, val);
-    //return val;
+    /* BYTE val = mem_6809rom[addr - ROM6809_BASE];
+       printf("rom6809_read %04x -> %02x\n", addr, val);
+       return val; */
 }
 
 void rom6809_store(WORD addr, BYTE value)
@@ -456,17 +456,17 @@ static void store_super_io(WORD addr, BYTE value)
 {
     if (addr >= 0xeffe) {       /* RAM/ROM switch */
         spet_ramen = !(value & 1);
-        //printf("spet_ramen := %d\n", spet_ramen);
+        /* printf("spet_ramen := %d\n", spet_ramen); */
     } else
     if (addr >= 0xeffc) {       /* Bank select */
         set_spet_bank(value & 0x0F);
         spet_firq_disabled = (value & 0x20);
         spet_flat_mode = (value & 0x40);
         spet_ctrlwp = !(value & 0x80);
-        //printf("spet_bank := %x  ", spet_bank);
-        //printf("spet_flat_mode := %d  ", !!spet_flat_mode);
-        //printf("spet_firq_disabled := %d  ", !!spet_firq_disabled);
-        //printf("spet_ctrlwp := %d\n", !!spet_ctrlwp);
+        /* printf("spet_bank := %x  ", spet_bank);
+           printf("spet_flat_mode := %d  ", !!spet_flat_mode);
+           printf("spet_firq_disabled := %d  ", !!spet_firq_disabled);
+           printf("spet_ctrlwp := %d\n", !!spet_ctrlwp); */
         if (spet_flat_mode) {
             /* This is for the extra TPUG-designed Super OS/9 MMU.
              * There is no need to check if this is a change in value,
@@ -475,13 +475,13 @@ static void store_super_io(WORD addr, BYTE value)
              * See http://mikenaberezny.com/hardware/superpet/super-os9-mmu/
              */
             mem_initialize_memory_6809_flat();
-            //mon_bank(e_default_space, "extram");
-            /*extern WORD PC;
-            printf("next opcode: %04X: banked %02X, flat %02X\n",
-                    PC,
-                    mem_ram[EXT_RAM + spet_bank_4k + (PC & 0x0FFF)],
-                    mem_ram[EXT_RAM + PC]
-                  );*/
+            /* mon_bank(e_default_space, "extram");
+               extern WORD PC;
+                printf("next opcode: %04X: banked %02X, flat %02X\n",
+                       PC,
+                       mem_ram[EXT_RAM + spet_bank_4k + (PC & 0x0FFF)],
+                       mem_ram[EXT_RAM + PC]
+                  ); */
         }
         /* else if (spet_bank_4k != old_spet_bank_4k) {
          *      maincpu_resync_limits(); notyet: 6809 doesn't use bank_base yet.
@@ -495,7 +495,7 @@ static void store_super_io(WORD addr, BYTE value)
                     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
                 }
                 spet_ramwp = !(value & 0x2);    /* IF hardware w/p switch is PROG */
-                //printf("spet_ramwp := %d\n", spet_ramwp);
+                /* printf("spet_ramwp := %d\n", spet_ramwp); */
                 spet_diag = (value & 0x8);
             }
         } else
@@ -532,7 +532,7 @@ static void store_super_9(WORD addr, BYTE value)
 
 static BYTE read_super_flat(WORD addr)
 {
-    //printf("read_super_flat %04X -> %02X\n", addr, (mem_ram + EXT_RAM)[addr]);
+    /* printf("read_super_flat %04X -> %02X\n", addr, (mem_ram + EXT_RAM)[addr]); */
     return (mem_ram + EXT_RAM)[addr];
 }
 
@@ -800,7 +800,7 @@ static void set_std_9tof(void)
     BYTE (*fetch)(WORD);
     int ram9, ramA, ramBCD, ramE, ramE8, ramF;
 
-    //printf("set_std_9tof: petres.ramSize=%d, petres.map=%d\n", petres.ramSize, petres.map);
+    /* printf("set_std_9tof: petres.ramSize=%d, petres.map=%d\n", petres.ramSize, petres.map); */
     if (petres.map == PET_MAP_8296) {
         store = ram_store;
 
@@ -1176,7 +1176,7 @@ static void mem_initialize_memory_6809_banked(void)
 {
     int i;
 
-    //extern WORD iPC; printf("mem_initialize_memory_6809_banked %04x bank %x\n", iPC, spet_bank);
+    /* extern WORD iPC; printf("mem_initialize_memory_6809_banked %04x bank %x\n", iPC, spet_bank); */
     for (i = 0x00; i < 0xa0; i++) {
         _mem6809_read_tab[i] = _mem_read_tab[i];
         _mem6809_write_tab[i] = _mem_write_tab[i];
@@ -1220,7 +1220,7 @@ static void mem_initialize_memory_6809_flat(void)
 {
     int i;
 
-    //extern WORD iPC; printf("mem_initialize_memory_6809_flat   %04X bank %x\n", iPC, spet_bank);
+    /* extern WORD iPC; printf("mem_initialize_memory_6809_flat   %04X bank %x\n", iPC, spet_bank); */
 
     for (i = 0x00; i < 0x101; i++) {
         _mem6809_read_tab[i] = read_super_flat;
@@ -1251,13 +1251,13 @@ int superpet_sync(void)
     } else {
         spet_flat_mode = 0;
         mem_initialize_memory_6809_banked();
-        //mon_bank(e_default_space, "6809");
-        /*extern WORD PC;
-        printf("next opcode: %04X: banked %02X, flat %02X\n",
-                PC,
-                mem_ram[EXT_RAM + spet_bank_4k + (PC & 0x0FFF)],
-                mem_ram[EXT_RAM + PC]
-              );*/
+        /* mon_bank(e_default_space, "6809");
+           extern WORD PC;
+           printf("next opcode: %04X: banked %02X, flat %02X\n",
+                   PC,
+                   mem_ram[EXT_RAM + spet_bank_4k + (PC & 0x0FFF)],
+                   mem_ram[EXT_RAM + PC]
+              ); */
 
         return 0;
     }
@@ -1618,10 +1618,10 @@ static int mem_dump_io(WORD addr)
         if (addr >= 0xefe0 && addr <= 0xefe3) {
             return efe0_dump();
         } else if (addr >= 0xeff0 && addr <= 0xeff3) {
-            // ACIA
+            /* ACIA */
         } else if (addr == 0xeff8) {
-            // Control switch
-            /* return aciacore_dump(); */
+            /* Control switch
+               return aciacore_dump(); */
             mon_out("CPU: %s\n",
                     petres.superpet_cpu_switch == SUPERPET_CPU_6502 ? "6502" :
                     petres.superpet_cpu_switch == SUPERPET_CPU_6809 ? "6809" :
@@ -1630,14 +1630,14 @@ static int mem_dump_io(WORD addr)
             mon_out("diagnostic sense: $%x\n", spet_diag);
             return 0;
         } else if (addr == 0xeffc) {
-            // Bank select
+            /* Bank select */
             mon_out("bank: $%x\n", spet_bank);
             mon_out("control write protect: %d\n", spet_ctrlwp);
             mon_out("flat (super-os9) mode: %d\n", !!spet_flat_mode);
             mon_out("firq disabled: %d\n", !!spet_firq_disabled);
             return 0;
         } else if (addr == 0xeffe) {
-            // RAM/ROM switch
+            /* RAM/ROM switch */
             mon_out("ram_enable: %d\n", spet_ramen);
             return 0;
         }

@@ -517,7 +517,7 @@ int petrom_load_chargen(void)
        characters.
      */
 
-    //memset(mem_chargen_rom, 1, 0x1000);
+    /* memset(mem_chargen_rom, 1, 0x1000); */
     rsize = sysfile_load(petres.chargenName, mem_chargen_rom, -0x800, 0x1000);
     if (rsize < 0) {
         log_error(petrom_log,

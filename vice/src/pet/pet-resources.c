@@ -431,8 +431,9 @@ static const resource_int_t resources_int[] = {
 #endif
     { "CPUswitch", 0, RES_EVENT_SAME, NULL,
       &petres.superpet_cpu_switch, set_superpet_cpu_switch, NULL },
-//  { "SuperPETRamWriteProtect", 0, RES_EVENT_SAME, NULL,
-//    &petres.ramwp, set_super_write_protect, NULL },
+/*  { "SuperPETRamWriteProtect", 0, RES_EVENT_SAME, NULL,
+      &petres.ramwp, set_super_write_protect, NULL },
+*/
     { NULL }
 };
 

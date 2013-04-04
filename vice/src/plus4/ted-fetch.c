@@ -101,12 +101,12 @@ inline static int do_matrix_fetch(CLOCK sub)
             == (unsigned int)((raster->ysmooth + 1) & 7)
             && ted.allow_bad_lines
             && ted.ted_raster_counter > ted.first_dma_line
-            //&& ted.bad_line
+            /* && ted.bad_line */
             && ted.ted_raster_counter <= ted.last_dma_line) {
             ted_fetch_matrix(0, TED_SCREEN_TEXTCOLS);
 
             raster->draw_idle_state = 0;
-            //raster->ycounter = 0;
+            /* raster->ycounter = 0; */
 
             ted.idle_state = 0;
             ted.idle_data_location = IDLE_NONE;

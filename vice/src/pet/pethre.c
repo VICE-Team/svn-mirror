@@ -198,18 +198,18 @@ void pethre_shutdown(void)
 void crtc_store_hre(WORD addr, BYTE value)
 {
     if (pethre_enabled) {
-        //printf("HRE:     enabled... %4x %2x\n", addr, value);
+        /* printf("HRE:     enabled... %4x %2x\n", addr, value); */
         /* E888 is the usual address */
-        if (addr & 0x0008) {               // turn ROMs on or off
+        if (addr & 0x0008) {               /* turn ROMs on or off */
             if (value != reg_E888) {
-                if (value == 0x0F) {            // ROMs on
-                    // printf("HRE: ROMs on\n");
+                if (value == 0x0F) {            /* ROMs on */
+                    /* printf("HRE: ROMs on\n"); */
                     petmem_ramON = 0;
                     petres.ramsel9 = 0;
                     petres.ramselA = 0;
                     ramsel_changed();
-                } else if (value == 0x83) {     // ROMs off
-                    // printf("HRE: ROMs off\n");
+                } else if (value == 0x83) {     /* ROMs off */
+                    /* printf("HRE: ROMs off\n"); */
                     petmem_ramON = 1;
                     petres.ramsel9 = 0;
                     petres.ramselA = 0;
@@ -217,7 +217,7 @@ void crtc_store_hre(WORD addr, BYTE value)
                 }
                 reg_E888 = value;
             } else {
-                //printf("HRE: $%04X <- %02X\n", addr, value);
+                /* printf("HRE: $%04X <- %02X\n", addr, value); */
             }
         } else if (addr & 0x0001) {
             /*
@@ -227,17 +227,17 @@ void crtc_store_hre(WORD addr, BYTE value)
              * jumper which the HRE board spies on.
              */
             if (crtc.regno == 0x0c) {
-                if (value & CRTC_MA12) {     // off
-                    //printf("HRE: Hi-Res off: start=%02X\n", value);
+                if (value & CRTC_MA12) {     /* off */
+                    /* printf("HRE: Hi-Res off: start=%02X\n", value); */
                     crtc_set_hires_draw_callback(NULL);
-                } else {                     // on
-                    //printf("HRE: Hi-Res  on: start=%02X\n", value);
+                } else {                     /* on */
+                    /* printf("HRE: Hi-Res  on: start=%02X\n", value); */
                     crtc_set_hires_draw_callback(pethre_DRAW);
                 }
             }
         }
     } else {
-        //printf("HRE: not enabled... %4x %2x\n", addr, value);
+        /* printf("HRE: not enabled... %4x %2x\n", addr, value); */
     }
 }
 
@@ -301,7 +301,7 @@ static void pethre_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
             int i;
             DWORD *pw = (DWORD *)p;
 
-            //printf("scr_rel=%d: ma_lo=%d; jump at %d chars\n", scr_rel, ma_lo, width0);
+            /* printf("scr_rel=%d: ma_lo=%d; jump at %d chars\n", scr_rel, ma_lo, width0); */
             if (width < width0) {
                 width0 = width;
             }

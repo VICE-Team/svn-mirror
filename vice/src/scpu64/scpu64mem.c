@@ -1699,14 +1699,14 @@ void mem_set_simm_size(int val)
     ram_init(mem_simm_ram, size);
     switch (val) {
     case 1:
-        mem_simm_page_size = 9 + 2; // 0
+        mem_simm_page_size = 9 + 2; /* 0 */
         break;
-    case 4:                             //1
-    case 8:                             //2
-        mem_simm_page_size = 10 + 2;  //3
+    case 4:                             /* 1 */
+    case 8:                             /* 2 */
+        mem_simm_page_size = 10 + 2;  /* 3 */
         break;
     default:
-        mem_simm_page_size = 11 + 2;  //4,3
+        mem_simm_page_size = 11 + 2;  /* 4,3 */
         break;
     }
     maincpu_resync_limits();
