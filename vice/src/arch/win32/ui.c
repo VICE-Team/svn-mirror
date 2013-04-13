@@ -1828,7 +1828,9 @@ static void ui_wm_dropfiles(HWND window, WPARAM wparam)
     DragQueryFile(hDrop, 0, (char *)&szFile, 256);
     if (GetAsyncKeyState(VK_SHIFT) & 0x8000) {
         if (file_system_attach_disk(8, szFile) < 0) {
-            ui_error(translate_text(IDS_CANNOT_ATTACH_FILE));
+            if (tape_image_attach(1, szFile) < 0) {
+                ui_error(translate_text(IDS_CANNOT_ATTACH_FILE));
+            }
         }
     } else {
         if (autostart_autodetect(szFile, NULL, 0, AUTOSTART_MODE_RUN) < 0) {
