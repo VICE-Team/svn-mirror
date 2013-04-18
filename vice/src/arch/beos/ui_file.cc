@@ -428,7 +428,7 @@ static void load_snapshot_trap(WORD unused_addr, void *path)
     if (machine_read_snapshot((char *)path, 0) < 0) {
         ui_error("Cannot read snapshot image.");
     }
-    delete path;
+    delete (char *)path;
 }
 
 static void save_snapshot_trap(WORD unused_addr, void *path)
@@ -436,7 +436,7 @@ static void save_snapshot_trap(WORD unused_addr, void *path)
     if (machine_write_snapshot((char *)path, 1, 1, 0) < 0) {
         ui_error("Cannot write snapshot file.");
     }
-    delete path;
+    delete (char *)path;
 }
         
 static void ui_sound_record_action(const char *name, const char *ext)
@@ -541,7 +541,7 @@ void ui_select_file_action(BMessage *msg)
             /* we need a copy of the path that won't be deleted here */
             char *pathname = lib_stralloc(fullpath);
 
-            interrupt_maincpu_trigger_trap(save_snapshot_trap, (void*) fullpath);
+            interrupt_maincpu_trigger_trap(save_snapshot_trap, (void *)pathname);
         } else if (last_filetype[1] == SNAPSHOT_HISTORY_START) {
             resources_set_string("EventStartSnapshot", name);
         } else if (last_filetype[1] == SNAPSHOT_HISTORY_END) {
