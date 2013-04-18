@@ -18,6 +18,7 @@ libplatform_a_SOURCES = \
 	platform_discovery.h \
 	platform_freebsd_version.h \
 	platform_linux_libc_version.h \
+	platform_linux_runtime_os.c \
 	platform_macosx.c \
 	platform_macosx.h \
 	platform_netbsd_version.h \

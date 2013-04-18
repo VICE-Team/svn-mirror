@@ -66,4 +66,6 @@ extern char *platform_get_solaris_runtime_os(void);
 extern char *platform_get_syllable_runtime_os(void);
 extern char *platform_get_syllable_runtime_cpu(void);
 
+extern char *platform_get_linux_runtime_os(void);
+
 #endif

@@ -27,34 +27,48 @@
 #ifndef VICE_PLATFORM_LINUX_LIBC_VERSION_H
 #define VICE_PLATFORM_LINUX_LIBC_VERSION_H
 
+#include <stdio.h>
+#include <features.h>
+
 #define QUOTE(x) XQUOTE(x)
 #define XQUOTE(x) #x
 
-#ifdef __linux__
-
 /* Linux uClibc version discovery */
-#  if !defined(PLATFORM_OS) && defined(__UCLIBC__)
-#    define PLATFORM_OS "Linux uClibc " QUOTE(__UCLIBC_MAJOR__) "." QUOTE(__UCLIBC_MINOR__) "." QUOTE(__UCLIBC_SUBLEVEL__)
-#  endif
+#if !defined(PLATFORM_OS) && defined(__UCLIBC__)
+#  define PLATFORM_OS "Linux uClibc " QUOTE(__UCLIBC_MAJOR__) "." QUOTE(__UCLIBC_MINOR__) "." QUOTE(__UCLIBC_SUBLEVEL__)
+#endif
 
 /* Linux dietlibc discovery */
-#  if !defined(PLATFORM_OS) && defined(__dietlibc__)
-#    define PLATFORM_OS "Linux dietlibc"
-#  endif
+#if !defined(PLATFORM_OS) && defined(__dietlibc__)
+#  define PLATFORM_OS "Linux dietlibc"
+#endif
 
-/* Linux old libc / glibc version discovery */
-#  if !defined(PLATFORM_OS) && defined(_LINUX_C_LIB_VERSION) && defined(_LINUX_C_LIB_VERSION_MAJOR)
-#    if (_LINUX_C_LIB_VERSION_MAJOR < 6)
-#      define PLATFORM_OS "Linux libc " _LINUX_C_LIB_VERSION
-#    else
-#      define PLATORM_OS "Linux glibc " QUOTE(__GLIBC__) "." QUOTE(__GLIBC__MINOR__)
-#    endif
-#  endif
+#if defined(__GNU_LIBRARY__)
+#  define VICE_LINUX_CLIB_VERSION_MAJOR __GNU_LIBRARY__
+#endif
 
-#  ifndef PLATFORM_OS
-#    define PLATFORM_OS "Linux"
-#  endif
+#if defined(_LINUX_C_LIB_VERSION) && defined(_LINUX_C_LIB_VERSION_MAJOR)
+#  undef VICE_LINUX_CLIB_VERSION_MAJOR
+#  define VICE_LINUX_CLIB_VERSION_MAJOR _LINUX_C_LIB_VERSION_MAJOR
+#endif
 
+/* Linux glibc2 version discovery */
+#if !defined(PLATFORM_OS) && defined(__GLIBC__)
+#  define PLATFORM_OS "Linux glibc " QUOTE(__GLIBC__) "." QUOTE(__GLIBC_MINOR__)
+#endif
+
+/* Linux old libc version discovery */
+#if !defined(PLATFORM_OS) && defined(_LINUX_C_LIB_VERSION)
+#  define PLATFORM_OS "Linux libc " _LINUX_C_LIB_VERSION
+#endif
+
+/* Linux glibc1 check */
+#if !defined(PLATFORM_OS) && (VICE_LINUX_CLIB_VERSION_MAJOR==1)
+#define PLATFORM_OS "Linux glibc 1.x"
+#endif
+
+#ifndef PLATFORM_OS
+#  define PLATFORM_OS "Linux"
 #endif
 
 #endif
