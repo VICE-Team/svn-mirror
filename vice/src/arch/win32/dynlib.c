@@ -38,6 +38,11 @@ void *vice_dynlib_symbol(void *handle,const char *name)
     return GetProcAddress((HMODULE)handle, name);
 }
 
+char *vice_dynlib_error(void)
+{
+    return "unknown";
+}
+
 int vice_dynlib_close(void *handle)
 {
     if (FreeLibrary(handle)) {

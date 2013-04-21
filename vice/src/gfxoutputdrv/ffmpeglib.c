@@ -117,7 +117,7 @@ static int check_version(const char *lib_name, void *handle, const char *symbol,
     
     version_func = (ffmpeg_version_t)vice_dynlib_symbol(handle, symbol);
     if (version_func == NULL) {
-        log_debug("ffmpeg %s: version function '%s' not found!", lib_name, symbol);
+        log_debug("ffmpeg %s: version function '%s' not found! error: %s", lib_name, symbol, vice_dynlib_error());
         return -1;
     }
 
@@ -160,7 +160,7 @@ static int load_avcodec(ffmpeglib_t *lib)
         avcodec_so = vice_dynlib_open(AVCODEC_SO_NAME);
 
         if (!avcodec_so) {
-            log_debug("opening dynamic library " AVCODEC_SO_NAME " failed!");
+            log_debug("opening dynamic library " AVCODEC_SO_NAME " failed! error: %s", vice_dynlib_error());
             return -1;
         }
 
@@ -200,7 +200,7 @@ static int load_avformat(ffmpeglib_t *lib)
         avformat_so = vice_dynlib_open(AVFORMAT_SO_NAME);
 
         if (!avformat_so) {
-            log_debug("opening dynamic library " AVFORMAT_SO_NAME " failed!");
+            log_debug("opening dynamic library " AVFORMAT_SO_NAME " failed! error: %s", vice_dynlib_error());
             return -1;
         }
 
@@ -246,7 +246,7 @@ static void free_avformat(ffmpeglib_t *lib)
 {
     if (avformat_so) {
         if (vice_dynlib_close(avformat_so) != 0) {
-            log_debug("closing dynamic library " AVFORMAT_SO_NAME " failed!");
+            log_debug("closing dynamic library " AVFORMAT_SO_NAME " failed! error: %s", vice_dynlib_error());
         }
     }
     avformat_so = NULL;
@@ -287,7 +287,7 @@ static int load_avutil(ffmpeglib_t *lib)
         avutil_so = vice_dynlib_open(AVUTIL_SO_NAME);
 
         if (!avutil_so) {
-            log_debug("opening dynamic library " AVUTIL_SO_NAME " failed!");
+            log_debug("opening dynamic library " AVUTIL_SO_NAME " failed! error: %s", vice_dynlib_error());
             return -1;
         }
 
@@ -305,7 +305,7 @@ static void free_avutil(ffmpeglib_t *lib)
 {
     if (avutil_so) {
         if (vice_dynlib_close(avutil_so) != 0) {
-            log_debug("closing dynamic library " AVUTIL_SO_NAME " failed!");
+            log_debug("closing dynamic library " AVUTIL_SO_NAME " failed! error: %s", vice_dynlib_error());
         }
     }
     avutil_so = NULL;
@@ -321,7 +321,7 @@ static int load_swscale(ffmpeglib_t *lib)
         swscale_so = vice_dynlib_open(SWSCALE_SO_NAME);
 
         if (!swscale_so) {
-            log_debug("opening dynamic library " SWSCALE_SO_NAME " failed!");
+            log_debug("opening dynamic library " SWSCALE_SO_NAME " failed! error: %s", vice_dynlib_error());
             return -1;
         }
 
@@ -337,7 +337,7 @@ static void free_swscale(ffmpeglib_t *lib)
 {
     if (swscale_so) {
         if (vice_dynlib_close(swscale_so) != 0) {
-            log_debug("closing dynamic library " SWSCALE_SO_NAME " failed!");
+            log_debug("closing dynamic library " SWSCALE_SO_NAME " failed! error: %s", vice_dynlib_error());
         }
     }
     swscale_so = NULL;

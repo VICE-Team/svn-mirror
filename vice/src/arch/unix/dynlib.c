@@ -45,6 +45,13 @@ void *vice_dynlib_symbol(void *handle,const char *name)
     return dlsym(handle, name);
 }
 
+char *vice_dynlib_error(void)
+{
+     char *error = dlerror();
+     
+     return error ? error : "no error";
+}
+
 int vice_dynlib_close(void *handle)
 {
     return dlclose(handle);
@@ -60,6 +67,11 @@ void *vice_dynlib_open(const char *name)
 void *vice_dynlib_symbol(void *handle,const char *name)
 {
     return NULL;
+}
+
+char *vice_dynlib_error(void)
+{
+    return "no error";
 }
 
 int vice_dynlib_close(void *handle)
