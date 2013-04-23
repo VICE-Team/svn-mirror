@@ -1616,10 +1616,12 @@ if test x"$enable_ffmpeg" != "xno"; then
         AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
         FFMPEG_INCLUDES="$FFMPEG_AV_CFLAGS"
         GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"
+	dlopen_pthread=yes
       fi
       if (test x"${have_swscale}" = x"yes") ; then
         AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
         FFMPEG_INCLUDES="$FFMPEG_INCLUDES $FFMPEG_SWSCALE_CFLAGS"
+	dlopen_pthread=yes
       fi
        ],
       [echo "no. disabled."]
@@ -2711,16 +2713,35 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
         AC_CHECK_HEADER(semaphore.h,,,[#include <semaphore.h>])
         if test x"$ac_cv_header_semaphore_h" = "xyes" ; then
            AC_CHECK_LIB(pthread, pthread_create,
-                     [ X_LIBS="-lpthread $X_LIBS";
-                       LINK_X_LIBS="-lpthread $LINK_X_LIBS";
-  		     CFLAGS="$CFLAGS -pthread";
-    		   VICE_UI_THREADS="ui-threads.o";
+                     [ is_threaded=yes;
+    		       VICE_UI_THREADS="ui-threads.o";
                        AC_DEFINE(USE_UI_THREADS,,[Enable multithreaded UI.])
     		 ],,$X_LIBS)
         fi
       fi
       AC_SUBST(VICE_UI_THREADS)
     fi
+  fi
+
+  # Some systems can't dynamically open (dlopen(3)) a shared library which is
+  # threaded unless the main program is threaded too (or at least compiled
+  # with the options for that) due to the invasiveness of libpthread.
+  # The FFMPEG libraries are threaded, so they trigger this difficulty.
+  # So make sure -pthread is added when one of those may be dlopen()ed.
+
+  case "$host_os" in
+    netbsd*)
+      cant_dlopen_libpthread=yes
+      ;;
+  esac
+
+  if test x"$cant_dlopen_libpthread" = xyes -a x"$dlopen_pthread" = xyes ; then
+      is_threaded=yes
+  fi
+
+  if test x"$is_threaded" = xyes ; then
+      CFLAGS="$CFLAGS -pthread"
+      LDFLAGS="$LDFLAGS -pthread"
   fi
 
   dnl Check for XFree86 header and library extensions.
