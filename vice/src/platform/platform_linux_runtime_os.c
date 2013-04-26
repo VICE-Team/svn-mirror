@@ -33,6 +33,7 @@
    x86 | libc5
    x86 | glibc1.*
    x86 | glibc2.*
+   x86 | dietlibc
  */
 
 #include "vice.h"
@@ -48,7 +49,12 @@
 
 char *platform_get_linux_runtime_os(void)
 {
-#ifdef __GLIBC__
+#ifdef __dietlibc__
+#define CLIB_HANDLED
+    return "Linux dietlibc";
+#endif
+
+#if !defined(CLIB_HANDLED) && defined(__GLIBC__)
 #  define CLIB_HANDLED
 #  if (__GLIBC__==2)
 #    if (__GLIBC__MINOR__>0)
