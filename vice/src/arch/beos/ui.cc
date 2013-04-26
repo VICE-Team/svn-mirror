@@ -42,6 +42,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "statusbar.h"
+#include "ui_file.h"
+#include "vicewindow.h"
+
 extern "C" {
 #include "attach.h"
 #include "autostart.h"
@@ -76,14 +80,12 @@ extern "C" {
 #include "printer.h"
 #include "resources.h"
 #include "sound.h"
-#include "statusbar.h"
 #include "tape.h"
 #include "types.h"
 #include "ui.h"
 #include "ui_datasette.h"
 #include "ui_device.h"
 #include "ui_drive.h"
-#include "ui_file.h"
 #include "ui_joystick.h"
 #include "ui_netplay.h"
 #include "ui_ram.h"
@@ -95,7 +97,6 @@ extern "C" {
 #include "version.h"
 #include "vice-event.h"
 #include "viceapp.h"
-#include "vicewindow.h"
 #include "videoarch.h"
 #include "vsync.h"
 
@@ -888,10 +889,11 @@ void ui_dispatch_events(void)
                 char *abouttext;
 
 #ifdef USE_SVN_REVISION
-                abouttext = util_concat("BeVICE Version ", VERSION, "rev " VICE_SVN_REV_STRING " (", PLATFORM_CPU, " ", PLATFORM_OS, " ", PLATFORM_COMPILER, ")\n",
+                abouttext = util_concat("BeVICE Version ", VERSION, "rev " VICE_SVN_REV_STRING,
 #else
-                abouttext = util_concat("BeVICE Version ", VERSION, " (", PLATFORM_CPU, " ", PLATFORM_OS, " ", PLATFORM_COMPILER, ")\n",
+                abouttext = util_concat("BeVICE Version ", VERSION,
 #endif
+                                        "\n (", PLATFORM_CPU, " ", PLATFORM_OS, " ", PLATFORM_COMPILER, ")\n\n",
                                         "(c) 1998-2013 Dag Lem\n",
                                         "(c) 1999-2013 Andreas Matthies\n",
                                         "(c) 1999-2013 Martin Pottendorfer\n",

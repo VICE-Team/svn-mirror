@@ -26,15 +26,19 @@
 
 #include "vice.h"
 
-#include <Alert.h>
-#include <Application.h>
+#include <Bitmap.h>
 #include <DirectWindow.h>
 #include <FilePanel.h>
 #include <Locker.h>
+#include <MenuBar.h>
 #include <MenuItem.h>
+#include <View.h>
 #include <string.h>
 
+#include "statusbar.h"
+#include "ui_file.h"
 #include "vicemenu.h"
+#include "vicewindow.h"
 
 extern "C" {
 #include "constants.h"
@@ -44,11 +48,8 @@ extern "C" {
 #include "machine.h"
 #include "platform.h"
 #include "resources.h"
-#include "statusbar.h"
 #include "ui.h"
-#include "ui_file.h"
 #include "util.h"
-#include "vicewindow.h"
 #include "video.h"
 #include "videoarch.h"
 }
@@ -251,6 +252,7 @@ ViceWindow::~ViceWindow()
 {
     BView *vsid = FindView("vsid");
 
+    DBG_MSG(("destroying window %s\n", Title()));
     fconnectiondisabled = true;
     Hide();
     Sync();

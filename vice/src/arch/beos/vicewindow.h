@@ -33,10 +33,11 @@
 #include <DirectWindow.h>
 #include <Locker.h>
 
-extern "C" {
 #include "statusbar.h"
-#include "ui.h"
 #include "ui_file.h"
+
+extern "C" {
+#include "ui.h"
 }
 
 class ViceWindow : public BDirectWindow {

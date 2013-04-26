@@ -38,10 +38,12 @@
 #include <View.h>
 #include <Window.h>
 
+#include "ui_file.h"
+#include "vicewindow.h"
+
 extern "C" {
 #include "attach.h"
 #include "autostart.h"
-#include "c64ui.h"
 #include "cartridge.h"
 #include "constants.h"
 #include "diskcontents.h"
@@ -54,11 +56,7 @@ extern "C" {
 #include "tapecontents.h"
 #include "ui.h"
 #include "uiapi.h"
-#include "ui_file.h"
 #include "util.h"
-#include "vic20ui.h"
-#include "vicemenu.h"
-#include "vicewindow.h"
 #include "vsync.h"
 }
 
@@ -175,7 +173,7 @@ void VicePreview::MessageReceived(BMessage *msg)
     }
 }
 
-ViceFilePanel::ViceFilePanel(file_panel_mode mode, BMessenger* target, entry_ref* panel_directory, uint32 node_flavors, bool allow_multiple_selection)
+ViceFilePanel::ViceFilePanel(file_panel_mode mode, BMessenger *target, entry_ref *panel_directory, uint32 node_flavors, bool allow_multiple_selection)
     : BFilePanel(mode, target, panel_directory, node_flavors, allow_multiple_selection)
 {
     if (mode == B_OPEN_PANEL) {
@@ -487,7 +485,7 @@ void ui_select_file_action(BMessage *msg)
             /* we need a copy of the path that won't be deleted here */
             char *pathname = lib_stralloc(path->Path());
 
-            interrupt_maincpu_trigger_trap(load_snapshot_trap, (void*) pathname);
+            interrupt_maincpu_trigger_trap(load_snapshot_trap, (void *)pathname);
         } else if (last_filetype[0] == C64_CARTRIDGE_FILE) {
             BMessage *msg = new BMessage(ATTACH_C64_CART);
 

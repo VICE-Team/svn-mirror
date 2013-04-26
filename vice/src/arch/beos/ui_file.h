@@ -30,7 +30,9 @@
 #include <FilePanel.h>
 #include <ListView.h>
 
+extern "C" {
 #include "imagecontents.h"
+}
 
 const uint32 AUTOSTART_MESSAGE = 'AS01';
 
@@ -98,13 +100,15 @@ class VicePreview : public BWindow {
 
 class ViceFilePanel : public BFilePanel {
     public : 
-        ViceFilePanel(file_panel_mode, BMessenger*, entry_ref*, uint32, bool);
+        ViceFilePanel(file_panel_mode, BMessenger *, entry_ref *, uint32, bool);
         void SelectionChanged(void);
         void WasHidden(void);
         VicePreview *previewwindow;
 };
 
+extern "C" {
 extern void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *fileparam);
 extern void ui_select_file_action(BMessage *msg);
+}
 
 #endif

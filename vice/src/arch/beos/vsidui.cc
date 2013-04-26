@@ -28,6 +28,10 @@
 
 #include <Box.h>
 #include <TextControl.h>
+#include <Window.h>
+
+#include "ui_file.h"
+#include "vicemenu.h"
 #include "vicewindow.h"
 
 extern "C" {
@@ -36,10 +40,11 @@ extern "C" {
 #include "log.h"
 #include "machine.h"
 #include "psid.h"
-#include "ui_file.h"
+#include "ui.h"
 #include "ui_sid.h"
-#include "vicemenu.h"
+#include "vsidui.h"
 #include "vsync.h"
+}
 
 static BTextControl *tc_name;
 static BTextControl *tc_author;
@@ -82,7 +87,7 @@ static void vsid_play_vsid(const char *filename)
 
 static int c64sidaddressbase[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
 
-void vsid_ui_specific(void *msg, void *window)
+static void vsid_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
         case MENU_VSID_LOAD:
@@ -182,6 +187,13 @@ int vsid_ui_init(void)
     return 0;
 }
 
+void vsid_ui_close(void)
+{
+    if (vsidwindow->Lock()) {
+        vsidwindow->Quit();
+    }
+}
+
 void vsid_ui_display_name(const char *name)
 {
     if (vsidwindow->Lock()) {
@@ -272,13 +284,6 @@ void vsid_ui_display_time(unsigned int sec)
     }
 }
 
-void vsid_ui_close(void)
-{
-    delete vsidwindow;
-}
-
 void vsid_ui_setdrv(char* driver_info_text)
 {
 }
-
-} /* extern "C" */

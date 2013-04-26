@@ -27,7 +27,9 @@
 #ifndef VICE_STATUSBAR_H
 #define VICE_STATUSBAR_H
 
+extern "C" {
 #include "ui.h"
+}
 
 #include <Bitmap.h>
 #include <View.h>

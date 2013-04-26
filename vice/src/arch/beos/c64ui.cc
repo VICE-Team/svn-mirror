@@ -39,6 +39,8 @@
 #include <string.h>
 #endif
 
+#include "ui_file.h"
+
 extern "C" {
 #include "archdep.h"
 #include "c64ui.h"
@@ -50,7 +52,6 @@ extern "C" {
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
-#include "ui_file.h"
 #include "ui_ide64.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"

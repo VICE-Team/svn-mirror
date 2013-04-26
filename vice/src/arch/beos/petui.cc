@@ -39,6 +39,8 @@
 #include <string.h>
 #endif
 
+#include "ui_file.h"
+
 extern "C" {
 #include "archdep.h"
 #include "constants.h"
@@ -46,7 +48,6 @@ extern "C" {
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
-#include "ui_file.h"
 #include "ui_pet.h"
 #include "ui_sidcart.h"
 #include "util.h"
@@ -108,7 +109,6 @@ void pet_ui_specific(void *msg, void *window)
     }
 }
 
-extern "C" {
 int petui_init(void)
 {
     ui_register_machine_specific(pet_ui_specific);
@@ -120,6 +120,4 @@ int petui_init(void)
 
 void petui_shutdown(void)
 {
-}
-
 }

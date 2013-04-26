@@ -39,6 +39,8 @@
 #include <string.h>
 #endif
 
+#include "ui_file.h"
+
 extern "C" {
 #include "archdep.h"
 #include "cartridge.h"
@@ -46,7 +48,6 @@ extern "C" {
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
-#include "ui_file.h"
 #include "ui_sidcart.h"
 #include "ui_vic20.h"
 #include "ui_vic.h"

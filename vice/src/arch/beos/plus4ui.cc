@@ -41,12 +41,13 @@
 #include <string.h>
 #endif
 
+#include "ui_file.h"
+
 extern "C" {
 #include "constants.h" 
 #include "plus4ui.h"
 #include "resources.h"
 #include "ui.h"
-#include "ui_file.h"
 #include "ui_sidcart.h"
 #include "ui_ted.h"
 #include "video.h"

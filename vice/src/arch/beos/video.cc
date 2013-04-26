@@ -28,16 +28,8 @@
 
 #define EXACT_TYPE_NEEDED
 
-#include <Alert.h>
-#include <Application.h>
 #include <Bitmap.h>
-#include <FilePanel.h>
-#include <Menu.h>
-#include <MenuBar.h>
-#include <MenuItem.h>
 #include <Screen.h>
-#include <ScrollView.h>
-#include <TextView.h>
 #include <View.h>
 #include <Window.h>
 #include <signal.h>
@@ -47,6 +39,8 @@
 #if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
 #include <string.h>
 #endif
+
+#include "vicewindow.h"
 
 extern "C" {
 #include "cmdline.h"
@@ -59,8 +53,6 @@ extern "C" {
 #include "translate.h"
 #include "types.h"
 #include "ui.h"
-#include "uiapi.h"
-#include "vicewindow.h"
 #include "video.h"
 #include "videoarch.h"
 #include "viewport.h"
@@ -182,7 +174,9 @@ void video_canvas_destroy(video_canvas_t *c)
     }
 
     if (c->vicewindow != NULL) {
-        delete c->vicewindow;
+        if (c->vicewindow->Lock()) {
+            c->vicewindow->Quit();
+        }
     }
     lib_free(c->title);
 }
