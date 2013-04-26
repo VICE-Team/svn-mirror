@@ -34,6 +34,7 @@
    x86 | glibc1.*
    x86 | glibc2.*
    x86 | dietlibc
+   x86 | newlib
  */
 
 #include "vice.h"
@@ -41,7 +42,7 @@
 #ifdef __linux
 
 #include <stdio.h>
-#include <features.h>
+#include <ctype.h>
 
 #if defined(__GLIBC__) && (__GLIBC__==2) && (__GLIBC__MINOR__>0)
 #  include <gnu/libc-version.h>
@@ -52,6 +53,11 @@ char *platform_get_linux_runtime_os(void)
 #ifdef __dietlibc__
 #define CLIB_HANDLED
     return "Linux dietlibc";
+#endif
+
+#if !defined(CLIB_HANDLED) && defined(_NEWLIB_VERSION)
+#define CLIB_HANDLED
+    return "Linux newlib " _NEWLIB_VERSION;
 #endif
 
 #if !defined(CLIB_HANDLED) && defined(__GLIBC__)
@@ -84,6 +90,13 @@ char *platform_get_linux_runtime_os(void)
     return "Linux glibc 2.x";
 #endif
 
+#ifndef CLIB_HANDLED
+#  include <sys/ucontext.h>
+#  ifdef _UCONTEXT_H
+#    define CLIB_HANDLED
+#    return "Linux musl";
+#  endif
+#endif
 
 #ifndef CLIB_HANDLED
     return "Unknown libc version";

@@ -28,10 +28,15 @@
 #define VICE_PLATFORM_LINUX_LIBC_VERSION_H
 
 #include <stdio.h>
-#include <features.h>
+#include <ctype.h>
 
 #define QUOTE(x) XQUOTE(x)
 #define XQUOTE(x) #x
+
+/* Linux newlib version discovery */
+#if !defined(PLATFORM_OS) && defined(_NEWLIB_VERSION)
+#  define PLATFORM_OS "Linux newlib " _NEWLIB_VERSION
+#endif
 
 /* Linux uClibc version discovery */
 #if !defined(PLATFORM_OS) && defined(__UCLIBC__)
@@ -65,6 +70,14 @@
 /* Linux glibc1 check */
 #if !defined(PLATFORM_OS) && (VICE_LINUX_CLIB_VERSION_MAJOR==1)
 #define PLATFORM_OS "Linux glibc 1.x"
+#endif
+
+/* Linux musl check */
+#ifndef PLATFORM_OS
+#  include <sys/ucontext.h>
+#  ifdef _UCONTEXT_H
+#    define PLATFORM_OS "Linux musl"
+#  endif
 #endif
 
 #ifndef PLATFORM_OS
