@@ -24,51 +24,6 @@
  *
  */
 
-/* Operating systems supported:
- *
- * platform     | support
- * ----------------------
- * aix          | yes
- * amigaos3     | yes
- * amigaos4     | yes
- * android      | yes
- * aros         | yes
- * beos         | yes
- * bsdi         | yes
- * cygwin       | yes
- * dragonflybsd | yes
- * dynix        | yes
- * freebsd      | yes
- * hpux         | yes
- * hurd         | yes
- * irix         | yes
- * linux        | yes
- * lynxos       | yes
- * macosx       | yes
- * minix        | yes
- * msdos        | yes
- * morphos      | yes
- * netbsd       | yes
- * openbsd      | yes
- * openserver   | yes
- * os/2         | yes
- * qnx          | yes
- * sinux        | yes
- * solaris      | yes
- * sunos        | yes
- * symbian os   | yes
- * tru64        | yes
- * ultrix       | yes
- * unixware     | yes
- * uwin         | yes
- * vms          | yes
- * vxworks      | yes
- * win32        | yes
- * win64        | yes
- * xbox         | yes
- * xbox-360     | yes
- */
-
 #ifndef VICE_PLATFORM_DISCOVERY_H
 #define VICE_PLATFORM_DISCOVERY_H
 

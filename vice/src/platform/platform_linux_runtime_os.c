@@ -35,6 +35,7 @@
    x86 | glibc2.*
    x86 | dietlibc
    x86 | newlib
+   x86 | musl
  */
 
 #include "vice.h"
