@@ -297,6 +297,7 @@ int machine_specific_init(void)
     crtc_set_retrace_type(petres.crtc);
     crtc_set_retrace_callback(pet_crtc_signal);
     pet_crtc_set_screen();
+    petcolour_init();
 
     via_init(machine_context.via);
     pia1_init();

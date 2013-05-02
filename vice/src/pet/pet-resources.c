@@ -73,6 +73,9 @@
 static int sync_factor;
 static int set_ramsize(int size, void *param);
 
+int pet_colour_type = PET_COLOUR_TYPE_OFF;
+int pet_colour_analog_bg = 0;
+
 static int set_iosize(int val, void *param)
 {
     if (petres.IOSize != val) {
@@ -358,6 +361,25 @@ static int set_superpet_cpu_switch(int val, void *param)
     return 0;
 }
 
+static int set_pet_colour(int val, void *param)
+{
+    int i;
+
+    pet_colour_type = val;
+    petcolour_set_type(val);
+
+    return 0;
+}
+
+static int set_pet_colour_bg(int val, void *param)
+{
+    int i;
+
+    pet_colour_analog_bg = val;
+
+    return 0;
+}
+
 static const resource_string_t resources_string[] = {
     { "ChargenName", "chargen", RES_EVENT_NO, NULL,
       &petres.chargenName, set_chargen_rom_name, NULL },
@@ -434,6 +456,10 @@ static const resource_int_t resources_int[] = {
 /*  { "SuperPETRamWriteProtect", 0, RES_EVENT_SAME, NULL,
       &petres.ramwp, set_super_write_protect, NULL },
 */
+    { "PETColour", PET_COLOUR_TYPE_OFF, RES_EVENT_SAME, NULL,
+      &pet_colour_type, set_pet_colour, NULL },
+    { "PETColourBG", 0, RES_EVENT_SAME, NULL,
+      &pet_colour_analog_bg, set_pet_colour_bg, NULL },
     { NULL }
 };
 

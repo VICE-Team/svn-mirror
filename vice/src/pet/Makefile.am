@@ -33,6 +33,7 @@ libpet_a_SOURCES = \
 	petdrive.c \
 	petdww.c \
 	petdww.h \
+	petcolour.c \
 	petembedded.c \
 	pethre.c \
 	pethre.h \

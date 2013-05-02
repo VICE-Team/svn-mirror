@@ -40,6 +40,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "pet.h"
+#include "pet-resources.h"
 #include "petacia.h"
 #include "petdww.h"
 #include "pethre.h"
@@ -1134,13 +1135,13 @@ static int fff0_dump(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void set_vidmem(void)
+void petmem_set_vidmem(void)
 {
     int i, l;
 
     l = ((0x8000 + petres.videoSize) >> 8) & 0xff;
 /*
-    log_message(pet_mem_log, "set_vidmem(videoSize=%04x, l=%d)",
+    log_message(pet_mem_log, "petmem_set_vidmem(videoSize=%04x, l=%d)",
                 petres.videoSize,l);
 */
     /* Setup RAM from $8000 to $8000 + petres.videoSize */
@@ -1294,7 +1295,7 @@ void mem_initialize_memory(void)
         mem_read_limit_tab[i] = 0;
     }
 
-    set_vidmem();
+    petmem_set_vidmem();
 
     set_std_9tof();
 
@@ -1619,9 +1620,9 @@ static int mem_dump_io(WORD addr)
             return efe0_dump();
         } else if (addr >= 0xeff0 && addr <= 0xeff3) {
             /* ACIA */
+            /* return aciacore_dump(); */
         } else if (addr == 0xeff8) {
-            /* Control switch
-               return aciacore_dump(); */
+            /* Control switch */
             mon_out("CPU: %s\n",
                     petres.superpet_cpu_switch == SUPERPET_CPU_6502 ? "6502" :
                     petres.superpet_cpu_switch == SUPERPET_CPU_6809 ? "6809" :
@@ -1692,7 +1693,11 @@ void petmem_check_info(petres_t *pi)
 {
     if (pi->video == 40 || (pi->video == 0 && pi->rom_video == 40)) {
         pi->vmask = 0x3ff;
-        pi->videoSize = 0x400;
+        if (pet_colour_type == PET_COLOUR_TYPE_OFF) {
+            pi->videoSize = 0x400;
+        } else {
+            pi->videoSize = 0x800;
+        }
     } else {
         pi->vmask = 0x7ff;
         pi->videoSize = 0x800;

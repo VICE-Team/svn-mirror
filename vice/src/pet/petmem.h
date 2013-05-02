@@ -65,6 +65,7 @@ extern void petmem_check_info(struct petres_s *pi);
 
 extern void petmem_reset(void);
 extern int petmem_superpet_diag(void);
+extern void petmem_set_vidmem(void);
 
 extern int petmem_dump(FILE *fp);
 extern int petmem_undump(FILE *fp);

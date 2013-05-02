@@ -33,6 +33,7 @@
 #include "cmdline.h"
 #include "machine.h"
 #include "pet-cmdline-options.h"
+#include "pet.h"
 #include "pets.h"
 #include "resources.h"
 #include "translate.h"
@@ -230,6 +231,21 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, "Specify 4K ROM file name at $F000 for 6809" },
+    { "-colour-rgbi", SET_RESOURCE, 0,
+      NULL, NULL, "PETColour", (void *)PET_COLOUR_TYPE_RGBI,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, "RGBI colour extension to PET 4032" },
+    { "-colour-analog", SET_RESOURCE, 0,
+      NULL, NULL, "PETColour", (void *)PET_COLOUR_TYPE_ANALOG,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, "Analog colour extension to PET 4032" },
+    { "-colour-analog-bg", SET_RESOURCE, 1,
+      NULL, NULL, "PETColourBG", 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      "<Colour 0-255>", "Analog colour background on PET 4032" },
     { NULL }
 };
 

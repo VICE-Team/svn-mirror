@@ -74,6 +74,10 @@
 #define PET_NTSC_CYCLES_PER_RFSH (PET_NTSC_SCREEN_LINES * PET_NTSC_CYCLES_PER_LINE)
 #define PET_NTSC_RFSH_PER_SEC    (1.0 / ((double)PET_NTSC_CYCLES_PER_RFSH / (double)PET_NTSC_CYCLES_PER_SEC))
 
+#define PET_COLOUR_TYPE_OFF     0
+#define PET_COLOUR_TYPE_RGBI    1
+#define PET_COLOUR_TYPE_ANALOG  2
+
 extern void pet_crtc_set_screen(void);
 
 struct printer_context_s;

@@ -431,7 +431,7 @@ $EBx0 1  0 \
 $EBx1 accesses the Data Direction Register A (0) or Port A (1).
 
 60202 Port B or DDR B
-$EB2x 0 = RAM is visible from $9000 - $AFFF
+$EBx2 0 = RAM is visible from $9000 - $AFFF
       1 = RAM is bank-switched in blocks of 1 K in $EC00 - $EFFF
 
       [Control Register B is never mentioned, so putting 1 in this
@@ -550,17 +550,19 @@ static void store_pa(BYTE byte)
     log_message(petdww_log, "hires_off   = %04x", hires_off);
     log_message(petdww_log, "charrom_on  = %04x", charrom_on);
 #endif
-    if (hires_off) {
-        if (charrom_on) {
-            crtc_set_hires_draw_callback(NULL);
+    if (petdww_enabled) {
+        if (hires_off) {
+            if (charrom_on) {
+                crtc_set_hires_draw_callback(NULL);
+            } else {
+                crtc_set_hires_draw_callback(petdww_DRAW_blank);
+            }
         } else {
-            crtc_set_hires_draw_callback(petdww_DRAW_blank);
-        }
-    } else {
-        if (petres.video == 80) {
-            crtc_set_hires_draw_callback(petdww_DRAW_80);
-        } else {
-            crtc_set_hires_draw_callback(petdww_DRAW_40);
+            if (petres.video == 80) {
+                crtc_set_hires_draw_callback(petdww_DRAW_80);
+            } else {
+                crtc_set_hires_draw_callback(petdww_DRAW_40);
+            }
         }
     }
 }
@@ -575,7 +577,7 @@ static void store_pb(BYTE byte)
 #if DWW_DEBUG_RAM || DWW_DEBUG_REG
     log_message(petdww_log, "mem_at_9000 = %d", mem_at_9000);
 #endif
-    {
+    if (petdww_enabled) {
         read_func_ptr_t *read;
         store_func_ptr_t *write;
         BYTE **base;

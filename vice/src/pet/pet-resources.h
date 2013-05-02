@@ -27,6 +27,9 @@
 #ifndef VICE_PET_RESOURCES_H
 #define VICE_PET_RESOURCES_H
 
+extern int pet_colour_type;
+extern int pet_colour_analog_bg;
+
 extern int pet_resources_init(void);
 extern void pet_resources_shutdown(void);
 
