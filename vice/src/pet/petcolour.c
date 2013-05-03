@@ -159,7 +159,7 @@ static void init_analog_palette(void)
         return;
     }
 
-    for (i = 0; i < 256; i++) {
+    for (i = 0; i < ANALOG_NUM_COLORS; i++) {
         int r = (i >> 5) & 0x07;
         int g = (i >> 2) & 0x07;
         int b = (i >> 0) & 0x03;

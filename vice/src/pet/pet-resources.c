@@ -37,6 +37,7 @@
 #include "machine.h"
 #include "pet-resources.h"
 #include "pet.h"
+#include "petcolour.h"
 #include "petmem.h"
 #include "petrom.h"
 #include "pets.h"

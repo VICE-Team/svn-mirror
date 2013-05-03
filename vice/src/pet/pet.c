@@ -62,6 +62,7 @@
 #include "pet-resources.h"
 #include "pet-snapshot.h"
 #include "pet.h"
+#include "petcolour.h"
 #include "petiec.h"
 #include "petmem.h"
 #include "petreu.h"
