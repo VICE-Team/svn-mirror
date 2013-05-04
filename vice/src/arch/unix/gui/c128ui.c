@@ -289,7 +289,7 @@ UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 UI_MENU_DEFINE_TOGGLE(UserportRTC)
 UI_MENU_DEFINE_RADIO(InternalFunctionROM)
-UI_MENU_DEFINE_TOGGLE(ExternalFunctionROM)
+UI_MENU_DEFINE_RADIO(ExternalFunctionROM)
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 static ui_menu_entry_t int_function_type_submenu[] = {
@@ -300,6 +300,18 @@ static ui_menu_entry_t int_function_type_submenu[] = {
     { "RAM", UI_MENU_TYPE_TICK, (ui_callback_t)radio_InternalFunctionROM,
       (ui_callback_data_t)2, NULL },
     { "RTC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_InternalFunctionROM,
+      (ui_callback_data_t)3, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t ext_function_type_submenu[] = {
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExternalFunctionROM,
+      (ui_callback_data_t)0, NULL },
+    { "ROM", UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExternalFunctionROM,
+      (ui_callback_data_t)1, NULL },
+    { "RAM", UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExternalFunctionROM,
+      (ui_callback_data_t)2, NULL },
+    { "RTC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExternalFunctionROM,
       (ui_callback_data_t)3, NULL },
     { NULL }
 };
@@ -330,8 +342,8 @@ static ui_menu_entry_t functionrom_submenu[] = {
       (ui_callback_t)set_function_rom_name,
       (ui_callback_data_t)"InternalFunctionName", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Enable the external Function ROM"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_ExternalFunctionROM, NULL, NULL },
+    { N_("External Function ROM type"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ext_function_type_submenu },
     { N_("External Function ROM file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_function_rom_name,
       (ui_callback_data_t)"ExternalFunctionName", NULL },

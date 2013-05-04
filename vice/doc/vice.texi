@@ -6703,18 +6703,18 @@ Specify name of French character generator ROM image
 @item -chargse <name>
 Specify name of Swedish character generator ROM image
 
-@cindex -intfunc, +intfunc
+@cindex -intfunc
 @item -intfunc
 @itemx +intfunc
-Enable/Disable the internal Function ROM
+Enable/Disable the internal Function ROM (0: None, 1: ROM, 2: RAM, 3: RTC)
 @cindex -intfrom
 @item -intfrom <name>
 Specify name of internal Function ROM image
 
-@cindex -extfunc, +extfunc
+@cindex -extfunc
 @item -extfunc
 @itemx +extfunc
-Enable/Disable the external Function ROM
+Enable/Disable the external Function ROM (0: None, 1: ROM, 2: RAM, 3: RTC)
 @cindex -extfrom
 @item -extfrom <name>
 Specify name of external Function ROM image

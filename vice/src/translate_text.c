@@ -4038,7 +4038,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_INT_FUNC_ROM_DE, "Typ des internen Funktions ROM: (0: Kein, 1: ROM, 2: RAM, 3: RTC)"},
 /* es */ {IDCLS_ENABLE_INT_FUNC_ROM_ES, "Tipo de Function ROM interna: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
 /* fr */ {IDCLS_ENABLE_INT_FUNC_ROM_FR, "Type de ROM Fonction interne: (0: Aucun, 1: ROM, 2: RAM, 3: RTC)"},
-/* hu */ {IDCLS_ENABLE_INT_FUNC_ROM_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_INT_FUNC_ROM_HU, "Belsõ funkció ROM típusa: (0: Nincs, 1: ROM, 2: RAM, 3: RTC)"},
 /* it */ {IDCLS_ENABLE_INT_FUNC_ROM_IT, "Tipologia di function ROM interna: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
 /* ko */ {IDCLS_ENABLE_INT_FUNC_ROM_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_INT_FUNC_ROM_NL, "Intern functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"},
@@ -4049,54 +4049,20 @@ translate_t string_table[] = {
 #endif
 
 /* c128/functionrom.c */
-/* en */ {IDCLS_DISABLE_INT_FUNC_ROM,    N_("Disable the internal Function ROM")},
+/* en */ {IDCLS_ENABLE_EXT_FUNC_ROM,    N_("Type of external Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_INT_FUNC_ROM_DA, "Deaktivér intern funktions-ROM"},
-/* de */ {IDCLS_DISABLE_INT_FUNC_ROM_DE, "Internes Funktions ROM deaktivieren"},
-/* es */ {IDCLS_DISABLE_INT_FUNC_ROM_ES, "Deshabilitar ROM función interna"},
-/* fr */ {IDCLS_DISABLE_INT_FUNC_ROM_FR, "Désactiver l'image ROM des fonctions internes"},
-/* hu */ {IDCLS_DISABLE_INT_FUNC_ROM_HU, "Belsõ Function ROM tiltása"},
-/* it */ {IDCLS_DISABLE_INT_FUNC_ROM_IT, "Disattiva la Function ROM interna"},
-/* ko */ {IDCLS_DISABLE_INT_FUNC_ROM_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_INT_FUNC_ROM_NL, "De interne functie ROM uitschakelen"},
-/* pl */ {IDCLS_DISABLE_INT_FUNC_ROM_PL, "Wy³±cz wewnêtrzny Function ROM"},
-/* ru */ {IDCLS_DISABLE_INT_FUNC_ROM_RU, "Disable the internal Function ROM"},
-/* sv */ {IDCLS_DISABLE_INT_FUNC_ROM_SV, "Inaktivera internt funktions-ROM"},
-/* tr */ {IDCLS_DISABLE_INT_FUNC_ROM_TR, "Dahili Function ROM'u pasifleþtir"},
-#endif
-
-/* c128/functionrom.c */
-/* en */ {IDCLS_ENABLE_EXT_FUNC_ROM,    N_("Enable the external Function ROM")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_EXT_FUNC_ROM_DA, "Aktivér extern funktions-ROM"},
-/* de */ {IDCLS_ENABLE_EXT_FUNC_ROM_DE, "Externes Funktions ROM aktivieren"},
-/* es */ {IDCLS_ENABLE_EXT_FUNC_ROM_ES, "Permitir ROM función externa"},
-/* fr */ {IDCLS_ENABLE_EXT_FUNC_ROM_FR, "Activer l'image ROM des fonctions externes"},
-/* hu */ {IDCLS_ENABLE_EXT_FUNC_ROM_HU, "Külsõ Function ROM engedélyezése"},
-/* it */ {IDCLS_ENABLE_EXT_FUNC_ROM_IT, "Attiva la Function ROM esterna"},
-/* ko */ {IDCLS_ENABLE_EXT_FUNC_ROM_KO, "¿ÜºÎ Function ROM À» »ç¿ë°¡´ÉÇÏ°Ô ÇÏ±â"},
-/* nl */ {IDCLS_ENABLE_EXT_FUNC_ROM_NL, "Activeer de externe functie ROM"},
-/* pl */ {IDCLS_ENABLE_EXT_FUNC_ROM_PL, "W³±cz zewnêtrzny Function ROM"},
-/* ru */ {IDCLS_ENABLE_EXT_FUNC_ROM_RU, "Enable the external Function ROM"},
-/* sv */ {IDCLS_ENABLE_EXT_FUNC_ROM_SV, "Aktivera externt funktions-ROM"},
-/* tr */ {IDCLS_ENABLE_EXT_FUNC_ROM_TR, "Harici Function ROM'u aktif et"},
-#endif
-
-/* c128/functionrom.c */
-/* en */ {IDCLS_DISABLE_EXT_FUNC_ROM,    N_("Disable the external Function ROM")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_EXT_FUNC_ROM_DA, "Deaktivér extern funktions-ROM"},
-/* de */ {IDCLS_DISABLE_EXT_FUNC_ROM_DE, "Externes Funktions ROM deaktivieren"},
-/* es */ {IDCLS_DISABLE_EXT_FUNC_ROM_ES, "Deshabilitar ROM función externa"},
-/* fr */ {IDCLS_DISABLE_EXT_FUNC_ROM_FR, "Désactiver l'image ROM des fonctions externes"},
-/* hu */ {IDCLS_DISABLE_EXT_FUNC_ROM_HU, "Külsõ Function ROM tiltása"},
-/* it */ {IDCLS_DISABLE_EXT_FUNC_ROM_IT, "Disattiva la Function ROM esterna"},
-/* ko */ {IDCLS_DISABLE_EXT_FUNC_ROM_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_EXT_FUNC_ROM_NL, "De externe functie ROM uitschakelen"},
-/* pl */ {IDCLS_DISABLE_EXT_FUNC_ROM_PL, "Wy³±cz zewnêtrzny Function ROM"},
-/* ru */ {IDCLS_DISABLE_EXT_FUNC_ROM_RU, "Disable the external Function ROM"},
-/* sv */ {IDCLS_DISABLE_EXT_FUNC_ROM_SV, "Inaktivera externt funktions-ROM"},
-/* tr */ {IDCLS_DISABLE_EXT_FUNC_ROM_TR, "Harici Function ROM'u pasifleþtir"},
+/* da */ {IDCLS_ENABLE_EXT_FUNC_ROM_DA, "Typen af extern funktions-ROM: (0: Ingen, 1: ROM, 2: RAM, 3:RTC)"},
+/* de */ {IDCLS_ENABLE_EXT_FUNC_ROM_DE, "Typ des externes Funktions ROM: (0: Kein, 1: ROM, 2: RAM, 3: RTC)"},
+/* es */ {IDCLS_ENABLE_EXT_FUNC_ROM_ES, "Tipo de Function ROM externa: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
+/* fr */ {IDCLS_ENABLE_EXT_FUNC_ROM_FR, "Type de ROM Fonction externes: (0: Aucun, 1: ROM, 2: RAM, 3: RTC)"},
+/* hu */ {IDCLS_ENABLE_EXT_FUNC_ROM_HU, "Külsõ funkció ROM típusa: (0: Nincs, 1: ROM, 2: RAM, 3: RTC)"},
+/* it */ {IDCLS_ENABLE_EXT_FUNC_ROM_IT, "Tipologia di function ROM esterna: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
+/* ko */ {IDCLS_ENABLE_EXT_FUNC_ROM_KO, ""}, /* fuzzy */
+/* nl */ {IDCLS_ENABLE_EXT_FUNC_ROM_NL, "Externe functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"},
+/* pl */ {IDCLS_ENABLE_EXT_FUNC_ROM_PL, "Typ zewnêtrzny Function ROM-u: (0: ¯aden, 1: ROM, 2: RAM, 3: RTC)"},
+/* ru */ {IDCLS_ENABLE_EXT_FUNC_ROM_RU, "Type of external Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
+/* sv */ {IDCLS_ENABLE_EXT_FUNC_ROM_SV, "Typ för externt funktions-ROM (0: ingen, 1: ROM, 2: RAM, 3: RTC)"},
+/* tr */ {IDCLS_ENABLE_EXT_FUNC_ROM_TR, "Harici Function ROM Tipi: (0: Yok, 1: ROM, 2: RAM, 3: RTC)"},
 #endif
 
 /* c64/c64-cmdline-options.c, c64/psid.c, scpu64/scpu64-cmdline-options.c */

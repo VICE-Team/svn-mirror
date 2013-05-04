@@ -370,13 +370,7 @@ IDCLS_SPECIFY_EXT_FUNC_ROM_NAME
 IDCLS_ENABLE_INT_FUNC_ROM
 
 /* c128/functionrom.c */
-IDCLS_DISABLE_INT_FUNC_ROM
-
-/* c128/functionrom.c */
 IDCLS_ENABLE_EXT_FUNC_ROM
-
-/* c128/functionrom.c */
-IDCLS_DISABLE_EXT_FUNC_ROM
 
 /* c64/c64-cmdline-options.c, c64/psid.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_USE_OLD_NTSC_SYNC_FACTOR

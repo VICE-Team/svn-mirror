@@ -1120,8 +1120,8 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
             }
             break;
         case 6:
-            if (addr >= 0x8000 && addr <= 0xbfff) {
-                return ext_function_rom[addr & 0x3fff];
+            if (addr >= 0x8000) {
+                return ext_function_rom[addr & 0x7fff];
             }
             break;
         case 7:

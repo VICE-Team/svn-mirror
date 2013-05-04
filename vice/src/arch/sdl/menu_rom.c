@@ -35,11 +35,11 @@
 #include "menu_rom.h"
 #include "uimenu.h"
 
-UI_MENU_DEFINE_TOGGLE(ExternalFunctionROM)
 UI_MENU_DEFINE_FILE_STRING(InternalFunctionName)
 UI_MENU_DEFINE_FILE_STRING(ExternalFunctionName)
 
 UI_MENU_DEFINE_RADIO(InternalFunctionROM)
+UI_MENU_DEFINE_RADIO(ExternalFunctionROM)
 
 const ui_menu_entry_t int_func_rom_menu[] = {
     { "None",
@@ -61,6 +61,26 @@ const ui_menu_entry_t int_func_rom_menu[] = {
     SDL_MENU_LIST_END
 };
 
+const ui_menu_entry_t ext_func_rom_menu[] = {
+    { "None",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_ExternalFunctionROM_callback,
+      (ui_callback_data_t)0 },
+    { "ROM",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_ExternalFunctionROM_callback,
+      (ui_callback_data_t)1 },
+    { "RAM",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_ExternalFunctionROM_callback,
+      (ui_callback_data_t)2 },
+    { "RTC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_ExternalFunctionROM_callback,
+      (ui_callback_data_t)3 },
+    SDL_MENU_LIST_END
+};
+
 static const ui_menu_entry_t c128_function_rom_menu[] = {
     { "Internal function ROM type",
       MENU_ENTRY_SUBMENU,
@@ -70,10 +90,10 @@ static const ui_menu_entry_t c128_function_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_InternalFunctionName_callback,
       (ui_callback_data_t)"Select internal function ROM image" },
-    { "Enable external function ROM",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_ExternalFunctionROM_callback,
-      NULL },
+    { "External function ROM type",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ext_func_rom_menu },
     { "External function ROM file",
       MENU_ENTRY_DIALOG,
       file_string_ExternalFunctionName_callback,

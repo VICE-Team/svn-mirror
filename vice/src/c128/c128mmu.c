@@ -344,6 +344,9 @@ BYTE mmu_ffxx_read(WORD addr)
     if ((mmu[0] & 0x30) == 0x10) {
         return internal_function_rom_read(addr);
     }
+    if ((mmu[0] & 0x30) == 0x20) {
+        return external_function_rom_read(addr);
+    }
 
     return top_shared_read(addr);
 }
