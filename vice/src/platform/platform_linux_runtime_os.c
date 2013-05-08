@@ -44,6 +44,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <sys/utsname.h>
 
 #if defined(__GLIBC__) && (__GLIBC__==2) && (__GLIBC__MINOR__>0)
 #  include <gnu/libc-version.h>
@@ -51,57 +52,63 @@
 
 char *platform_get_linux_runtime_os(void)
 {
+    char linux_version[100];
+    struct utsname name;
+
+    uname(&name);
+
+    sprintf(linux_version, "%s %s", name.sysname, name.release);
+
 #ifdef __dietlibc__
 #define CLIB_HANDLED
-    return "Linux dietlibc";
+    sprintf(linux_version, "%s (dietlibc)", linux_version";
 #endif
 
 #if !defined(CLIB_HANDLED) && defined(_NEWLIB_VERSION)
 #define CLIB_HANDLED
-    return "Linux newlib " _NEWLIB_VERSION;
+    sprintf(linux_version, "%s (newlib %s)", linux_version, _NEWLIB_VERSION);
 #endif
 
 #if !defined(CLIB_HANDLED) && defined(__GLIBC__)
 #  define CLIB_HANDLED
 #  if (__GLIBC__==2)
 #    if (__GLIBC__MINOR__>0)
-    char linuxlibc[40];
-    sprintf(linuxlibc, "Linux glibc %s", gnu_get_libc_version();
-    return linuxlibc;
+    sprintf(linux_version, "%s (glibc %s)", linux_version, gnu_get_libc_version());
 #    else
-       return "Linux glibc 2.x";
+    sprintf(linux_version, "%s (glibc 2.x)", linux_version);
 #    endif
 #  else
-    return "Linux glibc 1.x";
+    sprintf(linux_version, "%s (glibc 1.x)", linux_version);
 #  endif
 #endif
 
 #if !defined(CLIB_HANDLED) && defined(_LINUX_C_LIB_VERSION)
 #  define CLIB_HANDLED
-    return _LINUX_C_LIB_VERSION;
+    sprintf(linux_version, "%s (libc %s)", linux_version, _LINUX_C_LIB_VERSION);
 #endif
 
 #if !defined(CLIB_HANDLED) && (VICE_LINUX_CLIB_VERSION_MAJOR==1)
 #  define CLIB_HANDLED
-    return "Linux glibc 1.x";
+    sprintf(linux_version, "%s (glibc 1.x)", linux_version);
 #endif
 
 #if !defined(CLIB_HANDLED) && (VICE_LINUX_CLIB_VERSION_MAJOR==6)
 #  define CLIB_HANDLED
-    return "Linux glibc 2.x";
+    sprintf(linux_version, "%s (glibc 2.x)", linux_version);
 #endif
 
 #ifndef CLIB_HANDLED
 #  include <sys/ucontext.h>
 #  ifdef _UCONTEXT_H
 #    define CLIB_HANDLED
-#    return "Linux musl";
+    sprintf(linux_version, "%s (musl)", linux_version);
 #  endif
 #endif
 
 #ifndef CLIB_HANDLED
-    return "Unknown libc version";
+    sprint(linux_version, "%s (unknown libc)", linux_version);
 #endif
-}
 
+    return linux_version;
+}
 #endif

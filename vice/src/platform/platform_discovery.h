@@ -76,6 +76,7 @@
 #  endif
 #endif
 
+/* Cygwin discovery */
 #if !defined(WIN32_COMPILE) && defined(__CYGWIN32__)
 #define PLATFORM_OS "Cygwin"
 #define FIND_X86_CPU
@@ -86,6 +87,7 @@
 #include "platform_macosx.h"
 #endif
 
+
 /* AIX discovery */
 
 #ifdef _AIX
@@ -94,6 +96,7 @@
 #include "platform_aix_version.h"
 
 #endif /* AIX */
+
 
 /* AmigaOS 3.x discovery */
 #ifdef AMIGA_M68K
@@ -124,6 +127,7 @@
 #ifdef __ANDROID__
 #define PLATFORM_OS "Android"
 #endif
+
 
 /* BeOS discovery */
 #ifdef __BEOS__
@@ -171,6 +175,7 @@
 
 #endif
 
+
 /* OpenBSD discovery */
 #ifdef __OpenBSD__
 
@@ -178,6 +183,7 @@
 #include "platform_openbsd_version.h"
 
 #endif
+
 
 /* QNX 4.x discovery */
 #if defined(__QNX__) && !defined(__QNXNTO__)
@@ -351,7 +357,6 @@
 
 
 /* vxworks discovery */
-
 #ifdef __vxworks__
 #define PLATFORM_OS "VXWORKS"
 #endif

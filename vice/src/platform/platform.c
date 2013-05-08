@@ -87,7 +87,6 @@
  * platform         | compile present | compile version | runtime version
  * ----------------------------------------------------------------------
  * 386bsd           |     not yet     |     not yet     |     not yet
- * 4.2bsd           |     not yet     |     not yet     |     not yet
  * 4.3bsd           |     not yet     |     not yet     |     not yet
  * amix             |     not yet     |     not yet     |     not yet
  * amoeba           |     not yet     |     not yet     |     not yet
@@ -109,7 +108,7 @@
  * interix          |     not yet     |     not yet     |     not yet
  * ios              |     not yet     |     not yet     |     not yet
  * mach 2.5/3.0     |     not yet     |     not yet     |     not yet
- * macos            |     not yet     |     not yet     |     not yet
+ * macos (classic)  |     not yet     |     not yet     |     not yet
  * meego            |     not yet     |     not yet     |     not yet
  * menuetos         |     not yet     |     not yet     |     not yet
  * minix386         |     not yet     |     not yet     |     not yet

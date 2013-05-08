@@ -28,23 +28,23 @@
  *
  * compiler       | support
  * ------------------------------------------------------
- * clang          | yes
- * comeau c++     | yes
- * compaq/dec     | yes, but wrong version format for now
- * dignus systems | yes
- * EKOPath        | yes
+ * clang          | yes (untested)
+ * comeau c++     | yes (untested)
+ * compaq/dec     | yes, but wrong version format for now (untested)
+ * dignus systems | yes (untested)
+ * EKOPath        | yes (untested)
  * gcc            | yes
- * green hill     | yes
- * hp uc          | yes
- * intel cc       | yes
- * llvm           | yes
- * metrowerks     | yes
- * MIPSpro        | yes
- * RealView C     | yes
- * SAS/C          | yes
- * Sun Studio     | yes
- * Tiny C         | yes
- * xLC            | yes
+ * green hill     | yes (untested)
+ * hp uc          | yes (untested)
+ * intel cc       | yes (untested)
+ * llvm           | yes (untested)
+ * metrowerks     | yes (untested)
+ * MIPSpro        | yes (untested)
+ * RealView C     | yes (untested)
+ * SAS/C          | yes (untested)
+ * Sun Studio     | yes (untested)
+ * Tiny C         | yes (untested)
+ * xLC            | yes (untested)
  */
 
 #ifndef VICE_PLATFORM_COMPILER_H
