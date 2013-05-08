@@ -310,6 +310,25 @@ AC_PROG_YACC
 AM_PROG_LEX
 AM_PROG_AS
 
+dnl check if ar truncates object names
+AC_MSG_CHECKING(if ar truncates object names)
+rm -f vicetest.c
+touch vicetest.c
+$CC -c vicetest.c -o some_long_object_name.o
+rm -f vicetest.c
+rm -f libvicetest.a
+$AR cru libvicetest.a some_long_object_name.o
+rm -f some_long_object_name.o
+$AR x libvicetest.a
+if test -f some_long_object_name.o; then
+  AC_MSG_RESULT(no)
+  rm -f some_long_object_name.o libvicetest.a
+else
+  AC_MSG_RESULT(yes)
+  rm -f some*.o libvicetest.a
+  AC_MSG_ERROR([ar is too old, upgrade your ar])
+fi
+
 AC_CHECK_PROGS(MAKEINFO, makeinfo, no)
 
 AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)
