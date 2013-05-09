@@ -4,8 +4,16 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 
-# use system echo as it supports backslash expansion
-ECHO=/bin/echo
+# use system echo if possible, as it supports backslash expansion
+if test -f /bin/echo; then
+  ECHO=/bin/echo
+else
+  if test -f /usr/bin/echo; then
+    ECHO=/usr/bin/echo
+  else
+    ECHO=echo
+  fi
+fi
 
 rm -f try.tmp
 $ECHO "\\\\n" >try.tmp
