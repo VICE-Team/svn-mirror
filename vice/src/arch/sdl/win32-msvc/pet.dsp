@@ -114,6 +114,10 @@ SOURCE=..\..\..\pet\petbus.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\pet\petcolour.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\pet\petcpu.c
 # End Source File
 # Begin Source File
