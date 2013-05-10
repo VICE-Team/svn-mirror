@@ -61,7 +61,7 @@ char *platform_get_linux_runtime_os(void)
 
 #ifdef __dietlibc__
 #define CLIB_HANDLED
-    sprintf(linux_version, "%s (dietlibc)", linux_version";
+    sprintf(linux_version, "%s (dietlibc)", linux_version);
 #endif
 
 #if !defined(CLIB_HANDLED) && defined(_NEWLIB_VERSION)
@@ -106,7 +106,7 @@ char *platform_get_linux_runtime_os(void)
 #endif
 
 #ifndef CLIB_HANDLED
-    sprint(linux_version, "%s (unknown libc)", linux_version);
+    sprintf(linux_version, "%s (unknown libc)", linux_version);
 #endif
 
     return linux_version;
