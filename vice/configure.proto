@@ -304,6 +304,7 @@ AC_CHECK_PROG(AR, ar, ar, ar)
 AC_CHECK_TOOL(RANLIB, ranlib, :)
 AC_CHECK_TOOL(STRIP, strip, :)
 AC_CHECK_PROG(SVN, svn, svn, :)
+AC_CHECK_PROG(SVNVERSION, svnversion, svnversion, :)
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_YACC
