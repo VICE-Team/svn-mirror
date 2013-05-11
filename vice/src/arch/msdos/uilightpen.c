@@ -60,6 +60,8 @@ static TUI_MENU_CALLBACK(lightpen_type_submenu_callback)
         case LIGHTPEN_TYPE_GUN_L:
             s = "Stack Light Rifle";
             break;
+        case LIGHTPEN_TYPE_INKWELL:
+            s = "Inkwell Pen";
     }
     return s;
 }
@@ -75,6 +77,8 @@ static tui_menu_item_def_t lightpen_type_submenu[] = {
       (void *)LIGHTPEN_TYPE_GUN_Y, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "Stack Light Rifle", NULL, radio_LightpenType_callback,
       (void *)LIGHTPEN_TYPE_GUN_L, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Inkwell Pen", NULL, radio_LightpenType_callback,
+      (void *)LIGHTPEN_TYPE_INKWELL, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 

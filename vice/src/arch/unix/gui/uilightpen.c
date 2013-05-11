@@ -47,6 +47,8 @@ static ui_menu_entry_t lightpentype_submenu[] = {
       (ui_callback_data_t) LIGHTPEN_TYPE_GUN_Y, NULL },
     { N_("Stack Light Rifle"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Lightpentype,
       (ui_callback_data_t) LIGHTPEN_TYPE_GUN_L, NULL },
+    { N_("Inkwell Pen"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Lightpentype,
+      (ui_callback_data_t) LIGHTPEN_TYPE_INKWELL, NULL },
     { NULL }
 };
 
