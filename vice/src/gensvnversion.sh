@@ -4,7 +4,7 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 
-svnrevision=`$1 info $2 | grep Revision | cut -d " " -f 2`
+svnrevision=`$1 $2`
 
 echo "/*"
 echo " * svnversion.h - SVN revision defines."
