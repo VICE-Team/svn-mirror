@@ -34,15 +34,22 @@
 
 #include <stdio.h>
 
+#include "cmdline.h"
 #include "log.h"
 #include "mouse.h"
 #include "mousedrv.h"
+#include "res.h"
+#include "resources.h"
+#include "translate.h"
 #include "types.h"
 #include "ui.h"
 #include "vsyncapi.h"
 
 int _mouse_x, _mouse_y;
 unsigned long _mouse_timestamp = 0;
+
+/* Mouse sensitivity multiplier  */
+static int mouse_sensitivity_mult = 40;
 
 #ifdef HAVE_DINPUT
 static int mouse_acquired = 0;
@@ -56,14 +63,45 @@ void mousedrv_mouse_changed(void)
     mouse_update_mouse_acquire();
 }
 
-int mousedrv_resources_init(void)
+static int set_mouse_sensitivity_mult(int val, void *param)
 {
+    if (val < 0) {
+        val = 0;
+    }
+
+    if (val > 40) {
+        val = 40;
+    }
+
+    mouse_sensitivity_mult = val;
+
     return 0;
 }
 
+static const resource_int_t resources_int[] = {
+    { "MouseSensitivity", 40, RES_EVENT_NO, NULL,
+      &mouse_sensitivity_mult, set_mouse_sensitivity_mult, NULL },
+    { NULL }
+};
+
+int mousedrv_resources_init(void)
+{
+    return resources_register_int(resources_int);
+}
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-mousesensitivity", SET_RESOURCE, 1,
+      NULL, NULL, "MouseSensitivity", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDS_P_SENSITIVITY, IDS_DESC_MOUSE_SENSITIVITY,
+      NULL, NULL },
+    { NULL }
+};
+
 int mousedrv_cmdline_options_init(void)
 {
-    return 0;
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -89,8 +127,8 @@ void mouse_update_mouse(void)
     }
 
     if (state.lX || state.lY) {
-        _mouse_x += state.lX * 4;
-        _mouse_y -= state.lY * 4;
+        _mouse_x += (int)(state.lX * mouse_sensitivity_mult / 10);
+        _mouse_y -= (int)(state.lY * mouse_sensitivity_mult / 10);
         _mouse_timestamp = vsyncarch_gettime();
     }
 

@@ -49,6 +49,7 @@ static void enable_mouse_controls(HWND hwnd)
 static uilib_localize_dialog_param mouse_dialog_trans[] = {
     { IDC_MOUSE_TYPE_LABEL, IDS_MOUSE_TYPE_LABEL, 0 },
     { IDC_MOUSE_PORT_LABEL, IDS_MOUSE_PORT_LABEL, 0 },
+    { IDC_MOUSE_SENSITIVITY_LABEL, IDS_MOUSE_SENSITIVITY_LABEL, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
@@ -57,12 +58,14 @@ static uilib_localize_dialog_param mouse_dialog_trans[] = {
 static uilib_dialog_group mouse_left_group[] = {
     { IDC_MOUSE_TYPE_LABEL, 0 },
     { IDC_MOUSE_PORT_LABEL, 0 },
+    { IDC_MOUSE_SENSITIVITY_LABEL, 0 },
     { 0, 0 }
 };
 
 static uilib_dialog_group mouse_right_group[] = {
     { IDC_MOUSE_TYPE, 0 },
     { IDC_MOUSE_PORT, 0 },
+    { IDC_MOUSE_SENSITIVITY, 0 },
     { 0, 0 }
 };
 
@@ -121,14 +124,33 @@ static void init_mouse_dialog(HWND hwnd)
     res_value--;
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
+    temp_hwnd = GetDlgItem(hwnd, IDC_MOUSE_SENSITIVITY);
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"5");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"10");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"15");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"20");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"25");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"30");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"35");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"40");
+    resources_get_int("MouseSensitivity", &res_value);
+    res_value = (int)(res_value / 5) * 5;
+    if (res_value < 5) {
+        res_value = 5;
+    }
+    if (res_value > 40) {
+        res_value = 40;
+    }   
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)(res_value / 5) - 1, 0);
+
     enable_mouse_controls(hwnd);
 }
 
 static void end_mouse_dialog(HWND hwnd)
 {
     resources_set_int("Mousetype",(int)SendMessage(GetDlgItem(hwnd, IDC_MOUSE_TYPE), CB_GETCURSEL, 0, 0));
-
     resources_set_int("Mouseport",(int)SendMessage(GetDlgItem(hwnd, IDC_MOUSE_PORT), CB_GETCURSEL, 0, 0) + 1);
+    resources_set_int("MouseSensitivity",((int)SendMessage(GetDlgItem(hwnd, IDC_MOUSE_SENSITIVITY), CB_GETCURSEL, 0, 0) + 1) * 5);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

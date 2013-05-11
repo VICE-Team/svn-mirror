@@ -12,7 +12,7 @@
 
 // template of dialog for all languages
 
-IDD_MOUSE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 75
+IDD_MOUSE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 93
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -22,11 +22,15 @@ BEGIN
                     70, 5, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "", IDC_MOUSE_PORT_LABEL,
                     9, 24, 53, 8
-    COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_MOUSE_PORT,
+                    70, 23, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_MOUSE_SENSITIVITY_LABEL,
+                    9, 42, 53, 8
+    COMBOBOX        IDC_MOUSE_SENSITIVITY,
+                    70, 41, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
-    DEFPUSHBUTTON   "", IDOK, 30, 50, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON   "", IDOK, 30, 68, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 68, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -36,8 +40,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "Mouse type"
-  IDS_MOUSE_PORT_LABEL "Mouse port"
+  IDS_MOUSE_TYPE_LABEL        "Mouse type"
+  IDS_MOUSE_PORT_LABEL        "Mouse port"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 
 
@@ -46,8 +53,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "Mussetype"
-  IDS_MOUSE_PORT_LABEL "Musseport"
+  IDS_MOUSE_TYPE_LABEL        "Mussetype"
+  IDS_MOUSE_PORT_LABEL        "Musseport"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 
 
@@ -56,8 +66,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "Maustyp"
-  IDS_MOUSE_PORT_LABEL "Maus Port"
+  IDS_MOUSE_TYPE_LABEL        "Maustyp"
+  IDS_MOUSE_PORT_LABEL        "Maus Port"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 
 
@@ -66,8 +79,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "Tipo ratón"
-  IDS_MOUSE_PORT_LABEL "Puerto del ratón"
+  IDS_MOUSE_TYPE_LABEL        "Tipo ratón"
+  IDS_MOUSE_PORT_LABEL        "Puerto del ratón"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 
 
@@ -76,8 +92,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "Type de souris"
-  IDS_MOUSE_PORT_LABEL "Port de la souris"
+  IDS_MOUSE_TYPE_LABEL        "Type de souris"
+  IDS_MOUSE_PORT_LABEL        "Port de la souris"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 
 
@@ -89,8 +108,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "Egér típusa"
-  IDS_MOUSE_PORT_LABEL "Egér port"
+  IDS_MOUSE_TYPE_LABEL        "Egér típusa"
+  IDS_MOUSE_PORT_LABEL        "Egér port"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -102,8 +124,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "Tipo di mouse"
-  IDS_MOUSE_PORT_LABEL "Porta del mouse"
+  IDS_MOUSE_TYPE_LABEL        "Tipo di mouse"
+  IDS_MOUSE_PORT_LABEL        "Porta del mouse"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 
 
@@ -115,8 +140,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "¸¶¿ì½º Å¸ÀÔ"
-  IDS_MOUSE_PORT_LABEL "¸¶¿ì½º Æ÷Æ®"
+  IDS_MOUSE_TYPE_LABEL        "¸¶¿ì½º Å¸ÀÔ"
+  IDS_MOUSE_PORT_LABEL        "¸¶¿ì½º Æ÷Æ®"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -128,8 +156,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "Muis soort"
-  IDS_MOUSE_PORT_LABEL "Muis poort"
+  IDS_MOUSE_TYPE_LABEL        "Muis soort"
+  IDS_MOUSE_PORT_LABEL        "Muis poort"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 
 
@@ -141,8 +172,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "Typ myszy"
-  IDS_MOUSE_PORT_LABEL "Port myszy"
+  IDS_MOUSE_TYPE_LABEL        "Typ myszy"
+  IDS_MOUSE_PORT_LABEL        "Port myszy"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -157,8 +191,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "ÂØß ÜëèØ"
-  IDS_MOUSE_PORT_LABEL "¿Þàâ ÜëèØ"
+  IDS_MOUSE_TYPE_LABEL        "ÂØß ÜëèØ"
+  IDS_MOUSE_PORT_LABEL        "¿Þàâ ÜëèØ"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -170,8 +207,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "Mustyp"
-  IDS_MOUSE_PORT_LABEL "Musport"
+  IDS_MOUSE_TYPE_LABEL        "Mustyp"
+  IDS_MOUSE_PORT_LABEL        "Musport"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 
 
@@ -183,11 +223,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MOUSE_TYPE_LABEL "Mouse tipi"
-  IDS_MOUSE_PORT_LABEL "Mouse portu"
+  IDS_MOUSE_TYPE_LABEL        "Mouse tipi"
+  IDS_MOUSE_PORT_LABEL        "Mouse portu"
+  IDS_P_SENSITIVITY           "<sensitivity>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-
