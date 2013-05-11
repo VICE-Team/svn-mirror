@@ -671,8 +671,10 @@ BEGIN
                  175, 30, 50, 14, 0
     GROUPBOX     "", IDC_EXTERNAL_FUNCTION_ROM,
                  5, 55, 225, 45
-    AUTOCHECKBOX "", IDC_C128_FUNCTIONROM_EXTERNAL,
-                 15, 65, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT        "", IDC_C128_FUNCTIONROM_EXTERNAL_TYPE_LABEL,
+                 15, 65, 30, 8
+    COMBOBOX     IDC_C128_FUNCTIONROM_EXTERNAL_TYPE,
+                 45, 63, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT        "", IDC_FILE_NAME_2,
                  11, 83, 50, 8
     EDITTEXT     IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
@@ -778,7 +780,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Internal Function ROM type"
   IDS_FILE_NAME                 "File name"
   IDS_EXT_FUNCTION_ROM          "External Function ROM"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "Enable the external Function ROM"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_C128MODEL                 "C128 model"
   IDS_MP_VDC_SETTINGS           "VDC settings"
@@ -840,7 +842,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Intern funktions-ROM-type"
   IDS_FILE_NAME                 "Filnavn"
   IDS_EXT_FUNCTION_ROM          "Extern funktions-ROM"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "Aktivér extern funktions-ROM"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Aktivér RAM-bank 2 og 3"
   IDS_C128MODEL                 "C128 model"
   IDS_MP_VDC_SETTINGS           "VDC-indstillinger"
@@ -902,7 +904,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Internes Funktions ROM Typ"
   IDS_FILE_NAME                 "Dateiname"
   IDS_EXT_FUNCTION_ROM          "Externes Funktions ROM"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "Externes Funktions ROM aktivieren"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "RAM Bänke 2 und 3 aktivieren"
   IDS_C128MODEL                 "C128 Modell"
   IDS_MP_VDC_SETTINGS           "VDC Einstellungen"
@@ -964,7 +966,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Tipo  Function ROM interna"
   IDS_FILE_NAME                 "nombre de fichero"
   IDS_EXT_FUNCTION_ROM          "ROM de función externa"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "Permitir ROM función externa"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Permitir bancos 2 y 3"
   IDS_C128MODEL                 "Modelo C128"
   IDS_MP_VDC_SETTINGS           "Ajustes VDC"
@@ -1026,7 +1028,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Type ROM Fonction interne"
   IDS_FILE_NAME                 "Nom de fichier"
   IDS_EXT_FUNCTION_ROM          "Image ROM Fonction externe"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "Activer l'image ROM des fonctions externes"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Activer les banques RAM 2 et 3"
   IDS_C128MODEL                 "Modèle C128"
   IDS_MP_VDC_SETTINGS           "Paramètres VDC"
@@ -1091,7 +1093,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Internal Function ROM type"
   IDS_FILE_NAME                 "Fájlnév"
   IDS_EXT_FUNCTION_ROM          "Külsõ Function ROM"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "Külsõ Function ROM engedélyezése"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "2-es és 3-as RAM bankok engedélyezése"
   IDS_C128MODEL                 "C128 model"
   IDS_MP_VDC_SETTINGS           "VDC beállításai"
@@ -1156,7 +1158,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Tipo function ROM interna"
   IDS_FILE_NAME                 "Nome file"
   IDS_EXT_FUNCTION_ROM          "Function ROM esterna"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "Attiva la Function ROM esterna"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Attiva banchi RAM 2 e 3"
   IDS_C128MODEL                 "Modello C128"
   IDS_MP_VDC_SETTINGS           "Impostazioni VDC"
@@ -1221,7 +1223,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Internal Function ROM type"
   IDS_FILE_NAME                 "ÆÄÀÏ ÀÌ¸§"
   IDS_EXT_FUNCTION_ROM          "External Function ROM"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "¿ÜºÎ Function ROM À» »ç¿ë°¡´ÉÇÏ°Ô ÇÏ±â"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_C128MODEL                 "C128 model"
   IDS_MP_VDC_SETTINGS           "VDC ¼³Á¤"
@@ -1286,7 +1288,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Interne functie ROM soort"
   IDS_FILE_NAME                 "Bestandsnaam"
   IDS_EXT_FUNCTION_ROM          "Externe functie ROM"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "Activeer de externe functie ROM"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Aktiveer RAM bank 2 en 3"
   IDS_C128MODEL                 "C128 model"
   IDS_MP_VDC_SETTINGS           "VDC instellingen"
@@ -1351,7 +1353,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Typ wewnêtrznego Function ROM-u"
   IDS_FILE_NAME                 "Nazwa pliku"
   IDS_EXT_FUNCTION_ROM          "Zewnêtrzny Function ROM"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "W³±cz zewnêtrzny Function ROM"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "W³±cz banki RAM 2 i 3"
   IDS_C128MODEL                 "Model C128"
   IDS_MP_VDC_SETTINGS           "Ustawienia VDC"
@@ -1419,7 +1421,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Internal Function ROM type"
   IDS_FILE_NAME                 "¸Üï äÐÙÛÐ"
   IDS_EXT_FUNCTION_ROM          "External Function ROM"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "Enable the external Function ROM"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_C128MODEL                 "C128 model"
   IDS_MP_VDC_SETTINGS           "½ÐáâàÞÙÚØ VDC"
@@ -1484,7 +1486,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Internt funktions-ROM-typ"
   IDS_FILE_NAME                 "Filnamn"
   IDS_EXT_FUNCTION_ROM          "Externt funktions-ROM"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "Aktivera externt funktions-ROM"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Aktivera RAM-bank 2 och 3"
   IDS_C128MODEL                 "C128-modell"
   IDS_MP_VDC_SETTINGS           "VDC-inställningar"
@@ -1549,7 +1551,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Dahili Function ROM tipi"
   IDS_FILE_NAME                 "Dosya ismi"
   IDS_EXT_FUNCTION_ROM          "Harici Function ROM"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "Harici Function ROM'u aktif et"
+  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "RAM banklarý 2 ve 3'ü aktif et"
   IDS_C128MODEL                 "C128 modeli"
   IDS_MP_VDC_SETTINGS           "VDC ayarlarý"

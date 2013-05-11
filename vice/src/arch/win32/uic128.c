@@ -65,10 +65,8 @@ static void enable_functionrom_controls(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME), 1);
     EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_BROWSE), 1);
 
-    is_enabled = (IsDlgButtonChecked(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL) == BST_CHECKED) ? 1 : 0;
-
-    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME), is_enabled);
-    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME), 1);
+    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE), 1);
 }
 
 static uilib_localize_dialog_param machine_dialog_trans[] = {
@@ -111,15 +109,14 @@ static uilib_localize_dialog_param functionrom_dialog_trans[] = {
     { IDC_FILE_NAME_1, IDS_FILE_NAME, 0 },
     { IDC_FILE_NAME_2, IDS_FILE_NAME, 0 },
     { IDC_C128_FUNCTIONROM_INTERNAL_BROWSE, IDS_BROWSE, 0 },
-    { IDC_EXTERNAL_FUNCTION_ROM, IDS_EXT_FUNCTION_ROM, 0 },
-    { IDC_C128_FUNCTIONROM_EXTERNAL, IDS_ENABLE_EXT_FUNCTION_ROM, 0 },
+    { IDC_C128_FUNCTIONROM_EXTERNAL_TYPE_LABEL, IDS_EXT_FUNCTION_ROM_TYPE, 0 },
     { IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE, IDS_BROWSE, 0 },
     { 0, 0, 0 }
 };
 
 static uilib_dialog_group enable_group[] = {
     { IDC_C128_FUNCTIONROM_INTERNAL_TYPE_LABEL, 0 },
-    { IDC_C128_FUNCTIONROM_EXTERNAL, 1 },
+    { IDC_C128_FUNCTIONROM_EXTERNAL_TYPE_LABEL, 0 },
     { 0, 0 }
 };
 
@@ -179,14 +176,14 @@ static void init_functionrom_dialog(HWND hwnd)
     /* move the internal function rom type box */
     uilib_move_element(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_TYPE, xpos + 10);
 
+    /* move the external function rom type box */
+    uilib_move_element(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_TYPE, xpos + 10);
+
     resources_get_string("InternalFunctionName", &romfile);
     st_romfile = system_mbstowcs_alloc(romfile);
     SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME, st_romfile != NULL ? st_romfile : TEXT(""));
     system_mbstowcs_free(st_romfile);
 
-    resources_get_int("ExternalFunctionROM", &res_value);
-    CheckDlgButton(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL, res_value ? BST_CHECKED : BST_UNCHECKED);
- 
     resources_get_string("ExternalFunctionName", &romfile);
     st_romfile = system_mbstowcs_alloc(romfile);
     SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME, st_romfile != NULL ? st_romfile : TEXT(""));
@@ -197,8 +194,15 @@ static void init_functionrom_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"ROM");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"RAM");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"RAM+RTC");
-
     resources_get_int("InternalFunctionROM", &res_value);
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_TYPE);
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NONE));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"ROM");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"RAM");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"RAM+RTC");
+    resources_get_int("ExternalFunctionROM", &res_value);
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     enable_functionrom_controls(hwnd);
@@ -266,7 +270,8 @@ static void end_functionrom_dialog(HWND hwnd)
     system_wcstombs(name, st_name, MAX_PATH);
     resources_set_string("InternalFunctionName", name);
 
-    resources_set_int("ExternalFunctionROM", (IsDlgButtonChecked(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("ExternalFunctionROM", SendMessage(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_TYPE), CB_GETCURSEL, 0, 0));
+
     GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME, st_name, MAX_PATH);
     system_wcstombs(name, st_name, MAX_PATH);
     resources_set_string("ExternalFunctionName", name);
@@ -280,9 +285,6 @@ static INT_PTR CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wpar
         case WM_COMMAND:
             command = LOWORD(wparam);
             switch (command) {
-                case IDC_C128_FUNCTIONROM_EXTERNAL:
-                    enable_functionrom_controls(hwnd);
-                    break;
                 case IDC_C128_FUNCTIONROM_INTERNAL_BROWSE:
                     uilib_select_browse(hwnd, translate_text(IDS_SELECT_INT_FUNCTION_ROM), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD, IDC_C128_FUNCTIONROM_INTERNAL_NAME);
                     break;

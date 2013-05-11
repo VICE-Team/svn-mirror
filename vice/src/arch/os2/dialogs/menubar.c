@@ -775,8 +775,17 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_INTFUNCROM_RTC:
             resources_set_int("InternalFunctionROM", 3);
             return;
-        case IDM_EXTFUNCROM:
-            toggle("ExternalFunctionROM");
+        case IDM_EXTFUNCROM_NONE:
+            resources_set_int("ExternalFunctionROM", 0);
+            return;
+        case IDM_EXTFUNCROM_ROM:
+            resources_set_int("ExternalFunctionROM", 1);
+            return;
+        case IDM_EXTFUNCROM_RAM:
+            resources_set_int("ExternalFunctionROM", 2);
+            return;
+        case IDM_EXTFUNCROM_RTC:
+            resources_set_int("ExternalFunctionROM", 3);
             return;
         case IDM_VDCDSIZE:
             interrupt_maincpu_trigger_trap(toggle_async, "VDCDoubleSize");
@@ -2768,7 +2777,11 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_INTFUNCROM_ROM, val == 1);
             WinCheckMenuItem(hwnd, IDM_INTFUNCROM_RAM, val == 2);
             WinCheckMenuItem(hwnd, IDM_INTFUNCROM_RTC, val == 3);
-            WinCheckRes(hwnd, IDM_EXTFUNCROM, "ExternalFunctionROM");
+            resources_get_int("ExternalFunctionROM", &val);
+            WinCheckMenuItem(hwnd, IDM_EXTFUNCROM_NONE, val == 0);
+            WinCheckMenuItem(hwnd, IDM_EXTFUNCROM_ROM, val == 1);
+            WinCheckMenuItem(hwnd, IDM_EXTFUNCROM_RAM, val == 2);
+            WinCheckMenuItem(hwnd, IDM_EXTFUNCROM_RTC, val == 3);
             return;
 #endif // __X128__
 

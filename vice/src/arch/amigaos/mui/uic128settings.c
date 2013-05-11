@@ -74,7 +74,7 @@ static const int ui_c128_enable_values[] = {
     -1
 };
 
-static char *ui_internal_function_rom[] = {
+static char *ui_function_rom[] = {
     NULL,	/* place holder for 'none' */
     "ROM",
     "RAM",
@@ -82,7 +82,7 @@ static char *ui_internal_function_rom[] = {
     NULL
 };
 
-static const int ui_internal_function_rom_values[] = {
+static const int ui_function_rom_values[] = {
     0,
     1,
     2,
@@ -92,9 +92,9 @@ static const int ui_internal_function_rom_values[] = {
 
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "MachineType", ui_c128_machine_type, ui_c128_machine_type_values, NULL },
-    { NULL, MUI_TYPE_CYCLE, "InternalFunctionROM", ui_internal_function_rom, ui_internal_function_rom_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "InternalFunctionROM", ui_function_rom, ui_function_rom_values, NULL },
     { NULL, MUI_TYPE_FILENAME, "InternalFunctionName", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_CYCLE, "ExternalFunctionROM", ui_c128_enable, ui_c128_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "ExternalFunctionROM", ui_function_rom, ui_function_rom_values, NULL },
     { NULL, MUI_TYPE_FILENAME, "ExternalFunctionName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "C128FullBanks", ui_c128_enable, ui_c128_enable_values, NULL },
     UI_END /* mandatory */
@@ -142,9 +142,9 @@ static APTR build_gui(void)
 
     ui = GroupObject,
            CYCLE(ui_to_from[0].object, translate_text(IDS_MACHINE_TYPE), ui_c128_machine_type)
-           CYCLE(ui_to_from[1].object, translate_text(IDS_INTERNAL_FUNCTION_ROM), ui_internal_function_rom)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_INTERNAL_FUNCTION_ROM), ui_function_rom)
            FILENAME(ui_to_from[2].object, translate_text(IDS_INTERNAL_FUNCTION_ROM_FILENAME), browse_button1)
-           CYCLE(ui_to_from[3].object, translate_text(IDS_EXTERNAL_FUNCTION_ROM), ui_c128_enable)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_EXTERNAL_FUNCTION_ROM), ui_function_rom)
            FILENAME(ui_to_from[4].object, translate_text(IDS_EXTERNAL_FUNCTION_ROM_FILENAME), browse_button2)
            CYCLE(ui_to_from[5].object, translate_text(IDS_RAM_BANKS_2_AND_3), ui_c128_enable)
            OK_CANCEL_BUTTON

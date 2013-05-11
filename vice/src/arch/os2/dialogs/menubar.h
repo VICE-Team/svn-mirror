@@ -178,6 +178,10 @@
 #define IDM_INTFUNCROM_RAM           0x329
 #define IDM_INTFUNCROM_RTC           0x32a
 #define IDM_EXTFUNCROM               0x145
+#define IDM_EXTFUNCROM_NONE          0x344
+#define IDM_EXTFUNCROM_ROM           0x345
+#define IDM_EXTFUNCROM_RAM           0x346
+#define IDM_EXTFUNCROM_RTC           0x347
 
 #define IDM_PAL                      0x146
 #define IDM_NTSC                     0x147
