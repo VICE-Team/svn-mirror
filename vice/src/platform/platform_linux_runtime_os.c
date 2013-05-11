@@ -50,9 +50,10 @@
 #  include <gnu/libc-version.h>
 #endif
 
+static char linux_version[100];
+
 char *platform_get_linux_runtime_os(void)
 {
-    char linux_version[100];
     struct utsname name;
 
     uname(&name);
