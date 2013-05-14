@@ -65,8 +65,22 @@ VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architectu
 VICE_ARG_ENABLE_LIST(sse,         [  --enable-sse            enable the use of SSE [[default=yes]]])
 VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
 
+dnl this hack is needed because the default for the auto-tools
+dnl is 'no', and we want the default to be 'yes' unless
+dnl '--disable-option-checking' is used.
+for command_option in $@
+do
+  enable_option_checking=yes
+  if test x"$command_option" = "x--disable-option-checking"; then
+    enable_option_checking=no
+  fi
+done
+
 dnl check for invalid options
-VICE_ARG_LIST_CHECK()
+echo "option checking is $enable_option_checking"
+if test x"$enable_option_checking" = "xyes"; then
+  VICE_ARG_LIST_CHECK()
+fi
 
 dnl check for conflicting ui options
 vice_ui_list="--enable-gnomeui --enable-gnomeui3 --enable-sdlui --with-cocoa --enable-gp2x --enable-wiz"
