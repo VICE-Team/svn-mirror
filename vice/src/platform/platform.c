@@ -62,6 +62,7 @@
  * freebsd          | yes (untested)  | yes (untested)  |     not yet
  * hpux             | yes (untested)  |     not yet     |     not yet
  * hurd             | yes (untested)  |     not yet     |     not yet
+ * interix          |       yes       |     not yet     |     not yet
  * irix             | yes (untested)  |     not yet     |     not yet
  * lynxos           | yes (untested)  |     not yet     |     not yet
  * minix 3.x        | yes (untested)  |     not yet     |     not yet
@@ -105,7 +106,6 @@
  * gamecube         |     not yet     |     not yet     |     not yet
  * gp2x             |     not yet     |     not yet     |     not yet
  * interactive unix |     not yet     |     not yet     |     not yet
- * interix          |     not yet     |     not yet     |     not yet
  * ios              |     not yet     |     not yet     |     not yet
  * mach 2.5/3.0     |     not yet     |     not yet     |     not yet
  * macos (classic)  |     not yet     |     not yet     |     not yet
