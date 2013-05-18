@@ -69,7 +69,7 @@
 
 /* Linux glibc1 check */
 #if !defined(PLATFORM_OS) && (VICE_LINUX_CLIB_VERSION_MAJOR==1)
-#define PLATFORM_OS "Linux glibc 1.x"
+#  define PLATFORM_OS "Linux glibc 1.x"
 #endif
 
 /* Linux musl check */

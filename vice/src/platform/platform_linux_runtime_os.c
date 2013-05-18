@@ -31,8 +31,22 @@
    -----------
    x86 | libc4
    x86 | libc5
-   x86 | glibc1.*
-   x86 | glibc2.*
+   x86 | glibc1.09
+   x86 | glibc2.0
+   x86 | glibc2.0.2
+   x86 | glibc2.0.3
+   x86 | glibc2.0.4
+   x86 | glibc2.0.5
+   x86 | glibc2.1.1
+   x86 | glibc2.1.2
+   x86 | glibc2.1.3
+   x86 | glibc2.1.92
+   x86 | glibc2.2
+   x86 | glibc2.2.1
+   x86 | glibc2.2.2
+   x86 | glibc2.2.3
+   x86 | glibc2.2.4
+   x86 | glibc2.2.5
    x86 | dietlibc
    x86 | newlib
    x86 | musl
