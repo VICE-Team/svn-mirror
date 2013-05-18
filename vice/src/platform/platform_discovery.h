@@ -86,14 +86,18 @@
 /* Interix/SFU/SUA discovery */
 #ifdef __INTERIX
 #  include <interix/registry.h>
+#  include <interix/interix.h>
 #  ifndef ROOT_KEY_SYSWOW
-#    define PLATFORM_OS "Interix 3.x"
+#    ifndef PTHREAD_CHUNK_SIZE
+#      define PLATFORM_OS "Interix 3.0"
+#    else
+#      define PLATFORM_OS "Interix 3.5"
+#    endif
 #  else
 #    define PLATFORM_OS "Interix 5.2/6.x"
 #  endif
 #  define FIND_X86_CPU
 #endif
-
 
 /* MacOS X discovery */
 #ifdef __APPLE__
