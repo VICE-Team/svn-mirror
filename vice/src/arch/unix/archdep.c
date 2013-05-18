@@ -675,9 +675,16 @@ char *archdep_get_runtime_os(void)
     return platform_get_syllable_runtime_os();
 #endif
 
+/* Linux */
 #ifdef __linux
 #define RUNTIME_OS_HANDLED
     return platform_get_linux_runtime_os();
+#endif
+
+/* Interix */
+#ifdef __INTERIX
+#define RUNTIME_OS_HANDLED
+    return platform_get_interix_runtime_os();
 #endif
 
 /* TODO: add runtime os detection code for other *nix os'es */

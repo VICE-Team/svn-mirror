@@ -17,6 +17,7 @@ libplatform_a_SOURCES = \
 	platform_cpu_type.h \
 	platform_discovery.h \
 	platform_freebsd_version.h \
+	platform_interix_runtime_os.c \
 	platform_linux_libc_version.h \
 	platform_linux_runtime_os.c \
 	platform_macosx.c \
