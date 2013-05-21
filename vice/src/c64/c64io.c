@@ -299,6 +299,7 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
     int io_source_counter = 0;
     BYTE realval = 0;
     BYTE retval = 0;
+    BYTE firstval = 0;
     unsigned int lowest_order = 0xffffffff;
 
     vicii_handle_pending_alarms_external(0);
@@ -321,7 +322,15 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
                         realval &= retval;
                     }
                     if (current->device->io_source_prio != IO_PRIO_LOW) {
-                        io_source_counter++;
+                        if (!io_source_counter) {
+                            firstval = retval;
+                            io_source_counter++;
+                        } else {
+                            /* if the nth read returns the same as the first read don't see it as a conflict */
+                            if (retval != firstval) {
+                                io_source_counter++;
+                            }
+                        }
                     }
                 }
             }
