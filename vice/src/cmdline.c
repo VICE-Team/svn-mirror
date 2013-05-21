@@ -197,7 +197,7 @@ int cmdline_parse(int *argc, char **argv)
                     break;
                 }
                 /* This is a kludge to allow --long options */
-                for (j = 0; j < strlen(argv[i]); j++) {
+                for (j = 0; j < (int)strlen(argv[i]); j++) {
                     argv[i][j] = argv[i][j + 1];
                 }
             }
