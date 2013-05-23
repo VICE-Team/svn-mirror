@@ -45,7 +45,7 @@
 #include "util.h"
 
 /*
-    the following keyboard modells exist for the PET:
+    the following keyboard models exist for the PET:
 
     - chicklet keyboard (original PET 2001)
     - graphics keyboard with the 20 key numpad (PET 2001-N)
