@@ -10236,7 +10236,7 @@ msgstr "Activeer de Userport RTC uitbreiding"
 
 #: src/translate_text.c.po.c:4816
 msgid "Disable Userport RTC"
-msgstr "De Userport RTC uitbreiding uischakelen"
+msgstr "De Userport RTC uitbreiding uitschakelen"
 
 #: src/translate_text.c.po.c:4833
 msgid "Override PSID settings for Video standard and SID model"
@@ -12144,7 +12144,7 @@ msgstr "Activeer snelheid schakelaar"
 
 #: src/translate_text.c.po.c:13672
 msgid "Turn off Speed switch"
-msgstr "Snelheid schakelaar uischakelen"
+msgstr "Snelheid schakelaar uitschakelen"
 
 #~ msgid "ROM set type"
 #~ msgstr "ROM set type"
