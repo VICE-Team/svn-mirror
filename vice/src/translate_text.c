@@ -8831,6 +8831,227 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_EOI_DOES_NOT_BLANK_SCREEN_TR, "EOI ekraný boþaltmaz"},
 #endif
 
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_SET_CPU_SWITCH_TO_6502,    N_("Set SuperPET CPU switch to '6502'")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_CPU_SWITCH_TO_6502_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CPU_SWITCH_TO_6502_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_CPU_SWITCH_TO_6502_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_CPU_SWITCH_TO_6502_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_CPU_SWITCH_TO_6502_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_CPU_SWITCH_TO_6502_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_CPU_SWITCH_TO_6502_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_CPU_SWITCH_TO_6502_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_CPU_SWITCH_TO_6502_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_CPU_SWITCH_TO_6502_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_CPU_SWITCH_TO_6502_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_CPU_SWITCH_TO_6502_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_SET_CPU_SWITCH_TO_6809,    N_("Set SuperPET CPU switch to '6809'")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_CPU_SWITCH_TO_6809_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CPU_SWITCH_TO_6809_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_CPU_SWITCH_TO_6809_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_CPU_SWITCH_TO_6809_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_CPU_SWITCH_TO_6809_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_CPU_SWITCH_TO_6809_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_CPU_SWITCH_TO_6809_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_CPU_SWITCH_TO_6809_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_CPU_SWITCH_TO_6809_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_CPU_SWITCH_TO_6809_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_CPU_SWITCH_TO_6809_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_CPU_SWITCH_TO_6809_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_SET_CPU_SWITCH_TO_PROG,    N_("Set SuperPET CPU switch to 'Prog'")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_CPU_SWITCH_TO_PROG_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CPU_SWITCH_TO_PROG_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_CPU_SWITCH_TO_PROG_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_CPU_SWITCH_TO_PROG_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_CPU_SWITCH_TO_PROG_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_CPU_SWITCH_TO_PROG_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_CPU_SWITCH_TO_PROG_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_CPU_SWITCH_TO_PROG_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_CPU_SWITCH_TO_PROG_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_CPU_SWITCH_TO_PROG_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_CPU_SWITCH_TO_PROG_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_CPU_SWITCH_TO_PROG_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_6809_ROM_AT_A000,    N_("Specify 4K to 24K ROM file name at $A000 for 6809")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_6809_ROM_AT_A000_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_A000_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_6809_ROM_AT_A000_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_6809_ROM_AT_A000_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_6809_ROM_AT_A000_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_6809_ROM_AT_A000_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_6809_ROM_AT_A000_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_6809_ROM_AT_A000_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_A000_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_6809_ROM_AT_A000_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_A000_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_6809_ROM_AT_A000_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_6809_ROM_AT_B000,    N_("Specify 4K to 20K ROM file name at $B000 for 6809")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_6809_ROM_AT_B000_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_B000_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_6809_ROM_AT_B000_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_6809_ROM_AT_B000_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_6809_ROM_AT_B000_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_6809_ROM_AT_B000_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_6809_ROM_AT_B000_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_6809_ROM_AT_B000_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_B000_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_6809_ROM_AT_B000_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_B000_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_6809_ROM_AT_B000_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_6809_ROM_AT_C000,    N_("Specify 4K to 16K ROM file name at $C000 for 6809")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_6809_ROM_AT_C000_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_C000_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_6809_ROM_AT_C000_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_6809_ROM_AT_C000_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_6809_ROM_AT_C000_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_6809_ROM_AT_C000_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_6809_ROM_AT_C000_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_6809_ROM_AT_C000_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_C000_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_6809_ROM_AT_C000_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_C000_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_6809_ROM_AT_C000_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_6809_ROM_AT_D000,    N_("Specify 4K to 12K ROM file name at $D000 for 6809")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_6809_ROM_AT_D000_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_D000_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_6809_ROM_AT_D000_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_6809_ROM_AT_D000_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_6809_ROM_AT_D000_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_6809_ROM_AT_D000_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_6809_ROM_AT_D000_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_6809_ROM_AT_D000_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_D000_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_6809_ROM_AT_D000_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_D000_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_6809_ROM_AT_D000_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_6809_ROM_AT_E000,    N_("Specify 2K or 8K ROM file name at $E000 for 6809")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_6809_ROM_AT_E000_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_E000_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_6809_ROM_AT_E000_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_6809_ROM_AT_E000_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_6809_ROM_AT_E000_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_6809_ROM_AT_E000_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_6809_ROM_AT_E000_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_6809_ROM_AT_E000_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_E000_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_6809_ROM_AT_E000_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_E000_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_6809_ROM_AT_E000_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_6809_ROM_AT_F000,    N_("Specify 4K ROM file name at $F000 for 6809")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_6809_ROM_AT_F000_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_F000_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_6809_ROM_AT_F000_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_6809_ROM_AT_F000_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_6809_ROM_AT_F000_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_6809_ROM_AT_F000_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_6809_ROM_AT_F000_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_6809_ROM_AT_F000_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_F000_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_6809_ROM_AT_F000_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_F000_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_6809_ROM_AT_F000_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_PET4032_COLOUR_RGBI,    N_("RGBI colour extension to PET 4032")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_PET4032_COLOUR_RGBI_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_PET4032_COLOUR_RGBI_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_PET4032_COLOUR_RGBI_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_PET4032_COLOUR_RGBI_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PET4032_COLOUR_RGBI_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PET4032_COLOUR_RGBI_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_PET4032_COLOUR_RGBI_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_PET4032_COLOUR_RGBI_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PET4032_COLOUR_RGBI_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_PET4032_COLOUR_RGBI_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_PET4032_COLOUR_RGBI_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_PET4032_COLOUR_RGBI_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_PET4032_COLOUR_ANALOG,    N_("Analog colour extension to PET 4032")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_PET4032_COLOUR_ANALOG_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_PET4032_COLOUR_ANALOG_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_PET4032_COLOUR_ANALOG_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_PET4032_COLOUR_ANALOG_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PET4032_COLOUR_ANALOG_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PET4032_COLOUR_ANALOG_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_PET4032_COLOUR_ANALOG_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_PET4032_COLOUR_ANALOG_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PET4032_COLOUR_ANALOG_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_PET4032_COLOUR_ANALOG_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_PET4032_COLOUR_ANALOG_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_PET4032_COLOUR_ANALOG_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_P_COLOUR_0_255,    N_("<Colour 0-255>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_COLOUR_0_255_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_COLOUR_0_255_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_COLOUR_0_255_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_COLOUR_0_255_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_COLOUR_0_255_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_COLOUR_0_255_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_COLOUR_0_255_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_COLOUR_0_255_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_COLOUR_0_255_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_COLOUR_0_255_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_COLOUR_0_255_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_COLOUR_0_255_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_PET4032_COLOUR_BACKGROUND,    N_("Analog colour background on PET 4032")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_PET4032_COLOUR_BACKGROUND_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_PET4032_COLOUR_BACKGROUND_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_PET4032_COLOUR_BACKGROUND_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_PET4032_COLOUR_BACKGROUND_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PET4032_COLOUR_BACKGROUND_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PET4032_COLOUR_BACKGROUND_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_PET4032_COLOUR_BACKGROUND_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_PET4032_COLOUR_BACKGROUND_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PET4032_COLOUR_BACKGROUND_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_PET4032_COLOUR_BACKGROUND_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_PET4032_COLOUR_BACKGROUND_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_PET4032_COLOUR_BACKGROUND_TR, ""},  /* fuzzy */
+#endif
+
 /* pet/petpia1.c */
 /* en */ {IDCLS_ENABLE_USERPORT_DIAG_PIN,    N_("Enable userport diagnostic pin")},
 #ifdef HAS_TRANSLATION
@@ -13737,4 +13958,37 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_SPEED_SWITCH_TR, ""},  /* fuzzy */
 #endif
 
+/* pet/pethre.c */
+/* en */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD,    N_("Enable HiRes Emulation Board")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pethre.c */
+/* en */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD,    N_("Disable HiRes Emulation Board")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_TR, ""},  /* fuzzy */
+#endif
 };

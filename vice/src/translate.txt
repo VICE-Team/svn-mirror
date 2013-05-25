@@ -1197,6 +1197,45 @@ IDCLS_EOI_BLANKS_SCREEN
 /* pet/pet-cmdline-options.c */
 IDCLS_EOI_DOES_NOT_BLANK_SCREEN
 
+/* pet/pet-cmdline-options.c */
+IDCLS_SET_CPU_SWITCH_TO_6502
+
+/* pet/pet-cmdline-options.c */
+IDCLS_SET_CPU_SWITCH_TO_6809
+
+/* pet/pet-cmdline-options.c */
+IDCLS_SET_CPU_SWITCH_TO_PROG
+
+/* pet/pet-cmdline-options.c */
+IDCLS_SPECIFY_6809_ROM_AT_A000
+
+/* pet/pet-cmdline-options.c */
+IDCLS_SPECIFY_6809_ROM_AT_B000
+
+/* pet/pet-cmdline-options.c */
+IDCLS_SPECIFY_6809_ROM_AT_C000
+
+/* pet/pet-cmdline-options.c */
+IDCLS_SPECIFY_6809_ROM_AT_D000
+
+/* pet/pet-cmdline-options.c */
+IDCLS_SPECIFY_6809_ROM_AT_E000
+
+/* pet/pet-cmdline-options.c */
+IDCLS_SPECIFY_6809_ROM_AT_F000
+
+/* pet/pet-cmdline-options.c */
+IDCLS_PET4032_COLOUR_RGBI
+
+/* pet/pet-cmdline-options.c */
+IDCLS_PET4032_COLOUR_ANALOG
+
+/* pet/pet-cmdline-options.c */
+IDCLS_P_COLOUR_0_255
+
+/* pet/pet-cmdline-options.c */
+IDCLS_PET4032_COLOUR_BACKGROUND
+
 /* pet/petpia1.c */
 IDCLS_ENABLE_USERPORT_DIAG_PIN
 
@@ -2479,3 +2518,9 @@ IDCLS_ENABLE_SPEED_SWITCH
 
 /* scpu64/scpu64-cmdline-options.c */
 IDCLS_DISABLE_SPEED_SWITCH
+
+/* pet/pethre.c */
+IDCLS_ENABLE_HIRES_EMULATION_BOARD
+
+/* pet/pethre.c */
+IDCLS_DISABLE_HIRES_EMULATION_BOARD
