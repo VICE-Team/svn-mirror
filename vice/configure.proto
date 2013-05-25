@@ -240,11 +240,12 @@ if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin"; then
   fi
 fi
 
-if test x"$host_os" = "xbeos"; then
+if test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
   if test x"$with_x" = "xyes"; then
     host_os=x11beos
     is_beos_x11=yes
     is_unix=yes
+    AC_DEFINE(BEOS_COMPILE,,[Are we compiling for either BeOS or Haiku?])
   fi
 fi
 
@@ -556,15 +557,17 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
                 )]
 	  	 )
   fi
-elif test x"$host_os" = "xbeos"; then
+elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
 
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
   GCC=yes
 
   is_beos=yes
+  AC_DEFINE(BEOS_COMPILE,,[Are we compiling for either BeOS or Haiku?])
 
   if test x"$enable_sdlui" != "xyes"; then
+    AC_DEFINE(USE_BEOS_UI,,[Are we using the BeOS native UI?])
     AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
     AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   fi
@@ -1503,12 +1506,16 @@ elif test x"$is_beos" = "xyes"; then
 
   dnl Check for needed network headers
   BEOS_NETWORK_HEADERS_PRESENT=yes
-  AC_CHECK_HEADERS(socket.h netdb.h byteorder.h,,
+  AC_CHECK_HEADERS(sys/socket.h netdb.h ByteOrder.h,,
                    [BEOS_NETWORK_HEADERS_PRESENT=no],)
 
   if test x"$BEOS_NETWORK_HEADERS_PRESENT" = "xyes"; then
 
     dnl Check for possible extra needed network libraries
+
+    AC_CHECK_LIB(network, gethostbyname,[ NETPLAY_LIBS="-lnetwork $NETPLAY_LIBS";
+                                      LIBS="-lnetwork $LIBS"],,)
+
     AC_CHECK_LIB(net, gethostbyname,[ NETPLAY_LIBS="-lnet -lnetapi $NETPLAY_LIBS";
                                       LIBS="-lnet -lnetapi $LIBS"],,)
 

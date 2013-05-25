@@ -154,6 +154,12 @@
 #  define PLATFORM_OS "BeOS"
 #endif /* __BEOS__ */
 
+/* Haiku discovery */
+#ifdef __HAIKU__
+#  define PLATFORM_OS "Haiku"
+#  define FIND_X86_CPU
+#endif
+
 
 /* BSDI discovery */
 #ifdef __bsdi__

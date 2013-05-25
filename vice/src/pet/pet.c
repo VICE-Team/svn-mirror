@@ -99,7 +99,7 @@ machine_context_t machine_context;
 #define NUM_KEYBOARD_MAPPINGS 6
 
 /* beos dummy for the generally used cart function in ui_file.cc */
-#ifdef __BEOS__
+#ifdef BEOS_COMPILE
 int cartridge_attach_image(int type, const char *filename)
 {
     return 0;

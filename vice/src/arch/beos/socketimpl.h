@@ -35,13 +35,17 @@
 
 #ifdef HAVE_NETWORK
  
-#include <socket.h>
+#include <sys/time.h> 
+#include <sys/socket.h>
 #include <netdb.h>
-#include <byteorder.h>
+#include <ByteOrder.h>
 
 typedef unsigned int SOCKET;
 typedef struct timeval TIMEVAL;
+
+#ifndef __HAIKU__
 typedef unsigned long in_addr_t;
+#endif
 
 #define PF_INET AF_INET
 #define INVALID_SOCKET (SOCKET)(~0)

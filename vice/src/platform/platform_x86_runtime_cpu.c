@@ -83,7 +83,7 @@ void __cpuid(
     __asm mov d, edx
 #endif
 #else
-#ifdef __BEOS__
+#ifdef BEOS_COMPILE
 #include <OS.h>
 
 static cpuid_info cpuid_info_ret;

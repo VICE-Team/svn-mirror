@@ -58,6 +58,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef __HAIKU__
+#include <sys/wait.h>
+#endif
+
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"
