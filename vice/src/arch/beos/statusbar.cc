@@ -26,12 +26,13 @@
 
 #include <stdio.h>
 
+#include "statusbar.h"
+
 extern "C" {
 #include "datasette.h"
 #include "drive.h"
 #include "ui.h"
 }
-#include "statusbar.h"
 
 const rgb_color statusbar_background = { 200, 200, 200, 0 };
 const rgb_color statusbar_green_led = { 10, 200, 10, 0 };
@@ -65,11 +66,11 @@ ViceStatusbar::~ViceStatusbar()
     delete drawview;
     delete statusbitmap;
 } 
-	
+
 void ViceStatusbar::DisplaySpeed(float percent, float framerate, int warp_flag)
 {
-    char str[256];
-	
+    char str[40];
+
     if (percent > 9999) {
         percent = 9999;
     }
@@ -93,24 +94,26 @@ void ViceStatusbar::DisplaySpeed(float percent, float framerate, int warp_flag)
 
 void ViceStatusbar::DisplayDriveStatus(int drive_num, int drive_led_color, double drive_track)
 {
-    char str[256], str2[256];
+    char str[20], str2[20];
     bool erase_bar = false;
     BRect frame;
     rgb_color led_col;
+    float drive_offset;
 
     if (drive_num < 0) {
         erase_bar = true;
         drive_num = -drive_num - 1;
     }
-    frame = BRect(155, 1 + drive_num * 13, 215, 13 + drive_num * 13);
+    drive_offset = drive_num * 13;
+    frame = BRect(155, 1 + drive_offset, 215, 13 + drive_offset);
     sprintf(str, "%2d:", drive_num + 8);
     sprintf(str2, "%.1f", drive_track);
     statusbitmap->Lock();
     drawview->SetLowColor(statusbar_background);
     drawview->FillRect(frame, B_SOLID_LOW);
     if (!erase_bar) {
-        drawview->DrawString(str, BPoint(160, 10 + drive_num * 13));
-        drawview->DrawString(str2, BPoint(173, 10 + drive_num * 13));
+        drawview->DrawString(str, BPoint(160, 10 + drive_offset));
+        drawview->DrawString(str2, BPoint(173, 10 + drive_offset));
         switch (drive_led_color) {
             case DRIVE_ACTIVE_GREEN:
                 led_col = statusbar_green_led;
@@ -122,7 +125,7 @@ void ViceStatusbar::DisplayDriveStatus(int drive_num, int drive_led_color, doubl
                 led_col = statusbar_black_led;
         }
         drawview->SetLowColor(led_col);
-        drawview->FillRect(BRect(195, 3 + drive_num * 13, 205, 9 + drive_num * 13), B_SOLID_LOW);
+        drawview->FillRect(BRect(195, 3 + drive_offset, 205, 9 + drive_offset), B_SOLID_LOW);
     }
     drawview->Sync();
     statusbitmap->Unlock();
@@ -131,7 +134,7 @@ void ViceStatusbar::DisplayDriveStatus(int drive_num, int drive_led_color, doubl
 
 void ViceStatusbar::DisplayTapeStatus(int enabled, int counter,int motor, int control)
 {
-    char str[256];
+    char str[20];
     BRect frame;
     const BPoint play_button[] = { BPoint(198, 55), BPoint(201, 58), BPoint(198, 61) };
     const BPoint ff_button1[] = { BPoint(197, 55), BPoint(200, 58), BPoint(197, 61) };
