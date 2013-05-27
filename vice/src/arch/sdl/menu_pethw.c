@@ -35,6 +35,7 @@
 #include "menu_joystick.h"
 #include "menu_ram.h"
 #include "menu_rom.h"
+#include "pet.h"
 #include "petmodel.h"
 
 #ifdef HAVE_RS232
@@ -167,6 +168,33 @@ static const ui_menu_entry_t petdww_menu[] = {
     SDL_MENU_LIST_END
 };
 
+/* PETCOLOUR */
+
+UI_MENU_DEFINE_RADIO(PETColour)
+UI_MENU_DEFINE_SLIDER(PETColourBG, 0, 255)
+
+static const ui_menu_entry_t petcolour_menu[] = {
+    SDL_MENU_ITEM_TITLE("PET Colour type"),
+    { "Off",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_PETColour_callback,
+      (ui_callback_data_t)PET_COLOUR_TYPE_OFF },
+    { "RGBI",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_PETColour_callback,
+      (ui_callback_data_t)PET_COLOUR_TYPE_RGBI },
+    { "Analog",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_PETColour_callback,
+      (ui_callback_data_t)PET_COLOUR_TYPE_ANALOG },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "PET Colour background",
+      MENU_ENTRY_RESOURCE_INT,
+      slider_PETColourBG_callback,
+      (ui_callback_data_t)"Set PET Colour background (0-255)" },
+    SDL_MENU_LIST_END
+};
+
 /* PET MODEL SELECTION */
 
 static UI_MENU_CALLBACK(custom_PETModel_callback)
@@ -256,6 +284,10 @@ const ui_menu_entry_t pet_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)petdww_menu },
+    { "PET Colour settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)petcolour_menu },
     { "Enable PET High Res Emulation board",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_PETHRE_callback,
