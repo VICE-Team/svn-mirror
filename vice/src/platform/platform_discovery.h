@@ -94,7 +94,11 @@
 #      define PLATFORM_OS "Interix 3.5"
 #    endif
 #  else
-#    define PLATFORM_OS "Interix 5.2/6.x"
+#    ifndef REGVAL_ENABLE_SU_TO_ROOT
+#      define PLATFORM_OS "Interix 5.2"
+#    else
+#      define PLATFORM_OS "Interix 6.x"
+#    endif
 #  endif
 #  define FIND_X86_CPU
 #endif

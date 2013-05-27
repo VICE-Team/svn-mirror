@@ -35,6 +35,14 @@
 #include <interix/interix.h>
 #include <interix/registry.h>
 
+#define VICE_SFU_KEY L"\\Registry\\Machine\\Software\\Microsoft\\Services For Unix"
+
+#define VICE_SUA_KEY L"\\Registry\\Machine\\Software\\Microsoft\\SUA"
+
+#ifndef REGVAL_CURRENTRELEASE
+#define REGVAL_CURRENTRELEASE	L"Current_Release"
+#endif
+
 #define NT_SERVER_KEY L"\\Registry\\Machine\\System\\CurrentControlSet\\Control\\ProductOptions"
 #define NT_SERVER_VALUE L"ProductType"
 
@@ -74,6 +82,9 @@ static winver_t windows_versions[] = {
     { "Windows 2003 Small Business Server", "Microsoft Windows Server 2003", 3, 0 },
     { "Windows 2003 Enterprise Server", "Microsoft Windows Server 2003", 5, 0 },
     { "Windows 2003 Datacenter Server", "Microsoft Windows Server 2003", 6, 0 },
+    { "Windows 2003 R2 Standard Server", "Microsoft Windows Server 2003 R2", 1, 0 },
+    { "Windows 2003 R2 Enterprise Server", "Microsoft Windows Server 2003 R2", 5, 0 },
+    { "Windows 2003 R2 Datacenter Server", "Microsoft Windows Server 2003 R2", 6, 0 },
     { NULL, NULL, 0, 0 }
 };
 
@@ -224,10 +235,17 @@ char *platform_get_interix_runtime_os(void)
     char service_pack[100];
     int rcode;
 
-    rcode = getreg_strvalue((PCWSTR)INTERIX_KEY, (PCWSTR)REGVAL_CURRENTRELEASE, interix_version, 10);
+    rcode = getreg_strvalue((PCWSTR)VICE_SFU_KEY, (PCWSTR)REGVAL_CURRENTRELEASE, interix_version, 10);
+    if (rcode) {
+        rcode = getreg_strvalue((PCWSTR)VICE_SUA_KEY, (PCWSTR)REGVAL_CURRENTRELEASE, interix_version, 10);
+    }
+
     if (rcode) {
         sprintf(interix_platform_version, "Unknown interix version");
     } else {
+        if (!strcmp(interix_version, "4.0")) {
+            sprintf(interix_version, "5.2");
+        }
         sprintf(interix_platform_version, "Interix %s", interix_version);
     }
 
