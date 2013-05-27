@@ -137,6 +137,9 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
         case IDM_PETDWW_SETTINGS:
             ui_petdww_settings_dialog(canvas);
             break;
+        case IDM_PETCOLOUR_SETTINGS:
+            ui_petcolour_settings_dialog();
+            break;
 #ifdef AMIGA_OS4
         case IDM_JOY_SETTINGS:
             ui_joystick_settings_pet_dialog();

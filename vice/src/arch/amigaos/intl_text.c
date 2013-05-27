@@ -4212,6 +4212,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_PETDWW_SETTINGS_SV, "PET DWW-Inställningar..." },
 /* tr */ { IDMS_PETDWW_SETTINGS_TR, "PET DWW Ayarlarý..." },
 
+/* en */ { IDMS_PETCOLOUR_SETTINGS,    "PET Colour board settings..." },
+/* da */ { IDMS_PETCOLOUR_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_PETCOLOUR_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_PETCOLOUR_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_PETCOLOUR_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_PETCOLOUR_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_PETCOLOUR_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_PETCOLOUR_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_PETCOLOUR_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_PETCOLOUR_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_PETCOLOUR_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_PETCOLOUR_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_PETCOLOUR_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_FINAL_EXPANSION_WRITEBACK,    "Enable Final Expansion write back to ROM file" },
 /* da */ { IDMS_FINAL_EXPANSION_WRITEBACK_DA, "Aktivér Final Expansion tilbageskrivning til ROM-fil" },
 /* de */ { IDMS_FINAL_EXPANSION_WRITEBACK_DE, "Final Expansion ROM Schreibzugriff aktivieren" },
@@ -7908,6 +7922,76 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_PET_REU_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PET_REU_SETTINGS_SV, "PET REU-Inställningar" },
 /* tr */ { IDS_PET_REU_SETTINGS_TR, "PET REU Ayarlarý" },
+
+/* en */ { IDS_RGBI,    "RGBI" },
+/* da */ { IDS_RGBI_DA, "" },  /* fuzzy */
+/* de */ { IDS_RGBI_DE, "" },  /* fuzzy */
+/* es */ { IDS_RGBI_ES, "" },  /* fuzzy */
+/* fr */ { IDS_RGBI_FR, "" },  /* fuzzy */
+/* hu */ { IDS_RGBI_HU, "" },  /* fuzzy */
+/* it */ { IDS_RGBI_IT, "" },  /* fuzzy */
+/* ko */ { IDS_RGBI_KO, "" },  /* fuzzy */
+/* nl */ { IDS_RGBI_NL, "" },  /* fuzzy */
+/* pl */ { IDS_RGBI_PL, "" },  /* fuzzy */
+/* ru */ { IDS_RGBI_RU, "" },  /* fuzzy */
+/* sv */ { IDS_RGBI_SV, "" },  /* fuzzy */
+/* tr */ { IDS_RGBI_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_ANALOG,    "Analog" },
+/* da */ { IDS_ANALOG_DA, "" },  /* fuzzy */
+/* de */ { IDS_ANALOG_DE, "" },  /* fuzzy */
+/* es */ { IDS_ANALOG_ES, "" },  /* fuzzy */
+/* fr */ { IDS_ANALOG_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ANALOG_HU, "" },  /* fuzzy */
+/* it */ { IDS_ANALOG_IT, "" },  /* fuzzy */
+/* ko */ { IDS_ANALOG_KO, "" },  /* fuzzy */
+/* nl */ { IDS_ANALOG_NL, "" },  /* fuzzy */
+/* pl */ { IDS_ANALOG_PL, "" },  /* fuzzy */
+/* ru */ { IDS_ANALOG_RU, "" },  /* fuzzy */
+/* sv */ { IDS_ANALOG_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ANALOG_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PET_COLOUR_TYPE,    "PET Colour type" },
+/* da */ { IDS_PET_COLOUR_TYPE_DA, "" },  /* fuzzy */
+/* de */ { IDS_PET_COLOUR_TYPE_DE, "" },  /* fuzzy */
+/* es */ { IDS_PET_COLOUR_TYPE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_PET_COLOUR_TYPE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PET_COLOUR_TYPE_HU, "" },  /* fuzzy */
+/* it */ { IDS_PET_COLOUR_TYPE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_PET_COLOUR_TYPE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_PET_COLOUR_TYPE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PET_COLOUR_TYPE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_PET_COLOUR_TYPE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_PET_COLOUR_TYPE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PET_COLOUR_TYPE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PET_COLOUR_BACKGROUND,    "PET Colour background" },
+/* da */ { IDS_PET_COLOUR_BACKGROUND_DA, "" },  /* fuzzy */
+/* de */ { IDS_PET_COLOUR_BACKGROUND_DE, "" },  /* fuzzy */
+/* es */ { IDS_PET_COLOUR_BACKGROUND_ES, "" },  /* fuzzy */
+/* fr */ { IDS_PET_COLOUR_BACKGROUND_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PET_COLOUR_BACKGROUND_HU, "" },  /* fuzzy */
+/* it */ { IDS_PET_COLOUR_BACKGROUND_IT, "" },  /* fuzzy */
+/* ko */ { IDS_PET_COLOUR_BACKGROUND_KO, "" },  /* fuzzy */
+/* nl */ { IDS_PET_COLOUR_BACKGROUND_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PET_COLOUR_BACKGROUND_PL, "" },  /* fuzzy */
+/* ru */ { IDS_PET_COLOUR_BACKGROUND_RU, "" },  /* fuzzy */
+/* sv */ { IDS_PET_COLOUR_BACKGROUND_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PET_COLOUR_BACKGROUND_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PET_COLOUR_SETTINGS,    "PET Colour settings" },
+/* da */ { IDS_PET_COLOUR_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_PET_COLOUR_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_PET_COLOUR_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_PET_COLOUR_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PET_COLOUR_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_PET_COLOUR_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_PET_COLOUR_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_PET_COLOUR_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PET_COLOUR_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_PET_COLOUR_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_PET_COLOUR_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PET_COLOUR_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_V364_SPEECH_FILENAME,    "V364 Speech ROM file" },
 /* da */ { IDS_V364_SPEECH_FILENAME_DA, "V364 Speech ROM-fil" },

@@ -86,6 +86,8 @@ libarchmui_a_SOURCES = \
 	uimouse.h \
 	uinetwork.c \
 	uinetwork.h \
+	uipetcolour.c \
+	uipetcolour.h \
 	uipetdww.c \
 	uipetdww.h \
 	uipetreu.c \
