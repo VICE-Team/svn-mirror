@@ -52,6 +52,7 @@
 #include "uimenu.h"
 #include "uinetplay.h"
 #include "uiperipheralieee.h"
+#include "uipetcolour.h
 #include "uipetdww.h"
 #include "uipethre.h"
 #include "uipetreu.h"
@@ -246,6 +247,8 @@ UI_MENU_DEFINE_TOGGLE(UserportDAC)
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("PET RAM and Expansion Unit"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petreu_submenu },
+    { N_("PET Colour graphics"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, petcolour_submenu },
     { N_("PET DWW hi-res graphics"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petdww_submenu },
     { N_("PET HRE hi-res graphics"), UI_MENU_TYPE_NORMAL,

@@ -123,6 +123,8 @@ libarchgui_a_SOURCES = \
 	uiperipheraliec.h \
 	uiperipheralieee.c \
 	uiperipheralieee.h \
+	uipetcolour.c \
+	uipetcolour.h \
 	uipetdww.c \
 	uipetdww.h \
 	uipethre.c \
