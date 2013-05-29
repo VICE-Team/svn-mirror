@@ -175,6 +175,7 @@ HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
 {
     LPDIRECT3DSWAPCHAIN9 d3dsc;
     HRESULT ddresult;
+   int device = D3DADAPTER_DEFAULT;
 
     if ((canvas->d3dsurface != NULL) 
             && (S_OK != IDirect3DSurface9_Release(canvas->d3dsurface))
@@ -189,11 +190,14 @@ HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
     canvas->d3dsurface = NULL;
 
     if (canvas->d3dpp.Windowed == 0) {
-        int device, width, height, bitdepth, refreshrate;
+        int width, height, bitdepth, refreshrate;
 
         GetCurrentModeParameters(&device, &width, &height, &bitdepth, &refreshrate);
         canvas->d3dpp.BackBufferWidth = width;
         canvas->d3dpp.BackBufferHeight = height;
+        if (refreshrate) {
+            canvas->d3dpp.FullScreen_RefreshRateInHz = refreshrate;
+        }
     } else {
         RECT wrect;
 
@@ -209,7 +213,7 @@ HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
     }
 
     if (canvas->d3ddev == NULL) {
-        if (S_OK != IDirect3D9_CreateDevice(d3d, D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, canvas->render_hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &canvas->d3dpp, &canvas->d3ddev)) {
+        if (S_OK != IDirect3D9_CreateDevice(d3d, device, D3DDEVTYPE_HAL, canvas->render_hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &canvas->d3dpp, &canvas->d3ddev)) {
             log_debug("video_dx9: Failed to create the DirectX9 device!");
             return -1;
         }
