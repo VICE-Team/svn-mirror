@@ -55,8 +55,8 @@ static void DRAW_rgbi(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
 #endif
         for (i = xstart; i < xend; i++) {
             BYTE colour = colour_ptr[scr_rel & crtc.vaddr_mask];
-            BYTE fg = (colour >> 4) & 0x0F;
-            BYTE bg =  colour       & 0x0F;
+            BYTE bg = (colour >> 4) & 0x0F;
+            BYTE fg =  colour       & 0x0F;
 
             int pixel;
             for (pixel = 0; pixel < 8; pixel++) {
