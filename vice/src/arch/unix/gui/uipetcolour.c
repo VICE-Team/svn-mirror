@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "lib.h"
 #include "pet.h"
 #include "uilib.h"
 #include "uimenu.h"

@@ -52,7 +52,7 @@
 #include "uimenu.h"
 #include "uinetplay.h"
 #include "uiperipheralieee.h"
-#include "uipetcolour.h
+#include "uipetcolour.h"
 #include "uipetdww.h"
 #include "uipethre.h"
 #include "uipetreu.h"
