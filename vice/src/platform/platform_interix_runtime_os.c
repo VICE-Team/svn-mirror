@@ -32,23 +32,14 @@
 #ifdef __INTERIX
 
 #include <stdio.h>
+#include <sys/utsname.h>
 #include <interix/interix.h>
 #include <interix/registry.h>
-
-#define VICE_SFU_KEY L"\\Registry\\Machine\\Software\\Microsoft\\Services For Unix"
-
-#define VICE_SUA_KEY L"\\Registry\\Machine\\Software\\Microsoft\\SUA"
-
-#ifndef REGVAL_CURRENTRELEASE
-#define REGVAL_CURRENTRELEASE	L"Current_Release"
-#endif
 
 #define NT_SERVER_KEY L"\\Registry\\Machine\\System\\CurrentControlSet\\Control\\ProductOptions"
 #define NT_SERVER_VALUE L"ProductType"
 
 #define NT_PRODUCT_SUITE_PATH "\\Registry\\Machine\\System\\CurrentControlSet\\Control\\ProductOptions\\ProductSuite"
-
-#define NT_SBS_PATH "\\Registry\\Machine\\System\\CurrentControlSet\\Services\\LicenseInfoSuites\\SmallBusiness\\ConcurrentLimit"
 
 #define NT_FLP_PATH "\\Registry\\Machine\\System\\WPA\\Fundamentals\\Installed"
 
@@ -85,6 +76,8 @@ static winver_t windows_versions[] = {
     { "Windows 2003 R2 Standard Server", "Microsoft Windows Server 2003 R2", 1, 0 },
     { "Windows 2003 R2 Enterprise Server", "Microsoft Windows Server 2003 R2", 5, 0 },
     { "Windows 2003 R2 Datacenter Server", "Microsoft Windows Server 2003 R2", 6, 0 },
+    { "Windows 2008 Web Server", "Windows (R) Web Server 2008", 2, 0 },
+    { "Windows 2008 Standard Server", "Windows Server (R) 2008 Standard", 1, 0 },
     { NULL, NULL, 0, 0 }
 };
 
@@ -234,20 +227,11 @@ char *platform_get_interix_runtime_os(void)
     char interix_version[10];
     char service_pack[100];
     int rcode;
+    struct utsname name;
 
-    rcode = getreg_strvalue((PCWSTR)VICE_SFU_KEY, (PCWSTR)REGVAL_CURRENTRELEASE, interix_version, 10);
-    if (rcode) {
-        rcode = getreg_strvalue((PCWSTR)VICE_SUA_KEY, (PCWSTR)REGVAL_CURRENTRELEASE, interix_version, 10);
-    }
+    uname(&name);
 
-    if (rcode) {
-        sprintf(interix_platform_version, "Unknown interix version");
-    } else {
-        if (!strcmp(interix_version, "4.0")) {
-            sprintf(interix_version, "5.2");
-        }
-        sprintf(interix_platform_version, "Interix %s", interix_version);
-    }
+    sprintf(interix_platform_version, "Interix %s", name.release);
 
     rcode = getreg_strvalue((PCWSTR)NT_SERVICEPACK_KEY, (PCWSTR)NT_SERVICEPACK_VALUE, service_pack, 100);
     if (!rcode) {
