@@ -1,0 +1,223 @@
+// PET Colour specific resources.
+//
+
+// template of dialog for all languages
+
+IDD_PETCOLOUR_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT         "", IDC_PETCOLOUR_TYPE_LABEL,
+                  9, 9, 50, 8
+    COMBOBOX      IDC_PETCOLOUR_TYPE,
+                  65, 7, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT         "", IDC_PETCOLOUR_BG,
+                  15, 24, 60, 8
+    EDITTEXT      IDC_PETCOLOUR_BG_VALUE,
+                  80, 25, 20, 12, WS_TABSTOP
+
+    DEFPUSHBUTTON "", IDOK,
+                  30, 90, 50, 14, WS_TABSTOP
+    PUSHBUTTON    "", IDCANCEL,
+                  90, 90, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+
+
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+
+
+// HUNGARIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// ITALIAN text
+
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+
+
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// DUTCH text
+
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// SWEDISH text
+
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+
+
+// TURKISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28599)
+#endif
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
+  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_OFF        "Off"
+  IDS_PETCOLOUR_ANALOG     "Analog"
+  IDS_PETCOLOUR_BACKGROUND "Background color"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif

@@ -97,6 +97,7 @@ libarch_a_SOURCES = \
 	resmmcreplay.rc \
 	resmouse.rc \
 	respet.rc \
+	respetcolour.rc \
 	respetdww.rc \
 	respetreu.rc \
 	resplus256k.rc \
@@ -231,6 +232,8 @@ libarch_a_SOURCES = \
 	uinetwork.h \
 	uiperipheral.c \
 	uiperipheral.h \
+	uipetcolour.c \
+	uipetcolour.h \
 	uipetdww.c \
 	uipetdww.h \
 	uipetmodel.c \
@@ -545,11 +548,13 @@ rescbm5x0cat.rc: $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
 respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/ressidcart.rc \
-	$(srcdir)/respetdww.rc $(top_builddir)/src/debug.h
+	$(srcdir)/respetdww.rc $(srdir)/respetcolour.rc \
+	$(top_builddir)/src/debug.h
 	cat >respetcat.rc $(srcdir)/respet.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/respetreu.rc $(srcdir)/ressidcart.rc \
-	$(srcdir)/respetdww.rc $(srcdir)/resautostart.rc
+	$(srcdir)/respetdww.rc $(srcdir)/respetcolour.rc \
+	$(srcdir)/resautostart.rc
 
 resplus4cat.rc: $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \

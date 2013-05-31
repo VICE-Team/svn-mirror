@@ -176,48 +176,48 @@ SOURCE=.\respet.rc
 !IF  "$(CFG)" == "xpet - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPE="..\..\debug.h"	"respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	"respetdww.rc"	"resautostart.rc"	"ressidcart.rc"	
+USERDEP__RESPE="..\..\debug.h"	"respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	"respetdww.rc"	"respetcolour.rc"	"resautostart.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\respet.rc
 
 "respetcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b respet.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + respetreu.rc + respetdww.rc + resautostart.rc + ressidcart.rc respetcat.rc  /b
+	copy /b respet.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + respetreu.rc + respetdww.rc + respetcolour.rc + resautostart.rc + ressidcart.rc respetcat.rc  /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "xpet - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPE="..\..\debug.h"	"respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	"respetdww.rc"	"resautostart.rc"	"ressidcart.rc"	
+USERDEP__RESPE="..\..\debug.h"	"respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	"respetdww.rc"	"respetcolour.rc"	"resautostart.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\respet.rc
 
 "respetcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b respet.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + respetreu.rc + respetdww.rc + resautostart.rc + ressidcart.rc respetcat.rc  /b
+	copy /b respet.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + respetreu.rc + respetdww.rc + respetcolour.rc + resautostart.rc + ressidcart.rc respetcat.rc  /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "xpet - Win32 DX Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPE="..\..\debug.h"	"respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	"respetdww.rc"	"resautostart.rc"	"ressidcart.rc"	
+USERDEP__RESPE="..\..\debug.h"	"respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	"respetdww.rc"	"respetcolour.rc"	"resautostart.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\respet.rc
 
 "respetcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b respet.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + respetreu.rc + respetdww.rc + resautostart.rc + ressidcart.rc respetcat.rc  /b
+	copy /b respet.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + respetreu.rc + respetdww.rc + respetcolour.rc + resautostart.rc + ressidcart.rc respetcat.rc  /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "xpet - Win32 DX Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPE="..\..\debug.h"	"respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	"respetdww.rc"	"resautostart.rc"	"ressidcart.rc"	
+USERDEP__RESPE="..\..\debug.h"	"respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	"respetdww.rc"	"respetcolour.rc"	"resautostart.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\respet.rc
 
 "respetcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b respet.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + respetreu.rc + respetdww.rc + resautostart.rc + ressidcart.rc respetcat.rc  /b
+	copy /b respet.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + respetreu.rc + respetdww.rc + respetcolour.rc + resautostart.rc + ressidcart.rc respetcat.rc  /b
 
 # End Custom Build
 

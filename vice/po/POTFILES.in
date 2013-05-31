@@ -55,6 +55,7 @@ src/arch/unix/gui/uipalette.c
 src/arch/unix/gui/uiperipheral.c
 src/arch/unix/gui/uiperipheraliec.c
 src/arch/unix/gui/uiperipheralieee.c
+src/arch/unix/gui/uipetcolour.c
 src/arch/unix/gui/uipetdww.c
 src/arch/unix/gui/uipetreu.c
 src/arch/unix/gui/uiplus256k.c
@@ -155,6 +156,7 @@ src/arch/win32/resmmc64.rc.po.c
 src/arch/win32/resmmcreplay.rc.po.c
 src/arch/win32/resmouse.rc.po.c
 src/arch/win32/respet.rc.po.c
+src/arch/win32/respetcolour.rc.po.c
 src/arch/win32/respetdww.rc.po.c
 src/arch/win32/respetreu.rc.po.c
 src/arch/win32/resplus256k.rc.po.c
