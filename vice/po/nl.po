@@ -173,9 +173,8 @@ msgid "Internal Function ROM file"
 msgstr "Intern functie ROM bestand"
 
 #: src/arch/unix/gui/c128ui.c:345 src/arch/win32/resc128.rc.po.c:737
-#, fuzzy
 msgid "External Function ROM type"
-msgstr "Interne functie ROM soort"
+msgstr "Externe functie ROM soort"
 
 #: src/arch/unix/gui/c128ui.c:347 src/arch/amigaos/intl_text.c.po.c:10954
 msgid "External Function ROM file"
@@ -856,9 +855,8 @@ msgid "PET RAM and Expansion Unit"
 msgstr "PET RAM en uitbreidingseenheid"
 
 #: src/arch/unix/gui/petui.c:250
-#, fuzzy
 msgid "PET Colour graphics"
-msgstr "PET DWW hi-res bord"
+msgstr "PET Colour bord"
 
 #: src/arch/unix/gui/petui.c:252
 msgid "PET DWW hi-res graphics"
@@ -2742,9 +2740,8 @@ msgid "Stack Light Rifle"
 msgstr "Stack Light Rifle"
 
 #: src/arch/unix/gui/uilightpen.c:50
-#, fuzzy
 msgid "Inkwell Pen"
-msgstr "Datel Pen"
+msgstr "Inkwell Pen"
 
 #: src/arch/unix/gui/uilightpen.c:70 src/arch/win32/reslightpen.rc.po.c:23
 #: src/translate_text.c.po.c:13570
@@ -3079,17 +3076,17 @@ msgstr "Drive #11 opties"
 msgid ""
 "Enter PET Colour background\n"
 "(range: 0-255)"
-msgstr ""
+msgstr "Geef PET Colour achtergrond kleur\n(bereik: 0-255)"
 
 #: src/arch/unix/gui/uipetcolour.c:62 src/arch/unix/gui/uipetcolour.c:81
 #: src/arch/amigaos/intl_text.c.po.c:7944
 msgid "PET Colour background"
-msgstr ""
+msgstr "PET Colour achtergrond kleur"
 
 #: src/arch/unix/gui/uipetcolour.c:79 src/arch/win32/respetcolour.rc.po.c:25
 #: src/arch/amigaos/intl_text.c.po.c:7930
 msgid "PET Colour type"
-msgstr ""
+msgstr "PET Colour soort"
 
 #: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:8014
@@ -3726,7 +3723,7 @@ msgstr "Parameter:"
 #: src/arch/unix/gui/uisound.c:91 src/arch/win32/res.rc.po.c:1230
 #: src/arch/amigaos/intl_text.c.po.c:11332
 msgid "Very small"
-msgstr ""
+msgstr "Erg klein"
 
 #: src/arch/unix/gui/uisound.c:93 src/arch/win32/res.rc.po.c:1231
 #: src/arch/win32/res.rc.po.c:1476 src/arch/amigaos/intl_text.c.po.c:11346
@@ -3746,7 +3743,7 @@ msgstr "Groot"
 #: src/arch/unix/gui/uisound.c:99 src/arch/win32/res.rc.po.c:1234
 #: src/arch/amigaos/intl_text.c.po.c:11388
 msgid "Very large"
-msgstr ""
+msgstr "Erg groot"
 
 #: src/arch/unix/gui/uisound.c:105
 msgid "Keep going"
@@ -5354,9 +5351,9 @@ msgid "Version %s *UNSTABLE* (%s)"
 msgstr "Versie %s *ONSTABIEL* (%s)"
 
 #: src/arch/win32/res.rc.po.c:1078
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s rev %s *UNSTABLE* (%s)"
-msgstr "Versie %s *ONSTABIEL* (%s)"
+msgstr "Versie %s rev %s *ONSTABIEL* (%s)"
 
 #: src/arch/win32/res.rc.po.c:1080
 #, c-format
@@ -5364,9 +5361,9 @@ msgid "Version %s (%s)"
 msgstr "Versie %s (%s)"
 
 #: src/arch/win32/res.rc.po.c:1081
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s rev %s (%s)"
-msgstr "Versie %s (%s)"
+msgstr "Versie %s rev %s (%s)"
 
 #: src/arch/win32/res.rc.po.c:1083 src/arch/amigaos/intl_text.c.po.c:4933
 msgid "VICE contributors"
@@ -7369,16 +7366,15 @@ msgstr "MMC Replay EEPROM opslaan indien gewijzigd"
 
 #: src/arch/win32/resmouse.rc.po.c:37
 msgid "sensitivity"
-msgstr ""
+msgstr "gevoeligheid"
 
 #: src/arch/win32/resmouse.rc.po.c:38
 msgid "Sensitivity of the mouse. [40]"
-msgstr ""
+msgstr "Gevoeligheid van de muis. [40]"
 
 #: src/arch/win32/resmouse.rc.po.c:39
-#, fuzzy
 msgid "Mouse sensitivity"
-msgstr "Muis instellingen"
+msgstr "Muis gevoeligheid"
 
 #: src/arch/win32/respet.rc.po.c:537
 msgid "Input/Output"
@@ -7436,9 +7432,8 @@ msgstr "$A*** als RAM"
 
 #: src/arch/win32/respet.rc.po.c:561 src/arch/win32/respetcolour.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4191
-#, fuzzy
 msgid "PET Colour board settings"
-msgstr "Kleur instellingen"
+msgstr "PET Colour bord instellingen"
 
 #: src/arch/win32/respet.rc.po.c:562 src/arch/win32/respetdww.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4177
@@ -7468,12 +7463,11 @@ msgstr "PET model instellingen"
 #: src/arch/win32/respetcolour.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:7916
 msgid "Analog"
-msgstr ""
+msgstr "Analoog"
 
 #: src/arch/win32/respetcolour.rc.po.c:28
-#, fuzzy
 msgid "Background color"
-msgstr "Sprite-achtergrond botsingen"
+msgstr "Achtergrond kleur"
 
 #: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4646
 msgid "Enable the PET DWW hi-res board"
@@ -8544,12 +8538,11 @@ msgstr "Emulatie extra joystick #2: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:7902
 msgid "RGBI"
-msgstr ""
+msgstr "RGBI"
 
 #: src/arch/amigaos/intl_text.c.po.c:7958
-#, fuzzy
 msgid "PET Colour settings"
-msgstr "Kleur instellingen"
+msgstr "PET Colour instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:7986
 msgid "Select file for V364 Speech"
@@ -10137,9 +10130,8 @@ msgid "Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
 msgstr "Intern functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"
 
 #: src/translate_text.c.po.c:3981
-#, fuzzy
 msgid "Type of external Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
-msgstr "Intern functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"
+msgstr "Extern functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"
 
 #: src/translate_text.c.po.c:3998
 msgid "Use old NTSC sync factor"
@@ -11158,65 +11150,56 @@ msgid "EOI does not blank screen"
 msgstr "EOI maakt het scherm niet leeg"
 
 #: src/translate_text.c.po.c:8749
-#, fuzzy
 msgid "Set SuperPET CPU switch to '6502'"
-msgstr "SuperPET CPU Schakelaar"
+msgstr "Zet SuperPET CPU schakelaar naar '6502'"
 
 #: src/translate_text.c.po.c:8766
-#, fuzzy
 msgid "Set SuperPET CPU switch to '6809'"
-msgstr "SuperPET CPU Schakelaar"
+msgstr "Zet SuperPET CPU schakelaar naar '6809'"
 
 #: src/translate_text.c.po.c:8783
-#, fuzzy
 msgid "Set SuperPET CPU switch to 'Prog'"
-msgstr "SuperPET CPU Schakelaar"
+msgstr "Zet SuperPET CPU schakelaar naar 'Prog'"
 
 #: src/translate_text.c.po.c:8800
-#, fuzzy
 msgid "Specify 4K to 24K ROM file name at $A000 for 6809"
-msgstr "Geef de naam van het bestand voor de 4/8K ROM op $A000"
+msgstr "Geef de naam van het bestand voor de 4K tot 24K ROM op $A000 voor de 6809"
 
 #: src/translate_text.c.po.c:8817
-#, fuzzy
 msgid "Specify 4K to 20K ROM file name at $B000 for 6809"
-msgstr "Geef de naam van het bestand voor de 4K ROM op $B000"
+msgstr "Geef de naam van het bestand voor de 4K tot 20K ROM op $B000 voor de 6809"
 
 #: src/translate_text.c.po.c:8834
-#, fuzzy
 msgid "Specify 4K to 16K ROM file name at $C000 for 6809"
-msgstr "Geef de naam van het bestand voor de 4K ROM op $B000"
+msgstr "Geef de naam van het bestand voor de 4K tot 16K ROM op $C000 voor de 6809"
 
 #: src/translate_text.c.po.c:8851
-#, fuzzy
 msgid "Specify 4K to 12K ROM file name at $D000 for 6809"
-msgstr "Geef de naam van het bestand voor de 4K ROM op $B000"
+msgstr "Geef de naam van het bestand voor de 4K tot 12K ROM op $D000 voor de 6809"
 
 #: src/translate_text.c.po.c:8868
-#, fuzzy
 msgid "Specify 2K or 8K ROM file name at $E000 for 6809"
-msgstr "Geef de naam van het bestand voor de 4K ROM op $B000"
+msgstr "Geef de naam van het bestand voor de 2K of 8K ROM op $E000 voor de 6809"
 
 #: src/translate_text.c.po.c:8885
-#, fuzzy
 msgid "Specify 4K ROM file name at $F000 for 6809"
-msgstr "Geef de naam van het bestand voor de 4K ROM op $B000"
+msgstr "Geef de naam van het bestand voor de 4K ROM op $F000 voor de 6809"
 
 #: src/translate_text.c.po.c:8902
 msgid "RGBI colour extension to PET 4032"
-msgstr ""
+msgstr "RGBI kleur uitbreiding voor de PET 4032"
 
 #: src/translate_text.c.po.c:8919
 msgid "Analog colour extension to PET 4032"
-msgstr ""
+msgstr "Analoge kleur uitbreiding voor de PET 4032"
 
 #: src/translate_text.c.po.c:8936
 msgid "Colour 0-255"
-msgstr ""
+msgstr "Kleur 0-255"
 
 #: src/translate_text.c.po.c:8953
 msgid "Analog colour background on PET 4032"
-msgstr ""
+msgstr "Analoge kleuren achtergrond voor de PET 4032"
 
 #: src/translate_text.c.po.c:8970
 msgid "Enable userport diagnostic pin"
@@ -12293,62 +12276,9 @@ msgid "Turn off Speed switch"
 msgstr "Snelheid schakelaar uitschakelen"
 
 #: src/translate_text.c.po.c:13876
-#, fuzzy
 msgid "Enable HiRes Emulation Board"
 msgstr "Activeer PET High Res Emulation bord"
 
 #: src/translate_text.c.po.c:13893
-#, fuzzy
 msgid "Disable HiRes Emulation Board"
-msgstr "Activeer PET High Res Emulation bord"
-
-#~ msgid "Enable the external Function ROM"
-#~ msgstr "Activeer de externe functie ROM"
-
-#~ msgid "Disable the internal Function ROM"
-#~ msgstr "De interne functie ROM uitschakelen"
-
-#~ msgid "Disable the external Function ROM"
-#~ msgstr "De externe functie ROM uitschakelen"
-
-#~ msgid "ROM set type"
-#~ msgstr "ROM set type"
-
-#~ msgid "Device type"
-#~ msgstr "Apparaattype"
-
-#~ msgid "Device #8"
-#~ msgstr "Apparaat #8"
-
-#~ msgid "Device #9"
-#~ msgstr "Apparaat #9"
-
-#~ msgid "Device #10"
-#~ msgstr "Apparaat #10"
-
-#~ msgid "Device #11"
-#~ msgstr "Apparaat #11"
-
-#~ msgid "Archive"
-#~ msgstr "Archief"
-
-#~ msgid "SID player mode"
-#~ msgstr "SID playermodus"
-
-#~ msgid "CRT Controls"
-#~ msgstr "CRT bediening"
-
-#~ msgid "recording"
-#~ msgstr "opname"
-
-#~ msgid "event recording"
-#~ msgstr "gebeurtenisopname"
-
-#~ msgid "(warp)"
-#~ msgstr "(warp)"
-
-#~ msgid "%s (paused)"
-#~ msgstr "%s (op pauze)"
-
-#~ msgid "%d: Track %.1f"
-#~ msgstr "%d: Spoor %.1f"
+msgstr "PET High Res Emulation bord uitschakelen"
