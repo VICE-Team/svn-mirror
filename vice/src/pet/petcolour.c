@@ -37,6 +37,7 @@
 #include <stdio.h>
 
 #include "crtc.h"
+#include "crtc-color.h"
 #include "crtctypes.h"
 #include "pet.h"
 #include "pets.h"
@@ -164,8 +165,8 @@ static void init_analog_palette(void)
         int g = (i >> 2) & 0x07;
         int b = (i >> 0) & 0x03;
 
-        analog_colors[i].luminance = (r << 5) | (r << 2) | (r >> 1);
-        analog_colors[i].angle =     (g << 5) | (g << 2) | (g >> 1);
+        analog_colors[i].luminance = (float)((r << 5) | (r << 2) | (r >> 1));
+        analog_colors[i].angle =     (float)((g << 5) | (g << 2) | (g >> 1));
         analog_colors[i].direction = (b << 6) | (b << 4) | (b << 2) | b;
         analog_colors[i].name = "Analog";
     }
@@ -173,8 +174,6 @@ static void init_analog_palette(void)
 
 int petcolour_set_type(int val)
 {
-    int i;
-
     switch (val) {
         case PET_COLOUR_TYPE_OFF:
             crtc_color_update_palette(crtc.raster.canvas);
