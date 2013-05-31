@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-31 12:36-0700\n"
+"POT-Creation-Date: 2013-05-31 14:19-0700\n"
 "PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -3076,7 +3076,9 @@ msgstr "Drive #11 opties"
 msgid ""
 "Enter PET Colour background\n"
 "(range: 0-255)"
-msgstr "Geef PET Colour achtergrond kleur\n(bereik: 0-255)"
+msgstr ""
+"Geef PET Colour achtergrond kleur\n"
+"(bereik: 0-255)"
 
 #: src/arch/unix/gui/uipetcolour.c:62 src/arch/unix/gui/uipetcolour.c:81
 #: src/arch/amigaos/intl_text.c.po.c:7944
@@ -11163,23 +11165,28 @@ msgstr "Zet SuperPET CPU schakelaar naar 'Prog'"
 
 #: src/translate_text.c.po.c:8800
 msgid "Specify 4K to 24K ROM file name at $A000 for 6809"
-msgstr "Geef de naam van het bestand voor de 4K tot 24K ROM op $A000 voor de 6809"
+msgstr ""
+"Geef de naam van het bestand voor de 4K tot 24K ROM op $A000 voor de 6809"
 
 #: src/translate_text.c.po.c:8817
 msgid "Specify 4K to 20K ROM file name at $B000 for 6809"
-msgstr "Geef de naam van het bestand voor de 4K tot 20K ROM op $B000 voor de 6809"
+msgstr ""
+"Geef de naam van het bestand voor de 4K tot 20K ROM op $B000 voor de 6809"
 
 #: src/translate_text.c.po.c:8834
 msgid "Specify 4K to 16K ROM file name at $C000 for 6809"
-msgstr "Geef de naam van het bestand voor de 4K tot 16K ROM op $C000 voor de 6809"
+msgstr ""
+"Geef de naam van het bestand voor de 4K tot 16K ROM op $C000 voor de 6809"
 
 #: src/translate_text.c.po.c:8851
 msgid "Specify 4K to 12K ROM file name at $D000 for 6809"
-msgstr "Geef de naam van het bestand voor de 4K tot 12K ROM op $D000 voor de 6809"
+msgstr ""
+"Geef de naam van het bestand voor de 4K tot 12K ROM op $D000 voor de 6809"
 
 #: src/translate_text.c.po.c:8868
 msgid "Specify 2K or 8K ROM file name at $E000 for 6809"
-msgstr "Geef de naam van het bestand voor de 2K of 8K ROM op $E000 voor de 6809"
+msgstr ""
+"Geef de naam van het bestand voor de 2K of 8K ROM op $E000 voor de 6809"
 
 #: src/translate_text.c.po.c:8885
 msgid "Specify 4K ROM file name at $F000 for 6809"

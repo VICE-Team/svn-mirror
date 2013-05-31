@@ -158,9 +158,9 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MOUSE_TYPE_LABEL        "Muis soort"
   IDS_MOUSE_PORT_LABEL        "Muis poort"
-  IDS_P_SENSITIVITY           "<sensitivity>"
-  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
-  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
+  IDS_P_SENSITIVITY           "<gevoeligheid>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Gevoeligheid van de muis. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Muis gevoeligheid"
 END
 
 
@@ -174,9 +174,9 @@ LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MOUSE_TYPE_LABEL        "Typ myszy"
   IDS_MOUSE_PORT_LABEL        "Port myszy"
-  IDS_P_SENSITIVITY           "<sensitivity>"
-  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
-  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
+  IDS_P_SENSITIVITY           "<czu³o¶æ>"
+  IDS_DESC_MOUSE_SENSITIVITY  "czu³o¶æ myszy. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Czu³o¶æ myszy"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -232,3 +232,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+
