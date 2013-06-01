@@ -429,15 +429,9 @@ void archdep_shutdown(void)
 {
 }
 
-static char archdep_os_version[128];
-
 char *archdep_get_runtime_os(void)
 {
-    unsigned short real_version = _get_dos_version(1);
-
-    sprintf(archdep_os_version, "%s v%d.%d", _os_flavor, real_version >> 8, real_version & 0xff);
-
-    return archdep_os_version;
+    return platform_get_dos_runtime_os();
 }
 
 char *archdep_get_runtime_cpu(void)
