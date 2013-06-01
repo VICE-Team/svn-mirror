@@ -31,6 +31,15 @@
 
 #include "uiapi.h"
 
+#if !defined(WIN32_COMPILE) && defined(__CYGWIN32__)
+#include <cygwin/version.h>
+#endif
+
+#undef XQUOTE
+#undef QUOTE
+#define QUOTE(x) XQUOTE(x)
+#define XQUOTE(x) #x
+
 /* win32/64 discovery */
 #ifdef WIN32_COMPILE
 #  ifdef _WIN64
@@ -78,7 +87,7 @@
 
 /* Cygwin discovery */
 #if !defined(WIN32_COMPILE) && defined(__CYGWIN32__)
-#  define PLATFORM_OS "Cygwin"
+#  define PLATFORM_OS "Cygwin API " QUOTE(CYGWIN_VERSION_API_MAJOR) "." QUOTE(CYGWIN_VERSION_API_MINOR)
 #  define FIND_X86_CPU
 #endif
 

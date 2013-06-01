@@ -15,6 +15,7 @@ libplatform_a_SOURCES = \
 	platform_beos_runtime_os.c \
 	platform_compiler.h \
 	platform_cpu_type.h \
+	platform_cygwin_runtime_os.c \
 	platform_discovery.h \
 	platform_dos_runtime_os.c \
 	platform_freebsd_version.h \
