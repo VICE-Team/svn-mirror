@@ -1,5 +1,691 @@
 ------------------------------------------------------------------------------
 
+2013-06-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.4
+
+2013-06-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_unix.c, src/arch/unix/archdep.c,
+	src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_cygwin_runtime_os.c,
+	src/platform/platform_discovery.h: Improved and modularized the cygwin
+	detection.
+
+2013-06-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/archdep.c, src/platform/Makefile.am,
+	src/platform/platform.h, src/platform/platform_dos_runtime_os.c: Made
+	the dos detection a bit more modular.
+
+2013-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resmouse.rc, src/arch/win32/respet.rc,
+	src/arch/win32/respetcolour.rc, src/arch/win32/resvic20.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2013-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2013-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2013-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/respetcolour.rc, src/arch/win32/uipetcolour.c,
+	src/arch/win32/uipetcolour.h: Fixed.
+
+2013-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/petui.c, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resmenu.txt, src/arch/win32/respet.rc,
+	src/arch/win32/respetcolour.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/uipetcolour.c, src/arch/win32/uipetcolour.h,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/cartconv.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/xpet.dsp,
+	src/arch/win64/arch.vcproj, src/arch/win64/xpet.vcproj: Added
+	'pet colour' elements to the windows ui.
+
+2013-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_interix_runtime_os.c: More interix updates.
+
+2013-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/petcolour.c: Fixed some warnings.
+
+2013-05-29  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/petui.c, src/arch/unix/gui/uipetcolour.c: Fix two
+	includes.
+
+2013-05-29  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/petcolour.c: Swap fg and bg colour in colour PET, following
+	hardware change.
+
+2013-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/video-dx9.c: Applied patch as submitted by vonred:
+	support for multiple monitors in windows. The directx9 code ignores
+	the display & refresh rate specified by the user. Here is some code
+	that resolves the issue. N.B. there is no added test for the validity
+	of the values; if the vice.ini file contains bad data, going into full
+	screen mode will fail.
+
+2013-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/uipetcolour.c, src/arch/unix/gui/uipetcolour.h:
+	Added 'pet colour' elements to the unix ui.
+
+2013-05-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_pethw.c: Added 'pet colour' elements to the sdl
+	ui.
+
+2013-05-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uipetcolour.c,
+	src/arch/amigaos/mui/uipetcolour.h: Fixed.
+
+2013-05-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/Makefile.am, src/arch/amigaos/mui/uipetcolour.c,
+	src/arch/amigaos/mui/uipetcolour.h, src/arch/amigaos/petui.c,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/uires.h: Added
+	'pet colour' elements to the amiga ui.
+
+2013-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_discovery.h,
+	src/platform/platform_interix_runtime_os.c: More interix detection
+	improvements.
+
+2013-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_interix_runtime_os.c: Some interix
+	improvements.
+
+2013-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/pet-cmdline-options.c, src/pet/pethre.c, src/translate.txt,
+	src/translate_text.c: Added some previously untranslated items.
+
+2013-05-24  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/statusbar.cc: Workaround a compiler bug only seen in
+	gcc-2.95.3-haiku-100818.
+
+2013-05-24  Marcus Sutton <loggedoubt@gmail.com>
+
+	* config.guess, configure.proto, src/arch/beos/archdep.c,
+	src/arch/beos/socketimpl.h, src/libm_math.c, src/pet/pet.c,
+	src/platform/platform_beos_runtime_os.c,
+	src/platform/platform_discovery.h,
+	src/platform/platform_x86_runtime_cpu.c, src/sid/sid.h, src/sound.c,
+	src/sounddrv/soundbeos.cc: Fixes for Haiku x86 native compiles of
+	BeVICE.
+
+2013-05-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Fixed some typos.
+
+2013-05-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/pet-resources.c: Cosmetic fix.
+
+2013-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_interix_runtime_os.c: Some interix updates.
+
+2013-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64io.c, src/vic20/vic20io.c: Don't see 2 (or more) reads
+	that give the same result as a conflict.
+
+2013-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cmdline.c: Fixed a warning.
+
+2013-05-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_unix.c, src/arch/unix/archdep.c,
+	src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_interix_runtime_os.c: Added interix runtime
+	detection.
+
+2013-05-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_discovery.h: Refined interix compile time
+	detection.
+
+2013-05-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_aix_version.h,
+	src/platform/platform_compiler.h, src/platform/platform_cpu_type.h,
+	src/platform/platform_linux_libc_version.h,
+	src/platform/platform_linux_runtime_os.c: Cosmetic fixes.
+
+2013-05-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform.c, src/platform/platform_discovery.h: Added
+	interix compile time discovery.
+
+2013-05-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed the configure --disable-option-checking
+	parameter.
+
+2013-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64cia1.c: Some cosmetic fixes.
+
+2013-05-11  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2013-05-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/userport/userport_joystick.c: Fixed oem joystick support.
+
+2013-05-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uic128settings.c,
+	src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt,
+	src/arch/win32/uic128.c: Updated the guis of the various ports for the
+	changes in the c128 external function rom.
+
+2013-05-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uilightpen.c, src/arch/sdl/menu_lightpen.c,
+	src/arch/unix/gui/uilightpen.c, src/arch/win32/uilightpen.c,
+	src/lightpen.c, src/lightpen.h: Added support for the Inkwell Systems
+	lightpen, as provided by Greg King.
+
+2013-05-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/mousedrv.c, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resmouse.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/uimouse.c: Added mouse sensitivity setting support (as
+	requested by Derrick Inksley) to the windows port.
+
+2013-05-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_linux_runtime_os.c: Don't use local variable,
+	musl and newlib choke on it.
+
+2013-05-11  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.proto: Check for existence of svnversion
+
+2013-05-11  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/Makefile.am, src/gensvnversion.sh: Use svnversion instead of svn
+	info because its output is locale-independent
+
+2013-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/pet.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-msvc/pet.dsp, src/arch/sdl/win32-watcom/pet.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win64-msvc/pet.vcproj, src/arch/sdl/winmips-msvc/pet.mak,
+	src/arch/win32/pet.dsp, src/arch/win32/watcom/pet.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win64/pet.vcproj: Added
+	petcolour.c to the various project files.
+
+2013-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sound.h, src/sounddrv/sounduss.c: Better checking of needed
+	defines.
+
+2013-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_linux_runtime_os.c: Fixed some typos.
+
+2013-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/geninfocontrib_h.sh: Detect system echo command location.
+
+2013-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform.c, src/platform/platform_compiler.h,
+	src/platform/platform_discovery.h,
+	src/platform/platform_linux_runtime_os.c: Added linux kernel
+	recognition.
+
+2013-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added check for an 'ar' that truncates object
+	names.
+
+2013-05-03  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128memlimit.c: Fix up also the memlimits for external
+	function ROM. (and also for internal where it was wrong)
+
+2013-05-03  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi, src/arch/sdl/menu_rom.c, src/arch/unix/gui/c128ui.c,
+	src/c128/c128mem.c, src/c128/c128meminit.c, src/c128/c128mmu.c,
+	src/c128/functionrom.c, src/c128/functionrom.h, src/translate.txt,
+	src/translate_text.c: I was noticed that the external function socket
+	works the same way as the internal. Therefore this patch add features
+	to the external function ROM which were missing compared to the
+	internal one. TODO: someone please update non-unix/sdl guis to have a
+	menu for the external function ROM.
+
+2013-05-03  Errol Smith <strobe@kludgesoft.com> 
+
+	* src/monitor/mon_command.c: Fix bug #3608263 (delete command in wrong
+	section of monitor help)
+
+2013-05-03  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/pet-resources.c, src/pet/pet.c, src/pet/petcolour.c,
+	src/pet/petcolour.h: Add petcolour.h and use it.
+
+2013-05-02  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/Makefile.am, src/pet/pet-cmdline-options.c,
+	src/pet/pet-resources.c, src/pet/pet-resources.h, src/pet/pet.c,
+	src/pet/pet.h, src/pet/petcolour.c, src/pet/petdww.c,
+	src/pet/petmem.c, src/pet/petmem.h: This implements the 2-chip colour
+	board for the Universal PET mainboard (i.e. model 4032) as designed by
+	Steve Gray:
+	http://www.6502.org/users/sjgray/projects/colourpet/index.html
+	The hardware is a work-in-progress.
+
+2013-04-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform.c, src/platform/platform_discovery.h,
+	src/platform/platform_linux_runtime_os.c: Better platforms list.
+
+2013-04-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_linux_libc_version.h,
+	src/platform/platform_linux_runtime_os.c: Added linux newlib and musl
+	support.
+
+2013-04-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_linux_runtime_os.c: Fixed support for
+	dietlibc.
+
+2013-04-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/petui.cc,
+	src/arch/beos/plus4ui.cc, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/statusbar.h, src/arch/beos/ui.cc,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicewindow.cc,
+	src/arch/beos/vicewindow.h, src/arch/beos/video.cc,
+	src/arch/beos/vsidui.cc: Fixed various extern "C" wrappers so BeVICE
+	compiles with gcc-2.95.3-beos-070218 from
+	http://www.bebits.com/app/4011 . Also ViceWindows get quit properly
+	now instead of deleted, fixing a crash bug exposed by fixing the
+	wrappers.
+
+2013-04-23  Olaf Seibert <rhialto@falu.nl>
+
+	* configure.proto: Make sure that, on NetBSD, -pthread is used for the
+	main executable if it may dlopen(3) a library that is threaded.
+
+2013-04-21  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/dynlib.c, src/arch/win32/dynlib.c, src/dynlib.h,
+	src/gfxoutputdrv/ffmpeglib.c: Add some error reporting to dynamic
+	loading.
+
+2013-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_unix.c, src/arch/unix/archdep.c,
+	src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_linux_libc_version.h,
+	src/platform/platform_linux_runtime_os.c: Added linux
+	libc4/libc5/glibc1.x/glibc2.x runtime detection support.
+
+2013-04-18  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_file.cc: Fixed a bug that was causing fatal
+	instability when the user tried to save a snapshot via the save panel
+	in BeVICE. This bug was my fault, and it's apparently gone unnoticed
+	since 2008. :-(
+
+2013-04-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_assemble6502.c, src/monitor/mon_assemble65816.c,
+	src/monitor/mon_assemble6809.c, src/monitor/mon_assembleR65C02.c,
+	src/monitor/mon_assemblez80.c: Fix branch offset wrap around case
+
+2013-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui.c: Applied patch by Derrick Inksley: shift+drag 'n
+	drop of a disk image will attach the disk image, but if the image is a
+	tape image, it will show an error. This patch fixed it.
+
+2013-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_linux_libc_version.h: Fixed for non-glibc
+	libs.
+
+2013-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_openbsd_version.h: Added some new versions.
+
+2013-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_version.h: Added some new versions.
+
+2013-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/TextField.c, src/catweaselmkiii.h,
+	src/drive/rotation.c, src/pet/pet-resources.c, src/pet/pethre.c,
+	src/pet/petmem.c, src/pet/petmemsnapshot.c, src/pet/petrom.c,
+	src/plus4/ted-fetch.c, src/scpu64/scpu64mem.c, src/vdc/vdc.c: Don't
+	use '//' style comments in common code.
+
+2013-03-23  Errol Smith <strobe@kludgesoft.com> 
+
+	* src/vdc/vdc-draw.c: Render non standard character widths
+	(!= 8 | 16).
+
+2013-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/mididrv.c: Applied patch by Stein Pedersen for fixing
+	a 32bit truncation of a variable on 64bit windows.
+
+2013-03-12  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c: (dthread_func): Fix for a better/clean
+	handling of the pthread_cond_timedwait() race condition by decoupling
+	draw from co-routine actions.
+
+2013-03-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/unix/x11/xaw/about.c,
+	src/arch/unix/x11/xaw/uicartridge.c,
+	src/arch/unix/x11/xaw/uicontents.c,
+	src/arch/unix/x11/xaw/uidrivestatus.c,
+	src/arch/unix/x11/xaw/uiedisk.c, src/arch/unix/x11/xaw/uimenu.c,
+	src/arch/unix/x11/xaw/uinetplay.c,
+	src/arch/unix/x11/xaw/uipalcontrol.c,
+	src/arch/unix/x11/xaw/uiscreenshot.c,
+	src/arch/unix/x11/xaw/uisnapshot.c,
+	src/arch/unix/x11/xaw/uistatusbar.c,
+	src/arch/unix/x11/xaw/uitapestatus.c,
+	src/arch/unix/x11/xaw/uivsidcontrol.c,
+	src/arch/unix/x11/xaw/widgets/FileSel.c,
+	src/arch/unix/x11/xaw/widgets/FileSelP.h,
+	src/arch/unix/x11/xaw/widgets/MultiList.h,
+	src/arch/unix/x11/xaw/widgets/MultiListP.h,
+	src/arch/unix/x11/xaw/widgets/ScrList.c,
+	src/arch/unix/x11/xaw/x11ui.c: better support for xaw3d.
+
+2013-03-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drive-sound.c: Fixed motor volume, as suggested by
+	dinkc64.
+
+2013-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am: Made configure.proto a dependency of configure.ac
+
+2013-03-08  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c: (ethread_func): cover race condition
+	with timeout vs. coroutine.
+
+2013-03-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/c64/vsidcpu.c: Fix svn properties.
+
+2013-03-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/unix/x11/gnome/uiarch.h: Added KEYSYM_v to the non
+	GTK_CHECK_VERSION(2, 24, 0) section.
+
+2013-03-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/scpu64/Makefile.am: Don't try to build libscpu64.a when not
+	building xscpu64.
+
+2013-03-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_sound.cc: Add missing comma.
+
+2013-03-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/Makefile.am: Fixed for chapters 17, 18, 19 and 20.
+
+2013-03-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_sound.cc: Fix size of "Fragment Size" BBox.
+
+2013-03-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/vicemenu.cc: Fix BeVICE C64 model menu and use in x64
+	as well.
+
+2013-03-06  groepaz <groepaz@gmx.net>
+
+	* src/drive/iecieee/via2d.c: fix reading port b output bits as input
+
+2013-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uijoystick.c: Fixed the windows joystick dialog.
+
+2013-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uisound.c, src/arch/beos/ui_sound.cc,
+	src/arch/msdos/uisound.c, src/arch/os2/dialogs/menubar.c,
+	src/arch/os2/dialogs/menubar.h, src/arch/os2/dialogs/menubar.rc,
+	src/arch/sdl/menu_sound.c, src/arch/win32/res.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uisound.c: Added
+	'very small' and 'very large' sound fragment size elements to the
+	amiga, beos, dos, os/2, sdl and windows gui's.
+
+2013-03-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uisound.c: updated
+
+2013-03-05  groepaz <groepaz@gmx.net>
+
+	* src/sound.c, src/sound.h: allow smaller/more fragments. (see devlog)
+	fixes #3606970
+
+2013-03-05  groepaz <groepaz@gmx.net>
+
+	* src/vsync.c: added comment
+
+2013-03-05  Errol Smith <strobe@kludgesoft.com> 
+
+	* src/vdc/vdc.c, src/vdc/vdctypes.h: Better horizontal size &
+	positioning calculations
+
+2013-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am, src/gensvnversion.sh: Applied
+	'out of source tree revision' patch by Moiree.
+
+2013-03-04  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/about.c: fix about dialog
+
+2013-03-04  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/uifilechooser.c: (ui_select_file): Wrap call
+	to `gtk_dialog_run' with `ui_popup()/ui_popdown()'. Fixes 3606694.
+
+2013-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/svnversion_dummy.h: Fix svn revision problem.
+
+2013-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/gensvnversion.sh: Use local revision instead.
+
+2013-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Fixed the windows 'about' dialog size.
+
+2013-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/main.c: Added the svn revision to the start of the logfile when
+	enabled.
+
+2013-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/cocoa/menu/viceappcontroller.m: Applied patch
+	by Michael Klein which fixes the empty Help->Contributors dialog in
+	the osx port (the code tried to parse Latin1 strings as UTF-8).
+
+2013-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resc64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/uic64.c, src/arch/win32/uic64.h,
+	src/arch/win32/uic64model.c: Added 'unknown' item to the windows c64
+	model settings dialog.
+
+2013-03-03  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/c64mem.c, src/c64/c64meminit.c: In 16K Game config there's
+	no character ROM when loram=1, hiram=0, chargen=0. Verified on real
+	hardware, also this is what the PLA tables say.
+
+2013-03-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* autogen.sh: Fixed autoheader skipping problem.
+
+2013-03-02  pottendo  <pottendo@aon.at>
+
+	* configure.proto: Removed checks for gtkglext-3. Vice doesn't support
+	this, compilation fails. Has to be revisited once gtkglext-3 is
+	officially released.
+
+2013-03-02  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c: Make compilation dependend on
+	HAVE_HWSCALE.
+
+2013-03-02  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2013-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am, src/arch/amigaos/mui/mui.c,
+	src/arch/beos/ui.cc, src/arch/msdos/menudefs.c,
+	src/arch/sdl/menu_help.c, src/arch/unix/x11/gnome/about.c,
+	src/arch/unix/x11/xaw/about.c, src/arch/win32/res.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uihelp.c,
+	src/gensvnversion.sh, src/svnversion.h, src/svnversion_dummy.h: Added
+	automatic svn revision inclusion when compiled from an svn tree.
+
+2013-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Fixed.
+
+2013-02-28  groepaz <groepaz@gmx.net>
+
+	* src/main.c: also check for -h and -? early
+
+2013-02-28  groepaz <groepaz@gmx.net>
+
+	* src/c64/vsidstubs.c, src/cmdline.c, src/gfxoutput.h,
+	src/gfxoutputdrv/gfxoutput.c, src/main.c: allow long options (--help)
+	and skip some unnecessary initialization on --help. inspired by patch
+	from moiree.
+
+2013-02-28  groepaz <groepaz@gmx.net>
+
+	* src/sounddrv/soundalsa.c: some more logging
+
+2013-02-28  groepaz <groepaz@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpeglib.c,
+	src/gfxoutputdrv/ffmpeglib.h: use new avio for avutil >= 53. slightly
+	reworked patch from Alexis Ballier. should fix bug #3585471
+
+2013-02-27  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/ui.c: fix hang when holding alt+p
+
+2013-02-27  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Update
+
+2013-02-27  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_file.c: added missing ascii to petscii conversion,
+	fixes bug #3605873
+
+2013-02-27  groepaz <groepaz@gmx.net>
+
+	* src/vicii/vicii.c: do not skip lines within active DMA, fixes bug
+	#3601657
+
+2013-02-27  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uirs232.c, src/arch/unix/gui/uirs232c64c128.c,
+	src/arch/unix/gui/uirs232petplus4cbm2.c,
+	src/arch/unix/gui/uirs232user.c: actually put ifdefs at the right
+	place
+
+2013-02-27  Andrea Musuruane <musuruan@gmail.com>
+
+	* po/it.po, po/translations-status.txt: Updated.
+
+2013-02-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vsyncarch.c: Don't use windows screensaver prevention
+	code for msvc and ow.
+
+2013-02-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiperipheral.c: Fixed windows peripheral dialog.
+
+2013-02-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/Makefile.am, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/vsid-maincpu.c, src/arch/os2/watcom/vsid.tgt,
+	src/arch/os2/watcom/vsidlib.tgt, src/arch/sdl/win32-msvc/vsid.dsp,
+	src/arch/sdl/win32-msvc/vsidlib.dsp,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/vsid.tgt,
+	src/arch/sdl/win32-watcom/vsidlib.tgt,
+	src/arch/sdl/win64-msvc/vsid.vcproj,
+	src/arch/sdl/win64-msvc/vsidlib.vcproj,
+	src/arch/sdl/winmips-msvc/vsid.mak,
+	src/arch/sdl/winmips-msvc/vsidlib.mak, src/arch/win32/vsid.dsp,
+	src/arch/win32/vsidlib.dsp, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/vsid.tgt, src/arch/win32/watcom/vsidlib.tgt,
+	src/arch/win64/vsid.vcproj, src/arch/win64/vsidlib.vcproj: Added
+	vsidcpu.c to the various project files.
+
+2013-02-26  groepaz <groepaz@gmx.net>
+
+	* src/autostart.c: special case handling for x128, fixes bug #3604348
+
 2013-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,
@@ -9,7 +695,6 @@
 	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
 	src/arch/win32/vice-version.bat, src/resid/INSTALL, src/version.h:
 	VICE 2.4.3
-
 
 2013-02-26  groepaz <groepaz@gmx.net>
 

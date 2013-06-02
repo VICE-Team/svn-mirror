@@ -6293,14 +6293,16 @@ C128 system ROM command-line options
 
 `-intfunc'
 `+intfunc'
-     Enable/Disable the internal Function ROM
+     Enable/Disable the internal Function ROM (0: None, 1: ROM, 2: RAM,
+     3: RTC)
 
 `-intfrom <name>'
      Specify name of internal Function ROM image
 
 `-extfunc'
 `+extfunc'
-     Enable/Disable the external Function ROM
+     Enable/Disable the external Function ROM (0: None, 1: ROM, 2: RAM,
+     3: RTC)
 
 `-extfrom <name>'
      Specify name of external Function ROM image
@@ -16591,7 +16593,7 @@ Concept Index
  @{" -expertimagename " Link "C64 cartridges"}                     C64 cartridges
  @{" -expertimagerw, +expertimagerw " Link "C64 cartridges"}       C64 cartridges
  @{" -extfrom " Link "C64-128 system ROM options"}                             C64-128 system ROM options
- @{" -extfunc, +extfunc " Link "C64-128 system ROM options"}                   C64-128 system ROM options
+ @{" -extfunc " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -extrajoydev1 " Link "Keyboard options"}                        Keyboard options
  @{" -extrajoydev2 " Link "Keyboard options"}                        Keyboard options
  @{" -f " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
@@ -16664,7 +16666,7 @@ Concept Index
  @{" -initbreak " Link "Monitor options"}                           Monitor options
  @{" -install, +install " Link "Video options"}                   Video options
  @{" -intfrom " Link "C64-128 system ROM options"}                             C64-128 system ROM options
- @{" -intfunc, +intfunc " Link "C64-128 system ROM options"}                   C64-128 system ROM options
+ @{" -intfunc " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -iocollision " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -iocollision " Link "C64 cartridges"}                         C64 cartridges
  @{" -isepic, +isepic " Link "C64 cartridges"}                     C64 cartridges
