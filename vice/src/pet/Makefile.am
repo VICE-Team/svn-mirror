@@ -29,11 +29,12 @@ libpet_a_SOURCES = \
 	petacia.h \
 	petacia1.c \
 	petbus.c \
+	petcolour.c \
+	petcolour.h \
 	petdatasette.c \
 	petdrive.c \
 	petdww.c \
 	petdww.h \
-	petcolour.c \
 	petembedded.c \
 	pethre.c \
 	pethre.h \
