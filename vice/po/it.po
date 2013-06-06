@@ -8,14 +8,13 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-01 16:45-0700\n"
-"PO-Revision-Date: 2013-02-27 14:50+0100\n"
+"PO-Revision-Date: 2013-06-05 11:06+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:564
 msgid "Set device for joystick port 1"
@@ -173,9 +172,8 @@ msgid "Internal Function ROM file"
 msgstr "File Function ROM interna"
 
 #: src/arch/unix/gui/c128ui.c:345 src/arch/win32/resc128.rc.po.c:737
-#, fuzzy
 msgid "External Function ROM type"
-msgstr "Tipo function ROM interna"
+msgstr "Tipo Function ROM esterna"
 
 #: src/arch/unix/gui/c128ui.c:347 src/arch/amigaos/intl_text.c.po.c:10954
 msgid "External Function ROM file"
@@ -856,9 +854,8 @@ msgid "PET RAM and Expansion Unit"
 msgstr "RAM e unità di espansione PET"
 
 #: src/arch/unix/gui/petui.c:250
-#, fuzzy
 msgid "PET Colour graphics"
-msgstr "Grafica hi-res PET DWW"
+msgstr "Grafica PET Colour"
 
 #: src/arch/unix/gui/petui.c:252
 msgid "PET DWW hi-res graphics"
@@ -988,7 +985,7 @@ msgstr "ACIA SuperPET"
 
 #: src/arch/unix/gui/petui.c:381
 msgid "SuperPET CPU Switch"
-msgstr "Interruttore CPU SuperPET"
+msgstr "Pulsante CPU SuperPET"
 
 #: src/arch/unix/gui/petui.c:383
 msgid "SuperPET 6809 ROMs"
@@ -2484,7 +2481,7 @@ msgstr "Impostazioni device 4"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
-msgstr "Attiva interruttore"
+msgstr "Attiva pulsante"
 
 #: src/arch/unix/gui/uiisepic.c:65
 msgid "ISEPIC image"
@@ -2742,9 +2739,8 @@ msgid "Stack Light Rifle"
 msgstr "Stack Light Rifle"
 
 #: src/arch/unix/gui/uilightpen.c:50
-#, fuzzy
 msgid "Inkwell Pen"
-msgstr "Datel Pen"
+msgstr "Inkwell Pen"
 
 #: src/arch/unix/gui/uilightpen.c:70 src/arch/win32/reslightpen.rc.po.c:23
 #: src/translate_text.c.po.c:13570
@@ -3080,16 +3076,18 @@ msgid ""
 "Enter PET Colour background\n"
 "(range: 0-255)"
 msgstr ""
+"Inserisci il colore dello sfondo del PET Colour\n"
+"(intervallo: 0-255)"
 
 #: src/arch/unix/gui/uipetcolour.c:62 src/arch/unix/gui/uipetcolour.c:81
 #: src/arch/amigaos/intl_text.c.po.c:7944
 msgid "PET Colour background"
-msgstr ""
+msgstr "Sfondo PET Colour"
 
 #: src/arch/unix/gui/uipetcolour.c:79 src/arch/win32/respetcolour.rc.po.c:25
 #: src/arch/amigaos/intl_text.c.po.c:7930
 msgid "PET Colour type"
-msgstr ""
+msgstr "Tipo PET Colour"
 
 #: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:8014
@@ -3726,7 +3724,7 @@ msgstr "Parametro:"
 #: src/arch/unix/gui/uisound.c:91 src/arch/win32/res.rc.po.c:1230
 #: src/arch/amigaos/intl_text.c.po.c:11332
 msgid "Very small"
-msgstr ""
+msgstr "Molto piccolo"
 
 #: src/arch/unix/gui/uisound.c:93 src/arch/win32/res.rc.po.c:1231
 #: src/arch/win32/res.rc.po.c:1476 src/arch/amigaos/intl_text.c.po.c:11346
@@ -3746,7 +3744,7 @@ msgstr "Grande"
 #: src/arch/unix/gui/uisound.c:99 src/arch/win32/res.rc.po.c:1234
 #: src/arch/amigaos/intl_text.c.po.c:11388
 msgid "Very large"
-msgstr ""
+msgstr "Molto grande"
 
 #: src/arch/unix/gui/uisound.c:105
 msgid "Keep going"
@@ -5351,9 +5349,9 @@ msgid "Version %s *UNSTABLE* (%s)"
 msgstr "Versione %s *INSTABILE* (%s)"
 
 #: src/arch/win32/res.rc.po.c:1078
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s rev %s *UNSTABLE* (%s)"
-msgstr "Versione %s *INSTABILE* (%s)"
+msgstr "Versione %s rev %s *INSTABILE* (%s)"
 
 #: src/arch/win32/res.rc.po.c:1080
 #, c-format
@@ -5361,9 +5359,9 @@ msgid "Version %s (%s)"
 msgstr "Versione %s (%s)"
 
 #: src/arch/win32/res.rc.po.c:1081
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s rev %s (%s)"
-msgstr "Versione %s (%s)"
+msgstr "Versione %s rev %s (%s)"
 
 #: src/arch/win32/res.rc.po.c:1083 src/arch/amigaos/intl_text.c.po.c:4933
 msgid "VICE contributors"
@@ -6738,11 +6736,11 @@ msgstr "Revisione VDC"
 
 #: src/arch/win32/resc128.rc.po.c:692 src/arch/amigaos/intl_text.c.po.c:10870
 msgid "Select Internal Function ROM file"
-msgstr "Seleziona file function ROM interna"
+msgstr "Seleziona file Function ROM interna"
 
 #: src/arch/win32/resc128.rc.po.c:693 src/arch/amigaos/intl_text.c.po.c:10884
 msgid "Select External Function ROM file"
-msgstr "Seleziona file function ROM esterna"
+msgstr "Seleziona file Function ROM esterna"
 
 #: src/arch/win32/resc128.rc.po.c:696 src/arch/win32/rescbm2common.rc.po.c:199
 msgid "RAM banks"
@@ -7295,7 +7293,7 @@ msgstr "Attiva la cartuccia ISEPIC"
 
 #: src/arch/win32/resisepic.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:7159
 msgid "ISEPIC switch"
-msgstr "Interruttore ISEPIC"
+msgstr "Pulsante ISEPIC"
 
 #: src/arch/win32/resisepic.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:7187
 msgid "Save ISEPIC image when changed"
@@ -7366,16 +7364,15 @@ msgstr "Salva immagine EEPROM MMC Replay al cambio"
 
 #: src/arch/win32/resmouse.rc.po.c:37
 msgid "sensitivity"
-msgstr ""
+msgstr "sensibilità"
 
 #: src/arch/win32/resmouse.rc.po.c:38
 msgid "Sensitivity of the mouse. [40]"
-msgstr ""
+msgstr "Sensibilità del mouse. [40]"
 
 #: src/arch/win32/resmouse.rc.po.c:39
-#, fuzzy
 msgid "Mouse sensitivity"
-msgstr "Impostazioni mouse"
+msgstr "Sensibilità mouse"
 
 #: src/arch/win32/respet.rc.po.c:537
 msgid "Input/Output"
@@ -7433,9 +7430,8 @@ msgstr "$A*** come RAM"
 
 #: src/arch/win32/respet.rc.po.c:561 src/arch/win32/respetcolour.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4191
-#, fuzzy
 msgid "PET Colour board settings"
-msgstr "Impostazioni colori"
+msgstr "Impostazioni scheda PET Colour"
 
 #: src/arch/win32/respet.rc.po.c:562 src/arch/win32/respetdww.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4177
@@ -7465,12 +7461,11 @@ msgstr "Impostazioni modello PET"
 #: src/arch/win32/respetcolour.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:7916
 msgid "Analog"
-msgstr ""
+msgstr "Analogico"
 
 #: src/arch/win32/respetcolour.rc.po.c:28
-#, fuzzy
 msgid "Background color"
-msgstr "Collisioni sprite-sfondo"
+msgstr "Colore dello sfondo"
 
 #: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4646
 msgid "Enable the PET DWW hi-res board"
@@ -7686,11 +7681,11 @@ msgstr "Dimensione SIMM"
 
 #: src/arch/win32/resscpu64.rc.po.c:544
 msgid "Enable the jiffy switch"
-msgstr "Attiva interruttore jiffy"
+msgstr "Attiva pulsante jiffy"
 
 #: src/arch/win32/resscpu64.rc.po.c:545
 msgid "Enable the speed switch"
-msgstr "Attiva interruttore di velocità"
+msgstr "Attiva il pulsante di velocità"
 
 #: src/arch/win32/ressid.rc.po.c:72 src/arch/win32/ressiddtv.rc.po.c:54
 msgid "General"
@@ -8552,12 +8547,11 @@ msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:7902
 msgid "RGBI"
-msgstr ""
+msgstr "RGBI"
 
 #: src/arch/amigaos/intl_text.c.po.c:7958
-#, fuzzy
 msgid "PET Colour settings"
-msgstr "Impostazioni colori"
+msgstr "Impostazioni PET Colour"
 
 #: src/arch/amigaos/intl_text.c.po.c:7986
 msgid "Select file for V364 Speech"
@@ -8815,11 +8809,11 @@ msgstr "Attivato SFX Sound Sampler"
 
 #: src/arch/amigaos/intl_text.c.po.c:11192
 msgid "Jiffy switch enabled"
-msgstr "Interruttore Jiffy attivo"
+msgstr "Pulsante Jiffy attivo"
 
 #: src/arch/amigaos/intl_text.c.po.c:11206
 msgid "Speed switch enabled"
-msgstr "Interruttore di velocità attivo"
+msgstr "Pulsante di velocità attivo"
 
 #: src/arch/amigaos/intl_text.c.po.c:11276
 msgid "Select Sound Record File"
@@ -10138,7 +10132,7 @@ msgstr "Attiva modalità a 80 colonne"
 
 #: src/translate_text.c.po.c:3913
 msgid "Always switch to C128 mode on reset"
-msgstr "Cambia sempre in modalità C128 al reset"
+msgstr "Vai sempre in modalità C128 al reset"
 
 #: src/translate_text.c.po.c:3930
 msgid "Specify name of internal Function ROM image"
@@ -10150,12 +10144,11 @@ msgstr "Specifica il nome immagine della Function ROM esterna"
 
 #: src/translate_text.c.po.c:3964
 msgid "Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
-msgstr "Tipologia di function ROM interna: (0: None, 1: ROM, 2: RAM, 3: RTC)"
+msgstr "Tipo di Function ROM interna: (0: None, 1: ROM, 2: RAM, 3: RTC)"
 
 #: src/translate_text.c.po.c:3981
-#, fuzzy
 msgid "Type of external Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
-msgstr "Tipologia di function ROM interna: (0: None, 1: ROM, 2: RAM, 3: RTC)"
+msgstr "Tipo di Function ROM esterna: (0: None, 1: ROM, 2: RAM, 3: RTC)"
 
 #: src/translate_text.c.po.c:3998
 msgid "Use old NTSC sync factor"
@@ -11176,65 +11169,56 @@ msgid "EOI does not blank screen"
 msgstr "EOI non oscura lo schermo"
 
 #: src/translate_text.c.po.c:8749
-#, fuzzy
 msgid "Set SuperPET CPU switch to '6502'"
-msgstr "Interruttore CPU SuperPET"
+msgstr "Imposta pulsante CPU SuperPET a '6502'"
 
 #: src/translate_text.c.po.c:8766
-#, fuzzy
 msgid "Set SuperPET CPU switch to '6809'"
-msgstr "Interruttore CPU SuperPET"
+msgstr "Imposta pulsante CPU SuperPET a '6809'"
 
 #: src/translate_text.c.po.c:8783
-#, fuzzy
 msgid "Set SuperPET CPU switch to 'Prog'"
-msgstr "Interruttore CPU SuperPET"
+msgstr "Imposta pulsante CPU SuperPET a 'Prog'"
 
 #: src/translate_text.c.po.c:8800
-#, fuzzy
 msgid "Specify 4K to 24K ROM file name at $A000 for 6809"
-msgstr "Specifica il nome della ROM di estensione di 4/8K a $A000"
+msgstr "Specifica il nome della ROM da 4K a 24K a $A000 per il 6809"
 
 #: src/translate_text.c.po.c:8817
-#, fuzzy
 msgid "Specify 4K to 20K ROM file name at $B000 for 6809"
-msgstr "Specifica il nome della ROM di estensione di 4 a $B000"
+msgstr "Specifica il nome della ROM da 4K a 20K a $B000 per il 6809"
 
 #: src/translate_text.c.po.c:8834
-#, fuzzy
 msgid "Specify 4K to 16K ROM file name at $C000 for 6809"
-msgstr "Specifica il nome della ROM di estensione di 4 a $B000"
+msgstr "Specifica il nome della ROM da 4K a 16K a $C000 per il 6809"
 
 #: src/translate_text.c.po.c:8851
-#, fuzzy
 msgid "Specify 4K to 12K ROM file name at $D000 for 6809"
-msgstr "Specifica il nome della ROM di estensione di 4 a $B000"
+msgstr "Specifica il nome della ROM da 4K a 12K a $D000 per il 6809"
 
 #: src/translate_text.c.po.c:8868
-#, fuzzy
 msgid "Specify 2K or 8K ROM file name at $E000 for 6809"
-msgstr "Specifica il nome della ROM di estensione di 4 a $B000"
+msgstr "Specifica il nome della ROM da 2K a 8K a $E000 per il 6809"
 
 #: src/translate_text.c.po.c:8885
-#, fuzzy
 msgid "Specify 4K ROM file name at $F000 for 6809"
-msgstr "Specifica il nome della ROM di estensione di 4 a $B000"
+msgstr "Specifica il nome della ROM da 4K a $F000 per il 6809"
 
 #: src/translate_text.c.po.c:8902
 msgid "RGBI colour extension to PET 4032"
-msgstr ""
+msgstr "Estensione colore RGBI per PET 4032"
 
 #: src/translate_text.c.po.c:8919
 msgid "Analog colour extension to PET 4032"
-msgstr ""
+msgstr "Estensione colore analogica per PET 4032"
 
 #: src/translate_text.c.po.c:8936
 msgid "Colour 0-255"
-msgstr ""
+msgstr "Colore 0-255"
 
 #: src/translate_text.c.po.c:8953
 msgid "Analog colour background on PET 4032"
-msgstr ""
+msgstr "Coloro sfondo analogico su PET 4032"
 
 #: src/translate_text.c.po.c:8970
 msgid "Enable userport diagnostic pin"
@@ -12317,29 +12301,27 @@ msgstr "Dimensione della RAM SIMM (0/1/4/8/16 MB)"
 
 #: src/translate_text.c.po.c:13808
 msgid "Turn on Jiffy switch"
-msgstr "Attiva interruttore Jiffy"
+msgstr "Attiva pulsante Jiffy"
 
 #: src/translate_text.c.po.c:13825
 msgid "Turn off Jiffy switch"
-msgstr "Disattiva interruttore Jiffy"
+msgstr "Disattiva pulsante Jiffy"
 
 #: src/translate_text.c.po.c:13842
 msgid "Turn on Speed switch"
-msgstr "Attiva interruttore di velocità"
+msgstr "Attiva pulsante di velocità"
 
 #: src/translate_text.c.po.c:13859
 msgid "Turn off Speed switch"
-msgstr "Disattiva interruttore di velocità"
+msgstr "Disattiva pulsante di velocità"
 
 #: src/translate_text.c.po.c:13876
-#, fuzzy
 msgid "Enable HiRes Emulation Board"
-msgstr "Attiva scheda alta risoluzione del PET"
+msgstr "Attiva scheda HiRes Emulation"
 
 #: src/translate_text.c.po.c:13893
-#, fuzzy
 msgid "Disable HiRes Emulation Board"
-msgstr "Attiva scheda alta risoluzione del PET"
+msgstr "Disattiva scheda HiRes Emulation"
 
 #~ msgid "Enable the external Function ROM"
 #~ msgstr "Attiva la Function ROM esterna"
