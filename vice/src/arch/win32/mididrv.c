@@ -46,6 +46,10 @@
 #include "translate.h"
 #include "types.h"
 
+#ifndef MAXULONG_PTR
+#define DWORD_PTR unsigned long
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 static log_t mididrv_log = LOG_ERR;
