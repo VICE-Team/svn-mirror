@@ -46,7 +46,7 @@ extern "C" {
 #include "vsync.h"
 }
 
-static char *samplingmode[] = {
+static const char *samplingmode[] = {
     "fast sampling",
     "interpolating",
     "resampling",
@@ -66,7 +66,7 @@ class SidWindow : public BWindow {
         BBox *extrasidbox;
         BBox *residbox;
 
-        BOptionPopUp *CreateAddressPopUp(BRect r, char *label, char *resource);
+        BOptionPopUp *CreateAddressPopUp(BRect r, const char *label, const char *resource);
         void EnableReSidControls(int engine);
     public:
         SidWindow();
@@ -76,7 +76,7 @@ class SidWindow : public BWindow {
 
 static SidWindow *sidwindow = NULL;
 
-BOptionPopUp *SidWindow::CreateAddressPopUp(BRect r, char *label, char *resource)
+BOptionPopUp *SidWindow::CreateAddressPopUp(BRect r, const char *label, const char *resource)
 {
     BOptionPopUp *address_popup;
     char st[12];

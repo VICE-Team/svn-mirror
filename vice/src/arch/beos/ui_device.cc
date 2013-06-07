@@ -44,13 +44,13 @@ extern "C" {
 #include "vsync.h"
 }
 
-static char *resource_p00_name[] = {
+static const char *resource_p00_name[] = {
     "FSDevice%dConvertP00",
     "FSDevice%dSaveP00",
     "FSDevice%dHideCBMFiles"
 };
 
-static char *p00_text[] = {
+static const char *p00_text[] = {
     "Read P00 files",
     "Write P00 files",
     "Hide non-P00 files"

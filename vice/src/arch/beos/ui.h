@@ -49,7 +49,7 @@ typedef struct {
 } ui_res_value_list;
 
 typedef struct {
-    char *string;
+    const char *string;
     int item_id; /* The last item_id has to be zero. */
 } ui_res_possible_strings;
 
@@ -59,9 +59,9 @@ typedef struct {
 } ui_res_string_list;
 
 typedef struct { 
-	int menu_item; 
-	int cart_type; 
-	char *cart_name; 
+    int menu_item;
+    int cart_type;
+    const char *cart_name;
 } ui_cartridge_t;
 
 typedef void (*ui_machine_specific_t) (void* msg, void* window);

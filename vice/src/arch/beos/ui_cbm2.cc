@@ -39,11 +39,11 @@ extern "C" {
 #include "vsync.h"
 }
 
-static char* cbm2_model_name[] = { "610", "620", "620+", "710", "720", "720+", NULL };
-static char *cbm2_modelline[] = { "7x0 (50Hz)", "6x0 60Hz", "6x0 50Hz", NULL };
+static const char *cbm2_model_name[] = { "610", "620", "620+", "710", "720", "720+", NULL };
+static const char *cbm2_modelline[] = { "7x0 (50Hz)", "6x0 60Hz", "6x0 50Hz", NULL };
 static int cbm2_memory[] = { 128, 256, 512, 1024, 0 };
-static char *rambank_res[] = { "Ram08", "Ram1", "Ram2", "Ram4", "Ram6", "RamC", NULL };
-static char *rambank_text[] = {
+static const char *rambank_res[] = { "Ram08", "Ram1", "Ram2", "Ram4", "Ram6", "RamC", NULL };
+static const char *rambank_text[] = {
     "Bank 15 $0800-$0fff RAM",
     "Bank 15 $1000-$1fff RAM",
     "Bank 15 $2000-$3fff RAM",
@@ -62,7 +62,7 @@ class Cbm2Window : public BWindow {
 
 static Cbm2Window *cbm2window = NULL;
 
-Cbm2Window::Cbm2Window() 
+Cbm2Window::Cbm2Window()
     : BWindow(BRect(50,50,340,355),"CBM2 settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     BView *background;
@@ -73,7 +73,7 @@ Cbm2Window::Cbm2Window()
     BCheckBox *checkbox;
     BMessage *msg;
     int res, i;
-    char str[255];
+    char str[16];
 
     r = Bounds();
     background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
@@ -85,21 +85,21 @@ Cbm2Window::Cbm2Window()
     box = new BBox(r, "Machine");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("Machine");
-    background->AddChild(box);				    
+    background->AddChild(box);
 
     for (i = 0; cbm2_model_name[i]; i++) {
         msg = new BMessage(MESSAGE_CBM2_MODEL);
         msg->AddInt32("model", i);
         button = new BButton(BRect(10, 15 + i * 25, 90, 30 + i * 25), cbm2_model_name[i], cbm2_model_name[i], msg);
         box->AddChild(button);
-	}
-	
-	/* model line */
-	r = BRect(10, 185, 110, 275);
-	box = new BBox(r, "Model line");
-	box->SetViewColor(220, 220, 220, 0);
-	box->SetLabel("Model line");
-	background->AddChild(box);
+    }
+
+    /* model line */
+    r = BRect(10, 185, 110, 275);
+    box = new BBox(r, "Model line");
+    box->SetViewColor(220, 220, 220, 0);
+    box->SetLabel("Model line");
+    background->AddChild(box);
 
     resources_get_int("ModelLine", &res);
     for (i = 0; cbm2_modelline[i]; i++) {
@@ -115,7 +115,7 @@ Cbm2Window::Cbm2Window()
     box = new BBox(r, "Memory");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("Memory");
-    background->AddChild(box);				    
+    background->AddChild(box);
 
     resources_get_int("RamSize", &res);
     for (i = 0; cbm2_memory[i]; i++) {
@@ -132,7 +132,7 @@ Cbm2Window::Cbm2Window()
     box = new BBox(r, "RAM Banks");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("RAM Banks");
-    background->AddChild(box);				    
+    background->AddChild(box);
 
     for (i = 0; rambank_text[i]; i++) {
         msg = new BMessage(MESSAGE_CBM2_RAMBANK);
@@ -142,13 +142,13 @@ Cbm2Window::Cbm2Window()
         checkbox->SetValue(res);
         box->AddChild(checkbox);
     }
-	
+
     Show();
 }
 
-Cbm2Window::~Cbm2Window() 
+Cbm2Window::~Cbm2Window()
 {
-    cbm2window = NULL;	
+    cbm2window = NULL;
 }
 
 void Cbm2Window::MessageReceived(BMessage *msg)

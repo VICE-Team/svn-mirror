@@ -86,8 +86,8 @@ ui_res_value_list pet_ui_res_values[] = {
     {NULL, NULL}
 };
 
-static char *petsidcartaddresspair[] = { "$8F00", "$E900" };
-static char *petsidcartclockpair[] = { "C64", "PET" };
+static const char *petsidcartaddresspair[] = { "$8F00", "$E900" };
+static const char *petsidcartclockpair[] = { "C64", "PET" };
 
 void pet_ui_specific(void *msg, void *window)
 {

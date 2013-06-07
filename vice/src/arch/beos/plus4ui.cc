@@ -74,8 +74,8 @@ ui_res_value_list plus4_ui_res_values[] = {
     { NULL, NULL }
 };
 
-static char *plus4sidcartaddresspair[] = { "$FD40", "$FE80" };
-static char *plus4sidcartclockpair[] = { "C64", "PLUS4" };
+static const char *plus4sidcartaddresspair[] = { "$FD40", "$FE80" };
+static const char *plus4sidcartclockpair[] = { "C64", "PLUS4" };
 
 static void plus4_ui_specific(void *msg, void *window)
 {

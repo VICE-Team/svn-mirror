@@ -45,7 +45,7 @@ extern "C" {
 #include "vsync.h"
 }
 
-static char *samplingmode[] = {
+static const char *samplingmode[] = {
     "fast sampling",
     "interpolating",
     "resampling",
@@ -55,8 +55,8 @@ static char *samplingmode[] = {
 
 static sid_engine_model_t **sid_engine_model_list;
 
-static char **sidaddresspair;
-static char **sidclockpair;
+static const char **sidaddresspair;
+static const char **sidclockpair;
 
 class SidCartWindow : public BWindow {
         BOptionPopUp *engine_model_popup;
@@ -272,7 +272,7 @@ void SidCartWindow::MessageReceived(BMessage *msg)
     }
 }
 
-void ui_sidcart(char **cartaddresspair, char **cartclockpair)
+void ui_sidcart(const char **cartaddresspair, const char **cartclockpair)
 {
     thread_id sidcartthread;
     status_t exit_value;

@@ -52,8 +52,8 @@ extern "C" {
 }
 
 typedef struct control_res_s {
-    char *name;
-    char *res_name;
+    const char *name;
+    const char *res_name;
     int multiplier;
 } control_res_t;
 
@@ -74,7 +74,7 @@ static control_res_t crt_controls[] = {
     { NULL, NULL, 0 }
 };
 
-static char *chip_name_table[] = { "VICII", "VIC", "CRTC", "VDC", "TED" };
+static const char *chip_name_table[] = { "VICII", "VIC", "CRTC", "VDC", "TED" };
 
 static int chip[] = { -1, -1 };
 
@@ -83,7 +83,7 @@ class VideoWindow : public BWindow {
         BBox *crt_ctrlsbox;
         BListView *palettelistview;
         int chip_no;
-        char *chip_name;
+        const char *chip_name;
 
         void CreateSliders(BBox *parent, control_res_t *ctrls);
         //~ void EnableSliders(BBox *parent);
@@ -112,7 +112,6 @@ void VideoWindow::CreateSliders(BBox *parent, control_res_t *ctrls)
             slider = new BSlider(r.OffsetByCopy(0, i * 45), resname, ctrls[i].name, NULL, 0, ctrls[i].multiplier, B_TRIANGLE_THUMB);
             msg = new BMessage(MESSAGE_VIDEO_COLOR);
             msg->AddString("resname", resname);
-            msg->AddPointer("slider", slider);
             slider->SetMessage(msg);
             slider->SetValue(res_val);
             slider->SetHashMarkCount(11);
@@ -253,7 +252,7 @@ void VideoWindow::MessageReceived(BMessage *msg)
 
     switch (msg->what) {
         case MESSAGE_VIDEO_COLOR:
-            msg->FindPointer("slider", (void **)&slider);
+            msg->FindPointer("source", (void **)&slider);
             val = slider->Value();
             msr = new BMessage(MESSAGE_SET_RESOURCE);
             msr->AddString("resname", resname);

@@ -81,9 +81,9 @@ JoyView::JoyView(BRect r, int joyport) : BView(r, "joy_view", B_FOLLOW_NONE, B_W
     BBox *box;
     BMessage *msg;
     char str[128];
-    char *item_name;
+    const char *item_name;
     char portname[] = "Port X";
-    char *joydevice_name[] = { "None", "Numpad", "Keyset 1", "Keyset 2" };
+    const char *joydevice_name[] = { "None", "Numpad", "Keyset 1", "Keyset 2" };
 
     portname[5] = 'A' + joyport - 1;
 
@@ -207,7 +207,7 @@ void JoystickWindow::MessageReceived(BMessage *msg)
 }
 
 /* definition for KeysetWindow */
-static char *keydefine_texts[] = {
+static const char *keydefine_texts[] = {
     "NorthWest",
     "North",
     "NorthEast",
@@ -231,7 +231,7 @@ static struct _point{int x; int y;} keydefine_pos[] = {
     { 80, 30 }
 };
 
-static char *keydefine_resource[] = { 
+static const char *keydefine_resource[] = { 
     "KeySet%dNorthWest",
     "KeySet%dNorth",
     "KeySet%dNorthEast",
@@ -243,8 +243,8 @@ static char *keydefine_resource[] = {
     "KeySet%dFire"
 };
 
-static char *keyset_instruction_first = "Choose a direction by pressing the corresponding button.";
-static char *keyset_instruction_last = "Now press the key for %s or press button again for <None>";
+static const char *keyset_instruction_first = "Choose a direction by pressing the corresponding button.";
+static const char *keyset_instruction_last = "Now press the key for %s or press button again for <None>";
 
 static int keyset[9];
 
@@ -337,7 +337,8 @@ void KeysetWindow::MessageReceived(BMessage *msg)
 }
 
 /* the interface to the ui */
-void ui_joystick() {
+void ui_joystick()
+{
     thread_id joythread;
     status_t exit_value;
     int first_port, second_port;
@@ -377,7 +378,8 @@ void ui_joystick() {
     wait_for_thread(joythread, &exit_value);
 }
 
-void ui_extra_joystick() {
+void ui_extra_joystick()
+{
     thread_id joythread;
     status_t exit_value;
     int first_port, second_port;

@@ -39,7 +39,7 @@ extern "C" {
 }
 
 static struct border_mode_s {
-    char *text;
+    const char *text;
     int value;
 } border_mode[] = {
     { "Normal", VICII_NORMAL_BORDERS },

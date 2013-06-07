@@ -40,7 +40,7 @@ extern "C" {
 }
 
 static struct _drive_type {
-    char *name;
+    const char *name;
     int id;
 } drive_type[] = {
     { "1541", DRIVE_TYPE_1541 },
@@ -58,9 +58,9 @@ static struct _drive_type {
     { "None", DRIVE_TYPE_NONE },
     { NULL, 0 }
 };
-	
+
 struct _drive_extendimagepolicy {
-    char *name;
+    const char *name;
     int id;
     BRadioButton *radiobutton; /* we have to remeber for enable/disable them */
 } drive_extendimagepolicy[] = {
@@ -71,8 +71,8 @@ struct _drive_extendimagepolicy {
 };
 
 struct _drive_expansion {
-    char *name;
-    char *resource_name;
+    const char *name;
+    const char *resource_name;
 } drive_expansion[] = {
     { "$2000-$3FFF RAM", "Drive%dRAM2000" },
     { "$4000-$5FFF RAM", "Drive%dRAM4000" },
@@ -83,7 +83,7 @@ struct _drive_expansion {
 };
 
 struct _drive_idlemethod {
-    char *name;
+    const char *name;
     int id;
 } drive_idlemethod[] = {
     { "None", DRIVE_IDLE_NO_IDLE },
@@ -104,7 +104,8 @@ class DriveView : public BView {
         BCheckBox *cb_parallelcable;
 };
 
-void DriveView::EnableControlsForDriveSettings(int type_index) {
+void DriveView::EnableControlsForDriveSettings(int type_index)
+{
     int i;
     int current_drive_type;
     bool expand_is_possible;
@@ -124,13 +125,13 @@ void DriveView::EnableControlsForDriveSettings(int type_index) {
                 expand_is_possible = DRIVE_EXPANSION_2000(current_drive_type);
                 break;
             case 1:
-                expand_is_possible = DRIVE_EXPANSION_4000(current_drive_type);	
+                expand_is_possible = DRIVE_EXPANSION_4000(current_drive_type);
                 break;
             case 2:
-                expand_is_possible = DRIVE_EXPANSION_6000(current_drive_type);	
+                expand_is_possible = DRIVE_EXPANSION_6000(current_drive_type);
                 break;
             case 3:
-                expand_is_possible = DRIVE_EXPANSION_8000(current_drive_type);	
+                expand_is_possible = DRIVE_EXPANSION_8000(current_drive_type);
                 break;
             case 4:
                 expand_is_possible = DRIVE_EXPANSION_A000(current_drive_type);
@@ -141,7 +142,6 @@ void DriveView::EnableControlsForDriveSettings(int type_index) {
         cb_expansion[i]->SetEnabled(expand_is_possible);
     }
 }
-	
 
 DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_NONE, B_WILL_DRAW)
 {
@@ -267,8 +267,8 @@ class DriveWindow : public BWindow {
 
 static DriveWindow *drivewindow = NULL;
 
-DriveWindow::DriveWindow() 
-	: BWindow(BRect(50, 50, 400, 435), "Drive settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+DriveWindow::DriveWindow()
+    : BWindow(BRect(50, 50, 400, 435), "Drive settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE)
 {
     BRect r;
     BTabView *tabview;
@@ -277,7 +277,7 @@ DriveWindow::DriveWindow()
     char str[16];
 
     r = Bounds();
-	
+
     tabview = new BTabView(r, "tab_view");
     tabview->SetViewColor(220, 220, 220, 0);
 
@@ -297,18 +297,19 @@ DriveWindow::DriveWindow()
     Show();
 }
 
-DriveWindow::~DriveWindow() 
+DriveWindow::~DriveWindow()
 {
-    drivewindow = NULL;	
+    drivewindow = NULL;
 }
 
-void DriveWindow::MessageReceived(BMessage *msg) {
+void DriveWindow::MessageReceived(BMessage *msg)
+{
     int32 drive_num;
     int32 resource_index;
     int dummy;
 
     msg->FindInt32("drive_num", &drive_num);
-    msg->FindInt32("resource_index", &resource_index); 	
+    msg->FindInt32("resource_index", &resource_index);
 
     switch (msg->what) {
         case MESSAGE_DRIVE_TYPE:
@@ -334,7 +335,8 @@ void DriveWindow::MessageReceived(BMessage *msg) {
     }
 }
 
-void ui_drive() {
+void ui_drive()
+{
     thread_id drivethread;
     status_t exit_value;
 

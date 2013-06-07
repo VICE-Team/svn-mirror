@@ -106,8 +106,8 @@ static void vic20_ui_attach_cartridge(int menu)
     ui_select_file(B_OPEN_PANEL, VIC20_CARTRIDGE_FILE, &vic20_ui_cartridges[i]);
 }       
 
-static char *vic20sidcartaddresspair[] = { "$9800", "$9C00" };
-static char *vic20sidcartclockpair[] = { "C64", "VIC20" };
+static const char *vic20sidcartaddresspair[] = { "$9800", "$9C00" };
+static const char *vic20sidcartclockpair[] = { "C64", "VIC20" };
 
 void vic20_ui_specific(void *msg, void *window)
 {

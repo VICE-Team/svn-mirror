@@ -36,6 +36,6 @@ const uint32 MESSAGE_SIDCART_RESIDSAMPLING = 'MSC6';
 const uint32 MESSAGE_SIDCART_RESIDPASSBAND = 'MSC7';
 const uint32 MESSAGE_SIDCART_DIGIBLASTER   = 'MSC8';
 
-extern void ui_sidcart(char **cartaddresspair, char **cartclockpair);
+extern void ui_sidcart(const char **cartaddresspair, const char **cartclockpair);
 
 #endif

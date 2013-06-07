@@ -62,7 +62,7 @@ static int ui_sound_adjusting[] = {
     SOUND_ADJUST_EXACT
 };
 
-static char *ui_sound_adjusting_text[] = {
+static const char *ui_sound_adjusting_text[] = {
     "Flexible",
     "Adjusting",
     "Exact"
@@ -78,7 +78,7 @@ static int ui_sound_fragment_size[] = {
     SOUND_FRAGMENT_VERY_LARGE
 };
 
-static char *ui_sound_fragment_size_text[] = {
+static const char *ui_sound_fragment_size_text[] = {
     "Very small",
     "Small",
     "Medium",
