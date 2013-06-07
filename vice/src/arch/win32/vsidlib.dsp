@@ -225,6 +225,25 @@ SOURCE=..\..\c64\vsidcia1.c
 # Begin Source File
 
 SOURCE=..\..\c64\vsidcpu.c
+
+!IF  "$(CFG)" == "vsidlib - Win32 Release"
+
+# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy
+# SUBTRACT CPP /Os
+
+!ELSEIF  "$(CFG)" == "vsidlib - Win32 Debug"
+
+!ELSEIF  "$(CFG)" == "vsidlib - Win32 DX Release"
+
+# ADD BASE CPP /Ot /Oa /Ow /Oi /Op /Oy
+# SUBTRACT BASE CPP /Os
+# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy
+# SUBTRACT CPP /Os
+
+!ELSEIF  "$(CFG)" == "vsidlib - Win32 DX Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
