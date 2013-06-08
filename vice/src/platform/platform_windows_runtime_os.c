@@ -30,6 +30,7 @@
    - Windows 95B (x86)
    - Windows 95C (x86)
    - Windows 98 (x86)
+   - Windows 98 Security (x86)
    - Windows 98 Second Edition (x86)
    - Windows Millenium Edition (x86)
    - Windows NT 3.50 Workstation (x86)
@@ -602,6 +603,9 @@ static char *get_win95_version(void)
 
 static char *get_win98_version(void)
 {
+    if (!strncmp(os_version_info.szCSDVersion, "A", 1)) {
+        return " (Security)";
+    }
     if (!strncmp(os_version_info.szCSDVersion, " A", 2)) {
         return "SE";
     }
