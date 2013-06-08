@@ -78,6 +78,7 @@
    - Windows 2008 Enterprise Server (x86/x64)
    - Windows 2008 Datacenter Server (x86/x64)
    - Windows 2008 HPC Server (x64)
+   - Windows Thin PC (x86)
    - Windows 7 Starter (x86)
    - Windows 7 Home Basic (x86/x64)
    - Windows 7 Home Premium (x86/x64)
@@ -421,6 +422,10 @@ static winver_t windows_versions[] = {
       6, 0, 10, VER_NT_SERVER, 0, PRODUCT_SERVER_FOR_SMALLBUSINESS, -1 },
     { "Windows 2008 Foundation Server", VER_PLATFORM_WIN32_NT,
       6, 0, 10, VER_NT_SERVER, 0, PRODUCT_SERVER_FOUNDATION, -1 },
+    { "Windows Thin PC", VER_PLATFORM_WIN32_NT,
+      6, 1, 10, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, 1, -1 },
+    { "Windows 7 Embedded", VER_PLATFORM_WIN32_NT,
+      6, 1, 10, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, -1, -1 },
     { "Windows 7 Starter", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_STARTER, -1 },
     { "Windows 7 Home Basic", VER_PLATFORM_WIN32_NT,
@@ -749,6 +754,19 @@ static int is_cluster(void)
     return 0;
 }
 
+static int is_thin_pc(void)
+{
+    HKEY hKey;
+    LONG ret;
+
+    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\ThinPC", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret == ERROR_SUCCESS) {
+        RegCloseKey(hKey);
+        return 1;
+    }
+    return 0;
+}
+
 char *platform_get_windows_runtime_os(void)
 {
     int found = 0;
@@ -812,9 +830,13 @@ char *platform_get_windows_runtime_os(void)
             }
         }
         if (windows_versions[0].majorver >= 6) {
-            ViceGetProductInfo = (VGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
-            ViceGetProductInfo(os_version_ex_info.dwMajorVersion, os_version_ex_info.dwMinorVersion, 0, 0, &PT);
-            windows_versions[0].pt6 = PT;
+            if (windows_versions[0].suite | VER_SUITE_EMBEDDEDNT == VER_SUITE_EMBEDDEDNT) {
+                windows_versions[0].pt6 = is_thin_pc();
+            } else {
+                ViceGetProductInfo = (VGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
+                ViceGetProductInfo(t_osvexi.vosvexi.dwMajorVersion, t_osvexi.vosvexi.dwMinorVersion, 0, 0, &PT);
+                windows_versions[0].pt6 = PT;
+            }
         } else {
             windows_versions[0].pt6 = -1;
         }
