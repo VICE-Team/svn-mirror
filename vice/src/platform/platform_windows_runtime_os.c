@@ -32,7 +32,9 @@
    - Windows 98 (x86)
    - Windows 98 Security (x86)
    - Windows 98 Second Edition (x86)
+   - Windows 98 Second Edition Security (x86)
    - Windows Millenium Edition (x86)
+   - Windows Millenium Edition Security (x86)
    - Windows NT 3.50 Workstation (x86)
    - Windows NT 3.50 Server (x86)
    - Windows NT 3.51 Workstation (x86)
@@ -913,7 +915,7 @@ char *platform_get_windows_runtime_os(void)
             if (windows_versions[0].minorver == 0) {
                 sprintf(windows_version, "%s%s", windows_version, get_win95_version());
             }
-            if (windows_versions[0].minorver == 10) {
+            if (windows_versions[0].minorver == 10 || windows_versions[0].minorver == 90) {
                 sprintf(windows_version, "%s%s", windows_version, get_win98_version());
             }
         } else {

@@ -47,6 +47,8 @@
 
 #define NT_MCE_PATH "\\Registry\\Machine\\System\\WPA\\MediaCenter\\Installed"
 
+#define NT_THINPC_PATH "\\Registry\\Machine\\Software\\Microsoft\\ThinPC\\Version"
+
 typedef struct winver_s {
     char *name;
     char *windows_name;
@@ -76,8 +78,32 @@ static winver_t windows_versions[] = {
     { "Windows 2003 R2 Standard Server", "Microsoft Windows Server 2003 R2", 1, 0 },
     { "Windows 2003 R2 Enterprise Server", "Microsoft Windows Server 2003 R2", 5, 0 },
     { "Windows 2003 R2 Datacenter Server", "Microsoft Windows Server 2003 R2", 6, 0 },
-    { "Windows 2008 Web Server", "Windows (R) Web Server 2008", 2, 0 },
+    { "Windows Vista Enterprise", "Windows (TM) Vista Enterprise", 0, 0 },
+    { "Windows Vista Enterprise", "Windows Vista (TM) Enterprise", 0, 0 },
+    { "Windows Vista Ultimate", "Windows (TM) Vista Ultimate", 0, 0 },
+    { "Windows Vista Ultimate", "Windows Vista (TM) Ultimate", 0, 0 },
+    { "Windows 2008 Standard Server", "Windows (R) Standard Server 2008", 1, 0 },
     { "Windows 2008 Standard Server", "Windows Server (R) 2008 Standard", 1, 0 },
+    { "Windows 2008 Enterprise Server", "Windows (R) Enterprise Server 2008", 5, 0 },
+    { "Windows 2008 Enterprise Server", "Windows Server (R) 2008 Enterprise", 5, 0 },
+    { "Windows 2008 Datacenter Server", "Windows (R) Datacenter Server 2008", 6, 0 },
+    { "Windows 2008 Datacenter Server", "Windows Server (R) 2008 Datacenter", 6, 0 },
+    { "Windows 2008 HPC Server", "Windows Server (R) 2008 HPC Edition", 1, 0 },
+    { "Windows Thin PC", "Windows Embedded Standard", 0, 1 },
+    { "Windows 7 Enterprise", "Windows 7 Enterprise", 0, 0 },
+    { "Windows 7 Ultimate", "Windows 7 Ultimate", 0, 0 },
+    { "Windows 2008 R2 Standard Server", "Windows Server 2008 R2 Standard", 1, 0 },
+    { "Windows 2008 R2 Enterprise Server", "Windows Server 2008 R2 Enterprise", 5, 0 },
+    { "Windows 2008 R2 Datacenter Server", "Windows Server 2008 R2 Datacenter", 6, 0 },
+    { "Windows 2008 R2 Workgroup Storage Server", "Windows Storage Server 2008 R2 Workgroup", 1, 0 },
+    { "Windows 2008 R2 Workgroup Storage Server", "Windows Storage Server 2008 R2 Workgroup", 5, 0 },
+    { "Windows 2008 R2 Workgroup Storage Server", "Windows Storage Server 2008 R2 Workgroup", 6, 0 },
+    { "Windows 2008 R2 Standard Storage Server", "Windows Storage Server 2008 R2 Standard", 1, 0 },
+    { "Windows 2008 R2 Standard Storage Server", "Windows Storage Server 2008 R2 Standard", 5, 0 },
+    { "Windows 2008 R2 Standard Storage Server", "Windows Storage Server 2008 R2 Standard", 6, 0 },
+    { "Windows 2008 R2 Enterprise Storage Server", "Windows Storage Server 2008 R2 Enterprise", 1, 0 },
+    { "Windows 2008 R2 Enterprise Storage Server", "Windows Storage Server 2008 R2 Enterprise", 5, 0 },
+    { "Windows 2008 R2 Enterprise Storage Server", "Windows Storage Server 2008 R2 Enterprise", 6, 0 },
     { NULL, NULL, 0, 0 }
 };
 
@@ -149,6 +175,20 @@ static char *get_windows_version(void)
             if (wpa) {
                 windows_flags = 2;
             }
+        }
+        rcode = getreg(NT_THINPC_PATH, &type, &wpa, &wpa_size);
+        if (!rcode) {
+            if (wpa) {
+                windows_flags = 3;
+            }
+        }
+    }
+
+    /* 0 = embedded, 1 = thin pc */
+    if (!strcmp(windows_name, "Windows Embedded Standard")) {
+        rcode = getreg(NT_THINPC_PATH, &type, &temp, &size);
+        if (!rcode) {
+            windows_flags = 1;
         }
     }
 
