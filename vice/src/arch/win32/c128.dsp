@@ -153,6 +153,25 @@ SOURCE=..\..\c128\c128cia1.c
 # Begin Source File
 
 SOURCE=..\..\c128\c128cpu.c
+
+!IF  "$(CFG)" == "c128 - Win32 Release"
+
+# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy
+# SUBTRACT CPP /Os
+
+!ELSEIF  "$(CFG)" == "c128 - Win32 Debug"
+
+!ELSEIF  "$(CFG)" == "c128 - Win32 DX Release"
+
+# ADD BASE CPP /Ot /Oa /Ow /Oi /Op /Oy
+# SUBTRACT BASE CPP /Os
+# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy
+# SUBTRACT CPP /Os
+
+!ELSEIF  "$(CFG)" == "c128 - Win32 DX Debug"
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
