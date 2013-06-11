@@ -840,7 +840,7 @@ char *platform_get_windows_runtime_os(void)
                 windows_versions[0].pt6 = is_thin_pc();
             } else {
                 ViceGetProductInfo = (VGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
-                ViceGetProductInfo(t_osvexi.vosvexi.dwMajorVersion, t_osvexi.vosvexi.dwMinorVersion, 0, 0, &PT);
+                ViceGetProductInfo(os_version_ex_info.dwMajorVersion, os_version_ex_info.dwMinorVersion, 0, 0, &PT);
                 windows_versions[0].pt6 = PT;
             }
         } else {
