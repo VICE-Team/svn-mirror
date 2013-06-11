@@ -58,17 +58,6 @@ static void enable_machine_controls(HWND hwnd)
 {
 }
 
-static void enable_functionrom_controls(HWND hwnd)
-{
-    int is_enabled;
-
-    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME), 1);
-    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_BROWSE), 1);
-
-    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME), 1);
-    EnableWindow(GetDlgItem(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE), 1);
-}
-
 static uilib_localize_dialog_param machine_dialog_trans[] = {
     { IDC_MACHINE_TYPE, IDS_MACHINE_TYPE, 0 },
     { 0, 0, 0 }
@@ -204,8 +193,6 @@ static void init_functionrom_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"RAM+RTC");
     resources_get_int("ExternalFunctionROM", &res_value);
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
-
-    enable_functionrom_controls(hwnd);
 }
 
 static uilib_localize_dialog_param rambanks_dialog_trans[] = {

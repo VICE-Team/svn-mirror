@@ -364,8 +364,6 @@ static int set_superpet_cpu_switch(int val, void *param)
 
 static int set_pet_colour(int val, void *param)
 {
-    int i;
-
     pet_colour_type = val;
     petcolour_set_type(val);
 
@@ -374,8 +372,6 @@ static int set_pet_colour(int val, void *param)
 
 static int set_pet_colour_bg(int val, void *param)
 {
-    int i;
-
     pet_colour_analog_bg = val;
 
     return 0;

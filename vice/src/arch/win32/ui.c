@@ -66,6 +66,7 @@
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "tape.h"
 #include "translate.h"
 #include "types.h"
 #include "ui.h"
