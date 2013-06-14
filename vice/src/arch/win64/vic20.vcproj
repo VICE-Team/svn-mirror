@@ -2504,7 +2504,7 @@
 				/>
 			</FileConfiguration>
 		</File>
-\		<File
+		<File
 			RelativePath="..\..\vic20\vic20printer.c"
 			>
 			<FileConfiguration
