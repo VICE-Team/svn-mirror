@@ -5,6 +5,7 @@ roms = \
 	3plus1lo \
 	basic \
 	kernal \
+	kernal.005 \
 	kernal.232 \
 	kernal.364 \
 	c2lo.364
