@@ -210,7 +210,7 @@ int c128_snapshot_write_module(snapshot_t *s, int save_roms)
         goto fail;
     }
 
-    if (cartridge_snapshot_read_modules(s) < 0) {
+    if (cartridge_snapshot_write_modules(s) < 0) {
         goto fail;
     }
 
