@@ -119,7 +119,6 @@
 
 
 /* AIX discovery */
-
 #ifdef _AIX
 #  include "platform_aix_version.h"
 #endif

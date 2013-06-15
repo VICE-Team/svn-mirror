@@ -40,6 +40,7 @@
  * llvm           | yes (untested)
  * metrowerks     | yes (untested)
  * MIPSpro        | yes (untested)
+ * MSVC           | yes
  * RealView C     | yes (untested)
  * SAS/C          | yes (untested)
  * Sun Studio     | yes (untested)
@@ -201,6 +202,11 @@
 /* Tiny C compiler discovery */
 #if !defined(PLATFORM_COMPILER) && defined(__TINYC__)
 #  define PLATFORM_COMPILER "Tiny C"
+#endif
+
+/* MSVC compiler discovery */
+#if !defined(PLATFORM_COMPILE) && defined(_MSC_VER)
+#  define PLATFORM_COMPILER "MSVC"
 #endif
 
 #endif

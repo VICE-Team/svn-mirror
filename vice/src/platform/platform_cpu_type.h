@@ -473,6 +473,22 @@
 #  define FIND_X86_CPU
 #endif
 
+/* MSVC cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(FIND_X86_CPU) && defined(_M_IX86)
+#  if (_M_IX86 == 600)
+#    define __i686__
+#  endif
+#  if (_M_IX86 == 500)
+#    define __i586__
+#  endif
+#  if (_M_IX86 == 400)
+#    define __i486__
+#  endif
+#  if (_M_IX86 == 300)
+#    define __i386__
+#  endif
+#endif
+
 #if !defined(PLATFORM_CPU) && defined(FIND_X86_CPU)
 #  ifdef __i686__
 #    define PLATFORM_CPU "Pentium Pro"
