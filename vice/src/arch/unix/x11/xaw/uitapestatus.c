@@ -252,6 +252,7 @@ void ui_display_tape_control_status(int control)
     int i;
     int displayList;
     const char *tip;
+    Pixel colour;
 
     DBG(("ui_display_tape_control_status (%d) motor:%d image:%d", control, tape_motor_status, tape_image_status));
 
@@ -262,8 +263,7 @@ void ui_display_tape_control_status(int control)
     }
 
     /* Pick a background color */
-    Pixel colour = (tape_image_status > 0) ? drive_led_on_green_pixel
-                                           : drive_led_on_red_pixel;
+    colour = (tape_image_status > 0) ? drive_led_on_green_pixel : drive_led_on_red_pixel;
 
     /* Pick a pre-compiled display list */
     switch (control) {

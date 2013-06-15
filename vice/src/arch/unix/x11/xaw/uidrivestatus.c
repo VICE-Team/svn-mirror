@@ -386,11 +386,12 @@ void rebuild_disk_menu_action(Widget w, XEvent *event, String *params, Cardinal 
     if (*num_params >= 2) {
         int drive;
         char *menuname;
+        char *image;
 
         drive = atoi(params[0]);
         menuname = params[1];
 
-        char *image = last_attached_images[drive];
+        image = last_attached_images[drive];
         if (image && image[0]) {
             if (right_drive_menu[drive]) {
                 ui_menu_delete(right_drive_menu[drive]);
