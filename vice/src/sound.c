@@ -248,8 +248,9 @@ static int cycle_based = 0;
 
 static int set_output_option(int val, void *param)
 {
-    if (val >= 0 && val < 3) {
+    if (val >= 0 && val < 3 && output_option != val) {
         output_option = val;
+        sound_state_changed = TRUE;
     }
     return 0;
 }
