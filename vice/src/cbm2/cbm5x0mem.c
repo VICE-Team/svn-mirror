@@ -432,6 +432,20 @@ static void store_dummy(WORD addr, BYTE value)
 
 /* Functions for watchpoint memory access.  */
 
+static BYTE zero_read_watch(WORD addr)
+{
+    addr &= 0xff;
+    monitor_watch_push_load_addr(addr, e_comp_space);
+    return _mem_read_tab[cbm2mem_bank_exec][0](addr);
+}
+
+static void zero_store_watch(WORD addr, BYTE value)
+{
+    addr &= 0xff;
+    monitor_watch_push_store_addr(addr, e_comp_space);
+    _mem_write_tab[cbm2mem_bank_exec][0](addr, value);
+}
+
 BYTE read_watch(WORD addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
@@ -634,12 +648,15 @@ void mem_initialize_memory(void)
     }
 
     /* set watchpoint tables */
-    for (i = 256; i >= 0; i--) {
+    for (i = 0; i <= 0x100; i++) {
         _mem_read_tab_watch[i] = read_watch;
         _mem_read_ind_tab_watch[i] = read_ind_watch;
         _mem_write_tab_watch[i] = store_watch;
         _mem_write_ind_tab_watch[i] = store_ind_watch;
     }
+    /* FIXME: what about _ind_tab_watch ? */
+    _mem_read_tab_watch[0] = zero_read_watch;
+    _mem_write_tab_watch[0] = zero_store_watch;
 
     vicii_set_chargen_addr_options(0x7000, 0x1000);
 }

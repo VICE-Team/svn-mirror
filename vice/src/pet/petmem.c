@@ -247,6 +247,20 @@ static BYTE mem_read_patchbuf(WORD addr)
 
 /* Functions for watchpoint memory access.  */
 
+static BYTE zero_read_watch(WORD addr)
+{
+    addr &= 0xff;
+    monitor_watch_push_load_addr(addr, e_comp_space);
+    return _mem_read_tab[0](addr);
+}
+
+static void zero_store_watch(WORD addr, BYTE value)
+{
+    addr &= 0xff;
+    monitor_watch_push_store_addr(addr, e_comp_space);
+    _mem_write_tab[0](addr, value);
+}
+
 static BYTE read_watch(WORD addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
@@ -1312,7 +1326,10 @@ void mem_initialize_memory(void)
     _mem_read_tab_ptr = _mem_read_tab;
     _mem_write_tab_ptr = _mem_write_tab;
 
-    for (i = 0; i < 0x101; i++) {
+    /* setup watchpoint tables */
+    _mem_read_tab_watch[0] = zero_read_watch;
+    _mem_write_tab_watch[0] = zero_store_watch;
+    for (i = 1; i < 0x101; i++) {
         _mem_read_tab_watch[i] = read_watch;
         _mem_write_tab_watch[i] = store_watch;
     }

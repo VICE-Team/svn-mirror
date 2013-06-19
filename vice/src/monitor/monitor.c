@@ -2205,6 +2205,9 @@ void monitor_check_icount_interrupt(void)
     }
 }
 
+/* called by macro DO_INTERRUPT() in 6510(dtv)core.c 
+ * returns non-zero if breakpoint hit and monitor should be invoked
+ */
 int monitor_check_breakpoints(MEMSPACE mem, WORD addr)
 {
     return mon_breakpoint_check_checkpoint(mem, addr, 0, e_exec); /* FIXME */
