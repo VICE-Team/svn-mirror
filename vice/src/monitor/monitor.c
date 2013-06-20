@@ -2369,9 +2369,12 @@ static void monitor_open(void)
         int mem = monitor_diskspace_mem(dnr);
         dot_addr[mem] = new_addr(mem, ((WORD)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC))));
     }
-
+    /* disassemble at monitor entry, for single stepping */
     if (disassemble_on_entry) {
+        int monbank = mon_interfaces[default_memspace]->current_bank;
+        mon_interfaces[default_memspace]->current_bank = 0; /* always disassemble using CPU bank */
         mon_disassemble_with_regdump(default_memspace, dot_addr[default_memspace]);
+        mon_interfaces[default_memspace]->current_bank = monbank; /* restore value used in monitor */
         disassemble_on_entry = 0;
     }
 }
