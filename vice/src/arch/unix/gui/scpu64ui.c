@@ -89,64 +89,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-#define VICMODEL_UNKNOWN -1
-#define VICMODEL_NUM 5
-
-struct vicmodel_s {
-    int video;
-    int luma;
-};
-
-static struct vicmodel_s vicmodels[] = {
-    { MACHINE_SYNC_PAL,     1 },
-    { MACHINE_SYNC_PAL,     0 },
-    { MACHINE_SYNC_NTSC,    1 },
-    { MACHINE_SYNC_NTSCOLD, 0 },
-    { MACHINE_SYNC_PALN,    1 }
-};
-
-static int vicmodel_get_temp(int video,int new_luma)
-{
-    int i;
-
-    for (i = 0; i < VICMODEL_NUM; ++i) {
-        if ((vicmodels[i].video == video)
-         && (vicmodels[i].luma == new_luma)) {
-            return i;
-        }
-    }
-
-    return VICMODEL_UNKNOWN;
-}
-
-static int vicmodel_get(void)
-{
-    int video, new_luma;
-
-    if ((resources_get_int("MachineVideoStandard", &video) < 0)
-     || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
-        return -1;
-    }
-
-    return vicmodel_get_temp(video, new_luma);
-}
-
-static void vicmodel_set(int model)
-{
-    int old_model;
-
-    old_model = vicmodel_get();
-
-    if ((model == old_model) || (model == VICMODEL_UNKNOWN)) {
-        return;
-    }
-
-    resources_set_int("MachineVideoStandard", vicmodels[model].video);
-    resources_set_int("VICIINewLuminances", vicmodels[model].luma);
-}
-
-/* ------------------------------------------------------------------------- */
-
 static UI_CALLBACK(radio_c64model)
 {
     int model, selected;
@@ -182,28 +124,26 @@ static ui_menu_entry_t set_c64_model_submenu[] = {
       (ui_callback_data_t)C64MODEL_C64_OLD_NTSC, NULL },
     { "Drean", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
       (ui_callback_data_t)C64MODEL_C64_PAL_N, NULL },
+    { "C64 SX PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_C64SX_PAL, NULL },
+    { "C64 SX NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_C64SX_NTSC, NULL },
+    { "Japanese", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_C64_JAP, NULL },
+    { "C64 GS", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_C64_GS, NULL },
+    { "PET64 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_PET64_PAL, NULL },
+    { "PET64 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_PET64_NTSC, NULL },
+#if 0
+    { "MAX Machine", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
+      (ui_callback_data_t)C64MODEL_ULTIMAX, NULL },
+#endif
     { NULL }
 };
 
-static UI_CALLBACK(radio_VICIIModel)
-{
-    int model, selected;
-
-    selected = vice_ptr_to_int(UI_MENU_CB_PARAM);
-
-    if (!CHECK_MENUS) {
-        vicmodel_set(selected);
-        ui_update_menus();
-    } else {
-        model = vicmodel_get();
-
-        if (selected == model) {
-            ui_menu_set_tick(w, 1);
-        } else {
-            ui_menu_set_tick(w, 0);
-        }
-    }
-}
+UI_MENU_DEFINE_RADIO(VICIIModel)
 
 static ui_menu_entry_t set_vicii_model_submenu[] = {
     { "6569 (PAL)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
@@ -243,18 +183,36 @@ static ui_menu_entry_t set_cia2model_submenu[] = {
     { NULL }
 };
 
+
+UI_MENU_DEFINE_RADIO(GlueLogic)
+
+static ui_menu_entry_t set_gluelogic_submenu[] = {
+    { N_("Discrete"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_GlueLogic,
+      (ui_callback_data_t)0, NULL },
+    { N_("Custom IC"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_GlueLogic,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(IECReset)
+
+static ui_menu_entry_t set_iecreset_submenu[] = {
+    { N_("yes"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IECReset,
+      (ui_callback_data_t)1, NULL },
+    { N_("no"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IECReset,
+      (ui_callback_data_t)0, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t c64_model_submenu[] = {
-    { N_("C64 model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_c64_model_submenu },
+    { N_("C64 model"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_c64_model_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("VIC-II model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_vicii_model_submenu },
-    { N_("SID model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sid_model_submenu },
-    { N_("CIA 1 model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_cia1model_submenu },
-    { N_("CIA 2 model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_cia2model_submenu },
+    { N_("VIC-II model"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_vicii_model_submenu },
+    { N_("SID model"), UI_MENU_TYPE_NORMAL, NULL, NULL, sid_model_submenu },
+    { N_("CIA 1 model"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_cia1model_submenu },
+    { N_("CIA 2 model"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_cia2model_submenu },
+    { N_("Glue logic"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_gluelogic_submenu },
+    { N_("Reset goes to IEC"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_iecreset_submenu },
     { NULL }
 };
 

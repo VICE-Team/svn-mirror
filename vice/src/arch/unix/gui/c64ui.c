@@ -257,18 +257,24 @@ static ui_menu_entry_t set_cia2model_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_RADIO(IECReset)
+
+static ui_menu_entry_t set_iecreset_submenu[] = {
+    { N_("yes"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IECReset,
+      (ui_callback_data_t)1, NULL },
+    { N_("no"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IECReset,
+      (ui_callback_data_t)0, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t c64_model_submenu[] = {
-    { N_("C64 model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_c64_model_submenu },
+    { N_("C64 model"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_c64_model_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("VIC-II model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_vicii_model_submenu },
-    { N_("SID model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sid_model_submenu },
-    { N_("CIA 1 model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_cia1model_submenu },
-    { N_("CIA 2 model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_cia2model_submenu },
+    { N_("VIC-II model"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_vicii_model_submenu },
+    { N_("SID model"), UI_MENU_TYPE_NORMAL, NULL, NULL, sid_model_submenu },
+    { N_("CIA 1 model"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_cia1model_submenu },
+    { N_("CIA 2 model"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_cia2model_submenu },
+    { N_("Reset goes to IEC"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_iecreset_submenu },
     { NULL }
 };
 

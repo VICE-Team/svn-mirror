@@ -76,6 +76,7 @@ int cia1_model;
 int cia2_model;
 
 static int board_type = 0;
+static int iec_reset = 0;
 
 static int set_chargen_rom_name(const char *val, void *param)
 {
@@ -121,6 +122,15 @@ static int set_board_type(int val, void *param)
     if (old_board_type != board_type) {
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     }
+    return 0;
+}
+
+static int set_iec_reset(int val, void *param)
+{
+    if ((val < 0) || (val > 1)) {
+        return -1;
+    }
+    iec_reset = val;
     return 0;
 }
 
@@ -243,6 +253,8 @@ static const resource_int_t resources_int[] = {
       &sync_factor, set_sync_factor, NULL },
     { "BoardType", 0, RES_EVENT_SAME, NULL,
       &board_type, set_board_type, NULL },
+    { "IECReset", 1, RES_EVENT_SAME, NULL,
+      &iec_reset, set_iec_reset, NULL },
     { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia1_model, set_cia1_model, NULL },
     { "CIA2Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,

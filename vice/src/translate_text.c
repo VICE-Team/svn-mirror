@@ -3409,6 +3409,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_BURST_MOD_TR, "Burst deðiþikliði (0 = Yok, 1 = CIA1, 2 = CIA2)"},
 #endif
 
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
+/* en */ {IDCLS_SET_IEC_RESET,    N_("Computer reset goes to IEC bus (0 = No, 1 = Yes)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_IEC_RESET_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_IEC_RESET_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_IEC_RESET_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_IEC_RESET_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_IEC_RESET_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_IEC_RESET_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_IEC_RESET_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_IEC_RESET_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_IEC_RESET_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_IEC_RESET_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_IEC_RESET_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_IEC_RESET_TR, ""},  /* fuzzy */
+#endif
+
 /* c128/c128-cmdline-options.c, c128/functionrom.c,
    c64/c64-cmdline-options.c, c64/cart/georam.c,
    c64/cart/ramcart.c, c64/cart/reu.c, c64/cart/c64cart.c,

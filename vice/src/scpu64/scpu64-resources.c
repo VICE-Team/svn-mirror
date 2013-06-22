@@ -84,6 +84,9 @@ static int scpu64_simm_size;
 static int scpu64_jiffy_switch = 1;
 static int scpu64_speed_switch = 1;
 
+static int board_type = 0;
+static int iec_reset = 0;
+
 static int set_chargen_rom_name(const char *val, void *param)
 {
     if (util_string_set(&chargen_rom_name, val)) {
@@ -100,6 +103,61 @@ static int set_scpu64_rom_name(const char *val, void *param)
     }
 
     return scpu64rom_load_scpu64(scpu64_rom_name);
+}
+
+/* the kernal ROM is not used by xscpu64, however the resource must work
+ * if the model switching from x64sc is (ab)used
+ */
+static int set_kernal_rom_name(const char *val, void *param)
+{
+    int ret;
+    if (util_string_set(&kernal_rom_name, val)) {
+        return 0;
+    }
+#if 0
+    /* load kernal without a kernal overriding buffer */
+    ret = c64rom_load_kernal(kernal_rom_name, NULL);
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+#endif
+    return ret;
+}
+
+/* the basic ROM is not used by xscpu64, however the resource must work
+ * if the model switching from x64sc is (ab)used
+ */
+static int set_basic_rom_name(const char *val, void *param)
+{
+    int ret;
+    if (util_string_set(&basic_rom_name, val)) {
+        return 0;
+    }
+#if 0
+    ret = c64rom_load_basic(basic_rom_name);
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+#endif
+    return ret;
+}
+
+static int set_board_type(int val, void *param)
+{
+    int old_board_type = board_type;
+    if ((val < 0) || (val > 1)) {
+        return -1;
+    }
+    board_type = val;
+    if (old_board_type != board_type) {
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
+    return 0;
+}
+
+static int set_iec_reset(int val, void *param)
+{
+    if ((val < 0) || (val > 1)) {
+        return -1;
+    }
+    iec_reset = val;
+    return 0;
 }
 
 static int set_cia1_model(int val, void *param)
@@ -211,6 +269,14 @@ static const resource_string_t resources_string[] = {
     { "ChargenName", "chargen", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &chargen_rom_name, set_chargen_rom_name, NULL },
+    /* kernal and basic are not used, but the resources must work if the model
+     * switching from x64sc is (ab)used */
+    { "KernalName", "kernal", RES_EVENT_NO, NULL,
+      /* FIXME: should be same but names may differ */
+      &kernal_rom_name, set_kernal_rom_name, NULL },
+    { "BasicName", "basic", RES_EVENT_NO, NULL,
+      /* FIXME: should be same but names may differ */
+      &basic_rom_name, set_basic_rom_name, NULL },
     { "SCPU64Name", "scpu64", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &scpu64_rom_name, set_scpu64_rom_name, NULL },
@@ -231,6 +297,10 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
+    { "BoardType", 0, RES_EVENT_SAME, NULL,
+      &board_type, set_board_type, NULL },
+    { "IECReset", 1, RES_EVENT_SAME, NULL,
+      &iec_reset, set_iec_reset, NULL },
     { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia1_model, set_cia1_model, NULL },
     { "CIA2Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
