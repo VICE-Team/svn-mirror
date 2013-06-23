@@ -59,7 +59,7 @@ Best results are achieved when a lightweigtht desktop e.g. LUBUNTU
 (Linux) is used. Gnome Shell or Unity are known to be interacting
 badly on the gfx output side (OpenGL) imposing visible jitters.
 You may find the article:
-  http://paradoxuncreated.com/Blog/wordpress/?p=2268
+ http://ovekarlsen.com/Blog/turning-ubuntu-12-04-into-a-professional-low-jitter-os/
 helpful to tune your system for best results.
 To get best results the video thread shall synchronize to the vertical
 retrace. For nvidia gfx boards this can often be controlled either by
@@ -78,7 +78,7 @@ If you see:
   problem!
 on your console when starting up an emulator and if you encounter
 jerky output, you may once again revisit the article: 
-   http://paradoxuncreated.com/Blog/wordpress/?p=2268
+ http://ovekarlsen.com/Blog/turning-ubuntu-12-04-into-a-professional-low-jitter-os/
 In addition to those measures, you may tweak the bit of performance by
 allowing user processes setting RT priorities by:
 
