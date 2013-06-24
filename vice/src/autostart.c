@@ -662,18 +662,24 @@ static void autostart_done(void)
 static void disk_eof_callback(void)
 {
     if (handle_drive_true_emulation_overridden) {
-        BYTE id[2], *buffer;
+        BYTE id[2], *buffer = NULL;
         unsigned int track, sector;
-
+        /* FIXME: shouldnt this loop over all drives? */
         if (orig_drive_true_emulation_state) {
             log_message(autostart_log, "Turning true drive emulation on.");
-            vdrive_bam_get_disk_id(8, id);
-            vdrive_get_last_read(&track, &sector, &buffer);
+            if (vdrive_bam_get_disk_id(8, id) == 0) {
+                vdrive_get_last_read(&track, &sector, &buffer);
+            }
         }
         set_true_drive_emulation_mode(orig_drive_true_emulation_state);
         if (orig_drive_true_emulation_state) {
-            drive_set_disk_memory(id, track, sector, drive_context[0]);
-            drive_set_last_read(track, sector, buffer, drive_context[0]);
+            if (buffer) {
+                log_message(autostart_log, "Restoring true drive state of drive 8.");
+                drive_set_disk_memory(id, track, sector, drive_context[0]);
+                drive_set_last_read(track, sector, buffer, drive_context[0]);
+            } else {
+                log_message(autostart_log, "No Disk Image in drive 8.");
+            }
         }
     }
 
