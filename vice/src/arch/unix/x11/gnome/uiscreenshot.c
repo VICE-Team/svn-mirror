@@ -766,7 +766,7 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 
     driver = buttons[i].driver;
     ext = buttons[i].ext;
-    
+
 #ifdef HAVE_FFMPEG
     if (strcmp(driver, "FFMPEG") == 0) {
         int audio_bitrate, video_bitrate;
@@ -781,9 +781,9 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
         resources_set_int("FFMPEGVideoCodec", selected_vc);
         log_message(LOG_DEFAULT, "FFMPEG: Driver: %s, ac: %d, vc: %d\n", selected_driver, selected_ac, selected_vc);
     }
-#endif    
+#endif
     tmp = lib_stralloc(fn);
-    lib_free(fn);
+    free(fn); /* do not use lib_free on pointers not allocated by lib_malloc */
     if (!util_get_extension(tmp)) {
         util_add_extension(&tmp, ext);
     }
