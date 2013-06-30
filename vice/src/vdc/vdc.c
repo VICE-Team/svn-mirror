@@ -331,7 +331,7 @@ void vdc_reset(void)
 
     vdc.frame_counter = 0;
     vdc.screen_text_cols = VDC_SCREEN_MAX_TEXTCOLS;
-    vdc.xsmooth = 0;
+    vdc.xsmooth = 7;
     vdc.regs[0] = 126;
     vdc.regs[1] = 102;
     vdc.xchars_total = vdc.regs[0] + 1;

@@ -360,7 +360,7 @@ void vdc_store(WORD addr, BYTE value)
                 (so the xsmooth color is irrelevant, but changing it still forces a repaint of the line) */
                 vdc.raster.xsmooth_color++;
 #else
-                vdc.xsmooth = 0;
+                vdc.xsmooth = (vdc.regs[22] >> 4) - ((vdc.regs[25] & 0x10) ? 1 : 0);
                 vdc.raster.xsmooth = 0;
 #endif
             }
