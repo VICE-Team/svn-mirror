@@ -2394,10 +2394,10 @@ if test x"$have_strdup_func" = "xno"; then
                [char *something = strdup("something")],
                [AC_MSG_RESULT(yes); have_strdup_func=yes],
                [AC_MSG_RESULT(no); have_strdup_func=no])
-fi
 
-if test x"$have_strdup_func" = "xyes"; then
-  AC_DEFINE(HAVE_STRDUP,,[Define to 1 if you have the `strdup' function.])
+  if test x"$have_strdup_func" = "xyes"; then
+    AC_DEFINE(HAVE_STRDUP,,[Define to 1 if you have the `strdup' function.])
+  fi
 fi
 
 AC_SUBST(LIBS)
