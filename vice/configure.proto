@@ -2259,7 +2259,7 @@ if test x"$is_win32" = "xyes"; then
 fi
 
 if test x"$is_beos" = "xyes" -o x"$is_beos_x11" = "xyes"; then
-    SOUND_DRIVERS="$SOUND_DRIVERS soundbeos.o"
+    SOUND_DRIVERS="$SOUND_DRIVERS soundbeos.o soundbsp.o"
 fi
 
 if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes"; then
@@ -2866,7 +2866,7 @@ elif test x"$is_beos" = "xyes"; then
 
   dnl On BEOS, we already know what we want.
 
-  LIBS="$LIBS -lbe -ltracker -ldevice -lgame"
+  LIBS="$LIBS -lbe -ltracker -ldevice -lmedia -lgame"
   AC_SUBST(LDFLAGS)
 
 elif test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes"; then
