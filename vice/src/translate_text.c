@@ -11634,7 +11634,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DONT_TRACE_DRIVE1_CPU_TR, "Sürücü1 CPU'sunu izleme"},
 #endif
 
-#if DRIVE_NUM > 2
 /* debug.c */
 /* en */ {IDCLS_TRACE_DRIVE2_CPU,    N_("Trace the drive2 CPU")},
 #ifdef HAS_TRANSLATION
@@ -11668,9 +11667,7 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_DONT_TRACE_DRIVE2_CPU_SV, "Spåra inte processor i diskettstation 2"},
 /* tr */ {IDCLS_DONT_TRACE_DRIVE2_CPU_TR, "Sürücü2 CPU'sunu izleme"},
 #endif
-#endif
 
-#if DRIVE_NUM > 3
 /* debug.c */
 /* en */ {IDCLS_TRACE_DRIVE3_CPU,    N_("Trace the drive3 CPU")},
 #ifdef HAS_TRANSLATION
@@ -11703,7 +11700,6 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DONT_TRACE_DRIVE3_CPU_RU, "Do not trace the drive3 CPU"},
 /* sv */ {IDCLS_DONT_TRACE_DRIVE3_CPU_SV, "Spåra inte processor i diskettstation 3"},
 /* tr */ {IDCLS_DONT_TRACE_DRIVE3_CPU_TR, "Sürücü3 CPU'sunu izleme"},
-#endif
 #endif
 
 /* debug.c */

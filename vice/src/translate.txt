@@ -1701,21 +1701,17 @@ IDCLS_TRACE_DRIVE1_CPU
 /* debug.c */
 IDCLS_DONT_TRACE_DRIVE1_CPU
 
-#if DRIVE_NUM > 2
 /* debug.c */
 IDCLS_TRACE_DRIVE2_CPU
 
 /* debug.c */
 IDCLS_DONT_TRACE_DRIVE2_CPU
-#endif   /* DRIVE_NUM > 2 */
 
-#if DRIVE_NUM > 3
 /* debug.c */
 IDCLS_TRACE_DRIVE3_CPU
 
 /* debug.c */
 IDCLS_DONT_TRACE_DRIVE3_CPU
-#endif   /* DRIVE_NUM > 3 */
 
 /* debug.c */
 IDCLS_TRACE_MODE
