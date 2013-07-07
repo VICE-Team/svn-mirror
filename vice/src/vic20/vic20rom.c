@@ -59,9 +59,10 @@ int vic20rom_kernal_checksum(void)
     }
 
     if (sum != VIC20_KERNAL_CHECKSUM) {
-        log_error(vic20rom_log,
-                  "Warning: Unknown Kernal image.  Sum: %d ($%04X).",
+        log_warning(vic20rom_log,
+                  "Unknown Kernal image.  Sum: %d ($%04X).",
                   sum, sum);
+        return -1;
     }
     return 0;
 }
@@ -86,10 +87,10 @@ int vic20rom_load_kernal(const char *rom_name)
         resources_set_int("VirtualDevices", trapfl);
         return -1;
     }
-    memcpy(vic20memrom_kernal_trap_rom, vic20memrom_kernal_rom,
-           VIC20_KERNAL_ROM_SIZE);
 
     vic20rom_kernal_checksum();
+    memcpy(vic20memrom_kernal_trap_rom, vic20memrom_kernal_rom,
+           VIC20_KERNAL_ROM_SIZE);
 
     resources_set_int("VirtualDevices", trapfl);
 
@@ -107,8 +108,8 @@ int vic20rom_basic_checksum(void)
     }
 
     if (sum != VIC20_BASIC_CHECKSUM) {
-        log_error(vic20rom_log,
-                  "Warning: Unknown Basic image.  Sum: %d ($%04X).",
+        log_warning(vic20rom_log,
+                  "Unknown Basic image.  Sum: %d ($%04X).",
                   sum, sum);
     }
     return 0;

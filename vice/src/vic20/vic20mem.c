@@ -57,6 +57,7 @@
 #include "vic20ieeevia.h"
 #include "vic20mem.h"
 #include "vic20memrom.h"
+#include "vic20rom.h"
 #include "vic20via.h"
 
 /* ------------------------------------------------------------------------- */
@@ -742,6 +743,11 @@ int mem_patch_kernal(void)
     int rev, video_mode;
     short bytes, n, i = 0;
     WORD a;
+
+    if (vic20rom_kernal_checksum() < 0) {
+        log_message(LOG_ERR, "VIC20MEM: unknown kernal, cannot patch kernal.");
+        return -1;
+    }
 
     resources_get_int("MachineVideoStandard", &video_mode);
 
