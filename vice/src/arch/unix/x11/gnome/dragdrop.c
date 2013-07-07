@@ -148,7 +148,7 @@ static void drag_data_received_handler(GtkWidget *widget, GdkDragContext *contex
         }
         DBG(("DnD done"));
 	if (lfn) {
-	    lib_free(lfn);
+	    free(lfn);
 	}
     }
 
