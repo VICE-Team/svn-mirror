@@ -33,6 +33,7 @@ extern int psid_load_file(const char* filename);
 extern void psid_init_tune(void);
 extern void psid_set_tune(int tune);
 extern int psid_tunes(int* default_tune);
+extern int psid_basic_rsid_to_autostart(int *address, char **data, int *length);
 extern void psid_init_driver(void);
 extern unsigned int psid_increment_frames(void);
 extern int reloc65(char** buf, int* fsize, int addr);

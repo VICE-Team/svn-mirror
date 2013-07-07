@@ -49,6 +49,7 @@ static log_t vlog = LOG_ERR;
 
 typedef struct psid_s {
     /* PSID data */
+    BYTE is_rsid;
     WORD version;
     WORD data_offset;
     WORD load_addr;
@@ -209,6 +210,7 @@ int psid_load_file(const char* filename)
     if (fread(ptr, 1, 6, f) != 6 || (memcmp(ptr, "PSID", 4) != 0 && memcmp(ptr, "RSID", 4) != 0)) {
         goto fail;
     }
+    psid->is_rsid = ptr[0] == 'R';
 
     ptr += 4;
     psid->version = psid_extract_word(&ptr);
@@ -413,7 +415,7 @@ void psid_init_tune(void)
     }
 
     /* Check for PlaySID specific file. */
-    if (psid->flags & 0x02) {
+    if (psid->flags & 0x02 && !psid->is_rsid) {
         log_warning(vlog, "Image is PlaySID specific - trying anyway.");
     }
 
@@ -472,6 +474,16 @@ void psid_init_tune(void)
 
     /* force flag in c64 memory, many sids reads it and must be set AFTER the sid flag is read */
     ram_store((WORD)(0x02a6), (BYTE)(sync == MACHINE_SYNC_NTSC ? 0 : 1));
+}
+
+int psid_basic_rsid_to_autostart(int *address, char **data, int *length) {
+    if (psid->is_rsid && psid->flags & 0x02) {
+        *address = psid->load_addr;
+        *data = psid->data;
+        *length = psid->data_size;
+        return 1;
+    }
+    return 0;
 }
 
 void psid_set_tune(int tune)
