@@ -378,7 +378,7 @@ static int psid_set_cbm80(WORD vec, WORD addr)
     return i;
 }
 
-void psid_init_tune(void)
+void psid_init_tune(int install_driver_hook)
 {
     int start_song = psid_tune;
     int sync, sid_model;
@@ -463,14 +463,15 @@ void psid_init_tune(void)
     }
 
     /* Store parameters for PSID player. */
+    if (install_driver_hook) {
+        /* Skip JMP. */
+        addr = reloc_addr + 3;
 
-    /* Skip JMP. */
-    addr = reloc_addr + 3;
+        /* CBM80 reset vector. */
+        addr += psid_set_cbm80(reloc_addr, addr);
 
-    /* CBM80 reset vector. */
-    addr += psid_set_cbm80(reloc_addr, addr);
-
-    ram_store(addr, (BYTE)(start_song));
+        ram_store(addr, (BYTE)(start_song));
+    }
 
     /* force flag in c64 memory, many sids reads it and must be set AFTER the sid flag is read */
     ram_store((WORD)(0x02a6), (BYTE)(sync == MACHINE_SYNC_NTSC ? 0 : 1));

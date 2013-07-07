@@ -30,7 +30,7 @@
 extern int psid_init_resources(void);
 extern int psid_init_cmdline_options(void);
 extern int psid_load_file(const char* filename);
-extern void psid_init_tune(void);
+extern void psid_init_tune(int install_driver_hook);
 extern void psid_set_tune(int tune);
 extern int psid_tunes(int* default_tune);
 extern int psid_basic_rsid_to_autostart(int *address, char **data, int *length);
