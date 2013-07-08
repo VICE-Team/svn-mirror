@@ -218,7 +218,9 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
 
                         new_item = gtk_check_menu_item_new_with_label(label);
 
+                        /* FIXME: memory leak */
                         cmt = lib_malloc(sizeof(checkmark_t));
+                        /* FIXME: memory leak */
                         cmt->name = lib_stralloc(list[i].string);
                         cmt->w = new_item;
                         cmt->cb = list[i].callback;
@@ -250,6 +252,7 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
 
                     new_item = gtk_menu_item_new_with_label(item);
                     if (list[i].callback) {
+                        /* FIXME: memory leak */
                         obj = lib_malloc(sizeof(ui_menu_cb_obj));
                         obj->value = (void*)list[i].callback_data;
 

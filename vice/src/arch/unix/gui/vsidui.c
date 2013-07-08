@@ -506,6 +506,17 @@ static void vsid_create_menus(void)
 #endif
 }
 
+static void vsid_close_menus(void)
+{
+    unsigned int i;
+    for (i = 0; i < 256; i++) {
+        if (ui_tune_menu[0].sub_menu[i].string == NULL) {
+            break;
+        }
+        lib_free(ui_tune_menu[0].sub_menu[i].string);
+    }
+}
+
 int vsid_ui_init(void)
 {
     int res;
@@ -530,6 +541,7 @@ int vsid_ui_init(void)
 void vsid_ui_close(void) /* FIXME: bad name */
 {
     uisound_menu_shutdown();
+    vsid_close_menus();
 }
 
 void vsid_ui_display_name(const char *name)

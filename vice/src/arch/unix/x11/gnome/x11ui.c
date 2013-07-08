@@ -680,9 +680,24 @@ int ui_init_finalize(void)
 
 /******************************************************************************/
 
+/*
+ * FIXME: although the OS does ofcourse take care of it, we should still cleanly
+ *        free all memory allocated by lib_.. functions, since that will make
+ *        tracking down actual memory leaks using --enable-debug much easier.
+ * 
+ * TODO: video-resources.c:715, fullscreen.c:295, uimenu.c:222,224,256
+ */
 void ui_shutdown(void)
 {
+    unsigned int i;
     ui_common_shutdown();
+    for (i = 0; i < num_app_shells; i++) {
+        lib_free(app_shells[i].title);
+        if (machine_class == VICE_MACHINE_VSID) {
+            shutdown_vsid_ctrl_widget();
+        }
+        shutdown_pal_ctrl_widget(app_shells[i].pal_ctrl, app_shells[i].pal_ctrl_data);
+    }
 }
 
 #if 0

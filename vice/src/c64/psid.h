@@ -29,6 +29,7 @@
 
 extern int psid_init_resources(void);
 extern int psid_init_cmdline_options(void);
+extern void psid_shutdown(void);
 extern int psid_load_file(const char* filename);
 extern void psid_init_tune(int install_driver_hook);
 extern void psid_set_tune(int tune);

@@ -49,6 +49,8 @@
 #include "vice-event.h"
 #include "videoarch.h"
 
+#include <string.h>
+
 #ifdef DEBUG_X11UI
 #define DBG(_x_) log_debug _x_
 #else
@@ -107,14 +109,14 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     char *warp;
 
     for (i = 0; i < num_app_shells; i++) {
-        warp = (warp_flag ? _("(warp)") : "");
-        if (!percent) {
-            str[0] = 0;
-        } else {
-            sprintf(str, "%d%%, %d fps ", percent_int, framerate_int);
-        }
         /* we cant properly add a margin around the label, so we add a leading space instead */
-        gtk_label_set_text(app_shells[i].speed_label, util_concat(" ", &str[0], warp, NULL));
+        warp = (warp_flag ? _("(warp) ") : "");
+        str[0] = 0;
+        if (percent) {
+            sprintf(str, " %d%%, %d fps ", percent_int, framerate_int);
+        }
+        strcat(str, warp);
+        gtk_label_set_text(app_shells[i].speed_label, str);
     }
     if (statustext_display_time > 0) {
         statustext_display_time--;

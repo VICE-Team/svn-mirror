@@ -84,6 +84,18 @@ ui_window_t build_vsid_ctrl_widget(void)
     return event_box;
 }
 
+void shutdown_vsid_ctrl_widget(void)
+{
+    lib_free(name);
+    lib_free(author);
+    lib_free(copyright);
+    lib_free(model);
+    lib_free(vsidsync);
+    lib_free(irq);
+    lib_free(info);
+    lib_free(line);
+}
+
 void ui_vsid_setpsid(const char *psid)
 {
     lib_free(name);

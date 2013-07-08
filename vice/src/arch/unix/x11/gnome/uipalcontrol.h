@@ -31,6 +31,7 @@
 #include "videoarch.h"
 
 extern GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data);
+extern void shutdown_pal_ctrl_widget(GtkWidget *f, void *ctrldata);
 extern void ui_update_palctrl(void);
 extern int palctrl_get_height(video_canvas_t *canvas);
 

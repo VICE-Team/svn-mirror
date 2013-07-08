@@ -95,17 +95,17 @@ static unsigned int lib_debug_guard_size[LIB_DEBUG_SIZE];
 #ifdef LIB_DEBUG_CALLER
 static void *lib_debug_func_level1(void)
 {
-    return __builtin_return_address(1 + 1);
+    return __builtin_extract_return_addr (__builtin_return_address(1 + 1));
 }
 
 static void *lib_debug_func_level2(void)
 {
-    return __builtin_return_address(2 + 1);
+    return __builtin_extract_return_addr (__builtin_return_address(2 + 1));
 }
 
 static void *lib_debug_func_level3(void)
 {
-    return __builtin_return_address(3 + 1);
+    return __builtin_extract_return_addr (__builtin_return_address(3 + 1));
 }
 #endif
 
@@ -180,17 +180,12 @@ static void lib_debug_alloc(void *ptr, size_t size, int level)
             break;
     }
     lib_debug_caller[index] = func;
-#endif
-
-#if 0
-    if (ptr == (void *)0x85c2c80) {
-        *(int *)0 = 0;
-    }
-#endif
 #if 0
     printf("lib_debug_alloc(): Alloc address %p size %i slot %i from %p.\n",
            ptr, size, index, func);
 #endif
+#endif
+
     lib_debug_address[index] = ptr;
     lib_debug_size[index] = (unsigned int)size;
 #ifdef LIB_DEBUG_PINPOINT
@@ -230,6 +225,7 @@ static void lib_debug_free(void *ptr, unsigned int level, unsigned int fill)
     }
 
 #ifdef LIB_DEBUG_CALLER
+#if 0
     switch (level) {
         case 1:
             func = lib_debug_func_level1();
@@ -241,6 +237,7 @@ static void lib_debug_free(void *ptr, unsigned int level, unsigned int fill)
             func = lib_debug_func_level3();
             break;
     }
+#endif
 #endif
 
 #if 0

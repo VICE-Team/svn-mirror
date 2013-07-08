@@ -202,9 +202,9 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
 
     /* we cant properly add a margin around the frame label, so we add a
        leading space instead */
-    name = util_concat(" ", (machine_class != VICE_MACHINE_VSID) ? _("CRT emulation settings") : _("Mixer"), NULL);
+    name = (machine_class != VICE_MACHINE_VSID) ? _("CRT emulation settings") : _("Mixer");
     f = gtk_frame_new(name);
-    gtk_frame_set_label_align(GTK_FRAME(f), 0, 0);
+    gtk_frame_set_label_align(GTK_FRAME(f), 0.025f, 0);
     gtk_frame_set_shadow_type(GTK_FRAME(f), GTK_SHADOW_IN);
 
     b = gtk_vbox_new(FALSE, 5);
@@ -270,6 +270,16 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
     *(pal_res_t **)data = ctrldata;
     pal_ctrl_update_internal(ctrldata);
     return f;
+}
+
+void shutdown_pal_ctrl_widget(GtkWidget *f, void *ctrldata)
+{
+    unsigned int i;
+    pal_res_t *ctrl_data = (pal_res_t*)ctrldata;
+    for (i = 0; i < NUMSLIDERS; ++i) {
+        lib_free(ctrl_data[i].res);
+    }
+    lib_free(ctrl_data);
 }
 
 int palctrl_get_height(video_canvas_t *canvas)

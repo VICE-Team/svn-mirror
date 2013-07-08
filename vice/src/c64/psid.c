@@ -359,6 +359,12 @@ fail:
     return -1;
 }
 
+void psid_shutdown(void)
+{
+    lib_free(psid);
+    psid = NULL;
+}
+
 /* Use CBM80 vector to start PSID driver. This is a simple method to
    transfer control to the PSID driver while running in a pure C64
    environment. */
@@ -478,7 +484,7 @@ void psid_init_tune(int install_driver_hook)
 }
 
 int psid_basic_rsid_to_autostart(int *address, char **data, int *length) {
-    if (psid->is_rsid && psid->flags & 0x02) {
+    if (psid && psid->is_rsid && psid->flags & 0x02) {
         *address = psid->load_addr;
         *data = psid->data;
         *length = psid->data_size;

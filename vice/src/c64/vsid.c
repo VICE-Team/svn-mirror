@@ -316,6 +316,7 @@ void machine_resources_shutdown(void)
     video_resources_shutdown();
     c64_resources_shutdown();
     sound_resources_shutdown();
+    cartio_shutdown();
 }
 
 /* C64-specific command-line option initialization.  */
@@ -462,6 +463,7 @@ void machine_specific_shutdown(void)
     if (!console_mode) {
         vsid_ui_close();
     }
+    psid_shutdown();
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

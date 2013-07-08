@@ -290,10 +290,9 @@ static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
 #endif
         return -1;
     }
-
+    /* FIXME: memory leak */
     lib_free(canvas->fullscreenconfig->device);
     canvas->fullscreenconfig->device = lib_stralloc(device);
-
     return 0;
 }
 
