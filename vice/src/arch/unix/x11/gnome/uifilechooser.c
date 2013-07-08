@@ -67,6 +67,8 @@ extern char *fixedfontname;
 
 static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
 
+static char *filesel_dir = NULL;
+
 /******************************************************************************/
 
 static void ui_fill_preview(GtkFileChooser *fs, gpointer data);
@@ -191,19 +193,23 @@ static void ui_fill_preview(GtkFileChooser *fs, gpointer data)
 
     if (!contents) {
         gtk_list_store_append(store, &iter);
-        gtk_list_store_set(store, &iter, 0, (char *)lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE")), 1, row, -1);
+        tmp1 = lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
+        gtk_list_store_set(store, &iter, 0, tmp1, 1, row, -1);
+        lib_free(tmp1);
     } else {
         tmp1 = image_contents_to_string(contents, !have_cbm_font);
         tmp2 = (char *)convert_utf8((unsigned char *)tmp1);
         gtk_list_store_append(store, &iter);
         gtk_list_store_set(store, &iter, 0, tmp2, 1, row++, -1);
         lib_free(tmp1);
+        lib_free(tmp2);
         for (element = contents->file_list; element != NULL; element = element->next, row++) {
             tmp1 = (char *)image_contents_file_to_string(element, !have_cbm_font);
             tmp2 = (char *)convert_utf8((unsigned char *)tmp1);
             gtk_list_store_append(store, &iter);
             gtk_list_store_set(store, &iter, 0, tmp2, 1, row, -1);
             lib_free(tmp1);
+            lib_free(tmp2);
         }
         if (contents->blocks_free >= 0) {
             tmp2 = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
@@ -236,7 +242,6 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
                      ui_button_t *button_return, unsigned int show_preview, int *attach_wp, ui_filechooser_t action)
 {
     static GtkWidget* file_selector = NULL;
-    static char *filesel_dir = NULL;
     char *ret;
     char *current_dir = NULL;
     char *filename = NULL;
@@ -264,7 +269,7 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
     ui_popup(file_selector, title, FALSE);
     res = gtk_dialog_run(GTK_DIALOG(file_selector));
     ui_popdown(file_selector);
-    
+
     switch (res) {
     case GTK_RESPONSE_ACCEPT:
     case GTK_RESPONSE_OK:
@@ -279,10 +284,14 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
 	*button_return = UI_BUTTON_CANCEL;
 	auto_start_button = NULL;
 	gtk_widget_destroy(file_selector);
+        if (current_dir != NULL) {
+            ioutil_chdir(current_dir);
+            lib_free(current_dir);
+        }
 	return NULL;
 	break;
     }
-    
+
     if (attach_wp) {
         *attach_wp = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wp));
     }
@@ -300,6 +309,7 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
 
     lib_free(filesel_dir);
     filesel_dir = ioutil_current_dir();
+
     if (current_dir != NULL) {
         ioutil_chdir(current_dir);
         lib_free(current_dir);
@@ -307,3 +317,10 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
     return ret;
 }
 
+/* called from ui_shutdown */
+void shutdown_file_selector(void)
+{
+    if (filesel_dir != NULL) {
+        lib_free(filesel_dir);
+    }
+}

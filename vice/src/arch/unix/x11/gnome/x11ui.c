@@ -80,6 +80,7 @@
 #include "uisettings.h"
 #include "uicommands.h"
 #include "uicontents.h"
+#include "uifilechooser.h"
 #include "uifileentry.h"
 #include "uilib.h"
 #include "uistatusbar.h"
@@ -698,6 +699,7 @@ void ui_shutdown(void)
         }
         shutdown_pal_ctrl_widget(app_shells[i].pal_ctrl, app_shells[i].pal_ctrl_data);
     }
+    shutdown_file_selector();
 }
 
 #if 0
