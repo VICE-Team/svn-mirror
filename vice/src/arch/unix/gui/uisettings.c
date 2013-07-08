@@ -405,13 +405,13 @@ ui_menu_entry_t ui_settings_settings_menu[] = {
 UI_MENU_DEFINE_RADIO(TraceMode)
 
 ui_menu_entry_t debug_tracemode_submenu[] = {
-    { "Normal", UI_MENU_TYPE_TICK,
+    { N_("Normal"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_NORMAL, NULL },
-    { "Small", UI_MENU_TYPE_TICK,
+    { N_("Small"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_SMALL, NULL },
-    { "History", UI_MENU_TYPE_TICK,
+    { N_("History"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_HISTORY, NULL },
-    { "Autoplay", UI_MENU_TYPE_TICK,
+    { N_("Autoplay"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_AUTOPLAY, NULL },
     { NULL }
 };
@@ -423,25 +423,25 @@ UI_MENU_DEFINE_TOGGLE(Drive2CPU_TRACE)
 UI_MENU_DEFINE_TOGGLE(Drive3CPU_TRACE)
 
 ui_menu_entry_t debug_settings_submenu[] = {
-    { "Trace Mode", UI_MENU_TYPE_NORMAL,
+    { N_("Trace Mode"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, debug_tracemode_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { "Main CPU Trace", UI_MENU_TYPE_TICK,
+    { N_("Main CPU Trace"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MainCPU_TRACE, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { "Drive0 CPU Trace", UI_MENU_TYPE_TICK,
+    { N_("Drive0 CPU Trace"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive0CPU_TRACE, NULL, NULL },
-    { "Drive1 CPU Trace", UI_MENU_TYPE_TICK,
+    { N_("Drive1 CPU Trace"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive1CPU_TRACE, NULL, NULL },
-    { "Drive2 CPU Trace", UI_MENU_TYPE_TICK,
+    { N_("Drive2 CPU Trace"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive2CPU_TRACE, NULL, NULL },
-    { "Drive3 CPU Trace", UI_MENU_TYPE_TICK,
+    { N_("Drive3 CPU Trace"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive3CPU_TRACE, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_debug_settings_menu[] = {
-    { "Debug settings", UI_MENU_TYPE_NORMAL,
+    { N_("Debug settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, debug_settings_submenu },
     { NULL }
 };
