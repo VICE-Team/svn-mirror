@@ -110,27 +110,27 @@ static void DRAW_analog(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
 /* phase shift of all colors */
 #define RGBI_PHASE          0.0f
 
-#define RGB(x) (((x)>>16) & 0xff), (((x)>>8) & 0xff), (((x)>>0) & 0xff)
+#define MAKE_RGB(x) (((x)>>16) & 0xff), (((x)>>8) & 0xff), (((x)>>0) & 0xff)
 static video_cbm_color_t rgbi_colors[RGBI_NUM_COLORS] =
 {
-    { RGB(0x000000), "Black"       },
-    { RGB(0x555555), "Medium Gray" },
-    { RGB(0x0000AA), "Blue"        },
-    { RGB(0x5555FF), "Light Blue"  },
-    { RGB(0x00AA00), "Green"       },
-    { RGB(0x55FF55), "Light Green" },
-    { RGB(0x00AAAA), "Cyan"        },
-    { RGB(0x55FFFF), "Light Cyan"  },
-    { RGB(0xAA0000), "Red"         },
-    { RGB(0xFF5555), "Light Red"   },
-    { RGB(0xAA00AA), "Purple"      },
-    { RGB(0xFF55FF), "Light Purple"},
-    { RGB(0xAA5500), "Brown"       }, /* "brown fix", aka "dark yellow" 0xAAAA00 */
-    { RGB(0xFFFF55), "Yellow"      },
-    { RGB(0xAAAAAA), "Light Gray"  },
-    { RGB(0xFFFFFF), "White"       },
+    { MAKE_RGB(0x000000), "Black"       },
+    { MAKE_RGB(0x555555), "Medium Gray" },
+    { MAKE_RGB(0x0000AA), "Blue"        },
+    { MAKE_RGB(0x5555FF), "Light Blue"  },
+    { MAKE_RGB(0x00AA00), "Green"       },
+    { MAKE_RGB(0x55FF55), "Light Green" },
+    { MAKE_RGB(0x00AAAA), "Cyan"        },
+    { MAKE_RGB(0x55FFFF), "Light Cyan"  },
+    { MAKE_RGB(0xAA0000), "Red"         },
+    { MAKE_RGB(0xFF5555), "Light Red"   },
+    { MAKE_RGB(0xAA00AA), "Purple"      },
+    { MAKE_RGB(0xFF55FF), "Light Purple"},
+    { MAKE_RGB(0xAA5500), "Brown"       }, /* "brown fix", aka "dark yellow" 0xAAAA00 */
+    { MAKE_RGB(0xFFFF55), "Yellow"      },
+    { MAKE_RGB(0xAAAAAA), "Light Gray"  },
+    { MAKE_RGB(0xFFFFFF), "White"       },
 };
-#undef RGB
+#undef MAKE_RGB
 
 static video_cbm_palette_t rgbi_palette =
 {
