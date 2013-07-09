@@ -470,7 +470,7 @@ void speech_setup_context(machine_context_t *machine_context)
 {
     DBG(("SPEECH: speech_setup_context\n"));
     /* init t6721 chip */
-    t6721 = lib_malloc(sizeof(t6721_state));
+    t6721 = lib_calloc(1, sizeof(t6721_state));
     t6721->read_data = read_bit_from_fifo;
     t6721->set_apd = set_apd;
     t6721->set_eos = set_eos;
@@ -594,6 +594,14 @@ void speech_resources_shutdown(void)
 {
     lib_free(speech_filename);
     speech_filename = NULL;
+}
+
+void speech_shutdown(void)
+{
+    if (t6721) {
+        lib_free(t6721);
+        t6721 = NULL;
+    }
 }
 
 static int set_speech_rom(const char *name, void *param)

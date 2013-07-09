@@ -479,6 +479,7 @@ void machine_specific_shutdown(void)
     tape_image_detach_internal(1);
 
     ted_shutdown();
+    speech_shutdown();
 
     cs256k_shutdown();
     h256k_shutdown();
