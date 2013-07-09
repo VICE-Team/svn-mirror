@@ -46,6 +46,7 @@ typedef struct pal_templ_s {
     char *res;          /* Associated resource */
     int scale;          /* Scale to adjust to value range 0..4000 */
     int perchip;        /* resource per chip (=1) or global (=0) */
+    int vsid;           /* 0: omit if vsid 1: show if vsid */
 } pal_templ_t;
 
 typedef struct pal_res_s {
@@ -59,22 +60,22 @@ typedef struct pal_res_s {
 } pal_res_t;
 
 static pal_templ_t ctrls[] = {
-    { N_("Brightness"), "ColorBrightness", 2, 1 },
-    { N_("Contrast"), "ColorContrast", 2, 1 },
-    { N_("Saturation"), "ColorSaturation", 2, 1 },
-    { N_("Tint"), "ColorTint", 2, 1 },
-    { N_("Gamma"), "ColorGamma", 1, 1 },
+    { N_("Brightness"), "ColorBrightness", 2, 1, 0 },
+    { N_("Contrast"), "ColorContrast", 2, 1, 0 },
+    { N_("Saturation"), "ColorSaturation", 2, 1, 0 },
+    { N_("Tint"), "ColorTint", 2, 1, 0 },
+    { N_("Gamma"), "ColorGamma", 1, 1, 0 },
     /* PAL/CRT related settings */
-    { N_("Blur"), "PALBlur", 4, 1 },
-    { N_("Scanline shade"), "PALScanLineShade", 4, 1 },
-    { N_("Odd lines phase"), "PALOddLinePhase", 2, 1 },
-    { N_("Odd lines offset"), "PALOddLineOffset", 2, 1 },
+    { N_("Blur"), "PALBlur", 4, 1, 0 },
+    { N_("Scanline shade"), "PALScanLineShade", 4, 1, 0 },
+    { N_("Odd lines phase"), "PALOddLinePhase", 2, 1, 0 },
+    { N_("Odd lines offset"), "PALOddLineOffset", 2, 1, 0 },
     /* volume settings */
-    { N_("Volume"), "SoundVolume", 40, 0 },
-    { N_("Drives Volume"), "DriveSoundEmulationVolume", 1, 0 },
+    { N_("Volume"), "SoundVolume", 40, 0, 1 },
+    { N_("Drives Volume"), "DriveSoundEmulationVolume", 1, 0, 0 },
 #ifdef USE_UI_THREADS
-    { N_("Display Thread Rate"), "DThreadRate", 80, 0 },
-    { N_("Display Thread Ghosting"), "DThreadGhosting", 500, 0 },
+    { N_("Display Thread Rate"), "DThreadRate", 80, 0, 0 },
+    { N_("Display Thread Ghosting"), "DThreadGhosting", 500, 0, 0 },
 #endif
 };
 
@@ -228,7 +229,11 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
         ctrldata[i].scale = ctrls[i].scale;
         ctrldata[i].adj = adj = GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 4100, 1, 100, 100));
 
-        resources_get_int(resname, &v);
+        if ((ctrls[i].vsid == 0) && (machine_class == VICE_MACHINE_VSID)) {
+            v = 0;
+        } else {
+            resources_get_int(resname, &v);
+        }
         ctrldata[i].res = resname;
 
         gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat)(v * ctrldata[i].scale));
