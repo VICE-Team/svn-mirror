@@ -563,7 +563,7 @@ void lib_debug_check(void)
 }
 
 /*----------------------------------------------------------------------------*/
-
+/* like malloc, but abort on out of memory. */
 void *lib_malloc(size_t size)
 {
 #ifdef LIB_DEBUG
@@ -581,10 +581,12 @@ void *lib_malloc(size_t size)
     lib_debug_alloc(ptr, size, 3);
 #endif
 
+#if 0
+    /* clear/fill the block - this should only ever be used for debugging! */
     if (ptr) {
         memset(ptr, 0, size);
     }
-
+#endif
     return ptr;
 }
 
