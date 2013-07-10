@@ -272,6 +272,7 @@ int machine_resources_init(void)
 void machine_resources_shutdown(void)
 {
     cartridge_resources_shutdown();
+    speech_resources_shutdown();
     serial_shutdown();
     video_resources_shutdown();
     plus4_resources_shutdown();
