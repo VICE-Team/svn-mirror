@@ -440,9 +440,9 @@ ui_menu_action_t ui_dispatch_events(void)
                 }
                 break;
             default:
-                SDL_EventState(SDL_VIDEORESIZE, SDL_IGNORE);
+                /* SDL_EventState(SDL_VIDEORESIZE, SDL_IGNORE); */
                 ui_handle_misc_sdl_event(e);
-                SDL_EventState(SDL_VIDEORESIZE, SDL_ENABLE);
+                /* SDL_EventState(SDL_VIDEORESIZE, SDL_ENABLE); */
                 break;
         }
         /* When using the menu or vkbd, pass every meaningful event to the caller */
