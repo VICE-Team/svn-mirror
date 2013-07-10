@@ -280,19 +280,18 @@ static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
     while (1) {
 #ifdef USE_XF86_VIDMODE_EXT
         if (strcmp(STR_VIDMODE, device) == 0) {
+            canvas->fullscreenconfig->device = STR_VIDMODE;
             break;
         }
 #endif
 #ifdef HAVE_XRANDR
         if (strcmp(STR_XRANDR, device) == 0) {
+            canvas->fullscreenconfig->device = STR_XRANDR;
             break;
         }
 #endif
         return -1;
     }
-    /* FIXME: memory leak */
-    lib_free(canvas->fullscreenconfig->device);
-    canvas->fullscreenconfig->device = lib_stralloc(device);
     return 0;
 }
 
