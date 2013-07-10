@@ -623,7 +623,14 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         new_height = new_screen->h;
 #else
         if (hwscale) {
-            new_screen = SDL_SetVideoMode(actual_width, actual_height, sdl_bitdepth, flags);
+            /* To get fullscreen resolution, SetVideoMode must be called with the
+               desired fullscreen resolution. If it is called with a smaller resolution,
+               it will display the undesirable black borders around the emulator display. */
+            if ((fullscreen) && (canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM)) {
+                new_screen = SDL_SetVideoMode(limit_w, limit_h, sdl_bitdepth, flags);
+            } else {
+                new_screen = SDL_SetVideoMode(actual_width, actual_height, sdl_bitdepth, flags); 
+            }
             if (!new_screen) { /* Did not work out quite well. Let's try without hwscale */
                 resources_set_int("HwScalePossible", 0);
                 canvas->videoconfig->hwscale = 0;
