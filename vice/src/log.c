@@ -298,9 +298,10 @@ static int log_helper(log_t log, unsigned int level, const char *format,
 #endif
             return -1;
         }
-        if (*logs[logi] != '\0') {
-            logtxt = lib_msprintf("%s: %s", logs[logi], level_strings[level]);
-        }
+    }
+
+    if ((logi != LOG_DEFAULT) && (logi != LOG_ERR) && (*logs[logi] != '\0')) {
+        logtxt = lib_msprintf("%s: %s", logs[logi], level_strings[level]);
     } else {
         logtxt = lib_msprintf("%s", level_strings[level]);
     }
