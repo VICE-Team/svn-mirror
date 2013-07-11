@@ -209,11 +209,13 @@ log_t log_open(const char *id)
 
     logs[new_log] = lib_stralloc(id);
 
+    /* printf("log_open(%s) = %d\n", id, (int)new_log); */
     return new_log;
 }
 
 int log_close(log_t log)
 {
+    /* printf("log_close(%d)\n", (int)log); */
     if (logs[(unsigned int)log] == NULL) {
         return -1;
     }
@@ -233,6 +235,7 @@ void log_close_all(void)
     }
 
     lib_free(logs);
+    logs = NULL;
 }
 
 static int log_archdep(const char *logtxt, const char *fmt, va_list ap)
@@ -288,12 +291,16 @@ static int log_helper(log_t log, unsigned int level, const char *format,
         return 0;
     }
 
-    if ((logi != LOG_DEFAULT) && (logi != LOG_ERR) && (logs == NULL || logs[logi] == NULL)) {
-        return -1;
-    }
-
-    if ((logi != LOG_DEFAULT) && (logi != LOG_ERR) && (*logs[logi] != '\0')) {
-        logtxt = lib_msprintf("%s: %s", logs[logi], level_strings[level]);
+    if ((logi != LOG_DEFAULT) && (logi != LOG_ERR)) {
+        if ((logs == NULL) || (logi < 0)|| (logi >= num_logs) || (logs[logi] == NULL)) {
+#ifdef DEBUG
+            log_archdep("log_helper: internal error (invalid id or closed log), messages follows:\n", format, ap);
+#endif
+            return -1;
+        }
+        if (*logs[logi] != '\0') {
+            logtxt = lib_msprintf("%s: %s", logs[logi], level_strings[level]);
+        }
     } else {
         logtxt = lib_msprintf("%s", level_strings[level]);
     }
