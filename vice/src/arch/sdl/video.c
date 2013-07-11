@@ -527,6 +527,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 #endif
         sdl_active_canvas->real_width = (unsigned int)((double)new_width * aspect + 0.5);
         sdl_active_canvas->real_height = new_height;
+        DBG(("first: %d:%d\n", sdl_active_canvas->real_width, sdl_active_canvas->real_height));
     }
 
 #ifdef HAVE_HWSCALE
@@ -698,12 +699,14 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     canvas->actual_width = actual_width;
     canvas->actual_height = actual_height;
 
-    if (!fullscreen) {
-        resources_set_int("SDLWindowWidth", actual_width);
-        resources_set_int("SDLWindowHeight", actual_height);
+    if (canvas == sdl_active_canvas) {
+        if (!fullscreen) {
+            resources_set_int("SDLWindowWidth", actual_width);
+            resources_set_int("SDLWindowHeight", actual_height);
+        }
     }
 
-    log_message(sdlvideo_log, "%ix%i %ibpp %s%s", actual_width, actual_height, sdl_bitdepth, hwscale ? "OpenGL " : "", (canvas->fullscreenconfig->enable) ? "(fullscreen)" : "");
+    log_message(sdlvideo_log, "%s (%s) %ix%i %ibpp %s%s", canvas->videoconfig->chip_name, (canvas == sdl_active_canvas) ? "active" : "inactive", actual_width, actual_height, sdl_bitdepth, hwscale ? "OpenGL " : "", (canvas->fullscreenconfig->enable) ? "(fullscreen)" : "");
 #ifdef SDL_DEBUG
     log_message(sdlvideo_log, "Canvas %ix%i, real %ix%i", new_width, new_height, canvas->real_width, canvas->real_height);
 #endif
@@ -899,8 +902,19 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
     DBG(("%s: %ix%i (%i)", __func__, width, height, canvas->index));
     /* Check if canvas needs to be resized to real size first */
     if (sdl_ui_finalized) {
+        /* NOTE: setting the resources to zero like this here would actually
+                 not only force a recalculation of the resources, but also
+                 result in the window size being recalculated from the default
+                 dimensions instead of the (saved and supposed to be persistant)
+                 values in the resources. what goes wrong when this is done can
+                 be observed when x128 starts up.
+            FIXME: remove this note and code below after some testing. hopefully
+                   nothing else relies on the broken behavior...
+         */
+#if 0
         sdl_window_width = 0; /* force recalculate */
         sdl_window_height = 0;
+#endif
         sdl_canvas_create(canvas, &width, &height); /* set the real canvas size */
 
         if (resize_canvas) {
