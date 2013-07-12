@@ -87,6 +87,8 @@ libarch_a_SOURCES = \
 	menu_ffmpeg.h \
 	menu_help.c \
 	menu_help.h \
+	menu_jam.c \
+	menu_jam.h \
 	menu_joystick.c \
 	menu_joystick.h \
 	menu_lightpen.c \

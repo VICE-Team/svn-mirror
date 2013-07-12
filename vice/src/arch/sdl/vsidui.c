@@ -44,6 +44,7 @@
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_help.h"
+#include "menu_jam.h"
 #include "menu_reset.h"
 #include "menu_settings.h"
 #include "menu_sid.h"
@@ -283,6 +284,10 @@ static const ui_menu_entry_t vsid_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)reset_menu },
+    { "Action on CPU JAM",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)jam_menu },
     { "Speed settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

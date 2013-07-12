@@ -38,6 +38,7 @@
 #include "menu_drive.h"
 #include "menu_ffmpeg.h"
 #include "menu_help.h"
+#include "menu_jam.h"
 #include "menu_midi.h"
 #include "menu_network.h"
 #include "menu_printer.h"
@@ -109,6 +110,10 @@ static const ui_menu_entry_t xvic_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)reset_menu },
+    { "Action on CPU JAM",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)jam_menu },
 #ifdef HAVE_NETWORK
     { "Network",
       MENU_ENTRY_SUBMENU,

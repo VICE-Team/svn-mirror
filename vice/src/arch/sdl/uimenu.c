@@ -665,6 +665,11 @@ static int sdl_ui_slider(const char* title, const int cur, const int min, const 
         i = max;
     }
 
+    /* adjust step to about 1% */
+    if ((max - min) > 100) {
+        step = (max - min) / 100;
+    }
+
     segment = (float)((max - min) / (menu_draw.max_text_x - 1));
 
     do {
@@ -681,7 +686,7 @@ static int sdl_ui_slider(const char* title, const int cur, const int min, const 
             sdl_ui_print_wrap(new_string, pos_x, &pos_y);
             pos_y++;
 
-            sprintf(new_string, "%-10i", i);
+            sprintf(new_string, "%-10i %3i%%", i, (100 * i) / max);
             sdl_ui_print_wrap(new_string, pos_x, &pos_y);
             pos_y = pos_y - 2;
 

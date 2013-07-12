@@ -146,6 +146,8 @@ UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 CIA_MODEL_MENU(1)
 CIA_MODEL_MENU(2)
 
+UI_MENU_DEFINE_TOGGLE(IECReset)
+
 /* ------------------------------------------------------------------------- */
 /* x64sc */
 
@@ -224,6 +226,11 @@ const ui_menu_entry_t c64sc_model_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       radio_GlueLogic_callback,
       (ui_callback_data_t)1 },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Reset goes to IEC",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IECReset_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 
@@ -281,5 +288,10 @@ const ui_menu_entry_t c64_model_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)cia2_model_submenu },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Reset goes to IEC",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IECReset_callback,
+      NULL },
     SDL_MENU_LIST_END
 };

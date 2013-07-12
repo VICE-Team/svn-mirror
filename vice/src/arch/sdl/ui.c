@@ -680,7 +680,7 @@ char* ui_get_file(const char *format, ...)
 /* Drive related UI.  */
 int ui_extend_image_dialog(void)
 {
-    if (message_box("VICE QUESTION", "Extend image to 40-track format?", MESSAGE_YESNO) == 0) {
+    if (message_box("VICE QUESTION", "Do you want to extend the disk image?", MESSAGE_YESNO) == 0) {
         return 1;
     }
     return 0;

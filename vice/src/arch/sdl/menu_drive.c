@@ -1112,6 +1112,25 @@ static const ui_menu_entry_t autostart_settings_menu[] = {
     SDL_MENU_LIST_END
 };
 
+static UI_MENU_CALLBACK(custom_drive_volume_callback)
+{
+    static char buf[20];
+    int previous, new_value;
+
+    resources_get_int("DriveSoundEmulationVolume", &previous);
+
+    if (activated) {
+        new_value = sdl_ui_slider_input_dialog("Select volume", previous, 0, 4000);
+        if (new_value != previous) {
+            resources_set_int("DriveSoundEmulationVolume", new_value);
+        }
+    } else {
+        sprintf(buf, "%3i%%", (previous * 100) / 4000);
+        return buf;
+    }
+    return NULL;
+}
+
 const ui_menu_entry_t drive_menu[] = {
     { "Attach disk image to drive 8",
       MENU_ENTRY_DIALOG,
@@ -1178,6 +1197,10 @@ const ui_menu_entry_t drive_menu[] = {
     { "Drive sound emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DriveSoundEmulation_callback,
+      NULL },
+    { "Drive sound Volume",
+      MENU_ENTRY_DIALOG,
+      custom_drive_volume_callback,
       NULL },
     { "Virtual device traps",
       MENU_ENTRY_RESOURCE_TOGGLE,
