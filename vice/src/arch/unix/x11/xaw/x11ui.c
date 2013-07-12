@@ -1838,7 +1838,7 @@ int ui_extend_image_dialog(void)
     ui_button_t b;
 
     vsync_suspend_speed_eval();
-    b = ui_ask_confirmation(_("Extend disk image"), ("Do you want to extend the disk image to 40 tracks?"));
+    b = ui_ask_confirmation(_("Extend disk image"), ("Do you want to extend the disk image?"));
     return (b == UI_BUTTON_YES) ? 1 : 0;
 }
 

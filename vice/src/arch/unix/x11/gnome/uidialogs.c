@@ -336,7 +336,7 @@ int ui_extend_image_dialog(void)
 
     vsync_suspend_speed_eval();
     /* FIXME: this must be updated to deal with all kinds of images/sizes */
-    b = ui_ask_yesno(_("Extend disk image"), (_("Do you want to extend the disk image to 40 tracks?")));
+    b = ui_ask_yesno(_("Extend disk image"), (_("Do you want to extend the disk image?")));
     return (b == UI_BUTTON_YES) ? 1 : 0;
 }
 

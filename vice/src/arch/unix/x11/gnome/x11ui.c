@@ -686,7 +686,7 @@ int ui_init_finalize(void)
  *        free all memory allocated by lib_.. functions, since that will make
  *        tracking down actual memory leaks using --enable-debug much easier.
  * 
- * TODO: video-resources.c:715, fullscreen.c:295, uimenu.c:222,224,256
+ * TODO:  menu structures (uimenu.c:222,224,256)
  */
 void ui_shutdown(void)
 {
@@ -701,13 +701,6 @@ void ui_shutdown(void)
     }
     shutdown_file_selector();
 }
-
-#if 0
-typedef struct {
-    char *name;
-    GdkVisualType class;
-} namedvisual_t;
-#endif
 
 /* exit the application */
 static gboolean delete_event_callback(GtkWidget *w, GdkEvent *e, gpointer data) 

@@ -864,7 +864,7 @@ const float control_win_width = 200;
     [alert addButtonWithTitle:@"Yes"];
     [alert addButtonWithTitle:@"No"];
     [alert setMessageText:@"VICE Extend Image"];
-    [alert setInformativeText:@"Extend image to 40 Tracks?"];
+    [alert setInformativeText:@"Extend image?"];
     int result = [alert runModal];
     [alert release];
     return result == NSAlertFirstButtonReturn;
