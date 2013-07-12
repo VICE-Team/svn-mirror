@@ -38,9 +38,6 @@
 
 /* *nix MIDI settings */
 #if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
-UI_MENU_DEFINE_STRING(MIDIInDev)
-UI_MENU_DEFINE_STRING(MIDIOutDev)
-UI_MENU_DEFINE_RADIO(MIDIDriver)
 
 void sdl_menu_midi_in_free(void)
 {
@@ -50,11 +47,19 @@ void sdl_menu_midi_out_free(void)
 {
 }
 
+/* only show driver/device items when a midi driver exists */
+#if defined(USE_OSS) || defined (USE_ALSA)
+UI_MENU_DEFINE_STRING(MIDIInDev)
+UI_MENU_DEFINE_STRING(MIDIOutDev)
+UI_MENU_DEFINE_RADIO(MIDIDriver)
+
 static const ui_menu_entry_t midi_driver_menu[] = {
+#ifdef USE_OSS
     { "OSS",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MIDIDriver_callback,
       (ui_callback_data_t)0 },
+#endif
 #ifdef USE_ALSA
     { "ALSA",
       MENU_ENTRY_RESOURCE_RADIO,
@@ -80,6 +85,10 @@ static const ui_menu_entry_t midi_driver_menu[] = {
       MENU_ENTRY_RESOURCE_STRING,              \
       string_MIDIOutDev_callback,              \
       (ui_callback_data_t)"MIDI-Out device" },
+
+#else
+#define VICE_SDL_MIDI_ARCHDEP_ITEMS
+#endif
 
 #endif /* defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT) */
 
