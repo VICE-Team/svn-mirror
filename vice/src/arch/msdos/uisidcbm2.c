@@ -75,38 +75,6 @@ static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
             s = "ParSID in Port 3";
             break;
 #endif
-#ifdef HAVE_RESID_FP
-        case SID_RESIDFP_6581R3_4885:
-            s = "6581R3 4885 (ReSID-fp)";
-            break;
-        case SID_RESIDFP_6581R3_0486S:
-            s = "6581R3 0486S (ReSID-fp)";
-            break;
-        case SID_RESIDFP_6581R3_3984:
-            s = "6581R3 3984 (ReSID-fp)";
-            break;
-        case SID_RESIDFP_6581R4AR_3789:
-            s = "6581R4AR 3789 (ReSID-fp)";
-            break;
-        case SID_RESIDFP_6581R3_4485:
-            s = "6581R3 4485 (ReSID-fp)";
-            break;
-        case SID_RESIDFP_6581R4_1986S:
-            s = "6581R4 1986S (ReSID-fp)";
-            break;
-        case SID_RESIDFP_8580R5_3691:
-            s = "8580R5 3691 (ReSID-fp)";
-            break;
-        case SID_RESIDFP_8580R5_3691D:
-            s = "8580R5 3691 + digi boost (ReSID-fp)";
-            break;
-        case SID_RESIDFP_8580R5_1489:
-            s = "8580R5 1489 (ReSID-fp)";
-            break;
-        case SID_RESIDFP_8580R5_1489D:
-            s = "8580R5 1489 + digi boost (ReSID-fp)";
-            break;
-#endif
         case SID_CATWEASELMKIII:
             s = "Catweasel";
             break;
@@ -187,48 +155,6 @@ static tui_menu_item_def_t sid_engine_model_submenu[] = {
       sid_radio_engine_model_callback, (void *)SID_PARSID_PORT3, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
 #endif
-#ifdef HAVE_RESID_FP
-    { "_6581R3 4885 (ReSID-fp)",
-      "6581R3 4885 emulation (reSID-fp)",
-      sid_radio_engine_model_callback, (void *)SID_RESIDFP_6581R3_4885, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_6581R3 0486S (ReSID-fp)",
-      "6581R3 0486S emulation (reSID-fp)",
-      sid_radio_engine_model_callback, (void *)SID_RESIDFP_6581R3_0486S, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_6581R3 3984 (ReSID-fp)",
-      "6581R3 3984 emulation (reSID-fp)",
-      sid_radio_engine_model_callback, (void *)SID_RESIDFP_6581R3_3984, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_6581R4AR 3789 (ReSID-fp)",
-      "6581R4AR 3789 emulation (reSID-fp)",
-      sid_radio_engine_model_callback, (void *)SID_RESIDFP_6581R4AR_3789, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_6581R3 4485 (ReSID-fp)",
-      "6581R3 4485 emulation (reSID-fp)",
-      sid_radio_engine_model_callback, (void *)SID_RESIDFP_6581R3_4485, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_6581R4 1986S (ReSID-fp)",
-      "6581R4 1986S emulation (reSID-fp)",
-      sid_radio_engine_model_callback, (void *)SID_RESIDFP_6581R4_1986S, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_8580R5 3691 (ReSID-fp)",
-      "8580R5 3691 emulation (reSID-fp)",
-      sid_radio_engine_model_callback, (void *)SID_RESIDFP_8580R5_3691, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_8580R5 3691 + digi boost (ReSID-fp)",
-      "8580R5 3691 emulation + digi boost (reSID-fp)",
-      sid_radio_engine_model_callback, (void *)SID_RESIDFP_8580R5_3691D, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_8580R5 1489 (ReSID-fp)",
-      "8580R5 1489 emulation (reSID-fp)",
-      sid_radio_engine_model_callback, (void *)SID_RESIDFP_8580R5_1489, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_8580R5 1489 + digi boost (ReSID-fp)",
-      "8580R5 1489 emulation + digi boost (reSID-fp)",
-      sid_radio_engine_model_callback, (void *)SID_RESIDFP_8580R5_1489D, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-#endif
     { NULL }
 };
 
@@ -257,10 +183,10 @@ tui_menu_item_def_t sid_cbm2_ui_menu_items[] = {
       "Enable/disable emulation of the SID built-in programmable filters",
       toggle_SidFilters_callback, NULL, 4,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-#if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
+#if defined(HAVE_RESID)
     { "--"},
-    { "reSID/reSID-fp s_ampling method:",
-      "How the reSID/reSID-fp engine generates the samples",
+    { "reSID s_ampling method:",
+      "How the reSID engine generates the samples",
       toggle_ResidSampling_callback, NULL, 12,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
 #endif

@@ -1,453 +1,370 @@
-Installation notes for VICE
-***************************
+Installation Instructions
+*************************
 
+Copyright (C) 1994-1996, 1999-2002, 2004-2013 Free Software Foundation,
+Inc.
 
-This version of VICE can be compiled and installed under Unix/X-Window,
-MS-DOS, MS-Windows, OS2, and this file explains how this can be done.
-There is currently no documentation how to compile under RiscOS or BeOS.
+   Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.  This file is offered as-is,
+without warranty of any kind.
 
-1. What you will need
+Basic Installation
+==================
+
+   Briefly, the shell commands `./configure; make; make install' should
+configure, build, and install this package.  The following
+more-detailed instructions are generic; see the `README' file for
+instructions specific to this package.  Some packages provide this
+`INSTALL' file but do not implement all of the features documented
+below.  The lack of an optional feature in a given package is not
+necessarily a bug.  More recommendations for GNU packages can be found
+in *note Makefile Conventions: (standards)Makefile Conventions.
+
+   The `configure' shell script attempts to guess correct values for
+various system-dependent variables used during compilation.  It uses
+those values to create a `Makefile' in each directory of the package.
+It may also create one or more `.h' files containing system-dependent
+definitions.  Finally, it creates a shell script `config.status' that
+you can run in the future to recreate the current configuration, and a
+file `config.log' containing compiler output (useful mainly for
+debugging `configure').
+
+   It can also use an optional file (typically called `config.cache'
+and enabled with `--cache-file=config.cache' or simply `-C') that saves
+the results of its tests to speed up reconfiguring.  Caching is
+disabled by default to prevent problems with accidental use of stale
+cache files.
+
+   If you need to do unusual things to compile the package, please try
+to figure out how `configure' could check whether to do them, and mail
+diffs or instructions to the address given in the `README' so they can
+be considered for the next release.  If you are using the cache, and at
+some point `config.cache' contains results you don't want to keep, you
+may remove or edit it.
+
+   The file `configure.ac' (or `configure.in') is used to create
+`configure' by a program called `autoconf'.  You need `configure.ac' if
+you want to change it or regenerate `configure' using a newer version
+of `autoconf'.
+
+   The simplest way to compile this package is:
+
+  1. `cd' to the directory containing the package's source code and type
+     `./configure' to configure the package for your system.
+
+     Running `configure' might take a while.  While running, it prints
+     some messages telling which features it is checking for.
+
+  2. Type `make' to compile the package.
+
+  3. Optionally, type `make check' to run any self-tests that come with
+     the package, generally using the just-built uninstalled binaries.
+
+  4. Type `make install' to install the programs and any data files and
+     documentation.  When installing into a prefix owned by root, it is
+     recommended that the package be configured and built as a regular
+     user, and only the `make install' phase executed with root
+     privileges.
+
+  5. Optionally, type `make installcheck' to repeat any self-tests, but
+     this time using the binaries in their final installed location.
+     This target does not install anything.  Running this target as a
+     regular user, particularly if the prior `make install' required
+     root privileges, verifies that the installation completed
+     correctly.
+
+  6. You can remove the program binaries and object files from the
+     source code directory by typing `make clean'.  To also remove the
+     files that `configure' created (so you can compile the package for
+     a different kind of computer), type `make distclean'.  There is
+     also a `make maintainer-clean' target, but that is intended mainly
+     for the package's developers.  If you use it, you may have to get
+     all sorts of other programs in order to regenerate files that came
+     with the distribution.
+
+  7. Often, you can also type `make uninstall' to remove the installed
+     files again.  In practice, not all packages have tested that
+     uninstallation works correctly, even though it is required by the
+     GNU Coding Standards.
+
+  8. Some packages, particularly those that use Automake, provide `make
+     distcheck', which can by used by developers to test that all other
+     targets like `make install' and `make uninstall' work correctly.
+     This target is generally not run by end users.
+
+Compilers and Options
 =====================
 
-  1.1. Unix
-  ---------
-
-    To compile VICE under Unix, you basically need a Unix machine
-    running the X-Window system version 11 R5 or better, with the
-    standard Xt and Xaw libraries.  R4 should work too, but hasn't
-    been tested lately.
-
-    If you want to use joysticks under Linux, you must install the
-    proper joystick module (`joystick-0.8.0.tar.gz' or more recent),
-    which is available from `sunsite.unc.edu'.  You can also use a
-    customized `joystick-0.8.0.2.tar.gz' that has support for digital
-    joysticks connected to the parallel port.  This is available from
-    the VICE home page (see the `README' file).
-
-    Unlike previous (pre-0.12) versions that only worked with 8-bit
-    displays, this release will work with all depths, though 8-bit is
-    still highly recommended for best performance.
-
-    With version 0.16.0, VICE includes Dag Lem's reSID engine; to
-    compile it, you will need a C++ compiler.
-
-    NLS (national language support) has been tested with Linux and
-    Solaris systems. The following environment variables have to be
-    set and exported before starting an emulator:
-
-    - Linux: LANGUAGE=de        # de is currently the only available 
-                                # translation
-                        
-    - Solaris: NLSPATH=${prefix}/lib/locale
-               LC_MESSAGES=de
+   Some systems require unusual options for compilation or linking that
+the `configure' script does not know about.  Run `./configure --help'
+for details on some of the pertinent environment variables.
+
+   You can give `configure' initial values for configuration parameters
+by setting variables in the command line or in the environment.  Here
+is an example:
+
+     ./configure CC=c99 CFLAGS=-g LIBS=-lposix
+
+   *Note Defining Variables::, for more details.
+
+Compiling For Multiple Architectures
+====================================
+
+   You can compile the package for more than one kind of computer at the
+same time, by placing the object files for each architecture in their
+own directory.  To do this, you can use GNU `make'.  `cd' to the
+directory where you want the object files and executables to go and run
+the `configure' script.  `configure' automatically checks for the
+source code in the directory that `configure' is in and in `..'.  This
+is known as a "VPATH" build.
+
+   With a non-GNU `make', it is safer to compile the package for one
+architecture at a time in the source code directory.  After you have
+installed the package for one architecture, use `make distclean' before
+reconfiguring for another architecture.
+
+   On MacOS X 10.5 and later systems, you can create libraries and
+executables that work on multiple system types--known as "fat" or
+"universal" binaries--by specifying multiple `-arch' options to the
+compiler but only a single `-arch' option to the preprocessor.  Like
+this:
+
+     ./configure CC="gcc -arch i386 -arch x86_64 -arch ppc -arch ppc64" \
+                 CXX="g++ -arch i386 -arch x86_64 -arch ppc -arch ppc64" \
+                 CPP="gcc -E" CXXCPP="g++ -E"
+
+   This is not guaranteed to produce working output in all cases, you
+may have to build one architecture at a time and combine the results
+using the `lipo' tool if you have problems.
+
+Installation Names
+==================
+
+   By default, `make install' installs the package's commands under
+`/usr/local/bin', include files under `/usr/local/include', etc.  You
+can specify an installation prefix other than `/usr/local' by giving
+`configure' the option `--prefix=PREFIX', where PREFIX must be an
+absolute file name.
+
+   You can specify separate installation prefixes for
+architecture-specific files and architecture-independent files.  If you
+pass the option `--exec-prefix=PREFIX' to `configure', the package uses
+PREFIX as the prefix for installing programs and libraries.
+Documentation and other data files still use the regular prefix.
+
+   In addition, if you use an unusual directory layout you can give
+options like `--bindir=DIR' to specify different values for particular
+kinds of files.  Run `configure --help' for a list of the directories
+you can set and what kinds of files go in them.  In general, the
+default for these options is expressed in terms of `${prefix}', so that
+specifying just `--prefix' will affect all of the other directory
+specifications that were not explicitly provided.
+
+   The most portable way to affect installation locations is to pass the
+correct locations to `configure'; however, many packages provide one or
+both of the following shortcuts of passing variable assignments to the
+`make install' command line to change installation locations without
+having to reconfigure or recompile.
+
+   The first method involves providing an override variable for each
+affected directory.  For example, `make install
+prefix=/alternate/directory' will choose an alternate location for all
+directory configuration variables that were expressed in terms of
+`${prefix}'.  Any directories that were specified during `configure',
+but not in terms of `${prefix}', must each be overridden at install
+time for the entire installation to be relocated.  The approach of
+makefile variable overrides for each directory variable is required by
+the GNU Coding Standards, and ideally causes no recompilation.
+However, some platforms have known limitations with the semantics of
+shared libraries that end up requiring recompilation when using this
+method, particularly noticeable in packages that use GNU Libtool.
+
+   The second method involves providing the `DESTDIR' variable.  For
+example, `make install DESTDIR=/alternate/directory' will prepend
+`/alternate/directory' before all installation names.  The approach of
+`DESTDIR' overrides is not required by the GNU Coding Standards, and
+does not work on platforms that have drive letters.  On the other hand,
+it does better at avoiding recompilation issues, and works well even
+when some directory options were not specified in terms of `${prefix}'
+at `configure' time.
+
+Optional Features
+=================
+
+   If the package supports it, you can cause programs to be installed
+with an extra prefix or suffix on their names by giving `configure' the
+option `--program-prefix=PREFIX' or `--program-suffix=SUFFIX'.
+
+   Some packages pay attention to `--enable-FEATURE' options to
+`configure', where FEATURE indicates an optional part of the package.
+They may also pay attention to `--with-PACKAGE' options, where PACKAGE
+is something like `gnu-as' or `x' (for the X Window System).  The
+`README' should mention any `--enable-' and `--with-' options that the
+package recognizes.
+
+   For packages that use the X Window System, `configure' can usually
+find the X include and library files automatically, but if it doesn't,
+you can use the `configure' options `--x-includes=DIR' and
+`--x-libraries=DIR' to specify their locations.
 
-    VICE has been compiled successfully on the following Unix systems
-    in the past:
+   Some packages offer the ability to configure how verbose the
+execution of `make' will be.  For these packages, running `./configure
+--enable-silent-rules' sets the default to minimal output, which can be
+overridden with `make V=1'; while running `./configure
+--disable-silent-rules' sets the default to verbose, which can be
+overridden with `make V=0'.
 
-      - Various i486/Pentium/Pentium Pro PCs running Linux 2.0.x and
-        XFree86 3.2/3.3, with both libc 5 and glibc 2;
-	Further support for October Gnome and newer Versions should work.
-
-      - Some HP9000 (712, 715, 735, 800) machines running HP-UX 9.x
-        and 10.x;
-
-      - SUN SPARC 5, 10 and Ultra running Solaris 2.3, 2.4, 2.5, 2.5.1
-        and 2.7.
-	Further support for October Gnome and newer Versions should
-        work. Gnome Libraries prior to October Gnome are known to be
-        broken with Vice.
-        (using gcc);
+Particular systems
+==================
 
-      - SUN SPARC 10 running SunOS 4.1 with both X11R4 and X11R5
-        (using gcc);
+   On HP-UX, the default C compiler is not ANSI C compatible.  If GNU
+CC is not installed, it is recommended to use the following options in
+order to use an ANSI C compiler:
 
-      - SUN SPARC 20 running Linux (2.0.30, RedHat 4.2);
+     ./configure CC="cc -Ae -D_XOPEN_SOURCE=500"
 
-      - SGI Indy R5000 and R4600 running Irix 5.3 and 6.2;
+and if that doesn't work, install pre-built binaries of GCC for HP-UX.
 
-      - AlphaStation 500/533 with Digital Unix 3.2;
+   HP-UX `make' updates targets which have the same time stamps as
+their prerequisites, which makes it generally unusable when shipped
+generated files such as `configure' are involved.  Use GNU `make'
+instead.
 
-      - IBM RS6000 running AIX4.1 (using gcc or IBM C++ Set compiler);
+   On OSF/1 a.k.a. Tru64, some versions of the default C compiler cannot
+parse its `<wchar.h>' header file.  The option `-nodtk' can be used as
+a workaround.  If GNU CC is not installed, it is therefore recommended
+to try
 
-      - MkLinux on Apple Macintosh, Kernel 2.0.33, X11R6.3 (no sound).
+     ./configure CC="cc"
 
-    Unluckily, not all of these systems have been tested with the
-    current release.  Success/failure reports are welcome at any time.
-    If you encounter any problems, you probably want to read the Hints
-    section below.
+and if that doesn't work, try
 
-    If you are compiling on a Pentium machine, you might consider
-    using the Pentium-specific GCC compiler, which is available at
-    `http://www.goof.com/pcg'.  Each time we have tried it, and the
-    performance was always at least 20% better (even with just `-O2'
-    or `-O3').  However some versions of PGCC are known to produce
-    broken executables.  If you observe graphics errors try to compile
-    without optimizations.  If the graphics errors disappear, throw
-    away your compiler and install another one.
+     ./configure CC="cc -nodtk"
 
-    Warning: you might need quite a lot of memory to compile VICE with
-    full optimizations on some platforms (in particular, this happens
-    with the Pentium-specific GCC).  Moreover, archaic versions of GCC
-    (e.g. 2.5.x and older) are known to cause trouble.  In that case,
-    it is a good idea to upgrade the compiler to a more recent
-    version.
+   On Solaris, don't put `/usr/ucb' early in your `PATH'.  This
+directory contains several dysfunctional programs; working variants of
+these programs are available in `/usr/bin'.  So, if you need `/usr/ucb'
+in your `PATH', put it _after_ `/usr/bin'.
 
-  1.2. MS-DOS
-  -----------
-
-    The MS-DOS port requires the Allegro library by Shawn Hargreaves
-    (`http://www.talula.demon.co.uk/allegro') to be compiled.
-
-    You might apply this patch to `src/djgpp/timer.c' to achieve better
-    results on low end machines.
-
-    --- old-timer.c Sat Jan  2 03:29:55 1999
-    +++ timer.c     Sat Jan  2 03:30:02 1999
-    @@ -197,8 +197,9 @@
-           new_delay = bios_counter;
-
-        /* fudge factor to prevent interrupts coming too close to each other */
-    -   if (new_delay < 1024)
-    -      timer_delay = 1024;
-    +   /* FIXME: changed from 1024 to 0 (EP) */
-    +   if (new_delay < 0)
-    +      timer_delay = 0;
-        else
-           timer_delay = new_delay;
-
-    Moreover, you also need DJGPP, the MS-DOS port of GCC
-    (`http://www.delorie.com').
-
-    There is a separate file `MSDOS-Howto.txt' in the `doc' directory
-    describing what is required to compile VICE under MS-DOS.
-
-  1.3.MS-Windows 
-  --------------
-
-    There is a separate file `Win32-Howto.txt' in the `doc' directory
-    describing what is required to compile VICE under MS-Windows.
-
-  1.4. OS/2
-  --------------
-
-    After unzipping the archive and moving the folder 'Vice2' to
-    where-ever-you-want run 'install.cmd' to create the desktop-objects.
-
-    Mention that 'install.cmd' does nothing else than creating desktop-
-    objects which could be easily removed.
-    
-
-2. Configuring and compiling
-============================
-
-  2.1. Compiling under Unix, for Unix or MS-DOS
-  ---------------------------------------------
-
-    The release comes with an auto-configuring script created using
-    the GNU autoconf package; this script must be executed before
-    compiling VICE to detect the characteristics of your machine and
-    specify certain features you might want to enable or disable.
-
-    To execute the configuration script, enter the distribution directory
-    and type:
-
-      ./configure <options>
-
-    There are several options available, and some of them are not
-    necessary for the configuration. The important ones are:
-
-      --prefix=PREFIX (default is `/usr/local/')
-      --bindir=DIR (default is `PREFIX/bin')
-      --mandir=DIR (default is `PREFIX/man')
-
-        Specify the place where the VICE executable and support files
-        will be installed.
-
-      --host=HOST
-
-        Specify the host for which the executable will be produced.
-        If you want to compile for MS-DOS from a Unix machine using
-        GCC, use `--host=i386-go32-gnu'.  If not specified, the
-        configure script tries to guess it by itself, so you normally
-        don't need to use this option.
-
-      --x-includes=DIR
-      --x-libraries=DIR
-
-        Specify the paths for X11 include files and libraries.  The
-        configure script is usually smart enough to find them by
-        itself if the setup is not too odd; use these option if it is
-        not.
-
-      --enable-autobpp
-      --enable-8bpp
-      --enable-16bpp
-      --enable-24bpp
-
-        Specify the bit depth of your X11 display.  The default is
-        `autobpp', that enables support for all bit depths (the
-        emulator tries to find the ones your server supports by itself
-        at runtime).  If you think you are going to use only one type
-        of display, specifying this might give you (very) slightly
-        better performance.
-
-      --disable-textfield
-
-        Disable Robert W. McMullen's text widget; if you experience
-        problems with the text or file manager widgets, you can enable
-        the standard Athena one by using this option.  This can also
-        be useful if you are using a non-standard Athena-compatible
-        library that provides a better looking text widget; it that
-        case, using this option will give you that one (this is true
-        for neXtaw, for example).
-        Problems are known to occur on DEC Alpha systems running
-        Digital Unix.
-
-      --with-xaw3d
-
-        Use Xaw3d (instead of plain Xaw) if present.
-
-      --without-resid
-      --with-resid=no
-
-        Compile without the enhanced reSID engine.
-
-      --with-resid=PATH
-
-        Compile with a reSID engine located at `PATH'.  This is useful
-        in case you want to compile VICE with another version of the
-        reSID engine.
-
-      --enable-gnomeui
-
-        Compile Vice supporting the Gnome libraries. The location of
-        the Gnome/Gtk+ libraries are not detected automatically,
-        therefore `gnome-config' has to be found in the configuring
-        users path. Refer `to src/arch/unix/x11/gnome/TODO' for a list
-        of known problems/limitations.
-
-     --disable-nls
-
-        Force configure to ignore NLS support.
-
-
-    (to obtain a complete list of the available options with a
-    description, use `./configure --help')
-
-    By default, VICE will be compiled by passing the following options
-    to the C compiler:
-
-      `-g -Wall -O5 -fomit-frame-pointer -funroll-loops
-       -finline-functions -fno-strength-reduce'
-          on Intel-based x86 Unix systems that have gcc installed;
-
-      `-g -Wall -O5 -finline-functions'
-          on other systems that have gcc installed;
-
-      `-g'
-          on systems that do not have gcc installed.
-
-    If these options do not fit your needs, you can specify what
-    options you want by simply passing them in the `CFLAGS' variable,
-    e.g. this is something you might want to do on HP-UX:
-
-      CFLAGS="-Ae -g +O3" ./configure
-
-    In the same way, you can force usage of a specific C compiler by
-    passing the `CC' variable, e.g.:
-
-      CC="cc" CFLAGS="-Ae -g +O3" ./configure
-
-    To specify a C++ compiler, use the `CXX' variable:
-
-      CXX="g++" CFLAGS="-Wall -Wno-strict-prototypes" ./configure
-
-    Important notice: if you use the Pentium-specific GCC, some
-    optimizations might have to be disabled.  The best way to make
-    sure everything works is
-
-      CFLAGS="-mpentium -O3" ./configure
-
-    If you are running on a Linux system and the joystick module is
-    installed properly, the configure script will auto-detect it and
-    support for it will be enabled.  Otherwise, the joystick will be
-    only emulated with the numeric keypad.
-
-    In case the `configure' script fails or complains about missing
-    libraries and you cannot explain this, please send the
-    `config.log' file to us together with a precise description of
-    your setup; otherwise, we cannot guess what is wrong with it.
-
-    When the configure script has finished, the necessary Makefiles
-    will be produced and you can simply type
-
-      make
-
-    to build all the emulators and utilities (`x128', `x64', `xcbm2',
-    `xpet', `xplus4', `xvic', `c1541', `petcat') under the `src'
-    directory.  It is possible that `configure' is not able to find all
-    the needed libraries automatically (this is usually due to a weird
-    setup); if this happens, the script will report a warning message
-    but the `Makefile' will be produced anyway.  In this case, you can
-    try to re-run `configure' with different options or edit the
-    `Makefile's by hand to add the missing options.
-
-    If you are cross-compiling for MS-DOS, check that all the DJGPP
-    libraries and include files, together with Allegro, are in the
-    right places.
-
-    If you want to install the emulators and utilities, together with
-    the documentation and ROM files, just type
-
-      make install
-
-    The binaries and support files will all go under PREFIX/lib/vice.
-    You must of course have write permissions for the directories where
-    VICE is to be installed. Normally only the system administrator
-    has write access to /usr/local, the default PREFIX. Either ask
-    your system administrator to install VICE for you or use a PREFIX
-    in your home directory for example, where you do have write access.
-
-    If you want to remove VICE from your system, you can use
-
-      make uninstall
-
-    If you want to re-compile with different options, you should do a
-
-      make mrproper
-
-    This will also remove the cache of the `configure' script,
-    assuring that all the tests are performed from scratch.
-
-  2.2. Configuring for multiple architectures
-  -------------------------------------------
-
-    As with most packages using GNU autoconf, you can compile VICE for
-    multiple architectures from the same source tree.
-
-    To do so, simply create a build directory:
-
-      mkdir {build-dir}
-
-    Then run `configure' from the VICE source tree:
-
-      {vice-source-path}/configure
-
-    Of course, you can specify options, flags, etc. as explained on
-    par. 2.1.
-
-    After you have configured VICE this way, you can simply compile
-    VICE as you would normally do, by typing `make'.
-
-    For example, you might want to do something like this to produce
-    and MS-DOS executable of X64 (let's suppose a cross-compiling GCC
-    is installed as `gcc-dos' somewhere in your `$PATH'):
-
-      cd sources/vice-0.14.2
-      mkdir i386-go32-msdos
-      cd i386-go32-msdos
-      CC="gcc-dos" CFLAGS="-O5" ../configure --host=i386-go32-msdos
-      make x64
-
-
-3. Hints
-========
-
-  In this section we compiled some hints about problems we encountered
-  on different test machines and different setups. Any comments on or even 
-  solutions to these problems are welcome. 
-
-  On Unix, if you are using alternative Xaw libraries (e.g. neXtaw,
-  Xaw95, Xaw3d) and you are having troubles with the GUI, try to use
-  the standard Xaw first.  There are some incompatibilities that can
-  cause them to crash or not to work properly.  Xaw3d should work, but
-  in any case please try to use the standard Xaw library before
-  reporting bugs.
-
-  If you can, please use GCC (or EGCS) instead of the vendor's CC
-  supplied with your machine: it is usually less buggy and produces
-  better code.  On certain systems (most notably SunOS), configure
-  might completely refuse to use the standard CC.
-
-  Some version of the HP-UX 10.x linker was also reported to fail
-  linking `x128'.  Unluckily, we believe it's a bug in the system and
-  we don't know a way to fix this problem (and we did not try very
-  hard, either).  If you know how, please let us know.
-
-  Some versions of GCC seem to have troubles with `-funroll-loops' on
-  certain architectures; on an Alpha and a SPARC we have tried to
-  compile VICE on, the compiler died while trying to optimize the code
-  when this option was specified (GCC version 2.7.2).  If you
-  experience such a problem reconfigure by specifying the `CFLAGS' as
-  explained above, removing `-funroll-loops'.
-
-  SunOS 4.1.x systems running X11R4 can cause a couple of troubles.
-  The first one is that `configure' might not find `-lXmu' and `-lXaw'
-  properly, because of some issues related to dynamic libraries.  This
-  would need some custom `configure' checks, which might be made
-  available in future versions.  For now, just edit `src/Makefile'
-  after it has been created by `configure' and add `-lXaw -lXmu' (in
-  this order) before `-lXt' on the `LIBS=...' line.  Moreover, you
-  might get undefined references to
-
-    _get_wmShellWidgetClass
-    _get_applicationShellWidgetClass
-
-  when linking `x64', `xvic' or `xpet'.  In that case you have to link
-  `-lXmu' statically (default is dynamically).  This can be done by
-  editing the `Makefile' by hand and replacing `-lXmu' with `-Bstatic
-  -lXmu -Bdynamic' in the `LIBS=...'  line.  A simplier way is to link
-  *everything* statically; this can be achieved by running `configure'
-  like this:
-
-    LDFLAGS="-static" ./configure
-
-  This will build much bigger executables, though.  We are sorry, but
-  that is not our fault.
-
-  Some HP-UX (versions 9 and 10) need the "--without-readline" switch
-  because autoconf fails to detect that it needs "-lcurses"
-  (the configure test passes, but the compile is broken. Is this an
-  autoconf bug?). 
-
-  One HP-UX 9 test machine failed to compile resid.cc, probably 
-  due to a broken gcc installation. In this case try to apply this 
-  patch:
---------------------------
---- vice-old/src/sid/resid.cc  Wed Mar 10 22:57:19 1999
-+++ vice-new/src/sid/resid.cc  Mon Apr 12 16:22:03 1999
-@@ -27,10 +27,11 @@
- 
- #include "resid/sid.h"
- 
--extern "C" {
- 
- #include <stdio.h>
- #include <math.h>
-+
-+extern "C" {
- 
- #include "vice.h"
- #include "sid.h"
---------------------------
-  
-  When compiling on AIX in a directory different from where the source 
-  is and with the native C++ compiler "cc", then the C++ compiler mixes 
-  up the order in which include files are included. This makes the `resid'
-  package wrongly believe that `bool' is defined. You might use
-  `CXX="cc -qidirfirst"' instead. 
-  On the other hand using "cc" as C++ compiler resulted in a linkage 
-  error on our test machine. We thus recommend using the GCC C++ compiler 
-  or the configure switch `--without-resid'.
-  If you know how to fix this, any comments are welcome.
-
-  On a DEC alpha-EV6 machine (64 bit, OSF1 operating system) when using
-  the DEC compiler, you might want to use `CC="cc -std1"' to enforce ANSI C
-  standard.
-
-  To build a debug version of VICE, use `CFLAGS="-g -DNO_INLINE"'.
-  This disables inlining of functions in most of the places and does not
-  do any optimization. This way the debugger can produce a much better 
-  output. This also serves as a test whether the compiler optimization
-  breaks the code.
-
+   On Haiku, software installed for all users goes in `/boot/common',
+not `/usr/local'.  It is recommended to use the following options:
+
+     ./configure --prefix=/boot/common
+
+Specifying the System Type
+==========================
+
+   There may be some features `configure' cannot figure out
+automatically, but needs to determine by the type of machine the package
+will run on.  Usually, assuming the package is built to be run on the
+_same_ architectures, `configure' can figure that out, but if it prints
+a message saying it cannot guess the machine type, give it the
+`--build=TYPE' option.  TYPE can either be a short name for the system
+type, such as `sun4', or a canonical name which has the form:
+
+     CPU-COMPANY-SYSTEM
+
+where SYSTEM can have one of these forms:
+
+     OS
+     KERNEL-OS
+
+   See the file `config.sub' for the possible values of each field.  If
+`config.sub' isn't included in this package, then this package doesn't
+need to know the machine type.
+
+   If you are _building_ compiler tools for cross-compiling, you should
+use the option `--target=TYPE' to select the type of system they will
+produce code for.
+
+   If you want to _use_ a cross compiler, that generates code for a
+platform different from the build platform, you should specify the
+"host" platform (i.e., that on which the generated programs will
+eventually be run) with `--host=TYPE'.
+
+Sharing Defaults
+================
+
+   If you want to set default values for `configure' scripts to share,
+you can create a site shell script called `config.site' that gives
+default values for variables like `CC', `cache_file', and `prefix'.
+`configure' looks for `PREFIX/share/config.site' if it exists, then
+`PREFIX/etc/config.site' if it exists.  Or, you can set the
+`CONFIG_SITE' environment variable to the location of the site script.
+A warning: not all `configure' scripts look for a site script.
+
+Defining Variables
+==================
+
+   Variables not defined in a site shell script can be set in the
+environment passed to `configure'.  However, some packages may run
+configure again during the build, and the customized values of these
+variables may be lost.  In order to avoid this problem, you should set
+them in the `configure' command line, using `VAR=value'.  For example:
+
+     ./configure CC=/usr/local2/bin/gcc
+
+causes the specified `gcc' to be used as the C compiler (unless it is
+overridden in the site shell script).
+
+Unfortunately, this technique does not work for `CONFIG_SHELL' due to
+an Autoconf limitation.  Until the limitation is lifted, you can use
+this workaround:
+
+     CONFIG_SHELL=/bin/bash ./configure CONFIG_SHELL=/bin/bash
+
+`configure' Invocation
+======================
+
+   `configure' recognizes the following options to control how it
+operates.
+
+`--help'
+`-h'
+     Print a summary of all of the options to `configure', and exit.
+
+`--help=short'
+`--help=recursive'
+     Print a summary of the options unique to this package's
+     `configure', and exit.  The `short' variant lists options used
+     only in the top level, while the `recursive' variant lists options
+     also present in any nested packages.
+
+`--version'
+`-V'
+     Print the version of Autoconf used to generate the `configure'
+     script, and exit.
+
+`--cache-file=FILE'
+     Enable the cache: use and save the results of the tests in FILE,
+     traditionally `config.cache'.  FILE defaults to `/dev/null' to
+     disable caching.
+
+`--config-cache'
+`-C'
+     Alias for `--cache-file=config.cache'.
+
+`--quiet'
+`--silent'
+`-q'
+     Do not print messages saying which checks are being made.  To
+     suppress all normal output, redirect it to `/dev/null' (any error
+     messages will still be shown).
+
+`--srcdir=DIR'
+     Look for the package's source code in directory DIR.  Usually
+     `configure' can determine that directory automatically.
+
+`--prefix=DIR'
+     Use DIR as the installation prefix.  *note Installation Names::
+     for more details, including other options available for fine-tuning
+     the installation locations.
+
+`--no-create'
+`-n'
+     Run the configure checks, but stop before creating any output
+     files.
+
+`configure' also accepts some other, not widely useful, options.  Run
+`configure --help' for more details.

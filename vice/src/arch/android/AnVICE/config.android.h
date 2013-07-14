@@ -423,9 +423,6 @@
 /* This version provides ReSID-DTV support. */
 /* #undef HAVE_RESID_DTV */
 
-/* This version provides ReSID_FP support. */
-/* #undef HAVE_RESID_FP */
-
 /* Define to 1 if you have the `rewinddir' function. */
 #define HAVE_REWINDDIR 1
 

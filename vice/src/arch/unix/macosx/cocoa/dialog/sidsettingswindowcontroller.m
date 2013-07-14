@@ -148,7 +148,7 @@ static const int cbm2baseaddress[] = { 0xda, -1 };
     [engineModelButton selectItemAtIndex:i];
     
     // is reSID enabled?
-    BOOL reSIDenabled = (engine == SID_ENGINE_RESID) || (engine == SID_ENGINE_RESID_FP);
+    BOOL reSIDenabled = engine == SID_ENGINE_RESID;
     [self enableReSIDControls:reSIDenabled];
     
     if(hasStereo) {

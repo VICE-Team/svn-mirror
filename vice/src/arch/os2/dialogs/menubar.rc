@@ -1223,19 +1223,6 @@ BEGIN
             MENUITEM "~DTV SID",                          IDM_SCDTV,                    MIS_TEXT
 #endif
 
-#ifdef HAVE_RESID_FP
-            MENUITEM "~6581R3 (4885)",                    IDM_SC6581R3_4885,            MIS_TEXT
-            MENUITEM "~6581R3 (0486S)",                   IDM_SC6581R3_0486S,           MIS_TEXT
-            MENUITEM "~6581R3 (3984)",                    IDM_SC6581R3_3984,            MIS_TEXT
-            MENUITEM "~6581R4AR (3789)",                  IDM_SC6581R4AR_3789,          MIS_TEXT
-            MENUITEM "~6581R3 (4485)",                    IDM_SC6581R3_4485,            MIS_TEXT
-            MENUITEM "~6581R4 (1986S)",                   IDM_SC6581R4_1986S,           MIS_TEXT
-            MENUITEM "~8580R5 (3691)",                    IDM_SC8580R5_3691,            MIS_TEXT
-            MENUITEM "~8580R5 (3691) + digi boost",       IDM_SC8580R5_3691DB,          MIS_TEXT
-            MENUITEM "~8580R5 (1489)",                    IDM_SC8580R5_1489,            MIS_TEXT
-            MENUITEM "~8580R5 (1489) + digi boost",       IDM_SC8580R5_1489DB,          MIS_TEXT
-#endif
-
         END
         MENUITEM "SID ~Filter",                           IDM_SIDFILTER,                MIS_TEXT
 

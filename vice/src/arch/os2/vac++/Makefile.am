@@ -14,5 +14,4 @@ EXTRA_DIST = \
 	PETcat.ICC \
 	RESID.ICC \
 	RESIDDTV.ICC \
-	RESIDFP.ICC \
 	vicedll.ICC

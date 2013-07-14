@@ -84,50 +84,6 @@ static UI_MENU_CALLBACK(custom_SidModel_callback)
       custom_SidModel_callback,               \
       (ui_callback_data_t)SID_RESID_8580D },
 
-#define VICE_SDL_SID_RESIDFP_MODELS                    \
-    SDL_MENU_ITEM_SEPARATOR,                           \
-    SDL_MENU_ITEM_TITLE("ReSID-FP"),                   \
-    { "6581R3 4885 (very light)",                      \
-      MENU_ENTRY_RESOURCE_RADIO,                       \
-      custom_SidModel_callback,                        \
-      (ui_callback_data_t)SID_RESIDFP_6581R3_4885 },   \
-    { "6581R3 0486S (light)",                          \
-      MENU_ENTRY_RESOURCE_RADIO,                       \
-      custom_SidModel_callback,                        \
-      (ui_callback_data_t)SID_RESIDFP_6581R3_0486S },  \
-    { "6581R3 3984 (light avg)",                       \
-      MENU_ENTRY_RESOURCE_RADIO,                       \
-      custom_SidModel_callback,                        \
-      (ui_callback_data_t)SID_RESIDFP_6581R3_3984 },   \
-    { "6581R4AR 3789 (avg)",                           \
-      MENU_ENTRY_RESOURCE_RADIO,                       \
-      custom_SidModel_callback,                        \
-      (ui_callback_data_t)SID_RESIDFP_6581R4AR_3789 }, \
-    { "6581R3 4485 (dark)",                            \
-      MENU_ENTRY_RESOURCE_RADIO,                       \
-      custom_SidModel_callback,                        \
-      (ui_callback_data_t)SID_RESIDFP_6581R3_4485 },   \
-    { "6581R4 1986S (very dark)",                      \
-      MENU_ENTRY_RESOURCE_RADIO,                       \
-      custom_SidModel_callback,                        \
-      (ui_callback_data_t)SID_RESIDFP_6581R4_1986S },  \
-    { "8580 3691 (light)",                             \
-      MENU_ENTRY_RESOURCE_RADIO,                       \
-      custom_SidModel_callback,                        \
-      (ui_callback_data_t)SID_RESIDFP_8580R5_3691 },   \
-    { "8580 3691 + digi boost",                        \
-      MENU_ENTRY_RESOURCE_RADIO,                       \
-      custom_SidModel_callback,                        \
-      (ui_callback_data_t)SID_RESIDFP_8580R5_3691D },  \
-    { "8580 1489 (dark)",                              \
-      MENU_ENTRY_RESOURCE_RADIO,                       \
-      custom_SidModel_callback,                        \
-      (ui_callback_data_t)SID_RESIDFP_8580R5_1489 },   \
-    { "8580 1489 + digi boost",                        \
-      MENU_ENTRY_RESOURCE_RADIO,                       \
-      custom_SidModel_callback,                        \
-      (ui_callback_data_t)SID_RESIDFP_8580R5_1489D },
-
 #define VICE_SDL_SID_CATWEASEL_MODELS           \
     { "Catweasel MKIII",                        \
       MENU_ENTRY_RESOURCE_RADIO,                \
@@ -159,9 +115,6 @@ static const ui_menu_entry_t sid_model_menu[] = {
 #ifdef HAVE_RESID
     VICE_SDL_SID_RESID_MODELS
 #endif
-#ifdef HAVE_RESID_FP
-    VICE_SDL_SID_RESIDFP_MODELS
-#endif
 #if defined(HAVE_CATWEASELMKIII) || defined(HAVE_HARDSID) || defined(HAVE_PARSID)
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Hardware"),
@@ -188,9 +141,6 @@ static const ui_menu_entry_t sid_dtv_model_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
 #endif
     VICE_SDL_SID_FASTSID_MODELS
-#ifdef HAVE_RESID_FP
-    VICE_SDL_SID_RESIDFP_MODELS
-#endif
 #if defined(HAVE_CATWEASELMKIII) || defined(HAVE_HARDSID) || defined(HAVE_PARSID)
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Hardware"),

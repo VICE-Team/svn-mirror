@@ -50,7 +50,6 @@ EXTRA_DIST = \
 	raster.vcproj \
 	resid.vcproj \
 	residdtv.vcproj \
-	residfp.vcproj \
 	rs232drv.vcproj \
 	rtc.vcproj \
 	scpu64.vcproj \

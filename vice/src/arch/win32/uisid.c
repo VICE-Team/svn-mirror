@@ -73,7 +73,7 @@ static void enable_resid_sid_controls(HWND hwnd)
 {
     int is_enabled;
 
-    is_enabled = (sel_engine == SID_ENGINE_RESID) || (sel_engine == SID_ENGINE_RESID_FP);
+    is_enabled = sel_engine == SID_ENGINE_RESID;
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND_VALUE), is_enabled);
@@ -613,7 +613,7 @@ void ui_sid_settings_dialog(HWND hwnd, const int *stereo_baseaddress)
     psp[0].pfnDlgProc = general_dialog_proc;
     psp[0].pszTitle = translate_text(IDS_GENERAL);
     psp[1].pfnDlgProc = resid_dialog_proc;
-    psp[1].pszTitle = TEXT("ReSID/ReSID-fp");
+    psp[1].pszTitle = TEXT("ReSID");
     if (hardsid_available()) {
         psp[2].pfnDlgProc = hardsid_dialog_proc;
         psp[2].pszTitle = TEXT("HardSID");

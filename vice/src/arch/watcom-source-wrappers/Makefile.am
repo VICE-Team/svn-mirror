@@ -10,14 +10,6 @@ EXTRA_DIST = \
 	residdtv-version.cc \
 	residdtv-voice.cc \
 	residdtv-wave.cc \
-	residfp-envelope.cc \
-	residfp-extfilt.cc \
-	residfp-filter.cc \
-	residfp-pot.cc \
-	residfp-sid.cc \
-	residfp-version.cc \
-	residfp-voice.cc \
-	residfp-wave.cc \
 	viciisc.c \
 	viciisc-cmdline-options.c \
 	viciisc-color.c \

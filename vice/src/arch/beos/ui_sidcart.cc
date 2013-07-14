@@ -92,7 +92,7 @@ void SidCartWindow::EnableReSidControls(int engine)
     int enable;
 
     enable = ((BControl *)FindView("SidCart"))->Value();
-    EnableBoxedControls(residbox, enable && ((engine == SID_ENGINE_RESID) || (engine == SID_ENGINE_RESID_FP)));
+    EnableBoxedControls(residbox, enable && (engine == SID_ENGINE_RESID));
 }
 
 void SidCartWindow::EnableControls()
@@ -196,9 +196,9 @@ SidCartWindow::SidCartWindow()
     r = Bounds();
     r.InsetBy(10, 10);
     r.top = r.bottom - 100;
-    residbox = new BBox(r, "reSID/reSID-fp settings");
+    residbox = new BBox(r, "reSID settings");
     residbox->SetViewColor(220, 220, 220, 0);
-    residbox->SetLabel("reSID/reSID-fp settings");
+    residbox->SetLabel("reSID settings");
     background->AddChild(residbox);
     r = residbox->Bounds();
 

@@ -40,9 +40,6 @@
 
 /******************************************************************************/
 
-#define SID_MODEL_DEFAULT_OLD SID_MODEL_6581R4AR_3789
-#define SID_MODEL_DEFAULT_NEW SID_MODEL_8580R5_3691
-
 #define CIA_MODEL_DEFAULT_OLD CIA_MODEL_6526
 #define CIA_MODEL_DEFAULT_NEW CIA_MODEL_6526A
 
@@ -61,21 +58,11 @@ static int is_new_sid(int model)
     switch (model) {
         case SID_MODEL_6581:
         case SID_MODEL_6581R4:
-        case SID_MODEL_6581R3_4885:
-        case SID_MODEL_6581R3_0486S:
-        case SID_MODEL_6581R3_3984:
-        case SID_MODEL_6581R4AR_3789:
-        case SID_MODEL_6581R3_4485:
-        case SID_MODEL_6581R4_1986S:
         default:
             return 0;
 
         case SID_MODEL_8580:
         case SID_MODEL_8580D:
-        case SID_MODEL_8580R5_3691:
-        case SID_MODEL_8580R5_3691D:
-        case SID_MODEL_8580R5_1489:
-        case SID_MODEL_8580R5_1489D:
             return 1;
     }
 }
@@ -99,7 +86,6 @@ struct model_s {
     int cia;        /* old or new */
     int glue;       /* discrete or ASIC */
     int sid;        /* old or new */
-    int sid_model;  /* specific type for reSID-fp */
     int board;
     int iecreset;
     char *kernalname;
@@ -107,25 +93,25 @@ struct model_s {
 };
 
 static struct model_s c64models[] = {
-    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, 1, "kernal", "chargen" },
-    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, 1, SID_MODEL_DEFAULT_NEW, 0, 0, "kernal", "chargen" },
-    { VICII_MODEL_6569R1,   MACHINE_SYNC_PAL,     0, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, 1, "kernal", "chargen" },
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, 1, "kernal", "chargen" },
-    { VICII_MODEL_8562,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_NEW, 1, 1, SID_MODEL_DEFAULT_NEW, 0, 0, "kernal", "chargen" },
-    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, 0, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, 1, "kernal", "chargen" },
-    { VICII_MODEL_6572,     MACHINE_SYNC_PALN,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, 1, "kernal", "chargen" },
+    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "kernal", "chargen" },
+    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, 1, 0, 0, "kernal", "chargen" },
+    { VICII_MODEL_6569R1,   MACHINE_SYNC_PAL,     0, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "kernal", "chargen" },
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "kernal", "chargen" },
+    { VICII_MODEL_8562,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_NEW, 1, 1, 0, 0, "kernal", "chargen" },
+    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, 0, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "kernal", "chargen" },
+    { VICII_MODEL_6572,     MACHINE_SYNC_PALN,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "kernal", "chargen" },
     /* SX64 FIXME: guessed */
-    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, 1, "sxkernal", "chargen" },
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, 1, "sxkernal", "chargen" },
+    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "sxkernal", "chargen" },
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "sxkernal", "chargen" },
     /* C64 Japanese FIXME: guessed */
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, 1, "jpkernal", "jpchargen" },
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "jpkernal", "jpchargen" },
     /* C64 GS FIXME: guessed */
-    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, 1, SID_MODEL_DEFAULT_NEW, 0, 0, "gskernal", "chargen" },
+    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, 1, 0, 0, "gskernal", "chargen" },
     /* PET64 FIXME: guessed */
-    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, 1, "edkernal", "chargen" },
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, 1, "edkernal", "chargen" },
+    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "edkernal", "chargen" },
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "edkernal", "chargen" },
     /* ultimax FIXME: guessed */
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 1, 1, "kernal", "chargen" },
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 1, 1, "kernal", "chargen" },
 };
 
 /* ------------------------------------------------------------------------- */
@@ -222,23 +208,18 @@ static void c64model_set_temp(int model, int *vicii_model, int *sid_model,
     *board = c64models[model].board;
     *iecreset = c64models[model].iecreset;
 
-    /* Only change the SID model if the model changes from 6581 to 8580
-       or the specific SID type changes if reSID-fp is used. This allows
-       to switch between "pal"/"oldpal" without changing the specific
-       SID model. The current engine is preserved. */
+    /* Only change the SID model if the model changes from 6581 to 8580.
+       This allows to switch between "pal"/"oldpal" without changing
+       the specific SID model. The current engine is preserved. */
     old_engine = (*sid_model >> 8);
     old_sid_model = (*sid_model & 0xff);
 
-    if (old_engine == SID_ENGINE_RESID_FP) {
-        new_sid_model = c64models[model].sid_model;
-    } else {
-        new_sid_model = c64models[model].sid;
-    }
+    new_sid_model = c64models[model].sid;
 
     old_type = is_new_sid(old_sid_model);
     new_type = is_new_sid(new_sid_model);
 
-    if (((old_engine == SID_ENGINE_RESID_FP) && (new_sid_model != old_sid_model)) || (old_type != new_type)) {
+    if (old_type != new_type) {
         *sid_model = (old_engine << 8) | new_sid_model;
     }
 }
@@ -283,16 +264,12 @@ void c64model_set(int model)
        SID model. The current engine is preserved. */
     resources_get_int("SidEngine", &old_engine);
     resources_get_int("SidModel", &old_sid_model);
-    if (old_engine == SID_ENGINE_RESID_FP) {
-        new_sid_model = c64models[model].sid_model;
-    } else {
-        new_sid_model = c64models[model].sid;
-    }
+    new_sid_model = c64models[model].sid;
 
     old_type = is_new_sid(old_sid_model);
     new_type = is_new_sid(new_sid_model);
 
-    if (((old_engine == SID_ENGINE_RESID_FP) && (new_sid_model != old_sid_model)) || (old_type != new_type)) {
+    if (old_type != new_type) {
         sid_set_engine_model(old_engine, new_sid_model);
     }
 }

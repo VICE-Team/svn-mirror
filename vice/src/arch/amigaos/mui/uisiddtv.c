@@ -41,7 +41,7 @@ static char *ui_sid_pages[] =
 {
     "General",
 #ifdef HAVE_RESID
-    "ReSID-DTV/ReSID-fp",
+    "ReSID-DTV",
 #endif
 #ifdef HAVE_CATWEASELMKIII
     "Catweasel MK3",
@@ -69,18 +69,6 @@ static char *ui_siddtv_engine_model[] = {
 #ifdef HAVE_HARDSID
     "HardSID",
 #endif
-#ifdef HAVE_RESID_FP
-    "6581R3 4885 (ReSID-fp)",
-    "6581R3 0486S (ReSID-fp)",
-    "6581R3 3984 (ReSID-fp)",
-    "6581R4AR 3789 (ReSID-fp)",
-    "6581R3 4485 (ReSID-fp)",
-    "6581R4 1986S (ReSID-fp)",
-    "8580R5 3691 (ReSID-fp)",
-    "8580R5 3691 + digiboost (ReSID-fp)",
-    "8580R5 1489 (ReSID-fp)",
-    "8580R5 1489 + digiboost (ReSID-fp)",
-#endif
     0
 };
 
@@ -100,18 +88,6 @@ static const int ui_siddtv_engine_model_values[] = {
 #endif
 #ifdef HAVE_HARDSID
     SID_HARDSID,
-#endif
-#ifdef HAVE_RESID_FP
-    SID_RESIDFP_6581R3_4885,
-    SID_RESIDFP_6581R3_0486S,
-    SID_RESIDFP_6581R3_3984,
-    SID_RESIDFP_6581R4AR_3789,
-    SID_RESIDFP_6581R3_4485,
-    SID_RESIDFP_6581R4_1986S,
-    SID_RESIDFP_8580R5_3691,
-    SID_RESIDFP_8580R5_3691D,
-    SID_RESIDFP_8580R5_1489,
-    SID_RESIDFP_8580R5_1489D,
 #endif
     -1
 };
@@ -159,7 +135,7 @@ static APTR build_gui(void)
                CYCLE(ui_to_from[0].object, translate_text(IDS_SID_ENGINE_MODEL), ui_siddtv_engine_model)
                CHECK(ui_to_from[1].object, translate_text(IDS_SID_FILTERS))
              End,
-#if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
+#if defined(HAVE_RESID)
              Child, GroupObject,
                CYCLE(ui_to_from[2].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
                Child, ui_to_from[3].object = StringObject,

@@ -202,9 +202,6 @@ static int vsid_sid_engines[] = {
 #ifdef HAVE_HARDSID
    ,SID_ENGINE_HARDSID
 #endif
-#ifdef HAVE_RESID_FP
-   ,SID_ENGINE_RESID_FP
-#endif
 };
 
 static int vsid_fastsid_models[] = {
@@ -217,21 +214,6 @@ static int vsid_resid_models[] = {
     SID_MODEL_6581,
     SID_MODEL_8580,
     SID_MODEL_8580D
-};
-#endif
-
-#ifdef HAVE_RESID_FP
-static int vsid_residfp_models[] = {
-    SID_MODEL_6581R3_4885,
-    SID_MODEL_6581R3_0486S,
-    SID_MODEL_6581R3_3984,
-    SID_MODEL_6581R4AR_3789,
-    SID_MODEL_6581R3_4485,
-    SID_MODEL_6581R4_1986S,
-    SID_MODEL_8580R5_3691,
-    SID_MODEL_8580R5_3691D,
-    SID_MODEL_8580R5_1489,
-    SID_MODEL_8580R5_1489D
 };
 #endif
 
@@ -550,9 +532,6 @@ static int vsid_menu_handle(int idm)
 #ifdef HAVE_HARDSID
                                 "HardSID | ",
 #endif
-#ifdef HAVE_RESID_FP
-                                "ReSID-fp | ",
-#endif
                                 "Fast SID", NULL);
             i = vsid_requester(translate_text(IDS_SID_ENGINE), translate_text(IDS_SID_ENGINE), fname, 0);
             resources_set_int("SidEngine", vsid_sid_engines[i]);
@@ -566,12 +545,6 @@ static int vsid_menu_handle(int idm)
                 case SID_ENGINE_RESID:
                     i = vsid_requester(translate_text(IDS_SID_MODEL), translate_text(IDS_SID_MODEL), "8580 | 8580D | 6581", 0);
                     resources_set_int("SidModel", vsid_resid_models[i]);
-                    break;
-#endif
-#ifdef HAVE_RESID_FP
-                case SID_ENGINE_RESID_FP:
-                    i = vsid_requester(translate_text(IDS_SID_MODEL), translate_text(IDS_SID_MODEL), "6581R3 0486S | 6581R3 3984 | 6581R4AR 3789 | 6581R3 4485 | 6581R4 1986S | 8580R5 3691 | 8580R5 3691D | 8580R5 1489 | 8580R5 1489D | 6581R3 4885", 0);
-                    resources_set_int("SidModel", vsid_residfp_models[i]);
                     break;
 #endif
             }

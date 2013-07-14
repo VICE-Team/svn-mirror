@@ -1558,22 +1558,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
-#ifdef HAVE_RESID_FP
-        case IDM_SC6581R3_4885:
-        case IDM_SC6581R3_0486S:
-        case IDM_SC6581R3_3984:
-        case IDM_SC6581R4AR_3789:
-        case IDM_SC6581R3_4485:
-        case IDM_SC6581R4_1986S:
-            resources_set_int("SidModel", idm - IDM_SC6581R3_4885 + 8);
-            return;
-        case IDM_SC8580R5_3691:
-        case IDM_SC8580R5_3691DB:
-        case IDM_SC8580R5_1489:
-        case IDM_SC8580R5_1489DB:
-            resources_set_int("SidModel", idm - IDM_SC8580R5_3691 + 16);
-            return;
-#endif
 #endif // __X64__ || __X128__ || __XCBM__ || __X64DTV__
 
         case IDM_SYNCFLEX:
@@ -2667,19 +2651,6 @@ void menu_select(HWND hwnd, USHORT item)
 
 #if defined(HAVE_RESID) && defined(__X64DTV__)
             WinCheckMenuItem(hwnd, IDM_SCDTV, val == 4);
-#endif
-
-#ifdef HAVE_RESID_FP
-            WinCheckMenuItem(hwnd, IDM_SC6581R3_4885, val == 8);
-            WinCheckMenuItem(hwnd, IDM_SC6581R3_0486S, val == 9);
-            WinCheckMenuItem(hwnd, IDM_SC6581R3_3984, val == 10);
-            WinCheckMenuItem(hwnd, IDM_SC6581R4AR_3789, val == 11);
-            WinCheckMenuItem(hwnd, IDM_SC6581R3_4485, val == 12);
-            WinCheckMenuItem(hwnd, IDM_SC6581R4_1986S, val == 13);
-            WinCheckMenuItem(hwnd, IDM_SC8580R5_3691, val == 16);
-            WinCheckMenuItem(hwnd, IDM_SC8580R5_3691DB, val == 17);
-            WinCheckMenuItem(hwnd, IDM_SC8580R5_1489, val == 18);
-            WinCheckMenuItem(hwnd, IDM_SC8580R5_1489DB, val == 19);
 #endif
 
             return;

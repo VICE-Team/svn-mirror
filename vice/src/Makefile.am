@@ -7,7 +7,6 @@ ARCH_LIBS = @ARCH_LIBS@
 
 SUBDIRS = \
 	@RESID_DIR@ \
-	@RESID_FP_DIR@ \
 	@RESID_DTV_DIR@ \
 	sounddrv \
 	drive \
@@ -82,7 +81,6 @@ DIST_SUBDIRS = \
 	cbm2 \
 	arch \
 	resid \
-	resid-fp \
 	resid-dtv \
 	lib \
 	platform
@@ -804,8 +802,8 @@ xcbm5x0_lib = $(top_builddir)/src/cbm2/libcbm5x0.a
 p64_lib = $(top_builddir)/src/lib/p64/libp64.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@
-resid_libs = @RESID_LIBS@ @RESID_FP_LIBS@
-resid_dtv_libs = @RESID_DTV_LIBS@ @RESID_FP_LIBS@
+resid_libs = @RESID_LIBS@
+resid_dtv_libs = @RESID_DTV_LIBS@
 
 # external libraries required for all emulators
 emu_extlibs = @X_LIBS@ @UI_LIBS@ @SDL_EXTRA_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @FFMPEG_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @EDITLINE_LIBS@ @ARCH_LIBS@
@@ -908,7 +906,6 @@ vsid_LDFLAGS = @vsid_LDFLAGS@
 vsid-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@RESID_FP_DEP@ \
 	libvsid \
 	libraster \
 	libsid \
@@ -960,7 +957,6 @@ x64_LDFLAGS = @x64_LDFLAGS@
 x64-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@RESID_FP_DEP@ \
 	libc64 \
 	libc64cartsystem \
 	libc64cart \
@@ -1034,7 +1030,6 @@ x64sc_LDFLAGS = @x64_LDFLAGS@
 x64sc-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
-	@RESID_FP_DEP@ \
 	libc64sc \
 	libc64cartsystem \
 	libc64cart \
@@ -1107,7 +1102,6 @@ x64dtv_LDFLAGS = @x64_LDFLAGS@
 x64dtv-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DTV_DEP@ \
-	@RESID_FP_DEP@ \
 	libc64dtv \
 	libc64dtvstubs \
 	libc64c64dtv \
@@ -1215,7 +1209,6 @@ xscpu64-all: \
 	libuserport \
 	libplatform \
 	@RESID_DEP@ \
-	@RESID_FP_DEP@ \
 	xscpu64$(EXEEXT)
 
 # x128
@@ -1295,7 +1288,6 @@ x128-all: \
 	libuserport \
 	libplatform \
 	@RESID_DEP@ \
-	@RESID_FP_DEP@ \
 	x128$(EXEEXT)
 
 # xvic
@@ -1365,7 +1357,6 @@ xvic-all: \
 	libuserport \
 	libplatform \
 	@RESID_DEP@ \
-	@RESID_FP_DEP@ \
 	xvic$(EXEEXT)
 
 # xpet
@@ -1427,7 +1418,6 @@ xpet-all: \
 	libuserport \
 	libplatform \
 	@RESID_DEP@ \
-	@RESID_FP_DEP@ \
 	xpet$(EXEEXT)
 
 # xplus4
@@ -1491,7 +1481,6 @@ xplus4-all: \
 	libuserport \
 	libplatform \
 	@RESID_DEP@ \
-	@RESID_FP_DEP@ \
 	xplus4$(EXEEXT)
 
 # xcbm2
@@ -1533,7 +1522,6 @@ xcbm2-all: \
 	libarch \
 	libsid \
 	@RESID_DEP@ \
-	@RESID_FP_DEP@ \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
@@ -1595,7 +1583,6 @@ xcbm5x0-all: \
 	libarch \
 	libsid \
 	@RESID_DEP@ \
-	@RESID_FP_DEP@ \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
@@ -1718,7 +1705,7 @@ DISTCLEANFILES = $(BUILT_SOURCES)
 	librs232drv libgfxoutputdrv libsounddrv libdiskimage libfsdevice
 	libtape libarch libvicii libviciisc libviciidtv libvdc libsid libcrtc
 	libvideo libserial libparallel libcore libiecbus libfileio librtc
-	libuserport libp64 libscpu64 @RESID_DEP@ @RESID_DTV_DEP@ @RESID_FP_DEP@
+	libuserport libp64 libscpu64 @RESID_DEP@ @RESID_DTV_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -1808,8 +1795,6 @@ libresid:
 	(cd resid && $(MAKE) libresid.a)
 libresiddtv:
 	(cd resid-dtv && $(MAKE) libresiddtv.a)
-libresidfp:
-	(cd resid-fp && $(MAKE) libresidfp.a)
 libserial:
 	(cd serial && $(MAKE))
 libsid:

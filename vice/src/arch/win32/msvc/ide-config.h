@@ -15,7 +15,6 @@
 #define HAVE_ALLOCA             1
 #define RETSIGTYPE              void
 #define HAVE_RESID              1
-#define HAVE_RESID_FP           1
 #define HAVE_RESID_DTV          1
 #define HAS_JOYSTICK            1
 #define HAVE_MOUSE              1

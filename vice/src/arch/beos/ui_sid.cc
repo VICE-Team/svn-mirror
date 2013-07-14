@@ -107,7 +107,7 @@ void SidWindow::EnableReSidControls(int engine)
 
     children = residbox->CountChildren();
     for (i = 0; i < children; i++) {
-        ((BControl *)residbox->ChildAt(i))->SetEnabled((engine == SID_ENGINE_RESID) || (engine == SID_ENGINE_RESID_FP));
+        ((BControl *)residbox->ChildAt(i))->SetEnabled(engine == SID_ENGINE_RESID);
     }
 
 }
@@ -184,9 +184,9 @@ SidWindow::SidWindow()
     r = Bounds();
     r.InsetBy(10, 10);
     r.top = r.bottom - 100;
-    residbox = new BBox(r, "reSID/reSID-fp settings");
+    residbox = new BBox(r, "reSID settings");
     residbox->SetViewColor(220, 220, 220, 0);
-    residbox->SetLabel("reSID/reSID-fp settings");
+    residbox->SetLabel("reSID settings");
     background->AddChild(residbox);
     r = residbox->Bounds();
 

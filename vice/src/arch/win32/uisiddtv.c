@@ -451,7 +451,7 @@ void ui_siddtv_settings_dialog(HWND hwnd)
     psp[0].pfnDlgProc = general_dialog_proc;
     psp[0].pszTitle = translate_text(IDS_GENERAL);
     psp[1].pfnDlgProc = resid_dialog_proc;
-    psp[1].pszTitle = TEXT("ReSID-DTV/ReSID-fp");
+    psp[1].pszTitle = TEXT("ReSID-DTV");
     if (hardsid_available()) {
         psp[2].pfnDlgProc = hardsid_dialog_proc;
         psp[2].pszTitle = TEXT("HardSID");

@@ -83,18 +83,6 @@ static char *ui_sid_engine_model[] = {
 #ifdef HAVE_HARDSID
     "HardSID",
 #endif
-#ifdef HAVE_RESID_FP
-    "6581R3 4885 (ReSID-fp)",
-    "6581R3 0486S (ReSID-fp)",
-    "6581R3 3984 (ReSID-fp)",
-    "6581R4AR 3789 (ReSID-fp)",
-    "6581R3 4485 (ReSID-fp)",
-    "6581R4 1986S (ReSID-fp)",
-    "8580R5 3691 (ReSID-fp)",
-    "8580R5 3691 + digiboost (ReSID-fp)",
-    "8580R5 1489 (ReSID-fp)",
-    "8580R5 1489 + digiboost (ReSID-fp)",
-#endif
     NULL
 };
 
@@ -111,18 +99,6 @@ static const int ui_sid_engine_model_values[] = {
 #endif
 #ifdef HAVE_HARDSID
     SID_HARDSID,
-#endif
-#ifdef HAVE_RESID_FP
-    SID_RESIDFP_6581R3_4885,
-    SID_RESIDFP_6581R3_0486S,
-    SID_RESIDFP_6581R3_3984,
-    SID_RESIDFP_6581R4AR_3789,
-    SID_RESIDFP_6581R3_4485,
-    SID_RESIDFP_6581R4_1986S,
-    SID_RESIDFP_8580R5_3691,
-    SID_RESIDFP_8580R5_3691D,
-    SID_RESIDFP_8580R5_1489,
-    SID_RESIDFP_8580R5_1489D,
 #endif
     -1
 };
