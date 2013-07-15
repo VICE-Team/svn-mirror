@@ -242,9 +242,9 @@ static io_source_list_t *sid_d600_list_item = NULL;
 static io_source_list_t *sid_d700_list_item = NULL;
 
 static int vsid_autostart_delay = 0;
-static int vsid_autostart_load_addr = 0;
-static char *vsid_autostart_data = NULL;
-static int vsid_autostart_length = 0;
+static WORD vsid_autostart_load_addr = 0;
+static BYTE *vsid_autostart_data = NULL;
+static WORD vsid_autostart_length = 0;
 
 void c64io_vicii_init(void)
 {

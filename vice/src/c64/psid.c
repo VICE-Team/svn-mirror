@@ -483,7 +483,7 @@ void psid_init_tune(int install_driver_hook)
     ram_store((WORD)(0x02a6), (BYTE)(sync == MACHINE_SYNC_NTSC ? 0 : 1));
 }
 
-int psid_basic_rsid_to_autostart(int *address, char **data, int *length) {
+int psid_basic_rsid_to_autostart(WORD *address, BYTE **data, WORD *length) {
     if (psid && psid->is_rsid && psid->flags & 0x02) {
         *address = psid->load_addr;
         *data = psid->data;
