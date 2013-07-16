@@ -118,7 +118,7 @@ static int set_kernal_rom_name(const char *val, void *param)
     ret = c64rom_load_kernal(kernal_rom_name, NULL);
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 #endif
-    return -1;
+    return 0;
 }
 
 /* the basic ROM is not used by xscpu64, however the resource must work
@@ -133,7 +133,7 @@ static int set_basic_rom_name(const char *val, void *param)
     ret = c64rom_load_basic(basic_rom_name);
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 #endif
-    return -1;
+    return 0;
 }
 
 static int set_board_type(int val, void *param)
