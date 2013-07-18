@@ -30,9 +30,11 @@
 
 #include "lib.h"
 #include "pet.h"
+#include "resources.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uipetcolour.h"
+#include "vsync.h"
 
 UI_MENU_DEFINE_RADIO(PETColour)
 
