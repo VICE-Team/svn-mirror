@@ -310,7 +310,7 @@ static void menu_handle_block(gpointer data, gpointer user_data)
 static void menu_update_checkmarks(gpointer data, gpointer user_data)
 {
     checkmark_t *cm = (checkmark_t *)data;
-    
+
     cm->obj.status = CB_REFRESH;
     ((void*(*)(GtkWidget*, ui_callback_data_t))cm->cb)(cm->w, (ui_callback_data_t) &cm->obj);
     cm->obj.status = CB_NORMAL;
