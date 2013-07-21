@@ -66,7 +66,7 @@ static void enable_resid_sid_controls(HWND hwnd)
 {
     int is_enabled;
 
-    is_enabled = (sel_engine == SID_ENGINE_RESID) || (sel_engine == SID_ENGINE_RESID_FP);
+    is_enabled = (sel_engine == SID_ENGINE_RESID);
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND_VALUE), is_enabled);
