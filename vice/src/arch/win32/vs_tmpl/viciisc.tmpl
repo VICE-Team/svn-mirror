@@ -1,0 +1,36 @@
+# name of the project
+PROJECTNAME = viciisc
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	base
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	c64
+	c64\cart
+	c64dtv
+	monitor
+	raster
+	video
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	viciisc\vicii-chip-model.c
+	viciisc\vicii-cmdline-options.c
+	viciisc\vicii-color.c
+	viciisc\vicii-cycle.c
+	viciisc\vicii-draw-cycle.c
+	viciisc\vicii-draw.c
+	viciisc\vicii-fetch.c
+	viciisc\vicii-irq.c
+	viciisc\vicii-lightpen.c
+	viciisc\vicii-mem.c
+	viciisc\vicii-phi1.c
+	viciisc\vicii-resources.c
+	viciisc\vicii-snapshot.c
+	viciisc\vicii-timing.c
+	viciisc\vicii.c

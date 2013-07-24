@@ -12,7 +12,7 @@ endif
 
 if WIN32_COMPILE
 
-SUBDIRS = watcom-source-wrappers win32 win64
+SUBDIRS = watcom-source-wrappers win32
 
 endif
 

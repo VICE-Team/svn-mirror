@@ -1,0 +1,26 @@
+# name of the project
+PROJECTNAME = gfxoutputdrv
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	base
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	lib\libffmpeg
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	gfxoutputdrv\bmpdrv.c
+	gfxoutputdrv\doodledrv.c
+	gfxoutputdrv\ffmpegdrv.c
+	gfxoutputdrv\ffmpeglib.c
+	gfxoutputdrv\gfxoutput.c
+	gfxoutputdrv\iffdrv.c
+	gfxoutputdrv\koaladrv.c
+	gfxoutputdrv\nativedrv.c
+	gfxoutputdrv\pcxdrv.c
+	gfxoutputdrv\ppmdrv.c

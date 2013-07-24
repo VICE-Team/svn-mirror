@@ -1,0 +1,26 @@
+# name of the project
+PROJECTNAME = c64cartsystem
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	base
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	c64
+	core
+	drive
+	monitor
+	rtc
+	sid
+	vicii
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	c64\cart\c64cart.c
+	c64\cart\c64carthooks.c
+	c64\cart\c64cartmem.c
+	c64\cart\crt.c

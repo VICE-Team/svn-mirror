@@ -40,10 +40,47 @@
 #define QUOTE(x) XQUOTE(x)
 #define XQUOTE(x) #x
 
+/* Set compiler version */
+#if (_MSC_VER == 1100)
+#define PLATFORM_COMPILER "msvc5/vs97"
+#endif
+
+#if (_MSC_VER == 1200)
+#define PLATFORM_COMPILER "msvc6/vs98"
+#endif
+
+#if (_MSC_VER == 1300)
+#define PLATFORM_COMPILER "msvc7.0/vs2002"
+#endif
+
+#if (_MSC_VER == 1310)
+#define PLATFORM_COMPILER "msvc7.1/vs2003"
+#endif
+
+#if (_MSC_VER == 1400)
+#define PLATFORM_COMPILER "msvc8/vs2005"
+#endif
+
+#if (_MSC_VER == 1500)
+#define PLATFORM_COMPILER "msvc9/vs2008"
+#endif
+
+#if (_MSC_VER == 1600)
+#define PLATFORM_COMPILER "msvc10/vs2010"
+#endif
+
+#if (_MSC_VER == 1700)
+#define PLATFORM_COMPILER "msvc11/vs2012"
+#endif
+
+#ifndef PLATFORM_COMPILER
+#define PLATFORM_COMPILER "msvc"
+#endif
+
 /* win32/64 discovery */
 #ifdef WIN32_COMPILE
 #  ifdef _WIN64
-#    ifdef WINIA64
+#    ifdef _M_IA64
 #      ifndef PLATFORM_CPU
 #        define PLATFORM_CPU "IA64"
 #      endif
@@ -62,7 +99,9 @@
 #    ifdef WINMIPS
 #      define PLATFORM_CPU "MIPS"
 #      define PLATFORM_OS "WIN32"
-#      define PLATFORM_COMPILER "MSVC"
+#      ifndef PLATFORM_COMPILER
+#        define PLATFORM_COMPILER "MSVC"
+#      endif
 #    else
 #      ifndef __GNUC__
 #        ifdef MSVC_RC

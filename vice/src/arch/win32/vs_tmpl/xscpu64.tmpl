@@ -1,0 +1,84 @@
+# name of the project
+PROJECTNAME = xscpu64
+
+# project type: library, console, gui
+PROJECTTYPE = gui
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	arch
+	base
+	c64exp
+	c64cart
+	c64cartsystem
+	c64commoncart
+	c64scpu64
+	core
+	diskimage
+	drive
+	fileio
+	fsdevice
+	gfxoutputdrv
+	iec
+	iecbus
+	iecieee
+	ieee
+	imagecontents
+	monitor
+	p64
+	parallel
+	platform
+	printerdrv
+	raster
+	resid
+	residfp
+	rs232drv
+	rtc
+	scpu64
+	serial
+	sid
+	sounddrv
+	userport
+	vdrive
+	viciisc
+	video
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	lib\p64
+	monitor
+	platform
+	vdrive
+
+# library files for application, one per line, preceeded by a tab
+PROJECTLIBS =
+	advapi32.lib
+	comctl32.lib
+	comdlg32.lib
+	gdi32.lib
+	kernel32.lib
+	odbc32.lib
+	odbccp32.lib
+	ole32.lib
+	oleaut32.lib
+	shell32.lib
+	user32.lib
+	uuid.lib
+	version.lib
+	winmm.lib
+	winspool.lib
+	wsock32.lib
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	main.c
+
+# resource source name
+RESSOURCE = resscpu64.rc
+
+# resource dependencies, separated by spaces
+RESDEPS = resscpu64.rc res.rc resacia.rc rescia.rc resdrivec64.rc reside64.rc resreu.rc resgeoram.rc resramcart.rc resmmc64.rc resmmcreplay.rc resretroreplay.rc resrs232user.rc ressid.rc resvicii.rc resdigimax.rc resmouse.rc resmidi.rc resdqbb.rc resisepic.rc reslightpen.rc ressoundexpander.rc reseasyflash.rc resautostart.rc resmagicvoice.rc resexpert.rc resds12c887rtc.rc restfe.rc
+
+# resource output name
+RESOUTPUT = resscpu64cat.rc

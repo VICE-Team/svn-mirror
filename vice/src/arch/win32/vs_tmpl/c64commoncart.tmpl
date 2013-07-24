@@ -1,0 +1,29 @@
+# name of the project
+PROJECTNAME = c64commoncart
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	base
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	c64
+	core
+	drive
+	monitor
+	rtc
+	sid
+	vicii
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	c64\cart\c64acia1.c
+	c64\cart\digimax.c
+	c64\cart\ds12c887rtc.c
+	c64\cart\georam.c
+	c64\cart\sfx_soundexpander.c
+	c64\cart\sfx_soundsampler.c
+	c64\cart\tfe.c

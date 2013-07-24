@@ -1,0 +1,24 @@
+# name of the project
+PROJECTNAME = c64exp
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	base
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	lib\p64
+	core
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	drive\iec\c64exp\c64exp-cmdline-options.c
+	drive\iec\c64exp\c64exp-resources.c
+	drive\iec\c64exp\dolphindos3.c
+	drive\iec\c64exp\iec-c64exp.c
+	drive\iec\c64exp\profdos.c
+	drive\iec\c64exp\supercard.c

@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#ifdef HAVE_FFMPEG
+
 #include <stdio.h>
 #include <string.h>
 
@@ -935,3 +937,5 @@ void gfxoutput_init_ffmpeg(void)
 
     (*ffmpeglib.p_av_register_all)();
 }
+
+#endif

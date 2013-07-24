@@ -1,0 +1,27 @@
+# name of the project
+PROJECTNAME = serial
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	base
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	vdrive
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	serial\fsdrive.c
+	serial\realdevice.c
+	serial\serial-device.c
+	serial\serial-iec-bus.c
+	serial\serial-iec-device.c
+	serial\serial-iec-lib.c
+	serial\serial-iec.c
+	serial\serial-realdevice.c
+	serial\serial-trap.c
+	serial\serial.c

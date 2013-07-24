@@ -1,0 +1,24 @@
+# name of the project
+PROJECTNAME = tcbm
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	base
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	lib\p64
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	drive\tcbm\glue1551.c
+	drive\tcbm\mem1551.c
+	drive\tcbm\tcbm-cmdline-options.c
+	drive\tcbm\tcbm-resources.c
+	drive\tcbm\tcbm.c
+	drive\tcbm\tcbmrom.c
+	drive\tcbm\tpid.c

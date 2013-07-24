@@ -1,0 +1,83 @@
+# name of the project
+PROJECTNAME = xpet
+
+# project type: library, console, gui
+PROJECTTYPE = gui
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	arch
+	base
+	core
+	crtc
+	diskimage
+	drive
+	fileio
+	fsdevice
+	gfxoutputdrv
+	iecieee
+	ieee
+	imagecontents
+	monitor
+	p64
+	parallel
+	pet
+	platform
+	printerdrv
+	raster
+	resid
+	residfp
+	rs232drv
+	rtc
+	serial
+	sid
+	sounddrv
+	tape
+	userport
+	vdrive
+	video
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	lib\p64
+	monitor
+	platform
+	sid
+	vdrive
+
+# library files for application, one per line, preceeded by a tab
+PROJECTLIBS =
+	advapi32.lib
+	comctl32.lib
+	comdlg32.lib
+	gdi32.lib
+	kernel32.lib
+	odbc32.lib
+	odbccp32.lib
+	ole32.lib
+	oleaut32.lib
+	shell32.lib
+	user32.lib
+	uuid.lib
+	version.lib
+	winmm.lib
+	winspool.lib
+	wsock32.lib
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	main.c
+
+# cpu type source files for normal compile, , relative to the top src dir, one per line, preceeded by a tab
+CPUSOURCES =
+	maincpu.c
+
+# resource source name
+RESSOURCE = respet.rc
+
+# resource dependencies, separated by spaces
+RESDEPS = respet.rc res.rc resacia.rc resdrivepetcbm2.rc respetreu.rc respetdww.rc respetcolour.rc resautostart.rc ressidcart.rc
+
+# resource output name
+RESOUTPUT = respetcat.rc

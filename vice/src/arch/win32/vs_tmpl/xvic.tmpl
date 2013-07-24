@@ -1,0 +1,82 @@
+# name of the project
+PROJECTNAME = xvic
+
+# project type: library, console, gui
+PROJECTTYPE = gui
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	arch
+	base
+	c64commoncart
+	core
+	diskimage
+	drive
+	fileio
+	fsdevice
+	gfxoutputdrv
+	iec
+	iecbus
+	iecieee
+	ieee
+	imagecontents
+	monitor
+	p64
+	parallel
+	platform
+	printerdrv
+	raster
+	resid
+	residfp
+	rs232drv
+	rtc
+	serial
+	sid
+	sounddrv
+	tape
+	userport
+	vdrive
+	vic20
+	vic20cart
+	video
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	lib\p64
+	monitor
+	platform
+	sid
+	vdrive
+
+# library files for application, one per line, preceeded by a tab
+PROJECTLIBS =
+	advapi32.lib
+	comctl32.lib
+	comdlg32.lib
+	gdi32.lib
+	kernel32.lib
+	odbc32.lib
+	odbccp32.lib
+	ole32.lib
+	oleaut32.lib
+	shell32.lib
+	user32.lib
+	uuid.lib
+	version.lib
+	winmm.lib
+	winspool.lib
+	wsock32.lib
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	main.c
+
+# resource source name
+RESSOURCE = resvic20.rc
+
+# resource dependencies, separated by spaces
+RESDEPS = resvic20.rc res.rc resvic.rc resdrivevic20.rc resrs232user.rc ressidcart.rc reslightpen.rc resautostart.rc resmidi.rc resacia.rc resgeoram.rc resdigimax.rc restfe.rc ressoundexpander.rc ressoundsampler.rc resds12c887rtc.rc
+
+# resource output name
+RESOUTPUT = resvic20cat.rc

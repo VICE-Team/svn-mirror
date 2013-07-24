@@ -1,0 +1,22 @@
+# name of the project
+PROJECTNAME = rtc
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	imagecontents
+	monitor
+	rs232drv
+	vdrive
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	rtc\bq4830y.c
+	rtc\ds1202_1302.c
+	rtc\ds1216e.c
+	rtc\ds12c887.c
+	rtc\rtc.c
+	rtc\rtc-58321a.c

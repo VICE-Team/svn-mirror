@@ -1,0 +1,24 @@
+# name of the project
+PROJECTNAME = vdc
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	base
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	raster
+	vicii
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	vdc\vdc-cmdline-options.c
+	vdc\vdc-color.c
+	vdc\vdc-draw.c
+	vdc\vdc-mem.c
+	vdc\vdc-resources.c
+	vdc\vdc-snapshot.c
+	vdc\vdc.c

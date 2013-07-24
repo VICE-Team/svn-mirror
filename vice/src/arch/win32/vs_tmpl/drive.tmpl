@@ -1,0 +1,37 @@
+# name of the project
+PROJECTNAME = drive
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	base
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	lib\p64
+	monitor
+	rtc
+	vdrive
+
+# cpu type source files for normal compile, , relative to the top src dir, one per line, preceeded by a tab
+CPUSOURCES =
+	drive\drivecpu.c
+	drive\drivecpu65c02.c
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	drive\drive-check.c
+	drive\drive-cmdline-options.c
+	drive\drive-overflow.c
+	drive\drive-resources.c
+	drive\drive-snapshot.c
+	drive\drive-sound.c
+	drive\drive-writeprotect.c
+	drive\drive.c
+	drive\driveimage.c
+	drive\drivemem.c
+	drive\driverom.c
+	drive\drivesync.c
+	drive\rotation.c

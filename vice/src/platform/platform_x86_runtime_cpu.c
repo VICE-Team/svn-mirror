@@ -26,8 +26,7 @@
 
 #include "vice.h"
 
-#if !defined(__SYLLABLE__) && !defined(ANDROID_COMPILE) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__) || defined(__amd64__) || defined(__x86_64__) || defined(_M_IX86))
-
+#if !defined(_M_IA64) && !defined(__SYLLABLE__) && !defined(ANDROID_COMPILE) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__) || defined(__amd64__) || defined(__x86_64__) || defined(_M_IX86))
 #include "types.h"
 #include <string.h>
 

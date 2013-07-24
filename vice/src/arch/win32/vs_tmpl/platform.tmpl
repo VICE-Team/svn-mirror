@@ -1,0 +1,19 @@
+# name of the project
+PROJECTNAME = platform
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	imagecontents
+	monitor
+	rs232drv
+	vdrive
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	platform\platform.c
+	platform\platform_windows_runtime_os.c
+	platform\platform_x86_runtime_cpu.c

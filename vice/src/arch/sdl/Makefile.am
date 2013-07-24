@@ -8,12 +8,10 @@ endif
 
 SUBDIRS = \
 	dingoo-files \
+	msvc-files \
 	qnx4 \
 	syllable-files \
-	win32-msvc \
-	win64-msvc \
-	win32-watcom \
-	winmips-msvc
+	win32-watcom
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -204,6 +202,14 @@ EXTRA_DIST = \
 	archdep_win32.h \
 	archdep_xbox.c \
 	archdep_xbox.h \
+	generate_msvc6_project.bat \
+	generate_msvc70_project.bat \
+	generate_msvc71_project.bat \
+	generate_msvc8_project.bat \
+	generate_msvc9_project.bat \
+	generate_msvc10_project.bat \
+	generate_msvc11_project.bat \
+	generate_msvcmips_project.bat \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
 	make-bindist_dingoo.sh \

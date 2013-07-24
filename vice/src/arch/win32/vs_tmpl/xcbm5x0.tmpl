@@ -1,0 +1,79 @@
+# name of the project
+PROJECTNAME = xcbm5x0
+
+# project type: library, console, gui
+PROJECTTYPE = gui
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	arch
+	base
+	cbm2common
+	cbm5x0
+	core
+	diskimage
+	drive
+	fileio
+	fsdevice
+	gfxoutputdrv
+	iecieee
+	ieee
+	imagecontents
+	monitor
+	p64
+	parallel
+	platform
+	printerdrv
+	raster
+	resid
+	residfp
+	rs232drv
+	rtc
+	serial
+	sid
+	sounddrv
+	tape
+	userport
+	vdrive
+	vicii
+	video
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	lib\p64
+	monitor
+	platform
+	vdrive
+
+# library files for application, one per line, preceeded by a tab
+PROJECTLIBS =
+	advapi32.lib
+	comctl32.lib
+	comdlg32.lib
+	gdi32.lib
+	kernel32.lib
+	odbc32.lib
+	odbccp32.lib
+	ole32.lib
+	oleaut32.lib
+	shell32.lib
+	user32.lib
+	uuid.lib
+	version.lib
+	winmm.lib
+	winspool.lib
+	wsock32.lib
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	main.c
+
+# resource source name
+RESSOURCE = rescbm5x0.rc
+
+# resource dependencies, separated by spaces
+RESDEPS = rescbm5x0.rc rescbm2common.rc res.rc resacia.rc rescia.rc resdrivepetcbm2.rc ressiddtv.rc resautostart.rc resvicii.rc
+
+# resource output name
+RESOUTPUT = rescbm5x0cat.rc

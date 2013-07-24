@@ -1,0 +1,85 @@
+# name of the project
+PROJECTNAME = base
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	geninfocontrib
+	gentranslate
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	imagecontents
+	lib\p64
+	monitor
+	platform
+	rs232drv
+	rtc
+	userport
+	vdrive
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	alarm.c
+	attach.c
+	autostart-prg.c
+	autostart.c
+	cbmdos.c
+	cbmimage.c
+	charset.c
+	clipboard.c
+	clkguard.c
+	cmdline.c
+	color.c
+	crc32.c
+	datasette.c
+	debug.c
+	dma.c
+	event.c
+	findpath.c
+	fliplist.c
+	gcr.c
+	info.c
+	init.c
+	initcmdline.c
+	interrupt.c
+	ioutil.c
+	joystick.c
+	kbdbuf.c
+	keyboard.c
+	lib.c
+	lightpen.c
+	log.c
+	machine-bus.c
+	machine.c
+	midi.c
+	mouse.c
+	network.c
+	opencbmlib.c
+	palette.c
+	ram.c
+	rawfile.c
+	rawnet.c
+	resources.c
+	romset.c
+	screenshot.c
+	snapshot.c
+	socket.c
+	sound.c
+	sysfile.c
+	translate.c
+	traps.c
+	util.c
+	vsync.c
+	zfile.c
+	zipcode.c
+
+# custom source options
+CUSTOMMSG = Generating translate.h and translate_table.h
+CUSTOMSOURCE = ..\..\..\translate.txt
+CUSTOMDEPS = ..\..\..\translate.txt
+CUSTOMOUTPUT = ..\..\..\translate_table.h
+CUSTOMCOMMAND = ..\..\..\..\data\gentranslate ..\..\..\translate.txt ..\..\..\translate.h ..\..\..\translate_table.h

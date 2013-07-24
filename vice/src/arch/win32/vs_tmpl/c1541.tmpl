@@ -1,0 +1,60 @@
+# name of the project
+PROJECTNAME = c1541
+
+# project type: library, console, gui
+PROJECTTYPE = console
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	arch
+	base
+	diskimage
+	fileio
+	imagecontents
+	p64
+	platform
+	serial
+	tape
+	vdrive
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	imagecontents
+	lib\p64
+	vdrive
+
+# library files for application, one per line, preceeded by a tab
+PROJECTLIBS =
+	advapi32.lib
+	comdlg32.lib
+	gdi32.lib
+	kernel32.lib
+	odbc32.lib
+	odbccp32.lib
+	ole32.lib
+	oleaut32.lib
+	shell32.lib
+	user32.lib
+	uuid.lib
+	version.lib
+	winspool.lib
+	wsock32.lib
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	c1541.c
+	cbmdos.c
+	cbmimage.c
+	charset.c
+	findpath.c
+	gcr.c
+	info.c
+	ioutil.c
+	lib.c
+	log.c
+	rawfile.c
+	resources.c
+	util.c
+	zfile.c
+	zipcode.c

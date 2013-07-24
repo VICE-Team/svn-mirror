@@ -12,6 +12,8 @@
 
 #pragma warning(disable:4996)
 
+#define WIN32_COMPILE           1
+
 #define HAVE_ALLOCA             1
 #define RETSIGTYPE              void
 #define HAVE_RESID              1
@@ -23,7 +25,7 @@
 #define HAVE_RS232              1
 #define HAVE_DYNLIB_SUPPORT     1
 
-#ifndef WINIA64
+#ifndef _M_IA64
 #define HAVE_PARSID             1
 #endif
 
@@ -72,12 +74,12 @@
 #define HAVE_DINPUT             1
 #define USE_DXSOUND             1
 #define HAVE_DSOUND_LIB         1
-#ifndef WINIA64
+#ifndef _M_IA64
 #define HAVE_GUIDLIB            1
 #endif
 #endif
 
-#if !defined(_M_AMD64) && !defined(WINIA64)
+#if !defined(_M_AMD64) && !defined(_M_IA64)
 #define __i386__                1
 #endif
 
@@ -105,22 +107,56 @@
 #define uint64_t_C(c)    (c ## ui64)
 /* end: for FFMPEG: common.h */
 
-#ifdef WINIA64
+/* Set compiler version */
+#if (_MSC_VER == 1100)
+#define PLATFORM_COMPILER "msvc5/vs97"
+#endif
+
+#if (_MSC_VER == 1200)
+#define PLATFORM_COMPILER "msvc6/vs98"
+#endif
+
+#if (_MSC_VER == 1300)
+#define PLATFORM_COMPILER "msvc7.0/vs2002"
+#endif
+
+#if (_MSC_VER == 1310)
+#define PLATFORM_COMPILER "msvc7.1/vs2003"
+#endif
+
+#if (_MSC_VER == 1400)
+#define PLATFORM_COMPILER "msvc8/vs2005"
+#endif
+
+#if (_MSC_VER == 1500)
+#define PLATFORM_COMPILER "msvc9/vs2008"
+#endif
+
+#if (_MSC_VER == 1600)
+#define PLATFORM_COMPILER "msvc10/vs2010"
+#endif
+
+#if (_MSC_VER == 1700)
+#define PLATFORM_COMPILER "msvc11/vs2012"
+#endif
+
+#ifndef PLATFORM_COMPILER
+#define PLATFORM_COMPILER "msvc"
+#endif
+
+#ifdef _M_IA64
 #define PLATFORM "win64 ia64 msvc"
 #define PLATFORM_OS "win64"
 #define PLATFORM_CPU "ia64"
-#define PLATFORM_COMPILER "msvc"
 #else
 #  ifdef _WIN64
 #    define PLATFORM "win64 x64 msvc"
 #    define PLATFORM_OS "win64"
 #    define PLATFORM_CPU "x64"
-#    define PLATFORM_COMPILER "msvc"
 #  else
 #    define PLATFORM "win32 x86 msvc"
 #    define PLATFORM_OS "win32"
 #    define PLATFORM_CPU "x86"
-#    define PLATFORM_COMPILER "msvc"
 #  endif
 #endif
 

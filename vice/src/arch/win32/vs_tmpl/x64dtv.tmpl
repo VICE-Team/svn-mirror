@@ -1,0 +1,84 @@
+# name of the project
+PROJECTNAME = x64dtv
+
+# project type: library, console, gui
+PROJECTTYPE = gui
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	arch
+	base
+	c64c64dtv
+	c64dtv
+	c64dtvstubs
+	c64exp
+	core
+	diskimage
+	drive
+	fileio
+	fsdevice
+	gfxoutputdrv
+	iec
+	iecbus
+	iecieee
+	ieee
+	imagecontents
+	monitor
+	p64
+	parallel
+	platform
+	printerdrv
+	raster
+	residdtv
+	residfp
+	rs232drv
+	rtc
+	serial
+	sid
+	sounddrv
+	tape
+	userport
+	vdrive
+	viciidtv
+	video
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	lib\p64
+	monitor
+	platform
+	vdrive
+
+# library files for application, one per line, preceeded by a tab
+PROJECTLIBS =
+	advapi32.lib
+	comctl32.lib
+	comdlg32.lib
+	gdi32.lib
+	kernel32.lib
+	odbc32.lib
+	odbccp32.lib
+	ole32.lib
+	oleaut32.lib
+	shell32.lib
+	user32.lib
+	uuid.lib
+	version.lib
+	winmm.lib
+	winspool.lib
+	wsock32.lib
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	main.c
+	ps2mouse.c
+
+# resource source name
+RESSOURCE = resc64dtv.rc
+
+# resource dependencies, separated by spaces
+RESDEPS = resc64dtv.rc res.rc resdrivec64.rc ressiddtv.rc resautostart.rc resvicii.rc
+
+# resource output name
+RESOUTPUT = resc64dtvcat.rc

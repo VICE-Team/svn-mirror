@@ -1,0 +1,42 @@
+# name of the project
+PROJECTNAME = video
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	base
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	c64
+	raster
+	video
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	video\render1x1.c
+	video\render1x1ntsc.c
+	video\render1x1pal.c
+	video\render1x2.c
+	video\render1x2crt.c
+	video\render2x2.c
+	video\render2x2crt.c
+	video\render2x2ntsc.c
+	video\render2x2pal.c
+	video\render2x4.c
+	video\render2x4crt.c
+	video\renderscale2x.c
+	video\renderyuv.c
+	video\video-canvas.c
+	video\video-cmdline-options.c
+	video\video-color.c
+	video\video-render-1x2.c
+	video\video-render-2x2.c
+	video\video-render-crt.c
+	video\video-render-pal.c
+	video\video-render.c
+	video\video-resources.c
+	video\video-sound.c
+	video\video-viewport.c

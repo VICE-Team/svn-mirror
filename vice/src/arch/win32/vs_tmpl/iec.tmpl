@@ -1,0 +1,30 @@
+# name of the project
+PROJECTNAME = iec
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	base
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	lib\p64
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	drive\iec\cia1571d.c
+	drive\iec\cia1581d.c
+	drive\iec\fdd.c
+	drive\iec\glue1571.c
+	drive\iec\iec-cmdline-options.c
+	drive\iec\iec-resources.c
+	drive\iec\iec.c
+	drive\iec\iecrom.c
+	drive\iec\memiec.c
+	drive\iec\pc8477.c
+	drive\iec\via1d1541.c
+	drive\iec\via4000.c
+	drive\iec\wd1770.c

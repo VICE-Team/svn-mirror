@@ -1,0 +1,80 @@
+# name of the project
+PROJECTNAME = xplus4
+
+# project type: library, console, gui
+PROJECTTYPE = gui
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	arch
+	base
+	core
+	diskimage
+	drive
+	fileio
+	fsdevice
+	gfxoutputdrv
+	iec
+	iecbus
+	iecieee
+	imagecontents
+	monitor
+	p64
+	platform
+	plus4
+	plus4exp
+	printerdrv
+	raster
+	resid
+	residfp
+	rs232drv
+	rtc
+	serial
+	sid
+	sounddrv
+	tape
+	tcbm
+	userport
+	vdrive
+	video
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	drive
+	lib\p64
+	monitor
+	platform
+	sid
+	vdrive
+
+# library files for application, one per line, preceeded by a tab
+PROJECTLIBS =
+	advapi32.lib
+	comctl32.lib
+	comdlg32.lib
+	gdi32.lib
+	kernel32.lib
+	odbc32.lib
+	odbccp32.lib
+	ole32.lib
+	oleaut32.lib
+	shell32.lib
+	user32.lib
+	uuid.lib
+	version.lib
+	winmm.lib
+	winspool.lib
+	wsock32.lib
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	main.c
+
+# resource source name
+RESSOURCE = resplus4.rc
+
+# resource dependencies, separated by spaces
+RESDEPS = resplus4.rc res.rc rested.rc resacia.rc resdriveplus4.rc resautostart.rc resv364speech.rc ressidcart.rc
+
+# resource output name
+RESOUTPUT = resplus4cat.rc

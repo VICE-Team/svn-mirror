@@ -1,7 +1,7 @@
 ## Makefile.am for the Win32 version of `libarch.a'.
 
 if !CROSS
-SUBDIRS = evc mingw32 msvc utils watcom
+SUBDIRS = evc mingw32 msvc utils vs_tmpl watcom
 endif
 
 SUFFIXES = .rc
@@ -325,97 +325,24 @@ libarch_a_DEPENDENCIES = \
 endif
 
 EXTRA_DIST = \
-	_vice.dsp \
-	arch.dsp \
-	base.dsp \
-	c128.dsp \
-	c1541.dsp \
-	c64.dsp \
-	c64c64dtv.dsp \
-	c64dtv.dsp \
-	c64dtvstubs.dsp \
-	c64c128.dsp \
-	c64cart.dsp \
-	c64cartsystem.dsp \
-	c64commoncart.dsp \
-	c64exp.dsp \
-	c64sc.dsp \
-	c64scpu64.dsp \
-	cartconv.dsp \
-	cbm2.dsp \
-	cbm2common.dsp \
-	cbm5x0.dsp \
-	core.dsp \
-	crtc.dsp \
 	dirent.c \
-	diskimage.dsp \
-	drive.dsp \
-	fileio.dsp \
-	fsdevice.dsp \
-	geninfocontrib.dsp \
+	generate_msvc6_project.bat \
+	generate_msvc70_project.bat \
+	generate_msvc71_project.bat \
+	generate_msvc8_project.bat \
+	generate_msvc9_project.bat \
+	generate_msvc10_project.bat \
+	generate_msvc11_project.bat \
 	genmenuid.sh \
-	genmsvcver.dsp \
 	genstringid.sh \
-	gentranslate.dsp \
-	genwinres.dsp \
 	genwinres.sh \
-	gfxoutputdrv.dsp \
-	iec.dsp \
-	iec128dcr.dsp \
-	iecbus.dsp \
-	iecieee.dsp \
-	ieee.dsp \
-	imagecontents.dsp \
-	monitor.dsp \
-	p64.dsp \
-	parallel.dsp \
-	pet.dsp \
-	petcat.dsp \
-	platform.dsp \
-	plus4.dsp \
-	plus4exp.dsp \
-	printerdrv.dsp \
-	raster.dsp \
-	resid.dsp \
-	residdtv.dsp \
 	res.txt \
 	resdialogs.txt \
 	resmenu.txt \
 	resstrings.txt \
-	rs232drv.dsp \
-	rtc.dsp \
-	scpu64.dsp \
-	serial.dsp \
-	sid.dsp \
-	sounddrv.dsp \
-	tape.dsp \
-	tcbm.dsp \
-	userport.dsp \
-	vdc.dsp \
-	vdrive.dsp \
-	vic20.dsp \
-	vic20cart.dsp \
-	vicii.dsp \
-	viciidtv.dsp \
-	viciisc.dsp \
-	video.dsp \
-	vsid.dsp \
-	vsidlib.dsp \
-	x128.dsp \
-	x64.dsp \
-	x64dtv.dsp \
-	x64sc.dsp \
-	xcbm2.dsp \
-	xcbm5x0.dsp \
-	xpet.dsp \
-	xplus4.dsp \
-	xscpu64.dsp \
-	xvic.dsp \
-	vice.dsw \
 	vice.manifest \
 	montb.bmp \
 	make-bindist.sh \
-	make-msvc-bindist.bat \
 	vice-version.bat \
 	vice-version.bat.in \
 	c64.ico 

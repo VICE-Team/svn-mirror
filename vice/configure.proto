@@ -3642,12 +3642,10 @@ AC_OUTPUT([Makefile
            src/arch/os2/watcom/Makefile
            src/arch/sdl/Makefile
            src/arch/sdl/dingoo-files/Makefile
+           src/arch/sdl/msvc-files/Makefile
            src/arch/sdl/qnx4/Makefile
            src/arch/sdl/syllable-files/Makefile
-           src/arch/sdl/win32-msvc/Makefile
            src/arch/sdl/win32-watcom/Makefile
-           src/arch/sdl/win64-msvc/Makefile
-           src/arch/sdl/winmips-msvc/Makefile
            src/arch/unix/Makefile
            src/arch/unix/gp2x/Makefile
            src/arch/unix/gp2x/gpe-files/Makefile
@@ -3684,8 +3682,8 @@ AC_OUTPUT([Makefile
            src/arch/win32/msvc/wpcap/Makefile
            src/arch/win32/msvc/wpcap/net/Makefile
            src/arch/win32/utils/Makefile
+           src/arch/win32/vs_tmpl/Makefile
            src/arch/win32/watcom/Makefile
-           src/arch/win64/Makefile
            src/c128/Makefile
            src/c64/Makefile
            src/c64/cart/Makefile

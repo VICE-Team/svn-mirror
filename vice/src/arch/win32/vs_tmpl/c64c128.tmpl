@@ -1,0 +1,42 @@
+# name of the project
+PROJECTNAME = c64c128
+
+# project type: library, console, gui
+PROJECTTYPE = library
+
+# project dependencies, one per line, preceeded by a tab
+PROJECTDEPS =
+	base
+
+# include directories, relative to the top src dir, one per line, preceeded by a tab
+INCLUDEDIRS =
+	c64\cart
+	drive
+	drive\iec\c64exp
+	lib\p64
+	monitor
+	raster
+	sid
+	tape
+	userport
+	vicii
+
+# source files for normal compile, relative to the top src dir, one per line, preceeded by a tab
+SOURCES =
+	c64\c64-snapshot.c
+	c64\c64bus.c
+	c64\c64cia2.c
+	c64\c64datasette.c
+	c64\c64export.c
+	c64\c64gluelogic.c
+	c64\c64iec.c
+	c64\c64io.c
+	c64\c64keyboard.c
+	c64\c64meminit.c
+	c64\c64memrom.c
+	c64\c64parallel.c
+	c64\c64pla.c
+	c64\c64printer.c
+	c64\c64rsuser.c
+	c64\c64sound.c
+	c64\patchrom.c
