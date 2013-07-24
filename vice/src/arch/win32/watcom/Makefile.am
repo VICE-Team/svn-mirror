@@ -44,7 +44,6 @@ EXTRA_DIST = \
 	ide-config.h \
 	ide-siddefs.h \
 	ide-siddtvdefs.h \
-	ide-sidfpdefs.h \
 	iec.tgt \
 	iec128dcr.tgt \
 	iecbus.tgt \
