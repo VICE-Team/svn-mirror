@@ -4,7 +4,6 @@ EXTRA_DIST = \
 	ide-config-mips.h \
 	ide-siddefs.h \
 	ide-siddtvdefs.h \
-	ide-sidfpdefs.h \
 	inttypes.h \
 	make-bindist.bat.proto \
 	stdint.h \
