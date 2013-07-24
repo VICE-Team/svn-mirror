@@ -52,7 +52,6 @@ EXTRA_DIST = \
 	raster.tmpl \
 	resid.tmpl \
 	residdtv.tmpl \
-	residfp.tmpl \
 	rs232drv.tmpl \
 	rtc.tmpl \
 	scpu64.tmpl \
