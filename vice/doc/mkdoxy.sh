@@ -197,7 +197,6 @@ VICII_INPUT=" ../src/vicii"
 VICIISC_INPUT=" ../src/viciisc"
 
 SID_INPUT=" ../src/resid"
-SID_INPUT+=" ../src/resid-fp"
 SID_INPUT+=" ../src/sid"
 
 DTVSID_INPUT=" ../src/resid-dtv"
