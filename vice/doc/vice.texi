@@ -5888,7 +5888,7 @@ Integer specifying what model of the SID must be emulated (@code{0}: 6581
 @item SidEngine
 Integer specifying what SID engine will be used (@code{0}: FASTSID, @code{1}: RESID
 , @code{2}: CATWEASELMKIII, @code{3}: HARDSID, @code{4}: PARSID_PORT1, @code{5}: PARSID_PORT2
-, @code{6}: PARSID_PORT3, @code{7}: RESID_FP).
+, @code{6}: PARSID_PORT3).
 
 @vindex SidResidSampling
 @item SidResidSampling
