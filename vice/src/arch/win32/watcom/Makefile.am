@@ -65,7 +65,6 @@ EXTRA_DIST = \
 	raster.tgt \
 	resid.tgt \
 	resid-dtv.tgt \
-	resid-fp.tgt \
 	rs232drv.tgt \
 	scpu64.tgt \
 	serial.tgt \
