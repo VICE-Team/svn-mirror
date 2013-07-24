@@ -499,6 +499,7 @@ _END
                            <QPM:File>default.vpl</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
                            <QPM:File>kernal</QPM:File>
+                           <QPM:File>kernal.005</QPM:File>
                            <QPM:File>kernal.232</QPM:File>
                            <QPM:File>kernal.364</QPM:File>
                            <QPM:File>sdl_sym.vkm</QPM:File>

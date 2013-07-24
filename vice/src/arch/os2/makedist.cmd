@@ -152,6 +152,9 @@ copy ..\..\..\data\PLUS4\basic         Vice2\PLUS4
 copy ..\..\..\data\PLUS4\default.vpl   Vice2\PLUS4
 copy ..\..\..\data\PLUS4\default.vrs   Vice2\PLUS4
 copy ..\..\..\data\PLUS4\kernal        Vice2\PLUS4
+copy ..\..\..\data\PLUS4\kernal.005    Vice2\PLUS4
+copy ..\..\..\data\PLUS4\kernal.232    Vice2\PLUS4
+copy ..\..\..\data\PLUS4\kernal.364    Vice2\PLUS4
 copy ..\..\..\data\PLUS4\os2.vkm       Vice2\PLUS4
 copy ..\..\..\data\PLUS4\vice.vpl      Vice2\PLUS4
 

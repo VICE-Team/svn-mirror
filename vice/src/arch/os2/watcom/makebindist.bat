@@ -171,6 +171,9 @@ copy ..\..\..\..\data\PLUS4\basic       %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\default.vpl %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\default.vrs %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\kernal      %VICEDIR%\PLUS4
+copy ..\..\..\..\data\PLUS4\kernal.005  %VICEDIR%\PLUS4
+copy ..\..\..\..\data\PLUS4\kernal.232  %VICEDIR%\PLUS4
+copy ..\..\..\..\data\PLUS4\kernal.264  %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\os2.vkm     %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\vice.vpl    %VICEDIR%\PLUS4
 

@@ -313,6 +313,9 @@ installfile data/PLUS4/basic vice/vice-RUN runtmp /usr/local/lib/vice/PLUS4/basi
 installfile data/PLUS4/default.vpl vice/vice-RUN runtmp /usr/local/lib/vice/PLUS4/default.vpl run 0644
 installfile data/PLUS4/default.vrs vice/vice-RUN runtmp /usr/local/lib/vice/PLUS4/default.vrs run 0644
 installfile data/PLUS4/kernal vice/vice-RUN runtmp /usr/local/lib/vice/PLUS4/kernal run 0644
+installfile data/PLUS4/kernal.005 vice/vice-RUN runtmp /usr/local/lib/vice/PLUS4/kernal.005 run 0644
+installfile data/PLUS4/kernal.232 vice/vice-RUN runtmp /usr/local/lib/vice/PLUS4/kernal.232 run 0644
+installfile data/PLUS4/kernal.364 vice/vice-RUN runtmp /usr/local/lib/vice/PLUS4/kernal.364 run 0644
 installfile data/PLUS4/vice.vpl vice/vice-RUN runtmp /usr/local/lib/vice/PLUS4/vice.vpl run 0644
 installfile data/PLUS4/x11_pos.vkm vice/vice-RUN runtmp /usr/local/lib/vice/PLUS4/x11_pos.vkm run 0644
 installfile data/PLUS4/x11_sym.vkm vice/vice-RUN runtmp /usr/local/lib/vice/PLUS4/x11_sym.vkm run 0644

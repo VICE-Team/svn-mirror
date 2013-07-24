@@ -55,7 +55,7 @@ C64DTV_FILES="basic chargen default.vrs dtvrom.bin kernal sdl_sym.vkm sdl_sym_da
 C128_FILES="basic64 basichi basiclo c64hq.vpl c64s.vpl ccs64.vpl chargde chargen chargfr chargse default.vpl default.vrs frodo.vpl godot.vpl kernal kernal64 kernalde kernalfi kernalfr kernalit kernalno kernalse pc64.vpl sdl_sym.vkm vdc_comp.vpl vdc_deft.vpl vice.vpl"
 CBM2_FILES="amber.vpl basic.128 basic.256 basic.500 c64hq.vpl c64s.vpl ccs64.vpl chargen.500 chargen.600 chargen.700 default.vpl frodo.vpl godot.vpl green.vpl kernal kernal.500 pc64.vpl rom128h.vrs rom128l.vrs rom256h.vrs rom256l.vrs rom500.vrs sdl_buks.vkm white.vpl"
 PET_FILES="amber.vpl basic1 basic2 basic4 characters.901640-01.bin chargen chargen.de edit1g edit2b edit2g edit4b40 edit4b80 edit4g40 green.vpl kernal1 kernal2 kernal4 rom1g.vrs rom2b.vrs rom2g.vrs rom4b40.vrs rom4b80.vrs rom4g40.vrs romsuperpet.vrs sdl_bgrs.vkm sdl_buks.vkm waterloo-a000.901898-01.bin waterloo-b000.901898-02.bin waterloo-c000.901898-03.bin waterloo-d000.901898-04.bin waterloo-e000.901897-01.bin waterloo-f000.901898-05.bin white.vpl"
-PLUS4_FILES="3plus1hi 3plus1lo basic c2lo.364 default.vpl default.vrs kernal kernal.232 kernal.364 sdl_sym.vkm vice.vpl"
+PLUS4_FILES="3plus1hi 3plus1lo basic c2lo.364 default.vpl default.vrs kernal kernel.005 kernal.232 kernal.364 sdl_sym.vkm vice.vpl"
 VIC20_FILES="basic chargen default.vpl default.vrs kernal sdl_pos_fi.vkm sdl_sym.vkm"
 DRIVE_FILES="d1541II d1571cr dos1001 dos1541 dos1551 dos1570 dos1571 dos1581 dos2000 dos2031 dos2040 dos3040 dos4000 dos4040"
 

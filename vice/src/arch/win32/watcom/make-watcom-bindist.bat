@@ -92,6 +92,7 @@ copy ..\..\..\..\data\PLUS4\basic %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\*.vpl %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\*.vrs %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\kernal %VICEDIR%\PLUS4
+copy ..\..\..\..\data\PLUS4\kernal.* %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\win_*.v* %VICEDIR%\PLUS4
 mkdir %VICEDIR%\PRINTER
 copy ..\..\..\..\data\PRINTER\cbm1526 %VICEDIR%\PRINTER
