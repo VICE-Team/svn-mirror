@@ -64,6 +64,7 @@
 #include "types.h"
 #include "vdc-mem.h"
 #include "vdc.h"
+#include "vdctypes.h"
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 #include "vicii.h"
@@ -1251,10 +1252,18 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 
 void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 {
-    *base = ((vicii_peek(0xd018) & 0xf0) << 6) | ((~cia2_peek(0xdd00) & 0x03) << 14);
-    *rows = 25;
-    *columns = 40;
-    *bank = 0;
+    /* Check the 40/80 DISPLAY switch state */
+    if (peek_bank_io(0xD505) & 0x80) { /* 40 column so read VIC screen */
+        *base = ((vicii_peek(0xd018) & 0xf0) << 6) | ((~cia2_peek(0xdd00) & 0x03) << 14);
+        *rows = 25;
+        *columns = 40;
+        *bank = 0;
+    } else { /* Read VDC */
+        *base = (vdc.regs[12] << 8) | vdc.regs[13];
+        *rows = vdc.regs[6];
+        *columns = vdc.regs[1];
+        *bank = 9;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
