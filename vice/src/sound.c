@@ -775,6 +775,7 @@ int sound_open(void)
     int speed;
     int fragsize;
     int fragnr;
+    char frag_str[8];
     double bufsize;
 
     if (suspend_time > 0 && disabletime) {
@@ -888,10 +889,11 @@ int sound_open(void)
         snddata.fragnr = fragnr;
         snddata.bufsize = fragsize * fragnr;
         snddata.bufptr = 0;
+        /* log_message isn't guarenteed to handle "%f" */
+        sprintf(frag_str, "%.1f", (1000.0 * fragsize / speed));
         log_message(sound_log,
-                    "Opened device `%s', speed %dHz, fragment size %dms, buffer size %dms%s",
-                    pdev->name, speed,
-                    (int)(1000.0 * fragsize / speed),
+                    "Opened device `%s', speed %dHz, fragment size %sms, buffer size %dms%s",
+                    pdev->name, speed, frag_str,
                     (int)(1000.0 * snddata.bufsize / speed),
                     snddata.sound_output_channels > 1 ? ", stereo" : "");
         sample_rate = speed;
