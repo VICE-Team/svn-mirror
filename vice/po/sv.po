@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-08 23:52+0200\n"
+"POT-Creation-Date: 2013-07-25 15:55-0700\n"
 "PO-Revision-Date: 2012-10-28 21:15+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -143,7 +143,7 @@ msgstr "reSID-omsamplingspassband"
 #: src/arch/unix/gui/uiperipheral.c:68 src/arch/unix/gui/uiperipheral.c:84
 #: src/arch/unix/gui/uiperipheral.c:100 src/arch/unix/gui/uiperipheral.c:116
 #: src/arch/unix/gui/uiprinter.c:172 src/arch/unix/gui/uiprinter.c:184
-#: src/arch/unix/gui/uisid.c:254 src/arch/unix/gui/uited.c:77
+#: src/arch/unix/gui/uisid.c:208 src/arch/unix/gui/uited.c:77
 #: src/arch/unix/gui/uivic.c:77 src/arch/unix/gui/uivicii.c:93
 #: src/arch/win32/res.rc.po.c:1178 src/arch/win32/res.rc.po.c:1195
 #: src/arch/amigaos/intl_text.c.po.c:6151
@@ -494,7 +494,7 @@ msgstr "Emulering av ljuspenna"
 #: src/arch/win32/rescbm5x0.rc.po.c:19 src/arch/win32/respet.rc.po.c:19
 #: src/arch/win32/resplus4.rc.po.c:19 src/arch/win32/resscpu64.rc.po.c:19
 #: src/arch/win32/resvic20.rc.po.c:19 src/arch/win32/resvsid.rc.po.c:18
-#: src/arch/amigaos/intl_text.c.po.c:5 src/translate_text.c.po.c:12289
+#: src/arch/amigaos/intl_text.c.po.c:5 src/translate_text.c.po.c:12270
 msgid "File"
 msgstr "Arkiv"
 
@@ -502,7 +502,7 @@ msgstr "Arkiv"
 #: src/arch/unix/gui/c64scui.c:716 src/arch/unix/gui/c64ui.c:777
 #: src/arch/unix/gui/cbm2ui.c:620 src/arch/unix/gui/cbm2ui.c:642
 #: src/arch/unix/gui/petui.c:609 src/arch/unix/gui/plus4ui.c:447
-#: src/arch/unix/gui/vic20ui.c:677 src/arch/unix/x11/gnome/uiedit.c:83
+#: src/arch/unix/gui/vic20ui.c:677 src/arch/unix/x11/gnome/uiedit.c:77
 #: src/arch/win32/res.rc.po.c:1401 src/arch/win32/resc128.rc.po.c:119
 #: src/arch/win32/resc64.rc.po.c:119 src/arch/win32/resc64dtv.rc.po.c:86
 #: src/arch/win32/rescbm2.rc.po.c:106 src/arch/win32/rescbm5x0.rc.po.c:106
@@ -1279,7 +1279,7 @@ msgstr "256K-fil"
 
 #: src/arch/unix/gui/uic64_256k.c:58 src/arch/unix/gui/uidigimax.c:115
 #: src/arch/unix/gui/uidigimax.c:123 src/arch/unix/gui/uiplus60k.c:54
-#: src/translate_text.c.po.c:10172
+#: src/translate_text.c.po.c:10153
 msgid "Base address"
 msgstr "Basadress"
 
@@ -1395,7 +1395,7 @@ msgid "C64DTV ROM file"
 msgstr "C64DTV-ROM-fil"
 
 #: src/arch/unix/gui/uic64dtv.c:118 src/arch/win32/resc64dtv.rc.po.c:474
-#: src/translate_text.c.po.c:13224
+#: src/translate_text.c.po.c:13205
 msgid "Enable writes to C64DTV ROM image"
 msgstr "Aktivera skrivning till C64DTV-ROM-avbildning"
 
@@ -1525,7 +1525,7 @@ msgstr "Aktivera monitor"
 
 #: src/arch/unix/gui/uicommands.c:495 src/arch/unix/gui/uicommands.c:683
 #: src/arch/unix/gui/uidatasette.c:99 src/arch/unix/gui/vsidui.c:349
-#: src/arch/unix/gui/vsidui.c:447 src/arch/unix/x11/gnome/uipalcontrol.c:257
+#: src/arch/unix/gui/vsidui.c:447 src/arch/unix/x11/gnome/uipalcontrol.c:262
 #: src/arch/win32/res.rc.po.c:1396 src/arch/win32/res.rc.po.c:1467
 #: src/arch/win32/resc128.rc.po.c:91 src/arch/win32/resc64.rc.po.c:91
 #: src/arch/win32/resc64dtv.rc.po.c:58 src/arch/win32/rescbm2.rc.po.c:78
@@ -1699,7 +1699,7 @@ msgstr ""
 msgid "Pause"
 msgstr "Paus"
 
-#: src/arch/unix/gui/uicommands.c:691 src/translate_text.c.po.c:12714
+#: src/arch/unix/gui/uicommands.c:691 src/translate_text.c.po.c:12695
 msgid "Enable warp mode"
 msgstr "Aktivera warpläge"
 
@@ -1998,7 +1998,7 @@ msgstr "Emulera ljud från diskettstation"
 msgid "Select Flash filesystem directory"
 msgstr "Välj filsystemskatalog för flash"
 
-#: src/arch/unix/gui/uidrive.c:196 src/translate_text.c.po.c:13309
+#: src/arch/unix/gui/uidrive.c:196 src/translate_text.c.po.c:13290
 msgid "Enable true hardware flash file system"
 msgstr "Aktivera äkta maskinvaru-flashfilsystem"
 
@@ -2784,7 +2784,7 @@ msgid "Inkwell Pen"
 msgstr "Datel-penna"
 
 #: src/arch/unix/gui/uilightpen.c:70 src/arch/win32/reslightpen.rc.po.c:23
-#: src/translate_text.c.po.c:13600
+#: src/translate_text.c.po.c:13581
 msgid "Enable lightpen emulation"
 msgstr "Aktivera emulering av ljuspenna"
 
@@ -2890,7 +2890,7 @@ msgstr "Port 1"
 msgid "Port 2"
 msgstr "Port 2"
 
-#: src/arch/unix/gui/uimouse.c:73 src/translate_text.c.po.c:12118
+#: src/arch/unix/gui/uimouse.c:73 src/translate_text.c.po.c:12099
 msgid "Enable mouse grab"
 msgstr "Aktivera fångande av mus"
 
@@ -2978,7 +2978,7 @@ msgstr ""
 "Kunde inte läsa palettfil\n"
 "\"%s\""
 
-#: src/arch/unix/gui/uiperipheral.c:50 src/translate_text.c.po.c:12612
+#: src/arch/unix/gui/uiperipheral.c:50 src/translate_text.c.po.c:12593
 msgid "Path"
 msgstr "Sökväg"
 
@@ -3121,18 +3121,18 @@ msgstr "Diskettyp i enhet 11"
 msgid "Drive #11 options"
 msgstr "Utökning för enhet 11"
 
-#: src/arch/unix/gui/uipetcolour.c:61
+#: src/arch/unix/gui/uipetcolour.c:63
 msgid ""
 "Enter PET Colour background\n"
 "(range: 0-255)"
 msgstr ""
 
-#: src/arch/unix/gui/uipetcolour.c:62 src/arch/unix/gui/uipetcolour.c:81
+#: src/arch/unix/gui/uipetcolour.c:64 src/arch/unix/gui/uipetcolour.c:83
 #: src/arch/amigaos/intl_text.c.po.c:7944
 msgid "PET Colour background"
 msgstr ""
 
-#: src/arch/unix/gui/uipetcolour.c:79 src/arch/win32/respetcolour.rc.po.c:25
+#: src/arch/unix/gui/uipetcolour.c:81 src/arch/win32/respetcolour.rc.po.c:25
 #: src/arch/amigaos/intl_text.c.po.c:7930
 msgid "PET Colour type"
 msgstr ""
@@ -3641,7 +3641,7 @@ msgstr "Spara inställningar till fil"
 msgid "Load settings from file"
 msgstr "Läs inställningar från fil"
 
-#: src/arch/unix/gui/uisettings.c:393 src/translate_text.c.po.c:11880
+#: src/arch/unix/gui/uisettings.c:393 src/translate_text.c.po.c:11861
 msgid "Restore default settings"
 msgstr "Återställ förvalda inställningar"
 
@@ -3713,82 +3713,42 @@ msgstr "Diskettenhetsinställningar"
 msgid "8580 + digi boost (ReSID)"
 msgstr "8580 + digiförstärkning (ReSID)"
 
-#: src/arch/unix/gui/uisid.c:79 src/arch/unix/gui/uisid.c:134
-msgid "6581R3 4885 (very light)"
-msgstr "6581R3 4885 (mycket ljus)"
-
-#: src/arch/unix/gui/uisid.c:81 src/arch/unix/gui/uisid.c:136
-msgid "6581R3 0486S (light)"
-msgstr "6581R3 0486S (ljus)"
-
-#: src/arch/unix/gui/uisid.c:83 src/arch/unix/gui/uisid.c:138
-msgid "6581R3 3984 (light avg)"
-msgstr "6581R3 3984 (medelljus)"
-
-#: src/arch/unix/gui/uisid.c:85 src/arch/unix/gui/uisid.c:140
-msgid "6581R4AR 3789 (avg)"
-msgstr "6581R4AR 3789 (medel)"
-
-#: src/arch/unix/gui/uisid.c:87 src/arch/unix/gui/uisid.c:142
-msgid "6581R3 4485 (dark)"
-msgstr "6581R3 4485 (mörk)"
-
-#: src/arch/unix/gui/uisid.c:89 src/arch/unix/gui/uisid.c:144
-msgid "6581R4 1986S (very dark)"
-msgstr "6581R4 1986S (mycket mörk)"
-
-#: src/arch/unix/gui/uisid.c:91 src/arch/unix/gui/uisid.c:146
-msgid "8580 3691 (light)"
-msgstr "8580 3691 (ljus)"
-
-#: src/arch/unix/gui/uisid.c:93 src/arch/unix/gui/uisid.c:148
-msgid "8580 3691 + digi boost"
-msgstr "8580 3691 + digiförstärkning"
-
-#: src/arch/unix/gui/uisid.c:95 src/arch/unix/gui/uisid.c:150
-msgid "8580 1489 (dark)"
-msgstr "8580 1489 (mörk)"
-
-#: src/arch/unix/gui/uisid.c:97 src/arch/unix/gui/uisid.c:152
-msgid "8580 1489 + digi boost"
-msgstr "8580 1489 + digiförstärkning"
-
-#: src/arch/unix/gui/uisid.c:111 src/arch/unix/gui/uisid.c:166
-#: src/arch/unix/gui/uisid.c:194
+#: src/arch/unix/gui/uisid.c:88 src/arch/unix/gui/uisid.c:120
+#: src/arch/unix/gui/uisid.c:148
 msgid "ParSID Port 1"
 msgstr "ParSID port 1"
 
-#: src/arch/unix/gui/uisid.c:113 src/arch/unix/gui/uisid.c:168
-#: src/arch/unix/gui/uisid.c:196
+#: src/arch/unix/gui/uisid.c:90 src/arch/unix/gui/uisid.c:122
+#: src/arch/unix/gui/uisid.c:150
 msgid "ParSID Port 2"
 msgstr "ParSID port 2"
 
-#: src/arch/unix/gui/uisid.c:115 src/arch/unix/gui/uisid.c:170
-#: src/arch/unix/gui/uisid.c:198
+#: src/arch/unix/gui/uisid.c:92 src/arch/unix/gui/uisid.c:124
+#: src/arch/unix/gui/uisid.c:152
 msgid "ParSID Port 3"
 msgstr "ParSID port 3"
 
-#: src/arch/unix/gui/uisid.c:210 src/arch/win32/ressid.rc.po.c:74
+#: src/arch/unix/gui/uisid.c:164 src/arch/win32/ressid.rc.po.c:74
 #: src/arch/win32/ressiddtv.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:8910
 msgid "Fast"
 msgstr "Snabbt"
 
-#: src/arch/unix/gui/uisid.c:212 src/arch/win32/ressid.rc.po.c:75
+#: src/arch/unix/gui/uisid.c:166 src/arch/win32/ressid.rc.po.c:75
 #: src/arch/win32/ressiddtv.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:8924
 msgid "Interpolating"
 msgstr "Interpolerande"
 
-#: src/arch/unix/gui/uisid.c:214 src/arch/win32/ressid.rc.po.c:76
+#: src/arch/unix/gui/uisid.c:168 src/arch/win32/ressid.rc.po.c:76
 #: src/arch/win32/ressiddtv.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:8938
 msgid "Resampling"
 msgstr "Omsamplande"
 
-#: src/arch/unix/gui/uisid.c:216 src/arch/win32/ressid.rc.po.c:77
+#: src/arch/unix/gui/uisid.c:170 src/arch/win32/ressid.rc.po.c:77
 #: src/arch/win32/ressiddtv.rc.po.c:59 src/arch/amigaos/intl_text.c.po.c:8952
 msgid "Fast resampling"
 msgstr "Snabb omsampling"
 
-#: src/arch/unix/gui/uisid.c:233
+#: src/arch/unix/gui/uisid.c:187
 msgid ""
 "Enter passband in percentage of total bandwidth\n"
 "(0 - 90, lower is faster, higher is better)"
@@ -3796,15 +3756,15 @@ msgstr ""
 "Ange passband i procent av total bandbredd\n"
 "(0-90, lägre är snabbare, högre är bättre)"
 
-#: src/arch/unix/gui/uisid.c:234
+#: src/arch/unix/gui/uisid.c:188
 msgid "Passband percentage"
 msgstr "Passbandsprocent"
 
-#: src/arch/unix/gui/uisid.c:255
+#: src/arch/unix/gui/uisid.c:209
 msgid "One"
 msgstr "En"
 
-#: src/arch/unix/gui/uisid.c:256
+#: src/arch/unix/gui/uisid.c:210
 msgid "Two"
 msgstr "Två"
 
@@ -3886,7 +3846,7 @@ msgstr "Mono"
 msgid "Stereo"
 msgstr "Stereo"
 
-#: src/arch/unix/gui/uisound.c:145 src/translate_text.c.po.c:12374
+#: src/arch/unix/gui/uisound.c:145 src/translate_text.c.po.c:12355
 msgid "Enable sound playback"
 msgstr "Aktivera ljudåtergivning"
 
@@ -4304,12 +4264,12 @@ msgstr "Diskettnamn:"
 msgid "Can't create image `%s'."
 msgstr "Kan inte skapa avbildningsfil \"%s\"."
 
-#: src/arch/unix/x11/gnome/uiedit.c:77 src/arch/win32/res.rc.po.c:1418
+#: src/arch/unix/x11/gnome/uiedit.c:71 src/arch/win32/res.rc.po.c:1418
 #: src/arch/amigaos/intl_text.c.po.c:1139
 msgid "Copy"
 msgstr "Kopiera"
 
-#: src/arch/unix/x11/gnome/uiedit.c:78 src/arch/win32/res.rc.po.c:1419
+#: src/arch/unix/x11/gnome/uiedit.c:72 src/arch/win32/res.rc.po.c:1419
 #: src/arch/amigaos/intl_text.c.po.c:1153
 msgid "Paste"
 msgstr "Klistra in"
@@ -4396,79 +4356,79 @@ msgstr "Server"
 msgid "Client"
 msgstr "Klient"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:62 src/arch/win32/res.rc.po.c:1253
+#: src/arch/unix/x11/gnome/uipalcontrol.c:63 src/arch/win32/res.rc.po.c:1253
 #: src/arch/amigaos/intl_text.c.po.c:10562
 msgid "Brightness"
 msgstr "Ljusstyrka"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:63 src/arch/win32/res.rc.po.c:1252
+#: src/arch/unix/x11/gnome/uipalcontrol.c:64 src/arch/win32/res.rc.po.c:1252
 #: src/arch/amigaos/intl_text.c.po.c:10548
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:64 src/arch/win32/res.rc.po.c:1251
+#: src/arch/unix/x11/gnome/uipalcontrol.c:65 src/arch/win32/res.rc.po.c:1251
 #: src/arch/amigaos/intl_text.c.po.c:10534
 msgid "Saturation"
 msgstr "Mättnad"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:65 src/arch/win32/res.rc.po.c:1250
+#: src/arch/unix/x11/gnome/uipalcontrol.c:66 src/arch/win32/res.rc.po.c:1250
 #: src/arch/amigaos/intl_text.c.po.c:10352
 msgid "Tint"
 msgstr "Färgton"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:66 src/arch/win32/res.rc.po.c:1249
+#: src/arch/unix/x11/gnome/uipalcontrol.c:67 src/arch/win32/res.rc.po.c:1249
 #: src/arch/amigaos/intl_text.c.po.c:10310
 msgid "Gamma"
 msgstr "Gamma"
 
 #. PAL/CRT related settings
-#: src/arch/unix/x11/gnome/uipalcontrol.c:68 src/arch/win32/res.rc.po.c:1255
+#: src/arch/unix/x11/gnome/uipalcontrol.c:69 src/arch/win32/res.rc.po.c:1255
 #: src/arch/amigaos/intl_text.c.po.c:10338
 msgid "Blur"
 msgstr "Suddighet"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:69 src/arch/win32/res.rc.po.c:1254
+#: src/arch/unix/x11/gnome/uipalcontrol.c:70 src/arch/win32/res.rc.po.c:1254
 #: src/arch/amigaos/intl_text.c.po.c:10324
 msgid "Scanline shade"
 msgstr "Skuggning av skannlinjer"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:70 src/arch/win32/res.rc.po.c:1256
+#: src/arch/unix/x11/gnome/uipalcontrol.c:71 src/arch/win32/res.rc.po.c:1256
 #: src/arch/amigaos/intl_text.c.po.c:10366
 msgid "Odd lines phase"
 msgstr "Fas för udda linjer"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:71 src/arch/win32/res.rc.po.c:1257
+#: src/arch/unix/x11/gnome/uipalcontrol.c:72 src/arch/win32/res.rc.po.c:1257
 #: src/arch/amigaos/intl_text.c.po.c:10380
 msgid "Odd lines offset"
 msgstr "Utjämning för udda linjer"
 
 #. volume settings
-#: src/arch/unix/x11/gnome/uipalcontrol.c:73 src/translate_text.c.po.c:7642
+#: src/arch/unix/x11/gnome/uipalcontrol.c:74 src/translate_text.c.po.c:7642
 msgid "Volume"
 msgstr "Volym"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:74
+#: src/arch/unix/x11/gnome/uipalcontrol.c:75
 #, fuzzy
 msgid "Drives Volume"
 msgstr "Enhetsresurser"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:76
+#: src/arch/unix/x11/gnome/uipalcontrol.c:77
 msgid "Display Thread Rate"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:77
+#: src/arch/unix/x11/gnome/uipalcontrol.c:78
 msgid "Display Thread Ghosting"
 msgstr ""
 
 #. we cant properly add a margin around the frame label, so we add a
 #. leading space instead
-#: src/arch/unix/x11/gnome/uipalcontrol.c:205
+#: src/arch/unix/x11/gnome/uipalcontrol.c:206
 #: src/arch/amigaos/intl_text.c.po.c:3281
 #: src/arch/amigaos/intl_text.c.po.c:8420
 msgid "CRT emulation settings"
 msgstr "Inställningar för CRT-emulering"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:205
+#: src/arch/unix/x11/gnome/uipalcontrol.c:206
 msgid "Mixer"
 msgstr ""
 
@@ -5442,7 +5402,7 @@ msgid "Attach raw 32KB Super Snapshot V4 cartridge image"
 msgstr "Anslut rå 32KB Super Snapshot V4-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:1070 src/arch/amigaos/intl_text.c.po.c:5815
-#: src/translate_text.c.po.c:12969
+#: src/translate_text.c.po.c:12950
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Anslut rå Strucured Basic-insticksmodulfil"
 
@@ -5530,11 +5490,11 @@ msgstr "Tryck tangent för avtryckare"
 msgid "No userport joy adapter"
 msgstr "Ingen användarportsspakadapter"
 
-#: src/arch/win32/res.rc.po.c:1105 src/translate_text.c.po.c:13498
+#: src/arch/win32/res.rc.po.c:1105 src/translate_text.c.po.c:13479
 msgid "Disable SID cartridge joystick"
 msgstr "Inaktivera SID-insticksmodul-styrspak"
 
-#: src/arch/win32/res.rc.po.c:1106 src/translate_text.c.po.c:13481
+#: src/arch/win32/res.rc.po.c:1106 src/translate_text.c.po.c:13462
 msgid "Enable SID cartridge joystick"
 msgstr "Aktivera SID-insticksmodul-styrspak"
 
@@ -6318,7 +6278,7 @@ msgstr "$A000-$BFFF RAM"
 #: src/arch/win32/rescbm2.rc.po.c:91 src/arch/win32/rescbm5x0.rc.po.c:91
 #: src/arch/win32/resexpert.rc.po.c:42 src/arch/win32/respet.rc.po.c:78
 #: src/arch/win32/resplus4.rc.po.c:93 src/arch/win32/resscpu64.rc.po.c:91
-#: src/arch/win32/resvic20.rc.po.c:100 src/translate_text.c.po.c:11126
+#: src/arch/win32/resvic20.rc.po.c:100 src/translate_text.c.po.c:11107
 msgid "Mode"
 msgstr "Läge"
 
@@ -6637,7 +6597,7 @@ msgstr "Inställningar för SFX Sound Expander"
 
 #: src/arch/win32/res.rc.po.c:1549 src/arch/win32/ressoundsampler.rc.po.c:21
 #: src/arch/amigaos/intl_text.c.po.c:4023
-#: src/arch/amigaos/intl_text.c.po.c:4037 src/translate_text.c.po.c:13566
+#: src/arch/amigaos/intl_text.c.po.c:4037 src/translate_text.c.po.c:13547
 msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "Aktivera SFX Sound Sampler-insticksmodul"
 
@@ -7088,7 +7048,7 @@ msgstr "PLUS256K-inställningar"
 msgid "256K settings"
 msgstr "256K-inställningar"
 
-#: src/arch/win32/resc64_256k.rc.po.c:29 src/translate_text.c.po.c:12901
+#: src/arch/win32/resc64_256k.rc.po.c:29 src/translate_text.c.po.c:12882
 msgid "Enable the 256K RAM expansion"
 msgstr "Aktivera 256K RAM-expansion"
 
@@ -7274,7 +7234,7 @@ msgstr "CBM5x0-modellinställningar"
 msgid "CIA settings"
 msgstr "CIA-inställningar"
 
-#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:13719
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:13700
 msgid "Enable the DigiMAX cartridge"
 msgstr "Aktivera DigiMAX-insticksmodul"
 
@@ -7415,7 +7375,7 @@ msgstr "Aktivera Magic Voice"
 msgid "Select file for Magic Voice"
 msgstr "Välj fil för Magic Voice"
 
-#: src/arch/win32/resmidi.rc.po.c:39 src/translate_text.c.po.c:13344
+#: src/arch/win32/resmidi.rc.po.c:39 src/translate_text.c.po.c:13325
 msgid "Enable MIDI emulation"
 msgstr "Aktivera MIDI-emulering"
 
@@ -7594,7 +7554,7 @@ msgstr "Storlek på PET REU"
 msgid "Select file for PET REU"
 msgstr "Välj fil för PET REU"
 
-#: src/arch/win32/resplus256k.rc.po.c:25 src/translate_text.c.po.c:12782
+#: src/arch/win32/resplus256k.rc.po.c:25 src/translate_text.c.po.c:12763
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Aktivera PLUS256K RAM-expansion"
 
@@ -7703,7 +7663,7 @@ msgstr "V364-röstinställningar"
 msgid "Plus4 model settings"
 msgstr "Plus4-modellinställningar"
 
-#: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:12833
+#: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:12814
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Aktivera PLUS60K RAM-expansionen"
 
@@ -7819,7 +7779,8 @@ msgid "Third SID at"
 msgstr "Tredje SID på"
 
 #: src/arch/win32/ressid.rc.po.c:82 src/arch/win32/ressiddtv.rc.po.c:60
-msgid "reSID/reSID-fp options"
+#, fuzzy
+msgid "reSID options"
 msgstr "reSID-/reSID-fp-inställningar"
 
 #: src/arch/win32/ressid.rc.po.c:83 src/arch/win32/ressiddtv.rc.po.c:61
@@ -7844,7 +7805,7 @@ msgstr "Vänster/huvudenhet"
 msgid "Right device"
 msgstr "Höger enhet"
 
-#: src/arch/win32/ressidcart.rc.po.c:138 src/translate_text.c.po.c:10138
+#: src/arch/win32/ressidcart.rc.po.c:138 src/translate_text.c.po.c:10119
 msgid "Enable the SID cartridge"
 msgstr "Aktivera SID-insticksmodul"
 
@@ -7856,11 +7817,11 @@ msgstr "HardSID-enhetsval"
 msgid "Main device"
 msgstr "Huvudenhet"
 
-#: src/arch/win32/ressidcart.rc.po.c:143 src/translate_text.c.po.c:13396
+#: src/arch/win32/ressidcart.rc.po.c:143 src/translate_text.c.po.c:13377
 msgid "Enable the digiblaster add-on"
 msgstr "Aktivera digiblaster-tillägg"
 
-#: src/arch/win32/ressoundexpander.rc.po.c:43 src/translate_text.c.po.c:13515
+#: src/arch/win32/ressoundexpander.rc.po.c:43 src/translate_text.c.po.c:13496
 msgid "Enable the SFX Sound Expander cartridge"
 msgstr "Aktivera SFX Sound Expander-insticksmodul"
 
@@ -7894,7 +7855,7 @@ msgstr "Inga ramar"
 msgid "Ethernet"
 msgstr "Ethernet"
 
-#: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:13430
+#: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:13411
 msgid "Enable the v364 speech add-on"
 msgstr "Aktivera v364-rösttillägg"
 
@@ -7983,17 +7944,17 @@ msgid "4KB image at $B000"
 msgstr "4KB-fil vid $B000"
 
 #: src/arch/win32/resvic20.rc.po.c:577 src/arch/amigaos/intl_text.c.po.c:4205
-#: src/translate_text.c.po.c:10650
+#: src/translate_text.c.po.c:10631
 msgid "Enable Final Expansion write back to ROM file"
 msgstr "Aktivera återskrivning till ROM-fil för Final Expansion"
 
 #: src/arch/win32/resvic20.rc.po.c:578 src/arch/amigaos/intl_text.c.po.c:4219
-#: src/translate_text.c.po.c:10735
+#: src/translate_text.c.po.c:10716
 msgid "Enable Vic Flash Plugin write back to ROM file"
 msgstr "Aktivera återskrivning till ROM-fil för Vic Flash-insticksmodul"
 
 #: src/arch/win32/resvic20.rc.po.c:579 src/arch/amigaos/intl_text.c.po.c:4233
-#: src/translate_text.c.po.c:10701
+#: src/translate_text.c.po.c:10682
 msgid "Enable Mega-Cart NvRAM writeback"
 msgstr "Aktivera Mega-Cart NvRAM-återskrivning"
 
@@ -9313,7 +9274,7 @@ msgstr "antal"
 msgid "Show <count> last executed commands."
 msgstr "Visa <antal> senast exekverade kommandon."
 
-#: src/translate_text.c.po.c:1215 src/translate_text.c.po.c:11897
+#: src/translate_text.c.po.c:1215 src/translate_text.c.po.c:11878
 msgid "filename"
 msgstr "filnamn"
 
@@ -9831,7 +9792,7 @@ msgstr ""
 "Utför ett diskkommando på den diskettavbildning som är ansluten till\n"
 "enhet 8. Diskkommandot sänds på diskettenhetens kanal nummer 15."
 
-#: src/translate_text.c.po.c:2394 src/translate_text.c.po.c:11092
+#: src/translate_text.c.po.c:2394 src/translate_text.c.po.c:11073
 msgid "device"
 msgstr "enhet"
 
@@ -9919,8 +9880,8 @@ msgid ""
 msgstr ""
 "Läs in den angivna filen i minnet på den angivna adressen. Sätter\n"
 "motsvarande BASIC-pekare vid läsning till datorminnet (inte alla\n"
-"emulatorer). Om ingen adress anges används tvåbytesadressen i "
-"filen(ignoreras annars).\n"
+"emulatorer). Om ingen adress anges används tvåbytesadressen i filen"
+"(ignoreras annars).\n"
 "Om enheten är 0 läses filen från filsystemet."
 
 #: src/translate_text.c.po.c:2700
@@ -9957,11 +9918,11 @@ msgstr ""
 "Om du inte anger några argument visas alla tillgängliga kommandon.\n"
 "Om du anger ett argument visas hjälp för det specifika kommandot."
 
-#: src/translate_text.c.po.c:2802 src/translate_text.c.po.c:12050
+#: src/translate_text.c.po.c:2802 src/translate_text.c.po.c:12031
 msgid "string"
 msgstr "sträng"
 
-#: src/translate_text.c.po.c:2819 src/translate_text.c.po.c:12067
+#: src/translate_text.c.po.c:2819 src/translate_text.c.po.c:12048
 msgid "Put the specified string into the keyboard buffer."
 msgstr "Lägg den angivna strängen i tangentbordsbufferten."
 
@@ -11574,41 +11535,27 @@ msgid ""
 msgstr ""
 "1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3"
 
-#: src/translate_text.c.po.c:10120
-msgid ""
-"1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-"6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-"1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-"8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
-"1489D"
-msgstr ""
-"1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-"6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-"1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-"8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-"8580R5 1489 + digiförstärkning"
-
-#: src/translate_text.c.po.c:10155
+#: src/translate_text.c.po.c:10136
 msgid "Disable the SID cartridge"
 msgstr "Inaktivera SID-insticksmodul"
 
-#: src/translate_text.c.po.c:10189
+#: src/translate_text.c.po.c:10170
 msgid "Specify base address for 2nd SID"
 msgstr "Ange basadress för andra SID"
 
-#: src/translate_text.c.po.c:10206
+#: src/translate_text.c.po.c:10187
 msgid "Specify base address for 3rd SID"
 msgstr "Ange basadress för tredje SID"
 
-#: src/translate_text.c.po.c:10223
+#: src/translate_text.c.po.c:10204
 msgid "Emulate SID filters"
 msgstr "Emulera SID-filter"
 
-#: src/translate_text.c.po.c:10240
+#: src/translate_text.c.po.c:10221
 msgid "Do not emulate SID filters"
 msgstr "Emulera inte SID-filter"
 
-#: src/translate_text.c.po.c:10258
+#: src/translate_text.c.po.c:10239
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
@@ -11616,15 +11563,15 @@ msgstr ""
 "reSID-samplingsmetod (0: snabb, 1: interpolerande, 2: omsampling, 3: snabb "
 "omsampling)"
 
-#: src/translate_text.c.po.c:10275
+#: src/translate_text.c.po.c:10256
 msgid "percent"
 msgstr "procent"
 
-#: src/translate_text.c.po.c:10292
+#: src/translate_text.c.po.c:10273
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr "Passband för reSID-resampling i procent av total bandbredd (0 - 90)"
 
-#: src/translate_text.c.po.c:10309
+#: src/translate_text.c.po.c:10290
 msgid ""
 "reSID filter bias setting, which can be used to adjust DAC bias in "
 "millivolts."
@@ -11632,188 +11579,188 @@ msgstr ""
 "Bias-inställning för reSID-filter, vilket kan användas för att justera D/A-"
 "bias i millivolt."
 
-#: src/translate_text.c.po.c:10326
+#: src/translate_text.c.po.c:10307
 msgid "reSID gain in percent (90 - 100)"
 msgstr "Gain för reSID i procent (90 - 100)"
 
-#: src/translate_text.c.po.c:10344
+#: src/translate_text.c.po.c:10325
 msgid "Enable additional vertical stretching."
 msgstr "Aktivera ytterligare vertikal utdragning."
 
-#: src/translate_text.c.po.c:10361
+#: src/translate_text.c.po.c:10342
 msgid "Disable additional vertical stretching."
 msgstr "Inaktivera ytterligare vertikal utdragning."
 
-#: src/translate_text.c.po.c:10378
+#: src/translate_text.c.po.c:10359
 msgid "Set the VDC memory size to 16KB"
 msgstr "Sätt VDC-minnesstorlek till 16KB"
 
-#: src/translate_text.c.po.c:10395
+#: src/translate_text.c.po.c:10376
 msgid "Set the VDC memory size to 64KB"
 msgstr "Sätt VDC-minnesstorlek till 64KB"
 
-#: src/translate_text.c.po.c:10412
+#: src/translate_text.c.po.c:10393
 msgid "Set VDC revision"
 msgstr "Ange VDC-revision"
 
-#: src/translate_text.c.po.c:10429
+#: src/translate_text.c.po.c:10410
 msgid "spec"
 msgstr "spec"
 
-#: src/translate_text.c.po.c:10446
+#: src/translate_text.c.po.c:10427
 msgid "Specify memory configuration"
 msgstr "Ange minneskonfiguration"
 
-#: src/translate_text.c.po.c:10463
+#: src/translate_text.c.po.c:10444
 msgid "Enable VIC-1112 IEEE488 interface"
 msgstr "Aktivera VIC-1112-IEEE488-gränssnitt"
 
-#: src/translate_text.c.po.c:10480
+#: src/translate_text.c.po.c:10461
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "Inaktivera VIC-1112-IEEE488-gränssnitt"
 
-#: src/translate_text.c.po.c:10497
+#: src/translate_text.c.po.c:10478
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $2000"
 
-#: src/translate_text.c.po.c:10514
+#: src/translate_text.c.po.c:10495
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $4000"
 
-#: src/translate_text.c.po.c:10531
+#: src/translate_text.c.po.c:10512
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $6000"
 
-#: src/translate_text.c.po.c:10548
+#: src/translate_text.c.po.c:10529
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Ange namn för 4/8K-utöknings-ROM på $A000"
 
-#: src/translate_text.c.po.c:10565
+#: src/translate_text.c.po.c:10546
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Ange namn för 4K-utöknings-ROM på $B000"
 
-#: src/translate_text.c.po.c:10582
+#: src/translate_text.c.po.c:10563
 msgid "Specify generic extension ROM name"
 msgstr "Ange namn på generiskt utöknings-ROM"
 
-#: src/translate_text.c.po.c:10599
+#: src/translate_text.c.po.c:10580
 msgid "Specify Mega-Cart extension ROM name"
 msgstr "Ange namn på Mega-Cart-utöknings-ROM"
 
-#: src/translate_text.c.po.c:10616
+#: src/translate_text.c.po.c:10597
 msgid "Specify Final Expansion extension ROM name"
 msgstr "Ange namn på Final Expansion utöknings-ROM"
 
-#: src/translate_text.c.po.c:10633
+#: src/translate_text.c.po.c:10614
 msgid "Specify Vic Flash Plugin extension ROM name"
 msgstr "Ange namn på Vic Flash-insticksmodulutöknings-ROM"
 
-#: src/translate_text.c.po.c:10667
+#: src/translate_text.c.po.c:10648
 msgid "Disable Final Expansion write back to ROM file"
 msgstr "Inaktivera återskrivning till ROM-fil för Final Expansion"
 
-#: src/translate_text.c.po.c:10684
+#: src/translate_text.c.po.c:10665
 msgid "Set Mega-Cart NvRAM filename"
 msgstr "Välj  Mega-Cart NvRAM-filnamn"
 
-#: src/translate_text.c.po.c:10718
+#: src/translate_text.c.po.c:10699
 msgid "Disable Mega-Cart NvRAM writeback"
 msgstr "Inaktivera Mega-Cart NvRAM-återskrivning"
 
-#: src/translate_text.c.po.c:10752
+#: src/translate_text.c.po.c:10733
 msgid "Disable Vic Flash Plugin write back to ROM file"
 msgstr "Inaktivera återskrivning till ROM-fil för Vic Flash-insticksmodul"
 
-#: src/translate_text.c.po.c:10769
+#: src/translate_text.c.po.c:10750
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
 msgstr "Välj VIC II-ramvisningsläge (0: normal, 1: full, 2: felsökning)"
 
-#: src/translate_text.c.po.c:10786
+#: src/translate_text.c.po.c:10767
 msgid "Enable sprite-background collision registers"
 msgstr "Aktivera sprite-till-bakgrund-kollisionsregister"
 
-#: src/translate_text.c.po.c:10803
+#: src/translate_text.c.po.c:10784
 msgid "Disable sprite-background collision registers"
 msgstr "Inaktivera sprite-till-bakgrund-kollisionsregister"
 
-#: src/translate_text.c.po.c:10820
+#: src/translate_text.c.po.c:10801
 msgid "Enable sprite-sprite collision registers"
 msgstr "Aktivera sprite-till-sprite-kollisionsregister"
 
-#: src/translate_text.c.po.c:10837
+#: src/translate_text.c.po.c:10818
 msgid "Disable sprite-sprite collision registers"
 msgstr "Inaktivera sprite-till-sprite-kollisionsregister"
 
-#: src/translate_text.c.po.c:10854
+#: src/translate_text.c.po.c:10835
 msgid "Use new luminances"
 msgstr "Använd nya ljusstyrkor"
 
-#: src/translate_text.c.po.c:10871
+#: src/translate_text.c.po.c:10852
 msgid "Use old luminances"
 msgstr "Använd gamla ljusstyrkor"
 
-#: src/translate_text.c.po.c:10888
+#: src/translate_text.c.po.c:10869
 msgid "Enable double size"
 msgstr "Aktivera dubbel storlek"
 
-#: src/translate_text.c.po.c:10905
+#: src/translate_text.c.po.c:10886
 msgid "Disable double size"
 msgstr "Inaktivera dubbel storlek"
 
-#: src/translate_text.c.po.c:10922
+#: src/translate_text.c.po.c:10903
 msgid "Enable double scan"
 msgstr "Aktivera dubbelskanning"
 
-#: src/translate_text.c.po.c:10939
+#: src/translate_text.c.po.c:10920
 msgid "Disable double scan"
 msgstr "Inaktivera dubbelskanning"
 
-#: src/translate_text.c.po.c:10956
+#: src/translate_text.c.po.c:10937
 msgid "Enable audio leak emulation"
 msgstr "Aktivera emulering av audioläckage"
 
-#: src/translate_text.c.po.c:10973
+#: src/translate_text.c.po.c:10954
 msgid "Disable audio leak emulation"
 msgstr "Inaktivera emulering av audioläckage"
 
-#: src/translate_text.c.po.c:10990
+#: src/translate_text.c.po.c:10971
 msgid "Enable hardware scaling"
 msgstr "Aktivera maskinvaruskalning"
 
-#: src/translate_text.c.po.c:11007
+#: src/translate_text.c.po.c:10988
 msgid "Disable hardware scaling"
 msgstr "Inaktivera maskinvaruskalning"
 
-#: src/translate_text.c.po.c:11024
+#: src/translate_text.c.po.c:11005
 #, fuzzy
 msgid "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
 msgstr "Ange rendreringsfiler, 0:ingen, 1:CRT-emulering, 2: scale2x"
 
-#: src/translate_text.c.po.c:11041
+#: src/translate_text.c.po.c:11022
 msgid "Use an internal calculated palette"
 msgstr "Använd en internt beräknad palett"
 
-#: src/translate_text.c.po.c:11058
+#: src/translate_text.c.po.c:11039
 msgid "Use an external palette (file)"
 msgstr "Använd en extern palett (fil)"
 
-#: src/translate_text.c.po.c:11075
+#: src/translate_text.c.po.c:11056
 msgid "Specify name of file of external palette"
 msgstr "Ange namn på fil för extern palett"
 
-#: src/translate_text.c.po.c:11109
+#: src/translate_text.c.po.c:11090
 msgid "Select fullscreen device"
 msgstr "Ange fullskärmsenhet"
 
-#: src/translate_text.c.po.c:11143
+#: src/translate_text.c.po.c:11124
 msgid "Select fullscreen mode"
 msgstr "Aktivera fullskärmsläge"
 
-#: src/translate_text.c.po.c:11160
+#: src/translate_text.c.po.c:11141
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "Ange RS232-enhet denna ACIA skall arbeta på"
 
-#: src/translate_text.c.po.c:11177
+#: src/translate_text.c.po.c:11158
 msgid ""
 "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -11821,7 +11768,7 @@ msgstr ""
 "Ställ in enhetstyp för enhet 8 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: "
 "BLOCKENHET)"
 
-#: src/translate_text.c.po.c:11194
+#: src/translate_text.c.po.c:11175
 msgid ""
 "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -11829,7 +11776,7 @@ msgstr ""
 "Ställ in enhetstyp för enhet 9 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: "
 "BLOCKENHET)"
 
-#: src/translate_text.c.po.c:11211
+#: src/translate_text.c.po.c:11192
 msgid ""
 "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -11837,7 +11784,7 @@ msgstr ""
 "Ställ in enhetstyp för enhet 10 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: "
 "BLOCKENHET)"
 
-#: src/translate_text.c.po.c:11228
+#: src/translate_text.c.po.c:11209
 msgid ""
 "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -11845,204 +11792,204 @@ msgstr ""
 "Ställ in enhetstyp för enhet 11 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: "
 "BLOCKENHET)"
 
-#: src/translate_text.c.po.c:11245
+#: src/translate_text.c.po.c:11226
 msgid "Attach disk image for drive #8 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 8 med skrivskydd"
 
-#: src/translate_text.c.po.c:11262
+#: src/translate_text.c.po.c:11243
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 8 skrivbar (om möjligt)"
 
-#: src/translate_text.c.po.c:11279
+#: src/translate_text.c.po.c:11260
 msgid "Attach disk image for drive #9 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 9 med skrivskydd"
 
-#: src/translate_text.c.po.c:11296
+#: src/translate_text.c.po.c:11277
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 9 skrivbar (om möjligt)"
 
-#: src/translate_text.c.po.c:11313
+#: src/translate_text.c.po.c:11294
 msgid "Attach disk image for drive #10 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 10 med skrivskydd"
 
-#: src/translate_text.c.po.c:11330
+#: src/translate_text.c.po.c:11311
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 10 skrivbar (om möjligt)"
 
-#: src/translate_text.c.po.c:11347
+#: src/translate_text.c.po.c:11328
 msgid "Attach disk image for drive #11 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 11 med skrivskydd"
 
-#: src/translate_text.c.po.c:11364
+#: src/translate_text.c.po.c:11345
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 11 skrivbar (om möjligt)"
 
-#: src/translate_text.c.po.c:11381
+#: src/translate_text.c.po.c:11362
 msgid "Enable automatic Datasette-Reset"
 msgstr "Aktivera automatisk Datasetteåterställning"
 
-#: src/translate_text.c.po.c:11398
+#: src/translate_text.c.po.c:11379
 msgid "Disable automatic Datasette-Reset"
 msgstr "Inaktivera automatisk Datasetteåterställning"
 
-#: src/translate_text.c.po.c:11415
+#: src/translate_text.c.po.c:11396
 msgid "Set delay in cycles for a zero in the tap"
 msgstr "Ange väntecykler för nolla i tap-filen"
 
-#: src/translate_text.c.po.c:11432
+#: src/translate_text.c.po.c:11413
 msgid "Set number of cycles added to each gap in the tap"
 msgstr "Ange cykler som läggs till varje gap i tap-filen"
 
-#: src/translate_text.c.po.c:11450
+#: src/translate_text.c.po.c:11431
 msgid "Trace the main CPU"
 msgstr "Spåra huvudprocessorn"
 
-#: src/translate_text.c.po.c:11467
+#: src/translate_text.c.po.c:11448
 msgid "Do not trace the main CPU"
 msgstr "Spåra inte huvudprocessorn"
 
-#: src/translate_text.c.po.c:11484
+#: src/translate_text.c.po.c:11465
 msgid "Trace the drive0 CPU"
 msgstr "Spåra processor i diskettstation 0"
 
-#: src/translate_text.c.po.c:11501
+#: src/translate_text.c.po.c:11482
 msgid "Do not trace the drive0 CPU"
 msgstr "Spåra inte processor i diskettstation 0"
 
-#: src/translate_text.c.po.c:11518
+#: src/translate_text.c.po.c:11499
 msgid "Trace the drive1 CPU"
 msgstr "Spåra processor i diskettstation 1"
 
-#: src/translate_text.c.po.c:11535
+#: src/translate_text.c.po.c:11516
 msgid "Do not trace the drive1 CPU"
 msgstr "Spåra inte processor i diskettstation 1"
 
-#: src/translate_text.c.po.c:11552
+#: src/translate_text.c.po.c:11533
 msgid "Trace the drive2 CPU"
 msgstr "Spåra processor i diskettstation 2"
 
-#: src/translate_text.c.po.c:11569
+#: src/translate_text.c.po.c:11550
 msgid "Do not trace the drive2 CPU"
 msgstr "Spåra inte processor i diskettstation 2"
 
-#: src/translate_text.c.po.c:11586
+#: src/translate_text.c.po.c:11567
 msgid "Trace the drive3 CPU"
 msgstr "Spåra processor i diskettstation 3"
 
-#: src/translate_text.c.po.c:11603
+#: src/translate_text.c.po.c:11584
 msgid "Do not trace the drive3 CPU"
 msgstr "Spåra inte processor i diskettstation 3"
 
-#: src/translate_text.c.po.c:11620
+#: src/translate_text.c.po.c:11601
 msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Spårningsläge (0=normal 1=liten 2=historik)"
 
-#: src/translate_text.c.po.c:11638
+#: src/translate_text.c.po.c:11619
 msgid "Playback recorded events"
 msgstr "Spela upp inspelade händelser"
 
-#: src/translate_text.c.po.c:11655
+#: src/translate_text.c.po.c:11636
 msgid "Execute monitor commands from file"
 msgstr "Exekvera monitorkommandon från fil"
 
-#: src/translate_text.c.po.c:11672
+#: src/translate_text.c.po.c:11653
 #, fuzzy
 msgid "Write monitor output also to file"
 msgstr "Exekvera monitorkommandon från fil"
 
-#: src/translate_text.c.po.c:11689
+#: src/translate_text.c.po.c:11670
 msgid "Set an initial breakpoint for the monitor"
 msgstr "Sätt en ursprunglig brytpunkt för monitorn"
 
-#: src/translate_text.c.po.c:11706
+#: src/translate_text.c.po.c:11687
 msgid "Enable remote monitor"
 msgstr "Aktivera fjärrmonitor"
 
-#: src/translate_text.c.po.c:11723
+#: src/translate_text.c.po.c:11704
 msgid "Disable remote monitor"
 msgstr "Inaktivera fjärrmonitor"
 
-#: src/translate_text.c.po.c:11740
+#: src/translate_text.c.po.c:11721
 msgid "The local address the remote monitor should bind to"
 msgstr "Lokal adress för fjärrmonitor att ansluta till"
 
-#: src/translate_text.c.po.c:11757
+#: src/translate_text.c.po.c:11738
 msgid "Specify name of the flip list file image"
 msgstr "Ange namn på vallistefilavbildningen"
 
-#: src/translate_text.c.po.c:11774
+#: src/translate_text.c.po.c:11755
 msgid "Show a list of the available options and exit normally"
 msgstr "Visa lista över tillgängliga flaggor och avsluta normalt"
 
-#: src/translate_text.c.po.c:11792
+#: src/translate_text.c.po.c:11773
 msgid "Console mode (for music playback)"
 msgstr "Konsolläge (för musikspelning)"
 
-#: src/translate_text.c.po.c:11809
+#: src/translate_text.c.po.c:11790
 msgid "Allow production of core dumps"
 msgstr "Tillåt skapa minnesutskrift"
 
-#: src/translate_text.c.po.c:11826
+#: src/translate_text.c.po.c:11807
 msgid "Do not produce core dumps"
 msgstr "Skapa inte minnesutskrift"
 
-#: src/translate_text.c.po.c:11845
+#: src/translate_text.c.po.c:11826
 msgid "Don't call exception handler"
 msgstr "Anropa inte undantagshanterare"
 
-#: src/translate_text.c.po.c:11862
+#: src/translate_text.c.po.c:11843
 msgid "Call exception handler (default)"
 msgstr "Anropa undantagshanterare (standard)"
 
-#: src/translate_text.c.po.c:11914
+#: src/translate_text.c.po.c:11895
 msgid "Specify config file"
 msgstr "Ange inställningsfil"
 
-#: src/translate_text.c.po.c:11931
+#: src/translate_text.c.po.c:11912
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Anslut och starta band-/diskettavbildning <namn>"
 
-#: src/translate_text.c.po.c:11948
+#: src/translate_text.c.po.c:11929
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Anslut och läs in band-/diskettavbildning <namn>"
 
-#: src/translate_text.c.po.c:11965
+#: src/translate_text.c.po.c:11946
 msgid "Attach <name> as a tape image"
 msgstr "Anslut <namn> som bandavbildning"
 
-#: src/translate_text.c.po.c:11982
+#: src/translate_text.c.po.c:11963
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Anslut <namn> som diskettavbildning i enhet 8"
 
-#: src/translate_text.c.po.c:11999
+#: src/translate_text.c.po.c:11980
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Anslut <namn> som diskettavbildning i enhet 9"
 
-#: src/translate_text.c.po.c:12016
+#: src/translate_text.c.po.c:11997
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Anslut <namn> som diskettavbildning i enhet 10"
 
-#: src/translate_text.c.po.c:12033
+#: src/translate_text.c.po.c:12014
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Anslut <namn> som diskettavbildning i enhet 11"
 
-#: src/translate_text.c.po.c:12084
+#: src/translate_text.c.po.c:12065
 msgid "Specify log file name"
 msgstr "Ange namn på loggfil"
 
-#: src/translate_text.c.po.c:12101
+#: src/translate_text.c.po.c:12082
 msgid "Enable verbose log output."
 msgstr "Aktivera pratsam loggutdata."
 
-#: src/translate_text.c.po.c:12135
+#: src/translate_text.c.po.c:12116
 msgid "Disable mouse grab"
 msgstr "Inaktivera fångande av mus"
 
-#: src/translate_text.c.po.c:12152
+#: src/translate_text.c.po.c:12133
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Ange vilken spelport musen är ansluten till"
 
-#: src/translate_text.c.po.c:12170
+#: src/translate_text.c.po.c:12151
 #, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
@@ -12051,99 +11998,99 @@ msgstr ""
 "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar, 4 = CX-22, 5 = ST, "
 "6 = Smart)"
 
-#: src/translate_text.c.po.c:12187
+#: src/translate_text.c.po.c:12168
 msgid "Enable PS/2 mouse on userport"
 msgstr "Aktivera PS/2-mus på användarport"
 
-#: src/translate_text.c.po.c:12204
+#: src/translate_text.c.po.c:12185
 msgid "Disable PS/2 mouse on userport"
 msgstr "Inaktivera PS/2-mus på användarport"
 
-#: src/translate_text.c.po.c:12221
+#: src/translate_text.c.po.c:12202
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Ange värdet på den allra första RAM-adressen efter strömpåslag"
 
-#: src/translate_text.c.po.c:12238
+#: src/translate_text.c.po.c:12219
 msgid "num of bytes"
 msgstr "antal byte"
 
-#: src/translate_text.c.po.c:12255
+#: src/translate_text.c.po.c:12236
 msgid "Length of memory block initialized with the same value"
 msgstr "Längd på minnesblock som initierats med samma värde"
 
-#: src/translate_text.c.po.c:12272
+#: src/translate_text.c.po.c:12253
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Längd på minnesblock som initierats med samma mönster"
 
-#: src/translate_text.c.po.c:12306
+#: src/translate_text.c.po.c:12287
 #, fuzzy
 msgid "load the given romset file"
 msgstr "Kunde inte spara ROM-uppsättningsfil!"
 
-#: src/translate_text.c.po.c:12323
+#: src/translate_text.c.po.c:12304
 #, fuzzy
 msgid "load the given romset archive"
 msgstr "Kan inte spara ROM-uppsättningsarkiv!"
 
-#: src/translate_text.c.po.c:12340
+#: src/translate_text.c.po.c:12321
 #, fuzzy
 msgid "Item number"
 msgstr "Låtnummer"
 
-#: src/translate_text.c.po.c:12357
+#: src/translate_text.c.po.c:12338
 msgid "select the given item from the current romset archive"
 msgstr ""
 
-#: src/translate_text.c.po.c:12391
+#: src/translate_text.c.po.c:12372
 msgid "Disable sound playback"
 msgstr "Inaktivera ljudåtergivning"
 
-#: src/translate_text.c.po.c:12408
+#: src/translate_text.c.po.c:12389
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Sätt ljudsamplingshastighet till <värde> Hz"
 
-#: src/translate_text.c.po.c:12425
+#: src/translate_text.c.po.c:12406
 msgid "Set sound buffer size to <value> msec"
 msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 
-#: src/translate_text.c.po.c:12442
+#: src/translate_text.c.po.c:12423
 msgid "Set sound fragment size (0 = small, 1 = medium, 2 = large)"
 msgstr "Välj storlek för ljudfragment (0 = liten, 1= medium, 2 = stor)"
 
-#: src/translate_text.c.po.c:12459
+#: src/translate_text.c.po.c:12440
 msgid "Specify sound driver"
 msgstr "Ange ljuddrivrutin"
 
-#: src/translate_text.c.po.c:12476
+#: src/translate_text.c.po.c:12457
 msgid "args"
 msgstr "flaggor"
 
-#: src/translate_text.c.po.c:12493
+#: src/translate_text.c.po.c:12474
 msgid "Specify initialization parameters for sound driver"
 msgstr "Ange initieringsflaggor för ljuddrivrutin"
 
-#: src/translate_text.c.po.c:12510
+#: src/translate_text.c.po.c:12491
 msgid "Specify recording sound driver"
 msgstr "Ange ljuddrivrutin för inspelning"
 
-#: src/translate_text.c.po.c:12527
+#: src/translate_text.c.po.c:12508
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Ange initieringsflaggor för ljuddrivrutin för inspelning"
 
-#: src/translate_text.c.po.c:12544
+#: src/translate_text.c.po.c:12525
 msgid "sync"
 msgstr "synk"
 
-#: src/translate_text.c.po.c:12561
+#: src/translate_text.c.po.c:12542
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Ställ in ljudhastighetsjustering (0: flexibel, 1: justerande, 2: exakt)"
 
-#: src/translate_text.c.po.c:12578
+#: src/translate_text.c.po.c:12559
 msgid "output mode"
 msgstr "utdataläge"
 
-#: src/translate_text.c.po.c:12595
+#: src/translate_text.c.po.c:12576
 msgid ""
 "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always "
 "stereo)"
@@ -12151,151 +12098,151 @@ msgstr ""
 "Utdataläge för ljud (0: system väljer mono/stereo, 1: alltid mono, 2: alltid "
 "stereo)"
 
-#: src/translate_text.c.po.c:12629
+#: src/translate_text.c.po.c:12610
 msgid "Define search path to locate system files"
 msgstr "Ange sökväg för att hitta systemfiler"
 
-#: src/translate_text.c.po.c:12646
+#: src/translate_text.c.po.c:12627
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Aktivera generella mekanismer för snabb disk-/bandemulering"
 
-#: src/translate_text.c.po.c:12663
+#: src/translate_text.c.po.c:12644
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "Inaktivera generella mekanismer för snabb disk-/bandemulering"
 
-#: src/translate_text.c.po.c:12680
+#: src/translate_text.c.po.c:12661
 msgid "Limit emulation speed to specified value"
 msgstr "Begränsa emuleringshastighet till angivet värde"
 
-#: src/translate_text.c.po.c:12697
+#: src/translate_text.c.po.c:12678
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
 
-#: src/translate_text.c.po.c:12731
+#: src/translate_text.c.po.c:12712
 msgid "Disable warp mode"
 msgstr "Inaktivera warpläge"
 
-#: src/translate_text.c.po.c:12748
+#: src/translate_text.c.po.c:12729
 msgid "iso language code"
 msgstr "iso-språkkod"
 
-#: src/translate_text.c.po.c:12765
+#: src/translate_text.c.po.c:12746
 msgid "Specify the iso code of the language"
 msgstr "Ange ISO-koden för språket"
 
-#: src/translate_text.c.po.c:12799
+#: src/translate_text.c.po.c:12780
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Inaktivera PLUS256K RAM-expansion"
 
-#: src/translate_text.c.po.c:12816
+#: src/translate_text.c.po.c:12797
 msgid "Specify name of PLUS256K image"
 msgstr "Ange namn på PLUS256K-avbildning"
 
-#: src/translate_text.c.po.c:12850
+#: src/translate_text.c.po.c:12831
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Inaktivera PLUS60K RAM-expansion"
 
-#: src/translate_text.c.po.c:12867
+#: src/translate_text.c.po.c:12848
 msgid "Specify name of PLUS60K image"
 msgstr "Ange namn på plUS60K-avbildning"
 
-#: src/translate_text.c.po.c:12884
+#: src/translate_text.c.po.c:12865
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basadress för PLUS60K-expansion"
 
-#: src/translate_text.c.po.c:12918
+#: src/translate_text.c.po.c:12899
 msgid "Disable the 256K RAM expansion"
 msgstr "Inaktivera 256K RAM-expansion"
 
-#: src/translate_text.c.po.c:12935
+#: src/translate_text.c.po.c:12916
 msgid "Specify name of 256K image"
 msgstr "Ange namn på 256K-avbildning"
 
-#: src/translate_text.c.po.c:12952
+#: src/translate_text.c.po.c:12933
 msgid "Base address of the 256K expansion"
 msgstr "Basadress för 256K-expansionen"
 
-#: src/translate_text.c.po.c:12986
+#: src/translate_text.c.po.c:12967
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
 msgstr "Anslut rå 16kB Super Explode V5-insticksmodulfil"
 
-#: src/translate_text.c.po.c:13003
+#: src/translate_text.c.po.c:12984
 msgid "Attach raw 64kB Super Games cartridge image"
 msgstr "Anslut rå 64kB-Super Games-insticksmodulfil"
 
-#: src/translate_text.c.po.c:13020
+#: src/translate_text.c.po.c:13001
 msgid "Attach raw Silverrock 128 cartridge image"
 msgstr "Anslut rå Silverrock 128-insticksmodulavbildning"
 
-#: src/translate_text.c.po.c:13037
+#: src/translate_text.c.po.c:13018
 msgid "Attach raw 16kB Simons Basic cartridge image"
 msgstr "Anslut rå 16kB Simons Basic-insticksmodulavbildning"
 
-#: src/translate_text.c.po.c:13054
+#: src/translate_text.c.po.c:13035
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Aktivera CSORY 256K RAM-expansion"
 
-#: src/translate_text.c.po.c:13071
+#: src/translate_text.c.po.c:13052
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Aktivera HANNES 256K RAM-expansion"
 
-#: src/translate_text.c.po.c:13088
+#: src/translate_text.c.po.c:13069
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Aktivera HANNES 1024K RAM-expansion"
 
-#: src/translate_text.c.po.c:13105
+#: src/translate_text.c.po.c:13086
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Aktivera HANNES 4096K RAM-expansion"
 
-#: src/translate_text.c.po.c:13122
+#: src/translate_text.c.po.c:13103
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
 msgstr "Ange DTV-revision (2: DTV2, 3: DTV3)"
 
-#: src/translate_text.c.po.c:13139
+#: src/translate_text.c.po.c:13120
 msgid "Enable DTV blitter logs."
 msgstr "Aktivera DTV-blitterloggar."
 
-#: src/translate_text.c.po.c:13156
+#: src/translate_text.c.po.c:13137
 msgid "Disable DTV blitter logs."
 msgstr "Inaktivera DTV-blitterloggar."
 
-#: src/translate_text.c.po.c:13173
+#: src/translate_text.c.po.c:13154
 msgid "Enable DTV DMA logs."
 msgstr "Aktivera DTV DMA-loggning."
 
-#: src/translate_text.c.po.c:13190
+#: src/translate_text.c.po.c:13171
 msgid "Disable DTV DMA logs."
 msgstr "Inaktivera DTV DMA-loggning."
 
-#: src/translate_text.c.po.c:13207
+#: src/translate_text.c.po.c:13188
 msgid "Specify name of C64DTV ROM image"
 msgstr "Ange namn på C64DTV-ROM-avbildning"
 
-#: src/translate_text.c.po.c:13241
+#: src/translate_text.c.po.c:13222
 msgid "Disable writes to C64DTV ROM image"
 msgstr "Inaktivera skrivning till C64DTV-ROM-avbildning"
 
-#: src/translate_text.c.po.c:13258
+#: src/translate_text.c.po.c:13239
 msgid "Enable DTV flash chip logs."
 msgstr "Aktivera loggar för DTV-flashkrets."
 
-#: src/translate_text.c.po.c:13275
+#: src/translate_text.c.po.c:13256
 msgid "Disable DTV flash chip logs."
 msgstr "Inaktivera loggar för DTV-flashkrets."
 
-#: src/translate_text.c.po.c:13292
+#: src/translate_text.c.po.c:13273
 msgid "Use <name> as directory for flash file system device"
 msgstr "Ange <namn> som katalog för filsystemsbaserad flashenhet"
 
-#: src/translate_text.c.po.c:13326
+#: src/translate_text.c.po.c:13307
 msgid "Disable true hardware flash file system"
 msgstr "Inaktivera maskinvaruemelring för flashfilsystem"
 
-#: src/translate_text.c.po.c:13361
+#: src/translate_text.c.po.c:13342
 msgid "Disable MIDI emulation"
 msgstr "Inaktivera MIDI-emulering"
 
-#: src/translate_text.c.po.c:13378
+#: src/translate_text.c.po.c:13359
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
@@ -12303,103 +12250,146 @@ msgstr ""
 "Typ av MIDI-gränssnitt (0: sekventiell, 1: Passport, 2: DATEL, 3: Namesoft, "
 "4: Maplin)"
 
-#: src/translate_text.c.po.c:13413
+#: src/translate_text.c.po.c:13394
 msgid "Disable the digiblaster add-on"
 msgstr "Inaktivera digiblaster-tillägg"
 
-#: src/translate_text.c.po.c:13447
+#: src/translate_text.c.po.c:13428
 msgid "Disable the v364 speech add-on"
 msgstr "Inaktivera v364-rösttillägg"
 
-#: src/translate_text.c.po.c:13464
+#: src/translate_text.c.po.c:13445
 msgid "Attach Speech ROM image"
 msgstr "Anslut röst-ROM-avbildning"
 
-#: src/translate_text.c.po.c:13532
+#: src/translate_text.c.po.c:13513
 msgid "Disable the SFX Sound Expander cartridge"
 msgstr "Inaktivera SFX Sound Expander-insticksmodul"
 
-#: src/translate_text.c.po.c:13549
+#: src/translate_text.c.po.c:13530
 msgid "Set YM chip type (3526 / 3812)"
 msgstr "Välj YM-kretstyp (3526 / 3812)"
 
-#: src/translate_text.c.po.c:13583
+#: src/translate_text.c.po.c:13564
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "Inaktivera SFX Sound Sampler-insticksmodul"
 
-#: src/translate_text.c.po.c:13617
+#: src/translate_text.c.po.c:13598
 msgid "Disable lightpen emulation"
 msgstr "Inaktivera emulering ljuspenna"
 
-#: src/translate_text.c.po.c:13634
+#: src/translate_text.c.po.c:13615
 msgid "Set lightpen type"
 msgstr "Välj typ av ljuspenna"
 
-#: src/translate_text.c.po.c:13651
+#: src/translate_text.c.po.c:13632
 msgid "Enable EasyFlash jumper"
 msgstr "Aktivera EasyFlash-bygel"
 
-#: src/translate_text.c.po.c:13668
+#: src/translate_text.c.po.c:13649
 msgid "Disable EasyFlash jumper"
 msgstr "Inaktivera EasyFlash-bygel"
 
-#: src/translate_text.c.po.c:13685
+#: src/translate_text.c.po.c:13666
 msgid "Enable writing to EasyFlash .crt image"
 msgstr "Aktivera skrivning till EasyFlash-.crt-avbildning."
 
-#: src/translate_text.c.po.c:13702
+#: src/translate_text.c.po.c:13683
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "Inaktivera skrivning till EasyFlash-.crt-avbildning."
 
-#: src/translate_text.c.po.c:13736
+#: src/translate_text.c.po.c:13717
 msgid "Disable the DigiMAX cartridge"
 msgstr "Inaktivera DigiMAX-insticksmodul"
 
-#: src/translate_text.c.po.c:13753
+#: src/translate_text.c.po.c:13734
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basadress för DigiMAC-insticksmodulen"
 
-#: src/translate_text.c.po.c:13770
+#: src/translate_text.c.po.c:13751
 msgid "Enable the DS12C887 RTC cartridge"
 msgstr "Aktivera DS12C887 RTC-insticksmodul"
 
-#: src/translate_text.c.po.c:13787
+#: src/translate_text.c.po.c:13768
 msgid "Disable the DS12C887 RTC cartridge"
 msgstr "Inaktivera DS12C887 RTC-insticksmodul"
 
-#: src/translate_text.c.po.c:13804
+#: src/translate_text.c.po.c:13785
 msgid "Base address of the DS12C887 RTC cartridge"
 msgstr "Basadress för DS12C887 RTC-insticksmodulen"
 
-#: src/translate_text.c.po.c:13821
+#: src/translate_text.c.po.c:13802
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
 msgstr ""
 
-#: src/translate_text.c.po.c:13838
+#: src/translate_text.c.po.c:13819
 msgid "Turn on Jiffy switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:13855
+#: src/translate_text.c.po.c:13836
 msgid "Turn off Jiffy switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:13872
+#: src/translate_text.c.po.c:13853
 msgid "Turn on Speed switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:13889
+#: src/translate_text.c.po.c:13870
 msgid "Turn off Speed switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:13906
+#: src/translate_text.c.po.c:13887
 #, fuzzy
 msgid "Enable HiRes Emulation Board"
 msgstr "Aktivera emulering av ljuspenna"
 
-#: src/translate_text.c.po.c:13923
+#: src/translate_text.c.po.c:13904
 #, fuzzy
 msgid "Disable HiRes Emulation Board"
 msgstr "Aktivera emulering av ljuspenna"
+
+#~ msgid "6581R3 4885 (very light)"
+#~ msgstr "6581R3 4885 (mycket ljus)"
+
+#~ msgid "6581R3 0486S (light)"
+#~ msgstr "6581R3 0486S (ljus)"
+
+#~ msgid "6581R3 3984 (light avg)"
+#~ msgstr "6581R3 3984 (medelljus)"
+
+#~ msgid "6581R4AR 3789 (avg)"
+#~ msgstr "6581R4AR 3789 (medel)"
+
+#~ msgid "6581R3 4485 (dark)"
+#~ msgstr "6581R3 4485 (mörk)"
+
+#~ msgid "6581R4 1986S (very dark)"
+#~ msgstr "6581R4 1986S (mycket mörk)"
+
+#~ msgid "8580 3691 (light)"
+#~ msgstr "8580 3691 (ljus)"
+
+#~ msgid "8580 3691 + digi boost"
+#~ msgstr "8580 3691 + digiförstärkning"
+
+#~ msgid "8580 1489 (dark)"
+#~ msgstr "8580 1489 (mörk)"
+
+#~ msgid "8580 1489 + digi boost"
+#~ msgstr "8580 1489 + digiförstärkning"
+
+#~ msgid ""
+#~ "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
+#~ "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
+#~ "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
+#~ "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
+#~ "8580R5 1489D"
+#~ msgstr ""
+#~ "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
+#~ "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
+#~ "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
+#~ "8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-"
+#~ "FP 8580R5 1489 + digiförstärkning"
 
 #~ msgid "Delete checkpoint `checknum'."
 #~ msgstr "Ta bort kontrollpunkt \"kontrollnr\"."
