@@ -646,12 +646,11 @@ msgstr "Aangepast IC"
 
 #: src/arch/unix/gui/c64scui.c:201 src/arch/unix/gui/c64ui.c:263
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: src/arch/unix/gui/c64scui.c:203 src/arch/unix/gui/c64ui.c:265
-#, fuzzy
 msgid "no"
-msgstr "Mono"
+msgstr "nee"
 
 #: src/arch/unix/gui/c64scui.c:209 src/arch/unix/gui/c64ui.c:271
 #: src/arch/win32/resc64.rc.po.c:535 src/arch/win32/resscpu64.rc.po.c:530
@@ -665,7 +664,7 @@ msgstr "Glue logic"
 
 #: src/arch/unix/gui/c64scui.c:216 src/arch/unix/gui/c64ui.c:277
 msgid "Reset goes to IEC"
-msgstr ""
+msgstr "Reset gaat naar IEC"
 
 #: src/arch/unix/gui/c64scui.c:410 src/arch/unix/gui/c64ui.c:471
 msgid "CIA1"
@@ -1509,17 +1508,15 @@ msgstr "Hard"
 
 #: src/arch/unix/gui/uicommands.c:489
 msgid "Ask"
-msgstr ""
+msgstr "Vraag"
 
 #: src/arch/unix/gui/uicommands.c:491
-#, fuzzy
 msgid "Continue"
-msgstr "Medewerkers"
+msgstr "Door gaan"
 
 #: src/arch/unix/gui/uicommands.c:493
-#, fuzzy
 msgid "Start monitor"
-msgstr "Activeer monitor"
+msgstr "Start monitor"
 
 #: src/arch/unix/gui/uicommands.c:495 src/arch/unix/gui/uicommands.c:683
 #: src/arch/unix/gui/uidatasette.c:99 src/arch/unix/gui/vsidui.c:349
@@ -1535,9 +1532,8 @@ msgid "Reset"
 msgstr "Reset"
 
 #: src/arch/unix/gui/uicommands.c:497
-#, fuzzy
 msgid "Hard reset"
-msgstr "Start met reset"
+msgstr "Harde reset"
 
 #: src/arch/unix/gui/uicommands.c:511 src/arch/win32/res.rc.po.c:1491
 #: src/arch/amigaos/intl_text.c.po.c:1279
@@ -1690,7 +1686,7 @@ msgstr "Over VICE"
 
 #: src/arch/unix/gui/uicommands.c:684
 msgid "Action on CPU JAM"
-msgstr ""
+msgstr "Actie bij CPU JAM"
 
 #: src/arch/unix/gui/uicommands.c:689 src/arch/win32/res.rc.po.c:1417
 #: src/arch/amigaos/intl_text.c.po.c:1055
@@ -3426,11 +3422,11 @@ msgstr "38400 (alleen Swiftlink/Turbo232)"
 
 #: src/arch/unix/gui/uirs232.c:58 src/arch/unix/gui/uirs232.c:94
 msgid "57600 (Turbo232 only)"
-msgstr "*57600 (alleen Turbo232)"
+msgstr "57600 (alleen Turbo232)"
 
 #: src/arch/unix/gui/uirs232.c:60 src/arch/unix/gui/uirs232.c:96
 msgid "115200 (Turbo232 only)"
-msgstr "*115200 (alleen Turbo232)"
+msgstr "115200 (alleen Turbo232)"
 
 #: src/arch/unix/gui/uirs232.c:117
 msgid "Select RS232 device file"
@@ -3663,41 +3659,36 @@ msgid "History"
 msgstr "Geschiedenis"
 
 #: src/arch/unix/gui/uisettings.c:414
-#, fuzzy
 msgid "Autoplay"
-msgstr "Geschiedenis Autospeel"
+msgstr "Autospeel"
 
 #: src/arch/unix/gui/uisettings.c:426
-#, fuzzy
 msgid "Trace Mode"
-msgstr "PET model"
+msgstr "Volg Modus"
 
 #: src/arch/unix/gui/uisettings.c:429 src/arch/win32/res.rc.po.c:1479
 msgid "Main CPU Trace"
-msgstr "Hoofd CPU Trace"
+msgstr "Hoofd CPU Volgen"
 
 #: src/arch/unix/gui/uisettings.c:432 src/arch/win32/res.rc.po.c:1480
 msgid "Drive0 CPU Trace"
-msgstr "Drive0 CPU Trace"
+msgstr "Drive0 CPU Volgen"
 
 #: src/arch/unix/gui/uisettings.c:434 src/arch/win32/res.rc.po.c:1481
 msgid "Drive1 CPU Trace"
-msgstr "Drive1 CPU Trace"
+msgstr "Drive1 CPU Volgen"
 
 #: src/arch/unix/gui/uisettings.c:436
-#, fuzzy
 msgid "Drive2 CPU Trace"
-msgstr "Drive0 CPU Trace"
+msgstr "Drive2 CPU Volgen"
 
 #: src/arch/unix/gui/uisettings.c:438
-#, fuzzy
 msgid "Drive3 CPU Trace"
-msgstr "Drive0 CPU Trace"
+msgstr "Drive3 CPU Volgen"
 
 #: src/arch/unix/gui/uisettings.c:444
-#, fuzzy
 msgid "Debug settings"
-msgstr "Drive instellingen"
+msgstr "Debug instellingen"
 
 #: src/arch/unix/gui/uisid.c:74
 msgid "8580 + digi boost (ReSID)"
@@ -7316,7 +7307,7 @@ msgstr "Selecteer bestand voor ISEPIC"
 
 #: src/arch/win32/resisepic.rc.po.c:39 src/translate_text.c.po.c:5054
 msgid "Enable the ISEPIC cartridge"
-msgstr "*Activeer de ISEPIC cartridge"
+msgstr "Activeer de ISEPIC cartridge"
 
 #: src/arch/win32/resisepic.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:7159
 msgid "ISEPIC switch"
@@ -7735,9 +7726,8 @@ msgid "Third SID at"
 msgstr "Derde SID op"
 
 #: src/arch/win32/ressid.rc.po.c:82 src/arch/win32/ressiddtv.rc.po.c:60
-#, fuzzy
 msgid "reSID options"
-msgstr "reSID/reSID-fp opties"
+msgstr "reSID opties"
 
 #: src/arch/win32/ressid.rc.po.c:83 src/arch/win32/ressiddtv.rc.po.c:61
 #: src/arch/amigaos/intl_text.c.po.c:9036
@@ -7763,7 +7753,7 @@ msgstr "Rechterapparaat"
 
 #: src/arch/win32/ressidcart.rc.po.c:138 src/translate_text.c.po.c:10119
 msgid "Enable the SID cartridge"
-msgstr "*Activeer de SID cartridge"
+msgstr "Activeer de SID cartridge"
 
 #: src/arch/win32/ressidcart.rc.po.c:141
 msgid "HardSID device selection"
@@ -9427,7 +9417,7 @@ msgstr "checknum"
 msgid ""
 "Delete checkpoint `checknum'. If no checkpoint is specified delete all "
 "checkpoints."
-msgstr ""
+msgstr "Wis checkpunt 'checknum'. Als er geen checkpunt is gegeven dan worden alle checkpunter gewist"
 
 #: src/translate_text.c.po.c:1759
 msgid ""
@@ -10017,7 +10007,7 @@ msgstr "Willekeurige vertraging bij begin van het uitostarten uitschakelen."
 msgid ""
 "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard "
 "Reset)"
-msgstr ""
+msgstr "Geef de actie op die gedaan moet worden bij een CPU JAM: (0: Vraag, 1: door gaan, 2: Monitor, 3: Reset, 4: Harde Reset)"
 
 #: src/translate_text.c.po.c:3297
 msgid "Use PAL sync factor"
@@ -10037,7 +10027,7 @@ msgstr "Burst modificatie (0 = Geen, 1 = CIA1, 2 = CIA2)"
 
 #: src/translate_text.c.po.c:3365
 msgid "Computer reset goes to IEC bus (0 = No, 1 = Yes)"
-msgstr ""
+msgstr "Computer reset gaat naar de IEC bus (0 = Nee, 1 = Ja)"
 
 #: src/translate_text.c.po.c:3399
 msgid "Specify name of international Kernal ROM image"
