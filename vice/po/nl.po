@@ -9417,7 +9417,9 @@ msgstr "checknum"
 msgid ""
 "Delete checkpoint `checknum'. If no checkpoint is specified delete all "
 "checkpoints."
-msgstr "Wis checkpunt 'checknum'. Als er geen checkpunt is gegeven dan worden alle checkpunter gewist"
+msgstr ""
+"Wis checkpunt 'checknum'. Als er geen checkpunt is gegeven dan worden alle "
+"checkpunter gewist"
 
 #: src/translate_text.c.po.c:1759
 msgid ""
@@ -10007,7 +10009,9 @@ msgstr "Willekeurige vertraging bij begin van het uitostarten uitschakelen."
 msgid ""
 "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard "
 "Reset)"
-msgstr "Geef de actie op die gedaan moet worden bij een CPU JAM: (0: Vraag, 1: door gaan, 2: Monitor, 3: Reset, 4: Harde Reset)"
+msgstr ""
+"Geef de actie op die gedaan moet worden bij een CPU JAM: (0: Vraag, 1: door "
+"gaan, 2: Monitor, 3: Reset, 4: Harde Reset)"
 
 #: src/translate_text.c.po.c:3297
 msgid "Use PAL sync factor"
