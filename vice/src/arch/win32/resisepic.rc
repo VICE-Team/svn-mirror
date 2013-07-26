@@ -135,7 +135,7 @@ BEGIN
   IDS_SELECT_FILE_ISEPIC  "Seleziona file per ISEPIC"
   IDS_ISEPIC_CAPTION      "Impostazioni ISEPIC"
   IDS_ISEPIC_ENABLE       "Attiva la cartuccia ISEPIC"
-  IDS_ISEPIC_SWITCH       "Interruttore ISEPIC"
+  IDS_ISEPIC_SWITCH       "Pulsante ISEPIC"
   IDS_ISEPIC_WRITE_ENABLE "Salva immagine ISEPIC al cambio"
   IDS_ISEPIC_FILE_LABEL   "File ISEPIC"
 END
@@ -168,7 +168,7 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_ISEPIC  "Selecteer bestand voor ISEPIC"
   IDS_ISEPIC_CAPTION      "ISEPIC instellingen"
-  IDS_ISEPIC_ENABLE       "*Activeer de ISEPIC cartridge"
+  IDS_ISEPIC_ENABLE       "Activeer de ISEPIC cartridge"
   IDS_ISEPIC_SWITCH       "ISEPIC schakelaar"
   IDS_ISEPIC_WRITE_ENABLE "ISEPIC bestand opslaan indien gewijzigd"
   IDS_ISEPIC_FILE_LABEL   "ISEPIC bestand"

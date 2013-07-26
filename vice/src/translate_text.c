@@ -26,6 +26,7 @@
 
 translate_t string_table[] = {
 
+
 /* autostart.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE,    N_("Cannot load snapshot file.")},
 #ifdef HAS_TRANSLATION
@@ -1765,18 +1766,18 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_DELETE_DESCRIPTION,    N_("Delete checkpoint `checknum'. If no checkpoint is specified delete all checkpoints.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_DELETE_DESCRIPTION_DA, "Slet checkpoint \"checknum\"."},
-/* de */ {IDGS_MON_DELETE_DESCRIPTION_DE, "Lösche Checkpoint `Checknummer'."},
-/* es */ {IDGS_MON_DELETE_DESCRIPTION_ES, "Borrar punto comprobación `número comprobación'."},
-/* fr */ {IDGS_MON_DELETE_DESCRIPTION_FR, "Supprimer le point de contrôle `checknum'."},
-/* hu */ {IDGS_MON_DELETE_DESCRIPTION_HU, "`ell_pont_szám' ellenõrzési pont törlése."},
-/* it */ {IDGS_MON_DELETE_DESCRIPTION_IT, "Cancella il punto di controllo `checknum'."},
+/* da */ {IDGS_MON_DELETE_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_DELETE_DESCRIPTION_DE, "Lösche Checkpoint `Checknummer'. Falls kein Checkpoint angegeben wird,\nlösche alle Checkpoints."},
+/* es */ {IDGS_MON_DELETE_DESCRIPTION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_DELETE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_DELETE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_DELETE_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_DELETE_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_DELETE_DESCRIPTION_NL, "Verwijder checkpunt `checknum'."},
-/* pl */ {IDGS_MON_DELETE_DESCRIPTION_PL, "Usuñ punkt kontrolny `checknum'."},
-/* ru */ {IDGS_MON_DELETE_DESCRIPTION_RU, "Delete checkpoint `checknum'."},
-/* sv */ {IDGS_MON_DELETE_DESCRIPTION_SV, "Ta bort kontrollpunkt \"kontrollnr\"."},
-/* tr */ {IDGS_MON_DELETE_DESCRIPTION_TR, "`kontrolnumarasý' kontrol noktasýný sil."},
+/* nl */ {IDGS_MON_DELETE_DESCRIPTION_NL, "Wis checkpunt 'checknum'. Als er geen checkpunt is gegeven dan worden alle checkpunter gewist"},
+/* pl */ {IDGS_MON_DELETE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MON_DELETE_DESCRIPTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_DELETE_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_DELETE_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */
@@ -3324,13 +3325,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_MACHINE_JAM_ACTION,    N_("Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_MACHINE_JAM_ACTION_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_MACHINE_JAM_ACTION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_MACHINE_JAM_ACTION_DE, "Aktion bei CPU JAM: (0: Nachfrage, 1: Weitermachen, 2: Monitor, 3:\nReset, 4: Hard Reset)"},
 /* es */ {IDCLS_SET_MACHINE_JAM_ACTION_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_MACHINE_JAM_ACTION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_MACHINE_JAM_ACTION_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_MACHINE_JAM_ACTION_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_MACHINE_JAM_ACTION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_MACHINE_JAM_ACTION_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_MACHINE_JAM_ACTION_NL, "Geef de actie op die gedaan moet worden bij een CPU JAM: (0: Vraag, 1: door gaan, 2: Monitor, 3: Reset, 4: Harde Reset)"},
 /* pl */ {IDCLS_SET_MACHINE_JAM_ACTION_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_MACHINE_JAM_ACTION_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_MACHINE_JAM_ACTION_SV, ""},  /* fuzzy */
@@ -3413,13 +3414,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_IEC_RESET,    N_("Computer reset goes to IEC bus (0 = No, 1 = Yes)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_IEC_RESET_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_IEC_RESET_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_IEC_RESET_DE, "Computer Reset auf IEC Bus (0 = Nein, 1 = Ja)"},
 /* es */ {IDCLS_SET_IEC_RESET_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_IEC_RESET_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_IEC_RESET_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_IEC_RESET_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_IEC_RESET_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_IEC_RESET_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_IEC_RESET_NL, "Computer reset gaat naar de IEC bus (0 = Nee, 1 = Ja)"},
 /* pl */ {IDCLS_SET_IEC_RESET_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_IEC_RESET_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_IEC_RESET_SV, ""},  /* fuzzy */
@@ -4022,7 +4023,7 @@ translate_t string_table[] = {
 /* es */ {IDCLS_GO128_MODE_ES, "Al reiniciar, pasar siempre al modo C128"},
 /* fr */ {IDCLS_GO128_MODE_FR, "Toujours revenir au mode C128 au redémarrage"},
 /* hu */ {IDCLS_GO128_MODE_HU, "Mindig C128 mód újraindítás után"},
-/* it */ {IDCLS_GO128_MODE_IT, "Cambia sempre in modalità C128 al reset"},
+/* it */ {IDCLS_GO128_MODE_IT, "Vai sempre in modalità C128 al reset"},
 /* ko */ {IDCLS_GO128_MODE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_GO128_MODE_NL, "Start altijd op in C128 modus na reset"},
 /* pl */ {IDCLS_GO128_MODE_PL, "Przy restarcie zawsze prze³±czaj w tryb C128"},
@@ -4073,7 +4074,7 @@ translate_t string_table[] = {
 /* es */ {IDCLS_ENABLE_INT_FUNC_ROM_ES, "Tipo de Function ROM interna: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
 /* fr */ {IDCLS_ENABLE_INT_FUNC_ROM_FR, "Type de ROM Fonction interne: (0: Aucun, 1: ROM, 2: RAM, 3: RTC)"},
 /* hu */ {IDCLS_ENABLE_INT_FUNC_ROM_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_INT_FUNC_ROM_IT, "Tipologia di function ROM interna: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
+/* it */ {IDCLS_ENABLE_INT_FUNC_ROM_IT, "Tipo di Function ROM interna: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
 /* ko */ {IDCLS_ENABLE_INT_FUNC_ROM_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_INT_FUNC_ROM_NL, "Intern functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"},
 /* pl */ {IDCLS_ENABLE_INT_FUNC_ROM_PL, "Typ wewnêtrznego Function ROM-u: (0: ¯aden, 1: ROM, 2: RAM, 3: RTC)"},
@@ -4086,11 +4087,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_EXT_FUNC_ROM,    N_("Type of external Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_EXT_FUNC_ROM_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_EXT_FUNC_ROM_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_ENABLE_EXT_FUNC_ROM_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_EXT_FUNC_ROM_DE, "Typ des esternen Funktions ROM: (0: Kein, 1: ROM, 2: RAM, 3: RTC)"},
+/* es */ {IDCLS_ENABLE_EXT_FUNC_ROM_ES, "Tipo de Function ROM externa: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
 /* fr */ {IDCLS_ENABLE_EXT_FUNC_ROM_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_EXT_FUNC_ROM_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_EXT_FUNC_ROM_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_EXT_FUNC_ROM_IT, "Tipo di Function ROM esterna: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
 /* ko */ {IDCLS_ENABLE_EXT_FUNC_ROM_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_EXT_FUNC_ROM_NL, "Extern functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"},
 /* pl */ {IDCLS_ENABLE_EXT_FUNC_ROM_PL, "Typ zewnêtrznego Function ROM-u: (0: ¯aden, 1: ROM, 2: RAM, 3: RTC)"},
@@ -5140,7 +5141,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_ISEPIC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_ISEPIC_IT, "Attiva la cartuccia ISEPIC"},
 /* ko */ {IDCLS_ENABLE_ISEPIC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_ISEPIC_NL, "*Activeer de ISEPIC cartridge"},
+/* nl */ {IDCLS_ENABLE_ISEPIC_NL, "Activeer de ISEPIC cartridge"},
 /* pl */ {IDCLS_ENABLE_ISEPIC_PL, "W³±cz kartrid¿ ISEPIC"},
 /* ru */ {IDCLS_ENABLE_ISEPIC_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_ISEPIC_SV, "Aktivera ISEPIC-modul"},
@@ -8869,11 +8870,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_CPU_SWITCH_TO_6502,    N_("Set SuperPET CPU switch to '6502'")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_CPU_SWITCH_TO_6502_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_CPU_SWITCH_TO_6502_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SET_CPU_SWITCH_TO_6502_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CPU_SWITCH_TO_6502_DE, "Setze SuperPET CPU Schalter auf '6502'"},
+/* es */ {IDCLS_SET_CPU_SWITCH_TO_6502_ES, "Ajustar interruptor SuperPET CPU"},
 /* fr */ {IDCLS_SET_CPU_SWITCH_TO_6502_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_CPU_SWITCH_TO_6502_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_CPU_SWITCH_TO_6502_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_CPU_SWITCH_TO_6502_IT, "Imposta pulsante CPU SuperPET a '6502'"},
 /* ko */ {IDCLS_SET_CPU_SWITCH_TO_6502_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_CPU_SWITCH_TO_6502_NL, "Zet SuperPET CPU schakelaar naar '6502'"},
 /* pl */ {IDCLS_SET_CPU_SWITCH_TO_6502_PL, ""},  /* fuzzy */
@@ -8886,11 +8887,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_CPU_SWITCH_TO_6809,    N_("Set SuperPET CPU switch to '6809'")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_CPU_SWITCH_TO_6809_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_CPU_SWITCH_TO_6809_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SET_CPU_SWITCH_TO_6809_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CPU_SWITCH_TO_6809_DE, "Setze SuperPET CPU Schalter auf '6809'"},
+/* es */ {IDCLS_SET_CPU_SWITCH_TO_6809_ES, "Ajustar interruptor SuperPET CPU para '6809'"},
 /* fr */ {IDCLS_SET_CPU_SWITCH_TO_6809_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_CPU_SWITCH_TO_6809_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_CPU_SWITCH_TO_6809_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_CPU_SWITCH_TO_6809_IT, "Imposta pulsante CPU SuperPET a '6809'"},
 /* ko */ {IDCLS_SET_CPU_SWITCH_TO_6809_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_CPU_SWITCH_TO_6809_NL, "Zet SuperPET CPU schakelaar naar '6809'"},
 /* pl */ {IDCLS_SET_CPU_SWITCH_TO_6809_PL, ""},  /* fuzzy */
@@ -8903,11 +8904,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_CPU_SWITCH_TO_PROG,    N_("Set SuperPET CPU switch to 'Prog'")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_CPU_SWITCH_TO_PROG_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_CPU_SWITCH_TO_PROG_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SET_CPU_SWITCH_TO_PROG_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CPU_SWITCH_TO_PROG_DE, "Setze SuperPET CPU Schalter auf 'Prog'"},
+/* es */ {IDCLS_SET_CPU_SWITCH_TO_PROG_ES, "Ajustar interruptor SuperPET CPU para 'Prog'"},
 /* fr */ {IDCLS_SET_CPU_SWITCH_TO_PROG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_CPU_SWITCH_TO_PROG_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_CPU_SWITCH_TO_PROG_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_CPU_SWITCH_TO_PROG_IT, "Imposta pulsante CPU SuperPET a 'Prog'"},
 /* ko */ {IDCLS_SET_CPU_SWITCH_TO_PROG_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_CPU_SWITCH_TO_PROG_NL, "Zet SuperPET CPU schakelaar naar 'Prog'"},
 /* pl */ {IDCLS_SET_CPU_SWITCH_TO_PROG_PL, ""},  /* fuzzy */
@@ -8920,11 +8921,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_6809_ROM_AT_A000,    N_("Specify 4K to 24K ROM file name at $A000 for 6809")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_6809_ROM_AT_A000_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_6809_ROM_AT_A000_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SPECIFY_6809_ROM_AT_A000_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_A000_DE, "4K-24K Erweiterungs ROM Datei Name für $A000 für 6809 definieren"},
+/* es */ {IDCLS_SPECIFY_6809_ROM_AT_A000_ES, "Especificar nombre ROM 4K a 24K  en $A000 para 6809"},
 /* fr */ {IDCLS_SPECIFY_6809_ROM_AT_A000_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_6809_ROM_AT_A000_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_6809_ROM_AT_A000_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_6809_ROM_AT_A000_IT, "Specifica il nome della ROM da 4K a 24K a $A000 per il 6809"},
 /* ko */ {IDCLS_SPECIFY_6809_ROM_AT_A000_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_A000_NL, "Geef de naam van het bestand voor de 4K tot 24K ROM op $A000 voor de 6809"},
 /* pl */ {IDCLS_SPECIFY_6809_ROM_AT_A000_PL, ""},  /* fuzzy */
@@ -8937,11 +8938,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_6809_ROM_AT_B000,    N_("Specify 4K to 20K ROM file name at $B000 for 6809")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_6809_ROM_AT_B000_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_6809_ROM_AT_B000_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SPECIFY_6809_ROM_AT_B000_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_B000_DE, "4K-20K Erweiterungs ROM Datei Name für $B000 für 6809 definieren"},
+/* es */ {IDCLS_SPECIFY_6809_ROM_AT_B000_ES, "Especificar nombre ROM 4K a 20K  en $B000 para 6809"},
 /* fr */ {IDCLS_SPECIFY_6809_ROM_AT_B000_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_6809_ROM_AT_B000_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_6809_ROM_AT_B000_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_6809_ROM_AT_B000_IT, "Specifica il nome della ROM da 4K a 20K a $B000 per il 6809"},
 /* ko */ {IDCLS_SPECIFY_6809_ROM_AT_B000_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_B000_NL, "Geef de naam van het bestand voor de 4K tot 20K ROM op $B000 voor de 6809"},
 /* pl */ {IDCLS_SPECIFY_6809_ROM_AT_B000_PL, ""},  /* fuzzy */
@@ -8954,11 +8955,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_6809_ROM_AT_C000,    N_("Specify 4K to 16K ROM file name at $C000 for 6809")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_6809_ROM_AT_C000_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_6809_ROM_AT_C000_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SPECIFY_6809_ROM_AT_C000_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_C000_DE, "4K-16K Erweiterungs ROM Datei Name für $C000 für 6809 definieren"},
+/* es */ {IDCLS_SPECIFY_6809_ROM_AT_C000_ES, "Especificar nombre ROM 4K a 16K  en $C000 para 6809"},
 /* fr */ {IDCLS_SPECIFY_6809_ROM_AT_C000_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_6809_ROM_AT_C000_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_6809_ROM_AT_C000_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_6809_ROM_AT_C000_IT, "Specifica il nome della ROM da 4K a 16K a $C000 per il 6809"},
 /* ko */ {IDCLS_SPECIFY_6809_ROM_AT_C000_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_C000_NL, "Geef de naam van het bestand voor de 4K tot 16K ROM op $C000 voor de 6809"},
 /* pl */ {IDCLS_SPECIFY_6809_ROM_AT_C000_PL, ""},  /* fuzzy */
@@ -8971,11 +8972,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_6809_ROM_AT_D000,    N_("Specify 4K to 12K ROM file name at $D000 for 6809")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_6809_ROM_AT_D000_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_6809_ROM_AT_D000_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SPECIFY_6809_ROM_AT_D000_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_D000_DE, "4K-12K Erweiterungs ROM Datei Name für $D000 für 6809 definieren"},
+/* es */ {IDCLS_SPECIFY_6809_ROM_AT_D000_ES, "Especificar nombre ROM 4K a 12K  en $D000 para 6809"},
 /* fr */ {IDCLS_SPECIFY_6809_ROM_AT_D000_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_6809_ROM_AT_D000_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_6809_ROM_AT_D000_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_6809_ROM_AT_D000_IT, "Specifica il nome della ROM da 4K a 12K a $D000 per il 6809"},
 /* ko */ {IDCLS_SPECIFY_6809_ROM_AT_D000_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_D000_NL, "Geef de naam van het bestand voor de 4K tot 12K ROM op $D000 voor de 6809"},
 /* pl */ {IDCLS_SPECIFY_6809_ROM_AT_D000_PL, ""},  /* fuzzy */
@@ -8988,11 +8989,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_6809_ROM_AT_E000,    N_("Specify 2K or 8K ROM file name at $E000 for 6809")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_6809_ROM_AT_E000_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_6809_ROM_AT_E000_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SPECIFY_6809_ROM_AT_E000_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_E000_DE, "4K-8K Erweiterungs ROM Datei Name für $E000 für 6809 definieren"},
+/* es */ {IDCLS_SPECIFY_6809_ROM_AT_E000_ES, "Especificar nombre ROM 4K a 8K  en $E000 para 6809"},
 /* fr */ {IDCLS_SPECIFY_6809_ROM_AT_E000_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_6809_ROM_AT_E000_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_6809_ROM_AT_E000_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_6809_ROM_AT_E000_IT, "Specifica il nome della ROM da 2K a 8K a $E000 per il 6809"},
 /* ko */ {IDCLS_SPECIFY_6809_ROM_AT_E000_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_E000_NL, "Geef de naam van het bestand voor de 2K of 8K ROM op $E000 voor de 6809"},
 /* pl */ {IDCLS_SPECIFY_6809_ROM_AT_E000_PL, ""},  /* fuzzy */
@@ -9005,11 +9006,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_6809_ROM_AT_F000,    N_("Specify 4K ROM file name at $F000 for 6809")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_6809_ROM_AT_F000_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_6809_ROM_AT_F000_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SPECIFY_6809_ROM_AT_F000_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_6809_ROM_AT_F000_DE, "4K Erweiterungs ROM Datei Name für $F000 für 6809 definieren"},
+/* es */ {IDCLS_SPECIFY_6809_ROM_AT_F000_ES, "Especificar nombre ROM 4K en $F000 para 6809"},
 /* fr */ {IDCLS_SPECIFY_6809_ROM_AT_F000_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_6809_ROM_AT_F000_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_6809_ROM_AT_F000_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_6809_ROM_AT_F000_IT, "Specifica il nome della ROM da 4K a $F000 per il 6809"},
 /* ko */ {IDCLS_SPECIFY_6809_ROM_AT_F000_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_F000_NL, "Geef de naam van het bestand voor de 4K ROM op $F000 voor de 6809"},
 /* pl */ {IDCLS_SPECIFY_6809_ROM_AT_F000_PL, ""},  /* fuzzy */
@@ -9022,11 +9023,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_PET4032_COLOUR_RGBI,    N_("RGBI colour extension to PET 4032")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PET4032_COLOUR_RGBI_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_PET4032_COLOUR_RGBI_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_PET4032_COLOUR_RGBI_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_PET4032_COLOUR_RGBI_DE, "RGBI Farberweiterung für PET 4032"},
+/* es */ {IDCLS_PET4032_COLOUR_RGBI_ES, "Extension color RGBI para PET 4032"},
 /* fr */ {IDCLS_PET4032_COLOUR_RGBI_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_PET4032_COLOUR_RGBI_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_PET4032_COLOUR_RGBI_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_PET4032_COLOUR_RGBI_IT, "Estensione colore RGBI per PET 4032"},
 /* ko */ {IDCLS_PET4032_COLOUR_RGBI_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_PET4032_COLOUR_RGBI_NL, "RGBI kleur uitbreiding voor de PET 4032"},
 /* pl */ {IDCLS_PET4032_COLOUR_RGBI_PL, ""},  /* fuzzy */
@@ -9039,11 +9040,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_PET4032_COLOUR_ANALOG,    N_("Analog colour extension to PET 4032")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PET4032_COLOUR_ANALOG_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_PET4032_COLOUR_ANALOG_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_PET4032_COLOUR_ANALOG_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_PET4032_COLOUR_ANALOG_DE, "Analog Farberweiterung für PET 4032"},
+/* es */ {IDCLS_PET4032_COLOUR_ANALOG_ES, "Extension analógica de color para PET 4032"},
 /* fr */ {IDCLS_PET4032_COLOUR_ANALOG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_PET4032_COLOUR_ANALOG_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_PET4032_COLOUR_ANALOG_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_PET4032_COLOUR_ANALOG_IT, "Estensione colore analogica per PET 4032"},
 /* ko */ {IDCLS_PET4032_COLOUR_ANALOG_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_PET4032_COLOUR_ANALOG_NL, "Analoge kleur uitbreiding voor de PET 4032"},
 /* pl */ {IDCLS_PET4032_COLOUR_ANALOG_PL, ""},  /* fuzzy */
@@ -9056,11 +9057,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_P_COLOUR_0_255,    N_("<Colour 0-255>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_COLOUR_0_255_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_P_COLOUR_0_255_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_P_COLOUR_0_255_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_P_COLOUR_0_255_DE, "<Farbe 0-255>"},
+/* es */ {IDCLS_P_COLOUR_0_255_ES, "<Color 0-255>"},
 /* fr */ {IDCLS_P_COLOUR_0_255_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_COLOUR_0_255_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_COLOUR_0_255_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_P_COLOUR_0_255_IT, "<Colore 0-255>"},
 /* ko */ {IDCLS_P_COLOUR_0_255_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_COLOUR_0_255_NL, "<Kleur 0-255>"},
 /* pl */ {IDCLS_P_COLOUR_0_255_PL, ""},  /* fuzzy */
@@ -9073,11 +9074,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_PET4032_COLOUR_BACKGROUND,    N_("Analog colour background on PET 4032")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PET4032_COLOUR_BACKGROUND_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_PET4032_COLOUR_BACKGROUND_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_PET4032_COLOUR_BACKGROUND_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_PET4032_COLOUR_BACKGROUND_DE, "Analog Hintergrundfarbe für PET 4032"},
+/* es */ {IDCLS_PET4032_COLOUR_BACKGROUND_ES, "Color del fondo analógico para PET 4032"},
 /* fr */ {IDCLS_PET4032_COLOUR_BACKGROUND_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_PET4032_COLOUR_BACKGROUND_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_PET4032_COLOUR_BACKGROUND_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_PET4032_COLOUR_BACKGROUND_IT, "Coloro sfondo analogico su PET 4032"},
 /* ko */ {IDCLS_PET4032_COLOUR_BACKGROUND_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_PET4032_COLOUR_BACKGROUND_NL, "Analoge kleuren achtergrond voor de PET 4032"},
 /* pl */ {IDCLS_PET4032_COLOUR_BACKGROUND_PL, ""},  /* fuzzy */
@@ -10211,7 +10212,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_SIDCART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_SIDCART_IT, "Attiva cartuccia SID"},
 /* ko */ {IDCLS_ENABLE_SIDCART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_SIDCART_NL, "*Activeer de SID cartridge"},
+/* nl */ {IDCLS_ENABLE_SIDCART_NL, "Activeer de SID cartridge"},
 /* pl */ {IDCLS_ENABLE_SIDCART_PL, "W³±cz kartrid¿ SID"},
 /* ru */ {IDCLS_ENABLE_SIDCART_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_SIDCART_SV, "Aktivera SID-insticksmodul"},
@@ -13909,7 +13910,7 @@ translate_t string_table[] = {
 /* es */ {IDCLS_ENABLE_JIFFY_SWITCH_ES, "Encender conmutador Jiffy"},
 /* fr */ {IDCLS_ENABLE_JIFFY_SWITCH_FR, "Activer la jiffy Switch"},
 /* hu */ {IDCLS_ENABLE_JIFFY_SWITCH_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_JIFFY_SWITCH_IT, "Attiva interruttore Jiffy"},
+/* it */ {IDCLS_ENABLE_JIFFY_SWITCH_IT, "Attiva pulsante Jiffy"},
 /* ko */ {IDCLS_ENABLE_JIFFY_SWITCH_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_JIFFY_SWITCH_NL, "Activeer Jiffy schakelaar"},
 /* pl */ {IDCLS_ENABLE_JIFFY_SWITCH_PL, "W³±cz prze³±cznik Jiffy"},
@@ -13926,7 +13927,7 @@ translate_t string_table[] = {
 /* es */ {IDCLS_DISABLE_JIFFY_SWITCH_ES, "Apagar conmutador Jiffy"},
 /* fr */ {IDCLS_DISABLE_JIFFY_SWITCH_FR, "Désactiver Jiffy Switch"},
 /* hu */ {IDCLS_DISABLE_JIFFY_SWITCH_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_JIFFY_SWITCH_IT, "Disattiva interruttore Jiffy"},
+/* it */ {IDCLS_DISABLE_JIFFY_SWITCH_IT, "Disattiva pulsante Jiffy"},
 /* ko */ {IDCLS_DISABLE_JIFFY_SWITCH_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_JIFFY_SWITCH_NL, "Jiffy schakelaar uitschakelen"},
 /* pl */ {IDCLS_DISABLE_JIFFY_SWITCH_PL, "Wy³±cz prze³±cznik Jiffy"},
@@ -13943,7 +13944,7 @@ translate_t string_table[] = {
 /* es */ {IDCLS_ENABLE_SPEED_SWITCH_ES, "Encender conmutador de velocidad"},
 /* fr */ {IDCLS_ENABLE_SPEED_SWITCH_FR, "Activer Speed Switch"},
 /* hu */ {IDCLS_ENABLE_SPEED_SWITCH_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_SPEED_SWITCH_IT, "Attiva interruttore di velocità"},
+/* it */ {IDCLS_ENABLE_SPEED_SWITCH_IT, "Attiva pulsante di velocità"},
 /* ko */ {IDCLS_ENABLE_SPEED_SWITCH_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_SPEED_SWITCH_NL, "Activeer snelheid schakelaar"},
 /* pl */ {IDCLS_ENABLE_SPEED_SWITCH_PL, "W³±cz prze³±cznik Speed"},
@@ -13960,7 +13961,7 @@ translate_t string_table[] = {
 /* es */ {IDCLS_DISABLE_SPEED_SWITCH_ES, "Apagar conmutador de velocidad"},
 /* fr */ {IDCLS_DISABLE_SPEED_SWITCH_FR, "Désactiver la Speed Switch"},
 /* hu */ {IDCLS_DISABLE_SPEED_SWITCH_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_SPEED_SWITCH_IT, "Disattiva interruttore di velocità"},
+/* it */ {IDCLS_DISABLE_SPEED_SWITCH_IT, "Disattiva pulsante di velocità"},
 /* ko */ {IDCLS_DISABLE_SPEED_SWITCH_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_SPEED_SWITCH_NL, "Snelheid schakelaar uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SPEED_SWITCH_PL, "Wy³±cz prze³±cznik Speed"},
@@ -13973,11 +13974,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD,    N_("Enable HiRes Emulation Board")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_DE, "HiRes Emulation Board aktivieren"},
+/* es */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_ES, "Permitir emulación tableta de alta resolución"},
 /* fr */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_IT, "Attiva scheda HiRes Emulation"},
 /* ko */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_NL, "Activeer PET High Res Emulation bord"},
 /* pl */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_PL, ""},  /* fuzzy */
@@ -13990,11 +13991,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD,    N_("Disable HiRes Emulation Board")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_DE, "HiRes Emulation Board aktivieren"},
+/* es */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_ES, "Deshabilitar emulación tableta de alta resolución"},
 /* fr */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_IT, "Disattiva scheda HiRes Emulation"},
 /* ko */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_NL, "PET High Res Emulation bord uitschakelen"},
 /* pl */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_PL, ""},  /* fuzzy */

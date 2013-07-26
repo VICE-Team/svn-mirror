@@ -26,6 +26,7 @@
 
 intl_translate_t intl_string_table[] = {
 
+
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },
@@ -4214,11 +4215,11 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_PETCOLOUR_SETTINGS,    "PET Colour board settings..." },
 /* da */ { IDMS_PETCOLOUR_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_PETCOLOUR_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_PETCOLOUR_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDMS_PETCOLOUR_SETTINGS_DE, "PET Farbkarte Einstellungen..." },
+/* es */ { IDMS_PETCOLOUR_SETTINGS_ES, "Ajustes color PET..." },
 /* fr */ { IDMS_PETCOLOUR_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_PETCOLOUR_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_PETCOLOUR_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_PETCOLOUR_SETTINGS_IT, "Impostazioni scheda PET Colour..." },
 /* ko */ { IDMS_PETCOLOUR_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_PETCOLOUR_SETTINGS_NL, "PET Colour bord instellingen..." },
 /* pl */ { IDMS_PETCOLOUR_SETTINGS_PL, "" },  /* fuzzy */
@@ -7186,7 +7187,7 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_ISEPIC_SWITCH_ES, "interruptor ISEPIC" },
 /* fr */ { IDS_ISEPIC_SWITCH_FR, "Paramètres d'interrupteur ISEPIC" },
 /* hu */ { IDS_ISEPIC_SWITCH_HU, "" },  /* fuzzy */
-/* it */ { IDS_ISEPIC_SWITCH_IT, "Interruttore ISEPIC" },
+/* it */ { IDS_ISEPIC_SWITCH_IT, "Pulsante ISEPIC" },
 /* ko */ { IDS_ISEPIC_SWITCH_KO, "" },  /* fuzzy */
 /* nl */ { IDS_ISEPIC_SWITCH_NL, "ISEPIC schakelaar" },
 /* pl */ { IDS_ISEPIC_SWITCH_PL, "Prze³±cznik ISEPIC" },
@@ -7925,11 +7926,11 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_RGBI,    "RGBI" },
 /* da */ { IDS_RGBI_DA, "" },  /* fuzzy */
-/* de */ { IDS_RGBI_DE, "" },  /* fuzzy */
-/* es */ { IDS_RGBI_ES, "" },  /* fuzzy */
+/* de */ { IDS_RGBI_DE, "RGBI" },
+/* es */ { IDS_RGBI_ES, "RGBI" },
 /* fr */ { IDS_RGBI_FR, "" },  /* fuzzy */
 /* hu */ { IDS_RGBI_HU, "" },  /* fuzzy */
-/* it */ { IDS_RGBI_IT, "" },  /* fuzzy */
+/* it */ { IDS_RGBI_IT, "RGBI" },
 /* ko */ { IDS_RGBI_KO, "" },  /* fuzzy */
 /* nl */ { IDS_RGBI_NL, "RGBI" },
 /* pl */ { IDS_RGBI_PL, "" },  /* fuzzy */
@@ -7939,11 +7940,11 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_ANALOG,    "Analog" },
 /* da */ { IDS_ANALOG_DA, "" },  /* fuzzy */
-/* de */ { IDS_ANALOG_DE, "" },  /* fuzzy */
-/* es */ { IDS_ANALOG_ES, "" },  /* fuzzy */
+/* de */ { IDS_ANALOG_DE, "Analog" },
+/* es */ { IDS_ANALOG_ES, "Analógico" },
 /* fr */ { IDS_ANALOG_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ANALOG_HU, "" },  /* fuzzy */
-/* it */ { IDS_ANALOG_IT, "" },  /* fuzzy */
+/* it */ { IDS_ANALOG_IT, "Analogico" },
 /* ko */ { IDS_ANALOG_KO, "" },  /* fuzzy */
 /* nl */ { IDS_ANALOG_NL, "Analoog" },
 /* pl */ { IDS_ANALOG_PL, "" },  /* fuzzy */
@@ -7953,11 +7954,11 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PET_COLOUR_TYPE,    "PET Colour type" },
 /* da */ { IDS_PET_COLOUR_TYPE_DA, "" },  /* fuzzy */
-/* de */ { IDS_PET_COLOUR_TYPE_DE, "" },  /* fuzzy */
-/* es */ { IDS_PET_COLOUR_TYPE_ES, "" },  /* fuzzy */
+/* de */ { IDS_PET_COLOUR_TYPE_DE, "PET Farbtyp" },
+/* es */ { IDS_PET_COLOUR_TYPE_ES, "Tipo de color PET" },
 /* fr */ { IDS_PET_COLOUR_TYPE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PET_COLOUR_TYPE_HU, "" },  /* fuzzy */
-/* it */ { IDS_PET_COLOUR_TYPE_IT, "" },  /* fuzzy */
+/* it */ { IDS_PET_COLOUR_TYPE_IT, "Tipo PET Colour" },
 /* ko */ { IDS_PET_COLOUR_TYPE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_PET_COLOUR_TYPE_NL, "PET Colour soort" },
 /* pl */ { IDS_PET_COLOUR_TYPE_PL, "" },  /* fuzzy */
@@ -7967,11 +7968,11 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PET_COLOUR_BACKGROUND,    "PET Colour background" },
 /* da */ { IDS_PET_COLOUR_BACKGROUND_DA, "" },  /* fuzzy */
-/* de */ { IDS_PET_COLOUR_BACKGROUND_DE, "" },  /* fuzzy */
-/* es */ { IDS_PET_COLOUR_BACKGROUND_ES, "" },  /* fuzzy */
+/* de */ { IDS_PET_COLOUR_BACKGROUND_DE, "PET Hintergrundfarbe" },
+/* es */ { IDS_PET_COLOUR_BACKGROUND_ES, "Color del fondo PET" },
 /* fr */ { IDS_PET_COLOUR_BACKGROUND_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PET_COLOUR_BACKGROUND_HU, "" },  /* fuzzy */
-/* it */ { IDS_PET_COLOUR_BACKGROUND_IT, "" },  /* fuzzy */
+/* it */ { IDS_PET_COLOUR_BACKGROUND_IT, "Sfondo PET Colour" },
 /* ko */ { IDS_PET_COLOUR_BACKGROUND_KO, "" },  /* fuzzy */
 /* nl */ { IDS_PET_COLOUR_BACKGROUND_NL, "PET Colour achtergrond kleur" },
 /* pl */ { IDS_PET_COLOUR_BACKGROUND_PL, "" },  /* fuzzy */
@@ -7981,11 +7982,11 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PET_COLOUR_SETTINGS,    "PET Colour settings" },
 /* da */ { IDS_PET_COLOUR_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_PET_COLOUR_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDS_PET_COLOUR_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDS_PET_COLOUR_SETTINGS_DE, "PET Farb Einstellungen" },
+/* es */ { IDS_PET_COLOUR_SETTINGS_ES, "Ajustes color PET" },
 /* fr */ { IDS_PET_COLOUR_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PET_COLOUR_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_PET_COLOUR_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_PET_COLOUR_SETTINGS_IT, "Impostazioni PET Colour" },
 /* ko */ { IDS_PET_COLOUR_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_PET_COLOUR_SETTINGS_NL, "PET Colour instellingen" },
 /* pl */ { IDS_PET_COLOUR_SETTINGS_PL, "" },  /* fuzzy */
@@ -10897,7 +10898,7 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_ES, "Seleccionar fichero ROM función interno" },
 /* fr */ { IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_FR, "Sélectionner le fichier image ROM Fonction interne" },
 /* hu */ { IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_HU, "Adja meg a belsõ Function ROM képmás nevét" },
-/* it */ { IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_IT, "Seleziona file function ROM interna" },
+/* it */ { IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_IT, "Seleziona file Function ROM interna" },
 /* ko */ { IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_NL, "Selecteer intern functie ROM bestand" },
 /* pl */ { IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_PL, "Wybierz plik wewnêtrznego Function ROM-u" },
@@ -10911,7 +10912,7 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_ES, "Seleccionar fichero ROM función externo" },
 /* fr */ { IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_FR, "Sélectionner le fichier image ROM Fonction externe" },
 /* hu */ { IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_HU, "Adja meg a külsõ Function ROM képmás nevét" },
-/* it */ { IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_IT, "Seleziona file function ROM esterna" },
+/* it */ { IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_IT, "Seleziona file Function ROM esterna" },
 /* ko */ { IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_NL, "Selecteer extern functie ROM bestand" },
 /* pl */ { IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_PL, "Wybierz plik zewnêtrznego Function ROM-u" },
@@ -11219,7 +11220,7 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_SCPU64_JIFFY_ENABLED_ES, "Permitir conmutador Jiffy" },
 /* fr */ { IDS_SCPU64_JIFFY_ENABLED_FR, "Jiffy switch activée" },
 /* hu */ { IDS_SCPU64_JIFFY_ENABLED_HU, "" },  /* fuzzy */
-/* it */ { IDS_SCPU64_JIFFY_ENABLED_IT, "Interruttore Jiffy attivo" },
+/* it */ { IDS_SCPU64_JIFFY_ENABLED_IT, "Pulsante Jiffy attivo" },
 /* ko */ { IDS_SCPU64_JIFFY_ENABLED_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SCPU64_JIFFY_ENABLED_NL, "Jiffy schakelaar Aan/Uit" },
 /* pl */ { IDS_SCPU64_JIFFY_ENABLED_PL, "Prze³±cznik jiffy w³±czony" },
@@ -11233,7 +11234,7 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_SCPU64_SPEED_ENABLED_ES, "Permitir conmutador de velocidad" },
 /* fr */ { IDS_SCPU64_SPEED_ENABLED_FR, "Speed switch activée" },
 /* hu */ { IDS_SCPU64_SPEED_ENABLED_HU, "" },  /* fuzzy */
-/* it */ { IDS_SCPU64_SPEED_ENABLED_IT, "Interruttore di velocità attivo" },
+/* it */ { IDS_SCPU64_SPEED_ENABLED_IT, "Pulsante di velocità attivo" },
 /* ko */ { IDS_SCPU64_SPEED_ENABLED_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SCPU64_SPEED_ENABLED_NL, "Snelheid schakelaar Aan/Uit" },
 /* pl */ { IDS_SCPU64_SPEED_ENABLED_PL, "Prze³±cznik speed w³±czony" },
@@ -11355,11 +11356,11 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_VERY_SMALL,    "Very small" },
 /* da */ { IDS_VERY_SMALL_DA, "" },  /* fuzzy */
-/* de */ { IDS_VERY_SMALL_DE, "" },  /* fuzzy */
-/* es */ { IDS_VERY_SMALL_ES, "" },  /* fuzzy */
+/* de */ { IDS_VERY_SMALL_DE, "Sehr klein" },
+/* es */ { IDS_VERY_SMALL_ES, "Muy pequeño" },
 /* fr */ { IDS_VERY_SMALL_FR, "" },  /* fuzzy */
 /* hu */ { IDS_VERY_SMALL_HU, "" },  /* fuzzy */
-/* it */ { IDS_VERY_SMALL_IT, "" },  /* fuzzy */
+/* it */ { IDS_VERY_SMALL_IT, "Molto piccolo" },
 /* ko */ { IDS_VERY_SMALL_KO, "" },  /* fuzzy */
 /* nl */ { IDS_VERY_SMALL_NL, "Erg klein" },
 /* pl */ { IDS_VERY_SMALL_PL, "Bardzo ma³e" },
@@ -11411,11 +11412,11 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_VERY_LARGE,    "Very large" },
 /* da */ { IDS_VERY_LARGE_DA, "" },  /* fuzzy */
-/* de */ { IDS_VERY_LARGE_DE, "" },  /* fuzzy */
-/* es */ { IDS_VERY_LARGE_ES, "" },  /* fuzzy */
+/* de */ { IDS_VERY_LARGE_DE, "Sehr groß" },
+/* es */ { IDS_VERY_LARGE_ES, "Muy grande" },
 /* fr */ { IDS_VERY_LARGE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_VERY_LARGE_HU, "" },  /* fuzzy */
-/* it */ { IDS_VERY_LARGE_IT, "" },  /* fuzzy */
+/* it */ { IDS_VERY_LARGE_IT, "Molto grande" },
 /* ko */ { IDS_VERY_LARGE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_VERY_LARGE_NL, "Erg groot" },
 /* pl */ { IDS_VERY_LARGE_PL, "Bardzo du¿e" },

@@ -55,11 +55,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
-  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_CAPTION    "PET Farbkarte Einstellungen"
+  IDS_PETCOLOUR_TYPE       "PET Farbtyp"
   IDS_PETCOLOUR_OFF        "Aus"
   IDS_PETCOLOUR_ANALOG     "Analog"
-  IDS_PETCOLOUR_BACKGROUND "Background color"
+  IDS_PETCOLOUR_BACKGROUND "Hintergrundfarbe"
 END
 
 
@@ -68,11 +68,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
-  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_CAPTION    "Ajustes color PET"
+  IDS_PETCOLOUR_TYPE       "Tipo de color PET"
   IDS_PETCOLOUR_OFF        "Apagado"
-  IDS_PETCOLOUR_ANALOG     "Analog"
-  IDS_PETCOLOUR_BACKGROUND "Background color"
+  IDS_PETCOLOUR_ANALOG     "Analógico"
+  IDS_PETCOLOUR_BACKGROUND "Color del fondo"
 END
 
 
@@ -113,11 +113,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
-  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_CAPTION    "Impostazioni scheda PET Colour"
+  IDS_PETCOLOUR_TYPE       "Tipo PET Colour"
   IDS_PETCOLOUR_OFF        "No"
-  IDS_PETCOLOUR_ANALOG     "Analog"
-  IDS_PETCOLOUR_BACKGROUND "Background color"
+  IDS_PETCOLOUR_ANALOG     "Analogico"
+  IDS_PETCOLOUR_BACKGROUND "Colore dello sfondo"
 END
 
 

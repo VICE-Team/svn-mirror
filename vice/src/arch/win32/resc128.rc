@@ -904,7 +904,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Internes Funktions ROM Typ"
   IDS_FILE_NAME                 "Dateiname"
   IDS_EXT_FUNCTION_ROM          "Externes Funktions ROM"
-  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
+  IDS_EXT_FUNCTION_ROM_TYPE     "Externes Funktions ROM Typ"
   IDS_C128_FULL_BANKS           "RAM Bänke 2 und 3 aktivieren"
   IDS_C128MODEL                 "C128 Modell"
   IDS_MP_VDC_SETTINGS           "VDC Einstellungen"
@@ -966,7 +966,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Tipo  Function ROM interna"
   IDS_FILE_NAME                 "nombre de fichero"
   IDS_EXT_FUNCTION_ROM          "ROM de función externa"
-  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
+  IDS_EXT_FUNCTION_ROM_TYPE     "Tipo  Function ROM externa"
   IDS_C128_FULL_BANKS           "Permitir bancos 2 y 3"
   IDS_C128MODEL                 "Modelo C128"
   IDS_MP_VDC_SETTINGS           "Ajustes VDC"
@@ -1113,8 +1113,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM   "Seleziona file function ROM interna"
-  IDS_SELECT_EXT_FUNCTION_ROM   "Seleziona file function ROM esterna"
+  IDS_SELECT_INT_FUNCTION_ROM   "Seleziona file Function ROM interna"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Seleziona file Function ROM esterna"
   IDS_MACHINE_TYPE              "Tipo computer"
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_RAM_BANKS                 "Banchi di Ram"
@@ -1158,7 +1158,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Tipo function ROM interna"
   IDS_FILE_NAME                 "Nome file"
   IDS_EXT_FUNCTION_ROM          "Function ROM esterna"
-  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
+  IDS_EXT_FUNCTION_ROM_TYPE     "Tipo Function ROM esterna"
   IDS_C128_FULL_BANKS           "Attiva banchi RAM 2 e 3"
   IDS_C128MODEL                 "Modello C128"
   IDS_MP_VDC_SETTINGS           "Impostazioni VDC"

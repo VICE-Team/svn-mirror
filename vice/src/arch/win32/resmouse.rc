@@ -68,9 +68,9 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_MOUSE_TYPE_LABEL        "Maustyp"
   IDS_MOUSE_PORT_LABEL        "Maus Port"
-  IDS_P_SENSITIVITY           "<sensitivity>"
-  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
-  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
+  IDS_P_SENSITIVITY           "<Sensibilität>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensibilität der Maus [40]."
+  IDS_MOUSE_SENSITIVITY_LABEL "Maus Sensibilität"
 END
 
 
@@ -81,9 +81,9 @@ LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MOUSE_TYPE_LABEL        "Tipo ratón"
   IDS_MOUSE_PORT_LABEL        "Puerto del ratón"
-  IDS_P_SENSITIVITY           "<sensitivity>"
-  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
-  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
+  IDS_P_SENSITIVITY           "<sensibilidad>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensibilidad del ratón. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Sensibilidad del ratón"
 END
 
 
@@ -126,9 +126,9 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_MOUSE_TYPE_LABEL        "Tipo di mouse"
   IDS_MOUSE_PORT_LABEL        "Porta del mouse"
-  IDS_P_SENSITIVITY           "<sensitivity>"
-  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
-  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
+  IDS_P_SENSITIVITY           "<sensibilità>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensibilità del mouse. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Sensibilità mouse"
 END
 
 
