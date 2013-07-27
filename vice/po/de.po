@@ -7704,9 +7704,8 @@ msgid "Third SID at"
 msgstr "Dritter SID auf"
 
 #: src/arch/win32/ressid.rc.po.c:82 src/arch/win32/ressiddtv.rc.po.c:60
-#, fuzzy
 msgid "reSID options"
-msgstr "reSID/reSID-fp Optionen"
+msgstr "reSID Optionen"
 
 #: src/arch/win32/ressid.rc.po.c:83 src/arch/win32/ressiddtv.rc.po.c:61
 #: src/arch/amigaos/intl_text.c.po.c:9036
