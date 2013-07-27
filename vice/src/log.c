@@ -57,7 +57,6 @@ static void log_file_open(void)
 {
     if (log_file_name == NULL || *log_file_name == 0) {
         log_file = archdep_open_default_log_file();
-        return;
     } else {
 #ifndef __OS2__
         if (strcmp(log_file_name, "-") == 0) {
