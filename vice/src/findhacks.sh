@@ -21,7 +21,29 @@ ARCHDEFS+=" __XBOX__"
 ARCHDEFS+=" ANDROID_COMPILE"
 ARCHDEFS+=" ANDROID"
 ARCHDEFS+=" __INTERIX"
-# todo: seperated check for CPU defs, exclude "platform" dir
+ARCHDEFS+=" __sgi"
+ARCHDEFS+=" sgi"
+ARCHDEFS+=" __hpux"
+ARCHDEFS+=" _hpux"
+ARCHDEFS+=" sun"
+ARCHDEFS+=" __sun"
+ARCHDEFS+=" __SVR4"
+ARCHDEFS+=" __svr4__"
+ARCHDEFS+=" __QNX__"
+ARCHDEFS+=" __QNXNTO__"
+ARCHDEFS+=" __osf__"
+ARCHDEFS+=" __osf"
+ARCHDEFS+=" __APPLE__"
+ARCHDEFS+=" __MACH__"
+ARCHDEFS+=" __FreeBSD__"
+ARCHDEFS+=" __NetBSD__"
+ARCHDEFS+=" __DragonflyBSD__"
+ARCHDEFS+=" __HAIKU__"
+ARCHDEFS+=" __OpenBSD__"
+ARCHDEFS+=" __DragonFly__"
+ARCHDEFS+=" __bsdi__"
+
+# todo: seperated check for CPU defs
 ARCHDEFS+=" __i386__"
 ARCHDEFS+=" __i486__"
 ARCHDEFS+=" __i586__"
@@ -50,6 +72,8 @@ CCARCHDEFS+=" __WATCOMC__"
 CCARCHDEFS+=" __VBCC__"
 CCARCHDEFS+=" __ICC"
 CCARCHDEFS+=" __DMC__"
+CCARCHDEFS+=" __IBMC__"
+CCARCHDEFS+=" llvm"
 
 # list of OBSOLETE resources. whenever a resource gets removed or even just
 # renamed, it should get added here (comment them out if no more are left)
@@ -127,7 +151,7 @@ OBSOLETERESOURCES+=" PALOddLineOffset"
 function findifdefs
 {
     echo "checking define: \"$1\""
-    find -wholename './arch' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' 
+    find -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' 
     echo " "
 }
 
@@ -140,7 +164,7 @@ function findifdefsfulltree
 
 function finddefsfiles
 {
-    FILES+=`find -wholename './arch' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'`
+    FILES+=`find -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'`
 }
 
 function finddefsfilesfulltree
