@@ -2919,40 +2919,6 @@ void ui_error_string(const char *text)
 {
 }
 
-#ifdef WIN32
-/* Kludge! Will be removed someday.  */
-size_t system_wcstombs(char *mbs, const char *wcs, size_t len)
-{
-    strncpy(mbs, wcs, len);
-    return strlen(mbs);
-}
-
-size_t system_mbstowcs(char *wcs, const char *mbs, size_t len)
-{
-    strncpy(wcs, mbs, len);
-    return strlen(wcs);
-}
-
-char *system_mbstowcs_alloc(const char *mbs)
-{
-    char *wcs;
-
-    if (mbs == NULL) {
-        return NULL;
-    }
-
-    wcs = lib_malloc((strlen(mbs) + 1) * sizeof(char));
-    system_mbstowcs(wcs, mbs, strlen(mbs) + 1);
-
-    return wcs;
-}
-
-void system_mbstowcs_free(char *wcs)
-{
-    lib_free(wcs);
-}
-#endif
-
 void archdep_ui_init(int argc, char *argv[])
 {
 }

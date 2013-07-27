@@ -723,3 +723,6 @@ char *archdep_get_runtime_cpu(void)
     return "Unknown CPU";
 #endif
 }
+
+/* include system.c here, instead of compiling it seperatly */
+#include "system.c"

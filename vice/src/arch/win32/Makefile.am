@@ -130,7 +130,6 @@ libarch_a_SOURCES = \
 	socketimpl.h \
 	statusbar.c \
 	statusbar.h \
-	system.c \
 	rawnetarch.c \
 	types.h \
 	ui-resources.c \
