@@ -444,7 +444,7 @@ static const mon_cmds_t mon_cmd_array[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       NULL, 0,
       { IDGS_UNUSED, IDGS_UNUSED, IDGS_UNUSED, IDGS_UNUSED },
-#ifdef OS2
+#ifdef __OS2__
       IDGS_MON_EXIT_DESCRIPTION,
 #else
       IDGS_MON_QUIT_DESCRIPTION,

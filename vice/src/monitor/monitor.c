@@ -629,7 +629,7 @@ void mon_exit(void)
    So I decided to skip this (I think it's unnecessary for OS/2 */
 void mon_quit(void)
 {
-#ifdef OS2
+#ifdef __OS2__
     /* same as "quit" */
     exit_mon = 1;
 #else
