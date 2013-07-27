@@ -73,7 +73,7 @@
 #define PLATFORM_COMPILER "msvc11/vs2012"
 #endif
 
-#ifndef PLATFORM_COMPILER
+#if !defined(PLATFORM_COMPILER) && defined(_MSC_VER)
 #define PLATFORM_COMPILER "msvc"
 #endif
 
