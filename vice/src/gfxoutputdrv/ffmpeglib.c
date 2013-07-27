@@ -29,26 +29,14 @@
 
 #ifdef HAVE_FFMPEG
 
+#include "archdep.h"
 #include "gfxoutputdrv/ffmpeglib.h"
 #include "log.h"
 #include "translate.h"
 #include "uiapi.h"
 #include "dynlib.h"
 
-#ifdef WIN32
-#define MAKE_SO_NAME(name, version)  #name "-" #version ".dll"
-#else
-#ifdef MACOSX_SUPPORT
-#define MAKE_SO_NAME(name, version)  "/opt/local/lib/lib" #name "." #version ".dylib"
-#else
-#define MAKE_SO_NAME(name, version)  "lib" #name ".so." #version
-#endif
-#endif
-
-// add second level macro to allow expansion and stringification
-#define MAKE_SO_NAME2(n, v) MAKE_SO_NAME(n, v)
-
-// define major version if its not already defined
+/* define major version if its not already defined */
 #ifndef LIBAVCODEC_VERSION_MAJOR
 #define LIBAVCODEC_VERSION_MAJOR  51
 #endif
@@ -64,10 +52,10 @@
 #define LIBSWSCALE_VERSION_MAJOR  0
 #endif
 
-#define AVCODEC_SO_NAME     MAKE_SO_NAME2(avcodec, LIBAVCODEC_VERSION_MAJOR)
-#define AVFORMAT_SO_NAME    MAKE_SO_NAME2(avformat, LIBAVFORMAT_VERSION_MAJOR)
-#define AVUTIL_SO_NAME      MAKE_SO_NAME2(avutil, LIBAVUTIL_VERSION_MAJOR)
-#define SWSCALE_SO_NAME     MAKE_SO_NAME2(swscale, LIBSWSCALE_VERSION_MAJOR)
+#define AVCODEC_SO_NAME     MAKE_SO_NAME_VERSION(avcodec, LIBAVCODEC_VERSION_MAJOR)
+#define AVFORMAT_SO_NAME    MAKE_SO_NAME_VERSION(avformat, LIBAVFORMAT_VERSION_MAJOR)
+#define AVUTIL_SO_NAME      MAKE_SO_NAME_VERSION(avutil, LIBAVUTIL_VERSION_MAJOR)
+#define SWSCALE_SO_NAME     MAKE_SO_NAME_VERSION(swscale, LIBSWSCALE_VERSION_MAJOR)
 
 static void *avcodec_so = NULL;
 static void *avformat_so = NULL;

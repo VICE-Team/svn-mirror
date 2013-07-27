@@ -133,4 +133,21 @@ extern const char *archdep_pref_path;
 
 #define VICEUSERDIR ".vice"
 
+#ifdef MACOSX_SUPPORT
+#define MAKE_SO_NAME_VERSION_PROTO(name, version)  "/opt/local/lib/lib" #name "." #version ".dylib"
+#else
+#define MAKE_SO_NAME_VERSION_PROTO(name, version)  "lib" #name ".so." #version
+#endif
+
+/* add second level macro to allow expansion and stringification */
+#define MAKE_SO_NAME_VERSION(n, v) MAKE_SO_NAME_VERSION_PROTO(n, v)
+
+#ifdef MACOSX_SUPPORT
+#define OPENCBM_SO_NAME  "/opt/opencbm/lib/libopencbm.dylib"
+#define LAME_SO_NAME     "/opt/local/lib/libmp3lame.dylib"
+#else
+#define OPENCBM_SO_NAME  "libopencbm.so"
+#define LAME_SO_NAME     "libmp3lame.so"
+#endif
+
 #endif

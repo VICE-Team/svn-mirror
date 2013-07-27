@@ -31,19 +31,10 @@
 
 #include <stdio.h>
 
+#include "archdep.h"
 #include "log.h"
 #include "opencbmlib.h"
 #include "dynlib.h"
-
-#ifdef WIN32
-#define OPENCBM_SO_NAME  "opencbm.dll"
-#else
-#ifdef MACOSX_SUPPORT
-#define OPENCBM_SO_NAME  "/opt/opencbm/lib/libopencbm.dylib"
-#else
-#define OPENCBM_SO_NAME  "libopencbm.so"
-#endif
-#endif
 
 static void *opencbm_so = NULL;
 
