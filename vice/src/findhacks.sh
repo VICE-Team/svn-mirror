@@ -42,6 +42,10 @@ ARCHDEFS+=" __HAIKU__"
 ARCHDEFS+=" __OpenBSD__"
 ARCHDEFS+=" __DragonFly__"
 ARCHDEFS+=" __bsdi__"
+ARCHDEFS+=" MINIXVMD"
+ARCHDEFS+=" MINIX_SUPPORT"
+ARCHDEFS+=" VMS"
+ARCHDEFS+=" __NeXT__"
 
 # todo: seperated check for CPU defs
 ARCHDEFS+=" __i386__"
