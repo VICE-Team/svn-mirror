@@ -115,4 +115,9 @@ extern void archdep_workaround_nop(const char *otto);
 #define OPENCBM_SO_NAME  "opencbm.dll"
 #define LAME_SO_NAME     "lame.dll"
 
+/* Define HAVE_GIF when not defined */
+#ifndef HAVE_GIF
+#define HAVE_GIF
+#endif
+
 #endif

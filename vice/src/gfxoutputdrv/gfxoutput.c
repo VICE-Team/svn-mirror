@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "bmpdrv.h"
 #include "gfxoutput.h"
 #include "lib.h"
@@ -102,7 +103,7 @@ int gfxoutput_early_init(int drivers)
         gfxoutput_init_bmp();
         gfxoutput_init_doodle();
         gfxoutput_init_koala();
-#if defined(HAVE_GIF) || (defined(WIN32) && !defined(USE_SDLUI))
+#ifdef HAVE_GIF
         gfxoutput_init_gif();
 #endif
         gfxoutput_init_iff();
