@@ -171,12 +171,12 @@ char *findpath(const char *cmd, const char *syspath, int mode)
             memcpy(p, cmd, cl);
 
             for (c = buf + 1; *c != '\0'; c++) {
-#if (FSDEV_DIR_SEP_CHR == '/')
+#if (FSDEV_DIR_SEP_CHR == '\\')
                 if (*c == '/') {
                     *c = '\\';
                 }
 #else
-#if (FSDEV_DIR_SEP_CHR == '\\')
+#if (FSDEV_DIR_SEP_CHR == '/')
                 if (*c == '\\') {
                     *c = '/';
                 }
