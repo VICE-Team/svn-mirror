@@ -76,7 +76,7 @@ static char *boot_path = NULL;
 /* alternate storage of preferences */
 const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
 
-#if defined(DINGUX) || defined(DINGUX_SDL) || defined(GP2X) || defined(GP2X_SDL)
+#if defined(DINGUX) || defined(DINGUX_SDL)
 #define USE_PROC_SELF_EXE
 #define USE_EXE_RELATIVE_TMP
 #endif

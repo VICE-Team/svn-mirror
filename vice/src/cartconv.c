@@ -194,7 +194,7 @@ char *strdup(const char *string)
 }
 #endif
 
-#if !defined(HAVE_STRNCASECMP) && !defined(GP2X_SDL)
+#if !defined(HAVE_STRNCASECMP)
 static const unsigned char charmap[] = {
     '\000', '\001', '\002', '\003', '\004', '\005', '\006', '\007',
     '\010', '\011', '\012', '\013', '\014', '\015', '\016', '\017',

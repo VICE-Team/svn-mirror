@@ -130,9 +130,7 @@ const char *archdep_boot_path(void)
 const char *archdep_home_path(void)
 {
     char *home;
-#if defined(GP2X) || defined(WIZ)
-    home = ".";
-#else
+
     home = getenv("HOME");
     if (home == NULL) {
 #ifdef HAVE_GETPWUID
@@ -147,7 +145,6 @@ const char *archdep_home_path(void)
         home = ".";
 #endif
     }
-#endif
 
     return home;
 }
@@ -455,13 +452,6 @@ char *archdep_quote_parameter(const char *name)
 
 char *archdep_tmpnam(void)
 {
-#if defined(GP2X) || defined(WIZ)
-    static unsigned int tmp_string_counter = 0;
-    char tmp_string[32];
-
-    sprintf(tmp_string, "vice%d.tmp", tmp_string_counter++);
-    return lib_stralloc(tmp_string);
-#else
 #ifdef HAVE_MKSTEMP
     char *tmp_name;
     const char mkstemp_template[] = "/vice.XXXXXX";
@@ -489,29 +479,11 @@ char *archdep_tmpnam(void)
 #else
     return lib_stralloc(tmpnam(NULL));
 #endif
-#endif
 }
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 {
-#if defined(GP2X) || defined(WIZ)
-    static unsigned int tmp_string_counter = 0;
-    char *tmp;
-    FILE *fd;
-
-    tmp = lib_msprintf("vice%d.tmp", tmp_string_counter++);
-
-    fd = fopen(tmp, mode);
-
-    if (fd == NULL) {
-        lib_free(tmp);
-        return NULL;
-    }
-
-    *filename = tmp;
-
-    return fd;
-#elif defined HAVE_MKSTEMP
+#if defined HAVE_MKSTEMP
     char *tmp;
     const char template[] = "/vice.XXXXXX";
     int fildes;
