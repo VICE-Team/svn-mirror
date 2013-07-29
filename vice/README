@@ -21,8 +21,8 @@
 
  This is version 2.4 of VICE, the multi-platform C64, C128, VIC20,
  PET, PLUS4 and CBM-II emulator.  This version can be compiled for
- MSDOS, Win32, RiscOS, OS/2, BeOS, QNX 4.x, QNX 6.x, AmigaOS, GP2X,
- Dingoo, Syllable, SkyOS and for most Unix systems provided with
+ MSDOS, Win32, OS/2, BeOS, QNX 4.x, QNX 6.x, AmigaOS, Dingoo,
+ Syllable, SkyOS and for most Unix systems provided with
  the X Window System version 11, R5 or later.
 
  The following programs are included:
@@ -122,7 +122,6 @@
      - Win32-Mingw32-Howto.txt, how to compile the Win32 port using ming32
      - Win32-Cygwin-Howto.txt, how to compile the Win32 port using cygwin
      - Linux-Mingw32-Howto.txt, how to crosscompile the Win32 port on linux
-     - GP2X-Howto.txt, how to compile the GP2X port
      - MacOSX-Howto.txt, how to compile the Mac OSX port
      - Minix-Howto.txt, how to compile the Minix port
      - OpenVMS-Howto.txt, how to compile the OpenVMS port

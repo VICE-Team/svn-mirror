@@ -532,7 +532,6 @@ _END
                            <QPM:File>CommodoreInnovationPriceSoftware2008.jpg</QPM:File>
                            <QPM:File>Documentation-Howto.txt</QPM:File>
                            <QPM:File>Doxygen-Howto.txt</QPM:File>
-                           <QPM:File>GP2X-Howto.txt</QPM:File>
                            <QPM:File>Linux-Mingw32-Howto.txt</QPM:File>
                            <QPM:File>MSDOS-Ethernet-Howto.txt</QPM:File>
                            <QPM:File>MSDOS-Howto.txt</QPM:File>

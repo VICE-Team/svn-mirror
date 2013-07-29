@@ -58,8 +58,6 @@
   \n
   \subpage buildsdl
   \n
-  \subpage buildgp2x
-  \n
   \subpage buildminix
   \n
   \subpage buildopenvms
@@ -81,8 +79,6 @@
   \htmlinclude MSDOS-Ethernet-Howto.txt
   \page buildsdl building the SDL ports
   \htmlinclude SDL-Howto.txt
-  \page buildgp2x building the GP2X port
-  \htmlinclude GP2X-Howto.txt
   \page buildminix building VICE on Minix
   \htmlinclude Minix-Howto.txt
   \page buildopenvms building VICE on OpenVMS

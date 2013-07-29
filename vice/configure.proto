@@ -33,8 +33,6 @@ VICE_ARG_ENABLE_LIST(fullscreen,  [  --disable-fullscreen    disable XFree86 ful
 VICE_ARG_ENABLE_LIST(gnomeui,     [  --enable-gnomeui        enables GNOME UI with GTK2 support])
 VICE_ARG_ENABLE_LIST(gnomeui3,    [  --enable-gnomeui3       enables GNOME UI with GTK3 support])
 VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI support])
-VICE_ARG_ENABLE_LIST(gp2x,        [  --enable-gp2x           enables GP2X support])
-VICE_ARG_ENABLE_LIST(wiz,         [  --enable-wiz            enables WIZ support])
 VICE_ARG_ENABLE_LIST(dingoo,      [  --enable-dingoo         enables native Dingoo support])
 VICE_ARG_ENABLE_LIST(dingux,      [  --enable-dingux         enables Dingux (Dingoo Linux) support])
 VICE_ARG_ENABLE_LIST(nls,         [  --disable-nls           disables national language support])
@@ -82,7 +80,7 @@ if test x"$enable_option_checking" = "xyes"; then
 fi
 
 dnl check for conflicting ui options
-vice_ui_list="--enable-gnomeui --enable-gnomeui3 --enable-sdlui --with-cocoa --enable-gp2x --enable-wiz"
+vice_ui_list="--enable-gnomeui --enable-gnomeui3 --enable-sdlui --with-cocoa"
 vice_ui_1=none
 vice_ui_2=none
 
@@ -141,8 +139,6 @@ VERSION_COMBINED=`expr $VICE_VERSION_MAJOR \* 65536 + $VICE_VERSION_MINOR \* 256
 AC_SUBST(VERSION_COMBINED)
 
 is_unix=no
-is_unix_gp2x=no
-is_unix_wiz=no
 is_unix_dingux=no
 is_unix_x11=no
 is_unix_macosx=no
@@ -572,25 +568,6 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
   fi
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
-elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor" = "xgp2x" -o "$host_os" = "xopen2x" -o x"$host_os" = "xlinux-open2x" -o x"$host_vendor" = "xopen2x" -o x"$enable_gp2x" = "xyes"; then
-
-  dnl This is used by subsequent tests.
-  ac_cv_prog_gcc=yes
-  GCC=yes
-
-  is_unix=yes
-  is_unix_gp2x=yes
-
-  CFLAGS="$CFLAGS -fomit-frame-pointer -mcpu=arm920t -msoft-float"
-
-  if test x"$enable_sdlui" != "xyes"; then
-    AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
-    AC_DEFINE(DEBUG_ZFILE,,[Use debugging of the zfile])
-    AC_DEFINE(GP2X,,[Enable GP2X compilation])
-  else
-    AC_DEFINE(GP2X_SDL,,[Enable SDL GP2X compilation])
-  fi
-  AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 elif test x"$enable_dingoo" = "xyes"; then
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
@@ -612,25 +589,6 @@ elif test x"$enable_dingoo" = "xyes"; then
   with_resid=no
   enable_sdlui=yes
   enable_embedded=yes
-elif test x"$host_os" = "xwiz" -o x"$host_os" = "xlinux-wiz" -o x"$host_vendor" = "xwiz" -o x"$enable_wiz" = "xyes"; then
-
-  dnl This is used by subsequent tests.
-  ac_cv_prog_gcc=yes
-  GCC=yes
-
-  is_unix=yes
-  is_unix_wiz=yes
-
-  CFLAGS="$CFLAGS -fomit-frame-pointer -msoft-float"
-
-  if test x"$enable_sdlui" != "xyes"; then
-    AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
-    AC_DEFINE(DEBUG_ZFILE,,[Use debugging of the zfile])
-    AC_DEFINE(WIZ,,[Enable WIZ compilation])
-  else
-    AC_DEFINE(WIZ_SDL,,[Enable SDL WIZ compilation])
-  fi
-  AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 elif test x"$host_os" = "xdingux" -o x"$host_os" = "xdingoo" -o x"$host_os" = "xlinux-uclibc-dingux" -o x"$host_os" = "xlinux-uclibc-dingoo" -o x"$host_vendor" = "xdingux" -o x"$host_vendor" = "xdingoo" -o x"$enable_dingux" = "xyes"; then
 
   dnl This is used by subsequent tests.
@@ -1985,10 +1943,6 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
             if test x"$have_sdlmain" = "xyes"; then
                 AC_DEFINE(HAVE_SDLMAIN,,[Enable SDLmain replacement])
             fi
-
-            if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes"; then
-                LIBS="$LIBS -lpthread"
-            fi
         fi
     fi
 fi
@@ -2020,7 +1974,7 @@ if test x"$is_unix" = "xyes"; then
     AC_DEFINE(USE_ARTS,,[Enable aRts support.])
   fi
 
-  if test x"$with_alsa" != "xno" -a x"$is_unix_gp2x" != "xyes" -a x"$is_unix_wiz" != "xyes"; then
+  if test x"$with_alsa" != "xno"; then
     AC_CHECK_HEADERS(alsa/asoundlib.h,[AC_CHECK_LIB(asound, snd_pcm_open,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundalsa.o";
                       SOUND_LIBS="$SOUND_LIBS -lasound";
@@ -2274,7 +2228,7 @@ AC_SUBST(SOUND_DRIVERS)
 AC_SUBST(SOUND_LIBS)
 
 dnl Check for ParSID support
-if test x"$is_unix" = "xyes" -a x"$is_unix_gp2x" != "xyes" -a x"$is_unix_wiz" != "xyes"; then
+if test x"$is_unix" = "xyes"; then
 
   if test x"$enable_parsid" = "xyes"; then
     dnl Check for needed parallel port io headers
@@ -2828,14 +2782,6 @@ elif test x"$is_beos" = "xyes"; then
   LIBS="$LIBS -lbe -ltracker -ldevice -lmedia -lgame"
   AC_SUBST(LDFLAGS)
 
-elif test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes"; then
-
-  dnl on GP2X (and WIZ) we need static libs.
-
-  LDFLAGS="$LDFLAGS -static"
-  LIBS="$LIBS -lpthread"
-  AC_SUBST(LDFLAGS)
-
 elif test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes"; then
 
   dnl On Windows, we already know what we want.
@@ -2937,8 +2883,8 @@ AC_SUBST(XCBM2_WINRES)
 AC_SUBST(XCBM5X0_WINRES)
 
 
-dnl disable building of x64dtv for native gp2x, wiz, and dingoo
-if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$is_unix_dingux" = "xyes"; then
+dnl disable building of x64dtv for dingoo
+if test x"$is_unix_dingux" = "xyes"; then
   if test x"$enable_sdlui" != "xyes"; then
     AM_CONDITIONAL(SUPPORT_X64DTV, false)
   else
@@ -2948,8 +2894,8 @@ else
   AM_CONDITIONAL(SUPPORT_X64DTV, true)
 fi
 
-dnl disable building of x64sc for gp2x, wiz, dingoo and disabled resid configurations
-if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$enable_dingoo" = "xyes" -o x"$is_unix_dingux" = "xyes" -o x"$with_resid" = "xno"; then
+dnl disable building of x64sc for dingoo and disabled resid configurations
+if test x"$enable_dingoo" = "xyes" -o x"$is_unix_dingux" = "xyes" -o x"$with_resid" = "xno"; then
   AM_CONDITIONAL(SUPPORT_X64SC, false)
 else
   AM_CONDITIONAL(SUPPORT_X64SC, true)
@@ -3008,18 +2954,6 @@ if test x"$is_unix" = "xyes"; then
     fi
   else
     AC_DEFINE(UNIX_COMPILE,,[Are we compiling for unix?])
-  fi
-
-  if test x"$is_unix_gp2x" = "xyes" -a x"$enable_sdlui" != "xyes"; then
-    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gp2x/libarchgp2x.a $ARCH_DIR/gp2x/minimal/libarchgp2xsys.a"
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I$ARCH_SRC_DIR/gp2x -I$ARCH_SRC_DIR/gp2x/minimal"
-    ARCH_EXTRA_SUBDIR="gp2x gp2x/minimal"
-  fi
-
-  if test x"$is_unix_wiz" = "xyes" -a x"$enable_sdlui" != "xyes"; then
-    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gp2x/libarchgp2x.a $ARCH_DIR/gp2x/wiz/libarchwizsys.a"
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I$ARCH_SRC_DIR/gp2x -I$ARCH_SRC_DIR/gp2x/wiz"
-    ARCH_EXTRA_SUBDIR="gp2x gp2x/wiz"
   fi
 
   if test x"$is_unix_macosx" = "xyes" ; then
@@ -3178,20 +3112,6 @@ if test x"$is_unix" = "xyes"; then
     AM_CONDITIONAL(SYLLABLE_COMPILE, false)
   fi
 
-  if test x"$is_unix_gp2x" = "xyes" ; then
-    AM_CONDITIONAL(UNIX_GP2X_COMPILE, true)
-    AM_CONDITIONAL(MAKE_BINDIST, true)
-  else
-    AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  fi
-
-  if test x"$is_unix_wiz" = "xyes" ; then
-    AM_CONDITIONAL(UNIX_WIZ_COMPILE, true)
-    AM_CONDITIONAL(MAKE_BINDIST, true)
-  else
-    AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
-  fi
-
   if test x"$is_unix_dingux" = "xyes" ; then
     AM_CONDITIONAL(UNIX_DINGUX_COMPILE, true)
     AM_CONDITIONAL(MAKE_BINDIST, true)
@@ -3210,7 +3130,7 @@ if test x"$is_unix" = "xyes"; then
     AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   fi
 
-  if test x"$is_unix_gp2x" != "xyes" -a x"$is_unix_wiz" != "xyes" -a x"$is_unix_dingux" != "xyes" -a x"$is_unix_macosx" != "xyes"; then
+  if test x"$is_unix_dingux" != "xyes" -a x"$is_unix_macosx" != "xyes"; then
     AM_CONDITIONAL(MAKE_BINDIST, false)
   fi
 
@@ -3236,8 +3156,6 @@ elif test x"$enable_dingoo" = "xyes" ; then
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
   AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(SYLLABLE_COMPILE, false)
@@ -3277,8 +3195,6 @@ elif test x"$is_win32" = "xyes"; then
 
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
   AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
@@ -3309,8 +3225,6 @@ elif test x"$is_amiga" = "xyes"; then
     ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/amigaos"
   fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
   AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
@@ -3344,8 +3258,6 @@ elif test x"$is_dos" = "xyes"; then
     ARCH_LIBS="$ARCH_DIR/libarch.a"
   fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
   AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
@@ -3375,8 +3287,6 @@ elif test x"$is_os2" = "xyes"; then
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/os2"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
   AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
@@ -3408,8 +3318,6 @@ elif test x"$is_beos" = "xyes"; then
     ARCH_LIBS="$ARCH_DIR/libarch.a"
   fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
   AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
@@ -3647,10 +3555,6 @@ AC_OUTPUT([Makefile
            src/arch/sdl/syllable-files/Makefile
            src/arch/sdl/win32-watcom/Makefile
            src/arch/unix/Makefile
-           src/arch/unix/gp2x/Makefile
-           src/arch/unix/gp2x/gpe-files/Makefile
-           src/arch/unix/gp2x/minimal/Makefile
-           src/arch/unix/gp2x/wiz/Makefile
            src/arch/unix/gui/Makefile
            src/arch/unix/hpux/Makefile
            src/arch/unix/minix/Makefile

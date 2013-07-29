@@ -116,7 +116,10 @@ cat >>SDLVICE-$VERSION/install.sif <<_END
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/xvic.app"	/icon="/boot/programs/SDLVICE/icons/xvic.ico"
 
 [SS_DESCRIPTION]
-VICE is a program that runs on a Unix, MS-DOS, Win32, OS/2, Acorn RISC OS, BeOS, QNX, SkyOS, Amiga, GP2X or Mac OS X machine and executes programs intended for the old 8-bit computers. The current version emulates the C64, the C128, the VIC20, almost all PET models, the PLUS4 and the CBM-II (aka C610).
+VICE is a program that runs on a Unix, MS-DOS, Win32, OS/2, BeOS, QNX, 
+SkyOS, Amiga or Mac OS X machine and executes programs intended for the 
+old 8-bit computers. The current version emulates the C64, the C128, the 
+VIC20, practically all PET models, the PLUS4 and the CBM-II (aka C610).
 [/SS_DESCRIPTION]
 
 [END]

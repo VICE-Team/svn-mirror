@@ -85,11 +85,6 @@ ARCH_UNIX_INPUT=" ../src/arch/unix"
 ARCH_UNIX_INPUT+=" ../src/arch/unix/gui"
 ARCH_UNIX_INPUT+=" ../src/arch/unix/readline"
 
-#../src/arch/unix/gp2x
-#../src/arch/unix/gp2x/gpe-files
-#../src/arch/unix/gp2x/minimal
-#../src/arch/unix/gp2x/wiz
-
 #../src/arch/unix/hpux
 
 #../src/arch/unix/macosx

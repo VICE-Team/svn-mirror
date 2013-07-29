@@ -10,18 +10,10 @@ else
 SUBDIRS = gui x11 macosx
 endif
 else
-if UNIX_GP2X_COMPILE
-SUBDIRS = gp2x
-else
-if UNIX_WIZ_COMPILE
-SUBDIRS = gp2x
-else
 if NEED_READLINE
 SUBDIRS = gui hpux minix next_open_rhap qnx4 qnx6 readline sco_sol skyos x11
 else
 SUBDIRS = gui hpux minix next_open_rhap qnx4 qnx6 sco_sol skyos x11
-endif
-endif
 endif
 endif
 endif
@@ -88,10 +80,6 @@ EXTRA_libarch_a_SOURCES = \
 .PHONY: x11
 x11:
 	(cd x11; $(MAKE))
-
-.PHONY: gp2x
-gp2x:
-	(cd gp2x; $(MAKE))
 
 .PHONY: gui
 gui:

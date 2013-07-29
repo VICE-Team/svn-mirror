@@ -1,9 +1,0 @@
-#!/bin/bash
-
-export PATH=.:$PATH
-mount /mnt/sd -o remount,sync
-./x128 -directory data/c128:data/drives -sidenginemodel 0 -refresh 2 &>vice_log.txt
-mount /mnt/sd -o remount,async
-
-cd /usr/gp2x
-exec ./gp2xmenu
