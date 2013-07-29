@@ -102,4 +102,7 @@ extern void archdep_workaround_nop(const char *otto);
 #define OPENCBM_SO_NAME  "opencbm.dll"
 #define LAME_SO_NAME     "lame.dll"
 
+/* ffmpeg headers for windows don't seem to have some of the av_ prefixes */
+#define AV_PREFIX_NEEDED
+
 #endif

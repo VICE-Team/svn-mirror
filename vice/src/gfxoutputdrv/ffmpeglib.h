@@ -30,27 +30,29 @@
 #include "vice.h"
 
 #ifdef HAVE_FFMPEG_HEADER_SUBDIRS
-#include "libavformat/avformat.h"
-#ifdef HAVE_FFMPEG_SWSCALE
-#include "libswscale/swscale.h"
-#endif
+#  include "libavformat/avformat.h"
+#  ifdef HAVE_FFMPEG_SWSCALE
+#    include "libswscale/swscale.h"
+#  endif
 #else
-#include "avformat.h"
-#ifdef HAVE_FFMPEG_SWSCALE
-#include "swscale.h"
-#endif
+#  include "avformat.h"
+#  ifdef HAVE_FFMPEG_SWSCALE
+#    include "swscale.h"
+#  endif
 #endif
 
 /* backwards compatibility */
 #if LIBAVUTIL_VERSION_MAJOR < 51
 #define AVMEDIA_TYPE_AUDIO CODEC_TYPE_AUDIO
 #define AVMEDIA_TYPE_VIDEO CODEC_TYPE_VIDEO
-/* the win32 check is needed otherwise *nix builds fail */
-#if defined(WIN32) || defined(WATCOM_COMPILE)
+
+/* for some platforms these need to be defined. */
+#ifdef AV_PREFIX_NEEDED
 #define av_guess_format guess_format
 #define av_guess_format_t guess_format_t
 #define AV_PKT_FLAG_KEY PKT_FLAG_KEY
 #endif
+
 #endif
 
 /* wether this check makes sense for V51 is unclear */

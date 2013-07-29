@@ -120,4 +120,7 @@ extern void archdep_workaround_nop(const char *otto);
 #define HAVE_GIF
 #endif
 
+/* ffmpeg headers for windows don't seem to have some of the av_ prefixes */
+#define AV_PREFIX_NEEDED
+
 #endif
