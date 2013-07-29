@@ -29,6 +29,8 @@
 
 #include "vice.h"
 
+#include "archdep.h"
+
 #ifdef HAVE_FFMPEG_HEADER_SUBDIRS
 #  include "libavformat/avformat.h"
 #  ifdef HAVE_FFMPEG_SWSCALE
