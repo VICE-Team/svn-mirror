@@ -110,10 +110,10 @@ extern void archdep_workaround_nop(const char *otto);
 #define MAKE_SO_NAME_VERSION_PROTO(name, version)  #name "-" #version ".dll"
 
 /* add second level macro to allow expansion and stringification */
-#define MAKE_SO_NAME_VERSION(n, v) MAKE_SO_NAME_VERSION_PROTO(n, v)
+#define ARCHDEP_MAKE_SO_NAME_VERSION(n, v) MAKE_SO_NAME_VERSION_PROTO(n, v)
 
-#define OPENCBM_SO_NAME  "opencbm.dll"
-#define LAME_SO_NAME     "lame.dll"
+#define ARCHDEP_OPENCBM_SO_NAME  "opencbm.dll"
+#define ARCHDEP_LAME_SO_NAME     "lame.dll"
 
 /* Define HAVE_GIF when not defined */
 #ifndef HAVE_GIF
@@ -121,6 +121,6 @@ extern void archdep_workaround_nop(const char *otto);
 #endif
 
 /* ffmpeg headers for windows don't seem to have some of the av_ prefixes */
-#define AV_PREFIX_NEEDED
+#define ARCHDEP_AV_PREFIX_NEEDED
 
 #endif

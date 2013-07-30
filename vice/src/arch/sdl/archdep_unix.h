@@ -109,14 +109,14 @@ extern void archdep_signals_pipe_unset(void);
 #endif
 
 /* add second level macro to allow expansion and stringification */
-#define MAKE_SO_NAME_VERSION(n, v) MAKE_SO_NAME_VERSION_PROTO(n, v)
+#define ARCHDEP_MAKE_SO_NAME_VERSION(n, v) MAKE_SO_NAME_VERSION_PROTO(n, v)
 
 #ifdef MACOSX_SUPPORT
-#define OPENCBM_SO_NAME  "/opt/opencbm/lib/libopencbm.dylib"
-#define LAME_SO_NAME     "/opt/local/lib/libmp3lame.dylib"
+#define ARCHDEP_OPENCBM_SO_NAME  "/opt/opencbm/lib/libopencbm.dylib"
+#define ARCHDEP_LAME_SO_NAME     "/opt/local/lib/libmp3lame.dylib"
 #else
-#define OPENCBM_SO_NAME  "libopencbm.so"
-#define LAME_SO_NAME     "libmp3lame.so"
+#define ARCHDEP_OPENCBM_SO_NAME  "libopencbm.so"
+#define ARCHDEP_LAME_SO_NAME     "libmp3lame.so"
 #endif
 
 #endif
