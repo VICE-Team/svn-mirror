@@ -1,5 +1,4432 @@
 ------------------------------------------------------------------------------
 
+2013-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.5
+
+2013-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_unix.h, src/arch/sdl/archdep_win32.h,
+	src/arch/unix/archdep.h, src/arch/win32/archdep.h,
+	src/gfxoutputdrv/ffmpeglib.c, src/gfxoutputdrv/ffmpeglib.h,
+	src/opencbmlib.c, src/sounddrv/lamelib.c: Prefixed archdep specific
+	defines with ARCHDEP_, that way it is better to see where the define
+	comes from.
+
+2013-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/ffmpeglib.h: Forgot to include archdep.h
+
+2013-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_win32.h, src/arch/win32/archdep.h,
+	src/gfxoutputdrv/ffmpeglib.h: Made the av_* defines more generic.
+
+2013-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* INSTALL, Makefile.am, README, configure.proto, data/C64/Makefile.am,
+	data/C64/gp2x_pos.vkm, data/C64/gp2x_sym.vkm, data/SCPU64/Makefile.am,
+	data/SCPU64/gp2x_pos.vkm, data/SCPU64/gp2x_sym.vkm,
+	doc/building/GP2X-Howto.txt, doc/building/Makefile.am,
+	doc/html/index.html, doc/mainpage.dox, doc/mkdoxy.sh,
+	src/arch/sdl/Makefile.am, src/arch/sdl/make-bindist_gp2x.sh,
+	src/arch/sdl/make-bindist_qnx6.sh, src/arch/sdl/make-bindist_skyos.sh,
+	src/arch/sdl/qnx4/install_msg, src/arch/unix/Makefile.am,
+	src/arch/unix/gp2x, src/arch/unix/qnx4/install_msg,
+	src/arch/unix/qnx6/make-bindist.sh,
+	src/arch/unix/skyos/make-bindist.sh, src/arch/win32/make-bindist.sh:
+	Removed the rest of the gp2x code/references.
+
+2013-07-29  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64io.c: fix reading of mirrors that are registered with low
+	io priority
+
+2013-07-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_unix.h: Added dynlib name handling to the sdl
+	unix archdep.h file.
+
+2013-07-28  groepaz <groepaz@gmx.net>
+
+	* src/findpath.c: windos actually uses backward slashes :)
+
+2013-07-28  groepaz <groepaz@gmx.net>
+
+	* src/findhacks.sh: updated
+
+2013-07-28  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/archdep_unix.c, src/arch/unix/archdep.c,
+	src/arch/unix/kbd.h, src/arch/unix/uimenu.h,
+	src/arch/unix/videoarch.h, src/arch/unix/vsyncarch.c, src/cartconv.c,
+	src/raster/raster-canvas.c, src/vdc/vdc.c: removed GP2X and WIZ ifdefs
+	from shared code. src/arch/unix/gp2x removal TODO
+
+2013-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/archdep.h, src/gfxoutputdrv/gfxoutput.c: Always
+	define HAVE_GIF for windows native, and removed extra conditions from
+	the ifdef.
+
+2013-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_win32.h: Dynlib name handling added to the sdl
+	archdep_win32.h file.
+
+2013-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/archdep.h, src/arch/win32/archdep.h,
+	src/gfxoutputdrv/ffmpeglib.c, src/opencbmlib.c,
+	src/sounddrv/lamelib.c: Moved dynlib name handling to archdep.h
+
+2013-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/findpath.c: Changed the arch specific ifdefs to use the
+	directory seperator define instead.
+
+2013-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/archdep.c, src/c1541.c,
+	src/petcat.c: Windows system.c is now included by the windows
+	archdep.c file, removed duplicated system_* code in petcat.c and
+	c1541.c
+
+2013-07-27  groepaz <groepaz@gmx.net>
+
+	* src/findhacks.sh: added more defines, ignore platform dir
+
+2013-07-27  groepaz <groepaz@gmx.net>
+
+	* src/arch/android/AnVICE/jni/sdl/include/SDL_platform.h: remove
+	pointless defines
+
+2013-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c1541.c: Made GEOS related code compile by default, without
+	using #ifdef's.
+
+2013-07-27  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_command.c, src/monitor/monitor.c: OS2 -> __OS2__
+
+2013-07-27  groepaz <groepaz@gmx.net>
+
+	* src/vsync.c: MSDOS -> __MSDOS__
+
+2013-07-27  groepaz <groepaz@gmx.net>
+
+	* src/findhacks.sh: updated
+
+2013-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_discovery.h: Only define msvc when _MSC_VER is
+	defined.
+
+2013-07-27  groepaz <groepaz@gmx.net>
+
+	* src/findhacks.sh: updated
+
+2013-07-27  groepaz <groepaz@gmx.net>
+
+	* src/log.c: dont return early when opening default logfile, so it
+	will be set to non buffered too
+
+2013-07-26  groepaz <groepaz@gmx.net>
+
+	* po/de.po: updated
+
+2013-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resisepic.rc,
+	src/arch/win32/resmouse.rc, src/arch/win32/respet.rc,
+	src/arch/win32/respetcolour.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	src/arch/win32/ressiddtv.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2013-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Did a 'make trans-update'.
+
+2013-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2013-07-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/msvc-files, src/arch/win32/vs_tmpl: Added some svn
+	ignores.
+
+2013-07-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2013-07-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/sound.c: Avoid printing "fragment size 0ms" in the log file.
+
+2013-07-25  Errol Smith <strobe@kludgesoft.com> 
+
+	* src/c128/c128mem.c: Fix bug #457, enable copy/paste from 80 col VDC
+	screen (assumes 40/80 switch is set appropriately).
+
+2013-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/push-roms.sh, src/arch/os2/makedist.cmd,
+	src/arch/os2/watcom/makebindist.bat,
+	src/arch/sdl/make-bindist_qnx6.sh,
+	src/arch/sdl/msvc-files/make-bindist-mips.bat.proto,
+	src/arch/sdl/msvc-files/make-bindist.bat.proto,
+	src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	src/arch/unix/hpux/make-bindist.sh,
+	src/arch/unix/qnx6/make-bindist.sh,
+	src/arch/win32/msvc/make-msvc-bindist-native.bat.proto,
+	src/arch/win32/watcom/make-watcom-bindist.bat: Added missing plus4
+	roms.
+
+2013-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/Makefile.am,
+	src/arch/win32/watcom/ide-sidfpdefs.h: Removed ide-sidfpdefs.h from
+	the windows watcom directory.
+
+2013-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/ide-sidfpdefs.h: Removed ide-sidfpdefs.h
+	from the sdl win32-watcom directory.
+
+2013-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/Makefile.am,
+	src/arch/win32/msvc/ide-sidfpdefs.h: Removed ide-sidfpdefs.h from the
+	win32 msvc directory.
+
+2013-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/msvc-files/Makefile.am,
+	src/arch/sdl/msvc-files/ide-sidfpdefs.h: Removed ide-sidfpdefs.h from
+	the sdl msvc-files directory.
+
+2013-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/residfp.tgt,
+	src/arch/sdl/win32-watcom/sid.tgt, src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/vsid.tgt,
+	src/arch/sdl/win32-watcom/x128.tgt, src/arch/sdl/win32-watcom/x64.tgt,
+	src/arch/sdl/win32-watcom/x64dtv.tgt,
+	src/arch/sdl/win32-watcom/x64sc.tgt,
+	src/arch/sdl/win32-watcom/xcbm2.tgt,
+	src/arch/sdl/win32-watcom/xcbm5x0.tgt,
+	src/arch/sdl/win32-watcom/xpet.tgt,
+	src/arch/sdl/win32-watcom/xplus4.tgt,
+	src/arch/sdl/win32-watcom/xscpu64.tgt,
+	src/arch/sdl/win32-watcom/xvic.tgt: Removed resid-fp from the sdl
+	win32 watcom project files.
+
+2013-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/Makefile.am,
+	src/arch/win32/watcom/resid-fp.tgt, src/arch/win32/watcom/sid.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/watcom/vsid.tgt,
+	src/arch/win32/watcom/x128.tgt, src/arch/win32/watcom/x64.tgt,
+	src/arch/win32/watcom/x64dtv.tgt, src/arch/win32/watcom/x64sc.tgt,
+	src/arch/win32/watcom/xcbm2.tgt, src/arch/win32/watcom/xcbm5x0.tgt,
+	src/arch/win32/watcom/xpet.tgt, src/arch/win32/watcom/xplus4.tgt,
+	src/arch/win32/watcom/xscpu64.tgt, src/arch/win32/watcom/xvic.tgt:
+	Removed resid-fp from the win32 watcom project files.
+
+2013-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/residfp.tmpl, src/arch/win32/vs_tmpl/sid.tmpl,
+	src/arch/win32/vs_tmpl/vice.tmpl, src/arch/win32/vs_tmpl/vsid.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64dtv.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl:
+	Removed resid-fp from the msvc template files.
+
+2013-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/mkdoxy.sh: Removed resid-fp from mkdoxy.sh
+
+2013-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Removed a resid-fp reference from the vice.texi file.
+
+2013-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/translate.txt: Removed the (now obsolete)
+	IDCLS_RESIDFP_ENGINE_MODEL translation item.
+
+2013-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/msvc-files/ide-config.h: Removed HAVE_RESID_FP from the
+	sdl windows ide-config.h
+
+2013-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl: Added winmips-msvc to the svn ignores.
+
+2013-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/sdl/Makefile.am,
+	src/arch/sdl/winmips-msvc: Removed the winmips-msvc directory, since
+	it can be generated now.
+
+2013-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am,
+	src/arch/sdl/generate_msvcmips_project.bat,
+	src/arch/sdl/msvc-files/Makefile.am,
+	src/arch/sdl/msvc-files/ide-config-mips.h,
+	src/arch/sdl/msvc-files/make-bindist-mips.bat.proto,
+	src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe,
+	src/gfxoutputdrv/ffmpegdrv.c: Finished the msvc generation support.
+
+2013-07-21  groepaz <groepaz@gmx.net>
+
+	* src/socket.c: set either SO_REUSEPORT or SO_REUSEADDR socket options
+	before binding to listening address, patch by Uffe Jakobsen
+
+2013-07-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uisiddtv.c: Removed SID_ENGINE_RESID_FP.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl: Added the sdl win32-msvc11 directory to the svn
+	ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto,
+	src/arch/sdl/win32-msvc11: Removed the sdl win32-msvc11 directory,
+	since it can now be generated.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/generate_msvc10_project.bat,
+	src/arch/sdl/generate_msvc11_project.bat: Added an sdl msvc11 project
+	files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl: Added the sdl win32-msvc10 directory to the svn
+	ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto,
+	src/arch/sdl/win32-msvc10: Removed the sdl win32-msvc10 directory,
+	since it can now be generated.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/generate_msvc10_project.bat:
+	Added an sdl msvc10 project files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl: Added the sdl win32-msvc9 directory to the svn
+	ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto, src/arch/sdl/win32-msvc9:
+	Removed the sdl win32-msvc9 directory, since it can now be generated.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe:
+	Small fix.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/generate_msvc9_project.bat:
+	Added an sdl msvc9 project files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl: Added the sdl win32-msvc8 directory to the svn
+	ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto, src/arch/sdl/win32-msvc8:
+	Removed the sdl win32-msvc8 directory, since it can now be generated.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/generate_msvc70_project.bat,
+	src/arch/sdl/generate_msvc71_project.bat: Fixed.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/msvc-files/Makefile.am,
+	src/arch/sdl/generate_msvc8_project.bat,
+	src/arch/sdl/msvc-files/winid_ia64.bat,
+	src/arch/sdl/msvc-files/winid_x64.bat,
+	src/arch/sdl/msvc-files/winid_x86.bat: Added an sdl msvc8 project
+	files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl: Added the sdl win32-msvc71 directory to the svn
+	ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto,
+	src/arch/sdl/win32-msvc71: Removed the sdl win32-msvc71 directory,
+	since it can now be generated.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/generate_msvc71_project.bat:
+	Added an sdl msvc7.1 project files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl: Added the sdl win32-msvc70 directory to the svn
+	ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto,
+	src/arch/sdl/win32-msvc70: Removed the sdl win32-msvc70 directory,
+	since it can now be generated.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/generate_msvc70_project.bat:
+	Added an sdl msvc7.0 project files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl: Added the sdl win32-msvc6 directory to the svn
+	ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto, src/arch/sdl/win32-msvc6:
+	Removed the sdl win32-msvc6 directory, since it can now be generated.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/generate_msvc6_project.bat,
+	src/arch/sdl/msvc-files, src/arch/sdl/msvc-files/Makefile.am,
+	configure.proto, src/arch/sdl/msvc-files/dirent.h,
+	src/arch/sdl/msvc-files/ide-config.h,
+	src/arch/sdl/msvc-files/ide-siddefs.h,
+	src/arch/sdl/msvc-files/ide-siddtvdefs.h,
+	src/arch/sdl/msvc-files/ide-sidfpdefs.h,
+	src/arch/sdl/msvc-files/inttypes.h,
+	src/arch/sdl/msvc-files/make-bindist.bat.proto,
+	src/arch/sdl/msvc-files/stdint.h,
+	src/arch/sdl/msvc-files/vice.manifest: Added an sdl msvc6 project
+	files generation batch file.
+
+2013-07-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiedit.c, src/arch/unix/x11/gnome/uimenu.c:
+	dont use CHECK_MENUS on items that do not have a checkmark, fixes
+	copy/paste
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32: Added the vs11 dir to the svn ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/win32/Makefile.am, src/arch/win32/vs11:
+	Removed the vs11 directory since it can be generated now.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc11_project.bat: Added an msvc11 project
+	files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32: Added the vs10 dir to the svn ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/win32/Makefile.am, src/arch/win32/vs10:
+	Removed the vs10 directory since it can be generated now.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/generate_msvc10_project.bat: Fixed.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc10_project.bat: Added an msvc10 project
+	files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32: Added the vs9 dir to the svn ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/win32/Makefile.am, src/arch/win32/vs9:
+	Removed the vs9 directory since it can be generated now.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc9_project.bat: Added an msvc9 project
+	files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32: Added the vs8 dir to the svn ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/win32/Makefile.am, src/arch/win32/vs8:
+	Removed the vs8 directory since it can be generated now.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc8_project.bat,
+	src/arch/win32/msvc/Makefile.am, src/arch/win32/msvc/winid_ia64.bat,
+	src/arch/win32/msvc/winid_x64.bat, src/arch/win32/msvc/winid_x86.bat:
+	Added an msvc8 project files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32: Added the vs71 dir to the svn ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/generate_msvc70_project.bat: Fixed a typo.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/win32/Makefile.am, src/arch/win32/vs71:
+	Removed the vs71 directory since it can be generated now.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc71_project.bat: Added an msvc7.1 project
+	files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32: Added the vs70 dir to the svn ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/win32/Makefile.am, src/arch/win32/vs70:
+	Removed the vs70 directory since it can be generated now.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am,
+	src/arch/win32/generate_msvc70_project.bat: Added an msvc7.0 project
+	files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32: Added the vs6 dir to the svn ignores.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/win32/Makefile.am, src/arch/win32/vs6:
+	Removed the vs6 directory since it can be generated now.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/generate_msvc6_project.bat,
+	src/arch/win32/Makefile.am, src/arch/win32/msvc/Makefile.am,
+	src/arch/win32/msvc/make-msvc-bindist-native.bat.proto: Added an msvc6
+	project files generation batch file.
+
+2013-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl, src/arch/win32/vs_tmpl/mkmsvc.c,
+	src/arch/win32/vs_tmpl/mkmsvc.exe, src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/mkmsvc.dsp, src/arch/win32/vs_tmpl/mkmsvc.dsw:
+	Added mkmsvc executable to generate msvc project files, and msvc
+	project files to regenerate the executable.
+
+2013-07-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c,
+	src/arch/sdl/winmips-msvc/_vice.mak,
+	src/arch/sdl/winmips-msvc/arch.mak,
+	src/arch/sdl/winmips-msvc/base.mak,
+	src/arch/sdl/winmips-msvc/c128.mak,
+	src/arch/sdl/winmips-msvc/c1541.mak,
+	src/arch/sdl/winmips-msvc/c64.mak,
+	src/arch/sdl/winmips-msvc/c64c128.mak,
+	src/arch/sdl/winmips-msvc/c64c64dtv.mak,
+	src/arch/sdl/winmips-msvc/c64cart.mak,
+	src/arch/sdl/winmips-msvc/c64cartsystem.mak,
+	src/arch/sdl/winmips-msvc/c64commoncart.mak,
+	src/arch/sdl/winmips-msvc/c64dtv.mak,
+	src/arch/sdl/winmips-msvc/c64dtvstubs.mak,
+	src/arch/sdl/winmips-msvc/c64exp.mak,
+	src/arch/sdl/winmips-msvc/c64sc.mak,
+	src/arch/sdl/winmips-msvc/c64scpu64.mak,
+	src/arch/sdl/winmips-msvc/cartconv.mak,
+	src/arch/sdl/winmips-msvc/cbm2.mak,
+	src/arch/sdl/winmips-msvc/cbm2common.mak,
+	src/arch/sdl/winmips-msvc/cbm5x0.mak,
+	src/arch/sdl/winmips-msvc/core.mak,
+	src/arch/sdl/winmips-msvc/crtc.mak,
+	src/arch/sdl/winmips-msvc/diskimage.mak,
+	src/arch/sdl/winmips-msvc/drive.mak,
+	src/arch/sdl/winmips-msvc/fileio.mak,
+	src/arch/sdl/winmips-msvc/fsdevice.mak,
+	src/arch/sdl/winmips-msvc/geninfocontrib.mak,
+	src/arch/sdl/winmips-msvc/gentranslate.mak,
+	src/arch/sdl/winmips-msvc/gfxoutputdrv.mak,
+	src/arch/sdl/winmips-msvc/iec.mak,
+	src/arch/sdl/winmips-msvc/iec128dcr.mak,
+	src/arch/sdl/winmips-msvc/iecbus.mak,
+	src/arch/sdl/winmips-msvc/iecieee.mak,
+	src/arch/sdl/winmips-msvc/ieee.mak,
+	src/arch/sdl/winmips-msvc/imagecontents.mak,
+	src/arch/sdl/winmips-msvc/monitor.mak,
+	src/arch/sdl/winmips-msvc/p64.mak,
+	src/arch/sdl/winmips-msvc/parallel.mak,
+	src/arch/sdl/winmips-msvc/pet.mak,
+	src/arch/sdl/winmips-msvc/petcat.mak,
+	src/arch/sdl/winmips-msvc/platform.mak,
+	src/arch/sdl/winmips-msvc/plus4.mak,
+	src/arch/sdl/winmips-msvc/plus4exp.mak,
+	src/arch/sdl/winmips-msvc/printerdrv.mak,
+	src/arch/sdl/winmips-msvc/raster.mak,
+	src/arch/sdl/winmips-msvc/rs232drv.mak,
+	src/arch/sdl/winmips-msvc/rtc.mak,
+	src/arch/sdl/winmips-msvc/scpu64.mak,
+	src/arch/sdl/winmips-msvc/serial.mak,
+	src/arch/sdl/winmips-msvc/sid.mak,
+	src/arch/sdl/winmips-msvc/sounddrv.mak,
+	src/arch/sdl/winmips-msvc/tape.mak,
+	src/arch/sdl/winmips-msvc/tcbm.mak,
+	src/arch/sdl/winmips-msvc/userport.mak,
+	src/arch/sdl/winmips-msvc/vdc.mak,
+	src/arch/sdl/winmips-msvc/vdrive.mak,
+	src/arch/sdl/winmips-msvc/vic20.mak,
+	src/arch/sdl/winmips-msvc/vic20cart.mak,
+	src/arch/sdl/winmips-msvc/vicii.mak,
+	src/arch/sdl/winmips-msvc/viciidtv.mak,
+	src/arch/sdl/winmips-msvc/viciisc.mak,
+	src/arch/sdl/winmips-msvc/video.mak,
+	src/arch/sdl/winmips-msvc/vsid.mak,
+	src/arch/sdl/winmips-msvc/vsidlib.mak,
+	src/arch/sdl/winmips-msvc/x128.mak, src/arch/sdl/winmips-msvc/x64.mak,
+	src/arch/sdl/winmips-msvc/x64dtv.mak,
+	src/arch/sdl/winmips-msvc/x64sc.mak,
+	src/arch/sdl/winmips-msvc/xcbm2.mak,
+	src/arch/sdl/winmips-msvc/xcbm5x0.mak,
+	src/arch/sdl/winmips-msvc/xpet.mak,
+	src/arch/sdl/winmips-msvc/xplus4.mak,
+	src/arch/sdl/winmips-msvc/xscpu64.mak,
+	src/arch/sdl/winmips-msvc/xvic.mak: Updated the sdl mips msvc make
+	files.
+
+2013-07-18  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uipetcolour.c: added missing includes
+
+2013-07-16  groepaz <groepaz@gmx.net>
+
+	* src/scpu64/scpu64-resources.c: setting kernal- and basic- name
+	shouldnt fail
+
+2013-07-15  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2013-07-15  Antti S. Lankila <alankila@bel.fi>
+
+	* src/c64/psid.c, src/c64/psid.h, src/c64/vsid.c: Use the WORD, BYTE,
+	etc. types for rsid autostart
+
+2013-07-15  Antti S. Lankila <alankila@bel.fi>
+
+	* src/cartconv.c, src/printerdrv/drv-mps803.c,
+	src/scpu64/scpu64-resources.c, src/video/renderscale2x.c: Fix a few
+	clang warns: mixing signed and unsigned types, no-effect expressions,
+	uninitialized return values
+
+2013-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto, src/arch/sdl/win64-msvc:
+	Removed the now obsolete sdl win64-msvc directory.
+
+2013-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc11/_vice.vcxproj,
+	src/arch/sdl/win32-msvc11/arch.vcxproj,
+	src/arch/sdl/win32-msvc11/base.vcxproj,
+	src/arch/sdl/win32-msvc11/c128.vcxproj,
+	src/arch/sdl/win32-msvc11/c1541.vcxproj,
+	src/arch/sdl/win32-msvc11/c64.vcxproj,
+	src/arch/sdl/win32-msvc11/c64c128.vcxproj,
+	src/arch/sdl/win32-msvc11/c64c64dtv.vcxproj,
+	src/arch/sdl/win32-msvc11/c64cart.vcxproj,
+	src/arch/sdl/win32-msvc11/c64cartsystem.vcxproj,
+	src/arch/sdl/win32-msvc11/c64commoncart.vcxproj,
+	src/arch/sdl/win32-msvc11/c64dtv.vcxproj,
+	src/arch/sdl/win32-msvc11/c64dtvstubs.vcxproj,
+	src/arch/sdl/win32-msvc11/c64exp.vcxproj,
+	src/arch/sdl/win32-msvc11/c64sc.vcxproj,
+	src/arch/sdl/win32-msvc11/c64scpu64.vcxproj,
+	src/arch/sdl/win32-msvc11/cartconv.vcxproj,
+	src/arch/sdl/win32-msvc11/cbm2.vcxproj,
+	src/arch/sdl/win32-msvc11/cbm2common.vcxproj,
+	src/arch/sdl/win32-msvc11/cbm5x0.vcxproj,
+	src/arch/sdl/win32-msvc11/core.vcxproj,
+	src/arch/sdl/win32-msvc11/crtc.vcxproj,
+	src/arch/sdl/win32-msvc11/diskimage.vcxproj,
+	src/arch/sdl/win32-msvc11/drive.vcxproj,
+	src/arch/sdl/win32-msvc11/fileio.vcxproj,
+	src/arch/sdl/win32-msvc11/fsdevice.vcxproj,
+	src/arch/sdl/win32-msvc11/geninfocontrib.vcxproj,
+	src/arch/sdl/win32-msvc11/gentranslate.vcxproj,
+	src/arch/sdl/win32-msvc11/gfxoutputdrv.vcxproj,
+	src/arch/sdl/win32-msvc11/iec.vcxproj,
+	src/arch/sdl/win32-msvc11/iec128dcr.vcxproj,
+	src/arch/sdl/win32-msvc11/iecbus.vcxproj,
+	src/arch/sdl/win32-msvc11/iecieee.vcxproj,
+	src/arch/sdl/win32-msvc11/ieee.vcxproj,
+	src/arch/sdl/win32-msvc11/imagecontents.vcxproj,
+	src/arch/sdl/win32-msvc11/monitor.vcxproj,
+	src/arch/sdl/win32-msvc11/p64.vcxproj,
+	src/arch/sdl/win32-msvc11/parallel.vcxproj,
+	src/arch/sdl/win32-msvc11/pet.vcxproj,
+	src/arch/sdl/win32-msvc11/petcat.vcxproj,
+	src/arch/sdl/win32-msvc11/platform.vcxproj,
+	src/arch/sdl/win32-msvc11/plus4.vcxproj,
+	src/arch/sdl/win32-msvc11/plus4exp.vcxproj,
+	src/arch/sdl/win32-msvc11/printerdrv.vcxproj,
+	src/arch/sdl/win32-msvc11/raster.vcxproj,
+	src/arch/sdl/win32-msvc11/resid.vcxproj,
+	src/arch/sdl/win32-msvc11/residdtv.vcxproj,
+	src/arch/sdl/win32-msvc11/residfp.vcxproj,
+	src/arch/sdl/win32-msvc11/rs232drv.vcxproj,
+	src/arch/sdl/win32-msvc11/rtc.vcxproj,
+	src/arch/sdl/win32-msvc11/scpu64.vcxproj,
+	src/arch/sdl/win32-msvc11/serial.vcxproj,
+	src/arch/sdl/win32-msvc11/sid.vcxproj,
+	src/arch/sdl/win32-msvc11/sounddrv.vcxproj,
+	src/arch/sdl/win32-msvc11/tape.vcxproj,
+	src/arch/sdl/win32-msvc11/tcbm.vcxproj,
+	src/arch/sdl/win32-msvc11/userport.vcxproj,
+	src/arch/sdl/win32-msvc11/vdc.vcxproj,
+	src/arch/sdl/win32-msvc11/vdrive.vcxproj,
+	src/arch/sdl/win32-msvc11/vic20.vcxproj,
+	src/arch/sdl/win32-msvc11/vic20cart.vcxproj,
+	src/arch/sdl/win32-msvc11/vice.sln,
+	src/arch/sdl/win32-msvc11/vicii.vcxproj,
+	src/arch/sdl/win32-msvc11/viciidtv.vcxproj,
+	src/arch/sdl/win32-msvc11/viciisc.vcxproj,
+	src/arch/sdl/win32-msvc11/video.vcxproj,
+	src/arch/sdl/win32-msvc11/vsid.vcxproj,
+	src/arch/sdl/win32-msvc11/vsidlib.vcxproj,
+	src/arch/sdl/win32-msvc11/x128.vcxproj,
+	src/arch/sdl/win32-msvc11/x64.vcxproj,
+	src/arch/sdl/win32-msvc11/x64dtv.vcxproj,
+	src/arch/sdl/win32-msvc11/x64sc.vcxproj,
+	src/arch/sdl/win32-msvc11/xcbm2.vcxproj,
+	src/arch/sdl/win32-msvc11/xcbm5x0.vcxproj,
+	src/arch/sdl/win32-msvc11/xpet.vcxproj,
+	src/arch/sdl/win32-msvc11/xplus4.vcxproj,
+	src/arch/sdl/win32-msvc11/xscpu64.vcxproj,
+	src/arch/sdl/win32-msvc11/xvic.vcxproj: Finished sdl msvc11 support.
+
+2013-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/win32/vs_tmpl/mkmsvc.c,
+	configure.proto, src/arch/sdl/win32-msvc11,
+	src/arch/sdl/win32-msvc11/_vice.vcxproj,
+	src/arch/sdl/win32-msvc11/arch.vcxproj,
+	src/arch/sdl/win32-msvc11/base.vcxproj,
+	src/arch/sdl/win32-msvc11/c128.vcxproj,
+	src/arch/sdl/win32-msvc11/c1541.vcxproj,
+	src/arch/sdl/win32-msvc11/c64.vcxproj,
+	src/arch/sdl/win32-msvc11/c64c128.vcxproj,
+	src/arch/sdl/win32-msvc11/c64c64dtv.vcxproj,
+	src/arch/sdl/win32-msvc11/c64cart.vcxproj,
+	src/arch/sdl/win32-msvc11/c64cartsystem.vcxproj,
+	src/arch/sdl/win32-msvc11/c64commoncart.vcxproj,
+	src/arch/sdl/win32-msvc11/c64dtv.vcxproj,
+	src/arch/sdl/win32-msvc11/c64dtvstubs.vcxproj,
+	src/arch/sdl/win32-msvc11/c64exp.vcxproj,
+	src/arch/sdl/win32-msvc11/c64sc.vcxproj,
+	src/arch/sdl/win32-msvc11/c64scpu64.vcxproj,
+	src/arch/sdl/win32-msvc11/cartconv.vcxproj,
+	src/arch/sdl/win32-msvc11/cbm2.vcxproj,
+	src/arch/sdl/win32-msvc11/cbm2common.vcxproj,
+	src/arch/sdl/win32-msvc11/cbm5x0.vcxproj,
+	src/arch/sdl/win32-msvc11/core.vcxproj,
+	src/arch/sdl/win32-msvc11/crtc.vcxproj,
+	src/arch/sdl/win32-msvc11/diskimage.vcxproj,
+	src/arch/sdl/win32-msvc11/drive.vcxproj,
+	src/arch/sdl/win32-msvc11/fileio.vcxproj,
+	src/arch/sdl/win32-msvc11/fsdevice.vcxproj,
+	src/arch/sdl/win32-msvc11/geninfocontrib.vcxproj,
+	src/arch/sdl/win32-msvc11/gentranslate.vcxproj,
+	src/arch/sdl/win32-msvc11/gfxoutputdrv.vcxproj,
+	src/arch/sdl/win32-msvc11/iec.vcxproj,
+	src/arch/sdl/win32-msvc11/iec128dcr.vcxproj,
+	src/arch/sdl/win32-msvc11/iecbus.vcxproj,
+	src/arch/sdl/win32-msvc11/iecieee.vcxproj,
+	src/arch/sdl/win32-msvc11/ieee.vcxproj,
+	src/arch/sdl/win32-msvc11/imagecontents.vcxproj,
+	src/arch/sdl/win32-msvc11/monitor.vcxproj,
+	src/arch/sdl/win32-msvc11/p64.vcxproj,
+	src/arch/sdl/win32-msvc11/parallel.vcxproj,
+	src/arch/sdl/win32-msvc11/pet.vcxproj,
+	src/arch/sdl/win32-msvc11/petcat.vcxproj,
+	src/arch/sdl/win32-msvc11/platform.vcxproj,
+	src/arch/sdl/win32-msvc11/plus4.vcxproj,
+	src/arch/sdl/win32-msvc11/plus4exp.vcxproj,
+	src/arch/sdl/win32-msvc11/printerdrv.vcxproj,
+	src/arch/sdl/win32-msvc11/raster.vcxproj,
+	src/arch/sdl/win32-msvc11/resid.vcxproj,
+	src/arch/sdl/win32-msvc11/residdtv.vcxproj,
+	src/arch/sdl/win32-msvc11/residfp.vcxproj,
+	src/arch/sdl/win32-msvc11/rs232drv.vcxproj,
+	src/arch/sdl/win32-msvc11/rtc.vcxproj,
+	src/arch/sdl/win32-msvc11/scpu64.vcxproj,
+	src/arch/sdl/win32-msvc11/serial.vcxproj,
+	src/arch/sdl/win32-msvc11/sid.vcxproj,
+	src/arch/sdl/win32-msvc11/sounddrv.vcxproj,
+	src/arch/sdl/win32-msvc11/tape.vcxproj,
+	src/arch/sdl/win32-msvc11/tcbm.vcxproj,
+	src/arch/sdl/win32-msvc11/userport.vcxproj,
+	src/arch/sdl/win32-msvc11/vdc.vcxproj,
+	src/arch/sdl/win32-msvc11/vdrive.vcxproj,
+	src/arch/sdl/win32-msvc11/vic20.vcxproj,
+	src/arch/sdl/win32-msvc11/vic20cart.vcxproj,
+	src/arch/sdl/win32-msvc11/vice.sln,
+	src/arch/sdl/win32-msvc11/vicii.vcxproj,
+	src/arch/sdl/win32-msvc11/viciidtv.vcxproj,
+	src/arch/sdl/win32-msvc11/viciisc.vcxproj,
+	src/arch/sdl/win32-msvc11/video.vcxproj,
+	src/arch/sdl/win32-msvc11/vsid.vcxproj,
+	src/arch/sdl/win32-msvc11/vsidlib.vcxproj,
+	src/arch/sdl/win32-msvc11/x128.vcxproj,
+	src/arch/sdl/win32-msvc11/x64.vcxproj,
+	src/arch/sdl/win32-msvc11/x64dtv.vcxproj,
+	src/arch/sdl/win32-msvc11/x64sc.vcxproj,
+	src/arch/sdl/win32-msvc11/xcbm2.vcxproj,
+	src/arch/sdl/win32-msvc11/xcbm5x0.vcxproj,
+	src/arch/sdl/win32-msvc11/xpet.vcxproj,
+	src/arch/sdl/win32-msvc11/xplus4.vcxproj,
+	src/arch/sdl/win32-msvc11/xscpu64.vcxproj,
+	src/arch/sdl/win32-msvc11/xvic.vcxproj,
+	src/arch/sdl/win32-msvc11/Makefile.am,
+	src/arch/sdl/win32-msvc11/Readme.txt,
+	src/arch/sdl/win32-msvc11/dirent.h,
+	src/arch/sdl/win32-msvc11/ide-config.h,
+	src/arch/sdl/win32-msvc11/ide-siddefs.h,
+	src/arch/sdl/win32-msvc11/ide-siddtvdefs.h,
+	src/arch/sdl/win32-msvc11/ide-sidfpdefs.h,
+	src/arch/sdl/win32-msvc11/inttypes.h,
+	src/arch/sdl/win32-msvc11/make-bindist.bat,
+	src/arch/sdl/win32-msvc11/stdint.h,
+	src/arch/sdl/win32-msvc11/vice.manifest,
+	src/arch/sdl/win32-msvc11/winid_ia64.bat,
+	src/arch/sdl/win32-msvc11/winid_x64.bat,
+	src/arch/sdl/win32-msvc11/winid_x86.bat: Added an sdl win32-msvc11
+	directory, populated with msvc10 project files for now.
+
+2013-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc10/_vice.vcxproj,
+	src/arch/sdl/win32-msvc10/arch.vcxproj,
+	src/arch/sdl/win32-msvc10/base.vcxproj,
+	src/arch/sdl/win32-msvc10/c128.vcxproj,
+	src/arch/sdl/win32-msvc10/c1541.vcxproj,
+	src/arch/sdl/win32-msvc10/c64.vcxproj,
+	src/arch/sdl/win32-msvc10/c64c128.vcxproj,
+	src/arch/sdl/win32-msvc10/c64c64dtv.vcxproj,
+	src/arch/sdl/win32-msvc10/c64cart.vcxproj,
+	src/arch/sdl/win32-msvc10/c64cartsystem.vcxproj,
+	src/arch/sdl/win32-msvc10/c64commoncart.vcxproj,
+	src/arch/sdl/win32-msvc10/c64dtv.vcxproj,
+	src/arch/sdl/win32-msvc10/c64dtvstubs.vcxproj,
+	src/arch/sdl/win32-msvc10/c64exp.vcxproj,
+	src/arch/sdl/win32-msvc10/c64sc.vcxproj,
+	src/arch/sdl/win32-msvc10/c64scpu64.vcxproj,
+	src/arch/sdl/win32-msvc10/cartconv.vcxproj,
+	src/arch/sdl/win32-msvc10/cbm2.vcxproj,
+	src/arch/sdl/win32-msvc10/cbm2common.vcxproj,
+	src/arch/sdl/win32-msvc10/cbm5x0.vcxproj,
+	src/arch/sdl/win32-msvc10/core.vcxproj,
+	src/arch/sdl/win32-msvc10/crtc.vcxproj,
+	src/arch/sdl/win32-msvc10/diskimage.vcxproj,
+	src/arch/sdl/win32-msvc10/drive.vcxproj,
+	src/arch/sdl/win32-msvc10/fileio.vcxproj,
+	src/arch/sdl/win32-msvc10/fsdevice.vcxproj,
+	src/arch/sdl/win32-msvc10/geninfocontrib.vcxproj,
+	src/arch/sdl/win32-msvc10/gentranslate.vcxproj,
+	src/arch/sdl/win32-msvc10/gfxoutputdrv.vcxproj,
+	src/arch/sdl/win32-msvc10/iec.vcxproj,
+	src/arch/sdl/win32-msvc10/iec128dcr.vcxproj,
+	src/arch/sdl/win32-msvc10/iecbus.vcxproj,
+	src/arch/sdl/win32-msvc10/iecieee.vcxproj,
+	src/arch/sdl/win32-msvc10/ieee.vcxproj,
+	src/arch/sdl/win32-msvc10/imagecontents.vcxproj,
+	src/arch/sdl/win32-msvc10/monitor.vcxproj,
+	src/arch/sdl/win32-msvc10/p64.vcxproj,
+	src/arch/sdl/win32-msvc10/parallel.vcxproj,
+	src/arch/sdl/win32-msvc10/pet.vcxproj,
+	src/arch/sdl/win32-msvc10/petcat.vcxproj,
+	src/arch/sdl/win32-msvc10/platform.vcxproj,
+	src/arch/sdl/win32-msvc10/plus4.vcxproj,
+	src/arch/sdl/win32-msvc10/plus4exp.vcxproj,
+	src/arch/sdl/win32-msvc10/printerdrv.vcxproj,
+	src/arch/sdl/win32-msvc10/raster.vcxproj,
+	src/arch/sdl/win32-msvc10/resid.vcxproj,
+	src/arch/sdl/win32-msvc10/residdtv.vcxproj,
+	src/arch/sdl/win32-msvc10/residfp.vcxproj,
+	src/arch/sdl/win32-msvc10/rs232drv.vcxproj,
+	src/arch/sdl/win32-msvc10/rtc.vcxproj,
+	src/arch/sdl/win32-msvc10/scpu64.vcxproj,
+	src/arch/sdl/win32-msvc10/serial.vcxproj,
+	src/arch/sdl/win32-msvc10/sid.vcxproj,
+	src/arch/sdl/win32-msvc10/sounddrv.vcxproj,
+	src/arch/sdl/win32-msvc10/tape.vcxproj,
+	src/arch/sdl/win32-msvc10/tcbm.vcxproj,
+	src/arch/sdl/win32-msvc10/userport.vcxproj,
+	src/arch/sdl/win32-msvc10/vdc.vcxproj,
+	src/arch/sdl/win32-msvc10/vdrive.vcxproj,
+	src/arch/sdl/win32-msvc10/vic20.vcxproj,
+	src/arch/sdl/win32-msvc10/vic20cart.vcxproj,
+	src/arch/sdl/win32-msvc10/vice.sln,
+	src/arch/sdl/win32-msvc10/vicii.vcxproj,
+	src/arch/sdl/win32-msvc10/viciidtv.vcxproj,
+	src/arch/sdl/win32-msvc10/viciisc.vcxproj,
+	src/arch/sdl/win32-msvc10/video.vcxproj,
+	src/arch/sdl/win32-msvc10/vsid.vcxproj,
+	src/arch/sdl/win32-msvc10/vsidlib.vcxproj,
+	src/arch/sdl/win32-msvc10/x128.vcxproj,
+	src/arch/sdl/win32-msvc10/x64.vcxproj,
+	src/arch/sdl/win32-msvc10/x64dtv.vcxproj,
+	src/arch/sdl/win32-msvc10/x64sc.vcxproj,
+	src/arch/sdl/win32-msvc10/xcbm2.vcxproj,
+	src/arch/sdl/win32-msvc10/xcbm5x0.vcxproj,
+	src/arch/sdl/win32-msvc10/xpet.vcxproj,
+	src/arch/sdl/win32-msvc10/xplus4.vcxproj,
+	src/arch/sdl/win32-msvc10/xscpu64.vcxproj,
+	src/arch/sdl/win32-msvc10/xvic.vcxproj: Finished the sdl msvc10
+	support.
+
+2013-07-14  Antti S. Lankila <alankila@bel.fi>
+
+	* INSTALL, configure.proto, doc/vice.pdf, src/Makefile.am,
+	src/arch/amigaos/mui/uisid.c, src/arch/amigaos/mui/uisiddtv.c,
+	src/arch/amigaos/vsidui.c, src/arch/android/AnVICE/config.android.h,
+	src/arch/beos/ui_sid.cc, src/arch/beos/ui_sidcart.cc,
+	src/arch/msdos/uisidc128.c, src/arch/msdos/uisidc64.c,
+	src/arch/msdos/uisidcbm2.c, src/arch/msdos/uisiddtv.c,
+	src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.rc,
+	src/arch/os2/vac++/Makefile.am, src/arch/os2/vac++/RESIDFP.ICC,
+	src/arch/sdl/menu_sid.c, src/arch/unix/gui/uisid.c,
+	src/arch/unix/macosx/cocoa/dialog/sidsettingswindowcontroller.m,
+	src/arch/watcom-source-wrappers/Makefile.am,
+	src/arch/watcom-source-wrappers/residfp-envelope.cc,
+	src/arch/watcom-source-wrappers/residfp-extfilt.cc,
+	src/arch/watcom-source-wrappers/residfp-filter.cc,
+	src/arch/watcom-source-wrappers/residfp-pot.cc,
+	src/arch/watcom-source-wrappers/residfp-sid.cc,
+	src/arch/watcom-source-wrappers/residfp-version.cc,
+	src/arch/watcom-source-wrappers/residfp-voice.cc,
+	src/arch/watcom-source-wrappers/residfp-wave.cc,
+	src/arch/win32/Makefile.am, src/arch/win32/msvc/ide-config.h,
+	src/arch/win32/ressid.rc, src/arch/win32/ressiddtv.rc,
+	src/arch/win32/uisid.c, src/arch/win32/uisiddtv.c,
+	src/arch/win64/Makefile.am, src/c128/c128model.c, src/c64/c64model.c,
+	c64/c64scmodel.c, src/resid-fp, src/sid/Makefile.am,
+	src/sid/resid-fp.cc, src/sid/resid-fp.h, src/sid/sid-resources.c,
+	src/sid/sid.c, src/sid/sid.h, src/svnversion.h, src/translate.c,
+	src/translate_text.c: Remove resid-fp from the codebase. I tried to
+	fix the autotools build, but MSVC stuff is not fixed
+
+2013-07-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc10/Makefile.am,
+	src/arch/sdl/win32-msvc10/_vice.vcxproj,
+	src/arch/sdl/win32-msvc10/arch.vcxproj,
+	src/arch/sdl/win32-msvc10/base.vcxproj,
+	src/arch/sdl/win32-msvc10/c128.vcxproj,
+	src/arch/sdl/win32-msvc10/c1541.vcxproj,
+	src/arch/sdl/win32-msvc10/c64.vcxproj,
+	src/arch/sdl/win32-msvc10/c64c128.vcxproj,
+	src/arch/sdl/win32-msvc10/c64c64dtv.vcxproj,
+	src/arch/sdl/win32-msvc10/c64cart.vcxproj,
+	src/arch/sdl/win32-msvc10/c64cartsystem.vcxproj,
+	src/arch/sdl/win32-msvc10/c64commoncart.vcxproj,
+	src/arch/sdl/win32-msvc10/c64dtv.vcxproj,
+	src/arch/sdl/win32-msvc10/c64dtvstubs.vcxproj,
+	src/arch/sdl/win32-msvc10/c64exp.vcxproj,
+	src/arch/sdl/win32-msvc10/c64sc.vcxproj,
+	src/arch/sdl/win32-msvc10/c64scpu64.vcxproj,
+	src/arch/sdl/win32-msvc10/cartconv.vcxproj,
+	src/arch/sdl/win32-msvc10/cbm2.vcxproj,
+	src/arch/sdl/win32-msvc10/cbm2common.vcxproj,
+	src/arch/sdl/win32-msvc10/cbm5x0.vcxproj,
+	src/arch/sdl/win32-msvc10/core.vcxproj,
+	src/arch/sdl/win32-msvc10/crtc.vcxproj,
+	src/arch/sdl/win32-msvc10/diskimage.vcxproj,
+	src/arch/sdl/win32-msvc10/drive.vcxproj,
+	src/arch/sdl/win32-msvc10/fileio.vcxproj,
+	src/arch/sdl/win32-msvc10/fsdevice.vcxproj,
+	src/arch/sdl/win32-msvc10/geninfocontrib.vcxproj,
+	src/arch/sdl/win32-msvc10/gentranslate.vcxproj,
+	src/arch/sdl/win32-msvc10/gfxoutputdrv.vcxproj,
+	src/arch/sdl/win32-msvc10/iec.vcxproj,
+	src/arch/sdl/win32-msvc10/iec128dcr.vcxproj,
+	src/arch/sdl/win32-msvc10/iecbus.vcxproj,
+	src/arch/sdl/win32-msvc10/iecieee.vcxproj,
+	src/arch/sdl/win32-msvc10/ieee.vcxproj,
+	src/arch/sdl/win32-msvc10/imagecontents.vcxproj,
+	src/arch/sdl/win32-msvc10/monitor.vcxproj,
+	src/arch/sdl/win32-msvc10/p64.vcxproj,
+	src/arch/sdl/win32-msvc10/parallel.vcxproj,
+	src/arch/sdl/win32-msvc10/pet.vcxproj,
+	src/arch/sdl/win32-msvc10/petcat.vcxproj,
+	src/arch/sdl/win32-msvc10/platform.vcxproj,
+	src/arch/sdl/win32-msvc10/plus4.vcxproj,
+	src/arch/sdl/win32-msvc10/plus4exp.vcxproj,
+	src/arch/sdl/win32-msvc10/printerdrv.vcxproj,
+	src/arch/sdl/win32-msvc10/raster.vcxproj,
+	src/arch/sdl/win32-msvc10/resid.vcxproj,
+	src/arch/sdl/win32-msvc10/residdtv.vcxproj,
+	src/arch/sdl/win32-msvc10/residfp.vcxproj,
+	src/arch/sdl/win32-msvc10/rs232drv.vcxproj,
+	src/arch/sdl/win32-msvc10/rtc.vcxproj,
+	src/arch/sdl/win32-msvc10/scpu64.vcxproj,
+	src/arch/sdl/win32-msvc10/serial.vcxproj,
+	src/arch/sdl/win32-msvc10/sid.vcxproj,
+	src/arch/sdl/win32-msvc10/sounddrv.vcxproj,
+	src/arch/sdl/win32-msvc10/tape.vcxproj,
+	src/arch/sdl/win32-msvc10/tcbm.vcxproj,
+	src/arch/sdl/win32-msvc10/userport.vcxproj,
+	src/arch/sdl/win32-msvc10/vdc.vcxproj,
+	src/arch/sdl/win32-msvc10/vdrive.vcxproj,
+	src/arch/sdl/win32-msvc10/vic20.vcxproj,
+	src/arch/sdl/win32-msvc10/vic20cart.vcxproj,
+	src/arch/sdl/win32-msvc10/vice.sln,
+	src/arch/sdl/win32-msvc10/vicii.vcxproj,
+	src/arch/sdl/win32-msvc10/viciidtv.vcxproj,
+	src/arch/sdl/win32-msvc10/viciisc.vcxproj,
+	src/arch/sdl/win32-msvc10/video.vcxproj,
+	src/arch/sdl/win32-msvc10/vsid.vcxproj,
+	src/arch/sdl/win32-msvc10/vsidlib.vcxproj,
+	src/arch/sdl/win32-msvc10/x128.vcxproj,
+	src/arch/sdl/win32-msvc10/x64.vcxproj,
+	src/arch/sdl/win32-msvc10/x64dtv.vcxproj,
+	src/arch/sdl/win32-msvc10/x64sc.vcxproj,
+	src/arch/sdl/win32-msvc10/xcbm2.vcxproj,
+	src/arch/sdl/win32-msvc10/xcbm5x0.vcxproj,
+	src/arch/sdl/win32-msvc10/xpet.vcxproj,
+	src/arch/sdl/win32-msvc10/xplus4.vcxproj,
+	src/arch/sdl/win32-msvc10/xscpu64.vcxproj,
+	src/arch/sdl/win32-msvc10/xvic.vcxproj,
+	src/arch/sdl/win32-msvc10/_vice.vcproj,
+	src/arch/sdl/win32-msvc10/arch.vcproj,
+	src/arch/sdl/win32-msvc10/base.vcproj,
+	src/arch/sdl/win32-msvc10/c128.vcproj,
+	src/arch/sdl/win32-msvc10/c1541.vcproj,
+	src/arch/sdl/win32-msvc10/c64.vcproj,
+	src/arch/sdl/win32-msvc10/c64c128.vcproj,
+	src/arch/sdl/win32-msvc10/c64c64dtv.vcproj,
+	src/arch/sdl/win32-msvc10/c64cart.vcproj,
+	src/arch/sdl/win32-msvc10/c64cartsystem.vcproj,
+	src/arch/sdl/win32-msvc10/c64commoncart.vcproj,
+	src/arch/sdl/win32-msvc10/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc10/c64dtvstubs.vcproj,
+	src/arch/sdl/win32-msvc10/c64exp.vcproj,
+	src/arch/sdl/win32-msvc10/c64sc.vcproj,
+	src/arch/sdl/win32-msvc10/c64scpu64.vcproj,
+	src/arch/sdl/win32-msvc10/cartconv.vcproj,
+	src/arch/sdl/win32-msvc10/cbm2.vcproj,
+	src/arch/sdl/win32-msvc10/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc10/cbm5x0.vcproj,
+	src/arch/sdl/win32-msvc10/core.vcproj,
+	src/arch/sdl/win32-msvc10/crtc.vcproj,
+	src/arch/sdl/win32-msvc10/diskimage.vcproj,
+	src/arch/sdl/win32-msvc10/drive.vcproj,
+	src/arch/sdl/win32-msvc10/fileio.vcproj,
+	src/arch/sdl/win32-msvc10/fsdevice.vcproj,
+	src/arch/sdl/win32-msvc10/geninfocontrib.vcproj,
+	src/arch/sdl/win32-msvc10/gentranslate.vcproj,
+	src/arch/sdl/win32-msvc10/gfxoutputdrv.vcproj,
+	src/arch/sdl/win32-msvc10/iec.vcproj,
+	src/arch/sdl/win32-msvc10/iec128dcr.vcproj,
+	src/arch/sdl/win32-msvc10/iecbus.vcproj,
+	src/arch/sdl/win32-msvc10/iecieee.vcproj,
+	src/arch/sdl/win32-msvc10/ieee.vcproj,
+	src/arch/sdl/win32-msvc10/imagecontents.vcproj,
+	src/arch/sdl/win32-msvc10/monitor.vcproj,
+	src/arch/sdl/win32-msvc10/p64.vcproj,
+	src/arch/sdl/win32-msvc10/parallel.vcproj,
+	src/arch/sdl/win32-msvc10/pet.vcproj,
+	src/arch/sdl/win32-msvc10/petcat.vcproj,
+	src/arch/sdl/win32-msvc10/platform.vcproj,
+	src/arch/sdl/win32-msvc10/plus4.vcproj,
+	src/arch/sdl/win32-msvc10/plus4exp.vcproj,
+	src/arch/sdl/win32-msvc10/printerdrv.vcproj,
+	src/arch/sdl/win32-msvc10/raster.vcproj,
+	src/arch/sdl/win32-msvc10/resid.vcproj,
+	src/arch/sdl/win32-msvc10/residdtv.vcproj,
+	src/arch/sdl/win32-msvc10/residfp.vcproj,
+	src/arch/sdl/win32-msvc10/rs232drv.vcproj,
+	src/arch/sdl/win32-msvc10/rtc.vcproj,
+	src/arch/sdl/win32-msvc10/scpu64.vcproj,
+	src/arch/sdl/win32-msvc10/serial.vcproj,
+	src/arch/sdl/win32-msvc10/sid.vcproj,
+	src/arch/sdl/win32-msvc10/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc10/tape.vcproj,
+	src/arch/sdl/win32-msvc10/tcbm.vcproj,
+	src/arch/sdl/win32-msvc10/userport.vcproj,
+	src/arch/sdl/win32-msvc10/vdc.vcproj,
+	src/arch/sdl/win32-msvc10/vdrive.vcproj,
+	src/arch/sdl/win32-msvc10/vic20.vcproj,
+	src/arch/sdl/win32-msvc10/vic20cart.vcproj,
+	src/arch/sdl/win32-msvc10/vicii.vcproj,
+	src/arch/sdl/win32-msvc10/viciidtv.vcproj,
+	src/arch/sdl/win32-msvc10/viciisc.vcproj,
+	src/arch/sdl/win32-msvc10/video.vcproj,
+	src/arch/sdl/win32-msvc10/vsid.vcproj,
+	src/arch/sdl/win32-msvc10/vsidlib.vcproj,
+	src/arch/sdl/win32-msvc10/x128.vcproj,
+	src/arch/sdl/win32-msvc10/x64.vcproj,
+	src/arch/sdl/win32-msvc10/x64dtv.vcproj,
+	src/arch/sdl/win32-msvc10/x64sc.vcproj,
+	src/arch/sdl/win32-msvc10/xcbm2.vcproj,
+	src/arch/sdl/win32-msvc10/xcbm5x0.vcproj,
+	src/arch/sdl/win32-msvc10/xpet.vcproj,
+	src/arch/sdl/win32-msvc10/xplus4.vcproj,
+	src/arch/sdl/win32-msvc10/xscpu64.vcproj,
+	src/arch/sdl/win32-msvc10/xvic.vcproj: Put sdl msvc10 project files in
+	place.
+
+2013-07-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto,
+	src/arch/sdl/win32-msvc10, src/arch/sdl/win32-msvc10/Makefile.am,
+	src/arch/sdl/win32-msvc10/Readme.txt,
+	src/arch/sdl/win32-msvc10/dirent.h,
+	src/arch/sdl/win32-msvc10/ide-config.h,
+	src/arch/sdl/win32-msvc10/ide-siddefs.h,
+	src/arch/sdl/win32-msvc10/ide-siddtvdefs.h,
+	src/arch/sdl/win32-msvc10/ide-sidfpdefs.h,
+	src/arch/sdl/win32-msvc10/inttypes.h,
+	src/arch/sdl/win32-msvc10/make-bindist.bat,
+	src/arch/sdl/win32-msvc10/stdint.h,
+	src/arch/sdl/win32-msvc10/vice.manifest,
+	src/arch/sdl/win32-msvc10/vice.sln,
+	src/arch/sdl/win32-msvc10/winid_ia64.bat,
+	src/arch/sdl/win32-msvc10/winid_x64.bat,
+	src/arch/sdl/win32-msvc10/winid_x86.bat,
+	src/arch/sdl/win32-msvc10/_vice.vcproj,
+	src/arch/sdl/win32-msvc10/arch.vcproj,
+	src/arch/sdl/win32-msvc10/base.vcproj,
+	src/arch/sdl/win32-msvc10/c128.vcproj,
+	src/arch/sdl/win32-msvc10/c1541.vcproj,
+	src/arch/sdl/win32-msvc10/c64.vcproj,
+	src/arch/sdl/win32-msvc10/c64c128.vcproj,
+	src/arch/sdl/win32-msvc10/c64c64dtv.vcproj,
+	src/arch/sdl/win32-msvc10/c64cart.vcproj,
+	src/arch/sdl/win32-msvc10/c64cartsystem.vcproj,
+	src/arch/sdl/win32-msvc10/c64commoncart.vcproj,
+	src/arch/sdl/win32-msvc10/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc10/c64dtvstubs.vcproj,
+	src/arch/sdl/win32-msvc10/c64exp.vcproj,
+	src/arch/sdl/win32-msvc10/c64sc.vcproj,
+	src/arch/sdl/win32-msvc10/c64scpu64.vcproj,
+	src/arch/sdl/win32-msvc10/cartconv.vcproj,
+	src/arch/sdl/win32-msvc10/cbm2.vcproj,
+	src/arch/sdl/win32-msvc10/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc10/cbm5x0.vcproj,
+	src/arch/sdl/win32-msvc10/core.vcproj,
+	src/arch/sdl/win32-msvc10/crtc.vcproj,
+	src/arch/sdl/win32-msvc10/diskimage.vcproj,
+	src/arch/sdl/win32-msvc10/drive.vcproj,
+	src/arch/sdl/win32-msvc10/fileio.vcproj,
+	src/arch/sdl/win32-msvc10/fsdevice.vcproj,
+	src/arch/sdl/win32-msvc10/geninfocontrib.vcproj,
+	src/arch/sdl/win32-msvc10/gentranslate.vcproj,
+	src/arch/sdl/win32-msvc10/gfxoutputdrv.vcproj,
+	src/arch/sdl/win32-msvc10/iec.vcproj,
+	src/arch/sdl/win32-msvc10/iec128dcr.vcproj,
+	src/arch/sdl/win32-msvc10/iecbus.vcproj,
+	src/arch/sdl/win32-msvc10/iecieee.vcproj,
+	src/arch/sdl/win32-msvc10/ieee.vcproj,
+	src/arch/sdl/win32-msvc10/imagecontents.vcproj,
+	src/arch/sdl/win32-msvc10/monitor.vcproj,
+	src/arch/sdl/win32-msvc10/p64.vcproj,
+	src/arch/sdl/win32-msvc10/parallel.vcproj,
+	src/arch/sdl/win32-msvc10/pet.vcproj,
+	src/arch/sdl/win32-msvc10/petcat.vcproj,
+	src/arch/sdl/win32-msvc10/platform.vcproj,
+	src/arch/sdl/win32-msvc10/plus4.vcproj,
+	src/arch/sdl/win32-msvc10/plus4exp.vcproj,
+	src/arch/sdl/win32-msvc10/printerdrv.vcproj,
+	src/arch/sdl/win32-msvc10/raster.vcproj,
+	src/arch/sdl/win32-msvc10/resid.vcproj,
+	src/arch/sdl/win32-msvc10/residdtv.vcproj,
+	src/arch/sdl/win32-msvc10/residfp.vcproj,
+	src/arch/sdl/win32-msvc10/rs232drv.vcproj,
+	src/arch/sdl/win32-msvc10/rtc.vcproj,
+	src/arch/sdl/win32-msvc10/scpu64.vcproj,
+	src/arch/sdl/win32-msvc10/serial.vcproj,
+	src/arch/sdl/win32-msvc10/sid.vcproj,
+	src/arch/sdl/win32-msvc10/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc10/tape.vcproj,
+	src/arch/sdl/win32-msvc10/tcbm.vcproj,
+	src/arch/sdl/win32-msvc10/userport.vcproj,
+	src/arch/sdl/win32-msvc10/vdc.vcproj,
+	src/arch/sdl/win32-msvc10/vdrive.vcproj,
+	src/arch/sdl/win32-msvc10/vic20.vcproj,
+	src/arch/sdl/win32-msvc10/vic20cart.vcproj,
+	src/arch/sdl/win32-msvc10/vicii.vcproj,
+	src/arch/sdl/win32-msvc10/viciidtv.vcproj,
+	src/arch/sdl/win32-msvc10/viciisc.vcproj,
+	src/arch/sdl/win32-msvc10/video.vcproj,
+	src/arch/sdl/win32-msvc10/vsid.vcproj,
+	src/arch/sdl/win32-msvc10/vsidlib.vcproj,
+	src/arch/sdl/win32-msvc10/x128.vcproj,
+	src/arch/sdl/win32-msvc10/x64.vcproj,
+	src/arch/sdl/win32-msvc10/x64dtv.vcproj,
+	src/arch/sdl/win32-msvc10/x64sc.vcproj,
+	src/arch/sdl/win32-msvc10/xcbm2.vcproj,
+	src/arch/sdl/win32-msvc10/xcbm5x0.vcproj,
+	src/arch/sdl/win32-msvc10/xpet.vcproj,
+	src/arch/sdl/win32-msvc10/xplus4.vcproj,
+	src/arch/sdl/win32-msvc10/xscpu64.vcproj,
+	src/arch/sdl/win32-msvc10/xvic.vcproj: Made an sdl win32-msvc10
+	directory, populated with msvc9 project files for now.
+
+2013-07-12  groepaz <groepaz@gmx.net>
+
+	* src/sounddrv/soundsdl.c: fix sample calculation, makes stereo
+	setting work when pulseaudio is used as backend
+
+2013-07-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c,
+	src/arch/sdl/win32-msvc9/_vice.vcproj,
+	src/arch/sdl/win32-msvc9/base.vcproj,
+	src/arch/sdl/win32-msvc9/c128.vcproj,
+	src/arch/sdl/win32-msvc9/c1541.vcproj,
+	src/arch/sdl/win32-msvc9/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc9/c64sc.vcproj,
+	src/arch/sdl/win32-msvc9/cartconv.vcproj,
+	src/arch/sdl/win32-msvc9/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc9/drive.vcproj,
+	src/arch/sdl/win32-msvc9/geninfocontrib.vcproj,
+	src/arch/sdl/win32-msvc9/gentranslate.vcproj,
+	src/arch/sdl/win32-msvc9/monitor.vcproj,
+	src/arch/sdl/win32-msvc9/pet.vcproj,
+	src/arch/sdl/win32-msvc9/petcat.vcproj,
+	src/arch/sdl/win32-msvc9/plus4.vcproj,
+	src/arch/sdl/win32-msvc9/rtc.vcproj,
+	src/arch/sdl/win32-msvc9/scpu64.vcproj,
+	src/arch/sdl/win32-msvc9/sid.vcproj,
+	src/arch/sdl/win32-msvc9/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc9/vic20.vcproj,
+	src/arch/sdl/win32-msvc9/vice.sln,
+	src/arch/sdl/win32-msvc9/vsid.vcproj,
+	src/arch/sdl/win32-msvc9/vsidlib.vcproj,
+	src/arch/sdl/win32-msvc9/x128.vcproj,
+	src/arch/sdl/win32-msvc9/x64.vcproj,
+	src/arch/sdl/win32-msvc9/x64dtv.vcproj,
+	src/arch/sdl/win32-msvc9/x64sc.vcproj,
+	src/arch/sdl/win32-msvc9/xcbm2.vcproj,
+	src/arch/sdl/win32-msvc9/xcbm5x0.vcproj,
+	src/arch/sdl/win32-msvc9/xpet.vcproj,
+	src/arch/sdl/win32-msvc9/xplus4.vcproj,
+	src/arch/sdl/win32-msvc9/xscpu64.vcproj,
+	src/arch/sdl/win32-msvc9/xvic.vcproj: Finished the sdl msvc9 support.
+
+2013-07-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc9/_vice.vcproj,
+	src/arch/sdl/win32-msvc9/arch.vcproj,
+	src/arch/sdl/win32-msvc9/base.vcproj,
+	src/arch/sdl/win32-msvc9/c128.vcproj,
+	src/arch/sdl/win32-msvc9/c1541.vcproj,
+	src/arch/sdl/win32-msvc9/c64.vcproj,
+	src/arch/sdl/win32-msvc9/c64c128.vcproj,
+	src/arch/sdl/win32-msvc9/c64c64dtv.vcproj,
+	src/arch/sdl/win32-msvc9/c64cart.vcproj,
+	src/arch/sdl/win32-msvc9/c64cartsystem.vcproj,
+	src/arch/sdl/win32-msvc9/c64commoncart.vcproj,
+	src/arch/sdl/win32-msvc9/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc9/c64dtvstubs.vcproj,
+	src/arch/sdl/win32-msvc9/c64exp.vcproj,
+	src/arch/sdl/win32-msvc9/c64sc.vcproj,
+	src/arch/sdl/win32-msvc9/c64scpu64.vcproj,
+	src/arch/sdl/win32-msvc9/cartconv.vcproj,
+	src/arch/sdl/win32-msvc9/cbm2.vcproj,
+	src/arch/sdl/win32-msvc9/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc9/cbm5x0.vcproj,
+	src/arch/sdl/win32-msvc9/core.vcproj,
+	src/arch/sdl/win32-msvc9/crtc.vcproj,
+	src/arch/sdl/win32-msvc9/diskimage.vcproj,
+	src/arch/sdl/win32-msvc9/drive.vcproj,
+	src/arch/sdl/win32-msvc9/fileio.vcproj,
+	src/arch/sdl/win32-msvc9/fsdevice.vcproj,
+	src/arch/sdl/win32-msvc9/geninfocontrib.vcproj,
+	src/arch/sdl/win32-msvc9/gentranslate.vcproj,
+	src/arch/sdl/win32-msvc9/gfxoutputdrv.vcproj,
+	src/arch/sdl/win32-msvc9/iec.vcproj,
+	src/arch/sdl/win32-msvc9/iec128dcr.vcproj,
+	src/arch/sdl/win32-msvc9/iecbus.vcproj,
+	src/arch/sdl/win32-msvc9/iecieee.vcproj,
+	src/arch/sdl/win32-msvc9/ieee.vcproj,
+	src/arch/sdl/win32-msvc9/imagecontents.vcproj,
+	src/arch/sdl/win32-msvc9/monitor.vcproj,
+	src/arch/sdl/win32-msvc9/p64.vcproj,
+	src/arch/sdl/win32-msvc9/parallel.vcproj,
+	src/arch/sdl/win32-msvc9/pet.vcproj,
+	src/arch/sdl/win32-msvc9/petcat.vcproj,
+	src/arch/sdl/win32-msvc9/platform.vcproj,
+	src/arch/sdl/win32-msvc9/plus4.vcproj,
+	src/arch/sdl/win32-msvc9/plus4exp.vcproj,
+	src/arch/sdl/win32-msvc9/printerdrv.vcproj,
+	src/arch/sdl/win32-msvc9/raster.vcproj,
+	src/arch/sdl/win32-msvc9/resid.vcproj,
+	src/arch/sdl/win32-msvc9/residdtv.vcproj,
+	src/arch/sdl/win32-msvc9/residfp.vcproj,
+	src/arch/sdl/win32-msvc9/rs232drv.vcproj,
+	src/arch/sdl/win32-msvc9/rtc.vcproj,
+	src/arch/sdl/win32-msvc9/scpu64.vcproj,
+	src/arch/sdl/win32-msvc9/serial.vcproj,
+	src/arch/sdl/win32-msvc9/sid.vcproj,
+	src/arch/sdl/win32-msvc9/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc9/tape.vcproj,
+	src/arch/sdl/win32-msvc9/tcbm.vcproj,
+	src/arch/sdl/win32-msvc9/userport.vcproj,
+	src/arch/sdl/win32-msvc9/vdc.vcproj,
+	src/arch/sdl/win32-msvc9/vdrive.vcproj,
+	src/arch/sdl/win32-msvc9/vic20.vcproj,
+	src/arch/sdl/win32-msvc9/vic20cart.vcproj,
+	src/arch/sdl/win32-msvc9/vice.sln,
+	src/arch/sdl/win32-msvc9/vicii.vcproj,
+	src/arch/sdl/win32-msvc9/viciidtv.vcproj,
+	src/arch/sdl/win32-msvc9/viciisc.vcproj,
+	src/arch/sdl/win32-msvc9/video.vcproj,
+	src/arch/sdl/win32-msvc9/vsid.vcproj,
+	src/arch/sdl/win32-msvc9/vsidlib.vcproj,
+	src/arch/sdl/win32-msvc9/x128.vcproj,
+	src/arch/sdl/win32-msvc9/x64.vcproj,
+	src/arch/sdl/win32-msvc9/x64dtv.vcproj,
+	src/arch/sdl/win32-msvc9/x64sc.vcproj,
+	src/arch/sdl/win32-msvc9/xcbm2.vcproj,
+	src/arch/sdl/win32-msvc9/xcbm5x0.vcproj,
+	src/arch/sdl/win32-msvc9/xpet.vcproj,
+	src/arch/sdl/win32-msvc9/xplus4.vcproj,
+	src/arch/sdl/win32-msvc9/xscpu64.vcproj,
+	src/arch/sdl/win32-msvc9/xvic.vcproj: Put the msvc9 project files in
+	place.
+
+2013-07-11  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/menu_c64model.c,
+	src/arch/sdl/menu_drive.c, src/arch/sdl/menu_jam.c,
+	src/arch/sdl/menu_jam.h, src/arch/sdl/menu_scpu64hw.c,
+	src/arch/sdl/ui.c, src/arch/sdl/uimenu.c, src/arch/sdl/vsidui.c,
+	src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	src/arch/sdl/x64dtv_ui.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xcbm2_ui.c, src/arch/sdl/xpet_ui.c,
+	src/arch/sdl/xplus4_ui.c, src/arch/sdl/xscpu64_ui.c,
+	src/arch/sdl/xvic_ui.c: menu updates
+
+2013-07-11  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/cocoa/viceapplication.m,
+	src/arch/unix/x11/gnome/uidialogs.c, src/arch/unix/x11/gnome/x11ui.c,
+	src/arch/unix/x11/xaw/x11ui.c: fix extend image message
+
+2013-07-11  groepaz <groepaz@gmx.net>
+
+	* doc/html/index.html: fixed wording to mention all pet models as
+	requested by andre :) fixes bug #448
+
+2013-07-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto, src/arch/sdl/win32-msvc9,
+	src/arch/sdl/win32-msvc9/Makefile.am,
+	src/arch/sdl/win32-msvc9/Readme.txt,
+	src/arch/sdl/win32-msvc9/_vice.vcproj,
+	src/arch/sdl/win32-msvc9/arch.vcproj,
+	src/arch/sdl/win32-msvc9/base.vcproj,
+	src/arch/sdl/win32-msvc9/c128.vcproj,
+	src/arch/sdl/win32-msvc9/c1541.vcproj,
+	src/arch/sdl/win32-msvc9/c64.vcproj,
+	src/arch/sdl/win32-msvc9/c64c128.vcproj,
+	src/arch/sdl/win32-msvc9/c64c64dtv.vcproj,
+	src/arch/sdl/win32-msvc9/c64cart.vcproj,
+	src/arch/sdl/win32-msvc9/c64cartsystem.vcproj,
+	src/arch/sdl/win32-msvc9/c64commoncart.vcproj,
+	src/arch/sdl/win32-msvc9/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc9/c64dtvstubs.vcproj,
+	src/arch/sdl/win32-msvc9/c64exp.vcproj,
+	src/arch/sdl/win32-msvc9/c64sc.vcproj,
+	src/arch/sdl/win32-msvc9/c64scpu64.vcproj,
+	src/arch/sdl/win32-msvc9/cartconv.vcproj,
+	src/arch/sdl/win32-msvc9/cbm2.vcproj,
+	src/arch/sdl/win32-msvc9/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc9/cbm5x0.vcproj,
+	src/arch/sdl/win32-msvc9/core.vcproj,
+	src/arch/sdl/win32-msvc9/crtc.vcproj,
+	src/arch/sdl/win32-msvc9/dirent.h,
+	src/arch/sdl/win32-msvc9/diskimage.vcproj,
+	src/arch/sdl/win32-msvc9/drive.vcproj,
+	src/arch/sdl/win32-msvc9/fileio.vcproj,
+	src/arch/sdl/win32-msvc9/fsdevice.vcproj,
+	src/arch/sdl/win32-msvc9/geninfocontrib.vcproj,
+	src/arch/sdl/win32-msvc9/gentranslate.vcproj,
+	src/arch/sdl/win32-msvc9/gfxoutputdrv.vcproj,
+	src/arch/sdl/win32-msvc9/ide-config.h,
+	src/arch/sdl/win32-msvc9/ide-siddefs.h,
+	src/arch/sdl/win32-msvc9/ide-siddtvdefs.h,
+	src/arch/sdl/win32-msvc9/ide-sidfpdefs.h,
+	src/arch/sdl/win32-msvc9/iec.vcproj,
+	src/arch/sdl/win32-msvc9/iec128dcr.vcproj,
+	src/arch/sdl/win32-msvc9/iecbus.vcproj,
+	src/arch/sdl/win32-msvc9/iecieee.vcproj,
+	src/arch/sdl/win32-msvc9/ieee.vcproj,
+	src/arch/sdl/win32-msvc9/imagecontents.vcproj,
+	src/arch/sdl/win32-msvc9/inttypes.h,
+	src/arch/sdl/win32-msvc9/make-bindist.bat,
+	src/arch/sdl/win32-msvc9/monitor.vcproj,
+	src/arch/sdl/win32-msvc9/p64.vcproj,
+	src/arch/sdl/win32-msvc9/parallel.vcproj,
+	src/arch/sdl/win32-msvc9/pet.vcproj,
+	src/arch/sdl/win32-msvc9/petcat.vcproj,
+	src/arch/sdl/win32-msvc9/platform.vcproj,
+	src/arch/sdl/win32-msvc9/plus4.vcproj,
+	src/arch/sdl/win32-msvc9/plus4exp.vcproj,
+	src/arch/sdl/win32-msvc9/printerdrv.vcproj,
+	src/arch/sdl/win32-msvc9/raster.vcproj,
+	src/arch/sdl/win32-msvc9/resid.vcproj,
+	src/arch/sdl/win32-msvc9/residdtv.vcproj,
+	src/arch/sdl/win32-msvc9/residfp.vcproj,
+	src/arch/sdl/win32-msvc9/rs232drv.vcproj,
+	src/arch/sdl/win32-msvc9/rtc.vcproj,
+	src/arch/sdl/win32-msvc9/scpu64.vcproj,
+	src/arch/sdl/win32-msvc9/serial.vcproj,
+	src/arch/sdl/win32-msvc9/sid.vcproj,
+	src/arch/sdl/win32-msvc9/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc9/stdint.h,
+	src/arch/sdl/win32-msvc9/tape.vcproj,
+	src/arch/sdl/win32-msvc9/tcbm.vcproj,
+	src/arch/sdl/win32-msvc9/userport.vcproj,
+	src/arch/sdl/win32-msvc9/vdc.vcproj,
+	src/arch/sdl/win32-msvc9/vdrive.vcproj,
+	src/arch/sdl/win32-msvc9/vic20.vcproj,
+	src/arch/sdl/win32-msvc9/vic20cart.vcproj,
+	src/arch/sdl/win32-msvc9/vice.manifest,
+	src/arch/sdl/win32-msvc9/vice.sln,
+	src/arch/sdl/win32-msvc9/vicii.vcproj,
+	src/arch/sdl/win32-msvc9/viciidtv.vcproj,
+	src/arch/sdl/win32-msvc9/viciisc.vcproj,
+	src/arch/sdl/win32-msvc9/video.vcproj,
+	src/arch/sdl/win32-msvc9/vsid.vcproj,
+	src/arch/sdl/win32-msvc9/vsidlib.vcproj,
+	src/arch/sdl/win32-msvc9/winid_ia64.bat,
+	src/arch/sdl/win32-msvc9/winid_x64.bat,
+	src/arch/sdl/win32-msvc9/winid_x86.bat,
+	src/arch/sdl/win32-msvc9/x128.vcproj,
+	src/arch/sdl/win32-msvc9/x64.vcproj,
+	src/arch/sdl/win32-msvc9/x64dtv.vcproj,
+	src/arch/sdl/win32-msvc9/x64sc.vcproj,
+	src/arch/sdl/win32-msvc9/xcbm2.vcproj,
+	src/arch/sdl/win32-msvc9/xcbm5x0.vcproj,
+	src/arch/sdl/win32-msvc9/xpet.vcproj,
+	src/arch/sdl/win32-msvc9/xplus4.vcproj,
+	src/arch/sdl/win32-msvc9/xscpu64.vcproj,
+	src/arch/sdl/win32-msvc9/xvic.vcproj: Made an sdl win32-msvc9
+	directory, populated with msvc8 project files for now.
+
+2013-07-11  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_midi.c: only show midi driver item when a driver
+	exists, fixes bug #451
+
+2013-07-11  groepaz <groepaz@gmx.net>
+
+	* src/log.c: better handling of invalid ids, second try :)
+
+2013-07-11  groepaz <groepaz@gmx.net>
+
+	* src/log.c: better handling of invalid ids
+
+2013-07-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c,
+	src/arch/sdl/win32-msvc8/winid_ia64.bat,
+	src/arch/sdl/win32-msvc8/winid_x64.bat,
+	src/arch/sdl/win32-msvc8/winid_x86.bat,
+	src/arch/sdl/win32-msvc8/make-bindist.bat,
+	src/arch/sdl/win32-msvc8/Makefile.am,
+	src/arch/sdl/win32-msvc8/_vice.vcproj,
+	src/arch/sdl/win32-msvc8/arch.vcproj,
+	src/arch/sdl/win32-msvc8/base.vcproj,
+	src/arch/sdl/win32-msvc8/c128.vcproj,
+	src/arch/sdl/win32-msvc8/c1541.vcproj,
+	src/arch/sdl/win32-msvc8/c64.vcproj,
+	src/arch/sdl/win32-msvc8/c64c128.vcproj,
+	src/arch/sdl/win32-msvc8/c64c64dtv.vcproj,
+	src/arch/sdl/win32-msvc8/c64cart.vcproj,
+	src/arch/sdl/win32-msvc8/c64cartsystem.vcproj,
+	src/arch/sdl/win32-msvc8/c64commoncart.vcproj,
+	src/arch/sdl/win32-msvc8/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc8/c64dtvstubs.vcproj,
+	src/arch/sdl/win32-msvc8/c64exp.vcproj,
+	src/arch/sdl/win32-msvc8/c64sc.vcproj,
+	src/arch/sdl/win32-msvc8/c64scpu64.vcproj,
+	src/arch/sdl/win32-msvc8/cartconv.vcproj,
+	src/arch/sdl/win32-msvc8/cbm2.vcproj,
+	src/arch/sdl/win32-msvc8/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc8/cbm5x0.vcproj,
+	src/arch/sdl/win32-msvc8/core.vcproj,
+	src/arch/sdl/win32-msvc8/crtc.vcproj,
+	src/arch/sdl/win32-msvc8/diskimage.vcproj,
+	vice/src/arch/sdl/win32-msvc8/drive.vcproj,
+	src/arch/sdl/win32-msvc8/fileio.vcproj,
+	src/arch/sdl/win32-msvc8/fsdevice.vcproj,
+	src/arch/sdl/win32-msvc8/geninfocontrib.vcproj,
+	src/arch/sdl/win32-msvc8/gentranslate.vcproj,
+	src/arch/sdl/win32-msvc8/gfxoutputdrv.vcproj,
+	src/arch/sdl/win32-msvc8/iec.vcproj,
+	src/arch/sdl/win32-msvc8/iec128dcr.vcproj,
+	src/arch/sdl/win32-msvc8/iecbus.vcproj,
+	src/arch/sdl/win32-msvc8/iecieee.vcproj,
+	src/arch/sdl/win32-msvc8/ieee.vcproj,
+	src/arch/sdl/win32-msvc8/imagecontents.vcproj,
+	src/arch/sdl/win32-msvc8/monitor.vcproj,
+	src/arch/sdl/win32-msvc8/p64.vcproj,
+	src/arch/sdl/win32-msvc8/parallel.vcproj,
+	src/arch/sdl/win32-msvc8/pet.vcproj,
+	src/arch/sdl/win32-msvc8/petcat.vcproj,
+	src/arch/sdl/win32-msvc8/platform.vcproj,
+	src/arch/sdl/win32-msvc8/plus4.vcproj,
+	src/arch/sdl/win32-msvc8/plus4exp.vcproj,
+	src/arch/sdl/win32-msvc8/printerdrv.vcproj,
+	src/arch/sdl/win32-msvc8/raster.vcproj,
+	src/arch/sdl/win32-msvc8/resid.vcproj,
+	src/arch/sdl/win32-msvc8/residdtv.vcproj,
+	src/arch/sdl/win32-msvc8/residfp.vcproj,
+	src/arch/sdl/win32-msvc8/rs232drv.vcproj,
+	src/arch/sdl/win32-msvc8/rtc.vcproj,
+	src/arch/sdl/win32-msvc8/scpu64.vcproj,
+	src/arch/sdl/win32-msvc8/serial.vcproj,
+	src/arch/sdl/win32-msvc8/sid.vcproj,
+	src/arch/sdl/win32-msvc8/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc8/tape.vcproj,
+	src/arch/sdl/win32-msvc8/tcbm.vcproj,
+	src/arch/sdl/win32-msvc8/userport.vcproj,
+	src/arch/sdl/win32-msvc8/vdc.vcproj,
+	src/arch/sdl/win32-msvc8/vdrive.vcproj,
+	src/arch/sdl/win32-msvc8/vic20.vcproj,
+	src/arch/sdl/win32-msvc8/vic20cart.vcproj,
+	src/arch/sdl/win32-msvc8/vice.sln,
+	src/arch/sdl/win32-msvc8/vicii.vcproj,
+	src/arch/sdl/win32-msvc8/viciidtv.vcproj,
+	src/arch/sdl/win32-msvc8/viciisc.vcproj,
+	src/arch/sdl/win32-msvc8/video.vcproj,
+	src/arch/sdl/win32-msvc8/vsid.vcproj,
+	src/arch/sdl/win32-msvc8/vsidlib.vcproj,
+	src/arch/sdl/win32-msvc8/x128.vcproj,
+	src/arch/sdl/win32-msvc8/x64.vcproj,
+	src/arch/sdl/win32-msvc8/x64dtv.vcproj,
+	src/arch/sdl/win32-msvc8/x64sc.vcproj,
+	src/arch/sdl/win32-msvc8/xcbm2.vcproj,
+	src/arch/sdl/win32-msvc8/xcbm5x0.vcproj,
+	src/arch/sdl/win32-msvc8/xpet.vcproj,
+	src/arch/sdl/win32-msvc8/xplus4.vcproj,
+	src/arch/sdl/win32-msvc8/xscpu64.vcproj,
+	src/arch/sdl/win32-msvc8/xvic.vcproj: Finished sdl msvc8 support.
+
+2013-07-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_x86_runtime_cpu.c: Don't use x86 cpu code for
+	ia64.
+
+2013-07-10  groepaz <groepaz@gmx.net>
+
+	* src/attach.c: zero out p64, fixes bug #450
+
+2013-07-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/video.c: dont recalculate window dimensions (see note).
+	fixes bug #389
+
+2013-07-10  groepaz <groepaz@gmx.net>
+
+	* src/ioutil.c: fall back to using stat when d_type returns DT_UNKNOWN
+
+2013-07-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/video.c: properly setup custom fullscreen resolution,
+	fixes bug #366
+
+2013-07-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/ui.c: remove remains of old hack, supposedly makes free
+	scaling work again on some setups
+
+2013-07-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc8/_vice.vcproj,
+	src/arch/sdl/win32-msvc8/arch.vcproj,
+	src/arch/sdl/win32-msvc8/base.vcproj,
+	src/arch/sdl/win32-msvc8/c128.vcproj,
+	src/arch/sdl/win32-msvc8/c1541.vcproj,
+	src/arch/sdl/win32-msvc8/c64.vcproj,
+	src/arch/sdl/win32-msvc8/c64c128.vcproj,
+	src/arch/sdl/win32-msvc8/c64c64dtv.vcproj,
+	src/arch/sdl/win32-msvc8/c64cart.vcproj,
+	src/arch/sdl/win32-msvc8/c64cartsystem.vcproj,
+	src/arch/sdl/win32-msvc8/c64commoncart.vcproj,
+	src/arch/sdl/win32-msvc8/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc8/c64dtvstubs.vcproj,
+	src/arch/sdl/win32-msvc8/c64exp.vcproj,
+	src/arch/sdl/win32-msvc8/c64sc.vcproj,
+	src/arch/sdl/win32-msvc8/c64scpu64.vcproj,
+	src/arch/sdl/win32-msvc8/cartconv.vcproj,
+	src/arch/sdl/win32-msvc8/cbm2.vcproj,
+	src/arch/sdl/win32-msvc8/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc8/cbm5x0.vcproj,
+	src/arch/sdl/win32-msvc8/core.vcproj,
+	src/arch/sdl/win32-msvc8/crtc.vcproj,
+	src/arch/sdl/win32-msvc8/diskimage.vcproj,
+	src/arch/sdl/win32-msvc8/drive.vcproj,
+	src/arch/sdl/win32-msvc8/fileio.vcproj,
+	src/arch/sdl/win32-msvc8/fsdevice.vcproj,
+	src/arch/sdl/win32-msvc8/geninfocontrib.vcproj,
+	src/arch/sdl/win32-msvc8/gentranslate.vcproj,
+	src/arch/sdl/win32-msvc8/gfxoutputdrv.vcproj,
+	src/arch/sdl/win32-msvc8/iec.vcproj,
+	src/arch/sdl/win32-msvc8/iec128dcr.vcproj,
+	src/arch/sdl/win32-msvc8/iecbus.vcproj,
+	src/arch/sdl/win32-msvc8/iecieee.vcproj,
+	src/arch/sdl/win32-msvc8/ieee.vcproj,
+	src/arch/sdl/win32-msvc8/imagecontents.vcproj,
+	src/arch/sdl/win32-msvc8/monitor.vcproj,
+	src/arch/sdl/win32-msvc8/p64.vcproj,
+	src/arch/sdl/win32-msvc8/parallel.vcproj,
+	src/arch/sdl/win32-msvc8/pet.vcproj,
+	src/arch/sdl/win32-msvc8/petcat.vcproj,
+	src/arch/sdl/win32-msvc8/platform.vcproj,
+	src/arch/sdl/win32-msvc8/plus4.vcproj,
+	src/arch/sdl/win32-msvc8/plus4exp.vcproj,
+	src/arch/sdl/win32-msvc8/printerdrv.vcproj,
+	src/arch/sdl/win32-msvc8/raster.vcproj,
+	src/arch/sdl/win32-msvc8/resid.vcproj,
+	src/arch/sdl/win32-msvc8/residdtv.vcproj,
+	src/arch/sdl/win32-msvc8/residfp.vcproj,
+	src/arch/sdl/win32-msvc8/rs232drv.vcproj,
+	src/arch/sdl/win32-msvc8/rtc.vcproj,
+	src/arch/sdl/win32-msvc8/scpu64.vcproj,
+	src/arch/sdl/win32-msvc8/serial.vcproj,
+	src/arch/sdl/win32-msvc8/sid.vcproj,
+	src/arch/sdl/win32-msvc8/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc8/tape.vcproj,
+	src/arch/sdl/win32-msvc8/tcbm.vcproj,
+	src/arch/sdl/win32-msvc8/userport.vcproj,
+	src/arch/sdl/win32-msvc8/vdc.vcproj,
+	src/arch/sdl/win32-msvc8/vdrive.vcproj,
+	src/arch/sdl/win32-msvc8/vic20.vcproj,
+	src/arch/sdl/win32-msvc8/vic20cart.vcproj,
+	src/arch/sdl/win32-msvc8/vice.sln,
+	src/arch/sdl/win32-msvc8/vicii.vcproj,
+	src/arch/sdl/win32-msvc8/viciidtv.vcproj,
+	src/arch/sdl/win32-msvc8/viciisc.vcproj,
+	src/arch/sdl/win32-msvc8/video.vcproj,
+	src/arch/sdl/win32-msvc8/vsid.vcproj,
+	src/arch/sdl/win32-msvc8/vsidlib.vcproj,
+	src/arch/sdl/win32-msvc8/x128.vcproj,
+	src/arch/sdl/win32-msvc8/x64.vcproj,
+	src/arch/sdl/win32-msvc8/x64dtv.vcproj,
+	src/arch/sdl/win32-msvc8/x64sc.vcproj,
+	src/arch/sdl/win32-msvc8/xcbm2.vcproj,
+	src/arch/sdl/win32-msvc8/xcbm5x0.vcproj,
+	src/arch/sdl/win32-msvc8/xpet.vcproj,
+	src/arch/sdl/win32-msvc8/xplus4.vcproj,
+	src/arch/sdl/win32-msvc8/xscpu64.vcproj,
+	src/arch/sdl/win32-msvc8/xvic.vcproj: Put the msvc8 project files in
+	place.
+
+2013-07-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ide-config.h, src/platform/platform_discovery.h:
+	Added msvc version detection to the platform code.
+
+2013-07-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/win32/vs_tmpl/mkmsvc.c,
+	configure.proto, src/arch/sdl/win32-msvc8,
+	src/arch/sdl/win32-msvc8/make-bindist.bat,
+	src/arch/sdl/win32-msvc8/Makefile.am,
+	src/arch/sdl/win32-msvc8/Readme.txt,
+	src/arch/sdl/win32-msvc8/_vice.vcproj,
+	src/arch/sdl/win32-msvc8/arch.vcproj,
+	src/arch/sdl/win32-msvc8/base.vcproj,
+	src/arch/sdl/win32-msvc8/c128.vcproj,
+	src/arch/sdl/win32-msvc8/c1541.vcproj,
+	src/arch/sdl/win32-msvc8/c64.vcproj,
+	src/arch/sdl/win32-msvc8/c64c128.vcproj,
+	src/arch/sdl/win32-msvc8/c64c64dtv.vcproj,
+	src/arch/sdl/win32-msvc8/c64cart.vcproj,
+	src/arch/sdl/win32-msvc8/c64cartsystem.vcproj,
+	src/arch/sdl/win32-msvc8/c64commoncart.vcproj,
+	src/arch/sdl/win32-msvc8/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc8/c64dtvstubs.vcproj,
+	src/arch/sdl/win32-msvc8/c64exp.vcproj,
+	src/arch/sdl/win32-msvc8/c64sc.vcproj,
+	src/arch/sdl/win32-msvc8/c64scpu64.vcproj,
+	src/arch/sdl/win32-msvc8/cartconv.vcproj,
+	src/arch/sdl/win32-msvc8/cbm2.vcproj,
+	src/arch/sdl/win32-msvc8/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc8/cbm5x0.vcproj,
+	src/arch/sdl/win32-msvc8/core.vcproj,
+	src/arch/sdl/win32-msvc8/crtc.vcproj,
+	src/arch/sdl/win32-msvc8/dirent.h,
+	src/arch/sdl/win32-msvc8/diskimage.vcproj,
+	src/arch/sdl/win32-msvc8/drive.vcproj,
+	src/arch/sdl/win32-msvc8/fileio.vcproj,
+	src/arch/sdl/win32-msvc8/fsdevice.vcproj,
+	src/arch/sdl/win32-msvc8/geninfocontrib.vcproj,
+	src/arch/sdl/win32-msvc8/gentranslate.vcproj,
+	src/arch/sdl/win32-msvc8/gfxoutputdrv.vcproj,
+	src/arch/sdl/win32-msvc8/ide-config.h,
+	src/arch/sdl/win32-msvc8/ide-siddefs.h,
+	src/arch/sdl/win32-msvc8/ide-siddtvdefs.h,
+	src/arch/sdl/win32-msvc8/ide-sidfpdefs.h,
+	src/arch/sdl/win32-msvc8/iec.vcproj,
+	src/arch/sdl/win32-msvc8/iec128dcr.vcproj,
+	src/arch/sdl/win32-msvc8/iecbus.vcproj,
+	src/arch/sdl/win32-msvc8/iecieee.vcproj,
+	src/arch/sdl/win32-msvc8/ieee.vcproj,
+	src/arch/sdl/win32-msvc8/imagecontents.vcproj,
+	src/arch/sdl/win32-msvc8/inttypes.h,
+	src/arch/sdl/win32-msvc8/monitor.vcproj,
+	src/arch/sdl/win32-msvc8/p64.vcproj,
+	src/arch/sdl/win32-msvc8/parallel.vcproj,
+	src/arch/sdl/win32-msvc8/pet.vcproj,
+	src/arch/sdl/win32-msvc8/petcat.vcproj,
+	src/arch/sdl/win32-msvc8/platform.vcproj,
+	src/arch/sdl/win32-msvc8/plus4.vcproj,
+	src/arch/sdl/win32-msvc8/plus4exp.vcproj,
+	src/arch/sdl/win32-msvc8/printerdrv.vcproj,
+	src/arch/sdl/win32-msvc8/raster.vcproj,
+	src/arch/sdl/win32-msvc8/resid.vcproj,
+	src/arch/sdl/win32-msvc8/residdtv.vcproj,
+	src/arch/sdl/win32-msvc8/residfp.vcproj,
+	src/arch/sdl/win32-msvc8/rs232drv.vcproj,
+	src/arch/sdl/win32-msvc8/rtc.vcproj,
+	src/arch/sdl/win32-msvc8/scpu64.vcproj,
+	src/arch/sdl/win32-msvc8/serial.vcproj,
+	src/arch/sdl/win32-msvc8/sid.vcproj,
+	src/arch/sdl/win32-msvc8/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc8/stdint.h,
+	src/arch/sdl/win32-msvc8/tape.vcproj,
+	src/arch/sdl/win32-msvc8/tcbm.vcproj,
+	src/arch/sdl/win32-msvc8/userport.vcproj,
+	src/arch/sdl/win32-msvc8/vdc.vcproj,
+	src/arch/sdl/win32-msvc8/vdrive.vcproj,
+	src/arch/sdl/win32-msvc8/vic20.vcproj,
+	src/arch/sdl/win32-msvc8/vic20cart.vcproj,
+	src/arch/sdl/win32-msvc8/vice.manifest,
+	src/arch/sdl/win32-msvc8/vice.sln,
+	src/arch/sdl/win32-msvc8/vicii.vcproj,
+	src/arch/sdl/win32-msvc8/viciidtv.vcproj,
+	src/arch/sdl/win32-msvc8/viciisc.vcproj,
+	src/arch/sdl/win32-msvc8/video.vcproj,
+	src/arch/sdl/win32-msvc8/vsid.vcproj,
+	src/arch/sdl/win32-msvc8/vsidlib.vcproj,
+	src/arch/sdl/win32-msvc8/x128.vcproj,
+	src/arch/sdl/win32-msvc8/x64.vcproj,
+	src/arch/sdl/win32-msvc8/x64dtv.vcproj,
+	src/arch/sdl/win32-msvc8/x64sc.vcproj,
+	src/arch/sdl/win32-msvc8/xcbm2.vcproj,
+	src/arch/sdl/win32-msvc8/xcbm5x0.vcproj,
+	src/arch/sdl/win32-msvc8/xpet.vcproj,
+	src/arch/sdl/win32-msvc8/xplus4.vcproj,
+	src/arch/sdl/win32-msvc8/xscpu64.vcproj,
+	src/arch/sdl/win32-msvc8/xvic.vcproj: Added an sdl win32-msvc8
+	directory, populated with msvc7.1 project files for now.
+
+2013-07-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c,
+	src/arch/sdl/win32-msvc71/base.vcproj,
+	src/arch/sdl/win32-msvc71/c128.vcproj,
+	src/arch/sdl/win32-msvc71/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc71/c64sc.vcproj,
+	src/arch/sdl/win32-msvc71/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc71/drive.vcproj,
+	src/arch/sdl/win32-msvc71/monitor.vcproj,
+	src/arch/sdl/win32-msvc71/pet.vcproj,
+	src/arch/sdl/win32-msvc71/plus4.vcproj,
+	src/arch/sdl/win32-msvc71/rtc.vcproj,
+	src/arch/sdl/win32-msvc71/scpu64.vcproj,
+	src/arch/sdl/win32-msvc71/sid.vcproj,
+	src/arch/sdl/win32-msvc71/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc71/vic20.vcproj,
+	src/arch/sdl/win32-msvc71/vice.sln,
+	src/arch/sdl/win32-msvc71/vsidlib.vcproj: Finished the sdl msvc7.1
+	support.
+
+2013-07-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc71/_vice.vcproj,
+	src/arch/sdl/win32-msvc71/arch.vcproj,
+	src/arch/sdl/win32-msvc71/base.vcproj,
+	src/arch/sdl/win32-msvc71/c128.vcproj,
+	src/arch/sdl/win32-msvc71/c1541.vcproj,
+	src/arch/sdl/win32-msvc71/c64.vcproj,
+	src/arch/sdl/win32-msvc71/c64c128.vcproj,
+	src/arch/sdl/win32-msvc71/c64c64dtv.vcproj,
+	src/arch/sdl/win32-msvc71/c64cart.vcproj,
+	src/arch/sdl/win32-msvc71/c64cartsystem.vcproj,
+	src/arch/sdl/win32-msvc71/c64commoncart.vcproj,
+	src/arch/sdl/win32-msvc71/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc71/c64dtvstubs.vcproj,
+	src/arch/sdl/win32-msvc71/c64exp.vcproj,
+	src/arch/sdl/win32-msvc71/c64sc.vcproj,
+	src/arch/sdl/win32-msvc71/c64scpu64.vcproj,
+	src/arch/sdl/win32-msvc71/cartconv.vcproj,
+	src/arch/sdl/win32-msvc71/cbm2.vcproj,
+	src/arch/sdl/win32-msvc71/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc71/cbm5x0.vcproj,
+	src/arch/sdl/win32-msvc71/core.vcproj,
+	src/arch/sdl/win32-msvc71/crtc.vcproj,
+	src/arch/sdl/win32-msvc71/diskimage.vcproj,
+	src/arch/sdl/win32-msvc71/drive.vcproj,
+	src/arch/sdl/win32-msvc71/fileio.vcproj,
+	src/arch/sdl/win32-msvc71/fsdevice.vcproj,
+	src/arch/sdl/win32-msvc71/geninfocontrib.vcproj,
+	src/arch/sdl/win32-msvc71/gentranslate.vcproj,
+	src/arch/sdl/win32-msvc71/gfxoutputdrv.vcproj,
+	src/arch/sdl/win32-msvc71/iec.vcproj,
+	src/arch/sdl/win32-msvc71/iec128dcr.vcproj,
+	src/arch/sdl/win32-msvc71/iecbus.vcproj,
+	src/arch/sdl/win32-msvc71/iecieee.vcproj,
+	src/arch/sdl/win32-msvc71/ieee.vcproj,
+	src/arch/sdl/win32-msvc71/imagecontents.vcproj,
+	src/arch/sdl/win32-msvc71/monitor.vcproj,
+	src/arch/sdl/win32-msvc71/p64.vcproj,
+	src/arch/sdl/win32-msvc71/parallel.vcproj,
+	src/arch/sdl/win32-msvc71/pet.vcproj,
+	src/arch/sdl/win32-msvc71/petcat.vcproj,
+	src/arch/sdl/win32-msvc71/platform.vcproj,
+	src/arch/sdl/win32-msvc71/plus4.vcproj,
+	src/arch/sdl/win32-msvc71/plus4exp.vcproj,
+	src/arch/sdl/win32-msvc71/printerdrv.vcproj,
+	src/arch/sdl/win32-msvc71/raster.vcproj,
+	src/arch/sdl/win32-msvc71/resid.vcproj,
+	src/arch/sdl/win32-msvc71/residdtv.vcproj,
+	src/arch/sdl/win32-msvc71/residfp.vcproj,
+	src/arch/sdl/win32-msvc71/rs232drv.vcproj,
+	src/arch/sdl/win32-msvc71/rtc.vcproj,
+	src/arch/sdl/win32-msvc71/scpu64.vcproj,
+	src/arch/sdl/win32-msvc71/serial.vcproj,
+	src/arch/sdl/win32-msvc71/sid.vcproj,
+	src/arch/sdl/win32-msvc71/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc71/tape.vcproj,
+	src/arch/sdl/win32-msvc71/tcbm.vcproj,
+	src/arch/sdl/win32-msvc71/userport.vcproj,
+	src/arch/sdl/win32-msvc71/vdc.vcproj,
+	src/arch/sdl/win32-msvc71/vdrive.vcproj,
+	src/arch/sdl/win32-msvc71/vic20.vcproj,
+	src/arch/sdl/win32-msvc71/vic20cart.vcproj,
+	src/arch/sdl/win32-msvc71/vice.sln,
+	src/arch/sdl/win32-msvc71/vicii.vcproj,
+	src/arch/sdl/win32-msvc71/viciidtv.vcproj,
+	src/arch/sdl/win32-msvc71/viciisc.vcproj,
+	src/arch/sdl/win32-msvc71/video.vcproj,
+	src/arch/sdl/win32-msvc71/vsid.vcproj,
+	src/arch/sdl/win32-msvc71/vsidlib.vcproj,
+	src/arch/sdl/win32-msvc71/x128.vcproj,
+	src/arch/sdl/win32-msvc71/x64.vcproj,
+	src/arch/sdl/win32-msvc71/x64dtv.vcproj,
+	src/arch/sdl/win32-msvc71/x64sc.vcproj,
+	src/arch/sdl/win32-msvc71/xcbm2.vcproj,
+	src/arch/sdl/win32-msvc71/xcbm5x0.vcproj,
+	src/arch/sdl/win32-msvc71/xpet.vcproj,
+	src/arch/sdl/win32-msvc71/xplus4.vcproj,
+	src/arch/sdl/win32-msvc71/xscpu64.vcproj,
+	src/arch/sdl/win32-msvc71/xvic.vcproj: Put sdl msvc7.1 project files
+	in place.
+
+2013-07-09  groepaz <groepaz@gmx.net>
+
+	* src/video/video-resources.c: fix shutdown
+
+2013-07-09  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/fullscreen.c: fix memory leak
+
+2013-07-09  groepaz <groepaz@gmx.net>
+
+	* src/plus4/plus4.c: added missing call to shutdown function
+
+2013-07-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto,
+	src/arch/sdl/win32-msvc71, src/arch/sdl/win32-msvc71/Makefile.am,
+	src/arch/sdl/win32-msvc71/Readme.txt,
+	src/arch/sdl/win32-msvc71/_vice.vcproj,
+	src/arch/sdl/win32-msvc71/arch.vcproj,
+	src/arch/sdl/win32-msvc71/base.vcproj,
+	src/arch/sdl/win32-msvc71/c128.vcproj,
+	src/arch/sdl/win32-msvc71/c1541.vcproj,
+	src/arch/sdl/win32-msvc71/c64.vcproj,
+	src/arch/sdl/win32-msvc71/c64c128.vcproj,
+	src/arch/sdl/win32-msvc71/c64c64dtv.vcproj,
+	src/arch/sdl/win32-msvc71/c64cart.vcproj,
+	src/arch/sdl/win32-msvc71/c64cartsystem.vcproj,
+	src/arch/sdl/win32-msvc71/c64commoncart.vcproj,
+	src/arch/sdl/win32-msvc71/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc71/c64dtvstubs.vcproj,
+	src/arch/sdl/win32-msvc71/c64exp.vcproj,
+	src/arch/sdl/win32-msvc71/c64sc.vcproj,
+	src/arch/sdl/win32-msvc71/c64scpu64.vcproj,
+	src/arch/sdl/win32-msvc71/cartconv.vcproj,
+	src/arch/sdl/win32-msvc71/cbm2.vcproj,
+	src/arch/sdl/win32-msvc71/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc71/cbm5x0.vcproj,
+	src/arch/sdl/win32-msvc71/core.vcproj,
+	src/arch/sdl/win32-msvc71/crtc.vcproj,
+	src/arch/sdl/win32-msvc71/dirent.h,
+	src/arch/sdl/win32-msvc71/diskimage.vcproj,
+	src/arch/sdl/win32-msvc71/drive.vcproj,
+	src/arch/sdl/win32-msvc71/fileio.vcproj,
+	src/arch/sdl/win32-msvc71/fsdevice.vcproj,
+	src/arch/sdl/win32-msvc71/geninfocontrib.vcproj,
+	src/arch/sdl/win32-msvc71/gentranslate.vcproj,
+	src/arch/sdl/win32-msvc71/gfxoutputdrv.vcproj,
+	src/arch/sdl/win32-msvc71/ide-config.h,
+	src/arch/sdl/win32-msvc71/ide-siddefs.h,
+	src/arch/sdl/win32-msvc71/ide-siddtvdefs.h,
+	src/arch/sdl/win32-msvc71/ide-sidfpdefs.h,
+	src/arch/sdl/win32-msvc71/iec.vcproj,
+	src/arch/sdl/win32-msvc71/iec128dcr.vcproj,
+	src/arch/sdl/win32-msvc71/iecbus.vcproj,
+	src/arch/sdl/win32-msvc71/iecieee.vcproj,
+	src/arch/sdl/win32-msvc71/ieee.vcproj,
+	src/arch/sdl/win32-msvc71/imagecontents.vcproj,
+	src/arch/sdl/win32-msvc71/inttypes.h,
+	src/arch/sdl/win32-msvc71/make-bindist.bat,
+	src/arch/sdl/win32-msvc71/monitor.vcproj,
+	src/arch/sdl/win32-msvc71/p64.vcproj,
+	src/arch/sdl/win32-msvc71/parallel.vcproj,
+	src/arch/sdl/win32-msvc71/pet.vcproj,
+	src/arch/sdl/win32-msvc71/petcat.vcproj,
+	src/arch/sdl/win32-msvc71/platform.vcproj,
+	src/arch/sdl/win32-msvc71/plus4.vcproj,
+	src/arch/sdl/win32-msvc71/plus4exp.vcproj,
+	src/arch/sdl/win32-msvc71/printerdrv.vcproj,
+	src/arch/sdl/win32-msvc71/raster.vcproj,
+	src/arch/sdl/win32-msvc71/resid.vcproj,
+	src/arch/sdl/win32-msvc71/residdtv.vcproj,
+	src/arch/sdl/win32-msvc71/residfp.vcproj,
+	src/arch/sdl/win32-msvc71/rs232drv.vcproj,
+	src/arch/sdl/win32-msvc71/rtc.vcproj,
+	src/arch/sdl/win32-msvc71/scpu64.vcproj,
+	src/arch/sdl/win32-msvc71/serial.vcproj,
+	src/arch/sdl/win32-msvc71/sid.vcproj,
+	src/arch/sdl/win32-msvc71/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc71/stdint.h,
+	src/arch/sdl/win32-msvc71/tape.vcproj,
+	src/arch/sdl/win32-msvc71/tcbm.vcproj,
+	src/arch/sdl/win32-msvc71/userport.vcproj,
+	src/arch/sdl/win32-msvc71/vdc.vcproj,
+	src/arch/sdl/win32-msvc71/vdrive.vcproj,
+	src/arch/sdl/win32-msvc71/vic20.vcproj,
+	src/arch/sdl/win32-msvc71/vic20cart.vcproj,
+	src/arch/sdl/win32-msvc71/vice.manifest,
+	src/arch/sdl/win32-msvc71/vice.sln,
+	src/arch/sdl/win32-msvc71/vicii.vcproj,
+	src/arch/sdl/win32-msvc71/viciidtv.vcproj,
+	src/arch/sdl/win32-msvc71/viciisc.vcproj,
+	src/arch/sdl/win32-msvc71/video.vcproj,
+	src/arch/sdl/win32-msvc71/vsid.vcproj,
+	src/arch/sdl/win32-msvc71/vsidlib.vcproj,
+	src/arch/sdl/win32-msvc71/x128.vcproj,
+	src/arch/sdl/win32-msvc71/x64.vcproj,
+	src/arch/sdl/win32-msvc71/x64dtv.vcproj,
+	src/arch/sdl/win32-msvc71/x64sc.vcproj,
+	src/arch/sdl/win32-msvc71/xcbm2.vcproj,
+	src/arch/sdl/win32-msvc71/xcbm5x0.vcproj,
+	src/arch/sdl/win32-msvc71/xpet.vcproj,
+	src/arch/sdl/win32-msvc71/xplus4.vcproj,
+	src/arch/sdl/win32-msvc71/xscpu64.vcproj,
+	src/arch/sdl/win32-msvc71/xvic.vcproj: Added an sdl win32-msvc71
+	directory, populated with msvc7.0 project files for now.
+
+2013-07-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c,
+	src/arch/sdl/win32-msvc70/_vice.vcproj,
+	src/arch/sdl/win32-msvc70/arch.vcproj,
+	src/arch/sdl/win32-msvc70/base.vcproj,
+	src/arch/sdl/win32-msvc70/c128.vcproj,
+	src/arch/sdl/win32-msvc70/c1541.vcproj,
+	src/arch/sdl/win32-msvc70/c64.vcproj,
+	src/arch/sdl/win32-msvc70/c64c128.vcproj,
+	src/arch/sdl/win32-msvc70/c64c64dtv.vcproj,
+	src/arch/sdl/win32-msvc70/c64cart.vcproj,
+	src/arch/sdl/win32-msvc70/c64cartsystem.vcproj,
+	src/arch/sdl/win32-msvc70/c64commoncart.vcproj,
+	src/arch/sdl/win32-msvc70/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc70/c64dtvstubs.vcproj,
+	src/arch/sdl/win32-msvc70/c64exp.vcproj,
+	src/arch/sdl/win32-msvc70/c64sc.vcproj,
+	src/arch/sdl/win32-msvc70/c64scpu64.vcproj,
+	src/arch/sdl/win32-msvc70/cartconv.vcproj,
+	src/arch/sdl/win32-msvc70/cbm2.vcproj,
+	src/arch/sdl/win32-msvc70/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc70/cbm5x0.vcproj,
+	src/arch/sdl/win32-msvc70/core.vcproj,
+	src/arch/sdl/win32-msvc70/crtc.vcproj,
+	src/arch/sdl/win32-msvc70/diskimage.vcproj,
+	src/arch/sdl/win32-msvc70/drive.vcproj,
+	src/arch/sdl/win32-msvc70/fileio.vcproj,
+	src/arch/sdl/win32-msvc70/fsdevice.vcproj,
+	src/arch/sdl/win32-msvc70/geninfocontrib.vcproj,
+	src/arch/sdl/win32-msvc70/gentranslate.vcproj,
+	src/arch/sdl/win32-msvc70/gfxoutputdrv.vcproj,
+	src/arch/sdl/win32-msvc70/iec.vcproj,
+	src/arch/sdl/win32-msvc70/iec128dcr.vcproj,
+	src/arch/sdl/win32-msvc70/iecbus.vcproj,
+	src/arch/sdl/win32-msvc70/iecieee.vcproj,
+	src/arch/sdl/win32-msvc70/ieee.vcproj,
+	src/arch/sdl/win32-msvc70/imagecontents.vcproj,
+	src/arch/sdl/win32-msvc70/monitor.vcproj,
+	src/arch/sdl/win32-msvc70/p64.vcproj,
+	src/arch/sdl/win32-msvc70/parallel.vcproj,
+	src/arch/sdl/win32-msvc70/pet.vcproj,
+	src/arch/sdl/win32-msvc70/petcat.vcproj,
+	src/arch/sdl/win32-msvc70/platform.vcproj,
+	src/arch/sdl/win32-msvc70/plus4.vcproj,
+	src/arch/sdl/win32-msvc70/plus4exp.vcproj,
+	src/arch/sdl/win32-msvc70/printerdrv.vcproj,
+	src/arch/sdl/win32-msvc70/raster.vcproj,
+	src/arch/sdl/win32-msvc70/resid.vcproj,
+	src/arch/sdl/win32-msvc70/residdtv.vcproj,
+	src/arch/sdl/win32-msvc70/residfp.vcproj,
+	src/arch/sdl/win32-msvc70/rs232drv.vcproj,
+	src/arch/sdl/win32-msvc70/rtc.vcproj,
+	src/arch/sdl/win32-msvc70/scpu64.vcproj,
+	src/arch/sdl/win32-msvc70/serial.vcproj,
+	src/arch/sdl/win32-msvc70/sid.vcproj,
+	src/arch/sdl/win32-msvc70/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc70/tape.vcproj,
+	src/arch/sdl/win32-msvc70/tcbm.vcproj,
+	src/arch/sdl/win32-msvc70/userport.vcproj,
+	src/arch/sdl/win32-msvc70/vdc.vcproj,
+	src/arch/sdl/win32-msvc70/vdrive.vcproj,
+	src/arch/sdl/win32-msvc70/vic20.vcproj,
+	src/arch/sdl/win32-msvc70/vic20cart.vcproj,
+	src/arch/sdl/win32-msvc70/vice.sln,
+	src/arch/sdl/win32-msvc70/vicii.vcproj,
+	src/arch/sdl/win32-msvc70/viciidtv.vcproj,
+	src/arch/sdl/win32-msvc70/viciisc.vcproj,
+	src/arch/sdl/win32-msvc70/video.vcproj,
+	src/arch/sdl/win32-msvc70/vsid.vcproj,
+	src/arch/sdl/win32-msvc70/vsidlib.vcproj,
+	src/arch/sdl/win32-msvc70/x128.vcproj,
+	src/arch/sdl/win32-msvc70/x64.vcproj,
+	src/arch/sdl/win32-msvc70/x64dtv.vcproj,
+	src/arch/sdl/win32-msvc70/x64sc.vcproj,
+	src/arch/sdl/win32-msvc70/xcbm2.vcproj,
+	src/arch/sdl/win32-msvc70/xcbm5x0.vcproj,
+	src/arch/sdl/win32-msvc70/xpet.vcproj,
+	src/arch/sdl/win32-msvc70/xplus4.vcproj,
+	src/arch/sdl/win32-msvc70/xscpu64.vcproj,
+	src/arch/sdl/win32-msvc70/xvic.vcproj: Finished the sdl msvc7.0
+	support.
+
+2013-07-09  groepaz <groepaz@gmx.net>
+
+	* src/lib.c: do not zero-fill block allocated by lib_malloc. this WILL
+	break code that does incorrectly rely on the previous incorrect
+	behaviour :)
+
+2013-07-09  groepaz <groepaz@gmx.net>
+
+	* src/plus4/plus4.c, src/plus4/plus4speech.c, src/plus4/plus4speech.h:
+	init context properly, added missing shutdown function
+
+2013-07-09  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64meminit.c: do not read boardtype resource in x128
+
+2013-07-09  groepaz <groepaz@gmx.net>
+
+	* src/machine.c: use lib_calloc to properly initialize context with
+	zeros
+
+2013-07-09  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/magicvoice.c: use lib_calloc to properly initialize
+	context with zeros
+
+2013-07-09  groepaz <groepaz@gmx.net>
+
+	* src/core/ciacore.c: use lib_calloc to properly initialize context
+	with zeros
+
+2013-07-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/petcolour.c: Changed the RGB macro to MAKE_RGB, since RGB is
+	already defined on windows.
+
+2013-07-08  groepaz <groepaz@gmx.net>
+
+	* src/sid/sid.c: reuse allocated buffers if possible, instead of
+	allocating and deallocating them all the time
+
+2013-07-08  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uimenu.h: remove bogus GNOME_MENUS check
+	from stoneage :)
+
+2013-07-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc70/Makefile.am,
+	src/arch/sdl/win32-msvc70/_vice.vcproj,
+	src/arch/sdl/win32-msvc70/arch.vcproj,
+	src/arch/sdl/win32-msvc70/base.vcproj,
+	src/arch/sdl/win32-msvc70/c128.vcproj,
+	src/arch/sdl/win32-msvc70/c1541.vcproj,
+	src/arch/sdl/win32-msvc70/c64.vcproj,
+	src/arch/sdl/win32-msvc70/c64c128.vcproj,
+	src/arch/sdl/win32-msvc70/c64c64dtv.vcproj,
+	src/arch/sdl/win32-msvc70/c64cart.vcproj,
+	src/arch/sdl/win32-msvc70/c64cartsystem.vcproj,
+	src/arch/sdl/win32-msvc70/c64commoncart.vcproj,
+	src/arch/sdl/win32-msvc70/c64dtv.vcproj,
+	src/arch/sdl/win32-msvc70/c64dtvstubs.vcproj,
+	src/arch/sdl/win32-msvc70/c64exp.vcproj,
+	src/arch/sdl/win32-msvc70/c64sc.vcproj,
+	src/arch/sdl/win32-msvc70/c64scpu64.vcproj,
+	src/arch/sdl/win32-msvc70/cartconv.vcproj,
+	src/arch/sdl/win32-msvc70/cbm2.vcproj,
+	src/arch/sdl/win32-msvc70/cbm2common.vcproj,
+	src/arch/sdl/win32-msvc70/cbm5x0.vcproj,
+	src/arch/sdl/win32-msvc70/core.vcproj,
+	src/arch/sdl/win32-msvc70/crtc.vcproj,
+	src/arch/sdl/win32-msvc70/diskimage.vcproj,
+	src/arch/sdl/win32-msvc70/drive.vcproj,
+	src/arch/sdl/win32-msvc70/fileio.vcproj,
+	src/arch/sdl/win32-msvc70/fsdevice.vcproj,
+	src/arch/sdl/win32-msvc70/geninfocontrib.vcproj,
+	src/arch/sdl/win32-msvc70/gentranslate.vcproj,
+	src/arch/sdl/win32-msvc70/gfxoutputdrv.vcproj,
+	src/arch/sdl/win32-msvc70/iec.vcproj,
+	src/arch/sdl/win32-msvc70/iec128dcr.vcproj,
+	src/arch/sdl/win32-msvc70/iecbus.vcproj,
+	src/arch/sdl/win32-msvc70/iecieee.vcproj,
+	src/arch/sdl/win32-msvc70/ieee.vcproj,
+	src/arch/sdl/win32-msvc70/imagecontents.vcproj,
+	src/arch/sdl/win32-msvc70/monitor.vcproj,
+	src/arch/sdl/win32-msvc70/p64.vcproj,
+	src/arch/sdl/win32-msvc70/parallel.vcproj,
+	src/arch/sdl/win32-msvc70/pet.vcproj,
+	src/arch/sdl/win32-msvc70/petcat.vcproj,
+	src/arch/sdl/win32-msvc70/platform.vcproj,
+	src/arch/sdl/win32-msvc70/plus4.vcproj,
+	src/arch/sdl/win32-msvc70/plus4exp.vcproj,
+	src/arch/sdl/win32-msvc70/printerdrv.vcproj,
+	src/arch/sdl/win32-msvc70/raster.vcproj,
+	src/arch/sdl/win32-msvc70/resid.vcproj,
+	src/arch/sdl/win32-msvc70/residdtv.vcproj,
+	src/arch/sdl/win32-msvc70/residfp.vcproj,
+	src/arch/sdl/win32-msvc70/rs232drv.vcproj,
+	src/arch/sdl/win32-msvc70/rtc.vcproj,
+	src/arch/sdl/win32-msvc70/scpu64.vcproj,
+	src/arch/sdl/win32-msvc70/serial.vcproj,
+	src/arch/sdl/win32-msvc70/sid.vcproj,
+	src/arch/sdl/win32-msvc70/sounddrv.vcproj,
+	src/arch/sdl/win32-msvc70/tape.vcproj,
+	src/arch/sdl/win32-msvc70/tcbm.vcproj,
+	src/arch/sdl/win32-msvc70/userport.vcproj,
+	src/arch/sdl/win32-msvc70/vdc.vcproj,
+	src/arch/sdl/win32-msvc70/vdrive.vcproj,
+	src/arch/sdl/win32-msvc70/vic20.vcproj,
+	src/arch/sdl/win32-msvc70/vic20cart.vcproj,
+	src/arch/sdl/win32-msvc70/vice.sln,
+	src/arch/sdl/win32-msvc70/vicii.vcproj,
+	src/arch/sdl/win32-msvc70/viciidtv.vcproj,
+	src/arch/sdl/win32-msvc70/viciisc.vcproj,
+	src/arch/sdl/win32-msvc70/video.vcproj,
+	src/arch/sdl/win32-msvc70/vsid.vcproj,
+	src/arch/sdl/win32-msvc70/vsidlib.vcproj,
+	src/arch/sdl/win32-msvc70/x128.vcproj,
+	src/arch/sdl/win32-msvc70/x64.vcproj,
+	src/arch/sdl/win32-msvc70/x64dtv.vcproj,
+	src/arch/sdl/win32-msvc70/x64sc.vcproj,
+	src/arch/sdl/win32-msvc70/xcbm2.vcproj,
+	src/arch/sdl/win32-msvc70/xcbm5x0.vcproj,
+	src/arch/sdl/win32-msvc70/xpet.vcproj,
+	src/arch/sdl/win32-msvc70/xplus4.vcproj,
+	src/arch/sdl/win32-msvc70/xscpu64.vcproj,
+	src/arch/sdl/win32-msvc70/xvic.vcproj,
+	src/arch/sdl/win32-msvc70/_vice.dsp,
+	src/arch/sdl/win32-msvc70/arch.dsp,
+	src/arch/sdl/win32-msvc70/base.dsp,
+	src/arch/sdl/win32-msvc70/c128.dsp,
+	src/arch/sdl/win32-msvc70/c1541.dsp,
+	src/arch/sdl/win32-msvc70/c64.dsp,
+	src/arch/sdl/win32-msvc70/c64c128.dsp,
+	src/arch/sdl/win32-msvc70/c64c64dtv.dsp,
+	src/arch/sdl/win32-msvc70/c64cart.dsp,
+	src/arch/sdl/win32-msvc70/c64cartsystem.dsp,
+	src/arch/sdl/win32-msvc70/c64commoncart.dsp,
+	src/arch/sdl/win32-msvc70/c64dtv.dsp,
+	src/arch/sdl/win32-msvc70/c64dtvstubs.dsp,
+	src/arch/sdl/win32-msvc70/c64exp.dsp,
+	src/arch/sdl/win32-msvc70/c64sc.dsp,
+	src/arch/sdl/win32-msvc70/c64scpu64.dsp,
+	src/arch/sdl/win32-msvc70/cartconv.dsp,
+	src/arch/sdl/win32-msvc70/cbm2.dsp,
+	src/arch/sdl/win32-msvc70/cbm2common.dsp,
+	src/arch/sdl/win32-msvc70/cbm5x0.dsp,
+	src/arch/sdl/win32-msvc70/core.dsp,
+	src/arch/sdl/win32-msvc70/crtc.dsp,
+	src/arch/sdl/win32-msvc70/diskimage.dsp,
+	src/arch/sdl/win32-msvc70/drive.dsp,
+	src/arch/sdl/win32-msvc70/fileio.dsp,
+	src/arch/sdl/win32-msvc70/fsdevice.dsp,
+	src/arch/sdl/win32-msvc70/geninfocontrib.dsp,
+	src/arch/sdl/win32-msvc70/gentranslate.dsp,
+	src/arch/sdl/win32-msvc70/gfxoutputdrv.dsp,
+	src/arch/sdl/win32-msvc70/iec.dsp,
+	src/arch/sdl/win32-msvc70/iec128dcr.dsp,
+	src/arch/sdl/win32-msvc70/iecbus.dsp,
+	src/arch/sdl/win32-msvc70/iecieee.dsp,
+	src/arch/sdl/win32-msvc70/ieee.dsp,
+	src/arch/sdl/win32-msvc70/imagecontents.dsp,
+	src/arch/sdl/win32-msvc70/monitor.dsp,
+	src/arch/sdl/win32-msvc70/p64.dsp,
+	src/arch/sdl/win32-msvc70/parallel.dsp,
+	src/arch/sdl/win32-msvc70/pet.dsp,
+	src/arch/sdl/win32-msvc70/petcat.dsp,
+	src/arch/sdl/win32-msvc70/platform.dsp,
+	src/arch/sdl/win32-msvc70/plus4.dsp,
+	src/arch/sdl/win32-msvc70/plus4exp.dsp,
+	src/arch/sdl/win32-msvc70/printerdrv.dsp,
+	src/arch/sdl/win32-msvc70/raster.dsp,
+	src/arch/sdl/win32-msvc70/resid.dsp,
+	src/arch/sdl/win32-msvc70/residdtv.dsp,
+	src/arch/sdl/win32-msvc70/residfp.dsp,
+	src/arch/sdl/win32-msvc70/rs232drv.dsp,
+	src/arch/sdl/win32-msvc70/rtc.dsp,
+	src/arch/sdl/win32-msvc70/scpu64.dsp,
+	src/arch/sdl/win32-msvc70/serial.dsp,
+	src/arch/sdl/win32-msvc70/sid.dsp,
+	src/arch/sdl/win32-msvc70/sounddrv.dsp,
+	src/arch/sdl/win32-msvc70/tape.dsp,
+	src/arch/sdl/win32-msvc70/tcbm.dsp,
+	src/arch/sdl/win32-msvc70/userport.dsp,
+	src/arch/sdl/win32-msvc70/vdc.dsp,
+	src/arch/sdl/win32-msvc70/vdrive.dsp,
+	src/arch/sdl/win32-msvc70/vic20.dsp,
+	src/arch/sdl/win32-msvc70/vic20cart.dsp,
+	src/arch/sdl/win32-msvc70/vice.dsw,
+	src/arch/sdl/win32-msvc70/vicii.dsp,
+	src/arch/sdl/win32-msvc70/viciidtv.dsp,
+	src/arch/sdl/win32-msvc70/viciisc.dsp,
+	src/arch/sdl/win32-msvc70/video.dsp,
+	src/arch/sdl/win32-msvc70/vsid.dsp,
+	src/arch/sdl/win32-msvc70/vsidlib.dsp,
+	src/arch/sdl/win32-msvc70/x128.dsp, src/arch/sdl/win32-msvc70/x64.dsp,
+	src/arch/sdl/win32-msvc70/x64dtv.dsp,
+	src/arch/sdl/win32-msvc70/x64sc.dsp,
+	src/arch/sdl/win32-msvc70/xcbm2.dsp,
+	src/arch/sdl/win32-msvc70/xcbm5x0.dsp,
+	src/arch/sdl/win32-msvc70/xpet.dsp,
+	src/arch/sdl/win32-msvc70/xplus4.dsp,
+	src/arch/sdl/win32-msvc70/xscpu64.dsp,
+	src/arch/sdl/win32-msvc70/xvic.dsp: Replaced with msvc7.0 project
+	files.
+
+2013-07-08  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uipalcontrol.c: dont read from resources
+	that are not available in vsid
+
+2013-07-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto,
+	src/arch/sdl/win32-msvc70, src/arch/sdl/win32-msvc70/Makefile.am,
+	src/arch/sdl/win32-msvc70/Readme.txt,
+	src/arch/sdl/win32-msvc70/dirent.h,
+	src/arch/sdl/win32-msvc70/ide-config.h,
+	src/arch/sdl/win32-msvc70/ide-siddefs.h,
+	src/arch/sdl/win32-msvc70/ide-siddtvdefs.h,
+	src/arch/sdl/win32-msvc70/ide-sidfpdefs.h,
+	src/arch/sdl/win32-msvc70/inttypes.h,
+	src/arch/sdl/win32-msvc70/make-bindist.bat,
+	src/arch/sdl/win32-msvc70/stdint.h,
+	src/arch/sdl/win32-msvc70/vice.manifest,
+	src/arch/sdl/win32-msvc70/_vice.dsp,
+	src/arch/sdl/win32-msvc70/arch.dsp, arch/sdl/win32-msvc70/base.dsp,
+	src/arch/sdl/win32-msvc70/c128.dsp,
+	src/arch/sdl/win32-msvc70/c1541.dsp,
+	src/arch/sdl/win32-msvc70/c64.dsp,
+	src/arch/sdl/win32-msvc70/c64c128.dsp,
+	src/arch/sdl/win32-msvc70/c64c64dtv.dsp,
+	src/arch/sdl/win32-msvc70/c64cart.dsp,
+	src/arch/sdl/win32-msvc70/c64cartsystem.dsp,
+	src/arch/sdl/win32-msvc70/c64commoncart.dsp,
+	src/arch/sdl/win32-msvc70/c64dtv.dsp,
+	src/arch/sdl/win32-msvc70/c64dtvstubs.dsp,
+	src/arch/sdl/win32-msvc70/c64exp.dsp,
+	src/arch/sdl/win32-msvc70/c64sc.dsp,
+	src/arch/sdl/win32-msvc70/c64scpu64.dsp,
+	src/arch/sdl/win32-msvc70/cartconv.dsp,
+	src/arch/sdl/win32-msvc70/cbm2.dsp,
+	src/arch/sdl/win32-msvc70/cbm2common.dsp,
+	src/arch/sdl/win32-msvc70/cbm5x0.dsp,
+	src/arch/sdl/win32-msvc70/core.dsp,
+	src/arch/sdl/win32-msvc70/crtc.dsp,
+	src/arch/sdl/win32-msvc70/diskimage.dsp,
+	src/arch/sdl/win32-msvc70/drive.dsp,
+	src/arch/sdl/win32-msvc70/fileio.dsp,
+	src/arch/sdl/win32-msvc70/fsdevice.dsp,
+	src/arch/sdl/win32-msvc70/geninfocontrib.dsp,
+	src/arch/sdl/win32-msvc70/gentranslate.dsp,
+	src/arch/sdl/win32-msvc70/gfxoutputdrv.dsp,
+	src/arch/sdl/win32-msvc70/iec.dsp,
+	src/arch/sdl/win32-msvc70/iec128dcr.dsp,
+	src/arch/sdl/win32-msvc70/iecbus.dsp,
+	src/arch/sdl/win32-msvc70/iecieee.dsp,
+	src/arch/sdl/win32-msvc70/ieee.dsp,
+	src/arch/sdl/win32-msvc70/imagecontents.dsp,
+	src/arch/sdl/win32-msvc70/monitor.dsp,
+	src/arch/sdl/win32-msvc70/p64.dsp,
+	src/arch/sdl/win32-msvc70/parallel.dsp,
+	src/arch/sdl/win32-msvc70/pet.dsp,
+	src/arch/sdl/win32-msvc70/petcat.dsp,
+	src/arch/sdl/win32-msvc70/platform.dsp,
+	src/arch/sdl/win32-msvc70/plus4.dsp,
+	src/arch/sdl/win32-msvc70/plus4exp.dsp,
+	src/arch/sdl/win32-msvc70/printerdrv.dsp,
+	src/arch/sdl/win32-msvc70/raster.dsp,
+	src/arch/sdl/win32-msvc70/resid.dsp,
+	src/arch/sdl/win32-msvc70/residdtv.dsp,
+	src/arch/sdl/win32-msvc70/residfp.dsp,
+	src/arch/sdl/win32-msvc70/rs232drv.dsp,
+	src/arch/sdl/win32-msvc70/rtc.dsp,
+	src/arch/sdl/win32-msvc70/scpu64.dsp,
+	src/arch/sdl/win32-msvc70/serial.dsp,
+	src/arch/sdl/win32-msvc70/sid.dsp,
+	src/arch/sdl/win32-msvc70/sounddrv.dsp,
+	src/arch/sdl/win32-msvc70/tape.dsp,
+	src/arch/sdl/win32-msvc70/tcbm.dsp,
+	src/arch/sdl/win32-msvc70/userport.dsp,
+	src/arch/sdl/win32-msvc70/vdc.dsp,
+	src/arch/sdl/win32-msvc70/vdrive.dsp,
+	src/arch/sdl/win32-msvc70/vic20.dsp,
+	src/arch/sdl/win32-msvc70/vic20cart.dsp,
+	src/arch/sdl/win32-msvc70/vice.dsw,
+	src/arch/sdl/win32-msvc70/vicii.dsp,
+	src/arch/sdl/win32-msvc70/viciidtv.dsp,
+	src/arch/sdl/win32-msvc70/viciisc.dsp,
+	src/arch/sdl/win32-msvc70/video.dsp,
+	src/arch/sdl/win32-msvc70/vsid.dsp,
+	src/arch/sdl/win32-msvc70/vsidlib.dsp,
+	src/arch/sdl/win32-msvc70/x128.dsp, src/arch/sdl/win32-msvc70/x64.dsp,
+	src/arch/sdl/win32-msvc70/x64dtv.dsp,
+	src/arch/sdl/win32-msvc70/x64sc.dsp,
+	src/arch/sdl/win32-msvc70/xcbm2.dsp,
+	src/arch/sdl/win32-msvc70/xcbm5x0.dsp,
+	src/arch/sdl/win32-msvc70/xpet.dsp,
+	src/arch/sdl/win32-msvc70/xplus4.dsp,
+	src/arch/sdl/win32-msvc70/xscpu64.dsp,
+	src/arch/sdl/win32-msvc70/xvic.dsp: Made a win32-msvc70 sdl directory,
+	for now populated with msvc6 project files.
+
+2013-07-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/win32/vs_tmpl/mkmsvc.c,
+	configure.proto, src/arch/sdl/win32-msvc: Removed the sdl win32-msvc
+	directory.
+
+2013-07-08  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uifilechooser.c,
+	src/arch/unix/x11/gnome/uifilechooser.h,
+	src/arch/unix/x11/gnome/x11ui.c: fix memory leaks in filechooser
+
+2013-07-08  groepaz <groepaz@gmx.net>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po: did make
+	update-po, fixed german translation
+
+2013-07-08  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uisettings.c: fixed debug menu
+
+2013-07-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c,
+	src/arch/sdl/win32-msvc6/Makefile.am,
+	src/arch/sdl/win32-msvc6/ide-config.h,
+	src/arch/sdl/win32-msvc6/inttypes.h,
+	src/arch/sdl/win32-msvc6/stdint.h, src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/sdl/win32-msvc6/_vice.dsp, src/arch/sdl/win32-msvc6/arch.dsp,
+	src/arch/sdl/win32-msvc6/base.dsp, src/arch/sdl/win32-msvc6/c128.dsp,
+	src/arch/sdl/win32-msvc6/c1541.dsp, src/arch/sdl/win32-msvc6/c64.dsp,
+	src/arch/sdl/win32-msvc6/c64c128.dsp,
+	src/arch/sdl/win32-msvc6/c64c64dtv.dsp,
+	src/arch/sdl/win32-msvc6/c64cart.dsp,
+	src/arch/sdl/win32-msvc6/c64cartsystem.dsp,
+	src/arch/sdl/win32-msvc6/c64commoncart.dsp,
+	src/arch/sdl/win32-msvc6/c64dtv.dsp,
+	src/arch/sdl/win32-msvc6/c64dtvstubs.dsp,
+	src/arch/sdl/win32-msvc6/c64exp.dsp,
+	src/arch/sdl/win32-msvc6/c64sc.dsp,
+	src/arch/sdl/win32-msvc6/c64scpu64.dsp,
+	src/arch/sdl/win32-msvc6/cartconv.dsp,
+	src/arch/sdl/win32-msvc6/cbm2.dsp,
+	src/arch/sdl/win32-msvc6/cbm2common.dsp,
+	src/arch/sdl/win32-msvc6/cbm5x0.dsp,
+	src/arch/sdl/win32-msvc6/core.dsp, src/arch/sdl/win32-msvc6/crtc.dsp,
+	src/arch/sdl/win32-msvc6/diskimage.dsp,
+	src/arch/sdl/win32-msvc6/drive.dsp,
+	src/arch/sdl/win32-msvc6/fileio.dsp,
+	src/arch/sdl/win32-msvc6/fsdevice.dsp,
+	src/arch/sdl/win32-msvc6/geninfocontrib.dsp,
+	src/arch/sdl/win32-msvc6/gentranslate.dsp,
+	src/arch/sdl/win32-msvc6/gfxoutputdrv.dsp,
+	src/arch/sdl/win32-msvc6/iec.dsp,
+	src/arch/sdl/win32-msvc6/iec128dcr.dsp,
+	src/arch/sdl/win32-msvc6/iecbus.dsp,
+	src/arch/sdl/win32-msvc6/iecieee.dsp,
+	src/arch/sdl/win32-msvc6/ieee.dsp,
+	src/arch/sdl/win32-msvc6/imagecontents.dsp,
+	src/arch/sdl/win32-msvc6/monitor.dsp,
+	src/arch/sdl/win32-msvc6/p64.dsp,
+	src/arch/sdl/win32-msvc6/parallel.dsp,
+	src/arch/sdl/win32-msvc6/pet.dsp, src/arch/sdl/win32-msvc6/petcat.dsp,
+	src/arch/sdl/win32-msvc6/platform.dsp,
+	src/arch/sdl/win32-msvc6/plus4.dsp,
+	src/arch/sdl/win32-msvc6/plus4exp.dsp,
+	src/arch/sdl/win32-msvc6/printerdrv.dsp,
+	src/arch/sdl/win32-msvc6/raster.dsp,
+	src/arch/sdl/win32-msvc6/resid.dsp,
+	src/arch/sdl/win32-msvc6/residdtv.dsp,
+	src/arch/sdl/win32-msvc6/residfp.dsp,
+	src/arch/sdl/win32-msvc6/rs232drv.dsp,
+	src/arch/sdl/win32-msvc6/rtc.dsp, src/arch/sdl/win32-msvc6/scpu64.dsp,
+	src/arch/sdl/win32-msvc6/serial.dsp, src/arch/sdl/win32-msvc6/sid.dsp,
+	src/arch/sdl/win32-msvc6/sounddrv.dsp,
+	src/arch/sdl/win32-msvc6/tape.dsp, src/arch/sdl/win32-msvc6/tcbm.dsp,
+	src/arch/sdl/win32-msvc6/userport.dsp,
+	src/arch/sdl/win32-msvc6/vdc.dsp, src/arch/sdl/win32-msvc6/vdrive.dsp,
+	src/arch/sdl/win32-msvc6/vic20.dsp,
+	src/arch/sdl/win32-msvc6/vic20cart.dsp,
+	src/arch/sdl/win32-msvc6/vice.dsw, src/arch/sdl/win32-msvc6/vicii.dsp,
+	src/arch/sdl/win32-msvc6/viciidtv.dsp,
+	src/arch/sdl/win32-msvc6/viciisc.dsp,
+	src/arch/sdl/win32-msvc6/video.dsp, src/arch/sdl/win32-msvc6/vsid.dsp,
+	src/arch/sdl/win32-msvc6/vsidlib.dsp,
+	src/arch/sdl/win32-msvc6/x128.dsp, src/arch/sdl/win32-msvc6/x64.dsp,
+	src/arch/sdl/win32-msvc6/x64dtv.dsp,
+	src/arch/sdl/win32-msvc6/x64sc.dsp,
+	src/arch/sdl/win32-msvc6/xcbm2.dsp,
+	src/arch/sdl/win32-msvc6/xcbm5x0.dsp,
+	src/arch/sdl/win32-msvc6/xpet.dsp,
+	src/arch/sdl/win32-msvc6/xplus4.dsp,
+	src/arch/sdl/win32-msvc6/xscpu64.dsp,
+	src/arch/sdl/win32-msvc6/xvic.dsp, src/arch/win32/vs6/vice.dsw,
+	src/arch/win32/vs_tmpl/arch.tmpl,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/arch_sdl.tmpl,
+	src/arch/win32/vs_tmpl/sounddrv.tmpl,
+	src/arch/win32/vs_tmpl/vice.tmpl: Added msvc6 sdl generation support.
+
+2013-07-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/vsidui.c, src/arch/unix/vsiduiunix.h,
+	src/arch/unix/x11/fullscreen.c, src/arch/unix/x11/gnome/uimenu.c,
+	src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/uipalcontrol.h,
+	src/arch/unix/x11/gnome/uistatusbar.c,
+	src/arch/unix/x11/gnome/uivsidcontrol.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/c64/psid.c, src/c64/psid.h,
+	src/c64/vsid.c, src/lib.c: improved shutdown behavior a bit
+
+2013-07-07  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64rom.c: cosmetics
+
+2013-07-07  groepaz <groepaz@gmx.net>
+
+	* src/vic20/vic20mem.c, src/vic20/vic20rom.c: do not patch unknown
+	kernal images. fixes the problem reported by ruud on the ml
+
+2013-07-07  Antti S. Lankila <alankila@bel.fi>
+
+	* src/c64/psid.c, src/c64/psid.h, src/c64/vsid.c: Allow RSID BASIC
+	tunes to play
+
+2013-07-07  Antti S. Lankila <alankila@bel.fi>
+
+	* src/c64/psid.c, src/c64/psid.h: Allow detecting which SIDs are
+	RSID+BASIC tunes
+
+2013-07-06  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/dragdrop.c: dont use lib_free on this
+	pointer
+
+2013-07-06  groepaz <groepaz@gmx.net>
+
+	* src/lib.c: fixed lib_free to handle pointers not allocated by the
+	lib_ functions. disabled non critical warning on free(NULL). made
+	memory leak summary more compact.
+
+2013-07-06  groepaz <groepaz@gmx.net>
+
+	* src/debug.c, src/translate.txt, src/translate_text.c: removed
+	pointless checks for DRIVE_NUM, it is always 4
+
+2013-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, configure.proto, src/arch/sdl/win32-msvc6,
+	src/arch/sdl/win32-msvc6/Makefile.am,
+	src/arch/sdl/win32-msvc6/dirent.h,
+	src/arch/sdl/win32-msvc6/ide-config.h,
+	src/arch/sdl/win32-msvc6/ide-siddefs.h,
+	src/arch/sdl/win32-msvc6/ide-siddtvdefs.h,
+	src/arch/sdl/win32-msvc6/ide-sidfpdefs.h,
+	src/arch/sdl/win32-msvc6/vice.manifest,
+	src/arch/sdl/win32-msvc6/Readme.txt,
+	src/arch/sdl/win32-msvc6/_vice.dsp, src/arch/sdl/win32-msvc6/arch.dsp,
+	src/arch/sdl/win32-msvc6/base.dsp, src/arch/sdl/win32-msvc6/c128.dsp,
+	src/arch/sdl/win32-msvc6/c1541.dsp, src/arch/sdl/win32-msvc6/c64.dsp,
+	src/arch/sdl/win32-msvc6/c64c128.dsp,
+	src/arch/sdl/win32-msvc6/c64c64dtv.dsp,
+	src/arch/sdl/win32-msvc6/c64cart.dsp,
+	src/arch/sdl/win32-msvc6/c64cartsystem.dsp,
+	src/arch/sdl/win32-msvc6/c64commoncart.dsp,
+	src/arch/sdl/win32-msvc6/c64dtv.dsp,
+	src/arch/sdl/win32-msvc6/c64dtvstubs.dsp,
+	src/arch/sdl/win32-msvc6/c64exp.dsp,
+	src/arch/sdl/win32-msvc6/c64sc.dsp,
+	src/arch/sdl/win32-msvc6/c64scpu64.dsp,
+	src/arch/sdl/win32-msvc6/cartconv.dsp,
+	src/arch/sdl/win32-msvc6/cbm2.dsp,
+	src/arch/sdl/win32-msvc6/cbm2common.dsp,
+	src/arch/sdl/win32-msvc6/cbm5x0.dsp,
+	src/arch/sdl/win32-msvc6/core.dsp, src/arch/sdl/win32-msvc6/crtc.dsp,
+	src/arch/sdl/win32-msvc6/diskimage.dsp,
+	src/arch/sdl/win32-msvc6/drive.dsp,
+	src/arch/sdl/win32-msvc6/fileio.dsp,
+	src/arch/sdl/win32-msvc6/fsdevice.dsp,
+	src/arch/sdl/win32-msvc6/geninfocontrib.dsp,
+	src/arch/sdl/win32-msvc6/gentranslate.dsp,
+	src/arch/sdl/win32-msvc6/gfxoutputdrv.dsp,
+	src/arch/sdl/win32-msvc6/iec.dsp,
+	src/arch/sdl/win32-msvc6/iec128dcr.dsp,
+	src/arch/sdl/win32-msvc6/iecbus.dsp,
+	src/arch/sdl/win32-msvc6/iecieee.dsp,
+	src/arch/sdl/win32-msvc6/ieee.dsp,
+	src/arch/sdl/win32-msvc6/imagecontents.dsp,
+	src/arch/sdl/win32-msvc6/make-bindist.bat,
+	src/arch/sdl/win32-msvc6/monitor.dsp,
+	src/arch/sdl/win32-msvc6/p64.dsp,
+	src/arch/sdl/win32-msvc6/parallel.dsp,
+	src/arch/sdl/win32-msvc6/pet.dsp, src/arch/sdl/win32-msvc6/petcat.dsp,
+	src/arch/sdl/win32-msvc6/platform.dsp,
+	src/arch/sdl/win32-msvc6/plus4.dsp,
+	src/arch/sdl/win32-msvc6/plus4exp.dsp,
+	src/arch/sdl/win32-msvc6/printerdrv.dsp,
+	src/arch/sdl/win32-msvc6/raster.dsp,
+	src/arch/sdl/win32-msvc6/resid.dsp,
+	src/arch/sdl/win32-msvc6/residdtv.dsp,
+	src/arch/sdl/win32-msvc6/residfp.dsp,
+	src/arch/sdl/win32-msvc6/rs232drv.dsp,
+	src/arch/sdl/win32-msvc6/rtc.dsp, src/arch/sdl/win32-msvc6/scpu64.dsp,
+	src/arch/sdl/win32-msvc6/serial.dsp, src/arch/sdl/win32-msvc6/sid.dsp,
+	src/arch/sdl/win32-msvc6/sounddrv.dsp,
+	src/arch/sdl/win32-msvc6/tape.dsp, src/arch/sdl/win32-msvc6/tcbm.dsp,
+	src/arch/sdl/win32-msvc6/userport.dsp,
+	src/arch/sdl/win32-msvc6/vdc.dsp, src/arch/sdl/win32-msvc6/vdrive.dsp,
+	src/arch/sdl/win32-msvc6/vic20.dsp,
+	src/arch/sdl/win32-msvc6/vic20cart.dsp,
+	src/arch/sdl/win32-msvc6/vice.dsw, src/arch/sdl/win32-msvc6/vicii.dsp,
+	src/arch/sdl/win32-msvc6/viciidtv.dsp,
+	src/arch/sdl/win32-msvc6/viciisc.dsp,
+	src/arch/sdl/win32-msvc6/video.dsp, src/arch/sdl/win32-msvc6/vsid.dsp,
+	src/arch/sdl/win32-msvc6/vsidlib.dsp,
+	src/arch/sdl/win32-msvc6/x128.dsp, src/arch/sdl/win32-msvc6/x64.dsp,
+	src/arch/sdl/win32-msvc6/x64dtv.dsp,
+	src/arch/sdl/win32-msvc6/x64sc.dsp,
+	src/arch/sdl/win32-msvc6/xcbm2.dsp,
+	src/arch/sdl/win32-msvc6/xcbm5x0.dsp,
+	src/arch/sdl/win32-msvc6/xpet.dsp,
+	src/arch/sdl/win32-msvc6/xplus4.dsp,
+	src/arch/sdl/win32-msvc6/xscpu64.dsp,
+	src/arch/sdl/win32-msvc6/xvic.dsp: Started on sdl msvc6 support.
+
+2013-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs11/Makefile.am, src/arch/win32/vs11/winid_ia64.bat:
+	Removed the ia64 batch file, since msvc11 doesn't support ia64
+	anymore.
+
+2013-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs11/_vice.vcxproj,
+	src/arch/win32/vs11/arch.vcxproj, src/arch/win32/vs11/base.vcxproj,
+	src/arch/win32/vs11/c128.vcxproj, src/arch/win32/vs11/c1541.vcxproj,
+	src/arch/win32/vs11/c64.vcxproj, src/arch/win32/vs11/c64c128.vcxproj,
+	src/arch/win32/vs11/c64c64dtv.vcxproj,
+	src/arch/win32/vs11/c64cart.vcxproj,
+	src/arch/win32/vs11/c64cartsystem.vcxproj,
+	src/arch/win32/vs11/c64commoncart.vcxproj,
+	src/arch/win32/vs11/c64dtv.vcxproj,
+	src/arch/win32/vs11/c64dtvstubs.vcxproj,
+	src/arch/win32/vs11/c64exp.vcxproj, src/arch/win32/vs11/c64sc.vcxproj,
+	src/arch/win32/vs11/c64scpu64.vcxproj,
+	src/arch/win32/vs11/cartconv.vcxproj,
+	src/arch/win32/vs11/cbm2.vcxproj,
+	src/arch/win32/vs11/cbm2common.vcxproj,
+	src/arch/win32/vs11/cbm5x0.vcxproj, src/arch/win32/vs11/core.vcxproj,
+	src/arch/win32/vs11/crtc.vcxproj,
+	src/arch/win32/vs11/diskimage.vcxproj,
+	src/arch/win32/vs11/drive.vcxproj, src/arch/win32/vs11/fileio.vcxproj,
+	src/arch/win32/vs11/fsdevice.vcxproj,
+	src/arch/win32/vs11/geninfocontrib.vcxproj,
+	src/arch/win32/vs11/genmsvcver.vcxproj,
+	src/arch/win32/vs11/gentranslate.vcxproj,
+	src/arch/win32/vs11/genwinres.vcxproj,
+	src/arch/win32/vs11/gfxoutputdrv.vcxproj,
+	src/arch/win32/vs11/iec.vcxproj,
+	src/arch/win32/vs11/iec128dcr.vcxproj,
+	src/arch/win32/vs11/iecbus.vcxproj,
+	src/arch/win32/vs11/iecieee.vcxproj, src/arch/win32/vs11/ieee.vcxproj,
+	src/arch/win32/vs11/imagecontents.vcxproj,
+	src/arch/win32/vs11/monitor.vcxproj, src/arch/win32/vs11/p64.vcxproj,
+	src/arch/win32/vs11/parallel.vcxproj, src/arch/win32/vs11/pet.vcxproj,
+	src/arch/win32/vs11/petcat.vcxproj,
+	src/arch/win32/vs11/platform.vcxproj,
+	src/arch/win32/vs11/plus4.vcxproj,
+	src/arch/win32/vs11/plus4exp.vcxproj,
+	src/arch/win32/vs11/printerdrv.vcxproj,
+	src/arch/win32/vs11/raster.vcxproj, src/arch/win32/vs11/resid.vcxproj,
+	src/arch/win32/vs11/residdtv.vcxproj,
+	src/arch/win32/vs11/residfp.vcxproj,
+	src/arch/win32/vs11/rs232drv.vcxproj, src/arch/win32/vs11/rtc.vcxproj,
+	src/arch/win32/vs11/scpu64.vcxproj,
+	src/arch/win32/vs11/serial.vcxproj, src/arch/win32/vs11/sid.vcxproj,
+	src/arch/win32/vs11/sounddrv.vcxproj,
+	src/arch/win32/vs11/tape.vcxproj, src/arch/win32/vs11/tcbm.vcxproj,
+	src/arch/win32/vs11/userport.vcxproj, src/arch/win32/vs11/vdc.vcxproj,
+	src/arch/win32/vs11/vdrive.vcxproj, src/arch/win32/vs11/vic20.vcxproj,
+	src/arch/win32/vs11/vic20cart.vcxproj, src/arch/win32/vs11/vice.sln,
+	src/arch/win32/vs11/vicii.vcxproj,
+	src/arch/win32/vs11/viciidtv.vcxproj,
+	src/arch/win32/vs11/viciisc.vcxproj,
+	src/arch/win32/vs11/video.vcxproj, src/arch/win32/vs11/vsid.vcxproj,
+	src/arch/win32/vs11/vsidlib.vcxproj, src/arch/win32/vs11/x128.vcxproj,
+	src/arch/win32/vs11/x64.vcxproj, src/arch/win32/vs11/x64dtv.vcxproj,
+	src/arch/win32/vs11/x64sc.vcxproj, src/arch/win32/vs11/xcbm2.vcxproj,
+	src/arch/win32/vs11/xcbm5x0.vcxproj, src/arch/win32/vs11/xpet.vcxproj,
+	src/arch/win32/vs11/xplus4.vcxproj,
+	src/arch/win32/vs11/xscpu64.vcxproj, src/arch/win32/vs11/xvic.vcxproj:
+	Finished the msvc11 support.
+
+2013-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/Makefile.am, src/arch/win64: Removed the
+	(now obsolete) win64 directory and project files.
+
+2013-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs10/_vice.vcxproj,
+	src/arch/win32/vs10/c1541.vcxproj,
+	src/arch/win32/vs10/cartconv.vcxproj,
+	src/arch/win32/vs10/geninfocontrib.vcxproj,
+	src/arch/win32/vs10/genmsvcver.vcxproj,
+	src/arch/win32/vs10/gentranslate.vcxproj,
+	src/arch/win32/vs10/genwinres.vcxproj,
+	src/arch/win32/vs10/petcat.vcxproj, src/arch/win32/vs10/vsid.vcxproj,
+	src/arch/win32/vs10/x128.vcxproj, src/arch/win32/vs10/x64.vcxproj,
+	src/arch/win32/vs10/x64dtv.vcxproj, src/arch/win32/vs10/x64sc.vcxproj,
+	src/arch/win32/vs10/xcbm2.vcxproj,
+	src/arch/win32/vs10/xcbm5x0.vcxproj, src/arch/win32/vs10/xpet.vcxproj,
+	src/arch/win32/vs10/xplus4.vcxproj,
+	src/arch/win32/vs10/xscpu64.vcxproj, src/arch/win32/vs10/xvic.vcxproj:
+	Fixed even more.
+
+2013-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs10/c1541.vcxproj,
+	src/arch/win32/vs10/cartconv.vcxproj,
+	src/arch/win32/vs10/geninfocontrib.vcxproj,
+	src/arch/win32/vs10/genmsvcver.vcxproj,
+	src/arch/win32/vs10/gentranslate.vcxproj,
+	src/arch/win32/vs10/genwinres.vcxproj,
+	src/arch/win32/vs10/petcat.vcxproj: Fixed.
+
+2013-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs11/_vice.vcxproj, src/arch/win32/vs11/arch.vcxproj,
+	src/arch/win32/vs11/base.vcxproj, src/arch/win32/vs11/c128.vcxproj,
+	src/arch/win32/vs11/c1541.vcxproj, src/arch/win32/vs11/c64.vcxproj,
+	src/arch/win32/vs11/c64c128.vcxproj,
+	arch/win32/vs11/c64c64dtv.vcxproj,
+	src/arch/win32/vs11/c64cart.vcxproj,
+	src/arch/win32/vs11/c64cartsystem.vcxproj,
+	src/arch/win32/vs11/c64commoncart.vcxproj,
+	src/arch/win32/vs11/c64dtv.vcxproj,
+	src/arch/win32/vs11/c64dtvstubs.vcxproj,
+	src/arch/win32/vs11/c64exp.vcxproj, src/arch/win32/vs11/c64sc.vcxproj,
+	src/arch/win32/vs11/c64scpu64.vcxproj,
+	src/arch/win32/vs11/cartconv.vcxproj,
+	src/arch/win32/vs11/cbm2.vcxproj,
+	src/arch/win32/vs11/cbm2common.vcxproj,
+	src/arch/win32/vs11/cbm5x0.vcxproj, src/arch/win32/vs11/core.vcxproj,
+	src/arch/win32/vs11/crtc.vcxproj,
+	src/arch/win32/vs11/diskimage.vcxproj,
+	src/arch/win32/vs11/drive.vcxproj, src/arch/win32/vs11/fileio.vcxproj,
+	src/arch/win32/vs11/fsdevice.vcxproj,
+	src/arch/win32/vs11/geninfocontrib.vcxproj,
+	src/arch/win32/vs11/genmsvcver.vcxproj,
+	src/arch/win32/vs11/gentranslate.vcxproj,
+	src/arch/win32/vs11/genwinres.vcxproj,
+	src/arch/win32/vs11/gfxoutputdrv.vcxproj,
+	src/arch/win32/vs11/iec.vcxproj,
+	src/arch/win32/vs11/iec128dcr.vcxproj,
+	src/arch/win32/vs11/iecbus.vcxproj,
+	src/arch/win32/vs11/iecieee.vcxproj, src/arch/win32/vs11/ieee.vcxproj,
+	src/arch/win32/vs11/imagecontents.vcxproj,
+	src/arch/win32/vs11/monitor.vcxproj, src/arch/win32/vs11/p64.vcxproj,
+	src/arch/win32/vs11/parallel.vcxproj, src/arch/win32/vs11/pet.vcxproj,
+	src/arch/win32/vs11/petcat.vcxproj,
+	src/arch/win32/vs11/platform.vcxproj,
+	src/arch/win32/vs11/plus4.vcxproj,
+	src/arch/win32/vs11/plus4exp.vcxproj,
+	src/arch/win32/vs11/printerdrv.vcxproj,
+	src/arch/win32/vs11/raster.vcxproj, src/arch/win32/vs11/resid.vcxproj,
+	src/arch/win32/vs11/residdtv.vcxproj,
+	src/arch/win32/vs11/residfp.vcxproj,
+	src/arch/win32/vs11/rs232drv.vcxproj, src/arch/win32/vs11/rtc.vcxproj,
+	src/arch/win32/vs11/scpu64.vcxproj,
+	src/arch/win32/vs11/serial.vcxproj, src/arch/win32/vs11/sid.vcxproj,
+	src/arch/win32/vs11/sounddrv.vcxproj,
+	src/arch/win32/vs11/tape.vcxproj, src/arch/win32/vs11/tcbm.vcxproj,
+	src/arch/win32/vs11/userport.vcxproj, src/arch/win32/vs11/vdc.vcxproj,
+	src/arch/win32/vs11/vdrive.vcxproj, src/arch/win32/vs11/vic20.vcxproj,
+	src/arch/win32/vs11/vic20cart.vcxproj, src/arch/win32/vs11/vice.sln,
+	src/arch/win32/vs11/vicii.vcxproj,
+	src/arch/win32/vs11/viciidtv.vcxproj,
+	src/arch/win32/vs11/viciisc.vcxproj,
+	src/arch/win32/vs11/video.vcxproj, src/arch/win32/vs11/vsid.vcxproj,
+	src/arch/win32/vs11/vsidlib.vcxproj, src/arch/win32/vs11/x128.vcxproj,
+	src/arch/win32/vs11/x64.vcxproj, src/arch/win32/vs11/x64dtv.vcxproj,
+	src/arch/win32/vs11/x64sc.vcxproj, src/arch/win32/vs11/xcbm2.vcxproj,
+	src/arch/win32/vs11/xcbm5x0.vcxproj, src/arch/win32/vs11/xpet.vcxproj,
+	src/arch/win32/vs11/xplus4.vcxproj,
+	src/arch/win32/vs11/xscpu64.vcxproj, src/arch/win32/vs11/xvic.vcxproj:
+	Put correct msvc11 project files in place.
+
+2013-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/win32/Makefile.am, src/arch/win32/vs11,
+	src/arch/win32/vs11/make-msvc-bindist.bat,
+	src/arch/win32/vs11/Makefile.am, src/arch/win32/vs11/winid_ia64.bat,
+	src/arch/win32/vs11/_vice.vcxproj, src/arch/win32/vs11/arch.vcxproj,
+	src/arch/win32/vs11/base.vcxproj, src/arch/win32/vs11/c128.vcxproj,
+	src/arch/win32/vs11/c1541.vcxproj, src/arch/win32/vs11/c64.vcxproj,
+	src/arch/win32/vs11/c64c128.vcxproj,
+	src/arch/win32/vs11/c64c64dtv.vcxproj,
+	src/arch/win32/vs11/c64cart.vcxproj,
+	src/arch/win32/vs11/c64cartsystem.vcxproj,
+	src/arch/win32/vs11/c64commoncart.vcxproj,
+	src/arch/win32/vs11/c64dtv.vcxproj,
+	src/arch/win32/vs11/c64dtvstubs.vcxproj,
+	src/arch/win32/vs11/c64exp.vcxproj, src/arch/win32/vs11/c64sc.vcxproj,
+	src/arch/win32/vs11/c64scpu64.vcxproj,
+	src/arch/win32/vs11/cartconv.vcxproj,
+	src/arch/win32/vs11/cbm2.vcxproj,
+	src/arch/win32/vs11/cbm2common.vcxproj,
+	src/arch/win32/vs11/cbm5x0.vcxproj, src/arch/win32/vs11/core.vcxproj,
+	src/arch/win32/vs11/crtc.vcxproj,
+	src/arch/win32/vs11/diskimage.vcxproj,
+	src/arch/win32/vs11/drive.vcxproj, src/arch/win32/vs11/fileio.vcxproj,
+	src/arch/win32/vs11/fsdevice.vcxproj,
+	src/arch/win32/vs11/geninfocontrib.vcxproj,
+	src/arch/win32/vs11/genmsvcver.vcxproj,
+	src/arch/win32/vs11/gentranslate.vcxproj,
+	src/arch/win32/vs11/genwinres.vcxproj,
+	src/arch/win32/vs11/gfxoutputdrv.vcxproj,
+	src/arch/win32/vs11/iec.vcxproj,
+	src/arch/win32/vs11/iec128dcr.vcxproj,
+	src/arch/win32/vs11/iecbus.vcxproj,
+	src/arch/win32/vs11/iecieee.vcxproj, src/arch/win32/vs11/ieee.vcxproj,
+	src/arch/win32/vs11/imagecontents.vcxproj,
+	src/arch/win32/vs11/monitor.vcxproj, src/arch/win32/vs11/p64.vcxproj,
+	src/arch/win32/vs11/parallel.vcxproj, src/arch/win32/vs11/pet.vcxproj,
+	src/arch/win32/vs11/petcat.vcxproj,
+	src/arch/win32/vs11/platform.vcxproj,
+	src/arch/win32/vs11/plus4.vcxproj,
+	src/arch/win32/vs11/plus4exp.vcxproj,
+	arch/win32/vs11/printerdrv.vcxproj,
+	src/arch/win32/vs11/raster.vcxproj, src/arch/win32/vs11/resid.vcxproj,
+	src/arch/win32/vs11/residdtv.vcxproj,
+	src/arch/win32/vs11/residfp.vcxproj,
+	src/arch/win32/vs11/rs232drv.vcxproj, src/arch/win32/vs11/rtc.vcxproj,
+	src/arch/win32/vs11/scpu64.vcxproj,
+	src/arch/win32/vs11/serial.vcxproj, src/arch/win32/vs11/sid.vcxproj,
+	src/arch/win32/vs11/sounddrv.vcxproj,
+	src/arch/win32/vs11/tape.vcxproj, src/arch/win32/vs11/tcbm.vcxproj,
+	src/arch/win32/vs11/userport.vcxproj, src/arch/win32/vs11/vdc.vcxproj,
+	src/arch/win32/vs11/vdrive.vcxproj, src/arch/win32/vs11/vic20.vcxproj,
+	src/arch/win32/vs11/vic20cart.vcxproj, src/arch/win32/vs11/vice.sln,
+	src/arch/win32/vs11/vicii.vcxproj,
+	src/arch/win32/vs11/viciidtv.vcxproj,
+	src/arch/win32/vs11/viciisc.vcxproj,
+	src/arch/win32/vs11/video.vcxproj, src/arch/win32/vs11/vsid.vcxproj,
+	src/arch/win32/vs11/vsidlib.vcxproj, src/arch/win32/vs11/x128.vcxproj,
+	src/arch/win32/vs11/x64.vcxproj, src/arch/win32/vs11/x64dtv.vcxproj,
+	src/arch/win32/vs11/x64sc.vcxproj, src/arch/win32/vs11/xcbm2.vcxproj,
+	src/arch/win32/vs11/xcbm5x0.vcxproj, src/arch/win32/vs11/xpet.vcxproj,
+	src/arch/win32/vs11/xplus4.vcxproj,
+	src/arch/win32/vs11/xscpu64.vcxproj, src/arch/win32/vs11/xvic.vcxproj,
+	src/arch/win32/vs11/winid_x64.bat, src/arch/win32/vs11/winid_x86.bat:
+	Started on msvc11 support, directory is populated with msvc10 project
+	files for now.
+
+2013-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs10/_vice.vcxproj,
+	src/arch/win32/vs10/c1541.vcxproj,
+	src/arch/win32/vs10/cartconv.vcxproj,
+	src/arch/win32/vs10/geninfocontrib.vcxproj,
+	src/arch/win32/vs10/genmsvcver.vcxproj,
+	src/arch/win32/vs10/gentranslate.vcxproj,
+	src/arch/win32/vs10/genwinres.vcxproj,
+	src/arch/win32/vs10/petcat.vcxproj, src/arch/win32/vs10/vsid.vcxproj,
+	src/arch/win32/vs10/x128.vcxproj, src/arch/win32/vs10/x64.vcxproj,
+	src/arch/win32/vs10/x64dtv.vcxproj, src/arch/win32/vs10/x64sc.vcxproj,
+	src/arch/win32/vs10/xcbm2.vcxproj,
+	src/arch/win32/vs10/xcbm5x0.vcxproj, src/arch/win32/vs10/xpet.vcxproj,
+	src/arch/win32/vs10/xplus4.vcxproj,
+	src/arch/win32/vs10/xscpu64.vcxproj, src/arch/win32/vs10/xvic.vcxproj,
+	src/arch/win32/vs10/arch.vcxproj, src/arch/win32/vs10/base.vcxproj,
+	src/arch/win32/vs10/c128.vcxproj, src/arch/win32/vs10/c64.vcxproj,
+	src/arch/win32/vs10/c64c128.vcxproj,
+	src/arch/win32/vs10/c64c64dtv.vcxproj,
+	src/arch/win32/vs10/c64cart.vcxproj,
+	src/arch/win32/vs10/c64cartsystem.vcxproj,
+	src/arch/win32/vs10/c64commoncart.vcxproj,
+	src/arch/win32/vs10/c64dtv.vcxproj,
+	src/arch/win32/vs10/c64dtvstubs.vcxproj,
+	src/arch/win32/vs10/c64exp.vcxproj, src/arch/win32/vs10/c64sc.vcxproj,
+	src/arch/win32/vs10/c64scpu64.vcxproj,
+	src/arch/win32/vs10/cbm2.vcxproj,
+	src/arch/win32/vs10/cbm2common.vcxproj,
+	src/arch/win32/vs10/cbm5x0.vcxproj, src/arch/win32/vs10/core.vcxproj,
+	src/arch/win32/vs10/crtc.vcxproj,
+	src/arch/win32/vs10/diskimage.vcxproj,
+	src/arch/win32/vs10/drive.vcxproj, src/arch/win32/vs10/fileio.vcxproj,
+	src/arch/win32/vs10/fsdevice.vcxproj,
+	src/arch/win32/vs10/gfxoutputdrv.vcxproj,
+	src/arch/win32/vs10/iec.vcxproj,
+	src/arch/win32/vs10/iec128dcr.vcxproj,
+	src/arch/win32/vs10/iecbus.vcxproj,
+	src/arch/win32/vs10/iecieee.vcxproj, src/arch/win32/vs10/ieee.vcxproj,
+	src/arch/win32/vs10/imagecontents.vcxproj,
+	src/arch/win32/vs10/monitor.vcxproj, src/arch/win32/vs10/p64.vcxproj,
+	src/arch/win32/vs10/parallel.vcxproj, src/arch/win32/vs10/pet.vcxproj,
+	src/arch/win32/vs10/platform.vcxproj,
+	src/arch/win32/vs10/plus4.vcxproj,
+	src/arch/win32/vs10/plus4exp.vcxproj,
+	src/arch/win32/vs10/printerdrv.vcxproj,
+	src/arch/win32/vs10/raster.vcxproj, src/arch/win32/vs10/resid.vcxproj,
+	src/arch/win32/vs10/residdtv.vcxproj,
+	src/arch/win32/vs10/residfp.vcxproj,
+	src/arch/win32/vs10/rs232drv.vcxproj, src/arch/win32/vs10/rtc.vcxproj,
+	src/arch/win32/vs10/scpu64.vcxproj,
+	src/arch/win32/vs10/serial.vcxproj, src/arch/win32/vs10/sid.vcxproj,
+	src/arch/win32/vs10/sounddrv.vcxproj,
+	src/arch/win32/vs10/tape.vcxproj, src/arch/win32/vs10/tcbm.vcxproj,
+	src/arch/win32/vs10/userport.vcxproj, src/arch/win32/vs10/vdc.vcxproj,
+	src/arch/win32/vs10/vdrive.vcxproj, src/arch/win32/vs10/vic20.vcxproj,
+	src/arch/win32/vs10/vic20cart.vcxproj, src/arch/win32/vs10/vice.sln,
+	src/arch/win32/vs10/vicii.vcxproj,
+	src/arch/win32/vs10/viciidtv.vcxproj,
+	src/arch/win32/vs10/viciisc.vcxproj,
+	src/arch/win32/vs10/video.vcxproj,
+	src/arch/win32/vs10/vsidlib.vcxproj: Finished the msvc10 support.
+
+2013-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs6/vice.dsw, src/arch/win32/vs6/monitor.dsp,
+	src/arch/win32/vs6/plus4.dsp, src/arch/win32/vs70/monitor.vcproj,
+	src/arch/win32/vs70/plus4.vcproj, src/arch/win32/vs70/vice.sln,
+	src/arch/win32/vs71/monitor.vcproj, src/arch/win32/vs71/plus4.vcproj,
+	src/arch/win32/vs71/vice.sln, src/arch/win32/vs8/monitor.vcproj,
+	src/arch/win32/vs8/plus4.vcproj, src/arch/win32/vs8/vice.sln,
+	src/arch/win32/vs9/monitor.vcproj, src/arch/win32/vs9/plus4.vcproj,
+	src/arch/win32/vs9/vice.sln: Updated to the fixes in the template
+	files.
+
+2013-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/monitor.tmpl,
+	src/arch/win32/vs_tmpl/plus4.tmpl, src/arch/win32/vs_tmpl/x64dtv.tmpl:
+	Fixed.
+
+2013-07-04  Marcus Sutton <loggedoubt@gmail.com>
+
+	* configure.proto: Stop HAVE_STRDUP being defined twice when the macro
+	test isn't run.
+
+2013-07-04  Marcus Sutton <loggedoubt@gmail.com>
+
+	* configure.proto, src/sound.c, src/sound.h, src/sounddrv/Makefile.am,
+	src/sounddrv/soundbsp.cc: Implement an experimental sound driver using
+	the BSoundPlayer class from the BeOS/Haiku Media Kit and use it by
+	default on Haiku.
+
+2013-07-03  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid/sid.cc, src/resid/sid.h: Cache FIR tables if settings do
+	not change. This speeds up song change a lot on slow hardware while
+	using FIR filtering.
+
+2013-07-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs10/_vice.vcxproj,
+	src/arch/win32/vs10/c1541.vcxproj,
+	src/arch/win32/vs10/cartconv.vcxproj,
+	src/arch/win32/vs10/geninfocontrib.vcxproj,
+	src/arch/win32/vs10/genmsvcver.vcxproj,
+	src/arch/win32/vs10/gentranslate.vcxproj,
+	src/arch/win32/vs10/genwinres.vcxproj,
+	src/arch/win32/vs10/petcat.vcxproj, src/arch/win32/vs10/vsid.vcxproj,
+	src/arch/win32/vs10/x128.vcxproj, src/arch/win32/vs10/x64.vcxproj,
+	src/arch/win32/vs10/x64dtv.vcxproj, src/arch/win32/vs10/x64sc.vcxproj,
+	src/arch/win32/vs10/xcbm2.vcxproj,
+	src/arch/win32/vs10/xcbm5x0.vcxproj, src/arch/win32/vs10/xpet.vcxproj,
+	src/arch/win32/vs10/xplus4.vcxproj,
+	src/arch/win32/vs10/xscpu64.vcxproj, src/arch/win32/vs10/xvic.vcxproj,
+	src/arch/win32/vs10/Makefile.am, src/arch/win32/vs10/arch.vcxproj,
+	src/arch/win32/vs10/base.vcxproj, src/arch/win32/vs10/c128.vcxproj,
+	src/arch/win32/vs10/c64.vcxproj, src/arch/win32/vs10/c64c128.vcxproj,
+	src/arch/win32/vs10/c64c64dtv.vcxproj,
+	src/arch/win32/vs10/c64cart.vcxproj,
+	src/arch/win32/vs10/c64cartsystem.vcxproj,
+	src/arch/win32/vs10/c64commoncart.vcxproj,
+	src/arch/win32/vs10/c64dtv.vcxproj,
+	src/arch/win32/vs10/c64dtvstubs.vcxproj,
+	src/arch/win32/vs10/c64exp.vcxproj, src/arch/win32/vs10/c64sc.vcxproj,
+	src/arch/win32/vs10/c64scpu64.vcxproj,
+	src/arch/win32/vs10/cbm2.vcxproj,
+	src/arch/win32/vs10/cbm2common.vcxproj,
+	src/arch/win32/vs10/cbm5x0.vcxproj, src/arch/win32/vs10/core.vcxproj,
+	src/arch/win32/vs10/crtc.vcxproj,
+	src/arch/win32/vs10/diskimage.vcxproj,
+	src/arch/win32/vs10/drive.vcxproj, src/arch/win32/vs10/fileio.vcxproj,
+	src/arch/win32/vs10/fsdevice.vcxproj,
+	src/arch/win32/vs10/gfxoutputdrv.vcxproj,
+	src/arch/win32/vs10/iec.vcxproj,
+	src/arch/win32/vs10/iec128dcr.vcxproj,
+	src/arch/win32/vs10/iecbus.vcxproj,
+	src/arch/win32/vs10/iecieee.vcxproj, src/arch/win32/vs10/ieee.vcxproj,
+	src/arch/win32/vs10/imagecontents.vcxproj,
+	src/arch/win32/vs10/monitor.vcxproj, src/arch/win32/vs10/p64.vcxproj,
+	src/arch/win32/vs10/parallel.vcxproj, src/arch/win32/vs10/pet.vcxproj,
+	src/arch/win32/vs10/platform.vcxproj,
+	src/arch/win32/vs10/plus4.vcxproj,
+	src/arch/win32/vs10/plus4exp.vcxproj,
+	src/arch/win32/vs10/printerdrv.vcxproj,
+	src/arch/win32/vs10/raster.vcxproj, src/arch/win32/vs10/resid.vcxproj,
+	src/arch/win32/vs10/residdtv.vcxproj,
+	src/arch/win32/vs10/residfp.vcxproj,
+	src/arch/win32/vs10/rs232drv.vcxproj, src/arch/win32/vs10/rtc.vcxproj,
+	src/arch/win32/vs10/scpu64.vcxproj,
+	src/arch/win32/vs10/serial.vcxproj, src/arch/win32/vs10/sid.vcxproj,
+	src/arch/win32/vs10/sounddrv.vcxproj,
+	src/arch/win32/vs10/tape.vcxproj, src/arch/win32/vs10/tcbm.vcxproj,
+	src/arch/win32/vs10/userport.vcxproj, src/arch/win32/vs10/vdc.vcxproj,
+	src/arch/win32/vs10/vdrive.vcxproj, src/arch/win32/vs10/vic20.vcxproj,
+	src/arch/win32/vs10/vic20cart.vcxproj, src/arch/win32/vs10/vice.sln,
+	src/arch/win32/vs10/vicii.vcxproj,
+	src/arch/win32/vs10/viciidtv.vcxproj,
+	src/arch/win32/vs10/viciisc.vcxproj,
+	src/arch/win32/vs10/video.vcxproj,
+	src/arch/win32/vs10/vsidlib.vcxproj, src/arch/win32/vs10/_vice.vcproj,
+	src/arch/win32/vs10/arch.vcproj, src/arch/win32/vs10/base.vcproj,
+	src/arch/win32/vs10/c128.vcproj, src/arch/win32/vs10/c1541.vcproj,
+	src/arch/win32/vs10/c64.vcproj, src/arch/win32/vs10/c64c128.vcproj,
+	src/arch/win32/vs10/c64c64dtv.vcproj,
+	src/arch/win32/vs10/c64cart.vcproj,
+	src/arch/win32/vs10/c64cartsystem.vcproj,
+	src/arch/win32/vs10/c64commoncart.vcproj,
+	src/arch/win32/vs10/c64dtv.vcproj,
+	src/arch/win32/vs10/c64dtvstubs.vcproj,
+	src/arch/win32/vs10/c64exp.vcproj, src/arch/win32/vs10/c64sc.vcproj,
+	src/arch/win32/vs10/c64scpu64.vcproj,
+	src/arch/win32/vs10/cartconv.vcproj, src/arch/win32/vs10/cbm2.vcproj,
+	src/arch/win32/vs10/cbm2common.vcproj,
+	src/arch/win32/vs10/cbm5x0.vcproj, src/arch/win32/vs10/core.vcproj,
+	src/arch/win32/vs10/crtc.vcproj, src/arch/win32/vs10/diskimage.vcproj,
+	src/arch/win32/vs10/drive.vcproj, src/arch/win32/vs10/fileio.vcproj,
+	src/arch/win32/vs10/fsdevice.vcproj,
+	src/arch/win32/vs10/geninfocontrib.vcproj,
+	src/arch/win32/vs10/genmsvcver.vcproj,
+	src/arch/win32/vs10/gentranslate.vcproj,
+	src/arch/win32/vs10/genwinres.vcproj,
+	src/arch/win32/vs10/gfxoutputdrv.vcproj,
+	src/arch/win32/vs10/iec.vcproj, src/arch/win32/vs10/iec128dcr.vcproj,
+	src/arch/win32/vs10/iecbus.vcproj, src/arch/win32/vs10/iecieee.vcproj,
+	src/arch/win32/vs10/ieee.vcproj,
+	src/arch/win32/vs10/imagecontents.vcproj,
+	src/arch/win32/vs10/monitor.vcproj, src/arch/win32/vs10/p64.vcproj,
+	src/arch/win32/vs10/parallel.vcproj, src/arch/win32/vs10/pet.vcproj,
+	src/arch/win32/vs10/petcat.vcproj,
+	src/arch/win32/vs10/platform.vcproj, src/arch/win32/vs10/plus4.vcproj,
+	src/arch/win32/vs10/plus4exp.vcproj,
+	src/arch/win32/vs10/printerdrv.vcproj,
+	src/arch/win32/vs10/raster.vcproj, src/arch/win32/vs10/resid.vcproj,
+	src/arch/win32/vs10/residdtv.vcproj,
+	src/arch/win32/vs10/residfp.vcproj,
+	src/arch/win32/vs10/rs232drv.vcproj, src/arch/win32/vs10/rtc.vcproj,
+	src/arch/win32/vs10/scpu64.vcproj, src/arch/win32/vs10/serial.vcproj,
+	src/arch/win32/vs10/sid.vcproj, src/arch/win32/vs10/sounddrv.vcproj,
+	src/arch/win32/vs10/tape.vcproj, src/arch/win32/vs10/tcbm.vcproj,
+	src/arch/win32/vs10/userport.vcproj, src/arch/win32/vs10/vdc.vcproj,
+	src/arch/win32/vs10/vdrive.vcproj, src/arch/win32/vs10/vic20.vcproj,
+	src/arch/win32/vs10/vic20cart.vcproj,
+	src/arch/win32/vs10/vicii.vcproj, src/arch/win32/vs10/viciidtv.vcproj,
+	src/arch/win32/vs10/viciisc.vcproj, src/arch/win32/vs10/video.vcproj,
+	src/arch/win32/vs10/vsid.vcproj, src/arch/win32/vs10/vsidlib.vcproj,
+	src/arch/win32/vs10/x128.vcproj, src/arch/win32/vs10/x64.vcproj,
+	src/arch/win32/vs10/x64dtv.vcproj, src/arch/win32/vs10/x64sc.vcproj,
+	src/arch/win32/vs10/xcbm2.vcproj, src/arch/win32/vs10/xcbm5x0.vcproj,
+	src/arch/win32/vs10/xpet.vcproj, src/arch/win32/vs10/xplus4.vcproj,
+	src/arch/win32/vs10/xscpu64.vcproj, src/arch/win32/vs10/xvic.vcproj:
+	Replaced the msvc9 project files with msvc10 project files.
+
+2013-06-30  Errol Smith <strobe@kludgesoft.com> 
+
+	* src/vdc/vdc-mem.c, src/vdc/vdc.c: Fix for bug #356, where the left
+	border overlaps the left hand side of VDC screen on platforms with no
+	unaligned access.
+
+2013-06-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/win32/Makefile.am, src/arch/win32/vs10,
+	src/arch/win32/vs10/Makefile.am,
+	src/arch/win32/vs10/make-msvc-bindist.bat,
+	src/arch/win32/vs10/vice.sln, src/arch/win32/vs10/winid_ia64.bat,
+	src/arch/win32/vs10/winid_x64.bat, src/arch/win32/vs10/winid_x86.bat,
+	src/arch/win32/vs10/_vice.vcproj, src/arch/win32/vs10/arch.vcproj,
+	src/arch/win32/vs10/base.vcproj, src/arch/win32/vs10/c128.vcproj,
+	src/arch/win32/vs10/c1541.vcproj, src/arch/win32/vs10/c64.vcproj,
+	src/arch/win32/vs10/c64c128.vcproj,
+	src/arch/win32/vs10/c64c64dtv.vcproj,
+	src/arch/win32/vs10/c64cart.vcproj,
+	src/arch/win32/vs10/c64cartsystem.vcproj,
+	src/arch/win32/vs10/c64commoncart.vcproj,
+	src/arch/win32/vs10/c64dtv.vcproj,
+	src/arch/win32/vs10/c64dtvstubs.vcproj,
+	src/arch/win32/vs10/c64exp.vcproj, src/arch/win32/vs10/c64sc.vcproj,
+	src/arch/win32/vs10/c64scpu64.vcproj,
+	src/arch/win32/vs10/cartconv.vcproj, src/arch/win32/vs10/cbm2.vcproj,
+	src/arch/win32/vs10/cbm2common.vcproj,
+	src/arch/win32/vs10/cbm5x0.vcproj, src/arch/win32/vs10/core.vcproj,
+	src/arch/win32/vs10/crtc.vcproj, src/arch/win32/vs10/diskimage.vcproj,
+	src/arch/win32/vs10/drive.vcproj, src/arch/win32/vs10/fileio.vcproj,
+	src/arch/win32/vs10/fsdevice.vcproj,
+	src/arch/win32/vs10/geninfocontrib.vcproj,
+	src/arch/win32/vs10/genmsvcver.vcproj,
+	src/arch/win32/vs10/gentranslate.vcproj,
+	src/arch/win32/vs10/genwinres.vcproj,
+	src/arch/win32/vs10/gfxoutputdrv.vcproj,
+	src/arch/win32/vs10/iec.vcproj, src/arch/win32/vs10/iec128dcr.vcproj,
+	src/arch/win32/vs10/iecbus.vcproj, src/arch/win32/vs10/iecieee.vcproj,
+	src/arch/win32/vs10/ieee.vcproj,
+	src/arch/win32/vs10/imagecontents.vcproj,
+	src/arch/win32/vs10/monitor.vcproj, src/arch/win32/vs10/p64.vcproj,
+	src/arch/win32/vs10/parallel.vcproj, src/arch/win32/vs10/pet.vcproj,
+	src/arch/win32/vs10/petcat.vcproj,
+	src/arch/win32/vs10/platform.vcproj, src/arch/win32/vs10/plus4.vcproj,
+	src/arch/win32/vs10/plus4exp.vcproj,
+	src/arch/win32/vs10/printerdrv.vcproj,
+	src/arch/win32/vs10/raster.vcproj, src/arch/win32/vs10/resid.vcproj,
+	src/arch/win32/vs10/residdtv.vcproj,
+	src/arch/win32/vs10/residfp.vcproj,
+	src/arch/win32/vs10/rs232drv.vcproj, src/arch/win32/vs10/rtc.vcproj,
+	src/arch/win32/vs10/scpu64.vcproj, src/arch/win32/vs10/serial.vcproj,
+	src/arch/win32/vs10/sid.vcproj, src/arch/win32/vs10/sounddrv.vcproj,
+	src/arch/win32/vs10/tape.vcproj, src/arch/win32/vs10/tcbm.vcproj,
+	src/arch/win32/vs10/userport.vcproj, src/arch/win32/vs10/vdc.vcproj,
+	src/arch/win32/vs10/vdrive.vcproj, src/arch/win32/vs10/vic20.vcproj,
+	src/arch/win32/vs10/vic20cart.vcproj,
+	src/arch/win32/vs10/vicii.vcproj, src/arch/win32/vs10/viciidtv.vcproj,
+	src/arch/win32/vs10/viciisc.vcproj, src/arch/win32/vs10/video.vcproj,
+	src/arch/win32/vs10/vsid.vcproj, src/arch/win32/vs10/vsidlib.vcproj,
+	src/arch/win32/vs10/x128.vcproj, src/arch/win32/vs10/x64.vcproj,
+	src/arch/win32/vs10/x64dtv.vcproj, src/arch/win32/vs10/x64sc.vcproj,
+	src/arch/win32/vs10/xcbm2.vcproj, src/arch/win32/vs10/xcbm5x0.vcproj,
+	src/arch/win32/vs10/xpet.vcproj, src/arch/win32/vs10/xplus4.vcproj,
+	src/arch/win32/vs10/xscpu64.vcproj, src/arch/win32/vs10/xvic.vcproj:
+	Made a vs10 directory and populated it with vs9 project files for now.
+
+2013-06-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs9/monitor.vcproj,
+	src/arch/win32/vs9/plus4.vcproj, src/arch/win32/vs9/vice.sln,
+	src/arch/win32/vs9/_vice.vcproj, src/arch/win32/vs9/arch.vcproj,
+	src/arch/win32/vs9/base.vcproj, src/arch/win32/vs9/c128.vcproj,
+	src/arch/win32/vs9/c1541.vcproj, src/arch/win32/vs9/c64.vcproj,
+	src/arch/win32/vs9/c64c128.vcproj,
+	src/arch/win32/vs9/c64c64dtv.vcproj,
+	src/arch/win32/vs9/c64cart.vcproj,
+	src/arch/win32/vs9/c64cartsystem.vcproj,
+	src/arch/win32/vs9/c64commoncart.vcproj,
+	src/arch/win32/vs9/c64dtv.vcproj,
+	src/arch/win32/vs9/c64dtvstubs.vcproj,
+	src/arch/win32/vs9/c64exp.vcproj, src/arch/win32/vs9/c64sc.vcproj,
+	src/arch/win32/vs9/c64scpu64.vcproj,
+	src/arch/win32/vs9/cartconv.vcproj, src/arch/win32/vs9/cbm2.vcproj,
+	src/arch/win32/vs9/cbm2common.vcproj,
+	src/arch/win32/vs9/cbm5x0.vcproj, src/arch/win32/vs9/core.vcproj,
+	src/arch/win32/vs9/crtc.vcproj, src/arch/win32/vs9/diskimage.vcproj,
+	src/arch/win32/vs9/drive.vcproj, src/arch/win32/vs9/fileio.vcproj,
+	src/arch/win32/vs9/fsdevice.vcproj,
+	src/arch/win32/vs9/geninfocontrib.vcproj,
+	src/arch/win32/vs9/genmsvcver.vcproj,
+	src/arch/win32/vs9/gentranslate.vcproj,
+	src/arch/win32/vs9/genwinres.vcproj,
+	src/arch/win32/vs9/gfxoutputdrv.vcproj, src/arch/win32/vs9/iec.vcproj,
+	src/arch/win32/vs9/iec128dcr.vcproj, src/arch/win32/vs9/iecbus.vcproj,
+	src/arch/win32/vs9/iecieee.vcproj, src/arch/win32/vs9/ieee.vcproj,
+	src/arch/win32/vs9/imagecontents.vcproj,
+	src/arch/win32/vs9/p64.vcproj, src/arch/win32/vs9/parallel.vcproj,
+	src/arch/win32/vs9/pet.vcproj, src/arch/win32/vs9/petcat.vcproj,
+	src/arch/win32/vs9/platform.vcproj,
+	src/arch/win32/vs9/plus4exp.vcproj,
+	src/arch/win32/vs9/printerdrv.vcproj,
+	src/arch/win32/vs9/raster.vcproj, src/arch/win32/vs9/resid.vcproj,
+	src/arch/win32/vs9/residdtv.vcproj, src/arch/win32/vs9/residfp.vcproj,
+	src/arch/win32/vs9/rs232drv.vcproj, src/arch/win32/vs9/rtc.vcproj,
+	src/arch/win32/vs9/scpu64.vcproj, src/arch/win32/vs9/serial.vcproj,
+	src/arch/win32/vs9/sid.vcproj, src/arch/win32/vs9/sounddrv.vcproj,
+	src/arch/win32/vs9/tape.vcproj, src/arch/win32/vs9/tcbm.vcproj,
+	src/arch/win32/vs9/userport.vcproj, src/arch/win32/vs9/vdc.vcproj,
+	src/arch/win32/vs9/vdrive.vcproj, src/arch/win32/vs9/vic20.vcproj,
+	src/arch/win32/vs9/vic20cart.vcproj, src/arch/win32/vs9/vicii.vcproj,
+	src/arch/win32/vs9/viciidtv.vcproj, src/arch/win32/vs9/viciisc.vcproj,
+	src/arch/win32/vs9/video.vcproj, src/arch/win32/vs9/vsid.vcproj,
+	src/arch/win32/vs9/vsidlib.vcproj, src/arch/win32/vs9/x128.vcproj,
+	src/arch/win32/vs9/x64.vcproj, src/arch/win32/vs9/x64dtv.vcproj,
+	src/arch/win32/vs9/x64sc.vcproj, src/arch/win32/vs9/xcbm2.vcproj,
+	src/arch/win32/vs9/xcbm5x0.vcproj, src/arch/win32/vs9/xpet.vcproj,
+	src/arch/win32/vs9/xplus4.vcproj, src/arch/win32/vs9/xscpu64.vcproj,
+	src/arch/win32/vs9/xvic.vcproj: Finished the msvc9 support.
+
+2013-06-28  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid/extfilt.cc, src/resid/extfilt.h: Adjust highpass filter
+	cutoff to 15.9 Hz as designed. Leandro Nini spotted that a 10 kOhm
+	resistor was used to calculate the highpass filter whereas the value
+	was supposed to be 1 kOhm.
+
+2013-06-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c: do not use lib_free on
+	pointers not allocated by lib_malloc, it will break when using debug
+	config
+
+2013-06-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs8/monitor.vcproj, src/arch/win32/vs8/plus4.vcproj,
+	src/arch/win32/vs8/_vice.vcproj, src/arch/win32/vs8/arch.vcproj,
+	src/arch/win32/vs8/base.vcproj, src/arch/win32/vs8/c128.vcproj,
+	src/arch/win32/vs8/c1541.vcproj, src/arch/win32/vs8/c64.vcproj,
+	src/arch/win32/vs8/c64c128.vcproj,
+	src/arch/win32/vs8/c64c64dtv.vcproj,
+	src/arch/win32/vs8/c64cart.vcproj,
+	src/arch/win32/vs8/c64cartsystem.vcproj,
+	src/arch/win32/vs8/c64commoncart.vcproj,
+	src/arch/win32/vs8/c64dtv.vcproj,
+	src/arch/win32/vs8/c64dtvstubs.vcproj,
+	src/arch/win32/vs8/c64exp.vcproj, src/arch/win32/vs8/c64sc.vcproj,
+	src/arch/win32/vs8/c64scpu64.vcproj,
+	src/arch/win32/vs8/cartconv.vcproj, src/arch/win32/vs8/cbm2.vcproj,
+	src/arch/win32/vs8/cbm2common.vcproj,
+	src/arch/win32/vs8/cbm5x0.vcproj, src/arch/win32/vs8/core.vcproj,
+	src/arch/win32/vs8/crtc.vcproj, src/arch/win32/vs8/diskimage.vcproj,
+	src/arch/win32/vs8/drive.vcproj, src/arch/win32/vs8/fileio.vcproj,
+	src/arch/win32/vs8/fsdevice.vcproj,
+	src/arch/win32/vs8/geninfocontrib.vcproj,
+	src/arch/win32/vs8/genmsvcver.vcproj,
+	src/arch/win32/vs8/gentranslate.vcproj,
+	src/arch/win32/vs8/genwinres.vcproj,
+	src/arch/win32/vs8/gfxoutputdrv.vcproj, src/arch/win32/vs8/iec.vcproj,
+	src/arch/win32/vs8/iec128dcr.vcproj, src/arch/win32/vs8/iecbus.vcproj,
+	src/arch/win32/vs8/iecieee.vcproj, src/arch/win32/vs8/ieee.vcproj,
+	src/arch/win32/vs8/imagecontents.vcproj,
+	src/arch/win32/vs8/p64.vcproj, src/arch/win32/vs8/parallel.vcproj,
+	src/arch/win32/vs8/pet.vcproj, src/arch/win32/vs8/petcat.vcproj,
+	src/arch/win32/vs8/platform.vcproj,
+	src/arch/win32/vs8/plus4exp.vcproj,
+	src/arch/win32/vs8/printerdrv.vcproj,
+	src/arch/win32/vs8/raster.vcproj, src/arch/win32/vs8/resid.vcproj,
+	src/arch/win32/vs8/residdtv.vcproj, src/arch/win32/vs8/residfp.vcproj,
+	src/arch/win32/vs8/rs232drv.vcproj, src/arch/win32/vs8/rtc.vcproj,
+	src/arch/win32/vs8/scpu64.vcproj, src/arch/win32/vs8/serial.vcproj,
+	src/arch/win32/vs8/sid.vcproj, src/arch/win32/vs8/sounddrv.vcproj,
+	src/arch/win32/vs8/tape.vcproj, src/arch/win32/vs8/tcbm.vcproj,
+	src/arch/win32/vs8/userport.vcproj, src/arch/win32/vs8/vdc.vcproj,
+	src/arch/win32/vs8/vdrive.vcproj, src/arch/win32/vs8/vic20.vcproj,
+	src/arch/win32/vs8/vic20cart.vcproj, src/arch/win32/vs8/vicii.vcproj,
+	src/arch/win32/vs8/viciidtv.vcproj, src/arch/win32/vs8/viciisc.vcproj,
+	src/arch/win32/vs8/video.vcproj, src/arch/win32/vs8/vsid.vcproj,
+	src/arch/win32/vs8/vsidlib.vcproj, src/arch/win32/vs8/x128.vcproj,
+	src/arch/win32/vs8/x64.vcproj, src/arch/win32/vs8/x64dtv.vcproj,
+	src/arch/win32/vs8/x64sc.vcproj, src/arch/win32/vs8/xcbm2.vcproj,
+	src/arch/win32/vs8/xcbm5x0.vcproj, src/arch/win32/vs8/xpet.vcproj,
+	src/arch/win32/vs8/xplus4.vcproj, src/arch/win32/vs8/xscpu64.vcproj,
+	src/arch/win32/vs8/xvic.vcproj: Fixed a generation error.
+
+2013-06-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs9/monitor.vcproj, src/arch/win32/vs9/plus4.vcproj,
+	src/arch/win32/vs9/vice.sln, src/arch/win32/vs9/_vice.vcproj,
+	src/arch/win32/vs9/arch.vcproj, src/arch/win32/vs9/base.vcproj,
+	src/arch/win32/vs9/c128.vcproj, src/arch/win32/vs9/c1541.vcproj,
+	src/arch/win32/vs9/c64.vcproj, src/arch/win32/vs9/c64c128.vcproj,
+	src/arch/win32/vs9/c64c64dtv.vcproj,
+	src/arch/win32/vs9/c64cart.vcproj,
+	src/arch/win32/vs9/c64cartsystem.vcproj,
+	src/arch/win32/vs9/c64commoncart.vcproj,
+	src/arch/win32/vs9/c64dtv.vcproj,
+	src/arch/win32/vs9/c64dtvstubs.vcproj,
+	src/arch/win32/vs9/c64exp.vcproj, src/arch/win32/vs9/c64sc.vcproj,
+	src/arch/win32/vs9/c64scpu64.vcproj,
+	src/arch/win32/vs9/cartconv.vcproj, src/arch/win32/vs9/cbm2.vcproj,
+	src/arch/win32/vs9/cbm2common.vcproj,
+	src/arch/win32/vs9/cbm5x0.vcproj, src/arch/win32/vs9/core.vcproj,
+	src/arch/win32/vs9/crtc.vcproj, src/arch/win32/vs9/diskimage.vcproj,
+	src/arch/win32/vs9/drive.vcproj, src/arch/win32/vs9/fileio.vcproj,
+	src/arch/win32/vs9/fsdevice.vcproj,
+	src/arch/win32/vs9/geninfocontrib.vcproj,
+	src/arch/win32/vs9/genmsvcver.vcproj,
+	src/arch/win32/vs9/gentranslate.vcproj,
+	src/arch/win32/vs9/genwinres.vcproj,
+	src/arch/win32/vs9/gfxoutputdrv.vcproj,
+	src/arch/win32/vs9/iec.vcproj, src/arch/win32/vs9/iec128dcr.vcproj,
+	src/arch/win32/vs9/iecbus.vcproj, src/arch/win32/vs9/iecieee.vcproj,
+	src/arch/win32/vs9/ieee.vcproj,
+	src/arch/win32/vs9/imagecontents.vcproj,
+	src/arch/win32/vs9/p64.vcproj, src/arch/win32/vs9/parallel.vcproj,
+	src/arch/win32/vs9/pet.vcproj, src/arch/win32/vs9/petcat.vcproj,
+	src/arch/win32/vs9/platform.vcproj,
+	src/arch/win32/vs9/plus4exp.vcproj,
+	src/arch/win32/vs9/printerdrv.vcproj,
+	src/arch/win32/vs9/raster.vcproj, src/arch/win32/vs9/resid.vcproj,
+	src/arch/win32/vs9/residdtv.vcproj, src/arch/win32/vs9/residfp.vcproj,
+	src/arch/win32/vs9/rs232drv.vcproj, src/arch/win32/vs9/rtc.vcproj,
+	src/arch/win32/vs9/scpu64.vcproj, src/arch/win32/vs9/serial.vcproj,
+	src/arch/win32/vs9/sid.vcproj, src/arch/win32/vs9/sounddrv.vcproj,
+	src/arch/win32/vs9/tape.vcproj, src/arch/win32/vs9/tcbm.vcproj,
+	src/arch/win32/vs9/userport.vcproj, src/arch/win32/vs9/vdc.vcproj,
+	src/arch/win32/vs9/vdrive.vcproj, src/arch/win32/vs9/vic20.vcproj,
+	src/arch/win32/vs9/vic20cart.vcproj, src/arch/win32/vs9/vicii.vcproj,
+	src/arch/win32/vs9/viciidtv.vcproj, src/arch/win32/vs9/viciisc.vcproj,
+	src/arch/win32/vs9/video.vcproj, src/arch/win32/vs9/vsid.vcproj,
+	src/arch/win32/vs9/vsidlib.vcproj, src/arch/win32/vs9/x128.vcproj,
+	src/arch/win32/vs9/x64.vcproj, src/arch/win32/vs9/x64dtv.vcproj,
+	src/arch/win32/vs9/x64sc.vcproj, src/arch/win32/vs9/xcbm2.vcproj,
+	src/arch/win32/vs9/xcbm5x0.vcproj, src/arch/win32/vs9/xpet.vcproj,
+	src/arch/win32/vs9/xplus4.vcproj, src/arch/win32/vs9/xscpu64.vcproj,
+	src/arch/win32/vs9/xvic.vcproj: Replaced msvc8 project files with
+	msvc9 project files.
+
+2013-06-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/win32/Makefile.am, src/arch/win32/vs9,
+	src/arch/win32/vs9/monitor.vcproj, src/arch/win32/vs9/plus4.vcproj,
+	src/arch/win32/vs9/vice.sln, src/arch/win32/vs9/Makefile.am,
+	src/arch/win32/vs9/_vice.vcproj, src/arch/win32/vs9/arch.vcproj,
+	src/arch/win32/vs9/base.vcproj, src/arch/win32/vs9/c128.vcproj,
+	src/arch/win32/vs9/c1541.vcproj, src/arch/win32/vs9/c64.vcproj,
+	src/arch/win32/vs9/c64c128.vcproj,
+	src/arch/win32/vs9/c64c64dtv.vcproj,
+	src/arch/win32/vs9/c64cart.vcproj,
+	src/arch/win32/vs9/c64cartsystem.vcproj,
+	src/arch/win32/vs9/c64commoncart.vcproj,
+	src/arch/win32/vs9/c64dtv.vcproj,
+	src/arch/win32/vs9/c64dtvstubs.vcproj,
+	src/arch/win32/vs9/c64exp.vcproj, src/arch/win32/vs9/c64sc.vcproj,
+	src/arch/win32/vs9/c64scpu64.vcproj,
+	src/arch/win32/vs9/cartconv.vcproj, src/arch/win32/vs9/cbm2.vcproj,
+	src/arch/win32/vs9/cbm2common.vcproj,
+	src/arch/win32/vs9/cbm5x0.vcproj, src/arch/win32/vs9/core.vcproj,
+	src/arch/win32/vs9/crtc.vcproj, src/arch/win32/vs9/diskimage.vcproj,
+	src/arch/win32/vs9/drive.vcproj, src/arch/win32/vs9/fileio.vcproj,
+	src/arch/win32/vs9/fsdevice.vcproj,
+	src/arch/win32/vs9/geninfocontrib.vcproj,
+	src/arch/win32/vs9/genmsvcver.vcproj,
+	src/arch/win32/vs9/gentranslate.vcproj,
+	src/arch/win32/vs9/genwinres.vcproj,
+	src/arch/win32/vs9/gfxoutputdrv.vcproj, src/arch/win32/vs9/iec.vcproj,
+	src/arch/win32/vs9/iec128dcr.vcproj, src/arch/win32/vs9/iecbus.vcproj,
+	src/arch/win32/vs9/iecieee.vcproj, src/arch/win32/vs9/ieee.vcproj,
+	src/arch/win32/vs9/imagecontents.vcproj,
+	src/arch/win32/vs9/make-msvc-bindist.bat,
+	src/arch/win32/vs9/p64.vcproj, src/arch/win32/vs9/parallel.vcproj,
+	src/arch/win32/vs9/pet.vcproj, src/arch/win32/vs9/petcat.vcproj,
+	src/arch/win32/vs9/platform.vcproj,
+	src/arch/win32/vs9/plus4exp.vcproj,
+	src/arch/win32/vs9/printerdrv.vcproj,
+	src/arch/win32/vs9/raster.vcproj, src/arch/win32/vs9/resid.vcproj,
+	src/arch/win32/vs9/residdtv.vcproj, src/arch/win32/vs9/residfp.vcproj,
+	src/arch/win32/vs9/rs232drv.vcproj, src/arch/win32/vs9/rtc.vcproj,
+	src/arch/win32/vs9/scpu64.vcproj, src/arch/win32/vs9/serial.vcproj,
+	src/arch/win32/vs9/sid.vcproj, src/arch/win32/vs9/sounddrv.vcproj,
+	src/arch/win32/vs9/tape.vcproj, arch/win32/vs9/tcbm.vcproj,
+	src/arch/win32/vs9/userport.vcproj, src/arch/win32/vs9/vdc.vcproj,
+	src/arch/win32/vs9/vdrive.vcproj, src/arch/win32/vs9/vic20.vcproj,
+	src/arch/win32/vs9/vic20cart.vcproj, src/arch/win32/vs9/vicii.vcproj,
+	src/arch/win32/vs9/viciidtv.vcproj, src/arch/win32/vs9/viciisc.vcproj,
+	src/arch/win32/vs9/video.vcproj, src/arch/win32/vs9/vsid.vcproj,
+	src/arch/win32/vs9/vsidlib.vcproj, src/arch/win32/vs9/winid_ia64.bat,
+	src/arch/win32/vs9/winid_x64.bat, src/arch/win32/vs9/winid_x86.bat,
+	src/arch/win32/vs9/x128.vcproj, src/arch/win32/vs9/x64.vcproj,
+	src/arch/win32/vs9/x64dtv.vcproj, src/arch/win32/vs9/x64sc.vcproj,
+	src/arch/win32/vs9/xcbm2.vcproj, src/arch/win32/vs9/xcbm5x0.vcproj,
+	src/arch/win32/vs9/xpet.vcproj, src/arch/win32/vs9/xplus4.vcproj,
+	src/arch/win32/vs9/xscpu64.vcproj, src/arch/win32/vs9/xvic.vcproj:
+	Made vs9 directory populated with vs8 project files for now.
+
+2013-06-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs8/monitor.vcproj,
+	src/arch/win32/vs8/plus4.vcproj, src/arch/win32/vs8/vice.sln,
+	src/arch/win32/vs8/_vice.vcproj, src/arch/win32/vs8/arch.vcproj,
+	src/arch/win32/vs8/base.vcproj, src/arch/win32/vs8/c128.vcproj,
+	src/arch/win32/vs8/c1541.vcproj, src/arch/win32/vs8/c64.vcproj,
+	src/arch/win32/vs8/c64c128.vcproj,
+	src/arch/win32/vs8/c64c64dtv.vcproj,
+	src/arch/win32/vs8/c64cart.vcproj,
+	src/arch/win32/vs8/c64cartsystem.vcproj,
+	src/arch/win32/vs8/c64commoncart.vcproj,
+	src/arch/win32/vs8/c64dtv.vcproj,
+	src/arch/win32/vs8/c64dtvstubs.vcproj,
+	src/arch/win32/vs8/c64exp.vcproj, src/arch/win32/vs8/c64sc.vcproj,
+	src/arch/win32/vs8/c64scpu64.vcproj,
+	src/arch/win32/vs8/cartconv.vcproj, src/arch/win32/vs8/cbm2.vcproj,
+	src/arch/win32/vs8/cbm2common.vcproj,
+	src/arch/win32/vs8/cbm5x0.vcproj, src/arch/win32/vs8/core.vcproj,
+	src/arch/win32/vs8/crtc.vcproj, src/arch/win32/vs8/diskimage.vcproj,
+	src/arch/win32/vs8/drive.vcproj, src/arch/win32/vs8/fileio.vcproj,
+	src/arch/win32/vs8/fsdevice.vcproj,
+	src/arch/win32/vs8/geninfocontrib.vcproj,
+	src/arch/win32/vs8/genmsvcver.vcproj,
+	src/arch/win32/vs8/gentranslate.vcproj,
+	src/arch/win32/vs8/genwinres.vcproj,
+	src/arch/win32/vs8/gfxoutputdrv.vcproj, src/arch/win32/vs8/iec.vcproj,
+	src/arch/win32/vs8/iec128dcr.vcproj, src/arch/win32/vs8/iecbus.vcproj,
+	src/arch/win32/vs8/iecieee.vcproj, src/arch/win32/vs8/ieee.vcproj,
+	src/arch/win32/vs8/imagecontents.vcproj,
+	src/arch/win32/vs8/p64.vcproj, src/arch/win32/vs8/parallel.vcproj,
+	src/arch/win32/vs8/pet.vcproj, src/arch/win32/vs8/petcat.vcproj,
+	src/arch/win32/vs8/platform.vcproj,
+	src/arch/win32/vs8/plus4exp.vcproj,
+	src/arch/win32/vs8/printerdrv.vcproj,
+	src/arch/win32/vs8/raster.vcproj, src/arch/win32/vs8/resid.vcproj,
+	src/arch/win32/vs8/residdtv.vcproj, src/arch/win32/vs8/residfp.vcproj,
+	src/arch/win32/vs8/rs232drv.vcproj, src/arch/win32/vs8/rtc.vcproj,
+	src/arch/win32/vs8/scpu64.vcproj, src/arch/win32/vs8/serial.vcproj,
+	src/arch/win32/vs8/sid.vcproj, src/arch/win32/vs8/sounddrv.vcproj,
+	src/arch/win32/vs8/tape.vcproj, src/arch/win32/vs8/tcbm.vcproj,
+	src/arch/win32/vs8/userport.vcproj, src/arch/win32/vs8/vdc.vcproj,
+	src/arch/win32/vs8/vdrive.vcproj, src/arch/win32/vs8/vic20.vcproj,
+	src/arch/win32/vs8/vic20cart.vcproj, src/arch/win32/vs8/vicii.vcproj,
+	src/arch/win32/vs8/viciidtv.vcproj, src/arch/win32/vs8/viciisc.vcproj,
+	src/arch/win32/vs8/video.vcproj, src/arch/win32/vs8/vsid.vcproj,
+	src/arch/win32/vs8/vsidlib.vcproj, src/arch/win32/vs8/x128.vcproj,
+	src/arch/win32/vs8/x64.vcproj, src/arch/win32/vs8/x64dtv.vcproj,
+	src/arch/win32/vs8/x64sc.vcproj, src/arch/win32/vs8/xcbm2.vcproj,
+	src/arch/win32/vs8/xcbm5x0.vcproj, src/arch/win32/vs8/xpet.vcproj,
+	src/arch/win32/vs8/xplus4.vcproj, src/arch/win32/vs8/xscpu64.vcproj,
+	src/arch/win32/vs8/xvic.vcproj: Finished the msvc8 support.
+
+2013-06-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs71/plus4.vcproj, src/arch/win32/vs71/vice.sln,
+	src/arch/win32/vs71/c128.vcproj, src/arch/win32/vs71/c64dtv.vcproj,
+	src/arch/win32/vs71/c64sc.vcproj,
+	src/arch/win32/vs71/cbm2common.vcproj,
+	src/arch/win32/vs71/drive.vcproj, src/arch/win32/vs71/pet.vcproj,
+	src/arch/win32/vs71/scpu64.vcproj, src/arch/win32/vs71/vic20.vcproj,
+	src/arch/win32/vs71/vsidlib.vcproj, src/arch/win32/vs71/x64.vcproj,
+	src/arch/win32/vs71/xpet.vcproj: Updated msvc7.1 project files to
+	treat cpu type source files as regulars ones.
+
+2013-06-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs70/plus4.vcproj, src/arch/win32/vs70/c128.vcproj,
+	src/arch/win32/vs70/c64dtv.vcproj, src/arch/win32/vs70/c64sc.vcproj,
+	src/arch/win32/vs70/cbm2common.vcproj,
+	src/arch/win32/vs70/drive.vcproj, src/arch/win32/vs70/pet.vcproj,
+	src/arch/win32/vs70/scpu64.vcproj, src/arch/win32/vs70/vic20.vcproj,
+	src/arch/win32/vs70/vsidlib.vcproj, src/arch/win32/vs70/x64.vcproj,
+	src/arch/win32/vs70/xpet.vcproj: Updated msvc7.0 project files to
+	treat cpu type source files as regulars ones.
+
+2013-06-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, configure.proto,
+	src/arch/win32/Makefile.am, src/arch/win32/vs8,
+	src/arch/win32/vs8/winid_ia64.bat, src/arch/win32/vs8/winid_x64.bat,
+	src/arch/win32/vs8/winid_x86.bat, src/arch/win32/msvc/ide-config.h,
+	src/platform/platform_discovery.h, src/arch/win32/vs71/vice.sln,
+	src/arch/win32/vs8/monitor.vcproj, src/arch/win32/vs8/plus4.vcproj,
+	src/arch/win32/vs8/vice.sln, src/arch/win32/vs8/_vice.vcproj,
+	src/arch/win32/vs8/arch.vcproj, src/arch/win32/vs8/base.vcproj,
+	src/arch/win32/vs8/c128.vcproj, src/arch/win32/vs8/c1541.vcproj,
+	src/arch/win32/vs8/c64.vcproj, src/arch/win32/vs8/c64c128.vcproj,
+	src/arch/win32/vs8/c64c64dtv.vcproj,
+	src/arch/win32/vs8/c64cart.vcproj,
+	src/arch/win32/vs8/c64cartsystem.vcproj,
+	src/arch/win32/vs8/c64commoncart.vcproj,
+	src/arch/win32/vs8/c64dtv.vcproj,
+	src/arch/win32/vs8/c64dtvstubs.vcproj,
+	src/arch/win32/vs8/c64exp.vcproj, src/arch/win32/vs8/c64sc.vcproj,
+	src/arch/win32/vs8/c64scpu64.vcproj,
+	src/arch/win32/vs8/cartconv.vcproj, src/arch/win32/vs8/cbm2.vcproj,
+	src/arch/win32/vs8/cbm2common.vcproj,
+	src/arch/win32/vs8/cbm5x0.vcproj, src/arch/win32/vs8/core.vcproj,
+	src/arch/win32/vs8/crtc.vcproj, src/arch/win32/vs8/diskimage.vcproj,
+	src/arch/win32/vs8/drive.vcproj, src/arch/win32/vs8/fileio.vcproj,
+	src/arch/win32/vs8/fsdevice.vcproj,
+	src/arch/win32/vs8/geninfocontrib.vcproj,
+	src/arch/win32/vs8/genmsvcver.vcproj,
+	src/arch/win32/vs8/gentranslate.vcproj,
+	src/arch/win32/vs8/genwinres.vcproj,
+	src/arch/win32/vs8/gfxoutputdrv.vcproj, src/arch/win32/vs8/iec.vcproj,
+	src/arch/win32/vs8/iec128dcr.vcproj, src/arch/win32/vs8/iecbus.vcproj,
+	src/arch/win32/vs8/iecieee.vcproj, src/arch/win32/vs8/ieee.vcproj,
+	src/arch/win32/vs8/imagecontents.vcproj,
+	src/arch/win32/vs8/p64.vcproj, src/arch/win32/vs8/parallel.vcproj,
+	src/arch/win32/vs8/pet.vcproj, src/arch/win32/vs8/petcat.vcproj,
+	src/arch/win32/vs8/platform.vcproj,
+	src/arch/win32/vs8/plus4exp.vcproj,
+	src/arch/win32/vs8/printerdrv.vcproj,
+	src/arch/win32/vs8/raster.vcproj, src/arch/win32/vs8/resid.vcproj,
+	src/arch/win32/vs8/residdtv.vcproj, src/arch/win32/vs8/residfp.vcproj,
+	src/arch/win32/vs8/rs232drv.vcproj, src/arch/win32/vs8/rtc.vcproj,
+	src/arch/win32/vs8/scpu64.vcproj, src/arch/win32/vs8/serial.vcproj,
+	src/arch/win32/vs8/sid.vcproj, src/arch/win32/vs8/sounddrv.vcproj,
+	src/arch/win32/vs8/tape.vcproj, src/arch/win32/vs8/tcbm.vcproj,
+	src/arch/win32/vs8/userport.vcproj, src/arch/win32/vs8/vdc.vcproj,
+	src/arch/win32/vs8/vdrive.vcproj, src/arch/win32/vs8/vic20.vcproj,
+	src/arch/win32/vs8/vic20cart.vcproj, src/arch/win32/vs8/vicii.vcproj,
+	src/arch/win32/vs8/viciidtv.vcproj, src/arch/win32/vs8/viciisc.vcproj,
+	src/arch/win32/vs8/video.vcproj, src/arch/win32/vs8/vsid.vcproj,
+	src/arch/win32/vs8/vsidlib.vcproj, src/arch/win32/vs8/x128.vcproj,
+	src/arch/win32/vs8/x64.vcproj, src/arch/win32/vs8/x64dtv.vcproj,
+	src/arch/win32/vs8/x64sc.vcproj, src/arch/win32/vs8/xcbm2.vcproj,
+	src/arch/win32/vs8/xcbm5x0.vcproj, src/arch/win32/vs8/xpet.vcproj,
+	src/arch/win32/vs8/xplus4.vcproj, src/arch/win32/vs8/xscpu64.vcproj,
+	src/arch/win32/vs8/xvic.vcproj, src/arch/win32/vs8/Makefile.am,
+	src/arch/win32/vs8/make-msvc-bindist.bat,
+	src/arch/win32/msvc/ide-sidfpdefs.h,
+	src/arch/win32/vs71/make-msvc-bindist.bat,
+	src/arch/win64/vic20.vcproj: Finished vs7.1 support and started on vs8
+	support.
+
+2013-06-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs71/monitor.vcproj,
+	src/arch/win32/vs71/plus4.vcproj, src/arch/win32/vs71/vice.sln,
+	src/arch/win32/vs71/c128.vcproj, src/arch/win32/vs71/c64dtv.vcproj,
+	src/arch/win32/vs71/c64sc.vcproj,
+	src/arch/win32/vs71/cbm2common.vcproj,
+	src/arch/win32/vs71/drive.vcproj, src/arch/win32/vs71/pet.vcproj,
+	src/arch/win32/vs71/scpu64.vcproj, src/arch/win32/vs71/vic20.vcproj,
+	src/arch/win32/vs71/vsidlib.vcproj, src/arch/win32/vs71/arch.vcproj,
+	src/arch/win32/vs71/base.vcproj, src/arch/win32/vs71/rtc.vcproj,
+	src/arch/win32/vs71/sid.vcproj: Finished adding msvc7.1 support.
+
+2013-06-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs70/c1541.vcproj,
+	src/arch/win32/vs70/cartconv.vcproj,
+	src/arch/win32/vs70/geninfocontrib.vcproj,
+	src/arch/win32/vs70/genmsvcver.vcproj,
+	src/arch/win32/vs70/gentranslate.vcproj,
+	src/arch/win32/vs70/genwinres.vcproj,
+	src/arch/win32/vs70/petcat.vcproj: Fixed.
+
+2013-06-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs71/monitor.vcproj,
+	src/arch/win32/vs71/plus4.vcproj, src/arch/win32/vs71/vice.sln,
+	src/arch/win32/vs71/c128.vcproj, src/arch/win32/vs71/c64dtv.vcproj,
+	src/arch/win32/vs71/c64sc.vcproj,
+	src/arch/win32/vs71/cbm2common.vcproj,
+	src/arch/win32/vs71/drive.vcproj, src/arch/win32/vs71/pet.vcproj,
+	src/arch/win32/vs71/scpu64.vcproj, src/arch/win32/vs71/vic20.vcproj,
+	src/arch/win32/vs71/vsidlib.vcproj, src/arch/win32/vs71/x64.vcproj,
+	src/arch/win32/vs71/xpet.vcproj, src/arch/win32/vs71/_vice.vcproj,
+	src/arch/win32/vs71/arch.vcproj, src/arch/win32/vs71/base.vcproj,
+	src/arch/win32/vs71/c1541.vcproj, src/arch/win32/vs71/c64.vcproj,
+	src/arch/win32/vs71/c64c128.vcproj,
+	src/arch/win32/vs71/c64c64dtv.vcproj,
+	src/arch/win32/vs71/c64cart.vcproj,
+	src/arch/win32/vs71/c64cartsystem.vcproj,
+	src/arch/win32/vs71/c64commoncart.vcproj,
+	src/arch/win32/vs71/c64dtvstubs.vcproj,
+	src/arch/win32/vs71/c64exp.vcproj,
+	src/arch/win32/vs71/c64scpu64.vcproj,
+	src/arch/win32/vs71/cartconv.vcproj, src/arch/win32/vs71/cbm2.vcproj,
+	src/arch/win32/vs71/cbm5x0.vcproj, src/arch/win32/vs71/core.vcproj,
+	src/arch/win32/vs71/crtc.vcproj, src/arch/win32/vs71/diskimage.vcproj,
+	src/arch/win32/vs71/fileio.vcproj,
+	src/arch/win32/vs71/fsdevice.vcproj,
+	src/arch/win32/vs71/geninfocontrib.vcproj,
+	src/arch/win32/vs71/genmsvcver.vcproj,
+	src/arch/win32/vs71/gentranslate.vcproj,
+	src/arch/win32/vs71/genwinres.vcproj,
+	src/arch/win32/vs71/gfxoutputdrv.vcproj,
+	src/arch/win32/vs71/iec.vcproj, src/arch/win32/vs71/iec128dcr.vcproj,
+	src/arch/win32/vs71/iecbus.vcproj, src/arch/win32/vs71/iecieee.vcproj,
+	src/arch/win32/vs71/ieee.vcproj,
+	src/arch/win32/vs71/imagecontents.vcproj,
+	src/arch/win32/vs71/p64.vcproj, src/arch/win32/vs71/parallel.vcproj,
+	src/arch/win32/vs71/petcat.vcproj,
+	src/arch/win32/vs71/platform.vcproj,
+	src/arch/win32/vs71/plus4exp.vcproj,
+	src/arch/win32/vs71/printerdrv.vcproj,
+	src/arch/win32/vs71/raster.vcproj, src/arch/win32/vs71/resid.vcproj,
+	src/arch/win32/vs71/residdtv.vcproj,
+	src/arch/win32/vs71/residfp.vcproj,
+	src/arch/win32/vs71/rs232drv.vcproj, src/arch/win32/vs71/rtc.vcproj,
+	src/arch/win32/vs71/serial.vcproj, src/arch/win32/vs71/sid.vcproj,
+	src/arch/win32/vs71/sounddrv.vcproj, src/arch/win32/vs71/tape.vcproj,
+	src/arch/win32/vs71/tcbm.vcproj, src/arch/win32/vs71/userport.vcproj,
+	src/arch/win32/vs71/vdc.vcproj, src/arch/win32/vs71/vdrive.vcproj,
+	src/arch/win32/vs71/vic20cart.vcproj,
+	src/arch/win32/vs71/vicii.vcproj, src/arch/win32/vs71/viciidtv.vcproj,
+	src/arch/win32/vs71/viciisc.vcproj, src/arch/win32/vs71/video.vcproj,
+	src/arch/win32/vs71/vsid.vcproj, src/arch/win32/vs71/x128.vcproj,
+	src/arch/win32/vs71/x64dtv.vcproj, src/arch/win32/vs71/x64sc.vcproj,
+	src/arch/win32/vs71/xcbm2.vcproj, src/arch/win32/vs71/xcbm5x0.vcproj,
+	src/arch/win32/vs71/xplus4.vcproj, src/arch/win32/vs71/xscpu64.vcproj,
+	src/arch/win32/vs71/xvic.vcproj: Put the msvc7.1 project files in
+	place.
+
+2013-06-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/win32/Makefile.am, src/arch/win32/vs71,
+	src/arch/win32/vs71/monitor.vcproj, src/arch/win32/vs71/plus4.vcproj,
+	src/arch/win32/vs71/vice.sln, src/arch/win32/vs71/c128.vcproj,
+	src/arch/win32/vs71/c64dtv.vcproj, src/arch/win32/vs71/c64sc.vcproj,
+	src/arch/win32/vs71/cbm2common.vcproj,
+	src/arch/win32/vs71/drive.vcproj, src/arch/win32/vs71/pet.vcproj,
+	src/arch/win32/vs71/scpu64.vcproj, src/arch/win32/vs71/vic20.vcproj,
+	src/arch/win32/vs71/vsidlib.vcproj, src/arch/win32/vs71/x64.vcproj,
+	src/arch/win32/vs71/xpet.vcproj, src/arch/win32/vs71/Makefile.am,
+	src/arch/win32/vs71/_vice.vcproj, src/arch/win32/vs71/arch.vcproj,
+	src/arch/win32/vs71/base.vcproj, src/arch/win32/vs71/c1541.vcproj,
+	src/arch/win32/vs71/c64.vcproj, src/arch/win32/vs71/c64c128.vcproj,
+	src/arch/win32/vs71/c64c64dtv.vcproj,
+	src/arch/win32/vs71/c64cart.vcproj,
+	src/arch/win32/vs71/c64cartsystem.vcproj,
+	src/arch/win32/vs71/c64commoncart.vcproj,
+	src/arch/win32/vs71/c64dtvstubs.vcproj,
+	src/arch/win32/vs71/c64exp.vcproj,
+	src/arch/win32/vs71/c64scpu64.vcproj,
+	src/arch/win32/vs71/cartconv.vcproj, src/arch/win32/vs71/cbm2.vcproj,
+	src/arch/win32/vs71/cbm5x0.vcproj, src/arch/win32/vs71/core.vcproj,
+	src/arch/win32/vs71/crtc.vcproj, src/arch/win32/vs71/diskimage.vcproj,
+	src/arch/win32/vs71/fileio.vcproj,
+	src/arch/win32/vs71/fsdevice.vcproj,
+	src/arch/win32/vs71/geninfocontrib.vcproj,
+	src/arch/win32/vs71/genmsvcver.vcproj,
+	src/arch/win32/vs71/gentranslate.vcproj,
+	src/arch/win32/vs71/genwinres.vcproj,
+	src/arch/win32/vs71/gfxoutputdrv.vcproj,
+	src/arch/win32/vs71/iec.vcproj, src/arch/win32/vs71/iec128dcr.vcproj,
+	src/arch/win32/vs71/iecbus.vcproj, src/arch/win32/vs71/iecieee.vcproj,
+	src/arch/win32/vs71/ieee.vcproj,
+	src/arch/win32/vs71/imagecontents.vcproj,
+	src/arch/win32/vs71/p64.vcproj, src/arch/win32/vs71/parallel.vcproj,
+	src/arch/win32/vs71/petcat.vcproj,
+	src/arch/win32/vs71/platform.vcproj,
+	src/arch/win32/vs71/plus4exp.vcproj,
+	src/arch/win32/vs71/printerdrv.vcproj,
+	src/arch/win32/vs71/raster.vcproj, src/arch/win32/vs71/resid.vcproj,
+	src/arch/win32/vs71/residdtv.vcproj,
+	src/arch/win32/vs71/residfp.vcproj,
+	src/arch/win32/vs71/rs232drv.vcproj, src/arch/win32/vs71/rtc.vcproj,
+	src/arch/win32/vs71/serial.vcproj, src/arch/win32/vs71/sid.vcproj,
+	src/arch/win32/vs71/sounddrv.vcproj, src/arch/win32/vs71/tape.vcproj,
+	src/arch/win32/vs71/tcbm.vcproj, src/arch/win32/vs71/userport.vcproj,
+	src/arch/win32/vs71/vdc.vcproj, src/arch/win32/vs71/vdrive.vcproj,
+	src/arch/win32/vs71/vic20cart.vcproj,
+	src/arch/win32/vs71/vicii.vcproj, src/arch/win32/vs71/viciidtv.vcproj,
+	src/arch/win32/vs71/viciisc.vcproj, src/arch/win32/vs71/video.vcproj,
+	src/arch/win32/vs71/vsid.vcproj, src/arch/win32/vs71/x128.vcproj,
+	src/arch/win32/vs71/x64dtv.vcproj, src/arch/win32/vs71/x64sc.vcproj,
+	src/arch/win32/vs71/xcbm2.vcproj, src/arch/win32/vs71/xcbm5x0.vcproj,
+	src/arch/win32/vs71/xplus4.vcproj, src/arch/win32/vs71/xscpu64.vcproj,
+	src/arch/win32/vs71/xvic.vcproj: Started on msvc7.1 support.
+
+2013-06-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs70,
+	src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs70/monitor.vcproj, src/arch/win32/vs70/plus4.vcproj,
+	src/arch/win32/vs70/vice.sln, src/arch/win32/vs70/c128.vcproj,
+	src/arch/win32/vs70/c64dtv.vcproj, src/arch/win32/vs70/c64sc.vcproj,
+	src/arch/win32/vs70/cbm2common.vcproj,
+	src/arch/win32/vs70/drive.vcproj, src/arch/win32/vs70/pet.vcproj,
+	src/arch/win32/vs70/scpu64.vcproj, src/arch/win32/vs70/vic20.vcproj,
+	src/arch/win32/vs70/vsidlib.vcproj, src/arch/win32/vs70/x64.vcproj,
+	src/arch/win32/vs70/xpet.vcproj, src/arch/win32/vs70/c1541.vcproj,
+	src/arch/win32/vs70/cartconv.vcproj,
+	src/arch/win32/vs70/geninfocontrib.vcproj,
+	src/arch/win32/vs70/genmsvcver.vcproj,
+	src/arch/win32/vs70/gentranslate.vcproj,
+	src/arch/win32/vs70/genwinres.vcproj,
+	src/arch/win32/vs70/petcat.vcproj, src/arch/win32/vs70/_vice.vcproj,
+	src/arch/win32/vs70/arch.vcproj, src/arch/win32/vs70/base.vcproj,
+	src/arch/win32/vs70/c64.vcproj, src/arch/win32/vs70/c64c128.vcproj,
+	src/arch/win32/vs70/c64c64dtv.vcproj,
+	src/arch/win32/vs70/c64cart.vcproj,
+	src/arch/win32/vs70/c64cartsystem.vcproj,
+	src/arch/win32/vs70/c64commoncart.vcproj,
+	src/arch/win32/vs70/c64dtvstubs.vcproj,
+	src/arch/win32/vs70/c64exp.vcproj,
+	src/arch/win32/vs70/c64scpu64.vcproj, src/arch/win32/vs70/cbm2.vcproj,
+	src/arch/win32/vs70/cbm5x0.vcproj, src/arch/win32/vs70/core.vcproj,
+	src/arch/win32/vs70/crtc.vcproj, src/arch/win32/vs70/diskimage.vcproj,
+	src/arch/win32/vs70/fileio.vcproj,
+	src/arch/win32/vs70/fsdevice.vcproj,
+	src/arch/win32/vs70/gfxoutputdrv.vcproj,
+	src/arch/win32/vs70/iec.vcproj, src/arch/win32/vs70/iec128dcr.vcproj,
+	src/arch/win32/vs70/iecbus.vcproj, src/arch/win32/vs70/iecieee.vcproj,
+	src/arch/win32/vs70/ieee.vcproj,
+	src/arch/win32/vs70/imagecontents.vcproj,
+	src/arch/win32/vs70/p64.vcproj, src/arch/win32/vs70/parallel.vcproj,
+	src/arch/win32/vs70/platform.vcproj,
+	src/arch/win32/vs70/plus4exp.vcproj,
+	src/arch/win32/vs70/printerdrv.vcproj,
+	src/arch/win32/vs70/raster.vcproj, src/arch/win32/vs70/resid.vcproj,
+	src/arch/win32/vs70/residdtv.vcproj,
+	src/arch/win32/vs70/residfp.vcproj,
+	src/arch/win32/vs70/rs232drv.vcproj, src/arch/win32/vs70/rtc.vcproj,
+	src/arch/win32/vs70/serial.vcproj, src/arch/win32/vs70/sid.vcproj,
+	src/arch/win32/vs70/sounddrv.vcproj, src/arch/win32/vs70/tape.vcproj,
+	src/arch/win32/vs70/tcbm.vcproj, src/arch/win32/vs70/userport.vcproj,
+	src/arch/win32/vs70/vdc.vcproj, src/arch/win32/vs70/vdrive.vcproj,
+	src/arch/win32/vs70/vic20cart.vcproj,
+	src/arch/win32/vs70/vicii.vcproj, src/arch/win32/vs70/viciidtv.vcproj,
+	src/arch/win32/vs70/viciisc.vcproj, src/arch/win32/vs70/video.vcproj,
+	src/arch/win32/vs70/vsid.vcproj, src/arch/win32/vs70/x128.vcproj,
+	src/arch/win32/vs70/x64dtv.vcproj, src/arch/win32/vs70/x64sc.vcproj,
+	src/arch/win32/vs70/xcbm2.vcproj, src/arch/win32/vs70/xcbm5x0.vcproj,
+	src/arch/win32/vs70/xplus4.vcproj, src/arch/win32/vs70/xscpu64.vcproj,
+	src/arch/win32/vs70/xvic.vcproj, src/arch/win32/vs_tmpl/vice.dsw:
+	Finished adding msvc7.0 support.
+
+2013-06-23  groepaz <groepaz@gmx.net>
+
+	* src/autostart.c, src/vdrive/vdrive-bam.c: fix crash when resetting
+	during autostart of tap files, inspired by patch #76
+
+2013-06-23  groepaz <groepaz@gmx.net>
+
+	* doc/readmes/Readme-Unix.txt: fix links, patch by mjhn
+
+2013-06-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs70/monitor.vcproj,
+	src/arch/win32/vs70/plus4.vcproj, src/arch/win32/vs70/vice.sln,
+	src/arch/win32/vs70/c128.vcproj, src/arch/win32/vs70/c64dtv.vcproj,
+	src/arch/win32/vs70/c64sc.vcproj,
+	src/arch/win32/vs70/cbm2common.vcproj,
+	src/arch/win32/vs70/drive.vcproj, src/arch/win32/vs70/pet.vcproj,
+	src/arch/win32/vs70/scpu64.vcproj, src/arch/win32/vs70/vic20.vcproj,
+	src/arch/win32/vs70/vsidlib.vcproj, src/arch/win32/vs70/x64.vcproj,
+	src/arch/win32/vs70/xpet.vcproj,
+	src/arch/win32/vs70/make-msvc-bindist.bat,
+	src/arch/win32/vs70/c1541.vcproj, src/arch/win32/vs70/cartconv.vcproj,
+	src/arch/win32/vs70/geninfocontrib.vcproj,
+	src/arch/win32/vs70/genmsvcver.vcproj,
+	src/arch/win32/vs70/gentranslate.vcproj,
+	src/arch/win32/vs70/genwinres.vcproj,
+	src/arch/win32/vs70/petcat.vcproj, src/arch/win32/vs70/Makefile.am,
+	src/arch/win32/vs70/_vice.vcproj, src/arch/win32/vs70/arch.vcproj,
+	src/arch/win32/vs70/base.vcproj, src/arch/win32/vs70/c64.vcproj,
+	src/arch/win32/vs70/c64c128.vcproj,
+	src/arch/win32/vs70/c64c64dtv.vcproj,
+	src/arch/win32/vs70/c64cart.vcproj,
+	src/arch/win32/vs70/c64cartsystem.vcproj,
+	src/arch/win32/vs70/c64commoncart.vcproj,
+	src/arch/win32/vs70/c64dtvstubs.vcproj,
+	src/arch/win32/vs70/c64exp.vcproj,
+	src/arch/win32/vs70/c64scpu64.vcproj, src/arch/win32/vs70/cbm2.vcproj,
+	src/arch/win32/vs70/cbm5x0.vcproj, src/arch/win32/vs70/core.vcproj,
+	src/arch/win32/vs70/crtc.vcproj, src/arch/win32/vs70/diskimage.vcproj,
+	src/arch/win32/vs70/fileio.vcproj,
+	src/arch/win32/vs70/fsdevice.vcproj,
+	src/arch/win32/vs70/gfxoutputdrv.vcproj,
+	src/arch/win32/vs70/iec.vcproj, src/arch/win32/vs70/iec128dcr.vcproj,
+	src/arch/win32/vs70/iecbus.vcproj, src/arch/win32/vs70/iecieee.vcproj,
+	src/arch/win32/vs70/ieee.vcproj,
+	src/arch/win32/vs70/imagecontents.vcproj,
+	src/arch/win32/vs70/p64.vcproj, src/arch/win32/vs70/parallel.vcproj,
+	src/arch/win32/vs70/platform.vcproj,
+	src/arch/win32/vs70/plus4exp.vcproj,
+	src/arch/win32/vs70/printerdrv.vcproj,
+	src/arch/win32/vs70/raster.vcproj, src/arch/win32/vs70/resid.vcproj,
+	src/arch/win32/vs70/residdtv.vcproj,
+	src/arch/win32/vs70/residfp.vcproj,
+	src/arch/win32/vs70/rs232drv.vcproj, src/arch/win32/vs70/rtc.vcproj,
+	src/arch/win32/vs70/serial.vcproj, src/arch/win32/vs70/sid.vcproj,
+	src/arch/win32/vs70/sounddrv.vcproj, src/arch/win32/vs70/tape.vcproj,
+	src/arch/win32/vs70/tcbm.vcproj, src/arch/win32/vs70/userport.vcproj,
+	src/arch/win32/vs70/vdc.vcproj, src/arch/win32/vs70/vdrive.vcproj,
+	src/arch/win32/vs70/vic20cart.vcproj,
+	src/arch/win32/vs70/vicii.vcproj, src/arch/win32/vs70/viciidtv.vcproj,
+	src/arch/win32/vs70/viciisc.vcproj, src/arch/win32/vs70/video.vcproj,
+	src/arch/win32/vs70/vsid.vcproj, src/arch/win32/vs70/x128.vcproj,
+	src/arch/win32/vs70/x64dtv.vcproj, src/arch/win32/vs70/x64sc.vcproj,
+	src/arch/win32/vs70/xcbm2.vcproj, src/arch/win32/vs70/xcbm5x0.vcproj,
+	src/arch/win32/vs70/xplus4.vcproj, src/arch/win32/vs70/xscpu64.vcproj,
+	src/arch/win32/vs70/xvic.vcproj, src/arch/win32/vs70/_vice.dsp,
+	src/arch/win32/vs70/arch.dsp, src/arch/win32/vs70/base.dsp,
+	src/arch/win32/vs70/c128.dsp, src/arch/win32/vs70/c1541.dsp,
+	src/arch/win32/vs70/c64.dsp, src/arch/win32/vs70/c64c128.dsp,
+	src/arch/win32/vs70/c64c64dtv.dsp, src/arch/win32/vs70/c64cart.dsp,
+	src/arch/win32/vs70/c64cartsystem.dsp,
+	src/arch/win32/vs70/c64commoncart.dsp, src/arch/win32/vs70/c64dtv.dsp,
+	src/arch/win32/vs70/c64dtvstubs.dsp, src/arch/win32/vs70/c64exp.dsp,
+	src/arch/win32/vs70/c64sc.dsp, src/arch/win32/vs70/c64scpu64.dsp,
+	src/arch/win32/vs70/cartconv.dsp, src/arch/win32/vs70/cbm2.dsp,
+	src/arch/win32/vs70/cbm2common.dsp, src/arch/win32/vs70/cbm5x0.dsp,
+	src/arch/win32/vs70/core.dsp, src/arch/win32/vs70/crtc.dsp,
+	src/arch/win32/vs70/diskimage.dsp, src/arch/win32/vs70/drive.dsp,
+	src/arch/win32/vs70/fileio.dsp, src/arch/win32/vs70/fsdevice.dsp,
+	src/arch/win32/vs70/geninfocontrib.dsp,
+	src/arch/win32/vs70/genmsvcver.dsp,
+	src/arch/win32/vs70/gentranslate.dsp,
+	src/arch/win32/vs70/genwinres.dsp,
+	src/arch/win32/vs70/gfxoutputdrv.dsp, src/arch/win32/vs70/iec.dsp,
+	src/arch/win32/vs70/iec128dcr.dsp, src/arch/win32/vs70/iecbus.dsp,
+	src/arch/win32/vs70/iecieee.dsp, src/arch/win32/vs70/ieee.dsp,
+	src/arch/win32/vs70/imagecontents.dsp,
+	src/arch/win32/vs70/monitor.dsp, src/arch/win32/vs70/p64.dsp,
+	src/arch/win32/vs70/parallel.dsp, src/arch/win32/vs70/pet.dsp,
+	src/arch/win32/vs70/petcat.dsp, src/arch/win32/vs70/platform.dsp,
+	src/arch/win32/vs70/plus4.dsp, src/arch/win32/vs70/plus4exp.dsp,
+	src/arch/win32/vs70/printerdrv.dsp, src/arch/win32/vs70/raster.dsp,
+	src/arch/win32/vs70/resid.dsp, src/arch/win32/vs70/residdtv.dsp,
+	src/arch/win32/vs70/residfp.dsp, src/arch/win32/vs70/rs232drv.dsp,
+	src/arch/win32/vs70/rtc.dsp, src/arch/win32/vs70/scpu64.dsp,
+	src/arch/win32/vs70/serial.dsp, src/arch/win32/vs70/sid.dsp,
+	src/arch/win32/vs70/sounddrv.dsp, src/arch/win32/vs70/tape.dsp,
+	src/arch/win32/vs70/tcbm.dsp, src/arch/win32/vs70/userport.dsp,
+	src/arch/win32/vs70/vdc.dsp, src/arch/win32/vs70/vdrive.dsp,
+	src/arch/win32/vs70/vic20.dsp, src/arch/win32/vs70/vic20cart.dsp,
+	src/arch/win32/vs70/vice.dsw, vice/src/arch/win32/vs70/vicii.dsp,
+	src/arch/win32/vs70/viciidtv.dsp, src/arch/win32/vs70/viciisc.dsp,
+	src/arch/win32/vs70/video.dsp, src/arch/win32/vs70/vsid.dsp,
+	src/arch/win32/vs70/vsidlib.dsp, src/arch/win32/vs70/x128.dsp,
+	src/arch/win32/vs70/x64.dsp, src/arch/win32/vs70/x64dtv.dsp,
+	src/arch/win32/vs70/x64sc.dsp, src/arch/win32/vs70/xcbm2.dsp,
+	src/arch/win32/vs70/xcbm5x0.dsp, src/arch/win32/vs70/xpet.dsp,
+	src/arch/win32/vs70/xplus4.dsp, src/arch/win32/vs70/xscpu64.dsp,
+	src/arch/win32/vs70/xvic.dsp: Put msvc7.0 project files in place.
+
+2013-06-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/win32/Makefile.am, src/arch/win32/vs70,
+	src/arch/win32/vs70/Makefile.am, src/arch/win32/vs70/_vice.dsp,
+	src/arch/win32/vs70/arch.dsp, src/arch/win32/vs70/base.dsp,
+	src/arch/win32/vs70/c128.dsp, src/arch/win32/vs70/c1541.dsp,
+	src/arch/win32/vs70/c64.dsp, src/arch/win32/vs70/c64c128.dsp,
+	src/arch/win32/vs70/c64c64dtv.dsp, src/arch/win32/vs70/c64cart.dsp,
+	src/arch/win32/vs70/c64cartsystem.dsp,
+	src/arch/win32/vs70/c64commoncart.dsp, src/arch/win32/vs70/c64dtv.dsp,
+	src/arch/win32/vs70/c64dtvstubs.dsp, src/arch/win32/vs70/c64exp.dsp,
+	src/arch/win32/vs70/c64sc.dsp, src/arch/win32/vs70/c64scpu64.dsp,
+	src/arch/win32/vs70/cartconv.dsp, src/arch/win32/vs70/cbm2.dsp,
+	src/arch/win32/vs70/cbm2common.dsp, src/arch/win32/vs70/cbm5x0.dsp,
+	src/arch/win32/vs70/core.dsp, src/arch/win32/vs70/crtc.dsp,
+	src/arch/win32/vs70/diskimage.dsp, src/arch/win32/vs70/drive.dsp,
+	src/arch/win32/vs70/fileio.dsp, src/arch/win32/vs70/fsdevice.dsp,
+	src/arch/win32/vs70/geninfocontrib.dsp,
+	src/arch/win32/vs70/genmsvcver.dsp,
+	src/arch/win32/vs70/gentranslate.dsp,
+	src/arch/win32/vs70/genwinres.dsp,
+	src/arch/win32/vs70/gfxoutputdrv.dsp, src/arch/win32/vs70/iec.dsp,
+	src/arch/win32/vs70/iec128dcr.dsp, src/arch/win32/vs70/iecbus.dsp,
+	src/arch/win32/vs70/iecieee.dsp, src/arch/win32/vs70/ieee.dsp,
+	src/arch/win32/vs70/imagecontents.dsp,
+	src/arch/win32/vs70/monitor.dsp, src/arch/win32/vs70/p64.dsp,
+	src/arch/win32/vs70/parallel.dsp, src/arch/win32/vs70/pet.dsp,
+	src/arch/win32/vs70/petcat.dsp, src/arch/win32/vs70/platform.dsp,
+	src/arch/win32/vs70/plus4.dsp, src/arch/win32/vs70/plus4exp.dsp,
+	src/arch/win32/vs70/printerdrv.dsp, src/arch/win32/vs70/raster.dsp,
+	src/arch/win32/vs70/resid.dsp, src/arch/win32/vs70/residdtv.dsp,
+	src/arch/win32/vs70/residfp.dsp, src/arch/win32/vs70/rs232drv.dsp,
+	src/arch/win32/vs70/rtc.dsp, src/arch/win32/vs70/scpu64.dsp,
+	src/arch/win32/vs70/serial.dsp, src/arch/win32/vs70/sid.dsp,
+	src/arch/win32/vs70/sounddrv.dsp, src/arch/win32/vs70/tape.dsp,
+	src/arch/win32/vs70/tcbm.dsp, src/arch/win32/vs70/userport.dsp,
+	src/arch/win32/vs70/vdc.dsp, src/arch/win32/vs70/vdrive.dsp,
+	src/arch/win32/vs70/vic20.dsp, src/arch/win32/vs70/vic20cart.dsp,
+	src/arch/win32/vs70/vice.dsw, src/arch/win32/vs70/vicii.dsp,
+	src/arch/win32/vs70/viciidtv.dsp, src/arch/win32/vs70/viciisc.dsp,
+	src/arch/win32/vs70/video.dsp, src/arch/win32/vs70/vsid.dsp,
+	src/arch/win32/vs70/vsidlib.dsp, src/arch/win32/vs70/x128.dsp,
+	src/arch/win32/vs70/x64.dsp, src/arch/win32/vs70/x64dtv.dsp,
+	src/arch/win32/vs70/x64sc.dsp, src/arch/win32/vs70/xcbm2.dsp,
+	src/arch/win32/vs70/xcbm5x0.dsp, src/arch/win32/vs70/xpet.dsp,
+	src/arch/win32/vs70/xplus4.dsp, src/arch/win32/vs70/xscpu64.dsp,
+	src/arch/win32/vs70/xvic.dsp: Added a vs70 directory.
+
+2013-06-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c: split msvc7 into msvc70 and msvc71.
+
+2013-06-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs6/vice.dsw,
+	src/arch/win32/vs_tmpl/vice.tmpl, src/arch/win32/vs_tmpl/vice.dsw,
+	src/arch/win32/vs6/arch.dsp, src/arch/win32/vs6/c64scpu64.dsp,
+	src/arch/win32/vs6/geninfocontrib.dsp,
+	src/arch/win32/vs6/genmsvcver.dsp,
+	src/arch/win32/vs6/gentranslate.dsp, src/arch/win32/vs6/genwinres.dsp,
+	src/arch/win32/vs6/xplus4.dsp: Finished the vs6 generation part.
+
+2013-06-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/arch.tmpl,
+	src/arch/win32/vs_tmpl/monitor.tmpl,
+	src/arch/win32/vs_tmpl/plus4.tmpl, src/arch/win32/vs_tmpl/x64dtv.tmpl,
+	src/arch/win32/vs_tmpl/_vice.tmpl, src/arch/win32/vs_tmpl/base.tmpl,
+	src/arch/win32/vs_tmpl/c128.tmpl, src/arch/win32/vs_tmpl/c1541.tmpl,
+	src/arch/win32/vs_tmpl/c64.tmpl, src/arch/win32/vs_tmpl/c64c128.tmpl,
+	src/arch/win32/vs_tmpl/c64c64dtv.tmpl,
+	src/arch/win32/vs_tmpl/c64cart.tmpl,
+	src/arch/win32/vs_tmpl/c64cartsystem.tmpl,
+	src/arch/win32/vs_tmpl/c64commoncart.tmpl,
+	src/arch/win32/vs_tmpl/c64dtv.tmpl,
+	src/arch/win32/vs_tmpl/c64dtvstubs.tmpl,
+	src/arch/win32/vs_tmpl/c64exp.tmpl, src/arch/win32/vs_tmpl/c64sc.tmpl,
+	src/arch/win32/vs_tmpl/c64scpu64.tmpl,
+	src/arch/win32/vs_tmpl/cbm2.tmpl,
+	src/arch/win32/vs_tmpl/cbm2common.tmpl,
+	src/arch/win32/vs_tmpl/cbm5x0.tmpl, src/arch/win32/vs_tmpl/drive.tmpl,
+	src/arch/win32/vs_tmpl/fsdevice.tmpl,
+	src/arch/win32/vs_tmpl/gfxoutputdrv.tmpl,
+	src/arch/win32/vs_tmpl/iec.tmpl,
+	src/arch/win32/vs_tmpl/iec128dcr.tmpl,
+	src/arch/win32/vs_tmpl/iecbus.tmpl,
+	src/arch/win32/vs_tmpl/iecieee.tmpl, src/arch/win32/vs_tmpl/ieee.tmpl,
+	src/arch/win32/vs_tmpl/pet.tmpl, src/arch/win32/vs_tmpl/petcat.tmpl,
+	src/arch/win32/vs_tmpl/plus4exp.tmpl,
+	src/arch/win32/vs_tmpl/printerdrv.tmpl,
+	src/arch/win32/vs_tmpl/raster.tmpl,
+	src/arch/win32/vs_tmpl/rs232drv.tmpl,
+	src/arch/win32/vs_tmpl/scpu64.tmpl,
+	src/arch/win32/vs_tmpl/serial.tmpl, src/arch/win32/vs_tmpl/sid.tmpl,
+	src/arch/win32/vs_tmpl/tcbm.tmpl,
+	src/arch/win32/vs_tmpl/userport.tmpl, src/arch/win32/vs_tmpl/vdc.tmpl,
+	src/arch/win32/vs_tmpl/vic20.tmpl,
+	src/arch/win32/vs_tmpl/vic20cart.tmpl,
+	src/arch/win32/vs_tmpl/vicii.tmpl,
+	src/arch/win32/vs_tmpl/viciidtv.tmpl,
+	src/arch/win32/vs_tmpl/viciisc.tmpl,
+	src/arch/win32/vs_tmpl/video.tmpl, src/arch/win32/vs_tmpl/vsid.tmpl,
+	src/arch/win32/vs_tmpl/vsidlib.tmpl, src/arch/win32/vs_tmpl/x128.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl:
+	Changed the project deps line to a project deps list.
+
+2013-06-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/x64dtv.tmpl,
+	src/arch/win32/vs_tmpl/_vice.tmpl, src/arch/win32/vs_tmpl/c1541.tmpl,
+	src/arch/win32/vs_tmpl/petcat.tmpl, src/arch/win32/vs_tmpl/vsid.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64sc.tmpl, src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl,
+	src/arch/win32/vs_tmpl/cartconv.tmpl,
+	src/arch/win32/vs_tmpl/geninfocontrib.tmpl,
+	src/arch/win32/vs_tmpl/genmsvcver.tmpl,
+	src/arch/win32/vs_tmpl/gentranslate.tmpl,
+	src/arch/win32/vs_tmpl/genwinres.tmpl: Changed the libs line to a libs
+	list.
+
+2013-06-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs6/_vice.dsp, src/arch/win32/vs6/xcbm5x0.dsp,
+	src/arch/win32/vs6/xpet.dsp, src/arch/win32/vs6/xplus4.dsp,
+	src/arch/win32/vs6/xscpu64.dsp, src/arch/win32/vs6/xvic.dsp,
+	src/arch/win32/vs_tmpl/_vice.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl,
+	src/arch/win32/vs_tmpl/_vice.dsp, src/arch/win32/vs_tmpl/xcbm5x0.dsp,
+	src/arch/win32/vs_tmpl/xpet.dsp, src/arch/win32/vs_tmpl/xplus4.dsp,
+	src/arch/win32/vs_tmpl/xscpu64.dsp, src/arch/win32/vs_tmpl/xvic.dsp:
+	More template progress.
+
+2013-06-21  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uimon.c: make tilde work with deadkeys
+	keymap, patch by moiree. fixes bug #444
+
+2013-06-21  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/scpu64ui.c, src/c64/c64-cmdline-options.c,
+	src/c64/c64-resources.c, src/c64/c64.c, src/c64/c64model.c,
+	src/c64/c64model.h, src/c64/c64scmodel.c, src/drive/drive.c,
+	src/scpu64/scpu64-cmdline-options.c, src/scpu64/scpu64-resources.c,
+	src/scpu64/scpu64.c, src/serial/serial-trap.c, src/translate.txt,
+	src/translate_text.c: fixed model switching in x64sc and xscpu64,
+	added resource and commandline option to select wether drives should
+	reset with the computer, related unix gui updates. fixes bug #369. UIs
+	need updating, see devlog.
+
+2013-06-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/msvc/ide-config.h, src/arch/win32/vs_tmpl/x64dtv.tmpl,
+	src/arch/win32/vs6/c64cart.dsp, src/arch/win32/vs6/vsid.dsp,
+	src/arch/win32/vs6/x128.dsp, src/arch/win32/vs6/x64.dsp,
+	src/arch/win32/vs6/x64dtv.dsp, src/arch/win32/vs6/x64sc.dsp,
+	src/arch/win32/vs6/xcbm2.dsp, src/arch/win32/vs_tmpl/c64cart.tmpl,
+	src/arch/win32/vs_tmpl/vsid.tmpl, src/arch/win32/vs_tmpl/x128.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xcbm2.tmpl, src/arch/win32/vs_tmpl/vsid.dsp,
+	src/arch/win32/vs_tmpl/vsidlib.dsp, src/arch/win32/vs_tmpl/x128.dsp,
+	src/arch/win32/vs_tmpl/x64.dsp, src/arch/win32/vs_tmpl/x64dtv.dsp,
+	src/arch/win32/vs_tmpl/x64sc.dsp, src/arch/win32/vs_tmpl/xcbm2.dsp:
+	More template progress.
+
+2013-06-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicommands.c, src/init.c, src/machine.c,
+	src/machine.h, src/translate.txt, src/translate_text.c: added resource
+	and command line option to select default action on CPU JAM. fixes bug
+	#286. UIs need updating, see devlog
+
+2013-06-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs6/tcbm.dsp, src/arch/win32/vs6/userport.dsp,
+	src/arch/win32/vs6/vdc.dsp, src/arch/win32/vs6/vdrive.dsp,
+	src/arch/win32/vs6/vic20.dsp, src/arch/win32/vs6/vic20cart.dsp,
+	src/arch/win32/vs6/vicii.dsp, src/arch/win32/vs6/viciidtv.dsp,
+	src/arch/win32/vs6/viciisc.dsp, src/arch/win32/vs6/video.dsp,
+	src/arch/win32/vs6/vsidlib.dsp, src/arch/win32/vs_tmpl/tcbm.tmpl,
+	src/arch/win32/vs_tmpl/userport.tmpl, src/arch/win32/vs_tmpl/vdc.tmpl,
+	src/arch/win32/vs_tmpl/vic20.tmpl,
+	src/arch/win32/vs_tmpl/vic20cart.tmpl,
+	src/arch/win32/vs_tmpl/vicii.tmpl,
+	src/arch/win32/vs_tmpl/viciidtv.tmpl,
+	src/arch/win32/vs_tmpl/viciisc.tmpl,
+	src/arch/win32/vs_tmpl/video.tmpl,
+	src/arch/win32/vs_tmpl/vsidlib.tmpl, src/arch/win32/vs_tmpl/tcbm.dsp,
+	src/arch/win32/vs_tmpl/userport.dsp, src/arch/win32/vs_tmpl/vdc.dsp,
+	src/arch/win32/vs_tmpl/vdrive.dsp, src/arch/win32/vs_tmpl/vdrive.tmpl,
+	src/arch/win32/vs_tmpl/vic20.dsp,
+	src/arch/win32/vs_tmpl/vic20cart.dsp,
+	src/arch/win32/vs_tmpl/vicii.dsp, src/arch/win32/vs_tmpl/viciidtv.dsp,
+	src/arch/win32/vs_tmpl/viciisc.dsp, src/arch/win32/vs_tmpl/video.dsp:
+	More template progress.
+
+2013-06-19  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_breakpoint.c, src/monitor/monitor.c: always switch
+	to CPU bank for disassembly triggered by break- or watchpoints or
+	single stepping. fixed bug #431
+
+2013-06-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/sounddrv. tmpl,src/arch/win32/vs6/residdtv.dsp,
+	src/arch/win32/vs6/residfp.dsp, src/arch/win32/vs6/rs232drv.dsp,
+	src/arch/win32/vs6/rtc.dsp, src/arch/win32/vs6/scpu64.dsp,
+	src/arch/win32/vs6/serial.dsp, src/arch/win32/vs6/sid.dsp,
+	src/arch/win32/vs6/sounddrv.dsp, src/arch/win32/vs6/tape.dsp,
+	src/arch/win32/vs_tmpl/rs232drv.tmpl,
+	src/arch/win32/vs_tmpl/scpu64.tmpl,
+	src/arch/win32/vs_tmpl/serial.tmpl, src/arch/win32/vs_tmpl/sid.tmpl,
+	src/arch/win32/vs_tmpl/residdtv.dsp,
+	src/arch/win32/vs_tmpl/residdtv.tmpl,
+	src/arch/win32/vs_tmpl/residfp.dsp,
+	src/arch/win32/vs_tmpl/residfp.tmpl,
+	src/arch/win32/vs_tmpl/rs232drv.dsp, src/arch/win32/vs_tmpl/rtc.dsp,
+	src/arch/win32/vs_tmpl/rtc.tmpl, src/arch/win32/vs_tmpl/scpu64.dsp,
+	src/arch/win32/vs_tmpl/sid.dsp, src/arch/win32/vs_tmpl/sounddrv.dsp,
+	src/arch/win32/vs_tmpl/tape.dsp, src/arch/win32/vs_tmpl/tape.tmpl:
+	More template progress.
+
+2013-06-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/arch.tmpl, src/arch/win32/vs_tmpl/monitor.tmpl,
+	src/arch/win32/vs_tmpl/plus4.tmpl, src/arch/win32/vs6/printerdrv.dsp,
+	src/arch/win32/vs6/raster.dsp, src/arch/win32/vs6/resid.dsp,
+	src/arch/win32/vs_tmpl/base.tmpl, src/arch/win32/vs_tmpl/c128.tmpl,
+	src/arch/win32/vs_tmpl/c1541.tmpl, src/arch/win32/vs_tmpl/c64.tmpl,
+	src/arch/win32/vs_tmpl/c64c128.tmpl,
+	src/arch/win32/vs_tmpl/c64c64dtv.tmpl,
+	src/arch/win32/vs_tmpl/c64cart.tmpl,
+	src/arch/win32/vs_tmpl/c64cartsystem.tmpl,
+	src/arch/win32/vs_tmpl/c64commoncart.tmpl,
+	src/arch/win32/vs_tmpl/c64dtv.tmpl,
+	src/arch/win32/vs_tmpl/c64dtvstubs.tmpl,
+	src/arch/win32/vs_tmpl/c64exp.tmpl, src/arch/win32/vs_tmpl/c64sc.tmpl,
+	src/arch/win32/vs_tmpl/c64scpu64.tmpl,
+	src/arch/win32/vs_tmpl/cbm2.tmpl,
+	src/arch/win32/vs_tmpl/cbm2common.tmpl,
+	src/arch/win32/vs_tmpl/cbm5x0.tmpl, src/arch/win32/vs_tmpl/drive.tmpl,
+	src/arch/win32/vs_tmpl/fsdevice.tmpl,
+	src/arch/win32/vs_tmpl/gfxoutputdrv.tmpl,
+	src/arch/win32/vs_tmpl/iec.tmpl,
+	src/arch/win32/vs_tmpl/iec128dcr.tmpl,
+	src/arch/win32/vs_tmpl/iecbus.tmpl,
+	src/arch/win32/vs_tmpl/iecieee.tmpl, src/arch/win32/vs_tmpl/ieee.tmpl,
+	src/arch/win32/vs_tmpl/pet.tmpl, src/arch/win32/vs_tmpl/petcat.tmpl,
+	src/arch/win32/vs_tmpl/plus4exp.tmpl,
+	src/arch/win32/vs_tmpl/printerdrv.tmpl,
+	src/arch/win32/vs_tmpl/raster.tmpl,
+	src/arch/win32/vs_tmpl/cartconv.tmpl,
+	src/arch/win32/vs_tmpl/geninfocontrib.tmpl,
+	src/arch/win32/vs_tmpl/genmsvcver.tmpl,
+	src/arch/win32/vs_tmpl/gentranslate.tmpl,
+	src/arch/win32/vs_tmpl/genwinres.tmpl,
+	src/arch/win32/vs_tmpl/core.tmpl, src/arch/win32/vs_tmpl/crtc.tmpl,
+	src/arch/win32/vs_tmpl/diskimage.tmpl,
+	src/arch/win32/vs_tmpl/fileio.tmpl,
+	src/arch/win32/vs_tmpl/imagecontents.tmpl,
+	src/arch/win32/vs_tmpl/p64.tmpl, src/arch/win32/vs_tmpl/parallel.tmpl,
+	src/arch/win32/vs_tmpl/platform.tmpl,
+	src/arch/win32/vs_tmpl/printerdrv.dsp,
+	src/arch/win32/vs_tmpl/raster.dsp, src/arch/win32/vs_tmpl/resid.dsp,
+	src/arch/win32/vs_tmpl/resid.tmpl: More template progress.
+
+2013-06-18  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/vsidmem.c,
+	src/c64dtv/c64dtvmem.c, src/cbm2/cbm2mem.c, src/cbm2/cbm5x0mem.c,
+	src/drive/drivemem.c, src/monitor/monitor.c, src/pet/petmem.c,
+	src/plus4/plus4mem.c, src/scpu64/scpu64mem.c, src/vic20/vic20mem.c:
+	fix zeropage memory access when watchpoints are enabled, fixes bug
+	#440
+
+2013-06-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/Makefile.am, src/arch/win32/vs6/monitor.dsp,
+	src/arch/win32/vs6/plus4.dsp, src/arch/win32/vs_tmpl/monitor.tmpl,
+	src/arch/win32/vs_tmpl/plus4.tmpl, src/arch/win32/vs6/ieee.dsp,
+	src/arch/win32/vs6/imagecontents.dsp, src/arch/win32/vs6/p64.dsp,
+	src/arch/win32/vs6/parallel.dsp, src/arch/win32/vs6/pet.dsp,
+	src/arch/win32/vs6/petcat.dsp, src/arch/win32/vs6/platform.dsp,
+	src/arch/win32/vs6/plus4exp.dsp, src/arch/win32/vs_tmpl/ieee.tmpl,
+	src/arch/win32/vs_tmpl/pet.tmpl, src/arch/win32/vs_tmpl/petcat.tmpl,
+	src/arch/win32/vs_tmpl/plus4exp.tmpl,
+	src/arch/win32/vs_tmpl/imagecontents.tmpl,
+	src/arch/win32/vs_tmpl/p64.tmpl, src/arch/win32/vs_tmpl/parallel.tmpl,
+	src/arch/win32/vs_tmpl/platform.tmpl, src/arch/win32/vs_tmpl/ieee.dsp,
+	src/arch/win32/vs_tmpl/imagecontents.dsp,
+	src/arch/win32/vs_tmpl/monitor.dsp, src/arch/win32/vs_tmpl/p64.dsp,
+	src/arch/win32/vs_tmpl/parallel.dsp, src/arch/win32/vs_tmpl/pet.dsp,
+	src/arch/win32/vs_tmpl/petcat.dsp,
+	src/arch/win32/vs_tmpl/platform.dsp, src/arch/win32/vs_tmpl/plus4.dsp,
+	src/arch/win32/vs_tmpl/plus4exp.dsp: More template additions and
+	substitutions.
+
+2013-06-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sound.c: Update sound status when changing stereo/mono state.
+
+2013-06-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl, src/arch/win32/vs_tmpl/mkmsvc.c,
+	configure.proto, src/arch/win32/Makefile.am,
+	src/arch/win32/vs_tmpl/Makefile.am, src/arch/win32/vs_tmpl/arch.tmpl,
+	src/arch/win32/vs_tmpl/vice.dsw, src/arch/win32/vs6/arch.dsp,
+	src/arch/win32/vs6/base.dsp, src/arch/win32/vs6/c128.dsp,
+	src/arch/win32/vs6/c1541.dsp, src/arch/win32/vs6/c64.dsp,
+	src/arch/win32/vs6/c64c128.dsp, src/arch/win32/vs6/c64c64dtv.dsp,
+	src/arch/win32/vs6/c64cart.dsp, src/arch/win32/vs6/c64cartsystem.dsp,
+	src/arch/win32/vs6/c64commoncart.dsp, src/arch/win32/vs6/c64dtv.dsp,
+	src/arch/win32/vs6/c64dtvstubs.dsp, src/arch/win32/vs6/c64exp.dsp,
+	src/arch/win32/vs6/c64sc.dsp, src/arch/win32/vs6/c64scpu64.dsp,
+	src/arch/win32/vs6/cartconv.dsp, src/arch/win32/vs6/cbm2.dsp,
+	src/arch/win32/vs6/cbm2common.dsp, src/arch/win32/vs6/cbm5x0.dsp,
+	src/arch/win32/vs6/core.dsp, src/arch/win32/vs6/crtc.dsp,
+	src/arch/win32/vs6/diskimage.dsp, src/arch/win32/vs6/drive.dsp,
+	src/arch/win32/vs6/fileio.dsp, src/arch/win32/vs6/fsdevice.dsp,
+	src/arch/win32/vs6/geninfocontrib.dsp,
+	src/arch/win32/vs6/genmsvcver.dsp,
+	src/arch/win32/vs6/gentranslate.dsp, src/arch/win32/vs6/genwinres.dsp,
+	src/arch/win32/vs6/gfxoutputdrv.dsp, src/arch/win32/vs6/iec.dsp,
+	src/arch/win32/vs6/iec128dcr.dsp, src/arch/win32/vs6/iecbus.dsp,
+	src/arch/win32/vs6/iecieee.dsp, src/arch/win32/vs6/x128.dsp,
+	src/arch/win32/vs_tmpl/base.tmpl, src/arch/win32/vs_tmpl/c128.tmpl,
+	src/arch/win32/vs_tmpl/c1541.tmpl, src/arch/win32/vs_tmpl/c64.tmpl,
+	src/arch/win32/vs_tmpl/c64c128.tmpl,
+	src/arch/win32/vs_tmpl/c64c64dtv.tmpl,
+	src/arch/win32/vs_tmpl/c64cart.tmpl,
+	src/arch/win32/vs_tmpl/c64cartsystem.tmpl,
+	src/arch/win32/vs_tmpl/c64commoncart.tmpl,
+	src/arch/win32/vs_tmpl/c64dtv.tmpl,
+	src/arch/win32/vs_tmpl/c64dtvstubs.tmpl,
+	src/arch/win32/vs_tmpl/c64exp.tmpl, src/arch/win32/vs_tmpl/c64sc.tmpl,
+	src/arch/win32/vs_tmpl/c64scpu64.tmpl,
+	src/arch/win32/vs_tmpl/cbm2.tmpl,
+	src/arch/win32/vs_tmpl/cbm2common.tmpl,
+	src/arch/win32/vs_tmpl/cbm5x0.tmpl, src/arch/win32/vs_tmpl/drive.tmpl,
+	src/arch/win32/vs_tmpl/fsdevice.tmpl,
+	src/arch/win32/vs_tmpl/gfxoutputdrv.tmpl,
+	src/arch/win32/vs_tmpl/iec.tmpl,
+	src/arch/win32/vs_tmpl/iec128dcr.tmpl,
+	src/arch/win32/vs_tmpl/iecbus.tmpl,
+	src/arch/win32/vs_tmpl/iecieee.tmpl,
+	src/arch/win32/vs_tmpl/cartconv.tmpl,
+	src/arch/win32/vs_tmpl/geninfocontrib.tmpl,
+	src/arch/win32/vs_tmpl/genmsvcver.tmpl,
+	src/arch/win32/vs_tmpl/gentranslate.tmpl,
+	src/arch/win32/vs_tmpl/genwinres.tmpl,
+	src/arch/win32/vs_tmpl/_vice.dsp, src/arch/win32/vs_tmpl/xcbm5x0.dsp,
+	src/arch/win32/vs_tmpl/xpet.dsp, src/arch/win32/vs_tmpl/xplus4.dsp,
+	src/arch/win32/vs_tmpl/xscpu64.dsp, src/arch/win32/vs_tmpl/xvic.dsp,
+	src/arch/win32/vs_tmpl/vsid.dsp, src/arch/win32/vs_tmpl/vsidlib.dsp,
+	src/arch/win32/vs_tmpl/x128.dsp, src/arch/win32/vs_tmpl/x64.dsp,
+	src/arch/win32/vs_tmpl/x64dtv.dsp, src/arch/win32/vs_tmpl/x64sc.dsp,
+	src/arch/win32/vs_tmpl/xcbm2.dsp, src/arch/win32/vs_tmpl/tcbm.dsp,
+	src/arch/win32/vs_tmpl/userport.dsp, src/arch/win32/vs_tmpl/vdc.dsp,
+	src/arch/win32/vs_tmpl/vdrive.dsp, src/arch/win32/vs_tmpl/vic20.dsp,
+	src/arch/win32/vs_tmpl/vic20cart.dsp,
+	src/arch/win32/vs_tmpl/vicii.dsp, src/arch/win32/vs_tmpl/viciidtv.dsp,
+	src/arch/win32/vs_tmpl/viciisc.dsp, src/arch/win32/vs_tmpl/video.dsp,
+	src/arch/win32/vs_tmpl/residdtv.dsp,
+	src/arch/win32/vs_tmpl/residfp.dsp,
+	src/arch/win32/vs_tmpl/rs232drv.dsp, src/arch/win32/vs_tmpl/rtc.dsp,
+	src/arch/win32/vs_tmpl/scpu64.dsp, src/arch/win32/vs_tmpl/serial.dsp,
+	src/arch/win32/vs_tmpl/sid.dsp, src/arch/win32/vs_tmpl/sounddrv.dsp,
+	src/arch/win32/vs_tmpl/tape.dsp, src/arch/win32/vs_tmpl/core.tmpl,
+	src/arch/win32/vs_tmpl/crtc.tmpl,
+	src/arch/win32/vs_tmpl/diskimage.tmpl,
+	src/arch/win32/vs_tmpl/fileio.tmpl,
+	src/arch/win32/vs_tmpl/printerdrv.dsp,
+	src/arch/win32/vs_tmpl/raster.dsp, src/arch/win32/vs_tmpl/resid.dsp,
+	src/arch/win32/vs_tmpl/ieee.dsp,
+	src/arch/win32/vs_tmpl/imagecontents.dsp,
+	src/arch/win32/vs_tmpl/monitor.dsp, src/arch/win32/vs_tmpl/p64.dsp,
+	src/arch/win32/vs_tmpl/parallel.dsp, src/arch/win32/vs_tmpl/pet.dsp,
+	src/arch/win32/vs_tmpl/petcat.dsp,
+	src/arch/win32/vs_tmpl/platform.dsp, src/arch/win32/vs_tmpl/plus4.dsp,
+	src/arch/win32/vs_tmpl/plus4exp.dsp: Made a template -> vs6 project
+	file conversion program, started adding templates and using the
+	resulting project files in the vs6 directory.
+
+2013-06-17  groepaz <groepaz@gmx.net>
+
+	* src/translate_text.c: fix description for del command, fixes bug
+	#435
+
+2013-06-17  groepaz <groepaz@gmx.net>
+
+	* src/petcat.c: updated help
+
+2013-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/vs6,
+	src/arch/win32/vs6/make-msvc-bindist.bat,
+	src/arch/win32/vs6/Makefile.am, src/arch/win32/make-msvc-bindist.bat:
+	Moved the bindist batch file to the correct location.
+
+2013-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs6, src/arch/win32/vs6/monitor.dsp,
+	src/arch/win32/vs6/arch.dsp, src/arch/win32/vs6/video.dsp,
+	src/arch/win32/vs6/vsid.dsp, src/arch/win32/vs6/x128.dsp,
+	src/arch/win32/vs6/x64.dsp, src/arch/win32/vs6/x64dtv.dsp,
+	src/arch/win32/vs6/x64sc.dsp, src/arch/win32/vs6/xcbm2.dsp,
+	src/arch/win32/vs6/xcbm5x0.dsp, src/arch/win32/vs6/xpet.dsp,
+	src/arch/win32/vs6/xplus4.dsp, src/arch/win32/vs6/xscpu64.dsp,
+	src/arch/win32/vs6/xvic.dsp: Fixed.
+
+2013-06-15  groepaz <groepaz@gmx.net>
+
+	* data/PLUS4/Makefile.am, data/PLUS4/kernal.005,
+	src/plus4/plus4model.c: use ntsc kernal when ntsc machine is selected,
+	fixes bug #436
+
+2013-06-15  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128memsnapshot.c, src/snapshot.c: fix copypaste fail,
+	fixes bug #438
+
+2013-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_unix.c, src/arch/unix/archdep.c,
+	src/platform/platform_compiler.h, src/platform/platform_cpu_type.h,
+	src/platform/platform_discovery.h,
+	src/platform/platform_x86_runtime_cpu.c: Fixed for msvc detection.
+
+2013-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/uidrivestatus.c,
+	src/arch/unix/x11/xaw/uitapestatus.c: Fixed.
+
+2013-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/vs6/vice.dsw,
+	src/arch/win32/vs6/Makefile.am, src/arch/win32/vs6/vsidlib.dsp,
+	src/arch/win32/vs6/x128.dsp, src/arch/win32/vs6/x64.dsp,
+	src/arch/win32/vs6/x64dtv.dsp, src/arch/win32/vs6/x64sc.dsp,
+	src/arch/win32/vs6/xcbm2.dsp, src/arch/win32/vs6/xcbm5x0.dsp,
+	src/arch/win32/vs6/xpet.dsp, src/arch/win32/vs6/xplus4.dsp,
+	src/arch/win32/vs6/xscpu64.dsp, src/arch/win32/vs6/xvic.dsp,
+	src/arch/win32/vice.dsw, src/arch/win32/vsidlib.dsp,
+	src/arch/win32/x128.dsp, src/arch/win32/x64.dsp,
+	src/arch/win32/x64dtv.dsp, src/arch/win32/x64sc.dsp,
+	src/arch/win32/xcbm2.dsp, src/arch/win32/xcbm5x0.dsp,
+	src/arch/win32/xpet.dsp, src/arch/win32/xplus4.dsp,
+	src/arch/win32/xscpu64.dsp, src/arch/win32/xvic.dsp: Finished moving
+	the msvc6 project files.
+
+2013-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/vic20.vcproj: Fixed.
+
+2013-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/vs6/Makefile.am,
+	src/arch/win32/vs6/userport.dsp, src/arch/win32/vs6/vdc.dsp,
+	src/arch/win32/vs6/vdrive.dsp, src/arch/win32/vs6/vic20.dsp,
+	src/arch/win32/vs6/vic20cart.dsp, src/arch/win32/vs6/vicii.dsp,
+	src/arch/win32/vs6/viciidtv.dsp, src/arch/win32/vs6/viciisc.dsp,
+	src/arch/win32/vs6/video.dsp, src/arch/win32/vs6/vsid.dsp,
+	src/arch/win32/userport.dsp, src/arch/win32/vdc.dsp,
+	src/arch/win32/vdrive.dsp, src/arch/win32/vic20.dsp,
+	src/arch/win32/vic20cart.dsp, src/arch/win32/vicii.dsp,
+	src/arch/win32/viciidtv.dsp, src/arch/win32/viciisc.dsp,
+	src/arch/win32/video.dsp, src/arch/win32/vsid.dsp: Moved some more
+	msvc6 project files.
+
+2013-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/vs6/plus4.dsp,
+	src/arch/win32/vs6/Makefile.am, src/arch/win32/vs6/pet.dsp,
+	src/arch/win32/vs6/petcat.dsp, src/arch/win32/vs6/platform.dsp,
+	src/arch/win32/vs6/plus4exp.dsp, src/arch/win32/vs6/printerdrv.dsp,
+	src/arch/win32/vs6/raster.dsp, src/arch/win32/vs6/resid.dsp,
+	src/arch/win32/vs6/residdtv.dsp, src/arch/win32/vs6/residfp.dsp,
+	src/arch/win32/vs6/rs232drv.dsp, src/arch/win32/vs6/rtc.dsp,
+	src/arch/win32/vs6/scpu64.dsp, src/arch/win32/vs6/serial.dsp,
+	src/arch/win32/vs6/sid.dsp, src/arch/win32/vs6/sounddrv.dsp,
+	src/arch/win32/vs6/tape.dsp, src/arch/win32/vs6/tcbm.dsp,
+	src/arch/win32/pet.dsp, src/arch/win32/petcat.dsp,
+	src/arch/win32/platform.dsp, src/arch/win32/plus4.dsp,
+	src/arch/win32/plus4exp.dsp, src/arch/win32/printerdrv.dsp,
+	src/arch/win32/raster.dsp, src/arch/win32/resid.dsp,
+	src/arch/win32/residdtv.dsp, src/arch/win32/residfp.dsp,
+	src/arch/win32/rs232drv.dsp, src/arch/win32/rtc.dsp,
+	src/arch/win32/scpu64.dsp, src/arch/win32/serial.dsp,
+	src/arch/win32/sid.dsp, src/arch/win32/sounddrv.dsp,
+	src/arch/win32/tape.dsp, src/arch/win32/tcbm.dsp: Moved some more
+	msvc6 project files.
+
+2013-06-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/vs6/monitor.dsp,
+	src/arch/win32/vs6/Makefile.am, src/arch/win32/vs6/gfxoutputdrv.dsp,
+	src/arch/win32/vs6/iec.dsp, src/arch/win32/vs6/iec128dcr.dsp,
+	src/arch/win32/vs6/iecbus.dsp, src/arch/win32/vs6/iecieee.dsp,
+	src/arch/win32/vs6/ieee.dsp, src/arch/win32/vs6/imagecontents.dsp,
+	src/arch/win32/vs6/p64.dsp, src/arch/win32/vs6/parallel.dsp,
+	src/arch/win32/gfxoutputdrv.dsp, src/arch/win32/iec.dsp,
+	src/arch/win32/iec128dcr.dsp, src/arch/win32/iecbus.dsp,
+	src/arch/win32/iecieee.dsp, src/arch/win32/ieee.dsp,
+	src/arch/win32/imagecontents.dsp, src/arch/win32/monitor.dsp,
+	src/arch/win32/p64.dsp, src/arch/win32/parallel.dsp: Moved some more
+	msvc6 project files.
+
+2013-06-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/vs6/Makefile.am,
+	src/arch/win32/vs6/cbm5x0.dsp, src/arch/win32/vs6/core.dsp,
+	src/arch/win32/vs6/crtc.dsp, src/arch/win32/vs6/diskimage.dsp,
+	src/arch/win32/vs6/drive.dsp, src/arch/win32/vs6/fileio.dsp,
+	src/arch/win32/vs6/fsdevice.dsp,
+	src/arch/win32/vs6/geninfocontrib.dsp,
+	src/arch/win32/vs6/genmsvcver.dsp,
+	src/arch/win32/vs6/gentranslate.dsp, src/arch/win32/vs6/genwinres.dsp,
+	src/arch/win32/cbm5x0.dsp, src/arch/win32/core.dsp,
+	src/arch/win32/crtc.dsp, src/arch/win32/diskimage.dsp,
+	src/arch/win32/drive.dsp, src/arch/win32/fileio.dsp,
+	src/arch/win32/fsdevice.dsp, src/arch/win32/geninfocontrib.dsp,
+	src/arch/win32/genmsvcver.dsp, src/arch/win32/gentranslate.dsp,
+	src/arch/win32/genwinres.dsp: Moved some more msvc6 project files.
+
+2013-06-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/vs6/Makefile.am,
+	src/arch/win32/vs6/c64commoncart.dsp, src/arch/win32/vs6/c64dtv.dsp,
+	src/arch/win32/vs6/c64dtvstubs.dsp, src/arch/win32/vs6/c64exp.dsp,
+	src/arch/win32/vs6/c64sc.dsp, src/arch/win32/vs6/c64scpu64.dsp,
+	src/arch/win32/vs6/cartconv.dsp, src/arch/win32/vs6/cbm2.dsp,
+	src/arch/win32/vs6/cbm2common.dsp, src/arch/win32/c64commoncart.dsp,
+	src/arch/win32/c64dtv.dsp, src/arch/win32/c64dtvstubs.dsp,
+	src/arch/win32/c64exp.dsp, src/arch/win32/c64sc.dsp,
+	src/arch/win32/c64scpu64.dsp, src/arch/win32/cartconv.dsp,
+	src/arch/win32/cbm2.dsp, src/arch/win32/cbm2common.dsp: Moved some
+	more msvc6 project files.
+
+2013-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/vs6,
+	src/arch/win32/vs6/Makefile.am, src/arch/win32/vs6/_vice.dsp,
+	src/arch/win32/vs6/arch.dsp, src/arch/win32/vs6/base.dsp,
+	src/arch/win32/vs6/c128.dsp, src/arch/win32/vs6/c1541.dsp,
+	src/arch/win32/vs6/c64.dsp, src/arch/win32/vs6/c64c128.dsp,
+	src/arch/win32/vs6/c64c64dtv.dsp, src/arch/win32/vs6/c64cart.dsp,
+	src/arch/win32/vs6/c64cartsystem.dsp, src/arch/win32/_vice.dsp,
+	src/arch/win32/arch.dsp, src/arch/win32/base.dsp,
+	src/arch/win32/c128.dsp, src/arch/win32/c1541.dsp,
+	src/arch/win32/c64.dsp, src/arch/win32/c64c128.dsp,
+	src/arch/win32/c64c64dtv.dsp, src/arch/win32/c64cart.dsp,
+	src/arch/win32/c64cartsystem.dsp: Started on moving the msvc6 project
+	files to a seperate directory, and cleaning them up.
+
+2013-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui.c, src/arch/win32/uic128.c,
+	src/pet/pet-resources.c: Fixed some warnings.
+
+2013-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128.dsp: Fixed.
+
+2013-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Fixed.
+
+2013-06-10  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2013-06-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c,
+	src/platform/platform_interix_runtime_os.c: Some more platform
+	discovery improvements.
+
+2013-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Added windows 98
+	security edition support.
+
+2013-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Added windows thin pc
+	support.
+
+2013-06-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vsidlib.dsp: msvc vsidcpu fixes.
+
+2013-06-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/mididrv.c: Define DWORD_PTR for compilers that don't
+	define it.
+
+2013-06-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/petui.cc, src/arch/beos/plus4ui.cc,
+	src/arch/beos/ui.h, src/arch/beos/ui_cbm2.cc,
+	src/arch/beos/ui_device.cc, src/arch/beos/ui_drive.cc,
+	src/arch/beos/ui_joystick.cc, src/arch/beos/ui_pet.cc,
+	src/arch/beos/ui_sid.cc, src/arch/beos/ui_sidcart.cc,
+	src/arch/beos/ui_sidcart.h, src/arch/beos/ui_sound.cc,
+	src/arch/beos/ui_ted.cc, src/arch/beos/ui_vic.cc,
+	src/arch/beos/ui_vic20.cc, src/arch/beos/ui_vicii.cc,
+	src/arch/beos/ui_video.cc, src/arch/beos/vic20ui.cc: Added consts to
+	fix most Haiku gcc 4.4 warnings, and some minor refactoring.
+
+2013-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/it.po, po/translations-status.txt: Updated.
+
+2013-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for the updated Spanish
+	translations.
+
+2013-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am: Fixed a typo.
+
+2013-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/Makefile.am: Added missing petcolour.h
+
+2013-06-04  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: updated
+
 2013-06-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,
