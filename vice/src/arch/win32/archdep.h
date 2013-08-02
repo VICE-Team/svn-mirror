@@ -115,9 +115,10 @@ extern void archdep_workaround_nop(const char *otto);
 #define ARCHDEP_OPENCBM_SO_NAME  "opencbm.dll"
 #define ARCHDEP_LAME_SO_NAME     "lame.dll"
 
-/* Define HAVE_GIF when not defined */
+/* Define HAVE_GIF when not defined, and define USE_GIF_DLL */
 #ifndef HAVE_GIF
 #define HAVE_GIF
+#define USE_GIF_DLL
 #endif
 
 /* ffmpeg headers for windows don't seem to have some of the av_ prefixes */

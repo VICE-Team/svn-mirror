@@ -40,7 +40,7 @@
 #include "types.h"
 #include "util.h"
 
-#ifndef HAVE_GIF
+#ifdef USE_GIF_DLL
 
 #define GIF_ERROR 0
 #define GIF_OK    1
