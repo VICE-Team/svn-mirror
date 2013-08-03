@@ -105,4 +105,7 @@
 /* No key symcode.  */
 #define ARCHDEP_KEYBOARD_SYM_NONE 0
 
+/* When using the ascii printer driver we need a return before the newline */
+#define ARCHDEP_PRINTER_RETURN_BEFORE_NEWLINE
+
 #endif

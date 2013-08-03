@@ -27,6 +27,7 @@
 
 #include "vice.h"
 
+#include "archdep.h"
 #include "charset.h"
 #include "driver-select.h"
 #include "drv-ascii.h"
@@ -103,7 +104,7 @@ static int print_char(ascii_t *ascii, unsigned int prnr, BYTE c)
 
     if (asc == '\n') {
         ascii->pos = 0;
-#if defined(__MSDOS__) || defined(WIN32) || defined(__OS2__) || defined(__BEOS__)
+#ifdef ARCHDEP_PRINTER_RETURN_BEFORE_NEWLINE
         if (output_select_putc(prnr, '\r') < 0) {
             return -1;
         }
@@ -115,7 +116,7 @@ static int print_char(ascii_t *ascii, unsigned int prnr, BYTE c)
         if (output_select_putc(prnr, '\n') < 0) {
             return -1;
         }
-#if defined(__MSDOS__) || defined(WIN32) || defined(__OS2__) || defined(__BEOS__)
+#ifdef ARCHDEP_PRINTER_RETURN_BEFORE_NEWLINE
         if (output_select_putc(prnr, '\r') < 0) {
             return -1;
         }

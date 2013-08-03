@@ -83,4 +83,7 @@
 #define archdep_signals_pipe_set()
 #define archdep_signals_pipe_unset()
 
+/* When using the ascii printer driver we need a return before the newline */
+#define ARCHDEP_PRINTER_RETURN_BEFORE_NEWLINE
+
 #endif

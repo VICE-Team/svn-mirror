@@ -108,4 +108,7 @@ extern void archdep_workaround_nop(const char *otto);
 /* Needs extra call to log_archdep() even when logfile is already opened */
 #define ARCHDEP_EXTRA_LOG_CALL
 
+/* When using the ascii printer driver we need a return before the newline */
+#define ARCHDEP_PRINTER_RETURN_BEFORE_NEWLINE
+
 #endif
