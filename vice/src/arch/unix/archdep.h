@@ -150,4 +150,7 @@ extern const char *archdep_pref_path;
 #define ARCHDEP_LAME_SO_NAME     "libmp3lame.so"
 #endif
 
+/* what to use to return an error when a socket error happens */
+#define ARCHDEP_SOCKET_ERROR errno
+
 #endif

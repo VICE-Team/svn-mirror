@@ -108,4 +108,7 @@
 /* When using the ascii printer driver we need a return before the newline */
 #define ARCHDEP_PRINTER_RETURN_BEFORE_NEWLINE
 
+/* what to use to return an error when a socket error happens */
+#define ARCHDEP_SOCKET_ERROR errno
+
 #endif

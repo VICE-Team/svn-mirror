@@ -234,4 +234,7 @@ extern void vicii_timing_set(struct machine_timing_s *machine_timing,
 
 #define BUFSIZ 512 /* for ATA */
 
+/* what to use to return an error when a socket error happens */
+#define ARCHDEP_SOCKET_ERROR errno
+
 #endif

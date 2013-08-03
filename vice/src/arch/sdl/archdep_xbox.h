@@ -91,4 +91,7 @@ extern void archdep_workaround_nop(const char *otto);
 #define archdep_signals_pipe_set()
 #define archdep_signals_pipe_unset()
 
+/* what to use to return an error when a socket error happens */
+#define ARCHDEP_SOCKET_ERROR errno
+
 #endif

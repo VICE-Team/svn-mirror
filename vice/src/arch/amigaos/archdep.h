@@ -109,4 +109,7 @@
 /* No key symcode.  */
 #define ARCHDEP_KEYBOARD_SYM_NONE -1
 
+/* what to use to return an error when a socket error happens */
+#define ARCHDEP_SOCKET_ERROR errno
+
 #endif

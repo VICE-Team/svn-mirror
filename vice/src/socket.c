@@ -1026,10 +1026,6 @@ int vice_network_select_poll_one(vice_network_socket_t * readsockfd)
 */
 int vice_network_get_errorcode(void)
 {
-#ifdef WIN32
-    return WSAGetLastError();
-#else
-    return errno;
-#endif
+    return ARCHDEP_SOCKET_ERROR;
 }
 #endif
