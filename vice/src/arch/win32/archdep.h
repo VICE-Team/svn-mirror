@@ -124,4 +124,7 @@ extern void archdep_workaround_nop(const char *otto);
 /* ffmpeg headers for windows don't seem to have some of the av_ prefixes */
 #define ARCHDEP_AV_PREFIX_NEEDED
 
+/* Needs extra call to log_archdep() even when logfile is already opened */
+#define ARCHDEP_EXTRA_LOG_CALL
+
 #endif
