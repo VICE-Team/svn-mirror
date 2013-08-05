@@ -276,7 +276,7 @@ Prior -3 0
 #
 # joystick port 2
 #
-#KP_6    -2 0
+#KP_8    -2 0
 #KP_2    -2 1
 #KP_4    -2 2
 #KP_6    -2 3
