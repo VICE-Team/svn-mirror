@@ -685,6 +685,12 @@ int archdep_file_is_chardev(const char *name)
     return 0;
 }
 
+int archdep_rename(const char *oldpath, const char *newpath)
+{
+    unlink(newpath);
+    return rename(oldpath, newpath);
+}
+
 void archdep_shutdown(void)
 {
     lib_free(boot_path);

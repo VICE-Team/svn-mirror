@@ -931,11 +931,6 @@ static int zfile_compress(const char *src, const char *dest,
         if (dest_backup_name != NULL) {
             ZDEBUG(("compress: making backup %s... ", dest_backup_name));
         }
-#ifdef WIN32
-        if (dest_backup_name != NULL) {
-            ioutil_remove(dest_backup_name);
-        }
-#endif
         if (dest_backup_name != NULL
             && ioutil_rename(dest, dest_backup_name) < 0) {
             ZDEBUG(("failed."));
@@ -959,11 +954,6 @@ static int zfile_compress(const char *src, const char *dest,
 
     if (retval == -1) {
         /* Compression failed: restore original file.  */
-#ifdef WIN32
-        if (dest_backup_name != NULL) {
-            ioutil_remove(dest);
-        }
-#endif
         if (dest_backup_name != NULL
             && ioutil_rename(dest_backup_name, dest) < 0) {
             log_error(zlog,

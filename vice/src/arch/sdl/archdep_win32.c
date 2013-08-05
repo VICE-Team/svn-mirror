@@ -608,6 +608,12 @@ int archdep_require_vkbd(void)
     return 0;
 }
 
+int archdep_rename(const char *oldpath, const char *newpath)
+{
+    unlink(newpath);
+    return rename(oldpath, newpath);
+}
+
 static void archdep_shutdown_extra(void)
 {
     lib_free(argv0);

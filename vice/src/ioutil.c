@@ -188,7 +188,7 @@ int ioutil_remove(const char *name)
 
 int ioutil_rename(const char *oldpath, const char *newpath)
 {
-    return rename(oldpath, newpath);
+    return archdep_rename(oldpath, newpath);
 }
 
 int ioutil_stat(const char *file_name, unsigned int *len, unsigned int *isdir)

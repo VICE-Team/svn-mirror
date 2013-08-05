@@ -715,6 +715,11 @@ void archdep_signals_pipe_unset(void)
     signal(SIGPIPE, old_pipe_handler);
 }
 
+int archdep_rename(const char *oldpath, const char *newpath)
+{
+    return rename(oldpath, newpath);
+}
+
 char *archdep_get_runtime_os(void)
 {
 /* Windows on cygwin */

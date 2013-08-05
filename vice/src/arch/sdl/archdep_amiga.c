@@ -485,6 +485,11 @@ void archdep_set_current_drive(const char *drive)
     }
 }
 
+int archdep_rename(const char *oldpath, const char *newpath)
+{
+    return rename(oldpath, newpath);
+}
+
 #ifdef AMIGA_MORPHOS
 static char *archdep_get_mos_runtime_os(void)
 {
