@@ -490,7 +490,7 @@ void util_fname_split(const char *path, char **directory_return,
 
     p = strrchr(path, FSDEV_DIR_SEP_CHR);
 
-#if defined __MSDOS__ || defined WIN32 || defined __OS2__
+#if (FSDEV_DIR_SEP_CHR == '\\')
     /* Both `/' and `\' are valid.  */
     {
         const char *p1;
