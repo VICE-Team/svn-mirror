@@ -28,6 +28,7 @@
 #define VICE_ARCHDEP_H
 
 #include "archapi.h"
+#include "types.h"
 
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR "."
@@ -132,5 +133,10 @@ extern void archdep_workaround_nop(const char *otto);
 
 /* what to use to return an error when a socket error happens */
 #define ARCHDEP_SOCKET_ERROR WSAGetLastError()
+
+extern struct console_s *uimon_console_open_mdi(const char *id, void *,
+                                                void *, void *,
+                                                DWORD dwStyle,
+                                                int x, int y, int dx, int dy );
 
 #endif

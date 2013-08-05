@@ -35,6 +35,7 @@
 #include <windows.h>
 #include <commctrl.h>
 
+#include "archdep.h"
 #include "console.h"
 #include "debug.h"
 #include "fullscrn.h"
