@@ -27,7 +27,9 @@ x11_keymaps = \
 	x11_sym.vkm \
 	x11_pos.vkm \
 	x11_posger.vkm \
-	x11_symger.vkm
+	x11_symger.vkm \
+	x11_keyrah.vkm \
+	x11_keyrah_de.vkm
 
 sdl_keymaps = \
 	sdl_sym.vkm \
