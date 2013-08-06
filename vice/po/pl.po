@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-01 08:04-0700\n"
-"PO-Revision-Date: 2013-05-12 03:09+0100\n"
+"PO-Revision-Date: 2013-07-27 14:29+0100\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
 "Language: pl\n"
@@ -644,12 +644,11 @@ msgstr "Własne IC"
 
 #: src/arch/unix/gui/c64scui.c:201 src/arch/unix/gui/c64ui.c:263
 msgid "yes"
-msgstr ""
+msgstr "tak"
 
 #: src/arch/unix/gui/c64scui.c:203 src/arch/unix/gui/c64ui.c:265
-#, fuzzy
 msgid "no"
-msgstr "Mono"
+msgstr "nie"
 
 #: src/arch/unix/gui/c64scui.c:209 src/arch/unix/gui/c64ui.c:271
 #: src/arch/win32/resc64.rc.po.c:535 src/arch/win32/resscpu64.rc.po.c:530
@@ -663,7 +662,7 @@ msgstr "Glue logic"
 
 #: src/arch/unix/gui/c64scui.c:216 src/arch/unix/gui/c64ui.c:277
 msgid "Reset goes to IEC"
-msgstr ""
+msgstr "Reset przez IEC"
 
 #: src/arch/unix/gui/c64scui.c:410 src/arch/unix/gui/c64ui.c:471
 msgid "CIA1"
@@ -866,9 +865,8 @@ msgid "PET RAM and Expansion Unit"
 msgstr "PET RAM i Expansion Unit"
 
 #: src/arch/unix/gui/petui.c:250
-#, fuzzy
 msgid "PET Colour graphics"
-msgstr "Grafika wysokiej rozdzielczości PET DWW"
+msgstr "Grafika PET kolor"
 
 #: src/arch/unix/gui/petui.c:252
 msgid "PET DWW hi-res graphics"
@@ -1508,14 +1506,13 @@ msgstr "Twardy"
 
 #: src/arch/unix/gui/uicommands.c:489
 msgid "Ask"
-msgstr ""
+msgstr "Spytaj"
 
 #: src/arch/unix/gui/uicommands.c:491
 msgid "Continue"
 msgstr "Kontynuuj"
 
 #: src/arch/unix/gui/uicommands.c:493
-#, fuzzy
 msgid "Start monitor"
 msgstr "Uruchom monitor"
 
@@ -1533,9 +1530,8 @@ msgid "Reset"
 msgstr "Reset"
 
 #: src/arch/unix/gui/uicommands.c:497
-#, fuzzy
 msgid "Hard reset"
-msgstr "Zimny reset"
+msgstr "Reset sprzętu"
 
 #: src/arch/unix/gui/uicommands.c:511 src/arch/win32/res.rc.po.c:1491
 #: src/arch/amigaos/intl_text.c.po.c:1280
@@ -1688,7 +1684,7 @@ msgstr "O VICE"
 
 #: src/arch/unix/gui/uicommands.c:684
 msgid "Action on CPU JAM"
-msgstr ""
+msgstr "Czynność przy zatkaniu się CPU"
 
 #: src/arch/unix/gui/uicommands.c:689 src/arch/win32/res.rc.po.c:1417
 #: src/arch/amigaos/intl_text.c.po.c:1056
@@ -3111,17 +3107,17 @@ msgstr "Opcje napędu #11"
 msgid ""
 "Enter PET Colour background\n"
 "(range: 0-255)"
-msgstr ""
+msgstr "Wprowadź tło PET "
 
 #: src/arch/unix/gui/uipetcolour.c:64 src/arch/unix/gui/uipetcolour.c:83
 #: src/arch/amigaos/intl_text.c.po.c:7945
 msgid "PET Colour background"
-msgstr ""
+msgstr "Tło koloru PET"
 
 #: src/arch/unix/gui/uipetcolour.c:81 src/arch/win32/respetcolour.rc.po.c:25
 #: src/arch/amigaos/intl_text.c.po.c:7931
 msgid "PET Colour type"
-msgstr ""
+msgstr "Rodzaj koloru PET"
 
 #: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:8015
@@ -3659,14 +3655,12 @@ msgid "History"
 msgstr "Historia"
 
 #: src/arch/unix/gui/uisettings.c:414
-#, fuzzy
 msgid "Autoplay"
-msgstr "Automatyczne odgrywanie historii"
+msgstr "Automatyczne odgrywanie"
 
 #: src/arch/unix/gui/uisettings.c:426
-#, fuzzy
 msgid "Trace Mode"
-msgstr "Model PET"
+msgstr "Tryb śledzenia"
 
 #: src/arch/unix/gui/uisettings.c:429 src/arch/win32/res.rc.po.c:1479
 msgid "Main CPU Trace"
@@ -3681,19 +3675,16 @@ msgid "Drive1 CPU Trace"
 msgstr "Śledzenie CPU stacji1"
 
 #: src/arch/unix/gui/uisettings.c:436
-#, fuzzy
 msgid "Drive2 CPU Trace"
-msgstr "Śledzenie CPU stacji0"
+msgstr "Śledzenie CPU stacji2"
 
 #: src/arch/unix/gui/uisettings.c:438
-#, fuzzy
 msgid "Drive3 CPU Trace"
-msgstr "Śledzenie CPU stacji0"
+msgstr "Śledzenie CPU stacji3"
 
 #: src/arch/unix/gui/uisettings.c:444
-#, fuzzy
 msgid "Debug settings"
-msgstr "Ustawienia napędu"
+msgstr "Ustawienia debugowania"
 
 #: src/arch/unix/gui/uisid.c:74
 msgid "8580 + digi boost (ReSID)"
@@ -7449,9 +7440,8 @@ msgstr "$A*** jako RAM"
 
 #: src/arch/win32/respet.rc.po.c:561 src/arch/win32/respetcolour.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4192
-#, fuzzy
 msgid "PET Colour board settings"
-msgstr "Ustawienia koloru"
+msgstr "Ustawienia koloru karty PET"
 
 #: src/arch/win32/respet.rc.po.c:562 src/arch/win32/respetdww.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4178
@@ -7481,12 +7471,11 @@ msgstr "Ustawienia modelu PET"
 #: src/arch/win32/respetcolour.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:7917
 msgid "Analog"
-msgstr ""
+msgstr "Analog"
 
 #: src/arch/win32/respetcolour.rc.po.c:28
-#, fuzzy
 msgid "Background color"
-msgstr "Kolizje duszków z tłem"
+msgstr "Kolor tła"
 
 #: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4681
 msgid "Enable the PET DWW hi-res board"
@@ -7729,9 +7718,8 @@ msgid "Third SID at"
 msgstr "Trzeci SID w"
 
 #: src/arch/win32/ressid.rc.po.c:82 src/arch/win32/ressiddtv.rc.po.c:60
-#, fuzzy
 msgid "reSID options"
-msgstr "Opcje reSID/reSID-fp"
+msgstr "Opcje reSID"
 
 #: src/arch/win32/ressid.rc.po.c:83 src/arch/win32/ressiddtv.rc.po.c:61
 #: src/arch/amigaos/intl_text.c.po.c:9037
@@ -8564,12 +8552,11 @@ msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:7903
 msgid "RGBI"
-msgstr ""
+msgstr "RGBI"
 
 #: src/arch/amigaos/intl_text.c.po.c:7959
-#, fuzzy
 msgid "PET Colour settings"
-msgstr "Ustawienia koloru"
+msgstr "Ustawienia koloru PET"
 
 #: src/arch/amigaos/intl_text.c.po.c:7987
 msgid "Select file for V364 Speech"
@@ -9416,6 +9403,8 @@ msgid ""
 "Delete checkpoint `checknum'. If no checkpoint is specified delete all "
 "checkpoints."
 msgstr ""
+"Skasuj punkt kontrolny 'checknum'. Jeśli nie określono punktu kontrolnego, "
+"skasuj wszystkie."
 
 #: src/translate_text.c.po.c:1760
 msgid ""
@@ -9980,6 +9969,8 @@ msgid ""
 "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard "
 "Reset)"
 msgstr ""
+"Ustal działanie przy zatkaniu się procesora: (0: zapytanie, 1: kontynuacja, "
+"2: monitorowanie, 3: reset, 4: twardy reset)"
 
 #: src/translate_text.c.po.c:3298
 msgid "Use PAL sync factor"
@@ -9999,7 +9990,7 @@ msgstr "Modyfikacja trybu synchronicznego (0 = Brak, 1 = CIA1, 2 = CIA2)"
 
 #: src/translate_text.c.po.c:3366
 msgid "Computer reset goes to IEC bus (0 = No, 1 = Yes)"
-msgstr ""
+msgstr "Reset komputera używa szyny IEC (0 = nie, 1 = tak)"
 
 #: src/translate_text.c.po.c:3400
 msgid "Specify name of international Kernal ROM image"
@@ -11141,65 +11132,56 @@ msgid "EOI does not blank screen"
 msgstr "Koniec przerwania nie czyści ekranu"
 
 #: src/translate_text.c.po.c:8784
-#, fuzzy
 msgid "Set SuperPET CPU switch to '6502'"
-msgstr "Przełącznik CPU SuperPET "
+msgstr "Ustaw przełącznik CPU SuperPET na '6502\""
 
 #: src/translate_text.c.po.c:8801
-#, fuzzy
 msgid "Set SuperPET CPU switch to '6809'"
-msgstr "Przełącznik CPU SuperPET "
+msgstr "Ustaw przełącznik CPU SuperPET na '6809\""
 
 #: src/translate_text.c.po.c:8818
-#, fuzzy
 msgid "Set SuperPET CPU switch to 'Prog'"
-msgstr "Przełącznik CPU SuperPET "
+msgstr "Ustaw przełącznik CPU SuperPET na 'Prog\""
 
 #: src/translate_text.c.po.c:8835
-#, fuzzy
 msgid "Specify 4K to 24K ROM file name at $A000 for 6809"
-msgstr "Określ nazwę ROM rozszerzenia 4/8/16K w $A000"
+msgstr "Określ nazwę pliku ROM-u 4K do 24K w $A000 dla 6809"
 
 #: src/translate_text.c.po.c:8852
-#, fuzzy
 msgid "Specify 4K to 20K ROM file name at $B000 for 6809"
-msgstr "Określ nazwę ROM rozszerzenia 4/8/16K w $B000"
+msgstr "Określ nazwę pliku ROM-u 4K do 20K w $B000 dla 6809"
 
 #: src/translate_text.c.po.c:8869
-#, fuzzy
 msgid "Specify 4K to 16K ROM file name at $C000 for 6809"
-msgstr "Określ nazwę ROM rozszerzenia 4/8/16K w $B000"
+msgstr "Określ nazwę pliku ROM-u 4K do 16K w $C000 dla 6809"
 
 #: src/translate_text.c.po.c:8886
-#, fuzzy
 msgid "Specify 4K to 12K ROM file name at $D000 for 6809"
-msgstr "Określ nazwę ROM rozszerzenia 4/8/16K w $B000"
+msgstr "Określ nazwę pliku ROM-u 4K do 12K w $D000 dla 6809"
 
 #: src/translate_text.c.po.c:8903
-#, fuzzy
 msgid "Specify 2K or 8K ROM file name at $E000 for 6809"
-msgstr "Określ nazwę ROM rozszerzenia 4/8/16K w $B000"
+msgstr "Określ nazwę pliku ROM-u 2K lub 8K w $E000 dla 6809"
 
 #: src/translate_text.c.po.c:8920
-#, fuzzy
 msgid "Specify 4K ROM file name at $F000 for 6809"
-msgstr "Określ nazwę ROM rozszerzenia 4/8/16K w $B000"
+msgstr "Określ nazwę pliku ROM-u 4K w $F000 dla 6809"
 
 #: src/translate_text.c.po.c:8937
 msgid "RGBI colour extension to PET 4032"
-msgstr ""
+msgstr "Rozszerzenie barw RGBI do PET 4032"
 
 #: src/translate_text.c.po.c:8954
 msgid "Analog colour extension to PET 4032"
-msgstr ""
+msgstr "Rozszerzenie analogowych barw do PET 4032"
 
 #: src/translate_text.c.po.c:8971
 msgid "Colour 0-255"
-msgstr ""
+msgstr "Kolor 0-255"
 
 #: src/translate_text.c.po.c:8988
 msgid "Analog colour background on PET 4032"
-msgstr ""
+msgstr "Analogowy kolor tła w PET 4032"
 
 #: src/translate_text.c.po.c:9005
 msgid "Enable userport diagnostic pin"
@@ -12268,14 +12250,12 @@ msgid "Turn off Speed switch"
 msgstr "Wyłącz przełącznik Speed"
 
 #: src/translate_text.c.po.c:13888
-#, fuzzy
 msgid "Enable HiRes Emulation Board"
-msgstr "Włącz układ emulatora PET hi-res"
+msgstr "Włącz kartę emulacji HiRes"
 
 #: src/translate_text.c.po.c:13905
-#, fuzzy
 msgid "Disable HiRes Emulation Board"
-msgstr "Włącz układ emulatora PET hi-res"
+msgstr "Wyłącz kartę emulacji HiRes"
 
 #~ msgid "6581R3 4885 (very light)"
 #~ msgstr "6581R3 4885 (bardzo lekki)"
