@@ -31,6 +31,8 @@
 
 #include "vice_sdl.h"
 
+#include "sound.h"
+
 /* Extra functions for SDL UI */
 extern char *archdep_default_hotkey_file_name(void);
 extern char *archdep_default_joymap_file_name(void);
@@ -75,6 +77,9 @@ extern int archdep_require_vkbd(void);
 
 /* No key symcode.  */
 #define ARCHDEP_KEYBOARD_SYM_NONE SDLK_UNKNOWN
+
+/* Default sound output mode */
+#define ARCHDEP_SOUND_OUTPUT_MODE SOUND_OUTPUT_SYSTEM
 
 #ifdef AMIGA_SUPPORT
 #include "archdep_amiga.h"

@@ -30,6 +30,8 @@
 
 #include "archapi.h"
 
+#include "sound.h"
+
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR "."
 #define FSDEV_DIR_SEP_STR    "/"
@@ -152,5 +154,8 @@ extern const char *archdep_pref_path;
 
 /* what to use to return an error when a socket error happens */
 #define ARCHDEP_SOCKET_ERROR errno
+
+/* Default sound output mode */
+#define ARCHDEP_SOUND_OUTPUT_MODE SOUND_OUTPUT_SYSTEM
 
 #endif

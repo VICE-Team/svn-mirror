@@ -29,6 +29,9 @@
 #define VICE_ARCHDEP_H
 
 #include "archapi.h"
+
+#include "sound.h"
+
 #include "vicemaxpath.h"
 
 /* Filesystem dependant operators.  */
@@ -106,5 +109,8 @@
 
 /* what to use to return an error when a socket error happens */
 #define ARCHDEP_SOCKET_ERROR errno
+
+/* Default sound output mode */
+#define ARCHDEP_SOUND_OUTPUT_MODE SOUND_OUTPUT_MONO
 
 #endif

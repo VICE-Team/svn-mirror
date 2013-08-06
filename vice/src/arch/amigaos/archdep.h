@@ -29,6 +29,8 @@
 
 #include "archapi.h"
 
+#include "sound.h"
+
 #ifdef AMIGA_M68K
 #include <sys/unistd.h>
 #endif
@@ -111,5 +113,8 @@
 
 /* what to use to return an error when a socket error happens */
 #define ARCHDEP_SOCKET_ERROR errno
+
+/* Default sound output mode */
+#define ARCHDEP_SOUND_OUTPUT_MODE SOUND_OUTPUT_SYSTEM
 
 #endif

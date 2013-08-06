@@ -28,6 +28,9 @@
 #define VICE_ARCHDEP_H
 
 #include "archapi.h"
+
+#include "sound.h"
+
 #include "types.h"
 
 /* Filesystem dependant operators.  */
@@ -138,5 +141,8 @@ extern struct console_s *uimon_console_open_mdi(const char *id, void *,
                                                 void *, void *,
                                                 DWORD dwStyle,
                                                 int x, int y, int dx, int dy );
+
+/* Default sound output mode */
+#define ARCHDEP_SOUND_OUTPUT_MODE SOUND_OUTPUT_SYSTEM
 
 #endif
