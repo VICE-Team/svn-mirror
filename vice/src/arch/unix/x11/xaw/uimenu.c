@@ -53,6 +53,7 @@
 
 #include "fullscreenarch.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "resources.h"
 #include "uiapi.h"
