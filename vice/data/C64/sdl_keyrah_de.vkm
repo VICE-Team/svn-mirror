@@ -35,6 +35,15 @@
 
 # Positional Mapping for Individual Computer's "Keyrah", German Layout, C64, SDL
 
+# this keyboard map applies for the "vice" setting of keyrah (switch down) and
+# maps all 64 keys, plus restore, to the respective emulated keys in the 
+# emulation. this however leaves no key free to enter the menu - one way to work
+# around this is to configure the "enter menu" key to the code which is produced
+# by the restore key when the switch is in "normal" (middle) position, like:
+#
+# -menukey 60                      restore for menu (with switch in middle pos.)
+#
+
 #       +-----+-----+-----+-----+-----+-----+-----+-----+
 #       |Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bit 6|Bit 7|
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
@@ -144,16 +153,16 @@
 # Restore key
 280 -3 0
 
-# joystick port 1
-#265 -1 0              /*     NumPad 9 -> 9            */
-#259 -1 1              /*     NumPad 3 -> 3            */
-#263 -1 2              /*     NumPad 7 -> 7            */
-#257 -1 3              /*     NumPad 1 -> 1            */
-#256 -1 4              /*     NumPad 0 -> 0            */
+# joystick keymap A (port 1)
+256 -1 0              /*     NumPad 0 -> FIRE         */
+265 -1 7              /*     NumPad 9 -> UP           */
+259 -1 2              /*     NumPad 3 -> DOWN         */
+263 -1 4              /*     NumPad 7 -> LEFT         */
+257 -1 5              /*     NumPad 1 -> RIGHT        */
 
-# joystick port 2
-#258 -2 0              /*     NumPad 2 -> 2            */
-#260 -2 1              /*     NumPad 4 -> 4            */
-#261 -2 2              /*     NumPad 5 -> 5            */
-#262 -2 3              /*     NumPad 6 -> 6            */
-#264 -2 4              /*     NumPad 8 -> 8            */
+# joystick Keymap B (port 2)
+261 -2 0              /*     NumPad 5 -> FIRE         */
+264 -2 7              /*     NumPad 8 -> UP           */
+258 -2 2              /*     NumPad 2 -> DOWN         */
+260 -2 4              /*     NumPad 4 -> LEFT         */
+262 -2 5              /*     NumPad 6 -> RIGHT        */
