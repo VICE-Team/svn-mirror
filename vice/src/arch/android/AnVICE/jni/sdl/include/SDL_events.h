@@ -1,24 +1,30 @@
 /*
-    SDL - Simple DirectMedia Layer
-    Copyright (C) 1997-2009 Sam Lantinga
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    Sam Lantinga
-    slouken@libsdl.org
-*/
+ * SDL_events.h
+ *
+ * Written by
+ *  Sam Lantinga <slouken@libsdl.org>
+ *
+ * This file is a modified SDL header.
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
 /**
  *  @file SDL_events.h
@@ -44,25 +50,25 @@ extern "C" {
 
 /** @name General keyboard/mouse state definitions */
 /*@{*/
-#define SDL_RELEASED	0
-#define SDL_PRESSED	1
+#define SDL_RELEASED   0
+#define SDL_PRESSED    1
 /*@}*/
 
 /** Event enumerations */
 typedef enum {
        SDL_NOEVENT = 0,			/**< Unused (do not remove) */
        SDL_ACTIVEEVENT,			/**< Application loses/gains visibility */
-       SDL_KEYDOWN,			/**< Keys pressed */
-       SDL_KEYUP,			/**< Keys released */
+       SDL_KEYDOWN,				/**< Keys pressed */
+       SDL_KEYUP,				/**< Keys released */
        SDL_MOUSEMOTION,			/**< Mouse moved */
        SDL_MOUSEBUTTONDOWN,		/**< Mouse button pressed */
-       SDL_MOUSEBUTTONUP,		/**< Mouse button released */
-       SDL_JOYAXISMOTION,		/**< Joystick axis motion */
-       SDL_JOYBALLMOTION,		/**< Joystick trackball motion */
-       SDL_JOYHATMOTION,		/**< Joystick hat position change */
-       SDL_JOYBUTTONDOWN,		/**< Joystick button pressed */
+       SDL_MOUSEBUTTONUP,			/**< Mouse button released */
+       SDL_JOYAXISMOTION,			/**< Joystick axis motion */
+       SDL_JOYBALLMOTION,			/**< Joystick trackball motion */
+       SDL_JOYHATMOTION,			/**< Joystick hat position change */
+       SDL_JOYBUTTONDOWN,			/**< Joystick button pressed */
        SDL_JOYBUTTONUP,			/**< Joystick button released */
-       SDL_QUIT,			/**< User-requested quit */
+       SDL_QUIT,				/**< User-requested quit */
        SDL_SYSWMEVENT,			/**< System specific event */
        SDL_EVENT_RESERVEDA,		/**< Reserved for future use.. */
        SDL_EVENT_RESERVEDB,		/**< Reserved for future use.. */
@@ -77,7 +83,7 @@ typedef enum {
        /** Events SDL_USEREVENT through SDL_MAXEVENTS-1 are for your use */
        SDL_USEREVENT = 24,
        /** This last event is only for bounding internal arrays
-	*  It is the number of bits in the event mask datatype -- Uint32
+        *  It is the number of bits in the event mask datatype -- Uint32
         */
        SDL_NUMEVENTS = 32
 } SDL_EventType;
@@ -86,17 +92,14 @@ typedef enum {
 /*@{*/
 #define SDL_EVENTMASK(X)	(1<<(X))
 typedef enum {
-	SDL_ACTIVEEVENTMASK	= SDL_EVENTMASK(SDL_ACTIVEEVENT),
-	SDL_KEYDOWNMASK		= SDL_EVENTMASK(SDL_KEYDOWN),
-	SDL_KEYUPMASK		= SDL_EVENTMASK(SDL_KEYUP),
-	SDL_KEYEVENTMASK	= SDL_EVENTMASK(SDL_KEYDOWN)|
-	                          SDL_EVENTMASK(SDL_KEYUP),
-	SDL_MOUSEMOTIONMASK	= SDL_EVENTMASK(SDL_MOUSEMOTION),
-	SDL_MOUSEBUTTONDOWNMASK	= SDL_EVENTMASK(SDL_MOUSEBUTTONDOWN),
-	SDL_MOUSEBUTTONUPMASK	= SDL_EVENTMASK(SDL_MOUSEBUTTONUP),
-	SDL_MOUSEEVENTMASK	= SDL_EVENTMASK(SDL_MOUSEMOTION)|
-	                          SDL_EVENTMASK(SDL_MOUSEBUTTONDOWN)|
-	                          SDL_EVENTMASK(SDL_MOUSEBUTTONUP),
+	SDL_ACTIVEEVENTMASK     = SDL_EVENTMASK(SDL_ACTIVEEVENT),
+	SDL_KEYDOWNMASK         = SDL_EVENTMASK(SDL_KEYDOWN),
+	SDL_KEYUPMASK           = SDL_EVENTMASK(SDL_KEYUP),
+	SDL_KEYEVENTMASK        = SDL_EVENTMASK(SDL_KEYDOWN) | SDL_EVENTMASK(SDL_KEYUP),
+	SDL_MOUSEMOTIONMASK     = SDL_EVENTMASK(SDL_MOUSEMOTION),
+	SDL_MOUSEBUTTONDOWNMASK = SDL_EVENTMASK(SDL_MOUSEBUTTONDOWN),
+	SDL_MOUSEBUTTONUPMASK   = SDL_EVENTMASK(SDL_MOUSEBUTTONUP),
+	SDL_MOUSEEVENTMASK      = SDL_EVENTMASK(SDL_MOUSEMOTION) | SDL_EVENTMASK(SDL_MOUSEBUTTONDOWN) | SDL_EVENTMASK(SDL_MOUSEBUTTONUP),
 	SDL_JOYAXISMOTIONMASK	= SDL_EVENTMASK(SDL_JOYAXISMOTION),
 	SDL_JOYBALLMOTIONMASK	= SDL_EVENTMASK(SDL_JOYBALLMOTION),
 	SDL_JOYHATMOTIONMASK	= SDL_EVENTMASK(SDL_JOYHATMOTION),

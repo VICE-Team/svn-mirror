@@ -1,24 +1,30 @@
 /*
-    SDL - Simple DirectMedia Layer
-    Copyright (C) 1997-2009 Sam Lantinga
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    Sam Lantinga
-    slouken@libsdl.org
-*/
+ * SDL_endian.h
+ *
+ * Written by
+ *  Sam Lantinga <slouken@libsdl.org>
+ *
+ * This file is a modified SDL header.
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
 /**
  *  @file SDL_endian.h
@@ -34,16 +40,12 @@
  *  The two types of endianness 
  */
 /*@{*/
-#define SDL_LIL_ENDIAN	1234
-#define SDL_BIG_ENDIAN	4321
+#define SDL_LIL_ENDIAN   1234
+#define SDL_BIG_ENDIAN   4321
 /*@}*/
 
 #ifndef SDL_BYTEORDER	/* Not defined in SDL_config.h? */
-#if defined(__hppa__) || \
-    defined(__m68k__) || defined(mc68000) || defined(_M_M68K) || \
-    (defined(__MIPS__) && defined(__MISPEB__)) || \
-    defined(__ppc__) || defined(__POWERPC__) || defined(_M_PPC) || \
-    defined(__sparc__)
+#if defined(__MIPS__) && defined(__MISPEB__)
 #define SDL_BYTEORDER	SDL_BIG_ENDIAN
 #else
 #define SDL_BYTEORDER	SDL_LIL_ENDIAN
@@ -65,77 +67,33 @@ extern "C" {
  *  header should only be included in files that actually use them.
  */
 /*@{*/
-#if defined(__GNUC__) && defined(__i386__) && \
-   !(__GNUC__ == 2 && __GNUC_MINOR__ <= 95 /* broken gcc version */)
+#if defined(__GNUC__) && defined(__i386__) && !(__GNUC__ == 2 && __GNUC_MINOR__ <= 95 /* broken gcc version */)
 static __inline__ Uint16 SDL_Swap16(Uint16 x)
 {
 	__asm__("xchgb %b0,%h0" : "=q" (x) :  "0" (x));
 	return x;
 }
-#elif defined(__GNUC__) && defined(__x86_64__)
-static __inline__ Uint16 SDL_Swap16(Uint16 x)
-{
-	__asm__("xchgb %b0,%h0" : "=Q" (x) :  "0" (x));
-	return x;
-}
-#elif defined(__GNUC__) && (defined(__powerpc__) || defined(__ppc__))
-static __inline__ Uint16 SDL_Swap16(Uint16 x)
-{
-	Uint16 result;
-
-	__asm__("rlwimi %0,%2,8,16,23" : "=&r" (result) : "0" (x >> 8), "r" (x));
-	return result;
-}
-#elif defined(__GNUC__) && (defined(__M68000__) || defined(__M68020__)) && !defined(__mcoldfire__)
-static __inline__ Uint16 SDL_Swap16(Uint16 x)
-{
-	__asm__("rorw #8,%0" : "=d" (x) :  "0" (x) : "cc");
-	return x;
-}
 #else
-static __inline__ Uint16 SDL_Swap16(Uint16 x) {
-	return SDL_static_cast(Uint16, ((x<<8)|(x>>8)));
+static __inline__ Uint16 SDL_Swap16(Uint16 x)
+{
+	return SDL_static_cast(Uint16, ((x << 8) | (x >> 8)));
 }
 #endif
 
-#if defined(__GNUC__) && defined(__i386__) && \
-   !(__GNUC__ == 2 && __GNUC_MINOR__ <= 95 /* broken gcc version */)
+#if defined(__GNUC__) && defined(__i386__) && !(__GNUC__ == 2 && __GNUC_MINOR__ <= 95 /* broken gcc version */)
 static __inline__ Uint32 SDL_Swap32(Uint32 x)
 {
 	__asm__("bswap %0" : "=r" (x) : "0" (x));
 	return x;
 }
-#elif defined(__GNUC__) && defined(__x86_64__)
-static __inline__ Uint32 SDL_Swap32(Uint32 x)
-{
-	__asm__("bswapl %0" : "=r" (x) : "0" (x));
-	return x;
-}
-#elif defined(__GNUC__) && (defined(__powerpc__) || defined(__ppc__))
-static __inline__ Uint32 SDL_Swap32(Uint32 x)
-{
-	Uint32 result;
-
-	__asm__("rlwimi %0,%2,24,16,23" : "=&r" (result) : "0" (x>>24), "r" (x));
-	__asm__("rlwimi %0,%2,8,8,15"   : "=&r" (result) : "0" (result),    "r" (x));
-	__asm__("rlwimi %0,%2,24,0,7"   : "=&r" (result) : "0" (result),    "r" (x));
-	return result;
-}
-#elif defined(__GNUC__) && (defined(__M68000__) || defined(__M68020__)) && !defined(__mcoldfire__)
-static __inline__ Uint32 SDL_Swap32(Uint32 x)
-{
-	__asm__("rorw #8,%0\n\tswap %0\n\trorw #8,%0" : "=d" (x) :  "0" (x) : "cc");
-	return x;
-}
 #else
-static __inline__ Uint32 SDL_Swap32(Uint32 x) {
-	return SDL_static_cast(Uint32, ((x<<24)|((x<<8)&0x00FF0000)|((x>>8)&0x0000FF00)|(x>>24)));
+static __inline__ Uint32 SDL_Swap32(Uint32 x)
+{
+	return SDL_static_cast(Uint32, ((x << 24) | ((x << 8) & 0x00FF0000) | ((x >> 8) & 0x0000FF00) | (x >> 24)));
 }
 #endif
 
-#ifdef SDL_HAS_64BIT_TYPE
-#if defined(__GNUC__) && defined(__i386__) && \
-   !(__GNUC__ == 2 && __GNUC_MINOR__ <= 95 /* broken gcc version */)
+#if defined(__GNUC__) && defined(__i386__) && !(__GNUC__ == 2 && __GNUC_MINOR__ <= 95 /* broken gcc version */)
 static __inline__ Uint64 SDL_Swap64(Uint64 x)
 {
 	union { 
@@ -147,12 +105,6 @@ static __inline__ Uint64 SDL_Swap64(Uint64 x)
 	        : "=r" (v.s.a), "=r" (v.s.b) 
 	        : "0" (v.s.a), "1" (v.s.b)); 
 	return v.u;
-}
-#elif defined(__GNUC__) && defined(__x86_64__)
-static __inline__ Uint64 SDL_Swap64(Uint64 x)
-{
-	__asm__("bswapq %0" : "=r" (x) : "0" (x));
-	return x;
 }
 #else
 static __inline__ Uint64 SDL_Swap64(Uint64 x)
@@ -169,13 +121,6 @@ static __inline__ Uint64 SDL_Swap64(Uint64 x)
 	return (x);
 }
 #endif
-#else
-/* This is mainly to keep compilers from complaining in SDL code.
- * If there is no real 64-bit datatype, then compilers will complain about
- * the fake 64-bit datatype that SDL provides when it compiles user code.
- */
-#define SDL_Swap64(X)	(X)
-#endif /* SDL_HAS_64BIT_TYPE */
 /*@}*/
 
 /**
@@ -184,19 +129,19 @@ static __inline__ Uint64 SDL_Swap64(Uint64 x)
  */
 /*@{*/
 #if SDL_BYTEORDER == SDL_LIL_ENDIAN
-#define SDL_SwapLE16(X)	(X)
-#define SDL_SwapLE32(X)	(X)
-#define SDL_SwapLE64(X)	(X)
-#define SDL_SwapBE16(X)	SDL_Swap16(X)
-#define SDL_SwapBE32(X)	SDL_Swap32(X)
-#define SDL_SwapBE64(X)	SDL_Swap64(X)
+#define SDL_SwapLE16(X)   (X)
+#define SDL_SwapLE32(X)   (X)
+#define SDL_SwapLE64(X)   (X)
+#define SDL_SwapBE16(X)   SDL_Swap16(X)
+#define SDL_SwapBE32(X)   SDL_Swap32(X)
+#define SDL_SwapBE64(X)   SDL_Swap64(X)
 #else
-#define SDL_SwapLE16(X)	SDL_Swap16(X)
-#define SDL_SwapLE32(X)	SDL_Swap32(X)
-#define SDL_SwapLE64(X)	SDL_Swap64(X)
-#define SDL_SwapBE16(X)	(X)
-#define SDL_SwapBE32(X)	(X)
-#define SDL_SwapBE64(X)	(X)
+#define SDL_SwapLE16(X)   SDL_Swap16(X)
+#define SDL_SwapLE32(X)   SDL_Swap32(X)
+#define SDL_SwapLE64(X)   SDL_Swap64(X)
+#define SDL_SwapBE16(X)   (X)
+#define SDL_SwapBE32(X)   (X)
+#define SDL_SwapBE64(X)   (X)
 #endif
 /*@}*/
 

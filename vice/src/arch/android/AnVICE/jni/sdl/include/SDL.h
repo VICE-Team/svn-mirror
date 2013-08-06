@@ -1,24 +1,30 @@
 /*
-    SDL - Simple DirectMedia Layer
-    Copyright (C) 1997-2009 Sam Lantinga
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    Sam Lantinga
-    slouken@libsdl.org
-*/
+ * SDL.h
+ *
+ * Written by
+ *  Sam Lantinga <slouken@libsdl.org>
+ *
+ * This file is a modified SDL header.
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
 /** @file SDL.h
  *  Main include header for the SDL library
@@ -58,14 +64,14 @@ extern "C" {
  *  specify the subsystems which you will be using in your application.
  */
 /*@{*/
-#define	SDL_INIT_TIMER		0x00000001
-#define SDL_INIT_AUDIO		0x00000010
-#define SDL_INIT_VIDEO		0x00000020
-#define SDL_INIT_CDROM		0x00000100
-#define SDL_INIT_JOYSTICK	0x00000200
-#define SDL_INIT_NOPARACHUTE	0x00100000	/**< Don't catch fatal signals */
-#define SDL_INIT_EVENTTHREAD	0x01000000	/**< Not supported on all OS's */
-#define SDL_INIT_EVERYTHING	0x0000FFFF
+#define SDL_INIT_TIMER         0x00000001
+#define SDL_INIT_AUDIO         0x00000010
+#define SDL_INIT_VIDEO         0x00000020
+#define SDL_INIT_CDROM         0x00000100
+#define SDL_INIT_JOYSTICK      0x00000200
+#define SDL_INIT_NOPARACHUTE   0x00100000	/**< Don't catch fatal signals */
+#define SDL_INIT_EVENTTHREAD   0x01000000	/**< Not supported on all OS's */
+#define SDL_INIT_EVERYTHING    0x0000FFFF
 /*@}*/
 
 /** This function loads the SDL dynamically linked library and initializes 

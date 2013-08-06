@@ -1,24 +1,30 @@
 /*
-    SDL - Simple DirectMedia Layer
-    Copyright (C) 1997-2009 Sam Lantinga
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    Sam Lantinga
-    slouken@libsdl.org
-*/
+ * SDL_cdrom.h
+ *
+ * Written by
+ *  Sam Lantinga <slouken@libsdl.org>
+ *
+ * This file is a modified SDL header.
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
 /**
  *  @file SDL_cdrom.h
@@ -45,14 +51,14 @@ extern "C" {
  */
 
 /** The maximum number of CD-ROM tracks on a disk */
-#define SDL_MAX_TRACKS	99
+#define SDL_MAX_TRACKS   99
 
 /** @name Track Types
  *  The types of CD-ROM track possible
  */
 /*@{*/
-#define SDL_AUDIO_TRACK	0x00
-#define SDL_DATA_TRACK	0x04
+#define SDL_AUDIO_TRACK   0x00
+#define SDL_DATA_TRACK    0x04
 /*@}*/
 
 /** The possible states which a CD-ROM drive can be in. */
@@ -65,10 +71,10 @@ typedef enum {
 } CDstatus;
 
 /** Given a status, returns true if there's a disk in the drive */
-#define CD_INDRIVE(status)	((int)(status) > 0)
+#define CD_INDRIVE(status)   ((int)(status) > 0)
 
 typedef struct SDL_CDtrack {
-	Uint8 id;		/**< Track number */
+	Uint8 id;			/**< Track number */
 	Uint8 type;		/**< Data or audio track */
 	Uint16 unused;
 	Uint32 length;		/**< Length, in frames, of this track */
@@ -93,16 +99,17 @@ typedef struct SDL_CD {
  *  Conversion functions from frames to Minute/Second/Frames and vice versa
  */
 /*@{*/
-#define CD_FPS	75
-#define FRAMES_TO_MSF(f, M,S,F)	{					\
-	int value = f;							\
-	*(F) = value%CD_FPS;						\
-	value /= CD_FPS;						\
-	*(S) = value%60;						\
-	value /= 60;							\
-	*(M) = value;							\
+#define CD_FPS   75
+#define FRAMES_TO_MSF(f, M,S,F)	{ \
+	int value = f;               \
+	*(F) = value % CD_FPS;       \
+	value /= CD_FPS;             \
+	*(S) = value % 60;           \
+	value /= 60;                 \
+	*(M) = value;                \
 }
-#define MSF_TO_FRAMES(M, S, F)	((M)*60*CD_FPS+(S)*CD_FPS+(F))
+
+#define MSF_TO_FRAMES(M, S, F)   ((M) * 60 * CD_FPS + (S) * CD_FPS + (F))
 /*@}*/
 
 /* CD-audio API functions: */

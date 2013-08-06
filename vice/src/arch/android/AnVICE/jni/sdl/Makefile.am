@@ -2,24 +2,13 @@ EXTRA_DIST = \
 	include/begin_code.h \
 	include/close_code.h \
 	include/doxyfile \
-	include/SDL \
 	include/SDL.h \
 	include/SDL_active.h \
 	include/SDL_audio.h \
 	include/SDL_byteorder.h \
 	include/SDL_cdrom.h \
 	include/SDL_config.h \
-	include/SDL_config.h.default \
-	include/SDL_config.h.in \
 	include/SDL_config_android.h \
-	include/SDL_config_dreamcast.h \
-	include/SDL_config_macos.h \
-	include/SDL_config_macosx.h \
-	include/SDL_config_minimal.h \
-	include/SDL_config_nds.h \
-	include/SDL_config_os2.h \
-	include/SDL_config_symbian.h \
-	include/SDL_config_win32.h \
 	include/SDL_copying.h \
 	include/SDL_cpuinfo.h \
 	include/SDL_endian.h \
