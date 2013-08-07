@@ -8303,7 +8303,7 @@ Use an internal calculated palette
 @item -Crtcextpal
 Use an external palette (file)
 @cindex -Crtcpalette
-@itemx -Crtcpalette NAME
+@item -Crtcpalette NAME
 Specify @code{NAME} as the palette file (@code{CrtcPaletteFile}).
 @cindex -Crtcfulldevice
 @item -Crtcfulldevice <device>
