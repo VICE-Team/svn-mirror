@@ -618,9 +618,8 @@ the basic features are implemented as well as most of the complex ones
 including synchronisation, ring modulation and filters.  There are three
 emulators of the SID chip available: first is the ``standard'' VICE
 emulator, available since VICE 0.12; the second is Dag Lem's reSID
-engine and the third one is reSID-fp. The reSID engines are a lot more
-accurate than the standard engine, but they are also a lot slower, and
-only suitable for faster machines.
+engine. The reSID engine is a lot more accurate than the standard engine, 
+but it is also a lot slower, and only suitable for faster machines.
 
 Naturally, also both CIAs (or VIAs, in some cases) are fully emulated
 and cycle accurate.
@@ -5940,17 +5939,7 @@ Specify @code{SID engine} and @code{MODEL} for the emulated SID chip (
 258: ReSID 8580 + digiboost,
 1024: ParSID in par port 1,
 1280: ParSID in par port 2,
-1536: ParSID in par port 3,
-1800: ReSID-FP 6581R3 4885,
-1801: ReSID-FP 6581R3 0486S,
-1802: ReSID-FP 6581R3 3984,
-1803: ReSID-FP 6581R4 AR 3789,
-1804: ReSID-FP 6581R3 4485,
-1805: ReSID-FP 6581R4 1986S,
-1808: ReSID-FP 8580R5 3691,
-1809: ReSID-FP 8580R5 3691 + digiboost,
-1810: ReSID-FP 8580R5 1489,
-1811: ReSID-FP 8580R5 1489D).
+1536: ParSID in par port 3).
 
 @cindex -sidfilters, +sidfilters
 @item -sidfilters
