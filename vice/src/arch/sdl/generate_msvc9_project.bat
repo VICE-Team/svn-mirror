@@ -12,7 +12,6 @@ copy msvc-files\dirent.h win32-msvc9
 copy msvc-files\ide-config.h win32-msvc9
 copy msvc-files\ide-siddefs.h win32-msvc9
 copy msvc-files\ide-siddtvdefs.h win32-msvc9
-copy msvc-files\ide-sidfpdefs.h win32-msvc9
 copy msvc-files\inttypes.h win32-msvc9
 copy msvc-files\stdint.h win32-msvc9
 copy msvc-files\vice.manifest win32-msvc9
