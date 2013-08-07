@@ -1070,7 +1070,7 @@ BEGIN
     DEFPUSHBUTTON   "", IDOK,
                     118, 221, 50, 14
     LTEXT           "", IDC_HEADER,
-                    7, 7, 156, 10
+                    7, 7, 186, 10
     EDITTEXT        IDC_TEXT,
                     7, 23, 265, 187, (0x4L) | WS_VSCROLL | WS_HSCROLL
 END
