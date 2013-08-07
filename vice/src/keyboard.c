@@ -613,6 +613,7 @@ void keyboard_key_clear(void)
     keyboard_key_clear_internal();
 }
 
+/* FIXME: joystick mapping not handled here, is it needed? */
 void keyboard_set_keyarr_any(int row, int col, int value)
 {
     signed long sym;
@@ -769,7 +770,10 @@ static void keyboard_keyword_undef(void)
 {
     char *key;
 
-    /* TODO: this only unsets from the main table, not for joysticks */
+    /* TODO: this only unsets from the main table, not for joysticks 
+     *       inventing another keyword to reset joysticks only is perhaps a
+     *       good idea.
+     */
     key = strtok(NULL, " \t");
     keyboard_keysym_undef(kbd_arch_keyname_to_keynum(key));
 }
@@ -834,16 +838,17 @@ static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
 
 static int keyboard_parse_set_neg_row(signed long sym, int row, int col)
 {
-    if (row == -3 && col == 0) {
+    if (row == -1 && (col >= 0) && (col <= 8)) {
+        joykeys[JOYSTICK_KEYSET_IDX_A][col] = sym;
+    } else if (row == -2 && (col >= 0) && (col <= 8)) {
+        joykeys[JOYSTICK_KEYSET_IDX_B][col] = sym;
+    } else if (row == -3 && col == 0) {
         key_ctrl_restore1 = sym;
-    } else
-    if (row == -3 && col == 1) {
+    } else if (row == -3 && col == 1) {
         key_ctrl_restore2 = sym;
-    } else
-    if (row == -4 && col == 0) {
+    } else if (row == -4 && col == 0) {
         key_ctrl_column4080 = sym;
-    } else
-    if (row == -4 && col == 1) {
+    } else if (row == -4 && col == 1) {
         key_ctrl_caps = sym;
     } else {
         return -1;
@@ -1020,12 +1025,23 @@ int keyboard_keymap_dump(const char *filename)
             "# 256    key is used for an alternative keyboard mapping\n"
             "#\n"
             "# Negative row values:\n"
-            "# 'keysym -1 n' joystick #1, direction n\n"
-            "# 'keysym -2 n' joystick #2, direction n\n"
+            "# 'keysym -1 n' joystick keymap A, direction n\n"
+            "# 'keysym -2 n' joystick keymap B, direction n\n"
             "# 'keysym -3 0' first RESTORE key\n"
             "# 'keysym -3 1' second RESTORE key\n"
             "# 'keysym -4 0' 40/80 column key\n"
             "# 'keysym -4 1' CAPS (ASCII/DIN) key\n"
+            "#\n"
+            "# Joystick direction values:\n"
+            "# 0      Fire\n"
+            "# 1      South/West\n"
+            "# 2      South\n"
+            "# 3      South/East\n"
+            "# 4      West\n"
+            "# 5      East\n"
+            "# 6      North/West\n"
+            "# 7      North\n"
+            "# 8      North/East\n"
             "#\n\n"
             );
     fprintf(fp, "!CLEAR\n");
@@ -1049,7 +1065,7 @@ int keyboard_keymap_dump(const char *filename)
     }
     fprintf(fp, "\n");
 
-    if (key_ctrl_restore1 != -1 || key_ctrl_restore2 != -1) {
+    if ((key_ctrl_restore1 != -1) || (key_ctrl_restore2 != -1)) {
         fprintf(fp, "#\n"
                 "# Restore key mappings\n"
                 "#\n");
@@ -1069,7 +1085,7 @@ int keyboard_keymap_dump(const char *filename)
                 "# 40/80 column key mapping\n"
                 "#\n");
         fprintf(fp, "%s -4 0\n",
-                kbd_arch_keynum_to_keyname(key_ctrl_restore1));
+                kbd_arch_keynum_to_keyname(key_ctrl_column4080));
         fprintf(fp, "\n");
     }
 
@@ -1078,8 +1094,38 @@ int keyboard_keymap_dump(const char *filename)
                 "# CAPS (ASCII/DIN) key mapping\n"
                 "#\n");
         fprintf(fp, "%s -4 1\n",
-                kbd_arch_keynum_to_keyname(key_ctrl_restore1));
+                kbd_arch_keynum_to_keyname(key_ctrl_caps));
         fprintf(fp, "\n");
+    }
+
+    for (i = 0; i < JOYSTICK_KEYSET_NUM_KEYS; i++) {
+        if (joykeys[JOYSTICK_KEYSET_IDX_A][i] != ARCHDEP_KEYBOARD_SYM_NONE) {
+            fprintf(fp, "#\n"
+                    "# Joystick keyset A mapping\n"
+                    "#\n");
+            for (i = 0; i < JOYSTICK_KEYSET_NUM_KEYS; i++) {
+                if (joykeys[JOYSTICK_KEYSET_IDX_A][i] != ARCHDEP_KEYBOARD_SYM_NONE) {
+                    fprintf(fp, "%s -1 %d\n", kbd_arch_keynum_to_keyname(joykeys[JOYSTICK_KEYSET_IDX_A][i]), i);
+                }
+            }
+            fprintf(fp, "\n");
+            break;
+        }
+    }
+
+    for (i = 0; i < JOYSTICK_KEYSET_NUM_KEYS; i++) {
+        if (joykeys[JOYSTICK_KEYSET_IDX_B][i] != ARCHDEP_KEYBOARD_SYM_NONE) {
+            fprintf(fp, "#\n"
+                    "# Joystick keyset B mapping\n"
+                    "#\n");
+            for (i = 0; i < JOYSTICK_KEYSET_NUM_KEYS; i++) {
+                if (joykeys[JOYSTICK_KEYSET_IDX_B][i] != ARCHDEP_KEYBOARD_SYM_NONE) {
+                    fprintf(fp, "%s -2 %d\n", kbd_arch_keynum_to_keyname(joykeys[JOYSTICK_KEYSET_IDX_B][i]), i);
+                }
+            }
+            fprintf(fp, "\n");
+            break;
+        }
     }
 
     fclose(fp);

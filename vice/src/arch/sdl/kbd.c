@@ -51,6 +51,8 @@
 #include "util.h"
 #include "vkbd.h"
 
+/* #define SDL_DEBUG */
+
 static log_t sdlkbd_log = LOG_ERR;
 
 /* Hotkey filename */

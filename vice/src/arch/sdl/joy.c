@@ -648,7 +648,7 @@ static void joy_arch_parse_keyword(char *buffer)
 static void joy_arch_parse_entry(char *buffer)
 {
     char *p;
-    int joynum, inputindex, data1, data2;
+    int joynum, inputindex, data1 = 0, data2 = 0;
     sdljoystick_input_t inputtype;
     sdljoystick_action_t action;
 
