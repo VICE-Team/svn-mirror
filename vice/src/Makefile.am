@@ -801,7 +801,7 @@ xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 xcbm5x0_lib = $(top_builddir)/src/cbm2/libcbm5x0.a
 p64_lib = $(top_builddir)/src/lib/p64/libp64.a
 
-common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@
+common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @READLINE_LIBS@
 resid_libs = @RESID_LIBS@
 resid_dtv_libs = @RESID_DTV_LIBS@
 
