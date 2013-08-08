@@ -2415,7 +2415,12 @@ static int monitor_process(char *cmd)
     }
     lib_free(last_cmd);
 
-    last_cmd = cmd;
+    /* remember last command, except when leaving the monitor */
+    if (exit_mon) {
+        last_cmd = NULL;
+    } else {
+        last_cmd = cmd;
+    }
 
     uimon_notify_change(); /* @SRT */
 
