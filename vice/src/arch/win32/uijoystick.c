@@ -111,7 +111,7 @@ typedef enum {
     KEYSET_SW,
     KEYSET_W,
     KEYSET_FIRE
-} joystick_direction_t;
+} joy_dir_t;
 
 static uilib_localize_dialog_param keyset_dialog_trans[] = {
     { IDC_KEYSET_SW, IDS_KEYSET_SW, 0 },

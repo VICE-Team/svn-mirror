@@ -457,9 +457,9 @@ typedef enum {
     KEYSET_SW,
     KEYSET_W,
     KEYSET_FIRE
-} joystick_direction_t;
+} joy_dir_t;
 
-static const char *joystick_direction_to_string(joystick_direction_t direction)
+static const char *joystick_direction_to_string(joy_dir_t direction)
 {
     static char *s[] = {
         "NorthWest", "North", "NorthEast", "East",
