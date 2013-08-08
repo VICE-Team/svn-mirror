@@ -128,6 +128,7 @@ int autostart_prg_with_virtual_fs(const char *file_name,
 {
     char *directory;
     char *file;
+    int val;
 
     /* Extract the directory path to allow FS-based drive emulation to
        work.  */
@@ -145,7 +146,10 @@ int autostart_prg_with_virtual_fs(const char *file_name,
 
     /* Setup FS-based drive emulation.  */
     fsdevice_set_directory(directory ? directory : ".", 8);
-    resources_set_int("DriveTrueEmulation", 0);
+    resources_get_int("AutostartHandleTrueDriveEmulation", &val);
+    if (val == 0) {
+        resources_set_int("DriveTrueEmulation", 0);
+    }
     resources_set_int("VirtualDevices", 1);
     resources_set_int("FSDevice8ConvertP00", 1);
     file_system_detach_disk(8);
@@ -194,6 +198,7 @@ int autostart_prg_with_disk_image(const char *file_name,
     /* disable TDE */
     resources_get_int("DriveTrueEmulation", &old_tde_state);
     if (old_tde_state != 0) {
+        log_message(log, "Turning true drive emulation off.");
         resources_set_int("DriveTrueEmulation", 0);
     }
 
@@ -261,6 +266,7 @@ int autostart_prg_with_disk_image(const char *file_name,
 
     /* re-enable TDE */
     if (old_tde_state != 0) {
+        log_message(log, "Turning true drive emulation on.");
         resources_set_int("DriveTrueEmulation", old_tde_state);
     }
 
