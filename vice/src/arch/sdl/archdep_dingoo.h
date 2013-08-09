@@ -80,8 +80,6 @@
 
 #define is_lcd_active() ((REG_LCD_CFG & LCD_CFG_LCDPIN_MASK) >> LCD_CFG_LCDPIN_BIT)
 
-#define archdep_num_text_lines (40)
-#define archdep_num_text_columns (30)
 #define archdep_file_is_blockdev (0)
 #define archdep_file_is_chardev (0)
 #define archdep_spawn(name, argv, pstdout_redir, stderr_redir) (-1)

@@ -210,16 +210,6 @@ FILE *archdep_open_default_log_file(void)
     return f;
 }
 
-int archdep_num_text_lines(void)
-{
-    return 25;
-}
-
-int archdep_num_text_columns(void)
-{
-    return 80;
-}
-
 int archdep_default_logger(const char *level_string, const char *txt)
 {
     if (fputs(level_string, stdout) == EOF || fprintf(stdout, txt) < 0 || fputc ('\n', stdout) == EOF) {

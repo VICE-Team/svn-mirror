@@ -303,30 +303,6 @@ FILE *archdep_open_default_log_file(void)
 }
 #endif
 
-int archdep_num_text_lines(void)
-{
-    char *s;
-
-    s = getenv("LINES");
-    if (s == NULL) {
-        log_verbose("LINES not set.");
-        return -1;
-    }
-    return atoi(s);
-}
-
-int archdep_num_text_columns(void)
-{
-    char *s;
-
-    s = getenv("COLUMNS");
-    if (s == NULL) {
-        log_verbose("COLUMNS not set.");
-        return -1;
-    }
-    return atoi(s);
-}
-
 int archdep_default_logger(const char *level_string, const char *txt)
 {
     if (fputs(level_string, stdout) == EOF || fprintf(stdout, "%s", txt) < 0 || fputc ('\n', stdout) == EOF) {

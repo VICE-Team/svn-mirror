@@ -606,66 +606,6 @@ static int is_valid_cbm_file_name(const char *name)
 
 /* ------------------------------------------------------------------------- */
 
-/* A simple pager.  */
-/* It would be cool to have it in the monitor too.  */
-
-static int pager_x, pager_y, pager_num_cols, pager_num_lines;
-
-static void pager_init(void)
-{
-    if (ioutil_isatty(fileno(stdout))) {
-        pager_x = pager_y = 0;
-        pager_num_lines = archdep_num_text_lines();
-        pager_num_cols = archdep_num_text_columns();
-    } else {
-        pager_num_lines = pager_num_cols = -1;
-    }
-}
-
-static void pager_print(const char *text)
-{
-    const char *p;
-
-    if (pager_num_lines < 0 || pager_num_cols < 0) {
-        fputs(text, stdout);
-    } else {
-        for (p = text; *p != 0; p++) {
-            if (*p != '\n') {
-                pager_x++;
-                if (pager_x > pager_num_cols) {
-                    pager_y++;
-                    pager_x = 0;
-                }
-            } else {
-                pager_x = 0;
-                pager_y++;
-            }
-
-            if (interactive_mode && (pager_y == pager_num_lines - 1)) {
-                char *s;
-
-                if (*p == '\n') {
-                    putchar(*p);
-                }
-
-                s = read_line("---Type <return> to continue, or q <return> to quit---");
-                if (s != NULL && toupper((int) *s) == 'Q') {
-                    break;
-                }
-
-                pager_x = pager_y = 0;
-                if (*p != '\n') {
-                    putchar(*p);
-                }
-            } else {
-                putchar(*p);
-            }
-        }
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
 static int open_disk_image(vdrive_t *vdrive, const char *name,
                            unsigned int unit)
 {
@@ -1260,13 +1200,10 @@ static int help_cmd(int nargs, char **args)
     if (nargs == 1) {
         int i;
 
-        pager_init();
-        pager_print("Available commands are:");
+        printf("Available commands are:\n");
         for (i = 0; command_list[i].name != NULL; i++) {
-            pager_print("\n  ");
-            pager_print(command_list[i].syntax);
+            printf("  %s\n", command_list[i].syntax);
         }
-        pager_print("\n");
     } else {
         int match;
 
@@ -1430,28 +1367,23 @@ static int list_cmd(int nargs, char **args)
         char *string = image_contents_to_string(listing, 1);
         image_contents_file_list_t *element = listing->file_list;
 
-        pager_init();
-        pager_print(string);
-        pager_print("\n");
+        printf("%s\n", string);
         lib_free(string);
         if (element == NULL) {
-            pager_print("Empty image\n");
+            printf("Empty image\n");
         } else {
             do {
                 string = image_contents_filename_to_string(element, 1);
                 if ((pattern == NULL) || list_match_pattern(pattern, string)) {
                     lib_free(string);
                     string = image_contents_file_to_string(element, 1);
-                    pager_print(string);
-                    pager_print("\n");
+                    printf("%s\n", string);
                 }
                 lib_free(string);
             } while ((element = element->next) != NULL);
         }
         if (listing->blocks_free >= 0) {
-            string = lib_msprintf("%d blocks free.\n", listing->blocks_free);
-            pager_print(string);
-            lib_free(string);
+            printf("%d blocks free.\n", listing->blocks_free);
         }
     }
 
@@ -2403,19 +2335,14 @@ static int rename_cmd(int nargs, char **args)
 
 static int show_cmd(int nargs, char **args)
 {
-    const char *text;
-
     if (strcasecmp(args[1], "copying") == 0) {
-        text = info_license_text;
+        printf("%s", info_license_text);
     } else if (strcasecmp(args[1], "warranty") == 0) {
-        text = info_warranty_text;
+        printf("%s", info_warranty_text);
     } else {
         fprintf(stderr, "Use either `show copying' or `show warranty'.\n");
         return FD_OK;           /* FIXME? */
     }
-
-    pager_init();
-    pager_print(text);
 
     return FD_OK;
 }

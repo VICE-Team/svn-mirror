@@ -222,16 +222,6 @@ FILE *archdep_open_default_log_file(void)
     }
 }
 
-int archdep_num_text_lines(void)
-{
-    return 25;
-}
-
-int archdep_num_text_columns(void)
-{
-    return 80;
-}
-
 int archdep_default_logger(const char *level_string, const char *txt)
 {
     if (run_from_wb) {

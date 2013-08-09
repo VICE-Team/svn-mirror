@@ -278,28 +278,6 @@ FILE *archdep_open_default_log_file()
     return NULL;
 }
 
-int archdep_num_text_lines(void)
-{
-#if defined(__IBMC__) || defined(WATCOM_COMPILE)
-   return 25;
-#else
-   int dst[2];
-   _scrsize(dst);
-   return dst[1];
-#endif
-}
-
-int archdep_num_text_columns(void)
-{
-#if defined(__IBMC__) || defined(WATCOM_COMPILE)
-   return 80;
-#else
-   int dst[2];
-   _scrsize(dst);
-   return dst[0];
-#endif
-}
-
 int archdep_path_is_relative(const char *path)
 {
     return !(isalpha(path[0]) && path[1] == ':' && (path[2] == '/' || path[2] == '\\') || (path[0] == '/' || path[0] == '\\'));
