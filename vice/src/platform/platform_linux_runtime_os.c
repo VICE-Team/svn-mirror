@@ -54,7 +54,7 @@
 
 #include "vice.h"
 
-#ifdef __linux
+#if defined(__linux) && !defined(__ANDROID__)
 
 #include <stdio.h>
 #include <ctype.h>

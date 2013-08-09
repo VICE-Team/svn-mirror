@@ -324,7 +324,7 @@
 
 
 /* Linux discovery */
-#ifdef __linux
+#if defined(__linux) && !defined(__ANDROID__)
 #  include "platform_linux_libc_version.h"
 #endif
 
