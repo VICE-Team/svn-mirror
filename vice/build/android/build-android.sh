@@ -91,7 +91,7 @@ if test x"$1" = "x"; then
   fi
 
   echo "What emulator to build ?"
-  echi "(x64, x64sc, xscpu64, x64dtv, x128, xcbm2, xcbm5x0, xpet, xplus4, xvic, all) [x64]"
+  echo "(x64, x64sc, xscpu64, x64dtv, x128, xcbm2, xcbm5x0, xpet, xplus4, xvic, all) [x64]"
   read answer
   if test x"$answer" = "xall"; then
     options="$options all-emu"
