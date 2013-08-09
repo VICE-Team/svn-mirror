@@ -399,7 +399,11 @@ vice_network_socket_t * vice_network_server(const vice_network_socket_address_t 
 
             Ignore setsockopt() failures - just continue - the socket is still valid.
         */
+#ifdef HAVE_IPV6
         if ((server_address->domain == PF_INET) || (server_address->domain == PF_INET6)) {
+#else
+        if ((server_address->domain == PF_INET)) {
+#endif
 #if defined(SO_REUSEPORT)
           setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, &socket_reuse_address, sizeof(socket_reuse_address));
 #elif defined(SO_REUSEADDR)
