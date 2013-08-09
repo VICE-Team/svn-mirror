@@ -730,7 +730,7 @@ char *archdep_get_runtime_os(void)
 #endif
 
 /* Linux */
-#ifdef __linux
+#if defined(__linux) && !defined(__ANDROID__)
 #define RUNTIME_OS_HANDLED
     return platform_get_linux_runtime_os();
 #endif
