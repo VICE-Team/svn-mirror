@@ -768,7 +768,7 @@ static void do_popuplist_hack(Widget widget)
         static int warned;
         
         if (!warned) {
-            log_warning("popup widget list not FIFO");
+            log_warning(LOG_DEFAULT, "popup widget list not FIFO");
             warned = 1;
         }
     }
