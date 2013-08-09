@@ -83,6 +83,7 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/menu_drive_rom.c \
 	$(MY_PATH2)/src/arch/sdl/menu_ffmpeg.c \
 	$(MY_PATH2)/src/arch/sdl/menu_help.c \
+	$(MY_PATH2)/src/arch/sdl/menu_jam.c \
 	$(MY_PATH2)/src/arch/sdl/menu_joystick.c \
 	$(MY_PATH2)/src/arch/sdl/menu_lightpen.c \
 	$(MY_PATH2)/src/arch/sdl/menu_midi.c \
