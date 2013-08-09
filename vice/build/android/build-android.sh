@@ -104,7 +104,7 @@ if test x"$1" = "x"; then
   echo "What type of rom handling to use ? (external, pushed, asset, embedded) [asset]"
   echo "  external - use external roms that the user has to put in place"
   echo "  pushed   - use external roms put in place by the push.sh script"
-  echo "  asset    - roms will be inside the .apk and put int place automatically"
+  echo "  asset    - roms will be inside the .apk and put into place automatically"
   echo "  embedded - roms will be inside the shared object\(s\) in the .apk"
   read answer
   if test x"$answer" != "x"; then
