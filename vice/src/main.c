@@ -128,10 +128,13 @@ int main_program(int argc, char **argv)
 #endif
 
     DBG(("main:archdep_init(argc:%d)\n", argc));
-    archdep_init(&argc, argv);
+    if (archdep_init(&argc, argv) != 0) {
+        archdep_startup_log_error("archdep_init failed.\n");
+        return -1;
+    }
 
     if (atexit(main_exit) < 0) {
-        archdep_startup_log_error("atexit");
+        archdep_startup_log_error("atexit failed.\n");
         return -1;
     }
 
