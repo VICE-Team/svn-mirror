@@ -105,9 +105,14 @@ void archdep_network_shutdown(void)
 
 static int archdep_init_extra(int *argc, char **argv)
 {
-#ifdef USE_PROC_SELF_EXE
     ssize_t read;
-
+#if !defined(USE_PROC_SELF_EXE)
+    /* first try to get exe name from argv[0] */
+    if (argv[0]) {
+        argv0 = lib_stralloc(argv[0]);
+        return 0;
+    }
+#endif
     argv0 = lib_malloc(ioutil_maxpathlen());
     read = readlink("/proc/self/exe", argv0, ioutil_maxpathlen() - 1);
 
@@ -116,11 +121,10 @@ static int archdep_init_extra(int *argc, char **argv)
     } else {
         argv0[read] = '\0';
     }
+    /* FIXME: bad name of define, this probably should not be here either */
+#ifdef USE_PROC_SELF_EXE
     /* set this up now to remove extra .vice directory */
     archdep_pref_path = archdep_boot_path();
-
-#else
-    argv0 = lib_stralloc(argv[0]);
 #endif
     return 0;
 }
@@ -146,6 +150,7 @@ char *archdep_program_name(void)
 const char *archdep_boot_path(void)
 {
     if (boot_path == NULL) {
+        /* FIXME: bad name of define */
 #ifdef USE_PROC_SELF_EXE
         /* known from setup in archdep_init_extra() so just reuse it */
         boot_path = lib_stralloc(argv0);
@@ -162,6 +167,7 @@ const char *archdep_boot_path(void)
 
 const char *archdep_home_path(void)
 {
+    /* FIXME: bad name of define */
 #ifdef USE_PROC_SELF_EXE
     /* everything is relative to the location of the exe which is already known
        from archdep_init_bootpath() so just reuse it */
