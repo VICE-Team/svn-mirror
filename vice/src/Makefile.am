@@ -801,7 +801,7 @@ xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 xcbm5x0_lib = $(top_builddir)/src/cbm2/libcbm5x0.a
 p64_lib = $(top_builddir)/src/lib/p64/libp64.a
 
-common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @READLINE_LIBS@
+common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@
 resid_libs = @RESID_LIBS@
 resid_dtv_libs = @RESID_DTV_LIBS@
 
@@ -898,7 +898,7 @@ vsid_libs =  \
 	$(platform_lib)
 
 vsid_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
-vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 vsid_DEPENDENCIES = $(vsid_libs)
 vsid_LDFLAGS = @vsid_LDFLAGS@
 
@@ -949,7 +949,7 @@ x64_libs =  \
 	$(platform_lib)
 
 x64_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
-x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
 
@@ -1022,7 +1022,7 @@ x64sc_libs =  \
 	$(platform_lib)
 
 x64sc_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
-x64sc_LDADD = $(x64sc_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+x64sc_LDADD = $(x64sc_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 x64sc_DEPENDENCIES = $(x64sc_libs)
 x64sc_LDFLAGS = @x64_LDFLAGS@
 
@@ -1094,7 +1094,7 @@ x64dtv_libs =  \
 	$(platform_lib)
 
 x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
-x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 x64dtv_DEPENDENCIES = $(x64dtv_libs)
 x64dtv_LDFLAGS = @x64_LDFLAGS@
 
@@ -1167,7 +1167,7 @@ xscpu64_libs =  \
 	$(platform_lib)
 
 xscpu64_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
-xscpu64_LDADD = $(xscpu64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+xscpu64_LDADD = $(xscpu64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xscpu64_DEPENDENCIES = $(xscpu64_libs)
 xscpu64_LDFLAGS = @xscpu64_LDFLAGS@
 
@@ -1244,7 +1244,7 @@ x128_libs =  \
 	$(platform_lib)
 
 x128_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
-x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
 
@@ -1318,7 +1318,7 @@ xvic_libs =  \
 	$(platform_lib)
 
 xvic_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
-xvic_LDADD = $(xvic_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+xvic_LDADD = $(xvic_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
@@ -1383,7 +1383,7 @@ xpet_libs =  \
 	$(platform_lib)
 
 xpet_SOURCES = $(base_sources) $(mouse_sources)
-xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xpet_DEPENDENCIES = $(xpet_libs) 
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
@@ -1445,7 +1445,7 @@ xplus4_libs =  \
 	$(platform_lib)
 
 xplus4_SOURCES = $(base_sources) $(mouse_sources)
-xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 
@@ -1507,7 +1507,7 @@ xcbm2_libs = \
 	$(platform_lib)
 
 xcbm2_SOURCES = $(base_sources) $(mouse_sources)
-xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xcbm2_DEPENDENCIES = $(xcbm2_libs) 
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 
@@ -1568,7 +1568,7 @@ xcbm5x0_libs = \
 	$(platform_lib)
 
 xcbm5x0_SOURCES = $(base_sources) $(mouse_sources)
-xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
 xcbm5x0_DEPENDENCIES = $(xcbm5x0_libs) 
 xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@
 
