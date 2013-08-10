@@ -517,9 +517,9 @@ static const char *vname_chip_colors[] = { "ColorSaturation", "ColorContrast", "
 
 static resource_int_t resources_chip_colors[] =
 {
-    { NULL, 1000, RES_EVENT_NO, NULL,
+    { NULL, 1250, RES_EVENT_NO, NULL,
       NULL, set_color_saturation, NULL },
-    { NULL, 1000, RES_EVENT_NO, NULL,
+    { NULL, 1250, RES_EVENT_NO, NULL,
       NULL, set_color_contrast, NULL },
     { NULL, 1000, RES_EVENT_NO, NULL,
       NULL, set_color_brightness, NULL },
@@ -597,13 +597,13 @@ static const char *vname_chip_crtemu[] = { "PALScanLineShade", "PALBlur", "PALOd
 
 static resource_int_t resources_chip_crtemu[] =
 {
-    { NULL, 667, RES_EVENT_NO, NULL,
+    { NULL, 750, RES_EVENT_NO, NULL,
       NULL, set_pal_scanlineshade, NULL },
     { NULL, 500, RES_EVENT_NO, NULL,
       NULL, set_pal_blur, NULL },
-    { NULL, 1250, RES_EVENT_NO, NULL,
+    { NULL, 1125, RES_EVENT_NO, NULL,
       NULL, set_pal_oddlinesphase, NULL },
-    { NULL, 750, RES_EVENT_NO, NULL,
+    { NULL, 875, RES_EVENT_NO, NULL,
       NULL, set_pal_oddlinesoffset, NULL },
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_audioleak, NULL },
