@@ -44,7 +44,8 @@
 typedef struct pal_templ_s {
     char *label;        /* Label of Adjustmentbar */
     char *res;          /* Associated resource */
-    int scale;          /* Scale to adjust to value range 0..4000 */
+    int scale;          /* Scale to adjust to value range 0..40000 */
+    int offset;         /* offset to add to scaled value */
     int perchip;        /* resource per chip (=1) or global (=0) */
     int vsid;           /* 0: omit if vsid 1: show if vsid */
 } pal_templ_t;
@@ -52,7 +53,8 @@ typedef struct pal_templ_s {
 typedef struct pal_res_s {
     char *label;        /* Label of Adjustmentbar */
     char *res;          /* Associated resource */
-    int scale;          /* Scale to adjust to value range 0..4000 */
+    int scale;          /* Scale to adjust to value range 0..40000 */
+    int offset;         /* offset to add to scaled value */
     GtkAdjustment *adj; /* pointer to widget */
     GtkWidget *w;       /* widget holding the scrollbar+label */
     video_canvas_t *canvas;
@@ -60,22 +62,27 @@ typedef struct pal_res_s {
 } pal_res_t;
 
 static pal_templ_t ctrls[] = {
-    { N_("Brightness"), "ColorBrightness", 2, 1, 0 },
-    { N_("Contrast"), "ColorContrast", 2, 1, 0 },
-    { N_("Saturation"), "ColorSaturation", 2, 1, 0 },
-    { N_("Tint"), "ColorTint", 2, 1, 0 },
-    { N_("Gamma"), "ColorGamma", 1, 1, 0 },
+    { N_("Brightness"), "ColorBrightness", 20, 0, 1, 0 },
+    { N_("Contrast"), "ColorContrast", 20, 0, 1, 0 },
+    { N_("Saturation"), "ColorSaturation", 20, 0, 1, 0 },
+    { N_("Tint"), "ColorTint", 20, 0, 1, 0 },
+    { N_("Gamma"), "ColorGamma", 10, 0, 1, 0 },
     /* PAL/CRT related settings */
-    { N_("Blur"), "PALBlur", 4, 1, 0 },
-    { N_("Scanline shade"), "PALScanLineShade", 4, 1, 0 },
-    { N_("Odd lines phase"), "PALOddLinePhase", 2, 1, 0 },
-    { N_("Odd lines offset"), "PALOddLineOffset", 2, 1, 0 },
+    { N_("Blur"), "PALBlur", 40, 0, 1, 0 },
+    { N_("Scanline shade"), "PALScanLineShade", 40, 0, 1, 0 },
+    { N_("Odd lines phase"), "PALOddLinePhase", 20, 0, 1, 0 },
+    { N_("Odd lines offset"), "PALOddLineOffset", 20, 0, 1, 0 },
     /* volume settings */
-    { N_("Volume"), "SoundVolume", 40, 0, 1 },
-    { N_("Drives Volume"), "DriveSoundEmulationVolume", 1, 0, 0 },
+    { N_("Volume"), "SoundVolume", 400, 0, 0, 1 },
+    { N_("Drives Volume"), "DriveSoundEmulationVolume", 10, 0, 0, 0 },
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
+    { N_("ReSID Passband"), "SidResidPassband", 444, 0, 0, 1 }, /* 0..90 */
+    { N_("ReSID Gain"), "SidResidGain", 4000, 90, 0, 1 }, /* 90..100 */
+    { N_("ReSID Filter Bias"), "SidResidFilterBias", 4, -5000, 0, 1 }, /* -5000...5000 */
+#endif
 #ifdef USE_UI_THREADS
-    { N_("Display Thread Rate"), "DThreadRate", 80, 0, 0 },
-    { N_("Display Thread Ghosting"), "DThreadGhosting", 500, 0, 0 },
+    { N_("Display Thread Rate"), "DThreadRate", 800, 0, 0, 0 },
+    { N_("Display Thread Ghosting"), "DThreadGhosting", 5000, 0, 0, 0 },
 #endif
 };
 
@@ -101,7 +108,7 @@ static void pal_ctrl_update_internal(pal_res_t *ctrldata)
     canvas = ctrldata->canvas;
 
     if (machine_class == VICE_MACHINE_VSID) {
-        enabled = (1 << 9);
+        enabled = 0xffff;
     } else {
         enabled = 0xffff;
         resources_get_int("DriveSoundEmulation", &drvsnd);
@@ -125,6 +132,9 @@ static void pal_ctrl_update_internal(pal_res_t *ctrldata)
     }
 
     for (i = 0; i < NUMSLIDERS; i++) {
+        if (machine_class == VICE_MACHINE_VSID) {
+            enabled &= (0xfffe + ctrls[i].vsid);
+        }
         gtk_widget_set_sensitive(ctrldata[i].w, (enabled & 1) ? TRUE : FALSE);
         if (enabled & 1) {
             gtk_widget_show(ctrldata[i].w);
@@ -140,7 +150,8 @@ static gboolean value_changed_cb(GtkAdjustment *adj, gpointer data)
     int v = (int) gtk_adjustment_get_value(adj);
     pal_res_t *p = (pal_res_t *)data;
 
-    v  = (int)v / p->scale;
+    v = (int)v / p->scale;
+    v += p->offset;
 
     resources_set_int(p->res, v);
 
@@ -157,9 +168,19 @@ static gboolean pal_ctrl_reset(GtkWidget *w, gpointer data)
     int tmp;
 
     for (i = 0; i < NUMSLIDERS; i++) {
-        resources_get_default_value(p[i].res, (void *)&tmp);
-        resources_set_int(p[i].res, tmp);
-        tmp = tmp * p[i].scale;
+        if ((ctrls[i].vsid == 0) && (machine_class == VICE_MACHINE_VSID)) {
+            tmp = 0;
+        } else {
+            resources_get_default_value(p[i].res, (void *)&tmp);
+            resources_set_int(p[i].res, tmp);
+        }
+        tmp = (tmp - p[i].offset) * p[i].scale;
+        if (tmp < 0) {
+            tmp = 0;
+        } else if (tmp > 40100) {
+            tmp = 40100;
+        }
+
         if (p[i].adj) {
             gtk_adjustment_set_value(GTK_ADJUSTMENT(p[i].adj), (gfloat)tmp);
         }
@@ -227,7 +248,8 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
         gtk_widget_show(c);
 
         ctrldata[i].scale = ctrls[i].scale;
-        ctrldata[i].adj = adj = GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 4100, 1, 100, 100));
+        ctrldata[i].offset = ctrls[i].offset;
+        ctrldata[i].adj = adj = GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 40100, 1, 100, 100));
 
         if ((ctrls[i].vsid == 0) && (machine_class == VICE_MACHINE_VSID)) {
             v = 0;
@@ -236,7 +258,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
         }
         ctrldata[i].res = resname;
 
-        gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat)(v * ctrldata[i].scale));
+        gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat)((v - ctrldata[i].offset) * ctrldata[i].scale));
         sb = gtk_hscrollbar_new(GTK_ADJUSTMENT(adj));
 #if !GTK_CHECK_VERSION(2, 24, 0)
         /* deprecated since 2.24, removed in 3.0 ("continuous" is default however) */
@@ -255,19 +277,18 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
         ctrldata[i].canvas = canvas;
     }
 
-    if (machine_class != VICE_MACHINE_VSID) {
-        /* "Reset" button */
-        box = gtk_hbox_new(FALSE, 0);
+    /* "Reset" button */
+    box = gtk_hbox_new(FALSE, 0);
 
-        rb = gtk_button_new_with_label(_("Reset"));
-        gtk_box_pack_start(GTK_BOX(box), rb, FALSE, FALSE, 5);
-        g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(pal_ctrl_reset), &ctrldata[0]);
-        gtk_widget_set_can_focus(rb, 0);
-        gtk_widget_show(rb);
+    rb = gtk_button_new_with_label(_("Reset"));
+    gtk_box_pack_start(GTK_BOX(box), rb, FALSE, FALSE, 5);
+    g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(pal_ctrl_reset), &ctrldata[0]);
+    gtk_widget_set_can_focus(rb, 0);
+    gtk_widget_show(rb);
 
-        gtk_widget_show(box);
-        gtk_box_pack_start(GTK_BOX(b), box, FALSE, FALSE, 5);
-    }
+    gtk_widget_show(box);
+    gtk_box_pack_start(GTK_BOX(b), box, FALSE, FALSE, 5);
+
     gtk_widget_show(b);
     gtk_container_add(GTK_CONTAINER(f), b);
     gtk_widget_show(f);
