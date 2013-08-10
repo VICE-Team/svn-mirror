@@ -256,7 +256,7 @@ static int set_sid_resid_gain(int i, void *param)
 static int set_sid_resid_filter_bias(int i, void *param)
 {
     if (i < -5000) {
-        i = 5000;
+        i = -5000;
     } else if (i > 5000) {
         i = 5000;
     }
