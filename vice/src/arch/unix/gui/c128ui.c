@@ -278,7 +278,9 @@ static ui_menu_entry_t sid_submenu[] = {
 #ifdef HAVE_RESID
     { "--", UI_MENU_TYPE_SEPARATOR }, 
     { N_("reSID sampling method"), UI_MENU_TYPE_NORMAL, NULL, NULL, sid_resid_sampling_submenu }, 
+#if !defined(USE_GNOMEUI)
     { N_("reSID resampling passband"), UI_MENU_TYPE_DOTS, (ui_callback_t)set_sid_resid_passband, NULL, NULL },
+#endif
 #endif
     { NULL },
 };

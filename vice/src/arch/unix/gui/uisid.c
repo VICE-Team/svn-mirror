@@ -172,6 +172,7 @@ ui_menu_entry_t sid_resid_sampling_submenu[] = {
     { NULL }
 };
 
+#if !defined(USE_GNOMEUI)
 UI_CALLBACK(set_sid_resid_passband)
 {
     static char input_string[32];
@@ -200,6 +201,8 @@ UI_CALLBACK(set_sid_resid_passband)
         ui_update_menus();
     }
 }
+#endif
+
 #endif
 
 UI_MENU_DEFINE_RADIO(SidStereo)
