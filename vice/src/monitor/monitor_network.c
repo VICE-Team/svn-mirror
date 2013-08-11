@@ -67,7 +67,9 @@ int monitor_network_transmit(const char * buffer, size_t buffer_length)
         size_t len = vice_network_send(connected_socket, buffer, buffer_length, 0);
 
         if (len != buffer_length) {
-            error = 1;
+            error = -1;
+        } else {
+            error = len;
         }
     }
 
@@ -324,19 +326,22 @@ char * monitor_network_get_command_line(void)
     char * p = NULL;
 
     do {
-        int n = monitor_network_receive(buffer + bufferpos, sizeof buffer - bufferpos - 1);
+        /* Do not read more from network until all commands in current buffer is fully processed */
+        if (bufferpos == 0) {
+            int n = monitor_network_receive(buffer + bufferpos, sizeof buffer - bufferpos - 1);
 
-        if (n > 0) {
-            bufferpos += n;
-        } else if (n <= 0) {
-            monitor_network_quit();
-            break;
-        }
+            if (n > 0) {
+                bufferpos += n;
+            } else if (n <= 0) {
+                monitor_network_quit();
+                break;
+            }
 
-        /* check if we got a binary command */
-        if (bufferpos == n) {
-            if (buffer[0] == ASC_STX) {
-                monitor_binary_input = 1;
+            /* check if we got a binary command */
+            if (bufferpos == n) {
+                if (buffer[0] == ASC_STX) {
+                    monitor_binary_input = 1;
+                }
             }
         }
 
@@ -349,11 +354,17 @@ char * monitor_network_get_command_line(void)
                     monitor_network_process_binary_command((unsigned char*)buffer, sizeof buffer, &bufferpos, command_length);
                     monitor_binary_input = 0;
                 }
+            } else {
+                bufferpos = 0;
             }
+            monitor_binary_input = 0;
         } else {
             p = monitor_network_extract_text_command_line(buffer, sizeof buffer, &bufferpos);
             if (p) {
                 break;
+            } else {
+                /* if no cmd was returned - reset buffer to start and fetch new cmd. */
+                bufferpos = 0;
             }
         }
 
@@ -564,7 +575,7 @@ ui_jam_action_t monitor_network_ui_jam_dialog(const char *format, ...)
 
     lib_free(txt);
 
-    return UI_JAM_HARD_RESET;
+    return UI_JAM_MONITOR;
 }
 
 #else
