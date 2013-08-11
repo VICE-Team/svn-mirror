@@ -404,10 +404,12 @@ vice_network_socket_t * vice_network_server(const vice_network_socket_address_t 
 #else
         if ((server_address->domain == PF_INET)) {
 #endif
+#ifndef WATCOM_COMPILE
 #if defined(SO_REUSEPORT)
           setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, &socket_reuse_address, sizeof(socket_reuse_address));
 #elif defined(SO_REUSEADDR)
           setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &socket_reuse_address, sizeof(socket_reuse_address));
+#endif
 #endif
         }
 

@@ -73,7 +73,7 @@ void vsyncarch_init(void)
 
 // -------------------------------------------------------------------------
 
-#ifndef IDE_COMPILE
+#if !defined(IDE_COMPILE) && !defined(WATCOM_COMPILE)
 static void win32_mouse_jitter(void)
 {
     INPUT ip;
@@ -109,7 +109,7 @@ void vsyncarch_sleep(signed long delay)
 
 void vsyncarch_presync(void)
 {
-#ifndef IDE_COMPILE
+#if !defined(IDE_COMPILE) && !defined(WATCOM_COMPILE)
     /* prevent screensaver */
     win32_mouse_jitter();
 #endif
