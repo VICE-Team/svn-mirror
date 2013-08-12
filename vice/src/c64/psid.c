@@ -73,24 +73,6 @@ typedef struct psid_s {
     DWORD frames_played;
 } psid_t;
 
-/* FIXME: this is kindof broken, the data in this struct suggests we are
-          referring to the sid engine somehow, but it is only used to display
-          the model defined in the psid file */
-const char * csidmodel[] = {
-    "6581",
-    "8580",
-    "8580D",
-    "6581R4",
-    "DTVSID",
-    "?",
-    "?",
-    "?",
-};
-
-#define NO_OF_SIDMODELS  (sizeof csidmodel / sizeof csidmodel[0])
-#define MAX_SIDMODEL     (NO_OF_SIDMODELS - 1)
-#define DEFAULT_SIDMODEL 3   /* defines the default as "6581R4" */
-
 #define PSID_V1_DATA_OFFSET 0x76
 #define PSID_V2_DATA_OFFSET 0x7c
 
@@ -440,7 +422,7 @@ void psid_init_tune(int install_driver_hook)
         log_message(vlog, "  Author: %s", (char *) psid->author);
         log_message(vlog, "Released: %s", (char *) psid->copyright);
         log_message(vlog, "Using %s sync", sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
-        log_message(vlog, "SID model: %s  (Using %s)", csidflag[(psid->flags >> 4) & 3], csidmodel[sid_model > (int)MAX_SIDMODEL ? DEFAULT_SIDMODEL : sid_model]);
+        log_message(vlog, "SID model: %s", csidflag[(psid->flags >> 4) & 3]);
         log_message(vlog, "Using %s interrupt", irq_str);
         log_message(vlog, "Playing tune %d out of %d (default=%d)", start_song, psid->songs, psid->start_song);
     } else {

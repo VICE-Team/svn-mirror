@@ -634,7 +634,7 @@ int machine_autodetect_psid(const char *name)
 
     if (psid_load_file(name) < 0) {
         /* FIXME: show error message box */
-        return -1
+        return -1;
     }
     return 0;
 }
