@@ -73,10 +73,17 @@
 
 machine_context_t machine_context;
 
-#define NUM_KEYBOARD_MAPPINGS 0
+#define NUM_KEYBOARD_MAPPINGS 3
 
-const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS];
-char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS];
+const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
+    "KeymapSymFile",
+    "KeymapPosFile",
+    "KeymapSymDeFile"
+};
+
+char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
+    NULL, NULL, NULL
+};
 
 const char machine_name[] = "C64"; /* FIXME: this must be c64 currently, else the roms can not be loaded */
 /* Moved to c64mem.c/c64memsc.c/vsidmem.c
