@@ -73,6 +73,7 @@
 
 machine_context_t machine_context;
 
+/* FIXME: no keymaps are loaded at all for VSID, the related stuff should get removed */
 #define NUM_KEYBOARD_MAPPINGS 3
 
 const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
@@ -631,7 +632,11 @@ int machine_autodetect_psid(const char *name)
         return -1;
     }
 
-    return psid_load_file(name);
+    if (psid_load_file(name) < 0) {
+        /* FIXME: show error message box */
+        return -1
+    }
+    return 0;
 }
 
 void machine_play_psid(int tune)
