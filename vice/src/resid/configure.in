@@ -54,7 +54,7 @@ dnl Store CXXFLAGS status.
 resid_test_CXXFLAGS=${CXXFLAGS+set}
 
 dnl Checks for programs.
-AC_PROG_CXX
+AC_PROG_CXX([clang++ g++])
 
 dnl Set CXXFLAGS for g++.
 if test x"$enable_arch" = "xno"; then
