@@ -30,7 +30,45 @@
 #include <jni.h>
 #include <android/log.h>
 
+#ifdef __X64__
 #define LOCNET_LOG_TAG "c64"
+#endif
+
+#ifdef __X64SC__
+#define LOCNET_LOG_TAG "c64sc"
+#endif
+
+#ifdef __X64DTV__
+#define LOCNET_LOG_TAG "c64dtv"
+#endif
+
+#ifdef __XSCPU64__
+#define LOCNET_LOG_TAG "scpu64"
+#endif
+
+#ifdef __X128__
+#define LOCNET_LOG_TAG "c128"
+#endif
+
+#ifdef __XCBM2__
+#define LOCNET_LOG_TAG "cbm2"
+#endif
+
+#ifdef __XCBM5X0__
+#define LOCNET_LOG_TAG "cbm5x0"
+#endif
+
+#ifdef __XPET__
+#define LOCNET_LOG_TAG "pet"
+#endif
+
+#ifdef __XPLUS4__
+#define LOCNET_LOG_TAG "plus4"
+#endif
+
+#ifdef __XVIC__
+#define LOCNET_LOG_TAG "vic20"
+#endif
 
 #define DEAD_ZONE 0.3
 

@@ -1,24 +1,30 @@
 /*
-    SDL - Simple DirectMedia Layer
-    Copyright (C) 1997-2009 Sam Lantinga
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    Sam Lantinga
-    slouken@libsdl.org
-*/
+ * SDL_rwops.h
+ *
+ * Written by
+ *  Sam Lantinga <slouken@libsdl.org>
+ *
+ * This file is a modified SDL header.
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
 /** @file SDL_rwops.h
  *  This file provides a general interface for SDL to read and write
@@ -63,23 +69,10 @@ typedef struct SDL_RWops {
 
 	Uint32 type;
 	union {
-#if defined(__WIN32__) && !defined(__SYMBIAN32__)
-	    struct {
-		int   append;
-		void *h;
-		struct {
-		    void *data;
-		    int size;
-		    int left;
-		} buffer;
-	    } win32io;
-#endif
-#ifdef HAVE_STDIO_H 
 	    struct {
 		int autoclose;
 	 	FILE *fp;
 	    } stdio;
-#endif
 	    struct {
 		Uint8 *base;
 	 	Uint8 *here;
@@ -98,9 +91,7 @@ typedef struct SDL_RWops {
 
 extern DECLSPEC SDL_RWops * SDLCALL SDL_RWFromFile(const char *file, const char *mode);
 
-#ifdef HAVE_STDIO_H
 extern DECLSPEC SDL_RWops * SDLCALL SDL_RWFromFP(FILE *fp, int autoclose);
-#endif
 
 extern DECLSPEC SDL_RWops * SDLCALL SDL_RWFromMem(void *mem, int size);
 extern DECLSPEC SDL_RWops * SDLCALL SDL_RWFromConstMem(const void *mem, int size);
@@ -112,18 +103,18 @@ extern DECLSPEC void SDLCALL SDL_FreeRW(SDL_RWops *area);
 
 /** @name Seek Reference Points */
 /*@{*/
-#define RW_SEEK_SET	0	/**< Seek from the beginning of data */
-#define RW_SEEK_CUR	1	/**< Seek relative to current read point */
-#define RW_SEEK_END	2	/**< Seek relative to the end of data */
+#define RW_SEEK_SET   0	/**< Seek from the beginning of data */
+#define RW_SEEK_CUR   1	/**< Seek relative to current read point */
+#define RW_SEEK_END   2	/**< Seek relative to the end of data */
 /*@}*/
 
 /** @name Macros to easily read and write from an SDL_RWops structure */
 /*@{*/
-#define SDL_RWseek(ctx, offset, whence)	(ctx)->seek(ctx, offset, whence)
-#define SDL_RWtell(ctx)			(ctx)->seek(ctx, 0, RW_SEEK_CUR)
-#define SDL_RWread(ctx, ptr, size, n)	(ctx)->read(ctx, ptr, size, n)
-#define SDL_RWwrite(ctx, ptr, size, n)	(ctx)->write(ctx, ptr, size, n)
-#define SDL_RWclose(ctx)		(ctx)->close(ctx)
+#define SDL_RWseek(ctx, offset, whence)   (ctx)->seek(ctx, offset, whence)
+#define SDL_RWtell(ctx)                   (ctx)->seek(ctx, 0, RW_SEEK_CUR)
+#define SDL_RWread(ctx, ptr, size, n)     (ctx)->read(ctx, ptr, size, n)
+#define SDL_RWwrite(ctx, ptr, size, n)    (ctx)->write(ctx, ptr, size, n)
+#define SDL_RWclose(ctx)                  (ctx)->close(ctx)
 /*@}*/
 
 /** @name Read an item of the specified endianness and return in native format */

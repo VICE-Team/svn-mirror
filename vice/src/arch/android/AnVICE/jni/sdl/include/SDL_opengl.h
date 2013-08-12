@@ -1,24 +1,30 @@
 /*
-    SDL - Simple DirectMedia Layer
-    Copyright (C) 1997-2009 Sam Lantinga
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    Sam Lantinga
-    slouken@libsdl.org
-*/
+ * SDL_opengl.h
+ *
+ * Written by
+ *  Sam Lantinga <slouken@libsdl.org>
+ *
+ * This file is a modified SDL header.
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
 /** @file SDL_opengl.h
  *  This is a simple file to encapsulate the OpenGL API headers
@@ -26,29 +32,12 @@
 
 #include "SDL_config.h"
 
-#ifdef __WIN32__
-#define WIN32_LEAN_AND_MEAN
-#ifndef NOMINMAX
-#define NOMINMAX	/* Don't defined min() and max() */
-#endif
-#include <windows.h>
-#endif
-#ifndef NO_SDL_GLEXT
 #define __glext_h_  /* Don't let gl.h include glext.h */
-#endif
-#if defined(__MACOSX__)
-#include <OpenGL/gl.h>	/* Header File For The OpenGL Library */
-#include <OpenGL/glu.h>	/* Header File For The GLU Library */
-#elif defined(__MACOS__)
-#include <gl.h>		/* Header File For The OpenGL Library */
-#include <glu.h>	/* Header File For The GLU Library */
-#else
+
 #include <GL/gl.h>	/* Header File For The OpenGL Library */
 #include <GL/glu.h>	/* Header File For The GLU Library */
-#endif
-#ifndef NO_SDL_GLEXT
+
 #undef __glext_h_
-#endif
 
 /** @name GLext.h
  *  This file taken from "GLext.h" from the Jeff Molofee OpenGL tutorials.
@@ -56,7 +45,6 @@
  *  If you don't want this version included, simply define "NO_SDL_GLEXT"
  */
 /*@{*/
-#ifndef NO_SDL_GLEXT
 #if !defined(__glext_h_) && !defined(GL_GLEXT_LEGACY)
 #define __glext_h_
 
@@ -93,17 +81,14 @@ extern "C" {
 ** version 1.2.1 Specification.
 */
 
-#if defined(_WIN32) && !defined(APIENTRY) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__)
-#define WIN32_LEAN_AND_MEAN 1
-#include <windows.h>
-#endif
-
 #ifndef APIENTRY
 #define APIENTRY
 #endif
+
 #ifndef APIENTRYP
 #define APIENTRYP APIENTRY *
 #endif
+
 #ifndef GLAPI
 #define GLAPI extern
 #endif
@@ -575,9 +560,6 @@ extern "C" {
 #define GL_MULTISAMPLE_BIT_ARB            0x20000000
 #endif
 
-#ifndef GL_ARB_texture_env_add
-#endif
-
 #ifndef GL_ARB_texture_cube_map
 #define GL_NORMAL_MAP_ARB                 0x8511
 #define GL_REFLECTION_MAP_ARB             0x8512
@@ -701,9 +683,6 @@ extern "C" {
 #define GL_PREVIOUS_ARB                   0x8578
 #endif
 
-#ifndef GL_ARB_texture_env_crossbar
-#endif
-
 #ifndef GL_ARB_texture_env_dot3
 #define GL_DOT3_RGB_ARB                   0x86AE
 #define GL_DOT3_RGBA_ARB                  0x86AF
@@ -729,9 +708,6 @@ extern "C" {
 
 #ifndef GL_ARB_shadow_ambient
 #define GL_TEXTURE_COMPARE_FAIL_VALUE_ARB 0x80BF
-#endif
-
-#ifndef GL_ARB_window_pos
 #endif
 
 #ifndef GL_ARB_vertex_program
@@ -933,15 +909,9 @@ extern "C" {
 #define GL_SHADING_LANGUAGE_VERSION_ARB   0x8B8C
 #endif
 
-#ifndef GL_ARB_texture_non_power_of_two
-#endif
-
 #ifndef GL_ARB_point_sprite
 #define GL_POINT_SPRITE_ARB               0x8861
 #define GL_COORD_REPLACE_ARB              0x8862
-#endif
-
-#ifndef GL_ARB_fragment_program_shadow
 #endif
 
 #ifndef GL_ARB_draw_buffers
@@ -1092,12 +1062,6 @@ extern "C" {
 #ifndef GL_SGIS_texture_filter4
 #define GL_FILTER4_SGIS                   0x8146
 #define GL_TEXTURE_FILTER4_SIZE_SGIS      0x8147
-#endif
-
-#ifndef GL_EXT_subtexture
-#endif
-
-#ifndef GL_EXT_copy_texture
 #endif
 
 #ifndef GL_EXT_histogram
@@ -1309,9 +1273,6 @@ extern "C" {
 #define GL_EDGE_FLAG_ARRAY_POINTER_EXT    0x8093
 #endif
 
-#ifndef GL_EXT_misc_attribute
-#endif
-
 #ifndef GL_SGIS_generate_mipmap
 #define GL_GENERATE_MIPMAP_SGIS           0x8191
 #define GL_GENERATE_MIPMAP_HINT_SGIS      0x8192
@@ -1357,9 +1318,6 @@ extern "C" {
 #ifndef GL_EXT_blend_subtract
 #define GL_FUNC_SUBTRACT_EXT              0x800A
 #define GL_FUNC_REVERSE_SUBTRACT_EXT      0x800B
-#endif
-
-#ifndef GL_EXT_blend_logic_op
 #endif
 
 #ifndef GL_SGIX_interlace
@@ -1448,9 +1406,6 @@ extern "C" {
 #define GL_MAX_FRAMEZOOM_FACTOR_SGIX      0x818D
 #endif
 
-#ifndef GL_SGIX_tag_sample_buffer
-#endif
-
 #ifndef GL_FfdMaskSGIX
 #define GL_TEXTURE_DEFORMATION_BIT_SGIX   0x00000001
 #define GL_GEOMETRY_DEFORMATION_BIT_SGIX  0x00000002
@@ -1466,9 +1421,6 @@ extern "C" {
 #ifndef GL_SGIX_reference_plane
 #define GL_REFERENCE_PLANE_SGIX           0x817D
 #define GL_REFERENCE_PLANE_EQUATION_SGIX  0x817E
-#endif
-
-#ifndef GL_SGIX_flush_raster
 #endif
 
 #ifndef GL_SGIX_depth_texture
@@ -1513,14 +1465,8 @@ extern "C" {
 #define GL_CONVOLUTION_BORDER_COLOR_HP    0x8154
 #endif
 
-#ifndef GL_INGR_palette_buffer
-#endif
-
 #ifndef GL_SGIX_texture_add_env
 #define GL_TEXTURE_ENV_BIAS_SGIX          0x80BE
-#endif
-
-#ifndef GL_EXT_color_subtable
 #endif
 
 #ifndef GL_PGI_vertex_hints
@@ -1605,9 +1551,6 @@ extern "C" {
 
 #ifndef GL_SGIX_shadow_ambient
 #define GL_SHADOW_AMBIENT_SGIX            0x80BF
-#endif
-
-#ifndef GL_EXT_index_texture
 #endif
 
 #ifndef GL_EXT_index_material
@@ -1747,9 +1690,6 @@ extern "C" {
 #define GL_MAX_ASYNC_HISTOGRAM_SGIX       0x832D
 #endif
 
-#ifndef GL_INTEL_texture_scissor
-#endif
-
 #ifndef GL_INTEL_parallel_arrays
 #define GL_PARALLEL_ARRAYS_INTEL          0x83F4
 #define GL_VERTEX_ARRAY_PARALLEL_POINTERS_INTEL 0x83F5
@@ -1775,9 +1715,6 @@ extern "C" {
 #define GL_PIXEL_TRANSFORM_2D_MATRIX_EXT  0x8338
 #endif
 
-#ifndef GL_EXT_pixel_transform_color_table
-#endif
-
 #ifndef GL_EXT_shared_texture_palette
 #define GL_SHARED_TEXTURE_PALETTE_EXT     0x81FB
 #endif
@@ -1801,9 +1738,6 @@ extern "C" {
 #ifndef GL_EXT_texture_perturb_normal
 #define GL_PERTURB_EXT                    0x85AE
 #define GL_TEXTURE_NORMAL_EXT             0x85AF
-#endif
-
-#ifndef GL_EXT_multi_draw_arrays
 #endif
 
 #ifndef GL_EXT_fog_coord
@@ -1906,9 +1840,6 @@ extern "C" {
 #define GL_R1UI_T2F_C4F_N3F_V3F_SUN       0x85CB
 #endif
 
-#ifndef GL_SUN_vertex
-#endif
-
 #ifndef GL_EXT_blend_func_separate
 #define GL_BLEND_DST_RGB_EXT              0x80C8
 #define GL_BLEND_SRC_RGB_EXT              0x80C9
@@ -1965,9 +1896,6 @@ extern "C" {
 
 #ifndef GL_SUN_convolution_border_modes
 #define GL_WRAP_BORDER_SUN                0x81D4
-#endif
-
-#ifndef GL_EXT_texture_env_add
 #endif
 
 #ifndef GL_EXT_texture_lod_bias
@@ -2082,21 +2010,12 @@ extern "C" {
 #define GL_EMBOSS_MAP_NV                  0x855F
 #endif
 
-#ifndef GL_NV_blend_square
-#endif
-
 #ifndef GL_NV_texture_env_combine4
 #define GL_COMBINE4_NV                    0x8503
 #define GL_SOURCE3_RGB_NV                 0x8583
 #define GL_SOURCE3_ALPHA_NV               0x858B
 #define GL_OPERAND3_RGB_NV                0x8593
 #define GL_OPERAND3_ALPHA_NV              0x859B
-#endif
-
-#ifndef GL_MESA_resize_buffers
-#endif
-
-#ifndef GL_MESA_window_pos
 #endif
 
 #ifndef GL_EXT_texture_compression_s3tc
@@ -2108,9 +2027,6 @@ extern "C" {
 
 #ifndef GL_IBM_cull_vertex
 #define GL_CULL_VERTEX_IBM                103050
-#endif
-
-#ifndef GL_IBM_multimode_draw_arrays
 #endif
 
 #ifndef GL_IBM_vertex_array_lists
@@ -2140,9 +2056,6 @@ extern "C" {
 #define GL_PIXEL_SUBSAMPLE_4242_SGIX      0x85A4
 #endif
 
-#ifndef GL_SGIX_ycrcb_subsample
-#endif
-
 #ifndef GL_SGIX_ycrcba
 #define GL_YCRCB_SGIX                     0x8318
 #define GL_YCRCBA_SGIX                    0x8319
@@ -2164,9 +2077,6 @@ extern "C" {
 #define GL_SAMPLE_BUFFERS_3DFX            0x86B3
 #define GL_SAMPLES_3DFX                   0x86B4
 #define GL_MULTISAMPLE_BIT_3DFX           0x20000000
-#endif
-
-#ifndef GL_3DFX_tbuffer
 #endif
 
 #ifndef GL_EXT_multisample
@@ -2814,12 +2724,6 @@ extern "C" {
 #define GL_FORCE_BLUE_TO_ONE_NV           0x8860
 #endif
 
-#ifndef GL_NV_vertex_program1_1
-#endif
-
-#ifndef GL_EXT_shadow_funcs
-#endif
-
 #ifndef GL_EXT_stencil_two_side
 #define GL_STENCIL_TEST_TWO_SIDE_EXT      0x8910
 #define GL_ACTIVE_STENCIL_FACE_EXT        0x8911
@@ -2965,20 +2869,11 @@ extern "C" {
 #define GL_TEXTURE_UNSIGNED_REMAP_MODE_NV 0x888F
 #endif
 
-#ifndef GL_NV_vertex_program2
-#endif
-
-#ifndef GL_ATI_map_object_buffer
-#endif
-
 #ifndef GL_ATI_separate_stencil
 #define GL_STENCIL_BACK_FUNC_ATI          0x8800
 #define GL_STENCIL_BACK_FAIL_ATI          0x8801
 #define GL_STENCIL_BACK_PASS_DEPTH_FAIL_ATI 0x8802
 #define GL_STENCIL_BACK_PASS_DEPTH_PASS_ATI 0x8803
-#endif
-
-#ifndef GL_ATI_vertex_attrib_array_object
 #endif
 
 #ifndef GL_OES_read_format
@@ -3019,24 +2914,12 @@ extern "C" {
 #define GL_PIXEL_UNPACK_BUFFER_BINDING_EXT 0x88EF
 #endif
 
-#ifndef GL_NV_fragment_program_option
-#endif
-
 #ifndef GL_NV_fragment_program2
 #define GL_MAX_PROGRAM_EXEC_INSTRUCTIONS_NV 0x88F4
 #define GL_MAX_PROGRAM_CALL_DEPTH_NV      0x88F5
 #define GL_MAX_PROGRAM_IF_DEPTH_NV        0x88F6
 #define GL_MAX_PROGRAM_LOOP_DEPTH_NV      0x88F7
 #define GL_MAX_PROGRAM_LOOP_COUNT_NV      0x88F8
-#endif
-
-#ifndef GL_NV_vertex_program2_option
-/* reuse GL_MAX_PROGRAM_EXEC_INSTRUCTIONS_NV */
-/* reuse GL_MAX_PROGRAM_CALL_DEPTH_NV */
-#endif
-
-#ifndef GL_NV_vertex_program3
-/* reuse GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS_ARB */
 #endif
 
 #ifndef GL_EXT_framebuffer_object
@@ -3093,10 +2976,6 @@ extern "C" {
 #define GL_RENDERBUFFER_DEPTH_SIZE_EXT    0x8D54
 #define GL_RENDERBUFFER_STENCIL_SIZE_EXT  0x8D55
 #endif
-
-#ifndef GL_GREMEDY_string_marker
-#endif
-
 
 /*************************************************************/
 
@@ -6552,5 +6431,4 @@ typedef void (APIENTRYP PFNGLSTRINGMARKERGREMEDYPROC) (GLsizei len, const GLvoid
 #endif
 
 #endif
-#endif /* NO_SDL_GLEXT */
 /*@}*/

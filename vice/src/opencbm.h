@@ -96,7 +96,11 @@ extern void vdd_usleep(CBM_FILE f, unsigned int howlong);
  * below is changed back to int after the plugin/driver handle
  * mapping was implemented
  */
+#ifdef HAVE_STDINT_H
 #include <stdint.h>
+#else
+typedef int intptr_t;
+#endif
 
 # define EXTERN extern /*!< EXTERN is not defined on Linux */
 # define CBMAPIDECL /*!< CBMAPIDECL is a dummy on Linux */
@@ -113,7 +117,7 @@ extern void vdd_usleep(CBM_FILE f, unsigned int howlong);
 typedef unsigned char __u_char;
 #endif
 
-#ifdef __CYGWIN32__
+#if defined(__CYGWIN32__) || defined(__INTERIX)
 typedef unsigned char __u_char;
 #endif
 #endif

@@ -1,24 +1,30 @@
 /*
-    SDL - Simple DirectMedia Layer
-    Copyright (C) 1997-2009 Sam Lantinga
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    Sam Lantinga
-    slouken@libsdl.org
-*/
+ * SDL_keyboard.h
+ *
+ * Written by
+ *  Sam Lantinga <slouken@libsdl.org>
+ *
+ * This file is a modified SDL header.
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
 /** @file SDL_keyboard.h
  *  Include file for SDL keyboard event handling
@@ -64,7 +70,7 @@ typedef struct SDL_keysym {
 } SDL_keysym;
 
 /** This is the mask which refers to all hotkey bindings */
-#define SDL_ALL_HOTKEYS		0xFFFFFFFF
+#define SDL_ALL_HOTKEYS   0xFFFFFFFF
 
 /* Function prototypes */
 /**
@@ -81,8 +87,8 @@ typedef struct SDL_keysym {
  */
 extern DECLSPEC int SDLCALL SDL_EnableUNICODE(int enable);
 
-#define SDL_DEFAULT_REPEAT_DELAY	500
-#define SDL_DEFAULT_REPEAT_INTERVAL	30
+#define SDL_DEFAULT_REPEAT_DELAY      500
+#define SDL_DEFAULT_REPEAT_INTERVAL   30
 /**
  * Enable/Disable keyboard repeat.  Keyboard repeat defaults to off.
  *

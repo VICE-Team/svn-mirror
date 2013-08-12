@@ -1,24 +1,30 @@
 /*
-    SDL - Simple DirectMedia Layer
-    Copyright (C) 1997-2009 Sam Lantinga
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    Sam Lantinga
-    slouken@libsdl.org
-*/
+ * SDL_mouse.h
+ *
+ * Written by
+ *  Sam Lantinga <slouken@libsdl.org>
+ *
+ * This file is a modified SDL header.
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
 #ifndef _SDL_mutex_h
 #define _SDL_mutex_h
@@ -41,10 +47,10 @@ extern "C" {
 /** Synchronization functions which can time out return this value
  *  if they time out.
  */
-#define SDL_MUTEX_TIMEDOUT	1
+#define SDL_MUTEX_TIMEDOUT   1
 
 /** This is the timeout value which corresponds to never time out */
-#define SDL_MUTEX_MAXWAIT	(~(Uint32)0)
+#define SDL_MUTEX_MAXWAIT   (~(Uint32)0)
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -58,13 +64,13 @@ typedef struct SDL_mutex SDL_mutex;
 /** Create a mutex, initialized unlocked */
 extern DECLSPEC SDL_mutex * SDLCALL SDL_CreateMutex(void);
 
-#define SDL_LockMutex(m)	SDL_mutexP(m)
+#define SDL_LockMutex(m)   SDL_mutexP(m)
 /** Lock the mutex
  *  @return 0, or -1 on error
  */
 extern DECLSPEC int SDLCALL SDL_mutexP(SDL_mutex *mutex);
 
-#define SDL_UnlockMutex(m)	SDL_mutexV(m)
+#define SDL_UnlockMutex(m)   SDL_mutexV(m)
 /** Unlock the mutex
  *  @return 0, or -1 on error
  *

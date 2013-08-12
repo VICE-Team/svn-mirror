@@ -310,7 +310,7 @@ static int log_helper(log_t log, unsigned int level, const char *format,
     } else {
 #ifdef ARCHDEP_EXTRA_LOG_CALL
         log_archdep(logtxt, format, ap);
-#endif /* #ifdef WIN32 */
+#endif
         if (fputs(logtxt, log_file) == EOF
             || vfprintf(log_file, format, ap) < 0
             || fputc ('\n', log_file) == EOF) {

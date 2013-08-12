@@ -1,24 +1,30 @@
 /*
-    SDL - Simple DirectMedia Layer
-    Copyright (C) 1997-2009 Sam Lantinga
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    Sam Lantinga
-    slouken@libsdl.org
-*/
+ * SDL_mouse.h
+ *
+ * Written by
+ *  Sam Lantinga <slouken@libsdl.org>
+ *
+ * This file is a modified SDL header.
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
 /** @file SDL_mouse.h
  *  Include file for SDL mouse event handling
@@ -119,19 +125,19 @@ extern DECLSPEC int SDLCALL SDL_ShowCursor(int toggle);
  *  Button 4:	Mouse wheel up	 (may also be a real button)
  *  Button 5:	Mouse wheel down (may also be a real button)
  */
-#define SDL_BUTTON(X)		(1 << ((X)-1))
-#define SDL_BUTTON_LEFT		1
-#define SDL_BUTTON_MIDDLE	2
-#define SDL_BUTTON_RIGHT	3
-#define SDL_BUTTON_WHEELUP	4
-#define SDL_BUTTON_WHEELDOWN	5
-#define SDL_BUTTON_X1		6
-#define SDL_BUTTON_X2		7
-#define SDL_BUTTON_LMASK	SDL_BUTTON(SDL_BUTTON_LEFT)
-#define SDL_BUTTON_MMASK	SDL_BUTTON(SDL_BUTTON_MIDDLE)
-#define SDL_BUTTON_RMASK	SDL_BUTTON(SDL_BUTTON_RIGHT)
-#define SDL_BUTTON_X1MASK	SDL_BUTTON(SDL_BUTTON_X1)
-#define SDL_BUTTON_X2MASK	SDL_BUTTON(SDL_BUTTON_X2)
+#define SDL_BUTTON(X)          (1 << ((X) - 1))
+#define SDL_BUTTON_LEFT        1
+#define SDL_BUTTON_MIDDLE      2
+#define SDL_BUTTON_RIGHT       3
+#define SDL_BUTTON_WHEELUP     4
+#define SDL_BUTTON_WHEELDOWN   5
+#define SDL_BUTTON_X1          6
+#define SDL_BUTTON_X2          7
+#define SDL_BUTTON_LMASK       SDL_BUTTON(SDL_BUTTON_LEFT)
+#define SDL_BUTTON_MMASK       SDL_BUTTON(SDL_BUTTON_MIDDLE)
+#define SDL_BUTTON_RMASK       SDL_BUTTON(SDL_BUTTON_RIGHT)
+#define SDL_BUTTON_X1MASK      SDL_BUTTON(SDL_BUTTON_X1)
+#define SDL_BUTTON_X2MASK      SDL_BUTTON(SDL_BUTTON_X2)
 /*@}*/
 
 /* Ends C function definitions when using C++ */

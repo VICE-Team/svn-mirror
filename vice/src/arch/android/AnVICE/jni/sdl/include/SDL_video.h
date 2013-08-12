@@ -1,24 +1,30 @@
 /*
-    SDL - Simple DirectMedia Layer
-    Copyright (C) 1997-2009 Sam Lantinga
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 2.1 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public
-    License along with this library; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    Sam Lantinga
-    slouken@libsdl.org
-*/
+ * SDL_video.h
+ *
+ * Written by
+ *  Sam Lantinga <slouken@libsdl.org>
+ *
+ * This file is a modified SDL header.
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
 /** @file SDL_video.h
  *  Header file for access to the SDL raw framebuffer window
@@ -41,8 +47,8 @@ extern "C" {
  *  These define alpha as the opacity of a surface
  */
 /*@{*/
-#define SDL_ALPHA_OPAQUE 255
-#define SDL_ALPHA_TRANSPARENT 0
+#define SDL_ALPHA_OPAQUE        255
+#define SDL_ALPHA_TRANSPARENT   0
 /*@}*/
 
 /** @name Useful data types */
@@ -58,7 +64,8 @@ typedef struct SDL_Color {
 	Uint8 b;
 	Uint8 unused;
 } SDL_Color;
-#define SDL_Colour SDL_Color
+
+#define SDL_Colour   SDL_Color
 
 typedef struct SDL_Palette {
 	int       ncolors;
@@ -128,39 +135,37 @@ typedef struct SDL_Surface {
 
 /** Available for SDL_CreateRGBSurface() or SDL_SetVideoMode() */
 /*@{*/
-#define SDL_SWSURFACE	0x00000000	/**< Surface is in system memory */
-#define SDL_HWSURFACE	0x00000001	/**< Surface is in video memory */
-#define SDL_ASYNCBLIT	0x00000004	/**< Use asynchronous blits if possible */
+#define SDL_SWSURFACE   0x00000000	/**< Surface is in system memory */
+#define SDL_HWSURFACE   0x00000001	/**< Surface is in video memory */
+#define SDL_ASYNCBLIT   0x00000004	/**< Use asynchronous blits if possible */
 /*@}*/
 
 /** Available for SDL_SetVideoMode() */
 /*@{*/
-#define SDL_ANYFORMAT	0x10000000	/**< Allow any video depth/pixel-format */
-#define SDL_HWPALETTE	0x20000000	/**< Surface has exclusive palette */
-#define SDL_DOUBLEBUF	0x40000000	/**< Set up double-buffered video mode */
-#define SDL_FULLSCREEN	0x80000000	/**< Surface is a full screen display */
-#define SDL_OPENGL      0x00000002      /**< Create an OpenGL rendering context */
-#define SDL_OPENGLBLIT	0x0000000A	/**< Create an OpenGL rendering context and use it for blitting */
-#define SDL_RESIZABLE	0x00000010	/**< This video mode may be resized */
-#define SDL_NOFRAME	0x00000020	/**< No window caption or edge frame */
+#define SDL_ANYFORMAT    0x10000000	/**< Allow any video depth/pixel-format */
+#define SDL_HWPALETTE    0x20000000	/**< Surface has exclusive palette */
+#define SDL_DOUBLEBUF    0x40000000	/**< Set up double-buffered video mode */
+#define SDL_FULLSCREEN   0x80000000	/**< Surface is a full screen display */
+#define SDL_OPENGL       0x00000002      /**< Create an OpenGL rendering context */
+#define SDL_OPENGLBLIT   0x0000000A	/**< Create an OpenGL rendering context and use it for blitting */
+#define SDL_RESIZABLE    0x00000010	/**< This video mode may be resized */
+#define SDL_NOFRAME      0x00000020	/**< No window caption or edge frame */
 /*@}*/
 
 /** Used internally (read-only) */
 /*@{*/
-#define SDL_HWACCEL	0x00000100	/**< Blit uses hardware acceleration */
-#define SDL_SRCCOLORKEY	0x00001000	/**< Blit uses a source color key */
-#define SDL_RLEACCELOK	0x00002000	/**< Private flag */
-#define SDL_RLEACCEL	0x00004000	/**< Surface is RLE encoded */
-#define SDL_SRCALPHA	0x00010000	/**< Blit uses source alpha blending */
-#define SDL_PREALLOC	0x01000000	/**< Surface uses preallocated memory */
+#define SDL_HWACCEL       0x00000100	/**< Blit uses hardware acceleration */
+#define SDL_SRCCOLORKEY   0x00001000	/**< Blit uses a source color key */
+#define SDL_RLEACCELOK    0x00002000	/**< Private flag */
+#define SDL_RLEACCEL      0x00004000	/**< Surface is RLE encoded */
+#define SDL_SRCALPHA      0x00010000	/**< Blit uses source alpha blending */
+#define SDL_PREALLOC      0x01000000	/**< Surface uses preallocated memory */
 /*@}*/
 
 /*@}*/
 
 /** Evaluates to true if the surface needs to be locked before access */
-#define SDL_MUSTLOCK(surface)	\
-  (surface->offset ||		\
-  ((surface->flags & (SDL_HWSURFACE|SDL_ASYNCBLIT|SDL_RLEACCEL)) != 0))
+#define SDL_MUSTLOCK(surface)   (surface->offset || ((surface->flags & (SDL_HWSURFACE | SDL_ASYNCBLIT | SDL_RLEACCEL)) != 0))
 
 /** typedef for private surface blitting functions */
 typedef int (*SDL_blit)(struct SDL_Surface *src, SDL_Rect *srcrect,
@@ -197,11 +202,11 @@ typedef struct SDL_VideoInfo {
  *  http://www.neuro.sfc.keio.ac.jp/~aly/polygon/info/color-space-faq.html
  */
 /*@{*/
-#define SDL_YV12_OVERLAY  0x32315659	/**< Planar mode: Y + V + U  (3 planes) */
-#define SDL_IYUV_OVERLAY  0x56555949	/**< Planar mode: Y + U + V  (3 planes) */
-#define SDL_YUY2_OVERLAY  0x32595559	/**< Packed mode: Y0+U0+Y1+V0 (1 plane) */
-#define SDL_UYVY_OVERLAY  0x59565955	/**< Packed mode: U0+Y0+V0+Y1 (1 plane) */
-#define SDL_YVYU_OVERLAY  0x55595659	/**< Packed mode: Y0+V0+Y1+U0 (1 plane) */
+#define SDL_YV12_OVERLAY   0x32315659	/**< Planar mode: Y + V + U  (3 planes) */
+#define SDL_IYUV_OVERLAY   0x56555949	/**< Planar mode: Y + U + V  (3 planes) */
+#define SDL_YUY2_OVERLAY   0x32595559	/**< Packed mode: Y0+U0+Y1+V0 (1 plane) */
+#define SDL_UYVY_OVERLAY   0x59565955	/**< Packed mode: U0+Y0+V0+Y1 (1 plane) */
+#define SDL_YVYU_OVERLAY   0x55595659	/**< Packed mode: Y0+V0+Y1+U0 (1 plane) */
 /*@}*/
 
 /** The YUV hardware video overlay */
@@ -249,8 +254,8 @@ typedef enum {
 
 /** @name flags for SDL_SetPalette() */
 /*@{*/
-#define SDL_LOGPAL 0x01
-#define SDL_PHYSPAL 0x02
+#define SDL_LOGPAL    0x01
+#define SDL_PHYSPAL   0x02
 /*@}*/
 
 /* Function prototypes */
@@ -515,7 +520,7 @@ extern DECLSPEC void SDLCALL SDL_GetRGBA(Uint32 pixel,
 				Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a);
 
 /** @sa SDL_CreateRGBSurface */
-#define SDL_AllocSurface    SDL_CreateRGBSurface
+#define SDL_AllocSurface   SDL_CreateRGBSurface
 /**
  * Allocate and free an RGB surface (must be called after SDL_SetVideoMode)
  * If the depth is 4 or 8 bits, an empty palette is allocated for the surface.
@@ -589,7 +594,7 @@ extern DECLSPEC void SDLCALL SDL_UnlockSurface(SDL_Surface *surface);
 extern DECLSPEC SDL_Surface * SDLCALL SDL_LoadBMP_RW(SDL_RWops *src, int freesrc);
 
 /** Convenience macro -- load a surface from a file */
-#define SDL_LoadBMP(file)	SDL_LoadBMP_RW(SDL_RWFromFile(file, "rb"), 1)
+#define SDL_LoadBMP(file)   SDL_LoadBMP_RW(SDL_RWFromFile(file, "rb"), 1)
 
 /**
  * Save a surface to a seekable SDL data source (memory or file.)
@@ -600,8 +605,7 @@ extern DECLSPEC int SDLCALL SDL_SaveBMP_RW
 		(SDL_Surface *surface, SDL_RWops *dst, int freedst);
 
 /** Convenience macro -- save a surface to a file */
-#define SDL_SaveBMP(surface, file) \
-		SDL_SaveBMP_RW(surface, SDL_RWFromFile(file, "wb"), 1)
+#define SDL_SaveBMP(surface, file)   SDL_SaveBMP_RW(surface, SDL_RWFromFile(file, "wb"), 1)
 
 /**
  * Sets the color key (transparent pixel) in a blittable surface.
@@ -740,7 +744,7 @@ extern DECLSPEC SDL_Surface * SDLCALL SDL_ConvertSurface
  * You should call SDL_BlitSurface() unless you know exactly how SDL
  * blitting works internally and how to use the other blit functions.
  */
-#define SDL_BlitSurface SDL_UpperBlit
+#define SDL_BlitSurface   SDL_UpperBlit
 
 /** This is the public blit function, SDL_BlitSurface(), and it performs
  *  rectangle validation and clipping before passing it to SDL_LowerBlit()
