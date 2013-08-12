@@ -836,7 +836,7 @@ static PWindowDimensions LoadMonitorDimensions(HWND hwnd)
             new_format_with_extra_data = 0;
         }
 
-        ret = lib_malloc(sizeof(*ret));
+        ret = lib_calloc(1,sizeof(*ret));
         bError = GetPlacement((BYTE **)(&p), &len, &(ret->wpPlacement));
 
         if (bError) {
