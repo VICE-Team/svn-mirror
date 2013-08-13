@@ -446,7 +446,7 @@ void vsid_ui_display_sync(int sync)
 
 void vsid_ui_display_sid_model(int model)
 {
-    sprintf(vsidstrings[VSID_S_MODEL], "Using %s emulation", csidmodel[model > 19 ? 7 : model]);
+    sprintf(vsidstrings[VSID_S_MODEL], "Using %s emulation", model == 0 ? "MOS6581" : "MOS8580");
 
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_MODEL]);
 }
