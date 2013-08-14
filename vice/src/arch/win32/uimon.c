@@ -680,7 +680,7 @@ static BYTE *GetExtraData(BYTE **p, size_t * len)
     BYTE * extra = NULL;
     size_t extra_length = 0;
     size_t i;
-    
+
     do {
         if (*len == 0) {
             break;
@@ -694,7 +694,7 @@ static BYTE *GetExtraData(BYTE **p, size_t * len)
 
         extra = lib_malloc(extra_length + 1);
 
-        extra[0] = extra_length;
+        extra[0] = extra_length; /* FIXME: this is useless */
 
         for (i = 0; i < extra_length; i++) {
             extra[i] = GetByte(p, len);
@@ -836,15 +836,18 @@ static PWindowDimensions LoadMonitorDimensions(HWND hwnd)
             new_format_with_extra_data = 0;
         }
 
-        ret = lib_calloc(1,sizeof(*ret));
+        ret = lib_malloc(sizeof(*ret));
         bError = GetPlacement((BYTE **)(&p), &len, &(ret->wpPlacement));
 
         if (bError) {
+            lib_free(ret);
+            ret = NULL;
             break;
         }
 
         SetWindowPlacement(hwnd, &(ret->wpPlacement));
 
+        ret->extra = NULL;
         if (new_format_with_extra_data) {
             /*
              * read some additional data that might be available.
