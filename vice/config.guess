@@ -776,7 +776,7 @@ EOF
     *:FreeBSD:*:*)
 	echo ${UNAME_MACHINE}-unknown-freebsd`echo ${UNAME_RELEASE}|sed -e 's/[-(].*//'`
 	exit ;;
-    i*:CYGWIN*:*)
+    *:CYGWIN*:*)
 	echo ${UNAME_MACHINE}-pc-cygwin
 	exit ;;
     i*:MINGW*:*)
