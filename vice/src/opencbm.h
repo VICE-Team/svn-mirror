@@ -117,7 +117,7 @@ typedef int intptr_t;
 typedef unsigned char __u_char;
 #endif
 
-#if defined(__CYGWIN32__) || defined(__INTERIX)
+#if defined(__CYGWIN32__) || defined(__INTERIX) || defined(SKYOS)
 typedef unsigned char __u_char;
 #endif
 #endif
