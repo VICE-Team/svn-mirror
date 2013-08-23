@@ -605,7 +605,7 @@ char *archdep_get_runtime_os(void)
 {
 
 /* Windows on cygwin */
-#ifdef __CYGWIN32__
+#if defined(__CYGWIN32__) || defined(__CYGWIN__)
 #define RUNTIME_OS_HANDLED
     return platform_get_cygwin_runtime_os();
 #endif

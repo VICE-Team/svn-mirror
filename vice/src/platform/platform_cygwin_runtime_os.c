@@ -29,7 +29,7 @@
 
 #include "vice.h"
 
-#if !defined(WIN32_COMPILE) && defined(__CYGWIN32__)
+#if !defined(WIN32_COMPILE) && (defined(__CYGWIN32__) || defined(__CYGWIN__))
 
 #include <sys/utsname.h>
 #include <stdio.h>

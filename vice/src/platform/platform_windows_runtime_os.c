@@ -95,7 +95,7 @@
 
 #include "vice.h"
 
-#if defined(__CYGWIN32__) || defined(WIN32_COMPILE)
+#if defined(__CYGWIN32__) || defined(__CYGWIN__) || defined(WIN32_COMPILE)
 
 #ifndef WINMIPS
 
