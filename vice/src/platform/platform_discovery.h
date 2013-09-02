@@ -40,42 +40,6 @@
 #define QUOTE(x) XQUOTE(x)
 #define XQUOTE(x) #x
 
-/* Set compiler version */
-#if (_MSC_VER == 1100)
-#define PLATFORM_COMPILER "msvc5/vs97"
-#endif
-
-#if (_MSC_VER == 1200)
-#define PLATFORM_COMPILER "msvc6/vs98"
-#endif
-
-#if (_MSC_VER == 1300)
-#define PLATFORM_COMPILER "msvc7.0/vs2002"
-#endif
-
-#if (_MSC_VER == 1310)
-#define PLATFORM_COMPILER "msvc7.1/vs2003"
-#endif
-
-#if (_MSC_VER == 1400)
-#define PLATFORM_COMPILER "msvc8/vs2005"
-#endif
-
-#if (_MSC_VER == 1500)
-#define PLATFORM_COMPILER "msvc9/vs2008"
-#endif
-
-#if (_MSC_VER == 1600)
-#define PLATFORM_COMPILER "msvc10/vs2010"
-#endif
-
-#if (_MSC_VER == 1700)
-#define PLATFORM_COMPILER "msvc11/vs2012"
-#endif
-
-#if !defined(PLATFORM_COMPILER) && defined(_MSC_VER)
-#define PLATFORM_COMPILER "msvc"
-#endif
 
 /* win32/64 discovery */
 #ifdef WIN32_COMPILE
@@ -91,9 +55,6 @@
 #    endif
 #    ifndef PLATFORM_OS
 #      define PLATFORM_OS "WIN64"
-#    endif
-#    ifndef PLATFORM_COMPILER
-#      define PLATFORM_COMPILER "MSVC"
 #    endif
 #  else
 #    ifdef WINMIPS
@@ -124,6 +85,7 @@
 #  endif
 #endif
 
+
 /* Cygwin discovery */
 #if !defined(WIN32_COMPILE) && (defined(__CYGWIN32__) || defined(__CYGWIN__))
 #  define PLATFORM_OS "Cygwin API " QUOTE(CYGWIN_VERSION_API_MAJOR) "." QUOTE(CYGWIN_VERSION_API_MINOR)
@@ -150,6 +112,7 @@
 #  endif
 #  define FIND_X86_CPU
 #endif
+
 
 /* MacOS X discovery */
 #ifdef __APPLE__
@@ -204,6 +167,7 @@
 #  endif
 #  define PLATFORM_OS "BeOS"
 #endif /* __BEOS__ */
+
 
 /* Haiku discovery */
 #ifdef __HAIKU__
@@ -313,13 +277,6 @@
 #  else
 #    define PLATFORM_OS "SunOS"
 #  endif
-#endif
-
-
-/* UWIN discovery */
-#ifdef _UWIN
-#  define PLATFORM_OS "UWIN"
-#  define FIND_X86_CPU
 #endif
 
 

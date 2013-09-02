@@ -206,7 +206,33 @@
 
 /* MSVC compiler discovery */
 #if !defined(PLATFORM_COMPILE) && defined(_MSC_VER)
-#  define PLATFORM_COMPILER "MSVC"
+#  if (_MSC_VER == 1100)
+#    define PLATFORM_COMPILER "msvc5/vs97"
+#  endif
+#  if (_MSC_VER == 1200)
+#    define PLATFORM_COMPILER "msvc6/vs98"
+#  endif
+#  if (_MSC_VER == 1300)
+#    define PLATFORM_COMPILER "msvc7.0/vs2002"
+#  endif
+#  if (_MSC_VER == 1310)
+#    define PLATFORM_COMPILER "msvc7.1/vs2003"
+#  endif
+#  if (_MSC_VER == 1400)
+#    define PLATFORM_COMPILER "msvc8/vs2005"
+#  endif
+#  if (_MSC_VER == 1500)
+#    define PLATFORM_COMPILER "msvc9/vs2008"
+#  endif
+#  if (_MSC_VER == 1600)
+#    define PLATFORM_COMPILER "msvc10/vs2010"
+#  endif
+#  if (_MSC_VER == 1700)
+#    define PLATFORM_COMPILER "msvc11/vs2012"
+#  endif
+#  ifndef PLATFORM_COMPILER
+#    define PLATFORM_COMPILER "msvc"
+#  endif
 #endif
 
 #endif
