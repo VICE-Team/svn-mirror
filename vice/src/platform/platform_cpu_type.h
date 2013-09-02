@@ -474,7 +474,7 @@
 #endif
 
 /* MSVC cpu discovery */
-#if !defined(PLATFORM_CPU) && defined(FIND_X86_CPU) && defined(_M_IX86)
+#if !defined(PLATFORM_CPU) && defined(FIND_X86_CPU) && defined(_M_IX86) && defined(_MSC_VER)
 #  if (_M_IX86 == 600)
 #    define __i686__
 #  endif
