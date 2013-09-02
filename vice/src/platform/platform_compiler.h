@@ -204,6 +204,11 @@
 #  define PLATFORM_COMPILER "Tiny C"
 #endif
 
+/* OW compiler discovery */
+#if !defined(PLATFORM_COMPILE) && defined(WATCOM_COMPILE)
+#  define PLATFORM_COMPILER "OpenWatcom"
+#endif
+
 /* MSVC compiler discovery */
 #if !defined(PLATFORM_COMPILE) && defined(_MSC_VER)
 #  if (_MSC_VER == 1100)
