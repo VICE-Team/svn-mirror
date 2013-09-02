@@ -798,7 +798,7 @@ char *platform_get_windows_runtime_os(void)
     windows_versions[0].realos = GetRealOS();
 
     if (windows_versions[0].platformid == VER_PLATFORM_WIN32_NT) {
-        if (GetVersionEx(&os_version_ex_info)) {
+        if (GetVersionEx((LPOSVERSIONINFOA)&os_version_ex_info)) {
             if (os_version_ex_info.wProductType == VER_NT_DOMAIN_CONTROLLER) {
                 windows_versions[0].producttype = (BYTE)VER_NT_SERVER;
             } else {
