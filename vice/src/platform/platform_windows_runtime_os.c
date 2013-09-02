@@ -836,7 +836,7 @@ char *platform_get_windows_runtime_os(void)
             }
         }
         if (windows_versions[0].majorver >= 6) {
-            if (windows_versions[0].suite | VER_SUITE_EMBEDDEDNT == VER_SUITE_EMBEDDEDNT) {
+            if ((windows_versions[0].suite | VER_SUITE_EMBEDDEDNT) == VER_SUITE_EMBEDDEDNT) {
                 windows_versions[0].pt6 = is_thin_pc();
             } else {
                 ViceGetProductInfo = (VGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
