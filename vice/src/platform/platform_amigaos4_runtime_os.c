@@ -66,6 +66,6 @@ char *platform_get_amigaos4_runtime_cpu(void)
 
     GetCPUInfoTags(GCIT_ModelString, &runtime_cpu, TAG_DONE);
 
-    return runtime_cpu;
+    return (char *)runtime_cpu;
 }
 #endif

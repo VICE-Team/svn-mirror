@@ -76,6 +76,6 @@ char *platform_get_aros_runtime_cpu(void)
     ProcessorBase = OpenResource(PROCESSORNAME);
     GetCPUInfoTags(GCIT_ModelString, (IPTR)&modelstring, TAG_DONE);
 
-    return modelstring;
+    return (char *)modelstring;
 }
 #endif
