@@ -37,7 +37,9 @@
 #ifdef WIN32_COMPILE
 typedef unsigned char BYTE;
 typedef unsigned short WORD;
+#if !(defined(__CYGWIN__) && defined(__x86_64__))
 typedef unsigned long DWORD;
+#endif
 typedef signed char SIGNED_CHAR;
 typedef signed short SWORD;
 typedef signed long SDWORD;

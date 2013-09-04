@@ -1134,18 +1134,18 @@ void mon_export(void)
 void mon_stopwatch_show(const char* prefix, const char* suffix)
 {
     unsigned long t;
-    monitor_interface_t* interface;
-    interface = mon_interfaces[default_memspace];
+    monitor_interface_t* vice_interface;
+    vice_interface = mon_interfaces[default_memspace];
     t = (unsigned long)
-        (*interface->clk - stopwatch_start_time[default_memspace]);
+        (*vice_interface->clk - stopwatch_start_time[default_memspace]);
     mon_out("%s%10lu%s", prefix, t, suffix);
 }
 
 void mon_stopwatch_reset(void)
 {
-    monitor_interface_t* interface;
-    interface = mon_interfaces[default_memspace];
-    stopwatch_start_time[default_memspace] = *interface->clk;
+    monitor_interface_t* vice_interface;
+    vice_interface = mon_interfaces[default_memspace];
+    stopwatch_start_time[default_memspace] = *vice_interface->clk;
     mon_out("Stopwatch reset to 0.\n");
 }
 
