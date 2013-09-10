@@ -264,7 +264,6 @@ static char interix_platform_version[100] = "";
 
 char *platform_get_interix_runtime_os(void)
 {
-    char interix_version[10];
     char service_pack[100];
     int rcode;
     struct utsname name;
