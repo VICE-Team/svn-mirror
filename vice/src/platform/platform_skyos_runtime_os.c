@@ -1,5 +1,5 @@
 /*
- * platform_syllable_runtime_os.c - Syllable runtime version discovery.
+ * platform_skyos_runtime_os.c - SkyOS runtime version discovery.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -25,42 +25,37 @@
  */
 
 /* Tested and confirmed working on:
-   Syllable 0.6.7
+   - SkyOS public
 */
-
 #include "vice.h"
 
-#ifdef __SYLLABLE__
+#ifdef __SKYOS__
 
-#include <sys/sysinfo.h>
 #include <sys/utsname.h>
 #include <string.h>
 
-#ifdef __GLIBC__
-#include <gnu/libc-version.h>
-#endif
+#include "platform.h"
 
-static system_info psi;
-static char os_string[256];
+char platform_name[128];
+char platform_cpu[20];
 
-char *platform_get_syllable_runtime_cpu(void)
-{
-    get_system_info_v(&psi, SYS_INFO_VERSION);
-    return psi.zKernelCpuArch;
-}
-
-char *platform_get_syllable_runtime_os(void)
+char *platform_get_skyos_runtime_os(void)
 {
     struct utsname name;
 
     uname(&name);
-    get_system_info_v(&psi, SYS_INFO_VERSION);
-    sprintf(os_string, "%s v%s.%s", psi.zKernelSystem, name.version, name.release);
+    sprintf(platform_name, "%s %s (%s)", name.sysname, name.release, name.version);
 
-#ifdef __GLIBC__
-    sprintf(os_string, "%s (glibc %s)", os_string, gnu_get_libc_version());
-#endif
+    return platform_name;
+}
 
-    return os_string;
+char *platform_get_skyos_runtime_cpu(void)
+{
+    struct utsname name;
+
+    uname(&name);
+    sprintf(platform_cpu, "%s", name.machine);
+
+    return platform_cpu;
 }
 #endif

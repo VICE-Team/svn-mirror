@@ -28,6 +28,7 @@ libplatform_a_SOURCES = \
 	platform_openbsd_version.h \
 	platform_os2_runtime_os.c \
 	platform_qnx6_version.h \
+	platform_skyos_runtime_os.c \
 	platform_solaris_runtime_os.c \
 	platform_syllable_runtime_os.c \
 	platform_windows_runtime_os.c \

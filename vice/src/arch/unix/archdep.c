@@ -640,6 +640,12 @@ char *archdep_get_runtime_os(void)
     return platform_get_interix_runtime_os();
 #endif
 
+/* SkyOS */
+#ifdef __SKYOS__
+#define RUNTIME_OS_HANDLED
+    return platform_get_skyos_runtime_os();
+#endif
+
 /* TODO: add runtime os detection code for other *nix os'es */
 #ifndef RUNTIME_OS_HANDLED
     return "*nix";
@@ -654,6 +660,13 @@ char *archdep_get_runtime_cpu(void)
     return platform_get_macosx_runtime_cpu();
 #endif
 
+/* SkyOS */
+#ifdef __SKYOS__
+#define RUNTIME_CPU_HANDLED
+    return platform_get_skyos_runtime_cpu();
+#endif
+
+/* Syllable */
 #ifdef __SYLLABLE__
 #define RUNTIME_CPU_HANDLED
     return platform_get_syllable_runtime_cpu();

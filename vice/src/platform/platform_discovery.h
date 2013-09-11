@@ -114,6 +114,16 @@
 #endif
 
 
+/* Syllable discovery */
+#ifdef __SYLLABLE__
+#  ifdef __GLIBC__
+#    define PLATFORM_OS "Syllable glibc " QUOTE(__GLIBC__) "." QUOTE(__GLIBC_MINOR__)
+#  else
+#    define PLATFORM_OS "Syllable"
+#  endif
+#endif
+
+
 /* MacOS X discovery */
 #ifdef __APPLE__
 #  include "platform_macosx.h"
@@ -301,6 +311,12 @@
 /* LynxOS discovery */
 #ifdef __Lynx__
 #  define PLATFORM_OS "LynxOS"
+#endif
+
+
+/* SkyOS discovery */
+#ifdef __SKYOS__
+#  define PLATFORM_OS "SkyOS"
 #endif
 
 

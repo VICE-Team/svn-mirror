@@ -74,4 +74,7 @@ extern char *platform_get_cygwin_runtime_os(void);
 
 extern char *platform_get_dos_runtime_os(void);
 
+extern char *platform_get_skyos_runtime_os(void);
+extern char *platform_get_skyos_runtime_cpu(void);
+
 #endif
