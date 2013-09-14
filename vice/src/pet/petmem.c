@@ -1690,15 +1690,26 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     return mem_ioreg_list;
 }
 
-void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
+int petmem_get_screen_columns(void)
 {
     int cols;
 
-    resources_get_int("VideoSize", &cols);
+    cols = petres.video;
+    if (!cols) {
+        cols = petres.rom_video;
+        if (!cols) {
+            cols = PET_COLS;
+        }
+    }
 
+    return cols;
+}
+
+void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
+{
     *base = 0x8000;
     *rows = 25;
-    *columns = (BYTE)cols;
+    *columns = (BYTE)petmem_get_screen_columns();
     *bank = 0;
 }
 

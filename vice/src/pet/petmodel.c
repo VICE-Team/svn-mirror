@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "machine.h"
+#include "petmem.h"
 #include "petmodel.h"
 #include "pets.h"
 #include "resources.h"
@@ -110,6 +111,26 @@ static pet_table_t pet_table[] = {
     { NULL }
 };
 
+static int petmem_get_conf_info(petinfo_t *pi)
+{
+    int kindex;
+
+    if ((resources_get_int("RamSize", &pi->ramSize) < 0)
+        || (resources_get_int("IOSize", &pi->IOSize) < 0)
+        || (resources_get_int("Crtc", &pi->crtc) < 0)
+        || (resources_get_int("Ram9", &pi->ramsel9) < 0)
+        || (resources_get_int("RamA", &pi->ramselA) < 0)
+        || (resources_get_int("EoiBlank", &pi->eoiblank) < 0)
+        || (resources_get_int("SuperPET", &pi->superpet) < 0)
+        || (resources_get_int("KeymapIndex", &kindex) < 0)) {
+        return -1;
+    }
+
+    pi->video = petmem_get_screen_columns();
+    pi->kbd_type = kindex >> 1;
+    return 0;
+}
+
 int petmem_set_conf_info(petinfo_t *pi)
 {
     int kindex;
@@ -165,8 +186,6 @@ static int pet_set_model_info(petinfo_t *pi)
     return 0;
 }
 
-static int pet_model = 8;
-
 /* FIXME: this one should only be used by commandline */
 int pet_set_model(const char *model_name, void *extra)
 {
@@ -185,16 +204,52 @@ int pet_set_model(const char *model_name, void *extra)
     return -1;
 }
 
+static int petmodel_get_temp(petinfo_t *pi)
+{
+    int i;
+
+    for (i = 0; i < PETMODEL_NUM; ++i) {
+        if ((pet_table[i].info.ramSize == pi->ramSize)
+            && (pet_table[i].info.IOSize == pi->IOSize)
+            && (pet_table[i].info.crtc == pi->crtc)
+            && (pet_table[i].info.video == pi->video)
+            && (pet_table[i].info.eoiblank == pi->eoiblank)
+            && (pet_table[i].info.superpet == pi->superpet)
+            && (pet_table[i].info.kbd_type == (pi->kbd_type & 1))) {
+            if ((pet_table[i].info.ramsel9 != pi->ramsel9)
+                && (i != PETMODEL_8296)) {
+                continue;
+            }
+            if ((pet_table[i].info.ramselA != pi->ramselA)
+                && (i != PETMODEL_8296)) {
+                continue;
+            }
+            return i;
+        }
+    }
+
+    return PETMODEL_UNKNOWN;
+}
+
 int petmodel_get(void)
 {
-    return pet_model;
+    petinfo_t pinfo;
+
+    if (petmem_get_conf_info(&pinfo) < 0) {
+        return -1;
+    }
+
+    return petmodel_get_temp(&pinfo);
 }
 
 void petmodel_set(int model)
 {
+    if (model >= PETMODEL_NUM) {
+        return;
+    }
+
     petres.video = -1; /* force reinitialization in pet-resources.c:set_video, see bug #3496413 */
     pet_set_model_info(&pet_table[model].info);
-    pet_model = model;
 
     /* we have to wait until we have done enough initialization */
     if (pet_init_ok) {

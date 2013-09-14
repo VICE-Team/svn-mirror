@@ -269,7 +269,7 @@ int machine_specific_init(void)
 {
     pet_log = log_open("PET");
 
-    pet_init_ok = 1;    /* used in pet_set_model() */
+    pet_init_ok = 1;    /* used in petmodel_set() */
 
     /* Setup trap handling - must be before mem_load() */
     traps_init();
@@ -558,10 +558,9 @@ void pet_crtc_set_screen(void)
 
     if (!cols) {
         cols = petres.rom_video;
-        vmask = (cols == 40) ? 0x3ff : 0x7ff;
-    }
-    if (!cols) {
-        cols = PET_COLS;
+        if (!cols) {
+            cols = PET_COLS;
+        }
         vmask = (cols == 40) ? 0x3ff : 0x7ff;
     }
 
