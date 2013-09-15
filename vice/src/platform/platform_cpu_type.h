@@ -490,7 +490,10 @@
 #endif
 
 #if !defined(PLATFORM_CPU) && defined(FIND_X86_CPU)
-#  ifdef __i686__
+#  ifdef _M_AMD64
+#    define PLATFORM_CPU "AMD64"
+#  endif
+#  if !defined(PLATFORM_CPU) && defined(__i686__)
 #    define PLATFORM_CPU "Pentium Pro"
 #  endif
 #  if !defined(PLATFORM_CPU) && defined(__i586__)

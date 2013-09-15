@@ -57,7 +57,10 @@ static void cpu_id( uint32_t cpuinfo[4], uint32_t infotype );
 #else
 #ifdef _MSC_VER
 #ifdef _WIN64
+
+#ifndef __INTERIX
 #include <intrin.h>
+#endif
 
 static int cpu_info_stuff[4];
 
