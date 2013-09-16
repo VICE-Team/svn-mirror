@@ -35,7 +35,7 @@
 
 static GtkWidget *current_line;
 static char *author, *copyright, *name, *vsidsync, *model, *irq, *info;
-static int tune, numtunes;
+static int tune, numtunes, deftune;
 static char *line;
 
 static void update_line(void)
@@ -47,8 +47,8 @@ static void update_line(void)
     a1 = (char*)convert_utf8((unsigned char*)name);
     a2 = (char*)convert_utf8((unsigned char*)author);
     a3 = (char*)convert_utf8((unsigned char*)copyright);
-    line = lib_msprintf(_("Name: %s\nAuthor: %s\nCopyright: %s\n\nTune: %d of %d\n%s\nModel: %s\nIRQ: %s\n\n%s"), 
-                        a1, a2, a3, tune, numtunes, vsidsync, model, irq, info);
+    line = lib_msprintf(_("Name: %s\nAuthor: %s\nCopyright: %s\n\nTune: %d of %d (Default: %d)\n%s\nModel: %s\nIRQ: %s\n\n%s"), 
+                        a1, a2, a3, tune, numtunes, deftune, vsidsync, model, irq, info);
     gtk_label_set_text(GTK_LABEL(current_line), line);
     lib_free(a1);
     lib_free(a2);
@@ -106,6 +106,12 @@ void ui_vsid_setpsid(const char *psid)
 void ui_vsid_settune(const int t)
 {
     tune = t;
+    update_line();
+}
+
+void ui_vsid_setdeftune(const int t)
+{
+    deftune = t;
     update_line();
 }
 

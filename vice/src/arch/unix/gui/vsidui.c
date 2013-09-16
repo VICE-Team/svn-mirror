@@ -546,6 +546,8 @@ void vsid_ui_close(void) /* FIXME: bad name */
     vsid_close_menus();
 }
 
+/******************************************************************************/
+
 void vsid_ui_display_name(const char *name)
 {
     log_message(LOG_DEFAULT, "VSIDUI: Name: %s", name);
@@ -581,6 +583,7 @@ void vsid_ui_display_sid_model(int model)
 void vsid_ui_set_default_tune(int nr)
 {
     log_message(LOG_DEFAULT, "VSIDUI: Default tune: %i", nr);
+    ui_vsid_setdeftune(nr);
 }
 
 void vsid_ui_display_tune_nr(int nr)

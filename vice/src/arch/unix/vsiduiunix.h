@@ -35,6 +35,7 @@ extern void shutdown_vsid_ctrl_widget(void);
 
 extern void ui_vsid_setpsid(const char *psid);
 extern void ui_vsid_settune(const int tune);
+extern void ui_vsid_setdeftune(const int tune);
 extern void ui_vsid_setnumtunes(const int count);
 extern void ui_vsid_settime(const int sec);
 extern void ui_vsid_setcopyright(const char *c);

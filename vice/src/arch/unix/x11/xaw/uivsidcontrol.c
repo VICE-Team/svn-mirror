@@ -59,7 +59,7 @@
 #include "vsiduiunix.h"
 
 static char *author, *copyright, *name, *vsidsync, *model, *irq, *info;
-static int tune, numtunes;
+static int tune, numtunes, deftune;
 static char *line;
 
 static Widget psidparent;
@@ -68,8 +68,8 @@ static Widget psidwidget;
 static void update_line(void)
 {
     lib_free(line);
-    line = lib_msprintf(_("Name: %s\nTune: %d of %d\nAuthor: %s\nCopyright: %s\n%s\nModel: %s\nIRQ: %s\n%s"), 
-                        name, tune, numtunes, author, copyright, vsidsync, model, irq, info);
+    line = lib_msprintf(_("Name: %s\nTune: %d of %d (Default: %d)\nAuthor: %s\nCopyright: %s\n%s\nModel: %s\nIRQ: %s\n%s"), 
+                        name, tune, numtunes, deftune, author, copyright, vsidsync, model, irq, info);
     XtVaSetValues(psidwidget, XtNlabel, line, NULL);
 }
 
@@ -91,9 +91,9 @@ ui_window_t build_vsid_ctrl_widget(void)
     vsidsync = lib_stralloc("-");
     irq = lib_stralloc("-");
     info = lib_stralloc("-");
-    
-    line = lib_msprintf(_("Name: %s\nTune: %d of %d\nAuthor: %s\nCopyright: %s\n%s\nModel: %s\nIRQ: %s\n%s"), 
-                        name, tune, numtunes, author, copyright, vsidsync, model, irq, info);
+
+    line = lib_msprintf(_("Name: %s\nTune: %d of %d (Default: %d)\nAuthor: %s\nCopyright: %s\n%s\nModel: %s\nIRQ: %s\n%s"), 
+                        name, tune, numtunes, deftune, author, copyright, vsidsync, model, irq, info);
 
     XtVaGetValues(psidparent, XtNbackground, &Background,NULL);
     psidwidget = XtVaCreateManagedWidget("Canvas",
@@ -123,6 +123,12 @@ void ui_vsid_setpsid(const char *psid)
 void ui_vsid_settune(const int t)
 {
     tune = t;
+    update_line();
+}
+
+void ui_vsid_setdeftune(const int t)
+{
+    deftune = t;
     update_line();
 }
 
