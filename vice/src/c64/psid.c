@@ -79,13 +79,15 @@ typedef struct psid_s {
 int psid_ui_set_tune(int tune, void *param);
 
 static psid_t* psid = NULL;
-static int psid_tune = 0;
+static int psid_tune = 0;       /* currently selected tune, 0: default 1: first, 2: second, etc */
 static int keepenv = 0;
+
+static int firstfile = 0;
+static int psid_tune_cmdline = 0;
 
 static int set_keepenv(int val, void *param)
 {
     keepenv = val;
-
     return 0;
 }
 
@@ -110,7 +112,10 @@ static int cmdline_keepenv(const char *param, void *extra_param)
 
 static int cmdline_psid_tune(const char *param, void *extra_param)
 {
-    psid_tune = atoi(param);
+    psid_tune_cmdline = atoi(param);
+    if (psid_tune_cmdline < 0) {
+        psid_tune_cmdline = 0;
+    }
     return 0;
 }
 
@@ -168,6 +173,21 @@ int psid_load_file(const char* filename)
     BYTE buf[PSID_V2_DATA_OFFSET + 2];
     BYTE* ptr = buf;
     unsigned int length;
+
+    /* HACK: the selected tune number is handled by the "PSIDtune" resource, which
+     *       is actually saved in the ini file, and thus loaded and restored at
+     *       startup. however, we do not want that. instead we want the default
+     *       tune of the respective .sid file to be used, or the explicit tune
+     *       number given on commandline (if any).
+     */
+    if (!firstfile) {
+        if (psid_tune_cmdline) {
+            psid_tune = psid_tune_cmdline;
+        } else {
+            psid_tune = 0;
+        }
+        firstfile = 1;
+    }
 
     if (vlog == LOG_ERR) {
         vlog = log_open("Vsid");
@@ -391,6 +411,8 @@ void psid_init_tune(int install_driver_hook)
     resources_get_int("SidModel", &sid_model);
 
     /* Check tune number. */
+    /* printf("start_song: %d psid->start_song %d\n", start_song, psid->start_song); */
+
     if (start_song == 0) {
         start_song = psid->start_song;
     } else if (start_song < 1 || start_song > psid->songs) {
@@ -471,6 +493,7 @@ int psid_basic_rsid_to_autostart(WORD *address, BYTE **data, WORD *length) {
     return 0;
 }
 
+/* called from machine_play_psid */
 void psid_set_tune(int tune)
 {
     if (tune == -1) {
@@ -482,9 +505,10 @@ void psid_set_tune(int tune)
     }
 }
 
+/* used for setting the PSIDtune resource */
 int psid_ui_set_tune(int tune, void *param)
 {
-    psid_tune = (int)tune == -1 ? 0 : (int)tune;
+    psid_tune = (int)(tune == -1) ? 0 : (int)tune;
 
     psid_set_tune(psid_tune);
     vsync_suspend_speed_eval();

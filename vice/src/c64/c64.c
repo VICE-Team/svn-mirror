@@ -841,20 +841,24 @@ int machine_read_snapshot(const char *name, int event_mode)
 }
 
 /* ------------------------------------------------------------------------- */
-
+/* FIXME: those two shouldnt be here anymore */
 int machine_autodetect_psid(const char *name)
 {
+/*
     if (name == NULL) {
         return -1;
     }
 
     return psid_load_file(name);
+*/
+    return -1;
 }
 
 void machine_play_psid(int tune)
 {
-    psid_set_tune(tune);
+    /* psid_set_tune(tune); */
 }
+/* ------------------------------------------------------------------------- */
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 {
