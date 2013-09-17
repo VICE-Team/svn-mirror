@@ -240,4 +240,10 @@
 #  endif
 #endif
 
+#ifndef PLATFORM_COMPILER
+#  if defined(SCO4UNIX_COMPILE) || defined(OPENSERVER5_COMPILE) || defined(OPENSERVER6_COMPILE) || defined(UNIXWARE_COMPILE)
+#    define PLATFORM_COMPILER "SCO C"
+# endif
+#endif
+
 #endif

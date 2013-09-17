@@ -27,6 +27,9 @@
  *
  */
 
+/* Tested and confirmed working on:
+*/
+
 #ifdef __APPLE__
 
 #include <string.h>

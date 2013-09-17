@@ -1,5 +1,5 @@
 /*
- * platform_syllable_runtime_os.c - Syllable runtime version discovery.
+ * platform_amd64_msvc_cpuid.h - amd64 msvc cpuid code.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,43 +24,29 @@
  *
  */
 
-/* Tested and confirmed working on:
-   - Syllable 0.6.7
-*/
+#ifndef PLATFORM_AMD64_MSVC_CPUID_H
+#define PLATFORM_AMD64_MSVC_CPUID_H
 
-#include "vice.h"
-
-#ifdef __SYLLABLE__
-
-#include <sys/sysinfo.h>
-#include <sys/utsname.h>
-#include <string.h>
-
-#ifdef __GLIBC__
-#include <gnu/libc-version.h>
+#ifndef __INTERIX
+#  include <intrin.h>
 #endif
 
-static system_info psi;
-static char os_string[256];
+static int cpu_info_stuff[4];
 
-char *platform_get_syllable_runtime_cpu(void)
+void __cpuid(
+   int CPUInfo[4],
+   int InfoType
+);
+
+#define cpuid(func, a, b, c, d)    \
+    __cpuid(cpu_info_stuff, func); \
+    a = cpu_info_stuff[0];         \
+    b = cpu_info_stuff[1];         \
+    c = cpu_info_stuff[2];         \
+    d = cpu_info_stuff[3];
+
+inline static int has_cpuid(void)
 {
-    get_system_info_v(&psi, SYS_INFO_VERSION);
-    return psi.zKernelCpuArch;
-}
-
-char *platform_get_syllable_runtime_os(void)
-{
-    struct utsname name;
-
-    uname(&name);
-    get_system_info_v(&psi, SYS_INFO_VERSION);
-    sprintf(os_string, "%s v%s.%s", psi.zKernelSystem, name.version, name.release);
-
-#ifdef __GLIBC__
-    sprintf(os_string, "%s (glibc %s)", os_string, gnu_get_libc_version());
-#endif
-
-    return os_string;
+    return 1;
 }
 #endif

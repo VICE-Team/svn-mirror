@@ -346,7 +346,7 @@
 
 /* Generic hppa cpu discovery */
 #if !defined(PLATFORM_CPU) && defined(__hppa__)
-#  defined PLATFORM_CPU "HPPA"
+#  define PLATFORM_CPU "HPPA"
 #endif
 
 /* Generic ia64 cpu discovery */
@@ -488,6 +488,23 @@
 #    define __i386__
 #  endif
 #endif
+
+#if !defined(__i386__) && (defined(i386) || defined(__i386))
+#  define __i386__
+#endif
+
+#if !defined(__i486__) && (defined(i486) || defined(__i486))
+#  define __i486__
+#endif
+
+#if !defined(__i586__) && (defined(i586) || defined(__i586))
+#  define __i586__
+#endif
+
+#if !defined(__i686__) && (defined(i686) || defined(__i686))
+#  define __i686__
+#endif
+
 
 #if !defined(PLATFORM_CPU) && defined(FIND_X86_CPU)
 #  ifdef _M_AMD64

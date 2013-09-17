@@ -2989,6 +2989,7 @@ if test x"$is_unix" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(HAVE_TRANSLATION, false)
+  scounixcompile=no
   openserver5compile=no
   openserver6compile=no
   unixwarecompile=no
@@ -3036,6 +3037,11 @@ if test x"$is_unix" = "xyes"; then
       if test x"$sol_version" = "x5.7"; then
         ac_configure_args="$ac_configure_args --disable-sse"
       fi
+      ;;
+    sco3.2v4*)
+      scounixcompile=yes
+      AM_CONDITIONAL(UNIX_SCO4_COMPILE, true)
+      AC_DEFINE(SCO4UNIX_COMPILE,,[Enable SCO Unix 4.x support])
       ;;
     sco3.2v5*)
       openserver5compile=yes
@@ -3090,6 +3096,10 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$solariscompile" = "xno"; then
     AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  fi
+
+  if test x"$scounixcompile" = "xno"; then
+    AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   fi
 
   if test x"$openserver5compile" = "xno"; then
@@ -3152,6 +3162,7 @@ elif test x"$enable_dingoo" = "xyes" ; then
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
@@ -3203,6 +3214,7 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_NEXTSTEP_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
@@ -3233,6 +3245,7 @@ elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_NEXTSTEP_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
@@ -3266,6 +3279,7 @@ elif test x"$is_dos" = "xyes"; then
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_NEXTSTEP_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
@@ -3295,6 +3309,7 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_NEXTSTEP_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
@@ -3326,6 +3341,7 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_NEXTSTEP_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)  
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)  

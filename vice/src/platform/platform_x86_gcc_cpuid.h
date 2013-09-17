@@ -1,5 +1,5 @@
 /*
- * platform_syllable_runtime_os.c - Syllable runtime version discovery.
+ * platform_x86_gcc_cpuid.h - x86 gcc cpuid code.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,43 +24,34 @@
  *
  */
 
-/* Tested and confirmed working on:
-   - Syllable 0.6.7
-*/
+#ifndef PLATFORM_X86_GCC_CPUID_H
+#define PLATFORM_X86_GCC_CPUID_H
 
-#include "vice.h"
+#define cpuid(func, ax, bx, cx, dx) \
+    __asm__ __volatile__ ("cpuid":  \
+    "=a" (ax), "=b" (bx), "=c" (cx), "=d" (dx) : "a" (func))
 
-#ifdef __SYLLABLE__
-
-#include <sys/sysinfo.h>
-#include <sys/utsname.h>
-#include <string.h>
-
-#ifdef __GLIBC__
-#include <gnu/libc-version.h>
-#endif
-
-static system_info psi;
-static char os_string[256];
-
-char *platform_get_syllable_runtime_cpu(void)
+inline static int has_cpuid(void)
 {
-    get_system_info_v(&psi, SYS_INFO_VERSION);
-    return psi.zKernelCpuArch;
+#if defined(__amd64__) || defined(__x86_64__)
+    return 1;
+#else
+    int a = 0;
+    int c = 0;
+
+    __asm__ __volatile__ ("pushf;"
+                          "popl %0;"
+                          "movl %0, %1;"
+                          "xorl $0x200000, %0;"
+                          "push %0;"
+                          "popf;"
+                          "pushf;"
+                          "popl %0;"
+                          : "=a" (a), "=c" (c)
+                          :
+                          : "cc" );
+    return (a!=c);
+#endif
 }
 
-char *platform_get_syllable_runtime_os(void)
-{
-    struct utsname name;
-
-    uname(&name);
-    get_system_info_v(&psi, SYS_INFO_VERSION);
-    sprintf(os_string, "%s v%s.%s", psi.zKernelSystem, name.version, name.release);
-
-#ifdef __GLIBC__
-    sprintf(os_string, "%s (glibc %s)", os_string, gnu_get_libc_version());
-#endif
-
-    return os_string;
-}
 #endif

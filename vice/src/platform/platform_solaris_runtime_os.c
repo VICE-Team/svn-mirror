@@ -27,28 +27,6 @@
 /* Tested and confirmed working on:
 */
 
-/* cpu | version | uname.release | uname.version | uname.machine | canonial name
-   -----------------------------------------------------------------------------
-   x86 |     5   |     5.5.1     |   Generic     |    i86pc      | i386-pc-solaris2.5.1
- sparc |     5   |     5.5.1     |   Generic     |    sun4m      | sparc-solaris2.5.1
-   x86 |     6   |     5.6       |   Generic     |    i86pc      | i386-pc-solaris2.6
- sparc |     6   |     5.6       |   Generic*    |    sun4u      | sparc-solaris2.6
-   x86 |     7   |     5.7       |   Generic     |    i86pc      | i386-pc-solaris-2.7
- sparc |     7   |     5.7       |   Generic*    |    sun4u      | sparc-solaris2.7
-   x86 |     8   |     5.8       |   Generic*    |    i86pc      | i386-pc-solaris2.8
- sparc |     8   |     5.8       |   Generic*    |    sun4u      | sparc-solaris2.8
-   x86 |     9   |     5.9       |   Generic*    |    i86pc      | i386-pc-solaris2.9
- sparc |     9   |     5.9       |   Generic*    |    sun4u      | sparc-solaris2.9
-   x86 |    10   |     5.10      |   Generic*    |    i86pc      | i386-pc-solaris2.10
- sparc |    10   |     5.10      |   Generic*    |    sun4u      | sparc-solaris2.10
-   x86 |   open  |     5.11      |   *           |    i86pc      | i386-pc-solaris2.11
- sparc |   open  |
-   arm |   open  |
- s390x |   open  |
-   x86 |    11   |     5.11      |    11.0       |    i86pc      | i386-pc-solaris2.11
- sparc |    11   |
- */
-
 #include "vice.h"
 
 #if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))

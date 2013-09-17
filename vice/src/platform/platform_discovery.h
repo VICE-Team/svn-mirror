@@ -259,6 +259,17 @@
 #endif
 
 
+/* SCO Unix 4.x discovery */
+#ifdef SCO4UNIX_COMPILE
+#  ifdef __GNU_LIBRARY__
+#    define PLATFORM_OS "SCO Unix 4.x (glibc 1.x)"
+#  else 
+#    define PLATFORM_OS "SCO Unix 4.x"
+#  endif
+#  define FIND_X86_CPU
+#endif
+
+
 /* OpenServer 5.x discovery */
 #ifdef OPENSERVER5_COMPILE
 #  define PLATFORM_OS "OpenServer 5.x"
@@ -274,7 +285,7 @@
 
 
 /* UnixWare 7.x discovery */
-#ifdef _UNIXWARE7
+#ifdef UNIXWARE_COMPILE
 #  define PLATFORM_OS "UnixWare 7.x"
 #  define FIND_X86_CPU
 #endif

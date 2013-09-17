@@ -705,84 +705,20 @@ int archdep_rename(const char *oldpath, const char *newpath)
 
 char *archdep_get_runtime_os(void)
 {
-/* Windows on cygwin */
-#ifdef __CYGWIN32__
-#define RUNTIME_OS_HANDLED
-    return platform_get_cygwin_runtime_os();
-#endif
-
-/* MacOSX */
-#if defined(MACOSX_COCOA)
-#define RUNTIME_OS_HANDLED
-    return platform_get_macosx_runtime_os();
-#endif
-
-/* Solaris */
-#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
-#define RUNTIME_OS_HANDLED
-    return platform_get_solaris_runtime_os();
-#endif
-
-/* Syllable */
-#ifdef __SYLLABLE__
-#define RUNTIME_OS_HANDLED
-    return platform_get_syllable_runtime_os();
-#endif
-
-/* Linux */
-#if defined(__linux) && !defined(__ANDROID__)
-#define RUNTIME_OS_HANDLED
-    return platform_get_linux_runtime_os();
-#endif
-
-/* Interix */
-#ifdef __INTERIX
-#define RUNTIME_OS_HANDLED
-    return platform_get_interix_runtime_os();
-#endif
-
-/* SkyOS */
-#ifdef __SKYOS__
-#define RUNTIME_OS_HANDLED
-    return platform_get_skyos_runtime_os();
-#endif
-
 /* TODO: add runtime os detection code for other *nix os'es */
-#ifndef RUNTIME_OS_HANDLED
+#ifndef RUNTIME_OS_CALL
     return "*nix";
+#else
+    return RUNTIME_OS_CALL();
 #endif
 }
 
 char *archdep_get_runtime_cpu(void)
 {
-/* MacOSX */
-#if defined(MACOSX_COCOA)
-#define RUNTIME_CPU_HANDLED
-    return platform_get_macosx_runtime_cpu();
-#endif
-
-/* SkyOS */
-#ifdef __SKYOS__
-#define RUNTIME_CPU_HANDLED
-    return platform_get_skyos_runtime_cpu();
-#endif
-
-/* Syllable */
-#ifdef __SYLLABLE__
-#define RUNTIME_CPU_HANDLED
-    return platform_get_syllable_runtime_cpu();
-#endif
-
-/* x86/amd64/x86_64 */
-#if !defined(RUNTIME_CPU_HANDLED) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__) || defined(__amd64__) || defined(__x86_64__) || defined(_M_IX86))
-#if !defined(ANDROID_COMPILE) && !defined(SKYOS)
-#define RUNTIME_CPU_HANDLED
-    return platform_get_x86_runtime_cpu();
-#endif
-#endif
-
 /* TODO: add runtime cpu detection code for other cpu's */
-#ifndef RUNTIME_CPU_HANDLED
+#ifndef RUNTIME_CPU_CALL
     return "Unknown CPU";
+#else
+    return RUNTIME_CPU_CALL();
 #endif
 }

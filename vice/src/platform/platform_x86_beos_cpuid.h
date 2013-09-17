@@ -1,5 +1,5 @@
 /*
- * platform_syllable_runtime_os.c - Syllable runtime version discovery.
+ * platform_x86_beos_cpuid.h - BeOS x86 cpuid code.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,43 +24,36 @@
  *
  */
 
-/* Tested and confirmed working on:
-   - Syllable 0.6.7
-*/
+#ifndef PLATFORM_X86_BEOS_CPUID_H
+#define PLATFORM_X86_BEOS_CPUID_H
 
-#include "vice.h"
+#include <OS.h>
 
-#ifdef __SYLLABLE__
+static cpuid_info cpuid_info_ret;
 
-#include <sys/sysinfo.h>
-#include <sys/utsname.h>
-#include <string.h>
+#define cpuid(func, ax, bx, cx, dx)      \
+    get_cpuid(&cpuid_info_ret, func, 0); \
+    ax = cpuid_info_ret.regs.eax;        \
+    bx = cpuid_info_ret.regs.ebx;        \
+    cx = cpuid_info_ret.regs.ecx;        \
+    dx = cpuid_info_ret.regs.edx;
 
-#ifdef __GLIBC__
-#include <gnu/libc-version.h>
-#endif
-
-static system_info psi;
-static char os_string[256];
-
-char *platform_get_syllable_runtime_cpu(void)
+inline static int has_cpuid(void)
 {
-    get_system_info_v(&psi, SYS_INFO_VERSION);
-    return psi.zKernelCpuArch;
-}
+    int a = 0;
+    int c = 0;
 
-char *platform_get_syllable_runtime_os(void)
-{
-    struct utsname name;
-
-    uname(&name);
-    get_system_info_v(&psi, SYS_INFO_VERSION);
-    sprintf(os_string, "%s v%s.%s", psi.zKernelSystem, name.version, name.release);
-
-#ifdef __GLIBC__
-    sprintf(os_string, "%s (glibc %s)", os_string, gnu_get_libc_version());
-#endif
-
-    return os_string;
+    __asm__ __volatile__ ("pushf;"
+                          "popl %0;"
+                          "movl %0, %1;"
+                          "xorl $0x200000, %0;"
+                          "push %0;"
+                          "popf;"
+                          "pushf;"
+                          "popl %0;"
+                          : "=a" (a), "=c" (c)
+                          :
+                          : "cc" );
+    return (a!=c);
 }
 #endif

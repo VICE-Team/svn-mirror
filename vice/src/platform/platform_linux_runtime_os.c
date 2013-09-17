@@ -25,9 +25,7 @@
  */
 
 /* Tested and confirmed working on:
-*/
-
-/* cpu | libc
+   cpu | libc
    -----------
    x86 | libc4
    x86 | libc5

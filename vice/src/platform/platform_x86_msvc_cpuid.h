@@ -1,5 +1,5 @@
 /*
- * platform_syllable_runtime_os.c - Syllable runtime version discovery.
+ * platform_x86_msvc_cpuid.h - x86 msvc cpuid code.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,43 +24,35 @@
  *
  */
 
-/* Tested and confirmed working on:
-   - Syllable 0.6.7
-*/
+#ifndef PLATFORM_X86_MSVC_CPUID_H
+#define PLATFORM_X86_MSVC_CPUID_H
 
-#include "vice.h"
+#define cpuid(func, a, b, c, d) \
+    __asm mov eax, func \
+    __asm cpuid \
+    __asm mov a, eax \
+    __asm mov b, ebx \
+    __asm mov c, ecx \
+    __asm mov d, edx
 
-#ifdef __SYLLABLE__
-
-#include <sys/sysinfo.h>
-#include <sys/utsname.h>
-#include <string.h>
-
-#ifdef __GLIBC__
-#include <gnu/libc-version.h>
-#endif
-
-static system_info psi;
-static char os_string[256];
-
-char *platform_get_syllable_runtime_cpu(void)
+inline static int has_cpuid(void)
 {
-    get_system_info_v(&psi, SYS_INFO_VERSION);
-    return psi.zKernelCpuArch;
-}
+    int result;
 
-char *platform_get_syllable_runtime_os(void)
-{
-    struct utsname name;
-
-    uname(&name);
-    get_system_info_v(&psi, SYS_INFO_VERSION);
-    sprintf(os_string, "%s v%s.%s", psi.zKernelSystem, name.version, name.release);
-
-#ifdef __GLIBC__
-    sprintf(os_string, "%s (glibc %s)", os_string, gnu_get_libc_version());
-#endif
-
-    return os_string;
+    __asm {
+            pushfd
+            pop     eax
+            mov     ecx,    eax
+            xor     eax,    0x200000
+            push    eax
+            popfd
+            pushfd
+            pop     eax
+            xor     eax,    ecx
+            mov     result, eax
+            push    ecx
+            popfd
+    };
+    return (result != 0);
 }
 #endif
