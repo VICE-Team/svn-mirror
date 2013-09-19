@@ -607,6 +607,7 @@ void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val)
                                         mon_interfaces[mem]->context);
 }
 
+/* exit monitor  */
 void mon_jump(MON_ADDR addr)
 {
     mon_evaluate_default_addr(&addr);
@@ -614,11 +615,13 @@ void mon_jump(MON_ADDR addr)
     exit_mon = 1;
 }
 
+/* exit monitor  */
 void mon_go(void)
 {
     exit_mon = 1;
 }
 
+/* exit monitor, close monitor window  */
 void mon_exit(void)
 {
     exit_mon = 1;
@@ -2382,6 +2385,7 @@ static void monitor_open(void)
 static int monitor_process(char *cmd)
 {
     mon_stop_output = 0;
+
     if (cmd == NULL) {
         mon_out("\n");
     } else {
@@ -2389,7 +2393,6 @@ static int monitor_process(char *cmd)
             if (!asm_mode) {
                 /* Repeat previous command */
                 lib_free(cmd);
-
                 cmd = last_cmd ? lib_stralloc(last_cmd) : NULL;
             } else {
                 /* Leave asm mode */
@@ -2416,7 +2419,7 @@ static int monitor_process(char *cmd)
     lib_free(last_cmd);
 
     /* remember last command, except when leaving the monitor */
-    if (exit_mon) {
+    if (exit_mon && mon_console_suspend_on_leaving) {
         last_cmd = NULL;
     } else {
         last_cmd = cmd;
@@ -2445,7 +2448,7 @@ static void monitor_close(int check)
 
     exit_mon = 0;
 
-    last_cmd = NULL;
+    /* last_cmd = NULL; */
 
     if (monitor_is_remote()) {
         signals_pipe_unset();
@@ -2493,7 +2496,7 @@ void monitor_startup(MEMSPACE mem)
         }
 
         if (exit_mon) {
-            mon_out("exit\n");
+            /* mon_out("exit\n"); */
             break;
         }
     }
