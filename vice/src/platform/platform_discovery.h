@@ -169,13 +169,17 @@
 
 /* BeOS discovery */
 #ifdef __BEOS__
-#  ifdef WORDS_BIGENDIAN
+#  ifdef __MWERKS__
 #    define PLATFORM_CPU "PPC"
 #    define PLATFORM_COMPILER "MetroWerks"
 #  else
 #    define FIND_X86_CPU
 #  endif
-#  define PLATFORM_OS "BeOS"
+#  ifdef __ZETA__
+#    define PLATFORM_OS "Zeta"
+#  else
+#    define PLATFORM_OS "BeOS"
+#  endif
 #endif /* __BEOS__ */
 
 

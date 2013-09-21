@@ -40,6 +40,9 @@ static cpuid_info cpuid_info_ret;
 
 inline static int has_cpuid(void)
 {
+#if defined(__amd64__) || defined(__x86_64__)
+    return 1;
+#else
     int a = 0;
     int c = 0;
 
@@ -55,5 +58,6 @@ inline static int has_cpuid(void)
                           :
                           : "cc" );
     return (a!=c);
+#endif
 }
 #endif
