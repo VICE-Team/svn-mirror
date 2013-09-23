@@ -235,4 +235,7 @@ extern void vicii_timing_set(struct machine_timing_s *machine_timing,
 /* what to use to return an error when a socket error happens */
 #define ARCHDEP_SOCKET_ERROR errno
 
+/* Keyword to use for a static prototype */
+#define STATIC_PROTOTYPE static
+
 #endif

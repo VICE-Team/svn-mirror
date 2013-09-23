@@ -99,7 +99,7 @@ ui_menu_toggle scpu64_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-ui_res_possible_values SimmSize[] = {
+ui_res_possible_values scpu64ui_SimmSize[] = {
     { 0, MENU_SCPU64_SIMM_SIZE_0 },
     { 1, MENU_SCPU64_SIMM_SIZE_1 },
     { 4, MENU_SCPU64_SIMM_SIZE_4 },
@@ -108,7 +108,7 @@ ui_res_possible_values SimmSize[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values ReuSize[] = {
+ui_res_possible_values scpu64ui_ReuSize[] = {
     { 128, MENU_REU_SIZE_128 },
     { 256, MENU_REU_SIZE_256 },
     { 512, MENU_REU_SIZE_512 },
@@ -120,7 +120,7 @@ ui_res_possible_values ReuSize[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values GeoRAMSize[] = {
+ui_res_possible_values scpu64ui_GeoRAMSize[] = {
     { 64, MENU_GEORAM_SIZE_64 },
     { 128, MENU_GEORAM_SIZE_128 },
     { 256, MENU_GEORAM_SIZE_256 },
@@ -131,13 +131,13 @@ ui_res_possible_values GeoRAMSize[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values RamCartSize[] = {
+ui_res_possible_values scpu64ui_RamCartSize[] = {
     { 64, MENU_RAMCART_SIZE_64 },
     { 128, MENU_RAMCART_SIZE_128 },
     { -1, 0 }
 };
 
-ui_res_possible_values DigimaxBase[] = {
+ui_res_possible_values scpu64ui_DigimaxBase[] = {
     { 0xdd00, MENU_DIGIMAX_BASE_DD00 },
     { 0xde00, MENU_DIGIMAX_BASE_DE00 },
     { 0xde20, MENU_DIGIMAX_BASE_DE20 },
@@ -158,26 +158,26 @@ ui_res_possible_values DigimaxBase[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values SFXSoundExpanderChip[] = {
+ui_res_possible_values scpu64ui_SFXSoundExpanderChip[] = {
     { 3526, MENU_SFX_SE_3526 },
     { 3812, MENU_SFX_SE_3812 },
     { -1, 0 }
 };
 
-ui_res_possible_values BurstMod[] = {
+ui_res_possible_values scpu64ui_BurstMod[] = {
     { 0, MENU_BURSTMOD_NONE },
     { 1, MENU_BURSTMOD_CIA1 },
     { 2, MENU_BURSTMOD_CIA2 },
     { -1, 0 }
 };
 
-ui_res_possible_values MMC64Revision[] = {
+ui_res_possible_values scpu64ui_MMC64Revision[] = {
     { 0, MENU_MMC64_REVISION_A },
     { 1, MENU_MMC64_REVISION_B },
     { -1, 0 }
 };
 
-ui_res_possible_values MMC64CardType[] = {
+ui_res_possible_values scpu64ui_MMC64CardType[] = {
     { 0, MENU_MMC64_CARD_TYPE_AUTO },
     { 1, MENU_MMC64_CARD_TYPE_MMC },
     { 2, MENU_MMC64_CARD_TYPE_SD },
@@ -185,7 +185,7 @@ ui_res_possible_values MMC64CardType[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values MMCRCardType[] = {
+ui_res_possible_values scpu64ui_MMCRCardType[] = {
     { 0, MENU_MMCR_CARD_TYPE_AUTO },
     { 1, MENU_MMCR_CARD_TYPE_MMC },
     { 2, MENU_MMCR_CARD_TYPE_SD },
@@ -193,7 +193,7 @@ ui_res_possible_values MMCRCardType[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values scpu64mousetypes[] = {
+ui_res_possible_values scpu64ui_mousetypes[] = {
     { MOUSE_TYPE_1351, MENU_MOUSE_TYPE_1351 },
     { MOUSE_TYPE_NEOS, MENU_MOUSE_TYPE_NEOS },
     { MOUSE_TYPE_AMIGA, MENU_MOUSE_TYPE_AMIGA },
@@ -206,13 +206,13 @@ ui_res_possible_values scpu64mousetypes[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values scpu64mouseports[] = {
+ui_res_possible_values scpu64ui_mouseports[] = {
     { 1, MENU_MOUSE_PORT_JOY1 },
     { 2, MENU_MOUSE_PORT_JOY2 },
     { -1, 0 }
 };
 
-ui_res_possible_values viciimodels[] = {
+ui_res_possible_values scpu64ui_viciimodels[] = {
     { VICII_MODEL_6569, MENU_VICII_MODEL_6569_PAL },
     { VICII_MODEL_8565, MENU_VICII_MODEL_8565_PAL },
     { VICII_MODEL_6569R1, MENU_VICII_MODEL_6569R1_OLD_PAL },
@@ -223,32 +223,32 @@ ui_res_possible_values viciimodels[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values cia1models[] = {
+ui_res_possible_values scpu64ui_cia1models[] = {
     { 0, MENU_CIA1_MODEL_6526_OLD },
     { 1, MENU_CIA1_MODEL_6526A_NEW },
     { -1, 0 }
 };
 
-ui_res_possible_values cia2models[] = {
+ui_res_possible_values scpu64ui_cia2models[] = {
     { 0, MENU_CIA2_MODEL_6526_OLD },
     { 1, MENU_CIA2_MODEL_6526A_NEW },
     { -1, 0 }
 };
 
-ui_res_possible_values gluelogic[] = {
+ui_res_possible_values scpu64ui_gluelogic[] = {
     { 0, MENU_GLUE_LOGIC_DISCRETE },
     { 1, MENU_GLUE_LOGIC_CUSTOM_IC },
     { -1, 0 }
 };
 
-ui_res_possible_values RenderFilters[] = {
+ui_res_possible_values scpu64ui_RenderFilters[] = {
     { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
     { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
     { VIDEO_FILTER_SCALE2X, MENU_RENDER_FILTER_SCALE2X },
     { -1, 0 }
 };
 
-ui_res_possible_values ExpertModes[] = {
+ui_res_possible_values scpu64ui_ExpertModes[] = {
     { 0, MENU_EXPERT_MODE_OFF },
     { 1, MENU_EXPERT_MODE_PRG },
     { 2, MENU_EXPERT_MODE_ON },
@@ -256,24 +256,24 @@ ui_res_possible_values ExpertModes[] = {
 };
 
 ui_res_value_list scpu64_ui_res_values[] = {
-    { "VICIIModel", viciimodels },
-    { "SIMMSize", SimmSize },
-    { "REUsize", ReuSize },
-    { "GeoRAMsize", GeoRAMSize },
-    { "RAMCARTsize", RamCartSize },
-    { "DIGIMAXbase", DigimaxBase },
-    { "SFXSoundExpanderChip", SFXSoundExpanderChip },
-    { "BurstMod", BurstMod },
-    { "MMC64_revision", MMC64Revision },
-    { "MMC64_sd_type", MMC64CardType },
-    { "MMCRSDType", MMCRCardType },
-    { "Mousetype", scpu64mousetypes },
-    { "Mouseport", scpu64mouseports },
-    { "CIA1Model", cia1models },
-    { "CIA2Model", cia2models },
-    { "GlueLogic", gluelogic },
-    { "VICIIFilter", RenderFilters },
-    { "ExpertCartridgeMode", ExpertModes },
+    { "VICIIModel", scpu64ui_viciimodels },
+    { "SIMMSize", scpu64ui_SimmSize },
+    { "REUsize", scpu64ui_ReuSize },
+    { "GeoRAMsize", scpu64ui_GeoRAMSize },
+    { "RAMCARTsize", scpu64ui_RamCartSize },
+    { "DIGIMAXbase", scpu64ui_DigimaxBase },
+    { "SFXSoundExpanderChip", scpu64ui_SFXSoundExpanderChip },
+    { "BurstMod", scpu64ui_BurstMod },
+    { "MMC64_revision", scpu64ui_MMC64Revision },
+    { "MMC64_sd_type", scpu64ui_MMC64CardType },
+    { "MMCRSDType", scpu64ui_MMCRCardType },
+    { "Mousetype", scpu64ui_mousetypes },
+    { "Mouseport", scpu64ui_mouseports },
+    { "CIA1Model", scpu64ui_cia1models },
+    { "CIA2Model", scpu64ui_cia2models },
+    { "GlueLogic", scpu64ui_gluelogic },
+    { "VICIIFilter", scpu64ui_RenderFilters },
+    { "ExpertCartridgeMode", scpu64ui_ExpertModes },
     { NULL, NULL }
 };
 

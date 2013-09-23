@@ -158,4 +158,7 @@ extern const char *archdep_pref_path;
 /* Default sound output mode */
 #define ARCHDEP_SOUND_OUTPUT_MODE SOUND_OUTPUT_SYSTEM
 
+/* Keyword to use for a static prototype */
+#define STATIC_PROTOTYPE static
+
 #endif

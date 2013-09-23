@@ -70,13 +70,8 @@
 #define VIDEORAM_OFFSET 2
 #define BITMAP_OFFSET 1026
 
-#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
-extern gfxoutputdrv_t doodle_drv;
-extern gfxoutputdrv_t doodle_compressed_drv;
-#else
-static gfxoutputdrv_t doodle_drv;
-static gfxoutputdrv_t doodle_compressed_drv;
-#endif
+STATIC_PROTOTYPE gfxoutputdrv_t doodle_drv;
+STATIC_PROTOTYPE gfxoutputdrv_t doodle_compressed_drv;
 
 /* ------------------------------------------------------------------------ */
 

@@ -244,9 +244,10 @@ if test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
   fi
 fi
 
-dnl disable toolchain checking for ppc-beos
+dnl disable toolchain and ar checking for ppc-beos
 if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xpowerpc"; then
   toolchain_check=no
+  ar_check=no
 fi
 
 dnl Enable the SDL UI by default for syllable.
@@ -322,22 +323,24 @@ AM_PROG_LEX
 AM_PROG_AS
 
 dnl check if ar truncates object names
-AC_MSG_CHECKING(if ar truncates object names)
-rm -f vicetest.c
-touch vicetest.c
-$CC -c vicetest.c -o some_long_object_name.o
-rm -f vicetest.c
-rm -f libvicetest.a
-$AR cru libvicetest.a some_long_object_name.o
-rm -f some_long_object_name.o
-$AR x libvicetest.a
-if test -f some_long_object_name.o; then
-  AC_MSG_RESULT(no)
-  rm -f some_long_object_name.o libvicetest.a
-else
-  AC_MSG_RESULT(yes)
-  rm -f some*.o libvicetest.a
-  AC_MSG_ERROR([ar is too old, upgrade your ar])
+if test x"$ar_check" != "xno"; then
+  AC_MSG_CHECKING(if ar truncates object names)
+  rm -f vicetest.c
+  touch vicetest.c
+  $CC -c vicetest.c -o some_long_object_name.o
+  rm -f vicetest.c
+  rm -f libvicetest.a
+  $AR cru libvicetest.a some_long_object_name.o
+  rm -f some_long_object_name.o
+  $AR x libvicetest.a
+  if test -f some_long_object_name.o; then
+    AC_MSG_RESULT(no)
+    rm -f some_long_object_name.o libvicetest.a
+  else
+    AC_MSG_RESULT(yes)
+    rm -f some*.o libvicetest.a
+    AC_MSG_ERROR([ar is too old, upgrade your ar])
+  fi
 fi
 
 AC_CHECK_PROGS(MAKEINFO, makeinfo, no)

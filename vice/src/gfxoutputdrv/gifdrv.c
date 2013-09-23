@@ -57,11 +57,7 @@ typedef struct gfxoutputdrv_data_s {
     unsigned int line;
 } gfxoutputdrv_data_t;
 
-#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
-extern gfxoutputdrv_t gif_drv;
-#else
-static gfxoutputdrv_t gif_drv;
-#endif
+STATIC_PROTOTYPE gfxoutputdrv_t gif_drv;
 
 static ColorMapObject *gif_colors = NULL;
 

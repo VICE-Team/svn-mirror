@@ -72,13 +72,8 @@
 #define VIDEORAM_OFFSET 9002
 #define BGCOLOR_OFFSET 10002
 
-#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
-extern gfxoutputdrv_t koala_drv;
-extern gfxoutputdrv_t koala_compressed_drv;
-#else
-static gfxoutputdrv_t koala_drv;
-static gfxoutputdrv_t koala_compressed_drv;
-#endif
+STATIC_PROTOTYPE gfxoutputdrv_t koala_drv;
+STATIC_PROTOTYPE gfxoutputdrv_t koala_compressed_drv;
 
 /* ------------------------------------------------------------------------ */
 

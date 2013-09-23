@@ -89,4 +89,11 @@
 /* what to use to return an error when a socket error happens */
 #define ARCHDEP_SOCKET_ERROR errno
 
+/* Keyword to use for a static prototype */
+#ifdef WORDS_BIGENDIAN
+#define STATIC_PROTOTYPE extern
+#else
+#define STATIC_PROTOTYPE static
+#endif
+
 #endif

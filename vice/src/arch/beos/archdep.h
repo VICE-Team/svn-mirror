@@ -110,4 +110,11 @@
 /* Default sound output mode */
 #define ARCHDEP_SOUND_OUTPUT_MODE SOUND_OUTPUT_SYSTEM
 
+/* Keyword to use for a static prototype */
+#ifdef WORDS_BIGENDIAN
+#define STATIC_PROTOTYPE extern
+#else
+#define STATIC_PROTOTYPE static
+#endif
+
 #endif

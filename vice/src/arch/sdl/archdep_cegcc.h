@@ -92,4 +92,7 @@
 /* what to use to return an error when a socket error happens */
 #define ARCHDEP_SOCKET_ERROR WSAGetLastError()
 
+/* Keyword to use for a static prototype */
+#define STATIC_PROTOTYPE static
+
 #endif

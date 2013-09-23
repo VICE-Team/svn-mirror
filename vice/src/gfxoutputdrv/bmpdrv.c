@@ -53,11 +53,7 @@ typedef struct gfxoutputdrv_data_s {
     unsigned int bpp;
 } gfxoutputdrv_data_t;
 
-#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
-extern gfxoutputdrv_t bmp_drv;
-#else
-static gfxoutputdrv_t bmp_drv;
-#endif
+STATIC_PROTOTYPE gfxoutputdrv_t bmp_drv;
 
 static int bmpdrv_bytes_per_row(screenshot_t *screenshot)
 {

@@ -51,7 +51,7 @@ typedef struct gfxoutputdrv_data_s {
     unsigned int line;
 } gfxoutputdrv_data_t;
 
-static gfxoutputdrv_t png_drv;
+STATIC_PROTOTYPE gfxoutputdrv_t png_drv;
 
 static int pngdrv_open(screenshot_t *screenshot, const char *filename)
 {
