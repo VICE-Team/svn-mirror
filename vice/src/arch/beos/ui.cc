@@ -563,6 +563,8 @@ static void ui_paste_clipboard_text(void)
     int32 textlen = 0;
     BMessage *clippy = (BMessage *)NULL;
 
+    /* FIXME: fix for haiku64 */
+#if !defined(__x86_64__) && !defined(__amd64__)
     if (be_clipboard->Lock()) {
         if (clippy = be_clipboard->Data()) {
             clippy->FindData("text/plain", B_MIME_TYPE, (const void **)&text, &textlen);
@@ -578,6 +580,7 @@ static void ui_paste_clipboard_text(void)
         }
         be_clipboard->Unlock();
     }
+#endif
 } 
 
 /* here the stuff for queueing and dispatching ui commands */

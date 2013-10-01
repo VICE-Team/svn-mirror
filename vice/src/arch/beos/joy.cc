@@ -143,13 +143,13 @@ static void joystick_open_device(int dev_index)
 static int set_joystick_device(int val, void *param)
 {
     if (joystick_initialized) {
-        joystick_close_device((int)param);
+        joystick_close_device(*((int*)(&param)));
     }
 
-    joystick_port_map[(int)param] = (joystick_device_t)val;
+    joystick_port_map[*((int*)(&param))] = (joystick_device_t)val;
 
     if (joystick_initialized) {
-        joystick_open_device((int)param);
+        joystick_open_device(*((int*)(&param)));
     }
 
     return 0;
