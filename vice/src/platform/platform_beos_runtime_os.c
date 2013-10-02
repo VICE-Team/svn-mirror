@@ -26,9 +26,24 @@
 
 /* Tested and confirmed working on:
    - BeOS R5 PE x86
+   - BeOS Max V4b1 x86
+   - Zeta 1.21
    - Haiku R1 Alpha3 x86
    - Haiku R1 Alpha4 x86
+   - Haiku R1 Alpha4 amd64/x86_64
 */
+
+/* Binary compatibility table:
+   compiled for | |running on ->
+                v | BeoS 5.x | Zeta | Haiku r1 | haiku 64bit | PPC BeOS
+   --------------------------------------------------------------------
+   BeOS gcc 2.9   | yes      | yes  | yes      | NO          | NO
+   BeOS gcc 2.95* | yes      | yes  | yes      | NO          | NO
+   Zeta           | NO       | yes  | NO       | NO          | NO
+   Haiku r1       | NO       | NO   | yes      | NO          | NO
+   Haiku 64bit    | NO       | NO   | NO       | yes         | NO
+   PPC BeOS       | NO       | NO   | NO       | NO          | yes
+ */
 
 #include "vice.h"
 
