@@ -39,7 +39,7 @@ single_build=no
 mkdir bins
 
 if test x"$build_i386" = "xyes"; then
-  CFLAGS="-s -arch i386" ./configure -v --host=i386-next-openstep --prefix=/usr/local -disable-nls --without-resid
+  CFLAGS="-arch i386" ./configure -v --host=i386-next-openstep --prefix=/usr/local -disable-nls --without-resid
   make
   makedone=yes
   if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
@@ -50,6 +50,7 @@ if test x"$build_i386" = "xyes"; then
   if test x"$build_m68k" = "xyes" -o x"$build_hppa" = "xyes" -o x"$build_sparc" = "xyes"; then
     for i in x128 x64 x64dtv xcbm2 xpet xplus4 xvic c1541 cartconv petcat
     do
+      strip src/$i
       mv src/$i bins/$i.i386
     done
   else
@@ -61,7 +62,7 @@ if test x"$build_m68k" = "xyes"; then
   if test x"$makedone" = "xyes"; then
     make clean
   fi
-  CFLAGS="-s -arch m68k" ./configure -v --host=m68k-next-openstep --prefix=/usr/local -disable-nls --without-resid
+  CFLAGS="-arch m68k" ./configure -v --host=m68k-next-openstep --prefix=/usr/local -disable-nls --without-resid
   make
   makedone=yes
   if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
@@ -72,6 +73,7 @@ if test x"$build_m68k" = "xyes"; then
   if test x"$build_i386" = "xyes" -o x"$build_hppa" = "xyes" -o x"$build_sparc" = "xyes"; then
     for i in x128 x64 x64dtv xcbm2 xpet xplus4 xvic c1541 cartconv petcat
     do
+      strip src/$i
       mv src/$i bins/$i.m68k
     done
   else
@@ -83,7 +85,7 @@ if test x"$build_sparc" = "xyes"; then
   if test x"$makedone" = "xyes"; then
     make clean
   fi
-  CFLAGS="-s -arch sparc" ./configure -v --host=sparc-next-openstep --prefix=/usr/local -disable-nls --without-resid
+  CFLAGS="-arch sparc" ./configure -v --host=sparc-next-openstep --prefix=/usr/local -disable-nls --without-resid
   make
   if [ ! -e src/x64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
   then
@@ -93,6 +95,7 @@ if test x"$build_sparc" = "xyes"; then
   if test x"$build_i386" = "xyes" -o x"$build_m68k" = "xyes" -o x"$build_hppa" = "xyes"; then
     for i in x128 x64 x64dtv xcbm2 xpet xplus4 xvic c1541 cartconv petcat
     do
+      strip src/$i
       mv src/$i bins/$i.sparc
     done
   else
