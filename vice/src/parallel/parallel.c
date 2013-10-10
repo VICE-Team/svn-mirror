@@ -41,6 +41,7 @@
 
 #include <stdio.h>
 
+#include "archdep.h"
 #include "cmdline.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -153,11 +154,7 @@ static const char *Trans[NTRANS] = {
     "NDAC low", "NDAC high", "NRFD low", "NRFD high"
 };
 
-#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
-extern State_t State[];
-#else
-static State_t State[NSTATE];
-#endif
+STATIC_PROTOTYPE State_t State[];
 
 static int state = WaitATN;
 
