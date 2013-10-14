@@ -250,6 +250,13 @@ if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xpowerpc"; then
   ar_check=no
 fi
 
+dnl disable ar checking for nextstep, openstep and rhapsody
+case "$host_os" in
+  nextstep*|openstep*|rhapsody*)
+    ar_check=no
+    ;;
+esac
+
 dnl Enable the SDL UI by default for syllable.
 if test x"$host_os" = "xsyllable"; then
   enable_sdlui=yes
@@ -2298,9 +2305,15 @@ AC_TYPE_SIGNAL
 AC_FUNC_VFORK
 AC_CHECK_TYPES(u_short)
 AC_CHECK_TYPES(socklen_t, [], [], [[#include <sys/socket.h>]])
+
 dnl some platforms have some of the functions in libbsd,
 dnl so we check it out first.
 AC_CHECK_LIB(bsd,gettimeofday,,,$LIBS)
+
+dnl some platforms have some of the functions in libposix,
+dnl so we check it out second.
+AC_CHECK_LIB(posix,gettimeofday,,$LIBS)
+
 AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp dirname mkstemp swab getcwd getpwuid rewinddir)
 AC_CHECK_FUNCS(strdup, [have_strdup_func=yes], [have_strdup_func=no])
 
