@@ -1377,8 +1377,22 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = 
   if test x"$host_os" != "xqnx"; then
     dnl Check for needed network headers
     UNIX_NETWORK_HEADERS_PRESENT=yes
-    AC_CHECK_HEADERS(sys/types.h unistd.h sys/socket.h sys/time.h sys/select.h netinet/in.h arpa/inet.h netdb.h,,
-                     [UNIX_NETWORK_HEADERS_PRESENT=no],)
+    case "$host_os" in
+      nextstep*|openstep*|rhapsody*)
+        AC_CHECK_HEADERS(sys/types.h unistd.h sys/socket.h sys/time.h netinet/in.h arpa/inet.h netdb.h,,
+                         [UNIX_NETWORK_HEADERS_PRESENT=no],)
+        if test x"$UNIX_NETWORK_HEADERS_PRESENT" = "xyes"; then
+          AC_CHECK_HEADERS(sys/select.h,,[sys_select_present=no],)
+          if test x"$sys_select_present" = "xno"; then
+            AC_CHECK_HEADERS(libc.h,,[UNIX_NETWORK_HEADERS_PRESENT=no],)
+          fi
+        fi
+        ;;
+      *)
+        AC_CHECK_HEADERS(sys/types.h unistd.h sys/socket.h sys/time.h sys/select.h netinet/in.h arpa/inet.h netdb.h,,
+                         [UNIX_NETWORK_HEADERS_PRESENT=no],)
+        ;;
+    esac
   else
     LIBS="-lsocket -lunix $LIBS"
   fi
@@ -2639,6 +2653,10 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
                      LINK_X_LIBS="-lXaw $LINK_X_LIBS"],
                    [ MISSING_X_LIBS="$MISSING_X_LIBS Xaw" ],
                    $X_LIBS $X_PRE_LIBS)
+      AC_CHECK_HEADER(X11/Xaw/Tip.h,,)
+      if test x"$ac_cv_header_X11_Xaw_Tip_h" != "xyes" ; then
+        AC_MSG_ERROR([X11/Xaw/Tip.h is missing.])
+      fi
     else
       AC_CHECK_LIB(Xaw3d, XawFormDoLayout,
                    [ X_LIBS="-lXaw3d $X_LIBS";
@@ -2646,6 +2664,10 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
                      AC_DEFINE(USE_XAW3D,,[Enable Xaw3d.])],
                    [ MISSING_X_LIBS="$MISSING_X_LIBS Xaw3d" ],
                    $X_LIBS $X_PRE_LIBS)
+      AC_CHECK_HEADER(X11/Xaw3d/Tip.h,,)
+      if test x"$ac_cv_header_X11_Xaw3d_Tip_h" != "xyes" ; then
+        AC_MSG_ERROR([X11/Xaw3d/Tip.h is missing.])
+      fi
     fi
 
     AC_CHECK_HEADER(X11/extensions/XShm.h,,,[#include <X11/Xlib.h>])
@@ -2654,6 +2676,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
                    [ AC_DEFINE(USE_MITSHM,,
                    [Enable MITSHM extensions.]) ],,$X_LIBS)
     fi
+
 
     if test x"$MISSING_X_LIBS" != "x"; then
       AC_MSG_ERROR([The following important X11 libraries were not found: $MISSING_X_LIBS])
