@@ -2326,7 +2326,7 @@ AC_CHECK_LIB(bsd,gettimeofday,,,$LIBS)
 
 dnl some platforms have some of the functions in libposix,
 dnl so we check it out second.
-AC_CHECK_LIB(posix,gettimeofday,,$LIBS)
+AC_CHECK_LIB(posix,gettimeofday,,,$LIBS)
 
 AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp dirname mkstemp swab getcwd getpwuid rewinddir)
 AC_CHECK_FUNCS(strdup, [have_strdup_func=yes], [have_strdup_func=no])
