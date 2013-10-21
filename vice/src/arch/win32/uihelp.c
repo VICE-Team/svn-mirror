@@ -37,6 +37,7 @@
 #include "intl.h"
 #include "lib.h"
 #include "machine.h"
+#include "platform_discovery.h"
 #include "res.h"
 #include "system.h"
 #include "translate.h"

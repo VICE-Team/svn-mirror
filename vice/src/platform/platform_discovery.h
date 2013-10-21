@@ -125,7 +125,7 @@
 
 
 /* MacOS X discovery */
-#ifdef __APPLE__
+#if defined(__APPLE__) && !defined(RHAPSODY_COMPILE)
 #  include "platform_macosx.h"
 #endif
 
@@ -418,6 +418,10 @@
 
 #ifndef PLATFORM_COMPILER
 #  define PLATFORM_COMPILER "unknown compiler"
+#endif
+
+#ifndef PLATFORM
+#  define PLATFORM PLATFORM_OS " " PLATFORM_CPU " " PLATFORM_COMPILE
 #endif
 
 #endif
