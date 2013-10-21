@@ -54,7 +54,7 @@
 #    define INTERNATIONAL_SUPPORT
 #  endif
 #else
-#  if !defined(_WCHAR_T_DEFINED_) && !defined(_GCC_WCHAR_T) && !defined(_WCHAR_T)
+#  if !defined(_WCHAR_T_DEFINED_) && !defined(_GCC_WCHAR_T) && !defined(_WCHAR_T) && !defined(_BSD_WCHAR_T_DEFINED_)
      typedef char wchar_t;
 #  endif
 #endif
