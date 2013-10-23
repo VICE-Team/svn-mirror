@@ -27,6 +27,10 @@
 
 #include "vice.h"
 
+#ifdef __NeXT__
+#define _POSIX_SOURCE
+#endif
+
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
