@@ -205,12 +205,12 @@
 #endif
 
 /* OW compiler discovery */
-#if !defined(PLATFORM_COMPILE) && defined(WATCOM_COMPILE)
+#if !defined(PLATFORM_COMPILER) && defined(WATCOM_COMPILE)
 #  define PLATFORM_COMPILER "OpenWatcom"
 #endif
 
 /* MSVC compiler discovery */
-#if !defined(PLATFORM_COMPILE) && defined(_MSC_VER)
+#if !defined(PLATFORM_COMPILER) && defined(_MSC_VER)
 #  if (_MSC_VER == 1100)
 #    define PLATFORM_COMPILER "msvc5/vs97"
 #  endif
