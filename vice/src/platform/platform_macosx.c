@@ -30,7 +30,10 @@
 /* Tested and confirmed working on:
 */
 
-#ifdef __APPLE__
+#include "vice.h"
+
+
+#if defined(__APPLE__) && !defined(RHAPSODY_COMPILE)
 
 #include <string.h>
 #include <sys/types.h>
