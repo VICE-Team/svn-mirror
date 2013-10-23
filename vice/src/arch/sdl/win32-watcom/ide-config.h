@@ -50,6 +50,15 @@
 #define HAVE_SIGNAL_H         1
 #define HAVE_WINIOCTL_H       1
 
+#define HAVE_STRTOK_R			1
+#define HAVE_STRREV			1
+#define HAVE_STRLWR			1
+#define HAVE_STRLCPY			1
+#define HAVE_LTOA			1
+#define HAVE_ULTOA			1
+#define HAVE_VSNPRINTF		1
+#define HAVE_SNPRINTF			1
+
 #define DWORD_IS_LONG         1
 #define HAVE_CRTDBG           1
 #define HAVE_HTONL            1

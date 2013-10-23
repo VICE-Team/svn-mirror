@@ -316,6 +316,16 @@ fi
 
 AC_SUBST(ENABLE_ARCH)
 
+dnl check if the compiler supports -posix
+AC_MSG_CHECKING([if the compiler supports -posix])
+ORIG_CFLAGS=$CFLAGS
+CFLAGS="$CFLAGS -posix"
+AC_TRY_COMPILE([],
+               [int test;],
+               [ AC_MSG_RESULT(yes) ],
+               [ AC_MSG_RESULT(no)
+                 CFLAGS=$ORIG_CFLAGS ])
+
 dnl Check for needed external programs.
 AC_PROG_CPP
 AC_CHECK_PROG(AR, ar, ar, ar)
@@ -2328,7 +2338,7 @@ dnl some platforms have some of the functions in libposix,
 dnl so we check it out second.
 AC_CHECK_LIB(posix,gettimeofday,,,$LIBS)
 
-AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp dirname mkstemp swab getcwd getpwuid rewinddir)
+AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp dirname mkstemp swab getcwd getpwuid rewinddir strtok strtok_r snprintf ltoa ultoa strlcpy strlwr strrev)
 AC_CHECK_FUNCS(strdup, [have_strdup_func=yes], [have_strdup_func=no])
 
 if test x"$have_strdup_func" = "xno"; then
@@ -2940,12 +2950,15 @@ else
   AM_CONDITIONAL(SUPPORT_X64SC, true)
 fi
 
-dnl disable building of xscpu64 for beos
-if test x"$is_beos" = "xyes"; then
-  AM_CONDITIONAL(SUPPORT_XSCPU64, false)
-else
-  AM_CONDITIONAL(SUPPORT_XSCPU64, true)
-fi
+dnl disable building of xscpu64 for nextstep, openstep and rhapsody
+case "$host_os" in
+  nextstep*|openstep*|rhapsody*)
+    AM_CONDITIONAL(SUPPORT_XSCPU64, false)
+    ;;
+  *)
+    AM_CONDITIONAL(SUPPORT_XSCPU64, true)
+    ;;
+esac
 
 dnl Setup the system-specific object files.
 if test x"$enable_sdlui" = "xyes"; then

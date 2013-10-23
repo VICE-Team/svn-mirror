@@ -54,6 +54,15 @@
 #define HAVE_DSOUND_LIB            1
 #define USE_DXSOUND                1
 
+#define HAVE_STRTOK_R			1
+#define HAVE_STRREV			1
+#define HAVE_STRLWR			1
+#define HAVE_STRLCPY			1
+#define HAVE_LTOA			1
+#define HAVE_ULTOA			1
+#define HAVE_VSNPRINTF		1
+#define HAVE_SNPRINTF			1
+
 #define __i386__                   1
 
 #define inline

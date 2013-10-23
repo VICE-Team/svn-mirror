@@ -150,6 +150,15 @@
 #define HAVE_GETCWD           1
 #define HAVE_SYS_TYPES_H      1
 
+#define HAVE_STRTOK_R			1
+#define HAVE_STRREV			1
+#define HAVE_STRLWR			1
+#define HAVE_STRLCPY			1
+#define HAVE_LTOA			1
+#define HAVE_ULTOA			1
+#define HAVE_VSNPRINTF		1
+#define HAVE_SNPRINTF			1
+
 /* #undef HAVE_USLEEP *//* Define if you have the usleep function.  */
 /* #undef HAVE_REGEX_H *//* Define if you have the <regex.h> header file.  */
 /* #undef HAVE_SYS_DIR_H *//* Define if you have the <sys/dir.h> header file.  */
