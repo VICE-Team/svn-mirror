@@ -25,6 +25,9 @@
  */
 
 /* Tested and confirmed working on:
+   - Cygwin 1.7.16 (x86)
+   - Cygwin 1.7.25 (x86)
+   - Cygwin 1.7.25 (x86_64)
 */
 
 #include "vice.h"
