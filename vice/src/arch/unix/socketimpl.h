@@ -58,10 +58,14 @@ extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
 #include <netdb.h>
 #include <sys/time.h>
 
-#ifndef VMS
+#ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
  
+#ifdef HAVE_LIBC_H
+#include <libc.h>
+#endif
+
 #include <unistd.h>
 
 #ifdef __minix
