@@ -61,11 +61,10 @@
 
 #include <unistd.h>
 
-#if defined(MINIX_SUPPORT) || defined(OPENSERVER6_COMPILE)
-#include <sys/select.h>
-#endif
-
-#if defined(__QNX__) && !defined(__QNXNTO__)
+/* <sys/select.h> is required for select(2) and fd_set */
+#if defined(HAVE_SYS_SELECT_H) || \
+    defined(MINIX_SUPPORT) || defined(OPENSERVER6_COMPILE) || \
+    (defined(__QNX__) && !defined(__QNXNTO__))
 #include <sys/select.h>
 #endif
 
