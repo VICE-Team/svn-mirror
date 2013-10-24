@@ -858,7 +858,13 @@ static int open_msvc10_11_12_main_project(int msvc11, int msvc12, int sdl)
 {
     pi_init();
 
-    if (msvc11) {
+    if (msvc12) {
+        if (sdl) {
+            mainfile = fopen("../../sdl/win32-msvc12/vice.sln", "wb");
+        } else {
+            mainfile = fopen("../vs12/vice.sln", "wb");
+        }
+    } else if (msvc11) {
         if (sdl) {
             mainfile = fopen("../../sdl/win32-msvc11/vice.sln", "wb");
         } else {
@@ -877,12 +883,17 @@ static int open_msvc10_11_12_main_project(int msvc11, int msvc12, int sdl)
         return 1;
     }
 
-    if (msvc11) {
+    if (msvc12) {
         fprintf(mainfile, "Microsoft Visual Studio Solution File, Format Version 12.00\r\n");
-        fprintf(mainfile, "# Visual Studio 2012\r\n");
+        fprintf(mainfile, "# Visual Studio 2013\r\n");
     } else {
-        fprintf(mainfile, "Microsoft Visual Studio Solution File, Format Version 11.00\r\n");
-        fprintf(mainfile, "# Visual Studio 2010\r\n");
+        if (msvc11) {
+            fprintf(mainfile, "Microsoft Visual Studio Solution File, Format Version 12.00\r\n");
+            fprintf(mainfile, "# Visual Studio 2012\r\n");
+        } else {
+            fprintf(mainfile, "Microsoft Visual Studio Solution File, Format Version 11.00\r\n");
+            fprintf(mainfile, "# Visual Studio 2010\r\n");
+        }
     }
 
     return 0;
@@ -929,7 +940,13 @@ static int output_msvc10_11_12_file(char *fname, int filelist, int msvc11, int m
         } else {
             filename = malloc(strlen(rfname) + sizeof("../vs10/.vcxproj"));
         }
-        if (msvc11) {
+        if (msvc12) {
+            if (sdl) {
+                sprintf(filename, "../../sdl/win32-msvc12/%s.vcxproj", rfname);
+            } else {
+                sprintf(filename, "../vs12/%s.vcxproj", rfname);
+            }
+        } else if (msvc11) {
             if (sdl) {
                 sprintf(filename, "../../sdl/win32-msvc11/%s.vcxproj", rfname);
             } else {
