@@ -25,6 +25,13 @@
  *
  */
 
+/*
+ * Hack to make <sys/types.h> define the types required for <pcap.h>
+ * when compiling for POSIX (gcc -posix).
+ */
+#ifdef __NetBSD__
+# define _NETBSD_SOURCE  1
+#endif
 #include "vice.h"
 
 #ifdef HAVE_TFE 
