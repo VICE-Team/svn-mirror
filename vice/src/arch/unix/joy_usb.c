@@ -24,6 +24,13 @@
  *
  */
 
+/*
+ * Hack to make <sys/types.h> define the types required for <dev/usb/usb.h>.
+ */
+#ifdef __NetBSD__
+# define _NETBSD_SOURCE  1
+#endif
+
 #include "vice.h"
 
 #include <fcntl.h>
@@ -53,14 +60,14 @@ extern log_t joystick_log;
 #endif
 
 #ifdef __DragonFly__
-#include <bus/usb/usb.h>
-#include <bus/usb/usbhid.h>
+# include <bus/usb/usb.h>
+# include <bus/usb/usbhid.h>
 #else
-#ifdef __FreeBSD__
-#include <sys/ioccom.h>
-#endif
-#include <dev/usb/usb.h>
-#include <dev/usb/usbhid.h>
+# ifdef __FreeBSD__
+#  include <sys/ioccom.h>
+# endif
+# include <dev/usb/usb.h>
+# include <dev/usb/usbhid.h>
 #endif
 
 #include <errno.h>
