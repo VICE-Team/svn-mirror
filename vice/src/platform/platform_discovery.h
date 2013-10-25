@@ -342,7 +342,7 @@
 
 
 /* DOS discovery */
-#ifdef __DOS__
+#ifdef __MSDOS__
 #  define PLATFORM_OS "DOS"
 #endif
 
