@@ -25,7 +25,9 @@
  *
  */
 
-/* This file is currently not included by any CPU definition files */
+/* This file is included by the following CPU definition files:
+ * - main65816cpu.c
+ */
 
 /* any CPU definition file that includes this file needs to do the following:
  *
