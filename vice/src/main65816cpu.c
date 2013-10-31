@@ -1,5 +1,5 @@
 /*
- * main65816cpu.c - Emulation of the main (drop in replacement) 65802 processor.
+ * main65816cpu.c - Emulation of the main 65816 processor.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
