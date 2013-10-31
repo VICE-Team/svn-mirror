@@ -29,6 +29,8 @@
 
 #include "vice.h"
 
+#ifdef HAS_JOYSTICK
+
 #ifdef HAS_HIDMGR
 /* Use Leopard's IOHIDManager API */
 #include <IOKit/hid/IOHIDManager.h>
@@ -118,6 +120,8 @@ extern void joy_hidlib_free_elements(joy_hid_device_t *device);
 extern int  joy_hidlib_get_value(joy_hid_device_t *device, 
                                  joy_hid_element_t *element,
                                  int *value, int phys);
+
+#endif
 
 #endif
 

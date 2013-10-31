@@ -630,6 +630,25 @@ elif test x"$host_os" = "xdingux" -o x"$host_os" = "xdingoo" -o x"$host_os" = "x
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 else
 
+dnl check for darwin first.
+case "$host_os" in
+darwin*)
+  dnl check for needed CoreVideo header
+  AC_CHECK_HEADERS(CoreVideo/CVHostTime.h)
+
+  dnl check for needed CoreServices header
+  AC_CHECK_HEADERS(CoreServices/CoreServices.h)
+
+  dnl change the host_os to puredarwin to make the configure think it is
+  dnl just another unix.
+  if test x"$ac_cv_header_CoreServices_CoreServices_h" != "xyes"; then
+    host_os=puredarwin;
+  fi
+  ;;
+*)
+  ;;
+esac
+
 dnl Check for host os with version attached. Typically on UN*X like systems.
 case "$host_os" in
 

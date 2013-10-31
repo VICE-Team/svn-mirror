@@ -27,9 +27,12 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef HAVE_COREVIDEO_CVHOSTTIME_H
+
 #include <CoreVideo/CVHostTime.h>
 
-#include "vice.h"
 #include "vsyncapi.h"
 
 /* If you divide the host time with this factor you'll get a microsec value 
@@ -52,3 +55,4 @@ unsigned long vsyncarch_gettime(void)
 {
     return (unsigned long)(CVGetCurrentHostTime() / hostToUsFactor);
 }
+#endif

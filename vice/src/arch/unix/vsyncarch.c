@@ -53,7 +53,8 @@ static void_hook_t ui_dispatch_hook;
 /* ------------------------------------------------------------------------- */
 
 /* Mac OS X has its own version of these functions. See macosx/vsyncarch.c */
-#ifndef MACOSX_SUPPORT
+/* However, Darwin needs to use these functions. */
+#ifndef HAVE_COREVIDEO_CVHOSTTIME_H
 
 /* Number of timer units per second. */
 signed long vsyncarch_frequency(void)

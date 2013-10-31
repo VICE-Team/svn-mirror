@@ -28,6 +28,9 @@
 #define VICE_JOY_HID_H
 
 #include "vice.h"
+
+#ifdef HAS_JOYSTICK
+
 #include "joy-hidlib.h"
 
 /* axis map: define names of available axis on a HID device */
@@ -89,3 +92,5 @@ extern const char *joy_hid_get_axis_name(int usage);
 extern int joy_hid_get_axis_usage(const char *name);
 
 #endif
+#endif
+
