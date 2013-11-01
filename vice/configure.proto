@@ -254,6 +254,7 @@ dnl disable ar checking for nextstep, openstep and rhapsody
 case "$host_os" in
   nextstep*|openstep*|rhapsody*)
     ar_check=no
+    posix_check=yes
     ;;
 esac
 
@@ -317,41 +318,15 @@ fi
 AC_SUBST(ENABLE_ARCH)
 
 dnl check if the compiler supports -posix
-AC_MSG_CHECKING([if the compiler supports -posix])
-ORIG_CFLAGS=$CFLAGS
-CFLAGS="$CFLAGS -posix"
-checkposix=no
-AC_TRY_COMPILE([],
-               [int test;],
-               [ AC_MSG_RESULT(yes)
-                 checkposix=yes],
-               [ AC_MSG_RESULT(no)
-                 CFLAGS=$ORIG_CFLAGS ])
-
-dnl On some systems, including at least NetBSD, -posix *reduces* features to
-dnl strict POSIX compliance.
-dnl Since VICE uses features that POSIX doesn't promise, this
-dnl means that VICE won't compile.
-dnl Some examples are:
-dnl   DT_DIR from <dirent.h>
-dnl   S_IFMT from <sys/stat.h>,
-dnl   bpf_u_int32 indirectly in <pcap.h>
-dnl   u_int in <dev/usb/usb.h>
-dnl   (meaning just the mere #inclusion of those headers fails to compile)
-dnl I stopped checking for more after trying to fix all those in another way,
-dnl which was too ugly anyway.
-dnl For some of those headers it is too early to know if they exist,
-dnl so we can't check them here. (Note that probably the mere use of such
-dnl headers makes VICE non-POSIX-compliant!)
-
-if test x"$checkposix" = xyes; then
-    AC_MSG_CHECKING([if -posix removes features])
-    AC_TRY_COMPILE([#include <dirent.h>
-                    #include <sys/stat.h>],
-                   [int test = DT_DIR + S_IFMT;],
-                   [ AC_MSG_RESULT(maybe not) ],
-                   [ AC_MSG_RESULT(yes)
-                     CFLAGS=$ORIG_CFLAGS ])
+if test x"$posix_check" = "xyes"; then
+  AC_MSG_CHECKING([if the compiler supports -posix])
+  ORIG_CFLAGS=$CFLAGS
+  CFLAGS="$CFLAGS -posix"
+  AC_TRY_COMPILE([],
+                 [int test;],
+                 [ AC_MSG_RESULT(yes)],
+                 [ AC_MSG_RESULT(no)
+                   CFLAGS=$ORIG_CFLAGS ])
 fi
 
 dnl Check for needed external programs.
