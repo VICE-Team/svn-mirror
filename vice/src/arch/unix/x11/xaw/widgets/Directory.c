@@ -26,14 +26,12 @@
 
 #include "vice.h"
 
-#define _XOPEN_SOURCE           /* for S_IFMT in <sys/stat.h> */
-
 #ifdef __NeXT__
 #define _POSIX_SOURCE
 #endif
 
 #include <unistd.h>		/* [EP] 10/15/96 */
-#include <sys/stat.h>
+#include <sys/stat.h>           /* for S_IFMT */
 #include "ioutil.h"
 
 #include "Directory.h"

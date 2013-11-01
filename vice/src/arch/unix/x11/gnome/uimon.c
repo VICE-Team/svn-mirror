@@ -33,14 +33,6 @@
 #ifdef HAVE_VTE
 #include <vte/vte.h>
 #endif
-#if defined(__NetBSD__)
-/*
- * NetBSD, when compiled with -posix, doesn't define DT_DIR in <dirent.h>
- * since POSIX.1 doesn't require it. Strictly speaking the code using it
- * is not portable.
- */
-# define _NETBSD_SOURCE 1
-#endif
 #include <dirent.h>
 #include <ctype.h>
 

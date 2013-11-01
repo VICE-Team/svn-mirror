@@ -24,13 +24,6 @@
  *
  */
 
-/*
- * Hack to make <sys/types.h> define the types required for <dev/usb/usb.h>.
- */
-#ifdef __NetBSD__
-# define _NETBSD_SOURCE  1
-#endif
-
 #include "vice.h"
 
 #include <fcntl.h>
