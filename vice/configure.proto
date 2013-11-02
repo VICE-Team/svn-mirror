@@ -2973,14 +2973,17 @@ else
 fi
 
 dnl disable building of xscpu64 for nextstep, openstep and rhapsody
-case "$host_os" in
-  nextstep*|openstep*|rhapsody*)
-    AM_CONDITIONAL(SUPPORT_XSCPU64, false)
-    ;;
-  *)
-    AM_CONDITIONAL(SUPPORT_XSCPU64, true)
-    ;;
-esac
+dnl case "$host_os" in
+dnl  nextstep*|openstep*|rhapsody*)
+dnl    AM_CONDITIONAL(SUPPORT_XSCPU64, false)
+dnl    ;;
+dnl  *)
+dnl    AM_CONDITIONAL(SUPPORT_XSCPU64, true)
+dnl    ;;
+dnl esac
+
+dnl xscpu64 should be supported on all platforms
+AM_CONDITIONAL(SUPPORT_XSCPU64, true)
 
 dnl Setup the system-specific object files.
 if test x"$enable_sdlui" = "xyes"; then

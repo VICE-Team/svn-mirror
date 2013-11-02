@@ -36,6 +36,7 @@
 #include "scpu64-resources.h"
 #include "c64cart.h"
 #include "c64cia.h"
+#include "c64pla.h"
 #include "scpu64mem.h"
 #include "scpu64rom.h"
 #include "scpu64meminit.h"
@@ -61,6 +62,9 @@
 
 /* Machine class */
 int machine_class = VICE_MACHINE_SCPU64;
+
+/* Dummy processor port.  */
+pport_t pport;
 
 /* C64 memory-related resources.  */
 
