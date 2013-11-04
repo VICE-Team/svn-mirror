@@ -646,6 +646,7 @@ darwin*)
   dnl just another unix.
   if test x"$ac_cv_header_CoreServices_CoreServices_h" != "xyes"; then
     host_os=puredarwin;
+    AC_DEFINE(DARWIN_COMPILE,,[Enable plain darwin compilation])
   fi
   ;;
 *)

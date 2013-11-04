@@ -125,8 +125,32 @@
 
 
 /* MacOS X discovery */
-#if defined(__APPLE__) && !defined(RHAPSODY_COMPILE)
+#if defined(__APPLE__) && !defined(RHAPSODY_COMPILE) && !defined(DARWIN_COMPILE)
 #  include "platform_macosx.h"
+#endif
+
+
+/* Darwin discovery */
+#ifdef DARWIN_COMPILE
+#  define PLATFORM_OS "Darwin"
+#endif
+
+
+/* NextStep discovery */
+#ifdef NEXTSTEP_COMPILE
+#  define PLATFORM_OS "NextStep"
+#endif
+
+
+/* OpenStep discovery */
+#ifdef OPENSTEP_COMPILE
+#  define PLATFORM_OS "OpenStep"
+#endif
+
+
+/* Rhapsody discovery */
+#ifdef RHAPSODY_COMPILE
+#  define PLATFORM_OS "Rhapsody"
 #endif
 
 
@@ -318,7 +342,7 @@
 
 
 /* GNU Hurd discovery */
-#ifdef __GNU__
+#if defined(__GNU__) && !defined(NEXTSTEP_COMPILE) && !defined(OPENSTEP_COMPILE)
 #  define PLATFORM_OS "GNU Hurd"
 #endif
 

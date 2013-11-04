@@ -33,7 +33,7 @@
 #include "vice.h"
 
 
-#if defined(__APPLE__) && defined(HAVE_CORESERVICES_CORESERVICES_H)
+#if defined(__APPLE__) && !defined(RHAPSODY_COMPILE) && !defined(DARWIN_COMPILE)
 
 #include <string.h>
 #include <sys/types.h>

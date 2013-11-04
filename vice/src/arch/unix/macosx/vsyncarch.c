@@ -29,7 +29,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_COREVIDEO_CVHOSTTIME_H
+#ifndef DARWIN_COMPILE
 
 #include <CoreVideo/CVHostTime.h>
 

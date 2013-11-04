@@ -17,6 +17,7 @@ libplatform_a_SOURCES = \
 	platform_compiler.h \
 	platform_cpu_type.h \
 	platform_cygwin_runtime_os.c \
+	platform_darwin_runtime_os.c \
 	platform_discovery.h \
 	platform_dos_runtime_os.c \
 	platform_freebsd_version.h \
@@ -26,9 +27,11 @@ libplatform_a_SOURCES = \
 	platform_macosx.c \
 	platform_macosx.h \
 	platform_netbsd_version.h \
+	platform_nextopenstep_runtime_os.c \
 	platform_openbsd_version.h \
 	platform_os2_runtime_os.c \
 	platform_qnx6_version.h \
+	platform_rhapsody_runtime_os.c \
 	platform_skyos_runtime_os.c \
 	platform_sco_runtime_os.c \
 	platform_solaris_runtime_os.c \

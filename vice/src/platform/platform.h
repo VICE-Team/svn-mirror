@@ -66,6 +66,15 @@ extern char *platform_get_beosppc_runtime_cpu(void);
 
 extern char *platform_get_solaris_runtime_os(void);
 
+extern char *platform_get_darwin_runtime_os(void);
+extern char *platform_get_darwin_runtime_cpu(void);
+
+extern char *platform_get_nextopenstep_runtime_os(void);
+extern char *platform_get_nextopenstep_runtime_cpu(void);
+
+extern char *platform_get_rhapsody_runtime_os(void);
+extern char *platform_get_rhapsody_runtime_cpu(void);
+
 extern char *platform_get_syllable_runtime_os(void);
 extern char *platform_get_syllable_runtime_cpu(void);
 
@@ -125,6 +134,21 @@ extern char *platform_get_skyos_runtime_cpu(void);
 #define RUNTIME_OS_CALL platform_get_sco_runtime_os
 #endif
 
+/* Darwin */
+#ifdef DARWIN_COMPILE
+#define RUNTIME_OS_CALL platform_get_darwin_runtime_os
+#endif
+
+/* NextStep/OpenStep */
+#if defined(NEXTSTEP_COMPILE) || defined(OPENSTEP_COMPILE)
+#define RUNTIME_OS_CALL platform_get_nextopenstep_runtime_os
+#endif
+
+/* Rhapsody */
+#ifdef RHAPSODY_COMPILE
+#define RUNTIME_OS_CALL platform_get_rhapsody_runtime_os
+#endif
+
 
 /* Set the runtime cpu call for known platforms */
 
@@ -166,6 +190,21 @@ extern char *platform_get_skyos_runtime_cpu(void);
 /* Unixware 7.x */
 #ifdef UNIXWARE_COMPILE
 #define RUNTIME_CPU_CALL platform_get_sco_runtime_cpu
+#endif
+
+/* Darwin */
+#ifdef DARWIN_COMPILE
+#define RUNTIME_CPU_CALL platform_get_darwin_runtime_cpu
+#endif
+
+/* NextStep/OpenStep */
+#if defined(NEXTSTEP_COMPILE) || defined(OPENSTEP_COMPILE)
+#define RUNTIME_CPU_CALL platform_get_nextopenstep_runtime_cpu
+#endif
+
+/* Rhapsody */
+#ifdef RHAPSODY_COMPILE
+#define RUNTIME_CPU_CALL platform_get_rhapsody_runtime_cpu
 #endif
 
 #endif

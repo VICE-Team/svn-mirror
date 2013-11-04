@@ -66,7 +66,11 @@
 #  if (__GNUC__>2)
 #    define PLATFORM_COMPILER "GCC-" QUOTE(__GNUC__) "." QUOTE(__GNUC_MINOR__) "." QUOTE(__GNUC_PATCHLEVEL__)
 #  else
-#    define PLATFORM_COMPILER "GCC-" QUOTE(__GNUC__) "." QUOTE(__GNUC_MINOR__)
+#    ifdef __GNUC_MINOR__
+#      define PLATFORM_COMPILER "GCC-" QUOTE(__GNUC__) "." QUOTE(__GNUC_MINOR__)
+#    else
+#      define PLATFORM_COMPILER "GCC-" QUOTE(__GNUC__) ".x"
+#    endif
 #  endif
 #endif
 

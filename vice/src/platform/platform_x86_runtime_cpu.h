@@ -67,6 +67,26 @@
 #define PLATFORM_NO_X86_ASM
 #endif
 
+/* Do not use for Darwin */
+#ifdef DARWIN_COMPILE
+#define PLATFORM_NO_X86_ASM
+#endif
+
+/* Do not use for NextStep */
+#ifdef NEXTSTEP_COMPILE
+#define PLATFORM_NO_X86_ASM
+#endif
+
+/* Do not use for OpenStep */
+#ifdef OPENSTEP_COMPILE
+#define PLATFORM_NO_X86_ASM
+#endif
+
+/* Do not use for Rhapsody */
+#ifdef RHAPSODY_COMPILE
+#define PLATFORM_NO_X86_ASM
+#endif
+
 /* only use for supported cpu types */
 #ifndef __i386__
 #  ifndef __i486__
