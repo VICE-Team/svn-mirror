@@ -753,6 +753,7 @@ int ui_menu_init(XtAppContext app_context, Display *d, int s)
  * this.
  */
 
+#ifndef DARWIN_COMPILE
 static void do_popuplist_hack(Widget widget)
 {
     Widget parent = XtParent(widget);
@@ -773,6 +774,7 @@ static void do_popuplist_hack(Widget widget)
         }
     }
 }
+#endif
 
 static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list);
 static XtTranslations menu_translations;
@@ -784,7 +786,9 @@ Widget ui_menu_create(const char *menu_name, ...)
     va_list ap;
 
     w = ui_create_shell(_ui_top_level, menu_name, simpleMenuWidgetClass);
+#ifndef DARWIN_COMPILE
     do_popuplist_hack(w);
+#endif
     XtAddCallback(w, XtNpopupCallback, menu_popup_callback, NULL);
     XtAddCallback(w, XtNpopdownCallback, menu_popdown_callback, NULL);
 

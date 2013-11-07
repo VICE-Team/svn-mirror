@@ -25,7 +25,8 @@
  */
 
 /* Tested and confirmed working on:
-*/
+ * - Darwin 8.0.1 (x86)
+ */
 
 #include "vice.h"
 
