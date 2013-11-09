@@ -49,6 +49,7 @@ libarchmacosxcocoamenu_a_SOURCES = \
 	cbm5x0ui.m \
 	petui.m \
 	plus4ui.m \
+	scpu64ui,m \
 	vic20ui.m \
 	c64controller.m \
 	c64machinecontroller.m \
