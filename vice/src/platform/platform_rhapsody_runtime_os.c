@@ -25,7 +25,8 @@
  */
 
 /* Tested and confirmed working on:
-*/
+ * - Rhapsody 5.2
+ */
 
 #include "vice.h"
 

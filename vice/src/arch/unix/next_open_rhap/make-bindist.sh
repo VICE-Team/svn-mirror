@@ -40,7 +40,7 @@ do
   fi
 done
 
-curdir=`pwd
+curdir=`pwd`
 if [ ! -e VICE-$VICEVERSION ]
 then
   echo "Error: no install directory is present, do the following:"
