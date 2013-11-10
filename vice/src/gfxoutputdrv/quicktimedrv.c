@@ -42,6 +42,10 @@
 #include "translate.h"
 #include "../sounddrv/soundmovie.h"
 
+#ifndef MAC_OS_X_VERSION_10_5
+#define MAC_OS_X_VERSION_10_5 1050
+#endif
+
 #if (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5) && defined(__APPLE__)
 // define missing pixel format in pre 10.5 headers
 enum {
