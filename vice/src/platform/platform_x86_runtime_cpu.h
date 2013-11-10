@@ -87,6 +87,11 @@
 #define PLATFORM_NO_X86_ASM
 #endif
 
+/* Do not use for MacOSX Cocoa */
+#ifdef MACOSX_COCOA
+#define PLATFORM_NO_X86_ASM
+#endif
+
 /* only use for supported cpu types */
 #ifndef __i386__
 #  ifndef __i486__
