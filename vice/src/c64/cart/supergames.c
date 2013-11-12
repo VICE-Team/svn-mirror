@@ -45,9 +45,17 @@
 #include "crt.h"
 
 /*
-    "Super Games"
+    "Super Games" ("Commodore Arcade 3 in 1")
 
-    This cart uses 4 16Kb banks mapped in at $8000-$BFFF.
+    FIXME: the following description is guesswork and probably not correct. 
+           Since only one ROM using this cartridge type seems to exist (which 
+           works with either possible interpretation) we can only make some 
+           vague guesses here. someone needs to look at the hardware and find
+           out what it really does.
+
+    - This cart uses 4 16Kb banks mapped in at $8000-$BFFF.
+    - assuming the i/o register is reset to 0, the cartridge starts up in bank 0
+      and in 16k configuration.
 
     The control registers is at $DF00, and has the following meaning:
 
@@ -55,33 +63,77 @@
     ---   -------
      0    bank bit 0
      1    bank bit 1
-     2    inverted GAME line
-     3    inverted EXROM line
+     2    mode (0 = 16k config 1 = cartridge disabled)
+     3    unused ?
     4-7   unused
+
+    notes:
+
+    - EXROM may actually be either hardwired (always active), or bridged with 
+      GAME (both works with the existing ROM). however the later allows to
+      properly disable the ROM.
+    - the software uses $04, $09, $0c when writing to $df00, which suggests that
+      bit 3 is also used somehow. however, not only can it be ignored, also
+      using bit2=!GAME and bit3=!EXROM doesnt work. (see the mess below)
+
 */
 
 static int currbank = 0;
-
+static int currmode = 0;
 static BYTE regval = 0;
 
 static void supergames_io2_store(WORD addr, BYTE value)
 {
     regval = value;
-    cart_romhbank_set_slotmain(value & 3);
-    cart_romlbank_set_slotmain(value & 3);
     currbank = value & 3;
+    /* currmode = (value >> 2) & 3; */
+    currmode = ((value >> 2) & 1) ^ 1;
 
-    if (value & 0x4) {
+    cart_romhbank_set_slotmain(currbank);
+    cart_romlbank_set_slotmain(currbank);
+
+    /* printf("value: %02x bank: %d mode: %d\n", value, currbank, currmode); */
+#if 0
+    if (value & 0x04) {
+        /* 8k config */
         cart_set_port_exrom_slotmain(1);
         cart_set_port_game_slotmain(0);
     } else {
+        /* 16k config */
         cart_set_port_exrom_slotmain(1);
         cart_set_port_game_slotmain(1);
     }
-    if (value == 0xc) {
+    if (value == 0x0c) {
+        /* cartridge off */
         cart_set_port_exrom_slotmain(0);
         cart_set_port_game_slotmain(0);
     }
+#endif
+#if 0
+    switch (currmode) {
+        case 0: /* 00 16k config */
+            cart_set_port_exrom_slotmain(1);
+            cart_set_port_game_slotmain(1);
+            break;
+        case 1: /* 01 8k config */ /* first */
+            /* ok: 00 10 11 */
+            cart_set_port_exrom_slotmain(1);
+            cart_set_port_game_slotmain(0);
+            break;
+        case 2: /* 10 16k config */ /* last (soccer) */
+            cart_set_port_exrom_slotmain(1);
+            cart_set_port_game_slotmain(1);
+            break;
+        case 3: /* 11 cartridge off */ /* last (other) */
+            /* ok: 00,10 */
+            cart_set_port_exrom_slotmain(1);
+            cart_set_port_game_slotmain(0);
+            break;
+    }
+#endif
+    cart_set_port_exrom_slotmain(currmode);
+    cart_set_port_game_slotmain(currmode);
+
     cart_port_config_changed_slotmain();
 }
 
@@ -92,7 +144,7 @@ static BYTE supergames_io2_peek(WORD addr)
 
 static int supergames_dump(void)
 {
-    mon_out("Bank: %d\n", currbank);
+    mon_out("Bank: %d (%s)\n", currbank, currmode ? "enabled" : "disabled");
     return 0;
 }
 
@@ -123,7 +175,8 @@ static const c64export_resource_t export_res = {
 
 void supergames_config_init(void)
 {
-    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    /* cart_config_changed_slotmain(CMODE_16KGAME, CMODE_16KGAME, CMODE_READ); */
+    supergames_io2_store(0xdf00, 0);
 }
 
 void supergames_config_setup(BYTE *rawcart)
@@ -136,7 +189,8 @@ void supergames_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
     memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
     memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    /* cart_config_changed_slotmain(CMODE_16KGAME, CMODE_16KGAME, CMODE_READ); */
+    supergames_io2_store(0xdf00, 0);
 }
 
 /* ---------------------------------------------------------------------*/
