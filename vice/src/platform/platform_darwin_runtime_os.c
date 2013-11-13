@@ -33,6 +33,7 @@
 #ifdef DARWIN_COMPILE
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/utsname.h>
 #include <mach/mach.h>
 
