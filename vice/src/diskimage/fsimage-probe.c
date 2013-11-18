@@ -254,7 +254,7 @@ static int disk_image_check_for_d81(disk_image_t *image)
     /* .d1m images share the same sizes with .d81, so we reject based on the
        file extension what is likely a .d1m image */
     ext = util_get_extension(fsimage->name);
-    if ((ext[0]) && (ext[1] == '1') && (ext[2])) {
+    if (ext && ext[0] && (ext[1] == '1') && ext[2]) {
         return 0;
     }
 
