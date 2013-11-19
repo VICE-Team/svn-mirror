@@ -1865,7 +1865,10 @@ static const char* file_filters[] = {
 /* vic20cart */ "*.prg",
 /* sid */ "*.[psPS]*",
 /* dtvrom */ "*.[bB][iI][nN]",
-/* compressed */ "*"
+/* compressed */ "*.*[zZ]*",
+/* eth */ "eth*",
+/* midi */ "mi*",
+/* hd_image */ "*.[bifcBIFC][isdaISDA][nodaNODA]",
 };
 
 /* File browser. */
@@ -1878,6 +1881,7 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
     Widget file_selector = NULL;
     XfwfFileSelectorStatusStruct fs_status;
     char *current_dir;
+    const char *pattern;
     int is_ok = 0;
 
     /* we preserve the current directory over the invocations */
@@ -1897,9 +1901,15 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
     if (action == UI_FC_DIRECTORY) {
         XtVaSetValues(file_selector, XtNSelectDirectory, True, NULL);
     }
+    if (patterns[0] < util_arraysize(file_filters)) {
+        pattern = file_filters[patterns[0]];
+    } else {
+        pattern = file_filters[UILIB_FILTER_ALL];
+    }
     XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart,
                                  XtNshowContentsButton, read_contents_func ? 1 : 0,
-                                 XtNpattern, file_filters[patterns[0]], NULL);
+                                 XtNpattern, pattern,
+                                 NULL);
     if (attach_wp) {
         XtVaSetValues(file_selector, XtNshowReadOnlyToggle, True, NULL);
     }
