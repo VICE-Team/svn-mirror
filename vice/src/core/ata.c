@@ -400,6 +400,8 @@ static void ata_poweron(ata_drive_t *drv, ata_drive_type_t type)
     drv->cmd = 0x00;
     drv->standby_max = 0;
     drv->pos = 0;
+    drv->busy = 0;
+    drv->control = 0;
 
     drv->lbamode = 1;
     drv->flush = 1;
