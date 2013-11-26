@@ -138,13 +138,14 @@ void ui_set_drive_menu(int drive, ui_menu_entry_t *flipmenu)
         lib_free(translation_table);
         lib_free(rightmenuname);
 
-        for (i = 0; i < num_app_shells; i++) {
-            XtOverrideTranslations(app_shells[i].
-                                            drive_widgets[drive].track_label,
-                                   drive_menu_translations[drive]);
-        }
-
     }
+
+    for (i = 0; i < num_app_shells; i++) {
+        XtOverrideTranslations(app_shells[i].
+                                        drive_widgets[drive].track_label,
+                               drive_menu_translations[drive]);
+    }
+
     lib_free(leftmenuname);
 }
 
