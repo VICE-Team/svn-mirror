@@ -30,6 +30,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Tested and confirmed working:
+ *
+ * MSVC 4.0 (mips)
+ * VS98/MSVC 6.0 (x86)
+ * VS2002/MSVC 7.0 (x86)
+ * VS2003/MSVC 7.1 (x86)
+ * VS2005/MSVC 8.0 (x86/x64/ia64)
+ * VS2008/MSVC 9.0 (x86/x64/ia64)
+ * VS2010/MSVC 10.0 (x86/x64)
+ * VS2012/MSVC 11.0 (x86/x64)
+ * VS2013/MSVC 12.0 (x86/x64)
+ */
+
 /* Enable debug options */
 /* #define MKMSVC_DEBUG 1 */
 
