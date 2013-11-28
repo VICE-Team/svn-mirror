@@ -26,8 +26,14 @@
 
 #include "vice.h"
 
-#ifdef __NeXT__
-#define _POSIX_SOURCE
+#if defined(NEXTSTEP_COMPILE) || defined(OPENSTEP_COMPILE)
+#  ifndef _POSIX_SOURCE
+#    define _POSIX_SOURCE
+#  endif
+#endif
+
+#ifdef RHAPSODY_COMPILE
+#  undef _POSIX_SOURCE
 #endif
 
 #include <unistd.h>		/* [EP] 10/15/96 */

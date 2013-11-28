@@ -25,7 +25,9 @@
  */
 
 /* Tested and confirmed working on:
-*/
+ * - NextStep 3.3
+ * - OpenStep 4.2
+ */
 
 #include "vice.h"
 

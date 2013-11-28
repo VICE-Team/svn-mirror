@@ -45,6 +45,7 @@ if test x"$build_i386" = "xyes"; then
   if test x"$build_ppc" = "xyes"; then
     for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat
     do
+      strip src/$i
       mv src/$i bins/$i.i386
     done
   else
@@ -66,6 +67,7 @@ if test x"$build_ppc" = "xyes"; then
   if test x"$build_i386" = "xyes"; then
     for i in x128 x64 xscpu64 x64dtv xcbm2 xcbm5x0 xpet xplus4 xvic c1541 cartconv petcat
     do
+      strip src/$i
       mv src/$i bins/$i.ppc
     done
   else

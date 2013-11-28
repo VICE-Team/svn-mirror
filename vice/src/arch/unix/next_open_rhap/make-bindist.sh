@@ -66,7 +66,6 @@ fi
 echo Generating $OSNAME port binary distribution.
 for i in $EXECUTABLES
 do
-  $STRIP VICE-$VICEVERSION/usr/local/bin/$i
   i586=`file VICE-$VICEVERSION/usr/local/bin/$i | grep i586`
   if test x"$i586" != "x"; then
     $TOPSRCDIR/src/arch/unix/next_open_rhap/nextfix.sh VICE-$VICEVERSION/usr/local/bin/$1
