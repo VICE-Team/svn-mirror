@@ -100,6 +100,8 @@ extern Atom wm_protocols;
 
 /* ------------------------------------------------------------------------- */
 
+struct video_canvas_s;
+
 #define NUM_TAPES       1
 #define MAX_APP_SHELLS 10
 typedef struct {
@@ -118,6 +120,7 @@ typedef struct {
     } drive_widgets[NUM_DRIVES];
     int drive_nleds[NUM_DRIVES];
     tape_widgets_t tape_widgets[NUM_TAPES];
+    struct video_canvas_s *video_canvas;
 } app_shell_type;
 
 extern app_shell_type app_shells[MAX_APP_SHELLS];
