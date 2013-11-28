@@ -524,8 +524,8 @@ static int set_mouse_enabled(int val, void *param)
 {
     _mouse_enabled = val;
     mousedrv_mouse_changed();
-    last_mouse_x = mousedrv_get_x();
-    last_mouse_y = mousedrv_get_y();
+    latest_x = last_mouse_x = mousedrv_get_x();
+    latest_y = last_mouse_y = mousedrv_get_y();
     neos_lastx = (BYTE)(mousedrv_get_x() >> 1);
     neos_lasty = (BYTE)(mousedrv_get_y() >> 1);
     latest_os_ts = 0;
