@@ -1203,6 +1203,16 @@ else
   echo "                  sizeof(unsigned long) == 4"
 fi
 
+dnl fix endian for interix
+case "$host_os" in
+  interix*)
+    if test x"$ac_cv_c_bigendian" != "xno"; then
+      AC_MSG_WARN(Fixed incorrectly set system endian)
+      ac_cv_c_bigendian=no
+    fi
+    ;;
+esac
+
 if test x"$cross_compiling" = "xyes"; then
   AM_CONDITIONAL(CROSS, true)
   CROSS=true
