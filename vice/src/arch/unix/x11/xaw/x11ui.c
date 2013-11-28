@@ -553,7 +553,11 @@ void ui_restore_mouse(void)
 
 static void initBlankCursor(Widget canvas)
 {
+#ifdef DEBUGMOUSECURSOR1
+    static char no_data[] = { 255, 129, 129, 129, 129, 129, 129, 255 };
+#else
     static char no_data[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+#endif
     static Pixmap blank;
     XColor trash, dummy;
 
@@ -599,26 +603,23 @@ static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report
         case MotionNotify:
             /* handle pointer motion events for mouse emulation */
 #ifdef HAVE_FULLSCREEN
-            if ((canvas->fullscreenconfig) && (canvas->fullscreenconfig->enable)) {
-                fullscreen_mouse_moved(canvas, (int)report->xmotion.x, (int)report->xmotion.y, 0);
+            if (canvas->fullscreenconfig && canvas->fullscreenconfig->enable) {
+                fullscreen_mouse_moved(canvas,
+                        (int)report->xmotion.x, (int)report->xmotion.y, 0);
             }
 #endif
             if (_mouse_enabled) {
                 if (mouse_warped) {
                     /* ignore this event, its the result of us having moved the pointer */
                     mouse_warped = 0;
-                    /* printf("warped!\n"); */
                 } else {
                     int x=0, y=0, w=0, h=0, warp=0;
                     int ptrx, ptry;
                     /* float taspect; */
 
                     /* get cursor position */
-                    x = (int)report->xmotion.x;
-                    y = (int)report->xmotion.y;
-
-                    ptrx = (int)report->xmotion.x;
-                    ptry = (int)report->xmotion.y;
+                    ptrx = x = (int)report->xmotion.x;
+                    ptry = y = (int)report->xmotion.y;
 
 #ifdef HAVE_XVIDEO
                     if (canvas->videoconfig->hwscale && canvas->xv_image) {
@@ -719,6 +720,33 @@ static void disable_mouse_menus(void)
     }
 }
 
+static void enable_mouse_callback()
+{
+    int i;
+
+    for (i = 0; i < num_app_shells; i++) {
+        XtAddEventHandler(app_shells[i].canvas,
+                PointerMotionMask | ButtonPressMask | ButtonReleaseMask,
+                False,
+                (XtEventHandler)mouse_handler_canvas,
+                (XtPointer)app_shells[i].video_canvas);
+    }
+}
+
+static void disable_mouse_callback()
+{
+    int i;
+
+    for (i = 0; i < num_app_shells; i++) {
+        XtRemoveEventHandler(app_shells[i].canvas,
+                PointerMotionMask | ButtonPressMask | ButtonReleaseMask,
+                False,
+                (XtEventHandler)mouse_handler_canvas,
+                (XtPointer)app_shells[i].video_canvas);
+    }
+}
+
+
 /*
     grab pointer and keyboard, set mouse pointer shape
 
@@ -734,18 +762,23 @@ static void mouse_cursor_grab(int grab, Cursor cursor)
         mouse_grabbed = 0;
     }
     if (grab) {
-        XGrabKeyboard(display, XtWindow(last_visited_canvas), 1, GrabModeAsync, GrabModeAsync,  CurrentTime);
-#ifdef DEBUGMOUSECURSOR
-        XGrabPointer(display, XtWindow(last_visited_canvas), 0, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, GrabModeAsync, GrabModeAsync, XtWindow(last_visited_canvas), None, CurrentTime);
-#else
-        XGrabPointer(display, XtWindow(last_visited_canvas), 0, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, GrabModeAsync, GrabModeAsync, XtWindow(last_visited_canvas), cursor, CurrentTime);
-#endif
+        XGrabKeyboard(display, XtWindow(last_visited_canvas), 1,
+                GrabModeAsync, GrabModeAsync,  CurrentTime);
+
+        XGrabPointer(display, XtWindow(last_visited_canvas), 0,
+                PointerMotionMask | ButtonPressMask | ButtonReleaseMask,
+                GrabModeAsync,
+                GrabModeAsync,
+                XtWindow(last_visited_canvas),
+                cursor,
+                CurrentTime);
         mouse_grabbed = 1;
-    } 
+    }
 }
 
 void ui_check_mouse_cursor(void)
 {
+    int callbacks_wanted = 0;
     if (!ui_cached_video_canvas) {
         return;
     }
@@ -757,8 +790,8 @@ void ui_check_mouse_cursor(void)
         } else {
             mouse_cursor_grab(1, None);
         }
-        return;
-    }
+        callbacks_wanted = 1;
+    } else
 #endif
 
     if (_mouse_enabled) {
@@ -769,8 +802,15 @@ void ui_check_mouse_cursor(void)
 
     if (_mouse_enabled || lightpen_enabled) {
         disable_mouse_menus();
+        callbacks_wanted = 1;
     } else {
         enable_mouse_menus();
+    }
+
+    if (callbacks_wanted) {
+        enable_mouse_callback();
+    } else {
+        disable_mouse_callback();
     }
 }
 
@@ -784,10 +824,10 @@ static Widget build_show_text(Widget parent, ui_button_t *button_return, const S
 static Widget build_confirm_dialog(Widget parent, ui_button_t *button_return, Widget *ConfirmDialogMessage);
 static void close_action(Widget w, XEvent *event, String *params, Cardinal *num_params);
 
-UI_CALLBACK(enter_window_callback_shell);
-UI_CALLBACK(structure_callback_shell);
-UI_CALLBACK(exposure_callback_canvas);
-UI_CALLBACK(structure_callback_canvas);
+static UI_CALLBACK(enter_window_callback_shell);
+static UI_CALLBACK(structure_callback_shell);
+static UI_CALLBACK(exposure_callback_canvas);
+static UI_CALLBACK(structure_callback_canvas);
 
 /* ------------------------------------------------------------------------- */
 
@@ -1261,15 +1301,13 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
 
     last_visited_canvas = canvas;
 
-    XtAddEventHandler(shell, EnterWindowMask, False, (XtEventHandler)enter_window_callback_shell, (XtPointer)c);
-
     /* XVideo must be refreshed when the shell window is moved. */
     if (machine_class != VICE_MACHINE_VSID) {
         XtAddEventHandler(shell, StructureNotifyMask, False, (XtEventHandler)structure_callback_shell, (XtPointer)c);
+        XtAddEventHandler(shell, EnterWindowMask, False, (XtEventHandler)enter_window_callback_shell, (XtPointer)c);
 
         XtAddEventHandler(canvas, ExposureMask, False, (XtEventHandler)exposure_callback_canvas, (XtPointer)c);
         XtAddEventHandler(canvas, StructureNotifyMask, False, (XtEventHandler)structure_callback_canvas, (XtPointer)c);
-        XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, False, (XtEventHandler)mouse_handler_canvas, (XtPointer)c);
     }
 
     /* Create the status bar on the bottom.  */
@@ -1308,6 +1346,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     app_shells[num_app_shells - 1].shell = shell;
     app_shells[num_app_shells - 1].canvas = canvas;
     app_shells[num_app_shells - 1].title = lib_stralloc(title);
+    app_shells[num_app_shells - 1].video_canvas = c;
 
     XSetWMProtocols(display, XtWindow(shell), &wm_delete_window, 1);
     XtOverrideTranslations(shell, XtParseTranslationTable("<Message>WM_PROTOCOLS: Close()"));
@@ -1542,7 +1581,7 @@ void ui_dispatch_events(void)
     }
 }
 
-int x11ui_fullscreen(int i)
+int x11ui_fullscreen(int enable)
 {
     static Atom _net_wm_state = None;
     static Atom _net_wm_state_fullscreen = None;
@@ -1565,13 +1604,17 @@ int x11ui_fullscreen(int i)
     xev.xclient.window = XtWindow(app_shells[mode].shell); /* hardwired use of resource `40/80ColumnKey' */
     xev.xclient.message_type = _net_wm_state;
     xev.xclient.format = 32;
-    xev.xclient.data.l[0] = i;
+    xev.xclient.data.l[0] = enable;
     xev.xclient.data.l[1] = _net_wm_state_fullscreen;
 
     XSendEvent(display, DefaultRootWindow(display), False, SubstructureRedirectMask, &xev);
 
     ui_dispatch_events();
-    mouse_cursor_grab(1, None);
+    /*
+     * calling ui_check_mouse_cursor() would be useful here, except that
+     * the field it checks for full-screen isn't updated yet.
+     */
+    mouse_cursor_grab(enable, None);
 
     return 0;
 }
@@ -2412,16 +2455,15 @@ static Widget build_confirm_dialog(Widget parent, ui_button_t *button_return, Wi
 
 /* Miscellaneous callbacks.  */
 
+static
 UI_CALLBACK(enter_window_callback_shell)
 {
     video_canvas_t *video_canvas = (video_canvas_t *)client_data;
 
     last_visited_app_shell = w;
-    if (machine_class != VICE_MACHINE_VSID) {
-        last_visited_canvas = video_canvas->emuwindow;   /* keep global up to date */
-        ui_cached_video_canvas = video_canvas;
-        xaw_lightpen_update_canvas(video_canvas, TRUE);
-    }
+    last_visited_canvas = video_canvas->emuwindow;   /* keep global up to date */
+    ui_cached_video_canvas = video_canvas;
+    xaw_lightpen_update_canvas(video_canvas, TRUE);
 }
 
 /*
@@ -2429,6 +2471,7 @@ UI_CALLBACK(enter_window_callback_shell)
  * This callback appears to do nothing, but the mapping events are wanted
  * in wait_for_deiconify().
  */
+static
 UI_CALLBACK(structure_callback_shell)
 {
 #if defined(HAVE_XVIDEO)
@@ -2453,6 +2496,7 @@ UI_CALLBACK(structure_callback_shell)
  * except that the canvas isn't a top-level window and therefore doesn't
  * get the (un)mapping notifications.
  */
+static
 UI_CALLBACK(exposure_callback_canvas)
 {
     XEvent *event = (XEvent *)call_data;
@@ -2467,6 +2511,7 @@ UI_CALLBACK(exposure_callback_canvas)
     }
 }
 
+static
 UI_CALLBACK(structure_callback_canvas)
 {
     XEvent *event = (XEvent *)call_data;
