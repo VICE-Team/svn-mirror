@@ -55,6 +55,7 @@
 #include "plus256k.h"
 #include "plus60k.h"
 #include "ram.h"
+#include "resources.h"
 #include "reu.h"
 #include "sid.h"
 #include "tpi.h"
@@ -411,6 +412,17 @@ void ram_hi_store(WORD addr, BYTE value)
     }
 }
 
+/* unconnected memory space */
+static BYTE void_read(WORD addr)
+{
+    return vicii_read_phi1();
+}
+
+static void void_store(WORD addr, BYTE value)
+{
+    return;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Generic memory access.  */
@@ -584,6 +596,7 @@ void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr)
 void mem_initialize_memory(void)
 {
     int i, j;
+    int board;
 
     mem_chargen_rom_ptr = mem_chargen_rom;
     mem_color_ram_cpu = mem_color_ram;
@@ -599,24 +612,38 @@ void mem_initialize_memory(void)
         mem_write_tab_watch[i] = store_watch;
     }
 
+    resources_get_int("BoardType", &board);
+
     /* Default is RAM.  */
     for (i = 0; i < NUM_CONFIGS; i++) {
         mem_set_write_hook(i, 0, zero_store);
         mem_read_tab[i][0] = zero_read;
         mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xfe; j++) {
+            if (board == 1 && j >= 0x08) {
+                mem_read_tab[i][j] = void_read;
+                mem_read_base_tab[i][j] = NULL;
+                mem_set_write_hook(0, j, void_store);
+                continue;
+            }
             mem_read_tab[i][j] = ram_read;
             mem_read_base_tab[i][j] = mem_ram;
             mem_write_tab[i][j] = ram_store;
         }
-        mem_read_tab[i][0xff] = ram_read;
-        mem_read_base_tab[i][0xff] = mem_ram;
+        if (board == 1) {
+            mem_read_tab[i][0xff] = void_read;
+            mem_read_base_tab[i][0xff] = NULL;
+            mem_set_write_hook(0, 0xff, void_store);
+        } else {
+            mem_read_tab[i][0xff] = ram_read;
+            mem_read_base_tab[i][0xff] = mem_ram;
 
-        /* REU $ff00 trigger is handled within `ram_hi_store()'.  */
-        mem_set_write_hook(i, 0xff, ram_hi_store);
+            /* REU $ff00 trigger is handled within `ram_hi_store()'.  */
+            mem_set_write_hook(i, 0xff, ram_hi_store);
+        }
     }
 
-    /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2, 3, 9, 10, 11, 25, 26, 27).  */
+    /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2, 3, 9, 10, 11, 26, 27).  */
     for (i = 0xd0; i <= 0xdf; i++) {
         mem_read_tab[1][i] = chargen_read;
         mem_read_tab[2][i] = chargen_read;
@@ -664,6 +691,10 @@ void mem_initialize_memory(void)
     plus60k_init_config();
     plus256k_init_config();
     c64_256k_init_config();
+
+    if (board == 1) {
+        mem_limit_max_init(mem_read_limit_tab);
+    }
 }
 
 void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
