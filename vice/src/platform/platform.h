@@ -64,6 +64,9 @@ extern char *platform_get_zeta_runtime_os(void);
 extern char *platform_get_beos_runtime_os(void);
 extern char *platform_get_beosppc_runtime_cpu(void);
 
+extern char *platform_get_sunos_runtime_os(void);
+extern char *platform_get_sunos_runtime_cpu(void);
+
 extern char *platform_get_solaris_runtime_os(void);
 
 extern char *platform_get_darwin_runtime_os(void);
@@ -102,6 +105,11 @@ extern char *platform_get_skyos_runtime_cpu(void);
 /* MacOSX */
 #if defined(MACOSX_COCOA)
 #define RUNTIME_OS_CALL platform_get_macosx_runtime_os
+#endif
+
+/* SunOS */
+#if (defined(sun) || defined(__sun)) && !(defined(__SVR4) || defined(__svr4__))
+#define RUNTIME_OS_CALL platform_get_sunos_runtime_os
 #endif
 
 /* Solaris */
@@ -190,6 +198,11 @@ extern char *platform_get_skyos_runtime_cpu(void);
 /* Unixware 7.x */
 #ifdef UNIXWARE_COMPILE
 #define RUNTIME_CPU_CALL platform_get_sco_runtime_cpu
+#endif
+
+/* SunOS */
+#if (defined(sun) || defined(__sun)) && !(defined(__SVR4) || defined(__svr4__))
+#define RUNTIME_CPU_CALL platform_get_sunos_runtime_cpu
 #endif
 
 /* Darwin */

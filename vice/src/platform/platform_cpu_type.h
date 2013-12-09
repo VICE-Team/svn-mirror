@@ -355,6 +355,26 @@
 #endif
 
 
+/* Convert mc680?0 to __mc680?0__ if needed */
+#if defined(mc68000) && !defined(__mc68000__)
+#  define __mc68000__
+#endif
+#if defined(mc68010) && !defined(__mc68010__)
+#  define __mc68010__
+#endif
+#if defined(mc68020) && !defined(__mc68020__)
+#  define __mc68020__
+#endif
+#if defined(mc68030) && !defined(__mc68030__)
+#  define __mc68030__
+#endif
+#if defined(mc68040) && !defined(__mc68040__)
+#  define __mc68040__
+#endif
+#if defined(mc68060) && !defined(__mc68060__)
+#  define __mc68060__
+#endif
+
 /* Generic m68k cpu discovery */
 #if (defined(__mc68060__) || defined(__mc68040__) || defined(__mc68030__) || defined(__mc68020__) || defined(__mc68010__) || defined(__mc68000__)) && !defined(__m68k__)
 #  define __m68k__
@@ -458,7 +478,7 @@
 
 
 /* Generic sparc cpu discovery */
-#if !defined(PLATFORM_CPU) && defined(__sparc__)
+#if !defined(PLATFORM_CPU) && (defined(__sparc__) || defined(sparc))
 #  define PLATFORM_CPU "SPARC"
 #endif
 

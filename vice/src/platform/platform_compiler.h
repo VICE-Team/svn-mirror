@@ -37,7 +37,7 @@
  * green hill     | yes (untested)
  * hp uc          | yes (untested)
  * intel cc       | yes (untested)
- * llvm           | yes (untested)
+ * llvm           | yes
  * metrowerks     | yes (untested)
  * MIPSpro        | yes (untested)
  * MSVC           | yes
@@ -247,10 +247,22 @@
 #  endif
 #endif
 
+/* SCO native compiler discovery */
 #ifndef PLATFORM_COMPILER
 #  if defined(SCO4UNIX_COMPILE) || defined(OPENSERVER5_COMPILE) || defined(OPENSERVER6_COMPILE) || defined(UNIXWARE_COMPILE)
 #    define PLATFORM_COMPILER "SCO C"
 # endif
+#endif
+
+/* SunOS/Solaris native compiler discovery */
+#ifndef PLATFORM_COMPILER
+#  if defined(sun) || defined(__sun)
+#    if defined(__SVR4) || defined(__svr4__)
+#      define PLATFORM_COMPILER "Solaris C"
+#    else
+#      define PLATFORM_COMPILER "SunOS C"
+#    endif
+#  endif
 #endif
 
 #endif
