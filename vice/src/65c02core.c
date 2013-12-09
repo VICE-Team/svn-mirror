@@ -652,21 +652,21 @@
         }                                              \
     } while (0)
 
-#define BRK()                                                                                     \
-    do {                                                                                          \
-        EXPORT_REGISTERS();                                                                       \
-        TRACE_BRK();                                                                              \
-        INC_PC(SIZE_2);                                                                           \
-        LOCAL_SET_BREAK(1);                                                                       \
-        PUSH(reg_pc >> 8);                                                                        \
-        PUSH(reg_pc & 0xff);                                                                      \
-        CLK_ADD(CLK, CYCLES_2);                                                                   \
-        PUSH(LOCAL_STATUS());                                                                     \
-        CLK_ADD(CLK, CYCLES_1);                                                                   \
-        LOCAL_SET_DECIMAL(0);                                                                     \
-        LOCAL_SET_INTERRUPT(1);                                                                   \
-        JUMP(LOAD_ADDR(0xfffe));                                                                  \
-        CLK_ADD(CLK, CYCLES_2);                                                                   \
+#define BRK()                    \
+    do {                         \
+        EXPORT_REGISTERS();      \
+        TRACE_BRK();             \
+        INC_PC(SIZE_2);          \
+        LOCAL_SET_BREAK(1);      \
+        PUSH(reg_pc >> 8);       \
+        PUSH(reg_pc & 0xff);     \
+        CLK_ADD(CLK, CYCLES_2);  \
+        PUSH(LOCAL_STATUS());    \
+        CLK_ADD(CLK, CYCLES_1);  \
+        LOCAL_SET_DECIMAL(0);    \
+        LOCAL_SET_INTERRUPT(1);  \
+        JUMP(LOAD_ADDR(0xfffe)); \
+        CLK_ADD(CLK, CYCLES_2);  \
     } while (0)
 
 #define CLC()               \
@@ -736,17 +736,17 @@
         INC_PC(SIZE_1);      \
     } while (0)
 
-#define DEC(addr, clk_inc, pc_inc, load_func, store_func)   \
-    do {                                                    \
-        unsigned int tmp, tmp_addr;                         \
-                                                            \
-        tmp_addr = (addr);                                  \
-        tmp = load_func(tmp_addr);                          \
-        tmp = (tmp - 1) & 0xff;                             \
-        LOCAL_SET_NZ(tmp);                                  \
-        INC_PC(pc_inc);                                     \
-        CLK_ADD(CLK, (clk_inc));                            \
-        store_func(tmp_addr, tmp);                          \
+#define DEC(addr, clk_inc, pc_inc, load_func, store_func) \
+    do {                                                  \
+        unsigned int tmp, tmp_addr;                       \
+                                                          \
+        tmp_addr = (addr);                                \
+        tmp = load_func(tmp_addr);                        \
+        tmp = (tmp - 1) & 0xff;                           \
+        LOCAL_SET_NZ(tmp);                                \
+        INC_PC(pc_inc);                                   \
+        CLK_ADD(CLK, (clk_inc));                          \
+        store_func(tmp_addr, tmp);                        \
     } while (0)
 
 #define DEX()                \
