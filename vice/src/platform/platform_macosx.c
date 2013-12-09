@@ -28,6 +28,10 @@
  */
 
 /* Tested and confirmed working on:
+ * - ppc MacOSX 10.4
+ * - i386 MacOSX 10.6
+ * - i386 MacOSX 10.7
+ * - x86_64 MacOSX 10.8
 */
 
 #include "vice.h"
