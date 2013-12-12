@@ -666,10 +666,11 @@ FIXME: in the unlikely event that other code surfaces that depends on another
 CONST value, it probably has to be made configureable somehow if no value can
 be found that works for both.
 */
+static const BYTE accu_magic = 0xff; /* common magic constant for ANE and LXA */
 
 #define ANE(value, pc_inc)                                               \
     do {                                                                 \
-        BYTE tmp = ((reg_a_read | 0xff) & reg_x_read & ((BYTE)(value))); \
+        BYTE tmp = ((reg_a_read | accu_magic) & reg_x_read & ((BYTE)(value))); \
         reg_a_write(tmp);                                                \
         LOCAL_SET_NZ(tmp);                                               \
         INC_PC(pc_inc);                                                  \
@@ -1132,7 +1133,7 @@ be found that works for both.
    Moreover, the behavior is different from the one described in 64doc. */
 #define LXA(value, pc_inc)                                  \
     do {                                                    \
-        BYTE tmp = ((reg_a_read | 0xee) & ((BYTE)(value))); \
+        BYTE tmp = ((reg_a_read | accu_magic) & ((BYTE)(value))); \
         reg_x_write(tmp);                                   \
         reg_a_write(tmp);                                   \
         LOCAL_SET_NZ(tmp);                                  \
