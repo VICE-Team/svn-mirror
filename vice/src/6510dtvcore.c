@@ -704,8 +704,6 @@
         INC_PC(pc_inc);                           \
     } while (0)
 
-static const BYTE accu_magic = 0xee; /* common magic constant for ANE and LXA */
-
 #define ANE()                                                       \
     do {                                                            \
         /* Set by main-cpu to signal steal after first fetch */     \
@@ -713,9 +711,9 @@ static const BYTE accu_magic = 0xee; /* common magic constant for ANE and LXA */
             /* Remove the signal */                                 \
             LAST_OPCODE_INFO &= ~OPINFO_ENABLES_IRQ_MSK;            \
             /* TODO emulate the different behaviour */              \
-            reg_a_write = (BYTE)((reg_a_read | accu_magic) & reg_x & p1); \
+            reg_a_write = (BYTE)((reg_a_read | 0xee) & reg_x & p1); \
         } else {                                                    \
-            reg_a_write = (BYTE)((reg_a_read | accu_magic) & reg_x & p1); \
+            reg_a_write = (BYTE)((reg_a_read | 0xee) & reg_x & p1); \
         }                                                           \
         LOCAL_SET_NZ(reg_a_read);                                   \
         INC_PC(2);                                                  \
@@ -1097,7 +1095,7 @@ static const BYTE accu_magic = 0xee; /* common magic constant for ANE and LXA */
    Moreover, the behavior is different from the one described in 64doc. */
 #define LXA(value, pc_inc)                                             \
     do {                                                               \
-        reg_a_write = reg_x = ((reg_a_read | accu_magic) & ((BYTE)(value))); \
+        reg_a_write = reg_x = ((reg_a_read | 0xee) & ((BYTE)(value))); \
         LOCAL_SET_NZ(reg_a_read);                                      \
         INC_PC(pc_inc);                                                \
     } while (0)
