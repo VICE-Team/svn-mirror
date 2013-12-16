@@ -253,8 +253,8 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                 Bit 7 controls bank-address 15 for ROM banking
              */
             case 0:
-                rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
-                cmode = (value & 3);
+                rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4); /* bit 3-4, 7 */
+                cmode = (value & 3);  /* bit 0-1 */
                 if ((rr_revision > 0) && ((value & 0xe7) == 0x22)) {
                     /* Nordic Replay supports additional Nordic Power compatible values */
                     cmode = 1; /* 16k Game */
@@ -262,14 +262,14 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                 } else {
                     /* Action Replay 5 compatible values */
                     export_ram_at_a000 = 0;
-                    if (value & 0x40) {
+                    if (value & 0x40) { /* bit 6 */
                         mode |= CMODE_RELEASE_FREEZE;
                     }
-                    if (value & 0x20) {
+                    if (value & 0x20) { /* bit 5 */
                         mode |= CMODE_EXPORT_RAM;
                     }
                 }
-
+#if 0
                 if (rr_hw_flashjumper) {
                     /* FIXME: what exactly is really happening ? */
                     if ((value & 3) == 3) {
@@ -278,9 +278,10 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                         value = 0;
                     }
                 }
+#endif
                 cart_config_changed_slotmain(0, (BYTE)(cmode | (rr_bank << CMODE_BANK_SHIFT)), mode);
 
-                if (value & 4) {
+                if (value & 4) { /* bit 2 */
                     rr_active = 0;
                 }
                 break;
