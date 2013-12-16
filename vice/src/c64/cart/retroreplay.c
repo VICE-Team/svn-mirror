@@ -201,16 +201,7 @@ BYTE retroreplay_io1_read(WORD addr)
                     retroreplay_io1_device.io_source_valid = 1;
                     if (export_ram) {
                         if (allow_bank) {
-                            switch (roml_bank & 3) {
-                                case 0:
-                                    return export_ram0[0x1e00 + (addr & 0xff)];
-                                case 1:
-                                    return export_ram0[0x3e00 + (addr & 0xff)];
-                                case 2:
-                                    return export_ram0[0x5e00 + (addr & 0xff)];
-                                case 3:
-                                    return export_ram0[0x7e00 + (addr & 0xff)];
-                            }
+                            return export_ram0[0x1e00 + (addr & 0xff) + ((roml_bank & 3) << 13)];
                         } else {
                             return export_ram0[0x1e00 + (addr & 0xff)];
                         }
@@ -345,20 +336,7 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                 if (reu_mapping) {
                     if (export_ram) {
                         if (allow_bank) {
-                            switch (roml_bank & 3) {
-                                case 0:
-                                    export_ram0[0x1e00 + (addr & 0xff)] = value;
-                                    break;
-                                case 1:
-                                    export_ram0[0x3e00 + (addr & 0xff)] = value;
-                                    break;
-                                case 2:
-                                    export_ram0[0x5e00 + (addr & 0xff)] = value;
-                                    break;
-                                case 3:
-                                    export_ram0[0x7e00 + (addr & 0xff)] = value;
-                                    break;
-                            }
+                            export_ram0[0x1e00 + (addr & 0xff) + ((roml_bank & 3) << 13)] = value;
                         } else {
                             export_ram0[0x1e00 + (addr & 0xff)] = value;
                         }
@@ -379,16 +357,7 @@ BYTE retroreplay_io2_read(WORD addr)
             retroreplay_io2_device.io_source_valid = 1;
             if (export_ram || ((rr_revision > 0) && export_ram_at_a000)) {
                 if (allow_bank) {
-                    switch (roml_bank & 3) {
-                        case 0:
-                            return export_ram0[0x1f00 + (addr & 0xff)];
-                        case 1:
-                            return export_ram0[0x3f00 + (addr & 0xff)];
-                        case 2:
-                            return export_ram0[0x5f00 + (addr & 0xff)];
-                        case 3:
-                            return export_ram0[0x7f00 + (addr & 0xff)];
-                    }
+                    return export_ram0[0x1f00 + (addr & 0xff) + ((roml_bank & 3) << 13)];
                 } else {
                     return export_ram0[0x1f00 + (addr & 0xff)];
                 }
@@ -408,20 +377,7 @@ void retroreplay_io2_store(WORD addr, BYTE value)
         if (!reu_mapping) {
             if (export_ram) {
                 if (allow_bank) {
-                    switch (roml_bank & 3) {
-                        case 0:
-                            export_ram0[0x1f00 + (addr & 0xff)] = value;
-                            break;
-                        case 1:
-                            export_ram0[0x3f00 + (addr & 0xff)] = value;
-                            break;
-                        case 2:
-                            export_ram0[0x5f00 + (addr & 0xff)] = value;
-                            break;
-                        case 3:
-                            export_ram0[0x7f00 + (addr & 0xff)] = value;
-                            break;
-                    }
+                    export_ram0[0x1f00 + (addr & 0xff) + ((roml_bank & 3) << 13)] = value;
                 } else {
                     export_ram0[0x1f00 + (addr & 0xff)] = value;
                 }
@@ -435,16 +391,7 @@ void retroreplay_io2_store(WORD addr, BYTE value)
 BYTE retroreplay_roml_read(WORD addr)
 {
     if (export_ram) {
-        switch (roml_bank & 3) {
-            case 0:
-                return export_ram0[addr & 0x1fff];
-            case 1:
-                return export_ram0[(addr & 0x1fff) + 0x2000];
-            case 2:
-                return export_ram0[(addr & 0x1fff) + 0x4000];
-            case 3:
-                return export_ram0[(addr & 0x1fff) + 0x6000];
-        }
+        return export_ram0[(addr & 0x1fff) + ((roml_bank & 3) << 13)];
     }
 
     return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13));
@@ -454,20 +401,7 @@ void retroreplay_roml_store(WORD addr, BYTE value)
 {
 /*    DBG(("roml w %04x %02x ram:%d flash:%d\n", addr, value, export_ram, rr_hw_flashjumper)); */
     if (export_ram) {
-        switch (roml_bank & 3) {
-            case 0:
-                export_ram0[addr & 0x1fff] = value;
-                break;
-            case 1:
-                export_ram0[(addr & 0x1fff) + 0x2000] = value;
-                break;
-            case 2:
-                export_ram0[(addr & 0x1fff) + 0x4000] = value;
-                break;
-            case 3:
-                export_ram0[(addr & 0x1fff) + 0x6000] = value;
-                break;
-        }
+        export_ram0[(addr & 0x1fff) + ((roml_bank & 3) << 13)] = value;
     } else {
         /* writes to flash are completely disabled if the flash jumper is not set */
         if (rr_hw_flashjumper) {
@@ -484,20 +418,7 @@ int retroreplay_roml_no_ultimax_store(WORD addr, BYTE value)
 /*    DBG(("roml w %04x %02x ram:%d flash:%d\n", addr, value, export_ram, rr_hw_flashjumper)); */
     if (rr_hw_flashjumper) {
         if (export_ram) {
-            switch (roml_bank & 3) {
-                case 0:
-                    export_ram0[addr & 0x1fff] = value;
-                    break;
-                case 1:
-                    export_ram0[(addr & 0x1fff) + 0x2000] = value;
-                    break;
-                case 2:
-                    export_ram0[(addr & 0x1fff) + 0x4000] = value;
-                    break;
-                case 3:
-                    export_ram0[(addr & 0x1fff) + 0x6000] = value;
-                    break;
-            }
+            export_ram0[(addr & 0x1fff) + ((roml_bank & 3) << 13)] = value;
             return 1;
         } else {
             /* writes to flash are completely disabled if the flash jumper is not set */
