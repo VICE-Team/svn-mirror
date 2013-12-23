@@ -876,7 +876,7 @@ char strrev(char *string)
     len /= 2;
 
     while (len--) {
-        char c = *a;
+        c = *a;
         *a++ = *b;
         *b-- = c;
     }
