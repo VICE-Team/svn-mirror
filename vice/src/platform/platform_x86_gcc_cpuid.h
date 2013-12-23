@@ -28,7 +28,7 @@
 #define PLATFORM_X86_GCC_CPUID_H
 
 #define cpuid(func, ax, bx, cx, dx) \
-    __asm__ __volatile__ ("cpuid":  \
+    __asm__ __volatile__ (".byte 15;.byte 162":  \
     "=a" (ax), "=b" (bx), "=c" (cx), "=d" (dx) : "a" (func))
 
 inline static int has_cpuid(void)
