@@ -180,7 +180,7 @@ static x86_cpu_name_t x86_cpu_names[] = {
 };
 
 /* runtime cpu detection */
-char* platform_get_x86_runtime_cpu(void)
+char *platform_get_x86_runtime_cpu(void)
 {
     DWORD regax, regbx, regcx, regdx;
     char type_buf[13];
