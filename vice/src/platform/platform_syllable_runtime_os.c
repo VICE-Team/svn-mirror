@@ -42,10 +42,15 @@
 
 static system_info psi;
 static char os_string[256];
+static int got_cpu = 0;
+static int got_os = 0;
 
 char *platform_get_syllable_runtime_cpu(void)
 {
-    get_system_info_v(&psi, SYS_INFO_VERSION);
+    if (!got_cpu) {
+        get_system_info_v(&psi, SYS_INFO_VERSION);
+        got_cpu = 1;
+    }
     return psi.zKernelCpuArch;
 }
 
@@ -53,14 +58,17 @@ char *platform_get_syllable_runtime_os(void)
 {
     struct utsname name;
 
-    uname(&name);
-    get_system_info_v(&psi, SYS_INFO_VERSION);
-    sprintf(os_string, "%s v%s.%s", psi.zKernelSystem, name.version, name.release);
+    if (!got_os) {
+        uname(&name);
+        get_system_info_v(&psi, SYS_INFO_VERSION);
+        sprintf(os_string, "%s v%s.%s", psi.zKernelSystem, name.version, name.release);
 
 #ifdef __GLIBC__
-    sprintf(os_string, "%s (glibc %s)", os_string, gnu_get_libc_version());
+        sprintf(os_string, "%s (glibc %s)", os_string, gnu_get_libc_version());
 #endif
 
+        got_os = 1;
+    }
     return os_string;
 }
 #endif

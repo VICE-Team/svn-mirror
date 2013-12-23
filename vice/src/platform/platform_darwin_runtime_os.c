@@ -39,8 +39,12 @@
 #include <mach/mach.h>
 
 static char buffer[4096];
+
 static char os[100];
+static int got_os = 0;
+
 static char cpu[100];
+static int got_cpu = 0;
 
 char *platform_get_darwin_runtime_os(void)
 {
@@ -54,53 +58,55 @@ char *platform_get_darwin_runtime_os(void)
     char *osversion = NULL;
     struct utsname name;
 
-    uname(&name);
+    if (!got_os) {
+        uname(&name);
 
-    /* first try to open /System/Library/CoreServices/ServerVersion.plist */
-    infile = fopen("/System/Library/CoreServices/ServerVersion.plist", "rb");
+        /* first try to open /System/Library/CoreServices/ServerVersion.plist */
+        infile = fopen("/System/Library/CoreServices/ServerVersion.plist", "rb");
 
-    /* if the file could not be opened, it is not a server,
-       so try to open /System/Library/CoreServices/SystemVersion.plist */
-    if (!infile) {
-        isserver = 0;
-        infile = fopen("/System/Library/CoreServices/SystemVersion.plist", "rb");
-    }
+        /* if the file could not be opened, it is not a server,
+           so try to open /System/Library/CoreServices/SystemVersion.plist */
+        if (!infile) {
+            isserver = 0;
+            infile = fopen("/System/Library/CoreServices/SystemVersion.plist", "rb");
+        }
 
-    /* find out the version from the open file */
-    if (infile) {
-        amount = fread(buffer, 1, 4095, infile);
-        if (amount) {
-            osname = strstr(buffer, "<key>ProductName</key>");
-            osversion = strstr(buffer, "<key>ProductVersion</key>");
-            if (osname && osversion) {
-                osname = strstr(osname, "<string>");
-                osversion = strstr(osversion, "<string>");
+        /* find out the version from the open file */
+        if (infile) {
+            amount = fread(buffer, 1, 4095, infile);
+            if (amount) {
+                osname = strstr(buffer, "<key>ProductName</key>");
+                osversion = strstr(buffer, "<key>ProductVersion</key>");
                 if (osname && osversion) {
-                    osname += 8;
-                    osversion += 8;
-                    while (osname[i] != 0 && osname[i] != '<') {
-                        i++;
-                    }
-                    while (osversion[j] != 0 && osversion[j] != '<') {
-                        j++;
-                    }
-                    if (osversion[j] == '<' && osname[i] == '<') {
-                        osversion[j] = 0;
-                        osname[i] = 0;
-                        done = 1;
+                    osname = strstr(osname, "<string>");
+                    osversion = strstr(osversion, "<string>");
+                    if (osname && osversion) {
+                        osname += 8;
+                        osversion += 8;
+                        while (osname[i] != 0 && osname[i] != '<') {
+                            i++;
+                        }
+                        while (osversion[j] != 0 && osversion[j] != '<') {
+                            j++;
+                        }
+                        if (osversion[j] == '<' && osname[i] == '<') {
+                            osversion[j] = 0;
+                            osname[i] = 0;
+                            done = 1;
+                        }
                     }
                 }
             }
+            fclose(infile);
         }
-        fclose(infile);
-    }
 
-    if (done) {
-        sprintf(os, "%s %s", osname, osversion);
-    } else {
-        sprintf(os, "Darwin %s", name.release);
+        if (done) {
+            sprintf(os, "%s %s", osname, osversion);
+        } else {
+            sprintf(os, "Darwin %s", name.release);
+        }
+        got_os = 1;
     }
-
     return os;
 }
 
@@ -116,29 +122,31 @@ char *platform_get_darwin_runtime_cpu(void)
     int amount = 0;
 #endif
 
-    ret = host_info(host_self(), HOST_BASIC_INFO, (host_info_t)&hi, &count);
-    if (ret != KERN_SUCCESS) {
-        sprintf(cpu, "Unknown CPU");
-    } else {
-        slot_name(hi.cpu_type, hi.cpu_subtype, &cpu_name, &cpu_subname);
-        sprintf(cpu, "%s (%s)", cpu_name, cpu_subname);
-    }
+    if (!got_cpu) {
+        ret = host_info(host_self(), HOST_BASIC_INFO, (host_info_t)&hi, &count);
+        if (ret != KERN_SUCCESS) {
+            sprintf(cpu, "Unknown CPU");
+        } else {
+            slot_name(hi.cpu_type, hi.cpu_subtype, &cpu_name, &cpu_subname);
+            sprintf(cpu, "%s (%s)", cpu_name, cpu_subname);
+        }
 
 #ifdef __ppc__
-    system("uname -m >/tmp/uname.tmp");
-    infile = fopen("/tmp/uname.tmp", "rb");
-    if (infile) {
-        amount = fread(buffer, 1, 4095, infile);
-        if (amount) {
-            buffer[strlen(buffer)] = 0;
-            if (strcmp(buffer, "Power Macintosh")) {
-                sprintf(cpu, "%s [Rosetta (%s)]", cpu, buffer);
+        system("uname -m >/tmp/uname.tmp");
+        infile = fopen("/tmp/uname.tmp", "rb");
+        if (infile) {
+            amount = fread(buffer, 1, 4095, infile);
+            if (amount) {
+                buffer[strlen(buffer)] = 0;
+                if (strcmp(buffer, "Power Macintosh")) {
+                    sprintf(cpu, "%s [Rosetta (%s)]", cpu, buffer);
+                }
             }
+            fclose(infile);
         }
-        fclose(infile);
-    }
 #endif
-
+        got_cpu = 1;
+    }
     return cpu;
 }
 #endif

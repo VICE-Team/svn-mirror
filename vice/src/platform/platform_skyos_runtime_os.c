@@ -37,15 +37,20 @@
 #include "platform.h"
 
 char platform_name[128];
+static int got_os = 0;
+
 char platform_cpu[20];
+static int got_cpu = 0;
 
 char *platform_get_skyos_runtime_os(void)
 {
     struct utsname name;
 
-    uname(&name);
-    sprintf(platform_name, "%s %s (%s)", name.sysname, name.release, name.version);
-
+    if (!got_os) {
+        uname(&name);
+        sprintf(platform_name, "%s %s (%s)", name.sysname, name.release, name.version);
+        got_os = 1;
+    }
     return platform_name;
 }
 
@@ -53,9 +58,11 @@ char *platform_get_skyos_runtime_cpu(void)
 {
     struct utsname name;
 
-    uname(&name);
-    sprintf(platform_cpu, "%s", name.machine);
-
+    if (!got_cpu) {
+        uname(&name);
+        sprintf(platform_cpu, "%s", name.machine);
+        got_cpu = 1;
+    }
     return platform_cpu;
 }
 #endif

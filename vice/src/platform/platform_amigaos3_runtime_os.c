@@ -44,56 +44,63 @@ extern struct ExecBase *SysBase;
 
 struct Library *WorkbenchBase;
 
+static char *osretval = NULL;
+static char *cpuretval = NULL;
+
 char *platform_get_amigaos3_runtime_os(void)
 {
-    char *retval = NULL;
+    if (!osretval) {
+        /* arosc.library only opens if the aros kernel is used */
+        if (WorkbenchBase = OpenLibrary("arosc.library", 0)) {
+            osretval = "AROS";
+        }
 
-    /* arosc.library only opens if the aros kernel is used */
-    if (WorkbenchBase = OpenLibrary("arosc.library", 0)) {
-        retval = "AROS";
+        /* Check for regular workbench */
+        if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 45))) {
+            osretval = "AmigaOS-3.9";
+        }
+        if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 44))) {
+            osretval = "AmigaOS-3.5";
+        }
+        if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 40))) {
+            osretval = "AmigaOS-3.1";
+        }
+        if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 39))) {
+            osretval = "AmigaOS-3.0";
+        }
+        if (osretval) {
+            CloseLibrary(WorkbenchBase);
+        } else {
+            osretval = "Unknown AmigaOS";
+        }
     }
-
-    /* Check for regular workbench */
-    if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 45))) {
-        retval = "AmigaOS-3.9";
-    }
-    if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 44))) {
-        retval = "AmigaOS-3.5";
-    }
-    if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 40))) {
-        retval = "AmigaOS-3.1";
-    }
-    if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 39))) {
-        retval = "AmigaOS-3.0";
-    }
-    if (retval) {
-        CloseLibrary(WorkbenchBase);
-    } else {
-        retval = "Unknown AmigaOS";
-    }
-
-    return retval;
+    return osretval;
 }
 
 char *platform_get_amigaos3_runtime_cpu(void)
 {
-    UWORD attnflags = SysBase->AttnFlags;
+    UWORD attnflags;
 
-    if (attnflags & 0x80) {
-        return "68060";
+    if (!cpuretval) {
+        attnflags = SysBase->AttnFlags;
+
+        if (attnflags & 0x80) {
+            cpuretval = "68060";
+        }
+        if (attnflags & AFF_68040) {
+            cpuretval = return "68040";
+        }
+        if (attnflags & AFF_68030) {
+            cpuretval = "68030";
+        }
+        if (attnflags & AFF_68020) {
+            cpuretval = "68020";
+        }
+        if (attnflags & AFF_68010) {
+            cpuretval = "68010";
+        }
+        cpuretval = "68000";
     }
-    if (attnflags & AFF_68040) {
-        return "68040";
-    }
-    if (attnflags & AFF_68030) {
-        return "68030";
-    }
-    if (attnflags & AFF_68020) {
-        return "68020";
-    }
-    if (attnflags & AFF_68010) {
-        return "68010";
-    }
-    return "68000";
+    return cpuretval;
 }
 #endif

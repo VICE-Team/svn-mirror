@@ -632,6 +632,7 @@ static int optional_compare(int a, int b)
 }
 
 static char windows_version[256];
+static int got_os = 0;
 
 /* 0 = error
    1 = Workstation
@@ -784,72 +785,74 @@ char *platform_get_windows_runtime_os(void)
     int sp;
     int exinfo_valid = 0;
 
-    ZeroMemory(&os_version_info, sizeof(os_version_info));
-    os_version_info.dwOSVersionInfoSize = sizeof(os_version_info);
+    if (!got_os) {
 
-    ZeroMemory(&os_version_ex_info, sizeof(os_version_ex_info));
-    os_version_ex_info.dwOSVersionInfoSize = sizeof(os_version_ex_info);
+        ZeroMemory(&os_version_info, sizeof(os_version_info));
+        os_version_info.dwOSVersionInfoSize = sizeof(os_version_info);
 
-    GetVersionEx(&os_version_info);
+        ZeroMemory(&os_version_ex_info, sizeof(os_version_ex_info));
+        os_version_ex_info.dwOSVersionInfoSize = sizeof(os_version_ex_info);
 
-    windows_versions[0].platformid = (DWORD)os_version_info.dwPlatformId;
-    windows_versions[0].majorver = (DWORD)os_version_info.dwMajorVersion;
-    windows_versions[0].minorver = (DWORD)os_version_info.dwMinorVersion;
-    windows_versions[0].realos = GetRealOS();
+        GetVersionEx(&os_version_info);
 
-    if (windows_versions[0].platformid == VER_PLATFORM_WIN32_NT) {
-        if (GetVersionEx((LPOSVERSIONINFOA)&os_version_ex_info)) {
-            if (os_version_ex_info.wProductType == VER_NT_DOMAIN_CONTROLLER) {
-                windows_versions[0].producttype = (BYTE)VER_NT_SERVER;
+        windows_versions[0].platformid = (DWORD)os_version_info.dwPlatformId;
+        windows_versions[0].majorver = (DWORD)os_version_info.dwMajorVersion;
+        windows_versions[0].minorver = (DWORD)os_version_info.dwMinorVersion;
+        windows_versions[0].realos = GetRealOS();
+
+        if (windows_versions[0].platformid == VER_PLATFORM_WIN32_NT) {
+            if (GetVersionEx((LPOSVERSIONINFOA)&os_version_ex_info)) {
+                if (os_version_ex_info.wProductType == VER_NT_DOMAIN_CONTROLLER) {
+                    windows_versions[0].producttype = (BYTE)VER_NT_SERVER;
+                } else {
+                    windows_versions[0].producttype = (BYTE)os_version_ex_info.wProductType;
+                }
+                windows_versions[0].suite = (WORD)os_version_ex_info.wSuiteMask;
+                exinfo_valid = 1;
             } else {
-                windows_versions[0].producttype = (BYTE)os_version_ex_info.wProductType;
+                switch (get_product_type_from_reg()) {
+                    case 0:
+                    default:
+                        windows_versions[0].producttype = 0;
+                        windows_versions[0].suite = 0;
+                        break;
+                    case 1:
+                        windows_versions[0].producttype = VER_NT_WORKSTATION;
+                        windows_versions[0].suite = 0;
+                        break;
+                    case 2:
+                        windows_versions[0].producttype = VER_NT_SERVER;
+                        windows_versions[0].suite = 0;
+                        break;
+                    case 3:
+                        windows_versions[0].producttype = VER_NT_SERVER;
+                        windows_versions[0].suite = VER_SUITE_ENTERPRISE;
+                        break;
+                    case 4:
+                        windows_versions[0].producttype = VER_NT_SERVER;
+                        windows_versions[0].suite = VER_SUITE_TERMINAL;
+                        break;
+                    case 5:
+                        windows_versions[0].producttype = VER_NT_SERVER;
+                        windows_versions[0].suite = VER_SUITE_SMALLBUSINESS;
+                        break;
+                }
             }
-            windows_versions[0].suite = (WORD)os_version_ex_info.wSuiteMask;
-            exinfo_valid = 1;
-        } else {
-            switch (get_product_type_from_reg()) {
-                case 0:
-                default:
-                    windows_versions[0].producttype = 0;
-                    windows_versions[0].suite = 0;
-                    break;
-                case 1:
-                    windows_versions[0].producttype = VER_NT_WORKSTATION;
-                    windows_versions[0].suite = 0;
-                    break;
-                case 2:
-                    windows_versions[0].producttype = VER_NT_SERVER;
-                    windows_versions[0].suite = 0;
-                    break;
-                case 3:
-                    windows_versions[0].producttype = VER_NT_SERVER;
-                    windows_versions[0].suite = VER_SUITE_ENTERPRISE;
-                    break;
-                case 4:
-                    windows_versions[0].producttype = VER_NT_SERVER;
-                    windows_versions[0].suite = VER_SUITE_TERMINAL;
-                    break;
-                case 5:
-                    windows_versions[0].producttype = VER_NT_SERVER;
-                    windows_versions[0].suite = VER_SUITE_SMALLBUSINESS;
-                    break;
-            }
-        }
-        if (windows_versions[0].majorver >= 6) {
-            if ((windows_versions[0].suite | VER_SUITE_EMBEDDEDNT) == VER_SUITE_EMBEDDEDNT) {
-                windows_versions[0].pt6 = is_thin_pc();
+            if (windows_versions[0].majorver >= 6) {
+                if ((windows_versions[0].suite | VER_SUITE_EMBEDDEDNT) == VER_SUITE_EMBEDDEDNT) {
+                    windows_versions[0].pt6 = is_thin_pc();
+                } else {
+                    ViceGetProductInfo = (VGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
+                    ViceGetProductInfo(os_version_ex_info.dwMajorVersion, os_version_ex_info.dwMinorVersion, 0, 0, &PT);
+                    windows_versions[0].pt6 = PT;
+                }
             } else {
-                ViceGetProductInfo = (VGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
-                ViceGetProductInfo(os_version_ex_info.dwMajorVersion, os_version_ex_info.dwMinorVersion, 0, 0, &PT);
-                windows_versions[0].pt6 = PT;
+                windows_versions[0].pt6 = -1;
             }
         } else {
-            windows_versions[0].pt6 = -1;
+            windows_versions[0].producttype = -1;
+            windows_versions[0].suite = -1;
         }
-    } else {
-        windows_versions[0].producttype = -1;
-        windows_versions[0].suite = -1;
-    }
 
 /* Metrics: 0000RMST
    R: Windows Server 2003 R2			SM_SERVERR2
@@ -857,49 +860,50 @@ char *platform_get_windows_runtime_os(void)
    S: Windows XP Starter Edition		SM_STARTER
    T: Windows XP Tablet PC Edition		SM_TABLETPC
 */
-    windows_versions[0].metrics = 0;
-    if (GetSystemMetrics(SM_TABLETPC)) {
-        windows_versions[0].metrics |= 1;
-    }
-    if (GetSystemMetrics(SM_STARTER)) {
-        windows_versions[0].metrics |= 2;
-    }
-    if (GetSystemMetrics(SM_MEDIACENTER)) {
-        windows_versions[0].metrics |= 4;
-    }
-    if (GetSystemMetrics(SM_SERVERR2)) {
-        windows_versions[0].metrics |= 8;
-    }
-
-    if (windows_versions[0].suite == (VER_SUITE_EMBEDDEDNT | VER_SUITE_SINGLEUSERTS)) {
-        if (is_flp() == 0) {
-            windows_versions[0].suite = VER_SUITE_EMBEDDEDNT;
+        windows_versions[0].metrics = 0;
+        if (GetSystemMetrics(SM_TABLETPC)) {
+            windows_versions[0].metrics |= 1;
         }
-    }
+        if (GetSystemMetrics(SM_STARTER)) {
+            windows_versions[0].metrics |= 2;
+        }
+        if (GetSystemMetrics(SM_MEDIACENTER)) {
+            windows_versions[0].metrics |= 4;
+        }
+        if (GetSystemMetrics(SM_SERVERR2)) {
+            windows_versions[0].metrics |= 8;
+        }
 
-    if (is_pe_builder() && windows_versions[0].majorver == 5 && windows_versions[0].minorver == 2) {
-        windows_versions[0].producttype = VER_NT_SERVER;
-    }
+        if (windows_versions[0].suite == (VER_SUITE_EMBEDDEDNT | VER_SUITE_SINGLEUSERTS)) {
+            if (is_flp() == 0) {
+                windows_versions[0].suite = VER_SUITE_EMBEDDEDNT;
+            }
+        }
 
-    if (is_cluster()) {
-        windows_versions[0].suite |= VER_SUITE_COMPUTE_SERVER;
-    }
+        if (is_pe_builder() && windows_versions[0].majorver == 5 && windows_versions[0].minorver == 2) {
+            windows_versions[0].producttype = VER_NT_SERVER;
+        }
 
-    for (i = 1; found == 0 && windows_versions[i].name != NULL; i++) {
-        if (windows_versions[0].platformid == windows_versions[i].platformid) {
-            if (windows_versions[0].majorver == windows_versions[i].majorver) {
-                if (windows_versions[0].minorver == windows_versions[i].minorver) {
-                    if (windows_versions[0].realos > windows_versions[i].realos) {
-                        windows_versions[0].producttype = -1;
-                        windows_versions[0].suite = 0;
-                        windows_versions[0].pt6 = 0;
-                        windows_versions[0].metrics = 0;
-                    }
-                    if (windows_versions[0].producttype == windows_versions[i].producttype) {
-                        if (optional_mask_compare(windows_versions[0].suite, windows_versions[i].suite)) {
-                            if (optional_compare(windows_versions[0].pt6, windows_versions[i].pt6)) {
-                                if (optional_mask_compare(windows_versions[0].metrics, windows_versions[i].metrics)) {
-                                    found = 1;
+        if (is_cluster()) {
+            windows_versions[0].suite |= VER_SUITE_COMPUTE_SERVER;
+        }
+
+        for (i = 1; found == 0 && windows_versions[i].name != NULL; i++) {
+            if (windows_versions[0].platformid == windows_versions[i].platformid) {
+                if (windows_versions[0].majorver == windows_versions[i].majorver) {
+                    if (windows_versions[0].minorver == windows_versions[i].minorver) {
+                        if (windows_versions[0].realos > windows_versions[i].realos) {
+                            windows_versions[0].producttype = -1;
+                            windows_versions[0].suite = 0;
+                            windows_versions[0].pt6 = 0;
+                            windows_versions[0].metrics = 0;
+                        }
+                        if (windows_versions[0].producttype == windows_versions[i].producttype) {
+                            if (optional_mask_compare(windows_versions[0].suite, windows_versions[i].suite)) {
+                                if (optional_compare(windows_versions[0].pt6, windows_versions[i].pt6)) {
+                                    if (optional_mask_compare(windows_versions[0].metrics, windows_versions[i].metrics)) {
+                                        found = 1;
+                                    }
                                 }
                             }
                         }
@@ -907,89 +911,90 @@ char *platform_get_windows_runtime_os(void)
                 }
             }
         }
-    }
 
-    if (found) {
-        sprintf(windows_version, "%s", windows_versions[i - 1].name);
-        if (windows_versions[0].platformid == VER_PLATFORM_WIN32_WINDOWS) {
-            if (windows_versions[0].minorver == 0) {
-                sprintf(windows_version, "%s%s", windows_version, get_win95_version());
-            }
-            if (windows_versions[0].minorver == 10 || windows_versions[0].minorver == 90) {
-                sprintf(windows_version, "%s%s", windows_version, get_win98_version());
-            }
-        } else {
-            if (exinfo_valid) {
-                sp = os_version_ex_info.wServicePackMajor;
+        if (found) {
+            sprintf(windows_version, "%s", windows_versions[i - 1].name);
+            if (windows_versions[0].platformid == VER_PLATFORM_WIN32_WINDOWS) {
+                if (windows_versions[0].minorver == 0) {
+                    sprintf(windows_version, "%s%s", windows_version, get_win95_version());
+                }
+                if (windows_versions[0].minorver == 10 || windows_versions[0].minorver == 90) {
+                    sprintf(windows_version, "%s%s", windows_version, get_win98_version());
+                }
             } else {
-                sp = get_sp_from_reg();
-            }
-            if (sp) {
-                if (sp == 6) {
-                    if (sp_is_nt4_6a()) {
-                        sprintf(windows_version, "%s SP6A", windows_version);
+                if (exinfo_valid) {
+                    sp = os_version_ex_info.wServicePackMajor;
+                } else {
+                    sp = get_sp_from_reg();
+                }
+                if (sp) {
+                    if (sp == 6) {
+                        if (sp_is_nt4_6a()) {
+                            sprintf(windows_version, "%s SP6A", windows_version);
+                        } else {
+                            sprintf(windows_version, "%s SP6", windows_version);
+                        }
                     } else {
-                        sprintf(windows_version, "%s SP6", windows_version);
+                        sprintf(windows_version, "%s SP%d", windows_version, sp);
                     }
-                } else {
-                    sprintf(windows_version, "%s SP%d", windows_version, sp);
                 }
             }
-        }
-        if (is_pe_builder()) {
-            sprintf(windows_version, "%s (PE)", windows_version);
-        }
-        if (windows_versions[0].realos > windows_versions[i - 1].realos) {
-            sprintf(windows_version, "%s (compatibility mode)", windows_version);
-        }
-        if (IsWow64()) {
-            ViceGetNativeSystemInfo = (VGNSI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
-            ViceGetNativeSystemInfo(&systeminfo);
-            if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) {
-                sprintf(windows_version, "%s (WOW64 X64)", windows_version);
+            if (is_pe_builder()) {
+                sprintf(windows_version, "%s (PE)", windows_version);
+            }
+            if (windows_versions[0].realos > windows_versions[i - 1].realos) {
+                sprintf(windows_version, "%s (compatibility mode)", windows_version);
+            }
+            if (IsWow64()) {
+                ViceGetNativeSystemInfo = (VGNSI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
+                ViceGetNativeSystemInfo(&systeminfo);
+                if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) {
+                    sprintf(windows_version, "%s (WOW64 X64)", windows_version);
+                } else {
+                    sprintf(windows_version, "%s (WOW64 IA64)", windows_version);
+                }
             } else {
-                sprintf(windows_version, "%s (WOW64 IA64)", windows_version);
+                if (windows_versions[0].majorver >= 5) {
+                    GetSystemInfo(&systeminfo);
+                    if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64) {
+                        sprintf(windows_version, "%s (64bit IA64)", windows_version);
+                    } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) {
+                        sprintf(windows_version, "%s (64bit X64)", windows_version);
+                    } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_MIPS) {
+                        sprintf(windows_version, "%s (32bit MIPS)", windows_version);
+                    } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ALPHA) {
+                        sprintf(windows_version, "%s (32bit AXP)", windows_version);
+                    } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ALPHA64) {
+                        sprintf(windows_version, "%s (32bit AXP64)", windows_version);
+                    } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_PPC) {
+                        sprintf(windows_version, "%s (32bit PPC)", windows_version);
+                    } else {
+                        sprintf(windows_version, "%s (32bit X86)", windows_version);
+                    }
+                }
+            }
+            if (IsReactOS()) {
+                sprintf(windows_version, "%s (ReactOS)", windows_version);
+            }
+            if (IsWine()) {
+                sprintf(windows_version, "%s (Wine)", windows_version);
+            }
+            if (IsOdin32()) {
+                sprintf(windows_version, "%s (Odin32)", windows_version);
+            }
+            if (IsHxDos()) {
+                sprintf(windows_version, "%s (HXDOS)", windows_version);
             }
         } else {
-            if (windows_versions[0].majorver >= 5) {
-                GetSystemInfo(&systeminfo);
-                if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64) {
-                    sprintf(windows_version, "%s (64bit IA64)", windows_version);
-                } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) {
-                    sprintf(windows_version, "%s (64bit X64)", windows_version);
-                } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_MIPS) {
-                    sprintf(windows_version, "%s (32bit MIPS)", windows_version);
-                } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ALPHA) {
-                    sprintf(windows_version, "%s (32bit AXP)", windows_version);
-                } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ALPHA64) {
-                    sprintf(windows_version, "%s (32bit AXP64)", windows_version);
-                } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_PPC) {
-                    sprintf(windows_version, "%s (32bit PPC)", windows_version);
-                } else {
-                    sprintf(windows_version, "%s (32bit X86)", windows_version);
-                }
-            }
+            sprintf(windows_version, "%s (%d %d %d %d %d %d)", "Unknown Windows version",
+                    windows_versions[0].platformid,
+                    windows_versions[0].majorver,
+                    windows_versions[0].minorver,
+                    windows_versions[0].realos,
+                    windows_versions[0].producttype,
+                    windows_versions[0].suite);
         }
-        if (IsReactOS()) {
-            sprintf(windows_version, "%s (ReactOS)", windows_version);
-        }
-        if (IsWine()) {
-            sprintf(windows_version, "%s (Wine)", windows_version);
-        }
-        if (IsOdin32()) {
-            sprintf(windows_version, "%s (Odin32)", windows_version);
-        }
-        if (IsHxDos()) {
-            sprintf(windows_version, "%s (HXDOS)", windows_version);
-        }
-    } else {
-        sprintf(windows_version, "%s (%d %d %d %d %d %d)", "Unknown Windows version",
-                windows_versions[0].platformid,
-                windows_versions[0].majorver,
-                windows_versions[0].minorver,
-                windows_versions[0].realos,
-                windows_versions[0].producttype,
-                windows_versions[0].suite);
+        got_os = 1;
     }
     return windows_version;
 }

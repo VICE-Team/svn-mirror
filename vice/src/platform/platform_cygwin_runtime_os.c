@@ -41,6 +41,7 @@
 #include "platform.h"
 
 static char api_version[200];
+static int got_api_version = 0;
 
 char *platform_get_cygwin_runtime_os(void)
 {
@@ -48,20 +49,22 @@ char *platform_get_cygwin_runtime_os(void)
     struct utsname name;
     char temp[21];
 
-    uname(&name);
-    sprintf(temp, "%s", name.release);
-    while (temp[i] != '(') {
-        i++;
+    if (!got_api_version) {
+        uname(&name);
+        sprintf(temp, "%s", name.release);
+        while (temp[i] != '(') {
+            i++;
+        }
+        temp[i] = 0;
+        sprintf(api_version, "Cygwin DLL %s API %s", temp, temp + i + 1);
+        i = 0;
+        while (api_version[i] != '/') {
+            i++;
+        }
+        api_version[i] = 0;
+        sprintf(api_version, "%s [%s]", api_version, platform_get_windows_runtime_os());
+        got_api_version = 1;
     }
-    temp[i] = 0;
-    sprintf(api_version, "Cygwin DLL %s API %s", temp, temp + i + 1);
-    i = 0;
-    while (api_version[i] != '/') {
-        i++;
-    }
-    api_version[i] = 0;
-
-    sprintf(api_version, "%s [%s]", api_version, platform_get_windows_runtime_os());
 
     return api_version;
 }

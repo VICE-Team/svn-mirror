@@ -39,7 +39,9 @@
 #include <sys/utsname.h>
 
 static char buffer[80];
+
 static char platform_os[80];
+static int got_os = 0;
 
 char *platform_get_sco_runtime_os(void)
 {
@@ -49,40 +51,42 @@ char *platform_get_sco_runtime_os(void)
     int amount = 0;
     int i = 0;
 
-    buffer[0] = 0;
-
-    retval = uname(&name);
-
-    if (!retval) {
-        sprintf(buffer, "%s", name.version);
-    } else {
-        system("uname -v >tmp.version");
-        infile = fopen("tmp.version", "rb");
-        if (infile) {
-            amount = fread(buffer, 1, 80, infile);
-            if (amount) {
-                while (buffer[i] != '\n') {
-                    i++;
+    if (!got_os) {
+        buffer[0] = 0;
+        retval = uname(&name);
+        if (!retval) {
+            sprintf(buffer, "%s", name.version);
+        } else {
+            system("uname -v >tmp.version");
+            infile = fopen("tmp.version", "rb");
+            if (infile) {
+                amount = fread(buffer, 1, 80, infile);
+                if (amount) {
+                    while (buffer[i] != '\n') {
+                        i++;
+                    }
+                    buffer[i] = 0;
                 }
-                buffer[i] = 0;
+                fclose(infile);
             }
-            fclose(infile);
+            unlink("tmp.version");
         }
-        unlink("tmp.version");
-    }
-    if (buffer[0] == '2') {
-        sprintf(platform_os, "SCO Unix v4.x");
-    } else if (buffer[0] == '5' || buffer[0] == '6') {
-        sprintf(platform_os, "SCO Openserver %s", buffer);
-    } else if (buffer[0] == '7') {
-        sprintf(platform_os, "SCO Unixware %s", buffer);
-    } else {
-        sprintf(platform_os, "SCO Unix");
+        if (buffer[0] == '2') {
+            sprintf(platform_os, "SCO Unix v4.x");
+        } else if (buffer[0] == '5' || buffer[0] == '6') {
+            sprintf(platform_os, "SCO Openserver %s", buffer);
+        } else if (buffer[0] == '7') {
+            sprintf(platform_os, "SCO Unixware %s", buffer);
+        } else {
+            sprintf(platform_os, "SCO Unix");
+        }
+        got_os = 1;
     }
     return platform_os;
 }
 
 static char platform_cpu[20];
+static int got_cpu = 0;
 
 char *platform_get_sco_runtime_cpu(void)
 {
@@ -92,25 +96,27 @@ char *platform_get_sco_runtime_cpu(void)
     int amount = 0;
     FILE *infile;
 
-    retval = uname(&name);
-    if (!retval) {
-        sprintf(platform_cpu, "%s", name.machine);
-    } else {
-        system("uname -m >tmp.machine");
-        infile = fopen("tmp.machine", "rb");
-        if (infile) {
-            amount = fread(platform_cpu, 1, 20, infile);
-            if (amount) {
-                while (platform_cpu[i] != '\n') {
-                    i++;
+    if (!got_cpu) {
+        retval = uname(&name);
+        if (!retval) {
+            sprintf(platform_cpu, "%s", name.machine);
+        } else {
+            system("uname -m >tmp.machine");
+            infile = fopen("tmp.machine", "rb");
+            if (infile) {
+                amount = fread(platform_cpu, 1, 20, infile);
+                if (amount) {
+                    while (platform_cpu[i] != '\n') {
+                        i++;
+                    }
+                    platform_cpu[i] = 0;
                 }
-                platform_cpu[i] = 0;
+                fclose(infile);
             }
-            fclose(infile);
+            unlink("tmp.machine");
         }
-        unlink("tmp.machine");
+        got_cpu = 1;
     }
-
     return platform_cpu;
 }
 #endif

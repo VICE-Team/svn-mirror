@@ -36,7 +36,10 @@
 #include <mach/mach.h>
 
 static char os[100];
+static int got_os = 0;
+
 static char cpu[100];
+static int got_cpu = 0;
 
 char *platform_get_rhapsody_runtime_os(void)
 {
@@ -45,32 +48,35 @@ char *platform_get_rhapsody_runtime_os(void)
     char *version = NULL;
     int i = 0;
 
-    ret = host_kernel_version(host_self(), string);
-    if (ret != KERN_SUCCESS) {
-        sprintf(os, "Unknown Rhapsody version\n");
-    } else {
-        version = string;
-        while (*version != ' ') {
-            version ++;
+    if (!got_os) {
+        ret = host_kernel_version(host_self(), string);
+        if (ret != KERN_SUCCESS) {
+            sprintf(os, "Unknown Rhapsody version\n");
+        } else {
+            version = string;
+            while (*version != ' ') {
+                version ++;
+            }
+            version++;
+            while (*version != ' ') {
+                version ++;
+            }
+            version++;
+            while (*version != ' ') {
+                version ++;
+            }
+            version++;
+            while (*version != ' ') {
+                version ++;
+            }
+            version++;
+            while (version[i] != ':') {
+                i++;
+            }
+            version[i] = 0;
+            sprintf(os, "Rhapsody %s", version);
         }
-        version++;
-        while (*version != ' ') {
-            version ++;
-        }
-        version++;
-        while (*version != ' ') {
-            version ++;
-        }
-        version++;
-        while (*version != ' ') {
-            version ++;
-        }
-        version++;
-        while (version[i] != ':') {
-            i++;
-        }
-        version[i] = 0;
-        sprintf(os, "Rhapsody %s", version);
+        got_os = 1;
     }
     return os;
 }
@@ -83,12 +89,15 @@ char *platform_get_rhapsody_runtime_cpu(void)
     char *cpu_name = NULL;
     char *cpu_subname = NULL;
 
-    ret = host_info(host_self(), HOST_BASIC_INFO, (host_info_t)&hi, &count);
-    if (ret != KERN_SUCCESS) {
-        sprintf(cpu, "Unknown CPU");
-    } else {
-        slot_name(hi.cpu_type, hi.cpu_subtype, &cpu_name, &cpu_subname);
-        sprintf(cpu, "%s (%s)", cpu_name, cpu_subname);
+    if (!got_cpu) {
+        ret = host_info(host_self(), HOST_BASIC_INFO, (host_info_t)&hi, &count);
+        if (ret != KERN_SUCCESS) {
+            sprintf(cpu, "Unknown CPU");
+        } else {
+            slot_name(hi.cpu_type, hi.cpu_subtype, &cpu_name, &cpu_subname);
+            sprintf(cpu, "%s (%s)", cpu_name, cpu_subname);
+        }
+        got_cpu = 1;
     }
     return cpu;
 }

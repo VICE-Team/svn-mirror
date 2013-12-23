@@ -63,64 +63,69 @@
 #endif
 
 static char linux_version[100];
+static int got_linux_version = 0;
 
 char *platform_get_linux_runtime_os(void)
 {
     struct utsname name;
 
-    uname(&name);
+    if (!got_linux_version) {
+        uname(&name);
 
-    sprintf(linux_version, "%s %s", name.sysname, name.release);
+        sprintf(linux_version, "%s %s", name.sysname, name.release);
 
 #ifdef __dietlibc__
 #define CLIB_HANDLED
-    sprintf(linux_version, "%s (dietlibc)", linux_version);
+        sprintf(linux_version, "%s (dietlibc)", linux_version);
 #endif
 
 #if !defined(CLIB_HANDLED) && defined(_NEWLIB_VERSION)
 #define CLIB_HANDLED
-    sprintf(linux_version, "%s (newlib %s)", linux_version, _NEWLIB_VERSION);
+        sprintf(linux_version, "%s (newlib %s)", linux_version, _NEWLIB_VERSION);
 #endif
 
 #if !defined(CLIB_HANDLED) && defined(__GLIBC__)
 #  define CLIB_HANDLED
 #  if (__GLIBC__==2)
 #    if (__GLIBC__MINOR__>0)
-    sprintf(linux_version, "%s (glibc %s)", linux_version, gnu_get_libc_version());
+        sprintf(linux_version, "%s (glibc %s)", linux_version, gnu_get_libc_version());
 #    else
-    sprintf(linux_version, "%s (glibc 2.x)", linux_version);
+        sprintf(linux_version, "%s (glibc 2.x)", linux_version);
 #    endif
 #  else
-    sprintf(linux_version, "%s (glibc 1.x)", linux_version);
+        sprintf(linux_version, "%s (glibc 1.x)", linux_version);
 #  endif
 #endif
 
 #if !defined(CLIB_HANDLED) && defined(_LINUX_C_LIB_VERSION)
 #  define CLIB_HANDLED
-    sprintf(linux_version, "%s (libc %s)", linux_version, _LINUX_C_LIB_VERSION);
+        sprintf(linux_version, "%s (libc %s)", linux_version, _LINUX_C_LIB_VERSION);
 #endif
 
 #if !defined(CLIB_HANDLED) && (VICE_LINUX_CLIB_VERSION_MAJOR==1)
 #  define CLIB_HANDLED
-    sprintf(linux_version, "%s (glibc 1.x)", linux_version);
+        sprintf(linux_version, "%s (glibc 1.x)", linux_version);
 #endif
 
 #if !defined(CLIB_HANDLED) && (VICE_LINUX_CLIB_VERSION_MAJOR==6)
 #  define CLIB_HANDLED
-    sprintf(linux_version, "%s (glibc 2.x)", linux_version);
+        sprintf(linux_version, "%s (glibc 2.x)", linux_version);
 #endif
 
 #ifndef CLIB_HANDLED
 #  include <sys/ucontext.h>
 #  ifdef _UCONTEXT_H
 #    define CLIB_HANDLED
-    sprintf(linux_version, "%s (musl)", linux_version);
+        sprintf(linux_version, "%s (musl)", linux_version);
 #  endif
 #endif
 
 #ifndef CLIB_HANDLED
-    sprintf(linux_version, "%s (unknown libc)", linux_version);
+        sprintf(linux_version, "%s (unknown libc)", linux_version);
 #endif
+
+        got_linux_version = 1;
+    }
 
     return linux_version;
 }
