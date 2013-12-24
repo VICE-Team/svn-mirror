@@ -28,7 +28,12 @@
  *
  * SunOS 4.1.1 (sun2)
  * SunOS 4.1.4 (sun4m)
-*/
+ * Solaris 2.3 (sparc)
+ * Solaris 2.4 (sparc)
+ * Solaris 2.5.1 (sparc)
+ * Solaris 2.6 (sparc)
+ * Solaris 7 (sparc)
+ */
 
 #include "vice.h"
 
@@ -37,45 +42,55 @@
 #include <sys/utsname.h>
 #include <string.h>
 
+static char *cpu = NULL;
+
 char *platform_get_sunos_runtime_cpu(void)
 {
     struct utsname name;
 
-    uname(&name);
-    if (!strcmp(name.machine, "sun") || !strcmp(name.machine, "sun1")) {
-        return "68000";
+    if (!cpu) {
+        uname(&name);
+        if (!strcmp(name.machine, "sun") || !strcmp(name.machine, "sun1")) {
+            cpu = "68000";
+        } else if (!strcmp(name.machine, "sun2")) {
+            cpu = "68010";
+        } else if (!strcmp(name.machine, "sun3")) {
+            cpu = "68020";
+        } else if (!strcmp(name.machine, "sun3x")) {
+            cpu = "68030";
+        } else if (!strcmp(name.machine, "sun386") || !strcmp(name.machine, "sun386i")) {
+            cpu = "80386";
+        } else if (!strcmp(name.machine, "sun4") || !strcmp(name.machine, "sun4c") || !strcmp(name.machine, "sun4m")) {
+            cpu = "Sparc";
+        } else if (!strcmp(name.machine, "sun4u")) {
+            cpu = "Sparc64";
+        } else {
+            cpu = "Unknown CPU";
+        }
     }
-    if (!strcmp(name.machine, "sun2")) {
-        return "68010";
-    }
-    if (!strcmp(name.machine, "sun3")) {
-        return "68020";
-    }
-    if (!strcmp(name.machine, "sun3x")) {
-        return "68030";
-    }
-    if (!strcmp(name.machine, "sun386") || !strcmp(name.machine, "sun386i")) {
-        return "80386";
-    }
-    if (!strcmp(name.machine, "sun4") || !strcmp(name.machine, "sun4c") || !strcmp(name.machine, "sun4m")) {
-        return "Sparc";
-    }
-    if (!strcmp(name.machine, "sun4u")) {
-        return "Sparc64";
-    }
-    return "Unknown CPU";
+    return cpu;
 }
 
 static char osname[100];
+static int got_os = 0;
 
 char *platform_get_sunos_runtime_os(void)
 {
     struct utsname name;
 
-    uname(&name);
-
-    sprintf(osname, "%s %s", name.sysname, name.release);
-
+    if (!got_os) {
+        uname(&name);
+        if (name.release[0] == '5') {
+            if (name.release[2] <= '6') {
+                sprintf(osname, "Solaris 2.%s", name.release + 2);
+            } else {
+                sprintf(osname, "Solaris %s", name.release + 2);
+            }
+        } else {
+            sprintf(osname, "%s %s", name.sysname, name.release);
+        }
+        got_os = 1;
+    }
     return osname;    
 }
 #endif

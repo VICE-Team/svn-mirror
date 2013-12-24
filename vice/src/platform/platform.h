@@ -68,6 +68,7 @@ extern char *platform_get_sunos_runtime_os(void);
 extern char *platform_get_sunos_runtime_cpu(void);
 
 extern char *platform_get_solaris_runtime_os(void);
+extern char *platform_get_solaris_runtime_cpu(void);
 
 extern char *platform_get_darwin_runtime_os(void);
 extern char *platform_get_darwin_runtime_cpu(void);
@@ -203,6 +204,13 @@ extern char *platform_get_skyos_runtime_cpu(void);
 /* SunOS */
 #if (defined(sun) || defined(__sun)) && !(defined(__SVR4) || defined(__svr4__))
 #define RUNTIME_CPU_CALL platform_get_sunos_runtime_cpu
+#endif
+
+/* Solaris */
+#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
+#  if defined(__sparc64__) || defined(sparc64) || defined(__sparc__) || defined(sparc)
+#    define RUNTIME_CPU_CALL platform_get_solaris_runtime_cpu
+#  endif
 #endif
 
 /* Darwin */

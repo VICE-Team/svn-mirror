@@ -25,7 +25,19 @@
  */
 
 /* Tested and confirmed working on:
-*/
+ *
+ * Solaris 2.3 (sparc)
+ * Solaris 2.4 (intel)
+ * Solaris 2.4 (sparc)
+ * Solaris 2.5.1 (intel)
+ * Solaris 2.5.1 (sparc)
+ * Solaris 2.6 (intel)
+ * Solaris 2.6 (sparc)
+ * Solaris 7 (intel)
+ * Solaris 7 (sparc)
+ * Solaris 8 (intel)
+ * Solaris 9 (intel)
+ */
 
 #include "vice.h"
 
@@ -34,42 +46,100 @@
 #include <sys/utsname.h>
 #include <string.h>
 
+static char *os = NULL;
+
 char *platform_get_solaris_runtime_os(void)
 {
     struct utsname name;
 
-    uname(&name);
-    if (!strcasecmp(name.release, "5.3")) {
-        return "Solaris 3";
-    }
-    if (!strcasecmp(name.release, "5.4")) {
-        return "Solaris 4";
-    }
-    if (!strcasecmp(name.release, "5.5.1")) {
-        return "Solaris 5";
-    }
-    if (!strcasecmp(name.release, "5.6")) {
-        return "Solaris 6";
-    }
-    if (!strcasecmp(name.release, "5.7")) {
-        return "Solaris 7";
-    }
-    if (!strcasecmp(name.release, "5.8")) {
-        return "Solaris 8";
-    }
-    if (!strcasecmp(name.release, "5.9")) {
-        return "Solaris 9";
-    }
-    if (!strcasecmp(name.release, "5.10")) {
-        return "Solaris 10";
-    }
-    if (!strcasecmp(name.release, "5.11")) {
-        if (!strcasecmp(name.version, "11.0")) {
-            return "Solaris 11";
+    if (!os) {
+        uname(&name);
+        if (!strcasecmp(name.release, "5.3")) {
+            os = "Solaris 2.3";
+        } else if (!strcasecmp(name.release, "5.4")) {
+            os = "Solaris 2.4";
+        } else if (!strcasecmp(name.release, "5.5")) {
+            os = "Solaris 2.5";
+        } else if (!strcasecmp(name.release, "5.5.1")) {
+            os = "Solaris 2.5.1";
+        } else if (!strcasecmp(name.release, "5.6")) {
+            os = "Solaris 2.6";
+        } else if (!strcasecmp(name.release, "5.7")) {
+            os = "Solaris 7";
+        } else if (!strcasecmp(name.release, "5.8")) {
+            os = "Solaris 8";
+        } else if (!strcasecmp(name.release, "5.9")) {
+            os = "Solaris 9";
+        } else if (!strcasecmp(name.release, "5.10")) {
+            os = "Solaris 10";
+        } else if (!strcasecmp(name.release, "5.11")) {
+            if (!strcasecmp(name.version, "11.0")) {
+                os = "Solaris 11";
+            } else {
+                os = "OpenSolaris";
+            }
         } else {
-            return "OpenSolaris";
+            os = "Unknown Solaris version";
         }
     }
-    return "Unknown Solaris version";
+    return os;
 }
+
+#if defined(__sparc64__) || defined(sparc64) || defined(__sparc__) || defined(sparc)
+#include <sys/types.h>
+#include <sys/processor.h>
+#include <stdio.h>
+
+static char solaris_cpu[200];
+static int got_cpu = 0;
+
+char *platform_get_solaris_runtime_cpu(void)
+{
+    processor_info_t info;
+    int status = 0;
+    struct utsname name;
+    FILE *infile = NULL;
+    size_t size = 0;
+    size_t size2 = 0;
+    char *buffer = NULL;
+    char *loc = NULL;
+    char *loc2 = NULL;
+
+    if (!got_cpu) {
+        status = processor_info(0, &info);
+        if (status != -1) {
+            sprintf(solaris_cpu, "%s", info.pi_processor_type);
+        } else {
+            uname(&name);
+            sprintf(solaris_cpu, "%s", name.machine);
+        }
+        system("dmesg >vice.cpu.tmp");
+        infile = fopen("vice.cpu.tmp", "rb");
+        if (infile) {
+            fseek(infile, 0L, SEEK_END);
+            size = ftell(infile);
+            fseek(infile, 0L, SEEK_SET);
+            buffer = (char *)malloc(size);
+            size2 = fread(buffer, 1, size, infile);
+            if (size == size2) {
+                loc = strstr(buffer, "cpu0:");
+                if (loc) {
+                    loc += 6;
+                    loc2 = strstr(loc, " (");
+                    if (loc2) {
+                        *loc2 = 0;
+                        sprintf(solaris_cpu, "%s (%s)", solaris_cpu, loc);
+                    }
+                }
+            }
+            fclose(infile);
+            free(buffer);
+        }
+        unlink("vice.cpu.tmp");
+        got_cpu = 1;
+    }
+    return solaris_cpu;
+}
+#endif
+
 #endif
