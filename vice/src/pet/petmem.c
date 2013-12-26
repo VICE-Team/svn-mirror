@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "6809.h"
 #include "crtc-mem.h"
@@ -42,6 +43,7 @@
 #include "pet.h"
 #include "pet-resources.h"
 #include "petacia.h"
+#include "petcolour.h"
 #include "petdww.h"
 #include "pethre.h"
 #include "petmem.h"
@@ -172,14 +174,22 @@ static void store_extC(WORD addr, BYTE value)
     mem_ram[addr + bankCoffset] = value;
 }
 
+/*
+ * Map $8400-$87FF to $8000-$83FF and $8C00-$8FFF to $8800-$8BFF.
+ * This is only relevant for 40 column models, since 80 column models
+ * don't have a mirror image of the screen memory.
+ * Above $8800 there is normally empty space, but the colour extension
+ * places its colour memory there, which in turn may have a mirror
+ * if it is the 40 column model.
+ */
 static BYTE read_vmirror(WORD addr)
 {
-    return mem_ram[0x8000 + (addr & (petres.videoSize - 1))];
+    return mem_ram[0x8000 + (addr & 0x0bff)];   /* 0x3FF + 0x800 */
 }
 
 static void store_vmirror(WORD addr, BYTE value)
 {
-    mem_ram[0x8000 + (addr & (petres.videoSize - 1))] = value;
+    mem_ram[0x8000 + (addr & 0xbff)] = value;
 }
 
 BYTE rom_read(WORD addr)
@@ -346,8 +356,8 @@ BYTE read6702(void)
  * an even value has an effect.
  *
  * Thanks to Ruud Baltissen, William Levak, Rob Clarke,
- * Kajtar Zsolt and Segher Boessenkool, from cbm-hackers,
- * for their contributions.
+ * Kajtar Zsolt and Segher Boessenkool, Dave E Roberts,
+ * from cbm-hackers, for their contributions.
  * -Olaf Seibert.
  */
 static inline
@@ -362,10 +372,18 @@ void write6702(BYTE input)
 
             /* loop over all 8 output bits / shift registers */
             for (i = 7; i >= 0; i--, mask >>= 1) {
-                /* If the input bit changed toggle leftmost bit */
+                /* If the input bit changed: toggle leftmost bit */
                 if (changed & mask) {
                     dongle6702.shift[i] ^= leftmost[i];
                 }
+                /* The rightmost bit (the one that gets shifted out in
+                 * a moment) determines if the output changes.
+                 * I.e., if the rightmost bit is set, toggle it in v.
+                 * Also simulate a rotate of the shift register by setting
+                 * a 1 just left of the leftmost bit, so that the
+                 * subsequent right-shift will put a 1 at the left.
+                 * (If there is a 0, all this is a no-op.)
+                 */
                 if (dongle6702.shift[i] & 1) {
                     v ^= mask;
                     dongle6702.shift[i] |= leftmost[i] << 1; /* wrap bit around */
@@ -887,6 +905,7 @@ static void set_std_9tof(void)
         mem_read_limit_tab[i] = 0xe7fd;
     }
 
+    /* End of I/O address space */
     l = ((0xe800 + petres.IOSize) >> 8) & 0xff;
 
     if (ramE8) {
@@ -905,34 +924,38 @@ static void set_std_9tof(void)
         _mem_read_base_tab[0xe8] = NULL;
         mem_read_limit_tab[0xe8] = 0;
 
-        /* ... and unused address space behind it */
+        /* ... and unused address space following it, if any. */
         for (i = 0xe9; i < l; i++) {
             _mem_read_tab[i] = read_unused;
             _mem_write_tab[i] = store;
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
         }
-
-        if (petres.superpet) {
-            _mem_read_tab[0xef] = read_super_io;
-            _mem_write_tab[0xef] = store_super_io;
-            _mem_read_base_tab[0xef] = NULL;
-            mem_read_limit_tab[0xef] = 0;
-        } else if (petres.rompatch) {
-            _mem_read_tab[0xef] = mem_read_patchbuf;
-            _mem_write_tab[0xef] = store_void;
-            _mem_read_base_tab[0xef] = petmem_2001_buf_ef;
-            mem_read_limit_tab[0xef] = 0xeffd;
-        }
     }
 
-    /* Setup RAM/ROM at $e800 + petres.IOSize - $efff: Editor */
+    /* Setup RAM/ROM at $E800 + petres.IOSize - $EFFF: Extended Editor */
     fetch = ramE ? ram_read : rom_read;
     for (i = l; i <= 0xef; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = ramE ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
         mem_read_limit_tab[i] = 0xeffd;
+    }
+
+    /*
+     * $EF00 is needed for SuperPET I/O or 2001 ROM patch.
+     * This means that those models can't support an extended editor ROM.
+     */
+    if (petres.superpet) {
+        _mem_read_tab[0xef] = read_super_io;
+        _mem_write_tab[0xef] = store_super_io;
+        _mem_read_base_tab[0xef] = NULL;
+        mem_read_limit_tab[0xef] = 0;
+    } else if (petres.rompatch) {
+        _mem_read_tab[0xef] = mem_read_patchbuf;
+        _mem_write_tab[0xef] = store_void;
+        _mem_read_base_tab[0xef] = petmem_2001_buf_ef;
+        mem_read_limit_tab[0xef] = 0xeffd;
     }
 
     /* Setup RAM/ROM at $f000 - $ffff: Kernal */
@@ -1171,17 +1194,52 @@ void petmem_set_vidmem(void)
     for (; i < 0x88; i++) {
         _mem_read_tab[i] = read_vmirror;
         _mem_write_tab[i] = store_vmirror;
-        _mem_read_base_tab[i] = mem_ram + 0x8000 + ((i << 8) & (petres.videoSize - 1));
+        _mem_read_base_tab[i] = mem_ram + 0x8000 + ((i << 8) & petres.vmask);
         mem_read_limit_tab[i] = 0x87fd;
     }
 
-    /* Setup unused from $8800 to $8fff */
-    /* falls through if videoSize >= 0x1000 */
-    for (; i < 0x90; i++) {
-        _mem_read_tab[i] = read_unused;
-        _mem_write_tab[i] = store_dummy;
-        _mem_read_base_tab[i] = NULL;
-        mem_read_limit_tab[i] = 0;
+    if (pet_colour_type == PET_COLOUR_TYPE_OFF) {
+        /* Setup unused from $8800 to $8FFF */
+        /* falls through if videoSize >= 0x1000 */
+        for (; i < 0x90; i++) {
+            _mem_read_tab[i] = read_unused;
+            _mem_write_tab[i] = store_dummy;
+            _mem_read_base_tab[i] = NULL;
+            mem_read_limit_tab[i] = 0;
+        }
+    } else {
+        /*
+         * Try to code this in a way that is for the time being
+         * compatible with both versions of the colour extension (colour
+         * memory at $8400 or $8800 with mirroring for 40 column
+         * version).
+         */
+        int c = 0x8000 + COLOUR_MEMORY_START;
+        i = (c >> 8) & 0xff;
+        l = ((c + petres.videoSize) >> 8) & 0xff;
+
+        for (; i < l; i++) {
+            _mem_read_tab[i] = ram_read;
+            _mem_write_tab[i] = ram_store;
+            _mem_read_base_tab[i] = mem_ram + (i << 8);
+            mem_read_limit_tab[i] = (l << 8) - 3;
+        }
+
+        /* Setup colour mirror from $8800 + petres.videoSize to $8FFF */
+        /* falls through if videoSize >= 0x800 */
+        for (; i < 0x90; i++) {
+#if OLD_COLOUR_40_COLS
+            _mem_read_tab[i] = read_unused;
+            _mem_write_tab[i] = store_dummy;
+            _mem_read_base_tab[i] = NULL;
+            mem_read_limit_tab[i] = 0;
+#else
+            _mem_read_tab[i] = read_vmirror;
+            _mem_write_tab[i] = store_vmirror;
+            _mem_read_base_tab[i] = mem_ram + c + ((i << 8) & petres.vmask);
+            mem_read_limit_tab[i] = 0x87fd;
+#endif
+        }
     }
 }
 
@@ -1375,7 +1433,18 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 
 void mem_powerup(void)
 {
+    int i;
     ram_init(mem_ram, RAM_ARRAY);
+    /*
+     * A more realistic initial memory is random.
+     * Especially on the screen, which is different memory in most
+     * models.
+     * (And it helps a bit with the colour option when a proper editor
+     * ROM isn't installed)
+     */
+    for (i = 0; i < 0x1000; i++) {
+        mem_ram[0x8000 + i] = (BYTE)random();
+    }
 
     superpet_mem_powerup();
 }
@@ -1721,11 +1790,7 @@ void petmem_check_info(petres_t *pi)
 {
     if (pi->video == 40 || (pi->video == 0 && pi->rom_video == 40)) {
         pi->vmask = 0x3ff;
-        if (pet_colour_type == PET_COLOUR_TYPE_OFF) {
-            pi->videoSize = 0x400;
-        } else {
-            pi->videoSize = 0x800;
-        }
+        pi->videoSize = 0x400;
     } else {
         pi->vmask = 0x7ff;
         pi->videoSize = 0x800;

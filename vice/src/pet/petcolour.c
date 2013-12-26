@@ -40,15 +40,22 @@
 #include "crtc-color.h"
 #include "crtctypes.h"
 #include "pet.h"
-#include "pets.h"
+#include "petcolour.h"
 #include "petmem.h"
+#include "pets.h"
 #include "pet-resources.h"
 #include "video.h"
 
+/*
+ * These "draw" functions don't really draw anything in the usual sense
+ * of the word.  They look at the already drawn bits (generated from the
+ * character set) and, assuming it is the usual monochrome, replace them
+ * by coloured pixels.
+ */
 static void DRAW_rgbi(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
 {
     if (ymod8 < 8 && xstart < xend) {
-        BYTE *colour_ptr = crtc.screen_base + 0x400;
+        BYTE *colour_ptr = crtc.screen_base + COLOUR_MEMORY_START;
         int i;
 
 #if DEBUG_GFX
@@ -77,7 +84,7 @@ static void DRAW_rgbi(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
 static void DRAW_analog(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
 {
     if (ymod8 < 8 && xstart < xend) {
-        BYTE *colour_ptr = crtc.screen_base + 0x400;
+        BYTE *colour_ptr = crtc.screen_base + COLOUR_MEMORY_START;
         int i;
 
 #if DEBUG_GFX
@@ -191,7 +198,6 @@ int petcolour_set_type(int val)
         default:
             return -1;
     }
-    petmem_check_info(&petres);
     petmem_set_vidmem();
 
     return 0;

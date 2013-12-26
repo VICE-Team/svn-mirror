@@ -69,6 +69,8 @@
  * In previous board revisions, this was the "inverse" bit.
  * The value written there ($02) is calculated such that after
  * shuffling it as above, the first byte of screen memory is at $A000.
+ *
+ * For ROM support code, you want -rom9 324992-02.bin -romA 324993-02.bin 
  */
 
 #define HRE_DEBUG_GFX       0

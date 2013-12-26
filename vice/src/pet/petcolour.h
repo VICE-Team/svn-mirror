@@ -29,5 +29,18 @@
  *
  */
 
+/*
+ * Choose the which version of the colour PET extension is emulated.
+ * The first version is 40 columns only,
+ * the second is 80 columns compatible.
+ * This version will become the only one emulated.
+ */
+#define OLD_COLOUR_40_COLS  0
+#if OLD_COLOUR_40_COLS
+# define COLOUR_MEMORY_START 0x0400
+#else
+# define COLOUR_MEMORY_START 0x0800
+#endif
+
 int petcolour_set_type(int val);
 void petcolour_init(void);

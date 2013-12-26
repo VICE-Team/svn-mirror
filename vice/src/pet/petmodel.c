@@ -99,7 +99,7 @@ static pet_table_t pet_table[] = {
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL } },
     { "SuperPET",
-      { 32, 0x0100, 1, 80, 0, 0, 0, 0, 0, 0, 1,
+      { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 1,
         SUPERPET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL,
         { "waterloo-a000.901898-01.bin",
