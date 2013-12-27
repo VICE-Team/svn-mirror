@@ -1237,7 +1237,7 @@ void petmem_set_vidmem(void)
             _mem_read_tab[i] = read_vmirror;
             _mem_write_tab[i] = store_vmirror;
             _mem_read_base_tab[i] = mem_ram + c + ((i << 8) & petres.vmask);
-            mem_read_limit_tab[i] = 0x87fd;
+            mem_read_limit_tab[i] = 0x8ffd;
 #endif
         }
     }
