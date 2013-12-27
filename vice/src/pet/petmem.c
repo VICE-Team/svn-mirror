@@ -61,6 +61,9 @@
 #include "via.h"
 #include "vsync.h"
 
+#ifndef HAVE_RANDOM
+#define random rand
+#endif
 
 static BYTE mem_read_patchbuf(WORD addr);
 static void mem_initialize_memory_6809_flat(void);
