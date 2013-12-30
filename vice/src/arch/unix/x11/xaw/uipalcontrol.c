@@ -59,24 +59,31 @@ void destroy_pal_ctrl_widget(Widget w, XtPointer client_data, XtPointer call_dat
 typedef struct pal_res_s {
     char *label;        /* Label of Adjustmentbar */
     char *res;          /* Associated resource */
-    int scale;          /* Value ranges 0...scale */
+    int base;           /* Value ranges [ base ... base+range > */
+    int range;
     Widget labelwidget; /* widget holding the label */
     Widget scrollbar;   /* pointer to scrollbar */
 } pal_res_t;
 
 static pal_res_t ctrls[] = {
-    { N_("Blur"),             "+PALBlur",          1000, },
-    { N_("Scanline shade"),   "+PALScanLineShade", 1000, },
-    { N_("Saturation"),       "+ColorSaturation",  2000, },
-    { N_("Contrast"),         "+ColorContrast",    2000, },
-    { N_("Brightness"),       "+ColorBrightness",  2000, },
-    { N_("Gamma"),            "+ColorGamma",       4000, },
-    { N_("Tint"),             "+ColorTint",        2000, },
-    { N_("Odd lines phase"),  "+PALOddLinePhase",  2000, },
-    { N_("Odd lines offset"), "+PALOddLineOffset", 2000, },
+    { N_("Blur"),             "+PALBlur",              0,  1000, },
+    { N_("Scanline shade"),   "+PALScanLineShade",     0,  1000, },
+    { N_("Saturation"),       "+ColorSaturation",      0,  2000, },
+    { N_("Contrast"),         "+ColorContrast",        0,  2000, },
+    { N_("Brightness"),       "+ColorBrightness",      0,  2000, },
+    { N_("Gamma"),            "+ColorGamma",           0,  4000, },
+    { N_("Tint"),             "+ColorTint",            0,  2000, },
+    { N_("Odd lines phase"),  "+PALOddLinePhase",      0,  2000, },
+    { N_("Odd lines offset"), "+PALOddLineOffset",     0,  2000, },
     /* volume settings */
-    { N_("Volume"),           "SoundVolume",        100, },
-    { N_("Drives Volume"),    "DriveSoundEmulationVolume", 4000 },
+    { N_("Volume"),           "SoundVolume",           0,   100, },
+    { N_("Drives Volume"), "DriveSoundEmulationVolume",0,  4000, },
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
+    /* SID settings */
+    { N_("ReSID Passband"),   "SidResidPassband",      0,    90, },
+    { N_("ReSID Gain"),       "SidResidGain",         90,    10, },
+    { N_("ReSID Filter Bias"),"SidResidFilterBias",-5000, 10000, },
+#endif
 };
 
 typedef struct {
@@ -109,7 +116,7 @@ static void JumpProc(Widget scrollbar, XtPointer client_data, XtPointer percent_
     if (fraction > 1.0 - THUMB_SIZE) {
         fraction = 1.0 - THUMB_SIZE;
     }
-    value = fraction * p->scale + 0.5;
+    value = p->base + (fraction * p->range) + 0.5;
 
     resources_set_int(p->res, value);
 }
@@ -132,7 +139,7 @@ static void ScrollProc(Widget scrollbar, XtPointer client_data, XtPointer positi
 
     oldposition += delta;
     oldposition = ScrollbarSetThumb(scrollbar, oldposition);
-    resources_set_int(p->res, (int)(oldposition * p->scale + 0.5));
+    resources_set_int(p->res, (int)(p->base + (oldposition * p->range) + 0.5));
 }
 
 static void GetWH(Widget widget, int *w, int *h)
@@ -151,11 +158,13 @@ static void ResetProc(Widget w, XtPointer client_data, XtPointer dummy)
     float fraction;
 
     for (i = 0; i < util_arraysize(ctrls); i++) {
-        resources_get_default_value(p->ctrls[i].res, (void *)&tmp);
-        resources_set_int(p->ctrls[i].res, tmp);
-        fraction = (float)tmp / p->ctrls[i].scale;
-        if (p->ctrls[i].scrollbar) {
-            ScrollbarSetThumb(p->ctrls[i].scrollbar, fraction);
+        pal_res_t *ctrl = &p->ctrls[i];
+
+        resources_get_default_value(ctrl->res, (void *)&tmp);
+        resources_set_int(ctrl->res, tmp);
+        fraction = (float)(tmp - ctrl->base) / ctrl->range;
+        if (ctrl->scrollbar) {
+            ScrollbarSetThumb(ctrl->scrollbar, fraction);
         }
     }
 
@@ -270,9 +279,10 @@ Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, clea
         ctrldata[i].scrollbar = scroll;
         fromVert = scroll;
 
-        ctrldata[i].scale /= (1.0 - THUMB_SIZE);
+        ctrldata[i].range /= (1.0 - THUMB_SIZE);
         resources_get_int(resname, &v);
-        ScrollbarSetThumb(scroll, (float)((float)v / ctrldata[i].scale));
+        ScrollbarSetThumb(scroll,
+                (float)((float)(v - ctrldata[i].base) / ctrldata[i].range));
     }
 
     return form;
