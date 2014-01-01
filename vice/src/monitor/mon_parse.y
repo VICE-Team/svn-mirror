@@ -30,7 +30,7 @@
 
 #include "vice.h"
 
-#if !defined(MINIXVMD) && !defined(MACOS_COMPILE)
+#if !defined(__minix_vmd) && !defined(MACOS_COMPILE)
 #ifdef __GNUC__
 #undef alloca
 #ifndef ANDROID_COMPILE

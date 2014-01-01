@@ -361,7 +361,11 @@
 
 /* Minix discovery */
 #ifdef __minix
-#  define PLATFORM_OS "Minix"
+#  ifdef __minix_vmd
+#    define PLATFORM_OS "Minix-vmd"
+#  else
+#    define PLATFORM_OS "Minix"
+#  endif
 #endif
 
 

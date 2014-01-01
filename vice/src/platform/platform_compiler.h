@@ -74,6 +74,11 @@
 #  endif
 #endif
 
+/* ACK discovery */
+#if !defined(PLATFORM_COMPILE) && defined(__ACK__)
+#  define PLATFORM_COMPILER "ACK"
+#endif
+
 /* llvm discovery */
 #if !defined(PLATFORM_COMPILER) && defined(__APPLE__) && defined(llvm)
 #  define PLATFORM_COMPILER  "llvm"
