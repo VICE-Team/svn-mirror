@@ -252,7 +252,7 @@ static char *get_windows_version(void)
         if (!strcmp(windows_versions[i].windows_name, windows_name)) {
             if (windows_versions[i].server == windows_server) {
                  if (windows_versions[i].flags == windows_flags) {
-                    return = windows_versions[i].name;
+                    return windows_versions[i].name;
                 }
             }
         }
