@@ -36,7 +36,10 @@
  * Solaris 7 (intel)
  * Solaris 7 (sparc)
  * Solaris 8 (intel)
+ * Solaris 8 (sparc)
  * Solaris 9 (intel)
+ * Solaris 10 (intel 32&64)
+ * OpenSolaris (intel)
  */
 
 #include "vice.h"
