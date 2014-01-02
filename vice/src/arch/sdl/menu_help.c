@@ -329,24 +329,24 @@ static UI_MENU_CALLBACK(about_callback)
 #endif
         sdl_ui_print_center("SDL " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER, 3);
         sdl_ui_print_center("The VICE Team", 5);
-        sdl_ui_print_center("(C) 1998-2013 Dag Lem", 6);
-        sdl_ui_print_center("(C) 1999-2013 Andreas Matthies", 7);
-        sdl_ui_print_center("(C) 1999-2013 Martin Pottendorfer", 8);
-        sdl_ui_print_center("(C) 2005-2013 Marco van den Heuvel", 9);
-        sdl_ui_print_center("(C) 2006-2013 Christian Vogelgsang", 10);
-        sdl_ui_print_center("(C) 2007-2013 Fabrizio Gennari", 11);
-        sdl_ui_print_center("(C) 2007-2013 Daniel Kahlin", 12);
-        sdl_ui_print_center("(C) 2008-2013 Antti S. Lankila", 13);
-        sdl_ui_print_center("(C) 2009-2013 Groepaz", 14);
-        sdl_ui_print_center("(C) 2009-2013 Ingo Korb", 15);
-        sdl_ui_print_center("(C) 2009-2013 Errol Smith", 16);
-        sdl_ui_print_center("(C) 2010-2013 Olaf Seibert", 17);
-        sdl_ui_print_center("(C) 2011-2013 Marcus Sutton", 18);
-        sdl_ui_print_center("(C) 2011-2013 Ulrich Schulz", 19);
-        sdl_ui_print_center("(C) 2011-2013 Stefan Haubenthal", 20);
-        sdl_ui_print_center("(C) 2011-2013 Thomas Giesel", 21);
-        sdl_ui_print_center("(C) 2011-2013 Kajtar Zsolt", 22);
-        sdl_ui_print_center("(C) 2012-2013 Benjamin 'BeRo' Rosseaux", 23);
+        sdl_ui_print_center("(C) 1998-2014 Dag Lem", 6);
+        sdl_ui_print_center("(C) 1999-2014 Andreas Matthies", 7);
+        sdl_ui_print_center("(C) 1999-2014 Martin Pottendorfer", 8);
+        sdl_ui_print_center("(C) 2005-2014 Marco van den Heuvel", 9);
+        sdl_ui_print_center("(C) 2006-2014 Christian Vogelgsang", 10);
+        sdl_ui_print_center("(C) 2007-2014 Fabrizio Gennari", 11);
+        sdl_ui_print_center("(C) 2007-2014 Daniel Kahlin", 12);
+        sdl_ui_print_center("(C) 2008-2014 Antti S. Lankila", 13);
+        sdl_ui_print_center("(C) 2009-2014 Groepaz", 14);
+        sdl_ui_print_center("(C) 2009-2014 Ingo Korb", 15);
+        sdl_ui_print_center("(C) 2009-2014 Errol Smith", 16);
+        sdl_ui_print_center("(C) 2010-2014 Olaf Seibert", 17);
+        sdl_ui_print_center("(C) 2011-2014 Marcus Sutton", 18);
+        sdl_ui_print_center("(C) 2011-2014 Ulrich Schulz", 19);
+        sdl_ui_print_center("(C) 2011-2014 Stefan Haubenthal", 20);
+        sdl_ui_print_center("(C) 2011-2014 Thomas Giesel", 21);
+        sdl_ui_print_center("(C) 2011-2014 Kajtar Zsolt", 22);
+        sdl_ui_print_center("(C) 2012-2014 Benjamin 'BeRo' Rosseaux", 23);
         sdl_ui_refresh();
 
         while (active) {

@@ -204,24 +204,24 @@ BEGIN
     CTEXT         "VICE",                                             IDC_STATIC,          7,   5, 118,  8
     CTEXT         "Versatile Commodore Emulator",                     IDC_STATIC,          7,  18, 118,  8
     CTEXT         "Version 0.0",                                      IDC_ABOUT_VERSION,   7,  31, 180,  8
-    LTEXT         "Copyright (c) 1998-2013 Dag Lem",                  IDC_STATIC,          5,  50, 158,  8
-    LTEXT         "Copyright (c) 1999-2013 Andreas Matthies",         IDC_STATIC,          5,  59, 180,  8
-    LTEXT         "Copyright (c) 1999-2013 Martin Pottendorfer",      IDC_STATIC,          5,  68, 180,  8
-    LTEXT         "Copyright (c) 2005-2013 Marco van den Heuvel",     IDC_STATIC,          5,  77, 180,  8
-    LTEXT         "Copyright (c) 2006-2013 Christian Vogelgsang",     IDC_STATIC,          5,  86, 180,  8
-    LTEXT         "Copyright (c) 2007-2013 Fabrizio Gennari",         IDC_STATIC,          5,  95, 180,  8
-    LTEXT         "Copyright (c) 2007-2013 Daniel Kahlin",            IDC_STATIC,          5, 104, 180,  8
-    LTEXT         "Copyright (c) 2008-2013 Antti S. Lankila",         IDC_STATIC,          5, 113, 180,  8
-    LTEXT         "Copyright (c) 2009-2013 Groepaz",                  IDC_STATIC,          5, 122, 158,  8
-    LTEXT         "Copyright (c) 2009-2013 Ingo Korb",                IDC_STATIC,          5, 131, 158,  8
-    LTEXT         "Copyright (c) 2009-2013 Errol Smith",              IDC_STATIC,          5, 140, 180,  8
-    LTEXT         "Copyright (c) 2010-2013 Olaf Seibert",             IDC_STATIC,          5, 149, 158,  8
-    LTEXT         "Copyright (c) 2011-2013 Marcus Sutton",            IDC_STATIC,          5, 158, 180,  8
-    LTEXT         "Copyright (c) 2011-2013 Ulrich Schulz",            IDC_STATIC,          5, 167, 180,  8
-    LTEXT         "Copyright (c) 2011-2013 Stefan Haubenthal",        IDC_STATIC,          5, 176, 180,  8
-    LTEXT         "Copyright (c) 2011-2013 Thomas Giesel",            IDC_STATIC,          5, 185, 180,  8
-    LTEXT         "Copyright (c) 2011-2013 Kajtar Zsolt",             IDC_STATIC,          5, 194, 180,  8
-    LTEXT         "Copyright (c) 2012-2013 Benjamin 'BeRo' Rosseaux", IDC_STATIC,          5, 203, 180,  8
+    LTEXT         "Copyright (c) 1998-2014 Dag Lem",                  IDC_STATIC,          5,  50, 158,  8
+    LTEXT         "Copyright (c) 1999-2014 Andreas Matthies",         IDC_STATIC,          5,  59, 180,  8
+    LTEXT         "Copyright (c) 1999-2014 Martin Pottendorfer",      IDC_STATIC,          5,  68, 180,  8
+    LTEXT         "Copyright (c) 2005-2014 Marco van den Heuvel",     IDC_STATIC,          5,  77, 180,  8
+    LTEXT         "Copyright (c) 2006-2014 Christian Vogelgsang",     IDC_STATIC,          5,  86, 180,  8
+    LTEXT         "Copyright (c) 2007-2014 Fabrizio Gennari",         IDC_STATIC,          5,  95, 180,  8
+    LTEXT         "Copyright (c) 2007-2014 Daniel Kahlin",            IDC_STATIC,          5, 104, 180,  8
+    LTEXT         "Copyright (c) 2008-2014 Antti S. Lankila",         IDC_STATIC,          5, 113, 180,  8
+    LTEXT         "Copyright (c) 2009-2014 Groepaz",                  IDC_STATIC,          5, 122, 158,  8
+    LTEXT         "Copyright (c) 2009-2014 Ingo Korb",                IDC_STATIC,          5, 131, 158,  8
+    LTEXT         "Copyright (c) 2009-2014 Errol Smith",              IDC_STATIC,          5, 140, 180,  8
+    LTEXT         "Copyright (c) 2010-2014 Olaf Seibert",             IDC_STATIC,          5, 149, 158,  8
+    LTEXT         "Copyright (c) 2011-2014 Marcus Sutton",            IDC_STATIC,          5, 158, 180,  8
+    LTEXT         "Copyright (c) 2011-2014 Ulrich Schulz",            IDC_STATIC,          5, 167, 180,  8
+    LTEXT         "Copyright (c) 2011-2014 Stefan Haubenthal",        IDC_STATIC,          5, 176, 180,  8
+    LTEXT         "Copyright (c) 2011-2014 Thomas Giesel",            IDC_STATIC,          5, 185, 180,  8
+    LTEXT         "Copyright (c) 2011-2014 Kajtar Zsolt",             IDC_STATIC,          5, 194, 180,  8
+    LTEXT         "Copyright (c) 2012-2014 Benjamin 'BeRo' Rosseaux", IDC_STATIC,          5, 203, 180,  8
 END
 
 // -----------------------------------------------------------------------------

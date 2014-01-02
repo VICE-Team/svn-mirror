@@ -63,24 +63,24 @@ notice identical to this one.
 
 @c page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2013 Dag Lem
-Copyright @copyright{} 1999-2013 Andreas Matthies
-Copyright @copyright{} 1999-2013 Martin Pottendorfer
-Copyright @copyright{} 2005-2013 Marco van den Heuvel
-Copyright @copyright{} 2006-2013 Christian Vogelgsang
-Copyright @copyright{} 2007-2013 Fabrizio Gennari
-Copyright @copyright{} 2007-2013 Daniel Kahlin
-Copyright @copyright{} 2008-2013 Antti S. Lankila
-Copyright @copyright{} 2009-2013 Groepaz
-Copyright @copyright{} 2009-2013 Ingo Korb
-Copyright @copyright{} 2009-2013 Errol Smith
-Copyright @copyright{} 2010-2013 Olaf Seibert
-Copyright @copyright{} 2011-2013 Marcus Sutton
-Copyright @copyright{} 2011-2013 Ulrich Schulz
-Copyright @copyright{} 2011-2013 Stefan Haubenthal
-Copyright @copyright{} 2011-2013 Thomas Giesel
-Copyright @copyright{} 2011-2013 Kajtar Zsolt
-Copyright @copyright{} 2012-2013 Benjamin 'BeRo' Rosseaux
+Copyright @copyright{} 1998-2014 Dag Lem
+Copyright @copyright{} 1999-2014 Andreas Matthies
+Copyright @copyright{} 1999-2014 Martin Pottendorfer
+Copyright @copyright{} 2005-2014 Marco van den Heuvel
+Copyright @copyright{} 2006-2014 Christian Vogelgsang
+Copyright @copyright{} 2007-2014 Fabrizio Gennari
+Copyright @copyright{} 2007-2014 Daniel Kahlin
+Copyright @copyright{} 2008-2014 Antti S. Lankila
+Copyright @copyright{} 2009-2014 Groepaz
+Copyright @copyright{} 2009-2014 Ingo Korb
+Copyright @copyright{} 2009-2014 Errol Smith
+Copyright @copyright{} 2010-2014 Olaf Seibert
+Copyright @copyright{} 2011-2014 Marcus Sutton
+Copyright @copyright{} 2011-2014 Ulrich Schulz
+Copyright @copyright{} 2011-2014 Stefan Haubenthal
+Copyright @copyright{} 2011-2014 Thomas Giesel
+Copyright @copyright{} 2011-2014 Kajtar Zsolt
+Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
 
 Copyright @copyright{} 2000-2011 Spiro Trikaliotis
 Copyright @copyright{} 2007-2011 Hannu Nuotio
@@ -20543,39 +20543,39 @@ cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1998-2013 Dag Lem
+Copyright @copyright{} 1998-2014 Dag Lem
 @item
-Copyright @copyright{} 1999-2013 Andreas Matthies
+Copyright @copyright{} 1999-2014 Andreas Matthies
 @item
-Copyright @copyright{} 1999-2013 Martin Pottendorfer
+Copyright @copyright{} 1999-2014 Martin Pottendorfer
 @item
-Copyright @copyright{} 2005-2013 Marco van den Heuvel
+Copyright @copyright{} 2005-2014 Marco van den Heuvel
 @item
-Copyright @copyright{} 2006-2013 Christian Vogelgsang
+Copyright @copyright{} 2006-2014 Christian Vogelgsang
 @item
-Copyright @copyright{} 2007-2013 Fabrizio Gennari
+Copyright @copyright{} 2007-2014 Fabrizio Gennari
 @item
-Copyright @copyright{} 2007-2013 Daniel Kahlin
+Copyright @copyright{} 2007-2014 Daniel Kahlin
 @item
-Copyright @copyright{} 2009-2013 Groepaz
+Copyright @copyright{} 2009-2014 Groepaz
 @item
-Copyright @copyright{} 2009-2013 Ingo Korb
+Copyright @copyright{} 2009-2014 Ingo Korb
 @item
-Copyright @copyright{} 2009-2013 Errol Smith
+Copyright @copyright{} 2009-2014 Errol Smith
 @item
-Copyright @copyright{} 2010-2013 Olaf Seibert
+Copyright @copyright{} 2010-2014 Olaf Seibert
 @item
-Copyright @copyright{} 2011-2013 Marcus Sutton
+Copyright @copyright{} 2011-2014 Marcus Sutton
 @item
-Copyright @copyright{} 2011-2013 Ulrich Schulz
+Copyright @copyright{} 2011-2014 Ulrich Schulz
 @item
-Copyright @copyright{} 2011-2013 Stefan Haubenthal
+Copyright @copyright{} 2011-2014 Stefan Haubenthal
 @item
-Copyright @copyright{} 2011-2013 Thomas Giesel
+Copyright @copyright{} 2011-2014 Thomas Giesel
 @item
-Copyright @copyright{} 2011-2013 Kajtar Zsolt
+Copyright @copyright{} 2011-2014 Kajtar Zsolt
 @item
-Copyright @copyright{} 2012-2013 Benjamin 'BeRo' Rosseaux
+Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
 
 @item
 Copyright @copyright{} 2000-2011 Spiro Trikaliotis
