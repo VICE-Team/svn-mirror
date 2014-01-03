@@ -384,11 +384,11 @@ int scpu64_snapshot_write_cpu_state(snapshot_module_t *m)
 int scpu64_snapshot_read_cpu_state(snapshot_module_t *m)
 {
     return SMR_B_INT(m, &scpu64_fastmode) < 0
-        || SMR_DW_UINT(m, &buffer_finish) < 0
-        || SMR_DW_UINT(m, &buffer_finish_half) < 0
-        || SMR_DW_UINT(m, &maincpu_accu) < 0
+        || SMR_DW(m, &buffer_finish) < 0
+        || SMR_DW(m, &buffer_finish_half) < 0
+        || SMR_DW(m, &maincpu_accu) < 0
         || SMR_DW_INT(m, &maincpu_ba_low_flags) < 0
-        || SMR_DW_UINT(m, &maincpu_ba_low_start) < 0;
+        || SMR_DW(m, &maincpu_ba_low_start) < 0;
 }
 
 #define EMULATION_MODE_CHANGED scpu64_emulation_mode = reg_emul
