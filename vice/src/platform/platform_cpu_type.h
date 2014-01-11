@@ -488,6 +488,29 @@
 #  define PLATFORM_CPU "VAX"
 #endif
 
+/* Minix ACK cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(__minix) && defined(__ACK__)
+#  include <minix/config.h>
+#  ifdef CHIP
+#    define PLATFORM_CHIP CHIP
+#  else
+#    ifdef _MINIX_CHIP
+#      define PLATFORM_CHIP _MINIX_CHIP
+#    endif
+#  endif
+#  ifdef PLATFORM_CHIP
+#    if (PLATFORM_CHIP==1)
+#      define PLATFORM_CPU "80386"
+#    endif
+#    if (PLATFORM_CHIP==2)
+#      define PLATFORM_CPU "68000"
+#    endif
+#    if (PLATFORM_CHIP==3)
+#      define PLATFORM_CPU "Sparc"
+#    endif
+#  endif
+#endif
+
 /* Generic x86 cpu discovery */
 #if !defined(PLATFORM_CPU) && !defined(FIND_X86_CPU) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
 #  define FIND_X86_CPU
@@ -547,4 +570,4 @@
 #  endif
 #endif
 
-#endif // VICE_PLATFORM_CPU_TYPE_H
+#endif

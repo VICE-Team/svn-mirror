@@ -92,6 +92,16 @@
 #define PLATFORM_NO_X86_ASM
 #endif
 
+#ifdef __minix
+#  ifdef __ACK__
+#    define PLATFORM_NO_X86_ASM
+#  else
+#    ifndef __i386__
+#      define __i386__
+#    endif
+#  endif
+#endif
+
 /* only use for supported cpu types */
 #ifndef __i386__
 #  ifndef __i486__

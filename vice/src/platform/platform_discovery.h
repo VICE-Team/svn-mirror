@@ -364,7 +364,12 @@
 #  ifdef __minix_vmd
 #    define PLATFORM_OS "Minix-vmd"
 #  else
-#    define PLATFORM_OS "Minix"
+#    include <minix/config.h>
+#    if defined(OS_RELEASE) && defined(OS_VERSION)
+#      define PLATFORM_OS "Minix " OS_RELEASE "." OS_VERSION
+#    else
+#      define PLATFORM_OS "Minix"
+#    endif
 #  endif
 #endif
 

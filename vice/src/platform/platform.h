@@ -96,6 +96,9 @@ extern char *platform_get_sco_runtime_cpu(void);
 extern char *platform_get_skyos_runtime_os(void);
 extern char *platform_get_skyos_runtime_cpu(void);
 
+extern char *platform_get_minix_runtime_os(void);
+extern char *platform_get_minix_runtime_cpu(void);
+
 /* Set the runtime os call for known platforms */
 
 /* Windows on cygwin */
@@ -116,6 +119,11 @@ extern char *platform_get_skyos_runtime_cpu(void);
 /* Solaris */
 #if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
 #define RUNTIME_OS_CALL platform_get_solaris_runtime_os
+#endif
+
+/* Minix */
+#ifdef __minix
+#define RUNTIME_OS_CALL platform_get_minix_runtime_os
 #endif
 
 /* Syllable */
@@ -211,6 +219,11 @@ extern char *platform_get_skyos_runtime_cpu(void);
 #  if defined(__sparc64__) || defined(sparc64) || defined(__sparc__) || defined(sparc)
 #    define RUNTIME_CPU_CALL platform_get_solaris_runtime_cpu
 #  endif
+#endif
+
+/* Minix with ack */
+#if defined(__minix) && defined(__ACK__)
+#define RUNTIME_CPU_CALL platform_get_minix_runtime_cpu
 #endif
 
 /* Darwin */

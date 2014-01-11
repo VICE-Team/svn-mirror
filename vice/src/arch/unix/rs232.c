@@ -49,7 +49,10 @@
 #include <sys/ioctl.h>
 #endif
 
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
+#endif
+
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -66,6 +69,34 @@
     defined(MINIX_SUPPORT) || defined(OPENSERVER6_COMPILE) || \
     (defined(__QNX__) && !defined(__QNXNTO__))
 #include <sys/select.h>
+#endif
+
+#ifdef __minix_vmd
+#define _MINIX_SOURCE
+#include <time.h>
+#include <sys/nbio.h>
+#define fd_set fd_set_t
+#define select nbio_select
+
+#ifndef FD_ZERO
+#define FD_ZERO(p)                                 \
+    do {                                           \
+        size_t __i;                                \
+        char *__tmp = (char *)p;                   \
+        for (__i = 0; __i < sizeof(*(p)); ++__i) { \
+            *__tmp++ = 0;                          \
+        }                                          \
+    } while (0)
+#endif
+
+#ifndef FD_SET
+#define FD_SET(n, p) ((p)->fds_bits[(n)/NFDBITS] |= (1L << ((n) % NFDBITS)))
+#endif
+
+#ifndef FD_ISSET
+#define FD_ISSET(n, p) ((p)->fds_bits[(n)/NFDBITS] & (1L << ((n) % NFDBITS)))
+#endif
+
 #endif
 
 #if defined(OPENSTEP_COMPILE) || defined(NEXTSTEP_COMPILE)
