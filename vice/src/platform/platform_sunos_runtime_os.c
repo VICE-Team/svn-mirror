@@ -33,6 +33,9 @@
  * Solaris 2.5.1 (sparc)
  * Solaris 2.6 (sparc)
  * Solaris 7 (sparc)
+ * Solaris 8 (sparc)
+ * Solaris 9 (sparc)
+ * Solaris 10 (sparc)
  */
 
 #include "vice.h"

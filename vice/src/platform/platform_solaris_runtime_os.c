@@ -38,7 +38,9 @@
  * Solaris 8 (intel)
  * Solaris 8 (sparc)
  * Solaris 9 (intel)
+ * Solaris 9 (sparc)
  * Solaris 10 (intel 32&64)
+ * Solaris 10 (sparc)
  * OpenSolaris (intel)
  */
 
