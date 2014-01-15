@@ -42,6 +42,7 @@
  * Solaris 10 (intel 32&64)
  * Solaris 10 (sparc)
  * OpenSolaris (intel)
+ * Solaris 11.1 (intel 32&64)
  */
 
 #include "vice.h"
@@ -80,7 +81,9 @@ char *platform_get_solaris_runtime_os(void)
         } else if (!strcasecmp(name.release, "5.11")) {
             if (!strcasecmp(name.version, "11.0")) {
                 os = "Solaris 11";
-            } else {
+            } else if (!strcasecmp(name.version, "11.1")) {
+                os = "Solaris 11.1";
+            else {
                 os = "OpenSolaris";
             }
         } else {

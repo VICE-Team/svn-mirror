@@ -102,6 +102,10 @@
 #  endif
 #endif
 
+#if !defined(__i386__) && defined(__i386)
+#  define __i386__
+#endif
+
 /* only use for supported cpu types */
 #ifndef __i386__
 #  ifndef __i486__
