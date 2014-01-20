@@ -5335,6 +5335,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_MMC64_BIOS_WRITE_TR, "MMC64 BIOS'unu deðiþtiðinde kaydet"},
 #endif
 
+/* c64/cart/mmc64.c */
+/* en */ {IDCLS_MMC64_SET_FLASH_JUMPER,  N_("Set the MMC64 Flash Jumper")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_MMC64_SET_FLASH_JUMPER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC64_SET_FLASH_JUMPER_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_MMC64_SET_FLASH_JUMPER_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_MMC64_SET_FLASH_JUMPER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_MMC64_SET_FLASH_JUMPER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_MMC64_SET_FLASH_JUMPER_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_MMC64_SET_FLASH_JUMPER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_MMC64_SET_FLASH_JUMPER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MMC64_SET_FLASH_JUMPER_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_MMC64_SET_FLASH_JUMPER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_MMC64_SET_FLASH_JUMPER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_MMC64_SET_FLASH_JUMPER_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/mmc64.c */
+/* en */ {IDCLS_MMC64_UNSET_FLASH_JUMPER,  N_("Remove the MMC64 Flash Jumper")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/mmcreplay.c */
 /* en */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME,    N_("Specify MMC Replay card image filename")},
 #ifdef HAS_TRANSLATION

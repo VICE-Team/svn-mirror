@@ -998,7 +998,17 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_MMC64_BIOS_WRITE,
       NULL, NULL },
-    { NULL }
+    { "-mmc64flash", SET_RESOURCE, 0,
+      NULL, NULL, "MMC64_flashjumper", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_MMC64_SET_FLASH_JUMPER,
+      NULL, NULL },
+    { "+mmc64flash", SET_RESOURCE, 0,
+      NULL, NULL, "MMC64_flashjumper", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_MMC64_UNSET_FLASH_JUMPER,
+      NULL, NULL },
+  { NULL }
 };
 
 int mmc64_cmdline_options_init(void)
