@@ -138,7 +138,6 @@ static BYTE mmc64_biossel;
 #define MMC_SPISTAT   0x01 /* bit 0: 0 = SPI ready, 1 = SPI busy                     */
 
 /* Variables of the various status bits */
-static BYTE mmc64_flashjumper; /* status of the flash jumper FIXME: remove, duplicated flag */
 static BYTE mmc64_extexrom = 0;
 static BYTE mmc64_extgame = 0;
 
@@ -269,7 +268,7 @@ void mmc64_reset(void)
     mmc64_cport = 0;
     mmc64_speed = 0;
     mmc64_cardsel = 0;
-    mmc64_biossel = 0;
+    mmc64_biossel = mmc64_hw_flashjumper; /* disable bios at reset when flash jumper is set */
 
 #if 0
     mmc64_extexrom = 0x04;
@@ -404,8 +403,7 @@ static int set_mmc64_readonly(int val, void *param)
 static int set_mmc64_flashjumper(int val, void *param)
 {
     mmc64_hw_flashjumper = val;
-    mmc64_flashjumper = val * MMC_FLASHJMP;
-    LOG(("MMC64 Flashjumper: %02x %d", mmc64_flashjumper, mmc64_hw_flashjumper));
+    LOG(("MMC64 Flashjumper: %d", mmc64_hw_flashjumper));
     return 0;
 }
 
@@ -506,7 +504,7 @@ void mmc64_config_init(struct export_s *export)
     mmc64_cport = 0;
     mmc64_speed = 0;
     mmc64_cardsel = 0;
-    mmc64_biossel = 0;
+    mmc64_biossel = mmc64_hw_flashjumper; /* disable bios at reset when flash jumper is set */
 #if 0
     /* for now external exrom and game are constantly   *
     * high until the pass-through port support is made */
@@ -605,7 +603,7 @@ static void mmc64_reg_store(WORD addr, BYTE value, int active)
                 spi_mmc_enable_8mhz_write((BYTE)(((value >> 2)) & 1)); /* bit 2 */
                 mmc64_cport = (((value >> 3)) & 1); /* bit 3 */
 
-                if (mmc64_flashjumper) {    /* this bit can only be changed if the flashjumper is on */
+                if (mmc64_hw_flashjumper) {    /* this bit can only be changed if the flashjumper is on */
                     mmc64_flashmode = (((value >> 4)) & 1); /* bit 4 */
                 }
                 spi_mmc_trigger_mode_write((BYTE)(((value >> 6)) & 1));        /* bit 6 */
@@ -777,7 +775,7 @@ static BYTE mmc64_io2_read(WORD addr)
              *        bit 6:  0
              *        bit 7:  0
              */
-            value = mmc64_flashjumper << 5;    /* bit 5 */
+            value = mmc64_hw_flashjumper << 5;    /* bit 5 */
             value |= (spi_mmc_busy());     /* bit 0 */
             value |= ((mmc64_extexrom ^ 1) << 1);    /* bit 1 */
             value |= ((mmc64_extgame ^ 1)) << 2;       /* bit 2 */
@@ -844,7 +842,7 @@ static BYTE mmc64_io2_peek(WORD addr)
 
         case 2:
             /* $DF12: MMC status register */
-            value = mmc64_flashjumper << 5;    /* bit 5 */
+            value = mmc64_hw_flashjumper << 5;    /* bit 5 */
             value |= (spi_mmc_busy());     /* bit 0 */
             value |= ((mmc64_extexrom ^ 1) << 1);    /* bit 1 */
             value |= ((mmc64_extgame) ^ 1) << 2;       /* bit 2 */
@@ -906,8 +904,8 @@ int mmc64_peek_mem(WORD addr, BYTE *value)
 
 void mmc64_roml_store(WORD addr, BYTE byte)
 {
-    /* if (addr == 0x8000) LOG(("roml w %04x %02x active: %d == 0 bios: %d == 0 flashjumper: %d == 1 flashmode: %d == 1\n", addr, byte, mmc64_active, mmc64_biossel, mmc64_flashjumper, mmc64_flashmode)); */
-    if (!mmc64_active && !mmc64_biossel && mmc64_flashjumper && mmc64_flashmode) {
+    /* if (addr == 0x8000) LOG(("roml w %04x %02x active: %d == 0 bios: %d == 0 flashjumper: %d == 1 flashmode: %d == 1\n", addr, byte, mmc64_active, mmc64_biossel, mmc64_hw_flashjumper, mmc64_flashmode)); */
+    if (!mmc64_active && !mmc64_biossel && mmc64_hw_flashjumper && mmc64_flashmode) {
         LOG(("MMC64 Flash w %04x %02x", addr, byte));
         if (mmc64_bios[(addr & 0x1fff) + mmc64_bios_offset] != byte) {
             mmc64_bios[(addr & 0x1fff) + mmc64_bios_offset] = byte;
