@@ -38,6 +38,8 @@
 
 /* base saturation of all colors except the grey tones */
 
+/* must stay below 64 to not result in overflows in the CRT renderer (and maybe
+   elsewhere) */
 #define TED_SATURATION  48.0f
 
 /* phase shift of all colors */

@@ -38,11 +38,13 @@
 
 /* base saturation of all colors */
 
-#define VIC_SATURATION  80.0f
+/* must stay below 64 to not result in overflows in the CRT renderer (and maybe
+   elsewhere) */
+#define VIC_SATURATION    63.0f
 
 /* phase shift of all colors */
 
-#define VIC_PHASE               -4.5f
+#define VIC_PHASE         -4.5f
 
 /* chroma angles in UV space */
 
