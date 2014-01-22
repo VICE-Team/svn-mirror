@@ -1132,10 +1132,14 @@ static void ciacore_inttod(CLOCK offset, void *data)
                             /* hours (1-12) */
                             t5 = (t5 + 1) & 0x0f;
                             if (t6) {
+                                /* toggle the am/pm flag when going from 11 to 12 (!) */
+                                if (t5 == 2) {
+                                    pm ^= 0x80;
+                                }
+                                /* wrap 12h -> 1h (FIXME: when hour became x3 ?) */
                                 if (t5 == 3) {
                                     t5 = 1;
                                     t6 = 0;
-                                    pm ^= 0x80;     /* toggle am/pm on 0:59->1:00 hr */
                                 }
                             } else {
                                 if (t5 == 10) {
