@@ -50,7 +50,9 @@ static int x_pos = 0;
 
 void uimon_window_close(void)
 {
-    sdl_ui_activate_post_action();
+    if (menu_draw) {
+      sdl_ui_activate_post_action();
+    }
 }
 
 console_t *uimon_window_open(void)
@@ -67,36 +69,44 @@ console_t *uimon_window_open(void)
 
 void uimon_window_suspend(void)
 {
-    uimon_window_close();
+    if (menu_draw) {
+        uimon_window_close();
+    }
 }
 
 console_t *uimon_window_resume(void)
 {
-    return uimon_window_open();
+    if (menu_draw) {
+        return uimon_window_open();
+    } else {
+        return NULL;
+    }
 }
 
 int uimon_out(const char *buffer)
 {
-    int y = menu_draw->max_text_y - 1;
-    char *p = (char *)buffer;
-    int i = 0;
-    char c;
+    if (menu_draw) {
+        int y = menu_draw->max_text_y - 1;
+        char *p = (char *)buffer;
+        int i = 0;
+        char c;
 
-    while ((c = p[i]) != 0) {
-        if (c == '\n') {
-            p[i] = 0;
-            sdl_ui_print(p, x_pos, y);
-            sdl_ui_scroll_screen_up();
-            x_pos = 0;
-            p += i + 1;
-            i = 0;
-        } else {
-            ++i;
+        while ((c = p[i]) != 0) {
+            if (c == '\n') {
+                p[i] = 0;
+                sdl_ui_print(p, x_pos, y);
+                sdl_ui_scroll_screen_up();
+                x_pos = 0;
+                p += i + 1;
+                i = 0;
+            } else {
+                ++i;
+            }
         }
-    }
 
-    if (p[0] != 0) {
-        x_pos += sdl_ui_print(p, x_pos, y);
+        if (p[0] != 0) {
+            x_pos += sdl_ui_print(p, x_pos, y);
+        }
     }
     return 0;
 }
@@ -122,7 +132,9 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 
 void uimon_notify_change(void)
 {
-    sdl_ui_refresh();
+    if (menu_draw) {
+        sdl_ui_refresh();
+    }
 }
 
 void uimon_set_interface(monitor_interface_t **monitor_interface_init, int count)
