@@ -161,9 +161,20 @@ static int midi_set_irq(int new_irq_res, void *param)
     return 0;
 }
 
+/*
+get amount of ticks (cycles) between MIDI interrupts. Every received byte
+triggers an interrupt.
+
+The MIDI serial communication format is 31250baud, 8N1: 8 bits, one start bit 
+and one stop bit, no parity. 
+
+This would mean *10 below, but 9 is better if the frequency of external devices 
+is a bit off, that avoids buffer overflows for very large and fast transfers 
+(e.g. SysEx file transfers).
+*/
 static int get_midi_ticks(void)
 {
-    return (int)(machine_get_cycles_per_second() / 31250);
+    return (int)((machine_get_cycles_per_second() * 9) / 31250);
 }
 
 int midi_set_mode(int new_mode, void *param)
