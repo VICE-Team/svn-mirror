@@ -310,7 +310,7 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
             DBG(("ui_enable_drive_status: drive %d type %d", i, drive_get_disk_drive_type(i)));
             /* if (strcmp(&(last_attached_images[i][0]), "") != 0) { //} */
             if (drive_get_disk_drive_type(i) != DRIVE_TYPE_NONE) {
-                enable |= 1<<i;
+                enable |= 1 << i;
             }
         }
     }
@@ -332,10 +332,12 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
                         gtk_widget_hide(app_shells[i].drive_status[j].led2);
 #endif
                     } else {
-                        gtk_widget_hide(app_shells[i].drive_status[j].led);
 #if !defined(HAVE_CAIRO)
+                        gtk_widget_hide(app_shells[i].drive_status[j].led);
                         gtk_widget_show(app_shells[i].drive_status[j].led1);
                         gtk_widget_show(app_shells[i].drive_status[j].led2);
+#else
+                        gtk_widget_show(app_shells[i].drive_status[j].led);
 #endif
                     }
                 } else {
