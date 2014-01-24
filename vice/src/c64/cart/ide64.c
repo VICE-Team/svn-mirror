@@ -103,7 +103,7 @@ static WORD out_d030, in_d030, idebus;
 /* config ram */
 static char ide64_DS1302[65];
 
-static char *ide64_configuration_string = NULL;
+static char *ide64_configuration_string = ide64_DS1302;
 
 static int settings_version4, rtc_offset_res;
 static time_t rtc_offset;
@@ -286,7 +286,6 @@ static int set_ide64_config(const char *cfg, void *param)
             ide64_DS1302[i] = cfg[i];
         }
     }
-    util_string_set(&ide64_configuration_string, ide64_DS1302);
     return 0;
 }
 
@@ -577,9 +576,6 @@ int ide64_resources_shutdown(void)
         }
         drives[i].filename = NULL;
     }
-
-    lib_free(ide64_configuration_string);
-    ide64_configuration_string = NULL;
     return 0;
 }
 
