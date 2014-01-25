@@ -184,7 +184,7 @@ void iec_pa_write(BYTE data)
                         break;
                     case DRIVE_TYPE_2000:
                     case DRIVE_TYPE_4000:
-                        viacore_signal(drive_context[i]->via4000, VIA_SIG_CA1, 0);
+                        viacore_signal(drive_context[i]->via4000, VIA_SIG_CA2, 0);
                         break;
                     default:
                         viacore_signal(drive_context[i]->via1d1541, VIA_SIG_CA1, 0);
