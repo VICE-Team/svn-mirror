@@ -33,6 +33,8 @@
  * Minix 3.1.6
  * Minix 3.1.7
  * Minix 3.1.8
+ * Minix 3.2.0
+ * Minix 3.2.1
  */
 
 #include "vice.h"

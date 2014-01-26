@@ -42,6 +42,7 @@
  * Solaris 10 (intel 32&64)
  * Solaris 10 (sparc)
  * OpenSolaris (intel)
+ * Solaris 11(.0) (intel 32&64)
  * Solaris 11.1 (intel 32&64)
  */
 

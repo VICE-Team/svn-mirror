@@ -407,6 +407,8 @@ static winver_t windows_versions[] = {
       6, 0, 10, VER_NT_WORKSTATION, 0, PRODUCT_ENTERPRISE, -1 },
     { "Windows Vista Ultimate", VER_PLATFORM_WIN32_NT,
       6, 0, 10, VER_NT_WORKSTATION, 0, PRODUCT_ULTIMATE, -1 },
+    { "Windows 2008 Storage Server", VER_PLATFORM_WIN32_NT,
+      6, 0, 10, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER, -1 -1 },
     { "Windows 2008 Web Server", VER_PLATFORM_WIN32_NT,
       6, 0, 10, VER_NT_SERVER, VER_SUITE_BLADE, PRODUCT_WEB_SERVER, -1 },
     { "Windows 2008 Enterprise Server", VER_PLATFORM_WIN32_NT,
@@ -457,7 +459,9 @@ static winver_t windows_versions[] = {
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_SERVER_FOUNDATION, -1 },
     { "Windows 2008 R2 HPC Server", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_CLUSTER_SERVER, -1 },
-    { "Windows 8 (Home/Pro/Enterprise)", VER_PLATFORM_WIN32_NT,
+    { "Windows 8 Enterprise", VER_PLATFORM_WIN32_NT,
+      6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, -1 },
+    { "Windows 8 (Home/Pro)", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_WORKSTATION, 0, 0, -1 },
     { "Windows 2012 Server (Foundation/Essentials/Standard/Datacenter)", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_SERVER, 0, 0, -1 },
@@ -625,7 +629,7 @@ static int optional_mask_compare(int a, int b)
 
 static int optional_compare(int a, int b)
 {
-    if (b == -1 || a == b) {
+    if (b < 0 || a == b) {
         return 1;
     }
     return 0;
@@ -889,19 +893,53 @@ char *platform_get_windows_runtime_os(void)
         }
 
         for (i = 1; found == 0 && windows_versions[i].name != NULL; i++) {
+#ifdef DEBUG_PLATFORM
+        printf("%s (%d %d %d %d %d %d)\n", windows_versions[i].name,
+                    windows_versions[i].platformid,
+                    windows_versions[i].majorver,
+                    windows_versions[i].minorver,
+                    windows_versions[i].realos,
+                    windows_versions[i].producttype,
+                    windows_versions[i].suite);
+#endif
             if (windows_versions[0].platformid == windows_versions[i].platformid) {
+#ifdef DEBUG_PLATFORM
+                printf("same platformid\n");
+#endif
                 if (windows_versions[0].majorver == windows_versions[i].majorver) {
+#ifdef DEBUG_PLATFORM
+                    printf("same majorver\n");
+#endif
                     if (windows_versions[0].minorver == windows_versions[i].minorver) {
+#ifdef DEBUG_PLATFORM
+                        printf("same minorver\n");
+#endif
                         if (windows_versions[0].realos > windows_versions[i].realos) {
+#ifdef DEBUG_PLATFORM
+                            printf("realos bigger\n");
+#endif
                             windows_versions[0].producttype = -1;
                             windows_versions[0].suite = 0;
                             windows_versions[0].pt6 = 0;
                             windows_versions[0].metrics = 0;
                         }
                         if (windows_versions[0].producttype == windows_versions[i].producttype) {
+#ifdef DEBUG_PLATFORM
+                            printf("same producttype\n");
+#endif
                             if (optional_mask_compare(windows_versions[0].suite, windows_versions[i].suite)) {
+#ifdef DEBUG_PLATFORM
+                                printf("same suite (mask)\n");
+                                printf("pt6 of 0 = %d, pt6 of i = %d\n", windows_versions[0].pt6, windows_versions[i].pt6);
+#endif
                                 if (optional_compare(windows_versions[0].pt6, windows_versions[i].pt6)) {
+#ifdef DEBUG_PLATFORM
+                                    printf("same pt6\n");
+#endif
                                     if (optional_mask_compare(windows_versions[0].metrics, windows_versions[i].metrics)) {
+#ifdef DEBUG_PLATFORM
+                                        printf("same metric (mask)\n");
+#endif
                                         found = 1;
                                     }
                                 }
