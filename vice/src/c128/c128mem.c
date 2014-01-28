@@ -313,7 +313,7 @@ static void mem_toggle_caps_key(void)
      down to 0 in a certain amount of time.
    - When an unused input bit already had the drop-off timer running, and is
      set to 1 again, the drop-off timer will restart.
-   - when a an unused bit changes from output to input, and the current output
+   - when an unused bit changes from output to input, and the current output
      bit is 1, the drop-off timer will restart again
 
     see testprogs/CPU/cpuport for details and tests
