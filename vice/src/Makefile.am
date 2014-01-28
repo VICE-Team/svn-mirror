@@ -464,13 +464,12 @@ else
 BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
 endif
 
-svnversion.h:	svnversion_dummy.h
+# in practise we'd only want to regenerate svnversion.h after each commit. since
+# that isnt really possible, we must do it on each compile.
+.PHONY: svnversion.h
+svnversion.h:
 	echo "generating svnversion.h"
 	$(SHELL) $(srcdir)/gensvnversion.sh >$(srcdir)/svnversion.h $(SVNVERSION) $(top_srcdir)
-	touch svnversion_dummy.h
-
-svnversion_dummy.h:
-	touch svnversion_dummy.h
 
 infocontrib.h:	$(top_srcdir)/doc/vice.texi
 	echo "generating infocontrib.h..."
