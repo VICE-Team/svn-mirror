@@ -124,13 +124,13 @@ static cmdline_option_t cmdline_options_chip_hwscale[] =
     CMDLINE_LIST_END
 };
 
-static const char *cname_chip_renderer_2x[] =
+static const char *cname_chip_render_filter[] =
 {
     "-", "filter", "Filter",
     NULL
 };
 
-static cmdline_option_t cmdline_options_chip_renderer_2x[] =
+static cmdline_option_t cmdline_options_chip_render_filter[] =
 {
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
@@ -389,23 +389,25 @@ int video_cmdline_options_chip_init(const char *chipname,
         }
     }
 
-    if (video_chip_cap->scale2x_allowed) {
-        for (i = 0; cname_chip_renderer_2x[i * 3] != NULL; i++) {
-            cmdline_options_chip_renderer_2x[i].name
-                = util_concat(cname_chip_renderer_2x[i * 3], chipname,
-                              cname_chip_renderer_2x[i * 3 + 1], NULL);
-            cmdline_options_chip_renderer_2x[i].resource_name
-                = util_concat(chipname, cname_chip_renderer_2x[i * 3 + 2], NULL);
-        }
+    /* video render filters */
+    /* FIXME: scale2x is not available for all videochips
+              (video_chip_cap->scale2x_allowed) */
 
-        if (cmdline_register_options(cmdline_options_chip_renderer_2x) < 0) {
-            return -1;
-        }
+    for (i = 0; cname_chip_render_filter[i * 3] != NULL; i++) {
+        cmdline_options_chip_render_filter[i].name
+            = util_concat(cname_chip_render_filter[i * 3], chipname,
+                            cname_chip_render_filter[i * 3 + 1], NULL);
+        cmdline_options_chip_render_filter[i].resource_name
+            = util_concat(chipname, cname_chip_render_filter[i * 3 + 2], NULL);
+    }
 
-        for (i = 0; cname_chip_renderer_2x[i * 3] != NULL; i++) {
-            lib_free((char *)cmdline_options_chip_renderer_2x[i].name);
-            lib_free((char *)cmdline_options_chip_renderer_2x[i].resource_name);
-        }
+    if (cmdline_register_options(cmdline_options_chip_render_filter) < 0) {
+        return -1;
+    }
+
+    for (i = 0; cname_chip_render_filter[i * 3] != NULL; i++) {
+        lib_free((char *)cmdline_options_chip_render_filter[i].name);
+        lib_free((char *)cmdline_options_chip_render_filter[i].resource_name);
     }
 
     for (i = 0; cname_chip_internal_palette[i * 3] != NULL; i++) {
