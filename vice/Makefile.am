@@ -13,7 +13,6 @@ COMMON_EXTRA_DIST = .descr \
 	ChangeLog.2 \
 	COPYING \
 	FEEDBACK \
-	Doxyfile \
 	INSTALL \
 	NEWS \
 	vice.spec \
