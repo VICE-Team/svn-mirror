@@ -24,6 +24,10 @@
  *
  */
 
+#ifdef _minix_vmd
+#define _MINIX_SOURCE
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
