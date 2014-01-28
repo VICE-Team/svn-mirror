@@ -55,7 +55,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int crtc_cmdline_options_init(void)
 {
-    if (raster_cmdline_options_chip_init("Crtc", crtc.video_chip_cap) < 0) {
+    if (raster_cmdline_options_chip_init("CRTC", crtc.video_chip_cap) < 0) {
         return -1;
     }
 
