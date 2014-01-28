@@ -6,6 +6,11 @@
 
 svnrevision=`$1 $2`
 
+# a mixed range revision with local modifications may give output like this:
+# 4123:4168MSP
+# split only the right (highest) revision from it
+svnrevisionnr=`echo $svnrevision | sed 's/[0-9]*:\([0-9]*\).*/\1/'`
+
 echo "/*"
 echo " * svnversion.h - SVN revision defines."
 echo " *"
@@ -37,7 +42,7 @@ echo ""
 echo "#ifndef VICE_SVNVERSION_H"
 echo "#define VICE_SVNVERSION_H"
 echo ""
-echo "#define VICE_SVN_REV_NUMBER $svnrevision"
+echo "#define VICE_SVN_REV_NUMBER $svnrevisionnr"
 echo "#define VICE_SVN_REV_STRING \"$svnrevision\""
 echo ""
 echo "#endif"
