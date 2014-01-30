@@ -813,7 +813,7 @@ void mon_cpuhistory(int count)
                                                 &opc_size);
 
         /* Print the disassembled instruction */
-        mon_out("%04x  %-30s - A:%02X Y:%02X Y:%02X SP:%02x %c%c-%c%c%c%c%c\n",
+        mon_out("%04x  %-30s - A:%02X X:%02X Y:%02X SP:%02x %c%c-%c%c%c%c%c\n",
                 loc, dis_inst,
                 cpuhistory[pos].reg_a, cpuhistory[pos].reg_x, cpuhistory[pos].reg_y, cpuhistory[pos].reg_sp,
                 ((cpuhistory[pos].reg_st & (1 << 7)) != 0) ? 'N' : ' ',
