@@ -8,6 +8,7 @@ prt_DATA = \
 	mps801 \
 	mps803 \
 	nl10-cbm \
+	1520.vpl \
 	mps803.vpl \
 	nl10.vpl
 

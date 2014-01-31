@@ -8,6 +8,8 @@ noinst_LIBRARIES = libprinterdrv.a
 libprinterdrv_a_SOURCES = \
 	driver-select.c \
 	driver-select.h \
+	drv-1520.c \
+	drv-1520.h \
 	drv-ascii.c \
 	drv-ascii.h \
 	drv-mps803.c \

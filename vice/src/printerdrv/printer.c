@@ -32,6 +32,7 @@
 #ifndef DINGOO_NATIVE
 #include "drv-nl10.h"
 #endif
+#include "drv-1520.h"
 #include "drv-raw.h"
 #include "interface-serial.h"
 #include "interface-userport.h"
@@ -52,6 +53,7 @@ int printer_resources_init(void)
 #ifndef DINGOO_NATIVE
         || drv_nl10_init_resources() < 0
 #endif
+        || drv_1520_init_resources() < 0
         || drv_raw_init_resources() < 0
         || driver_select_init_resources() < 0
         || machine_printer_resources_init() < 0) {
@@ -89,6 +91,7 @@ void printer_init(void)
 #ifndef DINGOO_NATIVE
     drv_nl10_init();
 #endif
+    drv_1520_init();
     drv_raw_init();
     driver_select_init();
     machine_printer_init();
@@ -110,6 +113,7 @@ void printer_shutdown(void)
 #ifndef DINGOO_NATIVE
     drv_nl10_shutdown();
 #endif
+    drv_1520_shutdown();
     driver_select_shutdown();
     machine_printer_shutdown();
 }

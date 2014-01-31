@@ -1,8 +1,8 @@
 /*
- * output.h - Output driver.
+ * drv-1520.h - 1520 plotter driver.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Olaf Seibert <rhialto@falu.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,25 +24,13 @@
  *
  */
 
-#ifndef VICE_OUTPUT_H
-#define VICE_OUTPUT_H
+#ifndef VICE_DRV_1520_H
+#define VICE_DRV_1520_H
 
-#define OUTPUT_PIXEL_BLACK '*'
-#define OUTPUT_PIXEL_WHITE ' '
-#define OUTPUT_PIXEL_RED   'R'
-#define OUTPUT_PIXEL_GREEN 'G'
-#define OUTPUT_PIXEL_BLUE  'B'
-#define OUTPUT_NEWLINE '\n'
+#include <stdio.h>
 
-struct palette_s;
-
-struct output_parameter_s {
-    unsigned int maxcol;
-    unsigned int maxrow;
-    unsigned int dpi_x;
-    unsigned int dpi_y;
-    struct palette_s *palette;
-};
-typedef struct output_parameter_s output_parameter_t;
+extern int drv_1520_init_resources(void);
+extern int drv_1520_init(void);
+extern void drv_1520_shutdown(void);
 
 #endif

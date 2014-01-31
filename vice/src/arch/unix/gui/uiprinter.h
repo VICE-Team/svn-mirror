@@ -40,6 +40,11 @@ extern ui_menu_entry_t uiprinter_pr5_output_submenu[];
 extern ui_menu_entry_t uiprinter_pr5_device_submenu[];
 extern ui_menu_entry_t uiprinter_set_printer5_type_submenu[];
 
+extern ui_menu_entry_t uiprinter_pr6_driver_submenu[];
+extern ui_menu_entry_t uiprinter_pr6_output_submenu[];
+extern ui_menu_entry_t uiprinter_pr6_device_submenu[];
+extern ui_menu_entry_t uiprinter_set_printer6_type_submenu[];
+
 extern ui_menu_entry_t uiprinter_pruser_driver_submenu[];
 extern ui_menu_entry_t uiprinter_pruser_output_submenu[];
 extern ui_menu_entry_t uiprinter_pruser_device_submenu[];

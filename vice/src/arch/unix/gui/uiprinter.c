@@ -85,6 +85,26 @@ ui_menu_entry_t uiprinter_pr5_output_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_STRING_RADIO(Printer6Driver)
+
+ui_menu_entry_t uiprinter_pr6_driver_submenu[] = {
+    { "1520", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6Driver,
+      (ui_callback_data_t)"1520", NULL },
+    { "RAW", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6Driver,
+      (ui_callback_data_t)"raw", NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_STRING_RADIO(Printer6Output)
+
+ui_menu_entry_t uiprinter_pr6_output_submenu[] = {
+    { "Text", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6Output,
+      (ui_callback_data_t)"text", NULL },
+    { "Graphics", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6Output,
+      (ui_callback_data_t)"graphics", NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_STRING_RADIO(PrinterUserportDriver)
 
 ui_menu_entry_t uiprinter_pruser_driver_submenu[] = {
@@ -148,6 +168,18 @@ ui_menu_entry_t uiprinter_pr5_device_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_RADIO(Printer6TextDevice)
+
+ui_menu_entry_t uiprinter_pr6_device_submenu[] = {
+    { N_("Printer 1 (file dump)"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_Printer6TextDevice, (ui_callback_data_t)0, NULL },
+    { N_("Printer 2 (exec)"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_Printer6TextDevice, (ui_callback_data_t)1, NULL },
+    { N_("Printer 3 (exec)"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_Printer6TextDevice, (ui_callback_data_t)2, NULL },
+    { NULL }
+};
+
 #if 0
 UI_CALLBACK(set_printer_dump_file)
 {
@@ -167,6 +199,7 @@ UI_CALLBACK(uiprinter_set_printer_exec_file)
 
 UI_MENU_DEFINE_RADIO(Printer4)
 UI_MENU_DEFINE_RADIO(Printer5)
+UI_MENU_DEFINE_RADIO(Printer6)
 
 ui_menu_entry_t uiprinter_set_printer4_type_submenu[] = {
     { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4,
@@ -187,6 +220,18 @@ ui_menu_entry_t uiprinter_set_printer5_type_submenu[] = {
       (ui_callback_data_t)PRINTER_DEVICE_FS, NULL },
 #ifdef HAVE_OPENCBM
     { N_("Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5,
+      (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
+#endif
+    { NULL }
+};
+
+ui_menu_entry_t uiprinter_set_printer6_type_submenu[] = {
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6,
+      (ui_callback_data_t)PRINTER_DEVICE_NONE, NULL },
+    { N_("File system access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6,
+      (ui_callback_data_t)PRINTER_DEVICE_FS, NULL },
+#ifdef HAVE_OPENCBM
+    { N_("Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6,
       (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
 #endif
     { NULL }

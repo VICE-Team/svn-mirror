@@ -46,7 +46,7 @@ struct ascii_s {
 };
 typedef struct ascii_s ascii_t;
 
-static ascii_t drv_ascii[3];
+static ascii_t drv_ascii[NUM_OUTPUT_SELECT];
 
 static log_t drv_ascii_log = LOG_ERR;
 
@@ -128,24 +128,28 @@ static int print_char(ascii_t *ascii, unsigned int prnr, BYTE c)
 
 static int drv_ascii_open(unsigned int prnr, unsigned int secondary)
 {
-    output_parameter_t output_parameter;
-
-    /* these are unused for non gfx output */
-    output_parameter.maxcol = 480;
-    output_parameter.maxrow = 66 * 9;
-    output_parameter.dpi_x = 100;
-    output_parameter.dpi_y = 100;
-
     if (secondary == 7) {
         print_char(&drv_ascii[prnr], prnr, 17);
+    } else if (secondary == DRIVER_FIRST_OPEN) {
+	output_parameter_t output_parameter;
+
+	/* these are unused for non gfx output */
+	output_parameter.maxcol = 480;
+	output_parameter.maxrow = 66 * 9;
+	output_parameter.dpi_x = 100;
+	output_parameter.dpi_y = 100;
+
+	return output_select_open(prnr, &output_parameter);
     }
 
-    return output_select_open(prnr, &output_parameter);
+    return 0;
 }
 
 static void drv_ascii_close(unsigned int prnr, unsigned int secondary)
 {
-    output_select_close(prnr);
+    if (secondary == DRIVER_LAST_CLOSE) {
+	output_select_close(prnr);
+    }
 }
 
 static int drv_ascii_putc(unsigned int prnr, unsigned int secondary, BYTE b)

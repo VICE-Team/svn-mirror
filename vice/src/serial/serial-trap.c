@@ -59,6 +59,7 @@ static void (*attention_callback_func)(void);
 
 static unsigned int serial_truedrive;
 
+#define IS_PRINTER(d)	(((d) & 0x0F) >= 4 && ((d) & 0x0F) <= 6)
 
 static void serial_set_st(BYTE st)
 {
@@ -84,15 +85,14 @@ int serial_trap_attention(void)
     b = mem_read(((BYTE)(BSOUR))); /* BSOUR - character for serial bus */
 
     if (((b & 0xf0) == 0x20) || ((b & 0xf0) == 0x40)) {
-        if (serial_truedrive && ((b & 0x0f) != 4 ) && ((b & 0x0f) != 5)) {
+        if (serial_truedrive && !IS_PRINTER(b)) {
             /* Set TrapDevice even if the trap is not taken; needed
                for other traps.  */
             TrapDevice = b;
             return 0;
         }
     } else {
-        if (serial_truedrive && ((TrapDevice & 0x0f) != 4)
-            && ((TrapDevice & 0x0f) != 5)) {
+        if (serial_truedrive && !IS_PRINTER(TrapDevice)) {
             return 0;
         }
     }
@@ -150,7 +150,7 @@ int serial_trap_send(void)
 {
     BYTE data;
 
-    if (serial_truedrive && ((TrapDevice & 0x0f) != 4) && ((TrapDevice & 0x0f) != 5)) {
+    if (serial_truedrive && !IS_PRINTER(TrapDevice)) {
         return 0;
     }
 
@@ -169,7 +169,7 @@ int serial_trap_receive(void)
 {
     BYTE data;
 
-    if (serial_truedrive && ((TrapDevice & 0x0f) != 4) && ((TrapDevice & 0x0f) != 5)) {
+    if (serial_truedrive && !IS_PRINTER(TrapDevice)) {
         return 0;
     }
 
@@ -198,7 +198,7 @@ int serial_trap_receive(void)
 
 int serial_trap_ready(void)
 {
-    if (serial_truedrive && ((TrapDevice & 0x0f) != 4) && ((TrapDevice & 0x0f) != 5)) {
+    if (serial_truedrive && !IS_PRINTER(TrapDevice)) {
         return 0;
     }
 

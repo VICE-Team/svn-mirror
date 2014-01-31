@@ -51,11 +51,8 @@ struct driver_select_list_s {
 typedef struct driver_select_list_s driver_select_list_t;
 
 
-/* Names of currently used printer driver.  To be removed.  */
-static char *printer_driver[] = { NULL, NULL, NULL };
-
 /* Currently used printer driver.  */
-static driver_select_t driver_select[3];
+static driver_select_t driver_select[NUM_DRIVER_SELECT];
 
 /* Pointer to registered printer driver.  */
 static driver_select_list_t *driver_select_list = NULL;
@@ -64,6 +61,7 @@ static driver_select_list_t *driver_select_list = NULL;
 static int set_printer_driver(const char *name, void *param)
 {
     driver_select_list_t *list;
+    int prnr = vice_ptr_to_int(param);
 
     list = driver_select_list;
 
@@ -73,9 +71,7 @@ static int set_printer_driver(const char *name, void *param)
 
     do {
         if (!strcmp(list->driver_select.drv_name, name)) {
-            util_string_set(&printer_driver[vice_ptr_to_int(param)], name);
-            memcpy(&driver_select[vice_ptr_to_int(param)], &(list->driver_select),
-                   sizeof(driver_select_t));
+	    driver_select[prnr] = list->driver_select;
             return 0;
         }
         list = list->next;
@@ -86,11 +82,13 @@ static int set_printer_driver(const char *name, void *param)
 
 static const resource_string_t resources_string[] = {
     {"Printer4Driver", "ascii", RES_EVENT_NO, NULL,
-     &printer_driver[0], set_printer_driver, (void *)0 },
+     (char **)&driver_select[0].drv_name, set_printer_driver, (void *)0 },
     {"Printer5Driver", "ascii", RES_EVENT_NO, NULL,
-     &printer_driver[1], set_printer_driver, (void *)1 },
+     (char **)&driver_select[1].drv_name, set_printer_driver, (void *)1 },
+    {"Printer6Driver", "ascii", RES_EVENT_NO, NULL,
+     (char **)&driver_select[2].drv_name, set_printer_driver, (void *)2 },
     {"PrinterUserportDriver", "ascii", RES_EVENT_NO, NULL,
-     &printer_driver[2], set_printer_driver, (void *)2 },
+     (char **)&driver_select[3].drv_name, set_printer_driver, (void *)3 },
     { NULL }
 };
 
@@ -101,9 +99,6 @@ int driver_select_init_resources(void)
 
 void driver_select_shutdown_resources(void)
 {
-    lib_free(printer_driver[0]);
-    lib_free(printer_driver[1]);
-    lib_free(printer_driver[2]);
 }
 
 static const cmdline_option_t cmdline_options[] =
@@ -118,6 +113,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_5_NAME,
       NULL, NULL },
+    { "-pr6drv", SET_RESOURCE, 1,
+      NULL, NULL, "Printer6Driver", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("Specify name of printer driver for device #6") },
     { "-pruserdrv", SET_RESOURCE, 1,
       NULL, NULL, "PrinterUserportDriver", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,

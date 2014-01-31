@@ -43,12 +43,8 @@ struct output_select_list_s {
 };
 typedef struct output_select_list_s output_select_list_t;
 
-
-/* Names of currently used printer driver.  To be removed.  */
-static char *output_device[] = { NULL, NULL, NULL };
-
 /* Currently used output device.  */
-static output_select_t output_select[3];
+static output_select_t output_select[NUM_OUTPUT_SELECT];
 
 /* Pointer to registered printer driver.  */
 static output_select_list_t *output_select_list = NULL;
@@ -57,6 +53,7 @@ static output_select_list_t *output_select_list = NULL;
 static int set_output_device(const char *name, void *param)
 {
     output_select_list_t *list;
+    int prnr;
 
     list = output_select_list;
 
@@ -64,11 +61,11 @@ static int set_output_device(const char *name, void *param)
         return -1;
     }
 
+    prnr = vice_ptr_to_int(param);
+
     do {
         if (!strcmp(list->output_select.output_name, name)) {
-            util_string_set(&output_device[vice_ptr_to_int(param)], name);
-            memcpy(&output_select[vice_ptr_to_int(param)], &(list->output_select),
-                   sizeof(output_select_t));
+	    output_select[prnr] = list->output_select;
             return 0;
         }
         list = list->next;
@@ -79,11 +76,13 @@ static int set_output_device(const char *name, void *param)
 
 static const resource_string_t resources_string[] = {
     { "Printer4Output", "text", RES_EVENT_NO, NULL,
-      &output_device[0], set_output_device, (void *)0 },
+      (char **)&output_select[0].output_name, set_output_device, (void *)0 },
     { "Printer5Output", "text", RES_EVENT_NO, NULL,
-      &output_device[1], set_output_device, (void *)1 },
+      (char **)&output_select[1].output_name, set_output_device, (void *)1 },
+    { "Printer6Output", "text", RES_EVENT_NO, NULL,
+      (char **)&output_select[2].output_name, set_output_device, (void *)2 },
     { "PrinterUserportOutput", "text", RES_EVENT_NO, NULL,
-      &output_device[2], set_output_device, (void *)2 },
+      (char **)&output_select[3].output_name, set_output_device, (void *)3 },
     { NULL }
 };
 
@@ -94,9 +93,6 @@ int output_select_init_resources(void)
 
 void output_select_shutdown_resources(void)
 {
-    lib_free(output_device[0]);
-    lib_free(output_device[1]);
-    lib_free(output_device[2]);
 }
 
 static const cmdline_option_t cmdline_options[] =

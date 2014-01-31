@@ -33,6 +33,7 @@
 #include "archdep.h"
 #include "cmdline.h"
 #include "lib.h"
+#include "log.h"
 #include "output-select.h"
 #include "output-text.h"
 #include "output.h"
@@ -41,9 +42,18 @@
 #include "types.h"
 #include "util.h"
 
-static char *PrinterDev[3] = { NULL, NULL, NULL };
-static int printer_device[3];
-static FILE *output_fd[3] = { NULL, NULL, NULL };
+/* TODO: configure check that matches what arch/unix/coproc.c does... */
+#if defined(HAVE_FORK)
+#if !defined(MINIX_SUPPORT) && !defined(OPENSTEP_COMPILE) && !defined(RHAPSODY_COMPILE) && !defined(NEXTSTEP_COMPILE)
+#  include <unistd.h>
+#  define COPROC_SUPPORT        1
+#  include "coproc.h"
+# endif
+#endif
+
+static char *PrinterDev[NUM_OUTPUT_SELECT] = { NULL, NULL, NULL };
+static int printer_device[NUM_OUTPUT_SELECT];
+static FILE *output_fd[NUM_OUTPUT_SELECT] = { NULL, NULL, NULL };
 
 static int set_printer_device_name(const char *val, void *param)
 {
@@ -53,7 +63,7 @@ static int set_printer_device_name(const char *val, void *param)
 
 static int set_printer_device(int prn_dev, void *param)
 {
-    if (prn_dev > 3) {
+    if (prn_dev > NUM_OUTPUT_SELECT) {
         return -1;
     }
 
@@ -79,8 +89,10 @@ static const resource_int_t resources_int[] = {
       &printer_device[0], set_printer_device, (void *)0 },
     { "Printer5TextDevice", 0, RES_EVENT_NO, NULL,
       &printer_device[1], set_printer_device, (void *)1 },
-    { "PrinterUserportTextDevice", 0, RES_EVENT_NO, NULL,
+    { "Printer6TextDevice", 0, RES_EVENT_NO, NULL,
       &printer_device[2], set_printer_device, (void *)2 },
+    { "PrinterUserportTextDevice", 0, RES_EVENT_NO, NULL,
+      &printer_device[3], set_printer_device, (void *)3 },
     { NULL }
 };
 
@@ -111,6 +123,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_SPECIFY_TEXT_DEVICE_5,
       "<0-2>", NULL },
+    { "-pr6txtdev", SET_RESOURCE, 1,
+      NULL, NULL, "Printer6TextDevice", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<0-2>", T_("Specify printer text output device for printer #6") },
     { "-prusertxtdev", SET_RESOURCE, 1,
       NULL, NULL, "PrinterUserportTextDevice", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -122,6 +139,30 @@ static const cmdline_option_t cmdline_options[] =
 int output_text_init_cmdline_options(void)
 {
     return cmdline_register_options(cmdline_options);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/*
+ * TODO: only do this on systems which support it.
+ */
+FILE *fopen_or_pipe(char *name)
+{
+    if (name[0] == '|') {
+#if COPROC_SUPPORT
+        int fd_rd, fd_wr;
+        if (fork_coproc(&fd_wr, &fd_rd, name + 1) < 0) {
+            // error
+            return NULL;
+        }
+        close(fd_rd);   /* We only want to write to the process */
+        return fdopen(fd_wr, MODE_WRITE);
+#else
+        log_error(LOG_DEFAULT, "Cannot fork process.");
+#endif
+    } else {
+        return fopen(name, MODE_APPEND);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -139,7 +180,7 @@ static int output_text_open(unsigned int prnr,
 
             if (output_fd[printer_device[prnr]] == NULL) {
                 FILE *fd;
-                fd = fopen(PrinterDev[printer_device[prnr]], MODE_APPEND);
+                fd = fopen_or_pipe(PrinterDev[printer_device[prnr]]);
                 if (fd == NULL) {
                     return -1;
                 }
