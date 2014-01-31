@@ -8568,6 +8568,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PRINTER_5_EMULATION_SV, "Emulering av skrivare 5" },
 /* tr */ { IDS_PRINTER_5_EMULATION_TR, "Yazýcý #5 emülasyonu" },
 
+/* en */ { IDS_PRINTER_6_EMULATION,    "Printer #6 emulation" },
+/* da */ { IDS_PRINTER_6_EMULATION_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_6_EMULATION_DE, "" },  /* fuzzy */
+/* es */ { IDS_PRINTER_6_EMULATION_ES, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_6_EMULATION_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_6_EMULATION_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_6_EMULATION_IT, "" },  /* fuzzy */
+/* ko */ { IDS_PRINTER_6_EMULATION_KO, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_6_EMULATION_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_6_EMULATION_PL, "" },  /* fuzzy */
+/* ru */ { IDS_PRINTER_6_EMULATION_RU, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_6_EMULATION_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_6_EMULATION_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_USERPORT_PRINTER_EMULATION,    "Userport printer emulation" },
 /* da */ { IDS_USERPORT_PRINTER_EMULATION_DA, "Emulering af printer på brugerporten" },
 /* de */ { IDS_USERPORT_PRINTER_EMULATION_DE, "Userport Drucker Emulation" },
@@ -8609,6 +8623,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_PRINTER_5_DRIVER_RU, "Printer #5 driver" },
 /* sv */ { IDS_PRINTER_5_DRIVER_SV, "Drivrutin för skrivare 5" },
 /* tr */ { IDS_PRINTER_5_DRIVER_TR, "Yazýcý #5 sürücüsü" },
+
+/* en */ { IDS_PRINTER_6_DRIVER,    "Printer #6 driver" },
+/* da */ { IDS_PRINTER_6_DRIVER_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_6_DRIVER_DE, "" },  /* fuzzy */
+/* es */ { IDS_PRINTER_6_DRIVER_ES, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_6_DRIVER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_6_DRIVER_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_6_DRIVER_IT, "" },  /* fuzzy */
+/* ko */ { IDS_PRINTER_6_DRIVER_KO, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_6_DRIVER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_6_DRIVER_PL, "" },  /* fuzzy */
+/* ru */ { IDS_PRINTER_6_DRIVER_RU, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_6_DRIVER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_6_DRIVER_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_USERPORT_PRINTER_DRIVER,    "Userport printer driver" },
 /* da */ { IDS_USERPORT_PRINTER_DRIVER_DA, "Printerdriver for brugerporten" },
@@ -8652,6 +8680,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PRINTER_5_OUTPUT_TYPE_SV, "Utdatatyp för skrivare 5" },
 /* tr */ { IDS_PRINTER_5_OUTPUT_TYPE_TR, "Yazýcý #5 çýktý tipi" },
 
+/* en */ { IDS_PRINTER_6_OUTPUT_TYPE,    "Printer #6 output type" },
+/* da */ { IDS_PRINTER_6_OUTPUT_TYPE_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_6_OUTPUT_TYPE_DE, "" },  /* fuzzy */
+/* es */ { IDS_PRINTER_6_OUTPUT_TYPE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_6_OUTPUT_TYPE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_6_OUTPUT_TYPE_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_6_OUTPUT_TYPE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_PRINTER_6_OUTPUT_TYPE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_6_OUTPUT_TYPE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_6_OUTPUT_TYPE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_PRINTER_6_OUTPUT_TYPE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_6_OUTPUT_TYPE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_6_OUTPUT_TYPE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE,    "Userport printer output type" },
 /* da */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE_DA, "Printer uddatatype på brugerporten" },
 /* de */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE_DE, "Userport Drucker Ausgabetyp" },
@@ -8694,6 +8736,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PRINTER_5_OUTPUT_DEVICE_SV, "Textutenhet för skrivare 5" },
 /* tr */ { IDS_PRINTER_5_OUTPUT_DEVICE_TR, "Yazýcý #5 çýktý aygýtý" },
 
+/* en */ { IDS_PRINTER_6_OUTPUT_DEVICE,    "Printer #6 output device" },
+/* da */ { IDS_PRINTER_6_OUTPUT_DEVICE_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_6_OUTPUT_DEVICE_DE, "" },  /* fuzzy */
+/* es */ { IDS_PRINTER_6_OUTPUT_DEVICE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_6_OUTPUT_DEVICE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_6_OUTPUT_DEVICE_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_6_OUTPUT_DEVICE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_PRINTER_6_OUTPUT_DEVICE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_6_OUTPUT_DEVICE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_6_OUTPUT_DEVICE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_PRINTER_6_OUTPUT_DEVICE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_6_OUTPUT_DEVICE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_6_OUTPUT_DEVICE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE,    "Userport printer output device" },
 /* da */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE_DA, "Brugerport printer uddataenhed" },
 /* de */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE_DE, "Userport Drucker Ausgabegerät" },
@@ -8735,6 +8791,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_PRINTER_5_SEND_FORMFEED_RU, "Send formfeed to printer #5" },
 /* sv */ { IDS_PRINTER_5_SEND_FORMFEED_SV, "Sänd sidmatning till skrivare 5" },
 /* tr */ { IDS_PRINTER_5_SEND_FORMFEED_TR, "Yazýcý #5'e sayfa ilerletme gönder" },
+
+/* en */ { IDS_PRINTER_6_SEND_FORMFEED,    "Send formfeed to printer #6" },
+/* da */ { IDS_PRINTER_6_SEND_FORMFEED_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_6_SEND_FORMFEED_DE, "" },  /* fuzzy */
+/* es */ { IDS_PRINTER_6_SEND_FORMFEED_ES, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_6_SEND_FORMFEED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_6_SEND_FORMFEED_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_6_SEND_FORMFEED_IT, "" },  /* fuzzy */
+/* ko */ { IDS_PRINTER_6_SEND_FORMFEED_KO, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_6_SEND_FORMFEED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_6_SEND_FORMFEED_PL, "" },  /* fuzzy */
+/* ru */ { IDS_PRINTER_6_SEND_FORMFEED_RU, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_6_SEND_FORMFEED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_6_SEND_FORMFEED_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_USERPORT_PRINTER_SEND_FORMFEED,    "Send formfeed to userport printer" },
 /* da */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_DA, "Send sideskift til brugerports-printer" },
@@ -8819,6 +8889,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_ENABLE_IEC_PRINTER_5_RU, "IEC emulation for printer #5" },
 /* sv */ { IDS_ENABLE_IEC_PRINTER_5_SV, "IEC-emulering för skrivare 5" },
 /* tr */ { IDS_ENABLE_IEC_PRINTER_5_TR, "Yazýcý #5 için IEC emülasyonu" },
+
+/* en */ { IDS_ENABLE_IEC_PRINTER_6,    "IEC emulation for printer #6" },
+/* da */ { IDS_ENABLE_IEC_PRINTER_6_DA, "" },  /* fuzzy */
+/* de */ { IDS_ENABLE_IEC_PRINTER_6_DE, "" },  /* fuzzy */
+/* es */ { IDS_ENABLE_IEC_PRINTER_6_ES, "" },  /* fuzzy */
+/* fr */ { IDS_ENABLE_IEC_PRINTER_6_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ENABLE_IEC_PRINTER_6_HU, "" },  /* fuzzy */
+/* it */ { IDS_ENABLE_IEC_PRINTER_6_IT, "" },  /* fuzzy */
+/* ko */ { IDS_ENABLE_IEC_PRINTER_6_KO, "" },  /* fuzzy */
+/* nl */ { IDS_ENABLE_IEC_PRINTER_6_NL, "" },  /* fuzzy */
+/* pl */ { IDS_ENABLE_IEC_PRINTER_6_PL, "" },  /* fuzzy */
+/* ru */ { IDS_ENABLE_IEC_PRINTER_6_RU, "" },  /* fuzzy */
+/* sv */ { IDS_ENABLE_IEC_PRINTER_6_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ENABLE_IEC_PRINTER_6_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_PRINTER_SETTINGS,    "Printer settings" },
 /* da */ { IDS_PRINTER_SETTINGS_DA, "Printerindstillinger" },
