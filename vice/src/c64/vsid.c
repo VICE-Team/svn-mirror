@@ -440,7 +440,7 @@ void machine_specific_reset(void)
     vicii_reset();
 
     if (psid_basic_rsid_to_autostart(&vsid_autostart_load_addr, &vsid_autostart_data, &vsid_autostart_length)) {
-        vsid_autostart_delay = machine_timing.rfsh_per_sec * 23/10;
+        vsid_autostart_delay = (int)(machine_timing.rfsh_per_sec * 23 / 10);
     } else {
         vsid_autostart_delay = 0; /* disables it */
         psid_init_driver();

@@ -159,6 +159,7 @@ FILE *fopen_or_pipe(char *name)
         return fdopen(fd_wr, MODE_WRITE);
 #else
         log_error(LOG_DEFAULT, "Cannot fork process.");
+        return NULL;
 #endif
     } else {
         return fopen(name, MODE_APPEND);

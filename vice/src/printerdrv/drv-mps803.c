@@ -191,7 +191,8 @@ static void clear_buffer(mps_t *mps)
 
 static void bitmode_off(mps_t *mps)
 {
-    int i, x, y;
+    unsigned int i, x;
+    int y;
     unsigned int err = 0;
 
     for (i = 0; i < (unsigned int)mps->repeatn; i++) {
@@ -390,13 +391,13 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
     if (is_mode(mps, MPS_QUOTED)) {
         if ((c >= 0x00) && (c <= 0x1f)) {
             set_mode(mps, MPS_REVERSE);
-            print_cbm_char(mps, c + 0x40);
+            print_cbm_char(mps, (BYTE)(c + 0x40));
             del_mode(mps, MPS_REVERSE);
             return;
         }
         if ((c >= 0x80) && (c <= 0x9f)) {
             set_mode(mps, MPS_REVERSE);
-            print_cbm_char(mps, c - 0x20);
+            print_cbm_char(mps, (BYTE)(c - 0x20));
             del_mode(mps, MPS_REVERSE);
             return;
         }

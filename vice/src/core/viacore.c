@@ -553,8 +553,8 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
                     /* Pulse counting mode: set t2 to the current T2 value; 
                     PB6 should always update t2 and update irq on underflow */
                     CLOCK stop = myviatb(via_context);
-                    via_context->t2cl = stop & 0xff;
-                    via_context->t2ch = (stop >> 8) & 0xff;
+                    via_context->t2cl = (BYTE)(stop & 0xff);
+                    via_context->t2ch = (BYTE)((stop >> 8) & 0xff);
 
                     /* stop alarm to prevent t2 and T2 updates */
                     alarm_unset(via_context->t2_alarm);

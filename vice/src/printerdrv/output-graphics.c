@@ -113,7 +113,7 @@ static BYTE output_pixel_to_palette_index(BYTE pix)
 }
 static void print_palette(palette_t *p)
 {
-    int i;
+    unsigned int i;
 
     for (i = 0; i < p->num_entries; i++) {
 	printf("%2d: %s r=%d g=%d b=%d dither=%d\n",

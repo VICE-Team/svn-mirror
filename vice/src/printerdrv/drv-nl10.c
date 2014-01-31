@@ -1901,7 +1901,6 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
 
 static int drv_nl10_open(unsigned int prnr, unsigned int secondary)
 {
-    int ret;
     nl10_t *nl10 = &(drv_nl10[prnr]);
 
     if (secondary == DRIVER_FIRST_OPEN) {
