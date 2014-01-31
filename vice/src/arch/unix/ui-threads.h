@@ -45,6 +45,7 @@ int dthread_configure_callback_canvas(void *w, void *e, void *cd);
 int ui_init2(int *argc, char **argv);
 int ui_init_finish2(void);
 void build_screen_canvas2(video_canvas_t *c);
+void build_screen_canvas_widget2(video_canvas_t *c);
 int ui_open_canvas_window2(video_canvas_t *c, const char *t, int wi, int he, int na);
 void ui_dispatch_events2(void);
 void ui_trigger_resize2(void);

@@ -77,7 +77,7 @@ static void netplay_update_control_res(GtkWidget *w, gpointer data)
 
     g_return_if_fail(GTK_IS_CHECK_BUTTON(w));
     g_return_if_fail(data != 0);
-    
+
     mask = *((unsigned int *)data);
     resources_get_int("NetworkControl", (int *)&control);
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w))) {
@@ -133,7 +133,7 @@ static void netplay_update_status(void)
     const char *server_bind_address;
     int port;
     char st[256];
-    
+
     switch(network_get_mode()) {
         case NETWORK_IDLE:
             gtk_widget_set_sensitive(GTK_WIDGET(dcb), FALSE);
@@ -320,7 +320,7 @@ static GtkWidget *build_netplay_dialog(void)
     g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(netplay_disconnect), rb);
     gtk_widget_set_can_focus(rb, 0);
     gtk_widget_show(rb);
-    
+
     netplay_update_status();
 
     /* gtk_dialog_close_hides(GTK_DIALOG(d), TRUE); */
@@ -330,7 +330,7 @@ static GtkWidget *build_netplay_dialog(void)
 void ui_netplay_dialog(void)
 {
     gint res;
-    
+
     if (netplay_dialog) {
         gdk_window_show(gtk_widget_get_window(netplay_dialog));
         gdk_window_raise(gtk_widget_get_window(netplay_dialog));
