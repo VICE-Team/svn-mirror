@@ -77,7 +77,7 @@ static int latch_rev_keyarr[KBD_COLS];
 static int network_keyarr[KBD_ROWS];
 static int network_rev_keyarr[KBD_COLS];
 
-static alarm_t *keyboard_alarm;
+static alarm_t *keyboard_alarm = NULL;
 
 static log_t keyboard_log = LOG_DEFAULT;
 
@@ -247,7 +247,7 @@ struct keyboard_conv_s {
 typedef struct keyboard_conv_s keyboard_conv_t;
 
 /* Is the resource code ready to load the keymap?  */
-static int load_keymap_ok;
+static int load_keymap_ok = 0;
 
 /* Memory size of array in sizeof(keyconv_t), 0 = static.  */
 static int keyc_mem = 0;
@@ -1205,19 +1205,19 @@ void keyboard_init(void)
 {
     keyboard_log = log_open("Keyboard");
 
-    if (machine_class != VICE_MACHINE_VSID) {
-        keyboard_alarm = alarm_new(maincpu_alarm_context, "Keyboard",
-                                keyboard_latch_handler, NULL);
+    keyboard_alarm = alarm_new(maincpu_alarm_context, "Keyboard",
+                            keyboard_latch_handler, NULL);
 #ifdef COMMON_KBD
-        restore_alarm = alarm_new(maincpu_alarm_context, "Restore",
-                                restore_alarm_triggered, NULL);
+    restore_alarm = alarm_new(maincpu_alarm_context, "Restore",
+                            restore_alarm_triggered, NULL);
 
-        kbd_arch_init();
+    kbd_arch_init();
 
+    if (machine_class != VICE_MACHINE_VSID) {
         load_keymap_ok = 1;
         keyboard_set_keymap_index(machine_keymap_index, NULL);
-#endif
     }
+#endif
 }
 
 void keyboard_shutdown(void)
