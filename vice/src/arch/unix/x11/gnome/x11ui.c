@@ -555,7 +555,7 @@ int ui_init(int *argc, char **argv)
     if (console_mode) {
         return 0;
     }
-    
+
 #ifdef USE_UI_THREADS
     XInitThreads();
     /* init threads */	
@@ -566,30 +566,30 @@ int ui_init(int *argc, char **argv)
 
 #ifdef DEBUG_X11UI
     {
-	int i;
-	for (i = 1; i < *argc; i++) {
-	    DBG(("arg %d:%s", i, argv[i]));
-	}
+        int i;
+        for (i = 1; i < *argc; i++) {
+            DBG(("arg %d:%s", i, argv[i]));
+        }
     }
 #endif
     
 #ifdef HAVE_HWSCALE
     if (gtk_gl_init_check(argc, &argv) == TRUE) {
-	glClear(GL_COLOR_BUFFER_BIT);
-	glDisable (GL_DEPTH_TEST);
-	glEnable(GL_TEXTURE_RECTANGLE_EXT);
-	glTexEnvi(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_ENV_MODE, GL_DECAL);
-	glEnable(GL_BLEND);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glDisable (GL_DEPTH_TEST);
+        glEnable(GL_TEXTURE_RECTANGLE_EXT);
+        glTexEnvi(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_ENV_MODE, GL_DECAL);
+        glEnable(GL_BLEND);
     }
     
 #endif
 
 #ifdef DEBUG_X11UI
     {
-	int i;
-	for (i = 1; i < *argc; i++) {
-	    DBG(("arg %d:%s\n", i, argv[i]));
-	}
+        int i;
+        for (i = 1; i < *argc; i++) {
+            DBG(("arg %d:%s\n", i, argv[i]));
+        }
     }
 #endif
 
