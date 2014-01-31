@@ -77,6 +77,10 @@ ui_menu_entry_t *sdl_ui_hotkey_action(char *path)
     ui_menu_entry_t *menupos = sdl_ui_get_main_menu();
     char *p;
 
+    if (menupos == NULL) {
+        return NULL;
+    }
+
     p = strtok(path, SDL_UI_HOTKEY_DELIM);
 
     if (p == NULL) {
