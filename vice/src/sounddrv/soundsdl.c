@@ -139,7 +139,7 @@ static int sdl_init(const char *param, int *speed,
 
     sdl_len = sdl_spec.samples * nr;
     sdl_inptr = sdl_outptr = sdl_full = 0;
-    sdl_buf = lib_malloc(sizeof(SWORD) * sdl_len);
+    sdl_buf = lib_calloc(sdl_len, sizeof(SWORD));
 
     if (!sdl_buf) {
         SDL_CloseAudio();
