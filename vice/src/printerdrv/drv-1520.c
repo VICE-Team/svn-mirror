@@ -208,12 +208,12 @@ static void eject(plot_t *mps)
     mps->lowest_y = mps->abs_origin_y;
 }
 
-static inline int min(int a, int b)
+static inline int vice_min(int a, int b)
 {
     return a < b ? a : b;
 }
 
-static inline int max(int a, int b)
+static inline int vice_max(int a, int b)
 {
     return a > b ? a : b;
 }
@@ -318,7 +318,7 @@ static void bresenham_par(plot_t *mps, int x0, int y0, int x1, int y1, int wd)
         if (e2 > -dy) {
             err -= dy;
             xo  += sx;
-            /* mps->colour = max(1, (mps->colour+1) % 4); // DEBUG */
+            /* mps->colour = vice_max(1, (mps->colour+1) % 4); // DEBUG */
             mps->scribe_state = scribe;
             bresenham(mps, x0 + xo, y0 + yo, x1 + xo, y1 + yo);
             if (wd > 1) {
@@ -329,7 +329,7 @@ static void bresenham_par(plot_t *mps, int x0, int y0, int x1, int y1, int wd)
         if (e2 < dx) {
             err += dx;
             yo  += sy;
-            /* mps->colour = max(1, (mps->colour+1) % 4); // DEBUG */
+            /* mps->colour = vice_max(1, (mps->colour+1) % 4); // DEBUG */
             mps->scribe_state = scribe;
             bresenham(mps, x0 + xo, y0 + yo, x1 + xo, y1 + yo);
             if (wd > 1) {
@@ -361,7 +361,7 @@ static void draw(plot_t *mps, int from_x, int from_y, int to_x, int to_y)
       to_x += mps->abs_origin_x + 1;
       to_y += mps->abs_origin_y + 1;
 
-    mps->lowest_y = min(mps->lowest_y, min(from_y, to_y));
+    mps->lowest_y = vice_min(mps->lowest_y, vice_min(from_y, to_y));
 
 #if DEBUG1520_C
     log_message(drv1520_log, "draw: applied abs origin (%4d,%4d): (%4d,%4d)...(%4d,%4d) lowest_y=%d",  mps->abs_origin_x, mps->abs_origin_y, from_x, from_y, to_x, to_y, mps->lowest_y);
@@ -560,7 +560,7 @@ void draw_char(plot_t *mps, char *commands)
             }
 
             /* TODO: this is probably not how it was really handled: */
-            newx = min(MAX_COL, newx);
+            newx = vice_min(MAX_COL, newx);
             if (pen_down) {
                 draw(mps, x, y, newx, newy);
             }
@@ -1078,7 +1078,7 @@ static int drv_1520_formfeed(unsigned int prnr)
 #endif
     plot_t *mps = &drv_1520[prnr];
 
-    if (mps->prnr == prnr && mps->sheet != NULL) {
+    if (mps->prnr == (int)prnr && mps->sheet != NULL) {
         eject(mps);
     }
     return 0;
