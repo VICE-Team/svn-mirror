@@ -866,7 +866,7 @@ cont:
 
 /* Taken from SDL */
 #ifndef HAVE_STRREV
-char strrev(char *string)
+char *strrev(char *string)
 {
     size_t len = strlen(string);
     char *a = &string[0];
