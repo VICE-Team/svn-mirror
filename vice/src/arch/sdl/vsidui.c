@@ -331,10 +331,13 @@ static const ui_menu_entry_t vsid_main_menu[] = {
 
 static void draw_func(void)
 {
-    int i;
+    int i, n;
 
-    for (i = 0; i < (int)VSID_S_NUM; ++i) {
-        sdl_ui_print(vsidstrings[i], 0, i);
+    for (n = i = 0; i < (int)VSID_S_NUM; ++i, ++n) {
+        sdl_ui_print(vsidstrings[i], 0, n);
+        if ((i == 5) || (i == 8) || (i == 11) || (i == 12)) {
+            ++n;
+        }
     }
 }
 
