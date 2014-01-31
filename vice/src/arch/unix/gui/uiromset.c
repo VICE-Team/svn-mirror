@@ -178,9 +178,8 @@ static UI_CALLBACK(uiromset_archive_item_delete)
 
 static UI_CALLBACK(uiromset_archive_item_select)
 {
-    static char input_string[32+4];
+    static char input_string[32 + 4]; /* FIXME +4 ??? */
     ui_button_t button;
-    const char *active;
 
     if (!CHECK_MENUS) {
         vsync_suspend_speed_eval();
