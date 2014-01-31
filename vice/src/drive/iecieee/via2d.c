@@ -170,7 +170,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
-    DBG(("VIA2: store_prb (%02x to %02x)", poldpb, byte));
+    DBG(("VIA2: store_prb (%02x to %02x) clock:%d", poldpb, byte, *(via_context->clk_ptr)));
 
     rotation_rotate_disk(via2p->drive);
 
@@ -191,6 +191,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
     */
     /* Process stepper motor if the drive motor is on */
     if (byte & 0x4) {
+
         /* vice track numbering starts with 2... we need the real, physical track number */
         int track_number = via2p->drive->current_half_track - 2;
 
@@ -207,21 +208,47 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
         int old_stepper_position = track_number & 3;
 
         /* the steps travelled and the direction */
-        int step_count = (new_stepper_position - old_stepper_position) & 3;
+        int step_count = (via2p->drive->stepper_new_position - old_stepper_position) & 3;
         if (step_count == 3) {
             step_count = -1;
         }
+        /*
+            minimal simulation of mechanical delay.
 
-        /* FIXME: mechanical delays are not emulated, which has some unwanted
-                  side effects, for example the drive will do one step at
-                  power-up and/or reset (bug #3606259) */
+            in reality, there are 3 kinds of delays:
+            - startup time, the time it takes from changing the coils to when
+              the head starts moving.
+            - seek time, the time it takes the head to move from track to track
+            - settle time, the time it takes from stopping the head to being 
+              able to read reliably.
 
-        /* presumably only single steps work */
-        if (step_count == 1 || step_count == -1) {
-            DBG(("VIA2: store_prb drive_move_head(%d) (%02x to %02x)", step_count, poldpb, byte));
-            drive_move_head(step_count, via2p->drive);
+            the simplified emulation here only simulates startup time, and then
+            steps immediatly. while still not being quite accurate, this avoids
+            unwanted stepping at power-up and/or reset (bug #401)
+         */
+        /*
+            Action Replay 6:                                     8333 = 8.3ms
+            Cauldron/The Dreams:                                 7734 = 7.7ms
+            fastest usable stepping speed seems to be around     4096 = 4.1ms 
+            min delay so we dont get a step at reset              700 = 0.7ms
+         */
+        if ((*(via_context->clk_ptr) - via2p->drive->stepper_last_change_clk) >= 2000) {
+            /* presumably only single steps work */
+            if (step_count == 1 || step_count == -1) {
+                DBG(("VIA2: store_prb drive_move_head(%d) (%02x to %02x) clk:%d delay:%d", 
+                     step_count, poldpb, byte, *(via_context->clk_ptr), 
+                     (*(via_context->clk_ptr) - via2p->drive->stepper_last_change_clk)));
+                /* printf("%d\n",(*(via_context->clk_ptr) - via2p->drive->stepper_last_change_clk)); */
+                drive_move_head(step_count, via2p->drive);
+            }
         }
+
+        if (new_stepper_position != via2p->drive->stepper_new_position) {
+            via2p->drive->stepper_new_position = new_stepper_position;
+            via2p->drive->stepper_last_change_clk = *(via_context->clk_ptr);
+        } 
     }
+
     if ((poldpb ^ byte) & 0x60) {   /* Zone bits */
         rotation_speed_zone_set((byte >> 5) & 0x3, via2p->number);
     }
@@ -350,7 +377,7 @@ static BYTE read_prb(via_context_t *via_context)
            & ~(via_context->via[VIA_DDRB]))
            | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
 
-    DBG(("read_prb %02x pb:%02x ddr:%02x\n",byte,via_context->via[VIA_PRB],via_context->via[VIA_DDRB]));
+    DBG(("read_prb %02x pb:%02x ddr:%02x",byte,via_context->via[VIA_PRB],via_context->via[VIA_DDRB]));
 
     via2p->drive->byte_ready_level = 0;
 

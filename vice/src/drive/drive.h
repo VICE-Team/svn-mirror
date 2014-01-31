@@ -114,6 +114,9 @@ typedef struct drive_s {
 
     /* Current half track on which the R/W head is positioned.  */
     int current_half_track;
+    /* last clock and new value for stepper position */
+    CLOCK stepper_last_change_clk;
+    int stepper_new_position;
 
     /* Is this drive enabled?  */
     unsigned int enable;
