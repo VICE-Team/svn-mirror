@@ -651,6 +651,22 @@ static int sound_error(const char *msg)
     return 1;
 }
 
+static SWORD *temp_buffer = NULL;
+static int temp_buffer_size = 0;
+
+static SWORD *realloc_buffer(int size)
+{
+    if (temp_buffer_size < size) {
+        temp_buffer = lib_realloc(temp_buffer, size);
+        if (temp_buffer) {
+            temp_buffer_size = size;
+        } else {
+            temp_buffer_size = 0;
+        }
+    }
+    return temp_buffer;
+}
+
 /* Fill buffer with last sample.
  rise  < 0 : attenuation
  rise == 0 : constant value
@@ -662,8 +678,7 @@ static void fill_buffer(int size, int rise)
     SWORD *p;
     double factor;
 
-    p = lib_malloc(size * sizeof(SWORD) * snddata.sound_output_channels);
-
+    p = realloc_buffer(size * sizeof(SWORD) * snddata.sound_output_channels);
     if (!p) {
         return;
     }
@@ -685,9 +700,6 @@ static void fill_buffer(int size, int rise)
     }
 
     i = snddata.playdev->write(p, size * snddata.sound_output_channels);
-
-    lib_free(p);
-
     if (i) {
         sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
     }
@@ -990,6 +1002,11 @@ void sound_close(void)
 
     sdev_open = FALSE;
     sound_state_changed = FALSE;
+
+    if (temp_buffer) {
+        lib_free(temp_buffer);
+        temp_buffer = NULL;
+    }
 
     /* Closing the sound device might take some time, and displaying
        UI dialogs certainly does. */
