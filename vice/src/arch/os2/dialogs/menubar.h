@@ -732,7 +732,7 @@
 #define IDM_CRTSAVEIMG               0x50e
 #define IDM_CARTRIDGEDET             0x50f
 
-#define IDM_VIC20_ATTACH_CARTRIDGE   0x1ff
+#define IDM_VIC20_ATTACH_CARTRIDGE   0x348
 #define IDM_VIC20_CART_GENERIC       0x200
 #define IDM_VIC20_CART_MEGACART      0x201
 #define IDM_VIC20_CART_FINAL_EXP     0x203
@@ -794,16 +794,25 @@
 #define IDM_PRT5TXT                  0x717
 #define IDM_PRT5GFX                  0x718
 
-#define IDM_PRINTERUP                0x720
-#define IDM_PRTUP                    0x721
-#define IDM_PRTUPDRV                 0x722
-#define IDM_PRTUPASCII               0x723
-#define IDM_PRTUPMPS803              0x724
-#define IDM_PRTUPNL10                0x725
-#define IDM_PRTUPRAW                 0x1fe
-#define IDM_PRTUPOUT                 0x726
-#define IDM_PRTUPTXT                 0x727
-#define IDM_PRTUPGFX                 0x728
+#define IDM_PRINTER6                 0x720
+#define IDM_PRT6IEC                  0x721
+#define IDM_PRT6DRV                  0x722
+#define IDM_PRT6_1520                0x723
+#define IDM_PRT6RAW                  0x1fe
+#define IDM_PRT6OUT                  0x726
+#define IDM_PRT6TXT                  0x727
+#define IDM_PRT6GFX                  0x728
+
+#define IDM_PRINTERUP                0x730
+#define IDM_PRTUP                    0x731
+#define IDM_PRTUPDRV                 0x732
+#define IDM_PRTUPASCII               0x733
+#define IDM_PRTUPMPS803              0x734
+#define IDM_PRTUPNL10                0x735
+#define IDM_PRTUPRAW                 0x1ff
+#define IDM_PRTUPOUT                 0x736
+#define IDM_PRTUPTXT                 0x737
+#define IDM_PRTUPGFX                 0x738
 
 #define IDM_C128TYPE                 0x7ff
 #define IDM_C128INT                  0x800

@@ -260,6 +260,8 @@ char *printer_res(const char *res, const int num)
         case 1:
             return lib_msprintf(res, "5");
         case 2:
+            return lib_msprintf(res, "6");
+        case 3:
             return lib_msprintf(res, "Userport");
     }
     log_debug("Res: %d", num);
@@ -1383,6 +1385,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
         case IDM_PRT4IEC:
         case IDM_PRT5IEC:
+        case IDM_PRT6IEC:
         case IDM_PRTUP:
             {
                 char *res = printer_res("Printer%s", (idm >> 4) & 0xf);
@@ -1394,6 +1397,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_PRT5ASCII:
         case IDM_PRTUPASCII:
             set_printer_res("Printer%sDriver", (idm >> 4) & 0xf, (resource_value_t*)"ascii");
+            return;
+        case IDM_PRT6_1520:
+            set_printer_res("Printer%sDriver", (idm >> 4) & 0xf, (resource_value_t*)"1520");
             return;
         case IDM_PRT4MPS803:
         case IDM_PRT5MPS803:
@@ -1407,16 +1413,19 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_PRT4RAW:
         case IDM_PRT5RAW:
+        case IDM_PRT6RAW:
         case IDM_PRTUPRAW:
             set_printer_res("Printer%sDriver", idm - IDM_PRT4RAW, (resource_value_t*)"raw");
             return;
         case IDM_PRT4TXT:
         case IDM_PRT5TXT:
+        case IDM_PRT6TXT:
         case IDM_PRTUPTXT:
             set_printer_res("Printer%sOutput", (idm >> 4) & 0xf, (resource_value_t*)"text");
             return;
         case IDM_PRT4GFX:
         case IDM_PRT5GFX:
+        case IDM_PRT6GFX:
         case IDM_PRTUPGFX:
             set_printer_res("Printer%sOutput", (idm >> 4) & 0xf, (resource_value_t*)"graphics");
             return;
@@ -2372,6 +2381,7 @@ void menu_select(HWND hwnd, USHORT item)
 
         case IDM_PRINTER4:
         case IDM_PRINTER5:
+        case IDM_PRINTER6:
         case IDM_PRINTERUP:
             {
                 const int num = (item >> 4) & 0xf;
@@ -2385,6 +2395,7 @@ void menu_select(HWND hwnd, USHORT item)
             return;
         case IDM_PRT4DRV:
         case IDM_PRT5DRV:
+        case IDM_PRT6DRV:
         case IDM_PRTUPDRV:
             {
                 const int num = (item >> 4) & 0xf;
@@ -2394,9 +2405,11 @@ void menu_select(HWND hwnd, USHORT item)
                 WinCheckMenuItem(hwnd, IDM_PRT4ASCII | (num << 4), !strcasecmp(txt, "ascii"));
                 WinCheckMenuItem(hwnd, IDM_PRT4MPS803 | (num << 4), !strcasecmp(txt, "mps803"));
                 WinCheckMenuItem(hwnd, IDM_PRT4NL10 | (num << 4), !strcasecmp(txt, "nl10"));
+                WinCheckMenuItem(hwnd, IDM_PRT6_1520, !strcasecmp(txt, "1520"));
             }
         case IDM_PRT4OUT:
         case IDM_PRT5OUT:
+        case IDM_PRT6OUT:
         case IDM_PRTUPOUT:
             {
                 const int num = (item >> 4) & 0xf;

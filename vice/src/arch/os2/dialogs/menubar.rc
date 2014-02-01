@@ -487,6 +487,20 @@ BEGIN
                     MENUITEM "~Graphics",                 IDM_PRT5GFX,                  MIS_TEXT
                 END
             END
+            SUBMENU "Device #~6",                         IDM_PRINTER6,                 MIS_TEXT
+            BEGIN
+                MENUITEM "~Enabled",                      IDM_PRT6IEC,                  MIS_TEXT
+                SUBMENU  "~Printer Driver",               IDM_PRT6DRV,                  MIS_TEXT
+                BEGIN
+                    MENUITEM "~1520",                     IDM_PRT6_1520,                MIS_TEXT
+                    MENUITEM "~Raw",                      IDM_PRT6RAW,                  MIS_TEXT
+                END
+                SUBMENU "~Output Driver",                 IDM_PRT6OUT,                  MIS_TEXT
+                BEGIN
+                    MENUITEM "~Text",                     IDM_PRT6TXT,                  MIS_TEXT
+                    MENUITEM "~Graphics",                 IDM_PRT6GFX,                  MIS_TEXT
+                END
+            END
             SUBMENU "~User Port",                         IDM_PRINTERUP,                MIS_TEXT
             BEGIN
                 MENUITEM "~Enabled",                      IDM_PRTUP,                    MIS_TEXT
