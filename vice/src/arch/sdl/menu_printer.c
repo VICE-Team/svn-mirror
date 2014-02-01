@@ -61,6 +61,20 @@ VICE_SDL_PRINTER_DRIVER_MENU(4)
 VICE_SDL_PRINTER_DRIVER_MENU(5)
 VICE_SDL_PRINTER_DRIVER_MENU(Userport)
 
+UI_MENU_DEFINE_RADIO(Printer6Driver)
+
+static const ui_menu_entry_t printer_6_driver_submenu[] = {
+    { "1520",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_Printer6Driver_callback,
+      (ui_callback_data_t)"1520" },
+    { "Raw",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_Printer6Driver_callback,
+      (ui_callback_data_t)"raw" },
+    SDL_MENU_LIST_END
+};
+
 #define VICE_SDL_PRINTER_DEVICE_MENU(prn)                             \
     UI_MENU_DEFINE_RADIO(Printer##prn##TextDevice)                    \
     static const ui_menu_entry_t printer_##prn##_device_submenu[] = { \
@@ -81,6 +95,7 @@ VICE_SDL_PRINTER_DRIVER_MENU(Userport)
 
 VICE_SDL_PRINTER_DEVICE_MENU(4)
 VICE_SDL_PRINTER_DEVICE_MENU(5)
+VICE_SDL_PRINTER_DEVICE_MENU(6)
 VICE_SDL_PRINTER_DEVICE_MENU(Userport)
 
 
@@ -100,6 +115,7 @@ VICE_SDL_PRINTER_DEVICE_MENU(Userport)
 
 VICE_SDL_PRINTER_OUTPUT_MENU(4)
 VICE_SDL_PRINTER_OUTPUT_MENU(5)
+VICE_SDL_PRINTER_OUTPUT_MENU(6)
 VICE_SDL_PRINTER_OUTPUT_MENU(Userport)
 
 #ifdef HAVE_OPENCBM
@@ -142,9 +158,11 @@ VICE_SDL_PRINTER_OUTPUT_MENU(Userport)
 
 VICE_SDL_PRINTER_TYPE_MENU(4)
 VICE_SDL_PRINTER_TYPE_MENU(5)
+VICE_SDL_PRINTER_TYPE_MENU(6)
 
 UI_MENU_DEFINE_TOGGLE(IECDevice4)
 UI_MENU_DEFINE_TOGGLE(IECDevice5)
+UI_MENU_DEFINE_TOGGLE(IECDevice6)
 UI_MENU_DEFINE_TOGGLE(PrinterUserport)
 
 static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
@@ -198,6 +216,28 @@ static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
       uiprinter_formfeed_callback,                      \
       (ui_callback_data_t)1 },
 
+#define VICE_SDL_PRINTER_COMMON_6_MENU_ITEMS            \
+    { "Printer #6 emulation",                           \
+      MENU_ENTRY_SUBMENU,                               \
+      submenu_radio_callback,                           \
+      (ui_callback_data_t)printer_6_type_submenu },     \
+    { "Printer #6 driver",                              \
+      MENU_ENTRY_SUBMENU,                               \
+      submenu_radio_callback,                           \
+      (ui_callback_data_t)printer_6_driver_submenu },   \
+    { "Printer #6 output type",                         \
+      MENU_ENTRY_SUBMENU,                               \
+      submenu_radio_callback,                           \
+      (ui_callback_data_t)printer_6_output_submenu },   \
+    { "Printer #6 output device",                       \
+      MENU_ENTRY_SUBMENU,                               \
+      submenu_radio_callback,                           \
+      (ui_callback_data_t)printer_6_device_submenu },   \
+    { "Printer #6 form feed",                           \
+      MENU_ENTRY_OTHER,                                 \
+      uiprinter_formfeed_callback,                      \
+      (ui_callback_data_t)2 },
+
 #define VICE_SDL_PRINTER_USERPORT_MENU_ITEMS                 \
     { "Userport printer emulation",                          \
       MENU_ENTRY_RESOURCE_TOGGLE,                            \
@@ -218,7 +258,7 @@ static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
     { "Userport printer form feed",                          \
       MENU_ENTRY_OTHER,                                      \
       uiprinter_formfeed_callback,                           \
-      (ui_callback_data_t)2 },
+      (ui_callback_data_t)3 },
 
 UI_MENU_DEFINE_STRING(PrinterTextDevice1)
 UI_MENU_DEFINE_STRING(PrinterTextDevice2)
@@ -251,6 +291,12 @@ const ui_menu_entry_t printer_iec_menu[] = {
       toggle_IECDevice5_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
+    VICE_SDL_PRINTER_COMMON_6_MENU_ITEMS
+    { "Printer #6 enable IEC device",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IECDevice6_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_USERPORT_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_DEVICEFILE_MENU_ITEMS
@@ -262,6 +308,8 @@ const ui_menu_entry_t printer_ieee_menu[] = {
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_COMMON_5_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
+    VICE_SDL_PRINTER_COMMON_6_MENU_ITEMS
+    SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_USERPORT_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_DEVICEFILE_MENU_ITEMS
@@ -272,6 +320,8 @@ const ui_menu_entry_t printer_iec_nouserport_menu[] = {
     VICE_SDL_PRINTER_COMMON_4_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_COMMON_5_MENU_ITEMS
+    SDL_MENU_ITEM_SEPARATOR,
+    VICE_SDL_PRINTER_COMMON_6_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_DEVICEFILE_MENU_ITEMS
     SDL_MENU_LIST_END
