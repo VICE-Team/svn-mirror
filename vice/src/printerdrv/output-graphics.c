@@ -111,6 +111,8 @@ static BYTE output_pixel_to_palette_index(BYTE pix)
 	    return 4;
     }
 }
+
+#if 0
 static void print_palette(palette_t *p)
 {
     unsigned int i;
@@ -125,6 +127,7 @@ static void print_palette(palette_t *p)
 		p->entries[i].dither);
     }
 }
+#endif
 
 static void output_graphics_line_data(screenshot_t *screenshot, BYTE *data,
                                       unsigned int line, unsigned int mode)
