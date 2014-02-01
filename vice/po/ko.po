@@ -4358,9 +4358,8 @@ msgid "Drives Volume"
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:79
-#, fuzzy
 msgid "ReSID Passband"
-msgstr "reSID 샘플링 패스 밴드"
+msgstr ""
 
 #. 0..90
 #: src/arch/unix/x11/gnome/uipalcontrol.c:80
@@ -4369,9 +4368,8 @@ msgstr ""
 
 #. 90..100
 #: src/arch/unix/x11/gnome/uipalcontrol.c:81
-#, fuzzy
 msgid "ReSID Filter Bias"
-msgstr "SID 필터"
+msgstr ""
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:84
 msgid "Display Thread Rate"
@@ -5165,9 +5163,8 @@ msgid "Printer 5"
 msgstr "프린터5"
 
 #: src/arch/win32/res.rc.po.c:1022
-#, fuzzy
 msgid "Printer 6"
-msgstr "프린터4"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1023 src/arch/win32/res.rc.po.c:1424
 #: src/arch/win32/res.rc.po.c:1596 src/arch/amigaos/intl_text.c.po.c:48
@@ -8535,14 +8532,12 @@ msgid "TED palette file"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:8547
-#, fuzzy
 msgid "Printer #6 emulation"
-msgstr "프린터 #4 에뮬레이션"
+msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:8603
-#, fuzzy
 msgid "Printer #6 driver"
-msgstr "프린터 #4 드라이버"
+msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:8631
 msgid "Printer #4 output type"
@@ -8553,9 +8548,8 @@ msgid "Printer #5 output type"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:8659
-#, fuzzy
 msgid "Printer #6 output type"
-msgstr "#4 텍스트 아웃풋 디바이스"
+msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:8673
 msgid "Userport printer output type"
@@ -8570,9 +8564,8 @@ msgid "Printer #5 output device"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:8715
-#, fuzzy
 msgid "Printer #6 output device"
-msgstr "#4 텍스트 아웃풋 디바이스"
+msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:8729
 msgid "Userport printer output device"
@@ -8587,9 +8580,8 @@ msgid "Send formfeed to printer #5"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:8771
-#, fuzzy
 msgid "Send formfeed to printer #6"
-msgstr "를 보냅니다"
+msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:8785
 msgid "Send formfeed to userport printer"
