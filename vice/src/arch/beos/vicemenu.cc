@@ -739,6 +739,35 @@ BMenuBar *menu_create(int machine_class)
                     submenu->AddItem(new BMenuItem("Enable IEC emulation", new BMessage(MENU_PRINTER_5_IEC)));
                 }
 
+            menu->AddItem(submenu = new BMenu("Printer 6 ..."));
+                submenu->AddItem(extsubmenu = new BMenu("Printer 6 emulation"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_PRINTER_6_EMULATION_NONE)));
+                    extsubmenu->AddItem(new BMenuItem("Filesystem", new BMessage(MENU_PRINTER_6_EMULATION_FS)));
+                submenu->AddItem(extsubmenu = new BMenu("Printer 6 driver"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("1520", new BMessage(MENU_PRINTER_6_DRIVER_1520)));
+                    extsubmenu->AddItem(new BMenuItem("Raw", new BMessage(MENU_PRINTER_6_DRIVER_RAW)));
+                submenu->AddItem(extsubmenu = new BMenu("Printer 6 output type"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Text", new BMessage(MENU_PRINTER_6_TYPE_TEXT)));
+                    extsubmenu->AddItem(new BMenuItem("Graphics", new BMessage(MENU_PRINTER_6_TYPE_GFX)));
+                submenu->AddItem(extsubmenu = new BMenu("Printer 6 output device"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("1", new BMessage(MENU_PRINTER_6_DEV_1)));
+                    extsubmenu->AddItem(new BMenuItem("2", new BMessage(MENU_PRINTER_6_DEV_2)));
+                    extsubmenu->AddItem(new BMenuItem("3", new BMessage(MENU_PRINTER_6_DEV_3)));
+                submenu->AddItem(new BMenuItem("Send formfeed to printer 6", new BMessage(MENU_PRINTER_6_SEND_FF)));
+                if (machine_class == VICE_MACHINE_C64 ||
+                    machine_class == VICE_MACHINE_C64SC ||
+                    machine_class == VICE_MACHINE_C64DTV ||
+                    machine_class == VICE_MACHINE_C128 ||
+                    machine_class == VICE_MACHINE_PLUS4 ||
+                    machine_class == VICE_MACHINE_VIC20 ||
+                    machine_class == VICE_MACHINE_SCPU64) {
+                    submenu->AddItem(new BMenuItem("Enable IEC emulation", new BMessage(MENU_PRINTER_6_IEC)));
+                }
+
             if (machine_class == VICE_MACHINE_C64 ||
                 machine_class == VICE_MACHINE_C64SC ||
                 machine_class == VICE_MACHINE_C128 ||

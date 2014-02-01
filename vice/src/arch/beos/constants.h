@@ -126,6 +126,18 @@ const uint32 MENU_PRINTER_5_DEV_3                 = 'M292';
 const uint32 MENU_PRINTER_5_SEND_FF               = 'M293';
 const uint32 MENU_PRINTER_5_IEC                   = 'M294';
 
+const uint32 MENU_PRINTER_6_EMULATION_NONE        = 'M329';
+const uint32 MENU_PRINTER_6_EMULATION_FS          = 'M330';
+const uint32 MENU_PRINTER_6_DRIVER_1520           = 'M331';
+const uint32 MENU_PRINTER_6_DRIVER_RAW            = 'M332';
+const uint32 MENU_PRINTER_6_TYPE_TEXT             = 'M333';
+const uint32 MENU_PRINTER_6_TYPE_GFX              = 'M334';
+const uint32 MENU_PRINTER_6_DEV_1                 = 'M335';
+const uint32 MENU_PRINTER_6_DEV_2                 = 'M336';
+const uint32 MENU_PRINTER_6_DEV_3                 = 'M337';
+const uint32 MENU_PRINTER_6_SEND_FF               = 'M338';
+const uint32 MENU_PRINTER_6_IEC                   = 'M339';
+
 const uint32 MENU_TOGGLE_USERPORT_PRINTER         = 'M295';
 const uint32 MENU_USERPORT_PRINTER_DRIVER_ASCII   = 'M296';
 const uint32 MENU_USERPORT_PRINTER_DRIVER_MPS803  = 'M297';
