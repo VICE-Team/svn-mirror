@@ -1536,6 +1536,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         case IDM_DEVICEMANAGER:
         case IDM_FORMFEED_PRINTERIEC4:
         case IDM_FORMFEED_PRINTERIEC5:
+        case IDM_FORMFEED_PRINTERIEC6:
             uiperipheral_command(hwnd, wparam);
             break;
         case IDM_EXIT:

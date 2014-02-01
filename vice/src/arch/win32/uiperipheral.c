@@ -561,6 +561,18 @@ static const char *ui_printer_driver_ascii[] = {
     NULL
 };
 
+static const TCHAR *ui_plotter_driver[] = {
+    TEXT("1520"),
+    TEXT("RAW"),
+    NULL
+};
+
+static const char *ui_plotter_driver_1520[] = {
+    "1520",
+    "raw",
+    NULL
+};
+
 static const char *ui_printer_output[] = {
     "Text",
     "Graphics",
@@ -731,10 +743,19 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
 
     resources_get_string_sprintf("%sDriver", &res_string, printer_name);
     printer_hwnd = GetDlgItem(hwnd, IDC_PRINTER_DRIVER);
-    for (res_value_loop = 0; ui_printer_driver[res_value_loop]; res_value_loop++) {
-        SendMessage(printer_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_printer_driver[res_value_loop]);
-        if (!strcmp(ui_printer_driver_ascii[res_value_loop], res_string)) {
-            current = res_value_loop;
+    if (num == 6) {
+        for (res_value_loop = 0; ui_plotter_driver[res_value_loop]; res_value_loop++) {
+            SendMessage(printer_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_plotter_driver[res_value_loop]);
+            if (!strcmp(ui_plotter_driver_1520[res_value_loop], res_string)) {
+                current = res_value_loop;
+            }
+        }
+    } else {
+        for (res_value_loop = 0; ui_printer_driver[res_value_loop]; res_value_loop++) {
+            SendMessage(printer_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_printer_driver[res_value_loop]);
+            if (!strcmp(ui_printer_driver_ascii[res_value_loop], res_string)) {
+                current = res_value_loop;
+            }
         }
     }
     SendMessage(printer_hwnd, CB_SETCURSEL, (WPARAM)current, 0);
@@ -786,7 +807,11 @@ static BOOL store_printer_dialog_results(HWND hwnd, unsigned int num)
 
     resources_set_int(printer_name, (int)SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TYPE), CB_GETCURSEL, 0, 0));
 
-    resources_set_string_sprintf("%sDriver", ui_printer_driver_ascii[SendMessage(GetDlgItem(hwnd, IDC_PRINTER_DRIVER), CB_GETCURSEL, 0, 0)], printer_name);
+    if (num == 6) {
+        resources_set_string_sprintf("%sDriver", ui_plotter_driver_1520[SendMessage(GetDlgItem(hwnd, IDC_PRINTER_DRIVER), CB_GETCURSEL, 0, 0)], printer_name);
+    } else {
+        resources_set_string_sprintf("%sDriver", ui_printer_driver_ascii[SendMessage(GetDlgItem(hwnd, IDC_PRINTER_DRIVER), CB_GETCURSEL, 0, 0)], printer_name);
+    }
 
     resources_set_string_sprintf("%sOutput", ui_printer_output_ascii[SendMessage(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT), CB_GETCURSEL, 0, 0)], printer_name);
 
@@ -850,8 +875,11 @@ static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg, 
                         case 5:
                             printer_formfeed(1);
                             break;
-                        case 0:
+                        case 6:
                             printer_formfeed(2);
+                            break;
+                        case 0:
+                            printer_formfeed(3);
                             break;
                     }
                     break;
@@ -896,6 +924,7 @@ static INT_PTR CALLBACK callback_##num(HWND dialog, UINT msg, WPARAM wparam, LPA
 _CALLBACK_PRINTER(0)
 _CALLBACK_PRINTER(4)
 _CALLBACK_PRINTER(5)
+_CALLBACK_PRINTER(6)
 
 
 /* -------------------------------------------------------------------------- */
@@ -904,7 +933,7 @@ _CALLBACK_PRINTER(5)
 
 static void uiperipheral_dialog(HWND hwnd)
 {
-    PROPSHEETPAGE psp[7];
+    PROPSHEETPAGE psp[8];
     PROPSHEETHEADER psh;
     int i, no_of_drives, no_of_printers;
 
@@ -914,7 +943,7 @@ static void uiperipheral_dialog(HWND hwnd)
     }
 
     no_of_drives = 4;
-    no_of_printers = 2;
+    no_of_printers = 3;
 
     if (have_printer_userport < 0) {
         have_printer_userport = (resources_touch("PrinterUserport")) < 0 ? 0 : 1;
@@ -979,14 +1008,16 @@ static void uiperipheral_dialog(HWND hwnd)
     psp[i + 0].pszTitle = translate_text(IDS_PRINTER_4);
     psp[i + 1].pfnDlgProc = callback_5;
     psp[i + 1].pszTitle = translate_text(IDS_PRINTER_5);
-    psp[i + 2].pfnDlgProc = callback_8;
-    psp[i + 2].pszTitle = translate_text(IDS_DRIVE_8);
-    psp[i + 3].pfnDlgProc = callback_9;
-    psp[i + 3].pszTitle = translate_text(IDS_DRIVE_9);
-    psp[i + 4].pfnDlgProc = callback_10;
-    psp[i + 4].pszTitle = translate_text(IDS_DRIVE_10);
-    psp[i + 5].pfnDlgProc = callback_11;
-    psp[i + 5].pszTitle = translate_text(IDS_DRIVE_11);
+    psp[i + 2].pfnDlgProc = callback_6;
+    psp[i + 2].pszTitle = translate_text(IDS_PRINTER_6);
+    psp[i + 3].pfnDlgProc = callback_8;
+    psp[i + 3].pszTitle = translate_text(IDS_DRIVE_8);
+    psp[i + 4].pfnDlgProc = callback_9;
+    psp[i + 4].pszTitle = translate_text(IDS_DRIVE_9);
+    psp[i + 5].pfnDlgProc = callback_10;
+    psp[i + 5].pszTitle = translate_text(IDS_DRIVE_10);
+    psp[i + 6].pfnDlgProc = callback_11;
+    psp[i + 6].pszTitle = translate_text(IDS_DRIVE_11);
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
@@ -1023,6 +1054,9 @@ void uiperipheral_command(HWND hwnd, WPARAM wparam)
             break;
         case IDM_FORMFEED_PRINTERIEC5:
             printer_formfeed(1);
+            break;
+        case IDM_FORMFEED_PRINTERIEC6:
+            printer_formfeed(2);
             break;
     }
 }
