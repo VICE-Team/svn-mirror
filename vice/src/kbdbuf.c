@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "charset.h"
 #include "cmdline.h"
 #include "kbdbuf.h"
 #include "lib.h"
@@ -90,18 +91,34 @@ static void kbd_buf_parse_string(const char *string)
     memset(kbd_buf_string, 0, len + 1);
 
     for (i = 0, j = 0; i < len; i++) {
-        if (string[i] == '\\' && i < (len - 2) && isxdigit((int)string[i + 1])
-            && isxdigit((int)string[i + 2])) {
-            char hexvalue[3];
+        if (string[i] == '\\') {
+            /* printf("esc:%s\n", &string[i]); */
+            if((i < (len - 1)) && (string[i + 1] == '\\')) {
+                /* escaped backslash "\\" */
+                kbd_buf_string[j] = charset_p_topetcii('\\');
+                i += 1;
+                j++;
+            } else if((i < (len - 1)) && (string[i + 1] == 'n')) {
+                /* escaped line ending "\n" */
+                kbd_buf_string[j] = charset_p_topetcii('\n');
+                i += 1;
+                j++;
+            } else if((i < (len - 3)) && (string[i + 1] == 'x') && isxdigit((int)string[i + 2]) && isxdigit((int)string[i + 3])) {
+                /* escaped hex value in c-style format "\x00" */
+                char hexvalue[3];
 
-            hexvalue[0] = string[i + 1];
-            hexvalue[1] = string[i + 2];
-            hexvalue[2] = '\0';
-            kbd_buf_string[j] = (char)strtol(hexvalue, NULL, 16);
-            j++;
-            i += 2;
+                hexvalue[0] = string[i + 2];
+                hexvalue[1] = string[i + 3];
+                hexvalue[2] = '\0';
+
+                kbd_buf_string[j] = (char)strtol(hexvalue, NULL, 16);
+                i += 3;
+                j++;
+            }
         } else {
-            kbd_buf_string[j] = string[i];
+            /* printf("chr:%s\n", &string[i]); */
+            /* regular character, translate to petscii */
+            kbd_buf_string[j] = charset_p_topetcii(string[i]);
             j++;
         }
     }
@@ -173,7 +190,7 @@ int kbdbuf_is_empty(void)
     return (int)(mem_read((WORD)(num_pending_location)) == 0);
 }
 
-/* Feed `s' into the queue.  */
+/* Feed `string' into the queue.  */
 int kbdbuf_feed(const char *string)
 {
     const int num = (int)strlen(string);
