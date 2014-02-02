@@ -30,14 +30,12 @@ if [ ! -x $TEST_BIN ]; then
   exit 1
 fi
 if [ x"$BIN_FORMAT" = "x" ]; then
-  BIN_TYPE=`file $TEST_BIN | grep "$TEST_BIN:" | cut -f3,4 -d" "`
-  if [ x"$BIN_TYPE" = "xexecutable i386" ]; then
+  BIN_TYPE=`file $TEST_BIN | grep "$TEST_BIN:" | sed -e 's/executable//g' -e 's/Mach-O//g' -e 's/64-bit//g' | awk '{print $2}'`
+  if [ x"$BIN_TYPE" = "xi386" ]; then
     BIN_FORMAT=i386
-  elif [ x"$BIN_TYPE" = "x64-bit executable" ]; then
+  elif [ x"$BIN_TYPE" = "xx86_64" ]; then
     BIN_FORMAT=x86_64
-  elif [ x"$BIN_TYPE" = "xexecutable ppc" ]; then
-    BIN_FORMAT=ppc
-  elif [ x"$BIN_TYPE" = "xppc_7400 executable" ]; then
+  elif [ x"$BIN_TYPE" = "xppc" ]; then
     BIN_FORMAT=ppc
   else
     echo "fatal: unknown bin type '$BIN_TYPE'"
