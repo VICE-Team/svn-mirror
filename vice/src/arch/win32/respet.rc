@@ -965,7 +965,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$A*** jako RAM"
   IDS_PETMODEL                   "Model PET"
   IDS_MI_PET_SETTINGS            "Ustawienia PET..."
-  IDS_MI_PETCOLOUR_SETTINGS      "PET Colour board settings..."
+  IDS_MI_PETCOLOUR_SETTINGS      "Ustawienia koloru karty PET..."
   IDS_MI_PETDWW_SETTINGS         "Ustawienia PET DWW..."
   IDS_MI_PETREU_SETTINGS         "Ustawienia PET REU..."
   IDS_MI_TOGGLE_PETHRE           "W³±cz uk³ad emulatora PET hi-res"

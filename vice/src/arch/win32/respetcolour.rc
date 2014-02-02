@@ -161,11 +161,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PETCOLOUR_CAPTION    "PET Colour board settings"
-  IDS_PETCOLOUR_TYPE       "PET Colour type"
+  IDS_PETCOLOUR_CAPTION    "Ustawienia koloru karty PET"
+  IDS_PETCOLOUR_TYPE       "Rodzaj koloru PET"
   IDS_PETCOLOUR_OFF        "Wy³±cz"
   IDS_PETCOLOUR_ANALOG     "Analog"
-  IDS_PETCOLOUR_BACKGROUND "Background color"
+  IDS_PETCOLOUR_BACKGROUND "Kolor t³a"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

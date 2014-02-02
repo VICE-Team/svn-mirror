@@ -30,7 +30,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },
-/* es */ { IDMS_FILE_ES, "Fichero" },
+/* es */ { IDMS_FILE_ES, "Archivo" },
 /* fr */ { IDMS_FILE_FR, "Fichier" },
 /* hu */ { IDMS_FILE_HU, "Fájl" },
 /* it */ { IDMS_FILE_IT, "File" },
@@ -156,7 +156,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_FLIP_LIST,    "Flip list" },
 /* da */ { IDMS_FLIP_LIST_DA, "Bladreliste" },
 /* de */ { IDMS_FLIP_LIST_DE, "Flipliste" },
-/* es */ { IDMS_FLIP_LIST_ES, "Volcar la lista" },
+/* es */ { IDMS_FLIP_LIST_ES, "Lista agrupación discos" },
 /* fr */ { IDMS_FLIP_LIST_FR, "Groupement de disques" },
 /* hu */ { IDMS_FLIP_LIST_HU, "Lemezlista" },
 /* it */ { IDMS_FLIP_LIST_IT, "Flip list" },
@@ -198,7 +198,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_ATTACH_NEXT_IMAGE,    "Attach next image (Unit 8)" },
 /* da */ { IDMS_ATTACH_NEXT_IMAGE_DA, "Tilslut næste image (Enhed 8)" },
 /* de */ { IDMS_ATTACH_NEXT_IMAGE_DE, "Nächstes Image (Gerät 8)" },
-/* es */ { IDMS_ATTACH_NEXT_IMAGE_ES, "Insertar nueva imagen (Unidad 8)" },
+/* es */ { IDMS_ATTACH_NEXT_IMAGE_ES, "Insertar imagen siguiente (Unidad 8)" },
 /* fr */ { IDMS_ATTACH_NEXT_IMAGE_FR, "Insérer le prochain disque du groupement dans le lecteur #8" },
 /* hu */ { IDMS_ATTACH_NEXT_IMAGE_HU, "Következõ képmás csatolása (8-as egység)" },
 /* it */ { IDMS_ATTACH_NEXT_IMAGE_IT, "Seleziona immagine successiva (Unità 8)" },
@@ -296,7 +296,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_STOP,    "Stop" },
 /* da */ { IDMS_STOP_DA, "Stop" },
 /* de */ { IDMS_STOP_DE, "Stop" },
-/* es */ { IDMS_STOP_ES, "Alto" },
+/* es */ { IDMS_STOP_ES, "Detener" },
 /* fr */ { IDMS_STOP_FR, "Arrêt" },
 /* hu */ { IDMS_STOP_HU, "Leállítás" },
 /* it */ { IDMS_STOP_IT, "Stop" },
@@ -310,7 +310,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_START,    "Start" },
 /* da */ { IDMS_START_DA, "Start" },
 /* de */ { IDMS_START_DE, "Start" },
-/* es */ { IDMS_START_ES, "Empezar" },
+/* es */ { IDMS_START_ES, "Arrancar" },
 /* fr */ { IDMS_START_FR, "Démarrer" },
 /* hu */ { IDMS_START_HU, "Indítás" },
 /* it */ { IDMS_START_IT, "Avvia" },
@@ -324,7 +324,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_FORWARD,    "Forward" },
 /* da */ { IDMS_FORWARD_DA, "Spol frem" },
 /* de */ { IDMS_FORWARD_DE, "Forward" },
-/* es */ { IDMS_FORWARD_ES, "Adelante" },
+/* es */ { IDMS_FORWARD_ES, "Avance rápido" },
 /* fr */ { IDMS_FORWARD_FR, "En avant" },
 /* hu */ { IDMS_FORWARD_HU, "Elõrecsévélés" },
 /* it */ { IDMS_FORWARD_IT, "Avanti" },
@@ -1192,7 +1192,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_SNAPSHOT,    "Snapshot" },
 /* da */ { IDMS_SNAPSHOT_DA, "Snapshot" },
 /* de */ { IDMS_SNAPSHOT_DE, "Snapshot" },
-/* es */ { IDMS_SNAPSHOT_ES, "Snapshot" },
+/* es */ { IDMS_SNAPSHOT_ES, "Instantánea" },
 /* fr */ { IDMS_SNAPSHOT_FR, "Instantanés" },
 /* hu */ { IDMS_SNAPSHOT_HU, "Pillanatkép" },
 /* it */ { IDMS_SNAPSHOT_IT, "Snapshot" },
@@ -1206,7 +1206,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_LOAD_SNAPSHOT_IMAGE,    "Load snapshot image..." },
 /* da */ { IDMS_LOAD_SNAPSHOT_IMAGE_DA, "Indlæs snapshot..." },
 /* de */ { IDMS_LOAD_SNAPSHOT_IMAGE_DE, "Snapshot laden..." },
-/* es */ { IDMS_LOAD_SNAPSHOT_IMAGE_ES, "Cargar imagen snapshot..." },
+/* es */ { IDMS_LOAD_SNAPSHOT_IMAGE_ES, "Cargar Instantánea..." },
 /* fr */ { IDMS_LOAD_SNAPSHOT_IMAGE_FR, "Charger le fichier de sauvegarde..." },
 /* hu */ { IDMS_LOAD_SNAPSHOT_IMAGE_HU, "Pillanatkép betöltése..." },
 /* it */ { IDMS_LOAD_SNAPSHOT_IMAGE_IT, "Carica immagine snapshot..." },
@@ -1220,7 +1220,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_SAVE_SNAPSHOT_IMAGE,    "Save snapshot image..." },
 /* da */ { IDMS_SAVE_SNAPSHOT_IMAGE_DA, "Gem snapshot..." },
 /* de */ { IDMS_SAVE_SNAPSHOT_IMAGE_DE, "Snapshot Datei speichern..." },
-/* es */ { IDMS_SAVE_SNAPSHOT_IMAGE_ES, "Grabar imagen snapshot..." },
+/* es */ { IDMS_SAVE_SNAPSHOT_IMAGE_ES, "Grabar Instantánea..." },
 /* fr */ { IDMS_SAVE_SNAPSHOT_IMAGE_FR, "Enregistrer le fichier de sauvegarde..." },
 /* hu */ { IDMS_SAVE_SNAPSHOT_IMAGE_HU, "Pillanatkép fájl mentése..." },
 /* it */ { IDMS_SAVE_SNAPSHOT_IMAGE_IT, "Salva immagine snapshot..." },
@@ -1304,7 +1304,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_SAVE_NEW_SNAPSHOT,    "Save new snapshot" },
 /* da */ { IDMS_SAVE_NEW_SNAPSHOT_DA, "Gem nyt snapshot" },
 /* de */ { IDMS_SAVE_NEW_SNAPSHOT_DE, "Speichere neuen Snapshot" },
-/* es */ { IDMS_SAVE_NEW_SNAPSHOT_ES, "Grabando nuevo snapshot" },
+/* es */ { IDMS_SAVE_NEW_SNAPSHOT_ES, "Grabar nueva Instantánea" },
 /* fr */ { IDMS_SAVE_NEW_SNAPSHOT_FR, "Enregistrer une nouvelle sauvegarde" },
 /* hu */ { IDMS_SAVE_NEW_SNAPSHOT_HU, "Új pillanatkép mentése" },
 /* it */ { IDMS_SAVE_NEW_SNAPSHOT_IT, "Salva nuovo snapshot" },
@@ -1318,7 +1318,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_LOAD_EXISTING_SNAPSHOT,    "Load existing snapshot" },
 /* da */ { IDMS_LOAD_EXISTING_SNAPSHOT_DA, "Indlæs eksisterende snapshot" },
 /* de */ { IDMS_LOAD_EXISTING_SNAPSHOT_DE, "Lade existierenden Snapshot" },
-/* es */ { IDMS_LOAD_EXISTING_SNAPSHOT_ES, "Cargar snapshot" },
+/* es */ { IDMS_LOAD_EXISTING_SNAPSHOT_ES, "Cargar Instantánea existente" },
 /* fr */ { IDMS_LOAD_EXISTING_SNAPSHOT_FR, "Charger un instantané" },
 /* hu */ { IDMS_LOAD_EXISTING_SNAPSHOT_HU, "Létezõ pillanatkép betöltése" },
 /* it */ { IDMS_LOAD_EXISTING_SNAPSHOT_IT, "Carica snapshot esistente" },
@@ -4222,7 +4222,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDMS_PETCOLOUR_SETTINGS_IT, "Impostazioni scheda PET Colour..." },
 /* ko */ { IDMS_PETCOLOUR_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_PETCOLOUR_SETTINGS_NL, "PET Colour bord instellingen..." },
-/* pl */ { IDMS_PETCOLOUR_SETTINGS_PL, "" },  /* fuzzy */
+/* pl */ { IDMS_PETCOLOUR_SETTINGS_PL, "Ustawienia koloru karty PET..." },
 /* ru */ { IDMS_PETCOLOUR_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_PETCOLOUR_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_PETCOLOUR_SETTINGS_TR, "" },  /* fuzzy */
@@ -4720,7 +4720,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_LANGUAGE,    "Language" },
 /* da */ { IDMS_LANGUAGE_DA, "Sprog" },
 /* de */ { IDMS_LANGUAGE_DE, "Sprache" },
-/* es */ { IDMS_LANGUAGE_ES, "Lenguaje" },
+/* es */ { IDMS_LANGUAGE_ES, "Idioma" },
 /* fr */ { IDMS_LANGUAGE_FR, "Langage" },
 /* hu */ { IDMS_LANGUAGE_HU, "Nyelv" },
 /* it */ { IDMS_LANGUAGE_IT, "Lingua" },
@@ -5000,7 +5000,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMES_WHICH_COMMANDS_AVAILABLE,    "Which command line options are available?" },
 /* da */ { IDMES_WHICH_COMMANDS_AVAILABLE_DA, "Hvilke kommandolinjeparametre er tilgængelige?" },
 /* de */ { IDMES_WHICH_COMMANDS_AVAILABLE_DE, "Welche Kommandozeilen Parameter sind verfügbar?" },
-/* es */ { IDMES_WHICH_COMMANDS_AVAILABLE_ES, "¿Qué opciones de linea de comando están disponibles?" },
+/* es */ { IDMES_WHICH_COMMANDS_AVAILABLE_ES, "¿Qué opciones L.comandos están disponibles?" },
 /* fr */ { IDMES_WHICH_COMMANDS_AVAILABLE_FR, "Quelles sont les lignes de commandes disponibles?" },
 /* hu */ { IDMES_WHICH_COMMANDS_AVAILABLE_HU, "Milyen parancssori opciók lehetségesek?" },
 /* it */ { IDMES_WHICH_COMMANDS_AVAILABLE_IT, "Quali parametri della riga di comando sono disponibili?" },
@@ -5518,7 +5518,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_ATTACHED_S_TO_DEVICE_D,    "Attached %s to device#%d" },
 /* da */ { IDS_ATTACHED_S_TO_DEVICE_D_DA, "Tilsluttet %s til enhed #%d" },
 /* de */ { IDS_ATTACHED_S_TO_DEVICE_D_DE, "%s mit Gerät#%d verbunden" },
-/* es */ { IDS_ATTACHED_S_TO_DEVICE_D_ES, "Insertado %s en periférico#%d" },
+/* es */ { IDS_ATTACHED_S_TO_DEVICE_D_ES, "Insertado %s en unidad#%d" },
 /* fr */ { IDS_ATTACHED_S_TO_DEVICE_D_FR, "%s attaché au périphérique #%d" },
 /* hu */ { IDS_ATTACHED_S_TO_DEVICE_D_HU, "%s csatolva #%d eszközhöz" },
 /* it */ { IDS_ATTACHED_S_TO_DEVICE_D_IT, "Selezionato %s per la periferica #%d" },
@@ -5574,7 +5574,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_DETACHED_TAPE,    "Detached tape" },
 /* da */ { IDS_DETACHED_TAPE_DA, "Frakoblet bånd" },
 /* de */ { IDS_DETACHED_TAPE_DE, "Band Image entfernt" },
-/* es */ { IDS_DETACHED_TAPE_ES, "Extraer cinta" },
+/* es */ { IDS_DETACHED_TAPE_ES, "Cinta extraida" },
 /* fr */ { IDS_DETACHED_TAPE_FR, "Datassette détaché" },
 /* hu */ { IDS_DETACHED_TAPE_HU, "Szalag leválasztva" },
 /* it */ { IDS_DETACHED_TAPE_IT, "Cassetta rimossa" },
@@ -5952,7 +5952,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_ATTACH,    "Attach" },
 /* da */ { IDS_ATTACH_DA, "Tilslut" },
 /* de */ { IDS_ATTACH_DE, "Einlegen" },
-/* es */ { IDS_ATTACH_ES, "Anexar" },
+/* es */ { IDS_ATTACH_ES, "Insertar" },
 /* fr */ { IDS_ATTACH_FR, "Insérer" },
 /* hu */ { IDS_ATTACH_HU, "Csatolás" },
 /* it */ { IDS_ATTACH_IT, "Seleziona" },
@@ -7933,7 +7933,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_RGBI_IT, "RGBI" },
 /* ko */ { IDS_RGBI_KO, "" },  /* fuzzy */
 /* nl */ { IDS_RGBI_NL, "RGBI" },
-/* pl */ { IDS_RGBI_PL, "" },  /* fuzzy */
+/* pl */ { IDS_RGBI_PL, "RGBI" },
 /* ru */ { IDS_RGBI_RU, "" },  /* fuzzy */
 /* sv */ { IDS_RGBI_SV, "" },  /* fuzzy */
 /* tr */ { IDS_RGBI_TR, "" },  /* fuzzy */
@@ -7947,7 +7947,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_ANALOG_IT, "Analogico" },
 /* ko */ { IDS_ANALOG_KO, "" },  /* fuzzy */
 /* nl */ { IDS_ANALOG_NL, "Analoog" },
-/* pl */ { IDS_ANALOG_PL, "" },  /* fuzzy */
+/* pl */ { IDS_ANALOG_PL, "Analog" },
 /* ru */ { IDS_ANALOG_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ANALOG_SV, "" },  /* fuzzy */
 /* tr */ { IDS_ANALOG_TR, "" },  /* fuzzy */
@@ -7961,7 +7961,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_PET_COLOUR_TYPE_IT, "Tipo PET Colour" },
 /* ko */ { IDS_PET_COLOUR_TYPE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_PET_COLOUR_TYPE_NL, "PET Colour soort" },
-/* pl */ { IDS_PET_COLOUR_TYPE_PL, "" },  /* fuzzy */
+/* pl */ { IDS_PET_COLOUR_TYPE_PL, "Rodzaj koloru PET" },
 /* ru */ { IDS_PET_COLOUR_TYPE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PET_COLOUR_TYPE_SV, "" },  /* fuzzy */
 /* tr */ { IDS_PET_COLOUR_TYPE_TR, "" },  /* fuzzy */
@@ -7975,7 +7975,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_PET_COLOUR_BACKGROUND_IT, "Sfondo PET Colour" },
 /* ko */ { IDS_PET_COLOUR_BACKGROUND_KO, "" },  /* fuzzy */
 /* nl */ { IDS_PET_COLOUR_BACKGROUND_NL, "PET Colour achtergrond kleur" },
-/* pl */ { IDS_PET_COLOUR_BACKGROUND_PL, "" },  /* fuzzy */
+/* pl */ { IDS_PET_COLOUR_BACKGROUND_PL, "T³o koloru PET" },
 /* ru */ { IDS_PET_COLOUR_BACKGROUND_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PET_COLOUR_BACKGROUND_SV, "" },  /* fuzzy */
 /* tr */ { IDS_PET_COLOUR_BACKGROUND_TR, "" },  /* fuzzy */
@@ -7989,7 +7989,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_PET_COLOUR_SETTINGS_IT, "Impostazioni PET Colour" },
 /* ko */ { IDS_PET_COLOUR_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_PET_COLOUR_SETTINGS_NL, "PET Colour instellingen" },
-/* pl */ { IDS_PET_COLOUR_SETTINGS_PL, "" },  /* fuzzy */
+/* pl */ { IDS_PET_COLOUR_SETTINGS_PL, "Ustawienia koloru PET" },
 /* ru */ { IDS_PET_COLOUR_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PET_COLOUR_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_PET_COLOUR_SETTINGS_TR, "" },  /* fuzzy */
@@ -8576,7 +8576,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_PRINTER_6_EMULATION_HU, "" },  /* fuzzy */
 /* it */ { IDS_PRINTER_6_EMULATION_IT, "" },  /* fuzzy */
 /* ko */ { IDS_PRINTER_6_EMULATION_KO, "" },  /* fuzzy */
-/* nl */ { IDS_PRINTER_6_EMULATION_NL, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_6_EMULATION_NL, "Printer #6 emulatie" },
 /* pl */ { IDS_PRINTER_6_EMULATION_PL, "" },  /* fuzzy */
 /* ru */ { IDS_PRINTER_6_EMULATION_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PRINTER_6_EMULATION_SV, "" },  /* fuzzy */
@@ -8632,7 +8632,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_PRINTER_6_DRIVER_HU, "" },  /* fuzzy */
 /* it */ { IDS_PRINTER_6_DRIVER_IT, "" },  /* fuzzy */
 /* ko */ { IDS_PRINTER_6_DRIVER_KO, "" },  /* fuzzy */
-/* nl */ { IDS_PRINTER_6_DRIVER_NL, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_6_DRIVER_NL, "Printer #6 stuurprogramma" },
 /* pl */ { IDS_PRINTER_6_DRIVER_PL, "" },  /* fuzzy */
 /* ru */ { IDS_PRINTER_6_DRIVER_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PRINTER_6_DRIVER_SV, "" },  /* fuzzy */
@@ -8688,7 +8688,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_PRINTER_6_OUTPUT_TYPE_HU, "" },  /* fuzzy */
 /* it */ { IDS_PRINTER_6_OUTPUT_TYPE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_PRINTER_6_OUTPUT_TYPE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_PRINTER_6_OUTPUT_TYPE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_6_OUTPUT_TYPE_NL, "Printer #6 uitvoer soort" },
 /* pl */ { IDS_PRINTER_6_OUTPUT_TYPE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_PRINTER_6_OUTPUT_TYPE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PRINTER_6_OUTPUT_TYPE_SV, "" },  /* fuzzy */
@@ -8744,7 +8744,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_PRINTER_6_OUTPUT_DEVICE_HU, "" },  /* fuzzy */
 /* it */ { IDS_PRINTER_6_OUTPUT_DEVICE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_PRINTER_6_OUTPUT_DEVICE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_PRINTER_6_OUTPUT_DEVICE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_6_OUTPUT_DEVICE_NL, "Printer #6 uitvoer apparaat" },
 /* pl */ { IDS_PRINTER_6_OUTPUT_DEVICE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_PRINTER_6_OUTPUT_DEVICE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PRINTER_6_OUTPUT_DEVICE_SV, "" },  /* fuzzy */
@@ -8800,7 +8800,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_PRINTER_6_SEND_FORMFEED_HU, "" },  /* fuzzy */
 /* it */ { IDS_PRINTER_6_SEND_FORMFEED_IT, "" },  /* fuzzy */
 /* ko */ { IDS_PRINTER_6_SEND_FORMFEED_KO, "" },  /* fuzzy */
-/* nl */ { IDS_PRINTER_6_SEND_FORMFEED_NL, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_6_SEND_FORMFEED_NL, "Zend formfeed naar printer #6" },
 /* pl */ { IDS_PRINTER_6_SEND_FORMFEED_PL, "" },  /* fuzzy */
 /* ru */ { IDS_PRINTER_6_SEND_FORMFEED_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PRINTER_6_SEND_FORMFEED_SV, "" },  /* fuzzy */
@@ -8870,7 +8870,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_ENABLE_IEC_PRINTER_4_HU, "" },  /* fuzzy */
 /* it */ { IDS_ENABLE_IEC_PRINTER_4_IT, "Emulazione IEC per la stampante #4" },
 /* ko */ { IDS_ENABLE_IEC_PRINTER_4_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ENABLE_IEC_PRINTER_4_NL, "IEC emulatie voor apparaat #4" },
+/* nl */ { IDS_ENABLE_IEC_PRINTER_4_NL, "IEC emulatie voor printer #4" },
 /* pl */ { IDS_ENABLE_IEC_PRINTER_4_PL, "Emulacja IEC drukarki #4" },
 /* ru */ { IDS_ENABLE_IEC_PRINTER_4_RU, "IEC emulation for printer #4" },
 /* sv */ { IDS_ENABLE_IEC_PRINTER_4_SV, "IEC-emulering för skrivare 4" },
@@ -8884,7 +8884,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_ENABLE_IEC_PRINTER_5_HU, "" },  /* fuzzy */
 /* it */ { IDS_ENABLE_IEC_PRINTER_5_IT, "Emulazione IEC per la stampante #5" },
 /* ko */ { IDS_ENABLE_IEC_PRINTER_5_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ENABLE_IEC_PRINTER_5_NL, "IEC emulatie voor apparaat #5" },
+/* nl */ { IDS_ENABLE_IEC_PRINTER_5_NL, "IEC emulatie voor printer #5" },
 /* pl */ { IDS_ENABLE_IEC_PRINTER_5_PL, "Emulacja IEC drukarki #5" },
 /* ru */ { IDS_ENABLE_IEC_PRINTER_5_RU, "IEC emulation for printer #5" },
 /* sv */ { IDS_ENABLE_IEC_PRINTER_5_SV, "IEC-emulering för skrivare 5" },
@@ -8898,7 +8898,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_ENABLE_IEC_PRINTER_6_HU, "" },  /* fuzzy */
 /* it */ { IDS_ENABLE_IEC_PRINTER_6_IT, "" },  /* fuzzy */
 /* ko */ { IDS_ENABLE_IEC_PRINTER_6_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ENABLE_IEC_PRINTER_6_NL, "" },  /* fuzzy */
+/* nl */ { IDS_ENABLE_IEC_PRINTER_6_NL, "IEC emulatie voor printer #6" },
 /* pl */ { IDS_ENABLE_IEC_PRINTER_6_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ENABLE_IEC_PRINTER_6_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ENABLE_IEC_PRINTER_6_SV, "" },  /* fuzzy */
@@ -10251,7 +10251,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SAVE_SNAPSHOT_IMAGE,    "Save snapshot image" },
 /* da */ { IDS_SAVE_SNAPSHOT_IMAGE_DA, "Gem snapshot" },
 /* de */ { IDS_SAVE_SNAPSHOT_IMAGE_DE, "Snapshot Datei speichern" },
-/* es */ { IDS_SAVE_SNAPSHOT_IMAGE_ES, "Grabar imagen snapshot" },
+/* es */ { IDS_SAVE_SNAPSHOT_IMAGE_ES, "Grabar Instantánea" },
 /* fr */ { IDS_SAVE_SNAPSHOT_IMAGE_FR, "Enregistrer le fichier de sauvegarde" },
 /* hu */ { IDS_SAVE_SNAPSHOT_IMAGE_HU, "Pillanatkép fájl mentése" },
 /* it */ { IDS_SAVE_SNAPSHOT_IMAGE_IT, "Salva immagine snapshot" },
@@ -10265,7 +10265,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_LOAD_SNAPSHOT_IMAGE,    "Load snapshot image" },
 /* da */ { IDS_LOAD_SNAPSHOT_IMAGE_DA, "Indlæs snapshot" },
 /* de */ { IDS_LOAD_SNAPSHOT_IMAGE_DE, "Snapshot laden" },
-/* es */ { IDS_LOAD_SNAPSHOT_IMAGE_ES, "Cargar imagen snapshot" },
+/* es */ { IDS_LOAD_SNAPSHOT_IMAGE_ES, "Cargar Instantánea" },
 /* fr */ { IDS_LOAD_SNAPSHOT_IMAGE_FR, "Charger le fichier de sauvegarde" },
 /* hu */ { IDS_LOAD_SNAPSHOT_IMAGE_HU, "Pillanatkép betöltése" },
 /* it */ { IDS_LOAD_SNAPSHOT_IMAGE_IT, "Carica immagine snapshot" },
@@ -10307,7 +10307,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_CANNOT_WRITE_SNAPSHOT_S,    "Cannot write snapshot file `%s'." },
 /* da */ { IDS_CANNOT_WRITE_SNAPSHOT_S_DA, "Kunne ikke gemme snapshot \"%s\"." },
 /* de */ { IDS_CANNOT_WRITE_SNAPSHOT_S_DE, "Kann Snapshot Datei `%s' nicht speichern." },
-/* es */ { IDS_CANNOT_WRITE_SNAPSHOT_S_ES, "No puedo grabar imagen de snapshot `%s'." },
+/* es */ { IDS_CANNOT_WRITE_SNAPSHOT_S_ES, "No puedo grabar Instantánea `%s'." },
 /* fr */ { IDS_CANNOT_WRITE_SNAPSHOT_S_FR, "Impossible d'écrire le fichier d'instantané `%s'." },
 /* hu */ { IDS_CANNOT_WRITE_SNAPSHOT_S_HU, "Nem sikerült a pillanatkép írása %s fájlba." },
 /* it */ { IDS_CANNOT_WRITE_SNAPSHOT_S_IT, "Non è possibile scrivere il file di snapshot `%s'." },
@@ -10321,7 +10321,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_CANNOT_READ_SNAPSHOT_IMG,    "Cannot read snapshot image" },
 /* da */ { IDS_CANNOT_READ_SNAPSHOT_IMG_DA, "Kunne ikke indlæse snapshot fil" },
 /* de */ { IDS_CANNOT_READ_SNAPSHOT_IMG_DE, "Kann Snapshot Datei nicht laden" },
-/* es */ { IDS_CANNOT_READ_SNAPSHOT_IMG_ES, "No puedo leer fichero snapshot" },
+/* es */ { IDS_CANNOT_READ_SNAPSHOT_IMG_ES, "No puedo leer Instantánea" },
 /* fr */ { IDS_CANNOT_READ_SNAPSHOT_IMG_FR, "Impossible de charger l'instantané." },
 /* hu */ { IDS_CANNOT_READ_SNAPSHOT_IMG_HU, "A pillanatkép fájl nem olvasható" },
 /* it */ { IDS_CANNOT_READ_SNAPSHOT_IMG_IT, "Non è possibile leggere l'immagine dello snapshot" },
@@ -10335,7 +10335,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SNAPSHOT_FILE,    "snapshot file" },
 /* da */ { IDS_SNAPSHOT_FILE_DA, "snapshot-fil" },
 /* de */ { IDS_SNAPSHOT_FILE_DE, "Snapshot Datei" },
-/* es */ { IDS_SNAPSHOT_FILE_ES, "Fichero volcado memoria" },
+/* es */ { IDS_SNAPSHOT_FILE_ES, "Fichero Instantánea" },
 /* fr */ { IDS_SNAPSHOT_FILE_FR, "Fichier de sauvegarde" },
 /* hu */ { IDS_SNAPSHOT_FILE_HU, "pillanatkép fájl" },
 /* it */ { IDS_SNAPSHOT_FILE_IT, "File snapshot" },
@@ -10349,7 +10349,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_SELECT_SNAPSHOT_FILE,    "Select snapshot file" },
 /* da */ { IDS_SELECT_SNAPSHOT_FILE_DA, "Vælg snapshot-fil" },
 /* de */ { IDS_SELECT_SNAPSHOT_FILE_DE, "Snapshot Datei wählen" },
-/* es */ { IDS_SELECT_SNAPSHOT_FILE_ES, "Seleccionar fichero volcado memoria" },
+/* es */ { IDS_SELECT_SNAPSHOT_FILE_ES, "Seleccionar fichero Instantánea" },
 /* fr */ { IDS_SELECT_SNAPSHOT_FILE_FR, "Sélectionner le fichier de sauvegarde" },
 /* hu */ { IDS_SELECT_SNAPSHOT_FILE_HU, "Válasszon pillanatkép fájlt" },
 /* it */ { IDS_SELECT_SNAPSHOT_FILE_IT, "Seleziona file snapshot" },

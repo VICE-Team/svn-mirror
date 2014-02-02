@@ -32,7 +32,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_DA, "Kunne ikke indlæse snapshot-fil."},
 /* de */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_DE, "Kann Snapshot Datei nicht laden."},
-/* es */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_ES, "No puedo cargar fichero volcado memoria"},
+/* es */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_ES, "No puedo cargar Instantánea"},
 /* fr */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_FR, "Impossible de charger l'instantané."},
 /* hu */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_HU, "Nem sikerült betölteni a pillanatkép fájlt."},
 /* it */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE_IT, "Non è possibile caricare il file di snapshot."},
@@ -117,7 +117,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANT_CREATE_START_SNAP_S_DA, "Kunne ikke oprette start-snapshot-filen %s."},
 /* de */ {IDGS_CANT_CREATE_START_SNAP_S_DE, "Kann Start Snapshot Datei nicht erzeugen: %s"},
-/* es */ {IDGS_CANT_CREATE_START_SNAP_S_ES, "No puedo crear inicio fichero volcado memoria %s."},
+/* es */ {IDGS_CANT_CREATE_START_SNAP_S_ES, "No puedo crear inicio fichero Instantánea %s."},
 /* fr */ {IDGS_CANT_CREATE_START_SNAP_S_FR, "Impossible de créer l'instantané de départ %s."},
 /* hu */ {IDGS_CANT_CREATE_START_SNAP_S_HU, "Nem sikerült a %s kezdeti pillanatkép fájlt létrehozni."},
 /* it */ {IDGS_CANT_CREATE_START_SNAP_S_IT, "Non è possibile creare il file di inizio snapshot %s."},
@@ -134,7 +134,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_ERROR_READING_END_SNAP_S_DA, "Fejl under læsning af slut-snapshot %s."},
 /* de */ {IDGS_ERROR_READING_END_SNAP_S_DE, "Kann Ende Snapshot Datei nicht lesen: %s"},
-/* es */ {IDGS_ERROR_READING_END_SNAP_S_ES, "Error leyendo final fichero volcado memoria %s."},
+/* es */ {IDGS_ERROR_READING_END_SNAP_S_ES, "Error leyendo final fichero Instantánea %s."},
 /* fr */ {IDGS_ERROR_READING_END_SNAP_S_FR, "Erreur de lecture de l'instantané de fin %s."},
 /* hu */ {IDGS_ERROR_READING_END_SNAP_S_HU, "Hiba az utolsó %s pillanatkép fájl írásakor."},
 /* it */ {IDGS_ERROR_READING_END_SNAP_S_IT, "Errore durante la lettura del file di fine snapshot %s."},
@@ -151,7 +151,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANT_CREATE_END_SNAP_S_DA, "Kunne ikke oprette slut-snapshot-filen %s."},
 /* de */ {IDGS_CANT_CREATE_END_SNAP_S_DE, "Kann Ende Snapshot Datei nicht erzeugen: %s"},
-/* es */ {IDGS_CANT_CREATE_END_SNAP_S_ES, "No puedo crear fin fichero volcado memoria %s."},
+/* es */ {IDGS_CANT_CREATE_END_SNAP_S_ES, "No puedo crear fin fichero Instantánea %s."},
 /* fr */ {IDGS_CANT_CREATE_END_SNAP_S_FR, "Impossible de créer l'instantané de fin %s."},
 /* hu */ {IDGS_CANT_CREATE_END_SNAP_S_HU, "Nem sikerült a %s befejezõ pillanatkép fájlt létrehozni."},
 /* it */ {IDGS_CANT_CREATE_END_SNAP_S_IT, "Non è possibile creare il file di fine snapshot %s."},
@@ -168,7 +168,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANT_OPEN_END_SNAP_S_DA, "Kunne ikke åbne slut-snapshot-filen %s."},
 /* de */ {IDGS_CANT_OPEN_END_SNAP_S_DE, "Kann Ende Snapshot Datei nicht öffnen: %s"},
-/* es */ {IDGS_CANT_OPEN_END_SNAP_S_ES, "No puedo abrir fin fichero volcado memoria %s."},
+/* es */ {IDGS_CANT_OPEN_END_SNAP_S_ES, "No puedo abrir fin fichero Instantánea %s."},
 /* fr */ {IDGS_CANT_OPEN_END_SNAP_S_FR, "Impossible d'ouvrir l'instantané de fin %s."},
 /* hu */ {IDGS_CANT_OPEN_END_SNAP_S_HU, "Nem sikerült az utolsó %s pillanatkép fájlt megnyitni."},
 /* it */ {IDGS_CANT_OPEN_END_SNAP_S_IT, "Non è possibile aprire il file di fine snapshot %s."},
@@ -185,7 +185,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANT_FIND_SECTION_END_SNAP_DA, "Kunne ikke finde hændelses-sektionen i slut-snapshot-filen."},
 /* de */ {IDGS_CANT_FIND_SECTION_END_SNAP_DE, "Kann Sektion in Ende Snapshotdatei nicht finden."},
-/* es */ {IDGS_CANT_FIND_SECTION_END_SNAP_ES, "No puedo encontrar sección eventos en fin fichero volcado memoria."},
+/* es */ {IDGS_CANT_FIND_SECTION_END_SNAP_ES, "No puedo encontrar sección eventos en fin fichero Instantánea."},
 /* fr */ {IDGS_CANT_FIND_SECTION_END_SNAP_FR, "Impossible de trouver la section event dans l'instantané de fin."},
 /* hu */ {IDGS_CANT_FIND_SECTION_END_SNAP_HU, "Nem találtam esemény részt az utolsó pillanatkép fájlban."},
 /* it */ {IDGS_CANT_FIND_SECTION_END_SNAP_IT, "Non è possibile trovare la sezione eventi nel file di fine snapshot."},
@@ -202,7 +202,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_ERROR_READING_START_SNAP_TRIED_DA, "Fejl under læsning af start-snapshot. Prøvede %s og %s"},
 /* de */ {IDGS_ERROR_READING_START_SNAP_TRIED_DE, "Fehler beim Lesen der Start Snapshot Datei. Versuch gescheitert bei %s und %s."},
-/* es */ {IDGS_ERROR_READING_START_SNAP_TRIED_ES, "Error leyendo inicio fichero volcaco memoria. Intentado %s y %s"},
+/* es */ {IDGS_ERROR_READING_START_SNAP_TRIED_ES, "Error leyendo inicio fichero Instantánea. Intentado %s y %s"},
 /* fr */ {IDGS_ERROR_READING_START_SNAP_TRIED_FR, "Erreur de lecture de l'instantané de départ. Essayé %s et %s"},
 /* hu */ {IDGS_ERROR_READING_START_SNAP_TRIED_HU, "Nem sikerült az elsõ pillanatkép fájl olvasása. Kipróbálva: %s és %s"},
 /* it */ {IDGS_ERROR_READING_START_SNAP_TRIED_IT, "Errore durante la lettura del file di inizio snapshot. Ho provato %s e %s"},
@@ -219,7 +219,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_ERROR_READING_START_SNAP_DA, "Fejl under læsning af start-snapshot."},
 /* de */ {IDGS_ERROR_READING_START_SNAP_DE, "Fehler beim Lesen der Start Snapshot Datei."},
-/* es */ {IDGS_ERROR_READING_START_SNAP_ES, "Error leyendo inicio fichero volcaco memoria."},
+/* es */ {IDGS_ERROR_READING_START_SNAP_ES, "Error leyendo inicio fichero Instantánea."},
 /* fr */ {IDGS_ERROR_READING_START_SNAP_FR, "Erreur de lecture de l'instantané de départ."},
 /* hu */ {IDGS_ERROR_READING_START_SNAP_HU, "Nem sikerült az indító pillanatkép fájl olvasása."},
 /* it */ {IDGS_ERROR_READING_START_SNAP_IT, "Errore durante la lettura del file di inizio snapshot."},
@@ -560,7 +560,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_DA, "Kunne ikke indlæse snapshot til overførsel."},
 /* de */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_DE, "Kann Snapshot Datei für Transfer nicht laden"},
-/* es */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_ES, "No puedo cargar fichero volcado memoria para trasferencia"},
+/* es */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_ES, "No puedo cargar fichero Instantánea  para trasferencia"},
 /* fr */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_FR, "Impossible de charger l'instantané pour le transfer"},
 /* hu */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_HU, "Nem sikerült az átküldendõ pillanatkép fájlt betölteni"},
 /* it */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_IT, "Non è possibile caricare il file di snapshot per il trasferimento"},
@@ -577,7 +577,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_DA, "Sender snapshot til klient..."},
 /* de */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_DE, "Sende Snapshot zu Client..."},
-/* es */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_ES, "Remitiendo volcado memoria a cliente..."},
+/* es */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_ES, "Remitiendo Instantánea a cliente..."},
 /* fr */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_FR, "Envoi de l'instantané au client..."},
 /* hu */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_IT, "Invio snapshot al client in corso..."},
@@ -594,7 +594,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_DA, "Kunne ikke sende snapshot til klient"},
 /* de */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_DE, "Kann Snapshot Datei nicht senden"},
-/* es */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_ES, "No puedo remitir volcado memoria a cliente"},
+/* es */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_ES, "No puedo remitir Instantánea a cliente"},
 /* fr */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_FR, "Impossible d'envoyer l'instantané au client"},
 /* hu */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_HU, "Nem sikerült pillanatképet elküldeni a klienshez"},
 /* it */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_IT, "Non è possibile inviare lo snapshot al client"},
@@ -611,7 +611,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_DA, "Kunne ikke oprette snapshot-fil %s"},
 /* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_DE, "Kann Snapshot Datei `%s' nicht erzeugen"},
-/* es */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_ES, "No puedo crear fichero volcado memoria %s"},
+/* es */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_ES, "No puedo crear fichero Instantánea %s"},
 /* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_FR, "Impossible de créer l'instantané %s"},
 /* hu */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_HU, "Nem sikerült a pillanatképfájlt létrehozni (%s)"},
 /* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_IT, "Non è possibile creare il file di snapshot %s"},
@@ -628,7 +628,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_DA, "Kunne ikke åbne snapshot-fil %s"},
 /* de */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_DE, "Kann Snapshot Datei `%s' nicht öffnen."},
-/* es */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_ES, "No puedo abrir fichero volcaco memoria %s"},
+/* es */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_ES, "No puedo abrir fichero Instantánea %s"},
 /* fr */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_FR, "Impossible d'ouvrir le fichier %s"},
 /* hu */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_HU, "Nem sikerült a pillanatképfájlt megnyitni (%s)"},
 /* it */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_IT, "Non è possibile aprire il file di snapshot %s"},
@@ -662,7 +662,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_DA, "Kunne ikke oprette snapshot-fil. Vælg et andet historik-katalog!"},
 /* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_DE, "Kann Snapshot Datei nicht erzeugen. Verwende ein anderes Verzeichnis!"},
-/* es */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_ES, "No puedo crear fichero volcado memoria. ¡Seleccionar diferente directorio historico!"},
+/* es */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_ES, "No puedo crear fichero Instantánea. ¡Seleccionar diferente directorio historico!"},
 /* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_FR, "Impossible de créer le fichier d'instantané. Sélectionnez un répertoire d'historique différent"},
 /* hu */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_HU, "Nem sikerült pillanatkép fájlt létrehozni. Kérem válasszon más könyvtárat!"},
 /* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_IT, "Non è possibile creare il file di snapshot. Seleziona una directory diversa per la cronologia."},
@@ -713,7 +713,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_RECEIVING_SNAPSHOT_SERVER_DA, "Modtager snapshot fra server..."},
 /* de */ {IDGS_RECEIVING_SNAPSHOT_SERVER_DE, "Empfange Snapshot von Server..."},
-/* es */ {IDGS_RECEIVING_SNAPSHOT_SERVER_ES, "Recibiendo volcado memoria desde el servidor..."},
+/* es */ {IDGS_RECEIVING_SNAPSHOT_SERVER_ES, "Recibiendo Instantánea desde el servidor..."},
 /* fr */ {IDGS_RECEIVING_SNAPSHOT_SERVER_FR, "Réception de l'instantané du serveur..."},
 /* hu */ {IDGS_RECEIVING_SNAPSHOT_SERVER_HU, ""},  /* fuzzy */
 /* it */ {IDGS_RECEIVING_SNAPSHOT_SERVER_IT, "Ricezione dello snapshot dal server in corso..."},
@@ -1258,7 +1258,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_DUMP_DESCRIPTION_DA, "Skriv et snapshot til den angivne fil.\nDette snapshot er kompatibelt med dem, der oprettes fra menuen.\nOBS: ROM-images inkluderes ikke i snapshot."},
 /* de */ {IDGS_MON_DUMP_DESCRIPTION_DE, "Schreibe eine Snapsho Datei der Maschine auf die angebene Datei.\nDieser Snapshot ist kompatible zu einem Snapshot initiiert aus dem Menü.\nHinweis: Die ROM Images werden im Snapshot nicht inkludiert."},
-/* es */ {IDGS_MON_DUMP_DESCRIPTION_ES, "Grabar volcado memoria de la máquina en el fichero especificado.\nEste volvado es compatible con el volcado grabado por el UI.\nNota: no se vuelca ninguna  imagen ROM."},
+/* es */ {IDGS_MON_DUMP_DESCRIPTION_ES, "Grabar Instantánea de la máquina en el fichero especificado.\nEsta Instantánea es compatible con la grabada por el UI.\nNota: Ninguna imagen ROM se incluye en la copia."},
 /* fr */ {IDGS_MON_DUMP_DESCRIPTION_FR, "Écrire un instantané de la machine dans le fichier spécifié.\nCet instantané est compatible avec les instantanés de l'IU.\nNote: Aucune image ROM n'est incluse dans l'instantané."},
 /* hu */ {IDGS_MON_DUMP_DESCRIPTION_HU, "Pillanatkép írása a géprõl a megadott fájlba. A pillanatkép\nkompatibilis azzal, amelyet a grafikus felület hoz létre.\nMegjegyzés: a ROM képmások nem kerülnek bele."},
 /* it */ {IDGS_MON_DUMP_DESCRIPTION_IT, "Scrive uno snapshot del computer sul file specificato.\nQuesto snapshot è compatibile con uno snapshot scritto dall'IU.\nNota: Le immagini ROM non sono incluse nel dump."},
@@ -1496,7 +1496,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_UNDUMP_DESCRIPTION_DA, "Indlæs snapshot af maskinen fra den angivne fil."},
 /* de */ {IDGS_MON_UNDUMP_DESCRIPTION_DE, "Lese einen Snapshot der Maschine aus der angegebenen Datei."},
-/* es */ {IDGS_MON_UNDUMP_DESCRIPTION_ES, "Leer volcado memoria de una máquina desde el fichero especificado."},
+/* es */ {IDGS_MON_UNDUMP_DESCRIPTION_ES, "Leer Instantánea de una máquina desde el fichero especificado."},
 /* fr */ {IDGS_MON_UNDUMP_DESCRIPTION_FR, "Lire un instantané de machine depuis le fichier spécifié."},
 /* hu */ {IDGS_MON_UNDUMP_DESCRIPTION_HU, "A pillanatkép betöltése a megadott fájlból."},
 /* it */ {IDGS_MON_UNDUMP_DESCRIPTION_IT, "Legge lo snapshot del computer dal file specificato."},
@@ -1774,7 +1774,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_MON_DELETE_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_DELETE_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_DELETE_DESCRIPTION_NL, "Wis checkpunt 'checknum'. Als er geen checkpunt is gegeven dan worden alle checkpunter gewist"},
-/* pl */ {IDGS_MON_DELETE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_DELETE_DESCRIPTION_PL, "Skasuj punkt kontrolny 'checknum'. Je¶li nie okre¶lono punktu kontrolnego, skasuj wszystkie."},
 /* ru */ {IDGS_MON_DELETE_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_DELETE_DESCRIPTION_SV, ""},  /* fuzzy */
 /* tr */ {IDGS_MON_DELETE_DESCRIPTION_TR, ""},  /* fuzzy */
@@ -3332,7 +3332,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_MACHINE_JAM_ACTION_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_MACHINE_JAM_ACTION_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_MACHINE_JAM_ACTION_NL, "Geef de actie op die gedaan moet worden bij een CPU JAM: (0: Vraag, 1: door gaan, 2: Monitor, 3: Reset, 4: Harde Reset)"},
-/* pl */ {IDCLS_SET_MACHINE_JAM_ACTION_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_MACHINE_JAM_ACTION_PL, "Ustal dzia³anie przy zatkaniu siê procesora: (0: zapytanie, 1: kontynuacja, 2: monitorowanie, 3: reset, 4: twardy reset)"},
 /* ru */ {IDCLS_SET_MACHINE_JAM_ACTION_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_MACHINE_JAM_ACTION_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_MACHINE_JAM_ACTION_TR, ""},  /* fuzzy */
@@ -3421,7 +3421,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_IEC_RESET_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_IEC_RESET_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_IEC_RESET_NL, "Computer reset gaat naar de IEC bus (0 = Nee, 1 = Ja)"},
-/* pl */ {IDCLS_SET_IEC_RESET_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_IEC_RESET_PL, "Reset komputera u¿ywa szyny IEC (0 = nie, 1 = tak)"},
 /* ru */ {IDCLS_SET_IEC_RESET_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_IEC_RESET_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_IEC_RESET_TR, ""},  /* fuzzy */
@@ -5336,7 +5336,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/mmc64.c */
-/* en */ {IDCLS_MMC64_SET_FLASH_JUMPER,  N_("Set the MMC64 Flash Jumper")},
+/* en */ {IDCLS_MMC64_SET_FLASH_JUMPER,    N_("Set the MMC64 Flash Jumper")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MMC64_SET_FLASH_JUMPER_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_MMC64_SET_FLASH_JUMPER_DE, ""},  /* fuzzy */
@@ -5345,7 +5345,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_MMC64_SET_FLASH_JUMPER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_MMC64_SET_FLASH_JUMPER_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_MMC64_SET_FLASH_JUMPER_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_MMC64_SET_FLASH_JUMPER_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_MMC64_SET_FLASH_JUMPER_NL, "Zet de MMC64 Flash Jumper"},
 /* pl */ {IDCLS_MMC64_SET_FLASH_JUMPER_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_MMC64_SET_FLASH_JUMPER_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_MMC64_SET_FLASH_JUMPER_SV, ""},  /* fuzzy */
@@ -5353,7 +5353,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/mmc64.c */
-/* en */ {IDCLS_MMC64_UNSET_FLASH_JUMPER,  N_("Remove the MMC64 Flash Jumper")},
+/* en */ {IDCLS_MMC64_UNSET_FLASH_JUMPER,    N_("Remove the MMC64 Flash Jumper")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_DE, ""},  /* fuzzy */
@@ -5362,7 +5362,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_NL, "Verwijder de MMC64 Flash Jumper"},
 /* pl */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_SV, ""},  /* fuzzy */
@@ -8911,7 +8911,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_CPU_SWITCH_TO_6502_IT, "Imposta pulsante CPU SuperPET a '6502'"},
 /* ko */ {IDCLS_SET_CPU_SWITCH_TO_6502_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_CPU_SWITCH_TO_6502_NL, "Zet SuperPET CPU schakelaar naar '6502'"},
-/* pl */ {IDCLS_SET_CPU_SWITCH_TO_6502_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_CPU_SWITCH_TO_6502_PL, "Ustaw prze³±cznik CPU SuperPET na '6502\""},
 /* ru */ {IDCLS_SET_CPU_SWITCH_TO_6502_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_CPU_SWITCH_TO_6502_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_CPU_SWITCH_TO_6502_TR, ""},  /* fuzzy */
@@ -8928,7 +8928,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_CPU_SWITCH_TO_6809_IT, "Imposta pulsante CPU SuperPET a '6809'"},
 /* ko */ {IDCLS_SET_CPU_SWITCH_TO_6809_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_CPU_SWITCH_TO_6809_NL, "Zet SuperPET CPU schakelaar naar '6809'"},
-/* pl */ {IDCLS_SET_CPU_SWITCH_TO_6809_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_CPU_SWITCH_TO_6809_PL, "Ustaw prze³±cznik CPU SuperPET na '6809\""},
 /* ru */ {IDCLS_SET_CPU_SWITCH_TO_6809_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_CPU_SWITCH_TO_6809_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_CPU_SWITCH_TO_6809_TR, ""},  /* fuzzy */
@@ -8945,7 +8945,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_CPU_SWITCH_TO_PROG_IT, "Imposta pulsante CPU SuperPET a 'Prog'"},
 /* ko */ {IDCLS_SET_CPU_SWITCH_TO_PROG_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_CPU_SWITCH_TO_PROG_NL, "Zet SuperPET CPU schakelaar naar 'Prog'"},
-/* pl */ {IDCLS_SET_CPU_SWITCH_TO_PROG_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_CPU_SWITCH_TO_PROG_PL, "Ustaw prze³±cznik CPU SuperPET na 'Prog\""},
 /* ru */ {IDCLS_SET_CPU_SWITCH_TO_PROG_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_CPU_SWITCH_TO_PROG_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_CPU_SWITCH_TO_PROG_TR, ""},  /* fuzzy */
@@ -8962,7 +8962,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_6809_ROM_AT_A000_IT, "Specifica il nome della ROM da 4K a 24K a $A000 per il 6809"},
 /* ko */ {IDCLS_SPECIFY_6809_ROM_AT_A000_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_A000_NL, "Geef de naam van het bestand voor de 4K tot 24K ROM op $A000 voor de 6809"},
-/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_A000_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_A000_PL, "Okre¶l nazwê pliku ROM-u 4K do 24K w $A000 dla 6809"},
 /* ru */ {IDCLS_SPECIFY_6809_ROM_AT_A000_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_6809_ROM_AT_A000_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_6809_ROM_AT_A000_TR, ""},  /* fuzzy */
@@ -8979,7 +8979,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_6809_ROM_AT_B000_IT, "Specifica il nome della ROM da 4K a 20K a $B000 per il 6809"},
 /* ko */ {IDCLS_SPECIFY_6809_ROM_AT_B000_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_B000_NL, "Geef de naam van het bestand voor de 4K tot 20K ROM op $B000 voor de 6809"},
-/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_B000_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_B000_PL, "Okre¶l nazwê pliku ROM-u 4K do 20K w $B000 dla 6809"},
 /* ru */ {IDCLS_SPECIFY_6809_ROM_AT_B000_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_6809_ROM_AT_B000_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_6809_ROM_AT_B000_TR, ""},  /* fuzzy */
@@ -8996,7 +8996,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_6809_ROM_AT_C000_IT, "Specifica il nome della ROM da 4K a 16K a $C000 per il 6809"},
 /* ko */ {IDCLS_SPECIFY_6809_ROM_AT_C000_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_C000_NL, "Geef de naam van het bestand voor de 4K tot 16K ROM op $C000 voor de 6809"},
-/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_C000_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_C000_PL, "Okre¶l nazwê pliku ROM-u 4K do 16K w $C000 dla 6809"},
 /* ru */ {IDCLS_SPECIFY_6809_ROM_AT_C000_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_6809_ROM_AT_C000_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_6809_ROM_AT_C000_TR, ""},  /* fuzzy */
@@ -9013,7 +9013,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_6809_ROM_AT_D000_IT, "Specifica il nome della ROM da 4K a 12K a $D000 per il 6809"},
 /* ko */ {IDCLS_SPECIFY_6809_ROM_AT_D000_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_D000_NL, "Geef de naam van het bestand voor de 4K tot 12K ROM op $D000 voor de 6809"},
-/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_D000_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_D000_PL, "Okre¶l nazwê pliku ROM-u 4K do 12K w $D000 dla 6809"},
 /* ru */ {IDCLS_SPECIFY_6809_ROM_AT_D000_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_6809_ROM_AT_D000_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_6809_ROM_AT_D000_TR, ""},  /* fuzzy */
@@ -9030,7 +9030,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_6809_ROM_AT_E000_IT, "Specifica il nome della ROM da 2K a 8K a $E000 per il 6809"},
 /* ko */ {IDCLS_SPECIFY_6809_ROM_AT_E000_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_E000_NL, "Geef de naam van het bestand voor de 2K of 8K ROM op $E000 voor de 6809"},
-/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_E000_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_E000_PL, "Okre¶l nazwê pliku ROM-u 2K lub 8K w $E000 dla 6809"},
 /* ru */ {IDCLS_SPECIFY_6809_ROM_AT_E000_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_6809_ROM_AT_E000_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_6809_ROM_AT_E000_TR, ""},  /* fuzzy */
@@ -9047,7 +9047,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_6809_ROM_AT_F000_IT, "Specifica il nome della ROM da 4K a $F000 per il 6809"},
 /* ko */ {IDCLS_SPECIFY_6809_ROM_AT_F000_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_F000_NL, "Geef de naam van het bestand voor de 4K ROM op $F000 voor de 6809"},
-/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_F000_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_6809_ROM_AT_F000_PL, "Okre¶l nazwê pliku ROM-u 4K w $F000 dla 6809"},
 /* ru */ {IDCLS_SPECIFY_6809_ROM_AT_F000_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_6809_ROM_AT_F000_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_6809_ROM_AT_F000_TR, ""},  /* fuzzy */
@@ -9064,7 +9064,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_PET4032_COLOUR_RGBI_IT, "Estensione colore RGBI per PET 4032"},
 /* ko */ {IDCLS_PET4032_COLOUR_RGBI_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_PET4032_COLOUR_RGBI_NL, "RGBI kleur uitbreiding voor de PET 4032"},
-/* pl */ {IDCLS_PET4032_COLOUR_RGBI_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PET4032_COLOUR_RGBI_PL, "Rozszerzenie barw RGBI do PET 4032"},
 /* ru */ {IDCLS_PET4032_COLOUR_RGBI_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_PET4032_COLOUR_RGBI_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_PET4032_COLOUR_RGBI_TR, ""},  /* fuzzy */
@@ -9081,7 +9081,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_PET4032_COLOUR_ANALOG_IT, "Estensione colore analogica per PET 4032"},
 /* ko */ {IDCLS_PET4032_COLOUR_ANALOG_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_PET4032_COLOUR_ANALOG_NL, "Analoge kleur uitbreiding voor de PET 4032"},
-/* pl */ {IDCLS_PET4032_COLOUR_ANALOG_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PET4032_COLOUR_ANALOG_PL, "Rozszerzenie analogowych barw do PET 4032"},
 /* ru */ {IDCLS_PET4032_COLOUR_ANALOG_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_PET4032_COLOUR_ANALOG_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_PET4032_COLOUR_ANALOG_TR, ""},  /* fuzzy */
@@ -9098,7 +9098,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_P_COLOUR_0_255_IT, "<Colore 0-255>"},
 /* ko */ {IDCLS_P_COLOUR_0_255_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_COLOUR_0_255_NL, "<Kleur 0-255>"},
-/* pl */ {IDCLS_P_COLOUR_0_255_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_COLOUR_0_255_PL, "<Kolor 0-255>"},
 /* ru */ {IDCLS_P_COLOUR_0_255_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_COLOUR_0_255_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_P_COLOUR_0_255_TR, ""},  /* fuzzy */
@@ -9115,7 +9115,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_PET4032_COLOUR_BACKGROUND_IT, "Coloro sfondo analogico su PET 4032"},
 /* ko */ {IDCLS_PET4032_COLOUR_BACKGROUND_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_PET4032_COLOUR_BACKGROUND_NL, "Analoge kleuren achtergrond voor de PET 4032"},
-/* pl */ {IDCLS_PET4032_COLOUR_BACKGROUND_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PET4032_COLOUR_BACKGROUND_PL, "Analogowy kolor t³a w PET 4032"},
 /* ru */ {IDCLS_PET4032_COLOUR_BACKGROUND_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_PET4032_COLOUR_BACKGROUND_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_PET4032_COLOUR_BACKGROUND_TR, ""},  /* fuzzy */
@@ -10417,7 +10417,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_RESID_FILTER_BIAS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_RESID_FILTER_BIAS_IT, "Impostazione del bias del filtro del reSID, che può essere usato per correggere il bias del DAC in millivolt."},
 /* ko */ {IDCLS_RESID_FILTER_BIAS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_RESID_FILTER_BIAS_NL, "reSID filter bias instelling, dit kan gebruikt worden om de DAC bias in millivolts aan te passen."},
+/* nl */ {IDCLS_RESID_FILTER_BIAS_NL, "reSID filter voorkeur instelling, dit kan gebruikt worden om de DAC voorkeur in millivolts aan te passen."},
 /* pl */ {IDCLS_RESID_FILTER_BIAS_PL, "Ustawienie filtra reSID, u¿ywane do regulacji nastawienia DAC w miliwoltach"},
 /* ru */ {IDCLS_RESID_FILTER_BIAS_RU, "reSID filter bias setting, which can be used to adjust DAC bias in millivolts."},
 /* sv */ {IDCLS_RESID_FILTER_BIAS_SV, "Bias-inställning för reSID-filter, vilket kan användas för att justera D/A-bias i millivolt."},
@@ -12392,7 +12392,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PB_FILE_DA, "<Fil>"},
 /* de */ {IDCLS_PB_FILE_DE, "<Datei>"},
-/* es */ {IDCLS_PB_FILE_ES, "<Fichero>"},
+/* es */ {IDCLS_PB_FILE_ES, "<Archivo>"},
 /* fr */ {IDCLS_PB_FILE_FR, "<Fichier>"},
 /* hu */ {IDCLS_PB_FILE_HU, "<Fájl>"},
 /* it */ {IDCLS_PB_FILE_IT, "<File>"},
@@ -14015,7 +14015,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_IT, "Attiva scheda HiRes Emulation"},
 /* ko */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_NL, "Activeer PET High Res Emulation bord"},
-/* pl */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_PL, "W³±cz kartê emulacji HiRes"},
 /* ru */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_TR, ""},  /* fuzzy */
@@ -14032,7 +14032,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_IT, "Disattiva scheda HiRes Emulation"},
 /* ko */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_NL, "PET High Res Emulation bord uitschakelen"},
-/* pl */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_PL, "Wy³±cz kartê emulacji HiRes"},
 /* ru */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_TR, ""},  /* fuzzy */
