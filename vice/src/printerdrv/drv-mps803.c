@@ -43,7 +43,7 @@
 
 
 #define MAX_COL 480
-#define MAX_ROW 66 * 9
+#define MAX_ROW 66 * 10
 
 #define MPS803_ROM_SIZE (7 * 512)
 
@@ -442,8 +442,8 @@ static int drv_mps803_open(unsigned int prnr, unsigned int secondary)
 
         output_parameter.maxcol = MAX_COL;
         output_parameter.maxrow = MAX_ROW;
-        output_parameter.dpi_x = 72;
-        output_parameter.dpi_y = 72;
+        output_parameter.dpi_x = 60;    /* mps803 has different horizontal & vertical dpi - see pg 49 of the manual part H. */
+        output_parameter.dpi_y = 72;    /* NOTE - mixed dpi might not be liked by some image viewers */
         output_parameter.palette = palette;
 
         return output_select_open(prnr, &output_parameter);
