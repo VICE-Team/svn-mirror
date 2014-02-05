@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-01 13:24-0800\n"
-"PO-Revision-Date: 2013-07-15 17:15+0200\n"
+"PO-Revision-Date: 2014-02-05 14:42+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -4172,9 +4172,8 @@ msgstr ""
 "Manuel Antonio Rodriguez Bas - Spanisch\n"
 
 #: src/arch/unix/x11/gnome/about.c:130
-#, fuzzy
 msgid "(c) 1998 - 2014 The VICE Team"
-msgstr "(c) 1998 - 2013 Das Vice Team"
+msgstr "(c) 1998 - 2014 Das Vice Team"
 
 #: src/arch/unix/x11/gnome/about.c:137 src/arch/win32/res.rc.po.c:1086
 #: src/arch/win32/res.rc.po.c:1574 src/arch/amigaos/intl_text.c.po.c:4444
@@ -4377,21 +4376,18 @@ msgid "Drives Volume"
 msgstr "Floppy Geräuschlautstärke"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:79
-#, fuzzy
 msgid "ReSID Passband"
-msgstr "Passband"
+msgstr "ReSID Passband"
 
 #. 0..90
 #: src/arch/unix/x11/gnome/uipalcontrol.c:80
-#, fuzzy
 msgid "ReSID Gain"
-msgstr "reSID Optionen"
+msgstr "ReSID Gain"
 
 #. 90..100
 #: src/arch/unix/x11/gnome/uipalcontrol.c:81
-#, fuzzy
 msgid "ReSID Filter Bias"
-msgstr "SID Filter"
+msgstr "ReSID Filter Bias"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:84
 msgid "Display Thread Rate"
@@ -4587,7 +4583,7 @@ msgid "Successfully wrote `%s'\n"
 msgstr "`%s' erfolgreich gespeichert\n"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:50
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Name: %s\n"
 "Author: %s\n"
@@ -4604,7 +4600,7 @@ msgstr ""
 "Autor: %s\n"
 "Copyright: %s\n"
 "\n"
-"Stück: %d von %d\n"
+"Stück: %d von %d (Standard: %d)\n"
 "%s\n"
 "Modell: %s\n"
 "IRQ: %s\n"
@@ -4694,7 +4690,7 @@ msgstr "Bildschirm Screenshot"
 
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:71
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:95
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Name: %s\n"
 "Tune: %d of %d (Default: %d)\n"
@@ -4706,7 +4702,7 @@ msgid ""
 "%s"
 msgstr ""
 "Name: %s\n"
-"Stück: %d von %d\n"
+"Stück: %d von %d (Standard %d)\n"
 "Autor: %s\n"
 "Copyright: %s\n"
 "%s\n"
@@ -4912,94 +4908,76 @@ msgid "Version 0.0"
 msgstr "Version 0.0"
 
 #: src/arch/win32/res.rc.po.c:182
-#, fuzzy
 msgid "Copyright (c) 1998-2014 Dag Lem"
-msgstr "Copyright (c) 1998-2013 Dag Lem"
+msgstr "Copyright (c) 1998-2014 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:183
-#, fuzzy
 msgid "Copyright (c) 1999-2014 Andreas Matthies"
-msgstr "Copyright (c) 1999-2013 Andreas Matthies"
+msgstr "Copyright (c) 1999-2014 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:184
-#, fuzzy
 msgid "Copyright (c) 1999-2014 Martin Pottendorfer"
-msgstr "Copyright (c) 1999-2013 Martin Pottendorfer"
+msgstr "Copyright (c) 1999-2014 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:185
-#, fuzzy
 msgid "Copyright (c) 2005-2014 Marco van den Heuvel"
-msgstr "Copyright (c) 2005-2013 Marco van den Heuvel"
+msgstr "Copyright (c) 2005-2014 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:186
-#, fuzzy
 msgid "Copyright (c) 2006-2014 Christian Vogelgsang"
-msgstr "Copyright (c) 2006-2013 Christian Vogelgsang"
+msgstr "Copyright (c) 2006-2014 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:187
-#, fuzzy
 msgid "Copyright (c) 2007-2014 Fabrizio Gennari"
-msgstr "Copyright (c) 2007-2013 Fabrizio Gennari"
+msgstr "Copyright (c) 2007-2014 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:188
-#, fuzzy
 msgid "Copyright (c) 2007-2014 Daniel Kahlin"
-msgstr "Copyright (c) 2007-2013 Daniel Kahlin"
+msgstr "Copyright (c) 2007-2014 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:189
-#, fuzzy
 msgid "Copyright (c) 2008-2014 Antti S. Lankila"
-msgstr "Copyright (c) 2008-2013 Antti S. Lankila"
+msgstr "Copyright (c) 2008-2014 Antti S. Lankila"
 
 #: src/arch/win32/res.rc.po.c:190
-#, fuzzy
 msgid "Copyright (c) 2009-2014 Groepaz"
-msgstr "Copyright (c) 2009-2013 Groepaz"
+msgstr "Copyright (c) 2009-2014 Groepaz"
 
 #: src/arch/win32/res.rc.po.c:191
-#, fuzzy
 msgid "Copyright (c) 2009-2014 Ingo Korb"
-msgstr "Copyright (c) 2009-2013 Ingo Korb"
+msgstr "Copyright (c) 2009-2014 Ingo Korb"
 
 #: src/arch/win32/res.rc.po.c:192
-#, fuzzy
 msgid "Copyright (c) 2009-2014 Errol Smith"
-msgstr "Copyright (c) 2009-2013 Errol Smith"
+msgstr "Copyright (c) 2009-2014 Errol Smith"
 
 #: src/arch/win32/res.rc.po.c:193
-#, fuzzy
 msgid "Copyright (c) 2010-2014 Olaf Seibert"
-msgstr "Copyright (c) 2010-2013 Olaf Seibert"
+msgstr "Copyright (c) 2010-2014 Olaf Seibert"
 
 #: src/arch/win32/res.rc.po.c:194
-#, fuzzy
 msgid "Copyright (c) 2011-2014 Marcus Sutton"
-msgstr "Copyright (c) 2011-2013 Marcus Sutton"
+msgstr "Copyright (c) 2011-2014 Marcus Sutton"
 
 #: src/arch/win32/res.rc.po.c:195
-#, fuzzy
 msgid "Copyright (c) 2011-2014 Ulrich Schulz"
-msgstr "Copyright (c) 2011-2013 Ulrich Schulz"
+msgstr "Copyright (c) 2011-2014 Ulrich Schulz"
 
 #: src/arch/win32/res.rc.po.c:196
-#, fuzzy
 msgid "Copyright (c) 2011-2014 Stefan Haubenthal"
-msgstr "Copyright (c) 2011-2013 Stefan Haubenthal"
+msgstr "Copyright (c) 2011-2014 Stefan Haubenthal"
 
 #: src/arch/win32/res.rc.po.c:197
-#, fuzzy
 msgid "Copyright (c) 2011-2014 Thomas Giesel"
-msgstr "Copyright (c) 2011-2013 Thomas Giesel"
+msgstr "Copyright (c) 2011-2014 Thomas Giesel"
 
 #: src/arch/win32/res.rc.po.c:198
-#, fuzzy
 msgid "Copyright (c) 2011-2014 Kajtar Zsolt"
-msgstr "Copyright (c) 2011-2013 Kajtar Zsolt"
+msgstr "Copyright (c) 2011-2014 Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:199
-#, fuzzy
 msgid "Copyright (c) 2012-2014 Benjamin 'BeRo' Rosseaux"
-msgstr "Copyright (c) 2012-2013 Benjamin 'BeRo' Rosseaux"
+msgstr "Copyright (c) 2012-2014 Benjamin 'BeRo' Rosseaux"
 
 #: src/arch/win32/res.rc.po.c:964 src/arch/amigaos/intl_text.c.po.c:5508
 msgid "VICE Question"
@@ -5233,9 +5211,8 @@ msgid "Printer 5"
 msgstr "Drucker 5"
 
 #: src/arch/win32/res.rc.po.c:1022
-#, fuzzy
 msgid "Printer 6"
-msgstr "Drucker 4"
+msgstr "Drucker 6"
 
 #: src/arch/win32/res.rc.po.c:1023 src/arch/win32/res.rc.po.c:1424
 #: src/arch/win32/res.rc.po.c:1596 src/arch/amigaos/intl_text.c.po.c:48
@@ -8623,14 +8600,12 @@ msgid "TED palette file"
 msgstr "TED Paletten Datei"
 
 #: src/arch/amigaos/intl_text.c.po.c:8547
-#, fuzzy
 msgid "Printer #6 emulation"
-msgstr "Drucker #4 Emulation"
+msgstr "Drucker #6 Emulation"
 
 #: src/arch/amigaos/intl_text.c.po.c:8603
-#, fuzzy
 msgid "Printer #6 driver"
-msgstr "Drucker #4 Treiber"
+msgstr "Drucker #6 Treiber"
 
 #: src/arch/amigaos/intl_text.c.po.c:8631
 msgid "Printer #4 output type"
@@ -8641,9 +8616,8 @@ msgid "Printer #5 output type"
 msgstr "Drucker #5 Ausgabetyp"
 
 #: src/arch/amigaos/intl_text.c.po.c:8659
-#, fuzzy
 msgid "Printer #6 output type"
-msgstr "Drucker #4 Ausgabetyp"
+msgstr "Drucker #6 Ausgabetyp"
 
 #: src/arch/amigaos/intl_text.c.po.c:8673
 msgid "Userport printer output type"
@@ -8658,9 +8632,8 @@ msgid "Printer #5 output device"
 msgstr "Drucker #5 Ausgabegerät"
 
 #: src/arch/amigaos/intl_text.c.po.c:8715
-#, fuzzy
 msgid "Printer #6 output device"
-msgstr "Drucker #4 Ausgabegerät"
+msgstr "Drucker #6 Ausgabegerät"
 
 #: src/arch/amigaos/intl_text.c.po.c:8729
 msgid "Userport printer output device"
@@ -8675,9 +8648,8 @@ msgid "Send formfeed to printer #5"
 msgstr "Seitenvorschub zu Drucker #5 senden"
 
 #: src/arch/amigaos/intl_text.c.po.c:8771
-#, fuzzy
 msgid "Send formfeed to printer #6"
-msgstr "Seitenvorschub zu Drucker #4 senden"
+msgstr "Seitenvorschub zu Drucker #6 senden"
 
 #: src/arch/amigaos/intl_text.c.po.c:8785
 msgid "Send formfeed to userport printer"
@@ -8704,9 +8676,8 @@ msgid "IEC emulation for printer #5"
 msgstr "IEC Geräte Emulation für Drucker #5"
 
 #: src/arch/amigaos/intl_text.c.po.c:8869
-#, fuzzy
 msgid "IEC emulation for printer #6"
-msgstr "IEC Geräte Emulation für Drucker #4"
+msgstr "IEC Geräte Emulation für Drucker #6"
 
 #: src/arch/amigaos/intl_text.c.po.c:8939
 msgid "Userport RS232"
@@ -10474,14 +10445,12 @@ msgid "Save the MMC64 bios when changed"
 msgstr "MMC64 BIOS speichern bei Änderung"
 
 #: src/translate_text.c.po.c:5259
-#, fuzzy
 msgid "Set the MMC64 Flash Jumper"
-msgstr "Aktviere RR Flash Jumper"
+msgstr "Aktiviere MMC64 Flash Jumper"
 
 #: src/translate_text.c.po.c:5276
-#, fuzzy
 msgid "Remove the MMC64 Flash Jumper"
-msgstr "Aktviere RR Flash Jumper"
+msgstr "Deaktiviere MMC64 Flash Jumper"
 
 #: src/translate_text.c.po.c:5293
 msgid "Specify MMC Replay card image filename"
