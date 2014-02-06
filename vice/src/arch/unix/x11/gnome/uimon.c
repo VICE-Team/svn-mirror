@@ -166,7 +166,7 @@ static gboolean plain_key_pressed(char **input_buffer, guint keyval)
             return TRUE;
         case GDK_KEY(dead_tilde):
             *input_buffer =
-                append_char_to_input_buffer(*input_buffer, GDK_KEY_asciitilde);
+                append_char_to_input_buffer(*input_buffer, GDK_KEY(asciitilde));
             return TRUE;
     }
 }
