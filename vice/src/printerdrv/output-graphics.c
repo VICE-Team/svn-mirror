@@ -98,17 +98,17 @@ int output_graphics_init_cmdline_options(void)
 static BYTE output_pixel_to_palette_index(BYTE pix)
 {
     switch (pix) {
-	case OUTPUT_PIXEL_BLACK:
-	    return 0;
-	case OUTPUT_PIXEL_WHITE:
-	default:
-	    return 1;
-	case OUTPUT_PIXEL_BLUE:
-	    return 2;
-	case OUTPUT_PIXEL_GREEN:
-	    return 3;
-	case OUTPUT_PIXEL_RED:
-	    return 4;
+        case OUTPUT_PIXEL_BLACK:
+            return 0;
+        case OUTPUT_PIXEL_WHITE:
+        default:
+            return 1;
+        case OUTPUT_PIXEL_BLUE:
+            return 2;
+        case OUTPUT_PIXEL_GREEN:
+            return 3;
+        case OUTPUT_PIXEL_RED:
+            return 4;
     }
 }
 
@@ -118,13 +118,13 @@ static void print_palette(palette_t *p)
     unsigned int i;
 
     for (i = 0; i < p->num_entries; i++) {
-	printf("%2d: %s r=%d g=%d b=%d dither=%d\n",
-		i,
-		p->entries[i].name,
-		p->entries[i].red,
-		p->entries[i].green,
-		p->entries[i].blue,
-		p->entries[i].dither);
+        printf("%2d: %s r=%d g=%d b=%d dither=%d\n",
+                i,
+                p->entries[i].name,
+                p->entries[i].red,
+                p->entries[i].green,
+                p->entries[i].blue,
+                p->entries[i].dither);
     }
 }
 #endif
@@ -141,12 +141,12 @@ static void output_graphics_line_data(screenshot_t *screenshot, BYTE *data,
     switch (mode) {
         case SCREENSHOT_MODE_PALETTE:
             for (i = 0; i < screenshot->width; i++) {
-		data[i] = output_pixel_to_palette_index(line_base[i]);
+                data[i] = output_pixel_to_palette_index(line_base[i]);
             }
             break;
         case SCREENSHOT_MODE_RGB32:
             for (i = 0; i < screenshot->width; i++) {
-		color = output_pixel_to_palette_index(line_base[i]);
+                color = output_pixel_to_palette_index(line_base[i]);
                 data[i * 4] = screenshot->palette->entries[color].red;
                 data[i * 4 + 1] = screenshot->palette->entries[color].green;
                 data[i * 4 + 2] = screenshot->palette->entries[color].blue;

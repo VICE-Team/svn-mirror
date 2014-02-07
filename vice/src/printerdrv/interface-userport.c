@@ -42,7 +42,7 @@ static int userport_printer_enabled = 0;
 
 static void (*set_busy_func)(unsigned int b) = NULL;
 
-#define USERPORT_OUTPUT		(NUM_OUTPUT_SELECT - 1)
+#define USERPORT_OUTPUT         (NUM_OUTPUT_SELECT - 1)
 
 static int set_up_enabled(int val, void *param)
 {

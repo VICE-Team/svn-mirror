@@ -65,7 +65,7 @@ static int set_output_device(const char *name, void *param)
 
     do {
         if (!strcmp(list->output_select.output_name, name)) {
-	    output_select[prnr] = list->output_select;
+            output_select[prnr] = list->output_select;
             return 0;
         }
         list = list->next;

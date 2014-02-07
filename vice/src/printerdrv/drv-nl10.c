@@ -1937,7 +1937,7 @@ static void drv_nl10_close(unsigned int prnr, unsigned int secondary)
        printer does */
     /*
     if (secondary == DRIVER_LAST_CLOSE) {
-	output_select_close(prnr);
+        output_select_close(prnr);
     }
     */
 }

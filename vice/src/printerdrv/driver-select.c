@@ -71,7 +71,7 @@ static int set_printer_driver(const char *name, void *param)
 
     do {
         if (!strcmp(list->driver_select.drv_name, name)) {
-	    driver_select[prnr] = list->driver_select;
+            driver_select[prnr] = list->driver_select;
             return 0;
         }
         list = list->next;

@@ -158,12 +158,12 @@ static int open_pr(unsigned int prnr, const BYTE *name, unsigned int length,
 
     /* Check for first open and do special call if so. */
     if (inuse[prnr] == 0) {
-	if (driver_select_open(prnr, DRIVER_FIRST_OPEN) < 0) {
-	    log_error(interface_serial_log,
-		      "Couldn't initialize device #%i.",
-		    prnr + FIRST_PRINTER_DEVICE_NUMBER);
-	    return -1;
-	}
+        if (driver_select_open(prnr, DRIVER_FIRST_OPEN) < 0) {
+            log_error(interface_serial_log,
+                      "Couldn't initialize device #%i.",
+                    prnr + FIRST_PRINTER_DEVICE_NUMBER);
+            return -1;
+        }
     }
 
     if (inuse[prnr] & mask) {
@@ -229,7 +229,7 @@ static int close_pr(unsigned int prnr, unsigned int secondary)
 
     /* Check for last close and do special call if so. */
     if (inuse[prnr] == 0) {
-	driver_select_close(prnr, DRIVER_LAST_CLOSE);
+        driver_select_close(prnr, DRIVER_LAST_CLOSE);
     }
 
     return 0;
@@ -400,13 +400,13 @@ static int interface_serial_attach(unsigned int prnr)
 static int interface_serial_detach(unsigned int prnr)
 {
     if (prnr < NUM_PRINTERS && inuse[prnr]) {
-	int i;
-	for (i = 0; i < 8; i++) {
-	    if (inuse[prnr] & (1 << i)) {
-		flush_pr(prnr, i);
-		close_pr(prnr, i);
-	    }
-	}
+        int i;
+        for (i = 0; i < 8; i++) {
+            if (inuse[prnr] & (1 << i)) {
+                flush_pr(prnr, i);
+                close_pr(prnr, i);
+            }
+        }
     }
 
     machine_bus_device_detach(prnr + FIRST_PRINTER_DEVICE_NUMBER);
