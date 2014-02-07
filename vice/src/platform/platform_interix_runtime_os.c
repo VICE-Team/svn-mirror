@@ -104,6 +104,9 @@ static winver_t windows_versions[] = {
     { "Windows 2008 R2 Enterprise Storage Server", "Windows Storage Server 2008 R2 Enterprise", 1, 0 },
     { "Windows 2008 R2 Enterprise Storage Server", "Windows Storage Server 2008 R2 Enterprise", 5, 0 },
     { "Windows 2008 R2 Enterprise Storage Server", "Windows Storage Server 2008 R2 Enterprise", 6, 0 },
+    { "Windows 2008 R2 Foundation Server", "Windows Server 2008 R2 Foundation", 1, 0 },
+    { "Windows 2008 R2 Foundation Server", "Windows Server 2008 R2 Foundation", 5, 0 },
+    { "Windows 2008 R2 Foundation Server", "Windows Server 2008 R2 Foundation", 6, 0 },
     { NULL, NULL, 0, 0 }
 };
 

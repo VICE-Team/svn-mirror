@@ -79,10 +79,7 @@ extern struct clk_guard_s *maincpu_clk_guard;
 extern struct monitor_interface_s *maincpu_monitor_interface;
 
 /* Return the number of write accesses in the last opcode emulated. */
-inline static CLOCK maincpu_num_write_cycles(void)
-{
-    return maincpu_opcode_write_cycles[OPINFO_NUMBER(last_opcode_info)];
-}
+#define maincpu_num_write_cycles() maincpu_opcode_write_cycles[OPINFO_NUMBER(last_opcode_info)]
 
 extern void maincpu_resync_limits(void);
 extern void maincpu_init(void);
