@@ -15358,39 +15358,39 @@ with.  :-)
 17 Copyright
 ************
 
-* Copyright (C) 1998-2013 Dag Lem
+* Copyright (C) 1998-2014 Dag Lem
 
-* Copyright (C) 1999-2013 Andreas Matthies
+* Copyright (C) 1999-2014 Andreas Matthies
 
-* Copyright (C) 1999-2013 Martin Pottendorfer
+* Copyright (C) 1999-2014 Martin Pottendorfer
 
-* Copyright (C) 2005-2013 Marco van den Heuvel
+* Copyright (C) 2005-2014 Marco van den Heuvel
 
-* Copyright (C) 2006-2013 Christian Vogelgsang
+* Copyright (C) 2006-2014 Christian Vogelgsang
 
-* Copyright (C) 2007-2013 Fabrizio Gennari
+* Copyright (C) 2007-2014 Fabrizio Gennari
 
-* Copyright (C) 2007-2013 Daniel Kahlin
+* Copyright (C) 2007-2014 Daniel Kahlin
 
-* Copyright (C) 2009-2013 Groepaz
+* Copyright (C) 2009-2014 Groepaz
 
-* Copyright (C) 2009-2013 Ingo Korb
+* Copyright (C) 2009-2014 Ingo Korb
 
-* Copyright (C) 2009-2013 Errol Smith
+* Copyright (C) 2009-2014 Errol Smith
 
-* Copyright (C) 2010-2013 Olaf Seibert
+* Copyright (C) 2010-2014 Olaf Seibert
 
-* Copyright (C) 2011-2013 Marcus Sutton
+* Copyright (C) 2011-2014 Marcus Sutton
 
-* Copyright (C) 2011-2013 Ulrich Schulz
+* Copyright (C) 2011-2014 Ulrich Schulz
 
-* Copyright (C) 2011-2013 Stefan Haubenthal
+* Copyright (C) 2011-2014 Stefan Haubenthal
 
-* Copyright (C) 2011-2013 Thomas Giesel
+* Copyright (C) 2011-2014 Thomas Giesel
 
-* Copyright (C) 2011-2013 Kajtar Zsolt
+* Copyright (C) 2011-2014 Kajtar Zsolt
 
-* Copyright (C) 2012-2013 Benjamin 'BeRo' Rosseaux
+* Copyright (C) 2012-2014 Benjamin 'BeRo' Rosseaux
 
 * Copyright (C) 2000-2011 Spiro Trikaliotis
 
@@ -15602,8 +15602,8 @@ available via FTP from ftp://rtfm.mit.edu.
 Concept Index
 *************
 
-+cart <1>:                                     See 7.5.2.2. (line  6473)
-+cart:                                         See 7.1.2.2. (line  4078)
++cart <1>:                                     See 7.1.2.2. (line  4078)
++cart:                                         See 7.5.2.2. (line  6473)
 -1:                                            See 3.1.     (line  1040)
 -10:                                           See 3.1.     (line  1045)
 -11:                                           See 3.1.     (line  1046)
@@ -15641,9 +15641,9 @@ Concept Index
 -autostartprgdiskimage:                        See 3.1.     (line  1028)
 -autostartprgmode:                             See 3.1.     (line  1025)
 -autostartwithcolon, +autostartwithcolon:      See 3.1.     (line  1011)
--basic <1>:                                    See 7.7.2.2. (line  7148)
+-basic <1>:                                    See 7.1.7.2. (line  5130)
 -basic <2>:                                    See 7.4.5.2. (line  6236)
--basic:                                        See 7.1.7.2. (line  5130)
+-basic:                                        See 7.7.2.2. (line  7148)
 -basic1, +basic1:                              See 7.6.6.2. (line  7031)
 -basic1char, +basic1char:                      See 7.6.6.2. (line  7035)
 -basic64:                                      See 7.2.2.2. (line  5443)
@@ -15663,18 +15663,18 @@ Concept Index
 -cart:                                         See 7.5.2.2. (line  6470)
 -cart1:                                        See 7.7.2.2. (line  7154)
 -cart16:                                       See 7.1.2.2. (line  4087)
--cart2 <1>:                                    See 7.7.2.2. (line  7156)
--cart2 <2>:                                    See 7.4.5.2. (line  6242)
--cart2:                                        See 7.4.2.2. (line  5835)
--cart4 <1>:                                    See 7.7.2.2. (line  7160)
--cart4 <2>:                                    See 7.4.5.2. (line  6242)
--cart4:                                        See 7.4.2.2. (line  5836)
+-cart2 <1>:                                    See 7.4.5.2. (line  6242)
+-cart2 <2>:                                    See 7.4.2.2. (line  5835)
+-cart2:                                        See 7.7.2.2. (line  7156)
+-cart4 <1>:                                    See 7.4.5.2. (line  6242)
+-cart4 <2>:                                    See 7.4.2.2. (line  5836)
+-cart4:                                        See 7.7.2.2. (line  7160)
 -cart6 <1>:                                    See 7.7.2.2. (line  7164)
--cart6 <2>:                                    See 7.4.5.2. (line  6242)
--cart6:                                        See 7.4.2.2. (line  5839)
+-cart6 <2>:                                    See 7.4.2.2. (line  5839)
+-cart6:                                        See 7.4.5.2. (line  6242)
 -cart8:                                        See 7.1.2.2. (line  4084)
--cartA <1>:                                    See 7.4.5.2. (line  6242)
--cartA:                                        See 7.4.2.2. (line  5842)
+-cartA <1>:                                    See 7.4.2.2. (line  5842)
+-cartA:                                        See 7.4.5.2. (line  6242)
 -cartap:                                       See 7.1.2.2. (line  4096)
 -cartar2:                                      See 7.1.2.2. (line  4099)
 -cartar3:                                      See 7.1.2.2. (line  4102)
@@ -15726,8 +15726,8 @@ Concept Index
 -cartpf:                                       See 7.1.2.2. (line  4360)
 -cartramcart:                                  See 7.1.2.2. (line  4363)
 -cartrep256:                                   See 7.1.2.2. (line  4380)
--cartreset, +cartreset <1>:                    See 7.5.2.2. (line  6468)
--cartreset, +cartreset:                        See 7.1.2.2. (line  4080)
+-cartreset, +cartreset <1>:                    See 7.1.2.2. (line  4080)
+-cartreset, +cartreset:                        See 7.5.2.2. (line  6468)
 -cartreu:                                      See 7.1.6.2. (line  5035)
 -cartross:                                     See 7.1.2.2. (line  4383)
 -cartrr:                                       See 7.1.2.2. (line  4386)
@@ -15746,9 +15746,10 @@ Concept Index
 -cartws:                                       See 7.1.2.2. (line  4434)
 -cartzaxxon:                                   See 7.1.2.2. (line  4437)
 -chargde:                                      See 7.2.2.2. (line  5477)
--chargen <1>:                                  See 7.7.2.2. (line  7151)
--chargen <2>:                                  See 7.6.4.2. (line  6958)
+-chargen <1>:                                  See 7.6.4.2. (line  6958)
+-chargen <2>:                                  See 7.2.2.2. (line  5476)
 -chargen <3>:                                  See 7.4.5.2. (line  6239)
+-chargen <4>:                                  See 7.7.2.2. (line  7151)
 -chargen:                                      See 7.1.7.2. (line  5133)
 -chargfr:                                      See 7.2.2.2. (line  5480)
 -chargse:                                      See 7.2.2.2. (line  5483)
@@ -15975,8 +15976,9 @@ Concept Index
 -k<version>:                                   See 14.1.    (line  9443)
 -keepenv:                                      See 7.8.1.2. (line  7247)
 -kernal <1>:                                   See 7.7.2.2. (line  7145)
--kernal <2>:                                   See 7.6.4.2. (line  6952)
--kernal <3>:                                   See 7.4.5.2. (line  6233)
+-kernal <2>:                                   See 7.2.2.2. (line  5455)
+-kernal <3>:                                   See 7.6.4.2. (line  6952)
+-kernal <4>:                                   See 7.4.5.2. (line  6233)
 -kernal:                                       See 7.1.7.2. (line  5127)
 -kernal64:                                     See 7.2.2.2. (line  5444)
 -kernalde:                                     See 7.2.2.2. (line  5456)
@@ -15988,7 +15990,7 @@ Concept Index
 -kernalse:                                     See 7.2.2.2. (line  5471)
 -keybuf:                                       See 3.1.     (line   990)
 -keymap:                                       See 6.6.2.   (line  2186)
--l:                                            See 13.1.    (line  9177)
+-l:                                            See 14.1.    (line  9449)
 -lightpen, +lightpen:                          See 6.7.2.   (line  2317)
 -lightpentype:                                 See 6.7.2.   (line  2319)
 -logfile:                                      See 3.1.     (line   984)
@@ -16000,8 +16002,8 @@ Concept Index
 -midiin:                                       See 7.1.6.2. (line  5004)
 -midiout:                                      See 7.1.6.2. (line  5007)
 -miditype:                                     See 7.1.6.2. (line  4996)
--mitshm, +mitshm <1>:                          See 6.5.3.   (line  2109)
--mitshm, +mitshm:                              See 2.12.2.  (line   872)
+-mitshm, +mitshm <1>:                          See 2.12.2.  (line   872)
+-mitshm, +mitshm:                              See 6.5.3.   (line  2109)
 -mmc64, +mmc64:                                See 7.1.2.2. (line  4304)
 -mmc64bios:                                    See 7.1.2.2. (line  4311)
 -mmc64bioswrite:                               See 7.1.2.2. (line  4323)
@@ -16125,10 +16127,10 @@ Concept Index
 -sfxse, +sfxse <1>:                            See 7.4.2.2. (line  5910)
 -sfxse, +sfxse:                                See 7.1.6.2. (line  5048)
 -sfxseioswap, +sfxseioswap:                    See 7.4.2.2. (line  5908)
--sfxsetype <1>:                                See 7.4.2.2. (line  5914)
--sfxsetype:                                    See 7.1.6.2. (line  5052)
--sfxss, +sfxss <1>:                            See 7.4.2.2. (line  5921)
--sfxss, +sfxss:                                See 7.1.6.2. (line  5055)
+-sfxsetype <1>:                                See 7.1.6.2. (line  5052)
+-sfxsetype:                                    See 7.4.2.2. (line  5914)
+-sfxss, +sfxss <1>:                            See 7.1.6.2. (line  5055)
+-sfxss, +sfxss:                                See 7.4.2.2. (line  5921)
 -sfxssioswap, +sfxssioswap:                    See 7.4.2.2. (line  5919)
 -sidcart, +sidcart <1>:                        See 7.6.3.2. (line  6927)
 -sidcart, +sidcart <2>:                        See 7.5.2.2. (line  6482)
@@ -16182,11 +16184,11 @@ Concept Index
 -text:                                         See 14.1.    (line  9434)
 -tfe, +tfe <1>:                                See 7.4.2.2. (line  5888)
 -tfe, +tfe:                                    See 7.1.6.2. (line  5059)
--tfeif <1>:                                    See 7.4.2.2. (line  5892)
--tfeif:                                        See 7.1.6.2. (line  5063)
+-tfeif <1>:                                    See 7.1.6.2. (line  5063)
+-tfeif:                                        See 7.4.2.2. (line  5892)
 -tfeioswap, +tfeioswap:                        See 7.4.2.2. (line  5886)
--tferrnet, +tferrnet <1>:                      See 7.4.2.2. (line  5895)
--tferrnet, +tferrnet:                          See 7.1.6.2. (line  5066)
+-tferrnet, +tferrnet <1>:                      See 7.1.6.2. (line  5066)
+-tferrnet, +tferrnet:                          See 7.4.2.2. (line  5895)
 -truedrive, +truedrive:                        See 6.10.2.  (line  2729)
 -trueflashfs, +trueflashfs:                    See 7.3.1.   (line  5584)
 -tune <number>:                                See 7.8.1.2. (line  7248)
@@ -16313,8 +16315,8 @@ Index of Resources
 40/80ColumnKey:                                See 7.2.3.1. (line  5511)
 Acia1Base:                                     See 7.1.6.1. (line  4894)
 Acia1Dev:                                      See 6.12.1.  (line  3199)
-Acia1Enable <1>:                               See 7.5.4.1. (line  6560)
-Acia1Enable:                                   See 7.1.6.1. (line  4888)
+Acia1Enable <1>:                               See 7.1.6.1. (line  4888)
+Acia1Enable:                                   See 7.5.4.1. (line  6560)
 Acia1Irq:                                      See 6.12.1.  (line  3204)
 Acia1Mode:                                     See 7.1.6.1. (line  4890)
 AttachDevice10Readonly:                        See 6.16.1.  (line  3476)
@@ -16334,8 +16336,8 @@ Basic1Chars:                                   See 7.6.1.   (line  6628)
 Basic64Name:                                   See 7.2.2.1. (line  5420)
 BasicHiName:                                   See 7.2.2.1. (line  5415)
 BasicLoName:                                   See 7.2.2.1. (line  5415)
-BasicName <1>:                                 See 7.4.5.1. (line  6222)
-BasicName:                                     See 7.1.7.1. (line  5091)
+BasicName <1>:                                 See 7.1.7.1. (line  5091)
+BasicName:                                     See 7.4.5.1. (line  6222)
 BurstMod:                                      See 7.1.8.1. (line  5150)
 C128FullBanks:                                 See 7.2.3.1. (line  5515)
 c1hiName:                                      See 7.5.3.1. (line  6513)
@@ -16351,19 +16353,19 @@ Cart1Name:                                     See 7.7.1.   (line  7093)
 Cart2Name:                                     See 7.7.1.   (line  7093)
 Cart4Name:                                     See 7.7.1.   (line  7093)
 Cart6Name:                                     See 7.7.1.   (line  7093)
-CartridgeFile <1>:                             See 7.4.2.1. (line  5765)
-CartridgeFile:                                 See 7.1.2.1. (line  3861)
+CartridgeFile <1>:                             See 7.1.2.1. (line  3861)
+CartridgeFile:                                 See 7.4.2.1. (line  5765)
 CartridgeReset <1>:                            See 7.5.2.1. (line  6438)
-CartridgeReset <2>:                            See 7.4.2.1. (line  5760)
-CartridgeReset:                                See 7.1.2.1. (line  3855)
+CartridgeReset <2>:                            See 7.1.2.1. (line  3855)
+CartridgeReset:                                See 7.4.2.1. (line  5760)
 CartridgeType <1>:                             See 7.4.2.1. (line  5762)
 CartridgeType:                                 See 7.1.2.1. (line  3857)
 ChargenDEName:                                 See 7.2.2.1. (line  5400)
 ChargenFRName:                                 See 7.2.2.1. (line  5400)
 ChargenIntName:                                See 7.2.2.1. (line  5400)
-ChargenName <1>:                               See 7.6.1.   (line  6639)
+ChargenName <1>:                               See 7.1.7.1. (line  5096)
 ChargenName <2>:                               See 7.4.5.1. (line  6225)
-ChargenName:                                   See 7.1.7.1. (line  5096)
+ChargenName:                                   See 7.6.1.   (line  6639)
 ChargenSEName:                                 See 7.2.2.1. (line  5400)
 CIA1Model:                                     See 7.1.3.1. (line  4448)
 CIA2Model:                                     See 7.1.3.1. (line  4448)
@@ -16606,8 +16608,8 @@ IEEE488:                                       See 7.1.2.1. (line  3951)
 IEEE488Image:                                  See 7.1.2.1. (line  3955)
 InternalFunctionName:                          See 7.2.2.1. (line  5426)
 InternalFunctionROM:                           See 7.2.2.1. (line  5425)
-IOCollisionHandling <1>:                       See 7.4.2.1. (line  5771)
-IOCollisionHandling:                           See 7.1.2.1. (line  3849)
+IOCollisionHandling <1>:                       See 7.1.2.1. (line  3849)
+IOCollisionHandling:                           See 7.4.2.1. (line  5771)
 IOSize:                                        See 7.6.1.   (line  6607)
 IsepicCartridgeEnabled:                        See 7.1.2.1. (line  3958)
 Isepicfilename:                                See 7.1.2.1. (line  3961)
@@ -16626,8 +16628,8 @@ KernalFIName:                                  See 7.2.2.1. (line  5406)
 KernalFRName:                                  See 7.2.2.1. (line  5406)
 KernalIntName:                                 See 7.2.2.1. (line  5406)
 KernalITName:                                  See 7.2.2.1. (line  5406)
-KernalName <1>:                                See 7.6.1.   (line  6642)
-KernalName <2>:                                See 7.4.5.1. (line  6219)
+KernalName <1>:                                See 7.4.5.1. (line  6219)
+KernalName <2>:                                See 7.6.1.   (line  6642)
 KernalName:                                    See 7.1.7.1. (line  5088)
 KernalNOName:                                  See 7.2.2.1. (line  5406)
 KernalRev:                                     See 7.1.7.1. (line  5100)
@@ -16768,8 +16770,8 @@ RAMCARTsize:                                   See 7.1.2.1. (line  4049)
 RAMInitPatternInvert:                          See 6.15.1.  (line  3377)
 RAMInitStartValue:                             See 6.15.1.  (line  3371)
 RAMInitValueInvert:                            See 6.15.1.  (line  3373)
-RamSize <1>:                                   See 7.7.1.   (line  7079)
-RamSize:                                       See 7.6.1.   (line  6604)
+RamSize <1>:                                   See 7.6.1.   (line  6604)
+RamSize:                                       See 7.7.1.   (line  7079)
 RawDriveDriver:                                See 6.10.1.  (line  2630)
 RefreshRate:                                   See 6.4.1.   (line  1904)
 REU:                                           See 7.1.6.1. (line  4956)
@@ -16804,16 +16806,16 @@ SFXSoundExpanderChip:                          See 7.1.6.1. (line  4974)
 SFXSoundExpanderIOSwap:                        See 7.4.2.1. (line  5803)
 SFXSoundSampler:                               See 7.1.6.1. (line  4979)
 SFXSoundSamplerIOSwap:                         See 7.4.2.1. (line  5806)
-SidAddress <1>:                                See 7.6.3.1. (line  6894)
-SidAddress <2>:                                See 7.5.2.1. (line  6452)
-SidAddress:                                    See 7.4.2.1. (line  5816)
+SidAddress <1>:                                See 7.5.2.1. (line  6452)
+SidAddress <2>:                                See 7.4.2.1. (line  5816)
+SidAddress:                                    See 7.6.3.1. (line  6894)
 SidCart <1>:                                   See 7.6.3.1. (line  6893)
-SidCart <2>:                                   See 7.5.2.1. (line  6451)
-SidCart:                                       See 7.4.2.1. (line  5815)
+SidCart <2>:                                   See 7.4.2.1. (line  5815)
+SidCart:                                       See 7.5.2.1. (line  6451)
 SIDCartJoy:                                    See 7.5.2.1. (line  6459)
-SidClock <1>:                                  See 7.6.3.1. (line  6897)
+SidClock <1>:                                  See 7.4.2.1. (line  5819)
 SidClock <2>:                                  See 7.5.2.1. (line  6455)
-SidClock:                                      See 7.4.2.1. (line  5819)
+SidClock:                                      See 7.6.3.1. (line  6897)
 SidEngine:                                     See 7.1.5.1. (line  4790)
 SidFilters:                                    See 7.1.5.1. (line  4778)
 SidModel:                                      See 7.1.5.1. (line  4782)
