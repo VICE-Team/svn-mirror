@@ -91,17 +91,15 @@ static int set_internal_function_rom_enabled(int val, void *param)
 
     internal_function_rom_enabled = val;
 
-    if (val == INT_FUNCTION_RTC) {
-        rtc1_context = bq4830y_init((BYTE *)int_function_rom, &rtc1_offset);
-        memset(int_function_rom, 0, sizeof(int_function_rom));
-    }
-
-    if (val == INT_FUNCTION_RAM) {
-        memset(int_function_rom, 0, sizeof(int_function_rom));
-    }
-
-    if (val == INT_FUNCTION_ROM) {
-        return functionrom_load_internal();
+    switch (val) {
+        case INT_FUNCTION_RTC:
+            rtc1_context = bq4830y_init((BYTE *)int_function_rom, &rtc1_offset);
+        case INT_FUNCTION_RAM:
+            memset(int_function_rom, 0, sizeof(int_function_rom));
+            break;
+        default:
+            return functionrom_load_internal();
+            break;
     }
     return 0;
 }
@@ -127,17 +125,15 @@ static int set_external_function_rom_enabled(int val, void *param)
 
     external_function_rom_enabled = val;
 
-    if (val == EXT_FUNCTION_RTC) {
-        rtc2_context = bq4830y_init((BYTE *)ext_function_rom, &rtc2_offset);
-        memset(ext_function_rom, 0, sizeof(ext_function_rom));
-    }
-
-    if (val == EXT_FUNCTION_RAM) {
-        memset(ext_function_rom, 0, sizeof(ext_function_rom));
-    }
-
-    if (val == EXT_FUNCTION_ROM) {
-        return functionrom_load_external();
+    switch (val) {
+        case EXT_FUNCTION_RTC:
+            rtc2_context = bq4830y_init((BYTE *)ext_function_rom, &rtc2_offset);
+        case EXT_FUNCTION_RAM:
+            memset(ext_function_rom, 0, sizeof(ext_function_rom));
+            break;
+        default:
+            return functionrom_load_external();
+            break;
     }
     return 0;
 }
