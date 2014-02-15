@@ -434,6 +434,12 @@
 #endif
 
 
+/* System V Release 4 discovery */
+#if !defined(PLATFORM_OS) && defined(__svr4__)
+#define PLATFORM_OS "Unix System V Release 4"
+#endif
+
+
 /* Generic cpu discovery */
 #include "platform_cpu_type.h"
 
