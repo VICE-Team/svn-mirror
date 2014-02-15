@@ -465,6 +465,8 @@ static winver_t windows_versions[] = {
       6, 2, 10, VER_NT_WORKSTATION, 0, 0, -1 },
     { "Windows 2012 Server (Foundation/Essentials/Standard/Datacenter)", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_SERVER, 0, 0, -1 },
+    { "Windows 8.1 (Home/Pro)", VER_PLATFORM_WIN32_NT,
+      6, 3, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, -1 },
     { NULL, 0,
       0, 0, 0, 0, 0, 0, 0 }
 };
@@ -778,6 +780,22 @@ static int is_thin_pc(void)
     return 0;
 }
 
+static BOOL CompareWindowsVersion(DWORD dwMajorVersion, DWORD dwMinorVersion)
+{
+    OSVERSIONINFOEX ver;
+    DWORDLONG dwlConditionMask = 0;
+
+    ZeroMemory(&ver, sizeof(OSVERSIONINFOEX));
+    ver.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+    ver.dwMajorVersion = dwMajorVersion;
+    ver.dwMinorVersion = dwMinorVersion;
+
+    VER_SET_CONDITION(dwlConditionMask, VER_MAJORVERSION, VER_EQUAL);
+    VER_SET_CONDITION(dwlConditionMask, VER_MINORVERSION, VER_EQUAL);
+
+    return VerifyVersionInfo(&ver, VER_MAJORVERSION | VER_MINORVERSION, dwlConditionMask);
+}
+
 char *platform_get_windows_runtime_os(void)
 {
     int found = 0;
@@ -790,7 +808,6 @@ char *platform_get_windows_runtime_os(void)
     int exinfo_valid = 0;
 
     if (!got_os) {
-
         ZeroMemory(&os_version_info, sizeof(os_version_info));
         os_version_info.dwOSVersionInfoSize = sizeof(os_version_info);
 
@@ -803,6 +820,13 @@ char *platform_get_windows_runtime_os(void)
         windows_versions[0].majorver = (DWORD)os_version_info.dwMajorVersion;
         windows_versions[0].minorver = (DWORD)os_version_info.dwMinorVersion;
         windows_versions[0].realos = GetRealOS();
+
+        /* check for windows 8.1 when windows 8 was found */
+        if (windows_versions[0].majorver == 6 && windows_versions[0].minorver == 2) {
+            if (CompareWindowsVersion(6, 3)) {
+                windows_versions[0].minorver = (DWORD)3;
+            }
+        }
 
         if (windows_versions[0].platformid == VER_PLATFORM_WIN32_NT) {
             if (GetVersionEx((LPOSVERSIONINFOA)&os_version_ex_info)) {
