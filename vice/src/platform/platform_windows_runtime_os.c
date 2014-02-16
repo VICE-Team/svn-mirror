@@ -273,6 +273,18 @@
 #define PROCESSOR_ARCHITECTURE_AMD64    9
 #endif
 
+#ifndef VER_MINORVERSION
+#define VER_MINORVERSION 0x0000001
+#endif
+
+#ifndef VER_MAJORVERSION
+#define VER_MAJORVERSION 0x0000002
+#endif
+
+#ifndef VER_EQUAL
+#define VER_EQUAL 1
+#endif
+
 /* Bit patterns for system metrics */
 #define VICE_SM_SERVERR2        8
 #define VICE_SM_MEDIACENTER     4
