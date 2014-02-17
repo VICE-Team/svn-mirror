@@ -285,6 +285,13 @@
 #define VER_EQUAL 1
 #endif
 
+#ifndef VER_SET_CONDITION
+ULONGLONG WINAPI VerSetConditionMask(ULONGLONG,DWORD,BYTE);
+#define VER_SET_CONDITION(ConditionMask, TypeBitMask, ComparisonType) \
+	((ConditionMask) = VerSetConditionMask((ConditionMask), \
+	(TypeBitMask), (ComparisonType)))
+#endif
+
 /* Bit patterns for system metrics */
 #define VICE_SM_SERVERR2        8
 #define VICE_SM_MEDIACENTER     4
