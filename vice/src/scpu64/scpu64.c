@@ -679,6 +679,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = SCPU64_PAL_RFSH_PER_SEC;
             machine_timing.cycles_per_line = SCPU64_PAL_CYCLES_PER_LINE;
             machine_timing.screen_lines = SCPU64_PAL_SCREEN_LINES;
+            machine_timing.cycles_per_powerline = SCPU64_PAL_CYCLES_PER_SEC / 50;
             break;
         case MACHINE_SYNC_NTSC:
             machine_timing.cycles_per_sec = SCPU64_NTSC_CYCLES_PER_SEC;
@@ -686,6 +687,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = SCPU64_NTSC_RFSH_PER_SEC;
             machine_timing.cycles_per_line = SCPU64_NTSC_CYCLES_PER_LINE;
             machine_timing.screen_lines = SCPU64_NTSC_SCREEN_LINES;
+            machine_timing.cycles_per_powerline = SCPU64_NTSC_CYCLES_PER_SEC / 60;
             break;
         case MACHINE_SYNC_NTSCOLD:
             machine_timing.cycles_per_sec = SCPU64_NTSCOLD_CYCLES_PER_SEC;
@@ -693,6 +695,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = SCPU64_NTSCOLD_RFSH_PER_SEC;
             machine_timing.cycles_per_line = SCPU64_NTSCOLD_CYCLES_PER_LINE;
             machine_timing.screen_lines = SCPU64_NTSCOLD_SCREEN_LINES;
+            machine_timing.cycles_per_powerline = SCPU64_NTSCOLD_CYCLES_PER_SEC / 60;
             break;
         case MACHINE_SYNC_PALN:
             machine_timing.cycles_per_sec = SCPU64_PALN_CYCLES_PER_SEC;
@@ -700,6 +703,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = SCPU64_PALN_RFSH_PER_SEC;
             machine_timing.cycles_per_line = SCPU64_PALN_CYCLES_PER_LINE;
             machine_timing.screen_lines = SCPU64_PALN_SCREEN_LINES;
+            machine_timing.cycles_per_powerline = SCPU64_PALN_CYCLES_PER_SEC / 60;
             break;
         default:
             log_error(scpu64_log, "Unknown machine timing.");
@@ -715,8 +719,8 @@ void machine_change_timing(int timeval)
 
     vicii_change_timing(&machine_timing, border_mode);
 
-    cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_rfsh);
-    cia2_set_timing(machine_context.cia2, machine_timing.cycles_per_rfsh);
+    cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_powerline);
+    cia2_set_timing(machine_context.cia2, machine_timing.cycles_per_powerline);
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }

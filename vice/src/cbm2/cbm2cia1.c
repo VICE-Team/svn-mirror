@@ -242,9 +242,9 @@ void cia1_setup_context(machine_context_t *machine_context)
     cia->clk_ptr = &maincpu_clk;
 
     if (machine_class == VICE_MACHINE_CBM5x0) {
-        cia1_set_timing(cia, C500_NTSC_CYCLES_PER_RFSH);
+        cia1_set_timing(cia, C500_NTSC_CYCLES_PER_SEC / 60);
     } else {
-        cia1_set_timing(cia, C610_NTSC_CYCLES_PER_RFSH);
+        cia1_set_timing(cia, C610_NTSC_CYCLES_PER_SEC / 60);
     }
 
     ciacore_setup_context(cia);

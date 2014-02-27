@@ -289,7 +289,7 @@ void cia2_setup_context(machine_context_t *machine_context)
     cia->rmw_flag = &maincpu_rmw_flag;
     cia->clk_ptr = &maincpu_clk;
 
-    cia->todticks = C64_PAL_CYCLES_PER_RFSH;
+    cia->todticks = C64_PAL_CYCLES_PER_SEC / 50;
 
     ciacore_setup_context(cia);
 

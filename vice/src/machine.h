@@ -59,6 +59,10 @@ struct machine_timing_s {
     unsigned int cycles_per_line;
     long cycles_per_rfsh;
     long cycles_per_sec;
+    long cycles_per_powerline; /* cycles_per_sec divided by powerline frequency 
+                                  this cant be generally calculated depending on
+                                  video mode, eg sx-64 is always 60Hz (the tick
+                                  is generated on the board) */
     double rfsh_per_sec;
     unsigned int screen_lines;
 };

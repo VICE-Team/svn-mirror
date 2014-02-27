@@ -423,6 +423,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = C610_PAL_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C610_PAL_CYCLES_PER_LINE;
             machine_timing.screen_lines = C610_PAL_SCREEN_LINES;
+            machine_timing.cycles_per_powerline = C610_PAL_CYCLES_PER_SEC / 50;
             break;
         case MACHINE_SYNC_NTSC:
             machine_timing.cycles_per_sec = C610_NTSC_CYCLES_PER_SEC;
@@ -430,6 +431,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = C610_NTSC_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C610_NTSC_CYCLES_PER_LINE;
             machine_timing.screen_lines = C610_NTSC_SCREEN_LINES;
+            machine_timing.cycles_per_powerline = C610_NTSC_CYCLES_PER_SEC / 60;
             break;
         default:
             log_error(LOG_DEFAULT, "Unknown machine timing.");
@@ -440,7 +442,7 @@ void machine_change_timing(int timeval)
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
     clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
-    cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_rfsh);
+    cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_powerline);
 }
 
 /* Set the screen refresh rate, as this is variable in the CRTC */

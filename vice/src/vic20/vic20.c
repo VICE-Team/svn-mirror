@@ -621,6 +621,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = VIC20_PAL_RFSH_PER_SEC;
             machine_timing.cycles_per_line = VIC20_PAL_CYCLES_PER_LINE;
             machine_timing.screen_lines = VIC20_PAL_SCREEN_LINES;
+            machine_timing.cycles_per_powerline = VIC20_PAL_CYCLES_PER_SEC / 50;
             break;
         case MACHINE_SYNC_NTSC:
             machine_timing.cycles_per_sec = VIC20_NTSC_CYCLES_PER_SEC;
@@ -628,6 +629,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = VIC20_NTSC_RFSH_PER_SEC;
             machine_timing.cycles_per_line = VIC20_NTSC_CYCLES_PER_LINE;
             machine_timing.screen_lines = VIC20_NTSC_SCREEN_LINES;
+            machine_timing.cycles_per_powerline = VIC20_NTSC_CYCLES_PER_SEC / 60;
             break;
         default:
             log_error(vic20_log, "Unknown machine timing.");
