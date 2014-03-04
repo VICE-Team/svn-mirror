@@ -521,7 +521,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C500_PAL_CYCLES_PER_LINE;
             machine_timing.screen_lines = C500_PAL_SCREEN_LINES;
-            machine_timing.cycles_per_powerline = C500_PAL_CYCLES_PER_SEC / 50;
+            machine_timing.power_freq = 50;
             break;
         case MACHINE_SYNC_NTSC:
             machine_timing.cycles_per_sec = C500_NTSC_CYCLES_PER_SEC;
@@ -529,7 +529,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = C500_NTSC_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C500_NTSC_CYCLES_PER_LINE;
             machine_timing.screen_lines = C500_NTSC_SCREEN_LINES;
-            machine_timing.cycles_per_powerline = C500_NTSC_CYCLES_PER_SEC / 60;
+            machine_timing.power_freq = 60;
             break;
         default:
             log_error(LOG_DEFAULT, "Unknown machine timing.");
@@ -541,7 +541,7 @@ void machine_change_timing(int timeval)
     clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
     vicii_change_timing(&machine_timing, border_mode);
-    cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_powerline);
+    cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_sec, machine_timing.power_freq);
 }
 
 /* Set the screen refresh rate, as this is variable in the CRTC */

@@ -855,7 +855,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = C128_PAL_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C128_PAL_CYCLES_PER_LINE;
             machine_timing.screen_lines = C128_PAL_SCREEN_LINES;
-            machine_timing.cycles_per_powerline = C128_PAL_CYCLES_PER_SEC / 50;
+            machine_timing.power_freq = 50;
             break;
         case MACHINE_SYNC_NTSC:
             machine_timing.cycles_per_sec = C128_NTSC_CYCLES_PER_SEC;
@@ -863,7 +863,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = C128_NTSC_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C128_NTSC_CYCLES_PER_LINE;
             machine_timing.screen_lines = C128_NTSC_SCREEN_LINES;
-            machine_timing.cycles_per_powerline = C128_NTSC_CYCLES_PER_SEC / 60;
+            machine_timing.power_freq = 60;
             break;
         default:
             log_error(c128_log, "Unknown machine timing.");
@@ -879,8 +879,8 @@ void machine_change_timing(int timeval)
 
     vicii_change_timing(&machine_timing, border_mode);
 
-    cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_powerline);
-    cia2_set_timing(machine_context.cia2, machine_timing.cycles_per_powerline);
+    cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_sec, machine_timing.power_freq);
+    cia2_set_timing(machine_context.cia2, machine_timing.cycles_per_sec, machine_timing.power_freq);
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }

@@ -222,10 +222,14 @@ void cia1_init(cia_context_t *cia_context)
                  maincpu_int_status, maincpu_clk_guard);
 }
 
-void cia1_set_timing(cia_context_t *cia_context, int todticks)
+void cia1_set_timing(cia_context_t *cia_context, int tickspersec, int powerfreq)
 {
     DBG(("cia1_set_timing: %d ticks", todticks));
-    cia_context->todticks = todticks;
+    cia_context->power_freq = powerfreq;
+    cia_context->ticks_per_sec = tickspersec;
+    cia_context->todticks = tickspersec / powerfreq;
+    cia_context->power_tickcounter = 0;
+    cia_context->power_ticks = 0;
 }
 
 void cia1_setup_context(machine_context_t *machine_context)
@@ -242,9 +246,9 @@ void cia1_setup_context(machine_context_t *machine_context)
     cia->clk_ptr = &maincpu_clk;
 
     if (machine_class == VICE_MACHINE_CBM5x0) {
-        cia1_set_timing(cia, C500_NTSC_CYCLES_PER_SEC / 60);
+        cia1_set_timing(cia, C500_NTSC_CYCLES_PER_SEC, 60);
     } else {
-        cia1_set_timing(cia, C610_NTSC_CYCLES_PER_SEC / 60);
+        cia1_set_timing(cia, C610_NTSC_CYCLES_PER_SEC, 60);
     }
 
     ciacore_setup_context(cia);

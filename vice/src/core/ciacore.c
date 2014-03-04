@@ -1071,15 +1071,53 @@ void ciacore_set_sdr(cia_context_t *cia_context, BYTE data)
 
 /* ------------------------------------------------------------------------- */
 
+/* when defined, randomize the power frequency a bit instead of linearly
+   meandering around the correct value */
+#define TODRANDOM
+
 static void ciacore_inttod(CLOCK offset, void *data)
 {
     int t0, t1, t2, t3, t4, t5, t6, pm, update = 0;
-    CLOCK rclk;
+    CLOCK rclk, tclk;
     cia_context_t *cia_context = (cia_context_t *)data;
 
     rclk = *(cia_context->clk_ptr) - offset;
 
-    /* set up new int */
+    /* set up new int 
+       the time between power ticks should be ticks_per_sec / power_freq
+       in reality the deviation can be quite large in small time frames, but is
+       very accurate in longer time frames. we try to maintain a stable tick
+       frequency that is as close as possible to the wanted 50/60 Hz. we should
+       also introduce some kind of randomness to mimic realistic behaviour.
+
+       for some details (german) http://www.netzfrequenzmessung.de/
+     */
+    cia_context->todticks = cia_context->ticks_per_sec / cia_context->power_freq;
+    tclk = ((cia_context->power_tickcounter * cia_context->ticks_per_sec) / cia_context->power_freq);
+    if (cia_context->power_ticks < tclk) {
+#ifdef TODRANDOM
+          cia_context->todticks += (rand() & 3);
+#else
+          /* cia_context->todticks += (((tclk - cia_context->power_ticks) * 3) / 2); */
+          cia_context->todticks++;
+#endif
+    } else if (cia_context->power_ticks > tclk) {
+#ifdef TODRANDOM
+          cia_context->todticks -= (rand() & 3);
+#else
+          /* cia_context->todticks -= (((cia_context->power_ticks - tclk) * 3) / 2); */
+          cia_context->todticks--;
+#endif
+    }
+    cia_context->power_tickcounter++;
+    if (cia_context->power_tickcounter >= cia_context->power_freq) {
+        cia_context->todticks = cia_context->ticks_per_sec - cia_context->power_ticks;
+        cia_context->power_tickcounter = 0;
+        cia_context->power_ticks = 0;
+    } else {
+        cia_context->power_ticks += cia_context->todticks;
+    }
+
     cia_context->todclk = *(cia_context->clk_ptr) + cia_context->todticks;
     alarm_set(cia_context->tod_alarm, cia_context->todclk);
 
@@ -1170,6 +1208,7 @@ static void ciacore_inttod(CLOCK offset, void *data)
         check_ciatodalarm(cia_context, rclk);
     }
 }
+#undef TODRANDOM
 
 void ciacore_setup_context(cia_context_t *cia_context)
 {
