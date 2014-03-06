@@ -231,6 +231,10 @@
 #define PRODUCT_PROFESSIONAL             0x00000030
 #endif
 
+#ifndef PRODUCT_SOLUTION_EMBEDDEDSERVER
+#define PRODUCT_SOLUTION_EMBEDDEDSERVER             0x00000038
+#endif
+
 /* System metrics */
 #ifndef SM_TABLETPC
 #define SM_TABLETPC    86
@@ -478,6 +482,8 @@ static winver_t windows_versions[] = {
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_SERVER_FOUNDATION, -1 },
     { "Windows 2008 R2 HPC Server", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_CLUSTER_SERVER, -1 },
+    { "Windows 2011 Premium Multipoint Server", VER_PLATFORM_WIN32_NT,
+      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_SOLUTION_EMBEDDEDSERVER, -1 },
     { "Windows 8 Enterprise", VER_PLATFORM_WIN32_NT,
       6, 2, 10, VER_NT_WORKSTATION, VER_SUITE_SINGLEUSERTS, -1, -1 },
     { "Windows 8 (Home/Pro)", VER_PLATFORM_WIN32_NT,
@@ -1067,13 +1073,16 @@ char *platform_get_windows_runtime_os(void)
                 sprintf(windows_version, "%s (HXDOS)", windows_version);
             }
         } else {
-            sprintf(windows_version, "%s (%d %d %d %d %d %d)", "Unknown Windows version",
+            sprintf(windows_version, "%s\nplatformid: %d\nmajorver: %d\nminorver: %d\nrealos: %d\nproducttype: %d\nsuite: %d\npt6: %d\nmetrics: %d",
+                    "Unknown Windows version",
                     windows_versions[0].platformid,
                     windows_versions[0].majorver,
                     windows_versions[0].minorver,
                     windows_versions[0].realos,
                     windows_versions[0].producttype,
-                    windows_versions[0].suite);
+                    windows_versions[0].suite,
+                    windows_versions[0].pt6,
+                    windows_versions[0].metrics);
         }
         got_os = 1;
     }
