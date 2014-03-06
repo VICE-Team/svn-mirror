@@ -1083,6 +1083,11 @@ static void ciacore_inttod(CLOCK offset, void *data)
 
     rclk = *(cia_context->clk_ptr) - offset;
 
+    if (cia_context->power_freq == 0) {
+        /* if power frequency is not initialized, or not present, return immediatly */
+        return;
+    }
+
     /* set up new int 
        the time between power ticks should be ticks_per_sec / power_freq
        in reality the deviation can be quite large in small time frames, but is

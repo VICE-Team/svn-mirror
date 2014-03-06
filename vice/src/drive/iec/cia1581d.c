@@ -254,7 +254,8 @@ void cia1581_setup_context(drive_context_t *ctxptr)
     cia->rmw_flag = &(ctxptr->cpu->rmw_flag);
     cia->clk_ptr = ctxptr->clk_ptr;
 
-    cia->todticks = 100000; /* incorrect, J1 closed = 1, J1 open, no ticks at all */
+    /* FIXME: incorrect, J1 closed = 1, J1 open, no ticks at all */
+    cia1581_set_timing(cia, 1000000, 50);
 
     ciacore_setup_context(cia);
 
@@ -281,4 +282,13 @@ void cia1581_setup_context(drive_context_t *ctxptr)
     cia->pre_store = NULL;
     cia->pre_read = NULL;
     cia->pre_peek = NULL;
+}
+
+void cia1581_set_timing(cia_context_t *cia_context, int tickspersec, int powerfreq)
+{
+    cia_context->power_freq = powerfreq;
+    cia_context->ticks_per_sec = tickspersec;
+    cia_context->todticks = tickspersec / powerfreq;
+    cia_context->power_tickcounter = 0;
+    cia_context->power_ticks = 0;
 }
