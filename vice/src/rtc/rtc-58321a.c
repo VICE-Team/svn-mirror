@@ -56,7 +56,7 @@
  * register 4 : bits 3-0 hours
  *
  * register 5 : bit  3   24/12 hour selection (0 = 12 hour, 1 = 24 hour)
- *              bit  2   AM/PM indication bit (when in 12 hour mode, otherwise 0)
+ *              bit  2   AM/PM indication bit (1 when in 12 hour mode, otherwise 0)
  *              bits 1-0 10 hours
  *
  * register 6 : bit  3   0
