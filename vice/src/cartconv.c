@@ -66,6 +66,7 @@ static unsigned char headerbuffer[0x40];
 static unsigned char extra_buffer_32kb[0x8000];
 static unsigned char chipbuffer[16];
 static int repair_mode = 0;
+static int input_padding = 0;
 
 static int load_input_file(char *filename);
 
@@ -153,7 +154,7 @@ static const cart_t cart_info[] = {
     {0, 0, 0, 0, 0, 0, 0, CARTRIDGE_NAME_EASYFLASH_XBANK, NULL, NULL}, /* TODO ?? */
     {0, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_CAPTURE, "cap", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_ACTION_REPLAY3, "ar3", save_regular_crt},
-    {0, 0, CARTRIDGE_SIZE_32KB | CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_RETRO_REPLAY, "rr", save_regular_crt},
+    {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_RETRO_REPLAY, "rr", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_MMC64, "mmc64", save_regular_crt},
     {0, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_512KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_MMC_REPLAY, "mmcr", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_64KB | CARTRIDGE_SIZE_128KB, 0x4000, 0x8000, 0, 2, CARTRIDGE_NAME_IDE64, "ide64", save_regular_crt},
@@ -299,6 +300,7 @@ static void usage(void)
     printf("print info: cartconv [-r] -f \"input name\"\n\n");
     printf("-f <name>    print info on file\n");
     printf("-r           repair mode (accept broken input files)\n");
+    printf("-p           accept non padded binaries as input\n");
     printf("-t <type>    output cart type\n");
     printf("-i <name>    input filename\n");
     printf("-o <name>    output filename\n");
@@ -446,6 +448,9 @@ static int checkflag(char *flg, char *arg)
             return 2;
         case 'r':
             repair_mode = 1;
+            return 1;
+        case 'p':
+            input_padding = 1;
             return 1;
         case 'o':
             checkarg(arg);
@@ -1123,9 +1128,13 @@ static int load_input_file(char *filename)
                 return 0;
                 break;
             default:
-                fprintf(stderr, "Error: Illegal file size of %s\n", filename);
                 fclose(infile);
+                if (input_padding) {
+                    return 0;
+                }
+                fprintf(stderr, "Error: Illegal file size of %s\n", filename);
                 return -1;
+                break;
         }
     }
 }
@@ -1650,11 +1659,17 @@ int main(int argc, char *argv[])
         /* FIXME: the sizes are used in a bitfield, and also by their absolute values. this
                   check is doomed to fail because of that :)
         */
-        if ((loadfile_size & cart_info[(unsigned char)cart_type].sizes) != loadfile_size) {
-            fprintf(stderr, "Error: Input file size (%d) doesn't match %s requirements\n",
-                    loadfile_size, cart_info[(unsigned char)cart_type].name);
-            cleanup();
-            exit(1);
+        if (input_padding) {
+            while ((loadfile_size & cart_info[(unsigned char)cart_type].sizes) != loadfile_size) {
+                loadfile_size++;
+            }
+        } else {
+            if ((loadfile_size & cart_info[(unsigned char)cart_type].sizes) != loadfile_size) {
+                fprintf(stderr, "Error: Input file size (%d) doesn't match %s requirements\n",
+                        loadfile_size, cart_info[(unsigned char)cart_type].name);
+                cleanup();
+                exit(1);
+            }
         }
         if (cart_info[(unsigned char)cart_type].save != NULL) {
             cart_info[(unsigned char)cart_type].save(cart_info[(unsigned char)cart_type].bank_size,
