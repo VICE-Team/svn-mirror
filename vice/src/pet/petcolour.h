@@ -9,6 +9,9 @@
  *  http://www.6502.org/users/sjgray/projects/colourpet/index.html
  *  The hardware is a work-in-progress.
  *
+ *  The second version of the ColourPET board is the one that is emulated,
+ *  because it is 80 columns compatible.
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -29,18 +32,7 @@
  *
  */
 
-/*
- * Choose the which version of the colour PET extension is emulated.
- * The first version is 40 columns only,
- * the second is 80 columns compatible.
- * This version will become the only one emulated.
- */
-#define OLD_COLOUR_40_COLS  0
-#if OLD_COLOUR_40_COLS
-# define COLOUR_MEMORY_START 0x0400
-#else
-# define COLOUR_MEMORY_START 0x0800
-#endif
+#define COLOUR_MEMORY_START 0x0800
 
 int petcolour_set_type(int val);
 void petcolour_init(void);

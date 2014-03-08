@@ -32,6 +32,8 @@
 
 /* ------------------------------------------------------------------------- */
 
+extern int pethre_enabled;
+
 struct snapshot_s;
 
 extern int pethre_init_resources(void);
@@ -43,6 +45,7 @@ extern int pethre_cmdline_options_init(void);
 extern void pethre_init(void);
 extern void pethre_reset(void);
 extern void pethre_shutdown(void);
+extern int e888_dump(void);
 
 extern int pethre_snapshot_read_module(struct snapshot_s *);
 extern int pethre_snapshot_write_module(struct snapshot_s *);

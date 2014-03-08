@@ -865,16 +865,23 @@ static void set_std_9tof(void)
             _mem_read_tab[i] = read_super_9;
             _mem_write_tab[i] = store_super_9;
             _mem_read_base_tab[i] = NULL;
-            mem_read_limit_tab[i] = 0;
+            mem_read_limit_tab[i] = 0x9ffd;
         }
     } else {
         fetch = ram9 ? ram_read : rom_read;
         for (i = 0x90; i < 0xa0; i++) {
             _mem_read_tab[i] = fetch;
             _mem_write_tab[i] = store;
-            _mem_read_base_tab[i] = ram9 ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
+            _mem_read_base_tab[i] = ram9 ? mem_ram + (i << 8)
+                                         : mem_rom + ((i & 0x7f) << 8);
             mem_read_limit_tab[i] = 0x9ffd;
         }
+    }
+
+    /* Possibly set up the Double-W HiRes board at $9000 - $9FFF. */
+    if (petdww_enabled && petdww_mem_at_9000()) {
+        petdww_override_std_9toa(_mem_read_tab, _mem_write_tab,
+                                 _mem_read_base_tab, mem_read_limit_tab);
     }
 
     /* Setup RAM/ROM at $A000 - $AFFF. */
@@ -882,12 +889,9 @@ static void set_std_9tof(void)
     for (i = 0xa0; i < 0xb0; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramA ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
+        _mem_read_base_tab[i] = ramA ? mem_ram + (i << 8)
+                                     : mem_rom + ((i & 0x7f) << 8);
         mem_read_limit_tab[i] = 0xaffd;
-    }
-
-    if (petdww_enabled && petdww_mem_at_9000()) {
-        petdww_override_std_9toa(_mem_read_tab, _mem_write_tab, _mem_read_base_tab, mem_read_limit_tab);
     }
 
     /* Setup RAM/ROM at $B000 - $DFFF: Basic. */
@@ -895,7 +899,8 @@ static void set_std_9tof(void)
     for (i = 0xb0; i <= 0xdf; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramBCD ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
+        _mem_read_base_tab[i] = ramBCD ? mem_ram + (i << 8)
+                                       : mem_rom + ((i & 0x7f) << 8);
         mem_read_limit_tab[i] = 0xdffd;
     }
 
@@ -904,7 +909,8 @@ static void set_std_9tof(void)
     for (i = 0xe0; i <= 0xe7; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramE ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
+        _mem_read_base_tab[i] = ramE ? mem_ram + (i << 8)
+                                     : mem_rom + ((i & 0x7f) << 8);
         mem_read_limit_tab[i] = 0xe7fd;
     }
 
@@ -977,6 +983,7 @@ static void set_std_9tof(void)
 void ramsel_changed()
 {
     set_std_9tof();
+    maincpu_resync_limits();
 }
 
 void get_mem_access_tables(read_func_ptr_t **read, store_func_ptr_t **write, BYTE ***base, int **limit)
@@ -1124,12 +1131,7 @@ static void store_8x96(WORD addr, BYTE value)
                 maincpu_resync_limits();
             }
         } else {                /* disable ext. RAM */
-            for (l = 0x80; l < 0x90; l++) {
-                _mem_read_tab[l] = ram_read;
-                _mem_write_tab[l] = ram_store;
-                _mem_read_base_tab[l] = mem_ram + (l << 8);
-                mem_read_limit_tab[l] = 0x8ffd;
-            }
+            petmem_set_vidmem();
             set_std_9tof();
             store_ff = _mem_write_tab[0xff];
             _mem_write_tab[0xff] = store_8x96;
@@ -1137,7 +1139,6 @@ static void store_8x96(WORD addr, BYTE value)
         }
         petmem_map_reg = value;
     }
-    return;
 }
 
 static int fff0_dump(void)
@@ -1177,19 +1178,20 @@ static int fff0_dump(void)
 
 void petmem_set_vidmem(void)
 {
-    int i, l;
+    int i, l, limit;
 
     l = ((0x8000 + petres.videoSize) >> 8) & 0xff;
 /*
     log_message(pet_mem_log, "petmem_set_vidmem(videoSize=%04x, l=%d)",
                 petres.videoSize,l);
 */
-    /* Setup RAM from $8000 to $8000 + petres.videoSize */
+    /* Setup RAM from $8000 to $8000 + petres.videoSize ($8400 or $8800) */
+    limit = (l << 8) - 3;
     for (i = 0x80; i < l; i++) {
         _mem_read_tab[i] = ram_read;
         _mem_write_tab[i] = ram_store;
         _mem_read_base_tab[i] = mem_ram + (i << 8);
-        mem_read_limit_tab[i] = (l << 8) - 3;
+        mem_read_limit_tab[i] = limit;
     }
 
     /* Setup video mirror from $8000 + petres.videoSize to $87ff */
@@ -1211,15 +1213,13 @@ void petmem_set_vidmem(void)
             mem_read_limit_tab[i] = 0;
         }
     } else {
-        /*
-         * Try to code this in a way that is for the time being
-         * compatible with both versions of the colour extension (colour
-         * memory at $8400 or $8800 with mirroring for 40 column
-         * version).
-         */
+        /* Setup colour RAM from $8800 to $8AFF or $8FFF */
         int c = 0x8000 + COLOUR_MEMORY_START;
         i = (c >> 8) & 0xff;
         l = ((c + petres.videoSize) >> 8) & 0xff;
+	if (l > 0x90) {	/* compatibility with 8296 */
+	    l = 0x90;
+	}
 
         for (; i < l; i++) {
             _mem_read_tab[i] = ram_read;
@@ -1231,17 +1231,10 @@ void petmem_set_vidmem(void)
         /* Setup colour mirror from $8800 + petres.videoSize to $8FFF */
         /* falls through if videoSize >= 0x800 */
         for (; i < 0x90; i++) {
-#if OLD_COLOUR_40_COLS
-            _mem_read_tab[i] = read_unused;
-            _mem_write_tab[i] = store_dummy;
-            _mem_read_base_tab[i] = NULL;
-            mem_read_limit_tab[i] = 0;
-#else
             _mem_read_tab[i] = read_vmirror;
             _mem_write_tab[i] = store_vmirror;
             _mem_read_base_tab[i] = mem_ram + c + ((i << 8) & petres.vmask);
             mem_read_limit_tab[i] = 0x8ffd;
-#endif
         }
     }
 }
@@ -1423,6 +1416,8 @@ void mem_initialize_memory(void)
         _mem6809_read_tab_ptr = _mem6809_read_tab;
         _mem6809_write_tab_ptr = _mem6809_write_tab;
     }
+
+    maincpu_resync_limits();
 }
 
 void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
@@ -1695,6 +1690,8 @@ static int mem_dump_io(WORD addr)
         if (petres.crtc) {
             return crtc_dump(&crtc);
         }
+    } else if (addr == 0xe888) {
+	return e888_dump();
     } else if ((addr >= 0xeb00) && (addr <= 0xeb0f)) {
         if (petdww_enabled) {
             return petdwwpia_dump();
@@ -1744,6 +1741,9 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     mon_ioreg_add_list(&mem_ioreg_list, "VIA", 0xe840, 0xe84f, mem_dump_io);
     if (petres.crtc) {
         mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0xe880, 0xe881, mem_dump_io);
+    }
+    if (pethre_enabled) {
+        mon_ioreg_add_list(&mem_ioreg_list, "HRE", 0xe888, 0xe888, mem_dump_io);
     }
     if (petdww_enabled) {
         mon_ioreg_add_list(&mem_ioreg_list, "DWWPIA", 0xeb00, 0xeb0f, mem_dump_io);

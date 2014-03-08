@@ -35,6 +35,7 @@
 #include "crtc.h"
 #include "crtctypes.h"
 #include "log.h"
+#include "monitor.h"
 #include "pethre.h"
 #include "petmem.h"
 #include "pets.h"
@@ -85,7 +86,7 @@ static void pethre_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
 /* ------------------------------------------------------------------------- */
 
 /* Flag: Do we enable the PET HRE?  */
-static int pethre_enabled = 0;
+int pethre_enabled = 0;
 
 /* The value last written to the register. It is not reset on reset. */
 static BYTE reg_E888;
@@ -187,6 +188,20 @@ void pethre_shutdown(void)
     pethre_deactivate();
 }
 
+int e888_dump(void)
+{
+    if (pethre_enabled) {
+	char *s = "";
+	if (reg_E888 != 0x0F && reg_E888 != 0x83) {
+	    s = "(unusual value) ";
+	}
+	mon_out("e888 = %02x %sramON = %d\n", reg_E888, s, petmem_ramON);
+
+	return 0;
+    }
+    return -1;
+}
+
 /* ------------------------------------------------------------------------- */
 /* I/O and embedding the CRTC */
 
@@ -272,7 +287,6 @@ static void pethre_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
         if (screen_rel >= mem_ram + 0xE000) {
             printf("screen_rel too large: scr_rel=%d, ymod8=%d, screen_rel=%04x, xstart=%d xend=%d\n", scr_rel, ymod8, (int)(screen_rel - mem_ram), xstart, xend);
         }
-
 
         if (ma_lo == 0 && width <= MA_WIDTH) {
             /*
