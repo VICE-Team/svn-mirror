@@ -301,9 +301,29 @@ int get_string(struct console_private_s *t, char* string, int string_len)
     return retval;
 }
 
+static void
+get_terminal_size_in_chars(VteTerminal *terminal,
+                           glong *width,
+                           glong *height)
+{
+    *width = vte_terminal_get_column_count(terminal);
+    *height = vte_terminal_get_row_count(terminal);
+}
+
+static void
+screen_resize_window_cb (VteTerminal *terminal,
+                         gpointer* window)
+{
+    glong width, height;
+    get_terminal_size_in_chars(terminal, &width, &height);
+    vte_console.console_xres = (unsigned int)width;
+    vte_console.console_yres = (unsigned int)height;
+}
+
 console_t *uimon_window_open(void)
 {
     GtkWidget *scrollbar, *horizontal_container;
+    GdkGeometry hints;
 
     if (fixed.window == NULL) {
         fixed.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -311,10 +331,28 @@ console_t *uimon_window_open(void)
         gtk_window_set_position(GTK_WINDOW(fixed.window), GTK_WIN_POS_CENTER);
         gtk_widget_set_app_paintable(fixed.window, TRUE);
         gtk_window_set_deletable(GTK_WINDOW(fixed.window), TRUE);
-        gtk_window_set_resizable(GTK_WINDOW(fixed.window), FALSE);
         fixed.term = vte_terminal_new();
         vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), 1000);
         vte_terminal_set_scroll_on_output (VTE_TERMINAL(fixed.term), TRUE);
+        hints.width_inc = vte_terminal_get_char_width (VTE_TERMINAL(fixed.term));
+        hints.height_inc = vte_terminal_get_char_height (VTE_TERMINAL(fixed.term));
+        hints.min_width = 38;
+        hints.min_height = 20;
+        hints.base_width = 2;
+        hints.base_height = 2;
+        gtk_window_set_geometry_hints (GTK_WINDOW (fixed.window),
+                                     fixed.term,
+                                     &hints,
+                                     GDK_HINT_RESIZE_INC |
+                                     GDK_HINT_MIN_SIZE |
+                                     GDK_HINT_BASE_SIZE);
+#if GTK_CHECK_VERSION (2, 91, 1)
+        {
+            glong width, height;
+            get_terminal_size_in_chars(VTE_TERMINAL(fixed.term), &width, &height);
+            gtk_window_resize_to_geometry (GTK_WINDOW (fixed.window), width, height);
+        }
+#endif
         scrollbar = gtk_vscrollbar_new(vte_terminal_get_adjustment (VTE_TERMINAL(fixed.term)));
         horizontal_container = gtk_hbox_new(FALSE, 0);
         gtk_container_add(GTK_CONTAINER(fixed.window), horizontal_container);
@@ -330,8 +368,9 @@ console_t *uimon_window_open(void)
         g_signal_connect(G_OBJECT(fixed.term), "button-press-event", 
             G_CALLBACK(button_press_event), &fixed.input_buffer);
 
-        vte_console.console_xres = vte_terminal_get_column_count(VTE_TERMINAL(fixed.term));
-        vte_console.console_yres = vte_terminal_get_row_count(VTE_TERMINAL(fixed.term));
+        g_signal_connect (fixed.term, "text-modified",
+            G_CALLBACK (screen_resize_window_cb), NULL);
+
         vte_console.console_can_stay_open = 1;
     }
     return uimon_window_resume();
@@ -341,6 +380,7 @@ console_t *uimon_window_resume(void)
 {
     gtk_widget_show_all(fixed.window);
     gtk_window_present(GTK_WINDOW(fixed.window));
+    screen_resize_window_cb (VTE_TERMINAL(fixed.term), NULL);
     ui_dispatch_events();
     gdk_flush();
     return &vte_console;
