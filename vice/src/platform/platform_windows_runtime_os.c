@@ -378,6 +378,8 @@ static winver_t windows_versions[] = {
       5, 1, 8, VER_NT_WORKSTATION, 0, -1, VICE_SM_MEDIACENTER },
     { "Windows XP Fundamentals for Legacy PCs", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT | VER_SUITE_SINGLEUSERTS, -1, -1 },
+    { "Windows Embedded POSReady 2009", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, 2, -1 },
     { "Windows XP Embedded", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, -1, -1 },
     { "Windows XP Professional", VER_PLATFORM_WIN32_NT,
@@ -805,6 +807,31 @@ static int is_thin_pc(void)
     return 0;
 }
 
+static int is_posready(void)
+{
+    HKEY hKey;
+    char PT[128];
+    DWORD PTlen = 128;
+    LONG ret;
+
+    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\POSReady", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret != ERROR_SUCCESS) {
+        return 0;
+    }
+
+    ret = RegQueryValueEx(hKey, "Version", NULL, NULL, (LPBYTE)PT, &PTlen);
+    if ((ret != ERROR_SUCCESS) || (PTlen > 128)) {
+        return 0;
+    }
+
+    RegCloseKey(hKey);
+
+    if (lstrcmpi("2.0", PT) == 0) {
+        return 2;
+    }
+    return 1;
+}
+
 static BOOL CompareWindowsVersion(DWORD dwMajorVersion, DWORD dwMinorVersion)
 {
     OSVERSIONINFOEX ver;
@@ -891,16 +918,20 @@ char *platform_get_windows_runtime_os(void)
                         break;
                 }
             }
-            if (windows_versions[0].majorver >= 6) {
-                if ((windows_versions[0].suite | VER_SUITE_EMBEDDEDNT) == VER_SUITE_EMBEDDEDNT) {
-                    windows_versions[0].pt6 = is_thin_pc();
-                } else {
-                    ViceGetProductInfo = (VGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
-                    ViceGetProductInfo(os_version_ex_info.dwMajorVersion, os_version_ex_info.dwMinorVersion, 0, 0, &PT);
-                    windows_versions[0].pt6 = PT;
-                }
+            if (windows_versions[0].majorver == 5) {
+                windows_versions[0].pt6 = is_posready();
             } else {
-                windows_versions[0].pt6 = -1;
+                if (windows_versions[0].majorver >= 6) {
+                    if ((windows_versions[0].suite | VER_SUITE_EMBEDDEDNT) == VER_SUITE_EMBEDDEDNT) {
+                        windows_versions[0].pt6 = is_thin_pc();
+                    } else {
+                        ViceGetProductInfo = (VGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
+                        ViceGetProductInfo(os_version_ex_info.dwMajorVersion, os_version_ex_info.dwMinorVersion, 0, 0, &PT);
+                        windows_versions[0].pt6 = PT;
+                    }
+                } else {
+                    windows_versions[0].pt6 = -1;
+                }
             }
         } else {
             windows_versions[0].producttype = -1;
