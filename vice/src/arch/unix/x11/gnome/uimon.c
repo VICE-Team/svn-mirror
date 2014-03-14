@@ -301,8 +301,7 @@ int get_string(struct console_private_s *t, char* string, int string_len)
     return retval;
 }
 
-static void
-get_terminal_size_in_chars(VteTerminal *terminal,
+static void get_terminal_size_in_chars(VteTerminal *terminal,
                            glong *width,
                            glong *height)
 {
@@ -310,8 +309,7 @@ get_terminal_size_in_chars(VteTerminal *terminal,
     *height = vte_terminal_get_row_count(terminal);
 }
 
-static void
-screen_resize_window_cb (VteTerminal *terminal,
+static void screen_resize_window_cb (VteTerminal *terminal,
                          gpointer* window)
 {
     glong width, height;
@@ -334,12 +332,18 @@ console_t *uimon_window_open(void)
         fixed.term = vte_terminal_new();
         vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), 1000);
         vte_terminal_set_scroll_on_output (VTE_TERMINAL(fixed.term), TRUE);
+
+        /* allowed window widths are base_width + width_inc * N
+         * allowed window heights are base_height + height_inc * N
+         */
         hints.width_inc = vte_terminal_get_char_width (VTE_TERMINAL(fixed.term));
         hints.height_inc = vte_terminal_get_char_height (VTE_TERMINAL(fixed.term));
-        hints.min_width = 38;
-        hints.min_height = 20;
-        hints.base_width = 2;
-        hints.base_height = 2;
+        /* min size should be multiple of .._inc, else we get funky effects */
+        hints.min_width = hints.width_inc;
+        hints.min_height = hints.height_inc;
+        /* base size should be multiple of .._inc, else we get funky effects */
+        hints.base_width = hints.width_inc;
+        hints.base_height = hints.height_inc;
         gtk_window_set_geometry_hints (GTK_WINDOW (fixed.window),
                                      fixed.term,
                                      &hints,
