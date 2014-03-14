@@ -595,10 +595,9 @@ static void vicii_chip_model_set(struct ViciiChipModel *cm)
     log_message(vicii.log,
                 "Initializing chip model \"%s\" (%d cycles per line, %d raster lines).",
                 cm->name, cm->cycles_per_line, cm->num_raster_lines);
-    log_message(vicii.log,
-                "                   BA    ");
-    log_message(vicii.log,
-                " cycle  xpos vi M76543210   fetch    border gfx      sprite");
+
+    log_verbose("VIC-II:                    BA");
+    log_verbose("VIC-II:  cycle  xpos vi M76543210   fetch    border gfx      sprite");
 
     for (i = 0; i < (cm->cycles_per_line * 2); i++) {
         int phi = (ct[i].cycle & 0x80) ? 1 : 0;
@@ -717,8 +716,8 @@ static void vicii_chip_model_set(struct ViciiChipModel *cm)
             }
 
             /* dump to log */
-            log_message(vicii.log,
-                        "%s $%03x %s %s %s %s %s %s", cycle_str, xpos, visible_str, ba_str, fetch_str, border_str, gfx_str, sprite_str);
+            log_verbose("VIC-II: %s $%03x %s %s %s %s %s %s", 
+                        cycle_str, xpos, visible_str, ba_str, fetch_str, border_str, gfx_str, sprite_str);
         }
 
         xpos_phi[phi] = xpos;
