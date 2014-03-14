@@ -43,6 +43,7 @@ libxawui_a_SOURCES = \
 	uiscreenshot.c \
 	uisnapshot.c \
 	uistatusbar.c \
+	uistatusbar.h \
 	uitapestatus.c \
 	uitapestatus.h \
 	uivsidcontrol.c \
