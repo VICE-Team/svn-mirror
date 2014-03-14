@@ -78,7 +78,8 @@ extern int video_disabled_mode;
 #define MACHINE_JAM_ACTION_MONITOR      2
 #define MACHINE_JAM_ACTION_RESET        3
 #define MACHINE_JAM_ACTION_HARD_RESET   4
-#define MACHINE_NUM_JAM_ACTIONS         5
+#define MACHINE_JAM_ACTION_QUIT         5
+#define MACHINE_NUM_JAM_ACTIONS         6
 
 /* Initialize the machine's resources.  */
 extern int machine_common_resources_init(void);

@@ -496,6 +496,8 @@ static ui_menu_entry_t jam_submenu[] = {
       (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_RESET, NULL },
     { N_("Hard reset"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_HARD_RESET, NULL },
+    { N_("Quit emulator"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_QUIT, NULL },
     { NULL }
 };
 

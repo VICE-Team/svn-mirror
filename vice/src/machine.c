@@ -101,6 +101,8 @@ unsigned int machine_jam(const char *format, ...)
         } else {
             ret = ui_jam_dialog(str);
         }
+    } else if (jam_action == MACHINE_JAM_ACTION_QUIT) {
+        exit(EXIT_SUCCESS);
     } else {
         int actions[4] = {
             -1, UI_JAM_MONITOR, UI_JAM_RESET, UI_JAM_HARD_RESET

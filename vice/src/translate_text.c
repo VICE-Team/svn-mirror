@@ -3322,10 +3322,10 @@ translate_t string_table[] = {
 #endif
 
 /* machine.c */
-/* en */ {IDCLS_SET_MACHINE_JAM_ACTION,    N_("Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset)")},
+/* en */ {IDCLS_SET_MACHINE_JAM_ACTION,    N_("Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_MACHINE_JAM_ACTION_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_MACHINE_JAM_ACTION_DE, "Aktion bei CPU JAM: (0: Nachfrage, 1: Weitermachen, 2: Monitor, 3:\nReset, 4: Hard Reset)"},
+/* de */ {IDCLS_SET_MACHINE_JAM_ACTION_DE, "Aktion bei CPU JAM: (0: Nachfrage, 1: Weitermachen, 2: Monitor, 3: Reset, 4: Hard Reset. 5: Emulator beenden)"},
 /* es */ {IDCLS_SET_MACHINE_JAM_ACTION_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_MACHINE_JAM_ACTION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_MACHINE_JAM_ACTION_HU, ""},  /* fuzzy */
