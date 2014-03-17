@@ -1084,7 +1084,10 @@ static void ciacore_inttod(CLOCK offset, void *data)
     rclk = *(cia_context->clk_ptr) - offset;
 
     if (cia_context->power_freq == 0) {
-        /* if power frequency is not initialized, or not present, return immediatly */
+        /* if power frequency is not initialized, or not present, return immediatly.
+           check again in about 1/10th second */
+        cia_context->todclk = *(cia_context->clk_ptr) + 100000;
+        alarm_set(cia_context->tod_alarm, cia_context->todclk);
         return;
     }
 
