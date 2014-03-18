@@ -1320,6 +1320,9 @@ IDCLS_SET_DEVICE_TYPE_4
 /* printerdrv/interface-serial.c */
 IDCLS_SET_DEVICE_TYPE_5
 
+/* printerdrv/interface-serial.c */
+IDCLS_SET_DEVICE_TYPE_6
+
 /* printerdrv/interface-userport.c */
 IDCLS_ENABLE_USERPORT_PRINTER
 

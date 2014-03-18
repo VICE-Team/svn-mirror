@@ -124,8 +124,8 @@ static const cmdline_option_t cmdline_options[] = {
     { "-device6", SET_RESOURCE, 1,
       NULL, NULL, "Printer6", (void *)PRINTER_DEVICE_FS,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_TYPE, IDCLS_UNUSED,
-      NULL, T_("Set device type for device #6 (0: NONE, 1: FS, 2: REAL)") },
+      IDCLS_P_TYPE, IDCLS_SET_DEVICE_TYPE_6,
+      NULL, NULL },
     { NULL }
 };
 

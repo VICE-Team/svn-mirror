@@ -9529,6 +9529,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_DEVICE_TYPE_5_TR, "Aygýt #5 için aygýt tipini ayarlayýn (0: YOK, 1: FS, 2: GERÇEK)"},
 #endif
 
+/* printerdrv/interface-serial.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_6,    N_("Set device type for device #6 (0: NONE, 1: FS, 2: REAL)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_DEVICE_TYPE_6_DA, "Sæt enhedstype for enhed #6 (0: INGEN, 1: FS, 2: ÆGTE)"},
+/* de */ {IDCLS_SET_DEVICE_TYPE_6_DE, "Geräte Typ für Gerät #6 (0: NONE, 1: FS, 2: REAL) setzen"},
+/* es */ {IDCLS_SET_DEVICE_TYPE_6_ES, "Seleccionar tipo para el periférico #6 (0:NO 1:FS, 2:REAL)"},
+/* fr */ {IDCLS_SET_DEVICE_TYPE_6_FR, "Spécifier le type de périphérique pour #6 (0: AUCUN, 1: SF, 2: RÉEL)"},
+/* hu */ {IDCLS_SET_DEVICE_TYPE_6_HU, "Adja meg a #6-ös eszköz típusát (0:Nincs, 1: Fájlrendszer, 2: Valódi)"},
+/* it */ {IDCLS_SET_DEVICE_TYPE_6_IT, "Specifica il tipo di periferica #6 (0 NESSUNA, 1 FS, 2 REALE)"},
+/* ko */ {IDCLS_SET_DEVICE_TYPE_6_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_6_NL, "Zet apparaat soort voor apparaat #6 (0: GEEN, 1: FS, 2: ECHT)"},
+/* pl */ {IDCLS_SET_DEVICE_TYPE_6_PL, "Okre¶l typ urz±dzenia #6 (0: BRAK, 1: SYSTEM PLIKÓW, 2: RZECZYWISTE)"},
+/* ru */ {IDCLS_SET_DEVICE_TYPE_6_RU, "Set device type for device #6 (0: NONE, 1: FS, 2: REAL)"},
+/* sv */ {IDCLS_SET_DEVICE_TYPE_6_SV, "Ange enhetstyp för enhet 6 (0: INGEN, 1: FS, 2: ÄKTA)"},
+/* tr */ {IDCLS_SET_DEVICE_TYPE_6_TR, "Aygýt #6 için aygýt tipini ayarlayýn (0: YOK, 1: FS, 2: GERÇEK)"},
+#endif
+
 /* printerdrv/interface-userport.c */
 /* en */ {IDCLS_ENABLE_USERPORT_PRINTER,    N_("Enable the userport printer emulation")},
 #ifdef HAS_TRANSLATION
