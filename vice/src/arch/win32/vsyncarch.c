@@ -109,11 +109,6 @@ void vsyncarch_sleep(signed long delay)
 
 void vsyncarch_presync(void)
 {
-#if !defined(IDE_COMPILE) && !defined(WATCOM_COMPILE)
-    /* prevent screensaver */
-    win32_mouse_jitter();
-#endif
-
     /* Update mouse */
     mouse_update_mouse();
 
@@ -129,6 +124,11 @@ void vsyncarch_postsync(void)
 {
     /* Dispatch all the pending UI events.  */
     ui_dispatch_events();
+
+#if !defined(IDE_COMPILE) && !defined(WATCOM_COMPILE)
+    /* prevent screensaver */
+    win32_mouse_jitter();
+#endif
 }
 
 int vsyncarch_vbl_sync_enabled(void)
