@@ -339,12 +339,14 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 
 #ifdef HAVE_MOUSE
     if (_mouse_enabled && (mouse_port == 2)) {
-        if (mouse_type == MOUSE_TYPE_NEOS) {
-            byte &= neos_mouse_read();
-        } else if (mouse_type == MOUSE_TYPE_SMART) {
-            byte &= smart_mouse_read();
-        } else if (mouse_kind == MOUSE_KIND_POLLED) {
-            byte &= mouse_poll();
+        switch (mouse_type) {
+        case MOUSE_TYPE_NEOS: byte &= neos_mouse_read(); break;
+        case MOUSE_TYPE_SMART: byte &= smart_mouse_read(); break;
+        case MOUSE_TYPE_ST:
+        case MOUSE_TYPE_AMIGA:
+        case MOUSE_TYPE_CX22: byte &= mouse_poll(); break;
+        case MOUSE_TYPE_MICROMYS: byte &= micromys_mouse_read(); break;
+        default: break;
         }
     }
 #endif
@@ -437,12 +439,14 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
 #ifdef HAVE_MOUSE
     if (_mouse_enabled && (mouse_port == 1)) {
-        if (mouse_type == MOUSE_TYPE_NEOS) {
-            byte &= neos_mouse_read();
-        } else if (mouse_type == MOUSE_TYPE_SMART) {
-            byte &= smart_mouse_read();
-        } else if (mouse_kind == MOUSE_KIND_POLLED) {
-            byte &= mouse_poll();
+        switch (mouse_type) {
+        case MOUSE_TYPE_NEOS: byte &= neos_mouse_read(); break;
+        case MOUSE_TYPE_SMART: byte &= smart_mouse_read(); break;
+        case MOUSE_TYPE_ST:
+        case MOUSE_TYPE_AMIGA:
+        case MOUSE_TYPE_CX22: byte &= mouse_poll(); break;
+        case MOUSE_TYPE_MICROMYS: byte &= micromys_mouse_read(); break;
+        default: break;
         }
     }
 #endif

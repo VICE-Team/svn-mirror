@@ -71,7 +71,6 @@ static log_t mouse_log = LOG_ERR;
 int _mouse_enabled = 0;
 int mouse_port = 1;
 int mouse_type = MOUSE_TYPE_1351;
-int mouse_kind = MOUSE_KIND_OTHER;
 /* --------------------------------------------------------- */
 /* POT input selection */
 
@@ -277,6 +276,7 @@ static CLOCK update_x_emu_iv = 0;      /* in cpu cycle units */
 static CLOCK update_y_emu_iv = 0;      /* in cpu cycle units */
 static CLOCK next_update_x_emu_ts = 0; /* in cpu cycle units */
 static CLOCK next_update_y_emu_ts = 0; /* in cpu cycle units */
+static CLOCK up_down_pulse_end = 0;    /* in cpu cycle units */
 static int sx, sy;
 
 /* the ratio between emulated cpu cycles and vsynchapi time units */
@@ -300,6 +300,9 @@ static void clk_overflow_callback(CLOCK sub, void *data)
     }
     if (next_update_y_emu_ts > (CLOCK) 0) {
         next_update_y_emu_ts -= sub;
+    }
+    if (up_down_pulse_end > (CLOCK) 0) {
+        up_down_pulse_end -= sub;
     }
 }
 
@@ -448,6 +451,20 @@ BYTE mouse_poll(void)
     return polled_joyval;
 }
 
+static int up_down_counter = 0;
+
+BYTE micromys_mouse_read(void)
+{
+    /* update wheel until we're ahead */
+    while (up_down_counter && up_down_pulse_end <= maincpu_clk) {
+        up_down_counter += (up_down_counter < 0) * 2 - 1;
+        up_down_pulse_end += 512 * 98; /* 50 ms counted from POT input (98 A/D cycles) */
+    }
+    if (up_down_counter & 1) {
+        return ~(4 << (up_down_counter < 0));
+    }
+    return 0xff;
+}
 /* --------------------------------------------------------- */
 /* Paddle support */
 
@@ -550,14 +567,6 @@ static int set_mouse_type(int val, void *param)
     }
 
     mouse_type = val;
-    if (mouse_type == MOUSE_TYPE_ST ||
-        mouse_type == MOUSE_TYPE_AMIGA ||
-        mouse_type == MOUSE_TYPE_CX22) {
-        mouse_kind = MOUSE_KIND_POLLED;
-    } else {
-        mouse_kind = MOUSE_KIND_OTHER;
-    }
-
     return 0;
 }
 
@@ -740,10 +749,11 @@ void mouse_button_up(int pressed)
 {
     switch (mouse_type) {
         case MOUSE_TYPE_MICROMYS:
-            if (pressed) {    /* TODO: 50 ms low pulse, 50ms high for each */
-                joystick_set_value_or(mouse_port, 4);
-            } else {
-                joystick_set_value_and(mouse_port, ~4);
+            if (pressed) {
+                if (!up_down_counter) {
+                    up_down_pulse_end = maincpu_clk;
+                }
+                up_down_counter += 2;
             }
             break;
         default:
@@ -755,10 +765,11 @@ void mouse_button_down(int pressed)
 {
     switch (mouse_type) {
         case MOUSE_TYPE_MICROMYS:
-            if (pressed) {    /* TODO: 50 ms low pulse, 50ms high for each */
-                joystick_set_value_or(mouse_port, 8);
-            } else {
-                joystick_set_value_and(mouse_port, ~8);
+            if (pressed) {
+                if (!up_down_counter) {
+                    up_down_pulse_end = maincpu_clk;
+                }
+                up_down_counter -= 2;
             }
             break;
         default:
