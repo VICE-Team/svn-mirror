@@ -740,6 +740,14 @@ void mouse_button_middle(int pressed)
                 joystick_set_value_and(mouse_port, ~2);
             }
             break;
+        case MOUSE_TYPE_AMIGA:
+        case MOUSE_TYPE_ST:
+            if (pressed) {
+                neos_and_amiga_buttons |= 2;
+            } else {
+                neos_and_amiga_buttons &= ~2;
+            }
+            break;
         default:
             break;
     }
@@ -816,11 +824,16 @@ BYTE mouse_get_y(void)
         case MOUSE_TYPE_KOALAPAD:
         case MOUSE_TYPE_PADDLE:
             return mouse_get_paddle_y();
-        case MOUSE_TYPE_NEOS:
-        case MOUSE_TYPE_AMIGA:
-        case MOUSE_TYPE_CX22:
         case MOUSE_TYPE_ST:
-            /* FIXME: is this correct ?! */
+        case MOUSE_TYPE_AMIGA:
+            /* Real Amiga and Atari ST mice probably needs this mod
+             * http://www.mssiah-forum.com/viewtopic.php?pid=15208
+             * for their middle buttons to be read using pot_y. */
+            return (neos_and_amiga_buttons & 2) ? 0xff : 0;
+        case MOUSE_TYPE_CX22:
+        case MOUSE_TYPE_NEOS:
+            /* CX22 has no middle button */
+            /* NEOS has no middle button */
             break;
         default:
             DBG(("mouse_get_y: invalid mouse_type"));
