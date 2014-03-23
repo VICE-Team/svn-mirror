@@ -439,7 +439,7 @@ BYTE mouse_poll(void)
                 polled_joyval = ((amiga_mouse_table[quadrature_x] << 1) | amiga_mouse_table[quadrature_y] | 0xf0);
                 break;
             case MOUSE_TYPE_CX22:
-                polled_joyval = (((quadrature_y & 2) << 2) | ((sy + 1) << 1) | (quadrature_x & 2) | ((sx + 1) >> 1) | 0xf0);
+                polled_joyval = (((quadrature_y & 1) << 3) | ((sy > 0) << 2) | ((quadrature_x & 1) << 1) | (sx > 0) | 0xf0);
                 break;
             case MOUSE_TYPE_ST:
                 polled_joyval = (st_mouse_table[quadrature_x] | (st_mouse_table[quadrature_y] << 2) | 0xf0);
