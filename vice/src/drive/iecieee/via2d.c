@@ -207,8 +207,18 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
            ... */
         int old_stepper_position = track_number & 3;
 
+        /* FIXME: emulating the mechanical delay with such naive approach does
+                  not work, as the actual step is delayed to the next write to pb.
+                  regardless how long that will take. for one example that does
+                  not work like this, see bug #508
+
+           FIXME: we should implement the intended behaviour using an alarm
+                  instead.
+         */
+
         /* the steps travelled and the direction */
-        int step_count = (via2p->drive->stepper_new_position - old_stepper_position) & 3;
+        /* int step_count = (via2p->drive->stepper_new_position - old_stepper_position) & 3; */
+        int step_count = (new_stepper_position - old_stepper_position) & 3;
         if (step_count == 3) {
             step_count = -1;
         }
@@ -225,6 +235,9 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
             the simplified emulation here only simulates startup time, and then
             steps immediatly. while still not being quite accurate, this avoids
             unwanted stepping at power-up and/or reset (bug #401)
+
+            NOTE: this unwanted step to 18.5 at poweron/reset can infact be
+                  observed at real 1541-II drives as well
          */
         /*
             Action Replay 6:                                     8333 = 8.3ms
@@ -232,7 +245,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
             fastest usable stepping speed seems to be around     4096 = 4.1ms 
             min delay so we dont get a step at reset              700 = 0.7ms
          */
-        if ((*(via_context->clk_ptr) - via2p->drive->stepper_last_change_clk) >= 2000) {
+        /* if ((*(via_context->clk_ptr) - via2p->drive->stepper_last_change_clk) >= 2000) */ {
             /* presumably only single steps work */
             if (step_count == 1 || step_count == -1) {
                 DBG(("VIA2: store_prb drive_move_head(%d) (%02x to %02x) clk:%d delay:%d", 
@@ -243,10 +256,10 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
             }
         }
 
-        if (new_stepper_position != via2p->drive->stepper_new_position) {
+        /* if (new_stepper_position != via2p->drive->stepper_new_position) {
             via2p->drive->stepper_new_position = new_stepper_position;
             via2p->drive->stepper_last_change_clk = *(via_context->clk_ptr);
-        } 
+        } */
     }
 
     if ((poldpb ^ byte) & 0x60) {   /* Zone bits */
