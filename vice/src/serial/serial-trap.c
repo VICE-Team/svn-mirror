@@ -43,6 +43,15 @@
    the PET.  (FIXME?)  */
 #define BSOUR 0x95 /* Buffered Character for IEEE Bus */
 
+/* FIXME: code here assumes 4 bits for device number; should be 5? */
+#define LISTEN_MASK     0xF0    /* should be 0xE0 */
+#define DEVNR_MASK      0x0F    /* should be 0x1F */
+#define SA_MASK         0x0F
+#define LISTEN          0x20
+#define TALK            0x40
+#define SECONDARY       0x60
+#define CLOSE           0xE0
+#define OPEN            0xF0
 
 /* Address of serial TMP register.  */
 static WORD tmp_in;
@@ -59,7 +68,7 @@ static void (*attention_callback_func)(void);
 
 static unsigned int serial_truedrive;
 
-#define IS_PRINTER(d)	(((d) & 0x0F) >= 4 && ((d) & 0x0F) <= 6)
+#define IS_PRINTER(d)   (((d) & DEVNR_MASK) >= 4 && ((d) & DEVNR_MASK) <= 7)
 
 static void serial_set_st(BYTE st)
 {
@@ -84,53 +93,49 @@ int serial_trap_attention(void)
      */
     b = mem_read(((BYTE)(BSOUR))); /* BSOUR - character for serial bus */
 
-    if (((b & 0xf0) == 0x20) || ((b & 0xf0) == 0x40)) {
-        if (serial_truedrive && !IS_PRINTER(b)) {
+    if (serial_truedrive && !IS_PRINTER(b)) {
+        if (((b & 0xf0) == LISTEN) || ((b & 0xf0) == TALK)) {
             /* Set TrapDevice even if the trap is not taken; needed
                for other traps.  */
             TrapDevice = b;
-            return 0;
         }
-    } else {
-        if (serial_truedrive && !IS_PRINTER(TrapDevice)) {
-            return 0;
-        }
+        return 0;
     }
 
     /* do a flush if unlisten for close and command channel */
-    if (b == 0x3f) {
+    if (b == (LISTEN + 0x1f)) {
         serial_iec_bus_unlisten(TrapDevice, TrapSecondary, serial_set_st);
-    } else if (b == 0x5f) {
+    } else if (b == (TALK + 0x1f)) {
         serial_iec_bus_untalk(TrapDevice, TrapSecondary, serial_set_st);
     } else {
         switch (b & 0xf0) {
-            case 0x20:
-            case 0x40:
+            case LISTEN:
+            case TALK:
                 TrapDevice = b;
                 break;
-            case 0x60:
+            case SECONDARY:
                 TrapSecondary = b;
                 switch (TrapDevice & 0xf0) {
-                    case 0x20:
+                    case LISTEN:
                         serial_iec_bus_listen(TrapDevice, TrapSecondary, serial_set_st);
                         break;
-                    case 0x40:
+                    case TALK:
                         serial_iec_bus_talk(TrapDevice, TrapSecondary, serial_set_st);
                         break;
                 }
                 break;
-            case 0xe0:
+            case CLOSE:
                 TrapSecondary = b;
                 serial_iec_bus_close(TrapDevice, TrapSecondary, serial_set_st);
                 break;
-            case 0xf0:
+            case OPEN:
                 TrapSecondary = b;
                 serial_iec_bus_open(TrapDevice, TrapSecondary, serial_set_st);
                 break;
         }
     }
 
-    p = serial_device_get(TrapDevice & 0x0f);
+    p = serial_device_get(TrapDevice & DEVNR_MASK);
     if (!(p->inuse)) {
         serial_set_st(0x80);
     }

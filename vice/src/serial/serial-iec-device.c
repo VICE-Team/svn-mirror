@@ -56,7 +56,7 @@ static int set_iec_device_enable(int enable, void *param)
 
     unit = vice_ptr_to_uint(param);
 
-    if ((unit < 4 || unit > 6) && (unit < 8 || unit > 11)) {
+    if ((unit < 4 || unit >= IECBUS_NUM)) {
         return -1;
     }
 
@@ -79,6 +79,8 @@ static const resource_int_t resources_int[] = {
       &iec_device_enabled[5], set_iec_device_enable, (void *)5 },
     { "IECDevice6", 0, RES_EVENT_SAME, NULL,
       &iec_device_enabled[6], set_iec_device_enable, (void *)6 },
+    { "IECDevice7", 0, RES_EVENT_SAME, NULL,
+      &iec_device_enabled[6], set_iec_device_enable, (void *)7 },
     { "IECDevice8", 0, RES_EVENT_SAME, NULL,
       &iec_device_enabled[8], set_iec_device_enable, (void *)8 },
     { "IECDevice9", 0, RES_EVENT_SAME, NULL,
@@ -126,6 +128,16 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, T_("Disable IEC device emulation for device #6") },
+    { "-iecdevice7", SET_RESOURCE, 0,
+      NULL, NULL, "IECDevice6", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Enable IEC device emulation for device #7") },
+    { "+iecdevice7", SET_RESOURCE, 0,
+      NULL, NULL, "IECDevice6", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Disable IEC device emulation for device #7") },
     { "-iecdevice8", SET_RESOURCE, 0,
       NULL, NULL, "IECDevice8", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,

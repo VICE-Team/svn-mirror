@@ -34,6 +34,9 @@
 #include "uiprinter.h"
 
 UI_MENU_DEFINE_TOGGLE(PrinterUserport)
+#if defined(HAVE_OPENCBM) && 0 /* OpenCBM not implemented for IEEE bus */
+UI_MENU_DEFINE_TOGGLE(Printer7)
+#endif
 
 ui_menu_entry_t printerieee_settings_menu[] = {
     { N_("Printer #4 emulation"), UI_MENU_TYPE_TICK,
@@ -71,6 +74,11 @@ ui_menu_entry_t printerieee_settings_menu[] = {
     { T_("Printer #6 formfeed"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uiprinter_formfeed, (ui_callback_data_t)2, NULL,
       KEYSYM_6, UI_HOTMOD_META },
+#if defined(HAVE_OPENCBM) && 0 /* OpenCBM not implemented for IEEE bus */
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Device #7 Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Printer7,
+      (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Userport printer emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_PrinterUserport, NULL, NULL },

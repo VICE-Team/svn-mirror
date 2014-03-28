@@ -39,9 +39,14 @@
 #include "machine-bus.h"
 #include "printer.h"
 #include "resources.h"
+#include "serial.h"
 #include "translate.h"
 #include "types.h"
 
+#ifdef HAVE_OPENCBM
+static int interface_opencbm_attach(unsigned int prnr);
+static int interface_opencbm_detach(unsigned int prnr);
+#endif
 static int interface_serial_attach(unsigned int prnr);
 static int interface_serial_detach(unsigned int prnr);
 
@@ -49,10 +54,15 @@ static log_t interface_serial_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
+/*
+ * We have internal emulation of devices at numbers 4...6,
+ * but we allow to connect real devices in the range 4...7.
+ */
 #define FIRST_PRINTER_DEVICE_NUMBER     4
-#define NUM_PRINTERS                    3       /* 4, 5, 6 */
+#define NUM_PRINTERS                    3       /* 4...6 */
+#define NUM_PRINTER_DEVICE_NUMBERS      4       /* 4...7 */
 
-static int printer_enabled[NUM_PRINTERS];
+static int printer_enabled[NUM_PRINTER_DEVICE_NUMBERS];
 
 static int set_printer_enabled(int flag, void *param)
 {
@@ -69,26 +79,52 @@ static int set_printer_enabled(int flag, void *param)
 
     prnr = vice_ptr_to_uint(param);
 
-    if (printer_enabled[prnr] == PRINTER_DEVICE_FS
-        && flag != PRINTER_DEVICE_FS) {
-        if (interface_serial_detach(prnr) < 0) {
-            return -1;
-        }
+    if (prnr >= NUM_PRINTER_DEVICE_NUMBERS) {
+        return -1;
     }
-    if (flag == PRINTER_DEVICE_FS
-        && printer_enabled[prnr] != PRINTER_DEVICE_FS) {
-        if (interface_serial_attach(prnr) < 0) {
-            return -1;
+
+#ifdef HAVE_OPENCBM
+    /*
+     * Special hack to allow the use of a toggle menu item
+     * for device #7.
+     */
+    if (prnr == 3 && flag != 0) {
+        flag = PRINTER_DEVICE_REAL;
+    }
+#endif /* HAVE_OPENCBM */
+
+    if (prnr < NUM_PRINTERS) {
+        if (printer_enabled[prnr] == PRINTER_DEVICE_FS
+            && flag != PRINTER_DEVICE_FS) {
+            if (interface_serial_detach(prnr) < 0) {
+                return -1;
+            }
+        }
+        if (flag == PRINTER_DEVICE_FS
+            && printer_enabled[prnr] != PRINTER_DEVICE_FS) {
+            if (interface_serial_attach(prnr) < 0) {
+                return -1;
+            }
         }
     }
 
+#ifdef HAVE_OPENCBM
+
     if (printer_enabled[prnr] == PRINTER_DEVICE_REAL
         && flag != PRINTER_DEVICE_REAL) {
+        if (interface_opencbm_detach(prnr) < 0) {
+            return -1;
+        }
     }
 
     if (flag == PRINTER_DEVICE_REAL
         && printer_enabled[prnr] != PRINTER_DEVICE_REAL) {
+        if (interface_opencbm_attach(prnr) < 0) {
+            return -1;
+        }
     }
+
+#endif /* HAVE_OPENCBM */
 
     printer_enabled[prnr] = flag;
 
@@ -102,6 +138,8 @@ static const resource_int_t resources_int[] = {
       &printer_enabled[1], set_printer_enabled, (void *)1 },
     { "Printer6", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &printer_enabled[2], set_printer_enabled, (void *)2 },
+    { "Printer7", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &printer_enabled[3], set_printer_enabled, (void *)3 },
     { NULL }
 };
 
@@ -126,6 +164,11 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_TYPE, IDCLS_SET_DEVICE_TYPE_6,
       NULL, NULL },
+    { "-device7", SET_RESOURCE, 1,
+      NULL, NULL, "Printer7", (void *)PRINTER_DEVICE_REAL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_TYPE, IDCLS_UNUSED,
+      NULL, T_("Set device type for device #7 (0: NONE, 2: REAL)") },
     { NULL }
 };
 
@@ -136,7 +179,11 @@ int interface_serial_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-static unsigned int inuse[NUM_PRINTERS];
+/*
+ * Which secondary addresses are in use for each printer
+ * (stored as bits in each int).
+ */
+static unsigned int inuse_secadr[NUM_PRINTER_DEVICE_NUMBERS];
 
 /*
  * Not all bytes that are sent under ATTENTION on the bus are translated
@@ -157,7 +204,7 @@ static int open_pr(unsigned int prnr, const BYTE *name, unsigned int length,
     }
 
     /* Check for first open and do special call if so. */
-    if (inuse[prnr] == 0) {
+    if (inuse_secadr[prnr] == 0) {
         if (driver_select_open(prnr, DRIVER_FIRST_OPEN) < 0) {
             log_error(interface_serial_log,
                       "Couldn't initialize device #%i.",
@@ -166,7 +213,7 @@ static int open_pr(unsigned int prnr, const BYTE *name, unsigned int length,
         }
     }
 
-    if (inuse[prnr] & mask) {
+    if (inuse_secadr[prnr] & mask) {
         log_error(interface_serial_log,
                   "Open printer #%i,%i while already open - ignoring.",
                 prnr + FIRST_PRINTER_DEVICE_NUMBER, secondary);
@@ -180,7 +227,7 @@ static int open_pr(unsigned int prnr, const BYTE *name, unsigned int length,
         return -1;
     }
 
-    inuse[prnr] |= mask;
+    inuse_secadr[prnr] |= mask;
 
     return 0;
 }
@@ -195,7 +242,7 @@ static int write_pr(unsigned int prnr, BYTE byte, unsigned int secondary)
     int err;
     int mask = 1 << secondary;
 
-    if (!(inuse[prnr] & mask)) {
+    if (!(inuse_secadr[prnr] & mask)) {
         /* oh, well, we just assume an implicit open - "OPEN 1,4"
            just does not leave any trace on the serial bus */
         log_message(interface_serial_log,
@@ -216,7 +263,7 @@ static int close_pr(unsigned int prnr, unsigned int secondary)
 {
     int mask = 1 << secondary;
 
-    if (!(inuse[prnr] & mask)) {
+    if (!(inuse_secadr[prnr] & mask)) {
         log_error(interface_serial_log,
                   "Close printer #%i,%i while closed - ignoring.",
                   prnr + FIRST_PRINTER_DEVICE_NUMBER, secondary);
@@ -225,10 +272,10 @@ static int close_pr(unsigned int prnr, unsigned int secondary)
 
     driver_select_close(prnr, secondary);
 
-    inuse[prnr] &= ~mask;
+    inuse_secadr[prnr] &= ~mask;
 
     /* Check for last close and do special call if so. */
-    if (inuse[prnr] == 0) {
+    if (inuse_secadr[prnr] == 0) {
         driver_select_close(prnr, DRIVER_LAST_CLOSE);
     }
 
@@ -240,7 +287,7 @@ static void flush_pr(unsigned int prnr, unsigned int secondary)
 {
     int mask = 1 << secondary;
 
-    if (!(inuse[prnr] & mask)) {
+    if (!(inuse_secadr[prnr] & mask)) {
         log_error(interface_serial_log,
                   "Flush printer #%i,%i while closed - ignoring.",
                   prnr + FIRST_PRINTER_DEVICE_NUMBER, secondary);
@@ -345,20 +392,66 @@ int interface_serial_close(unsigned int unit)
     return 0;
 }
 
+/*
+ * Re-initialize the settings from the resources or command line,
+ * which may have been reset in the mean time...
+ */
 int interface_serial_late_init(void)
 {
     int i;
 
-    for (i = 0; i < NUM_PRINTERS; i++) {
-        if (printer_enabled[i]) {
+    for (i = 0; i < NUM_PRINTER_DEVICE_NUMBERS; i++) {
+        if (printer_enabled[i] == PRINTER_DEVICE_FS) {
             if (interface_serial_attach(i) < 0) {
                 return -1;
             }
         }
+#ifdef HAVE_OPENCBM
+        else if (printer_enabled[i] == PRINTER_DEVICE_REAL) {
+            if (interface_opencbm_attach(i) < 0) {
+                return -1;
+            }
+        }
+#endif /* HAVE_OPENCBM */
     }
 
     return 0;
 }
+
+/* ------------------------------------------------------------------------- */
+#if defined(HAVE_OPENCBM)
+
+static int interface_opencbm_attach(unsigned int prnr)
+{
+    int devnr = FIRST_PRINTER_DEVICE_NUMBER + prnr;
+    serial_t *p;
+
+    /*log_message(interface_serial_log, "calling interface_opencbm_attach %d", prnr);*/
+
+    serial_device_type_set(SERIAL_DEVICE_REAL, devnr);
+    p = serial_device_get(devnr);
+    p->inuse = 1;
+
+    inuse_secadr[prnr] = 0;
+
+    return 0;
+}
+
+static int interface_opencbm_detach(unsigned int prnr)
+{
+    int devnr = FIRST_PRINTER_DEVICE_NUMBER + prnr;
+    serial_t *p;
+
+    /*log_message(interface_serial_log, "calling interface_opencbm_detach %d", prnr);*/
+
+    serial_device_type_set(SERIAL_DEVICE_NONE, devnr);
+    p = serial_device_get(devnr);
+    p->inuse = 0;
+
+    return interface_serial_detach(prnr);
+}
+
+#endif /* HAVE_OPENCBM */
 
 /* ------------------------------------------------------------------------- */
 
@@ -366,7 +459,7 @@ static int interface_serial_attach(unsigned int prnr)
 {
     int err;
 
-    inuse[prnr] = 0;
+    inuse_secadr[prnr] = 0;
 
     switch (prnr) {
         case 0:
@@ -393,16 +486,17 @@ static int interface_serial_attach(unsigned int prnr)
                   "Cannot attach serial printer #%i.", prnr + FIRST_PRINTER_DEVICE_NUMBER);
         return -1;
     }
+    serial_device_type_set(SERIAL_DEVICE_FS, FIRST_PRINTER_DEVICE_NUMBER + prnr);
 
     return 0;
 }
 
 static int interface_serial_detach(unsigned int prnr)
 {
-    if (prnr < NUM_PRINTERS && inuse[prnr]) {
+    if (prnr < NUM_PRINTERS && inuse_secadr[prnr]) {
         int i;
         for (i = 0; i < 8; i++) {
-            if (inuse[prnr] & (1 << i)) {
+            if (inuse_secadr[prnr] & (1 << i)) {
                 flush_pr(prnr, i);
                 close_pr(prnr, i);
             }
@@ -425,7 +519,7 @@ void interface_serial_shutdown(void)
 {
     int i;
 
-    for (i = 0; i < NUM_PRINTERS; i++) {
+    for (i = 0; i < NUM_PRINTER_DEVICE_NUMBERS; i++) {
         interface_serial_detach(i);
     }
 }

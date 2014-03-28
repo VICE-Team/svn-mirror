@@ -35,6 +35,8 @@
 UI_MENU_DEFINE_TOGGLE(IECDevice4)
 UI_MENU_DEFINE_TOGGLE(IECDevice5)
 UI_MENU_DEFINE_TOGGLE(IECDevice6)
+UI_MENU_DEFINE_TOGGLE(IECDevice7)
+UI_MENU_DEFINE_TOGGLE(Printer7)
 
 ui_menu_entry_t printeriec_plus4_settings_menu[] = {
     { N_("Printer #4 emulation"), UI_MENU_TYPE_TICK,
@@ -78,6 +80,13 @@ ui_menu_entry_t printeriec_plus4_settings_menu[] = {
     { T_("Printer #6 formfeed"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uiprinter_formfeed, (ui_callback_data_t)2, NULL,
       KEYSYM_6, UI_HOTMOD_META },
+#ifdef HAVE_OPENCBM
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Device #7 Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Printer7,
+      (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
+    { T_("Device #7 enable IEC device"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_IECDevice7, NULL, NULL },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Printer text device 1"), UI_MENU_TYPE_DOTS, (ui_callback_t)uiprinter_set_printer_exec_file,
       (ui_callback_data_t)"PrinterTextDevice1", NULL },
