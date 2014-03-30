@@ -83,6 +83,7 @@ extern char *platform_get_syllable_runtime_os(void);
 extern char *platform_get_syllable_runtime_cpu(void);
 
 extern char *platform_get_linux_runtime_os(void);
+extern char *platform_get_linux_runtime_cpu(void);
 
 extern char *platform_get_interix_runtime_os(void);
 
@@ -169,26 +170,6 @@ extern char *platform_get_minix_runtime_cpu(void);
 
 /* Set the runtime cpu call for known platforms */
 
-/* MacOSX */
-#if defined(MACOSX_COCOA)
-#define RUNTIME_CPU_CALL platform_get_macosx_runtime_cpu
-#endif
-
-/* SkyOS */
-#ifdef __SKYOS__
-#define RUNTIME_CPU_CALL platform_get_skyos_runtime_cpu
-#endif
-
-/* Syllable */
-#ifdef __SYLLABLE__
-#define RUNTIME_CPU_CALL platform_get_syllable_runtime_cpu
-#endif
-
-/* x86/amd64/x86_64 */
-#ifndef PLATFORM_NO_X86_ASM
-#define RUNTIME_CPU_CALL platform_get_x86_runtime_cpu
-#endif
-
 /* SCO Unix 4.x */
 #ifdef SCO4UNIX_COMPILE
 #define RUNTIME_CPU_CALL platform_get_sco_runtime_cpu
@@ -239,6 +220,31 @@ extern char *platform_get_minix_runtime_cpu(void);
 /* Rhapsody */
 #ifdef RHAPSODY_COMPILE
 #define RUNTIME_CPU_CALL platform_get_rhapsody_runtime_cpu
+#endif
+
+/* MacOSX */
+#if defined(MACOSX_COCOA)
+#define RUNTIME_CPU_CALL platform_get_macosx_runtime_cpu
+#endif
+
+/* SkyOS */
+#ifdef __SKYOS__
+#define RUNTIME_CPU_CALL platform_get_skyos_runtime_cpu
+#endif
+
+/* Syllable */
+#ifdef __SYLLABLE__
+#define RUNTIME_CPU_CALL platform_get_syllable_runtime_cpu
+#endif
+
+/* Linux */
+#ifdef __linux
+#define RUNTIME_CPU_CALL platform_get_linux_runtime_cpu
+#endif
+
+/* x86/amd64/x86_64 */
+#if !defined(PLATFORM_NO_X86_ASM) && !defined(RUNTIME_CPU_CALL)
+#define RUNTIME_CPU_CALL platform_get_x86_runtime_cpu
 #endif
 
 #endif

@@ -58,12 +58,70 @@
 #include <ctype.h>
 #include <sys/utsname.h>
 
-#if defined(__GLIBC__) && (__GLIBC__==2) && (__GLIBC__MINOR__>0)
+#if defined(__GLIBC__) && (__GLIBC__==2) && (__GLIBC_MINOR__>0) && !defined(__UCLIBC__)
 #  include <gnu/libc-version.h>
 #endif
 
 static char linux_version[100];
+static char linux_cpu[100];
 static int got_linux_version = 0;
+static int got_linux_cpu = 0;
+
+char *platform_get_linux_runtime_cpu(void)
+{
+    FILE *cpuinfo = NULL;
+    char *buffer = NULL;
+    char *loc1 = NULL;
+    char *loc2 = NULL;
+    char *loc3 = NULL;
+    size_t size1 = 0;
+    size_t size2 = 0;
+
+    if (!got_linux_cpu) {
+        sprintf(linux_cpu, "Unknown CPU");
+        cpuinfo = fopen("/proc/cpuinfo", "rb");
+        if (cpuinfo) {
+            fclose(cpuinfo);
+            cpuinfo = NULL;
+            system("cp /proc/cpuinfo cpuinfo.tmp");
+            cpuinfo = fopen("cpuinfo.tmp", "rb");
+        }
+        if (cpuinfo) {
+            fseek(cpuinfo, 0L, SEEK_END);
+            size1 = ftell(cpuinfo);
+            fseek(cpuinfo, 0L, SEEK_SET);
+            buffer = (char *)malloc(size1);
+            size2 = fread(buffer, 1, size1, cpuinfo);
+            if (size1 == size2) {
+                loc1 = strstr(buffer, "model name");
+                if (loc1) {
+                    loc2 = strstr(loc1, ": ");
+                    if (loc2) {
+                        loc2 += 2;
+                        loc3 = strstr(loc2, "\n");
+                        if (loc3) {
+                            *loc3 = 0;
+                            sprintf(linux_cpu, "%s", loc2);
+                            got_linux_cpu = 1;
+                        }
+                    }
+                }
+            }
+            fclose(cpuinfo);
+            unlink("cpuinfo.tmp");
+            if (buffer) {
+                free(buffer);
+            }
+        }
+#ifndef PLATFORM_NO_X86_ASM
+        if (!got_linux_cpu) {
+            sprintf(linux_cpu, "%s", platform_get_x86_runtime_cpu());
+            got_linux_cpu = 1;
+        }
+#endif
+    }
+    return linux_cpu;
+}
 
 char *platform_get_linux_runtime_os(void)
 {
@@ -84,10 +142,15 @@ char *platform_get_linux_runtime_os(void)
         sprintf(linux_version, "%s (newlib %s)", linux_version, _NEWLIB_VERSION);
 #endif
 
+#if !defined(CLIB_HANDLED) && defined(__UCLIBC__)
+#define CLIB_HANDLED
+        sprintf(linux_version, "%s (uClibc)", linux_version);
+#endif
+
 #if !defined(CLIB_HANDLED) && defined(__GLIBC__)
 #  define CLIB_HANDLED
 #  if (__GLIBC__==2)
-#    if (__GLIBC__MINOR__>0)
+#    if (__GLIBC_MINOR__>0)
         sprintf(linux_version, "%s (glibc %s)", linux_version, gnu_get_libc_version());
 #    else
         sprintf(linux_version, "%s (glibc 2.x)", linux_version);

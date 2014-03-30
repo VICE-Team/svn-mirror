@@ -92,6 +92,11 @@
 #define PLATFORM_NO_X86_ASM
 #endif
 
+/* Do not use for uClibc */
+#ifdef __UCLIBC__
+#define PLATFORM_NO_X86_ASM
+#endif
+
 #ifdef __minix
 #  ifdef __ACK__
 #    define PLATFORM_NO_X86_ASM
