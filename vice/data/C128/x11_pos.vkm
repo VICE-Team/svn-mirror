@@ -238,6 +238,7 @@ KP_9 9 6 8
 KP_Enter 9 4 8
 KP_Subtract 9 1 8
 KP_Separator 10 2 8
+KP_Decimal 10 2 8
 KP_Add 9 2 8
 
 # 40/80 column key
