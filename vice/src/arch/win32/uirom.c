@@ -325,9 +325,10 @@ static uilib_dialog_group romset_loadsave_group[] = {
 
 static void init_romset_dialog(HWND hwnd)
 {
-    int res_value, idc_active;
+    int res_value = 0;
+    int idc_active;
     int dist, xmax, xmin;
-    const char *name;
+    const char *name = NULL;
     TCHAR *st_name;
 
     /* translate all dialog items */
