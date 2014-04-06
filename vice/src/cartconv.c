@@ -67,6 +67,7 @@ static unsigned char extra_buffer_32kb[0x8000];
 static unsigned char chipbuffer[16];
 static int repair_mode = 0;
 static int input_padding = 0;
+static int quiet_mode = 0;
 
 static int load_input_file(char *filename);
 
@@ -296,7 +297,7 @@ static void usage(void)
     sorted_cart_t *sorted_option_elements;
 
     cleanup();
-    printf("convert:    cartconv [-r] [-t cart type] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
+    printf("convert:    cartconv [-r] [-q] [-t cart type] -i \"input name\" -o \"output name\" [-n \"cart name\"] [-l load address]\n");
     printf("print info: cartconv [-r] -f \"input name\"\n\n");
     printf("-f <name>    print info on file\n");
     printf("-r           repair mode (accept broken input files)\n");
@@ -306,6 +307,7 @@ static void usage(void)
     printf("-o <name>    output filename\n");
     printf("-n <name>    crt cart name\n");
     printf("-l <addr>    load address\n");
+    printf("-q           quiet\n");
     printf("\ncart types:\n");
 
     printf("bin      Binary .bin file (Default crt->bin)\n");
@@ -448,6 +450,9 @@ static int checkflag(char *flg, char *arg)
             return 2;
         case 'r':
             repair_mode = 1;
+            return 1;
+        case 'q':
+            quiet_mode = 1;
             return 1;
         case 'p':
             input_padding = 1;
@@ -640,9 +645,11 @@ static int save_binary_output_file(void)
         return -1;
     }
     fclose(outfile);
-    printf("Input file : %s\n", input_filename[0]);
-    printf("Output file : %s\n", output_filename);
-    printf("Conversion from %s .crt to binary format successful.\n", cart_info[loadfile_cart_type].name);
+    if (!quiet_mode) {
+        printf("Input file : %s\n", input_filename[0]);
+        printf("Output file : %s\n", output_filename);
+        printf("Conversion from %s .crt to binary format successful.\n", cart_info[loadfile_cart_type].name);
+    }
     return 0;
 }
 
@@ -745,9 +752,11 @@ static int write_chip_package(unsigned int length, unsigned int bankint, unsigne
 
 static void bin2crt_ok(void)
 {
-    printf("Input file : %s\n", input_filename[0]);
-    printf("Output file : %s\n", output_filename);
-    printf("Conversion from binary format to %s .crt successful.\n", cart_info[(unsigned char)cart_type].name);
+    if (!quiet_mode) {
+        printf("Input file : %s\n", input_filename[0]);
+        printf("Output file : %s\n", output_filename);
+        printf("Conversion from binary format to %s .crt successful.\n", cart_info[(unsigned char)cart_type].name);
+    }
 }
 
 static void save_regular_crt(unsigned int length, unsigned int banks, unsigned int address, unsigned int type, unsigned char game, unsigned char exrom)
@@ -1256,12 +1265,16 @@ static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3
                     close_output_cleanup();
                 }
             }
-            printf("inserted %s in banks %d-%d of the Dela EP256 .crt\n", input_filename[i + 1], (i * 4) + 1, (i * 4) + 4);
+            if (!quiet_mode) {
+                printf("inserted %s in banks %d-%d of the Dela EP256 .crt\n", input_filename[i + 1], (i * 4) + 1, (i * 4) + 4);
+            }
         } else {
             if (write_chip_package(0x2000, i + 1, 0x8000, 0) < 0) {
                 close_output_cleanup();
             }
-            printf("inserted %s in bank %d of the Dela EP256 .crt\n", input_filename[i + 1], i + 1);
+            if (!quiet_mode) {
+                printf("inserted %s in bank %d of the Dela EP256 .crt\n", input_filename[i + 1], i + 1);
+            }
         }
     }
 
@@ -1327,8 +1340,10 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
                     if (write_chip_package(0x2000, chip_counter + 3, 0x8000, 0) < 0) {
                         close_output_cleanup();
                     }
-                    printf("inserted %s in banks %d-%d of the Dela EP7x8 .crt\n",
-                           input_filename[name_counter], chip_counter, chip_counter + 3);
+                    if (!quiet_mode) {
+                        printf("inserted %s in banks %d-%d of the Dela EP7x8 .crt\n",
+                               input_filename[name_counter], chip_counter, chip_counter + 3);
+                    }
                     chip_counter += 4;
                     inserted_size += 0x8000;
                 }
@@ -1352,8 +1367,10 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
                     if (write_chip_package(0x2000, chip_counter + 1, 0x8000, 0) < 0) {
                         close_output_cleanup();
                     }
-                    printf("inserted %s in banks %d and %d of the Dela EP7x8 .crt\n",
-                           input_filename[name_counter], chip_counter, chip_counter + 1);
+                    if (!quiet_mode) {
+                        printf("inserted %s in banks %d and %d of the Dela EP7x8 .crt\n",
+                               input_filename[name_counter], chip_counter, chip_counter + 1);
+                    }
                     chip_counter += 2;
                     inserted_size += 0x4000;
                 }
@@ -1374,7 +1391,9 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
                     if (write_chip_package(0x2000, chip_counter, 0x8000, 0) < 0) {
                         close_output_cleanup();
                     }
-                    printf("inserted %s in bank %d of the Dela EP7x8 .crt\n", input_filename[name_counter], chip_counter);
+                    if (!quiet_mode) {
+                        printf("inserted %s in bank %d of the Dela EP7x8 .crt\n", input_filename[name_counter], chip_counter);
+                    }
                     chip_counter++;
                     inserted_size += 0x2000;
                 }
@@ -1443,8 +1462,10 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
                     if (write_chip_package(0x8000, chip_counter, 0x8000, 0) < 0) {
                         close_output_cleanup();
                     }
-                    printf("inserted %s in bank %d as a 32KB eprom of the Rex EP256 .crt\n",
-                           input_filename[name_counter], chip_counter);
+                    if (!quiet_mode) {
+                        printf("inserted %s in bank %d as a 32KB eprom of the Rex EP256 .crt\n",
+                               input_filename[name_counter], chip_counter);
+                    }
                     chip_counter++;
                 }
             }
@@ -1474,8 +1495,10 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
                 if (eprom_size_for_8kb == 1) {
                     if (write_chip_package(0x2000, chip_counter, 0x8000, 0) < 0) {
                         close_output_cleanup();
-                        printf("inserted %s as an 8KB eprom in bank %d of the Rex EP256 .crt\n",
-                               input_filename[name_counter], chip_counter);
+                        if (!quiet_mode) {
+                            printf("inserted %s as an 8KB eprom in bank %d of the Rex EP256 .crt\n",
+                                   input_filename[name_counter], chip_counter);
+                        }
                         chip_counter++;
                     }
 
@@ -1486,12 +1509,14 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
                         if (write_chip_package(0x8000, chip_counter, 0x8000, 0) < 0) {
                             close_output_cleanup();
                         }
-                        if (subchip_counter == 1) {
-                            printf("inserted %s as a 32KB eprom in bank %d of the Rex EP256 .crt\n",
-                                   input_filename[name_counter], chip_counter);
-                        } else {
-                            printf(" and %s as a 32KB eprom in bank %d of the Rex EP256 .crt\n",
-                                   input_filename[name_counter], chip_counter);
+                        if (!quiet_mode) {
+                            if (subchip_counter == 1) {
+                                printf("inserted %s as a 32KB eprom in bank %d of the Rex EP256 .crt\n",
+                                       input_filename[name_counter], chip_counter);
+                            } else {
+                                printf(" and %s as a 32KB eprom in bank %d of the Rex EP256 .crt\n",
+                                       input_filename[name_counter], chip_counter);
+                            }
                         }
                         chip_counter++;
                         subchip_counter = 1;
@@ -1500,7 +1525,9 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
                     if (eprom_size_for_8kb == 4 && (subchip_counter == 3 || subchip_counter == 2) &&
                         name_counter != input_filenames) {
                         memcpy(extra_buffer_32kb + ((subchip_counter - 1) * 0x2000), filebuffer + loadfile_offset, 0x2000);
-                        printf(", %s", input_filename[name_counter]);
+                        if (!quiet_mode) {
+                            printf(", %s", input_filename[name_counter]);
+                        }
                         subchip_counter++;
                     }
 
@@ -1513,25 +1540,31 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
                             if (write_chip_package(0x4000, chip_counter, 0x8000, 0) < 0) {
                                 close_output_cleanup();
                             }
-                            if (subchip_counter == 1) {
-                                printf("inserted %s as a 16KB eprom in bank %d of the Rex EP256 .crt\n",
-                                       input_filename[name_counter], chip_counter);
-                            } else {
-                                printf(" and %s as a 16KB eprom in bank %d of the Rex EP256 .crt\n",
-                                       input_filename[name_counter], chip_counter);
+                            if (!quiet_mode) {
+                                if (subchip_counter == 1) {
+                                    printf("inserted %s as a 16KB eprom in bank %d of the Rex EP256 .crt\n",
+                                           input_filename[name_counter], chip_counter);
+                                } else {
+                                    printf(" and %s as a 16KB eprom in bank %d of the Rex EP256 .crt\n",
+                                           input_filename[name_counter], chip_counter);
+                                }
                             }
                             chip_counter++;
                             subchip_counter = 1;
                         } else {
                             memcpy(extra_buffer_32kb, filebuffer + loadfile_offset, 0x2000);
-                            printf("inserted %s", input_filename[name_counter]);
+                            if (!quiet_mode) {
+                                printf("inserted %s", input_filename[name_counter]);
+                            }
                             subchip_counter++;
                         }
                     }
 
                     if (eprom_size_for_8kb == 4 && subchip_counter == 1 && name_counter != input_filenames) {
                         memcpy(extra_buffer_32kb, filebuffer + loadfile_offset, 0x2000);
-                        printf("inserted %s", input_filename[name_counter]);
+                        if (!quiet_mode) {
+                            printf("inserted %s", input_filename[name_counter]);
+                        }
                         subchip_counter++;
                     }
                 }

@@ -11442,6 +11442,9 @@ named file. It can't be used in conjuction with any of the other parameters.
 @cindex -r
 @item -r
 This parameter is optional, it enables repair mode (accept broken input files)
+@cindex -q
+@item -q
+This parameter is optional, it disables all non-error messages
 @end table
 
 The following cartridge types are supported:
