@@ -7,6 +7,7 @@
  * Patches and improvements by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Alexander Bluhm <mam96ehy@studserv.uni-leipzig.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -305,10 +306,10 @@ void ciacore_reset(cia_context_t *cia_context)
     cia_context->sdr_valid = 0;
 
     memset(cia_context->todalarm, 0, sizeof(cia_context->todalarm));
-    memset(cia_context->todlatch, 0, sizeof(cia_context->todlatch));
     cia_context->todlatched = 0;
     cia_context->todstopped = 1;
-    cia_context->c_cia[0x0b] = 1;          /* the most common value */
+    cia_context->c_cia[CIA_TOD_HR] = 1;          /* the most common value */
+    memcpy(cia_context->todlatch, cia_context->c_cia + CIA_TOD_TEN, sizeof(cia_context->todlatch));
     cia_context->todclk = *(cia_context->clk_ptr) + cia_context->todticks;
     alarm_set(cia_context->tod_alarm, cia_context->todclk);
     cia_context->todtickcounter = 0;
@@ -412,22 +413,23 @@ static void ciacore_store_internal(cia_context_t *cia_context, WORD addr, BYTE b
          * VIRT:  TOD register + (cycles - begin)/cycles_per_sec
          */
         case CIA_TOD_TEN: /* Time Of Day clock 1/10 s */
-        case CIA_TOD_HR:        /* Time Of Day clock hour */
+        case CIA_TOD_HR:  /* Time Of Day clock hour */
         case CIA_TOD_SEC: /* Time Of Day clock sec */
         case CIA_TOD_MIN: /* Time Of Day clock min */
-            /* Flip AM/PM on hour 12
-              (Andreas Boose <viceteam@t-online.de> 1997/10/11). */
-            /* Flip AM/PM only when writing time, not when writing alarm
-              (Alexander Bluhm <mam96ehy@studserv.uni-leipzig.de> 2000/09/17). */
             if (addr == CIA_TOD_HR) {
+                /* force bits 6-5 = 0 */
                 byte &= 0x9f;
+                /* Flip AM/PM on hour 12  */
+                /* Flip AM/PM only when writing time, not when writing alarm */
                 if ((byte & 0x1f) == 0x12 && !(cia_context->c_cia[CIA_CRB] & 0x80)) {
                     byte ^= 0x80;
                 }
             }
             if (cia_context->c_cia[CIA_CRB] & 0x80) {
+                /* set alarm */
                 cia_context->todalarm[addr - CIA_TOD_TEN] = byte;
             } else {
+                /* set time */
                 if (addr == CIA_TOD_TEN) {
                     cia_context->todstopped = 0;
                 }
@@ -1658,7 +1660,8 @@ int ciacore_dump(cia_context_t *cia_context)
     mon_out("Port B:  %02x DDR: %02x\n", ciacore_peek(cia_context, 0x01), ciacore_peek(cia_context, 0x03));
     mon_out("Timer A: %04x\n", ciacore_peek(cia_context, 0x04) + (ciacore_peek(cia_context, 0x05) << 8));
     mon_out("Timer B: %04x\n", ciacore_peek(cia_context, 0x06) + (ciacore_peek(cia_context, 0x07) << 8));
-    mon_out("TOD:     %d:%d:%d:%d\n", ciacore_peek(cia_context, 0x0b), ciacore_peek(cia_context, 0x0a), ciacore_peek(cia_context, 0x09), ciacore_peek(cia_context, 0x08));
+    mon_out("TOD Time:  %02x:%02x:%02x.%x (%s)\n", ciacore_peek(cia_context, 0x0b) & 0x7f, ciacore_peek(cia_context, 0x0a), ciacore_peek(cia_context, 0x09), ciacore_peek(cia_context, 0x08), ciacore_peek(cia_context, 0x0b) & 0x80 ? "pm" : "am");
+    mon_out("TOD Alarm: %02x:%02x:%02x.%x (%s)\n", cia_context->todalarm[0x0b - CIA_TOD_TEN] & 0x7f, cia_context->todalarm[0x0a - CIA_TOD_TEN], cia_context->todalarm[0x09 - CIA_TOD_TEN], cia_context->todalarm[0x08 - CIA_TOD_TEN], cia_context->todalarm[0x0b - CIA_TOD_TEN] & 0x80 ? "pm" : "am");
     mon_out("\nSynchronous Serial I/O Data Buffer: %02x\n", ciacore_peek(cia_context, 0x0c));
     return 0;
 }
