@@ -424,7 +424,14 @@ static void ciacore_store_internal(cia_context_t *cia_context, WORD addr, BYTE b
                 if ((byte & 0x1f) == 0x12 && !(cia_context->c_cia[CIA_CRB] & 0x80)) {
                     byte ^= 0x80;
                 }
+            } else if (addr == CIA_TOD_MIN) {
+                byte &= 0x7f;
+            } else if (addr == CIA_TOD_SEC) {
+                byte &= 0x7f;
+            } else if (addr == CIA_TOD_TEN) {
+                byte &= 0x0f;
             }
+
             if (cia_context->c_cia[CIA_CRB] & 0x80) {
                 /* set alarm */
                 cia_context->todalarm[addr - CIA_TOD_TEN] = byte;
@@ -725,7 +732,7 @@ BYTE cia_read_(cia_context_t *cia_context, WORD addr)
         case CIA_TOD_TEN: /* Time Of Day clock 1/10 s */
         case CIA_TOD_SEC: /* Time Of Day clock sec */
         case CIA_TOD_MIN: /* Time Of Day clock min */
-        case CIA_TOD_HR:        /* Time Of Day clock hour */
+        case CIA_TOD_HR:  /* Time Of Day clock hour */
             if (!(cia_context->todlatched)) {
                 memcpy(cia_context->todlatch, cia_context->c_cia + CIA_TOD_TEN,
                        sizeof(cia_context->todlatch));
@@ -1161,21 +1168,21 @@ static void ciacore_inttod(CLOCK offset, void *data)
 
         /* tenth seconds (0-9) */
         t0 = (t0 + 1) & 0x0f;
-        if ((t0 == 0) || (t0 == 10)) {
+        if (/*(t0 == 0) ||*/ (t0 == 10)) {
             t0 = 0;
             /* seconds (0-59) */
-            t1 = (t1 + 1) & 0x0f;
-            if ((t1 == 0) || (t1 == 10)) {
+            t1 = (t1 + 1) & 0x0f; /* x0...x9 */
+            if (/*(t1 == 0) ||*/ (t1 == 10)) {
                 t1 = 0;
-                t2 = (t2 + 1) & 0x0f;
-                if ((t2 == 0) || (t2 == 6)) {
+                t2 = (t2 + 1) & 0x07; /* 0x...5x */
+                if (/*(t2 == 0) ||*/ (t2 == 6)) {
                     t2 = 0;
                     /* minutes (0-59) */
-                    t3 = (t3 + 1) & 0x0f;
-                    if ((t3 == 0) || (t3 == 10)) {
+                    t3 = (t3 + 1) & 0x0f; /* x0...x9 */
+                    if (/*(t3 == 0) ||*/ (t3 == 10)) {
                         t3 = 0;
-                        t4 = (t4 + 1) & 0x0f;
-                        if ((t4 == 0) || (t4 == 6)) {
+                        t4 = (t4 + 1) & 0x07; /* 0x...5x */
+                        if (/*(t4 == 0) ||*/ (t4 == 6)) {
                             t4 = 0;
                             /* hours (1-12) */
                             t5 = (t5 + 1) & 0x0f;
