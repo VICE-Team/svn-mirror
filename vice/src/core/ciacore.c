@@ -438,6 +438,12 @@ static void ciacore_store_internal(cia_context_t *cia_context, WORD addr, BYTE b
             } else {
                 /* set time */
                 if (addr == CIA_TOD_TEN) {
+                    /* apparently the tickcounter is reset to 0 when the clock
+                       is not running and then restarted by writing to the 10th
+                       seconds register */
+                    if (cia_context->todstopped) {
+                        cia_context->todtickcounter = 0;
+                    }
                     cia_context->todstopped = 0;
                 }
                 if (addr == CIA_TOD_HR) {
@@ -1142,6 +1148,8 @@ static void ciacore_inttod(CLOCK offset, void *data)
         /* count 50/60 hz ticks */
         cia_context->todtickcounter++;
         /* wild assumption: counter is 3 bits and is not reset elsewhere */
+        /* FIXME: this doesnt seem to be 100% correct - apparently it is reset
+                  in some cases */
         cia_context->todtickcounter &= 7;
 
         /* if the counter matches the TOD frequency ... */
