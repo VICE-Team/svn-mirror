@@ -29,25 +29,68 @@
    -----------
    x86 | libc4
    x86 | libc5
-   x86 | glibc1.09
-   x86 | glibc2.0
-   x86 | glibc2.0.2
-   x86 | glibc2.0.3
-   x86 | glibc2.0.4
-   x86 | glibc2.0.5
-   x86 | glibc2.1.1
-   x86 | glibc2.1.2
-   x86 | glibc2.1.3
-   x86 | glibc2.1.92
-   x86 | glibc2.2
-   x86 | glibc2.2.1
-   x86 | glibc2.2.2
-   x86 | glibc2.2.3
-   x86 | glibc2.2.4
-   x86 | glibc2.2.5
+   x86 | glibc-1.09
+   x86 | glibc-2.0
+   x86 | glibc-2.0.2
+   x86 | glibc-2.0.3
+   x86 | glibc-2.0.4
+   x86 | glibc-2.0.5
+   x86 | glibc-2.0.6
+   x86 | glibc-2.0.7
+   x86 | glibc-2.1.1
+   x86 | glibc-2.1.2
+   x86 | glibc-2.1.3
+   x86 | glibc-2.1.92
+   x86 | glibc-2.2
+   x86 | glibc-2.2.1
+   x86 | glibc-2.2.2
+   x86 | glibc-2.2.3
+   x86 | glibc-2.2.4
+   x86 | glibc-2.2.5
+   x86 | glibc-2.2.93
+   x86 | glibc-2.3.1
+   x86 | glibc-2.3.2
+   x86 | glibc-2.3.3
+   x86 | glibc-2.3.4
+   x86 | glibc-2.3.5
+   x86 | glibc-2.3.6
+   x86 | glibc-2.4
+   x86 | glibc-2.5
+   x86 | glibc-2.5.1
+   x86 | glibc-2.6
+   x86 | glibc-2.6.1
+   x86 | glibc-2.7
+   x86 | glibc-2.8
+   x86 | glibc-2.8.90
+   x86 | glibc-2.9
+   x86 | glibc-2.10.1
+   x86 | glibc-2.10.2
+   x86 | glibc-2.11
+   x86 | glibc-2.11.1
+   x86 | glibc-2.11.2
+   x86 | glibc-2.11.3
+   x86 | glibc-2.12
+   x86 | glibc-2.12.1
+   x86 | glibc-2.12.2
+   x86 | glibc-2.12.90
+   x86 | glibc-2.13
+   x86 | glibc-2.13.90
+   x86 | glibc-2.14
+   x86 | glibc-2.14.1
+   x86 | glibc-2.14.90
+   x86 | glibc-2.15
+   x86 | glibc-2.16
+   x86 | glibc-2.17
+   x86 | glibc-2.18
+   x86 | glibc-2.19
    x86 | dietlibc
    x86 | newlib
    x86 | musl
+   x86 | uclibc
+   x86 | l4linux
+   x86 | openserver (lxrun)
+   x86 | unixware (LKP)
+   x86 | solaris (lxrun)
  */
 
 #include "vice.h"
@@ -130,7 +173,17 @@ char *platform_get_linux_runtime_os(void)
     if (!got_linux_version) {
         uname(&name);
 
-        sprintf(linux_version, "%s %s", name.sysname, name.release);
+        if (!strcasecmp(name.sysname, "SCO_SV")) {
+            if (name.version[0] == '5' || name.version[0] == '6') {
+                sprintf(linux_version, "lxrun openserver %s", name.version);
+            } else if (name.version[0] == '7') {
+                sprintf(linux_version, "lxrun unixware %s", name.version);
+            } else {
+                sprintf(linux_version, "lxrun sco");
+            }
+        } else {
+            sprintf(linux_version, "%s %s", name.sysname, name.release);
+        }
 
 #ifdef __dietlibc__
 #define CLIB_HANDLED

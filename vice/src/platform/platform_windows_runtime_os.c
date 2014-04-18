@@ -362,9 +362,9 @@ static winver_t windows_versions[] = {
       5, 0, 6, -1, 0, -1, -1 },
     { "Windows 2000 Powered", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_SERVER, VER_SUITE_BLADE, -1, -1 },
-    { "Windows 2000 Datacenter Server / Windows 2000 Datacenter Server Limited Edition", VER_PLATFORM_WIN32_NT,
+    { "Windows 2000 Datacenter Server", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, -1 },
-    { "Windows 2000 Advanced Server / Windows 2000 Advanced Server Limited Edition", VER_PLATFORM_WIN32_NT,
+    { "Windows 2000 Advanced Server", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
     { "Windows 2000 Server", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_SERVER, 0, -1, -1 },
@@ -472,6 +472,8 @@ static winver_t windows_versions[] = {
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_ULTIMATE, -1 },
     { "Windows 2008 R2 Web Server", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_WEB_SERVER, -1 },
+    { "Windows 2008 R2 Standard Storage Server", VER_PLATFORM_WIN32_NT,
+      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_STANDARD_SERVER, 2 },
     { "Windows 2008 R2 Standard Server", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_SERVER, 0, PRODUCT_STANDARD_SERVER, -1 },
     { "Windows 2008 R2 Enterprise Server", VER_PLATFORM_WIN32_NT,
@@ -832,6 +834,32 @@ static int is_posready(void)
     return 1;
 }
 
+/* 0 = None, 1 = Workstation, 2 = Standard, 3 = Enterprise */
+static int is_storage_server(void)
+{
+    HKEY hKey;
+    char PT[128];
+    DWORD PTlen = 128;
+    LONG ret;
+
+    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret != ERROR_SUCCESS) {
+        return 0;
+    }
+
+    ret = RegQueryValueEx(hKey, "ProductName", NULL, NULL, (LPBYTE)PT, &PTlen);
+    if ((ret != ERROR_SUCCESS) || (PTlen > 128)) {
+        return 0;
+    }
+
+    RegCloseKey(hKey);
+
+    if (lstrcmpi("Windows Storage Server 2008 R2 Standard", PT) == 0) {
+        return 2;
+    }
+    return 0;
+}
+
 static BOOL CompareWindowsVersion(DWORD dwMajorVersion, DWORD dwMinorVersion)
 {
     OSVERSIONINFOEX ver;
@@ -970,6 +998,11 @@ char *platform_get_windows_runtime_os(void)
 
         if (is_cluster()) {
             windows_versions[0].suite |= VER_SUITE_COMPUTE_SERVER;
+        }
+
+        i = is_storage_server();
+        if (i) {
+            windows_versions[0].metrics = i;
         }
 
         for (i = 1; found == 0 && windows_versions[i].name != NULL; i++) {
