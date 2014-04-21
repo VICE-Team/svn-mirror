@@ -98,8 +98,11 @@
 #if defined(__linux) && !defined(__ANDROID__)
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include <sys/utsname.h>
+#include <string.h>
+#include <unistd.h>
 
 #if defined(__GLIBC__) && (__GLIBC__==2) && (__GLIBC_MINOR__>0) && !defined(__UCLIBC__)
 #  include <gnu/libc-version.h>
@@ -158,6 +161,7 @@ char *platform_get_linux_runtime_cpu(void)
         }
 #ifndef PLATFORM_NO_X86_ASM
         if (!got_linux_cpu) {
+	    extern char *platform_get_x86_runtime_cpu(void); /* XXX has no header file */
             sprintf(linux_cpu, "%s", platform_get_x86_runtime_cpu());
             got_linux_cpu = 1;
         }
