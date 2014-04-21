@@ -88,6 +88,7 @@ extern char *platform_get_linux_runtime_cpu(void);
 extern char *platform_get_interix_runtime_os(void);
 
 extern char *platform_get_cygwin_runtime_os(void);
+extern char *platform_get_cygwin_runtime_cpu(void);
 
 extern char *platform_get_dos_runtime_os(void);
 
@@ -169,6 +170,11 @@ extern char *platform_get_minix_runtime_cpu(void);
 
 
 /* Set the runtime cpu call for known platforms */
+
+/* Windows on cygwin */
+#if defined(__CYGWIN32__) || defined(__CYGWIN__)
+#define RUNTIME_CPU_CALL platform_get_cygwin_runtime_cpu
+#endif
 
 /* SCO Unix 4.x */
 #ifdef SCO4UNIX_COMPILE

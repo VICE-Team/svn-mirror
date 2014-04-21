@@ -25,72 +25,77 @@
  */
 
 /* Tested and confirmed working on:
-   cpu | libc
-   -----------
-   x86 | libc4
-   x86 | libc5
-   x86 | glibc-1.09
-   x86 | glibc-2.0
-   x86 | glibc-2.0.2
-   x86 | glibc-2.0.3
-   x86 | glibc-2.0.4
-   x86 | glibc-2.0.5
-   x86 | glibc-2.0.6
-   x86 | glibc-2.0.7
-   x86 | glibc-2.1.1
-   x86 | glibc-2.1.2
-   x86 | glibc-2.1.3
-   x86 | glibc-2.1.92
-   x86 | glibc-2.2
-   x86 | glibc-2.2.1
-   x86 | glibc-2.2.2
-   x86 | glibc-2.2.3
-   x86 | glibc-2.2.4
-   x86 | glibc-2.2.5
-   x86 | glibc-2.2.93
-   x86 | glibc-2.3.1
-   x86 | glibc-2.3.2
-   x86 | glibc-2.3.3
-   x86 | glibc-2.3.4
-   x86 | glibc-2.3.5
-   x86 | glibc-2.3.6
-   x86 | glibc-2.4
-   x86 | glibc-2.5
-   x86 | glibc-2.5.1
-   x86 | glibc-2.6
-   x86 | glibc-2.6.1
-   x86 | glibc-2.7
-   x86 | glibc-2.8
-   x86 | glibc-2.8.90
-   x86 | glibc-2.9
-   x86 | glibc-2.10.1
-   x86 | glibc-2.10.2
-   x86 | glibc-2.11
-   x86 | glibc-2.11.1
-   x86 | glibc-2.11.2
-   x86 | glibc-2.11.3
-   x86 | glibc-2.12
-   x86 | glibc-2.12.1
-   x86 | glibc-2.12.2
-   x86 | glibc-2.12.90
-   x86 | glibc-2.13
-   x86 | glibc-2.13.90
-   x86 | glibc-2.14
-   x86 | glibc-2.14.1
-   x86 | glibc-2.14.90
-   x86 | glibc-2.15
-   x86 | glibc-2.16
-   x86 | glibc-2.17
-   x86 | glibc-2.18
-   x86 | glibc-2.19
-   x86 | dietlibc
-   x86 | newlib
-   x86 | musl
-   x86 | uclibc
-   x86 | l4linux
-   x86 | openserver (lxrun)
-   x86 | unixware (LKP)
-   x86 | solaris (lxrun)
+   cpu   | libc
+   -------------
+   amd64 | glibc-2.13
+   amd64 | dietlibc
+   amd64 | musl
+   armel | glibc-2.13
+   armel | musl
+   x86   | libc4
+   x86   | libc5
+   x86   | glibc-1.09
+   x86   | glibc-2.0
+   x86   | glibc-2.0.2
+   x86   | glibc-2.0.3
+   x86   | glibc-2.0.4
+   x86   | glibc-2.0.5
+   x86   | glibc-2.0.6
+   x86   | glibc-2.0.7
+   x86   | glibc-2.1.1
+   x86   | glibc-2.1.2
+   x86   | glibc-2.1.3
+   x86   | glibc-2.1.92
+   x86   | glibc-2.2
+   x86   | glibc-2.2.1
+   x86   | glibc-2.2.2
+   x86   | glibc-2.2.3
+   x86   | glibc-2.2.4
+   x86   | glibc-2.2.5
+   x86   | glibc-2.2.93
+   x86   | glibc-2.3.1
+   x86   | glibc-2.3.2
+   x86   | glibc-2.3.3
+   x86   | glibc-2.3.4
+   x86   | glibc-2.3.5
+   x86   | glibc-2.3.6
+   x86   | glibc-2.4
+   x86   | glibc-2.5
+   x86   | glibc-2.5.1
+   x86   | glibc-2.6
+   x86   | glibc-2.6.1
+   x86   | glibc-2.7
+   x86   | glibc-2.8
+   x86   | glibc-2.8.90
+   x86   | glibc-2.9
+   x86   | glibc-2.10.1
+   x86   | glibc-2.10.2
+   x86   | glibc-2.11
+   x86   | glibc-2.11.1
+   x86   | glibc-2.11.2
+   x86   | glibc-2.11.3
+   x86   | glibc-2.12
+   x86   | glibc-2.12.1
+   x86   | glibc-2.12.2
+   x86   | glibc-2.12.90
+   x86   | glibc-2.13
+   x86   | glibc-2.13.90
+   x86   | glibc-2.14
+   x86   | glibc-2.14.1
+   x86   | glibc-2.14.90
+   x86   | glibc-2.15
+   x86   | glibc-2.16
+   x86   | glibc-2.17
+   x86   | glibc-2.18
+   x86   | glibc-2.19
+   x86   | dietlibc
+   x86   | newlib
+   x86   | musl
+   x86   | uclibc
+   x86   | l4linux
+   x86   | openserver (lxrun)
+   x86   | unixware (LKP)
+   x86   | solaris (lxrun)
  */
 
 #include "vice.h"
@@ -103,6 +108,8 @@
 #include <sys/utsname.h>
 #include <string.h>
 #include <unistd.h>
+
+#include "platform.h"
 
 #if defined(__GLIBC__) && (__GLIBC__==2) && (__GLIBC_MINOR__>0) && !defined(__UCLIBC__)
 #  include <gnu/libc-version.h>
@@ -151,6 +158,20 @@ char *platform_get_linux_runtime_cpu(void)
                             got_linux_cpu = 1;
                         }
                     }
+                } else {
+                    loc1 = strstr(buffer, "Processor");
+                    if (loc1) {
+                        loc2 = strstr(loc1, ": ");
+                        if (loc2) {
+                            loc2 += 2;
+                            loc3 = strstr(loc2, "\n");
+                            if (loc3) {
+                                *loc3 = 0;
+                                sprintf(linux_cpu, "%s", loc2);
+                                got_linux_cpu = 1;
+                            }
+                        }
+                    }
                 }
             }
             fclose(cpuinfo);
@@ -161,7 +182,6 @@ char *platform_get_linux_runtime_cpu(void)
         }
 #ifndef PLATFORM_NO_X86_ASM
         if (!got_linux_cpu) {
-	    extern char *platform_get_x86_runtime_cpu(void); /* XXX has no header file */
             sprintf(linux_cpu, "%s", platform_get_x86_runtime_cpu());
             got_linux_cpu = 1;
         }
@@ -189,7 +209,12 @@ char *platform_get_linux_runtime_os(void)
             sprintf(linux_version, "%s %s", name.sysname, name.release);
         }
 
-#ifdef __dietlibc__
+#ifdef WATCOM_COMPILE
+#define CLIB_HANDLED
+        sprintf(linux_version, "%s (openwatcom)", linux_version);
+#endif
+
+#if !defined(CLIB_HANDLED) && defined(__dietlibc__)
 #define CLIB_HANDLED
         sprintf(linux_version, "%s (dietlibc)", linux_version);
 #endif
