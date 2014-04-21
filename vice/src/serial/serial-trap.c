@@ -80,6 +80,21 @@ static BYTE serial_get_st(void)
     return mem_read((WORD)0x90);
 }
 
+/*
+ * Send LISTEN/TALK and the secondary address.
+ */
+static void send_listen_talk_secondary(BYTE b)
+{
+    TrapSecondary = b;
+    switch (TrapDevice & 0xf0) {
+        case LISTEN:
+            serial_iec_bus_listen(TrapDevice, TrapSecondary, serial_set_st);
+            break;
+        case TALK:
+            serial_iec_bus_talk(TrapDevice, TrapSecondary, serial_set_st);
+            break;
+    }
+}
 
 /* Command Serial Bus to TALK, LISTEN, UNTALK, or UNLISTEN, and send the
    Secondary Address to Serial Bus under Attention.  */
@@ -112,17 +127,10 @@ int serial_trap_attention(void)
             case LISTEN:
             case TALK:
                 TrapDevice = b;
+                TrapSecondary = 0;
                 break;
             case SECONDARY:
-                TrapSecondary = b;
-                switch (TrapDevice & 0xf0) {
-                    case LISTEN:
-                        serial_iec_bus_listen(TrapDevice, TrapSecondary, serial_set_st);
-                        break;
-                    case TALK:
-                        serial_iec_bus_talk(TrapDevice, TrapSecondary, serial_set_st);
-                        break;
-                }
+                send_listen_talk_secondary(b);
                 break;
             case CLOSE:
                 TrapSecondary = b;
@@ -159,6 +167,14 @@ int serial_trap_send(void)
         return 0;
     }
 
+    /*
+     * If no secondary address was sent, it means that no LISTEN was
+     * sent either. Do both now with SA = 0.
+     */
+    if (TrapSecondary == 0) {
+        send_listen_talk_secondary(SECONDARY + 0);
+    }
+
     data = mem_read(BSOUR); /* BSOUR - character for serial bus */
 
     serial_iec_bus_write(TrapDevice, TrapSecondary, data, serial_set_st);
@@ -178,6 +194,13 @@ int serial_trap_receive(void)
         return 0;
     }
 
+    /*
+     * If no secondary address was sent, it means that no TALK was
+     * sent either. Do both now with SA = 0.
+     */
+    if (TrapSecondary == 0) {
+        send_listen_talk_secondary(SECONDARY + 0);
+    }
     data = serial_iec_bus_read(TrapDevice, TrapSecondary, serial_set_st);
 
     mem_store(tmp_in, data);
