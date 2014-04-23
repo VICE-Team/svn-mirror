@@ -20662,17 +20662,10 @@ If you are going to report a bug, please check those pages @emph{first};
 it is possible that the problem you encountered has already been
 fixed with a newer version.
 
-Please, also have a look at the VICE knowledge base at
-
-@example
-@uref{http://vicekb.trikaliotis.net/}
-@end example
-
 @node Sending feedback, Contributing, Home page, Contacts
 @section How to send feedback
 
-Before contacting us, have a look at the VICE knowledge base at
-@uref{http://vicekb.trikaliotis.net/} if your question is answered
+Before contacting us, have a look at this manual and see if your question is answered
 there. Keep in mind that we work on VICE in our spare-time, so the more
 time we don't need to answer the same questions over and over again, the
 more time we have to improve the emulation itself. On the other hand,
@@ -20733,9 +20726,6 @@ the VICE documentation (you are reading it!);
 the VICE FAQ (it is available on the Internet, and reachable from the
 VICE home page:
 @uref{http://vice-emu.sourceforge.net/});
-@item
-The VICE knowledge base (it is available on the Internet at
-@uref{http://vicekb.trikaliotis.net/});
 @item
 the @code{comp.emulators.cbm} and @code{comp.sys.cbm} FAQs (@pxref{FAQs
 you should read}).
