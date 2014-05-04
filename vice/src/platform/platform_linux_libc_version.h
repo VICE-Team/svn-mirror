@@ -35,7 +35,7 @@
 
 /* Linux OW version discovery */
 #if !defined(PLATFORM_OS) && defined(WATCOM_COMPILE)
-#  define PLATFORM_OS "Linux openwatcom)"
+#  define PLATFORM_OS "Linux (openwatcom)"
 #endif
 
 /* Linux newlib version discovery */

@@ -50,7 +50,7 @@ inline static int has_cpuid(void)
                           : "=a" (a), "=c" (c)
                           :
                           : "cc" );
-    return (a!=c);
+    return (a != c);
 #endif
 }
 

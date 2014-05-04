@@ -410,8 +410,8 @@
 
 
 /* Generic mips cpu discovery */
-#if !defined(PLATFORM_CPU) && defined(__mips__) && !defined(__mips64__)
-#  ifdef WORDS_BIGENDIAN
+#if !defined(PLATFORM_CPU) && defined(__mips__) && !(defined(__mips64__) || defined(__mips64))
+#  if defined(WORDS_BIGENDIAN) || defined(__MIPSEB__)
 #    define PLATFORM_CPU "MIPS (big endian)"
 #  else
 #    define PLATFORM_CPU "MIPS (little endian)"
@@ -420,8 +420,8 @@
 
 
 /* Generic mips64 cpu discovery */
-#if !defined(PLATFORM_CPU) && defined(__mips64__)
-#  ifdef WORDS_BIGENDIAN
+#if !defined(PLATFORM_CPU) && (defined(__mips64__) || defined(__mips64))
+#  if defined(WORDS_BIGENDIAN) || defined(__MIPSEB__)
 #    define PLATFORM_CPU "MIPS64 (big endian)"
 #  else
 #    define PLATFORM_CPU "MIPS64 (little endian)"
