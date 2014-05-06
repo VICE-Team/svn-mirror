@@ -66,7 +66,7 @@
    Otherwise PB7 state is computed only
    when port B is read -
    not yet implemented */
-/*#define MYVIA_NEED_PB7 */
+#define MYVIA_NEED_PB7
 /* When you really need latching, define this.
    It implies additional READ_PR* when
    writing the snapshot. When latching is
@@ -74,8 +74,8 @@
    and when an active C*1 transition occurs.
    It does not read the port when reading the
    port register. Side-effects beware! */
-/*#define MYVIA_NEED_LATCHING */
-
+/* FIXME: this doesnt even work anymore */
+/* #define MYVIA_NEED_LATCHING */
 
 /*
  * local functions
@@ -250,7 +250,7 @@ void viacore_reset(via_context_t *via_context)
         via_context->via[i] = 0;
     }
     for (i = 4; i < 10; i++) {
-        via_context->via[i] = 0xff;        /* AB 98.08.23 */
+        via_context->via[i] = 0xff;
     }
     for (i = 11; i < 16; i++) {
         via_context->via[i] = 0;
