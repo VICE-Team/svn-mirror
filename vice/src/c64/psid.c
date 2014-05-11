@@ -32,6 +32,7 @@
 
 #include "archdep.h"
 #include "c64mem.h"
+#include "charset.h"
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
@@ -44,6 +45,8 @@
 #include "vsidui.h"
 #include "vsync.h"
 #include "zfile.h"
+
+static int mus_load_file(const char* filename);
 
 static log_t vlog = LOG_ERR;
 
@@ -203,7 +206,7 @@ int psid_load_file(const char* filename)
     if (fread(ptr, 1, 6, f) != 6 || (memcmp(ptr, "PSID", 4) != 0 && memcmp(ptr, "RSID", 4) != 0)) {
         goto fail;
     }
-    psid->is_rsid = ptr[0] == 'R';
+    psid->is_rsid = (ptr[0] == 'R');
 
     ptr += 4;
     psid->version = psid_extract_word(&ptr);
@@ -354,6 +357,12 @@ fail:
     zfile_fclose(f);
     lib_free(psid);
     psid = NULL;
+
+    /* if the file wasnt in PSID format, try MUS/STR */
+    if (memcmp(ptr, "PSID", 4) != 0 && memcmp(ptr, "RSID", 4) != 0) {
+        return mus_load_file(filename);
+    }
+
     return -1;
 }
 
@@ -645,4 +654,177 @@ unsigned int psid_increment_frames(void)
     (psid->frames_played)++;
 
     return (unsigned int)(psid->frames_played);
+}
+
+/******************************************************************************
+ * compute sidplayer (.mus/.str) support
+ *
+ * to minimize code duplication and to simplify the integration with the rest
+ * of the code, the sidplayer data is simply converted into PSID like format 
+ * at load time. heavily inspired by the respective code in libsidplay2.
+ ******************************************************************************/
+
+#define MUS_HLT_CMD      0x014F
+
+#define MUS_IMAGE_START  0x0900
+#define MUS_DATA_ADDR    0x0900
+#define MUS_DATA2_ADDR   0x6900
+#define MUS_DATA_MAXLEN  0x6000
+
+#define MUS_DRIVER_ADDR  0xe000
+#define MUS_DRIVER2_ADDR 0xf000
+
+#define MUS_SID1_BASE_ADDR   0xd400
+#define MUS_SID2_BASE_ADDR   0xd500
+
+#include "musdrv.h"
+
+static void mus_install(void)
+{
+    WORD dest;
+    /* Install MUS player #1. */
+    dest = ((mus_driver[1] << 8) | mus_driver[0]) - MUS_IMAGE_START;
+    memcpy(psid->data + dest, mus_driver + 2, sizeof(mus_driver) - 2);
+    /* Point player #1 to data #1. */
+    psid->data[dest + 0xc6e] = MUS_DATA_ADDR & 0xFF;
+    psid->data[dest + 0xc70] = MUS_DATA_ADDR >> 8;
+
+    /* Install MUS player #2. It doesnt hurt to do it also for mono tunes. */
+    dest = ((mus_stereo_driver[1] << 8) | mus_stereo_driver[0]) - MUS_IMAGE_START;
+    memcpy(psid->data + dest, mus_stereo_driver + 2, sizeof(mus_stereo_driver) - 2);
+    /* Point player #2 to data #2. */
+    psid->data[dest + 0xc6e] = MUS_DATA2_ADDR & 0xFF;
+    psid->data[dest + 0xc70] = MUS_DATA2_ADDR >> 8;
+}
+
+static int mus_check(const unsigned char *buf)
+{
+    unsigned int voice1Index, voice2Index, voice3Index;
+
+    /* Skip 3x length entry. */
+    voice1Index = ((buf[1] << 8) | buf[0]) + (3 * 2);
+    voice2Index = voice1Index + ((buf[3] << 8) | buf[2]);
+    voice3Index = voice2Index + ((buf[5] << 8) | buf[4]);
+    return (((buf[voice1Index - 2] << 8) | buf[voice1Index - 1]) == MUS_HLT_CMD)
+        && (((buf[voice2Index - 2] << 8) | buf[voice2Index - 1]) == MUS_HLT_CMD)
+        && (((buf[voice3Index - 2] << 8) | buf[voice3Index - 1]) == MUS_HLT_CMD);
+}
+
+static void mus_extract_credits(const unsigned char *buf, int datalen)
+{
+    const unsigned char *end;
+    int n;
+
+    /* get offset behind note data */
+    n = ((buf[1] << 8) | buf[0]) + (3 * 2);
+    n += ((buf[3] << 8) | buf[2]);
+    n += ((buf[5] << 8) | buf[4]);
+
+    end = buf + datalen;
+    buf += n;
+
+    psid->name[0] = psid->author[0] = psid->copyright[0] = 0;
+
+    /* FIXME: perhaps put some more effort into beautifying the strings, skip
+     *        spaces, eliminate special chars, etc */
+    if (buf < end) {
+        memcpy(psid->name, buf, 32);
+        n = 0; while((psid->name[n] != 0x0d) && (n < 32)) { n++; };
+        psid->name[n] = 0;
+        charset_petconvstring(psid->name, 1);
+        buf += (n + 1);
+    }
+
+    if (buf < end) {
+        memcpy(psid->author, buf, 32);
+        n = 0; while((psid->author[n] != 0x0d) && (n < 32)) { n++; };
+        psid->author[n] = 0;
+        charset_petconvstring(psid->author, 1);
+        buf += (n + 1);
+    }
+
+    if (buf < end) {
+        memcpy(psid->copyright, buf, 32);
+        n = 0; while((psid->copyright[n] != 0x0d) && (n < 32)) { n++; };
+        psid->copyright[n] = 0;
+        charset_petconvstring(psid->copyright, 1);
+    }
+}
+
+static int mus_load_file(const char* filename)
+{
+    char *strname;
+    FILE *f;
+    int n, stereo = 0;
+    int mus_datalen;
+
+    if (!(f = zfile_fopen(filename, MODE_READ))) {
+        return -1;
+    }
+
+    lib_free(psid);
+    psid = lib_malloc(sizeof(psid_t));
+
+    fseek(f, 2, SEEK_SET); /* skip original load address */
+    mus_datalen = fread(psid->data, 1, 0xffff - MUS_DATA_MAXLEN, f);
+
+    if (!mus_check(psid->data)) {
+        log_error(vlog, "invalid .mus file.");
+        goto fail;
+    }
+    zfile_fclose(f);
+
+    /* read additional stereo (.str) data if available */
+    strname = lib_stralloc(filename);
+    n = strlen(strname) - 4;
+    strcpy(strname + n, ".str");
+
+    if ((f = zfile_fopen(strname, MODE_READ))) {
+        fseek(f, 2, SEEK_SET); /* skip original load address */
+        if (fread(psid->data + (MUS_DATA2_ADDR - MUS_IMAGE_START), 1, 0xffff - MUS_DATA_MAXLEN, f) < (3 * 2)) {
+            goto fail;
+        }
+        zfile_fclose(f);
+        stereo = 1;
+    }
+    lib_free(strname);
+
+    mus_extract_credits(psid->data, mus_datalen);
+    mus_install();
+
+    psid->is_rsid = 0;
+    psid->version = 3;  /* v3 so we get stereo support */
+
+    psid->flags = 2 << 2; /* NTSC */
+    psid->start_page = 0x04;
+    psid->max_pages = (MUS_DATA_ADDR - 0x0400) >> 8;
+    psid->reserved = 0;
+
+    psid->data_offset = 0;
+    psid->load_addr = MUS_IMAGE_START;
+    psid->data_size = 0x10000 - MUS_IMAGE_START;
+
+    psid->songs = 1;
+    psid->start_song = 1;
+    psid->speed = 1;    /* play at 60Hz */
+    psid->frames_played = 0;
+
+    if (stereo) {
+        /* Player #1 + #2. */
+        psid->reserved = (MUS_SID2_BASE_ADDR << 4) & 0xff00; /* second SID at 0xd500 */
+        psid->init_addr = 0xfc90;
+        psid->play_addr = 0xfc96;
+    } else {
+        /* Player #1. */
+        psid->init_addr = 0xec60;
+        psid->play_addr = 0xec80;
+    }
+
+    return 0;
+
+fail:
+    zfile_fclose(f);
+    lib_free(psid);
+    psid = NULL;
+    return -1;
 }

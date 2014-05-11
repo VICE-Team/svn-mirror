@@ -49,6 +49,7 @@ libvsid_a_SOURCES = \
 	c64rsuser.h \
 	c64sound.c \
 	c64video.c \
+	musdrv.h \
 	patchrom.c \
 	patchrom.h \
 	psid.c \
