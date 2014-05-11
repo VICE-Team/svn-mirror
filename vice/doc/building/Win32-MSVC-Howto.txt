@@ -1,0 +1,16 @@
+
+- go to vice/src/arch/win32 and run generate_msvcXX_project.bat
+
+- find generated project files in vice/src/arch/win32/vsXX
+
+- open the project "_vice" in VS
+
+- compile (F7)
+
+- find the generated .exe files in vice/data
+
+- run vice/src/arch/win32/vsXX/make-msvc-bindist.bat
+
+- find the binary distribution tree in vice/src/arch/win32/vsXX/WinVICE-x.x.x-x86
+
+
