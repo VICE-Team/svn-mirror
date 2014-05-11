@@ -2,6 +2,7 @@
  *
  * CPU        | compiletime-support | runtime-support
  * -------------------------------------------------------
+ * aarch64    | yes                 | not yet
  * alpha      | yes, +sub           | not yet
  * amd64      | yes                 | not yet
  * arc        | yes, +endian        | not yet
@@ -86,6 +87,12 @@
 #  else
 #    define PLATFORM_CPU "ARC (little endian)"
 #  endif
+#endif
+
+
+/* generic aarch64 cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(__aarch64__)
+#  define PLATFORM_CPU "AARCH64"
 #endif
 
 
@@ -472,7 +479,7 @@
 
 
 /* Generic sparc64 cpu discovery */
-#if !defined(PLATFORM_CPU) && defined(__sparc64__)
+#if !defined(PLATFORM_CPU) && (defined(__sparc64__) || (defined(__sparc__) && defined(__arch64__)))
 #  define PLATFORM_CPU "SPARC64"
 #endif
 

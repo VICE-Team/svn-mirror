@@ -27,6 +27,7 @@
 /* Tested and confirmed working on:
    cpu      | libc
    ----------------------
+   aarch64  | glibc-2.17
    alpha    | glibc-2.1.3
    amd64    | glibc-2.13
    amd64    | dietlibc
@@ -34,6 +35,8 @@
    armel    | glibc-2.13
    armel    | musl
    armhf    | glibc-2.13
+   m68k     | glibc-2.2.5
+   m68k     | glibc-2.3.2
    mipseb   | glibc-2.11.3
    mips64eb | glibc-2.11.3
    mipsel   | glibc-2.11.3
@@ -41,8 +44,11 @@
    ppc      | glibc-2.13
    ppc      | dietlibc
    ppc64    | glibc-2.13
+   s390     | glibc-2.2.4
+   s390x    | glibc-2.2.4
    sh4      | glibc-2.17
    sparc    | glibc-2.3.6
+   sparc64  | glibc-2.13
    x86      | libc4
    x86      | libc5
    x86      | glibc-1.09
@@ -169,11 +175,26 @@ char *platform_get_linux_runtime_cpu(void)
                 }
                 if (!loc1) {
                     loc1 = strstr(buffer, "cpu");
+                    if (loc1 && loc1 != buffer) {
+                        loc1--;
+                        if (*loc1 != '\n' && isspace(*loc1)) {
+                            loc1 = NULL;
+                        }
+                    }
+                }
+                if (!loc1) {
+                    loc1 = strstr(buffer, "CPU");
+                }
+                if (!loc1) {
+                    loc1 = strstr(buffer, "vendor_id");
                 }
                 if (loc1) {
-                    loc2 = strstr(loc1, ": ");
+                    loc2 = strstr(loc1, ":");
                     if (loc2) {
                         loc2 += 2;
+                        while (isspace(*loc2)) {
+                            loc2++;
+                        }
                         loc3 = strstr(loc2, "\n");
                         if (loc3) {
                             *loc3 = 0;
