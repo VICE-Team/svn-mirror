@@ -172,6 +172,11 @@ static const cmdline_option_t common_cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_SHOW_COMMAND_LINE_OPTIONS,
       NULL, NULL },
+    { "-default", CALL_FUNCTION, 0,
+      cmdline_default, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_RESTORE_DEFAULT_SETTINGS,
+      NULL, NULL },
     { "-config", CALL_FUNCTION, 1,
       cmdline_config, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -216,11 +221,6 @@ static const cmdline_option_t common_cmdline_options[] = {
 /* These are the command-line options for the initialization sequence.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-default", CALL_FUNCTION, 0,
-      cmdline_default, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_RESTORE_DEFAULT_SETTINGS,
-      NULL, NULL },
     { "-autostart", CALL_FUNCTION, 1,
       cmdline_autostart, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
