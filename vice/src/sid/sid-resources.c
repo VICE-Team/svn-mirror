@@ -294,7 +294,7 @@ static const resource_int_t resid_resources_int[] = {
       &sid_resid_passband, set_sid_resid_passband, NULL },
     { "SidResidGain", 97, RES_EVENT_NO, NULL,
       &sid_resid_gain, set_sid_resid_gain, NULL },
-    { "SidResidFilterBias", 0, RES_EVENT_NO, NULL,
+    { "SidResidFilterBias", 500, RES_EVENT_NO, NULL,
       &sid_resid_filter_bias, set_sid_resid_filter_bias, NULL },
     { NULL }
 };
