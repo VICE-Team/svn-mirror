@@ -710,6 +710,49 @@ static int mus_check(const unsigned char *buf)
         && (((buf[voice3Index - 2] << 8) | buf[voice3Index - 1]) == MUS_HLT_CMD);
 }
 
+/* check for graphic characters */
+static int ispetchar(unsigned char c)
+{
+    if ((c >= 32) && (c <= 93)) {
+        return 1;
+    }
+    return 0;
+}
+
+static const unsigned char *copystring(unsigned char *d, const unsigned char *s)
+{
+    unsigned char *end = d + 32;
+    int n = 0;
+    /* skip leading spaces and special characters */
+    while (((*s == 0x20) || !ispetchar(*s)) && (*s != 0x00)) {
+        ++s;
+    }
+    /* copy until end of line, omit special characters */
+    while ((*s != 0x0d) && (*s != 0x00)) {
+        if (ispetchar(*s)) {
+            *d++ = *s;
+            n = (*s == 0x20);
+        } else {
+            /* for special chars, insert one space */
+            if (!n) {
+                *d++ = 0x20;
+                n = 1;
+            }
+        }
+        /* if max len of destination is reached, skip until end of source */
+        if (d == end) {
+            while ((*s != 0x0d) && (*s != 0x00)) {
+                ++s;
+            }
+            break;
+        }
+        ++s;
+    }
+    *d = 0;
+    charset_petconvstring(d, 1);
+    return s + 1;
+}
+
 static void mus_extract_credits(const unsigned char *buf, int datalen)
 {
     const unsigned char *end;
@@ -725,29 +768,14 @@ static void mus_extract_credits(const unsigned char *buf, int datalen)
 
     psid->name[0] = psid->author[0] = psid->copyright[0] = 0;
 
-    /* FIXME: perhaps put some more effort into beautifying the strings, skip
-     *        spaces, eliminate special chars, etc */
     if (buf < end) {
-        memcpy(psid->name, buf, 32);
-        n = 0; while((psid->name[n] != 0x0d) && (n < 32)) { n++; };
-        psid->name[n] = 0;
-        charset_petconvstring(psid->name, 1);
-        buf += (n + 1);
+        buf = copystring(psid->name, buf);
     }
-
     if (buf < end) {
-        memcpy(psid->author, buf, 32);
-        n = 0; while((psid->author[n] != 0x0d) && (n < 32)) { n++; };
-        psid->author[n] = 0;
-        charset_petconvstring(psid->author, 1);
-        buf += (n + 1);
+        buf = copystring(psid->author, buf);
     }
-
     if (buf < end) {
-        memcpy(psid->copyright, buf, 32);
-        n = 0; while((psid->copyright[n] != 0x0d) && (n < 32)) { n++; };
-        psid->copyright[n] = 0;
-        charset_petconvstring(psid->copyright, 1);
+        buf = copystring(psid->copyright, buf);
     }
 }
 
