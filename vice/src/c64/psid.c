@@ -46,7 +46,7 @@
 #include "vsync.h"
 #include "zfile.h"
 
-static int mus_load_file(const char* filename);
+static int mus_load_file(const char* filename, int ispsid);
 
 static log_t vlog = LOG_ERR;
 
@@ -201,7 +201,7 @@ int psid_load_file(const char* filename)
     }
 
     lib_free(psid);
-    psid = lib_malloc(sizeof(psid_t));
+    psid = lib_calloc(sizeof(psid_t), 1);
 
     if (fread(ptr, 1, 6, f) != 6 || (memcmp(ptr, "PSID", 4) != 0 && memcmp(ptr, "RSID", 4) != 0)) {
         goto fail;
@@ -260,8 +260,8 @@ int psid_load_file(const char* filename)
 
     /* Check for SIDPLAYER MUS files. */
     if (psid->flags & 0x01) {
-        log_error(vlog, "SIDPLAYER MUS files not supported.");
-        goto fail;
+        zfile_fclose(f);
+        return mus_load_file(filename, 1);
     }
 
     /* Zero load address => the load address is stored in the
@@ -360,7 +360,7 @@ fail:
 
     /* if the file wasnt in PSID format, try MUS/STR */
     if (memcmp(ptr, "PSID", 4) != 0 && memcmp(ptr, "RSID", 4) != 0) {
-        return mus_load_file(filename);
+        return mus_load_file(filename, 0);
     }
 
     return -1;
@@ -779,7 +779,7 @@ static void mus_extract_credits(const unsigned char *buf, int datalen)
     }
 }
 
-static int mus_load_file(const char* filename)
+static int mus_load_file(const char* filename, int ispsid)
 {
     char *strname;
     FILE *f;
@@ -790,52 +790,56 @@ static int mus_load_file(const char* filename)
         return -1;
     }
 
-    lib_free(psid);
-    psid = lib_malloc(sizeof(psid_t));
+    if (!ispsid) {
+        lib_free(psid);
+        psid = lib_calloc(sizeof(psid_t), 1);
+    }
 
-    fseek(f, 2, SEEK_SET); /* skip original load address */
+    /* skip header & original load address */
+    fseek(f, psid->data_offset + (psid->load_addr ? 0 : 2), SEEK_SET);
+    /* read .mus data */
     mus_datalen = fread(psid->data, 1, 0xffff - MUS_DATA_MAXLEN, f);
 
     if (!mus_check(psid->data)) {
-        log_error(vlog, "invalid .mus file.");
+        log_error(vlog, "not a valid .mus file.");
         goto fail;
     }
     zfile_fclose(f);
 
     /* read additional stereo (.str) data if available */
-    strname = lib_stralloc(filename);
-    n = strlen(strname) - 4;
-    strcpy(strname + n, ".str");
+    /* FIXME: the psid file format specification does not tell how to handle
+              stereo sidplayer tunes when they are in psid format */
+    if (!ispsid) {
+        strname = lib_stralloc(filename);
+        n = strlen(strname) - 4;
+        strcpy(strname + n, ".str");
 
-    if ((f = zfile_fopen(strname, MODE_READ))) {
-        fseek(f, 2, SEEK_SET); /* skip original load address */
-        if (fread(psid->data + (MUS_DATA2_ADDR - MUS_IMAGE_START), 1, 0xffff - MUS_DATA_MAXLEN, f) < (3 * 2)) {
-            goto fail;
+        if ((f = zfile_fopen(strname, MODE_READ))) {
+            fseek(f, 2, SEEK_SET); /* skip original load address */
+            if (fread(psid->data + (MUS_DATA2_ADDR - MUS_IMAGE_START), 1, 0xffff - MUS_DATA_MAXLEN, f) < (3 * 2)) {
+                goto fail;
+            }
+            zfile_fclose(f);
+            stereo = 1;
         }
-        zfile_fclose(f);
-        stereo = 1;
+        lib_free(strname);
+        /* only extract credits if this is NOT a psid file */
+        mus_extract_credits(psid->data, mus_datalen);
     }
-    lib_free(strname);
 
-    mus_extract_credits(psid->data, mus_datalen);
     mus_install();
 
-    psid->is_rsid = 0;
     psid->version = 3;  /* v3 so we get stereo support */
-
     psid->flags = 2 << 2; /* NTSC */
     psid->start_page = 0x04;
     psid->max_pages = (MUS_DATA_ADDR - 0x0400) >> 8;
-    psid->reserved = 0;
 
-    psid->data_offset = 0;
     psid->load_addr = MUS_IMAGE_START;
     psid->data_size = 0x10000 - MUS_IMAGE_START;
 
     psid->songs = 1;
     psid->start_song = 1;
     psid->speed = 1;    /* play at 60Hz */
-    psid->frames_played = 0;
 
     if (stereo) {
         /* Player #1 + #2. */
