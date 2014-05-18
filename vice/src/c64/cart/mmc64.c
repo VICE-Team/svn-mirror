@@ -614,27 +614,40 @@ static void mmc64_reg_store(WORD addr, BYTE value, int active)
                 if (mmc64_active) {
                     /* cart_set_port_exrom_slot0(0); */
                     log_message(mmc64_log, "disabling MMC64 (exrom:%d game:%d) mmc64_active: %d", mmc64_extexrom, mmc64_extgame, mmc64_active);
-                    cart_config_changed_slot0((BYTE)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame), (BYTE)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame), CMODE_READ);
+                    cart_config_changed_slot0((BYTE)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame), 
+                                              (BYTE)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame), CMODE_READ);
                     mmc64_io2_device.io_source_prio = 0;
                 } else {
                     /* this controls the mapping of the MMC64 bios */
                     if (mmc64_biossel) {
-                        cart_set_port_exrom_slot0(0);
+                        /* cart_set_port_exrom_slot0(0);
+                        cart_set_port_game_slot0(0); */
+                        cart_config_changed_slot0(CMODE_RAM, CMODE_RAM, CMODE_READ);
                     } else {
-                        cart_set_port_exrom_slot0(1);
+                        /* MMC64 ROM enabled */
+                        if (mmc64_flashmode) {
+                            /* cart_set_port_exrom_slot0(0);
+                            cart_set_port_game_slot0(1); */
+                            cart_config_changed_slot0(CMODE_RAM, CMODE_ULTIMAX, CMODE_READ);
+                        } else {
+                            /* cart_set_port_exrom_slot0(1);
+                            cart_set_port_game_slot0(0); */
+                            cart_config_changed_slot0(CMODE_RAM, CMODE_8KGAME, CMODE_READ);
+                        }
                     }
-                    cart_port_config_changed_slot0();
+                    /* cart_port_config_changed_slot0(); */
                     mmc64_io2_device.io_source_prio = 1;
                 }
 #else
                 if (mmc64_active) {
                     log_message(mmc64_log, "disabling MMC64");
-                    cart_config_changed_slot0(2, 2, CMODE_READ);
+                    cart_config_changed_slot0(CMODE_RAM, CMODE_RAM, CMODE_READ);
                 } else {
                     if (mmc64_biossel) {
-                        cart_config_changed_slot0(2, 2, CMODE_READ);
+                        cart_config_changed_slot0(CMODE_RAM, CMODE_RAM, CMODE_READ);
                     } else {
-                        cart_config_changed_slot0(2, 0, CMODE_READ);
+                        /* MMC64 ROM enabled */
+                        cart_config_changed_slot0(CMODE_RAM, CMODE_8KGAME, CMODE_READ);
                     }
                 }
 #endif
@@ -913,7 +926,7 @@ void mmc64_roml_store(WORD addr, BYTE byte)
             return;
         }
     }
-    mem_ram[addr] = byte;
+    /* mem_ram[addr] = byte; */
 }
 
 /* ---------------------------------------------------------------------*/
