@@ -32,6 +32,7 @@
    amd64    | glibc-2.13
    amd64    | dietlibc
    amd64    | musl
+   armeb    | glibc-2.3.2
    armel    | glibc-2.13
    armel    | musl
    armhf    | glibc-2.13
@@ -41,6 +42,7 @@
    mips64eb | glibc-2.11.3
    mipsel   | glibc-2.11.3
    mips64el | glibc-2.11.3
+   openrisc | uclibc
    ppc      | glibc-2.13
    ppc      | dietlibc
    ppc64    | glibc-2.13
@@ -146,6 +148,7 @@ char *platform_get_linux_runtime_cpu(void)
     char *loc3 = NULL;
     size_t size1 = 0;
     size_t size2 = 0;
+    struct utsname name;
 
     if (!got_linux_cpu) {
         sprintf(linux_cpu, "Unknown CPU");
@@ -216,6 +219,11 @@ char *platform_get_linux_runtime_cpu(void)
             got_linux_cpu = 1;
         }
 #endif
+        if (!got_linux_cpu) {
+            uname(&name);
+            sprintf(linux_cpu, "%s", name.machine);
+            got_linux_cpu = 1;
+        }
     }
     return linux_cpu;
 }

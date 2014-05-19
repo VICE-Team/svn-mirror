@@ -29,6 +29,7 @@
  * mmix       | no                  | not yet
  * mn10300    | no                  | not yet
  * ns32k      | yes                 | not yet
+ * openrisc   | yes                 | not yet
  * pdp-11     | no                  | not yet
  * picochip   | no                  | not yet
  * powerpc    | yes, -sub           | not yet
@@ -98,7 +99,7 @@
 
 /* Generic arm cpu discovery */
 #if !defined(PLATFORM_CPU) && defined(__arm__)
-#  ifdef WORDS_BIGENDIAN
+#  ifdef __ARMEB__
 #    define PLATFORM_ENDIAN " (big endian)"
 #  else
 #    define PLATFORM_ENDIAN " (little endian)"
@@ -438,7 +439,13 @@
 
 /* Generic ns32k cpu discovery */
 #if !defined(PLATFORM_CPU) && defined(__ns32000__)
-#  define PLATFORM_CPU_"NS32K"
+#  define PLATFORM_CPU "NS32K"
+#endif
+
+
+/* generic openrisc cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(__OR32__)
+#  define PLATFORM_CPU "OpenRisc"
 #endif
 
 
