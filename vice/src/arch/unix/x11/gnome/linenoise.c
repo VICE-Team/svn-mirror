@@ -100,7 +100,8 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
-#include <vte/vte.h>
+/* #include <vte/vte.h> */ /* shouldnt be needed here, needs ifdef HAVE_VTE if so */
+#include <gtk/gtk.h> /* for gtk_main_iteration() */
 #include "linenoise.h"
 
 #define LINENOISE_DEFAULT_HISTORY_MAX_LEN 100
