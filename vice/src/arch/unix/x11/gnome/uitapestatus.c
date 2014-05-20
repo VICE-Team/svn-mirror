@@ -43,6 +43,8 @@
 #include "resources.h"
 #include "videoarch.h"
 
+#include <math.h>
+
 #ifdef DEBUG_X11UI
 #define DBG(_x_) log_debug _x_
 #else
@@ -319,7 +321,6 @@ static void set_background(GdkColor *color)
 {
     int num_app_shells = get_num_shells();
     int i;
-
     for (i = 0; i < num_app_shells; i++) {
         tape_status_widget *ts = &app_shells[i].tape_status;
         if (ts) {
@@ -346,15 +347,17 @@ static void set_foreground(GdkColor *color, int status)
         tape_status_widget *ts = &app_shells[i].tape_status;
         if (ts) {
             cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(ts->control));
-            gdk_cairo_set_source_color(cr, color);
-            cairo_translate(cr, 0, (gtk_widget_get_allocated_height(ts->control) - CTRL_HEIGHT) / 2);
-            if (num) {
-                draw_polygon(cr, p, num);
-            } else {
-                cairo_arc(cr, CTRL_WIDTH / 2, CTRL_HEIGHT / 2, (CTRL_HEIGHT / 2) - 1, 0, 360 * 64);
+            if (cr) {
+                gdk_cairo_set_source_color(cr, color);
+                cairo_translate(cr, 0, (gtk_widget_get_allocated_height(ts->control) - CTRL_HEIGHT) / 2);
+                if (num) {
+                    draw_polygon(cr, p, num);
+                } else {
+                    cairo_arc(cr, CTRL_WIDTH / 2, CTRL_HEIGHT / 2, (CTRL_HEIGHT / 2) - 1, 0, 360.0f * (M_PI / 180.0f));
+                }
+                cairo_fill (cr);
+                cairo_destroy(cr);
             }
-            cairo_fill (cr);
-            cairo_destroy(cr);
         }
     }
 }
