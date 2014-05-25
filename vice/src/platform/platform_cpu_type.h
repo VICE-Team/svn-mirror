@@ -23,7 +23,7 @@
  * m68hc1x    | no                  | not yet
  * mcore      | no                  | not yet
  * mep        | no                  | not yet
- * microblaze | no                  | not yet
+ * microblaze | yes                 | not yet
  * mips       | yes, +endian -sub   | not yet
  * mips64     | yes, +endian -sub   | not yet
  * mmix       | no                  | not yet
@@ -413,6 +413,16 @@
 #  endif
 #  ifndef PLATFORM_CPU
 #    define PLATFORM_CPU "M68K"
+#  endif
+#endif
+
+
+/* Generic microblaze cpu discovery */
+#if !defined(PLATFORM_CPU) && defined(__MICROBLAZE__)
+#  if defined(WORDS_BIGENDIAN) || defined(_BIG_ENDIAN)
+#    define PLATFORM_CPU "MicroBlaze (big endian)"
+#  else
+#    define PLATFORM_CPU "MicroBlaze (little endian)"
 #  endif
 #endif
 
