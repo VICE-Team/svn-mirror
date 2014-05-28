@@ -254,8 +254,8 @@ int psid_load_file(const char* filename)
     }
 
     if ((psid->start_song < 1) || (psid->start_song > psid->songs)) {
-        log_error(vlog, "Default tune out of range.");
-        goto fail;
+        log_error(vlog, "Default tune out of range (%d of %d ?), using 1 instead.", psid->start_song, psid->songs);
+        psid->start_song = 1;
     }
 
     /* Check for SIDPLAYER MUS files. */
