@@ -10188,7 +10188,7 @@ is reached.
 ==============================
 
 (This section was contributed by Peter Schepers and slightly edited by
-Marco van den Heuvel.)
+Marco van den Heuvel. Added 42 track info by groepaz)
 
 First and foremost we have D64, which is basically a sector-for-sector
 copy of a 1540/1541 disk. There are several versions of these which I
@@ -10214,6 +10214,7 @@ Track                    Sectors/track            # Sectors
 25-30                    18                       108
 31-35                    17                       85
 36-40(*)                 17                       85
+41-42(*)                 17                       34
 
 Track              #Sect              #SectorsIn         D64 Offset
 1                  21                 0                  $00000
@@ -10256,8 +10257,11 @@ Track              #Sect              #SectorsIn         D64 Offset
 38(*)              17                 717                $2CD00
 39(*)              17                 734                $2DE00
 40(*)              17                 751                $2EF00
+41(*)              17                 768                $30000
+42(*)              17                 785                $31100
 
-(*) Tracks 36-40 apply to 40-track images only.
+(*) Tracks 36-40 apply to 40- and 42-track images only.  (*) Tracks
+41-42 apply to 42-track images only.
 
 The directory track should be contained totally on track 18. Sectors
 1-18 contain the entries and sector 0 contains the BAM (Block
@@ -10504,18 +10508,24 @@ with 5 extra tracks. These contain 17 sectors each, like tracks 31-35.
 Some of the PC utilities do allow you to create and work with these
 files. This can also have error bytes attached like variant #1.
 
-3. The Commodore 128 allowed for "auto-boot" disks. With this, t/s 1/0
+3. A 42 track layout, with two extra tracks of 17 sectors each.  This
+is extremely uncommon, since real drives often have problems with
+accessing these tracks, software that uses them is very rare.
+
+4. The Commodore 128 allowed for "auto-boot" disks. With this, t/s 1/0
 holds a specific byte sequence which the computer recognizes as boot
 code.
 
 Below is a small chart detailing the standard file sizes of D64 images,
-35 or 40 tracks, with or without error bytes.
+35, 40 or 42 tracks, with or without error bytes.
 
 Disk type                            Size
 35 track, no errors                  174848
 35 track, 683 error bytes            175531
 40 track, no errors                  196608
 40 track, 768 error bytes            197376
+42 track, no errors                  205312
+42 track, 802 error bytes            206114
 
 The following table (provided by Wolfgang Moser) outlines the
 differences between the standard 1541 DOS and the various "speeder"
@@ -10610,6 +10620,45 @@ what the drive DOS is actually doing to seek/read/decode/write sectors,
 but serve as simple examples only. The "type" field is where the error
 usually occurs, whether it's searching for any SYNC mark, any header
 ID, any valid header, or reading a sector.
+
+Code           Error          Type           D64            Description
+$01            00             N/A            *              No error.
+$02            20             Seek           *              Header block
+not found /
+Header
+descriptor
+byte not found
+$03            21             Seek           *              No SYNC
+sequence found
+$04            22             Read           *              Data
+descriptor
+byte not found
+$05            23             Read           *              Checksum
+error in data
+block
+$06            24             Write                         Write verify
+on format
+(never occurs
+on 1541)
+$07            25             Write                         Write verify
+error
+$08            26             Write                         Write protect
+on
+$09            27             Seek           *              Checksum
+error in
+header block
+$0A            28             Write                         Write error
+(never occurs
+on 1541)
+$0B            29             Seek           *              Disk sector
+ID mismatch
+$0F            74             Read                          Drive Not
+Ready (no
+disk in drive
+or no device
+1)
+
+Codes $0 and $C to $E are unused and never occur.
 
 These first errors are "seek" errors, where the disk controller is
 simply reading headers and looking at descriptor bytes, checksums,

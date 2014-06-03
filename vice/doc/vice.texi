@@ -12485,7 +12485,7 @@ reached.
 @c FIXME: the D64 section needs to be style-checked.
 
 (This section was contributed by Peter Schepers and slightly edited by
-Marco van den Heuvel.)
+Marco van den Heuvel. Added 42 track info by groepaz)
 
 First and foremost we have D64, which is basically a sector-for-sector
 copy of a 1540/1541 disk. There are several versions of these which I
@@ -12523,6 +12523,9 @@ to the center), the outside tracks have the largest amount of storage.
 @item 36-40(*)
 @tab 17
 @tab 85
+@item 41-42(*)
+@tab 17
+@tab 34
 @end multitable
 
 @multitable @columnfractions .25 .25 .25 .25
@@ -12690,9 +12693,18 @@ to the center), the outside tracks have the largest amount of storage.
 @tab 17
 @tab 751
 @tab $2EF00
+@item 41(*)
+@tab 17
+@tab 768
+@tab $30000
+@item 42(*)
+@tab 17
+@tab 785
+@tab $31100
 @end multitable
 
-(*) Tracks 36-40 apply to 40-track images only.
+(*) Tracks 36-40 apply to 40- and 42-track images only.
+(*) Tracks 41-42 apply to 42-track images only.
 
 The directory track should be contained totally on track 18. Sectors
 1-18 contain the entries and sector 0 contains the BAM
@@ -13043,12 +13055,16 @@ like tracks 31-35. Some of the PC utilities do allow you to
 create and work with these files. This can also have error
 bytes attached like variant #1.
 
-3. The Commodore 128 allowed for "auto-boot" disks. With this,
+3. A 42 track layout, with two extra tracks of 17 sectors each.
+This is extremely uncommon, since real drives often have problems
+with accessing these tracks, software that uses them is very rare.
+
+4. The Commodore 128 allowed for "auto-boot" disks. With this,
 t/s 1/0 holds a specific byte sequence which the computer
 recognizes as boot code.
 
 Below is a small chart detailing the standard file sizes of
-D64 images, 35 or 40 tracks, with or without error bytes.
+D64 images, 35, 40 or 42 tracks, with or without error bytes.
 
 @multitable @columnfractions .5 .5
 @item @b{Disk type}
@@ -13061,6 +13077,10 @@ D64 images, 35 or 40 tracks, with or without error bytes.
 @tab 196608
 @item 40 track, 768 error bytes
 @tab 197376
+@item 42 track, no errors
+@tab 205312
+@item 42 track, 802 error bytes
+@tab 206114
 @end multitable
 
 The following table (provided by Wolfgang Moser) outlines
@@ -13217,6 +13237,76 @@ doing to seek/read/decode/write sectors, but serve as simple
 examples only. The "type" field is where the error usually
 occurs, whether it's searching for any SYNC mark, any header
 ID, any valid header, or reading a sector.
+
+@multitable @columnfractions .2 .2 .2 .2 .2
+@item @b{Code}
+@tab @b{Error}
+@tab @b{Type}
+@tab @b{D64}
+@tab @b{Description}
+@item $01
+@tab 00
+@tab N/A
+@tab *
+@tab No error.
+@item $02
+@tab 20
+@tab Seek
+@tab *
+@tab Header block not found / Header descriptor byte not found
+@item $03
+@tab 21
+@tab Seek
+@tab *
+@tab No SYNC sequence found
+@item $04
+@tab 22
+@tab Read
+@tab *
+@tab Data descriptor byte not found
+@item $05
+@tab 23
+@tab Read
+@tab *
+@tab Checksum error in data block
+@item $06
+@tab 24
+@tab Write
+@tab
+@tab Write verify on format (never occurs on 1541)
+@item $07
+@tab 25
+@tab Write
+@tab
+@tab Write verify error
+@item $08
+@tab 26
+@tab Write
+@tab
+@tab Write protect on
+@item $09
+@tab 27
+@tab Seek
+@tab *
+@tab Checksum error in header block
+@item $0A
+@tab 28
+@tab Write
+@tab
+@tab Write error (never occurs on 1541)
+@item $0B
+@tab 29
+@tab Seek
+@tab *
+@tab Disk sector ID mismatch
+@item $0F
+@tab 74
+@tab Read
+@tab
+@tab Drive Not Ready (no disk in drive or no device 1)
+@end multitable
+
+Codes $0 and $C to $E are unused and never occur.
 
 These first errors are "seek" errors, where the disk
 controller is simply reading headers and looking at
