@@ -12199,6 +12199,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_PUT_STRING_INTO_KEYBUF_TR, "Klavye arabelleðine belirtilen yazýyý koy."},
 #endif
 
+/* autostart.c */
+/* en */ {IDCLS_SET_KEYBUF_DELAY,    N_("Set additional keyboard buffer delay (0: use default)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_KEYBUF_DELAY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_KEYBUF_DELAY_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_KEYBUF_DELAY_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_KEYBUF_DELAY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_KEYBUF_DELAY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_KEYBUF_DELAY_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_KEYBUF_DELAY_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_KEYBUF_DELAY_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_KEYBUF_DELAY_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_KEYBUF_DELAY_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_KEYBUF_DELAY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_KEYBUF_DELAY_TR, ""},  /* fuzzy */
+#endif
+
 /* log.c */
 /* en */ {IDCLS_SPECIFY_LOG_FILE_NAME,    N_("Specify log file name")},
 #ifdef HAS_TRANSLATION

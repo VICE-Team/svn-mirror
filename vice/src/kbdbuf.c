@@ -39,6 +39,7 @@
 #include "lib.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "resources.h"
 #include "translate.h"
 #include "types.h"
 
@@ -73,6 +74,39 @@ static int kbd_buf_enabled = 0;
 
 /* String to feed into the keyboard buffer.  */
 static char *kbd_buf_string = NULL;
+
+static int KbdbufDelay = 0;
+
+/* ------------------------------------------------------------------------- */
+
+/*! \internal \brief set additional keybuf delay. 0 means default. (none) */
+static int set_kbdbuf_delay(int val, void *param)
+{
+    if (val < 0) {
+        val = 0;
+    }
+    KbdbufDelay = val;
+    return 0;
+}
+
+/*! \brief integer resources used by keybuf */
+static const resource_int_t resources_int[] = {
+    { "KbdbufDelay", 0, RES_EVENT_NO, (resource_value_t)0,
+      &KbdbufDelay, set_kbdbuf_delay, NULL },
+    { NULL }
+};
+
+/*! \brief initialize the resources
+ \return
+   0 on success, else -1.
+
+ \remark
+   Registers the integer resources
+*/
+int kbdbuf_resources_init(void)
+{
+    return resources_register_int(resources_int);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -145,6 +179,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_STRING, IDCLS_PUT_STRING_INTO_KEYBUF,
       NULL, NULL },
+    { "-keybuf-delay", SET_RESOURCE, 1,
+      NULL, NULL, "KbdbufDelay", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_KEYBUF_DELAY,
+      NULL, NULL },
     { NULL }
 };
 
@@ -172,7 +211,7 @@ void kbdbuf_reset(int location, int plocation, int size, CLOCK mincycles)
 /* Initialization.  */
 void kbdbuf_init(int location, int plocation, int size, CLOCK mincycles)
 {
-    kbdbuf_reset(location, plocation, size, mincycles);
+    kbdbuf_reset(location, plocation, size, mincycles + KbdbufDelay);
 
     if (kbd_buf_string != NULL) {
         kbdbuf_feed(kbd_buf_string);

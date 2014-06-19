@@ -134,6 +134,10 @@ int init_resources(void)
         init_resource_fail("joystick");
         return -1;
     }
+    if (kbdbuf_resources_init() < 0) {
+        init_resource_fail("Keyboard");
+        return -1;
+    }
     if (ram_resources_init() < 0) {
         init_resource_fail("RAM");
         return -1;
