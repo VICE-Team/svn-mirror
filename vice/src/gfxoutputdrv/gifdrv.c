@@ -41,13 +41,19 @@
 #include "util.h"
 
 #if GIFLIB_MAJOR >= 5
-#define VICE_EGifOpenFileName(x, y, z) EGifOpenFileName(x, y, z)
-#define VICE_MakeMapObject GifMakeMapObject
-#define VICE_FreeMapObject GifFreeMapObject
+#  define VICE_EGifOpenFileName(x, y, z) EGifOpenFileName(x, y, z)
+#  define VICE_MakeMapObject GifMakeMapObject
+#  define VICE_FreeMapObject GifFreeMapObject
+#  if GIFLIB_MINOR >= 1
+#    define VICE_EGifCloseFile(x) EGifCloseFile(x, NULL)
+#  else
+#    define VICE_EGifCloseFile(x) EGifCloseFile(x)
+#  endif
 #else
-#define VICE_EGifOpenFileName(x, y, z) EGifOpenFileName(x, y)
-#define VICE_MakeMapObject MakeMapObject
-#define VICE_FreeMapObject FreeMapObject
+#  define VICE_EGifOpenFileName(x, y, z) EGifOpenFileName(x, y)
+#  define VICE_MakeMapObject MakeMapObject
+#  define VICE_FreeMapObject FreeMapObject
+#  define VICE_EGifCloseFile(x) EGifCloseFile(x)
 #endif
 
 typedef struct gfxoutputdrv_data_s {
@@ -107,7 +113,7 @@ static int gifdrv_open(screenshot_t *screenshot, const char *filename)
 
     if (EGifPutScreenDesc(sdata->fd, screenshot->width, screenshot->height, 8, 0, gif_colors) == GIF_ERROR ||
         EGifPutImageDesc(sdata->fd, 0, 0, screenshot->width, screenshot->height, 0, NULL) == GIF_ERROR) {
-        EGifCloseFile(sdata->fd);
+        VICE_EGifCloseFile(sdata->fd);
         VICE_FreeMapObject(gif_colors);
         lib_free(sdata->data);
         lib_free(sdata->ext_filename);
@@ -139,7 +145,7 @@ static int gifdrv_close(screenshot_t *screenshot)
 
     sdata = screenshot->gfxoutputdrv_data;
 
-    EGifCloseFile(sdata->fd);
+    VICE_EGifCloseFile(sdata->fd);
     VICE_FreeMapObject(gif_colors);
 
     /* for some reason giflib will create a file with unexpected
@@ -179,7 +185,7 @@ static char *gifdrv_memmap_ext_filename;
 
 static int gifdrv_close_memmap(void)
 {
-    EGifCloseFile(gifdrv_memmap_fd);
+    VICE_EGifCloseFile(gifdrv_memmap_fd);
     VICE_FreeMapObject(gif_colors);
     lib_free(gifdrv_memmap_ext_filename);
 
@@ -226,7 +232,7 @@ static int gifdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
 
     if (EGifPutScreenDesc(gifdrv_memmap_fd, x_size, y_size, 8, 0, gif_colors) == GIF_ERROR ||
         EGifPutImageDesc(gifdrv_memmap_fd, 0, 0, x_size, y_size, 0, NULL) == GIF_ERROR) {
-        EGifCloseFile(gifdrv_memmap_fd);
+        VICE_EGifCloseFile(gifdrv_memmap_fd);
         VICE_FreeMapObject(gif_colors);
         lib_free(gifdrv_memmap_ext_filename);
         return -1;
