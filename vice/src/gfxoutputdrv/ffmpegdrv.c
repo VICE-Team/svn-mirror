@@ -48,29 +48,29 @@
 #include "../sounddrv/soundmovie.h"
 
 static gfxoutputdrv_codec_t avi_audio_codeclist[] = {
-    { CODEC_ID_MP2, "MP2" },
-    { CODEC_ID_MP3, "MP3" },
-    { CODEC_ID_FLAC, "FLAC" },
-    { CODEC_ID_PCM_S16LE, "PCM uncompressed" },
+    { AV_CODEC_ID_MP2, "MP2" },
+    { AV_CODEC_ID_MP3, "MP3" },
+    { AV_CODEC_ID_FLAC, "FLAC" },
+    { AV_CODEC_ID_PCM_S16LE, "PCM uncompressed" },
     { 0, NULL }
 };
 
 static gfxoutputdrv_codec_t avi_video_codeclist[] = {
-    { CODEC_ID_MPEG4, "MPEG4 (DivX)" },
-    { CODEC_ID_MPEG1VIDEO, "MPEG1" },
-    { CODEC_ID_FFV1, "FFV1 (lossless)" },
-    { CODEC_ID_H264, "H264" },
-    { CODEC_ID_THEORA, "Theora" },
+    { AV_CODEC_ID_MPEG4, "MPEG4 (DivX)" },
+    { AV_CODEC_ID_MPEG1VIDEO, "MPEG1" },
+    { AV_CODEC_ID_FFV1, "FFV1 (lossless)" },
+    { AV_CODEC_ID_H264, "H264" },
+    { AV_CODEC_ID_THEORA, "Theora" },
     { 0, NULL }
 };
 
 static gfxoutputdrv_codec_t ogg_audio_codeclist[] = {
-    { CODEC_ID_FLAC, "FLAC" },
+    { AV_CODEC_ID_FLAC, "FLAC" },
     { 0, NULL }
 };
 
 static gfxoutputdrv_codec_t ogg_video_codeclist[] = {
-    { CODEC_ID_THEORA, "Theora" },
+    { AV_CODEC_ID_THEORA, "Theora" },
     { 0, NULL }
 };
 
@@ -203,9 +203,9 @@ static const resource_int_t resources_int[] = {
     { "FFMPEGVideoBitrate", VICE_FFMPEG_VIDEO_RATE_DEFAULT,
       RES_EVENT_NO, NULL,
       &video_bitrate, set_video_bitrate, NULL },
-    { "FFMPEGAudioCodec", CODEC_ID_MP3, RES_EVENT_NO, NULL,
+    { "FFMPEGAudioCodec", AV_CODEC_ID_MP3, RES_EVENT_NO, NULL,
       &audio_codec, set_audio_codec, NULL },
-    { "FFMPEGVideoCodec", CODEC_ID_MPEG4, RES_EVENT_NO, NULL,
+    { "FFMPEGVideoCodec", AV_CODEC_ID_MPEG4, RES_EVENT_NO, NULL,
       &video_codec, set_video_codec, NULL },
     { "FFMPEGVideoHalveFramerate", 0, RES_EVENT_NO, NULL,
       &video_halve_framerate, set_video_halve_framerate, NULL },
@@ -281,10 +281,10 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
     if (c->frame_size <= 1) {
         audio_inbuf_samples = audio_outbuf_size;
         switch (st->codec->codec_id) {
-            case CODEC_ID_PCM_S16LE:
-            case CODEC_ID_PCM_S16BE:
-            case CODEC_ID_PCM_U16LE:
-            case CODEC_ID_PCM_U16BE:
+            case AV_CODEC_ID_PCM_S16LE:
+            case AV_CODEC_ID_PCM_S16BE:
+            case AV_CODEC_ID_PCM_U16LE:
+            case AV_CODEC_ID_PCM_U16BE:
                 audio_inbuf_samples >>= 1;
                 break;
             default:
@@ -330,7 +330,7 @@ static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t *
 
     audio_init_done = 1;
 
-    if (ffmpegdrv_fmt->audio_codec == CODEC_ID_NONE) {
+    if (ffmpegdrv_fmt->audio_codec == AV_CODEC_ID_NONE) {
         return -1;
     }
 
@@ -559,7 +559,7 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
 
     video_init_done = 1;
 
-    if (ffmpegdrv_fmt->video_codec == CODEC_ID_NONE) {
+    if (ffmpegdrv_fmt->video_codec == AV_CODEC_ID_NONE) {
         return;
     }
 
@@ -588,12 +588,12 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     c->pix_fmt = PIX_FMT_YUV420P;
 
     /* Avoid format conversion which would lead to loss of quality */
-    if (c->codec_id == CODEC_ID_FFV1) {
+    if (c->codec_id == AV_CODEC_ID_FFV1) {
         c->pix_fmt = PIX_FMT_RGB32;
     }
 
     /* Use XVID instead of FMP4 FOURCC for better compatibility */
-    if (c->codec_id == CODEC_ID_MPEG4) {
+    if (c->codec_id == AV_CODEC_ID_MPEG4) {
         c->codec_tag = MKTAG('X', 'V', 'I', 'D');
     }
 

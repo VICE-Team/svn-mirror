@@ -72,10 +72,28 @@
 /* generic version function */
 typedef unsigned (*ffmpeg_version_t)(void);
 
+/* Use new names
+#if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(55,18,102)
+#define AV_CODEC_ID_MP2        CODEC_ID_MP2
+#define AV_CODEC_ID_MP3        CODEC_ID_MP3
+#define AV_CODEC_ID_FLAC       CODEC_ID_FLAC
+#define AV_CODEC_ID_PCM_S16LE  CODEC_ID_PCM_S16LE
+#define AV_CODEC_ID_PCM_S16BE  CODEC_ID_PCM_S16BE
+#define AV_CODEC_ID_PCM_U16LE  CODEC_ID_PCM_U16LE
+#define AV_CODEC_ID_PCM_U16BE  CODEC_ID_PCM_U16BE
+#define AV_CODEC_ID_MPEG4      CODEC_ID_MPEG4
+#define AV_CODEC_ID_MPEG1VIDEO CODEC_ID_MPEG1VIDEO
+#define AV_CODEC_ID_FFV1       CODEC_ID_FFV1
+#define AV_CODEC_ID_H264       CODEC_ID_H264
+#define AV_CODEC_ID_THEORA     CODEC_ID_THEORA
+#define AV_CODEC_ID_NONE       CODEC_ID_NONE
+#define AVCodecID              CodecID
+#endif
+
 /* avcodec fucntions */
 typedef int (*avcodec_open_t)(AVCodecContext*, AVCodec*);
 typedef int (*avcodec_close_t)(AVCodecContext*);
-typedef AVCodec* (*avcodec_find_encoder_t)(enum CodecID);
+typedef AVCodec* (*avcodec_find_encoder_t)(enum AVCodecID);
 typedef int (*avcodec_encode_audio_t)(AVCodecContext*, uint8_t*, int, const short*);
 typedef int (*avcodec_encode_video_t)(AVCodecContext*, uint8_t*, int, const AVFrame*);
 typedef int (*avpicture_fill_t)(AVPicture*, uint8_t*, int, int, int);
