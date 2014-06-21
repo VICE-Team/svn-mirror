@@ -8859,13 +8859,13 @@ Additionally, it can be used whenever an address must be specified.
 <label> is the name of the label; it must start with a dot (".") in
 order for the monitor to recognize it as a label.
 
-`delete_label [<address space>] <label>'
-`dl [<address space>] <label>'
+`delete_label [<address_space>] <label>'
+`dl [<address_space>] <label>'
 Remove the specified label from the label tables.  If no address
 space is checked, all tables are checked.
 
-`load_labels [<address space>] "<filename>"'
-`ll [<address space>] "<filename>"'
+`load_labels [<address_space>] "<filename>"'
+`ll [<address_space>] "<filename>"'
 Load a file containing a mapping of labels to addresses.  If no
 address space is specified, the default readspace is used.
 
@@ -8880,13 +8880,13 @@ commands but after an assignment of this kind it may be used to
 start a comment to end of line, so unchanged Acme label files can
 be fed into Vice.
 
-`save_labels [<address space>] "<filename>"'
-`sl [<address space>] "<filename>"'
+`save_labels [<address_space>] "<filename>"'
+`sl [<address_space>] "<filename>"'
 Save labels to a file.  If no address space is specified, all of
 the labels are saved.
 
-`show_labels [<address space>]'
-`shl [<address space>]'
+`show_labels [<address_space>]'
+`shl [<address_space>]'
 Display current label mappings.  If no address space is specified,
 show all labels.
 
