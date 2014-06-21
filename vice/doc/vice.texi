@@ -10963,10 +10963,10 @@ For more information on conditions, see the CONDITION command.
 @item cd <directory>
 Change the working directory.
 
-@item device [c:|d:]
-@itemx dev [c:|d:]
-Set the default memory device to either the computer (@code{c:}) or
-the disk (@code{d:}).
+@item device [c:|8:|9:]
+@itemx dev [c:|8:|9:]
+Set the default address space to either the computer (@code{c:}) or
+the disk (@code{8:|9:}).
 
 @item dir [<directory>]
 @itemx ls [<directory>]
@@ -11075,14 +11075,14 @@ be used whenever an address must be specified.
 <label> is the name of the label; it must start with a dot (".") in
 order for the monitor to recognize it as a label.
 
-@item delete_label [<memspace>] <label>
-@itemx dl [<memspace>] <label>
-Remove the specified label from the label tables.  If no memory space is
+@item delete_label [<address space>] <label>
+@itemx dl [<address space>] <label>
+Remove the specified label from the label tables.  If no address space is
 checked, all tables are checked.
 
-@item load_labels [<memspace>] "<filename>"
-@itemx ll [<memspace>] "<filename>"
-Load a file containing a mapping of labels to addresses.  If no memory
+@item load_labels [<address space>] "<filename>"
+@itemx ll [<address space>] "<filename>"
+Load a file containing a mapping of labels to addresses.  If no address
 space is specified, the default readspace is used.
 
 The file must contain commands the monitor understands, e.g. add_label. The
@@ -11095,14 +11095,14 @@ the semicolon seperates commands but after an assignment of this kind it may be
 used to start a comment to end of line, so unchanged Acme label files can be
 fed into Vice.
 
-@item save_labels [<memspace>] "<filename>"
-@itemx sl [<memspace>] "<filename>"
-Save labels to a file.  If no memory space is specified, all of the
+@item save_labels [<address space>] "<filename>"
+@itemx sl [<address space>] "<filename>"
+Save labels to a file.  If no address space is specified, all of the
 labels are saved.
 
-@item show_labels [<memspace>]
-@itemx shl [<memspace>]
-Display current label mappings.  If no memory space is specified, show
+@item show_labels [<address space>]
+@itemx shl [<address space>]
+Display current label mappings.  If no address space is specified, show
 all labels.
 
 @end table

@@ -8757,10 +8757,10 @@ For more information on conditions, see the CONDITION command.
 `cd <directory>'
 Change the working directory.
 
-`device [c:|d:]'
-`dev [c:|d:]'
-Set the default memory device to either the computer (`c:') or the
-disk (`d:').
+`device [c:|8:|9:]'
+`dev [c:|8:|9:]'
+Set the default address space to either the computer (`c:') or the
+disk (`8:|9:').
 
 `dir [<directory>]'
 `ls [<directory>]'
@@ -8859,15 +8859,15 @@ Additionally, it can be used whenever an address must be specified.
 <label> is the name of the label; it must start with a dot (".") in
 order for the monitor to recognize it as a label.
 
-`delete_label [<memspace>] <label>'
-`dl [<memspace>] <label>'
-Remove the specified label from the label tables.  If no memory
+`delete_label [<address space>] <label>'
+`dl [<address space>] <label>'
+Remove the specified label from the label tables.  If no address
 space is checked, all tables are checked.
 
-`load_labels [<memspace>] "<filename>"'
-`ll [<memspace>] "<filename>"'
+`load_labels [<address space>] "<filename>"'
+`ll [<address space>] "<filename>"'
 Load a file containing a mapping of labels to addresses.  If no
-memory space is specified, the default readspace is used.
+address space is specified, the default readspace is used.
 
 The file must contain commands the monitor understands, e.g.
 add_label. The compiler cc65 can create such label files.
@@ -8880,14 +8880,14 @@ commands but after an assignment of this kind it may be used to
 start a comment to end of line, so unchanged Acme label files can
 be fed into Vice.
 
-`save_labels [<memspace>] "<filename>"'
-`sl [<memspace>] "<filename>"'
-Save labels to a file.  If no memory space is specified, all of the
-labels are saved.
+`save_labels [<address space>] "<filename>"'
+`sl [<address space>] "<filename>"'
+Save labels to a file.  If no address space is specified, all of
+the labels are saved.
 
-`show_labels [<memspace>]'
-`shl [<memspace>]'
-Display current label mappings.  If no memory space is specified,
+`show_labels [<address space>]'
+`shl [<address space>]'
+Display current label mappings.  If no address space is specified,
 show all labels.
 
 
