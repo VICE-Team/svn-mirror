@@ -72,7 +72,7 @@
 /* generic version function */
 typedef unsigned (*ffmpeg_version_t)(void);
 
-/* Use new names
+/* Use new names */
 #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(55,18,102)
 #define AV_CODEC_ID_MP2        CODEC_ID_MP2
 #define AV_CODEC_ID_MP3        CODEC_ID_MP3
