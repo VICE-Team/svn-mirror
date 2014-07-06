@@ -574,7 +574,7 @@ char **archdep_list_drives(void)
         mask <<= 1;
         ++i;
     }
-    result[i] = NULL;
+    *p = NULL;
 
     return result;
 }

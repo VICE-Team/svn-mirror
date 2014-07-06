@@ -419,10 +419,10 @@ void archdep_shutdown_extra(void)
 
 static int CountEntries(void)
 {
-    int entries = 0;
+    int entries = 1;
     struct DosList *dl = LockDosList(LF);
 
-    while (dl = NextDosEntry(dl, LF) {
+    while (dl = NextDosEntry(dl, LF)) {
         entries++;
     }
     UnlockDosList(LF);
@@ -433,7 +433,6 @@ static int CountEntries(void)
 char **archdep_list_drives(void)
 {
     int drive_count = CountEntries();
-    int i = 0;
     char **result, **p;
     struct DosList *dl = LockDosList(LF);
 
@@ -442,9 +441,8 @@ char **archdep_list_drives(void)
 
     while (dl = NextDosEntry(dl, LF)) {
         *p++ = lib_stralloc(BADDR(dl->dol_Name));
-        ++i;
     }
-    result[i] = NULL;
+    *p = NULL;
 
     UnlockDosList(LF);
 
