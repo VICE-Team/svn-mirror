@@ -38,6 +38,7 @@
 !RSHIFT 6 4
 !VSHIFT RSHIFT
 
+0 -3 1                  /*              -> RESTORE      */
 27 7 7 8                /*          ESC -> Run/Stop     */
 96 7 1 8                /*            ` -> Left Arrow   */
 49 7 0 8                /*            1 -> 1            */
@@ -103,6 +104,8 @@
 289 10 6 8              /*           F8 -> RIGHT        */
 290 9 0 8               /*           F9 -> ESC          */
 291 8 3 8               /*          F10 -> TAB          */
+292 -4 1                /*          F11 -> CAPS         */
+280 -3 0                /*         PgUp -> RESTORE      */
 281 8 0 8               /*       PgDown -> HELP         */
 19 9 3 8                /*  Pause/Break -> LINE FEED    */
 268 10 7 8              /*     Numpad * -> NO SCROLL    */
@@ -116,6 +119,7 @@
 263 8 6 8               /*     Numpad 7 -> Numpad 7     */
 264 8 1 8               /*     Numpad 8 -> Numpad 8     */
 265 9 6 8               /*     Numpad 9 -> Numpad 9     */
+267 -4 0                /*     Numpad / -> 40/80COL     */
 269 9 1 8               /*     Numpad - -> Numpad +     */
 260 8 5 8               /*     Numpad 4 -> Numpad 4     */
 261 8 2 8               /*     Numpad 5 -> Numpad 5     */
@@ -128,17 +132,3 @@
 266 10 2 8              /*     Numpad . -> Numpad .     */
 271 9 4 8               /* Numpad Enter -> Numpad Enter */
 
-
-# Restore key mappings
-280 -3 0
-0 -3 1
-
-#
-# CAPS (ASCII/DIN) key mapping
-#
-292 -4 1 /* F11 */
-
-#
-# 40/80 column key
-#
-267 -4 0 /* numpad slash */

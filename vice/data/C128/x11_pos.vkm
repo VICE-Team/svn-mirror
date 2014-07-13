@@ -92,10 +92,14 @@ F1  9 0 8
 F2  8 3 8
 # alt
 F3 10 0 8
+# CAPS (ASCII/DIN) key
+F4 -4 1
 # help
 F5  8 0 8
 # lf
 F6  9 3 8
+# 40/80 column key
+F7 -4 0
 # no scroll
 F8 10 7 8
 
@@ -240,6 +244,3 @@ KP_Subtract 9 1 8
 KP_Separator 10 2 8
 KP_Decimal 10 2 8
 KP_Add 9 2 8
-
-# 40/80 column key
-F7 -4 0

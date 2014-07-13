@@ -44,10 +44,10 @@
 2 9 0 8             /*           F1 -> ESC          */
 3 8 3 8             /*           F2 -> TAB          */
 4 10 0 8            /*           F3 -> F3           */
-#5 -1 -1 0          /*           F4 -> (no key)     */
+5 -4 1              /*           F4 -> CAPS         */
 6 8 0 8             /*           F5 -> HELP         */
 7 9 3 8             /*           F6 -> LINE FEED    */
-#8 -1 -1 0          /*           F7 -> (no key)     */
+8 -4 0              /*           F7 -> 40/80COL     */
 9 10 7 8            /*           F8 -> NO SCROLL    */
 10 0 4 8            /*           F9 -> F1           */
 11 0 5 8            /*          F10 -> F3           */
@@ -72,7 +72,7 @@
 30 0 0 8            /*    Backspace -> Del          */
 31 6 0 8            /*          Ins -> Pound        */
 32 6 3 8            /*         Home -> CLR/HOME     */
-#33 -1 -1 0         /*         PgUp -> (no key)     */
+33 -3 0             /*         PgUp -> RESTORE      */
 #34 -1 -1 0         /*     Num Lock -> (no key)     */
 #35 -1 -1 0         /*     Numpad / -> (no key)     */
 36 6 1 8            /*       Grey * -> *            */
@@ -176,10 +176,3 @@
 #c -2 2
 #v -2 3
 #space -2 0
-
-# Restore key mappings
-33 -3 0             /*         PgUp -> RESTORE      */
-# CAPS (ASCII/DIN) key
-5 -4 1              /*           F4 -> CAPS         */
-# 40/80 column key
-8 -4 0              /*           F7 -> 40/80COL     */

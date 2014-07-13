@@ -132,7 +132,7 @@
 86 0 3 8                /*           F7 -> F7           */
 87 0 3 1                /*           F8 -> F8           */
 #88 -1 -1 0             /*           F9 -> (no key)     */
-#89 -1 -1 0             /*          F10 -> (no key)     */
+89 -3 0                 /*          F10 -> RESTORE      */
 #90 -1 -1 0             /*      NUMLOCK -> (no key)     */
 #91 -1 -1 0             /*      SCRLOCK -> (no key)     */
 #92 -1 -1 0             /* KEYPAD SLASH -> (no key)     */
@@ -148,8 +148,6 @@
 #102 -1 -1 0            /*   LEFT AMIGA -> (no key)     */
 #103 -1 -1 0            /*  RIGHT AMIGA -> (no key)     */
 
-# Restore key mappings
-89 -3 0                 /*          F10 -> RESTORE      */
 # CAPS (ASCII/DIN) key
 83 -4 1                 /*           F4 -> CAPS         */
 # 40/80 column key
