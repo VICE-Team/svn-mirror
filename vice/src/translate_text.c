@@ -3576,6 +3576,23 @@ translate_t string_table[] = {
 #endif
 
 /* c128/c128-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_CH_KERNEL_NAME,    N_("Specify name of Swiss Kernal ROM image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_CH_KERNEL_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_CH_KERNEL_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_CH_KERNEL_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_CH_KERNEL_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_CH_KERNEL_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_CH_KERNEL_NAME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_CH_KERNEL_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_CH_KERNEL_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_CH_KERNEL_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_CH_KERNEL_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_CH_KERNEL_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_CH_KERNEL_NAME_TR, ""},  /* fuzzy */
+#endif
+
+/* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW,    N_("Specify name of BASIC ROM image (lower part)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_BASIC_ROM_NAME_LOW_DA, "Angiv navn pх BASIC ROM-image (lav del)"},
@@ -3675,6 +3692,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_RU, "Указать имя ROM образа генератора шведских символов"},
 /* sv */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_SV, "Ange namn pх svensk teckengenerator-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME_TR, "нsveч Karakter Oluўturucu ROM imaj§n§n ismini belirt"},
+#endif
+
+/* c128/c128-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME,    N_("Specify name of Swedish character generator ROM image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_TR, ""},  /* fuzzy */
 #endif
 
 /* c128/c128-cmdline-options.c */
