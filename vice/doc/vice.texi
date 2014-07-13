@@ -6678,6 +6678,9 @@ Specify name of Norwegian Kernal ROM image
 @cindex -kernalse
 @item -kernalse <name>
 Specify name of Swedish Kernal ROM image
+@cindex -kernalch
+@item -kernalch <name>
+Specify name of Swiss Kernal ROM image
 
 @cindex -chargen
 @item -chargen <name>
@@ -6691,6 +6694,9 @@ Specify name of French character generator ROM image
 @cindex -chargse
 @item -chargse <name>
 Specify name of Swedish character generator ROM image
+@cindex -chargch
+@item -chargch <name>
+Specify name of Swiss character generator ROM image
 
 @cindex -intfunc
 @item -intfunc

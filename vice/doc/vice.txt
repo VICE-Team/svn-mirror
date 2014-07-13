@@ -5471,6 +5471,9 @@ Specify name of Norwegian Kernal ROM image
 `-kernalse <name>'
 Specify name of Swedish Kernal ROM image
 
+`-kernalch <name>'
+Specify name of Swiss Kernal ROM image
+
 `-chargen <name>'
 Specify name of international character generator ROM image
 
@@ -5482,6 +5485,9 @@ Specify name of French character generator ROM image
 
 `-chargse <name>'
 Specify name of Swedish character generator ROM image
+
+`-chargch <name>'
+Specify name of Swiss character generator ROM image
 
 `-intfunc'
 `+intfunc'
