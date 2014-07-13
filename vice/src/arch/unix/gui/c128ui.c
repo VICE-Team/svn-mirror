@@ -545,6 +545,8 @@ static ui_menu_entry_t machine_type_submenu[] = {
       (ui_callback_data_t)C128_MACHINE_NORWEGIAN, NULL },
     { N_("Swedish"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_MachineType,
       (ui_callback_data_t)C128_MACHINE_SWEDISH, NULL },
+    { N_("Swiss"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_MachineType,
+      (ui_callback_data_t)C128_MACHINE_SWISS, NULL },
     { NULL }
 };
 
