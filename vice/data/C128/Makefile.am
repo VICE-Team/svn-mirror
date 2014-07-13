@@ -8,6 +8,7 @@ roms = \
 	chargen \
 	chargfr \
 	chargse \
+	chargch \
 	kernal \
 	kernal64 \
 	kernalde \
@@ -15,7 +16,8 @@ roms = \
 	kernalfr \
 	kernalit \
 	kernalno \
-	kernalse
+	kernalse \
+	kernalch
 
 romsets = \
 	default.vrs
