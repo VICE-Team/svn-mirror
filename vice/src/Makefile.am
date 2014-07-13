@@ -354,6 +354,7 @@ EMBEDDED_H_FILES = \
 	c128chargen.h \
 	c128chargfr.h \
 	c128chargse.h \
+	c128chargch.h \
 	c128kernal.h \
 	c128kernal64.h \
 	c128kernalde.h \
@@ -362,6 +363,7 @@ EMBEDDED_H_FILES = \
 	c128kernalit.h \
 	c128kernalno.h \
 	c128kernalse.h \
+	c128kernalch.h \
 	c64basic.h \
 	c64kernal.h \
 	c64chargen.h \
@@ -513,6 +515,9 @@ c128chargfr.h: $(EMBEDDED_DEPENDS)
 c128chargse.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/chargse c128chargse.h "static BYTE chargen_se[C128_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
+c128chargch.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/chargch c128chargch.h "static BYTE chargen_ch[C128_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
+
 c128kernal.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernal c128kernal.h "static BYTE kernal_int[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
@@ -536,6 +541,9 @@ c128kernalno.h: $(EMBEDDED_DEPENDS)
 
 c128kernalse.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalse c128kernalse.h "static BYTE kernal_se[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
+
+c128kernalch.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalch c128kernalch.h "static BYTE kernal_ch[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c64basic.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C64/basic c64basic.h "BYTE c64memrom_basic64_rom[C64_BASIC_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)

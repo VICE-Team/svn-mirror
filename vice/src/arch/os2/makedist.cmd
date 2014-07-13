@@ -99,6 +99,7 @@ copy ..\..\..\data\C128\chargde      Vice2\C128
 copy ..\..\..\data\C128\chargen      Vice2\C128
 copy ..\..\..\data\C128\chargfr      Vice2\C128
 copy ..\..\..\data\C128\chargse      Vice2\C128
+copy ..\..\..\data\C128\chargch      Vice2\C128
 copy ..\..\..\data\C128\default.vpl  Vice2\C128
 copy ..\..\..\data\C128\default.vrs  Vice2\C128
 copy ..\..\..\data\C128\frodo.vpl    Vice2\C128
@@ -111,6 +112,7 @@ copy ..\..\..\data\C128\kernalfr     Vice2\C128
 copy ..\..\..\data\C128\kernalit     Vice2\C128
 copy ..\..\..\data\C128\kernalno     Vice2\C128
 copy ..\..\..\data\C128\kernalse     Vice2\C128
+copy ..\..\..\data\C128\kernalch     Vice2\C128
 copy ..\..\..\data\C128\os2.vkm      Vice2\C128
 copy ..\..\..\data\C128\pc64.vpl     Vice2\C128
 copy ..\..\..\data\C128\vdc_deft.vpl Vice2\C128

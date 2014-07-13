@@ -137,6 +137,7 @@ installfile data/C128/chargde vice/vice-RUN runtmp /usr/local/lib/vice/C128/char
 installfile data/C128/chargen vice/vice-RUN runtmp /usr/local/lib/vice/C128/chargen run 0644
 installfile data/C128/chargfr vice/vice-RUN runtmp /usr/local/lib/vice/C128/chargfr run 0644
 installfile data/C128/chargse vice/vice-RUN runtmp /usr/local/lib/vice/C128/chargse run 0644
+installfile data/C128/chargch vice/vice-RUN runtmp /usr/local/lib/vice/C128/chargch run 0644
 installfile data/C128/default.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C128/default.vpl run 0644
 installfile data/C128/default.vrs vice/vice-RUN runtmp /usr/local/lib/vice/C128/default.vrs run 0644
 installfile data/C128/frodo.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C128/frodo.vpl run 0644
@@ -149,6 +150,7 @@ installfile data/C128/kernalfr vice/vice-RUN runtmp /usr/local/lib/vice/C128/ker
 installfile data/C128/kernalit vice/vice-RUN runtmp /usr/local/lib/vice/C128/kernalit run 0644
 installfile data/C128/kernalno vice/vice-RUN runtmp /usr/local/lib/vice/C128/kernalno run 0644
 installfile data/C128/kernalse vice/vice-RUN runtmp /usr/local/lib/vice/C128/kernalse run 0644
+installfile data/C128/kernalch vice/vice-RUN runtmp /usr/local/lib/vice/C128/kernalch run 0644
 installfile data/C128/pc64.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C128/pc64.vpl run 0644
 installfile data/C128/vdc_deft.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C128/vdc_deft.vpl run 0644
 installfile data/C128/vdc_comp.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C128/vdc_comp.vpl run 0644

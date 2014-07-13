@@ -332,6 +332,7 @@ _END
                            <QPM:File>chargen</QPM:File>
                            <QPM:File>chargfr</QPM:File>
                            <QPM:File>chargse</QPM:File>
+                           <QPM:File>chargch</QPM:File>
                            <QPM:File>default.vpl</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
                            <QPM:File>frodo.vpl</QPM:File>
@@ -344,6 +345,7 @@ _END
                            <QPM:File>kernalit</QPM:File>
                            <QPM:File>kernalno</QPM:File>
                            <QPM:File>kernalse</QPM:File>
+                           <QPM:File>kernalch</QPM:File>
                            <QPM:File>pc64.vpl</QPM:File>
                            <QPM:File>sdl_sym.vkm</QPM:File>
                            <QPM:File>vdc_comp.vpl</QPM:File>

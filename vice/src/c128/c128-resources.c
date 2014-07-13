@@ -70,6 +70,9 @@ static char *chargen_fr_rom_name = NULL;
 /* Name of the Swedish character ROM.  */
 static char *chargen_se_rom_name = NULL;
 
+/* Name of the Swiss character ROM.  */
+static char *chargen_ch_rom_name = NULL;
+
 /* Name of the BASIC LO ROM.  */
 static char *basiclo_rom_name = NULL;
 
@@ -96,6 +99,9 @@ static char *kernal_no_rom_name = NULL;
 
 /* Name of the Swedish Kernal ROM.  */
 static char *kernal_se_rom_name = NULL;
+
+/* Name of the Swiss Kernal ROM.  */
+static char *kernal_ch_rom_name = NULL;
 
 /* Name of the BASIC ROM.  */
 static char *basic64_rom_name = NULL;
@@ -124,7 +130,7 @@ static int set_machine_type(int val, void *param)
     if (type != C128_MACHINE_INT && type != C128_MACHINE_FINNISH
         && type != C128_MACHINE_FRENCH && type != C128_MACHINE_GERMAN
         && type != C128_MACHINE_ITALIAN && type != C128_MACHINE_NORWEGIAN
-        && type != C128_MACHINE_SWEDISH) {
+        && type != C128_MACHINE_SWEDISH && type != C128_MACHINE_SWISS) {
         return -1;
     }
 
@@ -201,6 +207,23 @@ static int set_chargen_se_rom_name(const char *val, void *param)
     }
 
     if (c128rom_load_chargen_se(chargen_se_rom_name) < 0) {
+        return -1;
+    }
+
+    if (c128rom_chargen_setup() < 0) {
+        return -1;
+    }
+
+    return 0;
+}
+
+static int set_chargen_ch_rom_name(const char *val, void *param)
+{
+    if (util_string_set(&chargen_ch_rom_name, val)) {
+        return 0;
+    }
+
+    if (c128rom_load_chargen_ch(chargen_ch_rom_name) < 0) {
         return -1;
     }
 
@@ -330,6 +353,23 @@ static int set_kernal_se_rom_name(const char *val, void *param)
     return 0;
 }
 
+static int set_kernal_ch_rom_name(const char *val, void *param)
+{
+    if (util_string_set(&kernal_ch_rom_name, val)) {
+        return 0;
+    }
+
+    if (c128rom_load_kernal_ch(kernal_ch_rom_name) < 0) {
+        return -1;
+    }
+
+    if (c128rom_kernal_setup() < 0) {
+        return -1;
+    }
+
+    return 0;
+}
+
 static int set_basiclo_rom_name(const char *val, void *param)
 {
     if (util_string_set(&basiclo_rom_name, val)) {
@@ -444,6 +484,8 @@ static const resource_string_t resources_string[] = {
       &chargen_fr_rom_name, set_chargen_fr_rom_name, NULL },
     { "ChargenSEName", "chargse", RES_EVENT_NO, NULL,
       &chargen_se_rom_name, set_chargen_se_rom_name, NULL },
+    { "ChargenCHName", "chargch", RES_EVENT_NO, NULL,
+      &chargen_ch_rom_name, set_chargen_ch_rom_name, NULL },
     { "KernalIntName", "kernal", RES_EVENT_NO, NULL,
       &kernal_int_rom_name, set_kernal_int_rom_name, NULL },
     { "KernalDEName", "kernalde", RES_EVENT_NO, NULL,
@@ -458,6 +500,8 @@ static const resource_string_t resources_string[] = {
       &kernal_no_rom_name, set_kernal_no_rom_name, NULL },
     { "KernalSEName", "kernalse", RES_EVENT_NO, NULL,
       &kernal_se_rom_name, set_kernal_se_rom_name, NULL },
+    { "KernalCHName", "kernalch", RES_EVENT_NO, NULL,
+      &kernal_ch_rom_name, set_kernal_ch_rom_name, NULL },
     { "BasicLoName", "basiclo", RES_EVENT_NO, NULL,
       &basiclo_rom_name, set_basiclo_rom_name, NULL },
     { "BasicHiName", "basichi", RES_EVENT_NO, NULL,
@@ -518,6 +562,7 @@ void c128_resources_shutdown(void)
     lib_free(chargen_de_rom_name);
     lib_free(chargen_fr_rom_name);
     lib_free(chargen_se_rom_name);
+    lib_free(chargen_ch_rom_name);
     lib_free(basiclo_rom_name);
     lib_free(basichi_rom_name);
     lib_free(kernal_int_rom_name);
@@ -527,6 +572,7 @@ void c128_resources_shutdown(void)
     lib_free(kernal_it_rom_name);
     lib_free(kernal_no_rom_name);
     lib_free(kernal_se_rom_name);
+    lib_free(kernal_ch_rom_name);
     lib_free(basic64_rom_name);
     lib_free(kernal64_rom_name);
     lib_free(machine_keymap_file_list[0]);

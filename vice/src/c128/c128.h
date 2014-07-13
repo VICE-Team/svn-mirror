@@ -50,6 +50,7 @@
 #define C128_MACHINE_ITALIAN   4
 #define C128_MACHINE_NORWEGIAN 5
 #define C128_MACHINE_SWEDISH   6
+#define C128_MACHINE_SWISS     7
 
 struct cia_context_s;
 struct printer_context_s;

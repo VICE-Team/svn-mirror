@@ -118,6 +118,7 @@ copy ..\..\..\..\data\C128\chargde      %VICEDIR%\C128
 copy ..\..\..\..\data\C128\chargen      %VICEDIR%\C128
 copy ..\..\..\..\data\C128\chargfr      %VICEDIR%\C128
 copy ..\..\..\..\data\C128\chargse      %VICEDIR%\C128
+copy ..\..\..\..\data\C128\chargch      %VICEDIR%\C128
 copy ..\..\..\..\data\C128\default.vpl  %VICEDIR%\C128
 copy ..\..\..\..\data\C128\default.vrs  %VICEDIR%\C128
 copy ..\..\..\..\data\C128\frodo.vpl    %VICEDIR%\C128
@@ -130,6 +131,7 @@ copy ..\..\..\..\data\C128\kernalfr     %VICEDIR%\C128
 copy ..\..\..\..\data\C128\kernalit     %VICEDIR%\C128
 copy ..\..\..\..\data\C128\kernalno     %VICEDIR%\C128
 copy ..\..\..\..\data\C128\kernalse     %VICEDIR%\C128
+copy ..\..\..\..\data\C128\kernalch     %VICEDIR%\C128
 copy ..\..\..\..\data\C128\os2.vkm      %VICEDIR%\C128
 copy ..\..\..\..\data\C128\pc64.vpl     %VICEDIR%\C128
 copy ..\..\..\..\data\C128\vdc_deft.vpl %VICEDIR%\C128

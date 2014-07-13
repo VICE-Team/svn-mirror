@@ -34,12 +34,14 @@ extern int c128rom_load_kernal_fr(const char *rom_name);
 extern int c128rom_load_kernal_it(const char *rom_name);
 extern int c128rom_load_kernal_no(const char *rom_name);
 extern int c128rom_load_kernal_se(const char *rom_name);
+extern int c128rom_load_kernal_ch(const char *rom_name);
 extern int c128rom_load_basiclo(const char *rom_name);
 extern int c128rom_load_basichi(const char *rom_name);
 extern int c128rom_load_chargen_int(const char *rom_name);
 extern int c128rom_load_chargen_de(const char *rom_name);
 extern int c128rom_load_chargen_fr(const char *rom_name);
 extern int c128rom_load_chargen_se(const char *rom_name);
+extern int c128rom_load_chargen_ch(const char *rom_name);
 extern int c128rom_load_kernal64(const char *rom_name, BYTE *cartkernal);
 extern int c128rom_load_basic64(const char *rom_name);
 
