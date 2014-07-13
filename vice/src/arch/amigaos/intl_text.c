@@ -4703,6 +4703,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_LANGUAGE_SWEDISH_SV, "Svenska" },
 /* tr */ { IDMS_LANGUAGE_SWEDISH_TR, "Ýsveççe" },
 
+/* en */ { IDMS_LANGUAGE_SWISS,    "Swiss" },
+/* da */ { IDMS_LANGUAGE_SWISS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_LANGUAGE_SWISS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_LANGUAGE_SWISS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_LANGUAGE_SWISS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_LANGUAGE_SWISS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_LANGUAGE_SWISS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_LANGUAGE_SWISS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_LANGUAGE_SWISS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_LANGUAGE_SWISS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_LANGUAGE_SWISS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_LANGUAGE_SWISS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_LANGUAGE_SWISS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_LANGUAGE_TURKISH,    "Turkish" },
 /* da */ { IDMS_LANGUAGE_TURKISH_DA, "Tyrkisk" },
 /* de */ { IDMS_LANGUAGE_TURKISH_DE, "Türkisch" },

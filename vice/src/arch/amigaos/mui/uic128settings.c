@@ -30,6 +30,7 @@
 #endif
 #include "mui.h"
 
+#include "c128.h"
 #include "uic128settings.h"
 #include "intl.h"
 #include "translate.h"
@@ -44,19 +45,21 @@ static int ui_c128_machine_type_translate[] = {
     IDMS_LANGUAGE_ITALIAN,
     IDMS_LANGUAGE_NORWEGIAN,
     IDMS_LANGUAGE_SWEDISH,
+    IDMS_LANGUAGE_SWISS,
     0
 };
 
 static char *ui_c128_machine_type[countof(ui_c128_machine_type_translate)];
 
 static const int ui_c128_machine_type_values[] = {
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
+    C128_MACHINE_INT,
+    C128_MACHINE_FINNISH,
+    C128_MACHINE_FRENCH,
+    C128_MACHINE_GERMAN,
+    C128_MACHINE_ITALIAN,
+    C128_MACHINE_NORWEGIAN,
+    C128_MACHINE_SWEDISH,
+    C128_MACHINE_SWISS,
     -1
 };
 

@@ -44,12 +44,14 @@ static ui_to_from_t ui_to_from_computer[] = {
     { NULL, MUI_TYPE_FILENAME, "KernalITName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "KernalNOName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "KernalSEName", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "KernalCHName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "BasicLoName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "BasicHiName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "ChargenIntName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "ChargenDEName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "ChargenFRName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "ChargenSEName", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "ChargenCHName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "Kernal64Name", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "Basic64Name", NULL, NULL, NULL },
     UI_END /* mandatory */
@@ -91,6 +93,8 @@ static APTR hook_object_drive[countof(ui_to_from_drive)];
     BROWSE(BrowseComputer12, ComputerHook12, ui_to_from_computer[12].object);
     BROWSE(BrowseComputer13, ComputerHook13, ui_to_from_computer[13].object);
     BROWSE(BrowseComputer14, ComputerHook14, ui_to_from_computer[14].object);
+    BROWSE(BrowseComputer15, ComputerHook15, ui_to_from_computer[15].object);
+    BROWSE(BrowseComputer16, ComputerHook16, ui_to_from_computer[16].object);
 
     BROWSE(BrowseDrive0, DriveHook0, ui_to_from_drive[0].object);
     BROWSE(BrowseDrive1, DriveHook1, ui_to_from_drive[1].object);
@@ -120,14 +124,16 @@ static APTR build_computer_gui(void)
            FILENAME(ui_to_from_computer[4].object, "Kernal IT", hook_object_computer[4])
            FILENAME(ui_to_from_computer[5].object, "Kernal NO", hook_object_computer[5])
            FILENAME(ui_to_from_computer[6].object, "Kernal SE", hook_object_computer[6])
-           FILENAME(ui_to_from_computer[7].object, "Basic LO", hook_object_computer[7])
-           FILENAME(ui_to_from_computer[8].object, "Basic HI", hook_object_computer[8])
-           FILENAME(ui_to_from_computer[9].object, "Char. Int.", hook_object_computer[9])
-           FILENAME(ui_to_from_computer[10].object, "Char. DE", hook_object_computer[10])
-           FILENAME(ui_to_from_computer[11].object, "Char. FR", hook_object_computer[11])
-           FILENAME(ui_to_from_computer[12].object, "Char. SE", hook_object_computer[12])
-           FILENAME(ui_to_from_computer[13].object, "Kernal C64", hook_object_computer[13])
-           FILENAME(ui_to_from_computer[14].object, "Basic C64", hook_object_computer[14])
+           FILENAME(ui_to_from_computer[7].object, "Kernal CH", hook_object_computer[7])
+           FILENAME(ui_to_from_computer[8].object, "Basic LO", hook_object_computer[8])
+           FILENAME(ui_to_from_computer[9].object, "Basic HI", hook_object_computer[9])
+           FILENAME(ui_to_from_computer[10].object, "Char. Int.", hook_object_computer[10])
+           FILENAME(ui_to_from_computer[11].object, "Char. DE", hook_object_computer[11])
+           FILENAME(ui_to_from_computer[12].object, "Char. FR", hook_object_computer[12])
+           FILENAME(ui_to_from_computer[13].object, "Char. SE", hook_object_computer[13])
+           FILENAME(ui_to_from_computer[14].object, "Char. CH", hook_object_computer[14])
+           FILENAME(ui_to_from_computer[15].object, "Kernal C64", hook_object_computer[15])
+           FILENAME(ui_to_from_computer[16].object, "Basic C64", hook_object_computer[16])
            OK_CANCEL_BUTTON
          End;
 
@@ -182,6 +188,12 @@ static APTR build_computer_gui(void)
 
         DoMethod(hook_object_computer[14], MUIM_Notify, MUIA_Pressed, FALSE,
                  app, 2, MUIM_CallHook, &BrowseComputer14);
+
+        DoMethod(hook_object_computer[15], MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseComputer15);
+
+        DoMethod(hook_object_computer[16], MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseComputer16);
     }
 
     return ui;
