@@ -335,7 +335,7 @@ END
 
 // dialog template for all languages
 
-IDD_C128ROM_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 310
+IDD_C128ROM_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 350
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -388,61 +388,75 @@ BEGIN
     PUSHBUTTON "", IDC_C128ROM_KERNALSE_BROWSE,
                185, 127, 50, 14, 0
 
-    LTEXT      "", IDC_BASIC_LO,
+    LTEXT      "", IDC_KERNAL_CH,
                9, 148, 40, 8
-    EDITTEXT   IDC_C128ROM_BASICLO_FILE,
+    EDITTEXT   IDC_C128ROM_KERNALCH_FILE,
                55, 147, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON "", IDC_C128ROM_BASICLO_BROWSE,
+    PUSHBUTTON "", IDC_C128ROM_KERNALCH_BROWSE,
                185, 147, 50, 14, 0
 
-    LTEXT      "", IDC_BASIC_HI,
+    LTEXT      "", IDC_BASIC_LO,
                9, 168, 40, 8
-    EDITTEXT   IDC_C128ROM_BASICHI_FILE,
+    EDITTEXT   IDC_C128ROM_BASICLO_FILE,
                55, 167, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON "", IDC_C128ROM_BASICHI_BROWSE,
+    PUSHBUTTON "", IDC_C128ROM_BASICLO_BROWSE,
                185, 167, 50, 14, 0
 
-    LTEXT      "", IDC_CHAR_INT,
+    LTEXT      "", IDC_BASIC_HI,
                9, 188, 40, 8
-    EDITTEXT   IDC_C128ROM_CHARGENINT_FILE,
+    EDITTEXT   IDC_C128ROM_BASICHI_FILE,
                55, 187, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON "", IDC_C128ROM_CHARGENINT_BROWSE,
+    PUSHBUTTON "", IDC_C128ROM_BASICHI_BROWSE,
                185, 187, 50, 14, 0
 
-    LTEXT      "", IDC_CHAR_DE,
+    LTEXT      "", IDC_CHAR_INT,
                9, 208, 40, 8
-    EDITTEXT   IDC_C128ROM_CHARGENDE_FILE,
+    EDITTEXT   IDC_C128ROM_CHARGENINT_FILE,
                55, 207, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON "", IDC_C128ROM_CHARGENDE_BROWSE,
+    PUSHBUTTON "", IDC_C128ROM_CHARGENINT_BROWSE,
                185, 207, 50, 14, 0
 
-    LTEXT      "", IDC_CHAR_FR,
+    LTEXT      "", IDC_CHAR_DE,
                9, 228, 40, 8
-    EDITTEXT   IDC_C128ROM_CHARGENFR_FILE,
+    EDITTEXT   IDC_C128ROM_CHARGENDE_FILE,
                55, 227, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON "", IDC_C128ROM_CHARGENFR_BROWSE,
+    PUSHBUTTON "", IDC_C128ROM_CHARGENDE_BROWSE,
                185, 227, 50, 14, 0
 
-    LTEXT      "", IDC_CHAR_SE,
+    LTEXT      "", IDC_CHAR_FR,
                9, 248, 40, 8
-    EDITTEXT   IDC_C128ROM_CHARGENSE_FILE,
+    EDITTEXT   IDC_C128ROM_CHARGENFR_FILE,
                55, 247, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON "", IDC_C128ROM_CHARGENSE_BROWSE,
+    PUSHBUTTON "", IDC_C128ROM_CHARGENFR_BROWSE,
                185, 247, 50, 14, 0
 
-    LTEXT      "", IDC_KERNAL_C64,
+    LTEXT      "", IDC_CHAR_SE,
                9, 268, 40, 8
-    EDITTEXT   IDC_C128ROM_KERNAL64_FILE,
+    EDITTEXT   IDC_C128ROM_CHARGENSE_FILE,
                55, 267, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON "", IDC_C128ROM_KERNAL64_BROWSE,
+    PUSHBUTTON "", IDC_C128ROM_CHARGENSE_BROWSE,
                185, 267, 50, 14, 0
 
-    LTEXT      "", IDC_BASIC_C64,
+    LTEXT      "", IDC_CHAR_CH,
                9, 288, 40, 8
-    EDITTEXT   IDC_C128ROM_BASIC64_FILE,
+    EDITTEXT   IDC_C128ROM_CHARGENCH_FILE,
                55, 287, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON "", IDC_C128ROM_BASIC64_BROWSE,
+    PUSHBUTTON "", IDC_C128ROM_CHARGENCH_BROWSE,
                185, 287, 50, 14, 0
+
+    LTEXT      "", IDC_KERNAL_C64,
+               9, 308, 40, 8
+    EDITTEXT   IDC_C128ROM_KERNAL64_FILE,
+               55, 307, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_KERNAL64_BROWSE,
+               185, 307, 50, 14, 0
+
+    LTEXT      "", IDC_BASIC_C64,
+               9, 328, 40, 8
+    EDITTEXT   IDC_C128ROM_BASIC64_FILE,
+               55, 327, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_C128ROM_BASIC64_BROWSE,
+               185, 327, 50, 14, 0
 END
 
 // -----------------------------------------------------------------------------
@@ -549,12 +563,12 @@ END
 
 // dialog template for all languages
 
-IDD_C128ROM_RESOURCE_DIALOG DIALOG DISCARDABLE 0, 0, 160, 265
+IDD_C128ROM_RESOURCE_DIALOG DIALOG DISCARDABLE 0, 0, 160, 295
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX      "", IDC_COMPUTER_RESOURCES,
-                  4, 3, 151, 235
+                  4, 3, 151, 265
     AUTOCHECKBOX  "", IDC_C128ROM_KERNALINT_RESOURCE,
                   11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX  "", IDC_C128ROM_KERNALDE_RESOURCE,
@@ -569,27 +583,31 @@ BEGIN
                   11, 88, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX  "", IDC_C128ROM_KERNALSE_RESOURCE,
                   11, 103, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_C128ROM_BASICLO_RESOURCE,
+    AUTOCHECKBOX  "", IDC_C128ROM_KERNALCH_RESOURCE,
                   11, 118, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_C128ROM_BASICHI_RESOURCE,
+    AUTOCHECKBOX  "", IDC_C128ROM_BASICLO_RESOURCE,
                   11, 133, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENINT_RESOURCE,
+    AUTOCHECKBOX  "", IDC_C128ROM_BASICHI_RESOURCE,
                   11, 148, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENDE_RESOURCE,
+    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENINT_RESOURCE,
                   11, 163, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENFR_RESOURCE,
+    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENDE_RESOURCE,
                   11, 178, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENSE_RESOURCE,
+    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENFR_RESOURCE,
                   11, 193, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_C128ROM_KERNAL64_RESOURCE,
+    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENSE_RESOURCE,
                   11, 208, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "",IDC_C128ROM_BASIC64_RESOURCE,
+    AUTOCHECKBOX  "", IDC_C128ROM_CHARGENCH_RESOURCE,
                   11, 223, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_C128ROM_KERNAL64_RESOURCE,
+                  11, 238, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX  "",IDC_C128ROM_BASIC64_RESOURCE,
+                  11, 253, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     DEFPUSHBUTTON "", IDOK,
-                  20, 245, 50, 14, WS_TABSTOP
+                  20, 275, 50, 14, WS_TABSTOP
     PUSHBUTTON    "", IDCANCEL,
-                  80, 245, 50, 14, WS_TABSTOP
+                  80, 275, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -748,12 +766,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic LO"
   IDS_BASIC_HI                  "Basic HI"
   IDS_CHAR_INT                  "Char. Int."
   IDS_CHAR_DE                   "Char. DE"
   IDS_CHAR_FR                   "Char. FR"
   IDS_CHAR_SE                   "Char. SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "Basic C64"
   IDS_INTERNATIONAL_KERNAL      "International Kernal"
@@ -763,10 +783,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "Italian Kernal"
   IDS_NORWEGIAN_KERNAL          "Norwegian Kernal"
   IDS_SWEDISH_KERNAL            "Swedish Kernal"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "International Character"
   IDS_GERMAN_CHARACTER          "German Character"
   IDS_FRENCH_CHARACTER          "French Character"
   IDS_SWEDISH_CHARACTER         "Swedish Character"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "C64 mode Kernal"
   IDS_C64_MODE_BASIC            "C64 mode Basic"
   IDS_INTERNATIONAL             "International"
@@ -776,6 +798,7 @@ BEGIN
   IDS_ITALIAN                   "Italian"
   IDS_NORWEGIAN                 "Norwegian"
   IDS_SWEDISH                   "Swedish"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "Internal Function ROM"
   IDS_INT_FUNCTION_ROM_TYPE     "Internal Function ROM type"
   IDS_FILE_NAME                 "File name"
@@ -810,12 +833,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic LAV"
   IDS_BASIC_HI                  "Basic HØJ"
   IDS_CHAR_INT                  "Tegn Int."
   IDS_CHAR_DE                   "Tegn DE"
   IDS_CHAR_FR                   "Tegn FR"
   IDS_CHAR_SE                   "Tegn SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "BASIC C64"
   IDS_INTERNATIONAL_KERNAL      "International Kernal"
@@ -825,10 +850,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "Italiensk Kernal"
   IDS_NORWEGIAN_KERNAL          "Norsk Kernal"
   IDS_SWEDISH_KERNAL            "Svensk Kernal"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "International tegngenerator"
   IDS_GERMAN_CHARACTER          "Tysk tegngenerator"
   IDS_FRENCH_CHARACTER          "Fransk tegngenerator"
   IDS_SWEDISH_CHARACTER         "Svensk tegngenerator"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "Kerne for C64-tilstand"
   IDS_C64_MODE_BASIC            "BASIC for C64-tilstand"
   IDS_INTERNATIONAL             "International"
@@ -838,6 +865,7 @@ BEGIN
   IDS_ITALIAN                   "Italiensk"
   IDS_NORWEGIAN                 "Norsk"
   IDS_SWEDISH                   "Svensk"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "Intern funktions-ROM"
   IDS_INT_FUNCTION_ROM_TYPE     "Intern funktions-ROM-type"
   IDS_FILE_NAME                 "Filnavn"
@@ -872,12 +900,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic LO"
   IDS_BASIC_HI                  "Basic HI"
   IDS_CHAR_INT                  "Char. Int."
   IDS_CHAR_DE                   "Char. DE"
   IDS_CHAR_FR                   "Char. FR"
   IDS_CHAR_SE                   "Char. SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "Basic C64"
   IDS_INTERNATIONAL_KERNAL      "International Kernal"
@@ -887,10 +917,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "Italienischer Kernal"
   IDS_NORWEGIAN_KERNAL          "Norwegischer Kernal"
   IDS_SWEDISH_KERNAL            "Schwedischer Kernal"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "Internationaler Zeichensatz"
   IDS_GERMAN_CHARACTER          "Deutscher Zeichensatz"
   IDS_FRENCH_CHARACTER          "Französischer Zeichensatz"
   IDS_SWEDISH_CHARACTER         "Schwedischer Zeichensatz"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "C64 Modus Kernal"
   IDS_C64_MODE_BASIC            "C64 Modus Basic"
   IDS_INTERNATIONAL             "International"
@@ -900,6 +932,7 @@ BEGIN
   IDS_ITALIAN                   "Italienisch"
   IDS_NORWEGIAN                 "Norwegisch"
   IDS_SWEDISH                   "Schwedisch"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "Internes Funktions ROM"
   IDS_INT_FUNCTION_ROM_TYPE     "Internes Funktions ROM Typ"
   IDS_FILE_NAME                 "Dateiname"
@@ -934,12 +967,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic bajo"
   IDS_BASIC_HI                  "Basic alto"
   IDS_CHAR_INT                  "Char.Int."
   IDS_CHAR_DE                   "Char.DE"
   IDS_CHAR_FR                   "Char.FR"
   IDS_CHAR_SE                   "Char.SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "Basic C64"
   IDS_INTERNATIONAL_KERNAL      "Kernal Internacional"
@@ -949,10 +984,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "Kernal italiano"
   IDS_NORWEGIAN_KERNAL          "Kernal noruego"
   IDS_SWEDISH_KERNAL            "Kernal sueco"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "Caracteres internacionales"
   IDS_GERMAN_CHARACTER          "Caracteres alemanes"
   IDS_FRENCH_CHARACTER          "Caracteres franceses"
   IDS_SWEDISH_CHARACTER         "Caracteres suecos"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "Kernal modo C64"
   IDS_C64_MODE_BASIC            "Basic modo C64"
   IDS_INTERNATIONAL             "Internacional"
@@ -962,6 +999,7 @@ BEGIN
   IDS_ITALIAN                   "Italiano"
   IDS_NORWEGIAN                 "Noruego"
   IDS_SWEDISH                   "Sueco"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "ROM de función interna"
   IDS_INT_FUNCTION_ROM_TYPE     "Tipo  Function ROM interna"
   IDS_FILE_NAME                 "nombre de fichero"
@@ -996,12 +1034,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic LO"
   IDS_BASIC_HI                  "Basic HI"
   IDS_CHAR_INT                  "Char. Int."
   IDS_CHAR_DE                   "Char. DE"
   IDS_CHAR_FR                   "Char. FR"
   IDS_CHAR_SE                   "Char. SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "Basic C64"
   IDS_INTERNATIONAL_KERNAL      "Kernal international"
@@ -1011,10 +1051,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "Kernal italien"
   IDS_NORWEGIAN_KERNAL          "Kernal norvégien"
   IDS_SWEDISH_KERNAL            "Kernal suédois"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "Jeu de caractères international"
   IDS_GERMAN_CHARACTER          "Jeu de caractères allemand"
   IDS_FRENCH_CHARACTER          "Jeu de caractères français"
   IDS_SWEDISH_CHARACTER         "Jeu de caractères suédois"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "Kernel mode C64"
   IDS_C64_MODE_BASIC            "Basic mode C64"
   IDS_INTERNATIONAL             "International"
@@ -1024,6 +1066,7 @@ BEGIN
   IDS_ITALIAN                   "Italien"
   IDS_NORWEGIAN                 "Norvégien"
   IDS_SWEDISH                   "Suédois"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "Image ROM Fonction interne"
   IDS_INT_FUNCTION_ROM_TYPE     "Type ROM Fonction interne"
   IDS_FILE_NAME                 "Nom de fichier"
@@ -1061,12 +1104,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic LO"
   IDS_BASIC_HI                  "Basic HI"
   IDS_CHAR_INT                  "Char. Int."
   IDS_CHAR_DE                   "Char. DE"
   IDS_CHAR_FR                   "Char. FR"
   IDS_CHAR_SE                   "Char. SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "Basic C64"
   IDS_INTERNATIONAL_KERNAL      "Nemzetközi kernal"
@@ -1076,10 +1121,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "Olasz kernal"
   IDS_NORWEGIAN_KERNAL          "Norvég kernal"
   IDS_SWEDISH_KERNAL            "Svéd kernal"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "Nemzetközi karakterkészlet"
   IDS_GERMAN_CHARACTER          "Német karakterkészlet"
   IDS_FRENCH_CHARACTER          "Francia karakterkészlet"
   IDS_SWEDISH_CHARACTER         "Svéd karakterkészlet"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "C64 mód kernal"
   IDS_C64_MODE_BASIC            "C64 mód Basic"
   IDS_INTERNATIONAL             "Nemzetközi"
@@ -1089,6 +1136,7 @@ BEGIN
   IDS_ITALIAN                   "Olasz"
   IDS_NORWEGIAN                 "Norvég"
   IDS_SWEDISH                   "Svéd"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "Belsõ Function ROM"
   IDS_INT_FUNCTION_ROM_TYPE     "Internal Function ROM type"
   IDS_FILE_NAME                 "Fájlnév"
@@ -1126,12 +1174,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic LO"
   IDS_BASIC_HI                  "Basic HI"
   IDS_CHAR_INT                  "Char. Int."
   IDS_CHAR_DE                   "Char. DE"
   IDS_CHAR_FR                   "Char. FR"
   IDS_CHAR_SE                   "Char. SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "Basic C64"
   IDS_INTERNATIONAL_KERNAL      "Kernal internazionale"
@@ -1141,10 +1191,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "Kernal italiano"
   IDS_NORWEGIAN_KERNAL          "Kernal norvegese"
   IDS_SWEDISH_KERNAL            "Kernal Svedese"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "Caratteri internazionali"
   IDS_GERMAN_CHARACTER          "Caratteri tedeschi"
   IDS_FRENCH_CHARACTER          "Caratteri francesi"
   IDS_SWEDISH_CHARACTER         "Caratteri svedesi"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "Kernel in modalità C64"
   IDS_C64_MODE_BASIC            "Basic in modalità C64"
   IDS_INTERNATIONAL             "Internazionale"
@@ -1154,6 +1206,7 @@ BEGIN
   IDS_ITALIAN                   "Italiano"
   IDS_NORWEGIAN                 "Norvegese"
   IDS_SWEDISH                   "Svedese"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "Function ROM interna"
   IDS_INT_FUNCTION_ROM_TYPE     "Tipo function ROM interna"
   IDS_FILE_NAME                 "Nome file"
@@ -1191,12 +1244,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic LO"
   IDS_BASIC_HI                  "Basic HI"
   IDS_CHAR_INT                  "Char. Int."
   IDS_CHAR_DE                   "Char. DE"
   IDS_CHAR_FR                   "Char. FR"
   IDS_CHAR_SE                   "Char. SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "Basic C64"
   IDS_INTERNATIONAL_KERNAL      "International Kernal"
@@ -1206,10 +1261,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "Italian Kernal"
   IDS_NORWEGIAN_KERNAL          "Norwegian Kernal"
   IDS_SWEDISH_KERNAL            "Swedish Kernal"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "International Character"
   IDS_GERMAN_CHARACTER          "German Character"
   IDS_FRENCH_CHARACTER          "French Character"
   IDS_SWEDISH_CHARACTER         "Swedish Character"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "C64 mode Kernal"
   IDS_C64_MODE_BASIC            "C64 mode Basic"
   IDS_INTERNATIONAL             "±¹Á¦"
@@ -1219,6 +1276,7 @@ BEGIN
   IDS_ITALIAN                   "ÀÌÅ»¸®¾Æ¾î"
   IDS_NORWEGIAN                 "³ë¸£¿þÀÌ¾î"
   IDS_SWEDISH                   "½º¿þµ§¾î"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "Internal Function ROM"
   IDS_INT_FUNCTION_ROM_TYPE     "Internal Function ROM type"
   IDS_FILE_NAME                 "ÆÄÀÏ ÀÌ¸§"
@@ -1256,12 +1314,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic LO"
   IDS_BASIC_HI                  "Basic HI"
   IDS_CHAR_INT                  "Char. Int."
   IDS_CHAR_DE                   "Char. DE"
   IDS_CHAR_FR                   "Char. FR"
   IDS_CHAR_SE                   "Char. SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "Basic C64"
   IDS_INTERNATIONAL_KERNAL      "Internationale Kernal"
@@ -1271,10 +1331,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "Italiaanse Kernal"
   IDS_NORWEGIAN_KERNAL          "Noorse Kernal"
   IDS_SWEDISH_KERNAL            "Zweedse Kernal"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "Internationale Karakters"
   IDS_GERMAN_CHARACTER          "Duitse Karakters"
   IDS_FRENCH_CHARACTER          "Franse Karakters"
   IDS_SWEDISH_CHARACTER         "Zweedse Karakters"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "C64 modus kernal"
   IDS_C64_MODE_BASIC            "C64 modus basic"
   IDS_INTERNATIONAL             "Internationaal"
@@ -1284,6 +1346,7 @@ BEGIN
   IDS_ITALIAN                   "Italiaans"
   IDS_NORWEGIAN                 "Noors"
   IDS_SWEDISH                   "Zweeds"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "Interne functie ROM"
   IDS_INT_FUNCTION_ROM_TYPE     "Interne functie ROM soort"
   IDS_FILE_NAME                 "Bestandsnaam"
@@ -1321,12 +1384,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic LO"
   IDS_BASIC_HI                  "Basic HI"
   IDS_CHAR_INT                  "Znak Int."
   IDS_CHAR_DE                   "Znak DE"
   IDS_CHAR_FR                   "Znak FR"
   IDS_CHAR_SE                   "Znak SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "Basic C64"
   IDS_INTERNATIONAL_KERNAL      "Miêdzynarodowy Kernal"
@@ -1336,10 +1401,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "W³oski Kernal"
   IDS_NORWEGIAN_KERNAL          "Norweski Kernal"
   IDS_SWEDISH_KERNAL            "Szwedzki Kernal"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "Znak miêdzynarodowy"
   IDS_GERMAN_CHARACTER          "Znak niemiecki"
   IDS_FRENCH_CHARACTER          "Znak francuski"
   IDS_SWEDISH_CHARACTER         "Znak szwedzki"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "Tryb C64 Kernal"
   IDS_C64_MODE_BASIC            "Tryb C64 Basic"
   IDS_INTERNATIONAL             "Miêdzynarodowy"
@@ -1349,6 +1416,7 @@ BEGIN
   IDS_ITALIAN                   "W³oski"
   IDS_NORWEGIAN                 "Norweski"
   IDS_SWEDISH                   "Szwedzki"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "Wewnêtrzny Function ROM"
   IDS_INT_FUNCTION_ROM_TYPE     "Typ wewnêtrznego Function ROM-u"
   IDS_FILE_NAME                 "Nazwa pliku"
@@ -1389,12 +1457,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic LO"
   IDS_BASIC_HI                  "Basic HI"
   IDS_CHAR_INT                  "Char. Int."
   IDS_CHAR_DE                   "Char. DE"
   IDS_CHAR_FR                   "Char. FR"
   IDS_CHAR_SE                   "Char. SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "Basic C64"
   IDS_INTERNATIONAL_KERNAL      "International Kernal"
@@ -1404,10 +1474,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "Italian Kernal"
   IDS_NORWEGIAN_KERNAL          "Norwegian Kernal"
   IDS_SWEDISH_KERNAL            "Swedish Kernal"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "International Character"
   IDS_GERMAN_CHARACTER          "German Character"
   IDS_FRENCH_CHARACTER          "French Character"
   IDS_SWEDISH_CHARACTER         "Swedish Character"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "C64 mode Kernal"
   IDS_C64_MODE_BASIC            "C64 mode Basic"
   IDS_INTERNATIONAL             "ÜÕÖÔãÝÐàÞÔÝëÙ"
@@ -1417,6 +1489,7 @@ BEGIN
   IDS_ITALIAN                   "ØâÐÛìïÝáÚØÙ"
   IDS_NORWEGIAN                 "ÝÞàÒÕÖáÚØÙ"
   IDS_SWEDISH                   "èÒÕÔáÚØÙ"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "Internal Function ROM"
   IDS_INT_FUNCTION_ROM_TYPE     "Internal Function ROM type"
   IDS_FILE_NAME                 "¸Üï äÐÙÛÐ"
@@ -1454,12 +1527,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic LÅ"
   IDS_BASIC_HI                  "Basic HÖ"
   IDS_CHAR_INT                  "Teck. Int."
   IDS_CHAR_DE                   "Teck. DE"
   IDS_CHAR_FR                   "Teck. FR"
   IDS_CHAR_SE                   "Teck. SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "Basic C64"
   IDS_INTERNATIONAL_KERNAL      "Internationell Kernal"
@@ -1469,10 +1544,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "Italiensk Kernal"
   IDS_NORWEGIAN_KERNAL          "Norsk Kernal"
   IDS_SWEDISH_KERNAL            "Svensk Kernal"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "Internationell teckengenerator"
   IDS_GERMAN_CHARACTER          "Tysk teckengenerator"
   IDS_FRENCH_CHARACTER          "Fransk teckengenerator"
   IDS_SWEDISH_CHARACTER         "Svensk teckengenerator"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "Kernal för C64-läge"
   IDS_C64_MODE_BASIC            "Basic för C64-läge"
   IDS_INTERNATIONAL             "Internationell"
@@ -1482,6 +1559,7 @@ BEGIN
   IDS_ITALIAN                   "Italienska"
   IDS_NORWEGIAN                 "Norska"
   IDS_SWEDISH                   "Svenska"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "Internt funktions-ROM"
   IDS_INT_FUNCTION_ROM_TYPE     "Internt funktions-ROM-typ"
   IDS_FILE_NAME                 "Filnamn"
@@ -1519,12 +1597,14 @@ BEGIN
   IDS_KERNAL_IT                 "Kernal IT"
   IDS_KERNAL_NO                 "Kernal NO"
   IDS_KERNAL_SE                 "Kernal SE"
+  IDS_KERNAL_CH                 "Kernal CH"
   IDS_BASIC_LO                  "Basic LO"
   IDS_BASIC_HI                  "Basic HI"
   IDS_CHAR_INT                  "Uluslararasý Karakter"
   IDS_CHAR_DE                   "Karakter DE"
   IDS_CHAR_FR                   "Karakter FR"
   IDS_CHAR_SE                   "Karakter SE"
+  IDS_CHAR_CH                   "Char. CH"
   IDS_KERNAL_C64                "Kernal C64"
   IDS_BASIC_C64                 "Basic C64"
   IDS_INTERNATIONAL_KERNAL      "Uluslararasý Kernal"
@@ -1534,10 +1614,12 @@ BEGIN
   IDS_ITALIAN_KERNAL            "Ýtalyan Kernal"
   IDS_NORWEGIAN_KERNAL          "Norveç Kernal"
   IDS_SWEDISH_KERNAL            "Ýsveç Kernal"
+  IDS_SWISS_KERNAL              "Swiss Kernal"
   IDS_INTERNATIONAL_CHARACTER   "Uluslararasý Karakter"
   IDS_GERMAN_CHARACTER          "Alman Karakter"
   IDS_FRENCH_CHARACTER          "Fransýz Karakter"
   IDS_SWEDISH_CHARACTER         "Ýsveç Karakter"
+  IDS_SWISS_CHARACTER           "Swiss Character"
   IDS_C64_MODE_KERNAL           "C64 modu Kernal"
   IDS_C64_MODE_BASIC            "C64 modu Basic"
   IDS_INTERNATIONAL             "Uluslararasý"
@@ -1547,6 +1629,7 @@ BEGIN
   IDS_ITALIAN                   "Ýtalyanca"
   IDS_NORWEGIAN                 "Norveççe"
   IDS_SWEDISH                   "Ýsveççe"
+  IDS_SWISS                     "Swiss"
   IDS_INT_FUNCTION_ROM          "Uluslararasý Function ROM"
   IDS_INT_FUNCTION_ROM_TYPE     "Dahili Function ROM tipi"
   IDS_FILE_NAME                 "Dosya ismi"

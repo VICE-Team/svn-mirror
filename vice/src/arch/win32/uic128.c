@@ -51,6 +51,7 @@ static const int ui_machine[] = {
     IDS_ITALIAN,
     IDS_NORWEGIAN,
     IDS_SWEDISH,
+    IDS_SWISS,
     0
 };
 
