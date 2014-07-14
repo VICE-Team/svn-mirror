@@ -860,6 +860,7 @@ static int is_storage_server(void)
     return 0;
 }
 
+#if (_MSC_VER >= 1300)
 static BOOL CompareWindowsVersion(DWORD dwMajorVersion, DWORD dwMinorVersion)
 {
     OSVERSIONINFOEX ver;
@@ -875,6 +876,7 @@ static BOOL CompareWindowsVersion(DWORD dwMajorVersion, DWORD dwMinorVersion)
 
     return VerifyVersionInfo(&ver, VER_MAJORVERSION | VER_MINORVERSION, dwlConditionMask);
 }
+#endif
 
 char *platform_get_windows_runtime_os(void)
 {
@@ -902,11 +904,13 @@ char *platform_get_windows_runtime_os(void)
         windows_versions[0].realos = GetRealOS();
 
         /* check for windows 8.1 when windows 8 was found */
+#if (_MSC_VER >= 1300)
         if (windows_versions[0].majorver == 6 && windows_versions[0].minorver == 2) {
             if (CompareWindowsVersion(6, 3)) {
                 windows_versions[0].minorver = (DWORD)3;
             }
         }
+#endif
 
         if (windows_versions[0].platformid == VER_PLATFORM_WIN32_NT) {
             if (GetVersionEx((LPOSVERSIONINFOA)&os_version_ex_info)) {
