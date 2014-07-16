@@ -64,6 +64,7 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "Acia1Enable", MENU_TOGGLE_ACIA },
     { "REU", MENU_TOGGLE_REU },
     { "REUImageWrite", MENU_TOGGLE_REU_SWC },
     { "GEORAM", MENU_TOGGLE_GEORAM },
@@ -98,6 +99,34 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
     { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
     { NULL, 0 }
+};
+
+ui_res_possible_values AciaDevice[] = {
+    { 1, MENU_ACIA_RS323_DEVICE_1 },
+    { 2, MENU_ACIA_RS323_DEVICE_2 },
+    { 3, MENU_ACIA_RS323_DEVICE_3 },
+    { 4, MENU_ACIA_RS323_DEVICE_4 },
+    { -1, 0 }
+};
+
+ui_res_possible_values AciaBase[] = {
+    { 0xde00, MENU_ACIA_BASE_DE00 },
+    { 0xdf00, MENU_ACIA_BASE_DF00 },
+    { -1, 0 }
+};
+
+ui_res_possible_values AciaInt[] = {
+    { 0, MENU_ACIA_INT_NONE },
+    { 1, MENU_ACIA_INT_IRQ },
+    { 2, MENU_ACIA_INT_NMI },
+    { -1, 0 }
+};
+
+ui_res_possible_values AciaMode[] = {
+    { 0, MENU_ACIA_MODE_NORMAL },
+    { 1, MENU_ACIA_MODE_SWIFTLINK },
+    { 2, MENU_ACIA_MODE_TURBO232 },
+    { -1, 0 }
 };
 
 ui_res_possible_values ReuSize[] = {
@@ -262,6 +291,10 @@ ui_res_possible_values ExpertModes[] = {
 };
 
 ui_res_value_list c64_ui_res_values[] = {
+    { "Acia1Dev", AciaDevice },
+    { "Acia1Base", AciaBase },
+    { "Acia1Irq", AciaInt },
+    { "Acia1Mode", AciaMode },
     { "VICIIModel", viciimodels },
     { "REUsize", ReuSize },
     { "GeoRAMsize", GeoRAMSize },

@@ -187,6 +187,23 @@ const uint32 ATTACH_VIC20_CART                    = 'MA02';
 const uint32 MENU_COPY                            = 'M161';
 const uint32 MENU_PASTE                           = 'M162';
 
+const uint32 MENU_TOGGLE_ACIA                     = 'M257';
+const uint32 MENU_ACIA_RS323_DEVICE_1             = 'M340';
+const uint32 MENU_ACIA_RS323_DEVICE_2             = 'M341';
+const uint32 MENU_ACIA_RS323_DEVICE_3             = 'M342';
+const uint32 MENU_ACIA_RS323_DEVICE_4             = 'M343';
+const uint32 MENU_ACIA_BASE_9800                  = 'M344';
+const uint32 MENU_ACIA_BASE_9C00                  = 'M345';
+const uint32 MENU_ACIA_BASE_D700                  = 'M346';
+const uint32 MENU_ACIA_BASE_DE00                  = 'M347';
+const uint32 MENU_ACIA_BASE_DF00                  = 'M348';
+const uint32 MENU_ACIA_INT_NONE                   = 'M268';
+const uint32 MENU_ACIA_INT_IRQ                    = 'M312';
+const uint32 MENU_ACIA_INT_NMI                    = 'M314';
+const uint32 MENU_ACIA_MODE_NORMAL                = 'M315';
+const uint32 MENU_ACIA_MODE_SWIFTLINK             = 'M349';
+const uint32 MENU_ACIA_MODE_TURBO232              = 'M350';
+
 const uint32 MENU_TOGGLE_SOUND                    = 'M100';
 const uint32 MENU_TOGGLE_WARP_MODE                = 'M101';
 const uint32 MENU_TOGGLE_DRIVE_TRUE_EMULATION     = 'M102';

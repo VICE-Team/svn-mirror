@@ -60,12 +60,41 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "VICDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "Acia1Enable", MENU_TOGGLE_ACIA },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "FinalExpansionWriteBack", MENU_TOGGLE_FE_WRITE_BACK },
     { "MegaCartNvRAMWriteBack", MENU_TOGGLE_MC_NVRAM_WRITE_BACK },
     { "VicFlashPluginWriteBack", MENU_TOGGLE_VFP_WRITE_BACK },
     { NULL, 0 }
+};
+
+ui_res_possible_values vic20AciaDevice[] = {
+    { 1, MENU_ACIA_RS323_DEVICE_1 },
+    { 2, MENU_ACIA_RS323_DEVICE_2 },
+    { 3, MENU_ACIA_RS323_DEVICE_3 },
+    { 4, MENU_ACIA_RS323_DEVICE_4 },
+    { -1, 0 }
+};
+
+ui_res_possible_values vic20AciaBase[] = {
+    { 0x9800, MENU_ACIA_BASE_9800 },
+    { 0x9c00, MENU_ACIA_BASE_9C00 },
+    { -1, 0 }
+};
+
+ui_res_possible_values vic20AciaInt[] = {
+    { 0, MENU_ACIA_INT_NONE },
+    { 1, MENU_ACIA_INT_IRQ },
+    { 2, MENU_ACIA_INT_NMI },
+    { -1, 0 }
+};
+
+ui_res_possible_values vic20AciaMode[] = {
+    { 0, MENU_ACIA_MODE_NORMAL },
+    { 1, MENU_ACIA_MODE_SWIFTLINK },
+    { 2, MENU_ACIA_MODE_TURBO232 },
+    { -1, 0 }
 };
 
 ui_res_possible_values vic20_RenderFilters[] = {
@@ -76,6 +105,10 @@ ui_res_possible_values vic20_RenderFilters[] = {
 };
 
 ui_res_value_list vic20_ui_res_values[] = {
+    { "Acia1Dev", vic20AciaDevice },
+    { "Acia1Base", vic20AciaBase },
+    { "Acia1Irq", vic20AciaInt },
+    { "Acia1Mode", vic20AciaMode },
     { "VICFilter", vic20_RenderFilters },
     { NULL, NULL }
 };

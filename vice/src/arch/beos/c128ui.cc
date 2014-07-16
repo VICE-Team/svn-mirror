@@ -62,6 +62,7 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "Acia1Enable", MENU_TOGGLE_ACIA },
     { "REU", MENU_TOGGLE_REU },
     { "REUImageWrite", MENU_TOGGLE_REU_SWC },
     { "GEORAM", MENU_TOGGLE_GEORAM },
@@ -86,6 +87,35 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
     { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
     { NULL, 0 }
+};
+
+ui_res_possible_values c128AciaDevice[] = {
+    { 1, MENU_ACIA_RS323_DEVICE_1 },
+    { 2, MENU_ACIA_RS323_DEVICE_2 },
+    { 3, MENU_ACIA_RS323_DEVICE_3 },
+    { 4, MENU_ACIA_RS323_DEVICE_4 },
+    { -1, 0 }
+};
+
+ui_res_possible_values c128AciaBase[] = {
+    { 0xd700, MENU_ACIA_BASE_D700 },
+    { 0xde00, MENU_ACIA_BASE_DE00 },
+    { 0xdf00, MENU_ACIA_BASE_DF00 },
+    { -1, 0 }
+};
+
+ui_res_possible_values c128AciaInt[] = {
+    { 0, MENU_ACIA_INT_NONE },
+    { 1, MENU_ACIA_INT_IRQ },
+    { 2, MENU_ACIA_INT_NMI },
+    { -1, 0 }
+};
+
+ui_res_possible_values c128AciaMode[] = {
+    { 0, MENU_ACIA_MODE_NORMAL },
+    { 1, MENU_ACIA_MODE_SWIFTLINK },
+    { 2, MENU_ACIA_MODE_TURBO232 },
+    { -1, 0 }
 };
 
 ui_res_possible_values c128ReuSize[] = {
@@ -191,6 +221,10 @@ ui_res_possible_values c128ExpertModes[] = {
 };
 
 ui_res_value_list c128_ui_res_values[] = {
+    { "Acia1Dev", c128AciaDevice },
+    { "Acia1Base", c128AciaBase },
+    { "Acia1Irq", c128AciaInt },
+    { "Acia1Mode", c128AciaMode },
     { "REUsize", c128ReuSize },
     { "GeoRAMsize", c128GeoRAMSize },
     { "RAMCARTsize", c128RamCartSize },

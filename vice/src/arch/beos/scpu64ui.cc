@@ -64,6 +64,7 @@ ui_menu_toggle scpu64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "Acia1Enable", MENU_TOGGLE_ACIA },
     { "REU", MENU_TOGGLE_REU },
     { "REUImageWrite", MENU_TOGGLE_REU_SWC },
     { "GEORAM", MENU_TOGGLE_GEORAM },
@@ -97,6 +98,34 @@ ui_menu_toggle scpu64_ui_menu_toggles[] = {
     { "JiffySwitch", MENU_TOGGLE_SCPU64_JIFFY_ENABLE },
     { "SpeedSwitch", MENU_TOGGLE_SCPU64_SPEED_ENABLE },
     { NULL, 0 }
+};
+
+ui_res_possible_values scpu64AciaDevice[] = {
+    { 1, MENU_ACIA_RS323_DEVICE_1 },
+    { 2, MENU_ACIA_RS323_DEVICE_2 },
+    { 3, MENU_ACIA_RS323_DEVICE_3 },
+    { 4, MENU_ACIA_RS323_DEVICE_4 },
+    { -1, 0 }
+};
+
+ui_res_possible_values scpu64AciaBase[] = {
+    { 0xde00, MENU_ACIA_BASE_DE00 },
+    { 0xdf00, MENU_ACIA_BASE_DF00 },
+    { -1, 0 }
+};
+
+ui_res_possible_values scpu64AciaInt[] = {
+    { 0, MENU_ACIA_INT_NONE },
+    { 1, MENU_ACIA_INT_IRQ },
+    { 2, MENU_ACIA_INT_NMI },
+    { -1, 0 }
+};
+
+ui_res_possible_values scpu64AciaMode[] = {
+    { 0, MENU_ACIA_MODE_NORMAL },
+    { 1, MENU_ACIA_MODE_SWIFTLINK },
+    { 2, MENU_ACIA_MODE_TURBO232 },
+    { -1, 0 }
 };
 
 ui_res_possible_values scpu64ui_SimmSize[] = {
@@ -256,6 +285,10 @@ ui_res_possible_values scpu64ui_ExpertModes[] = {
 };
 
 ui_res_value_list scpu64_ui_res_values[] = {
+    { "Acia1Dev", scpu64AciaDevice },
+    { "Acia1Base", scpu64AciaBase },
+    { "Acia1Irq", scpu64AciaInt },
+    { "Acia1Mode", scpu64AciaMode },
     { "VICIIModel", scpu64ui_viciimodels },
     { "SIMMSize", scpu64ui_SimmSize },
     { "REUsize", scpu64ui_ReuSize },

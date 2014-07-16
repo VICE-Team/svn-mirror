@@ -46,6 +46,21 @@ ui_menu_toggle  cbm5x0_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+ui_res_possible_values cbm5x0AciaDevice[] = {
+    { 1, MENU_ACIA_RS323_DEVICE_1 },
+    { 2, MENU_ACIA_RS323_DEVICE_2 },
+    { 3, MENU_ACIA_RS323_DEVICE_3 },
+    { 4, MENU_ACIA_RS323_DEVICE_4 },
+    { -1, 0 }
+};
+
+ui_res_possible_values cbm5x0AciaInt[] = {
+    { 0, MENU_ACIA_INT_NONE },
+    { 1, MENU_ACIA_INT_IRQ },
+    { 2, MENU_ACIA_INT_NMI },
+    { -1, 0 }
+};
+
 ui_res_possible_values cbm5x0RenderFilters[] = {
     { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
     { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
@@ -54,6 +69,8 @@ ui_res_possible_values cbm5x0RenderFilters[] = {
 };
 
 ui_res_value_list cbm5x0_ui_res_values[] = {
+    { "Acia1Dev", cbm5x0AciaDevice },
+    { "Acia1Irq", cbm5x0AciaInt },
     { "VICIIFilter", cbm5x0RenderFilters },
     { NULL, NULL }
 };

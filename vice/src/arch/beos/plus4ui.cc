@@ -57,9 +57,25 @@ ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "Acia1Enable", MENU_TOGGLE_ACIA },
     { "SIDCartJoy", MENU_TOGGLE_SIDCART_JOY },
     { "SpeechEnabled", MENU_TOGGLE_V364SPEECH },
     { NULL, 0 }
+};
+
+ui_res_possible_values plus4AciaDevice[] = {
+    { 1, MENU_ACIA_RS323_DEVICE_1 },
+    { 2, MENU_ACIA_RS323_DEVICE_2 },
+    { 3, MENU_ACIA_RS323_DEVICE_3 },
+    { 4, MENU_ACIA_RS323_DEVICE_4 },
+    { -1, 0 }
+};
+
+ui_res_possible_values plus4AciaInt[] = {
+    { 0, MENU_ACIA_INT_NONE },
+    { 1, MENU_ACIA_INT_IRQ },
+    { 2, MENU_ACIA_INT_NMI },
+    { -1, 0 }
 };
 
 ui_res_possible_values plus4_RenderFilters[] = {
@@ -70,6 +86,8 @@ ui_res_possible_values plus4_RenderFilters[] = {
 };
 
 ui_res_value_list plus4_ui_res_values[] = {
+    { "Acia1Dev", plus4AciaDevice },
+    { "Acia1Irq", plus4AciaInt },
     { "TEDFilter", plus4_RenderFilters },
     { NULL, NULL }
 };
