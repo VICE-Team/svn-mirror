@@ -3325,14 +3325,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_MACHINE_JAM_ACTION,    N_("Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_MACHINE_JAM_ACTION_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_MACHINE_JAM_ACTION_DE, "Aktion bei CPU JAM: (0: Nachfrage, 1: Weitermachen, 2: Monitor, 3: Reset, 4: Hard Reset. 5: Emulator beenden)"},
+/* de */ {IDCLS_SET_MACHINE_JAM_ACTION_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_SET_MACHINE_JAM_ACTION_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_MACHINE_JAM_ACTION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_MACHINE_JAM_ACTION_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_MACHINE_JAM_ACTION_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_MACHINE_JAM_ACTION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_MACHINE_JAM_ACTION_NL, "Geef de actie op die gedaan moet worden bij een CPU JAM: (0: Vraag, 1: door gaan, 2: Monitor, 3: Reset, 4: Harde Reset)"},
-/* pl */ {IDCLS_SET_MACHINE_JAM_ACTION_PL, "Ustal dzia³anie przy zatkaniu siê procesora: (0: zapytanie, 1: kontynuacja, 2: monitorowanie, 3: reset, 4: twardy reset)"},
+/* nl */ {IDCLS_SET_MACHINE_JAM_ACTION_NL, "Geef de actie op die gedaan moet worden bij een CPU JAM: (0: Vraag, 1: door gaan, 2: Monitor, 3: Reset, 4: Harde Reset, 5: Emulator uitschakelen)"},
+/* pl */ {IDCLS_SET_MACHINE_JAM_ACTION_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_MACHINE_JAM_ACTION_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_MACHINE_JAM_ACTION_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_MACHINE_JAM_ACTION_TR, ""},  /* fuzzy */
@@ -3585,7 +3585,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_CH_KERNEL_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_CH_KERNEL_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_CH_KERNEL_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_CH_KERNEL_NAME_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_CH_KERNEL_NAME_NL, "Geef de naam van het Zwitse Kernal ROM bestand"},
 /* pl */ {IDCLS_SPECIFY_CH_KERNEL_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_CH_KERNEL_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_CH_KERNEL_NAME_SV, ""},  /* fuzzy */
@@ -3697,18 +3697,18 @@ translate_t string_table[] = {
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME,    N_("Specify name of Swedish character generator ROM image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_IT, ""},  /* fuzzy */
+/* da */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_DA, "Angiv navn på svensk tegngenerator-ROM-image"},
+/* de */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_DE, "Name für schwedische Charakter ROM Datei definieren"},
+/* es */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_ES, "Especificar nombre imagen ROM generador caracteres sueco"},
+/* fr */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères suédois"},
+/* hu */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_HU, "Adja meg a svéd karaktergenerátor ROM képmás nevét"},
+/* it */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_IT, "Specifica il nome immagine della ROM del generatore di caratteri svedese"},
 /* ko */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_TR, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_NL, "Geef de naam van het Zweedse CHARGEN ROM bestand"},
+/* pl */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_PL, "Okre¶l nazwê obrazu ROM generatora szwedzkich znaków"},
+/* ru */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_RU, "ÃÚÐ×Ðâì ØÜï ROM ÞÑàÐ×Ð ÓÕÝÕàÐâÞàÐ èÒÕÔáÚØå áØÜÒÞÛÞÒ"},
+/* sv */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_SV, "Ange namn på svensk teckengenerator-ROM-avbildning"},
+/* tr */ {IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME_TR, "Ýsveç Karakter Oluþturucu ROM imajýnýn ismini belirt"},
 #endif
 
 /* c128/c128-cmdline-options.c */
@@ -3824,7 +3824,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_P_REVISION_IT, "<Revisione>"},
 /* ko */ {IDCLS_P_REVISION_KO, "<¼öÁ¤>"},
 /* nl */ {IDCLS_P_REVISION_NL, "<Revisie>"},
-/* pl */ {IDCLS_P_REVISION_PL, "<Poprawka>"},
+/* pl */ {IDCLS_P_REVISION_PL, "<Wersja>"},
 /* ru */ {IDCLS_P_REVISION_RU, "<Revision>"},
 /* sv */ {IDCLS_P_REVISION_SV, "<Utgåva>"},
 /* tr */ {IDCLS_P_REVISION_TR, "<Revizyon>"},
@@ -5373,14 +5373,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_MMC64_SET_FLASH_JUMPER,    N_("Set the MMC64 Flash Jumper")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MMC64_SET_FLASH_JUMPER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_MMC64_SET_FLASH_JUMPER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC64_SET_FLASH_JUMPER_DE, "Aktiviere MMC64 Flash Jumper"},
 /* es */ {IDCLS_MMC64_SET_FLASH_JUMPER_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_MMC64_SET_FLASH_JUMPER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_MMC64_SET_FLASH_JUMPER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_MMC64_SET_FLASH_JUMPER_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_MMC64_SET_FLASH_JUMPER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_MMC64_SET_FLASH_JUMPER_NL, "Zet de MMC64 Flash Jumper"},
-/* pl */ {IDCLS_MMC64_SET_FLASH_JUMPER_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MMC64_SET_FLASH_JUMPER_PL, "Ustaw zworkê MMC64 Flash"},
 /* ru */ {IDCLS_MMC64_SET_FLASH_JUMPER_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_MMC64_SET_FLASH_JUMPER_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_MMC64_SET_FLASH_JUMPER_TR, ""},  /* fuzzy */
@@ -5390,14 +5390,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_MMC64_UNSET_FLASH_JUMPER,    N_("Remove the MMC64 Flash Jumper")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_DE, "Deaktiviere MMC64 Flash Jumper"},
 /* es */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_NL, "Verwijder de MMC64 Flash Jumper"},
-/* pl */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_PL, "Usuñ zworkê RR Flash"},
 /* ru */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_MMC64_UNSET_FLASH_JUMPER_TR, ""},  /* fuzzy */
@@ -5618,7 +5618,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_RR_BANK_JUMPER_IT, "Imposta ponticello bank della RR"},
 /* ko */ {IDCLS_SET_RR_BANK_JUMPER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_RR_BANK_JUMPER_NL, "Zet RR bank jumper"},
-/* pl */ {IDCLS_SET_RR_BANK_JUMPER_PL, "Ustaw prze³±cznik RR Bank"},
+/* pl */ {IDCLS_SET_RR_BANK_JUMPER_PL, "Ustaw zworkê RR Bank"},
 /* ru */ {IDCLS_SET_RR_BANK_JUMPER_RU, "Set RR Bank Jumper"},
 /* sv */ {IDCLS_SET_RR_BANK_JUMPER_SV, "Aktivera RR-bankbygel"},
 /* tr */ {IDCLS_SET_RR_BANK_JUMPER_TR, "RR Bank Jumper'ý tak"},
@@ -5635,7 +5635,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_UNSET_RR_BANK_JUMPER_IT, "Rimuovi ponticello bank della RR"},
 /* ko */ {IDCLS_UNSET_RR_BANK_JUMPER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_UNSET_RR_BANK_JUMPER_NL, "Zet RR bank jumper niet"},
-/* pl */ {IDCLS_UNSET_RR_BANK_JUMPER_PL, "Wy³±cz prze³±cznik RR Bank"},
+/* pl */ {IDCLS_UNSET_RR_BANK_JUMPER_PL, "Usuñ zworkê RR Bank"},
 /* ru */ {IDCLS_UNSET_RR_BANK_JUMPER_RU, "Unset RR Bank Jumper"},
 /* sv */ {IDCLS_UNSET_RR_BANK_JUMPER_SV, "Inaktivera RR-bankbygel"},
 /* tr */ {IDCLS_UNSET_RR_BANK_JUMPER_TR, "RR Bank Jumper'ý çýkart"},
@@ -5669,7 +5669,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_UNSET_RR_FLASH_JUMPER_IT, "Rimuovi ponticello bank della RR"},
 /* ko */ {IDCLS_UNSET_RR_FLASH_JUMPER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_UNSET_RR_FLASH_JUMPER_NL, "Zet RR bank jumper niet"},
-/* pl */ {IDCLS_UNSET_RR_FLASH_JUMPER_PL, "Wy³±cz prze³±cznik RR Bank"},
+/* pl */ {IDCLS_UNSET_RR_FLASH_JUMPER_PL, "Usuñ zworkê RR Bank"},
 /* ru */ {IDCLS_UNSET_RR_FLASH_JUMPER_RU, "Unset RR Bank Jumper"},
 /* sv */ {IDCLS_UNSET_RR_FLASH_JUMPER_SV, "Inaktivera RR-bankbygel"},
 /* tr */ {IDCLS_UNSET_RR_FLASH_JUMPER_TR, "RR Bank Jumper'ý çýkart"},
@@ -9566,18 +9566,18 @@ translate_t string_table[] = {
 /* printerdrv/interface-serial.c */
 /* en */ {IDCLS_SET_DEVICE_TYPE_6,    N_("Set device type for device #6 (0: NONE, 1: FS, 2: REAL)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_DEVICE_TYPE_6_DA, "Sæt enhedstype for enhed #6 (0: INGEN, 1: FS, 2: ÆGTE)"},
-/* de */ {IDCLS_SET_DEVICE_TYPE_6_DE, "Geräte Typ für Gerät #6 (0: NONE, 1: FS, 2: REAL) setzen"},
-/* es */ {IDCLS_SET_DEVICE_TYPE_6_ES, "Seleccionar tipo para el periférico #6 (0:NO 1:FS, 2:REAL)"},
-/* fr */ {IDCLS_SET_DEVICE_TYPE_6_FR, "Spécifier le type de périphérique pour #6 (0: AUCUN, 1: SF, 2: RÉEL)"},
-/* hu */ {IDCLS_SET_DEVICE_TYPE_6_HU, "Adja meg a #6-ös eszköz típusát (0:Nincs, 1: Fájlrendszer, 2: Valódi)"},
-/* it */ {IDCLS_SET_DEVICE_TYPE_6_IT, "Specifica il tipo di periferica #6 (0 NESSUNA, 1 FS, 2 REALE)"},
+/* da */ {IDCLS_SET_DEVICE_TYPE_6_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_6_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DEVICE_TYPE_6_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_6_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DEVICE_TYPE_6_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_6_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_6_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_DEVICE_TYPE_6_NL, "Zet apparaat soort voor apparaat #6 (0: GEEN, 1: FS, 2: ECHT)"},
-/* pl */ {IDCLS_SET_DEVICE_TYPE_6_PL, "Okre¶l typ urz±dzenia #6 (0: BRAK, 1: SYSTEM PLIKÓW, 2: RZECZYWISTE)"},
-/* ru */ {IDCLS_SET_DEVICE_TYPE_6_RU, "Set device type for device #6 (0: NONE, 1: FS, 2: REAL)"},
-/* sv */ {IDCLS_SET_DEVICE_TYPE_6_SV, "Ange enhetstyp för enhet 6 (0: INGEN, 1: FS, 2: ÄKTA)"},
-/* tr */ {IDCLS_SET_DEVICE_TYPE_6_TR, "Aygýt #6 için aygýt tipini ayarlayýn (0: YOK, 1: FS, 2: GERÇEK)"},
+/* pl */ {IDCLS_SET_DEVICE_TYPE_6_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DEVICE_TYPE_6_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_6_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DEVICE_TYPE_6_TR, ""},  /* fuzzy */
 #endif
 
 /* printerdrv/interface-userport.c */
@@ -12243,7 +12243,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_KEYBUF_DELAY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_KEYBUF_DELAY_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_KEYBUF_DELAY_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_KEYBUF_DELAY_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_KEYBUF_DELAY_NL, "Zet extra toetsenbord buffer vertraging (0: gebruik de standaard waarde)"},
 /* pl */ {IDCLS_SET_KEYBUF_DELAY_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_KEYBUF_DELAY_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_KEYBUF_DELAY_SV, ""},  /* fuzzy */
@@ -12551,7 +12551,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_SOUND_PLAYBACK_IT, "Attiva riproduzione audio"},
 /* ko */ {IDCLS_ENABLE_SOUND_PLAYBACK_KO, "»ç¿îµå ÇÃ·¹ÀÌ¹é À» »ç¿ë°¡´ÉÇÏ°Ô ÇÏ±â"},
 /* nl */ {IDCLS_ENABLE_SOUND_PLAYBACK_NL, "Activeer geluidsweergave"},
-/* pl */ {IDCLS_ENABLE_SOUND_PLAYBACK_PL, "W³±cz d¼wiêk"},
+/* pl */ {IDCLS_ENABLE_SOUND_PLAYBACK_PL, "W³±cz odtwarzanie d¼wiêku"},
 /* ru */ {IDCLS_ENABLE_SOUND_PLAYBACK_RU, "Enable sound playback"},
 /* sv */ {IDCLS_ENABLE_SOUND_PLAYBACK_SV, "Aktivera ljudåtergivning"},
 /* tr */ {IDCLS_ENABLE_SOUND_PLAYBACK_TR, "Sesi aktif et"},

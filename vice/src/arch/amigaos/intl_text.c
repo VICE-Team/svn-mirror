@@ -4711,7 +4711,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_LANGUAGE_SWISS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_LANGUAGE_SWISS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_LANGUAGE_SWISS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_LANGUAGE_SWISS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_LANGUAGE_SWISS_NL, "Zwitser" },
 /* pl */ { IDMS_LANGUAGE_SWISS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_LANGUAGE_SWISS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_LANGUAGE_SWISS_SV, "" },  /* fuzzy */
@@ -5566,7 +5566,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_EXTEND_TO_40_TRACK_IT, "Estendere l'immagine al formato di 40 tracce?" },
 /* ko */ { IDS_EXTEND_TO_40_TRACK_KO, "" },  /* fuzzy */
 /* nl */ { IDS_EXTEND_TO_40_TRACK_NL, "Bestand uitbreiden naar 40-sporen formaat?" },
-/* pl */ { IDS_EXTEND_TO_40_TRACK_PL, "Rozszerzyæ obraz do formatu 40-¶cie¿kowego?" },
+/* pl */ { IDS_EXTEND_TO_40_TRACK_PL, "Rozszerzyæ obraz do formatu 40 ¶cie¿kowego?" },
 /* ru */ { IDS_EXTEND_TO_40_TRACK_RU, "Extend image to 40-track format?" },
 /* sv */ { IDS_EXTEND_TO_40_TRACK_SV, "Utöka avbildning till 40-spårsformat?" },
 /* tr */ { IDS_EXTEND_TO_40_TRACK_TR, "Imaj 40-track biçimine geniþletilsin mi?" },
@@ -8584,7 +8584,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PRINTER_6_EMULATION,    "Printer #6 emulation" },
 /* da */ { IDS_PRINTER_6_EMULATION_DA, "" },  /* fuzzy */
-/* de */ { IDS_PRINTER_6_EMULATION_DE, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_6_EMULATION_DE, "Drucker #6 Emulation" },
 /* es */ { IDS_PRINTER_6_EMULATION_ES, "" },  /* fuzzy */
 /* fr */ { IDS_PRINTER_6_EMULATION_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PRINTER_6_EMULATION_HU, "" },  /* fuzzy */
@@ -8640,7 +8640,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PRINTER_6_DRIVER,    "Printer #6 driver" },
 /* da */ { IDS_PRINTER_6_DRIVER_DA, "" },  /* fuzzy */
-/* de */ { IDS_PRINTER_6_DRIVER_DE, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_6_DRIVER_DE, "Drucker #6 Treiber" },
 /* es */ { IDS_PRINTER_6_DRIVER_ES, "" },  /* fuzzy */
 /* fr */ { IDS_PRINTER_6_DRIVER_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PRINTER_6_DRIVER_HU, "" },  /* fuzzy */
@@ -8696,7 +8696,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PRINTER_6_OUTPUT_TYPE,    "Printer #6 output type" },
 /* da */ { IDS_PRINTER_6_OUTPUT_TYPE_DA, "" },  /* fuzzy */
-/* de */ { IDS_PRINTER_6_OUTPUT_TYPE_DE, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_6_OUTPUT_TYPE_DE, "Drucker #6 Ausgabetyp" },
 /* es */ { IDS_PRINTER_6_OUTPUT_TYPE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_PRINTER_6_OUTPUT_TYPE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PRINTER_6_OUTPUT_TYPE_HU, "" },  /* fuzzy */
@@ -8752,7 +8752,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PRINTER_6_OUTPUT_DEVICE,    "Printer #6 output device" },
 /* da */ { IDS_PRINTER_6_OUTPUT_DEVICE_DA, "" },  /* fuzzy */
-/* de */ { IDS_PRINTER_6_OUTPUT_DEVICE_DE, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_6_OUTPUT_DEVICE_DE, "Drucker #6 Ausgabegerät" },
 /* es */ { IDS_PRINTER_6_OUTPUT_DEVICE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_PRINTER_6_OUTPUT_DEVICE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PRINTER_6_OUTPUT_DEVICE_HU, "" },  /* fuzzy */
@@ -8808,7 +8808,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PRINTER_6_SEND_FORMFEED,    "Send formfeed to printer #6" },
 /* da */ { IDS_PRINTER_6_SEND_FORMFEED_DA, "" },  /* fuzzy */
-/* de */ { IDS_PRINTER_6_SEND_FORMFEED_DE, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_6_SEND_FORMFEED_DE, "Seitenvorschub zu Drucker #6 senden" },
 /* es */ { IDS_PRINTER_6_SEND_FORMFEED_ES, "" },  /* fuzzy */
 /* fr */ { IDS_PRINTER_6_SEND_FORMFEED_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PRINTER_6_SEND_FORMFEED_HU, "" },  /* fuzzy */
@@ -8906,7 +8906,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_ENABLE_IEC_PRINTER_6,    "IEC emulation for printer #6" },
 /* da */ { IDS_ENABLE_IEC_PRINTER_6_DA, "" },  /* fuzzy */
-/* de */ { IDS_ENABLE_IEC_PRINTER_6_DE, "" },  /* fuzzy */
+/* de */ { IDS_ENABLE_IEC_PRINTER_6_DE, "IEC Geräte Emulation für Drucker #6" },
 /* es */ { IDS_ENABLE_IEC_PRINTER_6_ES, "" },  /* fuzzy */
 /* fr */ { IDS_ENABLE_IEC_PRINTER_6_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ENABLE_IEC_PRINTER_6_HU, "" },  /* fuzzy */
@@ -9641,7 +9641,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_BIOS_FLASH_JUMPER_IT, "Flash Jumper del BIOS" },
 /* ko */ { IDS_BIOS_FLASH_JUMPER_KO, "" },  /* fuzzy */
 /* nl */ { IDS_BIOS_FLASH_JUMPER_NL, "BIOS Flash Jumper" },
-/* pl */ { IDS_BIOS_FLASH_JUMPER_PL, "Prze³±cznik BIOS Flash" },
+/* pl */ { IDS_BIOS_FLASH_JUMPER_PL, "Zworka BIOS Flash" },
 /* ru */ { IDS_BIOS_FLASH_JUMPER_RU, "BIOS Flash Jumper" },
 /* sv */ { IDS_BIOS_FLASH_JUMPER_SV, "BIOS-flashbygel" },
 /* tr */ { IDS_BIOS_FLASH_JUMPER_TR, "BIOS Flash Jumper" },
@@ -9655,7 +9655,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_BIOS_FLASH_JUMPER_IT, "Flash Jumper del BIOS" },
 /* ko */ { IDS_BIOS_FLASH_JUMPER_KO, "" },  /* fuzzy */
 /* nl */ { IDS_BIOS_FLASH_JUMPER_NL, "BIOS Flash Jumper" },
-/* pl */ { IDS_BIOS_FLASH_JUMPER_PL, "Prze³±cznik BIOS Flash" },
+/* pl */ { IDS_BIOS_FLASH_JUMPER_PL, "Zworka BIOS Flash" },
 /* ru */ { IDS_BIOS_FLASH_JUMPER_RU, "BIOS Flash Jumper" },
 /* sv */ { IDS_BIOS_FLASH_JUMPER_SV, "BIOS-flashbygel" },
 /* tr */ { IDS_BIOS_FLASH_JUMPER_TR, "BIOS Flash Jumper" },
@@ -9669,7 +9669,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_BANK_JUMPER_IT, "Ponticello bank" },
 /* ko */ { IDS_BANK_JUMPER_KO, "" },  /* fuzzy */
 /* nl */ { IDS_BANK_JUMPER_NL, "Bank jumper" },
-/* pl */ { IDS_BANK_JUMPER_PL, "Prze³±cznik banków" },
+/* pl */ { IDS_BANK_JUMPER_PL, "Zworka banków" },
 /* ru */ { IDS_BANK_JUMPER_RU, "" },  /* fuzzy */
 /* sv */ { IDS_BANK_JUMPER_SV, "Bankbygel" },
 /* tr */ { IDS_BANK_JUMPER_TR, "Bank jumperý" },
@@ -11461,7 +11461,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_VERY_SMALL_IT, "Molto piccolo" },
 /* ko */ { IDS_VERY_SMALL_KO, "" },  /* fuzzy */
 /* nl */ { IDS_VERY_SMALL_NL, "Erg klein" },
-/* pl */ { IDS_VERY_SMALL_PL, "Bardzo ma³e" },
+/* pl */ { IDS_VERY_SMALL_PL, "Bardzo ma³y" },
 /* ru */ { IDS_VERY_SMALL_RU, "" },  /* fuzzy */
 /* sv */ { IDS_VERY_SMALL_SV, "" },  /* fuzzy */
 /* tr */ { IDS_VERY_SMALL_TR, "" },  /* fuzzy */
@@ -11517,7 +11517,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_VERY_LARGE_IT, "Molto grande" },
 /* ko */ { IDS_VERY_LARGE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_VERY_LARGE_NL, "Erg groot" },
-/* pl */ { IDS_VERY_LARGE_PL, "Bardzo du¿e" },
+/* pl */ { IDS_VERY_LARGE_PL, "Bardzo du¿y" },
 /* ru */ { IDS_VERY_LARGE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_VERY_LARGE_SV, "" },  /* fuzzy */
 /* tr */ { IDS_VERY_LARGE_TR, "" },  /* fuzzy */
@@ -11839,7 +11839,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_AUTOSTART_INJECT_IT, "Immetti su RAM" },
 /* ko */ { IDS_AUTOSTART_INJECT_KO, "RAM ¿¡ ÁÖÀÔÇÏ±â" },
 /* nl */ { IDS_AUTOSTART_INJECT_NL, "injecteer in RAM" },
-/* pl */ { IDS_AUTOSTART_INJECT_PL, "Wstrzyknij w RAM" },
+/* pl */ { IDS_AUTOSTART_INJECT_PL, "Wy¶lij do RAM-u" },
 /* ru */ { IDS_AUTOSTART_INJECT_RU, "Inject to RAM" },
 /* sv */ { IDS_AUTOSTART_INJECT_SV, "Lägg in i RAM" },
 /* tr */ { IDS_AUTOSTART_INJECT_TR, "RAM'e enjekte et" },
@@ -11993,7 +11993,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_EASYFLASH_JUMPER_IT, "Ponticello EasyFlash" },
 /* ko */ { IDS_EASYFLASH_JUMPER_KO, "" },  /* fuzzy */
 /* nl */ { IDS_EASYFLASH_JUMPER_NL, "EasyFlash jumper" },
-/* pl */ { IDS_EASYFLASH_JUMPER_PL, "Prze³±cznik EasyFlash" },
+/* pl */ { IDS_EASYFLASH_JUMPER_PL, "Zworka EasyFlash" },
 /* ru */ { IDS_EASYFLASH_JUMPER_RU, "EasyFlash jumper" },
 /* sv */ { IDS_EASYFLASH_JUMPER_SV, "EasyFlash-bygel" },
 /* tr */ { IDS_EASYFLASH_JUMPER_TR, "EasyFlash jumper" },

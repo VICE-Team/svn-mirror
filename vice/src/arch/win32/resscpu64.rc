@@ -841,7 +841,7 @@ BEGIN
   IDS_C64BURSTMOD_CIA            "CIA trybu synchronicznego napêdu C64"
   IDS_SCPU64_CAPTION             "Ustawienia SuperCPU64"
   IDS_SCPU64_SIMM_SIZE           "Ilo¶æ SIMM"
-  IDS_SCPU64_JIFFY_SWITCH_ENABLE "W³±cz prze³±cznik jiffy"
+  IDS_SCPU64_JIFFY_SWITCH_ENABLE "Ustaw prze³±cznik jiffy"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "W³±cz prze³±cznik speed"
   IDS_MI_NETWORK_SETTINGS       "Gra sieciowa (eksperymentalne)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Ustawienia trybu synchronicznego napêdu C64..."
