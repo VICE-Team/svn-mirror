@@ -48,7 +48,7 @@
 /*
     Digimax Cartridge
 
-    This cartridge is a 8bit 4-channel digital sound output
+    This cartridge is an 8bit 4-channel digital sound output
     interface.
 
     When inserted into the cart port the cart uses 4 registers,

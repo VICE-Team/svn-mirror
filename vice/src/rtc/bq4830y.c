@@ -32,7 +32,7 @@
 
 #include <string.h>
 
-/* The BQ4830Y is a ram + RTC module, it can be used in place of a ram
+/* The BQ4830Y is a RAM + RTC module, it can be used in place of a RAM
  * and the RTC registers can be accessed at $7FF8-$7FFF and it has the
  * following features:
  * - Real-Time Clock Counts Seconds, Minutes, Hours, Date of the Month,

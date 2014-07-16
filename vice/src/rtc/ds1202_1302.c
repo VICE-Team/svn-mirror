@@ -83,7 +83,7 @@
  * DS1202 : registers 8-30: There are no registers at these locations (emulated as returning
  *                          0 upon read)
  *
- * DS1302 : register 8 : bits 7-0 Trickle Charge register (emulated as a dummy ram byte)
+ * DS1302 : register 8 : bits 7-0 Trickle Charge register (emulated as a dummy RAM byte)
  * DS1202 : registers 9-30: There are no registers at these locations (emulated as returning
  *                          0 upon read)
  *
@@ -235,7 +235,7 @@ static void ds1202_1302_decode_command(rtc_ds1202_1302_t *context)
         context->io_byte = ds1202_1302_get_clock_register(context, context->reg, offset, latched);
     }
 
-    /* check for DS1202_1302_OUTPUT_SINGLE_DATA_BITS and ram */
+    /* check for DS1202_1302_OUTPUT_SINGLE_DATA_BITS and RAM */
     if (read && !burst && !clock_reg) {
         context->state = DS1202_1302_OUTPUT_SINGLE_DATA_BITS;
         context->bit = 0;
@@ -255,7 +255,7 @@ static void ds1202_1302_decode_command(rtc_ds1202_1302_t *context)
         context->io_byte = ds1202_1302_get_clock_register(context, 0, context->latch, 1);
     }
 
-    /* check for DS1202_1302_OUTPUT_BURST_DATA_BITS and ram */
+    /* check for DS1202_1302_OUTPUT_BURST_DATA_BITS and RAM */
     if (read && burst && !clock_reg) {
         context->state = DS1202_1302_OUTPUT_BURST_DATA_BITS;
         context->reg = 0;

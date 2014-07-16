@@ -14,7 +14,7 @@ The build-script needs to be started from the root directory of vice.
 
 . ./build/android/build-android.sh [emulators] [cpus] [release]
 
-release indicates that the binary needs to be build as a official release as
+release indicates that the binary needs to be build as an official release as
 opposed to a developent release.
 
 cpu-types: armeabi, armeabi-v7a, mips, x86 (or all-cpu for all).

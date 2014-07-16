@@ -17,7 +17,7 @@
 
 note: visual studio 2010 express is the last release that can be used without
       time restrictions and without having to register at microsoft. if you
-      want to keep using it eventhough you installed other (newer) releases of
+      want to keep using it even though you installed other (newer) releases of
       visual studio, you will run into problem(s).
 
 - if you get "fatal error LNK1123" after compilation, the problem is that you

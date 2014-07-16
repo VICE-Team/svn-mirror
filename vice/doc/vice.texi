@@ -4872,7 +4872,7 @@ carts, 2: warning in log and 'AND' the valid return values)
 
 @vindex CartridgeReset
 @item CartridgeReset
-Boolean specifying whether the machine should be resetted when a cartridge is
+Boolean specifying whether the machine should be reset when a cartridge is
 changed.
 @vindex CartridgeType
 @item CartridgeType
@@ -7038,7 +7038,7 @@ but you also have to enable the IEEE488 hardware by menu.
 
 @vindex CartridgeReset
 @item CartridgeReset
-Boolean specifying whether the machine should be resetted when a cartridge is
+Boolean specifying whether the machine should be reset when a cartridge is
 changed.
 @vindex CartridgeType
 @item CartridgeType
@@ -7835,7 +7835,7 @@ Enable/Disable video to audio leak emulation.
 
 @vindex CartridgeReset
 @item CartridgeReset
-Boolean specifying whether the machine should be resetted when a cartridge is
+Boolean specifying whether the machine should be reset when a cartridge is
 changed.
 
 @vindex DIGIBLASTER
