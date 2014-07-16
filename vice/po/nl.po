@@ -341,7 +341,7 @@ msgstr "Zweeds"
 #: src/arch/unix/gui/c128ui.c:548 src/arch/win32/resc128.rc.po.c:755
 #: src/arch/amigaos/intl_text.c.po.c:4682
 msgid "Swiss"
-msgstr ""
+msgstr "Zwitser"
 
 #: src/arch/unix/gui/c128ui.c:557 src/arch/unix/gui/c128ui.c:566
 #: src/arch/unix/gui/c64scui.c:171 src/arch/unix/gui/c64scui.c:181
@@ -1541,7 +1541,6 @@ msgid "Hard reset"
 msgstr "Harde reset"
 
 #: src/arch/unix/gui/uicommands.c:499
-#, fuzzy
 msgid "Quit emulator"
 msgstr "Emulator uitschakelen"
 
@@ -3256,9 +3255,8 @@ msgstr "Printer #5 formfeed"
 #: src/arch/unix/gui/uiprinteriec.c:86
 #: src/arch/unix/gui/uiprinteriecplus4.c:85
 #: src/arch/unix/gui/uiprinterieee.c:79
-#, fuzzy
 msgid "Device #7 Real device access"
-msgstr "Werkelijk apparaat toegang"
+msgstr "Apparaat #7 werkelijk apparaat toegang"
 
 #: src/arch/unix/gui/uiprinteriec.c:92 src/arch/unix/gui/uiprinterieee.c:83
 #: src/arch/amigaos/intl_text.c.po.c:8575
@@ -6836,9 +6834,8 @@ msgid "Kernal SE"
 msgstr "Kernal SE"
 
 #: src/arch/win32/resc128.rc.po.c:723
-#, fuzzy
 msgid "Kernal CH"
-msgstr "Kernal C64"
+msgstr "Kernal CH"
 
 #: src/arch/win32/resc128.rc.po.c:724
 msgid "Basic LO"
@@ -6865,9 +6862,8 @@ msgid "Char. SE"
 msgstr "Char. SE"
 
 #: src/arch/win32/resc128.rc.po.c:730
-#, fuzzy
 msgid "Char. CH"
-msgstr "Char. DE"
+msgstr "Char. CH"
 
 #: src/arch/win32/resc128.rc.po.c:731
 msgid "Kernal C64"
@@ -6906,9 +6902,8 @@ msgid "Swedish Kernal"
 msgstr "Zweedse Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:740
-#, fuzzy
 msgid "Swiss Kernal"
-msgstr "Zweedse Kernal"
+msgstr "Zwitse Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:741
 msgid "International Character"
@@ -6927,9 +6922,8 @@ msgid "Swedish Character"
 msgstr "Zweedse Karakters"
 
 #: src/arch/win32/resc128.rc.po.c:745
-#, fuzzy
 msgid "Swiss Character"
-msgstr "Zweedse Karakters"
+msgstr "Zwitse Karakters"
 
 #: src/arch/win32/resc128.rc.po.c:746
 msgid "C64 mode Kernal"
@@ -10087,13 +10081,12 @@ msgid "Disable random initial autostart delay."
 msgstr "Willekeurige vertraging bij begin van het uitostarten uitschakelen."
 
 #: src/translate_text.c.po.c:3281
-#, fuzzy
 msgid ""
 "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard "
 "Reset, 5: Quit Emulator)"
 msgstr ""
 "Geef de actie op die gedaan moet worden bij een CPU JAM: (0: Vraag, 1: door "
-"gaan, 2: Monitor, 3: Reset, 4: Harde Reset)"
+"gaan, 2: Monitor, 3: Reset, 4: Harde Reset, 5: Emulator uitschakelen)"
 
 #: src/translate_text.c.po.c:3298
 msgid "Use PAL sync factor"
@@ -10144,9 +10137,8 @@ msgid "Specify name of Swedish Kernal ROM image"
 msgstr "Geef de naam van het Zweedse Kernal ROM bestand"
 
 #: src/translate_text.c.po.c:3519
-#, fuzzy
 msgid "Specify name of Swiss Kernal ROM image"
-msgstr "Geef de naam van het Zweedse Kernal ROM bestand"
+msgstr "Geef de naam van het Zwitse Kernal ROM bestand"
 
 #: src/translate_text.c.po.c:3536
 msgid "Specify name of BASIC ROM image (lower part)"
@@ -11430,9 +11422,8 @@ msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Zet apparaat soort voor apparaat #5 (0: GEEN, 1: FS, 2: ECHT)"
 
 #: src/translate_text.c.po.c:9481
-#, fuzzy
 msgid "Set device type for device #6 (0: NONE, 1: FS, 2: REAL)"
-msgstr "Zet apparaat soort voor apparaat #4 (0: GEEN, 1: FS, 2: ECHT)"
+msgstr "Zet apparaat soort voor apparaat #6 (0: GEEN, 1: FS, 2: ECHT)"
 
 #: src/translate_text.c.po.c:9498
 msgid "Enable the userport printer emulation"
@@ -12038,11 +12029,9 @@ msgid "Attach <name> as a disk image in drive #11"
 msgstr "Koppel <naam> aan als een schijfbestand in drive #11"
 
 #: src/translate_text.c.po.c:12151
-#, fuzzy
 msgid "Set additional keyboard buffer delay (0: use default)"
 msgstr ""
-"Zet de vertraging bij begin van het autostarten (0: gebruik de standaard "
-"waarde)"
+"Zet extra toetsenbord buffer vertraging (0: gebruik de standaard waarde)"
 
 #: src/translate_text.c.po.c:12168
 msgid "Specify log file name"
