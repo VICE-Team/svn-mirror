@@ -447,48 +447,55 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("Joy1", new BMessage(MENU_MOUSE_PORT_JOY1)));
                 submenu->AddItem(new BMenuItem("Joy2", new BMessage(MENU_MOUSE_PORT_JOY2)));
         uppermenu->AddSeparatorItem();
+    }
+
+    if (machine_class != VICE_MACHINE_C64DTV) {
         uppermenu->AddItem(menu = new BMenu("Expansion Carts"));
+        if (machine_class == VICE_MACHINE_VIC20) {
+            menu->AddItem(submenu = new BMenu("ACIA Options (MasC=uerade)"));
+        } else {
+            menu->AddItem(submenu = new BMenu("ACIA Options"));
+        }
+        if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0) {
+            submenu->AddItem(new BMenuItem("ACIA emulation", new BMessage(MENU_TOGGLE_ACIA)));
+        }
+        submenu->AddItem(extsubmenu = new BMenu("ACIA device"));
+            extsubmenu->SetRadioMode(true);
+            extsubmenu->AddItem(new BMenuItem("RS232 device 1", new BMessage(MENU_ACIA_RS323_DEVICE_1)));
+            extsubmenu->AddItem(new BMenuItem("RS232 device 2", new BMessage(MENU_ACIA_RS323_DEVICE_2)));
+            extsubmenu->AddItem(new BMenuItem("RS232 device 3", new BMessage(MENU_ACIA_RS323_DEVICE_3)));
+            extsubmenu->AddItem(new BMenuItem("RS232 device 4", new BMessage(MENU_ACIA_RS323_DEVICE_4)));
+        if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PLUS4) {
+            submenu->AddItem(extsubmenu = new BMenu("ACIA base"));
+                extsubmenu->SetRadioMode(true);
+                if (machine_class == VICE_MACHINE_VIC20) {
+                    extsubmenu->AddItem(new BMenuItem("$9800", new BMessage(MENU_ACIA_BASE_9800)));
+                    extsubmenu->AddItem(new BMenuItem("$9C00", new BMessage(MENU_ACIA_BASE_9C00)));
+                } else if (machine_class == VICE_MACHINE_C128) {
+                    extsubmenu->AddItem(new BMenuItem("$D700", new BMessage(MENU_ACIA_BASE_D700)));
+                    extsubmenu->AddItem(new BMenuItem("$DE00", new BMessage(MENU_ACIA_BASE_DE00)));
+                    extsubmenu->AddItem(new BMenuItem("$DF00", new BMessage(MENU_ACIA_BASE_DF00)));
+                } else {
+                    extsubmenu->AddItem(new BMenuItem("$DE00", new BMessage(MENU_ACIA_BASE_DE00)));
+                    extsubmenu->AddItem(new BMenuItem("$DF00", new BMessage(MENU_ACIA_BASE_DF00)));
+                }
+        }
+        submenu->AddItem(extsubmenu = new BMenu("ACIA interrupt"));
+            extsubmenu->SetRadioMode(true);
+            extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_ACIA_INT_NONE)));
+            extsubmenu->AddItem(new BMenuItem("IRQ", new BMessage(MENU_ACIA_INT_IRQ)));
+            extsubmenu->AddItem(new BMenuItem("NMI", new BMessage(MENU_ACIA_INT_NMI)));
+        if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PLUS4) {
+            submenu->AddItem(extsubmenu = new BMenu("ACIA mode"));
+                extsubmenu->SetRadioMode(true);
+                extsubmenu->AddItem(new BMenuItem("Normal", new BMessage(MENU_ACIA_MODE_NORMAL)));
+                extsubmenu->AddItem(new BMenuItem("Swiftlink", new BMessage(MENU_ACIA_MODE_SWIFTLINK)));
+                extsubmenu->AddItem(new BMenuItem("Turbo232", new BMessage(MENU_ACIA_MODE_TURBO232)));
+        }
+    }
 
-            if (machine_class != VICE_MACHINE_C64DTV) {
-                menu->AddItem(submenu = new BMenu("ACIA Options"));
-                if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0) {
-                    submenu->AddItem(new BMenuItem("ACIA emulation", new BMessage(MENU_TOGGLE_ACIA)));
-                }
-                submenu->AddItem(extsubmenu = new BMenu("ACIA device"));
-                    extsubmenu->SetRadioMode(true);
-                    extsubmenu->AddItem(new BMenuItem("RS232 device 1", new BMessage(MENU_ACIA_RS323_DEVICE_1)));
-                    extsubmenu->AddItem(new BMenuItem("RS232 device 2", new BMessage(MENU_ACIA_RS323_DEVICE_2)));
-                    extsubmenu->AddItem(new BMenuItem("RS232 device 3", new BMessage(MENU_ACIA_RS323_DEVICE_3)));
-                    extsubmenu->AddItem(new BMenuItem("RS232 device 4", new BMessage(MENU_ACIA_RS323_DEVICE_4)));
-                if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PLUS4) {
-                    submenu->AddItem(extsubmenu = new BMenu("ACIA base"));
-                        extsubmenu->SetRadioMode(true);
-                        if (machine_class == VICE_MACHINE_VIC20) {
-                            extsubmenu->AddItem(new BMenuItem("$9800", new BMessage(MENU_ACIA_BASE_9800)));
-                            extsubmenu->AddItem(new BMenuItem("$9C00", new BMessage(MENU_ACIA_BASE_9C00)));
-                        } else if (machine_class == VICE_MACHINE_C128) {
-                            extsubmenu->AddItem(new BMenuItem("$D700", new BMessage(MENU_ACIA_BASE_D700)));
-                            extsubmenu->AddItem(new BMenuItem("$DE00", new BMessage(MENU_ACIA_BASE_DE00)));
-                            extsubmenu->AddItem(new BMenuItem("$DF00", new BMessage(MENU_ACIA_BASE_DF00)));
-                        } else {
-                            extsubmenu->AddItem(new BMenuItem("$DE00", new BMessage(MENU_ACIA_BASE_DE00)));
-                            extsubmenu->AddItem(new BMenuItem("$DF00", new BMessage(MENU_ACIA_BASE_DF00)));
-                        }
-                }
-                submenu->AddItem(extsubmenu = new BMenu("ACIA interrupt"));
-                    extsubmenu->SetRadioMode(true);
-                    extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_ACIA_INT_NONE)));
-                    extsubmenu->AddItem(new BMenuItem("IRQ", new BMessage(MENU_ACIA_INT_IRQ)));
-                    extsubmenu->AddItem(new BMenuItem("NMI", new BMessage(MENU_ACIA_INT_NMI)));
-                if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PLUS4) {
-                    submenu->AddItem(extsubmenu = new BMenu("ACIA mode"));
-                        extsubmenu->SetRadioMode(true);
-                        extsubmenu->AddItem(new BMenuItem("Normal", new BMessage(MENU_ACIA_MODE_NORMAL)));
-                        extsubmenu->AddItem(new BMenuItem("Swiftlink", new BMessage(MENU_ACIA_MODE_SWIFTLINK)));
-                        extsubmenu->AddItem(new BMenuItem("Turbo232", new BMessage(MENU_ACIA_MODE_TURBO232)));
-                }
-            }
-
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_SCPU64) {
             menu->AddItem(submenu = new BMenu("REU Options"));
                 submenu->AddItem(new BMenuItem("REU emulation", new BMessage(MENU_TOGGLE_REU)));
                 submenu->AddItem(extsubmenu = new BMenu("REU size"));
