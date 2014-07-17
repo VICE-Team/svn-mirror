@@ -64,6 +64,11 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "GEORAM", MENU_TOGGLE_GEORAM },
     { "GEORAMImageWrite", MENU_TOGGLE_GEORAM_SWC },
     { "GEORAMIOSwap", MENU_TOGGLE_GEORAM_IO_SWAP },
+    { "DIGIMAX", MENU_TOGGLE_DIGIMAX },
+    { "SFXSoundExpander", MENU_TOGGLE_SFX_SE },
+    { "SFXSoundExpanderIOSwap", MENU_TOGGLE_SFX_SE_IO_SWAP },
+    { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
+    { "SFXSoundSamplerIOSwap", MENU_TOGGLE_SFX_SS_IO_SWAP },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "FinalExpansionWriteBack", MENU_TOGGLE_FE_WRITE_BACK },
@@ -111,6 +116,32 @@ ui_res_possible_values vic20GeoRAMSize[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values vic20DigimaxBase[] = {
+    { 0x9800, MENU_DIGIMAX_BASE_9800 },
+    { 0x9820, MENU_DIGIMAX_BASE_9820 },
+    { 0x9840, MENU_DIGIMAX_BASE_9840 },
+    { 0x9860, MENU_DIGIMAX_BASE_9860 },
+    { 0x9880, MENU_DIGIMAX_BASE_9880 },
+    { 0x98a0, MENU_DIGIMAX_BASE_98A0 },
+    { 0x98c0, MENU_DIGIMAX_BASE_98C0 },
+    { 0x98e0, MENU_DIGIMAX_BASE_98E0 },
+    { 0x9c00, MENU_DIGIMAX_BASE_9C00 },
+    { 0x9c20, MENU_DIGIMAX_BASE_DF20 },
+    { 0x9c40, MENU_DIGIMAX_BASE_DF40 },
+    { 0x9c60, MENU_DIGIMAX_BASE_DF60 },
+    { 0x9c80, MENU_DIGIMAX_BASE_DF80 },
+    { 0x9ca0, MENU_DIGIMAX_BASE_DFA0 },
+    { 0x9cc0, MENU_DIGIMAX_BASE_DFC0 },
+    { 0x9ce0, MENU_DIGIMAX_BASE_DFE0 },
+    { -1, 0 }
+};
+
+ui_res_possible_values vic20SFXSoundExpanderChip[] = {
+    { 3526, MENU_SFX_SE_3526 },
+    { 3812, MENU_SFX_SE_3812 },
+    { -1, 0 }
+};
+
 ui_res_possible_values vic20_RenderFilters[] = {
     { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
     { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
@@ -123,7 +154,9 @@ ui_res_value_list vic20_ui_res_values[] = {
     { "Acia1Base", vic20AciaBase },
     { "Acia1Irq", vic20AciaInt },
     { "Acia1Mode", vic20AciaMode },
-    { "GeoRAMsize", GeoRAMSize },
+    { "GeoRAMsize", vic20GeoRAMSize },
+    { "DIGIMAXbase", vic20DigimaxBase },
+    { "SFXSoundExpanderChip", vic20SFXSoundExpanderChip },
     { "VICFilter", vic20_RenderFilters },
     { NULL, NULL }
 };

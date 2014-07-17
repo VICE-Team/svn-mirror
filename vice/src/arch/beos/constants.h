@@ -254,7 +254,9 @@ const uint32 MENU_TOGGLE_VDC_DOUBLESIZE           = 'M114';
 const uint32 MENU_TOGGLE_VDC_DOUBLESCAN           = 'M115';
 const uint32 MENU_TOGGLE_VDC_VIDEOCACHE           = 'M116';
 const uint32 MENU_TOGGLE_SFX_SE                   = 'M178';
+const uint32 MENU_TOGGLE_SFX_SE_IO_SWAP           = 'M372';
 const uint32 MENU_TOGGLE_SFX_SS                   = 'M179';
+const uint32 MENU_TOGGLE_SFX_SS_IO_SWAP           = 'M373';
 const uint32 MENU_TOGGLE_EASYFLASH_JUMPER         = 'M187';
 const uint32 MENU_TOGGLE_EASYFLASH_AUTOSAVE       = 'M188';
 
@@ -469,6 +471,23 @@ const uint32 MENU_PETREU_FILE                     = 'M038';
 const uint32 MENU_PETDWW_FILE                     = 'M242';
 
 const uint32 MENU_V364SPEECH_FILE                 = 'M259';
+
+const uint32 MENU_DIGIMAX_BASE_9800               = 'M352';
+const uint32 MENU_DIGIMAX_BASE_9820               = 'M353';
+const uint32 MENU_DIGIMAX_BASE_9840               = 'M354';
+const uint32 MENU_DIGIMAX_BASE_9860               = 'M355';
+const uint32 MENU_DIGIMAX_BASE_9880               = 'M356';
+const uint32 MENU_DIGIMAX_BASE_98A0               = 'M357';
+const uint32 MENU_DIGIMAX_BASE_98C0               = 'M358';
+const uint32 MENU_DIGIMAX_BASE_98E0               = 'M359';
+const uint32 MENU_DIGIMAX_BASE_9C00               = 'M360';
+const uint32 MENU_DIGIMAX_BASE_9C20               = 'M361';
+const uint32 MENU_DIGIMAX_BASE_9C40               = 'M362';
+const uint32 MENU_DIGIMAX_BASE_9C60               = 'M363';
+const uint32 MENU_DIGIMAX_BASE_9C80               = 'M368';
+const uint32 MENU_DIGIMAX_BASE_9CA0               = 'M369';
+const uint32 MENU_DIGIMAX_BASE_9CC0               = 'M370';
+const uint32 MENU_DIGIMAX_BASE_9CE0               = 'M371';
 
 const uint32 MENU_DIGIMAX_BASE_DD00               = 'M467';
 const uint32 MENU_DIGIMAX_BASE_DE00               = 'M468';

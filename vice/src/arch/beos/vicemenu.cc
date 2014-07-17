@@ -562,34 +562,81 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(submenu = new BMenu("Magic Voice Options"));
                 submenu->AddItem(new BMenuItem("Magic Voice emulation", new BMessage(MENU_TOGGLE_MAGICVOICE)));
                 submenu->AddItem(new BMenuItem("Magic Voice File", new BMessage(MENU_MAGICVOICE_FILE)));
-            menu->AddItem(submenu = new BMenu("DigiMAX Options"));
+    }
+
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_SCPU64 ||
+        machine_class == VICE_MACHINE_VIC20) {
+                if (machine_class == VICE_MACHINE_VIC20) {
+                    menu->AddItem(submenu = new BMenu("DigiMAX Options (MasC=uerade)"));
+                } else {
+                    menu->AddItem(submenu = new BMenu("DigiMAX Options"));
+                }
                 submenu->AddItem(new BMenuItem("DigiMAX emulation", new BMessage(MENU_TOGGLE_DIGIMAX)));
                 submenu->AddItem(extsubmenu = new BMenu("DigiMAX base"));
                     extsubmenu->SetRadioMode(true);
-                    extsubmenu->AddItem(new BMenuItem("Userport Interface", new BMessage(MENU_DIGIMAX_BASE_DD00)));
-                    extsubmenu->AddItem(new BMenuItem("$DE00", new BMessage(MENU_DIGIMAX_BASE_DE00)));
-                    extsubmenu->AddItem(new BMenuItem("$DE20", new BMessage(MENU_DIGIMAX_BASE_DE20)));
-                    extsubmenu->AddItem(new BMenuItem("$DE40", new BMessage(MENU_DIGIMAX_BASE_DE40)));
-                    extsubmenu->AddItem(new BMenuItem("$DE60", new BMessage(MENU_DIGIMAX_BASE_DE60)));
-                    extsubmenu->AddItem(new BMenuItem("$DE80", new BMessage(MENU_DIGIMAX_BASE_DE80)));
-                    extsubmenu->AddItem(new BMenuItem("$DEA0", new BMessage(MENU_DIGIMAX_BASE_DEA0)));
-                    extsubmenu->AddItem(new BMenuItem("$DEC0", new BMessage(MENU_DIGIMAX_BASE_DEC0)));
-                    extsubmenu->AddItem(new BMenuItem("$DEE0", new BMessage(MENU_DIGIMAX_BASE_DEE0)));
-                    extsubmenu->AddItem(new BMenuItem("$DF00", new BMessage(MENU_DIGIMAX_BASE_DF00)));
-                    extsubmenu->AddItem(new BMenuItem("$DF20", new BMessage(MENU_DIGIMAX_BASE_DF20)));
-                    extsubmenu->AddItem(new BMenuItem("$DF40", new BMessage(MENU_DIGIMAX_BASE_DF40)));
-                    extsubmenu->AddItem(new BMenuItem("$DF60", new BMessage(MENU_DIGIMAX_BASE_DF60)));
-                    extsubmenu->AddItem(new BMenuItem("$DF80", new BMessage(MENU_DIGIMAX_BASE_DF80)));
-                    extsubmenu->AddItem(new BMenuItem("$DFA0", new BMessage(MENU_DIGIMAX_BASE_DFA0)));
-                    extsubmenu->AddItem(new BMenuItem("$DFC0", new BMessage(MENU_DIGIMAX_BASE_DFC0)));
-                    extsubmenu->AddItem(new BMenuItem("$DFE0", new BMessage(MENU_DIGIMAX_BASE_DFE0)));
-            menu->AddItem(submenu = new BMenu("SFX Sound Expander Options"));
+                    if (machine_class == VICE_MACHINE_VIC20) {
+                        extsubmenu->AddItem(new BMenuItem("$9800", new BMessage(MENU_DIGIMAX_BASE_9800)));
+                        extsubmenu->AddItem(new BMenuItem("$9820", new BMessage(MENU_DIGIMAX_BASE_9820)));
+                        extsubmenu->AddItem(new BMenuItem("$9840", new BMessage(MENU_DIGIMAX_BASE_9840)));
+                        extsubmenu->AddItem(new BMenuItem("$9860", new BMessage(MENU_DIGIMAX_BASE_9860)));
+                        extsubmenu->AddItem(new BMenuItem("$9880", new BMessage(MENU_DIGIMAX_BASE_9880)));
+                        extsubmenu->AddItem(new BMenuItem("$98A0", new BMessage(MENU_DIGIMAX_BASE_98A0)));
+                        extsubmenu->AddItem(new BMenuItem("$98C0", new BMessage(MENU_DIGIMAX_BASE_98C0)));
+                        extsubmenu->AddItem(new BMenuItem("$98E0", new BMessage(MENU_DIGIMAX_BASE_98E0)));
+                        extsubmenu->AddItem(new BMenuItem("$9C00", new BMessage(MENU_DIGIMAX_BASE_9C00)));
+                        extsubmenu->AddItem(new BMenuItem("$9C20", new BMessage(MENU_DIGIMAX_BASE_9C20)));
+                        extsubmenu->AddItem(new BMenuItem("$9C40", new BMessage(MENU_DIGIMAX_BASE_9C40)));
+                        extsubmenu->AddItem(new BMenuItem("$9C60", new BMessage(MENU_DIGIMAX_BASE_9C60)));
+                        extsubmenu->AddItem(new BMenuItem("$9C80", new BMessage(MENU_DIGIMAX_BASE_9C80)));
+                        extsubmenu->AddItem(new BMenuItem("$9CA0", new BMessage(MENU_DIGIMAX_BASE_9CA0)));
+                        extsubmenu->AddItem(new BMenuItem("$9CC0", new BMessage(MENU_DIGIMAX_BASE_9CC0)));
+                        extsubmenu->AddItem(new BMenuItem("$9CE0", new BMessage(MENU_DIGIMAX_BASE_9CE0)));
+                    } else {
+                        extsubmenu->AddItem(new BMenuItem("Userport Interface", new BMessage(MENU_DIGIMAX_BASE_DD00)));
+                        extsubmenu->AddItem(new BMenuItem("$DE00", new BMessage(MENU_DIGIMAX_BASE_DE00)));
+                        extsubmenu->AddItem(new BMenuItem("$DE20", new BMessage(MENU_DIGIMAX_BASE_DE20)));
+                        extsubmenu->AddItem(new BMenuItem("$DE40", new BMessage(MENU_DIGIMAX_BASE_DE40)));
+                        extsubmenu->AddItem(new BMenuItem("$DE60", new BMessage(MENU_DIGIMAX_BASE_DE60)));
+                        extsubmenu->AddItem(new BMenuItem("$DE80", new BMessage(MENU_DIGIMAX_BASE_DE80)));
+                        extsubmenu->AddItem(new BMenuItem("$DEA0", new BMessage(MENU_DIGIMAX_BASE_DEA0)));
+                        extsubmenu->AddItem(new BMenuItem("$DEC0", new BMessage(MENU_DIGIMAX_BASE_DEC0)));
+                        extsubmenu->AddItem(new BMenuItem("$DEE0", new BMessage(MENU_DIGIMAX_BASE_DEE0)));
+                        extsubmenu->AddItem(new BMenuItem("$DF00", new BMessage(MENU_DIGIMAX_BASE_DF00)));
+                        extsubmenu->AddItem(new BMenuItem("$DF20", new BMessage(MENU_DIGIMAX_BASE_DF20)));
+                        extsubmenu->AddItem(new BMenuItem("$DF40", new BMessage(MENU_DIGIMAX_BASE_DF40)));
+                        extsubmenu->AddItem(new BMenuItem("$DF60", new BMessage(MENU_DIGIMAX_BASE_DF60)));
+                        extsubmenu->AddItem(new BMenuItem("$DF80", new BMessage(MENU_DIGIMAX_BASE_DF80)));
+                        extsubmenu->AddItem(new BMenuItem("$DFA0", new BMessage(MENU_DIGIMAX_BASE_DFA0)));
+                        extsubmenu->AddItem(new BMenuItem("$DFC0", new BMessage(MENU_DIGIMAX_BASE_DFC0)));
+                        extsubmenu->AddItem(new BMenuItem("$DFE0", new BMessage(MENU_DIGIMAX_BASE_DFE0)));
+                    }
+            if (machine_class == VICE_MACHINE_VIC20) {
+                menu->AddItem(submenu = new BMenu("SFX Sound Expander Options (MasC=uerade)"));
+            } else {
+                menu->AddItem(submenu = new BMenu("SFX Sound Expander Options"));
+            }
                 submenu->AddItem(new BMenuItem("SFX Sound Expander emulation", new BMessage(MENU_TOGGLE_SFX_SE)));
                 submenu->AddItem(extsubmenu = new BMenu("SFX Sound Expander YM chip"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("3526", new BMessage(MENU_SFX_SE_3526)));
                     extsubmenu->AddItem(new BMenuItem("3812", new BMessage(MENU_SFX_SE_3812)));
-            menu->AddItem(new BMenuItem("SFX Sound Sampler emulation", new BMessage(MENU_TOGGLE_SFX_SS)));
+                if (machine_class == VICE_MACHINE_VIC20) {
+                    submenu->AddItem(new BMenuItem("I/O Swap", new BMessage(MENU_TOGGLE_SFX_SE_IO_SWAP)));
+                }
+            if (machine_class == VICE_MACHINE_VIC20) {
+                menu->AddItem(submenu = new BMenu("SFX Sound Sampler Options (MasC=uerade)"));
+            } else {
+                menu->AddItem(submenu = new BMenu("SFX Sound Sampler Options"));
+            }
+                submenu->AddItem(new BMenuItem("SFX Sound Sampler emulation", new BMessage(MENU_TOGGLE_SFX_SS)));
+                if (machine_class == VICE_MACHINE_VIC20) {
+                    submenu->AddItem(new BMenuItem("I/O Swap", new BMessage(MENU_TOGGLE_SFX_SS_IO_SWAP)));
+                }
+    }
+
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_SCPU64) {
             menu->AddItem(submenu = new BMenu("EasyFlash Options"));
                 submenu->AddItem(new BMenuItem("Jumper", new BMessage(MENU_TOGGLE_EASYFLASH_JUMPER)));
                 submenu->AddItem(new BMenuItem("Save to .crt file on detach", new BMessage(MENU_TOGGLE_EASYFLASH_AUTOSAVE)));
