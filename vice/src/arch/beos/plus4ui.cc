@@ -45,6 +45,7 @@
 
 extern "C" {
 #include "constants.h" 
+#include "plus4model.h"
 #include "plus4ui.h"
 #include "resources.h"
 #include "ui.h"
@@ -107,6 +108,24 @@ static void plus4_ui_specific(void *msg, void *window)
             break;
         case MENU_V364SPEECH_FILE:
             ui_select_file(B_SAVE_PANEL, V364SPEECH_FILE, (void*)0);
+            break;
+        case MENU_PLUS4_MODEL_C16_PAL:
+            plus4model_set(PLUS4MODEL_C16_PAL);
+            break;
+        case MENU_PLUS4_MODEL_C16_NTSC:
+            plus4model_set(PLUS4MODEL_C16_NTSC);
+            break;
+        case MENU_PLUS4_MODEL_PLUS4_PAL:
+            plus4model_set(PLUS4MODEL_PLUS4_PAL);
+            break;
+        case MENU_PLUS4_MODEL_PLUS4_NTSC:
+            plus4model_set(PLUS4MODEL_PLUS4_NTSC);
+            break;
+        case MENU_PLUS4_MODEL_V364_NTSC:
+            plus4model_set(PLUS4MODEL_V364_NTSC);
+            break;
+        case MENU_PLUS4_MODEL_C232_NTSC:
+            plus4model_set(PLUS4MODEL_232_NTSC);
             break;
         default:
             break;

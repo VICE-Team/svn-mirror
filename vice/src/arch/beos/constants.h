@@ -358,6 +358,13 @@ const uint32 MENU_C64_MODEL_PET64_PAL             = 'M170';
 const uint32 MENU_C64_MODEL_PET64_NTSC            = 'M171';
 const uint32 MENU_C64_MODEL_ULTIMAX               = 'M215';
 
+const uint32 MENU_PLUS4_MODEL_C16_PAL             = 'M374';
+const uint32 MENU_PLUS4_MODEL_C16_NTSC            = 'M375';
+const uint32 MENU_PLUS4_MODEL_PLUS4_PAL           = 'M376';
+const uint32 MENU_PLUS4_MODEL_PLUS4_NTSC          = 'M377';
+const uint32 MENU_PLUS4_MODEL_V364_NTSC           = 'M378';
+const uint32 MENU_PLUS4_MODEL_C232_NTSC           = 'M379';
+
 const uint32 MENU_VICII_MODEL_6569_PAL            = 'M227';
 const uint32 MENU_VICII_MODEL_8565_PAL            = 'M228';
 const uint32 MENU_VICII_MODEL_6569R1_OLD_PAL      = 'M229';

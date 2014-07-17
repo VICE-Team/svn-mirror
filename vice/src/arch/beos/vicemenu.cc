@@ -381,6 +381,17 @@ BMenuBar *menu_create(int machine_class)
             }
     }
 
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        uppermenu->AddItem(menu = new BMenu("Plus4 model"));
+            menu->SetRadioMode(true);
+            menu->AddItem(new BMenuItem("C16 PAL", new BMessage(MENU_PLUS4_MODEL_C16_PAL)));
+            menu->AddItem(new BMenuItem("C16 NTSC", new BMessage(MENU_PLUS4_MODEL_C16_NTSC)));
+            menu->AddItem(new BMenuItem("Plus4 PAL", new BMessage(MENU_PLUS4_MODEL_PLUS4_PAL)));
+            menu->AddItem(new BMenuItem("Plus4 NTSC", new BMessage(MENU_PLUS4_MODEL_PLUS4_NTSC)));
+            menu->AddItem(new BMenuItem("V364 NTSC", new BMessage(MENU_PLUS4_MODEL_V364_NTSC)));
+            menu->AddItem(new BMenuItem("C232 NTSC", new BMessage(MENU_PLUS4_MODEL_C232_NTSC)));
+    }
+
     if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_PLUS4 ||
         machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(menu = new BMenu("Drive sync factor"));
