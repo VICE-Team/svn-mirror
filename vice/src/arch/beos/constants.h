@@ -404,6 +404,7 @@ const uint32 MENU_REU_SIZE_8192                   = 'M406';
 const uint32 MENU_REU_SIZE_16384                  = 'M407';
 
 const uint32 MENU_TOGGLE_REU_SWC                  = 'M408';
+const uint32 MENU_TOGGLE_GEORAM_IO_SWAP           = 'M351';
 
 const uint32 MENU_REU_FILE                        = 'M409';
 

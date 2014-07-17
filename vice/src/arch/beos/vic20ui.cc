@@ -61,6 +61,9 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "VICDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "Acia1Enable", MENU_TOGGLE_ACIA },
+    { "GEORAM", MENU_TOGGLE_GEORAM },
+    { "GEORAMImageWrite", MENU_TOGGLE_GEORAM_SWC },
+    { "GEORAMIOSwap", MENU_TOGGLE_GEORAM_IO_SWAP },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "FinalExpansionWriteBack", MENU_TOGGLE_FE_WRITE_BACK },
@@ -97,6 +100,17 @@ ui_res_possible_values vic20AciaMode[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values vic20GeoRAMSize[] = {
+    { 64, MENU_GEORAM_SIZE_64 },
+    { 128, MENU_GEORAM_SIZE_128 },
+    { 256, MENU_GEORAM_SIZE_256 },
+    { 512, MENU_GEORAM_SIZE_512 },
+    { 1024, MENU_GEORAM_SIZE_1024 },
+    { 2048, MENU_GEORAM_SIZE_2048 },
+    { 4096, MENU_GEORAM_SIZE_4096 },
+    { -1, 0 }
+};
+
 ui_res_possible_values vic20_RenderFilters[] = {
     { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
     { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
@@ -109,6 +123,7 @@ ui_res_value_list vic20_ui_res_values[] = {
     { "Acia1Base", vic20AciaBase },
     { "Acia1Irq", vic20AciaInt },
     { "Acia1Mode", vic20AciaMode },
+    { "GeoRAMsize", GeoRAMSize },
     { "VICFilter", vic20_RenderFilters },
     { NULL, NULL }
 };

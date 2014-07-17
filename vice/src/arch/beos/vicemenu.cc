@@ -510,7 +510,16 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("16384 kB", new BMessage(MENU_REU_SIZE_16384)));
                 submenu->AddItem(new BMenuItem("Save to REU image when changed", new BMessage(MENU_TOGGLE_REU_SWC)));
                 submenu->AddItem(new BMenuItem("REU File", new BMessage(MENU_REU_FILE)));
-            menu->AddItem(submenu = new BMenu("GEO-RAM Options"));
+    }
+
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_SCPU64 ||
+        machine_class == VICE_MACHINE_VIC20) {
+                if (machine_class == VICE_MACHINE_VIC20) {
+                    menu->AddItem(submenu = new BMenu("GEO-RAM Options (MasC=uerade)"));
+                } else {
+                    menu->AddItem(submenu = new BMenu("GEO-RAM Options"));
+                }
                 submenu->AddItem(new BMenuItem("GEO-RAM emulation", new BMessage(MENU_TOGGLE_GEORAM)));
                 submenu->AddItem(extsubmenu = new BMenu("GEO-RAM size"));
                     extsubmenu->SetRadioMode(true);
@@ -522,7 +531,14 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("2048 kB", new BMessage(MENU_GEORAM_SIZE_2048)));
                     extsubmenu->AddItem(new BMenuItem("4096 kB", new BMessage(MENU_GEORAM_SIZE_4096)));
                 submenu->AddItem(new BMenuItem("Save to GEO-RAM image when changed", new BMessage(MENU_TOGGLE_GEORAM_SWC)));
+                if (machine_class == VICE_MACHINE_VIC20) {
+                    submenu->AddItem(new BMenuItem("I/O Swap", new BMessage(MENU_TOGGLE_GEORAM_IO_SWAP)));
+                }
                 submenu->AddItem(new BMenuItem("GEO-RAM File", new BMessage(MENU_GEORAM_FILE)));
+    }
+
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_SCPU64) {
             menu->AddItem(submenu = new BMenu("RamCart Options"));
                 submenu->AddItem(new BMenuItem("RamCart emulation", new BMessage(MENU_TOGGLE_RAMCART)));
                 submenu->AddItem(extsubmenu = new BMenu("RamCart size"));
