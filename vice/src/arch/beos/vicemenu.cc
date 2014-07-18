@@ -392,6 +392,16 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("C232 NTSC", new BMessage(MENU_PLUS4_MODEL_C232_NTSC)));
     }
 
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        uppermenu->AddItem(menu = new BMenu("C64DTV model"));
+            menu->SetRadioMode(true);
+            menu->AddItem(new BMenuItem("C64DTV v2 (PAL)", new BMessage(MENU_C64DTV_MODEL_V2_PAL)));
+            menu->AddItem(new BMenuItem("C64DTV v2 (NTSC)", new BMessage(MENU_C64DTV_MODEL_V2_NTSC)));
+            menu->AddItem(new BMenuItem("C64DTV v3 (PAL)", new BMessage(MENU_C64DTV_MODEL_V3_PAL)));
+            menu->AddItem(new BMenuItem("C64DTV v3 (NTSC)", new BMessage(MENU_C64DTV_MODEL_V3_NTSC)));
+            menu->AddItem(new BMenuItem("Hummer (NTSC)", new BMessage(MENU_C64DTV_MODEL_HUMMER_NTSC)));
+    }
+
     if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_PLUS4 ||
         machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(menu = new BMenu("Drive sync factor"));

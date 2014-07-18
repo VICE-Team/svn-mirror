@@ -45,6 +45,7 @@ extern "C" {
 #include "archdep.h"
 #include "cartridge.h"
 #include "c64dtv-resources.h"
+#include "c64dtvmodel.h"
 #include "constants.h"
 #include "keyboard.h"
 #include "resources.h"
@@ -89,6 +90,21 @@ ui_res_value_list c64dtv_ui_res_values[] = {
 void c64dtv_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
+        case MENU_C64DTV_MODEL_V2_PAL:
+            dtvmodel_set(DTVMODEL_V2_PAL);
+            break;
+        case MENU_C64DTV_MODEL_V2_NTSC:
+            dtvmodel_set(DTVMODEL_V2_NTSC);
+            break;
+        case MENU_C64DTV_MODEL_V3_PAL:
+            dtvmodel_set(DTVMODEL_V3_PAL);
+            break;
+        case MENU_C64DTV_MODEL_V3_NTSC:
+            dtvmodel_set(DTVMODEL_V3_NTSC);
+            break;
+        case MENU_C64DTV_MODEL_HUMMER_NTSC:
+            dtvmodel_set(DTVMODEL_HUMMER_NTSC);
+            break;
         case MENU_VICII_SETTINGS:
             ui_vicii();
             break;
