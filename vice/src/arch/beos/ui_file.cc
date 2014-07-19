@@ -281,7 +281,7 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
     if (filetype == SNAPSHOTLOAD_FILE) {
         sprintf(title, "Load snapshot");
     }
-    if (filetype == C64_CARTRIDGE_FILE || filetype == VIC20_CARTRIDGE_FILE) {
+    if (filetype == C64_CARTRIDGE_FILE || filetype == VIC20_CARTRIDGE_FILE || filetype == PLUS4_CARTRIDGE_FILE) {
         sprintf(title," Attach Cartridge (%s)", ((ui_cartridge_t*)fileparam)->cart_name);
         last_fileparam[panelnr] = ((ui_cartridge_t*)fileparam)->cart_type;
     }

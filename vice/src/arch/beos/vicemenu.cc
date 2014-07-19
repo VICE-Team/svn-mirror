@@ -170,6 +170,21 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
                         
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        uppermenu->AddItem(menu = new BMenu("Attach cartridge image"));
+            menu->AddItem(new BMenuItem("Smart attach", new BMessage(MENU_CART_PLUS4_SMART)));
+            menu->AddItem(new BMenuItem("C0 low image attach", new BMessage(MENU_CART_PLUS4_C0_LOW)));
+            menu->AddItem(new BMenuItem("C0 high image attach", new BMessage(MENU_CART_PLUS4_C0_HIGH)));
+            menu->AddItem(new BMenuItem("C1 low image attach", new BMessage(MENU_CART_PLUS4_C1_LOW)));
+            menu->AddItem(new BMenuItem("C1 high image attach", new BMessage(MENU_CART_PLUS4_C1_HIGH)));
+            menu->AddItem(new BMenuItem("C2 low image attach", new BMessage(MENU_CART_PLUS4_C2_LOW)));
+            menu->AddItem(new BMenuItem("C2 high image attach", new BMessage(MENU_CART_PLUS4_C2_HIGH)));
+            menu->AddSeparatorItem();
+        uppermenu->AddItem(new BMenuItem("Reset on cart change", new BMessage(MENU_CART_PLUS4_RESET_ON_CHANGE)));
+        uppermenu->AddItem(new BMenuItem("Detach cartridge image", new BMessage(MENU_CART_PLUS4_DETACH)));
+        uppermenu->AddSeparatorItem();
+    }
+
     if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Snapshot"));
             menu->AddItem(new BMenuItem("Load snapshot", new BMessage(MENU_SNAPSHOT_LOAD)));

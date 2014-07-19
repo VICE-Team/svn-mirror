@@ -98,6 +98,16 @@ const uint32 MENU_NETPLAY_CLIENT                  = 'M054';
 const uint32 MENU_NETPLAY_DISCONNECT              = 'M055';
 const uint32 MENU_NETPLAY_SETTINGS                = 'M056';
 
+const uint32 MENU_CART_PLUS4_SMART                = 'M390';
+const uint32 MENU_CART_PLUS4_C0_LOW               = 'M391';
+const uint32 MENU_CART_PLUS4_C0_HIGH              = 'M392';
+const uint32 MENU_CART_PLUS4_C1_LOW               = 'M393';
+const uint32 MENU_CART_PLUS4_C1_HIGH              = 'M394';
+const uint32 MENU_CART_PLUS4_C2_LOW               = 'M395';
+const uint32 MENU_CART_PLUS4_C2_HIGH              = 'M396';
+const uint32 MENU_CART_PLUS4_RESET_ON_CHANGE      = 'M397';
+const uint32 MENU_CART_PLUS4_DETACH               = 'M398';
+
 const uint32 MENU_PRINTER_4_EMULATION_NONE        = 'M269';
 const uint32 MENU_PRINTER_4_EMULATION_FS          = 'M270';
 const uint32 MENU_PRINTER_4_DRIVER_ASCII          = 'M271';

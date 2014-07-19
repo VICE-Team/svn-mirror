@@ -44,7 +44,9 @@
 #include "ui_file.h"
 
 extern "C" {
-#include "constants.h" 
+#include "cartridge.h"
+#include "constants.h"
+#include "plus4cart.h"
 #include "plus4model.h"
 #include "plus4ui.h"
 #include "resources.h"
@@ -61,6 +63,7 @@ ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "Acia1Enable", MENU_TOGGLE_ACIA },
     { "SIDCartJoy", MENU_TOGGLE_SIDCART_JOY },
     { "SpeechEnabled", MENU_TOGGLE_V364SPEECH },
+    { "CartridgeReset", MENU_CART_PLUS4_RESET_ON_CHANGE },
     { NULL, 0 }
 };
 
@@ -96,11 +99,50 @@ ui_res_value_list plus4_ui_res_values[] = {
 static const char *plus4sidcartaddresspair[] = { "$FD40", "$FE80" };
 static const char *plus4sidcartclockpair[] = { "C64", "PLUS4" };
 
+static ui_cartridge_t plus4_ui_cartridges[]={
+    { MENU_CART_PLUS4_SMART, CARTRIDGE_PLUS4_DETECT, "Smart attach" },
+    { MENU_CART_PLUS4_C0_LOW, CARTRIDGE_PLUS4_16KB_C0LO, "C0 low image" },
+    { MENU_CART_PLUS4_C0_HIGH, CARTRIDGE_PLUS4_16KB_C0HI, "C0 high image" },
+    { MENU_CART_PLUS4_C1_LOW, CARTRIDGE_PLUS4_16KB_C1LO, "C1 low image" },
+    { MENU_CART_PLUS4_C1_HIGH, CARTRIDGE_PLUS4_16KB_C1HI, "C1 high image" },
+    { MENU_CART_PLUS4_C2_LOW, CARTRIDGE_PLUS4_16KB_C2LO, "C2 low image" },
+    { MENU_CART_PLUS4_C2_HIGH, CARTRIDGE_PLUS4_16KB_C2HI, "C2 high image" },
+    { 0, 0, NULL }
+};
+
+static void plus4_ui_attach_cartridge(int menu)
+{
+    int i = 0;
+
+    while (menu != plus4_ui_cartridges[i].menu_item && plus4_ui_cartridges[i].menu_item) {
+        i++;
+    }
+
+    if (!plus4_ui_cartridges[i].menu_item) {
+        ui_error("Bad cartridge config in UI");
+        return;
+    }
+
+    ui_select_file(B_OPEN_PANEL, PLUS4_CARTRIDGE_FILE, &plus4_ui_cartridges[i]);
+}       
+
 static void plus4_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
         case MENU_TED_SETTINGS:
             ui_ted();
+            break;
+        case MENU_CART_PLUS4_SMART:      
+        case MENU_CART_PLUS4_C0_LOW:
+        case MENU_CART_PLUS4_C0_HIGH:
+        case MENU_CART_PLUS4_C1_LOW:
+        case MENU_CART_PLUS4_C1_HIGH:
+        case MENU_CART_PLUS4_C2_LOW:
+        case MENU_CART_PLUS4_C2_HIGH:
+            plus4_ui_attach_cartridge(((BMessage*)msg)->what);
+            break;
+        case MENU_CART_PLUS4_DETACH:
+            cartridge_detach_image(-1);
             break;
         case MENU_SIDCART_SETTINGS:
             ui_sidcart(plus4sidcartaddresspair, plus4sidcartclockpair);
