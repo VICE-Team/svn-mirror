@@ -2,7 +2,8 @@ scpu64dir = $(VICEDIR)/SCPU64
 
 roms = \
 	scpu64 \
-	chargen
+	chargen \
+	jpchrgen
 
 romsets = \
 	default.vrs
