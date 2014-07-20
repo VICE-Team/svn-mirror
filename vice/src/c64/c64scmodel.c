@@ -104,7 +104,7 @@ static struct model_s c64models[] = {
     { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "sxkernal", "chargen" },
     { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "sxkernal", "chargen" },
     /* C64 Japanese FIXME: guessed */
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "jpkernal", "jpchargen" },
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "jpkernal", "jpchrgen" },
     /* C64 GS FIXME: guessed */
     { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, 1, 0, 0, "gskernal", "chargen" },
     /* PET64 FIXME: guessed */
