@@ -1,5 +1,594 @@
 ------------------------------------------------------------------------------
 
+2014-07-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.7
+
+2014-07-20  groepaz <groepaz@gmx.net>
+
+	* data/SCPU64/Makefile.am, data/SCPU64/jpchrgen: add jpchrgen to xscpu
+
+2014-07-20  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64scmodel.c: fix typo
+
+2014-07-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/plus4ui.cc,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/vicemenu.cc: Added plus4 cartridge support to the beos
+	gui.
+
+2014-07-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64dtvui.cc, src/arch/beos/constants.h,
+	src/arch/beos/vicemenu.cc: Added c64dtv model selection to the beos
+	gui.
+
+2014-07-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/Resources/Makefile.am,
+	src/arch/unix/macosx/cocoa/Makefile.am: Tabs instead of spaces.
+
+2014-07-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/plus4ui.cc,
+	src/arch/beos/vicemenu.cc: Added plus4 model selection to the beos
+	gui.
+
+2014-07-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/vic20ui.cc,
+	src/arch/beos/vicemenu.cc: Added vic20 digimax, sfx sound exander and
+	sfx sound sampler support to the beos gui.
+
+2014-07-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/vic20ui.cc,
+	src/arch/beos/vicemenu.cc: Added vic20 georam support to the beos gui.
+
+2014-07-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/vicemenu.cc: Fixed.
+
+2014-07-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/cbm2ui.cc, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/petui.cc,
+	src/arch/beos/plus4ui.cc, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc: Added ACIA
+	support to the beos gui.
+
+2014-07-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/reseasyflash.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resretroreplay.rc, src/arch/win32/resscpu64.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2014-07-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2014-07-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2014-07-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/building/Android-Howto.txt, doc/building/Win32-MSVC-Howto.txt,
+	doc/vice.texi, src/c64/cart/digimax.c, src/rtc/bq4830y.c,
+	src/rtc/ds1202_1302.c: Fixed some typos.
+
+2014-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/resc128.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt,
+	src/arch/win32/uic128.c: Added Swiss ROM support to the windows gui.
+
+2014-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Fixed.
+
+2014-07-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128-cmdline-options.c, src/translate.txt,
+	src/translate_text.c: Fixed the 'swiss rom' translations.
+
+2014-07-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uic128settings.c,
+	src/arch/amigaos/mui/uiromc128settings.c: Added Swiss ROM support to
+	the amiga gui.
+
+2014-07-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/menu_rom.c, src/arch/unix/gui/c128ui.c: Add GUI items
+	for Swiss C128 KERNAL/CHARGEN. Someone please add it to the rest of
+	the archs, it's getting complicated...
+
+2014-07-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.guide, doc/vice.texi, doc/vice.txt: Update docs for Swiss
+	C128 support
+
+2014-07-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/Makefile.am,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x128,
+	src/arch/os2/makedist.cmd, src/arch/os2/watcom/makebindist.bat,
+	src/arch/sdl/dingoo-files/sdl-vicerc,
+	src/arch/sdl/make-bindist_qnx6.sh, src/arch/unix/hpux/make-bindist.sh,
+	src/arch/unix/qnx6/make-bindist.sh, src/c128/c128-cmdline-options.c,
+	src/c128/c128-resources.c, src/c128/c128.h, src/c128/c128embedded.c,
+	src/c128/c128rom.c, src/c128/c128rom.h: Add Swiss ROM support to C128
+
+2014-07-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/C128/Makefile.am, data/C128/chargch, data/C128/kernalch: Add
+	Swiss ROMs
+
+2014-07-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/C128/amiga_pos.vkm, data/C128/amiga_sym.vkm,
+	data/C128/beos_pos.vkm, data/C128/beos_sym.vkm, data/C128/dos_pos.vkm,
+	data/C128/dos_sym.vkm, data/C128/osx_pos.vkm, data/C128/osx_sym.vkm,
+	data/C128/sdl_sym.vkm, data/C128/win_pos.vkm, data/C128/win_sym.vkm,
+	data/C128/x11_pos.vkm: CAPS key was missing from x11 positional
+	mapping. The rest is only reshuffling and comment fixes.
+
+2014-07-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/C128/kernalde: Update german kernal to 315078-03
+	(was 315078-02)
+
+2014-07-10  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui.cc: FindData() takes a pointer to an ssize_t, which
+	is 64 bits wide on 64 bit Haiku, so this should fix "Paste" there.
+
+2014-07-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_amigaos3_runtime_os.c: Updated.
+
+2014-07-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_amiga.c, src/arch/sdl/archdep_win32.c: Apllied
+	patch by Greg King to fix bug #496.
+
+2014-06-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/ffmpeglib.h: Close comment.
+
+2014-06-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpeglib.h: ffmpeg
+	new names fix.
+
+2014-06-21  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: replace 'address space'
+	by 'address_space', patch by moiree
+
+2014-06-21  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: replace 'memspace' by
+	'address space', patch by moiree
+
+2014-06-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/gifdrv.c: Added giflib 5.1.x support.
+
+2014-06-19  groepaz <groepaz@gmx.net>
+
+	* src/init.c, src/kbdbuf.c, src/kbdbuf.h, src/translate.txt,
+	src/translate_text.c: added -keybuf-delay option to further delay
+	keyboard buffer. dedicated to scheisstyp :)
+
+2014-06-03  groepaz <groepaz@gmx.net>
+
+	* src/gcr.c: dont break the framing for error 4
+
+2014-06-02  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: added description for
+	rare 42 tracks images, added error table
+
+2014-05-27  groepaz <groepaz@gmx.net>
+
+	* src/c64/psid.c: show more mercy for slightly broken header :)
+
+2014-05-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_cpu_type.h,
+	src/platform/platform_linux_runtime_os.c: Updated.
+
+2014-05-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/linenoise.c: don't include vte.h
+	unconditionally, fixes compilation when VTE is not available, reported
+	by enthusi
+
+2014-05-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uitapestatus.c: fix hang on drawing tape
+	status widget (record), reported by enthusi
+
+2014-05-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_cpu_type.h,
+	src/platform/platform_linux_runtime_os.c: Updated.
+
+2014-05-17  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/mmc64.c: mmc64 flashmode fix
+
+2014-05-17  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: added info on psid
+	fileformat
+
+2014-05-17  groepaz <groepaz@gmx.net>
+
+	* src/c64/psid.c: support sidplayer data embedded in psid files. this
+	makes vsid support the psid format completely according to the
+	specification.
+
+2014-05-15  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.txt: updated
+
+2014-05-13  groepaz <groepaz@gmx.net>
+
+	* src/c64/psid.c: slightly better credit extraction
+
+2014-05-12  groepaz <groepaz@gmx.net>
+
+	* doc/building/Win32-MSVC-Howto.txt: added hint on solving fatal error
+	LNK1123 problem
+
+2014-05-11  groepaz <groepaz@gmx.net>
+
+	* doc/building/Makefile.am, doc/building/Win32-MSVC-Howto.txt: added
+	short instructions for msvc
+
+2014-05-11  groepaz <groepaz@gmx.net>
+
+	* src/sound.c, src/sound.h: use more reasonable buffer size for vsid
+
+2014-05-11  groepaz <groepaz@gmx.net>
+
+	* src/initcmdline.c: make -default work in vsid
+
+2014-05-11  groepaz <groepaz@gmx.net>
+
+	* src/sid/sid-cmdline-options.c, src/sid/sid-resources.c: tuned
+	default resid filter gain a bit so tunes like wizball will sound much
+	better.
+
+2014-05-11  groepaz <groepaz@gmx.net>
+
+	* src/c64/Makefile.am, src/c64/musdrv.h, src/c64/psid.c: added basic
+	support for compute gazette sidplayer files (mus/str). dedicated to
+	ian coog :)
+
+2014-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_cpu_type.h,
+	src/platform/platform_linux_runtime_os.c: Updated.
+
+2014-05-06  groepaz <groepaz@gmx.net>
+
+	* src/core/viacore.c: cosmetics
+
+2014-05-06  groepaz <groepaz@gmx.net>
+
+	* src/c64/psid.c: make basic tunes with sub tunes work correctly
+
+2014-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform.c, src/platform/platform_cpu_type.h,
+	src/platform/platform_linux_libc_version.h,
+	src/platform/platform_linux_runtime_os.c,
+	src/platform/platform_x86_beos_cpuid.h,
+	src/platform/platform_x86_gcc_cpuid.h: Updated.
+
+2014-04-23  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: removed links to vicekb
+
+2014-04-23  groepaz <groepaz@gmx.net>
+
+	* doc/html/index.html: removed links to vicekb
+
+2014-04-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform.h, src/platform/platform_cygwin_runtime_os.c,
+	src/platform/platform_linux_libc_version.h,
+	src/platform/platform_linux_runtime_os.c: Updated.
+
+2014-04-21  Olaf Seibert <rhialto@falu.nl>
+
+	* src/platform/platform_linux_runtime_os.c: Fix compiler warnings from
+	clang.
+
+2014-04-21  Olaf Seibert <rhialto@falu.nl>
+
+	* src/serial/realdevice.c: Make calls to realdevice_enable() and
+	realdevice_disable() nestable.
+
+2014-04-21  Olaf Seibert <rhialto@falu.nl>
+
+	* src/serial/serial-trap.c: I noticed that the code that handles ROM
+	traps for the serial bus handles the following 2 BASIC instructions
+	differently:
+        OPEN 6,6
+        OPEN 6,6,0
+	In the first case, the (default) secondary address is never sent. This
+	is because the trap code collects the device address, then later when
+	it gets the secondary address, in the next trap, it uses them both in
+	a single call to send them, either via opencbm, or to its further
+	internal emulation. When the SA is defaulted, the second trap never
+	comes. On a real bus, the LISTEN or TALK would of course already have
+	been sent, but in the emulation it gets lost. This change aims to fix
+	that by detecting in the traps for read/write that the secondary
+	address was never sent, and then do it there (SA = 0). This causes an
+	SA to be sent that wouldn't be sent on a real machine but that is
+	better than missing the LISTEN or TALK.
+
+2014-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_linux_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c: Updated.
+
+2014-04-16  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/tape/tap.c: If a sufficiently long sequence of "short" pulses
+	was present not long before the real start of a CBM header, it was
+	mistaken for the start of the CBM header. This caused failure in
+	loading some games from the uicontents (the tape was moved too far
+	before the start of the header)
+
+2014-04-13  groepaz <groepaz@gmx.net>
+
+	* src/core/ciacore.c: reset tickcounter when clock is restartd, fixes
+	hzsync0.prg
+
+2014-04-11  groepaz <groepaz@gmx.net>
+
+	* src/core/ciacore.c: handle invalid values correctly
+
+2014-04-09  groepaz <groepaz@gmx.net>
+
+	* src/core/ciacore.c: init TOD latch hour with 1, improve debug output
+
+2014-04-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi, src/cartconv.c: Implement quiet mode in cartconv
+
+2014-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform.h, src/platform/platform_linux_runtime_os.c,
+	src/platform/platform_x86_runtime_cpu.h: Some linux improvements.
+
+2014-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uirom.c: Applied windows rom settings dialog fix as
+	supplied by Greg King.
+
+2014-03-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/C128/x11_pos.vkm, data/C128/x11_sym.vkm: Map KP_Decimal for
+	C128 on X11 to numpad ".", similar to CBM-II. And otherwise my
+	keyboard does not work.
+
+2014-03-28  Olaf Seibert <rhialto@falu.nl>
+
+	* src/serial/serial-iec-device.c: Fix copy/paste error for device 7.
+
+2014-03-27  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/sdl/menu_printer.c, src/arch/unix/gui/uiprinteriec.c,
+	src/arch/unix/gui/uiprinteriecplus4.c,
+	src/arch/unix/gui/uiprinterieee.c, src/printerdrv/interface-serial.c,
+	src/serial/serial-iec-device.c, src/serial/serial-trap.c: Make OpenCBM
+	access work for printers, and device 7 (which has no emulation
+	otherwise). Add menu items for this in Xaw, Gnome and SDL GUIs. (It
+	seems that all OpenCBM access in SDL crashes though; this is not new.)
+
+2014-03-23  groepaz <groepaz@gmx.net>
+
+	* src/drive/iecieee/via2d.c: comment out fake mechanical delay, it
+	breaks things (see comments). fixes bug #508
+
+2014-03-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mouse.c: Horizontal movement was wrong, and the speed was
+	incorrect too.
+
+2014-03-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mouse.c: Middle button resistor hack for Amiga/Atari ST mouse.
+
+2014-03-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128cia1.c, src/c64/c64cia1.c: Some style fixes.
+
+2014-03-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128cia1.c, src/c64/c64cia1.c, src/mouse.c, src/mouse.h:
+	Implement scroll wheel for Micromys mouse emulation
+
+2014-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sounddrv/soundwmm.c: Applied patch #89 from Magnus Lind. (The
+	windows WMM-sounddriver reports 0-bytes available in its buffer when
+	idle. This makes x64 under some circumstances when started slowly slow
+	down until frozen solid. This is easily worked around by quickly
+	toggling into warp speed but still annoying. The slow freeze occurs
+	because the automatic speed adjust in vsync.c is fooled into thinking
+	that it runs too fast since the sound driver reports that it always
+	has a full buffer.)
+
+2014-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vsyncarch.c: Applied patch #88 from Magnus Lind
+	(Under some circumstances Windows 7 decides VICE is unresponsive and
+	freezes the VICE UI. However, VICE has not stopped, it keeps
+	outputting audio. It is impossible to break out of this state without
+	killing the process. This almost always happens after a couple of
+	minutes if I leave VICE running minimized or in the background.)
+
+2014-03-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Applied patch #87 from Magnus Lind (Running
+	configure from another directory than vice generates a broken
+	translate.h: rule in vice/src/Makefile. It looks for the
+	gentranslate_h.sh script in the wrong directory.)
+
+2014-03-17  groepaz <groepaz@gmx.net>
+
+	* src/printerdrv/interface-serial.c, src/translate.txt,
+	src/translate_text.c: fix missing description/translation
+
+2014-03-14  groepaz <groepaz@gmx.net>
+
+	* src/c64dtv/c64dtv.c, src/c64dtv/c64dtvcia1.c,
+	src/c64dtv/c64dtvcia2.c, src/core/ciacore.c: added CIA TOD fix to DTV,
+	fixes bug #504
+
+2014-03-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_interix_runtime_os.c: Updated.
+
+2014-03-14  groepaz <groepaz@gmx.net>
+
+	* src/viciisc/vicii-chip-model.c: output VICII timing details in
+	verbose mode only
+
+2014-03-14  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicommands.c, src/machine.c, src/machine.h,
+	src/translate_text.c: added 'quit emulator' as option on CPU JAM
+
+2014-03-14  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/Makefile.am: Add uistatusbar.h to the list of
+	sources.
+
+2014-03-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uimon.c: fix funky monitor window behaviour,
+	should fix bug #432
+
+2014-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Updated.
+
+2014-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/base.tmpl, src/arch/win32/vs_tmpl/c128.tmpl,
+	src/arch/win32/vs_tmpl/c64.tmpl, src/arch/win32/vs_tmpl/c64dtv.tmpl,
+	src/arch/win32/vs_tmpl/cbm2.tmpl, src/arch/win32/vs_tmpl/cbm5x0.tmpl,
+	src/arch/win32/vs_tmpl/pet.tmpl, src/arch/win32/vs_tmpl/plus4.tmpl,
+	src/arch/win32/vs_tmpl/vic20.tmpl: Added the 'embedded' source files
+	to the windows project templates.
+
+2014-03-09  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uimon.c: Make monitor window resizable.
+	Tested with GTK+3 only
+
+2014-03-08  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/petcolour.h, src/pet/pethre.c, src/pet/pethre.h,
+	src/pet/petmem.c: Add E888 (the HRE write-only) register to the
+	monitor "io" command. Small cleanups in petmem.c. Remove remaining
+	code for first version of the colour board.
+
+2014-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_interix_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c: Updated.
+
+2014-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/rtc-58321a.c: Comment fix.
+
+2014-03-06  groepaz <groepaz@gmx.net>
+
+	* src/cbm2/cbm2cia1.c, src/core/ciacore.c, src/drive/iec/cia1571d.c,
+	src/drive/iec/cia1581d.c, src/drive/iec/ciad.h: apply CIA TOD-tick
+	changes to 1571/81 also
+
+2014-03-05  groepaz <groepaz@gmx.net>
+
+	* src/cartconv.c: added -p option (pad input files)
+
+2014-03-03  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128.c, src/c128/c128cia1.c, src/c64/c64.c,
+	src/c64/c64cia.h, src/c64/c64cia1.c, src/c64/c64cia2.c,
+	src/c64/vsid.c, src/c64/vsidcia1.c, src/c64/vsidcia2.c,
+	src/c64dtv/c64dtv.c, src/cbm2/cbm2.c, src/cbm2/cbm2cia.h,
+	src/cbm2/cbm2cia1.c, src/cbm2/cbm5x0.c, src/cia.h, src/core/ciacore.c,
+	src/machine.h, src/pet/pet.c, src/plus4/plus4.c, src/scpu64/scpu64.c,
+	src/vic20/vic20.c: Better approximation of real power frequency for
+	CIA TOD. Other things that rely on the power frequency should perhaps
+	get updated in a similar way.
+
+2014-02-26  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128.c, src/c128/c128cia1.c, src/c64/c64.c,
+	src/c64/c64cia1.c, src/c64/c64cia2.c, src/c64/vsid.c,
+	src/c64/vsidcia1.c, src/c64/vsidcia2.c, src/cbm2/cbm2.c,
+	src/cbm2/cbm2cia1.c, src/cbm2/cbm5x0.c, src/machine.h, src/pet/pet.c,
+	src/plus4/plus4.c, src/scpu64/scpu64.c, src/vic20/vic20.c: use actual
+	50/60Hz as per power line frequency instead of the refresh frequency
+	for updating CIA TOD counter.
+
+2014-02-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/printerdrv/output-text.c: Fixed the build to account for lack of
+	arch/beos/coproc.[ch] files.
+
+2014-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Fixed again.
+
+2014-02-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Fixed.
+
+2014-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Added support for
+	windows 8.1
+
+2014-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/coproc.c, src/opencbm.h,
+	src/platform/platform_discovery.h: Some fixes for sysv4.
+
+2014-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: test for ssize_t as well.
+
+2014-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/functionrom.c: Fixed the function rom disabling, fixes bug
+	#498.
+
 2014-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* build/android/build-android.sh, configure.proto, doc/vice.chm,

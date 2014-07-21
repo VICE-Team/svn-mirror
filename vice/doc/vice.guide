@@ -506,7 +506,7 @@ than the old `x64'.
 
 A rather complete emulation of the SID sound chip is also provided.  All
 the basic features are implemented as well as most of the complex ones
-including synchronisation, ring modulation and filters.  There are three
+including synchronisation, ring modulation and filters.  There are two
 emulators of the SID chip available: first is the "standard" VICE
 emulator, available since VICE 0.12; the second is Dag Lem's reSID
 engine. The reSID engine is a lot more accurate than the standard
@@ -4582,7 +4582,7 @@ C64 cartridge resources
      'AND' the valid return values)
 
 `CartridgeReset'
-     Boolean specifying whether the machine should be resetted when a
+     Boolean specifying whether the machine should be reset when a
      cartridge is changed.
 
 `CartridgeType'
@@ -6641,7 +6641,7 @@ VIC20 cartridge resources
 .........................
 
 `CartridgeReset'
-     Boolean specifying whether the machine should be resetted when a
+     Boolean specifying whether the machine should be reset when a
      cartridge is changed.
 
 `CartridgeType'
@@ -7356,7 +7356,7 @@ PLUS4 I/O extension resources
 .............................
 
 `CartridgeReset'
-     Boolean specifying whether the machine should be resetted when a
+     Boolean specifying whether the machine should be reset when a
      cartridge is changed.
 
 `DIGIBLASTER'
@@ -9844,10 +9844,10 @@ General commands
 `cd <directory>'
      Change the working directory.
 
-`device [c:|d:]'
-`dev [c:|d:]'
-     Set the default memory device to either the computer (`c:') or the
-     disk (`d:').
+`device [c:|8:|9:]'
+`dev [c:|8:|9:]'
+     Set the default address space to either the computer (`c:') or the
+     disk (`8:|9:').
 
 `dir [<directory>]'
 `ls [<directory>]'
@@ -9967,15 +9967,15 @@ Label commands
      <label> is the name of the label; it must start with a dot (".") in
      order for the monitor to recognize it as a label.
 
-`delete_label [<memspace>] <label>'
-`dl [<memspace>] <label>'
-     Remove the specified label from the label tables.  If no memory
+`delete_label [<address_space>] <label>'
+`dl [<address_space>] <label>'
+     Remove the specified label from the label tables.  If no address
      space is checked, all tables are checked.
 
-`load_labels [<memspace>] "<filename>"'
-`ll [<memspace>] "<filename>"'
+`load_labels [<address_space>] "<filename>"'
+`ll [<address_space>] "<filename>"'
      Load a file containing a mapping of labels to addresses.  If no
-     memory space is specified, the default readspace is used.
+     address space is specified, the default readspace is used.
 
      The file must contain commands the monitor understands, e.g.
      add_label. The compiler cc65 can create such label files.
@@ -9988,14 +9988,14 @@ Label commands
      start a comment to end of line, so unchanged Acme label files can
      be fed into Vice.
 
-`save_labels [<memspace>] "<filename>"'
-`sl [<memspace>] "<filename>"'
-     Save labels to a file.  If no memory space is specified, all of the
-     labels are saved.
+`save_labels [<address_space>] "<filename>"'
+`sl [<address_space>] "<filename>"'
+     Save labels to a file.  If no address space is specified, all of
+     the labels are saved.
 
-`show_labels [<memspace>]'
-`shl [<memspace>]'
-     Display current label mappings.  If no memory space is specified,
+`show_labels [<address_space>]'
+`shl [<address_space>]'
+     Display current label mappings.  If no address space is specified,
      show all labels.
 
 
@@ -10344,6 +10344,9 @@ The cartconv program has the following parameters:
 `-r'
      This parameter is optional, it enables repair mode (accept broken
      input files)
+
+`-q'
+     This parameter is optional, it disables all non-error messages
 
 The following cartridge types are supported:
 
@@ -11383,7 +11386,7 @@ The D64 disk image format
 =========================
 
 (This section was contributed by Peter Schepers and slightly edited by
-Marco van den Heuvel.)
+Marco van den Heuvel. Added 42 track info by groepaz)
 
 First and foremost we have D64, which is basically a sector-for-sector
 copy of a 1540/1541 disk. There are several versions of these which I
@@ -11404,7 +11407,8 @@ circle is the largest (versus closer to the center), the outside tracks
 have the largest amount of storage.
 
 .33 .33 .33  Track  Sectors/track  # Sectors  1-17  21  357  18-24  19
-133  25-30  18  108  31-35  17  85  36-40(*)  17  85  multitable
+133  25-30  18  108  31-35  17  85  36-40(*)  17  85  41-42(*)  17  34
+multitable
 
 .25 .25 .25 .25  Track  #Sect  #SectorsIn  D64 Offset  1  21  0  $00000
 2  21  21  $01500  3  21  42  $02A00  4  21  63  $03F00  5  21  84
@@ -11418,9 +11422,11 @@ $1B100  23  19  452  $1C400  24  19  471  $1D700  25  18  490  $1EA00
 562  $23200  30  18  580  $24400  31  17  598  $25600  32  17  615
 $26700  33  17  632  $27800  34  17  649  $28900  35  17  666  $29A00
 36(*)  17  683  $2AB00  37(*)  17  700  $2BC00  38(*)  17  717  $2CD00
-39(*)  17  734  $2DE00  40(*)  17  751  $2EF00  multitable
+39(*)  17  734  $2DE00  40(*)  17  751  $2EF00  41(*)  17  768  $30000
+42(*)  17  785  $31100  multitable
 
-(*) Tracks 36-40 apply to 40-track images only.
+(*) Tracks 36-40 apply to 40- and 42-track images only.  (*) Tracks
+41-42 apply to 42-track images only.
 
 The directory track should be contained totally on track 18. Sectors
 1-18 contain the entries and sector 0 contains the BAM (Block
@@ -11639,16 +11645,21 @@ with 5 extra tracks. These contain 17 sectors each, like tracks 31-35.
 Some of the PC utilities do allow you to create and work with these
 files. This can also have error bytes attached like variant #1.
 
-3. The Commodore 128 allowed for "auto-boot" disks. With this, t/s 1/0
+3. A 42 track layout, with two extra tracks of 17 sectors each.  This
+is extremely uncommon, since real drives often have problems with
+accessing these tracks, software that uses them is very rare.
+
+4. The Commodore 128 allowed for "auto-boot" disks. With this, t/s 1/0
 holds a specific byte sequence which the computer recognizes as boot
 code.
 
 Below is a small chart detailing the standard file sizes of D64 images,
-35 or 40 tracks, with or without error bytes.
+35, 40 or 42 tracks, with or without error bytes.
 
 .5 .5  Disk type  Size  35 track, no errors  174848  35 track, 683
 error bytes  175531  40 track, no errors  196608  40 track, 768 error
-bytes  197376  multitable
+bytes  197376  42 track, no errors  205312  42 track, 802 error bytes
+206114  multitable
 
 The following table (provided by Wolfgang Moser) outlines the
 differences between the standard 1541 DOS and the various "speeder"
@@ -11740,6 +11751,26 @@ what the drive DOS is actually doing to seek/read/decode/write sectors,
 but serve as simple examples only. The "type" field is where the error
 usually occurs, whether it's searching for any SYNC mark, any header
 ID, any valid header, or reading a sector.
+
+.2 .2 .2 .2 .2  Code  Error  Type  D64  Description  $01  00  N/A  *
+No error.   $02  20  Seek  *  Header block not found / Header
+descriptor byte not found  $03  21  Seek  *  No SYNC sequence found  $04
+22  Read  *  Data descriptor byte not found  $05  23  Read  *
+Checksum error in data block  $06  24  Write
+
+Write verify on format (never occurs on 1541)  $07  25  Write
+
+Write verify error  $08  26  Write
+
+Write protect on  $09  27  Seek  *  Checksum error in header block  $0A
+28  Write
+
+Write error (never occurs on 1541)  $0B  29  Seek  *  Disk sector ID
+mismatch  $0F  74  Read
+
+Drive Not Ready (no disk in drive or no device 1)  multitable
+
+Codes $0 and $C to $E are unused and never occur.
 
 These first errors are "seek" errors, where the disk controller is
 simply reading headers and looking at descriptor bytes, checksums,
@@ -15489,6 +15520,371 @@ it  is           suggested to write $FF to the register.
 .3 .7  Size  32kb (4 banks of 8k)  GAME  inactive (0)  EXROM  inactive
 (0)  Load address  $E000-$FFFF  multitable
 
+The PSID image format for ripped SID tunes
+==========================================
+
+This section describes the SID file format used for SID tunes in the
+HVSC (High Voltage SID Collection - http://hvsc.de). It is based mostly
+on Michael Schwendt's document that describes the file format and the
+PSID v2NG extensions described by Simon White and Dag Lem and was
+further extended by Wilfred Bos (PSID v3, RSID v3) and LaLa (assembled
+most of the following text) and last not least tweaked a bit by Groepaz
+to fit into the VICE documentation.
+
+SID files use the .sid file extension.
+
+Since PSID v2 is simply an extension of PSID v1, PSID v2NG is an
+extension of PSID v2, RSID is a restricted version of PSID v2NG, PSID
+v3 and RSID v3 are extentions of PSID v2NG and RSID v2, all of the
+formats are discussed together below. RSID in specific is discussed in
+detail under the 'magicID' field description.
+
+The information presented here targets programmers or other people with
+reasonable background. It is not suitable for newbies who have never
+before used a machine code monitor, a disassembler, or a hexadecimal
+editor.
+
+The SID file header v1
+----------------------
+
+The detailed structure of the SID header looks like the following.
+Header offsets are in hexadecimal notation. Other integer values are
+decimal unless explicitly marked otherwise. Any stored integer values
+are in big-endian format:
+
+     +00    magicID: ``PSID'' or ``RSID''
+
+This is a four byte long ASCII character string containing the value
+0x50534944 or 0x52534944. 'RSID' (Real SID) denotes that the file
+strictly requires a true Commodore-64 environment to run properly.
+'PSID' files will generally run trouble-free on older PlaySID and
+libsidplay1 based emulators, too.
+
+Some words about the Real C64 SID file format (RSID):
+
+The RSID format was designed to contain tunes that are not PlaySID
+compatible, but strictly require a real C64 environment to run. Tunes
+that are multi-speed and/or contain samples and/or use additional
+interrupt sources or do busy looping will cause older SID emulators to
+lock up or play very wrongly (if at all).
+
+By using the name RSID for such rips all existing SID emulators will
+reject these tunes safely until they can be upgraded to cope with the
+additional requirements.
+
+Due to the nature of these tunes, every effort must be made to make
+sure they are directly runnable on an actual C64 computer. As such the
+tunes will only be presented with the default C64 power-on environment
+and expected to configure and use all hardware appropriately.
+
+RSID is based on PSIDv2NG with the following modifications:
+
+   * magicID = RSID
+
+   * version = 2 and 3 only
+
+   * loadAddress = 0 (reserved)
+
+   * playAddress = 0 (reserved)
+
+   * speed = 0 (reserved)
+
+   * psidSpecific flag is called C64BASIC flag
+
+The above fields MUST be checked and if any differ from the above then
+the tune MUST be rejected. The definitions above will force tunes to
+contain proper hardware configuration code and install valid interrupt
+handlers.
+
+The default C64 environment is as follows:
+
+   * VIC - IRQ set to raster $137, but not enabled.
+
+   * CIA 1 timer A - set to 60Hz with the counter running and IRQs
+     active.
+
+   * Other timers - disabled and loaded with $FFFF.
+
+   * Bank register - $37
+
+A side effect of the bank register is that init MUST NOT be located
+under a ROM/IO memory area (addresses $A000-$BFFF and $D000-$FFFF) or
+outside the load image. Since every effort needs to be made to run the
+tune on a real C64 the load address of the image MUST NOT be set lower
+than $07E8.
+
+     +04    WORD version
+
+Available version number can be 0001, 0002 or 0003. Headers of version
+2 and 3 provide additional fields. RSID and PSID v2NG files must have
+0002 or 0003 here.
+
+     +06    WORD dataOffset
+
+This is the offset from the start of the file to the C64 binary data
+area.  Because of the fixed size of the header, this is either 0x0076
+for version 1 and 0x007C for version 2 and 3.
+
+     +08    WORD loadAddress
+
+The C64 memory location where to put the C64 data. 0 means the data are
+in original C64 binary file format, i.e. the first two bytes of the
+data contain the little-endian load address (low byte, high byte). This
+must always be true for RSID files. Furthermore, the actual load
+address must NOT be less than $07E8 in RSID files.
+
+You must be absolutely sure what to enter here. There is no way to
+detect automatically whether the first two bytes in a C64 data file are
+meant to be a load address or some arbitrary bytes of code or data.
+Unless your C64 file is not a normal binary file and thus has no load
+address in front, you need not enter anything else than 0 here. The SID
+tune will not play if you specify a load address which is present in
+the C64 file already.
+
+Normal C64 binary data files have a load address in their first two
+bytes, so they can be loaded to a pre-defined destination address by
+executing LOAD"FILE",8,1, for instance. If a load address is explicitly
+specified in the sidtune info file, some sidtune converters and
+utilities conjecture that the C64 data don't have a load address in
+their first two bytes. Hence, the explicit load address from the info
+file is moved in front of the C64 data to create a valid C64 binary
+file which can be easily loaded on a C64, too. If that C64 file were to
+be saved, it would contain two superfluous data bytes at offset 2 if an
+original load address had been in the first two bytes of the old file.
+This process of adding a duplicate load address can be repeated. The
+file loader strips off the first two bytes (the used load address) and
+puts the rest of the file contents (including the now obsolete load
+address at file offset 2) into memory. If the new load address is the
+same than the old one the two added bytes cause the whole data to be
+displaced by two bytes, which most likely results in malfunctioning
+code. Also, superfluous bytes in memory then can confuse disassemblers
+which start at the beginning of the file or memory buffer.
+
+     +0A    WORD initAddress
+
+The start address of the machine code subroutine that initializes a
+song, accepting the contents of the 8-bit 6510 Accumulator as the song
+number parameter. 0 means the address is equal to the effective load
+address.
+
+In RSID files initAddress must never point to a ROM area ($A000-$BFFF or
+$D000-$FFFF) or be lower than $07E8. Also, if the C64 BASIC flag is set,
+initAddress must be 0.
+
+     +0C    WORD playAddress
+
+The start address of the machine code subroutine that can be called
+frequently to produce a continuous sound. 0 means the initialization
+subroutine is expected to install an interrupt handler, which then
+calls the music player at some place. This must always be true for RSID
+files.
+
+     +0E    WORD songs
+
+The number of songs (or sound effects) that can be initialized by
+calling the init address. The minimum is 1. The maximum is 256.
+
+     +10    WORD startSong
+
+The song number to be played by default. This value is optional. It
+often specifies the first song you would hear upon starting the program
+is has been taken from. It has a default of 1.
+
+     +12    LONGWORD speed
+
+This is a 32 bit big endian number.
+
+For version 1 and 2 and for version 2NG and 3 with PlaySID specific
+flag (+76) set, the 'speed' should be handled as follows:
+
+Each bit in 'speed' specifies the speed for the corresponding tune
+number, i.e. bit 0 specifies the speed for tune 1. If there are more
+than 32 tunes, the speed specified for tune 32 is the same as tune 1,
+for tune 33 it is the same as tune 2, etc.
+
+For version 2NG and 3 with PlaySID specific flag (+76) cleared, the
+'speed' should be handled as follows:
+
+Each bit in 'speed' specifies the speed for the corresponding tune
+number, i.e. bit 0 specifies the speed for tune 1. If there are more
+than 32 tunes, the speed specified for tune 32 is also used for all
+higher numbered tunes.
+
+For all version counts:
+
+   * A 0 bit specifies vertical blank interrupt (50Hz PAL, 60Hz NTSC),
+     and a 1 bit specifies CIA 1 timer interrupt (default 60Hz).
+
+   * Surplus bits in 'speed' should be set to 0.
+
+   * For RSID files 'speed' must always be set to 0.
+
+Note that if 'play' = 0, the bits in 'speed' should still be set for
+backwards compatibility with older SID players. New SID players running
+in a C64 environment will ignore the speed bits in this case.
+
+WARNING: This field does not work in PlaySID for Amiga like it was
+intended, therefore the above is a redefinition of the original 'speed'
+field in SID v2NG! See also the 'clock' (video standard) field
+described below for 'flags'.
+
+     +16    ``<name>''
+     +36    ``<author>''
+     +56    ``<released>'' (once known as ``<copyright>'')
+
+These are 32 byte long ASCII character strings. Upon evaluating the
+header, these fields may hold a character string of 32 bytes which is
+not zero terminated. For less than 32 characters the string should be
+zero terminated.  The maximum number of available free characters is 32.
+
+     +76    <data>
+
+Version 1 of the SID header is complete at this point. The binary C64
+data starts here.
+
+The SID file header v2 and v3
+-----------------------------
+
+Version 2 and 3 of the header incorporates the v1 header fields and
+provides additional fields. Some of these are actually v2NG or v3
+specific - those are noted below.
+
+     +76    WORD flags
+
+This is a 16 bit big endian number containing the following bitfields:
+
+   * Bit 0 specifies format of the binary data (musPlayer):   0 =
+     built-in music player,   1 = Compute!'s Sidplayer MUS data, music
+     player must be merged.
+
+If this bit is set, the appended binary data are in Compute!'s
+Sidplayer MUS format, and does not contain a built-in music player. An
+external player machine code must be merged to replay such a sidtune.
+
+   * Bit 1 specifies whether the tune is PlaySID specific, e.g. uses
+     PlaySID   samples (psidSpecific):   0 = C64 compatible,   1 =
+     PlaySID specific (PSID v2NG, v3)   1 = C64 BASIC flag (RSID)
+
+This is a v2NG and RSID specific field.
+
+PlaySID samples were invented to facilitate playback of C64 volume
+register samples with the original Amiga PlaySID software. PlaySID
+samples made samples a reality on slow Amiga hardware with a player
+that was updated only once a frame.
+
+Unfortunately, converting C64 volume samples to PlaySID samples means
+that they can no longer be played on a C64, and furthermore the
+conversion might potentially break the non-sample part of a tune if the
+timing between writes to the SID registers is at all altered. This
+follows from the ADSR bugs in the SID chip.
+
+Today, the speed of common hardware and the sophistication of the SID
+players is such that there is little need for PlaySID samples. However,
+with all the PlaySID sample PSIDs in existence there's a need to
+differentiate between SID files containing only original C64 code and
+PSID files containing PlaySID samples or having other PlaySID specific
+issues. As stated above, bit 1 in 'flags' is reserved for this purpose.
+
+Since RSID files do not have the need for PlaySID samples, this flag is
+used for a different purpose: tunes that include a BASIC executable
+portion will be played (with the BASIC portion executed) if the C64
+BASIC flag is set. At the same time, initAddress must be 0.
+
+   * Bits 2-3 specify the video standard (clock):   00 = Unknown,   01
+     = PAL,   10 = NTSC,   11 = PAL and NTSC.
+
+This is a v2NG specific field.
+
+As can be seen from the 'speed' field, it is not possible to specify
+NTSC C64 playback. This is unfortunate, since the different clock
+speeds means that a tune written for the NTSC C64 will be slightly
+detuned if played back on a PAL C64. Furthermore, NTSC C64 tunes driven
+by a vertical blank interrupt have to be converted to use the CIA 1
+timer to fit into this scheme. This can cause severe problems, as the
+NTSC refresh rate is once every 17045 cycles, while the CIA 1 timer A
+is latched with 17095 cycles. Apart from the difference in timing
+itself, the SID ADSR bugs can actually break the tune.
+
+The 'clock' (video standard) field was introduced to circumvent this
+problem.
+
+   * Bits 4-5 specify the SID version (sidModel):   00 = Unknown,   01
+     = MOS6581,   10 = MOS8580,   11 = MOS6581 and MOS8580.
+
+This is a v2NG specific field.
+
+   * Bits 6-7 specify the SID version (sidModel) of the second SID:
+     00 = Unknown,   01 = MOS6581,   10 = MOS8580,   11 = MOS6581 and
+     MOS8580.
+
+This is a v3 specific field.
+
+The MOS6581 and the MOS8580 have three notable differences. First,
+combined waveforms are generally louder on a MOS8580, to the extent
+that some combinations that are clearly audible on a MOS8580 are
+completely silent on a MOS6581. Second, the internal DC levels in the
+MOS8580 are so small that software or hardware tricks must be used to
+play volume samples. Third, the MOS8580 analog filter has totally
+different characteristics from the MOS6581 analog filter.
+
+To ensure that music specifically written for one of the two SID
+versions can be played back correctly, bits 4-7 in 'flags' are used as
+stated above.
+
+If bits 6-7 are set to Unknown then the second SID will be set to the
+same SID model as the first SID.
+
+   * Bits 8-15 are reserved and should be set to 0.
+
+     +78    BYTE startPage (relocStartPage)
+
+This is a v2NG specific field.
+
+This is an 8 bit number. If 'startPage' is 0, the SID file is clean,
+i.e. it does not write outside its data range within the driver ranges.
+In this case the largest free memory range can be determined from the
+start address and the data length of the SID binary data. If
+'startPage' is 0xFF, there is not even a single free page, and driver
+relocation is impossible. Otherwise, 'startPage' specifies the start
+page of the single largest free memory range within the driver ranges.
+For example, if 'startPage' is 0x1E, this free memory range starts at
+$1E00.
+
+     +79    BYTE pageLength (relocPages)
+
+This is a v2NG specific field.
+
+This is an 8 bit number indicating the number of free pages after
+'startPage'.  If 'startPage' is not 0 or 0xFF, 'pageLength' is set to
+the number of free pages starting at 'startPage'. If 'startPage' is 0
+or 0xFF, 'pageLength' must be set to 0.
+
+The relocation range indicated by 'startPage' and 'pageLength' should
+never overlap or encompass the load range of the C64 data. For RSID
+files, the relocation range should also not overlap or encompass any of
+the ROM areas ($A000-$BFFF and $D000-$FFFF) or the reserved memory area
+($0000-$03FF).
+
+     +7A    BYTE secondSIDAddress
+
+This is a v3 specific field. For v2NG, it should be set to 0.
+
+This is an 8 bit number indicating the address of the second SID. It
+specifies the middle part of the address, $Dxx0, starting from value
+$42 for $D420 to $FE for $DFE0). Only even values are valid. Ranges
+$00-$41 ($D000-$D410) and $80-$DF ($D800-$DDF0) are invalid. Any
+invalid value means that no second SID is used, like $00.
+
+     +7B    BYTE reserved
+
+This is a 8 bit number and is reserved and should be set to 0.
+
+     +7C    <data>
+
+Version 2 and 3 of the SID header ends here. This offset is the start
+of the binary C64 data. See also 'loadAddress' for what the first 2
+bytes of 'data' might indicate.
+
 
 @EndNode
 
@@ -16133,10 +16529,6 @@ If you are going to report a bug, please check those pages *first*; it
 is possible that the problem you encountered has already been fixed
 with a newer version.
 
-Please, also have a look at the VICE knowledge base at
-
-     http://vicekb.trikaliotis.net/
-
 
 @EndNode
 
@@ -16148,13 +16540,13 @@ Please, also have a look at the VICE knowledge base at
 How to send feedback
 ====================
 
-Before contacting us, have a look at the VICE knowledge base at
-http://vicekb.trikaliotis.net/ if your question is answered there. Keep
-in mind that we work on VICE in our spare-time, so the more time we
-don't need to answer the same questions over and over again, the more
-time we have to improve the emulation itself. On the other hand, that
-does not mean that you should not contact us, especially if you find
-bugs or have suggestions which might improve the emulation.
+Before contacting us, have a look at this manual and see if your
+question is answered there. Keep in mind that we work on VICE in our
+spare-time, so the more time we don't need to answer the same questions
+over and over again, the more time we have to improve the emulation
+itself. On the other hand, that does not mean that you should not
+contact us, especially if you find bugs or have suggestions which might
+improve the emulation.
 
 Bug reports, suggestions, support requests should be directed to the
 SourceForge trackers at
@@ -16191,9 +16583,6 @@ please read these few notes before sending mail to anybody in the team.
 
         * the VICE FAQ (it is available on the Internet, and reachable
           from the VICE home page: http://vice-emu.sourceforge.net/);
-
-        * The VICE knowledge base (it is available on the Internet at
-          http://vicekb.trikaliotis.net/);
 
         * the `comp.emulators.cbm' and `comp.sys.cbm' FAQs (see
           @{"FAQs you should read" Link "FAQs you should read"}).
@@ -16360,9 +16749,9 @@ Concept Index
  @{" -autostartprgdiskimage " Link "Command-line initialization"}               Command-line initialization
  @{" -autostartprgmode " Link "Command-line initialization"}                    Command-line initialization
  @{" -autostartwithcolon, +autostartwithcolon " Link "Command-line initialization"} Command-line initialization
+ @{" -basic " Link "CBM-II model"}                               CBM-II model
  @{" -basic " Link "C64-128 system ROM options"}                               C64-128 system ROM options
  @{" -basic " Link "VIC20 system ROM options"}                               VIC20 system ROM options
- @{" -basic " Link "CBM-II model"}                               CBM-II model
  @{" -basic1, +basic1 " Link "PET commandline options"}                     PET commandline options
  @{" -basic1char, +basic1char " Link "PET commandline options"}             PET commandline options
  @{" -basic64 " Link "C64-128 system ROM options"}                             C64-128 system ROM options
@@ -16382,25 +16771,25 @@ Concept Index
  @{" -cart " Link "VIC20 system ROM options"}                                VIC20 system ROM options
  @{" -cart1 " Link "CBM-II model"}                               CBM-II model
  @{" -cart16 " Link "C64 cartridges"}                              C64 cartridges
- @{" -cart2 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart2 " Link "VIC20 cartridges"}                               VIC20 cartridges
+ @{" -cart2 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart2 " Link "CBM-II model"}                               CBM-II model
  @{" -cart4 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart4 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart4 " Link "CBM-II model"}                               CBM-II model
  @{" -cart6 " Link "CBM-II model"}                               CBM-II model
- @{" -cart6 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart6 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
+ @{" -cart6 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart8 " Link "C64 cartridges"}                               C64 cartridges
- @{" -cartA " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cartA " Link "VIC20 system ROM options"}                               VIC20 system ROM options
+ @{" -cartA " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cartap " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartar2 " Link "C64 cartridges"}                             C64 cartridges
  @{" -cartar3 " Link "C64 cartridges"}                             C64 cartridges
  @{" -cartar4 " Link "C64 cartridges"}                             C64 cartridges
  @{" -cartar5 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartB " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartB " Link "VIC20 cartridges"}                               VIC20 cartridges
+ @{" -cartB " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartcap " Link "C64 cartridges"}                             C64 cartridges
  @{" -cartcomal " Link "C64 cartridges"}                           C64 cartridges
  @{" -cartcrt " Link "C64 cartridges"}                             C64 cartridges
@@ -16421,8 +16810,8 @@ Concept Index
  @{" -cartfe " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" -cartff " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartfm " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartfp " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" -cartfp " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartfp " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" -cartgeneric " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -cartgeoram " Link "C64 I-O extension options"}                          C64 I-O extension options
  @{" -cartgk " Link "C64 cartridges"}                              C64 cartridges
@@ -16464,10 +16853,11 @@ Concept Index
  @{" -cartwl " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartws " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartzaxxon " Link "C64 cartridges"}                          C64 cartridges
+ @{" -chargch " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargde " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "PET model"}                             PET model
- @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "VIC20 system ROM options"}                             VIC20 system ROM options
+ @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "CBM-II model"}                             CBM-II model
  @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargfr " Link "C64-128 system ROM options"}                             C64-128 system ROM options
@@ -16616,11 +17006,11 @@ Concept Index
  @{" -georam, +georam " Link "C64 I-O extension options"}                     C64 I-O extension options
  @{" -georamimage " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -georamimage " Link "C64 I-O extension options"}                         C64 I-O extension options
- @{" -georamimagerw, +georamimagerw " Link "VIC20 cartridges"}       VIC20 cartridges
  @{" -georamimagerw, +georamimagerw " Link "C64 I-O extension options"}       C64 I-O extension options
+ @{" -georamimagerw, +georamimagerw " Link "VIC20 cartridges"}       VIC20 cartridges
  @{" -georamioswap, +georamioswap " Link "VIC20 cartridges"}         VIC20 cartridges
- @{" -georamsize " Link "VIC20 cartridges"}                          VIC20 cartridges
  @{" -georamsize " Link "C64 I-O extension options"}                          C64 I-O extension options
+ @{" -georamsize " Link "VIC20 cartridges"}                          VIC20 cartridges
  @{" -gluelogictype " Link "C64-128 system ROM options"}                       C64-128 system ROM options
  @{" -go64, +go64 " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" -grsymkeymap, -grposkeymap " Link "Keyboard options"}           Keyboard options
@@ -16679,11 +17069,12 @@ Concept Index
  @{" -k<version> " Link "c1541 executing shell commands"}                          c1541 executing shell commands
  @{" -keepenv " Link "CBM-II colors"}                             CBM-II colors
  @{" -kernal " Link "CBM-II model"}                              CBM-II model
- @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
- @{" -kernal " Link "PET model"}                              PET model
  @{" -kernal " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
+ @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
+ @{" -kernal " Link "PET model"}                              PET model
  @{" -kernal64 " Link "C64-128 system ROM options"}                            C64-128 system ROM options
+ @{" -kernalch " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" -kernalde " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" -kernalfi " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" -kernalfr " Link "C64-128 system ROM options"}                            C64-128 system ROM options
@@ -16720,8 +17111,8 @@ Concept Index
  @{" -mmcreepromrw, +mmcreepromrw " Link "C64 cartridges"}         C64 cartridges
  @{" -mmcrimagerw, +mmcrimagerw " Link "C64 cartridges"}           C64 cartridges
  @{" -mmcrrescue, +mmcrrescue " Link "C64 cartridges"}             C64 cartridges
- @{" -model " Link "CBM-II commandline options"}                               CBM-II commandline options
  @{" -model " Link "PET commandline options"}                               PET commandline options
+ @{" -model " Link "CBM-II commandline options"}                               CBM-II commandline options
  @{" -moncommands " Link "Monitor options"}                         Monitor options
  @{" -mouse, +mouse " Link "Keyboard options"}                       Keyboard options
  @{" -mouseport " Link "Keyboard options"}                           Keyboard options
@@ -16770,6 +17161,7 @@ Concept Index
  @{" -pruseroutput " Link "Printer options"}                        Printer options
  @{" -prusertxtdev " Link "Printer options"}                        Printer options
  @{" -ps2mouse, +ps2mouse " Link "Userport"}                 Userport
+ @{" -q " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -r " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -ram08, +ram08 " Link "CBM-II commandline options"}                       CBM-II commandline options
  @{" -ram1, +ram1 " Link "CBM-II commandline options"}                         CBM-II commandline options
@@ -16815,17 +17207,17 @@ Concept Index
  @{" -rsuserbaud " Link "RS232 options"}                          RS232 options
  @{" -rsuserdev " Link "RS232 options"}                           RS232 options
  @{" -saveres, +saveres " Link "Misc options"}                   Misc options
- @{" -sfxse, +sfxse " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" -sfxse, +sfxse " Link "C64 I-O extension options"}                       C64 I-O extension options
+ @{" -sfxse, +sfxse " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" -sfxseioswap, +sfxseioswap " Link "VIC20 cartridges"}           VIC20 cartridges
- @{" -sfxsetype " Link "C64 I-O extension options"}                           C64 I-O extension options
  @{" -sfxsetype " Link "VIC20 cartridges"}                           VIC20 cartridges
- @{" -sfxss, +sfxss " Link "C64 I-O extension options"}                       C64 I-O extension options
+ @{" -sfxsetype " Link "C64 I-O extension options"}                           C64 I-O extension options
  @{" -sfxss, +sfxss " Link "VIC20 cartridges"}                       VIC20 cartridges
+ @{" -sfxss, +sfxss " Link "C64 I-O extension options"}                       C64 I-O extension options
  @{" -sfxssioswap, +sfxssioswap " Link "VIC20 cartridges"}           VIC20 cartridges
  @{" -sidcart, +sidcart " Link "PET model"}                   PET model
- @{" -sidcart, +sidcart " Link "VIC20 system ROM options"}                   VIC20 system ROM options
  @{" -sidcart, +sidcart " Link "VIC20 cartridges"}                   VIC20 cartridges
+ @{" -sidcart, +sidcart " Link "VIC20 system ROM options"}                   VIC20 system ROM options
  @{" -sidcartjoy, +sidcartjoy " Link "VIC20 system ROM options"}             VIC20 system ROM options
  @{" -sidenginemodel " Link "SID options"}                      SID options
  @{" -sidfilters, +sidfilters " Link "SID options"}             SID options
@@ -16878,8 +17270,8 @@ Concept Index
  @{" -tfeif " Link "C64 I-O extension options"}                               C64 I-O extension options
  @{" -tfeif " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -tfeioswap, +tfeioswap " Link "VIC20 cartridges"}               VIC20 cartridges
- @{" -tferrnet, +tferrnet " Link "C64 I-O extension options"}                 C64 I-O extension options
  @{" -tferrnet, +tferrnet " Link "VIC20 cartridges"}                 VIC20 cartridges
+ @{" -tferrnet, +tferrnet " Link "C64 I-O extension options"}                 C64 I-O extension options
  @{" -truedrive, +truedrive " Link "Drive options"}               Drive options
  @{" -trueflashfs, +trueflashfs " Link "C64DTV ROM image"}           C64DTV ROM image
  @{" -tune <number> " Link "CBM-II colors"}                       CBM-II colors
