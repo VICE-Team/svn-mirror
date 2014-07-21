@@ -11,6 +11,7 @@ COMMON_EXTRA_DIST = .descr \
 	configure.proto \
 	ChangeLog.1 \
 	ChangeLog.2 \
+	ChangeLog.3 \
 	COPYING \
 	FEEDBACK \
 	INSTALL \
