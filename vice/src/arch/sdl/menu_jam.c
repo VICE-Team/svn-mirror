@@ -38,5 +38,6 @@ const ui_menu_entry_t jam_menu[] = {
     { "Start monitor", MENU_ENTRY_RESOURCE_RADIO, radio_JAMAction_callback, (ui_callback_data_t)MACHINE_JAM_ACTION_MONITOR },
     { "Reset", MENU_ENTRY_RESOURCE_RADIO, radio_JAMAction_callback, (ui_callback_data_t)MACHINE_JAM_ACTION_RESET },
     { "Hard reset", MENU_ENTRY_RESOURCE_RADIO, radio_JAMAction_callback, (ui_callback_data_t)MACHINE_JAM_ACTION_HARD_RESET },
+    { "Quit emulator", MENU_ENTRY_RESOURCE_RADIO, radio_JAMAction_callback, (ui_callback_data_t)MACHINE_JAM_ACTION_QUIT },
     SDL_MENU_LIST_END
 };
