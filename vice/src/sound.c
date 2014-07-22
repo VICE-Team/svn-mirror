@@ -660,6 +660,7 @@ static SWORD *realloc_buffer(int size)
         temp_buffer = lib_realloc(temp_buffer, size);
         if (temp_buffer) {
             temp_buffer_size = size;
+            memset(temp_buffer, 0, size);
         } else {
             temp_buffer_size = 0;
         }

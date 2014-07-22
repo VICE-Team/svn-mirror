@@ -307,7 +307,7 @@ static SWORD *getbuf1(int len)
             lib_free(buf1);
         }
         blen1 = len;
-        buf1 = lib_malloc(len);
+        buf1 = lib_calloc(len, 1);
     }
     return buf1;
 }
@@ -318,7 +318,7 @@ static SWORD *getbuf2(int len)
             lib_free(buf2);
         }
         blen2 = len;
-        buf2 = lib_malloc(len);
+        buf2 = lib_calloc(len, 1);
     }
     return buf2;
 }
