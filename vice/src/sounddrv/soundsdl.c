@@ -109,7 +109,7 @@ static int sdl_init(const char *param, int *speed,
     spec.freq = *speed;
     spec.format = AUDIO_S16;
     spec.channels = *channels;
-    spec.samples = *fragsize;
+    spec.samples = *fragsize * 2;
     spec.callback = sdl_callback;
 
     /* NOTE: on some backends the first (input/desired) spec passed to SDL_OpenAudio
