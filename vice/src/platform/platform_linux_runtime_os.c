@@ -158,8 +158,8 @@ char *platform_get_linux_runtime_cpu(void)
         if (cpuinfo) {
             fclose(cpuinfo);
             cpuinfo = NULL;
-            system("cp /proc/cpuinfo cpuinfo.tmp");
-            cpuinfo = fopen("cpuinfo.tmp", "rb");
+            system("cp /proc/cpuinfo /tmp/cpuinfo.tmp");
+            cpuinfo = fopen("/tmpcpuinfo.tmp", "rb");
         }
         if (cpuinfo) {
             fseek(cpuinfo, 0L, SEEK_END);
@@ -210,7 +210,7 @@ char *platform_get_linux_runtime_cpu(void)
                 }
             }
             fclose(cpuinfo);
-            unlink("cpuinfo.tmp");
+            unlink("/tmp/cpuinfo.tmp");
             if (buffer) {
                 free(buffer);
             }

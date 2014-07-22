@@ -57,8 +57,8 @@ char *platform_get_sco_runtime_os(void)
         if (!retval) {
             sprintf(buffer, "%s", name.version);
         } else {
-            system("uname -v >tmp.version");
-            infile = fopen("tmp.version", "rb");
+            system("uname -v >/tmp/tmp.version");
+            infile = fopen("/tmp/tmp.version", "rb");
             if (infile) {
                 amount = fread(buffer, 1, 80, infile);
                 if (amount) {
@@ -69,7 +69,7 @@ char *platform_get_sco_runtime_os(void)
                 }
                 fclose(infile);
             }
-            unlink("tmp.version");
+            unlink("/tmp/tmp.version");
         }
         if (buffer[0] == '2') {
             sprintf(platform_os, "SCO Unix v4.x");
@@ -101,8 +101,8 @@ char *platform_get_sco_runtime_cpu(void)
         if (!retval) {
             sprintf(platform_cpu, "%s", name.machine);
         } else {
-            system("uname -m >tmp.machine");
-            infile = fopen("tmp.machine", "rb");
+            system("uname -m >/tmp/tmp.machine");
+            infile = fopen("/tmp/tmp.machine", "rb");
             if (infile) {
                 amount = fread(platform_cpu, 1, 20, infile);
                 if (amount) {
@@ -113,7 +113,7 @@ char *platform_get_sco_runtime_cpu(void)
                 }
                 fclose(infile);
             }
-            unlink("tmp.machine");
+            unlink("/tmp/tmp.machine");
         }
         got_cpu = 1;
     }

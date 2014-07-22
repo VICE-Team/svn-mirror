@@ -122,8 +122,8 @@ char *platform_get_solaris_runtime_cpu(void)
             uname(&name);
             sprintf(solaris_cpu, "%s", name.machine);
         }
-        system("dmesg >vice.cpu.tmp");
-        infile = fopen("vice.cpu.tmp", "rb");
+        system("dmesg >/tmp/vice.cpu.tmp");
+        infile = fopen("/tmp/vice.cpu.tmp", "rb");
         if (infile) {
             fseek(infile, 0L, SEEK_END);
             size = ftell(infile);
@@ -144,7 +144,7 @@ char *platform_get_solaris_runtime_cpu(void)
             fclose(infile);
             free(buffer);
         }
-        unlink("vice.cpu.tmp");
+        unlink("/tmp/vice.cpu.tmp");
         got_cpu = 1;
     }
     return solaris_cpu;
