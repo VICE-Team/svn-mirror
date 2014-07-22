@@ -76,7 +76,7 @@
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE ""
 
 /* Default sound fragment size */
-#define ARCHDEP_SOUND_FRAGMENT_SIZE 2
+#define ARCHDEP_SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_MEDIUM
 
 #define is_lcd_active() ((REG_LCD_CFG & LCD_CFG_LCDPIN_MASK) >> LCD_CFG_LCDPIN_BIT)
 

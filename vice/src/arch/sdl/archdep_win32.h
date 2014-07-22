@@ -79,7 +79,7 @@
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE ""
 
 /* Default sound fragment size */
-#define ARCHDEP_SOUND_FRAGMENT_SIZE 2
+#define ARCHDEP_SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_MEDIUM
 
 extern void archdep_workaround_nop(const char *otto);
 
