@@ -40,7 +40,7 @@
 #include "ui.h"
 #include "uic64dtv.h"
 #include "uic64dtvmodel.h"
-#include "uidrivec64.h"
+#include "uidrivec64dtv.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uilib.h"
@@ -446,7 +446,7 @@ static void c64dtv_ui_specific(WPARAM wparam, HWND hwnd)
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_NONE);
             break;
         case IDM_DRIVE_SETTINGS:
-            uidrivec64_settings_dialog(hwnd);
+            uidrivec64dtv_settings_dialog(hwnd);
             break;
         case IDM_KEYBOARD_SETTINGS:
             uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

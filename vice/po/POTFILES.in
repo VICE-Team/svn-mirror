@@ -140,6 +140,7 @@ src/arch/win32/resdigimax.rc.po.c
 src/arch/win32/resdqbb.rc.po.c
 src/arch/win32/resdrivec128.rc.po.c
 src/arch/win32/resdrivec64.rc.po.c
+src/arch/win32/resdrivec64dtv.rc.po.c
 src/arch/win32/resdrivepetcbm2.rc.po.c
 src/arch/win32/resdriveplus4.rc.po.c
 src/arch/win32/resdrivevic20.rc.po.c

@@ -81,6 +81,7 @@ libarch_a_SOURCES = \
 	resdqbb.rc \
 	resdrivec128.rc \
 	resdrivec64.rc \
+	resdrivec64dtv.rc \
 	resdrivepetcbm2.rc \
 	resdriveplus4.rc \
 	resdrivevic20.rc \
@@ -179,6 +180,8 @@ libarch_a_SOURCES = \
 	uidqbb.h \
 	uidrivec64.c \
 	uidrivec64.h \
+	uidrivec64dtv.c \
+	uidrivec64dtv.h \
 	uidrivec128.c \
 	uidrivec128.h \
 	uidrivepetcbm2.c \
@@ -447,10 +450,11 @@ resscpu64cat.rc: $(srcdir)/resscpu64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia
 	$(srcdir)/rescia.rc $(srcdir)/resds12c887rtc.rc
 
 resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
-	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc $(srcdir)/resdrivec64.rc \
-	$(srcdir)/resautostart.rc $(top_builddir)/src/debug.h
+	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc \
+	$(srcdir)/resdrivec64dtv.rc $(srcdir)/resautostart.rc \
+	$(top_builddir)/src/debug.h
 	cat >resc64dtvcat.rc $(srcdir)/resc64dtv.rc $(srcdir)/res.rc \
-	$(srcdir)/resdrivec64.rc $(srcdir)/ressiddtv.rc \
+	$(srcdir)/resdrivec64dtv.rc $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resvicii.rc
 
 rescbm2cat.rc: $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
