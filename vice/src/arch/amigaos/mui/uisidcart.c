@@ -52,6 +52,11 @@ static const int ui_sidcart_enable_values[] = {
 static char *ui_sidcart_engine_model[] = {
     "6581 (Fast SID)",
     "8580 (Fast SID)",
+#ifdef HAVE_RESID
+    "6581 (ReSID)",
+    "8580 (ReSID)",
+    "8580 + digiboost (ReSID)",
+#endif
 #ifdef HAVE_CATWEASELMKIII
     "Catweasel MK3",
 #endif
@@ -64,6 +69,11 @@ static char *ui_sidcart_engine_model[] = {
 static const int ui_sidcart_engine_model_values[] = {
     SID_FASTSID_6581,
     SID_FASTSID_8580,
+#ifdef HAVE_RESID
+    SID_RESID_6581,
+    SID_RESID_8580,
+    SID_RESID_8580D,
+#endif
 #ifdef HAVE_CATWEASELMKIII
     SID_CATWEASELMKIII,
 #endif
