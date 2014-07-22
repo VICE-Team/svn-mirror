@@ -33,7 +33,7 @@ extern "C" {
 #include "cbm2ui.h"
 #include "constants.h"
 #include "ui.h"
-#include "ui_cbm2.h"
+#include "ui_cbm5x0.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
 #include "video.h"
@@ -78,8 +78,8 @@ ui_res_value_list cbm5x0_ui_res_values[] = {
 void cbm5x0_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
-        case MENU_CBM2_SETTINGS:
-            ui_cbm2();
+        case MENU_CBM5X0_SETTINGS:
+            ui_cbm5x0();
             break;
         case MENU_VICII_SETTINGS:
             ui_vicii();

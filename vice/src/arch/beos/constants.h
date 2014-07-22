@@ -343,6 +343,7 @@ const uint32 MENU_USERPORT_JOY_STARBYTE           = 'M186';
 const uint32 MENU_DATASETTE_SETTINGS              = 'M203';
 const uint32 MENU_VIC20_SETTINGS                  = 'M204';
 const uint32 MENU_CBM2_SETTINGS                   = 'M205';
+const uint32 MENU_CBM5X0_SETTINGS                 = 'M399';
 const uint32 MENU_PET_SETTINGS                    = 'M206';
 const uint32 MENU_VICII_SETTINGS                  = 'M207';
 const uint32 MENU_VIC_SETTINGS                    = 'M208';
