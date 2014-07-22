@@ -1414,9 +1414,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
     devlist = lib_stralloc("");
 
-#ifdef USE_SDL_AUDIO
-    sound_init_sdl_device();
-#endif
+    /* the "native" platfrom specific drivers should come first, sorted by
+       priority (most wanted first) */
+
 #ifdef USE_PULSE
     sound_init_pulse_device();
 #endif
@@ -1488,7 +1488,16 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     sound_init_ahi_device();
 #endif
 
+    /* SDL driver last, after all platform specific ones */
+#ifdef USE_SDL_AUDIO
+    sound_init_sdl_device();
+#endif
+
+    /* the dummy device acts as a "guard" against the drivers that create files,
+       since the list will be searched top-down, and the dummy driver always
+       works, no files will be created accidently */
     sound_init_dummy_device();
+
     sound_init_fs_device();
     sound_init_dump_device();
     sound_init_wav_device();
