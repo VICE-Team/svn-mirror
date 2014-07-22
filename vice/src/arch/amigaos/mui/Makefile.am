@@ -52,12 +52,16 @@ libarchmui_a_SOURCES = \
 	uidqbb.h \
 	uidrivec128.c \
 	uidrivec128.h \
-	uidrivec64vic20.c \
-	uidrivec64vic20.h \
+	uidrivec64.c \
+	uidrivec64.h \
+	uidrivec64dtv.c \
+	uidrivec64dtv.h \
 	uidrivepetcbm2.c \
 	uidrivepetcbm2.h \
 	uidriveplus4.c \
 	uidriveplus4.h \
+	uidrivevic20.c \
+	uidrivevic20.h \
 	uids12c887rtc.c \
 	uids12c887rtc.h \
 	uieasyflash.c \

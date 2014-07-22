@@ -1,8 +1,8 @@
 /*
- * uidrivec64vic20.h
+ * uidrivevic20.h
  *
  * Written by
- *  Mathias Roslund <vice.emu@amidog.se>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,9 +24,9 @@
  *
  */
 
-#ifndef VICE_UI_DRIVEC64VIC20_H
-#define VICE_UI_DRIVEC64VIC20_H
+#ifndef VICE_UI_DRIVEVIC20_H
+#define VICE_UI_DRIVEVIC20_H
 
-extern void uidrivec64vic20_settings_dialog(void);
+extern void uidrivevic20_settings_dialog(void);
 
 #endif

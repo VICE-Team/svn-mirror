@@ -37,7 +37,7 @@
 #include "translate.h"
 
 #include "mui/uic64dtv.h"
-#include "mui/uidrivec64vic20.h"
+#include "mui/uidrivec64dtv.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
 #include "mui/uiprinter.h"
@@ -102,7 +102,7 @@ static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
             ui_c64vic20_drive_rom_settings_dialog(canvas);
             break;
         case IDM_DRIVE_SETTINGS:
-            uidrivec64vic20_settings_dialog();
+            uidrivec64dtv_settings_dialog();
             break;
         case IDM_PRINTER_SETTINGS:
             ui_printer_settings_dialog(canvas, 0, 0);
