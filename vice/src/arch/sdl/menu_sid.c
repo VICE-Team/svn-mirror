@@ -181,7 +181,8 @@ static const ui_menu_entry_t sid_sampling_menu[] = {
 };
 
 UI_MENU_DEFINE_SLIDER(SidResidPassband, 0, 90)
-UI_MENU_DEFINE_SLIDER(SidResidFilterBias, -500, 500)
+UI_MENU_DEFINE_SLIDER(SidResidGain, 90, 100)
+UI_MENU_DEFINE_SLIDER(SidResidFilterBias, -5000, 5000)
 
 #define VICE_SDL_RESID_OPTIONS          \
     { "reSID sampling method",          \
@@ -192,6 +193,10 @@ UI_MENU_DEFINE_SLIDER(SidResidFilterBias, -500, 500)
       MENU_ENTRY_RESOURCE_INT,          \
       slider_SidResidPassband_callback, \
       (ui_callback_data_t)"Enter passband in percentage of total bandwidth (lower is faster, higher is better)" }, \
+    { "reSID filter gain",      \
+      MENU_ENTRY_RESOURCE_INT,          \
+      slider_SidResidGain_callback, \
+      (ui_callback_data_t)"Set filter gain in percent" }, \
     { "reSID filter bias",              \
       MENU_ENTRY_RESOURCE_INT,          \
       slider_SidResidFilterBias_callback, \
