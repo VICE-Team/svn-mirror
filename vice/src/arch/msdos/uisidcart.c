@@ -61,6 +61,17 @@ static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
         case SID_FASTSID_8580:
             s = "8580 (Fast SID)";
             break;
+#ifdef HAVE_RESID
+        case SID_RESID_6581:
+            s = "6581 (ReSID)";
+            break;
+        case SID_RESID_8580:
+            s = "8580 (ReSID)";
+            break;
+        case SID_RESID_8580D:
+            s = "8580 + digi boost (ReSID)";
+            break;
+#endif
 #ifdef HAVE_PARSID
         case SID_PARSID_PORT1:
             s = "ParSID in Port 1";
@@ -124,6 +135,20 @@ static tui_menu_item_def_t sid_engine_model_submenu[] = {
       "HardSID emulation",
       sid_radio_engine_model_callback, (void *)SID_HARDSID, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
+#ifdef HAVE_RESID
+    { "_6581 (ReSID)",
+      "ReSID 6581 emulation",
+      sid_radio_engine_model_callback, (void *)SID_RESID_6581, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_8580 (ReSID)",
+      "ReSID 8580 emulation",
+      sid_radio_engine_model_callback, (void *)SID_RESID_8580, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "8580 + _digi boost (ReSID)",
+      "ReSID 8580 + digi boost emulation",
+      sid_radio_engine_model_callback, (void *)SID_RESID_8580D, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+#endif
 #ifdef HAVE_PARSID
     { "ParSID in Port 1",
       "ParSID emulation",
@@ -208,6 +233,13 @@ tui_menu_item_def_t sidcart_ui_menu_items[] = {
       "Select the clock used for the SID",
       sid_clock_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, sid_clock_submenu, "SID clock" },
+#if defined(HAVE_RESID)
+    { "--"},
+    { "reSID s_ampling method:",
+      "How the reSID engine generates the samples",
+      toggle_ResidSampling_callback, NULL, 12,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+#endif
     { NULL }
 };
 
@@ -234,6 +266,13 @@ tui_menu_item_def_t sidcart_plus4_ui_menu_items[] = {
       "Select the clock used for the SID",
       sid_clock_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, sid_clock_submenu, "SID clock" },
+#if defined(HAVE_RESID)
+    { "--"},
+    { "reSID s_ampling method:",
+      "How the reSID engine generates the samples",
+      toggle_ResidSampling_callback, NULL, 12,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+#endif
     { "Enable digiblaster add-on:",
       "Enable/disable emulation of the digiblaster add-on",
       toggle_DIGIBLASTER_callback, NULL, 3,
