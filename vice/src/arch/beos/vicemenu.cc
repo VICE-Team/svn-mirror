@@ -768,8 +768,12 @@ BMenuBar *menu_create(int machine_class)
     uppermenu = new BMenu("Settings");
     menubar->AddItem(uppermenu);
 
-    if (machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
+    if (machine_class == VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(new BMenuItem("CBM 2 ...", new BMessage(MENU_CBM2_SETTINGS)));
+    }
+
+    if (machine_class == VICE_MACHINE_CBM5x0) {
+        uppermenu->AddItem(new BMenuItem("CBM 5x0 ...", new BMessage(MENU_CBM5X0_SETTINGS)));
     }
 
     if (machine_class == VICE_MACHINE_PET) {
