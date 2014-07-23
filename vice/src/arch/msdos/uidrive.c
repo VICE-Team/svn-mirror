@@ -38,6 +38,8 @@
 
 TUI_MENU_DEFINE_RADIO(Drive8ExtendImagePolicy)
 TUI_MENU_DEFINE_RADIO(Drive9ExtendImagePolicy)
+TUI_MENU_DEFINE_RADIO(Drive10ExtendImagePolicy)
+TUI_MENU_DEFINE_RADIO(Drive11ExtendImagePolicy)
 
 static TUI_MENU_CALLBACK(drive_extend_image_policy_submenu_callback)
 {
@@ -83,20 +85,35 @@ static tui_menu_item_def_t drive##num##_extend_image_policy_submenu[] = {       
 
 DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(8)
 DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(9)
+DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(10)
+DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(11)
 
 TUI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 TUI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
+
 TUI_MENU_DEFINE_RADIO(Drive8Type)
 TUI_MENU_DEFINE_RADIO(Drive9Type)
+TUI_MENU_DEFINE_RADIO(Drive10Type)
+TUI_MENU_DEFINE_RADIO(Drive11Type)
 
 static TUI_MENU_CALLBACK(drive_type_submenu_callback)
 {
     int value;
 
-    if ((int)param == 8) {
-        resources_get_int("Drive8Type", &value);
-    } else {
-        resources_get_int("Drive9Type", &value);
+    switch ((int)param) {
+        default:
+        case 8:
+            resources_get_int("Drive8Type", &value);
+            break;
+        case 9:
+            resources_get_int("Drive9Type", &value);
+            break;
+        case 10:
+            resources_get_int("Drive10Type", &value);
+            break;
+        case 11:
+            resources_get_int("Drive11Type", &value);
+            break;
     }
 
     switch (value) {
@@ -196,18 +213,32 @@ static tui_menu_item_def_t drive##num##_type_submenu[] = {                      
 
 DEFINE_DRIVE_MODEL_SUBMENU(8)
 DEFINE_DRIVE_MODEL_SUBMENU(9)
+DEFINE_DRIVE_MODEL_SUBMENU(10)
+DEFINE_DRIVE_MODEL_SUBMENU(11)
 
 TUI_MENU_DEFINE_RADIO(Drive8IdleMethod)
 TUI_MENU_DEFINE_RADIO(Drive9IdleMethod)
+TUI_MENU_DEFINE_RADIO(Drive10IdleMethod)
+TUI_MENU_DEFINE_RADIO(Drive11IdleMethod)
 
 static TUI_MENU_CALLBACK(drive_idle_method_submenu_callback)
 {
     int value;
 
-    if ((int)param == 8) {
-        resources_get_int("Drive8IdleMethod", &value);
-    } else {
-        resources_get_int("Drive9IdleMethod", &value);
+    switch ((int)param) {
+        default:
+        case 8:
+            resources_get_int("Drive8IdleMethod", &value);
+            break;
+        case 9:
+            resources_get_int("Drive9IdleMethod", &value);
+            break;
+        case 10:
+            resources_get_int("Drive10IdleMethod", &value);
+            break;
+        case 11:
+            resources_get_int("Drive11IdleMethod", &value);
+            break;
     }
 
     switch (value) {
@@ -244,9 +275,13 @@ static tui_menu_item_def_t drive##num##_idle_method_submenu[] = {       \
 
 DEFINE_DRIVE_IDLE_METHOD_SUBMENU(8)
 DEFINE_DRIVE_IDLE_METHOD_SUBMENU(9)
+DEFINE_DRIVE_IDLE_METHOD_SUBMENU(10)
+DEFINE_DRIVE_IDLE_METHOD_SUBMENU(11)
 
 TUI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
 TUI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
+TUI_MENU_DEFINE_TOGGLE(Drive10ParallelCable)
+TUI_MENU_DEFINE_TOGGLE(Drive11ParallelCable)
 
 static tui_menu_item_def_t drive_settings_submenu[] = {
     { "True Drive _Emulation:",
@@ -295,6 +330,44 @@ static tui_menu_item_def_t drive_settings_submenu[] = {
       "Settings for dealing with 40-track disk images in drive #9",
       drive_extend_image_policy_submenu_callback, (void *)9, 16,
       TUI_MENU_BEH_CONTINUE, drive9_extend_image_policy_submenu, "" },
+    { "--" },
+    { "Drive #1_0 model:",
+      "Specify model for drive #10",
+      drive_type_submenu_callback, (void *)10, 26,
+      TUI_MENU_BEH_CONTINUE, drive10_type_submenu,
+      "Drive 10 model" },
+    { "Drive #10 idle method:",
+      "Specify idle method for drive #10",
+      drive_idle_method_submenu_callback, (void *)10, 12,
+      TUI_MENU_BEH_CONTINUE, drive10_idle_method_submenu,
+      "Drive 10 idle method" },
+    { "Drive #10 Parallel Cable:",
+      "Enable a SpeedDOS-compatible parallel cable for drive #10",
+      toggle_Drive10ParallelCable_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Drive #10 40-Track Image Support:",
+      "Settings for dealing with 40-track disk images in drive #10",
+      drive_extend_image_policy_submenu_callback, (void *)10, 16,
+      TUI_MENU_BEH_CONTINUE, drive10_extend_image_policy_submenu, "" },
+    { "--" },
+    { "Drive #_11 model:",
+      "Specify model for drive #11",
+      drive_type_submenu_callback, (void *)11, 26,
+      TUI_MENU_BEH_CONTINUE, drive11_type_submenu,
+      "Drive 11 model" },
+    { "Drive #11 idle method:",
+      "Specify idle method for drive #11",
+      drive_idle_method_submenu_callback, (void *)11, 12,
+      TUI_MENU_BEH_CONTINUE, drive11_idle_method_submenu,
+      "Drive 11 idle method" },
+    { "Drive #11 Parallel Cable:",
+      "Enable a SpeedDOS-compatible parallel cable for drive #11",
+      toggle_Drive11ParallelCable_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Drive #11 40-Track Image Support:",
+      "Settings for dealing with 40-track disk images in drive #11",
+      drive_extend_image_policy_submenu_callback, (void *)11, 16,
+      TUI_MENU_BEH_CONTINUE, drive11_extend_image_policy_submenu, "" },
     { NULL }
 };
 
