@@ -60,8 +60,7 @@ static modtab_t modtab[] = {
 
 static int cbm2_model = 1;
 
-/* FIXME: make static (currently still used directly by some ports) */
-int cbm2_set_model(const char *model, void *extra)
+static int cbm2_set_model(const char *model, void *extra)
 {
     int i;
 

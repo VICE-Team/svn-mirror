@@ -27,7 +27,6 @@
 #ifndef VICE__UI_CBM2_H__
 #define VICE__UI_CBM2_H__
 
-const uint32 MESSAGE_CBM2_MODEL = 'MCB1';
 const uint32 MESSAGE_CBM2_MODELLINE	= 'MCB2';
 const uint32 MESSAGE_CBM2_MEMORY = 'MCB3';
 const uint32 MESSAGE_CBM2_RAMBANK = 'MCB4';

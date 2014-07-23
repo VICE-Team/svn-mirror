@@ -39,7 +39,6 @@ extern "C" {
 #include "vsync.h"
 }
 
-static const char *cbm2_model_name[] = { "610", "620", "620+", "710", "720", "720+", NULL };
 static const char *cbm2_modelline[] = { "7x0 (50Hz)", "6x0 60Hz", "6x0 50Hz", NULL };
 static int cbm2_memory[] = { 128, 256, 512, 1024, 0 };
 static const char *rambank_res[] = { "Ram08", "Ram1", "Ram2", "Ram4", "Ram6", "RamC", NULL };
@@ -86,13 +85,6 @@ Cbm2Window::Cbm2Window()
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("Machine");
     background->AddChild(box);
-
-    for (i = 0; cbm2_model_name[i]; i++) {
-        msg = new BMessage(MESSAGE_CBM2_MODEL);
-        msg->AddInt32("model", i);
-        button = new BButton(BRect(10, 15 + i * 25, 90, 30 + i * 25), cbm2_model_name[i], cbm2_model_name[i], msg);
-        box->AddChild(button);
-    }
 
     /* model line */
     r = BRect(10, 185, 110, 275);
@@ -157,10 +149,6 @@ void Cbm2Window::MessageReceived(BMessage *msg)
     int32 dummy;
 
     switch (msg->what) {
-        case MESSAGE_CBM2_MODEL:
-            msg->FindInt32("model", &res_value);
-            cbm2_set_model(cbm2_model_name[res_value], NULL);
-            break;
         case MESSAGE_CBM2_MODELLINE:
             msg->FindInt32("modelline", &res_value);
             resources_set_int("ModelLine", res_value);
