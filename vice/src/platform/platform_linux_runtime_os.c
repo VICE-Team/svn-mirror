@@ -130,7 +130,10 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "archdep.h"
+#include "lib.h"
 #include "platform.h"
+#include "util.h"
 
 #if defined(__GLIBC__) && (__GLIBC__==2) && (__GLIBC_MINOR__>0) && !defined(__UCLIBC__)
 #  include <gnu/libc-version.h>
@@ -148,6 +151,8 @@ char *platform_get_linux_runtime_cpu(void)
     char *loc1 = NULL;
     char *loc2 = NULL;
     char *loc3 = NULL;
+    char *tempfile = NULL;
+    char *tempsystem = NULL;
     size_t size1 = 0;
     size_t size2 = 0;
     struct utsname name;
@@ -158,8 +163,10 @@ char *platform_get_linux_runtime_cpu(void)
         if (cpuinfo) {
             fclose(cpuinfo);
             cpuinfo = NULL;
-            system("cp /proc/cpuinfo /tmp/cpuinfo.tmp");
-            cpuinfo = fopen("/tmp/cpuinfo.tmp", "rb");
+            tempfile = archdep_tmpnam();
+            tempsystem = util_concat("cp /proc/cpuinfo ", tempfile, NULL);
+            system(tempsystem);
+            cpuinfo = fopen(tempfile, "rb");
         }
         if (cpuinfo) {
             fseek(cpuinfo, 0L, SEEK_END);
@@ -210,7 +217,9 @@ char *platform_get_linux_runtime_cpu(void)
                 }
             }
             fclose(cpuinfo);
-            unlink("/tmp/cpuinfo.tmp");
+            unlink(tempfile);
+            lib_free(tempfile);
+            lib_free(tempsystem);
             if (buffer) {
                 free(buffer);
             }

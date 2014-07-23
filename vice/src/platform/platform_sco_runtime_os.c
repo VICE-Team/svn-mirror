@@ -38,6 +38,10 @@
 #include <stdio.h>
 #include <sys/utsname.h>
 
+#include "archdep.h"
+#include "lib.h"
+#include "util.h"
+
 static char buffer[80];
 
 static char platform_os[80];
@@ -50,6 +54,8 @@ char *platform_get_sco_runtime_os(void)
     FILE *infile;
     int amount = 0;
     int i = 0;
+    char *tempfile = NULL;
+    char *tempsystem = NULL;
 
     if (!got_os) {
         buffer[0] = 0;
@@ -57,8 +63,10 @@ char *platform_get_sco_runtime_os(void)
         if (!retval) {
             sprintf(buffer, "%s", name.version);
         } else {
-            system("uname -v >/tmp/tmp.version");
-            infile = fopen("/tmp/tmp.version", "rb");
+            tempfile = archdep_tmpnam();
+            tempsystem = util_concat("uname -v >", tempfile, NULL);
+            system(tempsystem);
+            infile = fopen(tempfile, "rb");
             if (infile) {
                 amount = fread(buffer, 1, 80, infile);
                 if (amount) {
@@ -69,7 +77,9 @@ char *platform_get_sco_runtime_os(void)
                 }
                 fclose(infile);
             }
-            unlink("/tmp/tmp.version");
+            unlink(tempfile);
+            lib_free(tempfile);
+            lib_free(tempsystem);
         }
         if (buffer[0] == '2') {
             sprintf(platform_os, "SCO Unix v4.x");
@@ -95,14 +105,18 @@ char *platform_get_sco_runtime_cpu(void)
     int i = 0;
     int amount = 0;
     FILE *infile;
+    char *tempfile = NULL;
+    char *tempsystem = NULL;
 
     if (!got_cpu) {
         retval = uname(&name);
         if (!retval) {
             sprintf(platform_cpu, "%s", name.machine);
         } else {
-            system("uname -m >/tmp/tmp.machine");
-            infile = fopen("/tmp/tmp.machine", "rb");
+            tempfile = archdep_tmpnam();
+            tempsystem = util_concat("uname -m >", tempfile, NULL);
+            system(tempsystem);
+            infile = fopen(tempfile, "rb");
             if (infile) {
                 amount = fread(platform_cpu, 1, 20, infile);
                 if (amount) {
@@ -113,7 +127,9 @@ char *platform_get_sco_runtime_cpu(void)
                 }
                 fclose(infile);
             }
-            unlink("/tmp/tmp.machine");
+            unlink(tempfile);
+            lib_free(tempfile);
+            lib_free(tempsystem);
         }
         got_cpu = 1;
     }

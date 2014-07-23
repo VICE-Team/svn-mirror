@@ -38,6 +38,12 @@
 #include <sys/utsname.h>
 #include <mach/mach.h>
 
+#ifdef __ppc__
+#include "archdep.h"
+#include "lib.h"
+#include "util.h"
+#endif
+
 static char buffer[4096];
 
 static char os[100];
@@ -120,6 +126,8 @@ char *platform_get_darwin_runtime_cpu(void)
 #ifdef __ppc__
     FILE *infile = NULL;
     int amount = 0;
+    char *tempfile = NULL;
+    char *tempsystem = NULL;
 #endif
 
     if (!got_cpu) {
@@ -132,8 +140,10 @@ char *platform_get_darwin_runtime_cpu(void)
         }
 
 #ifdef __ppc__
-        system("uname -m >/tmp/uname.tmp");
-        infile = fopen("/tmp/uname.tmp", "rb");
+        tempfile = archdep_tmpname();
+        tempsystem = util_concat("uname -m >", tempfile, NULL);
+        system(tempsystem);
+        infile = fopen(tempfile, "rb");
         if (infile) {
             amount = fread(buffer, 1, 4095, infile);
             if (amount) {
@@ -143,7 +153,10 @@ char *platform_get_darwin_runtime_cpu(void)
                 }
             }
             fclose(infile);
+            unlink(tempfile);
         }
+        lib_free(tempsystem);
+        lib_free(tempfile);
 #endif
         got_cpu = 1;
     }
