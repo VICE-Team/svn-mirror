@@ -35,6 +35,8 @@
 #undef BYTE
 #undef WORD
 #undef DWORD
+
+#include <windows.h> /* hack to get LPOLESTR etc on some mingw(64) */
 #include <wtypes.h>
 
 #ifndef DUMMYUNIONNAME
