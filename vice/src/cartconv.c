@@ -232,7 +232,7 @@ static const unsigned char charmap[] = {
     '\370', '\371', '\372', '\373', '\374', '\375', '\376', '\377',
 };
 
-int strncasecmp(const char *s1, const char *s2, int n)
+int strncasecmp(const char *s1, const char *s2, size_t n)
 {
     unsigned char u1, u2;
 

@@ -114,7 +114,7 @@ extern int strcasecmp(const char *s1, const char *s2);
 #endif
 
 #if !defined HAVE_STRNCASECMP
-extern int strncasecmp(const char *s1, const char *s2, unsigned int n);
+extern int strncasecmp(const char *s1, const char *s2, size_t n);
 #endif
 
 #endif
