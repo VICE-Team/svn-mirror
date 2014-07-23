@@ -1414,7 +1414,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
     devlist = lib_stralloc("");
 
-    /* the "native" platfrom specific drivers should come first, sorted by
+    /* the "native" platform specific drivers should come first, sorted by
        priority (most wanted first) */
 
 #ifdef USE_PULSE
