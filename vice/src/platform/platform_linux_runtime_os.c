@@ -159,7 +159,7 @@ char *platform_get_linux_runtime_cpu(void)
             fclose(cpuinfo);
             cpuinfo = NULL;
             system("cp /proc/cpuinfo /tmp/cpuinfo.tmp");
-            cpuinfo = fopen("/tmpcpuinfo.tmp", "rb");
+            cpuinfo = fopen("/tmp/cpuinfo.tmp", "rb");
         }
         if (cpuinfo) {
             fseek(cpuinfo, 0L, SEEK_END);
