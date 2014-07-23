@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 extern "C" {
+#include "cbm2model.h"
 #include "cbm2ui.h"
 #include "constants.h"
 #include "ui.h"
@@ -77,6 +78,33 @@ ui_res_value_list cbm2_ui_res_values[] = {
 void cbm2_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
+        case MENU_CBM2_MODEL_610_PAL:
+            cbm2model_set(CBM2MODEL_610_PAL);
+            break;
+        case MENU_CBM2_MODEL_610_NTSC:
+            cbm2model_set(CBM2MODEL_610_NTSC);
+            break;
+        case MENU_CBM2_MODEL_620_PAL:
+            cbm2model_set(CBM2MODEL_620_PAL);
+            break;
+        case MENU_CBM2_MODEL_620_NTSC:
+            cbm2model_set(CBM2MODEL_620_NTSC);
+            break;
+        case MENU_CBM2_MODEL_620PLUS_PAL:
+            cbm2model_set(CBM2MODEL_620PLUS_PAL);
+            break;
+        case MENU_CBM2_MODEL_620PLUS_NTSC:
+            cbm2model_set(CBM2MODEL_620PLUS_NTSC);
+            break;
+        case MENU_CBM2_MODEL_710_NTSC:
+            cbm2model_set(CBM2MODEL_710_NTSC);
+            break;
+        case MENU_CBM2_MODEL_720_NTSC:
+            cbm2model_set(CBM2MODEL_720_NTSC);
+            break;
+        case MENU_CBM2_MODEL_720PLUS_NTSC:
+            cbm2model_set(CBM2MODEL_720PLUS_NTSC);
+            break;
         case MENU_CBM2_SETTINGS:
             ui_cbm2();
             break;

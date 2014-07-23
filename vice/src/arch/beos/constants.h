@@ -382,6 +382,19 @@ const uint32 MENU_C64DTV_MODEL_V3_PAL             = 'M387';
 const uint32 MENU_C64DTV_MODEL_V3_NTSC            = 'M388';
 const uint32 MENU_C64DTV_MODEL_HUMMER_NTSC        = 'M389';
 
+const uint32 MENU_CBM5X0_MODEL_510_PAL            = 'M422';
+const uint32 MENU_CBM5X0_MODEL_510_NTSC           = 'M423';
+
+const uint32 MENU_CBM2_MODEL_610_PAL              = 'M424';
+const uint32 MENU_CBM2_MODEL_610_NTSC             = 'M425';
+const uint32 MENU_CBM2_MODEL_620_PAL              = 'M426';
+const uint32 MENU_CBM2_MODEL_620_NTSC             = 'M427';
+const uint32 MENU_CBM2_MODEL_620PLUS_PAL          = 'M428';
+const uint32 MENU_CBM2_MODEL_620PLUS_NTSC         = 'M429';
+const uint32 MENU_CBM2_MODEL_710_NTSC             = 'M430';
+const uint32 MENU_CBM2_MODEL_720_NTSC             = 'M431';
+const uint32 MENU_CBM2_MODEL_720PLUS_NTSC         = 'M432';
+
 const uint32 MENU_VICII_MODEL_6569_PAL            = 'M227';
 const uint32 MENU_VICII_MODEL_8565_PAL            = 'M228';
 const uint32 MENU_VICII_MODEL_6569R1_OLD_PAL      = 'M229';

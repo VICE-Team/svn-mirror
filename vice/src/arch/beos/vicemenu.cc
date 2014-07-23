@@ -417,6 +417,27 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Hummer (NTSC)", new BMessage(MENU_C64DTV_MODEL_HUMMER_NTSC)));
     }
 
+    if (machine_class == VICE_MACHINE_CBM5X0) {
+        uppermenu->AddItem(menu = new BMenu("CBM5x0 model"));
+            menu->SetRadioMode(true);
+            menu->AddItem(new BMenuItem("510 (PAL)", new BMessage(MENU_CBM5X0_MODEL_510_PAL)));
+            menu->AddItem(new BMenuItem("510 (NTSC)", new BMessage(MENU_CBM5X0_MODEL_510_NTSC)));
+    }
+
+    if (machine_class == VICE_MACHINE_CBM6X0) {
+        uppermenu->AddItem(menu = new BMenu("CBM2 model"));
+            menu->SetRadioMode(true);
+            menu->AddItem(new BMenuItem("610 (PAL)", new BMessage(MENU_CBM2_MODEL_610_PAL)));
+            menu->AddItem(new BMenuItem("610 (NTSC)", new BMessage(MENU_CBM2_MODEL_610_NTSC)));
+            menu->AddItem(new BMenuItem("620 (PAL)", new BMessage(MENU_CBM2_MODEL_620_PAL)));
+            menu->AddItem(new BMenuItem("620 (NTSC)", new BMessage(MENU_CBM2_MODEL_620_NTSC)));
+            menu->AddItem(new BMenuItem("620+ (PAL)", new BMessage(MENU_CBM2_MODEL_620PLUS_PAL)));
+            menu->AddItem(new BMenuItem("620+ (NTSC)", new BMessage(MENU_CBM2_MODEL_620PLUS_NTSC)));
+            menu->AddItem(new BMenuItem("710 (NTSC)", new BMessage(MENU_CBM2_MODEL_710_NTSC)));
+            menu->AddItem(new BMenuItem("720 (NTSC)", new BMessage(MENU_CBM2_MODEL_720_NTSC)));
+            menu->AddItem(new BMenuItem("720+ (NTSC)", new BMessage(MENU_CBM2_MODEL_720PLUS_NTSC)));
+    }
+
     if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_PLUS4 ||
         machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(menu = new BMenu("Drive sync factor"));

@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 extern "C" {
+#include "cbm2model.h"
 #include "cbm2ui.h"
 #include "constants.h"
 #include "ui.h"
@@ -78,6 +79,12 @@ ui_res_value_list cbm5x0_ui_res_values[] = {
 void cbm5x0_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
+        case MENU_CBM5X0_MODEL_510_PAL:
+            cbm2model_set(CBM2MODEL_510_PAL);
+            break;
+        case MENU_CBM5X0_MODEL_510_NTSC:
+            cbm2model_set(CBM2MODEL_510_NTSC);
+            break;
         case MENU_CBM5X0_SETTINGS:
             ui_cbm5x0();
             break;
