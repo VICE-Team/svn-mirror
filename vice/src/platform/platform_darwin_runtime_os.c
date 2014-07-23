@@ -140,7 +140,7 @@ char *platform_get_darwin_runtime_cpu(void)
         }
 
 #ifdef __ppc__
-        tempfile = archdep_tmpname();
+        tempfile = archdep_tmpnam();
         tempsystem = util_concat("uname -m >", tempfile, NULL);
         system(tempsystem);
         infile = fopen(tempfile, "rb");
