@@ -902,7 +902,7 @@ static void create_special_submenu(int has_serial_traps)
 
 /* ------------------------------------------------------------------------- */
 
-void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps, int number_joysticks, int has_datasette)
+void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps, int number_joysticks, int has_datasette, const tui_menu_item_def_t *d)
 {
     /* Main menu. */
     ui_main_menu = tui_menu_create(NULL, 1);
@@ -1021,7 +1021,7 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps, int 
                          TUI_MENU_BEH_CONTINUE);
 
     if (has_drive) {
-        uidrive_init(ui_main_menu);
+        uidrive_init(ui_main_menu, d);
     }
 
     if (has_datasette) {

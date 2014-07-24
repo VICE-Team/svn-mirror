@@ -46,6 +46,7 @@
 #include "uic128model.h"
 #include "uiciamodel.h"
 #include "uidigimax.h"
+#include "uidrive.h"
 #include "uids12c887rtc.h"
 #include "uieasyflash.h"
 #include "uiexpert.h"
@@ -222,7 +223,7 @@ int c128ui_init(void)
 {
     tui_menu_t ui_ioextensions_submenu;
 
-    ui_create_main_menu(1, 1, 1, 2, 1);
+    ui_create_main_menu(1, 1, 1, 2, 1, drivec128_settings_submenu);
 
     tui_menu_add_separator(ui_special_submenu);
 

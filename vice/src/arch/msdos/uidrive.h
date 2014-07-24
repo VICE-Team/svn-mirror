@@ -27,8 +27,17 @@
 #ifndef UIDRIVE_H
 #define UIDRIVE_H
 
+#include "tuimenu.h"
+
 struct tui_menu;
 
-extern void uidrive_init(struct tui_menu *parent_submenu);
+extern tui_menu_item_def_t drivec64_settings_submenu[];
+extern tui_menu_item_def_t drivec128_settings_submenu[];
+extern tui_menu_item_def_t drivec64dtv_settings_submenu[];
+extern tui_menu_item_def_t driveplus4_settings_submenu[];
+extern tui_menu_item_def_t drivevic20_settings_submenu[];
+extern tui_menu_item_def_t driveieee_settings_submenu[];
+
+extern void uidrive_init(struct tui_menu *parent_submenu, const tui_menu_item_def_t *d);
 
 #endif

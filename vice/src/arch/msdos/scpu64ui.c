@@ -46,6 +46,7 @@
 #include "uic64model.h"
 #include "uidigimax.h"
 #include "uidqbb.h"
+#include "uidrive.h"
 #include "uids12c887rtc.h"
 #include "uieasyflash.h"
 #include "uiexpert.h"
@@ -213,7 +214,7 @@ int scpu64ui_init(void)
 {
     tui_menu_t ui_ioextensions_submenu;
 
-    ui_create_main_menu(1, 1, 1, 2, 1);
+    ui_create_main_menu(1, 1, 1, 2, 1, drivec64_settings_submenu);
 
     tui_menu_add_separator(ui_special_submenu);
 
