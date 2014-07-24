@@ -185,6 +185,21 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
 
+    if (machine_class == VICE_MACHINE_CBM2 || machine_class == VICE_MACHINE_CBM5X0) {
+        uppermenu->AddItem(menu = new BMenu("Cartridge image"));
+            menu->AddItem(new BMenuItem("Load new Cart $1000", new BMessage(MENU_CART_CBM2_LOAD_1000)));
+            menu->AddItem(new BMenuItem("Unload Cart $1000", new BMessage(MENU_CART_CBM2_UNLOAD_1000)));
+            menu->AddItem(new BMenuItem("Load new Cart $2000-$3000", new BMessage(MENU_CART_CBM2_LOAD_2000)));
+            menu->AddItem(new BMenuItem("Unload Cart $2000-$3000", new BMessage(MENU_CART_CBM2_UNLOAD_2000)));
+            menu->AddItem(new BMenuItem("Load new Cart $4000-$5000", new BMessage(MENU_CART_CBM2_LOAD_4000)));
+            menu->AddItem(new BMenuItem("Unload Cart $4000-$5000", new BMessage(MENU_CART_CBM2_UNLOAD_4000)));
+            menu->AddItem(new BMenuItem("Load new Cart $6000-$7000", new BMessage(MENU_CART_CBM2_LOAD_6000)));
+            menu->AddItem(new BMenuItem("Unload Cart $6000-$7000", new BMessage(MENU_CART_CBM2_UNLOAD_6000)));
+            menu->AddSeparatorItem();
+        uppermenu->AddItem(new BMenuItem("Reset on cart change", new BMessage(MENU_CART_CBM2_RESET_ON_CHANGE)));
+        uppermenu->AddSeparatorItem();
+    }
+
     if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Snapshot"));
             menu->AddItem(new BMenuItem("Load snapshot", new BMessage(MENU_SNAPSHOT_LOAD)));

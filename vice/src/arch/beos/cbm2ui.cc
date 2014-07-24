@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 extern "C" {
+#include "cartridge.h"
 #include "cbm2model.h"
 #include "cbm2ui.h"
 #include "constants.h"
@@ -60,6 +61,7 @@ ui_menu_toggle  cbm2_ui_menu_toggles[] = {
     { "CRTCStretchVertical", MENU_TOGGLE_STRETCHVERTICAL },
     { "CRTCDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "CRTCVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "CartridgeReset", MENU_CART_CBM2_RESET_ON_CHANGE },
     { NULL, 0 }
 };
 
@@ -91,9 +93,51 @@ ui_res_value_list cbm2_ui_res_values[] = {
     { NULL, NULL }
 };
 
+static ui_cartridge_t cbm2_ui_cartridges[]={
+    { MENU_CART_CBM2_LOAD_1000, CARTRIDGE_CBM2_8KB_1000, "Load new Cart $1000" },
+    { MENU_CART_CBM2_LOAD_2000, CARTRIDGE_CBM2_8KB_2000, "Load new Cart $2000-$3000" },
+    { MENU_CART_CBM2_LOAD_4000, CARTRIDGE_CBM2_16KB_4000, "Load new Cart $4000-$5000" },
+    { MENU_CART_CBM2_LOAD_6000, CARTRIDGE_CBM2_16KB_6000, "Load new Cart $6000-$7000" },
+    { 0, 0, NULL }
+};
+
+static void cbm2_ui_attach_cartridge(int menu)
+{
+    int i = 0;
+
+    while (menu != cbm2_ui_cartridges[i].menu_item && cbm2_ui_cartridges[i].menu_item) {
+        i++;
+    }
+
+    if (!cbm2_ui_cartridges[i].menu_item) {
+        ui_error("Bad cartridge config in UI");
+        return;
+    }
+
+    ui_select_file(B_OPEN_PANEL, CBM2_CARTRIDGE_FILE, &cbm2_ui_cartridges[i]);
+}
+
 void cbm2_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
+        case MENU_CART_CBM2_LOAD_1000:
+        case MENU_CART_CBM2_LOAD_2000:
+        case MENU_CART_CBM2_LOAD_4000:
+        case MENU_CART_CBM2_LOAD_6000:
+            cbm2_ui_attach_cartridge(((BMessage*)msg)->what);
+            break;
+        case MENU_CART_CBM2_UNLOAD_1000:
+            cartridge_detach_image(CARTRIDGE_CBM2_8KB_1000);
+            break;
+        case MENU_CART_CBM2_UNLOAD_2000:
+            cartridge_detach_image(CARTRIDGE_CBM2_8KB_2000);
+            break;
+        case MENU_CART_CBM2_UNLOAD_4000:
+            cartridge_detach_image(CARTRIDGE_CBM2_16KB_4000);
+            break;
+        case MENU_CART_CBM2_UNLOAD_6000:
+            cartridge_detach_image(CARTRIDGE_CBM2_16KB_6000);
+            break;
         case MENU_CBM2_MODEL_610_PAL:
             cbm2model_set(CBM2MODEL_610_PAL);
             break;

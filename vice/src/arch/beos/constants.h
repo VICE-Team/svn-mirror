@@ -108,6 +108,16 @@ const uint32 MENU_CART_PLUS4_C2_HIGH              = 'M396';
 const uint32 MENU_CART_PLUS4_RESET_ON_CHANGE      = 'M397';
 const uint32 MENU_CART_PLUS4_DETACH               = 'M398';
 
+const uint32 MENU_CART_CBM2_LOAD_1000             = 'M433';
+const uint32 MENU_CART_CBM2_UNLOAD_1000           = 'M434';
+const uint32 MENU_CART_CBM2_LOAD_2000             = 'M435';
+const uint32 MENU_CART_CBM2_UNLOAD_2000           = 'M436';
+const uint32 MENU_CART_CBM2_LOAD_4000             = 'M437';
+const uint32 MENU_CART_CBM2_UNLOAD_4000           = 'M438';
+const uint32 MENU_CART_CBM2_LOAD_6000             = 'M439';
+const uint32 MENU_CART_CBM2_UNLOAD_6000           = 'M440';
+const uint32 MENU_CART_CBM2_RESET_ON_CHANGE       = 'M441';
+
 const uint32 MENU_PRINTER_4_EMULATION_NONE        = 'M269';
 const uint32 MENU_PRINTER_4_EMULATION_FS          = 'M270';
 const uint32 MENU_PRINTER_4_DRIVER_ASCII          = 'M271';
