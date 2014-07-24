@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
@@ -92,7 +93,7 @@ static tui_menu_item_def_t scpu64_menu_items[] = {
     { NULL }
 };
 
-void uiscpuc64_init(struct tui_menu *parent_submenu)
+void uiscpu64_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_scpu64_submenu;
 

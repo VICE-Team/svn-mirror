@@ -35,7 +35,7 @@
 
 TUI_MENU_DEFINE_TOGGLE(PETHRE)
 
-static tui_menu_item_def_t petdww_menu_items[] = {
+static tui_menu_item_def_t pethre_menu_items[] = {
     { "_Enable PET HRE:", "Emulate PET HRE",
       toggle_PETHRE_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
