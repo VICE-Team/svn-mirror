@@ -39,6 +39,19 @@ extern "C" {
 #include "vsync.h"
 }
 
+static int ui_sound_mode_count = 3;
+static int ui_sound_mode[] = {
+    SOUND_OUTPUT_SYSTEM,
+    SOUND_OUTPUT_MONO,
+    SOUND_OUTPUT_STEREO
+};
+
+static const char *ui_sound_mode_text[] = {
+    "System",
+    "Mono",
+    "Stereo"
+};
+
 static int ui_sound_freq_count = 3;
 static int ui_sound_freq[] = {
     11025,
@@ -111,6 +124,27 @@ SoundWindow::SoundWindow()
     background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
     background->SetViewColor(220, 220, 220, 0);
     AddChild(background);
+
+    /* Mode */
+    r = Bounds();
+    r.right = r.left + r.Width() / 4;
+    r.OffsetBy(3 * r.Width(), 0);
+    r.InsetBy(5, 5);
+    r.bottom -= 20;
+    box = new BBox(r, "Sound Mode");
+    box->SetViewColor(220, 220, 220, 0);
+    box->SetLabel("Sound Mode");
+
+    resources_get_int("SoundOutput", &res_value);
+	
+    for (i = 0; i < ui_sound_adjusting_count; i++) {
+        msg = new BMessage(MESSAGE_SOUND_MODE);
+        msg->AddInt32("mode", i);
+        radiobutton = new BRadioButton(BRect(10, 20 + 20 * i, r.Width() - 10, 35 + 20 * i), ui_sound_mode_text[i], ui_sound_mode_text[i], msg);
+        radiobutton->SetValue(res_value == i);
+        box->AddChild(radiobutton);
+    }
+    background->AddChild(box);
 
     /* Frequency */
     r = Bounds();
@@ -222,6 +256,10 @@ void SoundWindow::MessageReceived(BMessage *msg)
         case MESSAGE_SOUND_FRAG:
             msg->FindInt32("fragment", &res_value);
             resources_set_int("SoundFragmentSize", res_value);
+            break;
+        case MESSAGE_SOUND_MODE:
+            msg->FindInt32("mode", &res_value);
+            resources_set_int("SoundOutput", res_value);
             break;
         default:
             BWindow::MessageReceived(msg);
