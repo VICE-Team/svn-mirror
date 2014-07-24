@@ -27,12 +27,6 @@
 #ifndef VICE__UI_DRIVE_H__
 #define VICE__UI_DRIVE_H__
 
-#define DRIVE_EXPANSION_2000(type) (((type) == DRIVE_TYPE_1541) || ((type) == DRIVE_TYPE_1541II))
-#define DRIVE_EXPANSION_4000(type) (((type) == DRIVE_TYPE_1541) || ((type) == DRIVE_TYPE_1541II))
-#define DRIVE_EXPANSION_6000(type) (((type) == DRIVE_TYPE_1541) || ((type) == DRIVE_TYPE_1541II))
-#define DRIVE_EXPANSION_8000(type) (((type) == DRIVE_TYPE_1541) || ((type) == DRIVE_TYPE_1541II))
-#define DRIVE_EXPANSION_A000(type) (((type) == DRIVE_TYPE_1541) || ((type) == DRIVE_TYPE_1541II))
-
 const uint32 MESSAGE_DRIVE_TYPE              = 'MD01';
 const uint32 MESSAGE_DRIVE_EXTENDIMAGEPOLICY = 'MD02';
 const uint32 MESSAGE_DRIVE_IDLEMETHOD        = 'MD03';

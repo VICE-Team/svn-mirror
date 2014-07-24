@@ -124,19 +124,19 @@ void DriveView::EnableControlsForDriveSettings(int type_index)
     for (i = 0; drive_expansion[i].name; i++) {
         switch (i) {
             case 0:
-                expand_is_possible = DRIVE_EXPANSION_2000(current_drive_type);
+                expand_is_possible = drive_check_expansion2000(current_drive_type);
                 break;
             case 1:
-                expand_is_possible = DRIVE_EXPANSION_4000(current_drive_type);
+                expand_is_possible = drive_check_expansion4000(current_drive_type);
                 break;
             case 2:
-                expand_is_possible = DRIVE_EXPANSION_6000(current_drive_type);
+                expand_is_possible = drive_check_expansion6000(current_drive_type);
                 break;
             case 3:
-                expand_is_possible = DRIVE_EXPANSION_8000(current_drive_type);
+                expand_is_possible = drive_check_expansion8000(current_drive_type);
                 break;
             case 4:
-                expand_is_possible = DRIVE_EXPANSION_A000(current_drive_type);
+                expand_is_possible = drive_check_expansion8000(current_drive_type);
                 break;
             default:
                 expand_is_possible = false;
