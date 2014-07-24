@@ -405,6 +405,11 @@ const uint32 MENU_CBM2_MODEL_710_NTSC             = 'M430';
 const uint32 MENU_CBM2_MODEL_720_NTSC             = 'M431';
 const uint32 MENU_CBM2_MODEL_720PLUS_NTSC         = 'M432';
 
+const uint32 MENU_C128_MODEL_C128_PAL             = 'M442';
+const uint32 MENU_C128_MODEL_C128DCR_PAL          = 'M443';
+const uint32 MENU_C128_MODEL_C128_NTSC            = 'M444';
+const uint32 MENU_C128_MODEL_C128DCR_NTSC         = 'M445';
+
 const uint32 MENU_VICII_MODEL_6569_PAL            = 'M227';
 const uint32 MENU_VICII_MODEL_8565_PAL            = 'M228';
 const uint32 MENU_VICII_MODEL_6569R1_OLD_PAL      = 'M229';

@@ -453,6 +453,15 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("720+ (NTSC)", new BMessage(MENU_CBM2_MODEL_720PLUS_NTSC)));
     }
 
+    if (machine_class == VICE_MACHINE_C128) {
+        uppermenu->AddItem(menu = new BMenu("C128 model"));
+            menu->SetRadioMode(true);
+            menu->AddItem(new BMenuItem("C128 PAL", new BMessage(MENU_C128_MODEL_C128_PAL)));
+            menu->AddItem(new BMenuItem("C128DCR PAL", new BMessage(MENU_C128_MODEL_C128DCR_PAL)));
+            menu->AddItem(new BMenuItem("C128 NTSC", new BMessage(MENU_C128_MODEL_C128_NTSC)));
+            menu->AddItem(new BMenuItem("C128DCR NTSC", new BMessage(MENU_C128_MODEL_C128DCR_NTSC)));
+    }
+
     if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_PLUS4 ||
         machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(menu = new BMenu("Drive sync factor"));

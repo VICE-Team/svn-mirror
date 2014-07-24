@@ -43,6 +43,7 @@
 
 extern "C" {
 #include "archdep.h"
+#include "c128model.h"
 #include "c128ui.h"
 #include "cartridge.h"
 #include "constants.h"
@@ -267,6 +268,18 @@ static int c128sidaddressbase[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
 static void c128_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
+        case MENU_C128_MODEL_C128_PAL:
+            c128model_set(C128MODEL_C128_PAL);
+            break;
+        case MENU_C128_MODEL_C128DCR_PAL:
+            c128model_set(C128MODEL_C128DCR_PAL);
+            break;
+        case MENU_C128_MODEL_C128_NTSC:
+            c128model_set(C128MODEL_C128_NTSC);
+            break;
+        case MENU_C128_MODEL_C128DCR_NTSC:
+            c128model_set(C128MODEL_C128DCR_NTSC);
+            break;
         case MENU_VIDEO_VDC_SETTINGS:
             ui_video(1);
             break;
