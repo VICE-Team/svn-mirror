@@ -136,7 +136,7 @@ void DriveView::EnableControlsForDriveSettings(int type_index)
                 expand_is_possible = drive_check_expansion8000(current_drive_type);
                 break;
             case 4:
-                expand_is_possible = drive_check_expansion8000(current_drive_type);
+                expand_is_possible = drive_check_expansionA000(current_drive_type);
                 break;
             default:
                 expand_is_possible = false;
