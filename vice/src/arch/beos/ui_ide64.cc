@@ -71,13 +71,26 @@ IDE64Window::IDE64Window(int img_num)
     : BWindow(BRect(50, 50, 230, 235), "IDE64 size settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     int cylinders, heads, sectors, autodetect;
-    char temp_str[32];
+    char *temp_str = NULL;
     BView *background;
     BCheckBox *checkbox;
     BMessage *msg;
     BRect r;
 
-    sprintf(temp_str, "IDE64 HD #%d size settings", img_num);
+    switch (img_num) {
+        case 0:
+            temp_str = "IDE64 primary master HD size settings";
+            break;
+        case 1:
+            temp_str = "IDE64 primary slave HD size settings";
+            break;
+        case 2:
+            temp_str = "IDE64 secondary master HD size settings";
+            break;
+        case 3:
+            temp_str = "IDE64 secondary slave HD size settings";
+            break;
+    }
     SetTitle(temp_str);
 
     r = Bounds();
