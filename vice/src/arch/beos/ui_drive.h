@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,6 +27,14 @@
 
 #ifndef VICE__UI_DRIVE_H__
 #define VICE__UI_DRIVE_H__
+
+typedef struct drive_type_s {
+    const char *name;
+    int id;
+} drive_type_t;
+
+extern drive_type_t drive_type[];
+extern int drive_machine_parallel_capable;
 
 const uint32 MESSAGE_DRIVE_TYPE              = 'MD01';
 const uint32 MESSAGE_DRIVE_EXTENDIMAGEPOLICY = 'MD02';

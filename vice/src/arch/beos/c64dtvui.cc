@@ -51,11 +51,26 @@ extern "C" {
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
+#include "ui_drive.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
 #include "util.h"
 #include "video.h"
 }
+
+drive_type_t drive_type[] = {
+    { "1541", DRIVE_TYPE_1541 },
+    { "1541-II", DRIVE_TYPE_1541II },
+    { "1570", DRIVE_TYPE_1570 },
+    { "1571", DRIVE_TYPE_1571 },
+    { "1581", DRIVE_TYPE_1581 },
+    { "2000", DRIVE_TYPE_2000 },
+    { "4000", DRIVE_TYPE_4000 },
+    { "None", DRIVE_TYPE_NONE },
+    { NULL, 0 }
+};
+
+int drive_machine_parallel_capable = 0;
 
 ui_menu_toggle  c64dtv_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },

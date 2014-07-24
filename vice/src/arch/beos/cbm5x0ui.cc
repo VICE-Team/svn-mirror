@@ -35,10 +35,25 @@ extern "C" {
 #include "constants.h"
 #include "ui.h"
 #include "ui_cbm5x0.h"
+#include "ui_drive.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
 #include "video.h"
 }
+
+drive_type_t drive_type[] = {
+    { "2031", DRIVE_TYPE_2031 },
+    { "2040", DRIVE_TYPE_2040 },
+    { "3040", DRIVE_TYPE_3040 },
+    { "4040", DRIVE_TYPE_4040 },
+    { "1001", DRIVE_TYPE_1001 },
+    { "8050", DRIVE_TYPE_8050 },
+    { "8250", DRIVE_TYPE_8250 },
+    { "None", DRIVE_TYPE_NONE },
+    { NULL, 0 }
+};
+
+int drive_machine_parallel_capable = 0;
 
 ui_menu_toggle  cbm5x0_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },

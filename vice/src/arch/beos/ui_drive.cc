@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -38,28 +39,6 @@ extern "C" {
 #include "ui_drive.h"
 #include "vsync.h"
 }
-
-static struct _drive_type {
-    const char *name;
-    int id;
-} drive_type[] = {
-    { "1541", DRIVE_TYPE_1541 },
-    { "1541-II", DRIVE_TYPE_1541II },
-    { "1551", DRIVE_TYPE_1551 },
-    { "1571", DRIVE_TYPE_1571 },
-    { "1581", DRIVE_TYPE_1581 },
-    { "2000", DRIVE_TYPE_2000 },
-    { "2031", DRIVE_TYPE_2031 },
-    { "2040", DRIVE_TYPE_2040 },
-    { "3040", DRIVE_TYPE_3040 },
-    { "4000", DRIVE_TYPE_4000 },
-    { "4040", DRIVE_TYPE_4040 },
-    { "1001", DRIVE_TYPE_1001 },
-    { "8050", DRIVE_TYPE_8050 },
-    { "8250", DRIVE_TYPE_8250 },
-    { "None", DRIVE_TYPE_NONE },
-    { NULL, 0 }
-};
 
 struct _drive_extendimagepolicy {
     const char *name;
@@ -120,7 +99,7 @@ void DriveView::EnableControlsForDriveSettings(int type_index)
     for (i = 0; drive_idlemethod[i].name; i++) {
         rb_idlemethod[i]->SetEnabled(drive_check_idle_method(current_drive_type));
     }
-    cb_parallelcable->SetEnabled(drive_check_parallel_cable(current_drive_type));
+    cb_parallelcable->SetEnabled(drive_check_parallel_cable(current_drive_type) && drive_machine_parallel_capable);
     for (i = 0; drive_expansion[i].name; i++) {
         switch (i) {
             case 0:

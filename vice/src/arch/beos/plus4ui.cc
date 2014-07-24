@@ -51,10 +51,26 @@ extern "C" {
 #include "plus4ui.h"
 #include "resources.h"
 #include "ui.h"
+#include "ui_drive.h"
 #include "ui_sidcart.h"
 #include "ui_ted.h"
 #include "video.h"
 }
+
+drive_type_t drive_type[] = {
+    { "1541", DRIVE_TYPE_1541 },
+    { "1541-II", DRIVE_TYPE_1541II },
+    { "1551", DRIVE_TYPE_1551 },
+    { "1570", DRIVE_TYPE_1570 },
+    { "1571", DRIVE_TYPE_1571 },
+    { "1581", DRIVE_TYPE_1581 },
+    { "2000", DRIVE_TYPE_2000 },
+    { "4000", DRIVE_TYPE_4000 },
+    { "None", DRIVE_TYPE_NONE },
+    { NULL, 0 }
+};
+
+int drive_machine_parallel_capable = 1;
 
 ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", MENU_TOGGLE_DOUBLESIZE },
