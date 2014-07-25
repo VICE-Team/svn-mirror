@@ -120,6 +120,9 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "IDE64version4", MENU_TOGGLE_IDE64_V4 },
     { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
     { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
+    { "RRFlashJumper", MENU_TOGGLE_RR_FLASH_JUMPER },
+    { "RRBankJumper", MENU_TOGGLE_RR_BANK_JUMPER },
+    { "RRBiosWrite",MENU_TOGGLE_SAVE_RR_FLASH },
     { NULL, 0 }
 };
 
@@ -312,6 +315,12 @@ ui_res_possible_values ExpertModes[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values RRrevs[] = {
+    { 0, MENU_RR_REV_RETRO },
+    { 1, MENU_RR_REV_NORDIC },
+    { -1, 0 }
+};
+
 ui_res_value_list c64_ui_res_values[] = {
     { "Acia1Dev", AciaDevice },
     { "Acia1Base", AciaBase },
@@ -336,6 +345,7 @@ ui_res_value_list c64_ui_res_values[] = {
     { "GlueLogic", gluelogic },
     { "VICIIFilter", RenderFilters },
     { "ExpertCartridgeMode", ExpertModes },
+    { "RRrevision", RRrevs },
     { NULL, NULL }
 };
 

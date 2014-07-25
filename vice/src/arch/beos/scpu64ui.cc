@@ -97,6 +97,9 @@ ui_menu_toggle scpu64_ui_menu_toggles[] = {
     { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
     { "JiffySwitch", MENU_TOGGLE_SCPU64_JIFFY_ENABLE },
     { "SpeedSwitch", MENU_TOGGLE_SCPU64_SPEED_ENABLE },
+    { "RRFlashJumper", MENU_TOGGLE_RR_FLASH_JUMPER },
+    { "RRBankJumper", MENU_TOGGLE_RR_BANK_JUMPER },
+    { "RRBiosWrite",MENU_TOGGLE_SAVE_RR_FLASH },
     { NULL, 0 }
 };
 
@@ -284,6 +287,12 @@ ui_res_possible_values scpu64ui_ExpertModes[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values scpu64RRrevs[] = {
+    { 0, MENU_RR_REV_RETRO },
+    { 1, MENU_RR_REV_NORDIC },
+    { -1, 0 }
+};
+
 ui_res_value_list scpu64_ui_res_values[] = {
     { "Acia1Dev", scpu64AciaDevice },
     { "Acia1Base", scpu64AciaBase },
@@ -307,6 +316,7 @@ ui_res_value_list scpu64_ui_res_values[] = {
     { "GlueLogic", scpu64ui_gluelogic },
     { "VICIIFilter", scpu64ui_RenderFilters },
     { "ExpertCartridgeMode", scpu64ui_ExpertModes },
+    { "RRrevision", scpu64RRrevs },
     { NULL, NULL }
 };
 

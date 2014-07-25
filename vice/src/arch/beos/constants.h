@@ -581,6 +581,12 @@ const uint32 MENU_MMCR_CARD_TYPE_SDHC             = 'M253';
 const uint32 MENU_MMCR_EEPROM_FILE                = 'M254';
 const uint32 MENU_MMCR_IMAGE_FILE                 = 'M255';
 
+const uint32 MENU_TOGGLE_RR_FLASH_JUMPER          = 'M446';
+const uint32 MENU_TOGGLE_RR_BANK_JUMPER           = 'M447';
+const uint32 MENU_TOGGLE_SAVE_RR_FLASH            = 'M448';
+const uint32 MENU_RR_REV_RETRO                    = 'M449';
+const uint32 MENU_RR_REV_NORDIC                   = 'M484';
+
 const uint32 MENU_C64DTV_REVISION_2               = 'M137';
 const uint32 MENU_C64DTV_REVISION_3               = 'M138';
 

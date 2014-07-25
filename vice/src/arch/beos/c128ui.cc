@@ -110,6 +110,9 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "IDE64version4", MENU_TOGGLE_IDE64_V4 },
     { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
     { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
+    { "RRFlashJumper", MENU_TOGGLE_RR_FLASH_JUMPER },
+    { "RRBankJumper", MENU_TOGGLE_RR_BANK_JUMPER },
+    { "RRBiosWrite",MENU_TOGGLE_SAVE_RR_FLASH },
     { NULL, 0 }
 };
 
@@ -244,6 +247,12 @@ ui_res_possible_values c128ExpertModes[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values c128RRrevs[] = {
+    { 0, MENU_RR_REV_RETRO },
+    { 1, MENU_RR_REV_NORDIC },
+    { -1, 0 }
+};
+
 ui_res_value_list c128_ui_res_values[] = {
     { "Acia1Dev", c128AciaDevice },
     { "Acia1Base", c128AciaBase },
@@ -260,6 +269,7 @@ ui_res_value_list c128_ui_res_values[] = {
     { "Mousetype", c128mousetypes },
     { "Mouseport", c128mouseports },
     { "ExpertCartridgeMode", c128ExpertModes },
+    { "RRrevision", c128RRrevs },
     { NULL, NULL }
 };
 

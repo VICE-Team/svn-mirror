@@ -805,6 +805,17 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("MMC Replay Image File", new BMessage(MENU_MMCR_IMAGE_FILE)));
     }
 
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128) {
+            menu->AddItem(submenu = new BMenu("Retro Replay Options"));
+                submenu->AddItem(new BMenuItem("Enable RR flash jumper", new BMessage(MENU_TOGGLE_RR_FLASH_JUMPER)));
+                submenu->AddItem(new BMenuItem("Enable RR bank jumper", new BMessage(MENU_TOGGLE_RR_BANK_JUMPER)));
+                submenu->AddItem(new BMenuItem("Save RR flash when changed", new BMessage(MENU_TOGGLE_SAVE_RR_FLASH)));
+                submenu->AddItem(extsubmenu = new BMenu("RR Revision"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Retro Replay", new BMessage(MENU_RR_REV_RETRO)));
+                    extsubmenu->AddItem(new BMenuItem("Nordic Replay", new BMessage(MENU_RR_REV_NORDIC)));
+    }
+
     if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_C128) {
         uppermenu->AddItem(new BMenuItem("IEEE488 Interface", new BMessage(MENU_TOGGLE_IEEE488)));
     }
