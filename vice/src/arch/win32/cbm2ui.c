@@ -52,12 +52,6 @@
 #include "uivideo.h"
 #include "winmain.h"
 
-static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
-    IDD_CBM2ROM_RESOURCE_DIALOG,
-    IDD_CBM2ROMDRIVE_RESOURCE_DIALOG,
-    0
-};
-
 static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
     { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
@@ -69,30 +63,22 @@ static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
 
 static const uirom_settings_t uirom_settings[] = {
     { UIROM_TYPE_MAIN, TEXT("Kernal"), "KernalName",
-      IDC_CBM2ROM_KERNAL_FILE, IDC_CBM2ROM_KERNAL_BROWSE,
-      IDC_CBM2ROM_KERNAL_RESOURCE },
+      IDC_CBM2ROM_KERNAL_FILE, IDC_CBM2ROM_KERNAL_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("Basic"), "BasicName",
-      IDC_CBM2ROM_BASIC_FILE, IDC_CBM2ROM_BASIC_BROWSE,
-      IDC_CBM2ROM_BASIC_RESOURCE },
+      IDC_CBM2ROM_BASIC_FILE, IDC_CBM2ROM_BASIC_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("Character"), "ChargenName",
-      IDC_CBM2ROM_CHARGEN_FILE, IDC_CBM2ROM_CHARGEN_BROWSE,
-      IDC_CBM2ROM_CHARGEN_RESOURCE },
+      IDC_CBM2ROM_CHARGEN_FILE, IDC_CBM2ROM_CHARGEN_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("2031"), "DosName2031",
-      IDC_DRIVEROM_2031_FILE, IDC_DRIVEROM_2031_BROWSE,
-      IDC_DRIVEROM_2031_RESOURCE },
+      IDC_DRIVEROM_2031_FILE, IDC_DRIVEROM_2031_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("2040"), "DosName2040",
-      IDC_DRIVEROM_2040_FILE, IDC_DRIVEROM_2040_BROWSE,
-      IDC_DRIVEROM_2040_RESOURCE },
+      IDC_DRIVEROM_2040_FILE, IDC_DRIVEROM_2040_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("3040"), "DosName3040",
-      IDC_DRIVEROM_3040_FILE, IDC_DRIVEROM_3040_BROWSE,
-      IDC_DRIVEROM_3040_RESOURCE },
+      IDC_DRIVEROM_3040_FILE, IDC_DRIVEROM_3040_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("4040"), "DosName4040",
-      IDC_DRIVEROM_4040_FILE, IDC_DRIVEROM_4040_BROWSE,
-      IDC_DRIVEROM_4040_RESOURCE },
+      IDC_DRIVEROM_4040_FILE, IDC_DRIVEROM_4040_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1001"), "DosName1001",
-      IDC_DRIVEROM_1001_FILE, IDC_DRIVEROM_1001_BROWSE,
-      IDC_DRIVEROM_1001_RESOURCE },
-    { 0, NULL, NULL, 0, 0, 0 }
+      IDC_DRIVEROM_1001_FILE, IDC_DRIVEROM_1001_BROWSE },
+    { 0, NULL, NULL, 0, 0 }
 };
 
 static const ui_res_value_list_t cbm2_ui_res_values[] = {
@@ -377,17 +363,6 @@ static uilib_localize_dialog_param cbm2_drive_trans[] = {
     { 0, 0, 0 }
 };
 
-static uilib_localize_dialog_param cbm2_main_res_trans[] = {
-    { 0, IDS_COMPUTER_RESOURCES_CAPTION, -1 },
-    { IDC_COMPUTER_RESOURCES, IDS_COMPUTER_RESOURCES, 0 },
-    { IDC_CBM2ROM_KERNAL_RESOURCE, IDS_KERNAL, 0 },
-    { IDC_CBM2ROM_BASIC_RESOURCE, IDS_BASIC, 0 },
-    { IDC_CBM2ROM_CHARGEN_RESOURCE, IDS_CHARACTER, 0 },
-    { IDOK, IDS_OK, 0 },
-    { IDCANCEL, IDS_CANCEL, 0 },
-    { 0, 0, 0 }
-};
-
 static uilib_dialog_group cbm2_main_left_group[] = {
     { IDC_KERNAL, 0 },
     { IDC_BASIC, 0 },
@@ -445,15 +420,6 @@ static generic_trans_table_t cbm2_generic_trans[] = {
     { 0, NULL }
 };
 
-static generic_trans_table_t cbm2_generic_res_trans[] = {
-    { IDC_DRIVEROM_2031_RESOURCE, "2031" },
-    { IDC_DRIVEROM_2040_RESOURCE, "2040" },
-    { IDC_DRIVEROM_3040_RESOURCE, "3040" },
-    { IDC_DRIVEROM_4040_RESOURCE, "4040" },
-    { IDC_DRIVEROM_1001_RESOURCE, "1001" },
-    { 0, NULL }
-};
-
 static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
@@ -492,11 +458,10 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_CBM2ROM_SETTINGS_DIALOG, IDD_CBM2DRIVEROM_SETTINGS_DIALOG,
-                                  romset_dialog_resources, uirom_settings,
+                                  uirom_settings,
                                   cbm2_main_trans, cbm2_drive_trans, cbm2_generic_trans,
                                   cbm2_main_left_group, cbm2_main_middle_group, cbm2_main_right_group,
-                                  cbm2_drive_left_group, cbm2_drive_middle_group, cbm2_drive_right_group,
-                                  cbm2_main_res_trans, cbm2_generic_res_trans);
+                                  cbm2_drive_left_group, cbm2_drive_middle_group, cbm2_drive_right_group);
             break;
         case IDM_VIDEO_SETTINGS:
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);

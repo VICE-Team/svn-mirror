@@ -42,13 +42,11 @@ struct uirom_settings_s {
     const char *resname;
     unsigned int idc_filename;
     unsigned int idc_browse;
-    unsigned int idc_resource;
 };
 typedef struct uirom_settings_s uirom_settings_t;
 
 extern void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
                                   unsigned int idd_dialog_drive,
-                                  const unsigned int *idd_dialog_resources,
                                   const uirom_settings_t *uirom_settings,
                                   uilib_localize_dialog_param *uirom_main_trans,
                                   uilib_localize_dialog_param *uirom_drive_trans,
@@ -58,8 +56,6 @@ extern void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
                                   uilib_dialog_group *main_right_group,
                                   uilib_dialog_group *drive_left_group,
                                   uilib_dialog_group *drive_middle_group,
-                                  uilib_dialog_group *drive_right_group,
-                                  uilib_localize_dialog_param *uirom__main_res_trans,
-                                  generic_trans_table_t *uirom_generic_res_trans);
+                                  uilib_dialog_group *drive_right_group);
 
 #endif

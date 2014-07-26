@@ -89,56 +89,6 @@ END
 
 // dialog template for all languages
 
-IDD_CBM2ROM_RESOURCE_DIALOG DIALOG DISCARDABLE 0, 0, 160, 145
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "", IDC_COMPUTER_RESOURCES,
-                    4, 3, 151, 115
-    AUTOCHECKBOX    "", IDC_CBM2ROM_KERNAL_RESOURCE,
-                    11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_CBM2ROM_BASIC_RESOURCE,
-                    11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_CBM2ROM_CHARGEN_RESOURCE,
-                    11, 43, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    DEFPUSHBUTTON   "", IDOK,
-                    20, 125, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL,
-                    80, 125, 50, 14, WS_TABSTOP
-END
-
-// -----------------------------------------------------------------------------
-
-// dialog template for all languages
-
-IDD_CBM2ROMDRIVE_RESOURCE_DIALOG DIALOG DISCARDABLE 0, 0, 160, 115
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "", IDC_DRIVE_RESOURCES,
-                    4, 3, 151, 85
-    AUTOCHECKBOX    "", IDC_DRIVEROM_2031_RESOURCE,
-                    11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_DRIVEROM_2040_RESOURCE,
-                    11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_DRIVEROM_3040_RESOURCE,
-                    11, 43, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_DRIVEROM_4040_RESOURCE,
-                    11, 58, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_DRIVEROM_1001_RESOURCE,
-                    11, 73, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    DEFPUSHBUTTON   "", IDOK,
-                    20, 95, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL,
-                    80, 95, 50, 14, WS_TABSTOP
-END
-
-// -----------------------------------------------------------------------------
-
-// dialog template for all languages
-
 IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 180
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"

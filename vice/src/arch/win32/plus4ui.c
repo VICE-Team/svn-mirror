@@ -52,12 +52,6 @@
 #include "uivideo.h"
 #include "winmain.h"
 
-static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
-    IDD_PLUS4ROM_RESOURCE_DIALOG,
-    IDD_PLUS4ROMDRIVE_RESOURCE_DIALOG,
-    0
-};
-
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
@@ -68,42 +62,30 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
 
 static const uirom_settings_t uirom_settings[] = {
     { UIROM_TYPE_MAIN, TEXT("Kernal"), "KernalName",
-      IDC_PLUS4ROM_KERNAL_FILE, IDC_PLUS4ROM_KERNAL_BROWSE,
-      IDC_PLUS4ROM_KERNAL_RESOURCE },
+      IDC_PLUS4ROM_KERNAL_FILE, IDC_PLUS4ROM_KERNAL_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("Basic"), "BasicName",
-      IDC_PLUS4ROM_BASIC_FILE, IDC_PLUS4ROM_BASIC_BROWSE,
-      IDC_PLUS4ROM_BASIC_RESOURCE },
+      IDC_PLUS4ROM_BASIC_FILE, IDC_PLUS4ROM_BASIC_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("Function LO"), "FunctionLowName",
-      IDC_PLUS4ROM_FUNCTION_LO_FILE, IDC_PLUS4ROM_FUNCTION_LO_BROWSE,
-      IDC_PLUS4ROM_FUNCTION_LO_RESOURCE },
+      IDC_PLUS4ROM_FUNCTION_LO_FILE, IDC_PLUS4ROM_FUNCTION_LO_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("Function HI"), "FunctionHighName",
-      IDC_PLUS4ROM_FUNCTION_HI_FILE, IDC_PLUS4ROM_FUNCTION_HI_BROWSE,
-      IDC_PLUS4ROM_FUNCTION_HI_RESOURCE },
+      IDC_PLUS4ROM_FUNCTION_HI_FILE, IDC_PLUS4ROM_FUNCTION_HI_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1541"), "DosName1541",
-      IDC_DRIVEROM_1541_FILE, IDC_DRIVEROM_1541_BROWSE,
-      IDC_DRIVEROM_1541_RESOURCE },
+      IDC_DRIVEROM_1541_FILE, IDC_DRIVEROM_1541_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1541-II"), "DosName1541ii",
-      IDC_DRIVEROM_1541II_FILE, IDC_DRIVEROM_1541II_BROWSE,
-      IDC_DRIVEROM_1541II_RESOURCE },
+      IDC_DRIVEROM_1541II_FILE, IDC_DRIVEROM_1541II_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1551"), "DosName1551",
-      IDC_DRIVEROM_1551_FILE, IDC_DRIVEROM_1551_BROWSE,
-      IDC_DRIVEROM_1551_RESOURCE },
+      IDC_DRIVEROM_1551_FILE, IDC_DRIVEROM_1551_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1570"), "DosName1570",
-      IDC_DRIVEROM_1570_FILE, IDC_DRIVEROM_1570_BROWSE,
-      IDC_DRIVEROM_1570_RESOURCE },
+      IDC_DRIVEROM_1570_FILE, IDC_DRIVEROM_1570_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1571"), "DosName1571",
-      IDC_DRIVEROM_1571_FILE, IDC_DRIVEROM_1571_BROWSE,
-      IDC_DRIVEROM_1571_RESOURCE },
+      IDC_DRIVEROM_1571_FILE, IDC_DRIVEROM_1571_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1581"), "DosName1581",
-      IDC_DRIVEROM_1581_FILE, IDC_DRIVEROM_1581_BROWSE,
-      IDC_DRIVEROM_1581_RESOURCE },
+      IDC_DRIVEROM_1581_FILE, IDC_DRIVEROM_1581_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("2000"), "DosName2000",
-      IDC_DRIVEROM_2000_FILE, IDC_DRIVEROM_2000_BROWSE,
-      IDC_DRIVEROM_2000_RESOURCE },
+      IDC_DRIVEROM_2000_FILE, IDC_DRIVEROM_2000_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("4000"), "DosName4000",
-      IDC_DRIVEROM_4000_FILE, IDC_DRIVEROM_4000_BROWSE,
-      IDC_DRIVEROM_4000_RESOURCE },
-    { 0, NULL, NULL, 0, 0, 0 }
+      IDC_DRIVEROM_4000_FILE, IDC_DRIVEROM_4000_BROWSE },
+    { 0, NULL, NULL, 0, 0 }
 };
 
 static const ui_res_value_list_t plus4_ui_res_values[] = {
@@ -358,18 +340,6 @@ static uilib_localize_dialog_param plus4_drive_trans[] = {
     { 0, 0, 0 }
 };
 
-static uilib_localize_dialog_param plus4_main_res_trans[] = {
-    { 0, IDS_COMPUTER_RESOURCES_CAPTION, -1 },
-    { IDC_COMPUTER_RESOURCES, IDS_COMPUTER_RESOURCES, 0 },
-    { IDC_PLUS4ROM_KERNAL_RESOURCE, IDS_KERNAL, 0 },
-    { IDC_PLUS4ROM_BASIC_RESOURCE, IDS_BASIC, 0 },
-    { IDC_PLUS4ROM_FUNCTION_LO_RESOURCE, IDS_FUNCTION_LO, 0 },
-    { IDC_PLUS4ROM_FUNCTION_HI_RESOURCE, IDS_FUNCTION_HI, 0 },
-    { IDOK, IDS_OK, 0 },
-    { IDCANCEL, IDS_CANCEL, 0 },
-    { 0, 0, 0 }
-};
-
 static uilib_dialog_group plus4_main_left_group[] = {
     { IDC_KERNAL, 0 },
     { IDC_BASIC, 0 },
@@ -442,18 +412,6 @@ static generic_trans_table_t plus4_generic_trans[] = {
     { 0, NULL }
 };
 
-static generic_trans_table_t plus4_generic_res_trans[] = {
-    { IDC_DRIVEROM_1541_RESOURCE, "1541" },
-    { IDC_DRIVEROM_1541II_RESOURCE, "1541-II" },
-    { IDC_DRIVEROM_1551_RESOURCE, "1551" },
-    { IDC_DRIVEROM_1570_RESOURCE, "1570" },
-    { IDC_DRIVEROM_1571_RESOURCE, "1571" },
-    { IDC_DRIVEROM_1581_RESOURCE, "1581" },
-    { IDC_DRIVEROM_2000_RESOURCE, "2000" },
-    { IDC_DRIVEROM_4000_RESOURCE, "4000" },
-    { 0, NULL }
-};
-
 static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
 {
     uiplus4cart_proc(wparam, hwnd);
@@ -479,11 +437,10 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_PLUS4ROM_SETTINGS_DIALOG, IDD_PLUS4DRIVEROM_SETTINGS_DIALOG,
-                                  romset_dialog_resources, uirom_settings,
+                                  uirom_settings,
                                   plus4_main_trans, plus4_drive_trans, plus4_generic_trans,
                                   plus4_main_left_group, plus4_main_middle_group, plus4_main_right_group,
-                                  plus4_drive_left_group, plus4_drive_middle_group, plus4_drive_right_group,
-                                  plus4_main_res_trans, plus4_generic_res_trans);
+                                  plus4_drive_left_group, plus4_drive_middle_group, plus4_drive_right_group);
             break;
         case IDM_VIDEO_SETTINGS:
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_TED, UI_VIDEO_CHIP_NONE);

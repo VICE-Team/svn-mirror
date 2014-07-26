@@ -74,12 +74,6 @@
 #include "uivicii.h"
 #include "uivideo.h"
 
-static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
-    IDD_C64ROM_RESOURCE_DIALOG,
-    IDD_C64ROMDRIVE_RESOURCE_DIALOG,
-    0
-};
-
 static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
@@ -93,51 +87,36 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
 
 static const uirom_settings_t uirom_settings[] = {
     { UIROM_TYPE_MAIN, TEXT("Kernal"), "KernalName",
-      IDC_C64ROM_KERNAL_FILE, IDC_C64ROM_KERNAL_BROWSE,
-      IDC_C64ROM_KERNAL_RESOURCE },
+      IDC_C64ROM_KERNAL_FILE, IDC_C64ROM_KERNAL_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("Basic"), "BasicName",
-      IDC_C64ROM_BASIC_FILE, IDC_C64ROM_BASIC_BROWSE,
-      IDC_C64ROM_BASIC_RESOURCE },
+      IDC_C64ROM_BASIC_FILE, IDC_C64ROM_BASIC_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("Character"), "ChargenName",
-      IDC_C64ROM_CHARGEN_FILE, IDC_C64ROM_CHARGEN_BROWSE,
-      IDC_C64ROM_CHARGEN_RESOURCE },
+      IDC_C64ROM_CHARGEN_FILE, IDC_C64ROM_CHARGEN_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1541"), "DosName1541",
-      IDC_DRIVEROM_1541_FILE, IDC_DRIVEROM_1541_BROWSE,
-      IDC_DRIVEROM_1541_RESOURCE },
+      IDC_DRIVEROM_1541_FILE, IDC_DRIVEROM_1541_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1541-II"), "DosName1541ii",
-      IDC_DRIVEROM_1541II_FILE, IDC_DRIVEROM_1541II_BROWSE,
-      IDC_DRIVEROM_1541II_RESOURCE },
+      IDC_DRIVEROM_1541II_FILE, IDC_DRIVEROM_1541II_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1570"), "DosName1570",
-      IDC_DRIVEROM_1570_FILE, IDC_DRIVEROM_1570_BROWSE,
-      IDC_DRIVEROM_1570_RESOURCE },
+      IDC_DRIVEROM_1570_FILE, IDC_DRIVEROM_1570_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1571"), "DosName1571",
-      IDC_DRIVEROM_1571_FILE, IDC_DRIVEROM_1571_BROWSE,
-      IDC_DRIVEROM_1571_RESOURCE },
+      IDC_DRIVEROM_1571_FILE, IDC_DRIVEROM_1571_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1581"), "DosName1581",
-      IDC_DRIVEROM_1581_FILE, IDC_DRIVEROM_1581_BROWSE,
-      IDC_DRIVEROM_1581_RESOURCE },
+      IDC_DRIVEROM_1581_FILE, IDC_DRIVEROM_1581_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("2000"), "DosName2000",
-      IDC_DRIVEROM_2000_FILE, IDC_DRIVEROM_2000_BROWSE,
-      IDC_DRIVEROM_2000_RESOURCE },
+      IDC_DRIVEROM_2000_FILE, IDC_DRIVEROM_2000_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("4000"), "DosName4000",
-      IDC_DRIVEROM_4000_FILE, IDC_DRIVEROM_4000_BROWSE,
-      IDC_DRIVEROM_4000_RESOURCE },
+      IDC_DRIVEROM_4000_FILE, IDC_DRIVEROM_4000_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("2031"), "DosName2031",
-      IDC_DRIVEROM_2031_FILE, IDC_DRIVEROM_2031_BROWSE,
-      IDC_DRIVEROM_2031_RESOURCE },
+      IDC_DRIVEROM_2031_FILE, IDC_DRIVEROM_2031_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("2040"), "DosName2040",
-      IDC_DRIVEROM_2040_FILE, IDC_DRIVEROM_2040_BROWSE,
-      IDC_DRIVEROM_2040_RESOURCE },
+      IDC_DRIVEROM_2040_FILE, IDC_DRIVEROM_2040_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("3040"), "DosName3040",
-      IDC_DRIVEROM_3040_FILE, IDC_DRIVEROM_3040_BROWSE,
-      IDC_DRIVEROM_3040_RESOURCE },
+      IDC_DRIVEROM_3040_FILE, IDC_DRIVEROM_3040_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("4040"), "DosName4040",
-      IDC_DRIVEROM_4040_FILE, IDC_DRIVEROM_4040_BROWSE,
-      IDC_DRIVEROM_4040_RESOURCE },
+      IDC_DRIVEROM_4040_FILE, IDC_DRIVEROM_4040_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1001"), "DosName1001",
-      IDC_DRIVEROM_1001_FILE, IDC_DRIVEROM_1001_BROWSE,
-      IDC_DRIVEROM_1001_RESOURCE },
-    { 0, NULL, NULL, 0, 0, 0 }
+      IDC_DRIVEROM_1001_FILE, IDC_DRIVEROM_1001_BROWSE },
+    { 0, NULL, NULL, 0, 0 }
 };
 
 #define C64UI_KBD_NUM_MAP 3
@@ -437,17 +416,6 @@ static uilib_localize_dialog_param c64_drive_trans[] = {
     { 0, 0, 0 }
 };
 
-static uilib_localize_dialog_param c64_main_res_trans[] = {
-    { 0, IDS_COMPUTER_RESOURCES_CAPTION, -1 },
-    { IDC_COMPUTER_RESOURCES, IDS_COMPUTER_RESOURCES, 0 },
-    { IDC_C64ROM_KERNAL_RESOURCE, IDS_KERNAL, 0 },
-    { IDC_C64ROM_BASIC_RESOURCE, IDS_BASIC, 0 },
-    { IDC_C64ROM_CHARGEN_RESOURCE, IDS_CHARACTER, 0 },
-    { IDOK, IDS_OK, 0 },
-    { IDCANCEL, IDS_CANCEL, 0 },
-    { 0, 0, 0 }
-};
-
 static uilib_dialog_group c64_main_left_group[] = {
     { IDC_KERNAL, 0 },
     { IDC_BASIC, 0 },
@@ -530,22 +498,6 @@ static generic_trans_table_t c64_generic_trans[] = {
     { IDC_3040, "3040" },
     { IDC_4040, "4040" },
     { IDC_1001, "1001" },
-    { 0, NULL }
-};
-
-static generic_trans_table_t c64_generic_res_trans[] = {
-    { IDC_DRIVEROM_1541_RESOURCE, "1541" },
-    { IDC_DRIVEROM_1541II_RESOURCE, "1541-II" },
-    { IDC_DRIVEROM_1570_RESOURCE, "1570" },
-    { IDC_DRIVEROM_1571_RESOURCE, "1571" },
-    { IDC_DRIVEROM_1581_RESOURCE, "1581" },
-    { IDC_DRIVEROM_2000_RESOURCE, "2000" },
-    { IDC_DRIVEROM_4000_RESOURCE, "4000" },
-    { IDC_DRIVEROM_2031_RESOURCE, "2031" },
-    { IDC_DRIVEROM_2040_RESOURCE, "2040" },
-    { IDC_DRIVEROM_3040_RESOURCE, "3040" },
-    { IDC_DRIVEROM_4040_RESOURCE, "4040" },
-    { IDC_DRIVEROM_1001_RESOURCE, "1001" },
     { 0, NULL }
 };
 
@@ -639,11 +591,10 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_C64ROM_SETTINGS_DIALOG, IDD_C64DRIVEROM_SETTINGS_DIALOG,
-                                  romset_dialog_resources, uirom_settings,
+                                  uirom_settings,
                                   c64_main_trans, c64_drive_trans, c64_generic_trans,
                                   c64_main_left_group, c64_main_middle_group, c64_main_right_group,
-                                  c64_drive_left_group, c64_drive_middle_group, c64_drive_right_group,
-                                  c64_main_res_trans, c64_generic_res_trans);
+                                  c64_drive_left_group, c64_drive_middle_group, c64_drive_right_group);
             break;
 #ifdef HAVE_TFE
         case IDM_TFE_SETTINGS:

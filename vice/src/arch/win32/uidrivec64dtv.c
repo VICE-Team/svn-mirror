@@ -216,7 +216,6 @@ static void init_dialog(HWND hwnd, int num)
     int drive_true_emulation, iecdevice, enabled;
     int xpos;
     int xstart;
-    HWND temp_hwnd;
     HWND parent_hwnd;
     HWND element;
 

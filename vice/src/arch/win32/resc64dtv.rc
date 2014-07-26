@@ -1,4 +1,4 @@
-// C64 specific resources.
+// C64DTV specific resources.
 //
 
 #include "vice.h"
@@ -343,60 +343,6 @@ BEGIN
                55, 127, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
     PUSHBUTTON "", IDC_DRIVEROM_4000_BROWSE,
                185, 127, 50, 14, 0
-END
-
-// -----------------------------------------------------------------------------
-
-// dialog template for all languages
-
-IDD_C64ROM_RESOURCE_DIALOG DIALOG DISCARDABLE 0, 0, 160, 85
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "", IDC_COMPUTER_RESOURCES,
-                  4, 3, 151, 55
-    AUTOCHECKBOX  "", IDC_C64ROM_KERNAL_RESOURCE,
-                  11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_C64ROM_BASIC_RESOURCE,
-                  11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_C64ROM_CHARGEN_RESOURCE,
-                  11, 43, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    DEFPUSHBUTTON "", IDOK,
-                  20, 65, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "", IDCANCEL,
-                  80, 65, 50, 14, WS_TABSTOP
-END
-
-// -----------------------------------------------------------------------------
-
-// dialog template for all languages
-
-IDD_C64ROMDRIVE_RESOURCE_DIALOG DIALOG DISCARDABLE 0, 0, 160, 220
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX      "", IDC_DRIVE_RESOURCES,
-                  4, 3, 151, 190
-    AUTOCHECKBOX  "", IDC_DRIVEROM_1541_RESOURCE,
-                  11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_DRIVEROM_1541II_RESOURCE,
-                  11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_DRIVEROM_1570_RESOURCE,
-                  11, 43, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_DRIVEROM_1571_RESOURCE,
-                  11, 58, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_DRIVEROM_1581_RESOURCE,
-                  11, 73, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_DRIVEROM_2000_RESOURCE,
-                  11, 88, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_DRIVEROM_4000_RESOURCE,
-                  11, 103, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-
-    DEFPUSHBUTTON "", IDOK,
-                  20, 200, 50, 14, WS_TABSTOP
-    PUSHBUTTON    "", IDCANCEL,
-                  80, 200, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------

@@ -3,14 +3,14 @@ This document show the current status of the translations:
 file   language   % done   fuzzy   untranslated items
 ----   --------   ------   -----   ------------------
 nl     Dutch       100        0           0
-de     German       99       10           1
-pl     Polish       99       17           1
-es     Spanish      97       51           8
-it     Italian      97       51           8
-fr     French       94      110          47
-da     Danish       93      124          58
-sv     Swedish      93      124          58
-tr     Turkish      93      124          58
-ru     Russian      79      120         412
-hu     Hungarian    53      962         251
-ko     Korean       39        0        1586
+de     German       99        8           1
+pl     Polish       99       15           1
+es     Spanish      97       49           8
+it     Italian      97       49           8
+fr     French       93      108          47
+da     Danish       93      122          58
+sv     Swedish      93      122          58
+tr     Turkish      93      122          58
+ru     Russian      79      118         412
+hu     Hungarian    53      959         251
+ko     Korean       39        0        1571

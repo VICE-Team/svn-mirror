@@ -50,12 +50,6 @@
 #include "uivideo.h"
 #include "winmain.h"
 
-static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
-    IDD_PETROM_RESOURCE_DIALOG,
-    IDD_PETROMDRIVE_RESOURCE_DIALOG,
-    0
-};
-
 static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "UserportDAC", IDM_TOGGLE_PET_USERPORT_DAC },
     { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
@@ -68,42 +62,30 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
 
 static const uirom_settings_t uirom_settings[] = {
     { UIROM_TYPE_MAIN, TEXT("Kernal"), "KernalName",
-      IDC_PETROM_KERNAL_FILE, IDC_PETROM_KERNAL_BROWSE,
-      IDC_PETROM_KERNAL_RESOURCE },
+      IDC_PETROM_KERNAL_FILE, IDC_PETROM_KERNAL_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("Basic"), "BasicName",
-      IDC_PETROM_BASIC_FILE, IDC_PETROM_BASIC_BROWSE,
-      IDC_PETROM_BASIC_RESOURCE },
+      IDC_PETROM_BASIC_FILE, IDC_PETROM_BASIC_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("Character"), "ChargenName",
-      IDC_PETROM_CHARGEN_FILE, IDC_PETROM_CHARGEN_BROWSE,
-      IDC_PETROM_CHARGEN_RESOURCE },
+      IDC_PETROM_CHARGEN_FILE, IDC_PETROM_CHARGEN_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("Editor"), "EditorName",
-      IDC_PETROM_EDITOR_FILE, IDC_PETROM_EDITOR_BROWSE,
-      IDC_PETROM_EDITOR_RESOURCE },
+      IDC_PETROM_EDITOR_FILE, IDC_PETROM_EDITOR_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("ROM9"), "RomModule9Name",
-      IDC_PETROM_ROM9_FILE, IDC_PETROM_ROM9_BROWSE,
-      IDC_PETROM_ROM9_RESOURCE },
+      IDC_PETROM_ROM9_FILE, IDC_PETROM_ROM9_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("ROMA"), "RomModuleAName",
-      IDC_PETROM_ROMA_FILE, IDC_PETROM_ROMA_BROWSE,
-      IDC_PETROM_ROMA_RESOURCE },
+      IDC_PETROM_ROMA_FILE, IDC_PETROM_ROMA_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("ROMB"), "RomModuleBName",
-      IDC_PETROM_ROMB_FILE, IDC_PETROM_ROMB_BROWSE,
-      IDC_PETROM_ROMB_RESOURCE },
+      IDC_PETROM_ROMB_FILE, IDC_PETROM_ROMB_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("2031"), "DosName2031",
-      IDC_DRIVEROM_2031_FILE, IDC_DRIVEROM_2031_BROWSE,
-      IDC_DRIVEROM_2031_RESOURCE },
+      IDC_DRIVEROM_2031_FILE, IDC_DRIVEROM_2031_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("2040"), "DosName2040",
-      IDC_DRIVEROM_2040_FILE, IDC_DRIVEROM_2040_BROWSE,
-      IDC_DRIVEROM_2040_RESOURCE },
+      IDC_DRIVEROM_2040_FILE, IDC_DRIVEROM_2040_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("3040"), "DosName3040",
-      IDC_DRIVEROM_3040_FILE, IDC_DRIVEROM_3040_BROWSE,
-      IDC_DRIVEROM_3040_RESOURCE },
+      IDC_DRIVEROM_3040_FILE, IDC_DRIVEROM_3040_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("4040"), "DosName4040",
-      IDC_DRIVEROM_4040_FILE, IDC_DRIVEROM_4040_BROWSE,
-      IDC_DRIVEROM_4040_RESOURCE },
+      IDC_DRIVEROM_4040_FILE, IDC_DRIVEROM_4040_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1001"), "DosName1001",
-      IDC_DRIVEROM_1001_FILE, IDC_DRIVEROM_1001_BROWSE,
-      IDC_DRIVEROM_1001_RESOURCE },
-    { 0, NULL, NULL, 0, 0, 0 }
+      IDC_DRIVEROM_1001_FILE, IDC_DRIVEROM_1001_BROWSE },
+    { 0, NULL, NULL, 0, 0 }
 };
 
 #define PETUI_KBD_NUM_MAP 6
@@ -377,21 +359,6 @@ static uilib_localize_dialog_param pet_drive_trans[] = {
     { 0, 0, 0 }
 };
 
-static uilib_localize_dialog_param pet_main_res_trans[] = {
-    { 0, IDS_COMPUTER_RESOURCES_CAPTION, -1 },
-    { IDC_COMPUTER_RESOURCES, IDS_COMPUTER_RESOURCES, 0 },
-    { IDC_PETROM_KERNAL_RESOURCE, IDS_KERNAL, 0 },
-    { IDC_PETROM_BASIC_RESOURCE, IDS_BASIC, 0 },
-    { IDC_PETROM_CHARGEN_RESOURCE, IDS_CHARACTER, 0 },
-    { IDC_PETROM_EDITOR_RESOURCE, IDS_EDITOR, 0 },
-    { IDC_PETROM_ROM9_RESOURCE, IDS_ROM_9, 0 },
-    { IDC_PETROM_ROMA_RESOURCE, IDS_ROM_A, 0 },
-    { IDC_PETROM_ROMB_RESOURCE, IDS_ROM_B, 0 },
-    { IDOK, IDS_OK, 0 },
-    { IDCANCEL, IDS_CANCEL, 0 },
-    { 0, 0, 0 }
-};
-
 static uilib_dialog_group pet_main_left_group[] = {
     { IDC_KERNAL, 0 },
     { IDC_BASIC, 0 },
@@ -461,15 +428,6 @@ static generic_trans_table_t pet_generic_trans[] = {
     { 0, NULL }
 };
 
-static generic_trans_table_t pet_generic_res_trans[] = {
-    { IDC_DRIVEROM_2031_RESOURCE, "2031" },
-    { IDC_DRIVEROM_2040_RESOURCE, "2040" },
-    { IDC_DRIVEROM_3040_RESOURCE, "3040" },
-    { IDC_DRIVEROM_4040_RESOURCE, "4040" },
-    { IDC_DRIVEROM_1001_RESOURCE, "1001" },
-    { 0, NULL }
-};
-
 static void pet_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
@@ -493,11 +451,10 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_PETROM_SETTINGS_DIALOG, IDD_PETDRIVEROM_SETTINGS_DIALOG,
-                                  romset_dialog_resources, uirom_settings,
+                                  uirom_settings,
                                   pet_main_trans, pet_drive_trans, pet_generic_trans,
                                   pet_main_left_group, pet_main_middle_group, pet_main_right_group,
-                                  pet_drive_left_group, pet_drive_middle_group, pet_drive_right_group,
-                                  pet_main_res_trans, pet_generic_res_trans);
+                                  pet_drive_left_group, pet_drive_middle_group, pet_drive_right_group);
             break;
         case IDM_VIDEO_SETTINGS:
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);
