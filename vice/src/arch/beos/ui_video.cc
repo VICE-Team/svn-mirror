@@ -192,6 +192,16 @@ VideoWindow::VideoWindow(int chipno)
     CreateSliders(crt_ctrlsbox, crt_controls);
     background->AddChild(crt_ctrlsbox);
 
+    /* Audio Leak check box */
+    resname = util_concat(chip_name, "AudioLeak", NULL);
+    msg = new BMessage(MESSAGE_VIDEO_AUDIO_LEAK);
+    msg->AddString("resname", resname);
+    checkbox = new BCheckBox(BRect(250, 10, 380, 25), "AudioLeak", "Audio Leak", msg);
+    background->AddChild(checkbox);
+    resources_get_int(resname, &res_val);
+    checkbox->SetValue(res_val);
+    lib_free(resname);
+
     /* External Palette check box */
     resname = util_concat(chip_name, "ExternalPalette", NULL);
     msg = new BMessage(MESSAGE_VIDEO_EXTERNALPALETTE);
@@ -261,6 +271,14 @@ void VideoWindow::MessageReceived(BMessage *msg)
             delete msr;
             break;
         case MESSAGE_VIDEO_EXTERNALPALETTE:
+            resources_get_int(resname, (int *)&val);
+            msr = new BMessage(MESSAGE_SET_RESOURCE);
+            msr->AddString("resname", resname);
+            msr->AddInt32("resval", 1 - val);
+            ui_add_event((void*)msr);
+            delete msr;
+            break;
+        case MESSAGE_VIDEO_AUDIO_LEAK:
             resources_get_int(resname, (int *)&val);
             msr = new BMessage(MESSAGE_SET_RESOURCE);
             msr->AddString("resname", resname);
