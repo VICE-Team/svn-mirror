@@ -86,10 +86,17 @@ ui_res_possible_values cbm5x0RenderFilters[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values cbm5x0_cia1models[] = {
+    { 0, MENU_CIA1_MODEL_6526_OLD },
+    { 1, MENU_CIA1_MODEL_6526A_NEW },
+    { -1, 0 }
+};
+
 ui_res_value_list cbm5x0_ui_res_values[] = {
     { "Acia1Dev", cbm5x0AciaDevice },
     { "Acia1Irq", cbm5x0AciaInt },
     { "VICIIFilter", cbm5x0RenderFilters },
+    { "CIA1Model", cbm5x0_cia1models },
     { NULL, NULL }
 };
 
