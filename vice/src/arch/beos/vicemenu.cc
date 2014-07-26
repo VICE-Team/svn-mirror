@@ -460,6 +460,14 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("C128DCR PAL", new BMessage(MENU_C128_MODEL_C128DCR_PAL)));
             menu->AddItem(new BMenuItem("C128 NTSC", new BMessage(MENU_C128_MODEL_C128_NTSC)));
             menu->AddItem(new BMenuItem("C128DCR NTSC", new BMessage(MENU_C128_MODEL_C128DCR_NTSC)));
+        uppermenu->AddItem(menu = new BMenu("CIA-1 model"));
+            menu->SetRadioMode(true);
+            menu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA1_MODEL_6526_OLD)));
+            menu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_CIA1_MODEL_6526A_NEW)));
+        uppermenu->AddItem(extsubmenu = new BMenu("CIA-2 model"));
+            menu->SetRadioMode(true);
+            menu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA2_MODEL_6526_OLD)));
+            menu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_CIA2_MODEL_6526A_NEW)));
     }
 
     if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_PLUS4 ||

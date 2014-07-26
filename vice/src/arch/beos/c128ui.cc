@@ -253,6 +253,18 @@ ui_res_possible_values c128RRrevs[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values c128_cia1models[] = {
+    { 0, MENU_CIA1_MODEL_6526_OLD },
+    { 1, MENU_CIA1_MODEL_6526A_NEW },
+    { -1, 0 }
+};
+
+ui_res_possible_values c128_cia2models[] = {
+    { 0, MENU_CIA2_MODEL_6526_OLD },
+    { 1, MENU_CIA2_MODEL_6526A_NEW },
+    { -1, 0 }
+};
+
 ui_res_value_list c128_ui_res_values[] = {
     { "Acia1Dev", c128AciaDevice },
     { "Acia1Base", c128AciaBase },
@@ -270,6 +282,8 @@ ui_res_value_list c128_ui_res_values[] = {
     { "Mouseport", c128mouseports },
     { "ExpertCartridgeMode", c128ExpertModes },
     { "RRrevision", c128RRrevs },
+    { "CIA1Model", c128_cia1models },
+    { "CIA2Model", c128_cia2models },
     { NULL, NULL }
 };
 
