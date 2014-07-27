@@ -265,6 +265,22 @@ ui_res_possible_values c128_cia2models[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values internal_function_rom[] = {
+    { 0, MENU_C128_INTERNAL_FUNCTION_NONE },
+    { 1, MENU_C128_INTERNAL_FUNCTION_ROM },
+    { 2, MENU_C128_INTERNAL_FUNCTION_RAM },
+    { 3, MENU_C128_INTERNAL_FUNCTION_RTC },
+    { -1, 0 }
+};
+
+ui_res_possible_values external_function_rom[] = {
+    { 0, MENU_C128_EXTERNAL_FUNCTION_NONE },
+    { 1, MENU_C128_EXTERNAL_FUNCTION_ROM },
+    { 2, MENU_C128_EXTERNAL_FUNCTION_RAM },
+    { 3, MENU_C128_EXTERNAL_FUNCTION_RTC },
+    { -1, 0 }
+};
+
 ui_res_value_list c128_ui_res_values[] = {
     { "Acia1Dev", c128AciaDevice },
     { "Acia1Base", c128AciaBase },
@@ -284,6 +300,8 @@ ui_res_value_list c128_ui_res_values[] = {
     { "RRrevision", c128RRrevs },
     { "CIA1Model", c128_cia1models },
     { "CIA2Model", c128_cia2models },
+    { "InternalFunctionROM", internal_function_rom },
+    { "ExternalFunctionROM", external_function_rom },
     { NULL, NULL }
 };
 
@@ -351,6 +369,12 @@ static void c128_ui_specific(void *msg, void *window)
             break;
         case MENU_EXPERT_FILE:
             ui_select_file(B_OPEN_PANEL, EXPERT_FILE, (void*)0);
+            break;
+        case MENU_C128_INTERNAL_FUNCTION_FILE:
+            ui_select_file(B_OPEN_PANEL, C128_INT_FUNC_FILE, (void*)0);
+            break;
+        case MENU_C128_EXTERNAL_FUNCTION_FILE:
+            ui_select_file(B_OPEN_PANEL, C128_EXT_FUNC_FILE, (void*)0);
             break;
         case MENU_EASYFLASH_SAVE_NOW:
             if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {

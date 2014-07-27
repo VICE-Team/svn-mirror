@@ -488,10 +488,28 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if (machine_class == VICE_MACHINE_C128) {
-        uppermenu->AddItem(extsubmenu = new BMenu("CIA-2 model"));
+        uppermenu->AddItem(menu = new BMenu("CIA-2 model"));
             menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA2_MODEL_6526_OLD)));
             menu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_CIA2_MODEL_6526A_NEW)));
+
+        uppermenu->AddItem(menu = new BMenu("Internal Function ROM options"));
+            menu->AddItem(submenu = new BMenu("Internal Function ROM type"));
+                submenu->SetRadioMode(true);
+                submenu->AddItem(new BMenuItem("None", new BMessage(MENU_C128_INTERNAL_FUNCTION_NONE)));
+                submenu->AddItem(new BMenuItem("ROM", new BMessage(MENU_C128_INTERNAL_FUNCTION_ROM)));
+                submenu->AddItem(new BMenuItem("RAM", new BMessage(MENU_C128_INTERNAL_FUNCTION_RAM)));
+                submenu->AddItem(new BMenuItem("RAM+RTC", new BMessage(MENU_C128_INTERNAL_FUNCTION_RTC)));
+            menu->AddItem(new BMenuItem("Select ROM file", new BMessage(MENU_C128_INTERNAL_FUNCTION_FILE)));
+
+        uppermenu->AddItem(menu = new BMenu("External Function ROM options"));
+            menu->AddItem(submenu = new BMenu("External Function ROM type"));
+                submenu->SetRadioMode(true);
+                submenu->AddItem(new BMenuItem("None", new BMessage(MENU_C128_EXTERNAL_FUNCTION_NONE)));
+                submenu->AddItem(new BMenuItem("ROM", new BMessage(MENU_C128_EXTERNAL_FUNCTION_ROM)));
+                submenu->AddItem(new BMenuItem("RAM", new BMessage(MENU_C128_EXTERNAL_FUNCTION_RAM)));
+                submenu->AddItem(new BMenuItem("RAM+RTC", new BMessage(MENU_C128_EXTERNAL_FUNCTION_RTC)));
+            menu->AddItem(new BMenuItem("Select ROM file", new BMessage(MENU_C128_EXTERNAL_FUNCTION_FILE)));
     }
 
     if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_PLUS4 ||

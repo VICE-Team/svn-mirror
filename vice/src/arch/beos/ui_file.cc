@@ -348,6 +348,12 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
     if (filetype == EXPERT_FILE) {
         sprintf(title, "Select Expert Cartridge file");
     }
+    if (filetype == C128_INT_FUNC_FILE) {
+        sprintf(title, "Select Internal Function ROM file");
+    }
+    if (filetype == C128_EXT_FUNC_FILE) {
+        sprintf(title, "Select External Function ROM file");
+    }
     if (filetype == IDE64_FILE1) {
         sprintf(title, "Select IDE64 HD #1 file");
     }
@@ -571,6 +577,10 @@ void ui_select_file_action(BMessage *msg)
             resources_set_string("SpeechImage", fullpath);
         } else if (last_filetype[1] == EXPERT_FILE) {
             resources_set_string("Expertfilename", fullpath);
+        } else if (last_filetype[1] == C128_INT_FUNC_FILE) {
+            resources_set_string("InternalFunctionName", fullpath);
+        } else if (last_filetype[1] == C128_EXT_FUNC_FILE) {
+            resources_set_string("ExternalFunctionName", fullpath);
         } else if (last_filetype[1] == IDE64_FILE1) {
             resources_set_string("IDE64Image1", fullpath);
         } else if (last_filetype[1] == IDE64_FILE2) {
