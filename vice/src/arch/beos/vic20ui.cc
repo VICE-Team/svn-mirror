@@ -96,6 +96,7 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "FinalExpansionWriteBack", MENU_TOGGLE_FE_WRITE_BACK },
     { "MegaCartNvRAMWriteBack", MENU_TOGGLE_MC_NVRAM_WRITE_BACK },
     { "VicFlashPluginWriteBack", MENU_TOGGLE_VFP_WRITE_BACK },
+    { "DS12C887RTC", MENU_TOGGLE_DS12C887_RTC },
     { NULL, 0 }
 };
 
@@ -171,6 +172,12 @@ ui_res_possible_values vic20_RenderFilters[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values vic20_DS12C887RTC_base[] = {
+    { 0x9800, MENU_DS12C887_RTC_BASE_9800 },
+    { 0x9c00, MENU_DS12C887_RTC_BASE_9C00 },
+    { -1, 0 }
+};
+
 ui_res_value_list vic20_ui_res_values[] = {
     { "Acia1Dev", vic20AciaDevice },
     { "Acia1Base", vic20AciaBase },
@@ -180,6 +187,7 @@ ui_res_value_list vic20_ui_res_values[] = {
     { "DIGIMAXbase", vic20DigimaxBase },
     { "SFXSoundExpanderChip", vic20SFXSoundExpanderChip },
     { "VICFilter", vic20_RenderFilters },
+    { "DS12C887RTCbase", vic20_DS12C887RTC_base },
     { NULL, NULL }
 };
 

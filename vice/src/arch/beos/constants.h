@@ -584,6 +584,15 @@ const uint32 MENU_DIGIMAX_BASE_DFA0               = 'M481';
 const uint32 MENU_DIGIMAX_BASE_DFC0               = 'M482';
 const uint32 MENU_DIGIMAX_BASE_DFE0               = 'M483';
 
+const uint32 MENU_TOGGLE_DS12C887_RTC             = 'M497';
+const uint32 MENU_DS12C887_RTC_BASE_9800          = 'M498';
+const uint32 MENU_DS12C887_RTC_BASE_9C00          = 'M499';
+const uint32 MENU_DS12C887_RTC_BASE_D500          = 'M500';
+const uint32 MENU_DS12C887_RTC_BASE_D600          = 'M501';
+const uint32 MENU_DS12C887_RTC_BASE_D700          = 'M502';
+const uint32 MENU_DS12C887_RTC_BASE_DE00          = 'M503';
+const uint32 MENU_DS12C887_RTC_BASE_DF00          = 'M504';
+
 const uint32 MENU_SFX_SE_3526                     = 'M085';
 const uint32 MENU_SFX_SE_3812                     = 'M086';
 

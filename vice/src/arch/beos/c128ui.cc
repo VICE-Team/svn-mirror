@@ -113,6 +113,7 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "RRFlashJumper", MENU_TOGGLE_RR_FLASH_JUMPER },
     { "RRBankJumper", MENU_TOGGLE_RR_BANK_JUMPER },
     { "RRBiosWrite",MENU_TOGGLE_SAVE_RR_FLASH },
+    { "DS12C887RTC", MENU_TOGGLE_DS12C887_RTC },
     { NULL, 0 }
 };
 
@@ -281,6 +282,13 @@ ui_res_possible_values external_function_rom[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values c128_DS12C887RTC_base[] = {
+    { 0xd700, MENU_DS12C887_RTC_BASE_D700 },
+    { 0xde00, MENU_DS12C887_RTC_BASE_DE00 },
+    { 0xdf00, MENU_DS12C887_RTC_BASE_DF00 },
+    { -1, 0 }
+};
+
 ui_res_value_list c128_ui_res_values[] = {
     { "Acia1Dev", c128AciaDevice },
     { "Acia1Base", c128AciaBase },
@@ -302,6 +310,7 @@ ui_res_value_list c128_ui_res_values[] = {
     { "CIA2Model", c128_cia2models },
     { "InternalFunctionROM", internal_function_rom },
     { "ExternalFunctionROM", external_function_rom },
+    { "DS12C887RTCbase", c128_DS12C887RTC_base },
     { NULL, NULL }
 };
 

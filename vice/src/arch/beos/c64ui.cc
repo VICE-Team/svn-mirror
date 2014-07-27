@@ -122,7 +122,8 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
     { "RRFlashJumper", MENU_TOGGLE_RR_FLASH_JUMPER },
     { "RRBankJumper", MENU_TOGGLE_RR_BANK_JUMPER },
-    { "RRBiosWrite",MENU_TOGGLE_SAVE_RR_FLASH },
+    { "RRBiosWrite", MENU_TOGGLE_SAVE_RR_FLASH },
+    { "DS12C887RTC", MENU_TOGGLE_DS12C887_RTC },
     { NULL, 0 }
 };
 
@@ -321,6 +322,15 @@ ui_res_possible_values RRrevs[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values c64_DS12C887RTC_base[] = {
+    { 0xd500, MENU_DS12C887_RTC_BASE_D500 },
+    { 0xd600, MENU_DS12C887_RTC_BASE_D600 },
+    { 0xd700, MENU_DS12C887_RTC_BASE_D700 },
+    { 0xde00, MENU_DS12C887_RTC_BASE_DE00 },
+    { 0xdf00, MENU_DS12C887_RTC_BASE_DF00 },
+    { -1, 0 }
+};
+
 ui_res_value_list c64_ui_res_values[] = {
     { "Acia1Dev", AciaDevice },
     { "Acia1Base", AciaBase },
@@ -346,6 +356,7 @@ ui_res_value_list c64_ui_res_values[] = {
     { "VICIIFilter", RenderFilters },
     { "ExpertCartridgeMode", ExpertModes },
     { "RRrevision", RRrevs },
+    { "DS12C887RTCbase", c64_DS12C887RTC_base },
     { NULL, NULL }
 };
 

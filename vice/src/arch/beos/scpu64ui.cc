@@ -100,6 +100,7 @@ ui_menu_toggle scpu64_ui_menu_toggles[] = {
     { "RRFlashJumper", MENU_TOGGLE_RR_FLASH_JUMPER },
     { "RRBankJumper", MENU_TOGGLE_RR_BANK_JUMPER },
     { "RRBiosWrite",MENU_TOGGLE_SAVE_RR_FLASH },
+    { "DS12C887RTC", MENU_TOGGLE_DS12C887_RTC },
     { NULL, 0 }
 };
 
@@ -293,6 +294,15 @@ ui_res_possible_values scpu64RRrevs[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values scpu64_DS12C887RTC_base[] = {
+    { 0xd500, MENU_DS12C887_RTC_BASE_D500 },
+    { 0xd600, MENU_DS12C887_RTC_BASE_D600 },
+    { 0xd700, MENU_DS12C887_RTC_BASE_D700 },
+    { 0xde00, MENU_DS12C887_RTC_BASE_DE00 },
+    { 0xdf00, MENU_DS12C887_RTC_BASE_DF00 },
+    { -1, 0 }
+};
+
 ui_res_value_list scpu64_ui_res_values[] = {
     { "Acia1Dev", scpu64AciaDevice },
     { "Acia1Base", scpu64AciaBase },
@@ -317,6 +327,7 @@ ui_res_value_list scpu64_ui_res_values[] = {
     { "VICIIFilter", scpu64ui_RenderFilters },
     { "ExpertCartridgeMode", scpu64ui_ExpertModes },
     { "RRrevision", scpu64RRrevs },
+    { "DS12C887RTCbase", scpu64_DS12C887RTC_base },
     { NULL, NULL }
 };
 
