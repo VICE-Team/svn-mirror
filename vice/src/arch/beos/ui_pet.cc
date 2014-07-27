@@ -39,22 +39,6 @@ extern "C" {
 #include "vsync.h"
 }
 
-static const char *pet_model_name[] = {
-    "2001",
-    "3008",
-    "3016",
-    "3032",
-    "3032B",
-    "4016",
-    "4032",
-    "4032B",
-    "8032",
-    "8096",
-    "8296",
-    "SuperPET",
-    NULL
-};
-
 static int pet_memory[] = { 4, 8, 16, 32, 96, 128, 0 };
 static const char *video_text[] = { "Auto", "40 columns", "80 columns", NULL };
 static int video_res[] = { 0, 40, 80 };
@@ -89,22 +73,6 @@ PetWindow::PetWindow()
     background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
     background->SetViewColor(220, 220, 220, 0);
     AddChild(background);
-
-    /* PET models */
-    r = Bounds();
-    r.InsetBy(10, 5);
-    r.right = r.left + 90;
-    box = new BBox(r, "Machine");
-    box->SetViewColor(220, 220, 220, 0);
-    box->SetLabel("Machine");
-    background->AddChild(box);
-
-    for (i = 0; pet_model_name[i]; i++) {
-        msg = new BMessage(MESSAGE_PET_MODEL);
-        msg->AddInt32("model", i);
-        button = new BButton(BRect(10, 15 + i * 25, 70, 30 + i * 25), pet_model_name[i], pet_model_name[i], msg);
-        box->AddChild(button);
-    }
 
     /* memory */
     r = BRect(110, 5, 190, 170);
@@ -225,10 +193,6 @@ void PetWindow::MessageReceived(BMessage *msg)
     int32 res_value;
 
     switch (msg->what) {
-        case MESSAGE_PET_MODEL:
-            msg->FindInt32("model", &res_value);
-            pet_set_model(pet_model_name[res_value], NULL);
-            break;
         case MESSAGE_PET_MEMORY:
             msg->FindInt32("memory", &res_value);
             resources_set_int("RamSize", pet_memory[res_value]);

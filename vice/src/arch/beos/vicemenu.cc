@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -460,6 +461,23 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("C128DCR PAL", new BMessage(MENU_C128_MODEL_C128DCR_PAL)));
             menu->AddItem(new BMenuItem("C128 NTSC", new BMessage(MENU_C128_MODEL_C128_NTSC)));
             menu->AddItem(new BMenuItem("C128DCR NTSC", new BMessage(MENU_C128_MODEL_C128DCR_NTSC)));
+    }
+
+    if (machine_class == VICE_MACHINE_PET) {
+        uppermenu->AddItem(menu = new BMenu("PET model"));
+            menu->SetRadioMode(true);
+            menu->AddItem(new BMenuItem("PET 2001", new BMessage(MENU_PET_MODEL_2001)));
+            menu->AddItem(new BMenuItem("PET 3008", new BMessage(MENU_PET_MODEL_3008)));
+            menu->AddItem(new BMenuItem("PET 3016", new BMessage(MENU_PET_MODEL_3016)));
+            menu->AddItem(new BMenuItem("PET 3032", new BMessage(MENU_PET_MODEL_3032)));
+            menu->AddItem(new BMenuItem("PET 3032B", new BMessage(MENU_PET_MODEL_3032B)));
+            menu->AddItem(new BMenuItem("PET 4016", new BMessage(MENU_PET_MODEL_4016)));
+            menu->AddItem(new BMenuItem("PET 4032", new BMessage(MENU_PET_MODEL_4032)));
+            menu->AddItem(new BMenuItem("PET 4032B", new BMessage(MENU_PET_MODEL_4032B)));
+            menu->AddItem(new BMenuItem("PET 8032", new BMessage(MENU_PET_MODEL_8032)));
+            menu->AddItem(new BMenuItem("PET 8096", new BMessage(MENU_PET_MODEL_8096)));
+            menu->AddItem(new BMenuItem("PET 8296", new BMessage(MENU_PET_MODEL_8296)));
+            menu->AddItem(new BMenuItem("SuperPET", new BMessage(MENU_PET_MODEL_SUPERPET)));
     }
 
     if (machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_CBM5X0 || machine_class == VICE_MACHINE_CBM6X0) {

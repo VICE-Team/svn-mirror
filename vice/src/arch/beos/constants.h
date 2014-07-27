@@ -410,6 +410,19 @@ const uint32 MENU_C128_MODEL_C128DCR_PAL          = 'M443';
 const uint32 MENU_C128_MODEL_C128_NTSC            = 'M444';
 const uint32 MENU_C128_MODEL_C128DCR_NTSC         = 'M445';
 
+const uint32 MENU_PET_MODEL_2001                  = 'M485';
+const uint32 MENU_PET_MODEL_3008                  = 'M486';
+const uint32 MENU_PET_MODEL_3016                  = 'M487';
+const uint32 MENU_PET_MODEL_3032                  = 'M488';
+const uint32 MENU_PET_MODEL_3032B                 = 'M489';
+const uint32 MENU_PET_MODEL_4016                  = 'M490';
+const uint32 MENU_PET_MODEL_4032                  = 'M491';
+const uint32 MENU_PET_MODEL_4032B                 = 'M492';
+const uint32 MENU_PET_MODEL_8032                  = 'M493';
+const uint32 MENU_PET_MODEL_8096                  = 'M494';
+const uint32 MENU_PET_MODEL_8296                  = 'M495';
+const uint32 MENU_PET_MODEL_SUPERPET              = 'M496';
+
 const uint32 MENU_VICII_MODEL_6569_PAL            = 'M227';
 const uint32 MENU_VICII_MODEL_8565_PAL            = 'M228';
 const uint32 MENU_VICII_MODEL_6569R1_OLD_PAL      = 'M229';

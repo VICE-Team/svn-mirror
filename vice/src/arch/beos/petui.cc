@@ -44,6 +44,7 @@
 extern "C" {
 #include "archdep.h"
 #include "constants.h"
+#include "petmodel.h"
 #include "petui.h"
 #include "resources.h"
 #include "types.h"
@@ -124,6 +125,42 @@ static const char *petsidcartclockpair[] = { "C64", "PET" };
 void pet_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
+        case MENU_PET_MODEL_2001:
+            petmodel_set(PETMODEL_2001);
+            break;
+        case MENU_PET_MODEL_3008:
+            petmodel_set(PETMODEL_3008);
+            break;
+        case MENU_PET_MODEL_3016:
+            petmodel_set(PETMODEL_3016);
+            break;
+        case MENU_PET_MODEL_3032:
+            petmodel_set(PETMODEL_3032);
+            break;
+        case MENU_PET_MODEL_3032B:
+            petmodel_set(PETMODEL_3032B);
+            break;
+        case MENU_PET_MODEL_4016:
+            petmodel_set(PETMODEL_4016);
+            break;
+        case MENU_PET_MODEL_4032:
+            petmodel_set(PETMODEL_4032);
+            break;
+        case MENU_PET_MODEL_4032B:
+            petmodel_set(PETMODEL_4032B);
+            break;
+        case MENU_PET_MODEL_8032:
+            petmodel_set(PETMODEL_8032);
+            break;
+        case MENU_PET_MODEL_8096:
+            petmodel_set(PETMODEL_8096);
+            break;
+        case MENU_PET_MODEL_8296:
+            petmodel_set(PETMODEL_8296);
+            break;
+        case MENU_PET_MODEL_SUPERPET:
+            petmodel_set(PETMODEL_SUPERPET);
+            break;
         case MENU_PET_SETTINGS:
             ui_pet();
             break;
