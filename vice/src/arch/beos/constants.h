@@ -436,6 +436,10 @@ const uint32 MENU_PET_MODEL_8096                  = 'M494';
 const uint32 MENU_PET_MODEL_8296                  = 'M495';
 const uint32 MENU_PET_MODEL_SUPERPET              = 'M496';
 
+const uint32 MENU_VIC20_MODEL_VIC20_PAL           = 'M506';
+const uint32 MENU_VIC20_MODEL_VIC20_NTSC          = 'M507';
+const uint32 MENU_VIC20_MODEL_VIC21               = 'M508';
+
 const uint32 MENU_VICII_MODEL_6569_PAL            = 'M227';
 const uint32 MENU_VICII_MODEL_8565_PAL            = 'M228';
 const uint32 MENU_VICII_MODEL_6569R1_OLD_PAL      = 'M229';

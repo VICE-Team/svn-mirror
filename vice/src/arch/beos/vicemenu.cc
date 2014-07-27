@@ -480,6 +480,14 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("SuperPET", new BMessage(MENU_PET_MODEL_SUPERPET)));
     }
 
+    if (machine_class == VICE_MACHINE_VIC20) {
+        uppermenu->AddItem(menu = new BMenu("VIC20 model"));
+            menu->SetRadioMode(true);
+            menu->AddItem(new BMenuItem("VIC20 PAL", new BMessage(MENU_VIC20_MODEL_VIC20_PAL)));
+            menu->AddItem(new BMenuItem("VIC20 NTSC", new BMessage(MENU_VIC20_MODEL_VIC20_NTSC)));
+            menu->AddItem(new BMenuItem("VIC21/SuperVIC", new BMessage(MENU_VIC20_MODEL_VIC21)));
+    }
+
     if (machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_CBM5X0 || machine_class == VICE_MACHINE_CBM6X0) {
         uppermenu->AddItem(menu = new BMenu("CIA-1 model"));
             menu->SetRadioMode(true);

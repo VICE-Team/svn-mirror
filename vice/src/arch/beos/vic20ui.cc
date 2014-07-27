@@ -53,6 +53,7 @@ extern "C" {
 #include "ui_vic20.h"
 #include "ui_vic.h"
 #include "util.h"
+#include "vic20model.h"
 #include "vic20ui.h"
 #include "video.h"
 }
@@ -223,6 +224,15 @@ static const char *vic20sidcartclockpair[] = { "C64", "VIC20" };
 void vic20_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
+        case MENU_VIC20_MODEL_VIC20_PAL:
+            vic20model_set(VIC20MODEL_VIC20_PAL);
+            break;
+        case MENU_VIC20_MODEL_VIC20_NTSC:
+            vic20model_set(VIC20MODEL_VIC20_NTSC);
+            break;
+        case MENU_VIC20_MODEL_VIC21:
+            vic20model_set(VIC20MODEL_VIC21);
+            break;
         case MENU_CART_VIC20_16KB_2000:
         case MENU_CART_VIC20_16KB_4000:
         case MENU_CART_VIC20_16KB_6000:
