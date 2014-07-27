@@ -5557,19 +5557,19 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_VICE_QUESTION_SV, "VICE-fråga" },
 /* tr */ { IDS_VICE_QUESTION_TR, "VICE Sorusu" },
 
-/* en */ { IDS_EXTEND_TO_40_TRACK,    "Extend image to 40-track format?" },
-/* da */ { IDS_EXTEND_TO_40_TRACK_DA, "Udvid disk-image til 40 spor?" },
-/* de */ { IDS_EXTEND_TO_40_TRACK_DE, "Image Dateu auf 40-Spur Format erweitern?" },
-/* es */ { IDS_EXTEND_TO_40_TRACK_ES, "¿Imagen extendida a formato 40-tracks?" },
-/* fr */ { IDS_EXTEND_TO_40_TRACK_FR, "Étendre l'image au format 40 pistes?" },
-/* hu */ { IDS_EXTEND_TO_40_TRACK_HU, "Kiterjesszem a képmást 40 sávos formátumra?" },
-/* it */ { IDS_EXTEND_TO_40_TRACK_IT, "Estendere l'immagine al formato di 40 tracce?" },
+/* en */ { IDS_EXTEND_TO_40_TRACK,    "Do you want to extend the image?" },
+/* da */ { IDS_EXTEND_TO_40_TRACK_DA, "" },  /* fuzzy */
+/* de */ { IDS_EXTEND_TO_40_TRACK_DE, "" },  /* fuzzy */
+/* es */ { IDS_EXTEND_TO_40_TRACK_ES, "" },  /* fuzzy */
+/* fr */ { IDS_EXTEND_TO_40_TRACK_FR, "" },  /* fuzzy */
+/* hu */ { IDS_EXTEND_TO_40_TRACK_HU, "" },  /* fuzzy */
+/* it */ { IDS_EXTEND_TO_40_TRACK_IT, "" },  /* fuzzy */
 /* ko */ { IDS_EXTEND_TO_40_TRACK_KO, "" },  /* fuzzy */
-/* nl */ { IDS_EXTEND_TO_40_TRACK_NL, "Bestand uitbreiden naar 40-sporen formaat?" },
-/* pl */ { IDS_EXTEND_TO_40_TRACK_PL, "Rozszerzyæ obraz do formatu 40 ¶cie¿kowego?" },
-/* ru */ { IDS_EXTEND_TO_40_TRACK_RU, "Extend image to 40-track format?" },
-/* sv */ { IDS_EXTEND_TO_40_TRACK_SV, "Utöka avbildning till 40-spårsformat?" },
-/* tr */ { IDS_EXTEND_TO_40_TRACK_TR, "Imaj 40-track biçimine geniþletilsin mi?" },
+/* nl */ { IDS_EXTEND_TO_40_TRACK_NL, "" },  /* fuzzy */
+/* pl */ { IDS_EXTEND_TO_40_TRACK_PL, "" },  /* fuzzy */
+/* ru */ { IDS_EXTEND_TO_40_TRACK_RU, "" },  /* fuzzy */
+/* sv */ { IDS_EXTEND_TO_40_TRACK_SV, "" },  /* fuzzy */
+/* tr */ { IDS_EXTEND_TO_40_TRACK_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_YES_NO,    "Yes|No" },
 /* da */ { IDS_YES_NO_DA, "Ja|Nej" },

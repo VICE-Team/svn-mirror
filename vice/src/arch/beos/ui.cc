@@ -1184,7 +1184,7 @@ int ui_extend_image_dialog(void)
     int ret;
     BAlert *mb;
         
-    mb = new BAlert("VICE question", "Extend image to 40-track format?", "Yes", "No", NULL, B_WIDTH_AS_USUAL, B_IDEA_ALERT);
+    mb = new BAlert("VICE question", "Do you want to extend the image?", "Yes", "No", NULL, B_WIDTH_AS_USUAL, B_IDEA_ALERT);
     ret = mb->Go();
 
     return ret == 0;

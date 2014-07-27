@@ -438,7 +438,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
 
 int ui_extend_image_dialog(void)
 {
-    return WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, "Extend disk image in drive to 40 tracks?", "VICE/2 Extend Disk Image", 0, MB_YESNO) == MBID_YES;
+    return WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, "Do you want to extend the disk image?", "VICE/2 Extend Disk Image", 0, MB_YESNO) == MBID_YES;
 }
 
 //------------------------------------------------------------------------

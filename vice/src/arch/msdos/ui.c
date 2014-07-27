@@ -558,7 +558,7 @@ int ui_extend_image_dialog(void)
     enable_text();
     tui_clear_screen();
 
-    ret = tui_ask_confirmation("Extend disk image in drive 8 to 40 tracks?  (Y/N)");
+    ret = tui_ask_confirmation("Do you want to extend the disk image in drive 8?  (Y/N)");
 
     disable_text();
 
