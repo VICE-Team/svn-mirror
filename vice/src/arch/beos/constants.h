@@ -238,6 +238,7 @@ const uint32 MENU_TOGGLE_REU                      = 'M109';
 const uint32 MENU_TOGGLE_GEORAM                   = 'M096';
 const uint32 MENU_TOGGLE_RAMCART                  = 'M097';
 const uint32 MENU_TOGGLE_DQBB                     = 'M098';
+const uint32 MENU_TOGGLE_USERPORT_RTC             = 'M505';
 
 const uint32 MENU_TOGGLE_MAGICVOICE               = 'M165';
 const uint32 MENU_TOGGLE_IDE64_V4                 = 'M262';

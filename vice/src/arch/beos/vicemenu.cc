@@ -693,6 +693,9 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(submenu = new BMenu("Magic Voice Options"));
                 submenu->AddItem(new BMenuItem("Magic Voice emulation", new BMessage(MENU_TOGGLE_MAGICVOICE)));
                 submenu->AddItem(new BMenuItem("Magic Voice File", new BMessage(MENU_MAGICVOICE_FILE)));
+
+            menu->AddItem(submenu = new BMenu("Userport RTC Options"));
+                submenu->AddItem(new BMenuItem("Userport RTC emulation", new BMessage(MENU_TOGGLE_USERPORT_RTC)));
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||

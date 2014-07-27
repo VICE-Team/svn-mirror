@@ -101,6 +101,7 @@ ui_menu_toggle scpu64_ui_menu_toggles[] = {
     { "RRBankJumper", MENU_TOGGLE_RR_BANK_JUMPER },
     { "RRBiosWrite",MENU_TOGGLE_SAVE_RR_FLASH },
     { "DS12C887RTC", MENU_TOGGLE_DS12C887_RTC },
+    { "UserportRTC", MENU_TOGGLE_USERPORT_RTC },
     { NULL, 0 }
 };
 
