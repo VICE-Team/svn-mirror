@@ -3,6 +3,7 @@
  *
  * Written by
  *  Mathias Roslund <vice.emu@amidog.se>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -255,32 +256,26 @@ static void ui_copy_clipboard(void)
             break;
         }
 
-        if (!(IFFParseBase = OpenLibrary("iffparse.library", 0L)))
-        {
+        if (!(IFFParseBase = OpenLibrary("iffparse.library", 0L))) {
             break;
         }
 
-        if (!(iff = AllocIFF()))
-        {
+        if (!(iff = AllocIFF())) {
             break;
         }
 
-        if (!(iff->iff_Stream = (ULONG)OpenClipboard(unitnumber)))
-        {
+        if (!(iff->iff_Stream = (ULONG)OpenClipboard(unitnumber))) {
             break;
         }
 
         InitIFFasClip(iff);
 
-        if ((error = OpenIFF(iff, IFFF_WRITE)))
-        {
+        if ((error = OpenIFF(iff, IFFF_WRITE))) {
             break;
         }
 
-        if (!(error = PushChunk(iff, ID_FTXT, ID_FORM, IFFSIZE_UNKNOWN)))
-        {
-            if (!(error = PushChunk(iff, 0, ID_CHRS, IFFSIZE_UNKNOWN)))
-            {
+        if (!(error = PushChunk(iff, ID_FTXT, ID_FORM, IFFSIZE_UNKNOWN))) {
+            if (!(error = PushChunk(iff, 0, ID_CHRS, IFFSIZE_UNKNOWN))) {
                 textlen = strlen(text);
                 WriteChunkBytes(iff, text, textlen);
             }
@@ -288,12 +283,12 @@ static void ui_copy_clipboard(void)
 
     } while (0);
 
-    if (iff)
-    {
+    if (iff) {
         CloseIFF(iff);
 
-        if (iff->iff_Stream)
+        if (iff->iff_Stream) {
             CloseClipboard((struct ClipboardHandle *)iff->iff_Stream);
+        }
         FreeIFF(iff);
     }
 
@@ -369,8 +364,7 @@ static void ui_paste_clipboard_text(void)
 
     } while (0);
 
-    if (iff)
-    {
+    if (iff) {
         CloseIFF(iff);
 
         if (iff->iff_Stream) {
@@ -406,8 +400,7 @@ int ui_menu_create(video_canvas_t *canvas)
         return -1;
     }
 
-    for (i = 0, j = 0; machine_specific_translation_menu[i].nm_Type != NM_END; i++)
-    {
+    for (i = 0, j = 0; machine_specific_translation_menu[i].nm_Type != NM_END; i++) {
         machine_specific_menu[j].nm_Type = machine_specific_translation_menu[i].nm_Type;
         machine_specific_menu[j].nm_CommKey = machine_specific_translation_menu[i].nm_CommKey;
         machine_specific_menu[j].nm_Flags = machine_specific_translation_menu[i].nm_Flags;
@@ -553,7 +546,7 @@ int ui_menu_update(video_canvas_t *canvas)
         }
     }
 
-    if (machine_specific_values){
+    if (machine_specific_values) {
         for (i = 0; machine_specific_values[i].name != NULL; i++) {
             value = -1;
             result = resources_get_value(machine_specific_values[i].name,
