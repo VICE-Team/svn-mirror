@@ -177,7 +177,7 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             ui_acia20_settings_dialog();
             break;
         case IDM_DIGIMAX_SETTINGS:
-            ui_digimax_vic20_settings_dialog(canvas);
+            ui_digimax_vic20_settings_dialog();
             break;
         case IDM_DS12C887RTC_SETTINGS:
             ui_ds12c887rtc_vic20_settings_dialog(canvas);

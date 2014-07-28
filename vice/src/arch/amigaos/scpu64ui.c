@@ -158,7 +158,7 @@ static int scpu64_ui_specific(video_canvas_t *canvas, int idm)
             ui_retroreplay_settings_dialog();
             break;
         case IDM_DIGIMAX_SETTINGS:
-            ui_digimax_c64_settings_dialog(canvas);
+            ui_digimax_c64_settings_dialog();
             break;
         case IDM_DS12C887RTC_SETTINGS:
             ui_ds12c887rtc_c64_settings_dialog(canvas);

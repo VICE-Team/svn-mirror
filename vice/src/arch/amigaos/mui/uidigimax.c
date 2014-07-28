@@ -34,8 +34,6 @@
 #include "intl.h"
 #include "translate.h"
 
-static video_canvas_t *digimax_canvas;
-
 static int ui_digimax_enable_translate[] = {
     IDMS_DISABLED,
     IDS_ENABLED,
@@ -190,11 +188,10 @@ static APTR build_gui20(void)
     return ui;
 }
 
-void ui_digimax_c64_settings_dialog(video_canvas_t *canvas)
+void ui_digimax_c64_settings_dialog(void)
 {
     APTR window;
 
-    digimax_canvas = canvas;
     intl_convert_mui_table(ui_digimax_enable_translate, ui_digimax_enable);
 
     window = mui_make_simple_window(build_gui64(), translate_text(IDS_DIGIMAX_SETTINGS));
@@ -216,7 +213,6 @@ void ui_digimax_vic20_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
 
-    digimax_canvas = canvas;
     intl_convert_mui_table(ui_digimax_enable_translate, ui_digimax_enable);
 
     window = mui_make_simple_window(build_gui20(), translate_text(IDS_DIGIMAX_SETTINGS));
