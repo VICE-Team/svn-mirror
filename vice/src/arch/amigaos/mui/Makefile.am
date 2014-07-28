@@ -60,6 +60,8 @@ libarchmui_a_SOURCES = \
 	uidrivepetcbm2.h \
 	uidriveplus4.c \
 	uidriveplus4.h \
+	uidrivesound.c \
+	uidrivesound.h \
 	uidrivevic20.c \
 	uidrivevic20.h \
 	uids12c887rtc.c \

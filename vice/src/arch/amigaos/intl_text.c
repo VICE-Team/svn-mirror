@@ -2043,19 +2043,19 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_TRUE_DRIVE_EMU_SV, "Äkta diskettenhetsemulering" },
 /* tr */ { IDMS_TRUE_DRIVE_EMU_TR, "Gerçek sürücü emülasyonu" },
 
-/* en */ { IDMS_DRIVE_SOUND,    "Drive sound emulation" },
-/* da */ { IDMS_DRIVE_SOUND_DA, "Emulér drevlyd" },
-/* de */ { IDMS_DRIVE_SOUND_DE, "Laufwerk Geräuschemulation" },
-/* es */ { IDMS_DRIVE_SOUND_ES, "Emulacion controlador de sonido" },
-/* fr */ { IDMS_DRIVE_SOUND_FR, "Émulation de son de lecteur disque" },
-/* hu */ { IDMS_DRIVE_SOUND_HU, "" },  /* fuzzy */
-/* it */ { IDMS_DRIVE_SOUND_IT, "Emulazione suoni del drive" },
-/* ko */ { IDMS_DRIVE_SOUND_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_DRIVE_SOUND_NL, "Drive geluiden emulatie" },
-/* pl */ { IDMS_DRIVE_SOUND_PL, "Emulacja odg³osów stacji dysków" },
-/* ru */ { IDMS_DRIVE_SOUND_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_DRIVE_SOUND_SV, "Emulera ljud från diskettstation" },
-/* tr */ { IDMS_DRIVE_SOUND_TR, "Sürücü ses emülasyonu" },
+/* en */ { IDMS_DRIVE_SOUND_SETTINGS,    "Drive sound emulation settings" },
+/* da */ { IDMS_DRIVE_SOUND_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_DRIVE_SOUND_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_DRIVE_SOUND_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_DRIVE_SOUND_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_DRIVE_SOUND_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_DRIVE_SOUND_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_DRIVE_SOUND_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_DRIVE_SOUND_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_DRIVE_SOUND_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_DRIVE_SOUND_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_DRIVE_SOUND_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_DRIVE_SOUND_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_AUTOSTART_HANDLE_TDE,    "Handle True Drive Emulation on autostart" },
 /* da */ { IDMS_AUTOSTART_HANDLE_TDE_DA, "Anvend ægte drev-emulering ved autostart" },
@@ -11199,6 +11199,34 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_DIGIMAX_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DIGIMAX_SETTINGS_SV, "DigiMAX-inställningar" },
 /* tr */ { IDS_DIGIMAX_SETTINGS_TR, "DigiMAX ayarlarý" },
+
+/* en */ { IDS_DRIVESOUND_ENABLED,    "Drive sound enabled" },
+/* da */ { IDS_DRIVESOUND_ENABLED_DA, "" },  /* fuzzy */
+/* de */ { IDS_DRIVESOUND_ENABLED_DE, "" },  /* fuzzy */
+/* es */ { IDS_DRIVESOUND_ENABLED_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DRIVESOUND_ENABLED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DRIVESOUND_ENABLED_HU, "" },  /* fuzzy */
+/* it */ { IDS_DRIVESOUND_ENABLED_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DRIVESOUND_ENABLED_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DRIVESOUND_ENABLED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DRIVESOUND_ENABLED_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DRIVESOUND_ENABLED_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DRIVESOUND_ENABLED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DRIVESOUND_ENABLED_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DRIVESOUND_SETTINGS,    "Drive sound settings" },
+/* da */ { IDS_DRIVESOUND_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_DRIVESOUND_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_DRIVESOUND_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DRIVESOUND_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DRIVESOUND_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_DRIVESOUND_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DRIVESOUND_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DRIVESOUND_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DRIVESOUND_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DRIVESOUND_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DRIVESOUND_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DRIVESOUND_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_DS12C887RTC_ENABLED,    "DS12C887 RTC Enabled" },
 /* da */ { IDS_DS12C887RTC_ENABLED_DA, "DS12C887 RTC Aktiveret" },

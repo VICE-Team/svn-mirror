@@ -64,6 +64,7 @@
 #include "mui/mui.h"
 #include "mui/uiautostart.h"
 #include "mui/uidatasette.h"
+#include "mui/uidrivesound.h"
 #include "mui/uifliplist.h"
 
 #ifdef AMIGA_OS4
@@ -141,7 +142,6 @@ void toggle_menu_item(struct Menu *menu, int idm, int checked)
 static const ui_menu_toggle_t toggle_list[] = {
     { "Sound", IDM_TOGGLE_SOUND },
     { "DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION },
-    { "DriveSoundEmulation", IDM_TOGGLE_DRIVE_SOUND },
     { "AutostartHandleTrueDriveEmulation", IDM_TOGGLE_AUTOSTART_HANDLE_TDE },
     { "WarpMode", IDM_TOGGLE_WARP_MODE },
     { "VirtualDevices", IDM_TOGGLE_VIRTUAL_DEVICES },
@@ -633,6 +633,9 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
             uiattach_command(canvas, idm);
             break;
 #endif
+        case IDM_DRIVE_SOUND:
+            ui_drivesound_settings_dialog();
+            break;
         case IDM_RESET_HARD:
             machine_trigger_reset(MACHINE_RESET_MODE_HARD);
             break;
