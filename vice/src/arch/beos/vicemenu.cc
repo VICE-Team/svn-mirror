@@ -235,6 +235,15 @@ BMenuBar *menu_create(int machine_class)
     }
 
     uppermenu->AddSeparatorItem();
+    uppermenu->AddItem(menu = new BMenu("Default CPU JAM action"));
+        menu->SetRadioMode(true);
+        menu->AddItem(new BMenuItem("Ask", new BMessage(MENU_JAM_ACTION_ASK)));
+        menu->AddItem(new BMenuItem("Continue", new BMessage(MENU_JAM_ACTION_CONTINUE)));
+        menu->AddItem(new BMenuItem("Start monitor", new BMessage(MENU_JAM_ACTION_START_MONITOR)));
+        menu->AddItem(new BMenuItem("Reset", new BMessage(MENU_JAM_ACTION_RESET)));
+        menu->AddItem(new BMenuItem("Hard reset", new BMessage(MENU_JAM_ACTION_HARD_RESET)));
+        menu->AddItem(new BMenuItem("Quit emulator", new BMessage(MENU_JAM_ACTION_QUIT_EMULATOR)));
+
     uppermenu->AddItem(item = new BMenuItem("Pause", new BMessage(MENU_PAUSE), 'P'));
     uppermenu->AddItem(item = new BMenuItem("Monitor", new BMessage(MENU_MONITOR), 'M'));
     uppermenu->AddItem(item = new BMenuItem("Soft Reset", new BMessage(MENU_RESET_SOFT), 'R'));

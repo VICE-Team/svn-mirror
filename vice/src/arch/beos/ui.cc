@@ -294,6 +294,16 @@ ui_res_possible_values UserportPrinterOutputDevice[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values CpuJamActions[] = {
+    { MACHINE_JAM_ACTION_DIALOG, MENU_JAM_ACTION_ASK },
+    { MACHINE_JAM_ACTION_CONTINUE, MENU_JAM_ACTION_CONTINUE },
+    { MACHINE_JAM_ACTION_MONITOR, MENU_JAM_ACTION_START_MONITOR },
+    { MACHINE_JAM_ACTION_RESET, MENU_JAM_ACTION_RESET },
+    { MACHINE_JAM_ACTION_HARD_RESET, MENU_JAM_ACTION_HARD_RESET },
+    { MACHINE_JAM_ACTION_QUIT, MENU_JAM_ACTION_QUIT_EMULATOR },
+    { -1, 0 }
+};
+
 ui_res_value_list value_list[] = {
     { "RefreshRate", RefreshRateValues },
     { "Speed", SpeedValues },
@@ -308,6 +318,7 @@ ui_res_value_list value_list[] = {
     { "Printer5TextDevice", Printer5OutputDevice },
     { "Printer6TextDevice", Printer6OutputDevice },
     { "PrinterUserportTextDevice", UserportPrinterOutputDevice },
+    { "JAMAction", CpuJamActions },
     { NULL, NULL }
 };
 

@@ -349,6 +349,13 @@ const uint32 MENU_DRIVE_SETTINGS                  = 'M200';
 const uint32 MENU_DEVICE_SETTINGS                 = 'M201';
 const uint32 MENU_SOUND_SETTINGS                  = 'M202';
 
+const uint32 MENU_JAM_ACTION_ASK                  = 'M519';
+const uint32 MENU_JAM_ACTION_CONTINUE             = 'M520';
+const uint32 MENU_JAM_ACTION_START_MONITOR        = 'M521';
+const uint32 MENU_JAM_ACTION_RESET                = 'M522';
+const uint32 MENU_JAM_ACTION_HARD_RESET           = 'M523';
+const uint32 MENU_JAM_ACTION_QUIT_EMULATOR        = 'M524';
+
 const uint32 MENU_JOYSTICK_SETTINGS               = 'M380';
 const uint32 MENU_EXTRA_JOYSTICK_SETTINGS         = 'M381';
 const uint32 MENU_TOGGLE_USERPORT_JOY             = 'M382';
