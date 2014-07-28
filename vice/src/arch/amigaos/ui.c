@@ -66,6 +66,7 @@
 #include "mui/uidatasette.h"
 #include "mui/uidrivesound.h"
 #include "mui/uifliplist.h"
+#include "mui/uijamaction.h"
 
 #ifdef AMIGA_OS4
 #include "mui/uijoystick.h"
@@ -633,6 +634,9 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
             uiattach_command(canvas, idm);
             break;
 #endif
+        case IDM_JAM_ACTION:
+            ui_jamaction_settings_dialog();
+            break;
         case IDM_DRIVE_SOUND:
             ui_drivesound_settings_dialog();
             break;

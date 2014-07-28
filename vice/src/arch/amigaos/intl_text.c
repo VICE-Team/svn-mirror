@@ -153,6 +153,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ALL_SV, "Alla" },
 /* tr */ { IDMS_ALL_TR, "Tümü" },
 
+/* en */ { IDMS_JAM_ACTION_SETTINGS,    "CPU JAM action settings" },
+/* da */ { IDMS_JAM_ACTION_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_JAM_ACTION_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_JAM_ACTION_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_JAM_ACTION_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_JAM_ACTION_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_JAM_ACTION_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_JAM_ACTION_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_JAM_ACTION_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_JAM_ACTION_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_JAM_ACTION_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_JAM_ACTION_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_JAM_ACTION_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_FLIP_LIST,    "Flip list" },
 /* da */ { IDMS_FLIP_LIST_DA, "Bladreliste" },
 /* de */ { IDMS_FLIP_LIST_DE, "Flipliste" },
@@ -11199,6 +11213,104 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_DIGIMAX_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DIGIMAX_SETTINGS_SV, "DigiMAX-inställningar" },
 /* tr */ { IDS_DIGIMAX_SETTINGS_TR, "DigiMAX ayarlarý" },
+
+/* en */ { IDS_ASK,    "Ask" },
+/* da */ { IDS_ASK_DA, "" },  /* fuzzy */
+/* de */ { IDS_ASK_DE, "" },  /* fuzzy */
+/* es */ { IDS_ASK_ES, "" },  /* fuzzy */
+/* fr */ { IDS_ASK_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ASK_HU, "" },  /* fuzzy */
+/* it */ { IDS_ASK_IT, "" },  /* fuzzy */
+/* ko */ { IDS_ASK_KO, "" },  /* fuzzy */
+/* nl */ { IDS_ASK_NL, "" },  /* fuzzy */
+/* pl */ { IDS_ASK_PL, "" },  /* fuzzy */
+/* ru */ { IDS_ASK_RU, "" },  /* fuzzy */
+/* sv */ { IDS_ASK_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ASK_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CONTINUE,    "Continue" },
+/* da */ { IDS_CONTINUE_DA, "" },  /* fuzzy */
+/* de */ { IDS_CONTINUE_DE, "" },  /* fuzzy */
+/* es */ { IDS_CONTINUE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CONTINUE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CONTINUE_HU, "" },  /* fuzzy */
+/* it */ { IDS_CONTINUE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CONTINUE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CONTINUE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CONTINUE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CONTINUE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CONTINUE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CONTINUE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_START_MONITOR,    "Start monitor" },
+/* da */ { IDS_START_MONITOR_DA, "" },  /* fuzzy */
+/* de */ { IDS_START_MONITOR_DE, "" },  /* fuzzy */
+/* es */ { IDS_START_MONITOR_ES, "" },  /* fuzzy */
+/* fr */ { IDS_START_MONITOR_FR, "" },  /* fuzzy */
+/* hu */ { IDS_START_MONITOR_HU, "" },  /* fuzzy */
+/* it */ { IDS_START_MONITOR_IT, "" },  /* fuzzy */
+/* ko */ { IDS_START_MONITOR_KO, "" },  /* fuzzy */
+/* nl */ { IDS_START_MONITOR_NL, "" },  /* fuzzy */
+/* pl */ { IDS_START_MONITOR_PL, "" },  /* fuzzy */
+/* ru */ { IDS_START_MONITOR_RU, "" },  /* fuzzy */
+/* sv */ { IDS_START_MONITOR_SV, "" },  /* fuzzy */
+/* tr */ { IDS_START_MONITOR_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_HARD_RESET,    "Hard reset" },
+/* da */ { IDS_HARD_RESET_DA, "" },  /* fuzzy */
+/* de */ { IDS_HARD_RESET_DE, "" },  /* fuzzy */
+/* es */ { IDS_HARD_RESET_ES, "" },  /* fuzzy */
+/* fr */ { IDS_HARD_RESET_FR, "" },  /* fuzzy */
+/* hu */ { IDS_HARD_RESET_HU, "" },  /* fuzzy */
+/* it */ { IDS_HARD_RESET_IT, "" },  /* fuzzy */
+/* ko */ { IDS_HARD_RESET_KO, "" },  /* fuzzy */
+/* nl */ { IDS_HARD_RESET_NL, "" },  /* fuzzy */
+/* pl */ { IDS_HARD_RESET_PL, "" },  /* fuzzy */
+/* ru */ { IDS_HARD_RESET_RU, "" },  /* fuzzy */
+/* sv */ { IDS_HARD_RESET_SV, "" },  /* fuzzy */
+/* tr */ { IDS_HARD_RESET_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_QUIT_EMULATOR,    "Quit emulator" },
+/* da */ { IDS_QUIT_EMULATOR_DA, "" },  /* fuzzy */
+/* de */ { IDS_QUIT_EMULATOR_DE, "" },  /* fuzzy */
+/* es */ { IDS_QUIT_EMULATOR_ES, "" },  /* fuzzy */
+/* fr */ { IDS_QUIT_EMULATOR_FR, "" },  /* fuzzy */
+/* hu */ { IDS_QUIT_EMULATOR_HU, "" },  /* fuzzy */
+/* it */ { IDS_QUIT_EMULATOR_IT, "" },  /* fuzzy */
+/* ko */ { IDS_QUIT_EMULATOR_KO, "" },  /* fuzzy */
+/* nl */ { IDS_QUIT_EMULATOR_NL, "" },  /* fuzzy */
+/* pl */ { IDS_QUIT_EMULATOR_PL, "" },  /* fuzzy */
+/* ru */ { IDS_QUIT_EMULATOR_RU, "" },  /* fuzzy */
+/* sv */ { IDS_QUIT_EMULATOR_SV, "" },  /* fuzzy */
+/* tr */ { IDS_QUIT_EMULATOR_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DEFAULT_JAM_ACTION,    "Default CPU JAM action" },
+/* da */ { IDS_DEFAULT_JAM_ACTION_DA, "" },  /* fuzzy */
+/* de */ { IDS_DEFAULT_JAM_ACTION_DE, "" },  /* fuzzy */
+/* es */ { IDS_DEFAULT_JAM_ACTION_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DEFAULT_JAM_ACTION_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DEFAULT_JAM_ACTION_HU, "" },  /* fuzzy */
+/* it */ { IDS_DEFAULT_JAM_ACTION_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DEFAULT_JAM_ACTION_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DEFAULT_JAM_ACTION_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DEFAULT_JAM_ACTION_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DEFAULT_JAM_ACTION_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DEFAULT_JAM_ACTION_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DEFAULT_JAM_ACTION_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_JAMACTION_SETTINGS,    "CPU JAM action settings" },
+/* da */ { IDS_JAMACTION_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_JAMACTION_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_JAMACTION_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_JAMACTION_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_JAMACTION_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_JAMACTION_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_JAMACTION_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_JAMACTION_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_JAMACTION_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_JAMACTION_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_JAMACTION_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_JAMACTION_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_DRIVESOUND_ENABLED,    "Drive sound enabled" },
 /* da */ { IDS_DRIVESOUND_ENABLED_DA, "" },  /* fuzzy */

@@ -58,6 +58,7 @@ static struct TranslateNewMenu UI_MENU_NAME[] = {
       SUB(IDMS_SAVE_FLIP_LIST,        NULL, IDM_FLIP_SAVE)
     ITEMSEPARATOR()
     ITEMTOGGLE(IDMS_PAUSE,            NULL, IDM_PAUSE)
+    ITEM(IDMS_JAM_ACTION_SETTINGS,    NULL, IDM_JAM_ACTION)
     ITEM(IDMS_MONITOR,                "M",  IDM_MONITOR)
     ITEM(IDMS_RESET,                  NULL, NULL)
       SUB(IDMS_HARD,                  NULL, IDM_RESET_HARD)
