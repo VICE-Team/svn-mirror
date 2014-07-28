@@ -50,7 +50,7 @@ static const int ui_drivesound_enable_values[] = {
 
 static const int ui_volume_range[] = {
     0,
-    100
+    4000
 };
 
 static ui_to_from_t ui_to_from[] = {
