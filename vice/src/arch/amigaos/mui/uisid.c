@@ -289,10 +289,22 @@ static const int ui_extra_sid_amount_values[] = {
     -1
 };
 
+#ifdef HAVE_RESID
 static const int ui_band_range[] = {
     0,
     90
 };
+
+static const int ui_gain_range[] = {
+    90,
+    100
+};
+
+static const int ui_bias_range[] = {
+    -5000,
+    5000
+};
+#endif
 
 static ui_to_from_t ui_to_from2[] = {
     { NULL, MUI_TYPE_CYCLE_SID, "dummy", ui_sid_engine_model, ui_sid_engine_model_values, NULL },
@@ -300,6 +312,8 @@ static ui_to_from_t ui_to_from2[] = {
 #ifdef HAVE_RESID
     { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values, NULL },
     { NULL, MUI_TYPE_INTEGER, "SidResidPassband", NULL, ui_band_range, NULL },
+    { NULL, MUI_TYPE_INTEGER, "SidResidGain", NULL, ui_gain_range, NULL },
+    { NULL, MUI_TYPE_INTEGER, "SidResidFilterBias", NULL, ui_bias_range, NULL },
 #endif
     UI_END /* mandatory */
 };
@@ -313,6 +327,8 @@ static ui_to_from_t ui_to_from64[] = {
 #ifdef HAVE_RESID
     { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values, NULL },
     { NULL, MUI_TYPE_INTEGER, "SidResidPassband", NULL, ui_band_range, NULL },
+    { NULL, MUI_TYPE_INTEGER, "SidResidGain", NULL, ui_gain_range, NULL },
+    { NULL, MUI_TYPE_INTEGER, "SidResidFilterBias", NULL, ui_bias_range, NULL },
 #endif
     UI_END /* mandatory */
 };
@@ -326,6 +342,8 @@ static ui_to_from_t ui_to_from128[] = {
 #ifdef HAVE_RESID
     { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values, NULL },
     { NULL, MUI_TYPE_INTEGER, "SidResidPassband", NULL, ui_band_range, NULL },
+    { NULL, MUI_TYPE_INTEGER, "SidResidGain", NULL, ui_gain_range, NULL },
+    { NULL, MUI_TYPE_INTEGER, "SidResidFilterBias", NULL, ui_bias_range, NULL },
 #endif
     UI_END /* mandatory */
 };
@@ -342,6 +360,8 @@ static APTR build_gui2(void)
 #ifdef HAVE_RESID
            CYCLE(ui_to_from2[2].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
            STRING(ui_to_from2[3].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
+           STRING(ui_to_from2[4].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
+           STRING(ui_to_from2[5].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
 #endif
            OK_CANCEL_BUTTON
          End;
@@ -372,6 +392,8 @@ static APTR build_gui64(void)
 #ifdef HAVE_RESID
            CYCLE(ui_to_from64[5].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
            STRING(ui_to_from64[6].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
+           STRING(ui_to_from64[7].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
+           STRING(ui_to_from64[8].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
 #endif
            OK_CANCEL_BUTTON
          End;
@@ -402,6 +424,8 @@ static APTR build_gui128(void)
 #ifdef HAVE_RESID
            CYCLE(ui_to_from128[5].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
            STRING(ui_to_from128[6].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
+           STRING(ui_to_from128[7].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
+           STRING(ui_to_from128[8].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
 #endif
            OK_CANCEL_BUTTON
          End;

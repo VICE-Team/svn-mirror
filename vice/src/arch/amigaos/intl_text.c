@@ -9198,6 +9198,34 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PASSBAND_0_90_SV, "Passband (0..90%)" },
 /* tr */ { IDS_PASSBAND_0_90_TR, "Passband (0..90%)" },
 
+/* en */ { IDS_GAIN_90_100,    "Gain (90..100)" },
+/* da */ { IDS_GAIN_90_100_DA, "" },  /* fuzzy */
+/* de */ { IDS_GAIN_90_100_DE, "" },  /* fuzzy */
+/* es */ { IDS_GAIN_90_100_ES, "" },  /* fuzzy */
+/* fr */ { IDS_GAIN_90_100_FR, "" },  /* fuzzy */
+/* hu */ { IDS_GAIN_90_100_HU, "" },  /* fuzzy */
+/* it */ { IDS_GAIN_90_100_IT, "" },  /* fuzzy */
+/* ko */ { IDS_GAIN_90_100_KO, "" },  /* fuzzy */
+/* nl */ { IDS_GAIN_90_100_NL, "" },  /* fuzzy */
+/* pl */ { IDS_GAIN_90_100_PL, "" },  /* fuzzy */
+/* ru */ { IDS_GAIN_90_100_RU, "" },  /* fuzzy */
+/* sv */ { IDS_GAIN_90_100_SV, "" },  /* fuzzy */
+/* tr */ { IDS_GAIN_90_100_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_BIAS_M5000_P5000,    "Filter bias (-5000..5000)" },
+/* da */ { IDS_BIAS_M5000_P5000_DA, "" },  /* fuzzy */
+/* de */ { IDS_BIAS_M5000_P5000_DE, "" },  /* fuzzy */
+/* es */ { IDS_BIAS_M5000_P5000_ES, "" },  /* fuzzy */
+/* fr */ { IDS_BIAS_M5000_P5000_FR, "" },  /* fuzzy */
+/* hu */ { IDS_BIAS_M5000_P5000_HU, "" },  /* fuzzy */
+/* it */ { IDS_BIAS_M5000_P5000_IT, "" },  /* fuzzy */
+/* ko */ { IDS_BIAS_M5000_P5000_KO, "" },  /* fuzzy */
+/* nl */ { IDS_BIAS_M5000_P5000_NL, "" },  /* fuzzy */
+/* pl */ { IDS_BIAS_M5000_P5000_PL, "" },  /* fuzzy */
+/* ru */ { IDS_BIAS_M5000_P5000_RU, "" },  /* fuzzy */
+/* sv */ { IDS_BIAS_M5000_P5000_SV, "" },  /* fuzzy */
+/* tr */ { IDS_BIAS_M5000_P5000_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_NOT_IMPLEMENTED_YET,    "Not implemented yet!" },
 /* da */ { IDS_NOT_IMPLEMENTED_YET_DA, "Endnu ikke implementeret!" },
 /* de */ { IDS_NOT_IMPLEMENTED_YET_DE, "Noch nicht implementiert!" },
