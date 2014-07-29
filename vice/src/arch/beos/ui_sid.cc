@@ -63,6 +63,8 @@ class SidWindow : public BWindow {
         BOptionPopUp *second_sid_popup;
         BOptionPopUp *third_sid_popup;
         BSlider *passbandslider;
+        BSlider *gainslider;
+        BSlider *biasslider;
         BBox *extrasidbox;
         BBox *residbox;
 
@@ -208,6 +210,22 @@ SidWindow::SidWindow()
     passbandslider->SetLimitLabels("0", "90");
     residbox->AddChild(passbandslider);
 
+    resources_get_int("SidResidGain", &res_val);
+    gainslider = new BSlider(BRect(r.Width() / 2 + 10, 20, r.Width() - 10, 60), "Gain", "Gain", new BMessage(MESSAGE_SID_RESIDGAIN), 0, 90, B_TRIANGLE_THUMB);
+    gainslider->SetValue(res_val);
+    gainslider->SetHashMarkCount(10);
+    gainslider->SetHashMarks(B_HASH_MARKS_BOTTOM);
+    gainslider->SetLimitLabels("90", "100");
+    residbox->AddChild(gainslider);
+
+    resources_get_int("SidResidFilterBias", &res_val);
+    biasslider = new BSlider(BRect(r.Width() / 2 + 10, 20, r.Width() - 10, 60), "Bias", "Bias", new BMessage(MESSAGE_SID_RESIDBIAS), 0, 90, B_TRIANGLE_THUMB);
+    biasslider->SetValue(res_val);
+    biasslider->SetHashMarkCount(10);
+    biasslider->SetHashMarks(B_HASH_MARKS_BOTTOM);
+    biasslider->SetLimitLabels("-5000", "5000");
+    residbox->AddChild(biasslider);
+
     EnableReSidControls(engine);
 
     Show();
@@ -255,6 +273,12 @@ void SidWindow::MessageReceived(BMessage *msg)
             break;
         case MESSAGE_SID_RESIDPASSBAND:
             resources_set_int("SidResidPassband", passbandslider->Value());
+            break;
+        case MESSAGE_SID_RESIDGAIN:
+            resources_set_int("SidResidGain", gainslider->Value());
+            break;
+        case MESSAGE_SID_RESIDBIAS:
+            resources_set_int("SidResidFilterBias", biasslider->Value());
             break;
         default:
             BWindow::MessageReceived(msg);
