@@ -158,6 +158,7 @@ static tui_menu_item_def_t sid_engine_model_submenu[] = {
     { NULL }
 };
 
+#ifdef HAVE_RESID
 static TUI_MENU_CALLBACK(toggle_ResidSampling_callback)
 {
     int value;
@@ -170,6 +171,82 @@ static TUI_MENU_CALLBACK(toggle_ResidSampling_callback)
 
     return (value == 0) ? "fast" : ((value == 1) ? "interpolate" : "resample");
 }
+
+static TUI_MENU_CALLBACK(ui_set_ResidPassBand_callback)
+{
+    if (been_activated) {
+        int passband, value;
+        char buf[10];
+
+        resources_get_int("SidResidPassband", &passband);
+        sprintf(buf, "%d", passband);
+
+        if (tui_input_string("ReSID passband", "Enter ReSID passband to use:", buf, 10) == 0) {
+            value = atoi(buf);
+            if (value > 90) {
+                value = 90;
+            } else if (value < 0) {
+                value = 0;
+            }
+            resources_set_int("SidResidPassband", value);
+            tui_message("ReSID passband set to : %d",value);
+        } else {
+            return NULL;
+        }
+    }
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(ui_set_ResidGain_callback)
+{
+    if (been_activated) {
+        int gain, value;
+        char buf[10];
+
+        resources_get_int("SidResidGain", &gain);
+        sprintf(buf, "%d", gain);
+
+        if (tui_input_string("ReSID gain", "Enter ReSID gain to use:", buf, 10) == 0) {
+            value = atoi(buf);
+            if (value > 100) {
+                value = 100;
+            } else if (value < 90) {
+                value = 90;
+            }
+            resources_set_int("SidResidGain", value);
+            tui_message("ReSID gain set to : %d",value);
+        } else {
+            return NULL;
+        }
+    }
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(ui_set_ResidBias_callback)
+{
+    if (been_activated) {
+        int bias, value;
+        char buf[10];
+
+        resources_get_int("SidResidFilterBias", &bias);
+        sprintf(buf, "%d", bias);
+
+        if (tui_input_string("ReSID filter bias", "Enter ReSID bia to use:", buf, 10) == 0) {
+            value = atoi(buf);
+            if (value > 5000) {
+                value = 5000;
+            } else if (value < -5000) {
+                value = -5000;
+            }
+            resources_set_int("SidResidFilterBias", value);
+            tui_message("ReSID filter bias set to : %d",value);
+        } else {
+            return NULL;
+        }
+    }
+    return NULL;
+}
+#endif
 
 TUI_MENU_DEFINE_TOGGLE(SidFilters)
 TUI_MENU_DEFINE_RADIO(SidStereo)
@@ -631,11 +708,23 @@ tui_menu_item_def_t sid_c64_ui_menu_items[] = {
       "Select the address of the third SID chip",
       sid_triple_address_submenu_callback, NULL, 5,
       TUI_MENU_BEH_CONTINUE, sid_triple_address_submenu, "Address of the third SID chip" },
-#if defined(HAVE_RESID)
+#ifdef HAVE_RESID
     { "--"},
-    { "reSID s_ampling method:",
-      "How the reSID engine generates the samples",
+    { "ReSID s_ampling method:",
+      "How the ReSID engine generates the samples",
       toggle_ResidSampling_callback, NULL, 12,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "ReSID passband",
+      "Set the ReSID passband to use",
+      ui_set_ResidPassBand_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "ReSID gain",
+      "Set the ReSID gain to use",
+      ui_set_ResidGain_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "ReSID filter bias",
+      "Set the ReSID filter bias to use",
+      ui_set_ResidBias_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
 #endif
     { NULL }
