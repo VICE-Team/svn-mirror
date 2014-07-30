@@ -92,6 +92,7 @@ ui_menu_toggle scpu64_ui_menu_toggles[] = {
     { "EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER },
     { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
     { "VICIINewLuminances", MENU_VICII_NEW_LUMINANCES },
+    { "IECReset", MENU_IEC_RESET },
     { "IDE64version4", MENU_TOGGLE_IDE64_V4 },
     { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
     { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },

@@ -457,6 +457,8 @@ const uint32 MENU_VICII_MODEL_6572_PAL_N          = 'M233';
 
 const uint32 MENU_VICII_NEW_LUMINANCES            = 'M234';
 
+const uint32 MENU_IEC_RESET                       = 'M525';
+
 const uint32 MENU_CIA1_MODEL_6526_OLD             = 'M235';
 const uint32 MENU_CIA1_MODEL_6526A_NEW            = 'M236';
 

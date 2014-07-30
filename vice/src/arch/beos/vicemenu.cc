@@ -419,6 +419,7 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("Discrete", new BMessage(MENU_GLUE_LOGIC_DISCRETE)));
                     extsubmenu->AddItem(new BMenuItem("Custom IC", new BMessage(MENU_GLUE_LOGIC_CUSTOM_IC)));
             }
+                submenu->AddItem(new BMenuItem("Reset IEC bus with computer", new BMessage(MENU_IEC_RESET)));
     }
 
     if (machine_class == VICE_MACHINE_PLUS4) {
