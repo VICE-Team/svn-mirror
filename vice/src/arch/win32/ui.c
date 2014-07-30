@@ -223,6 +223,16 @@ static const ui_res_possible_values_t SyncFactor[] = {
     { -1, 0 }
 };
 
+static const ui_res_possible_values_t JamAction[] = {
+    { MACHINE_JAM_ACTION_DIALOG, IDM_JAM_ACTION_ASK },
+    { MACHINE_JAM_ACTION_CONTINUE, IDM_JAM_ACTION_CONTINUE },
+    { MACHINE_JAM_ACTION_MONITOR, IDM_JAM_ACTION_START_MONITOR },
+    { MACHINE_JAM_ACTION_RESET, IDM_JAM_ACTION_RESET },
+    { MACHINE_JAM_ACTION_HARD_RESET, IDM_JAM_ACTION_HARD_RESET },
+    { MACHINE_JAM_ACTION_QUIT, IDM_JAM_ACTION_QUIT_EMULATOR },
+    { -1, 0 }
+};
+
 #ifdef DEBUG
 static const ui_res_possible_values_t TraceMode[] = {
     { DEBUG_NORMAL, IDM_DEBUG_MODE_NORMAL },
@@ -237,6 +247,7 @@ static const ui_res_value_list_t value_list[] = {
     { "RefreshRate", RefreshRateValues, 0 },
     { "Speed", SpeedValues, IDM_MAXIMUM_SPEED_CUSTOM },
     { "MachineVideoStandard", SyncFactor, 0 },
+    { "JAMAction", JamAction, 0 },
     { "EventStartMode", RecordingOptions, 0 },
 #ifdef DEBUG
     { "TraceMode", TraceMode, 0},
