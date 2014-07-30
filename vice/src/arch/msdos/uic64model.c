@@ -40,6 +40,7 @@ TUI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 TUI_MENU_DEFINE_RADIO(CIA1Model)
 TUI_MENU_DEFINE_RADIO(CIA2Model)
 TUI_MENU_DEFINE_RADIO(GlueLogic)
+TUI_MENU_DEFINE_TOGGLE(IECReset)
 
 static TUI_MENU_CALLBACK(vicii_model_submenu_callback)
 {
@@ -176,6 +177,10 @@ static tui_menu_item_def_t c64_custom_model_menu_items[] = {
     { "_New luminances:",
       "Enable new VICII luminances",
       toggle_VICIINewLuminances_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Reset IEC bus with computer:",
+      "Enable resetting of the IEC bus when the computer resets",
+      toggle_IECReset_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "CIA _1 model:", "Select the CIA #1 model",
       cia1_model_submenu_callback, NULL, 20,
