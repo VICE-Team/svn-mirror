@@ -107,6 +107,7 @@ static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "CIA1Model", ui_cia_models, ui_cia_models_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "CIA2Model", ui_cia_models, ui_cia_models_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "GlueLogic", ui_glue_logic, ui_glue_logic_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "IECReset", ui_new_luminances_enable, ui_new_luminances_enable_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -122,6 +123,7 @@ static APTR build_gui(void)
            CYCLE(ui_to_from[2].object, translate_text(IDS_CIA1_MODEL), ui_cia_models)
            CYCLE(ui_to_from[3].object, translate_text(IDS_CIA2_MODEL), ui_cia_models)
            CYCLE(ui_to_from[4].object, translate_text(IDS_GLUE_LOGIC), ui_glue_logic)
+           CYCLE(ui_to_from[5].object, translate_text(IDS_IEC_RESET), ui_new_luminances_enable)
            OK_CANCEL_BUTTON
          End;
 

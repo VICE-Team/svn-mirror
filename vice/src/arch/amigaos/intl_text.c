@@ -12404,6 +12404,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_GLUE_LOGIC_SV, "Klisterlogik" },
 /* tr */ { IDS_GLUE_LOGIC_TR, "Glue logic" },
 
+/* en */ { IDS_IEC_RESET,    "Reset IEC bus with computer" },
+/* da */ { IDS_IEC_RESET_DA, "" },  /* fuzzy */
+/* de */ { IDS_IEC_RESET_DE, "" },  /* fuzzy */
+/* es */ { IDS_IEC_RESET_ES, "" },  /* fuzzy */
+/* fr */ { IDS_IEC_RESET_FR, "" },  /* fuzzy */
+/* hu */ { IDS_IEC_RESET_HU, "" },  /* fuzzy */
+/* it */ { IDS_IEC_RESET_IT, "" },  /* fuzzy */
+/* ko */ { IDS_IEC_RESET_KO, "" },  /* fuzzy */
+/* nl */ { IDS_IEC_RESET_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IEC_RESET_PL, "" },  /* fuzzy */
+/* ru */ { IDS_IEC_RESET_RU, "" },  /* fuzzy */
+/* sv */ { IDS_IEC_RESET_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IEC_RESET_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_C64_MODEL_SETTINGS,    "C64 model settings" },
 /* da */ { IDS_C64_MODEL_SETTINGS_DA, "C64-model indstillinger" },
 /* de */ { IDS_C64_MODEL_SETTINGS_DE, "C64 Modell Einstellungen" },
