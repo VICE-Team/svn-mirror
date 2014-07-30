@@ -92,6 +92,7 @@ tui_menu_t ui_info_submenu;
 tui_menu_t ui_main_menu;
 tui_menu_t ui_quit_submenu;
 tui_menu_t ui_reset_submenu;
+tui_menu_t ui_jamaction_submenu;
 tui_menu_t ui_rom_submenu;
 tui_menu_t ui_screenshot_submenu;
 tui_menu_t ui_settings_submenu;
@@ -366,6 +367,28 @@ static tui_menu_item_def_t datasette_settings_submenu[] = {
       datasette_zerogapdelay_submenu_callback, NULL, 8,
       TUI_MENU_BEH_CONTINUE, datasette_zerogapdelay_submenu,
       "A zero in tap is..." },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
+/* CPU JAM actions */
+
+TUI_MENU_DEFINE_RADIO(JAMAction)
+
+static tui_menu_item_def_t cpu_jam_actions_submenu[] = {
+    { "_Ask", NULL, radio_JAMAction_callback,
+      (void *)MACHINE_JAM_ACTION_DIALOG, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Continue", NULL, radio_JAMAction_callback,
+      (void *)MACHINE_JAM_ACTION_CONTINUE, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Start _Monitor", NULL, radio_JAMAction_callback,
+      (void *)JAM_ACTION_MONITOR, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Reset", NULL, radio_JAMAction_callback,
+      (void *)JAM_ACTION_RESET, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Hard reset", NULL, radio_JAMAction_callback,
+      (void *)JAM_ACTION_HARD_RESET, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Quit emulator", NULL, radio_JAMAction_callback,
+      (void *)JAM_ACTION_QUIT, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
@@ -1109,6 +1132,13 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps, int 
                       monitor_callback,
                       NULL, 0,
                       TUI_MENU_BEH_RESUME);
+
+    ui_jamaction_submenu = tui_menu_create("Default CPU JAM action", 1);
+    tui_menu_add(ui_jamaction_submenu, cpu_jam_actions_submenu);
+    tui_menu_add_submenu(ui_main_menu, "_JAM action ",
+                         "Default CPU JAM action",
+                         ui_jamaction_submenu,
+                         NULL, NULL, 0);
 
     ui_reset_submenu = tui_menu_create("Reset?", 1);
     tui_menu_add(ui_reset_submenu, reset_submenu);
