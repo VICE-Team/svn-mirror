@@ -260,6 +260,7 @@ int cmdline_parse(int *argc, char **argv)
             DBG(("%d %d=%d:%s\n", args, j, i, argv[j]));
         }
         DBG(("new argc:%d\n", args));
+        argv[args] = NULL; /* terminate the list properly */
         *argc = args;
     }
 
