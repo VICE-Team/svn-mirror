@@ -36,8 +36,12 @@ UI_MENU_DEFINE_TOGGLE(PrinterUserport)
 UI_MENU_DEFINE_TOGGLE(IECDevice4)
 UI_MENU_DEFINE_TOGGLE(IECDevice5)
 UI_MENU_DEFINE_TOGGLE(IECDevice6)
+
+#ifdef HAVE_OPENCBM
 UI_MENU_DEFINE_TOGGLE(IECDevice7)
 UI_MENU_DEFINE_TOGGLE(Printer7)
+#endif
+
 
 ui_menu_entry_t printeriec_settings_menu[] = {
     { N_("Printer #4 emulation"), UI_MENU_TYPE_TICK,
