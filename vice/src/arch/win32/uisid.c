@@ -77,6 +77,8 @@ static void enable_resid_sid_controls(HWND hwnd)
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND_VALUE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_GAIN_VALUE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_FILTER_BIAS_VALUE), is_enabled);
 }
 
 static void enable_hardsid_sid_controls(HWND hwnd)
@@ -271,6 +273,10 @@ static void init_resid_sid_dialog(HWND hwnd)
     SetWindowText(sid_hwnd, translate_text(IDS_SID_RESID_SAMPLE));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND);
     SetWindowText(sid_hwnd, translate_text(IDS_SID_RESID_PASSBAND));
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_GAIN);
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_RESID_GAIN));
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_FILTER_BIAS);
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_RESID_FILTER_BIAS));
 
     resources_get_int("SidResidSampling", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING);
@@ -282,6 +288,14 @@ static void init_resid_sid_dialog(HWND hwnd)
     resources_get_int("SidResidPassband", &res_value);
     _stprintf(st, TEXT("%d"), res_value);
     SetDlgItemText(hwnd, IDC_SID_RESID_PASSBAND_VALUE, st);
+
+    resources_get_int("SidResidGain", &res_value);
+    _stprintf(st, TEXT("%d"), res_value);
+    SetDlgItemText(hwnd, IDC_SID_RESID_GAIN_VALUE, st);
+
+    resources_get_int("SidResidFilterBias", &res_value);
+    _stprintf(st, TEXT("%d"), res_value);
+    SetDlgItemText(hwnd, IDC_SID_RESID_FILTER_BIAS_VALUE, st);
 
     enable_resid_sid_controls(hwnd);
 }
@@ -317,12 +331,40 @@ static void resize_resid_sid_dialog(HWND hwnd)
         xpos = child_rect.left + xsize + 10;
     }
 
+    child_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_GAIN);
+    GetClientRect(child_hwnd, &child_rect);
+    MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
+    uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
+    MoveWindow(child_hwnd, child_rect.left, child_rect.top, xsize, child_rect.bottom - child_rect.top, TRUE);
+    if (xpos < child_rect.left + xsize + 10) {
+        xpos = child_rect.left + xsize + 10;
+    }
+
+    child_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_FILTER_BIAS);
+    GetClientRect(child_hwnd, &child_rect);
+    MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
+    uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
+    MoveWindow(child_hwnd, child_rect.left, child_rect.top, xsize, child_rect.bottom - child_rect.top, TRUE);
+    if (xpos < child_rect.left + xsize + 10) {
+        xpos = child_rect.left + xsize + 10;
+    }
+
     child_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING);
     GetClientRect(child_hwnd, &child_rect);
     MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
     MoveWindow(child_hwnd, xpos, child_rect.top, child_rect.right - child_rect.left, child_rect.bottom - child_rect.top, TRUE);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND_VALUE);
+    GetClientRect(child_hwnd, &child_rect);
+    MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
+    MoveWindow(child_hwnd, xpos, child_rect.top, child_rect.right - child_rect.left, child_rect.bottom - child_rect.top, TRUE);
+
+    child_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_GAIN_VALUE);
+    GetClientRect(child_hwnd, &child_rect);
+    MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
+    MoveWindow(child_hwnd, xpos, child_rect.top, child_rect.right - child_rect.left, child_rect.bottom - child_rect.top, TRUE);
+
+    child_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_FILTER_BIAS_VALUE);
     GetClientRect(child_hwnd, &child_rect);
     MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
     MoveWindow(child_hwnd, xpos, child_rect.top, child_rect.right - child_rect.left, child_rect.bottom - child_rect.top, TRUE);
@@ -500,6 +542,36 @@ static void end_resid_dialog(HWND hwnd)
         ui_error(translate_text(IDS_VAL_D_FOR_S_OUT_RANGE_USE_D), temp_val, translate_text(IDS_SID_RESID_PASSBAND), res_val);
     }
     resources_set_int("SidResidPassband", res_val);
+
+    GetDlgItemText(hwnd, IDC_SID_RESID_GAIN_VALUE, st, 4);
+    temp_val = _ttoi(st);
+    if (temp_val < 90) {
+        res_val = 90;
+    } else if (temp_val > 100) {
+        res_val = 100;
+    } else {
+        res_val = temp_val;
+    }
+    
+    if (temp_val != res_val) {
+        ui_error(translate_text(IDS_VAL_D_FOR_S_OUT_RANGE_USE_D), temp_val, translate_text(IDS_SID_RESID_GAIN), res_val);
+    }
+    resources_set_int("SidResidGain", res_val);
+
+    GetDlgItemText(hwnd, IDC_SID_RESID_FILTER_BIAS_VALUE, st, 4);
+    temp_val = _ttoi(st);
+    if (temp_val < -5000) {
+        res_val = -5000;
+    } else if (temp_val > 5000) {
+        res_val = 5000;
+    } else {
+        res_val = temp_val;
+    }
+    
+    if (temp_val != res_val) {
+        ui_error(translate_text(IDS_VAL_D_FOR_S_OUT_RANGE_USE_D), temp_val, translate_text(IDS_SID_RESID_FILTER_BIAS), res_val);
+    }
+    resources_set_int("SidResidFilterBias", res_val);
 }
 
 static INT_PTR CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
