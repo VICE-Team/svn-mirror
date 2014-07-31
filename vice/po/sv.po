@@ -651,12 +651,11 @@ msgstr "Egen krets"
 
 #: src/arch/unix/gui/c64scui.c:201 src/arch/unix/gui/c64ui.c:263
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: src/arch/unix/gui/c64scui.c:203 src/arch/unix/gui/c64ui.c:265
-#, fuzzy
 msgid "no"
-msgstr "Mono"
+msgstr "nej"
 
 #: src/arch/unix/gui/c64scui.c:209 src/arch/unix/gui/c64ui.c:271
 #: src/arch/win32/resc64.rc.po.c:479 src/arch/win32/resscpu64.rc.po.c:476
@@ -874,18 +873,16 @@ msgid "PET RAM and Expansion Unit"
 msgstr "PET RAM- och -expansionsenhet"
 
 #: src/arch/unix/gui/petui.c:250
-#, fuzzy
 msgid "PET Colour graphics"
-msgstr "PET DWW högupplöst grafik"
+msgstr "PET-färggrafik"
 
 #: src/arch/unix/gui/petui.c:252
 msgid "PET DWW hi-res graphics"
 msgstr "PET DWW högupplöst grafik"
 
 #: src/arch/unix/gui/petui.c:254
-#, fuzzy
 msgid "PET HRE hi-res graphics"
-msgstr "PET DWW högupplöst grafik"
+msgstr "PET HRE högupplöst grafik"
 
 #: src/arch/unix/gui/petui.c:256 src/arch/unix/gui/plus4ui.c:257
 #: src/arch/unix/gui/vic20ui.c:483 src/arch/amigaos/intl_text.c.po.c:9975
@@ -1216,11 +1213,12 @@ msgid ""
 "Enter maximum random autostart delay in frames\n"
 "(max. 1000, 0 means default)"
 msgstr ""
+"Ange maximal slumpmässig startfördröjning i bildruor\n"
+"(max. 1000, 0 betyder standard)"
 
 #: src/arch/unix/gui/uiautostart.c:69
-#, fuzzy
 msgid "Autostart delay"
-msgstr "Slumpmässig fördröjning för autostart"
+msgstr "Autostartfördröjning"
 
 #: src/arch/unix/gui/uiautostart.c:86 src/arch/win32/resautostart.rc.po.c:51
 #: src/arch/amigaos/intl_text.c.po.c:11795
@@ -1253,9 +1251,8 @@ msgid "Autostart random delay"
 msgstr "Slumpmässig fördröjning för autostart"
 
 #: src/arch/unix/gui/uiautostart.c:102
-#, fuzzy
 msgid "Maximum random autostart delay"
-msgstr "Aktivera slumpmässig inledande autostartfördröjning"
+msgstr "Maximault slumpmässig autostartfördröjning"
 
 #: src/arch/unix/gui/uiautostart.c:105 src/arch/win32/resautostart.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:11879
@@ -1542,7 +1539,6 @@ msgid "Reset"
 msgstr "Återställ"
 
 #: src/arch/unix/gui/uicommands.c:497
-#, fuzzy
 msgid "Hard reset"
 msgstr "Hård nollställning"
 
@@ -1702,7 +1698,7 @@ msgstr "Om VICE"
 
 #: src/arch/unix/gui/uicommands.c:686
 msgid "Action on CPU JAM"
-msgstr ""
+msgstr "Åtgärd vid CPU-stopp"
 
 #: src/arch/unix/gui/uicommands.c:691 src/arch/win32/res.rc.po.c:1339
 #: src/arch/amigaos/intl_text.c.po.c:1056
@@ -1851,7 +1847,7 @@ msgstr "Eget bredd-/höjdförhållande"
 #: src/arch/unix/gui/uicrtc.c:193 src/arch/unix/gui/uited.c:199
 #: src/arch/unix/gui/uivic.c:202 src/arch/unix/gui/uivicii.c:226
 msgid "Alpha Blending"
-msgstr ""
+msgstr "Alfablandning"
 
 #: src/arch/unix/gui/uicrtc.c:199 src/arch/unix/gui/uited.c:205
 #: src/arch/unix/gui/uivdc.c:201 src/arch/unix/gui/uivic.c:208
@@ -2789,9 +2785,8 @@ msgid "Stack Light Rifle"
 msgstr "Stack Light Rifle"
 
 #: src/arch/unix/gui/uilightpen.c:50
-#, fuzzy
 msgid "Inkwell Pen"
-msgstr "Datel-penna"
+msgstr "Inkwell-penna"
 
 #: src/arch/unix/gui/uilightpen.c:70 src/arch/win32/reslightpen.rc.po.c:23
 #: src/translate_text.c.po.c:13684
@@ -2948,9 +2943,8 @@ msgid "Error connecting to server."
 msgstr "Fel vid anslutning till server."
 
 #: src/arch/unix/gui/uinetplay.c:106
-#, fuzzy
 msgid "Netplay"
-msgstr "TCP-port för nätverksspel"
+msgstr "Nätspel"
 
 #: src/arch/unix/gui/uinetplay.c:109 src/arch/unix/x11/gnome/uinetplay.c:208
 #: src/arch/win32/res.rc.po.c:1246 src/arch/amigaos/intl_text.c.po.c:5298
@@ -3692,14 +3686,12 @@ msgid "History"
 msgstr "Historik"
 
 #: src/arch/unix/gui/uisettings.c:414
-#, fuzzy
 msgid "Autoplay"
-msgstr "Spela upp historik automatiskt"
+msgstr "Spela automatiskt"
 
 #: src/arch/unix/gui/uisettings.c:426
-#, fuzzy
 msgid "Trace Mode"
-msgstr "PET-modell"
+msgstr "Spårningsläge"
 
 #: src/arch/unix/gui/uisettings.c:429 src/arch/win32/res.rc.po.c:1401
 msgid "Main CPU Trace"
@@ -3714,19 +3706,16 @@ msgid "Drive1 CPU Trace"
 msgstr "Spåra CPU för enhet 1"
 
 #: src/arch/unix/gui/uisettings.c:436
-#, fuzzy
 msgid "Drive2 CPU Trace"
-msgstr "Spåra CPU för enhet 0"
+msgstr "Spåra CPU för enhet 2"
 
 #: src/arch/unix/gui/uisettings.c:438
-#, fuzzy
 msgid "Drive3 CPU Trace"
-msgstr "Spåra CPU för enhet 0"
+msgstr "Spåra CPU för enhet 3"
 
 #: src/arch/unix/gui/uisettings.c:444
-#, fuzzy
 msgid "Debug settings"
-msgstr "Diskettenhetsinställningar"
+msgstr "Felsökningsinställningar"
 
 #: src/arch/unix/gui/uisid.c:74
 msgid "8580 + digi boost (ReSID)"
@@ -3798,7 +3787,7 @@ msgstr "Argument:"
 #: src/arch/unix/gui/uisound.c:91 src/arch/win32/res.rc.po.c:1168
 #: src/arch/amigaos/intl_text.c.po.c:11431
 msgid "Very small"
-msgstr ""
+msgstr "Väldigt liten"
 
 #: src/arch/unix/gui/uisound.c:95 src/arch/win32/res.rc.po.c:1170
 #: src/arch/amigaos/intl_text.c.po.c:11459
@@ -3813,7 +3802,7 @@ msgstr "Stor"
 #: src/arch/unix/gui/uisound.c:99 src/arch/win32/res.rc.po.c:1172
 #: src/arch/amigaos/intl_text.c.po.c:11487
 msgid "Very large"
-msgstr ""
+msgstr "Väldigt stor"
 
 #: src/arch/unix/gui/uisound.c:105
 msgid "Keep going"
@@ -4665,12 +4654,15 @@ msgid ""
 "%s"
 msgstr ""
 "Namn: %s\n"
-"Låt: %d\n"
 "Författare: %s\n"
 "Upphovsrätt: %s\n"
+"\n"
+"Låt: %d av %d (Standard: %d)\n"
 "%s\n"
 "Modell: %s\n"
-"IRQ: %s"
+"IRQ: %s\n"
+"\n"
+"%s"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:42
 msgid "Specify an HTML browser for the on-line help"
@@ -5437,9 +5429,9 @@ msgid "Version %s *UNSTABLE* (%s)"
 msgstr "Version %s *INSTABIL* (%s)"
 
 #: src/arch/win32/res.rc.po.c:1016
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s rev %s *UNSTABLE* (%s)"
-msgstr "Version %s *INSTABIL* (%s)"
+msgstr "Version %s rev %s *INSTABIL* (%s)"
 
 #: src/arch/win32/res.rc.po.c:1018
 #, c-format
@@ -5447,9 +5439,9 @@ msgid "Version %s (%s)"
 msgstr "Version %s (%s)"
 
 #: src/arch/win32/res.rc.po.c:1019
-#, fuzzy, c-format
+#, c-format
 msgid "Version %s rev %s (%s)"
-msgstr "Version %s (%s)"
+msgstr "Version %s rev %s (%s)"
 
 #: src/arch/win32/res.rc.po.c:1021 src/arch/amigaos/intl_text.c.po.c:4948
 msgid "VICE contributors"
@@ -6119,7 +6111,7 @@ msgstr "Kernal"
 
 #: src/arch/win32/res.rc.po.c:1277
 msgid "SCPU64"
-msgstr ""
+msgstr "SCPU64"
 
 #: src/arch/win32/res.rc.po.c:1278
 msgid "Basic"
@@ -7334,16 +7326,15 @@ msgstr "Spara MMC Replay EEPROM vid ändringar"
 
 #: src/arch/win32/resmouse.rc.po.c:37
 msgid "sensitivity"
-msgstr ""
+msgstr "känslighet"
 
 #: src/arch/win32/resmouse.rc.po.c:38
 msgid "Sensitivity of the mouse. [40]"
-msgstr ""
+msgstr "Muskänslighet. [40]"
 
 #: src/arch/win32/resmouse.rc.po.c:39
-#, fuzzy
 msgid "Mouse sensitivity"
-msgstr "Musinställningar"
+msgstr "Muskänslighet"
 
 #: src/arch/win32/respet.rc.po.c:487
 msgid "Input/Output"
@@ -7401,9 +7392,8 @@ msgstr "$A*** som RAM"
 
 #: src/arch/win32/respet.rc.po.c:511 src/arch/win32/respetcolour.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4192
-#, fuzzy
 msgid "PET Colour board settings"
-msgstr "Färginställningar"
+msgstr "Inställningar för PET-färgkort"
 
 #: src/arch/win32/respet.rc.po.c:512 src/arch/win32/respetdww.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4178
@@ -7418,9 +7408,8 @@ msgid "PET REU settings"
 msgstr "PET REU-Inställningar"
 
 #: src/arch/win32/respet.rc.po.c:514
-#, fuzzy
 msgid "Enable PET High Res Emulation board"
-msgstr "Aktivera emulering av ljuspenna"
+msgstr "Aktivera PET-högupplösningsemuleringskort"
 
 #: src/arch/win32/respet.rc.po.c:515 src/arch/amigaos/intl_text.c.po.c:4080
 #: src/translate_text.c.po.c:4749
@@ -7434,12 +7423,11 @@ msgstr "Inställningar för PET-modell"
 #: src/arch/win32/respetcolour.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:7931
 msgid "Analog"
-msgstr ""
+msgstr "Analog"
 
 #: src/arch/win32/respetcolour.rc.po.c:28
-#, fuzzy
 msgid "Background color"
-msgstr "Sprite-till-bakgrund-kollision"
+msgstr "Bakgrundsfärg"
 
 #: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4715
 msgid "Enable the PET DWW hi-res board"
@@ -7686,9 +7674,8 @@ msgid "Third SID at"
 msgstr "Tredje SID på"
 
 #: src/arch/win32/ressid.rc.po.c:82 src/arch/win32/ressiddtv.rc.po.c:60
-#, fuzzy
 msgid "reSID options"
-msgstr "reSID-/reSID-fp-inställningar"
+msgstr "reSID-inställningar"
 
 #: src/arch/win32/ressid.rc.po.c:83 src/arch/win32/ressiddtv.rc.po.c:61
 #: src/arch/amigaos/intl_text.c.po.c:9135
@@ -7806,9 +7793,8 @@ msgid "Enable MasC=uerade I/O swap"
 msgstr "Aktivera MasC=uerade I/O-växling"
 
 #: src/arch/win32/resvic20.rc.po.c:507
-#, fuzzy
 msgid "VIC20 model"
-msgstr "VIC-modell"
+msgstr "VIC20-modell"
 
 #: src/arch/win32/resvic20.rc.po.c:508 src/arch/amigaos/intl_text.c.po.c:2162
 msgid "VIC-1112 IEEE-488 module"
@@ -7870,9 +7856,8 @@ msgid "Select Mega-Cart non-volatile RAM file"
 msgstr "Välj NvRAM-fil för Mega-Cart"
 
 #: src/arch/win32/resvic20.rc.po.c:535 src/arch/amigaos/intl_text.c.po.c:2568
-#, fuzzy
 msgid "VIC20 model settings"
-msgstr "C128-modellinställningar"
+msgstr "VIC20-modellinställningar"
 
 #: src/arch/win32/resvicii.rc.po.c:88
 msgid "Sprite Collisions"
@@ -8020,18 +8005,16 @@ msgid "C232 NTSC"
 msgstr "C232 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2582
-#, fuzzy
 msgid "VIC20 PAL"
-msgstr "CBM620 PAL"
+msgstr "VIC20 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2596
-#, fuzzy
 msgid "VIC20 NTSC"
-msgstr "CBM620 NTSC"
+msgstr "VIC20 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2610
 msgid "VIC21"
-msgstr ""
+msgstr "VIC21"
 
 #: src/arch/amigaos/intl_text.c.po.c:2638
 msgid "C64DTV V2 PAL"
@@ -8215,9 +8198,8 @@ msgid "Drive burst modification settings"
 msgstr "Inställningar för diskettburstmodifiering"
 
 #: src/arch/amigaos/intl_text.c.po.c:4066
-#, fuzzy
 msgid "Enable PET High Res Emulator board"
-msgstr "Aktivera PET DWW-högupplösningskort"
+msgstr "Aktivera PET-högupplösningsemuleringskort"
 
 #: src/arch/amigaos/intl_text.c.po.c:4724
 msgid "Fullscreen Statusbar"
@@ -8867,7 +8849,7 @@ msgstr "MicroMys-mus"
 
 #: src/arch/amigaos/intl_text.c.po.c:11781
 msgid "Koalapad"
-msgstr ""
+msgstr "Koalapad"
 
 #: src/arch/amigaos/intl_text.c.po.c:11977
 msgid "Save to EasyFlash CRT file on detach"
@@ -9416,6 +9398,8 @@ msgid ""
 "Delete checkpoint `checknum'. If no checkpoint is specified delete all "
 "checkpoints."
 msgstr ""
+"Ta bort kontrollpunkten \"kontrollnr\". Om ingen kontrollpunkt har angivits, "
+"ta bort samtliga kontrollpunkter."
 
 #: src/translate_text.c.po.c:1760
 msgid ""
@@ -9982,6 +9966,8 @@ msgid ""
 "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard "
 "Reset, 5: Quit Emulator)"
 msgstr ""
+"Välj åtgärd vid CPU-stopp: (0: fråga, 1: fortsätt, 2: monitor, 3: nollställ, "
+"4: hård nollställning)"
 
 #: src/translate_text.c.po.c:3298
 msgid "Use PAL sync factor"
@@ -10001,7 +9987,7 @@ msgstr "Burstmodifiering (0 = ingen, 1 = CIA1, 2 = CIA2)"
 
 #: src/translate_text.c.po.c:3366
 msgid "Computer reset goes to IEC bus (0 = No, 1 = Yes)"
-msgstr ""
+msgstr "Datornollställning går till IEC-bussen (0 = nej, 1 = ja)"
 
 #: src/translate_text.c.po.c:3400
 msgid "Specify name of international Kernal ROM image"
@@ -10139,9 +10125,8 @@ msgid "Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
 msgstr "Typ för intern funktions-ROM (0: ingen, 1: ROM, 2: RAM, 3: RTC)"
 
 #: src/translate_text.c.po.c:4050
-#, fuzzy
 msgid "Type of external Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
-msgstr "Typ för intern funktions-ROM (0: ingen, 1: ROM, 2: RAM, 3: RTC)"
+msgstr "Typ för extern funktions-ROM (0: ingen, 1: ROM, 2: RAM, 3: RTC)"
 
 #: src/translate_text.c.po.c:4067
 msgid "Use old NTSC sync factor"
@@ -10160,11 +10145,12 @@ msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
 msgstr "Välj CIA 2-modell (0 = gammal 6526, 1 = ny 2526A)"
 
 #: src/translate_text.c.po.c:4152
-#, fuzzy
 msgid ""
 "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, "
 "pet64, ultimax)"
-msgstr "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
+msgstr ""
+"Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, "
+"pet64, ultimax)"
 
 #: src/translate_text.c.po.c:4169
 msgid "Set C128 model (c128/c128dcr, pal/ntsc)"
@@ -10179,9 +10165,8 @@ msgstr ""
 "c232)"
 
 #: src/translate_text.c.po.c:4203
-#, fuzzy
 msgid "Set VIC20 model (vic20/vic20pal/vic20ntsc, vic21)"
-msgstr "Välj C128-modell (c128/c128dcr, pal/ntsc)"
+msgstr "Välj VIC20-modell (vic20/vic20pal/vic20ntsc, vic21)"
 
 #: src/translate_text.c.po.c:4220
 msgid "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
@@ -10891,7 +10876,7 @@ msgstr "Inaktivera ljudemulering för diskettstationer"
 
 #: src/translate_text.c.po.c:7694
 msgid "Set volume for disk drive sound emulation (0-4000)"
-msgstr ""
+msgstr "Välj volym för ljudemulering för diskettstation (0-4000)"
 
 #: src/translate_text.c.po.c:7745
 msgid "Set drive type (0: no drive)"
@@ -10918,11 +10903,10 @@ msgstr ""
 "mitten, 9: visa nedre högre)"
 
 #: src/translate_text.c.po.c:7813
-#, fuzzy
 msgid ""
 "Select the way the undersized input should be handled, (0: scale up, 1: "
 "borderize)"
-msgstr "Välj hur TED-luminositet skall hanteras, (0: ignorera, 1: färgutjämna)"
+msgstr "Välj hur för liten indata skall hanteras (0: skala upp, 1: inramning)"
 
 #: src/translate_text.c.po.c:7830
 msgid ""
@@ -11689,9 +11673,8 @@ msgid "Disable hardware scaling"
 msgstr "Inaktivera maskinvaruskalning"
 
 #: src/translate_text.c.po.c:11091
-#, fuzzy
 msgid "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-msgstr "Ange rendreringsfiler, 0:ingen, 1:CRT-emulering, 2: scale2x"
+msgstr "Ange rendreringsfiler: (0:ingen, 1:CRT-emulering, 2: scale2x)"
 
 #: src/translate_text.c.po.c:11108
 msgid "Use an internal calculated palette"
@@ -11850,9 +11833,8 @@ msgid "Execute monitor commands from file"
 msgstr "Exekvera monitorkommandon från fil"
 
 #: src/translate_text.c.po.c:11739
-#, fuzzy
 msgid "Write monitor output also to file"
-msgstr "Exekvera monitorkommandon från fil"
+msgstr "Skriv monitorutdata även till fil"
 
 #: src/translate_text.c.po.c:11756
 msgid "Set an initial breakpoint for the monitor"
@@ -11952,13 +11934,12 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Ange vilken spelport musen är ansluten till"
 
 #: src/translate_text.c.po.c:12254
-#, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"
 msgstr ""
 "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar, 4 = CX-22, 5 = ST, "
-"6 = Smart)"
+"6 = Smart, 7 = Micromys, 8 = Koalapad)"
 
 #: src/translate_text.c.po.c:12271
 msgid "Enable PS/2 mouse on userport"
