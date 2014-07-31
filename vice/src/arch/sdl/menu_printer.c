@@ -260,7 +260,7 @@ static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
     { "Device #7 emulation",                            \
       MENU_ENTRY_SUBMENU,                               \
       submenu_radio_callback,                           \
-      (ui_callback_data_t)device_7_type_submenu },      \
+      (ui_callback_data_t)device_7_type_submenu },
 
 #define VICE_SDL_PRINTER_USERPORT_MENU_ITEMS                 \
     { "Userport printer emulation",                          \
