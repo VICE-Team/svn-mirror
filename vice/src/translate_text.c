@@ -1776,7 +1776,7 @@ translate_t string_table[] = {
 /* nl */ {IDGS_MON_DELETE_DESCRIPTION_NL, "Wis checkpunt 'checknum'. Als er geen checkpunt is gegeven dan worden alle checkpunter gewist"},
 /* pl */ {IDGS_MON_DELETE_DESCRIPTION_PL, "Skasuj punkt kontrolny 'checknum'. Je¶li nie okre¶lono punktu kontrolnego, skasuj wszystkie."},
 /* ru */ {IDGS_MON_DELETE_DESCRIPTION_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_DELETE_DESCRIPTION_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_DELETE_DESCRIPTION_SV, "Ta bort kontrollpunkten \"kontrollnr\". Om ingen kontrollpunkt har angivits, ta bort samtliga kontrollpunkter."},
 /* tr */ {IDGS_MON_DELETE_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
@@ -3423,7 +3423,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_IEC_RESET_NL, "Computer reset gaat naar de IEC bus (0 = Nee, 1 = Ja)"},
 /* pl */ {IDCLS_SET_IEC_RESET_PL, "Reset komputera u¿ywa szyny IEC (0 = nie, 1 = tak)"},
 /* ru */ {IDCLS_SET_IEC_RESET_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_IEC_RESET_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_IEC_RESET_SV, "Datornollställning går till IEC-bussen (0 = nej, 1 = ja)"},
 /* tr */ {IDCLS_SET_IEC_RESET_TR, ""},  /* fuzzy */
 #endif
 
@@ -4130,7 +4130,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ENABLE_EXT_FUNC_ROM_NL, "Extern functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"},
 /* pl */ {IDCLS_ENABLE_EXT_FUNC_ROM_PL, "Typ zewnêtrznego Function ROM-u: (0: ¯aden, 1: ROM, 2: RAM, 3: RTC)"},
 /* ru */ {IDCLS_ENABLE_EXT_FUNC_ROM_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_EXT_FUNC_ROM_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_EXT_FUNC_ROM_SV, "Typ för extern funktions-ROM (0: ingen, 1: ROM, 2: RAM, 3: RTC)"},
 /* tr */ {IDCLS_ENABLE_EXT_FUNC_ROM_TR, ""},  /* fuzzy */
 #endif
 
@@ -4233,7 +4233,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_C64_MODEL_NL, "Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
 /* pl */ {IDCLS_SET_C64_MODEL_PL, "Wybierz model C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
 /* ru */ {IDCLS_SET_C64_MODEL_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_C64_MODEL_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_C64_MODEL_SV, "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
 /* tr */ {IDCLS_SET_C64_MODEL_TR, ""},  /* fuzzy */
 #endif
 
@@ -4284,7 +4284,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_VIC20_MODEL_NL, "Zet VIC20 model (vic20/vic20pal/vic20ntsc, vic21)"},
 /* pl */ {IDCLS_SET_VIC20_MODEL_PL, "Wybierz model VIC20 (vic20/vic20pal/vic20ntsc, vic21)"},
 /* ru */ {IDCLS_SET_VIC20_MODEL_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_VIC20_MODEL_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_VIC20_MODEL_SV, "Välj VIC20-modell (vic20/vic20pal/vic20ntsc, vic21)"},
 /* tr */ {IDCLS_SET_VIC20_MODEL_TR, ""},  /* fuzzy */
 #endif
 
@@ -4872,7 +4872,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ENABLE_USERPORT_JOY_NL, "Activeer Userport joystick adapter"},
 /* pl */ {IDCLS_ENABLE_USERPORT_JOY_PL, "W³±cz z³±cze userportu joysticka"},
 /* ru */ {IDCLS_ENABLE_USERPORT_JOY_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_USERPORT_JOY_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_JOY_SV, "Aktivera adapter för användarportstyrspakar"},
 /* tr */ {IDCLS_ENABLE_USERPORT_JOY_TR, ""},  /* fuzzy */
 #endif
 
@@ -4889,7 +4889,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DISABLE_USERPORT_JOY_NL, "De Userport joystick adapter uitschakelen"},
 /* pl */ {IDCLS_DISABLE_USERPORT_JOY_PL, "Wy³±cz z³±cze userportu joysticka"},
 /* ru */ {IDCLS_DISABLE_USERPORT_JOY_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_USERPORT_JOY_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_JOY_SV, "Inativera adapter för användarportstyrspakar"},
 /* tr */ {IDCLS_DISABLE_USERPORT_JOY_TR, ""},  /* fuzzy */
 #endif
 
@@ -4906,7 +4906,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_USERPORT_JOY_TYPE_NL, "Zet Userport joystick adapter soort (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
 /* pl */ {IDCLS_SET_USERPORT_JOY_TYPE_PL, "Okre¶l typ z³±cza userportu joysticka (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
 /* ru */ {IDCLS_SET_USERPORT_JOY_TYPE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_USERPORT_JOY_TYPE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_USERPORT_JOY_TYPE_SV, "Välj typ av styrspakadapter för användarporten (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
 /* tr */ {IDCLS_SET_USERPORT_JOY_TYPE_TR, ""},  /* fuzzy */
 #endif
 
@@ -4923,7 +4923,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ENABLE_USERPORT_RTC_NL, "Activeer de Userport RTC uitbreiding"},
 /* pl */ {IDCLS_ENABLE_USERPORT_RTC_PL, "W³±cz Userport RTC"},
 /* ru */ {IDCLS_ENABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_USERPORT_RTC_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_RTC_SV, "Aktivera användarport-RTC"},
 /* tr */ {IDCLS_ENABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
 #endif
 
@@ -4940,7 +4940,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DISABLE_USERPORT_RTC_NL, "De Userport RTC uitbreiding uitschakelen"},
 /* pl */ {IDCLS_DISABLE_USERPORT_RTC_PL, "Wy³±cz Userport RTC"},
 /* ru */ {IDCLS_DISABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_USERPORT_RTC_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_RTC_SV, "Inaktivera användarport-RTC"},
 /* tr */ {IDCLS_DISABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
 #endif
 
@@ -7784,7 +7784,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_DRIVE_SOUND_VOLUME_NL, "Zet de volume van de diskdrive geluidemulatie (0-4000)"},
 /* pl */ {IDCLS_SET_DRIVE_SOUND_VOLUME_PL, "Ustaw g³o¶no¶æ emulacji odg³osów stacji dysków (0-4000)"},
 /* ru */ {IDCLS_SET_DRIVE_SOUND_VOLUME_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_DRIVE_SOUND_VOLUME_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DRIVE_SOUND_VOLUME_SV, "Välj volym för ljudemulering för diskettstation (0-4000)"},
 /* tr */ {IDCLS_SET_DRIVE_SOUND_VOLUME_TR, ""},  /* fuzzy */
 #endif
 
@@ -7908,7 +7908,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_UNDERSIZED_HANDLING_NL, "Selecteer de manier waarop de te kleine invoer moet worden afgehandeld, (0: maak groter, 1: maak border)"},
 /* pl */ {IDCLS_UNDERSIZED_HANDLING_PL, "Wybierz sposób obs³ugi ma³ego obrazu (0: skaluj, 1: dodaj ramkê)"},
 /* ru */ {IDCLS_UNDERSIZED_HANDLING_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_UNDERSIZED_HANDLING_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_UNDERSIZED_HANDLING_SV, "Välj hur för liten indata skall hanteras (0: skala upp, 1: inramning)"},
 /* tr */ {IDCLS_UNDERSIZED_HANDLING_TR, ""},  /* fuzzy */
 #endif
 
@@ -8947,7 +8947,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_CPU_SWITCH_TO_6502_NL, "Zet SuperPET CPU schakelaar naar '6502'"},
 /* pl */ {IDCLS_SET_CPU_SWITCH_TO_6502_PL, "Ustaw prze³±cznik CPU SuperPET na '6502\""},
 /* ru */ {IDCLS_SET_CPU_SWITCH_TO_6502_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_CPU_SWITCH_TO_6502_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_CPU_SWITCH_TO_6502_SV, "Sätt SuperPET-processoromkopplaren till \"6502\""},
 /* tr */ {IDCLS_SET_CPU_SWITCH_TO_6502_TR, ""},  /* fuzzy */
 #endif
 
@@ -8964,7 +8964,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_CPU_SWITCH_TO_6809_NL, "Zet SuperPET CPU schakelaar naar '6809'"},
 /* pl */ {IDCLS_SET_CPU_SWITCH_TO_6809_PL, "Ustaw prze³±cznik CPU SuperPET na '6809\""},
 /* ru */ {IDCLS_SET_CPU_SWITCH_TO_6809_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_CPU_SWITCH_TO_6809_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_CPU_SWITCH_TO_6809_SV, "Sätt SuperPET-processoromkopplaren till \"6809\""},
 /* tr */ {IDCLS_SET_CPU_SWITCH_TO_6809_TR, ""},  /* fuzzy */
 #endif
 
@@ -8981,7 +8981,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_CPU_SWITCH_TO_PROG_NL, "Zet SuperPET CPU schakelaar naar 'Prog'"},
 /* pl */ {IDCLS_SET_CPU_SWITCH_TO_PROG_PL, "Ustaw prze³±cznik CPU SuperPET na 'Prog\""},
 /* ru */ {IDCLS_SET_CPU_SWITCH_TO_PROG_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_CPU_SWITCH_TO_PROG_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_CPU_SWITCH_TO_PROG_SV, "Sätt SuperPET-processoromkopplaren till \"Prog\""},
 /* tr */ {IDCLS_SET_CPU_SWITCH_TO_PROG_TR, ""},  /* fuzzy */
 #endif
 
@@ -8998,7 +8998,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_A000_NL, "Geef de naam van het bestand voor de 4K tot 24K ROM op $A000 voor de 6809"},
 /* pl */ {IDCLS_SPECIFY_6809_ROM_AT_A000_PL, "Okre¶l nazwê pliku ROM-u 4K do 24K w $A000 dla 6809"},
 /* ru */ {IDCLS_SPECIFY_6809_ROM_AT_A000_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_A000_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_A000_SV, "Ange namn för 4-24K-utöknings-ROM på $A000 för 6809"},
 /* tr */ {IDCLS_SPECIFY_6809_ROM_AT_A000_TR, ""},  /* fuzzy */
 #endif
 
@@ -9015,7 +9015,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_B000_NL, "Geef de naam van het bestand voor de 4K tot 20K ROM op $B000 voor de 6809"},
 /* pl */ {IDCLS_SPECIFY_6809_ROM_AT_B000_PL, "Okre¶l nazwê pliku ROM-u 4K do 20K w $B000 dla 6809"},
 /* ru */ {IDCLS_SPECIFY_6809_ROM_AT_B000_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_B000_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_B000_SV, "Ange namn för 4-20K-utöknings-ROM på $B000 för 6809"},
 /* tr */ {IDCLS_SPECIFY_6809_ROM_AT_B000_TR, ""},  /* fuzzy */
 #endif
 
@@ -9032,7 +9032,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_C000_NL, "Geef de naam van het bestand voor de 4K tot 16K ROM op $C000 voor de 6809"},
 /* pl */ {IDCLS_SPECIFY_6809_ROM_AT_C000_PL, "Okre¶l nazwê pliku ROM-u 4K do 16K w $C000 dla 6809"},
 /* ru */ {IDCLS_SPECIFY_6809_ROM_AT_C000_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_C000_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_C000_SV, "Ange namn för 4-16K-utöknings-ROM på $C000 för 6809"},
 /* tr */ {IDCLS_SPECIFY_6809_ROM_AT_C000_TR, ""},  /* fuzzy */
 #endif
 
@@ -9049,7 +9049,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_D000_NL, "Geef de naam van het bestand voor de 4K tot 12K ROM op $D000 voor de 6809"},
 /* pl */ {IDCLS_SPECIFY_6809_ROM_AT_D000_PL, "Okre¶l nazwê pliku ROM-u 4K do 12K w $D000 dla 6809"},
 /* ru */ {IDCLS_SPECIFY_6809_ROM_AT_D000_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_D000_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_D000_SV, "Ange namn för 4-12K-utöknings-ROM på $D000 för 6809"},
 /* tr */ {IDCLS_SPECIFY_6809_ROM_AT_D000_TR, ""},  /* fuzzy */
 #endif
 
@@ -9066,7 +9066,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_E000_NL, "Geef de naam van het bestand voor de 2K of 8K ROM op $E000 voor de 6809"},
 /* pl */ {IDCLS_SPECIFY_6809_ROM_AT_E000_PL, "Okre¶l nazwê pliku ROM-u 2K lub 8K w $E000 dla 6809"},
 /* ru */ {IDCLS_SPECIFY_6809_ROM_AT_E000_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_E000_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_E000_SV, "Ange namn för 2/8K-utöknings-ROM på $E000 för 6809"},
 /* tr */ {IDCLS_SPECIFY_6809_ROM_AT_E000_TR, ""},  /* fuzzy */
 #endif
 
@@ -9083,7 +9083,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SPECIFY_6809_ROM_AT_F000_NL, "Geef de naam van het bestand voor de 4K ROM op $F000 voor de 6809"},
 /* pl */ {IDCLS_SPECIFY_6809_ROM_AT_F000_PL, "Okre¶l nazwê pliku ROM-u 4K w $F000 dla 6809"},
 /* ru */ {IDCLS_SPECIFY_6809_ROM_AT_F000_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_F000_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_6809_ROM_AT_F000_SV, "Ange namn för 4K-utöknings-ROM på $F000 för 6809"},
 /* tr */ {IDCLS_SPECIFY_6809_ROM_AT_F000_TR, ""},  /* fuzzy */
 #endif
 
@@ -9100,7 +9100,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_PET4032_COLOUR_RGBI_NL, "RGBI kleur uitbreiding voor de PET 4032"},
 /* pl */ {IDCLS_PET4032_COLOUR_RGBI_PL, "Rozszerzenie barw RGBI do PET 4032"},
 /* ru */ {IDCLS_PET4032_COLOUR_RGBI_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_PET4032_COLOUR_RGBI_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_PET4032_COLOUR_RGBI_SV, "RGBI-färgutökning för PET 4032"},
 /* tr */ {IDCLS_PET4032_COLOUR_RGBI_TR, ""},  /* fuzzy */
 #endif
 
@@ -9117,7 +9117,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_PET4032_COLOUR_ANALOG_NL, "Analoge kleur uitbreiding voor de PET 4032"},
 /* pl */ {IDCLS_PET4032_COLOUR_ANALOG_PL, "Rozszerzenie analogowych barw do PET 4032"},
 /* ru */ {IDCLS_PET4032_COLOUR_ANALOG_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_PET4032_COLOUR_ANALOG_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_PET4032_COLOUR_ANALOG_SV, "Analog färgutökning för PET 4032"},
 /* tr */ {IDCLS_PET4032_COLOUR_ANALOG_TR, ""},  /* fuzzy */
 #endif
 
@@ -9134,7 +9134,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_P_COLOUR_0_255_NL, "<Kleur 0-255>"},
 /* pl */ {IDCLS_P_COLOUR_0_255_PL, "<Kolor 0-255>"},
 /* ru */ {IDCLS_P_COLOUR_0_255_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_COLOUR_0_255_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_COLOUR_0_255_SV, "<Färg 0-255>"},
 /* tr */ {IDCLS_P_COLOUR_0_255_TR, ""},  /* fuzzy */
 #endif
 
@@ -9151,7 +9151,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_PET4032_COLOUR_BACKGROUND_NL, "Analoge kleuren achtergrond voor de PET 4032"},
 /* pl */ {IDCLS_PET4032_COLOUR_BACKGROUND_PL, "Analogowy kolor t³a w PET 4032"},
 /* ru */ {IDCLS_PET4032_COLOUR_BACKGROUND_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_PET4032_COLOUR_BACKGROUND_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_PET4032_COLOUR_BACKGROUND_SV, "Analog färgbakgrund på PET 4032"},
 /* tr */ {IDCLS_PET4032_COLOUR_BACKGROUND_TR, ""},  /* fuzzy */
 #endif
 
@@ -11186,7 +11186,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_VIDEO_FILTER_NL, "Selecteer de rendering filter: (0: geen, 1: CRT emulatie, 2: Scale2x)"},
 /* pl */ {IDCLS_SET_VIDEO_FILTER_PL, "Wybierz filtr renderera: (0:brak, 1: emulacja CRT, 2: scale2x)"},
 /* ru */ {IDCLS_SET_VIDEO_FILTER_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_VIDEO_FILTER_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_VIDEO_FILTER_SV, "Ange rendreringsfiler: (0:ingen, 1:CRT-emulering, 2: scale2x)"},
 /* tr */ {IDCLS_SET_VIDEO_FILTER_TR, ""},  /* fuzzy */
 #endif
 
@@ -11834,7 +11834,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_NL, "Schrijf uitvoer van de monitor ook naar een bestand"},
 /* pl */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_PL, "Zapisuj wyj¶cie monitora równie¿ do pliku"},
 /* ru */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_SV, "Skriv monitorutdata även till fil"},
 /* tr */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_TR, ""},  /* fuzzy */
 #endif
 
@@ -12349,7 +12349,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys, 8 = Koalapad)"},
 /* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, "Wybierz typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = pokrêt³a, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys, 8 = Koalapad)"},
 /* ru */ {IDCLS_SELECT_MOUSE_TYPE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys, 8 = Koalapad)"},
 /* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, ""},  /* fuzzy */
 #endif
 
@@ -12485,7 +12485,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_LOAD_ROMSET_FILE_NL, "Laad het opgegeven romsetbestand"},
 /* pl */ {IDCLS_LOAD_ROMSET_FILE_PL, "Wczytaj dany plik zestawu ROM-ów"},
 /* ru */ {IDCLS_LOAD_ROMSET_FILE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_LOAD_ROMSET_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_LOAD_ROMSET_FILE_SV, "läs in angiven romset-fil"},
 /* tr */ {IDCLS_LOAD_ROMSET_FILE_TR, ""},  /* fuzzy */
 #endif
 
@@ -12502,7 +12502,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_LOAD_ROMSET_ARCHIVE_NL, "Laad het opgegeven romsetarchief"},
 /* pl */ {IDCLS_LOAD_ROMSET_ARCHIVE_PL, "Wczytaj dane archiwum zestawu ROM-ów"},
 /* ru */ {IDCLS_LOAD_ROMSET_ARCHIVE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_LOAD_ROMSET_ARCHIVE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_LOAD_ROMSET_ARCHIVE_SV, "läs in givet romset-arkiv"},
 /* tr */ {IDCLS_LOAD_ROMSET_ARCHIVE_TR, ""},  /* fuzzy */
 #endif
 
@@ -12519,7 +12519,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_P_ITEM_NUMBER_NL, "<Item nummer>"},
 /* pl */ {IDCLS_P_ITEM_NUMBER_PL, "<Liczba elementu>"},
 /* ru */ {IDCLS_P_ITEM_NUMBER_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_ITEM_NUMBER_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_ITEM_NUMBER_SV, "<Postnummer>"},
 /* tr */ {IDCLS_P_ITEM_NUMBER_TR, ""},  /* fuzzy */
 #endif
 
@@ -12536,7 +12536,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_NL, "selecteer het opgegeven item van het huidige romsetarchief"},
 /* pl */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_PL, "Wybierz dany element z obecnego zestawu ROM-ów."},
 /* ru */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_SV, "välj given post från aktuellt romset-arkiv"},
 /* tr */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_TR, ""},  /* fuzzy */
 #endif
 
@@ -14000,7 +14000,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_SIMM_SIZE_NL, "Grootte van het SIMM RAM (0/1/4/8/16 MB)"},
 /* pl */ {IDCLS_SET_SIMM_SIZE_PL, "Ilo¶æ SIMM RAM-u (0/1/4/8/16 MB)"},
 /* ru */ {IDCLS_SET_SIMM_SIZE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_SIMM_SIZE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_SIMM_SIZE_SV, "Storlek på SIMM-RAM (0/1/4/8/16 MB)"},
 /* tr */ {IDCLS_SET_SIMM_SIZE_TR, ""},  /* fuzzy */
 #endif
 
@@ -14017,7 +14017,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ENABLE_JIFFY_SWITCH_NL, "Activeer Jiffy schakelaar"},
 /* pl */ {IDCLS_ENABLE_JIFFY_SWITCH_PL, "W³±cz prze³±cznik Jiffy"},
 /* ru */ {IDCLS_ENABLE_JIFFY_SWITCH_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_JIFFY_SWITCH_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_JIFFY_SWITCH_SV, "Slå på Jiffyomkopplare"},
 /* tr */ {IDCLS_ENABLE_JIFFY_SWITCH_TR, ""},  /* fuzzy */
 #endif
 
@@ -14034,7 +14034,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DISABLE_JIFFY_SWITCH_NL, "Jiffy schakelaar uitschakelen"},
 /* pl */ {IDCLS_DISABLE_JIFFY_SWITCH_PL, "Wy³±cz prze³±cznik Jiffy"},
 /* ru */ {IDCLS_DISABLE_JIFFY_SWITCH_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_JIFFY_SWITCH_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_JIFFY_SWITCH_SV, "Slå av Jiffyomkopplare"},
 /* tr */ {IDCLS_DISABLE_JIFFY_SWITCH_TR, ""},  /* fuzzy */
 #endif
 
@@ -14051,7 +14051,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ENABLE_SPEED_SWITCH_NL, "Activeer snelheid schakelaar"},
 /* pl */ {IDCLS_ENABLE_SPEED_SWITCH_PL, "W³±cz prze³±cznik Speed"},
 /* ru */ {IDCLS_ENABLE_SPEED_SWITCH_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SPEED_SWITCH_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SPEED_SWITCH_SV, "Slå på hastighetsomkopplare"},
 /* tr */ {IDCLS_ENABLE_SPEED_SWITCH_TR, ""},  /* fuzzy */
 #endif
 
@@ -14068,7 +14068,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DISABLE_SPEED_SWITCH_NL, "Snelheid schakelaar uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SPEED_SWITCH_PL, "Wy³±cz prze³±cznik Speed"},
 /* ru */ {IDCLS_DISABLE_SPEED_SWITCH_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_SPEED_SWITCH_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SPEED_SWITCH_SV, "Slå av hastighetsomkopplare"},
 /* tr */ {IDCLS_DISABLE_SPEED_SWITCH_TR, ""},  /* fuzzy */
 #endif
 
@@ -14085,7 +14085,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_NL, "Activeer PET High Res Emulation bord"},
 /* pl */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_PL, "W³±cz kartê emulacji HiRes"},
 /* ru */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_SV, "Aktivera högupplösningsemuleringskort"},
 /* tr */ {IDCLS_ENABLE_HIRES_EMULATION_BOARD_TR, ""},  /* fuzzy */
 #endif
 
@@ -14102,7 +14102,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_NL, "PET High Res Emulation bord uitschakelen"},
 /* pl */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_PL, "Wy³±cz kartê emulacji HiRes"},
 /* ru */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_SV, "högupplösningsemuleringskort Inaktivera"},
 /* tr */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_TR, ""},  /* fuzzy */
 #endif
 

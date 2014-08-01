@@ -849,13 +849,13 @@ BEGIN
   IDS_C64BURSTMOD_CAPTION        "Inställningar för C64 diskettburstmodifiering"
   IDS_C64BURSTMOD_ENABLE         "Aktivera C64 diskettburstmodifiering"
   IDS_C64BURSTMOD_CIA            "C64 diskettburstmodifiering CIA"
-  IDS_SCPU64_CAPTION             "SuperCPU64 settings"
-  IDS_SCPU64_SIMM_SIZE           "SIMM size"
-  IDS_SCPU64_JIFFY_SWITCH_ENABLE "Enable the jiffy switch"
-  IDS_SCPU64_SPEED_SWITCH_ENABLE "Enable the speed switch"
+  IDS_SCPU64_CAPTION             "SuperCPU64-inställningar"
+  IDS_SCPU64_SIMM_SIZE           "SIMM-storlek"
+  IDS_SCPU64_JIFFY_SWITCH_ENABLE "Aktivera jiffy-omkopplaren"
+  IDS_SCPU64_SPEED_SWITCH_ENABLE "Aktivera hastighetsomkopplaren"
   IDS_MI_NETWORK_SETTINGS       "Nätverksspel (experimentellt)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Inställningar för C64 diskettburstmodifiering..."
-  IDS_MI_SCPU64_SETTINGS        "SuperCPU64 settings..."
+  IDS_MI_SCPU64_SETTINGS        "SuperCPU64-inställningar..."
 END
 
 

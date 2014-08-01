@@ -1299,7 +1299,7 @@ BEGIN
   IDS_INT_FUNCTION_ROM_TYPE     "Internt funktions-ROM-typ"
   IDS_FILE_NAME                 "Filnamn"
   IDS_EXT_FUNCTION_ROM          "Externt funktions-ROM"
-  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
+  IDS_EXT_FUNCTION_ROM_TYPE     "Externt funktions-ROM-typ"
   IDS_C128_FULL_BANKS           "Aktivera RAM-bank 2 och 3"
   IDS_C128MODEL                 "C128-modell"
   IDS_MP_VDC_SETTINGS           "VDC-inställningar"

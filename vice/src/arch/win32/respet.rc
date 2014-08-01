@@ -1001,10 +1001,10 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$A*** som RAM"
   IDS_PETMODEL                   "PET-modell"
   IDS_MI_PET_SETTINGS            "PET-inställningar..."
-  IDS_MI_PETCOLOUR_SETTINGS      "PET Colour board settings..."
+  IDS_MI_PETCOLOUR_SETTINGS      "Inställningar för PET-färgkort..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW-Inställningar..."
   IDS_MI_PETREU_SETTINGS         "PET REU-Inställningar..."
-  IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
+  IDS_MI_TOGGLE_PETHRE           "Aktivera PET-högupplösningsemuleringskort"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivera D/A-omvandlare på användarporten för ljudutdata"
   IDS_MI_PETMODEL_SETTINGS       "Inställningar för PET-modell..."
 END

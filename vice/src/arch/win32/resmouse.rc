@@ -209,9 +209,9 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MOUSE_TYPE_LABEL        "Mustyp"
   IDS_MOUSE_PORT_LABEL        "Musport"
-  IDS_P_SENSITIVITY           "<sensitivity>"
-  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
-  IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
+  IDS_P_SENSITIVITY           "<känslighet>"
+  IDS_DESC_MOUSE_SENSITIVITY  "Muskänslighet. [40]"
+  IDS_MOUSE_SENSITIVITY_LABEL "Muskänslighet"
 END
 
 

@@ -306,7 +306,7 @@ BEGIN
   IDS_INTERPOLATING      "Interpolerande"
   IDS_RESAMPLING         "Omsamplande"
   IDS_FAST_RESAMPLING    "Snabb omsampling"
-  IDS_SID_RESID_GROUP    "reSID options"
+  IDS_SID_RESID_GROUP    "reSID-inställningar"
   IDS_SID_RESID_SAMPLE   "Samplingsmetod"
   IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Välj enhet"

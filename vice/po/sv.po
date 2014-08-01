@@ -1,12 +1,12 @@
 # Swedish translation file for VICE
 # Copyright 2000-2014
 # Peter Krefting <peter@softwolves.pp.se>, 2011, 2012, 2014.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-01 18:01+0200\n"
+"POT-Creation-Date: 2014-08-01 16:36-0700\n"
 "PO-Revision-Date: 2014-01-13 14:34+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <tp-sv@listor.tp-sv.se>\n"
@@ -9804,8 +9804,8 @@ msgid ""
 msgstr ""
 "Läs in den angivna filen i minnet på den angivna adressen. Sätter\n"
 "motsvarande BASIC-pekare vid läsning till datorminnet (inte alla\n"
-"emulatorer). Om ingen adress anges används tvåbytesadressen i "
-"filen(ignoreras annars).\n"
+"emulatorer). Om ingen adress anges används tvåbytesadressen i filen"
+"(ignoreras annars).\n"
 "Om enheten är 0 läses filen från filsystemet."
 
 #: src/translate_text.c.po.c:2701

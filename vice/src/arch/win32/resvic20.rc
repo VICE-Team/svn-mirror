@@ -1231,7 +1231,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000                 "Anslut 4/8KB-modulfil vid $A000"
     IDS_ATTACH_4_CART_B000                   "Anslut 4KB-modulfil vid $B000"
     IDS_IO_SWAP                              "Aktivera MasC=uerade I/O-växling"
-    IDS_VIC20MODEL                           "VIC20 model"
+    IDS_VIC20MODEL                           "VIC20-modell"
     IDS_MI_IEEE488                           "VIC-1112 IEEE-488-modul"
     IDS_MI_PADDLES                           "Aktivera paddlar"
     IDS_MI_CART_VIC20_GENERIC                "Generisk avbild..."
@@ -1259,7 +1259,7 @@ BEGIN
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "Inställningar för SFX Sound Expander (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Inställningar för SFX Sound Sampler (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC-inställningar..."
-    IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
+    IDS_MI_VIC20MODEL_SETTINGS               "VIC20-modellinställningar..."
 END
 
 
