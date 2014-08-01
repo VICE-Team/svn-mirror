@@ -122,31 +122,31 @@ static int ui_printer_output_device_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-00    { NULL, MUI_TYPE_CYCLE, "Printer4", ui_printer_emulation, ui_printer_emulation_values, NULL },
-01    { NULL, MUI_TYPE_CYCLE_STR, "Printer4Driver", ui_printer_driver, NULL, ui_printer_driver_strings },
-02    { NULL, MUI_TYPE_CYCLE_STR, "Printer4Output", ui_printer_output_type, NULL, ui_printer_output_type_strings },
-03    { NULL, MUI_TYPE_CYCLE, "Printer4TextDevice", ui_printer_output_device, ui_printer_output_device_values, NULL },
-04    { NULL, MUI_TYPE_CYCLE, "IECDevice4", ui_printer_enable, ui_printer_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "Printer4", ui_printer_emulation, ui_printer_emulation_values, NULL },
+    { NULL, MUI_TYPE_CYCLE_STR, "Printer4Driver", ui_printer_driver, NULL, ui_printer_driver_strings },
+    { NULL, MUI_TYPE_CYCLE_STR, "Printer4Output", ui_printer_output_type, NULL, ui_printer_output_type_strings },
+    { NULL, MUI_TYPE_CYCLE, "Printer4TextDevice", ui_printer_output_device, ui_printer_output_device_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "IECDevice4", ui_printer_enable, ui_printer_enable_values, NULL },
 
-05    { NULL, MUI_TYPE_CYCLE, "Printer5", ui_printer_emulation, ui_printer_emulation_values, NULL },
-06    { NULL, MUI_TYPE_CYCLE_STR, "Printer5Driver", ui_printer_driver, NULL, ui_printer_driver_strings },
-07    { NULL, MUI_TYPE_CYCLE_STR, "Printer5Output", ui_printer_output_type, NULL, ui_printer_output_type_strings },
-08    { NULL, MUI_TYPE_CYCLE, "Printer5TextDevice", ui_printer_output_device, ui_printer_output_device_values, NULL },
-09    { NULL, MUI_TYPE_CYCLE, "IECDevice5", ui_printer_enable, ui_printer_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "Printer5", ui_printer_emulation, ui_printer_emulation_values, NULL },
+    { NULL, MUI_TYPE_CYCLE_STR, "Printer5Driver", ui_printer_driver, NULL, ui_printer_driver_strings },
+    { NULL, MUI_TYPE_CYCLE_STR, "Printer5Output", ui_printer_output_type, NULL, ui_printer_output_type_strings },
+    { NULL, MUI_TYPE_CYCLE, "Printer5TextDevice", ui_printer_output_device, ui_printer_output_device_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "IECDevice5", ui_printer_enable, ui_printer_enable_values, NULL },
 
-10    { NULL, MUI_TYPE_CYCLE, "Printer6", ui_printer_emulation, ui_printer_emulation_values, NULL },
-11    { NULL, MUI_TYPE_CYCLE_STR, "Printer6Driver", ui_plotter_driver, NULL, ui_plotter_driver_strings },
-12    { NULL, MUI_TYPE_CYCLE_STR, "Printer6Output", ui_printer_output_type, NULL, ui_printer_output_type_strings },
-13    { NULL, MUI_TYPE_CYCLE, "Printer6TextDevice", ui_printer_output_device, ui_printer_output_device_values, NULL },
-14    { NULL, MUI_TYPE_CYCLE, "IECDevice6", ui_printer_enable, ui_printer_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "Printer6", ui_printer_emulation, ui_printer_emulation_values, NULL },
+    { NULL, MUI_TYPE_CYCLE_STR, "Printer6Driver", ui_plotter_driver, NULL, ui_plotter_driver_strings },
+    { NULL, MUI_TYPE_CYCLE_STR, "Printer6Output", ui_printer_output_type, NULL, ui_printer_output_type_strings },
+    { NULL, MUI_TYPE_CYCLE, "Printer6TextDevice", ui_printer_output_device, ui_printer_output_device_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "IECDevice6", ui_printer_enable, ui_printer_enable_values, NULL },
 
-15/10    { NULL, MUI_TYPE_CYCLE, "PrinterUserport", ui_printer_enable, ui_printer_enable_values, NULL },
-16/11    { NULL, MUI_TYPE_CYCLE_STR, "PrinterUserportDriver", ui_printer_driver, NULL, ui_printer_driver_strings },
-17/12    { NULL, MUI_TYPE_CYCLE_STR, "PrinterUserportOutput", ui_printer_output_type, NULL, ui_printer_output_type_strings },
-18/13    { NULL, MUI_TYPE_CYCLE, "PrinterUserportTextDevice", ui_printer_output_device, ui_printer_output_device_values, NULL },
-19/14    { NULL, MUI_TYPE_FILENAME, "PrinterTextDevice1", NULL, NULL },
-20/15    { NULL, MUI_TYPE_FILENAME, "PrinterTextDevice2", NULL, NULL },
-21/16    { NULL, MUI_TYPE_FILENAME, "PrinterTextDevice3", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "PrinterUserport", ui_printer_enable, ui_printer_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE_STR, "PrinterUserportDriver", ui_printer_driver, NULL, ui_printer_driver_strings },
+    { NULL, MUI_TYPE_CYCLE_STR, "PrinterUserportOutput", ui_printer_output_type, NULL, ui_printer_output_type_strings },
+    { NULL, MUI_TYPE_CYCLE, "PrinterUserportTextDevice", ui_printer_output_device, ui_printer_output_device_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "PrinterTextDevice1", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "PrinterTextDevice2", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "PrinterTextDevice3", NULL, NULL },
     UI_END /* mandatory */
 };
 
