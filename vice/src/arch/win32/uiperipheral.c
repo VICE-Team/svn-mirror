@@ -927,15 +927,70 @@ _CALLBACK_PRINTER(5)
 _CALLBACK_PRINTER(6)
 
 
+#ifdef HAVE_OPENCBM
+static void init_device_7_dialog(HWND hwnd)
+{
+    int res_value;
+
+    /* translate the iec dialog item(s) */
+    uilib_localize_dialog(hwnd, printer_iec_dialog_trans);
+
+    if (iec_available_busses() & IEC_BUS_IEC) {
+        resources_get_int("IECDevice7", &res_value);
+        CheckDlgButton(hwnd, IDC_PRINTER_USEIECDEVICE, res_value ? BST_CHECKED : BST_UNCHECKED);
+    } else {
+        ShowWindow(GetDlgItem(hwnd, IDC_PRINTER_USEIECDEVICE), FALSE);
+        CheckDlgButton(hwnd, IDC_PRINTER_USEIECDEVICE, BST_UNCHECKED);
+    }
+}
+
+static INT_PTR CALLBACK callback_7(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+{
+    switch (msg) {
+        case WM_COMMAND:
+            return FALSE;
+        case WM_NOTIFY:
+            {
+                NMHDR FAR *nmhdr = (NMHDR FAR *)(lparam);
+
+                switch (nmhdr->code) {
+                    case PSN_APPLY:
+                        resources_set_int("IECDevice7", (IsDlgButtonChecked(hwnd, IDC_PRINTER_USEIECDEVICE) == BST_CHECKED));
+                        return TRUE;
+                    case PSN_SETACTIVE:
+                    case PSN_KILLACTIVE:
+                        return TRUE;
+                }
+                break;
+            }
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
+            return TRUE;
+        case WM_INITDIALOG:
+            system_init_dialog(hwnd);
+            init_device_7_dialog(hwnd);
+            return TRUE;
+    }
+
+    return FALSE;
+}
+#endif
+
 /* -------------------------------------------------------------------------- */
 /*                               Main Dialog                                  */
 /* -------------------------------------------------------------------------- */
 
 static void uiperipheral_dialog(HWND hwnd)
 {
-    PROPSHEETPAGE psp[8];
+    PROPSHEETPAGE psp[9];
     PROPSHEETHEADER psh;
     int i, no_of_drives, no_of_printers;
+#ifdef HAVE_OPENCBM
+    int EXTRA_DEVICES = opencbmlib_is_available();
+#else
+/* EXTRA_DEVICES will get optimized away if compiled without opencbm support */
+#define EXTRA_DEVICES 0
+#endif
 
     for (i = 0; i < 3; i++ ) {
         printertextdevice[i] = lib_malloc(MAX_PATH);
@@ -968,41 +1023,60 @@ static void uiperipheral_dialog(HWND hwnd)
         psp[i].pfnCallback = NULL;
     }
 
+#ifdef HAVE_OPENCBM
+    if (EXTRA_DEVICES) {
+        i++;
+        psp[i].dwSize = sizeof(PROPSHEETPAGE);
+        psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
+        psp[i].hInstance = winmain_instance;
+#ifdef _ANONYMOUS_UNION
+        psp[i].pszTemplate = MAKEINTRESOURCE(IDD_DEVICE7_SETTINGS_DIALOG);
+        psp[i].pszIcon = NULL;
+#else
+        psp[i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DEVICE7_SETTINGS_DIALOG);
+        psp[i].u2.pszIcon = NULL;
+#endif
+        psp[i].lParam = 0;
+        psp[i].pfnCallback = NULL;
+    }
+#endif
+
     for (i = 0; i < no_of_drives; i++) {
-        psp[no_of_printers + i].dwSize = sizeof(PROPSHEETPAGE);
-        psp[no_of_printers + i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
-        psp[no_of_printers + i].hInstance = winmain_instance;
+        psp[no_of_printers + EXTRA_DEVICES + i].dwSize = sizeof(PROPSHEETPAGE);
+        psp[no_of_printers + EXTRA_DEVICES + i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
+        psp[no_of_printers + EXTRA_DEVICES + i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
 #ifdef HAVE_OPENCBM
         if (opencbmlib_is_available()) {
-            psp[no_of_printers + i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_OPENCBM_DIALOG);
+            psp[no_of_printers + EXTRA_DEVICES + i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_OPENCBM_DIALOG);
         } else
 #endif
         {
-            psp[no_of_printers + i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
+            psp[no_of_printers + EXTRA_DEVICES + i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
         }
-        psp[no_of_printers + i].pszIcon = NULL;
+        psp[no_of_printers + EXTRA_DEVICES + i].pszIcon = NULL;
 #else
 #ifdef HAVE_OPENCBM
         if (opencbmlib_is_available()) {
-            psp[no_of_printers + i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_OPENCBM_DIALOG);
+            psp[no_of_printers + EXTRA_DEVICES + i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_OPENCBM_DIALOG);
         } else 
 #endif
         {
-            psp[no_of_printers + i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
+            psp[no_of_printers + EXTRA_DEVICES + i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
         }
-        psp[no_of_printers + i].u2.pszIcon = NULL;
+        psp[no_of_printers + EXTRA_DEVICES + i].u2.pszIcon = NULL;
 #endif
-        psp[no_of_printers + i].lParam = 0;
-        psp[no_of_printers + i].pfnCallback = NULL;
+        psp[no_of_printers + EXTRA_DEVICES + i].lParam = 0;
+        psp[no_of_printers + EXTRA_DEVICES + i].pfnCallback = NULL;
     }
 
     if (have_printer_userport) {
         psp[0].pfnDlgProc = callback_0;
         psp[0].pszTitle = translate_text(IDS_PRINTER_USERPORT);
         i = 1;
-    } else
+    } else {
         i = 0;
+    }
 
     psp[i + 0].pfnDlgProc = callback_4;
     psp[i + 0].pszTitle = translate_text(IDS_PRINTER_4);
@@ -1010,21 +1084,27 @@ static void uiperipheral_dialog(HWND hwnd)
     psp[i + 1].pszTitle = translate_text(IDS_PRINTER_5);
     psp[i + 2].pfnDlgProc = callback_6;
     psp[i + 2].pszTitle = translate_text(IDS_PRINTER_6);
-    psp[i + 3].pfnDlgProc = callback_8;
-    psp[i + 3].pszTitle = translate_text(IDS_DRIVE_8);
-    psp[i + 4].pfnDlgProc = callback_9;
-    psp[i + 4].pszTitle = translate_text(IDS_DRIVE_9);
-    psp[i + 5].pfnDlgProc = callback_10;
-    psp[i + 5].pszTitle = translate_text(IDS_DRIVE_10);
-    psp[i + 6].pfnDlgProc = callback_11;
-    psp[i + 6].pszTitle = translate_text(IDS_DRIVE_11);
+#ifdef HAVE_OPENCBM
+    if (EXTRA_DEVICES) {
+        psp[i + 3].pfnDlgProc = callback_7;
+        psp[i + 3].pszTitle = translate_text(IDS_DEVICE_7);
+    }
+#endif
+    psp[i + EXTRA_DEVICES + 3].pfnDlgProc = callback_8;
+    psp[i + EXTRA_DEVICES + 3].pszTitle = translate_text(IDS_DRIVE_8);
+    psp[i + EXTRA_DEVICES + 4].pfnDlgProc = callback_9;
+    psp[i + EXTRA_DEVICES + 4].pszTitle = translate_text(IDS_DRIVE_9);
+    psp[i + EXTRA_DEVICES + 5].pfnDlgProc = callback_10;
+    psp[i + EXTRA_DEVICES + 5].pszTitle = translate_text(IDS_DRIVE_10);
+    psp[i + EXTRA_DEVICES + 6].pfnDlgProc = callback_11;
+    psp[i + EXTRA_DEVICES + 6].pszTitle = translate_text(IDS_DRIVE_11);
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
     psh.pszCaption = translate_text(IDS_PERIPHERAL_SETTINGS);
-    psh.nPages = no_of_drives + no_of_printers;
+    psh.nPages = no_of_drives + no_of_printers + EXTRA_DEVICES;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = i + 2;

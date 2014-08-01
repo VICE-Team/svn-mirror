@@ -903,6 +903,20 @@ END
 
 // dialog template for all languages
 
+#ifdef HAVE_OPENCBM
+IDD_DEVICE7_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 285, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "", IDC_PRINTER_USEIECDEVICE,
+                    15, 10, 100, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+#endif
+
+// -----------------------------------------------------------------------------
+
+// dialog template for all languages
+
 IDD_RS232_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1103,6 +1117,9 @@ BEGIN
   IDS_PRINTER_4                   "Printer 4"
   IDS_PRINTER_5                   "Printer 5"
   IDS_PRINTER_6                   "Printer 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "Drive 8"
   IDS_DRIVE_9                     "Drive 9"
   IDS_DRIVE_10                    "Drive 10"
@@ -1735,6 +1752,9 @@ BEGIN
   IDS_PRINTER_4                   "Printer 4"
   IDS_PRINTER_5                   "Printer 5"
   IDS_PRINTER_6                   "Printer 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "Drev 8"
   IDS_DRIVE_9                     "Drev 9"
   IDS_DRIVE_10                    "Drev 10"
@@ -2367,6 +2387,9 @@ BEGIN
   IDS_PRINTER_4                   "Drucker 4"
   IDS_PRINTER_5                   "Drucker 5"
   IDS_PRINTER_6                   "Drucker 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "Laufwerk 8"
   IDS_DRIVE_9                     "Laufwerk 9"
   IDS_DRIVE_10                    "Laufwerk 10"
@@ -2999,6 +3022,9 @@ BEGIN
   IDS_PRINTER_4                   "Impresora 4"
   IDS_PRINTER_5                   "Impresora 5"
   IDS_PRINTER_6                   "Printer 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "Unidad disco 8"
   IDS_DRIVE_9                     "Unidad disco 9"
   IDS_DRIVE_10                    "Unidad disco 10"
@@ -3631,6 +3657,9 @@ BEGIN
   IDS_PRINTER_4                   "Imprimante #4"
   IDS_PRINTER_5                   "Imprimante #5"
   IDS_PRINTER_6                   "Printer 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "Lecteur #8"
   IDS_DRIVE_9                     "Lecteur #9"
   IDS_DRIVE_10                    "Lecteur #10"
@@ -4266,6 +4295,9 @@ BEGIN
   IDS_PRINTER_4                   "#4-es nyomtató"
   IDS_PRINTER_5                   "#5-ös nyomtató"
   IDS_PRINTER_6                   "Printer 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "#8-as lemezegység"
   IDS_DRIVE_9                     "#9-es lemezegység"
   IDS_DRIVE_10                    "#10-es lemezegység"
@@ -4901,6 +4933,9 @@ BEGIN
   IDS_PRINTER_4                   "Stampante 4"
   IDS_PRINTER_5                   "Stampante 5"
   IDS_PRINTER_6                   "Printer 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "Drive 8"
   IDS_DRIVE_9                     "Drive 9"
   IDS_DRIVE_10                    "Drive 10"
@@ -5536,6 +5571,9 @@ BEGIN
   IDS_PRINTER_4                   "ÇÁ¸°ÅÍ4"
   IDS_PRINTER_5                   "ÇÁ¸°ÅÍ5"
   IDS_PRINTER_6                   "Printer 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "µå¶óÀÌºê8"
   IDS_DRIVE_9                     "µå¶óÀÌºê9"
   IDS_DRIVE_10                    "µå¶óÀÌºê10"
@@ -6171,6 +6209,9 @@ BEGIN
   IDS_PRINTER_4                   "Printer 4"
   IDS_PRINTER_5                   "Printer 5"
   IDS_PRINTER_6                   "Printer 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "Drive 8"
   IDS_DRIVE_9                     "Drive 9"
   IDS_DRIVE_10                    "Drive 10"
@@ -6806,6 +6847,9 @@ BEGIN
   IDS_PRINTER_4                   "Drukarka 4"
   IDS_PRINTER_5                   "Drukarka 5"
   IDS_PRINTER_6                   "Printer 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "Napêd 8"
   IDS_DRIVE_9                     "Napêd 9"
   IDS_DRIVE_10                    "Napêd 10"
@@ -7444,6 +7488,9 @@ BEGIN
   IDS_PRINTER_4                   "¿àØÝâÕà 4"
   IDS_PRINTER_5                   "¿àØÝâÕà 5"
   IDS_PRINTER_6                   "Printer 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "ÃáâàÞÙáâÒÞ 8"
   IDS_DRIVE_9                     "ÃáâàÞÙáâÒÞ 9"
   IDS_DRIVE_10                    "ÃáâàÞÙáâÒÞ 10"
@@ -8079,6 +8126,9 @@ BEGIN
   IDS_PRINTER_4                   "Skrivare 4"
   IDS_PRINTER_5                   "Skrivare 5"
   IDS_PRINTER_6                   "Printer 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "Enhet 8"
   IDS_DRIVE_9                     "Enhet 9"
   IDS_DRIVE_10                    "Enhet 10"
@@ -8714,6 +8764,9 @@ BEGIN
   IDS_PRINTER_4                   "Yazýcý 4"
   IDS_PRINTER_5                   "Yazýcý 5"
   IDS_PRINTER_6                   "Printer 6"
+#ifdef HAVE_OPENCBM
+  IDS_DEVICE_7                    "Device 7"
+#endif
   IDS_DRIVE_8                     "Sürücü 8"
   IDS_DRIVE_9                     "Sürücü 9"
   IDS_DRIVE_10                    "Sürücü 10"
