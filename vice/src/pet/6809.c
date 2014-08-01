@@ -74,110 +74,111 @@ h6809_regs_t h6809_regs;
 #endif
 
 /* Export the local version of the registers.  */
-#define EXPORT_REGISTERS()            \
-    do {                                \
+#define EXPORT_REGISTERS()             \
+    do {                               \
         GLOBAL_REGS.reg_x = get_x();   \
         GLOBAL_REGS.reg_y = get_y();   \
         GLOBAL_REGS.reg_u = get_u();   \
         GLOBAL_REGS.reg_s = get_s();   \
-        GLOBAL_REGS.reg_pc = get_pc();  \
-        GLOBAL_REGS.reg_dp = get_dp();  \
-        GLOBAL_REGS.reg_cc = get_cc();  \
+        GLOBAL_REGS.reg_pc = get_pc(); \
+        GLOBAL_REGS.reg_dp = get_dp(); \
+        GLOBAL_REGS.reg_cc = get_cc(); \
         GLOBAL_REGS.reg_a = get_a();   \
         GLOBAL_REGS.reg_b = get_b();   \
     } while (0)
 
 /* Import the public version of the registers.  */
-#define IMPORT_REGISTERS()         \
-    do {                             \
-        set_x(GLOBAL_REGS.reg_x);  \
-        set_y(GLOBAL_REGS.reg_y);  \
-        set_u(GLOBAL_REGS.reg_u);  \
-        set_s(GLOBAL_REGS.reg_s);  \
-        set_pc(GLOBAL_REGS.reg_pc);  \
-        set_dp(GLOBAL_REGS.reg_dp);  \
-        set_cc(GLOBAL_REGS.reg_cc);  \
-        set_a(GLOBAL_REGS.reg_a);  \
-        set_b(GLOBAL_REGS.reg_b);  \
+#define IMPORT_REGISTERS()          \
+    do {                            \
+        set_x(GLOBAL_REGS.reg_x);   \
+        set_y(GLOBAL_REGS.reg_y);   \
+        set_u(GLOBAL_REGS.reg_u);   \
+        set_s(GLOBAL_REGS.reg_s);   \
+        set_pc(GLOBAL_REGS.reg_pc); \
+        set_dp(GLOBAL_REGS.reg_dp); \
+        set_cc(GLOBAL_REGS.reg_cc); \
+        set_a(GLOBAL_REGS.reg_a);   \
+        set_b(GLOBAL_REGS.reg_b);   \
     } while (0)
 #define JUMP(pc)
 
-#define DO_INTERRUPT(int_kind)  do {                                  \
-        BYTE ik = (int_kind);                                         \
-        if (ik & (IK_TRAP | IK_RESET)) {                              \
-            if (ik & IK_TRAP) {                                       \
-                EXPORT_REGISTERS();                                   \
-                interrupt_do_trap(CPU_INT_STATUS, (WORD)PC);          \
-                IMPORT_REGISTERS();                                   \
-                if (CPU_INT_STATUS->global_pending_int & IK_RESET) {    \
-                    ik |= IK_RESET; \
-                }                                   \
-            }                                                         \
-            if (ik & IK_RESET) {                                      \
-                interrupt_ack_reset(CPU_INT_STATUS);                  \
-                cpu6809_reset();                                      \
-                DMA_ON_RESET;                                         \
-            }                                                         \
-        }                                                             \
-        if (ik & (IK_MONITOR | IK_DMA)) {                             \
-            if (ik & IK_MONITOR) {                                    \
-                if (monitor_force_import(CALLER)) {                     \
-                    IMPORT_REGISTERS(); \
-                }                               \
-                if (monitor_mask[CALLER]) {                             \
-                    EXPORT_REGISTERS(); \
-                }                               \
-                if (monitor_mask[CALLER] & (MI_STEP)) {               \
-                    monitor_check_icount((WORD)PC);                   \
-                    IMPORT_REGISTERS();                               \
-                }                                                     \
-                if (monitor_mask[CALLER] & (MI_BREAK)) {              \
-                    if (monitor_check_breakpoints(CALLER, (WORD)PC)) {                              \
-                        monitor_startup(CALLER);                      \
-                        IMPORT_REGISTERS();                           \
-                    }                                                 \
-                }                                                     \
-                if (monitor_mask[CALLER] & (MI_WATCH)) {              \
+#define DO_INTERRUPT(int_kind)                                             \
+  do {                                                                     \
+        BYTE ik = (int_kind);                                              \
+        if (ik & (IK_TRAP | IK_RESET)) {                                   \
+            if (ik & IK_TRAP) {                                            \
+                EXPORT_REGISTERS();                                        \
+                interrupt_do_trap(CPU_INT_STATUS, (WORD)PC);               \
+                IMPORT_REGISTERS();                                        \
+                if (CPU_INT_STATUS->global_pending_int & IK_RESET) {       \
+                    ik |= IK_RESET;                                        \
+                }                                                          \
+            }                                                              \
+            if (ik & IK_RESET) {                                           \
+                interrupt_ack_reset(CPU_INT_STATUS);                       \
+                cpu6809_reset();                                           \
+                DMA_ON_RESET;                                              \
+            }                                                              \
+        }                                                                  \
+        if (ik & (IK_MONITOR | IK_DMA)) {                                  \
+            if (ik & IK_MONITOR) {                                         \
+                if (monitor_force_import(CALLER)) {                        \
+                    IMPORT_REGISTERS();                                    \
+                }                                                          \
+                if (monitor_mask[CALLER]) {                                \
+                    EXPORT_REGISTERS();                                    \
+                }                                                          \
+                if (monitor_mask[CALLER] & (MI_STEP)) {                    \
+                    monitor_check_icount((WORD)PC);                        \
+                    IMPORT_REGISTERS();                                    \
+                }                                                          \
+                if (monitor_mask[CALLER] & (MI_BREAK)) {                   \
+                    if (monitor_check_breakpoints(CALLER, (WORD)PC)) {     \
+                        monitor_startup(CALLER);                           \
+                        IMPORT_REGISTERS();                                \
+                    }                                                      \
+                }                                                          \
+                if (monitor_mask[CALLER] & (MI_WATCH)) {                   \
                     monitor_check_watchpoints(LAST_OPCODE_ADDR, (WORD)PC); \
-                    IMPORT_REGISTERS();                               \
-                }                                                     \
-            }                                                         \
-            if (ik & IK_DMA) {                                        \
-                EXPORT_REGISTERS();                                   \
-                DMA_FUNC;                                             \
-                interrupt_ack_dma(CPU_INT_STATUS);                    \
-                IMPORT_REGISTERS();                                   \
-                JUMP(PC);                                             \
-            }                                                         \
-        }                                                             \
-        if (ik & IK_NMI) {                                            \
-            request_nmi(0);                                           \
-        } else if (ik & IK_IRQ) {                                     \
-            req_irq(0);                                               \
-        }                                                             \
+                    IMPORT_REGISTERS();                                    \
+                }                                                          \
+            }                                                              \
+            if (ik & IK_DMA) {                                             \
+                EXPORT_REGISTERS();                                        \
+                DMA_FUNC;                                                  \
+                interrupt_ack_dma(CPU_INT_STATUS);                         \
+                IMPORT_REGISTERS();                                        \
+                JUMP(PC);                                                  \
+            }                                                              \
+        }                                                                  \
+        if (ik & IK_NMI) {                                                 \
+            request_nmi(0);                                                \
+        } else if (ik & IK_IRQ) {                                          \
+            req_irq(0);                                                    \
+        }                                                                  \
 } while (0)
 
-#define JAM(INSTR)                                                    \
-    do {                                                              \
-        unsigned int tmp;                                             \
-                                                                      \
-        EXPORT_REGISTERS();                                           \
-        tmp = machine_jam("   6809: " INSTR " at $%04X   ", PC);      \
-        switch (tmp) {                                                \
-            case JAM_RESET:                                             \
-                DO_INTERRUPT(IK_RESET);                                   \
-                break;                                                    \
-            case JAM_HARD_RESET:                                        \
-                mem_powerup();                                            \
-                DO_INTERRUPT(IK_RESET);                                   \
-                break;                                                    \
-            case JAM_MONITOR:                                           \
-                monitor_startup(e_comp_space);                            \
-                IMPORT_REGISTERS();                                       \
-                break;                                                    \
-            default:                                                    \
-                CLK++;                                                    \
-        }                                                             \
+#define JAM(INSTR)                                               \
+    do {                                                         \
+        unsigned int tmp;                                        \
+                                                                 \
+        EXPORT_REGISTERS();                                      \
+        tmp = machine_jam("   6809: " INSTR " at $%04X   ", PC); \
+        switch (tmp) {                                           \
+            case JAM_RESET:                                      \
+                DO_INTERRUPT(IK_RESET);                          \
+                break;                                           \
+            case JAM_HARD_RESET:                                 \
+                mem_powerup();                                   \
+                DO_INTERRUPT(IK_RESET);                          \
+                break;                                           \
+            case JAM_MONITOR:                                    \
+                monitor_startup(e_comp_space);                   \
+                IMPORT_REGISTERS();                              \
+                break;                                           \
+            default:                                             \
+                CLK++;                                           \
+        }                                                        \
     } while (0)
 
 #ifdef LAST_OPCODE_ADDR

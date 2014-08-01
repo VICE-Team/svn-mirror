@@ -46,7 +46,7 @@
  * - define a function to handle the COP opcode (COP_65816(BYTE value)).
  *
  * reg_a and reg_b combined is reg_c.
-
+ *
  * the way to define the a, b and c regs is:
  * union regs {
  *     WORD reg_s;
