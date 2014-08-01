@@ -5057,9 +5057,8 @@ msgid "VICE CPU JAM"
 msgstr "VICE CPU HANGT"
 
 #: src/arch/win32/res.rc.po.c:927 src/arch/amigaos/intl_text.c.po.c:5550
-#, fuzzy
 msgid "Do you want to extend the image?"
-msgstr "Wilt u het bestand overschrijven?"
+msgstr "Wilt u het bestand uitbreiden?"
 
 #: src/arch/win32/res.rc.po.c:928
 #, c-format
@@ -5257,9 +5256,8 @@ msgid "Printer 6"
 msgstr "Printer 6"
 
 #: src/arch/win32/res.rc.po.c:978
-#, fuzzy
 msgid "Device 7"
-msgstr "Apparaten"
+msgstr "Apparaat 7"
 
 #: src/arch/win32/res.rc.po.c:980 src/arch/win32/res.rc.po.c:1359
 #: src/arch/win32/res.rc.po.c:1537 src/arch/amigaos/intl_text.c.po.c:48
@@ -6193,7 +6191,7 @@ msgstr "$A000-$BFFF RAM"
 #: src/arch/win32/resscpu64.rc.po.c:78 src/arch/win32/resvic20.rc.po.c:87
 #: src/arch/amigaos/intl_text.c.po.c:11291
 msgid "Default CPU JAM action"
-msgstr ""
+msgstr "Standaard CPU JAM aktie"
 
 #: src/arch/win32/res.rc.po.c:1335 src/arch/win32/resc128.rc.po.c:113
 #: src/arch/win32/resc64.rc.po.c:113 src/arch/win32/resc64dtv.rc.po.c:80
@@ -7659,12 +7657,11 @@ msgstr "Passband"
 
 #: src/arch/win32/ressid.rc.po.c:93 src/arch/amigaos/intl_text.c.po.c:9177
 msgid "Gain"
-msgstr ""
+msgstr "Toename"
 
 #: src/arch/win32/ressid.rc.po.c:94 src/arch/amigaos/intl_text.c.po.c:9191
-#, fuzzy
 msgid "Filter bias"
-msgstr "ReSID Filter Voorkeur"
+msgstr "Filter voorkeur"
 
 #: src/arch/win32/ressid.rc.po.c:95 src/arch/win32/ressiddtv.rc.po.c:63
 msgid "Device selection"
@@ -7869,9 +7866,8 @@ msgstr "Vorig deuntje"
 
 #: src/arch/amigaos/intl_text.c.po.c:132
 #: src/arch/amigaos/intl_text.c.po.c:11305
-#, fuzzy
 msgid "CPU JAM action settings"
-msgstr "CRT emulatie instellingen"
+msgstr "CPU JAM aktie instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:650
 msgid "Function low  image (3plus1)"
@@ -7946,9 +7942,8 @@ msgid "Vertical stretch"
 msgstr "Vertikale rek"
 
 #: src/arch/amigaos/intl_text.c.po.c:2036
-#, fuzzy
 msgid "Drive sound emulation settings"
-msgstr "Drive geluiden emulatie"
+msgstr "Drive geluiden emulatie instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:2092
 msgid "PAL"
@@ -8761,14 +8756,12 @@ msgid "DigiMAX Enabled"
 msgstr "DigiMAX Aan/Uit"
 
 #: src/arch/amigaos/intl_text.c.po.c:11319
-#, fuzzy
 msgid "Drive sound enabled"
-msgstr "Drive geluiden emulatie"
+msgstr "Drive geluiden aan/uit"
 
 #: src/arch/amigaos/intl_text.c.po.c:11333
-#, fuzzy
 msgid "Drive sound settings"
-msgstr "Drive instellingen"
+msgstr "Drive geluiden instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:11347
 msgid "DS12C887 RTC Enabled"
@@ -8843,9 +8836,8 @@ msgid "Save to EasyFlash CRT now"
 msgstr "Sla nu op naar het EasyFlash CRT bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:12383
-#, fuzzy
 msgid "Reset IEC bus with computer"
-msgstr "Reset Teller"
+msgstr "Reset IEC bus met de computer"
 
 #: src/arch/amigaos/intl_text.c.po.c:12411
 msgid "CIA model settings"
