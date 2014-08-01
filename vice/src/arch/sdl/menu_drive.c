@@ -544,25 +544,25 @@ static UI_MENU_CALLBACK(set_par_callback)
     return NULL;
 }
 
-#define DRIVE_PARALLEL_MENU(x)                                       \
-    static const ui_menu_entry_t drive_##x##_parallel_menu[] = {     \
-        { "None",                                                    \
-          MENU_ENTRY_OTHER,                                          \
-          set_par_callback,                                          \
-          (ui_callback_data_t)(DRIVE_PC_NONE + (x * 0x10000)) },     \
-        { "Standard",                                                \
-          MENU_ENTRY_OTHER,                                          \
-          set_par_callback,                                          \
-          (ui_callback_data_t)(DRIVE_PC_STANDARD + (x * 0x10000)) }, \
-        { "Dolphin DOS",                                             \
-          MENU_ENTRY_OTHER,                                          \
-          set_par_callback,                                          \
-          (ui_callback_data_t)(DRIVE_PC_DD3 + (x * 0x10000)) },      \
-        { "Formel 64",                                               \
-          MENU_ENTRY_OTHER,                                          \
-          set_par_callback,                                          \
-          (ui_callback_data_t)(DRIVE_PC_FORMEL64 + (x * 0x10000)) }, \
-        SDL_MENU_LIST_END                                            \
+#define DRIVE_PARALLEL_MENU(x)                                   \
+    static const ui_menu_entry_t drive_##x##_parallel_menu[] = { \
+        { "None",                                                \
+          MENU_ENTRY_OTHER,                                      \
+          set_par_callback,                                      \
+          (ui_callback_data_t)(DRIVE_PC_NONE + (x << 16)) },     \
+        { "Standard",                                            \
+          MENU_ENTRY_OTHER,                                      \
+          set_par_callback,                                      \
+          (ui_callback_data_t)(DRIVE_PC_STANDARD + (x << 16)) }, \
+        { "Dolphin DOS",                                         \
+          MENU_ENTRY_OTHER,                                      \
+          set_par_callback,                                      \
+          (ui_callback_data_t)(DRIVE_PC_DD3 + (x << 16)) },      \
+        { "Formel 64",                                           \
+          MENU_ENTRY_OTHER,                                      \
+          set_par_callback,                                      \
+          (ui_callback_data_t)(DRIVE_PC_FORMEL64 + (x << 16)) }, \
+        SDL_MENU_LIST_END                                        \
     };
 
 DRIVE_PARALLEL_MENU(8)
@@ -820,29 +820,29 @@ static const ui_menu_entry_t create_disk_image_menu[] = {
 #define DRIVE_TYPE_ITEM_RAWDRIVE(text, data)
 #endif
 
-#define DRIVE_TYPE_MENU(x)                                                          \
-    static const ui_menu_entry_t drive_##x##_type_menu[] = {                        \
-        DRIVE_TYPE_ITEM("None", x * 0x10000)                                        \
-        DRIVE_TYPE_ITEM("Directory", ATTACH_DEVICE_FS + (x * 0x10000))              \
-        DRIVE_TYPE_ITEM_OPENCBM("Real drive", ATTACH_DEVICE_REAL + (x * 0x10000))   \
-        DRIVE_TYPE_ITEM_RAWDRIVE("Block device", ATTACH_DEVICE_RAW + (x * 0x10000)) \
-        DRIVE_TYPE_ITEM("1541", DRIVE_TYPE_1541 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("1541-II", DRIVE_TYPE_1541II + (x * 0x10000))               \
-        DRIVE_TYPE_ITEM("1551", DRIVE_TYPE_1551 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("1570", DRIVE_TYPE_1570 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("1571", DRIVE_TYPE_1571 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("1571CR", DRIVE_TYPE_1571CR + (x * 0x10000))                \
-        DRIVE_TYPE_ITEM("1581", DRIVE_TYPE_1581 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("2000", DRIVE_TYPE_2000 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("4000", DRIVE_TYPE_4000 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("2031", DRIVE_TYPE_2031 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("2040", DRIVE_TYPE_2040 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("3040", DRIVE_TYPE_3040 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("4040", DRIVE_TYPE_4040 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("1001", DRIVE_TYPE_1001 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("8050", DRIVE_TYPE_8050 + (x * 0x10000))                    \
-        DRIVE_TYPE_ITEM("8250", DRIVE_TYPE_8250 + (x * 0x10000))                    \
-        SDL_MENU_LIST_END                                                           \
+#define DRIVE_TYPE_MENU(x)                                                      \
+    static const ui_menu_entry_t drive_##x##_type_menu[] = {                    \
+        DRIVE_TYPE_ITEM("None", x << 16)                                        \
+        DRIVE_TYPE_ITEM("Directory", ATTACH_DEVICE_FS + (x << 16))              \
+        DRIVE_TYPE_ITEM_OPENCBM("Real drive", ATTACH_DEVICE_REAL + (x << 16))   \
+        DRIVE_TYPE_ITEM_RAWDRIVE("Block device", ATTACH_DEVICE_RAW + (x << 16)) \
+        DRIVE_TYPE_ITEM("1541", DRIVE_TYPE_1541 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("1541-II", DRIVE_TYPE_1541II + (x << 16))               \
+        DRIVE_TYPE_ITEM("1551", DRIVE_TYPE_1551 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("1570", DRIVE_TYPE_1570 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("1571", DRIVE_TYPE_1571 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("1571CR", DRIVE_TYPE_1571CR + (x << 16))                \
+        DRIVE_TYPE_ITEM("1581", DRIVE_TYPE_1581 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("2000", DRIVE_TYPE_2000 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("4000", DRIVE_TYPE_4000 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("2031", DRIVE_TYPE_2031 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("2040", DRIVE_TYPE_2040 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("3040", DRIVE_TYPE_3040 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("4040", DRIVE_TYPE_4040 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("1001", DRIVE_TYPE_1001 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("8050", DRIVE_TYPE_8050 + (x << 16))                    \
+        DRIVE_TYPE_ITEM("8250", DRIVE_TYPE_8250 + (x << 16))                    \
+        SDL_MENU_LIST_END                                                       \
     };
 
 DRIVE_TYPE_MENU(8)
@@ -876,21 +876,21 @@ DRIVE_FSDIR_MENU(9)
 DRIVE_FSDIR_MENU(10)
 DRIVE_FSDIR_MENU(11)
 
-#define DRIVE_EXTEND_MENU(x)                                       \
-    static const ui_menu_entry_t drive_##x##_extend_menu[] = {     \
-        { "Never extend",                                          \
-          MENU_ENTRY_OTHER,                                        \
-          set_extend_callback,                                     \
-          (ui_callback_data_t)(DRIVE_EXTEND_NEVER + (x * 256)) },  \
-        { "Ask on extend",                                         \
-          MENU_ENTRY_OTHER,                                        \
-          set_extend_callback,                                     \
-          (ui_callback_data_t)(DRIVE_EXTEND_ASK + (x * 256)) },    \
-        { "Extend on access",                                      \
-          MENU_ENTRY_OTHER,                                        \
-          set_extend_callback,                                     \
-          (ui_callback_data_t)(DRIVE_EXTEND_ACCESS + (x * 256)) }, \
-        SDL_MENU_LIST_END                                          \
+#define DRIVE_EXTEND_MENU(x)                                      \
+    static const ui_menu_entry_t drive_##x##_extend_menu[] = {    \
+        { "Never extend",                                         \
+          MENU_ENTRY_OTHER,                                       \
+          set_extend_callback,                                    \
+          (ui_callback_data_t)(DRIVE_EXTEND_NEVER + (x << 8)) },  \
+        { "Ask on extend",                                        \
+          MENU_ENTRY_OTHER,                                       \
+          set_extend_callback,                                    \
+          (ui_callback_data_t)(DRIVE_EXTEND_ASK + (x << 8)) },    \
+        { "Extend on access",                                     \
+          MENU_ENTRY_OTHER,                                       \
+          set_extend_callback,                                    \
+          (ui_callback_data_t)(DRIVE_EXTEND_ACCESS + (x << 8)) }, \
+        SDL_MENU_LIST_END                                         \
     };
 
 DRIVE_EXTEND_MENU(8)
@@ -903,23 +903,23 @@ DRIVE_EXTEND_MENU(11)
         { "RAM at $2000-$3FFF",                                \
           MENU_ENTRY_OTHER,                                    \
           set_expand_callback,                                 \
-          (ui_callback_data_t)(0x2000 + (x * 0x10000)) },      \
+          (ui_callback_data_t)(0x2000 + (x << 16)) },          \
         { "RAM at $4000-$5FFF",                                \
           MENU_ENTRY_OTHER,                                    \
           set_expand_callback,                                 \
-          (ui_callback_data_t)(0x4000 + (x * 0x10000)) },      \
+          (ui_callback_data_t)(0x4000 + (x << 16)) },          \
         { "RAM at $6000-$7FFF",                                \
           MENU_ENTRY_OTHER,                                    \
           set_expand_callback,                                 \
-          (ui_callback_data_t)(0x6000 + (x * 0x10000)) },      \
+          (ui_callback_data_t)(0x6000 + (x << 16)) },          \
         { "RAM at $8000-$9FFF",                                \
           MENU_ENTRY_OTHER,                                    \
           set_expand_callback,                                 \
-          (ui_callback_data_t)(0x8000 + (x * 0x10000)) },      \
+          (ui_callback_data_t)(0x8000 + (x << 16)) },          \
         { "RAM at $A000-$BFFF",                                \
           MENU_ENTRY_OTHER,                                    \
           set_expand_callback,                                 \
-          (ui_callback_data_t)(0xa000 + (x * 0x10000)) },      \
+          (ui_callback_data_t)(0xa000 + (x << 16)) },          \
         SDL_MENU_LIST_END                                      \
     };
 
@@ -936,7 +936,7 @@ UI_MENU_DEFINE_FILE_STRING(DriveSuperCardName)
         { "Professional DOS 1571",                                     \
           MENU_ENTRY_OTHER,                                            \
           set_exboard_callback,                                        \
-          (ui_callback_data_t)(0 + (x * 0x10000)) },                   \
+          (ui_callback_data_t)(0 + (x << 16)) },                       \
         { "Professional DOS 1571 ROM file",                            \
           MENU_ENTRY_DIALOG,                                           \
           file_string_DriveProfDOS1571Name_callback,                   \
@@ -944,7 +944,7 @@ UI_MENU_DEFINE_FILE_STRING(DriveSuperCardName)
         { "Supercard+",                                                \
           MENU_ENTRY_OTHER,                                            \
           set_exboard_callback,                                        \
-          (ui_callback_data_t)(1 + (x * 0x10000)) },                   \
+          (ui_callback_data_t)(1 + (x << 16)) },                       \
         { "Supercard+ ROM file",                                       \
           MENU_ENTRY_DIALOG,                                           \
           file_string_DriveSuperCardName_callback,                     \
@@ -957,21 +957,21 @@ DRIVE_EXBOARD_MENU(9)
 DRIVE_EXBOARD_MENU(10)
 DRIVE_EXBOARD_MENU(11)
 
-#define DRIVE_IDLE_MENU(x)                                            \
-    static const ui_menu_entry_t drive_##x##_idle_menu[] = {          \
-        { "None",                                                     \
-          MENU_ENTRY_OTHER,                                           \
-          set_idle_callback,                                          \
-          (ui_callback_data_t)(DRIVE_IDLE_NO_IDLE + (x * 256)) },     \
-        { "Trap idle",                                                \
-          MENU_ENTRY_OTHER,                                           \
-          set_idle_callback,                                          \
-          (ui_callback_data_t)(DRIVE_IDLE_SKIP_CYCLES + (x * 256)) }, \
-        { "Skip cycles",                                              \
-          MENU_ENTRY_OTHER,                                           \
-          set_idle_callback,                                          \
-          (ui_callback_data_t)(DRIVE_IDLE_TRAP_IDLE + (x * 256)) },   \
-        SDL_MENU_LIST_END                                             \
+#define DRIVE_IDLE_MENU(x)                                           \
+    static const ui_menu_entry_t drive_##x##_idle_menu[] = {         \
+        { "None",                                                    \
+          MENU_ENTRY_OTHER,                                          \
+          set_idle_callback,                                         \
+          (ui_callback_data_t)(DRIVE_IDLE_NO_IDLE + (x << 8)) },     \
+        { "Trap idle",                                               \
+          MENU_ENTRY_OTHER,                                          \
+          set_idle_callback,                                         \
+          (ui_callback_data_t)(DRIVE_IDLE_SKIP_CYCLES + (x << 8)) }, \
+        { "Skip cycles",                                             \
+          MENU_ENTRY_OTHER,                                          \
+          set_idle_callback,                                         \
+          (ui_callback_data_t)(DRIVE_IDLE_TRAP_IDLE + (x << 8)) },   \
+        SDL_MENU_LIST_END                                            \
     };
 
 DRIVE_IDLE_MENU(8)
@@ -993,7 +993,7 @@ UI_MENU_DEFINE_FILE_STRING(RawDriveDriver)
 #define DRIVE_MENU_RAWDRIVE_ITEM
 #endif
 
-#define DRIVE_MENU(x)                                     \
+#define DRIVE_MENU(x)                                      \
     static const ui_menu_entry_t drive_##x##_menu[] = {    \
         { "Drive " #x " type",                             \
           MENU_ENTRY_SUBMENU,                              \
