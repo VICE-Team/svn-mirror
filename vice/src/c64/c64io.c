@@ -346,15 +346,15 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
         current = current->next;
     }
 
-    /* no valid i/o source was read, return phi1 */
+    /* no valid I/O source was read, return phi1 */
     if (io_source_valid == 0) {
         return vicii_read_phi1();
     }
-    /* no more than one valid i/o source was read, return value */
+    /* only one valid I/O source was read, return value */
     if (!(io_source_counter > 1)) {
         return retval;
     }
-    /* more than one i/o source was read, handle collision */
+    /* more than one I/O source was read, handle collision */
     if (io_source_collision_handling == IO_COLLISION_METHOD_DETACH_ALL) {
         io_source_msg_detach_all(addr, io_source_counter, list);
         return vicii_read_phi1();
@@ -368,7 +368,7 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
     return vicii_read_phi1();
 }
 
-/* peek from i/o area with no side-effects */
+/* peek from I/O area with no side-effects */
 static inline BYTE io_peek(io_source_list_t *list, WORD addr)
 {
     io_source_list_t *current = list->next;
@@ -764,7 +764,7 @@ static void io_source_ioreg_add_onelist(struct mem_ioreg_list_s **mem_ioreg_list
     }
 }
 
-/* add all registered i/o devices to the list for the monitor */
+/* add all registered I/O devices to the list for the monitor */
 void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
     io_source_ioreg_add_onelist(mem_ioreg_list, c64io_d000_head.next);

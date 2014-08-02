@@ -350,7 +350,7 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
     return vic20_cpu_last_data;
 }
 
-/* peek from i/o area with no side-effects */
+/* peek from I/O area with no side-effects */
 static inline BYTE io_peek(io_source_list_t *list, WORD addr)
 {
     io_source_list_t *current = list->next;
@@ -514,7 +514,7 @@ static int decodemask(WORD mask)
     return len;
 }
 
-/* add all registered i/o devices to the list for the monitor */
+/* add all registered I/O devices to the list for the monitor */
 void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
     io_source_list_t *current;

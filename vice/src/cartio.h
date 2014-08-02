@@ -91,7 +91,7 @@ extern void remove_cpu_lines_lock(void);
 extern char *get_cpu_lines_lock_name(void);
 
 typedef struct io_source_s {
-    char *name; /*!< literal name of this i/o device */
+    char *name; /*!< literal name of this I/O device */
     int detach_id;
     char *resource_name;
     WORD start_address;
