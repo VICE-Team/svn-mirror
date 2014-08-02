@@ -28,6 +28,8 @@
 #ifndef VICE__UI_DRIVE_H__
 #define VICE__UI_DRIVE_H__
 
+#include "drive.h"
+
 typedef struct drive_type_s {
     const char *name;
     int id;
