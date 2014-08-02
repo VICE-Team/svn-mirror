@@ -8932,6 +8932,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ENABLE_IEC_PRINTER_6_SV, "" },  /* fuzzy */
 /* tr */ { IDS_ENABLE_IEC_PRINTER_6_TR, "" },  /* fuzzy */
 
+/* en */ { IDS_ENABLE_IEC_DEVICE_7,    "IEC emulation for device #7" },
+/* da */ { IDS_ENABLE_IEC_DEVICE_7_DA, "" },  /* fuzzy */
+/* de */ { IDS_ENABLE_IEC_DEVICE_7_DE, "" },  /* fuzzy */
+/* es */ { IDS_ENABLE_IEC_DEVICE_7_ES, "" },  /* fuzzy */
+/* fr */ { IDS_ENABLE_IEC_DEVICE_7_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ENABLE_IEC_DEVICE_7_HU, "" },  /* fuzzy */
+/* it */ { IDS_ENABLE_IEC_DEVICE_7_IT, "" },  /* fuzzy */
+/* ko */ { IDS_ENABLE_IEC_DEVICE_7_KO, "" },  /* fuzzy */
+/* nl */ { IDS_ENABLE_IEC_DEVICE_7_NL, "" },  /* fuzzy */
+/* pl */ { IDS_ENABLE_IEC_DEVICE_7_PL, "" },  /* fuzzy */
+/* ru */ { IDS_ENABLE_IEC_DEVICE_7_RU, "" },  /* fuzzy */
+/* sv */ { IDS_ENABLE_IEC_DEVICE_7_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ENABLE_IEC_DEVICE_7_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_PRINTER_SETTINGS,    "Printer settings" },
 /* da */ { IDS_PRINTER_SETTINGS_DA, "Printerindstillinger" },
 /* de */ { IDS_PRINTER_SETTINGS_DE, "Drucker Einstellungen" },

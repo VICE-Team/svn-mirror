@@ -140,6 +140,8 @@ static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "Printer6TextDevice", ui_printer_output_device, ui_printer_output_device_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "IECDevice6", ui_printer_enable, ui_printer_enable_values, NULL },
 
+    { NULL, MUI_TYPE_CYCLE, "IECDevice7", ui_printer_enable, ui_printer_enable_values, NULL },
+
     { NULL, MUI_TYPE_CYCLE, "PrinterUserport", ui_printer_enable, ui_printer_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE_STR, "PrinterUserportDriver", ui_printer_driver, NULL, ui_printer_driver_strings },
     { NULL, MUI_TYPE_CYCLE_STR, "PrinterUserportOutput", ui_printer_output_type, NULL, ui_printer_output_type_strings },
@@ -256,14 +258,14 @@ static APTR build_gui(int ieee, int userport)
                CYCLE(ui_to_from[12].object, translate_text(IDS_PRINTER_6_OUTPUT_TYPE), ui_printer_output_type)
                CYCLE(ui_to_from[13].object, translate_text(IDS_PRINTER_6_OUTPUT_DEVICE), ui_printer_output_device)
                BUTTON(ff_button3, translate_text(IDS_PRINTER_6_SEND_FORMFEED))
-               CYCLE(ui_to_from[15].object, translate_text(IDS_USERPORT_PRINTER_EMULATION), ui_printer_enable)
-               CYCLE(ui_to_from[16].object, translate_text(IDS_USERPORT_PRINTER_DRIVER), ui_printer_driver)
-               CYCLE(ui_to_from[17].object, translate_text(IDS_USERPORT_PRINTER_OUTPUT_TYPE), ui_printer_output_type)
-               CYCLE(ui_to_from[18].object, translate_text(IDS_USERPORT_PRINTER_OUTPUT_DEVICE), ui_printer_output_device)
+               CYCLE(ui_to_from[16].object, translate_text(IDS_USERPORT_PRINTER_EMULATION), ui_printer_enable)
+               CYCLE(ui_to_from[17].object, translate_text(IDS_USERPORT_PRINTER_DRIVER), ui_printer_driver)
+               CYCLE(ui_to_from[18].object, translate_text(IDS_USERPORT_PRINTER_OUTPUT_TYPE), ui_printer_output_type)
+               CYCLE(ui_to_from[19].object, translate_text(IDS_USERPORT_PRINTER_OUTPUT_DEVICE), ui_printer_output_device)
                BUTTON(ff_button4, translate_text(IDS_USERPORT_PRINTER_SEND_FORMFEED))
-               FILENAME(ui_to_from[19].object, translate_text(IDS_PRINTER_DEVICE_1_FILENAME), browse_button1)
-               FILENAME(ui_to_from[20].object, translate_text(IDS_PRINTER_DEVICE_2_FILENAME), browse_button2)
-               FILENAME(ui_to_from[21].object, translate_text(IDS_PRINTER_DEVICE_3_FILENAME), browse_button3)
+               FILENAME(ui_to_from[20].object, translate_text(IDS_PRINTER_DEVICE_1_FILENAME), browse_button1)
+               FILENAME(ui_to_from[21].object, translate_text(IDS_PRINTER_DEVICE_2_FILENAME), browse_button2)
+               FILENAME(ui_to_from[22].object, translate_text(IDS_PRINTER_DEVICE_3_FILENAME), browse_button3)
                OK_CANCEL_BUTTON
              End;
     } else {
@@ -287,14 +289,15 @@ static APTR build_gui(int ieee, int userport)
                    CYCLE(ui_to_from[13].object, translate_text(IDS_PRINTER_6_OUTPUT_DEVICE), ui_printer_output_device)
                    BUTTON(ff_button3, translate_text(IDS_PRINTER_6_SEND_FORMFEED))
                    CYCLE(ui_to_from[14].object, translate_text(IDS_ENABLE_IEC_PRINTER_6), ui_printer_enable)
-                   CYCLE(ui_to_from[15].object, translate_text(IDS_USERPORT_PRINTER_EMULATION), ui_printer_enable)
-                   CYCLE(ui_to_from[16].object, translate_text(IDS_USERPORT_PRINTER_DRIVER), ui_printer_driver)
-                   CYCLE(ui_to_from[17].object, translate_text(IDS_USERPORT_PRINTER_OUTPUT_TYPE), ui_printer_output_type)
-                   CYCLE(ui_to_from[18].object, translate_text(IDS_USERPORT_PRINTER_OUTPUT_DEVICE), ui_printer_output_device)
+                   CYCLE(ui_to_from[15].object, translate_text(IDS_ENABLE_IEC_DEVICE_7), ui_printer_enable)
+                   CYCLE(ui_to_from[16].object, translate_text(IDS_USERPORT_PRINTER_EMULATION), ui_printer_enable)
+                   CYCLE(ui_to_from[17].object, translate_text(IDS_USERPORT_PRINTER_DRIVER), ui_printer_driver)
+                   CYCLE(ui_to_from[18].object, translate_text(IDS_USERPORT_PRINTER_OUTPUT_TYPE), ui_printer_output_type)
+                   CYCLE(ui_to_from[19].object, translate_text(IDS_USERPORT_PRINTER_OUTPUT_DEVICE), ui_printer_output_device)
                    BUTTON(ff_button4, translate_text(IDS_USERPORT_PRINTER_SEND_FORMFEED))
-                   FILENAME(ui_to_from[19].object, translate_text(IDS_PRINTER_DEVICE_1_FILENAME), browse_button1)
-                   FILENAME(ui_to_from[20].object, translate_text(IDS_PRINTER_DEVICE_2_FILENAME), browse_button2)
-                   FILENAME(ui_to_from[21].object, translate_text(IDS_PRINTER_DEVICE_3_FILENAME), browse_button3)
+                   FILENAME(ui_to_from[20].object, translate_text(IDS_PRINTER_DEVICE_1_FILENAME), browse_button1)
+                   FILENAME(ui_to_from[21].object, translate_text(IDS_PRINTER_DEVICE_2_FILENAME), browse_button2)
+                   FILENAME(ui_to_from[22].object, translate_text(IDS_PRINTER_DEVICE_3_FILENAME), browse_button3)
                    OK_CANCEL_BUTTON
                  End;
         } else {
@@ -317,9 +320,10 @@ static APTR build_gui(int ieee, int userport)
                    CYCLE(ui_to_from[13].object, translate_text(IDS_PRINTER_6_OUTPUT_DEVICE), ui_printer_output_device)
                    BUTTON(ff_button3, translate_text(IDS_PRINTER_6_SEND_FORMFEED))
                    CYCLE(ui_to_from[14].object, translate_text(IDS_ENABLE_IEC_PRINTER_6), ui_printer_enable)
-                   FILENAME(ui_to_from[19].object, translate_text(IDS_PRINTER_DEVICE_1_FILENAME), browse_button1)
-                   FILENAME(ui_to_from[20].object, translate_text(IDS_PRINTER_DEVICE_2_FILENAME), browse_button2)
-                   FILENAME(ui_to_from[21].object, translate_text(IDS_PRINTER_DEVICE_3_FILENAME), browse_button3)
+                   CYCLE(ui_to_from[15].object, translate_text(IDS_ENABLE_IEC_DEVICE_7), ui_printer_enable)
+                   FILENAME(ui_to_from[20].object, translate_text(IDS_PRINTER_DEVICE_1_FILENAME), browse_button1)
+                   FILENAME(ui_to_from[21].object, translate_text(IDS_PRINTER_DEVICE_2_FILENAME), browse_button2)
+                   FILENAME(ui_to_from[22].object, translate_text(IDS_PRINTER_DEVICE_3_FILENAME), browse_button3)
                    OK_CANCEL_BUTTON
                  End;
         }
@@ -365,7 +369,7 @@ void ui_printer_settings_dialog(video_canvas_t *canvas, int ieee, int userport)
     intl_convert_mui_table(ui_printer_enable_translate, ui_printer_enable);
     intl_convert_mui_table(ui_printer_emulation_translate, ui_printer_emulation);
     ui_printer_driver[3] = translate_text(IDS_RAW);
-    ui_plotter_driver[1] = translate_text(IDS_RAW);
+    ui_plotter_driver[1] = ui_printer_driver[3];
     intl_convert_mui_table(ui_printer_output_type_translate, ui_printer_output_type);
  
     window = mui_make_simple_window(build_gui(ieee, userport), translate_text(IDS_PRINTER_SETTINGS));
