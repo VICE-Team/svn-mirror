@@ -63,7 +63,7 @@
 /* ------------------------------------------------------------------------- */
 #define CYCLE_EXACT_ALARM
 
-int scpu64_fastmode = 1;
+BYTE scpu64_fastmode = 1;
 static CLOCK buffer_finish, buffer_finish_half;
 static CLOCK maincpu_diff, maincpu_accu;
 int scpu64_emulation_mode;
@@ -343,7 +343,7 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
 #define LOAD(addr) \
     (((addr) & ~0xffff)?mem_read2(addr):(*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr)))
 
-#define STORE_LONG(addr, value) store_long(addr, value)
+#define STORE_LONG(addr, value) store_long((DWORD)(addr), (BYTE)(value))
 
 static inline void store_long(DWORD addr, BYTE value)
 {
@@ -383,7 +383,7 @@ int scpu64_snapshot_write_cpu_state(snapshot_module_t *m)
 /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
 int scpu64_snapshot_read_cpu_state(snapshot_module_t *m)
 {
-    return SMR_B_INT(m, &scpu64_fastmode) < 0
+    return SMR_B(m, &scpu64_fastmode) < 0
         || SMR_DW(m, &buffer_finish) < 0
         || SMR_DW(m, &buffer_finish_half) < 0
         || SMR_DW(m, &maincpu_accu) < 0

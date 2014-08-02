@@ -237,7 +237,7 @@ void zero_store(WORD addr, BYTE value)
     mem_sram[addr] = value;
 
     if (addr == 1) {
-        pport_store(addr, value & 7);
+        pport_store(addr, (BYTE)(value & 7));
     }
 }
 
@@ -246,7 +246,7 @@ void zero_store_mirrored(WORD addr, BYTE value)
     scpu64_clock_write_stretch();
     mem_sram[addr] = value;
     if (addr == 1) {
-        pport_store(addr, value & 7);
+        pport_store(addr, (BYTE)(value & 7));
     }
     mem_ram[addr] = value;
 }
@@ -255,7 +255,7 @@ void zero_store_int(WORD addr, BYTE value)
 {
     scpu64_clock_write_stretch();
     if (addr == 1) {
-        pport_store(addr, value & 7);
+        pport_store(addr, (BYTE)(value & 7));
     }
     mem_ram[addr] = value;
 }
@@ -401,7 +401,7 @@ void mem_store2(DWORD addr, BYTE value)
         }
         return;
     default:
-        if (mem_simm_ram_mask && addr < mem_conf_size) {
+        if (mem_simm_ram_mask && addr < (unsigned int)mem_conf_size) {
             if (mem_simm_page_size != mem_conf_page_size) {
                 addr = ((addr >> mem_conf_page_size) << mem_simm_page_size) | (addr & ((1 << mem_simm_page_size)-1));
             }
@@ -436,7 +436,7 @@ BYTE mem_read2(DWORD addr)
         }
         return mem_sram[addr & 1];
     default:
-        if (mem_simm_ram_mask && addr < mem_conf_size) {
+        if (mem_simm_ram_mask && addr < (unsigned int)mem_conf_size) {
             if (mem_simm_page_size != mem_conf_page_size) {
                 addr = ((addr >> mem_conf_page_size) << mem_simm_page_size) | (addr & ((1 << mem_simm_page_size)-1));
             }
@@ -445,7 +445,7 @@ BYTE mem_read2(DWORD addr)
         }
         break;
     }
-    return addr >> 16;
+    return (BYTE)(addr >> 16);
 }
 
 BYTE mem_peek2(DWORD addr)
@@ -471,7 +471,7 @@ BYTE mem_peek2(DWORD addr)
         }
         return mem_sram[addr & 1];
     default:
-        if (mem_simm_ram_mask && addr < mem_conf_size) {
+        if (mem_simm_ram_mask && addr < (unsigned int)mem_conf_size) {
             if (mem_simm_page_size != mem_conf_page_size) {
                 addr = ((addr >> mem_conf_page_size) << mem_simm_page_size) | (addr & ((1 << mem_simm_page_size)-1));
             }
@@ -479,7 +479,7 @@ BYTE mem_peek2(DWORD addr)
         }
         break;
     }
-    return addr >> 16;
+    return (BYTE)(addr >> 16);
 }
 
 void mem_store_without_ultimax(WORD addr, BYTE value)
@@ -1159,7 +1159,7 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
                 *base = mem_simm_ram + (addr & 0x10000);
                 *limit = 0xfffd;
                 *start = 0x0000;
-            } else if (mem_simm_ram_mask && mem_simm_page_size == mem_conf_page_size && addr < mem_conf_size) {
+            } else if (mem_simm_ram_mask && mem_simm_page_size == mem_conf_page_size && addr < (unsigned int)mem_conf_size) {
                 *base = mem_simm_ram + (addr & 0xff0000 & mem_simm_ram_mask);
                 *limit = 0xfffd;
                 *start = 0x0000;

@@ -146,64 +146,71 @@
             flag_n = (val >> 8);           \
             flag_z = (val) | flag_n;       \
         } else {                           \
-            flag_z = flag_n = (val);       \
+            flag_z = flag_n = ((BYTE)val); \
         }                                  \
     } while (0)
 
 #define LOCAL_SET_OVERFLOW(val)   \
     do {                          \
-        if (val)                  \
+        if (val) {                \
             reg_p |= P_OVERFLOW;  \
-        else                      \
+        } else {                  \
             reg_p &= ~P_OVERFLOW; \
+        }                         \
     } while (0)
 
 #define LOCAL_SET_BREAK(val)   \
     do {                       \
-        if (val)               \
+        if (val) {             \
             reg_p |= P_BREAK;  \
-        else                   \
+        } else {               \
             reg_p &= ~P_BREAK; \
+        }                      \
     } while (0)
 
 #define LOCAL_SET_DECIMAL(val)   \
     do {                         \
-        if (val)                 \
+        if (val) {               \
             reg_p |= P_DECIMAL;  \
-        else                     \
+        } else {                 \
             reg_p &= ~P_DECIMAL; \
+        }                        \
     } while (0)
 
 #define LOCAL_SET_INTERRUPT(val)   \
     do {                           \
-        if (val)                   \
+        if (val) {                 \
             reg_p |= P_INTERRUPT;  \
-        else                       \
+        } else {                   \
             reg_p &= ~P_INTERRUPT; \
+        }                          \
     } while (0)
 
 #define LOCAL_SET_CARRY(val)   \
     do {                       \
-        if (val)               \
+        if (val) {             \
             reg_p |= P_CARRY;  \
-        else                   \
+        } else {               \
             reg_p &= ~P_CARRY; \
+        }                      \
     } while (0)
 
 #define LOCAL_SET_65816_M(val)   \
     do {                         \
-        if (val)                 \
+        if (val) {               \
             reg_p |= P_65816_M;  \
-        else                     \
+        } else {                 \
             reg_p &= ~P_65816_M; \
+        }                        \
     } while (0)
 
 #define LOCAL_SET_65816_X(val)   \
     do {                         \
-        if (val)                 \
+        if (val) {               \
             reg_p |= P_65816_X;  \
-        else                     \
+        } else {                 \
             reg_p &= ~P_65816_X; \
+        }                        \
     } while (0)
 
 #define LOCAL_SET_SIGN(val)      (flag_n = (val) ? 0x80 : 0)
@@ -349,10 +356,12 @@
                 interrupt65816 &= ~IK_TRAP;                                    \
             }                                                                  \
             if (ik & IK_MONITOR) {                                             \
-                if (monitor_force_import(CALLER))                              \
+                if (monitor_force_import(CALLER)) {                            \
                     IMPORT_REGISTERS();                                        \
-                if (monitor_mask[CALLER])                                      \
+                }                                                              \
+                if (monitor_mask[CALLER]) {                                    \
                     EXPORT_REGISTERS();                                        \
+                }                                                              \
                 if (monitor_mask[CALLER] & (MI_STEP)) {                        \
                     monitor_check_icount((WORD)reg_pc);                        \
                     IMPORT_REGISTERS();                                        \
@@ -2442,7 +2451,7 @@
       INC_PC(SIZE_1);                       \
       FETCH_PARAM_DUMMY(reg_pc);            \
       if (LOCAL_65816_M()) {                \
-          reg_a = reg_r;                    \
+          reg_a = (BYTE)reg_r;              \
           LOCAL_SET_NZ(reg_a, 1);           \
       } else {                              \
           reg_c = reg_r;                    \
