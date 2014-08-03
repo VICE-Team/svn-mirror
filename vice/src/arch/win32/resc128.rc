@@ -3,10 +3,17 @@
 
 #include "vice.h"
 
+#ifndef WINDOWS_RC_COMPILE
+#define WINDOWS_RC_COMPILE
+#endif
+
 #include "debug.h"
 #include "res.h"
 #include "rescommon.h"
+
+#ifdef IDE_COMPILE
 #include "videoarch.h"
+#endif
 
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
