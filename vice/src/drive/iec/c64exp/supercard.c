@@ -98,8 +98,11 @@ void supercard_mem_init(struct drive_context_s *drv, unsigned int type)
     DBG(("supercard_mem_init <type:%d> <sc:%d>\n", type, drv->drive->supercard));
 
     /* Setup additional supercard rom */
-    if (drv->drive->supercard) {
-        drivemem_set_func(cpud, 0x10, 0x18, supercard_read, supercard_store);
+    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
+        || type == DRIVE_TYPE_1571) {
+        if (drv->drive->supercard) {
+            drivemem_set_func(cpud, 0x10, 0x18, supercard_read, supercard_store);
+        }
     }
 }
 
