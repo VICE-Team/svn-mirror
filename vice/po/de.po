@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-01 16:36-0700\n"
-"PO-Revision-Date: 2014-02-05 14:42+0100\n"
+"PO-Revision-Date: 2014-08-05 18:12+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -338,7 +338,7 @@ msgstr "Schwedisch"
 #: src/arch/unix/gui/c128ui.c:548 src/arch/win32/resc128.rc.po.c:663
 #: src/arch/amigaos/intl_text.c.po.c:4696
 msgid "Swiss"
-msgstr ""
+msgstr "Schweiz"
 
 #: src/arch/unix/gui/c128ui.c:557 src/arch/unix/gui/c128ui.c:566
 #: src/arch/unix/gui/c64scui.c:171 src/arch/unix/gui/c64scui.c:181
@@ -1539,7 +1539,6 @@ msgstr "Harter Reset"
 
 #: src/arch/unix/gui/uicommands.c:499 src/arch/win32/res.rc.po.c:1437
 #: src/arch/amigaos/intl_text.c.po.c:11277
-#, fuzzy
 msgid "Quit emulator"
 msgstr "Emulator beenden"
 
@@ -3251,9 +3250,8 @@ msgstr "Drucker #5 Seitenvorschub"
 #: src/arch/unix/gui/uiprinteriec.c:90
 #: src/arch/unix/gui/uiprinteriecplus4.c:88
 #: src/arch/unix/gui/uiprinterieee.c:79
-#, fuzzy
 msgid "Device #7 Real device access"
-msgstr "Echter Geräte Zugriff"
+msgstr "Echter Zugriff Gerät 7"
 
 #: src/arch/unix/gui/uiprinteriec.c:96 src/arch/unix/gui/uiprinterieee.c:83
 #: src/arch/amigaos/intl_text.c.po.c:8589
@@ -5041,9 +5039,8 @@ msgid "VICE CPU JAM"
 msgstr "VICE CPU JAM"
 
 #: src/arch/win32/res.rc.po.c:927 src/arch/amigaos/intl_text.c.po.c:5550
-#, fuzzy
 msgid "Do you want to extend the image?"
-msgstr "Soll das Diskimage auf 40 Spuren erweitert werden?"
+msgstr "Soll das Diskimage erweitert werden?"
 
 #: src/arch/win32/res.rc.po.c:928
 #, c-format
@@ -5237,9 +5234,8 @@ msgid "Printer 6"
 msgstr "Drucker 6"
 
 #: src/arch/win32/res.rc.po.c:978
-#, fuzzy
 msgid "Device 7"
-msgstr "Laufwerk #8"
+msgstr "Gerät 7"
 
 #: src/arch/win32/res.rc.po.c:980 src/arch/win32/res.rc.po.c:1359
 #: src/arch/win32/res.rc.po.c:1537 src/arch/amigaos/intl_text.c.po.c:48
@@ -6173,7 +6169,7 @@ msgstr "$A000-$BFFF RAM"
 #: src/arch/win32/resscpu64.rc.po.c:78 src/arch/win32/resvic20.rc.po.c:87
 #: src/arch/amigaos/intl_text.c.po.c:11291
 msgid "Default CPU JAM action"
-msgstr ""
+msgstr "Standard CPU JAM Aktion"
 
 #: src/arch/win32/res.rc.po.c:1335 src/arch/win32/resc128.rc.po.c:113
 #: src/arch/win32/resc64.rc.po.c:113 src/arch/win32/resc64dtv.rc.po.c:80
@@ -6741,9 +6737,8 @@ msgid "Kernal SE"
 msgstr "Kernal SE"
 
 #: src/arch/win32/resc128.rc.po.c:646
-#, fuzzy
 msgid "Kernal CH"
-msgstr "Kernal C64"
+msgstr "Kernal CH"
 
 #: src/arch/win32/resc128.rc.po.c:647
 msgid "Basic LO"
@@ -6770,9 +6765,8 @@ msgid "Char. SE"
 msgstr "Char. SE"
 
 #: src/arch/win32/resc128.rc.po.c:653
-#, fuzzy
 msgid "Char. CH"
-msgstr "Char. DE"
+msgstr "Char. CH"
 
 #: src/arch/win32/resc128.rc.po.c:654
 msgid "Kernal C64"
@@ -7641,12 +7635,11 @@ msgstr "Passband"
 
 #: src/arch/win32/ressid.rc.po.c:93 src/arch/amigaos/intl_text.c.po.c:9177
 msgid "Gain"
-msgstr ""
+msgstr "Gain"
 
 #: src/arch/win32/ressid.rc.po.c:94 src/arch/amigaos/intl_text.c.po.c:9191
-#, fuzzy
 msgid "Filter bias"
-msgstr "ReSID Filter Bias"
+msgstr "Filter Bias"
 
 #: src/arch/win32/ressid.rc.po.c:95 src/arch/win32/ressiddtv.rc.po.c:63
 msgid "Device selection"
@@ -7851,9 +7844,8 @@ msgstr "Vorheriger Titel "
 
 #: src/arch/amigaos/intl_text.c.po.c:132
 #: src/arch/amigaos/intl_text.c.po.c:11305
-#, fuzzy
 msgid "CPU JAM action settings"
-msgstr "CRT Emulator Einstellungen"
+msgstr "CPU JAM Aktion Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:650
 msgid "Function low  image (3plus1)"
@@ -7928,9 +7920,8 @@ msgid "Vertical stretch"
 msgstr "Vertikale Dehnung"
 
 #: src/arch/amigaos/intl_text.c.po.c:2036
-#, fuzzy
 msgid "Drive sound emulation settings"
-msgstr "Laufwerk Geräuschemulation"
+msgstr "Laufwerk Geräuschemulation Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:2092
 msgid "PAL"
@@ -8747,14 +8738,12 @@ msgid "DigiMAX Enabled"
 msgstr "DigiMAX aktiviert"
 
 #: src/arch/amigaos/intl_text.c.po.c:11319
-#, fuzzy
 msgid "Drive sound enabled"
-msgstr "Laufwerk Geräuschemulation"
+msgstr "Laufwerk Geräuschemulation aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:11333
-#, fuzzy
 msgid "Drive sound settings"
-msgstr "Floppy Einstellungen"
+msgstr "Laufwerk Geräuschemulation Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:11347
 msgid "DS12C887 RTC Enabled"
@@ -8829,9 +8818,8 @@ msgid "Save to EasyFlash CRT now"
 msgstr "EasyFlash CRT Imagedatei jetzt speichern"
 
 #: src/arch/amigaos/intl_text.c.po.c:12383
-#, fuzzy
 msgid "Reset IEC bus with computer"
-msgstr "Zähler zurücksetzen"
+msgstr "IEC mit Computer zurücksetzen"
 
 #: src/arch/amigaos/intl_text.c.po.c:12411
 msgid "CIA model settings"
@@ -9956,13 +9944,12 @@ msgid "Disable random initial autostart delay."
 msgstr "Zufälle Verzögerung während Autostart deaktivieren."
 
 #: src/translate_text.c.po.c:3281
-#, fuzzy
 msgid ""
 "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard "
 "Reset, 5: Quit Emulator)"
 msgstr ""
 "Aktion bei CPU JAM: (0: Nachfrage, 1: Weitermachen, 2: Monitor, 3:\n"
-"Reset, 4: Hard Reset)"
+"Reset, 4: Hard Reset, 5: Emulator beenden)"
 
 #: src/translate_text.c.po.c:3298
 msgid "Use PAL sync factor"
@@ -10013,9 +10000,8 @@ msgid "Specify name of Swedish Kernal ROM image"
 msgstr "Name für schwedische Kernal ROM Datei definieren"
 
 #: src/translate_text.c.po.c:3519
-#, fuzzy
 msgid "Specify name of Swiss Kernal ROM image"
-msgstr "Name für schwedische Kernal ROM Datei definieren"
+msgstr "Name für schweizer Kernal ROM Datei definieren"
 
 #: src/translate_text.c.po.c:3536
 msgid "Specify name of BASIC ROM image (lower part)"
@@ -11280,9 +11266,8 @@ msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Geräte Typ für Gerät #5 (0: NONE, 1: FS, 2: REAL) setzen"
 
 #: src/translate_text.c.po.c:9481
-#, fuzzy
 msgid "Set device type for device #6 (0: NONE, 1: FS, 2: REAL)"
-msgstr "Geräte Typ für Gerät #4 (0: NONE, 1: FS, 2: REAL) setzen"
+msgstr "Geräte Typ für Gerät #6 (0: NONE, 1: FS, 2: REAL) setzen"
 
 #: src/translate_text.c.po.c:9498
 msgid "Enable the userport printer emulation"
@@ -11885,9 +11870,8 @@ msgid "Attach <name> as a disk image in drive #11"
 msgstr "Image Datei <Name> im Laufwerk #11 einlegen"
 
 #: src/translate_text.c.po.c:12151
-#, fuzzy
 msgid "Set additional keyboard buffer delay (0: use default)"
-msgstr "Setze initiale Autostart Verzögerung (0: benutze Standard)"
+msgstr "Setze zusätzliche Tastaturbuffer Verzögerung (0: benutze Standard)"
 
 #: src/translate_text.c.po.c:12168
 msgid "Specify log file name"
