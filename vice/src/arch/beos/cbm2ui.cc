@@ -27,7 +27,10 @@
 #include "vice.h"
 
 #include <Message.h>
+#include <Window.h>
 #include <stdio.h>
+
+#include "ui_file.h"
 
 extern "C" {
 #include "cartridge.h"

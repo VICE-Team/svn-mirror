@@ -186,7 +186,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
 
-    if (machine_class == VICE_MACHINE_CBM2 || machine_class == VICE_MACHINE_CBM5X0) {
+    if (machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(menu = new BMenu("Cartridge image"));
             menu->AddItem(new BMenuItem("Load new Cart $1000", new BMessage(MENU_CART_CBM2_LOAD_1000)));
             menu->AddItem(new BMenuItem("Unload Cart $1000", new BMessage(MENU_CART_CBM2_UNLOAD_1000)));
@@ -443,14 +443,14 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Hummer (NTSC)", new BMessage(MENU_C64DTV_MODEL_HUMMER_NTSC)));
     }
 
-    if (machine_class == VICE_MACHINE_CBM5X0) {
+    if (machine_class == VICE_MACHINE_CBM5x0) {
         uppermenu->AddItem(menu = new BMenu("CBM5x0 model"));
             menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("510 (PAL)", new BMessage(MENU_CBM5X0_MODEL_510_PAL)));
             menu->AddItem(new BMenuItem("510 (NTSC)", new BMessage(MENU_CBM5X0_MODEL_510_NTSC)));
     }
 
-    if (machine_class == VICE_MACHINE_CBM6X0) {
+    if (machine_class == VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(menu = new BMenu("CBM2 model"));
             menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("610 (PAL)", new BMessage(MENU_CBM2_MODEL_610_PAL)));
@@ -498,7 +498,7 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("VIC21/SuperVIC", new BMessage(MENU_VIC20_MODEL_VIC21)));
     }
 
-    if (machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_CBM5X0 || machine_class == VICE_MACHINE_CBM6X0) {
+    if (machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(menu = new BMenu("CIA-1 model"));
             menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA1_MODEL_6526_OLD)));

@@ -59,7 +59,7 @@ class Cbm5x0Window : public BWindow {
         virtual void MessageReceived(BMessage *msg);
 };
 
-static Cbm2Window *cbm5x0window = NULL;
+static Cbm5x0Window *cbm5x0window = NULL;
 
 Cbm5x0Window::Cbm5x0Window()
     : BWindow(BRect(50,50,340,355),"CBM5x0 settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
