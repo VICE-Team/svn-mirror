@@ -192,6 +192,7 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
     switch (type) {
         case DRIVE_TYPE_1541:
         case DRIVE_TYPE_1541II:
+        case DRIVE_TYPE_2031:
             mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, NULL);
             mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, NULL);
             break;
@@ -218,7 +219,6 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
             mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, NULL);
             mon_ioreg_add_list(&drivemem_ioreg_list, "PC8477", 0x4e00, 0x4e07, NULL);
             break;
-        case DRIVE_TYPE_2031:
         case DRIVE_TYPE_2040:
         case DRIVE_TYPE_3040:
         case DRIVE_TYPE_4040:
