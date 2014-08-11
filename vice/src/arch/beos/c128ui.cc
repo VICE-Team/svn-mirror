@@ -391,6 +391,102 @@ static void c128_ui_specific(void *msg, void *window)
                 ui_error("Error saving EasyFlash .crt file");
             }
             break;
+        case MENU_COMPUTER_KERNAL_INT_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_INT_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_KERNAL_DE_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_DE_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_KERNAL_FI_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_FI_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_KERNAL_FR_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_FR_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_KERNAL_IT_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_IT_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_KERNAL_NO_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_NO_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_KERNAL_SE_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_SE_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_KERNAL_CH_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_CH_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_KERNAL_64_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_64_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_BASIC_LO_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_BASIC_LO_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_BASIC_HI_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_BASIC_HI_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_BASIC_64_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_BASIC_64_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_CHARGEN_INT_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_INT_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_CHARGEN_DE_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_DE_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_CHARGEN_FR_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_FR_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_CHARGEN_SE_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_SE_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_CHARGEN_CH_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_CH_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1541_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1541_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1541II_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1541II_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1570_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1570_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1571_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1571_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1571CR_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1571CR_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1581_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1581_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_2000_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_2000_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_4000_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_4000_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_2031_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_2031_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_2040_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_2040_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_3040_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_3040_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_4040_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_4040_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1001_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1001_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_PROFDOS_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_PROFDOS_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_SUPERCARD_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_SUPERCARD_ROM_FILE, (void*)0);
+            break;
         default:
             break;
     }

@@ -390,25 +390,154 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
         sprintf(title, "Select VOC Sound Recording file");
     }
     if (filetype == WAV_FILE) {
-        sprintf(title,"Select WAV Sound Recording file");
+        sprintf(title, "Select WAV Sound Recording file");
     }
     if (filetype == VIC20_GENERIC_CART_FILE) {
-        sprintf(title,"Select generic cartridge file");
+        sprintf(title, "Select generic cartridge file");
     }
     if (filetype == VIC20_FP_FILE) {
-        sprintf(title,"Select Vic Flash Plugin file");
+        sprintf(title, "Select Vic Flash Plugin file");
     }
     if (filetype == VIC20_MEGACART_FILE) {
-        sprintf(title,"Select Mega-Cart file");
+        sprintf(title, "Select Mega-Cart file");
     }
     if (filetype == VIC20_MEGACART_NVRAM_FILE) {
-        sprintf(title,"Select Mega-Cart nvram file");
+        sprintf(title, "Select Mega-Cart nvram file");
     }
     if (filetype == VIC20_FINAL_EXPANSION_FILE) {
-        sprintf(title,"Select Final Expansion file");
+        sprintf(title, "Select Final Expansion file");
     }
     if (filetype == VIC20_SMART_CART_ATTACH_FILE) {
-        sprintf(title,"Select cartridge file");
+        sprintf(title, "Select cartridge file");
+    }
+    if (filetype == COMPUTER_KERNAL_ROM_FILE) {
+        sprintf(title, "Select Kernal ROM file");
+    }
+    if (filetype == COMPUTER_BASIC_ROM_FILE) {
+        sprintf(title, "Select Basic ROM file");
+    }
+    if (filetype == COMPUTER_SCPU64_ROM_FILE) {
+        sprintf(title, "Select SCPU64 ROM file");
+    }
+    if (filetype == COMPUTER_KERNAL_INT_ROM_FILE) {
+        sprintf(title, "Select International Kernal ROM file");
+    }
+    if (filetype == COMPUTER_KERNAL_DE_ROM_FILE) {
+        sprintf(title, "Select German Kernal ROM file");
+    }
+    if (filetype == COMPUTER_KERNAL_FI_ROM_FILE) {
+        sprintf(title, "Select Finnish Kernal ROM file");
+    }
+    if (filetype == COMPUTER_KERNAL_FR_ROM_FILE) {
+        sprintf(title, "Select French Kernal ROM file");
+    }
+    if (filetype == COMPUTER_KERNAL_IT_ROM_FILE) {
+        sprintf(title, "Select Italian Kernal ROM file");
+    }
+    if (filetype == COMPUTER_KERNAL_NO_ROM_FILE) {
+        sprintf(title, "Select Norwegian Kernal ROM file");
+    }
+    if (filetype == COMPUTER_KERNAL_SE_ROM_FILE) {
+        sprintf(title, "Select Swedish Kernal ROM file");
+    }
+    if (filetype == COMPUTER_KERNAL_CH_ROM_FILE) {
+        sprintf(title, "Select Swiss Kernal ROM file");
+    }
+    if (filetype == COMPUTER_KERNAL_64_ROM_FILE) {
+        sprintf(title, "Select C64 Kernal ROM file");
+    }
+    if (filetype == COMPUTER_BASIC_LO_ROM_FILE) {
+        sprintf(title, "Select Basic LO ROM file");
+    }
+    if (filetype == COMPUTER_BASIC_HI_ROM_FILE) {
+        sprintf(title, "Select Basic HI ROM file");
+    }
+    if (filetype == COMPUTER_BASIC_64_ROM_FILE) {
+        sprintf(title, "Select C64 Basic ROM file");
+    }
+    if (filetype == COMPUTER_CHARGEN_INT_ROM_FILE) {
+        sprintf(title, "Select International Chargen ROM file");
+    }
+    if (filetype == COMPUTER_CHARGEN_DE_ROM_FILE) {
+        sprintf(title, "Select German Chargen ROM file");
+    }
+    if (filetype == COMPUTER_CHARGEN_FR_ROM_FILE) {
+        sprintf(title, "Select French Chargen ROM file");
+    }
+    if (filetype == COMPUTER_CHARGEN_SE_ROM_FILE) {
+        sprintf(title, "Select Swedish Chargen ROM file");
+    }
+    if (filetype == COMPUTER_CHARGEN_CH_ROM_FILE) {
+        sprintf(title, "Select Swiss Chargen ROM file");
+    }
+    if (filetype == COMPUTER_CHARGEN_ROM_FILE) {
+        sprintf(title, "Select Chargen ROM file");
+    }
+    if (filetype == COMPUTER_EDITOR_ROM_FILE) {
+        sprintf(title, "Select Editor ROM file");
+    }
+    if (filetype == COMPUTER_ROM_9_FILE) {
+        sprintf(title, "Select ROM 9 file");
+    }
+    if (filetype == COMPUTER_ROM_A_FILE) {
+        sprintf(title, "Select ROM A file");
+    }
+    if (filetype == COMPUTER_ROM_B_FILE) {
+        sprintf(title, "Select ROM B file");
+    }
+    if (filetype == COMPUTER_FUNCTION_LO_ROM_FILE) {
+        sprintf(title, "Select Function LO ROM file");
+    }
+    if (filetype == COMPUTER_FUNCTION_HI_ROM_FILE) {
+        sprintf(title, "Select Function HI ROM file");
+    }
+    if (filetype == DRIVE_1541_ROM_FILE) {
+        sprintf(title, "Select 1541 ROM file");
+    }
+    if (filetype == DRIVE_1541II_ROM_FILE) {
+        sprintf(title, "Select 1541-II ROM file");
+    }
+    if (filetype == DRIVE_1551_ROM_FILE) {
+        sprintf(title, "Select 1551 ROM file");
+    }
+    if (filetype == DRIVE_1570_ROM_FILE) {
+        sprintf(title, "Select 1570 ROM file");
+    }
+    if (filetype == DRIVE_1571_ROM_FILE) {
+        sprintf(title, "Select 1571 ROM file");
+    }
+    if (filetype == DRIVE_1571CR_ROM_FILE) {
+        sprintf(title, "Select 1571CR ROM file");
+    }
+    if (filetype == DRIVE_1581_ROM_FILE) {
+        sprintf(title, "Select 1581 ROM file");
+    }
+    if (filetype == DRIVE_2000_ROM_FILE) {
+        sprintf(title, "Select FD2000 ROM file");
+    }
+    if (filetype == DRIVE_4000_ROM_FILE) {
+        sprintf(title, "Select FD4000 ROM file");
+    }
+    if (filetype == DRIVE_2031_ROM_FILE) {
+        sprintf(title, "Select 2031 ROM file");
+    }
+    if (filetype == DRIVE_2040_ROM_FILE) {
+        sprintf(title, "Select 2040 ROM file");
+    }
+    if (filetype == DRIVE_3040_ROM_FILE) {
+        sprintf(title, "Select 3040 ROM file");
+    }
+    if (filetype == DRIVE_4040_ROM_FILE) {
+        sprintf(title, "Select 4040 ROM file");
+    }
+    if (filetype == DRIVE_1001_ROM_FILE) {
+        sprintf(title, "Select 1001 ROM file");
+    }
+    if (filetype == DRIVE_PROFDOS_ROM_FILE) {
+        sprintf(title, "Select Professional DOS ROM file");
+    }
+    if (filetype == DRIVE_SUPERCARD_ROM_FILE) {
+        sprintf(title, "Select SuperCard+ ROM file");
     }
 
     filepanel->Window()->SetTitle(title);
@@ -633,6 +762,92 @@ void ui_select_file_action(BMessage *msg)
             if (cartridge_attach_image(CARTRIDGE_VIC20_DETECT, fullpath) < 0) {
                 ui_error("Invalid cartridge image");
             }
+        } else if (last_filetype[1] == COMPUTER_KERNAL_ROM_FILE) {
+            resources_set_string("KernalName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_BASIC_ROM_FILE) {
+            resources_set_string("BasicName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_SCPU64_ROM_FILE) {
+            resources_set_string("SCPU64Name", fullpath);
+        } else if (last_filetype[1] == COMPUTER_KERNAL_INT_ROM_FILE) {
+            resources_set_string("KernalIntName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_KERNAL_DE_ROM_FILE) {
+            resources_set_string("KernalDEName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_KERNAL_FI_ROM_FILE) {
+            resources_set_string("KernalFIName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_KERNAL_FR_ROM_FILE) {
+            resources_set_string("KernalFRName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_KERNAL_IT_ROM_FILE) {
+            resources_set_string("KernalITName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_KERNAL_NO_ROM_FILE) {
+            resources_set_string("KernalNOName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_KERNAL_SE_ROM_FILE) {
+            resources_set_string("KernalSEName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_KERNAL_CH_ROM_FILE) {
+            resources_set_string("KernalCHName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_KERNAL_64_ROM_FILE) {
+            resources_set_string("Kernal64Name", fullpath);
+        } else if (last_filetype[1] == COMPUTER_BASIC_LO_ROM_FILE) {
+            resources_set_string("BasicLoName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_BASIC_HI_ROM_FILE) {
+            resources_set_string("BasicHiName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_BASIC_64_ROM_FILE) {
+            resources_set_string("Basic64Name", fullpath);
+        } else if (last_filetype[1] == COMPUTER_CHARGEN_INT_ROM_FILE) {
+            resources_set_string("ChargenIntName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_CHARGEN_DE_ROM_FILE) {
+            resources_set_string("ChargenDEName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_CHARGEN_FR_ROM_FILE) {
+            resources_set_string("ChargenFRName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_CHARGEN_SE_ROM_FILE) {
+            resources_set_string("ChargenSEName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_CHARGEN_CH_ROM_FILE) {
+            resources_set_string("ChargenCHName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_CHARGEN_ROM_FILE) {
+            resources_set_string("ChargenName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_EDITOR_ROM_FILE) {
+            resources_set_string("EditorName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_ROM_9_FILE) {
+            resources_set_string("RomModule9Name", fullpath);
+        } else if (last_filetype[1] == COMPUTER_ROM_A_FILE) {
+            resources_set_string("RomModuleAName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_ROM_B_FILE) {
+            resources_set_string("RomModuleBName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_FUNCTION_LO_ROM_FILE) {
+            resources_set_string("FunctionLowName", fullpath);
+        } else if (last_filetype[1] == COMPUTER_FUNCTION_HI_ROM_FILE) {
+            resources_set_string("FunctionHighName", fullpath);
+        } else if (last_filetype[1] == DRIVE_1541_ROM_FILE) {
+            resources_set_string("DosName1541", fullpath);
+        } else if (last_filetype[1] == DRIVE_1541II_ROM_FILE) {
+            resources_set_string("DosName1541ii", fullpath);
+        } else if (last_filetype[1] == DRIVE_1551_ROM_FILE) {
+            resources_set_string("DosName1551", fullpath);
+        } else if (last_filetype[1] == DRIVE_1570_ROM_FILE) {
+            resources_set_string("DosName1570", fullpath);
+        } else if (last_filetype[1] == DRIVE_1571_ROM_FILE) {
+            resources_set_string("DosName1571", fullpath);
+        } else if (last_filetype[1] == DRIVE_1571CR_ROM_FILE) {
+            resources_set_string("DosName1571cr", fullpath);
+        } else if (last_filetype[1] == DRIVE_1581_ROM_FILE) {
+            resources_set_string("DosName1581", fullpath);
+        } else if (last_filetype[1] == DRIVE_2000_ROM_FILE) {
+            resources_set_string("DosName2000", fullpath);
+        } else if (last_filetype[1] == DRIVE_4000_ROM_FILE) {
+            resources_set_string("DosName4000", fullpath);
+        } else if (last_filetype[1] == DRIVE_2031_ROM_FILE) {
+            resources_set_string("DosName2031", fullpath);
+        } else if (last_filetype[1] == DRIVE_2040_ROM_FILE) {
+            resources_set_string("DosName2040", fullpath);
+        } else if (last_filetype[1] == DRIVE_3040_ROM_FILE) {
+            resources_set_string("DosName3040", fullpath);
+        } else if (last_filetype[1] == DRIVE_4040_ROM_FILE) {
+            resources_set_string("DosName4040", fullpath);
+        } else if (last_filetype[1] == DRIVE_1001_ROM_FILE) {
+            resources_set_string("DosName1001", fullpath);
+        } else if (last_filetype[1] == DRIVE_PROFDOS_ROM_FILE) {
+            resources_set_string("DriveProfDOS1571Name", fullpath);
+        } else if (last_filetype[1] == DRIVE_SUPERCARD_ROM_FILE) {
+            resources_set_string("DriveSuperCardName", fullpath);
         }
         delete path;
         delete fullpath;

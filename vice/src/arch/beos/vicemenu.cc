@@ -1159,6 +1159,73 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("SID cartridge ...", new BMessage(MENU_SIDCART_SETTINGS)));
     }
 
+    uppermenu->AddItem(menu = new BMenu("Computer ROM ..."));
+        if (machine_class != VICE_MACHINE_SCPU64 && machine_class != VICE_MACHINE_C128) {
+            menu->AddItem(new BMenuItem("Select Kernal ROM file", new BMessage(MENU_COMPUTER_KERNAL_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select Basic ROM file", new BMessage(MENU_COMPUTER_BASIC_ROM_FILE)));
+        } else if (machine_class == VICE_MACHINE_SCPU64) {
+            menu->AddItem(new BMenuItem("Select SCPU64 ROM file", new BMessage(MENU_COMPUTER_SCPU64_ROM_FILE)));
+        } else {
+            menu->AddItem(new BMenuItem("Select International Kernal ROM file", new BMessage(MENU_COMPUTER_KERNAL_INT_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select German Kernal ROM file", new BMessage(MENU_COMPUTER_KERNAL_DE_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select Finnish Kernal ROM file", new BMessage(MENU_COMPUTER_KERNAL_FI_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select French Kernal ROM file", new BMessage(MENU_COMPUTER_KERNAL_FR_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select Italian Kernal ROM file", new BMessage(MENU_COMPUTER_KERNAL_IT_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select Norwegian Kernal ROM file", new BMessage(MENU_COMPUTER_KERNAL_NO_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select Swedish Kernal ROM file", new BMessage(MENU_COMPUTER_KERNAL_SE_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select Swiss Kernal ROM file", new BMessage(MENU_COMPUTER_KERNAL_CH_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select C64 Kernal ROM file", new BMessage(MENU_COMPUTER_KERNAL_64_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select Basic LO ROM file", new BMessage(MENU_COMPUTER_BASIC_LO_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select Basic HI ROM file", new BMessage(MENU_COMPUTER_BASIC_HI_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select C64 Basic ROM file", new BMessage(MENU_COMPUTER_BASIC_64_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select International Chargen ROM file", new BMessage(MENU_COMPUTER_CHARGEN_INT_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select German Chargen ROM file", new BMessage(MENU_COMPUTER_CHARGEN_DE_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select French Chargen ROM file", new BMessage(MENU_COMPUTER_CHARGEN_FR_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select Swedish Chargen ROM file", new BMessage(MENU_COMPUTER_CHARGEN_SE_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select Swiss Chargen ROM file", new BMessage(MENU_COMPUTER_CHARGEN_CH_ROM_FILE)));
+        }
+        if (machine_class != VICE_MACHINE_C128 && machine_class != VICE_MACHINE_PLUS4) {
+            menu->AddItem(new BMenuItem("Select Chargen ROM file", new BMessage(MENU_COMPUTER_CHARGEN_ROM_FILE)));
+        }
+        if (machine_class == VICE_MACHINE_PET) {
+            menu->AddItem(new BMenuItem("Select Editor ROM file", new BMessage(MENU_COMPUTER_EDITOR_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select ROM 9 file", new BMessage(MENU_COMPUTER_ROM_9_FILE)));
+            menu->AddItem(new BMenuItem("Select ROM A file", new BMessage(MENU_COMPUTER_ROM_A_FILE)));
+            menu->AddItem(new BMenuItem("Select ROM B file", new BMessage(MENU_COMPUTER_ROM_B_FILE)));
+        }
+        if (machine_class == VICE_MACHINE_PLUS4) {
+            menu->AddItem(new BMenuItem("Select Function LO ROM file", new BMessage(MENU_COMPUTER_FUNCTION_LO_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select Function HI ROM file", new BMessage(MENU_COMPUTER_FUNCTION_HI_ROM_FILE)));
+        }
+
+    uppermenu->AddItem(menu = new BMenu("Drive ROM ..."));
+        if (machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PET) {
+            menu->AddItem(new BMenuItem("Select 1541 ROM file", new BMessage(MENU_DRIVE_1541_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select 1541-II ROM file", new BMessage(MENU_DRIVE_1541II_ROM_FILE)));
+            if (machine_class == VICE_MACHINE_PLUS4) {
+                menu->AddItem(new BMenuItem("Select 1551 ROM file", new BMessage(MENU_DRIVE_1551_ROM_FILE)));
+            }
+            menu->AddItem(new BMenuItem("Select 1570 ROM file", new BMessage(MENU_DRIVE_1570_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select 1571 ROM file", new BMessage(MENU_DRIVE_1571_ROM_FILE)));
+            if (machine_class == VICE_MACHINE_C128) {
+                menu->AddItem(new BMenuItem("Select 1571CR ROM file", new BMessage(MENU_DRIVE_1571CR_ROM_FILE)));
+            }
+            menu->AddItem(new BMenuItem("Select 1581 ROM file", new BMessage(MENU_DRIVE_1581_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select FD2000 ROM file", new BMessage(MENU_DRIVE_2000_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select FD4000 ROM file", new BMessage(MENU_DRIVE_4000_ROM_FILE)));
+        }
+        if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VIC20) {
+            menu->AddItem(new BMenuItem("Select 2031 ROM file", new BMessage(MENU_DRIVE_2031_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select 2040 ROM file", new BMessage(MENU_DRIVE_2040_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select 3040 ROM file", new BMessage(MENU_DRIVE_3040_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select 4040 ROM file", new BMessage(MENU_DRIVE_4040_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select 1001 ROM file", new BMessage(MENU_DRIVE_1001_ROM_FILE)));
+        }
+        if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128) {
+            menu->AddItem(new BMenuItem("Select Professional DOS ROM file", new BMessage(MENU_DRIVE_PROFDOS_ROM_FILE)));
+            menu->AddItem(new BMenuItem("Select SuperCard+ ROM file", new BMessage(MENU_DRIVE_SUPERCARD_ROM_FILE)));
+        }
+
     uppermenu->AddItem(new BMenuItem("RAM ...", new BMessage(MENU_RAM_SETTINGS)));
 
     if (machine_class == VICE_MACHINE_C128) {

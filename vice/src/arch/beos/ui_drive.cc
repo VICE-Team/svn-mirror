@@ -60,6 +60,8 @@ struct _drive_expansion {
     { "$6000-$7FFF RAM", "Drive%dRAM6000" },
     { "$8000-$9FFF RAM", "Drive%dRAM8000" },
     { "$A000-$BFFF RAM", "Drive%dRAMA000" },
+    { "Professional DOS", "Drive%dProfDOS" },
+    { "SuperCard+", "Drive%dSuperCard" },
     { NULL, NULL }
 };
 

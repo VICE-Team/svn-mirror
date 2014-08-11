@@ -553,6 +553,57 @@ static void c64_ui_specific(void *msg, void *window)
         case MENU_C64_MODEL_ULTIMAX:
             c64model_set(C64MODEL_ULTIMAX);
             break;
+        case MENU_COMPUTER_KERNAL_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_BASIC_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_BASIC_ROM_FILE, (void*)0);
+            break;
+        case MENU_COMPUTER_CHARGEN_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1541_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1541_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1541II_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1541II_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1570_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1570_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1571_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1571_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1581_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1581_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_2000_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_2000_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_4000_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_4000_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_2031_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_2031_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_2040_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_2040_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_3040_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_3040_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_4040_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_4040_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1001_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1001_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_PROFDOS_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_PROFDOS_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_SUPERCARD_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_SUPERCARD_ROM_FILE, (void*)0);
+            break;
         default:
             break;
     }
