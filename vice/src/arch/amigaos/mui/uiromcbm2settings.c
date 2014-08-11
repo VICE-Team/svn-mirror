@@ -40,10 +40,6 @@ static ui_to_from_t ui_to_from_computer[] = {
     { NULL, MUI_TYPE_FILENAME, "KernalName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "BasicName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "ChargenName", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "Cart1Name", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "Cart2Name", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "Cart4Name", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "Cart6Name", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 
@@ -63,10 +59,6 @@ static APTR hook_object_drive[countof(ui_to_from_drive)];
     BROWSE(BrowseComputer0, ComputerHook0, ui_to_from_computer[0].object);
     BROWSE(BrowseComputer1, ComputerHook1, ui_to_from_computer[1].object);
     BROWSE(BrowseComputer2, ComputerHook2, ui_to_from_computer[2].object);
-    BROWSE(BrowseComputer3, ComputerHook3, ui_to_from_computer[3].object);
-    BROWSE(BrowseComputer4, ComputerHook4, ui_to_from_computer[4].object);
-    BROWSE(BrowseComputer5, ComputerHook5, ui_to_from_computer[5].object);
-    BROWSE(BrowseComputer6, ComputerHook6, ui_to_from_computer[6].object);
 
     BROWSE(BrowseDrive0, DriveHook0, ui_to_from_drive[0].object);
     BROWSE(BrowseDrive1, DriveHook1, ui_to_from_drive[1].object);
@@ -84,10 +76,6 @@ static APTR build_computer_gui(void)
            FILENAME(ui_to_from_computer[0].object, "Kernal", hook_object_computer[0])
            FILENAME(ui_to_from_computer[1].object, "Basic", hook_object_computer[1])
            FILENAME(ui_to_from_computer[2].object, "Character", hook_object_computer[2])
-           FILENAME(ui_to_from_computer[3].object, "Cart 1", hook_object_computer[3])
-           FILENAME(ui_to_from_computer[4].object, "Cart 2", hook_object_computer[4])
-           FILENAME(ui_to_from_computer[5].object, "Cart 4", hook_object_computer[5])
-           FILENAME(ui_to_from_computer[6].object, "Cart 6", hook_object_computer[6])
            OK_CANCEL_BUTTON
          End;
 
@@ -106,18 +94,6 @@ static APTR build_computer_gui(void)
 
         DoMethod(hook_object_computer[2], MUIM_Notify, MUIA_Pressed, FALSE,
                  app, 2, MUIM_CallHook, &BrowseComputer2);
-
-        DoMethod(hook_object_computer[3], MUIM_Notify, MUIA_Pressed, FALSE,
-                 app, 2, MUIM_CallHook, &BrowseComputer3);
-
-        DoMethod(hook_object_computer[4], MUIM_Notify, MUIA_Pressed, FALSE,
-                 app, 2, MUIM_CallHook, &BrowseComputer4);
-
-        DoMethod(hook_object_computer[5], MUIM_Notify, MUIA_Pressed, FALSE,
-                 app, 2, MUIM_CallHook, &BrowseComputer5);
-
-        DoMethod(hook_object_computer[6], MUIM_Notify, MUIA_Pressed, FALSE,
-                 app, 2, MUIM_CallHook, &BrowseComputer6);
     }
 
     return ui;
