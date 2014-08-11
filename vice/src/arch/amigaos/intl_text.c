@@ -6929,6 +6929,34 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PARALLEL_CABLE_SV, "Parallellkabel" },
 /* tr */ { IDS_PARALLEL_CABLE_TR, "Paralel kablo" },
 
+/* en */ { IDS_PROFESSIONAL_DOS,    "Professional DOS" },
+/* da */ { IDS_PROFESSIONAL_DOS_DA, "" },  /* fuzzy */
+/* de */ { IDS_PROFESSIONAL_DOS_DE, "" },  /* fuzzy */
+/* es */ { IDS_PROFESSIONAL_DOS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_PROFESSIONAL_DOS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PROFESSIONAL_DOS_HU, "" },  /* fuzzy */
+/* it */ { IDS_PROFESSIONAL_DOS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_PROFESSIONAL_DOS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_PROFESSIONAL_DOS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PROFESSIONAL_DOS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_PROFESSIONAL_DOS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_PROFESSIONAL_DOS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PROFESSIONAL_DOS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SUPERCARD_PLUS,    "SuperCard+" },
+/* da */ { IDS_SUPERCARD_PLUS_DA, "" },  /* fuzzy */
+/* de */ { IDS_SUPERCARD_PLUS_DE, "" },  /* fuzzy */
+/* es */ { IDS_SUPERCARD_PLUS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SUPERCARD_PLUS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SUPERCARD_PLUS_HU, "" },  /* fuzzy */
+/* it */ { IDS_SUPERCARD_PLUS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SUPERCARD_PLUS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SUPERCARD_PLUS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SUPERCARD_PLUS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SUPERCARD_PLUS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SUPERCARD_PLUS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SUPERCARD_PLUS_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_DRIVE_SETTINGS,    "Drive settings" },
 /* da */ { IDS_DRIVE_SETTINGS_DA, "Diskettedrevsindstillinger" },
 /* de */ { IDS_DRIVE_SETTINGS_DE, "Floppy Einstellungen" },

@@ -73,6 +73,8 @@ static ui_to_from_t ui_to_from_drive[] = {
     { NULL, MUI_TYPE_FILENAME, "DosName3040", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "DosName4040", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "DosName1001", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DriveProfDOS1571Name", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DriveSuperCardName", NULL, NULL },
     UI_END /* mandatory */
 };
 
@@ -109,6 +111,8 @@ static APTR hook_object_drive[countof(ui_to_from_drive)];
     BROWSE(BrowseDrive10, DriveHook10, ui_to_from_drive[10].object);
     BROWSE(BrowseDrive11, DriveHook11, ui_to_from_drive[11].object);
     BROWSE(BrowseDrive12, DriveHook12, ui_to_from_drive[12].object);
+    BROWSE(BrowseDrive13, DriveHook13, ui_to_from_drive[13].object);
+    BROWSE(BrowseDrive14, DriveHook14, ui_to_from_drive[14].object);
 
 static APTR build_computer_gui(void)
 {
@@ -219,6 +223,8 @@ static APTR build_drive_gui(void)
            FILENAME(ui_to_from_drive[10].object, "3040", hook_object_drive[10])
            FILENAME(ui_to_from_drive[11].object, "4040", hook_object_drive[11])
            FILENAME(ui_to_from_drive[12].object, "1001", hook_object_drive[12])
+           FILENAME(ui_to_from_drive[13].object, "ProfDOS", hook_object_drive[13])
+           FILENAME(ui_to_from_drive[14].object, "SC+", hook_object_drive[14])
            OK_CANCEL_BUTTON
          End;
 
@@ -267,6 +273,12 @@ static APTR build_drive_gui(void)
 
       DoMethod(hook_object_drive[12], MUIM_Notify, MUIA_Pressed, FALSE,
                app, 2, MUIM_CallHook, &BrowseDrive12);
+
+      DoMethod(hook_object_drive[13], MUIM_Notify, MUIA_Pressed, FALSE,
+               app, 2, MUIM_CallHook, &BrowseDrive13);
+
+      DoMethod(hook_object_drive[14], MUIM_Notify, MUIA_Pressed, FALSE,
+               app, 2, MUIM_CallHook, &BrowseDrive14);
     }
 
     return ui;

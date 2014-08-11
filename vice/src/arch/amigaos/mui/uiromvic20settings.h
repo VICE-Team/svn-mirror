@@ -1,5 +1,5 @@
 /*
- * uiromc64vic20settings.h
+ * uiromvic20settings.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,10 +24,10 @@
  *
  */
 
-#ifndef VICE_UIROMC64VIC20SETTINGS_H
-#define VICE_UIROMC64VIC20SETTINGS_H
+#ifndef VICE_UIROMVIC20SETTINGS_H
+#define VICE_UIROMVIC20SETTINGS_H
 
-extern void ui_c64vic20_computer_rom_settings_dialog(video_canvas_t *canvas);
-extern void ui_c64vic20_drive_rom_settings_dialog(video_canvas_t *canvas);
+extern void ui_vic20_computer_rom_settings_dialog(video_canvas_t *canvas);
+extern void ui_vic20_drive_rom_settings_dialog(video_canvas_t *canvas);
 
 #endif

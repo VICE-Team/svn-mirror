@@ -45,7 +45,7 @@
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
 #include "mui/uiprinter.h"
-#include "mui/uiromc64vic20settings.h"
+#include "mui/uiromvic20settings.h"
 #include "mui/uirs232user.h"
 #include "mui/uisidcart.h"
 #include "mui/uisoundexpander.h"
@@ -141,7 +141,7 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             ui_c64vic20_computer_rom_settings_dialog(canvas);
             break;
         case IDM_DRIVE_ROM_SETTINGS:
-            ui_c64vic20_drive_rom_settings_dialog(canvas);
+            ui_vic20_drive_rom_settings_dialog(canvas);
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivevic20_settings_dialog();

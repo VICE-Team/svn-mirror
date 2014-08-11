@@ -60,7 +60,7 @@
 #include "mui/uiramcart.h"
 #include "mui/uiretroreplay.h"
 #include "mui/uireu.h"
-#include "mui/uiromc64vic20settings.h"
+#include "mui/uiromc64settings.h"
 #include "mui/uirs232user.h"
 #include "mui/uisid.h"
 #include "mui/uisoundexpander.h"
@@ -187,7 +187,7 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             ui_c64vic20_computer_rom_settings_dialog(canvas);
             break;
         case IDM_DRIVE_ROM_SETTINGS:
-            ui_c64vic20_drive_rom_settings_dialog(canvas);
+            ui_c64_drive_rom_settings_dialog(canvas);
             break;
 #ifdef HAVE_TFE
         case IDM_TFE_SETTINGS:

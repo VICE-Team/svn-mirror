@@ -1,5 +1,5 @@
 /*
- * uiromscpu64settings.c
+ * uiromc64settings.c
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -30,14 +30,15 @@
 #endif
 #include "mui.h"
 
-#include "uiromscpu64settings.h"
+#include "uiromc64settings.h"
 #include "intl.h"
 #include "translate.h"
 
 static video_canvas_t *rom_canvas;
 
 static ui_to_from_t ui_to_from_computer[] = {
-    {NULL, MUI_TYPE_FILENAME, "SCPU64Name", NULL, NULL},
+    {NULL, MUI_TYPE_FILENAME, "KernalName", NULL, NULL},
+    {NULL, MUI_TYPE_FILENAME, "BasicName", NULL, NULL},
     {NULL, MUI_TYPE_FILENAME, "ChargenName", NULL, NULL},
     UI_END /* mandatory */
 };
@@ -66,6 +67,7 @@ static APTR hook_object_drive[countof(ui_to_from_drive)];
 
     BROWSE(BrowseComputer0, ComputerHook0, ui_to_from_computer[0].object);
     BROWSE(BrowseComputer1, ComputerHook1, ui_to_from_computer[1].object);
+    BROWSE(BrowseComputer2, ComputerHook2, ui_to_from_computer[2].object);
 
     BROWSE(BrowseDrive0, DriveHook0, ui_to_from_drive[0].object);
     BROWSE(BrowseDrive1, DriveHook1, ui_to_from_drive[1].object);
@@ -79,8 +81,8 @@ static APTR hook_object_drive[countof(ui_to_from_drive)];
     BROWSE(BrowseDrive9, DriveHook9, ui_to_from_drive[9].object);
     BROWSE(BrowseDrive10, DriveHook10, ui_to_from_drive[10].object);
     BROWSE(BrowseDrive11, DriveHook11, ui_to_from_drive[11].object);
-    BROWSE(BrowseDrive12, DriveHook12, ui_to_from_drive[12].object);
-    BROWSE(BrowseDrive13, DriveHook13, ui_to_from_drive[13].object);
+    BROWSE(BrowseDrive11, DriveHook12, ui_to_from_drive[12].object);
+    BROWSE(BrowseDrive11, DriveHook13, ui_to_from_drive[13].object);
 
 static APTR build_computer_gui(void)
 {
@@ -89,8 +91,9 @@ static APTR build_computer_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           FILENAME(ui_to_from_computer[0].object, "SCPU64 ROM", hook_object_computer[0])
-           FILENAME(ui_to_from_computer[1].object, "Character", hook_object_computer[2])
+           FILENAME(ui_to_from_computer[0].object, "Kernal", hook_object_computer[0])
+           FILENAME(ui_to_from_computer[1].object, "Basic", hook_object_computer[1])
+           FILENAME(ui_to_from_computer[2].object, "Character", hook_object_computer[2])
            OK_CANCEL_BUTTON
          End;
 
@@ -106,6 +109,9 @@ static APTR build_computer_gui(void)
 
         DoMethod(hook_object_computer[1], MUIM_Notify, MUIA_Pressed, FALSE,
                  app, 2, MUIM_CallHook, &BrowseComputer1);
+
+        DoMethod(hook_object_computer[2], MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseComputer2);
     }
 
     return ui;
@@ -130,8 +136,8 @@ static APTR build_drive_gui(void)
            FILENAME(ui_to_from_drive[9].object, "3040", hook_object_drive[9])
            FILENAME(ui_to_from_drive[10].object, "4040", hook_object_drive[10])
            FILENAME(ui_to_from_drive[11].object, "1001", hook_object_drive[11])
-           FILENAME(ui_to_from_drive[12].object, "ProfDOS", hook_object_drive[12])
-           FILENAME(ui_to_from_drive[13].object, "SC+", hook_object_drive[13])
+           FILENAME(ui_to_from_drive[11].object, "ProfDOS", hook_object_drive[11])
+           FILENAME(ui_to_from_drive[11].object, "SC+", hook_object_drive[11])
            OK_CANCEL_BUTTON
          End;
 
@@ -188,7 +194,7 @@ static APTR build_drive_gui(void)
     return ui;
 }
 
-void ui_scpu64_computer_rom_settings_dialog(video_canvas_t *canvas)
+void ui_c64_computer_rom_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
 
@@ -209,7 +215,7 @@ void ui_scpu64_computer_rom_settings_dialog(video_canvas_t *canvas)
     }
 }
 
-void ui_scpu64_drive_rom_settings_dialog(video_canvas_t *canvas)
+void ui_c64_drive_rom_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
 

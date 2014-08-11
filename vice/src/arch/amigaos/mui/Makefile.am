@@ -120,8 +120,8 @@ libarchmui_a_SOURCES = \
 	uireu.h \
 	uiromc128settings.c \
 	uiromc128settings.h \
-	uiromc64vic20settings.c \
-	uiromc64vic20settings.h \
+	uiromc64settings.c \
+	uiromc64settings.h \
 	uiromcbm2settings.c \
 	uiromcbm2settings.h \
 	uirompetsettings.c \
@@ -130,6 +130,8 @@ libarchmui_a_SOURCES = \
 	uiromplus4settings.h \
 	uiromscpu64settings.c \
 	uiromscpu64settings.h \
+	uiromvic20settings.c \
+	uiromvic20settings.h \
 	uirs232user.c \
 	uirs232user.h \
 	uiscpu64.c \

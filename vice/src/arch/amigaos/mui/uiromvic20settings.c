@@ -1,5 +1,5 @@
 /*
- * uiromc64vic20settings.c
+ * uiromvic20settings.c
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -30,7 +30,7 @@
 #endif
 #include "mui.h"
 
-#include "uiromc64vic20settings.h"
+#include "uiromvic20settings.h"
 #include "intl.h"
 #include "translate.h"
 
@@ -182,7 +182,7 @@ static APTR build_drive_gui(void)
     return ui;
 }
 
-void ui_c64vic20_computer_rom_settings_dialog(video_canvas_t *canvas)
+void ui_vic20_computer_rom_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
 
@@ -203,7 +203,7 @@ void ui_c64vic20_computer_rom_settings_dialog(video_canvas_t *canvas)
     }
 }
 
-void ui_c64vic20_drive_rom_settings_dialog(video_canvas_t *canvas)
+void ui_vic20_drive_rom_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
 

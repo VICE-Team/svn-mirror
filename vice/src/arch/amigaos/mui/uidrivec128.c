@@ -240,7 +240,9 @@ static const int drive_par_cable_values[] = {
     { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM6000", NULL, NULL, NULL },                                               \
     { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM8000", NULL, NULL, NULL },                                               \
     { NULL, MUI_TYPE_CHECK, "Drive" #device "RAMA000", NULL, NULL, NULL },                                               \
-    { NULL, MUI_TYPE_RADIO, "Drive" #device "ParallelCable", drive_par_cable, drive_par_cable_values, NULL },
+    { NULL, MUI_TYPE_RADIO, "Drive" #device "ParallelCable", drive_par_cable, drive_par_cable_values, NULL },            \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "ProfDOS", NULL, NULL, NULL },                                               \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "SuperCard", NULL, NULL, NULL },
 
 #define DECL_NUM (9)
 
@@ -283,6 +285,8 @@ static APTR build_gui(void)
                      CHECK(data[5].object, "$6000-$7FFF RAM")
                      CHECK(data[6].object, "$8000-$9FFF RAM")
                      CHECK(data[7].object, "$A000-$BFFF RAM")
+                     CHECK(data[9].object, translate_text(IDS_PROFESSIONAL_DOS))
+                     CHECK(data[10].object, translate_text(IDS_SUPERCARD_PLUS))
                    End,
                  End,
                  Child, GroupObject,
