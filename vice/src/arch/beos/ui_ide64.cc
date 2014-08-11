@@ -228,7 +228,6 @@ void ui_ide64(int img_num)
     vsync_suspend_speed_eval();
 
     /* wait until window closed */
-    ide64thread=ide64window->Thread();
+    ide64thread = ide64window->Thread();
     wait_for_thread(ide64thread, &exit_value);
 }
-
