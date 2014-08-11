@@ -51,6 +51,18 @@ HINSTANCE winmain_instance;
 HINSTANCE winmain_prev_instance;
 int winmain_cmd_show;
 
+#ifndef IDE_COMPILE
+#  if !defined(__MSVCRT__) && !defined(_MSC_VER) && !defined(_WIN64) && !defined(__WATCOMC__) && !defined(WATCOM_COMPILE)
+extern void __GetMainArgs (int *, char ***, char ***, int);
+#  else
+typedef struct {
+    int newmode;
+} _startupinfo;
+
+extern void __getmainargs (int *, char ***, char ***, int, _startupinfo *);
+#  endif
+#endif
+
 int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance, TCHAR *cmd_line, int cmd_show)
 {
     winmain_instance = instance;
@@ -58,7 +70,7 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance, TCHAR *cmd_line,
     winmain_cmd_show = cmd_show;
 
 #if defined(__MSVCRT__) || defined(_MSC_VER) || defined(_WIN64) || defined(__WATCOMC__) || defined(WATCOM_COMPILE)
-#ifdef _DEBUG
+#  ifdef _DEBUG
     {
         int tmpFlag;
 
@@ -72,10 +84,40 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance, TCHAR *cmd_line,
         // Set flag to the new value
         _CrtSetDbgFlag(tmpFlag);
     }
-#endif
+#  endif
+#  ifndef IDE_COMPILE
+    if (!__argc) {
+        _startupinfo start_info;
+        int vice_argc = 0;
+        char **vice_argv = 0;
+        char **dummy = 0;
+
+        start_info.newmode = 0;
+
+        __wgetmainargs(&vice_argc, &vice_argv, &dummy, -1, &start_info);
+
+        main_program(vice_argc, vice_argv);
+    } else {
+        main_program(__argc, __argv);
+    }
+#  else
     main_program(__argc, __argv);
+#  endif
+#else
+#  ifndef IDE_COMPILE
+    if (_argc) {
+        main_program(_argc, _argv);
+    } else {
+        int vice_argc = 0;
+        char **vice_argv = 0;
+        char **dummy = 0;
+
+        __GetMainArgs(&vice_argc, &vice_argv, &dummy, -1);
+        main_program(vice_argc, vice_argv);
+    }
 #else
     main_program(_argc, _argv);
+#endif
 #endif
 
     return 0;
