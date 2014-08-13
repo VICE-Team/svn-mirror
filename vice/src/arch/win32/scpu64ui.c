@@ -110,6 +110,10 @@ static const uirom_settings_t uirom_settings[] = {
       IDC_DRIVEROM_4040_FILE, IDC_DRIVEROM_4040_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1001"), "DosName1001",
       IDC_DRIVEROM_1001_FILE, IDC_DRIVEROM_1001_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("Professional DOS"), "DriveProfDOS1571Name",
+      IDC_DRIVEROM_PROFDOS_FILE, IDC_DRIVEROM_PROFDOS_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("SuperCard+"), "DriveSuperCardName",
+      IDC_DRIVEROM_SUPERCARD_FILE, IDC_DRIVEROM_SUPERCARD_BROWSE },
     { 0, NULL, NULL, 0, 0 }
 };
 
@@ -399,6 +403,8 @@ static uilib_localize_dialog_param scpu64_drive_trans[] = {
     { IDC_DRIVEROM_3040_BROWSE, IDS_BROWSE, 0 },
     { IDC_DRIVEROM_4040_BROWSE, IDS_BROWSE, 0 },
     { IDC_DRIVEROM_1001_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_PROFDOS_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_SUPERCARD_BROWSE, IDS_BROWSE, 0 },
     { 0, 0, 0 }
 };
 
@@ -433,6 +439,8 @@ static uilib_dialog_group scpu64_drive_left_group[] = {
     { IDC_3040, 0 },
     { IDC_4040, 0 },
     { IDC_1001, 0 },
+    { IDC_PROFDOS, 0 },
+    { IDC_SUPERCARD, 0 },
     { 0, 0 }
 };
 
@@ -449,6 +457,8 @@ static uilib_dialog_group scpu64_drive_middle_group[] = {
     { IDC_DRIVEROM_3040_FILE, 0 },
     { IDC_DRIVEROM_4040_FILE, 0 },
     { IDC_DRIVEROM_1001_FILE, 0 },
+    { IDC_DRIVEROM_PROFDOS_FILE, 0 },
+    { IDC_DRIVEROM_SUPERCARD_FILE, 0 },
     { 0, 0 }
 };
 
@@ -465,6 +475,8 @@ static uilib_dialog_group scpu64_drive_right_group[] = {
     { IDC_DRIVEROM_3040_BROWSE, 0 },
     { IDC_DRIVEROM_4040_BROWSE, 0 },
     { IDC_DRIVEROM_1001_BROWSE, 0 },
+    { IDC_DRIVEROM_PROFDOS_BROWSE, 0 },
+    { IDC_DRIVEROM_SUPERCARD_BROWSE, 0 },
     { 0, 0 }
 };
 
@@ -481,6 +493,8 @@ static generic_trans_table_t scpu64_generic_trans[] = {
     { IDC_3040, "3040" },
     { IDC_4040, "4040" },
     { IDC_1001, "1001" },
+    { IDC_PROFDOS, "Professional DOS" },
+    { IDC_SUPERCARD, "SuperCard+" },
     { 0, NULL }
 };
 

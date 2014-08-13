@@ -343,7 +343,7 @@ END
 
 // dialog template for all languages
 
-IDD_C64DRIVEROM_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 250
+IDD_C64DRIVEROM_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 290
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -430,6 +430,20 @@ BEGIN
                55, 227, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
     PUSHBUTTON "", IDC_DRIVEROM_1001_BROWSE,
                185, 227, 50, 14, 0
+
+    LTEXT      "", IDC_PROFDOS,
+               9, 248, 40, 8
+    EDITTEXT   IDC_DRIVEROM_PROFDOS_FILE,
+               55, 247, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_PROFDOS_BROWSE,
+               185, 247, 50, 14, 0
+
+    LTEXT      "", IDC_SUPERCARD,
+               9, 268, 40, 8
+    EDITTEXT   IDC_DRIVEROM_SUPERCARD_FILE,
+               55, 267, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON "", IDC_DRIVEROM_SUPERCARD_BROWSE,
+               185, 267, 50, 14, 0
 END
 
 // -----------------------------------------------------------------------------
