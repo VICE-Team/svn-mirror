@@ -154,6 +154,74 @@ static tui_menu_item_def_t mouse_type_submenu[] = {
     { NULL }
 };
 
+TUI_MENU_DEFINE_RADIO(InternalFunctionROM)
+
+static TUI_MENU_CALLBACK(InternalFunctionROM_callback)
+{
+    int value;
+
+    resources_get_int("InternalFunctionROM", &value);
+
+    switch (value) {
+        case 0:
+            return "Off";
+        case 1:
+            return "ROM";
+        case 2:
+            return "RAM";
+        case 3:
+            return "RAM+RTC";
+        default:
+            return "unknown";
+    }
+}
+
+static tui_menu_item_def_t int_function_rom_submenu[] = {
+    { "Off", NULL, radio_InternalFunctionROM_callback,
+      (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "ROM", NULL, radio_InternalFunctionROM_callback,
+      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "RAM", NULL, radio_InternalFunctionROM_callback,
+      (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "RAM+RTC", NULL, radio_InternalFunctionROM_callback,
+      (void *)3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+TUI_MENU_DEFINE_RADIO(ExternalFunctionROM)
+
+static TUI_MENU_CALLBACK(ExternalFunctionROM_callback)
+{
+    int value;
+
+    resources_get_int("ExternalFunctionROM", &value);
+
+    switch (value) {
+        case 0:
+            return "Off";
+        case 1:
+            return "ROM";
+        case 2:
+            return "RAM";
+        case 3:
+            return "RAM+RTC";
+        default:
+            return "unknown";
+    }
+}
+
+static tui_menu_item_def_t ext_function_rom_submenu[] = {
+    { "Off", NULL, radio_ExternalFunctionROM_callback,
+      (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "ROM", NULL, radio_ExternalFunctionROM_callback,
+      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "RAM", NULL, radio_ExternalFunctionROM_callback,
+      (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "RAM+RTC", NULL, radio_ExternalFunctionROM_callback,
+      (void *)3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
 static tui_menu_item_def_t ioextenstions_menu_items[] = {
     { "--" },
     { "Mouse Type:",
@@ -174,6 +242,16 @@ static tui_menu_item_def_t ioextenstions_menu_items[] = {
       "Enable RAM banks 2 & 3",
       toggle_C128FullBanks_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Internal function ROM:",
+      "Change internal function ROM type",
+      InternalFunctionROM_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, int_function_rom_submenu,
+      "Internal function ROM" },
+    { "External function ROM:",
+      "Change external function ROM type",
+      ExternalFunctionROM_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, ext_function_rom_submenu,
+      "External function ROM" },
     { NULL }
 };
 
