@@ -3661,10 +3661,7 @@ their built-in name instead of the Unix one.
 raw CBM files) whenever a program creates a file.
 @end itemize
 
-Note that, by default, all drives except 11 create P00 files on save,
-while drive 11 creates raw CBM files. Those files come without any header,
-but also with the filename restrictions given by the operating system
-VICE runs on.
+Note that, by default, all drives create P00 files on save.
 
 @menu
 * File system device resources::
