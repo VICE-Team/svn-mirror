@@ -76,11 +76,6 @@ static TUI_MENU_CALLBACK(MouseType_callback)
 
     resources_get_int("Mousetype", &value);
 
-    if (been_activated) {
-        value = (value + 1) % 5;
-        resources_set_int("Mousetype", value);
-    }
-
     switch (value) {
         case MOUSE_TYPE_1351:
             return "1351";
