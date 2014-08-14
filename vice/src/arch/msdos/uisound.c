@@ -210,7 +210,7 @@ static TUI_MENU_CALLBACK(ui_sound_set_volume_callback)
         resources_get_int("SoundVolume", &current_volume);
         sprintf(buf, "%d", current_volume);
 
-        if (tui_input_string("Volume", "Enter volume to use:", buf, 10) == 0) {
+        if (tui_input_string("Volume", "Enter volume to use (0-100):", buf, 10) == 0) {
             value = atoi(buf);
             if (value > 100) {
                 value = 100;
@@ -219,6 +219,31 @@ static TUI_MENU_CALLBACK(ui_sound_set_volume_callback)
             }
             resources_set_int("SoundVolume", value);
             tui_message("Volume set to : %d", value);
+        } else {
+            return NULL;
+        }
+    }
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(ui_sound_set_drive_volume_callback)
+{
+    if (been_activated) {
+        int current_volume, value;
+        char buf[10];
+
+        resources_get_int("DriveSoundEmulationVolume", &current_volume);
+        sprintf(buf, "%d", current_volume);
+
+        if (tui_input_string("DriveSoundEmulationVolume", "Enter drive sound volume to use (0-4000):", buf, 10) == 0) {
+            value = atoi(buf);
+            if (value > 4000) {
+                value = 4000;
+            } else if (value < 0) {
+                value = 0;
+            }
+            resources_set_int("DriveSoundEmulationVolume", value);
+            tui_message("Drive sound volume set to : %d", value);
         } else {
             return NULL;
         }
@@ -256,9 +281,12 @@ static tui_menu_item_def_t sound_submenu[] = {
       "Enable drive sound emulation",
       toggle_DriveSoundEmulation_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Drive sound volume",
+      "Set the volume to use",
+      ui_sound_set_drive_volume_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
-
 
 void uisound_init(struct tui_menu *parent_submenu)
 {
