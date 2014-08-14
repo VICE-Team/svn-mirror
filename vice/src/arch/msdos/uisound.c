@@ -201,10 +201,39 @@ static tui_menu_item_def_t sound_fragment_size_submenu[] = {
     { NULL }
 };
 
+static TUI_MENU_CALLBACK(ui_sound_set_volume_callback)
+{
+    if (been_activated) {
+        int current_volume, value;
+        char buf[10];
+
+        resources_get_int("SoundVolume", &current_volume);
+        sprintf(buf, "%d", current_volume);
+
+        if (tui_input_string("Volume", "Enter volume to use:", buf, 10) == 0) {
+            value = atoi(buf);
+            if (value > 100) {
+                value = 100;
+            } else if (value < 0) {
+                value = 0;
+            }
+            resources_set_int("SoundVolume", value);
+            tui_message("Volume set to : %d", value);
+        } else {
+            return NULL;
+        }
+    }
+    return NULL;
+}
+
 static tui_menu_item_def_t sound_submenu[] = {
     { "Sound _Playback:",
       "Enable sound output",
       toggle_Sound_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Sound _Volume",
+      "Set the volume to use",
+      ui_sound_set_volume_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Sample Frequency:",
       "Choose sound output sampling rate",
