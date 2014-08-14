@@ -70,9 +70,9 @@
 #endif
 #include "uivideo.h"
 
-TUI_MENU_DEFINE_TOGGLE(Mouse)
+TUI_MENU_DEFINE_RADIO(Mousetype)
 
-static TUI_MENU_CALLBACK(toggle_MouseType_callback)
+static TUI_MENU_CALLBACK(MouseType_callback)
 {
     int value;
 
@@ -107,7 +107,31 @@ static TUI_MENU_CALLBACK(toggle_MouseType_callback)
     }
 }
 
-static TUI_MENU_CALLBACK(toggle_MousePort_callback)
+static tui_menu_item_def_t mouse_type_submenu[] = {
+    { "1351", NULL, radio_Mousetype_callback,
+      (void *)MOUSE_TYPE_1351, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "NEOS", NULL, radio_Mousetype_callback,
+      (void *)MOUSE_TYPE_NEOS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "AMIGA", NULL, radio_Mousetype_callback,
+      (void *)MOUSE_TYPE_AMIGA, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "PADDLE", NULL, radio_Mousetype_callback,
+      (void *)MOUSE_TYPE_PADDLE, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Atari CX-22", NULL, radio_Mousetype_callback,
+      (void *)MOUSE_TYPE_CX22, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Atari ST", NULL, radio_Mousetype_callback,
+      (void *)MOUSE_TYPE_ST, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Smart", NULL, radio_Mousetype_callback,
+      (void *)MOUSE_TYPE_SMART, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "MicroMys", NULL, radio_Mousetype_callback,
+      (void *)MOUSE_TYPE_MICROMYS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Koalapad", NULL, radio_Mousetype_callback,
+      (void *)MOUSE_TYPE_KOALAPAD, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+TUI_MENU_DEFINE_RADIO(Mouseport)
+
+static TUI_MENU_CALLBACK(MousePort_callback)
 {
     int value;
 
@@ -129,15 +153,25 @@ static TUI_MENU_CALLBACK(toggle_MousePort_callback)
     }
 }
 
+static tui_menu_item_def_t mouse_type_submenu[] = {
+    { "Joy1", NULL, radio_Mouseport_callback,
+      (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Joy2", NULL, radio_Mouseport_callback,
+      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
 static tui_menu_item_def_t ioextenstions_menu_items[] = {
     { "Mouse Type:",
       "Change Mouse Type",
-      toggle_MouseType_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+      MouseType_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, mouse_type_submenu,
+      "Mouse Type" },
     { "Mouse Port:",
       "Change Mouse Port",
-      toggle_MousePort_callback, NULL, 20,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+      MousePort_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, mouse_port_submenu,
+      "Mouse Port" },
     { "Grab mouse events:",
       "Emulate a mouse",
       toggle_Mouse_callback, NULL, 3,
