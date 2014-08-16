@@ -38,7 +38,6 @@
 #include "uiacia.h"
 #include "uic64burstmod.h"
 #include "uic64cart.h"
-#include "uic64model.h"
 #include "uicia.h"
 #include "uidigimax.h"
 #include "uidqbb.h"
@@ -64,6 +63,7 @@
 #include "uirom.h"
 #include "uirs232user.h"
 #include "uiscpu64.h"
+#include "uiscpu64model.h"
 #include "uisid.h"
 #include "uisoundexpander.h"
 #include "uitfe.h"
@@ -509,7 +509,7 @@ static void scpu64_ui_specific(WPARAM wparam, HWND hwnd)
             ui_c64burstmod_settings_dialog(hwnd);
             break;
         case IDM_C64MODEL_SETTINGS:
-            ui_c64model_settings_dialog(hwnd);
+            ui_scpu64model_settings_dialog(hwnd);
             break;
         case IDM_VICII_SETTINGS:
             ui_vicii_settings_dialog(hwnd);

@@ -272,6 +272,8 @@ libarch_a_SOURCES = \
 	uirs232user.h \
 	uiscpu64.c \
 	uiscpu64.h \
+	uiscpu64model.c \
+	uiscpu64model.h \
 	uisid.c \
 	uisid.h \
 	uisidcart.c \

@@ -376,7 +376,7 @@ WVList
 VComponent
 95
 WRect
-142
+134
 1240
 5120
 4280
@@ -392,7 +392,7 @@ maincpu.tgt
 VComponent
 98
 WRect
-1799
+1791
 2400
 5120
 4280
@@ -419,7 +419,7 @@ WFileName
 8
 arch.tgt
 32
-36
+40
 103
 VComponent
 104
@@ -456,7 +456,7 @@ c64.tgt
 VComponent
 110
 WRect
-142
+134
 1240
 5120
 4280
@@ -488,7 +488,7 @@ c64exp.tgt
 VComponent
 116
 WRect
-1439
+1431
 840
 5120
 4280
@@ -552,7 +552,7 @@ diskimage.tgt
 VComponent
 128
 WRect
-142
+134
 1240
 5120
 4280
@@ -648,7 +648,7 @@ iec128dcr.tgt
 VComponent
 146
 WRect
-142
+134
 1240
 5120
 4280
@@ -744,7 +744,7 @@ parallel.tgt
 VComponent
 164
 WRect
-142
+134
 1240
 5120
 4280
@@ -840,7 +840,7 @@ rs232drv.tgt
 VComponent
 182
 WRect
-142
+134
 1240
 5120
 4280
@@ -936,7 +936,7 @@ vdc.tgt
 VComponent
 200
 WRect
-142
+134
 1240
 5120
 4280
@@ -952,7 +952,7 @@ vdrive.tgt
 VComponent
 203
 WRect
-2218
+2211
 2760
 5120
 4280
@@ -984,7 +984,7 @@ vicii.tgt
 VComponent
 209
 WRect
-1371
+1364
 160
 5120
 4280
@@ -1016,7 +1016,7 @@ cartconv.tgt
 VComponent
 215
 WRect
-3268
+3260
 80
 5120
 4280
@@ -1032,7 +1032,7 @@ c1541.tgt
 VComponent
 218
 WRect
-3320
+3313
 0
 5120
 4280
@@ -1048,7 +1048,7 @@ petcat.tgt
 VComponent
 221
 WRect
-3320
+3313
 0
 5120
 4280
@@ -1064,7 +1064,7 @@ x128.tgt
 VComponent
 224
 WRect
-3365
+3358
 0
 5120
 4280
@@ -1080,7 +1080,7 @@ x64.tgt
 VComponent
 227
 WRect
-3305
+3298
 40
 5120
 4280
@@ -1096,7 +1096,7 @@ xcbm2.tgt
 VComponent
 230
 WRect
-3335
+3328
 40
 5120
 4280
@@ -1112,7 +1112,7 @@ xpet.tgt
 VComponent
 233
 WRect
-3365
+3358
 40
 5120
 4280
@@ -1128,7 +1128,7 @@ xplus4.tgt
 VComponent
 236
 WRect
-3365
+3358
 40
 5120
 4280
@@ -1144,7 +1144,7 @@ xvic.tgt
 VComponent
 239
 WRect
-1971
+1964
 1160
 5120
 4280
@@ -1192,7 +1192,7 @@ viciidtv.tgt
 VComponent
 248
 WRect
-3185
+3178
 800
 5120
 4280
@@ -1240,7 +1240,7 @@ gentr.tgt
 VComponent
 257
 WRect
-1776
+1769
 1800
 5120
 4280
@@ -1272,7 +1272,7 @@ c64sc.tgt
 VComponent
 263
 WRect
-3260
+3253
 840
 5120
 4280
@@ -1384,7 +1384,7 @@ genic.tgt
 VComponent
 284
 WRect
-509
+502
 520
 5120
 4200
@@ -1416,7 +1416,7 @@ vic20cart.tgt
 VComponent
 290
 WRect
-2031
+2024
 480
 5120
 4200
@@ -1448,7 +1448,7 @@ userport.tgt
 VComponent
 296
 WRect
-3343
+3335
 320
 5120
 4200
@@ -1512,7 +1512,7 @@ vsidlib.tgt
 VComponent
 308
 WRect
-1274
+1266
 1240
 5120
 4200
@@ -1528,7 +1528,7 @@ c64commonscvsid.tgt
 VComponent
 311
 WRect
-1596
+1589
 0
 5120
 4600
@@ -1560,9 +1560,9 @@ vsid.tgt
 VComponent
 317
 WRect
-1154
+1146
 2720
-5434
+5427
 4200
 1
 0
@@ -1576,9 +1576,9 @@ p64.tgt
 VComponent
 320
 WRect
-89
+82
 280
-5457
+5449
 4200
 1
 0
@@ -1594,7 +1594,7 @@ VComponent
 WRect
 0
 0
-5547
+5539
 4200
 1
 0
@@ -1608,9 +1608,9 @@ c64commonsc128scpu.tgt
 VComponent
 326
 WRect
-472
+464
 560
-5547
+5539
 4200
 1
 0
@@ -1624,9 +1624,9 @@ c64commonscdtvscpu.tgt
 VComponent
 329
 WRect
-764
+757
 840
-5547
+5539
 4200
 1
 0
@@ -1640,9 +1640,9 @@ c64commonscdtv128scpu.tgt
 VComponent
 332
 WRect
-1056
+1049
 1160
-5547
+5539
 4200
 1
 0
@@ -1658,7 +1658,7 @@ VComponent
 WRect
 0
 0
-5547
+5539
 4200
 1
 0
@@ -1672,9 +1672,9 @@ c64commonvsidscpu.tgt
 VComponent
 338
 WRect
-179
+172
 280
-5547
+5539
 4200
 1
 0
@@ -1688,9 +1688,9 @@ c64commonscscpu.tgt
 VComponent
 341
 WRect
-472
+464
 560
-5547
+5539
 4200
 1
 0
@@ -1704,9 +1704,9 @@ c64commonvsidscscpu.tgt
 VComponent
 344
 WRect
-712
+704
 200
-5547
+5539
 4200
 1
 0
@@ -1720,9 +1720,9 @@ c64commonvsidsc128scpu.tgt
 VComponent
 347
 WRect
-1056
+1049
 1160
-5547
+5539
 4200
 1
 0
@@ -1736,9 +1736,9 @@ scpu64.tgt
 VComponent
 350
 WRect
-3110
+3103
 320
-5547
+5539
 4200
 1
 0
@@ -1752,9 +1752,9 @@ xscpu64.tgt
 VComponent
 353
 WRect
-3455
+3448
 40
-5547
+5539
 4200
 1
 0
@@ -1768,9 +1768,9 @@ c64commonscvsid128.tgt
 VComponent
 356
 WRect
-187
+179
 280
-5554
+5547
 4200
 1
 0

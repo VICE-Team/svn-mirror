@@ -69,7 +69,7 @@ enum {
 };
 
 #define AREAS 10
-static const int areas[AREAS][2] = {
+static const unsigned int areas[AREAS][2] = {
     { 0x00, 0x0f },
     { 0x10, 0x5f },
     { 0x60, 0x7f },
