@@ -345,13 +345,27 @@ int parsid_check_port(int port)
 
 HINSTANCE hLib = NULL;
 
+#ifdef _MSC_VER
+#  ifdef _WIN64
+#    define INPOUTDLLNAME "inpoutx64.dll"
+#  else
+#    define INPOUTDLLNAME "inpout32.dll"
+#  endif
+#else
+#  if defined(__amd64__) || defined(__x86_64__)
+#    define INPOUTDLLNAME "inpoutx64.dll"
+#  else
+#    define INPOUTDLLNAME "inpout32.dll"
+#  endif
+#endif
+
 static int parsid_init(void)
 {
     int j;
     int ports = 0;
 
     if (hLib == NULL) {
-        hLib = LoadLibrary("inpout32.dll");
+        hLib = LoadLibrary(INPOUTDLLNAME);
     }
 
     parsid_use_lib = 0;
