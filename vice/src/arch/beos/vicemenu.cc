@@ -1198,7 +1198,8 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Select Function HI ROM file", new BMessage(MENU_COMPUTER_FUNCTION_HI_ROM_FILE)));
         }
 
-    uppermenu->AddItem(menu = new BMenu("Drive ROM ..."));
+    if (machine_class != VICE_MACHINE_VSID) {
+        uppermenu->AddItem(menu = new BMenu("Drive ROM ..."));
         if (machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PET) {
             menu->AddItem(new BMenuItem("Select 1541 ROM file", new BMessage(MENU_DRIVE_1541_ROM_FILE)));
             menu->AddItem(new BMenuItem("Select 1541-II ROM file", new BMessage(MENU_DRIVE_1541II_ROM_FILE)));
@@ -1214,17 +1215,19 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Select FD2000 ROM file", new BMessage(MENU_DRIVE_2000_ROM_FILE)));
             menu->AddItem(new BMenuItem("Select FD4000 ROM file", new BMessage(MENU_DRIVE_4000_ROM_FILE)));
         }
-        if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VIC20) {
+        if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_PLUS4) {
             menu->AddItem(new BMenuItem("Select 2031 ROM file", new BMessage(MENU_DRIVE_2031_ROM_FILE)));
             menu->AddItem(new BMenuItem("Select 2040 ROM file", new BMessage(MENU_DRIVE_2040_ROM_FILE)));
             menu->AddItem(new BMenuItem("Select 3040 ROM file", new BMessage(MENU_DRIVE_3040_ROM_FILE)));
             menu->AddItem(new BMenuItem("Select 4040 ROM file", new BMessage(MENU_DRIVE_4040_ROM_FILE)));
             menu->AddItem(new BMenuItem("Select 1001 ROM file", new BMessage(MENU_DRIVE_1001_ROM_FILE)));
         }
-        if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128) {
+        if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+            machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_C128) {
             menu->AddItem(new BMenuItem("Select Professional DOS ROM file", new BMessage(MENU_DRIVE_PROFDOS_ROM_FILE)));
             menu->AddItem(new BMenuItem("Select SuperCard+ ROM file", new BMessage(MENU_DRIVE_SUPERCARD_ROM_FILE)));
         }
+    }
 
     uppermenu->AddItem(new BMenuItem("RAM ...", new BMessage(MENU_RAM_SETTINGS)));
 
