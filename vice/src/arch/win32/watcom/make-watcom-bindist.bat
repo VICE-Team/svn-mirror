@@ -57,6 +57,7 @@ copy ..\..\..\..\data\SCPU64\*.vpl %VICEDIR%\SCPU64
 copy ..\..\..\..\data\SCPU64\chargen %VICEDIR%\SCPU64
 copy ..\..\..\..\data\SCPU64\*.vrs %VICEDIR%\SCPU64
 copy ..\..\..\..\data\SCPU64\scpu64 %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\jp* %VICEDIR%\SCPU64
 copy ..\..\..\..\data\SCPU64\scpu64mem.sym %VICEDIR%\SCPU64
 copy ..\..\..\..\data\SCPU64\win_*.v* %VICEDIR%\SCPU64
 mkdir %VICEDIR%\C64DTV

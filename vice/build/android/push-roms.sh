@@ -50,7 +50,7 @@ else
 fi
 
 C64_FILES="basic c64hq.vpl c64s.vpl ccs64.vpl chargen default.vpl default.vrs edkernal frodo.vpl godot.vpl gskernal jpchrgen jpkernal kernal pc64.vpl sdl_sym.vkm sdl_sym_da.vkm sdl_sym_de.vkm sdl_sym_fi.vkm sdl_sym_no.vkm sxkernal vice.vpl"
-SCPU64_FILES="c64hq.vpl c64s.vpl ccs64.vpl chargen default.vpl default.vrs frodo.vpl godot.vpl pc64.vpl scpu64 sdl_sym.vkm sdl_sym_da.vkm sdl_sym_de.vkm sdl_sym_fi.vkm sdl_sym_no.vkm vice.vpl"
+SCPU64_FILES="c64hq.vpl c64s.vpl ccs64.vpl chargen default.vpl default.vrs frodo.vpl godot.vpl jpchrgen pc64.vpl scpu64 sdl_sym.vkm sdl_sym_da.vkm sdl_sym_de.vkm sdl_sym_fi.vkm sdl_sym_no.vkm vice.vpl"
 C64DTV_FILES="basic chargen default.vrs dtvrom.bin kernal sdl_sym.vkm sdl_sym_da.vkm sdl_sym_de.vkm sdl_sym_fi.vkm sdl_sym_no.vkm"
 C128_FILES="basic64 basichi basiclo c64hq.vpl c64s.vpl ccs64.vpl chargde chargen chargfr chargse default.vpl default.vrs frodo.vpl godot.vpl kernal kernal64 kernalde kernalfi kernalfr kernalit kernalno kernalse pc64.vpl sdl_sym.vkm vdc_comp.vpl vdc_deft.vpl vice.vpl"
 CBM2_FILES="amber.vpl basic.128 basic.256 basic.500 c64hq.vpl c64s.vpl ccs64.vpl chargen.500 chargen.600 chargen.700 default.vpl frodo.vpl godot.vpl green.vpl kernal kernal.500 pc64.vpl rom128h.vrs rom128l.vrs rom256h.vrs rom256l.vrs rom500.vrs sdl_buks.vkm white.vpl"

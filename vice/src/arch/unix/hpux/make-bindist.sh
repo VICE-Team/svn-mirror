@@ -187,6 +187,7 @@ installfile data/SCPU64/frodo.vpl vice/vice-RUN runtmp /usr/local/lib/vice/SCPU6
 installfile data/SCPU64/godot.vpl vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/godot.vpl run 0644
 installfile data/SCPU64/pc64.vpl vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/pc64.vpl run 0644
 installfile data/SCPU64/scpu64 vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/scpu64 run 0644
+installfile data/SCPU64/jpchrgen vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/jpchrgen run 0644
 installfile data/SCPU64/scpu64mem.sym vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/scpu64mem.sym run 0644
 installfile data/SCPU64/vice.vpl vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/vice.vpl run 0644
 installfile data/SCPU64/x11_pos.vkm vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/x11_pos.vkm run 0644

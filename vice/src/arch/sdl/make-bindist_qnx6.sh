@@ -390,6 +390,7 @@ _END
                            <QPM:File>godot.vpl</QPM:File>
                            <QPM:File>pc64.vpl</QPM:File>
                            <QPM:File>scpu64</QPM:File>
+                           <QPM:File>jpchrgen</QPM:File>
                            <QPM:File>scpu64mem.sym</QPM:File>
                            <QPM:File>sdl_sym.vkm</QPM:File>
                            <QPM:File>sdl_sym_da.vkm</QPM:File>

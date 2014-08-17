@@ -105,6 +105,7 @@ copy ..\..\..\..\data\SCPU64\os2.vkm       %VICEDIR%\SCPU64
 copy ..\..\..\..\data\SCPU64\os2_sym.vkm   %VICEDIR%\SCPU64
 copy ..\..\..\..\data\SCPU64\pc64.vpl      %VICEDIR%\SCPU64
 copy ..\..\..\..\data\SCPU64\scpu64        %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\jpchrgen      %VICEDIR%\SCPU64
 copy ..\..\..\..\data\SCPU64\scpu64mem.sym %VICEDIR%\SCPU64
 copy ..\..\..\..\data\SCPU64\vice.vpl      %VICEDIR%\SCPU64
 
