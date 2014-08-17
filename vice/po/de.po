@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-14 11:30-0700\n"
-"PO-Revision-Date: 2014-08-05 18:12+0200\n"
+"PO-Revision-Date: 2014-08-17 10:53+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -6163,14 +6163,12 @@ msgid "$A000-$BFFF RAM"
 msgstr "$A000-$BFFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1322 src/arch/amigaos/intl_text.c.po.c:6908
-#, fuzzy
 msgid "Professional DOS"
-msgstr "Professional DOS aktivieren"
+msgstr "Professional DOS"
 
 #: src/arch/win32/res.rc.po.c:1323 src/arch/amigaos/intl_text.c.po.c:6922
-#, fuzzy
 msgid "SuperCard+"
-msgstr "SuperCard+ aktivieren"
+msgstr "SuperCard+"
 
 #: src/arch/win32/res.rc.po.c:1333 src/arch/win32/resc128.rc.po.c:98
 #: src/arch/win32/resc64.rc.po.c:94 src/arch/win32/resc64dtv.rc.po.c:61
@@ -8603,9 +8601,8 @@ msgid "IEC emulation for printer #6"
 msgstr "IEC Geräte Emulation für Drucker #6"
 
 #: src/arch/amigaos/intl_text.c.po.c:8939
-#, fuzzy
 msgid "IEC emulation for device #7"
-msgstr "IEC Geräte Emulation für Drucker #4"
+msgstr "IEC Emulation für Gerät #7"
 
 #: src/arch/amigaos/intl_text.c.po.c:9009
 msgid "Userport RS232"
