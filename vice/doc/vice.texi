@@ -2786,9 +2786,11 @@ German business keyboard
 @itemx JoyDevice3
 @itemx JoyDevice4
 Integer specifying which joystick device the emulator should use for
-joystick emulation for ports 1 - 4, respectively
+joystick emulation for ports 1 - 4, respectively.
 (0=None, 1=Numpad, 2=Custom keys, 3=Analog joystick 1, 4=Analog joystick 2,
 5=Digital joystick 1, 6=Digital joystick 2 on Unix)
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2 on AmigaOS4)
+(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3 on AmigaOS3, MorphOS and AROS)
 The available joysticks might differ depending on operating system and
 joystick support in the OS (Linux joystick module must be
 available for example).
@@ -2877,10 +2879,13 @@ Boolean that specifies whether user defined keysets are enabled.
 
 @cindex -joydev1
 @cindex -joydev2
-@item -joydev1 <0-8>
-@itemx -joydev2 <0-8>
-Set the device for joystick emulation of port 1 and 2, respectively
+@item -joydev1 <range>
+@itemx -joydev2 <range>
+Set the device for joystick emulation of port 1 and 2, respectively.
 (@code{JoyDevice1}, @code{JoyDevice2}).
+The range for unix is 0-8.
+The range for AmigaOS4 is 0-3.
+The range for AmigaOS3, MorphOS and AROS is 0-5
 @cindex -extrajoydev1
 @cindex -extrajoydev2
 @item -extrajoydev1 <0-8>
@@ -4112,12 +4117,14 @@ to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings}).
 @vindex Acia1Dev
 @item Acia1Dev
 Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device
-(@pxref{RS232 settings}) the ACIA is using (all except VIC20).
+(@pxref{RS232 settings}) the ACIA is using (All emulators except C64DTV and
+VSID, and only if RS232 support is enabled and supported at compile time).
 
 @vindex Acia1Irq
 @item Acia1Irq
 Integer specifying which interrupt to use. 0 = none, 1 = IRQ, 2 = NMI
-(C64 and C128 only)
+(C64, VIC20 and C128 only, and only if RS232 support is enabled and
+supported at compile time)
 
 @vindex RsUserEnable
 @item RsUserEnable
@@ -4168,7 +4175,7 @@ specifies a special device (like @file{/dev/ttyS0} for example,
 
 @cindex -myaciadev
 @item -myaciadev <0-3>
-Specify RS232 device the ACIA should work on
+Specify RS232 device the ACIA should work on (all emulators except C64DTV and VSID)
 
 @cindex -rsuser, +rsuser
 @item -rsuser
