@@ -188,9 +188,9 @@ static ui_popup_translation_table_t vsidui_popup_translation_table[] = {
     { 2, IDS_MP_RESET },
     { 1, IDS_MP_MEDIA },
     { 1, IDS_MP_OPTIONS },
+    { 1, IDS_MP_SETTINGS },
     { 2, IDS_MP_REFRESH_RATE },
     { 2, IDS_MP_MAXIMUM_SPEED },
-    { 1, IDS_MP_SETTINGS },
     { 1, IDS_MP_LANGUAGE },
     { 1, IDS_MP_HELP },
     { 0, 0 }

@@ -43,6 +43,11 @@ BEGIN
     END
     POPUP "Options"
     BEGIN
+        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
+        MENUITEM "", IDM_TOGGLE_SOUND,                CHECKED
+    END
+    POPUP "Settings"
+    BEGIN
         POPUP "Refresh rate"
         BEGIN
             MENUITEM "", IDM_REFRESH_RATE_AUTO
@@ -68,12 +73,9 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "", IDM_MAXIMUM_SPEED_CUSTOM
         END
+        MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_TOGGLE_WARP_MODE,            CHECKED
-        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
-        MENUITEM "", IDM_TOGGLE_SOUND,                CHECKED
-    END
-    POPUP "Settings"
-    BEGIN
+        MENUITEM SEPARATOR
         MENUITEM "", IDM_PSID_OVERRIDE,               CHECKED
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SOUND_SETTINGS
