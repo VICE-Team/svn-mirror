@@ -90,13 +90,6 @@ ui_res_possible_values petAciaDevice[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values petAciaInt[] = {
-    { 0, MENU_ACIA_INT_NONE },
-    { 1, MENU_ACIA_INT_IRQ },
-    { 2, MENU_ACIA_INT_NMI },
-    { -1, 0 }
-};
-
 ui_res_possible_values PETREUSize[] = {
     { 128, MENU_PETREU_SIZE_128 },
     { 512, MENU_PETREU_SIZE_512 },
@@ -113,7 +106,6 @@ ui_res_possible_values pet_RenderFilters[] = {
 
 ui_res_value_list pet_ui_res_values[] = {
     { "Acia1Dev", petAciaDevice },
-    { "Acia1Irq", petAciaInt },
     { "PETREUsize", PETREUSize},
     { "CRTCFilter", pet_RenderFilters },
     { NULL, NULL }

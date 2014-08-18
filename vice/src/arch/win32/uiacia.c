@@ -95,14 +95,14 @@ static void enable_plus4_acia_controls(HWND hwnd)
         enabled = 0;
     }
 
-    EnableWindow(GetDlgItem(hwnd, IDC_ACIA_INTERRUPT), enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_ACIA_INTERRUPT), 0);
     EnableWindow(GetDlgItem(hwnd, IDC_ACIA_DEVICE), enabled);
 }
 
 static void enable_nonc64_acia_controls(HWND hwnd)
 {
     EnableWindow(GetDlgItem(hwnd, IDC_ACIA_DEVICE), 1);
-    EnableWindow(GetDlgItem(hwnd, IDC_ACIA_INTERRUPT), 1);
+    EnableWindow(GetDlgItem(hwnd, IDC_ACIA_INTERRUPT), 0);
 }
 
 static void init_acia_dialog(HWND hwnd)
@@ -353,14 +353,6 @@ static void init_plus4_acia_dialog(HWND hwnd)
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_int("Acia1Irq", &res_value);
-    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_INTERRUPT);
-    for (res_value_loop = 0; interrupt_names[res_value_loop];
-        res_value_loop++) {
-        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)(TCHAR *)translate_text(interrupt_names[res_value_loop]));
-    }
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
-
     enable_plus4_acia_controls(hwnd);
 }
 
@@ -432,14 +424,6 @@ static void init_nonc64_acia_dialog(HWND hwnd)
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_int("Acia1Irq", &res_value);
-    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_INTERRUPT);
-    for (res_value_loop = 0; interrupt_names[res_value_loop];
-        res_value_loop++) {
-        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)(TCHAR *)translate_text(interrupt_names[res_value_loop]));
-    }
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
-
     enable_nonc64_acia_controls(hwnd);
 }
 
@@ -472,13 +456,11 @@ static void end_plus4_acia_dialog(HWND hwnd)
 {
     resources_set_int("Acia1Enable", (IsDlgButtonChecked(hwnd, IDC_ACIA_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("Acia1Dev", (int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_DEVICE), CB_GETCURSEL, 0, 0));
-    resources_set_int("Acia1Irq", (int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_INTERRUPT), CB_GETCURSEL, 0, 0));
 }
 
 static void end_nonc64_acia_dialog(HWND hwnd)
 {
     resources_set_int("Acia1Dev", (int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_DEVICE), CB_GETCURSEL, 0, 0));
-    resources_set_int("Acia1Irq", (int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_INTERRUPT), CB_GETCURSEL, 0, 0));
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

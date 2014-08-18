@@ -31,6 +31,8 @@
 #define mycpu_rmw_flag  maincpu_rmw_flag
 #define mycpu_clk_guard maincpu_clk_guard
 
+#define ACIA_MODE_HIGHEST   ACIA_MODE_NORMAL
+
 #define myacia acia1
 
 /* resource defaults */

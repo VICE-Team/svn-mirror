@@ -126,7 +126,6 @@ enum {
                                  and enhanced baud rate register */
 
     ACIA_MODE_LOWEST    = ACIA_MODE_NORMAL,
-    ACIA_MODE_HIGHEST   = ACIA_MODE_TURBO232
 };
 
 int acia_dump(void *acia_context);

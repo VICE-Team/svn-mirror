@@ -40,6 +40,8 @@
 
 #define myaciadev       acia1dev
 
+#define ACIA_MODE_HIGHEST   ACIA_MODE_TURBO232
+
 #define myacia_init acia1_init
 #define myacia_init_cmdline_options acia1_cmdline_options_init
 #define myacia_init_resources acia1_resources_init
@@ -262,9 +264,14 @@ int acia1_set_mode(int mode)
 /* ------------------------------------------------------------------------- */
 
 #ifdef HAVE_RS232
+
 static const resource_int_t resources_i[] = {
     { "Acia1Enable", 0, RES_EVENT_STRICT, 0,
       &acia_enabled, set_acia_enabled, NULL },
+    { "Acia1Irq", MyIrq, RES_EVENT_NO, NULL,
+      &acia.irq_res, acia_set_irq, NULL },
+    { "Acia1Mode", ACIA_MODE_NORMAL, RES_EVENT_NO, NULL,
+      &acia.mode, acia_set_mode, NULL },
     { "Acia1Base", 0xffff, RES_EVENT_STRICT, int_to_void_ptr(0xffff),
       &acia_base, set_acia_base, NULL },
     { NULL }

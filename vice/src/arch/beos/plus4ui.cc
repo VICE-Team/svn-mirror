@@ -91,13 +91,6 @@ ui_res_possible_values plus4AciaDevice[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values plus4AciaInt[] = {
-    { 0, MENU_ACIA_INT_NONE },
-    { 1, MENU_ACIA_INT_IRQ },
-    { 2, MENU_ACIA_INT_NMI },
-    { -1, 0 }
-};
-
 ui_res_possible_values plus4_RenderFilters[] = {
     { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
     { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
@@ -107,7 +100,6 @@ ui_res_possible_values plus4_RenderFilters[] = {
 
 ui_res_value_list plus4_ui_res_values[] = {
     { "Acia1Dev", plus4AciaDevice },
-    { "Acia1Irq", plus4AciaInt },
     { "TEDFilter", plus4_RenderFilters },
     { NULL, NULL }
 };

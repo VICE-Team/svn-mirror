@@ -40,6 +40,8 @@
 #define MyDevice 0
 #define MyIrq    IK_IRQ
 
+#define ACIA_MODE_HIGHEST   ACIA_MODE_NORMAL
+
 #define myaciadev acia1dev
 
 #define myacia_init acia_init

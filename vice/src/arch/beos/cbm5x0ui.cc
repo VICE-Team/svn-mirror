@@ -75,13 +75,6 @@ ui_res_possible_values cbm5x0AciaDevice[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values cbm5x0AciaInt[] = {
-    { 0, MENU_ACIA_INT_NONE },
-    { 1, MENU_ACIA_INT_IRQ },
-    { 2, MENU_ACIA_INT_NMI },
-    { -1, 0 }
-};
-
 ui_res_possible_values cbm5x0RenderFilters[] = {
     { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
     { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
@@ -97,7 +90,6 @@ ui_res_possible_values cbm5x0_cia1models[] = {
 
 ui_res_value_list cbm5x0_ui_res_values[] = {
     { "Acia1Dev", cbm5x0AciaDevice },
-    { "Acia1Irq", cbm5x0AciaInt },
     { "VICIIFilter", cbm5x0RenderFilters },
     { "CIA1Model", cbm5x0_cia1models },
     { NULL, NULL }

@@ -164,7 +164,6 @@ static ui_to_from_t ui_to_from20[] = {
 static ui_to_from_t ui_to_from4[] = {
     { NULL, MUI_TYPE_CYCLE, "Acia1Enable", ui_acia_enable, ui_acia_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "Acia1Dev", ui_acia_device, ui_acia_device_values, NULL },
-    { NULL, MUI_TYPE_CYCLE, "Acia1Irq", ui_acia_interrupt, ui_acia_interrupt_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -211,7 +210,6 @@ static APTR build_gui4(void)
     return GroupObject,
              CYCLE(ui_to_from20[0].object, "ACIA", ui_acia_enable)
              CYCLE(ui_to_from20[1].object, translate_text(IDS_ACIA_DEVICE), ui_acia_device)
-             CYCLE(ui_to_from20[2].object, translate_text(IDS_ACIA_INTERRUPT), ui_acia_interrupt)
            End;
 }
 

@@ -235,6 +235,10 @@ static const double t232_bps_table[4] = {
 */
 static int acia_set_device(int val, void *param)
 {
+    if (val < 0 || val > 3) {
+        return -1;
+    }
+
     if (acia.fd >= 0) {
         log_error(acia.log,
                   "acia_set_device(): "
@@ -460,10 +464,6 @@ static int acia_set_mode(int new_mode, void *param)
 static const resource_int_t resources_int[] = {
     { MYACIA "Dev", MyDevice, RES_EVENT_NO, NULL,
       &acia.device, acia_set_device, NULL },
-    { MYACIA "Irq", MyIrq, RES_EVENT_NO, NULL,
-      &acia.irq_res, acia_set_irq, NULL },
-    { MYACIA "Mode", ACIA_MODE_NORMAL, RES_EVENT_NO, NULL,
-      &acia.mode, acia_set_mode, NULL },
     { NULL }
 };
 
@@ -478,6 +478,9 @@ static const resource_int_t resources_int[] = {
 int myacia_init_resources(void)
 {
     acia_preinit();
+
+    acia.irq_res = MyIrq;
+    acia.mode = ACIA_MODE_NORMAL;
 
     return resources_register_int(resources_int);
 }

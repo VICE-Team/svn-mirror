@@ -628,12 +628,12 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("$DE00", new BMessage(MENU_ACIA_BASE_DE00)));
                     extsubmenu->AddItem(new BMenuItem("$DF00", new BMessage(MENU_ACIA_BASE_DF00)));
                 }
+            submenu->AddItem(extsubmenu = new BMenu("ACIA interrupt"));
+                extsubmenu->SetRadioMode(true);
+                extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_ACIA_INT_NONE)));
+                extsubmenu->AddItem(new BMenuItem("IRQ", new BMessage(MENU_ACIA_INT_IRQ)));
+                extsubmenu->AddItem(new BMenuItem("NMI", new BMessage(MENU_ACIA_INT_NMI)));
         }
-        submenu->AddItem(extsubmenu = new BMenu("ACIA interrupt"));
-            extsubmenu->SetRadioMode(true);
-            extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_ACIA_INT_NONE)));
-            extsubmenu->AddItem(new BMenuItem("IRQ", new BMessage(MENU_ACIA_INT_IRQ)));
-            extsubmenu->AddItem(new BMenuItem("NMI", new BMessage(MENU_ACIA_INT_NMI)));
         if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PLUS4) {
             submenu->AddItem(extsubmenu = new BMenu("ACIA mode"));
                 extsubmenu->SetRadioMode(true);
