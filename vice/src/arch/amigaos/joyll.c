@@ -74,9 +74,13 @@ static int set_joystick_device_1(int val, void *param)
 {
     ULONG portstate;
 
+    if (val < JOYDEV_NONE || val > JOYDEV_JOY3) {
+        return -1;
+    }
+
     joy_arch_init();
 
-    if (val>=JOYDEV_JOY0 && val<=JOYDEV_JOY3) {
+    if (val >= JOYDEV_JOY0) {
         portstate = ReadJoyPort(val - JOYDEV_JOY0);
         if ((portstate&JP_TYPE_MASK) == JP_TYPE_JOYSTK) {
             joystick_fire[0] = JPF_BUTTON_RED;
@@ -91,9 +95,13 @@ static int set_joystick_device_2(int val, void *param)
 {
     ULONG portstate;
 
+    if (val < JOYDEV_NONE || val > JOYDEV_JOY3) {
+        return -1;
+    }
+
     joy_arch_init();
 
-    if (val >= JOYDEV_JOY0 && val <= JOYDEV_JOY3) {
+    if (val >= JOYDEV_JOY0) {
         portstate = ReadJoyPort(val - JOYDEV_JOY0);
         if ((portstate & JP_TYPE_MASK) == JP_TYPE_JOYSTK) {
             joystick_fire[1] = JPF_BUTTON_RED;
@@ -108,9 +116,13 @@ static int set_joystick_device_3(int val, void *param)
 {
     ULONG portstate;
 
+    if (val < JOYDEV_NONE || val > JOYDEV_JOY3) {
+        return -1;
+    }
+
     joy_arch_init();
 
-    if (val >= JOYDEV_JOY0 && val <= JOYDEV_JOY3) {
+    if (val >= JOYDEV_JOY0) {
         portstate = ReadJoyPort(val - JOYDEV_JOY0);
         if ((portstate & JP_TYPE_MASK) == JP_TYPE_JOYSTK) {
             joystick_fire[2] = JPF_BUTTON_RED;
@@ -125,9 +137,13 @@ static int set_joystick_device_4(int val, void *param)
 {
     ULONG portstate;
 
+    if (val < JOYDEV_NONE || val > JOYDEV_JOY3) {
+        return -1;
+    }
+
     joy_arch_init();
 
-    if (val >= JOYDEV_JOY0 && val <= JOYDEV_JOY3) {
+    if (val >= JOYDEV_JOY0) {
         portstate = ReadJoyPort(val - JOYDEV_JOY0);
         if ((portstate & JP_TYPE_MASK) == JP_TYPE_JOYSTK) {
             joystick_fire[3] = JPF_BUTTON_RED;
@@ -258,21 +274,33 @@ static int set_joystick_fire_4(int value, void *param)
     return 0;
 }
 
-static const resource_int_t resources_int[] = {
+static const resource_int_t joy1_resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_device[0], set_joystick_device_1, NULL },
-    { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[1], set_joystick_device_2, NULL },
-    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[2], set_joystick_device_3, NULL },
-    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[3], set_joystick_device_4, NULL },
     { "JoyFire1", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[0], set_joystick_fire_1, NULL },
+    { NULL }
+};
+
+static const resource_int_t joy2_resources_int[] = {
+    { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_device[1], set_joystick_device_2, NULL },
     { "JoyFire2", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[1], set_joystick_fire_2, NULL },
+    { NULL }
+};
+
+static const resource_int_t joy3_resources_int[] = {
+    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_device[2], set_joystick_device_3, NULL },
     { "JoyFire3", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[2], set_joystick_fire_3, NULL },
+    { NULL }
+};
+
+static const resource_int_t joy4_resources_int[] = {
+    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_device[3], set_joystick_device_4, NULL },
     { "JoyFire4", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[3], set_joystick_fire_4, NULL },
     { NULL }
@@ -280,7 +308,55 @@ static const resource_int_t resources_int[] = {
 
 int joystick_arch_init_resources(void)
 {
-    return resources_register_int(resources_int);
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_SCPU64:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64DTV:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy2_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy4_resources_int);
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy4_resources_int);
+            break;
+        case VICE_MACHINE_CBM5x0:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy2_resources_int);
+            break;
+        case VICE_MACHINE_PLUS4:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy2_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy3_resources_int);
+            break;
+        case VICE_MACHINE_VIC20:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy4_resources_int);
+            break;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
