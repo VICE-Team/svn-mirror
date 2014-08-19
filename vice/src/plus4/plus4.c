@@ -40,6 +40,7 @@
 #include "drive-sound.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "gfxoutput.h"
 #include "imagecontents.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -257,6 +258,8 @@ int machine_resources_init(void)
         || rs232drv_resources_init() < 0
         || serial_resources_init() < 0
         || printer_resources_init() < 0
+        || joystick_init_resources() < 0
+        || gfxoutput_resources_init() < 0
 #ifndef COMMON_KBD
         || kbd_resources_init() < 0
 #endif

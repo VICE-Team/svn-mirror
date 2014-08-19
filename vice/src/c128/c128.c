@@ -64,6 +64,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "functionrom.h"
+#include "gfxoutput.h"
 #include "imagecontents.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -443,6 +444,8 @@ int machine_resources_init(void)
         || rsuser_resources_init() < 0
         || serial_resources_init() < 0
         || printer_resources_init() < 0
+        || joystick_init_resources() < 0
+        || gfxoutput_resources_init() < 0
 #ifdef HAVE_MOUSE
         || lightpen_resources_init() < 0
         || mouse_resources_init() < 0

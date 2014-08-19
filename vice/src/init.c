@@ -130,20 +130,12 @@ int init_resources(void)
         init_resource_fail("machine");
         return -1;
     }
-    if (joystick_init_resources() < 0) {
-        init_resource_fail("joystick");
-        return -1;
-    }
     if (kbdbuf_resources_init() < 0) {
         init_resource_fail("Keyboard");
         return -1;
     }
     if (ram_resources_init() < 0) {
         init_resource_fail("RAM");
-        return -1;
-    }
-    if (gfxoutput_resources_init() < 0) {
-        init_resource_fail("GFXOUTPUT");
         return -1;
     }
     if (network_resources_init() < 0) {
@@ -241,12 +233,10 @@ int init_cmdline_options(void)
             init_cmdline_options_fail("file system");
             return -1;
         }
-    }
-    if (!video_disabled_mode && joystick_init_cmdline_options() < 0) {
-        init_cmdline_options_fail("joystick");
-        return -1;
-    }
-    if (machine_class != VICE_MACHINE_VSID) {
+        if (!video_disabled_mode && joystick_init_cmdline_options() < 0) {
+            init_cmdline_options_fail("joystick");
+            return -1;
+        }
         if (kbdbuf_cmdline_options_init() < 0) {
             init_cmdline_options_fail("keyboard");
             return -1;
@@ -308,11 +298,10 @@ int init_main(void)
 
     keyboard_init();
 
-    if (!video_disabled_mode) {
-        joystick_init();
-    }
-
     if (machine_class != VICE_MACHINE_VSID) {
+        if (!video_disabled_mode) {
+            joystick_init();
+        }
         disk_image_init();
         vdrive_init();
     }
