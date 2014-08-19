@@ -47,6 +47,7 @@ static uilib_localize_dialog_param autostart_dialog[] = {
     { IDC_AUTOSTART_USE_COLON_WITH_RUN, IDS_AUTOSTART_COLON_RUN, 0 },
     { IDC_AUTOSTART_LOAD_TO_BASIC, IDS_AUTOSTART_LOAD_TO_BASIC, 0 },
     { IDC_AUTOSTART_RANDOM_DELAY, IDS_AUTOSTART_RANDOM_DELAY, 0 },
+    { IDC_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION, IDS_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION, 0 },
     { IDC_AUTOSTART_PRG_MODE_LABEL, IDS_AUTOSTART_PRG_MODE, 0 },
     { IDC_AUTOSTART_DISK_IMAGE_FILE_LABEL, IDS_AUTOSTART_PRG_DISK_IMAGE, 0 },
     { IDC_AUTOSTART_DISK_IMAGE_BROWSE, IDS_BROWSE, 0 },
@@ -136,6 +137,9 @@ static void init_autostart_dialog(HWND hwnd)
     resources_get_int("AutostartDelayRandom", &res_value);
     CheckDlgButton(hwnd, IDC_AUTOSTART_RANDOM_DELAY, res_value ? BST_CHECKED : BST_UNCHECKED);
 
+    resources_get_int("AutostartHandleTrueDriveEmulation", &res_value);
+    CheckDlgButton(hwnd, IDC_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION, res_value ? BST_CHECKED : BST_UNCHECKED);
+
     temp_hwnd = GetDlgItem(hwnd, IDC_AUTOSTART_PRG_MODE);
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_AUTOSTART_VIRTUAL_FS));
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_AUTOSTART_INJECT));
@@ -158,6 +162,7 @@ static void end_autostart_dialog(HWND hwnd)
     resources_set_int("AutostartRunWithColon", (IsDlgButtonChecked(hwnd, IDC_AUTOSTART_USE_COLON_WITH_RUN) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("AutostartBasicLoad", (IsDlgButtonChecked(hwnd, IDC_AUTOSTART_LOAD_TO_BASIC) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("AutostartDelayRandom", (IsDlgButtonChecked(hwnd, IDC_AUTOSTART_RANDOM_DELAY) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("AutostartHandleTrueDriveEmulation", (IsDlgButtonChecked(hwnd, IDC_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("AutostartPrgMode", (int)SendMessage(GetDlgItem(hwnd, IDC_AUTOSTART_PRG_MODE), CB_GETCURSEL, 0, 0));
 
     GetDlgItemText(hwnd, IDC_AUTOSTART_DISK_IMAGE_FILE, st, MAX_PATH);
