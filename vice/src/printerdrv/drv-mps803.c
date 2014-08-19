@@ -389,7 +389,7 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
     }
 
     if (is_mode(mps, MPS_QUOTED)) {
-        if ((c >= 0x00) && (c <= 0x1f)) {
+        if (c <= 0x1f) {
             set_mode(mps, MPS_REVERSE);
             print_cbm_char(mps, (BYTE)(c + 0x40));
             del_mode(mps, MPS_REVERSE);

@@ -459,7 +459,11 @@ static int disk_image_check_for_gcr(disk_image_t *image)
         return 0;
     }
 
-    if (header[9] < 1 || header[9] > MAX_GCR_TRACKS * 2) {
+/* used to be 
+   if (header[9] < 1 || header[9] > MAX_GCR_TRACKS * 2) {
+   however, header[] is of type BYTE and MAX_GCR_TRACKS is 140
+*/
+    if (header[9] < 1) {
         log_error(disk_image_probe_log,
                   "Import GCR: Invalid number of tracks (%i).",
                   (int)header[9]);
@@ -467,10 +471,15 @@ static int disk_image_check_for_gcr(disk_image_t *image)
     }
 
     max_track_length = util_le_buf_to_word(&header[10]);
+#if 0
+    /* if 0'ed because:
+       max_track_length is of type WORD and NUM_MAX_MEM_BYTES_TRACK is 65536
+     */
     if (max_track_length > NUM_MAX_MEM_BYTES_TRACK) {
         log_error(disk_image_probe_log, "Too large max track length.");
         return 0;
     }
+#endif
 
     image->type = DISK_IMAGE_TYPE_G64;
     image->tracks = header[9] / 2;
