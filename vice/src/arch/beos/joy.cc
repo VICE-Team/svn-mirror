@@ -52,6 +52,7 @@ extern "C" {
 /* Notice that these are never set.  */
 static int keyset1[9], keyset2[9];
 #endif
+
 /* ------------------------------------------------------------------------ */
 
 /* objects to access hardware devices */
@@ -94,7 +95,7 @@ static void joystick_close_device(int dev_index)
     int used_by;
     int joy_dev = joystick_port_map[dev_index];
 
-    if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
+    if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES + hardware_joystick_count) {
         /* it's a hardware-stick; close the device if necessary */
         device_num = hardware_joystick[joy_dev - NUM_OF_SOFTDEVICES].device_num;
         used_by = device_used_by[device_num];
@@ -108,7 +109,6 @@ static void joystick_close_device(int dev_index)
         }
     }
 }
-
 
 static void joystick_open_device(int dev_index)
 {
@@ -139,9 +139,12 @@ static void joystick_open_device(int dev_index)
     }
 }
 
-
 static int set_joystick_device(int val, void *param)
 {
+    if (val < 0 || val > NUM_OF_SOFTDEVICES + MAX_HARDWARE_JOYSTICK) {
+        return -1;
+    }
+
     if (joystick_initialized) {
         joystick_close_device(*((int*)(&param)));
     }
@@ -155,23 +158,81 @@ static int set_joystick_device(int val, void *param)
     return 0;
 }
 
-
-static const resource_int_t resources_int[] = {
+static const resource_int_t joy1_resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
       (int *)&joystick_port_map[0], set_joystick_device, (void *)0 },
+    { NULL }
+};
+
+static const resource_int_t joy2_resources_int[] = {
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
       (int *)&joystick_port_map[1], set_joystick_device, (void *)1 },
+    { NULL }
+};
+
+static const resource_int_t joy3_resources_int[] = {
     { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
       (int *)&joystick_port_map[2], set_joystick_device, (void *)2 },
+    { NULL }
+};
+
+static const resource_int_t joy4_resources_int[] = {
     { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
       (int *)&joystick_port_map[3], set_joystick_device, (void *)3 },
     { NULL }
 };
 
-
 int joystick_arch_init_resources(void)
 {
-    return resources_register_int(resources_int);
+    switch (machine_class) {
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_SCPU64:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64DTV:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy2_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy4_resources_int);
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy4_resources_int);
+            break;
+        case VICE_MACHINE_CBM5x0:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy2_resources_int);
+            break;
+        case VICE_MACHINE_PLUS4:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy2_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy3_resources_int);
+            break;
+        case VICE_MACHINE_VIC20:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy4_resources_int);
+            break;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -262,13 +323,9 @@ int joystick_init_cmdline_options(void)
             }
             return cmdline_register_options(joydev4cmdline_options);
             break;
-        case VICE_MACHINE_VSID:
-            return 0;
-            break;
     }
     return -1;
 }
-
 
 /* ------------------------------------------------------------------------- */
 
