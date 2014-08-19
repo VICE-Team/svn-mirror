@@ -138,6 +138,7 @@ static ui_menu_translation_table_t vsidui_menu_translation_table[] = {
     { IDM_EXIT, IDS_MI_EXIT },
     { IDM_ABOUT, IDS_MI_ABOUT },
     { IDM_HELP, IDS_MP_HELP },
+    { IDM_PAUSE, IDS_MI_PAUSE },
     { IDM_RESET_HARD, IDS_MI_RESET_HARD },
     { IDM_RESET_SOFT, IDS_MI_RESET_SOFT },
     { IDM_TOGGLE_SOUND, IDS_MI_TOGGLE_SOUND },
@@ -187,10 +188,10 @@ static ui_popup_translation_table_t vsidui_popup_translation_table[] = {
     { 1, IDS_MP_FILE },
     { 2, IDS_MP_RESET },
     { 1, IDS_MP_MEDIA },
-    { 1, IDS_MP_OPTIONS },
+/*    { 1, IDS_MP_OPTIONS },*/
     { 1, IDS_MP_SETTINGS },
-    { 2, IDS_MP_REFRESH_RATE },
-    { 2, IDS_MP_MAXIMUM_SPEED },
+/*    { 2, IDS_MP_REFRESH_RATE }, */
+/*    { 2, IDS_MP_MAXIMUM_SPEED },*/
     { 1, IDS_MP_LANGUAGE },
     { 1, IDS_MP_HELP },
     { 0, 0 }

@@ -167,31 +167,9 @@ BEGIN
         MENUITEM "", IDM_SOUND_RECORD_START
         MENUITEM "", IDM_SOUND_RECORD_STOP
     END
-    POPUP "Options"
-    BEGIN
-        MENUITEM "", IDM_TOGGLE_FULLSCREEN
-        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
-#ifdef HAVE_D3D9_H
-        MENUITEM "", IDM_TOGGLE_DX9DISABLE
-#endif
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_VIDEOCACHE,           CHECKED
-        MENUITEM "", IDM_TOGGLE_DOUBLESIZE,           CHECKED
-        MENUITEM "", IDM_TOGGLE_DOUBLESCAN,           CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_SWAP_JOYSTICK
-        MENUITEM "", IDM_SWAP_EXTRA_JOYSTICK
-        MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
-        MENUITEM "", IDM_JOYKEYS_TOGGLE
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_SOUND,                CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "", IDM_TOGGLE_DRIVE_SOUND_EMULATION, CHECKED
-        MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_MOUSE
-    END
+//    POPUP "Options"
+//    BEGIN
+//    END
     POPUP "Settings"
     BEGIN
         POPUP "Refresh rate"
@@ -222,26 +200,64 @@ BEGIN
         MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_TOGGLE_WARP_MODE,            CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "", IDM_C64MODEL_SETTINGS
-        MENUITEM "", IDM_AUTOSTART_SETTINGS
-        MENUITEM "", IDM_VIDEO_SETTINGS
+        MENUITEM "", IDM_KEYBOARD_SETTINGS
+        POPUP "Sound settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_SOUND,                CHECKED
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_SOUND_SETTINGS
+        END
         MENUITEM SEPARATOR
+        POPUP "Drive settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+            MENUITEM "", IDM_TOGGLE_DRIVE_SOUND_EMULATION, CHECKED
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_DRIVE_SETTINGS
+        END
         MENUITEM "", IDM_DEVICEMANAGER
-        MENUITEM "", IDM_DRIVE_SETTINGS
         MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
-        MENUITEM "", IDM_DATASETTE_SETTINGS
-        MENUITEM "", IDM_VICII_SETTINGS
-        MENUITEM "", IDM_JOY_SETTINGS
-        MENUITEM "", IDM_EXTRA_JOY_SETTINGS
-        MENUITEM "", IDM_KEYBOARD_SETTINGS
-        MENUITEM "", IDM_MOUSE_SETTINGS
+        POPUP "Joystick settings"
+        BEGIN
+            MENUITEM "", IDM_JOY_SETTINGS
+            MENUITEM "", IDM_EXTRA_JOY_SETTINGS
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_SWAP_JOYSTICK
+            MENUITEM "", IDM_SWAP_EXTRA_JOYSTICK
+            MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
+            MENUITEM "", IDM_JOYKEYS_TOGGLE
+        END
+        POPUP "Mouse settings"
+        BEGIN
+            MENUITEM "", IDM_MOUSE_SETTINGS
+            MENUITEM "", IDM_MOUSE
+        END
         MENUITEM "", IDM_LIGHTPEN_SETTINGS
-        MENUITEM "", IDM_SOUND_SETTINGS
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_AUTOSTART_SETTINGS
+        MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
+        MENUITEM "", IDM_DATASETTE_SETTINGS
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_VIDEO_SETTINGS
+        MENUITEM "", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
+#ifdef HAVE_D3D9_H
+        MENUITEM "", IDM_TOGGLE_DX9DISABLE
+#endif
+        POPUP "VIC-II settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_VIDEOCACHE,           CHECKED
+            MENUITEM "", IDM_TOGGLE_DOUBLESIZE,           CHECKED
+            MENUITEM "", IDM_TOGGLE_DOUBLESCAN,           CHECKED
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_C64MODEL_SETTINGS
+        MENUITEM "", IDM_RAM_SETTINGS
+        MENUITEM "", IDM_ROM_SETTINGS
+        MENUITEM "", IDM_VICII_SETTINGS
         MENUITEM "", IDM_SID_SETTINGS
         MENUITEM "", IDM_CIA_SETTINGS
-        MENUITEM "", IDM_ROM_SETTINGS
-        MENUITEM "", IDM_RAM_SETTINGS
         POPUP "Cartridge/IO settings"
         BEGIN
             MENUITEM "", IDM_ACIA_SETTINGS
@@ -568,6 +584,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "PLUS256K settings..."
   IDS_MI_C64_256K_SETTINGS      "256K settings..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -607,6 +624,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "PLUS256K-indstillinger..."
   IDS_MI_C64_256K_SETTINGS      "256k-indstillinger..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64-drev burst-modifikationsindstillinger..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -646,6 +664,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "PLUS256K Einstellungen..."
   IDS_MI_C64_256K_SETTINGS      "256K Einstellungen..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 Laufwerk Burstmodifkation Einstellungen..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -685,6 +704,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "Ajustes PLUS256K..."
   IDS_MI_C64_256K_SETTINGS      "Ajustes 256K..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Ajuste modificación Burst en controlador C64..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -724,6 +744,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "Paramètres PLUS256K..."
   IDS_MI_C64_256K_SETTINGS      "Paramètres 256K..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Paramètres de l'émulation de Burst Lecteur C64..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -766,6 +787,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "PLUS256K settings..."
   IDS_MI_C64_256K_SETTINGS      "256K settings..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -808,6 +830,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "Impostazioni PLUS256K..."
   IDS_MI_C64_256K_SETTINGS      "Impostazioni 256K..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Impostazioni modifica burst del drive C64..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -850,6 +873,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "PLUS256K settings..."
   IDS_MI_C64_256K_SETTINGS      "256K settings..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -892,6 +916,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "PLUS256K instellingen..."
   IDS_MI_C64_256K_SETTINGS      "256K instellingen..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modificatie instellingen..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -934,6 +959,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "Ustawienia PLUS256K..."
   IDS_MI_C64_256K_SETTINGS      "Ustawienia 256K..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Ustawienia trybu synchronicznego napêdu C64..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -979,6 +1005,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "PLUS256K settings..."
   IDS_MI_C64_256K_SETTINGS      "256K settings..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1021,6 +1048,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "PLUS256K-inställningar..."
   IDS_MI_C64_256K_SETTINGS      "256K-inställningar..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Inställningar för C64 diskettburstmodifiering..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -1063,6 +1091,7 @@ BEGIN
   IDS_MI_PLUS256K_SETTINGS      "PLUS256K Ayarlarý..."
   IDS_MI_C64_256K_SETTINGS      "256K Ayarlarý..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 sürücüsü atlama modifikasyon ayarlarý..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

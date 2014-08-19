@@ -328,11 +328,16 @@ ui_popup_translation_table_t petui_popup_translation_table[] = {
     { 1, IDS_MP_EDIT },
     { 1, IDS_MP_SNAPSHOT },
     { 2, IDS_MP_RECORDING_START_MODE },
-    { 1, IDS_MP_OPTIONS },
-    { 2, IDS_MP_DRIVE_SYNC_FACTOR },
+/*    { 1, IDS_MP_OPTIONS },*/
     { 1, IDS_MP_SETTINGS },
     { 2, IDS_MP_REFRESH_RATE },
     { 2, IDS_MP_MAXIMUM_SPEED },
+    { 2, IDS_MP_SOUND_SETTINGS },
+    { 2, IDS_MP_DRIVE_SETTINGS },
+    { 2, IDS_MP_JOYSTICK_SETTINGS },
+/*    { 2, IDS_MP_MOUSE_SETTINGS },*/
+    { 2, IDS_MP_CRTC_SETTINGS },
+    { 2, IDS_MP_DRIVE_SYNC_FACTOR },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS },
     { 1, IDS_MP_LANGUAGE },
     { 1, IDS_MP_HELP },

@@ -141,34 +141,9 @@ BEGIN
         MENUITEM "", IDM_SOUND_RECORD_START
         MENUITEM "", IDM_SOUND_RECORD_STOP
     END
-    POPUP "Options"
-    BEGIN
-        MENUITEM "", IDM_TOGGLE_FULLSCREEN
-        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
-#ifdef HAVE_D3D9_H
-        MENUITEM "", IDM_TOGGLE_DX9DISABLE
-#endif
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_CRTCVIDEOCACHE, CHECKED
-        MENUITEM "", IDM_TOGGLE_CRTCDOUBLESIZE, CHECKED
-        MENUITEM "", IDM_TOGGLE_CRTCDOUBLESCAN, CHECKED
-        MENUITEM "", IDM_TOGGLE_CRTCDOUBLEVERTICAL, CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_SWAP_EXTRA_JOYSTICK
-        MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
-        MENUITEM "", IDM_JOYKEYS_TOGGLE
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_SOUND, CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "", IDM_TOGGLE_DRIVE_SOUND_EMULATION, CHECKED
-        MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
-        POPUP "Drive sync factor"
-        BEGIN
-            MENUITEM "",  IDM_SYNC_FACTOR_PAL
-            MENUITEM "", IDM_SYNC_FACTOR_NTSC
-        END
-    END
+//    POPUP "Options"
+//    BEGIN
+//    END
     POPUP "Settings"
     BEGIN
         POPUP "Refresh rate"
@@ -199,21 +174,63 @@ BEGIN
         MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "", IDM_PETMODEL_SETTINGS
-        MENUITEM "", IDM_AUTOSTART_SETTINGS
-        MENUITEM "", IDM_VIDEO_SETTINGS
-        MENUITEM "", IDM_PET_SETTINGS
+        MENUITEM "", IDM_KEYBOARD_SETTINGS
+        POPUP "Sound settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_SOUND,                CHECKED
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_SOUND_SETTINGS
+        END
         MENUITEM SEPARATOR
+        POPUP "Drive settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+            MENUITEM "", IDM_TOGGLE_DRIVE_SOUND_EMULATION, CHECKED
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_DRIVE_SETTINGS
+        END
         MENUITEM "", IDM_DEVICEMANAGER
-        MENUITEM "", IDM_DRIVE_SETTINGS
         MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
+        POPUP "Joystick settings"
+        BEGIN
+            MENUITEM "", IDM_EXTRA_JOY_SETTINGS
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_SWAP_EXTRA_JOYSTICK
+            MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
+            MENUITEM "", IDM_JOYKEYS_TOGGLE
+        END
+//        POPUP "Mouse settings"
+//        BEGIN
+//        END
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_AUTOSTART_SETTINGS
+        MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
         MENUITEM "", IDM_DATASETTE_SETTINGS
-        MENUITEM "", IDM_EXTRA_JOY_SETTINGS
-        MENUITEM "", IDM_KEYBOARD_SETTINGS
-        MENUITEM "", IDM_SOUND_SETTINGS
-        MENUITEM "", IDM_ROM_SETTINGS
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_VIDEO_SETTINGS
+        MENUITEM "", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
+#ifdef HAVE_D3D9_H
+        MENUITEM "", IDM_TOGGLE_DX9DISABLE
+#endif
+        POPUP "CRTC settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_CRTCVIDEOCACHE, CHECKED
+            MENUITEM "", IDM_TOGGLE_CRTCDOUBLESIZE, CHECKED
+            MENUITEM "", IDM_TOGGLE_CRTCDOUBLESCAN, CHECKED
+            MENUITEM "", IDM_TOGGLE_CRTCDOUBLEVERTICAL, CHECKED
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_PETMODEL_SETTINGS
+        MENUITEM "", IDM_PET_SETTINGS
+        POPUP "Drive sync factor"
+        BEGIN
+            MENUITEM "",  IDM_SYNC_FACTOR_PAL
+            MENUITEM "", IDM_SYNC_FACTOR_NTSC
+        END
         MENUITEM "", IDM_RAM_SETTINGS
+        MENUITEM "", IDM_ROM_SETTINGS
         POPUP "Cartridge/IO settings"
         BEGIN
             MENUITEM "", IDM_ACIA_SETTINGS
@@ -573,6 +590,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
   IDS_MI_PETMODEL_SETTINGS       "PET model settings..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -611,6 +629,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivér brugerport DAC for lydoutput"
   IDS_MI_PETMODEL_SETTINGS       "PET-model indstillinger..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -649,6 +668,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "PET Hi-Res Emulation Board aktivieren"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Userport DAC Sound aktivieren"
   IDS_MI_PETMODEL_SETTINGS       "PET Modell Einstellungen..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -687,6 +707,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "Permitir emulación Tableta gráfica PET alta resolución"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Permitir puerto DAC para salida de sonido"
   IDS_MI_PETMODEL_SETTINGS       "Ajustes modelo PET..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -725,6 +746,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "Activer la carte d'émulation PET Haute Résolution"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Activer DAC port utilisateur comme sortie de son"
   IDS_MI_PETMODEL_SETTINGS       "Paramètres du modèle PET..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -766,6 +788,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
   IDS_MI_PETMODEL_SETTINGS       "PET modell beállításai..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -807,6 +830,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "Attiva scheda alta risoluzione del PET"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Attiva DAC su userport per la riproduzione audio"
   IDS_MI_PETMODEL_SETTINGS       "Impostazioni modello PET..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -848,6 +872,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
   IDS_MI_PETMODEL_SETTINGS       "PET ¸ðµ¨ ¼ÂÆÃ..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -889,6 +914,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "Activeer PET High Res Emulation bord"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Activeer userport DAC voor geluidsuitvoer"
   IDS_MI_PETMODEL_SETTINGS       "PET model instellingen..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -930,6 +956,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "W³±cz uk³ad emulatora PET hi-res"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "W³±cz userport DAC jako wyj¶cie d¼wiêku"
   IDS_MI_PETMODEL_SETTINGS       "Ustawienia modelu PET..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -974,6 +1001,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
   IDS_MI_PETMODEL_SETTINGS       "½ÐáâàÞÙÚØ ÜÞÔÕÛØ PET..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1015,6 +1043,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "Aktivera PET-högupplösningsemuleringskort"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivera D/A-omvandlare på användarporten för ljudutdata"
   IDS_MI_PETMODEL_SETTINGS       "Inställningar för PET-modell..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -1056,6 +1085,7 @@ BEGIN
   IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Ses çýkýþý için Userport DAC'ý aktif et"
   IDS_MI_PETMODEL_SETTINGS       "PET model ayarlarý..."
+  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

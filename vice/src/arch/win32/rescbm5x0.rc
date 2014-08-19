@@ -152,33 +152,9 @@ BEGIN
         MENUITEM "", IDM_SOUND_RECORD_START
         MENUITEM "", IDM_SOUND_RECORD_STOP
     END
-    POPUP "Options"
-    BEGIN
-        MENUITEM "", IDM_TOGGLE_FULLSCREEN
-        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
-#ifdef HAVE_D3D9_H
-        MENUITEM "", IDM_TOGGLE_DX9DISABLE
-#endif
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_VIDEOCACHE, CHECKED
-        MENUITEM "", IDM_TOGGLE_DOUBLESIZE, CHECKED
-        MENUITEM "", IDM_TOGGLE_DOUBLESCAN, CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_SWAP_JOYSTICK
-        MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
-        MENUITEM "", IDM_JOYKEYS_TOGGLE
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_SOUND, CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "", IDM_TOGGLE_DRIVE_SOUND_EMULATION, CHECKED
-        MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
-        POPUP "Drive sync factor"
-        BEGIN
-            MENUITEM "", IDM_SYNC_FACTOR_PAL
-            MENUITEM "", IDM_SYNC_FACTOR_NTSC
-        END
-    END
+//    POPUP "Options"
+//    BEGIN
+//    END
     POPUP "Settings"
     BEGIN
         POPUP "Refresh rate"
@@ -209,23 +185,64 @@ BEGIN
         MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "", IDM_CBM2MODEL_SETTINGS
-        MENUITEM "", IDM_AUTOSTART_SETTINGS
-        MENUITEM "", IDM_VIDEO_SETTINGS
-        MENUITEM "", IDM_CBM2_SETTINGS
+        MENUITEM "", IDM_KEYBOARD_SETTINGS
+        POPUP "Sound settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_SOUND,                CHECKED
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_SOUND_SETTINGS
+        END
         MENUITEM SEPARATOR
+        POPUP "Drive settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+            MENUITEM "", IDM_TOGGLE_DRIVE_SOUND_EMULATION, CHECKED
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_DRIVE_SETTINGS
+        END
         MENUITEM "", IDM_DEVICEMANAGER
-        MENUITEM "", IDM_DRIVE_SETTINGS
         MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
+        POPUP "Joystick settings"
+        BEGIN
+            MENUITEM "", IDM_JOY_SETTINGS
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_SWAP_JOYSTICK
+            MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
+            MENUITEM "", IDM_JOYKEYS_TOGGLE
+        END
+//        POPUP "Mouse settings"
+//        BEGIN
+//        END
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_AUTOSTART_SETTINGS
+        MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
         MENUITEM "", IDM_DATASETTE_SETTINGS
-        MENUITEM "", IDM_JOY_SETTINGS
-        MENUITEM "", IDM_KEYBOARD_SETTINGS
-        MENUITEM "", IDM_SOUND_SETTINGS
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_VIDEO_SETTINGS
+        MENUITEM "", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
+#ifdef HAVE_D3D9_H
+        MENUITEM "", IDM_TOGGLE_DX9DISABLE
+#endif
+        POPUP "VIC-II settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_VIDEOCACHE, CHECKED
+            MENUITEM "", IDM_TOGGLE_DOUBLESIZE, CHECKED
+            MENUITEM "", IDM_TOGGLE_DOUBLESCAN, CHECKED
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_CBM2MODEL_SETTINGS
+        MENUITEM "", IDM_CBM2_SETTINGS
+        POPUP "Drive sync factor"
+        BEGIN
+            MENUITEM "", IDM_SYNC_FACTOR_PAL
+            MENUITEM "", IDM_SYNC_FACTOR_NTSC
+        END
+        MENUITEM "", IDM_RAM_SETTINGS
+        MENUITEM "", IDM_ROM_SETTINGS
         MENUITEM "", IDM_SID_SETTINGS
         MENUITEM "", IDM_CIA_SETTINGS
-        MENUITEM "", IDM_ROM_SETTINGS
-        MENUITEM "", IDM_RAM_SETTINGS
         POPUP "Cartridge/IO settings"
         BEGIN
             MENUITEM "", IDM_ACIA_SETTINGS
@@ -337,6 +354,7 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -350,6 +368,7 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0-model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0-indstillinger..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0-modelindstillinger..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -363,6 +382,7 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 Modell"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 Einstellungen..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 Modell Einstellungen..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -376,6 +396,7 @@ BEGIN
   IDS_CBM5X0MODEL               "Modelo CBM5x0"
   IDS_MI_CBM5X0_SETTINGS        "Ajustes CBM5x0..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "Ajustes modelo CBM5x0..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -389,6 +410,7 @@ BEGIN
   IDS_CBM5X0MODEL               "Modèle CBM5x0"
   IDS_MI_CBM5X0_SETTINGS        "Paramètres CBM5x0..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "Paramètres du modèle CBM5x0..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -405,6 +427,7 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -421,6 +444,7 @@ BEGIN
   IDS_CBM5X0MODEL               "Modello CBM5x0"
   IDS_MI_CBM5X0_SETTINGS        "Impostazioni CBM5x0..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "Impostazioni modello CBM5x0..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -437,6 +461,7 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -453,6 +478,7 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 instellingen..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model instellingen..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -469,6 +495,7 @@ BEGIN
   IDS_CBM5X0MODEL               "Model CBM5x0"
   IDS_MI_CBM5X0_SETTINGS        "Ustawienia CBM5x0..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "Ustawienia modelu CBM5x0..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -488,6 +515,7 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -504,6 +532,7 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0-modell"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0-inställningar..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0-modellinställningar..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -520,6 +549,7 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 modeli"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 ayarlarý..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model ayarlarý..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

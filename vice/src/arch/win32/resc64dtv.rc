@@ -46,12 +46,6 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "", IDM_DETACH_ALL
         END
-        POPUP "DTV ROM image File"
-        BEGIN
-            MENUITEM "", IDM_ATTACH_DTV_FLASH
-            MENUITEM "", IDM_DETACH_DTV_FLASH
-            MENUITEM "", IDM_CREATE_DTV_FLASH
-        END
         POPUP "Flip list"
         BEGIN
             MENUITEM "", IDM_FLIP_ADD
@@ -62,9 +56,15 @@ BEGIN
             MENUITEM "", IDM_FLIP_LOAD
             MENUITEM "", IDM_FLIP_SAVE
         END
+        POPUP "DTV ROM image File"
+        BEGIN
+            MENUITEM "", IDM_ATTACH_DTV_FLASH
+            MENUITEM "", IDM_DETACH_DTV_FLASH
+            MENUITEM "", IDM_CREATE_DTV_FLASH
+        END
         MENUITEM SEPARATOR
-        MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_MONITOR
+        MENUITEM SEPARATOR
         POPUP "Default CPU JAM action"
         BEGIN
             MENUITEM "", IDM_JAM_ACTION_ASK
@@ -132,7 +132,10 @@ BEGIN
         MENUITEM "", IDM_SOUND_RECORD_START
         MENUITEM "", IDM_SOUND_RECORD_STOP
     END
-    POPUP "Options"
+//    POPUP "Options"
+//    BEGIN
+//    END
+    POPUP "Settings"
     BEGIN
         POPUP "Refresh rate"
         BEGIN
@@ -159,56 +162,71 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "", IDM_MAXIMUM_SPEED_CUSTOM
         END
+        MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_TOGGLE_WARP_MODE,             CHECKED
         MENUITEM SEPARATOR
+        MENUITEM "", IDM_KEYBOARD_SETTINGS
+        POPUP "Sound settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_SOUND,                CHECKED
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_SOUND_SETTINGS
+        END
+        MENUITEM SEPARATOR
+        POPUP "Drive settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION,  CHECKED
+            MENUITEM "", IDM_TOGGLE_DRIVE_SOUND_EMULATION, CHECKED
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_DRIVE_SETTINGS
+        END
+        MENUITEM "", IDM_DEVICEMANAGER
+        MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
+        MENUITEM "", IDM_TOGGLE_FLASH_TRUE_FILESYSTEM, CHECKED
+        MENUITEM SEPARATOR
+        POPUP "Joystick settings"
+        BEGIN
+            MENUITEM "", IDM_JOY_SETTINGS
+            MENUITEM "", IDM_EXTRA_JOY_SETTINGS
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_SWAP_JOYSTICK
+            MENUITEM "", IDM_SWAP_EXTRA_JOYSTICK
+            MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
+            MENUITEM "", IDM_JOYKEYS_TOGGLE
+        END
+        POPUP "Mouse settings"
+        BEGIN
+            MENUITEM "", IDM_PS2MOUSE
+            MENUITEM "", IDM_MOUSE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_AUTOSTART_SETTINGS
+        MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_VIDEO_SETTINGS
         MENUITEM "", IDM_TOGGLE_FULLSCREEN
         MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
 #ifdef HAVE_D3D9_H
         MENUITEM "", IDM_TOGGLE_DX9DISABLE
 #endif
+        POPUP "Options"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_VIDEOCACHE,            CHECKED
+            MENUITEM "", IDM_TOGGLE_DOUBLESIZE,            CHECKED
+            MENUITEM "", IDM_TOGGLE_DOUBLESCAN,            CHECKED
+        END
         MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_VIDEOCACHE,            CHECKED
-        MENUITEM "", IDM_TOGGLE_DOUBLESIZE,            CHECKED
-        MENUITEM "", IDM_TOGGLE_DOUBLESCAN,            CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_SWAP_JOYSTICK
-        MENUITEM "", IDM_SWAP_EXTRA_JOYSTICK
-        MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
-        MENUITEM "", IDM_JOYKEYS_TOGGLE
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_SOUND,                 CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION,  CHECKED
-        MENUITEM "", IDM_TOGGLE_DRIVE_SOUND_EMULATION, CHECKED
-        MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
-        MENUITEM "", IDM_TOGGLE_FLASH_TRUE_FILESYSTEM, CHECKED
-        MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
-        MENUITEM SEPARATOR
+        MENUITEM "", IDM_C64DTVMODEL_SETTINGS
+        MENUITEM "", IDM_C64DTV_SETTINGS
         POPUP "Video standard"
         BEGIN
             MENUITEM "", IDM_SYNC_FACTOR_PAL
             MENUITEM "", IDM_SYNC_FACTOR_NTSC
         END
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_PS2MOUSE
-        MENUITEM "", IDM_MOUSE
-    END
-    POPUP "Settings"
-    BEGIN
-        MENUITEM "", IDM_C64DTVMODEL_SETTINGS
-        MENUITEM "", IDM_AUTOSTART_SETTINGS
-        MENUITEM "", IDM_VIDEO_SETTINGS
-        MENUITEM "", IDM_DEVICEMANAGER
-        MENUITEM "", IDM_DRIVE_SETTINGS
-        MENUITEM "", IDM_VICII_SETTINGS
-        MENUITEM "", IDM_JOY_SETTINGS
-        MENUITEM "", IDM_EXTRA_JOY_SETTINGS
-        MENUITEM "", IDM_KEYBOARD_SETTINGS
-        MENUITEM "", IDM_SOUND_SETTINGS
-        MENUITEM "", IDM_SID_SETTINGS
-        MENUITEM "", IDM_ROM_SETTINGS
         MENUITEM "", IDM_RAM_SETTINGS
-        MENUITEM "", IDM_C64DTV_SETTINGS
+        MENUITEM "", IDM_ROM_SETTINGS
+        MENUITEM "", IDM_VICII_SETTINGS
+        MENUITEM "", IDM_SID_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SETTINGS_SAVE_FILE
         MENUITEM "", IDM_SETTINGS_LOAD_FILE
@@ -494,6 +512,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
   IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -524,6 +543,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Ægte flash-filsystem"
   IDS_MI_PS2MOUSE                 "PS/2-mus på brugerporten"
   IDS_MI_C64DTV_SETTINGS          "C64DTV-indstillinger..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -554,6 +574,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash Dateisystem"
   IDS_MI_PS2MOUSE                 "PS/2 Userport Mausemulation"
   IDS_MI_C64DTV_SETTINGS          "C64DTV Einstellungen..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -584,6 +605,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Fichero sistema flash verdadero"
   IDS_MI_PS2MOUSE                 "Ratón PS/2 en puerto usuario"
   IDS_MI_C64DTV_SETTINGS          "Ajustes C64DTV..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -614,6 +636,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Système de fichier réel flash"
   IDS_MI_PS2MOUSE                 "Souris PS/2 sur port utilisateur"
   IDS_MI_C64DTV_SETTINGS          "Paramètres C64DTV..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -647,6 +670,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
   IDS_MI_PS2MOUSE                 "PS/2 egér a userporton"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -680,6 +704,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Attiva emulazione hardware del filesystem flash"
   IDS_MI_PS2MOUSE                 "Mouse PS/2 su userport"
   IDS_MI_C64DTV_SETTINGS          "Impostazioni C64DTV..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -713,6 +738,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
   IDS_MI_PS2MOUSE                 "À¯ÀúÆ÷Æ®¿¡ PS/S ¸¶¿ì½º "
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -746,6 +772,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Hardwarematig flash bestandssysteem"
   IDS_MI_PS2MOUSE                 "Aktiveer emulatie van een PS/2 muis op de userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV Instellingen..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -779,6 +806,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Rzeczywisty system plików flash"
   IDS_MI_PS2MOUSE                 "Mysz PS/2 w userporcie"
   IDS_MI_C64DTV_SETTINGS          "Ustawienia C64DTV..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -815,6 +843,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
   IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -848,6 +877,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Äkta flash-filsystem"
   IDS_MI_PS2MOUSE                 "PS/2-mus på användarport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV-inställningar..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -881,6 +911,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Gerçek flash dosya sistemi"
   IDS_MI_PS2MOUSE                 "Userport üzerinde PS/2 mouse"
   IDS_MI_C64DTV_SETTINGS          "C64DTV Ayarlarý..."
+  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

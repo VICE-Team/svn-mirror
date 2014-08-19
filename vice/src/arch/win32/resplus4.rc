@@ -154,35 +154,9 @@ BEGIN
         MENUITEM "", IDM_SOUND_RECORD_START
         MENUITEM "", IDM_SOUND_RECORD_STOP
     END
-    POPUP "Options"
-    BEGIN
-        MENUITEM "", IDM_TOGGLE_FULLSCREEN
-        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
-#ifdef HAVE_D3D9_H
-        MENUITEM "", IDM_TOGGLE_DX9DISABLE
-#endif
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_VIDEOCACHE, CHECKED
-        MENUITEM "", IDM_TOGGLE_DOUBLESIZE, CHECKED
-        MENUITEM "", IDM_TOGGLE_DOUBLESCAN, CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_SWAP_JOYSTICK
-        MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
-        MENUITEM "", IDM_JOYKEYS_TOGGLE
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_SOUND, CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "", IDM_TOGGLE_DRIVE_SOUND_EMULATION, CHECKED
-        MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
-        MENUITEM SEPARATOR
-        POPUP "Video standard"
-        BEGIN
-            MENUITEM "", IDM_SYNC_FACTOR_PAL
-            MENUITEM "", IDM_SYNC_FACTOR_NTSC
-        END
-        MENUITEM SEPARATOR
-    END
+//    POPUP "Options"
+//    BEGIN
+//    END
     POPUP "Settings"
     BEGIN
         POPUP "Refresh rate"
@@ -213,23 +187,64 @@ BEGIN
         MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "", IDM_PLUS4MODEL_SETTINGS
-        MENUITEM "", IDM_AUTOSTART_SETTINGS
-        MENUITEM "", IDM_VIDEO_SETTINGS
+        MENUITEM "", IDM_KEYBOARD_SETTINGS
+        POPUP "Sound settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_SOUND,                CHECKED
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_SOUND_SETTINGS
+        END
         MENUITEM SEPARATOR
+        POPUP "Drive settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+            MENUITEM "", IDM_TOGGLE_DRIVE_SOUND_EMULATION, CHECKED
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_DRIVE_SETTINGS
+        END
         MENUITEM "", IDM_DEVICEMANAGER
-        MENUITEM "", IDM_DRIVE_SETTINGS
         MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
+        POPUP "Joystick settings"
+        BEGIN
+            MENUITEM "", IDM_JOY_SETTINGS
+            MENUITEM "", IDM_EXTRA_JOY_SETTINGS
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_SWAP_JOYSTICK
+            MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
+            MENUITEM "", IDM_JOYKEYS_TOGGLE
+        END
+//        POPUP "Mouse settings"
+//        BEGIN
+//        END
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_AUTOSTART_SETTINGS
+        MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
         MENUITEM "", IDM_DATASETTE_SETTINGS
-        MENUITEM "", IDM_TED_SETTINGS
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_VIDEO_SETTINGS
+        MENUITEM "", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
+#ifdef HAVE_D3D9_H
+        MENUITEM "", IDM_TOGGLE_DX9DISABLE
+#endif
+        POPUP "TED settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_VIDEOCACHE, CHECKED
+            MENUITEM "", IDM_TOGGLE_DOUBLESIZE, CHECKED
+            MENUITEM "", IDM_TOGGLE_DOUBLESCAN, CHECKED
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_PLUS4MODEL_SETTINGS
         MENUITEM "", IDM_PLUS4_SETTINGS
-        MENUITEM "", IDM_JOY_SETTINGS
-        MENUITEM "", IDM_EXTRA_JOY_SETTINGS
-        MENUITEM "", IDM_KEYBOARD_SETTINGS
-        MENUITEM "", IDM_SOUND_SETTINGS
-        MENUITEM "", IDM_ROM_SETTINGS
+        POPUP "Video standard"
+        BEGIN
+            MENUITEM "", IDM_SYNC_FACTOR_PAL
+            MENUITEM "", IDM_SYNC_FACTOR_NTSC
+        END
         MENUITEM "", IDM_RAM_SETTINGS
+        MENUITEM "", IDM_ROM_SETTINGS
+        MENUITEM "", IDM_TED_SETTINGS
         POPUP "Cartridge/IO settings"
         BEGIN
             MENUITEM "", IDM_ACIA_SETTINGS
@@ -500,6 +515,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
   IDS_MI_TED_SETTINGS             "TED settings..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 
 
@@ -535,6 +551,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 tale-indstillinger..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4-model indstillinger..."
   IDS_MI_TED_SETTINGS             "TED-indstillinger..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 
 
@@ -570,6 +587,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Stimme Einstellungen..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 Modell Einstellungen..."
   IDS_MI_TED_SETTINGS             "TED Einstellungen..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 
 
@@ -605,6 +623,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "Ajustes V364 Speech..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Ajustes modelo Plus4..."
   IDS_MI_TED_SETTINGS             "Ajustes TED..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 
 
@@ -640,6 +659,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "Paramètres du V364 Speech..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Paramètres du modèle Plus4..."
   IDS_MI_TED_SETTINGS             "Paramètres TED..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 
 
@@ -678,6 +698,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
   IDS_MI_TED_SETTINGS             "TED beállításai..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -716,6 +737,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "Impostazioni V364 Speech..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Impostazioni modello Plus4..."
   IDS_MI_TED_SETTINGS             "Impostazioni TED..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 
 
@@ -754,6 +776,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
   IDS_MI_TED_SETTINGS             "TED ¼ÂÆÃ..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -792,6 +815,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Spraak instellingen..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model instellingen..."
   IDS_MI_TED_SETTINGS             "TED instellingen..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 
 
@@ -830,6 +854,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "Ustawienia mowy V364..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Ustawienia modelu Plus4..."
   IDS_MI_TED_SETTINGS             "Ustawienia TED..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -871,6 +896,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "¿ÐàÐÜÕâàë àÕçØ V364..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
   IDS_MI_TED_SETTINGS             "½ÐáâàÞÙÚØ TED..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -909,6 +935,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364-röstinställningar..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4-modellinställningar..."
   IDS_MI_TED_SETTINGS             "TED-inställningar..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 
 
@@ -947,6 +974,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech ayarlarý..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model ayarlarý..."
   IDS_MI_TED_SETTINGS             "TED ayarlarý..."
+  IDS_MP_TED_SETTINGS             "TED settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

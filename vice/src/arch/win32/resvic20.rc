@@ -162,37 +162,9 @@ BEGIN
         MENUITEM "", IDM_SOUND_RECORD_START
         MENUITEM "", IDM_SOUND_RECORD_STOP
     END
-    POPUP "Options"
-    BEGIN
-        MENUITEM "", IDM_TOGGLE_FULLSCREEN
-        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
-#ifdef HAVE_D3D9_H
-        MENUITEM "", IDM_TOGGLE_DX9DISABLE
-#endif
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_VIDEOCACHE, CHECKED
-        MENUITEM "", IDM_TOGGLE_DOUBLESIZE, CHECKED
-        MENUITEM "", IDM_TOGGLE_DOUBLESCAN, CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_SWAP_EXTRA_JOYSTICK
-        MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
-        MENUITEM "", IDM_JOYKEYS_TOGGLE
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_SOUND, CHECKED
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "", IDM_TOGGLE_DRIVE_SOUND_EMULATION, CHECKED
-        MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
-        MENUITEM SEPARATOR
-        POPUP "Video standard"
-        BEGIN
-            MENUITEM "",  IDM_SYNC_FACTOR_PAL
-            MENUITEM "", IDM_SYNC_FACTOR_NTSC
-        END
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_IEEE488
-      MENUITEM "", IDM_PADDLES
-    END
+//    POPUP "Options"
+//    BEGIN
+//    END
     POPUP "Settings"
     BEGIN
         POPUP "Refresh rate"
@@ -223,24 +195,66 @@ BEGIN
         MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "", IDM_VIC20MODEL_SETTINGS
-        MENUITEM "", IDM_AUTOSTART_SETTINGS
-        MENUITEM "", IDM_VIDEO_SETTINGS
-        MENUITEM "", IDM_VIC20_SETTINGS
+        MENUITEM "", IDM_KEYBOARD_SETTINGS
+        POPUP "Sound settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_SOUND,                CHECKED
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_SOUND_SETTINGS
+        END
         MENUITEM SEPARATOR
+        POPUP "Drive settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+            MENUITEM "", IDM_TOGGLE_DRIVE_SOUND_EMULATION, CHECKED
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_DRIVE_SETTINGS
+        END
         MENUITEM "", IDM_DEVICEMANAGER
-        MENUITEM "", IDM_DRIVE_SETTINGS
         MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
-        MENUITEM "", IDM_DATASETTE_SETTINGS
-        MENUITEM "", IDM_VIC_SETTINGS
-        MENUITEM "", IDM_JOY_SETTINGS
-        MENUITEM "", IDM_EXTRA_JOY_SETTINGS
-        MENUITEM "", IDM_KEYBOARD_SETTINGS
+        POPUP "Joystick settings"
+        BEGIN
+            MENUITEM "", IDM_JOY_SETTINGS
+            MENUITEM "", IDM_EXTRA_JOY_SETTINGS
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_SWAP_EXTRA_JOYSTICK
+            MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
+            MENUITEM "", IDM_JOYKEYS_TOGGLE
+        END
+//        POPUP "Mouse settings"
+//        BEGIN
+//        END
+        MENUITEM "", IDM_PADDLES
         MENUITEM "", IDM_LIGHTPEN_SETTINGS
-        MENUITEM "", IDM_SOUND_SETTINGS
-        MENUITEM "", IDM_ROM_SETTINGS
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_AUTOSTART_SETTINGS
+        MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
+        MENUITEM "", IDM_DATASETTE_SETTINGS
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_VIDEO_SETTINGS
+        MENUITEM "", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
+#ifdef HAVE_D3D9_H
+        MENUITEM "", IDM_TOGGLE_DX9DISABLE
+#endif
+        POPUP "VIC settings"
+        BEGIN
+            MENUITEM "", IDM_TOGGLE_VIDEOCACHE, CHECKED
+            MENUITEM "", IDM_TOGGLE_DOUBLESIZE, CHECKED
+            MENUITEM "", IDM_TOGGLE_DOUBLESCAN, CHECKED
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_VIC20MODEL_SETTINGS
+        MENUITEM "", IDM_VIC20_SETTINGS
+        POPUP "Video standard"
+        BEGIN
+            MENUITEM "",  IDM_SYNC_FACTOR_PAL
+            MENUITEM "", IDM_SYNC_FACTOR_NTSC
+        END
         MENUITEM "", IDM_RAM_SETTINGS
+        MENUITEM "", IDM_ROM_SETTINGS
+        MENUITEM "", IDM_VIC_SETTINGS
         POPUP "Cartridge/IO settings"
         BEGIN
             MENUITEM "", IDM_ACIA_SETTINGS
@@ -259,6 +273,7 @@ BEGIN
             MENUITEM "", IDM_TFE_SETTINGS
 #endif
             MENUITEM "", IDM_VIC_FLASH_PLUGIN_WRITEBACK
+            MENUITEM "", IDM_IEEE488
             MENUITEM SEPARATOR
             MENUITEM "", IDM_TOGGLE_CART_RESET
         END
@@ -585,6 +600,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler settings (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC settings..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -645,6 +661,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler-indstillinger (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC-indstillinger..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -705,6 +722,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler Einstellungen (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC Einstellungen..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 Modell Einstellungen..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -765,6 +783,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Ajustes SFX Sound Sampler (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "Ajustes VIC..."
     IDS_MI_VIC20MODEL_SETTINGS               "Ajustes modelo VIC20..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -825,6 +844,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Paramètres du SFX Sound Sampler (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "Paramètres VIC..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -888,6 +908,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler settings (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC beállításai..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -951,6 +972,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Impostazioni SFX Sound Sampler (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "Impostazioni VIC..."
     IDS_MI_VIC20MODEL_SETTINGS               "Impostazioni modello VIC20..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -1014,6 +1036,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler settings (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC ¼ÂÆÃ..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1077,6 +1100,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler instellingen (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC instellingen..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model instellingen..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -1140,6 +1164,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Ustawienia samplera d¼wiêku SFX (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "Ustawienia VIC..."
     IDS_MI_VIC20MODEL_SETTINGS               "Ustawienia modelu VIC20..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1206,6 +1231,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler settings (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC settings..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1269,6 +1295,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Inställningar för SFX Sound Sampler (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC-inställningar..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20-modellinställningar..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -1332,6 +1359,7 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler ayarlarý (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC ayarlarý..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
+    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
