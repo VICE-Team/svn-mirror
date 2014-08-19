@@ -282,7 +282,6 @@ static void init_plus4_acia_dialog(HWND hwnd)
     int min_width;
     int xpos;
     int xsize, ysize;
-    int res_value_loop;
 
     SetWindowText(hwnd, translate_text(IDS_ACIA_CAPTION));
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_ENABLE);
@@ -366,7 +365,6 @@ static void init_nonc64_acia_dialog(HWND hwnd)
     int min_width = 0;
     int xpos;
     int xsize, ysize;
-    int res_value_loop;
 
     SetWindowText(hwnd, translate_text(IDS_ACIA_CAPTION));
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE_LABEL);
