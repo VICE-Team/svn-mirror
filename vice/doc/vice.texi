@@ -2792,6 +2792,7 @@ joystick emulation for ports 1 - 4, respectively.
 (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2 on AmigaOS4)
 (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3 on AmigaOS3, MorphOS and AROS)
 (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware joysticks on BeOS)
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2 on DOS)
 The available joysticks might differ depending on operating system and
 joystick support in the OS (Linux joystick module must be
 available for example).

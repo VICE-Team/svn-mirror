@@ -47,6 +47,10 @@
 /* Joystick devices.  */
 static int set_joystick_device_1(int val, void *param)
 {
+    if (val < 0 || val > JOYDEV_HW2) {
+        return -1;
+    }
+
     joystick_device_t dev = (joystick_device_t)val;
     joystick_device_t old_joystick_device_1 = joystick_port_map[0];
 
@@ -59,6 +63,10 @@ static int set_joystick_device_1(int val, void *param)
 
 static int set_joystick_device_2(int val, void *param)
 {
+    if (val < 0 || val > JOYDEV_HW2) {
+        return -1;
+    }
+
     joystick_device_t dev = (joystick_device_t)val;
     joystick_device_t old_joystick_device_2 = joystick_port_map[1];
 
@@ -71,6 +79,10 @@ static int set_joystick_device_2(int val, void *param)
 
 static int set_joystick_device_3(int val, void *param)
 {
+    if (val < 0 || val > JOYDEV_HW2) {
+        return -1;
+    }
+
     joystick_device_t dev = (joystick_device_t)val;
     joystick_device_t old_joystick_device_3 = joystick_port_map[2];
 
@@ -83,6 +95,10 @@ static int set_joystick_device_3(int val, void *param)
 
 static int set_joystick_device_4(int val, void *param)
 {
+    if (val < 0 || val > JOYDEV_HW2) {
+        return -1;
+    }
+
     joystick_device_t dev = (joystick_device_t)val;
     joystick_device_t old_joystick_device_4 = joystick_port_map[3];
 
@@ -141,15 +157,31 @@ static int set_joystick_hw_type(int val, void *param)
     return 0;
 }
 
-static const resource_int_t resources_int[] = {
+static const resource_int_t joy1_resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[0], set_joystick_device_1, NULL },
+    { NULL }
+};
+
+static const resource_int_t joy2_resources_int[] = {
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[1], set_joystick_device_2, NULL },
+    { NULL }
+};
+
+static const resource_int_t joy3_resources_int[] = {
     { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[2], set_joystick_device_3, NULL },
+    { NULL }
+};
+
+static const resource_int_t joy4_resources_int[] = {
     { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[3], set_joystick_device_4, NULL },
+    { NULL }
+};
+
+static const resource_int_t hwtype_resources_int[] = {
     { "HwJoyType", 0, RES_EVENT_NO, NULL,
       &joystick_hw_type, set_joystick_hw_type, NULL },
     { NULL }
@@ -157,7 +189,66 @@ static const resource_int_t resources_int[] = {
 
 int joystick_arch_init_resources(void)
 {
-    return resources_register_int(resources_int);
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_SCPU64:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy2_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy4_resources_int) < 0) {
+                return -1;
+            }
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy4_resources_int) < 0) {
+                return -1;
+            }
+            break;
+        case VICE_MACHINE_CBM5x0:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy2_resources_int) < 0) {
+                return -1;
+            }
+            break;
+        case VICE_MACHINE_PLUS4:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy2_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            break;
+        case VICE_MACHINE_VIC20:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy4_resources_int) < 0) {
+                return -1;
+            }
+            break;
+    }
+    return resources_register_int(hwtype_resources_int);
 }
 
 /* ------------------------------------------------------------------------- */
