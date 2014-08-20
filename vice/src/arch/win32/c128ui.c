@@ -84,15 +84,9 @@ static const ui_res_value_list_t c128_ui_res_values[] = {
 };
 
 static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
-    { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_MOUSE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
-    { "VDCDoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
-    { "VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
-    { "VDCStretchVertical", IDM_TOGGLE_VDC_DOUBLEVERTICAL },
     { "VDC64KB", IDM_TOGGLE_VDC64KB },
     { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
     { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
@@ -435,8 +429,6 @@ ui_popup_translation_table_t c128ui_popup_translation_table[] = {
     { 2, IDS_MP_DRIVE_SETTINGS },
     { 2, IDS_MP_JOYSTICK_SETTINGS },
     { 2, IDS_MP_MOUSE_SETTINGS },
-    { 2, IDS_MP_VICII_SETTINGS },
-    { 2, IDS_MP_VDC_SETTINGS },
     { 2, IDS_MP_VIDEO_STANDARD },
     { 2, IDS_MP_VDC_SETTINGS },
     { 3, IDS_MP_VDC_REVISION },

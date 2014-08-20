@@ -224,13 +224,6 @@ BEGIN
 #ifdef HAVE_D3D9_H
         MENUITEM "", IDM_TOGGLE_DX9DISABLE
 #endif
-        POPUP "CRTC settings"
-        BEGIN
-            MENUITEM "", IDM_TOGGLE_CRTCVIDEOCACHE, CHECKED
-            MENUITEM "", IDM_TOGGLE_CRTCDOUBLESIZE, CHECKED
-            MENUITEM "", IDM_TOGGLE_CRTCDOUBLESCAN, CHECKED
-            MENUITEM "", IDM_TOGGLE_CRTCDOUBLEVERTICAL, CHECKED
-        END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_CBM2MODEL_SETTINGS
         MENUITEM "", IDM_CBM2_SETTINGS
@@ -353,7 +346,6 @@ BEGIN
   IDS_CBM2MODEL               "CBM2 model"
   IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -366,7 +358,6 @@ BEGIN
   IDS_CBM2MODEL               "CBM2-model"
   IDS_MI_CBM2_SETTINGS        "CBM2-indstillinger..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2-modelindstillinger..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -379,7 +370,6 @@ BEGIN
   IDS_CBM2MODEL               "CBM2 Modell"
   IDS_MI_CBM2_SETTINGS        "CBM2 Einstellungen..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 Modell Einstellungen..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -392,7 +382,6 @@ BEGIN
   IDS_CBM2MODEL               "Modelo CBM2"
   IDS_MI_CBM2_SETTINGS        "Ajustes CBM2..."
   IDS_MI_CBM2MODEL_SETTINGS   "Ajustes modelo CBM2..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -405,7 +394,6 @@ BEGIN
   IDS_CBM2MODEL               "Modèle CBM2"
   IDS_MI_CBM2_SETTINGS        "Paramètres CBM2..."
   IDS_MI_CBM2MODEL_SETTINGS   "Paramètres du modèle CBM2..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -421,7 +409,6 @@ BEGIN
   IDS_CBM2MODEL               "CBM2 model"
   IDS_MI_CBM2_SETTINGS        "CBM2 beállításai..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -437,7 +424,6 @@ BEGIN
   IDS_CBM2MODEL               "Modello CBM2"
   IDS_MI_CBM2_SETTINGS        "Impostazioni CBM2..."
   IDS_MI_CBM2MODEL_SETTINGS   "Impostazioni modello CBM2..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -453,7 +439,6 @@ BEGIN
   IDS_CBM2MODEL               "CBM2 model"
   IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -469,7 +454,6 @@ BEGIN
   IDS_CBM2MODEL               "CBM2 model"
   IDS_MI_CBM2_SETTINGS        "CBM2 instellingen..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model instellingen..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -485,7 +469,6 @@ BEGIN
   IDS_CBM2MODEL               "Model CBM2"
   IDS_MI_CBM2_SETTINGS        "Ustawienia CBM2..."
   IDS_MI_CBM2MODEL_SETTINGS   "Ustawienia modelu CBM2..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -504,7 +487,6 @@ BEGIN
   IDS_CBM2MODEL               "CBM2 model"
   IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -520,7 +502,6 @@ BEGIN
   IDS_CBM2MODEL               "CBM2-modell"
   IDS_MI_CBM2_SETTINGS        "CBM2-inställningar..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2-modellinställningar..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 
 
@@ -536,7 +517,6 @@ BEGIN
   IDS_CBM2MODEL               "CBM2 modeli"
   IDS_MI_CBM2_SETTINGS        "CBM2 ayarlarý..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model ayarlarý..."
-  IDS_MP_CRTC_SETTINGS           "CRTC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

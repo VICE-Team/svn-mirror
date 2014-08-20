@@ -54,9 +54,6 @@
 #include "winmain.h"
 
 static const ui_menu_toggle_t cbm5x0_ui_menu_toggles[] = {
-    { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { NULL, 0 }
 };
@@ -346,7 +343,6 @@ ui_popup_translation_table_t cbm5x0ui_popup_translation_table[] = {
     { 2, IDS_MP_DRIVE_SETTINGS },
     { 2, IDS_MP_JOYSTICK_SETTINGS },
 /*    { 2, IDS_MP_MOUSE_SETTINGS }, */
-    { 2, IDS_MP_VICII_SETTINGS },
     { 2, IDS_MP_DRIVE_SYNC_FACTOR },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS },
     { 1, IDS_MP_LANGUAGE },

@@ -53,9 +53,6 @@
 #include "winmain.h"
 
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
-    { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { NULL, 0 }
 };
@@ -319,7 +316,6 @@ ui_popup_translation_table_t plus4ui_popup_translation_table[] = {
     { 2, IDS_MP_DRIVE_SETTINGS },
     { 2, IDS_MP_JOYSTICK_SETTINGS },
 /*    { 2, IDS_MP_MOUSE_SETTINGS },*/
-    { 2, IDS_MP_TED_SETTINGS },
     { 2, IDS_MP_VIDEO_STANDARD },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS },
     { 1, IDS_MP_LANGUAGE },

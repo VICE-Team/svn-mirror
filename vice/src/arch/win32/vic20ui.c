@@ -64,9 +64,6 @@
 #include "winmain.h"
 
 static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
-    { "VICDoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "VICDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_PADDLES },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
@@ -367,7 +364,6 @@ ui_popup_translation_table_t vic20ui_popup_translation_table[] = {
     { 2, IDS_MP_DRIVE_SETTINGS },
     { 2, IDS_MP_JOYSTICK_SETTINGS },
 /*    { 2, IDS_MP_MOUSE_SETTINGS },*/
-    { 2, IDS_MP_VIC_SETTINGS },
     { 2, IDS_MP_VIDEO_STANDARD },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS },
     { 1, IDS_MP_LANGUAGE },

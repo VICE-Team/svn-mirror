@@ -237,12 +237,6 @@ BEGIN
 #ifdef HAVE_D3D9_H
         MENUITEM "", IDM_TOGGLE_DX9DISABLE
 #endif
-        POPUP "VIC settings"
-        BEGIN
-            MENUITEM "", IDM_TOGGLE_VIDEOCACHE, CHECKED
-            MENUITEM "", IDM_TOGGLE_DOUBLESIZE, CHECKED
-            MENUITEM "", IDM_TOGGLE_DOUBLESCAN, CHECKED
-        END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_VIC20MODEL_SETTINGS
         MENUITEM "", IDM_VIC20_SETTINGS
@@ -599,7 +593,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler settings (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC settings..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -660,7 +653,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler-indstillinger (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC-indstillinger..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -721,7 +713,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler Einstellungen (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC Einstellungen..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 Modell Einstellungen..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -782,7 +773,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Ajustes SFX Sound Sampler (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "Ajustes VIC..."
     IDS_MI_VIC20MODEL_SETTINGS               "Ajustes modelo VIC20..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -843,7 +833,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Paramètres du SFX Sound Sampler (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "Paramètres VIC..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -907,7 +896,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler settings (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC beállításai..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -971,7 +959,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Impostazioni SFX Sound Sampler (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "Impostazioni VIC..."
     IDS_MI_VIC20MODEL_SETTINGS               "Impostazioni modello VIC20..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -1035,7 +1022,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler settings (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC ¼ÂÆÃ..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1099,7 +1085,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler instellingen (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC instellingen..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model instellingen..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -1163,7 +1148,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Ustawienia samplera d¼wiêku SFX (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "Ustawienia VIC..."
     IDS_MI_VIC20MODEL_SETTINGS               "Ustawienia modelu VIC20..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1230,7 +1214,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler settings (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC settings..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1294,7 +1277,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Inställningar för SFX Sound Sampler (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC-inställningar..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20-modellinställningar..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 
 
@@ -1358,7 +1340,6 @@ BEGIN
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler ayarlarý (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC ayarlarý..."
     IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
-    IDS_MP_VIC_SETTINGS                      "VIC settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

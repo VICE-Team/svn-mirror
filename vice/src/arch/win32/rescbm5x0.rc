@@ -224,12 +224,6 @@ BEGIN
 #ifdef HAVE_D3D9_H
         MENUITEM "", IDM_TOGGLE_DX9DISABLE
 #endif
-        POPUP "VIC-II settings"
-        BEGIN
-            MENUITEM "", IDM_TOGGLE_VIDEOCACHE, CHECKED
-            MENUITEM "", IDM_TOGGLE_DOUBLESIZE, CHECKED
-            MENUITEM "", IDM_TOGGLE_DOUBLESCAN, CHECKED
-        END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_CBM2MODEL_SETTINGS
         MENUITEM "", IDM_CBM2_SETTINGS
@@ -353,7 +347,6 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -367,7 +360,6 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0-model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0-indstillinger..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0-modelindstillinger..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -381,7 +373,6 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 Modell"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 Einstellungen..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 Modell Einstellungen..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -395,7 +386,6 @@ BEGIN
   IDS_CBM5X0MODEL               "Modelo CBM5x0"
   IDS_MI_CBM5X0_SETTINGS        "Ajustes CBM5x0..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "Ajustes modelo CBM5x0..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -409,7 +399,6 @@ BEGIN
   IDS_CBM5X0MODEL               "Modèle CBM5x0"
   IDS_MI_CBM5X0_SETTINGS        "Paramètres CBM5x0..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "Paramètres du modèle CBM5x0..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -426,7 +415,6 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -443,7 +431,6 @@ BEGIN
   IDS_CBM5X0MODEL               "Modello CBM5x0"
   IDS_MI_CBM5X0_SETTINGS        "Impostazioni CBM5x0..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "Impostazioni modello CBM5x0..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -460,7 +447,6 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -477,7 +463,6 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 instellingen..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model instellingen..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -494,7 +479,6 @@ BEGIN
   IDS_CBM5X0MODEL               "Model CBM5x0"
   IDS_MI_CBM5X0_SETTINGS        "Ustawienia CBM5x0..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "Ustawienia modelu CBM5x0..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -514,7 +498,6 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -531,7 +514,6 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0-modell"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0-inställningar..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0-modellinställningar..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -548,7 +530,6 @@ BEGIN
   IDS_CBM5X0MODEL               "CBM5x0 modeli"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 ayarlarý..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model ayarlarý..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

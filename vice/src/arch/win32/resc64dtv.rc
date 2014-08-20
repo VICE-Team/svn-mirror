@@ -208,12 +208,6 @@ BEGIN
 #ifdef HAVE_D3D9_H
         MENUITEM "", IDM_TOGGLE_DX9DISABLE
 #endif
-        POPUP "Options"
-        BEGIN
-            MENUITEM "", IDM_TOGGLE_VIDEOCACHE,            CHECKED
-            MENUITEM "", IDM_TOGGLE_DOUBLESIZE,            CHECKED
-            MENUITEM "", IDM_TOGGLE_DOUBLESCAN,            CHECKED
-        END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_C64DTVMODEL_SETTINGS
         MENUITEM "", IDM_C64DTV_SETTINGS
@@ -511,7 +505,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
   IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -542,7 +535,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Ægte flash-filsystem"
   IDS_MI_PS2MOUSE                 "PS/2-mus på brugerporten"
   IDS_MI_C64DTV_SETTINGS          "C64DTV-indstillinger..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -573,7 +565,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash Dateisystem"
   IDS_MI_PS2MOUSE                 "PS/2 Userport Mausemulation"
   IDS_MI_C64DTV_SETTINGS          "C64DTV Einstellungen..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -604,7 +595,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Fichero sistema flash verdadero"
   IDS_MI_PS2MOUSE                 "Ratón PS/2 en puerto usuario"
   IDS_MI_C64DTV_SETTINGS          "Ajustes C64DTV..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -635,7 +625,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Système de fichier réel flash"
   IDS_MI_PS2MOUSE                 "Souris PS/2 sur port utilisateur"
   IDS_MI_C64DTV_SETTINGS          "Paramètres C64DTV..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -669,7 +658,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
   IDS_MI_PS2MOUSE                 "PS/2 egér a userporton"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -703,7 +691,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Attiva emulazione hardware del filesystem flash"
   IDS_MI_PS2MOUSE                 "Mouse PS/2 su userport"
   IDS_MI_C64DTV_SETTINGS          "Impostazioni C64DTV..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -737,7 +724,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
   IDS_MI_PS2MOUSE                 "À¯ÀúÆ÷Æ®¿¡ PS/S ¸¶¿ì½º "
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -771,7 +757,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Hardwarematig flash bestandssysteem"
   IDS_MI_PS2MOUSE                 "Aktiveer emulatie van een PS/2 muis op de userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV Instellingen..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -805,7 +790,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Rzeczywisty system plików flash"
   IDS_MI_PS2MOUSE                 "Mysz PS/2 w userporcie"
   IDS_MI_C64DTV_SETTINGS          "Ustawienia C64DTV..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -842,7 +826,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
   IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -876,7 +859,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Äkta flash-filsystem"
   IDS_MI_PS2MOUSE                 "PS/2-mus på användarport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV-inställningar..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 
 
@@ -910,7 +892,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Gerçek flash dosya sistemi"
   IDS_MI_PS2MOUSE                 "Userport üzerinde PS/2 mouse"
   IDS_MI_C64DTV_SETTINGS          "C64DTV Ayarlarý..."
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

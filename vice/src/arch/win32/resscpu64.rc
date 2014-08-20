@@ -230,12 +230,6 @@ BEGIN
 #ifdef HAVE_D3D9_H
         MENUITEM "", IDM_TOGGLE_DX9DISABLE
 #endif
-        POPUP "VIC-II settings"
-        BEGIN
-            MENUITEM "", IDM_TOGGLE_VIDEOCACHE,           CHECKED
-            MENUITEM "", IDM_TOGGLE_DOUBLESIZE,           CHECKED
-            MENUITEM "", IDM_TOGGLE_DOUBLESCAN,           CHECKED
-        END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_C64MODEL_SETTINGS
         MENUITEM "", IDM_SCPU64_SETTINGS
@@ -586,7 +580,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS        "Netplay..."
   IDS_MI_C64BURSTMOD_SETTINGS    "C64 drive burst modification settings..."
   IDS_MI_SCPU64_SETTINGS         "SuperCPU64 settings..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 
 
@@ -628,7 +621,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS       "Netværksspil (eksperimentelt)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64-drev burst-modifikationsindstillinger..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 settings..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 
 
@@ -670,7 +662,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS       "Netplay (experimentell)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 Laufwerk Burstmodifkation Einstellungen..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 Einstellungen..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 
 
@@ -712,7 +703,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS       "Juego en red ..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Ajuste modificación Burst en controlador C64..."
   IDS_MI_SCPU64_SETTINGS        "Ajustes SuperCPU64..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 
 
@@ -754,7 +744,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS       "Jeu en réseau ..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Paramètres de l'émulation de Burst Lecteur C64..."
   IDS_MI_SCPU64_SETTINGS        "Paramètres SuperCPU64..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 
 
@@ -799,7 +788,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS       "Hálózati játék (kísérleti)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 settings..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -844,7 +832,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS       "Netplay (sperimentale)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Impostazioni modifica burst del drive C64..."
   IDS_MI_SCPU64_SETTINGS        "Impostazioni SuperCPU64..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 
 
@@ -889,7 +876,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS       "³ÝÇÃ·¹ÀÌ (½ÇÇèÀû)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 settings..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -934,7 +920,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS       "Netplay (experimenteel)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modificatie instellingen..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 instellingen..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 
 
@@ -979,7 +964,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS       "Gra sieciowa (eksperymentalne)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Ustawienia trybu synchronicznego napêdu C64..."
   IDS_MI_SCPU64_SETTINGS        "Ustawienia SuperCPU64..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1027,7 +1011,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS       "Netplay..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 settings..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1072,7 +1055,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS       "Nätverksspel (experimentellt)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Inställningar för C64 diskettburstmodifiering..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64-inställningar..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 
 
@@ -1117,7 +1099,6 @@ BEGIN
   IDS_MI_NETWORK_SETTINGS       "Netplay (deneysel)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 sürücüsü atlama modifikasyon ayarlarý..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 settings..."
-  IDS_MP_VICII_SETTINGS          "VIC-II settings"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

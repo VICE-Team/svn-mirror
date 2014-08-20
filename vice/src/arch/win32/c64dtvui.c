@@ -51,9 +51,6 @@
 #include "uivideo.h"
 
 static const ui_menu_toggle_t c64dtv_ui_menu_toggles[] = {
-    { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "PS2Mouse", IDM_PS2MOUSE },
     { "Mouse", IDM_MOUSE },
     { "FlashTrueFS", IDM_TOGGLE_FLASH_TRUE_FILESYSTEM },
@@ -302,7 +299,6 @@ ui_popup_translation_table_t c64dtvui_popup_translation_table[] = {
     { 2, IDS_MP_DRIVE_SETTINGS },
     { 2, IDS_MP_JOYSTICK_SETTINGS },
     { 2, IDS_MP_MOUSE_SETTINGS },
-    { 2, IDS_MP_VICII_SETTINGS },
     { 2, IDS_MP_VIDEO_STANDARD },
     { 1, IDS_MP_LANGUAGE },
     { 1, IDS_MP_HELP },

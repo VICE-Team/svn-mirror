@@ -248,18 +248,6 @@ BEGIN
 #ifdef HAVE_D3D9_H
         MENUITEM "", IDM_TOGGLE_DX9DISABLE
 #endif
-        POPUP "VIC-II settings"
-        BEGIN
-            MENUITEM "", IDM_TOGGLE_VIDEOCACHE, CHECKED
-            MENUITEM "", IDM_TOGGLE_DOUBLESIZE, CHECKED
-            MENUITEM "", IDM_TOGGLE_DOUBLESCAN, CHECKED
-        END
-        POPUP "VDC settings"
-        BEGIN
-            MENUITEM "", IDM_TOGGLE_VDC_DOUBLESIZE
-            MENUITEM "", IDM_TOGGLE_VDC_DOUBLESCAN
-            MENUITEM "", IDM_TOGGLE_VDC_DOUBLEVERTICAL
-        END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_C128MODEL_SETTINGS
         MENUITEM "", IDM_C128_SETTINGS
@@ -752,7 +740,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_C128MODEL                 "C128 model"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "VDC settings"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB video memory"
@@ -805,7 +792,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Aktivér RAM-bank 2 og 3"
   IDS_C128MODEL                 "C128 model"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "VDC-indstillinger"
   IDS_MP_VDC_REVISION           "VDC-revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB grafikhukommelse"
@@ -858,7 +844,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "Externes Funktions ROM Typ"
   IDS_C128_FULL_BANKS           "RAM Bänke 2 und 3 aktivieren"
   IDS_C128MODEL                 "C128 Modell"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "VDC Einstellungen"
   IDS_MP_VDC_REVISION           "VDC Revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB Bildschirm Speicher"
@@ -911,7 +896,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "Tipo  Function ROM externa"
   IDS_C128_FULL_BANKS           "Permitir bancos 2 y 3"
   IDS_C128MODEL                 "Modelo C128"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "Ajustes VDC"
   IDS_MP_VDC_REVISION           "Revisión VDC"
   IDS_MI_TOGGLE_VDC64KB         "Memoria de video 64KB"
@@ -964,7 +948,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Activer les banques RAM 2 et 3"
   IDS_C128MODEL                 "Modèle C128"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "Paramètres VDC"
   IDS_MP_VDC_REVISION           "Révision VDC"
   IDS_MI_TOGGLE_VDC64KB         "Mémoire vidéo de 64Ko"
@@ -1020,7 +1003,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "2-es és 3-as RAM bankok engedélyezése"
   IDS_C128MODEL                 "C128 model"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "VDC beállításai"
   IDS_MP_VDC_REVISION           "VDC változat"
   IDS_MI_TOGGLE_VDC64KB         "64KB képernyõ memória"
@@ -1076,7 +1058,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "Tipo Function ROM esterna"
   IDS_C128_FULL_BANKS           "Attiva banchi RAM 2 e 3"
   IDS_C128MODEL                 "Modello C128"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "Impostazioni VDC"
   IDS_MP_VDC_REVISION           "Revisione VDC"
   IDS_MI_TOGGLE_VDC64KB         "Memoria video di 64KB"
@@ -1132,7 +1113,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_C128MODEL                 "C128 model"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "VDC ¼³Á¤"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB ºñµð¿À ¸Þ¸ð¸®"
@@ -1188,7 +1168,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "Externe functie ROM soort"
   IDS_C128_FULL_BANKS           "Aktiveer RAM bank 2 en 3"
   IDS_C128MODEL                 "C128 model"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "VDC instellingen"
   IDS_MP_VDC_REVISION           "VDC revisie"
   IDS_MI_TOGGLE_VDC64KB         "64KB videogeheugen"
@@ -1244,7 +1223,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "Typ zewnêtrznego Function ROM-u"
   IDS_C128_FULL_BANKS           "W³±cz banki RAM 2 i 3"
   IDS_C128MODEL                 "Model C128"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "Ustawienia VDC"
   IDS_MP_VDC_REVISION           "Wersja VDC"
   IDS_MI_TOGGLE_VDC64KB         "Pamiêæ wideo 64KB"
@@ -1303,7 +1281,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_C128MODEL                 "C128 model"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "½ÐáâàÞÙÚØ VDC"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB video memory"
@@ -1359,7 +1336,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "Externt funktions-ROM-typ"
   IDS_C128_FULL_BANKS           "Aktivera RAM-bank 2 och 3"
   IDS_C128MODEL                 "C128-modell"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "VDC-inställningar"
   IDS_MP_VDC_REVISION           "VDC-revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB grafikminne"
@@ -1415,7 +1391,6 @@ BEGIN
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
   IDS_C128_FULL_BANKS           "RAM banklarý 2 ve 3'ü aktif et"
   IDS_C128MODEL                 "C128 modeli"
-  IDS_MP_VICII_SETTINGS         "VIC-II settings"
   IDS_MP_VDC_SETTINGS           "VDC ayarlarý"
   IDS_MP_VDC_REVISION           "VDC revizyonu"
   IDS_MI_TOGGLE_VDC64KB         "64KB görüntü belleði"
