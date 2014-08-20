@@ -62,13 +62,13 @@ static void sdl_callback(void *userdata, Uint8 *stream, int len)
 	}
 #endif
 
-    while (total < len / sizeof(SWORD)) {
+    while (total < (int)(len / sizeof(SWORD))) {
         amount = sdl_inptr - sdl_outptr;
         if (amount <= 0) {
             amount = sdl_len - sdl_outptr;
         }
 
-        if (amount + total > len / sizeof(SWORD)) {
+        if (amount + total > (int)(len / sizeof(SWORD))) {
             amount = len / sizeof(SWORD) - total;
         }
 
@@ -229,14 +229,14 @@ static int sdl_write(SWORD *pbuf, size_t nr)
     }
 #endif
 
-    while (total < nr) {
+    while (total < (int)nr) {
         amount = sdl_outptr - sdl_inptr;
 
         if (amount <= 0) {
             amount = sdl_len - sdl_inptr;
         }
 
-        if (total + amount > nr) {
+        if (total + amount > (int)nr) {
             amount = nr - total;
         }
 

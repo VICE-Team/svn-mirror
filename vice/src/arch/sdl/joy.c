@@ -150,39 +150,35 @@ static sdljoystick_t *sdljoystick = NULL;
 
 /* Resources.  */
 
-static int joyport1select(int val, void *param)
+static int joyportselect(int val, void *param)
 {
-    joystick_port_map[0] = val;
-    return 0;
-}
+    const int nr = (int)param;
 
-static int joyport2select(int val, void *param)
-{
-    joystick_port_map[1] = val;
-    return 0;
-}
+    if (val < 0 || val > JOYDEV_MAX) {
+        return -1;
+    }
 
-static int joyport3select(int val, void *param)
-{
-    joystick_port_map[2] = val;
-    return 0;
-}
-
-static int joyport4select(int val, void *param)
-{
-    joystick_port_map[3] = val;
+    joystick_port_map[nr] = val;
     return 0;
 }
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
 static int set_joystick_threshold(int val, void *param)
 {
+    if (val < 0 || val > 32767) {
+        return -1;
+    }
+
     joystick_threshold = val;
     return 0;
 }
 
 static int set_joystick_fuzz(int val, void *param)
 {
+    if (val < 0 || val > 32767) {
+        return -1;
+    }
+
     joystick_fuzz = val;
     return 0;
 }
@@ -204,33 +200,49 @@ static resource_string_t resources_string[] = {
 #endif /* HAVE_SDL_NUMJOYSTICKS */
 
 #ifdef ANDROID_COMPILE
-#define JOY2_DEFAULT   4
+#define JOY2_DEFAULT   JOYDEV_JOYSTICK
 #else
-#define JOY2_DEFAULT   0
+#define JOY2_DEFAULT   JOYDEV_NONE
 #endif
 
-static const resource_int_t resources_int[] = {
-    { "JoyDevice1", 0, RES_EVENT_NO, NULL,
-      &joystick_port_map[0], joyport1select, NULL },
-    { "JoyDevice2", JOY2_DEFAULT, RES_EVENT_NO, NULL,
-      &joystick_port_map[1], joyport2select, NULL },
-    { "JoyDevice3", 0, RES_EVENT_NO, NULL,
-      &joystick_port_map[2], joyport3select, NULL },
-    { "JoyDevice4", 0, RES_EVENT_NO, NULL,
-      &joystick_port_map[3], joyport4select, NULL },
 #ifdef HAVE_SDL_NUMJOYSTICKS
+static const resource_int_t resources_int[] = {
     { "JoyThreshold", DEFAULT_JOYSTICK_THRESHOLD, RES_EVENT_NO, NULL,
       &joystick_threshold, set_joystick_threshold, NULL },
     { "JoyFuzz", DEFAULT_JOYSTICK_FUZZ, RES_EVENT_NO, NULL,
       &joystick_fuzz, set_joystick_fuzz, NULL },
+    RESOURCE_INT_LIST_END
+};
 #endif
+
+static const resource_int_t joy1_resources_int[] = {
+    { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_port_map[0], joyportselect, (void *)0 },
+    RESOURCE_INT_LIST_END
+};
+
+static const resource_int_t joy2_resources_int[] = {
+    { "JoyDevice2", JOY2_DEFAULT, RES_EVENT_NO, NULL,
+      &joystick_port_map[1], joyportselect, (void *)1 },
+    RESOURCE_INT_LIST_END
+};
+
+static const resource_int_t joy3_resources_int[] = {
+    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_port_map[2], joyportselect, (void *)2 },
+    RESOURCE_INT_LIST_END
+};
+
+static const resource_int_t joy4_resources_int[] = {
+    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &joystick_port_map[3], joyportselect, (void *)3 },
     RESOURCE_INT_LIST_END
 };
 
 /* Command-line options.  */
 
-static const cmdline_option_t cmdline_options[] = {
 #ifdef HAVE_SDL_NUMJOYSTICKS
+static const cmdline_option_t cmdline_options[] = {
     { "-joymap", SET_RESOURCE, 1, NULL, NULL, "JoyMapFile", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<name>", "Specify name of joystick map file" },
@@ -240,35 +252,35 @@ static const cmdline_option_t cmdline_options[] = {
     { "-joyfuzz", SET_RESOURCE, 1, NULL, NULL, "JoyFuzz", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-32767>", "Set joystick fuzz" },
-#endif
     CMDLINE_LIST_END
 };
+#endif
 
 static const cmdline_option_t joydev1cmdline_options[] = {
     { "-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<0-4>", "Set device for joystick port 1" },
+      JOYDEV_RANGE_TEXT, "Set device for joystick port 1" },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev2cmdline_options[] = {
     { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<0-4>", "Set device for joystick port 2" },
+      JOYDEV_RANGE_TEXT, "Set device for joystick port 2" },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev3cmdline_options[] = {
     { "-extrajoydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice3", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<0-4>", "Set device for extra joystick port 1" },
+      JOYDEV_RANGE_TEXT, "Set device for extra joystick port 1" },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev4cmdline_options[] = {
     { "-extrajoydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice4", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      "<0-4>", "Set device for extra joystick port 2" },
+      JOYDEV_RANGE_TEXT, "Set device for extra joystick port 2" },
     CMDLINE_LIST_END
 };
 
@@ -285,7 +297,62 @@ int joystick_arch_init_resources(void)
     if (sdlkbd_init_resources() < 0) {
         return -1;
     }
-    return resources_register_int(resources_int);
+#ifdef HAVE_SDL_NUMJOYSTICKS
+    if (resources_register_int(resources_int) < 0) {
+        return -1;
+    }
+#endif
+
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_SCPU64:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64DTV:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy2_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy4_resources_int);
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy4_resources_int);
+            break;
+        case VICE_MACHINE_CBM5x0:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy2_resources_int);
+            break;
+        case VICE_MACHINE_PLUS4:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy2_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy3_resources_int);
+            break;
+        case VICE_MACHINE_VIC20:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            return resources_register_int(joy4_resources_int);
+            break;
+    }
+    return 0;
 }
 
 void joystick_arch_resources_shutdown(void)
@@ -300,6 +367,12 @@ void joystick_arch_resources_shutdown(void)
 
 int joystick_init_cmdline_options(void)
 {
+#ifdef HAVE_SDL_NUMJOYSTICKS
+    if (cmdline_register_options(cmdline_options) < 0) {
+        return -1;
+    }
+#endif
+
     switch (machine_class) {
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C64SC:
@@ -315,26 +388,20 @@ int joystick_init_cmdline_options(void)
             if (cmdline_register_options(joydev3cmdline_options) < 0) {
                 return -1;
             }
-            if (cmdline_register_options(joydev4cmdline_options) < 0) {
-                return -1;
-            }
+            return cmdline_register_options(joydev4cmdline_options);
             break;
         case VICE_MACHINE_PET:
         case VICE_MACHINE_CBM6x0:
             if (cmdline_register_options(joydev3cmdline_options) < 0) {
                 return -1;
             }
-            if (cmdline_register_options(joydev4cmdline_options) < 0) {
-                return -1;
-            }
+            return cmdline_register_options(joydev4cmdline_options);
             break;
         case VICE_MACHINE_CBM5x0:
             if (cmdline_register_options(joydev1cmdline_options) < 0) {
                 return -1;
             }
-            if (cmdline_register_options(joydev2cmdline_options) < 0) {
-                return -1;
-            }
+            return cmdline_register_options(joydev2cmdline_options);
             break;
         case VICE_MACHINE_PLUS4:
             if (cmdline_register_options(joydev1cmdline_options) < 0) {
@@ -343,9 +410,7 @@ int joystick_init_cmdline_options(void)
             if (cmdline_register_options(joydev2cmdline_options) < 0) {
                 return -1;
             }
-            if (cmdline_register_options(joydev3cmdline_options) < 0) {
-                return -1;
-            }
+            return cmdline_register_options(joydev3cmdline_options);
             break;
         case VICE_MACHINE_VIC20:
             if (cmdline_register_options(joydev1cmdline_options) < 0) {
@@ -354,9 +419,10 @@ int joystick_init_cmdline_options(void)
             if (cmdline_register_options(joydev3cmdline_options) < 0) {
                 return -1;
             }
+            return cmdline_register_options(joydev4cmdline_options);
             break;
     }
-    return cmdline_register_options(cmdline_options);
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */

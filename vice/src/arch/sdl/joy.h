@@ -68,4 +68,12 @@ extern void sdljoy_swap_ports(void);
 #define JOYDEV_KEYSET2  3
 #define JOYDEV_JOYSTICK 4
 
+#ifdef HAVE_SDL_NUMJOYSTICKS
+#define JOYDEV_MAX          JOYDEV_JOYSTICK
+#define JOYDEV_RANGE_TEXT   "<0-4>"
+#else
+#define JOYDEV_MAX          JOYDEV_KEYSET2
+#define JOYDEV_RANGE_TEXT   "<0-3>"
+#endif
+
 #endif
