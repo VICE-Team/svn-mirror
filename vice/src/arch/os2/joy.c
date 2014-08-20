@@ -81,6 +81,18 @@ static int set_cbm_joystick(int val, void *param)
 {
     const int nr = (int)param;
 
+    switch (val) {
+        case JOYDEV_NONE:
+        case JOYDEV_HW1:
+        case JOYDEV_HW2:
+        case JOYDEV_NUMPAD:
+        case JOYDEV_KEYSET1:
+        case JOYDEV_KEYSET2:
+            break;
+        default:
+            return -1;
+    }
+
     cbm_joystick[nr] = (joystick_device_t)val;
 
     joystick_clear(nr + 1);
@@ -155,16 +167,31 @@ static int set_keyset(int v, void *param)
       &(keyset[num][dir]), set_keyset,         \
       (void*)((num << 5) | dir) }
 
-static const resource_int_t resources_int[] = {
+static const resource_int_t joy1_resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &cbm_joystick[0], set_cbm_joystick, (void *)0 },
+    NULL
+};
+
+static const resource_int_t joy2_resources_int[] = {
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &cbm_joystick[1], set_cbm_joystick, (void *)1 },
+    NULL
+};
+
+static const resource_int_t joy3_resources_int[] = {
     { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &cbm_joystick[2], set_cbm_joystick, (void *)2 },
+    NULL
+};
+
+static const resource_int_t joy4_resources_int[] = {
     { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &cbm_joystick[3], set_cbm_joystick, (void *)3 },
+    NULL
+};
 
+static const resource_int_t resources_int[] = {
     DEFINE_RES_SET_CALDATA("JoyAup", 0, KEYSET_N, 200),
     DEFINE_RES_SET_CALDATA("JoyAdown", 0, KEYSET_S, 600),
     DEFINE_RES_SET_CALDATA("JoyAleft", 0, KEYSET_W, 200),
@@ -199,6 +226,65 @@ static const resource_int_t resources_int[] = {
 
 int joystick_init_resources(void)
 {
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_SCPU64:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy2_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy4_resources_int) < 0) {
+                return -1;
+            }
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy4_resources_int) < 0) {
+                return -1;
+            }
+            break;
+        case VICE_MACHINE_CBM5x0:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy2_resources_int) < 0) {
+                return -1;
+            }
+            break;
+        case VICE_MACHINE_PLUS4:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy2_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            break;
+        case VICE_MACHINE_VIC20:
+            if (resources_register_int(joy1_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy3_resources_int) < 0) {
+                return -1;
+            }
+            if (resources_register_int(joy4_resources_int) < 0) {
+                return -1;
+            }
+            break;
+    }
     joystick_extra_init_resources();
     return resources_register_int(resources_int);
 }
