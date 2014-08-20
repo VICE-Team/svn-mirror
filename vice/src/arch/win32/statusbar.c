@@ -65,7 +65,6 @@ static int status_partindex[DRIVE_NUM];
 static double status_track[DRIVE_NUM];
 static int *drive_active_led;
 
-static int tape_enabled = 1;
 static int tape_motor;
 static int tape_counter;
 static int tape_control;
@@ -268,7 +267,6 @@ void statusbar_set_tape_status(int tape_status)
 {
     int i;
 
-    /* tape_enabled = tape_status; */
     for (i = 0; i < number_of_status_windows; i++) {
         SendMessage(status_hwnd[i], SB_SETTEXT, 1 | SBT_OWNERDRAW, 0);
     }
@@ -375,70 +373,67 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             const int offset_x[] = { 5, 0, -5, 10, -5 };
             const int offset_y[] = { 0, 10, -5, 0, 0 };
             int dir_index, joynum;
+            /* tape status */
+            POINT tape_control_sign[3];
 
-            if (tape_enabled) {
-                /* tape status */
-                POINT tape_control_sign[3];
+            /* the leading "Tape:" */
+            led.top = part_top + 2;
+            led.bottom = part_top + 18;
+            led.left = part_left + 2;
+            led.right = part_left + 34;
 
-                /* the leading "Tape:" */
-                led.top = part_top + 2;
-                led.bottom = part_top + 18;
-                led.left = part_left + 2;
-                led.right = part_left + 34;
+            DrawText(hDC, translate_text(IDS_TAPE), -1, &led, 0);
 
-                DrawText(hDC, translate_text(IDS_TAPE), -1, &led, 0);
+            /* the tape-motor */
+            led.top = part_top + 1;
+            led.bottom = part_top + 15;
+            led.left = part_left + 36;
+            led.right = part_left + 50;
+            FillRect(hDC, &led, tape_motor ? b_yellow : b_grey);
 
-                /* the tape-motor */
-                led.top = part_top + 1;
-                led.bottom = part_top + 15;
-                led.left = part_left + 36;
-                led.right = part_left + 50;
-                FillRect(hDC, &led, tape_motor ? b_yellow : b_grey);
-
-                /* the tape-control */
-                led.top += 3;
-                led.bottom -= 3;
-                led.left += 3;
-                led.right -= 3;
-                tape_control_sign[0].x = led.left;
-                tape_control_sign[1].x = led.left + 4;
-                tape_control_sign[2].x = led.left;
-                tape_control_sign[0].y = led.top;
-                tape_control_sign[1].y = led.top + 4;
-                tape_control_sign[2].y = led.top + 8;
-                switch (tape_control) {
-                case DATASETTE_CONTROL_STOP:
-                    FillRect(hDC, &led, b_black);
-                    break;
-                case DATASETTE_CONTROL_START:
-                case DATASETTE_CONTROL_RECORD:
-                    SelectObject(hDC, b_black);
-                    Polygon(hDC, tape_control_sign, 3);
-                    if (tape_control == DATASETTE_CONTROL_RECORD) {
-                        SelectObject(hDC, b_red);
-                        Ellipse(hDC, led.left + 16, led.top + 1, led.left + 23, led.top + 8);
-                    }
-                    break;
-                case DATASETTE_CONTROL_REWIND:
-                    tape_control_sign[0].x += 4;
-                    tape_control_sign[1].x -= 4;
-                    tape_control_sign[2].x += 4;
-                case DATASETTE_CONTROL_FORWARD:
-                    Polyline(hDC, tape_control_sign, 3);
-                    tape_control_sign[0].x += 4;
-                    tape_control_sign[1].x += 4;
-                    tape_control_sign[2].x += 4;
-                    Polyline(hDC, tape_control_sign, 3);
+            /* the tape-control */
+            led.top += 3;
+            led.bottom -= 3;
+            led.left += 3;
+            led.right -= 3;
+            tape_control_sign[0].x = led.left;
+            tape_control_sign[1].x = led.left + 4;
+            tape_control_sign[2].x = led.left;
+            tape_control_sign[0].y = led.top;
+            tape_control_sign[1].y = led.top + 4;
+            tape_control_sign[2].y = led.top + 8;
+            switch (tape_control) {
+            case DATASETTE_CONTROL_STOP:
+                FillRect(hDC, &led, b_black);
+                break;
+            case DATASETTE_CONTROL_START:
+            case DATASETTE_CONTROL_RECORD:
+                SelectObject(hDC, b_black);
+                Polygon(hDC, tape_control_sign, 3);
+                if (tape_control == DATASETTE_CONTROL_RECORD) {
+                    SelectObject(hDC, b_red);
+                    Ellipse(hDC, led.left + 16, led.top + 1, led.left + 23, led.top + 8);
                 }
-
-                /* the tape-counter */
-                led.top = part_top + 2;
-                led.bottom = part_top + 18;
-                led.left = part_left + 65;
-                led.right = part_left + 100;
-                _stprintf(text, TEXT("%03i"), tape_counter % 1000);
-                DrawText(hDC, text, -1, &led, 0);
+                break;
+            case DATASETTE_CONTROL_REWIND:
+                tape_control_sign[0].x += 4;
+                tape_control_sign[1].x -= 4;
+                tape_control_sign[2].x += 4;
+            case DATASETTE_CONTROL_FORWARD:
+                Polyline(hDC, tape_control_sign, 3);
+                tape_control_sign[0].x += 4;
+                tape_control_sign[1].x += 4;
+                tape_control_sign[2].x += 4;
+                Polyline(hDC, tape_control_sign, 3);
             }
+
+            /* the tape-counter */
+            led.top = part_top + 2;
+            led.bottom = part_top + 18;
+            led.left = part_left + 65;
+            led.right = part_left + 100;
+            _stprintf(text, TEXT("%03i"), tape_counter % 1000);
+            DrawText(hDC, text, -1, &led, 0);
 
             /* the joysticks */
             led.left = part_left + 2;
