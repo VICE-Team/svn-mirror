@@ -67,4 +67,22 @@ extern void usb_joystick(void);
 #define JOYDEV_USB_0     12
 #define JOYDEV_USB_1     13
 
+#ifdef HAS_JOYSTICK
+#  ifdef HAS_USB_JOYSTICK
+#    define JOYDEV_MAX          JOYDEV_USB_1
+#    define JOYDEV_RANGE_TEXT   "<0-13>"
+#  else
+#    ifdef HAS_DIGITAL_JOYSTICK
+#      define JOYDEV_MAX          JOYDEV_DIGITAL_1
+#      define JOYDEV_RANGE_TEXT   "<0-11>"
+#    else
+#      define JOYDEV_MAX          JOYDEV_ANALOG_5
+#      define JOYDEV_RANGE_TEXT   "<0-9>"
+#    endif
+#  endif
+#else
+#  define JOYDEV_MAX          JOYDEV_KEYSET2
+#  define JOYDEV_RANGE_TEXT   "<0-3>"
+#endif
+
 #endif
