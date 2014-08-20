@@ -377,6 +377,7 @@ ui_popup_translation_table_t scpu64ui_popup_translation_table[] = {
     { 2, IDS_MP_JOYSTICK_SETTINGS },
     { 2, IDS_MP_MOUSE_SETTINGS },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS },
+    { 2, IDS_MP_RS232_SETTINGS },
     { 1, IDS_MP_LANGUAGE },
     { 1, IDS_MP_HELP },
     { 0, 0 }

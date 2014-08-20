@@ -1519,6 +1519,7 @@ BEGIN
   IDS_MP_DRIVE_SYNC_FACTOR             "Drive sync factor"
   IDS_MP_SETTINGS                      "Settings"
   IDS_MP_CARTRIDGE_IO_SETTINGS         "Cartridge/IO settings"
+  IDS_MP_RS232_SETTINGS                "RS232 settings"
   IDS_MP_LANGUAGE                      "Language"
   IDS_MP_HELP                          "Help"
   IDS_MP_VIEW                          "View"
