@@ -70,75 +70,41 @@ void joystick_close(void)
     joystick_inited = 0;
 }
 
-static int set_joystick_device_1(int val, void *param)
+static int set_joystick_device(int val, void *param)
 {
+    const int nr = (int)param;
+
     if (val < 0 || val > 3) {
         return -1;
     }
     joy_arch_init();
 
-    joystick_device[0] = val;
-
-    return 0;
-}
-
-static int set_joystick_device_2(int val, void *param)
-{
-    if (val < 0 || val > 3) {
-        return -1;
-    }
-    joy_arch_init();
-
-    joystick_device[1] = val;
-
-    return 0;
-}
-
-static int set_joystick_device_3(int val, void *param)
-{
-    if (val < 0 || val > 3) {
-        return -1;
-    }
-    joy_arch_init();
-
-    joystick_device[2] = val;
-
-    return 0;
-}
-
-static int set_joystick_device_4(int val, void *param)
-{
-    if (val < 0 || val > 3) {
-        return -1;
-    }
-    joy_arch_init();
-
-    joystick_device[3] = val;
+    joystick_device[nr] = val;
 
     return 0;
 }
 
 static const resource_int_t joy1_resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[0], set_joystick_device_1, NULL },
+      &joystick_device[0], set_joystick_device, (void *)0 },
     { NULL }
 };
 
 static const resource_int_t joy2_resources_int[] = {
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[1], set_joystick_device_2, NULL },
+      &joystick_device[1], set_joystick_device, (void *)1 },
     { NULL }
 };
 
 static const resource_int_t joy3_resources_int[] = {
     { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[2], set_joystick_device_3, NULL },
+      &joystick_device[2], set_joystick_device, (void *)2 },
     { NULL }
 };
 
 static const resource_int_t joy4_resources_int[] = {
     { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[3], set_joystick_device_4, NULL },
+      &joystick_device[3], set_joystick_device, (void *)3 },
     { NULL }
 };
 

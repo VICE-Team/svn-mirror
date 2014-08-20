@@ -70,9 +70,10 @@ void joystick_close(void)
     joystick_inited = 0;
 }
 
-static int set_joystick_device_1(int val, void *param)
+static int set_joystick_device(int val, void *param)
 {
     ULONG portstate;
+    const int nr = (int)param;
 
     if (val < JOYDEV_NONE || val > JOYDEV_JOY3) {
         return -1;
@@ -83,86 +84,24 @@ static int set_joystick_device_1(int val, void *param)
     if (val >= JOYDEV_JOY0) {
         portstate = ReadJoyPort(val - JOYDEV_JOY0);
         if ((portstate&JP_TYPE_MASK) == JP_TYPE_JOYSTK) {
-            joystick_fire[0] = JPF_BUTTON_RED;
+            joystick_fire[nr] = JPF_BUTTON_RED;
         }
     }
-    joystick_device[0] = val;
+    joystick_device[nr] = val;
 
     return 0;
 }
 
-static int set_joystick_device_2(int val, void *param)
+static int set_joystick_fire(int value, void *param)
 {
     ULONG portstate;
-
-    if (val < JOYDEV_NONE || val > JOYDEV_JOY3) {
-        return -1;
-    }
+    const int nr = (int)param;
 
     joy_arch_init();
 
-    if (val >= JOYDEV_JOY0) {
-        portstate = ReadJoyPort(val - JOYDEV_JOY0);
-        if ((portstate & JP_TYPE_MASK) == JP_TYPE_JOYSTK) {
-            joystick_fire[1] = JPF_BUTTON_RED;
-        }
-    }
-    joystick_device[1] = val;
-
-    return 0;
-}
-
-static int set_joystick_device_3(int val, void *param)
-{
-    ULONG portstate;
-
-    if (val < JOYDEV_NONE || val > JOYDEV_JOY3) {
-        return -1;
-    }
-
-    joy_arch_init();
-
-    if (val >= JOYDEV_JOY0) {
-        portstate = ReadJoyPort(val - JOYDEV_JOY0);
-        if ((portstate & JP_TYPE_MASK) == JP_TYPE_JOYSTK) {
-            joystick_fire[2] = JPF_BUTTON_RED;
-        }
-    }
-    joystick_device[2] = val;
-
-    return 0;
-}
-
-static int set_joystick_device_4(int val, void *param)
-{
-    ULONG portstate;
-
-    if (val < JOYDEV_NONE || val > JOYDEV_JOY3) {
-        return -1;
-    }
-
-    joy_arch_init();
-
-    if (val >= JOYDEV_JOY0) {
-        portstate = ReadJoyPort(val - JOYDEV_JOY0);
-        if ((portstate & JP_TYPE_MASK) == JP_TYPE_JOYSTK) {
-            joystick_fire[3] = JPF_BUTTON_RED;
-        }
-    }
-    joystick_device[3] = val;
-
-    return 0;
-}
-
-static int set_joystick_fire_1(int value, void *param)
-{
-    ULONG portstate;
-
-    joy_arch_init();
-
-    if (joystick_device[0] != JOYDEV_NONE) {
-        if (joystick_device[0] >= JOYDEV_JOY0 && joystick_device[0] <= JOYDEV_JOY3) {
-            portstate = ReadJoyPort(joystick_device[0] - JOYDEV_JOY0);
+    if (joystick_device[nr] != JOYDEV_NONE) {
+        if (joystick_device[nr] >= JOYDEV_JOY0 && joystick_device[nr] <= JOYDEV_JOY3) {
+            portstate = ReadJoyPort(joystick_device[nr] - JOYDEV_JOY0);
             if ((portstate & JP_TYPE_MASK) != JP_TYPE_GAMECTLR) {
                 if (value != JPF_BUTTON_RED) {
                     ui_error(translate_text(IDMES_DEVICE_NOT_GAMEPAD));
@@ -179,130 +118,40 @@ static int set_joystick_fire_1(int value, void *param)
             return -1;
         }
     }
-    joystick_fire[0] = value;
-
-    return 0;
-}
-
-static int set_joystick_fire_2(int value, void *param)
-{
-    ULONG portstate;
-
-    joy_arch_init();
-
-    if (joystick_device[1] != JOYDEV_NONE) {
-        if (joystick_device[1] >= JOYDEV_JOY0 && joystick_device[1] <= JOYDEV_JOY3) {
-            portstate = ReadJoyPort(joystick_device[1] - JOYDEV_JOY0);
-            if ((portstate & JP_TYPE_MASK) != JP_TYPE_GAMECTLR) {
-                if (value != JPF_BUTTON_RED) {
-                    ui_error(translate_text(IDMES_DEVICE_NOT_GAMEPAD));
-                    value = JPF_BUTTON_RED;
-                }
-            }
-        } else {
-            ui_error(translate_text(IDMES_NOT_MAPPED_TO_AMIGA_PORT));
-            return -1;
-        }
-    } else {
-        if (value != JPF_BUTTON_RED) {
-            ui_error(translate_text(IDMES_NOT_MAPPED_TO_AMIGA_PORT));
-            return -1;
-        }
-    }
-    joystick_fire[1] = value;
-
-    return 0;
-}
-
-static int set_joystick_fire_3(int value, void *param)
-{
-    ULONG portstate;
-
-    joy_arch_init();
-
-    if (joystick_device[2] != JOYDEV_NONE) {
-        if (joystick_device[2] >= JOYDEV_JOY0 && joystick_device[2] <= JOYDEV_JOY3) {
-            portstate = ReadJoyPort(joystick_device[2] - JOYDEV_JOY0);
-            if ((portstate & JP_TYPE_MASK) != JP_TYPE_GAMECTLR) {
-                if (value != JPF_BUTTON_RED) {
-                    ui_error(translate_text(IDMES_DEVICE_NOT_GAMEPAD));
-                    value = JPF_BUTTON_RED;
-                }
-            }
-        } else {
-            ui_error(translate_text(IDMES_NOT_MAPPED_TO_AMIGA_PORT));
-            return -1;
-        }
-    } else {
-        if (value != JPF_BUTTON_RED) {
-            ui_error(translate_text(IDMES_NOT_MAPPED_TO_AMIGA_PORT));
-            return -1;
-        }
-    }
-    joystick_fire[2] = value;
-
-    return 0;
-}
-
-static int set_joystick_fire_4(int value, void *param)
-{
-    ULONG portstate;
-
-    joy_arch_init();
-
-    if (joystick_device[3] != JOYDEV_NONE) {
-        if (joystick_device[3] >= JOYDEV_JOY0 && joystick_device[3] <= JOYDEV_JOY3) {
-            portstate = ReadJoyPort(joystick_device[3] - JOYDEV_JOY0);
-            if ((portstate & JP_TYPE_MASK) != JP_TYPE_GAMECTLR) {
-                if (value != JPF_BUTTON_RED) {
-                    ui_error(translate_text(IDMES_DEVICE_NOT_GAMEPAD));
-                    value = JPF_BUTTON_RED;
-                }
-            }
-        } else {
-            ui_error(translate_text(IDMES_NOT_MAPPED_TO_AMIGA_PORT));
-            return -1;
-        }
-    } else {
-        if (value != JPF_BUTTON_RED) {
-            ui_error(translate_text(IDMES_NOT_MAPPED_TO_AMIGA_PORT));
-            return -1;
-        }
-    }
-    joystick_fire[3] = value;
+    joystick_fire[nr] = value;
 
     return 0;
 }
 
 static const resource_int_t joy1_resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[0], set_joystick_device_1, NULL },
+      &joystick_device[0], set_joystick_device_1, (void *)0 },
     { "JoyFire1", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
-      &joystick_fire[0], set_joystick_fire_1, NULL },
+      &joystick_fire[0], set_joystick_fire, (void *)0 },
     { NULL }
 };
 
 static const resource_int_t joy2_resources_int[] = {
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[1], set_joystick_device_2, NULL },
+      &joystick_device[1], set_joystick_device_2, (void *)1 },
     { "JoyFire2", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
-      &joystick_fire[1], set_joystick_fire_2, NULL },
+      &joystick_fire[1], set_joystick_fire, (void *)1 },
     { NULL }
 };
 
 static const resource_int_t joy3_resources_int[] = {
     { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[2], set_joystick_device_3, NULL },
+      &joystick_device[2], set_joystick_device_3, (void *)2 },
     { "JoyFire3", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
-      &joystick_fire[2], set_joystick_fire_3, NULL },
+      &joystick_fire[2], set_joystick_fire, (void *)2 },
     { NULL }
 };
 
 static const resource_int_t joy4_resources_int[] = {
     { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[3], set_joystick_device_4, NULL },
+      &joystick_device[3], set_joystick_device_4, (void *)3 },
     { "JoyFire4", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
-      &joystick_fire[3], set_joystick_fire_4, NULL },
+      &joystick_fire[3], set_joystick_fire, (void *)3 },
     { NULL }
 };
 
