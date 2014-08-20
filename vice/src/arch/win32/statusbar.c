@@ -65,7 +65,7 @@ static int status_partindex[DRIVE_NUM];
 static double status_track[DRIVE_NUM];
 static int *drive_active_led;
 
-static int tape_enabled = 0;
+static int tape_enabled = 1;
 static int tape_motor;
 static int tape_counter;
 static int tape_control;
@@ -268,7 +268,7 @@ void statusbar_set_tape_status(int tape_status)
 {
     int i;
 
-    tape_enabled = tape_status;
+    /* tape_enabled = tape_status; */
     for (i = 0; i < number_of_status_windows; i++) {
         SendMessage(status_hwnd[i], SB_SETTEXT, 1 | SBT_OWNERDRAW, 0);
     }
@@ -436,7 +436,7 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                 led.bottom = part_top + 18;
                 led.left = part_left + 65;
                 led.right = part_left + 100;
-                _stprintf(text, TEXT("%03i"), tape_counter);
+                _stprintf(text, TEXT("%03i"), tape_counter % 1000);
                 DrawText(hDC, text, -1, &led, 0);
             }
 
