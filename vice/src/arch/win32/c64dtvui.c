@@ -273,6 +273,7 @@ ui_menu_translation_table_t c64dtvui_menu_translation_table[] = {
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
     { IDM_PS2MOUSE, IDS_MI_PS2MOUSE },
     { IDM_C64DTV_SETTINGS, IDS_MI_C64DTV_SETTINGS },
+    { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
     { 0, 0 }
 };
 

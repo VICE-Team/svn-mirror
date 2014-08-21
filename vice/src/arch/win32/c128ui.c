@@ -402,6 +402,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_CONTRIBUTORS, IDS_MI_CONTRIBUTORS },
     { IDM_LICENSE, IDS_MI_LICENSE },
     { IDM_WARRANTY, IDS_MI_WARRANTY },
+    { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
     { 0, 0 }
 };
 

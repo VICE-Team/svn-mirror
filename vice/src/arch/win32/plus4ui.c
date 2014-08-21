@@ -289,6 +289,7 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
     { IDM_SIDCART_SETTINGS, IDS_MI_SIDCART_SETTINGS },
     { IDM_PLUS4_SETTINGS, IDS_MI_PLUS4_SETTINGS },
+    { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
     { 0, 0 }
 };
 

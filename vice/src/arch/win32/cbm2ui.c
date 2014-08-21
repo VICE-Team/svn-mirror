@@ -316,6 +316,7 @@ ui_menu_translation_table_t cbm2ui_menu_translation_table[] = {
     { IDM_WARRANTY, IDS_MI_WARRANTY },
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
     { IDM_CBM2_SETTINGS, IDS_MI_CBM2_SETTINGS },
+    { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
     { 0, 0 }
 };
 

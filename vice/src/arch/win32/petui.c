@@ -305,6 +305,7 @@ ui_menu_translation_table_t petui_menu_translation_table[] = {
     { IDM_PETDWW_SETTINGS, IDS_MI_PETDWW_SETTINGS },
     { IDM_PETREU_SETTINGS, IDS_MI_PETREU_SETTINGS },
     { IDM_SIDCART_SETTINGS, IDS_MI_SIDCART_SETTINGS },
+    { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
     { 0, 0 }
 };
 

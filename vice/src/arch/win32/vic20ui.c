@@ -336,6 +336,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
 #endif
     { IDM_SFX_SE_SETTINGS, IDS_MI_SFX_SE_SETTINGS_MASCUERADE },
     { IDM_SFX_SS_SETTINGS, IDS_MI_SFX_SS_SETTINGS_MASCUERADE },
+    { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
     { 0, 0 }
 };
 
