@@ -303,12 +303,13 @@ int file_system_bam_set_disk_id(unsigned int unit, BYTE *id)
 
 /* ------------------------------------------------------------------------- */
 
-static int set_attach_device_readonly(int val, void *param)
+static int set_attach_device_readonly(int value, void *param)
 {
     unsigned int unit;
     const char *old_filename;
     char *new_filename;
     int rc;
+    int val = (value != 0);
 
     unit = vice_ptr_to_uint(param);
 
