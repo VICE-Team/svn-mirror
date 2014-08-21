@@ -2797,6 +2797,7 @@ joystick emulation for ports 1 - 4, respectively.
 (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2 on DOS)
 (0=None, 1=Joystick 1, 2=Joystick 2, 4=Numpad, 8=Keyset 1, 16=Keyset 2 on OS/2)
 (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick in SDL)
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=HID joystick 0, 5=HID joystick 1 on Mac OS X)
 The available joysticks might differ depending on operating system and
 joystick support in the OS (Linux joystick module must be
 available for example).
@@ -2891,9 +2892,8 @@ Set the device for joystick emulation of port 1 and 2, respectively.
 (@code{JoyDevice1}, @code{JoyDevice2}).
 The range for unix is 0-8.
 The range for AmigaOS4 is 0-3.
-The range for AmigaOS3, MorphOS and AROS is 0-5.
+The range for AmigaOS3, MorphOS, AROS, DOS and Mac OS X is 0-5.
 The range for BeOS is 0-19.
-The range for DOS is 0-5.
 The range for OS/2 is, valid numbers in the range are 0, 1, 2, 4, 8 and 16.
 The range for SDL is 0-4.
 @cindex -extrajoydev1
