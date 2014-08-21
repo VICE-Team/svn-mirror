@@ -205,6 +205,11 @@ static int set_cartridge_file(const char *name, void *param)
         return 0;
     }
 
+    if (name == NULL || !strlen(name)) {
+        cartridge_detach_image(-1);
+        return 0;
+    }
+
     DBG(("cartridge_file changed: '%s'\n", name));
 
     if (util_file_exists(name)) {
