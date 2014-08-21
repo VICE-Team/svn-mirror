@@ -587,7 +587,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "SIMM size"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Enable the jiffy switch"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "Enable the speed switch"
-  IDS_MI_NETWORK_SETTINGS        "Netplay..."
   IDS_MI_C64BURSTMOD_SETTINGS    "C64 drive burst modification settings..."
   IDS_MI_SCPU64_SETTINGS         "SuperCPU64 settings..."
 END
@@ -628,7 +627,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "SIMM size"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Enable the jiffy switch"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "Enable the speed switch"
-  IDS_MI_NETWORK_SETTINGS       "Netværksspil (eksperimentelt)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64-drev burst-modifikationsindstillinger..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 settings..."
 END
@@ -669,7 +667,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "SIMM Größe"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Jiffy Schalter aktivieren"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "Speed Schalter aktivieren"
-  IDS_MI_NETWORK_SETTINGS       "Netplay (experimentell)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 Laufwerk Burstmodifkation Einstellungen..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 Einstellungen..."
 END
@@ -710,7 +707,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "Tamaño SIMM"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Permitir conmutación Jiffy"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "Permitir conmutación de velocidad"
-  IDS_MI_NETWORK_SETTINGS       "Juego en red ..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Ajuste modificación Burst en controlador C64..."
   IDS_MI_SCPU64_SETTINGS        "Ajustes SuperCPU64..."
 END
@@ -751,7 +747,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "Taille de la SIMM"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Activer 'Jiffy Switch'"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "Activer l'interrupteur Vitesse"
-  IDS_MI_NETWORK_SETTINGS       "Jeu en réseau ..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Paramètres de l'émulation de Burst Lecteur C64..."
   IDS_MI_SCPU64_SETTINGS        "Paramètres SuperCPU64..."
 END
@@ -795,7 +790,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "SIMM size"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Enable the jiffy switch"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "Enable the speed switch"
-  IDS_MI_NETWORK_SETTINGS       "Hálózati játék (kísérleti)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 settings..."
 END
@@ -839,7 +833,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "Dimensione SIMM"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Attiva pulsante jiffy"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "Attiva il pulsante di velocità"
-  IDS_MI_NETWORK_SETTINGS       "Netplay (sperimentale)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Impostazioni modifica burst del drive C64..."
   IDS_MI_SCPU64_SETTINGS        "Impostazioni SuperCPU64..."
 END
@@ -883,7 +876,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "SIMM size"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Enable the jiffy switch"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "Enable the speed switch"
-  IDS_MI_NETWORK_SETTINGS       "³ÝÇÃ·¹ÀÌ (½ÇÇèÀû)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 settings..."
 END
@@ -927,7 +919,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "SIMM grootte"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Activeer de jiffy schakelaar"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "Activeer de snelheid schakelaar"
-  IDS_MI_NETWORK_SETTINGS       "Netplay (experimenteel)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modificatie instellingen..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 instellingen..."
 END
@@ -971,7 +962,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "Ilo¶æ SIMM"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Ustaw prze³±cznik jiffy"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "W³±cz prze³±cznik speed"
-  IDS_MI_NETWORK_SETTINGS       "Gra sieciowa (eksperymentalne)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Ustawienia trybu synchronicznego napêdu C64..."
   IDS_MI_SCPU64_SETTINGS        "Ustawienia SuperCPU64..."
 END
@@ -1018,7 +1008,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "SIMM size"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Enable the jiffy switch"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "Enable the speed switch"
-  IDS_MI_NETWORK_SETTINGS       "Netplay..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 settings..."
 END
@@ -1062,7 +1051,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "SIMM-storlek"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Aktivera jiffy-omkopplaren"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "Aktivera hastighetsomkopplaren"
-  IDS_MI_NETWORK_SETTINGS       "Nätverksspel (experimentellt)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Inställningar för C64 diskettburstmodifiering..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64-inställningar..."
 END
@@ -1106,7 +1094,6 @@ BEGIN
   IDS_SCPU64_SIMM_SIZE           "SIMM size"
   IDS_SCPU64_JIFFY_SWITCH_ENABLE "Enable the jiffy switch"
   IDS_SCPU64_SPEED_SWITCH_ENABLE "Enable the speed switch"
-  IDS_MI_NETWORK_SETTINGS       "Netplay (deneysel)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "C64 sürücüsü atlama modifikasyon ayarlarý..."
   IDS_MI_SCPU64_SETTINGS        "SuperCPU64 settings..."
 END
