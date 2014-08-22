@@ -104,7 +104,7 @@ void vsid_disp(int txout_x, int txout_y, const char *str1, const char* str2)
             GetTextExtentPoint32(hDC, " ", 1, &size);
             sprintf(dummy, str1, str2);
             SetBkColor(hDC, GetSysColor(COLOR_BTNFACE));
-            TextOut(hDC, 3 + (txout_x * size.cx), 3 + (txout_y * (size.cy + 3)), dummy, (int)strlen(dummy));
+            TextOut(hDC, 8 + (txout_x * size.cx), 8 + (txout_y * (size.cy + 3)), dummy, (int)strlen(dummy));
         } else {
             GetClientRect(hwnd, &r);
             FillRect(hDC, &r, GetSysColorBrush(COLOR_BTNFACE));
@@ -186,8 +186,9 @@ static ui_menu_translation_table_t vsidui_menu_translation_table[] = {
 
 static ui_popup_translation_table_t vsidui_popup_translation_table[] = {
     { 1, IDS_MP_FILE },
+    { 2, IDS_MP_SOUND_RECORDING },
     { 2, IDS_MP_RESET },
-    { 1, IDS_MP_MEDIA },
+    { 1, IDS_MP_TUNES },
 /*    { 1, IDS_MP_OPTIONS },*/
     { 1, IDS_MP_SETTINGS },
 /*    { 2, IDS_MP_REFRESH_RATE }, */
@@ -340,7 +341,7 @@ static void update_menus(HWND hwnd)
         resources_get_int(toggle_list[i].name, &value);
         CheckMenuItem(menu, toggle_list[i].item_id, value ? MF_CHECKED : MF_UNCHECKED);
     }
-    
+
     for (i = 0; value_list[i].name != NULL; i++) {
         result = resources_get_int(value_list[i].name, &value);
         if (result == 0) {
@@ -360,6 +361,7 @@ static void update_menus(HWND hwnd)
             }
         }
     }
+    CheckMenuItem(menu, IDM_PAUSE, ui_emulation_is_paused() ? MF_CHECKED : MF_UNCHECKED);
 
     resources_get_string("Language", &lang);
     for (i = 0; (ui_lang_menu_entries[i].lang_code != NULL) && (i < countof(ui_lang_menu_entries)); i++) {
@@ -406,7 +408,7 @@ int vsid_ui_init(void)
 
     RegisterClass(&wndclass);
     if (!hwnd) {   /* do not recreate on drag&drop */
-        hwnd = CreateWindow(szAppName, szAppName, WS_SYSMENU, 0, 0, 480, 220, NULL, NULL, winmain_instance, NULL) ;
+        hwnd = CreateWindow(szAppName, szAppName, WS_SYSMENU, 0, 0, 380, 200, NULL, NULL, winmain_instance, NULL) ;
         SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
         window_handles[0] = hwnd;
         number_of_windows++;
@@ -454,7 +456,7 @@ void vsid_ui_display_sid_model(int model)
 
 void vsid_ui_display_tune_nr(int nr)
 {
-    sprintf(vsidstrings[VSID_S_PLAYING], "Playing Tune: %2d /  0  -  Default Tune: 00", nr);
+    sprintf(vsidstrings[VSID_S_PLAYING], "Playing Tune: %2d /  0  (Default: 00)", nr);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_PLAYING]);
 }
 
@@ -464,8 +466,8 @@ void vsid_ui_set_default_tune(int nr)
     sprintf(dummy,"%2d", nr);
 
     log_message(LOG_DEFAULT, "Default Tune: %i", nr);
-    vsidstrings[VSID_S_PLAYING][40] = dummy[0];
-    vsidstrings[VSID_S_PLAYING][41] = dummy[1];
+    vsidstrings[VSID_S_PLAYING][33] = dummy[0];
+    vsidstrings[VSID_S_PLAYING][34] = dummy[1];
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
@@ -480,7 +482,7 @@ void vsid_ui_display_nr_of_tunes(int count)
 
 void vsid_ui_display_time(unsigned int sec)
 {
-    char dummy[] = "%02d:%02d:%02d";
+    char dummy[] = "Time: %02d:%02d:%02d";
     unsigned int h,m,s;
 
     s = sec;
@@ -716,6 +718,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                 vsid_ui_set_default_tune(default_song);
                 vsid_ui_display_nr_of_tunes(songs);
             }
+            break;
+        case IDM_PAUSE:
+            ui_pause_emulation();
             break;
         case IDM_RESET_HARD:
             machine_trigger_reset(MACHINE_RESET_MODE_HARD);

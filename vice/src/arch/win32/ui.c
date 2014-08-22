@@ -1294,7 +1294,10 @@ void ui_display_paused(int flag)
         }
         system_wcstombs_free(title);
         st_buf = system_mbstowcs_alloc(buf);
-        SetWindowText(window_handles[index], st_buf);
+        /* HACK: dont update the title in VSID. since the vsid ui is kindof standalone hack, that doesnt really work */
+        if (machine_class != VICE_MACHINE_VSID) {
+            SetWindowText(window_handles[index], st_buf);
+        }
         system_mbstowcs_free(st_buf);
         lib_free(buf);
     }
