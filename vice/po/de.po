@@ -5194,7 +5194,7 @@ msgstr "Kann Imagedatei nicht erzeugen!"
 #: src/arch/win32/res.rc.po.c:967 src/arch/win32/res.rc.po.c:1515
 #: src/arch/amigaos/intl_text.c.po.c:4430
 msgid "Command line options"
-msgstr "Kommandozeilen Paramteter"
+msgstr "Kommandozeilen Parameter"
 
 #: src/arch/win32/res.rc.po.c:968 src/arch/amigaos/intl_text.c.po.c:5004
 msgid "Which command line options are available?"
