@@ -934,7 +934,7 @@ VIC20 and the PETs) and their own RAM and ROM.  So, in order to more
 closely emulate its features, a complete emulation of this hardware
 must be provided and that is what the @dfn{hardware level} emulation
 does. When the @dfn{hardware level} emulation is used, the kernal
-routines are remain unpatched and the serial line is fully emulated.
+routines remain unpatched and the serial line is fully emulated.
 The problem with this emulation is that it needs a lot of processing
 power, mainly because the emulator has to emulate two CPUs instead of
 one.
