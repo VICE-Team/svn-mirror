@@ -50,6 +50,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "imagecontents.h"
+#include "init.h"
 #include "kbdbuf.h"
 #include "log.h"
 #include "machine-drive.h"
@@ -295,17 +296,48 @@ static void c64io_init(void)
    the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
 {
-    if (traps_resources_init() < 0
-        || vsync_resources_init() < 0
-        || machine_video_resources_init() < 0
-        || c64_resources_init() < 0
-        || c64export_resources_init() < 0
-        || vicii_resources_init() < 0
-        || sound_resources_init() < 0
-        || sid_resources_init() < 0
-        || serial_resources_init() < 0
-        || c64_glue_resources_init() < 0
-        || psid_init_resources() < 0) {
+    if (traps_resources_init() < 0) {
+        init_resource_fail("traps");
+        return -1;
+    }
+    if (vsync_resources_init() < 0) {
+        init_resource_fail("vsync");
+        return -1;
+    }
+    if (machine_video_resources_init() < 0) {
+        init_resource_fail("machine video");
+        return -1;
+    }
+    if (c64_resources_init() < 0) {
+        init_resource_fail("c64");
+        return -1;
+    }
+    if (c64export_resources_init() < 0) {
+        init_resource_fail("c64export");
+        return -1;
+    }
+    if (vicii_resources_init() < 0) {
+        init_resource_fail("vicii");
+        return -1;
+    }
+    if (sound_resources_init() < 0) {
+        init_resource_fail("sound");
+        return -1;
+    }
+    if (sid_resources_init() < 0) {
+        init_resource_fail("sid");
+        return -1;
+    }
+    if (serial_resources_init() < 0) {
+        init_resource_fail("serial");
+        return -1;
+    }
+    if (c64_glue_resources_init() < 0) {
+        init_resource_fail("c64 glue");
+        return -1;
+    }
+    if (psid_resources_init() < 0) {
+        init_resource_fail("psid");
         return -1;
     }
     return 0;
@@ -323,10 +355,20 @@ void machine_resources_shutdown(void)
 /* C64-specific command-line option initialization.  */
 int machine_cmdline_options_init(void)
 {
-    if (sound_cmdline_options_init() < 0
-        || sid_cmdline_options_init() < 0
-        || psid_init_cmdline_options() < 0
-        || vsync_cmdline_options_init() < 0) {
+    if (sound_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("sound");
+        return -1;
+    }
+    if (sid_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("sid");
+        return -1;
+    }
+    if (psid_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("psid");
+        return -1;
+    }
+    if (vsync_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("vsync");
         return -1;
     }
     return 0;

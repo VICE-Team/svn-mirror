@@ -98,7 +98,7 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-int pia1_init_resources(void)
+int pia1_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
@@ -118,7 +118,7 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int pia1_init_cmdline_options(void)
+int pia1_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

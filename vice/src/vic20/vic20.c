@@ -44,6 +44,7 @@
 #include "gfxoutput.h"
 #include "iecdrive.h"
 #include "imagecontents.h"
+#include "init.h"
 #include "joystick.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -231,38 +232,104 @@ static machine_timing_t machine_timing;
    initializing the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
 {
-    if (traps_resources_init() < 0
-        || vsync_resources_init() < 0
-        || machine_video_resources_init() < 0
-        || vic20_resources_init() < 0
-        || vic_resources_init() < 0
-        || sound_resources_init() < 0
-        || sidcart_resources_init() < 0
-        || rs232drv_resources_init() < 0
-        || rsuser_resources_init() < 0
-        || serial_resources_init() < 0
-        || printer_resources_init() < 0
-        || joystick_init_resources() < 0
-        || gfxoutput_resources_init() < 0
-#ifdef HAVE_MOUSE
-        || lightpen_resources_init() < 0
-        || mouse_resources_init() < 0
-#endif
-#ifndef COMMON_KBD
-        || kbd_resources_init() < 0
-#endif
-        || drive_resources_init() < 0
-        || datasette_resources_init() < 0
-        || cartridge_resources_init() < 0
-#ifdef HAVE_MIDI
-        || vic20_midi_resources_init() < 0
-#endif
-        || vic20_ieee488_resources_init() < 0
-        || userport_joystick_resources_init() < 0
-        || cartio_resources_init() < 0) {
+    if (traps_resources_init() < 0) {
+        init_resource_fail("traps");
         return -1;
     }
-
+    if (vsync_resources_init() < 0) {
+        init_resource_fail("vsync");
+        return -1;
+    }
+    if (machine_video_resources_init() < 0) {
+        init_resource_fail("machine video");
+        return -1;
+    }
+    if (vic20_resources_init() < 0) {
+        init_resource_fail("vic20");
+        return -1;
+    }
+    if (vic_resources_init() < 0) {
+        init_resource_fail("vic");
+        return -1;
+    }
+    if (sound_resources_init() < 0) {
+        init_resource_fail("sound");
+        return -1;
+    }
+    if (sidcart_resources_init() < 0) {
+        init_resource_fail("sidcart");
+        return -1;
+    }
+    if (rs232drv_resources_init() < 0) {
+        init_resource_fail("rs232drv");
+        return -1;
+    }
+    if (rsuser_resources_init() < 0) {
+        init_resource_fail("rsuser");
+        return -1;
+    }
+    if (serial_resources_init() < 0) {
+        init_resource_fail("serial");
+        return -1;
+    }
+    if (printer_resources_init() < 0) {
+        init_resource_fail("printer");
+        return -1;
+    }
+    if (joystick_resources_init() < 0) {
+        init_resource_fail("joystick");
+        return -1;
+    }
+    if (gfxoutput_resources_init() < 0) {
+        init_resource_fail("gfxoutput");
+        return -1;
+    }
+#ifdef HAVE_MOUSE
+    if (lightpen_resources_init() < 0) {
+        init_resource_fail("lightpen");
+        return -1;
+    }
+    if (mouse_resources_init() < 0) {
+        init_resource_fail("mouse");
+        return -1;
+    }
+#endif
+#ifndef COMMON_KBD
+    if (kbd_resources_init() < 0) {
+        init_resource_fail("kbd");
+        return -1;
+    }
+#endif
+    if (drive_resources_init() < 0) {
+        init_resource_fail("drive");
+        return -1;
+    }
+    if (datasette_resources_init() < 0) {
+        init_resource_fail("datasette");
+        return -1;
+    }
+    if (cartridge_resources_init() < 0) {
+        init_resource_fail("cartridge");
+        return -1;
+    }
+#ifdef HAVE_MIDI
+    if (vic20_midi_resources_init() < 0) {
+        init_resource_fail("vic20 midi");
+        return -1;
+    }
+#endif
+    if (vic20_ieee488_resources_init() < 0) {
+        init_resource_fail("vic20 ieee488");
+        return -1;
+    }
+    if (userport_joystick_resources_init() < 0) {
+        init_resource_fail("userport joystick");
+        return -1;
+    }
+    if (cartio_resources_init() < 0) {
+        init_resource_fail("cartio");
+        return -1;
+    }
     return 0;
 }
 
@@ -285,36 +352,96 @@ void machine_resources_shutdown(void)
 /* VIC20-specific command-line option initialization.  */
 int machine_cmdline_options_init(void)
 {
-    if (traps_cmdline_options_init() < 0
-        || vsync_cmdline_options_init() < 0
-        || video_init_cmdline_options() < 0
-        || vic20_cmdline_options_init() < 0
-        || vic_cmdline_options_init() < 0
-        || sound_cmdline_options_init() < 0
-        || sidcart_cmdline_options_init() < 0
-        || rs232drv_cmdline_options_init() < 0
-        || rsuser_cmdline_options_init() < 0
-        || serial_cmdline_options_init() < 0
-        || printer_cmdline_options_init() < 0
-#ifdef HAVE_MOUSE
-        || lightpen_cmdline_options_init() < 0
-        || mouse_cmdline_options_init() < 0
-#endif
-#ifndef COMMON_KBD
-        || kbd_cmdline_options_init() < 0
-#endif
-        || drive_cmdline_options_init() < 0
-        || datasette_cmdline_options_init() < 0
-        || cartridge_cmdline_options_init() < 0
-#ifdef HAVE_MIDI
-        || vic20_midi_cmdline_options_init() < 0
-#endif
-        || vic20_ieee488_cmdline_options_init() < 0
-        || userport_joystick_cmdline_options_init() < 0
-        || cartio_cmdline_options_init() < 0) {
+    if (traps_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("traps");
         return -1;
     }
-
+    if (vsync_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("vsync");
+        return -1;
+    }
+    if (video_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("video");
+        return -1;
+    }
+    if (vic20_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("vic20");
+        return -1;
+    }
+    if (vic_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("vic");
+        return -1;
+    }
+    if (sound_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("sound");
+        return -1;
+    }
+    if (sidcart_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("sidcart");
+        return -1;
+    }
+    if (rs232drv_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("rs232drv");
+        return -1;
+    }
+    if (rsuser_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("rsuser");
+        return -1;
+    }
+    if (serial_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("serial");
+        return -1;
+    }
+    if (printer_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("printer");
+        return -1;
+    }
+#ifdef HAVE_MOUSE
+    if (lightpen_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("lightpen");
+        return -1;
+    }
+    if (mouse_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("mouse");
+        return -1;
+    }
+#endif
+#ifndef COMMON_KBD
+    if (kbd_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("kbd");
+        return -1;
+    }
+#endif
+    if (drive_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("drive");
+        return -1;
+    }
+    if (datasette_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("datasette");
+        return -1;
+    }
+    if (cartridge_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("cartridge");
+        return -1;
+    }
+#ifdef HAVE_MIDI
+    if (vic20_midi_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("vic20 midi");
+        return -1;
+    }
+#endif
+    if (vic20_ieee488_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("vic20 ieee488");
+        return -1;
+    }
+    if (userport_joystick_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport joystick");
+        return -1;
+    }
+    if (cartio_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("cartio");
+        return -1;
+    }
     return 0;
 }
 

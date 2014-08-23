@@ -202,16 +202,6 @@ static int init_raster(void)
     return 0;
 }
 
-int vdc_init_resources(void)
-{
-    return vdc_resources_init();
-}
-
-int vdc_init_cmdline_options(void)
-{
-    return vdc_cmdline_options_init();
-}
-
 /* Initialize the VDC emulation. */
 raster_t *vdc_init(void)
 {

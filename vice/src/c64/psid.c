@@ -102,7 +102,7 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-int psid_init_resources(void)
+int psid_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
@@ -158,7 +158,7 @@ static const cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-int psid_init_cmdline_options(void)
+int psid_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

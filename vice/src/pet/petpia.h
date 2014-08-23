@@ -44,8 +44,8 @@
 
 struct snapshot_s;
 
-extern int pia1_init_resources(void);
-extern int pia1_init_cmdline_options(void);
+extern int pia1_resources_init(void);
+extern int pia1_cmdline_options_init(void);
 
 extern void pia1_init(void);
 extern void pia1_reset(void);

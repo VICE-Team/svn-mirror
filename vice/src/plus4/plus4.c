@@ -42,6 +42,7 @@
 #include "drivecpu.h"
 #include "gfxoutput.h"
 #include "imagecontents.h"
+#include "init.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
@@ -244,31 +245,84 @@ static double rfsh_per_sec = PLUS4_PAL_RFSH_PER_SEC;
    the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
 {
-    if (traps_resources_init() < 0
-        || vsync_resources_init() < 0
-        || machine_video_resources_init() < 0
-        || plus4_resources_init() < 0
-        || ted_resources_init() < 0
-        || cartridge_resources_init() < 0
-        || digiblaster_resources_init() < 0
-        || speech_resources_init() < 0
-        || sound_resources_init() < 0
-        || sidcart_resources_init() < 0
-        || acia_resources_init() < 0
-        || rs232drv_resources_init() < 0
-        || serial_resources_init() < 0
-        || printer_resources_init() < 0
-        || joystick_init_resources() < 0
-        || gfxoutput_resources_init() < 0
-#ifndef COMMON_KBD
-        || kbd_resources_init() < 0
-#endif
-        || drive_resources_init() < 0
-        || datasette_resources_init() < 0
-        ) {
+    if (traps_resources_init() < 0) {
+        init_resource_fail("traps");
         return -1;
     }
-
+    if (vsync_resources_init() < 0) {
+        init_resource_fail("vsync");
+        return -1;
+    }
+    if (machine_video_resources_init() < 0) {
+        init_resource_fail("machine video");
+        return -1;
+    }
+    if (plus4_resources_init() < 0) {
+        init_resource_fail("plus4");
+        return -1;
+    }
+    if (ted_resources_init() < 0) {
+        init_resource_fail("ted");
+        return -1;
+    }
+    if (cartridge_resources_init() < 0) {
+        init_resource_fail("cartridge");
+        return -1;
+    }
+    if (digiblaster_resources_init() < 0) {
+        init_resource_fail("digiblaster");
+        return -1;
+    }
+    if (speech_resources_init() < 0) {
+        init_resource_fail("speech");
+        return -1;
+    }
+    if (sound_resources_init() < 0) {
+        init_resource_fail("sound");
+        return -1;
+    }
+    if (sidcart_resources_init() < 0) {
+        init_resource_fail("sidcart");
+        return -1;
+    }
+    if (acia_resources_init() < 0) {
+        init_resource_fail("acia");
+        return -1;
+    }
+    if (rs232drv_resources_init() < 0) {
+        init_resource_fail("rs232drv");
+        return -1;
+    }
+    if (serial_resources_init() < 0) {
+        init_resource_fail("serial");
+        return -1;
+    }
+    if (printer_resources_init() < 0) {
+        init_resource_fail("printer");
+        return -1;
+    }
+    if (joystick_resources_init() < 0) {
+        init_resource_fail("joystick");
+        return -1;
+    }
+    if (gfxoutput_resources_init() < 0) {
+        init_resource_fail("gfxoutput");
+        return -1;
+    }
+#ifndef COMMON_KBD
+    if (kbd_resources_init() < 0) {
+        init_resource_fail("kbd");
+        return -1;
+    }
+#endif
+    if (drive_resources_init() < 0) {
+        init_resource_fail("drive");
+        return -1;
+    }
+    if (datasette_resources_init() < 0) {
+        init_resource_fail("datasette");
+        return -1;
+    }
     return 0;
 }
 
@@ -288,29 +342,76 @@ void machine_resources_shutdown(void)
 /* Plus4-specific command-line option initialization.  */
 int machine_cmdline_options_init(void)
 {
-    if (traps_cmdline_options_init() < 0
-        || vsync_cmdline_options_init() < 0
-        || video_init_cmdline_options() < 0
-        || plus4_cmdline_options_init() < 0
-        || ted_cmdline_options_init() < 0
-        || cartridge_cmdline_options_init() < 0
-        || digiblaster_cmdline_options_init() < 0
-        || sound_cmdline_options_init() < 0
-        || sidcart_cmdline_options_init() < 0
-        || speech_cmdline_options_init() < 0
-        || acia_cmdline_options_init() < 0
-        || rs232drv_cmdline_options_init() < 0
-        || serial_cmdline_options_init() < 0
-        || printer_cmdline_options_init() < 0
-#ifndef COMMON_KBD
-        || kbd_cmdline_options_init() < 0
-#endif
-        || drive_cmdline_options_init() < 0
-        || datasette_cmdline_options_init() < 0
-        ) {
+    if (traps_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("traps");
         return -1;
     }
-
+    if (vsync_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("vsync");
+        return -1;
+    }
+    if (video_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("video");
+        return -1;
+    }
+    if (plus4_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("plus4");
+        return -1;
+    }
+    if (ted_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("ted");
+        return -1;
+    }
+    if (cartridge_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("cartridge");
+        return -1;
+    }
+    if (digiblaster_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("digiblaster");
+        return -1;
+    }
+    if (sound_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("sound");
+        return -1;
+    }
+    if (sidcart_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("sidcart");
+        return -1;
+    }
+    if (speech_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("speech");
+        return -1;
+    }
+    if (acia_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("acia");
+        return -1;
+    }
+    if (rs232drv_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("rs232drv");
+        return -1;
+    }
+    if (serial_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("serial");
+        return -1;
+    }
+    if (printer_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("printer");
+        return -1;
+    }
+#ifndef COMMON_KBD
+    if (kbd_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("kbd");
+        return -1;
+    }
+#endif
+    if (drive_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("drive");
+        return -1;
+    }
+    if (datasette_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("datasette");
+        return -1;
+    }
     return 0;
 }
 

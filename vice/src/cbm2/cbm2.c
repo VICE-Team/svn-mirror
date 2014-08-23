@@ -56,6 +56,7 @@
 #include "drivecpu.h"
 #include "gfxoutput.h"
 #include "iecdrive.h"
+#include "init.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
@@ -120,29 +121,76 @@ static machine_timing_t machine_timing;
    the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
 {
-    if (traps_resources_init() < 0
-        || vsync_resources_init() < 0
-        || machine_video_resources_init() < 0
-        || cbm2_resources_init() < 0
-        || cartridge_resources_init() < 0
-        || crtc_resources_init() < 0
-        || sound_resources_init() < 0
-        || sid_resources_init() < 0
-        || drive_resources_init() < 0
-        || datasette_resources_init() < 0
-        || acia1_resources_init() < 0
-        || rs232drv_resources_init() < 0
-        || printer_resources_init() < 0
-        || joystick_init_resources() < 0
-        || gfxoutput_resources_init() < 0
-#ifndef COMMON_KBD
-        || pet_kbd_resources_init() < 0
-#endif
-        || userport_joystick_resources_init() < 0
-        ) {
+    if (traps_resources_init() < 0) {
+        init_resource_fail("traps");
         return -1;
     }
-
+    if (vsync_resources_init() < 0) {
+        init_resource_fail("vsync");
+        return -1;
+    }
+    if (machine_video_resources_init() < 0) {
+        init_resource_fail("machine video");
+        return -1;
+    }
+    if (cbm2_resources_init() < 0) {
+        init_resource_fail("cbm2");
+        return -1;
+    }
+    if (cartridge_resources_init() < 0) {
+        init_resource_fail("cartridge");
+        return -1;
+    }
+    if (crtc_resources_init() < 0) {
+        init_resource_fail("crtc");
+        return -1;
+    }
+    if (sound_resources_init() < 0) {
+        init_resource_fail("sound");
+        return -1;
+    }
+    if (sid_resources_init() < 0) {
+        init_resource_fail("sid");
+        return -1;
+    }
+    if (drive_resources_init() < 0) {
+        init_resource_fail("drive");
+        return -1;
+    }
+    if (datasette_resources_init() < 0) {
+        init_resource_fail("datasette");
+        return -1;
+    }
+    if (acia1_resources_init() < 0) {
+        init_resource_fail("acia1");
+        return -1;
+    }
+    if (rs232drv_resources_init() < 0) {
+        init_resource_fail("rs232drv");
+        return -1;
+    }
+    if (printer_resources_init() < 0) {
+        init_resource_fail("printer");
+        return -1;
+    }
+    if (joystick_resources_init() < 0) {
+        init_resource_fail("joystick");
+        return -1;
+    }
+    if (gfxoutput_resources_init() < 0) {
+        init_resource_fail("gfxoutput");
+        return -1;
+    }
+#ifndef COMMON_KBD
+    if (pet_kbd_resources_init() < 0) {
+        init_resource_fail("pet kbd");
+        return -1;
+    }
+#endif
+    if (userport_joystick_resources_init() < 0) {
+        init_resource_fail("userport joystick");
+        return -1;
+    }
     return 0;
 }
 
@@ -159,27 +207,68 @@ void machine_resources_shutdown(void)
 /* CBM-II-specific command-line option initialization.  */
 int machine_cmdline_options_init(void)
 {
-    if (traps_cmdline_options_init() < 0
-        || vsync_cmdline_options_init() < 0
-        || video_init_cmdline_options() < 0
-        || cbm2_cmdline_options_init() < 0
-        || cartridge_cmdline_options_init() < 0
-        || crtc_cmdline_options_init() < 0
-        || sound_cmdline_options_init() < 0
-        || sid_cmdline_options_init() < 0
-        || drive_cmdline_options_init() < 0
-        || datasette_cmdline_options_init() < 0
-        || acia1_cmdline_options_init() < 0
-        || rs232drv_cmdline_options_init() < 0
-        || printer_cmdline_options_init() < 0
-#ifndef COMMON_KBD
-        || pet_kbd_cmdline_options_init() < 0
-#endif
-        || userport_joystick_cmdline_options_init() < 0
-        ) {
+    if (traps_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("traps");
         return -1;
     }
-
+    if (vsync_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("vsync");
+        return -1;
+    }
+    if (video_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("video");
+        return -1;
+    }
+    if (cbm2_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("cbm2");
+        return -1;
+    }
+    if (cartridge_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("cartridge");
+        return -1;
+    }
+    if (crtc_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("crtc");
+        return -1;
+    }
+    if (sound_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("sound");
+        return -1;
+    }
+    if (sid_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("sid");
+        return -1;
+    }
+    if (drive_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("drive");
+        return -1;
+    }
+    if (datasette_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("datasette");
+        return -1;
+    }
+    if (acia1_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("acia1");
+        return -1;
+    }
+    if (rs232drv_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("rs232drv");
+        return -1;
+    }
+    if (printer_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("printer");
+        return -1;
+    }
+#ifndef COMMON_KBD
+    if (pet_kbd_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("pet kbd");
+        return -1;
+    }
+#endif
+    if (userport_joystick_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("userport joystick");
+        return -1;
+    }
     return 0;
 }
 

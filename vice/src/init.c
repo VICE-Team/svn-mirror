@@ -64,8 +64,7 @@
 #include "vdrive.h"
 #include "vice-event.h"
 
-
-static void init_resource_fail(const char *module)
+void init_resource_fail(const char *module)
 {
     archdep_startup_log_error("Cannot initialize %s resources.\n",
                               module);
@@ -155,7 +154,7 @@ int init_resources(void)
     return 0;
 }
 
-static void init_cmdline_options_fail(const char *module)
+void init_cmdline_options_fail(const char *module)
 {
     archdep_startup_log_error("Cannot initialize %s command-line options.\n",
                               module);

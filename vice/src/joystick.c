@@ -489,7 +489,7 @@ void joystick_joypad_clear(void)
 
 /*-----------------------------------------------------------------------*/
 
-int joystick_init_resources(void)
+int joystick_resources_init(void)
 {
     resources_register_int(resources_int);
 

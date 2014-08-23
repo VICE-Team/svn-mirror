@@ -115,7 +115,7 @@ void video_shutdown(void)
 {
 }
 
-int video_init_cmdline_options(void)
+int video_cmdline_options_init(void)
 {
     return 0;
 }

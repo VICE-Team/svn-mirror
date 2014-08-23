@@ -29,8 +29,8 @@
 
 #include "types.h"
 
-extern int psid_init_resources(void);
-extern int psid_init_cmdline_options(void);
+extern int psid_resources_init(void);
+extern int psid_cmdline_options_init(void);
 extern void psid_shutdown(void);
 extern int psid_load_file(const char* filename);
 extern void psid_init_tune(int install_driver_hook);
