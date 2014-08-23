@@ -128,6 +128,10 @@ int init_resources(void)
         init_resource_fail("vsync");
         return -1;
     }
+    if (sound_resources_init() < 0) {
+        init_resource_fail("sound");
+        return -1;
+    }
     if (machine_resources_init() < 0) {
         init_resource_fail("machine");
         return -1;
@@ -227,6 +231,10 @@ int init_cmdline_options(void)
     }
     if (vsync_cmdline_options_init() < 0) {
         init_cmdline_options_fail("vsync");
+        return -1;
+    }
+    if (sound_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("sound");
         return -1;
     }
     if (machine_cmdline_options_init() < 0) {

@@ -248,10 +248,6 @@ int machine_resources_init(void)
         init_resource_fail("vic");
         return -1;
     }
-    if (sound_resources_init() < 0) {
-        init_resource_fail("sound");
-        return -1;
-    }
     if (sidcart_resources_init() < 0) {
         init_resource_fail("sidcart");
         return -1;
@@ -334,7 +330,6 @@ void machine_resources_shutdown(void)
     serial_shutdown();
     video_resources_shutdown();
     vic20_resources_shutdown();
-    sound_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
     drive_resources_shutdown();
@@ -362,10 +357,6 @@ int machine_cmdline_options_init(void)
     }
     if (vic_cmdline_options_init() < 0) {
         init_cmdline_options_fail("vic");
-        return -1;
-    }
-    if (sound_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("sound");
         return -1;
     }
     if (sidcart_cmdline_options_init() < 0) {

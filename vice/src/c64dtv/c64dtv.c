@@ -231,10 +231,6 @@ int machine_resources_init(void)
         init_resource_fail("vicii");
         return -1;
     }
-    if (sound_resources_init() < 0) {
-        init_resource_fail("sound");
-        return -1;
-    }
     if (sid_resources_init() < 0) {
         init_resource_fail("sid");
         return -1;
@@ -298,7 +294,6 @@ void machine_resources_shutdown(void)
     video_resources_shutdown();
     c64dtv_resources_shutdown();
     c64dtvmem_resources_shutdown();
-    sound_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
     drive_resources_shutdown();
@@ -325,10 +320,6 @@ int machine_cmdline_options_init(void)
     }
     if (vicii_cmdline_options_init() < 0) {
         init_cmdline_options_fail("vicii");
-        return -1;
-    }
-    if (sound_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("sound");
         return -1;
     }
     if (sid_cmdline_options_init() < 0) {
