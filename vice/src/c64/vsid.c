@@ -295,10 +295,6 @@ static void c64io_init(void)
    the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
 {
-    if (vsync_resources_init() < 0) {
-        init_resource_fail("vsync");
-        return -1;
-    }
     if (machine_video_resources_init() < 0) {
         init_resource_fail("machine video");
         return -1;
@@ -360,10 +356,6 @@ int machine_cmdline_options_init(void)
     }
     if (psid_cmdline_options_init() < 0) {
         init_cmdline_options_fail("psid");
-        return -1;
-    }
-    if (vsync_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("vsync");
         return -1;
     }
     return 0;

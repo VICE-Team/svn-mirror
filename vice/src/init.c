@@ -61,6 +61,7 @@
 #include "uiapi.h"
 #include "vdrive.h"
 #include "vice-event.h"
+#include "vsync.h"
 
 void init_resource_fail(const char *module)
 {
@@ -121,6 +122,10 @@ int init_resources(void)
     }
     if (machine_common_resources_init() < 0) {
         init_resource_fail("machine common");
+        return -1;
+    }
+    if (vsync_resources_init() < 0) {
+        init_resource_fail("vsync");
         return -1;
     }
     if (machine_resources_init() < 0) {
@@ -218,6 +223,10 @@ int init_cmdline_options(void)
 #endif
     if (machine_common_cmdline_options_init() < 0) {
         init_cmdline_options_fail("machine common");
+        return -1;
+    }
+    if (vsync_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("vsync");
         return -1;
     }
     if (machine_cmdline_options_init() < 0) {
