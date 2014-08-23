@@ -65,7 +65,6 @@
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sid.h"
-#include "traps.h"
 #include "vicii.h"
 #include "vicii-mem.h"
 #include "video.h"
@@ -296,10 +295,6 @@ static void c64io_init(void)
    the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
 {
-    if (traps_resources_init() < 0) {
-        init_resource_fail("traps");
-        return -1;
-    }
     if (vsync_resources_init() < 0) {
         init_resource_fail("vsync");
         return -1;
@@ -472,8 +467,6 @@ int machine_specific_init(void)
 /* C64-specific reset sequence.  */
 void machine_specific_reset(void)
 {
-    serial_traps_reset();
-
     ciacore_reset(machine_context.cia1);
     ciacore_reset(machine_context.cia2);
     sid_reset();
