@@ -38,7 +38,6 @@
 #include "drivecpu.h"
 #include "fliplist.h"
 #include "fsdevice.h"
-#include "gfxoutput.h"
 #include "initcmdline.h"
 #include "joy.h"
 #include "kbdbuf.h"
@@ -239,10 +238,6 @@ int init_cmdline_options(void)
             init_cmdline_options_fail("RAM");
             return -1;
         }
-        if (gfxoutput_cmdline_options_init() < 0) {
-            init_cmdline_options_fail("GFXOUTPUT");
-            return -1;
-        }
     }
 #ifdef HAVE_NETWORK
     if (monitor_network_cmdline_options_init() < 0) {
@@ -264,7 +259,6 @@ int init_main(void)
     }
 
     if (machine_class != VICE_MACHINE_VSID) {
-        gfxoutput_init();
         screenshot_init();
 
         drivecpu_early_init_all();

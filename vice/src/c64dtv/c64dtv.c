@@ -367,6 +367,10 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("joystick");
         return -1;
     }
+    if (gfxoutput_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("gfxoutput");
+        return -1;
+    }
 #ifdef HAVE_MOUSE
     if (mouse_cmdline_options_init() < 0) {
         init_cmdline_options_fail("mouse");
@@ -447,6 +451,8 @@ int machine_specific_init(void)
     if (!video_disabled_mode) {
         joystick_init();
     }
+
+    gfxoutput_init();
 
     /* Initialize flash traps.  */
     if (flash_trap_init(c64dtv_flash_traps) < 0) {

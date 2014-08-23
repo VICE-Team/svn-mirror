@@ -263,6 +263,10 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("joystick");
         return -1;
     }
+    if (gfxoutput_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("gfxoutput");
+        return -1;
+    }
 #ifndef COMMON_KBD
     if (pet_kbd_cmdline_options_init() < 0) {
         init_cmdline_options_fail("pet kbd");
@@ -343,6 +347,8 @@ int machine_specific_init(void)
     if (!video_disabled_mode) {
         joystick_init();
     }
+
+    gfxoutput_init();
 
     rs232drv_init();
 
