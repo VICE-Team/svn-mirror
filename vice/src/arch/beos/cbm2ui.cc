@@ -41,23 +41,21 @@ extern "C" {
 #include "ui_cbm2.h"
 #include "ui_drive.h"
 #include "ui_sid.h"
+#include "ui_video.h"
 #include "video.h"
 }
 
-drive_type_t drive_type[] = {
-    { "1541", DRIVE_TYPE_1541 },
-    { "1541-II", DRIVE_TYPE_1541II },
-    { "1551", DRIVE_TYPE_1551 },
-    { "1570", DRIVE_TYPE_1570 },
-    { "1571", DRIVE_TYPE_1571 },
-    { "1581", DRIVE_TYPE_1581 },
-    { "2000", DRIVE_TYPE_2000 },
-    { "4000", DRIVE_TYPE_4000 },
+static ui_drive_type_t cbm2_drive_types[] = {
+    { "2031", DRIVE_TYPE_2031 },
+    { "2040", DRIVE_TYPE_2040 },
+    { "3040", DRIVE_TYPE_3040 },
+    { "4040", DRIVE_TYPE_4040 },
+    { "1001", DRIVE_TYPE_1001 },
+    { "8050", DRIVE_TYPE_8050 },
+    { "8250", DRIVE_TYPE_8250 },
     { "None", DRIVE_TYPE_NONE },
     { NULL, 0 }
 };
-
-int drive_machine_parallel_capable = 1;
 
 ui_menu_toggle  cbm2_ui_menu_toggles[] = {
     { "CRTCDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -170,8 +168,14 @@ void cbm2_ui_specific(void *msg, void *window)
         case MENU_CBM2_SETTINGS:
             ui_cbm2();
             break;
+        case MENU_VIDEO_SETTINGS:
+            ui_video(UI_VIDEO_CHIP_CRTC);
+            break;
         case MENU_SID_SETTINGS:
             ui_sid(NULL);
+            break;
+        case MENU_DRIVE_SETTINGS:
+            ui_drive(cbm2_drive_types, HAS_NO_CAPS);
             break;
         case MENU_COMPUTER_KERNAL_ROM_FILE:
             ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_ROM_FILE, (void*)0);

@@ -34,6 +34,12 @@ const uint32 MESSAGE_VIDEO_PALMODE         = 'MVD4';
 const uint32 MESSAGE_VIDEO_PALSHADE        = 'MVD5';
 const uint32 MESSAGE_VIDEO_AUDIO_LEAK      = 'MVD6';
 
-extern void ui_video(int chip_no);
+#define UI_VIDEO_CHIP_VICII 0
+#define UI_VIDEO_CHIP_VIC   1
+#define UI_VIDEO_CHIP_CRTC  2
+#define UI_VIDEO_CHIP_VDC   3
+#define UI_VIDEO_CHIP_TED   4
+
+extern void ui_video(int chip_type);
 
 #endif

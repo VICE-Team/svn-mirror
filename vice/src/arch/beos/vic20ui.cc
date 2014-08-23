@@ -31,7 +31,6 @@
 #include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -52,13 +51,14 @@ extern "C" {
 #include "ui_sidcart.h"
 #include "ui_vic20.h"
 #include "ui_vic.h"
+#include "ui_video.h"
 #include "util.h"
 #include "vic20model.h"
 #include "vic20ui.h"
 #include "video.h"
 }
 
-drive_type_t drive_type[] = {
+static ui_drive_type_t vic20_drive_types[] = {
     { "1541", DRIVE_TYPE_1541 },
     { "1541-II", DRIVE_TYPE_1541II },
     { "1570", DRIVE_TYPE_1570 },
@@ -76,8 +76,6 @@ drive_type_t drive_type[] = {
     { "None", DRIVE_TYPE_NONE },
     { NULL, 0 }
 };
-
-int drive_machine_parallel_capable = 0;
 
 ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "VICDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -218,8 +216,8 @@ static void vic20_ui_attach_cartridge(int menu)
     ui_select_file(B_OPEN_PANEL, VIC20_CARTRIDGE_FILE, &vic20_ui_cartridges[i]);
 }       
 
-static const char *vic20sidcartaddresspair[] = { "$9800", "$9C00" };
-static const char *vic20sidcartclockpair[] = { "C64", "VIC20" };
+static const char *vic20_sidcart_address_pair[] = { "$9800", "$9C00" };
+static const char *vic20_sidcart_clock_pair[] = { "C64", "VIC20" };
 
 void vic20_ui_specific(void *msg, void *window)
 {
@@ -279,11 +277,17 @@ void vic20_ui_specific(void *msg, void *window)
         case MENU_VIC20_SETTINGS:
             ui_vic20();
             break;
+        case MENU_VIDEO_SETTINGS:
+            ui_video(UI_VIDEO_CHIP_VIC);
+            break;
         case MENU_VIC_SETTINGS:
             ui_vic();
             break;
+        case MENU_DRIVE_SETTINGS:
+            ui_drive(vic20_drive_types, HAS_NO_CAPS);
+            break;
         case MENU_SIDCART_SETTINGS:
-            ui_sidcart(vic20sidcartaddresspair, vic20sidcartclockpair);
+            ui_sidcart(vic20_sidcart_address_pair, vic20_sidcart_clock_pair);
             break;
         case MENU_COMPUTER_KERNAL_ROM_FILE:
             ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_ROM_FILE, (void*)0);

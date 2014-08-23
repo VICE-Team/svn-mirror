@@ -31,7 +31,6 @@
 #include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -52,11 +51,12 @@ extern "C" {
 #include "ui_drive.h"
 #include "ui_pet.h"
 #include "ui_sidcart.h"
+#include "ui_video.h"
 #include "util.h"
 #include "video.h"
 }
 
-drive_type_t drive_type[] = {
+static ui_drive_type_t pet_drive_types[] = {
     { "2031", DRIVE_TYPE_2031 },
     { "2040", DRIVE_TYPE_2040 },
     { "3040", DRIVE_TYPE_3040 },
@@ -67,8 +67,6 @@ drive_type_t drive_type[] = {
     { "None", DRIVE_TYPE_NONE },
     { NULL, 0 }
 };
-
-int drive_machine_parallel_capable = 0;
 
 ui_menu_toggle  pet_ui_menu_toggles[] = {
     { "CRTCDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -111,8 +109,8 @@ ui_res_value_list pet_ui_res_values[] = {
     { NULL, NULL }
 };
 
-static const char *petsidcartaddresspair[] = { "$8F00", "$E900" };
-static const char *petsidcartclockpair[] = { "C64", "PET" };
+static const char *pet_sidcart_address_pair[] = { "$8F00", "$E900" };
+static const char *pet_sidcart_clock_pair[] = { "C64", "PET" };
 
 void pet_ui_specific(void *msg, void *window)
 {
@@ -156,8 +154,14 @@ void pet_ui_specific(void *msg, void *window)
         case MENU_PET_SETTINGS:
             ui_pet();
             break;
+        case MENU_VIDEO_SETTINGS:
+            ui_video(UI_VIDEO_CHIP_CRTC);
+            break;
+        case MENU_DRIVE_SETTINGS:
+            ui_drive(pet_drive_types, HAS_NO_CAPS);
+            break;
         case MENU_SIDCART_SETTINGS:
-            ui_sidcart(petsidcartaddresspair, petsidcartclockpair);
+            ui_sidcart(pet_sidcart_address_pair, pet_sidcart_clock_pair);
             break;
         case MENU_PETREU_FILE:
             ui_select_file(B_SAVE_PANEL, PETREU_FILE, (void*)0);

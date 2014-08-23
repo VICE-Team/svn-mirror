@@ -31,7 +31,6 @@
 #include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -60,7 +59,7 @@ extern "C" {
 #include "video.h"
 }
 
-drive_type_t drive_type[] = {
+static ui_drive_type_t c128_drive_types[] = {
     { "1541", DRIVE_TYPE_1541 },
     { "1541-II", DRIVE_TYPE_1541II },
     { "1570", DRIVE_TYPE_1570 },
@@ -79,8 +78,6 @@ drive_type_t drive_type[] = {
     { "None", DRIVE_TYPE_NONE },
     { NULL, 0 }
 };
-
-int drive_machine_parallel_capable = 1;
 
 ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -315,7 +312,7 @@ ui_res_value_list c128_ui_res_values[] = {
     { NULL, NULL }
 };
 
-static int c128sidaddressbase[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
+static int c128_sid_address_base[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
 
 static void c128_ui_specific(void *msg, void *window)
 {
@@ -332,14 +329,20 @@ static void c128_ui_specific(void *msg, void *window)
         case MENU_C128_MODEL_C128DCR_NTSC:
             c128model_set(C128MODEL_C128DCR_NTSC);
             break;
-        case MENU_VIDEO_VDC_SETTINGS:
-            ui_video(1);
+        case MENU_VIDEO_SETTINGS:
+            ui_video(UI_VIDEO_CHIP_VICII);
             break;
-          case MENU_VICII_SETTINGS:
+        case MENU_VIDEO_VDC_SETTINGS:
+            ui_video(UI_VIDEO_CHIP_VDC);
+            break;
+        case MENU_VICII_SETTINGS:
             ui_vicii();
             break;
         case MENU_SID_SETTINGS:
-            ui_sid(c128sidaddressbase);
+            ui_sid(c128_sid_address_base);
+            break;
+        case MENU_DRIVE_SETTINGS:
+            ui_drive(c128_drive_types, HAS_PARA_CABLE | HAS_PROFDOS);
             break;
         case MENU_REU_FILE:
             ui_select_file(B_SAVE_PANEL, REU_FILE, (void*)0);

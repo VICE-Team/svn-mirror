@@ -31,7 +31,6 @@
 #include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -43,9 +42,10 @@
 
 extern "C" {
 #include "archdep.h"
-#include "cartridge.h"
+#include "c64ui.h"
 #include "c64dtv-resources.h"
 #include "c64dtvmodel.h"
+#include "cartridge.h"
 #include "constants.h"
 #include "keyboard.h"
 #include "resources.h"
@@ -54,11 +54,12 @@ extern "C" {
 #include "ui_drive.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
+#include "ui_video.h"
 #include "util.h"
 #include "video.h"
 }
 
-drive_type_t drive_type[] = {
+static ui_drive_type_t c64dtv_drive_types[] = {
     { "1541", DRIVE_TYPE_1541 },
     { "1541-II", DRIVE_TYPE_1541II },
     { "1570", DRIVE_TYPE_1570 },
@@ -69,8 +70,6 @@ drive_type_t drive_type[] = {
     { "None", DRIVE_TYPE_NONE },
     { NULL, 0 }
 };
-
-int drive_machine_parallel_capable = 0;
 
 ui_menu_toggle  c64dtv_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -120,11 +119,17 @@ void c64dtv_ui_specific(void *msg, void *window)
         case MENU_C64DTV_MODEL_HUMMER_NTSC:
             dtvmodel_set(DTVMODEL_HUMMER_NTSC);
             break;
+        case MENU_VIDEO_SETTINGS:
+            ui_video(UI_VIDEO_CHIP_VICII);
+            break;
         case MENU_VICII_SETTINGS:
             ui_vicii();
             break;
         case MENU_SID_SETTINGS:
             ui_sid(NULL);
+            break;
+        case MENU_DRIVE_SETTINGS:
+            ui_drive(c64dtv_drive_types, HAS_NO_CAPS);
             break;
         case MENU_C64DTV_ROM_FILE:
             ui_select_file(B_SAVE_PANEL, C64DTV_ROM_FILE, (void*)0);

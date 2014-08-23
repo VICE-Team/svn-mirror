@@ -1,5 +1,5 @@
 /*
- * plus4ui.c - C64-specific user interface.
+ * plus4ui.c - Plus4-specific user interface.
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -33,7 +33,6 @@
 #include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -54,10 +53,11 @@ extern "C" {
 #include "ui_drive.h"
 #include "ui_sidcart.h"
 #include "ui_ted.h"
+#include "ui_video.h"
 #include "video.h"
 }
 
-drive_type_t drive_type[] = {
+static ui_drive_type_t plus4_drive_types[] = {
     { "1541", DRIVE_TYPE_1541 },
     { "1541-II", DRIVE_TYPE_1541II },
     { "1551", DRIVE_TYPE_1551 },
@@ -69,8 +69,6 @@ drive_type_t drive_type[] = {
     { "None", DRIVE_TYPE_NONE },
     { NULL, 0 }
 };
-
-int drive_machine_parallel_capable = 1;
 
 ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -104,8 +102,8 @@ ui_res_value_list plus4_ui_res_values[] = {
     { NULL, NULL }
 };
 
-static const char *plus4sidcartaddresspair[] = { "$FD40", "$FE80" };
-static const char *plus4sidcartclockpair[] = { "C64", "PLUS4" };
+static const char *plus4_sidcart_address_pair[] = { "$FD40", "$FE80" };
+static const char *plus4_sidcart_clock_pair[] = { "C64", "PLUS4" };
 
 static ui_cartridge_t plus4_ui_cartridges[]={
     { MENU_CART_PLUS4_SMART, CARTRIDGE_PLUS4_DETECT, "Smart attach" },
@@ -137,9 +135,6 @@ static void plus4_ui_attach_cartridge(int menu)
 static void plus4_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
-        case MENU_TED_SETTINGS:
-            ui_ted();
-            break;
         case MENU_CART_PLUS4_SMART:      
         case MENU_CART_PLUS4_C0_LOW:
         case MENU_CART_PLUS4_C0_HIGH:
@@ -152,8 +147,17 @@ static void plus4_ui_specific(void *msg, void *window)
         case MENU_CART_PLUS4_DETACH:
             cartridge_detach_image(-1);
             break;
+        case MENU_VIDEO_SETTINGS:
+            ui_video(UI_VIDEO_CHIP_TED);
+            break;
+        case MENU_TED_SETTINGS:
+            ui_ted();
+            break;
+        case MENU_DRIVE_SETTINGS:
+            ui_drive(plus4_drive_types, HAS_PARA_CABLE);
+            break;
         case MENU_SIDCART_SETTINGS:
-            ui_sidcart(plus4sidcartaddresspair, plus4sidcartclockpair);
+            ui_sidcart(plus4_sidcart_address_pair, plus4_sidcart_clock_pair);
             ui_update_menus();
             break;
         case MENU_V364SPEECH_FILE:

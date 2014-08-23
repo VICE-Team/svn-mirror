@@ -42,10 +42,11 @@ extern "C" {
 #include "ui_drive.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
+#include "ui_video.h"
 #include "video.h"
 }
 
-drive_type_t drive_type[] = {
+static ui_drive_type_t cbm5x0_drive_types[] = {
     { "2031", DRIVE_TYPE_2031 },
     { "2040", DRIVE_TYPE_2040 },
     { "3040", DRIVE_TYPE_3040 },
@@ -56,8 +57,6 @@ drive_type_t drive_type[] = {
     { "None", DRIVE_TYPE_NONE },
     { NULL, 0 }
 };
-
-int drive_machine_parallel_capable = 0;
 
 ui_menu_toggle  cbm5x0_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -149,11 +148,17 @@ void cbm5x0_ui_specific(void *msg, void *window)
         case MENU_CBM5X0_SETTINGS:
             ui_cbm5x0();
             break;
+        case MENU_VIDEO_SETTINGS:
+            ui_video(UI_VIDEO_CHIP_VICII);
+            break;
         case MENU_VICII_SETTINGS:
             ui_vicii();
             break;
         case MENU_SID_SETTINGS:
             ui_sid(NULL);
+            break;
+        case MENU_DRIVE_SETTINGS:
+            ui_drive(cbm5x0_drive_types, HAS_NO_CAPS);
             break;
         case MENU_COMPUTER_KERNAL_ROM_FILE:
             ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_ROM_FILE, (void*)0);

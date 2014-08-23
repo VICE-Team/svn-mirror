@@ -40,6 +40,10 @@ extern "C" {
 #include "vsync.h"
 }
 
+static ui_drive_type_t *drive_list;
+
+static int drive_machine_parallel_capable;
+
 struct _drive_extendimagepolicy {
     const char *name;
     int id;
@@ -93,7 +97,7 @@ void DriveView::EnableControlsForDriveSettings(int type_index)
     int current_drive_type;
     bool expand_is_possible;
 
-    current_drive_type = drive_type[type_index].id;
+    current_drive_type = drive_list[type_index].id;
 
     for (i = 0; drive_extendimagepolicy[i].name; i++) {
         rb_extendimagepolicy[i]->SetEnabled(drive_check_extend_policy(current_drive_type));
@@ -169,7 +173,7 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
     /* drive expansion */
     r.OffsetTo(90, 100);
     r.right = 220;
-    r.bottom = 245;
+    r.bottom = 295;
     box = new BBox(r);
     box->SetLabel("Drive expansion");
     AddChild(box);
@@ -224,15 +228,15 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
     box->SetLabel("Drive type");
     AddChild(box);
     r.InsetBy(10, 10);
-    for (i = 0; drive_type[i].name; i++) {
+    for (i = 0; drive_list[i].name; i++) {
         msg = new BMessage(MESSAGE_DRIVE_TYPE);
         msg->AddInt32("drive_num", drive_num);
         msg->AddInt32("resource_index", i);
-        radiobutton = new BRadioButton(BRect(10, 20 + i * 25, 70, 30 + i * 25), drive_type[i].name, drive_type[i].name, msg);
-        radiobutton->SetEnabled(drive_check_type(drive_type[i].id, drive_num - 8));
+        radiobutton = new BRadioButton(BRect(10, 20 + i * 25, 70, 30 + i * 25), drive_list[i].name, drive_list[i].name, msg);
+        radiobutton->SetEnabled(drive_check_type(drive_list[i].id, drive_num - 8));
         box->AddChild(radiobutton);
 
-        if (drive_type[i].id == current_type) {
+        if (drive_list[i].id == current_type) {
             radiobutton->SetValue(1);
             EnableControlsForDriveSettings(i);
         }
@@ -296,7 +300,7 @@ void DriveWindow::MessageReceived(BMessage *msg)
 
     switch (msg->what) {
         case MESSAGE_DRIVE_TYPE:
-            resources_set_int_sprintf("Drive%dType", drive_type[resource_index].id, drive_num);
+            resources_set_int_sprintf("Drive%dType", drive_list[resource_index].id, drive_num);
             dv[drive_num - 8]->EnableControlsForDriveSettings(resource_index);
             break;
         case MESSAGE_DRIVE_EXTENDIMAGEPOLICY:
@@ -318,7 +322,7 @@ void DriveWindow::MessageReceived(BMessage *msg)
     }
 }
 
-void ui_drive()
+void ui_drive(ui_drive_type_t *drive_types, int caps)
 {
     thread_id drivethread;
     status_t exit_value;
@@ -326,6 +330,9 @@ void ui_drive()
     if (drivewindow != NULL) {
         return;
     }
+
+    drive_list = drive_types;
+    drive_machine_parallel_capable = (caps & HAS_PARA_CABLE) ? 1 : 0;
 
     drivewindow = new DriveWindow;
 

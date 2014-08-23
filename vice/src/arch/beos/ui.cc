@@ -85,12 +85,10 @@ extern "C" {
 #include "ui.h"
 #include "ui_datasette.h"
 #include "ui_device.h"
-#include "ui_drive.h"
 #include "ui_joystick.h"
 #include "ui_netplay.h"
 #include "ui_ram.h"
 #include "ui_sound.h"
-#include "ui_video.h"
 #include "uicmdline.h"
 #include "userport_joystick.h"
 #include "util.h"
@@ -868,9 +866,6 @@ void ui_dispatch_events(void)
                 resources_set_string("SoundRecordDeviceName", "");
                 ui_display_statustext("Sound Recording Stopped...", 1);
                 break;
-            case MENU_DRIVE_SETTINGS:
-                ui_drive();
-                break;  
             case MENU_DEVICE_SETTINGS:
                 ui_device();
                 break;
@@ -885,9 +880,6 @@ void ui_dispatch_events(void)
                 break;
             case MENU_SOUND_SETTINGS:
                 ui_sound();
-                break;
-            case MENU_VIDEO_SETTINGS:
-                ui_video(0);
                 break;
             case MENU_RAM_SETTINGS:
                 ui_ram();

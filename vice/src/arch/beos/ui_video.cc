@@ -34,10 +34,10 @@
 #include <RadioButton.h>
 #include <ScrollView.h>
 #include <Slider.h>
-#include <string.h>
 #include <Window.h>
 
 #include <stdlib.h>
+#include <string.h>
 
 extern "C" { 
 #include "archapi.h"
@@ -76,8 +76,6 @@ static control_res_t crt_controls[] = {
 
 static const char *chip_name_table[] = { "VICII", "VIC", "CRTC", "VDC", "TED" };
 
-static int chip[] = { -1, -1 };
-
 class VideoWindow : public BWindow {
         BBox *color_ctrlsbox;
         BBox *crt_ctrlsbox;
@@ -88,7 +86,7 @@ class VideoWindow : public BWindow {
         void CreateSliders(BBox *parent, control_res_t *ctrls);
         //~ void EnableSliders(BBox *parent);
     public:
-        VideoWindow(int chipno);
+        VideoWindow(int chipno, int chiptype, const char *titlestr);
         ~VideoWindow();
         virtual void MessageReceived(BMessage *msg);
 };
@@ -122,8 +120,8 @@ void VideoWindow::CreateSliders(BBox *parent, control_res_t *ctrls)
     }
 }
 
-VideoWindow::VideoWindow(int chipno) 
-    : BWindow(BRect(250, 50, 640, 345), "Video settings", B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+VideoWindow::VideoWindow(int chipno, int chiptype, const char *titlestr)
+    : BWindow(BRect(250, 50, 640, 345), titlestr, B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_NOT_RESIZABLE)
 {
     BMessage *msg;
     BCheckBox *checkbox;
@@ -138,41 +136,8 @@ VideoWindow::VideoWindow(int chipno)
     char *palettefile;
     //~ BRadioButton *rb_mode;
 
-    switch (machine_class) {
-        case VICE_MACHINE_C128:
-            chip[1] = 3;
-            /* fall through */
-        case VICE_MACHINE_C64:
-        case VICE_MACHINE_C64SC:
-        case VICE_MACHINE_C64DTV:
-        case VICE_MACHINE_SCPU64:
-        case VICE_MACHINE_CBM5x0:
-        default:
-            chip[0] = 0;
-            break;
-        case VICE_MACHINE_CBM6x0:
-        case VICE_MACHINE_PET:
-            chip[0] = 2;
-            break;
-        case VICE_MACHINE_PLUS4:
-            chip[0] = 4;
-            break;
-        case VICE_MACHINE_VIC20:
-            chip[0] = 1;
-            break;
-    }
-
     chip_no = chipno;
-    chip_name = chip_name_table[chip[chipno]];
-
-    if (machine_class == VICE_MACHINE_C128) {
-        if (chipno == 0) {
-            SetTitle("Video settings (VIC-II)");
-        } else {
-            SetTitle("Video settings (VDC)");
-        }
-    }
-
+    chip_name = chip_name_table[chiptype];
 
     r = Bounds();
     background = new BView(r, NULL,  B_FOLLOW_NONE, B_WILL_DRAW);
@@ -196,7 +161,7 @@ VideoWindow::VideoWindow(int chipno)
     resname = util_concat(chip_name, "AudioLeak", NULL);
     msg = new BMessage(MESSAGE_VIDEO_AUDIO_LEAK);
     msg->AddString("resname", resname);
-    checkbox = new BCheckBox(BRect(250, 10, 380, 25), "AudioLeak", "Audio Leak", msg);
+    checkbox = new BCheckBox(BRect(250, 210, 380, 225), "AudioLeak", "Audio Leak", msg);
     background->AddChild(checkbox);
     resources_get_int(resname, &res_val);
     checkbox->SetValue(res_val);
@@ -245,7 +210,7 @@ VideoWindow::VideoWindow(int chipno)
     Show();
 }
 
-VideoWindow::~VideoWindow() 
+VideoWindow::~VideoWindow()
 {
     videowindow[chip_no] = NULL;
 }
@@ -301,12 +266,30 @@ void VideoWindow::MessageReceived(BMessage *msg)
     }
 }
 
-void ui_video(int chip_no)
+void ui_video(int chip_type)
 {
+    const char *temp_str;
+    char *title_str;
+    int chip_no;
+
+    if (chip_type == UI_VIDEO_CHIP_VDC) {
+        chip_no = 1;
+    } else {
+        chip_no = 0;
+    }
+
     if (videowindow[chip_no] != NULL) {
         videowindow[chip_no]->Activate();
         return;
     }
 
-    videowindow[chip_no] = new VideoWindow(chip_no);
+    if (chip_type == UI_VIDEO_CHIP_VICII) {
+        temp_str = "VIC-II";
+    } else {
+        temp_str = chip_name_table[chip_type];
+    }
+
+    title_str = lib_msprintf("Video settings (%s)", temp_str);
+    videowindow[chip_no] = new VideoWindow(chip_no, chip_type, title_str);
+    lib_free(title_str);
 }

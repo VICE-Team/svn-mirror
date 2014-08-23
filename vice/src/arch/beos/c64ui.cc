@@ -31,7 +31,6 @@
 #include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -56,12 +55,13 @@ extern "C" {
 #include "ui_ide64.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
+#include "ui_video.h"
 #include "util.h"
 #include "vicii.h"
 #include "video.h"
 }
 
-drive_type_t drive_type[] = {
+static ui_drive_type_t c64_drive_types[] = {
     { "1541", DRIVE_TYPE_1541 },
     { "1541-II", DRIVE_TYPE_1541II },
     { "1570", DRIVE_TYPE_1570 },
@@ -79,8 +79,6 @@ drive_type_t drive_type[] = {
     { "None", DRIVE_TYPE_NONE },
     { NULL, 0 }
 };
-
-int drive_machine_parallel_capable = 1;
 
 ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -333,12 +331,13 @@ ui_res_possible_values c64_DS12C887RTC_base[] = {
     { -1, 0 }
 };
 
+/* VICIIModel has to be first for the hack below to work */
 ui_res_value_list c64_ui_res_values[] = {
+    { "VICIIModel", viciimodels },
     { "Acia1Dev", AciaDevice },
     { "Acia1Base", AciaBase },
     { "Acia1Irq", AciaInt },
     { "Acia1Mode", AciaMode },
-    { "VICIIModel", viciimodels },
     { "REUsize", ReuSize },
     { "GeoRAMsize", GeoRAMSize },
     { "RAMCARTsize", RamCartSize },
@@ -395,7 +394,7 @@ static void c64_ui_attach_cartridge(int menu)
     ui_select_file(B_OPEN_PANEL, C64_CARTRIDGE_FILE, &c64_ui_cartridges[i]);
 }       
 
-static int c64sidaddressbase[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
+static int c64_sid_address_base[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
 
 static void c64_ui_specific(void *msg, void *window)
 {
@@ -434,11 +433,17 @@ static void c64_ui_specific(void *msg, void *window)
                 }
                 break;
             }
+        case MENU_VIDEO_SETTINGS:
+            ui_video(UI_VIDEO_CHIP_VICII);
+            break;
         case MENU_VICII_SETTINGS:
             ui_vicii();
             break;
         case MENU_SID_SETTINGS:
-            ui_sid(c64sidaddressbase);
+            ui_sid(c64_sid_address_base);
+            break;
+        case MENU_DRIVE_SETTINGS:
+            ui_drive(c64_drive_types, HAS_PARA_CABLE | HAS_PROFDOS);
             break;
         case MENU_IDE64_FILE1:
             ui_select_file(B_SAVE_PANEL, IDE64_FILE1, (void*)0);

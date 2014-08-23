@@ -31,7 +31,6 @@
 #include <MenuBar.h>
 #include <MenuItem.h>
 #include <Window.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -52,13 +51,34 @@ extern "C" {
 #include "scpu64ui.h"
 #include "types.h"
 #include "ui.h"
+#include "ui_drive.h"
 #include "ui_ide64.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
+#include "ui_video.h"
 #include "util.h"
 #include "vicii.h"
 #include "video.h"
 }
+
+static ui_drive_type_t scpu64_drive_types[] = {
+    { "1541", DRIVE_TYPE_1541 },
+    { "1541-II", DRIVE_TYPE_1541II },
+    { "1570", DRIVE_TYPE_1570 },
+    { "1571", DRIVE_TYPE_1571 },
+    { "1581", DRIVE_TYPE_1581 },
+    { "2000", DRIVE_TYPE_2000 },
+    { "4000", DRIVE_TYPE_4000 },
+    { "2031", DRIVE_TYPE_2031 },
+    { "2040", DRIVE_TYPE_2040 },
+    { "3040", DRIVE_TYPE_3040 },
+    { "4040", DRIVE_TYPE_4040 },
+    { "1001", DRIVE_TYPE_1001 },
+    { "8050", DRIVE_TYPE_8050 },
+    { "8250", DRIVE_TYPE_8250 },
+    { "None", DRIVE_TYPE_NONE },
+    { NULL, 0 }
+};
 
 ui_menu_toggle scpu64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -366,7 +386,7 @@ static void scpu64_ui_attach_cartridge(int menu)
     ui_select_file(B_OPEN_PANEL, C64_CARTRIDGE_FILE, &scpu64_ui_cartridges[i]);
 }       
 
-static int scpu64sidaddressbase[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
+static int scpu64_sid_address_base[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
 
 static void scpu64_ui_specific(void *msg, void *window)
 {
@@ -405,11 +425,17 @@ static void scpu64_ui_specific(void *msg, void *window)
                 }
                 break;
             }
+        case MENU_VIDEO_SETTINGS:
+            ui_video(UI_VIDEO_CHIP_VICII);
+            break;
         case MENU_VICII_SETTINGS:
             ui_vicii();
             break;
         case MENU_SID_SETTINGS:
-            ui_sid(scpu64sidaddressbase);
+            ui_sid(scpu64_sid_address_base);
+            break;
+        case MENU_DRIVE_SETTINGS:
+            ui_drive(scpu64_drive_types, HAS_PARA_CABLE | HAS_PROFDOS);
             break;
         case MENU_IDE64_FILE1:
             ui_select_file(B_SAVE_PANEL, IDE64_FILE1, (void*)0);

@@ -30,13 +30,16 @@
 
 #include "drive.h"
 
-typedef struct drive_type_s {
+typedef struct ui_drive_type_s {
     const char *name;
     int id;
-} drive_type_t;
+} ui_drive_type_t;
 
-extern drive_type_t drive_type[];
-extern int drive_machine_parallel_capable;
+enum ui_drive_caps {
+    HAS_NO_CAPS = 0,
+    HAS_PARA_CABLE = (1 << 0),
+    HAS_PROFDOS = (1 << 1)     /* Implies SuperCard as well. */
+};
 
 const uint32 MESSAGE_DRIVE_TYPE              = 'MD01';
 const uint32 MESSAGE_DRIVE_EXTENDIMAGEPOLICY = 'MD02';
@@ -44,6 +47,6 @@ const uint32 MESSAGE_DRIVE_IDLEMETHOD        = 'MD03';
 const uint32 MESSAGE_DRIVE_EXPANSION         = 'MD04';
 const uint32 MESSAGE_DRIVE_PARALLELCABLE     = 'MD05';
 
-extern void ui_drive(void);
+extern void ui_drive(ui_drive_type_t *drive_types, int caps);
 
 #endif
