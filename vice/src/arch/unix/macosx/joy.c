@@ -685,7 +685,7 @@ int joystick_arch_init_resources(void)
     return resources_register_int(resources_int);
 }
 
-int joystick_init_cmdline_options(void)
+int joystick_cmdline_options_init(void)
 {
     switch (machine_class) {
         case VICE_MACHINE_C64:

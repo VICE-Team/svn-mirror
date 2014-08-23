@@ -38,7 +38,6 @@ typedef int joystick_device_t;
 
 extern int joy_arch_init(void);
 extern int joystick_arch_init_resources(void);
-extern int joystick_init_cmdline_options(void);
 extern int joystick_close(void);
 extern void joystick_update(void);
 extern char joystick_uses_direct_input(void);

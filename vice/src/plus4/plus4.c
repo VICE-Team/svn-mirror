@@ -398,6 +398,10 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("printer");
         return -1;
     }
+    if (joystick_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("joystick");
+        return -1;
+    }
 #ifndef COMMON_KBD
     if (kbd_cmdline_options_init() < 0) {
         init_cmdline_options_fail("kbd");
@@ -457,6 +461,10 @@ int machine_specific_init(void)
 
     /* Setup trap handling.  */
     traps_init();
+
+    if (!video_disabled_mode) {
+        joystick_init();
+    }
 
     /* Initialize serial traps.  */
     if (serial_init(plus4_serial_traps) < 0) {

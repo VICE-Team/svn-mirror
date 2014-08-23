@@ -455,6 +455,10 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("printer");
         return -1;
     }
+    if (joystick_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("joystick");
+        return -1;
+    }
 #ifdef HAVE_MOUSE
     if (mouse_cmdline_options_init() < 0) {
         init_cmdline_options_fail("mouse");
@@ -547,6 +551,10 @@ int machine_specific_init(void)
 
     /* Setup trap handling.  */
     traps_init();
+
+    if (!video_disabled_mode) {
+        joystick_init();
+    }
 
     /* Initialize serial traps.  */
 /*    if (serial_init(c64_serial_traps) < 0) {
