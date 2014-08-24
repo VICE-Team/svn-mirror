@@ -293,8 +293,6 @@ void machine_shutdown(void)
     network_shutdown();
 
     autostart_resources_shutdown();
-    fsdevice_resources_shutdown();
-    disk_image_resources_shutdown();
     sound_resources_shutdown();
     machine_resources_shutdown();
     sysfile_resources_shutdown();

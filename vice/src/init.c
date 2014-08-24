@@ -95,31 +95,6 @@ int init_resources(void)
         init_resource_fail("UI");
         return -1;
     }
-    if (fliplist_resources_init() < 0) {
-        init_resource_fail("flip list");
-        return -1;
-    }
-    if (file_system_resources_init() < 0) {
-        init_resource_fail("file system");
-        return -1;
-    }
-    /* Initialize file system device-specific resources.  */
-    if (fsdevice_resources_init() < 0) {
-        init_resource_fail("file system device");
-        return -1;
-    }
-    if (disk_image_resources_init() < 0) {
-        init_resource_fail("disk image");
-        return -1;
-    }
-    if (event_resources_init() < 0) {
-        init_resource_fail("event");
-        return -1;
-    }
-    if (debug_resources_init() < 0) {
-        init_resource_fail("debug");
-        return -1;
-    }
     if (machine_common_resources_init() < 0) {
         init_resource_fail("machine common");
         return -1;
@@ -198,33 +173,11 @@ int init_cmdline_options(void)
             init_cmdline_options_fail("romset");
             return -1;
         }
-        if (fliplist_cmdline_options_init() < 0) {
-            init_cmdline_options_fail("flip list");
-            return -1;
-        }
-        if (file_system_cmdline_options_init() < 0) {
-            init_cmdline_options_fail("attach");
-            return -1;
-        }
-        if (disk_image_cmdline_options_init() < 0) {
-            init_cmdline_options_fail("disk image");
-            return -1;
-        }
-        if (event_cmdline_options_init() < 0) {
-            init_cmdline_options_fail("event");
-            return -1;
-        }
     }
     if (monitor_cmdline_options_init() < 0) {
         init_cmdline_options_fail("monitor");
         return -1;
     }
-#ifdef DEBUG
-    if (debug_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("debug");
-        return -1;
-    }
-#endif
     if (machine_common_cmdline_options_init() < 0) {
         init_cmdline_options_fail("machine common");
         return -1;
@@ -243,10 +196,6 @@ int init_cmdline_options(void)
     }
 
     if (machine_class != VICE_MACHINE_VSID) {
-        if (fsdevice_cmdline_options_init() < 0) {
-            init_cmdline_options_fail("file system");
-            return -1;
-        }
         if (kbdbuf_cmdline_options_init() < 0) {
             init_cmdline_options_fail("keyboard");
             return -1;
@@ -284,8 +233,6 @@ int init_main(void)
     machine_bus_init();
     machine_maincpu_init();
 
-    event_init();
-
     /* Machine-specific initialization.  */
     if (machine_init() < 0) {
         log_error(LOG_DEFAULT, "Machine initialization failed.");
@@ -304,7 +251,6 @@ int init_main(void)
     keyboard_init();
 
     if (machine_class != VICE_MACHINE_VSID) {
-        disk_image_init();
         vdrive_init();
     }
 

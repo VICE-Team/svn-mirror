@@ -506,21 +506,6 @@ int gfxoutput_early_init(int drivers)
     return 0;
 }
 
-int gfxoutput_resources_init(void)
-{
-    return 0;
-}
-
-int gfxoutput_cmdline_options_init(void)
-{
-    return 0;
-}
-
-int gfxoutput_init(void)
-{
-    return 0;
-}
-
 void gfxoutput_shutdown(void)
 {
 }
@@ -830,16 +815,6 @@ unsigned int fileio_scratch(const char *file_name, const char *path, unsigned in
     fileio
 *******************************************************************************/
 
-int fsdevice_resources_init(void)
-{
-    return 0;
-}
-
-int fsdevice_cmdline_options_init(void)
-{
-    return 0;
-}
-
 void fsdevice_init(void)
 {
 }
@@ -857,30 +832,12 @@ void fsdevice_set_directory(char *filename, unsigned int unit)
 {
 }
 
-void fsdevice_resources_shutdown(void)
-{
-}
-
 
 /*******************************************************************************
     diskimage
 *******************************************************************************/
 
-int disk_image_resources_init(void)
-{
-    return 0;
-}
-
-int disk_image_cmdline_options_init(void)
-{
-    return 0;
-}
-
 void disk_image_init(void)
-{
-}
-
-void disk_image_resources_shutdown(void)
 {
 }
 

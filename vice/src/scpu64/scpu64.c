@@ -32,11 +32,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "attach.h"
 #include "autostart.h"
-#include "scpu64-cmdline-options.h"
-#include "scpu64-resources.h"
-#include "scpu64-snapshot.h"
-#include "scpu64.h"
 #include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
@@ -55,11 +52,14 @@
 #include "clkguard.h"
 #include "datasette.h"
 #include "debug.h"
+#include "diskimage.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
 #include "drive-sound.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "fliplist.h"
+#include "fsdevice.h"
 #include "gfxoutput.h"
 #include "imagecontents.h"
 #include "init.h"
@@ -81,6 +81,10 @@
 #include "resources.h"
 #include "rs232drv.h"
 #include "rsuser.h"
+#include "scpu64-cmdline-options.h"
+#include "scpu64-resources.h"
+#include "scpu64-snapshot.h"
+#include "scpu64.h"
 #include "scpu64cpu.h"
 #include "scpu64ui.h"
 #include "screenshot.h"
@@ -93,6 +97,7 @@
 #include "types.h"
 #include "userport_joystick.h"
 #include "userport_rtc.h"
+#include "vice-event.h"
 #include "vicii.h"
 #include "vicii-mem.h"
 #include "video.h"
@@ -338,6 +343,27 @@ int machine_resources_init(void)
         init_resource_fail("gfxoutput");
         return -1;
     }
+    if (fliplist_resources_init() < 0) {
+        init_resource_fail("flip list");
+        return -1;
+    }
+    if (file_system_resources_init() < 0) {
+        init_resource_fail("file system");
+        return -1;
+    }
+    /* Initialize file system device-specific resources.  */
+    if (fsdevice_resources_init() < 0) {
+        init_resource_fail("file system device");
+        return -1;
+    }
+    if (disk_image_resources_init() < 0) {
+        init_resource_fail("disk image");
+        return -1;
+    }
+    if (event_resources_init() < 0) {
+        init_resource_fail("event");
+        return -1;
+    }
 #ifdef HAVE_MOUSE
     if (mouse_resources_init() < 0) {
         init_resource_fail("mouse");
@@ -397,6 +423,8 @@ void machine_resources_shutdown(void)
     rombanks_resources_shutdown();
     userport_rtc_resources_shutdown();
     cartio_shutdown();
+    fsdevice_resources_shutdown();
+    disk_image_resources_shutdown();
 }
 
 /* C64-specific command-line option initialization.  */
@@ -446,6 +474,32 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("gfxoutput");
         return -1;
     }
+    if (fliplist_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("flip list");
+        return -1;
+    }
+    if (file_system_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("attach");
+        return -1;
+    }
+    if (fsdevice_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("file system");
+        return -1;
+    }
+    if (disk_image_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("disk image");
+        return -1;
+    }
+    if (event_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("event");
+        return -1;
+    }
+#ifdef DEBUG
+    if (debug_resources_init() < 0) {
+        init_resource_fail("debug");
+        return -1;
+    }
+#endif
 #ifdef HAVE_MOUSE
     if (mouse_cmdline_options_init() < 0) {
         init_cmdline_options_fail("mouse");
@@ -536,6 +590,8 @@ int machine_specific_init(void)
         return -1;
     }
 
+    event_init();
+
     /* Setup trap handling.  */
     traps_init();
 
@@ -565,6 +621,8 @@ int machine_specific_init(void)
 
     /* Fire up the hardware-level drive emulation.  */
     drive_init();
+
+    disk_image_init();
 
     resources_get_int("AutostartDelay", &delay);
     if (delay == 0) {

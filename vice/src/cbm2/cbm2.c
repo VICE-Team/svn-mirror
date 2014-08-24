@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "alarm.h"
+#include "attach.h"
 #include "autostart.h"
 #include "cartridge.h"
 #include "cbm2-cmdline-options.h"
@@ -49,11 +50,14 @@
 #include "crtc.h"
 #include "datasette.h"
 #include "debug.h"
+#include "diskimage.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
 #include "drive-sound.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "fliplist.h"
+#include "fsdevice.h"
 #include "gfxoutput.h"
 #include "iecdrive.h"
 #include "init.h"
@@ -83,6 +87,7 @@
 #include "traps.h"
 #include "types.h"
 #include "userport_joystick.h"
+#include "vice-event.h"
 #include "video.h"
 #include "video-sound.h"
 #include "vsync.h"
@@ -173,6 +178,33 @@ int machine_resources_init(void)
         init_resource_fail("gfxoutput");
         return -1;
     }
+    if (fliplist_resources_init() < 0) {
+        init_resource_fail("flip list");
+        return -1;
+    }
+    if (file_system_resources_init() < 0) {
+        init_resource_fail("file system");
+        return -1;
+    }
+    /* Initialize file system device-specific resources.  */
+    if (fsdevice_resources_init() < 0) {
+        init_resource_fail("file system device");
+        return -1;
+    }
+    if (disk_image_resources_init() < 0) {
+        init_resource_fail("disk image");
+        return -1;
+    }
+    if (event_resources_init() < 0) {
+        init_resource_fail("event");
+        return -1;
+    }
+#ifdef DEBUG
+    if (debug_resources_init() < 0) {
+        init_resource_fail("debug");
+        return -1;
+    }
+#endif
 #ifndef COMMON_KBD
     if (pet_kbd_resources_init() < 0) {
         init_resource_fail("pet kbd");
@@ -193,6 +225,8 @@ void machine_resources_shutdown(void)
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
     drive_resources_shutdown();
+    fsdevice_resources_shutdown();
+    disk_image_resources_shutdown();
 }
 
 /* CBM-II-specific command-line option initialization.  */
@@ -250,6 +284,32 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("gfxoutput");
         return -1;
     }
+    if (fliplist_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("flip list");
+        return -1;
+    }
+    if (file_system_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("attach");
+        return -1;
+    }
+    if (fsdevice_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("file system");
+        return -1;
+    }
+    if (disk_image_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("disk image");
+        return -1;
+    }
+    if (event_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("event");
+        return -1;
+    }
+#ifdef DEBUG
+    if (debug_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("debug");
+        return -1;
+    }
+#endif
 #ifndef COMMON_KBD
     if (pet_kbd_cmdline_options_init() < 0) {
         init_cmdline_options_fail("pet kbd");
@@ -320,6 +380,8 @@ int machine_specific_init(void)
 
     cbm2_init_ok = 1;
 
+    event_init();
+
     /* Setup trap handling - must be before mem_load() */
     traps_init();
 
@@ -362,6 +424,8 @@ int machine_specific_init(void)
 
     /* Fire up the hardware-level 1541 emulation.  */
     drive_init();
+
+    disk_image_init();
 
     cbm2_monitor_init();
 
