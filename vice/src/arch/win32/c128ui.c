@@ -430,7 +430,6 @@ ui_popup_translation_table_t c128ui_popup_translation_table[] = {
     { 2, IDS_MP_DRIVE_SETTINGS },
     { 2, IDS_MP_JOYSTICK_SETTINGS },
     { 2, IDS_MP_MOUSE_SETTINGS },
-    { 2, IDS_MP_VIDEO_STANDARD },
     { 2, IDS_MP_VDC_SETTINGS },
     { 3, IDS_MP_VDC_REVISION },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS },

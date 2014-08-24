@@ -299,7 +299,6 @@ ui_popup_translation_table_t c64dtvui_popup_translation_table[] = {
     { 2, IDS_MP_DRIVE_SETTINGS },
     { 2, IDS_MP_JOYSTICK_SETTINGS },
     { 2, IDS_MP_MOUSE_SETTINGS },
-    { 2, IDS_MP_VIDEO_STANDARD },
     { 1, IDS_MP_LANGUAGE },
     { 1, IDS_MP_HELP },
     { 0, 0 }
