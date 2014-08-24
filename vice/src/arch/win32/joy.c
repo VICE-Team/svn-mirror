@@ -757,7 +757,7 @@ int joystick_cmdline_options_init(void)
             return cmdline_register_options(joydev3cmdline_options);
             break;
         default:
-            assert("Unknown machine_class in joystick_init_cmdline_options" == NULL);
+            assert("Unknown machine_class in joystick_cmdline_options_init" == NULL);
             return -1;
     }
     return 0;
