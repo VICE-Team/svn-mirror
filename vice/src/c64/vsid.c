@@ -247,48 +247,6 @@ static WORD vsid_autostart_load_addr = 0;
 static BYTE *vsid_autostart_data = NULL;
 static WORD vsid_autostart_length = 0;
 
-void c64io_vicii_init(void)
-{
-    vicii_d000_list_item = io_source_register(&vicii_d000_device);
-    vicii_d100_list_item = io_source_register(&vicii_d100_device);
-    vicii_d200_list_item = io_source_register(&vicii_d200_device);
-    vicii_d300_list_item = io_source_register(&vicii_d300_device);
-}
-
-void c64io_vicii_deinit(void)
-{
-    if (vicii_d000_list_item != NULL) {
-        io_source_unregister(vicii_d000_list_item);
-        vicii_d000_list_item = NULL;
-    }
-
-    if (vicii_d100_list_item != NULL) {
-        io_source_unregister(vicii_d100_list_item);
-        vicii_d100_list_item = NULL;
-    }
-
-    if (vicii_d200_list_item != NULL) {
-        io_source_unregister(vicii_d200_list_item);
-        vicii_d200_list_item = NULL;
-    }
-
-    if (vicii_d300_list_item != NULL) {
-        io_source_unregister(vicii_d300_list_item);
-        vicii_d300_list_item = NULL;
-    }
-}
-
-/* C64-specific I/O initialization. */
-static void c64io_init(void)
-{
-    c64io_vicii_init();
-    sid_d400_list_item = io_source_register(&sid_d400_device);
-    sid_d420_list_item = io_source_register(&sid_d420_device);
-    sid_d500_list_item = io_source_register(&sid_d500_device);
-    sid_d600_list_item = io_source_register(&sid_d600_device);
-    sid_d700_list_item = io_source_register(&sid_d700_device);
-}
-
 /* ------------------------------------------------------------------------ */
 
 /* C64-specific resource initialization.  This is called before initializing
@@ -335,7 +293,6 @@ void machine_resources_shutdown(void)
     serial_shutdown();
     video_resources_shutdown();
     c64_resources_shutdown();
-    cartio_shutdown();
 }
 
 /* C64-specific command-line option initialization.  */
@@ -420,9 +377,6 @@ int machine_specific_init(void)
 
     /* Initialize keyboard buffer.  */
     kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
-
-    /* Initialize the C64-specific I/O */
-    c64io_init();
 
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {

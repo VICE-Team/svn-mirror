@@ -26,10 +26,8 @@ libvsid_a_SOURCES = \
 	c64export.h \
 	c64gluelogic.c \
 	c64gluelogic.h \
-	c64io.c \
 	c64keyboard.c \
 	c64keyboard.h \
-	c64meminit.c \
 	c64meminit.h \
 	c64memlimit.c \
 	c64memlimit.h \
@@ -47,7 +45,6 @@ libvsid_a_SOURCES = \
 	c64romset.c \
 	c64rsuser.c \
 	c64rsuser.h \
-	c64sound.c \
 	c64video.c \
 	musdrv.h \
 	patchrom.c \
@@ -63,6 +60,8 @@ libvsid_a_SOURCES = \
 	vsidcia2.c \
 	vsidcpu.c \
 	vsidmem.c \
+	vsidmeminit.c \
+	vsidsound.c \
 	vsidstubs.c
 
 libc64_a_SOURCES = \

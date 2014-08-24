@@ -121,7 +121,9 @@ int machine_sid2_check_range(unsigned int sid2_adr)
 {
     if (machine_class == VICE_MACHINE_C128) {
         if ((sid2_adr >= 0xd400 && sid2_adr <= 0xd4e0) || (sid2_adr >= 0xd700 && sid2_adr <= 0xdfe0)) {
+            sid_stereo_address_start = sid2_adr;
             stereo_sid_device.start_address = sid2_adr;
+            sid_stereo_address_end = sid2_adr + 0x1f;
             stereo_sid_device.end_address = sid2_adr + 0x1f;
             if (stereo_sid_list_item != NULL) {
                 io_source_unregister(stereo_sid_list_item);
@@ -135,7 +137,9 @@ int machine_sid2_check_range(unsigned int sid2_adr)
         }
     } else {
         if (sid2_adr >= 0xd400 && sid2_adr <= 0xdfe0) {
+            sid_stereo_address_start = sid2_adr;
             stereo_sid_device.start_address = sid2_adr;
+            sid_stereo_address_end = sid2_adr + 0x1f;
             stereo_sid_device.end_address = sid2_adr + 0x1f;
             if (stereo_sid_list_item != NULL) {
                 io_source_unregister(stereo_sid_list_item);
@@ -155,7 +159,9 @@ int machine_sid3_check_range(unsigned int sid3_adr)
 {
     if (machine_class == VICE_MACHINE_C128) {
         if ((sid3_adr >= 0xd400 && sid3_adr <= 0xd4e0) || (sid3_adr >= 0xd700 && sid3_adr <= 0xdfe0)) {
+            sid_triple_address_start = sid3_adr;
             triple_sid_device.start_address = sid3_adr;
+            sid_triple_address_end = sid3_adr + 0x1f;
             triple_sid_device.end_address = sid3_adr + 0x1f;
             if (triple_sid_list_item != NULL) {
                 io_source_unregister(triple_sid_list_item);
@@ -169,7 +175,9 @@ int machine_sid3_check_range(unsigned int sid3_adr)
         }
     } else {
         if (sid3_adr >= 0xd400 && sid3_adr <= 0xdfe0) {
+            sid_triple_address_start = sid3_adr;
             triple_sid_device.start_address = sid3_adr;
+            sid_triple_address_end = sid3_adr + 0x1f;
             triple_sid_device.end_address = sid3_adr + 0x1f;
             if (triple_sid_list_item != NULL) {
                 io_source_unregister(triple_sid_list_item);
