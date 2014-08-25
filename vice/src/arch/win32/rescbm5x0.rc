@@ -227,6 +227,7 @@ BEGIN
         MENUITEM "", IDM_ROM_SETTINGS
         MENUITEM "", IDM_SID_SETTINGS
         MENUITEM "", IDM_CIA_SETTINGS
+        MENUITEM "", IDM_VICII_SETTINGS
         MENUITEM SEPARATOR
         POPUP "Cartridge/IO settings"
         BEGIN
@@ -264,7 +265,7 @@ BEGIN
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
     END
-    POPUP "Help"
+    POPUP "Help", HELP
     BEGIN
         MENUITEM "", IDM_HELP
         MENUITEM SEPARATOR

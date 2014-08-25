@@ -287,6 +287,7 @@ ui_menu_translation_table_t cbm5x0ui_menu_translation_table[] = {
     { IDM_DATASETTE_SETTINGS, IDS_MI_DATASETTE_SETTINGS },
     { IDM_SID_SETTINGS, IDS_MI_SID_SETTINGS },
     { IDM_CIA_SETTINGS, IDS_MI_CIA_SETTINGS },
+    { IDM_VICII_SETTINGS, IDS_MI_VICII_SETTINGS },
     { IDM_RS232_SETTINGS, IDS_MI_RS232_SETTINGS },
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS },
     { IDM_SETTINGS_SAVE_FILE, IDS_MI_SETTINGS_SAVE_FILE },
@@ -461,6 +462,9 @@ static void cbm5x0_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_CIA_SETTINGS:
             ui_cia_settings_dialog(hwnd, 1);
+            break;
+        case IDM_VICII_SETTINGS:
+            ui_vicii_settings_dialog(hwnd);
             break;
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_CBM2ROM_SETTINGS_DIALOG, IDD_CBM2DRIVEROM_SETTINGS_DIALOG,
