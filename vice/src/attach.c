@@ -309,7 +309,7 @@ static int set_attach_device_readonly(int value, void *param)
     const char *old_filename;
     char *new_filename;
     int rc;
-    int val = (value != 0);
+    int val = value ? 1 : 0;
 
     unit = vice_ptr_to_uint(param);
 
