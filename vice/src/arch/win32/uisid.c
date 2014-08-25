@@ -278,6 +278,7 @@ static void init_resid_sid_dialog(HWND hwnd)
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_FILTER_BIAS);
     SetWindowText(sid_hwnd, translate_text(IDS_SID_RESID_FILTER_BIAS));
 
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
     resources_get_int("SidResidSampling", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING);
     for (i = 0; ui_sid_samplemethod[i]; i++) {
@@ -296,7 +297,7 @@ static void init_resid_sid_dialog(HWND hwnd)
     resources_get_int("SidResidFilterBias", &res_value);
     _stprintf(st, TEXT("%d"), res_value);
     SetDlgItemText(hwnd, IDC_SID_RESID_FILTER_BIAS_VALUE, st);
-
+#endif
     enable_resid_sid_controls(hwnd);
 }
 
@@ -522,6 +523,7 @@ static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, 
 
 static void end_resid_dialog(HWND hwnd)
 {
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
     TCHAR st[4];
     int temp_val, res_val;
 
@@ -567,11 +569,12 @@ static void end_resid_dialog(HWND hwnd)
     } else {
         res_val = temp_val;
     }
-    
+
     if (temp_val != res_val) {
         ui_error(translate_text(IDS_VAL_D_FOR_S_OUT_RANGE_USE_D), temp_val, translate_text(IDS_SID_RESID_FILTER_BIAS), res_val);
     }
     resources_set_int("SidResidFilterBias", res_val);
+#endif
 }
 
 static INT_PTR CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
