@@ -237,6 +237,7 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Cartridge/IO settings"
         BEGIN
+            MENUITEM "", IDM_TOGGLE_DIGIBLASTER
             MENUITEM "", IDM_SIDCART_SETTINGS
             MENUITEM "", IDM_V364SPEECH_SETTINGS
             MENUITEM SEPARATOR
@@ -273,7 +274,7 @@ BEGIN
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
     END
-    POPUP "Help"
+    POPUP "Help", HELP
     BEGIN
         MENUITEM "", IDM_HELP
         MENUITEM SEPARATOR
@@ -508,6 +509,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
   IDS_MI_TED_SETTINGS             "TED settings..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 
 
@@ -543,6 +545,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 tale-indstillinger..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4-model indstillinger..."
   IDS_MI_TED_SETTINGS             "TED-indstillinger..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 
 
@@ -578,6 +581,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Stimme Einstellungen..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 Modell Einstellungen..."
   IDS_MI_TED_SETTINGS             "TED Einstellungen..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 
 
@@ -613,6 +617,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "Ajustes V364 Speech..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Ajustes modelo Plus4..."
   IDS_MI_TED_SETTINGS             "Ajustes TED..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 
 
@@ -648,6 +653,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "Paramètres du V364 Speech..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Paramètres du modèle Plus4..."
   IDS_MI_TED_SETTINGS             "Paramètres TED..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 
 
@@ -686,6 +692,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
   IDS_MI_TED_SETTINGS             "TED beállításai..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -724,6 +731,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "Impostazioni V364 Speech..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Impostazioni modello Plus4..."
   IDS_MI_TED_SETTINGS             "Impostazioni TED..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 
 
@@ -762,6 +770,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
   IDS_MI_TED_SETTINGS             "TED ¼ÂÆÃ..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -800,6 +809,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Spraak instellingen..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model instellingen..."
   IDS_MI_TED_SETTINGS             "TED instellingen..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 
 
@@ -838,6 +848,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "Ustawienia mowy V364..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Ustawienia modelu Plus4..."
   IDS_MI_TED_SETTINGS             "Ustawienia TED..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -879,6 +890,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "¿ÐàÐÜÕâàë àÕçØ V364..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
   IDS_MI_TED_SETTINGS             "½ÐáâàÞÙÚØ TED..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -917,6 +929,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364-röstinställningar..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4-modellinställningar..."
   IDS_MI_TED_SETTINGS             "TED-inställningar..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 
 
@@ -955,6 +968,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech ayarlarý..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model ayarlarý..."
   IDS_MI_TED_SETTINGS             "TED ayarlarý..."
+  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

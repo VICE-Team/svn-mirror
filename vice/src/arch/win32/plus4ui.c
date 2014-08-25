@@ -54,6 +54,7 @@
 
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
+    { "DIGIBLASTER", IDM_TOGGLE_DIGIBLASTER },
     { NULL, 0 }
 };
 
@@ -289,6 +290,7 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_SIDCART_SETTINGS, IDS_MI_SIDCART_SETTINGS },
     { IDM_PLUS4_SETTINGS, IDS_MI_PLUS4_SETTINGS },
     { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
+    { IDM_TOGGLE_DIGIBLASTER, IDS_MI_TOGGLE_DIGIBLASTER },
     { 0, 0 }
 };
 
