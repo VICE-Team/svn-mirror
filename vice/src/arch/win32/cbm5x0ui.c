@@ -50,6 +50,7 @@
 #include "uilib.h"
 #include "uirom.h"
 #include "uisiddtv.h"
+#include "uivicii.h"
 #include "uivideo.h"
 #include "winmain.h"
 
