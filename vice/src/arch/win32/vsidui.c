@@ -131,6 +131,8 @@ static generic_trans_table_t generic_trans_table[] = {
     { IDM_MAXIMUM_SPEED_50, "&50%" },
     { IDM_MAXIMUM_SPEED_20, "&20%" },
     { IDM_MAXIMUM_SPEED_10, "1&0%" },
+    { IDM_SYNC_FACTOR_PAL, "&PAL" },
+    { IDM_SYNC_FACTOR_NTSC, "&NTSC" },
     { 0, NULL}
 };
 
@@ -193,6 +195,7 @@ static ui_popup_translation_table_t vsidui_popup_translation_table[] = {
     { 1, IDS_MP_SETTINGS },
 /*    { 2, IDS_MP_REFRESH_RATE }, */
 /*    { 2, IDS_MP_MAXIMUM_SPEED },*/
+    { 2, IDS_MP_VIDEO_STANDARD },
     { 1, IDS_MP_LANGUAGE },
     { 1, IDS_MP_HELP },
     { 0, 0 }
@@ -234,9 +237,42 @@ static ui_res_possible_values_t SpeedValues[] = {
     { -1, 0 }
 };
 
+static const ui_res_possible_values_t SyncFactor[] = {
+    { MACHINE_SYNC_PAL, IDM_SYNC_FACTOR_PAL },
+    { MACHINE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC },
+    { MACHINE_SYNC_NTSCOLD, IDM_SYNC_FACTOR_NTSCOLD },
+    { MACHINE_SYNC_PALN, IDM_SYNC_FACTOR_PALN },
+    { -1, 0 }
+};
+
+static const ui_res_possible_values_t JamAction[] = {
+    { MACHINE_JAM_ACTION_DIALOG, IDM_JAM_ACTION_ASK },
+    { MACHINE_JAM_ACTION_CONTINUE, IDM_JAM_ACTION_CONTINUE },
+    { MACHINE_JAM_ACTION_MONITOR, IDM_JAM_ACTION_START_MONITOR },
+    { MACHINE_JAM_ACTION_RESET, IDM_JAM_ACTION_RESET },
+    { MACHINE_JAM_ACTION_HARD_RESET, IDM_JAM_ACTION_HARD_RESET },
+    { MACHINE_JAM_ACTION_QUIT, IDM_JAM_ACTION_QUIT_EMULATOR },
+    { -1, 0 }
+};
+
+#ifdef DEBUG
+static const ui_res_possible_values_t TraceMode[] = {
+    { DEBUG_NORMAL, IDM_DEBUG_MODE_NORMAL },
+    { DEBUG_SMALL, IDM_DEBUG_MODE_SMALL },
+    { DEBUG_HISTORY, IDM_DEBUG_MODE_HISTORY },
+    { DEBUG_AUTOPLAY, IDM_DEBUG_MODE_AUTOPLAY },
+    { -1, 0 }
+};
+#endif
+
 static const ui_res_value_list_t value_list[] = {
     { "RefreshRate", RefreshRateValues, 0 },
     { "Speed", SpeedValues, IDM_MAXIMUM_SPEED_CUSTOM },
+    { "MachineVideoStandard", SyncFactor, 0 },
+    { "JAMAction", JamAction, 0 },
+#ifdef DEBUG
+    { "TraceMode", TraceMode, 0},
+#endif
     { NULL, NULL, 0 }
 };
 

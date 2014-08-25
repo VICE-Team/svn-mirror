@@ -61,6 +61,11 @@ BEGIN
         MENUITEM "", IDM_SOUND_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SID_SETTINGS
+        POPUP "Video standard"
+        BEGIN
+            MENUITEM "", IDM_SYNC_FACTOR_PAL
+            MENUITEM "", IDM_SYNC_FACTOR_NTSC
+        END
         MENUITEM "", IDM_PSID_OVERRIDE,               CHECKED
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SETTINGS_SAVE_FILE
@@ -88,7 +93,7 @@ BEGIN
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
     END
-    POPUP "Help"
+    POPUP "Help", HELP
     BEGIN
         MENUITEM "", IDM_HELP
         MENUITEM SEPARATOR
