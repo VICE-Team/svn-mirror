@@ -29,18 +29,11 @@
 
 #include "archdep.h"
 #include "attach.h"
-#include "autostart.h"
 #include "cmdline.h"
 #include "console.h"
-#include "debug.h"
-#include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "fliplist.h"
-#include "fsdevice.h"
 #include "initcmdline.h"
-#include "joy.h"
-#include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
 #include "machine-bus.h"
@@ -51,7 +44,6 @@
 #ifdef HAVE_NETWORK
 #include "monitor_network.h"
 #endif
-#include "network.h"
 #include "palette.h"
 #include "ram.h"
 #include "resources.h"
@@ -61,7 +53,6 @@
 #include "sysfile.h"
 #include "uiapi.h"
 #include "vdrive.h"
-#include "vice-event.h"
 #include "video.h"
 #include "vsync.h"
 
@@ -83,10 +74,6 @@ int init_resources(void)
     }
     if (sysfile_resources_init() < 0) {
         init_resource_fail("system file locator");
-        return -1;
-    }
-    if (autostart_resources_init() < 0) {
-        init_resource_fail("autostart");
         return -1;
     }
     if (romset_resources_init() < 0) {
@@ -163,10 +150,6 @@ int init_cmdline_options(void)
         return -1;
     }
     if (machine_class != VICE_MACHINE_VSID) {
-        if (autostart_cmdline_options_init() < 0) {
-            init_resource_fail("autostart");
-            return -1;
-        }
         if (romset_cmdline_options_init() < 0) {
             init_cmdline_options_fail("romset");
             return -1;

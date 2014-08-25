@@ -1635,8 +1635,11 @@ IDCLS_P_DEVICE
 /* video/video-cmdline-options.c */
 IDCLS_SELECT_FULLSCREEN_DEVICE
 
-/* video/video-cmdline-options.c */
+/* video/video-cmdline-options.c, autostart.c */
 IDCLS_P_MODE
+
+/* autostart.c */
+IDCLS_P_SECONDS
 
 /* video/video-cmdline-options.c */
 IDCLS_SELECT_FULLSCREEN_MODE

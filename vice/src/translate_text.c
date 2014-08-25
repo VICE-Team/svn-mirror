@@ -3237,20 +3237,20 @@ translate_t string_table[] = {
 #endif
 
 /* autostart.c */
-/* en */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG,    N_("Set autostart mode for PRG files")},
+/* en */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG,    N_("Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk image)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DA, "Vælg autostart-tilstand for PRG-filer"},
-/* de */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DE, "Autstart Modus für PRG Dateien definieren"},
-/* es */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_ES, "Seleccionar modo autoarranque para ficheros PRG"},
-/* fr */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_FR, "Définir le mode d'autodémarrage pour les fichiers PRG"},
-/* hu */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_HU, "Automatikus indítás módja PRG fájloknál"},
-/* it */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_IT, "Imposta avvio automatico per i file PRG"},
+/* da */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_NL, "Zet autostart modus voor PRG bestanden"},
-/* pl */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_PL, "Okre¶l tryb autostartu z plików PRG"},
-/* ru */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_RU, "Set autostart mode for PRG files"},
-/* sv */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_SV, "Välj autostartläge för PRG-filer"},
-/* tr */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_TR, "PRG dosyalarý için otomatik baþlatma ayarla"},
+/* nl */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_TR, ""},  /* fuzzy */
 #endif
 
 /* autostart.c */
@@ -11275,7 +11275,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SELECT_FULLSCREEN_DEVICE_TR, "Tam ekran aygýtý seç"},
 #endif
 
-/* video/video-cmdline-options.c */
+/* video/video-cmdline-options.c, autostart.c */
 /* en */ {IDCLS_P_MODE,    N_("<Mode>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_MODE_DA, "<Tilstand>"},
@@ -11290,6 +11290,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_P_MODE_RU, "<Mode>"},
 /* sv */ {IDCLS_P_MODE_SV, "<Läge>"},
 /* tr */ {IDCLS_P_MODE_TR, "<Mod>"},
+#endif
+
+/* autostart.c */
+/* en */ {IDCLS_P_SECONDS,    N_("<Seconds>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_SECONDS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_SECONDS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_SECONDS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_SECONDS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_SECONDS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_SECONDS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_SECONDS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_SECONDS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_SECONDS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_SECONDS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_SECONDS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_SECONDS_TR, ""},  /* fuzzy */
 #endif
 
 /* video/video-cmdline-options.c */
