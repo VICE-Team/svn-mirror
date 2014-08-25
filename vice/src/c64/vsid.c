@@ -108,10 +108,6 @@ static WORD vsid_autostart_length = 0;
    the machine itself with `machine_init()'.  */
 int machine_resources_init(void)
 {
-    if (machine_video_resources_init() < 0) {
-        init_resource_fail("machine video");
-        return -1;
-    }
     if (c64_resources_init() < 0) {
         init_resource_fail("c64");
         return -1;
@@ -146,7 +142,6 @@ int machine_resources_init(void)
 void machine_resources_shutdown(void)
 {
     serial_shutdown();
-    video_resources_shutdown();
     c64_resources_shutdown();
 }
 

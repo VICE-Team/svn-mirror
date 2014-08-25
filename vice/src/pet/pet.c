@@ -146,10 +146,6 @@ int machine_resources_init(void)
         init_resource_fail("traps");
         return -1;
     }
-    if (machine_video_resources_init() < 0) {
-        init_resource_fail("machine video");
-        return -1;
-    }
     if (pet_resources_init() < 0) {
         init_resource_fail("pet");
         return -1;
@@ -264,7 +260,6 @@ void machine_resources_shutdown(void)
 {
     petdww_resources_shutdown();
     pethre_resources_shutdown();
-    video_resources_shutdown();
     pet_resources_shutdown();
     petreu_resources_shutdown();
     rs232drv_resources_shutdown();
@@ -279,10 +274,6 @@ int machine_cmdline_options_init(void)
 {
     if (traps_cmdline_options_init() < 0) {
         init_cmdline_options_fail("traps");
-        return -1;
-    }
-    if (video_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("video");
         return -1;
     }
     if (pet_cmdline_options_init() < 0) {

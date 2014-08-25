@@ -127,10 +127,6 @@ int machine_resources_init(void)
         init_resource_fail("traps");
         return -1;
     }
-    if (machine_video_resources_init() < 0) {
-        init_resource_fail("machine video");
-        return -1;
-    }
     if (cbm2_resources_init() < 0) {
         init_resource_fail("cbm2");
         return -1;
@@ -223,7 +219,6 @@ int machine_resources_init(void)
 
 void machine_resources_shutdown(void)
 {
-    video_resources_shutdown();
     cbm2_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
@@ -237,10 +232,6 @@ int machine_cmdline_options_init(void)
 {
     if (traps_cmdline_options_init() < 0) {
         init_cmdline_options_fail("traps");
-        return -1;
-    }
-    if (video_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("video");
         return -1;
     }
     if (cbm2_cmdline_options_init() < 0) {

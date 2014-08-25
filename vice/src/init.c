@@ -44,6 +44,7 @@
 #include "keyboard.h"
 #include "log.h"
 #include "machine-bus.h"
+#include "machine-video.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "monitor.h"
@@ -61,6 +62,7 @@
 #include "uiapi.h"
 #include "vdrive.h"
 #include "vice-event.h"
+#include "video.h"
 #include "vsync.h"
 
 void init_resource_fail(const char *module)
@@ -105,6 +107,10 @@ int init_resources(void)
     }
     if (sound_resources_init() < 0) {
         init_resource_fail("sound");
+        return -1;
+    }
+    if (machine_video_resources_init() < 0) {
+        init_resource_fail("machine video");
         return -1;
     }
     if (machine_resources_init() < 0) {
@@ -180,6 +186,10 @@ int init_cmdline_options(void)
     }
     if (sound_cmdline_options_init() < 0) {
         init_cmdline_options_fail("sound");
+        return -1;
+    }
+    if (video_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("video");
         return -1;
     }
     if (machine_cmdline_options_init() < 0) {

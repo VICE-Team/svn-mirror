@@ -294,6 +294,7 @@ void machine_shutdown(void)
 
     autostart_resources_shutdown();
     sound_resources_shutdown();
+    video_resources_shutdown();
     machine_resources_shutdown();
     sysfile_resources_shutdown();
     zfile_shutdown();

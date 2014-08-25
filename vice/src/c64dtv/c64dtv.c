@@ -220,10 +220,6 @@ int machine_resources_init(void)
         init_resource_fail("traps");
         return -1;
     }
-    if (machine_video_resources_init() < 0) {
-        init_resource_fail("machine video");
-        return -1;
-    }
     if (c64dtv_resources_init() < 0) {
         init_resource_fail("c64dtv");
         return -1;
@@ -333,7 +329,6 @@ void machine_resources_shutdown(void)
     serial_shutdown();
     flash_trap_shutdown();
     flash_trap_resources_shutdown();
-    video_resources_shutdown();
     c64dtv_resources_shutdown();
     c64dtvmem_resources_shutdown();
     rs232drv_resources_shutdown();
@@ -348,10 +343,6 @@ int machine_cmdline_options_init(void)
 {
     if (traps_cmdline_options_init() < 0) {
         init_cmdline_options_fail("traps");
-        return -1;
-    }
-    if (video_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("video");
         return -1;
     }
     if (c64dtv_cmdline_options_init() < 0) {

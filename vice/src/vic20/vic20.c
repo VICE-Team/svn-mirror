@@ -242,10 +242,6 @@ int machine_resources_init(void)
         init_resource_fail("traps");
         return -1;
     }
-    if (machine_video_resources_init() < 0) {
-        init_resource_fail("machine video");
-        return -1;
-    }
     if (vic20_resources_init() < 0) {
         init_resource_fail("vic20");
         return -1;
@@ -371,7 +367,6 @@ int machine_resources_init(void)
 void machine_resources_shutdown(void)
 {
     serial_shutdown();
-    video_resources_shutdown();
     vic20_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
@@ -390,10 +385,6 @@ int machine_cmdline_options_init(void)
 {
     if (traps_cmdline_options_init() < 0) {
         init_cmdline_options_fail("traps");
-        return -1;
-    }
-    if (video_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("video");
         return -1;
     }
     if (vic20_cmdline_options_init() < 0) {

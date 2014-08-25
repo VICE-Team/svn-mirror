@@ -375,10 +375,6 @@ int machine_resources_init(void)
         init_resource_fail("rombanks");
         return -1;
     }
-    if (machine_video_resources_init() < 0) {
-        init_resource_fail("machine video");
-        return -1;
-    }
     if (c64_resources_init() < 0) {
         init_resource_fail("c64");
         return -1;
@@ -518,7 +514,6 @@ int machine_resources_init(void)
 void machine_resources_shutdown(void)
 {
     serial_shutdown();
-    video_resources_shutdown();
     c64_resources_shutdown();
     plus60k_resources_shutdown();
     plus256k_resources_shutdown();
@@ -539,10 +534,6 @@ int machine_cmdline_options_init(void)
 {
     if (traps_cmdline_options_init() < 0) {
         init_cmdline_options_fail("traps");
-        return -1;
-    }
-    if (video_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("video");
         return -1;
     }
     if (c64_cmdline_options_init() < 0) {
