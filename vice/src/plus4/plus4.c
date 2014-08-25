@@ -327,6 +327,10 @@ int machine_resources_init(void)
         init_resource_fail("event");
         return -1;
     }
+    if (kbdbuf_resources_init() < 0) {
+        init_resource_fail("Keyboard");
+        return -1;
+    }
 #ifdef DEBUG
     if (debug_resources_init() < 0) {
         init_resource_fail("debug");
@@ -441,6 +445,10 @@ int machine_cmdline_options_init(void)
     }
     if (event_cmdline_options_init() < 0) {
         init_cmdline_options_fail("event");
+        return -1;
+    }
+    if (kbdbuf_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("keyboard");
         return -1;
     }
 #ifdef DEBUG

@@ -111,10 +111,6 @@ int init_resources(void)
         init_resource_fail("machine");
         return -1;
     }
-    if (kbdbuf_resources_init() < 0) {
-        init_resource_fail("Keyboard");
-        return -1;
-    }
     if (ram_resources_init() < 0) {
         init_resource_fail("RAM");
         return -1;
@@ -196,10 +192,6 @@ int init_cmdline_options(void)
     }
 
     if (machine_class != VICE_MACHINE_VSID) {
-        if (kbdbuf_cmdline_options_init() < 0) {
-            init_cmdline_options_fail("keyboard");
-            return -1;
-        }
         if (ram_cmdline_options_init() < 0) {
             init_cmdline_options_fail("RAM");
             return -1;
