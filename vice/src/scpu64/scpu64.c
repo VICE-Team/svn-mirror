@@ -368,6 +368,12 @@ int machine_resources_init(void)
         init_resource_fail("Keyboard");
         return -1;
     }
+#ifdef HAVE_NETWORK
+    if (network_resources_init() < 0) {
+        init_resource_fail("network");
+        return -1;
+    }
+#endif
 #ifdef HAVE_MOUSE
     if (mouse_resources_init() < 0) {
         init_resource_fail("mouse");

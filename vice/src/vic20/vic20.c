@@ -61,6 +61,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "network.h"
 #include "parallel.h"
 #include "printer.h"
 #include "rs232drv.h"
@@ -306,6 +307,12 @@ int machine_resources_init(void)
         init_resource_fail("Keyboard");
         return -1;
     }
+#ifdef HAVE_NETWORK
+    if (network_resources_init() < 0) {
+        init_resource_fail("network");
+        return -1;
+    }
+#endif
 #ifdef DEBUG
     if (debug_resources_init() < 0) {
         init_resource_fail("debug");
