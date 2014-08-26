@@ -116,7 +116,7 @@ machine_context_t machine_context;
 
 #define NUM_KEYBOARD_MAPPINGS 3
 
-const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
+static char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
     "KeymapSymFile",
     "KeymapPosFile",
     "KeymapSymDeFile"
@@ -125,6 +125,14 @@ const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
 char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
     NULL, NULL, NULL
 };
+
+char *machine_get_keymap_res_name(int val)
+{
+    if (val < 0 || val > NUM_KEYBOARD_MAPPINGS) {
+        return NULL;
+    }
+    return machine_keymap_res_name_list[val];
+}
 
 const char machine_name[] = "C64";
 /* Moved to c64mem.c/c64memsc.c

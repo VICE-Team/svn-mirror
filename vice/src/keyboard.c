@@ -1139,7 +1139,11 @@ int keyboard_set_keymap_index(int val, void *param)
 {
     const char *name, *resname;
 
-    resname = machine_keymap_res_name_list[val];
+    resname = machine_get_keymap_res_name(val);
+
+    if (!resname) {
+        return -1;
+    }
 
     if (resources_get_string(resname, &name) < 0) {
         return -1;

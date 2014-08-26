@@ -118,7 +118,7 @@ int cia2_model = CIA_MODEL_6526A;
 
 static int set_c128_full_banks(int val, void *param)
 {
-    c128_full_banks = val;
+    c128_full_banks = val ? 1 : 0;
 
     return 0;
 }
@@ -127,11 +127,18 @@ static int set_machine_type(int val, void *param)
 {
     unsigned int type = (unsigned int)val;
 
-    if (type != C128_MACHINE_INT && type != C128_MACHINE_FINNISH
-        && type != C128_MACHINE_FRENCH && type != C128_MACHINE_GERMAN
-        && type != C128_MACHINE_ITALIAN && type != C128_MACHINE_NORWEGIAN
-        && type != C128_MACHINE_SWEDISH && type != C128_MACHINE_SWISS) {
-        return -1;
+    switch (val) {
+        case C128_MACHINE_INT:
+        case C128_MACHINE_FINNISH:
+        case C128_MACHINE_FRENCH:
+        case C128_MACHINE_GERMAN:
+        case C128_MACHINE_ITALIAN:
+        case C128_MACHINE_NORWEGIAN:
+        case C128_MACHINE_SWEDISH:
+        case C128_MACHINE_SWISS:
+            break;
+        default:
+            return -1;
     }
 
     machine_type = type;

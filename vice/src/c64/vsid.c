@@ -76,7 +76,7 @@ machine_context_t machine_context;
 /* FIXME: no keymaps are loaded at all for VSID, the related stuff should get removed */
 #define NUM_KEYBOARD_MAPPINGS 3
 
-const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
+static char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
     "KeymapSymFile",
     "KeymapPosFile",
     "KeymapSymDeFile"
@@ -85,6 +85,14 @@ const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
 char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
     NULL, NULL, NULL
 };
+
+char *machine_get_keymap_res_name(int val)
+{
+    if (val < 0 || val > NUM_KEYBOARD_MAPPINGS) {
+        return NULL;
+    }
+    return machine_keymap_res_name_list[val];
+}
 
 const char machine_name[] = "C64"; /* FIXME: this must be c64 currently, else the roms can not be loaded */
 /* Moved to c64mem.c/c64memsc.c/vsidmem.c
@@ -310,7 +318,7 @@ static void machine_vsync_hook(void)
             for (i = 0; i < vsid_autostart_length; i += 1) {
                 mem_inject((WORD)(vsid_autostart_load_addr + i), vsid_autostart_data[i]);
             }
-            mem_set_basic_text(vsid_autostart_load_addr, vsid_autostart_load_addr + vsid_autostart_length);
+            mem_set_basic_text(vsid_autostart_load_addr, (WORD)(vsid_autostart_load_addr + vsid_autostart_length));
             kbdbuf_feed("RUN\r");
         }
     }

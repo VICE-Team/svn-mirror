@@ -186,12 +186,20 @@ machine_context_t machine_context;
 
 #define NUM_KEYBOARD_MAPPINGS 2
 
-const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
+static char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
     "KeymapSymFile",
     "KeymapPosFile"
 };
 
 char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = { NULL, NULL };
+
+char *machine_get_keymap_res_name(int val)
+{
+    if (val < 0 || val > NUM_KEYBOARD_MAPPINGS) {
+        return NULL;
+    }
+    return machine_keymap_res_name_list[val];
+}
 
 const char machine_name[] = "C128";
 int machine_class = VICE_MACHINE_C128;

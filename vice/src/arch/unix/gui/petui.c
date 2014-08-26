@@ -407,7 +407,7 @@ static void pet_select_keymap(ui_window_t w, int check, char *name, int sympos)
     strcpy(filename, maps[kindex]);
     strcat(filename, name);
     kindex = (kindex & ~1) + sympos;
-    resname = machine_keymap_res_name_list[kindex];
+    resname = machine_get_keymap_res_name(kindex);
 
     if (name) {
         if (!check) {

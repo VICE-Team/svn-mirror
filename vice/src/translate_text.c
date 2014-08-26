@@ -4254,6 +4254,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_C128_MODEL_TR, "C128 modelini belirle (c128/c128dcr, pal/ntsc)"},
 #endif
 
+/* c128/c128-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_C128_FULL_BANKS,    N_("Enable RAM banks 2 and 3")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_C128_FULL_BANKS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_C128_FULL_BANKS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_C128_FULL_BANKS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_C128_FULL_BANKS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_C128_FULL_BANKS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_C128_FULL_BANKS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_C128_FULL_BANKS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_C128_FULL_BANKS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_C128_FULL_BANKS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_C128_FULL_BANKS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_C128_FULL_BANKS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_C128_FULL_BANKS_TR, ""},  /* fuzzy */
+#endif
+
+/* c128/c128-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_C128_FULL_BANKS,    N_("Disable RAM banks 2 and 3")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_C128_FULL_BANKS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_C128_FULL_BANKS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_C128_FULL_BANKS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_C128_FULL_BANKS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_C128_FULL_BANKS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_C128_FULL_BANKS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_C128_FULL_BANKS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_C128_FULL_BANKS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_C128_FULL_BANKS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_C128_FULL_BANKS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_C128_FULL_BANKS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_C128_FULL_BANKS_TR, ""},  /* fuzzy */
+#endif
+
 /* plus4/plus4-cmdline-options.c */
 /* en */ {IDCLS_SET_PLUS4_MODEL,    N_("Set Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)")},
 #ifdef HAS_TRANSLATION

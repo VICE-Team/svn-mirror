@@ -1214,9 +1214,9 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
     /* additionally we must make sure not to skip lines within the range of active
        DMA, or certain effects will break in "no border" mode (see bug #3601657) */
     in_visible_area = (vicii.raster.current_line
-                       >= ((vicii.first_dma_line < vicii.first_displayed_line) ? vicii.first_dma_line : vicii.first_displayed_line))
+                       >= ((vicii.first_dma_line < (unsigned int)vicii.first_displayed_line) ? vicii.first_dma_line : vicii.first_displayed_line))
                        && (vicii.raster.current_line
-                       <= (((vicii.last_dma_line + 7) > vicii.last_displayed_line) ? (vicii.last_dma_line + 7) : vicii.last_displayed_line));
+                       <= (((vicii.last_dma_line + 7) > (unsigned int)vicii.last_displayed_line) ? (vicii.last_dma_line + 7) : vicii.last_displayed_line));
 
     /* handle wrap if the first few lines are displayed in the visible lower border */
     if ((unsigned int)vicii.last_displayed_line >= vicii.screen_height) {

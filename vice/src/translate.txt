@@ -403,6 +403,12 @@ IDCLS_SET_C64_MODEL
 /* c128/c128-cmdline-options.c */
 IDCLS_SET_C128_MODEL
 
+/* c128/c128-cmdline-options.c */
+IDCLS_ENABLE_C128_FULL_BANKS
+
+/* c128/c128-cmdline-options.c */
+IDCLS_DISABLE_C128_FULL_BANKS
+
 /* plus4/plus4-cmdline-options.c */
 IDCLS_SET_PLUS4_MODEL
 

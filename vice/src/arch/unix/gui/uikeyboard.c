@@ -81,7 +81,7 @@ static UI_CALLBACK(select_user_keymap)
 
     resources_get_int("KeymapIndex", &kindex);
     kindex = (kindex & ~1) + vice_ptr_to_int(UI_MENU_CB_PARAM);
-    resname = machine_keymap_res_name_list[kindex];
+    resname = machine_get_keymap_res_name(kindex);
 
     vsync_suspend_speed_eval();
     filename = ui_select_file(_("Read Keymap File"), NULL, 0, last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
@@ -124,7 +124,7 @@ void ui_select_keymap(ui_window_t w, int check, char *name, int sympos)
 
     resources_get_int("KeymapIndex", &kindex);
     kindex = (kindex & ~1) + sympos;
-    resname = machine_keymap_res_name_list[kindex];
+    resname = machine_get_keymap_res_name(kindex);
 
     if (name) {
         if (!check) {

@@ -6601,10 +6601,12 @@ Enable/Disable video to audio leak emulation.
 @vindex ChargenDEName
 @vindex ChargenFRName
 @vindex ChargenSEName
+@vindex ChargenCHName
 @item ChargenIntName
 @itemx ChargenDEName
 @itemx ChargenFRName
 @itemx ChargenSEName
+@itemx ChargenCHName
 Strings specifying the filename of the Chargen ROM images.
 
 @vindex KernalIntName
@@ -6614,6 +6616,7 @@ Strings specifying the filename of the Chargen ROM images.
 @vindex KernalITName
 @vindex KernalNOName
 @vindex KernalSEName
+@vindex KernalCHName
 @item KernalIntName
 @itemx KernalDEName
 @itemx KernalFIName
@@ -6621,6 +6624,7 @@ Strings specifying the filename of the Chargen ROM images.
 @itemx KernalITName
 @itemx KernalNOName
 @itemx KernalSEName
+@itemx KernalCHName
 Strings specifying the filename of the Kernal ROM images.
 
 @vindex BasicLoName
