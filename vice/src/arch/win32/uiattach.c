@@ -70,7 +70,11 @@ static void uiattach_disk_dialog(HWND hwnd, WPARAM wparam)
     resource = lib_msprintf("AttachDevice%dReadonly", unit);
     if ((st_name = uilib_select_file_autostart(hwnd,
                                                translate_text(IDS_ATTACH_DISK_IMAGE),
-                                               UILIB_FILTER_DISK | UILIB_FILTER_ZIP | UILIB_FILTER_ALL,
+                                               UILIB_FILTER_DISK |
+#ifdef HAVE_ZLIB
+                                               UILIB_FILTER_ZIP |
+#endif
+                                               UILIB_FILTER_ALL,
                                                UILIB_SELECTOR_TYPE_FILE_LOAD,
                                                UILIB_SELECTOR_STYLE_DISK,
                                                &autostart_index, resource)) != NULL) {
@@ -101,7 +105,11 @@ static void uiattach_tape_dialog(HWND hwnd)
     SuspendFullscreenModeKeep(hwnd);
     if ((st_name = uilib_select_file_autostart(hwnd,
                                                translate_text(IDS_ATTACH_TAPE_IMAGE),
-                                               UILIB_FILTER_TAPE | UILIB_FILTER_ZIP | UILIB_FILTER_ALL,
+                                               UILIB_FILTER_TAPE |
+#ifdef HAVE_ZLIB
+                                               UILIB_FILTER_ZIP |
+#endif
+                                               UILIB_FILTER_ALL,
                                                UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_TAPE,
                                                &autostart_index, NULL)) != NULL) {
         char *name;
@@ -126,13 +134,22 @@ static void uiattach_autostart_dialog(HWND hwnd)
 {
     TCHAR *st_name;
     int autostart_index = 0;
+    char *resource;
 
+    resource = lib_msprintf("AttachDevice%dReadonly", 8);
     if ((st_name = uilib_select_file_autostart(hwnd,
                                                translate_text(IDS_AUTOSTART_IMAGE),
-                                               UILIB_FILTER_CBM | UILIB_FILTER_DISK | UILIB_FILTER_TAPE | UILIB_FILTER_ZIP | UILIB_FILTER_PRGP00 | UILIB_FILTER_ALL,
+                                               UILIB_FILTER_CBM |
+                                               UILIB_FILTER_DISK |
+                                               UILIB_FILTER_TAPE |
+#ifdef HAVE_ZLIB
+                                               UILIB_FILTER_ZIP |
+#endif
+                                               UILIB_FILTER_PRGP00 |
+                                               UILIB_FILTER_ALL,
                                                UILIB_SELECTOR_TYPE_FILE_LOAD,
                                                UILIB_SELECTOR_STYLE_DISK_AND_TAPE,
-                                               &autostart_index, NULL)) != NULL) {
+                                               &autostart_index, resource)) != NULL) {
         char *name;
 
         name = system_wcstombs_alloc(st_name);
@@ -142,6 +159,7 @@ static void uiattach_autostart_dialog(HWND hwnd)
         system_wcstombs_free(name);
         lib_free(st_name);
     }
+    lib_free(resource);
 }
 
 void uiattach_command(HWND hwnd, WPARAM wparam)
