@@ -238,7 +238,7 @@ BEGIN
         MENUITEM "", IDM_VIC20_SETTINGS
         POPUP "Video standard"
         BEGIN
-            MENUITEM "",  IDM_SYNC_FACTOR_PAL
+            MENUITEM "", IDM_SYNC_FACTOR_PAL
             MENUITEM "", IDM_SYNC_FACTOR_NTSC
         END
         MENUITEM "", IDM_RAM_SETTINGS
@@ -298,7 +298,7 @@ BEGIN
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
     END
-    POPUP "Help"
+    POPUP "Help", HELP
     BEGIN
         MENUITEM "", IDM_HELP
         MENUITEM SEPARATOR

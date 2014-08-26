@@ -318,7 +318,7 @@ BEGIN
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
     END
-    POPUP "Help"
+    POPUP "Help", HELP
     BEGIN
         MENUITEM "", IDM_HELP
         MENUITEM SEPARATOR
