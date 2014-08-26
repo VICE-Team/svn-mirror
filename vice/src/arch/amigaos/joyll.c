@@ -75,8 +75,16 @@ static int set_joystick_device(int val, void *param)
     ULONG portstate;
     const int nr = (int)param;
 
-    if (val < JOYDEV_NONE || val > JOYDEV_JOY3) {
-        return -1;
+    switch (val) {
+        case JOYDEV_NONE:
+        case JOYDEV_NUMPAD:
+        case JOYDEV_JOY0:
+        case JOYDEV_JOY1:
+        case JOYDEV_JOY2:
+        case JOYDEV_JOY3:
+            break;
+        default:
+            return -1;
     }
 
     joy_arch_init();

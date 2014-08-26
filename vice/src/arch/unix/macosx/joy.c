@@ -68,8 +68,16 @@ static int joyportselect(int val, void *param)
 {
     const int nr = (int)param;
 
-    if (val < JOYDEV_NONE || val > JOYDEV_HID_1) {
-        return -1;
+    switch (val) {
+        case JOYDEV_NONE:
+        case JOYDEV_NUMPAD:
+        case JOYDEV_KEYSET1:
+        case JOYDEV_KEYSET2:
+        case JOYDEV_HID_0:
+        case JOYDEV_HID_1:
+            break;
+        default:
+            return -1;
     }
 
     joystick_port_map[nr] = val;

@@ -74,8 +74,14 @@ static int set_joystick_device(int val, void *param)
 {
     const int nr = (int)param;
 
-    if (val < 0 || val > 3) {
-        return -1;
+    switch (val) {
+        case JOYDEV_NONE:
+        case JOYDEV_NUMPAD:
+        case JOYDEV_KEYSET1:
+        case JOYDEV_KEYSET2:
+            break;
+        default:
+            return -1;
     }
     joy_arch_init();
 

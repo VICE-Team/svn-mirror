@@ -312,8 +312,13 @@ static int acia_set_irq(int new_irq_res, void *param)
      * if an invalid interrupt type has been given, return
      * with an error.
      */
-    if (new_irq_res < 0 || new_irq_res > 2) {
-        return -1;
+    switch (new_irq_res) {
+        case IK_NONE:
+        case IK_NMI:
+        case IK_IRQ:
+            break;
+        default:
+            return -1;
     }
 
     new_irq = irq_tab[new_irq_res];

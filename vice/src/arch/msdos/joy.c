@@ -45,66 +45,28 @@
 /* ------------------------------------------------------------------------- */
 
 /* Joystick devices.  */
-static int set_joystick_device_1(int val, void *param)
+static int set_joystick_device(int val, void *param)
 {
-    if (val < 0 || val > JOYDEV_HW2) {
-        return -1;
-    }
+    const int nr = (int)param;
 
     joystick_device_t dev = (joystick_device_t)val;
-    joystick_device_t old_joystick_device_1 = joystick_port_map[0];
+    joystick_device_t old_joystick_device = joystick_port_map[nr];
 
-    joystick_port_map[0] = dev;
-    if (dev == JOYDEV_NONE && old_joystick_device_1 != JOYDEV_NONE) {
-        joystick_set_value_absolute(1, 0);
-    }
-    return 0;
-}
-
-static int set_joystick_device_2(int val, void *param)
-{
-    if (val < 0 || val > JOYDEV_HW2) {
-        return -1;
-    }
-
-    joystick_device_t dev = (joystick_device_t)val;
-    joystick_device_t old_joystick_device_2 = joystick_port_map[1];
-
-    joystick_port_map[1] = dev;
-    if (dev == JOYDEV_NONE && old_joystick_device_2 != JOYDEV_NONE) {
-        joystick_set_value_absolute(2, 0);
-    }
-    return 0;
-}
-
-static int set_joystick_device_3(int val, void *param)
-{
-    if (val < 0 || val > JOYDEV_HW2) {
-        return -1;
+    switch (val) {
+        case JOYDEV_NONE:
+        case JOYDEV_NUMPAD:
+        case JOYDEV_KEYSET1:
+        case JOYDEV_KEYSET2:
+        case JOYDEV_HW1:
+        case JOYDEV_HW2:
+            break;
+        default:
+            return -1;
     }
 
-    joystick_device_t dev = (joystick_device_t)val;
-    joystick_device_t old_joystick_device_3 = joystick_port_map[2];
-
-    joystick_port_map[2] = dev;
-    if (dev == JOYDEV_NONE && old_joystick_device_3 != JOYDEV_NONE) {
-        joystick_set_value_absolute(3, 0);
-    }
-    return 0;
-}
-
-static int set_joystick_device_4(int val, void *param)
-{
-    if (val < 0 || val > JOYDEV_HW2) {
-        return -1;
-    }
-
-    joystick_device_t dev = (joystick_device_t)val;
-    joystick_device_t old_joystick_device_4 = joystick_port_map[3];
-
-    joystick_port_map[3] = dev;
-    if (dev == JOYDEV_NONE && old_joystick_device_4 != JOYDEV_NONE) {
-        joystick_set_value_absolute(4, 0);
+    joystick_port_map[nr] = dev;
+    if (dev == JOYDEV_NONE && old_joystick_device != JOYDEV_NONE) {
+        joystick_set_value_absolute(nr, 0);
     }
     return 0;
 }
@@ -159,25 +121,25 @@ static int set_joystick_hw_type(int val, void *param)
 
 static const resource_int_t joy1_resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[0], set_joystick_device_1, NULL },
+      &joystick_port_map[0], set_joystick_device, (void *)0 },
     { NULL }
 };
 
 static const resource_int_t joy2_resources_int[] = {
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[1], set_joystick_device_2, NULL },
+      &joystick_port_map[1], set_joystick_device, (void *)1 },
     { NULL }
 };
 
 static const resource_int_t joy3_resources_int[] = {
     { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[2], set_joystick_device_3, NULL },
+      &joystick_port_map[2], set_joystick_device, (void *)2 },
     { NULL }
 };
 
 static const resource_int_t joy4_resources_int[] = {
     { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[3], set_joystick_device_4, NULL },
+      &joystick_port_map[3], set_joystick_device, (void *)3 },
     { NULL }
 };
 
