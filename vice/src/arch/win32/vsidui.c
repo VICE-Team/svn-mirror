@@ -61,10 +61,17 @@ enum {
     VSID_S_TITLE = 0,
     VSID_S_AUTHOR,
     VSID_S_RELEASED,
+    VSID_S_BLANK_1,
+    VSID_S_PLAYING,
     VSID_S_SYNC,
     VSID_S_MODEL,
     VSID_S_IRQ,
-    VSID_S_PLAYING,
+    VSID_S_BLANK_2,
+    VSID_S_DRIVER,
+    VSID_S_IMAGE,
+    VSID_S_INIT,
+    VSID_S_PLAY,
+    VSID_S_BLANK_3,
     VSID_S_TIMER,
     VSID_S_LASTLINE
 };
@@ -444,7 +451,7 @@ int vsid_ui_init(void)
 
     RegisterClass(&wndclass);
     if (!hwnd) {   /* do not recreate on drag&drop */
-        hwnd = CreateWindow(szAppName, szAppName, WS_SYSMENU, 0, 0, 380, 200, NULL, NULL, winmain_instance, NULL) ;
+        hwnd = CreateWindow(szAppName, szAppName, WS_SYSMENU, 0, 0, 380, 320, NULL, NULL, winmain_instance, NULL) ;
         SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
         window_handles[0] = hwnd;
         number_of_windows++;
@@ -461,13 +468,13 @@ int vsid_ui_init(void)
 
 void vsid_ui_display_name(const char *name)
 {
-    sprintf(vsidstrings[VSID_S_TITLE],  "   Title: %s", name);
+    sprintf(vsidstrings[VSID_S_TITLE],  "Title:    %s", name);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_TITLE]);
 }
 
 void vsid_ui_display_author(const char *author)
 {
-    sprintf(vsidstrings[VSID_S_AUTHOR], "  Author: %s", author);
+    sprintf(vsidstrings[VSID_S_AUTHOR], "Author:   %s", author);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_AUTHOR]);
 }
 
@@ -479,20 +486,20 @@ void vsid_ui_display_copyright(const char *copyright)
 
 void vsid_ui_display_sync(int sync)
 {
-    sprintf(vsidstrings[VSID_S_SYNC], "Using %s sync", sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
+    sprintf(vsidstrings[VSID_S_SYNC], "Using %s sync ", sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
     log_message(LOG_DEFAULT, "%s",vsidstrings[VSID_S_SYNC]);
 }
 
 void vsid_ui_display_sid_model(int model)
 {
-    sprintf(vsidstrings[VSID_S_MODEL], "Using %s emulation", model == 0 ? "MOS6581" : "MOS8580");
+    sprintf(vsidstrings[VSID_S_MODEL], "Model: %s", model == 0 ? "MOS6581" : "MOS8580");
 
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_MODEL]);
 }
 
 void vsid_ui_display_tune_nr(int nr)
 {
-    sprintf(vsidstrings[VSID_S_PLAYING], "Playing Tune: %2d /  0  (Default: 00)", nr);
+    sprintf(vsidstrings[VSID_S_PLAYING], "Tune: %2d /  0  (Default: 00)", nr);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_PLAYING]);
 }
 
@@ -502,8 +509,8 @@ void vsid_ui_set_default_tune(int nr)
     sprintf(dummy,"%2d", nr);
 
     log_message(LOG_DEFAULT, "Default Tune: %i", nr);
-    vsidstrings[VSID_S_PLAYING][33] = dummy[0];
-    vsidstrings[VSID_S_PLAYING][34] = dummy[1];
+    vsidstrings[VSID_S_PLAYING][25] = dummy[0];
+    vsidstrings[VSID_S_PLAYING][26] = dummy[1];
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
@@ -512,8 +519,8 @@ void vsid_ui_display_nr_of_tunes(int count)
     sprintf(dummy,"%2d", count);
 
     log_message(LOG_DEFAULT, "Number of Tunes: %i", count);
-    vsidstrings[VSID_S_PLAYING][19] = dummy[0];
-    vsidstrings[VSID_S_PLAYING][20] = dummy[1];
+    vsidstrings[VSID_S_PLAYING][12] = dummy[0];
+    vsidstrings[VSID_S_PLAYING][13] = dummy[1];
 }
 
 void vsid_ui_display_time(unsigned int sec)
@@ -536,7 +543,30 @@ void vsid_ui_display_time(unsigned int sec)
 
 void vsid_ui_display_irqtype(const char *irq)
 {
-    sprintf(vsidstrings[VSID_S_IRQ], "Using %s interrupt", irq);
+    sprintf(vsidstrings[VSID_S_IRQ], "IRQ: %s", irq);
+}
+
+void vsid_ui_setdrv(char* driver_info_text)
+{
+    unsigned long val1, val2;
+    char *s;
+
+    /* Driver info: Driver=$xxxx, Image=$xxxx-$xxxx, Init=$xxxx, Play=$xxxx */
+    s = driver_info_text;
+    while ((*s != 0) && (*s != '$')) { s++; } s++; /* forward behind next $ */
+    val1 = strtoul(s, NULL, 16);
+    sprintf(vsidstrings[VSID_S_DRIVER], "Driver: $%04x", val1);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_DRIVER]);
+    val1 = strtoul(s + 13, NULL, 16);
+    val2 = strtoul(s + 19, NULL, 16);
+    sprintf(vsidstrings[VSID_S_IMAGE], "Image:  $%04x-$%04x", val1, val2);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_IMAGE]);
+    val1 = strtoul(s + 31, NULL, 16);
+    sprintf(vsidstrings[VSID_S_INIT], "Init:   $%04x", val1);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_INIT]);
+    val1 = strtoul(s + 43, NULL, 16);
+    sprintf(vsidstrings[VSID_S_PLAY], "Play:   $%04x", val1);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_PLAY]);
 }
 
 static int quitting = 0;
@@ -567,11 +597,6 @@ void vsid_ui_close(void)
         hwnd = NULL;
         quitting = 1;
     }
-}
-
-void vsid_ui_setdrv(char* driver_info_text)
-{
-    strcpy(vsidstrings[VSID_S_LASTLINE], driver_info_text);
 }
 
 /*****************************************************************************/
@@ -883,9 +908,6 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
             return 0;
         case WM_KEYDOWN:
             switch(wparam) {
-                case 'I': /* infoline on request, just press I */
-                    vsid_disp( 0, VSID_S_LASTLINE, "%s", vsidstrings[VSID_S_LASTLINE]);
-                    break;
                 case VK_LEFT:
                 case VK_DOWN:
                     if (current_song > 1) {
@@ -911,11 +933,6 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
             }
             return 0;
         case WM_KEYUP:
-            switch(wparam) {
-                case 'I': /* infoline on request, just press I */
-                    vsid_disp( 0, VSID_S_LASTLINE, "%79s", " ");
-                    break;
-            }
             return 0;
         case WM_SIZE:
             return 0;
