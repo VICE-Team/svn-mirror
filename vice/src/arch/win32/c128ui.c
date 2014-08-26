@@ -43,11 +43,13 @@
 #include "uic64cart.h"
 #include "uicia.h"
 #include "uidigimax.h"
+#include "uidqbb.h"
 #include "uidrivec128.h"
 #include "uids12c887rtc.h"
 #include "uieasyflash.h"
 #include "uiexpert.h"
 #include "uiide64.h"
+#include "uiisepic.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uilib.h"
@@ -359,7 +361,9 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_REU_SETTINGS, IDS_MI_REU_SETTINGS },
     { IDM_GEORAM_SETTINGS, IDS_MI_GEORAM_SETTINGS },
     { IDM_RAMCART_SETTINGS, IDS_MI_RAMCART_SETTINGS },
+    { IDM_DQBB_SETTINGS, IDS_MI_DQBB_SETTINGS },
     { IDM_EXPERT_SETTINGS, IDS_MI_EXPERT_SETTINGS },
+    { IDM_ISEPIC_SETTINGS, IDS_MI_ISEPIC_SETTINGS },
     { IDM_MIDI_SETTINGS, IDS_MI_MIDI_SETTINGS },
     { IDM_MMC64_SETTINGS, IDS_MI_MMC64_SETTINGS },
     { IDM_MMCREPLAY_SETTINGS, IDS_MI_MMCREPLAY_SETTINGS },
@@ -692,8 +696,14 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_RAMCART_SETTINGS:
             ui_ramcart_settings_dialog(hwnd);
             break;
+        case IDM_DQBB_SETTINGS:
+            ui_dqbb_settings_dialog(hwnd);
+            break;
         case IDM_EXPERT_SETTINGS:
             ui_expert_settings_dialog(hwnd);
+            break;
+        case IDM_ISEPIC_SETTINGS:
+            ui_isepic_settings_dialog(hwnd);
             break;
         case IDM_IDE64_SETTINGS:
             uiide64_settings_dialog(hwnd);
