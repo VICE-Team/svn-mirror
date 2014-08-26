@@ -418,7 +418,7 @@ int machine_cmdline_options_init(void)
         return -1;
     }
     if (autostart_cmdline_options_init() < 0) {
-        init_resource_fail("autostart");
+        init_cmdline_options_fail("autostart");
         return -1;
     }
 #ifdef DEBUG
