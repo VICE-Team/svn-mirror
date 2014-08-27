@@ -47,7 +47,7 @@
 /* Joystick devices.  */
 static int set_joystick_device(int val, void *param)
 {
-    const int nr = (int)param;
+    int nr = vice_ptr_to_int(param);
 
     joystick_device_t dev = (joystick_device_t)val;
     joystick_device_t old_joystick_device = joystick_port_map[nr];

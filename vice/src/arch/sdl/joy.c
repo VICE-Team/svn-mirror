@@ -152,7 +152,7 @@ static sdljoystick_t *sdljoystick = NULL;
 
 static int joyportselect(int val, void *param)
 {
-    const int nr = (int)param;
+    int nr = vice_ptr_to_int(param);
 
     if (val < 0 || val > JOYDEV_MAX) {
         return -1;

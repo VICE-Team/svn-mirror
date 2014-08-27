@@ -330,7 +330,7 @@ static joy_winmm_priv_t* joy_winmm_list = NULL;
 
 static int set_joystick_device(int val, void *param)
 {
-    const int nr = (int)param;
+    int nr = vice_ptr_to_int(param);
 
     joystick_device_t dev = (joystick_device_t)val;
 
@@ -370,7 +370,7 @@ static int set_joystick_device(int val, void *param)
 
 static int set_joystick_fire_speed(int speed, void *param)
 {
-    const int nr = (int)param;
+    int nr = vice_ptr_to_int(param);
 
     if (speed < 1) {
         speed = 1;
@@ -386,7 +386,7 @@ static int set_joystick_fire_speed(int speed, void *param)
 
 static int set_joystick_fire_axis(int axis, void *param)
 {
-    const int nr = (int)param;
+    int nr = vice_ptr_to_int(param);
 
     if (axis < 0) {
         axis = 0;
@@ -399,7 +399,7 @@ static int set_joystick_fire_axis(int axis, void *param)
 
 static int set_joystick_autofire_button(int button, void *param)
 {
-    const int nr = (int)param;
+    int nr = vice_ptr_to_int(param);
 
     if (button < 0) {
         button = 0;
@@ -412,7 +412,7 @@ static int set_joystick_autofire_button(int button, void *param)
 
 static int set_joystick_fire_button(int button, void *param)
 {
-    const int nr = (int)param;
+    int nr = vice_ptr_to_int(param);
 
     if (button < 0) {
         button = 0;

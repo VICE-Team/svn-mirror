@@ -66,7 +66,7 @@ static void setup_auto(void);
 
 static int joyportselect(int val, void *param)
 {
-    const int nr = (int)param;
+    int nr = vice_ptr_to_int(param);
 
     switch (val) {
         case JOYDEV_NONE:

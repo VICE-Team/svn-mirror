@@ -72,7 +72,7 @@ void joystick_close(void)
 
 static int set_joystick_device(int val, void *param)
 {
-    const int nr = (int)param;
+    int nr = vice_ptr_to_int(param);
 
     switch (val) {
         case JOYDEV_NONE:

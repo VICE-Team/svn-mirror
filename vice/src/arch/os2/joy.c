@@ -79,7 +79,7 @@ static joystick_device_t cbm_joystick[4];
 
 static int set_cbm_joystick(int val, void *param)
 {
-    const int nr = (int)param;
+    int nr = vice_ptr_to_int(param);
 
     switch (val) {
         case JOYDEV_NONE:
@@ -115,7 +115,7 @@ static joycal_t joy[2];
 
 int set_joyA_autoCal(const char *value, void *extra_param)
 {
-    joy[0].autocal = (int)extra_param;
+    joy[0].autocal = vice_ptr_to_int(extra_param);
 
     if (joy[0].autocal) {
         joy[0].start = TRUE;
@@ -126,7 +126,7 @@ int set_joyA_autoCal(const char *value, void *extra_param)
 
 int set_joyB_autoCal(const char *value, void *extra_param)
 {
-    joy[1].autocal = (int)extra_param;
+    joy[1].autocal = vice_ptr_to_int(extra_param);
 
     if (joy[1].autocal) {
         joy[1].start = TRUE;
@@ -142,7 +142,7 @@ int get_joy_autoCal(const int nr)
 
 static int set_joy(int v, void *param)
 {
-    const int i = (int)param;
+    const int i = vice_ptr_to_int(param);
 
     joy[i >> 5].direction[i & 0xf] = (int)v;
     return 0;
@@ -156,7 +156,7 @@ static int set_joy(int v, void *param)
 
 static int set_keyset(int v, void *param)
 {
-    const int i = (int)param;
+    const int i = vice_ptr_to_int(param);
 
     keyset[i >> 5][i & 0xf] = (int)v;
     return 0;
