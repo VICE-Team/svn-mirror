@@ -30,9 +30,6 @@
 #include "mem.h"
 #include "types.h"
 
-extern int z80mem_resources_init(void);
-extern int z80mem_cmdline_options_init(void);
-
 extern void z80mem_update_config(int config);
 
 extern int z80mem_load(void);

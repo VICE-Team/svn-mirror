@@ -570,10 +570,6 @@ int machine_resources_init(void)
         init_resource_fail("mmu");
         return -1;
     }
-    if (z80mem_resources_init() < 0) {
-        init_resource_fail("z80mem");
-        return -1;
-    }
     if (userport_joystick_resources_init() < 0) {
         init_resource_fail("userport joystick");
         return -1;
@@ -736,10 +732,6 @@ int machine_cmdline_options_init(void)
     }
     if (cartio_cmdline_options_init() < 0) {
         init_cmdline_options_fail("cartio");
-        return -1;
-    }
-    if (z80mem_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("z80mem");
         return -1;
     }
     return 0;

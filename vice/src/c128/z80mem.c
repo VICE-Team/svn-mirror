@@ -70,25 +70,6 @@ static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 store_func_ptr_t io_write_tab[0x101];
 read_func_ptr_t io_read_tab[0x101];
 
-static const resource_int_t resources_int[] = {
-    { NULL }
-};
-
-int z80mem_resources_init(void)
-{
-    return resources_register_int(resources_int);
-}
-
-static const cmdline_option_t cmdline_options[] =
-{
-    { NULL }
-};
-
-int z80mem_cmdline_options_init(void)
-{
-    return cmdline_register_options(cmdline_options);
-}
-
 /* ------------------------------------------------------------------------- */
 
 /* Generic memory access.  */
