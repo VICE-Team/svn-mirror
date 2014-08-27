@@ -303,6 +303,7 @@ static void acia_set_int(int aciairq, unsigned int int_num, int value)
    This function is called whenever the resource
    MYACIA "Irq" is changed.
 */
+#if (ACIA_MODE_HIGHEST == ACIA_MODE_TURBO232)
 static int acia_set_irq(int new_irq_res, void *param)
 {
     enum cpu_int new_irq;
@@ -334,6 +335,7 @@ static int acia_set_irq(int new_irq_res, void *param)
 
     return 0;
 }
+#endif
 
 /*! \internal \brief get the bps rate ("baud rate") of the ACIA
 
@@ -450,6 +452,7 @@ static void set_acia_ticks(void)
    This function is called whenever the resource
    MYACIA "Mode" is changed.
 */
+#if (ACIA_MODE_HIGHEST == ACIA_MODE_TURBO232)
 static int acia_set_mode(int new_mode, void *param)
 {
     if (new_mode < ACIA_MODE_LOWEST || new_mode > ACIA_MODE_HIGHEST) {
@@ -464,6 +467,7 @@ static int acia_set_mode(int new_mode, void *param)
     set_acia_ticks();
     return 0;
 }
+#endif
 
 /*! \brief integer resources used by the ACIA module */
 static const resource_int_t resources_int[] = {
