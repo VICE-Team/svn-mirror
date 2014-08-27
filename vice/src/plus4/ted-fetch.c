@@ -149,11 +149,7 @@ inline static int do_matrix_fetch(CLOCK sub)
 inline static void handle_fetch_matrix(long offset, CLOCK sub,
                                        CLOCK *write_offset)
 {
-    raster_t *raster;
-
     *write_offset = 0;
-
-    raster = &ted.raster;
 
     do_matrix_fetch(sub);
 

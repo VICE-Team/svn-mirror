@@ -579,7 +579,6 @@ static void vicii_chip_model_set(struct ViciiChipModel *cm)
 {
     int i;
     int xpos_phi[2];
-    int visible_phi[2];
     int fetch_phi[2];
     int ba_phi[2];
     int flags_phi[2];
@@ -721,7 +720,6 @@ static void vicii_chip_model_set(struct ViciiChipModel *cm)
         }
 
         xpos_phi[phi] = xpos;
-        visible_phi[phi] = visible;
         fetch_phi[phi] = fetch;
         ba_phi[phi] = ba;
         flags_phi[phi] = flags;

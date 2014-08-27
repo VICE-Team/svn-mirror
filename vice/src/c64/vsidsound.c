@@ -37,27 +37,6 @@
 #include "sound.h"
 #include "types.h"
 
-static BYTE machine_sid2_read(WORD addr)
-{
-    return sid2_read(addr);
-}
-
-
-static void machine_sid2_store(WORD addr, BYTE byte)
-{
-    sid2_store(addr, byte);
-}
-
-static BYTE machine_sid3_read(WORD addr)
-{
-    return sid3_read(addr);
-}
-
-static void machine_sid3_store(WORD addr, BYTE byte)
-{
-    sid3_store(addr, byte);
-}
-
 /* ---------------------------------------------------------------------*/
 
 static sound_chip_t sid_sound_chip = {
