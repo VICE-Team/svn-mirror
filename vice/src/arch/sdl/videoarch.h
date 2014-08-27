@@ -62,6 +62,7 @@ struct video_canvas_s {
 
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
+    struct draw_buffer_s *draw_buffer_vsid;
     struct viewport_s *viewport;
     struct geometry_s *geometry;
     struct palette_s *palette;
@@ -89,6 +90,8 @@ extern void sdl_video_canvas_switch(int index);
 extern int sdl_active_canvas_num;
 
 extern void sdl_ui_init_finalize(void);
+
+extern BYTE *draw_buffer_vsid;
 
 /* Modes of resolution limitation */
 #define SDL_LIMIT_MODE_OFF   0

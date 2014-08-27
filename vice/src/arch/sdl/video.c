@@ -43,6 +43,7 @@
 #include "lib.h"
 #include "lightpendrv.h"
 #include "log.h"
+#include "machine.h"
 #include "palette.h"
 #include "raster.h"
 #include "resources.h"
@@ -105,6 +106,8 @@ static const float sdl_gl_vertex_coord[4 * 4] = {
     +1.0f, -1.0f, +1.0f, -1.0f
 };
 #endif
+
+BYTE *draw_buffer_vsid = NULL;
 
 /* ------------------------------------------------------------------------- */
 /* Video-related resources.  */
@@ -390,6 +393,11 @@ int video_init(void)
 void video_shutdown(void)
 {
     DBG(("%s", __func__));
+
+    if (draw_buffer_vsid) {
+        lib_free(draw_buffer_vsid);
+    }
+
     sdl_active_canvas = NULL;
 }
 
@@ -737,6 +745,8 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
 void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h)
 {
+    BYTE *backup;
+
     if ((canvas == NULL) || (canvas->screen == NULL)) {
         return;
     }
@@ -780,7 +790,24 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
         canvas->videoconfig->readable = !(canvas->screen->flags & SDL_HWSURFACE);
     }
 
-    video_canvas_render(canvas, (BYTE *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch, canvas->screen->format->BitsPerPixel);
+    if (machine_class == VICE_MACHINE_VSID) {
+        canvas->draw_buffer_vsid->draw_buffer_width = canvas->draw_buffer->draw_buffer_width;
+        canvas->draw_buffer_vsid->draw_buffer_height = canvas->draw_buffer->draw_buffer_height;
+        canvas->draw_buffer_vsid->draw_buffer_pitch = canvas->draw_buffer->draw_buffer_pitch;
+        canvas->draw_buffer_vsid->canvas_physical_width = canvas->draw_buffer->canvas_physical_width;
+        canvas->draw_buffer_vsid->canvas_physical_height = canvas->draw_buffer->canvas_physical_height;
+        canvas->draw_buffer_vsid->canvas_width = canvas->draw_buffer->canvas_width;
+        canvas->draw_buffer_vsid->canvas_height = canvas->draw_buffer->canvas_height;
+        canvas->draw_buffer_vsid->visible_width = canvas->draw_buffer->visible_width;
+        canvas->draw_buffer_vsid->visible_height = canvas->draw_buffer->visible_height;
+
+        backup = canvas->draw_buffer->draw_buffer;
+        canvas->draw_buffer->draw_buffer = canvas->draw_buffer_vsid->draw_buffer;
+        video_canvas_render(canvas, (BYTE *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch, canvas->screen->format->BitsPerPixel);
+        canvas->draw_buffer->draw_buffer = backup;
+    } else {
+        video_canvas_render(canvas, (BYTE *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch, canvas->screen->format->BitsPerPixel);
+    }
 
     if (SDL_MUSTLOCK(canvas->screen)) {
         SDL_UnlockSurface(canvas->screen);

@@ -55,6 +55,7 @@
 #include "ui.h"
 #include "uifilereq.h"
 #include "uimenu.h"
+#include "videoarch.h"
 #include "vsidui.h"
 #include "vsidui_sdl.h"
 
@@ -346,7 +347,10 @@ static void draw_func(void)
 
 int vsid_ui_init(void)
 {
-    sdl_ui_set_menu_params = NULL;
+    unsigned int width;
+	unsigned int height;
+    
+	sdl_ui_set_menu_params = NULL;
 
     sdl_ui_set_main_menu(vsid_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
@@ -359,6 +363,16 @@ int vsid_ui_init(void)
     sprintf(vsidstrings[VSID_CS_RELEASED], "Released:");
 
     sdl_ui_init_draw_params();
+
+    width = sdl_active_canvas->draw_buffer->draw_buffer_width;
+    height = sdl_active_canvas->draw_buffer->draw_buffer_height;
+    sdl_active_canvas->draw_buffer_vsid = lib_calloc(1, sizeof(draw_buffer_t));
+    sdl_active_canvas->draw_buffer_vsid->draw_buffer = lib_malloc(width * height);
+
+    draw_buffer_vsid = sdl_active_canvas->draw_buffer_vsid->draw_buffer;
+
+    memset(sdl_active_canvas->draw_buffer_vsid->draw_buffer, 0, width * height);
+
     return 0;
 }
 

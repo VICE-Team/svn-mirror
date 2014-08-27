@@ -109,7 +109,12 @@ static void sdl_ui_putchar(BYTE c, int pos_x, int pos_y)
     BYTE *draw_pos;
 
     font_pos = &(menufont.font[menufont.translate[(int)c]]);
-    draw_pos = &(sdl_active_canvas->draw_buffer->draw_buffer[pos_x * menufont.w + pos_y * menufont.h * menu_draw.pitch]);
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        draw_pos = &(sdl_active_canvas->draw_buffer_vsid->draw_buffer[pos_x * menufont.w + pos_y * menufont.h * menu_draw.pitch]);
+    } else {
+        draw_pos = &(sdl_active_canvas->draw_buffer->draw_buffer[pos_x * menufont.w + pos_y * menufont.h * menu_draw.pitch]);
+    }
 
     draw_pos += menu_draw.offset;
 
@@ -363,6 +368,7 @@ static void sdl_ui_trap(WORD addr, void *data)
     width = sdl_active_canvas->draw_buffer->draw_buffer_width;
     height = sdl_active_canvas->draw_buffer->draw_buffer_height;
     draw_buffer_backup = lib_malloc(width * height);
+
     memcpy(draw_buffer_backup, sdl_active_canvas->draw_buffer->draw_buffer, width * height);
 
     sdl_ui_activate_pre_action();
@@ -374,9 +380,14 @@ static void sdl_ui_trap(WORD addr, void *data)
         sdl_ui_menu_item_activate((ui_menu_entry_t *)data);
     }
 
-    if (ui_emulation_is_paused() && (width == sdl_active_canvas->draw_buffer->draw_buffer_width) && (height == sdl_active_canvas->draw_buffer->draw_buffer_height)) {
-        memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
+    if (machine_class == VICE_MACHINE_VSID) {
+        memset(sdl_active_canvas->draw_buffer_vsid->draw_buffer, 0, width * height);
         sdl_ui_refresh();
+    } else {
+        if (ui_emulation_is_paused() && (width == sdl_active_canvas->draw_buffer->draw_buffer_width) && (height == sdl_active_canvas->draw_buffer->draw_buffer_height)) {
+            memcpy(sdl_active_canvas->draw_buffer->draw_buffer, draw_buffer_backup, width * height);
+            sdl_ui_refresh();
+        }
     }
 
     sdl_ui_activate_post_action();
