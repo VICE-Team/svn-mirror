@@ -437,7 +437,13 @@ static int disk_image_check_for_x64(disk_image_t *image)
 
 static int disk_image_check_for_gcr(disk_image_t *image)
 {
+#if 0
+    /* if 0'ed because of:
+       'if (max_track_length > NUM_MAX_MEM_BYTES_TRACK) {'
+       further down below
+    */    
     WORD max_track_length;
+#endif
     BYTE header[32];
     fsimage_t *fsimage;
 
@@ -470,11 +476,11 @@ static int disk_image_check_for_gcr(disk_image_t *image)
         return 0;
     }
 
-    max_track_length = util_le_buf_to_word(&header[10]);
 #if 0
     /* if 0'ed because:
        max_track_length is of type WORD and NUM_MAX_MEM_BYTES_TRACK is 65536
      */
+    max_track_length = util_le_buf_to_word(&header[10]);
     if (max_track_length > NUM_MAX_MEM_BYTES_TRACK) {
         log_error(disk_image_probe_log, "Too large max track length.");
         return 0;

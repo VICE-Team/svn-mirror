@@ -377,8 +377,8 @@ void ga_reset(void)
 
 static void ga_memconfig_changed(int mode)
 {
-    int n = 1;
 #ifdef CFGDEBUG
+    int n = 1;
     int this;
     static int last;
 #endif
@@ -406,7 +406,9 @@ static void ga_memconfig_changed(int mode)
         mv_gameE000_enabled = 0; /* ! */
 #if 1
     } else if (((mv_exrom == 0) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 1))) { /* 3 */
+#if 0
         n = 0;
+#endif
         /* used once in init in a loop ? */
         mv_romE000_enabled = 0;
         mv_romA000_enabled = 0;
@@ -425,7 +427,9 @@ static void ga_memconfig_changed(int mode)
         mv_gameA000_enabled = 1; /* ? */
         mv_gameE000_enabled = 1; /* ? */
     } else if (((mv_exrom == 0) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 1))) { /* 7 */
+#if 0
         n = 0;
+#endif
         /* used once in init in a loop ? */
         mv_romA000_enabled = 1; /* ! */
         mv_romE000_enabled = 1; /* ! */
@@ -486,7 +490,9 @@ static void ga_memconfig_changed(int mode)
         mv_gameA000_enabled = 0; /* ? */
         mv_gameE000_enabled = 0; /* ? */
     } else {
+#if 0
         n = 2;
+#endif
         mv_romA000_enabled = 0;
         mv_romE000_enabled = 0;
         mv_game = 0;
