@@ -72,7 +72,7 @@ static log_t mmu_log = LOG_ERR;
 
 static int set_column4080_key(int val, void *param)
 {
-    mmu_column4080_key = val;
+    mmu_column4080_key = val ? 1 : 0;
 
 #ifdef HAS_SINGLE_CANVAS
     vdc_set_canvas_refresh(mmu_column4080_key ? 0 : 1);
@@ -83,7 +83,7 @@ static int set_column4080_key(int val, void *param)
 
 static int set_force_c64_mode(int val, void *param)
 {
-    force_c64_mode_res = val;
+    force_c64_mode_res = val ? 1 : 0;
 
     return 0;
 }
