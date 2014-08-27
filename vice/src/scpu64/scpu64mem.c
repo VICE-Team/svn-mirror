@@ -1225,23 +1225,23 @@ void mem_set_simm(int config)
     switch (config & 7) {
     case 0:
         mem_conf_page_size = 9 + 2;
-        mem_conf_size = 1 * 1024 *1024 + 2 * 65536;
+        mem_conf_size = 1 * 1024 *1024;
         break;
     case 1:
         mem_conf_page_size = 10 + 2;
-        mem_conf_size = 4 * 1024 *1024 + 2 * 65536;
+        mem_conf_size = 4 * 1024 *1024;
         break;
     case 2:
         mem_conf_page_size = 10 + 2;
-        mem_conf_size = 8 * 1024 *1024 + 2 * 65536;
+        mem_conf_size = 8 * 1024 *1024;
         break;
     case 3:
         mem_conf_page_size = 10 + 2;
-        mem_conf_size = 16 * 1024 *1024 + 2 * 65536;
+        mem_conf_size = 16 * 1024 *1024;
         break;
     default:
         mem_conf_page_size = 11 + 2;
-        mem_conf_size = 16 * 1024 *1024 + 2 * 65536;
+        mem_conf_size = 16 * 1024 *1024;
         break;
     }
     scpu64_set_simm_row_size(mem_conf_page_size);
