@@ -143,7 +143,7 @@ static UI_MENU_CALLBACK(load_keymap_callback)
         const char *resname;
 
         resources_get_int("KeymapIndex", &keymap);
-        resname = machine_get_keymap_res_name(keymap)
+        resname = machine_get_keymap_res_name(keymap);
 
 #ifdef SDL_DEBUG
         fprintf(stderr, "%s: map %i, \"%s\"\n", __func__, keymap, resname);
