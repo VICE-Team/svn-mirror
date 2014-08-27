@@ -84,6 +84,16 @@ static int set_internal_function_rom_enabled(int val, void *param)
         return 0;
     }
 
+    switch (val) {
+        case INT_FUNCTION_NONE:
+        case INT_FUNCTION_ROM:
+        case INT_FUNCTION_RAM:
+        case INT_FUNCTION_RTC:
+            break;
+        default:
+            return -1;
+    }
+
     if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
         bq4830y_destroy(rtc1_context);
         rtc1_context = NULL;
@@ -116,6 +126,16 @@ static int set_external_function_rom_enabled(int val, void *param)
 {
     if (external_function_rom_enabled == val) {
         return 0;
+    }
+
+    switch (val) {
+        case EXT_FUNCTION_NONE:
+        case EXT_FUNCTION_ROM:
+        case EXT_FUNCTION_RAM:
+        case EXT_FUNCTION_RTC:
+            break;
+        default:
+            return -1;
     }
 
     if (external_function_rom_enabled == EXT_FUNCTION_RTC) {
@@ -159,10 +179,10 @@ static const resource_string_t resources_string[] =
 
 static const resource_int_t resources_int[] =
 {
-    { "InternalFunctionROM", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "InternalFunctionROM", INT_FUNCTION_NONE, RES_EVENT_STRICT, (resource_value_t)0,
       &internal_function_rom_enabled,
       set_internal_function_rom_enabled, NULL },
-    { "ExternalFunctionROM", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "ExternalFunctionROM", EXT_FUNCTION_NONE, RES_EVENT_STRICT, (resource_value_t)0,
       &external_function_rom_enabled,
       set_external_function_rom_enabled, NULL },
     { NULL }

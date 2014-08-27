@@ -6642,14 +6642,14 @@ String specifying the filename of the C64 basic ROM image.
 
 @vindex InternalFunctionROM
 @item InternalFunctionROM
-Boolean, enables the internal function ROM.
+Sets the internal function ROM type (0: None, 1: ROM, 2: RAM, 3: RAM+RTC).
 @vindex InternalFunctionName
 @item InternalFunctionName
 Strings specifying the filename of the ROM image for the internal function ROM.
 
 @vindex ExternalFunctionROM
 @item ExternalFunctionROM
-Boolean, enables the external function ROM.
+Sets the external function ROM type (0: None, 1: ROM, 2: RAM, 3: RAM+RTC).
 @vindex ExternalFunctionName
 @item ExternalFunctionName
 Strings specifying the filename of the ROM image for the external function ROM.
@@ -6717,17 +6717,15 @@ Specify name of Swedish character generator ROM image
 Specify name of Swiss character generator ROM image
 
 @cindex -intfunc
-@item -intfunc
-@itemx +intfunc
-Enable/Disable the internal Function ROM (0: None, 1: ROM, 2: RAM, 3: RTC)
+@item -intfunc <type>
+Set the internal Function ROM type (0: None, 1: ROM, 2: RAM, 3: RTC)
 @cindex -intfrom
 @item -intfrom <name>
 Specify name of internal Function ROM image
 
 @cindex -extfunc
-@item -extfunc
-@itemx +extfunc
-Enable/Disable the external Function ROM (0: None, 1: ROM, 2: RAM, 3: RTC)
+@item -extfunc <type>
+Set the external Function ROM type (0: None, 1: ROM, 2: RAM, 3: RTC)
 @cindex -extfrom
 @item -extfrom <name>
 Specify name of external Function ROM image
