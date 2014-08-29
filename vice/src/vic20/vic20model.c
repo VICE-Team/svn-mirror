@@ -52,9 +52,9 @@ enum {
 };
 
 static struct model_s vic20models[] = {
-    { MACHINE_SYNC_PAL,     0},
-    { MACHINE_SYNC_NTSC,    0},
-    { MACHINE_SYNC_NTSC,    BLOCK_1 | BLOCK_2}, /* SuperVIC */
+    { MACHINE_SYNC_PAL,  NO_EXTRA_RAM},
+    { MACHINE_SYNC_NTSC, NO_EXTRA_RAM},
+    { MACHINE_SYNC_NTSC, BLOCK_1 | BLOCK_2}, /* SuperVIC */
 };
 
 /* ------------------------------------------------------------------------- */

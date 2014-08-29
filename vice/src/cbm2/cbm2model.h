@@ -45,6 +45,13 @@
 
 #define CBM2MODEL_UNKNOWN 99
 
+#define HAS_CRTC    0
+#define HAS_VICII   1
+
+#define LINE_7x0_50HZ  0
+#define LINE_6x0_60HZ  1
+#define LINE_6x0_50HZ  2
+
 extern int cbm2model_get(void);
 extern void cbm2model_set(int model);
 

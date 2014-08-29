@@ -63,6 +63,43 @@
 #define NUM_6809_ROMS           6       /* at 0x[ABCDEF]000 */
 #define PET_6809_ROMSIZE        (NUM_6809_ROMS * 0x1000)
 
+#define RAM_8K    8
+#define RAM_16K   16
+#define RAM_32K   32
+#define RAM_96K   96
+#define RAM_128K  128
+
+#define IO_256    256
+#define IO_2048   2048
+
+#define NO_CRTC   0
+#define HAS_CRTC  1
+
+#define COLS_AUTO 0
+#define COLS_40   40
+#define COLS_80   80
+
+#define NO_RAM_9  0
+#define HAS_RAM_9 1
+
+#define NO_RAM_A  0
+#define HAS_RAM_A 1
+
+#define KBD_BUS 0
+#define KBD_GFX 1
+
+#define NO_KERNAL_PATCH 0
+#define PATCH_2K_KERNAL 1
+
+#define NO_CHARGEN_PATCH 0
+#define PATCH_2K_CHARGEN 1
+
+#define NO_EOI     0
+#define EOI_BLANKS 1
+
+#define NORMAL_IO   0
+#define SUPERPET_IO 1
+
 /* This struct is used to hold the default values for the different models */
 typedef struct petinfo_s {
     /* hardware options (resources) */

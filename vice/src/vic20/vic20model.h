@@ -37,6 +37,8 @@
 
 #define VIC20MODEL_UNKNOWN 99
 
+#define NO_EXTRA_RAM   0
+
 extern int vic20model_get(void);
 extern void vic20model_set(int model);
 

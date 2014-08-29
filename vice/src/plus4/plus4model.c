@@ -57,12 +57,12 @@ struct model_s {
 */
 
 static struct model_s plus4models[] = {
-    { MACHINE_SYNC_PAL,     16, 0, 0, "kernal",     "basic", "",         "", }, /* c16 (pal) */
-    { MACHINE_SYNC_NTSC,    16, 0, 0, "kernal.005", "basic", "",         "", }, /* c16 (ntsc) */
-    { MACHINE_SYNC_PAL,     64, 0, 1, "kernal",     "basic", "3plus1lo", "3plus1hi" }, /* plus4 (pal) */
-    { MACHINE_SYNC_NTSC,    64, 0, 1, "kernal.005", "basic", "3plus1lo", "3plus1hi" }, /* plus4 (ntsc) */
-    { MACHINE_SYNC_NTSC,    64, 1, 1, "kernal.364", "basic", "3plus1lo", "3plus1hi" }, /* v364 (ntsc) */
-    { MACHINE_SYNC_NTSC,    32, 0, 1, "kernal.232", "basic", "",         ""  }, /* 232 (ntsc) */
+    { MACHINE_SYNC_PAL,  RAM16K, NO_SPEECH,  NO_ACIA,  "kernal",     "basic", "",         "",        }, /* c16 (pal) */
+    { MACHINE_SYNC_NTSC, RAM16K, NO_SPEECH,  NO_ACIA,  "kernal.005", "basic", "",         "",        }, /* c16 (ntsc) */
+    { MACHINE_SYNC_PAL,  RAM64K, NO_SPEECH,  HAS_ACIA, "kernal",     "basic", "3plus1lo", "3plus1hi" }, /* plus4 (pal) */
+    { MACHINE_SYNC_NTSC, RAM64K, NO_SPEECH,  HAS_ACIA, "kernal.005", "basic", "3plus1lo", "3plus1hi" }, /* plus4 (ntsc) */
+    { MACHINE_SYNC_NTSC, RAM64K, HAS_SPEECH, HAS_ACIA, "kernal.364", "basic", "3plus1lo", "3plus1hi" }, /* v364 (ntsc) */
+    { MACHINE_SYNC_NTSC, RAM32K, NO_SPEECH,  HAS_ACIA, "kernal.232", "basic", "",         ""         }, /* 232 (ntsc) */
 };
 
 /* ------------------------------------------------------------------------- */

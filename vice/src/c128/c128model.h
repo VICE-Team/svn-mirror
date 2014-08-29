@@ -39,6 +39,15 @@
 
 #define C128MODEL_UNKNOWN 99
 
+#define OLD_CIA   0
+#define NEW_CIA   1
+
+#define OLD_SID   0
+#define NEW_SID   1
+
+#define VDC16K   0
+#define VDC64K   1
+
 extern int c128model_get(void);
 extern void c128model_set(int model);
 

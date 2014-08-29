@@ -40,6 +40,16 @@
 
 #define PLUS4MODEL_UNKNOWN 99
 
+#define RAM16K  16
+#define RAM32K  32
+#define RAM64K  64
+
+#define NO_SPEECH  0
+#define HAS_SPEECH 1
+
+#define NO_ACIA  0
+#define HAS_ACIA 1
+
 extern int plus4model_get(void);
 extern void plus4model_set(int model);
 

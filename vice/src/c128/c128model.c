@@ -81,10 +81,10 @@ struct model_s {
 };
 
 static struct model_s c128models[] = {
-    { MACHINE_SYNC_PAL,  0, 0, VDC_REVISION_1, 0 },
-    { MACHINE_SYNC_PAL,  1, 1, VDC_REVISION_2, 1 },
-    { MACHINE_SYNC_NTSC, 0, 0, VDC_REVISION_1, 0 },
-    { MACHINE_SYNC_NTSC, 1, 1, VDC_REVISION_2, 1 },
+    { MACHINE_SYNC_PAL,  OLD_CIA, OLD_SID, VDC_REVISION_1, VDC16K },
+    { MACHINE_SYNC_PAL,  NEW_CIA, NEW_SID, VDC_REVISION_2, VDC64K },
+    { MACHINE_SYNC_NTSC, OLD_CIA, OLD_SID, VDC_REVISION_1, VDC16K },
+    { MACHINE_SYNC_NTSC, NEW_CIA, NEW_SID, VDC_REVISION_2, VDC64K },
 };
 
 /* ------------------------------------------------------------------------- */

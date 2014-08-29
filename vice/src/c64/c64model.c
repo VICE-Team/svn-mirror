@@ -85,30 +85,86 @@ struct model_s {
     int sid;     /* old or new */
     int board;
     int iecreset;
+    int datasette;
+    int iec;
+    int userport;
+    int keyboard;
     char *kernalname;
     char *chargenname;
 };
 
+/* FIXME: actually implement the missing IEC, Datasette, userport and keyboard stuff */
+
 static struct model_s c64models[] = {
-    { MACHINE_SYNC_PAL,     1, 0, 0, 0, 1, "kernal", "chargen" },
-    { MACHINE_SYNC_PAL,     1, 1, 1, 0, 0, "kernal", "chargen" },
-    { MACHINE_SYNC_PAL,     0, 0, 0, 0, 1, "kernal", "chargen" },
-    { MACHINE_SYNC_NTSC,    1, 0, 0, 0, 1, "kernal", "chargen" },
-    { MACHINE_SYNC_NTSC,    1, 1, 1, 0, 0, "kernal", "chargen" },
-    { MACHINE_SYNC_NTSCOLD, 0, 0, 0, 0, 1, "kernal", "chargen" },
-    { MACHINE_SYNC_PALN,    1, 0, 0, 0, 1, "kernal", "chargen" },
-    /* SX64 FIXME: guessed */
-    { MACHINE_SYNC_PAL,     1, 0, 0, 0, 1, "sxkernal", "chargen" },
-    { MACHINE_SYNC_NTSC,    1, 0, 0, 0, 1, "sxkernal", "chargen" },
-    /* C64 Japanese FIXME: guessed */
-    { MACHINE_SYNC_NTSC,    1, 0, 0, 0, 1, "jpkernal", "jpchrgen" },
-    /* C64 GS FIXME: guessed */
-    { MACHINE_SYNC_PAL,     1, 1, 1, 0, 0, "gskernal", "chargen" },
-    /* PET64 FIXME: guessed */
-    { MACHINE_SYNC_PAL,     1, 0, 0, 0, 1, "edkernal", "chargen" },
-    { MACHINE_SYNC_NTSC,    1, 0, 0, 0, 1, "edkernal", "chargen" },
-    /* ultimax FIXME: guessed */
-    { MACHINE_SYNC_NTSC,    1, 0, 0, 1, 1, "kernal", "chargen" },
+    /* C64 PAL */
+    { MACHINE_SYNC_PAL, NEW_LUMA, OLD_CIA, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* C64C PAL */
+    { MACHINE_SYNC_PAL, NEW_LUMA, NEW_CIA, NEW_SID, BOARD_C64,
+      IEC_HARD_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* C64 OLD PAL */
+    { MACHINE_SYNC_PAL, OLD_LUMA, OLD_CIA, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* C64 NTSC */
+    { MACHINE_SYNC_NTSC, NEW_LUMA, OLD_CIA, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* C64C NTSC */
+    { MACHINE_SYNC_NTSC, NEW_LUMA, NEW_CIA, NEW_SID, BOARD_C64,
+      IEC_HARD_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* C64 OLD NTSC */
+    { MACHINE_SYNC_NTSCOLD, OLD_LUMA, OLD_CIA, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* C64 PAL-N */
+    { MACHINE_SYNC_PALN, NEW_LUMA, OLD_CIA, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* SX64 PAL, FIXME: guessed */
+    { MACHINE_SYNC_PAL, NEW_LUMA, OLD_CIA, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, NO_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, 
+      "sxkernal", "chargen" },
+
+    /* SX64 NTSC, FIXME: guessed */
+    { MACHINE_SYNC_NTSC, NEW_LUMA, OLD_CIA, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, NO_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD, 
+      "sxkernal", "chargen" },
+
+    /* C64 Japanese, FIXME: guessed */
+    { MACHINE_SYNC_NTSC, NEW_LUMA, OLD_CIA, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "jpkernal", "jpchrgen" },
+
+    /* C64 GS, FIXME: guessed */
+    { MACHINE_SYNC_PAL, NEW_LUMA, NEW_CIA, NEW_SID, BOARD_C64,
+      IEC_HARD_RESET, NO_DATASETTE, NO_IEC, NO_USERPORT, NO_KEYBOARD, 
+      "gskernal", "chargen" },
+
+    /* PET64 PAL, FIXME: guessed */
+    { MACHINE_SYNC_PAL, NEW_LUMA, OLD_CIA, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "edkernal", "chargen" },
+
+    /* PET64 NTSC, FIXME: guessed */
+    { MACHINE_SYNC_NTSC, NEW_LUMA, OLD_CIA, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "edkernal", "chargen" },
+
+    /* ultimax, FIXME: guessed */
+    { MACHINE_SYNC_NTSC, NEW_LUMA, OLD_CIA, OLD_SID, BOARD_MAX,
+      IEC_SOFT_RESET, HAS_DATASETTE, NO_IEC, NO_USERPORT, HAS_KEYBOARD, 
+      "kernal", "chargen" },
 };
 
 /* ------------------------------------------------------------------------- */
