@@ -153,8 +153,10 @@ BYTE digimax_sound_read(WORD addr)
 
 /* ---------------------------------------------------------------------*/
 
-static int set_digimax_enabled(int val, void *param)
+static int set_digimax_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!digimax_sound_chip.chip_enabled && val) {
         if (!digimax_is_userport()) {
             if (c64export_add(&export_res) < 0) {

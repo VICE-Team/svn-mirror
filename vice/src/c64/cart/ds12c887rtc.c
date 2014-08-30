@@ -107,8 +107,10 @@ int ds12c887rtc_cart_enabled(void)
     return ds12c887rtc_enabled;
 }
 
-static int set_ds12c887rtc_enabled(int val, void *param)
+static int set_ds12c887rtc_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!ds12c887rtc_enabled && val) {
         if (c64export_add(&export_res) < 0) {
             return -1;

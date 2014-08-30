@@ -182,6 +182,73 @@ static int try_cartridge_attach(int type, const char *filename)
 
 static int set_cartridge_type(int val, void *param)
 {
+    switch (val) {
+        case CARTRIDGE_ULTIMAX:
+        case CARTRIDGE_GENERIC_8KB:
+        case CARTRIDGE_GENERIC_16KB:
+        case CARTRIDGE_NONE:
+        case CARTRIDGE_CRT:
+        case CARTRIDGE_ACTION_REPLAY:
+        case CARTRIDGE_KCS_POWER:
+        case CARTRIDGE_FINAL_III:
+        case CARTRIDGE_SIMONS_BASIC:
+        case CARTRIDGE_OCEAN:
+        case CARTRIDGE_EXPERT:
+        case CARTRIDGE_FUNPLAY:
+        case CARTRIDGE_SUPER_GAMES:
+        case CARTRIDGE_ATOMIC_POWER:
+        case CARTRIDGE_EPYX_FASTLOAD:
+        case CARTRIDGE_WESTERMANN:
+        case CARTRIDGE_REX:
+        case CARTRIDGE_FINAL_I:
+        case CARTRIDGE_MAGIC_FORMEL:
+        case CARTRIDGE_GS:
+        case CARTRIDGE_WARPSPEED:
+        case CARTRIDGE_DINAMIC:
+        case CARTRIDGE_ZAXXON:
+        case CARTRIDGE_MAGIC_DESK:
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        case CARTRIDGE_COMAL80:
+        case CARTRIDGE_STRUCTURED_BASIC:
+        case CARTRIDGE_ROSS:
+        case CARTRIDGE_DELA_EP64:
+        case CARTRIDGE_DELA_EP7x8:
+        case CARTRIDGE_DELA_EP256:
+        case CARTRIDGE_REX_EP256:
+        case CARTRIDGE_MIKRO_ASSEMBLER:
+        case CARTRIDGE_FINAL_PLUS:
+        case CARTRIDGE_ACTION_REPLAY4:
+        case CARTRIDGE_STARDOS:
+        case CARTRIDGE_EASYFLASH:
+        case CARTRIDGE_EASYFLASH_XBANK:
+        case CARTRIDGE_CAPTURE:
+        case CARTRIDGE_ACTION_REPLAY3:
+        case CARTRIDGE_RETRO_REPLAY:
+        case CARTRIDGE_MMC64:
+        case CARTRIDGE_MMC_REPLAY:
+        case CARTRIDGE_IDE64:
+        case CARTRIDGE_SUPER_SNAPSHOT:
+        case CARTRIDGE_IEEE488:
+        case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_P64:
+        case CARTRIDGE_EXOS:
+        case CARTRIDGE_FREEZE_FRAME:
+        case CARTRIDGE_FREEZE_MACHINE:
+        case CARTRIDGE_SNAPSHOT64:
+        case CARTRIDGE_SUPER_EXPLODE_V5:
+        case CARTRIDGE_MAGIC_VOICE:
+        case CARTRIDGE_ACTION_REPLAY2:
+        case CARTRIDGE_MACH5:
+        case CARTRIDGE_DIASHOW_MAKER:
+        case CARTRIDGE_PAGEFOX:
+        case CARTRIDGE_KINGSOFT:
+        case CARTRIDGE_SILVERROCK_128:
+        case CARTRIDGE_FORMEL64:
+            break;
+        default:
+            return -1;
+    }
+
 /*    DBG(("cartridge_type: %d\n", val)); */
     if (cartridge_type != val) {
         DBG(("cartridge_type changed: %d\n", val));
@@ -224,9 +291,11 @@ static int set_cartridge_file(const char *name, void *param)
     return 0;
 }
 
-static int set_cartridge_reset(int val, void *param)
+static int set_cartridge_reset(int value, void *param)
 {
 /*    DBG(("c64cartridge_reset: %d\n", val)); */
+    int val = value ? 1 : 0;
+
     if (c64cartridge_reset != val) {
         DBG(("c64cartridge_reset changed: %d\n", val));
         c64cartridge_reset = val; /* resource value modified */

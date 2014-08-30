@@ -424,8 +424,10 @@ void tpi_passthrough_changed(struct export_s *export)
 
 static char *ieee488_filename = NULL;
 
-static int set_ieee488_enabled(int val, void *param)
+static int set_ieee488_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     DBG(("IEEE: set_enabled: (%p) '%s' %d to %d\n", param, ieee488_filename, ieee488_enabled, val));
     if (ieee488_enabled && !val) {
         cart_power_off();

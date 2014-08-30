@@ -192,8 +192,10 @@ static int set_io_source_base(int address)
     return -1;
 }
 
-static int set_acia_enabled(int val, void *param)
+static int set_acia_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if ((val) && (!acia_enabled)) {
         if (acia1_enable() < 0) {
             return -1;
@@ -264,7 +266,6 @@ int acia1_set_mode(int mode)
 /* ------------------------------------------------------------------------- */
 
 #ifdef HAVE_RS232
-
 static const resource_int_t resources_i[] = {
     { "Acia1Enable", 0, RES_EVENT_STRICT, 0,
       &acia_enabled, set_acia_enabled, NULL },

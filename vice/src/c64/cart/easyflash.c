@@ -194,13 +194,13 @@ static const c64export_resource_t export_res = {
 
 static int set_easyflash_jumper(int val, void *param)
 {
-    easyflash_jumper = val;
+    easyflash_jumper = val ? 1 : 0;
     return 0;
 }
 
 static int set_easyflash_crt_write(int val, void *param)
 {
-    easyflash_crt_write = val;
+    easyflash_crt_write = val ? 1 : 0;
     return 0;
 }
 
