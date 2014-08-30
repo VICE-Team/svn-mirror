@@ -1418,11 +1418,7 @@ const static signed char bump[] = {
 
 const static signed char nosound[1] = { 0 };
 
-#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
-extern sound_chip_t drive_sound;
-#else
-static sound_chip_t drive_sound;
-#endif
+STATIC_PROTOTYPE sound_chip_t drive_sound;
 
 static WORD drive_sound_offset;
 const static signed char *step[DRIVE_NUM];
