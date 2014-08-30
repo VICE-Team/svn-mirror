@@ -25,9 +25,11 @@
  */
 
 #include "vice.h"
+
+#include "archdep.h"
+#include "drive.h"
 #include "drive-sound.h"
 #include "sound.h"
-#include "drive.h"
 
 const static signed char hum[] = {
     0, -1, -2, -3, -2, 0, 3, 5, 6, 5, 3, 0, -3, -5, -6, -4, -2, 1, 2, 3, 3, 3,
