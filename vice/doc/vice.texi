@@ -6314,7 +6314,7 @@ Specify Kernal revision (@code{KernalRev}).
 
 @vindex GlueLogic
 @item GlueLogic
-Integer specifying the type of emulated glue-log. (0: discrete, 1: custom IC)
+Integer specifying the type of emulated glue-logic. (0: discrete, 1: custom IC)
 
 @vindex BurstMod
 @item BurstMod

@@ -183,8 +183,10 @@ static io_source_list_t *c64_256k_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
-static int set_c64_256k_enabled(int val, void *param)
+static int set_c64_256k_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (val == c64_256k_enabled) {
         return 0;
     }
