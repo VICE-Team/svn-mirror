@@ -4311,7 +4311,7 @@ The local address the remote monitor should bind to
 
 @vindex MachineVideoStandard
 @item MachineVideoStandard
-Integer that specifies that video standard of the emulated machine. (-1: PAL, 
+Integer that specifies the video standard of the emulated machine. (-1: PAL, 
 -2: NTSC, -3: NTSC (old), -4: PAL-N)
 
 @end table

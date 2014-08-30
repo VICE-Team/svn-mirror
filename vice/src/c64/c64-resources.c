@@ -127,10 +127,7 @@ static int set_board_type(int val, void *param)
 
 static int set_iec_reset(int val, void *param)
 {
-    if ((val < 0) || (val > 1)) {
-        return -1;
-    }
-    iec_reset = val;
+    iec_reset = val ? 1 : 0;
     return 0;
 }
 

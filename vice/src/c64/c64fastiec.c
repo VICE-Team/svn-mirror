@@ -44,6 +44,15 @@ int burst_mod;
 
 int set_burst_mod(int mode, void *param)
 {
+    switch (mode) {
+        case BURST_MOD_NONE:
+        case BURST_MOD_CIA1:
+        case BURST_MOD_CIA2:
+            break;
+        default:
+            return -1;
+    }
+
     burst_mod = mode;
     return 0;
 }
