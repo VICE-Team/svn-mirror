@@ -1070,8 +1070,10 @@ void magicvoice_passthrough_changed(struct export_s *export)
 
 char *magicvoice_filename = NULL;
 
-static int set_magicvoice_enabled(int val, void *param)
+static int set_magicvoice_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     DBG(("MV: set_enabled: '%s' %d to %d\n", magicvoice_filename, magicvoice_sound_chip.chip_enabled, val));
     if (magicvoice_sound_chip.chip_enabled && !val) {
         cart_power_off();

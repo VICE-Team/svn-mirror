@@ -440,7 +440,7 @@ static int set_autodetect_size(int autodetect_size, void *param)
 {
     struct drive_s *drive = &drives[vice_ptr_to_int(param)];
 
-    drive->autodetect_size = autodetect_size;
+    drive->autodetect_size = autodetect_size ? 1 : 0;
     if (drive->drv) {
         detect_ide64_image(drive);
         drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
@@ -448,8 +448,10 @@ static int set_autodetect_size(int autodetect_size, void *param)
     return 0;
 }
 
-static int set_version4(int val, void *param)
+static int set_version4(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!ide64_rom_list_item) {
         settings_version4 = val;
         return 0;

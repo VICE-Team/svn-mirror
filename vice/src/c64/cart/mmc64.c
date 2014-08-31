@@ -320,8 +320,10 @@ static int mmc64_deactivate(void)
 }
 
 /* FIXME: resetting the c64 should be handled in the upper layer */
-static int set_mmc64_enabled(int val, void *param)
+static int set_mmc64_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     LOG(("MMC64: set_enabled: '%s' %d to %d", mmc64_bios_filename, mmc64_enabled, val));
     if (!mmc64_enabled && val) {
         /* activate mmc64 */
@@ -381,8 +383,10 @@ static int set_mmc64_enabled(int val, void *param)
     return 0;
 }
 
-static int set_mmc64_readonly(int val, void *param)
+static int set_mmc64_readonly(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!mmc64_image_file_readonly) {
         mmc64_hw_writeprotect = val;
         if (!((*mmc64_image_filename) == 0)) {
@@ -402,19 +406,38 @@ static int set_mmc64_readonly(int val, void *param)
 
 static int set_mmc64_flashjumper(int val, void *param)
 {
-    mmc64_hw_flashjumper = val;
+    mmc64_hw_flashjumper = val ? 1 : 0;
     LOG(("MMC64 Flashjumper: %d", mmc64_hw_flashjumper));
     return 0;
 }
 
 static int set_mmc64_revision(int val, void *param)
 {
+    switch (val) {
+        case MMC64_REV_A:
+        case MMC64_REV_B:
+            break;
+        default:
+            return -1;
+    }
+
     mmc64_revision = val;
+
     return 0;
 }
 
 static int set_mmc64_sd_type(int val, void *param)
 {
+    switch (val) {
+        case MMC64_TYPE_AUTO:
+        case MMC64_TYPE_MMC:
+        case MMC64_TYPE_SD:
+        case MMC64_TYPE_SDHC:
+            break;
+        default:
+            return -1;
+    }
+
     mmc64_sd_type = val;
     mmc_set_card_type((BYTE)val);
     return 0;
@@ -422,7 +445,7 @@ static int set_mmc64_sd_type(int val, void *param)
 
 static int set_mmc64_bios_write(int val, void *param)
 {
-    mmc64_bios_write = val;
+    mmc64_bios_write = val ? 1 : 0;
     return 0;
 }
 
@@ -946,11 +969,11 @@ static const resource_int_t resources_int[] = {
       &mmc64_hw_writeprotect, set_mmc64_readonly, NULL },
     { "MMC64_flashjumper", 0, RES_EVENT_NO, NULL,
       &mmc64_hw_flashjumper, set_mmc64_flashjumper, NULL },
-    { "MMC64_revision", 0, RES_EVENT_NO, NULL,
+    { "MMC64_revision", MMC64_REV_A, RES_EVENT_NO, NULL,
       &mmc64_revision, set_mmc64_revision, NULL },
     { "MMC64_bios_write", 0, RES_EVENT_NO, NULL,
       &mmc64_bios_write, set_mmc64_bios_write, NULL },
-    { "MMC64_sd_type", 0, RES_EVENT_NO, NULL,
+    { "MMC64_sd_type", MMC64_TYPE_AUTO, RES_EVENT_NO, NULL,
       &mmc64_sd_type, set_mmc64_sd_type, NULL },
     { NULL }
 };
