@@ -65,6 +65,9 @@
 #define OLD_SID 0
 #define NEW_SID 1
 
+#define GLUE_DISCRETE  0
+#define GLUE_CUSTOM_IC 1
+
 #define BOARD_C64 0
 #define BOARD_MAX 1
 

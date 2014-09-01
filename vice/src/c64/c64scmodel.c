@@ -88,30 +88,99 @@ struct model_s {
     int sid;        /* old or new */
     int board;
     int iecreset;
+    int datasette;
+    int iec;
+    int userport;
+    int keyboard;
     char *kernalname;
     char *chargenname;
 };
 
 static struct model_s c64models[] = {
-    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "kernal", "chargen" },
-    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, 1, 0, 0, "kernal", "chargen" },
-    { VICII_MODEL_6569R1,   MACHINE_SYNC_PAL,     0, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "kernal", "chargen" },
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "kernal", "chargen" },
-    { VICII_MODEL_8562,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_NEW, 1, 1, 0, 0, "kernal", "chargen" },
-    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, 0, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "kernal", "chargen" },
-    { VICII_MODEL_6572,     MACHINE_SYNC_PALN,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "kernal", "chargen" },
-    /* SX64 FIXME: guessed */
-    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "sxkernal", "chargen" },
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "sxkernal", "chargen" },
-    /* C64 Japanese FIXME: guessed */
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "jpkernal", "jpchrgen" },
-    /* C64 GS FIXME: guessed */
-    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, 1, 0, 0, "gskernal", "chargen" },
-    /* PET64 FIXME: guessed */
-    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "edkernal", "chargen" },
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 0, 1, "edkernal", "chargen" },
-    /* ultimax FIXME: guessed */
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, 1, 1, "kernal", "chargen" },
+
+    /* C64 PAL */
+    { VICII_MODEL_6569, MACHINE_SYNC_PAL, NEW_LUMA,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* C64C PAL */
+    { VICII_MODEL_8565, MACHINE_SYNC_PAL, NEW_LUMA,
+      CIA_MODEL_DEFAULT_NEW, GLUE_CUSTOM_IC, NEW_SID, BOARD_C64,
+      IEC_HARD_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* C64 OLD PAL */
+    { VICII_MODEL_6569R1, MACHINE_SYNC_PAL, OLD_LUMA,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* C64 NTSC */
+    { VICII_MODEL_6567, MACHINE_SYNC_NTSC, NEW_LUMA,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* C64C NTSC */
+    { VICII_MODEL_8562, MACHINE_SYNC_NTSC, NEW_LUMA,
+      CIA_MODEL_DEFAULT_NEW, GLUE_CUSTOM_IC, NEW_SID, BOARD_C64,
+      IEC_HARD_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* C64 OLD NTSC */
+    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, OLD_LUMA,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* C64 PAL-N */
+    { VICII_MODEL_6572, MACHINE_SYNC_PALN, NEW_LUMA,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
+
+    /* SX64 PAL, FIXME: guessed */
+    { VICII_MODEL_6569, MACHINE_SYNC_PAL, NEW_LUMA,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, NO_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "sxkernal", "chargen" },
+
+    /* SX64 NTSC, FIXME: guessed */
+    { VICII_MODEL_6567, MACHINE_SYNC_NTSC, NEW_LUMA,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, NO_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "sxkernal", "chargen" },
+
+    /* C64 Japanese, FIXME: guessed */
+    { VICII_MODEL_6567, MACHINE_SYNC_NTSC, NEW_LUMA,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "jpkernal", "jpchrgen" },
+
+    /* C64 GS, FIXME: guessed */
+    { VICII_MODEL_8565, MACHINE_SYNC_PAL, NEW_LUMA,
+      CIA_MODEL_DEFAULT_NEW, GLUE_CUSTOM_IC, NEW_SID, BOARD_C64,
+      IEC_HARD_RESET, NO_DATASETTE, NO_IEC, NO_USERPORT, NO_KEYBOARD,
+      "gskernal", "chargen" },
+
+    /* PET64 PAL, FIXME: guessed */
+    { VICII_MODEL_6569, MACHINE_SYNC_PAL, NEW_LUMA,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "edkernal", "chargen" },
+
+    /* PET64 NTSC, FIXME: guessed */
+    { VICII_MODEL_6567, MACHINE_SYNC_NTSC, NEW_LUMA,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_C64,
+      IEC_SOFT_RESET, HAS_DATASETTE, HAS_IEC, HAS_USERPORT, HAS_KEYBOARD,
+      "edkernal", "chargen" },
+
+    /* ultimax, FIXME: guessed */
+    { VICII_MODEL_6567, MACHINE_SYNC_NTSC, NEW_LUMA,
+      CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_MAX,
+      IEC_SOFT_RESET, HAS_DATASETTE, NO_IEC, NO_USERPORT, HAS_KEYBOARD,
+      "kernal", "chargen" },
 };
 
 /* ------------------------------------------------------------------------- */

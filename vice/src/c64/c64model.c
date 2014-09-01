@@ -148,7 +148,7 @@ static struct model_s c64models[] = {
 
     /* C64 GS, FIXME: guessed */
     { MACHINE_SYNC_PAL, NEW_LUMA, NEW_CIA, NEW_SID, BOARD_C64,
-      IEC_HARD_RESET, NO_DATASETTE, NO_IEC, NO_USERPORT, NO_KEYBOARD, 
+      IEC_HARD_RESET, NO_DATASETTE, NO_IEC, NO_USERPORT, NO_KEYBOARD,
       "gskernal", "chargen" },
 
     /* PET64 PAL, FIXME: guessed */
