@@ -6120,7 +6120,7 @@ Integer specifying the size of the emulated REU in KB (128, 256, 512, 1024, 2048
 Boolean specifying whether the SFX Sound Expander should be emulated or not.
 @vindex SFXSoundExpanderChip
 @item SFXSoundExpanderChip
-Enum specifying which YM chip is emulated (0: 3526, 1: 3812)
+Integer specifying which YM chip is emulated (3526, 3812)
 
 @vindex SFXSoundSampler
 @item SFXSoundSampler

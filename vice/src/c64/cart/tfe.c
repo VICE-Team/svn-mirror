@@ -423,8 +423,10 @@ static int set_tfe_disabled(int val, void *param)
     return 0;
 }
 
-static int set_tfe_rr_net(int val, void *param)
+static int set_tfe_rr_net(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!tfe_cannot_use) {
         if (!val) {
             /* TFE should not be used as rr net */
@@ -447,8 +449,10 @@ int tfe_cart_enabled(void)
     return tfe_enabled;
 }
 
-static int set_tfe_enabled(int val, void *param)
+static int set_tfe_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!tfe_cannot_use) {
         if (!val) {
             /* TFE should be deactived */
@@ -527,8 +531,10 @@ int tfe_enable(void)
     return resources_set_int("ETHERNET_ACTIVE", 1);
 }
 
-static int set_tfe_io_swap(int val, void *param)
+static int set_tfe_io_swap(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (val == tfe_io_swap) {
         return 0;
     }
