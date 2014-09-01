@@ -603,7 +603,8 @@ int retroreplay_cart_enabled(void)
 
 static int set_rr_revision(int val, void *param)
 {
-    rr_revision = val;
+    rr_revision = val ? 1 : 0;
+
     if (rr_active) {
         maincpu_resync_limits();
     }
@@ -612,7 +613,7 @@ static int set_rr_revision(int val, void *param)
 
 static int set_rr_flashjumper(int val, void *param)
 {
-    rr_hw_flashjumper = val;
+    rr_hw_flashjumper = val ? 1 : 0;
     DBG(("set_rr_flashjumper: %d\n", rr_hw_flashjumper));
     return 0;
 }
@@ -624,7 +625,8 @@ static int set_rr_flashjumper(int val, void *param)
 static int set_rr_bankjumper(int val, void *param)
 {
     /* if the jumper is set, physical bank 0 is selected */
-    rr_hw_bankjumper = val;
+    rr_hw_bankjumper = val ? 1 : 0;
+
     if (rr_hw_bankjumper) {
         rom_offset = 0x0;
     } else {
@@ -639,7 +641,8 @@ static int set_rr_bankjumper(int val, void *param)
 
 static int set_rr_bios_write(int val, void *param)
 {
-    rr_bios_write = val;
+    rr_bios_write = val ? 1 : 0;
+
     return 0;
 }
 
@@ -650,7 +653,7 @@ static const resource_int_t resources_int[] = {
       &rr_hw_bankjumper, set_rr_bankjumper, NULL },
     { "RRBiosWrite", 0, RES_EVENT_NO, NULL,
       &rr_bios_write, set_rr_bios_write, NULL },
-    { "RRrevision", 0, RES_EVENT_NO, NULL,
+    { "RRrevision", RR_REV_RETRO_REPLAY, RES_EVENT_NO, NULL,
       &rr_revision, set_rr_revision, NULL },
     { NULL }
 };

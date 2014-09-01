@@ -309,8 +309,10 @@ static int ramcart_deactivate(void)
     return 0;
 }
 
-static int set_ramcart_enabled(int val, void *param)
+static int set_ramcart_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!ramcart_enabled && val) {
         cart_power_off();
         if (ramcart_activate() < 0) {
@@ -343,7 +345,8 @@ static int set_ramcart_enabled(int val, void *param)
 
 static int set_ramcart_readonly(int val, void *param)
 {
-    ramcart_readonly = val;
+    ramcart_readonly = val ? 1 : 0;
+
     return 0;
 }
 
@@ -400,11 +403,8 @@ static int set_ramcart_filename(const char *name, void *param)
 
 static int set_ramcart_image_write(int val, void *param)
 {
-    if (ramcart_write_image && !val) {
-        ramcart_write_image = 0;
-    } else if (!ramcart_write_image && val) {
-        ramcart_write_image = 1;
-    }
+    ramcart_write_image = val ? 1 : 0;
+
     return 0;
 }
 
