@@ -177,6 +177,7 @@ static struct model_s c64models[] = {
       "edkernal", "chargen" },
 
     /* ultimax, FIXME: guessed */
+    /* FIXME: the MAX uses a VICII 6566, currenly unemulated, NTSC-M only */
     { VICII_MODEL_6567, MACHINE_SYNC_NTSC, NEW_LUMA,
       CIA_MODEL_DEFAULT_OLD, GLUE_DISCRETE, OLD_SID, BOARD_MAX,
       IEC_SOFT_RESET, HAS_DATASETTE, NO_IEC, NO_USERPORT, HAS_KEYBOARD,
