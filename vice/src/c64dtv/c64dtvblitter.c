@@ -522,7 +522,7 @@ static int set_dtvrevision(int val, void *param)
 
 static int set_blitter_log(int val, void *param)
 {
-    blitter_log_enabled = val;
+    blitter_log_enabled = val ? 1 : 0;
     return 0;
 }
 

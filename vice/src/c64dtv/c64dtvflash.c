@@ -44,6 +44,12 @@
 #include "resources.h"
 #include "translate.h"
 
+#ifndef AMIGA_SUPPORT
+#define DTVROM_NAME_DEFAULT   "dtvrom.bin"
+#else
+#define DTVROM_NAME_DEFAULT   "PROGDIR:C64DTV/dtvrom.bin"
+#endif
+
 static log_t c64dtvflash_log = LOG_ERR;
 
 static int flash_log_enabled = 0;
@@ -114,13 +120,27 @@ void c64dtvflash_store(int addr, BYTE value)
         case FLASH_CMD2:
             if ((addr & 0xffe) == 0xaaa) {
                 switch (value) {
-                    case 0x90: c64dtvflash_state = FLASH_PRODUCTID; return; /* Product ID Entry */
-                    case 0xf0: c64dtvflash_state = FLASH_IDLE; return; /* Product ID Exit */
-                    case 0x80: c64dtvflash_state = FLASH_CMD3; return; /* Erase/Single Pulse Program/Lockdown */
-                    case 0xa0: c64dtvflash_state = FLASH_PROGRAM; return; /* Byte/Word Program */
-                    case 0xd0: c64dtvflash_state = FLASH_SETCONF; return; /* Set Configuration Register */
-                    case 0xc0: c64dtvflash_state = FLASH_PROGPROT; return; /* Program/Lock Protection Register */
-                    default: c64dtvflash_state = FLASH_IDLE; return;
+                    case 0x90:
+                        c64dtvflash_state = FLASH_PRODUCTID;   /* Product ID Entry */
+                        return; 
+                    case 0xf0:
+                        c64dtvflash_state = FLASH_IDLE;        /* Product ID Exit */
+                        return;
+                    case 0x80:
+                        c64dtvflash_state = FLASH_CMD3;        /* Erase/Single Pulse Program/Lockdown */
+                        return;
+                    case 0xa0:
+                        c64dtvflash_state = FLASH_PROGRAM;     /* Byte/Word Program */
+                        return;
+                    case 0xd0:
+                        c64dtvflash_state = FLASH_SETCONF;     /* Set Configuration Register */
+                        return;
+                    case 0xc0:
+                        c64dtvflash_state = FLASH_PROGPROT;    /* Program/Lock Protection Register */
+                        return;
+                    default:
+                        c64dtvflash_state = FLASH_IDLE;
+                        return;
                 }
             } else {
                 c64dtvflash_state = FLASH_IDLE;
@@ -257,23 +277,39 @@ BYTE c64dtvflash_read(int addr)
             case 0x101:
                 return 0xfe; /* Protection Register Lock (unlocked) TODO: configurable */
             /* Protection Register Block A (unique ID) */
-            case 0x102: return 'x';
-            case 0x103: return '6';
-            case 0x104: return '4';
-            case 0x105: return 'd';
-            case 0x106: return 't';
-            case 0x107: return 'v';
-            case 0x108: return '-';
-            case 0x109: return 0x10;
+            case 0x102:
+                return 'x';
+            case 0x103:
+                return '6';
+            case 0x104:
+                return '4';
+            case 0x105:
+                return 'd';
+            case 0x106:
+                return 't';
+            case 0x107:
+                return 'v';
+            case 0x108:
+                return '-';
+            case 0x109:
+                return 0x10;
             /* Protection Register Block B TODO: configurable */
-            case 0x10a: return 0xff;
-            case 0x10b: return 0xff;
-            case 0x10c: return 0xff;
-            case 0x10d: return 0xff;
-            case 0x10e: return 0xff;
-            case 0x10f: return 0xff;
-            case 0x110: return 0xff;
-            case 0x111: return 0xff;
+            case 0x10a:
+                return 0xff;
+            case 0x10b:
+                return 0xff;
+            case 0x10c:
+                return 0xff;
+            case 0x10d:
+                return 0xff;
+            case 0x10e:
+                return 0xff;
+            case 0x10f:
+                return 0xff;
+            case 0x110:
+                return 0xff;
+            case 0x111:
+                return 0xff;
             default:
                 if ((addr & ((addr >> 16) == 0x1f ? 0x1fff : 0xffff)) == 4) {
                     return c64dtvflash_mem_lock[paddr_to_sector(addr)]; /* Sector Lockdown */
@@ -482,34 +518,22 @@ static int set_c64dtvflash_filename(const char *name, void *param)
 
 static int set_c64dtvflash_mem_rw(int val, void *param)
 {
-    if (!val) {
-        c64dtvflash_mem_rw = 0;
-        return 0;
-    } else {
-        c64dtvflash_mem_rw = 1;
-        return 0;
-    }
+    c64dtvflash_mem_rw = val ? 1 : 0;
+
+    return 0;
 }
 
 static int set_flash_log(int val, void *param)
 {
-    if (!val) {
-        flash_log_enabled = 0;
-        return 0;
-    } else {
-        flash_log_enabled = 1;
-        return 0;
-    }
+    flash_log_enabled = val ? 1 : 0;
+
+    return 0;
 }
 
+
 static const resource_string_t resources_string[] = {
-#ifndef AMIGA_SUPPORT
-    { "c64dtvromfilename", "dtvrom.bin", RES_EVENT_NO, NULL,
+    { "c64dtvromfilename", DTVROM_NAME_DEFAULT, RES_EVENT_NO, NULL,
       &c64dtvflash_filename, set_c64dtvflash_filename, NULL },
-#else
-    { "c64dtvromfilename", "PROGDIR:C64DTV/dtvrom.bin", RES_EVENT_NO, NULL,
-      &c64dtvflash_filename, set_c64dtvflash_filename, NULL },
-#endif
     { NULL }
 };
 

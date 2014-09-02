@@ -197,48 +197,56 @@ static int set_cart6_rom_name(const char *val, void *param)
 
 static int set_cart08_ram(int val, void *param)
 {
-    cart08_ram = val;
+    cart08_ram = val ? 1 : 0;
+
     mem_initialize_memory_bank(15);
     return 0;
 }
 
 static int set_cart1_ram(int val, void *param)
 {
-    cart1_ram = val;
+    cart1_ram = val ? 1 : 0;
+
     mem_initialize_memory_bank(15);
     return 0;
 }
 
 static int set_cart2_ram(int val, void *param)
 {
-    cart2_ram = val;
+    cart2_ram = val ? 1 : 0;
+
     mem_initialize_memory_bank(15);
     return 0;
 }
 
 static int set_cart4_ram(int val, void *param)
 {
-    cart4_ram = val;
+    cart4_ram = val ? 1 : 0;
+
     mem_initialize_memory_bank(15);
     return 0;
 }
 
 static int set_cart6_ram(int val, void *param)
 {
-    cart6_ram = val;
+    cart6_ram = val ? 1 : 0;
+
     mem_initialize_memory_bank(15);
     return 0;
 }
 
 static int set_cartC_ram(int val, void *param)
 {
-    cartC_ram = val;
+    cartC_ram = val ? 1 : 0;
+
     mem_initialize_memory_bank(15);
     return 0;
 }
 
-static int set_cartridge_reset(int val, void *param)
+static int set_cartridge_reset(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
 /*    DBG(("cbm2cartridge_reset: %d", val)); */
     if (cbm2cartridge_reset != val) {
         DBG(("cbm2cartridge_reset changed: %d", val));

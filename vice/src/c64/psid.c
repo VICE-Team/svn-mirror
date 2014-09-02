@@ -90,7 +90,7 @@ static int psid_tune_cmdline = 0;
 
 static int set_keepenv(int val, void *param)
 {
-    keepenv = val;
+    keepenv = val ? 1 : 0;
     return 0;
 }
 

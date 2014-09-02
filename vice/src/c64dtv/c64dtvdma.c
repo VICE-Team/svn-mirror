@@ -407,7 +407,8 @@ void c64dtvdma_perform_dma(void)
 /* ------------------------------------------------------------------------- */
 static int set_dma_log(int val, void *param)
 {
-    dma_log_enabled = val;
+    dma_log_enabled = val ? 1 : 0;
+
     return 0;
 }
 

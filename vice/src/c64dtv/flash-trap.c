@@ -288,13 +288,10 @@ static int set_flash_trap_fsflashdir(const char *name, void *param)
 
 static int set_flash_trap_trueflashfs(int val, void *param)
 {
-    if (!val) {
-        flash_trap_trueflashfs = 0;
-        return 0;
-    } else {
-        flash_trap_trueflashfs = 1;
-        return 0;
-    }
+
+    flash_trap_trueflashfs = val ? 1 : 0;
+
+    return 0;
 }
 
 static const resource_string_t resources_string[] = {

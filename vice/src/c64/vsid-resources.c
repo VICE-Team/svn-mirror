@@ -108,6 +108,7 @@ static int set_basic_rom_name(const char *val, void *param)
 static int set_board_type(int val, void *param)
 {
     int old_board_type = board_type;
+
     if ((val < 0) || (val > 1)) {
         return -1;
     }

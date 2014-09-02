@@ -35,6 +35,7 @@
 #include "cbm2.h"
 #include "cbm2cia.h"
 #include "cbm2mem.h"
+#include "cbm2model.h"
 #include "cbm2rom.h"
 #include "cbm2tpi.h"
 #include "cia.h"
@@ -72,9 +73,16 @@ static int set_cbm2_model_line(int val, void *param)
 {
     int tmp = val;
 
-    if (tmp >= 0 && tmp < 3) {
-        cbm2_model_line = val;
+    switch (val) {
+        case LINE_7x0_50HZ:
+        case LINE_6x0_60HZ:
+        case LINE_6x0_50HZ:
+            break;
+        default:
+            return -1;
     }
+
+    cbm2_model_line = val;
 
     set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
 
@@ -95,8 +103,14 @@ int ramsize;
 
 static int set_ramsize(int rs, void *param)
 {
-    if (rs != 64 && rs != 128 && rs != 256 && rs != 512 && rs != 1024) {
-        return -1;
+    switch (rs) {
+        case 128:
+        case 256:
+        case 512:
+        case 1024:
+            break;
+        default:
+            return -1;
     }
 
     ramsize = rs;
@@ -191,41 +205,15 @@ static const resource_string_t cbm6x0_resources_string[] = {
     { NULL }
 };
 
-static const resource_string_t resources_string[] = {
-#ifdef COMMON_KBD
-    { "KeymapBusinessUKSymFile", KBD_CBM2_SYM_UK, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[0], keyboard_set_keymap_file, (void *)0 },
-    { "KeymapBusinessUKPosFile", KBD_CBM2_POS_UK, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[1], keyboard_set_keymap_file, (void *)1 },
-    { "KeymapGraphicsSymFile", KBD_CBM2_SYM_GR, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[2], keyboard_set_keymap_file, (void *)2 },
-    { "KeymapGraphicsPosFile", KBD_CBM2_POS_GR, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[3], keyboard_set_keymap_file, (void *)3 },
-    { "KeymapBusinessDESymFile", KBD_CBM2_SYM_DE, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[4], keyboard_set_keymap_file, (void *)4 },
-    { "KeymapBusinessDEPosFile", KBD_CBM2_POS_DE, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[5], keyboard_set_keymap_file, (void *)5 },
-#endif
-    { NULL }
-};
+#include "cbm2-common-resources.c"
 
 static const resource_int_t cbm6x0_resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, cbm6x0_set_sync_factor, NULL },
     { "RamSize", 128, RES_EVENT_SAME, NULL,
       &ramsize, set_ramsize, NULL },
-    { "ModelLine", 2, RES_EVENT_SAME, NULL,
+    { "ModelLine", LINE_6x0_50HZ, RES_EVENT_SAME, NULL,
       &cbm2_model_line, set_cbm2_model_line, NULL },
-    { NULL }
-};
-
-static const resource_int_t resources_int[] = {
-    { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
-      &cia1_model, set_cia1_model, NULL },
-#ifdef COMMON_KBD
-    { "KeymapIndex", KBD_INDEX_CBM2_DEFAULT, RES_EVENT_NO, NULL,
-      &machine_keymap_index, keyboard_set_keymap_index, NULL },
-#endif
     { NULL }
 };
 

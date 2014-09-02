@@ -89,3 +89,6 @@ libcbm5x0_a_SOURCES = \
 	cbm2tpi1.c \
 	cbm2tpi2.c \
 	cbm5x0video.c
+
+EXTRA_DIST = \
+	cbm2-common-resources.c

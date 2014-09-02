@@ -135,7 +135,7 @@ int c64dtv_hummer_adc_enabled = 0;
 
 static int c64dtv_hummer_adc_set(int val, void *param)
 {
-    c64dtv_hummer_adc_enabled = val;
+    c64dtv_hummer_adc_enabled = val ? 1 : 0;
     return 0;
 }
 

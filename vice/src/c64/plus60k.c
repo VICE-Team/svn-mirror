@@ -204,8 +204,10 @@ static io_source_list_t *vicii_d000_full_list_item = NULL;
 static io_source_list_t *vicii_d040_list_item = NULL;
 static io_source_list_t *vicii_d100_list_item = NULL;
 
-static int set_plus60k_enabled(int val, void *param)
+static int set_plus60k_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (val == plus60k_enabled) {
         return 0;
     }
