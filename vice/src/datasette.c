@@ -124,19 +124,29 @@ static void datasette_control_internal(int command);
 
 static int set_reset_datasette_with_maincpu(int val, void *param)
 {
-    reset_datasette_with_maincpu = val;
+    reset_datasette_with_maincpu = val ? 1 : 0;
+
     return 0;
 }
 
 static int set_datasette_zero_gap_delay(int val, void *param)
 {
+    if (val < 0) {
+        return -1;
+    }
     datasette_zero_gap_delay = val;
+
     return 0;
 }
 
 static int set_datasette_speed_tuning(int val, void *param)
 {
+    if (val < 0) {
+        return -1;
+    }
+
     datasette_speed_tuning = val;
+
     return 0;
 }
 
@@ -152,7 +162,6 @@ static const resource_int_t resources_int[] = {
       set_datasette_speed_tuning, NULL },
     { NULL }
 };
-
 
 int datasette_resources_init(void)
 {

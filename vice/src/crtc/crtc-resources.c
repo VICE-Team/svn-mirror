@@ -80,7 +80,7 @@ void crtc_update_renderer(void)
 static int set_stretch(int val, void *param)
 {
     DBG(("set_stretch"));
-    crtc_stretchy = val;
+    crtc_stretchy = val ? 1 : 0;
     crtc_update_renderer();
     resources_touch("CrtcDoubleSize");
     return 0;

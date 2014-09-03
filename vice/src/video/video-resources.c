@@ -47,6 +47,12 @@
 #include "util.h"
 #include "log.h"
 
+#ifdef HAVE_HWSCALE
+#define HWSCALE_DEFAULT  1
+#else
+#define HWSCALE_DEFAULT  0
+#endif
+
 /*-----------------------------------------------------------------------*/
 /* global resources.  */
 
@@ -61,13 +67,7 @@ static int set_hwscale_possible(int val, void *param)
 
 static resource_int_t resources_hwscale_possible[] =
 {
-    { "HwScalePossible",
-#ifdef HAVE_HWSCALE
-      1,
-#else
-      0,
-#endif
-      RES_EVENT_NO, NULL,
+    { "HwScalePossible", HWSCALE_DEFAULT, RES_EVENT_NO, NULL,
       &hwscale_possible, set_hwscale_possible, NULL },
     RESOURCE_INT_LIST_END
 };
@@ -95,12 +95,13 @@ struct video_resource_chip_mode_s {
 };
 typedef struct video_resource_chip_mode_s video_resource_chip_mode_t;
 
-static int set_double_size_enabled(int val, void *param)
+static int set_double_size_enabled(int value, void *param)
 {
     cap_render_t *cap_render;
     video_canvas_t *canvas = (video_canvas_t *)param;
     int old_doublesizex, old_doublesizey;
     video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
+    int val = value ? 1 : 0;
 
     if (val) {
         cap_render = &video_chip_cap->double_mode;
@@ -162,7 +163,7 @@ static int set_double_scan_enabled(int val, void *param)
 {
     video_canvas_t *canvas = (video_canvas_t *)param;
 
-    canvas->videoconfig->doublescan = val;
+    canvas->videoconfig->doublescan = val ? 1 : 0;
     canvas->videoconfig->color_tables.updated = 0;
 
     if (canvas->initialized) {
@@ -191,7 +192,7 @@ static int set_hwscale_enabled(int val, void *param)
         return 0;
     }
 
-    canvas->videoconfig->hwscale = val;
+    canvas->videoconfig->hwscale = val ? 1 : 0;
     canvas->videoconfig->color_tables.updated = 0;
 
     if (canvas->initialized) {
@@ -204,11 +205,7 @@ static const char *vname_chip_hwscale[] = { "HwScale", NULL };
 
 static resource_int_t resources_chip_hwscale[] =
 {
-#ifdef HAVE_HWSCALE
-    { NULL, 1, RES_EVENT_NO, NULL, NULL, set_hwscale_enabled, NULL },
-#else
-    { NULL, 0, RES_EVENT_NO, NULL, NULL, set_hwscale_enabled, NULL },
-#endif
+    { NULL, HWSCALE_DEFAULT, RES_EVENT_NO, NULL, NULL, set_hwscale_enabled, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -217,6 +214,15 @@ static int set_chip_rendermode(int val, void *param)
     char *chip, *dsize;
     int old, err;
     video_canvas_t *canvas = (video_canvas_t *)param;
+
+    switch (val) {
+        case VIDEO_FILTER_NONE:
+        case VIDEO_FILTER_CRT:
+        case VIDEO_FILTER_SCALE2X:
+            break;
+        default:
+            return -1;
+    }
 
     old = canvas->videoconfig->filter;
     chip = canvas->videoconfig->chip_name;
@@ -259,13 +265,14 @@ static const char *vname_chip_rendermode[] = { "Filter", NULL };
 
 static resource_int_t resources_chip_rendermode[] =
 {
-    { NULL, 1, RES_EVENT_NO, NULL,
+    { NULL, VIDEO_FILTER_CRT, RES_EVENT_NO, NULL,
       NULL, set_chip_rendermode, NULL },
     RESOURCE_INT_LIST_END
 };
 
-static int set_fullscreen_enabled(int val, void *param)
+static int set_fullscreen_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
     int r = 0;
     video_canvas_t *canvas = (video_canvas_t *)param;
     video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
@@ -289,8 +296,9 @@ static int set_fullscreen_enabled(int val, void *param)
     return r;
 }
 
-static int set_fullscreen_statusbar(int val, void *param)
+static int set_fullscreen_statusbar(int value, void *param)
 {
+    int val = value ? 1 : 0;
     video_canvas_t *canvas = (video_canvas_t *)param;
     video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
 
@@ -355,10 +363,13 @@ static resource_int_t resources_chip_fullscreen_int[] =
       NULL, set_fullscreen_enabled, NULL },
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_fullscreen_statusbar, NULL },
+#if 0
+    /* if 0'ed, because they don't seem to get initialized at all */
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_fullscreen_double_size_enabled, NULL },
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_fullscreen_double_scan_enabled, NULL },
+#endif
     RESOURCE_INT_LIST_END
 };
 
@@ -391,7 +402,7 @@ static int set_ext_palette(int val, void *param)
 
     canvas = (video_canvas_t *)param;
 
-    canvas->videoconfig->external_palette = (unsigned int)val;
+    canvas->videoconfig->external_palette = (unsigned int)(val ? 1 : 0);
     canvas->videoconfig->color_tables.updated = 0;
     return 0;
 }
@@ -425,7 +436,7 @@ static int set_double_buffer_enabled(int val, void *param)
 {
     video_canvas_t *canvas = (video_canvas_t *)param;
 
-    canvas->videoconfig->double_buffer = val;
+    canvas->videoconfig->double_buffer = val ? 1 : 0;
 
     return 0;
 }
