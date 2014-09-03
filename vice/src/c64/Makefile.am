@@ -22,8 +22,6 @@ libvsid_a_SOURCES = \
 	c64-cmdline-options.c \
 	c64-cmdline-options.h \
 	c64embedded.c \
-	c64export.c \
-	c64export.h \
 	c64gluelogic.c \
 	c64gluelogic.h \
 	c64keyboard.c \
@@ -33,7 +31,6 @@ libvsid_a_SOURCES = \
 	c64memlimit.h \
 	c64memrom.c \
 	c64memrom.h \
-	c64memsnapshot.c \
 	c64memsnapshot.h \
 	c64model.c \
 	c64model.h \
@@ -61,6 +58,7 @@ libvsid_a_SOURCES = \
 	vsidcpu.c \
 	vsidmem.c \
 	vsidmeminit.c \
+	vsidmemsnapshot.c \
 	vsidsound.c \
 	vsidstubs.c
 

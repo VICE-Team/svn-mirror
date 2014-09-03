@@ -41,7 +41,6 @@
 #include "c64-snapshot.h"
 #include "c64.h"
 #include "c64cia.h"
-#include "c64export.h"
 #include "c64gluelogic.h"
 #include "c64mem.h"
 #include "cia.h"
@@ -118,10 +117,6 @@ int machine_resources_init(void)
 {
     if (c64_resources_init() < 0) {
         init_resource_fail("c64");
-        return -1;
-    }
-    if (c64export_resources_init() < 0) {
-        init_resource_fail("c64export");
         return -1;
     }
     if (vicii_resources_init() < 0) {
