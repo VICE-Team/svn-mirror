@@ -161,9 +161,9 @@ void c64meminit(unsigned int base)
         mem_read_tab_set(base + 3, i, c64memrom_kernal64_read);
         mem_read_tab_set(base + 6, i, c64memrom_kernal64_read);
         mem_read_tab_set(base + 7, i, c64memrom_kernal64_read);
-        mem_read_base_set(base + 2, i, c64memrom_kernal64_trap_rom - 0xe000);
-        mem_read_base_set(base + 3, i, c64memrom_kernal64_trap_rom - 0xe000);
-        mem_read_base_set(base + 6, i, c64memrom_kernal64_trap_rom - 0xe000);
-        mem_read_base_set(base + 7, i, c64memrom_kernal64_trap_rom - 0xe000);
+        mem_read_base_set(base + 2, i, c64memrom_kernal64_rom - 0xe000);
+        mem_read_base_set(base + 3, i, c64memrom_kernal64_rom - 0xe000);
+        mem_read_base_set(base + 6, i, c64memrom_kernal64_rom - 0xe000);
+        mem_read_base_set(base + 7, i, c64memrom_kernal64_rom - 0xe000);
     }
 }
