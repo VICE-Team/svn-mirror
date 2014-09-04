@@ -127,7 +127,7 @@ static int set_drive_ram2(int val, void *param)
 {
     drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drive;
 
-    drive->drive_ram2_enabled = val;
+    drive->drive_ram2_enabled = val ? 1 : 0;
     set_drive_ram(vice_ptr_to_uint(param));
     return 0;
 }
@@ -136,7 +136,7 @@ static int set_drive_ram4(int val, void *param)
 {
     drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drive;
 
-    drive->drive_ram4_enabled = val;
+    drive->drive_ram4_enabled = val ? 1 : 0;
     set_drive_ram(vice_ptr_to_uint(param));
     return 0;
 }
@@ -145,7 +145,7 @@ static int set_drive_ram6(int val, void *param)
 {
     drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drive;
 
-    drive->drive_ram6_enabled = val;
+    drive->drive_ram6_enabled = val ? 1 : 0;
     set_drive_ram(vice_ptr_to_uint(param));
     return 0;
 }
@@ -154,7 +154,7 @@ static int set_drive_ram8(int val, void *param)
 {
     drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drive;
 
-    drive->drive_ram8_enabled = val;
+    drive->drive_ram8_enabled = val ? 1 : 0;
     set_drive_ram(vice_ptr_to_uint(param));
     return 0;
 }
@@ -163,7 +163,7 @@ static int set_drive_rama(int val, void *param)
 {
     drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drive;
 
-    drive->drive_rama_enabled = val;
+    drive->drive_rama_enabled = val ? 1 : 0;
     set_drive_ram(vice_ptr_to_uint(param));
     return 0;
 }
@@ -184,10 +184,6 @@ static const resource_string_t resources_string[] = {
       &dos_rom_name_2000, set_dos_rom_name_2000, NULL },
     { "DosName4000", "dos4000", RES_EVENT_NO, NULL,
       &dos_rom_name_4000, set_dos_rom_name_4000, NULL },
-    { NULL }
-};
-
-static const resource_int_t resources_int[] = {
     { NULL }
 };
 
@@ -244,7 +240,7 @@ int iec_resources_init(void)
         return -1;
     }
 
-    return resources_register_int(resources_int);
+    return 0;
 }
 
 void iec_resources_shutdown(void)

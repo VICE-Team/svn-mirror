@@ -1168,11 +1168,14 @@ static int set_event_end_snapshot(const char *val, void *param)
 
 static int set_event_start_mode(int mode, void *param)
 {
-    if (mode != EVENT_START_MODE_FILE_SAVE
-        && mode != EVENT_START_MODE_FILE_LOAD
-        && mode != EVENT_START_MODE_RESET
-        && mode != EVENT_START_MODE_PLAYBACK) {
-        return -1;
+    switch (mode) {
+        case EVENT_START_MODE_FILE_SAVE:
+        case EVENT_START_MODE_FILE_LOAD:
+        case EVENT_START_MODE_RESET:
+        case EVENT_START_MODE_PLAYBACK:
+            break;
+        default:
+            return -1;
     }
 
     event_start_mode = mode;
@@ -1182,7 +1185,8 @@ static int set_event_start_mode(int mode, void *param)
 
 static int set_event_image_include(int enable, void *param)
 {
-    event_image_include = enable;
+    event_image_include = enable ? 1 : 0;
+
     return 0;
 }
 

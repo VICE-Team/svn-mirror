@@ -58,7 +58,7 @@ static int set_drive_true_emulation(int val, void *param)
     unsigned int dnr;
     drive_t *drive;
 
-    drive_true_emulation = val;
+    drive_true_emulation = val ? 1 : 0;
 
     machine_bus_status_truedrive_set((unsigned int)drive_true_emulation);
 
@@ -91,7 +91,8 @@ static int set_drive_true_emulation(int val, void *param)
 
 static int set_drive_sound_emulation(int val, void *param)
 {
-    drive_sound_emulation = val;
+    drive_sound_emulation = val ? 1 : 0;
+
     return 0;
 }
 
@@ -255,10 +256,13 @@ static int set_drive_idling_method(int val, void *param)
     drive = drive_context[dnr]->drive;
 
     /* FIXME: Maybe we should call `drive_cpu_execute()' here?  */
-    if (val != DRIVE_IDLE_SKIP_CYCLES
-        && val != DRIVE_IDLE_TRAP_IDLE
-        && val != DRIVE_IDLE_NO_IDLE) {
-        return -1;
+    switch (val) {
+        case DRIVE_IDLE_SKIP_CYCLES:
+        case DRIVE_IDLE_TRAP_IDLE:
+        case DRIVE_IDLE_NO_IDLE:
+            break;
+        default:
+            return -1;
     }
 
     drive->idling_method = val;
