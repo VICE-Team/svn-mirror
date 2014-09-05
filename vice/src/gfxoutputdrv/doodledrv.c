@@ -95,12 +95,13 @@ static int set_oversize_handling(int val, void *param)
         case NATIVE_SS_OVERSIZE_CROP_LEFT_BOTTOM:
         case NATIVE_SS_OVERSIZE_CROP_CENTER_BOTTOM:
         case NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM:
-            oversize_handling = val;
             break;
         default:
             return -1;
-            break;
     }
+
+    oversize_handling = val;
+
     return 0;
 }
 
@@ -109,12 +110,13 @@ static int set_undersize_handling(int val, void *param)
     switch (val) {
         case NATIVE_SS_UNDERSIZE_SCALE:
         case NATIVE_SS_UNDERSIZE_BORDERIZE:
-            undersize_handling = val;
             break;
         default:
             return -1;
-            break;
     }
+
+    undersize_handling = val;
+
     return 0;
 }
 
@@ -126,12 +128,13 @@ static int set_multicolor_handling(int val, void *param)
         case NATIVE_SS_MC2HR_4_COLORS:
         case NATIVE_SS_MC2HR_GRAY:
         case NATIVE_SS_MC2HR_DITHER:
-            multicolor_handling = val;
             break;
         default:
             return -1;
-            break;
     }
+
+    multicolor_handling = val;
+
     return 0;
 }
 
@@ -140,12 +143,13 @@ static int set_ted_lum_handling(int val, void *param)
     switch (val) {
         case NATIVE_SS_TED_LUM_IGNORE:
         case NATIVE_SS_TED_LUM_DITHER:
-            ted_lum_handling = val;
             break;
         default:
             return -1;
-            break;
     }
+
+    ted_lum_handling = val;
+
     return 0;
 }
 
@@ -163,9 +167,10 @@ static int set_crtc_text_color(int val, void *param)
             break;
         default:
             return -1;
-            break;
     }
+
     crtc_text_color = val;
+
     return 0;
 }
 
@@ -176,8 +181,16 @@ static const resource_int_t resources_int[] = {
       &undersize_handling, set_undersize_handling, NULL },
     { "DoodleMultiColorHandling", NATIVE_SS_MC2HR_2_COLORS, RES_EVENT_NO, NULL,
       &multicolor_handling, set_multicolor_handling, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int_plus4[] = {
     { "DoodleTEDLumHandling", NATIVE_SS_TED_LUM_IGNORE, RES_EVENT_NO, NULL,
       &ted_lum_handling, set_ted_lum_handling, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int_crtc[] = {
     { "DoodleCRTCTextColor", NATIVE_SS_CRTC_WHITE, RES_EVENT_NO, NULL,
       &crtc_text_color, set_crtc_text_color, NULL },
     { NULL }
@@ -185,6 +198,18 @@ static const resource_int_t resources_int[] = {
 
 static int doodledrv_resources_init(void)
 {
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        if (resources_register_int(resources_int_plus4) < 0) {
+            return -1;
+        }
+    }
+
+    if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_CBM6x0) {
+        if (resources_register_int(resources_int_crtc) < 0) {
+            return -1;
+        }
+    }
+
     return resources_register_int(resources_int);
 }
 
@@ -204,11 +229,19 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_METHOD, IDCLS_MULTICOLOR_HANDLING,
       NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t cmdline_options_plus4[] = {
     { "-doodletedlum", SET_RESOURCE, 1,
       NULL, NULL, "DoodleTEDLumHandling", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_METHOD, IDCLS_TED_LUM_HANDLING,
       NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t cmdline_options_crtc[] = {
     { "-doodlecrtctextcolor", SET_RESOURCE, 1,
       NULL, NULL, "DoodleCRTCTextColor", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -219,6 +252,18 @@ static const cmdline_option_t cmdline_options[] = {
 
 static int doodledrv_cmdline_options_init(void)
 {
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        if (cmdline_register_options(cmdline_options_plus4) < 0) {
+            return -1;
+        }
+    }
+
+    if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_CBM6x0) {
+        if (cmdline_register_options(cmdline_options_crtc) < 0) {
+            return -1;
+        }
+    }
+
     return cmdline_register_options(cmdline_options);
 }
 

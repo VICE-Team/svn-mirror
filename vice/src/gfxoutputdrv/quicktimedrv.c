@@ -127,8 +127,8 @@ static int set_format(const char *val, void *param)
 static int set_audio_bitrate(int val, void *param)
 {
     audio_bitrate = (CLOCK)val;
-    if (audio_bitrate < 16000 || audio_bitrate > 128000) {
-        audio_bitrate = 64000;
+    if (audio_bitrate < QUICKTIME_AUDIO_BITRATE_MIN || audio_bitrate > QUICKTIME_AUDIO_BITRATE_MAX) {
+        audio_bitrate = QUICKTIME_AUDIO_BITRATE_DEF;
     }
 
     return 0;
@@ -137,8 +137,8 @@ static int set_audio_bitrate(int val, void *param)
 static int set_video_bitrate(int val, void *param)
 {
     video_bitrate = (CLOCK)val;
-    if (video_bitrate < 100000 || video_bitrate > 10000000) {
-        video_bitrate = 800000;
+    if (video_bitrate < QUICKTIME_VIDEO_BITRATE_MIN || video_bitrate > QUICKTIME_VIDEO_BITRATE_MAX) {
+        video_bitrate = QUICKTIME_VIDEO_BITRATE_DEF;
     }
 
     return 0;
@@ -163,9 +163,9 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
-    { "QuickTimeAudioBitrate", 64000, RES_EVENT_NO, NULL,
+    { "QuickTimeAudioBitrate", QUICKTIME_AUDIO_BITRATE_DEF, RES_EVENT_NO, NULL,
       &audio_bitrate, set_audio_bitrate, NULL },
-    { "QuickTimeVideoBitrate", 800000, RES_EVENT_NO, NULL,
+    { "QuickTimeVideoBitrate", QUICKTIME_VIDEO_BITRATE_DEF, RES_EVENT_NO, NULL,
       &video_bitrate, set_video_bitrate, NULL },
     { "QuickTimeAudioCodec", -1, RES_EVENT_NO, NULL,
       &audio_codec, set_audio_codec, NULL },

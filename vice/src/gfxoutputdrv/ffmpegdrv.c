@@ -130,18 +130,19 @@ static int set_format(const char *val, void *param)
     int i;
 
     format_index = -1;
-    util_string_set(&ffmpeg_format, val);
     for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++) {
-        if (strcmp(ffmpeg_format, ffmpegdrv_formatlist[i].name) == 0) {
+        if (strcmp(val, ffmpegdrv_formatlist[i].name) == 0) {
             format_index = i;
         }
     }
 
     if (format_index < 0) {
         return -1;
-    } else {
-        return 0;
     }
+
+    util_string_set(&ffmpeg_format, val);
+
+    return 0;
 }
 
 static int set_audio_bitrate(int val, void *param)
@@ -178,13 +179,17 @@ static int set_video_codec(int val, void *param)
     return 0;
 }
 
-static int set_video_halve_framerate(int val, void *param)
+static int set_video_halve_framerate(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (video_halve_framerate != val && screenshot_is_recording()) {
         ui_error("Can't change framerate while recording. Try again later.");
         return 0;
     }
+
     video_halve_framerate = val;
+
     return 0;
 }
 

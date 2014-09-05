@@ -260,7 +260,8 @@ BYTE get_joystick_value(int index)
 
 static int set_joystick_opposite_enable(int val, void *param)
 {
-    joystick_opposite_enable = val;
+    joystick_opposite_enable = val ? 1 : 0;
+
     return 0;
 }
 
@@ -307,7 +308,8 @@ static int joykeys_enable = 0;
 
 static int set_joykeys_enable(int val, void *param)
 {
-    joykeys_enable = val;
+    joykeys_enable = val ? 1 : 0;
+
     return 0;
 }
 
