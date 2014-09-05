@@ -74,6 +74,7 @@ typedef struct psid_s {
 
     /* Non-PSID data */
     DWORD frames_played;
+    WORD load_last_addr;
 } psid_t;
 
 #define PSID_V1_DATA_OFFSET 0x76
@@ -281,6 +282,7 @@ int psid_load_file(const char* filename)
 
     /* Read binary C64 data. */
     psid->data_size = (WORD)fread(psid->data, 1, sizeof(psid->data), f);
+    psid->load_last_addr = (psid->load_addr + psid->data_size - 1);
 
     if (ferror(f)) {
         log_error(vlog, "Reading PSID data.");
@@ -296,7 +298,7 @@ int psid_load_file(const char* filename)
     if (psid->start_page == 0x00) {
         /* Start and end pages. */
         int startp = psid->load_addr >> 8;
-        int endp = (psid->load_addr + psid->data_size - 1) >> 8;
+        int endp = psid->load_last_addr >> 8;
 
         /* Used memory ranges. */
         unsigned int used[] = {
@@ -643,6 +645,8 @@ void psid_init_driver(void)
     ram_store(addr++, (BYTE)((psid->speed >> 16) & 0xff));
     ram_store(addr++, (BYTE)(psid->speed >> 24));
     ram_store(addr++, (BYTE)((int)sync == MACHINE_SYNC_PAL ? 1 : 0));
+    ram_store(addr++, (BYTE)(psid->load_last_addr & 0xff));
+    ram_store(addr++, (BYTE)(psid->load_last_addr >> 8));
 }
 
 unsigned int psid_increment_frames(void)
