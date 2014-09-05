@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include "c64.h"
+#include "c64-midi.h"
 #include "c64cart.h"
 #include "c64fastiec.h"
 #include "c64iec.h"
@@ -99,6 +100,10 @@ BYTE *ultimax_romh_phi2_ptr(WORD addr)
 {
     return mem_phi;
 }
+
+midi_interface_t midi_interface[] = {
+    { NULL }
+};
 
 /*******************************************************************************
     gfxoutput drivers
@@ -678,6 +683,11 @@ int drive_check_idle_method(int drive_type)
 }
 
 int drive_check_parallel_cable(int drive_type)
+{
+    return 0;
+}
+
+int drive_get_disk_drive_type(int dnr)
 {
     return 0;
 }
