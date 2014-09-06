@@ -876,6 +876,7 @@ static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list
     for (i = j = 0; list[i].string; i++) {
         Widget new_item = NULL;
         char *name;
+        int update_item = 0;
 
         name = lib_msprintf("MenuItem%d", j);
         switch (list[i].type) {
@@ -899,12 +900,10 @@ static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list
                     /* Add this item to the list of calls to perform to update
                        the menu status. */
                     if (list[i].callback) {
-                        if (num_checkmark_menu_items >= num_checkmark_menu_items_max) {
-                            num_checkmark_menu_items_max += 100;
-                            checkmark_menu_items = lib_realloc(checkmark_menu_items, num_checkmark_menu_items_max * sizeof(Widget));
-                        }
-                        XtAddCallback(new_item, XtNdestroyCallback, tick_destroy, (XtPointer)num_checkmark_menu_items);
-                        checkmark_menu_items[num_checkmark_menu_items++] = new_item;
+                        update_item = 1;
+                    } else {
+			log_error(LOG_DEFAULT, "checkbox menu item without callback: %s",
+				  label);
                     }
                     j++;
 
@@ -913,10 +912,17 @@ static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list
                 break;
             case UI_MENU_TYPE_NONE:
                 break;
+            case UI_MENU_TYPE_BL_SUB:
+                update_item = 1;
+                /* fall through */
             default:
                 {
                     char *label = make_menu_label(&list[i]);
 
+                    if (update_item && !list[i].callback) {
+                        log_error(LOG_DEFAULT, "callback menu item without callback: %s",
+                                  label);
+                    }
                     new_item = XtVaCreateManagedWidget(name,
                                                        smeBSBObjectClass, w,
                                                        XtNleftMargin, 20,
@@ -927,6 +933,20 @@ static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list
                     j++;
                 }
         }
+
+        if (update_item) {
+            /*
+             * This is a menu item that may be updated on the fly:
+             * either checked/unchecked or sensitive/insensitive (grayed out).
+             */
+            if (num_checkmark_menu_items >= num_checkmark_menu_items_max) {
+                num_checkmark_menu_items_max += 100;
+                checkmark_menu_items = lib_realloc(checkmark_menu_items, num_checkmark_menu_items_max * sizeof(Widget));
+            }
+            XtAddCallback(new_item, XtNdestroyCallback, tick_destroy, (XtPointer)num_checkmark_menu_items);
+            checkmark_menu_items[num_checkmark_menu_items++] = new_item;
+        }
+
         lib_free(name);
 
         if (list[i].callback) {
