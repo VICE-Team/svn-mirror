@@ -48,7 +48,8 @@ typedef enum {
     UI_MENU_TYPE_DOTS,
     UI_MENU_TYPE_TICKDOTS,
     UI_MENU_TYPE_SEPARATOR,
-    UI_MENU_TYPE_NONE
+    UI_MENU_TYPE_NONE,
+    UI_MENU_TYPE_BL_SUB		/* special submen type, which can receive callbacks to be blocked */
 } ui_menu_type_t;
 
 typedef struct ui_menu_entry_s {
