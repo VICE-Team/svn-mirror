@@ -665,8 +665,7 @@ static int vice_network_address_generate_ipv6(vice_network_socket_address_t * so
 
     do {
         struct hostent * host_entry = NULL;
-#ifdef HAVE_GETHOSTBYNAME2
-#else
+#ifndef HAVE_GETHOSTBYNAME2
         int err6;
 #endif
 
@@ -696,8 +695,7 @@ static int vice_network_address_generate_ipv6(vice_network_socket_address_t * so
 
         memcpy(&socket_address->address.ipv6.sin6_addr, host_entry->h_addr, host_entry->h_length);
 
-#ifdef HAVE_GETHOSTBYNAME2
-#else
+#ifndef HAVE_GETHOSTBYNAME2
         freehostent(host_entry);
 #endif
         error = 0;

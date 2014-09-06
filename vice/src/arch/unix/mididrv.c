@@ -281,7 +281,7 @@ static void mididrv_alsa_out_close(void)
     fd_out = -1;
 }
 
-/** this function is called when one MIDI byte need to be transmitted.
+/** this function is called when one MIDI byte needs to be transmitted.
     @param b MIDI byte
  */
 static void mididrv_alsa_out(BYTE b)

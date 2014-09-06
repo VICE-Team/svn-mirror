@@ -246,7 +246,7 @@ static void dispose_client(void)
     }
 }
 
-static void	midi_read_proc(const MIDIPacketList *pktlist, void *refCon, void *connRefCon)
+static void midi_read_proc(const MIDIPacketList *pktlist, void *refCon, void *connRefCon)
 {
     unsigned int i,j;
     
@@ -439,7 +439,7 @@ void mididrv_out(BYTE b)
     }
 }
 
-/* gets a byte from MIDI-In, returns !=0 if byte received, byte in *b. */
+/* gets a byte from MIDI-In, returns != 0 if byte received, byte in *b. */
 int mididrv_in(BYTE *b)
 {
     if (read_fifo(b)) {
