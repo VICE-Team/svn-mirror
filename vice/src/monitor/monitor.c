@@ -1354,7 +1354,8 @@ static int keep_monitor_open = 1;
 
 static int set_keep_monitor_open(int val, void *param)
 {
-    keep_monitor_open = val;
+    keep_monitor_open = val ? 1 : 0;
+
     return 0;
 }
 

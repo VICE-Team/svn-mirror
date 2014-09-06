@@ -2819,7 +2819,7 @@ Boolean, enables mouse emulation
 @vindex Mousetype
 @item Mousetype
 Integer that specifies the type of emulated mouse. (0=1351, 1=NEOS, 2=Amiga,
-3=Paddles, 4=Atari CX-22, 5=Atari ST, 6=Smart)
+3=Paddles, 4=Atari CX-22, 5=Atari ST, 6=Smart, 7=Micromys 8 = Koalapad)
 @vindex Mouseport
 @item Mouseport
 Integer that specifies the joystick port the emulated mouse is connected to.

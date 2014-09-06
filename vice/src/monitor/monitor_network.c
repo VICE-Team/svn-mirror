@@ -427,8 +427,10 @@ static int monitor_network_deactivate(void)
  \return
    0 on success. else -1.
 */
-static int set_monitor_enabled(int val, void *param)
+static int set_monitor_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!val) {
         if (monitor_enabled) {
             if (monitor_network_deactivate() < 0) {

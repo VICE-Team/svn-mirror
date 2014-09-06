@@ -69,8 +69,12 @@ static log_t mouse_log = LOG_ERR;
 /* extern variables */
 
 int _mouse_enabled = 0;
+
+/* Use xvic defaults, if resources get registered the factory
+   default will overwrite these */
 int mouse_port = 1;
-int mouse_type = MOUSE_TYPE_1351;
+int mouse_type = MOUSE_TYPE_PADDLE;
+
 /* --------------------------------------------------------- */
 /* POT input selection */
 
@@ -539,7 +543,7 @@ static BYTE mouse_get_paddle_y(void)
 
 static int set_mouse_enabled(int val, void *param)
 {
-    _mouse_enabled = val;
+    _mouse_enabled = val ? 1 : 0;
     mousedrv_mouse_changed();
     latest_x = last_mouse_x = mousedrv_get_x();
     latest_y = last_mouse_y = mousedrv_get_y();
@@ -551,8 +555,12 @@ static int set_mouse_enabled(int val, void *param)
 
 static int set_mouse_port(int val, void *param)
 {
-    if (val < 1 || val > 2) {
-        return -1;
+    switch (val) {
+        case 1:
+        case 2:
+            break;
+        default:
+            return -1;
     }
 
     mouse_port = val;
@@ -562,22 +570,35 @@ static int set_mouse_port(int val, void *param)
 
 static int set_mouse_type(int val, void *param)
 {
-    if (!((val >= 0) && (val < MOUSE_TYPE_NUM))) {
-        return -1;
+    switch (val) {
+        case MOUSE_TYPE_1351:
+        case MOUSE_TYPE_NEOS:
+        case MOUSE_TYPE_AMIGA:
+        case MOUSE_TYPE_PADDLE:
+        case MOUSE_TYPE_CX22:
+        case MOUSE_TYPE_ST:
+        case MOUSE_TYPE_SMART:
+        case MOUSE_TYPE_MICROMYS:
+        case MOUSE_TYPE_KOALAPAD:
+            break;
+        default:
+            return -1;
     }
 
     mouse_type = val;
+
     return 0;
 }
 
-static const resource_int_t resources_int[] = {
 #ifdef ANDROID_COMPILE
-    { "Mouse", 1, RES_EVENT_SAME, NULL,
-      &_mouse_enabled, set_mouse_enabled, NULL },
+#define MOUSE_ENABLE_DEFAULT  1
 #else
-    { "Mouse", 0, RES_EVENT_SAME, NULL,
-      &_mouse_enabled, set_mouse_enabled, NULL },
+#define MOUSE_ENABLE_DEFAULT  0
 #endif
+
+static const resource_int_t resources_int[] = {
+    { "Mouse", MOUSE_ENABLE_DEFAULT, RES_EVENT_SAME, NULL,
+      &_mouse_enabled, set_mouse_enabled, NULL },
     { NULL }
 };
 
@@ -651,12 +672,6 @@ int mouse_cmdline_options_init(void)
 
 void mouse_init(void)
 {
-    /* FIXME ugly kludge to set the correct port and type setting for xvic */
-    if (machine_class == VICE_MACHINE_VIC20) {
-        set_mouse_port(1, NULL);
-        set_mouse_type(MOUSE_TYPE_PADDLE, NULL);
-    }
-
     emu_units_per_os_units = (float)machine_get_cycles_per_second() / vsyncarch_frequency();
     update_limit = machine_get_cycles_per_frame() / 31 / 2;
 #ifdef DEBUG_MOUSE

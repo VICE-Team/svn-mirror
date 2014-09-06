@@ -79,6 +79,14 @@ int pet_colour_analog_bg = 0;
 
 static int set_iosize(int val, void *param)
 {
+    switch (val) {
+        case 256:
+        case 2048:
+            break;
+        default:
+            return -1;
+    }
+
     if (petres.IOSize != val) {
         petres.IOSize = val;
 
@@ -90,17 +98,17 @@ static int set_iosize(int val, void *param)
 
 static int set_crtc_enabled(int val, void *param)
 {
-    petres.crtc = val;
+    petres.crtc = val ? 1 : 0;
 
     return 0;
 }
 
-static int set_superpet_enabled(int val, void *param)
+static int set_superpet_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (petres.superpet != val) {
-        if (val < 2) {
-            petres.superpet = (unsigned int)val;
-        }
+        petres.superpet = (unsigned int)val;
 
         if (petres.superpet && petres.ramSize > 32) {
             set_ramsize(32, NULL);      /* disable 8x96 */
@@ -112,26 +120,24 @@ static int set_superpet_enabled(int val, void *param)
     return 0;
 }
 
-static int set_ram_9_enabled(int val, void *param)
+static int set_ram_9_enabled(int value, void *param)
 {
-    if (petres.ramsel9 != val) {
-        if (val < 2) {
-            petres.ramsel9 = (unsigned int)val;
-        }
+    int val = value ? 1 : 0;
 
+    if (petres.ramsel9 != val) {
+        petres.ramsel9 = (unsigned int)val;
         mem_initialize_memory();
     }
 
     return 0;
 }
 
-static int set_ram_a_enabled(int val, void *param)
+static int set_ram_a_enabled(int value, void *param)
 {
-    if (petres.ramselA != val) {
-        if (val < 2) {
-            petres.ramselA = (unsigned int)val;
-        }
+    int val = value ? 1 : 0;
 
+    if (petres.ramselA != val) {
+        petres.ramselA = (unsigned int)val;
         mem_initialize_memory();
     }
 
@@ -175,13 +181,20 @@ static int set_ramsize(int size, void *param)
 
 static int set_video(int col, void *param)
 {
-    if (col != petres.video) {
-        if (col == 0 || col == 40 || col == 80) {
-            petres.video = col;
+    switch (col) {
+        case COLS_AUTO:
+        case COLS_40:
+        case COLS_80:
+            break;
+        default:
+            return -1;
+    }
 
-            petmem_check_info(&petres);
-            pet_crtc_set_screen();
-        }
+    if (col != petres.video) {
+        petres.video = col;
+
+        petmem_check_info(&petres);
+        pet_crtc_set_screen();
     }
 
     return 0;
@@ -259,7 +272,7 @@ static int set_rom_module_b_name(const char *val, void *param)
 
 static int set_pet2k_enabled(int val, void *param)
 {
-    int i = ((val) ? 1 : 0);
+    int i = (val) ? 1 : 0;
 
     if (i != petres.pet2k) {
         if (petres.pet2k) {
@@ -277,7 +290,7 @@ static int set_pet2k_enabled(int val, void *param)
 
 static int set_pet2kchar_enabled(int val, void *param)
 {
-    int i = ((val) ? 1 : 0);
+    int i = (val) ? 1 : 0;
 
     if (i != petres.pet2kchar) {
         petres.pet2kchar = i;
@@ -290,7 +303,7 @@ static int set_pet2kchar_enabled(int val, void *param)
 
 static int set_eoiblank_enabled(int val, void *param)
 {
-    int i = ((val) ? 1 : 0);
+    int i = (val) ? 1 : 0;
 
     petres.eoiblank = i;
 
@@ -364,6 +377,15 @@ static int set_superpet_cpu_switch(int val, void *param)
 
 static int set_pet_colour(int val, void *param)
 {
+    switch (val) {
+        case PET_COLOUR_TYPE_OFF:
+        case PET_COLOUR_TYPE_RGBI:
+        case PET_COLOUR_TYPE_ANALOG:
+            break;
+        default:
+            return -1;
+    }
+
     pet_colour_type = val;
     petcolour_set_type(val);
 
@@ -430,7 +452,7 @@ static const resource_int_t resources_int[] = {
       &petres.IOSize, set_iosize, NULL },
     { "Crtc", 1, RES_EVENT_SAME, NULL,
       &petres.crtc, set_crtc_enabled, NULL },
-    { "VideoSize", 1, RES_EVENT_SAME, NULL,
+    { "VideoSize", COLS_AUTO, RES_EVENT_SAME, NULL,
       &petres.video, set_video, NULL },
     { "Ram9", 0, RES_EVENT_SAME, NULL,
       &petres.ramsel9, set_ram_9_enabled, NULL },
@@ -448,7 +470,7 @@ static const resource_int_t resources_int[] = {
     { "KeymapIndex", KBD_INDEX_PET_BUKS, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },
 #endif
-    { "CPUswitch", 0, RES_EVENT_SAME, NULL,
+    { "CPUswitch", SUPERPET_CPU_6502, RES_EVENT_SAME, NULL,
       &petres.superpet_cpu_switch, set_superpet_cpu_switch, NULL },
 /*  { "SuperPETRamWriteProtect", 0, RES_EVENT_SAME, NULL,
       &petres.ramwp, set_super_write_protect, NULL },

@@ -92,6 +92,10 @@ static int set_server_bind_address(const char *val, void *param)
 
 static int set_server_port(int val, void *param)
 {
+    if (val < 0 || val > 65535) {
+        return -1;
+    }
+
     res_server_port = val;
 
     server_port = (unsigned short)res_server_port;
@@ -102,6 +106,7 @@ static int set_server_port(int val, void *param)
 static int set_network_control(int val, void *param)
 {
     network_control = val;
+
     /* don't let the server loose control */
     network_control |= NETWORK_CONTROL_RSRC;
 
