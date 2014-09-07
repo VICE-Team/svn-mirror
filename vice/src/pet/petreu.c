@@ -86,8 +86,10 @@ static int petreu_size_kb = 0;
 /* Filename of the PET REU image.  */
 static char *petreu_filename = NULL;
 
-static int set_petreu_enabled(int val, void *param)
+static int set_petreu_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!val) {
         if (petreu_enabled) {
             if (petreu_deactivate() < 0) {

@@ -58,8 +58,10 @@ static int cs256k_segment = 3;
 BYTE *cs256k_ram = NULL;
 
 
-static int set_cs256k_enabled(int val, void *param)
+static int set_cs256k_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!val) {
         if (cs256k_enabled) {
             if (cs256k_deactivate() < 0) {

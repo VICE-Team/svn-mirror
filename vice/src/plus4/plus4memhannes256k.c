@@ -63,8 +63,14 @@ BYTE *h256k_ram = NULL;
 
 static int set_h256k_enabled(int val, void *param)
 {
-    if (val < 0 || val > 3) {
-        return -1;
+    switch (val) {
+        case H256K_DISABLED:
+        case H256K_256K:
+        case H256K_1024K:
+        case H256K_4096K:
+            break;
+        default:
+            return -1;
     }
 
     if (!val) {
@@ -74,7 +80,6 @@ static int set_h256k_enabled(int val, void *param)
             }
         }
         h256k_enabled = 0;
-        return 0;
     } else {
         if (!h256k_enabled || h256k_enabled != val) {
             if (h256k_activate(val) < 0) {
@@ -87,22 +92,23 @@ static int set_h256k_enabled(int val, void *param)
         if (cs256k_enabled) {
             resources_set_int("CS256K", 0);
         }
-        if (h256k_enabled == 1) {
+        switch (h256k_enabled) {
+        case H256K_256K:
             resources_set_int("RamSize", 256);
-        }
-        if (h256k_enabled == 2) {
+            break;
+        case H256K_1024K:
             resources_set_int("RamSize", 1024);
-        }
-        if (h256k_enabled == 3) {
+            break;
+        case H256K_4096K:
             resources_set_int("RamSize", 4096);
+            break;
         }
-
-        return 0;
     }
+    return 0;
 }
 
 static const resource_int_t resources_int[] = {
-    { "H256K", 0, RES_EVENT_SAME, NULL,
+    { "H256K", H256K_DISABLED, RES_EVENT_SAME, NULL,
       &h256k_enabled, set_h256k_enabled, NULL },
     { NULL }
 };

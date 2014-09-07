@@ -29,6 +29,11 @@
 
 #include "types.h"
 
+#define H256K_DISABLED  0
+#define H256K_256K      1
+#define H256K_1024K     2
+#define H256K_4096K     3
+
 extern int h256k_enabled;
 
 extern int h256k_resources_init(void);

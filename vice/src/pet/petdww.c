@@ -93,8 +93,10 @@ static int mem_at_9000;
 /* Filename of the PET DWW image.  */
 static char *petdww_filename = NULL;
 
-static int set_petdww_enabled(int val, void *param)
+static int set_petdww_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!val) {
         if (petdww_enabled) {
             if (petdww_deactivate() < 0) {

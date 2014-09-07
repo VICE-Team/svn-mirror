@@ -88,7 +88,8 @@ static int diagnostic_pin_enabled;
 
 static int set_diagnostic_pin_enabled(int val, void *param)
 {
-    diagnostic_pin_enabled = val;
+    diagnostic_pin_enabled = val ? 1 : 0;
+
     return 0;
 }
 

@@ -527,8 +527,10 @@ int speech_cart_enabled(void)
 
 char *speech_filename = NULL;
 
-static int set_speech_enabled(int val, void *param)
+static int set_speech_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     speech_sound_chip.chip_enabled = 0;
     memset(extromlo3, 0, PLUS4_CART16K_SIZE);
 
@@ -576,6 +578,7 @@ static const resource_string_t resources_string[] = {
       &speech_filename, set_speech_filename, NULL },
     { NULL }
 };
+
 static const resource_int_t resources_int[] = {
     { "SpeechEnabled", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &speech_sound_chip.chip_enabled, set_speech_enabled, NULL },

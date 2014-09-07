@@ -76,8 +76,10 @@ int sidcart_enabled(void)
     return sidcart_sound_chip.chip_enabled;
 }
 
-static int set_sidcart_enabled(int val, void *param)
+static int set_sidcart_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (val != sidcart_sound_chip.chip_enabled) {
         sidcart_sound_chip.chip_enabled = val;
         sound_state_changed = 1;
@@ -87,6 +89,14 @@ static int set_sidcart_enabled(int val, void *param)
 
 static int set_sid_address(int val, void *param)
 {
+    switch (val) {
+        case 0x8F00:
+        case 0xE900:
+            break;
+        default:
+            return -1;
+    }
+
     if (val != sidcart_address) {
         sidcart_address = val;
     }
@@ -95,6 +105,14 @@ static int set_sid_address(int val, void *param)
 
 static int set_sid_clock(int val, void *param)
 {
+    switch (val) {
+        case SIDCART_CLOCK_C64:
+        case SIDCART_CLOCK_NATIVE:
+            break;
+        default:
+            return -1;
+    }
+
     if (val != sidcart_clock) {
         sidcart_clock = val;
         sid_state_changed = 1;
@@ -107,9 +125,9 @@ static int set_sid_clock(int val, void *param)
 static const resource_int_t sidcart_resources_int[] = {
     { "SidCart", 0, RES_EVENT_SAME, NULL,
       &sidcart_sound_chip.chip_enabled, set_sidcart_enabled, NULL },
-    { "SidAddress", 0, RES_EVENT_SAME, NULL,
+    { "SidAddress", 0xE900, RES_EVENT_SAME, NULL,
       &sidcart_address, set_sid_address, NULL },
-    { "SidClock", 1, RES_EVENT_SAME, NULL,
+    { "SidClock", SIDCART_CLOCK_NATIVE, RES_EVENT_SAME, NULL,
       &sidcart_clock, set_sid_clock, NULL },
     { NULL }
 };

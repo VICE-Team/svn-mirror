@@ -108,8 +108,10 @@ int cartridge_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-static int set_cartridge_reset(int val, void *param)
+static int set_cartridge_reset(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
 /*    DBG(("plus4cartridge_reset: %d", val)); */
     if (plus4cartridge_reset != val) {
         DBG(("plus4cartridge_reset changed: %d", val));

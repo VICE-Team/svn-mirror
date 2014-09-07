@@ -81,14 +81,14 @@ static int set_printer_driver(const char *name, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    {"Printer4Driver", "ascii", RES_EVENT_NO, NULL,
-     (char **)&driver_select[0].drv_name, set_printer_driver, (void *)0 },
-    {"Printer5Driver", "ascii", RES_EVENT_NO, NULL,
-     (char **)&driver_select[1].drv_name, set_printer_driver, (void *)1 },
-    {"Printer6Driver", "ascii", RES_EVENT_NO, NULL,
-     (char **)&driver_select[2].drv_name, set_printer_driver, (void *)2 },
-    {"PrinterUserportDriver", "ascii", RES_EVENT_NO, NULL,
-     (char **)&driver_select[3].drv_name, set_printer_driver, (void *)3 },
+    { "Printer4Driver", "ascii", RES_EVENT_NO, NULL,
+      (char **)&driver_select[0].drv_name, set_printer_driver, (void *)0 },
+    { "Printer5Driver", "ascii", RES_EVENT_NO, NULL,
+      (char **)&driver_select[1].drv_name, set_printer_driver, (void *)1 },
+    { "Printer6Driver", "ascii", RES_EVENT_NO, NULL,
+      (char **)&driver_select[2].drv_name, set_printer_driver, (void *)2 },
+    { "PrinterUserportDriver", "ascii", RES_EVENT_NO, NULL,
+      (char **)&driver_select[3].drv_name, set_printer_driver, (void *)3 },
     { NULL }
 };
 

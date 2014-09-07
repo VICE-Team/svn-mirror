@@ -91,8 +91,10 @@ int pethre_enabled = 0;
 /* The value last written to the register. It is not reset on reset. */
 static BYTE reg_E888;
 
-static int set_pethre_enabled(int val, void *param)
+static int set_pethre_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!val) {
         if (pethre_enabled) {
             if (pethre_deactivate() < 0) {

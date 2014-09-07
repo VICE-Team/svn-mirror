@@ -146,9 +146,22 @@ static int set_c2hi_rom_name(const char *val, void *param)
 
 static int set_ram_size_plus4(int rs, void *param)
 {
-    if ((rs != 64) && (rs != 32) && (rs != 16) && (rs != 256) && (rs != 1024)
-        && (rs != 4096)) {
-        return -1;
+    switch (rs) {
+        case 16:
+        case 32:
+        case 64:
+            break;
+        case 1024:
+        case 4096:
+            if (!h256k_enabled) {
+                return -1;
+            }
+            break;
+        case 256:
+            if (!h256k_enabled && !cs256k_enabled) {
+                return -1;
+            }
+            break;
     }
 
     ram_size_plus4 = rs;

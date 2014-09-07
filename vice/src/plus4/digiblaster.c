@@ -88,7 +88,7 @@ int digiblaster_enabled(void)
 
 static int set_digiblaster_enabled(int val, void *param)
 {
-    digiblaster_sound_chip.chip_enabled = val;
+    digiblaster_sound_chip.chip_enabled = val ? 1 : 0;
 
     return 0;
 }

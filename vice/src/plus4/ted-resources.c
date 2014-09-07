@@ -46,6 +46,16 @@ static int set_border_mode(int val, void *param)
 {
     int sync;
 
+    switch (val) {
+        case TED_NORMAL_BORDERS:
+        case TED_FULL_BORDERS:
+        case TED_DEBUG_BORDERS:
+        case TED_NO_BORDERS:
+            break;
+        default:
+            return -1;
+    }
+
     if (resources_get_int("MachineVideoStandard", &sync) < 0) {
         sync = MACHINE_SYNC_PAL;
     }
