@@ -69,6 +69,7 @@ copy ..\..\..\..\data\PET\*.bin %VICEDIR%\PET
 mkdir %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\3plus1* %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\basic %VICEDIR%\PLUS4
+copy ..\..\..\..\data\PLUS4\c2lo.364 %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\*.vpl %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\*.vrs %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\kernal %VICEDIR%\PLUS4

@@ -171,6 +171,7 @@ mkdir %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\3plus1hi    %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\3plus1lo    %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\basic       %VICEDIR%\PLUS4
+copy ..\..\..\..\data\PLUS4\c2lo.364    %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\default.vpl %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\default.vrs %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\kernal      %VICEDIR%\PLUS4
