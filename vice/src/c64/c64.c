@@ -1048,7 +1048,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = C64_PALN_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C64_PALN_CYCLES_PER_LINE;
             machine_timing.screen_lines = C64_PALN_SCREEN_LINES;
-            machine_timing.power_freq = 60;
+            machine_timing.power_freq = 50;
             break;
         default:
             log_error(c64_log, "Unknown machine timing.");
