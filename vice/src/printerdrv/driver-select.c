@@ -57,11 +57,50 @@ static driver_select_t driver_select[NUM_DRIVER_SELECT];
 /* Pointer to registered printer driver.  */
 static driver_select_list_t *driver_select_list = NULL;
 
+static char *printer_names[] = { "ascii", "mps803", "nl10", "raw", NULL };
+
+static char *plotter_names[] = { "1520", "raw", NULL };
+
+static int printer_name_is_valid(const char *name)
+{
+    int i = 0;
+
+    while (printer_names[i]) {
+        if (!strcmp(printer_names[i], name)) {
+            return 1;
+        }
+        i++;
+    }
+    return 0;
+}
+
+static int plotter_name_is_valid(const char *name)
+{
+    int i = 0;
+
+    while (plotter_names[i]) {
+        if (!strcmp(plotter_names[i], name)) {
+            return 1;
+        }
+        i++;
+    }
+    return 0;
+}
 
 static int set_printer_driver(const char *name, void *param)
 {
     driver_select_list_t *list;
     int prnr = vice_ptr_to_int(param);
+
+    if (prnr == 2) {
+        if (!plotter_name_is_valid(name)) {
+            return -1;
+        }
+    } else {
+        if (!printer_name_is_valid(name)) {
+            return -1;
+        }
+    }
 
     list = driver_select_list;
 
@@ -85,7 +124,7 @@ static const resource_string_t resources_string[] = {
       (char **)&driver_select[0].drv_name, set_printer_driver, (void *)0 },
     { "Printer5Driver", "ascii", RES_EVENT_NO, NULL,
       (char **)&driver_select[1].drv_name, set_printer_driver, (void *)1 },
-    { "Printer6Driver", "ascii", RES_EVENT_NO, NULL,
+    { "Printer6Driver", "1520", RES_EVENT_NO, NULL,
       (char **)&driver_select[2].drv_name, set_printer_driver, (void *)2 },
     { NULL }
 };
