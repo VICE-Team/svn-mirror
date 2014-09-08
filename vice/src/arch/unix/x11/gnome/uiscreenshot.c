@@ -32,6 +32,7 @@
 #include "gfxoutput.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "resources.h"
 #include "screenshot.h"
 #include "ui.h"
@@ -151,22 +152,36 @@ static void ffmpeg_output_driver_changed(GtkWidget *w, gpointer data)
                 resources_get_int("DoodleOversizeHandling", &n0);
                 resources_get_int("DoodleUndersizeHandling", &n1);
                 resources_get_int("DoodleMultiColorHandling", &n2);
-                resources_get_int("DoodleTEDLumHandling", &n3);
-                resources_get_int("DoodleCRTCTextColor", &n4);
+                if (machine_class == VICE_MACHINE_PLUS4) {
+                    resources_get_int("DoodleTEDLumHandling", &n3);
+                }
+                if ((machine_class == VICE_MACHINE_PET) || (machine_class == VICE_MACHINE_CBM6x0)) {
+                    resources_get_int("DoodleCRTCTextColor", &n4);
+                }
                 gtk_widget_set_sensitive(native_mcolor, TRUE);
             } else {
                 resources_get_int("KoalaOversizeHandling", &n0);
                 resources_get_int("KoalaUndersizeHandling", &n1);
                 /* resources_get_int("KoalaMultiColorHandling", &n2); */
-                resources_get_int("KoalaTEDLumHandling", &n3);
-                resources_get_int("KoalaCRTCTextColor", &n4);
+                if (machine_class == VICE_MACHINE_PLUS4) {
+                    resources_get_int("KoalaTEDLumHandling", &n3);
+                }
+                if ((machine_class == VICE_MACHINE_PET) || (machine_class == VICE_MACHINE_CBM6x0)) {
+                    resources_get_int("KoalaCRTCTextColor", &n4);
+                }
                 gtk_widget_set_sensitive(native_mcolor, FALSE);
             }
             gtk_combo_box_set_active(GTK_COMBO_BOX(native_oversize), n0);
             gtk_combo_box_set_active(GTK_COMBO_BOX(native_undersize), n1);
             gtk_combo_box_set_active(GTK_COMBO_BOX(native_mcolor), n2);
-            gtk_combo_box_set_active(GTK_COMBO_BOX(native_tedluma), n3);
-            gtk_combo_box_set_active(GTK_COMBO_BOX(native_crtccolor), n4);
+            if (machine_class == VICE_MACHINE_PLUS4) {
+                gtk_combo_box_set_active(GTK_COMBO_BOX(native_tedluma), n3);
+            }
+            if ((machine_class == VICE_MACHINE_PET) ||(machine_class == VICE_MACHINE_CBM6x0)) {
+                gtk_combo_box_set_active(GTK_COMBO_BOX(native_crtccolor), n4);
+            }
+            gtk_widget_set_sensitive(native_tedluma, (machine_class == VICE_MACHINE_PLUS4));
+            gtk_widget_set_sensitive(native_crtccolor, ((machine_class == VICE_MACHINE_PET) || (machine_class == VICE_MACHINE_CBM6x0)));
             gtk_widget_show(native_opts);
             gtk_widget_set_sensitive(native_opts, TRUE);
             return;
