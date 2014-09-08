@@ -42,7 +42,6 @@
 #include "output-text.h"
 #include "printer.h"
 
-
 int printer_resources_init(void)
 {
     if (output_graphics_init_resources() < 0
@@ -62,11 +61,15 @@ int printer_resources_init(void)
     return 0;
 }
 
+int printer_userport_resources_init(void)
+{
+    return driver_select_userport_init_resources();
+}
+
 void printer_resources_shutdown(void)
 {
     output_text_shutdown_resources();
     output_select_shutdown_resources();
-    driver_select_shutdown_resources();
 }
 
 int printer_cmdline_options_init(void)
@@ -79,6 +82,11 @@ int printer_cmdline_options_init(void)
         return -1;
     }
     return 0;
+}
+
+int printer_userport_cmdline_options_init(void)
+{
+    return driver_select_userport_init_cmdline_options();
 }
 
 void printer_init(void)

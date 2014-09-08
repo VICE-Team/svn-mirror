@@ -46,9 +46,10 @@ typedef struct driver_select_s driver_select_t;
 
 extern void driver_select_init(void);
 extern int driver_select_init_resources(void);
+extern int driver_select_userport_init_resources(void);
 extern void driver_select_shutdown(void);
-extern void driver_select_shutdown_resources(void);
 extern int driver_select_init_cmdline_options(void);
+extern int driver_select_userport_init_cmdline_options(void);
 
 extern void driver_select_register(driver_select_t *driver_select);
 

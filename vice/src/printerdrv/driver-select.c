@@ -87,6 +87,10 @@ static const resource_string_t resources_string[] = {
       (char **)&driver_select[1].drv_name, set_printer_driver, (void *)1 },
     { "Printer6Driver", "ascii", RES_EVENT_NO, NULL,
       (char **)&driver_select[2].drv_name, set_printer_driver, (void *)2 },
+    { NULL }
+};
+
+static const resource_string_t resources_string_userport[] = {
     { "PrinterUserportDriver", "ascii", RES_EVENT_NO, NULL,
       (char **)&driver_select[3].drv_name, set_printer_driver, (void *)3 },
     { NULL }
@@ -97,8 +101,9 @@ int driver_select_init_resources(void)
     return resources_register_string(resources_string);
 }
 
-void driver_select_shutdown_resources(void)
+int driver_select_userport_init_resources(void)
 {
+    return resources_register_string(resources_string_userport);
 }
 
 static const cmdline_option_t cmdline_options[] =
@@ -118,6 +123,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, T_("Specify name of printer driver for device #6") },
+    { NULL }
+};
+
+static const cmdline_option_t cmdline_options_userport[] =
+{
     { "-pruserdrv", SET_RESOURCE, 1,
       NULL, NULL, "PrinterUserportDriver", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -131,6 +141,10 @@ int driver_select_init_cmdline_options(void)
     return cmdline_register_options(cmdline_options);
 }
 
+int driver_select_userport_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options_userport);
+}
 
 void driver_select_init(void)
 {

@@ -501,6 +501,7 @@ BEGIN
                     MENUITEM "~Graphics",                 IDM_PRT6GFX,                  MIS_TEXT
                 END
             END
+#if !defined(__VSID__) && !defined(__X64DTV__) && !defined(__XPLUS4__)
             SUBMENU "~User Port",                         IDM_PRINTERUP,                MIS_TEXT
             BEGIN
                 MENUITEM "~Enabled",                      IDM_PRTUP,                    MIS_TEXT
@@ -516,7 +517,8 @@ BEGIN
                     MENUITEM "~Text",                     IDM_PRTUPTXT,                 MIS_TEXT
                     MENUITEM "~Graphics",                 IDM_PRTUPGFX,                 MIS_TEXT
                 END
-            END  
+            END
+#endif
         END
 
 #if defined(HAVE_MOUSE) && (defined(__X128__) || defined(__X64__) || defined(__XSCPU64__))

@@ -1071,6 +1071,10 @@ BMenuBar *menu_create(int machine_class)
             if (machine_class == VICE_MACHINE_C64 ||
                 machine_class == VICE_MACHINE_C64SC ||
                 machine_class == VICE_MACHINE_C128 ||
+                machine_class == VICE_MACHINE_VIC20 ||
+                machine_class == VICE_MACHINE_CBM2 ||
+                machine_class == VICE_MACHINE_CBM5X0 ||
+                machine_class == VICE_MACHINE_PET ||
                 machine_class == VICE_MACHINE_SCPU64) {
                 menu->AddItem(submenu = new BMenu("Userport printer ..."));
                     submenu->AddItem(new BMenuItem("Userport printer emulation", new BMessage(MENU_TOGGLE_USERPORT_PRINTER)));

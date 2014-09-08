@@ -50,6 +50,7 @@ libc64dtv_a_SOURCES = \
 	c64dtvmodel.c \
 	c64dtvmodel.h \
 	c64dtvpla.c \
+	c64dtvprinter.c \
 	c64dtvsound.c \
 	flash-trap.c \
 	flash-trap.h \

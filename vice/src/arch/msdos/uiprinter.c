@@ -323,7 +323,7 @@ static TUI_MENU_CALLBACK(text_output_file_callback)
     return s;
 }
 
-static tui_menu_item_def_t printer_submenu[] = {
+static tui_menu_item_def_t printer_with_userport_submenu[] = {
     { "_Userport printer...", "Settings for userport printer", NULL, NULL, 0,
       TUI_MENU_BEH_CONTINUE, printerus_submenu, "Userport printer settings" },
     { "Printer #_4...", "Settings for printer #4", NULL, NULL, 0,
@@ -348,12 +348,41 @@ static tui_menu_item_def_t printer_submenu[] = {
     { NULL }
 };
 
+static tui_menu_item_def_t printer_submenu[] = {
+    { "Printer #_4...", "Settings for printer #4", NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, printer4_submenu, "Printer #4 settings" },
+    { "Printer #_5...", "Settings for printer #5", NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, printer5_submenu, "Printer #5 settings" },
+    { "Printer #_6...", "Settings for printer #6", NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, printer6_submenu, "Printer #6 settings" },
+    { "--" },
+    { "Text output file/device _1:",
+      "Select the text output file or device",
+      text_output_file_callback, (void *)"PrinterTextDevice1", 20,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Text output file/device _2:",
+      "Select the text output file or device",
+      text_output_file_callback, (void *)"PrinterTextDevice2", 20,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Text output file/device _3:",
+      "Select the text output file or device",
+      text_output_file_callback, (void *)"PrinterTextDevice3", 20,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
 
 void uiprinter_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t tmp = tui_menu_create("Printer settings", 1);
 
-    tui_menu_add(tmp, printer_submenu);
+    if (machine_class != VICE_MACHINE_VSID &&
+        machine_class != VICE_MACHINE_C64DTV &&
+        machine_class != VICE_MACHINE_PLUS4) {
+        tui_menu_add(tmp, printer_with_userport_submenu);
+    } else {
+        tui_menu_add(tmp, printer_submenu);
+    }
+
     tui_menu_add_submenu(parent_submenu,
                          "P_rinter settings...",
                          "Various printer settings",
