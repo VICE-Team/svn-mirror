@@ -50,6 +50,9 @@
 #define NO_ACIA  0
 #define HAS_ACIA 1
 
+#define NO_USERPORT  0
+#define HAS_USERPORT 1
+
 extern int plus4model_get(void);
 extern void plus4model_set(int model);
 

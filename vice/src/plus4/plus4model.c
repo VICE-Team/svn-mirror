@@ -43,6 +43,7 @@ struct model_s {
     int ramsize;
     int hasspeech;
     int hasacia;
+    int hasuserport;
     char *kernalname;
     char *basicname;
     char *plus1loname;
@@ -53,29 +54,30 @@ struct model_s {
     C16/116    16K ram, no ACIA, no Userport
     Plus4      "same as 264". 64K ram, 3plus1 rom, ACIA
     V364       "a 264 + voice software"
-    232        "a 264 with 32k ram", no 3plus1 rom, actual rs232 interface (not ttl level)
+    232        "a 264 with 32k ram", no 3plus1 rom, no rs232 interface (not ttl level)
 */
 
 static struct model_s plus4models[] = {
-    { MACHINE_SYNC_PAL,  RAM16K, NO_SPEECH,  NO_ACIA,  "kernal",     "basic", "",         "",        }, /* c16 (pal) */
-    { MACHINE_SYNC_NTSC, RAM16K, NO_SPEECH,  NO_ACIA,  "kernal.005", "basic", "",         "",        }, /* c16 (ntsc) */
-    { MACHINE_SYNC_PAL,  RAM64K, NO_SPEECH,  HAS_ACIA, "kernal",     "basic", "3plus1lo", "3plus1hi" }, /* plus4 (pal) */
-    { MACHINE_SYNC_NTSC, RAM64K, NO_SPEECH,  HAS_ACIA, "kernal.005", "basic", "3plus1lo", "3plus1hi" }, /* plus4 (ntsc) */
-    { MACHINE_SYNC_NTSC, RAM64K, HAS_SPEECH, HAS_ACIA, "kernal.364", "basic", "3plus1lo", "3plus1hi" }, /* v364 (ntsc) */
-    { MACHINE_SYNC_NTSC, RAM32K, NO_SPEECH,  HAS_ACIA, "kernal.232", "basic", "",         ""         }, /* 232 (ntsc) */
+    { MACHINE_SYNC_PAL,  RAM16K, NO_SPEECH,  NO_ACIA,  NO_USERPORT,  "kernal",     "basic", "",         "",        }, /* c16 (pal) */
+    { MACHINE_SYNC_NTSC, RAM16K, NO_SPEECH,  NO_ACIA,  NO_USERPORT,  "kernal.005", "basic", "",         "",        }, /* c16 (ntsc) */
+    { MACHINE_SYNC_PAL,  RAM64K, NO_SPEECH,  HAS_ACIA, HAS_USERPORT, "kernal",     "basic", "3plus1lo", "3plus1hi" }, /* plus4 (pal) */
+    { MACHINE_SYNC_NTSC, RAM64K, NO_SPEECH,  HAS_ACIA, HAS_USERPORT, "kernal.005", "basic", "3plus1lo", "3plus1hi" }, /* plus4 (ntsc) */
+    { MACHINE_SYNC_NTSC, RAM64K, HAS_SPEECH, HAS_ACIA, HAS_USERPORT, "kernal.364", "basic", "3plus1lo", "3plus1hi" }, /* v364 (ntsc) */
+    { MACHINE_SYNC_NTSC, RAM32K, NO_SPEECH,  NO_ACIA,  NO_USERPORT,  "kernal.232", "basic", "",         ""         }, /* 232 (ntsc) */
 };
 
 /* ------------------------------------------------------------------------- */
 
-static int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasacia)
+static int plus4model_get_temp(int video, int hasspeech, int hasacia, char *fln, char *kernal)
 {
     int i;
 
     for (i = 0; i < PLUS4MODEL_NUM; ++i) {
         if ((plus4models[i].video == video)
-            && (plus4models[i].ramsize == ramsize)
             && (plus4models[i].hasspeech == hasspeech)
-            && (plus4models[i].hasacia == hasacia)) {
+            && (plus4models[i].hasacia == hasacia)
+            && ((strlen(plus4models[i].plus1loname) == 0 ? 1 : 0) == (strlen(fln) == 0 ? 1 : 0))
+            && (!strcmp(plus4models[i].kernalname, kernal))) {
             return i;
         }
     }
@@ -85,16 +87,19 @@ static int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasaci
 
 int plus4model_get(void)
 {
-    int video, ramsize, hasspeech, hasacia;
+    int video, hasspeech, hasacia;
+    char *fln;
+    char *kernal;
 
     if ((resources_get_int("MachineVideoStandard", &video) < 0)
-        || (resources_get_int("RamSize", &ramsize) < 0)
         || (resources_get_int("Acia1Enable", &hasacia) < 0)
+        || (resources_get_string("FunctionLowName", &fln) < 0)
+        || (resources_get_string("KernalName", &kernal) < 0)
         || (resources_get_int("SpeechEnabled", &hasspeech) < 0)) {
         return -1;
     }
 
-    return plus4model_get_temp(video, ramsize, hasspeech, hasacia);
+    return plus4model_get_temp(video, hasspeech, hasacia, fln, kernal);
 }
 
 #if 0
