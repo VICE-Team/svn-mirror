@@ -72,7 +72,7 @@ static int set_printer_enabled(int flag, void *param)
         case PRINTER_DEVICE_NONE:
         case PRINTER_DEVICE_FS:
 #ifdef HAVE_OPENCBM
-        PRINTER_DEVICE_REAL:
+        case PRINTER_DEVICE_REAL:
 #endif
             break;
         default:
