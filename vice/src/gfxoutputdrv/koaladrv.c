@@ -453,6 +453,141 @@ static int koala_render_and_save(native_data_t *source, int compress)
     return retval;
 }
 
+static int koala_direct_save(native_data_t *source, int compress, BYTE bgcolor)
+{
+    FILE *fd;
+    char *filename_ext = NULL;
+    BYTE *filebuffer = NULL;
+    BYTE *result = NULL;
+    int i, j, k, l;
+    int m = 0;
+    int n = 0;
+    int retval = 0;
+    BYTE color1 = 255;
+    BYTE color2 = 255;
+    BYTE color3 = 255;
+    BYTE colorbyte;
+    native_color_sort_t *color_order = NULL;
+
+    /* allocate file buffer */
+    filebuffer = lib_malloc(10003);
+
+    /* clear filebuffer */
+    memset(filebuffer, 0, 10003);
+
+    /* set load addy */
+    filebuffer[0] = 0x00;
+    filebuffer[1] = 0x60;
+
+    for (i = 0; i < KOALA_SCREEN_BYTE_HEIGHT; i++) {
+        for (j = 0; j < KOALA_SCREEN_BYTE_WIDTH; j++) {
+            for (k = 0; k < 8; k++) {
+                filebuffer[BITMAP_OFFSET + m] = 0;
+                for (l = 0; l < 4; l++) {
+                    colorbyte = source->colormap[(i * KOALA_SCREEN_PIXEL_WIDTH * 8) + (j * 8) + (k * KOALA_SCREEN_PIXEL_WIDTH) + (l * 2)];
+                    if (k == 0 && l == 0) {
+                        color1 = 255;
+                        color2 = 255;
+                        color3 = 255;
+                    }
+                    if (colorbyte != bgcolor) {
+                        if (color1 == 255) {
+                            color1 = colorbyte;
+                        } else {
+                            if (color1 != colorbyte && color2 == 255) {
+                                color2 = colorbyte;
+                            } else {
+                                if (color2 != colorbyte && color3 == 255) {
+                                    color3 = colorbyte;
+                                }
+                            }
+                        }
+                    }
+                    if (colorbyte != bgcolor) {
+                        if (colorbyte == color1) {
+                            filebuffer[BITMAP_OFFSET + m] |= (1 << ((3 - l) * 2));
+                        }
+                        if (colorbyte == color2) {
+                            filebuffer[BITMAP_OFFSET + m] |= (2 << ((3 - l) * 2));
+                        } else {
+                            filebuffer[BITMAP_OFFSET + m] |= (3 << ((3 - l) * 2));
+                        }
+                    }
+                }
+                m++;
+            }
+            filebuffer[SCREENRAM_OFFSET + n] = ((color1 & 0xf) << 4) | (color2 & 0xf);
+            filebuffer[VIDEORAM_OFFSET + n++] = color3 & 0xf;
+        }
+    }
+    filebuffer[BGCOLOR_OFFSET] = bgcolor;
+
+    if (compress) {
+        filename_ext = util_add_extension_const(source->filename, koala_compressed_drv.default_extension);
+    } else {
+        filename_ext = util_add_extension_const(source->filename, koala_drv.default_extension);
+    }
+
+    fd = fopen(filename_ext, MODE_WRITE);
+    if (fd == NULL) {
+        retval = -1;
+    }
+
+    if (retval != -1) {
+        if (compress) {
+            result = lib_malloc(10003);
+            j = 0;
+            i = 2;
+            result[j++] = 0;
+            result[j++] = 0x60;
+            while (i < 9999) {
+                if (filebuffer[i] == filebuffer[i + 1] && filebuffer[i] == filebuffer[i + 2] && filebuffer[i] == filebuffer[i + 3]) {
+                    result[j++] = 0xFE;
+                    result[j] = filebuffer[i];
+                    k = 4;
+                    i += 4;
+                    while (k != 0xFF && i < 10003 && result[j] == filebuffer[i]) {
+                        i++;
+                        k++;
+                    }
+                    j++;
+                    result[j++] = k;
+                } else {
+                    if (filebuffer[i] == 0xFE) {
+                        result[j++] = 0xFE;
+                        result[j++] = 0xFE;
+                        result[j++] = 0x01;
+                    } else {
+                        result[j++] = filebuffer[i++];
+                    }
+                }
+            }
+            while (i < 10003) {
+                result[j++] = filebuffer[i++];
+            }
+            if (fwrite(result, j, 1, fd) < 1) {
+                retval = -1;
+            }
+        } else {
+            if (fwrite(filebuffer, 10003, 1, fd) < 1) {
+                retval = -1;
+            }
+        }
+    }
+
+    if (fd != NULL) {
+        fclose(fd);
+    }
+
+    lib_free(source->colormap);
+    lib_free(source);
+    lib_free(filename_ext);
+    lib_free(filebuffer);
+    lib_free(result);
+
+    return retval;
+}
+
 /* ------------------------------------------------------------------------ */
 
 static int koala_vicii_save(screenshot_t *screenshot, const char *filename, int compress)
@@ -494,7 +629,7 @@ static int koala_vicii_save(screenshot_t *screenshot, const char *filename, int 
             break;
         case 5:    /* multicolor bitmap mode */
             data = native_vicii_multicolor_bitmap_mode_render(screenshot, filename);
-            return koala_render_and_save(data, compress);
+            return koala_direct_save(data, compress, (BYTE)(regs[0x21] & 0xf));
             break;
         default:   /* illegal modes (3, 6 and 7) */
             ui_error("Illegal mode, no saving will be done");
