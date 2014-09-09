@@ -34,6 +34,7 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "output-select.h"
 #include "output-text.h"
 #include "output.h"
@@ -63,7 +64,7 @@ static int set_printer_device_name(const char *val, void *param)
 
 static int set_printer_device(int prn_dev, void *param)
 {
-    if (prn_dev > NUM_OUTPUT_SELECT) {
+    if (prn_dev < 0 || prn_dev > 2) {
         return -1;
     }
 
@@ -91,6 +92,10 @@ static const resource_int_t resources_int[] = {
       &printer_device[1], set_printer_device, (void *)1 },
     { "Printer6TextDevice", 0, RES_EVENT_NO, NULL,
       &printer_device[2], set_printer_device, (void *)2 },
+    { NULL }
+};
+
+static const resource_int_t resources_int_userport[] = {
     { "PrinterUserportTextDevice", 0, RES_EVENT_NO, NULL,
       &printer_device[3], set_printer_device, (void *)3 },
     { NULL }
@@ -128,6 +133,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-2>", T_("Specify printer text output device for printer #6") },
+    { NULL }
+};
+
+static const cmdline_option_t cmdline_options_userport[] =
+{
     { "-prusertxtdev", SET_RESOURCE, 1,
       NULL, NULL, "PrinterUserportTextDevice", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -138,6 +148,13 @@ static const cmdline_option_t cmdline_options[] =
 
 int output_text_init_cmdline_options(void)
 {
+    if (machine_class != VICE_MACHINE_C64DTV
+        && machine_class != VICE_MACHINE_PLUS4) {
+        if (cmdline_register_options(cmdline_options_userport) < 0) {
+            return -1;
+        }
+    }
+
     return cmdline_register_options(cmdline_options);
 }
 
@@ -247,6 +264,13 @@ int output_text_init_resources(void)
 
     if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
+
+    if (machine_class != VICE_MACHINE_C64DTV
+        && machine_class != VICE_MACHINE_PLUS4) {
+        if (resources_register_int(resources_int_userport) < 0) {
+            return -1;
+        }
     }
 
     return resources_register_int(resources_int);

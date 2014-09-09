@@ -45,7 +45,6 @@
 #include "c64iec.h"
 #include "c64keyboard.h"
 #include "c64memrom.h"
-#include "c64rsuser.h"
 #include "c64ui.h"
 #include "cia.h"
 #include "clkguard.h"
@@ -78,7 +77,6 @@
 #include "printer.h"
 #include "resources.h"
 #include "rs232drv.h"
-#include "rsuser.h"
 #include "screenshot.h"
 #include "serial.h"
 #include "sid-cmdline-options.h"
@@ -248,10 +246,6 @@ int machine_resources_init(void)
         init_resource_fail("rs232drv");
         return -1;
     }
-    if (rsuser_resources_init() < 0) {
-        init_resource_fail("rsuser");
-        return -1;
-    }
     if (serial_resources_init() < 0) {
         init_resource_fail("serial");
         return -1;
@@ -375,10 +369,6 @@ int machine_cmdline_options_init(void)
     }
     if (rs232drv_cmdline_options_init() < 0) {
         init_cmdline_options_fail("rs232drv");
-        return -1;
-    }
-    if (rsuser_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("rsuser");
         return -1;
     }
     if (serial_cmdline_options_init() < 0) {
@@ -527,7 +517,6 @@ int machine_specific_init(void)
 
     /* Initialize RS232 handler.  */
     rs232drv_init();
-    c64_rsuser_init();
 
     /* Initialize print devices.  */
     printer_init();
@@ -624,7 +613,6 @@ void machine_specific_reset(void)
     sid_reset();
 
     rs232drv_reset();
-    rsuser_reset();
 
     printer_reset();
 
