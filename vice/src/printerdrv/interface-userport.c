@@ -46,9 +46,7 @@ static void (*set_busy_func)(unsigned int b) = NULL;
 
 static int set_up_enabled(int val, void *param)
 {
-    int newval;
-
-    newval = val ? 1 : 0;
+    int newval = val ? 1 : 0;
 
     if (newval && !userport_printer_enabled) {
         /* Switch printer on.  */

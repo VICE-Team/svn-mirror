@@ -81,6 +81,10 @@ static const resource_string_t resources_string[] = {
       (char **)&output_select[1].output_name, set_output_device, (void *)1 },
     { "Printer6Output", "text", RES_EVENT_NO, NULL,
       (char **)&output_select[2].output_name, set_output_device, (void *)2 },
+    { NULL }
+};
+
+static const resource_string_t resources_string_userport[] = {
     { "PrinterUserportOutput", "text", RES_EVENT_NO, NULL,
       (char **)&output_select[3].output_name, set_output_device, (void *)3 },
     { NULL }
@@ -91,8 +95,9 @@ int output_select_init_resources(void)
     return resources_register_string(resources_string);
 }
 
-void output_select_shutdown_resources(void)
+int output_select_userport_init_resources(void)
 {
+    return resources_register_string(resources_string_userport);
 }
 
 static const cmdline_option_t cmdline_options[] =
@@ -107,6 +112,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME,
       NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t cmdline_options_userport[] =
+{
     { "-pruseroutput", SET_RESOURCE, 1,
       NULL, NULL, "PrinterUserportOutput", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -120,9 +130,9 @@ int output_select_init_cmdline_options(void)
     return cmdline_register_options(cmdline_options);
 }
 
-
-void output_select_init(void)
+int output_select_userport_init_cmdline_options(void)
 {
+    return cmdline_register_options(cmdline_options_userport);
 }
 
 void output_select_shutdown(void)

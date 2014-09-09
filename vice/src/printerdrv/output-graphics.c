@@ -58,37 +58,6 @@ static output_gfx_t output_gfx[NUM_OUTPUT_SELECT];
 
 static unsigned int current_prnr;
 
-/* CURRENTLY NOT USED. ANDREAS B. PROMISED TO IMPLEMENT THIS FEATURE AGAIN
-static int ppb;
-
-static int set_ppb(int val, void *param)
-{
-    ppb = val;
-
-    if (ppb<0) ppb=0;
-    if (ppb>3) ppb=3;
-
-    return 0;
-}
-
-static const resource_int_t resources_int[] = {
-    { "PixelsPerBit", 3, RES_EVENT_NO, NULL,
-      &ppb, set_ppb, (void *)0 },
-    { NULL }
-};
-
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-ppb", SET_RESOURCE, 1, NULL, NULL, "PixelsPerBit", NULL,
-      "<0-3>", "Number of pixel size in graphic [3]" },
-    { NULL }
-};
-*/
-int output_graphics_init_cmdline_options(void)
-{
-    return 1; /* cmdline_register_options(cmdline_options); */
-}
-
 /* ------------------------------------------------------------------------- */
 
 /*
@@ -111,23 +80,6 @@ static BYTE output_pixel_to_palette_index(BYTE pix)
             return 4;
     }
 }
-
-#if 0
-static void print_palette(palette_t *p)
-{
-    unsigned int i;
-
-    for (i = 0; i < p->num_entries; i++) {
-        printf("%2d: %s r=%d g=%d b=%d dither=%d\n",
-                i,
-                p->entries[i].name,
-                p->entries[i].red,
-                p->entries[i].green,
-                p->entries[i].blue,
-                p->entries[i].dither);
-    }
-}
-#endif
 
 static void output_graphics_line_data(screenshot_t *screenshot, BYTE *data,
                                       unsigned int line, unsigned int mode)
@@ -313,10 +265,6 @@ void output_graphics_init(void)
     }
 }
 
-void output_graphics_reset(void)
-{
-}
-
 int output_graphics_init_resources(void)
 {
     output_select_t output_select;
@@ -330,5 +278,5 @@ int output_graphics_init_resources(void)
 
     output_select_register(&output_select);
 
-    return 1; /* resources_register_int(resources_int); */
+    return 1;
 }

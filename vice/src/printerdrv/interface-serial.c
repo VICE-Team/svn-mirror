@@ -68,13 +68,15 @@ static int set_printer_enabled(int flag, void *param)
 {
     unsigned int prnr;
 
-    if (flag != PRINTER_DEVICE_NONE
-        && flag != PRINTER_DEVICE_FS
+    switch (flag) {
+        case PRINTER_DEVICE_NONE:
+        case PRINTER_DEVICE_FS:
 #ifdef HAVE_OPENCBM
-        && flag != PRINTER_DEVICE_REAL
+        PRINTER_DEVICE_REAL:
 #endif
-        ) {
-        return -1;
+            break;
+        default:
+            return -1;
     }
 
     prnr = vice_ptr_to_uint(param);
@@ -132,13 +134,13 @@ static int set_printer_enabled(int flag, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    { "Printer4", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "Printer4", PRINTER_DEVICE_NONE, RES_EVENT_STRICT, (resource_value_t)0,
       &printer_enabled[0], set_printer_enabled, (void *)0 },
-    { "Printer5", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "Printer5", PRINTER_DEVICE_NONE, RES_EVENT_STRICT, (resource_value_t)0,
       &printer_enabled[1], set_printer_enabled, (void *)1 },
-    { "Printer6", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "Printer6", PRINTER_DEVICE_NONE, RES_EVENT_STRICT, (resource_value_t)0,
       &printer_enabled[2], set_printer_enabled, (void *)2 },
-    { "Printer7", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "Printer7", PRINTER_DEVICE_NONE, RES_EVENT_STRICT, (resource_value_t)0,
       &printer_enabled[3], set_printer_enabled, (void *)3 },
     { NULL }
 };

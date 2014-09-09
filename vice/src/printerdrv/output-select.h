@@ -43,11 +43,11 @@ typedef struct output_select_s output_select_t;
 
 #define NUM_OUTPUT_SELECT       4 /* serial dev 4, 5, 6 and user port */
 
-extern void output_select_init(void);
 extern int output_select_init_resources(void);
+extern int output_select_userport_init_resources(void);
 extern void output_select_shutdown(void);
-extern void output_select_shutdown_resources(void);
 extern int output_select_init_cmdline_options(void);
+extern int output_select_userport_init_cmdline_options(void);
 
 extern void output_select_register(output_select_t *output_select);
 

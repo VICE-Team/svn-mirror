@@ -232,14 +232,6 @@ static int output_text_flush(unsigned int prnr)
 
 /* ------------------------------------------------------------------------- */
 
-void output_text_init(void)
-{
-}
-
-void output_text_reset(void)
-{
-}
-
 int output_text_init_resources(void)
 {
     output_select_t output_select;

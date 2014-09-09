@@ -63,19 +63,21 @@ int printer_resources_init(void)
 
 int printer_userport_resources_init(void)
 {
-    return driver_select_userport_init_resources();
+    if (driver_select_userport_init_resources() < 0
+        || output_select_userport_init_resources() < 0) {
+        return -1;
+    }
+    return 0;
 }
 
 void printer_resources_shutdown(void)
 {
     output_text_shutdown_resources();
-    output_select_shutdown_resources();
 }
 
 int printer_cmdline_options_init(void)
 {
-    if (output_graphics_init_cmdline_options() < 0
-        || output_text_init_cmdline_options() < 0
+    if (output_text_init_cmdline_options() < 0
         || output_select_init_cmdline_options() < 0
         || driver_select_init_cmdline_options() < 0
         || machine_printer_cmdline_options_init() < 0) {
@@ -86,14 +88,16 @@ int printer_cmdline_options_init(void)
 
 int printer_userport_cmdline_options_init(void)
 {
-    return driver_select_userport_init_cmdline_options();
+    if (driver_select_userport_init_cmdline_options() < 0
+        || output_select_userport_init_cmdline_options() < 0) {
+        return -1;
+    }
+    return 0;
 }
 
 void printer_init(void)
 {
     output_graphics_init();
-    output_text_init();
-    output_select_init();
     drv_ascii_init();
     drv_mps803_init();
 #ifndef DINGOO_NATIVE
@@ -107,8 +111,6 @@ void printer_init(void)
 
 void printer_reset(void)
 {
-    output_graphics_reset();
-    output_text_reset();
 #ifndef DINGOO_NATIVE
     drv_nl10_reset();
 #endif
