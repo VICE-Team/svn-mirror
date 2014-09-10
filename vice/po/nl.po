@@ -3283,9 +3283,8 @@ msgstr "Printer #6 emulatie"
 
 #: src/arch/unix/gui/uiprinteriec.c:77
 #: src/arch/unix/gui/uiprinteriecplus4.c:75
-#, fuzzy
 msgid "Printer #6 enable IEC device"
-msgstr "Printer #4 activeer IEC apparaat"
+msgstr "Printer #6 activeer IEC apparaat"
 
 #: src/arch/unix/gui/uiprinteriec.c:79
 #: src/arch/unix/gui/uiprinteriecplus4.c:77
@@ -3296,23 +3295,20 @@ msgstr "Printer #6 stuurprogramma"
 #: src/arch/unix/gui/uiprinteriec.c:81
 #: src/arch/unix/gui/uiprinteriecplus4.c:79
 #: src/arch/unix/gui/uiprinterieee.c:70
-#, fuzzy
 msgid "Printer #6 output"
-msgstr "Printer #4 uitvoer"
+msgstr "Printer #6 uitvoer"
 
 #: src/arch/unix/gui/uiprinteriec.c:83
 #: src/arch/unix/gui/uiprinteriecplus4.c:81
 #: src/arch/unix/gui/uiprinterieee.c:72
-#, fuzzy
 msgid "Printer #6 text output device"
-msgstr "Printer #4 tekst uitvoer apparaat"
+msgstr "Printer #6 tekst uitvoer apparaat"
 
 #: src/arch/unix/gui/uiprinteriec.c:85
 #: src/arch/unix/gui/uiprinteriecplus4.c:83
 #: src/arch/unix/gui/uiprinterieee.c:74
-#, fuzzy
 msgid "Printer #6 formfeed"
-msgstr "Printer #4 formfeed"
+msgstr "Printer #6 formfeed"
 
 #: src/arch/unix/gui/uiprinteriec.c:90
 #: src/arch/unix/gui/uiprinteriecplus4.c:88
@@ -3322,9 +3318,8 @@ msgstr "Apparaat #7 werkelijk apparaat toegang"
 
 #: src/arch/unix/gui/uiprinteriec.c:92
 #: src/arch/unix/gui/uiprinteriecplus4.c:90
-#, fuzzy
 msgid "Device #7 enable IEC device"
-msgstr "Printer #4 activeer IEC apparaat"
+msgstr "Printer #7 activeer IEC apparaat"
 
 #: src/arch/unix/gui/uiprinteriec.c:96 src/arch/unix/gui/uiprinterieee.c:83
 #: src/arch/amigaos/intl_text.c.po.c:8617
@@ -6014,29 +6009,24 @@ msgid "TED Audio leak"
 msgstr "TED Audio lek"
 
 #: src/arch/win32/res.rc.po.c:1242
-#, fuzzy
 msgid "VICII Renderer"
-msgstr "VICII Render filter"
+msgstr "VICII Renderer"
 
 #: src/arch/win32/res.rc.po.c:1243
-#, fuzzy
 msgid "VIC Renderer"
-msgstr "VIC Render filter"
+msgstr "VIC Renderer"
 
 #: src/arch/win32/res.rc.po.c:1244
-#, fuzzy
 msgid "CRTC Renderer"
-msgstr "CRTC Render filter"
+msgstr "CRTC Renderer"
 
 #: src/arch/win32/res.rc.po.c:1245
-#, fuzzy
 msgid "VDC Renderer"
-msgstr "VDC Render filter"
+msgstr "VDC Renderer"
 
 #: src/arch/win32/res.rc.po.c:1246
-#, fuzzy
 msgid "TED Renderer"
-msgstr "TED Render filter"
+msgstr "TED Renderer"
 
 #: src/arch/win32/res.rc.po.c:1247
 msgid "External Palette"
@@ -6280,14 +6270,12 @@ msgid "$A000-$BFFF RAM"
 msgstr "$A000-$BFFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1335 src/arch/amigaos/intl_text.c.po.c:6908
-#, fuzzy
 msgid "Professional DOS"
-msgstr "Activeer Professional DOS"
+msgstr "Professional DOS"
 
 #: src/arch/win32/res.rc.po.c:1336 src/arch/amigaos/intl_text.c.po.c:6922
-#, fuzzy
 msgid "SuperCard+"
-msgstr "Activeer SuperCard+"
+msgstr "SuperCard+"
 
 #: src/arch/win32/res.rc.po.c:1346 src/arch/win32/resc128.rc.po.c:110
 #: src/arch/win32/resc64.rc.po.c:106 src/arch/win32/resc64dtv.rc.po.c:73
@@ -6475,9 +6463,8 @@ msgid "Always on Top"
 msgstr "Altijd Boven"
 
 #: src/arch/win32/res.rc.po.c:1465
-#, fuzzy
 msgid "Reset IEC with CPU"
-msgstr "Reset Datasette met CPU"
+msgstr "Reset IEC met CPU"
 
 #: src/arch/win32/res.rc.po.c:1469 src/arch/amigaos/intl_text.c.po.c:1980
 msgid "Enable Joy Keys"
@@ -6806,9 +6793,8 @@ msgid "Random delay"
 msgstr "Willekeurige vertraging"
 
 #: src/arch/win32/resautostart.rc.po.c:49
-#, fuzzy
 msgid "Handle true drive emulation"
-msgstr "Hardwarematige driveemulatie"
+msgstr "Afhandelen van de hardwarematige driveemulatie"
 
 #: src/arch/win32/resautostart.rc.po.c:52
 #: src/arch/amigaos/intl_text.c.po.c:12047
@@ -7644,9 +7630,8 @@ msgid "Plus4 model settings"
 msgstr "Plus4 model instellingen"
 
 #: src/arch/win32/resplus4.rc.po.c:476
-#, fuzzy
 msgid "enable Digiblaster"
-msgstr "Activeer de digiblaster add-on"
+msgstr "Activeer Digiblaster"
 
 #: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:13104
 msgid "Enable the PLUS60K RAM expansion"
@@ -8724,9 +8709,8 @@ msgid "IEC emulation for printer #6"
 msgstr "IEC emulatie voor printer #6"
 
 #: src/arch/amigaos/intl_text.c.po.c:8939
-#, fuzzy
 msgid "IEC emulation for device #7"
-msgstr "IEC emulatie voor printer #4"
+msgstr "IEC emulatie voor printer #7"
 
 #: src/arch/amigaos/intl_text.c.po.c:9009
 msgid "Userport RS232"
@@ -9331,7 +9315,7 @@ msgid ""
 "Advance to the next instruction.  Subroutines are treated as\n"
 "a single instruction."
 msgstr ""
-"Ga naar de volgende instructie. Subroutines worden behandled als een\n"
+"Ga naar de volgende instructie. Subroutines worden behandeld als een\n"
 "enkele instructie."
 
 #: src/translate_text.c.po.c:1335
@@ -10071,10 +10055,9 @@ msgid "Disable warp mode during autostart"
 msgstr "Warp modus tijdens autostarten uitschakelen"
 
 #: src/translate_text.c.po.c:3196
-#, fuzzy
 msgid ""
 "Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk image)"
-msgstr "Zet autostart modus voor PRG bestanden"
+msgstr "Zet autostart modus voor PRG bestanden (0: VirtualFS, 1: Injecteer, 2: Disk bestand)"
 
 #: src/translate_text.c.po.c:3213
 msgid "Set disk image for autostart of PRG files"
@@ -10283,21 +10266,18 @@ msgstr ""
 "pet64, ultimax)"
 
 #: src/translate_text.c.po.c:4169
-#, fuzzy
 msgid ""
 "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"
 msgstr ""
-"Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, "
-"pet64, ultimax)"
+"Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"
 
 #: src/translate_text.c.po.c:4186
 msgid "Set C128 model (c128/c128dcr, pal/ntsc)"
 msgstr "Zet C128 model (c128/c128dcr, pal/ntsc)"
 
 #: src/translate_text.c.po.c:4220
-#, fuzzy
 msgid "Disable RAM banks 2 and 3"
-msgstr "Aktiveer RAM bank 2 en 3"
+msgstr "RAM bank 2 en 3 uitschakelen"
 
 #: src/translate_text.c.po.c:4237
 msgid ""
@@ -11437,9 +11417,8 @@ msgid "Specify name of printer driver for device #5"
 msgstr "Geef de naam van het stuurprogramma voor apparaat #5"
 
 #: src/translate_text.c.po.c:9481
-#, fuzzy
 msgid "Specify name of printer driver for device #6"
-msgstr "Geef de naam van het stuurprogramma voor apparaat #4"
+msgstr "Geef de naam van het stuurprogramma voor apparaat #6"
 
 #: src/translate_text.c.po.c:9498
 msgid "Specify name of printer driver for the userport printer"
@@ -11458,9 +11437,8 @@ msgid "Set device type for device #6 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Zet apparaat soort voor apparaat #6 (0: GEEN, 1: FS, 2: ECHT)"
 
 #: src/translate_text.c.po.c:9566
-#, fuzzy
 msgid "Set device type for device #7 (0: NONE, 2: REAL)"
-msgstr "Zet apparaat soort voor apparaat #4 (0: GEEN, 1: FS, 2: ECHT)"
+msgstr "Zet apparaat soort voor apparaat #7 (0: GEEN, 2: ECHT)"
 
 #: src/translate_text.c.po.c:9583
 msgid "Enable the userport printer emulation"
@@ -11495,9 +11473,8 @@ msgid "Specify printer text output device for printer #5"
 msgstr "Geef het tekst uitvoer apparaat voor printer #5"
 
 #: src/translate_text.c.po.c:9719
-#, fuzzy
 msgid "Specify printer text output device for printer #6"
-msgstr "Geef het tekst uitvoer apparaat voor printer #4"
+msgstr "Geef het tekst uitvoer apparaat voor printer #6"
 
 #: src/translate_text.c.po.c:9736
 msgid "Specify printer text output device for userport printer"
@@ -11560,24 +11537,20 @@ msgid "Disable IEC device emulation for device #5"
 msgstr "IEC apparaat emulatie voor apparaat #5 uitschakelen"
 
 #: src/translate_text.c.po.c:10010
-#, fuzzy
 msgid "Enable IEC device emulation for device #6"
-msgstr "Activeer IEC apparaat emulatie voor apparaat #4"
+msgstr "Activeer IEC apparaat emulatie voor apparaat #6"
 
 #: src/translate_text.c.po.c:10027
-#, fuzzy
 msgid "Disable IEC device emulation for device #6"
-msgstr "IEC apparaat emulatie voor apparaat #4 uitschakelen"
+msgstr "IEC apparaat emulatie voor apparaat #6 uitschakelen"
 
 #: src/translate_text.c.po.c:10044
-#, fuzzy
 msgid "Enable IEC device emulation for device #7"
-msgstr "Activeer IEC apparaat emulatie voor apparaat #4"
+msgstr "Activeer IEC apparaat emulatie voor apparaat #7"
 
 #: src/translate_text.c.po.c:10061
-#, fuzzy
 msgid "Disable IEC device emulation for device #7"
-msgstr "IEC apparaat emulatie voor apparaat #4 uitschakelen"
+msgstr "IEC apparaat emulatie voor apparaat #7 uitschakelen"
 
 #: src/translate_text.c.po.c:10078
 msgid "Enable IEC device emulation for device #8"
@@ -11869,9 +11842,8 @@ msgid "Select fullscreen device"
 msgstr "Selecteer volschermapparaat"
 
 #: src/translate_text.c.po.c:11380
-#, fuzzy
 msgid "Seconds"
-msgstr "Tweede SID op"
+msgstr "Seconded"
 
 #: src/translate_text.c.po.c:11397
 msgid "Select fullscreen mode"
