@@ -9564,6 +9564,23 @@ translate_t string_table[] = {
 #endif
 
 /* printerdrv/driver-select.c */
+/* en */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME,    N_("Specify name of printer driver for device #6")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_TR, ""},  /* fuzzy */
+#endif
+
+/* printerdrv/driver-select.c */
 /* en */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME,    N_("Specify name of printer driver for the userport printer")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_DA, "Angiv navn på printerdriver for brugerport-printer"},
@@ -9629,6 +9646,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SET_DEVICE_TYPE_6_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_6_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_DEVICE_TYPE_6_TR, ""},  /* fuzzy */
+#endif
+
+/* printerdrv/interface-serial.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_7,    N_("Set device type for device #7 (0: NONE, 2: REAL)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_DEVICE_TYPE_7_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_7_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DEVICE_TYPE_7_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_7_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DEVICE_TYPE_7_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_7_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_DEVICE_TYPE_7_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_7_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DEVICE_TYPE_7_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DEVICE_TYPE_7_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_7_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DEVICE_TYPE_7_TR, ""},  /* fuzzy */
 #endif
 
 /* printerdrv/interface-userport.c */
@@ -9765,6 +9799,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SPECIFY_TEXT_DEVICE_5_RU, "Specify printer text output device for printer #5"},
 /* sv */ {IDCLS_SPECIFY_TEXT_DEVICE_5_SV, "Ange skrivartextutenhet för skrivare 5"},
 /* tr */ {IDCLS_SPECIFY_TEXT_DEVICE_5_TR, "Yazýcý #5 için metin çýktý aygýtý yazýcýsý belirt"},
+#endif
+
+/* printerdrv/output-text.c */
+/* en */ {IDCLS_SPECIFY_TEXT_DEVICE_6,    N_("Specify printer text output device for printer #6")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_TEXT_DEVICE_6_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_6_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_TEXT_DEVICE_6_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_6_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_TEXT_DEVICE_6_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_TEXT_DEVICE_6_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_TEXT_DEVICE_6_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_TEXT_DEVICE_6_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_TEXT_DEVICE_6_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_TEXT_DEVICE_6_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_TEXT_DEVICE_6_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_TEXT_DEVICE_6_TR, ""},  /* fuzzy */
 #endif
 
 /* printerdrv/output-text.c */
@@ -10039,6 +10090,74 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_IEC_5_RU, "Disable IEC device emulation for device #5"},
 /* sv */ {IDCLS_DISABLE_IEC_5_SV, "Inaktivera IEC-enhetsemulering för enhet 5"},
 /* tr */ {IDCLS_DISABLE_IEC_5_TR, "Aygýt #5 için IEC aygýt emülasyonunu pasifleþtir"},
+#endif
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_6,    N_("Enable IEC device emulation for device #6")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_IEC_6_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IEC_6_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_IEC_6_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IEC_6_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_IEC_6_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IEC_6_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_IEC_6_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IEC_6_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_IEC_6_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_IEC_6_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IEC_6_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_IEC_6_TR, ""},  /* fuzzy */
+#endif
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_6,    N_("Disable IEC device emulation for device #6")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_IEC_6_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IEC_6_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_IEC_6_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IEC_6_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_IEC_6_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IEC_6_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_IEC_6_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IEC_6_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_IEC_6_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_IEC_6_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IEC_6_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_IEC_6_TR, ""},  /* fuzzy */
+#endif
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_7,    N_("Enable IEC device emulation for device #7")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_IEC_7_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IEC_7_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_IEC_7_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IEC_7_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_IEC_7_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IEC_7_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_IEC_7_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IEC_7_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_IEC_7_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_IEC_7_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IEC_7_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_IEC_7_TR, ""},  /* fuzzy */
+#endif
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_7,    N_("Disable IEC device emulation for device #7")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_IEC_7_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IEC_7_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_IEC_7_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IEC_7_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_IEC_7_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IEC_7_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_IEC_7_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IEC_7_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_IEC_7_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_IEC_7_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IEC_7_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_IEC_7_TR, ""},  /* fuzzy */
 #endif
 
 /* serial/serial-iec-device.c */

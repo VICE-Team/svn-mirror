@@ -159,9 +159,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-pr6drv", SET_RESOURCE, 1,
       NULL, NULL, "Printer6Driver", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Specify name of printer driver for device #6") },
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_6_NAME,
+      NULL, NULL },
     { NULL }
 };
 

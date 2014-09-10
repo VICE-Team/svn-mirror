@@ -130,9 +130,9 @@ static const cmdline_option_t cmdline_options[] =
       "<0-2>", NULL },
     { "-pr6txtdev", SET_RESOURCE, 1,
       NULL, NULL, "Printer6TextDevice", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<0-2>", T_("Specify printer text output device for printer #6") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SPECIFY_TEXT_DEVICE_6,
+      "<0-2>", NULL },
     { NULL }
 };
 

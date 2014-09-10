@@ -1327,6 +1327,9 @@ IDCLS_SPECIFY_PRT_DRIVER_4_NAME
 IDCLS_SPECIFY_PRT_DRIVER_5_NAME
 
 /* printerdrv/driver-select.c */
+IDCLS_SPECIFY_PRT_DRIVER_6_NAME
+
+/* printerdrv/driver-select.c */
 IDCLS_SPECIFY_PRT_DRIVER_USR_NAME
 
 /* printerdrv/interface-serial.c */
@@ -1337,6 +1340,9 @@ IDCLS_SET_DEVICE_TYPE_5
 
 /* printerdrv/interface-serial.c */
 IDCLS_SET_DEVICE_TYPE_6
+
+/* printerdrv/interface-serial.c */
+IDCLS_SET_DEVICE_TYPE_7
 
 /* printerdrv/interface-userport.c */
 IDCLS_ENABLE_USERPORT_PRINTER
@@ -1361,6 +1367,9 @@ IDCLS_SPECIFY_TEXT_DEVICE_4
 
 /* printerdrv/output-text.c */
 IDCLS_SPECIFY_TEXT_DEVICE_5
+
+/* printerdrv/output-text.c */
+IDCLS_SPECIFY_TEXT_DEVICE_6
 
 /* printerdrv/output-text.c */
 IDCLS_SPECIFY_TEXT_USERPORT
@@ -1411,6 +1420,18 @@ IDCLS_ENABLE_IEC_5
 
 /* serial/serial-iec-device.c */
 IDCLS_DISABLE_IEC_5
+
+/* serial/serial-iec-device.c */
+IDCLS_ENABLE_IEC_6
+
+/* serial/serial-iec-device.c */
+IDCLS_DISABLE_IEC_6
+
+/* serial/serial-iec-device.c */
+IDCLS_ENABLE_IEC_7
+
+/* serial/serial-iec-device.c */
+IDCLS_DISABLE_IEC_7
 
 /* serial/serial-iec-device.c */
 IDCLS_ENABLE_IEC_8
