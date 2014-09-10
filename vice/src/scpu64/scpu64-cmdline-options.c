@@ -73,6 +73,13 @@ static struct model_s model_match[] = {
     { "c64oldntsc", C64MODEL_C64_OLD_NTSC },
     { "paln", C64MODEL_C64_PAL_N },
     { "drean", C64MODEL_C64_PAL_N },
+    { "sx64", C64MODEL_C64SX_PAL },
+    { "sx64pal", C64MODEL_C64SX_PAL },
+    { "sx64ntsc", C64MODEL_C64SX_NTSC },
+    { "gs", C64MODEL_C64_GS },
+    { "c64gs", C64MODEL_C64_GS },
+    { "jap", C64MODEL_C64_JAP },
+    { "c64jap", C64MODEL_C64_JAP },
     { NULL, C64MODEL_UNKNOWN }
 };
 
@@ -204,7 +211,7 @@ static const cmdline_option_t cmdline_options[] = {
     { "-model", CALL_FUNCTION, 1,
       set_c64_model, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_MODEL, IDCLS_SET_C64_MODEL,
+      IDCLS_P_MODEL, IDCLS_SET_SCPU64_MODEL,
       NULL, NULL },
     { "-burstmod", SET_RESOURCE, 1,
       NULL, NULL, "BurstMod", NULL,

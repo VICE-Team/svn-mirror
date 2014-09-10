@@ -65,12 +65,6 @@ static int sync_factor;
 /* Name of the character ROM.  */
 static char *chargen_rom_name = NULL;
 
-/* Name of the BASIC ROM.  */
-static char *basic_rom_name = NULL;
-
-/* Name of the Kernal ROM.  */
-static char *kernal_rom_name = NULL;
-
 /* Name of the SCPU64 ROM.  */
 static char *scpu64_rom_name = NULL;
 
@@ -84,7 +78,6 @@ static int scpu64_simm_size;
 static int scpu64_jiffy_switch = 1;
 static int scpu64_speed_switch = 1;
 
-static int board_type = 0;
 static int iec_reset = 0;
 
 static int set_chargen_rom_name(const char *val, void *param)
@@ -105,73 +98,25 @@ static int set_scpu64_rom_name(const char *val, void *param)
     return scpu64rom_load_scpu64(scpu64_rom_name);
 }
 
-/* the kernal ROM is not used by xscpu64, however the resource must work
- * if the model switching from x64sc is (ab)used
- */
-static int set_kernal_rom_name(const char *val, void *param)
-{
-    if (util_string_set(&kernal_rom_name, val)) {
-        return 0;
-    }
-#if 0
-    /* load kernal without a kernal overriding buffer */
-    ret = c64rom_load_kernal(kernal_rom_name, NULL);
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-#endif
-    return 0;
-}
-
-/* the basic ROM is not used by xscpu64, however the resource must work
- * if the model switching from x64sc is (ab)used
- */
-static int set_basic_rom_name(const char *val, void *param)
-{
-    if (util_string_set(&basic_rom_name, val)) {
-        return 0;
-    }
-#if 0
-    ret = c64rom_load_basic(basic_rom_name);
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-#endif
-    return 0;
-}
-
-static int set_board_type(int val, void *param)
-{
-    int old_board_type = board_type;
-    if ((val < 0) || (val > 1)) {
-        return -1;
-    }
-    board_type = val;
-    if (old_board_type != board_type) {
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-    }
-    return 0;
-}
-
 static int set_iec_reset(int val, void *param)
 {
-    if ((val < 0) || (val > 1)) {
-        return -1;
-    }
-    iec_reset = val;
+    iec_reset = val ? 1 : 0;
+
     return 0;
 }
 
 static int set_cia1_model(int val, void *param)
 {
-    int old_cia_model = cia1_model;
-
     switch (val) {
         case CIA_MODEL_6526:
         case CIA_MODEL_6526A:
-            cia1_model = val;
             break;
         default:
             return -1;
     }
 
-    if (old_cia_model != cia1_model) {
+    if (cia1_model != val) {
+        cia1_model = val;
         cia1_update_model();
     }
 
@@ -180,18 +125,16 @@ static int set_cia1_model(int val, void *param)
 
 static int set_cia2_model(int val, void *param)
 {
-    int old_cia_model = cia2_model;
-
     switch (val) {
         case CIA_MODEL_6526:
         case CIA_MODEL_6526A:
-            cia2_model = val;
             break;
         default:
             return -1;
     }
 
-    if (old_cia_model != cia2_model) {
+    if (cia2_model != val) {
+        cia2_model = val;
         cia2_update_model();
     }
 
@@ -241,8 +184,15 @@ static int set_sync_factor(int val, void *param)
 
 static int set_scpu64_simm_size(int val, void *param)
 {
-    if (val > 16 || (val & (val-1)) || val == 2) {
-        return -1; /* not 0, 1, 4, 8 or 16 */
+    switch (val) {
+        case 0:
+        case 1:
+        case 4:
+        case 8:
+        case 16:
+            break;
+        default:
+            return -1;
     }
     scpu64_simm_size = val;
     mem_set_simm_size(val);
@@ -251,15 +201,19 @@ static int set_scpu64_simm_size(int val, void *param)
 
 static int set_jiffy_switch(int val, void *param)
 {
-    scpu64_jiffy_switch = !!val;
+    scpu64_jiffy_switch = val ? 1 : 0;
+
     mem_set_jiffy_switch(scpu64_jiffy_switch);
+
     return 0;
 }
 
 static int set_speed_switch(int val, void *param)
 {
-    scpu64_speed_switch = !!val;
+    scpu64_speed_switch = val ? 1 : 0;
+
     mem_set_speed_switch(scpu64_speed_switch);
+
     return 0;
 }
 
@@ -287,8 +241,6 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
-    { "BoardType", 0, RES_EVENT_SAME, NULL,
-      &board_type, set_board_type, NULL },
     { "IECReset", 1, RES_EVENT_SAME, NULL,
       &iec_reset, set_iec_reset, NULL },
     { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
@@ -332,10 +284,7 @@ int scpu64_resources_init(void)
 void scpu64_resources_shutdown(void)
 {
     lib_free(chargen_rom_name);
-    lib_free(basic_rom_name);
-    lib_free(kernal_rom_name);
     lib_free(scpu64_rom_name);
-    lib_free(kernal_revision);
     lib_free(machine_keymap_file_list[0]);
     lib_free(machine_keymap_file_list[1]);
     lib_free(machine_keymap_file_list[2]);

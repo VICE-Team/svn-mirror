@@ -4220,7 +4220,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_CIA2_MODEL_TR, "CIA 2 modelini belirle (0 = eski 6526, 1 = yeni 6526A)"},
 #endif
 
-/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
+/* c64/c64-cmdline-options.c */
 /* en */ {IDCLS_SET_C64_MODEL,    N_("Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_C64_MODEL_DA, ""},  /* fuzzy */
@@ -4235,6 +4235,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SET_C64_MODEL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_C64_MODEL_SV, "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
 /* tr */ {IDCLS_SET_C64_MODEL_TR, ""},  /* fuzzy */
+#endif
+
+/* scpu64/scpu64-cmdline-options.c */
+/* en */ {IDCLS_SET_SCPU64_MODEL,    N_("Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_SCPU64_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_SCPU64_MODEL_DE, "Wähle C64 Modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"},
+/* es */ {IDCLS_SET_SCPU64_MODEL_ES, "Seleccionar modelo C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"},
+/* fr */ {IDCLS_SET_SCPU64_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_SCPU64_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_SCPU64_MODEL_IT, "Imposta modello C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"},
+/* ko */ {IDCLS_SET_SCPU64_MODEL_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_SCPU64_MODEL_NL, "Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"},
+/* pl */ {IDCLS_SET_SCPU64_MODEL_PL, "Wybierz model C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"},
+/* ru */ {IDCLS_SET_SCPU64_MODEL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_SCPU64_MODEL_SV, "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"},
+/* tr */ {IDCLS_SET_SCPU64_MODEL_TR, ""},  /* fuzzy */
 #endif
 
 /* c128/c128-cmdline-options.c */

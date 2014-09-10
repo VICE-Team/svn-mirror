@@ -397,8 +397,11 @@ IDCLS_SET_CIA1_MODEL
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_CIA2_MODEL
 
-/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
+/* c64/c64-cmdline-options.c */
 IDCLS_SET_C64_MODEL
+
+/* scpu64/scpu64-cmdline-options.c */
+IDCLS_SET_SCPU64_MODEL
 
 /* c128/c128-cmdline-options.c */
 IDCLS_SET_C128_MODEL
