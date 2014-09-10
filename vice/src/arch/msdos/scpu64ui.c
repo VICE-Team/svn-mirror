@@ -43,7 +43,6 @@
 #include "ui.h"
 #include "uiburstmod.h"
 #include "uic64cart.h"
-#include "uic64model.h"
 #include "uidigimax.h"
 #include "uidqbb.h"
 #include "uidrive.h"
@@ -59,6 +58,7 @@
 #include "uimmcreplay.h"
 #include "uiramcart.h"
 #include "uireu.h"
+#include "uiscpu64model.h"
 #include "uisidc64.h"
 #include "uisoundexpander.h"
 #ifdef HAVE_TFE
@@ -274,6 +274,8 @@ int scpu64ui_init(void)
     tui_menu_add_separator(ui_special_submenu);
 
     uiscpu64_init(ui_special_submenu);
+
+    uiscpu64model_init(ui_special_submenu);
 
     ui_ioextensions_submenu = tui_menu_create("I/O extensions", 1);
     tui_menu_add(ui_ioextensions_submenu, ioextenstions_menu_items);

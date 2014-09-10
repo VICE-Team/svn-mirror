@@ -132,14 +132,6 @@ static ui_menu_entry_t set_c64_model_submenu[] = {
       (ui_callback_data_t)C64MODEL_C64_JAP, NULL },
     { "C64 GS", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
       (ui_callback_data_t)C64MODEL_C64_GS, NULL },
-    { "PET64 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
-      (ui_callback_data_t)C64MODEL_PET64_PAL, NULL },
-    { "PET64 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
-      (ui_callback_data_t)C64MODEL_PET64_NTSC, NULL },
-#if 0
-    { "MAX Machine", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
-      (ui_callback_data_t)C64MODEL_ULTIMAX, NULL },
-#endif
     { NULL }
 };
 

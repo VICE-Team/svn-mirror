@@ -115,6 +115,18 @@ static int scpu64_ui_specific(video_canvas_t *canvas, int idm)
         case IDM_C64_MODEL_DREAN:
             c64model_set(C64MODEL_C64_PAL_N);
             break;
+        case IDM_C64_MODEL_C64SX_PAL:
+            c64model_set(C64MODEL_C64SX_PAL);
+            break;
+        case IDM_C64_MODEL_C64SX_NTSC:
+            c64model_set(C64MODEL_C64SX_NTSC);
+            break;
+        case IDM_C64_MODEL_C64_JAP:
+            c64model_set(C64MODEL_C64_JAP);
+            break;
+        case IDM_C64_MODEL_C64_GS:
+            c64model_set(C64MODEL_C64_GS);
+            break;
         case IDM_C64_MODEL_CUSTOM:
             ui_c64_model_custom_dialog();
             break;

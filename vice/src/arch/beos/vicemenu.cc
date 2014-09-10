@@ -389,9 +389,11 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("C64 SX NTSC", new BMessage(MENU_C64_MODEL_C64SX_NTSC)));
             menu->AddItem(new BMenuItem("Japanese", new BMessage(MENU_C64_MODEL_C64_JAP)));
             menu->AddItem(new BMenuItem("C64 GS", new BMessage(MENU_C64_MODEL_C64_GS)));
-            menu->AddItem(new BMenuItem("PET64 PAL", new BMessage(MENU_C64_MODEL_PET64_PAL)));
-            menu->AddItem(new BMenuItem("PET64 NTSC", new BMessage(MENU_C64_MODEL_PET64_NTSC)));
-            menu->AddItem(new BMenuItem("MAX Machine", new BMessage(MENU_C64_MODEL_ULTIMAX)));
+            if (machine_class == VICE_MACHINE_SCPU64) {
+                menu->AddItem(new BMenuItem("PET64 PAL", new BMessage(MENU_C64_MODEL_PET64_PAL)));
+                menu->AddItem(new BMenuItem("PET64 NTSC", new BMessage(MENU_C64_MODEL_PET64_NTSC)));
+                menu->AddItem(new BMenuItem("MAX Machine", new BMessage(MENU_C64_MODEL_ULTIMAX)));
+            }
             menu->AddItem(submenu = new BMenu("Custom"));
             if (machine_class != VICE_MACHINE_C64) {
                 submenu->AddItem(extsubmenu = new BMenu("VICII model"));

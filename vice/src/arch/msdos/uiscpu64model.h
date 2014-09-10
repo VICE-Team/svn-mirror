@@ -1,8 +1,8 @@
 /*
- * menu_c64model.h - C64 model menu for SDL UI.
+ * uic64model.h - C64 model selection UI for MS-DOS.
  *
  * Written by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,11 @@
  *
  */
 
-#ifndef VICE_MENU_C64MODEL_H
-#define VICE_MENU_C64MODEL_H
+#ifndef UIC64MODEL_H
+#define UIC64MODEL_H
 
-#include "vice.h"
-#include "types.h"
-#include "uimenu.h"
+struct tui_menu;
 
-extern const ui_menu_entry_t c64_model_menu[];
-extern const ui_menu_entry_t c64sc_model_menu[];
-extern const ui_menu_entry_t scpu64_model_menu[];
+extern void uic64model_init(struct tui_menu *parent_submenu);
 
 #endif

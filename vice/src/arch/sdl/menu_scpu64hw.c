@@ -113,7 +113,7 @@ const ui_menu_entry_t scpu64_hardware_menu[] = {
     { "Model settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c64sc_model_menu },
+      (ui_callback_data_t)scpu64_model_menu },
     { "SIMM size",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

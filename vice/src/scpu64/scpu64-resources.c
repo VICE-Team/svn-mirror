@@ -267,14 +267,6 @@ static const resource_string_t resources_string[] = {
     { "ChargenName", "chargen", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &chargen_rom_name, set_chargen_rom_name, NULL },
-    /* kernal and basic are not used, but the resources must work if the model
-     * switching from x64sc is (ab)used */
-    { "KernalName", "kernal", RES_EVENT_NO, NULL,
-      /* FIXME: should be same but names may differ */
-      &kernal_rom_name, set_kernal_rom_name, NULL },
-    { "BasicName", "basic", RES_EVENT_NO, NULL,
-      /* FIXME: should be same but names may differ */
-      &basic_rom_name, set_basic_rom_name, NULL },
     { "SCPU64Name", "scpu64", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &scpu64_rom_name, set_scpu64_rom_name, NULL },

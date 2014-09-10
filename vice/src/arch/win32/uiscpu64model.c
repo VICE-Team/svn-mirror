@@ -76,8 +76,6 @@ static int scpu64_models[] = {
     IDS_C64_SX_NTSC,
     IDS_JAPANESE,
     IDS_C64_GS,
-    IDS_PET64_PAL,
-    IDS_PET64_NTSC,
     IDS_UNKNOWN,
     0
 };
@@ -94,8 +92,6 @@ static int scpu64_models_values[] = {
     C64MODEL_C64SX_NTSC,
     C64MODEL_C64_JAP,
     C64MODEL_C64_GS,
-    C64MODEL_PET64_PAL,
-    C64MODEL_PET64_NTSC,
     C64MODEL_UNKNOWN
 };
 

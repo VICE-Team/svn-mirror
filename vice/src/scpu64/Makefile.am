@@ -40,6 +40,7 @@ libscpu64_a_SOURCES = \
 	scpu64memsnapshot.h \
 	scpu64meminit.c \
 	scpu64meminit.h \
+	scpu64model.c \
 	scpu64rom.c \
 	scpu64rom.h \
 	scpu64stubs.c
