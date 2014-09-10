@@ -134,7 +134,7 @@ extern char *platform_get_minix_runtime_cpu(void);
 #endif
 
 /* Linux */
-#ifdef __linux
+#if defined(__linux) && !defined(__ANDROID__)
 #define RUNTIME_OS_CALL platform_get_linux_runtime_os
 #endif
 
@@ -244,7 +244,7 @@ extern char *platform_get_minix_runtime_cpu(void);
 #endif
 
 /* Linux */
-#ifdef __linux
+#if defined(__linux) && !defined(__ANDROID__)
 #define RUNTIME_CPU_CALL platform_get_linux_runtime_cpu
 #endif
 
