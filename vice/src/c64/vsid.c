@@ -127,10 +127,6 @@ int machine_resources_init(void)
         init_resource_fail("sid");
         return -1;
     }
-    if (serial_resources_init() < 0) {
-        init_resource_fail("serial");
-        return -1;
-    }
     if (c64_glue_resources_init() < 0) {
         init_resource_fail("c64 glue");
         return -1;
@@ -144,7 +140,6 @@ int machine_resources_init(void)
 
 void machine_resources_shutdown(void)
 {
-    serial_shutdown();
     c64_resources_shutdown();
 }
 
