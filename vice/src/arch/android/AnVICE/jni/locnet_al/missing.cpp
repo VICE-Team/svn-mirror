@@ -33,6 +33,11 @@
 #include "SDL.h"
 #include "SDL_thread.h"
 
+/* Fallback */
+#ifndef LOCNET_LOG_TAG
+#define LOCNET_LOG_TAG "c64"
+#endif
+
 void (SDLCALL *mixerCallBack)(void *userdata, Uint8 *stream, int len) = NULL;
 
 struct SDL_mutex {
