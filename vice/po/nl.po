@@ -4482,7 +4482,7 @@ msgstr "ReSID Passband"
 #. 0..90
 #: src/arch/unix/x11/gnome/uipalcontrol.c:80
 msgid "ReSID Gain"
-msgstr "reSID Verstrerking"
+msgstr "reSID Versterking"
 
 #. 90..100
 #: src/arch/unix/x11/gnome/uipalcontrol.c:81
