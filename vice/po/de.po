@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-10 14:54-0700\n"
-"PO-Revision-Date: 2014-08-17 10:53+0200\n"
+"PO-Revision-Date: 2014-09-11 20:30+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -3274,9 +3274,8 @@ msgstr "Drucker #6 Emulation"
 
 #: src/arch/unix/gui/uiprinteriec.c:77
 #: src/arch/unix/gui/uiprinteriecplus4.c:75
-#, fuzzy
 msgid "Printer #6 enable IEC device"
-msgstr "IEC Drucker #4 aktivieren"
+msgstr "Drucker #6 aktiviere IEC Gerät"
 
 #: src/arch/unix/gui/uiprinteriec.c:79
 #: src/arch/unix/gui/uiprinteriecplus4.c:77
@@ -3287,23 +3286,20 @@ msgstr "Drucker #6 Treiber"
 #: src/arch/unix/gui/uiprinteriec.c:81
 #: src/arch/unix/gui/uiprinteriecplus4.c:79
 #: src/arch/unix/gui/uiprinterieee.c:70
-#, fuzzy
 msgid "Printer #6 output"
-msgstr "Drucker #4 Ausgabe"
+msgstr "Drucker #6 Ausgabe"
 
 #: src/arch/unix/gui/uiprinteriec.c:83
 #: src/arch/unix/gui/uiprinteriecplus4.c:81
 #: src/arch/unix/gui/uiprinterieee.c:72
-#, fuzzy
 msgid "Printer #6 text output device"
-msgstr "Drucker #4 Text Ausgabegerät"
+msgstr "Drucker #6 Text Ausgabegerät"
 
 #: src/arch/unix/gui/uiprinteriec.c:85
 #: src/arch/unix/gui/uiprinteriecplus4.c:83
 #: src/arch/unix/gui/uiprinterieee.c:74
-#, fuzzy
 msgid "Printer #6 formfeed"
-msgstr "Drucker #4 Seitenvorschub"
+msgstr "Drucker #6 Seitenvorschub"
 
 #: src/arch/unix/gui/uiprinteriec.c:90
 #: src/arch/unix/gui/uiprinteriecplus4.c:88
@@ -3313,9 +3309,8 @@ msgstr "Echter Zugriff Gerät 7"
 
 #: src/arch/unix/gui/uiprinteriec.c:92
 #: src/arch/unix/gui/uiprinteriecplus4.c:90
-#, fuzzy
 msgid "Device #7 enable IEC device"
-msgstr "IEC Drucker #4 aktivieren"
+msgstr "Drucker #7 aktiviere IEC Gerät"
 
 #: src/arch/unix/gui/uiprinteriec.c:96 src/arch/unix/gui/uiprinterieee.c:83
 #: src/arch/amigaos/intl_text.c.po.c:8617
@@ -5992,29 +5987,24 @@ msgid "TED Audio leak"
 msgstr "TED Audio Leak"
 
 #: src/arch/win32/res.rc.po.c:1242
-#, fuzzy
 msgid "VICII Renderer"
-msgstr "VICII Render Filter"
+msgstr "VICII Renderer"
 
 #: src/arch/win32/res.rc.po.c:1243
-#, fuzzy
 msgid "VIC Renderer"
-msgstr "VIC Render Filter"
+msgstr "VIC Renderer"
 
 #: src/arch/win32/res.rc.po.c:1244
-#, fuzzy
 msgid "CRTC Renderer"
-msgstr "CRTC Render Filter"
+msgstr "CRTC Renderer"
 
 #: src/arch/win32/res.rc.po.c:1245
-#, fuzzy
 msgid "VDC Renderer"
-msgstr "VDC Render Filter"
+msgstr "VDC Renderer"
 
 #: src/arch/win32/res.rc.po.c:1246
-#, fuzzy
 msgid "TED Renderer"
-msgstr "TED Render Filter"
+msgstr "TED Renderer"
 
 #: src/arch/win32/res.rc.po.c:1247
 msgid "External Palette"
@@ -6451,9 +6441,8 @@ msgid "Always on Top"
 msgstr "Immer im Vordergrund"
 
 #: src/arch/win32/res.rc.po.c:1465
-#, fuzzy
 msgid "Reset IEC with CPU"
-msgstr "Zurücksetzen des Bandlaufwerks bei CPU Reset"
+msgstr "Reset IEC mit CPU"
 
 #: src/arch/win32/res.rc.po.c:1469 src/arch/amigaos/intl_text.c.po.c:1980
 msgid "Enable Joy Keys"
@@ -6782,9 +6771,8 @@ msgid "Random delay"
 msgstr "Zufallsverzögerung"
 
 #: src/arch/win32/resautostart.rc.po.c:49
-#, fuzzy
 msgid "Handle true drive emulation"
-msgstr "Präzise Floppy Emulation"
+msgstr "Behandle präzise Floppy Emulation"
 
 #: src/arch/win32/resautostart.rc.po.c:52
 #: src/arch/amigaos/intl_text.c.po.c:12047
@@ -7620,9 +7608,8 @@ msgid "Plus4 model settings"
 msgstr "Plus4 Modell Einstellungen"
 
 #: src/arch/win32/resplus4.rc.po.c:476
-#, fuzzy
 msgid "enable Digiblaster"
-msgstr "Digiblaster add-on aktivieren"
+msgstr "Digiblaster add-aktivieren"
 
 #: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:13104
 msgid "Enable the PLUS60K RAM expansion"
@@ -10039,10 +10026,11 @@ msgid "Disable warp mode during autostart"
 msgstr "Warp Mode währen Autostart deaktivieren"
 
 #: src/translate_text.c.po.c:3196
-#, fuzzy
 msgid ""
 "Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk image)"
-msgstr "Autstart Modus für PRG Dateien definieren"
+msgstr ""
+"Autstart Modus für PRG Dateien definieren (0: VirtualFS, 1:Inject, 2:\n"
+"Diskimage)"
 
 #: src/translate_text.c.po.c:3213
 msgid "Set disk image for autostart of PRG files"
@@ -10249,21 +10237,17 @@ msgstr ""
 "pet64, ultimax)"
 
 #: src/translate_text.c.po.c:4169
-#, fuzzy
 msgid ""
 "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"
-msgstr ""
-"Wähle C64 Modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, "
-"pet64, ultimax)"
+msgstr "Wähle C64 Modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"
 
 #: src/translate_text.c.po.c:4186
 msgid "Set C128 model (c128/c128dcr, pal/ntsc)"
 msgstr "Wähle C128 Modell (c128/c128dcr, pal/ntsc)"
 
 #: src/translate_text.c.po.c:4220
-#, fuzzy
 msgid "Disable RAM banks 2 and 3"
-msgstr "RAM Bänke 2 und 3 aktivieren"
+msgstr "RAM Bänke 2 und 3 deaktivieren"
 
 #: src/translate_text.c.po.c:4237
 msgid ""
@@ -11377,16 +11361,15 @@ msgstr "Wähle VIC-II Modell (6569/6569r1/8565/6567/8562/6567r56a)"
 
 #: src/translate_text.c.po.c:9447
 msgid "Specify name of printer driver for device #4"
-msgstr "Name für Druckertreiber Gerät #4 definieren"
+msgstr "Name für Druckertreiber für Gerät #4 definieren"
 
 #: src/translate_text.c.po.c:9464
 msgid "Specify name of printer driver for device #5"
-msgstr "Name für Druckertreiber Gerät #5 definieren"
+msgstr "Name für Druckertreiber für Gerät #5 definieren"
 
 #: src/translate_text.c.po.c:9481
-#, fuzzy
 msgid "Specify name of printer driver for device #6"
-msgstr "Name für Druckertreiber Gerät #4 definieren"
+msgstr "Name für Druckertreiber für Gerät #6 definieren"
 
 #: src/translate_text.c.po.c:9498
 msgid "Specify name of printer driver for the userport printer"
@@ -11405,9 +11388,8 @@ msgid "Set device type for device #6 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Geräte Typ für Gerät #6 (0: NONE, 1: FS, 2: REAL) setzen"
 
 #: src/translate_text.c.po.c:9566
-#, fuzzy
 msgid "Set device type for device #7 (0: NONE, 2: REAL)"
-msgstr "Geräte Typ für Gerät #4 (0: NONE, 1: FS, 2: REAL) setzen"
+msgstr "Geräte Typ für Gerät #7 (0: NONE, 2: REAL) setzen"
 
 #: src/translate_text.c.po.c:9583
 msgid "Enable the userport printer emulation"
@@ -11435,20 +11417,19 @@ msgstr "Name für Druckerausgabe Textgerät oder Dump Datei definieren"
 
 #: src/translate_text.c.po.c:9685
 msgid "Specify printer text output device for printer #4"
-msgstr "Drucker #4 Gerät für Textausgabe definieren"
+msgstr "Textausgabe Gerät für Drucker #4 definieren"
 
 #: src/translate_text.c.po.c:9702
 msgid "Specify printer text output device for printer #5"
-msgstr "Drucker #5 Gerät für Textausgabe definieren"
+msgstr "Textausgabe Gerät für Drucker #5 definieren"
 
 #: src/translate_text.c.po.c:9719
-#, fuzzy
 msgid "Specify printer text output device for printer #6"
-msgstr "Drucker #4 Gerät für Textausgabe definieren"
+msgstr "Textausgabe Gerät für Drucker #6 definieren"
 
 #: src/translate_text.c.po.c:9736
 msgid "Specify printer text output device for userport printer"
-msgstr "IEC Userport Drucker Gerät für Textausgabe definieren"
+msgstr "Textausgabe Gerät für Userport Drucker definieren"
 
 #: src/translate_text.c.po.c:9753
 msgid "Enable the video cache"
@@ -11507,24 +11488,20 @@ msgid "Disable IEC device emulation for device #5"
 msgstr "IEC Geräte Emulation für Gerät #5 deaktivieren"
 
 #: src/translate_text.c.po.c:10010
-#, fuzzy
 msgid "Enable IEC device emulation for device #6"
-msgstr "IEC Geräte Emulation für Gerät #4 aktivieren"
+msgstr "IEC Geräte Emulation für Gerät #6 aktivieren"
 
 #: src/translate_text.c.po.c:10027
-#, fuzzy
 msgid "Disable IEC device emulation for device #6"
-msgstr "IEC Geräte Emulation für Gerät #4 deaktivieren"
+msgstr "IEC Geräte Emulation für Gerät #6 deaktivieren"
 
 #: src/translate_text.c.po.c:10044
-#, fuzzy
 msgid "Enable IEC device emulation for device #7"
-msgstr "IEC Geräte Emulation für Gerät #4 aktivieren"
+msgstr "IEC Geräte Emulation für Gerät #7 aktivieren"
 
 #: src/translate_text.c.po.c:10061
-#, fuzzy
 msgid "Disable IEC device emulation for device #7"
-msgstr "IEC Geräte Emulation für Gerät #4 deaktivieren"
+msgstr "IEC Geräte Emulation für Gerät #7 deaktivieren"
 
 #: src/translate_text.c.po.c:10078
 msgid "Enable IEC device emulation for device #8"
@@ -11817,9 +11794,8 @@ msgid "Select fullscreen device"
 msgstr "Vollbild Gerät auswählen"
 
 #: src/translate_text.c.po.c:11380
-#, fuzzy
 msgid "Seconds"
-msgstr "Zweiter SID auf"
+msgstr "Sekunden"
 
 #: src/translate_text.c.po.c:11397
 msgid "Select fullscreen mode"
