@@ -467,7 +467,6 @@ static int koala_direct_save(native_data_t *source, int compress, BYTE bgcolor)
     BYTE color2 = 255;
     BYTE color3 = 255;
     BYTE colorbyte;
-    native_color_sort_t *color_order = NULL;
 
     /* allocate file buffer */
     filebuffer = lib_malloc(10003);
