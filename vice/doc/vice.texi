@@ -3026,43 +3026,64 @@ Implemented drivers are:
 
 @itemize @bullet
 @item
+@code{ahi}, for the Amiga/Morphos/Aros sound driver.
+@item
 @code{aix}, for the IBM AIX sound driver.
 @item
-@code{uss}, for the Linux/FreeBSD Universal Sound System driver
-(@code{SoundDeviceArg} specifies the audio device, @file{/dev/dsp} by
-default);
+@code{allegro}, for the MSDOS Allegro sound driver.
 @item
-@code{sgi}, for the Silicon Graphics audio device (@code{SoundDeviceArg}
-specifies the audio device, @file{/dev/audio} by default);
+@code{alsa}, for the linux ALSA sound driver.
 @item
-@code{sun}, for the Solaris audio device (unfinished;
-@code{SoundDeviceArg} specifies the audio device, @file{/dev/audio} by
-default).
+@code{arts}, for the *nix ARTS sound driver.
 @item
-@code{hpux}, for the HP-UX audio device (unfinished;
-@code{SoundDeviceArg} specifies the audio device, @file{/dev/audio} by
-default).
+@code{beos}, for the BeOS/Zeta/Haiku sound driver.
 @item
-@code{sdl}, for the Simple DirectMedia Layer audio driver.
+@code{bsp}, for the BeOS/Zeta/Haiku BeOS Media Kit sound driver.
 @item
-@code{esd}, for EsounD, the Enlightened Sound Daemon; @code{SoundDeviceArg}
-specifies the ESD server (@file{host:port}) to connect, empty by default.
+@code{coreaudio}, for the Mac OS X sound driver.
 @item
-@code{dummy}, fully emulating the SID, but not actually playing samples.
+@code{dart}, for the OS/2 sound driver.
+@item
+@code{dummy}, fully emulating the sound output chip(s), but not actually playing samples.
 @item
 @code{dump}, writing all the write accesses to the registers to a file
 (specified by @code{SoundDeviceArg}, default value is
 @code{vicesnd.sid});
 @item
-@code{speed}, like @code{dummy} but also calculating samples (mainly
-used to evaluate the speed of the sample generator);
+@code{dx}, for the Windows Direct-X sound driver.
 @item
 @code{fs}, writing samples to a file (specified by
 @code{SoundDeviceArg}; default is @file{vicesnd.raw});
+@item
+@code{hpux}, for the HP-UX audio device (unfinished;
+@code{SoundDeviceArg} specifies the audio device, @file{/dev/audio} by
+default).
+@item
+@code{midas}, for the MSDOS Midas sound driver.
+@item
+@code{pulse}, for the Pulseaudio sound driver.
+@item
+@code{sdl}, for the Simple DirectMedia Layer audio driver.
+@item
+@code{sgi}, for the Silicon Graphics audio device (@code{SoundDeviceArg}
+specifies the audio device, @file{/dev/audio} by default);
+@item
+@code{speed}, like @code{dummy} but also calculating samples (mainly
+used to evaluate the speed of the sample generator);
+@item
+@code{sun}, for the Solaris and NetBDS audio device (unfinished;
+@code{SoundDeviceArg} specifies the audio device, @file{/dev/audio} by
+default).
+@item
+@code{uss}, for the Linux/FreeBSD Universal Sound System driver
+(@code{SoundDeviceArg} specifies the audio device, @file{/dev/dsp} by
+default);
+@item
+@code{wmm}, for the Windows Multimedia Waveout sound device.
 @end itemize
 
 These drivers will actually be present only if the VICE configuration
-script detected the corresponding devices at the time of compilation.
+script detected the corresponding development support at the time of compilation.
 
 @vindex SoundDeviceArg
 @item SoundDeviceArg
@@ -3071,16 +3092,35 @@ String specifying an additional parameter for the audio driver (see
 
 @vindex SoundRecordDeviceName
 @item SoundRecordDeviceName
-String specifying the filename used for sound recording.
+String specifying the driver used for sound recording.
+
+Implemented drivers are:
+
+@itemize @bullet
+@item
+@code{aiff}, for the Apple Interchange File Format 16bit sound recorder driver.
+@item
+@code{iff}, for the Amiga Interchange File Format (8SVX) 8bit sound recorder driver.
+@item
+@code{mp3}, for the MP3 sound recorder driver.
+@item
+@code{voc}, for the Creative Voice (VOC) sound recorder driver.
+@item
+@code{wav}, for the RIFF/WAV sound recorder driver.
+@end itemize
+
+These drivers will actually be present only if the VICE configuration
+script detected the corresponding development support at the time of compilation.
+
 @vindex SoundRecordDeviceArg
 @item SoundRecordDeviceArg
 String specifying additional arguments for sound recording.
 @vindex SoundFragmentSize
 @item SoundFragmentSize
-Enum specifying the fragment size (0: small, 1: medium, 2: large)
+Enum specifying the fragment size (0: very small, 1: small, 2: medium, 3: large, 4: very large)
 @vindex SoundVolume
 @item SoundVolume
-Integer specifying the master volume in percent. [100] (0..100)s
+Integer specifying the master volume in percent. [100] (0..100)
 @vindex SoundOutput
 @item SoundOutput
 Enum specifying how the type of sound output. Output is selectable between 'system' 
@@ -5904,10 +5944,7 @@ Boolean specifying whether the built-in SID filters must be emulated.
 @vindex SidModel
 @item SidModel
 Integer specifying what model of the SID must be emulated (@code{0}: 6581
-, @code{1}: 8580, @code{2}: 8580D, @code{3}: 6581R4, @code{4}: DTVSID, @code{8}: 6581R3_4885   
-, @code{9}: 6581R3_0486S, @code{10}: 6581R3_3984, @code{11}: 6581R4AR_3789, @code{12}: 6581R3_4485   
-, @code{13}: 6581R4_1986S, @code{16}: 8580R5_3691, @code{17}: 8580R5_3691D, @code{18}: 8580R5_1489   
-, @code{19}: 8580R5_1489D).
+, @code{1}: 8580, @code{2}: 8580D, @code{3}: 6581R4, @code{4}: DTVSID).
 
 @vindex SidEngine
 @item SidEngine
@@ -5943,7 +5980,7 @@ in millivolts. [0] (-5000..5000)
 
 @cindex -sidstereo
 @item -sidstereo
-Emulates a second SID chip for stereo sound (@code{SidStereo}).
+Specifies the amount of extra SID chips to emulate (@code{SidStereo}).
 
 @cindex -sidstereoaddress
 @item -sidstereoaddress @code{ADDRESS}

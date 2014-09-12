@@ -92,23 +92,25 @@ static int set_sid_engine(int set_engine, void *param)
 #endif
     }
 
-    if (engine != SID_ENGINE_FASTSID
+    switch (engine) {
+        case SID_ENGINE_FASTSID:
 #ifdef HAVE_RESID
-        && engine != SID_ENGINE_RESID
+        case SID_ENGINE_RESID:
 #endif
 #ifdef HAVE_CATWEASELMKIII
-        && engine != SID_ENGINE_CATWEASELMKIII
+        case SID_ENGINE_CATWEASELMKIII:
 #endif
 #ifdef HAVE_HARDSID
-        && engine != SID_ENGINE_HARDSID
+        case SID_ENGINE_HARDSID:
 #endif
 #ifdef HAVE_PARSID
-        && engine != SID_ENGINE_PARSID_PORT1
-        && engine != SID_ENGINE_PARSID_PORT2
-        && engine != SID_ENGINE_PARSID_PORT3
+        case SID_ENGINE_PARSID_PORT1:
+        case SID_ENGINE_PARSID_PORT2:
+        case SID_ENGINE_PARSID_PORT3:
 #endif
-        ) {
-        return -1;
+            break;
+        default:
+            return -1;
     }
 
     if (sid_engine_set(engine) < 0) {
@@ -139,8 +141,10 @@ static int set_sid_engine(int set_engine, void *param)
 
 static int set_sid_filters_enabled(int val, void *param)
 {
-    sid_filters_enabled = val;
+    sid_filters_enabled = val ? 1 : 0;
+
     sid_state_changed = 1;
+
     return 0;
 }
 
@@ -210,6 +214,19 @@ static int set_sid_model(int val, void *param)
         if (machine_class == VICE_MACHINE_C128) {
             sid_model = SID_MODEL_8580;
         }
+    }
+
+    switch (sid_model) {
+        case SID_MODEL_6581:
+        case SID_MODEL_8580:
+        case SID_MODEL_8580D:
+        case SID_MODEL_6581R4:
+#ifdef HAVE_RESID
+        case SID_MODEL_DTVSID:
+#endif
+            break;
+        default:
+            return -1;
     }
 
 #ifdef SID_ENGINE_MODEL_DEBUG

@@ -248,15 +248,26 @@ static int cycle_based = 0;
 
 static int set_output_option(int val, void *param)
 {
-    if (val >= 0 && val < 3 && output_option != val) {
+    switch (val) {
+        case SOUND_OUTPUT_SYSTEM:
+        case SOUND_OUTPUT_MONO:
+        case SOUND_OUTPUT_STEREO:
+            break;
+        default:
+            return -1;
+    }
+
+    if (output_option != val) {
         output_option = val;
         sound_state_changed = TRUE;
     }
     return 0;
 }
 
-static int set_playback_enabled(int val, void *param)
+static int set_playback_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (val) {
         vsync_disable_timer();
     }
@@ -268,6 +279,10 @@ static int set_playback_enabled(int val, void *param)
 
 static int set_sample_rate(int val, void *param)
 {
+    if (val <= 0) {
+        return -1;
+    }
+
     sample_rate = val;
     sound_state_changed = TRUE;
     return 0;
@@ -319,8 +334,8 @@ static int set_buffer_size(int val, void *param)
 
 static int set_fragment_size(int val, void *param)
 {
-    if (val < 0) {
-        val = 0;
+    if (val < SOUND_FRAGMENT_VERY_SMALL) {
+        val = SOUND_FRAGMENT_VERY_SMALL;
     } else if (val > SOUND_FRAGMENT_VERY_LARGE) {
         val = SOUND_FRAGMENT_VERY_LARGE;
     }
@@ -350,6 +365,14 @@ static int set_speed_adjustment_setting(int val, void *param)
             speed_adjustment_setting = SOUND_ADJUST_FLEXIBLE;
         }
     } else {
+        switch (val) {
+            case SOUND_ADJUST_FLEXIBLE:
+            case SOUND_ADJUST_ADJUSTING:
+            case SOUND_ADJUST_EXACT:
+                break;
+            default:
+                return -1;
+        }
         speed_adjustment_setting = val;
     }
 
