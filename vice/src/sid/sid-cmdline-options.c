@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "cmdline.h"
 #include "machine.h"
@@ -39,16 +40,89 @@
 #include "sid-resources.h"
 #include "translate.h"
 
+struct engine_s {
+    const char *name;
+    int engine;
+};
+
+static struct engine_s engine_match[] = {
+    { "0", SID_FASTSID_6581 },
+    { "fast", SID_FASTSID_6581 },
+    { "fastold", SID_FASTSID_6581 },
+    { "fast6581", SID_FASTSID_6581 },
+    { "1", SID_FASTSID_8580 },
+    { "fastnew", SID_FASTSID_8580 },
+    { "fast8580", SID_FASTSID_8580 },
+#ifdef HAVE_RESID
+    { "256", SID_RESID_6581 },
+    { "resid", SID_RESID_6581 },
+    { "residold", SID_RESID_6581 },
+    { "resid6581", SID_RESID_6581 },
+    { "257", SID_RESID_8580 },
+    { "residnew", SID_RESID_8580 },
+    { "resid8580", SID_RESID_8580 },
+    { "258", SID_RESID_8580D },
+    { "residdigital", SID_RESID_8580D },
+    { "residd", SID_RESID_8580D },
+    { "residnewd", SID_RESID_8580D },
+    { "resid8580d", SID_RESID_8580D },
+    { "260", SID_RESID_DTVSID },
+    { "dtv", SID_RESID_DTVSID },
+    { "c64dtv", SID_RESID_DTVSID },
+    { "dtvsid", SID_RESID_DTVSID },
+#endif
+#ifdef HAVE_CATWEASELMKIII
+    { "512", SID_CATWEASELMKIII },
+    { "catweaselmkiii", SID_CATWEASELMKIII },
+    { "catweasel3", SID_CATWEASELMKIII },
+    { "catweasel", SID_CATWEASELMKIII },
+    { "cwmkiii", SID_CATWEASELMKIII },
+    { "cw3", SID_CATWEASELMKIII },
+    { "cw", SID_CATWEASELMKIII },
+#endif
+#ifdef HAVE_HARDSID
+    { "768", SID_HARDSID },
+    { "hardsid", SID_HARDSID },
+    { "hard", SID_HARDSID },
+    { "hs", SID_HARDSID },
+#endif
+#ifdef HAVE_PARSID
+    { "1024", SID_PARSID_PORT1 },
+    { "parsid", SID_PARSID_PORT1 },
+    { "parsid1", SID_PARSID_PORT1 },
+    { "par1", SID_PARSID_PORT1 },
+    { "lpt1", SID_PARSID_PORT1 },
+    { "1280", SID_PARSID_PORT2 },
+    { "parsid2", SID_PARSID_PORT2 },
+    { "par2", SID_PARSID_PORT2 },
+    { "lpt2", SID_PARSID_PORT2 },
+    { "1536", SID_PARSID_PORT3 },
+    { "parsid3", SID_PARSID_PORT3 },
+    { "par3", SID_PARSID_PORT3 },
+    { "lpt3", SID_PARSID_PORT3 },
+#endif
+    { NULL, -1 }
+};
+
 int sid_common_set_engine_model(const char *param, void *extra_param)
 {
     int engine;
     int model;
-    int temp;
-    char *endptr;
+    int temp = -1;
+    int i = 0;
 
-    temp = (int)strtol(param, &endptr, 0);
+    if (!param) {
+        return -1;
+    }
 
-    if (*endptr != '\0') {
+    do {
+        if (strcmp(engine_match[i].name, param) == 0) {
+            temp = engine_match[i].engine;
+        }
+        i++;
+    } while ((temp == -1) && (engine_match[i].name != NULL));
+
+    if (temp == -1) {
         return -1;
     }
 

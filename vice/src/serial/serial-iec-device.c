@@ -80,7 +80,7 @@ static const resource_int_t resources_int[] = {
     { "IECDevice6", 0, RES_EVENT_SAME, NULL,
       &iec_device_enabled[6], set_iec_device_enable, (void *)6 },
     { "IECDevice7", 0, RES_EVENT_SAME, NULL,
-      &iec_device_enabled[6], set_iec_device_enable, (void *)7 },
+      &iec_device_enabled[7], set_iec_device_enable, (void *)7 },
     { "IECDevice8", 0, RES_EVENT_SAME, NULL,
       &iec_device_enabled[8], set_iec_device_enable, (void *)8 },
     { "IECDevice9", 0, RES_EVENT_SAME, NULL,

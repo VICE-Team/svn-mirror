@@ -222,6 +222,15 @@ static int set_sid_model(int val, void *param)
 #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 static int set_sid_resid_sampling(int val, void *param)
 {
+    switch (val) {
+        case SID_RESID_SAMPLING_FAST:
+        case SID_RESID_SAMPLING_INTERPOLATION:
+        case SID_RESID_SAMPLING_RESAMPLING:
+            break;
+        default:
+            return -1;
+    }
+
     sid_resid_sampling = val;
     sid_state_changed = 1;
     return 0;
@@ -288,7 +297,7 @@ static int set_sid_hardsid_right(int val, void *param)
 
 #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 static const resource_int_t resid_resources_int[] = {
-    { "SidResidSampling", 0, RES_EVENT_NO, NULL,
+    { "SidResidSampling", SID_RESID_SAMPLING_FAST, RES_EVENT_NO, NULL,
       &sid_resid_sampling, set_sid_resid_sampling, NULL },
     { "SidResidPassband", 90, RES_EVENT_NO, NULL,
       &sid_resid_passband, set_sid_resid_passband, NULL },

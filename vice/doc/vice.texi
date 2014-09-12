@@ -3856,9 +3856,13 @@ output from the Commodore printer code) and then to the printer via
 
 @vindex IECDevice4
 @vindex IECDevice5
+@vindex IECDevice6
+@vindex IECDevice7
 @item IECDevice4
 @itemx IECDevice5
-Booleans that specify whether IEC device emulation for device #4 and #5 is enabled.
+@itemx IECDevice6
+@itemx IECDevice7
+Booleans that specify whether IEC device emulation for device #4, #5, #6 and #7 is enabled.
 
 @vindex PrinterTextDevice1
 @vindex PrinterTextDevice2
@@ -3927,6 +3931,14 @@ Enable/Disable IEC device emulation for device #4
 @item -iecdevice5
 @itemx +iecdevice5
 Enable/Disable IEC device emulation for device #5
+@cindex -iecdevice6, +iecdevice6
+@item -iecdevice6
+@itemx +iecdevice6
+Enable/Disable IEC device emulation for device #6
+@cindex -iecdevice7, +iecdevice7
+@item -iecdevice7
+@itemx +iecdevice7
+Enable/Disable IEC device emulation for device #7
 
 @cindex -device4
 @cindex -device5
