@@ -40,8 +40,6 @@
 
 #define myaciadev       acia1dev
 
-#define ACIA_MODE_HIGHEST   ACIA_MODE_TURBO232
-
 #define myacia_init acia1_init
 #define myacia_init_cmdline_options acia1_cmdline_options_init
 #define myacia_init_resources acia1_resources_init
@@ -69,6 +67,10 @@ extern int acia1_set_mode(int mode);
 #define mycpu_set_irq maincpu_set_irq
 #define mycpu_set_nmi maincpu_set_nmi
 #define mycpu_set_int_noclk maincpu_set_int
+
+#include "acia.h"
+
+#define ACIA_MODE_HIGHEST   ACIA_MODE_TURBO232
 
 #include "aciacore.c"
 

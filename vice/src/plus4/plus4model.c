@@ -30,6 +30,8 @@
 #include <strings.h>
 #endif
 
+#include <string.h>
+
 #include "plus4-resources.h"
 #include "plus4cart.h"
 #include "plus4mem.h"

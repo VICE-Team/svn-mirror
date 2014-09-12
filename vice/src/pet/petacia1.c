@@ -31,8 +31,6 @@
 #define mycpu_rmw_flag  maincpu_rmw_flag
 #define mycpu_clk_guard maincpu_clk_guard
 
-#define ACIA_MODE_HIGHEST   ACIA_MODE_NORMAL
-
 #define myacia acia1
 
 /* resource defaults */
@@ -61,5 +59,9 @@
 #define mycpu_set_irq maincpu_set_irq
 #define mycpu_set_nmi maincpu_set_nmi
 #define mycpu_set_int_noclk maincpu_set_int
+
+#include "acia.h"
+
+#define ACIA_MODE_HIGHEST   ACIA_MODE_NORMAL
 
 #include "aciacore.c"

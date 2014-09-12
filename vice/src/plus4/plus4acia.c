@@ -40,8 +40,6 @@
 #define MyDevice 0
 #define MyIrq    IK_IRQ
 
-#define ACIA_MODE_HIGHEST   ACIA_MODE_NORMAL
-
 #define myaciadev acia1dev
 
 #define myacia_init acia_init
@@ -63,6 +61,10 @@
 #define mycpu_set_irq maincpu_set_irq
 #define mycpu_set_nmi maincpu_set_nmi
 #define mycpu_set_int_noclk maincpu_set_int
+
+#include "acia.h"
+
+#define ACIA_MODE_HIGHEST   ACIA_MODE_NORMAL
 
 #include "aciacore.c"
 
