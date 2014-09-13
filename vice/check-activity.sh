@@ -28,7 +28,7 @@ function checkrev
     if [ ! -f .svnlog ]; then
         updatelog
     fi
-    CREV=`svnversion . | sed 's:M::'`
+    CREV=`svnversion . | sed 's:M::' | sed 's/.*://'`
     LREV=`catlog | sed 's:^r::g' | sort -nr | head -n1 | awk '{print $1}'`
     if [ "$CREV" -ne "$LREV" ]; then
         echo "WARNING: local log is not up to date, use '$0 update' to update it."
