@@ -60,6 +60,28 @@ function showlastactivity
     findlastcommits | sort -nr | awk -F "|" '{printf "r%s %-20s %s\n", $1, $2, $3}'
 }
 
+function findcommitnumber
+{
+    echo `cat .svnlog | grep '^r[0-9]' | grep "$1" | wc -l` "$1"
+}
+
+function findcommitnumbers
+{
+    if [ ! -f .contributors ]; then
+        findcontributors
+    fi
+    while read line; do
+        findcommitnumber $line
+    done < .contributors
+}
+
+function showtotalactivity
+{
+    echo "showing activity, sorted by number of commits:"
+    seperator
+    findcommitnumbers | sort -nr | awk '{printf "%6d %s\n", $1, $2}'
+}
+
 ################################################################################
 function usage
 {
@@ -68,6 +90,7 @@ function usage
     echo "update             - update local copy of SVN log"
     echo "contributors       - show alltime SVN contributor list"
     echo "lastactivity       - show last activity of all contributors"
+    echo "totalactivity      - show number of all commits for all contributors"
     echo "cleanup            - remove temporary files"
     echo "WARNING: The script will not automatically update the local SVN log, to"
     echo "         do that use the 'update' option manually. This is to save"
@@ -83,6 +106,8 @@ case $1 in
         showcontributors ;;
     lastactivity)
         showlastactivity ;;
+    totalactivity)
+        showtotalactivity ;;
     cleanup)
         cleanup ;;
     *)
