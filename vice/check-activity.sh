@@ -23,6 +23,18 @@ function catlog
     cat .svnlog | grep '^r[0-9]' | grep -v "trikalio" | sed 's:Loggedoubt:loggedoubt:g'
 }
 
+function checkrev
+{
+    if [ ! -f .svnlog ]; then
+        updatelog
+    fi
+    CREV=`svnversion . | sed 's:M::'`
+    LREV=`catlog | sed 's:^r::g' | sort -nr | head -n1 | awk '{print $1}'`
+    if [ "$CREV" -ne "$LREV" ]; then
+        echo "WARNING: local log is not up to date, use '$0 update' to update it."
+    fi
+}
+
 # create a list of all SVN contributors
 function findcontributors
 {
@@ -108,10 +120,13 @@ case $1 in
     update)
         updatelog ;;
     contributors)
+        checkrev
         showcontributors ;;
     lastactivity)
+        checkrev
         showlastactivity ;;
     totalactivity)
+        checkrev
         showtotalactivity ;;
     cleanup)
         cleanup ;;
