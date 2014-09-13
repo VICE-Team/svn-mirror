@@ -4,7 +4,7 @@ file   language   % done   fuzzy   untranslated items
 ----   --------   ------   -----   ------------------
 de     German      100        0           0
 nl     Dutch       100        0           0
-pl     Polish       97       50           3
+pl     Polish      100        0           0
 sv     Swedish      97       52           3
 es     Spanish      96       84          10
 it     Italian      96       84          10

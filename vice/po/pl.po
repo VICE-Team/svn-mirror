@@ -6,14 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-10 14:54-0700\n"
-"PO-Revision-Date: 2014-02-08 00:53+0100\n"
+"POT-Creation-Date: 2014-09-13 12:27-0700\n"
+"PO-Revision-Date: 2014-09-13 19:53+0100\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.9\n"
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:595
 msgid "Set device for joystick port 1"
@@ -339,7 +340,7 @@ msgstr "Szwedzki"
 #: src/arch/unix/gui/c128ui.c:548 src/arch/win32/resc128.rc.po.c:696
 #: src/arch/amigaos/intl_text.c.po.c:4696
 msgid "Swiss"
-msgstr ""
+msgstr "Szwajcarski"
 
 #: src/arch/unix/gui/c128ui.c:557 src/arch/unix/gui/c128ui.c:566
 #: src/arch/unix/gui/c64scui.c:171 src/arch/unix/gui/c64scui.c:181
@@ -1551,7 +1552,6 @@ msgstr "Reset sprzętu"
 
 #: src/arch/unix/gui/uicommands.c:499 src/arch/win32/res.rc.po.c:1454
 #: src/arch/amigaos/intl_text.c.po.c:11319
-#, fuzzy
 msgid "Quit emulator"
 msgstr "Wyjście z emulatora"
 
@@ -3275,56 +3275,48 @@ msgstr "Form Feed do drukarki #5"
 #: src/arch/unix/gui/uiprinteriec.c:75
 #: src/arch/unix/gui/uiprinteriecplus4.c:73
 #: src/arch/unix/gui/uiprinterieee.c:66 src/arch/amigaos/intl_text.c.po.c:8603
-#, fuzzy
 msgid "Printer #6 emulation"
-msgstr "Emulacja drukarki #4"
+msgstr "Emulacja drukarki #6"
 
 #: src/arch/unix/gui/uiprinteriec.c:77
 #: src/arch/unix/gui/uiprinteriecplus4.c:75
-#, fuzzy
 msgid "Printer #6 enable IEC device"
-msgstr "Włącz urządzenie IEC napędu #4"
+msgstr "Włącz urządzenie IEC drukarki #6"
 
 #: src/arch/unix/gui/uiprinteriec.c:79
 #: src/arch/unix/gui/uiprinteriecplus4.c:77
 #: src/arch/unix/gui/uiprinterieee.c:68 src/arch/amigaos/intl_text.c.po.c:8659
-#, fuzzy
 msgid "Printer #6 driver"
-msgstr "Sterownik drukarki #4"
+msgstr "Sterownik drukarki #6"
 
 #: src/arch/unix/gui/uiprinteriec.c:81
 #: src/arch/unix/gui/uiprinteriecplus4.c:79
 #: src/arch/unix/gui/uiprinterieee.c:70
-#, fuzzy
 msgid "Printer #6 output"
-msgstr "Wyjście drukarki #4"
+msgstr "Wyjście drukarki #6"
 
 #: src/arch/unix/gui/uiprinteriec.c:83
 #: src/arch/unix/gui/uiprinteriecplus4.c:81
 #: src/arch/unix/gui/uiprinterieee.c:72
-#, fuzzy
 msgid "Printer #6 text output device"
-msgstr "Urządzenie wyjścia tekstu drukarki #4"
+msgstr "Urządzenie wyjścia tekstu drukarki #6"
 
 #: src/arch/unix/gui/uiprinteriec.c:85
 #: src/arch/unix/gui/uiprinteriecplus4.c:83
 #: src/arch/unix/gui/uiprinterieee.c:74
-#, fuzzy
 msgid "Printer #6 formfeed"
-msgstr "Form Feed do drukarki #4"
+msgstr "Form Feed do drukarki #6"
 
 #: src/arch/unix/gui/uiprinteriec.c:90
 #: src/arch/unix/gui/uiprinteriecplus4.c:88
 #: src/arch/unix/gui/uiprinterieee.c:79
-#, fuzzy
 msgid "Device #7 Real device access"
-msgstr "Prawdziwy dostęp urządzenia"
+msgstr "Prawdziwy dostęp urządzenia #7"
 
 #: src/arch/unix/gui/uiprinteriec.c:92
 #: src/arch/unix/gui/uiprinteriecplus4.c:90
-#, fuzzy
 msgid "Device #7 enable IEC device"
-msgstr "Włącz urządzenie IEC napędu #4"
+msgstr "Włącz urządzenie IEC urządzanie #7"
 
 #: src/arch/unix/gui/uiprinteriec.c:96 src/arch/unix/gui/uiprinterieee.c:83
 #: src/arch/amigaos/intl_text.c.po.c:8617
@@ -5125,9 +5117,8 @@ msgid "VICE CPU JAM"
 msgstr "VICE CPU JAM"
 
 #: src/arch/win32/res.rc.po.c:931 src/arch/amigaos/intl_text.c.po.c:5550
-#, fuzzy
 msgid "Do you want to extend the image?"
-msgstr "Czy chcesz rozszerzyć obraz dysku do 40 ścieżek?"
+msgstr "Czy chcesz rozszerzyć obraz ?"
 
 #: src/arch/win32/res.rc.po.c:932
 #, c-format
@@ -5319,14 +5310,12 @@ msgid "Printer 5"
 msgstr "Drukarka 5"
 
 #: src/arch/win32/res.rc.po.c:980
-#, fuzzy
 msgid "Printer 6"
-msgstr "Drukarka 4"
+msgstr "Drukarka 6"
 
 #: src/arch/win32/res.rc.po.c:982
-#, fuzzy
 msgid "Device 7"
-msgstr "Urządzenie #8"
+msgstr "Urządzenie 7"
 
 #: src/arch/win32/res.rc.po.c:984 src/arch/win32/res.rc.po.c:1380
 #: src/arch/win32/res.rc.po.c:1556 src/arch/amigaos/intl_text.c.po.c:48
@@ -6014,29 +6003,24 @@ msgid "TED Audio leak"
 msgstr "Audio leak TED"
 
 #: src/arch/win32/res.rc.po.c:1242
-#, fuzzy
 msgid "VICII Renderer"
-msgstr "Filtr renderera VICII"
+msgstr "Renderer VICII"
 
 #: src/arch/win32/res.rc.po.c:1243
-#, fuzzy
 msgid "VIC Renderer"
-msgstr "Filtr renderera VIC"
+msgstr "Renderer VIC"
 
 #: src/arch/win32/res.rc.po.c:1244
-#, fuzzy
 msgid "CRTC Renderer"
-msgstr "Filtr renderera CRTC"
+msgstr "Renderer CRTC"
 
 #: src/arch/win32/res.rc.po.c:1245
-#, fuzzy
 msgid "VDC Renderer"
-msgstr "Filtr renderera VDC"
+msgstr "Renderer VDC"
 
 #: src/arch/win32/res.rc.po.c:1246
-#, fuzzy
 msgid "TED Renderer"
-msgstr "Filtr renderera TED"
+msgstr "Renderer TED"
 
 #: src/arch/win32/res.rc.po.c:1247
 msgid "External Palette"
@@ -6280,14 +6264,12 @@ msgid "$A000-$BFFF RAM"
 msgstr "$A000-$BFFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1335 src/arch/amigaos/intl_text.c.po.c:6908
-#, fuzzy
 msgid "Professional DOS"
-msgstr "Włącz Professional DOS"
+msgstr "Professional DOS"
 
 #: src/arch/win32/res.rc.po.c:1336 src/arch/amigaos/intl_text.c.po.c:6922
-#, fuzzy
 msgid "SuperCard+"
-msgstr "Włącz SuperCard+"
+msgstr "SuperCard+"
 
 #: src/arch/win32/res.rc.po.c:1346 src/arch/win32/resc128.rc.po.c:110
 #: src/arch/win32/resc64.rc.po.c:106 src/arch/win32/resc64dtv.rc.po.c:73
@@ -6296,7 +6278,7 @@ msgstr "Włącz SuperCard+"
 #: src/arch/win32/resscpu64.rc.po.c:93 src/arch/win32/resvic20.rc.po.c:101
 #: src/arch/amigaos/intl_text.c.po.c:11333
 msgid "Default CPU JAM action"
-msgstr ""
+msgstr "Domyślne działanie zatkania CPU"
 
 #: src/arch/win32/res.rc.po.c:1350 src/arch/win32/resc128.rc.po.c:122
 #: src/arch/win32/resc64.rc.po.c:118 src/arch/win32/resc64dtv.rc.po.c:85
@@ -6475,9 +6457,8 @@ msgid "Always on Top"
 msgstr "Zawsze na wierzchu"
 
 #: src/arch/win32/res.rc.po.c:1465
-#, fuzzy
 msgid "Reset IEC with CPU"
-msgstr "Resetuj magnetofon razem z CPU"
+msgstr "Resetuj IEC razem z CPU"
 
 #: src/arch/win32/res.rc.po.c:1469 src/arch/amigaos/intl_text.c.po.c:1980
 msgid "Enable Joy Keys"
@@ -6806,7 +6787,6 @@ msgid "Random delay"
 msgstr "Losowe opóźnienie"
 
 #: src/arch/win32/resautostart.rc.po.c:49
-#, fuzzy
 msgid "Handle true drive emulation"
 msgstr "Rzeczywista emulacja napędu"
 
@@ -6867,9 +6847,8 @@ msgid "Kernal SE"
 msgstr "Kernal SE"
 
 #: src/arch/win32/resc128.rc.po.c:679
-#, fuzzy
 msgid "Kernal CH"
-msgstr "Kernal C64"
+msgstr "Kernal CH"
 
 #: src/arch/win32/resc128.rc.po.c:680
 msgid "Basic LO"
@@ -6896,9 +6875,8 @@ msgid "Char. SE"
 msgstr "Znak SE"
 
 #: src/arch/win32/resc128.rc.po.c:686
-#, fuzzy
 msgid "Char. CH"
-msgstr "Znak DE"
+msgstr "Znak CH"
 
 #: src/arch/win32/resc128.rc.po.c:687
 msgid "Kernal C64"
@@ -7646,9 +7624,8 @@ msgid "Plus4 model settings"
 msgstr "Ustawienia modelu Plus4"
 
 #: src/arch/win32/resplus4.rc.po.c:476
-#, fuzzy
 msgid "enable Digiblaster"
-msgstr "Włącz dodatek digiblaster"
+msgstr "Włącz Digiblaster"
 
 #: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:13104
 msgid "Enable the PLUS60K RAM expansion"
@@ -7777,12 +7754,11 @@ msgstr "Pasmo przepuszczania"
 
 #: src/arch/win32/ressid.rc.po.c:93 src/arch/amigaos/intl_text.c.po.c:9219
 msgid "Gain"
-msgstr ""
+msgstr "Wzmocnienie"
 
 #: src/arch/win32/ressid.rc.po.c:94 src/arch/amigaos/intl_text.c.po.c:9233
-#, fuzzy
 msgid "Filter bias"
-msgstr "Nastawienie filtra ReSID"
+msgstr "Nastawienie filtra"
 
 #: src/arch/win32/ressid.rc.po.c:95 src/arch/win32/ressiddtv.rc.po.c:63
 msgid "Device selection"
@@ -7982,9 +7958,8 @@ msgstr "Poprzedni ton"
 
 #: src/arch/amigaos/intl_text.c.po.c:132
 #: src/arch/amigaos/intl_text.c.po.c:11347
-#, fuzzy
 msgid "CPU JAM action settings"
-msgstr "Ustawienia emulacji CRT"
+msgstr "Ustawienia działania CPU JAM"
 
 #: src/arch/amigaos/intl_text.c.po.c:650
 msgid "Function low  image (3plus1)"
@@ -8063,9 +8038,8 @@ msgid "Vertical stretch"
 msgstr "Rozciągnięcie w pionie"
 
 #: src/arch/amigaos/intl_text.c.po.c:2036
-#, fuzzy
 msgid "Drive sound emulation settings"
-msgstr "Emulacja odgłosów stacji dysków"
+msgstr "Ustawienia emulacji dźwięków napędu"
 
 #: src/arch/amigaos/intl_text.c.po.c:2092
 msgid "PAL"
@@ -8671,9 +8645,8 @@ msgid "Printer #5 output type"
 msgstr "Typ wyjścia drukarki #5"
 
 #: src/arch/amigaos/intl_text.c.po.c:8715
-#, fuzzy
 msgid "Printer #6 output type"
-msgstr "Typ wyjścia drukarki #4"
+msgstr "Typ wyjścia drukarki #6"
 
 #: src/arch/amigaos/intl_text.c.po.c:8729
 msgid "Userport printer output type"
@@ -8688,9 +8661,8 @@ msgid "Printer #5 output device"
 msgstr "Urządzenie wyjścia drukarki #5"
 
 #: src/arch/amigaos/intl_text.c.po.c:8771
-#, fuzzy
 msgid "Printer #6 output device"
-msgstr "Urządzenie wyjścia drukarki #4"
+msgstr "Urządzenie wyjścia drukarki #6"
 
 #: src/arch/amigaos/intl_text.c.po.c:8785
 msgid "Userport printer output device"
@@ -8705,9 +8677,8 @@ msgid "Send formfeed to printer #5"
 msgstr "Wyślij Form Feed do drukarki #5"
 
 #: src/arch/amigaos/intl_text.c.po.c:8827
-#, fuzzy
 msgid "Send formfeed to printer #6"
-msgstr "Wyślij Form Feed do drukarki #4"
+msgstr "Wyślij Form Feed do drukarki #6"
 
 #: src/arch/amigaos/intl_text.c.po.c:8841
 msgid "Send formfeed to userport printer"
@@ -8734,14 +8705,12 @@ msgid "IEC emulation for printer #5"
 msgstr "Emulacja IEC drukarki #5"
 
 #: src/arch/amigaos/intl_text.c.po.c:8925
-#, fuzzy
 msgid "IEC emulation for printer #6"
-msgstr "Emulacja IEC drukarki #4"
+msgstr "Emulacja IEC drukarki #6"
 
 #: src/arch/amigaos/intl_text.c.po.c:8939
-#, fuzzy
 msgid "IEC emulation for device #7"
-msgstr "Emulacja IEC drukarki #4"
+msgstr "Emulacja IEC urządzenia #7"
 
 #: src/arch/amigaos/intl_text.c.po.c:9009
 msgid "Userport RS232"
@@ -8889,14 +8858,12 @@ msgid "DigiMAX Enabled"
 msgstr "DigiMAX włączony"
 
 #: src/arch/amigaos/intl_text.c.po.c:11361
-#, fuzzy
 msgid "Drive sound enabled"
-msgstr "Emulacja odgłosów stacji dysków"
+msgstr "Włącz dźwięki napędu"
 
 #: src/arch/amigaos/intl_text.c.po.c:11375
-#, fuzzy
 msgid "Drive sound settings"
-msgstr "Ustawienia napędu"
+msgstr "Ustawienia dźwięków napędu"
 
 #: src/arch/amigaos/intl_text.c.po.c:11389
 msgid "DS12C887 RTC Enabled"
@@ -8971,9 +8938,8 @@ msgid "Save to EasyFlash CRT now"
 msgstr "Zapisz do CRT Easy Flash teraz"
 
 #: src/arch/amigaos/intl_text.c.po.c:12425
-#, fuzzy
 msgid "Reset IEC bus with computer"
-msgstr "Skasuj licznik"
+msgstr "Zeruj szynę IEC z komputerem"
 
 #: src/arch/amigaos/intl_text.c.po.c:12453
 msgid "CIA model settings"
@@ -10052,10 +10018,11 @@ msgid "Disable warp mode during autostart"
 msgstr "Wyłącz tryb przyśpieszony podczas automatycznego startu"
 
 #: src/translate_text.c.po.c:3196
-#, fuzzy
 msgid ""
 "Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk image)"
-msgstr "Określ tryb autostartu z plików PRG"
+msgstr ""
+"Określ tryb autostartu z plików PRG (0: wirtualny system plików, 1: "
+"wstrzyknięcie, 2: obraz dysku)"
 
 #: src/translate_text.c.po.c:3213
 msgid "Set disk image for autostart of PRG files"
@@ -10074,13 +10041,12 @@ msgid "Disable random initial autostart delay."
 msgstr "Wyłącz losowe opóźnienie na początku autostartu."
 
 #: src/translate_text.c.po.c:3281
-#, fuzzy
 msgid ""
 "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard "
 "Reset, 5: Quit Emulator)"
 msgstr ""
 "Ustal działanie przy zatkaniu się procesora: (0: zapytanie, 1: kontynuacja, "
-"2: monitorowanie, 3: reset, 4: twardy reset)"
+"2: monitorowanie, 3: reset, 4: twardy reset, 5: wyjście z emulatora)"
 
 #: src/translate_text.c.po.c:3298
 msgid "Use PAL sync factor"
@@ -10131,9 +10097,8 @@ msgid "Specify name of Swedish Kernal ROM image"
 msgstr "Określ nazwę obrazu szwedzkiego ROM-u Kernala"
 
 #: src/translate_text.c.po.c:3519
-#, fuzzy
 msgid "Specify name of Swiss Kernal ROM image"
-msgstr "Określ nazwę obrazu szwedzkiego ROM-u Kernala"
+msgstr "Określ nazwę obrazu szwajcarskiego ROM-u Kernala"
 
 #: src/translate_text.c.po.c:3536
 msgid "Specify name of BASIC ROM image (lower part)"
@@ -10264,21 +10229,18 @@ msgstr ""
 "pet64, ultimax)"
 
 #: src/translate_text.c.po.c:4169
-#, fuzzy
 msgid ""
 "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"
 msgstr ""
-"Wybierz model C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, "
-"pet64, ultimax)"
+"Wybierz model C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"
 
 #: src/translate_text.c.po.c:4186
 msgid "Set C128 model (c128/c128dcr, pal/ntsc)"
 msgstr "Ustaw model C128 (c128/c128dcr, pal/ntsc)"
 
 #: src/translate_text.c.po.c:4220
-#, fuzzy
 msgid "Disable RAM banks 2 and 3"
-msgstr "Włącz banki RAM 2 i 3"
+msgstr "Wyłącz banki RAM 2 i 3"
 
 #: src/translate_text.c.po.c:4237
 msgid ""
@@ -11404,9 +11366,8 @@ msgid "Specify name of printer driver for device #5"
 msgstr "Określ nazwę sterownika drukarki urządzenia #5"
 
 #: src/translate_text.c.po.c:9481
-#, fuzzy
 msgid "Specify name of printer driver for device #6"
-msgstr "Określ nazwę sterownika drukarki urządzenia #4"
+msgstr "Określ nazwę sterownika drukarki urządzenia #6"
 
 #: src/translate_text.c.po.c:9498
 msgid "Specify name of printer driver for the userport printer"
@@ -11421,14 +11382,12 @@ msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Określ typ urządzenia #5 (0: BRAK, 1: SYSTEM PLIKÓW, 2: RZECZYWISTE)"
 
 #: src/translate_text.c.po.c:9549
-#, fuzzy
 msgid "Set device type for device #6 (0: NONE, 1: FS, 2: REAL)"
-msgstr "Określ typ urządzenia #4 (0: BRAK, 1: SYSTEM PLIKÓW, 2: RZECZYWISTE)"
+msgstr "Określ typ urządzenia #6 (0: BRAK, 1: SYSTEM PLIKÓW, 2: RZECZYWISTE)"
 
 #: src/translate_text.c.po.c:9566
-#, fuzzy
 msgid "Set device type for device #7 (0: NONE, 2: REAL)"
-msgstr "Określ typ urządzenia #4 (0: BRAK, 1: SYSTEM PLIKÓW, 2: RZECZYWISTE)"
+msgstr "Określ typ urządzenia #7 (0: BRAK, 2: RZECZYWISTE)"
 
 #: src/translate_text.c.po.c:9583
 msgid "Enable the userport printer emulation"
@@ -11463,9 +11422,8 @@ msgid "Specify printer text output device for printer #5"
 msgstr "Określ urządzenie wyjścia tekstowego drukarki #5"
 
 #: src/translate_text.c.po.c:9719
-#, fuzzy
 msgid "Specify printer text output device for printer #6"
-msgstr "Określ urządzenie wyjścia tekstowego drukarki #4"
+msgstr "Określ urządzenie wyjścia tekstowego drukarki #6"
 
 #: src/translate_text.c.po.c:9736
 msgid "Specify printer text output device for userport printer"
@@ -11528,24 +11486,20 @@ msgid "Disable IEC device emulation for device #5"
 msgstr "Wyłącz emulację urządzenia IEC dla urządzenia #5"
 
 #: src/translate_text.c.po.c:10010
-#, fuzzy
 msgid "Enable IEC device emulation for device #6"
-msgstr "Włącz emulację IEC urządzenia #4"
+msgstr "Włącz emulację IEC urządzenia #6"
 
 #: src/translate_text.c.po.c:10027
-#, fuzzy
 msgid "Disable IEC device emulation for device #6"
-msgstr "Wyłącz emulację urządzenia IEC dla urządzenia #4"
+msgstr "Wyłącz emulację urządzenia IEC dla urządzenia #6"
 
 #: src/translate_text.c.po.c:10044
-#, fuzzy
 msgid "Enable IEC device emulation for device #7"
-msgstr "Włącz emulację IEC urządzenia #4"
+msgstr "Włącz emulację IEC urządzenia #7"
 
 #: src/translate_text.c.po.c:10061
-#, fuzzy
 msgid "Disable IEC device emulation for device #7"
-msgstr "Wyłącz emulację urządzenia IEC dla urządzenia #4"
+msgstr "Wyłącz emulację urządzenia IEC dla urządzenia #7"
 
 #: src/translate_text.c.po.c:10078
 msgid "Enable IEC device emulation for device #8"
@@ -11836,9 +11790,8 @@ msgid "Select fullscreen device"
 msgstr "Wybierz urządzenie pełnego ekranu"
 
 #: src/translate_text.c.po.c:11380
-#, fuzzy
 msgid "Seconds"
-msgstr "Drugi SID w"
+msgstr "sekund"
 
 #: src/translate_text.c.po.c:11397
 msgid "Select fullscreen mode"
@@ -12069,9 +12022,8 @@ msgid "Attach <name> as a disk image in drive #11"
 msgstr "Zamontuj <nazwa> jako obraz dyskietki w stacji #11"
 
 #: src/translate_text.c.po.c:12338
-#, fuzzy
 msgid "Set additional keyboard buffer delay (0: use default)"
-msgstr "Określ początkowe opóźnienie autostartu (0: domyślne)"
+msgstr "Określ dodatkowe opóźnienie bufora klawiatury (0: domyślne)"
 
 #: src/translate_text.c.po.c:12355
 msgid "Specify log file name"
