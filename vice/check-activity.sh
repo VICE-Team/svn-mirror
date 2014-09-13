@@ -18,13 +18,18 @@ function updatelog
     svn log -q > .svnlog
 }
 
+function catlog
+{
+    cat .svnlog | grep '^r[0-9]' | grep -v "trikalio" | sed 's:Loggedoubt:loggedoubt:g'
+}
+
 # create a list of all SVN contributors
 function findcontributors
 {
     if [ ! -f .svnlog ]; then
         updatelog
     fi
-    cat .svnlog | grep '^r[0-9]' | awk '{print $3}' | sort | uniq > .contributors
+    catlog | awk '{print $3}' | sort | uniq > .contributors
 }
 
 function showcontributors
@@ -38,7 +43,7 @@ function showcontributors
 # find last commit of a SVN contributor
 function findlastcommit
 {
-    cat .svnlog | grep '^r[0-9]' | sed 's:^r::g' | grep "$1" | sort -nr | head -n1
+    catlog | sed 's:^r::g' | grep "$1" | sort -nr | head -n1
 }
 
 # find last commit of all SVN contributors
@@ -62,7 +67,7 @@ function showlastactivity
 
 function findcommitnumber
 {
-    echo `cat .svnlog | grep '^r[0-9]' | grep "$1" | wc -l` "$1"
+    echo `catlog | grep "$1" | wc -l` "$1"
 }
 
 function findcommitnumbers
