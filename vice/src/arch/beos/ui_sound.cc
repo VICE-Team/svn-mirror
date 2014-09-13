@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,7 +26,7 @@
  */
  
 #include <Box.h>
-#include <CheckBox.h>
+#include <OptionPopUp.h>
 #include <RadioButton.h>
 #include <string.h>
 #include <Window.h>
@@ -59,13 +60,21 @@ static int ui_sound_freq[] = {
     44100
 };
 
-static int ui_sound_buffer_count = 5;
 static int ui_sound_buffer[] = {
+    20,
+    25,
+    30,
+    40,
+    50,
+    60,
+    80,
     100,
     150,
     200,
+    250,
     300,
-    350
+    350,
+    0
 };
 
 static int ui_sound_adjusting_count = 3;
@@ -104,7 +113,7 @@ class SoundWindow : public BWindow {
         SoundWindow();
         ~SoundWindow();
         virtual void MessageReceived(BMessage *msg);
-};	
+};
 
 static SoundWindow *soundwindow = NULL;
 
@@ -115,8 +124,9 @@ SoundWindow::SoundWindow()
     BRect r;
     BBox *box;
     BMessage *msg;
+    BOptionPopUp *option_popup;
     BRadioButton *radiobutton;
-    char str[128];
+    char str[12];
     int i;
     int res_value;
 
@@ -128,15 +138,14 @@ SoundWindow::SoundWindow()
     /* Mode */
     r = Bounds();
     r.right = r.left + r.Width() / 4;
-    r.OffsetBy(3 * r.Width(), 0);
     r.InsetBy(5, 5);
-    r.bottom -= 20;
+    r.bottom -= 30;
     box = new BBox(r, "Sound Mode");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("Sound Mode");
 
     resources_get_int("SoundOutput", &res_value);
-	
+
     for (i = 0; i < ui_sound_adjusting_count; i++) {
         msg = new BMessage(MESSAGE_SOUND_MODE);
         msg->AddInt32("mode", i);
@@ -149,7 +158,9 @@ SoundWindow::SoundWindow()
     /* Frequency */
     r = Bounds();
     r.right = r.left + r.Width() / 4;
+    r.OffsetBy(r.Width(), 0);
     r.InsetBy(5, 5);
+    r.bottom -= 30;
     box = new BBox(r, "Frequency");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("Frequency");
@@ -160,6 +171,7 @@ SoundWindow::SoundWindow()
         msg = new BMessage(MESSAGE_SOUND_FREQ);
         msg->AddInt32("frequency", ui_sound_freq[i]);
         sprintf(str, "%d", ui_sound_freq[i]);
+        //~ sprintf(str, "%d Hz", ui_sound_freq[i]);
         radiobutton = new BRadioButton(BRect(10, 20 + 20 * i, r.Width() - 10, 35 + 20 * i), str, str, msg);
         radiobutton->SetValue(res_value == ui_sound_freq[i]);
         box->AddChild(radiobutton);
@@ -168,24 +180,19 @@ SoundWindow::SoundWindow()
 
     /* Buffer */
     r = Bounds();
-    r.right = r.left + r.Width() / 4;
-    r.OffsetBy(r.Width(), 0);
+    r.right = r.left + r.Width() / 2;
     r.InsetBy(5, 5);
-    box = new BBox(r, "Buffer Size");
-    box->SetViewColor(220, 220, 220, 0);
-    box->SetLabel("Buffer Size");
+    r.top = r.bottom - 25;
 
     resources_get_int("SoundBufferSize", &res_value);
 
-    for (i = 0; i < ui_sound_buffer_count; i++) {
-        msg = new BMessage(MESSAGE_SOUND_BUFF);
-        msg->AddInt32("buffer", ui_sound_buffer[i]);
-        sprintf(str, "%d", ui_sound_buffer[i]);
-        radiobutton = new BRadioButton(BRect(10, 20 + 20 * i, r.Width() - 10, 35 + 20 * i), str, str, msg);
-        radiobutton->SetValue(res_value == ui_sound_buffer[i]);
-        box->AddChild(radiobutton);
+    option_popup = new BOptionPopUp(r, "Buffer Size", "Buffer Size", new BMessage(MESSAGE_SOUND_BUFF));
+    for (i = 0; ui_sound_buffer[i]; i++) {
+        sprintf(str, "%d msec", ui_sound_buffer[i]);
+        option_popup->AddOption(str, ui_sound_buffer[i]);
     }
-    background->AddChild(box);
+    option_popup->SelectOptionFor(res_value);
+    background->AddChild(option_popup);
 
     /* Fragment size */
     r = Bounds();
@@ -203,7 +210,7 @@ SoundWindow::SoundWindow()
         msg->AddInt32("fragment", i);
         radiobutton = new BRadioButton(BRect(10, 20 + 20 * i, r.Width() - 10, 35 + 20 * i), ui_sound_fragment_size_text[i], ui_sound_fragment_size_text[i], msg);
         radiobutton->SetValue(res_value == ui_sound_fragment_size[i]);
-        box->AddChild(radiobutton); 	 
+        box->AddChild(radiobutton);
     }
     background->AddChild(box);
 
@@ -212,13 +219,13 @@ SoundWindow::SoundWindow()
     r.right = r.left + r.Width() / 4;
     r.OffsetBy(3 * r.Width(), 0);
     r.InsetBy(5, 5);
-    r.bottom -= 20;
+    r.bottom -= 30;
     box = new BBox(r, "Sync Method");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("Sync Method");
 
     resources_get_int("SoundSpeedAdjustment", &res_value);
-	
+
     for (i = 0; i < ui_sound_adjusting_count; i++) {
         msg = new BMessage(MESSAGE_SOUND_SYNC);
         msg->AddInt32("sync", i);
@@ -246,7 +253,7 @@ void SoundWindow::MessageReceived(BMessage *msg)
             resources_set_int("SoundSampleRate", res_value);
             break;
         case MESSAGE_SOUND_BUFF:
-            msg->FindInt32("buffer", &res_value);
+            msg->FindInt32("be:value", &res_value);
             resources_set_int("SoundBufferSize", res_value);
             break;
         case MESSAGE_SOUND_SYNC:
