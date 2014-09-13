@@ -42,7 +42,7 @@ UI_MENU_DEFINE_TOGGLE(Printer7)
 #endif
 
 ui_menu_entry_t printeriec_plus4_settings_menu[] = {
-    { N_("Printer #4 emulation"), UI_MENU_TYPE_TICK,
+    { N_("Printer #4 emulation"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiprinter_set_printer4_type_submenu },
     { N_("Printer #4 enable IEC device"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IECDevice4, NULL, NULL },
@@ -56,7 +56,7 @@ ui_menu_entry_t printeriec_plus4_settings_menu[] = {
       (ui_callback_t)uiprinter_formfeed, (ui_callback_data_t)0, NULL, 
       KEYSYM_4, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Printer #5 emulation"), UI_MENU_TYPE_TICK,
+    { N_("Printer #5 emulation"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiprinter_set_printer5_type_submenu },
     { N_("Printer #5 enable IEC device"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IECDevice5, NULL, NULL },
@@ -70,7 +70,7 @@ ui_menu_entry_t printeriec_plus4_settings_menu[] = {
       (ui_callback_t)uiprinter_formfeed, (ui_callback_data_t)1, NULL,
       KEYSYM_5, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Printer #6 emulation"), UI_MENU_TYPE_TICK,
+    { N_("Printer #6 emulation"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiprinter_set_printer6_type_submenu },
     { N_("Printer #6 enable IEC device"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IECDevice6, NULL, NULL },
