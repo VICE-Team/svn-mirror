@@ -490,8 +490,10 @@ void psid_init_tune(int install_driver_hook)
         ram_store(addr, (BYTE)(start_song));
     }
 
-    /* put song number into address 780 for use by BASIC tunes */
+    /* put song number into address 780/1/2 (A/X/Y) for use by BASIC tunes */
     ram_store(780, (BYTE)(start_song - 1));
+    ram_store(781, (BYTE)(start_song - 1));
+    ram_store(782, (BYTE)(start_song - 1));
     /* force flag in c64 memory, many sids reads it and must be set AFTER the sid flag is read */
     ram_store((WORD)(0x02a6), (BYTE)(sync == MACHINE_SYNC_NTSC ? 0 : 1));
 }
