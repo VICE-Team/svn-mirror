@@ -61,7 +61,6 @@ static const char snap_rom_module_name[] = "C64ROM";
 static int c64_snapshot_write_rom_module(snapshot_t *s)
 {
     snapshot_module_t *m;
-    int trapfl;
 
     /* Main memory module.  */
 
@@ -69,10 +68,6 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
     if (m == NULL) {
         return -1;
     }
-
-    /* disable traps before saving the ROM */
-    resources_get_int("VirtualDevices", &trapfl);
-    resources_set_int("VirtualDevices", 0);
 
     if (SMW_BA(m, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
         || SMW_BA(m, c64memrom_basic64_rom, C64_BASIC_ROM_SIZE) < 0
@@ -86,16 +81,12 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
         goto fail;
     }
 
-    resources_set_int("VirtualDevices", trapfl);
-
     return 0;
 
 fail:
     if (m != NULL) {
         snapshot_module_close(m);
     }
-
-    resources_set_int("VirtualDevices", trapfl);
 
     return -1;
 }
@@ -104,7 +95,6 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
-    int trapfl;
 
     /* Main memory module.  */
 
@@ -121,10 +111,6 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
         return -1;
     }
 
-    /* disable traps before loading the ROM */
-    resources_get_int("VirtualDevices", &trapfl);
-    resources_set_int("VirtualDevices", 0);
-
     if (SMR_BA(m, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
         || SMR_BA(m, c64memrom_basic64_rom, C64_BASIC_ROM_SIZE) < 0
         || SMR_BA(m, mem_chargen_rom, C64_CHARGEN_ROM_SIZE) < 0) {
@@ -139,16 +125,12 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     c64rom_get_kernal_checksum();
     c64rom_get_basic_checksum();
 
-    /* enable traps again when necessary */
-    resources_set_int("VirtualDevices", trapfl);
-
     return 0;
 
 fail:
     if (m != NULL) {
         snapshot_module_close(m);
     }
-    resources_set_int("VirtualDevices", trapfl);
     return -1;
 }
 

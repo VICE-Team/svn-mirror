@@ -34,6 +34,7 @@
 #include "c64memrom.h"
 #include "c64rom.h"
 #include "log.h"
+#include "machine.h"
 #include "mem.h"
 #include "patchrom.h"
 #include "resources.h"
@@ -92,8 +93,10 @@ int c64rom_load_kernal(const char *rom_name, BYTE *cartkernal)
     /* serial_remove_traps(); */
     /* we also need the TAPE traps!!! therefore -> */
     /* disable traps before saving the ROM */
-    resources_get_int("VirtualDevices", &trapfl);
-    resources_set_int("VirtualDevices", 1);
+    if (machine_class != VICE_MACHINE_VSID) {
+        resources_get_int("VirtualDevices", &trapfl);
+        resources_set_int("VirtualDevices", 1);
+    }
 
     /* Load Kernal ROM.  */
     if (cartkernal == NULL) {
@@ -103,7 +106,9 @@ int c64rom_load_kernal(const char *rom_name, BYTE *cartkernal)
 
         if (sysfile_load(rom_name, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
             log_error(c64rom_log, "Couldn't load kernal ROM `%s'.", rom_name);
-            resources_set_int("VirtualDevices", trapfl);
+            if (machine_class != VICE_MACHINE_VSID) {
+                resources_set_int("VirtualDevices", trapfl);
+            }
             return -1;
         }
     } else {
@@ -113,7 +118,9 @@ int c64rom_load_kernal(const char *rom_name, BYTE *cartkernal)
     c64rom_get_kernal_checksum(); /* also patch kernal */
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
 
-    resources_set_int("VirtualDevices", trapfl);
+    if (machine_class != VICE_MACHINE_VSID) {
+        resources_set_int("VirtualDevices", trapfl);
+    }
 
     return 0;
 }
