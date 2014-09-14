@@ -185,25 +185,14 @@ int autostart_prg_with_disk_image(const char *file_name,
     const int secondary = 1;
     autostart_prg_t *prg;
     vdrive_t *vdrive;
-    unsigned int i;
+    int i;
     int old_tde_state;
     int file_name_size;
-    BYTE lo, hi;
+    BYTE data;
     unsigned int disk_image_type;
+    int result, result2;
 
-    /* read prg file */
-    prg = load_prg(file_name, fh, log);
-    if (prg == NULL) {
-        return -1;
-    }
-
-    /* disable TDE */
-    resources_get_int("DriveTrueEmulation", &old_tde_state);
-    if (old_tde_state != 0) {
-        log_message(log, "Turning true drive emulation off.");
-        resources_set_int("DriveTrueEmulation", 0);
-    }
-
+    /* identify disk image type */
     switch (drive_get_disk_drive_type(drive - 8)) {
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:
@@ -235,68 +224,83 @@ int autostart_prg_with_disk_image(const char *file_name,
         break;
     default: 
         log_error(log, "No idea what disk image format to use.");
-        free_prg(prg);
         return -1;
     }
 
-    /* create empty image */
-    if (vdrive_internal_create_format_disk_image(image_name, (char *)"AUTOSTART", disk_image_type) < 0) {
-        log_error(log, "Error creating autostart disk image: %s", image_name);
-        free_prg(prg);
+    /* read prg file */
+    prg = load_prg(file_name, fh, log);
+    if (prg == NULL) {
         return -1;
     }
 
-    /* attach disk image */
-    if (file_system_attach_disk(drive, image_name) < 0) {
-        log_error(log, "Could not attach disk image: %s", image_name);
-        free_prg(prg);
-        return -1;
+    /* disable TDE */
+    resources_get_int("DriveTrueEmulation", &old_tde_state);
+    if (old_tde_state != 0) {
+        log_message(log, "Turning true drive emulation off.");
+        resources_set_int("DriveTrueEmulation", 0);
     }
 
-    /* get vdrive */
-    vdrive = file_system_get_vdrive((unsigned int)drive);
-    if (vdrive == NULL) {
-        free_prg(prg);
-        return -1;
-    }
+    do {
+        result = -1;
 
-    /* get file name size */
-    file_name_size = strlen((const char *)fh->name);
-    if (file_name_size > 16) {
-        file_name_size = 16;
-    }
-
-    /* open file on disk */
-    if (vdrive_iec_open(vdrive, (const BYTE *)fh->name, file_name_size, secondary, NULL) != SERIAL_OK) {
-        log_error(log, "Could not open file");
-        free_prg(prg);
-        return -1;
-    }
-
-    /* write start address to file */
-    lo = (BYTE)(prg->start_addr & 0xff);
-    hi = (BYTE)((prg->start_addr >> 8) & 0xff);
-    if ((vdrive_iec_write(vdrive, lo, secondary) != SERIAL_OK) || (vdrive_iec_write(vdrive, hi, secondary) != SERIAL_OK)) {
-        log_error(log, "Could not write file");
-        free_prg(prg);
-        return -1;
-    }
-
-    /* write PRG data to file */
-    for (i = 0; i < prg->size; i++) {
-        if (vdrive_iec_write(vdrive, prg->data[i], secondary) != SERIAL_OK) {
-            log_error(log, "Could not write file");
-            free_prg(prg);
-            return -1;
+        /* create empty image */
+        if (vdrive_internal_create_format_disk_image(image_name, (char *)"AUTOSTART", disk_image_type) < 0) {
+            log_error(log, "Error creating autostart disk image: %s", image_name);
+            break;
         }
-    }
 
-    /* close file */
-    if (vdrive_iec_close(vdrive, secondary) != SERIAL_OK) {
-        log_error(log, "Could not close file");
-        free_prg(prg);
-        return -1;
-    }
+        /* attach disk image */
+        if (file_system_attach_disk(drive, image_name) < 0) {
+            log_error(log, "Could not attach disk image: %s", image_name);
+            break;
+        }
+
+        /* get vdrive */
+        vdrive = file_system_get_vdrive((unsigned int)drive);
+        if (vdrive == NULL) {
+            break;
+        }
+
+        /* get file name size */
+        file_name_size = strlen((const char *)fh->name);
+        if (file_name_size > 16) {
+            file_name_size = 16;
+        }
+
+        /* open file on disk */
+        if (vdrive_iec_open(vdrive, (const BYTE *)fh->name, file_name_size, secondary, NULL) != SERIAL_OK) {
+            log_error(log, "Could not open file");
+            break;
+        }
+
+        result2 = 0;
+        /* write PRG data to file */
+        for (i = -2; i < (int)prg->size; i++) {
+            switch (i) {
+            case -2: 
+                data = (BYTE)prg->start_addr; 
+                break;
+            case -1: 
+                data = (BYTE)(prg->start_addr >> 8); 
+                break;
+            default: 
+                data = prg->data[i]; 
+                break;
+            }
+            if (vdrive_iec_write(vdrive, data, secondary) != SERIAL_OK) {
+                log_error(log, "Could not write file");
+                result2 = -1;
+                break;
+            }
+        }
+
+        /* close file */
+        if (vdrive_iec_close(vdrive, secondary) != SERIAL_OK) {
+            log_error(log, "Could not close file");
+            break;
+        }
+        result = result2;
+    } while (0);
 
     /* free prg file */
     free_prg(prg);
@@ -308,7 +312,7 @@ int autostart_prg_with_disk_image(const char *file_name,
     }
 
     /* ready */
-    return 0;
+    return result;
 }
 
 int autostart_prg_perform_injection(log_t log)
