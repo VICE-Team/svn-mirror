@@ -110,6 +110,32 @@ int try_cartridge_attach(int c)
 
 static int set_cartridge_type(int val, void *param)
 {
+    switch (val) {
+        case CARTRIDGE_NONE:
+        case CARTRIDGE_VIC20_GENERIC:
+        case CARTRIDGE_VIC20_MEGACART:
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+        case CARTRIDGE_VIC20_FP:
+        case CARTRIDGE_VIC20_IEEE488:
+        case CARTRIDGE_VIC20_SIDCART:
+        case CARTRIDGE_VIC20_DETECT:
+        case CARTRIDGE_VIC20_4KB_2000:
+        case CARTRIDGE_VIC20_8KB_2000:
+        case CARTRIDGE_VIC20_4KB_6000:
+        case CARTRIDGE_VIC20_8KB_6000:
+        case CARTRIDGE_VIC20_4KB_A000:
+        case CARTRIDGE_VIC20_8KB_A000:
+        case CARTRIDGE_VIC20_4KB_B000:
+        case CARTRIDGE_VIC20_8KB_4000:
+        case CARTRIDGE_VIC20_4KB_4000:
+        case CARTRIDGE_VIC20_16KB_2000:
+        case CARTRIDGE_VIC20_16KB_4000:
+        case CARTRIDGE_VIC20_16KB_6000:
+            break;
+        default:
+            return -1;
+    }
+
     cartridge_type = val;
     vic20cart_type = cartridge_type;
 
@@ -126,7 +152,7 @@ static int set_cartridge_file(const char *name, void *param)
 
 static int set_cartridge_reset(int val, void *param)
 {
-    vic20cartridge_reset = val;
+    vic20cartridge_reset = val ? 1 : 0;
 
     return try_cartridge_attach(TRY_RESOURCE_CARTRESET);
 }

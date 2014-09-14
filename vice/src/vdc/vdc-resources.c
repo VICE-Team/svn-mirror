@@ -50,7 +50,7 @@ static video_chip_cap_t video_chip_cap;
 
 static int set_64kb_expansion(int val, void *param)
 {
-    vdc_resources.vdc_64kb_expansion = val;
+    vdc_resources.vdc_64kb_expansion = val ? 1 : 0;
 
     vdc.vdc_address_mask = vdc_resources.vdc_64kb_expansion
                            ? 0xffff : 0x3fff;
@@ -59,15 +59,16 @@ static int set_64kb_expansion(int val, void *param)
 
 static int set_vdc_revision(int val, void *param)
 {
-    unsigned int revision;
-
-    revision = (unsigned int)val;
-
-    if (revision >= VDC_NUM_REVISIONS) {
-        return -1;
+    switch (val) {
+        case VDC_REVISION_0:
+        case VDC_REVISION_1:
+        case VDC_REVISION_2:
+            break;
+        default:
+            return -1;
     }
 
-    vdc.revision = revision;
+    vdc.revision = (unsigned int)val;
 
     return 0;
 }
@@ -95,7 +96,8 @@ void vdc_update_renderer(void)
 static int set_stretch(int val, void *param)
 {
     DBG(("set_stretch"));
-    vdc_resources.stretchy = val;
+
+    vdc_resources.stretchy = val ? 1 : 0;
     vdc_update_renderer();
     resources_touch("VDCDoubleSize");
     return 0;

@@ -76,8 +76,10 @@ static io_source_list_t *midi_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
-static int set_midi_enabled(int val, void *param)
+static int set_midi_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!midi_enabled && val) {
         midi_list_item = io_source_register(&midi_device);
         midi_enabled = 1;
@@ -93,8 +95,11 @@ static int set_midi_enabled(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "MIDIEnable", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &midi_enabled, set_midi_enabled, NULL },
+#if 0
+    /* currently only 1 mode is supported, so this resource is unneeded */
     { "MIDIMode", MIDI_MODE_MAPLIN, RES_EVENT_NO, NULL,
       &midi_mode, midi_set_mode, NULL },
+#endif
     { NULL }
 };
 
@@ -103,6 +108,11 @@ int vic20_midi_resources_init(void)
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
+
+#if 1
+    /* currently only 1 mode is supported */
+    midi_set_mode(MIDI_MODE_MAPLIN, NULL);
+#endif
 
     return midi_resources_init();
 }

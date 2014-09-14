@@ -32,6 +32,7 @@
 
 #include "cmdline.h"
 #include "joystick.h"
+#include "machine.h"
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
@@ -47,23 +48,42 @@ static BYTE userport_joystick_button_sp2 = 0xff;
 
 static int set_userport_joystick_enable(int val, void *param)
 {
-    userport_joystick_enable = val;
+    userport_joystick_enable = val ? 1 : 0;
+
     return 0;
 }
 
 static int set_userport_joystick_type(int val, void *param)
 {
-    if (val >= USERPORT_JOYSTICK_NUM) {
-        return -1;
+    switch (val) {
+        case USERPORT_JOYSTICK_CGA:
+        case USERPORT_JOYSTICK_PET:
+        case USERPORT_JOYSTICK_HUMMER:
+        case USERPORT_JOYSTICK_OEM:
+            break;
+        case USERPORT_JOYSTICK_HIT:
+        case USERPORT_JOYSTICK_KINGSOFT:
+        case USERPORT_JOYSTICK_STARBYTE:
+            if (machine_class == VICE_MACHINE_C64
+                || machine_class == VICE_MACHINE_C128
+                || machine_class == VICE_MACHINE_C64SC
+                || machine_class == VICE_MACHINE_SCPU64) {
+                break;
+            }
+            return -1;
+        default:
+            return -1;
     }
+
     userport_joystick_type = val;
+
     return 0;
 }
 
 static const resource_int_t resources_int[] = {
     { "UserportJoy", 0, RES_EVENT_NO, NULL,
       &userport_joystick_enable, set_userport_joystick_enable, NULL },
-    { "UserportJoyType", 0, RES_EVENT_NO, NULL,
+    { "UserportJoyType", USERPORT_JOYSTICK_CGA, RES_EVENT_NO, NULL,
       &userport_joystick_type, set_userport_joystick_type, NULL },
     { NULL }
 };

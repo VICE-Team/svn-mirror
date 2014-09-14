@@ -5697,7 +5697,7 @@ integer specifying tint of internal calculated palette [1000] <0-2000>
 
 @vindex VICIIPALScanLineShade
 @item VICIIPALScanLineShade
-integer specifying amount of scan line shading for the CRT emulation [667] <0-1000>
+integer specifying amount of scan line shading for the CRT emulation [750] <0-1000>
 
 @vindex VICIIPALBlur
 @item VICIIPALBlur
@@ -5705,11 +5705,11 @@ integer specifying amount of horizontal blur for the CRT emulation. [500] <0-100
 
 @vindex VICIIPALOddLinePhase
 @item VICIIPALOddLinePhase
-integer specifying phase offset for color carrier in odd lines [750] <0-2000>
+integer specifying phase for color carrier in odd lines [1125] <0-2000>
 
 @vindex VICIIPALOddLineOffset
 @item VICIIPALOddLineOffset
-integer specifying phase for color carrier in odd lines [1250] <0-2000>
+integer specifying phase offset for color carrier in odd lines [875] <0-2000>
 
 @vindex VICIIAudioLeak
 @item VICIIAudioLeak
@@ -5818,16 +5818,16 @@ Set gamma of internal calculated palette [2200]
 Set tint of internal calculated palette [1000]
 @cindex -VICIIoddlinesphase
 @item -VICIIoddlinesphase <0-2000>
-Set phase for color carrier in odd lines [1250]
+Set phase for color carrier in odd lines [1125]
 @cindex -VICIIoddlinesoffset
 @item -VICIIoddlinesoffset <0-2000>
-Set phase offset for color carrier in odd lines [750]
+Set phase offset for color carrier in odd lines [875]
 @cindex -VICIIcrtblur
 @item -VICIIcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation. [500]
 @cindex -VICIIcrtscanlineshade
 @item -VICIIcrtscanlineshade <0-1000>
-Amount of scan line shading for the CRT emulation [667]
+Amount of scan line shading for the CRT emulation [750]
 
 @cindex -VICIIaudioleak, +VICIIaudioleak
 @item -VICIIaudioleak
@@ -6528,7 +6528,7 @@ integer specifying tint of internal calculated palette [1000] <0-2000>
 
 @vindex VDCPALScanLineShade
 @item VDCPALScanLineShade
-integer specifying amount of scan line shading for the CRT emulation [667] <0-1000>
+integer specifying amount of scan line shading for the CRT emulation [750] <0-1000>
 
 @vindex VDCPALBlur
 @item VDCPALBlur
@@ -6536,11 +6536,11 @@ integer specifying amount of horizontal blur for the CRT emulation. [500] <0-100
 
 @vindex VDCPALOddLinePhase
 @item VDCPALOddLinePhase
-integer specifying phase offset for color carrier in odd lines [750] <0-2000>
+integer specifying phase for color carrier in odd lines [1125] <0-2000>
 
 @vindex VDCPALOddLineOffset
 @item VDCPALOddLineOffset
-integer specifying phase for color carrier in odd lines [1250] <0-2000>
+integer specifying phase offset for color carrier in odd lines [875] <0-2000>
 
 @vindex VDCAudioLeak
 @item VDCAudioLeak
@@ -6620,16 +6620,16 @@ Set gamma of internal calculated palette [2200]
 Set tint of internal calculated palette [1000]
 @cindex -VDCoddlinesphase
 @item -VDCoddlinesphase <0-2000>
-Set phase for color carrier in odd lines [1250]
+Set phase for color carrier in odd lines [1125]
 @cindex -VDCoddlinesoffset
 @item -VDCoddlinesoffset <0-2000>
-Set phase offset for color carrier in odd lines [750]
+Set phase offset for color carrier in odd lines [875]
 @cindex -VDCcrtblur
 @item -VDCcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation. [500]
 @cindex -VDCcrtscanlineshade
 @item -VDCcrtscanlineshade <0-1000>
-Amount of scan line shading for the CRT emulation [667]
+Amount of scan line shading for the CRT emulation [750]
 
 @cindex -VDCaudioleak, +VDCaudioleak
 @item -VDCaudioleak
@@ -7381,7 +7381,7 @@ integer specifying tint of internal calculated palette [1000] <0-2000>
 
 @vindex VICPALScanLineShade
 @item VICPALScanLineShade
-integer specifying amount of scan line shading for the CRT emulation [667] <0-1000>
+integer specifying amount of scan line shading for the CRT emulation [750] <0-1000>
 
 @vindex VICPALBlur
 @item VICPALBlur
@@ -7389,11 +7389,11 @@ integer specifying amount of horizontal blur for the CRT emulation. [500] <0-100
 
 @vindex VICPALOddLinePhase
 @item VICPALOddLinePhase
-integer specifying phase offset for color carrier in odd lines [750] <0-2000>
+integer specifying phase for color carrier in odd lines [1125] <0-2000>
 
 @vindex VICPALOddLineOffset
 @item VICPALOddLineOffset
-integer specifying phase for color carrier in odd lines [1250] <0-2000>
+integer specifying phase offset for color carrier in odd lines [875] <0-2000>
 
 @vindex VICAudioLeak
 @item VICAudioLeak
@@ -7480,16 +7480,16 @@ Set gamma of internal calculated palette [2200]
 Set tint of internal calculated palette [1000]
 @cindex -VICoddlinesphase
 @item -VICoddlinesphase <0-2000>
-Set phase for color carrier in odd lines [1250]
+Set phase for color carrier in odd lines [1125]
 @cindex -VICoddlinesoffset
 @item -VICoddlinesoffset <0-2000>
-Set phase offset for color carrier in odd lines [750]
+Set phase offset for color carrier in odd lines [875]
 @cindex -VICcrtblur
 @item -VICcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation. [500]
 @cindex -VICcrtscanlineshade
 @item -VICcrtscanlineshade <0-1000>
-Amount of scan line shading for the CRT emulation [667]
+Amount of scan line shading for the CRT emulation [750]
 
 @cindex -VICaudioleak, +VICaudioleak
 @item -VICaudioleak
@@ -7782,7 +7782,7 @@ integer specifying tint of internal calculated palette [1000] <0-2000>
 
 @vindex TEDPALScanLineShade
 @item TEDPALScanLineShade
-integer specifying amount of scan line shading for the CRT emulation [667] <0-1000>
+integer specifying amount of scan line shading for the CRT emulation [750] <0-1000>
 
 @vindex TEDPALBlur
 @item TEDPALBlur
@@ -7790,11 +7790,11 @@ integer specifying amount of horizontal blur for the CRT emulation. [500] <0-100
 
 @vindex TEDPALOddLinePhase
 @item TEDPALOddLinePhase
-integer specifying phase offset for color carrier in odd lines [750] <0-2000>
+integer specifying phase for color carrier in odd lines [1125] <0-2000>
 
 @vindex TEDPALOddLineOffset
 @item TEDPALOddLineOffset
-integer specifying phase for color carrier in odd lines [1250] <0-2000>
+integer specifying phase offset for color carrier in odd lines [875] <0-2000>
 
 @vindex TEDAudioLeak
 @item TEDAudioLeak
@@ -7872,16 +7872,16 @@ Set gamma of internal calculated palette [2200]
 Set tint of internal calculated palette [1000]
 @cindex -TEDoddlinesphase
 @item -TEDoddlinesphase <0-2000>
-Set phase for color carrier in odd lines [1250]
+Set phase for color carrier in odd lines [1125]
 @cindex -TEDoddlinesoffset
 @item -TEDoddlinesoffset <0-2000>
-Set phase offset for color carrier in odd lines [750]
+Set phase offset for color carrier in odd lines [875]
 @cindex -TEDcrtblur
 @item -TEDcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation. [500]
 @cindex -TEDcrtscanlineshade
 @item -TEDcrtscanlineshade <0-1000>
-Amount of scan line shading for the CRT emulation [667]
+Amount of scan line shading for the CRT emulation [750]
 
 @cindex -TEDaudioleak, +TEDaudioleak
 @item -TEDaudioleak
@@ -8305,7 +8305,7 @@ integer specifying tint of internal calculated palette [1000] <0-2000>
 
 @vindex CrtcPALScanLineShade
 @item CrtcPALScanLineShade
-integer specifying amount of scan line shading for the CRT emulation [667] <0-1000>
+integer specifying amount of scan line shading for the CRT emulation [750] <0-1000>
 
 @vindex CrtcPALBlur
 @item CrtcPALBlur
@@ -8313,11 +8313,11 @@ integer specifying amount of horizontal blur for the CRT emulation. [500] <0-100
 
 @vindex CrtcPALOddLinePhase
 @item CrtcPALOddLinePhase
-integer specifying phase offset for color carrier in odd lines [750] <0-2000>
+integer specifying phase for color carrier in odd lines [1125] <0-2000>
 
 @vindex CrtcPALOddLineOffset
 @item CrtcPALOddLineOffset
-integer specifying phase for color carrier in odd lines [1250] <0-2000>
+integer specifying phase offset for color carrier in odd lines [875] <0-2000>
 
 @vindex CrtcAudioLeak
 @item CrtcAudioLeak
@@ -8392,16 +8392,16 @@ Set gamma of internal calculated palette [2200]
 Set tint of internal calculated palette [1000]
 @cindex -Crtcoddlinesphase
 @item -Crtcoddlinesphase <0-2000>
-Set phase for color carrier in odd lines [1250]
+Set phase for color carrier in odd lines [1125]
 @cindex -Crtcoddlinesoffset
 @item -Crtcoddlinesoffset <0-2000>
-Set phase offset for color carrier in odd lines [750]
+Set phase offset for color carrier in odd lines [875]
 @cindex -Crtccrtblur
 @item -Crtccrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation. [500]
 @cindex -Crtccrtscanlineshade
 @item -Crtccrtscanlineshade <0-1000>
-Amount of scan line shading for the CRT emulation [667]
+Amount of scan line shading for the CRT emulation [750]
 
 @cindex -Crtcaudioleak, +Crtcaudioleak
 @item -Crtcaudioleak

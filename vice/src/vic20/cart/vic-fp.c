@@ -394,7 +394,8 @@ void vic_fp_detach(void)
 
 static int set_vic_fp_writeback(int val, void *param)
 {
-    vic_fp_writeback = val;
+    vic_fp_writeback = val ? 1 : 0;
+
     return 0;
 }
 

@@ -80,8 +80,10 @@ static io_source_list_t *ieee488_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
-static int set_ieee488_enabled(int val, void *param)
+static int set_ieee488_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!ieee488_enabled && val) {
         ieee488_list_item = io_source_register(&ieee488_device);
         ieee488_enabled = 1;

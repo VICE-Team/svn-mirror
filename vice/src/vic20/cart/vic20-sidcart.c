@@ -110,14 +110,16 @@ static void sidcart_disable(void)
     }
 }
 
-static void set_sidcart_address(int val)
+static int set_sidcart_address(int val)
 {
-    WORD address = 0;
+    WORD address = (WORD)val;
 
-    if (val) {
-        address = 0x9c00;
-    } else {
-        address = 0x9800;
+    switch (val) {
+        case 0x9800:
+        case 0x9c00:
+            break;
+        default:
+            return -1;
     }
 
     if (sidcart_list_item != NULL) {
@@ -129,10 +131,13 @@ static void set_sidcart_address(int val)
         sidcart_device.start_address = address;
         sidcart_device.end_address = address + 0x3ff;
     }
+    return 0;
 }
 
-static int set_sidcart_enabled(int val, void *param)
+static int set_sidcart_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (val != sidcart_sound_chip.chip_enabled) {
         if (val) {
             sidcart_enable();
@@ -148,14 +153,22 @@ static int set_sidcart_enabled(int val, void *param)
 static int set_sid_address(int val, void *param)
 {
     if (val != sidcart_address) {
-        set_sidcart_address(val);
         sidcart_address = val;
+        return set_sidcart_address(val);
     }
     return 0;
 }
 
 static int set_sid_clock(int val, void *param)
 {
+    switch (val) {
+        case SIDCART_CLOCK_C64:
+        case SIDCART_CLOCK_NATIVE:
+            break;
+        default:
+            return -1;
+    }
+
     if (val != sidcart_clock) {
         sidcart_clock = val;
         sid_state_changed = 1;
@@ -168,9 +181,9 @@ static int set_sid_clock(int val, void *param)
 static const resource_int_t sidcart_resources_int[] = {
     { "SidCart", 0, RES_EVENT_SAME, NULL,
       &sidcart_sound_chip.chip_enabled, set_sidcart_enabled, NULL },
-    { "SidAddress", 0, RES_EVENT_SAME, NULL,
+    { "SidAddress", 0x9c00, RES_EVENT_SAME, NULL,
       &sidcart_address, set_sid_address, NULL },
-    { "SidClock", 1, RES_EVENT_SAME, NULL,
+    { "SidClock", SIDCART_CLOCK_NATIVE, RES_EVENT_SAME, NULL,
       &sidcart_clock, set_sid_clock, NULL },
     { NULL }
 };

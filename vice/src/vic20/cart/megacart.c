@@ -524,7 +524,8 @@ static const resource_string_t resources_string[] = {
 
 static int set_nvram_writeback(int val, void *param)
 {
-    nvram_writeback = val;
+    nvram_writeback = val ? 1 : 0;
+
     return 0;
 }
 

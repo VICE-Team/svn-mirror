@@ -713,7 +713,8 @@ void finalexpansion_detach(void)
 
 static int set_finalexpansion_writeback(int val, void *param)
 {
-    finalexpansion_writeback = val;
+    finalexpansion_writeback = val ? 1 : 0;
+
     return 0;
 }
 

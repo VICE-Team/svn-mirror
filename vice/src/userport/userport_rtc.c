@@ -52,8 +52,10 @@ static int read_line_active = 0;
 
 /* ------------------------------------------------------------------------- */
 
-static int set_userport_rtc_enabled(int val, void *param)
+static int set_userport_rtc_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (userport_rtc_enabled == val) {
         return 0;
     }
