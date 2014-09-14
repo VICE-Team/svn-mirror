@@ -75,6 +75,7 @@ static const ui_menu_toggle_t scpu64_ui_menu_toggles[] = {
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
     { "UserportRTC", IDM_TOGGLE_USERPORT_RTC },
+    { "IECReset", IDM_TOGGLE_RESET_IEC_WITH_CPU },
     { NULL, 0 }
 };
 

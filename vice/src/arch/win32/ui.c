@@ -168,7 +168,6 @@ static const ui_menu_toggle_t toggle_list[] = {
 #ifdef HAVE_D3D9_H
     { "DX9Disable", IDM_TOGGLE_DX9DISABLE },
 #endif
-    { "IECReset", IDM_TOGGLE_RESET_IEC_WITH_CPU },
     { "AlwaysOnTop", IDM_TOGGLE_ALWAYSONTOP },
     { "KeySetEnable", IDM_JOYKEYS_TOGGLE },
     { "JoyOpposite", IDM_ALLOW_JOY_OPPOSITE_TOGGLE },
