@@ -40,6 +40,7 @@
 #include "vdrive.h"
 #include "vdrive-iec.h"
 #include "vdrive-internal.h"
+#include "drive.h"
 
 /* ----- Globals ----- */
 
@@ -188,6 +189,7 @@ int autostart_prg_with_disk_image(const char *file_name,
     int old_tde_state;
     int file_name_size;
     BYTE lo, hi;
+    unsigned int disk_image_type;
 
     /* read prg file */
     prg = load_prg(file_name, fh, log);
@@ -202,8 +204,43 @@ int autostart_prg_with_disk_image(const char *file_name,
         resources_set_int("DriveTrueEmulation", 0);
     }
 
+    switch (drive_get_disk_drive_type(drive - 8)) {
+    case DRIVE_TYPE_1541:
+    case DRIVE_TYPE_1541II:
+    case DRIVE_TYPE_1551:
+    case DRIVE_TYPE_1570:
+    case DRIVE_TYPE_2031:
+        disk_image_type = DISK_IMAGE_TYPE_D64; 
+        break;
+    case DRIVE_TYPE_2040:
+    case DRIVE_TYPE_3040:
+    case DRIVE_TYPE_4040:
+        disk_image_type = DISK_IMAGE_TYPE_D67; 
+        break;
+    case DRIVE_TYPE_1571:
+    case DRIVE_TYPE_1571CR:
+        disk_image_type = DISK_IMAGE_TYPE_D71;
+        break;
+    case DRIVE_TYPE_1581:
+    case DRIVE_TYPE_2000:
+    case DRIVE_TYPE_4000:
+        disk_image_type = DISK_IMAGE_TYPE_D81; 
+        break;
+    case DRIVE_TYPE_8050:
+        disk_image_type = DISK_IMAGE_TYPE_D80;
+        break;
+    case DRIVE_TYPE_8250:
+    case DRIVE_TYPE_1001:
+        disk_image_type = DISK_IMAGE_TYPE_D82;
+        break;
+    default: 
+        log_error(log, "No idea what disk image format to use.");
+        free_prg(prg);
+        return -1;
+    }
+
     /* create empty image */
-    if (vdrive_internal_create_format_disk_image(image_name, (char *)"AUTOSTART", DISK_IMAGE_TYPE_D64) < 0) {
+    if (vdrive_internal_create_format_disk_image(image_name, (char *)"AUTOSTART", disk_image_type) < 0) {
         log_error(log, "Error creating autostart disk image: %s", image_name);
         free_prg(prg);
         return -1;
@@ -216,7 +253,7 @@ int autostart_prg_with_disk_image(const char *file_name,
         return -1;
     }
 
-    /* copy file to disk */
+    /* get vdrive */
     vdrive = file_system_get_vdrive((unsigned int)drive);
     if (vdrive == NULL) {
         free_prg(prg);
