@@ -45,6 +45,16 @@ static int set_border_mode(int val, void *param)
 {
     int sync;
 
+    switch (val) {
+        case VIC_NORMAL_BORDERS:
+        case VIC_FULL_BORDERS:
+        case VIC_DEBUG_BORDERS:
+        case VIC_NO_BORDERS:
+            break;
+        default:
+            return -1;
+    }
+
     if (resources_get_int("MachineVideoStandard", &sync) < 0) {
         sync = MACHINE_SYNC_PAL;
     }

@@ -49,6 +49,16 @@ static int set_border_mode(int val, void *param)
 {
     int sync;
 
+    switch (val) {
+        case VICII_NORMAL_BORDERS:
+        case VICII_FULL_BORDERS:
+        case VICII_DEBUG_BORDERS:
+        case VICII_NO_BORDERS:
+            break;
+        default:
+            return -1;
+    }
+
     if (resources_get_int("MachineVideoStandard", &sync) < 0) {
         sync = MACHINE_SYNC_PAL;
     }

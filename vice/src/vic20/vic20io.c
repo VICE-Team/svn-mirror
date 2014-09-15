@@ -538,9 +538,15 @@ void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 
 static int set_io_source_collision_handling(int val, void *param)
 {
-    if (val < 0 || val > 2) {
-        return -1;
+    switch (val) {
+        case IO_COLLISION_METHOD_DETACH_ALL:
+        case IO_COLLISION_METHOD_DETACH_LAST:
+        case IO_COLLISION_METHOD_AND_WIRES:
+            break;
+        default:
+            return -1;
     }
+
     io_source_collision_handling = val;
 
     return 0;
@@ -548,7 +554,7 @@ static int set_io_source_collision_handling(int val, void *param)
 
 
 static const resource_int_t resources_int[] = {
-    { "IOCollisionHandling", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "IOCollisionHandling", IO_COLLISION_METHOD_DETACH_ALL, RES_EVENT_STRICT, (resource_value_t)0,
       &io_source_collision_handling, set_io_source_collision_handling, NULL },
     { NULL }
 };

@@ -99,36 +99,46 @@ static int set_basic_rom_name(const char *val, void *param)
 
 static int set_ram_block_0_enabled(int value, void *param)
 {
-    ram_block_0_enabled = value;
+    ram_block_0_enabled = value ? 1 : 0;
+
     mem_initialize_memory();
+
     return 0;
 }
 
 static int set_ram_block_1_enabled(int value, void *param)
 {
-    ram_block_1_enabled = value;
+    ram_block_1_enabled = value ? 1 : 0;
+
     mem_initialize_memory();
+
     return 0;
 }
 
 static int set_ram_block_2_enabled(int value, void *param)
 {
-    ram_block_2_enabled = value;
+    ram_block_2_enabled = value ? 1 : 0;
+
     mem_initialize_memory();
+
     return 0;
 }
 
 static int set_ram_block_3_enabled(int value, void *param)
 {
-    ram_block_3_enabled = value;
+    ram_block_3_enabled = value ? 1 : 0;
+
     mem_initialize_memory();
+
     return 0;
 }
 
 static int set_ram_block_5_enabled(int value, void *param)
 {
-    ram_block_5_enabled = value;
+    ram_block_5_enabled = value ? 1 : 0;
+
     mem_initialize_memory();
+
     return 0;
 }
 

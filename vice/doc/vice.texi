@@ -5677,11 +5677,11 @@ Boolean specifying whether to use external palette file or not.
 
 @vindex VICIIColorSaturation
 @item VICIIColorSaturation
-integer specifying saturation of internal calculated palette [1000] <0-2000>
+integer specifying saturation of internal calculated palette [1250] <0-2000>
 
 @vindex VICIIColorContrast
 @item VICIIColorContrast
-integer specifying contrast of internal calculated palette [1000] <0-2000>
+integer specifying contrast of internal calculated palette [1250] <0-2000>
 
 @vindex VICIIColorBrightness
 @item VICIIColorBrightness
@@ -5803,10 +5803,10 @@ Enable/Disable new luminances.
 
 @cindex -VICIIsaturation
 @item -VICIIsaturation <0-2000>
-Set saturation of internal calculated palette [1000]
+Set saturation of internal calculated palette [1250]
 @cindex -VICIIcontrast
 @item -VICIIcontrast <0-2000>
-Set contrast of internal calculated palette [1000]
+Set contrast of internal calculated palette [1250]
 @cindex -VICIIbrightness
 @item -VICIIbrightness <0-2000>
 Set brightness of internal calculated palette [1000]
@@ -6508,11 +6508,11 @@ Boolean specifying whether to use external palette file or not.
 
 @vindex VDCColorSaturation
 @item VDCColorSaturation
-integer specifying saturation of internal calculated palette [1000] <0-2000>
+integer specifying saturation of internal calculated palette [1250] <0-2000>
 
 @vindex VDCColorContrast
 @item VDCColorContrast
-integer specifying contrast of internal calculated palette [1000] <0-2000>
+integer specifying contrast of internal calculated palette [1250] <0-2000>
 
 @vindex VDCColorBrightness
 @item VDCColorBrightness
@@ -6605,10 +6605,10 @@ Set VDC revision (0..2)
 
 @cindex -VDCsaturation
 @item -VDCsaturation <0-2000>
-Set saturation of internal calculated palette [1000]
+Set saturation of internal calculated palette [1250]
 @cindex -VDCcontrast
 @item -VDCcontrast <0-2000>
-Set contrast of internal calculated palette [1000]
+Set contrast of internal calculated palette [1250]
 @cindex -VDCbrightness
 @item -VDCbrightness <0-2000>
 Set brightness of internal calculated palette [1000]
@@ -7361,11 +7361,11 @@ Boolean specifying whether to use external palette file or not.
 
 @vindex VICColorSaturation
 @item VICColorSaturation
-integer specifying saturation of internal calculated palette [1000] <0-2000>
+integer specifying saturation of internal calculated palette [1250] <0-2000>
 
 @vindex VICColorContrast
 @item VICColorContrast
-integer specifying contrast of internal calculated palette [1000] <0-2000>
+integer specifying contrast of internal calculated palette [1250] <0-2000>
 
 @vindex VICColorBrightness
 @item VICColorBrightness
@@ -7465,10 +7465,10 @@ Set VIC border display mode (0: normal, 1: full, 2: debug, 3:none)
 
 @cindex -VICsaturation
 @item -VICsaturation <0-2000>
-Set saturation of internal calculated palette [1000]
+Set saturation of internal calculated palette [1250]
 @cindex -VICcontrast
 @item -VICcontrast <0-2000>
-Set contrast of internal calculated palette [1000]
+Set contrast of internal calculated palette [1250]
 @cindex -VICbrightness
 @item -VICbrightness <0-2000>
 Set brightness of internal calculated palette [1000]
@@ -7762,11 +7762,11 @@ Boolean specifying whether to use external palette file or not.
 
 @vindex TEDColorSaturation
 @item TEDColorSaturation
-integer specifying saturation of internal calculated palette [1000] <0-2000>
+integer specifying saturation of internal calculated palette [1250] <0-2000>
 
 @vindex TEDColorContrast
 @item TEDColorContrast
-integer specifying contrast of internal calculated palette [1000] <0-2000>
+integer specifying contrast of internal calculated palette [1250] <0-2000>
 
 @vindex TEDColorBrightness
 @item TEDColorBrightness
@@ -7857,10 +7857,10 @@ Set TED border display mode (0: normal, 1: full, 2: debug, 3:none)
 
 @cindex -TEDsaturation
 @item -TEDsaturation <0-2000>
-Set saturation of internal calculated palette [1000]
+Set saturation of internal calculated palette [1250]
 @cindex -TEDcontrast
 @item -TEDcontrast <0-2000>
-Set contrast of internal calculated palette [1000]
+Set contrast of internal calculated palette [1250]
 @cindex -TEDbrightness
 @item -TEDbrightness <0-2000>
 Set brightness of internal calculated palette [1000]
@@ -8285,11 +8285,11 @@ Boolean specifying whether to use external palette file or not.
 
 @vindex CrtcColorSaturation
 @item CrtcColorSaturation
-integer specifying saturation of internal calculated palette [1000] <0-2000>
+integer specifying saturation of internal calculated palette [1250] <0-2000>
 
 @vindex CrtcColorContrast
 @item CrtcColorContrast
-integer specifying contrast of internal calculated palette [1000] <0-2000>
+integer specifying contrast of internal calculated palette [1250] <0-2000>
 
 @vindex CrtcColorBrightness
 @item CrtcColorBrightness
@@ -8377,10 +8377,10 @@ Select fullscreen mode
 
 @cindex -Crtcsaturation
 @item -Crtcsaturation <0-2000>
-Set saturation of internal calculated palette [1000]
+Set saturation of internal calculated palette [1250]
 @cindex -Crtccontrast
 @item -Crtccontrast <0-2000>
-Set contrast of internal calculated palette [1000]
+Set contrast of internal calculated palette [1250]
 @cindex -Crtcbrightness
 @item -Crtcbrightness <0-2000>
 Set brightness of internal calculated palette [1000]
