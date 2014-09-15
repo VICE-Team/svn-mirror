@@ -301,7 +301,7 @@ static const resource_int_t resources_int[] = {
       &AutostartHandleTrueDriveEmulation, set_autostart_handle_tde, NULL },
     { "AutostartWarp", 1, RES_EVENT_NO, (resource_value_t)0,
       &AutostartWarp, set_autostart_warp, NULL },
-    { "AutostartPrgMode", 0, RES_EVENT_NO, (resource_value_t)0,
+    { "AutostartPrgMode", AUTOSTART_PRG_MODE_DISK, RES_EVENT_NO, (resource_value_t)0,
       &AutostartPrgMode, set_autostart_prg_mode, NULL },
     { "AutostartDelay", 0, RES_EVENT_NO, (resource_value_t)0,
       &AutostartDelay, set_autostart_delay, NULL },
