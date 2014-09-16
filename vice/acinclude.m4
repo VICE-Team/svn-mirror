@@ -1,16 +1,3 @@
-# AC_MSG_FAILURE define
-m4_define([AC_MSG_FAILURE],
-[{ AS_MESSAGE([error: in `$ac_pwd':], 2)
-AC_MSG_ERROR([$1
-See `config.log' for more details.], [$2]); }])
-
-# ssizet.m4
-dnl *
-dnl * Check for ssize_t.
-dnl *
-AC_DEFUN(AC_TYPE_SSIZE_T,
-[AC_CHECK_TYPE(ssize_t, int)])
-
 # progtest.m4 serial 2 (gettext-0.10.40)
 dnl Copyright (C) 1996-2002 Free Software Foundation, Inc.
 dnl This file is free software, distributed under the terms of the GNU
