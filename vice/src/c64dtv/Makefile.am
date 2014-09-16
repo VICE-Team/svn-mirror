@@ -1,6 +1,6 @@
 AM_CFLAGS=@INLINE_UNIT_GROWTH@
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \

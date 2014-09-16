@@ -1,6 +1,6 @@
 # Makefile.am for the Mac OS X library `libarchmacosxcocoamenu.a'.
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/drive \

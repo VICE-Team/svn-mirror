@@ -6,7 +6,7 @@ endif
 
 SUFFIXES = .def
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	@RESID_INCLUDES@ \
 	-I$(top_builddir)/src \

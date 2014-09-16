@@ -1,6 +1,6 @@
 # Makefile.am for the OS2 version of `libpm.a'.
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ 
 
 noinst_LIBRARIES = libpm.a

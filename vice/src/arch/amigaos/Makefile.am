@@ -24,7 +24,7 @@ xcbm5x0ns_SOURCES = xcbm5x0ns.c
 
 xpetns_SOURCES = xpetns.c
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src/drive \

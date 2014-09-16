@@ -13,7 +13,7 @@ SUBDIRS = \
 	syllable-files \
 	win32-watcom
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	$(extra_includes) \
 	-I$(top_builddir)/src \

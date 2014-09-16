@@ -6,7 +6,7 @@ endif
 
 SUFFIXES = .rc
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	@ARCH_INCLUDES@/msvc/wpcap \
 	@ARCH_INCLUDES@/mingw32 \

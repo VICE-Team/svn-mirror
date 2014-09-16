@@ -4,7 +4,7 @@ if USE_MIDAS_SOUND
 libarch_a_LIBADD = vmidas.o
 endif
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \

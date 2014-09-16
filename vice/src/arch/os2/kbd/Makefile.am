@@ -1,6 +1,6 @@
 # Makefile.am for the OS2 version of `libarch.a'.
 
-INCLUDES = 
+AM_CPPFLAGS = 
 
 noinst_LIBRARIES = libkbd.a
 

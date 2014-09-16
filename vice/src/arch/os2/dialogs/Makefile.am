@@ -1,6 +1,6 @@
 # Makefile.am for the OS2 version of `libdialogs.a'.
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	@ARCH_INCLUDES@
 
 noinst_LIBRARIES = libdialogs.a
