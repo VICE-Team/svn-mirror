@@ -108,8 +108,17 @@ static int set_model(int model, void *param)
 {
     int old;
 
-    if ((model < 0) || (model >= VICII_MODEL_NUM)) {
-        return -1;
+    switch (model) {
+        case VICII_MODEL_6569:
+        case VICII_MODEL_8565:
+        case VICII_MODEL_6569R1:
+        case VICII_MODEL_6567:
+        case VICII_MODEL_8562:
+        case VICII_MODEL_6567R56A:
+        case VICII_MODEL_6572:
+            break;
+        default:
+            return -1;
     }
 
     old = vicii_resources.model;
@@ -138,7 +147,7 @@ static const resource_int_t resources_int[] =
     { "VICIINewLuminances", 1, RES_EVENT_NO, NULL,
       &vicii_resources.new_luminances,
       set_new_luminances, NULL },
-    { "VICIIModel", 0, RES_EVENT_NO, NULL,
+    { "VICIIModel", VICII_MODEL_6569, RES_EVENT_NO, NULL,
       &vicii_resources.model,
       set_model, NULL },
     { NULL }

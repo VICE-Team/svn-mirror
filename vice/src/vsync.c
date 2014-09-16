@@ -112,7 +112,8 @@ static int set_refresh_rate(int val, void *param)
 
 static int set_warp_mode(int val, void *param)
 {
-    warp_mode_enabled = val;
+    warp_mode_enabled = val ? 1 : 0;
+
     sound_set_warp_mode(warp_mode_enabled);
     set_timer_speed(relative_speed);
 
@@ -123,8 +124,10 @@ static int set_warp_mode(int val, void *param)
 #ifdef DINGOO_NATIVE
 static int set_overclock_mode(int val, void *param)
 {
-    overclock_mode_enabled = val;
+    overclock_mode_enabled = val ? 1 : 0;
+
     set_overclock(val);
+
     return 0;
 }
 #endif

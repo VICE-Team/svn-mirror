@@ -60,7 +60,7 @@ static int hwscale_possible;
 
 static int set_hwscale_possible(int val, void *param)
 {
-    hwscale_possible = val;
+    hwscale_possible = val ? 1 : 0;
 
     return 0;
 }
