@@ -82,7 +82,14 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 #ifdef DEBUG_KBD
             log_debug("KeyRelese`%d'.", key);
 #endif
-            if (key == KEYSYM_Shift_L || key == KEYSYM_Shift_R || key == KEYSYM_ISO_Level3_Shift) {
+            if (key == KEYSYM_Shift_L || key == KEYSYM_Shift_R || 
+		key == KEYSYM_ISO_Level3_Shift || 
+		/* the following checks are an ugly workaround for bug #549
+		   for some reasond gdk returns different keycodes 
+		   for press and release events of the shift keys.
+		   any explanation would be helpful
+		 */
+		key == KEYSYM_Shift_Lrel || key == KEYSYM_Shift_Rrel) {
                 keyboard_key_clear();
             }
             keyboard_key_released(key);
