@@ -89,7 +89,7 @@ static int set_fullscreen_height(int val, void *param)
 
 static int set_fullscreen_enabled(int val, void *param)
 {
-    ui_resources.fullscreenenabled = val;
+    ui_resources.fullscreenenabled = val ? 1 : 0;
 
     video_arch_fullscreen_toggle();
 
@@ -97,8 +97,10 @@ static int set_fullscreen_enabled(int val, void *param)
 }
 
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
-static int set_videooverlay_enabled(int val, void *param)
+static int set_videooverlay_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if (!xvideo_lib_loaded && val) {
         return -1;
     }
@@ -114,7 +116,8 @@ static int set_videooverlay_enabled(int val, void *param)
 
 static int set_statusbar_enabled(int val, void *param)
 {
-    ui_resources.statusbarenabled = val;
+    ui_resources.statusbarenabled = val ? 1 : 0;
+
     video_arch_fullscreen_toggle();
 
     return 0;
@@ -122,13 +125,15 @@ static int set_statusbar_enabled(int val, void *param)
 
 static int set_save_resources_on_exit(int val, void *param)
 {
-    ui_resources.save_resources_on_exit = val;
+    ui_resources.save_resources_on_exit = val ? 1 : 0;
+
     return 0;
 }
 
 static int set_confirm_on_exit(int val, void *param)
 {
-    ui_resources.confirm_on_exit = val;
+    ui_resources.confirm_on_exit = val ? 1 : 0;
+
     return 0;
 }
 
