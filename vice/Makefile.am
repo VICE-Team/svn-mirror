@@ -5,7 +5,8 @@ SUBDIRS = $(POSUB) src build data man doc
 # COMMON_EXTRA_DIST is what used to be the EXTRA_DIST, when adding dist
 # files, please add them to the COMMON_EXTRA_DIST list.
 
-COMMON_EXTRA_DIST = .descr \
+COMMON_EXTRA_DIST = \
+	.descr \
 	AUTHORS \
 	build.minix \
 	configure.proto \
@@ -16,6 +17,7 @@ COMMON_EXTRA_DIST = .descr \
 	FEEDBACK \
 	INSTALL \
 	NEWS \
+	gcccpu.sh \
 	vice.spec \
 	vice.spec.in \
 	vice-gtk.spec \
