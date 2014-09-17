@@ -307,6 +307,8 @@ static int set_fullscreen_statusbar(int value, void *param)
     return (video_chip_cap->fullscreen.statusbar)(canvas, val);
 }
 
+#if 0
+/* FIXME: unused ?? */
 static int set_fullscreen_double_size_enabled(int val, void *param)
 {
     video_canvas_t *canvas = (video_canvas_t *)param;
@@ -326,6 +328,7 @@ static int set_fullscreen_double_scan_enabled(int val, void *param)
 
     return (video_chip_cap->fullscreen.double_scan)(canvas, val);
 }
+#endif
 
 static int set_fullscreen_device(const char *val, void *param)
 {

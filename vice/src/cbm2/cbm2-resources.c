@@ -71,8 +71,6 @@ int cia1_model = CIA_MODEL_6526;
 
 static int set_cbm2_model_line(int val, void *param)
 {
-    int tmp = val;
-
     switch (val) {
         case LINE_7x0_50HZ:
         case LINE_6x0_60HZ:
