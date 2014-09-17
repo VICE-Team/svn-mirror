@@ -4,7 +4,7 @@
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
 # This script makes sure a 'valid' output file is generated
-#   for when the configure script checks the compiled(-wrapper)
+#   for when the configure script checks the compiler(-wrapper)
 
 foundo=no
 
