@@ -413,7 +413,7 @@ static int dthread_calc_frames(unsigned long now, int *from, int *to, int shell)
     float a1, a2;
     struct s_mbufs *t;
     
-    if (!do_blending) {
+    if (!do_blending || ui_emulation_is_paused()) {
 	*from = *to = bptrs[shell].cpos;
 	buffers[shell][*from].alpha = 1.0;
 	return 1;		/* render frame */
