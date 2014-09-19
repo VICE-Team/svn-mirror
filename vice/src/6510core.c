@@ -667,6 +667,7 @@ CONST value, it probably has to be made configureable somehow if no value can
 be found that works for both.
 */
 
+#ifndef ANE
 #define ANE(value, pc_inc)                                               \
     do {                                                                 \
         BYTE tmp = ((reg_a_read | 0xff) & reg_x_read & ((BYTE)(value))); \
@@ -674,6 +675,7 @@ be found that works for both.
         LOCAL_SET_NZ(tmp);                                               \
         INC_PC(pc_inc);                                                  \
     } while (0)
+#endif
 
 /* The fanciest opcode ever... ARR! */
 #define ARR(value, pc_inc)                                          \
@@ -1130,6 +1132,7 @@ be found that works for both.
 
 /* Note: this is not always exact, as this opcode can be quite unstable!
    Moreover, the behavior is different from the one described in 64doc. */
+#ifndef LXA
 #define LXA(value, pc_inc)                                  \
     do {                                                    \
         BYTE tmp = ((reg_a_read | 0xee) & ((BYTE)(value))); \
@@ -1138,6 +1141,7 @@ be found that works for both.
         LOCAL_SET_NZ(tmp);                                  \
         INC_PC(pc_inc);                                     \
     } while (0)
+#endif
 
 #define ORA(value, clk_inc, pc_inc)              \
     do {                                         \

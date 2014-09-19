@@ -139,4 +139,29 @@ BYTE memmap_mem_read(unsigned int addr)
 }
 #endif
 
+
+/* 8502 in fast mode always uses 0xee */
+#define ANE(value, pc_inc)                                              \
+    do {                                                                \
+        BYTE tmp;                                                       \
+        if (vicii.fastmode != 0) {                                      \
+            tmp = ((reg_a_read | 0xee) & reg_x_read & ((BYTE)(value))); \
+        } else {                                                        \
+            tmp = ((reg_a_read | 0xff) & reg_x_read & ((BYTE)(value))); \
+        }                                                               \
+        reg_a_write(tmp);                                               \
+        LOCAL_SET_NZ(tmp);                                              \
+        INC_PC(pc_inc);                                                 \
+    } while (0)
+
+/* No OR takes place on 8502 */
+#define LXA(value, pc_inc)                           \
+    do {                                             \
+        BYTE tmp = ((reg_a_read) & ((BYTE)(value))); \
+        reg_x_write(tmp);                            \
+        reg_a_write(tmp);                            \
+        LOCAL_SET_NZ(tmp);                           \
+        INC_PC(pc_inc);                              \
+    } while (0)
+
 #include "../maincpu.c"
