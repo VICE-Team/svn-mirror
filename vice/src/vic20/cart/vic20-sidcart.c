@@ -115,8 +115,8 @@ static int set_sidcart_address(int val)
     WORD address = (WORD)val;
 
     switch (val) {
-        case 0x9800:
-        case 0x9c00:
+        case 0:
+        case 1:
             break;
         default:
             return -1;
@@ -181,7 +181,7 @@ static int set_sid_clock(int val, void *param)
 static const resource_int_t sidcart_resources_int[] = {
     { "SidCart", 0, RES_EVENT_SAME, NULL,
       &sidcart_sound_chip.chip_enabled, set_sidcart_enabled, NULL },
-    { "SidAddress", 0x9c00, RES_EVENT_SAME, NULL,
+    { "SidAddress", 0, RES_EVENT_SAME, NULL,
       &sidcart_address, set_sid_address, NULL },
     { "SidClock", SIDCART_CLOCK_NATIVE, RES_EVENT_SAME, NULL,
       &sidcart_clock, set_sid_clock, NULL },
