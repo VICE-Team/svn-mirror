@@ -2,3 +2,768 @@ This document is a Work In Progress and it will be inteded for the following pur
 
 - to list and explain the 6809 cpu as used in the superpet.
 - to list and explain the differences between the 6809 and the 6309.
+
+opcode | 6809             | Full6809           | 6309
+-----------------------------------------------------
+0000   | NEG direct       | NEG direct         | NEG direct
+0001   | ---              | NEG direct         | OIM post, direct
+0002   | ---              | COM/NEG direct     | AIM post, direct
+0003   | COM direct       | COM direct         | COM direct
+0004   | LSR direct       | LSR direct         | LSR direct
+0005   | ---              | LSR direct         | EIM post, direct
+0006   | ROR direct       | ROR direct         | ROR direct
+0007   | ASR direct       | ASR direct         | ASR direct
+0008   | ASL/LSL direct   | ASL/LSL direct     | ASL/LSL direct
+0009   | ROL direct       | ROL direct         | ROL direct
+000A   | DEC direct       | DEC direct         | DEC direct
+000B   | ---              | DEC direct         | TIM post, direct
+000C   | INC direct       | INC direct         | INC direct
+000D   | TST direct       | TST direct         | TST direct
+000E   | JMP direct       | JMP direct         | JMP direct
+000F   | CLR direct       | CLR direct         | CLR direct
+0012   | NOP              | NOP                | NOP
+0013   | SYNC             | SYNC               | SYNC
+0014   | ---              | HCF                | SEXW
+0015   | ---              | HCF                | ***trap***
+0016   | LBRA             | LBRA               | LBRA
+0017   | LBSR             | LBSR               | LBSR
+0018   | ---              | CCRS               | ***trap***
+0019   | DAA              | DAA                | DAA
+001A   | ORCC imm         | ORCC imm           | ORCC imm
+001B   | ---              | NOP                | ***trap***
+001C   | ANDCC imm        | ANDCC imm          | ANDCC imm
+001D   | SEX              | SEX                | SEX
+001E   | EXG post         | EXG post           | EXG post
+001F   | TFR post         | TFR post           | TFR post
+0020   | BRA              | BRA                | BRA
+0021   | BRN              | BRN                | BRN
+0022   | BHI              | BHI                | BHI
+0023   | BLS              | BLS                | BLS
+0024   | BHS              | BHS                | BHS
+0025   | BLO              | BLO                | BLO
+0026   | BNE              | BNE                | BNE
+0027   | BEQ              | BEQ                | BEQ
+0028   | BVC              | BVC                | BVC
+0029   | BVS              | BVS                | BVS
+002A   | BPL              | BPL                | BPL
+002B   | BMI              | BMI                | BMI
+002C   | BGE              | BGE                | BGE
+002D   | BLT              | BLT                | BLT
+002E   | BGT              | BGT                | BGT
+002F   | BLE              | BLE                | BLE
+0030   | LEAX indexed     | LEAX indexed       | LEAX indexed
+0031   | LEAY indexed     | LEAY indexed       | LEAY indexed
+0032   | LEAS indexed     | LEAS indexed       | LEAS indexed
+0033   | LEAU indexed     | LEAU indexed       | LEAU indexed
+0034   | PSHS post        | PSHS post          | PSHS post
+0035   | PULS post        | PULS post          | PULS post
+0036   | PSHU post        | PSHU post          | PSHU post
+0037   | PULU post        | PULU post          | PULU post
+0038   | ---              | ANDCC imm          | ***trap***
+0039   | RTS              | RTS                | RTS
+003A   | ABX              | ABX                | ABX
+003B   | RTI              | RTI                | RTI
+003C   | CWAI             | CWAI               | CWAI
+003D   | MUL              | MUL                | MUL
+003E   | ---              | SWIRES             | ***trap***
+003F   | SWI              | SWI                | SWI
+0040   | NEGA             | NEGA               | NEGA
+0041   | ---              | NEGA               | ***trap***
+0042   | ---              | COMA/NEGA          | ***trap***
+0043   | COMA             | COMA               | COMA
+0044   | LSRA             | LSRA               | LSRA
+0045   | ---              | LSRA               | ***trap***
+0046   | RORA             | RORA               | RORA
+0047   | ASRA             | ASRA               | ASRA
+0048   | ASLA/LSLA        | ASLA/LSLA          | ASLA/LSLA
+0049   | ROLA             | ROLA               | ROLA
+004A   | DECA             | DECA               | DECA
+004B   | ---              | DECA               | ***trap***
+004C   | INCA             | INCA               | INCA
+004D   | TSTA             | TSTA               | TSTA
+004E   | ---              | CLRA               | ***trap***
+004F   | CLRA             | CLRA               | CLRA
+0050   | NEGB             | NEGB               | NEGB
+0051   | ---              | NEGB               | ***trap***
+0052   | ---              | COMB/NEGB          | ***trap***
+0053   | COMB             | COMB               | COMB
+0054   | LSRB             | LSRB               | LSRB
+0055   | ---              | LSRB               | ***trap***
+0056   | RORB             | RORB               | RORB
+0057   | ASRB             | ASRB               | ASRB
+0058   | ASLB/LSLB        | ASLB/LSLB          | ASLB/LSLB
+0059   | ROLB             | ROLB               | ROLB
+005A   | DECB             | DECB               | DECB
+005B   | ---              | DECB               | ***trap***
+005C   | INCB             | INCB               | INCB
+005D   | TSTB             | TSTB               | TSTB
+005E   | ---              | CLRB               | ***trap***
+005F   | CLRB             | CLRB               | CLRB
+0060   | NEG indexed      | NEG indexed        | NEG indexed
+0061   | ---              | NEG indexed        | OIM indexed
+0062   | ---              | COM/NEG indexed    | AIM post, indexed
+0063   | COM indexed      | COM indexed        | COM indexed
+0064   | LSR indexed      | LSR indexed        | LSR indexed
+0065   | ---              | LSR indexed        | EIM indexed
+0066   | ROR indexed      | ROR indexed        | ROR indexed
+0067   | ASR indexed      | ASR indexed        | ASR indexed
+0068   | ASL/LSL indexed  | ASL/LSL indexed    | ASL/LSL indexed
+0069   | ROL indexed      | ROL indexed        | ROL indexed
+006A   | DEC indexed      | DEC indexed        | DEC indexed
+006B   | ---              | DEC indexed        | TIM indexed
+006C   | INC indexed      | INC indexed        | INC indexed
+006D   | TST indexed      | TST indexed        | TST indexed
+006E   | JMP indexed      | JMP indexed        | JMP indexed
+006F   | CLR indexed      | CLR indexed        | CLR indexed
+0070   | NEG extended     | NEG extended       | NEG extended
+0071   | ---              | NEG extended       | OIM extended
+0072   | ---              | COM/NEG extended   | AIM post, extended
+0073   | COM extended     | COM extended       | COM extended
+0074   | LSR extended     | LSR extended       | LSR extended
+0075   | ---              | LSR extended       | EIM extended
+0076   | ROR extended     | ROR extended       | ROR extended
+0077   | ASR extended     | ASR extended       | ASR extended
+0078   | ASL/LSL extended | ASL/LSL extended   | ASL/LSL extended
+0079   | ROL extended     | ROL extended       | ROL extended
+007A   | DEC extended     | DEC extended       | DEC extended
+007B   | ---              | DEC extended       | TIM extended
+007C   | INC extended     | INC extended       | INC extended
+007D   | TST extended     | TST extended       | TST extended
+007E   | JMP extended     | JMP extended       | JMP extended
+007F   | CLR extended     | CLR extended       | CLR extended
+0080   | SUBA immediate   | SUBA immediate     | SUBA immediate
+0081   | CMPA immediate   | CMPA immediate     | CMPA immediate
+0082   | SBCA immediate   | SBCA immediate     | SBCA immediate
+0083   | SUBD immediate   | SUBD immediate     | SUBD immediate
+0084   | ANDA immediate   | ANDA immediate     | ANDA immediate
+0085   | BITA immediate   | BITA immediate     | BITA immediate
+0086   | LDA immediate    | LDA immediate      | LDA immediate
+0087   | ---              | SCC immediate      | ***trap***
+0088   | EORA immediate   | EORA immediate     | EORA immediate
+0089   | ADCA immediate   | ADCA immediate     | ADCA immediate
+008A   | ORA immediate    | ORA immediate      | ORA immediate
+008B   | ADDA immediate   | ADDA immediate     | ADDA immediate
+008C   | CMPX immediate   | CMPX immediate     | CMPX immediate
+008D   | BSR              | BSR                | BSR
+008E   | LDX immediate    | LDX immediate      | LDX immediate
+008F   | ---              | STX immediate      | ***trap***
+0090   | SUBA direct      | SUBA direct        | SUBA direct
+0091   | CMPA direct      | CMPA direct        | CMPA direct
+0092   | SBCA direct      | SBCA direct        | SBCA direct
+0093   | SUBD direct      | SUBD direct        | SUBD direct
+0094   | ANDA direct      | ANDA direct        | ANDA direct
+0095   | BITA direct      | BITA direct        | BITA direct
+0096   | LDA direct       | LDA direct         | LDA direct
+0097   | STA direct       | STA direct         | STA direct
+0098   | EORA direct      | EORA direct        | EORA direct
+0099   | ADCA direct      | ADCA direct        | ADCA direct
+009A   | ORA direct       | ORA direct         | ORA direct
+009B   | ADDA direct      | ADDA direct        | ADDA direct
+009C   | CMPX direct      | CMPX direct        | CMPX direct
+009D   | JSR direct       | JSR direct         | JSR direct
+009E   | LDX direct       | LDX direct         | LDX direct
+009F   | STX direct       | STX direct         | STX direct
+00A0   | SUBA indexed     | SUBA indexed       | SUBA indexed
+00A1   | CMPA indexed     | CMPA indexed       | CMPA indexed
+00A2   | SBCA indexed     | SBCA indexed       | SBCA indexed
+00A3   | SUBD indexed     | SUBD indexed       | SUBD indexed
+00A4   | ANDA indexed     | ANDA indexed       | ANDA indexed
+00A5   | BITA indexed     | BITA indexed       | BITA indexed
+00A6   | LDA indexed      | LDA indexed        | LDA indexed
+00A7   | STA indexed      | STA indexed        | STA indexed
+00A8   | EORA indexed     | EORA indexed       | EORA indexed
+00A9   | ADCA indexed     | ADCA indexed       | ADCA indexed
+00AA   | ORA indexed      | ORA indexed        | ORA indexed
+00AB   | ADDA indexed     | ADDA indexed       | ADDA indexed
+00AC   | CMPX indexed     | CMPX indexed       | CMPX indexed
+00AD   | JSR indexed      | JSR indexed        | JSR indexed
+00AE   | LDX indexed      | LDX indexed        | LDX indexed
+00AF   | STX indexed      | STX indexed        | STX indexed
+00B0   | SUBA extended    | SUBA extended      | SUBA extended
+00B1   | CMPA extended    | CMPA extended      | CMPA extended
+00B2   | SBCA extended    | SBCA extended      | SBCA extended
+00B3   | SUBD extended    | SUBD extended      | SUBD extended
+00B4   | ANDA extended    | ANDA extended      | ANDA extended
+00B5   | BITA extended    | BITA extended      | BITA extended
+00B6   | LDA extended     | LDA extended       | LDA extended
+00B7   | STA extended     | STA extended       | STA extended
+00B8   | EORA extended    | EORA extended      | EORA extended
+00B9   | ADCA extended    | ADCA extended      | ADCA extended
+00BA   | ORA extended     | ORA extended       | ORA extended
+00BB   | ADDA extended    | ADDA extended      | ADDA extended
+00BC   | CMPX extended    | CMPX extended      | CMPX extended
+00BD   | JSR extended     | JSR extended       | JSR extended
+00BE   | LDX extended     | LDX extended       | LDX extended
+00BF   | STX extended     | STX extended       | STX extended
+00C0   | SUBB immediate   | SUBB immediate     | SUBB immediate
+00C1   | CMPB immediate   | CMPB immediate     | CMPB immediate
+00C2   | SBCB immediate   | SBCB immediate     | SBCB immediate
+00C3   | ADDD immediate   | ADDD immediate     | ADDD immediate
+00C4   | ANDB immediate   | ANDB immediate     | ANDB immediate
+00C5   | BITB immediate   | BITB immediate     | BITB immediate
+00C6   | LDB immediate    | LDB immediate      | LDB immediate
+00C7   | ---              | SCC immediate      | ***trap***
+00C8   | EORB immediate   | EORB immediate     | EORB immediate
+00C9   | ADCB immediate   | ADCB immediate     | ADCB immediate
+00CA   | ORB immediate    | ORB immediate      | ORB immediate
+00CB   | ADDB immediate   | ADDB immediate     | ADDB immediate
+00CC   | LDD immediate    | LDD immediate      | LDD immediate
+00CD   | ---              | HCF                | LDQ immediate
+00CE   | LDU immediate    | LDU immediate      | LDU immediate
+00CF   | ---              | STU immediate      | ***trap***
+00D0   | SUBB direct      | SUBB direct        | SUBB direct
+00D1   | CMPB direct      | CMPB direct        | CMPB direct
+00D2   | SBCB direct      | SBCB direct        | SBCB direct
+00D3   | ADDD direct      | ADDD direct        | ADDD direct
+00D4   | ANDB direct      | ANDB direct        | ANDB direct
+00D5   | BITB direct      | BITB direct        | BITB direct
+00D6   | LDB direct       | LDB direct         | LDB direct
+00D7   | STB direct       | STB direct         | STB direct
+00D8   | EORB direct      | EORB direct        | EORB direct
+00D9   | ADCB direct      | ADCB direct        | ADCB direct
+00DA   | ORB direct       | ORB direct         | ORB direct
+00DB   | ADDB direct      | ADDB direct        | ADDB direct
+00DC   | LDD direct       | LDD direct         | LDD direct
+00DD   | STD direct       | STD direct         | STD direct
+00DE   | LDU direct       | LDU direct         | LDU direct
+00DF   | STU direct       | STU direct         | STU direct
+00E0   | SUBB indexed     | SUBB indexed       | SUBB indexed
+00E1   | CMPB indexed     | CMPB indexed       | CMPB indexed
+00E2   | SBCB indexed     | SBCB indexed       | SBCB indexed
+00E3   | ADDD indexed     | ADDD indexed       | ADDD indexed
+00E4   | ANDB indexed     | ANDB indexed       | ANDB indexed
+00E5   | BITB indexed     | BITB indexed       | BITB indexed
+00E6   | LDB indexed      | LDB indexed        | LDB indexed
+00E7   | STB indexed      | STB indexed        | STB indexed
+00E8   | EORB indexed     | EORB indexed       | EORB indexed
+00E9   | ADCB indexed     | ADCB indexed       | ADCB indexed
+00EA   | ORB indexed      | ORB indexed        | ORB indexed
+00EB   | ADDB indexed     | ADDB indexed       | ADDB indexed
+00EC   | LDD indexed      | LDD indexed        | LDD indexed
+00ED   | STD indexed      | STD indexed        | STD indexed
+00EE   | LDU indexed      | LDU indexed        | LDU indexed
+00EF   | STU indexed      | STU indexed        | STU indexed
+00F0   | SUBB extended    | SUBB extended      | SUBB extended
+00F1   | CMPB extended    | CMPB extended      | CMPB extended
+00F2   | SBCB extended    | SBCB extended      | SBCB extended
+00F3   | ADDD extended    | ADDD extended      | ADDD extended
+00F4   | ANDB extended    | ANDB extended      | ANDB extended
+00F5   | BITB extended    | BITB extended      | BITB extended
+00F6   | LDB extended     | LDB extended       | LDB extended
+00F7   | STB extended     | STB extended       | STB extended
+00F8   | EORB extended    | EORB extended      | EORB extended
+00F9   | ADCB extended    | ADCB extended      | ADCB extended
+00FA   | ORB extended     | ORB extended       | ORB extended
+00FB   | ADDB extended    | ADDB extended      | ADDB extended
+00FC   | LDD extended     | LDD extended       | LDD extended
+00FD   | STD extended     | STD extended       | STD extended
+00FE   | LDU extended     | LDU extended       | LDU extended
+00FF   | STU extended     | STU extended       | STU extended
+1000   | ---              | NEG direct         | ***trap***
+1001   | ---              | NEG direct         | ***trap***
+1002   | ---              | COM/NEG direct     | ***trap***
+1003   | ---              | COM direct         | ***trap***
+1004   | ---              | LSR direct         | ***trap***
+1005   | ---              | LSR direct         | ***trap***
+1006   | ---              | ROR direct         | ***trap***
+1007   | ---              | ASR direct         | ***trap***
+1008   | ---              | ASL/LSL direct     | ***trap***
+1009   | ---              | ROL direct         | ***trap***
+100A   | ---              | DEC direct         | ***trap***
+100B   | ---              | DEC direct         | ***trap***
+100C   | ---              | INC direct         | ***trap***
+100D   | ---              | TST direct         | ***trap***
+100E   | ---              | JMP direct         | ***trap***
+100F   | ---              | CLR direct         | ***trap***
+1012   | ---              | NOP                | ***trap***
+1013   | ---              | SYNC               | ***trap***
+1014   | ---              | HCF                | ***trap***
+1015   | ---              | HCF                | ***trap***
+1016   | ---              | LBRA               | ***trap***
+1017   | ---              | LBSR               | ***trap***
+1018   | ---              | CCRS               | ***trap***
+1019   | ---              | DAA                | ***trap***
+101A   | ---              | ORCC immediate     | ***trap***
+101B   | ---              | NOP                | ***trap***
+101C   | ---              | ANDCC immediate    | ***trap***
+101D   | ---              | SEX                | ***trap***
+101E   | ---              | EXG post           | ***trap***
+101F   | ---              | TFR post           | ***trap***
+1020   | ---              | LBRA               | ***trap***
+1021   | LBRN             | LBRN               | LBRN
+1022   | LBHI             | LBHI               | LBHI
+1023   | LBLS             | LBLS               | LBLS
+1024   | LBHS             | LBHS               | LBHS
+1025   | LBLO             | LBLO               | LBLO
+1026   | LBNE             | LBNE               | LBNE
+1027   | LBEQ             | LBEQ               | LBEQ
+1028   | LBVC             | LBVC               | LBVC
+1029   | LBVS             | LBVS               | LBVS
+102A   | LBPL             | LBPL               | LBPL
+102B   | LBMI             | LBMI               | LBMI
+102C   | LBGE             | LBGE               | LBGE
+102D   | LBLT             | LBLT               | LBLT
+102E   | LBGT             | LBGT               | LBGT
+102F   | LBLE             | LBLE               | LBLE
+1030   | ---              | LEAX indexed       | ADDR post
+1031   | ---              | LEAY indexed       | ADCR post
+1032   | ---              | LEAS indexed       | SUBR post
+1033   | ---              | LEAU indexed       | SBCR post
+1034   | ---              | PSHS post          | ANDR post
+1035   | ---              | PULS post          | ORR post
+1036   | ---              | PSHU post          | EORR post
+1037   | ---              | PULU post          | CMPR R,R
+1038   | ---              | ANDCC+1c immediate | PSHSW
+1039   | ---              | RTS                | PULSW
+103A   | ---              | ABX                | PSHUW
+103B   | ---              | RTI                | PULUW
+103C   | ---              | CWAI               | ***trap***
+103D   | ---              | MUL                | ***trap***
+103E   | ---              | SWIRES             | ***trap***
+103F   | SWI2             | SWI2               | SWI2
+1040   | ---              | NEGA               | NEGD
+1041   | ---              | NEGA               | ***trap***
+1042   | ---              | COMA/NEGA          | ***trap***
+1043   | ---              | COMA               | COMD
+1044   | ---              | LSRA               | LSRD
+1045   | ---              | LSRA               | ***trap***
+1046   | ---              | RORA               | RORD
+1047   | ---              | ASRA               | ASRD
+1048   | ---              | ASLA/LSLA          | ASLD/LSLD
+1049   | ---              | ROLA               | ROLD
+104A   | ---              | DECA               | DECD
+104B   | ---              | DECA               | ***trap***
+104C   | ---              | INCA               | INCD
+104D   | ---              | TSTA               | TSTD
+104E   | ---              | CLRA               | ***trap***
+104F   | ---              | CLRA               | CLRD
+1050   | ---              | NEGB               | ***trap***
+1051   | ---              | NEGB               | ***trap***
+1052   | ---              | COMB/NEGB          | ***trap***
+1053   | ---              | COMB               | COMW
+1054   | ---              | LSRB               | LSRW
+1055   | ---              | LSRB               | ***trap***
+1056   | ---              | RORB               | RORW
+1057   | ---              | ASRB               | ***trap***
+1058   | ---              | ASLB/LSLB          | ***trap***
+1059   | ---              | ROLB               | ROLW
+105A   | ---              | DECB               | DECW
+105B   | ---              | DECB               | ***trap***
+105C   | ---              | INCB               | INCW
+105D   | ---              | TSTB               | TSTW
+105E   | ---              | CLRB               | ***trap***
+105F   | ---              | CLRB               | CLRW
+1060   | ---              | NEG indexed        | ***trap***
+1061   | ---              | NEG indexed        | ***trap***
+1062   | ---              | COM/NEG indexed    | ***trap***
+1063   | ---              | COM indexed        | ***trap***
+1064   | ---              | LSR indexed        | ***trap***
+1065   | ---              | LSR indexed        | ***trap***
+1066   | ---              | ROR indexed        | ***trap***
+1067   | ---              | ASR indexed        | ***trap***
+1068   | ---              | ASL/LSL indexed    | ***trap***
+1069   | ---              | ROL indexed        | ***trap***
+106A   | ---              | DEC indexed        | ***trap***
+106B   | ---              | DEC indexed        | ***trap***
+106C   | ---              | INC indexed        | ***trap***
+106D   | ---              | TST indexed        | ***trap***
+106E   | ---              | JMP indexed        | ***trap***
+106F   | ---              | CLR indexed        | ***trap***
+1070   | ---              | NEG extended       | ***trap***
+1071   | ---              | NEG extended       | ***trap***
+1072   | ---              | COM/NEG extended   | ***trap***
+1073   | ---              | COM extended       | ***trap***
+1074   | ---              | LSR extended       | ***trap***
+1075   | ---              | LSR extended       | ***trap***
+1076   | ---              | ROR extended       | ***trap***
+1077   | ---              | ASR extended       | ***trap***
+1078   | ---              | ASL/LSL extended   | ***trap***
+1079   | ---              | ROL extended       | ***trap***
+107A   | ---              | DEC extended       | ***trap***
+107B   | ---              | DEC extended       | ***trap***
+107C   | ---              | INC extended       | ***trap***
+107D   | ---              | TST extended       | ***trap***
+107E   | ---              | JMP extended       | ***trap***
+107F   | ---              | CLR extended       | ***trap***
+1080   | ---              | SUBA immediate     | SUBW immediate
+1081   | ---              | CMPA immediate     | CMPW immediate
+1082   | ---              | SBCA immediate     | SBCD immediate
+1083   | CMPD immediate   | CMPD immediate     | CMPD immediate
+1084   | ---              | ANDA immediate     | ANDD immediate
+1085   | ---              | BITA immediate     | BITD immediate
+1086   | ---              | LDA immediate      | LDW immediate
+1087   | ---              | SCC immediate      | ***trap***
+1088   | ---              | EORA immediate     | EORD immediate
+1089   | ---              | ADCA immediate     | ADCD immediate
+108A   | ---              | ORA immediate      | ORD immediate
+108B   | ---              | ADDA immediate     | ADDW immediate
+108C   | CMPY immediate   | CMPY immediate     | CMPY immediate
+108D   | ---              | BSR                | ***trap***
+108E   | LDY immediate    | LDY immediate      | LDY immediate
+108F   | ---              | STX immediate      | ***trap***
+1090   | ---              | SUBA direct        | SUBW direct
+1091   | ---              | CMPA direct        | CMPW direct
+1092   | ---              | SBCA direct        | SBCD direct
+1093   | CMPD direct      | CMPD direct        | CMPD direct
+1094   | ---              | ANDA direct        | ANDD direct
+1095   | ---              | BITA direct        | BITD direct
+1096   | ---              | LDA direct         | LDW direct
+1097   | ---              | STA direct         | STW direct
+1098   | ---              | EORA direct        | EORD direct
+1099   | ---              | ADCA direct        | ADCD direct
+109A   | ---              | ORA direct         | ORD direct
+109B   | ---              | ADDA direct        | ADDW direct
+109C   | CMPY direct      | CMPY direct        | CMPY direct
+109D   | ---              | JSR direct         | ***trap***
+109E   | LDY direct       | LDY direct         | LDY direct
+109F   | STY direct       | STY direct         | STY direct
+10A0   | ---              | SUBA indexed       | SUBW indexed
+10A1   | ---              | CMPA indexed       | CMPW indexed
+10A2   | ---              | SBCA indexed       | SBCD indexed
+10A3   | CMPD indexed     | CMPD indexed       | CMPD indexed
+10A4   | ---              | ANDA indexed       | ANDD indexed
+10A5   | ---              | BITA indexed       | BITD indexed
+10A6   | ---              | LDA indexed        | LDW indexed
+10A7   | ---              | STA indexed        | STW indexed
+10A8   | ---              | EORA indexed       | EORD indexed
+10A9   | ---              | ADCA indexed       | ADCD indexed
+10AA   | ---              | ORA indexed        | ORD indexed
+10AB   | ---              | ADDA indexed       | ADDW indexed
+10AC   | CMPY indexed     | CMPY indexed       | CMPY indexed
+10AD   | ---              | JSR indexed        | ***trap***
+10AE   | LDY indexed      | LDY indexed        | LDY indexed
+10AF   | STY indexed      | STY indexed        | STY indexed
+10B0   | ---              | SUBA extended      | SUBW extended
+10B1   | ---              | CMPA extended      | CMPW extended
+10B2   | ---              | SBCA extended      | SBCD extended
+10B3   | CMPD extended    | CMPD extended      | CMPD extended
+10B4   | ---              | ANDA extended      | ANDD extended
+10B5   | ---              | BITA extended      | BITD extended
+10B6   | ---              | LDA extended       | LDW extended
+10B7   | ---              | STA extended       | STW extended
+10B8   | ---              | EORA extended      | EORD extended
+10B9   | ---              | ADCA extended      | ADCD extended
+10BA   | ---              | ORA extended       | ORD extended
+10BB   | ---              | ADDA extended      | ADDW extended
+10BC   | CMPY extended    | CMPY extended      | CMPY extended
+10BD   | ---              | JSR extended       | ***trap***
+10BE   | LDY extended     | LDY extended       | LDY extended
+10BF   | STY extended     | STY extended       | STY extended
+10C0   | ---              | SUBB immediate     | ***trap***
+10C1   | ---              | CMPB immediate     | ***trap***
+10C2   | ---              | SBCB immediate     | ***trap***
+10C3   | ---              | ADDD immediate     | ***trap***
+10C4   | ---              | ANDB immediate     | ***trap***
+10C5   | ---              | BITB immediate     | ***trap***
+10C6   | ---              | LDB immediate      | ***trap***
+10C7   | ---              | SCC immediate      | ***trap***
+10C8   | ---              | EORB immediate     | ***trap***
+10C9   | ---              | ADCB immediate     | ***trap***
+10CA   | ---              | ORB immediate      | ***trap***
+10CB   | ---              | ADDB immediate     | ***trap***
+10CC   | ---              | LDD immediate      | ***trap***
+10CD   | ---              | HCF                | ***trap***
+10CE   | LDS immediate    | LDS immediate      | LDS immediate
+10CF   | ---              | STU immediate      | ***trap***
+10D0   | ---              | SUBB direct        | ***trap***
+10D1   | ---              | CMPB direct        | ***trap***
+10D2   | ---              | SBCB direct        | ***trap***
+10D3   | ---              | ADDD direct        | ***trap***
+10D4   | ---              | ANDB direct        | ***trap***
+10D5   | ---              | BITB direct        | ***trap***
+10D6   | ---              | LDB direct         | ***trap***
+10D7   | ---              | STB direct         | ***trap***
+10D8   | ---              | EORB direct        | ***trap***
+10D9   | ---              | ADCB direct        | ***trap***
+10DA   | ---              | ORB direct         | ***trap***
+10DB   | ---              | ADDB direct        | ***trap***
+10DC   | ---              | LDD direct         | LDQ direct
+10DD   | ---              | STD direct         | STQ direct
+10DE   | LDS direct       | LDS direct         | LDS direct
+10DF   | STS direct       | STS direct         | STS direct
+10E0   | ---              | SUBB indexed       | ***trap***
+10E1   | ---              | CMPB indexed       | ***trap***
+10E2   | ---              | SBCB indexed       | ***trap***
+10E3   | ---              | ADDD indexed       | ***trap***
+10E4   | ---              | ANDB indexed       | ***trap***
+10E5   | ---              | BITB indexed       | ***trap***
+10E6   | ---              | LDB indexed        | ***trap***
+10E7   | ---              | STB indexed        | ***trap***
+10E8   | ---              | EORB indexed       | ***trap***
+10E9   | ---              | ADCB indexed       | ***trap***
+10EA   | ---              | ORB indexed        | ***trap***
+10EB   | ---              | ADDB indexed       | ***trap***
+10EC   | ---              | LDD indexed        | LDQ indexed
+10ED   | ---              | STD indexed        | STQ indexed
+10EE   | LDS indexed      | LDS indexed        | LDS indexed
+10EF   | STS indexed      | STS indexed        | STS indexed
+10F0   | ---              | SUBB extended      | ***trap***
+10F1   | ---              | CMPB extended      | ***trap***
+10F2   | ---              | SBCB extended      | ***trap***
+10F3   | ---              | ADDD extended      | ***trap***
+10F4   | ---              | ANDB extended      | ***trap***
+10F5   | ---              | BITB extended      | ***trap***
+10F6   | ---              | LDB extended       | ***trap***
+10F7   | ---              | STB extended       | ***trap***
+10F8   | ---              | EORB extended      | ***trap***
+10F9   | ---              | ADCB extended      | ***trap***
+10FA   | ---              | ORB extended       | ***trap***
+10FB   | ---              | ADDB extended      | ***trap***
+10FC   | ---              | LDD extended       | LDQ extended
+10FD   | ---              | STD extended       | STQ extended
+10FE   | LDS extended     | LDS extended       | LDS extended
+10FF   | STS extended     | STS extended       | STS extended
+1100   | ---              | NEG direct         | ***trap***
+1101   | ---              | NEG direct         | ***trap***
+1102   | ---              | COM/NEG direct     | ***trap***
+1103   | ---              | COM direct         | ***trap***
+1104   | ---              | LSR direct         | ***trap***
+1105   | ---              | LSR direct         | ***trap***
+1106   | ---              | ROR direct         | ***trap***
+1107   | ---              | ASR direct         | ***trap***
+1108   | ---              | ASL/LSL direct     | ***trap***
+1109   | ---              | ROL direct         | ***trap***
+110A   | ---              | DEC direct         | ***trap***
+110B   | ---              | DEC direct         | ***trap***
+110C   | ---              | INC direct         | ***trap***
+110D   | ---              | TST direct         | ***trap***
+110E   | ---              | JMP direct         | ***trap***
+110F   | ---              | CLR direct         | ***trap***
+1112   | ---              | NOP                | ***trap***
+1113   | ---              | SYNC               | ***trap***
+1114   | ---              | HCF                | ***trap***
+1115   | ---              | HCF                | ***trap***
+1116   | ---              | LBRA               | ***trap***
+1117   | ---              | LBSR               | ***trap***
+1118   | ---              | CCRS               | ***trap***
+1119   | ---              | DAA                | ***trap***
+111A   | ---              | ORCC immediate     | ***trap***
+111B   | ---              | NOP                | ***trap***
+111C   | ---              | ANDCC immediate    | ***trap***
+111D   | ---              | SEX                | ***trap***
+111E   | ---              | EXG post           | ***trap***
+111F   | ---              | TFR post           | ***trap***
+1120   | ---              | BRA                | ***trap***
+1121   | ---              | BRN                | ***trap***
+1122   | ---              | BHI                | ***trap***
+1123   | ---              | BLS                | ***trap***
+1124   | ---              | BHS                | ***trap***
+1125   | ---              | BLO                | ***trap***
+1126   | ---              | BNE                | ***trap***
+1127   | ---              | BEQ                | ***trap***
+1128   | ---              | BVC                | ***trap***
+1129   | ---              | BVS                | ***trap***
+112A   | ---              | BPL                | ***trap***
+112B   | ---              | BMI                | ***trap***
+112C   | ---              | BGE                | ***trap***
+112D   | ---              | BLT                | ***trap***
+112E   | ---              | BGT                | ***trap***
+112F   | ---              | BLE                | ***trap***
+1130   | ---              | LEAX indexed       | BAND post, direct
+1131   | ---              | LEAY indexed       | BIAND post, direct
+1132   | ---              | LEAS indexed       | BOR post,direct
+1133   | ---              | LEAU indexed       | BIOR post, direct
+1134   | ---              | PSHS post          | BEOR post,direct
+1135   | ---              | PULS post          | BIEOR post, direct
+1136   | ---              | PSHU post          | LDBT post, direct
+1137   | ---              | PULU post          | STBT post, direct
+1138   | ---              | ANDCC+1c immediate | TFM R+,R+
+1139   | ---              | RTS                | TFM R-,R-
+113A   | ---              | ABX                | TFM R+,R
+113B   | ---              | RTI                | TFM R,R+
+113C   | ---              | CWAI               | BITMD immediate
+113D   | ---              | MUL                | LDMD immediate
+113E   | ---              | SWIRES             | ***trap***
+113F   | SWI3             | SWI3               | SWI3
+1140   | ---              | NEGA               | ***trap***
+1141   | ---              | NEGA               | ***trap***
+1142   | ---              | COMA/NEGA          | ***trap***
+1143   | ---              | COMA               | COME
+1144   | ---              | LSRA               | ***trap***
+1145   | ---              | LSRA               | ***trap***
+1146   | ---              | RORA               | ***trap***
+1147   | ---              | ASRA               | ***trap***
+1148   | ---              | ASLA/LSLA          | ***trap***
+1149   | ---              | ROLA               | ***trap***
+114A   | ---              | DECA               | DECE
+114B   | ---              | DECA               | ***trap***
+114C   | ---              | INCA               | INCE
+114D   | ---              | TSTA               | TSTE
+114E   | ---              | CLRA               | ***trap***
+114F   | ---              | CLRA               | CLRE
+1150   | ---              | NEGB               | ***trap***
+1151   | ---              | NEGB               | ***trap***
+1152   | ---              | COMB/NEGB          | ***trap***
+1153   | ---              | COMB               | COMF
+1154   | ---              | LSRB               | ***trap***
+1155   | ---              | LSRB               | ***trap***
+1156   | ---              | RORB               | ***trap***
+1157   | ---              | ASRB               | ***trap***
+1158   | ---              | ASLB/LSLB          | ***trap***
+1159   | ---              | ROLB               | ***trap***
+115A   | ---              | DECB               | DECF
+115B   | ---              | DECB               | ***trap***
+115C   | ---              | INCB               | INCF
+115D   | ---              | TSTB               | TSTF
+115E   | ---              | CLRB               | ***trap***
+115F   | ---              | CLRB               | CLRF
+1160   | ---              | NEG indexed        | ***trap***
+1161   | ---              | NEG indexed        | ***trap***
+1162   | ---              | COM/NEG indexed    | ***trap***
+1163   | ---              | COM indexed        | ***trap***
+1164   | ---              | LSR indexed        | ***trap***
+1165   | ---              | LSR indexed        | ***trap***
+1166   | ---              | ROR indexed        | ***trap***
+1167   | ---              | ASR indexed        | ***trap***
+1168   | ---              | ASL/LSL indexed    | ***trap***
+1169   | ---              | ROL indexed        | ***trap***
+116A   | ---              | DEC indexed        | ***trap***
+116B   | ---              | DEC indexed        | ***trap***
+116C   | ---              | INC indexed        | ***trap***
+116D   | ---              | TST indexed        | ***trap***
+116E   | ---              | JMP indexed        | ***trap***
+116F   | ---              | CLR indexed        | ***trap***
+1170   | ---              | NEG extended       | ***trap***
+1171   | ---              | NEG extended       | ***trap***
+1172   | ---              | COM/NEG extended   | ***trap***
+1173   | ---              | COM extended       | ***trap***
+1174   | ---              | LSR extended       | ***trap***
+1175   | ---              | LSR extended       | ***trap***
+1176   | ---              | ROR extended       | ***trap***
+1177   | ---              | ASR extended       | ***trap***
+1178   | ---              | ASL/LSL extended   | ***trap***
+1179   | ---              | ROL extended       | ***trap***
+117A   | ---              | DEC extended       | ***trap***
+117B   | ---              | DEC extended       | ***trap***
+117C   | ---              | INC extended       | ***trap***
+117D   | ---              | TST extended       | ***trap***
+117E   | ---              | JMP extended       | ***trap***
+117F   | ---              | CLR extended       | ***trap***
+1180   | ---              | SUBA immediate     | SUBE immediate
+1181   | ---              | CMPA immediate     | CMPE immediate
+1182   | ---              | SBCA immediate     | ***trap***
+1183   | CMPU immediate   | CMPU immediate     | CMPU immediate
+1184   | ---              | ANDA immediate     | ***trap***
+1185   | ---              | BITA immediate     | ***trap***
+1186   | ---              | LDA immediate      | LDE immediate
+1187   | ---              | SCC immediate      | ***trap***
+1188   | ---              | EORA immediate     | ***trap***
+1189   | ---              | ADCA immediate     | ***trap***
+118A   | ---              | ORA immediate      | ***trap***
+118B   | ---              | ADDA immediate     | ADDE immediate
+118C   | CMPS immediate   | CMPS immediate     | CMPS immediate
+118D   | ---              | BSR                | DIVD immediate
+118E   | ---              | LDX immediate      | DIVQ immediate
+118F   | ---              | STX immediate      | MULD immediate
+1190   | ---              | SUBA direct        | SUBE direct
+1191   | ---              | CMPA direct        | CMPE direct
+1192   | ---              | SBCA direct        | ***trap***
+1193   | CMPU direct      | CMPU direct        | CMPU direct
+1194   | ---              | ANDA direct        | ***trap***
+1195   | ---              | BITA direct        | ***trap***
+1196   | ---              | LDA direct         | LDE direct
+1197   | ---              | STA direct         | STE direct
+1198   | ---              | EORA direct        | ***trap***
+1199   | ---              | ADCA direct        | ***trap***
+119A   | ---              | ORA direct         | ***trap***
+119B   | ---              | ADDA direct        | ADDE direct
+119C   | CMPS direct      | CMPS direct        | CMPS direct
+119D   | ---              | JSR direct         | DIVD direct
+119E   | ---              | LDX direct         | DIVQ direct
+119F   | ---              | STX direct         | MULD direct
+11A0   | ---              | SUBA indexed       | SUBE indexed
+11A1   | ---              | CMPA indexed       | CMPE indexed
+11A2   | ---              | SBCA indexed       | ***trap***
+11A3   | CMPU indexed     | CMPU indexed       | CMPU indexed
+11A4   | ---              | ANDA indexed       | ***trap***
+11A5   | ---              | BITA indexed       | ***trap***
+11A6   | ---              | LDA indexed        | LDE indexed
+11A7   | ---              | STA indexed        | STE indexed
+11A8   | ---              | EORA indexed       | ***trap***
+11A9   | ---              | ADCA indexed       | ***trap***
+11AA   | ---              | ORA indexed        | ***trap***
+11AB   | ---              | ADDA indexed       | ADDE indexed
+11AC   | CMPS indexed     | CMPS indexed       | CMPS indexed
+11AD   | ---              | JSR indexed        | DIVD indexed
+11AE   | ---              | LDX indexed        | DIVQ indexed
+11AF   | ---              | STX indexed        | MULD indexed
+11B0   | ---              | SUBA extended      | SUBE extended
+11B1   | ---              | CMPA extended      | CMPE extended
+11B2   | ---              | SBCA extended      | ***trap***
+11B3   | CMPU extended    | CMPU extended      | CMPU extended
+11B4   | ---              | ANDA extended      | ***trap***
+11B5   | ---              | BITA extended      | ***trap***
+11B6   | ---              | LDA extended       | LDE extended
+11B7   | ---              | STA extended       | STE extended
+11B8   | ---              | EORA extended      | ***trap***
+11B9   | ---              | ADCA extended      | ***trap***
+11BA   | ---              | ORA extended       | ***trap***
+11BB   | ---              | ADDA extended      | ADDE extended
+11BC   | CMPS extended    | CMPS extended      | CMPS extended
+11BD   | ---              | JSR extended       | DIVD extended
+11BE   | ---              | LDX extended       | DIVQ extended
+11BF   | ---              | STX extended       | MULD extended
+11C0   | ---              | SUBB immediate     | SUBF immediate
+11C1   | ---              | CMPB immediate     | CMPF immediate
+11C2   | ---              | SBCB immediate     | ***trap***
+11C3   | ---              | ADDD immediate     | ***trap***
+11C4   | ---              | ANDB immediate     | ***trap***
+11C5   | ---              | BITB immediate     | ***trap***
+11C6   | ---              | LDB immediate      | LDF immediate
+11C7   | ---              | SCC immediate      | ***trap***
+11C8   | ---              | EORB immediate     | ***trap***
+11C9   | ---              | ADCB immediate     | ***trap***
+11CA   | ---              | ORB immediate      | ***trap***
+11CB   | ---              | ADDB immediate     | ADDF immediate
+11CC   | ---              | LDD immediate      | ***trap***
+11CD   | ---              | HCF                | ***trap***
+11CE   | ---              | LDU immediate      | ***trap***
+11CF   | ---              | STU immediate      | ***trap***
+11D0   | ---              | SUBB direct        | SUBF direct
+11D1   | ---              | CMPB direct        | CMPF direct
+11D2   | ---              | SBCB direct        | ***trap***
+11D3   | ---              | ADDD direct        | ***trap***
+11D4   | ---              | ANDB direct        | ***trap***
+11D5   | ---              | BITB direct        | ***trap***
+11D6   | ---              | LDB direct         | LDF direct
+11D7   | ---              | STB direct         | STF direct
+11D8   | ---              | EORB direct        | ***trap***
+11D9   | ---              | ADCB direct        | ***trap***
+11DA   | ---              | ORB direct         | ***trap***
+11DB   | ---              | ADDB direct        | ADDF direct
+11DC   | ---              | LDD direct         | ***trap***
+11DD   | ---              | STD direct         | ***trap***
+11DE   | ---              | LDU direct         | ***trap***
+11DF   | ---              | STU direct         | ***trap***
+11E0   | ---              | SUBB indexed       | SUBF indexed
+11E1   | ---              | CMPB indexed       | CMPF indexed
+11E2   | ---              | SBCB indexed       | ***trap***
+11E3   | ---              | ADDD indexed       | ***trap***
+11E4   | ---              | ANDB indexed       | ***trap***
+11E5   | ---              | BITB indexed       | ***trap***
+11E6   | ---              | LDB indexed        | LDF indexed
+11E7   | ---              | STB indexed        | STF indexed
+11E8   | ---              | EORB indexed       | ***trap***
+11E9   | ---              | ADCB indexed       | ***trap***
+11EA   | ---              | ORB indexed        | ***trap***
+11EB   | ---              | ADDB indexed       | ADDF indexed
+11EC   | ---              | LDD indexed        | ***trap***
+11ED   | ---              | STD indexed        | ***trap***
+11EE   | ---              | LDU indexed        | ***trap***
+11EF   | ---              | STU indexed        | ***trap***
+11F0   | ---              | SUBB extended      | SUBF extended
+11F1   | ---              | CMPB extended      | CMPF extended
+11F2   | ---              | SBCB extended      | ***trap***
+11F3   | ---              | ADDD extended      | ***trap***
+11F4   | ---              | ANDB extended      | ***trap***
+11F5   | ---              | BITB extended      | ***trap***
+11F6   | ---              | LDB extended       | LDF extended
+11F7   | ---              | STB extended       | STF extended
+11F8   | ---              | EORB extended      | ***trap***
+11F9   | ---              | ADCB extended      | ***trap***
+11FA   | ---              | ORB extended       | ***trap***
+11FB   | ---              | ADDB extended      | ADDF extended
+11FC   | ---              | LDD extended       | ***trap***
+11FD   | ---              | STD extended       | ***trap***
+11FE   | ---              | LDU extended       | ***trap***
+11FF   | ---              | STU extended       | ***trap***
