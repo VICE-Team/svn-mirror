@@ -4774,7 +4774,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                 X = ld16(RDMEM16(ea), 1, 1);
                 break;
 
-            case 0x108e:        /* LDY immediate (UNDOC) */
+            case 0x108e:        /* LDY immediate */
                 Y = ld16(imm_word(), 0, 0);
                 break;
 
