@@ -59,7 +59,7 @@ static int sidcart_sound_machine_init(sound_t *psid, int speed, int cycles_per_s
             return sid_sound_machine_init(psid, (int)(speed * 1.75), cycles_per_sec);
         }
     } else {
-        return sid_sound_machine_init(psid, speed * 2, cycles_per_sec);
+        return sid_sound_machine_init(psid, speed, cycles_per_sec);
     }
 }
 
