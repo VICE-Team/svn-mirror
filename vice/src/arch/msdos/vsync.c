@@ -95,8 +95,10 @@ static int set_refresh_rate(int val, void *param)
 
 static int set_warp_mode(int val, void *param)
 {
-    warp_mode_enabled = val;
+    warp_mode_enabled = val ? 1 : 0;
+
     sound_set_warp_mode(warp_mode_enabled);
+
     return 0;
 }
 

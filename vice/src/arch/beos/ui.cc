@@ -361,20 +361,24 @@ static int confirm_on_exit;
 
 static int set_joystickdisplay(int val, void *param)
 {
-    joystickdisplay = val;
+    joystickdisplay = val ? 1 : 0;
+
     ui_enable_joyport();
+
     return 0;
 }
 
 static int set_save_resources_on_exit(int val, void *param)
 {
-    save_resources_on_exit = val;
+    save_resources_on_exit = val ? 1 : 0;
+
     return 0;
 }
 
 static int set_confirm_on_exit(int val, void *param)
 {
-    confirm_on_exit = val;
+    confirm_on_exit = val ? 1 : 0;
+
     return 0;
 }
 

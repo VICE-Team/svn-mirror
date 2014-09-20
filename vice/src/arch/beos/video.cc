@@ -74,7 +74,7 @@ int use_direct_window;
 static int set_direct_window(int val, void *param)
 {
     /* first set the new value; ui_set_window_mode need's it */
-    use_direct_window = val;
+    use_direct_window = val ? 1 : 0;
 
     /* test if we can really use the mode */
     use_direct_window = ui_set_window_mode(use_direct_window);

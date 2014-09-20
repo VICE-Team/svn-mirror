@@ -79,13 +79,24 @@ static unsigned int statusbar_is_enabled;
 
 static int set_use_leds(int v, void *param)
 {
-    use_leds = v;
+    use_leds = v ? 1 : 0;
+
     return 0;
 }
 
 static int set_statusbar_enabled(int v, void *param) 
 {
+    switch (v) {
+        case STATUSBAR_MODE_OFF:
+        case STATUSBAR_MODE_ON:
+        case STATUSBAR_MODE_AUTO:
+            break;
+        default:
+            return -1;
+    }
+
     statusbar_is_enabled = v;
+
     if (statusbar_enabled()) {
         statusbar_prepare();
         statusbar_update();

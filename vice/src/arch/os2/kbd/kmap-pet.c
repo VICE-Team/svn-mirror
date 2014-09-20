@@ -73,50 +73,26 @@ static int set_keymap_file(int myindex, const char *name)
     return 0;
 }
 
-/* FIXME: Use param to get rid of these wrappers.  */
-static int set_keymap_buk_sym_file(const char *val, void *param)
+static int set_keymap_file(const char *val, void *param)
 {
-    return set_keymap_file(0, val);
-}
+    int nr = vice_ptr_to_int(param);
 
-static int set_keymap_buk_pos_file(const char *val, void *param)
-{
-    return set_keymap_file(1, val);
-}
-
-static int set_keymap_gr_sym_file(const char *val, void *param)
-{
-    return set_keymap_file(2, val);
-}
-
-static int set_keymap_gr_pos_file(const char *val, void *param)
-{
-    return set_keymap_file(3, val);
-}
-
-static int set_keymap_bde_sym_file(const char *val, void *param)
-{
-    return set_keymap_file(4, val);
-}
-
-static int set_keymap_bde_pos_file(const char *val, void *param)
-{
-    return set_keymap_file(5, val);
+    return set_keymap_file(nr, val);
 }
 
 static const resource_string_t resources_string[] = {
     { "KeymapBusinessUKSymFile", "busi_uk.vkm", RES_EVENT_NO, NULL,
-      &keymap_file_list[0], set_keymap_buk_sym_file, NULL },
+      &keymap_file_list[0], set_keymap_file, (void *)0 },
     { "KeymapBusinessUKPosFile", "buk_pos.vkm", RES_EVENT_NO, NULL,
-      &keymap_file_list[1], set_keymap_buk_pos_file, NULL },
+      &keymap_file_list[1], set_keymap_file, (void *)1 },
     { "KeymapGraphicsSymFile", "graphics.vkm", RES_EVENT_NO, NULL,
-      &keymap_file_list[2], set_keymap_gr_sym_file, NULL },
+      &keymap_file_list[2], set_keymap_file, (void *)2 },
     { "KeymapGraphicsPosFile", "posg_de.vkm", RES_EVENT_NO, NULL,
-      &keymap_file_list[3], set_keymap_gr_pos_file, NULL },
+      &keymap_file_list[3], set_keymap_file, (void *)3 },
     { "KeymapBusinessDESymFile", "busi_de.vkm", RES_EVENT_NO, NULL,
-      &keymap_file_list[4], set_keymap_bde_sym_file, NULL },
+      &keymap_file_list[4], set_keymap_file, (void *)4 },
     { "KeymapBusinessDEPosFile", "bde_pos.vkm", RES_EVENT_NO, NULL,
-      &keymap_file_list[5], set_keymap_bde_pos_file, NULL },
+      &keymap_file_list[5], set_keymap_file, (void *)5 },
     { NULL }
 };
 

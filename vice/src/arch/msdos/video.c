@@ -100,8 +100,30 @@ int video_in_gfx_mode() {
 
 static int set_vga_mode(int val, void *param)
 {
-    /* FIXME: Sanity check!  */
+    switch (val) {
+        case VGA_320x200x8:
+        case VGA_360x240x8:
+        case VGA_360x270x8:
+        case VGA_376x282x8:
+        case VGA_400x300x8:
+        case VGA_640x480x8:
+        case VGA_800x600x8:
+        case VGA_1024x768x8:
+        case VGA_320x200x16:
+        case VGA_400x300x16:
+        case VGA_640x480x16:
+        case VGA_800x600x16:
+        case VGA_1024x768x16:
+        case VGA_640x480x32:
+        case VGA_800x600x32:
+        case VGA_1024x768x32:
+            break;
+        default:
+            return -1;
+    }
+
     vga_mode = val;
+
     return 0;
 }
 
@@ -114,7 +136,7 @@ static int set_try_triple_buffering(int val, void *param)
 {
     /* FIXME: this has only effect when we switch to gfx mode.  This is OK
        for now, but is not the correct behavior.  */
-    try_triple_buffering = val;
+    try_triple_buffering = val ? 1 : 0;
     return 0;
 }
 
@@ -148,7 +170,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "VGAMode", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<mode>", "Set VGA mode to <mode>" },
+      "<mode>", "Set VGA mode to <mode>. (0:320x200x8, 1:360x240x8, 2:360x270x8, 3:376x282x8, 4:400x300x8, 5:640x480x8, 6:800x600x8, 7:1024x768x8, 8:320x200x16, 9:400x300x16, 10:640x480x16, 11:800x600x16, 12:1024x768x16, 13:640x480x32, 14:800x600x32, 15:1024x768x32)" },
 #ifndef USE_MIDAS_SOUND
     { "-triplebuf", SET_RESOURCE, 0,
       NULL, NULL, "TripleBuffering", (resource_value_t)1,
