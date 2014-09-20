@@ -329,8 +329,6 @@ static GtkWidget *build_netplay_dialog(void)
 
 void ui_netplay_dialog(void)
 {
-    gint res;
-
     if (netplay_dialog) {
         gdk_window_show(gtk_widget_get_window(netplay_dialog));
         gdk_window_raise(gtk_widget_get_window(netplay_dialog));
@@ -342,7 +340,7 @@ void ui_netplay_dialog(void)
         g_signal_connect(G_OBJECT(netplay_dialog), "destroy", G_CALLBACK(gtk_widget_destroyed), &netplay_dialog);
     }
     ui_popup(netplay_dialog, "Netplay Dialog", FALSE);
-    res = gtk_dialog_run(GTK_DIALOG(netplay_dialog));
+    (void) gtk_dialog_run(GTK_DIALOG(netplay_dialog));
     ui_popdown(netplay_dialog);
 }
 

@@ -30,7 +30,7 @@
 void mbuffer_init(void *widget, int w, int h, int depth, int shell);
 unsigned char *mbuffer_get_buffer(struct timespec *ts, int shell);
 
-void video_dthread_init(void);
+void dthread_init(void);
 void dthread_lock();
 void dthread_unlock();
 int dthread_ui_init(int *argc, char **argv);
@@ -41,6 +41,7 @@ void dthread_ui_dispatch_events(void);
 void dthread_ui_trigger_resize(void);
 void dthread_ui_trigger_window_resize(video_canvas_t *c);
 int dthread_configure_callback_canvas(void *w, void *e, void *cd);
+void dthread_shutdown(void);
 
 int ui_init2(int *argc, char **argv);
 int ui_init_finish2(void);
@@ -50,11 +51,11 @@ int ui_open_canvas_window2(video_canvas_t *c, const char *t, int wi, int he, int
 void ui_dispatch_events2(void);
 void ui_trigger_resize2(void);
 void ui_trigger_window_resize2(video_canvas_t *c);
-#if 0
-int configure_callback_canvas2(void *w, void *e, void *cd);
-void gl_render_canvas(void *w, video_canvas_t *canvas, struct s_mbufs *buffers,
-		      int from, int to, int do_s);
+#ifdef USE_GNOMEUI
+int configure_callback_canvas2(GtkWidget *w, GdkEvent *e, gpointer cd);
+void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas, 
+		      struct s_mbufs *buffers, int from, int to, int do_s);
+#else
+#warning "ui-threads configured, but arch isn't ported to use ui-threads."
 #endif
-
-
 #endif /* __ui_threads_h */

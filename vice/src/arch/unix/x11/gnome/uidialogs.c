@@ -48,6 +48,10 @@
 #include "uiarch.h"
 #include "util.h"
 #include "vsync.h"
+#ifdef USE_UI_THREADS
+#include "videoarch.h"
+#include "ui-threads.h"
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -423,7 +427,7 @@ void ui_exit(void)
 
         lib_free(s);
 #ifdef USE_UI_THREADS
-	video_dthread_shutdown();
+	dthread_shutdown();
 #endif
         exit(0);
     }

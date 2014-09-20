@@ -541,7 +541,7 @@ static void atexit_handler(void)
 int ui_init(int *argc, char **argv)
 {
 #ifdef USE_UI_THREADS
-    video_dthread_init();
+    dthread_init();
 #endif
     return dthread_ui_init(argc, argv);
 }

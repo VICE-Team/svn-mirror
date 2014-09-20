@@ -134,6 +134,7 @@
 #include "lib.h"
 #include "platform.h"
 #include "util.h"
+#include "log.h"
 
 #if defined(__GLIBC__) && (__GLIBC__==2) && (__GLIBC_MINOR__>0) && !defined(__UCLIBC__)
 #  include <gnu/libc-version.h>
@@ -165,7 +166,9 @@ char *platform_get_linux_runtime_cpu(void)
             cpuinfo = NULL;
             tempfile = archdep_tmpnam();
             tempsystem = util_concat("cp /proc/cpuinfo ", tempfile, NULL);
-            system(tempsystem);
+            if (system(tempsystem) < 0) {
+		log_warning(LOG_ERR, "`%s' failed.", tempsystem);
+	    }
             cpuinfo = fopen(tempfile, "rb");
         }
         if (cpuinfo) {

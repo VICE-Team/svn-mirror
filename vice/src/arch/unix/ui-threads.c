@@ -318,7 +318,7 @@ void dthread_ui_trigger_window_resize(video_canvas_t *c)
     dthread_coroutine(CR_WINDOW_RESIZE);
 }
 
-void video_dthread_init(void)
+void dthread_init(void)
 {
     struct sched_param param;
     pthread_attr_t attr;
@@ -368,7 +368,7 @@ void video_dthread_init(void)
     pthread_detach(ethread);
 }
 
-void video_dthread_shutdown(void)
+void dthread_shutdown(void)
 {
     dthread_coroutine(CR_SHUTDOWN);
 }
