@@ -132,7 +132,7 @@ int plus4ui_init(void)
 
     tui_menu_add(ui_sound_submenu, sid_cbm2_ui_menu_items);
 
-    uisidcart_plus4_init(ui_sound_submenu, "$FD40", "$FE80", "PLUS4");
+    uisidcart_plus4_init(ui_sound_submenu, "$FD40", "$FE80", "PLUS4", 0xfd40, 0xfe80);
     uiv364speech_init(ui_sound_submenu);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);

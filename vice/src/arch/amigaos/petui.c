@@ -132,7 +132,7 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
             ui_acia_settings_dialog();
             break;
         case IDM_SIDCART_SETTINGS:
-            ui_sidcart_settings_dialog("$8F00", "$E900", "PET");
+            ui_sidcart_settings_dialog("$8F00", "$E900", "PET", 0x8f00, 0xe900);
             break;
         case IDM_PETDWW_SETTINGS:
             ui_petdww_settings_dialog(canvas);

@@ -325,7 +325,7 @@ int petui_init(void)
 
     uipetreu_init(ui_ioextensions_submenu);
 
-    uisidcart_init(ui_ioextensions_submenu, "$8F00", "$E900", "PET");
+    uisidcart_init(ui_ioextensions_submenu, "$8F00", "$E900", "PET", 0x8f00, 0xe900);
 
     tui_menu_add_item(ui_ioextensions_submenu, "Enable Userport DAC",
                       "Enable Userport DAC",

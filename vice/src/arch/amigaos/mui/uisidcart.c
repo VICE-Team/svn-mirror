@@ -92,8 +92,8 @@ static char *ui_sidcart_address[] =
 
 static const int ui_sidcart_address_values[] =
 {
-    0,
-    1,
+    0, /* placeholder for primary address */
+    1, /* placeholder for secondary address */
     -1
 };
 
@@ -179,20 +179,24 @@ static APTR build_gui_plus4(void)
          End;
 }
 
-void ui_sidcart_settings_dialog(char *addr1, char *addr2, char *clock)
+void ui_sidcart_settings_dialog(char *addr_txt_1, char *addr_txt_2, char *clock, int addr_int_1, int addr_int_2)
 {
     intl_convert_mui_table(ui_sidcart_enable_translate, ui_sidcart_enable);
-    ui_sidcart_address[0] = addr1;
-    ui_sidcart_address[1] = addr2;
+    ui_sidcart_address[0] = addr_txt_1;
+    ui_sidcart_address[1] = addr_txt_2;
     ui_sidcart_clock[1] = clock;
+    ui_sidcart_address_values[0] = addr_int_1;
+    ui_sidcart_address_values[1] = addr_int_2;
     mui_show_dialog(build_gui(), translate_text(IDS_SIDCART_SETTINGS), ui_to_from);
 }
 
-void ui_sidcart_plus4_settings_dialog(char *addr1, char *addr2, char *clock)
+void ui_sidcart_plus4_settings_dialog(char *addr_txt_1, char *addr_txt_2, char *clock, int addr_int_1, int addr_int_2)
 {
     intl_convert_mui_table(ui_sidcart_enable_translate, ui_sidcart_enable);
-    ui_sidcart_address[0] = addr1;
-    ui_sidcart_address[1] = addr2;
+    ui_sidcart_address[0] = addr_txt_1;
+    ui_sidcart_address[1] = addr_txt_2;
     ui_sidcart_clock[1] = clock;
+    ui_sidcart_address_values[0] = addr_int_1;
+    ui_sidcart_address_values[1] = addr_int_2;
     mui_show_dialog(build_gui_plus4(), translate_text(IDS_SIDCART_SETTINGS), ui_to_from);
 }

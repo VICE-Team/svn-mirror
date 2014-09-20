@@ -103,9 +103,9 @@ UI_MENU_DEFINE_RADIO(SidAddress)
 
 static ui_menu_entry_t sidcart_address_submenu[] = {
     { "$8F00", UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidAddress, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)radio_SidAddress, (ui_callback_data_t)0x8f00, NULL },
     { "$E900", UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidAddress, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)radio_SidAddress, (ui_callback_data_t)0xe900, NULL },
     { NULL }
 };
 

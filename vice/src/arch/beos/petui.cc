@@ -109,8 +109,9 @@ ui_res_value_list pet_ui_res_values[] = {
     { NULL, NULL }
 };
 
-static const char *pet_sidcart_address_pair[] = { "$8F00", "$E900" };
+static const char *pet_sidcart_address_text_pair[] = { "$8F00", "$E900" };
 static const char *pet_sidcart_clock_pair[] = { "C64", "PET" };
+static const int pet_sidcart_address_int_pair[] = { 0x8f00, 0xe900 };
 
 void pet_ui_specific(void *msg, void *window)
 {
@@ -161,7 +162,7 @@ void pet_ui_specific(void *msg, void *window)
             ui_drive(pet_drive_types, HAS_NO_CAPS);
             break;
         case MENU_SIDCART_SETTINGS:
-            ui_sidcart(pet_sidcart_address_pair, pet_sidcart_clock_pair);
+            ui_sidcart(pet_sidcart_address_text_pair, pet_sidcart_clock_pair, pet_sidcart_address_int_pair);
             break;
         case MENU_PETREU_FILE:
             ui_select_file(B_SAVE_PANEL, PETREU_FILE, (void*)0);

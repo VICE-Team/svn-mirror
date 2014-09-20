@@ -334,6 +334,21 @@ void ChangeSpeed(HWND hwnd, int idm)
 
 // --------------------------------------------------------------------------
 
+#ifdef __XPET__
+static int sidaddr1 = 0x8f00;
+static int sidaddr2 = 0xe900;
+#endif
+
+#ifdef __XPLUS4__
+static int sidaddr1 = 0xfd40;
+static int sidaddr2 = 0xfe80;
+#endif
+
+#ifdef __XVIC__
+static int sidaddr1 = 0x9800;
+static int sidaddr2 = 0x9c00;
+#endif
+
 void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 {
     switch (idm) {
@@ -1754,10 +1769,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             toggle("SidFilters");
             return;
         case IDM_SIDCART_ADDRESS_1:
-            resources_set_int("SidAddress", 0);
+            resources_set_int("SidAddress", sidaddr1);
             return;
         case IDM_SIDCART_ADDRESS_2:
-            resources_set_int("SidAddress", 1);
+            resources_set_int("SidAddress", sidaddr2);
             return;
         case IDM_SIDCART_CLOCK_C64:
             resources_set_int("SidClock", 0);
@@ -2038,8 +2053,8 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_SIDCART_8580, val == 1);
             WinCheckRes(hwnd, IDM_SIDCART_FILTERS, "SidFilters");
             resources_get_int("SidAddress", &val);
-            WinCheckMenuItem(hwnd, IDM_SIDCART_ADDRESS_1, !val);
-            WinCheckMenuItem(hwnd, IDM_SIDCART_ADDRESS_2, val);
+            WinCheckMenuItem(hwnd, IDM_SIDCART_ADDRESS_1, (val == sidaddr1));
+            WinCheckMenuItem(hwnd, IDM_SIDCART_ADDRESS_2, (val == sidaddr2));
             resources_get_int("SidClock", &val);
             WinCheckMenuItem(hwnd, IDM_SIDCART_CLOCK_C64, !val);
             WinCheckMenuItem(hwnd, IDM_SIDCART_CLOCK_NATIVE, val);

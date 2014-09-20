@@ -153,7 +153,7 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             ui_rs232user_settings_dialog();
             break;
         case IDM_SIDCART_SETTINGS:
-            ui_sidcart_settings_dialog("$9800", "$9C00", "VIC20");
+            ui_sidcart_settings_dialog("$9800", "$9C00", "VIC20", 0x9800, 0x9c00);
             break;
 #ifdef AMIGA_OS4
         case IDM_JOY_SETTINGS:

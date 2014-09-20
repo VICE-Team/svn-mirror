@@ -38,6 +38,6 @@ const uint32 MESSAGE_SIDCART_DIGIBLASTER   = 'MSC8';
 const uint32 MESSAGE_SIDCART_RESIDGAIN     = 'MSC9';
 const uint32 MESSAGE_SIDCART_RESIDBIAS     = 'MSCA';
 
-extern void ui_sidcart(const char **cartaddresspair, const char **cartclockpair);
+extern void ui_sidcart(const char **cartaddresstextpair, const char **cartclockpair, const int *cartaddressintpair);
 
 #endif

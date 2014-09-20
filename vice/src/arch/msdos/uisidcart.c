@@ -34,15 +34,16 @@
 #include "tuimenu.h"
 #include "uisidcart.h"
 
-static char *sidcart_primary_address;
-static char *sidcart_secondary_address;
+static char *sidcart_primary_text_address;
+static char *sidcart_secondary_text_address;
 static char *sidcart_clock;
+static int sidcart_primary_int_address;
+static int sidcart_secondary_int_address;
 
 TUI_MENU_DEFINE_TOGGLE(SidCart)
 TUI_MENU_DEFINE_TOGGLE(SidFilters)
 TUI_MENU_DEFINE_RADIO(SidAddress)
 TUI_MENU_DEFINE_RADIO(SidClock)
-
 
 static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
 {
@@ -262,7 +263,7 @@ static TUI_MENU_CALLBACK(sid_address_submenu_callback)
     int value;
 
     resources_get_int("SidAddress", &value);
-    sprintf(s, (value) ? sidcart_secondary_address : sidcart_primary_address);
+    sprintf(s, (value == sidcart_secondary_int_address) ? sidcart_secondary_text_address : sidcart_primary_text_address);
 
     return s;
 }
@@ -394,14 +395,20 @@ tui_menu_item_def_t sidcart_plus4_ui_menu_items[] = {
     { NULL }
 };
 
-void uisidcart_init(struct tui_menu *parent_submenu, char *addr1, char *addr2, char *clock)
+void uisidcart_init(struct tui_menu *parent_submenu, char *addr_txt_1, char *addr_txt_2, char *clock, int addr_int_1, int addr_int_2)
 {
     tui_menu_t ui_sidcart_submenu;
 
-    sidcart_primary_address = addr1;
-    sid_address_submenu[0].label = addr1;
-    sidcart_secondary_address = addr2;
-    sid_address_submenu[1].label = addr2;
+    sidcart_primary_text_address = addr_txt_1;
+    sid_address_submenu[0].label = addr_txt_1;
+    sidcart_primary_int_address = addr_int_1;
+    sid_address_submenu[0].callback_param = int_to_void_ptr(addr_int_1);
+
+    sidcart_secondary_text_address = addr_txt_2;
+    sid_address_submenu[1].label = addr_txt_2;
+    sidcart_secondary_int_address = addr_int_2;
+    sid_address_submenu[1].callback_param = int_to_void_ptr(addr_int_2);
+
     sidcart_clock = clock;
     sid_clock_submenu[1].label = clock;
 
@@ -416,14 +423,20 @@ void uisidcart_init(struct tui_menu *parent_submenu, char *addr1, char *addr2, c
                          TUI_MENU_BEH_CONTINUE);
 }
 
-void uisidcart_plus4_init(struct tui_menu *parent_submenu, char *addr1, char *addr2, char *clock)
+void uisidcart_plus4_init(struct tui_menu *parent_submenu, char *addr_txt_1, char *addr_txt_2, char *clock, int addr_int_1, int addr_int_2)
 {
     tui_menu_t ui_sidcart_plus4_submenu;
 
-    sidcart_primary_address = addr1;
-    sid_address_submenu[0].label = addr1;
-    sidcart_secondary_address = addr2;
-    sid_address_submenu[1].label = addr2;
+    sidcart_primary_text_address = addr_txt_1;
+    sid_address_submenu[0].label = addr_txt_1;
+    sidcart_primary_int_address = addr_int_1;
+    sid_address_submenu[0].callback_param = int_to_void_ptr(addr_int_1);
+
+    sidcart_secondary_text_address = addr_txt_2;
+    sid_address_submenu[1].label = addr_txt_2;
+    sidcart_secondary_int_address = addr_int_2;
+    sid_address_submenu[1].callback_param = int_to_void_ptr(addr_int_2);
+
     sidcart_clock = clock;
     sid_clock_submenu[1].label = clock;
 

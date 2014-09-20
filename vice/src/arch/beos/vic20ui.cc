@@ -216,8 +216,9 @@ static void vic20_ui_attach_cartridge(int menu)
     ui_select_file(B_OPEN_PANEL, VIC20_CARTRIDGE_FILE, &vic20_ui_cartridges[i]);
 }       
 
-static const char *vic20_sidcart_address_pair[] = { "$9800", "$9C00" };
+static const char *vic20_sidcart_address_text_pair[] = { "$9800", "$9C00" };
 static const char *vic20_sidcart_clock_pair[] = { "C64", "VIC20" };
+static const int vic20_sidcart_address_int_pair[] = { 0x9800, 0x9C00 };
 
 void vic20_ui_specific(void *msg, void *window)
 {
@@ -287,7 +288,7 @@ void vic20_ui_specific(void *msg, void *window)
             ui_drive(vic20_drive_types, HAS_NO_CAPS);
             break;
         case MENU_SIDCART_SETTINGS:
-            ui_sidcart(vic20_sidcart_address_pair, vic20_sidcart_clock_pair);
+            ui_sidcart(vic20_sidcart_address_text_pair, vic20_sidcart_clock_pair, vic20_sidcart_address_int_pair);
             break;
         case MENU_COMPUTER_KERNAL_ROM_FILE:
             ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_ROM_FILE, (void*)0);

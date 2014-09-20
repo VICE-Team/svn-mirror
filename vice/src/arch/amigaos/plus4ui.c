@@ -184,7 +184,7 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
             ui_acia4_settings_dialog();
             break;
         case IDM_SIDCART_SETTINGS:
-            ui_sidcart_plus4_settings_dialog("$FD40", "$FE80", "PLUS4");
+            ui_sidcart_plus4_settings_dialog("$FD40", "$FE80", "PLUS4", 0xfd40, 0xfe80);
             break;
         case IDM_V364_SPEECH_SETTINGS:
             ui_v364_speech_settings_dialog(canvas);

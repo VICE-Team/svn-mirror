@@ -484,7 +484,7 @@ int vic20ui_init(void)
                          TUI_MENU_BEH_CONTINUE);
 
     uilightpen_init(ui_ioextensions_submenu);
-    uisidcart_init(ui_ioextensions_submenu, "$9800", "$9C00", "VIC20");
+    uisidcart_init(ui_ioextensions_submenu, "$9800", "$9C00", "VIC20", 0x9800, 0x9c00);
 
     ui_final_expansion_submenu = tui_menu_create("Final Expansion settings", 1);
 

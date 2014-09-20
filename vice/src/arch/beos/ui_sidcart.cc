@@ -55,8 +55,9 @@ static const char *samplingmode[] = {
 
 static sid_engine_model_t **sid_engine_model_list;
 
-static const char **sidaddresspair;
+static const char **sidaddresstextpair;
 static const char **sidclockpair;
+static const int *sidaddressintpair;
 
 class SidCartWindow : public BWindow {
         BOptionPopUp *engine_model_popup;
@@ -164,8 +165,8 @@ SidCartWindow::SidCartWindow()
     for (i = 0; i < 2; i++) {
         msg = new BMessage(MESSAGE_SIDCART_ADDRESS);
         msg->AddInt32("address", i);
-        radiobutton = new BRadioButton(BRect(10, 15 + i * 20, 100, 30 + i * 20), sidaddresspair[i], sidaddresspair[i], msg);
-        radiobutton->SetValue(res_val == i);
+        radiobutton = new BRadioButton(BRect(10, 15 + i * 20, 100, 30 + i * 20), sidaddresstextpair[i], sidaddresstextpair[i], msg);
+        radiobutton->SetValue(res_val == sidaddressintpair[i]);
         addressbox->AddChild(radiobutton);
     }
 
@@ -269,7 +270,7 @@ void SidCartWindow::MessageReceived(BMessage *msg)
             break;
         case MESSAGE_SIDCART_ADDRESS:
             val = msg->FindInt32("address");
-            resources_set_int("SidAddress", (int)val);
+            resources_set_int("SidAddress",  sidaddressintpair[val]);
             break;
         case MESSAGE_SIDCART_CLOCK:
             val = msg->FindInt32("clock");
@@ -296,7 +297,7 @@ void SidCartWindow::MessageReceived(BMessage *msg)
     }
 }
 
-void ui_sidcart(const char **cartaddresspair, const char **cartclockpair)
+void ui_sidcart(const char **cartaddresstextpair, const char **cartclockpair, const int *cartaddressintpair)
 {
     thread_id sidcartthread;
     status_t exit_value;
@@ -305,8 +306,9 @@ void ui_sidcart(const char **cartaddresspair, const char **cartclockpair)
         return;
     }
 
-    sidaddresspair = cartaddresspair;
+    sidaddresstextpair = cartaddresstextpair;
     sidclockpair = cartclockpair;
+    sidaddressintpair = cartaddressintpair;
 
     sidcartwindow = new SidCartWindow;
 

@@ -102,8 +102,9 @@ ui_res_value_list plus4_ui_res_values[] = {
     { NULL, NULL }
 };
 
-static const char *plus4_sidcart_address_pair[] = { "$FD40", "$FE80" };
+static const char *plus4_sidcart_address_text_pair[] = { "$FD40", "$FE80" };
 static const char *plus4_sidcart_clock_pair[] = { "C64", "PLUS4" };
+static const int plus4_sidcart_address_int_pair[] = { 0xfd40, 0xfe80 };
 
 static ui_cartridge_t plus4_ui_cartridges[]={
     { MENU_CART_PLUS4_SMART, CARTRIDGE_PLUS4_DETECT, "Smart attach" },
@@ -157,7 +158,7 @@ static void plus4_ui_specific(void *msg, void *window)
             ui_drive(plus4_drive_types, HAS_PARA_CABLE);
             break;
         case MENU_SIDCART_SETTINGS:
-            ui_sidcart(plus4_sidcart_address_pair, plus4_sidcart_clock_pair);
+            ui_sidcart(plus4_sidcart_address_text_pair, plus4_sidcart_clock_pair, plus4_sidcart_address_int_pair);
             ui_update_menus();
             break;
         case MENU_V364SPEECH_FILE:
