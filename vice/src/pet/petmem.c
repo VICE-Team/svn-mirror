@@ -241,9 +241,9 @@ static BYTE read_unused(WORD addr)
     }
 
     if (sidcart_enabled()) {
-        if (sidcart_address == 0xe900 && addr >= 0xe900 && addr <= 0xe91f) {
+        if (addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
             return sid_read(addr);
-        } else if (sidcart_address == 0x8f00 && addr >= 0x8f00 && addr <= 0x8f1f) {
+        } else if (addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
             return sid_read(addr);
         }
     }
@@ -781,9 +781,9 @@ static void store_dummy(WORD addr, BYTE value)
     }
 
     if (sidcart_enabled()) {
-        if (sidcart_address == 0xe900 && addr >= 0xe900 && addr < 0xe91f) {
+        if (addr >= sidcart_address && addr < sidcart_address + 0x1f) {
             sid_store(addr, value);
-        } else if (sidcart_address == 0x8f00 && addr >= 0x8f00 && addr < 0x8f1f) {
+        } else if (addr >= sidcart_address && addr < sidcart_address + 0x1f) {
             sid_store(addr, value);
         }
     }
