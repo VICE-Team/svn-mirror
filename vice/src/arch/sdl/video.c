@@ -114,26 +114,40 @@ BYTE *draw_buffer_vsid = NULL;
 
 static int set_sdl_bitdepth(int d, void *param)
 {
-    if ((d == 0) || (d == 8) || (d == 15) || (d == 16) || (d == 24) || (d == 32)) {
-        if (sdl_bitdepth == d) {
-            return 0;
-        }
-        sdl_bitdepth = d;
-#ifdef HAVE_HWSCALE
-        if (!((d == 0) || (d == 24) || (d == 32))) {
-            resources_set_int("HwScalePossible", 0);
-        }
-#endif
-        /* update */
+    switch (d) {
+        case 0:
+        case 8:
+        case 15:
+        case 16:
+        case 24:
+        case 32:
+            break;
+        default:
+            return -1;
+    }
+
+    if (sdl_bitdepth == d) {
         return 0;
     }
-    return -1;
+    sdl_bitdepth = d;
+#ifdef HAVE_HWSCALE
+    if (!((d == 0) || (d == 24) || (d == 32))) {
+        resources_set_int("HwScalePossible", 0);
+    }
+#endif
+    /* update */
+    return 0;
 }
 
 static int set_sdl_limit_mode(int v, void *param)
 {
-    if ((v < SDL_LIMIT_MODE_OFF) || (v > SDL_LIMIT_MODE_FIXED)) {
-        return -1;
+    switch (v) {
+        case SDL_LIMIT_MODE_OFF:
+        case SDL_LIMIT_MODE_MAX:
+        case SDL_LIMIT_MODE_FIXED:
+            break;
+        default:
+            return -1;
     }
 
     if (sdl_limit_mode != v) {
@@ -200,8 +214,13 @@ static int set_sdl_gl_aspect_mode(int v, void *param)
 {
     int old_v = sdl_gl_aspect_mode;
 
-    if ((v < SDL_ASPECT_MODE_OFF) || (v > SDL_ASPECT_MODE_TRUE)) {
-        return -1;
+    switch (v) {
+        case SDL_ASPECT_MODE_OFF:
+        case SDL_ASPECT_MODE_CUSTOM:
+        case SDL_ASPECT_MODE_TRUE:
+            break;
+        default:
+            return -1;
     }
 
     sdl_gl_aspect_mode = v;
@@ -256,7 +275,8 @@ static void update_vertex_base(void)
 
 static int set_sdl_gl_flipx(int v, void *param)
 {
-    sdl_gl_flipx = (v != 0);
+    sdl_gl_flipx = v ? 1 : 0;
+
     update_vertex_base();
 
     return 0;
@@ -264,7 +284,8 @@ static int set_sdl_gl_flipx(int v, void *param)
 
 static int set_sdl_gl_flipy(int v, void *param)
 {
-    sdl_gl_flipy = (v != 0);
+    sdl_gl_flipy = v ? 1 : 0;
+
     update_vertex_base();
 
     return 0;
@@ -286,24 +307,25 @@ static const resource_string_t resources_string[] = {
 #define VICE_DEFAULT_BITDEPTH 0
 #endif
 
+#ifdef ANDROID_COMPILE
+#define SDLLIMITMODE_DEFAULT     SDL_LIMIT_MODE_MAX
+#define SDLCUSTOMWIDTH_DEFAULT   320
+#define SDLCUSTOMHEIGHT_DEFAULT  200
+#else
+#define SDLLIMITMODE_DEFAULT     SDL_LIMIT_MODE_OFF
+#define SDLCUSTOMWIDTH_DEFAULT   800
+#define SDLCUSTOMHEIGHT_DEFAULT  600
+#endif
+
 static const resource_int_t resources_int[] = {
     { "SDLBitdepth", VICE_DEFAULT_BITDEPTH, RES_EVENT_NO, NULL,
       &sdl_bitdepth, set_sdl_bitdepth, NULL },
-#ifdef ANDROID_COMPILE
-    { "SDLLimitMode", SDL_LIMIT_MODE_MAX, RES_EVENT_NO, NULL,
+    { "SDLLimitMode", SDLLIMITMODE_DEFAULT, RES_EVENT_NO, NULL,
       &sdl_limit_mode, set_sdl_limit_mode, NULL },
-    { "SDLCustomWidth", 320, RES_EVENT_NO, NULL,
+    { "SDLCustomWidth", SDLCUSTOMWIDTH_DEFAULT, RES_EVENT_NO, NULL,
       &sdl_custom_width, set_sdl_custom_width, NULL },
-    { "SDLCustomHeight", 200, RES_EVENT_NO, NULL,
+    { "SDLCustomHeight", SDLCUSTOMHEIGHT_DEFAULT, RES_EVENT_NO, NULL,
       &sdl_custom_height, set_sdl_custom_height, NULL },
-#else
-    { "SDLLimitMode", SDL_LIMIT_MODE_OFF, RES_EVENT_NO, NULL,
-      &sdl_limit_mode, set_sdl_limit_mode, NULL },
-    { "SDLCustomWidth", 800, RES_EVENT_NO, NULL,
-      &sdl_custom_width, set_sdl_custom_width, NULL },
-    { "SDLCustomHeight", 600, RES_EVENT_NO, NULL,
-      &sdl_custom_height, set_sdl_custom_height, NULL },
-#endif
     { "SDLWindowWidth", 0, RES_EVENT_NO, NULL,
       &sdl_window_width, set_sdl_window_width, NULL },
     { "SDLWindowHeight", 0, RES_EVENT_NO, NULL,

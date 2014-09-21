@@ -69,7 +69,8 @@ int use_leds;
 
 static int set_use_leds(int val, void *param)
 {
-    use_leds = val;
+    use_leds = val ? 1 : 0;
+
     return 0;
 }
 

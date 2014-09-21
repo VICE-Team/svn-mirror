@@ -323,7 +323,7 @@ static int statusbar_enabled;
 
 static int set_statusbar(int val, void *param)
 {
-    statusbar_enabled = val;
+    statusbar_enabled = val ? 1 : 0;
 
     if (statusbar_enabled) {
         uistatusbar_open();

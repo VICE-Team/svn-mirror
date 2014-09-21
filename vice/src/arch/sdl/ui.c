@@ -496,13 +496,15 @@ static int set_ui_menukey(int val, void *param)
 
 static int set_save_resources_on_exit(int val, void *param)
 {
-    save_resources_on_exit = val;
+    save_resources_on_exit = val ? 1 : 0;
+
     return 0;
 }
 
 static int set_confirm_on_exit(int val, void *param)
 {
-    confirm_on_exit = val;
+    confirm_on_exit = val ? 1 : 0;
+
     return 0;
 }
 

@@ -70,21 +70,18 @@ static int set_keymap_file(int myindex, const char *name)
     return 0;
 }
 
-static int set_keymap_sym_file(const char *val, void *param)
+static int set_keymap_file(const char *val, void *param)
 {
-    return set_keymap_file(0, val);
-}
+    int nr = vice_ptr_to_int(param);
 
-static int set_keymap_pos_file(const char *val, void *param)
-{
-    return set_keymap_file(1, val);
+    return set_keymap_file(nr, val);
 }
 
 static const resource_string_t resources_string[] = {
     { "KeymapSymFile", "default.vkm", RES_EVENT_NO, NULL,
-      &keymap_file_list[0], set_keymap_sym_file, NULL },
+      &keymap_file_list[0], set_keymap_file, (void *)0 },
     { "KeymapPosFile", "position.vkm", RES_EVENT_NO, NULL,
-      &keymap_file_list[1], set_keymap_pos_file, NULL },
+      &keymap_file_list[1], set_keymap_file, (void *)1 },
     { NULL }
 };
 

@@ -96,6 +96,10 @@
 #define divecaps.ulDepth
 #endif
 
+#define VIDEO_BORDER_NONE    0
+#define VIDEO_BORDER_SMALL   1
+#define VIDEO_BORDER_DIALOG  2
+
 //
 //  VICE Speed Test... Warp Mode: Speed(%), Frames per Second (fps)
 //
@@ -181,6 +185,10 @@ static void AddToWindowList(HWND hwnd)
 static int set_stretch_factor(int val, void *param)
 {
     int i = 0;
+
+    if (val <= 0) {
+        return -1;
+    }
 
     if (!hwndlist || stretch == val) {
         stretch = val;
@@ -304,7 +312,7 @@ static int set_menu(int val, void *param)
 {
     int i = 0;
 
-    menu = val;
+    menu = val ? 1 : 0;
 
     if (!hwndlist) {
         return 0;
@@ -342,21 +350,23 @@ static int set_border_type(int val, void *param)
 {
     switch (val)
     {
-        case 1:
+        case VIDEO_BORDER_SMALL:
             flFrameFlags &= ~FCF_DLGBORDER;
             flFrameFlags |= FCF_BORDER;
-            border = 1;
             break;
-        case 2:
+        case VIDEO_BORDER_DIALOG:
             flFrameFlags &= ~FCF_BORDER;
             flFrameFlags |= FCF_DLGBORDER;
-            border = 2;
             break;
-        default:
+        case VIDEO_BORDER_NONE:
             flFrameFlags &= ~FCF_BORDER;
             flFrameFlags &= ~FCF_DLGBORDER;
-            border = 0;
+            break;
+        default:
+            return -1;
     }
+    border = val;
+
     return 0;
 }
 
@@ -364,7 +374,7 @@ static int logwin;
 
 static int set_logging(int val, void *param)
 {
-    logwin = val;
+    logwin = val ? 1 : 0;
 
     return 0;
 }
@@ -374,7 +384,7 @@ static const resource_int_t resources1_int[] = {
     { "WindowStretchFactor", 1, RES_EVENT_NO, NULL,
       &stretch, set_stretch_factor, NULL },
 #endif
-    { "PMBorderType", 2, RES_EVENT_NO, NULL,
+    { "PMBorderType", VIDEO_BORDER_DIALOG, RES_EVENT_NO, NULL,
       &border, set_border_type, NULL },
     { "Menubar", 1, RES_EVENT_NO, NULL,
       &menu, set_menu, NULL },
@@ -408,7 +418,7 @@ static const cmdline_option_t cmdline_options1[] = {
       NULL, NULL, "PMBorderType", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<number>", "Specify window border type (1=small, 2=dialog, else=no border)" },
+      "<number>", "Specify window border type (0=no border, 1=small, 2=dialog)" },
     { "-menu", SET_RESOURCE, 0,
       NULL, NULL, "Menubar", (resource_value_t) 1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
