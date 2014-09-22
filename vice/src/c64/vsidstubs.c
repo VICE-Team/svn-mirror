@@ -91,6 +91,11 @@ export_t export = { 0, 0, 0, 0 }; /* c64 export */
 /* the following two are used by the old non cycle exact vic-ii emulation */
 static BYTE mem_phi[0x1000];
 
+int cartridge_attach_image(int type, const char *filename)
+{
+    return -1;
+} 
+
 BYTE *ultimax_romh_phi1_ptr(WORD addr)
 {
     return mem_phi;
