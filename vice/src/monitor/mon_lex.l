@@ -160,9 +160,9 @@ HDIGIT  [0-9a-f]
         delete_label|dl { BEGIN(INITIAL);       return CMD_DEL_LABEL; }
         device|dev      { BEGIN(INITIAL);       return CMD_DEVICE; }
         detach          { BEGIN(INITIAL);       return CMD_DETACH; }
-        disable         { BEGIN(INITIAL);       return CMD_CHECKPT_OFF; }
+        disable|dis     { BEGIN(INITIAL);       return CMD_CHECKPT_OFF; }
         dump            { BEGIN(FNAME);         return CMD_DUMP; }
-        enable          { BEGIN(INITIAL);       return CMD_CHECKPT_ON; }
+        enable|en       { BEGIN(INITIAL);       return CMD_CHECKPT_ON; }
         exit|x          { BEGIN(INITIAL);       return CMD_EXIT; }
         export|exp      { BEGIN(INITIAL);       return CMD_EXPORT; }
         fill|f          { BEGIN(INITIAL);       return CMD_FILL; }

@@ -2163,37 +2163,37 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_MON_DISABLE_DESCRIPTION,    N_("Disable checkpoint `checknum'.")},
+/* en */ {IDGS_MON_DISABLE_DESCRIPTION,    N_("Disable checkpoint `checknum'. If no checkpoint is given all checkpoints will be disabled.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_DISABLE_DESCRIPTION_DA, "Deaktivér checkpoint \"checknum\"."},
-/* de */ {IDGS_MON_DISABLE_DESCRIPTION_DE, "Checkpoint `Checknum' deaktivieren."},
-/* es */ {IDGS_MON_DISABLE_DESCRIPTION_ES, "Deshabilitar punto controlt `número control'."},
-/* fr */ {IDGS_MON_DISABLE_DESCRIPTION_FR, "Désactiver le point d'arrêt `checknum'."},
-/* hu */ {IDGS_MON_DISABLE_DESCRIPTION_HU, "`ell_pont_szám' jelû ellenõrzési pont tiltása."},
-/* it */ {IDGS_MON_DISABLE_DESCRIPTION_IT, "Disattiva il punto di controllo `checknum'."},
+/* da */ {IDGS_MON_DISABLE_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_DISABLE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MON_DISABLE_DESCRIPTION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_DISABLE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_DISABLE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_DISABLE_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_DISABLE_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_DISABLE_DESCRIPTION_NL, "Checkpunt `checknum' uitschakelen."},
-/* pl */ {IDGS_MON_DISABLE_DESCRIPTION_PL, "Wy³±cz punkt kontrolny `checknum'."},
-/* ru */ {IDGS_MON_DISABLE_DESCRIPTION_RU, "Disable checkpoint `checknum'."},
-/* sv */ {IDGS_MON_DISABLE_DESCRIPTION_SV, "Inaktivera kontrollpunkt \"kontrollnr\"."},
-/* tr */ {IDGS_MON_DISABLE_DESCRIPTION_TR, "Kontrol Noktasý `kontrolnumarasý'ný pasifleþtir."},
+/* nl */ {IDGS_MON_DISABLE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_DISABLE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MON_DISABLE_DESCRIPTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_DISABLE_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_DISABLE_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_MON_ENABLE_DESCRIPTION,    N_("Enable checkpoint `checknum'.")},
+/* en */ {IDGS_MON_ENABLE_DESCRIPTION,    N_("Enable checkpoint `checknum'. If no checkpoint is given all checkpoints will be enabled.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_ENABLE_DESCRIPTION_DA, "Aktivér checkpoint \"checknum\"."},
-/* de */ {IDGS_MON_ENABLE_DESCRIPTION_DE, "Checkpoint `Checknum' aktivieren."},
-/* es */ {IDGS_MON_ENABLE_DESCRIPTION_ES, "Habilitar punto controlt `número control'."},
-/* fr */ {IDGS_MON_ENABLE_DESCRIPTION_FR, "Activer le point d'arrêt `checknum'."},
-/* hu */ {IDGS_MON_ENABLE_DESCRIPTION_HU, "`ell_pont_szám' jelû ellenõrzési pont engedélyezése."},
-/* it */ {IDGS_MON_ENABLE_DESCRIPTION_IT, "Attiva il punto di controllo `checknum'."},
+/* da */ {IDGS_MON_ENABLE_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_ENABLE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MON_ENABLE_DESCRIPTION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_ENABLE_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_ENABLE_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_ENABLE_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_ENABLE_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_ENABLE_DESCRIPTION_NL, "Activeer checkpunt `checknum'."},
-/* pl */ {IDGS_MON_ENABLE_DESCRIPTION_PL, "W³±cz punkt kontrolny `checknum'."},
-/* ru */ {IDGS_MON_ENABLE_DESCRIPTION_RU, "Enable checkpoint `checknum'."},
-/* sv */ {IDGS_MON_ENABLE_DESCRIPTION_SV, "Aktivera kontrollpunkt \"kontrollnr\"."},
-/* tr */ {IDGS_MON_ENABLE_DESCRIPTION_TR, "Kontrol Noktasý `kontrolnumarasý'ný aktif et."},
+/* nl */ {IDGS_MON_ENABLE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_ENABLE_DESCRIPTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MON_ENABLE_DESCRIPTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_ENABLE_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_ENABLE_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */

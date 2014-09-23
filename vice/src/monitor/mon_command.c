@@ -377,14 +377,14 @@ static const mon_cmds_t mon_cmd_array[] = {
       IDGS_MON_DELETE_DESCRIPTION,
       NULL, NULL },
 
-    { "disable", "",
+    { "disable", "dis",
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       "<%s>", 1,
       { IDGS_CHECKNUM, IDGS_UNUSED, IDGS_UNUSED, IDGS_UNUSED },
       IDGS_MON_DISABLE_DESCRIPTION,
       NULL, NULL },
 
-    { "enable", "",
+    { "enable", "en",
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       "<%s>", 1,
       { IDGS_CHECKNUM, IDGS_UNUSED, IDGS_UNUSED, IDGS_UNUSED },
