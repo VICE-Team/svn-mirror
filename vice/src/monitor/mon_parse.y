@@ -411,8 +411,12 @@ checkpoint_rules: CMD_BREAK opt_mem_op address_opt_range opt_if_cond_expr end_cm
 
 checkpoint_control_rules: CMD_CHECKPT_ON checkpt_num end_cmd
                           { mon_breakpoint_switch_checkpoint(e_ON, $2); }
+                        | CMD_CHECKPT_ON end_cmd
+                          { mon_breakpoint_switch_checkpoint(e_ON, -1); }
                         | CMD_CHECKPT_OFF checkpt_num end_cmd
                           { mon_breakpoint_switch_checkpoint(e_OFF, $2); }
+                        | CMD_CHECKPT_OFF end_cmd
+                          { mon_breakpoint_switch_checkpoint(e_OFF, -1); }
                         | CMD_IGNORE checkpt_num end_cmd
                           { mon_breakpoint_set_ignore_count($2, -1); }
                         | CMD_IGNORE checkpt_num opt_sep expression end_cmd
