@@ -41,12 +41,12 @@ static float mouse_x;
 static float mouse_y;
 static unsigned long mouse_timestamp = 0;
 
-static int  scale_x;
-static int  scale_y;
+static int scale_x;
+static int scale_y;
 
 static int set_scale_x(int val, void *param)
 {
-    if((val > 0)&&(val <= 64)) {
+    if ((val > 0) && (val <= 64)) {
         scale_x = val;
     }
     return 0;
@@ -54,7 +54,7 @@ static int set_scale_x(int val, void *param)
 
 static int set_scale_y(int val, void *param)
 {
-    if((val > 0)&&(val <= 64)) {
+    if ((val > 0) && (val <= 64)) {
         scale_y = val;
     }
     return 0;
@@ -141,10 +141,18 @@ void mouse_move_f(float x, float y)
         mouse_y += dy;
         
         // map to 0 .. 0xffff range
-        while (mouse_x < 0.0) mouse_x += 65536.0;
-        while (mouse_x >= 65536.0) mouse_x -= 65536.0;
-        while (mouse_y < 0.0) mouse_y += 65536.0;
-        while (mouse_y >= 65536.0) mouse_y -= 65536.0;
+        while (mouse_x < 0.0) {
+            mouse_x += 65536.0;
+        }
+        while (mouse_x >= 65536.0) {
+            mouse_x -= 65536.0;
+        }
+        while (mouse_y < 0.0) {
+            mouse_y += 65536.0;
+        }
+        while (mouse_y >= 65536.0) {
+            mouse_y -= 65536.0;
+        }
     }
     
     // store last pos

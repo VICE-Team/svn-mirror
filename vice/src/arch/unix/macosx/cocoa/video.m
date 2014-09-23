@@ -68,10 +68,16 @@ static void video_reconfigure(int sizeAffected)
 
 static int set_sync_draw_mode(int val, void *param)
 {
-    if((val < 0) || (val > SYNC_DRAW_LAST))
-        return 0;
+    switch (val) {
+        case SYNC_DRAW_OFF:
+        case SYNC_DRAW_NEAREST:
+        case SYNC_DRAW_BLEND:
+            break;
+        default:
+            return -1;
+    }
     
-    if(val != video_param.sync_draw_mode) {
+    if (val != video_param.sync_draw_mode) {
         video_param.sync_draw_mode = val;
         video_reconfigure(0);
     }
@@ -80,24 +86,22 @@ static int set_sync_draw_mode(int val, void *param)
 
 static int set_sync_draw_buffers(int val, void *param)
 {
-    if(val < 1)
+    if (val < 1) {
         val = 0;
-    else if(val > 16)
+    } else if (val > 16) {
         val = 16;
+    }
 
-    if(val != video_param.sync_draw_buffers) {            
+    if (val != video_param.sync_draw_buffers) {            
         video_param.sync_draw_buffers = val;
         video_reconfigure(0);
     }
     return 0;
 }
 
-static int set_sync_draw_flicker_fix(int val, void *param)
+static int set_sync_draw_flicker_fix(int value, void *param)
 {
-    if(val)
-        val = 1;
-    else
-        val = 0;
+    int val = value ? 1 : 0;
 
     if(val != video_param.sync_draw_flicker_fix) {            
         video_param.sync_draw_flicker_fix = val;
@@ -106,12 +110,9 @@ static int set_sync_draw_flicker_fix(int val, void *param)
     return 0;
 }
 
-static int set_true_pixel_aspect(int val, void *param)
+static int set_true_pixel_aspect(int value, void *param)
 {
-    if(val)
-        val = 1;
-    else
-        val = 0;
+    int val = value ? 1 : 0;
 
     if(val != video_param.true_pixel_aspect) {            
         video_param.true_pixel_aspect = val;
@@ -120,12 +121,9 @@ static int set_true_pixel_aspect(int val, void *param)
     return 0;
 }
 
-static int set_show_key_codes(int val, void *param)
+static int set_show_key_codes(int value, void *param)
 {
-    if(val)
-        val = 1;
-    else
-        val = 0;
+    int val = value ? 1 : 0;
     
     if(val != video_param.show_key_codes) {
         video_param.show_key_codes = val;
@@ -135,7 +133,7 @@ static int set_show_key_codes(int val, void *param)
 
 static resource_int_t resources_int[] =
 {
-    { "SyncDrawMode", 0, RES_EVENT_NO, NULL,
+    { "SyncDrawMode", SYNC_DRAW_OFF, RES_EVENT_NO, NULL,
        &video_param.sync_draw_mode, set_sync_draw_mode, NULL },
     { "SyncDrawBuffers", 0, RES_EVENT_NO, NULL,
        &video_param.sync_draw_buffers, set_sync_draw_buffers, NULL },
@@ -146,7 +144,7 @@ static resource_int_t resources_int[] =
     { "ShowKeyCodes", 0, RES_EVENT_NO, NULL,
        &video_param.show_key_codes, set_show_key_codes, NULL },
     { NULL }
- };
+};
 
 int video_arch_resources_init(void)
 {
@@ -164,7 +162,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "SyncDrawMode", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<0-3>", N_("Enable draw synchronization to vertical blank") },
+      "<0-2>", N_("Enable draw synchronization to vertical blank") },
     { "-syncdrawbuffers", SET_RESOURCE, 1,
       NULL, NULL, "SyncDrawBuffers", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,

@@ -540,9 +540,8 @@ static void atexit_handler(void)
 #ifdef USE_UI_THREADS
 int ui_init(int *argc, char **argv)
 {
-#ifdef USE_UI_THREADS
     dthread_init();
-#endif
+
     return dthread_ui_init(argc, argv);
 }
 

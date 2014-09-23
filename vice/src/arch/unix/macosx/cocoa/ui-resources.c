@@ -42,13 +42,15 @@ static unsigned int ui_resources_initialized = 0;
 
 static int set_save_resources_on_exit(int val, void *param)
 {
-    ui_resources.save_resources_on_exit = val;
+    ui_resources.save_resources_on_exit = val ? 1 : 0;
+
     return 0;
 }
 
 static int set_confirm_on_exit(int val, void *param)
 {
-    ui_resources.confirm_on_exit = val;
+    ui_resources.confirm_on_exit = val ? 1 : 0;
+
     return 0;
 }
 

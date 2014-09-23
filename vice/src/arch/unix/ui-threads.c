@@ -110,7 +110,9 @@ static int do_blending = 1;
 static int set_alpha_blending(int val, void *p)
 {
     log_message(LOG_DEFAULT, _("Alpha blending %s"), val ? _("enabled") : _("disabled")); 
-    do_blending = val;
+
+    do_blending = val ? 1 : 0;
+
     return 0;
 }
 
@@ -134,7 +136,7 @@ static resource_int_t resources_uithreads[] = {
       &do_blending, set_alpha_blending, NULL },
     { "DThreadRate", 8, RES_EVENT_NO, NULL,
       &dthread_rfp, set_dthread_rfp, NULL },
-    { "DThreadGhosting", 1, RES_EVENT_NO, NULL,
+    { "DThreadGhosting", 2, RES_EVENT_NO, NULL,
       &dthread_ghosting, set_dthread_ghosting, NULL },
     { NULL }
 };

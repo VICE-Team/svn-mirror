@@ -605,12 +605,16 @@ static int set_midi_driver(int val, void *param)
 {
     int in_was_open, out_was_open;
 
-    if (midi_driver_num == val) {
-        return 0;
+    switch (val) {
+        case MIDI_DRIVER_OSS:
+        case MIDI_DRIVER_ALSA:
+            break;
+        default:
+            return -1;
     }
 
-    if (val != MIDI_DRIVER_OSS && val != MIDI_DRIVER_ALSA) {
-        return -1;
+    if (midi_driver_num == val) {
+        return 0;
     }
 
     in_was_open = (fd_in >= 0) ? 1 : 0;
