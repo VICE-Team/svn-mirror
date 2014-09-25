@@ -1,711 +1,1308 @@
-opcode      | mnemonic        | bytes | cycles |
-------------------------------------------------
-$00         | NOP             |   1   |    4   |
-$01 word    | LD BC,word      |   3   |   10   |
-$02         | LD (BC),A       |   1   |    7   |
-$03         | INC BC          |   1   |    6   |
-$04         | INC B           |   1   |    4   |
-$05         | DEC B           |   1   |    4   |
-$06 byte    | LD B,byte       |   2   |    7   |
-$07         | RLCA            |   1   |    4   |
-$08         | EX AF,AF'       |   1   |    4   |
-$09         | ADD HL,BC       |   1   |   11   |
-$0A         | LD A,(BC)       |   1   |    7   |
-$0B         | DEC BC          |   1   |    6   |
-$0C         | INC C           |   1   |    4   |
-$0D         | DEC C           |   1   |    4   |
-$0E byte    | LD C,byte       |   2   |    7   |
-$0F         | RRCA            |   1   |    4   |
-$10 index   | DJNZ index      |   2   |  13/8  |
-$11 word    | LD DE,word      |   3   |   10   |
-$12         | LD (DE),A       |   1   |    7   |
-$13         | INC DE          |   1   |    6   |
-$14         | INC D           |   1   |    4   |
-$15         | DEC D           |   1   |    4   |
-$16 byte    | LD D,byte       |   2   |    7   |
-$17         | RLA             |   1   |    4   |
-$18 index   | JR index        |   2   |   12   |
-$19         | ADD HL,DE       |   1   |   11   |
-$1A         | LD A,(DE)       |   1   |    7   |
-$1B         | DEC DE          |   1   |    6   |
-$1C         | INC E           |   1   |    4   |
-$1D         | DEC E           |   1   |    4   |
-$1E byte    | LD E,byte       |   2   |    7   |
-$1F         | RRA             |   1   |    4   |
-$20 index   | JR NZ,index     |   2   |  12/7  |
-$21 word    | LD HL,word      |   3   |   10   |
-$22 word    | LD (word),HL    |   3   |   16   |
-$23         | INC HL          |   1   |    6   |
-$24         | INC H           |   1   |    4   |
-$25         | DEC H           |   1   |    4   |
-$26 byte    | LD H,byte       |   2   |    7   |
-$27         | DAA             |   1   |    4   |
-$28 index   | JR Z,index      |   2   |  12/7  |
-$29         | ADD HL,HL       |   1   |   11   |
-$2A word    | LD HL,(word)    |   3   |   16   |
-$2B         | DEC HL          |   1   |    6   |
-$2C         | INC L           |   1   |    4   |
-$2D         | DEC L           |   1   |    4   |
-$2E byte    | LD L,byte       |   2   |    7   |
-$2F         | CPL             |   1   |    4   |
-$30 index   | JR NC,index     |   2   |  12/7  |
-$31 word    | LD SP,word      |   3   |   10   |
-$32 word    | LD (word),A     |   3   |   13   |
-$33         | INC SP          |   1   |    6   |
-$34         | INC (HL)        |   1   |   11   |
-$35         | DEC (HL)        |   1   |   11   |
-$36 byte    | LD (HL),byte    |   2   |   10   |
-$37         | SCF             |   1   |    4   |
-$38 index   | JR C,index      |   2   |  12/7  |
-$39         | ADD HL,SP       |   1   |   11   |
-$3A word    | LD A,(word)     |   3   |   13   |
-$3B         | DEC SP          |   1   |    6   |
-$3C         | INC A           |   1   |    4   |
-$3D         | DEC A           |   1   |    4   |
-$3E byte    | LD A,byte       |   2   |    7   |
-$3F         | CCF             |   1   |    4   |
-$40         | LD B,B          |   1   |    4   |
-$41         | LD B,C          |   1   |    4   |
-$42         | LD B,D          |   1   |    4   |
-$43         | LD B,E          |   1   |    4   |
-$44         | LD B,H          |   1   |    4   |
-$45         | LD B,L          |   1   |    4   |
-$46         | LD B,(HL)       |   1   |    7   |
-$47         | LD B,A          |   1   |    4   |
-$48         | LD C,B          |   1   |    4   |
-$49         | LD C,C          |   1   |    4   |
-$4A         | LD C,D          |   1   |    4   |
-$4B         | LD C,E          |   1   |    4   |
-$4C         | LD C,H          |   1   |    4   |
-$4D         | LD C,L          |   1   |    4   |
-$4E         | LD C,(HL)       |   1   |    7   |
-$4F         | LD C,A          |   1   |    4   |
-$50         | LD D,B          |   1   |    4   |
-$51         | LD D,C          |   1   |    4   |
-$52         | LD D,D          |   1   |    4   |
-$53         | LD D,E          |   1   |    4   |
-$54         | LD D,H          |   1   |    4   |
-$55         | LD D,L          |   1   |    4   |
-$56         | LD D,(HL)       |   1   |    7   |
-$57         | LD D,A          |   1   |    4   |
-$58         | LD E,B          |   1   |    4   |
-$59         | LD E,C          |   1   |    4   |
-$5A         | LD E,D          |   1   |    4   |
-$5B         | LD E,E          |   1   |    4   |
-$5C         | LD E,H          |   1   |    4   |
-$5D         | LD E,L          |   1   |    4   |
-$5E         | LD E,(HL)       |   1   |    7   |
-$5F         | LD E,A          |   1   |    4   |
-$60         | LD H,B          |   1   |    4   |
-$61         | LD H,C          |   1   |    4   |
-$62         | LD H,D          |   1   |    4   |
-$63         | LD H,E          |   1   |    4   |
-$64         | LD H,H          |   1   |    4   |
-$65         | LD H,L          |   1   |    4   |
-$66         | LD H,(HL)       |   1   |    7   |
-$67         | LD H,A          |   1   |    4   |
-$68         | LD L,B          |   1   |    4   |
-$69         | LD L,C          |   1   |    4   |
-$6A         | LD L,D          |   1   |    4   |
-$6B         | LD L,E          |   1   |    4   |
-$6C         | LD L,H          |   1   |    4   |
-$6D         | LD L,L          |   1   |    4   |
-$6E         | LD L,(HL)       |   1   |    7   |
-$6F         | LD L,A          |   1   |    4   |
-$70         | LD (HL),B       |   1   |    7   |
-$71         | LD (HL),C       |   1   |    7   |
-$72         | LD (HL),D       |   1   |    7   |
-$73         | LD (HL),E       |   1   |    7   |
-$74         | LD (HL),H       |   1   |    7   |
-$75         | LD (HL),L       |   1   |    7   |
-$76         | HLT             |   1   |    4   |
-$77         | LD (HL),A       |   1   |    7   |
-$78         | LD A,B          |   1   |    4   |
-$79         | LD A,C          |   1   |    4   |
-$7A         | LD A,D          |   1   |    4   |
-$7B         | LD A,E          |   1   |    4   |
-$7C         | LD A,H          |   1   |    4   |
-$7D         | LD A,L          |   1   |    4   |
-$7E         | LD A,(HL)       |   1   |    7   |
-$7F         | LD A,A          |   1   |    4   |
-$80         | ADD A,B         |   1   |    4   |
-$81         | ADD A,C         |   1   |    4   |
-$82         | ADD A,D         |   1   |    4   |
-$83         | ADD A,E         |   1   |    4   |
-$84         | ADD A,H         |   1   |    4   |
-$85         | ADD A,L         |   1   |    4   |
-$86         | ADD A,(HL)      |   1   |    7   |
-$87         | ADD A,A         |   1   |    4   |
-$88         | ADC A,B         |   1   |    4   |
-$89         | ADC A,C         |   1   |    4   |
-$8A         | ADC A,D         |   1   |    4   |
-$8B         | ADC A,E         |   1   |    4   |
-$8C         | ADC A,H         |   1   |    4   |
-$8D         | ADC A,L         |   1   |    4   |
-$8E         | ADC A,(HL)      |   1   |    7   |
-$8F         | ADC A,A         |   1   |    4   |
-$90         | SUB B           |   1   |    4   |
-$91         | SUB C           |   1   |    4   |
-$92         | SUB D           |   1   |    4   |
-$93         | SUB E           |   1   |    4   |
-$94         | SUB H           |   1   |    4   |
-$95         | SUB L           |   1   |    4   |
-$96         | SUB (HL)        |   1   |    7   |
-$97         | SUB A           |   1   |    4   |
-$98         | SBC B           |   1   |    4   |
-$99         | SBC C           |   1   |    4   |
-$9A         | SBC D           |   1   |    4   |
-$9B         | SBC E           |   1   |    4   |
-$9C         | SBC H           |   1   |    4   |
-$9D         | SBC L           |   1   |    4   |
-$9E         | SBC (HL)        |   1   |    7   |
-$9F         | SBC A           |   1   |    4   |
-$A0         | AND B           |   1   |    4   |
-$A1         | AND C           |   1   |    4   |
-$A2         | AND D           |   1   |    4   |
-$A3         | AND E           |   1   |    4   |
-$A4         | AND H           |   1   |    4   |
-$A5         | AND L           |   1   |    4   |
-$A6         | AND (HL)        |   1   |    7   |
-$A7         | AND A           |   1   |    4   |
-$A8         | XOR B           |   1   |    4   |
-$A9         | XOR C           |   1   |    4   |
-$AA         | XOR D           |   1   |    4   |
-$AB         | XOR E           |   1   |    4   |
-$AC         | XOR H           |   1   |    4   |
-$AD         | XOR L           |   1   |    4   |
-$AE         | XOR (HL)        |   1   |    7   |
-$AF         | XOR A           |   1   |    4   |
-$B0         | OR B            |   1   |    4   |
-$B1         | OR C            |   1   |    4   |
-$B2         | OR D            |   1   |    4   |
-$B3         | OR E            |   1   |    4   |
-$B4         | OR H            |   1   |    4   |
-$B5         | OR L            |   1   |    4   |
-$B6         | OR (HL)         |   1   |    7   |
-$B7         | OR A            |   1   |    4   |
-$B8         | CP B            |   1   |    4   |
-$B9         | CP C            |   1   |    4   |
-$BA         | CP D            |   1   |    4   |
-$BB         | CP E            |   1   |    4   |
-$BC         | CP H            |   1   |    4   |
-$BD         | CP L            |   1   |    4   |
-$BE         | CP (HL)         |   1   |    7   |
-$BF         | CP A            |   1   |    4   |
-$C0         | RET NZ          |   1   |  11/5  |
-$C1         | POP BC          |   1   |   10   |
-$C2 address | JP NZ,address   |   3   |   10   |
-$C3 address | JP address      |   3   |   10   |
-$C4 address | CALL NZ,address |   3   |  17/10 |
-$C5         | PUSH BC         |   1   |   11   |
-$C6 byte    | ADD A,byte      |   2   |    7   |
-$C7         | RST 0           |   1   |   11   |
-$C8         | RET Z           |   1   |  11/5  |
-$C9         | RET             |   1   |   10   |
-$CA address | JP Z,address    |   3   |   10   |
-$CB         | ***CB prefix*** |  N/A  |   N/A  |
-$CC address | CALL Z,address  |   3   |  17/10 |
-$CD address | CALL address    |   3   |   17   |
-$CE byte    | ADC A,byte      |   2   |    7   |
-$CF         | RST 8           |   1   |   11   |
-$D0         | RET NC          |   1   |  11/5  |
-$D1         | POP DE          |   1   |   10   |
-$D2 address | JP NC,address   |   3   |   10   |
-$D3 byte    | OUT (byte),A    |   2   |   11   |
-$D4 address | CALL NC,address |   3   |  17/10 |
-$D5         | PUSH DE         |   1   |   11   |
-$D6 byte    | SUB byte        |   2   |    7   |
-$D7         | RST 10H         |   1   |   11   |
-$D8         | RET C           |   1   |  11/5  |
-$D9         | EXX             |   1   |    4   |
-$DA address | JP C,address    |   3   |   10   |
-$DB byte    | IN A,(byte)     |   2   |   11   |
-$DC address | CALL C,address  |   3   |  17/10 |
-$DD         | ***DD prefix*** |  N/A  |   N/A  |
-$DE byte    | SBC byte        |   2   |    7   |
-$DF         | RST 18H         |   1   |   11   |
-$E0         | RET PO          |   1   |  11/5  |
-$E1         | POP HL          |   1   |   10   |
-$E2 address | JP PO,address   |   3   |   10   |
-$E3         | EX (SP),HL      |   1   |   19   |
-$E4 address | CALL PO,address |   3   |  17/10 |
-$E5         | PUSH HL         |   1   |   11   |
-$E6 byte    | AND byte        |   2   |    7   |
-$E7         | RST 20H         |   1   |   11   |
-$E8         | RET PE          |   1   |  11/5  |
-$E9         | JP (HL)         |   1   |    4   |
-$EA address | JP PE,address   |   3   |   10   |
-$EB         | EX DE,HL        |   1   |    4   |
-$EC address | CALL PE,address |   3   |  17/10 |
-$ED         | ***ED prefix*** |  N/A  |   N/A  |
-$EE byte    | XOR byte        |   2   |    7   |
-$EF         | RST 28H         |   1   |   11   |
-$F0         | RET P
-$F1         | POP AF
-$F2 address | JP P,address
-$F3         | DI
-$F4 address | CALL P,address
-$F5         | PUSH AF
-$F6 byte    | OR byte
-$F7         | RST 30H
-$F8         | RET M
-$F9         | LD SP,HL
-$FA address | JP M,address
-$FB         | EI
-$FC address | CALL M,address
-$FD         | ***FD prefix***
-$FE byte    | CP byte
-$FF         | RST 38H
+--------------------------------------------------
+| opcode      | mnemonic        | bytes | cycles |
+--------------------------------------------------
+| $00         | NOP             |   1   |    4   |
+| $01 word    | LD BC,word      |   3   |   10   |
+| $02         | LD (BC),A       |   1   |    7   |
+| $03         | INC BC          |   1   |    6   |
+| $04         | INC B           |   1   |    4   |
+| $05         | DEC B           |   1   |    4   |
+| $06 byte    | LD B,byte       |   2   |    7   |
+| $07         | RLCA            |   1   |    4   |
+| $08         | EX AF,AF'       |   1   |    4   |
+| $09         | ADD HL,BC       |   1   |   11   |
+| $0A         | LD A,(BC)       |   1   |    7   |
+| $0B         | DEC BC          |   1   |    6   |
+| $0C         | INC C           |   1   |    4   |
+| $0D         | DEC C           |   1   |    4   |
+| $0E byte    | LD C,byte       |   2   |    7   |
+| $0F         | RRCA            |   1   |    4   |
+| $10 index   | DJNZ index      |   2   |  13/8  |
+| $11 word    | LD DE,word      |   3   |   10   |
+| $12         | LD (DE),A       |   1   |    7   |
+| $13         | INC DE          |   1   |    6   |
+| $14         | INC D           |   1   |    4   |
+| $15         | DEC D           |   1   |    4   |
+| $16 byte    | LD D,byte       |   2   |    7   |
+| $17         | RLA             |   1   |    4   |
+| $18 index   | JR index        |   2   |   12   |
+| $19         | ADD HL,DE       |   1   |   11   |
+| $1A         | LD A,(DE)       |   1   |    7   |
+| $1B         | DEC DE          |   1   |    6   |
+| $1C         | INC E           |   1   |    4   |
+| $1D         | DEC E           |   1   |    4   |
+| $1E byte    | LD E,byte       |   2   |    7   |
+| $1F         | RRA             |   1   |    4   |
+| $20 index   | JR NZ,index     |   2   |  12/7  |
+| $21 word    | LD HL,word      |   3   |   10   |
+| $22 word    | LD (word),HL    |   3   |   16   |
+| $23         | INC HL          |   1   |    6   |
+| $24         | INC H           |   1   |    4   |
+| $25         | DEC H           |   1   |    4   |
+| $26 byte    | LD H,byte       |   2   |    7   |
+| $27         | DAA             |   1   |    4   |
+| $28 index   | JR Z,index      |   2   |  12/7  |
+| $29         | ADD HL,HL       |   1   |   11   |
+| $2A word    | LD HL,(word)    |   3   |   16   |
+| $2B         | DEC HL          |   1   |    6   |
+| $2C         | INC L           |   1   |    4   |
+| $2D         | DEC L           |   1   |    4   |
+| $2E byte    | LD L,byte       |   2   |    7   |
+| $2F         | CPL             |   1   |    4   |
+| $30 index   | JR NC,index     |   2   |  12/7  |
+| $31 word    | LD SP,word      |   3   |   10   |
+| $32 word    | LD (word),A     |   3   |   13   |
+| $33         | INC SP          |   1   |    6   |
+| $34         | INC (HL)        |   1   |   11   |
+| $35         | DEC (HL)        |   1   |   11   |
+| $36 byte    | LD (HL),byte    |   2   |   10   |
+| $37         | SCF             |   1   |    4   |
+| $38 index   | JR C,index      |   2   |  12/7  |
+| $39         | ADD HL,SP       |   1   |   11   |
+| $3A word    | LD A,(word)     |   3   |   13   |
+| $3B         | DEC SP          |   1   |    6   |
+| $3C         | INC A           |   1   |    4   |
+| $3D         | DEC A           |   1   |    4   |
+| $3E byte    | LD A,byte       |   2   |    7   |
+| $3F         | CCF             |   1   |    4   |
+| $40         | LD B,B          |   1   |    4   |
+| $41         | LD B,C          |   1   |    4   |
+| $42         | LD B,D          |   1   |    4   |
+| $43         | LD B,E          |   1   |    4   |
+| $44         | LD B,H          |   1   |    4   |
+| $45         | LD B,L          |   1   |    4   |
+| $46         | LD B,(HL)       |   1   |    7   |
+| $47         | LD B,A          |   1   |    4   |
+| $48         | LD C,B          |   1   |    4   |
+| $49         | LD C,C          |   1   |    4   |
+| $4A         | LD C,D          |   1   |    4   |
+| $4B         | LD C,E          |   1   |    4   |
+| $4C         | LD C,H          |   1   |    4   |
+| $4D         | LD C,L          |   1   |    4   |
+| $4E         | LD C,(HL)       |   1   |    7   |
+| $4F         | LD C,A          |   1   |    4   |
+| $50         | LD D,B          |   1   |    4   |
+| $51         | LD D,C          |   1   |    4   |
+| $52         | LD D,D          |   1   |    4   |
+| $53         | LD D,E          |   1   |    4   |
+| $54         | LD D,H          |   1   |    4   |
+| $55         | LD D,L          |   1   |    4   |
+| $56         | LD D,(HL)       |   1   |    7   |
+| $57         | LD D,A          |   1   |    4   |
+| $58         | LD E,B          |   1   |    4   |
+| $59         | LD E,C          |   1   |    4   |
+| $5A         | LD E,D          |   1   |    4   |
+| $5B         | LD E,E          |   1   |    4   |
+| $5C         | LD E,H          |   1   |    4   |
+| $5D         | LD E,L          |   1   |    4   |
+| $5E         | LD E,(HL)       |   1   |    7   |
+| $5F         | LD E,A          |   1   |    4   |
+| $60         | LD H,B          |   1   |    4   |
+| $61         | LD H,C          |   1   |    4   |
+| $62         | LD H,D          |   1   |    4   |
+| $63         | LD H,E          |   1   |    4   |
+| $64         | LD H,H          |   1   |    4   |
+| $65         | LD H,L          |   1   |    4   |
+| $66         | LD H,(HL)       |   1   |    7   |
+| $67         | LD H,A          |   1   |    4   |
+| $68         | LD L,B          |   1   |    4   |
+| $69         | LD L,C          |   1   |    4   |
+| $6A         | LD L,D          |   1   |    4   |
+| $6B         | LD L,E          |   1   |    4   |
+| $6C         | LD L,H          |   1   |    4   |
+| $6D         | LD L,L          |   1   |    4   |
+| $6E         | LD L,(HL)       |   1   |    7   |
+| $6F         | LD L,A          |   1   |    4   |
+| $70         | LD (HL),B       |   1   |    7   |
+| $71         | LD (HL),C       |   1   |    7   |
+| $72         | LD (HL),D       |   1   |    7   |
+| $73         | LD (HL),E       |   1   |    7   |
+| $74         | LD (HL),H       |   1   |    7   |
+| $75         | LD (HL),L       |   1   |    7   |
+| $76         | HLT             |   1   |    4   |
+| $77         | LD (HL),A       |   1   |    7   |
+| $78         | LD A,B          |   1   |    4   |
+| $79         | LD A,C          |   1   |    4   |
+| $7A         | LD A,D          |   1   |    4   |
+| $7B         | LD A,E          |   1   |    4   |
+| $7C         | LD A,H          |   1   |    4   |
+| $7D         | LD A,L          |   1   |    4   |
+| $7E         | LD A,(HL)       |   1   |    7   |
+| $7F         | LD A,A          |   1   |    4   |
+| $80         | ADD A,B         |   1   |    4   |
+| $81         | ADD A,C         |   1   |    4   |
+| $82         | ADD A,D         |   1   |    4   |
+| $83         | ADD A,E         |   1   |    4   |
+| $84         | ADD A,H         |   1   |    4   |
+| $85         | ADD A,L         |   1   |    4   |
+| $86         | ADD A,(HL)      |   1   |    7   |
+| $87         | ADD A,A         |   1   |    4   |
+| $88         | ADC A,B         |   1   |    4   |
+| $89         | ADC A,C         |   1   |    4   |
+| $8A         | ADC A,D         |   1   |    4   |
+| $8B         | ADC A,E         |   1   |    4   |
+| $8C         | ADC A,H         |   1   |    4   |
+| $8D         | ADC A,L         |   1   |    4   |
+| $8E         | ADC A,(HL)      |   1   |    7   |
+| $8F         | ADC A,A         |   1   |    4   |
+| $90         | SUB B           |   1   |    4   |
+| $91         | SUB C           |   1   |    4   |
+| $92         | SUB D           |   1   |    4   |
+| $93         | SUB E           |   1   |    4   |
+| $94         | SUB H           |   1   |    4   |
+| $95         | SUB L           |   1   |    4   |
+| $96         | SUB (HL)        |   1   |    7   |
+| $97         | SUB A           |   1   |    4   |
+| $98         | SBC B           |   1   |    4   |
+| $99         | SBC C           |   1   |    4   |
+| $9A         | SBC D           |   1   |    4   |
+| $9B         | SBC E           |   1   |    4   |
+| $9C         | SBC H           |   1   |    4   |
+| $9D         | SBC L           |   1   |    4   |
+| $9E         | SBC (HL)        |   1   |    7   |
+| $9F         | SBC A           |   1   |    4   |
+| $A0         | AND B           |   1   |    4   |
+| $A1         | AND C           |   1   |    4   |
+| $A2         | AND D           |   1   |    4   |
+| $A3         | AND E           |   1   |    4   |
+| $A4         | AND H           |   1   |    4   |
+| $A5         | AND L           |   1   |    4   |
+| $A6         | AND (HL)        |   1   |    7   |
+| $A7         | AND A           |   1   |    4   |
+| $A8         | XOR B           |   1   |    4   |
+| $A9         | XOR C           |   1   |    4   |
+| $AA         | XOR D           |   1   |    4   |
+| $AB         | XOR E           |   1   |    4   |
+| $AC         | XOR H           |   1   |    4   |
+| $AD         | XOR L           |   1   |    4   |
+| $AE         | XOR (HL)        |   1   |    7   |
+| $AF         | XOR A           |   1   |    4   |
+| $B0         | OR B            |   1   |    4   |
+| $B1         | OR C            |   1   |    4   |
+| $B2         | OR D            |   1   |    4   |
+| $B3         | OR E            |   1   |    4   |
+| $B4         | OR H            |   1   |    4   |
+| $B5         | OR L            |   1   |    4   |
+| $B6         | OR (HL)         |   1   |    7   |
+| $B7         | OR A            |   1   |    4   |
+| $B8         | CP B            |   1   |    4   |
+| $B9         | CP C            |   1   |    4   |
+| $BA         | CP D            |   1   |    4   |
+| $BB         | CP E            |   1   |    4   |
+| $BC         | CP H            |   1   |    4   |
+| $BD         | CP L            |   1   |    4   |
+| $BE         | CP (HL)         |   1   |    7   |
+| $BF         | CP A            |   1   |    4   |
+| $C0         | RET NZ          |   1   |  11/5  |
+| $C1         | POP BC          |   1   |   10   |
+| $C2 address | JP NZ,address   |   3   |   10   |
+| $C3 address | JP address      |   3   |   10   |
+| $C4 address | CALL NZ,address |   3   |  17/10 |
+| $C5         | PUSH BC         |   1   |   11   |
+| $C6 byte    | ADD A,byte      |   2   |    7   |
+| $C7         | RST 0           |   1   |   11   |
+| $C8         | RET Z           |   1   |  11/5  |
+| $C9         | RET             |   1   |   10   |
+| $CA address | JP Z,address    |   3   |   10   |
+| $CB         | ***CB prefix*** |  N/A  |   N/A  |
+| $CC address | CALL Z,address  |   3   |  17/10 |
+| $CD address | CALL address    |   3   |   17   |
+| $CE byte    | ADC A,byte      |   2   |    7   |
+| $CF         | RST 8           |   1   |   11   |
+| $D0         | RET NC          |   1   |  11/5  |
+| $D1         | POP DE          |   1   |   10   |
+| $D2 address | JP NC,address   |   3   |   10   |
+| $D3 byte    | OUT (byte),A    |   2   |   11   |
+| $D4 address | CALL NC,address |   3   |  17/10 |
+| $D5         | PUSH DE         |   1   |   11   |
+| $D6 byte    | SUB byte        |   2   |    7   |
+| $D7         | RST 10H         |   1   |   11   |
+| $D8         | RET C           |   1   |  11/5  |
+| $D9         | EXX             |   1   |    4   |
+| $DA address | JP C,address    |   3   |   10   |
+| $DB byte    | IN A,(byte)     |   2   |   11   |
+| $DC address | CALL C,address  |   3   |  17/10 |
+| $DD         | ***DD prefix*** |  N/A  |   N/A  |
+| $DE byte    | SBC byte        |   2   |    7   |
+| $DF         | RST 18H         |   1   |   11   |
+| $E0         | RET PO          |   1   |  11/5  |
+| $E1         | POP HL          |   1   |   10   |
+| $E2 address | JP PO,address   |   3   |   10   |
+| $E3         | EX (SP),HL      |   1   |   19   |
+| $E4 address | CALL PO,address |   3   |  17/10 |
+| $E5         | PUSH HL         |   1   |   11   |
+| $E6 byte    | AND byte        |   2   |    7   |
+| $E7         | RST 20H         |   1   |   11   |
+| $E8         | RET PE          |   1   |  11/5  |
+| $E9         | JP (HL)         |   1   |    4   |
+| $EA address | JP PE,address   |   3   |   10   |
+| $EB         | EX DE,HL        |   1   |    4   |
+| $EC address | CALL PE,address |   3   |  17/10 |
+| $ED         | ***ED prefix*** |  N/A  |   N/A  |
+| $EE byte    | XOR byte        |   2   |    7   |
+| $EF         | RST 28H         |   1   |   11   |
+| $F0         | RET P           |   1   |  11/5  |
+| $F1         | POP AF          |   1   |   10   |
+| $F2 address | JP P,address    |   3   |   10   |
+| $F3         | DI              |   1   |    4   |
+| $F4 address | CALL P,address  |   3   |  17/10 |
+| $F5         | PUSH AF         |   1   |   11   |
+| $F6 byte    | OR byte         |   2   |    7   |
+| $F7         | RST 30H         |   1   |   11   |
+| $F8         | RET M           |   1   |  11/5  |
+| $F9         | LD SP,HL        |   1   |    6   |
+| $FA address | JP M,address    |   3   |   10   |
+| $FB         | EI              |   1   |    4   |
+| $FC address | CALL M,address  |   3   |  17/10 |
+| $FD         | ***FD prefix*** |  N/A  |   N/A  |
+| $FE byte    | CP byte         |   2   |    7   |
+| $FF         | RST 38H         |   1   |   11   |
+--------------------------------------------------
 
-$CB00 | RLC B
-$CB01 | RLC C
-$CB02 | RLC D
-$CB03 | RLC E
-$CB04 | RLC H
-$CB05 | RLC L
-$CB06 | RLC (HL)
-$CB07 | RLC A
-$CB08 | RRC B
-$CB09 | RRC C
-$CB0A | RRC D
-$CB0B | RRC E
-$CB0C | RRC H
-$CB0D | RRC L
-$CB0E | RRC (HL)
-$CB0F | RRC A
-$CB10 | RL B
-$CB11 | RL C
-$CB12 | RL D
-$CB13 | RL E
-$CB14 | RL H
-$CB15 | RL L
-$CB16 | RL (HL)
-$CB17 | RL A
-$CB18 | RR B
-$CB19 | RR C
-$CB1A | RR D
-$CB1B | RR E
-$CB1C | RR H
-$CB1D | RR L
-$CB1E | RR (HL)
-$CB1F | RR A
-$CB20 | SLA B
-$CB21 | SLA C
-$CB22 | SLA D
-$CB23 | SLA E
-$CB24 | SLA H
-$CB25 | SLA L
-$CB26 | SLA (HL)
-$CB27 | SLA A
-$CB28 | SRA B
-$CB29 | SRA C
-$CB2A | SRA D
-$CB2B | SRA E
-$CB2C | SRA H
-$CB2D | SRA L
-$CB2E | SRA (HL)
-$CB2F | SRA A
-$CB38 | SRL B
-$CB39 | SRL C
-$CB3A | SRL D
-$CB3B | SRL E
-$CB3C | SRL H
-$CB3D | SRL L
-$CB3E | SRL (HL)
-$CB3F | SRL A
-$CB40 | BIT 0,B
-$CB41 | BIT 0,C
-$CB42 | BIT 0,D
-$CB43 | BIT 0,E
-$CB44 | BIT 0,H
-$CB45 | BIT 0,L
-$CB46 | BIT 0,(HL)
-$CB47 | BIT 0,A
-$CB48 | BIT 1,B
-$CB49 | BIT 1,C
-$CB4A | BIT 1,D
-$CB4B | BIT 1,E
-$CB4C | BIT 1,H
-$CB4D | BIT 1,L
-$CB4E | BIT 1,(HL)
-$CB4F | BIT 1,A
-$CB50 | BIT 2,B
-$CB51 | BIT 2,C
-$CB52 | BIT 2,D
-$CB53 | BIT 2,E
-$CB54 | BIT 2,H
-$CB55 | BIT 2,L
-$CB56 | BIT 2,(HL)
-$CB57 | BIT 2,A
-$CB58 | BIT 3,B
-$CB59 | BIT 3,C
-$CB5A | BIT 3,D
-$CB5B | BIT 3,E
-$CB5C | BIT 3,H
-$CB5D | BIT 3,L
-$CB5E | BIT 3,(HL)
-$CB5F | BIT 3,A
-$CB60 | BIT 4,B
-$CB61 | BIT 4,C
-$CB62 | BIT 4,D
-$CB63 | BIT 4,E
-$CB64 | BIT 4,H
-$CB65 | BIT 4,L
-$CB66 | BIT 4,(HL)
-$CB67 | BIT 4,A
-$CB68 | BIT 5,B
-$CB69 | BIT 5,C
-$CB6A | BIT 5,D
-$CB6B | BIT 5,E
-$CB6C | BIT 5,H
-$CB6D | BIT 5,L
-$CB6E | BIT 5,(HL)
-$CB6F | BIT 5,A
-$CB70 | BIT 6,B
-$CB71 | BIT 6,C
-$CB72 | BIT 6,D
-$CB73 | BIT 6,E
-$CB74 | BIT 6,H
-$CB75 | BIT 6,L
-$CB76 | BIT 6,(HL)
-$CB77 | BIT 6,A
-$CB78 | BIT 7,B
-$CB79 | BIT 7,C
-$CB7A | BIT 7,D
-$CB7B | BIT 7,E
-$CB7C | BIT 7,H
-$CB7D | BIT 7,L
-$CB7E | BIT 7,(HL)
-$CB7F | BIT 7,A
-$CB80 | RES 0,B
-$CB81 | RES 0,C
-$CB82 | RES 0,D
-$CB83 | RES 0,E
-$CB84 | RES 0,H
-$CB85 | RES 0,L
-$CB86 | RES 0,(HL)
-$CB87 | RES 0,A
-$CB88 | RES 1,B
-$CB89 | RES 1,C
-$CB8A | RES 1,D
-$CB8B | RES 1,E
-$CB8C | RES 1,H
-$CB8D | RES 1,L
-$CB8E | RES 1,(HL)
-$CB8F | RES 1,A
-$CB90 | RES 2,B
-$CB91 | RES 2,C
-$CB92 | RES 2,D
-$CB93 | RES 2,E
-$CB94 | RES 2,H
-$CB95 | RES 2,L
-$CB96 | RES 2,(HL)
-$CB97 | RES 2,A
-$CB98 | RES 3,B
-$CB99 | RES 3,C
-$CB9A | RES 3,D
-$CB9B | RES 3,E
-$CB9C | RES 3,H
-$CB9D | RES 3,L
-$CB9E | RES 3,(HL)
-$CB9F | RES 3,A
-$CBA0 | RES 4,B
-$CBA1 | RES 4,C
-$CBA2 | RES 4,D
-$CBA3 | RES 4,E
-$CBA4 | RES 4,H
-$CBA5 | RES 4,L
-$CBA6 | RES 4,(HL)
-$CBA7 | RES 4,A
-$CBA8 | RES 5,B
-$CBA9 | RES 5,C
-$CBAA | RES 5,D
-$CBAB | RES 5,E
-$CBAC | RES 5,H
-$CBAD | RES 5,L
-$CBAE | RES 5,(HL)
-$CBAF | RES 5,A
-$CBB0 | RES 6,B
-$CBB1 | RES 6,C
-$CBB2 | RES 6,D
-$CBB3 | RES 6,E
-$CBB4 | RES 6,H
-$CBB5 | RES 6,L
-$CBB6 | RES 6,(HL)
-$CBB7 | RES 6,A
-$CBB8 | RES 7,B
-$CBB9 | RES 7,C
-$CBBA | RES 7,D
-$CBBB | RES 7,E
-$CBBC | RES 7,H
-$CBBD | RES 7,L
-$CBBE | RES 7,(HL)
-$CBBF | RES 7,A
-$CBC0 | SET 0,B
-$CBC1 | SET 0,C
-$CBC2 | SET 0,D
-$CBC3 | SET 0,E
-$CBC4 | SET 0,H
-$CBC5 | SET 0,L
-$CBC6 | SET 0,(HL)
-$CBC7 | SET 0,A
-$CBC8 | SET 1,B
-$CBC9 | SET 1,C
-$CBCA | SET 1,D
-$CBCB | SET 1,E
-$CBCC | SET 1,H
-$CBCD | SET 1,L
-$CBCE | SET 1,(HL)
-$CBCF | SET 1,A
-$CBD0 | SET 2,B
-$CBD1 | SET 2,C
-$CBD2 | SET 2,D
-$CBD3 | SET 2,E
-$CBD4 | SET 2,H
-$CBD5 | SET 2,L
-$CBD6 | SET 2,(HL)
-$CBD7 | SET 2,A
-$CBD8 | SET 3,B
-$CBD9 | SET 3,C
-$CBDA | SET 3,D
-$CBDB | SET 3,E
-$CBDC | SET 3,H
-$CBDD | SET 3,L
-$CBDE | SET 3,(HL)
-$CBDF | SET 3,A
-$CBE0 | SET 4,B
-$CBE1 | SET 4,C
-$CBE2 | SET 4,D
-$CBE3 | SET 4,E
-$CBE4 | SET 4,H
-$CBE5 | SET 4,L
-$CBE6 | SET 4,(HL)
-$CBE7 | SET 4,A
-$CBE8 | SET 5,B
-$CBE9 | SET 5,C
-$CBEA | SET 5,D
-$CBEB | SET 5,E
-$CBEC | SET 5,H
-$CBED | SET 5,L
-$CBEE | SET 5,(HL)
-$CBEF | SET 5,A
-$CBF0 | SET 6,B
-$CBF1 | SET 6,C
-$CBF2 | SET 6,D
-$CBF3 | SET 6,E
-$CBF4 | SET 6,H
-$CBF5 | SET 6,L
-$CBF6 | SET 6,(HL)
-$CBF7 | SET 6,A
-$CBF8 | SET 7,B
-$CBF9 | SET 7,C
-$CBFA | SET 7,D
-$CBFB | SET 7,E
-$CBFC | SET 7,H
-$CBFD | SET 7,L
-$CBFE | SET 7,(HL)
-$CBFF | SET 7,A
+---------------------------------------------------
+| opcode | mnemonic   | bytes | cycles | comments |
+---------------------------------------------------
+|  $CB00 | RLC B      |   2   |    8   |          |
+|  $CB01 | RLC C      |   2   |    8   |          |
+|  $CB02 | RLC D      |   2   |    8   |          |
+|  $CB03 | RLC E      |   2   |    8   |          |
+|  $CB04 | RLC H      |   2   |    8   |          |
+|  $CB05 | RLC L      |   2   |    8   |          |
+|  $CB06 | RLC (HL)   |   2   |   15   |          |
+|  $CB07 | RLC A      |   2   |    8   |          |
+|  $CB08 | RRC B      |   2   |    8   |          |
+|  $CB09 | RRC C      |   2   |    8   |          |
+|  $CB0A | RRC D      |   2   |    8   |          |
+|  $CB0B | RRC E      |   2   |    8   |          |
+|  $CB0C | RRC H      |   2   |    8   |          |
+|  $CB0D | RRC L      |   2   |    8   |          |
+|  $CB0E | RRC (HL)   |   2   |   15   |          |
+|  $CB0F | RRC A      |   2   |    8   |          |
+|  $CB10 | RL B       |   2   |    8   |          |
+|  $CB11 | RL C       |   2   |    8   |          |
+|  $CB12 | RL D       |   2   |    8   |          |
+|  $CB13 | RL E       |   2   |    8   |          |
+|  $CB14 | RL H       |   2   |    8   |          |
+|  $CB15 | RL L       |   2   |    8   |          |
+|  $CB16 | RL (HL)    |   2   |   15   |          |
+|  $CB17 | RL A       |   2   |    8   |          |
+|  $CB18 | RR B       |   2   |    8   |          |
+|  $CB19 | RR C       |   2   |    8   |          |
+|  $CB1A | RR D       |   2   |    8   |          |
+|  $CB1B | RR E       |   2   |    8   |          |
+|  $CB1C | RR H       |   2   |    8   |          |
+|  $CB1D | RR L       |   2   |    8   |          |
+|  $CB1E | RR (HL)    |   2   |   15   |          |
+|  $CB1F | RR A       |   2   |    8   |          |
+|  $CB20 | SLA B      |   2   |    8   |          |
+|  $CB21 | SLA C      |   2   |    8   |          |
+|  $CB22 | SLA D      |   2   |    8   |          |
+|  $CB23 | SLA E      |   2   |    8   |          |
+|  $CB24 | SLA H      |   2   |    8   |          |
+|  $CB25 | SLA L      |   2   |    8   |          |
+|  $CB26 | SLA (HL)   |   2   |   15   |          |
+|  $CB27 | SLA A      |   2   |    8   |          |
+|  $CB28 | SRA B      |   2   |    8   |          |
+|  $CB29 | SRA C      |   2   |    8   |          |
+|  $CB2A | SRA D      |   2   |    8   |          |
+|  $CB2B | SRA E      |   2   |    8   |          |
+|  $CB2C | SRA H      |   2   |    8   |          |
+|  $CB2D | SRA L      |   2   |    8   |          |
+|  $CB2E | SRA (HL)   |   2   |   15   |          |
+|  $CB2F | SRA A      |   2   |    8   |          |
+|  $CB30 | SLL B      |   2   |    8   | UNDOC    |
+|  $CB31 | SLL C      |   2   |    8   | UNDOC    |
+|  $CB32 | SLL D      |   2   |    8   | UNDOC    |
+|  $CB33 | SLL E      |   2   |    8   | UNDOC    |
+|  $CB34 | SLL H      |   2   |    8   | UNDOC    |
+|  $CB35 | SLL L      |   2   |    8   | UNDOC    |
+|  $CB36 | SLL (HL)   |   2   |   15   | UNDOC    |
+|  $CB37 | SLL A      |   2   |    8   | UNDOC    |
+|  $CB38 | SRL B      |   2   |    8   |          |
+|  $CB39 | SRL C      |   2   |    8   |          |
+|  $CB3A | SRL D      |   2   |    8   |          |
+|  $CB3B | SRL E      |   2   |    8   |          |
+|  $CB3C | SRL H      |   2   |    8   |          |
+|  $CB3D | SRL L      |   2   |    8   |          |
+|  $CB3E | SRL (HL)   |   2   |   15   |          |
+|  $CB3F | SRL A      |   2   |    8   |          |
+|  $CB40 | BIT 0,B    |   2   |    8   |          |
+|  $CB41 | BIT 0,C    |   2   |    8   |          |
+|  $CB42 | BIT 0,D    |   2   |    8   |          |
+|  $CB43 | BIT 0,E    |   2   |    8   |          |
+|  $CB44 | BIT 0,H    |   2   |    8   |          |
+|  $CB45 | BIT 0,L    |   2   |    8   |          |
+|  $CB46 | BIT 0,(HL) |   2   |   12   |          |
+|  $CB47 | BIT 0,A    |   2   |    8   |          |
+|  $CB48 | BIT 1,B    |   2   |    8   |          |
+|  $CB49 | BIT 1,C    |   2   |    8   |          |
+|  $CB4A | BIT 1,D    |   2   |    8   |          |
+|  $CB4B | BIT 1,E    |   2   |    8   |          |
+|  $CB4C | BIT 1,H    |   2   |    8   |          |
+|  $CB4D | BIT 1,L    |   2   |    8   |          |
+|  $CB4E | BIT 1,(HL) |   2   |   12   |          |
+|  $CB4F | BIT 1,A    |   2   |    8   |          |
+|  $CB50 | BIT 2,B    |   2   |    8   |          |
+|  $CB51 | BIT 2,C    |   2   |    8   |          |
+|  $CB52 | BIT 2,D    |   2   |    8   |          |
+|  $CB53 | BIT 2,E    |   2   |    8   |          |
+|  $CB54 | BIT 2,H    |   2   |    8   |          |
+|  $CB55 | BIT 2,L    |   2   |    8   |          |
+|  $CB56 | BIT 2,(HL) |   2   |   12   |          |
+|  $CB57 | BIT 2,A    |   2   |    8   |          |
+|  $CB58 | BIT 3,B    |   2   |    8   |          |
+|  $CB59 | BIT 3,C    |   2   |    8   |          |
+|  $CB5A | BIT 3,D    |   2   |    8   |          |
+|  $CB5B | BIT 3,E    |   2   |    8   |          |
+|  $CB5C | BIT 3,H    |   2   |    8   |          |
+|  $CB5D | BIT 3,L    |   2   |    8   |          |
+|  $CB5E | BIT 3,(HL) |   2   |   12   |          |
+|  $CB5F | BIT 3,A    |   2   |    8   |          |
+|  $CB60 | BIT 4,B    |   2   |    8   |          |
+|  $CB61 | BIT 4,C    |   2   |    8   |          |
+|  $CB62 | BIT 4,D    |   2   |    8   |          |
+|  $CB63 | BIT 4,E    |   2   |    8   |          |
+|  $CB64 | BIT 4,H    |   2   |    8   |          |
+|  $CB65 | BIT 4,L    |   2   |    8   |          |
+|  $CB66 | BIT 4,(HL) |   2   |   12   |          |
+|  $CB67 | BIT 4,A    |   2   |    8   |          |
+|  $CB68 | BIT 5,B    |   2   |    8   |          |
+|  $CB69 | BIT 5,C    |   2   |    8   |          |
+|  $CB6A | BIT 5,D    |   2   |    8   |          |
+|  $CB6B | BIT 5,E    |   2   |    8   |          |
+|  $CB6C | BIT 5,H    |   2   |    8   |          |
+|  $CB6D | BIT 5,L    |   2   |    8   |          |
+|  $CB6E | BIT 5,(HL) |   2   |   12   |          |
+|  $CB6F | BIT 5,A    |   2   |    8   |          |
+|  $CB70 | BIT 6,B    |   2   |    8   |          |
+|  $CB71 | BIT 6,C    |   2   |    8   |          |
+|  $CB72 | BIT 6,D    |   2   |    8   |          |
+|  $CB73 | BIT 6,E    |   2   |    8   |          |
+|  $CB74 | BIT 6,H    |   2   |    8   |          |
+|  $CB75 | BIT 6,L    |   2   |    8   |          |
+|  $CB76 | BIT 6,(HL) |   2   |   12   |          |
+|  $CB77 | BIT 6,A    |   2   |    8   |          |
+|  $CB78 | BIT 7,B    |   2   |    8   |          |
+|  $CB79 | BIT 7,C    |   2   |    8   |          |
+|  $CB7A | BIT 7,D    |   2   |    8   |          |
+|  $CB7B | BIT 7,E    |   2   |    8   |          |
+|  $CB7C | BIT 7,H    |   2   |    8   |          |
+|  $CB7D | BIT 7,L    |   2   |    8   |          |
+|  $CB7E | BIT 7,(HL) |   2   |   12   |          |
+|  $CB7F | BIT 7,A    |   2   |    8   |          |
+|  $CB80 | RES 0,B    |   2   |    8   |          |
+|  $CB81 | RES 0,C    |   2   |    8   |          |
+|  $CB82 | RES 0,D    |   2   |    8   |          |
+|  $CB83 | RES 0,E    |   2   |    8   |          |
+|  $CB84 | RES 0,H    |   2   |    8   |          |
+|  $CB85 | RES 0,L    |   2   |    8   |          |
+|  $CB86 | RES 0,(HL) |   2   |   15   |          |
+|  $CB87 | RES 0,A    |   2   |    8   |          |
+|  $CB88 | RES 1,B    |   2   |    8   |          |
+|  $CB89 | RES 1,C    |   2   |    8   |          |
+|  $CB8A | RES 1,D    |   2   |    8   |          |
+|  $CB8B | RES 1,E    |   2   |    8   |          |
+|  $CB8C | RES 1,H    |   2   |    8   |          |
+|  $CB8D | RES 1,L    |   2   |    8   |          |
+|  $CB8E | RES 1,(HL) |   2   |   15   |          |
+|  $CB8F | RES 1,A    |   2   |    8   |          |
+|  $CB90 | RES 2,B    |   2   |    8   |          |
+|  $CB91 | RES 2,C    |   2   |    8   |          |
+|  $CB92 | RES 2,D    |   2   |    8   |          |
+|  $CB93 | RES 2,E    |   2   |    8   |          |
+|  $CB94 | RES 2,H    |   2   |    8   |          |
+|  $CB95 | RES 2,L    |   2   |    8   |          |
+|  $CB96 | RES 2,(HL) |   2   |   15   |          |
+|  $CB97 | RES 2,A    |   2   |    8   |          |
+|  $CB98 | RES 3,B    |   2   |    8   |          |
+|  $CB99 | RES 3,C    |   2   |    8   |          |
+|  $CB9A | RES 3,D    |   2   |    8   |          |
+|  $CB9B | RES 3,E    |   2   |    8   |          |
+|  $CB9C | RES 3,H    |   2   |    8   |          |
+|  $CB9D | RES 3,L    |   2   |    8   |          |
+|  $CB9E | RES 3,(HL) |   2   |   15   |          |
+|  $CB9F | RES 3,A    |   2   |    8   |          |
+|  $CBA0 | RES 4,B    |   2   |    8   |          |
+|  $CBA1 | RES 4,C    |   2   |    8   |          |
+|  $CBA2 | RES 4,D    |   2   |    8   |          |
+|  $CBA3 | RES 4,E    |   2   |    8   |          |
+|  $CBA4 | RES 4,H    |   2   |    8   |          |
+|  $CBA5 | RES 4,L    |   2   |    8   |          |
+|  $CBA6 | RES 4,(HL) |   2   |   15   |          |
+|  $CBA7 | RES 4,A    |   2   |    8   |          |
+|  $CBA8 | RES 5,B    |   2   |    8   |          |
+|  $CBA9 | RES 5,C    |   2   |    8   |          |
+|  $CBAA | RES 5,D    |   2   |    8   |          |
+|  $CBAB | RES 5,E    |   2   |    8   |          |
+|  $CBAC | RES 5,H    |   2   |    8   |          |
+|  $CBAD | RES 5,L    |   2   |    8   |          |
+|  $CBAE | RES 5,(HL) |   2   |   15   |          |
+|  $CBAF | RES 5,A    |   2   |    8   |          |
+|  $CBB0 | RES 6,B    |   2   |    8   |          |
+|  $CBB1 | RES 6,C    |   2   |    8   |          |
+|  $CBB2 | RES 6,D    |   2   |    8   |          |
+|  $CBB3 | RES 6,E    |   2   |    8   |          |
+|  $CBB4 | RES 6,H    |   2   |    8   |          |
+|  $CBB5 | RES 6,L    |   2   |    8   |          |
+|  $CBB6 | RES 6,(HL) |   2   |   15   |          |
+|  $CBB7 | RES 6,A    |   2   |    8   |          |
+|  $CBB8 | RES 7,B    |   2   |    8   |          |
+|  $CBB9 | RES 7,C    |   2   |    8   |          |
+|  $CBBA | RES 7,D    |   2   |    8   |          |
+|  $CBBB | RES 7,E    |   2   |    8   |          |
+|  $CBBC | RES 7,H    |   2   |    8   |          |
+|  $CBBD | RES 7,L    |   2   |    8   |          |
+|  $CBBE | RES 7,(HL) |   2   |   15   |          |
+|  $CBBF | RES 7,A    |   2   |    8   |          |
+|  $CBC0 | SET 0,B    |   2   |    8   |          |
+|  $CBC1 | SET 0,C    |   2   |    8   |          |
+|  $CBC2 | SET 0,D    |   2   |    8   |          |
+|  $CBC3 | SET 0,E    |   2   |    8   |          |
+|  $CBC4 | SET 0,H    |   2   |    8   |          |
+|  $CBC5 | SET 0,L    |   2   |    8   |          |
+|  $CBC6 | SET 0,(HL) |   2   |   15   |          |
+|  $CBC7 | SET 0,A    |   2   |    8   |          |
+|  $CBC8 | SET 1,B    |   2   |    8   |          |
+|  $CBC9 | SET 1,C    |   2   |    8   |          |
+|  $CBCA | SET 1,D    |   2   |    8   |          |
+|  $CBCB | SET 1,E    |   2   |    8   |          |
+|  $CBCC | SET 1,H    |   2   |    8   |          |
+|  $CBCD | SET 1,L    |   2   |    8   |          |
+|  $CBCE | SET 1,(HL) |   2   |   15   |          |
+|  $CBCF | SET 1,A    |   2   |    8   |          |
+|  $CBD0 | SET 2,B    |   2   |    8   |          |
+|  $CBD1 | SET 2,C    |   2   |    8   |          |
+|  $CBD2 | SET 2,D    |   2   |    8   |          |
+|  $CBD3 | SET 2,E    |   2   |    8   |          |
+|  $CBD4 | SET 2,H    |   2   |    8   |          |
+|  $CBD5 | SET 2,L    |   2   |    8   |          |
+|  $CBD6 | SET 2,(HL) |   2   |   15   |          |
+|  $CBD7 | SET 2,A    |   2   |    8   |          |
+|  $CBD8 | SET 3,B    |   2   |    8   |          |
+|  $CBD9 | SET 3,C    |   2   |    8   |          |
+|  $CBDA | SET 3,D    |   2   |    8   |          |
+|  $CBDB | SET 3,E    |   2   |    8   |          |
+|  $CBDC | SET 3,H    |   2   |    8   |          |
+|  $CBDD | SET 3,L    |   2   |    8   |          |
+|  $CBDE | SET 3,(HL) |   2   |   15   |          |
+|  $CBDF | SET 3,A    |   2   |    8   |          |
+|  $CBE0 | SET 4,B    |   2   |    8   |          |
+|  $CBE1 | SET 4,C    |   2   |    8   |          |
+|  $CBE2 | SET 4,D    |   2   |    8   |          |
+|  $CBE3 | SET 4,E    |   2   |    8   |          |
+|  $CBE4 | SET 4,H    |   2   |    8   |          |
+|  $CBE5 | SET 4,L    |   2   |    8   |          |
+|  $CBE6 | SET 4,(HL) |   2   |   15   |          |
+|  $CBE7 | SET 4,A    |   2   |    8   |          |
+|  $CBE8 | SET 5,B    |   2   |    8   |          |
+|  $CBE9 | SET 5,C    |   2   |    8   |          |
+|  $CBEA | SET 5,D    |   2   |    8   |          |
+|  $CBEB | SET 5,E    |   2   |    8   |          |
+|  $CBEC | SET 5,H    |   2   |    8   |          |
+|  $CBED | SET 5,L    |   2   |    8   |          |
+|  $CBEE | SET 5,(HL) |   2   |   15   |          |
+|  $CBEF | SET 5,A    |   2   |    8   |          |
+|  $CBF0 | SET 6,B    |   2   |    8   |          |
+|  $CBF1 | SET 6,C    |   2   |    8   |          |
+|  $CBF2 | SET 6,D    |   2   |    8   |          |
+|  $CBF3 | SET 6,E    |   2   |    8   |          |
+|  $CBF4 | SET 6,H    |   2   |    8   |          |
+|  $CBF5 | SET 6,L    |   2   |    8   |          |
+|  $CBF6 | SET 6,(HL) |   2   |   15   |          |
+|  $CBF7 | SET 6,A    |   2   |    8   |          |
+|  $CBF8 | SET 7,B    |   2   |    8   |          |
+|  $CBF9 | SET 7,C    |   2   |    8   |          |
+|  $CBFA | SET 7,D    |   2   |    8   |          |
+|  $CBFB | SET 7,E    |   2   |    8   |          |
+|  $CBFC | SET 7,H    |   2   |    8   |          |
+|  $CBFD | SET 7,L    |   2   |    8   |          |
+|  $CBFE | SET 7,(HL) |   2   |   15   |          |
+|  $CBFF | SET 7,A    |   2   |    8   |          |
+---------------------------------------------------
 
-$DDCB index $06 | RLC (IX+index)
-$DDCB index $0E | RRC (IX+index)
-$DDCB index $16 | RL (IX+index)
-$DDCB index $1E | RR	(IX+index)
-$DDCB index $26 | SLA (IX+index)
-$DDCB index $2E | SRA (IX+index)
-$DDCB index $3E | SRL (IX+index)
-$DDCB index $46 | BIT 0,(IX+index)
-$DDCB index $4E | BIT 1,(IX+index)
-$DDCB index $56 | BIT 2,(IX+index)
-$DDCB index $5E | BIT 3,(IX+index)
-$DDCB index $66 | BIT 4,(IX+index)
-$DDCB index $6E | BIT 5,(IX+index)
-$DDCB index $76 | BIT 6,(IX+index)
-$DDCB index $7E | BIT 7,(IX+index)
-$DDCB index $86 | RES 0,(IX+index)
-$DDCB index $8E | RES 1,(IX+index)
-$DDCB index $96 | RES 2,(IX+index)
-$DDCB index $9E | RES 3,(IX+index)
-$DDCB index $A6 | RES 4,(IX+index)
-$DDCB index $AE | RES 5,(IX+index)
-$DDCB index $B6 | RES 6,(IX+index)
-$DDCB index $BE | RES 7,(IX+index)
-$DDCB index $C6 | SET 0,(IX+index)
-$DDCB index $CE | SET 1,(IX+index)
-$DDCB index $D6 | SET 2,(IX+index)
-$DDCB index $DE | SET 3,(IX+index)
-$DDCB index $E6 | SET 4,(IX+index)
-$DDCB index $EE | SET 5,(IX+index)
-$DDCB index $F6 | SET 6,(IX+index)
-$DDCB index $FE | SET 7,(IX+index)
+--------------------------------------------------------------------
+| opcode          | mnemonic           | bytes | cycles | comments |
+--------------------------------------------------------------------
+| $DDCB index $00 | RLC (IX+index),B   |   4   |   23   | UNDOC    |
+| $DDCB index $01 | RLC (IX+index),C   |   4   |   23   | UNDOC    |
+| $DDCB index $02 | RLC (IX+index),D   |   4   |   23   | UNDOC    |
+| $DDCB index $03 | RLC (IX+index),E   |   4   |   23   | UNDOC    |
+| $DDCB index $04 | RLC (IX+index),H   |   4   |   23   | UNDOC    |
+| $DDCB index $05 | RLC (IX+index),L   |   4   |   23   | UNDOC    |
+| $DDCB index $06 | RLC (IX+index)     |   4   |   23   |          |
+| $DDCB index $07 | RLC (IX+index),A   |   4   |   23   | UNDOC    |
+| $DDCB index $08 | RRC (IX+index),B   |   4   |   23   | UNDOC    |
+| $DDCB index $09 | RRC (IX+index),C   |   4   |   23   | UNDOC    |
+| $DDCB index $0A | RRC (IX+index),D   |   4   |   23   | UNDOC    |
+| $DDCB index $0B | RRC (IX+index),E   |   4   |   23   | UNDOC    |
+| $DDCB index $0C | RRC (IX+index),H   |   4   |   23   | UNDOC    |
+| $DDCB index $0D | RRC (IX+index),L   |   4   |   23   | UNDOC    |
+| $DDCB index $0E | RRC (IX+index)     |   4   |   23   |          |
+| $DDCB index $0F | RRC (IX+index),A   |   4   |   23   | UNDOC    |
+| $DDCB index $10 | RL (IX+index),B    |   4   |   23   | UNDOC    |
+| $DDCB index $11 | RL (IX+index),C    |   4   |   23   | UNDOC    |
+| $DDCB index $12 | RL (IX+index),D    |   4   |   23   | UNDOC    |
+| $DDCB index $13 | RL (IX+index),E    |   4   |   23   | UNDOC    |
+| $DDCB index $14 | RL (IX+index),H    |   4   |   23   | UNDOC    |
+| $DDCB index $15 | RL (IX+index),L    |   4   |   23   | UNDOC    |
+| $DDCB index $16 | RL (IX+index)      |   4   |   23   |          |
+| $DDCB index $17 | RL (IX+index),A    |   4   |   23   | UNDOC    |
+| $DDCB index $18 | RR (IX+index),B    |   4   |   23   | UNDOC    |
+| $DDCB index $19 | RR (IX+index),C    |   4   |   23   | UNDOC    |
+| $DDCB index $1A | RR (IX+index),D    |   4   |   23   | UNDOC    |
+| $DDCB index $1B | RR (IX+index),E    |   4   |   23   | UNDOC    |
+| $DDCB index $1C | RR (IX+index),H    |   4   |   23   | UNDOC    |
+| $DDCB index $1D | RR (IX+index),L    |   4   |   23   | UNDOC    |
+| $DDCB index $1E | RR (IX+index)      |   4   |   23   |          |
+| $DDCB index $1F | RR (IX+index),A    |   4   |   23   | UNDOC    |
+| $DDCB index $20 | SLA (IX+index),B   |   4   |   23   | UNDOC    |
+| $DDCB index $21 | SLA (IX+index),C   |   4   |   23   | UNDOC    |
+| $DDCB index $22 | SLA (IX+index),D   |   4   |   23   | UNDOC    |
+| $DDCB index $23 | SLA (IX+index),E   |   4   |   23   | UNDOC    |
+| $DDCB index $24 | SLA (IX+index),H   |   4   |   23   | UNDOC    |
+| $DDCB index $25 | SLA (IX+index),L   |   4   |   23   | UNDOC    |
+| $DDCB index $26 | SLA (IX+index)     |   4   |   23   |          |
+| $DDCB index $27 | SLA (IX+index),A   |   4   |   23   | UNDOC    |
+| $DDCB index $28 | SRA (IX+index),B   |   4   |   23   | UNDOC    |
+| $DDCB index $29 | SRA (IX+index),C   |   4   |   23   | UNDOC    |
+| $DDCB index $2A | SRA (IX+index),D   |   4   |   23   | UNDOC    |
+| $DDCB index $2B | SRA (IX+index),E   |   4   |   23   | UNDOC    |
+| $DDCB index $2C | SRA (IX+index),H   |   4   |   23   | UNDOC    |
+| $DDCB index $2D | SRA (IX+index),L   |   4   |   23   | UNDOC    |
+| $DDCB index $2E | SRA (IX+index)     |   4   |   23   |          |
+| $DDCB index $2F | SRA (IX+index),A   |   4   |   23   | UNDOC    |
+| $DDCB index $30 | SLL (IX+index),B   |   4   |   23   | UNDOC    |
+| $DDCB index $31 | SLL (IX+index),C   |   4   |   23   | UNDOC    |
+| $DDCB index $32 | SLL (IX+index),D   |   4   |   23   | UNDOC    |
+| $DDCB index $33 | SLL (IX+index),E   |   4   |   23   | UNDOC    |
+| $DDCB index $34 | SLL (IX+index),H   |   4   |   23   | UNDOC    |
+| $DDCB index $35 | SLL (IX+index),L   |   4   |   23   | UNDOC    |
+| $DDCB index $36 | SLL (IX+index)     |   4   |   23   | UNDOC    |
+| $DDCB index $37 | SLL (IX+index),A   |   4   |   23   | UNDOC    |
+| $DDCB index $38 | SRL (IX+index),B   |   4   |   23   | UNDOC    |
+| $DDCB index $39 | SRL (IX+index),C   |   4   |   23   | UNDOC    |
+| $DDCB index $3A | SRL (IX+index),D   |   4   |   23   | UNDOC    |
+| $DDCB index $3B | SRL (IX+index),E   |   4   |   23   | UNDOC    |
+| $DDCB index $3C | SRL (IX+index),H   |   4   |   23   | UNDOC    |
+| $DDCB index $3D | SRL (IX+index),L   |   4   |   23   | UNDOC    |
+| $DDCB index $3E | SRL (IX+index)     |   4   |   23   |          |
+| $DDCB index $3F | SRL (IX+index),A   |   4   |   23   | UNDOC    |
+| $DDCB index $40 | BIT 0,(IX+index),B |   4   |   20   | UNDOC    |
+| $DDCB index $41 | BIT 0,(IX+index),C |   4   |   20   | UNDOC    |
+| $DDCB index $42 | BIT 0,(IX+index),D |   4   |   20   | UNDOC    |
+| $DDCB index $43 | BIT 0,(IX+index),E |   4   |   20   | UNDOC    |
+| $DDCB index $44 | BIT 0,(IX+index),H |   4   |   20   | UNDOC    |
+| $DDCB index $45 | BIT 0,(IX+index),L |   4   |   20   | UNDOC    |
+| $DDCB index $46 | BIT 0,(IX+index)   |   4   |   20   |          |
+| $DDCB index $47 | BIT 0,(IX+index),A |   4   |   20   | UNDOC    |
+| $DDCB index $48 | BIT 1,(IX+index),B |   4   |   20   | UNDOC    |
+| $DDCB index $49 | BIT 1,(IX+index),C |   4   |   20   | UNDOC    |
+| $DDCB index $4A | BIT 1,(IX+index),D |   4   |   20   | UNDOC    |
+| $DDCB index $4B | BIT 1,(IX+index),E |   4   |   20   | UNDOC    |
+| $DDCB index $4C | BIT 1,(IX+index),H |   4   |   20   | UNDOC    |
+| $DDCB index $4D | BIT 1,(IX+index),L |   4   |   20   | UNDOC    |
+| $DDCB index $4E | BIT 1,(IX+index)   |   4   |   20   |          |
+| $DDCB index $4F | BIT 1,(IX+index),A |   4   |   20   | UNDOC    |
+| $DDCB index $50 | BIT 2,(IX+index),B |   4   |   20   | UNDOC    |
+| $DDCB index $51 | BIT 2,(IX+index),C |   4   |   20   | UNDOC    |
+| $DDCB index $52 | BIT 2,(IX+index),D |   4   |   20   | UNDOC    |
+| $DDCB index $53 | BIT 2,(IX+index),E |   4   |   20   | UNDOC    |
+| $DDCB index $54 | BIT 2,(IX+index),H |   4   |   20   | UNDOC    |
+| $DDCB index $55 | BIT 2,(IX+index),L |   4   |   20   | UNDOC    |
+| $DDCB index $56 | BIT 2,(IX+index)   |   4   |   20   |          |
+| $DDCB index $57 | BIT 2,(IX+index),A |   4   |   20   | UNDOC    |
+| $DDCB index $58 | BIT 3,(IX+index),B |   4   |   20   | UNDOC    |
+| $DDCB index $59 | BIT 3,(IX+index),C |   4   |   20   | UNDOC    |
+| $DDCB index $5A | BIT 3,(IX+index),D |   4   |   20   | UNDOC    |
+| $DDCB index $5B | BIT 3,(IX+index),E |   4   |   20   | UNDOC    |
+| $DDCB index $5C | BIT 3,(IX+index),H |   4   |   20   | UNDOC    |
+| $DDCB index $5D | BIT 3,(IX+index),L |   4   |   20   | UNDOC    |
+| $DDCB index $5E | BIT 3,(IX+index)   |   4   |   20   |          |
+| $DDCB index $5F | BIT 3,(IX+index),A |   4   |   20   | UNDOC    |
+| $DDCB index $60 | BIT 4,(IX+index),B |   4   |   20   | UNDOC    |
+| $DDCB index $61 | BIT 4,(IX+index),C |   4   |   20   | UNDOC    |
+| $DDCB index $62 | BIT 4,(IX+index),D |   4   |   20   | UNDOC    |
+| $DDCB index $63 | BIT 4,(IX+index),E |   4   |   20   | UNDOC    |
+| $DDCB index $64 | BIT 4,(IX+index),H |   4   |   20   | UNDOC    |
+| $DDCB index $65 | BIT 4,(IX+index),L |   4   |   20   | UNDOC    |
+| $DDCB index $66 | BIT 4,(IX+index)   |   4   |   20   |          |
+| $DDCB index $67 | BIT 4,(IX+index),A |   4   |   20   | UNDOC    |
+| $DDCB index $68 | BIT 5,(IX+index),B |   4   |   20   | UNDOC    |
+| $DDCB index $69 | BIT 5,(IX+index),C |   4   |   20   | UNDOC    |
+| $DDCB index $6A | BIT 5,(IX+index),D |   4   |   20   | UNDOC    |
+| $DDCB index $6B | BIT 5,(IX+index),E |   4   |   20   | UNDOC    |
+| $DDCB index $6C | BIT 5,(IX+index),H |   4   |   20   | UNDOC    |
+| $DDCB index $6D | BIT 5,(IX+index),L |   4   |   20   | UNDOC    |
+| $DDCB index $6E | BIT 5,(IX+index)   |   4   |   20   |          |
+| $DDCB index $6F | BIT 5,(IX+index),A |   4   |   20   | UNDOC    |
+| $DDCB index $70 | BIT 6,(IX+index),B |   4   |   20   | UNDOC    |
+| $DDCB index $71 | BIT 6,(IX+index),C |   4   |   20   | UNDOC    |
+| $DDCB index $72 | BIT 6,(IX+index),D |   4   |   20   | UNDOC    |
+| $DDCB index $73 | BIT 6,(IX+index),E |   4   |   20   | UNDOC    |
+| $DDCB index $74 | BIT 6,(IX+index),H |   4   |   20   | UNDOC    |
+| $DDCB index $75 | BIT 6,(IX+index),L |   4   |   20   | UNDOC    |
+| $DDCB index $76 | BIT 6,(IX+index)   |   4   |   20   |          |
+| $DDCB index $77 | BIT 6,(IX+index),A |   4   |   20   | UNDOC    |
+| $DDCB index $78 | BIT 7,(IX+index),B |   4   |   20   | UNDOC    |
+| $DDCB index $79 | BIT 7,(IX+index),C |   4   |   20   | UNDOC    |
+| $DDCB index $7A | BIT 7,(IX+index),D |   4   |   20   | UNDOC    |
+| $DDCB index $7B | BIT 7,(IX+index),E |   4   |   20   | UNDOC    |
+| $DDCB index $7C | BIT 7,(IX+index),H |   4   |   20   | UNDOC    |
+| $DDCB index $7D | BIT 7,(IX+index),L |   4   |   20   | UNDOC    |
+| $DDCB index $7E | BIT 7,(IX+index)   |   4   |   20   |          |
+| $DDCB index $7F | BIT 7,(IX+index),A |   4   |   20   | UNDOC    |
+| $DDCB index $80 | RES 0,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $81 | RES 0,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $82 | RES 0,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $83 | RES 0,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $84 | RES 0,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $85 | RES 0,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $86 | RES 0,(IX+index)   |   4   |   23   |          |
+| $DDCB index $87 | RES 0,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $88 | RES 1,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $89 | RES 1,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $8A | RES 1,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $8B | RES 1,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $8C | RES 1,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $8D | RES 1,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $8E | RES 1,(IX+index)   |   4   |   23   |          |
+| $DDCB index $8F | RES 1,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $90 | RES 2,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $91 | RES 2,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $92 | RES 2,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $93 | RES 2,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $94 | RES 2,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $95 | RES 2,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $96 | RES 2,(IX+index)   |   4   |   23   |          |
+| $DDCB index $97 | RES 2,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $98 | RES 3,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $99 | RES 3,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $9A | RES 3,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $9B | RES 3,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $9C | RES 3,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $9D | RES 3,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $9E | RES 3,(IX+index)   |   4   |   23   |          |
+| $DDCB index $9F | RES 3,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $A0 | RES 4,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $A1 | RES 4,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $A2 | RES 4,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $A3 | RES 4,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $A4 | RES 4,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $A5 | RES 4,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $A6 | RES 4,(IX+index)   |   4   |   23   |          |
+| $DDCB index $A7 | RES 4,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $A8 | RES 5,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $A9 | RES 5,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $AA | RES 5,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $AB | RES 5,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $AC | RES 5,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $AD | RES 5,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $AE | RES 5,(IX+index)   |   4   |   23   |          |
+| $DDCB index $AF | RES 5,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $B0 | RES 6,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $B1 | RES 6,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $B2 | RES 6,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $B3 | RES 6,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $B4 | RES 6,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $B5 | RES 6,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $B6 | RES 6,(IX+index)   |   4   |   23   |          |
+| $DDCB index $B7 | RES 6,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $B8 | RES 7,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $B9 | RES 7,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $BA | RES 7,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $BB | RES 7,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $BC | RES 7,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $BD | RES 7,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $BE | RES 7,(IX+index)   |   4   |   23   |          |
+| $DDCB index $BF | RES 7,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $C0 | SET 0,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $C1 | SET 0,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $C2 | SET 0,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $C3 | SET 0,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $C4 | SET 0,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $C5 | SET 0,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $C6 | SET 0,(IX+index)   |   4   |   23   |          |
+| $DDCB index $C7 | SET 0,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $C8 | SET 1,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $C9 | SET 1,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $CA | SET 1,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $CB | SET 1,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $CC | SET 1,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $CD | SET 1,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $CE | SET 1,(IX+index)   |   4   |   23   |          |
+| $DDCB index $CF | SET 1,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $D0 | SET 2,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $D1 | SET 2,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $D2 | SET 2,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $D3 | SET 2,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $D4 | SET 2,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $D5 | SET 2,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $D6 | SET 2,(IX+index)   |   4   |   23   |          |
+| $DDCB index $D7 | SET 2,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $D8 | SET 3,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $D9 | SET 3,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $DA | SET 3,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $DB | SET 3,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $DC | SET 3,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $DD | SET 3,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $DE | SET 3,(IX+index)   |   4   |   23   |          |
+| $DDCB index $DF | SET 3,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $E0 | SET 4,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $E1 | SET 4,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $E2 | SET 4,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $E3 | SET 4,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $E4 | SET 4,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $E5 | SET 4,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $E6 | SET 4,(IX+index)   |   4   |   23   |          |
+| $DDCB index $E7 | SET 4,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $E8 | SET 5,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $E9 | SET 5,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $EA | SET 5,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $EB | SET 5,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $EC | SET 5,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $ED | SET 5,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $EE | SET 5,(IX+index)   |   4   |   23   |          |
+| $DDCB index $EF | SET 5,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $F0 | SET 6,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $F1 | SET 6,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $F2 | SET 6,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $F3 | SET 6,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $F4 | SET 6,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $F5 | SET 6,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $F6 | SET 6,(IX+index)   |   4   |   23   |          |
+| $DDCB index $F7 | SET 6,(IX+index),A |   4   |   23   | UNDOC    |
+| $DDCB index $F8 | SET 7,(IX+index),B |   4   |   23   | UNDOC    |
+| $DDCB index $F9 | SET 7,(IX+index),C |   4   |   23   | UNDOC    |
+| $DDCB index $FA | SET 7,(IX+index),D |   4   |   23   | UNDOC    |
+| $DDCB index $FB | SET 7,(IX+index),E |   4   |   23   | UNDOC    |
+| $DDCB index $FC | SET 7,(IX+index),H |   4   |   23   | UNDOC    |
+| $DDCB index $FD | SET 7,(IX+index),L |   4   |   23   | UNDOC    |
+| $DDCB index $FE | SET 7,(IX+index)   |   4   |   23   |          |
+| $DDCB index $FF | SET 7,(IX+index),A |   4   |   23   | UNDOC    |
+--------------------------------------------------------------------
 
-$DD09            | ADD IX,BC
-$DD19            | ADD IX,DE
-$DD21 word       | LD IX,word
-$DD22 word       | LD (word),IX / LD (word),IY ***which***
-$DD23            | INC IX
-#DD29            | ADD IX,IX
-$DD2A word       | LD IX,(word)
-$DD2B            | DEC IX
-$DD34 index      | INC (IX+index)
-$DD35 index      | DEC (IX+index)
-$DD36 index byte | LD (IX+index),byte
-$DD39            | ADD IX,SP
-$DD46 index      | LD B,(IX+index)
-$DD4E index      | LD C,(IX+index)
-$DD56 index      | LD D,(IX+index)
-$DD5E index      | LD E,(IX+index)
-$DD66 index      | LD H,(IX+index)
-$DD6E index      | LD L,(IX+index)
-$DD70 index      | LD (IX+index),B
-$DD71 index      | LD (IX+index),C
-$DD72 index      | LD (IX+index),D
-$DD73 index      | LD (IX+index),E
-$DD74 index      | LD (IX+index),H
-$DD75 index      | LD (IX+index),L
-$DD76 index byte | LD (IX+index),byte
-$DD77 index      | LD (IX+index),A
-$DD7E index      | LD A,(IX+index)
-$DD86 index      | ADD A,(IX+index)
-$DD8E index      | ADC A,(IX+index)
-$DD96 index      | SUB (IX+index)
-$DD9E index      | SBC (IX+index)
-$DDA6 index      | AND (IX+index)
-$DDAE index      | XOR (IX+index)
-$DDB6 index      | OR (IX+index)
-$DDBE index      | CP (IX+index)
-$DDE1            | POP IX
-$DDE3            | EX (SP),IX
-$DDE5            | PUSH IX
-$DDE9            | JP (IX)
-$DDF9            | LD SP,IX
+---------------------------------------------------------------------
+| opcode           | mnemonic           | bytes | cycles | comments |
+---------------------------------------------------------------------
+| $DD09            | ADD IX,BC          |   2   |   15   |          |
+| $DD19            | ADD IX,DE          |   2   |   15   |          |
+| $DD21 word       | LD IX,word         |   4   |   14   |          |
+| $DD22 word       | LD (word),IX       |   4   |   20   |          |
+| $DD23            | INC IX             |   2   |   10   |          |
+| $DD24            | INC IXH            |   2   |    8   | UNDOC    |
+| $DD25            | DEC IXH            |   2   |    8   | UNDOC    |
+| $DD26 byte       | LD IXH,byte        |   2   |   11   | UNDOC    |
+| $DD29            | ADD IX,IX          |   2   |   15   |          |
+| $DD2A word       | LD IX,(word)       |   4   |   20   |          |
+| $DD2B            | DEC IX             |   2   |   10   |          |
+| $DD2C            | INC IXL            |   2   |    8   | UNDOC    |
+| $DD2D            | DEC IXL            |   2   |    8   | UNDOC    |
+| $DD2E byte       | LD IXL,byte        |   3   |   11   | UNDOC    |
+| $DD34 index      | INC (IX+index)     |   3   |   23   |          |
+| $DD35 index      | DEC (IX+index)     |   3   |   23   |          |
+| $DD36 index byte | LD (IX+index),byte |   4   |   19   |          |
+| $DD39            | ADD IX,SP          |   2   |   15   |          |
+| $DD44            | LD B,IXH           |   2   |    8   | UNDOC    |
+| $DD45            | LD B,IXL           |   2   |    8   | UNDOC    |
+| $DD46 index      | LD B,(IX+index)    |   3   |   19   |          |
+| $DD4C            | LD C,IXH           |   2   |    8   | UNDOC    |
+| $DD4D            | LD C,IXL           |   2   |    8   | UNDOC    |
+| $DD4E index      | LD C,(IX+index)    |   3   |   19   |          |
+| $DD54            | LD D,IXH           |   2   |    8   | UNDOC    |
+| $DD55            | LD D,IXL           |   2   |    8   | UNDOC    |
+| $DD56 index      | LD D,(IX+index)    |   3   |   19   |          |
+| $DD5C            | LD E,IXH           |   2   |    8   | UNDOC    |
+| $DD5D            | LD E,IXL           |   2   |    8   | UNDOC    |
+| $DD5E index      | LD E,(IX+index)    |   3   |   19   |          |
+| $DD60            | LD IXH,B           |   2   |    8   | UNDOC    |
+| $DD61            | LD IXH,C           |   2   |    8   | UNDOC    |
+| $DD62            | LD IXH,D           |   2   |    8   | UNDOC    |
+| $DD63            | LD IXH,E           |   2   |    8   | UNDOC    |
+| $DD64            | LD IXH,IXH         |   2   |    8   | UNDOC    |
+| $DD65            | LD IXH,IXL         |   2   |    8   | UNDOC    |
+| $DD66 index      | LD H,(IX+index)    |   3   |   19   |          |
+| $DD67            | LD IXH,A           |   2   |    8   | UNDOC    |
+| $DD68            | LD IXL,B           |   2   |    8   | UNDOC    |
+| $DD69            | LD IXL,C           |   2   |    8   | UNDOC    |
+| $DD6A            | LD IXL,D           |   2   |    8   | UNDOC    |
+| $DD6B            | LD IXL,E           |   2   |    8   | UNDOC    |
+| $DD6C            | LD IXL,IXH         |   2   |    8   | UNDOC    |
+| $DD6D            | LD IXL,IXL         |   2   |    8   | UNDOC    |
+| $DD6E index      | LD L,(IX+index)    |   3   |   19   |          |
+| $DD6F            | LD IXL,A           |   2   |    8   | UNDOC    |
+| $DD70 index      | LD (IX+index),B    |   3   |   19   |          |
+| $DD71 index      | LD (IX+index),C    |   3   |   19   |          |
+| $DD72 index      | LD (IX+index),D    |   3   |   19   |          |
+| $DD73 index      | LD (IX+index),E    |   3   |   19   |          |
+| $DD74 index      | LD (IX+index),H    |   3   |   19   |          |
+| $DD75 index      | LD (IX+index),L    |   3   |   19   |          |
+| $DD77 index      | LD (IX+index),A    |   3   |   19   |          |
+| $DD7C            | LD A,IXH           |   2   |    8   | UNDOC    |
+| $DD7D            | LD A,IXL           |   2   |    8   | UNDOC    |
+| $DD7E index      | LD A,(IX+index)    |   3   |   19   |          |
+| $DD84            | ADD A,IXH          |   2   |    8   | UNDOC    |
+| $DD85            | ADD A,IXL          |   2   |    8   | UNDOC    |
+| $DD86 index      | ADD A,(IX+index)   |   3   |   19   |          |
+| $DD8C            | ADC A,IXH          |   2   |    8   | UNDOC    |
+| $DD8D            | ADC A,IXL          |   2   |    8   | UNDOC    |
+| $DD8E index      | ADC A,(IX+index)   |   3   |   19   |          |
+| $DD94            | SUB IXH            |   2   |    8   | UNDOC    |
+| $DD95            | SUB IXL            |   2   |    8   | UNDOC    |
+| $DD96 index      | SUB (IX+index)     |   3   |   19   |          |
+| $DD9C            | SBC IXH            |   2   |    8   | UNDOC    |
+| $DD9D            | SBC IXL            |   2   |    8   | UNDOC    |
+| $DD9E index      | SBC (IX+index)     |   3   |   19   |          |
+| $DDA4            | AND IXH            |   2   |    8   | UNDOC    |
+| $DDA5            | AND IXL            |   2   |    8   | UNDOC    |
+| $DDA6 index      | AND (IX+index)     |   3   |   19   |          |
+| $DDAC            | XOR IXH            |   2   |    8   | UNDOC    |
+| $DDAD            | XOR IXL            |   2   |    8   | UNDOC    |
+| $DDAE index      | XOR (IX+index)     |   3   |   19   |          |
+| $DDB4            | OR IXH             |   2   |    8   | UNDOC    |
+| $DDB5            | OR IXL             |   2   |    8   | UNDOC    |
+| $DDB6 index      | OR (IX+index)      |   3   |   19   |          |
+| $DDBC            | CP IXH             |   2   |    8   | UNDOC    |
+| $DDBD            | CP IXL             |   2   |    8   | UNDOC    |
+| $DDBE index      | CP (IX+index)      |   3   |   19   |          |
+| $DDCB            | ***DDCB prefix***  |  N/A  |   N/A  |          |
+| $DDE1            | POP IX             |   2   |   14   |          |
+| $DDE3            | EX (SP),IX         |   2   |   23   |          |
+| $DDE5            | PUSH IX            |   2   |   15   |          |
+| $DDE9            | JP (IX)            |   2   |    8   |          |
+| $DDF9            | LD SP,IX           |   2   |   10   |          |
+---------------------------------------------------------------------
 
-$ED40      | IN B,(C)
-$ED41      | OUT (C),B
-$ED42      | SBC HL,BC
-$ED43 word | LD (word),BC
-$ED44      | NEG
-$ED45      | RETN
-$ED46      | IM 0
-$ED47      | LD I,A
-$ED48      | IN C,(C)
-$ED49      | OUT (C),C
-$ED4A      | ADC HL,BC
-$ED4B word | LD BC,(word)
-$ED4D      | RETI
-$ED4F      | LD R,A
-$ED50      | IN D,(C)
-$ED51      | OUT (C),D
-$ED52      | SBC HL,DE
-$ED53 word | LD (word),DE
-$ED56      | IM 1
-$ED57      | LD A,I
-$ED58      | IN E,(C)
-$ED59      | OUT (C),E
-$ED5A      | ADC HL,DE
-$ED5B word | LD DE,(word)
-$ED5E      | IM 2
-$ED5F      | LD A,R
-$ED60      | IN H,(C)
-$ED61      | OUT (C),H
-$ED62      | SBC HL,HL
-$ED67      | RRD
-$ED68      | IN L,(C)
-$ED69      | OUT (C),L
-$ED6A      | ADC HL,HL
-$ED6B word | LD HL,(word) / LD (word),HL ***which***
-$ED6F      | RLD
-$ED72      | SBC HL,SP
-$ED73 word | LD (word),SP
-$ED78      | IN A,(C)
-$ED79      | OUT (C),A
-$ED7A      | ADC HL,SP
-$ED7B word | LD SP,(word)
-$EDA0      | LDI
-$EDA1      | CPI
-$EDA2      | INI
-$EDA3      | OUTI
-$EDA8      | LDD
-$EDA9      | CPD
-$EDAA      | IND
-$EDAB      | OUTD
-$EDB0      | LDIR
-$EDB1      | CPIR
-$EDB2      | INIR
-$EDB3      | OTIR
-$EDB8      | LDDR
-$EDB9      | CPDR
-$EDBA      | INDR
-$EDBB      | OTDR
+---------------------------------------------------------
+| opcode     | mnemonic     | bytes | cycles | comments |
+---------------------------------------------------------
+| $ED40      | IN B,(C)     |   2   |   12   |          |
+| $ED41      | OUT (C),B    |   2   |   12   |          |
+| $ED42      | SBC HL,BC    |   2   |   15   |          |
+| $ED43 word | LD (word),BC |   4   |   20   |          |
+| $ED44      | NEG          |   2   |    8   |          |
+| $ED45      | RETN         |   2   |   14   |          |
+| $ED46      | IM 0         |   2   |    8   |          |
+| $ED47      | LD I,A       |   2   |    9   |          |
+| $ED48      | IN C,(C)     |   2   |   12   |          |
+| $ED49      | OUT (C),C    |   2   |   12   |          |
+| $ED4A      | ADC HL,BC    |   2   |   15   |          |
+| $ED4B word | LD BC,(word) |   4   |   20   |          |
+| $ED4C      | NEG          |   2   |    8   | UNDOC    |
+| $ED4D      | RETI         |   2   |   14   |          |
+| $ED4E      | IM 0/1       |   2   |    8   | UNDOC    |
+| $ED4F      | LD R,A       |   2   |    9   |          |
+| $ED50      | IN D,(C)     |   2   |   12   |          |
+| $ED51      | OUT (C),D    |   2   |   12   |          |
+| $ED52      | SBC HL,DE    |   2   |   15   |          |
+| $ED53 word | LD (word),DE |   4   |   20   |          |
+| $ED54      | NEG          |   2   |    8   | UNDOC    |
+| $ED55      | RETN         |   2   |   14   |          |
+| $ED56      | IM 1         |   2   |    8   |          |
+| $ED57      | LD A,I       |   2   |    9   |          |
+| $ED58      | IN E,(C)     |   2   |   12   |          |
+| $ED59      | OUT (C),E    |   2   |   12   |          |
+| $ED5A      | ADC HL,DE    |   2   |   15   |          |
+| $ED5B word | LD DE,(word) |   4   |   20   |          |
+| $ED5C      | NEG          |   2   |    8   | UNDOC    |
+| $ED5D      | RETN         |   2   |   14   |          |
+| $ED5E      | IM 2         |   2   |    8   |          |
+| $ED5F      | LD A,R       |   2   |    9   |          |
+| $ED60      | IN H,(C)     |   2   |   12   |          |
+| $ED61      | OUT (C),H    |   2   |   12   |          |
+| $ED62      | SBC HL,HL    |   2   |   15   |          |
+| $ED63 word | LD (word),HL |   4   |   20   | UNDOC    |
+| $ED64      | NEG          |   2   |    8   | UNDOC    |
+| $ED65      | RETN         |   2   |   14   |          |
+| $ED66      | IM 0         |   2   |    8   |          |
+| $ED67      | RRD          |   2   |   18   |          |
+| $ED68      | IN L,(C)     |   2   |   12   |          |
+| $ED69      | OUT (C),L    |   2   |   12   |          |
+| $ED6A      | ADC HL,HL    |   2   |   15   |          |
+| $ED6B word | LD HL,(word) |   4   |   20   | UNDOC    |
+| $ED6C      | NEG          |   2   |    8   | UNDOC    |
+| $ED6D      | RETN         |   2   |   14   |          |
+| $ED6E      | IM 0/1       |   2   |    8   | UNDOC    |
+| $ED6F      | RLD          |   2   |   18   |          |
+| $ED70      | IN (C)       |   2   |   12   | UNDOC    |
+| $ED71      | OUT (C),0    |   2   |   12   | UNDOC    |
+| $ED72      | SBC HL,SP    |   2   |   15   |          |
+| $ED73 word | LD (word),SP |   4   |   20   |          |
+| $ED74      | NEG          |   2   |    8   | UNDOC    |
+| $ED75      | RETN         |   2   |   14   |          |
+| $ED76      | IM 1         |   2   |    8   |          |
+| $ED78      | IN A,(C)     |   2   |   12   |          |
+| $ED79      | OUT (C),A    |   2   |   12   |          |
+| $ED7A      | ADC HL,SP    |   2   |   15   |          |
+| $ED7B word | LD SP,(word) |   4   |   20   |          |
+| $ED7C      | NEG          |   2   |    8   | UNDOC    |
+| $ED7D      | RETN         |   2   |   14   |          |
+| $ED7E      | IM 2         |   2   |    8   |          |
+| $EDA0      | LDI          |   2   |   16   |          |
+| $EDA1      | CPI          |   2   |   16   |          |
+| $EDA2      | INI          |   2   |   16   |          |
+| $EDA3      | OUTI         |   2   |   16   |          |
+| $EDA8      | LDD          |   2   |   16   |          |
+| $EDA9      | CPD          |   2   |   16   |          |
+| $EDAA      | IND          |   2   |   16   |          |
+| $EDAB      | OUTD         |   2   |   16   |          |
+| $EDB0      | LDIR         |   2   |  21/16 |          |
+| $EDB1      | CPIR         |   2   |  21/16 |          |
+| $EDB2      | INIR         |   2   |  21/16 |          |
+| $EDB3      | OTIR         |   2   |  21/16 |          |
+| $EDB8      | LDDR         |   2   |  21/16 |          |
+| $EDB9      | CPDR         |   2   |  21/16 |          |
+| $EDBA      | INDR         |   2   |  21/16 |          |
+| $EDBB      | OTDR         |   2   |  21/16 |          |
+---------------------------------------------------------
 
-$FDCB index $06 | RLC (IY+index)
-$FDCB index $0E | RRC (IY+index)
-$FDCB index $16 | RL (IY+index)
-$FDCB index $1E | RR (IY+index)
-$FDCB index $26 | SLA (IY+index)
-$FDCB index $2E | SRA (IY+index)
-$FDCB index $3E | SRL (IY+index)
-$FDCB index $46 | BIT 0,(IY+index)
-$FDCB index $4E | BIT 1,(IY+index)
-$FDCB index $56 | BIT 2,(IY+index)
-$FDCB index $5E | BIT 3,(IY+index)
-$FDCB index $66 | BIT 4,(IY+index)
-$FDCB index $6E | BIT 5,(IY+index)
-$FDCB index $76 | BIT 6,(IY+index)
-$FDCB index $7E | BIT 7,(IY+index)
-$FDCB index $86 | RES 0,(IY+index)
-$FDCB index $8E | RES 1,(IY+index)
-$FDCB index $96 | RES 2,(IY+index)
-$FDCB index $9E | RES 3,(IY+index)
-$FDCB index $A6 | RES 4,(IY+index)
-$FDCB index $AE | RES 5,(IY+index)
-$FDCB index $B6 | RES 6,(IY+index)
-$FDCB index $BE | RES 7,(IY+index)
-$FDCB index $C6 | SET 0,(IY+index)
-$FDCB index $CE | SET 1,(IY+index)
-$FDCB index $D6 | SET 2,(IY+index)
-$FDCB index $DE | SET 3,(IY+index)
-$FDCB index $E6 | SET 4,(IY+index)
-$FDCB index $EE | SET 5,(IY+index)
-$FDCB index $F6 | SET 6,(IY+index)
-$FDCB index $FE | SET 7,(IY+index)
+--------------------------------------------------------------------
+| opcode          | mnemonic           | bytes | cycles | comments |
+--------------------------------------------------------------------
+| $FDCB index $00 | RLC (IY+index),B   |   4   |   23   | UNDOC    |
+| $FDCB index $01 | RLC (IY+index),C   |   4   |   23   | UNDOC    |
+| $FDCB index $02 | RLC (IY+index),D   |   4   |   23   | UNDOC    |
+| $FDCB index $03 | RLC (IY+index),E   |   4   |   23   | UNDOC    |
+| $FDCB index $04 | RLC (IY+index),H   |   4   |   23   | UNDOC    |
+| $FDCB index $05 | RLC (IY+index),L   |   4   |   23   | UNDOC    |
+| $FDCB index $06 | RLC (IY+index)     |   4   |   23   |          |
+| $FDCB index $07 | RLC (IY+index),A   |   4   |   23   | UNDOC    |
+| $FDCB index $08 | RRC (IY+index),B   |   4   |   23   | UNDOC    |
+| $FDCB index $09 | RRC (IY+index),C   |   4   |   23   | UNDOC    |
+| $FDCB index $0A | RRC (IY+index),D   |   4   |   23   | UNDOC    |
+| $FDCB index $0B | RRC (IY+index),E   |   4   |   23   | UNDOC    |
+| $FDCB index $0C | RRC (IY+index),H   |   4   |   23   | UNDOC    |
+| $FDCB index $0D | RRC (IY+index),L   |   4   |   23   | UNDOC    |
+| $FDCB index $0E | RRC (IY+index)     |   4   |   23   |          |
+| $FDCB index $0F | RRC (IY+index),A   |   4   |   23   | UNDOC    |
+| $FDCB index $10 | RL (IY+index),B    |   4   |   23   | UNDOC    |
+| $FDCB index $11 | RL (IY+index),C    |   4   |   23   | UNDOC    |
+| $FDCB index $12 | RL (IY+index),D    |   4   |   23   | UNDOC    |
+| $FDCB index $13 | RL (IY+index),E    |   4   |   23   | UNDOC    |
+| $FDCB index $14 | RL (IY+index),H    |   4   |   23   | UNDOC    |
+| $FDCB index $15 | RL (IY+index),L    |   4   |   23   | UNDOC    |
+| $FDCB index $16 | RL (IY+index)      |   4   |   23   |          |
+| $FDCB index $17 | RL (IY+index),A    |   4   |   23   | UNDOC    |
+| $FDCB index $18 | RR (IY+index),B    |   4   |   23   | UNDOC    |
+| $FDCB index $19 | RR (IY+index),C    |   4   |   23   | UNDOC    |
+| $FDCB index $1A | RR (IY+index),D    |   4   |   23   | UNDOC    |
+| $FDCB index $1B | RR (IY+index),E    |   4   |   23   | UNDOC    |
+| $FDCB index $1C | RR (IY+index),H    |   4   |   23   | UNDOC    |
+| $FDCB index $1D | RR (IY+index),L    |   4   |   23   | UNDOC    |
+| $FDCB index $1E | RR (IY+index)      |   4   |   23   |          |
+| $FDCB index $1F | RR (IY+index),A    |   4   |   23   | UNDOC    |
+| $FDCB index $20 | SLA (IY+index),B   |   4   |   23   | UNDOC    |
+| $FDCB index $21 | SLA (IY+index),C   |   4   |   23   | UNDOC    |
+| $FDCB index $22 | SLA (IY+index),D   |   4   |   23   | UNDOC    |
+| $FDCB index $23 | SLA (IY+index),E   |   4   |   23   | UNDOC    |
+| $FDCB index $24 | SLA (IY+index),H   |   4   |   23   | UNDOC    |
+| $FDCB index $25 | SLA (IY+index),L   |   4   |   23   | UNDOC    |
+| $FDCB index $26 | SLA (IY+index)     |   4   |   23   |          |
+| $FDCB index $27 | SLA (IY+index),A   |   4   |   23   | UNDOC    |
+| $FDCB index $28 | SRA (IY+index),B   |   4   |   23   | UNDOC    |
+| $FDCB index $29 | SRA (IY+index),C   |   4   |   23   | UNDOC    |
+| $FDCB index $2A | SRA (IY+index),D   |   4   |   23   | UNDOC    |
+| $FDCB index $2B | SRA (IY+index),E   |   4   |   23   | UNDOC    |
+| $FDCB index $2C | SRA (IY+index),H   |   4   |   23   | UNDOC    |
+| $FDCB index $2D | SRA (IY+index),L   |   4   |   23   | UNDOC    |
+| $FDCB index $2E | SRA (IY+index)     |   4   |   23   |          |
+| $FDCB index $2F | SRA (IY+index),A   |   4   |   23   | UNDOC    |
+| $FDCB index $30 | SLL (IY+index),B   |   4   |   23   | UNDOC    |
+| $FDCB index $31 | SLL (IY+index),C   |   4   |   23   | UNDOC    |
+| $FDCB index $32 | SLL (IY+index),D   |   4   |   23   | UNDOC    |
+| $FDCB index $33 | SLL (IY+index),E   |   4   |   23   | UNDOC    |
+| $FDCB index $34 | SLL (IY+index),H   |   4   |   23   | UNDOC    |
+| $FDCB index $35 | SLL (IY+index),L   |   4   |   23   | UNDOC    |
+| $FDCB index $36 | SLL (IY+index)     |   4   |   23   | UNDOC    |
+| $FDCB index $37 | SLL (IY+index),A   |   4   |   23   | UNDOC    |
+| $FDCB index $38 | SRL (IY+index),B   |   4   |   23   | UNDOC    |
+| $FDCB index $39 | SRL (IY+index),C   |   4   |   23   | UNDOC    |
+| $FDCB index $3A | SRL (IY+index),D   |   4   |   23   | UNDOC    |
+| $FDCB index $3B | SRL (IY+index),E   |   4   |   23   | UNDOC    |
+| $FDCB index $3C | SRL (IY+index),H   |   4   |   23   | UNDOC    |
+| $FDCB index $3D | SRL (IY+index),L   |   4   |   23   | UNDOC    |
+| $FDCB index $3E | SRL (IY+index)     |   4   |   23   |          |
+| $FDCB index $3F | SRL (IY+index),A   |   4   |   23   | UNDOC    |
+| $FDCB index $40 | BIT 0,(IY+index),B |   4   |   20   | UNDOC    |
+| $FDCB index $41 | BIT 0,(IY+index),C |   4   |   20   | UNDOC    |
+| $FDCB index $42 | BIT 0,(IY+index),D |   4   |   20   | UNDOC    |
+| $FDCB index $43 | BIT 0,(IY+index),E |   4   |   20   | UNDOC    |
+| $FDCB index $44 | BIT 0,(IY+index),H |   4   |   20   | UNDOC    |
+| $FDCB index $45 | BIT 0,(IY+index),L |   4   |   20   | UNDOC    |
+| $FDCB index $46 | BIT 0,(IY+index)   |   4   |   20   |          |
+| $FDCB index $47 | BIT 0,(IY+index),A |   4   |   20   | UNDOC    |
+| $FDCB index $48 | BIT 1,(IY+index),B |   4   |   20   | UNDOC    |
+| $FDCB index $49 | BIT 1,(IY+index),C |   4   |   20   | UNDOC    |
+| $FDCB index $4A | BIT 1,(IY+index),D |   4   |   20   | UNDOC    |
+| $FDCB index $4B | BIT 1,(IY+index),E |   4   |   20   | UNDOC    |
+| $FDCB index $4C | BIT 1,(IY+index),H |   4   |   20   | UNDOC    |
+| $FDCB index $4D | BIT 1,(IY+index),L |   4   |   20   | UNDOC    |
+| $FDCB index $4E | BIT 1,(IY+index)   |   4   |   20   |          |
+| $FDCB index $4F | BIT 1,(IY+index),A |   4   |   20   | UNDOC    |
+| $FDCB index $50 | BIT 2,(IY+index),B |   4   |   20   | UNDOC    |
+| $FDCB index $51 | BIT 2,(IY+index),C |   4   |   20   | UNDOC    |
+| $FDCB index $52 | BIT 2,(IY+index),D |   4   |   20   | UNDOC    |
+| $FDCB index $53 | BIT 2,(IY+index),E |   4   |   20   | UNDOC    |
+| $FDCB index $54 | BIT 2,(IY+index),H |   4   |   20   | UNDOC    |
+| $FDCB index $55 | BIT 2,(IY+index),L |   4   |   20   | UNDOC    |
+| $FDCB index $56 | BIT 2,(IY+index)   |   4   |   20   |          |
+| $FDCB index $57 | BIT 2,(IY+index),A |   4   |   20   | UNDOC    |
+| $FDCB index $58 | BIT 3,(IY+index),B |   4   |   20   | UNDOC    |
+| $FDCB index $59 | BIT 3,(IY+index),C |   4   |   20   | UNDOC    |
+| $FDCB index $5A | BIT 3,(IY+index),D |   4   |   20   | UNDOC    |
+| $FDCB index $5B | BIT 3,(IY+index),E |   4   |   20   | UNDOC    |
+| $FDCB index $5C | BIT 3,(IY+index),H |   4   |   20   | UNDOC    |
+| $FDCB index $5D | BIT 3,(IY+index),L |   4   |   20   | UNDOC    |
+| $FDCB index $5E | BIT 3,(IY+index)   |   4   |   20   |          |
+| $FDCB index $5F | BIT 3,(IY+index),A |   4   |   20   | UNDOC    |
+| $FDCB index $60 | BIT 4,(IY+index),B |   4   |   20   | UNDOC    |
+| $FDCB index $61 | BIT 4,(IY+index),C |   4   |   20   | UNDOC    |
+| $FDCB index $62 | BIT 4,(IY+index),D |   4   |   20   | UNDOC    |
+| $FDCB index $63 | BIT 4,(IY+index),E |   4   |   20   | UNDOC    |
+| $FDCB index $64 | BIT 4,(IY+index),H |   4   |   20   | UNDOC    |
+| $FDCB index $65 | BIT 4,(IY+index),L |   4   |   20   | UNDOC    |
+| $FDCB index $66 | BIT 4,(IY+index)   |   4   |   20   |          |
+| $FDCB index $67 | BIT 4,(IY+index),A |   4   |   20   | UNDOC    |
+| $FDCB index $68 | BIT 5,(IY+index),B |   4   |   20   | UNDOC    |
+| $FDCB index $69 | BIT 5,(IY+index),C |   4   |   20   | UNDOC    |
+| $FDCB index $6A | BIT 5,(IY+index),D |   4   |   20   | UNDOC    |
+| $FDCB index $6B | BIT 5,(IY+index),E |   4   |   20   | UNDOC    |
+| $FDCB index $6C | BIT 5,(IY+index),H |   4   |   20   | UNDOC    |
+| $FDCB index $6D | BIT 5,(IY+index),L |   4   |   20   | UNDOC    |
+| $FDCB index $6E | BIT 5,(IY+index)   |   4   |   20   |          |
+| $FDCB index $6F | BIT 5,(IY+index),A |   4   |   20   | UNDOC    |
+| $FDCB index $70 | BIT 6,(IY+index),B |   4   |   20   | UNDOC    |
+| $FDCB index $71 | BIT 6,(IY+index),C |   4   |   20   | UNDOC    |
+| $FDCB index $72 | BIT 6,(IY+index),D |   4   |   20   | UNDOC    |
+| $FDCB index $73 | BIT 6,(IY+index),E |   4   |   20   | UNDOC    |
+| $FDCB index $74 | BIT 6,(IY+index),H |   4   |   20   | UNDOC    |
+| $FDCB index $75 | BIT 6,(IY+index),L |   4   |   20   | UNDOC    |
+| $FDCB index $76 | BIT 6,(IY+index)   |   4   |   20   |          |
+| $FDCB index $77 | BIT 6,(IY+index),A |   4   |   20   | UNDOC    |
+| $FDCB index $78 | BIT 7,(IY+index),B |   4   |   20   | UNDOC    |
+| $FDCB index $79 | BIT 7,(IY+index),C |   4   |   20   | UNDOC    |
+| $FDCB index $7A | BIT 7,(IY+index),D |   4   |   20   | UNDOC    |
+| $FDCB index $7B | BIT 7,(IY+index),E |   4   |   20   | UNDOC    |
+| $FDCB index $7C | BIT 7,(IY+index),H |   4   |   20   | UNDOC    |
+| $FDCB index $7D | BIT 7,(IY+index),L |   4   |   20   | UNDOC    |
+| $FDCB index $7E | BIT 7,(IY+index)   |   4   |   20   |          |
+| $FDCB index $7F | BIT 7,(IY+index),A |   4   |   20   | UNDOC    |
+| $FDCB index $80 | RES 0,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $81 | RES 0,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $82 | RES 0,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $83 | RES 0,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $84 | RES 0,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $85 | RES 0,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $86 | RES 0,(IY+index)   |   4   |   23   |          |
+| $FDCB index $87 | RES 0,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $88 | RES 1,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $89 | RES 1,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $8A | RES 1,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $8B | RES 1,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $8C | RES 1,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $8D | RES 1,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $8E | RES 1,(IY+index)   |   4   |   23   |          |
+| $FDCB index $8F | RES 1,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $90 | RES 2,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $91 | RES 2,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $92 | RES 2,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $93 | RES 2,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $94 | RES 2,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $95 | RES 2,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $96 | RES 2,(IY+index)   |   4   |   23   |          |
+| $FDCB index $97 | RES 2,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $98 | RES 3,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $99 | RES 3,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $9A | RES 3,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $9B | RES 3,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $9C | RES 3,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $9D | RES 3,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $9E | RES 3,(IY+index)   |   4   |   23   |          |
+| $FDCB index $9F | RES 3,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $A0 | RES 4,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $A1 | RES 4,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $A2 | RES 4,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $A3 | RES 4,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $A4 | RES 4,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $A5 | RES 4,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $A6 | RES 4,(IY+index)   |   4   |   23   |          |
+| $FDCB index $A7 | RES 4,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $A8 | RES 5,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $A9 | RES 5,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $AA | RES 5,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $AB | RES 5,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $AC | RES 5,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $AD | RES 5,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $AE | RES 5,(IY+index)   |   4   |   23   |          |
+| $FDCB index $AF | RES 5,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $B0 | RES 6,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $B1 | RES 6,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $B2 | RES 6,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $B3 | RES 6,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $B4 | RES 6,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $B5 | RES 6,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $B6 | RES 6,(IY+index)   |   4   |   23   |          |
+| $FDCB index $B7 | RES 6,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $B8 | RES 7,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $B9 | RES 7,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $BA | RES 7,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $BB | RES 7,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $BC | RES 7,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $BD | RES 7,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $BE | RES 7,(IY+index)   |   4   |   23   |          |
+| $FDCB index $BF | RES 7,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $C0 | SET 0,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $C1 | SET 0,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $C2 | SET 0,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $C3 | SET 0,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $C4 | SET 0,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $C5 | SET 0,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $C6 | SET 0,(IY+index)   |   4   |   23   |          |
+| $FDCB index $C7 | SET 0,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $C8 | SET 1,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $C9 | SET 1,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $CA | SET 1,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $CB | SET 1,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $CC | SET 1,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $CD | SET 1,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $CE | SET 1,(IY+index)   |   4   |   23   |          |
+| $FDCB index $CF | SET 1,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $D0 | SET 2,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $D1 | SET 2,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $D2 | SET 2,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $D3 | SET 2,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $D4 | SET 2,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $D5 | SET 2,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $D6 | SET 2,(IY+index)   |   4   |   23   |          |
+| $FDCB index $D7 | SET 2,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $D8 | SET 3,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $D9 | SET 3,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $DA | SET 3,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $DB | SET 3,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $DC | SET 3,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $DD | SET 3,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $DE | SET 3,(IY+index)   |   4   |   23   |          |
+| $FDCB index $DF | SET 3,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $E0 | SET 4,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $E1 | SET 4,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $E2 | SET 4,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $E3 | SET 4,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $E4 | SET 4,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $E5 | SET 4,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $E6 | SET 4,(IY+index)   |   4   |   23   |          |
+| $FDCB index $E7 | SET 4,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $E8 | SET 5,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $E9 | SET 5,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $EA | SET 5,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $EB | SET 5,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $EC | SET 5,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $ED | SET 5,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $EE | SET 5,(IY+index)   |   4   |   23   |          |
+| $FDCB index $EF | SET 5,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $F0 | SET 6,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $F1 | SET 6,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $F2 | SET 6,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $F3 | SET 6,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $F4 | SET 6,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $F5 | SET 6,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $F6 | SET 6,(IY+index)   |   4   |   23   |          |
+| $FDCB index $F7 | SET 6,(IY+index),A |   4   |   23   | UNDOC    |
+| $FDCB index $F8 | SET 7,(IY+index),B |   4   |   23   | UNDOC    |
+| $FDCB index $F9 | SET 7,(IY+index),C |   4   |   23   | UNDOC    |
+| $FDCB index $FA | SET 7,(IY+index),D |   4   |   23   | UNDOC    |
+| $FDCB index $FB | SET 7,(IY+index),E |   4   |   23   | UNDOC    |
+| $FDCB index $FC | SET 7,(IY+index),H |   4   |   23   | UNDOC    |
+| $FDCB index $FD | SET 7,(IY+index),L |   4   |   23   | UNDOC    |
+| $FDCB index $FE | SET 7,(IY+index)   |   4   |   23   |          |
+| $FDCB index $FF | SET 7,(IY+index),A |   4   |   23   | UNDOC    |
+--------------------------------------------------------------------
 
-$FD09            | ADD IY,BC
-$FD19            | ADD IY,DE
-$FD21 word       | LD IY,word
-$FD23            | INC IY
-$FD29            | ADD IY,IY
-$FD2A word       | LD IY,(word)
-$FD2B            | DEC IY
-$FD34 index      | INC (IY+index)
-$FD35 index      | DEC (IY+index)
-$FD36 index byte | LD (IY+index),byte
-$FD39            | ADD IY,SP
-$FD46 index      | LD B,(IY+index)
-$FD4E index      | LD C,(IY+index)
-$FD56 index      | LD D,(IY+index)
-$FD5E index      | LD E,(IY+index)
-$FD66 index      | LD H,(IY+index)
-$FD6E index      | LD L,(IY+index)
-$FD70 index      | LD (IY+index),B
-$FD71 index      | LD (IY+index),C
-$FD72 index      | LD (IY+index),D
-$FD73 index      | LD (IY+index),E
-$FD74 index      | LD (IY+index),H
-$FD75 index      | LD (IY+index),L
-$FD76 index byte | LD (IY+index),byte
-$FD77 index      | LD (IY+index),A
-$FD7E index      | LD A,(IY+index)
-$FD86 index      | ADD A,(IY+index)
-$FD8E index      | ADC A,(IY+index)
-$FD96 index      | SUB (IY+index)
-$FD9E index      | SBC (IY+index)
-$FDA6 index      | AND (IY+index)
-$FDAE index      | XOR (IY+index)
-$FDB6 index      | OR (IY+index)
-$FDBE index      | CP (IY+index)
-$FDE1            | POP IY
-$FDE3            | EX (SP),IY
-$FDE5            | PUSH IY
-$FDE9            | JP (IY)
-$FDF9            | LD SP,IY
-
+---------------------------------------------------------------------
+| opcode           | mnemonic           | bytes | cycles | comments |
+---------------------------------------------------------------------
+| $FD09            | ADD IY,BC          |   2   |   15   |          |
+| $FD19            | ADD IY,DE          |   2   |   15   |          |
+| $FD21 word       | LD IY,word         |   4   |   14   |          |
+| $FD22 word       | LD (word),IY       |   4   |   20   |          |
+| $FD23            | INC IY             |   2   |   10   |          |
+| $FD24            | INC IYH            |   2   |    8   | UNDOC    |
+| $FD25            | DEC IYH            |   2   |    8   | UNDOC    |
+| $FD26 byte       | LD IYH,byte        |   3   |   11   | UNDOC    |
+| $FD29            | ADD IY,IY          |   2   |   15   |          |
+| $FD2A word       | LD IY,(word)       |   4   |   20   |          |
+| $FD2B            | DEC IY             |   2   |   10   |          |
+| $FD2C            | INC IYL            |   2   |    8   | UNDOC    |
+| $FD2D            | DEC IYL            |   2   |    8   | UNDOC    |
+| $FD2E byte       | LD IYL,byte        |   3   |   11   | UNDOC    |
+| $FD34 index      | INC (IY+index)     |   3   |   23   |          |
+| $FD35 index      | DEC (IY+index)     |   3   |   23   |          |
+| $FD36 index byte | LD (IY+index),byte |   4   |   19   |          |
+| $FD39            | ADD IY,SP          |   2   |   15   |          |
+| $FD44            | LD B,IYH           |   2   |    8   | UNDOC    |
+| $FD45            | LD B,IYL           |   2   |    8   | UNDOC    |
+| $FD46 index      | LD B,(IY+index)    |   3   |   19   |          |
+| $FD4C            | LD C,IYH           |   2   |    8   | UNDOC    |
+| $FD4D            | LD C,IYL           |   2   |    8   | UNDOC    |
+| $FD4E index      | LD C,(IY+index)    |   3   |   19   |          |
+| $FD54            | LD D,IYH           |   2   |    8   | UNDOC    |
+| $FD55            | LD D,IYL           |   2   |    8   | UNDOC    |
+| $FD56 index      | LD D,(IY+index)    |   3   |   19   |          |
+| $FD5C            | LD E,IYH           |   2   |    8   | UNDOC    |
+| $FD5D            | LD E,IYL           |   2   |    8   | UNDOC    |
+| $FD5E index      | LD E,(IY+index)    |   3   |   19   |          |
+| $FD60            | LD IYH,B           |   2   |    8   | UNDOC    |
+| $FD61            | LD IYH,C           |   2   |    8   | UNDOC    |
+| $FD62            | LD IYH,D           |   2   |    8   | UNDOC    |
+| $FD63            | LD IYH,E           |   2   |    8   | UNDOC    |
+| $FD64            | LD IYH,IYH         |   2   |    8   | UNDOC    |
+| $FD65            | LD IYH,IYL         |   2   |    8   | UNDOC    |
+| $FD66 index      | LD H,(IY+index)    |   3   |   19   |          |
+| $FD67            | LD IYH,A           |   2   |    8   | UNDOC    |
+| $FD68            | LD IYL,B           |   2   |    8   | UNDOC    |
+| $FD69            | LD IYL,C           |   2   |    8   | UNDOC    |
+| $FD6A            | LD IYL,D           |   2   |    8   | UNDOC    |
+| $FD6B            | LD IYL,E           |   2   |    8   | UNDOC    |
+| $FD6C            | LD IYL,IYH         |   2   |    8   | UNDOC    |
+| $FD6D            | LD IYL,IYL         |   2   |    8   | UNDOC    |
+| $FD6E index      | LD L,(IY+index)    |   3   |   19   |          |
+| $FD6F            | LD IYL,A           |   2   |    8   | UNDOC    |
+| $FD70 index      | LD (IY+index),B    |   3   |   19   |          |
+| $FD71 index      | LD (IY+index),C    |   3   |   19   |          |
+| $FD72 index      | LD (IY+index),D    |   3   |   19   |          |
+| $FD73 index      | LD (IY+index),E    |   3   |   19   |          |
+| $FD74 index      | LD (IY+index),H    |   3   |   19   |          |
+| $FD75 index      | LD (IY+index),L    |   3   |   19   |          |
+| $FD77 index      | LD (IY+index),A    |   3   |   19   |          |
+| $FD7C            | LD A,IYH           |   2   |    8   | UNDOC    |
+| $FD7D            | LD A,IYL           |   2   |    8   | UNDOC    |
+| $FD7E index      | LD A,(IY+index)    |   3   |   19   |          |
+| $FD84            | ADD A,IYH          |   2   |    8   | UNDOC    |
+| $FD85            | ADD A,IYL          |   2   |    8   | UNDOC    |
+| $FD86 index      | ADD A,(IY+index)   |   3   |   19   |          |
+| $FD8C            | ADC A,IYH          |   2   |    8   | UNDOC    |
+| $FD8D            | ADC A,IYL          |   2   |    8   | UNDOC    |
+| $FD8E index      | ADC A,(IY+index)   |   3   |   19   |          |
+| $FD94            | SUB IYH            |   2   |    8   | UNDOC    |
+| $FD95            | SUB IYL            |   2   |    8   | UNDOC    |
+| $FD96 index      | SUB (IY+index)     |   3   |   19   |          |
+| $FD9C            | SBC IYH            |   2   |    8   | UNDOC    |
+| $FD9D            | SBC IYL            |   2   |    8   | UNDOC    |
+| $FD9E index      | SBC (IY+index)     |   3   |   19   |          |
+| $FDA4            | AND IYH            |   2   |    8   | UNDOC    |
+| $FDA5            | AND IYL            |   2   |    8   | UNDOC    |
+| $FDA6 index      | AND (IY+index)     |   3   |   19   |          |
+| $FDAC            | XOR IYH            |   2   |    8   | UNDOC    |
+| $FDAD            | XOR IYL            |   2   |    8   | UNDOC    |
+| $FDAE index      | XOR (IY+index)     |   3   |   19   |          |
+| $FDB4            | OR IYH             |   2   |    8   | UNDOC    |
+| $FDB5            | OR IYL             |   2   |    8   | UNDOC    |
+| $FDB6 index      | OR (IY+index)      |   3   |   19   |          |
+| $FDBC            | CP IYH             |   2   |    8   | UNDOC    |
+| $FDBD            | CP IYL             |   2   |    8   | UNDOC    |
+| $FDBE index      | CP (IY+index)      |   3   |   19   |          |
+| $FDCB            | ***FDCB prefix***  |  N/A  |   N/A  |          |
+| $FDE1            | POP IY             |   2   |   14   |          |
+| $FDE3            | EX (SP),IY         |   2   |   23   |          |
+| $FDE5            | PUSH IY            |   2   |   15   |          |
+| $FDE9            | JP (IY)            |   2   |    8   |          |
+| $FDF9            | LD SP,IY           |   2   |   10   |          |
+---------------------------------------------------------------------
