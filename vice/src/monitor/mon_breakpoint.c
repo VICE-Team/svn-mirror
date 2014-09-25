@@ -213,7 +213,6 @@ void mon_breakpoint_switch_checkpoint(int op, int cp_num)
     }
 }
 
-
 void mon_breakpoint_set_ignore_count(int cp_num, int count)
 {
     checkpoint_t *cp;

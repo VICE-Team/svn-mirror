@@ -209,7 +209,7 @@ typedef struct cpuhistory_s cpuhistory_t;
 #define reg_memspace(mr) (HI16_TO_LO16(mr))
 #define reg_regid(mr) (LO16(mr))
 
-#define CPUHISTORY_SIZE 64
+#define CPUHISTORY_SIZE 4096
 
 #ifdef FEATURE_CPUMEMHISTORY
 #define MEMMAP_SIZE 0x10000

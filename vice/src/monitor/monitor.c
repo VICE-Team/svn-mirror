@@ -1978,7 +1978,7 @@ void mon_print_conditional(cond_node_t *cnode)
         mon_print_conditional(cnode->child2);
     } else {
         if (cnode->is_reg) {
-            mon_out(".%s", register_string[reg_regid(cnode->reg_num)]);
+            mon_out("%s", register_string[reg_regid(cnode->reg_num)]);
         } else {
             mon_out("%d", cnode->value);
         }
