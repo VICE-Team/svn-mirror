@@ -9774,8 +9774,8 @@ msgstr ""
 "mit Lese-Seiteneffekten betreffen.\n"
 "Bei Argument \"on\" werden Lese-Seiteneffekte erzeugt.\n"
 "Bei Argument \"off\" werden keine Lese-Seiteneffekte erzeugt.\n"
-"Bei Argumenrt \"toggle\" wird das Verhalten vertauscht.\n"
-"Bei keinem Argument wird das aktuelle Verhalten ausgegebene."
+"Bei Argument \"toggle\" wird das Verhalten vertauscht.\n"
+"Bei keinem Argument wird das aktuelle Verhalten ausgegeben."
 
 #: src/translate_text.c.po.c:2344
 msgid "Disk commands"
