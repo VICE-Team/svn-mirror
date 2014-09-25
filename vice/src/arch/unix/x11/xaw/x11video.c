@@ -128,13 +128,15 @@ static int keepaspect, trueaspect;
 
 static int set_use_xsync(int val, void *param)
 {
-    _video_use_xsync = val;
+    _video_use_xsync = val ? 1 : 0;
+
     return 0;
 }
 
 static int set_try_mitshm(int val, void *param)
 {
-    try_mitshm = val;
+    try_mitshm = val ? 1 : 0;
+
     return 0;
 }
 
@@ -156,7 +158,8 @@ static int set_fourcc(const char *val, void *param)
 
 static int set_keepaspect(int val, void *param)
 {
-    keepaspect = val;
+    keepaspect = val ? 1 : 0;
+
     return 0;
 }
 
@@ -193,7 +196,8 @@ UI_CALLBACK(set_custom_aspect_ratio)
 
 static int set_trueaspect(int val, void *param)
 {
-    trueaspect = val;
+    trueaspect = val ? 1 : 0;
+
     return 0;
 }
 #endif

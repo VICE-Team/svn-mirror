@@ -71,15 +71,19 @@ extern void ui_trigger_resize(void); /* src/arch/unix/x11/gnome/x11ui.c */
 static int keepaspect, trueaspect;
 static int set_keepaspect(int val, void *param)
 {
-    keepaspect = val;
+    keepaspect = val ? 1 : 0;
+
     ui_trigger_resize();
+
     return 0;
 }
 
 static int set_trueaspect(int val, void *param)
 {
-    trueaspect = val;
+    trueaspect = val ? 1 : 0;
+
     ui_trigger_resize();
+
     return 0;
 }
 

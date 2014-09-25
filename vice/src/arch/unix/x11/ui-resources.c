@@ -150,39 +150,42 @@ static int set_html_browser_command(const char *val, void *param)
 
 static int set_use_private_colormap(int val, void *param)
 {
-    ui_resources.use_private_colormap = val;
+    ui_resources.use_private_colormap = val ? 1 : 0;
+
     return 0;
 }
 
 static int set_save_resources_on_exit(int val, void *param)
 {
-    ui_resources.save_resources_on_exit = val;
+    ui_resources.save_resources_on_exit = val ? 1 : 0;
+
     return 0;
 }
 
 static int set_confirm_on_exit(int val, void *param)
 {
-    ui_resources.confirm_on_exit = val;
+    ui_resources.confirm_on_exit = val ? 1 : 0;
+
     return 0;
 }
 
-static const resource_string_t resources_string[] = {
-    { "HTMLBrowserCommand", 
 #ifdef MACOSX_SUPPORT    
-      "/usr/bin/open %s",
+#define HTML_BROWSER_COMMAND_DEFAULT "/usr/bin/open %s",
 #else
-      "firefox %s",
+#define HTML_BROWSER_COMMAND_DEFAULT "firefox %s",
 #endif
-      RES_EVENT_NO, NULL,
-      &ui_resources.html_browser_command,
-      set_html_browser_command, NULL },
+
+static const resource_string_t resources_string[] = {
+    { "HTMLBrowserCommand", HTML_BROWSER_COMMAND_DEFAULT, RES_EVENT_NO, NULL,
+      &ui_resources.html_browser_command, set_html_browser_command, NULL },
     { NULL }
 };
 
 #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 static int fullscreen_set_fs(int val, void *param)
 {
-    ui_resources.fs_enabled_pending = val;
+    ui_resources.fs_enabled_pending = val ? 1 : 0;
+
     return 0;
 }
 #endif

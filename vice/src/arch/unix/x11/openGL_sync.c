@@ -204,7 +204,7 @@ static int set_openGL_sync(int val, void *param)
         return 0;
     }
     oldval = openGL_sync;
-    openGL_sync = val;
+    openGL_sync = val ? 1 : 0;
     if (openGL_sync && openGL_initialized) {
         init_openGL();
     }

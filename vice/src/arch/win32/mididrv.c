@@ -106,26 +106,24 @@ void mididrv_resources_shutdown(void)
 {
 }
 
+#ifndef USE_SDLUI
+#define DEFAULT_PARAM USE_PARAM_ID
+#define DEFAULT_DESCR USE_DESCRIPTION_ID
+#else
+#define DEFAULT_PARAM USE_PARAM_STRING
+#define DEFAULT_DESCR USE_DESCRIPTION_STRING
+#endif
+
 static const cmdline_option_t cmdline_options[] = {
     { "-midiin", SET_RESOURCE, 1,
       NULL, NULL, "MIDIInDev", NULL,
-#ifndef USE_SDLUI
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      DEFAULT_PARAM, DEFAULT_DESCR,
       IDS_P_NUMBER, IDS_SPECIFY_MIDI_IN,
-#else
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      0, 0,
-#endif
       "<number>", "Specify MIDI-In device" },
     { "-midiout", SET_RESOURCE, 1,
       NULL, NULL, "MIDIOutDev", NULL,
-#ifndef USE_SDLUI
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      DEFAULT_PARAM, DEFAULT_DESCR,
       IDS_P_NUMBER, IDS_SPECIFY_MIDI_OUT,
-#else
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      0, 0,
-#endif
       "<number>", "Specify MIDI-Out device" },
     { NULL }
 };
