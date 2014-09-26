@@ -89,8 +89,10 @@ static void acia_disable(void)
     /* FIXME: unregister i/o device */
 }
 
-static int set_acia_enabled(int val, void *param)
+static int set_acia_enabled(int value, void *param)
 {
+    int val = value ? 1 : 0;
+
     if ((val) && (!_acia_enabled)) {
         if (acia_enable() < 0) {
             return -1;
@@ -102,6 +104,7 @@ static int set_acia_enabled(int val, void *param)
     }
     return 0;
 }
+
 /* ------------------------------------------------------------------------- */
 
 static const resource_int_t resources_i[] = {

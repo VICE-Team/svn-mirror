@@ -95,19 +95,22 @@ static int set_fullscreen_refreshrate(int val, void *param)
 
 static int set_fullscreen_enabled(int val, void *param)
 {
-    ui_resources.fullscreenenabled = val;
+    ui_resources.fullscreenenabled = val ? 1 : 0;
+
     return 0;
 }
 
 static int set_save_resources_on_exit(int val, void *param)
 {
-    ui_resources.save_resources_on_exit = val;
+    ui_resources.save_resources_on_exit = val ? 1 : 0;
+
     return 0;
 }
 
 static int set_confirm_on_exit(int val, void *param)
 {
-    ui_resources.confirm_on_exit = val;
+    ui_resources.confirm_on_exit = val ? 1 : 0;
+
     return 0;
 }
 
@@ -116,7 +119,7 @@ static int set_single_cpu(int val, void *param)
     UINT_PTR process_affinity;
     UINT_PTR system_affinity;
 
-    ui_resources.single_cpu = (int)val;
+    ui_resources.single_cpu = val ? 1 : 0;
 
     if (GetProcessAffinityMask(GetCurrentProcess(), &process_affinity, &system_affinity)) {
         /* Check if multi CPU system or not */
@@ -181,7 +184,8 @@ static int set_vblank_sync(int val, void *param)
 
 static int set_alwaysontop(int val, void *param)
 {
-    ui_resources.alwaysontop = val;
+    ui_resources.alwaysontop = val ? 1 : 0;
+
     ui_set_alwaysontop(ui_resources.alwaysontop);
     return 0;
 }
@@ -203,7 +207,8 @@ static int set_keep_aspect_ratio(int val, void *param)
 {
     int old_val = ui_resources.keep_aspect_ratio;
 
-    ui_resources.keep_aspect_ratio = val;
+    ui_resources.keep_aspect_ratio = val ? 1 : 0;
+
     if (!old_val && val) {
         resize_every_canvas();
     }
@@ -214,7 +219,8 @@ static int set_true_aspect_ratio(int val, void *param)
 {
     int old_val = ui_resources.true_aspect_ratio;
 
-    ui_resources.true_aspect_ratio = val;
+    ui_resources.true_aspect_ratio = val ? 1 : 0;
+
     if (old_val != val && ui_resources.keep_aspect_ratio) {
         resize_every_canvas();
     }

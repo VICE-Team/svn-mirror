@@ -57,7 +57,7 @@ static int set_dx_primary_surface_rendering(int val, void *param)
 {
     int i;
 
-    dx_primary_surface_rendering = val;
+    dx_primary_surface_rendering = val ? 1 : 0;
 
     if (video_dx9_enabled()) {
         for (i = 0; i < video_number_of_canvases; i++) {
@@ -68,11 +68,12 @@ static int set_dx_primary_surface_rendering(int val, void *param)
     return 0;
 }
 
-static int set_dx9_disable(int val, void *param)
+static int set_dx9_disable(int value, void *param)
 {
     int i;
     int old_dx9_disable, old_num_of_canvases;
     int old_width[2], old_height[2];
+    int val = value ? 1 : 0;
 
     if (!dx9_available) {
         return 0;
