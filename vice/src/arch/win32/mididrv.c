@@ -112,6 +112,9 @@ void mididrv_resources_shutdown(void)
 #else
 #define DEFAULT_PARAM USE_PARAM_STRING
 #define DEFAULT_DESCR USE_DESCRIPTION_STRING
+#define IDS_P_NUMBER          IDCLS_UNUSED
+#define IDS_SPECIFY_MIDI_IN   IDCLS_UNUSED
+#define IDS_SPECIFY_MIDI_OUT  IDCLS_UNUSED
 #endif
 
 static const cmdline_option_t cmdline_options[] = {
@@ -135,8 +138,8 @@ int mididrv_cmdline_options_init(void)
 
 static void reset_fifo(void)
 {
-    in_wi=0;
-    in_ri=0;
+    in_wi = 0;
+    in_ri = 0;
 }
 
 static int write_fifo(BYTE data)
