@@ -1,17 +1,17 @@
 # French Translation File for VICE
 # Copyright (C) 2004-2013 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Vice Emulator package.
-#
+# 
 # Note to myself: /cry  *This is WAY TOO long!!*  ;-)
 # Long Live To Vice and to all it's developpers and contributors!  Thanks to you all!
 # The C64 started my addiction ;)
 # - Paul (: DubePaul @t 0utl0ok d0t.com :)
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-10 14:54-0700\n"
+"POT-Creation-Date: 2014-09-25 21:10-0700\n"
 "PO-Revision-Date: 2013-01-02 02:17-0500\n"
 "Last-Translator: Paul Dubé <: DubePaul @t 0utl0ok d0t.com :>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -37,7 +37,7 @@ msgstr "Définir le périphérique pour le port joystick supplémentaire 1"
 msgid "Set device for extra joystick port 2"
 msgstr "Définir le périphérique pour le port joystick supplémentaire 2"
 
-#: src/arch/unix/mididrv.c:668 src/arch/unix/mididrv.c:673
+#: src/arch/unix/mididrv.c:672 src/arch/unix/mididrv.c:677
 #: src/arch/unix/gui/uiautostart.c:50 src/arch/unix/gui/uitfe.c:45
 #: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
 #: src/arch/unix/macosx/mididrv.c:130 src/arch/win32/res.rc.po.c:1287
@@ -45,20 +45,20 @@ msgstr "Définir le périphérique pour le port joystick supplémentaire 2"
 msgid "Name"
 msgstr "Nom"
 
-#: src/arch/unix/mididrv.c:668 src/arch/win32/res.rc.po.c:1135
+#: src/arch/unix/mididrv.c:672 src/arch/win32/res.rc.po.c:1135
 msgid "Specify MIDI-In device"
 msgstr "Spécifier le périphérique MIDI-IN"
 
-#: src/arch/unix/mididrv.c:673 src/arch/win32/res.rc.po.c:1136
+#: src/arch/unix/mididrv.c:677 src/arch/win32/res.rc.po.c:1136
 msgid "Specify MIDI-Out device"
 msgstr "Spécifier le périphérique MIDI-OUT"
 
-#: src/arch/unix/mididrv.c:679 src/arch/unix/gui/uimidi.c:87
+#: src/arch/unix/mididrv.c:683 src/arch/unix/gui/uimidi.c:87
 #: src/arch/unix/gui/uimidi.c:103 src/arch/win32/res.rc.po.c:1193
 msgid "Driver"
 msgstr "Pilote"
 
-#: src/arch/unix/mididrv.c:679
+#: src/arch/unix/mididrv.c:683
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
 msgstr "Spécifier le pilote midi (0 = OSS, 1 = ALSA)"
 
@@ -4878,57 +4878,57 @@ msgstr "Erreur VICE!"
 msgid "Extend disk image"
 msgstr "Étendre l'image de disque"
 
-#: src/arch/unix/x11/xaw/x11video.c:188 src/arch/unix/x11/xaw/x11video.c:281
+#: src/arch/unix/x11/xaw/x11video.c:191 src/arch/unix/x11/xaw/x11video.c:285
 msgid "Aspect ratio"
 msgstr "Ratio de proportions"
 
-#: src/arch/unix/x11/xaw/x11video.c:190
+#: src/arch/unix/x11/xaw/x11video.c:193
 msgid "Custom aspect ratio"
 msgstr "Ratio de proportions personnalisé"
 
-#: src/arch/unix/x11/xaw/x11video.c:255
+#: src/arch/unix/x11/xaw/x11video.c:259
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Appeller `XSync()' après la mise à jour de la fenêtre d'émulation"
 
-#: src/arch/unix/x11/xaw/x11video.c:260
+#: src/arch/unix/x11/xaw/x11video.c:264
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 "Ne pas appeller `XSync()' après la mise à jour de la fenêtre d'émulation"
 
-#: src/arch/unix/x11/xaw/x11video.c:265
+#: src/arch/unix/x11/xaw/x11video.c:269
 msgid "Use shared memory"
 msgstr "Utiliser la mémoire partagée"
 
-#: src/arch/unix/x11/xaw/x11video.c:270
+#: src/arch/unix/x11/xaw/x11video.c:274
 msgid "Never use shared memory (slower)"
 msgstr "Ne pas utiliser la mémoire partagée (plus lent)"
 
-#: src/arch/unix/x11/xaw/x11video.c:276
+#: src/arch/unix/x11/xaw/x11video.c:280
 msgid "fourcc"
 msgstr "fourcc"
 
-#: src/arch/unix/x11/xaw/x11video.c:276
+#: src/arch/unix/x11/xaw/x11video.c:280
 msgid "Request YUV FOURCC format"
 msgstr "Demander le format YUV FOURCC"
 
-#: src/arch/unix/x11/xaw/x11video.c:281
+#: src/arch/unix/x11/xaw/x11video.c:285
 msgid "Set aspect ratio (0.5 - 2.0)"
 msgstr "Définir le rapport d'aspect (0.5 - 2.0)"
 
-#: src/arch/unix/x11/xaw/x11video.c:286 src/arch/unix/macosx/cocoa/video.m:187
+#: src/arch/unix/x11/xaw/x11video.c:290 src/arch/unix/macosx/cocoa/video.m:185
 msgid "Enable true aspect ratio"
 msgstr "Activer le ratio de proportions réel"
 
-#: src/arch/unix/x11/xaw/x11video.c:291 src/arch/unix/macosx/cocoa/video.m:192
+#: src/arch/unix/x11/xaw/x11video.c:295 src/arch/unix/macosx/cocoa/video.m:190
 msgid "Disable true aspect ratio"
 msgstr "Désactiver le ratio de proportions réel"
 
-#: src/arch/unix/x11/xaw/x11video.c:360
+#: src/arch/unix/x11/xaw/x11video.c:364
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Détecté extensions MITSHM version %d.%d."
 
-#: src/arch/unix/x11/xaw/x11video.c:591
+#: src/arch/unix/x11/xaw/x11video.c:595
 msgid "MITSHM initialization succeed.\n"
 msgstr "Initialisation MITSHM réussie.\n"
 
@@ -5016,16 +5016,16 @@ msgstr "Régler le facteur d'échelle du mouvement de la souris sur axe X"
 msgid "Set scaling factor for mouse movement along Y"
 msgstr "Régler le facteur d'échelle du mouvement de la souris sur axe Y"
 
-#: src/arch/unix/macosx/cocoa/video.m:167
+#: src/arch/unix/macosx/cocoa/video.m:165
 msgid "Enable draw synchronization to vertical blank"
 msgstr "Activer le 'sync draw' avec 'vertical blank'"
 
-#: src/arch/unix/macosx/cocoa/video.m:172
+#: src/arch/unix/macosx/cocoa/video.m:170
 msgid "Set number of buffers used for sync draw (0=use default)"
 msgstr "Nombre de tampons utilisés pour 'sync draw' (0=défaut)"
 
-#: src/arch/unix/macosx/cocoa/video.m:177
-#: src/arch/unix/macosx/cocoa/video.m:182
+#: src/arch/unix/macosx/cocoa/video.m:175
+#: src/arch/unix/macosx/cocoa/video.m:180
 msgid "Enable flicker fixing in sync draw"
 msgstr "Activer correction de scintillement pour 'sync draw'"
 
@@ -9768,17 +9768,19 @@ msgstr ""
 "supportée comme argument de commande."
 
 #: src/translate_text.c.po.c:2119
+#, fuzzy
 msgid ""
 "Each time the specified checkpoint is examined, the condition is\n"
-"evaluated.  If it evalutes to true, the checkpoint is activated.\n"
-"Otherwise, it is ignored.  If registers are specified in the expression,\n"
+"evaluated. If it evalutes to true, the checkpoint is activated.\n"
+"Otherwise, it is ignored. If registers are specified in the expression,\n"
 "the values used are those at the time the checkpoint is examined, not\n"
 "when the condition is set.\n"
-"The condition can make use of registers (.A, .X, .Y, .PC, .SP) and\n"
-"compare them (==, !=, <, >, <=, >=) again other registers or constants.\n"
+"The condition can use registers (A, X, Y, PC, SP, FL and other cpu\n"
+"specific registers (see manual)) and compare them (==, !=, <, >, <=, >=)\n"
+"against other registers or constants.\n"
 "Registers can be the registers of other devices; this is denoted by\n"
 "a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
-"Examples: .A == 0, .X == .Y, 8:.X == .X\n"
+"Examples: A == 0, X == Y, 8:X == X)\n"
 msgstr ""
 "Chaque fois qu'un point d'arrêt est examiné, la condition est\n"
 "évaluée. Si elle donne Vrai, le point d'arrêt est activé.\n"
@@ -9792,12 +9794,16 @@ msgstr ""
 "Exemples valides : .A == 0, .X == .Y, 8:.X == .X\n"
 
 #: src/translate_text.c.po.c:2136
-msgid "Disable checkpoint `checknum'."
-msgstr "Désactiver le point d'arrêt `checknum'."
+msgid ""
+"Disable checkpoint `checknum'. If no checkpoint is given all checkpoints "
+"will be disabled."
+msgstr ""
 
 #: src/translate_text.c.po.c:2153
-msgid "Enable checkpoint `checknum'."
-msgstr "Activer le point d'arrêt `checknum'."
+msgid ""
+"Enable checkpoint `checknum'. If no checkpoint is given all checkpoints will "
+"be enabled."
+msgstr ""
 
 #: src/translate_text.c.po.c:2170
 msgid ""
@@ -12570,6 +12576,12 @@ msgstr "Activer la carte d'émulation PET Haute Résolution"
 #, fuzzy
 msgid "Disable HiRes Emulation Board"
 msgstr "Activer la carte d'émulation PET Haute Résolution"
+
+#~ msgid "Disable checkpoint `checknum'."
+#~ msgstr "Désactiver le point d'arrêt `checknum'."
+
+#~ msgid "Enable checkpoint `checknum'."
+#~ msgstr "Activer le point d'arrêt `checknum'."
 
 #~ msgid "Double vertical"
 #~ msgstr "Doubler verticallement"

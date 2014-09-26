@@ -2,15 +2,15 @@ This document show the current status of the translations:
 
 file   language   % done   fuzzy   untranslated items
 ----   --------   ------   -----   ------------------
-de     German      100        0           0
-nl     Dutch       100        0           0
-pl     Polish      100        0           0
-sv     Swedish      97       52           3
-es     Spanish      96       84          10
-it     Italian      96       84          10
-fr     French       92      143          49
-da     Danish       91      157          60
-tr     Turkish      91      157          60
-ru     Russian      78      150         417
-hu     Hungarian    52      992         254
+de     German       99        3           0
+nl     Dutch        99        3           0
+pl     Polish       99        3           0
+sv     Swedish      97       55           3
+es     Spanish      96       85          12
+it     Italian      96       85          12
+fr     French       92      144          51
+tr     Turkish      91      158          62
+da     Danish       91      158          62
+ru     Russian      78      151         419
+hu     Hungarian    52      993         256
 ko     Korean       38        0        1605

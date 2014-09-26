@@ -1,12 +1,12 @@
 # Swedish translation file for VICE
 # Copyright 2000-2014
 # Peter Krefting <peter@softwolves.pp.se>, 2011, 2012, 2014.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-10 14:54-0700\n"
+"POT-Creation-Date: 2014-09-25 21:10-0700\n"
 "PO-Revision-Date: 2014-01-13 14:34+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <tp-sv@listor.tp-sv.se>\n"
@@ -32,7 +32,7 @@ msgstr "Välj enhet för extra spelport 1"
 msgid "Set device for extra joystick port 2"
 msgstr "Välj enhet för extra spelport 2"
 
-#: src/arch/unix/mididrv.c:668 src/arch/unix/mididrv.c:673
+#: src/arch/unix/mididrv.c:672 src/arch/unix/mididrv.c:677
 #: src/arch/unix/gui/uiautostart.c:50 src/arch/unix/gui/uitfe.c:45
 #: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
 #: src/arch/unix/macosx/mididrv.c:130 src/arch/win32/res.rc.po.c:1287
@@ -40,20 +40,20 @@ msgstr "Välj enhet för extra spelport 2"
 msgid "Name"
 msgstr "Namn"
 
-#: src/arch/unix/mididrv.c:668 src/arch/win32/res.rc.po.c:1135
+#: src/arch/unix/mididrv.c:672 src/arch/win32/res.rc.po.c:1135
 msgid "Specify MIDI-In device"
 msgstr "Ange enhet för MIDI-in"
 
-#: src/arch/unix/mididrv.c:673 src/arch/win32/res.rc.po.c:1136
+#: src/arch/unix/mididrv.c:677 src/arch/win32/res.rc.po.c:1136
 msgid "Specify MIDI-Out device"
 msgstr "Ange enhet för MIDI-ut"
 
-#: src/arch/unix/mididrv.c:679 src/arch/unix/gui/uimidi.c:87
+#: src/arch/unix/mididrv.c:683 src/arch/unix/gui/uimidi.c:87
 #: src/arch/unix/gui/uimidi.c:103 src/arch/win32/res.rc.po.c:1193
 msgid "Driver"
 msgstr "Drivrutin"
 
-#: src/arch/unix/mididrv.c:679
+#: src/arch/unix/mididrv.c:683
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
 msgstr "Ange MIDI-drivrutin (0 = OSS, 1 = ALSA)"
 
@@ -4839,56 +4839,56 @@ msgstr "VICE-fel!"
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/xaw/x11video.c:188 src/arch/unix/x11/xaw/x11video.c:281
+#: src/arch/unix/x11/xaw/x11video.c:191 src/arch/unix/x11/xaw/x11video.c:285
 msgid "Aspect ratio"
 msgstr "Storleksförhållande"
 
-#: src/arch/unix/x11/xaw/x11video.c:190
+#: src/arch/unix/x11/xaw/x11video.c:193
 msgid "Custom aspect ratio"
 msgstr "Eget bredd-/höjdförhållande"
 
-#: src/arch/unix/x11/xaw/x11video.c:255
+#: src/arch/unix/x11/xaw/x11video.c:259
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Anropa \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/xaw/x11video.c:260
+#: src/arch/unix/x11/xaw/x11video.c:264
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/xaw/x11video.c:265
+#: src/arch/unix/x11/xaw/x11video.c:269
 msgid "Use shared memory"
 msgstr "Använder delat minne"
 
-#: src/arch/unix/x11/xaw/x11video.c:270
+#: src/arch/unix/x11/xaw/x11video.c:274
 msgid "Never use shared memory (slower)"
 msgstr "Använd aldrig delat minne (långsammare)"
 
-#: src/arch/unix/x11/xaw/x11video.c:276
+#: src/arch/unix/x11/xaw/x11video.c:280
 msgid "fourcc"
 msgstr "fourcc"
 
-#: src/arch/unix/x11/xaw/x11video.c:276
+#: src/arch/unix/x11/xaw/x11video.c:280
 msgid "Request YUV FOURCC format"
 msgstr "Be om YUV FOURCC-format"
 
-#: src/arch/unix/x11/xaw/x11video.c:281
+#: src/arch/unix/x11/xaw/x11video.c:285
 msgid "Set aspect ratio (0.5 - 2.0)"
 msgstr "Välj bredd-/höjdförhållande (0,5 - 2,0)"
 
-#: src/arch/unix/x11/xaw/x11video.c:286 src/arch/unix/macosx/cocoa/video.m:187
+#: src/arch/unix/x11/xaw/x11video.c:290 src/arch/unix/macosx/cocoa/video.m:185
 msgid "Enable true aspect ratio"
 msgstr "Aktivera äkta storleksförhållande"
 
-#: src/arch/unix/x11/xaw/x11video.c:291 src/arch/unix/macosx/cocoa/video.m:192
+#: src/arch/unix/x11/xaw/x11video.c:295 src/arch/unix/macosx/cocoa/video.m:190
 msgid "Disable true aspect ratio"
 msgstr "Inaktivera äkta storleksförhållande"
 
-#: src/arch/unix/x11/xaw/x11video.c:360
+#: src/arch/unix/x11/xaw/x11video.c:364
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/xaw/x11video.c:591
+#: src/arch/unix/x11/xaw/x11video.c:595
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM-initiering färdig.\n"
 
@@ -4976,16 +4976,16 @@ msgstr "Välj skalningsfaktor för X-musförflyttning"
 msgid "Set scaling factor for mouse movement along Y"
 msgstr "Välj skalningsfaktor för Y-musförflyttning"
 
-#: src/arch/unix/macosx/cocoa/video.m:167
+#: src/arch/unix/macosx/cocoa/video.m:165
 msgid "Enable draw synchronization to vertical blank"
 msgstr "Aktivera synkroniserad ritning mot vertikalblankning"
 
-#: src/arch/unix/macosx/cocoa/video.m:172
+#: src/arch/unix/macosx/cocoa/video.m:170
 msgid "Set number of buffers used for sync draw (0=use default)"
 msgstr "Välj antal buffertar för synkroniserad ritning (0=använd standard)"
 
-#: src/arch/unix/macosx/cocoa/video.m:177
-#: src/arch/unix/macosx/cocoa/video.m:182
+#: src/arch/unix/macosx/cocoa/video.m:175
+#: src/arch/unix/macosx/cocoa/video.m:180
 msgid "Enable flicker fixing in sync draw"
 msgstr "Aktivera flimmerkorrigering i synkroniserad ritning"
 
@@ -9684,17 +9684,19 @@ msgstr ""
 "inte stöds som kommandoparameter."
 
 #: src/translate_text.c.po.c:2119
+#, fuzzy
 msgid ""
 "Each time the specified checkpoint is examined, the condition is\n"
-"evaluated.  If it evalutes to true, the checkpoint is activated.\n"
-"Otherwise, it is ignored.  If registers are specified in the expression,\n"
+"evaluated. If it evalutes to true, the checkpoint is activated.\n"
+"Otherwise, it is ignored. If registers are specified in the expression,\n"
 "the values used are those at the time the checkpoint is examined, not\n"
 "when the condition is set.\n"
-"The condition can make use of registers (.A, .X, .Y, .PC, .SP) and\n"
-"compare them (==, !=, <, >, <=, >=) again other registers or constants.\n"
+"The condition can use registers (A, X, Y, PC, SP, FL and other cpu\n"
+"specific registers (see manual)) and compare them (==, !=, <, >, <=, >=)\n"
+"against other registers or constants.\n"
 "Registers can be the registers of other devices; this is denoted by\n"
 "a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
-"Examples: .A == 0, .X == .Y, 8:.X == .X\n"
+"Examples: A == 0, X == Y, 8:X == X)\n"
 msgstr ""
 "Villkoret utvärderas varje gång den givna kontrollpunkten\n"
 "undersöks. Om det utvärderas till sant aktiveras kontrollpunkten.\n"
@@ -9708,12 +9710,22 @@ msgstr ""
 "Exempel: .A == 0, .X == .Y, 8:.X == .X\n"
 
 #: src/translate_text.c.po.c:2136
-msgid "Disable checkpoint `checknum'."
-msgstr "Inaktivera kontrollpunkt \"kontrollnr\"."
+#, fuzzy
+msgid ""
+"Disable checkpoint `checknum'. If no checkpoint is given all checkpoints "
+"will be disabled."
+msgstr ""
+"Ta bort kontrollpunkten \"kontrollnr\". Om ingen kontrollpunkt har angivits, "
+"ta bort samtliga kontrollpunkter."
 
 #: src/translate_text.c.po.c:2153
-msgid "Enable checkpoint `checknum'."
-msgstr "Aktivera kontrollpunkt \"kontrollnr\"."
+#, fuzzy
+msgid ""
+"Enable checkpoint `checknum'. If no checkpoint is given all checkpoints will "
+"be enabled."
+msgstr ""
+"Ta bort kontrollpunkten \"kontrollnr\". Om ingen kontrollpunkt har angivits, "
+"ta bort samtliga kontrollpunkter."
 
 #: src/translate_text.c.po.c:2170
 msgid ""
@@ -12451,6 +12463,12 @@ msgstr "Aktivera högupplösningsemuleringskort"
 #: src/translate_text.c.po.c:14194
 msgid "Disable HiRes Emulation Board"
 msgstr "högupplösningsemuleringskort Inaktivera"
+
+#~ msgid "Disable checkpoint `checknum'."
+#~ msgstr "Inaktivera kontrollpunkt \"kontrollnr\"."
+
+#~ msgid "Enable checkpoint `checknum'."
+#~ msgstr "Aktivera kontrollpunkt \"kontrollnr\"."
 
 #~ msgid "Double vertical"
 #~ msgstr "Dubbel vertikal"
