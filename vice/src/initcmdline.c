@@ -135,6 +135,7 @@ static int cmdline_autoload(const char *param, void *extra_param)
 static int cmdline_console(const char *param, void *extra_param)
 {
     console_mode = 1;
+    video_disabled_mode = 1;
     return 0;
 }
 #endif
