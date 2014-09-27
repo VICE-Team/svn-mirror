@@ -39,14 +39,12 @@
 #include "alarm.h"
 #include "hardsid.h"
 #include "log.h"
+#include "maincpu.h"
 #include "sid-resources.h"
 #include "types.h"
 
 // Approx 3 PAL screen updates
 #define HARDSID_DELAY_CYCLES 50000
-
-extern CLOCK maincpu_clk;
-extern alarm_context_t *maincpu_alarm_context;
 
 static int hsid_fd = -1;
 static CLOCK hsid_main_clk;
