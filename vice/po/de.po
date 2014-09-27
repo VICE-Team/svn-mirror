@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-25 21:10-0700\n"
-"PO-Revision-Date: 2014-09-11 20:30+0200\n"
+"PO-Revision-Date: 2014-09-27 11:19+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -9640,7 +9640,6 @@ msgstr ""
 "unterstützt."
 
 #: src/translate_text.c.po.c:2119
-#, fuzzy
 msgid ""
 "Each time the specified checkpoint is examined, the condition is\n"
 "evaluated. If it evalutes to true, the checkpoint is activated.\n"
@@ -9657,31 +9656,29 @@ msgstr ""
 "Bei jeder Überprüfung des Checkpoints, wird die Bedingung evaluiert.\n"
 "Ist das Ergebnis `Wahr', wird der Checkpoint aktiviert, sonst ingnoriert.\n"
 "Wenn Register benutzt werden, werden deren Werte zum Zeitpunkt der \n"
-"Überprüfung herangezogen.\n"
-"Die Bedingung kann Register benutzen (.A, .X, .Y, .PC, .SP) und gegen \n"
-"Register oder Konstanten vergleichen (==, !=, <, >, <=, >=).\n"
-"Register können auch Geräteregister sein; dazu wird die memspace Prefix-"
-"syntax \n"
+"Überprüfung herangezogen, nicht zum Zeitpunkt des Setzens der Bedingung.\n"
+"Die Bedingung kann Register benutzen (A, X, Y, PC, SP, FL und andere\n"
+"CPU spezifische Register (siehe Handbuch)) und gegen andere Register oder\n"
+"Konstanten vergleichen (==, !=, <, >, <=, >=).\n"
+"Register können auch Geräteregister sein; dazu wird die memspace Prefix-syntax \n"
 "verwendet: c:, 8:, 9:, 10:, 11:\n"
-"Beispiel: .A == 0, .X == .Y, 8:.X == .X\n"
+"Beispiel: A == 0, X == Y, 8:X == X\n"
 
 #: src/translate_text.c.po.c:2136
-#, fuzzy
 msgid ""
 "Disable checkpoint `checknum'. If no checkpoint is given all checkpoints "
 "will be disabled."
 msgstr ""
-"Lösche Checkpoint `Checknummer'. Falls kein Checkpoint angegeben wird,\n"
-"lösche alle Checkpoints."
+"Deaktiviere Checkpoint `Checknummer'. Falls kein Checkpoint angegeben wird,\n"
+"werden alle Checkpoints deaktiviert."
 
 #: src/translate_text.c.po.c:2153
-#, fuzzy
 msgid ""
 "Enable checkpoint `checknum'. If no checkpoint is given all checkpoints will "
 "be enabled."
 msgstr ""
-"Lösche Checkpoint `Checknummer'. Falls kein Checkpoint angegeben wird,\n"
-"lösche alle Checkpoints."
+"Aktiviere Checkpoint `Checknummer'. Falls kein Checkpoint angegeben wird,\n"
+"werden alle Checkpoints aktiviert."
 
 #: src/translate_text.c.po.c:2170
 msgid ""
