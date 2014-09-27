@@ -9661,7 +9661,6 @@ msgstr ""
 "parameter."
 
 #: src/translate_text.c.po.c:2119
-#, fuzzy
 msgid ""
 "Each time the specified checkpoint is examined, the condition is\n"
 "evaluated. If it evalutes to true, the checkpoint is activated.\n"
@@ -9681,31 +9680,29 @@ msgstr ""
 "opgegeven in de expressie dan zullen de waarden in die registers gebruikt\n"
 "worden op het moment dat de checkpunt wordt onderzocht, niet op het moment\n"
 "dat de conditie is opgegeven.\n"
-"De conditie kan gebruik maken van registers (.A, .X, .Y, .PC, .SP) en\n"
-"kan ze vergelijken (==, !=, <, >, <=, >=) met andere registers of "
-"constanten\n"
+"De conditie kan gebruik maken van registers (A, X, Y, PC, SP, FL en andere\n"
+"specifieke registers (zie handleiding) en kan ze vergelijken\n"
+" (==, !=, <, >, <=, >=) met andere registers of constanten\n"
 "Registers kunnen de registers van andere apparaten zijn; de manier van "
 "opgeven\n"
 "is door een geheugenruimte prefix (bijvoorbeeld: c:, 8:, 9:, 10:, 11:\n"
-"Voorbeelden: .A == 0, .X == .Y, 8:.X == .X\n"
+"Voorbeelden: A == 0, X == Y, 8:X == X\n"
 
 #: src/translate_text.c.po.c:2136
-#, fuzzy
 msgid ""
 "Disable checkpoint `checknum'. If no checkpoint is given all checkpoints "
 "will be disabled."
 msgstr ""
-"Wis checkpunt 'checknum'. Als er geen checkpunt is gegeven dan worden alle "
-"checkpunter gewist"
+"Checkpunt 'checknum' uitschakelen. Als er geen checkpunt is gegeven dan worden alle "
+"checkpunten uitgeschakelt."
 
 #: src/translate_text.c.po.c:2153
-#, fuzzy
 msgid ""
 "Enable checkpoint `checknum'. If no checkpoint is given all checkpoints will "
 "be enabled."
 msgstr ""
-"Wis checkpunt 'checknum'. Als er geen checkpunt is gegeven dan worden alle "
-"checkpunter gewist"
+"Activeer checkpunt 'checknum'. Als er geen checkpunt is gegeven dan worden alle "
+"checkpunter geactiveert"
 
 #: src/translate_text.c.po.c:2170
 msgid ""
