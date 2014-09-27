@@ -28,12 +28,14 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "6510core.h"
 #include "alarm.h"
 #include "clkguard.h"
 #include "debug.h"
 #include "interrupt.h"
+#include "log.h"
 #include "machine.h"
 #include "main65816cpu.h"
 #include "mem.h"
@@ -117,6 +119,8 @@ int maincpu_rmw_flag = 0;
 
 /* Global clock counter.  */
 CLOCK maincpu_clk = 0L;
+/* if != 0, exit when this many cycles have been executed */
+CLOCK maincpu_clk_limit = 0L;
 
 /* Information about the last executed opcode.  This is used to know the
    number of write cycles in the last executed opcode and to delay interrupts
@@ -333,6 +337,11 @@ void maincpu_mainloop(void)
 #include "65816core.c"
 
         maincpu_int_status->num_dma_per_opcode = 0;
+
+        if (maincpu_clk_limit && (maincpu_clk > maincpu_clk_limit)) {
+            log_error(LOG_DEFAULT, "cycle limit reached.");
+            exit(EXIT_FAILURE);
+        }
 #if 0
         if (CLK > 246171754)
             debug.maincpu_traceflg = 1;

@@ -12268,6 +12268,23 @@ translate_t string_table[] = {
 #endif
 
 /* initcmdline.c */
+/* en */ {IDCLS_LIMIT_CYCLES,    N_("Specify number of cycles to run before quitting with an error.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_LIMIT_CYCLES_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_LIMIT_CYCLES_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_LIMIT_CYCLES_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_LIMIT_CYCLES_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_LIMIT_CYCLES_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_LIMIT_CYCLES_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_LIMIT_CYCLES_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_LIMIT_CYCLES_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_LIMIT_CYCLES_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_LIMIT_CYCLES_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_LIMIT_CYCLES_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_LIMIT_CYCLES_TR, ""},  /* fuzzy */
+#endif
+
+/* initcmdline.c */
 /* en */ {IDCLS_ATTACH_AND_AUTOSTART,    N_("Attach and autostart tape/disk image <name>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_AND_AUTOSTART_DA, "Tilslut og autostart bånd-/disk-image <navn>"},

@@ -43,6 +43,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "resources.h"
 #include "tape.h"
 #include "translate.h"
@@ -106,6 +107,12 @@ static int cmdline_default(const char *param, void *extra_param)
 static int cmdline_chdir(const char *param, void *extra_param)
 {
     return ioutil_chdir(param);
+}
+
+static int cmdline_limitcycles(const char *param, void *extra_param)
+{
+    maincpu_clk_limit = strtoul(param, NULL, 0);
+    return 0;
 }
 
 static int cmdline_autostart(const char *param, void *extra_param)
@@ -186,6 +193,11 @@ static const cmdline_option_t common_cmdline_options[] = {
       cmdline_chdir, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDGS_P_DIRECTORY, IDGS_MON_CD_DESCRIPTION,
+      NULL, NULL },
+    { "-limitcycles", CALL_FUNCTION, 1,
+      cmdline_limitcycles, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_LIMIT_CYCLES,
       NULL, NULL },
 #if (!defined  __OS2__ && !defined __BEOS__)
     { "-console", CALL_FUNCTION, 0,
