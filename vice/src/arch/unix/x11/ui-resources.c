@@ -170,9 +170,9 @@ static int set_confirm_on_exit(int val, void *param)
 }
 
 #ifdef MACOSX_SUPPORT    
-#define HTML_BROWSER_COMMAND_DEFAULT "/usr/bin/open %s",
+#define HTML_BROWSER_COMMAND_DEFAULT "/usr/bin/open %s"
 #else
-#define HTML_BROWSER_COMMAND_DEFAULT "firefox %s",
+#define HTML_BROWSER_COMMAND_DEFAULT "firefox %s"
 #endif
 
 static const resource_string_t resources_string[] = {
