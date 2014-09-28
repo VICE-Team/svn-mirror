@@ -44,12 +44,14 @@ typedef int bool;
 #endif
 
 enum t_reg_id {
+/* 6502/65c02 */
     e_A,
     e_X,
     e_Y,
     e_PC,
     e_SP,
     e_FLAGS,
+/* z80 */
     e_AF,
     e_BC,
     e_DE,
@@ -62,7 +64,7 @@ enum t_reg_id {
     e_BC2,
     e_DE2,
     e_HL2,
-/* New C64DTV regs */
+/* C64DTV */
     e_R3,
     e_R4,
     e_R5,
@@ -79,13 +81,13 @@ enum t_reg_id {
     e_ACM,
     e_YXM,
 /* 65816 */
+    e_B,
     e_C,
     e_DPR,
     e_PBR,
     e_DBR,
     e_EMUL,
-/* Registers in the 6809 not covered by the above */
-    e_B,
+/* 6809 */
     e_D,
     e_U,
     e_DP

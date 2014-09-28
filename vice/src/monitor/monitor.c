@@ -230,12 +230,53 @@ static const char *cond_op_string[] = {
 const char *mon_memspace_string[] = { "default", "C", "8", "9", "0", "1" };
 
 static const char *register_string[] = {
+/* 6502/65c02 */
     "A",
     "X",
     "Y",
     "PC",
     "SP",
-    "FL"
+    "FL",
+/* z80 */
+    "AF",
+    "BC",
+    "DE",
+    "HL",
+    "IX",
+    "IY",
+    "I",
+    "R",
+    "AF2",
+    "BC2",
+    "DE2",
+    "HL2",
+/* C64DTV */
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7",
+    "R8",
+    "R9",
+    "R10",
+    "R11",
+    "R12",
+    "R13",
+    "R14",
+    "R15",
+    "ACM",
+    "YXM",
+/* 65816 */
+    "B",
+    "C",
+    "DPR",
+    "PBR",
+    "DBR",
+    "EMUL",
+/* 6809 */
+    "D",
+    "U",
+    "DP"
 };
 
 /* Some local helper functions */
