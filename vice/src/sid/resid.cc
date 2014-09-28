@@ -260,6 +260,7 @@ static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
     }
     sid_state->write_pipeline = (BYTE)state.write_pipeline;
     sid_state->write_address = (BYTE)state.write_address;
+    sid_state->voice_mask = (BYTE)state.voice_mask;
 }
 
 static void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
@@ -295,6 +296,7 @@ static void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
     }
     state.write_pipeline = (cycle_count)sid_state->write_pipeline;
     state.write_address = (reg8)sid_state->write_address;
+    state.voice_mask = (reg4)sid_state->voice_mask;
 
     psid->sid->write_state((const reSID::SID::State)state);
 }
