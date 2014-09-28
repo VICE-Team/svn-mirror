@@ -1,3 +1,40 @@
+Z80 Registers:
+
+A	8-bit accumulator
+AF	8-bit accumulator (A) and flag bits (F) carry, zero, minus, parity/overflow, half-carry (used for BCD), and an Add/Subtract flag (usually called N) also for BCD
+B	8-bit accumulator
+C	8-bit accumulator
+BC	16-bit data/address register
+D	8-bit accumulator
+E	8-bit accumulator
+DE	16-bit data/address register
+H	8-bit accumulator
+L	8-bit accumulator
+HL	16-bit accumulator/address register
+SP	16-bit stack pointer
+PC	16-bit program counter
+IX	16-bit index or base register for 8-bit immediate offsets
+IY	16-bit index or base register for 8-bit immediate offsets
+I	8-bit interrupt vector base register
+R	8-bit DRAM refresh counter
+AF'	alternate (or shadow) accumulator and flags (toggled in and out with EX AF,AF')
+BC'	alternate (or shadow) register (toggled in and out with EXX)
+DE'	alternate (or shadow) register (toggled in and out with EXX)
+HL'	alternate (or shadow) register (toggled in and out with EXX)
+
+Flag bits:
+---------------------------------
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+---------------------------------
+| S | Z | I | H | - | P | - | C |
+---------------------------------
+S	Sign flag
+Z	Zero flag
+I	Interrupt flag
+H	Adjust flag
+P	Parity flag
+C	Carry flag
+
 --------------------------------------------------
 | opcode      | mnemonic        | bytes | cycles |
 --------------------------------------------------
