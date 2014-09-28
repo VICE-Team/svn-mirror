@@ -2,6 +2,39 @@ This document is a Work In Progress and it will be inteded for the following pur
 
 - to list and explain the differences between the WDC65C02 and the 65802/65816.
 
+65816/65802 Registers:
+
+A	8 bit Accumulator register
+B	8 bit second accumulator register
+C	16 bit accumulator register which is made up by register A (low byte) and register B (high byte)
+X	8/16 bit X index register
+Y	8/16 bit Y index register
+PC	16 bit Program Counter
+SP	16 bit Stack Pointer
+DPR	16 bit Direct Page Register (zero page relocation)
+DBR	8 bit Data Bank Register (extends data reads/stores to 24 bit)
+PBR	8 bit Program Bank Register ('prefix' for PC to form a 24 bit address)
+P	8 bit Processor status register:
+-------------------------------------
+| 7 | 6 |  5  |  4  | 3 | 2 | 1 | 0 | 
+-----------------------------------------
+| N | V | -/M | B/X | D | I | Z | C | E |
+-----------------------------------------
+
+N	Negative flag
+V	oVerflow flag
+M	Memory/accumulator width flag (1=8 bit, 0=16 bit), only available in native mode
+B	Break flag, only available in emulation mode
+X	indeX width flag (1=8 bit, 0=16 bit), only available in native mode
+D	Decimal mode enable flag
+I	Interrupt disable flag
+Z	Zero flag
+C	Carry flag
+
+E	Emulation mode flag (1=emulation, 0=native), this bit is 'hidden' and
+	can only be changed by exchanging C and E with the XCE opcode.
+
+
 opcode   mnemonic         65C02 bytes   65C02 cycles   65816 bytes   65816 cycles
 ------   --------         ------------  ------------   -----------   ------------
 00       BRK              2             7              2             7/8

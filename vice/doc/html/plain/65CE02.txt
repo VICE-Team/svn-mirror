@@ -28,6 +28,31 @@ The 65CE02 has a 'B' register which is the 'base page' for the addressing modes
 previously involving the 'zero page'.
 
 
+65CE02 Registers:
+
+A	8 bit Accumulator register
+X	8 bit X index register
+Y	8 bit Y index register
+Z	8 bit Z index register
+BP	8 bit Base Page register (selects the 256 byte page that the 'zero page' starts at)
+PC	16 bit Program Counter
+SP	8/16 bit Stack Pointer
+P	8 bit Processor status register:
+---------------------------------
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+---------------------------------
+| N | V | S | B | D | I | Z | C |
+---------------------------------
+
+N	Negative flag
+V	oVerflow flag
+S	Stack size (0=8 bit, 1=16 bit)
+B	Break flag
+D	Decimal mode enable flag
+I	Interrupt disable flag
+Z	Zero flag
+C	Carry flag
+
 Below is a table of 65C02 opcodes that have remained unchanged in behavior and
 execution timing (besides 'zero page' -> 'base page' changes):
 

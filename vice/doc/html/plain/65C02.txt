@@ -14,6 +14,29 @@ the 6502. All of the (legal/documented) 6502 opcodes are also available in the
 opcodes. Any 'unused' opcodes have been replaced with NOP's of different
 lengths and cycles.
 
+65(S)C02 Registers:
+
+A	8 bit Accumulator register
+X	8 bit X index register
+Y	8 bit Y index register
+PC	16 bit Program Counter
+SP	8 bit Stack Pointer
+P	8 bit Processor status register:
+---------------------------------
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+---------------------------------
+| N | V | - | B | D | I | Z | C |
+---------------------------------
+
+N	Negative flag
+V	oVerflow flag
+B	Break flag
+D	Decimal mode enable flag
+I	Interrupt disable flag
+Z	Zero flag
+C	Carry flag
+
+
 Below is a list of opcodes that remained unchanged (no additional cycles or
 changes in behaviour) from the 6502:
 
