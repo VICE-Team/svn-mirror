@@ -3,6 +3,67 @@ This document is a Work In Progress and it will be inteded for the following pur
 - to list and explain the 6809 cpu as used in the superpet.
 - to list and explain the differences between the 6809 and the 6309.
 
+6809/6309 Registers:
+
+A	8 bit accumulator
+B	8 bit accumulator
+D	16 bit accumulator consisting of registers A (high byte) and B (low byte)
+X	16 bit X index register
+Y	16 bit Y index register
+PC	16 bit Program Counter
+S	16 bit System stack pointer
+U	16 bit User stack pointer
+DP	8 bit Direct Page register (selects the 256 byte page that the 'direct page' starts at)
+CC	8 bit Condition Code register:
+---------------------------------
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+---------------------------------
+| E | F | H | I | N | Z | V | C |
+---------------------------------
+
+E	Entire flag - set if the complete machine state was saved in the stack.
+	If this bit is not set then only program counter and condition code registers
+	were saved in the stack. This bit is used by interrupt handling routines only.
+	The bit is cleared by fast interrupts, and set by all other interrupts.
+F	Fast interrupt disable flag - set if the FIRQ interrupt is disabled.
+H	Half carry flag - set if there was a carry from bit 3 to bit 4 of the result
+	during the last add operation.
+I	Interrupt disable flag - set if the IRQ interrupt is disabled.
+N	Negative flag - set if the most significant bit of the result is set. This bit
+	can be set not only by arithmetic and logical operations, but also by load/store
+	operations.
+Z	Zero flag - set if the result is zero. Like the N bit, this bit can be set not
+	only by arithmetic and logical operations, but also by load/store operations.
+V	Overflow flag - set if there was an overflow during last result calculation. Logical,
+	load and store operations clear this bit.
+C	Carry flag - set if there was a carry from the bit 7 during last add operation, or
+	if there was a borrow from last subtract operation, or if bit 7 of the A register
+	was set during last MUL operation.
+
+
+Additional 6309 registers:
+
+E	8 bit accumulator
+F	8 bit accumulator
+W	16 bit accumulator consisting of registers E (high byte) and F (low byte)
+Q	32 bit accumulator consisting of registers D (high short) and W (low short)
+V	16 bit register (which can only be accessed with the inter-register instructions).
+0	8/16 bit zero register
+MD	8 bit mode/error register:
+
+Write bits
+0	Execution mode of the 6309.
+		If clear (0), the cpu is in 6809 emulation mode.
+		If set (1), the cpu is in 6309 native mode.
+1	FIRQ mode
+		If clear (0), the FIRQ will occur normally.
+		If set (1), the FIRQ will operate the same as the IRQ
+
+Read bits - One of these bits is set when the 6309 traps an error
+6	This bit is set (1) if an illegal instruction is encountered
+7	This bit is set (1) if a zero division occurs.
+
+
 opcode | 6809             | Full6809           | 6309
 -----------------------------------------------------
 0000   | NEG direct       | NEG direct         | NEG direct
