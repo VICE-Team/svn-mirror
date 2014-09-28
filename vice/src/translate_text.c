@@ -2166,7 +2166,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_DISABLE_DESCRIPTION,    N_("Disable checkpoint `checknum'. If no checkpoint is given all checkpoints will be disabled.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_DISABLE_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_DISABLE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* de */ {IDGS_MON_DISABLE_DESCRIPTION_DE, "Deaktiviere Checkpoint `Checknummer'. Falls kein Checkpoint angegeben wird,\ndeaktiviere alle Checkpoints."},
 /* es */ {IDGS_MON_DISABLE_DESCRIPTION_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_MON_DISABLE_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_DISABLE_DESCRIPTION_HU, ""},  /* fuzzy */
@@ -2183,7 +2183,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_ENABLE_DESCRIPTION,    N_("Enable checkpoint `checknum'. If no checkpoint is given all checkpoints will be enabled.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_ENABLE_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_ENABLE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* de */ {IDGS_MON_ENABLE_DESCRIPTION_DE, "Aktiviere Checkpoint `Checknummer'. Falls kein Checkpoint angegeben wird,\naktiviere alle Checkpoints."},  /* fuzzy */
 /* es */ {IDGS_MON_ENABLE_DESCRIPTION_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_MON_ENABLE_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_ENABLE_DESCRIPTION_HU, ""},  /* fuzzy */
@@ -3325,7 +3325,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_MACHINE_JAM_ACTION,    N_("Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_MACHINE_JAM_ACTION_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_MACHINE_JAM_ACTION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_MACHINE_JAM_ACTION_DE, "Setze Aktion für CPU JAM: (0: Nachfragen, 1: Fortfahren, 2: Monitor, 3: Reset, 4: Harter Reset, 5: Emulator beenden)"},
 /* es */ {IDCLS_SET_MACHINE_JAM_ACTION_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_MACHINE_JAM_ACTION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_MACHINE_JAM_ACTION_HU, ""},  /* fuzzy */

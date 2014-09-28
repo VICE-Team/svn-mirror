@@ -234,7 +234,8 @@ static const char *register_string[] = {
     "X",
     "Y",
     "PC",
-    "SP"
+    "SP",
+    "FL"
 };
 
 /* Some local helper functions */

@@ -376,6 +376,7 @@ if		{ BEGIN (COND_MODE); return IF; }
 	Y 		{ yylval.i = e_Y; return MON_REGISTER; }
 	PC 		{ yylval.i = e_PC; return MON_REGISTER; }
 	SP		{ yylval.i = e_SP; return MON_REGISTER; }
+	FL		{ yylval.i = e_FLAGS; return MON_REGISTER; }
         DPR           	{ yylval.i = e_DPR; return MON_REGISTER; }
         PBR           	{ yylval.i = e_PBR; return MON_REGISTER; }
         DBR           	{ yylval.i = e_DBR; return MON_REGISTER; }

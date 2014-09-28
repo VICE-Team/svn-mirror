@@ -81,7 +81,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "KeymapFile", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<name>", "Specify name of keymap file" },
+      "<name>", "Specify the name of the keymap file" },
     { NULL }
 };
 
