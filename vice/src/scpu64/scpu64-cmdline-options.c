@@ -39,6 +39,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "translate.h"
+#include "vicii.h"
 
 int set_cia_model(const char *value, void *extra_param)
 {
@@ -111,21 +112,34 @@ static int set_c64_model(const char *param, void *extra_param)
 static int set_video_standard(const char *param, void *extra_param)
 {
     int value = vice_ptr_to_int(extra_param);
+    int vicii_model;
+
+    resources_get_int("VICIIModel", &vicii_model);
 
     switch (value) {
         case MACHINE_SYNC_PAL:
         default:
-            return set_c64_model("pal", NULL);
-
+            if (vicii_model == VICII_MODEL_8562 || vicii_model == VICII_MODEL_8565) {
+                return resources_set_int("VICIIModel", VICII_MODEL_8565);
+            } else if (vicii_model == VICII_MODEL_6567R56A) {
+                return resources_set_int("VICIIModel", VICII_MODEL_6569R1);
+            } else {
+                return resources_set_int("VICIIModel", VICII_MODEL_6569);
+            }
+            break;
         case MACHINE_SYNC_NTSC:
-            return set_c64_model("ntsc", NULL);
-
+            if (vicii_model == VICII_MODEL_8562 || vicii_model == VICII_MODEL_8565) {
+                return resources_set_int("VICIIModel", VICII_MODEL_8562);
+            } else {
+                return resources_set_int("VICIIModel", VICII_MODEL_6567);
+            }
+            break;
         case MACHINE_SYNC_NTSCOLD:
-            return set_c64_model("oldntsc", NULL);
-
+                return resources_set_int("VICIIModel", VICII_MODEL_6567R56A);
         case MACHINE_SYNC_PALN:
-            return set_c64_model("paln", NULL);
+                return resources_set_int("VICIIModel", VICII_MODEL_6572);
     }
+    return 0;
 }
 
 static const cmdline_option_t cmdline_options[] = {
