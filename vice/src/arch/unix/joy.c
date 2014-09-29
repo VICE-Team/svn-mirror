@@ -130,7 +130,6 @@ static const cmdline_option_t joydev4cmdline_options[] = {
     { NULL },
 };
 
-
 int joystick_arch_init_resources(void)
 {
     switch (machine_class) {

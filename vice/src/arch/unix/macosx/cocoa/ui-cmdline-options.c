@@ -47,12 +47,12 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "ConfirmOnExit", (void *)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, N_("Never confirm quiting VICE") },
+      NULL, N_("Never confirm quitting VICE") },
     { "-confirmexit", SET_RESOURCE, 0,
       NULL, NULL, "ConfirmOnExit", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, N_("Confirm quiting VICE") },
+      NULL, N_("Confirm quitting VICE") },
     { NULL }
 };
 

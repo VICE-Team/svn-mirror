@@ -177,7 +177,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "SyncDrawFlickerFix", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, N_("Enable flicker fixing in sync draw") },
+      NULL, N_("Disable flicker fixing in sync draw") },
     { "-trueaspect", SET_RESOURCE, 0,
       NULL, NULL, "TrueAspectRatio", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
