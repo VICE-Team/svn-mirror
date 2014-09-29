@@ -316,3 +316,31 @@ Adding a ui_message for an architecture other than *nix, amiga or win32
 For thsee no ID's nor gettext is used.
 
 ui_message("this is a dialog message");
+
+
+Adding GUI elements to the OSX UI
+---------------------------------
+
+The resource bindings for the UI is split into two parts: For the most common
+ones there are dialogs and menu entries available. For all others a so called
+"Inspector" Window is used: its a hierarchical list of all resources with a
+column showing its values. You can use simple edit widgets to change the value
+directly there.
+
+The nice thing with the inspector is, that the whole tree is generated
+automatically from a file called ResourceTree.plist. There the resource binding,
+valid values, and also hints for GUI elements are stored. Furthermore this
+single files provides the info for all VICE emulators and has sub tree elements
+that match only a subset of them. There is a detailed instruction on the file
+format in doc/MacOSX-ResourceTree.txt.
+
+So adding a new resource in the Inspector can be easily done by changing
+ResourceTree.plist. While this can be done in any text editor, the Property List
+Editor in XCode is much more conforable for this.
+
+All dialogs and menus are stored in .nib Files. Those osx specific container
+files are usually edited directly in XCode. There are nice GUI based editors to
+edit these files. Binding to the source code is done by enhancing the
+corresponding objective-c classes of VICE and then importing the new classes
+into XCode. Then you can associate GUI elements with these new methods. .nib
+files are available for each emulator instance and also for all dialogs.
