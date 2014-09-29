@@ -70,7 +70,7 @@ static struct model_s plus4models[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static int plus4model_get_temp(int video, int hasspeech, int hasacia, char *fln, char *kernal)
+static int plus4model_get_temp(int video, int hasspeech, int hasacia, const char *fln, const char *kernal)
 {
     int i;
 
@@ -90,8 +90,8 @@ static int plus4model_get_temp(int video, int hasspeech, int hasacia, char *fln,
 int plus4model_get(void)
 {
     int video, hasspeech, hasacia;
-    char *fln;
-    char *kernal;
+    const char *fln;
+    const char *kernal;
 
     if ((resources_get_int("MachineVideoStandard", &video) < 0)
         || (resources_get_int("Acia1Enable", &hasacia) < 0)
