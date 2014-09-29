@@ -8,8 +8,9 @@ There are two distinct parts to the VICE source code, the architecture code
 parts which are located in src/arch, and the common code parts which are
 located everywhere in src except in src/arch.
 
-The architecture code parts are in their own respective directories and may
-have their own coding style.
+The architecture code parts are in their own respective directories and *may*
+have their own coding style, however try to stick to these guidelines at least
+for C code, if possible.
 
 The common code however is used by all supported architectures and therefor
 needs to be as portable as possible. To achieve this portability some
