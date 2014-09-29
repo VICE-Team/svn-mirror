@@ -39,7 +39,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "HTMLBrowserCommand", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("Command"), N_("Specify an HTML browser for the on-line help") },
+      N_("<Command>"), N_("Specify an HTML browser for the on-line help") },
     { "-install", SET_RESOURCE, 0,
       NULL, NULL, "PrivateColormap", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
@@ -59,12 +59,12 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "ConfirmOnExit", (void *)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, N_("Never confirm quiting VICE") },
+      NULL, N_("Never confirm quitting VICE") },
     { "-confirmexit", SET_RESOURCE, 0,
       NULL, NULL, "ConfirmOnExit", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, N_("Confirm quiting VICE") },
+      NULL, N_("Confirm quitting VICE") },
     { "+saveres", SET_RESOURCE, 0,
       NULL, NULL, "SaveResourcesOnExit", (void *)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
@@ -87,7 +87,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "DisplayDepth", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("value"), N_("Specify X display depth (1..32)") },
+      N_("<value>"), N_("Specify X display depth (1..32)") },
     { NULL }
 };
 

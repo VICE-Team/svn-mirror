@@ -386,7 +386,7 @@ static const cmdline_option_t cmdline_options[] =
     { "-autostartprgdiskimage", SET_RESOURCE, 1,
       NULL, NULL, "AutostartPrgDiskImage", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG,
+      IDCLS_P_NAME, IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG,
       NULL, NULL },
     { "-autostart-delay", SET_RESOURCE, 1,
       NULL, NULL, "AutostartDelay", NULL,

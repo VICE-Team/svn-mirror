@@ -243,7 +243,7 @@ static const cmdline_option_t cmdline_options[] = {
     { "+c128fullbanks", SET_RESOURCE, 0,
       NULL, NULL, "C128FullBanks", (void *)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_C128_FULL_BANKS,
+      IDCLS_UNUSED, IDCLS_DISABLE_C128_FULL_BANKS,
       NULL, NULL },
     { NULL }
 };

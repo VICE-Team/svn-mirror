@@ -1245,7 +1245,7 @@ BEGIN
   IDS_NO_SAVE_SETTINGS_ON_EXIT         "Never save settings on exit"
   IDS_CONFIRM_QUIT_VICE                "Confirm quitting VICE"
   IDS_NO_CONFIRM_QUIT_VICE             "Never confirm quitting VICE"
-  IDS_USE_ALL_CPU_SMP                  "Use all CPU on SMP systems"
+  IDS_USE_ALL_CPU_SMP                  "Use all CPUs on SMP systems"
   IDS_USE_FIRST_CPU_SMP                "Use only first CPU on SMP systems"
   IDS_START_VICE_FULLSCREEN_MODE       "Start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "Disable DirectX9 video driver"
