@@ -133,7 +133,7 @@ int midi_mode = 0;
 
 /******************************************************************/
 
-static void midi_update_int()
+static void midi_update_int(void)
 {
     /* set IRQ */
     if (midi_irq == IK_IRQ) {
