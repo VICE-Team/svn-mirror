@@ -610,6 +610,17 @@
         CLK_INC();                                       \
     }                                                    \
     addr = (tmpa + reg_y) & 0xffff;
+/* like above, for SHA_IND_Y */
+#define INT_IND_Y_W_NOADDR()                             \
+    unsigned int tmpa;                                   \
+    tmpa = LOAD_ZERO(p1);                                \
+    CLK_INC();                                           \
+    tmpa |= (LOAD_ZERO(p1 + 1) << 8);                    \
+    CLK_INC();                                           \
+    if (!SKIP_CYCLE) {                                   \
+        LOAD((tmpa & 0xff00) | ((tmpa + reg_y) & 0xff)); \
+        CLK_INC();                                       \
+    }
 
 #define GET_IND_Y(dest) \
     INT_IND_Y_R()       \
@@ -1364,7 +1375,7 @@
 
 #define SHA_IND_Y()                                    \
     do {                                               \
-        INT_IND_Y_W();                                 \
+        INT_IND_Y_W_NOADDR();                          \
         SET_ABS_SH_I(tmpa, reg_a_read & reg_x, reg_y); \
         INC_PC(2);                                     \
     } while (0)
