@@ -88,6 +88,7 @@ static UI_MENU_CALLBACK(save_snapshot_callback)
     return NULL;
 }
 
+#if 0
 static UI_MENU_CALLBACK(save_snapshot_slot_callback)
 {
     char *name;
@@ -104,6 +105,7 @@ static UI_MENU_CALLBACK(save_snapshot_slot_callback)
     }
     return NULL;
 }
+#endif
 
 static UI_MENU_CALLBACK(quickload_snapshot_callback)
 {
@@ -181,7 +183,7 @@ static UI_MENU_CALLBACK(load_snapshot_callback)
     return NULL;
 }
 
-
+#if 0
 static UI_MENU_CALLBACK(load_snapshot_slot_callback)
 {
     char *name;
@@ -197,6 +199,7 @@ static UI_MENU_CALLBACK(load_snapshot_slot_callback)
     }
     return NULL;
 }
+#endif
 
 static UI_MENU_CALLBACK(set_milestone_callback)
 {
