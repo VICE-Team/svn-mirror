@@ -1493,7 +1493,10 @@ char *yytext;
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include "lib.h"
 #include "mon_command.h"
