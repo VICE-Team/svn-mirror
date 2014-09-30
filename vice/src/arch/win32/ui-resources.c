@@ -116,8 +116,8 @@ static int set_confirm_on_exit(int val, void *param)
 
 static int set_single_cpu(int val, void *param)
 {
-    UINT_PTR process_affinity;
-    UINT_PTR system_affinity;
+    DWORD_PTR process_affinity;
+    DWORD_PTR system_affinity;
 
     ui_resources.single_cpu = val ? 1 : 0;
 
