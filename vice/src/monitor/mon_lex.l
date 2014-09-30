@@ -108,6 +108,8 @@ send:
 %}
 
 %option case-insensitive
+%option noinput
+%option nounput
 
 HDIGIT  [0-9a-f]
 
