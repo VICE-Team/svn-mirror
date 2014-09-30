@@ -462,7 +462,7 @@ static void intl_set_hotkey(void)
 
     /* put entry into the hotkey table */
     if (langid == -1) {
-        for (i = 0; i < sizeof(language_table); i++) {
+        for (i = 0; i < countof(language_table); i++) {
             if (windows_to_iso[i].hotkey_cap) {
                 windows_hotkeys[ids][i].hotkey = hotkeypos[0];
                 windows_hotkeys[ids][i].occurence = occurence;
