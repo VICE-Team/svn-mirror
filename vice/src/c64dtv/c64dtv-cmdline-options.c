@@ -76,6 +76,7 @@ static int set_dtv_model(const char *param, void *extra_param)
 
     return 0;
 }
+
 static const cmdline_option_t cmdline_options[] =
 {
     { "-pal", SET_RESOURCE, 0,
