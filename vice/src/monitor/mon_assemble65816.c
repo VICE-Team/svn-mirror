@@ -42,7 +42,7 @@
 
 static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t operand)
 {
-    WORD operand_value = operand.param;
+    DWORD operand_value = operand.param;
     WORD operand_mode = operand.addr_mode;
     BYTE operand_extra_value = operand.addr_submode;
     BYTE i = 0, opcode = 0;
