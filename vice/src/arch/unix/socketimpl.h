@@ -89,7 +89,7 @@ extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
 extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
 #endif
 
-typedef unsigned int SOCKET;
+typedef int SOCKET;
 typedef struct timeval TIMEVAL;
 
 #define closesocket close
