@@ -665,7 +665,7 @@ int sfx_soundexpander_snapshot_read_module(snapshot_t *s)
                 snapshot_module_close(m);
                 return -1;
             }
-            set_connect1(chip->P_CH[x].SLOT[y].connect1, temp_connect1);
+            set_connect1(chip, x, y, temp_connect1);
         }
         if (0
             || (SMR_DW_UINT(m, &chip->P_CH[x].block_fnum) < 0)
