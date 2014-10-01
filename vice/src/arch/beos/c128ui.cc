@@ -83,7 +83,9 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
+#ifdef HAVE_RS232
     { "Acia1Enable", MENU_TOGGLE_ACIA },
+#endif
     { "REU", MENU_TOGGLE_REU },
     { "REUImageWrite", MENU_TOGGLE_REU_SWC },
     { "GEORAM", MENU_TOGGLE_GEORAM },
@@ -115,6 +117,7 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+#ifdef HAVE_RS232
 ui_res_possible_values c128AciaDevice[] = {
     { 1, MENU_ACIA_RS323_DEVICE_1 },
     { 2, MENU_ACIA_RS323_DEVICE_2 },
@@ -143,6 +146,7 @@ ui_res_possible_values c128AciaMode[] = {
     { 2, MENU_ACIA_MODE_TURBO232 },
     { -1, 0 }
 };
+#endif
 
 ui_res_possible_values c128ReuSize[] = {
     { 128, MENU_REU_SIZE_128 },
@@ -288,10 +292,12 @@ ui_res_possible_values c128_DS12C887RTC_base[] = {
 };
 
 ui_res_value_list c128_ui_res_values[] = {
+#ifdef HAVE_RS232
     { "Acia1Dev", c128AciaDevice },
     { "Acia1Base", c128AciaBase },
     { "Acia1Irq", c128AciaInt },
     { "Acia1Mode", c128AciaMode },
+#endif
     { "REUsize", c128ReuSize },
     { "GeoRAMsize", c128GeoRAMSize },
     { "RAMCARTsize", c128RamCartSize },

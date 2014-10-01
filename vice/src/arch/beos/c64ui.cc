@@ -84,7 +84,9 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
+#ifdef HAVE_RS232
     { "Acia1Enable", MENU_TOGGLE_ACIA },
+#endif
     { "REU", MENU_TOGGLE_REU },
     { "REUImageWrite", MENU_TOGGLE_REU_SWC },
     { "GEORAM", MENU_TOGGLE_GEORAM },
@@ -127,6 +129,7 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+#ifdef HAVE_RS232
 ui_res_possible_values AciaDevice[] = {
     { 1, MENU_ACIA_RS323_DEVICE_1 },
     { 2, MENU_ACIA_RS323_DEVICE_2 },
@@ -154,6 +157,7 @@ ui_res_possible_values AciaMode[] = {
     { 2, MENU_ACIA_MODE_TURBO232 },
     { -1, 0 }
 };
+#endif
 
 ui_res_possible_values ReuSize[] = {
     { 128, MENU_REU_SIZE_128 },
@@ -334,10 +338,12 @@ ui_res_possible_values c64_DS12C887RTC_base[] = {
 /* VICIIModel has to be first for the hack below to work */
 ui_res_value_list c64_ui_res_values[] = {
     { "VICIIModel", viciimodels },
+#ifdef HAVE_RS232
     { "Acia1Dev", AciaDevice },
     { "Acia1Base", AciaBase },
     { "Acia1Irq", AciaInt },
     { "Acia1Mode", AciaMode },
+#endif
     { "REUsize", ReuSize },
     { "GeoRAMsize", GeoRAMSize },
     { "RAMCARTsize", RamCartSize },

@@ -81,7 +81,9 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "VICDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICVideoCache", MENU_TOGGLE_VIDEOCACHE },
+#ifdef HAVE_RS232
     { "Acia1Enable", MENU_TOGGLE_ACIA },
+#endif
     { "GEORAM", MENU_TOGGLE_GEORAM },
     { "GEORAMImageWrite", MENU_TOGGLE_GEORAM_SWC },
     { "GEORAMIOSwap", MENU_TOGGLE_GEORAM_IO_SWAP },
@@ -99,6 +101,7 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+#ifdef HAVE_RS232
 ui_res_possible_values vic20AciaDevice[] = {
     { 1, MENU_ACIA_RS323_DEVICE_1 },
     { 2, MENU_ACIA_RS323_DEVICE_2 },
@@ -126,6 +129,7 @@ ui_res_possible_values vic20AciaMode[] = {
     { 2, MENU_ACIA_MODE_TURBO232 },
     { -1, 0 }
 };
+#endif
 
 ui_res_possible_values vic20GeoRAMSize[] = {
     { 64, MENU_GEORAM_SIZE_64 },
@@ -178,10 +182,12 @@ ui_res_possible_values vic20_DS12C887RTC_base[] = {
 };
 
 ui_res_value_list vic20_ui_res_values[] = {
+#ifdef HAVE_RS232
     { "Acia1Dev", vic20AciaDevice },
     { "Acia1Base", vic20AciaBase },
     { "Acia1Irq", vic20AciaInt },
     { "Acia1Mode", vic20AciaMode },
+#endif
     { "GeoRAMsize", vic20GeoRAMSize },
     { "DIGIMAXbase", vic20DigimaxBase },
     { "SFXSoundExpanderChip", vic20SFXSoundExpanderChip },

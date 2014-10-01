@@ -389,7 +389,7 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("C64 SX NTSC", new BMessage(MENU_C64_MODEL_C64SX_NTSC)));
             menu->AddItem(new BMenuItem("Japanese", new BMessage(MENU_C64_MODEL_C64_JAP)));
             menu->AddItem(new BMenuItem("C64 GS", new BMessage(MENU_C64_MODEL_C64_GS)));
-            if (machine_class == VICE_MACHINE_SCPU64) {
+            if (machine_class != VICE_MACHINE_SCPU64) {
                 menu->AddItem(new BMenuItem("PET64 PAL", new BMessage(MENU_C64_MODEL_PET64_PAL)));
                 menu->AddItem(new BMenuItem("PET64 NTSC", new BMessage(MENU_C64_MODEL_PET64_NTSC)));
                 menu->AddItem(new BMenuItem("MAX Machine", new BMessage(MENU_C64_MODEL_ULTIMAX)));
@@ -600,8 +600,9 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
 
-    if (machine_class != VICE_MACHINE_C64DTV) {
+    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Expansion Carts"));
+#ifdef HAVE_RS232
         if (machine_class == VICE_MACHINE_VIC20) {
             menu->AddItem(submenu = new BMenu("ACIA Options (MasC=uerade)"));
         } else {
@@ -616,7 +617,8 @@ BMenuBar *menu_create(int machine_class)
             extsubmenu->AddItem(new BMenuItem("RS232 device 2", new BMessage(MENU_ACIA_RS323_DEVICE_2)));
             extsubmenu->AddItem(new BMenuItem("RS232 device 3", new BMessage(MENU_ACIA_RS323_DEVICE_3)));
             extsubmenu->AddItem(new BMenuItem("RS232 device 4", new BMessage(MENU_ACIA_RS323_DEVICE_4)));
-        if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PLUS4) {
+        if (machine_class != VICE_MACHINE_PLUS4 && machine_class != VICE_MACHINE_PET && 
+            machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0) {
             submenu->AddItem(extsubmenu = new BMenu("ACIA base"));
                 extsubmenu->SetRadioMode(true);
                 if (machine_class == VICE_MACHINE_VIC20) {
@@ -635,14 +637,13 @@ BMenuBar *menu_create(int machine_class)
                 extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_ACIA_INT_NONE)));
                 extsubmenu->AddItem(new BMenuItem("IRQ", new BMessage(MENU_ACIA_INT_IRQ)));
                 extsubmenu->AddItem(new BMenuItem("NMI", new BMessage(MENU_ACIA_INT_NMI)));
-        }
-        if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0 && machine_class != VICE_MACHINE_PLUS4) {
             submenu->AddItem(extsubmenu = new BMenu("ACIA mode"));
                 extsubmenu->SetRadioMode(true);
                 extsubmenu->AddItem(new BMenuItem("Normal", new BMessage(MENU_ACIA_MODE_NORMAL)));
                 extsubmenu->AddItem(new BMenuItem("Swiftlink", new BMessage(MENU_ACIA_MODE_SWIFTLINK)));
                 extsubmenu->AddItem(new BMenuItem("Turbo232", new BMessage(MENU_ACIA_MODE_TURBO232)));
         }
+#endif
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
