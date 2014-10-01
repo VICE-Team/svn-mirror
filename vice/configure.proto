@@ -575,6 +575,12 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
                 )]
 	  	 )
   fi
+
+  dln warnings_cxx="-Wall -W -Wno-unused-parameter -Wno-missing-field-initializers -Wno-sign-compare"
+  warnings_cxx="-Wall -Wno-unused-parameter -Wno-sign-compare"
+  CFLAGS="$CFLAGS $warnings_cxx"
+  CXXFLAGS="$CXXFLAGS $warnings_cxx"
+
 elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
 
   dnl This is used by subsequent tests.
