@@ -329,16 +329,19 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
 #if !defined(OPENSTEP_COMPILE) && !defined(NEXTSTEP_COMPILE)
     pid_t child_pid;
     int child_status;
-    char *stdout_redir = NULL;
+    char *stdout_redir;
+
+    child_pid = vfork();
 
     if (pstdout_redir != NULL) {
         if (*pstdout_redir == NULL) {
             *pstdout_redir = archdep_tmpnam();
         }
         stdout_redir = *pstdout_redir;
+    } else {
+        stdout_redir = NULL;
     }
 
-    child_pid = vfork();
     if (child_pid < 0) {
         log_error(LOG_DEFAULT, "vfork() failed: %s.", strerror(errno));
         return -1;
