@@ -761,7 +761,7 @@ dnl All other UN*X systems
     dnl Check for the type of compiler first.
     if test x"$GCC" = "xyes" ; then
 
-      warnings_cxx="-Wall -Wno-inline"
+      warnings_cxx="-Wall -W -Wno-unused-parameter -Wno-missing-field-initializers -Wno-sign-compare"
       if test x"$enable_gnomeui" != "xyes" ; then
           warnings_c="-Wstrict-prototypes $warnings_cxx"
       else
