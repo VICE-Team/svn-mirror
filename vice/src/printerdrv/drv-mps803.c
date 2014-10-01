@@ -205,7 +205,7 @@ static void bitmode_off(mps_t *mps)
                 err = 1;
                 break;
             }
-            if ((mps->pos - mps->bitcnt + x) < 0) {
+            if ((mps->pos + x) < mps->bitcnt) {
                 err = 1;
                 break;
             }
