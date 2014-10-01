@@ -51,7 +51,7 @@
 #define debug3(x, y, z)
 #endif
 
-const static int wd1770_step_rate[2][4] = {
+static const int wd1770_step_rate[2][4] = {
     {6000, 12000, 20000, 30000}, /* WD1770 */
     {6000, 12000, 2000, 3000},   /* WD1772 */
 };
@@ -120,7 +120,7 @@ typedef enum wd_cmd_e {
 } wd_cmd_t;
 
 /* WD1770/1772 commands, masks, types */
-const static struct {
+static const struct {
     BYTE mask;
     wd_cmd_t command;
     BYTE type;

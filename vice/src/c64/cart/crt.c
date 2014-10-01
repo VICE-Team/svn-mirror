@@ -109,7 +109,7 @@
  * CRT image "strings".
  */
 const char CRT_HEADER[] = "C64 CARTRIDGE   ";
-const static char CHIP_HEADER[] = "CHIP";
+static const char CHIP_HEADER[] = "CHIP";
 
 /*
     Open a crt file and read header, return NULL on fault, fd otherwise
