@@ -23,7 +23,7 @@ Here are short descriptions of the project code folders and their functions:
 src/           - common code 
  arch          - architecture specific code for various platforms (win, unix, amigaos, etc)
  c64           - c64 specific code
- c64/cart      - cartridge specific code
+ c64/cart      - c64 cartridge specific code
  c64dtv        - c64 direct tv specific code
  c128          - commodore 128 specific code
  cbm2          - Commodore CBM-II computer emulator
@@ -38,7 +38,7 @@ src/           - common code
  imagecontents - disk and tape directory interface
  lib           - anything related to external libraries (ffmpeg codec, etc..)
  monitor       - code for built-in monitor
- parallel      - ieee488 emulation code (used in pet & cbm2 mainly)
+ parallel      - ieee488 emulation code
  pet           - pet computer specific emulation code
  platform      - platform specific discovery/reporting code (os, cpu, compiler used, etc..)
  plus4         - commodore plus4 specific code
@@ -51,11 +51,11 @@ src/           - common code
  sid           - SID chip interface and emulation for fallback sid engine (fastsid)
  sounddrv      - framework specific sound drivers 
  tape          - tape drive specific emulation and T64 support
- userport      - userport 8bit DAC device emulation code
+ userport      - userport device emulation code
  vdc           - MOS8563 VDC emulation
  vdrive        - virtual drives code, opposed to "true drive emulation" found in drive folder
  vic20         - commodore vic20 specific code
- vicii         - almost cycle exact VICII emulation code for x64, x128, xcbm2m, and x64dtv 
+ vicii         - almost cycle exact VICII emulation code for x64, x128, xcbm2, and x64dtv 
  viciisc       - more cycle exact then vicii code emulation used in x64sc and xscpu64
  video         - pixel framebuffer to physical screen interface code
 
