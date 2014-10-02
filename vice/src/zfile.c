@@ -377,6 +377,11 @@ static int is_valid_extension(char *end, size_t l, int nameoffset)
     return 0;
 }
 
+/* define SIZE_MAX if it does not exist (only in C99) */
+#ifndef SIZE_MAX
+#define SIZE_MAX ((size_t)-1)
+#endif
+
 /* If `name' has a correct extension, try to list its contents and search for
    the first file with a proper extension; if found, extract it.  If this
    succeeds, return the name of the temporary file; if the archive file is
@@ -440,7 +445,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 
     /* Search for `search' first (if any) to see the offset where
        filename begins, then search for first recognizeable file.  */
-    nameoffset = search ? -1 : 0;
+    nameoffset = search ? SIZE_MAX : 0;
     len = search ? strlen(search) : 0;
     while (!feof(fd) && !found) {
         if (fgets(tmp, 1024, fd) == NULL) {
@@ -449,11 +454,11 @@ static char *try_uncompress_archive(const char *name, int write_mode,
         l = strlen(tmp);
         while (l > 0) {
             tmp[--l] = 0;
-            if (((nameoffset < 0) || (nameoffset > 1024)) && l >= len &&
+            if ((/* (nameoffset == SIZE_MAX) || */ (nameoffset > 1024)) && l >= len &&
                 !strcasecmp(tmp + l - len, search) != 0) {
                 nameoffset = l - 4;
             }
-            if (nameoffset >= 0 && nameoffset <= 1024 && is_valid_extension(tmp, l, nameoffset)) {
+            if (/* nameoffset >= 0 && */ nameoffset <= 1024 && is_valid_extension(tmp, l, nameoffset)) {
                 ZDEBUG(("try_uncompress_archive: found `%s'.",
                         tmp + nameoffset));
                 found = 1;
