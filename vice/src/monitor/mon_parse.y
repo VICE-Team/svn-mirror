@@ -118,6 +118,7 @@ extern int cur_len, last_len;
 #define ERR_UNDEFINED_LABEL 13
 #define ERR_EXPECT_DEVICE_NUM 14
 #define ERR_EXPECT_ADDRESS 15
+#define ERR_INVALID_REGISTER 16
 
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 #define CHECK_ADDR(x) ((x) == addr_mask(x))
@@ -601,8 +602,18 @@ opt_mem_op: mem_op { $$ = $1; }
           | { $$ = 0; }
           ;
 
-register: MON_REGISTER          { $$ = new_reg(default_memspace, $1); }
-        | memspace MON_REGISTER { $$ = new_reg($1, $2); }
+register: MON_REGISTER          {
+                                    if (!(monitor_cpu_for_memspace[default_memspace]->mon_register_valid)(default_memspace, $1)) {
+                                        return ERR_INVALID_REGISTER;
+                                    }
+                                    $$ = new_reg(default_memspace, $1);
+                                }
+        | memspace MON_REGISTER {
+                                    if (!(monitor_cpu_for_memspace[$1]->mon_register_valid)($1, $2)) {
+                                        return ERR_INVALID_REGISTER;
+                                    }
+                                    $$ = new_reg($1, $2);
+                                }
         ;
 
 reg_list: reg_list COMMA reg_asgn
@@ -1084,6 +1095,9 @@ void parse_and_execute_line(char *input)
            break;
          case ERR_EXPECT_ADDRESS:
            mon_out("Expecting an address.\n");
+           break;
+         case ERR_INVALID_REGISTER:
+           mon_out("Invalid register.\n");
            break;
          case ERR_ILLEGAL_INPUT:
          default:

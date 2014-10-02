@@ -37,6 +37,38 @@
 #include "uimon.h"
 #include "z80regs.h"
 
+/* returns 1 on valid, 0 on invalid */
+static int mon_register_valid(int mem, int reg_id)
+{
+    z80_regs_t *reg_ptr;
+
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
+            return 0;
+        }
+    }
+
+    reg_ptr = mon_interfaces[mem]->z80_cpu_regs;
+
+    switch (reg_id) {
+        case e_AF:
+        case e_BC:
+        case e_DE:
+        case e_HL:
+        case e_IX:
+        case e_IY:
+        case e_SP:
+        case e_PC:
+        case e_I:
+        case e_R:
+        case e_AF2:
+        case e_BC2:
+        case e_DE2:
+        case e_HL2:
+            return 1;
+    }
+    return 0;
+}
 
 static unsigned int mon_register_get_val(int mem, int reg_id)
 {
@@ -326,4 +358,5 @@ void mon_registerz80_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_print_ex = NULL;
     monitor_cpu_type->mon_register_list_get = mon_register_list_getz80;
     monitor_cpu_type->mon_register_list_set = mon_register_list_setz80;
+    monitor_cpu_type->mon_register_valid = mon_register_valid;
 }

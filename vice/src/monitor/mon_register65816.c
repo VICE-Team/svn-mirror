@@ -39,6 +39,37 @@
 
 #define TEST(x) ((x)!=0)
 
+/* returns 1 on valid, 0 on invalid */
+static int mon_register_valid(int mem, int reg_id)
+{
+    WDC65816_regs_t *reg_ptr;
+
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
+            return 0;
+        }
+    }
+
+    reg_ptr = mon_interfaces[mem]->cpu_65816_regs;
+
+    switch(reg_id) {
+        case e_A:
+        case e_B:
+        case e_C:
+        case e_X:
+        case e_Y:
+        case e_PC:
+        case e_SP:
+        case e_PBR:
+        case e_DBR:
+        case e_DPR:
+        case e_EMUL:
+        case e_FLAGS:
+            return 1;
+    }
+    return 0;
+}
+
 static unsigned int mon_register_get_val(int mem, int reg_id)
 {
     WDC65816_regs_t *reg_ptr;
@@ -372,4 +403,5 @@ void mon_register65816_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_print_ex = NULL;
     monitor_cpu_type->mon_register_list_get = mon_register_list_get65816;
     monitor_cpu_type->mon_register_list_set = mon_register_list_set65816;
+    monitor_cpu_type->mon_register_valid = mon_register_valid;
 }

@@ -37,8 +37,32 @@
 #include "r65c02.h"
 #include "uimon.h"
 
-
 #define TEST(x) ((x) != 0)
+
+/* returns 1 on valid, 0 on invalid */
+static int mon_register_valid(int mem, int reg_id)
+{
+    R65C02_regs_t *reg_ptr;
+
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
+            return 0;
+        }
+    }
+
+    reg_ptr = mon_interfaces[mem]->cpu_R65C02_regs;
+
+    switch (reg_id) {
+        case e_A:
+        case e_X:
+        case e_Y:
+        case e_PC:
+        case e_SP:
+        case e_FLAGS:
+            return 1;
+    }
+    return 0;
+}
 
 static unsigned int mon_register_get_val(int mem, int reg_id)
 {
@@ -287,4 +311,5 @@ void mon_registerR65C02_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_print_ex = mon_register_print_ex;
     monitor_cpu_type->mon_register_list_get = mon_register_list_getR65C02;
     monitor_cpu_type->mon_register_list_set = mon_register_list_setR65C02;
+    monitor_cpu_type->mon_register_valid = mon_register_valid;
 }
