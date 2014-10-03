@@ -1782,6 +1782,7 @@ char *mon_symbol_table_lookup_name(MEMSPACE mem, WORD addr)
     return NULL;
 }
 
+/* look up a symbol in the given memspace, returns address or -1 on error */
 int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name)
 {
     symbol_entry_t *sym_ptr;
@@ -1790,6 +1791,9 @@ int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name)
         mem = default_memspace;
     }
 
+    /* FIXME: this is a hack to allow .PC as an address in any monitor command,
+     *        rework this so any register can be used
+     */
     if (strcmp(name, ".PC") == 0) {
         return (monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC);
     }
@@ -1822,6 +1826,9 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     MEMSPACE mem = addr_memspace(addr);
     WORD loc = addr_location(addr);
 
+    /* do not allow register names as labels
+     * FIXME: implement this properly
+     */
     if (strcmp(name, ".PC") == 0) {
         mon_out("Error: .PC is a reserved label.\n");
         return;
