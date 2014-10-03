@@ -77,7 +77,7 @@ static cmdline_option_t cmd_drive[] = {
       IDCLS_P_METHOD, IDCLS_SET_DRIVE_EXTENSION_POLICY,
       NULL, NULL },
     { NULL, SET_RESOURCE, 1,
-      NULL, NULL, NULL, (void *)DRIVE_IDLE_TRAP_IDLE,
+      NULL, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_METHOD, IDCLS_SET_IDLE_METHOD,
       NULL, NULL },
