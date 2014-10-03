@@ -40,15 +40,11 @@
 /* returns 1 on valid, 0 on invalid */
 static int mon_register_valid(int mem, int reg_id)
 {
-    z80_regs_t *reg_ptr;
-
     if (monitor_diskspace_dnr(mem) >= 0) {
         if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return 0;
         }
     }
-
-    reg_ptr = mon_interfaces[mem]->z80_cpu_regs;
 
     switch (reg_id) {
         case e_AF:
