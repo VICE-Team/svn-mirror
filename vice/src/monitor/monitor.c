@@ -2022,7 +2022,7 @@ void mon_print_conditional(cond_node_t *cnode)
         if (cnode->is_reg) {
             mon_out("%s", register_string[reg_regid(cnode->reg_num)]);
         } else {
-            mon_out("%d", cnode->value);
+            mon_out("$%02x", cnode->value);
         }
     }
 
