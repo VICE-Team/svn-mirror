@@ -187,12 +187,12 @@ static const cmdline_option_t cmdline_options[] = {
     { "-quicktimeaudiobitrate", SET_RESOURCE, 1,
       NULL, NULL, "QuickTimeAudioBitrate", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_UNUSED,
+      IDCLS_P_VALUE, IDCLS_SET_AUDIO_STREAM_BITRATE,
       NULL, NULL },
     { "-quicktimevideobitrate", SET_RESOURCE, 1,
       NULL, NULL, "QuickTimeVideoBitrate", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_UNUSED,
+      IDCLS_P_VALUE, IDCLS_SET_VIDEO_STREAM_BITRATE,
       NULL, NULL },
     { NULL }
 };

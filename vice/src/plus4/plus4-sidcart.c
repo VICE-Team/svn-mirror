@@ -165,13 +165,13 @@ int sidcart_resources_init(void)
 /* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t sidcart_cmdline_options[] = {
-    { "-sidcart", SET_RESOURCE, 1,
-      NULL, NULL, "SidCart", NULL,
+    { "-sidcart", SET_RESOURCE, 0,
+      NULL, NULL, "SidCart", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ENABLE_SIDCART,
       NULL, NULL },
     { "+sidcart", SET_RESOURCE, 0,
-      NULL, NULL, "SidCart", NULL,
+      NULL, NULL, "SidCart", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_SIDCART,
       NULL, NULL },
