@@ -372,7 +372,7 @@ static mon_reg_list_t *mon_register_list_get6502dtv(int mem)
     mon_reg_list[8].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
                           | 0x20;
     mon_reg_list[8].size = 8;
-    mon_reg_list[8].flags = 1;
+    mon_reg_list[8].flags = MON_REGISTER_IS_FLAGS;
     mon_reg_list[8].next = &mon_reg_list[9];
 
     mon_reg_list[9].name = "R3";

@@ -352,14 +352,14 @@ static mon_reg_list_t *mon_register_list_get65816(int mem)
     mon_reg_list[10].id = e_FLAGS;
     mon_reg_list[10].val = (unsigned int)mon_register_get_val(mem, e_FLAGS);
     mon_reg_list[10].size = 8;
-    mon_reg_list[10].flags = 1;
+    mon_reg_list[10].flags = MON_REGISTER_IS_FLAGS;
     mon_reg_list[10].next = &mon_reg_list[11];
 
     mon_reg_list[11].name = "NVMXDIZC";
     mon_reg_list[11].id = e_FLAGS;
     mon_reg_list[11].val = (unsigned int)mon_register_get_val(mem, e_FLAGS);
     mon_reg_list[11].size = 8;
-    mon_reg_list[11].flags = 1;
+    mon_reg_list[11].flags = MON_REGISTER_IS_FLAGS;
     mon_reg_list[11].next = &mon_reg_list[12];
 
     mon_reg_list[12].name = "EMUL";

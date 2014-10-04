@@ -274,7 +274,7 @@ static mon_reg_list_t *mon_register_list_getR65C02(int mem)
     mon_reg_list[6].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
                           | 0x20;
     mon_reg_list[6].size = 8;
-    mon_reg_list[6].flags = 1;
+    mon_reg_list[6].flags = MON_REGISTER_IS_FLAGS;
     mon_reg_list[6].next = NULL;
 
     return mon_reg_list;

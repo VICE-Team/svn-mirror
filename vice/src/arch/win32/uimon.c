@@ -1394,7 +1394,7 @@ static BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
             changedbits = prp->LastShownRegs[cnt] ^ p->val;
         }
 
-        if (p->flags) {
+        if (p->flags & MON_REGISTER_IS_FLAGS) {
             unsigned int i;
             unsigned int val = p->val << (16 - p->size);
             unsigned int changed_i = changedbits << (16 - p->size);

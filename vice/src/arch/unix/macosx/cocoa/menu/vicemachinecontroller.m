@@ -199,6 +199,7 @@
         [NSString stringWithCString:p->name encoding:NSUTF8StringEncoding], @"name",
         [NSNumber numberWithUnsignedInt:p->val], @"value",
         [NSNumber numberWithUnsignedInt:p->size], @"size",
+        // FIXME: ->flags is a bitfield, see mon_register.h
         [NSNumber numberWithUnsignedInt:p->flags], @"flags",
         nil];
         [regs addObject:entry];

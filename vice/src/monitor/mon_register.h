@@ -32,16 +32,24 @@ struct mon_reg_list_s {
     const char *name;
     /* the register ID used by various functions */
     unsigned int id;
-    /* Value of the register.  */
-    unsigned int val;
     /* Size of the register in bits.  */
     unsigned int size;
-    /* Is this a flag register?  */
+    /* flags, see below  */
     unsigned int flags;
+    /* extra info, see below  */
+    unsigned int extra;
     /* Pointer to the next register list entry.  */
     struct mon_reg_list_s *next;
+    /* Value of the register.  */
+    unsigned int val;
 };
 typedef struct mon_reg_list_s mon_reg_list_t;
+
+/* bits for mon_reg_list_t->flags */
+#define MON_REGISTER_IS_FLAGS   0x01    /* register contains flags and will be
+                                           printed as bits */
+#define MON_REGISTER_IS_MEMORY  0x02    /* memory mapped register, extra contains
+                                           the memory address */
 
 struct monitor_cpu_type_s;
 

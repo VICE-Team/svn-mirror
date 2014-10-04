@@ -235,7 +235,7 @@ static void UpdateRegisters(HWND hwnd)
     while (list) {
         char *txt;
 
-        if (list->flags) {
+        if (list->flags & MON_REGISTER_IS_FLAGS) {
             char str[9] = "00000000";
             char val[33];
 

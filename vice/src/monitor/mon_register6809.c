@@ -282,7 +282,7 @@ static mon_reg_list_t *mon_register_list_get6809(int mem)
     mon_reg_list[7].id = e_FLAGS;
     mon_reg_list[7].val = (unsigned int)mon_register_get_val(mem, e_FLAGS);
     mon_reg_list[7].size = 8;
-    mon_reg_list[7].flags = 1;
+    mon_reg_list[7].flags = MON_REGISTER_IS_FLAGS;
     mon_reg_list[7].next = &mon_reg_list[8];
 
     mon_reg_list[8].name = "A";

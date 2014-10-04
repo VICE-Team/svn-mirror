@@ -164,7 +164,7 @@ static void mon_register_print(int mem)
 
     regs = mon_interfaces[mem]->cpu_regs;
 
-    mon_out("  ADDR AC XR YR SP 00 01 NV-BDIZC ");
+    mon_out("  ADDR A  X  Y  SP 00 01 NV-BDIZC ");
 
     if (mon_interfaces[mem]->get_line_cycle != NULL) {
         mon_out("LIN CYC  STOPWATCH\n");
@@ -236,88 +236,46 @@ static const char* mon_register_print_ex(int mem)
     return buff;
 }
 
+/* TODO: make the other functions here use this table. when done also do the
+ *       same with the other CPUs and finally move common code to mon_register.c
+ */
+
+static mon_reg_list_t mon_reg_list_6510[9] = {
+    {      "PC",    e_PC, 16,                      0, 0, &mon_reg_list_6510[1], 0 },
+    {       "A",     e_A,  8,                      0, 0, &mon_reg_list_6510[2], 0 },
+    {       "X",     e_X,  8,                      0, 0, &mon_reg_list_6510[3], 0 },
+    {       "Y",     e_Y,  8,                      0, 0, &mon_reg_list_6510[4], 0 },
+    {      "SP",    e_SP,  8,                      0, 0, &mon_reg_list_6510[5], 0 },
+    {      "00",      -1,  8, MON_REGISTER_IS_MEMORY, 0, &mon_reg_list_6510[6], 0 },
+    {      "01",      -1,  8, MON_REGISTER_IS_MEMORY, 1, &mon_reg_list_6510[7], 0 },
+    {      "FL", e_FLAGS,  8,                      0, 0, &mon_reg_list_6510[8], 0 },
+    {"NV-BDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, NULL, 0 }
+};
+
 static mon_reg_list_t *mon_register_list_get6502(int mem)
 {
-    mon_reg_list_t *mon_reg_list;
+    mon_reg_list_t *mon_reg_list, *regs;
 
     DBG(("mon_register_list_get6502 mem: %d\n", mem));
 
-    mon_reg_list = lib_malloc(sizeof(mon_reg_list_t) * 9);
+    mon_reg_list = regs = lib_malloc(sizeof(mon_reg_list_t) * 9);
+    memcpy(mon_reg_list, mon_reg_list_6510, sizeof(mon_reg_list_t) * 9);
 
-    mon_reg_list[0].name = "PC";
-    mon_reg_list[0].id = e_PC;
-    mon_reg_list[0].val = (unsigned int)mon_register_get_val(mem, e_PC);
-    mon_reg_list[0].size = 16;
-    mon_reg_list[0].flags = 0;
-    mon_reg_list[0].next = &mon_reg_list[1];
-
-    mon_reg_list[1].name = "AC";
-    mon_reg_list[1].id = e_A;
-    mon_reg_list[1].val = (unsigned int)mon_register_get_val(mem, e_A);
-    mon_reg_list[1].size = 8;
-    mon_reg_list[1].flags = 0;
-    mon_reg_list[1].next = &mon_reg_list[2];
-
-    mon_reg_list[2].name = "XR";
-    mon_reg_list[2].id = e_X;
-    mon_reg_list[2].val = (unsigned int)mon_register_get_val(mem, e_X);
-    mon_reg_list[2].size = 8;
-    mon_reg_list[2].flags = 0;
-    mon_reg_list[2].next = &mon_reg_list[3];
-
-    mon_reg_list[3].name = "YR";
-    mon_reg_list[3].id = e_Y;
-    mon_reg_list[3].val = (unsigned int)mon_register_get_val(mem, e_Y);
-    mon_reg_list[3].size = 8;
-    mon_reg_list[3].flags = 0;
-    mon_reg_list[3].next = &mon_reg_list[4];
-
-    mon_reg_list[4].name = "SP";
-    mon_reg_list[4].id = e_SP;
-    mon_reg_list[4].val = (unsigned int)mon_register_get_val(mem, e_SP);
-    mon_reg_list[4].size = 8;
-    mon_reg_list[4].flags = 0;
-    /* mon_reg_list[4].next = &mon_reg_list[5];
-       this is depandant upon the following distinction! */
+    do {
+        if (regs->flags & MON_REGISTER_IS_MEMORY) {
+            regs->val = (unsigned int)mon_get_mem_val(mem, regs->extra);
+        } else {
+            regs->val = (unsigned int)mon_register_get_val(mem, regs->id);
+        }
+        regs = regs->next;
+    } while (regs != NULL);
 
     /* FIXME: This is not elegant. The destinction between 6502/6510
        should not be done by the memory space.  This will change once
        we have completely separated 6502, 6509, 6510 and Z80. */
-    if (mem == e_comp_space) {
-        mon_reg_list[4].next = &mon_reg_list[5];
-
-        mon_reg_list[5].name = "00";
-        mon_reg_list[5].id = -1; /* not a real register, but memory mapped */
-        mon_reg_list[5].val = (unsigned int)mon_get_mem_val(mem, 0);
-        mon_reg_list[5].size = 8;
-        mon_reg_list[5].flags = 0;
-        mon_reg_list[5].next = &mon_reg_list[6];
-
-        mon_reg_list[6].name = "01";
-        mon_reg_list[6].id = -1; /* not a real register, but memory mapped */
-        mon_reg_list[6].val = (unsigned int)mon_get_mem_val(mem, 1);
-        mon_reg_list[6].size = 8;
-        mon_reg_list[6].flags = 0;
-        mon_reg_list[6].next = &mon_reg_list[7];
-    } else {
+    if (mem != e_comp_space) {
         mon_reg_list[4].next = &mon_reg_list[7];
     }
-
-    mon_reg_list[7].name = "FL";
-    mon_reg_list[7].id = e_FLAGS;
-    mon_reg_list[7].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
-                          | 0x20;
-    mon_reg_list[7].size = 8;
-    mon_reg_list[7].flags = 0;
-    mon_reg_list[7].next = &mon_reg_list[8];
-
-    mon_reg_list[8].name = "NV-BDIZC";
-    mon_reg_list[8].id = e_FLAGS;
-    mon_reg_list[8].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
-                          | 0x20;
-    mon_reg_list[8].size = 8;
-    mon_reg_list[8].flags = 1;
-    mon_reg_list[8].next = NULL;
 
     return mon_reg_list;
 }
@@ -328,13 +286,13 @@ static void mon_register_list_set6502(mon_reg_list_t *reg_list, int mem)
         if (!strcmp(reg_list->name, "PC")) {
             mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
         }
-        if (!strcmp(reg_list->name, "AC")) {
+        if (!strcmp(reg_list->name, "A")) {
             mon_register_set_val(mem, e_A, (WORD)(reg_list->val));
         }
-        if (!strcmp(reg_list->name, "XR")) {
+        if (!strcmp(reg_list->name, "X")) {
             mon_register_set_val(mem, e_X, (WORD)(reg_list->val));
         }
-        if (!strcmp(reg_list->name, "YR")) {
+        if (!strcmp(reg_list->name, "Y")) {
             mon_register_set_val(mem, e_Y, (WORD)(reg_list->val));
         }
         if (!strcmp(reg_list->name, "SP")) {
