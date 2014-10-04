@@ -24,6 +24,8 @@
  *
  */
 
+/* #define DEBUG_MON_REGS */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -37,27 +39,60 @@
 #include "r65c02.h"
 #include "uimon.h"
 
+#ifdef DEBUG_MON_REGS
+#define DBG(_x_) printf _x_
+#else
+#define DBG(_x_)
+#endif
+
 #define TEST(x) ((x) != 0)
 
-/* returns 1 on valid, 0 on invalid */
+/* TODO: make the other functions here use this table. when done also do the
+ *       same with the other CPUs and finally move common code to mon_register.c
+ *
+ * TODO: also get rid of the ->next member
+ */
+
+static mon_reg_list_t mon_reg_list_R65C02[7] = {
+    {      "PC",    e_PC, 16,                      0, 0, &mon_reg_list_R65C02[1], 0 },
+    {       "A",     e_A,  8,                      0, 0, &mon_reg_list_R65C02[2], 0 },
+    {       "X",     e_X,  8,                      0, 0, &mon_reg_list_R65C02[3], 0 },
+    {       "Y",     e_Y,  8,                      0, 0, &mon_reg_list_R65C02[4], 0 },
+    {      "SP",    e_SP,  8,                      0, 0, &mon_reg_list_R65C02[5], 0 },
+    {      "FL", e_FLAGS,  8,                      0, 0, &mon_reg_list_R65C02[6], 0 },
+    {"NV-BDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, NULL, 0 }
+};
+
+/* TODO: this function is generic, move it into mon_register.c and remove
+         mon_register_valid from the monitor_cpu_type_t struct
+*/
+/* check if register id is valid, returns 1 on valid, 0 on invalid */
 static int mon_register_valid(int mem, int reg_id)
 {
+    mon_reg_list_t *mon_reg_list, *regs;
+    int ret = 0;
+
+    DBG(("mon_register_valid mem: %d id: %d\n", mem, reg_id));
+
     if (monitor_diskspace_dnr(mem) >= 0) {
         if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return 0;
         }
     }
 
-    switch (reg_id) {
-        case e_A:
-        case e_X:
-        case e_Y:
-        case e_PC:
-        case e_SP:
-        case e_FLAGS:
-            return 1;
-    }
-    return 0;
+    mon_reg_list = regs = mon_register_list_get(mem);
+
+    do {
+        if ((!(regs->flags & MON_REGISTER_IS_MEMORY)) && (regs->id == reg_id)) {
+            ret = 1;
+            break;
+        }
+        regs = regs->next;
+    } while (regs != NULL);
+
+    lib_free(mon_reg_list);
+
+    return ret;
 }
 
 static unsigned int mon_register_get_val(int mem, int reg_id)
@@ -220,62 +255,25 @@ static const char* mon_register_print_ex(int mem)
     return buff;
 }
 
+/* try to make this a generic function, move it into mon_register.c and
+   remove mon_register_list_get from the monitor_cpu_type_t struct */
 static mon_reg_list_t *mon_register_list_getR65C02(int mem)
 {
-    mon_reg_list_t *mon_reg_list;
+    mon_reg_list_t *mon_reg_list, *regs;
 
-    mon_reg_list = lib_malloc(sizeof(mon_reg_list_t) * 9);
+    mon_reg_list = regs = lib_malloc(sizeof(mon_reg_list_t) * 7);
+    memcpy(mon_reg_list, mon_reg_list_R65C02, sizeof(mon_reg_list_t) * 7);
 
-    mon_reg_list[0].name = "PC";
-    mon_reg_list[0].id = e_PC;
-    mon_reg_list[0].val = (unsigned int)mon_register_get_val(mem, e_PC);
-    mon_reg_list[0].size = 16;
-    mon_reg_list[0].flags = 0;
-    mon_reg_list[0].next = &mon_reg_list[1];
-
-    mon_reg_list[1].name = "A";
-    mon_reg_list[1].id = e_A;
-    mon_reg_list[1].val = (unsigned int)mon_register_get_val(mem, e_A);
-    mon_reg_list[1].size = 8;
-    mon_reg_list[1].flags = 0;
-    mon_reg_list[1].next = &mon_reg_list[2];
-
-    mon_reg_list[2].name = "X";
-    mon_reg_list[2].id = e_X;
-    mon_reg_list[2].val = (unsigned int)mon_register_get_val(mem, e_X);
-    mon_reg_list[2].size = 8;
-    mon_reg_list[2].flags = 0;
-    mon_reg_list[2].next = &mon_reg_list[3];
-
-    mon_reg_list[3].name = "Y";
-    mon_reg_list[3].id = e_Y;
-    mon_reg_list[3].val = (unsigned int)mon_register_get_val(mem, e_Y);
-    mon_reg_list[3].size = 8;
-    mon_reg_list[3].flags = 0;
-    mon_reg_list[3].next = &mon_reg_list[4];
-
-    mon_reg_list[4].name = "SP";
-    mon_reg_list[4].id = e_SP;
-    mon_reg_list[4].val = (unsigned int)mon_register_get_val(mem, e_SP);
-    mon_reg_list[4].size = 8;
-    mon_reg_list[4].flags = 0;
-    mon_reg_list[4].next = &mon_reg_list[5];
-
-    mon_reg_list[5].name = "FL";
-    mon_reg_list[5].id = e_FLAGS;
-    mon_reg_list[5].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
-                          | 0x20;
-    mon_reg_list[5].size = 8;
-    mon_reg_list[5].flags = 0;
-    mon_reg_list[5].next = &mon_reg_list[6];
-
-    mon_reg_list[6].name = "NV-BDIZC";
-    mon_reg_list[6].id = e_FLAGS;
-    mon_reg_list[6].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
-                          | 0x20;
-    mon_reg_list[6].size = 8;
-    mon_reg_list[6].flags = MON_REGISTER_IS_FLAGS;
-    mon_reg_list[6].next = NULL;
+    do {
+        if (regs->flags & MON_REGISTER_IS_MEMORY) {
+            regs->val = (unsigned int)mon_get_mem_val(mem, regs->extra);
+        } else if (regs->flags & MON_REGISTER_IS_FLAGS) {
+            regs->val = (unsigned int)mon_register_get_val(mem, regs->id) | 0x20;
+        } else {
+            regs->val = (unsigned int)mon_register_get_val(mem, regs->id);
+        }
+        regs = regs->next;
+    } while (regs != NULL);
 
     return mon_reg_list;
 }
