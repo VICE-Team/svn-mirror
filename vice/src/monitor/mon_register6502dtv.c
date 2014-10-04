@@ -243,7 +243,7 @@ static void mon_register_print(int mem)
 
     regs = mon_interfaces[mem]->dtv_cpu_regs;
 
-    mon_out("  ADDR AC XR YR SP 00 01 NV-BDIZC ");
+    mon_out("  ADDR A  X  Y  SP 00 01 NV-BDIZC ");
 
     if (mon_interfaces[mem]->get_line_cycle != NULL) {
         mon_out("LIN CYC  STOPWATCH\n");
@@ -316,21 +316,21 @@ static mon_reg_list_t *mon_register_list_get6502dtv(int mem)
     mon_reg_list[0].flags = 0;
     mon_reg_list[0].next = &mon_reg_list[1];
 
-    mon_reg_list[1].name = "AC";
+    mon_reg_list[1].name = "A";
     mon_reg_list[1].id = e_A;
     mon_reg_list[1].val = (unsigned int)mon_register_get_val(mem, e_A);
     mon_reg_list[1].size = 8;
     mon_reg_list[1].flags = 0;
     mon_reg_list[1].next = &mon_reg_list[2];
 
-    mon_reg_list[2].name = "XR";
+    mon_reg_list[2].name = "X";
     mon_reg_list[2].id = e_X;
     mon_reg_list[2].val = (unsigned int)mon_register_get_val(mem, e_X);
     mon_reg_list[2].size = 8;
     mon_reg_list[2].flags = 0;
     mon_reg_list[2].next = &mon_reg_list[3];
 
-    mon_reg_list[3].name = "YR";
+    mon_reg_list[3].name = "Y";
     mon_reg_list[3].id = e_Y;
     mon_reg_list[3].val = (unsigned int)mon_register_get_val(mem, e_Y);
     mon_reg_list[3].size = 8;
@@ -489,13 +489,13 @@ static void mon_register_list_set6502dtv(mon_reg_list_t *reg_list, int mem)
         if (!strcmp(reg_list->name, "PC")) {
             mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
         }
-        if (!strcmp(reg_list->name, "AC")) {
+        if (!strcmp(reg_list->name, "A")) {
             mon_register_set_val(mem, e_A, (WORD)(reg_list->val));
         }
-        if (!strcmp(reg_list->name, "XR")) {
+        if (!strcmp(reg_list->name, "X")) {
             mon_register_set_val(mem, e_X, (WORD)(reg_list->val));
         }
-        if (!strcmp(reg_list->name, "YR")) {
+        if (!strcmp(reg_list->name, "Y")) {
             mon_register_set_val(mem, e_Y, (WORD)(reg_list->val));
         }
         if (!strcmp(reg_list->name, "SP")) {
