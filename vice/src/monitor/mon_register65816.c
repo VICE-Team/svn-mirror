@@ -187,7 +187,7 @@ static void mon_register_print(int mem)
     regs = mon_interfaces[mem]->cpu_65816_regs;
 
     if (mon_register_get_val(mem, e_EMUL)) {
-        mon_out("  PB ADDR AR BR XR YR SP DPRE DB NV-BDIZC E");
+        mon_out("  PB ADDR A  B  X  Y  SP DPRE DB NV-BDIZC E");
         if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
             mon_out(" LIN CYC\n");
         } else {
@@ -212,8 +212,8 @@ static void mon_register_print(int mem)
                   TEST(WDC65816_REGS_GET_CARRY(regs)));
     } else {
         mon_out("  PB ADDR");
-        mon_out(WDC65816_REGS_GET_65816_M(regs) ? " AR BR" : " CREG");
-        mon_out(WDC65816_REGS_GET_65816_X(regs) ? " XH XR YH YR" : " XREG YREG");
+        mon_out(WDC65816_REGS_GET_65816_M(regs) ? " A  B " : " CREG");
+        mon_out(WDC65816_REGS_GET_65816_X(regs) ? " XH X  YH Y " : " X    Y   ");
         mon_out(" STCK DPRE DB NVMXDIZC E");
 
         if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
@@ -292,28 +292,28 @@ static mon_reg_list_t *mon_register_list_get65816(int mem)
     mon_reg_list[1].flags = 0;
     mon_reg_list[1].next = &mon_reg_list[2];
 
-    mon_reg_list[2].name = "AR";
+    mon_reg_list[2].name = "A";
     mon_reg_list[2].id = e_A;
     mon_reg_list[2].val = (unsigned int)mon_register_get_val(mem, e_A);
     mon_reg_list[2].size = 8;
     mon_reg_list[2].flags = 0;
     mon_reg_list[2].next = &mon_reg_list[3];
 
-    mon_reg_list[3].name = "BR";
+    mon_reg_list[3].name = "B";
     mon_reg_list[3].id = e_B;
     mon_reg_list[3].val = (unsigned int)mon_register_get_val(mem, e_B);
     mon_reg_list[3].size = 8;
     mon_reg_list[3].flags = 0;
     mon_reg_list[3].next = &mon_reg_list[4];
 
-    mon_reg_list[4].name = "XR";
+    mon_reg_list[4].name = "X";
     mon_reg_list[4].id = e_X;
     mon_reg_list[4].val = (unsigned int)mon_register_get_val(mem, e_X);
     mon_reg_list[4].size = 16;
     mon_reg_list[4].flags = 0;
     mon_reg_list[4].next = &mon_reg_list[5];
 
-    mon_reg_list[5].name = "YR";
+    mon_reg_list[5].name = "Y";
     mon_reg_list[5].id = e_Y;
     mon_reg_list[5].val = (unsigned int)mon_register_get_val(mem, e_Y);
     mon_reg_list[5].size = 16;
@@ -362,7 +362,7 @@ static mon_reg_list_t *mon_register_list_get65816(int mem)
     mon_reg_list[11].flags = MON_REGISTER_IS_FLAGS;
     mon_reg_list[11].next = &mon_reg_list[12];
 
-    mon_reg_list[12].name = "EMUL";
+    mon_reg_list[12].name = "E";
     mon_reg_list[12].id = e_EMUL;
     mon_reg_list[12].val = (unsigned int)mon_register_get_val(mem, e_EMUL);
     mon_reg_list[12].size = 1;
@@ -379,13 +379,13 @@ static void mon_register_list_set65816(mon_reg_list_t *reg_list, int mem)
             mon_register_set_val(mem, e_PBR, (WORD)(reg_list->val));
         } else if (!strcmp(reg_list->name, "PC")) {
             mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "AR")) {
+        } else if (!strcmp(reg_list->name, "A")) {
             mon_register_set_val(mem, e_A, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "BR")) {
+        } else if (!strcmp(reg_list->name, "B")) {
             mon_register_set_val(mem, e_B, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "XR")) {
+        } else if (!strcmp(reg_list->name, "X")) {
             mon_register_set_val(mem, e_X, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "YR")) {
+        } else if (!strcmp(reg_list->name, "Y")) {
             mon_register_set_val(mem, e_Y, (WORD)(reg_list->val));
         } else if (!strcmp(reg_list->name, "SP")) {
             mon_register_set_val(mem, e_SP, (WORD)(reg_list->val));
@@ -393,7 +393,7 @@ static void mon_register_list_set65816(mon_reg_list_t *reg_list, int mem)
             mon_register_set_val(mem, e_DPR, (WORD)(reg_list->val));
         } else if (!strcmp(reg_list->name, "DBR")) {
             mon_register_set_val(mem, e_DBR, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "EMUL")) {
+        } else if (!strcmp(reg_list->name, "E")) {
             mon_register_set_val(mem, e_EMUL, (WORD)(reg_list->val));
         } else if (!strcmp(reg_list->name, "NV-BDIZC")) {
             mon_register_set_val(mem, e_FLAGS, (WORD)(reg_list->val));
