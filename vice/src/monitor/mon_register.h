@@ -30,6 +30,8 @@
 struct mon_reg_list_s {
     /* Name of the register.  */
     const char *name;
+    /* the register ID used by various functions */
+    unsigned int id;
     /* Value of the register.  */
     unsigned int val;
     /* Size of the register in bits.  */
@@ -43,11 +45,26 @@ typedef struct mon_reg_list_s mon_reg_list_t;
 
 struct monitor_cpu_type_s;
 
+/* CPU specific functions */
+
 void mon_register6502_init(struct monitor_cpu_type_s *monitor_cpu_type);
 void mon_register6502dtv_init(struct monitor_cpu_type_s *monitor_cpu_type);
 void mon_registerR65C02_init(struct monitor_cpu_type_s *monitor_cpu_type);
 void mon_register65816_init(struct monitor_cpu_type_s *monitor_cpu_type);
 void mon_registerz80_init(struct monitor_cpu_type_s *monitor_cpu_type);
 void mon_register6809_init(struct monitor_cpu_type_s *monitor_cpu_type);
+
+/* common functions */
+
+/* checks if a given register id is valid, returns 1 on valid, 0 on invalid */
+int mon_register_id_valid(int mem, int reg_id);
+/* takes a register by name, and returns its id. returns -1 on error */
+int mon_register_name_to_id(int mem, char *name);
+/* checks if a given string is a valid register name, returns 1 on valid, 0 on invalid */
+int mon_register_name_valid(int mem, char *name);
+/* takes a register by id, and returns its value. returns -1 on error */
+int mon_register_id_to_value(int mem, int reg_id);
+/* takes a register by name, and returns its value. returns -1 on error */
+int mon_register_name_to_value(int mem, char *name);
 
 #endif

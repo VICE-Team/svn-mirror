@@ -279,78 +279,91 @@ static mon_reg_list_t *mon_register_list_get65816(int mem)
     mon_reg_list = lib_malloc(sizeof(mon_reg_list_t) * 13);
 
     mon_reg_list[0].name = "PBR";
+    mon_reg_list[0].id = e_PBR;
     mon_reg_list[0].val = (unsigned int)mon_register_get_val(mem, e_PBR);
     mon_reg_list[0].size = 8;
     mon_reg_list[0].flags = 0;
     mon_reg_list[0].next = &mon_reg_list[1];
 
     mon_reg_list[1].name = "PC";
+    mon_reg_list[1].id = e_PC;
     mon_reg_list[1].val = (unsigned int)mon_register_get_val(mem, e_PC);
     mon_reg_list[1].size = 16;
     mon_reg_list[1].flags = 0;
     mon_reg_list[1].next = &mon_reg_list[2];
 
     mon_reg_list[2].name = "AR";
+    mon_reg_list[2].id = e_A;
     mon_reg_list[2].val = (unsigned int)mon_register_get_val(mem, e_A);
     mon_reg_list[2].size = 8;
     mon_reg_list[2].flags = 0;
     mon_reg_list[2].next = &mon_reg_list[3];
 
     mon_reg_list[3].name = "BR";
+    mon_reg_list[3].id = e_B;
     mon_reg_list[3].val = (unsigned int)mon_register_get_val(mem, e_B);
     mon_reg_list[3].size = 8;
     mon_reg_list[3].flags = 0;
     mon_reg_list[3].next = &mon_reg_list[4];
 
     mon_reg_list[4].name = "XR";
+    mon_reg_list[4].id = e_X;
     mon_reg_list[4].val = (unsigned int)mon_register_get_val(mem, e_X);
     mon_reg_list[4].size = 16;
     mon_reg_list[4].flags = 0;
     mon_reg_list[4].next = &mon_reg_list[5];
 
     mon_reg_list[5].name = "YR";
+    mon_reg_list[5].id = e_Y;
     mon_reg_list[5].val = (unsigned int)mon_register_get_val(mem, e_Y);
     mon_reg_list[5].size = 16;
     mon_reg_list[5].flags = 0;
     mon_reg_list[5].next = &mon_reg_list[6];
 
     mon_reg_list[6].name = "SP";
+    mon_reg_list[6].id = e_SP;
     mon_reg_list[6].val = (unsigned int)mon_register_get_val(mem, e_SP);
     mon_reg_list[6].size = 16;
     mon_reg_list[6].flags = 0;
     mon_reg_list[6].next = &mon_reg_list[7];
 
     mon_reg_list[7].name = "DPR";
+    mon_reg_list[7].id = e_DPR;
     mon_reg_list[7].val = (unsigned int)mon_register_get_val(mem, e_DPR);
     mon_reg_list[7].size = 16;
     mon_reg_list[7].flags = 0;
     mon_reg_list[7].next = &mon_reg_list[8];
 
     mon_reg_list[8].name = "DBR";
+    mon_reg_list[8].id = e_DBR;
     mon_reg_list[8].val = (unsigned int)mon_register_get_val(mem, e_DBR);
     mon_reg_list[8].size = 8;
     mon_reg_list[8].flags = 0;
     mon_reg_list[8].next = &mon_reg_list[9];
 
     mon_reg_list[9].name = "FL";
+    mon_reg_list[9].id = e_FLAGS;
     mon_reg_list[9].val = (unsigned int)mon_register_get_val(mem, e_FLAGS);
     mon_reg_list[9].size = 8;
     mon_reg_list[9].flags = 0;
     mon_reg_list[9].next = &mon_reg_list[10];
 
     mon_reg_list[10].name = "NV-BDIZC";
+    mon_reg_list[10].id = e_FLAGS;
     mon_reg_list[10].val = (unsigned int)mon_register_get_val(mem, e_FLAGS);
     mon_reg_list[10].size = 8;
     mon_reg_list[10].flags = 1;
     mon_reg_list[10].next = &mon_reg_list[11];
 
     mon_reg_list[11].name = "NVMXDIZC";
+    mon_reg_list[11].id = e_FLAGS;
     mon_reg_list[11].val = (unsigned int)mon_register_get_val(mem, e_FLAGS);
     mon_reg_list[11].size = 8;
     mon_reg_list[11].flags = 1;
     mon_reg_list[11].next = &mon_reg_list[12];
 
     mon_reg_list[12].name = "EMUL";
+    mon_reg_list[12].id = e_EMUL;
     mon_reg_list[12].val = (unsigned int)mon_register_get_val(mem, e_EMUL);
     mon_reg_list[12].size = 1;
     mon_reg_list[12].flags = 0;

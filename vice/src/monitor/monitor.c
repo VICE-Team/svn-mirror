@@ -1791,11 +1791,10 @@ int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name)
         mem = default_memspace;
     }
 
-    /* FIXME: this is a hack to allow .PC as an address in any monitor command,
-     *        rework this so any register can be used
-     */
-    if (strcmp(name, ".PC") == 0) {
-        return (monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC);
+    /* this allows for .REGISTER to be used in all commands to refer to the
+       current value of a register */
+    if ((name[0] == '.') && mon_register_name_valid(mem, &name[1])) {
+        return mon_register_name_to_value(mem, &name[1]);
     }
 
     sym_ptr = monitor_labels[mem].name_list;
@@ -1826,16 +1825,15 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     MEMSPACE mem = addr_memspace(addr);
     WORD loc = addr_location(addr);
 
-    /* do not allow register names as labels
-     * FIXME: implement this properly
-     */
-    if (strcmp(name, ".PC") == 0) {
-        mon_out("Error: .PC is a reserved label.\n");
-        return;
-    }
-
     if (mem == e_default_space) {
         mem = default_memspace;
+    }
+
+    /* .REGISTER can be used in all commands to refer to the current value of a
+       register, meaning it can not be used as a regular label */
+    if ((name[0] == '.') && mon_register_name_valid(mem, &name[1])) {
+        mon_out("Error: %s is a reserved label.\n", name);
+        return;
     }
 
     old_name = mon_symbol_table_lookup_name(mem, loc);

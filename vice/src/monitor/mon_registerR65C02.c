@@ -227,36 +227,42 @@ static mon_reg_list_t *mon_register_list_getR65C02(int mem)
     mon_reg_list = lib_malloc(sizeof(mon_reg_list_t) * 9);
 
     mon_reg_list[0].name = "PC";
+    mon_reg_list[0].id = e_PC;
     mon_reg_list[0].val = (unsigned int)mon_register_get_val(mem, e_PC);
     mon_reg_list[0].size = 16;
     mon_reg_list[0].flags = 0;
     mon_reg_list[0].next = &mon_reg_list[1];
 
     mon_reg_list[1].name = "AC";
+    mon_reg_list[1].id = e_A;
     mon_reg_list[1].val = (unsigned int)mon_register_get_val(mem, e_A);
     mon_reg_list[1].size = 8;
     mon_reg_list[1].flags = 0;
     mon_reg_list[1].next = &mon_reg_list[2];
 
     mon_reg_list[2].name = "XR";
+    mon_reg_list[2].id = e_X;
     mon_reg_list[2].val = (unsigned int)mon_register_get_val(mem, e_X);
     mon_reg_list[2].size = 8;
     mon_reg_list[2].flags = 0;
     mon_reg_list[2].next = &mon_reg_list[3];
 
     mon_reg_list[3].name = "YR";
+    mon_reg_list[3].id = e_Y;
     mon_reg_list[3].val = (unsigned int)mon_register_get_val(mem, e_Y);
     mon_reg_list[3].size = 8;
     mon_reg_list[3].flags = 0;
     mon_reg_list[3].next = &mon_reg_list[4];
 
     mon_reg_list[4].name = "SP";
+    mon_reg_list[4].id = e_SP;
     mon_reg_list[4].val = (unsigned int)mon_register_get_val(mem, e_SP);
     mon_reg_list[4].size = 8;
     mon_reg_list[4].flags = 0;
     mon_reg_list[4].next = &mon_reg_list[5];
 
     mon_reg_list[5].name = "FL";
+    mon_reg_list[5].id = e_FLAGS;
     mon_reg_list[5].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
                           | 0x20;
     mon_reg_list[5].size = 8;
@@ -264,6 +270,7 @@ static mon_reg_list_t *mon_register_list_getR65C02(int mem)
     mon_reg_list[5].next = &mon_reg_list[6];
 
     mon_reg_list[6].name = "NV-BDIZC";
+    mon_reg_list[6].id = e_FLAGS;
     mon_reg_list[6].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
                           | 0x20;
     mon_reg_list[6].size = 8;
