@@ -49,25 +49,64 @@
 
 #define TEST(x) ((x) != 0)
 
-/* returns 1 on valid, 0 on invalid */
+/* TODO: make the other functions here use this table. when done also do the
+ *       same with the other CPUs and finally move common code to mon_register.c
+ *
+ * TODO: also get rid of the ->next member
+ */
+
+static mon_reg_list_t mon_reg_list_6510[9] = {
+    {      "PC",    e_PC, 16,                      0, 0, &mon_reg_list_6510[1], 0 },
+    {       "A",     e_A,  8,                      0, 0, &mon_reg_list_6510[2], 0 },
+    {       "X",     e_X,  8,                      0, 0, &mon_reg_list_6510[3], 0 },
+    {       "Y",     e_Y,  8,                      0, 0, &mon_reg_list_6510[4], 0 },
+    {      "SP",    e_SP,  8,                      0, 0, &mon_reg_list_6510[5], 0 },
+    {      "00",      -1,  8, MON_REGISTER_IS_MEMORY, 0, &mon_reg_list_6510[6], 0 },
+    {      "01",      -1,  8, MON_REGISTER_IS_MEMORY, 1, &mon_reg_list_6510[7], 0 },
+    {      "FL", e_FLAGS,  8,                      0, 0, &mon_reg_list_6510[8], 0 },
+    {"NV-BDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, NULL, 0 }
+};
+
+static mon_reg_list_t mon_reg_list_6502[7] = {
+    {      "PC",    e_PC, 16,                      0, 0, &mon_reg_list_6502[1], 0 },
+    {       "A",     e_A,  8,                      0, 0, &mon_reg_list_6502[2], 0 },
+    {       "X",     e_X,  8,                      0, 0, &mon_reg_list_6502[3], 0 },
+    {       "Y",     e_Y,  8,                      0, 0, &mon_reg_list_6502[4], 0 },
+    {      "SP",    e_SP,  8,                      0, 0, &mon_reg_list_6502[5], 0 },
+    {      "FL", e_FLAGS,  8,                      0, 0, &mon_reg_list_6502[6], 0 },
+    {"NV-BDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, NULL, 0 }
+};
+
+/* TODO: this function is generic, move it into mon_register.c and remove
+         mon_register_valid from the monitor_cpu_type_t struct
+*/
+/* check if register id is valid, returns 1 on valid, 0 on invalid */
 static int mon_register_valid(int mem, int reg_id)
 {
+    mon_reg_list_t *mon_reg_list, *regs;
+    int ret = 0;
+
+    DBG(("mon_register_valid mem: %d id: %d\n", mem, reg_id));
+
     if (monitor_diskspace_dnr(mem) >= 0) {
         if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return 0;
         }
     }
 
-    switch (reg_id) {
-        case e_A:
-        case e_X:
-        case e_Y:
-        case e_PC:
-        case e_SP:
-        case e_FLAGS:
-            return 1;
-    }
-    return 0;
+    mon_reg_list = regs = mon_register_list_get(mem);
+
+    do {
+        if ((!(regs->flags & MON_REGISTER_IS_MEMORY)) && (regs->id == reg_id)) {
+            ret = 1;
+            break;
+        }
+        regs = regs->next;
+    } while (regs != NULL);
+
+    lib_free(mon_reg_list);
+
+    return ret;
 }
 
 static unsigned int mon_register_get_val(int mem, int reg_id)
@@ -236,30 +275,22 @@ static const char* mon_register_print_ex(int mem)
     return buff;
 }
 
-/* TODO: make the other functions here use this table. when done also do the
- *       same with the other CPUs and finally move common code to mon_register.c
- */
-
-static mon_reg_list_t mon_reg_list_6510[9] = {
-    {      "PC",    e_PC, 16,                      0, 0, &mon_reg_list_6510[1], 0 },
-    {       "A",     e_A,  8,                      0, 0, &mon_reg_list_6510[2], 0 },
-    {       "X",     e_X,  8,                      0, 0, &mon_reg_list_6510[3], 0 },
-    {       "Y",     e_Y,  8,                      0, 0, &mon_reg_list_6510[4], 0 },
-    {      "SP",    e_SP,  8,                      0, 0, &mon_reg_list_6510[5], 0 },
-    {      "00",      -1,  8, MON_REGISTER_IS_MEMORY, 0, &mon_reg_list_6510[6], 0 },
-    {      "01",      -1,  8, MON_REGISTER_IS_MEMORY, 1, &mon_reg_list_6510[7], 0 },
-    {      "FL", e_FLAGS,  8,                      0, 0, &mon_reg_list_6510[8], 0 },
-    {"NV-BDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, NULL, 0 }
-};
-
 static mon_reg_list_t *mon_register_list_get6502(int mem)
 {
     mon_reg_list_t *mon_reg_list, *regs;
 
     DBG(("mon_register_list_get6502 mem: %d\n", mem));
 
-    mon_reg_list = regs = lib_malloc(sizeof(mon_reg_list_t) * 9);
-    memcpy(mon_reg_list, mon_reg_list_6510, sizeof(mon_reg_list_t) * 9);
+    /* FIXME: This is not elegant. The destinction between 6502/6510
+       should not be done by the memory space.  This will change once
+       we have completely separated 6502, 6509, 6510 and Z80. */
+    if (mem != e_comp_space) {
+        mon_reg_list = regs = lib_malloc(sizeof(mon_reg_list_t) * 7);
+        memcpy(mon_reg_list, mon_reg_list_6502, sizeof(mon_reg_list_t) * 7);
+    } else {
+        mon_reg_list = regs = lib_malloc(sizeof(mon_reg_list_t) * 9);
+        memcpy(mon_reg_list, mon_reg_list_6510, sizeof(mon_reg_list_t) * 9);
+    }
 
     do {
         if (regs->flags & MON_REGISTER_IS_MEMORY) {
@@ -269,13 +300,6 @@ static mon_reg_list_t *mon_register_list_get6502(int mem)
         }
         regs = regs->next;
     } while (regs != NULL);
-
-    /* FIXME: This is not elegant. The destinction between 6502/6510
-       should not be done by the memory space.  This will change once
-       we have completely separated 6502, 6509, 6510 and Z80. */
-    if (mem != e_comp_space) {
-        mon_reg_list[4].next = &mon_reg_list[7];
-    }
 
     return mon_reg_list;
 }
