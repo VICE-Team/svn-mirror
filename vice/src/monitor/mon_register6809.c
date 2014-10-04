@@ -309,6 +309,7 @@ static mon_reg_list_t *mon_register_list_get6809(int mem)
     return mon_reg_list;
 }
 
+#if 0
 static void mon_register_list_set6809(mon_reg_list_t *reg_list, int mem)
 {
     do {
@@ -346,6 +347,7 @@ static void mon_register_list_set6809(mon_reg_list_t *reg_list, int mem)
         reg_list = reg_list->next;
     } while (reg_list != NULL);
 }
+#endif
 
 void mon_register6809_init(monitor_cpu_type_t *monitor_cpu_type)
 {
@@ -354,6 +356,6 @@ void mon_register6809_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_print = mon_register_print;
     monitor_cpu_type->mon_register_print_ex = mon_register_print_ex;
     monitor_cpu_type->mon_register_list_get = mon_register_list_get6809;
-    monitor_cpu_type->mon_register_list_set = mon_register_list_set6809;
+    /* monitor_cpu_type->mon_register_list_set = mon_register_list_set6809; */
     monitor_cpu_type->mon_register_valid = mon_register_valid;
 }
