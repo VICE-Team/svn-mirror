@@ -10654,12 +10654,9 @@ Playback recorded events
 Every VICE emulator has a complete built-in monitor, which can be used
 to examine, disassemble and assemble machine language programs, as
 well as debug them through breakpoints.  It can be activated by using
-the ``Activate monitor'' command (left button menu).  Notice that you
-have to run the emulator from a terminal emulation program (such as
+the ``Activate monitor'' command (left button menu).  Notice that in some
+ports you have to run the emulator from a terminal emulation program (such as
 @code{rxvt} or @code{xterm}) in order to use the monitor.
-
-@b{Warning}: this version of the monitor is still under construction,
-and some of the features are not fully working yet.
 
 @menu
 * Terminology::
@@ -10708,8 +10705,11 @@ must be in the same address space.
 An address or an address range.
 
 @item label
-@code{label} is the name of a label. it must start with a dot (".")
-in order for the monitor to recognize it as a label.
+@code{label} is the name of a label. It must start with a dot (".")
+in order for the monitor to recognize it as a label. Register names preceeded
+by a dot (for example @code{.PC}) are special labels that evaluate to value of
+the respective register at the time it is used, and thus can not be used as
+a regular label.
 
 @item prompt
 The prompt has the format [x:y].  If x is -, memory reads from the
