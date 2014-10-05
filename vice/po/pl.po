@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-25 21:10-0700\n"
+"POT-Creation-Date: 2014-10-05 16:39-0700\n"
 "PO-Revision-Date: 2014-09-13 19:53+0100\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -33,11 +33,10 @@ msgid "Set device for extra joystick port 2"
 msgstr "Określ urządzenie dodatkowego joysticka w porcie 2"
 
 #: src/arch/unix/mididrv.c:672 src/arch/unix/mididrv.c:677
-#: src/arch/unix/gui/uiautostart.c:50 src/arch/unix/gui/uitfe.c:45
 #: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
-#: src/arch/unix/macosx/mididrv.c:130 src/arch/win32/res.rc.po.c:1287
-#: src/arch/amigaos/intl_text.c.po.c:5998 src/translate_text.c.po.c:3383
-msgid "Name"
+#: src/arch/unix/macosx/mididrv.c:130
+#, fuzzy
+msgid "<Name>"
 msgstr "Nazwa"
 
 #: src/arch/unix/mididrv.c:672 src/arch/win32/res.rc.po.c:1135
@@ -48,9 +47,9 @@ msgstr "Określ urządzenie wejścia MIDI"
 msgid "Specify MIDI-Out device"
 msgstr "Określ urządzenie wyjścia MIDI"
 
-#: src/arch/unix/mididrv.c:683 src/arch/unix/gui/uimidi.c:87
-#: src/arch/unix/gui/uimidi.c:103 src/arch/win32/res.rc.po.c:1193
-msgid "Driver"
+#: src/arch/unix/mididrv.c:683
+#, fuzzy
+msgid "<Driver>"
 msgstr "Sterownik"
 
 #: src/arch/unix/mididrv.c:683
@@ -59,7 +58,8 @@ msgstr "Określ sterownik MIDI (0 = OSS, 1 = ALSA)"
 
 #: src/arch/unix/rs232.c:195 src/arch/unix/rs232.c:200
 #: src/arch/unix/rs232.c:205 src/arch/unix/rs232.c:210
-msgid "baudrate"
+#, fuzzy
+msgid "<baudrate>"
 msgstr "szybkosć transmisji"
 
 #: src/arch/unix/rs232.c:195
@@ -75,8 +75,9 @@ msgid "Specify baudrate of third RS232 device"
 msgstr "Określ szybkość transmisji trzeciego urządzenia RS232"
 
 #: src/arch/unix/rs232.c:210
-msgid "Specify baudrate of 4th RS232 device"
-msgstr "Określ szybkość transmisji czwartego urządzenia RS232"
+#, fuzzy
+msgid "Specify baudrate of fourth RS232 device"
+msgstr "Określ szybkość transmisji pierwszego urządzenia RS232"
 
 #: src/arch/unix/gui/c128ui.c:273 src/arch/unix/gui/c64scui.c:390
 #: src/arch/unix/gui/c64ui.c:451 src/arch/unix/gui/vsidui.c:236
@@ -163,7 +164,7 @@ msgstr ""
 "Nie można wczytać obrazu function ROM\n"
 "'%s'"
 
-#: src/arch/unix/gui/c128ui.c:341 src/arch/win32/resc128.rc.po.c:698
+#: src/arch/unix/gui/c128ui.c:341 src/arch/win32/resc128.rc.po.c:702
 msgid "Internal Function ROM type"
 msgstr "Typ wewnętrznego Function ROM-u"
 
@@ -171,7 +172,7 @@ msgstr "Typ wewnętrznego Function ROM-u"
 msgid "Internal Function ROM file"
 msgstr "Plik wewnętrznego Function ROM-u"
 
-#: src/arch/unix/gui/c128ui.c:347 src/arch/win32/resc128.rc.po.c:701
+#: src/arch/unix/gui/c128ui.c:347 src/arch/win32/resc128.rc.po.c:705
 msgid "External Function ROM type"
 msgstr "Typ zewnętrznego Function ROM-u"
 
@@ -179,7 +180,7 @@ msgstr "Typ zewnętrznego Function ROM-u"
 msgid "External Function ROM file"
 msgstr "Plik zewnętrznego Function ROM-u"
 
-#: src/arch/unix/gui/c128ui.c:356 src/arch/win32/resc128.rc.po.c:669
+#: src/arch/unix/gui/c128ui.c:356 src/arch/win32/resc128.rc.po.c:673
 msgid "Function ROM"
 msgstr "Function ROM"
 
@@ -298,18 +299,18 @@ msgstr "Plik zapisu multimediów VDC"
 msgid "Screenshots"
 msgstr "Zrzuty ekranu"
 
-#: src/arch/unix/gui/c128ui.c:534 src/arch/win32/resc128.rc.po.c:689
+#: src/arch/unix/gui/c128ui.c:534 src/arch/win32/resc128.rc.po.c:693
 #: src/arch/amigaos/intl_text.c.po.c:4486
 msgid "International"
 msgstr "Międzynarodowy"
 
-#: src/arch/unix/gui/c128ui.c:536 src/arch/win32/resc128.rc.po.c:690
+#: src/arch/unix/gui/c128ui.c:536 src/arch/win32/resc128.rc.po.c:694
 #: src/arch/amigaos/intl_text.c.po.c:4556
 msgid "Finnish"
 msgstr "Fiński"
 
 #: src/arch/unix/gui/c128ui.c:538 src/arch/win32/res.rc.po.c:1523
-#: src/arch/win32/resc128.rc.po.c:691 src/arch/amigaos/intl_text.c.po.c:4570
+#: src/arch/win32/resc128.rc.po.c:695 src/arch/amigaos/intl_text.c.po.c:4570
 msgid "French"
 msgstr "Francuski"
 
@@ -318,26 +319,26 @@ msgstr "Francuski"
 #: src/arch/unix/gui/c64ui.c:631 src/arch/unix/gui/cbm2ui.c:396
 #: src/arch/unix/gui/petui.c:439 src/arch/unix/gui/petui.c:445
 #: src/arch/unix/gui/plus4ui.c:295 src/arch/win32/res.rc.po.c:1521
-#: src/arch/win32/resc128.rc.po.c:692 src/arch/amigaos/intl_text.c.po.c:4528
+#: src/arch/win32/resc128.rc.po.c:696 src/arch/amigaos/intl_text.c.po.c:4528
 msgid "German"
 msgstr "Niemiecki"
 
 #: src/arch/unix/gui/c128ui.c:542 src/arch/win32/res.rc.po.c:1525
-#: src/arch/win32/resc128.rc.po.c:693 src/arch/amigaos/intl_text.c.po.c:4598
+#: src/arch/win32/resc128.rc.po.c:697 src/arch/amigaos/intl_text.c.po.c:4598
 msgid "Italian"
 msgstr "Włoski"
 
-#: src/arch/unix/gui/c128ui.c:544 src/arch/win32/resc128.rc.po.c:694
+#: src/arch/unix/gui/c128ui.c:544 src/arch/win32/resc128.rc.po.c:698
 #: src/arch/amigaos/intl_text.c.po.c:4654
 msgid "Norwegian"
 msgstr "Norweski"
 
 #: src/arch/unix/gui/c128ui.c:546 src/arch/win32/res.rc.po.c:1530
-#: src/arch/win32/resc128.rc.po.c:695 src/arch/amigaos/intl_text.c.po.c:4682
+#: src/arch/win32/resc128.rc.po.c:699 src/arch/amigaos/intl_text.c.po.c:4682
 msgid "Swedish"
 msgstr "Szwedzki"
 
-#: src/arch/unix/gui/c128ui.c:548 src/arch/win32/resc128.rc.po.c:696
+#: src/arch/unix/gui/c128ui.c:548 src/arch/win32/resc128.rc.po.c:700
 #: src/arch/amigaos/intl_text.c.po.c:4696
 msgid "Swiss"
 msgstr "Szwajcarski"
@@ -356,11 +357,11 @@ msgstr "6526 (stary)"
 msgid "6526A (new)"
 msgstr "6526A (nowy)"
 
-#: src/arch/unix/gui/c128ui.c:574 src/arch/win32/resc128.rc.po.c:703
+#: src/arch/unix/gui/c128ui.c:574 src/arch/win32/resc128.rc.po.c:707
 msgid "C128 model"
 msgstr "Model C128"
 
-#: src/arch/unix/gui/c128ui.c:577 src/arch/win32/resc128.rc.po.c:668
+#: src/arch/unix/gui/c128ui.c:577 src/arch/win32/resc128.rc.po.c:672
 #: src/arch/amigaos/intl_text.c.po.c:11081
 msgid "Machine type"
 msgstr "Typ maszyny"
@@ -433,8 +434,8 @@ msgstr "Ustawienia ROM"
 msgid "VIC-II settings"
 msgstr "Ustawienia VIC-II"
 
-#: src/arch/unix/gui/c128ui.c:620 src/arch/win32/resc128.rc.po.c:243
-#: src/arch/win32/resc128.rc.po.c:704 src/arch/amigaos/intl_text.c.po.c:1770
+#: src/arch/unix/gui/c128ui.c:620 src/arch/win32/resc128.rc.po.c:247
+#: src/arch/win32/resc128.rc.po.c:708 src/arch/amigaos/intl_text.c.po.c:1770
 msgid "VDC settings"
 msgstr "Ustawienia VDC"
 
@@ -457,10 +458,10 @@ msgstr "Rozszerzenia pamięci i we/wy"
 #: src/arch/unix/gui/cbm2ui.c:442 src/arch/unix/gui/plus4ui.c:319
 #: src/arch/unix/gui/vic20ui.c:541 src/arch/win32/res.rc.po.c:1264
 #: src/arch/win32/res.rc.po.c:1366 src/arch/win32/res.rc.po.c:1487
-#: src/arch/win32/resc128.rc.po.c:289 src/arch/win32/resc64.rc.po.c:278
-#: src/arch/win32/rescbm2.rc.po.c:227 src/arch/win32/rescbm5x0.rc.po.c:223
-#: src/arch/win32/respet.rc.po.c:219 src/arch/win32/resplus4.rc.po.c:233
-#: src/arch/win32/resscpu64.rc.po.c:261 src/arch/win32/resvic20.rc.po.c:256
+#: src/arch/win32/resc128.rc.po.c:293 src/arch/win32/resc64.rc.po.c:282
+#: src/arch/win32/rescbm2.rc.po.c:231 src/arch/win32/rescbm5x0.rc.po.c:227
+#: src/arch/win32/respet.rc.po.c:223 src/arch/win32/resplus4.rc.po.c:237
+#: src/arch/win32/resscpu64.rc.po.c:265 src/arch/win32/resvic20.rc.po.c:260
 #: src/arch/amigaos/intl_text.c.po.c:3646
 msgid "RS232 settings"
 msgstr "Ustawienia RS232"
@@ -498,12 +499,12 @@ msgstr "Emulacja pióra świetlnego"
 #: src/arch/unix/gui/petui.c:606 src/arch/unix/gui/plus4ui.c:444
 #: src/arch/unix/gui/vic20ui.c:674 src/arch/unix/gui/vsidui.c:431
 #: src/arch/win32/res.rc.po.c:84 src/arch/win32/res.rc.po.c:1340
-#: src/arch/win32/resc128.rc.po.c:26 src/arch/win32/resc64.rc.po.c:22
-#: src/arch/win32/resc64dtv.rc.po.c:22 src/arch/win32/rescbm2.rc.po.c:22
-#: src/arch/win32/rescbm5x0.rc.po.c:22 src/arch/win32/respet.rc.po.c:22
-#: src/arch/win32/resplus4.rc.po.c:22 src/arch/win32/resscpu64.rc.po.c:22
-#: src/arch/win32/resvic20.rc.po.c:22 src/arch/win32/resvsid.rc.po.c:18
-#: src/arch/amigaos/intl_text.c.po.c:6 src/translate_text.c.po.c:12560
+#: src/arch/win32/resc128.rc.po.c:30 src/arch/win32/resc64.rc.po.c:26
+#: src/arch/win32/resc64dtv.rc.po.c:26 src/arch/win32/rescbm2.rc.po.c:26
+#: src/arch/win32/rescbm5x0.rc.po.c:26 src/arch/win32/respet.rc.po.c:26
+#: src/arch/win32/resplus4.rc.po.c:26 src/arch/win32/resscpu64.rc.po.c:26
+#: src/arch/win32/resvic20.rc.po.c:26 src/arch/win32/resvsid.rc.po.c:22
+#: src/arch/amigaos/intl_text.c.po.c:6 src/translate_text.c.po.c:12577
 msgid "File"
 msgstr "Plik"
 
@@ -512,11 +513,11 @@ msgstr "Plik"
 #: src/arch/unix/gui/cbm2ui.c:622 src/arch/unix/gui/cbm2ui.c:644
 #: src/arch/unix/gui/petui.c:609 src/arch/unix/gui/plus4ui.c:447
 #: src/arch/unix/gui/vic20ui.c:677 src/arch/unix/x11/gnome/uiedit.c:77
-#: src/arch/win32/res.rc.po.c:1352 src/arch/win32/resc128.rc.po.c:137
-#: src/arch/win32/resc64.rc.po.c:133 src/arch/win32/resc64dtv.rc.po.c:100
-#: src/arch/win32/rescbm2.rc.po.c:118 src/arch/win32/rescbm5x0.rc.po.c:118
-#: src/arch/win32/respet.rc.po.c:107 src/arch/win32/resplus4.rc.po.c:120
-#: src/arch/win32/resscpu64.rc.po.c:120 src/arch/win32/resvic20.rc.po.c:128
+#: src/arch/win32/res.rc.po.c:1352 src/arch/win32/resc128.rc.po.c:141
+#: src/arch/win32/resc64.rc.po.c:137 src/arch/win32/resc64dtv.rc.po.c:104
+#: src/arch/win32/rescbm2.rc.po.c:122 src/arch/win32/rescbm5x0.rc.po.c:122
+#: src/arch/win32/respet.rc.po.c:111 src/arch/win32/resplus4.rc.po.c:124
+#: src/arch/win32/resscpu64.rc.po.c:124 src/arch/win32/resvic20.rc.po.c:132
 #: src/arch/amigaos/intl_text.c.po.c:1140
 msgid "Edit"
 msgstr "Edycja"
@@ -526,11 +527,11 @@ msgstr "Edycja"
 #: src/arch/unix/gui/cbm2ui.c:625 src/arch/unix/gui/cbm2ui.c:647
 #: src/arch/unix/gui/petui.c:612 src/arch/unix/gui/plus4ui.c:450
 #: src/arch/unix/gui/vic20ui.c:680 src/arch/win32/res.rc.po.c:1353
-#: src/arch/win32/resc128.rc.po.c:142 src/arch/win32/resc64.rc.po.c:138
-#: src/arch/win32/resc64dtv.rc.po.c:105 src/arch/win32/rescbm2.rc.po.c:123
-#: src/arch/win32/rescbm5x0.rc.po.c:123 src/arch/win32/respet.rc.po.c:112
-#: src/arch/win32/resplus4.rc.po.c:125 src/arch/win32/resscpu64.rc.po.c:125
-#: src/arch/win32/resvic20.rc.po.c:133 src/arch/amigaos/intl_text.c.po.c:1182
+#: src/arch/win32/resc128.rc.po.c:146 src/arch/win32/resc64.rc.po.c:142
+#: src/arch/win32/resc64dtv.rc.po.c:109 src/arch/win32/rescbm2.rc.po.c:127
+#: src/arch/win32/rescbm5x0.rc.po.c:127 src/arch/win32/respet.rc.po.c:116
+#: src/arch/win32/resplus4.rc.po.c:129 src/arch/win32/resscpu64.rc.po.c:129
+#: src/arch/win32/resvic20.rc.po.c:137 src/arch/amigaos/intl_text.c.po.c:1182
 msgid "Snapshot"
 msgstr "Zrzut"
 
@@ -540,12 +541,12 @@ msgstr "Zrzut"
 #: src/arch/unix/gui/petui.c:614 src/arch/unix/gui/plus4ui.c:452
 #: src/arch/unix/gui/vic20ui.c:682 src/arch/unix/gui/vsidui.c:435
 #: src/arch/unix/x11/gnome/uinetplay.c:68 src/arch/win32/res.rc.po.c:1283
-#: src/arch/win32/res.rc.po.c:1364 src/arch/win32/resc128.rc.po.c:167
-#: src/arch/win32/resc64.rc.po.c:163 src/arch/win32/resc64dtv.rc.po.c:130
-#: src/arch/win32/rescbm2.rc.po.c:148 src/arch/win32/rescbm5x0.rc.po.c:148
-#: src/arch/win32/respet.rc.po.c:137 src/arch/win32/resplus4.rc.po.c:150
-#: src/arch/win32/resscpu64.rc.po.c:150 src/arch/win32/resvic20.rc.po.c:158
-#: src/arch/win32/resvsid.rc.po.c:46 src/arch/amigaos/intl_text.c.po.c:2246
+#: src/arch/win32/res.rc.po.c:1364 src/arch/win32/resc128.rc.po.c:171
+#: src/arch/win32/resc64.rc.po.c:167 src/arch/win32/resc64dtv.rc.po.c:134
+#: src/arch/win32/rescbm2.rc.po.c:152 src/arch/win32/rescbm5x0.rc.po.c:152
+#: src/arch/win32/respet.rc.po.c:141 src/arch/win32/resplus4.rc.po.c:154
+#: src/arch/win32/resscpu64.rc.po.c:154 src/arch/win32/resvic20.rc.po.c:162
+#: src/arch/win32/resvsid.rc.po.c:50 src/arch/amigaos/intl_text.c.po.c:2246
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -556,11 +557,11 @@ msgstr "Ustawienia"
 #: src/arch/unix/gui/uited.c:75 src/arch/unix/gui/uivic.c:75
 #: src/arch/unix/gui/uivicii.c:91 src/arch/unix/gui/vic20ui.c:685
 #: src/arch/unix/gui/vsidui.c:438 src/arch/win32/res.rc.po.c:92
-#: src/arch/win32/res.rc.po.c:1348 src/arch/win32/resc128.rc.po.c:120
-#: src/arch/win32/resc64.rc.po.c:116 src/arch/win32/resc64dtv.rc.po.c:83
-#: src/arch/win32/rescbm2.rc.po.c:101 src/arch/win32/rescbm5x0.rc.po.c:101
-#: src/arch/win32/respet.rc.po.c:90 src/arch/win32/resplus4.rc.po.c:103
-#: src/arch/win32/resscpu64.rc.po.c:103 src/arch/win32/resvic20.rc.po.c:111
+#: src/arch/win32/res.rc.po.c:1348 src/arch/win32/resc128.rc.po.c:124
+#: src/arch/win32/resc64.rc.po.c:120 src/arch/win32/resc64dtv.rc.po.c:87
+#: src/arch/win32/rescbm2.rc.po.c:105 src/arch/win32/rescbm5x0.rc.po.c:105
+#: src/arch/win32/respet.rc.po.c:94 src/arch/win32/resplus4.rc.po.c:107
+#: src/arch/win32/resscpu64.rc.po.c:107 src/arch/win32/resvic20.rc.po.c:115
 #: src/arch/amigaos/intl_text.c.po.c:11753
 msgid "Debug"
 msgstr "Debug"
@@ -617,25 +618,25 @@ msgid "I/O extensions"
 msgstr "Rozszerzenia we/wy"
 
 #: src/arch/unix/gui/c64scui.c:121 src/arch/unix/gui/c64ui.c:179
-#: src/arch/win32/resc64.rc.po.c:537 src/arch/win32/resscpu64.rc.po.c:523
+#: src/arch/win32/resc64.rc.po.c:541 src/arch/win32/resscpu64.rc.po.c:527
 #: src/arch/amigaos/intl_text.c.po.c:2302
 msgid "C64 old PAL"
 msgstr "C64 stary PAL"
 
 #: src/arch/unix/gui/c64scui.c:127 src/arch/unix/gui/c64ui.c:185
-#: src/arch/win32/resc64.rc.po.c:540 src/arch/win32/resscpu64.rc.po.c:526
+#: src/arch/win32/resc64.rc.po.c:544 src/arch/win32/resscpu64.rc.po.c:530
 #: src/arch/amigaos/intl_text.c.po.c:2344
 msgid "C64 old NTSC"
 msgstr "C64 stary NTSC"
 
-#: src/arch/unix/gui/c64scui.c:155 src/arch/win32/resc64.rc.po.c:526
-#: src/arch/win32/resscpu64.rc.po.c:537
+#: src/arch/unix/gui/c64scui.c:155 src/arch/win32/resc64.rc.po.c:530
+#: src/arch/win32/resscpu64.rc.po.c:541
 #: src/arch/amigaos/intl_text.c.po.c:12243
 msgid "6569R1 (old PAL)"
 msgstr "6569R1 (stary PAL)"
 
-#: src/arch/unix/gui/c64scui.c:161 src/arch/win32/resc64.rc.po.c:529
-#: src/arch/win32/resscpu64.rc.po.c:540
+#: src/arch/unix/gui/c64scui.c:161 src/arch/win32/resc64.rc.po.c:533
+#: src/arch/win32/resscpu64.rc.po.c:544
 #: src/arch/amigaos/intl_text.c.po.c:12285
 msgid "6567R56A (old NTSC)"
 msgstr "6567R56A (stary NTSC)"
@@ -664,7 +665,7 @@ msgid "no"
 msgstr "nie"
 
 #: src/arch/unix/gui/c64scui.c:209 src/arch/unix/gui/c64ui.c:271
-#: src/arch/win32/resc64.rc.po.c:523 src/arch/win32/resscpu64.rc.po.c:520
+#: src/arch/win32/resc64.rc.po.c:527 src/arch/win32/resscpu64.rc.po.c:524
 msgid "C64 model"
 msgstr "Model C64"
 
@@ -709,13 +710,13 @@ msgstr "Modyfikacja trybu synchronicznego"
 msgid "I/O collision handling"
 msgstr "Obsługa kolizji we/wy"
 
-#: src/arch/unix/gui/c64ui.c:193 src/arch/win32/resc64.rc.po.c:544
-#: src/arch/win32/resscpu64.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:2400
+#: src/arch/unix/gui/c64ui.c:193 src/arch/win32/resc64.rc.po.c:548
+#: src/arch/win32/resscpu64.rc.po.c:534 src/arch/amigaos/intl_text.c.po.c:2400
 msgid "Japanese"
 msgstr "Japoński"
 
-#: src/arch/unix/gui/c64ui.c:201 src/arch/win32/resc64.rc.po.c:548
-#: src/arch/win32/resscpu64.rc.po.c:534 src/arch/amigaos/intl_text.c.po.c:2456
+#: src/arch/unix/gui/c64ui.c:201 src/arch/win32/resc64.rc.po.c:552
+#: src/arch/win32/resscpu64.rc.po.c:538 src/arch/amigaos/intl_text.c.po.c:2456
 msgid "MAX Machine"
 msgstr "MAX Machine"
 
@@ -745,12 +746,12 @@ msgid "Basic 256k, high chars"
 msgstr "Basic 256k, high chars"
 
 #: src/arch/unix/gui/cbm2ui.c:251 src/arch/unix/gui/petui.c:163
-#: src/arch/win32/respet.rc.po.c:522 src/arch/amigaos/intl_text.c.po.c:10843
+#: src/arch/win32/respet.rc.po.c:526 src/arch/amigaos/intl_text.c.po.c:10843
 msgid "Graphics"
 msgstr "Grafika"
 
 #: src/arch/unix/gui/cbm2ui.c:253 src/arch/unix/gui/petui.c:165
-#: src/arch/win32/respet.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:10871
+#: src/arch/win32/respet.rc.po.c:527 src/arch/amigaos/intl_text.c.po.c:10871
 msgid "Business (UK)"
 msgstr "Biznesowa (UK)"
 
@@ -812,7 +813,7 @@ msgstr "Ustawienia CRTC"
 
 #: src/arch/unix/gui/cbm2ui.c:431 src/arch/unix/gui/plus4ui.c:286
 #: src/arch/win32/res.rc.po.c:1248 src/arch/win32/res.rc.po.c:1482
-#: src/arch/win32/respet.rc.po.c:526 src/arch/amigaos/intl_text.c.po.c:3632
+#: src/arch/win32/respet.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:3632
 #: src/arch/amigaos/intl_text.c.po.c:8225
 msgid "RAM settings"
 msgstr "Ustawienia RAM"
@@ -854,17 +855,17 @@ msgstr "Zegar SID"
 msgid "Business (DE)"
 msgstr "Biznesowa (DE)"
 
-#: src/arch/unix/gui/petui.c:173 src/arch/win32/respet.rc.po.c:514
+#: src/arch/unix/gui/petui.c:173 src/arch/win32/respet.rc.po.c:518
 #: src/arch/amigaos/intl_text.c.po.c:10773
 msgid "Auto (from ROM)"
 msgstr "Automatycznie (z ROM)"
 
-#: src/arch/unix/gui/petui.c:175 src/arch/win32/respet.rc.po.c:515
+#: src/arch/unix/gui/petui.c:175 src/arch/win32/respet.rc.po.c:519
 #: src/arch/amigaos/intl_text.c.po.c:10787
 msgid "40 Columns"
 msgstr "40 kolumn"
 
-#: src/arch/unix/gui/petui.c:177 src/arch/win32/respet.rc.po.c:516
+#: src/arch/unix/gui/petui.c:177 src/arch/win32/respet.rc.po.c:520
 #: src/arch/amigaos/intl_text.c.po.c:10801
 msgid "80 Columns"
 msgstr "80 kolumn"
@@ -982,7 +983,7 @@ msgstr "Wczytaj nowy ROM $E***"
 msgid "Load new $F*** ROM"
 msgstr "Wczytaj nowy ROM $F***"
 
-#: src/arch/unix/gui/petui.c:363 src/arch/win32/respet.rc.po.c:529
+#: src/arch/unix/gui/petui.c:363 src/arch/win32/respet.rc.po.c:533
 msgid "PET model"
 msgstr "Model PET"
 
@@ -994,11 +995,11 @@ msgstr "Rozmiar wideo"
 msgid "I/O size"
 msgstr "Rozmiar we/wy"
 
-#: src/arch/unix/gui/petui.c:372 src/arch/win32/respet.rc.po.c:520
+#: src/arch/unix/gui/petui.c:372 src/arch/win32/respet.rc.po.c:524
 msgid "CRTC chip enable"
 msgstr "Włącz układ CRTC"
 
-#: src/arch/unix/gui/petui.c:375 src/arch/win32/respet.rc.po.c:525
+#: src/arch/unix/gui/petui.c:375 src/arch/win32/respet.rc.po.c:529
 #: src/arch/amigaos/intl_text.c.po.c:10955
 msgid "SuperPET I/O enable (disables 8x96)"
 msgstr "Włącz SuperPET I/O (wyłącza 8x96)"
@@ -1069,7 +1070,7 @@ msgstr "Model"
 msgid "TED model"
 msgstr "Model TED"
 
-#: src/arch/unix/gui/plus4ui.c:314 src/arch/win32/resplus4.rc.po.c:475
+#: src/arch/unix/gui/plus4ui.c:314 src/arch/win32/resplus4.rc.po.c:479
 #: src/arch/win32/rested.rc.po.c:33 src/arch/amigaos/intl_text.c.po.c:3478
 #: src/arch/amigaos/intl_text.c.po.c:9471
 msgid "TED settings"
@@ -1130,11 +1131,11 @@ msgid "All"
 msgstr "Wszystkie"
 
 #: src/arch/unix/gui/uiattach.c:193 src/arch/win32/res.rc.po.c:947
-#: src/arch/win32/res.rc.po.c:1341 src/arch/win32/resc128.rc.po.c:30
-#: src/arch/win32/resc64.rc.po.c:26 src/arch/win32/resc64dtv.rc.po.c:26
-#: src/arch/win32/rescbm2.rc.po.c:26 src/arch/win32/rescbm5x0.rc.po.c:26
-#: src/arch/win32/respet.rc.po.c:26 src/arch/win32/resplus4.rc.po.c:26
-#: src/arch/win32/resscpu64.rc.po.c:26 src/arch/win32/resvic20.rc.po.c:26
+#: src/arch/win32/res.rc.po.c:1341 src/arch/win32/resc128.rc.po.c:34
+#: src/arch/win32/resc64.rc.po.c:30 src/arch/win32/resc64dtv.rc.po.c:30
+#: src/arch/win32/rescbm2.rc.po.c:30 src/arch/win32/rescbm5x0.rc.po.c:30
+#: src/arch/win32/respet.rc.po.c:30 src/arch/win32/resplus4.rc.po.c:30
+#: src/arch/win32/resscpu64.rc.po.c:30 src/arch/win32/resvic20.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:34
 msgid "Attach disk image"
 msgstr "Zamontuj obraz dyskietki"
@@ -1144,20 +1145,20 @@ msgid "Create and attach an empty disk"
 msgstr "Stwórz i zamontuj pustą dyskietkę"
 
 #: src/arch/unix/gui/uiattach.c:197 src/arch/win32/res.rc.po.c:1342
-#: src/arch/win32/resc128.rc.po.c:37 src/arch/win32/resc64.rc.po.c:33
-#: src/arch/win32/resc64dtv.rc.po.c:33 src/arch/win32/rescbm2.rc.po.c:33
-#: src/arch/win32/rescbm5x0.rc.po.c:33 src/arch/win32/respet.rc.po.c:33
-#: src/arch/win32/resplus4.rc.po.c:33 src/arch/win32/resscpu64.rc.po.c:33
-#: src/arch/win32/resvic20.rc.po.c:33 src/arch/amigaos/intl_text.c.po.c:104
+#: src/arch/win32/resc128.rc.po.c:41 src/arch/win32/resc64.rc.po.c:37
+#: src/arch/win32/resc64dtv.rc.po.c:37 src/arch/win32/rescbm2.rc.po.c:37
+#: src/arch/win32/rescbm5x0.rc.po.c:37 src/arch/win32/respet.rc.po.c:37
+#: src/arch/win32/resplus4.rc.po.c:37 src/arch/win32/resscpu64.rc.po.c:37
+#: src/arch/win32/resvic20.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:104
 msgid "Detach disk image"
 msgstr "Wyjmij obraz dyskietki"
 
 #: src/arch/unix/gui/uiattach.c:199 src/arch/win32/res.rc.po.c:1343
-#: src/arch/win32/resc128.rc.po.c:46 src/arch/win32/resc64.rc.po.c:42
-#: src/arch/win32/resc64dtv.rc.po.c:42 src/arch/win32/rescbm2.rc.po.c:42
-#: src/arch/win32/rescbm5x0.rc.po.c:42 src/arch/win32/respet.rc.po.c:42
-#: src/arch/win32/resplus4.rc.po.c:42 src/arch/win32/resscpu64.rc.po.c:42
-#: src/arch/win32/resvic20.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:146
+#: src/arch/win32/resc128.rc.po.c:50 src/arch/win32/resc64.rc.po.c:46
+#: src/arch/win32/resc64dtv.rc.po.c:46 src/arch/win32/rescbm2.rc.po.c:46
+#: src/arch/win32/rescbm5x0.rc.po.c:46 src/arch/win32/respet.rc.po.c:46
+#: src/arch/win32/resplus4.rc.po.c:46 src/arch/win32/resscpu64.rc.po.c:46
+#: src/arch/win32/resvic20.rc.po.c:46 src/arch/amigaos/intl_text.c.po.c:146
 msgid "Flip list"
 msgstr "Lista podmiany nośnika"
 
@@ -1208,6 +1209,12 @@ msgstr "Inteligentnie zamontuj dyskietkę lub taśmę"
 #: src/arch/amigaos/intl_text.c.po.c:12145
 msgid "Autostart settings"
 msgstr "Ustawienia autostartu"
+
+#: src/arch/unix/gui/uiautostart.c:50 src/arch/unix/gui/uitfe.c:45
+#: src/arch/win32/res.rc.po.c:1287 src/arch/amigaos/intl_text.c.po.c:5998
+#: src/translate_text.c.po.c:3383
+msgid "Name"
+msgstr "Nazwa"
 
 #: src/arch/unix/gui/uiautostart.c:52
 msgid "Disk image for PRG autostart"
@@ -1303,10 +1310,10 @@ msgstr "Nazwa obrazu"
 
 #: src/arch/unix/gui/uic64cart.c:55 src/arch/unix/gui/uic64cart.c:156
 #: src/arch/unix/gui/vic20ui.c:260 src/arch/unix/gui/vic20ui.c:364
-#: src/arch/win32/res.rc.po.c:1345 src/arch/win32/resc128.rc.po.c:70
-#: src/arch/win32/resc64.rc.po.c:66 src/arch/win32/rescbm2.rc.po.c:65
-#: src/arch/win32/rescbm5x0.rc.po.c:65 src/arch/win32/resplus4.rc.po.c:66
-#: src/arch/win32/resscpu64.rc.po.c:53 src/arch/win32/resvic20.rc.po.c:66
+#: src/arch/win32/res.rc.po.c:1345 src/arch/win32/resc128.rc.po.c:74
+#: src/arch/win32/resc64.rc.po.c:70 src/arch/win32/rescbm2.rc.po.c:69
+#: src/arch/win32/rescbm5x0.rc.po.c:69 src/arch/win32/resplus4.rc.po.c:70
+#: src/arch/win32/resscpu64.rc.po.c:57 src/arch/win32/resvic20.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:384
 #: src/arch/amigaos/intl_text.c.po.c:10311
 msgid "Attach cartridge image"
@@ -1401,8 +1408,8 @@ msgstr "Zamrożenie kartridża"
 msgid "C64DTV ROM file"
 msgstr "Plik ROM C64DTV"
 
-#: src/arch/unix/gui/uic64dtv.c:118 src/arch/win32/resc64dtv.rc.po.c:441
-#: src/translate_text.c.po.c:13495
+#: src/arch/unix/gui/uic64dtv.c:118 src/arch/win32/resc64dtv.rc.po.c:445
+#: src/translate_text.c.po.c:13512
 msgid "Enable writes to C64DTV ROM image"
 msgstr "Włącz zapis do obrazu ROM C64DTV"
 
@@ -1536,12 +1543,12 @@ msgstr "Uruchom monitor"
 #: src/arch/unix/gui/uidatasette.c:99 src/arch/unix/gui/vsidui.c:351
 #: src/arch/unix/gui/vsidui.c:449 src/arch/unix/x11/gnome/uipalcontrol.c:283
 #: src/arch/win32/res.rc.po.c:1347 src/arch/win32/res.rc.po.c:1420
-#: src/arch/win32/res.rc.po.c:1452 src/arch/win32/resc128.rc.po.c:100
-#: src/arch/win32/resc64.rc.po.c:96 src/arch/win32/resc64dtv.rc.po.c:63
-#: src/arch/win32/rescbm2.rc.po.c:81 src/arch/win32/rescbm5x0.rc.po.c:81
-#: src/arch/win32/respet.rc.po.c:70 src/arch/win32/resplus4.rc.po.c:83
-#: src/arch/win32/resscpu64.rc.po.c:83 src/arch/win32/resvic20.rc.po.c:91
-#: src/arch/win32/resvsid.rc.po.c:27 src/arch/amigaos/intl_text.c.po.c:356
+#: src/arch/win32/res.rc.po.c:1452 src/arch/win32/resc128.rc.po.c:104
+#: src/arch/win32/resc64.rc.po.c:100 src/arch/win32/resc64dtv.rc.po.c:67
+#: src/arch/win32/rescbm2.rc.po.c:85 src/arch/win32/rescbm5x0.rc.po.c:85
+#: src/arch/win32/respet.rc.po.c:74 src/arch/win32/resplus4.rc.po.c:87
+#: src/arch/win32/resscpu64.rc.po.c:87 src/arch/win32/resvic20.rc.po.c:95
+#: src/arch/win32/resvsid.rc.po.c:31 src/arch/amigaos/intl_text.c.po.c:356
 msgid "Reset"
 msgstr "Reset"
 
@@ -1617,11 +1624,11 @@ msgid "Return to milestone"
 msgstr "Powróć do kamienia milowego"
 
 #: src/arch/unix/gui/uicommands.c:554 src/arch/win32/res.rc.po.c:1354
-#: src/arch/win32/resc128.rc.po.c:153 src/arch/win32/resc64.rc.po.c:149
-#: src/arch/win32/resc64dtv.rc.po.c:116 src/arch/win32/rescbm2.rc.po.c:134
-#: src/arch/win32/rescbm5x0.rc.po.c:134 src/arch/win32/respet.rc.po.c:123
-#: src/arch/win32/resplus4.rc.po.c:136 src/arch/win32/resscpu64.rc.po.c:136
-#: src/arch/win32/resvic20.rc.po.c:144 src/arch/amigaos/intl_text.c.po.c:1280
+#: src/arch/win32/resc128.rc.po.c:157 src/arch/win32/resc64.rc.po.c:153
+#: src/arch/win32/resc64dtv.rc.po.c:120 src/arch/win32/rescbm2.rc.po.c:138
+#: src/arch/win32/rescbm5x0.rc.po.c:138 src/arch/win32/respet.rc.po.c:127
+#: src/arch/win32/resplus4.rc.po.c:140 src/arch/win32/resscpu64.rc.po.c:140
+#: src/arch/win32/resvic20.rc.po.c:148 src/arch/amigaos/intl_text.c.po.c:1280
 msgid "Recording start mode"
 msgstr "Rozpocznij tryb zapisu"
 
@@ -1654,8 +1661,8 @@ msgstr "Zapis dźwięku do MP3"
 msgid "Stop Sound record"
 msgstr "Zatrzymaj zapis dźwięku"
 
-#: src/arch/unix/gui/uicommands.c:584 src/arch/win32/resvsid.rc.po.c:21
-#: src/arch/win32/resvsid.rc.po.c:125
+#: src/arch/unix/gui/uicommands.c:584 src/arch/win32/resvsid.rc.po.c:25
+#: src/arch/win32/resvsid.rc.po.c:129
 msgid "Sound recording"
 msgstr "Zapis dźwięku"
 
@@ -1714,7 +1721,7 @@ msgstr "Czynność przy zablokowaniu się CPU"
 msgid "Pause"
 msgstr "Pauza"
 
-#: src/arch/unix/gui/uicommands.c:693 src/translate_text.c.po.c:12985
+#: src/arch/unix/gui/uicommands.c:693 src/translate_text.c.po.c:13002
 msgid "Enable warp mode"
 msgstr "Włącz tryb przyśpieszony (Turbo)"
 
@@ -1776,11 +1783,11 @@ msgstr "Podaj częstotliwość odświeżania"
 #: src/arch/unix/gui/uisettings.c:377 src/arch/unix/gui/uited.c:141
 #: src/arch/unix/gui/uivdc.c:134 src/arch/unix/gui/uivic.c:137
 #: src/arch/unix/gui/uivicii.c:138 src/arch/win32/res.rc.po.c:1196
-#: src/arch/win32/res.rc.po.c:1356 src/arch/win32/resc128.rc.po.c:169
-#: src/arch/win32/resc64.rc.po.c:165 src/arch/win32/resc64dtv.rc.po.c:132
-#: src/arch/win32/rescbm2.rc.po.c:150 src/arch/win32/rescbm5x0.rc.po.c:150
-#: src/arch/win32/respet.rc.po.c:139 src/arch/win32/resplus4.rc.po.c:152
-#: src/arch/win32/resscpu64.rc.po.c:152 src/arch/win32/resvic20.rc.po.c:160
+#: src/arch/win32/res.rc.po.c:1356 src/arch/win32/resc128.rc.po.c:173
+#: src/arch/win32/resc64.rc.po.c:169 src/arch/win32/resc64dtv.rc.po.c:136
+#: src/arch/win32/rescbm2.rc.po.c:154 src/arch/win32/rescbm5x0.rc.po.c:154
+#: src/arch/win32/respet.rc.po.c:143 src/arch/win32/resplus4.rc.po.c:156
+#: src/arch/win32/resscpu64.rc.po.c:156 src/arch/win32/resvic20.rc.po.c:164
 #: src/arch/amigaos/intl_text.c.po.c:1406
 msgid "Refresh rate"
 msgstr "Częstotliwość odświeżania"
@@ -1927,10 +1934,10 @@ msgid "Record"
 msgstr "Nagrywaj"
 
 #: src/arch/unix/gui/uidatasette.c:105 src/arch/win32/res.rc.po.c:1344
-#: src/arch/win32/resc128.rc.po.c:59 src/arch/win32/resc64.rc.po.c:55
-#: src/arch/win32/rescbm2.rc.po.c:55 src/arch/win32/rescbm5x0.rc.po.c:55
-#: src/arch/win32/respet.rc.po.c:55 src/arch/win32/resplus4.rc.po.c:55
-#: src/arch/win32/resvic20.rc.po.c:55 src/arch/amigaos/intl_text.c.po.c:272
+#: src/arch/win32/resc128.rc.po.c:63 src/arch/win32/resc64.rc.po.c:59
+#: src/arch/win32/rescbm2.rc.po.c:59 src/arch/win32/rescbm5x0.rc.po.c:59
+#: src/arch/win32/respet.rc.po.c:59 src/arch/win32/resplus4.rc.po.c:59
+#: src/arch/win32/resvic20.rc.po.c:59 src/arch/amigaos/intl_text.c.po.c:272
 msgid "Datassette control"
 msgstr "Zarządzanie magnetofonem"
 
@@ -2013,7 +2020,7 @@ msgstr "Emulacja odgłosów stacji dysków"
 msgid "Select Flash filesystem directory"
 msgstr "Wybierz katalog systemu plików Flash"
 
-#: src/arch/unix/gui/uidrive.c:196 src/translate_text.c.po.c:13580
+#: src/arch/unix/gui/uidrive.c:196 src/translate_text.c.po.c:13597
 msgid "Enable true hardware flash file system"
 msgstr "Włącz prawdziwy sprzętowy system plików flash"
 
@@ -2130,11 +2137,11 @@ msgstr "Nazwa surowego urządzenia blokowego"
 #: src/arch/unix/gui/uidrivepetcbm2.c:162 src/arch/unix/gui/uidriveplus4.c:298
 #: src/arch/unix/gui/uidrivevic20.c:137 src/arch/win32/res.rc.po.c:1028
 #: src/arch/win32/res.rc.po.c:1359 src/arch/win32/res.rc.po.c:1391
-#: src/arch/win32/resc128.rc.po.c:207 src/arch/win32/resc64.rc.po.c:203
-#: src/arch/win32/resc64dtv.rc.po.c:169 src/arch/win32/rescbm2.rc.po.c:188
-#: src/arch/win32/rescbm5x0.rc.po.c:188 src/arch/win32/respet.rc.po.c:177
-#: src/arch/win32/resplus4.rc.po.c:190 src/arch/win32/resscpu64.rc.po.c:189
-#: src/arch/win32/resvic20.rc.po.c:198 src/arch/amigaos/intl_text.c.po.c:3380
+#: src/arch/win32/resc128.rc.po.c:211 src/arch/win32/resc64.rc.po.c:207
+#: src/arch/win32/resc64dtv.rc.po.c:173 src/arch/win32/rescbm2.rc.po.c:192
+#: src/arch/win32/rescbm5x0.rc.po.c:192 src/arch/win32/respet.rc.po.c:181
+#: src/arch/win32/resplus4.rc.po.c:194 src/arch/win32/resscpu64.rc.po.c:193
+#: src/arch/win32/resvic20.rc.po.c:202 src/arch/amigaos/intl_text.c.po.c:3380
 #: src/arch/amigaos/intl_text.c.po.c:6936
 msgid "Drive settings"
 msgstr "Ustawienia napędu"
@@ -2728,11 +2735,11 @@ msgstr "Joystick SIDcart"
 #: src/arch/unix/gui/uijoystick2.c:542 src/arch/unix/gui/uijoystick2.c:548
 #: src/arch/unix/gui/uijoystick2.c:554 src/arch/unix/gui/uijoystick2.c:560
 #: src/arch/win32/res.rc.po.c:1157 src/arch/win32/res.rc.po.c:1360
-#: src/arch/win32/res.rc.po.c:1476 src/arch/win32/resc128.rc.po.c:217
-#: src/arch/win32/resc64.rc.po.c:213 src/arch/win32/resc64dtv.rc.po.c:180
-#: src/arch/win32/rescbm2.rc.po.c:198 src/arch/win32/rescbm5x0.rc.po.c:198
-#: src/arch/win32/respet.rc.po.c:187 src/arch/win32/resplus4.rc.po.c:200
-#: src/arch/win32/resscpu64.rc.po.c:199 src/arch/win32/resvic20.rc.po.c:208
+#: src/arch/win32/res.rc.po.c:1476 src/arch/win32/resc128.rc.po.c:221
+#: src/arch/win32/resc64.rc.po.c:217 src/arch/win32/resc64dtv.rc.po.c:184
+#: src/arch/win32/rescbm2.rc.po.c:202 src/arch/win32/rescbm5x0.rc.po.c:202
+#: src/arch/win32/respet.rc.po.c:191 src/arch/win32/resplus4.rc.po.c:204
+#: src/arch/win32/resscpu64.rc.po.c:203 src/arch/win32/resvic20.rc.po.c:212
 #: src/arch/amigaos/intl_text.c.po.c:3492
 #: src/arch/amigaos/intl_text.c.po.c:7413
 msgid "Joystick settings"
@@ -2808,7 +2815,7 @@ msgid "Inkwell Pen"
 msgstr "Pióro Inkwell"
 
 #: src/arch/unix/gui/uilightpen.c:70 src/arch/win32/reslightpen.rc.po.c:23
-#: src/translate_text.c.po.c:13871
+#: src/translate_text.c.po.c:13888
 msgid "Enable lightpen emulation"
 msgstr "Włącz emulację pióra świetlnego"
 
@@ -2835,6 +2842,11 @@ msgstr "Urządzenie wyjściowe MIDI"
 #: src/translate_text.c.po.c:978 src/translate_text.c.po.c:7779
 msgid "Type"
 msgstr "Typ"
+
+#: src/arch/unix/gui/uimidi.c:87 src/arch/unix/gui/uimidi.c:103
+#: src/arch/win32/res.rc.po.c:1193
+msgid "Driver"
+msgstr "Sterownik"
 
 #: src/arch/unix/gui/uimmc64.c:53
 msgid "Rev. A"
@@ -2914,7 +2926,7 @@ msgstr "Port 1"
 msgid "Port 2"
 msgstr "Port 2"
 
-#: src/arch/unix/gui/uimouse.c:73 src/translate_text.c.po.c:12389
+#: src/arch/unix/gui/uimouse.c:73 src/translate_text.c.po.c:12406
 msgid "Enable mouse grab"
 msgstr "Włącz przechwytywanie myszy"
 
@@ -2928,7 +2940,7 @@ msgstr "Typ myszy"
 msgid "Mouse port"
 msgstr "Port myszy"
 
-#: src/arch/unix/gui/uimouse.c:83 src/arch/win32/resvic20.rc.po.c:530
+#: src/arch/unix/gui/uimouse.c:83 src/arch/win32/resvic20.rc.po.c:534
 #: src/arch/amigaos/intl_text.c.po.c:2190
 msgid "Enable paddles"
 msgstr "Włącz pokrętła sterujące"
@@ -3001,7 +3013,7 @@ msgstr ""
 "Nie można załadować pliku palety\n"
 "'%s'"
 
-#: src/arch/unix/gui/uiperipheral.c:50 src/translate_text.c.po.c:12883
+#: src/arch/unix/gui/uiperipheral.c:50 src/translate_text.c.po.c:12900
 msgid "Path"
 msgstr "Ścieżka"
 
@@ -3194,7 +3206,7 @@ msgid "Select printer dump file"
 msgstr "Wybierz plik zrzutu drukarki"
 
 #: src/arch/unix/gui/uiprinter.c:192 src/arch/unix/gui/uirs232.c:122
-#: src/arch/unix/x11/ui-cmdline-options.c:42 src/translate_text.c.po.c:2085
+#: src/translate_text.c.po.c:2085
 msgid "Command"
 msgstr "Polecenie"
 
@@ -3363,7 +3375,7 @@ msgstr "Urządzenie tekstowe drukarki 3"
 msgid "Grab mouse events"
 msgstr "Przechwytuj zdarzenia myszy"
 
-#: src/arch/unix/gui/uips2mouse.c:48 src/arch/win32/resc64dtv.rc.po.c:458
+#: src/arch/unix/gui/uips2mouse.c:48 src/arch/win32/resc64dtv.rc.po.c:462
 #: src/arch/amigaos/intl_text.c.po.c:2232
 msgid "PS/2 mouse on Userport"
 msgstr "Mysz PS/2 w userporcie"
@@ -3629,11 +3641,11 @@ msgid "Enter speed"
 msgstr "Wprowadź prędkość"
 
 #: src/arch/unix/gui/uisettings.c:183 src/arch/unix/gui/uisettings.c:379
-#: src/arch/win32/res.rc.po.c:1357 src/arch/win32/resc128.rc.po.c:183
-#: src/arch/win32/resc64.rc.po.c:179 src/arch/win32/resc64dtv.rc.po.c:146
-#: src/arch/win32/rescbm2.rc.po.c:164 src/arch/win32/rescbm5x0.rc.po.c:164
-#: src/arch/win32/respet.rc.po.c:153 src/arch/win32/resplus4.rc.po.c:166
-#: src/arch/win32/resscpu64.rc.po.c:166 src/arch/win32/resvic20.rc.po.c:174
+#: src/arch/win32/res.rc.po.c:1357 src/arch/win32/resc128.rc.po.c:187
+#: src/arch/win32/resc64.rc.po.c:183 src/arch/win32/resc64dtv.rc.po.c:150
+#: src/arch/win32/rescbm2.rc.po.c:168 src/arch/win32/rescbm5x0.rc.po.c:168
+#: src/arch/win32/respet.rc.po.c:157 src/arch/win32/resplus4.rc.po.c:170
+#: src/arch/win32/resscpu64.rc.po.c:170 src/arch/win32/resvic20.rc.po.c:178
 #: src/arch/amigaos/intl_text.c.po.c:1574
 msgid "Maximum speed"
 msgstr "Maksymalna prędkość"
@@ -3678,7 +3690,7 @@ msgid "Resource file name"
 msgstr "Nazwa pliku zasobów"
 
 #: src/arch/unix/gui/uisettings.c:346 src/arch/unix/gui/uisettings.c:369
-#: src/arch/win32/res.rc.po.c:1460 src/arch/win32/resvic20.rc.po.c:512
+#: src/arch/win32/res.rc.po.c:1460 src/arch/win32/resvic20.rc.po.c:516
 #: src/arch/amigaos/intl_text.c.po.c:1672
 msgid "Custom"
 msgstr "Własna"
@@ -3717,10 +3729,8 @@ msgstr "Przywróć domyślne ustawienia"
 msgid "Save settings on exit"
 msgstr "Zapisz ustawienia przy wyjściu"
 
-#: src/arch/unix/gui/uisettings.c:398
-#: src/arch/unix/x11/ui-cmdline-options.c:67
-#: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:55
-#: src/arch/win32/res.rc.po.c:1518 src/arch/amigaos/intl_text.c.po.c:4388
+#: src/arch/unix/gui/uisettings.c:398 src/arch/win32/res.rc.po.c:1518
+#: src/arch/amigaos/intl_text.c.po.c:4388
 #: src/arch/amigaos/intl_text.c.po.c:7875
 msgid "Confirm quiting VICE"
 msgstr "Potwierdzaj zamknięcie VICE"
@@ -3904,7 +3914,7 @@ msgstr "Mono"
 msgid "Stereo"
 msgstr "Stereo"
 
-#: src/arch/unix/gui/uisound.c:145 src/translate_text.c.po.c:12645
+#: src/arch/unix/gui/uisound.c:145 src/translate_text.c.po.c:12662
 msgid "Enable sound playback"
 msgstr "Włącz odtwarzanie dźwięku"
 
@@ -3939,11 +3949,11 @@ msgid "Suspend time"
 msgstr "Czas uśpienia"
 
 #: src/arch/unix/gui/uisound.c:172 src/arch/win32/res.rc.po.c:1358
-#: src/arch/win32/res.rc.po.c:1480 src/arch/win32/resc128.rc.po.c:198
-#: src/arch/win32/resc64.rc.po.c:194 src/arch/win32/resc64dtv.rc.po.c:161
-#: src/arch/win32/rescbm2.rc.po.c:179 src/arch/win32/rescbm5x0.rc.po.c:179
-#: src/arch/win32/respet.rc.po.c:168 src/arch/win32/resplus4.rc.po.c:181
-#: src/arch/win32/resscpu64.rc.po.c:181 src/arch/win32/resvic20.rc.po.c:189
+#: src/arch/win32/res.rc.po.c:1480 src/arch/win32/resc128.rc.po.c:202
+#: src/arch/win32/resc64.rc.po.c:198 src/arch/win32/resc64dtv.rc.po.c:165
+#: src/arch/win32/rescbm2.rc.po.c:183 src/arch/win32/rescbm5x0.rc.po.c:183
+#: src/arch/win32/respet.rc.po.c:172 src/arch/win32/resplus4.rc.po.c:185
+#: src/arch/win32/resscpu64.rc.po.c:185 src/arch/win32/resvic20.rc.po.c:193
 #: src/arch/amigaos/intl_text.c.po.c:3562
 #: src/arch/amigaos/intl_text.c.po.c:9373
 msgid "Sound settings"
@@ -4000,22 +4010,22 @@ msgstr "Obraz ROM-u mowy"
 msgid "Composite"
 msgstr "Kompozyt"
 
-#: src/arch/unix/gui/uivdc.c:85 src/arch/win32/resc128.rc.po.c:249
+#: src/arch/unix/gui/uivdc.c:85 src/arch/win32/resc128.rc.po.c:253
 #: src/arch/amigaos/intl_text.c.po.c:1812
 msgid "Rev 0"
 msgstr "Rev 0"
 
-#: src/arch/unix/gui/uivdc.c:87 src/arch/win32/resc128.rc.po.c:250
+#: src/arch/unix/gui/uivdc.c:87 src/arch/win32/resc128.rc.po.c:254
 #: src/arch/amigaos/intl_text.c.po.c:1826
 msgid "Rev 1"
 msgstr "Rev 1"
 
-#: src/arch/unix/gui/uivdc.c:89 src/arch/win32/resc128.rc.po.c:251
+#: src/arch/unix/gui/uivdc.c:89 src/arch/win32/resc128.rc.po.c:255
 #: src/arch/amigaos/intl_text.c.po.c:1840
 msgid "Rev 2"
 msgstr "Rev 2"
 
-#: src/arch/unix/gui/uivdc.c:158 src/arch/win32/resc128.rc.po.c:706
+#: src/arch/unix/gui/uivdc.c:158 src/arch/win32/resc128.rc.po.c:710
 #: src/arch/amigaos/intl_text.c.po.c:1784
 msgid "64KB video memory"
 msgstr "Pamięć wideo 64KB"
@@ -4040,23 +4050,23 @@ msgstr "Kolizje duszków"
 msgid "Sprite-background collisions"
 msgstr "Kolizje duszków z tłem"
 
-#: src/arch/unix/gui/vic20ui.c:203 src/arch/win32/resvic20.rc.po.c:506
+#: src/arch/unix/gui/vic20ui.c:203 src/arch/win32/resvic20.rc.po.c:510
 msgid "No expansion memory"
 msgstr "Bez rozszerzenia pamięci"
 
-#: src/arch/unix/gui/vic20ui.c:207 src/arch/win32/resvic20.rc.po.c:507
+#: src/arch/unix/gui/vic20ui.c:207 src/arch/win32/resvic20.rc.po.c:511
 msgid "3K (block 0)"
 msgstr "3K (blok 0)"
 
-#: src/arch/unix/gui/vic20ui.c:210 src/arch/win32/resvic20.rc.po.c:508
+#: src/arch/unix/gui/vic20ui.c:210 src/arch/win32/resvic20.rc.po.c:512
 msgid "8K (block 1)"
 msgstr "8K (blok 1)"
 
-#: src/arch/unix/gui/vic20ui.c:213 src/arch/win32/resvic20.rc.po.c:509
+#: src/arch/unix/gui/vic20ui.c:213 src/arch/win32/resvic20.rc.po.c:513
 msgid "16K (blocks 1/2)"
 msgstr "16K (bloki 1/2)"
 
-#: src/arch/unix/gui/vic20ui.c:216 src/arch/win32/resvic20.rc.po.c:510
+#: src/arch/unix/gui/vic20ui.c:216 src/arch/win32/resvic20.rc.po.c:514
 msgid "24K (blocks 1/2/3)"
 msgstr "24K (bloki 1/2/3)"
 
@@ -4068,23 +4078,23 @@ msgstr "Wszystkie (bloki 0/1/2/3/5)"
 msgid "Common configurations"
 msgstr "Ogólna konfiguracja"
 
-#: src/arch/unix/gui/vic20ui.c:236 src/arch/win32/resvic20.rc.po.c:513
+#: src/arch/unix/gui/vic20ui.c:236 src/arch/win32/resvic20.rc.po.c:517
 msgid "Block 0 (3K at $0400-$0FFF)"
 msgstr "Blok 0 (3K w $0400-$0FFF)"
 
-#: src/arch/unix/gui/vic20ui.c:238 src/arch/win32/resvic20.rc.po.c:514
+#: src/arch/unix/gui/vic20ui.c:238 src/arch/win32/resvic20.rc.po.c:518
 msgid "Block 1 (8K at $2000-$3FFF)"
 msgstr "Blok 1 (8K w $2000-$3FFF)"
 
-#: src/arch/unix/gui/vic20ui.c:240 src/arch/win32/resvic20.rc.po.c:515
+#: src/arch/unix/gui/vic20ui.c:240 src/arch/win32/resvic20.rc.po.c:519
 msgid "Block 2 (8K at $4000-$5FFF)"
 msgstr "Blok 2 (8K w $4000-$5FFF)"
 
-#: src/arch/unix/gui/vic20ui.c:242 src/arch/win32/resvic20.rc.po.c:516
+#: src/arch/unix/gui/vic20ui.c:242 src/arch/win32/resvic20.rc.po.c:520
 msgid "Block 3 (8K at $6000-$7FFF)"
 msgstr "Blok 3 (8K w $6000-$7FFF)"
 
-#: src/arch/unix/gui/vic20ui.c:244 src/arch/win32/resvic20.rc.po.c:517
+#: src/arch/unix/gui/vic20ui.c:244 src/arch/win32/resvic20.rc.po.c:521
 msgid "Block 5 (8K at $A000-$BFFF)"
 msgstr "Blok 5 (8K w $A000-$BFFF)"
 
@@ -4098,27 +4108,27 @@ msgstr "Nieprawidłowy obraz kartridża"
 msgid "Smart-attach cartridge image"
 msgstr "Inteligentnie zamontuj obraz kartridża"
 
-#: src/arch/unix/gui/vic20ui.c:282 src/arch/win32/resvic20.rc.po.c:522
+#: src/arch/unix/gui/vic20ui.c:282 src/arch/win32/resvic20.rc.po.c:526
 #: src/arch/amigaos/intl_text.c.po.c:5872
 msgid "Attach 4/8/16KB cartridge image at $2000"
 msgstr "Wsuń 4/8/16KB obraz w $2000"
 
-#: src/arch/unix/gui/vic20ui.c:285 src/arch/win32/resvic20.rc.po.c:523
+#: src/arch/unix/gui/vic20ui.c:285 src/arch/win32/resvic20.rc.po.c:527
 #: src/arch/amigaos/intl_text.c.po.c:5886
 msgid "Attach 4/8/16KB cartridge image at $4000"
 msgstr "Wsuń 4/8/16KB obraz w $4000"
 
-#: src/arch/unix/gui/vic20ui.c:288 src/arch/win32/resvic20.rc.po.c:524
+#: src/arch/unix/gui/vic20ui.c:288 src/arch/win32/resvic20.rc.po.c:528
 #: src/arch/amigaos/intl_text.c.po.c:5900
 msgid "Attach 4/8/16KB cartridge image at $6000"
 msgstr "Wsuń 4/8/16KB obraz w $6000"
 
-#: src/arch/unix/gui/vic20ui.c:291 src/arch/win32/resvic20.rc.po.c:525
+#: src/arch/unix/gui/vic20ui.c:291 src/arch/win32/resvic20.rc.po.c:529
 #: src/arch/amigaos/intl_text.c.po.c:5914
 msgid "Attach 4/8KB cartridge image at $A000"
 msgstr "Wsuń 4/8KB obraz w $A000"
 
-#: src/arch/unix/gui/vic20ui.c:294 src/arch/win32/resvic20.rc.po.c:526
+#: src/arch/unix/gui/vic20ui.c:294 src/arch/win32/resvic20.rc.po.c:530
 #: src/arch/amigaos/intl_text.c.po.c:5928
 msgid "Attach 4KB cartridge image at $B000"
 msgstr "Wsuń 4KB obraz w $B000"
@@ -4139,8 +4149,8 @@ msgstr "Zamontuj obraz Final Expansion"
 msgid "Attach Vic Flash Plugin image"
 msgstr "Zamontuj obraz Vic Flash Plugin"
 
-#: src/arch/unix/gui/vic20ui.c:324 src/arch/win32/resvic20.rc.po.c:73
-#: src/arch/win32/resvic20.rc.po.c:535 src/arch/amigaos/intl_text.c.po.c:454
+#: src/arch/unix/gui/vic20ui.c:324 src/arch/win32/resvic20.rc.po.c:77
+#: src/arch/win32/resvic20.rc.po.c:539 src/arch/amigaos/intl_text.c.po.c:454
 msgid "Add to generic cartridge"
 msgstr "Dodaj do standardowego kartridża"
 
@@ -4173,7 +4183,7 @@ msgid "Ethernet emulation (MasC=uerade)"
 msgstr "Emulacja ethernet (MasC=uerade)"
 
 #: src/arch/unix/gui/vic20ui.c:536 src/arch/win32/resvic.rc.po.c:33
-#: src/arch/win32/resvic20.rc.po.c:555 src/arch/amigaos/intl_text.c.po.c:3464
+#: src/arch/win32/resvic20.rc.po.c:559 src/arch/amigaos/intl_text.c.po.c:3464
 #: src/arch/amigaos/intl_text.c.po.c:9457
 msgid "VIC settings"
 msgstr "Ustawienia VIC"
@@ -4182,24 +4192,24 @@ msgstr "Ustawienia VIC"
 msgid "Paddle emulation"
 msgstr "Emulacja pokrętła sterującego"
 
-#: src/arch/unix/gui/vsidui.c:259 src/arch/win32/resvsid.rc.po.c:40
-#: src/arch/win32/resvsid.rc.po.c:124
+#: src/arch/unix/gui/vsidui.c:259 src/arch/win32/resvsid.rc.po.c:44
+#: src/arch/win32/resvsid.rc.po.c:128
 msgid "Tunes"
 msgstr "Tony"
 
 #: src/arch/unix/gui/vsidui.c:288 src/arch/unix/gui/vsidui.c:304
-#: src/arch/win32/resvsid.rc.po.c:119 src/arch/amigaos/intl_text.c.po.c:4794
+#: src/arch/win32/resvsid.rc.po.c:123 src/arch/amigaos/intl_text.c.po.c:4794
 msgid "Load PSID file"
 msgstr "Wczytaj plik PSID"
 
-#: src/arch/unix/gui/vsidui.c:361 src/arch/win32/resvsid.rc.po.c:123
+#: src/arch/unix/gui/vsidui.c:361 src/arch/win32/resvsid.rc.po.c:127
 #: src/arch/amigaos/intl_text.c.po.c:4850
 msgid "Override PSID settings"
 msgstr "Nadpisz ustawienia PSID"
 
 #: src/arch/unix/gui/vsidui.c:365 src/arch/win32/res.rc.po.c:1362
-#: src/arch/win32/resplus4.rc.po.c:216 src/arch/win32/resvic20.rc.po.c:226
-#: src/arch/win32/resvsid.rc.po.c:54 src/arch/amigaos/intl_text.c.po.c:2120
+#: src/arch/win32/resplus4.rc.po.c:220 src/arch/win32/resvic20.rc.po.c:230
+#: src/arch/win32/resvsid.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:2120
 msgid "Video standard"
 msgstr "Standard wideo"
 
@@ -4336,7 +4346,7 @@ msgid "Paste"
 msgstr "Wklej"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:56 src/arch/win32/res.rc.po.c:1279
-#: src/arch/win32/respet.rc.po.c:521 src/arch/amigaos/intl_text.c.po.c:10927
+#: src/arch/win32/respet.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:10927
 msgid "Keyboard"
 msgstr "Klawiatura"
 
@@ -4705,6 +4715,11 @@ msgstr ""
 "%s"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:42
+#, fuzzy
+msgid "<Command>"
+msgstr "Polecenie"
+
+#: src/arch/unix/x11/ui-cmdline-options.c:42
 msgid "Specify an HTML browser for the on-line help"
 msgstr "Podaj przeglądarkę HTML dla pomocy on-line"
 
@@ -4718,9 +4733,15 @@ msgstr "Użyj domyślnej mapy kolorów"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:62
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:50
-#: src/arch/amigaos/intl_text.c.po.c:7889
-msgid "Never confirm quiting VICE"
+#: src/arch/win32/res.rc.po.c:1110
+msgid "Never confirm quitting VICE"
 msgstr "Nigdy nie potwierdzaj zamknięcia VICE"
+
+#: src/arch/unix/x11/ui-cmdline-options.c:67
+#: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:55
+#: src/arch/win32/res.rc.po.c:1109
+msgid "Confirm quitting VICE"
+msgstr "Potwierdzaj zamknięcie VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:72
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:45
@@ -4732,9 +4753,9 @@ msgstr "Nigdy nie zapisuj ustawień przy wyjściu"
 msgid "Disable fullscreen"
 msgstr "Wyłącz pełny ekran"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:2939
-#: src/translate_text.c.po.c:7012
-msgid "value"
+#: src/arch/unix/x11/ui-cmdline-options.c:90
+#, fuzzy
+msgid "<value>"
 msgstr "wartość"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90
@@ -4751,7 +4772,7 @@ msgstr "Informacje o VICE"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:130 src/arch/unix/x11/xaw/uiedisk.c:243
 #: src/arch/unix/x11/xaw/uiscreenshot.c:179
-#: src/arch/unix/x11/xaw/uisnapshot.c:142 src/arch/win32/resc128.rc.po.c:699
+#: src/arch/unix/x11/xaw/uisnapshot.c:142 src/arch/win32/resc128.rc.po.c:703
 msgid "File name"
 msgstr "Nazwa pliku"
 
@@ -4829,7 +4850,7 @@ msgstr "Błąd VICE!"
 msgid "Extend disk image"
 msgstr "Rozszerzenie obrazu dyskietki"
 
-#: src/arch/unix/x11/xaw/x11video.c:191 src/arch/unix/x11/xaw/x11video.c:285
+#: src/arch/unix/x11/xaw/x11video.c:191
 msgid "Aspect ratio"
 msgstr "Proporcje obrazu"
 
@@ -4854,12 +4875,18 @@ msgid "Never use shared memory (slower)"
 msgstr "Nigdy nie używaj pamięci dzielonej (wolniej)"
 
 #: src/arch/unix/x11/xaw/x11video.c:280
-msgid "fourcc"
+#, fuzzy
+msgid "<fourcc>"
 msgstr "fourcc"
 
 #: src/arch/unix/x11/xaw/x11video.c:280
 msgid "Request YUV FOURCC format"
 msgstr "Żądaj formatu YUV FOURCC"
+
+#: src/arch/unix/x11/xaw/x11video.c:285
+#, fuzzy
+msgid "<Aspect ratio>"
+msgstr "Proporcje obrazu"
 
 #: src/arch/unix/x11/xaw/x11video.c:285
 msgid "Set aspect ratio (0.5 - 2.0)"
@@ -4975,8 +5002,12 @@ msgid "Set number of buffers used for sync draw (0=use default)"
 msgstr "Określ liczbę buforów sync draw (0=domyślna)"
 
 #: src/arch/unix/macosx/cocoa/video.m:175
-#: src/arch/unix/macosx/cocoa/video.m:180
 msgid "Enable flicker fixing in sync draw"
+msgstr "Włącz korekcję migotania podczas synchronizacji rysowania"
+
+#: src/arch/unix/macosx/cocoa/video.m:180
+#, fuzzy
+msgid "Disable flicker fixing in sync draw"
 msgstr "Włącz korekcję migotania podczas synchronizacji rysowania"
 
 #: src/arch/win32/res.rc.po.c:104 src/arch/win32/res.rc.po.c:1369
@@ -5289,7 +5320,7 @@ msgstr "Nie wybrano sterownika albo wybrany sterownik nie jest obsługiwany"
 msgid "Cannot write screenshot file `%s'."
 msgstr "Nie można zapisać pliku zrzutu ekranu `%s'."
 
-#: src/arch/win32/res.rc.po.c:975 src/arch/win32/resc64dtv.rc.po.c:453
+#: src/arch/win32/res.rc.po.c:975 src/arch/win32/resc64dtv.rc.po.c:457
 msgid "Autostart disk image"
 msgstr "Automatycznie startuj z obrazu dyskietki"
 
@@ -5434,7 +5465,7 @@ msgid "Attach raw 32KB Super Snapshot V4 cartridge image"
 msgstr "Zamontuj surowy obraz kartridża 32KB Super Snapshot V4"
 
 #: src/arch/win32/res.rc.po.c:1025 src/arch/amigaos/intl_text.c.po.c:5844
-#: src/translate_text.c.po.c:13240
+#: src/translate_text.c.po.c:13257
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Zamontuj surowy obraz kartridża Structured Basic"
 
@@ -5522,11 +5553,11 @@ msgstr "Wciśnij klawisz Fire"
 msgid "No userport joy adapter"
 msgstr "Bez złącza userportu joysticka"
 
-#: src/arch/win32/res.rc.po.c:1060 src/translate_text.c.po.c:13769
+#: src/arch/win32/res.rc.po.c:1060 src/translate_text.c.po.c:13786
 msgid "Disable SID cartridge joystick"
 msgstr "Wyłącz joystick kartridża SID"
 
-#: src/arch/win32/res.rc.po.c:1061 src/translate_text.c.po.c:13752
+#: src/arch/win32/res.rc.po.c:1061 src/translate_text.c.po.c:13769
 msgid "Enable SID cartridge joystick"
 msgstr "Włącz joystick kartridża SID"
 
@@ -5654,7 +5685,7 @@ msgstr "%s, prędkość %d%%, %d fps%s"
 msgid "Tape"
 msgstr "Taśma"
 
-#: src/arch/win32/res.rc.po.c:1098 src/arch/win32/resc64dtv.rc.po.c:449
+#: src/arch/win32/res.rc.po.c:1098 src/arch/win32/resc64dtv.rc.po.c:453
 #: src/arch/amigaos/intl_text.c.po.c:6264
 msgid "Joystick"
 msgstr "Joystick"
@@ -5698,16 +5729,9 @@ msgstr "Ustaw urządzenie wejścia dodatkowego joysticka #1"
 msgid "Set input device for extra joystick #2"
 msgstr "Ustaw urządzenie wejścia dodatkowego joysticka #2"
 
-#: src/arch/win32/res.rc.po.c:1109
-msgid "Confirm quitting VICE"
-msgstr "Potwierdzaj zamknięcie VICE"
-
-#: src/arch/win32/res.rc.po.c:1110
-msgid "Never confirm quitting VICE"
-msgstr "Nigdy nie potwierdzaj zamknięcia VICE"
-
 #: src/arch/win32/res.rc.po.c:1111
-msgid "Use all CPU on SMP systems"
+#, fuzzy
+msgid "Use all CPUs on SMP systems"
 msgstr "Używaj wszystkich CPU na systemach SMP"
 
 #: src/arch/win32/res.rc.po.c:1112
@@ -6271,21 +6295,21 @@ msgstr "Professional DOS"
 msgid "SuperCard+"
 msgstr "SuperCard+"
 
-#: src/arch/win32/res.rc.po.c:1346 src/arch/win32/resc128.rc.po.c:110
-#: src/arch/win32/resc64.rc.po.c:106 src/arch/win32/resc64dtv.rc.po.c:73
-#: src/arch/win32/rescbm2.rc.po.c:91 src/arch/win32/rescbm5x0.rc.po.c:91
-#: src/arch/win32/respet.rc.po.c:80 src/arch/win32/resplus4.rc.po.c:93
-#: src/arch/win32/resscpu64.rc.po.c:93 src/arch/win32/resvic20.rc.po.c:101
+#: src/arch/win32/res.rc.po.c:1346 src/arch/win32/resc128.rc.po.c:114
+#: src/arch/win32/resc64.rc.po.c:110 src/arch/win32/resc64dtv.rc.po.c:77
+#: src/arch/win32/rescbm2.rc.po.c:95 src/arch/win32/rescbm5x0.rc.po.c:95
+#: src/arch/win32/respet.rc.po.c:84 src/arch/win32/resplus4.rc.po.c:97
+#: src/arch/win32/resscpu64.rc.po.c:97 src/arch/win32/resvic20.rc.po.c:105
 #: src/arch/amigaos/intl_text.c.po.c:11333
 msgid "Default CPU JAM action"
 msgstr "Domyślne działanie zatkania CPU"
 
-#: src/arch/win32/res.rc.po.c:1350 src/arch/win32/resc128.rc.po.c:122
-#: src/arch/win32/resc64.rc.po.c:118 src/arch/win32/resc64dtv.rc.po.c:85
-#: src/arch/win32/rescbm2.rc.po.c:103 src/arch/win32/rescbm5x0.rc.po.c:103
-#: src/arch/win32/resexpert.rc.po.c:42 src/arch/win32/respet.rc.po.c:92
-#: src/arch/win32/resplus4.rc.po.c:105 src/arch/win32/resscpu64.rc.po.c:105
-#: src/arch/win32/resvic20.rc.po.c:113 src/translate_text.c.po.c:11363
+#: src/arch/win32/res.rc.po.c:1350 src/arch/win32/resc128.rc.po.c:126
+#: src/arch/win32/resc64.rc.po.c:122 src/arch/win32/resc64dtv.rc.po.c:89
+#: src/arch/win32/rescbm2.rc.po.c:107 src/arch/win32/rescbm5x0.rc.po.c:107
+#: src/arch/win32/resexpert.rc.po.c:42 src/arch/win32/respet.rc.po.c:96
+#: src/arch/win32/resplus4.rc.po.c:109 src/arch/win32/resscpu64.rc.po.c:109
+#: src/arch/win32/resvic20.rc.po.c:117 src/translate_text.c.po.c:11363
 msgid "Mode"
 msgstr "Tryb"
 
@@ -6294,41 +6318,41 @@ msgid "Options"
 msgstr "Opcje"
 
 #: src/arch/win32/res.rc.po.c:1361 src/arch/win32/res.rc.po.c:1485
-#: src/arch/win32/resc128.rc.po.c:227 src/arch/win32/resc64.rc.po.c:223
-#: src/arch/win32/resc64dtv.rc.po.c:190 src/arch/win32/resscpu64.rc.po.c:209
+#: src/arch/win32/resc128.rc.po.c:231 src/arch/win32/resc64.rc.po.c:227
+#: src/arch/win32/resc64dtv.rc.po.c:194 src/arch/win32/resscpu64.rc.po.c:213
 #: src/arch/amigaos/intl_text.c.po.c:3548
 #: src/arch/amigaos/intl_text.c.po.c:11851
 msgid "Mouse settings"
 msgstr "Ustawienia myszy"
 
-#: src/arch/win32/res.rc.po.c:1363 src/arch/win32/rescbm2.rc.po.c:213
-#: src/arch/win32/respet.rc.po.c:202 src/arch/amigaos/intl_text.c.po.c:2078
+#: src/arch/win32/res.rc.po.c:1363 src/arch/win32/rescbm2.rc.po.c:217
+#: src/arch/win32/respet.rc.po.c:206 src/arch/amigaos/intl_text.c.po.c:2078
 msgid "Drive sync factor"
 msgstr "Czynnik synchronizacji stacji"
 
-#: src/arch/win32/res.rc.po.c:1365 src/arch/win32/resc128.rc.po.c:257
-#: src/arch/win32/resc64.rc.po.c:242 src/arch/win32/rescbm2.rc.po.c:223
-#: src/arch/win32/rescbm5x0.rc.po.c:219 src/arch/win32/respet.rc.po.c:210
-#: src/arch/win32/resplus4.rc.po.c:225 src/arch/win32/resscpu64.rc.po.c:229
-#: src/arch/win32/resvic20.rc.po.c:235 src/arch/amigaos/intl_text.c.po.c:3674
+#: src/arch/win32/res.rc.po.c:1365 src/arch/win32/resc128.rc.po.c:261
+#: src/arch/win32/resc64.rc.po.c:246 src/arch/win32/rescbm2.rc.po.c:227
+#: src/arch/win32/rescbm5x0.rc.po.c:223 src/arch/win32/respet.rc.po.c:214
+#: src/arch/win32/resplus4.rc.po.c:229 src/arch/win32/resscpu64.rc.po.c:233
+#: src/arch/win32/resvic20.rc.po.c:239 src/arch/amigaos/intl_text.c.po.c:3674
 msgid "Cartridge/IO settings"
 msgstr "Ustawienia kartridża i we/wy"
 
-#: src/arch/win32/res.rc.po.c:1367 src/arch/win32/resc128.rc.po.c:305
-#: src/arch/win32/resc64.rc.po.c:294 src/arch/win32/resc64dtv.rc.po.c:216
-#: src/arch/win32/rescbm2.rc.po.c:242 src/arch/win32/rescbm5x0.rc.po.c:238
-#: src/arch/win32/respet.rc.po.c:234 src/arch/win32/resplus4.rc.po.c:248
-#: src/arch/win32/resscpu64.rc.po.c:277 src/arch/win32/resvic20.rc.po.c:272
-#: src/arch/win32/resvsid.rc.po.c:70 src/arch/amigaos/intl_text.c.po.c:4724
+#: src/arch/win32/res.rc.po.c:1367 src/arch/win32/resc128.rc.po.c:309
+#: src/arch/win32/resc64.rc.po.c:298 src/arch/win32/resc64dtv.rc.po.c:220
+#: src/arch/win32/rescbm2.rc.po.c:246 src/arch/win32/rescbm5x0.rc.po.c:242
+#: src/arch/win32/respet.rc.po.c:238 src/arch/win32/resplus4.rc.po.c:252
+#: src/arch/win32/resscpu64.rc.po.c:281 src/arch/win32/resvic20.rc.po.c:276
+#: src/arch/win32/resvsid.rc.po.c:74 src/arch/amigaos/intl_text.c.po.c:4724
 msgid "Language"
 msgstr "Język"
 
-#: src/arch/win32/res.rc.po.c:1368 src/arch/win32/resc128.rc.po.c:321
-#: src/arch/win32/resc64.rc.po.c:310 src/arch/win32/resc64dtv.rc.po.c:232
-#: src/arch/win32/rescbm2.rc.po.c:258 src/arch/win32/rescbm5x0.rc.po.c:254
-#: src/arch/win32/respet.rc.po.c:250 src/arch/win32/resplus4.rc.po.c:264
-#: src/arch/win32/resscpu64.rc.po.c:293 src/arch/win32/resvic20.rc.po.c:288
-#: src/arch/win32/resvsid.rc.po.c:86 src/arch/amigaos/intl_text.c.po.c:4402
+#: src/arch/win32/res.rc.po.c:1368 src/arch/win32/resc128.rc.po.c:325
+#: src/arch/win32/resc64.rc.po.c:314 src/arch/win32/resc64dtv.rc.po.c:236
+#: src/arch/win32/rescbm2.rc.po.c:262 src/arch/win32/rescbm5x0.rc.po.c:258
+#: src/arch/win32/respet.rc.po.c:254 src/arch/win32/resplus4.rc.po.c:268
+#: src/arch/win32/resscpu64.rc.po.c:297 src/arch/win32/resvic20.rc.po.c:292
+#: src/arch/win32/resvsid.rc.po.c:90 src/arch/amigaos/intl_text.c.po.c:4402
 msgid "Help"
 msgstr "Pomoc"
 
@@ -6468,8 +6492,8 @@ msgstr "Włącz klawisze joysticka"
 msgid "Virtual device traps"
 msgstr "Traps urządzenia wirtualnego."
 
-#: src/arch/win32/res.rc.po.c:1472 src/arch/win32/resc64.rc.po.c:531
-#: src/arch/win32/resscpu64.rc.po.c:542 src/arch/amigaos/intl_text.c.po.c:2260
+#: src/arch/win32/res.rc.po.c:1472 src/arch/win32/resc64.rc.po.c:535
+#: src/arch/win32/resscpu64.rc.po.c:546 src/arch/amigaos/intl_text.c.po.c:2260
 #: src/arch/amigaos/intl_text.c.po.c:12439
 msgid "C64 model settings"
 msgstr "Ustawienia modelu C64"
@@ -6488,7 +6512,7 @@ msgid "REU settings"
 msgstr "Ustawienia REU"
 
 #: src/arch/win32/res.rc.po.c:1489 src/arch/win32/resgeoram.rc.po.c:66
-#: src/arch/win32/resvic20.rc.po.c:547 src/arch/amigaos/intl_text.c.po.c:3716
+#: src/arch/win32/resvic20.rc.po.c:551 src/arch/amigaos/intl_text.c.po.c:3716
 #: src/arch/amigaos/intl_text.c.po.c:3730
 #: src/arch/amigaos/intl_text.c.po.c:7020
 msgid "GEO-RAM settings"
@@ -6545,14 +6569,14 @@ msgid "MIDI settings"
 msgstr "Ustawienia MIDI"
 
 #: src/arch/win32/res.rc.po.c:1499 src/arch/win32/resdigimax.rc.po.c:22
-#: src/arch/win32/resvic20.rc.po.c:548 src/arch/amigaos/intl_text.c.po.c:3926
+#: src/arch/win32/resvic20.rc.po.c:552 src/arch/amigaos/intl_text.c.po.c:3926
 #: src/arch/amigaos/intl_text.c.po.c:3940
 #: src/arch/amigaos/intl_text.c.po.c:11249
 msgid "DigiMAX settings"
 msgstr "Ustawienia DigiMAX"
 
 #: src/arch/win32/res.rc.po.c:1500 src/arch/win32/resds12c887rtc.rc.po.c:22
-#: src/arch/win32/resvic20.rc.po.c:549 src/arch/amigaos/intl_text.c.po.c:3954
+#: src/arch/win32/resvic20.rc.po.c:553 src/arch/amigaos/intl_text.c.po.c:3954
 #: src/arch/amigaos/intl_text.c.po.c:3968
 #: src/arch/amigaos/intl_text.c.po.c:11417
 msgid "DS12C887 RTC settings"
@@ -6569,12 +6593,12 @@ msgid "IDE64 settings"
 msgstr "Ustawienia IDE64"
 
 #: src/arch/win32/res.rc.po.c:1504 src/arch/win32/restfe.rc.po.c:61
-#: src/arch/win32/resvic20.rc.po.c:551 src/arch/amigaos/intl_text.c.po.c:4108
+#: src/arch/win32/resvic20.rc.po.c:555 src/arch/amigaos/intl_text.c.po.c:4108
 msgid "Ethernet settings"
 msgstr "Ustawienia Ethernet"
 
 #: src/arch/win32/res.rc.po.c:1506 src/arch/win32/resacia.rc.po.c:84
-#: src/arch/win32/resvic20.rc.po.c:546 src/arch/amigaos/intl_text.c.po.c:4122
+#: src/arch/win32/resvic20.rc.po.c:550 src/arch/amigaos/intl_text.c.po.c:4122
 #: src/arch/amigaos/intl_text.c.po.c:4136
 #: src/arch/amigaos/intl_text.c.po.c:6362
 msgid "ACIA settings"
@@ -6593,7 +6617,7 @@ msgid "EasyFlash settings"
 msgstr "Ustawienia EasyFlash"
 
 #: src/arch/win32/res.rc.po.c:1509 src/arch/win32/ressoundexpander.rc.po.c:42
-#: src/arch/win32/resvic20.rc.po.c:553 src/arch/amigaos/intl_text.c.po.c:3982
+#: src/arch/win32/resvic20.rc.po.c:557 src/arch/amigaos/intl_text.c.po.c:3982
 #: src/arch/amigaos/intl_text.c.po.c:3996
 #: src/arch/amigaos/intl_text.c.po.c:11473
 msgid "SFX Sound Expander settings"
@@ -6601,7 +6625,7 @@ msgstr "Ustawienia SFX Sound Expander"
 
 #: src/arch/win32/res.rc.po.c:1510 src/arch/win32/ressoundsampler.rc.po.c:21
 #: src/arch/amigaos/intl_text.c.po.c:4038
-#: src/arch/amigaos/intl_text.c.po.c:4052 src/translate_text.c.po.c:13837
+#: src/arch/amigaos/intl_text.c.po.c:4052 src/translate_text.c.po.c:13854
 msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "Włącz kartridż SFX Sound Sampler"
 
@@ -6795,224 +6819,224 @@ msgstr "Rzeczywista emulacja napędu"
 msgid "Select file for PRG autostart disk"
 msgstr "Wybierz plik dysku do automatycznego startu z PRG"
 
-#: src/arch/win32/resc128.rc.po.c:247 src/arch/win32/resc128.rc.po.c:705
+#: src/arch/win32/resc128.rc.po.c:251 src/arch/win32/resc128.rc.po.c:709
 #: src/arch/amigaos/intl_text.c.po.c:1798
 msgid "VDC revision"
 msgstr "Wersja VDC"
 
-#: src/arch/win32/resc128.rc.po.c:666 src/arch/amigaos/intl_text.c.po.c:11053
+#: src/arch/win32/resc128.rc.po.c:670 src/arch/amigaos/intl_text.c.po.c:11053
 msgid "Select Internal Function ROM file"
 msgstr "Wybierz plik wewnętrznego Function ROM-u"
 
-#: src/arch/win32/resc128.rc.po.c:667 src/arch/amigaos/intl_text.c.po.c:11067
+#: src/arch/win32/resc128.rc.po.c:671 src/arch/amigaos/intl_text.c.po.c:11067
 msgid "Select External Function ROM file"
 msgstr "Wybierz plik zewnętrznego Function ROM-u"
 
-#: src/arch/win32/resc128.rc.po.c:670 src/arch/win32/rescbm2common.rc.po.c:157
+#: src/arch/win32/resc128.rc.po.c:674 src/arch/win32/rescbm2common.rc.po.c:157
 msgid "RAM banks"
 msgstr "Banki RAM"
 
-#: src/arch/win32/resc128.rc.po.c:671 src/arch/win32/resc128.rc.po.c:708
+#: src/arch/win32/resc128.rc.po.c:675 src/arch/win32/resc128.rc.po.c:712
 #: src/arch/amigaos/intl_text.c.po.c:3660
 #: src/arch/amigaos/intl_text.c.po.c:11165
 msgid "C128 settings"
 msgstr "Ustawienia C128"
 
-#: src/arch/win32/resc128.rc.po.c:672
+#: src/arch/win32/resc128.rc.po.c:676
 msgid "Kernal Int."
 msgstr "Kernal Int."
 
-#: src/arch/win32/resc128.rc.po.c:673
+#: src/arch/win32/resc128.rc.po.c:677
 msgid "Kernal DE"
 msgstr "Kernal DE"
 
-#: src/arch/win32/resc128.rc.po.c:674
+#: src/arch/win32/resc128.rc.po.c:678
 msgid "Kernal FI"
 msgstr "Kernal FI"
 
-#: src/arch/win32/resc128.rc.po.c:675
+#: src/arch/win32/resc128.rc.po.c:679
 msgid "Kernal FR"
 msgstr "Kernal FR"
 
-#: src/arch/win32/resc128.rc.po.c:676
+#: src/arch/win32/resc128.rc.po.c:680
 msgid "Kernal IT"
 msgstr "Kernal IT"
 
-#: src/arch/win32/resc128.rc.po.c:677
+#: src/arch/win32/resc128.rc.po.c:681
 msgid "Kernal NO"
 msgstr "Kernal NO"
 
-#: src/arch/win32/resc128.rc.po.c:678
+#: src/arch/win32/resc128.rc.po.c:682
 msgid "Kernal SE"
 msgstr "Kernal SE"
 
-#: src/arch/win32/resc128.rc.po.c:679
+#: src/arch/win32/resc128.rc.po.c:683
 msgid "Kernal CH"
 msgstr "Kernal CH"
 
-#: src/arch/win32/resc128.rc.po.c:680
+#: src/arch/win32/resc128.rc.po.c:684
 msgid "Basic LO"
 msgstr "Basic LO"
 
-#: src/arch/win32/resc128.rc.po.c:681
+#: src/arch/win32/resc128.rc.po.c:685
 msgid "Basic HI"
 msgstr "Basic HI"
 
-#: src/arch/win32/resc128.rc.po.c:682
+#: src/arch/win32/resc128.rc.po.c:686
 msgid "Char. Int."
 msgstr "Znak Int."
 
-#: src/arch/win32/resc128.rc.po.c:683
+#: src/arch/win32/resc128.rc.po.c:687
 msgid "Char. DE"
 msgstr "Znak DE"
 
-#: src/arch/win32/resc128.rc.po.c:684
+#: src/arch/win32/resc128.rc.po.c:688
 msgid "Char. FR"
 msgstr "Znak FR"
 
-#: src/arch/win32/resc128.rc.po.c:685
+#: src/arch/win32/resc128.rc.po.c:689
 msgid "Char. SE"
 msgstr "Znak SE"
 
-#: src/arch/win32/resc128.rc.po.c:686
+#: src/arch/win32/resc128.rc.po.c:690
 msgid "Char. CH"
 msgstr "Znak CH"
 
-#: src/arch/win32/resc128.rc.po.c:687
+#: src/arch/win32/resc128.rc.po.c:691
 msgid "Kernal C64"
 msgstr "Kernal C64"
 
-#: src/arch/win32/resc128.rc.po.c:688
+#: src/arch/win32/resc128.rc.po.c:692
 msgid "Basic C64"
 msgstr "Basic C64"
 
-#: src/arch/win32/resc128.rc.po.c:697 src/arch/amigaos/intl_text.c.po.c:11095
+#: src/arch/win32/resc128.rc.po.c:701 src/arch/amigaos/intl_text.c.po.c:11095
 msgid "Internal Function ROM"
 msgstr "Wewnętrzny Function ROM"
 
-#: src/arch/win32/resc128.rc.po.c:700 src/arch/amigaos/intl_text.c.po.c:11123
+#: src/arch/win32/resc128.rc.po.c:704 src/arch/amigaos/intl_text.c.po.c:11123
 msgid "External Function ROM"
 msgstr "Zewnętrzny Function ROM"
 
-#: src/arch/win32/resc128.rc.po.c:702 src/translate_text.c.po.c:4203
+#: src/arch/win32/resc128.rc.po.c:706 src/translate_text.c.po.c:4203
 msgid "Enable RAM banks 2 and 3"
 msgstr "Włącz banki RAM 2 i 3"
 
-#: src/arch/win32/resc128.rc.po.c:707 src/arch/amigaos/intl_text.c.po.c:2204
+#: src/arch/win32/resc128.rc.po.c:711 src/arch/amigaos/intl_text.c.po.c:2204
 msgid "IEEE488 Interface emulation"
 msgstr "Emulacja interfejsu IEEE488"
 
-#: src/arch/win32/resc128.rc.po.c:709 src/arch/amigaos/intl_text.c.po.c:2722
+#: src/arch/win32/resc128.rc.po.c:713 src/arch/amigaos/intl_text.c.po.c:2722
 msgid "C128 model settings"
 msgstr "Ustawienia modelu C128"
 
-#: src/arch/win32/resc64.rc.po.c:524 src/arch/win32/resscpu64.rc.po.c:535
+#: src/arch/win32/resc64.rc.po.c:528 src/arch/win32/resscpu64.rc.po.c:539
 #: src/arch/amigaos/intl_text.c.po.c:12215
 msgid "6569 (PAL)"
 msgstr "6569 (PAL)"
 
-#: src/arch/win32/resc64.rc.po.c:525 src/arch/win32/resscpu64.rc.po.c:536
+#: src/arch/win32/resc64.rc.po.c:529 src/arch/win32/resscpu64.rc.po.c:540
 #: src/arch/amigaos/intl_text.c.po.c:12229
 msgid "8565 (PAL)"
 msgstr "8565 (PAL)"
 
-#: src/arch/win32/resc64.rc.po.c:527 src/arch/win32/resscpu64.rc.po.c:538
+#: src/arch/win32/resc64.rc.po.c:531 src/arch/win32/resscpu64.rc.po.c:542
 #: src/arch/amigaos/intl_text.c.po.c:12257
 msgid "6567 (NTSC)"
 msgstr "6567 (NTSC)"
 
-#: src/arch/win32/resc64.rc.po.c:528 src/arch/win32/resscpu64.rc.po.c:539
+#: src/arch/win32/resc64.rc.po.c:532 src/arch/win32/resscpu64.rc.po.c:543
 #: src/arch/amigaos/intl_text.c.po.c:12271
 msgid "8562 (NTSC)"
 msgstr "8562 (NTSC)"
 
-#: src/arch/win32/resc64.rc.po.c:530 src/arch/win32/resscpu64.rc.po.c:541
+#: src/arch/win32/resc64.rc.po.c:534 src/arch/win32/resscpu64.rc.po.c:545
 #: src/arch/amigaos/intl_text.c.po.c:12299
 msgid "6572 (PAL-N)"
 msgstr "6572 (PAL-N)"
 
-#: src/arch/win32/resc64.rc.po.c:532 src/arch/win32/resc64.rc.po.c:552
-#: src/arch/win32/resscpu64.rc.po.c:543 src/arch/win32/resscpu64.rc.po.c:550
+#: src/arch/win32/resc64.rc.po.c:536 src/arch/win32/resc64.rc.po.c:556
+#: src/arch/win32/resscpu64.rc.po.c:547 src/arch/win32/resscpu64.rc.po.c:554
 msgid "C64 drive burst modification settings"
 msgstr "Ustawienia trybu synchronicznego napędu C64"
 
-#: src/arch/win32/resc64.rc.po.c:533 src/arch/win32/resscpu64.rc.po.c:544
+#: src/arch/win32/resc64.rc.po.c:537 src/arch/win32/resscpu64.rc.po.c:548
 msgid "Enable the C64 drive burst modification"
 msgstr "Włącz modyfikację trybu synchronicznego napędu C64"
 
-#: src/arch/win32/resc64.rc.po.c:534 src/arch/win32/resscpu64.rc.po.c:545
+#: src/arch/win32/resc64.rc.po.c:538 src/arch/win32/resscpu64.rc.po.c:549
 msgid "C64 drive burst modification CIA"
 msgstr "CIA trybu synchronicznego napędu C64"
 
-#: src/arch/win32/resc64.rc.po.c:535 src/arch/win32/resscpu64.rc.po.c:521
+#: src/arch/win32/resc64.rc.po.c:539 src/arch/win32/resscpu64.rc.po.c:525
 #: src/arch/amigaos/intl_text.c.po.c:2274
 msgid "C64 PAL"
 msgstr "C64 PAL"
 
-#: src/arch/win32/resc64.rc.po.c:536 src/arch/win32/resscpu64.rc.po.c:522
+#: src/arch/win32/resc64.rc.po.c:540 src/arch/win32/resscpu64.rc.po.c:526
 #: src/arch/amigaos/intl_text.c.po.c:2288
 msgid "C64C PAL"
 msgstr "C64C PAL"
 
-#: src/arch/win32/resc64.rc.po.c:538 src/arch/win32/resscpu64.rc.po.c:524
+#: src/arch/win32/resc64.rc.po.c:542 src/arch/win32/resscpu64.rc.po.c:528
 #: src/arch/amigaos/intl_text.c.po.c:2316
 msgid "C64 NTSC"
 msgstr "C64 NTSC"
 
-#: src/arch/win32/resc64.rc.po.c:539 src/arch/win32/resscpu64.rc.po.c:525
+#: src/arch/win32/resc64.rc.po.c:543 src/arch/win32/resscpu64.rc.po.c:529
 #: src/arch/amigaos/intl_text.c.po.c:2330
 msgid "C64C NTSC"
 msgstr "C64C NTSC"
 
-#: src/arch/win32/resc64.rc.po.c:541 src/arch/win32/resscpu64.rc.po.c:527
+#: src/arch/win32/resc64.rc.po.c:545 src/arch/win32/resscpu64.rc.po.c:531
 #: src/arch/amigaos/intl_text.c.po.c:2358
 msgid "Drean"
 msgstr "Drean"
 
-#: src/arch/win32/resc64.rc.po.c:542 src/arch/win32/resscpu64.rc.po.c:528
+#: src/arch/win32/resc64.rc.po.c:546 src/arch/win32/resscpu64.rc.po.c:532
 #: src/arch/amigaos/intl_text.c.po.c:2372
 msgid "C64 SX PAL"
 msgstr "C64 SX PAL"
 
-#: src/arch/win32/resc64.rc.po.c:543 src/arch/win32/resscpu64.rc.po.c:529
+#: src/arch/win32/resc64.rc.po.c:547 src/arch/win32/resscpu64.rc.po.c:533
 #: src/arch/amigaos/intl_text.c.po.c:2386
 msgid "C64 SX NTSC"
 msgstr "C64 SX NTSC"
 
-#: src/arch/win32/resc64.rc.po.c:545 src/arch/win32/resscpu64.rc.po.c:531
+#: src/arch/win32/resc64.rc.po.c:549 src/arch/win32/resscpu64.rc.po.c:535
 #: src/arch/amigaos/intl_text.c.po.c:2414
 msgid "C64 GS"
 msgstr "C64 GS"
 
-#: src/arch/win32/resc64.rc.po.c:546 src/arch/win32/resscpu64.rc.po.c:532
+#: src/arch/win32/resc64.rc.po.c:550 src/arch/win32/resscpu64.rc.po.c:536
 #: src/arch/amigaos/intl_text.c.po.c:2428
 msgid "PET64 PAL"
 msgstr "PET64 PAL"
 
-#: src/arch/win32/resc64.rc.po.c:547 src/arch/win32/resscpu64.rc.po.c:533
+#: src/arch/win32/resc64.rc.po.c:551 src/arch/win32/resscpu64.rc.po.c:537
 #: src/arch/amigaos/intl_text.c.po.c:2442
 msgid "PET64 NTSC"
 msgstr "PET64 NTSC"
 
-#: src/arch/win32/resc64.rc.po.c:549 src/arch/win32/resplus60k.rc.po.c:28
+#: src/arch/win32/resc64.rc.po.c:553 src/arch/win32/resplus60k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:3800
 #: src/arch/amigaos/intl_text.c.po.c:8169
 msgid "PLUS60K settings"
 msgstr "Ustawienia PLUS60K"
 
-#: src/arch/win32/resc64.rc.po.c:550 src/arch/win32/resplus256k.rc.po.c:24
+#: src/arch/win32/resc64.rc.po.c:554 src/arch/win32/resplus256k.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:3842
 #: src/arch/amigaos/intl_text.c.po.c:8113
 msgid "PLUS256K settings"
 msgstr "Ustawienia PLUS256K"
 
-#: src/arch/win32/resc64.rc.po.c:551 src/arch/win32/resc64_256k.rc.po.c:28
+#: src/arch/win32/resc64.rc.po.c:555 src/arch/win32/resc64_256k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:3856
 #: src/arch/amigaos/intl_text.c.po.c:6432
 msgid "256K settings"
 msgstr "Ustawienia 256K"
 
-#: src/arch/win32/resc64_256k.rc.po.c:29 src/translate_text.c.po.c:13172
+#: src/arch/win32/resc64_256k.rc.po.c:29 src/translate_text.c.po.c:13189
 msgid "Enable the 256K RAM expansion"
 msgstr "Włącz rozszerzenie RAM 256K"
 
@@ -7026,62 +7050,62 @@ msgstr "Adres bazowy 256K"
 msgid "Select file for 256K"
 msgstr "Wybierz plik 256K"
 
-#: src/arch/win32/resc64dtv.rc.po.c:52 src/arch/win32/resc64dtv.rc.po.c:440
-#: src/arch/win32/resc64dtv.rc.po.c:451
+#: src/arch/win32/resc64dtv.rc.po.c:56 src/arch/win32/resc64dtv.rc.po.c:444
+#: src/arch/win32/resc64dtv.rc.po.c:455
 msgid "DTV ROM image File"
 msgstr "Plik obrazu ROM DTV"
 
-#: src/arch/win32/resc64dtv.rc.po.c:438
+#: src/arch/win32/resc64dtv.rc.po.c:442
 msgid "Attach DTV Flash Image"
 msgstr "Zamontuj obraz DTV Flash"
 
-#: src/arch/win32/resc64dtv.rc.po.c:439
+#: src/arch/win32/resc64dtv.rc.po.c:443
 msgid "DTV ROM"
 msgstr "ROM DTV"
 
-#: src/arch/win32/resc64dtv.rc.po.c:442 src/arch/win32/resc64dtv.rc.po.c:459
+#: src/arch/win32/resc64dtv.rc.po.c:446 src/arch/win32/resc64dtv.rc.po.c:463
 #: src/arch/amigaos/intl_text.c.po.c:4276
 #: src/arch/amigaos/intl_text.c.po.c:6516
 msgid "C64DTV settings"
 msgstr "Ustawienia C64DTV"
 
-#: src/arch/win32/resc64dtv.rc.po.c:443 src/arch/win32/resc64dtv.rc.po.c:450
+#: src/arch/win32/resc64dtv.rc.po.c:447 src/arch/win32/resc64dtv.rc.po.c:454
 msgid "C64DTV model"
 msgstr "Model C64DTV"
 
-#: src/arch/win32/resc64dtv.rc.po.c:444 src/translate_text.c.po.c:4392
+#: src/arch/win32/resc64dtv.rc.po.c:448 src/translate_text.c.po.c:4392
 msgid "Enable Hummer ADC"
 msgstr "Włącz Hummer ADC"
 
-#: src/arch/win32/resc64dtv.rc.po.c:445 src/arch/win32/resc64dtv.rc.po.c:456
+#: src/arch/win32/resc64dtv.rc.po.c:449 src/arch/win32/resc64dtv.rc.po.c:460
 msgid "Create DTV Flash Image"
 msgstr "Utwórz obraz flash DTV"
 
-#: src/arch/win32/resc64dtv.rc.po.c:446
+#: src/arch/win32/resc64dtv.rc.po.c:450
 msgid "DTV ROM Creation"
 msgstr "Tworzenie ROM-u DTV"
 
-#: src/arch/win32/resc64dtv.rc.po.c:447
+#: src/arch/win32/resc64dtv.rc.po.c:451
 msgid "Copy C64 ROMS into image"
 msgstr "Kopiuj ROM-y C64 do obrazu"
 
-#: src/arch/win32/resc64dtv.rc.po.c:448
+#: src/arch/win32/resc64dtv.rc.po.c:452
 msgid "Create"
 msgstr "Utwórz"
 
-#: src/arch/win32/resc64dtv.rc.po.c:452 src/arch/amigaos/intl_text.c.po.c:2638
+#: src/arch/win32/resc64dtv.rc.po.c:456 src/arch/amigaos/intl_text.c.po.c:2638
 msgid "C64DTV model settings"
 msgstr "Ustawienia modelu C64DTV"
 
-#: src/arch/win32/resc64dtv.rc.po.c:454
+#: src/arch/win32/resc64dtv.rc.po.c:458
 msgid "Attach flash rom image"
 msgstr "Zamontuj obraz flash rom"
 
-#: src/arch/win32/resc64dtv.rc.po.c:455
+#: src/arch/win32/resc64dtv.rc.po.c:459
 msgid "Detach flash rom image"
 msgstr "Odmontuj obraz flash rom"
 
-#: src/arch/win32/resc64dtv.rc.po.c:457
+#: src/arch/win32/resc64dtv.rc.po.c:461
 msgid "True flash filesystem"
 msgstr "Rzeczywisty system plików flash"
 
@@ -7162,35 +7186,35 @@ msgstr "Wczytaj nowy kartridż $6-7***"
 msgid "Unload Cart $6-7***"
 msgstr "Usuń kartridż $6-7***"
 
-#: src/arch/win32/rescbm2.rc.po.c:320 src/arch/win32/rescbm2.rc.po.c:322
+#: src/arch/win32/rescbm2.rc.po.c:324 src/arch/win32/rescbm2.rc.po.c:326
 #: src/arch/amigaos/intl_text.c.po.c:3324
 #: src/arch/amigaos/intl_text.c.po.c:6670
 msgid "CBM2 settings"
 msgstr "Ustawienia CBM2"
 
-#: src/arch/win32/rescbm2.rc.po.c:321
+#: src/arch/win32/rescbm2.rc.po.c:325
 msgid "CBM2 model"
 msgstr "Model CBM2"
 
-#: src/arch/win32/rescbm2.rc.po.c:323 src/arch/amigaos/intl_text.c.po.c:2974
+#: src/arch/win32/rescbm2.rc.po.c:327 src/arch/amigaos/intl_text.c.po.c:2974
 msgid "CBM2 model settings"
 msgstr "Ustawienia modelu CBM2"
 
-#: src/arch/win32/rescbm5x0.rc.po.c:316 src/arch/win32/rescbm5x0.rc.po.c:319
+#: src/arch/win32/rescbm5x0.rc.po.c:320 src/arch/win32/rescbm5x0.rc.po.c:323
 #: src/arch/amigaos/intl_text.c.po.c:3338
 #: src/arch/amigaos/intl_text.c.po.c:6684
 msgid "CBM5x0 settings"
 msgstr "Ustawienia CBM5x0"
 
-#: src/arch/win32/rescbm5x0.rc.po.c:317 src/arch/win32/resplus4.rc.po.c:460
+#: src/arch/win32/rescbm5x0.rc.po.c:321 src/arch/win32/resplus4.rc.po.c:464
 msgid "64 kByte"
 msgstr "64 kBajty"
 
-#: src/arch/win32/rescbm5x0.rc.po.c:318
+#: src/arch/win32/rescbm5x0.rc.po.c:322
 msgid "CBM5x0 model"
 msgstr "Model CBM5x0"
 
-#: src/arch/win32/rescbm5x0.rc.po.c:320 src/arch/amigaos/intl_text.c.po.c:3114
+#: src/arch/win32/rescbm5x0.rc.po.c:324 src/arch/amigaos/intl_text.c.po.c:3114
 msgid "CBM5x0 model settings"
 msgstr "Ustawienia modelu CBM5x0"
 
@@ -7198,7 +7222,7 @@ msgstr "Ustawienia modelu CBM5x0"
 msgid "CIA settings"
 msgstr "Ustawienia CIA"
 
-#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:13990
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:14007
 msgid "Enable the DigiMAX cartridge"
 msgstr "Włącz kartridż DigiMAX"
 
@@ -7339,7 +7363,7 @@ msgstr "Włącz Magic Voice"
 msgid "Select file for Magic Voice"
 msgstr "Wybierz filtr Magic Voice"
 
-#: src/arch/win32/resmidi.rc.po.c:39 src/translate_text.c.po.c:13615
+#: src/arch/win32/resmidi.rc.po.c:39 src/translate_text.c.po.c:13632
 msgid "Enable MIDI emulation"
 msgstr "Włącz emulację MIDI"
 
@@ -7401,87 +7425,87 @@ msgstr "czułość myszy. [40]"
 msgid "Mouse sensitivity"
 msgstr "Czułość myszy"
 
-#: src/arch/win32/respet.rc.po.c:507
+#: src/arch/win32/respet.rc.po.c:511
 msgid "Input/Output"
 msgstr "wejście/wyjście"
 
-#: src/arch/win32/respet.rc.po.c:508 src/arch/win32/respet.rc.po.c:530
+#: src/arch/win32/respet.rc.po.c:512 src/arch/win32/respet.rc.po.c:534
 #: src/arch/amigaos/intl_text.c.po.c:3352
 #: src/arch/amigaos/intl_text.c.po.c:10997
 msgid "PET settings"
 msgstr "Ustawienia PET"
 
-#: src/arch/win32/respet.rc.po.c:509
+#: src/arch/win32/respet.rc.po.c:513
 msgid "Editor"
 msgstr "Edytor"
 
-#: src/arch/win32/respet.rc.po.c:510
+#: src/arch/win32/respet.rc.po.c:514
 msgid "ROM 9"
 msgstr "ROM 9"
 
-#: src/arch/win32/respet.rc.po.c:511
+#: src/arch/win32/respet.rc.po.c:515
 msgid "ROM A"
 msgstr "ROM A"
 
-#: src/arch/win32/respet.rc.po.c:512
+#: src/arch/win32/respet.rc.po.c:516
 msgid "ROM B"
 msgstr "ROM B"
 
-#: src/arch/win32/respet.rc.po.c:513
+#: src/arch/win32/respet.rc.po.c:517
 msgid "Video"
 msgstr "Wideo"
 
-#: src/arch/win32/respet.rc.po.c:517
+#: src/arch/win32/respet.rc.po.c:521
 msgid "IO Size"
 msgstr "Rozmiar we/wy"
 
-#: src/arch/win32/respet.rc.po.c:518 src/arch/amigaos/intl_text.c.po.c:10815
+#: src/arch/win32/respet.rc.po.c:522 src/arch/amigaos/intl_text.c.po.c:10815
 msgid "256 Byte"
 msgstr "256 bajtów"
 
-#: src/arch/win32/respet.rc.po.c:519 src/arch/amigaos/intl_text.c.po.c:10829
+#: src/arch/win32/respet.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:10829
 msgid "2 kByte"
 msgstr "2 kBajty "
 
-#: src/arch/win32/respet.rc.po.c:524
+#: src/arch/win32/respet.rc.po.c:528
 msgid "IO Settings"
 msgstr "Ustawienia we/wy"
 
-#: src/arch/win32/respet.rc.po.c:527 src/arch/amigaos/intl_text.c.po.c:10969
+#: src/arch/win32/respet.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:10969
 msgid "$9*** as RAM"
 msgstr "$9*** jako RAM"
 
-#: src/arch/win32/respet.rc.po.c:528 src/arch/amigaos/intl_text.c.po.c:10983
+#: src/arch/win32/respet.rc.po.c:532 src/arch/amigaos/intl_text.c.po.c:10983
 msgid "$A*** as RAM"
 msgstr "$A*** jako RAM"
 
-#: src/arch/win32/respet.rc.po.c:531 src/arch/win32/respetcolour.rc.po.c:24
+#: src/arch/win32/respet.rc.po.c:535 src/arch/win32/respetcolour.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4206
 msgid "PET Colour board settings"
 msgstr "Ustawienia koloru karty PET"
 
-#: src/arch/win32/respet.rc.po.c:532 src/arch/win32/respetdww.rc.po.c:24
+#: src/arch/win32/respet.rc.po.c:536 src/arch/win32/respetdww.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4192
 #: src/arch/amigaos/intl_text.c.po.c:8099
 msgid "PET DWW settings"
 msgstr "Ustawienia PET DWW"
 
-#: src/arch/win32/respet.rc.po.c:533 src/arch/win32/respetreu.rc.po.c:37
+#: src/arch/win32/respet.rc.po.c:537 src/arch/win32/respetreu.rc.po.c:37
 #: src/arch/amigaos/intl_text.c.po.c:4150
 #: src/arch/amigaos/intl_text.c.po.c:7945
 msgid "PET REU settings"
 msgstr "Ustawienia PET REU"
 
-#: src/arch/win32/respet.rc.po.c:534
+#: src/arch/win32/respet.rc.po.c:538
 msgid "Enable PET High Res Emulation board"
 msgstr "Włącz układ emulatora PET hi-res"
 
-#: src/arch/win32/respet.rc.po.c:535 src/arch/amigaos/intl_text.c.po.c:4094
+#: src/arch/win32/respet.rc.po.c:539 src/arch/amigaos/intl_text.c.po.c:4094
 #: src/translate_text.c.po.c:4800
 msgid "Enable Userport DAC for sound output"
 msgstr "Włącz userport DAC jako wyjście dźwięku"
 
-#: src/arch/win32/respet.rc.po.c:536 src/arch/amigaos/intl_text.c.po.c:2792
+#: src/arch/win32/respet.rc.po.c:540 src/arch/amigaos/intl_text.c.po.c:2792
 msgid "PET model settings"
 msgstr "Ustawienia modelu PET"
 
@@ -7514,7 +7538,7 @@ msgstr "Rozmiar PET REU"
 msgid "Select file for PET REU"
 msgstr "Wybierz plik PET REU"
 
-#: src/arch/win32/resplus256k.rc.po.c:25 src/translate_text.c.po.c:13053
+#: src/arch/win32/resplus256k.rc.po.c:25 src/translate_text.c.po.c:13070
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Włącz rozszerzenie RAM PLUS256K"
 
@@ -7523,111 +7547,111 @@ msgstr "Włącz rozszerzenie RAM PLUS256K"
 msgid "Select file for PLUS256K"
 msgstr "Wybierz plik PLUS256K"
 
-#: src/arch/win32/resplus4.rc.po.c:375 src/arch/win32/resplus4.rc.po.c:457
-#: src/arch/win32/resplus4.rc.po.c:472 src/arch/amigaos/intl_text.c.po.c:3422
+#: src/arch/win32/resplus4.rc.po.c:379 src/arch/win32/resplus4.rc.po.c:461
+#: src/arch/win32/resplus4.rc.po.c:476 src/arch/amigaos/intl_text.c.po.c:3422
 #: src/arch/amigaos/intl_text.c.po.c:11039
 msgid "Plus4 settings"
 msgstr "Ustawienia Plus4"
 
-#: src/arch/win32/resplus4.rc.po.c:449 src/arch/amigaos/intl_text.c.po.c:10227
+#: src/arch/win32/resplus4.rc.po.c:453 src/arch/amigaos/intl_text.c.po.c:10227
 msgid "Attach cartridge image for Cartridge0 Low"
 msgstr "Zamontuj obraz kartridża do Cartridge0 Low"
 
-#: src/arch/win32/resplus4.rc.po.c:450 src/arch/amigaos/intl_text.c.po.c:10241
+#: src/arch/win32/resplus4.rc.po.c:454 src/arch/amigaos/intl_text.c.po.c:10241
 msgid "Attach cartridge image for Cartridge0 High"
 msgstr "Zamontuj obraz kartridża do Cartridge0 High"
 
-#: src/arch/win32/resplus4.rc.po.c:451 src/arch/amigaos/intl_text.c.po.c:10255
+#: src/arch/win32/resplus4.rc.po.c:455 src/arch/amigaos/intl_text.c.po.c:10255
 msgid "Attach cartridge image for Cartridge1 Low"
 msgstr "Zamontuj obraz kartridża do Cartridge1 Low"
 
-#: src/arch/win32/resplus4.rc.po.c:452 src/arch/amigaos/intl_text.c.po.c:10269
+#: src/arch/win32/resplus4.rc.po.c:456 src/arch/amigaos/intl_text.c.po.c:10269
 msgid "Attach cartridge image for Cartridge1 High"
 msgstr "Zamontuj obraz kartridża do Cartridge1 High"
 
-#: src/arch/win32/resplus4.rc.po.c:453 src/arch/amigaos/intl_text.c.po.c:10283
+#: src/arch/win32/resplus4.rc.po.c:457 src/arch/amigaos/intl_text.c.po.c:10283
 msgid "Attach cartridge image for Cartridge2 Low"
 msgstr "Zamontuj obraz kartridża do Cartridge2 Low"
 
-#: src/arch/win32/resplus4.rc.po.c:454 src/arch/amigaos/intl_text.c.po.c:10297
+#: src/arch/win32/resplus4.rc.po.c:458 src/arch/amigaos/intl_text.c.po.c:10297
 msgid "Attach cartridge image for Cartridge2 High"
 msgstr "Zamontuj obraz kartridża do Cartridge2 High"
 
-#: src/arch/win32/resplus4.rc.po.c:455
+#: src/arch/win32/resplus4.rc.po.c:459
 msgid "Function Lo"
 msgstr "Function Lo"
 
-#: src/arch/win32/resplus4.rc.po.c:456
+#: src/arch/win32/resplus4.rc.po.c:460
 msgid "Function Hi"
 msgstr "Function Hi"
 
-#: src/arch/win32/resplus4.rc.po.c:458
+#: src/arch/win32/resplus4.rc.po.c:462
 msgid "16 kByte"
 msgstr "16 kBajtów"
 
-#: src/arch/win32/resplus4.rc.po.c:459
+#: src/arch/win32/resplus4.rc.po.c:463
 msgid "32 kByte"
 msgstr "32 kBajty"
 
-#: src/arch/win32/resplus4.rc.po.c:461
+#: src/arch/win32/resplus4.rc.po.c:465
 msgid "256 kByte (CSORY)"
 msgstr "256 kBajtów (CSORY)"
 
-#: src/arch/win32/resplus4.rc.po.c:462
+#: src/arch/win32/resplus4.rc.po.c:466
 msgid "256 kByte (HANNES)"
 msgstr "256 kBajtów (HANNES)"
 
-#: src/arch/win32/resplus4.rc.po.c:463
+#: src/arch/win32/resplus4.rc.po.c:467
 msgid "1024 kByte (HANNES)"
 msgstr "1024 kBajty (HANNES)"
 
-#: src/arch/win32/resplus4.rc.po.c:464
+#: src/arch/win32/resplus4.rc.po.c:468
 msgid "4096 kByte (HANNES)"
 msgstr "4096 kBajtów (HANNES)"
 
-#: src/arch/win32/resplus4.rc.po.c:465
+#: src/arch/win32/resplus4.rc.po.c:469
 msgid "Plus4 model"
 msgstr "Model Plus4"
 
-#: src/arch/win32/resplus4.rc.po.c:466 src/arch/amigaos/intl_text.c.po.c:566
+#: src/arch/win32/resplus4.rc.po.c:470 src/arch/amigaos/intl_text.c.po.c:566
 msgid "C0 low  image"
 msgstr "Obraz C0 low"
 
-#: src/arch/win32/resplus4.rc.po.c:467 src/arch/amigaos/intl_text.c.po.c:580
+#: src/arch/win32/resplus4.rc.po.c:471 src/arch/amigaos/intl_text.c.po.c:580
 msgid "C0 high image"
 msgstr "Obraz C0 high"
 
-#: src/arch/win32/resplus4.rc.po.c:468 src/arch/amigaos/intl_text.c.po.c:594
+#: src/arch/win32/resplus4.rc.po.c:472 src/arch/amigaos/intl_text.c.po.c:594
 msgid "C1 low  image"
 msgstr "Obraz C1 low"
 
-#: src/arch/win32/resplus4.rc.po.c:469 src/arch/amigaos/intl_text.c.po.c:608
+#: src/arch/win32/resplus4.rc.po.c:473 src/arch/amigaos/intl_text.c.po.c:608
 msgid "C1 high image"
 msgstr "Obraz C1 high"
 
-#: src/arch/win32/resplus4.rc.po.c:470 src/arch/amigaos/intl_text.c.po.c:622
+#: src/arch/win32/resplus4.rc.po.c:474 src/arch/amigaos/intl_text.c.po.c:622
 msgid "C2 low  image"
 msgstr "Obraz C2 low"
 
-#: src/arch/win32/resplus4.rc.po.c:471 src/arch/amigaos/intl_text.c.po.c:636
+#: src/arch/win32/resplus4.rc.po.c:475 src/arch/amigaos/intl_text.c.po.c:636
 msgid "C2 high image"
 msgstr "Obraz C2 low"
 
-#: src/arch/win32/resplus4.rc.po.c:473 src/arch/win32/resv364speech.rc.po.c:24
+#: src/arch/win32/resplus4.rc.po.c:477 src/arch/win32/resv364speech.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4164
 #: src/arch/amigaos/intl_text.c.po.c:8057
 msgid "V364 Speech settings"
 msgstr "Ustawienia mowy V364"
 
-#: src/arch/win32/resplus4.rc.po.c:474 src/arch/amigaos/intl_text.c.po.c:2484
+#: src/arch/win32/resplus4.rc.po.c:478 src/arch/amigaos/intl_text.c.po.c:2484
 msgid "Plus4 model settings"
 msgstr "Ustawienia modelu Plus4"
 
-#: src/arch/win32/resplus4.rc.po.c:476
+#: src/arch/win32/resplus4.rc.po.c:480
 msgid "enable Digiblaster"
 msgstr "Włącz Digiblaster"
 
-#: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:13104
+#: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:13121
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Włącz rozszerzenie RAM PLUS60K"
 
@@ -7699,22 +7723,22 @@ msgstr "Urządzenie userportu"
 msgid "Userport baud rate"
 msgstr "Prędkość transmisji userportu"
 
-#: src/arch/win32/resscpu64.rc.po.c:546 src/arch/win32/resscpu64.rc.po.c:551
+#: src/arch/win32/resscpu64.rc.po.c:550 src/arch/win32/resscpu64.rc.po.c:555
 #: src/arch/amigaos/intl_text.c.po.c:3450
 #: src/arch/amigaos/intl_text.c.po.c:11543
 msgid "SuperCPU64 settings"
 msgstr "Ustawienia SuperCPU64"
 
-#: src/arch/win32/resscpu64.rc.po.c:547
+#: src/arch/win32/resscpu64.rc.po.c:551
 #: src/arch/amigaos/intl_text.c.po.c:11529
 msgid "SIMM size"
 msgstr "Ilość SIMM"
 
-#: src/arch/win32/resscpu64.rc.po.c:548
+#: src/arch/win32/resscpu64.rc.po.c:552
 msgid "Enable the jiffy switch"
 msgstr "Ustaw przełącznik jiffy"
 
-#: src/arch/win32/resscpu64.rc.po.c:549
+#: src/arch/win32/resscpu64.rc.po.c:553
 msgid "Enable the speed switch"
 msgstr "Włącz przełącznik speed"
 
@@ -7784,16 +7808,16 @@ msgstr "Wybór urządzenia HardSID"
 msgid "Main device"
 msgstr "Główne urządzenie"
 
-#: src/arch/win32/ressidcart.rc.po.c:143 src/translate_text.c.po.c:13667
+#: src/arch/win32/ressidcart.rc.po.c:143 src/translate_text.c.po.c:13684
 msgid "Enable the digiblaster add-on"
 msgstr "Włącz dodatek digiblaster"
 
-#: src/arch/win32/ressoundexpander.rc.po.c:43 src/translate_text.c.po.c:13786
+#: src/arch/win32/ressoundexpander.rc.po.c:43 src/translate_text.c.po.c:13803
 msgid "Enable the SFX Sound Expander cartridge"
 msgstr "Włącz kartridż SFX Sound Expander"
 
 #: src/arch/win32/ressoundsampler.rc.po.c:20
-#: src/arch/win32/resvic20.rc.po.c:554 src/arch/amigaos/intl_text.c.po.c:4010
+#: src/arch/win32/resvic20.rc.po.c:558 src/arch/amigaos/intl_text.c.po.c:4010
 #: src/arch/amigaos/intl_text.c.po.c:11487
 msgid "SFX Sound Sampler settings"
 msgstr "Ustawienia samplera dźwięku SFX"
@@ -7822,7 +7846,7 @@ msgstr "Bez ramki"
 msgid "Ethernet"
 msgstr "Ethernet"
 
-#: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:13701
+#: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:13718
 msgid "Enable the v364 speech add-on"
 msgstr "Włącz rozszerzenie mowy v364"
 
@@ -7835,100 +7859,100 @@ msgstr "Plik ROM V364 Speech"
 msgid "Select ROM file for V364 Speech"
 msgstr "Wybierz plik ROM V364 Speech"
 
-#: src/arch/win32/resvic20.rc.po.c:505 src/arch/win32/resvic20.rc.po.c:541
+#: src/arch/win32/resvic20.rc.po.c:509 src/arch/win32/resvic20.rc.po.c:545
 #: src/arch/amigaos/intl_text.c.po.c:3310
 #: src/arch/amigaos/intl_text.c.po.c:9387
 msgid "VIC20 settings"
 msgstr "Ustawienia VIC20"
 
-#: src/arch/win32/resvic20.rc.po.c:511
+#: src/arch/win32/resvic20.rc.po.c:515
 msgid "Full (blocks 0/1/2/3/5)"
 msgstr "Wszystkie (bloki 0/1/2/3/5)"
 
-#: src/arch/win32/resvic20.rc.po.c:518 src/arch/amigaos/intl_text.c.po.c:9989
+#: src/arch/win32/resvic20.rc.po.c:522 src/arch/amigaos/intl_text.c.po.c:9989
 msgid "Select generic cartridge image"
 msgstr "Wybierz typowy obraz kartridża"
 
-#: src/arch/win32/resvic20.rc.po.c:519 src/arch/amigaos/intl_text.c.po.c:10017
+#: src/arch/win32/resvic20.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:10017
 msgid "Select Mega-Cart image"
 msgstr "Wybierz obraz Mega-Cart"
 
-#: src/arch/win32/resvic20.rc.po.c:520 src/arch/amigaos/intl_text.c.po.c:10031
+#: src/arch/win32/resvic20.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:10031
 msgid "Select Final Expansion image"
 msgstr "Wybierz obraz Final Expansion"
 
-#: src/arch/win32/resvic20.rc.po.c:521 src/arch/amigaos/intl_text.c.po.c:10003
+#: src/arch/win32/resvic20.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:10003
 msgid "Select Vic Flash Plugin image"
 msgstr "Wybierz obraz Vic Flash Plugin"
 
-#: src/arch/win32/resvic20.rc.po.c:527
+#: src/arch/win32/resvic20.rc.po.c:531
 msgid "Enable MasC=uerade I/O swap"
 msgstr "Włącz zamianę we/wy MasC=uerade"
 
-#: src/arch/win32/resvic20.rc.po.c:528
+#: src/arch/win32/resvic20.rc.po.c:532
 msgid "VIC20 model"
 msgstr "Model VIC20"
 
-#: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:2176
+#: src/arch/win32/resvic20.rc.po.c:533 src/arch/amigaos/intl_text.c.po.c:2176
 msgid "VIC-1112 IEEE-488 module"
 msgstr "Moduł IEEE-488 VIC-1112"
 
-#: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:398
+#: src/arch/win32/resvic20.rc.po.c:535 src/arch/amigaos/intl_text.c.po.c:398
 msgid "Generic image"
 msgstr "Standardowy obraz"
 
-#: src/arch/win32/resvic20.rc.po.c:532 src/arch/amigaos/intl_text.c.po.c:412
+#: src/arch/win32/resvic20.rc.po.c:536 src/arch/amigaos/intl_text.c.po.c:412
 msgid "Mega-Cart image"
 msgstr "Obraz Mega-Cart"
 
-#: src/arch/win32/resvic20.rc.po.c:533 src/arch/amigaos/intl_text.c.po.c:426
+#: src/arch/win32/resvic20.rc.po.c:537 src/arch/amigaos/intl_text.c.po.c:426
 msgid "Final Expansion image"
 msgstr "Obraz Final Expansion"
 
-#: src/arch/win32/resvic20.rc.po.c:534 src/arch/amigaos/intl_text.c.po.c:440
+#: src/arch/win32/resvic20.rc.po.c:538 src/arch/amigaos/intl_text.c.po.c:440
 msgid "Vic Flash Plugin image"
 msgstr "Obraz Vic Flash Plugin"
 
-#: src/arch/win32/resvic20.rc.po.c:536 src/arch/amigaos/intl_text.c.po.c:482
+#: src/arch/win32/resvic20.rc.po.c:540 src/arch/amigaos/intl_text.c.po.c:482
 msgid "4/8/16KB image at $2000"
 msgstr "4/8/16KB obraz w $2000"
 
-#: src/arch/win32/resvic20.rc.po.c:537 src/arch/amigaos/intl_text.c.po.c:496
+#: src/arch/win32/resvic20.rc.po.c:541 src/arch/amigaos/intl_text.c.po.c:496
 msgid "4/8/16KB image at $4000"
 msgstr "4/8/16KB obraz w $4000"
 
-#: src/arch/win32/resvic20.rc.po.c:538 src/arch/amigaos/intl_text.c.po.c:510
+#: src/arch/win32/resvic20.rc.po.c:542 src/arch/amigaos/intl_text.c.po.c:510
 msgid "4/8/16KB image at $6000"
 msgstr "4/8/16KB obraz w $6000"
 
-#: src/arch/win32/resvic20.rc.po.c:539 src/arch/amigaos/intl_text.c.po.c:524
+#: src/arch/win32/resvic20.rc.po.c:543 src/arch/amigaos/intl_text.c.po.c:524
 msgid "4/8KB image at $A000"
 msgstr "4/8KB obraz w $A000"
 
-#: src/arch/win32/resvic20.rc.po.c:540 src/arch/amigaos/intl_text.c.po.c:538
+#: src/arch/win32/resvic20.rc.po.c:544 src/arch/amigaos/intl_text.c.po.c:538
 msgid "4KB image at $B000"
 msgstr "4KB obraz w $B000"
 
-#: src/arch/win32/resvic20.rc.po.c:542 src/arch/amigaos/intl_text.c.po.c:4220
+#: src/arch/win32/resvic20.rc.po.c:546 src/arch/amigaos/intl_text.c.po.c:4220
 #: src/translate_text.c.po.c:10887
 msgid "Enable Final Expansion write back to ROM file"
 msgstr "Włącz zapis do pliku ROM Final Expansion"
 
-#: src/arch/win32/resvic20.rc.po.c:543 src/arch/amigaos/intl_text.c.po.c:4234
+#: src/arch/win32/resvic20.rc.po.c:547 src/arch/amigaos/intl_text.c.po.c:4234
 #: src/translate_text.c.po.c:10972
 msgid "Enable Vic Flash Plugin write back to ROM file"
 msgstr "Włącz zapis do pliku ROM Vic Flash Plugin"
 
-#: src/arch/win32/resvic20.rc.po.c:544 src/arch/amigaos/intl_text.c.po.c:4248
+#: src/arch/win32/resvic20.rc.po.c:548 src/arch/amigaos/intl_text.c.po.c:4248
 #: src/translate_text.c.po.c:10938
 msgid "Enable Mega-Cart NvRAM writeback"
 msgstr "Włącz zapis do NvRAM Mega-Cart"
 
-#: src/arch/win32/resvic20.rc.po.c:545 src/arch/amigaos/intl_text.c.po.c:4262
+#: src/arch/win32/resvic20.rc.po.c:549 src/arch/amigaos/intl_text.c.po.c:4262
 msgid "Select Mega-Cart non-volatile RAM file"
 msgstr "Wybierz stały plik RAM Mega-Cart"
 
-#: src/arch/win32/resvic20.rc.po.c:556 src/arch/amigaos/intl_text.c.po.c:2582
+#: src/arch/win32/resvic20.rc.po.c:560 src/arch/amigaos/intl_text.c.po.c:2582
 msgid "VIC20 model settings"
 msgstr "Ustawienia modelu VIC20"
 
@@ -7936,23 +7960,23 @@ msgstr "Ustawienia modelu VIC20"
 msgid "Sprite Collisions"
 msgstr "Kolizje duszków"
 
-#: src/arch/win32/resvsid.rc.po.c:117
+#: src/arch/win32/resvsid.rc.po.c:121
 msgid "Select PSID file"
 msgstr "Wybierz plik PSID"
 
-#: src/arch/win32/resvsid.rc.po.c:118
+#: src/arch/win32/resvsid.rc.po.c:122
 msgid "Tune number"
 msgstr "Numer tonu"
 
-#: src/arch/win32/resvsid.rc.po.c:120
+#: src/arch/win32/resvsid.rc.po.c:124
 msgid "Select tune"
 msgstr "Wybór tonu"
 
-#: src/arch/win32/resvsid.rc.po.c:121 src/arch/amigaos/intl_text.c.po.c:4808
+#: src/arch/win32/resvsid.rc.po.c:125 src/arch/amigaos/intl_text.c.po.c:4808
 msgid "Next tune"
 msgstr "Następny ton"
 
-#: src/arch/win32/resvsid.rc.po.c:122 src/arch/amigaos/intl_text.c.po.c:4822
+#: src/arch/win32/resvsid.rc.po.c:126 src/arch/amigaos/intl_text.c.po.c:4822
 msgid "Previous tune"
 msgstr "Poprzedni ton"
 
@@ -8540,8 +8564,9 @@ msgid "SIDcart Joy Fire"
 msgstr "Fire joysticka SIDcart"
 
 #: src/arch/amigaos/intl_text.c.po.c:7735
+#, fuzzy
 msgid ""
-"Joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
+"Joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 msgstr ""
 "Emulacja joysticka #1: (0: brak, 1: numeryczna, 2: klawisze A/AI, 3: "
 "klawisze B/AI)"
@@ -8554,9 +8579,10 @@ msgstr ""
 "klawisze B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:7763
+#, fuzzy
 msgid ""
-"Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+"Extra joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
+"B/AI)"
 msgstr ""
 "Emulacja dodatkowego joysticka #1: (0: brak, 1: numeryczna, 2: klawisze A/"
 "AI, 3: klawisze B/AI)"
@@ -8590,6 +8616,10 @@ msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
 "Emulacja dodatkowego joysticka #2: (0: brak, 1: numeryczna, 2-5: joystick "
 "Amigi 0-3)"
+
+#: src/arch/amigaos/intl_text.c.po.c:7889
+msgid "Never confirm quiting VICE"
+msgstr "Nigdy nie potwierdzaj zamknięcia VICE"
 
 #: src/arch/amigaos/intl_text.c.po.c:7959
 msgid "RGBI"
@@ -9927,11 +9957,11 @@ msgstr ""
 "Jeśli nie jest podany argument, pokazuje listę dostępnych poleceń.\n"
 "Jeśli został podany argument, pokazuje pomoc do tego polecenia."
 
-#: src/translate_text.c.po.c:2803 src/translate_text.c.po.c:12304
+#: src/translate_text.c.po.c:2803 src/translate_text.c.po.c:12321
 msgid "string"
 msgstr "string"
 
-#: src/translate_text.c.po.c:2820 src/translate_text.c.po.c:12321
+#: src/translate_text.c.po.c:2820 src/translate_text.c.po.c:12338
 msgid "Put the specified string into the keyboard buffer."
 msgstr "Umieść dany ciąg znaków w buforze klawiatury"
 
@@ -9966,6 +9996,10 @@ msgstr "resource"
 #: src/translate_text.c.po.c:2922
 msgid "Displays the value of the resource."
 msgstr "Pokazuje wartość zasobu"
+
+#: src/translate_text.c.po.c:2939 src/translate_text.c.po.c:7012
+msgid "value"
+msgstr "wartość"
 
 #: src/translate_text.c.po.c:2956
 msgid "Sets the value of the resource."
@@ -12006,54 +12040,58 @@ msgid "Specify config file"
 msgstr "Określ plik konfiguracji"
 
 #: src/translate_text.c.po.c:12185
+msgid "Specify number of cycles to run before quitting with an error."
+msgstr ""
+
+#: src/translate_text.c.po.c:12202
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Zamontuj i automatycznie uruchom obraz taśmy lub dysku <nazwa>"
 
-#: src/translate_text.c.po.c:12202
+#: src/translate_text.c.po.c:12219
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Zamontuj i automatycznie wczytaj obraz taśmy lub dysku <nazwa>"
 
-#: src/translate_text.c.po.c:12219
+#: src/translate_text.c.po.c:12236
 msgid "Attach <name> as a tape image"
 msgstr "Zamontuj <nazwa> jako obraz taśmy"
 
-#: src/translate_text.c.po.c:12236
+#: src/translate_text.c.po.c:12253
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Zamontuj <nazwa> jako obraz dyskietki w stacji #8"
 
-#: src/translate_text.c.po.c:12253
+#: src/translate_text.c.po.c:12270
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Zamontuj <nazwa> jako obraz dyskietki w stacji #9"
 
-#: src/translate_text.c.po.c:12270
+#: src/translate_text.c.po.c:12287
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Zamontuj <nazwa> jako obraz dyskietki w stacji #10"
 
-#: src/translate_text.c.po.c:12287
+#: src/translate_text.c.po.c:12304
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Zamontuj <nazwa> jako obraz dyskietki w stacji #11"
 
-#: src/translate_text.c.po.c:12338
+#: src/translate_text.c.po.c:12355
 msgid "Set additional keyboard buffer delay (0: use default)"
 msgstr "Określ dodatkowe opóźnienie bufora klawiatury (0: domyślne)"
 
-#: src/translate_text.c.po.c:12355
+#: src/translate_text.c.po.c:12372
 msgid "Specify log file name"
 msgstr "Określ nazwę pliku z logiem"
 
-#: src/translate_text.c.po.c:12372
+#: src/translate_text.c.po.c:12389
 msgid "Enable verbose log output."
 msgstr "Włącz szczegółowy zapis do loga"
 
-#: src/translate_text.c.po.c:12406
+#: src/translate_text.c.po.c:12423
 msgid "Disable mouse grab"
 msgstr "Wyłącz przechwytywanie myszy"
 
-#: src/translate_text.c.po.c:12423
+#: src/translate_text.c.po.c:12440
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Wybierz port joysticka, do którego podłączona jest mysz"
 
-#: src/translate_text.c.po.c:12441
+#: src/translate_text.c.po.c:12458
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"
@@ -12061,97 +12099,97 @@ msgstr ""
 "Wybierz typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = pokrętła, 4 = CX-22, 5 "
 "= ST, 6 = Smart, 7 = Micromys, 8 = Koalapad)"
 
-#: src/translate_text.c.po.c:12458
+#: src/translate_text.c.po.c:12475
 msgid "Enable PS/2 mouse on userport"
 msgstr "Włącz mysz PS/2 w userporcie"
 
-#: src/translate_text.c.po.c:12475
+#: src/translate_text.c.po.c:12492
 msgid "Disable PS/2 mouse on userport"
 msgstr "Wyłącz mysz PS/2 w userporcie"
 
-#: src/translate_text.c.po.c:12492
+#: src/translate_text.c.po.c:12509
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Określ wartość pierwszego adresu RAM po uruchomieniu"
 
-#: src/translate_text.c.po.c:12509
+#: src/translate_text.c.po.c:12526
 msgid "num of bytes"
 msgstr "num of bytes"
 
-#: src/translate_text.c.po.c:12526
+#: src/translate_text.c.po.c:12543
 msgid "Length of memory block initialized with the same value"
 msgstr "Długość bloku pamięci zainicjowanego z tą samą wartością"
 
-#: src/translate_text.c.po.c:12543
+#: src/translate_text.c.po.c:12560
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Długość bloku pamięci zainicjowanego z tym samym wzorcem"
 
-#: src/translate_text.c.po.c:12577
+#: src/translate_text.c.po.c:12594
 msgid "load the given romset file"
 msgstr "Wczytaj dany plik zestawu ROM-ów"
 
-#: src/translate_text.c.po.c:12594
+#: src/translate_text.c.po.c:12611
 msgid "load the given romset archive"
 msgstr "Wczytaj dane archiwum zestawu ROM-ów"
 
-#: src/translate_text.c.po.c:12611
+#: src/translate_text.c.po.c:12628
 msgid "Item number"
 msgstr "Liczba elementu"
 
-#: src/translate_text.c.po.c:12628
+#: src/translate_text.c.po.c:12645
 msgid "select the given item from the current romset archive"
 msgstr "Wybierz dany element z obecnego zestawu ROM-ów."
 
-#: src/translate_text.c.po.c:12662
+#: src/translate_text.c.po.c:12679
 msgid "Disable sound playback"
 msgstr "Wyłącz odtwarzanie dźwięku"
 
-#: src/translate_text.c.po.c:12679
+#: src/translate_text.c.po.c:12696
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Ustaw próbkowanie sampli na <wartość> Hz"
 
-#: src/translate_text.c.po.c:12696
+#: src/translate_text.c.po.c:12713
 msgid "Set sound buffer size to <value> msec"
 msgstr "Ustaw rozmiar bufora dźwięku na <wartość> ms"
 
-#: src/translate_text.c.po.c:12713
+#: src/translate_text.c.po.c:12730
 msgid "Set sound fragment size (0 = small, 1 = medium, 2 = large)"
 msgstr "Ustaw rozmiar fragmentu dźwięku (0 = mały, 1 = średni, 2 = duży)"
 
-#: src/translate_text.c.po.c:12730
+#: src/translate_text.c.po.c:12747
 msgid "Specify sound driver"
 msgstr "Określ sterownik dźwięku"
 
-#: src/translate_text.c.po.c:12747
+#: src/translate_text.c.po.c:12764
 msgid "args"
 msgstr "args"
 
-#: src/translate_text.c.po.c:12764
+#: src/translate_text.c.po.c:12781
 msgid "Specify initialization parameters for sound driver"
 msgstr "Określ parametry inicjalizacji sterownika dźwięku"
 
-#: src/translate_text.c.po.c:12781
+#: src/translate_text.c.po.c:12798
 msgid "Specify recording sound driver"
 msgstr "Określ sterownik zapisu dźwięku"
 
-#: src/translate_text.c.po.c:12798
+#: src/translate_text.c.po.c:12815
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Określ parametry inicjalizacji sterownika zapisu dźwięku"
 
-#: src/translate_text.c.po.c:12815
+#: src/translate_text.c.po.c:12832
 msgid "sync"
 msgstr "sync"
 
-#: src/translate_text.c.po.c:12832
+#: src/translate_text.c.po.c:12849
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Ustaw dopasowanie prędkości dźwięku (0: elastyczne, 1: dopasowane, 2: "
 "dokładne)"
 
-#: src/translate_text.c.po.c:12849
+#: src/translate_text.c.po.c:12866
 msgid "output mode"
 msgstr "tryb wyjścia"
 
-#: src/translate_text.c.po.c:12866
+#: src/translate_text.c.po.c:12883
 msgid ""
 "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always "
 "stereo)"
@@ -12159,151 +12197,151 @@ msgstr ""
 "Tryb wyjścia dźwięku: (0: system określa mono czy stereo, 2: zawsze mono, 2: "
 "zawsze stereo)"
 
-#: src/translate_text.c.po.c:12900
+#: src/translate_text.c.po.c:12917
 msgid "Define search path to locate system files"
 msgstr "Definiuj ścieżkę wyszukiwania plików systemowych"
 
-#: src/translate_text.c.po.c:12917
+#: src/translate_text.c.po.c:12934
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Włącz mechanizm szybkiej emulacji dysku i taśmy"
 
-#: src/translate_text.c.po.c:12934
+#: src/translate_text.c.po.c:12951
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "Wyłącz mechanizm szybkiej emulacji dysku i taśmy"
 
-#: src/translate_text.c.po.c:12951
+#: src/translate_text.c.po.c:12968
 msgid "Limit emulation speed to specified value"
 msgstr "Ograniczaj prędkość emulacji do podanej wartości"
 
-#: src/translate_text.c.po.c:12968
+#: src/translate_text.c.po.c:12985
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Aktualizuj co <wartość> klatek (`0' - automatycznie)"
 
-#: src/translate_text.c.po.c:13002
+#: src/translate_text.c.po.c:13019
 msgid "Disable warp mode"
 msgstr "Wyłącz tryb przyspieszony"
 
-#: src/translate_text.c.po.c:13019
+#: src/translate_text.c.po.c:13036
 msgid "iso language code"
 msgstr "Kod językowy iso"
 
-#: src/translate_text.c.po.c:13036
+#: src/translate_text.c.po.c:13053
 msgid "Specify the iso code of the language"
 msgstr "Określ kod iso języka"
 
-#: src/translate_text.c.po.c:13070
+#: src/translate_text.c.po.c:13087
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Wyłącz rozszerzenie RAM PLUS256K"
 
-#: src/translate_text.c.po.c:13087
+#: src/translate_text.c.po.c:13104
 msgid "Specify name of PLUS256K image"
 msgstr "Określ nazwę obrazu PLUS256K"
 
-#: src/translate_text.c.po.c:13121
+#: src/translate_text.c.po.c:13138
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Wyłącz rozszerzenie RAM PLUS60K"
 
-#: src/translate_text.c.po.c:13138
+#: src/translate_text.c.po.c:13155
 msgid "Specify name of PLUS60K image"
 msgstr "Określ nazwę obrazu PLUS60K"
 
-#: src/translate_text.c.po.c:13155
+#: src/translate_text.c.po.c:13172
 msgid "Base address of the PLUS60K expansion"
 msgstr "Adres bazowy rozszerzenia PLUS60K"
 
-#: src/translate_text.c.po.c:13189
+#: src/translate_text.c.po.c:13206
 msgid "Disable the 256K RAM expansion"
 msgstr "Wyłącz rozszerzenie RAM 256K"
 
-#: src/translate_text.c.po.c:13206
+#: src/translate_text.c.po.c:13223
 msgid "Specify name of 256K image"
 msgstr "Określ nazwę obrazu 256K"
 
-#: src/translate_text.c.po.c:13223
+#: src/translate_text.c.po.c:13240
 msgid "Base address of the 256K expansion"
 msgstr "Adres bazowy rozszerzenia 256K"
 
-#: src/translate_text.c.po.c:13257
+#: src/translate_text.c.po.c:13274
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
 msgstr "Zamontuj surowy obraz kartridża 16kB Super Explode V5"
 
-#: src/translate_text.c.po.c:13274
+#: src/translate_text.c.po.c:13291
 msgid "Attach raw 64kB Super Games cartridge image"
 msgstr "Zamontuj surowy obraz kartridża 64kB Super Games"
 
-#: src/translate_text.c.po.c:13291
+#: src/translate_text.c.po.c:13308
 msgid "Attach raw Silverrock 128 cartridge image"
 msgstr "Zamontuj surowy obraz kartridża Silverrock 128"
 
-#: src/translate_text.c.po.c:13308
+#: src/translate_text.c.po.c:13325
 msgid "Attach raw 16kB Simons Basic cartridge image"
 msgstr "Zamontuj surowy obraz kartridża 16kB Simons Basic"
 
-#: src/translate_text.c.po.c:13325
+#: src/translate_text.c.po.c:13342
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Włącz rozszerzenie RAM CSORY 256K"
 
-#: src/translate_text.c.po.c:13342
+#: src/translate_text.c.po.c:13359
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Włącz rozszerzenie RAM HANNES 256K"
 
-#: src/translate_text.c.po.c:13359
+#: src/translate_text.c.po.c:13376
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Włącz rozszerzenie HANNES 1024K RAM"
 
-#: src/translate_text.c.po.c:13376
+#: src/translate_text.c.po.c:13393
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Włącz rozszerzenie HANNES 4096K RAM"
 
-#: src/translate_text.c.po.c:13393
+#: src/translate_text.c.po.c:13410
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
 msgstr "Określ wersję DTV (2: DTV2, 3: DTV3)"
 
-#: src/translate_text.c.po.c:13410
+#: src/translate_text.c.po.c:13427
 msgid "Enable DTV blitter logs."
 msgstr "Włącz logi blittera DTV."
 
-#: src/translate_text.c.po.c:13427
+#: src/translate_text.c.po.c:13444
 msgid "Disable DTV blitter logs."
 msgstr "Wyłącz logi blittera DTV"
 
-#: src/translate_text.c.po.c:13444
+#: src/translate_text.c.po.c:13461
 msgid "Enable DTV DMA logs."
 msgstr "Włącz logowanie DTV DMA"
 
-#: src/translate_text.c.po.c:13461
+#: src/translate_text.c.po.c:13478
 msgid "Disable DTV DMA logs."
 msgstr "Wyłącz logowanie DTV DMA"
 
-#: src/translate_text.c.po.c:13478
+#: src/translate_text.c.po.c:13495
 msgid "Specify name of C64DTV ROM image"
 msgstr "Określ nazwę obrazu ROM C64DTV"
 
-#: src/translate_text.c.po.c:13512
+#: src/translate_text.c.po.c:13529
 msgid "Disable writes to C64DTV ROM image"
 msgstr "Wyłącz zapis do obrazu ROM C64DTV"
 
-#: src/translate_text.c.po.c:13529
+#: src/translate_text.c.po.c:13546
 msgid "Enable DTV flash chip logs."
 msgstr "Włącz logi układu flash DTV."
 
-#: src/translate_text.c.po.c:13546
+#: src/translate_text.c.po.c:13563
 msgid "Disable DTV flash chip logs."
 msgstr "Wyłącz logi układu flash DTV"
 
-#: src/translate_text.c.po.c:13563
+#: src/translate_text.c.po.c:13580
 msgid "Use <name> as directory for flash file system device"
 msgstr "Użyj <nazwa> jako katalogu urządzenia systemu plików flash"
 
-#: src/translate_text.c.po.c:13597
+#: src/translate_text.c.po.c:13614
 msgid "Disable true hardware flash file system"
 msgstr "Wyłącz prawdziwy system plików flash"
 
-#: src/translate_text.c.po.c:13632
+#: src/translate_text.c.po.c:13649
 msgid "Disable MIDI emulation"
 msgstr "Wyłącz emulację MIDI"
 
-#: src/translate_text.c.po.c:13649
+#: src/translate_text.c.po.c:13666
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
@@ -12311,101 +12349,104 @@ msgstr ""
 "Typ interfejsu MIDI (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
 
-#: src/translate_text.c.po.c:13684
+#: src/translate_text.c.po.c:13701
 msgid "Disable the digiblaster add-on"
 msgstr "Wyłącz dodatek digiblaster"
 
-#: src/translate_text.c.po.c:13718
+#: src/translate_text.c.po.c:13735
 msgid "Disable the v364 speech add-on"
 msgstr "Wyłącz rozszerzenie mowy v364"
 
-#: src/translate_text.c.po.c:13735
+#: src/translate_text.c.po.c:13752
 msgid "Attach Speech ROM image"
 msgstr "Zamontuj obraz ROM mowy"
 
-#: src/translate_text.c.po.c:13803
+#: src/translate_text.c.po.c:13820
 msgid "Disable the SFX Sound Expander cartridge"
 msgstr "Wyłącz kartridż SFX Sound Expander"
 
-#: src/translate_text.c.po.c:13820
+#: src/translate_text.c.po.c:13837
 msgid "Set YM chip type (3526 / 3812)"
 msgstr "Określ typ układu YM (3526 / 3812)"
 
-#: src/translate_text.c.po.c:13854
+#: src/translate_text.c.po.c:13871
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "Wyłącz kartridż SFX Sound Sampler"
 
-#: src/translate_text.c.po.c:13888
+#: src/translate_text.c.po.c:13905
 msgid "Disable lightpen emulation"
 msgstr "Wyłącz emulację pióra świetlnego"
 
-#: src/translate_text.c.po.c:13905
+#: src/translate_text.c.po.c:13922
 msgid "Set lightpen type"
 msgstr "Określ typ pióra świetlnego"
 
-#: src/translate_text.c.po.c:13922
+#: src/translate_text.c.po.c:13939
 msgid "Enable EasyFlash jumper"
 msgstr "Włącz przełącznik EasyFlash"
 
-#: src/translate_text.c.po.c:13939
+#: src/translate_text.c.po.c:13956
 msgid "Disable EasyFlash jumper"
 msgstr "Wyłącz przełącznik EasyFlash"
 
-#: src/translate_text.c.po.c:13956
+#: src/translate_text.c.po.c:13973
 msgid "Enable writing to EasyFlash .crt image"
 msgstr "Włącz zapis do obrazu .crt EasyFlash"
 
-#: src/translate_text.c.po.c:13973
+#: src/translate_text.c.po.c:13990
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "Wyłącz zapis do obrazu .crt EasyFlash"
 
-#: src/translate_text.c.po.c:14007
+#: src/translate_text.c.po.c:14024
 msgid "Disable the DigiMAX cartridge"
 msgstr "Wyłącz kartridż DigiMAX"
 
-#: src/translate_text.c.po.c:14024
+#: src/translate_text.c.po.c:14041
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Adres bazowy kartridża DigiMAX"
 
-#: src/translate_text.c.po.c:14041
+#: src/translate_text.c.po.c:14058
 msgid "Enable the DS12C887 RTC cartridge"
 msgstr "Włącz kartridż DS12C887 RTC"
 
-#: src/translate_text.c.po.c:14058
+#: src/translate_text.c.po.c:14075
 msgid "Disable the DS12C887 RTC cartridge"
 msgstr "Wyłącz kartridż DS12C887 RTC"
 
-#: src/translate_text.c.po.c:14075
+#: src/translate_text.c.po.c:14092
 msgid "Base address of the DS12C887 RTC cartridge"
 msgstr "Adres bazowy kartridża DS12C887 RTC"
 
-#: src/translate_text.c.po.c:14092
+#: src/translate_text.c.po.c:14109
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
 msgstr "Ilość SIMM RAM-u (0/1/4/8/16 MB)"
 
-#: src/translate_text.c.po.c:14109
+#: src/translate_text.c.po.c:14126
 msgid "Turn on Jiffy switch"
 msgstr "Włącz przełącznik Jiffy"
 
-#: src/translate_text.c.po.c:14126
+#: src/translate_text.c.po.c:14143
 msgid "Turn off Jiffy switch"
 msgstr "Wyłącz przełącznik Jiffy"
 
-#: src/translate_text.c.po.c:14143
+#: src/translate_text.c.po.c:14160
 msgid "Turn on Speed switch"
 msgstr "Włącz przełącznik Speed"
 
-#: src/translate_text.c.po.c:14160
+#: src/translate_text.c.po.c:14177
 msgid "Turn off Speed switch"
 msgstr "Wyłącz przełącznik Speed"
 
-#: src/translate_text.c.po.c:14177
+#: src/translate_text.c.po.c:14194
 msgid "Enable HiRes Emulation Board"
 msgstr "Włącz kartę emulacji HiRes"
 
-#: src/translate_text.c.po.c:14194
+#: src/translate_text.c.po.c:14211
 msgid "Disable HiRes Emulation Board"
 msgstr "Wyłącz kartę emulacji HiRes"
+
+#~ msgid "Specify baudrate of 4th RS232 device"
+#~ msgstr "Określ szybkość transmisji czwartego urządzenia RS232"
 
 #~ msgid "Disable checkpoint `checknum'."
 #~ msgstr "Wyłącz punkt kontrolny `checknum'."

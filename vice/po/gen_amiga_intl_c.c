@@ -310,16 +310,6 @@ int main(int argc, char *argv[])
             prefix_string = prefix_test(text_string);
             trail_string = trailtest(text_string);
 
-            for (i = 0; text[i].msgid != NULL; i++) {
-                if (!strcmp(text[i].msgid, text_string)) {
-                    break;
-                }
-                if (!strcmp(text[i].msgid, text_string_orig)) {
-                    prefix_string = NULL;
-                    trail_string = NULL;
-                    break;
-                }
-            }
             if (strlen(text[i].msgstr_da) != 0) {
                 write_converted_text(text[i].msgstr_da, prefix_string, trail_string);
             }

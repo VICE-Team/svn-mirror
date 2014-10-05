@@ -319,16 +319,6 @@ int main(int argc, char *argv[])
             trail_string = trailtest(text_string);
 
             fprintf(outfile, "\")},\n#ifdef HAS_TRANSLATION\n/* da */ {%s_DA, \"", id_string);
-            for (i = 0; text[i].msgid != NULL; i++) {
-                if (!strcmp(text[i].msgid, text_string)) {
-                    break;
-                }
-                if (!strcmp(text[i].msgid, text_string_orig)) {
-                    prefix_string = NULL;
-                    trail_string = NULL;
-                    break;
-                }
-            }
             if (strlen(text[i].msgstr_da) != 0) {
                 write_converted_text(text[i].msgstr_da, prefix_string, trail_string);
             }
