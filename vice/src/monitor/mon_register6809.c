@@ -269,46 +269,6 @@ static mon_reg_list_t *mon_register_list_get6809(int mem)
     return mon_reg_list;
 }
 
-#if 0
-static void mon_register_list_set6809(mon_reg_list_t *reg_list, int mem)
-{
-    do {
-        if (!strcmp(reg_list->name, "X")) {
-            mon_register_set_val(mem, e_X, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "Y")) {
-            mon_register_set_val(mem, e_Y, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "U")) {
-            mon_register_set_val(mem, e_U, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "S")) {
-            mon_register_set_val(mem, e_SP, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "PC")) {
-            mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "DP")) {
-            mon_register_set_val(mem, e_DP, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "CC")) {
-            mon_register_set_val(mem, e_FLAGS, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "A")) {
-            mon_register_set_val(mem, e_A, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "B")) {
-            mon_register_set_val(mem, e_B, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "D")) {
-            mon_register_set_val(mem, e_D, (WORD)(reg_list->val));
-        }
-
-        reg_list = reg_list->next;
-    } while (reg_list != NULL);
-}
-#endif
-
 void mon_register6809_init(monitor_cpu_type_t *monitor_cpu_type)
 {
     monitor_cpu_type->mon_register_get_val = mon_register_get_val;
@@ -316,6 +276,5 @@ void mon_register6809_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_print = mon_register_print;
     monitor_cpu_type->mon_register_print_ex = mon_register_print_ex;
     monitor_cpu_type->mon_register_list_get = mon_register_list_get6809;
-    /* monitor_cpu_type->mon_register_list_set = mon_register_list_set6809; */
     monitor_cpu_type->mon_register_valid = mon_register_valid;
 }

@@ -275,6 +275,8 @@ static const char* mon_register_print_ex(int mem)
     return buff;
 }
 
+/* TODO: try to make this a generic function, move it into mon_register.c and
+         remove mon_register_list_get from the monitor_cpu_type_t struct */
 static mon_reg_list_t *mon_register_list_get6502(int mem)
 {
     mon_reg_list_t *mon_reg_list, *regs;
@@ -306,40 +308,6 @@ static mon_reg_list_t *mon_register_list_get6502(int mem)
     return mon_reg_list;
 }
 
-#if 0
-static void mon_register_list_set6502(mon_reg_list_t *reg_list, int mem)
-{
-    do {
-        if (!strcmp(reg_list->name, "PC")) {
-            mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "A")) {
-            mon_register_set_val(mem, e_A, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "X")) {
-            mon_register_set_val(mem, e_X, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "Y")) {
-            mon_register_set_val(mem, e_Y, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "SP")) {
-            mon_register_set_val(mem, e_SP, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "00")) {
-            mon_set_mem_val(mem, 0, (BYTE)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "01")) {
-            mon_set_mem_val(mem, 1, (BYTE)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "NV-BDIZC")) {
-            mon_register_set_val(mem, e_FLAGS, (WORD)(reg_list->val));
-        }
-
-        reg_list = reg_list->next;
-    } while (reg_list != NULL);
-}
-#endif
-
 void mon_register6502_init(monitor_cpu_type_t *monitor_cpu_type)
 {
     monitor_cpu_type->mon_register_get_val = mon_register_get_val;
@@ -347,6 +315,5 @@ void mon_register6502_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_print = mon_register_print;
     monitor_cpu_type->mon_register_print_ex = mon_register_print_ex;
     monitor_cpu_type->mon_register_list_get = mon_register_list_get6502;
-    /* monitor_cpu_type->mon_register_list_set = mon_register_list_set6502; */
     monitor_cpu_type->mon_register_valid = mon_register_valid;
 }

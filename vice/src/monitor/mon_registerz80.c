@@ -254,58 +254,6 @@ static mon_reg_list_t *mon_register_list_getz80(int mem)
     return mon_reg_list;
 }
 
-#if 0
-static void mon_register_list_setz80(mon_reg_list_t *reg_list, int mem)
-{
-    do {
-        if (!strcmp(reg_list->name, "PC")) {
-            mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "AF")) {
-            mon_register_set_val(mem, e_AF, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "BC")) {
-            mon_register_set_val(mem, e_BC, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "DE")) {
-            mon_register_set_val(mem, e_DE, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "HL")) {
-            mon_register_set_val(mem, e_HL, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "IX")) {
-            mon_register_set_val(mem, e_IX, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "IY")) {
-            mon_register_set_val(mem, e_IY, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "SP")) {
-            mon_register_set_val(mem, e_SP, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "I")) {
-            mon_register_set_val(mem, e_I, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R")) {
-            mon_register_set_val(mem, e_R, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "AF'")) {
-            mon_register_set_val(mem, e_AF2, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "BC'")) {
-            mon_register_set_val(mem, e_BC2, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "DE'")) {
-            mon_register_set_val(mem, e_DE2, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "HL'")) {
-            mon_register_set_val(mem, e_HL2, (WORD)(reg_list->val));
-        }
-
-        reg_list = reg_list->next;
-    } while (reg_list != NULL);
-}
-#endif
-
 void mon_registerz80_init(monitor_cpu_type_t *monitor_cpu_type)
 {
     monitor_cpu_type->mon_register_get_val = mon_register_get_val;
@@ -313,6 +261,5 @@ void mon_registerz80_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_print = mon_register_print;
     monitor_cpu_type->mon_register_print_ex = NULL;
     monitor_cpu_type->mon_register_list_get = mon_register_list_getz80;
-    /* monitor_cpu_type->mon_register_list_set = mon_register_list_setz80; */
     monitor_cpu_type->mon_register_valid = mon_register_valid;
 }

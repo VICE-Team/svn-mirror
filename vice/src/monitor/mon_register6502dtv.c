@@ -340,8 +340,8 @@ static void mon_register_print(int mem)
     }
 }
 
-/* try to make this a generic function, move it into mon_register.c and
-   remove mon_register_list_get from the monitor_cpu_type_t struct */
+/* TODO: try to make this a generic function, move it into mon_register.c and
+         remove mon_register_list_get from the monitor_cpu_type_t struct */
 static mon_reg_list_t *mon_register_list_get6502dtv(int mem)
 {
     mon_reg_list_t *mon_reg_list, *regs;
@@ -363,85 +363,6 @@ static mon_reg_list_t *mon_register_list_get6502dtv(int mem)
     return mon_reg_list;
 }
 
-#if 0
-static void mon_register_list_set6502dtv(mon_reg_list_t *reg_list, int mem)
-{
-    do {
-        if (!strcmp(reg_list->name, "PC")) {
-            mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "A")) {
-            mon_register_set_val(mem, e_A, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "X")) {
-            mon_register_set_val(mem, e_X, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "Y")) {
-            mon_register_set_val(mem, e_Y, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "SP")) {
-            mon_register_set_val(mem, e_SP, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "00")) {
-            mon_set_mem_val(mem, 0, (BYTE)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "01")) {
-            mon_set_mem_val(mem, 1, (BYTE)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "NV-BDIZC")) {
-            mon_register_set_val(mem, e_FLAGS, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R3")) {
-            mon_register_set_val(mem, e_R3, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R4")) {
-            mon_register_set_val(mem, e_R4, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R5")) {
-            mon_register_set_val(mem, e_R5, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R6")) {
-            mon_register_set_val(mem, e_R6, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R7")) {
-            mon_register_set_val(mem, e_R7, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R8")) {
-            mon_register_set_val(mem, e_R8, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R9")) {
-            mon_register_set_val(mem, e_R9, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R10")) {
-            mon_register_set_val(mem, e_R10, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R11")) {
-            mon_register_set_val(mem, e_R11, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R12")) {
-            mon_register_set_val(mem, e_R12, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R13")) {
-            mon_register_set_val(mem, e_R13, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R14")) {
-            mon_register_set_val(mem, e_R15, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "R15")) {
-            mon_register_set_val(mem, e_R15, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "ACM")) {
-            mon_register_set_val(mem, e_ACM, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "YXM")) {
-            mon_register_set_val(mem, e_YXM, (WORD)(reg_list->val));
-        }
-
-        reg_list = reg_list->next;
-    } while (reg_list != NULL);
-}
-#endif
-
 void mon_register6502dtv_init(monitor_cpu_type_t *monitor_cpu_type)
 {
     monitor_cpu_type->mon_register_get_val = mon_register_get_val;
@@ -449,6 +370,5 @@ void mon_register6502dtv_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_print = mon_register_print;
     monitor_cpu_type->mon_register_print_ex = NULL;
     monitor_cpu_type->mon_register_list_get = mon_register_list_get6502dtv;
-    /* monitor_cpu_type->mon_register_list_set = mon_register_list_set6502dtv; */
     monitor_cpu_type->mon_register_valid = mon_register_valid;
 }

@@ -318,40 +318,6 @@ static mon_reg_list_t *mon_register_list_get65816(int mem)
     return mon_reg_list;
 }
 
-#if 0
-static void mon_register_list_set65816(mon_reg_list_t *reg_list, int mem)
-{
-    do {
-        if (!strcmp(reg_list->name, "PBR")) {
-            mon_register_set_val(mem, e_PBR, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "PC")) {
-            mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "A")) {
-            mon_register_set_val(mem, e_A, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "B")) {
-            mon_register_set_val(mem, e_B, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "X")) {
-            mon_register_set_val(mem, e_X, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "Y")) {
-            mon_register_set_val(mem, e_Y, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "SP")) {
-            mon_register_set_val(mem, e_SP, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "DPR")) {
-            mon_register_set_val(mem, e_DPR, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "DBR")) {
-            mon_register_set_val(mem, e_DBR, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "E")) {
-            mon_register_set_val(mem, e_EMUL, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "NV-BDIZC")) {
-            mon_register_set_val(mem, e_FLAGS, (WORD)(reg_list->val));
-        } else if (!strcmp(reg_list->name, "NVMXDIZC")) {
-            mon_register_set_val(mem, e_FLAGS, (WORD)(reg_list->val));
-        }
-        reg_list = reg_list->next;
-    } while (reg_list != NULL);
-}
-#endif
-
 void mon_register65816_init(monitor_cpu_type_t *monitor_cpu_type)
 {
     monitor_cpu_type->mon_register_get_val = mon_register_get_val;
@@ -359,6 +325,5 @@ void mon_register65816_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_print = mon_register_print;
     monitor_cpu_type->mon_register_print_ex = NULL;
     monitor_cpu_type->mon_register_list_get = mon_register_list_get65816;
-    /* monitor_cpu_type->mon_register_list_set = mon_register_list_set65816; */
     monitor_cpu_type->mon_register_valid = mon_register_valid;
 }
