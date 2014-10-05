@@ -35,9 +35,8 @@ msgstr "Zet apparaat voor extra joystickpoort 2"
 #: src/arch/unix/mididrv.c:672 src/arch/unix/mididrv.c:677
 #: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
 #: src/arch/unix/macosx/mididrv.c:130
-#, fuzzy
 msgid "<Name>"
-msgstr "Naam"
+msgstr "<Naam>"
 
 #: src/arch/unix/mididrv.c:672 src/arch/win32/res.rc.po.c:1135
 msgid "Specify MIDI-In device"
@@ -48,9 +47,8 @@ msgid "Specify MIDI-Out device"
 msgstr "Kies MIDI-uit apparaat"
 
 #: src/arch/unix/mididrv.c:683
-#, fuzzy
 msgid "<Driver>"
-msgstr "Stuurprogramma"
+msgstr "<Stuurprogramma>"
 
 #: src/arch/unix/mididrv.c:683
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
@@ -59,9 +57,8 @@ msgstr ""
 
 #: src/arch/unix/rs232.c:195 src/arch/unix/rs232.c:200
 #: src/arch/unix/rs232.c:205 src/arch/unix/rs232.c:210
-#, fuzzy
 msgid "<baudrate>"
-msgstr "baud"
+msgstr "<baud>"
 
 #: src/arch/unix/rs232.c:195
 msgid "Specify baudrate of first RS232 device"
@@ -76,9 +73,8 @@ msgid "Specify baudrate of third RS232 device"
 msgstr "Geef de baudrate van het derde RS232 apparaat"
 
 #: src/arch/unix/rs232.c:210
-#, fuzzy
 msgid "Specify baudrate of fourth RS232 device"
-msgstr "Geef de baudrate van het eerste RS232 apparaat"
+msgstr "Geef de baudrate van het vierde RS232 apparaat"
 
 #: src/arch/unix/gui/c128ui.c:273 src/arch/unix/gui/c64scui.c:390
 #: src/arch/unix/gui/c64ui.c:451 src/arch/unix/gui/vsidui.c:236
@@ -4718,9 +4714,8 @@ msgstr ""
 "%s"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:42
-#, fuzzy
 msgid "<Command>"
-msgstr "Commando"
+msgstr "<Commando>"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:42
 msgid "Specify an HTML browser for the on-line help"
@@ -4757,9 +4752,8 @@ msgid "Disable fullscreen"
 msgstr "Volscherm uitschakelen"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90
-#, fuzzy
 msgid "<value>"
-msgstr "waarde"
+msgstr "<waarde>"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90
 msgid "Specify X display depth (1..32)"
@@ -4877,18 +4871,16 @@ msgid "Never use shared memory (slower)"
 msgstr "Nooit gedeeld geheugen gebuiken (trager)"
 
 #: src/arch/unix/x11/xaw/x11video.c:280
-#, fuzzy
 msgid "<fourcc>"
-msgstr "fourcc"
+msgstr "<fourcc>"
 
 #: src/arch/unix/x11/xaw/x11video.c:280
 msgid "Request YUV FOURCC format"
 msgstr "Vraag YUW FOURCC formaat aan"
 
 #: src/arch/unix/x11/xaw/x11video.c:285
-#, fuzzy
 msgid "<Aspect ratio>"
-msgstr "Aspect verhouding"
+msgstr "<Aspect verhouding>"
 
 #: src/arch/unix/x11/xaw/x11video.c:285
 msgid "Set aspect ratio (0.5 - 2.0)"
@@ -5010,9 +5002,8 @@ msgid "Enable flicker fixing in sync draw"
 msgstr "Activeer flikker fixen in sync render"
 
 #: src/arch/unix/macosx/cocoa/video.m:180
-#, fuzzy
 msgid "Disable flicker fixing in sync draw"
-msgstr "Activeer flikker fixen in sync render"
+msgstr "Flikker fixen in sync render uischakelen"
 
 #: src/arch/win32/res.rc.po.c:104 src/arch/win32/res.rc.po.c:1369
 msgid "View"
@@ -5736,7 +5727,6 @@ msgid "Set input device for extra joystick #2"
 msgstr "Zet invoer apparaat voor extra joystick #2"
 
 #: src/arch/win32/res.rc.po.c:1111
-#, fuzzy
 msgid "Use all CPUs on SMP systems"
 msgstr "Gebruik alle CPU's op SMP systemen"
 
@@ -8572,7 +8562,6 @@ msgid "SIDcart Joy Fire"
 msgstr "SIDcart Joy Vuur"
 
 #: src/arch/amigaos/intl_text.c.po.c:7735
-#, fuzzy
 msgid ""
 "Joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 msgstr ""
@@ -8585,7 +8574,6 @@ msgstr ""
 "Emulatie joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:7763
-#, fuzzy
 msgid ""
 "Extra joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
@@ -12086,7 +12074,7 @@ msgstr "Geef configuratie bestandsnaam"
 
 #: src/translate_text.c.po.c:12185
 msgid "Specify number of cycles to run before quitting with an error."
-msgstr ""
+msgstr "Geef het aantal uit te voeren cycli voor het afsluiten met een fout"
 
 #: src/translate_text.c.po.c:12202
 msgid "Attach and autostart tape/disk image <name>"
