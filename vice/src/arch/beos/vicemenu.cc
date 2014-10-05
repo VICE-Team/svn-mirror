@@ -600,9 +600,9 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
 
+#ifdef HAVE_RS232
     if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Expansion Carts"));
-#ifdef HAVE_RS232
         if (machine_class == VICE_MACHINE_VIC20) {
             menu->AddItem(submenu = new BMenu("ACIA Options (MasC=uerade)"));
         } else {
@@ -643,8 +643,13 @@ BMenuBar *menu_create(int machine_class)
                 extsubmenu->AddItem(new BMenuItem("Swiftlink", new BMessage(MENU_ACIA_MODE_SWIFTLINK)));
                 extsubmenu->AddItem(new BMenuItem("Turbo232", new BMessage(MENU_ACIA_MODE_TURBO232)));
         }
-#endif
     }
+#else /* ! HAVE_RS232 */
+    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID &&
+        machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0) {
+        uppermenu->AddItem(menu = new BMenu("Expansion Carts"));
+    }
+#endif
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
         machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_SCPU64) {
@@ -912,6 +917,39 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("Nordic Replay", new BMessage(MENU_RR_REV_NORDIC)));
     }
 
+    if (machine_class == VICE_MACHINE_PET) {
+            menu->AddItem(submenu = new BMenu("PET REU Options"));
+                submenu->AddItem(new BMenuItem("PET REU emulation", new BMessage(MENU_TOGGLE_PETREU)));
+                submenu->AddItem(extsubmenu = new BMenu("PET REU size"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("128 kB", new BMessage(MENU_PETREU_SIZE_128)));
+                    extsubmenu->AddItem(new BMenuItem("512 kB", new BMessage(MENU_PETREU_SIZE_512)));
+                    extsubmenu->AddItem(new BMenuItem("1024 kB", new BMessage(MENU_PETREU_SIZE_1024)));
+                    extsubmenu->AddItem(new BMenuItem("2048 kB", new BMessage(MENU_PETREU_SIZE_2048)));
+                submenu->AddItem(new BMenuItem("PET REU File", new BMessage(MENU_PETREU_FILE)));
+            menu->AddItem(submenu = new BMenu("PET DWW Options"));
+                submenu->AddItem(new BMenuItem("PET DWW emulation", new BMessage(MENU_TOGGLE_PETDWW)));
+                submenu->AddItem(new BMenuItem("PET DWW File", new BMessage(MENU_PETDWW_FILE)));
+            menu->AddItem(new BMenuItem("PET High Res Emulator board emulation", new BMessage(MENU_TOGGLE_PETHRE)));
+            menu->AddItem(new BMenuItem("PET Userport DAC emulation", new BMessage(MENU_TOGGLE_PET_USERPORT_DAC)));
+    }
+
+    if (machine_class == VICE_MACHINE_PLUS4) {
+            menu->AddItem(submenu = new BMenu("V364 speech Options"));
+                submenu->AddItem(new BMenuItem("V364 speech emulation", new BMessage(MENU_TOGGLE_V364SPEECH)));
+                submenu->AddItem(new BMenuItem("V364 speech File", new BMessage(MENU_V364SPEECH_FILE)));
+    }
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+            menu->AddItem(submenu = new BMenu("Final Expansion Options"));
+                submenu->AddItem(new BMenuItem("Write back to cart image", new BMessage(MENU_TOGGLE_FE_WRITE_BACK)));
+            menu->AddItem(submenu = new BMenu("Mega-Cart Options"));
+                submenu->AddItem(new BMenuItem("Write back to nvram file", new BMessage(MENU_TOGGLE_MC_NVRAM_WRITE_BACK)));
+                submenu->AddItem(new BMenuItem("Select nvram file", new BMessage(MENU_MC_NVRAM_FILE)));
+            menu->AddItem(submenu = new BMenu("Vic Flash Plugin Options"));
+                submenu->AddItem(new BMenuItem("Write back to cart image", new BMessage(MENU_TOGGLE_VFP_WRITE_BACK)));
+    }
+
     if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_C128) {
         uppermenu->AddItem(new BMenuItem("IEEE488 Interface", new BMessage(MENU_TOGGLE_IEEE488)));
     }
@@ -920,50 +958,20 @@ BMenuBar *menu_create(int machine_class)
     uppermenu = new BMenu("Settings");
     menubar->AddItem(uppermenu);
 
+    if (machine_class == VICE_MACHINE_VIC20) {
+        uppermenu->AddItem(new BMenuItem("VIC20 ...", new BMessage(MENU_VIC20_SETTINGS)));
+    }
+
+    if (machine_class == VICE_MACHINE_PET) {
+        uppermenu->AddItem(new BMenuItem("PET ...", new BMessage(MENU_PET_SETTINGS)));
+    }
+
     if (machine_class == VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(new BMenuItem("CBM 2 ...", new BMessage(MENU_CBM2_SETTINGS)));
     }
 
     if (machine_class == VICE_MACHINE_CBM5x0) {
         uppermenu->AddItem(new BMenuItem("CBM 5x0 ...", new BMessage(MENU_CBM5X0_SETTINGS)));
-    }
-
-    if (machine_class == VICE_MACHINE_PET) {
-        uppermenu->AddItem(new BMenuItem("PET ...", new BMessage(MENU_PET_SETTINGS)));
-        uppermenu->AddItem(menu = new BMenu("PET REU Options"));
-            menu->AddItem(new BMenuItem("PET REU emulation", new BMessage(MENU_TOGGLE_PETREU)));
-            menu->AddItem(submenu = new BMenu("PET REU size"));
-                submenu->SetRadioMode(true);
-                submenu->AddItem(new BMenuItem("128 kB", new BMessage(MENU_PETREU_SIZE_128)));
-                submenu->AddItem(new BMenuItem("512 kB", new BMessage(MENU_PETREU_SIZE_512)));
-                submenu->AddItem(new BMenuItem("1024 kB", new BMessage(MENU_PETREU_SIZE_1024)));
-                submenu->AddItem(new BMenuItem("2048 kB", new BMessage(MENU_PETREU_SIZE_2048)));
-            menu->AddItem(new BMenuItem("PET REU File", new BMessage(MENU_PETREU_FILE)));
-        uppermenu->AddItem(menu = new BMenu("PET DWW Options"));
-            menu->AddItem(new BMenuItem("PET DWW emulation", new BMessage(MENU_TOGGLE_PETDWW)));
-            menu->AddItem(new BMenuItem("PET DWW File", new BMessage(MENU_PETDWW_FILE)));
-        uppermenu->AddItem(new BMenuItem("PET High Res Emulator board emulation", new BMessage(MENU_TOGGLE_PETHRE)));
-        uppermenu->AddItem(new BMenuItem("PET Userport DAC emulation", new BMessage(MENU_TOGGLE_PET_USERPORT_DAC)));
-    }
-
-    if (machine_class == VICE_MACHINE_PLUS4) {
-        uppermenu->AddItem(menu = new BMenu("V364 speech Options"));
-            menu->AddItem(new BMenuItem("V364 speech emulation", new BMessage(MENU_TOGGLE_V364SPEECH)));
-            menu->AddItem(new BMenuItem("V364 speech File", new BMessage(MENU_V364SPEECH_FILE)));
-    }
-
-    if (machine_class == VICE_MACHINE_VIC20) {
-        uppermenu->AddItem(new BMenuItem("VIC20 ...", new BMessage(MENU_VIC20_SETTINGS)));
-    }
-
-    if (machine_class == VICE_MACHINE_VIC20) {
-        uppermenu->AddItem(menu = new BMenu("Final Expansion Options"));
-            menu->AddItem(new BMenuItem("Write back to cart image", new BMessage(MENU_TOGGLE_FE_WRITE_BACK)));
-        uppermenu->AddItem(menu = new BMenu("Mega-Cart Options"));
-            menu->AddItem(new BMenuItem("Write back to nvram file", new BMessage(MENU_TOGGLE_MC_NVRAM_WRITE_BACK)));
-            menu->AddItem(new BMenuItem("Select nvram file", new BMessage(MENU_MC_NVRAM_FILE)));
-        uppermenu->AddItem(menu = new BMenu("Vic Flash Plugin Options"));
-            menu->AddItem(new BMenuItem("Write back to cart image", new BMessage(MENU_TOGGLE_VFP_WRITE_BACK)));
     }
 
     if (machine_class == VICE_MACHINE_C128) {
