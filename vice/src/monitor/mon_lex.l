@@ -347,10 +347,10 @@ if		{ BEGIN (COND_MODE); return IF; }
 
         b   { yylval.i = e_B; return MON_REGISTER; }
         c   { yylval.i = e_C; return MON_REGISTER; }
-        dpr  { yylval.i = e_DPR; return MON_REGISTER; }
-        pbr  { yylval.i = e_PBR; return MON_REGISTER; }
-        dbr  { yylval.i = e_DBR; return MON_REGISTER; }
-        emul { yylval.i = e_EMUL; return MON_REGISTER; }
+        dpr { yylval.i = e_DPR; return MON_REGISTER; }
+        pbr { yylval.i = e_PBR; return MON_REGISTER; }
+        dbr { yylval.i = e_DBR; return MON_REGISTER; }
+        e   { yylval.i = e_EMUL; return MON_REGISTER; }
 
         r3  { yylval.i = e_R3; return MON_REGISTER; }
         r4  { yylval.i = e_R4; return MON_REGISTER; }
@@ -408,7 +408,7 @@ if		{ BEGIN (COND_MODE); return IF; }
         DPR           	{ yylval.i = e_DPR; return MON_REGISTER; }
         PBR           	{ yylval.i = e_PBR; return MON_REGISTER; }
         DBR           	{ yylval.i = e_DBR; return MON_REGISTER; }
-        EMUL          	{ yylval.i = e_EMUL; return MON_REGISTER; }
+        E             	{ yylval.i = e_EMUL; return MON_REGISTER; }
 
         R3            	{ yylval.i = e_R3; return MON_REGISTER; }
         R4            	{ yylval.i = e_R4; return MON_REGISTER; }
