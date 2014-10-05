@@ -177,6 +177,8 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
 static void mon_register_print(int mem)
 {
     WDC65816_regs_t *regs;
+    unsigned int line = 0, cycle = 0;
+    int half_cycle = -1;
 
     if (monitor_diskspace_dnr(mem) >= 0) {
         if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
@@ -189,14 +191,19 @@ static void mon_register_print(int mem)
 
     regs = mon_interfaces[mem]->cpu_65816_regs;
 
+    if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
+        mon_interfaces[mem]->get_line_cycle(&line, &cycle, &half_cycle);
+    }
+
     if (mon_register_get_val(mem, e_EMUL)) {
         mon_out("  PB ADDR A  B  X  Y  SP DPRE DB NV-BDIZC E");
         if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
-            mon_out(" LIN CYC\n");
-        } else {
-            mon_out("\n");
+            mon_out(" LIN CYC");
+            if (half_cycle != -1) {
+                mon_out(".SB");
+            }
         }
-        mon_out(".;%02x %04x %02x %02x %02x %02x %02x %04x %02x %d%d1%d%d%d%d%d 1",
+        mon_out("\n.;%02x %04x %02x %02x %02x %02x %02x %04x %02x %d%d1%d%d%d%d%d 1",
                   mon_register_get_val(mem, e_PBR),
                   addr_location(mon_register_get_val(mem, e_PC)),
                   mon_register_get_val(mem, e_A),
@@ -221,8 +228,11 @@ static void mon_register_print(int mem)
 
         if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
             mon_out(" LIN CYC");
+            if (half_cycle != -1) {
+                mon_out(".SB");
+            }
         }
-        mon_out("\n.;%02x %04x", 
+        mon_out("\n.;%02x %04x",
                 mon_register_get_val(mem, e_PBR),
                 addr_location(mon_register_get_val(mem, e_PC)));
 
@@ -262,14 +272,9 @@ static void mon_register_print(int mem)
     }
 
     if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
-        unsigned int line, cycle;
-        int half_cycle;
-
-        mon_interfaces[mem]->get_line_cycle(&line, &cycle, &half_cycle);
-
         mon_out(" %03i %03i", line, cycle);
         if (half_cycle != -1) {
-            mon_out(" %i", half_cycle);
+            mon_out(".%02i", half_cycle);
         }
     }
     mon_out("\n");
