@@ -60,7 +60,7 @@ int mon_register_valid(int mem, int reg_id)
     mon_reg_list = regs = mon_register_list_get(mem);
 
     do {
-        if ((!(regs->flags & MON_REGISTER_IS_MEMORY)) && (regs->id == reg_id)) {
+        if ((!(regs->flags & MON_REGISTER_IS_MEMORY)) && (regs->id == (unsigned int)reg_id)) {
             ret = 1;
             break;
         }

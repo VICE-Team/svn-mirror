@@ -328,7 +328,7 @@ static mon_reg_list_t *mon_register_list_get6502dtv(int mem)
         if (regs->flags & MON_REGISTER_IS_MEMORY) {
             int current_bank = mon_interfaces[mem]->current_bank;
             mon_interfaces[mem]->current_bank = mon_interfaces[mem]->mem_bank_from_name("cpu");
-            regs->val = (unsigned int)mon_get_mem_val(mem, regs->extra);
+            regs->val = (unsigned int)mon_get_mem_val(mem, (WORD)regs->extra);
             mon_interfaces[mem]->current_bank = current_bank;
         } else if (regs->flags & MON_REGISTER_IS_FLAGS) {
             regs->val = (unsigned int)mon_register_get_val(mem, regs->id) | 0x20;

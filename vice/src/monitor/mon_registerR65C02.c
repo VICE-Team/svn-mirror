@@ -236,7 +236,7 @@ static mon_reg_list_t *mon_register_list_getR65C02(int mem)
 
     do {
         if (regs->flags & MON_REGISTER_IS_MEMORY) {
-            regs->val = (unsigned int)mon_get_mem_val(mem, regs->extra);
+            regs->val = (unsigned int)mon_get_mem_val(mem, (WORD)regs->extra);
         } else if (regs->flags & MON_REGISTER_IS_FLAGS) {
             regs->val = (unsigned int)mon_register_get_val(mem, regs->id) | 0x20;
         } else {

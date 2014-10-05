@@ -42,6 +42,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef HAVE_IO_H
+#include <io.h>
+#endif
+
 #include "lib.h"
 #include "mon_command.h"
 #include "montypes.h"
