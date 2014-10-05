@@ -3663,15 +3663,15 @@ static char *msvc6_lib32 = "LIB32=link.exe -lib\r\n"
 
 static char *msvc6_link32_console = "LINK32=link.exe\r\n"
                                     "# ADD BASE LINK32 %s /nologo /subsystem:console /machine:I386\r\n"
-                                    "# ADD LINK32 %s /nologo /subsystem:console /machine:I386\r\n\r\n";
+                                    "# ADD LINK32 %s /nologo /subsystem:console /machine:I386 /IGNORE:4089 \r\n\r\n";
 
 static char *msvc6_link32_console_sdl_debug = "LINK32=link.exe\r\n"
                                               "# ADD BASE LINK32 %s %s /nologo /subsystem:console /machine:I386 /NODEFAULTLIB:msvcrt.lib\r\n"
-                                              "# ADD LINK32 %s %s /nologo /subsystem:console /machine:I386 /NODEFAULTLIB:msvcrt.lib\r\n\r\n";
+                                              "# ADD LINK32 %s %s /nologo /subsystem:console /machine:I386 /NODEFAULTLIB:msvcrt.lib /IGNORE:4089\r\n\r\n";
 
 static char *msvc6_link32_console_sdl_release = "LINK32=link.exe\r\n"
                                                 "# ADD BASE LINK32 %s %s /nologo /subsystem:console /machine:I386\r\n"
-                                                "# ADD LINK32 %s %s /nologo /subsystem:console /machine:I386\r\n\r\n";
+                                                "# ADD LINK32 %s %s /nologo /subsystem:console /machine:I386 /IGNORE:4089\r\n\r\n";
 
 static char *msvc6_link32_gui = "LINK32=link.exe\r\n"
                                 "# ADD BASE LINK32 %s%s /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept\r\n"
