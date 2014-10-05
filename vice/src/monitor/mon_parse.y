@@ -75,6 +75,7 @@ extern char *alloca();
 #include "mon_drive.h"
 #include "mon_file.h"
 #include "mon_memory.h"
+#include "mon_register.h"
 #include "mon_util.h"
 #include "montypes.h"
 #include "resources.h"
@@ -601,13 +602,13 @@ opt_mem_op: mem_op { $$ = $1; }
           ;
 
 register: MON_REGISTER          {
-                                    if (!(monitor_cpu_for_memspace[default_memspace]->mon_register_valid)(default_memspace, $1)) {
+                                    if (!mon_register_valid(default_memspace, $1)) {
                                         return ERR_INVALID_REGISTER;
                                     }
                                     $$ = new_reg(default_memspace, $1);
                                 }
         | memspace MON_REGISTER {
-                                    if (!(monitor_cpu_for_memspace[$1]->mon_register_valid)($1, $2)) {
+                                    if (!mon_register_valid($1, $2)) {
                                         return ERR_INVALID_REGISTER;
                                     }
                                     $$ = new_reg($1, $2);

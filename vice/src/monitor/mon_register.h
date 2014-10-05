@@ -63,7 +63,7 @@ void mon_register6809_init(struct monitor_cpu_type_s *monitor_cpu_type);
 /* common functions */
 
 /* checks if a given register id is valid, returns 1 on valid, 0 on invalid */
-int mon_register_id_valid(int mem, int reg_id);
+int mon_register_valid(int mem, int reg_id);
 /* takes a register by name, and returns its id. returns -1 on error */
 int mon_register_name_to_id(int mem, char *name);
 /* checks if a given string is a valid register name, returns 1 on valid, 0 on invalid */

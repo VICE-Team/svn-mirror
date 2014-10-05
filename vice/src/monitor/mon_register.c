@@ -25,7 +25,7 @@
  *
  */
 
-/* #define DEBUG_MON_REGS */
+#define DEBUG_MON_REGS
 
 #include "vice.h"
 
@@ -44,12 +44,32 @@
 #define DBG(_x_)
 #endif
 
-/* checks if a given id is a valid register,
-   returns 1 on valid, 0 on invalid */
-int mon_register_id_valid(int mem, int reg_id)
+/* check if register id is valid, returns 1 on valid, 0 on invalid */
+int mon_register_valid(int mem, int reg_id)
 {
-    DBG(("mon_register_id_valid reg: %d\n", reg_id));
-    return (monitor_cpu_for_memspace[mem]->mon_register_valid)(mem, reg_id);
+    mon_reg_list_t *mon_reg_list, *regs;
+    int ret = 0;
+
+    DBG(("mon_register_valid mem: %d id: %d\n", mem, reg_id));
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
+            return 0;
+        }
+    }
+
+    mon_reg_list = regs = mon_register_list_get(mem);
+
+    do {
+        if ((!(regs->flags & MON_REGISTER_IS_MEMORY)) && (regs->id == reg_id)) {
+            ret = 1;
+            break;
+        }
+        ++regs;
+    } while (regs->name != NULL);
+
+    lib_free(mon_reg_list);
+
+    return ret;
 }
 
 /* takes a register by name, and returns its id. returns -1 on error */
@@ -84,7 +104,7 @@ int mon_register_name_valid(int mem, char *name)
 int mon_register_id_to_value(int mem, int reg_id)
 {
     DBG(("mon_register_id_to_value reg: %d\n", reg_id));
-    if (mon_register_id_valid(mem, reg_id)) {
+    if (mon_register_valid(mem, reg_id)) {
         return (monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, reg_id);
     }
     return -1;
@@ -100,3 +120,5 @@ int mon_register_name_to_value(int mem, char *name)
     }
     return -1;
 }
+
+

@@ -51,7 +51,8 @@
  *       same with the other CPUs and finally move common code to mon_register.c
  */
 
-static mon_reg_list_t mon_reg_list_65816[13 + 1] = {
+#define REG_LIST_65816_SIZE (13 + 1)
+static mon_reg_list_t mon_reg_list_65816[REG_LIST_65816_SIZE] = {
     {     "PBR",   e_PBR,  8,                      0, 0, 0 },
     {      "PC",    e_PC, 16,                      0, 0, 0 },
     {       "A",     e_A,  8,                      0, 0, 0 },
@@ -67,38 +68,6 @@ static mon_reg_list_t mon_reg_list_65816[13 + 1] = {
     {       "E",  e_EMUL,  1,                      0, 0, 0 },
     { NULL, -1,  0,  0, 0, 0 }
 };
-
-/* TODO: this function is generic, move it into mon_register.c and remove
-         mon_register_valid from the monitor_cpu_type_t struct
-*/
-/* check if register id is valid, returns 1 on valid, 0 on invalid */
-static int mon_register_valid(int mem, int reg_id)
-{
-    mon_reg_list_t *mon_reg_list, *regs;
-    int ret = 0;
-
-    DBG(("mon_register_valid mem: %d id: %d\n", mem, reg_id));
-
-    if (monitor_diskspace_dnr(mem) >= 0) {
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
-            return 0;
-        }
-    }
-
-    mon_reg_list = regs = mon_register_list_get(mem);
-
-    do {
-        if ((!(regs->flags & MON_REGISTER_IS_MEMORY)) && (regs->id == reg_id)) {
-            ret = 1;
-            break;
-        }
-        ++regs;
-    } while (regs->name != NULL);
-
-    lib_free(mon_reg_list);
-
-    return ret;
-}
 
 static unsigned int mon_register_get_val(int mem, int reg_id)
 {
@@ -312,8 +281,8 @@ static mon_reg_list_t *mon_register_list_get65816(int mem)
 {
     mon_reg_list_t *mon_reg_list, *regs;
 
-    mon_reg_list = regs = lib_malloc(sizeof(mon_reg_list_t) * 13);
-    memcpy(mon_reg_list, mon_reg_list_65816, sizeof(mon_reg_list_t) * 13);
+    mon_reg_list = regs = lib_malloc(sizeof(mon_reg_list_t) * REG_LIST_65816_SIZE);
+    memcpy(mon_reg_list, mon_reg_list_65816, sizeof(mon_reg_list_t) * REG_LIST_65816_SIZE);
 
     do {
         regs->val = (unsigned int)mon_register_get_val(mem, regs->id);
@@ -330,5 +299,4 @@ void mon_register65816_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_print = mon_register_print;
     monitor_cpu_type->mon_register_print_ex = NULL;
     monitor_cpu_type->mon_register_list_get = mon_register_list_get65816;
-    monitor_cpu_type->mon_register_valid = mon_register_valid;
 }
