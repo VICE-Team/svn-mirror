@@ -25,7 +25,7 @@
  *
  */
 
-#define DEBUG_MON_REGS
+/* #define DEBUG_MON_REGS */
 
 #include "vice.h"
 
