@@ -2,7 +2,7 @@
  *  \author Spiro Trikaliotis\n
  *  \brief  Abstraction from network sockets.
  *
- * socketimpl.h - Abstraction from network sockets. Unix implementation.
+ * socketimpl.h - Abstraction from network sockets. BeOS implementation.
  *
  * Written by
  *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
@@ -40,7 +40,7 @@
 #include <netdb.h>
 #include <ByteOrder.h>
 
-typedef unsigned int SOCKET;
+typedef int SOCKET;
 typedef struct timeval TIMEVAL;
 
 #ifndef __HAIKU__
