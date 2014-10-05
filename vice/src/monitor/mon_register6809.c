@@ -154,6 +154,7 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
     force_array[mem] = 1;
 }
 
+/* TODO: should use mon_register_list_get */
 static void mon_register_print(int mem)
 {
     h6809_regs_t *regs;
@@ -189,6 +190,7 @@ static void mon_register_print(int mem)
             );
 }
 
+/* TODO: should use mon_register_list_get */
 static const char* mon_register_print_ex(int mem)
 {
     static char buff[80];

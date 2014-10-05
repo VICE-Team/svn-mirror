@@ -233,9 +233,11 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
     force_array[mem] = 1;
 }
 
+/* TODO: should use mon_register_list_get */
 static void mon_register_print(int mem)
 {
     mos6510dtv_regs_t *regs;
+    int current_bank;
 
     if (monitor_diskspace_dnr(mem) >= 0) {
         if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
@@ -256,6 +258,9 @@ static void mon_register_print(int mem)
         mon_out(" STOPWATCH\n");
     }
 
+    current_bank = mon_interfaces[mem]->current_bank;
+    mon_interfaces[mem]->current_bank = mon_interfaces[mem]->mem_bank_from_name("cpu");
+
     mon_out(".;%04x %02x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d",
             addr_location(mon_register_get_val(mem, e_PC)),
             mon_register_get_val(mem, e_A),
@@ -272,6 +277,8 @@ static void mon_register_print(int mem)
             TEST(MOS6510DTV_REGS_GET_INTERRUPT(regs)),
             TEST(MOS6510DTV_REGS_GET_ZERO(regs)),
             TEST(MOS6510DTV_REGS_GET_CARRY(regs)));
+
+    mon_interfaces[mem]->current_bank = current_bank;
 
     if (mon_interfaces[mem]->get_line_cycle != NULL) {
         unsigned int line, cycle;
@@ -319,7 +326,10 @@ static mon_reg_list_t *mon_register_list_get6502dtv(int mem)
 
     do {
         if (regs->flags & MON_REGISTER_IS_MEMORY) {
+            int current_bank = mon_interfaces[mem]->current_bank;
+            mon_interfaces[mem]->current_bank = mon_interfaces[mem]->mem_bank_from_name("cpu");
             regs->val = (unsigned int)mon_get_mem_val(mem, regs->extra);
+            mon_interfaces[mem]->current_bank = current_bank;
         } else if (regs->flags & MON_REGISTER_IS_FLAGS) {
             regs->val = (unsigned int)mon_register_get_val(mem, regs->id) | 0x20;
         } else {

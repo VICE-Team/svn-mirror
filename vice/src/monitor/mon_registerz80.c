@@ -177,6 +177,7 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
     force_array[mem] = 1;
 }
 
+/* TODO: should use mon_register_list_get */
 static void mon_register_print(int mem)
 {
     if (monitor_diskspace_dnr(mem) >= 0) {
