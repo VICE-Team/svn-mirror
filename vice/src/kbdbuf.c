@@ -64,10 +64,10 @@ static CLOCK kernal_init_cycles;
 static BYTE queue[QUEUE_SIZE];
 
 /* Next element in `queue' we must push into the kernal's queue.  */
-static int head_idx;
+static int head_idx = 0;
 
 /* Number of pending characters.  */
-static int num_pending;
+static int num_pending = 0;
 
 /* Flag if we are initialized already.  */
 static int kbd_buf_enabled = 0;
@@ -235,7 +235,7 @@ int kbdbuf_feed(const char *string)
     const int num = (int)strlen(string);
     int i, p;
 
-    if (num_pending + num > QUEUE_SIZE || !kbd_buf_enabled) {
+    if ((num_pending + num) > QUEUE_SIZE || !kbd_buf_enabled) {
         return -1;
     }
 
@@ -259,8 +259,8 @@ void kbdbuf_flush(void)
     unsigned int i, n;
 
     if ((!kbd_buf_enabled)
-        || num_pending == 0
-        || maincpu_clk < kernal_init_cycles
+        || (num_pending == 0)
+        || (maincpu_clk < kernal_init_cycles)
         || !kbdbuf_is_empty()) {
         return;
     }
