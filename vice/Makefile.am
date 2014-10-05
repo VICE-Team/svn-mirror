@@ -63,6 +63,10 @@ EXTRA_DIST = $(COMMON_EXTRA_DIST) $(PO_EXTRA_DIST)
 
 endif
 
+# make src directory depend on the po directory, else parallel make-ing may
+# fail (see bug #551)
+src: $(POSUB)
+
 if SUPPORT_X64SC
   X64SC_INCLUDED = yes
 else
