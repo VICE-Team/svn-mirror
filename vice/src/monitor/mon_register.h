@@ -38,8 +38,6 @@ struct mon_reg_list_s {
     unsigned int flags;
     /* extra info, see below  */
     unsigned int extra;
-    /* Pointer to the next register list entry.  */
-    struct mon_reg_list_s *next;
     /* Value of the register.  */
     unsigned int val;
 };

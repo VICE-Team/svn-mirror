@@ -45,18 +45,23 @@
 #define DBG(_x_)
 #endif
 
-static mon_reg_list_t mon_reg_list_6809[11] = {
-    {       "X",     e_X, 16,                      0, 0, &mon_reg_list_6809[1], 0 },
-    {       "Y",     e_Y, 16,                      0, 0, &mon_reg_list_6809[2], 0 },
-    {       "U",     e_U, 16,                      0, 0, &mon_reg_list_6809[3], 0 },
-    {       "S",    e_SP, 16,                      0, 0, &mon_reg_list_6809[4], 0 },
-    {      "PC",    e_PC, 16,                      0, 0, &mon_reg_list_6809[5], 0 },
-    {      "DP",    e_DP,  8,                      0, 0, &mon_reg_list_6809[6], 0 },
-    {      "CC", e_FLAGS,  8,                      0, 0, &mon_reg_list_6809[7], 0 },
-    {"EFHINZVC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, &mon_reg_list_6809[8], 0 },
-    {       "A",     e_A,  8,                      0, 0, &mon_reg_list_6809[9], 0 },
-    {       "B",     e_B,  8,                      0, 0, &mon_reg_list_6809[10], 0 },
-    {       "D",     e_D, 16,                      0, 0, NULL, 0 }
+/* TODO: make the other functions here use this table. when done also do the
+ *       same with the other CPUs and finally move common code to mon_register.c
+ */
+
+static mon_reg_list_t mon_reg_list_6809[11 + 1] = {
+    {       "X",     e_X, 16,                      0, 0, 0 },
+    {       "Y",     e_Y, 16,                      0, 0, 0 },
+    {       "U",     e_U, 16,                      0, 0, 0 },
+    {       "S",    e_SP, 16,                      0, 0, 0 },
+    {      "PC",    e_PC, 16,                      0, 0, 0 },
+    {      "DP",    e_DP,  8,                      0, 0, 0 },
+    {      "CC", e_FLAGS,  8,                      0, 0, 0 },
+    {"EFHINZVC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, 0 },
+    {       "A",     e_A,  8,                      0, 0, 0 },
+    {       "B",     e_B,  8,                      0, 0, 0 },
+    {       "D",     e_D, 16,                      0, 0, 0 },
+    { NULL, -1,  0,  0, 0, 0 }
 };
 
 /* TODO: this function is generic, move it into mon_register.c and remove
@@ -83,8 +88,8 @@ static int mon_register_valid(int mem, int reg_id)
             ret = 1;
             break;
         }
-        regs = regs->next;
-    } while (regs != NULL);
+        ++regs;
+    } while (regs->name != NULL);
 
     lib_free(mon_reg_list);
 
@@ -263,8 +268,8 @@ static mon_reg_list_t *mon_register_list_get6809(int mem)
 
     do {
         regs->val = (unsigned int)mon_register_get_val(mem, regs->id);
-        regs = regs->next;
-    } while (regs != NULL);
+        ++regs;
+    } while (regs->name != NULL);
 
     return mon_reg_list;
 }

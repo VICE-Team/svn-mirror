@@ -53,35 +53,34 @@
 
 /* TODO: make the other functions here use this table. when done also do the
  *       same with the other CPUs and finally move common code to mon_register.c
- *
- * TODO: also get rid of the ->next member
  */
 
-static mon_reg_list_t mon_reg_list_6510dtv[24] = {
-    {      "PC",    e_PC, 16,                      0, 0, &mon_reg_list_6510dtv[1], 0 },
-    {       "A",     e_A,  8,                      0, 0, &mon_reg_list_6510dtv[2], 0 },
-    {       "X",     e_X,  8,                      0, 0, &mon_reg_list_6510dtv[3], 0 },
-    {       "Y",     e_Y,  8,                      0, 0, &mon_reg_list_6510dtv[4], 0 },
-    {      "SP",    e_SP,  8,                      0, 0, &mon_reg_list_6510dtv[5], 0 },
-    {      "00",      -1,  8, MON_REGISTER_IS_MEMORY, 0, &mon_reg_list_6510dtv[6], 0 },
-    {      "01",      -1,  8, MON_REGISTER_IS_MEMORY, 1, &mon_reg_list_6510dtv[7], 0 },
-    {      "FL", e_FLAGS,  8,                      0, 0, &mon_reg_list_6510dtv[8], 0 },
-    {"NV-BDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, &mon_reg_list_6510dtv[9], 0 },
-    {      "R3",    e_R3,  8,                      0, 0, &mon_reg_list_6510dtv[10], 0 },
-    {      "R4",    e_R4,  8,                      0, 0, &mon_reg_list_6510dtv[11], 0 },
-    {      "R5",    e_R5,  8,                      0, 0, &mon_reg_list_6510dtv[12], 0 },
-    {      "R6",    e_R6,  8,                      0, 0, &mon_reg_list_6510dtv[13], 0 },
-    {      "R7",    e_R7,  8,                      0, 0, &mon_reg_list_6510dtv[14], 0 },
-    {      "R8",    e_R8,  8,                      0, 0, &mon_reg_list_6510dtv[15], 0 },
-    {      "R9",    e_R9,  8,                      0, 0, &mon_reg_list_6510dtv[16], 0 },
-    {     "R10",   e_R10,  8,                      0, 0, &mon_reg_list_6510dtv[17], 0 },
-    {     "R11",   e_R11,  8,                      0, 0, &mon_reg_list_6510dtv[18], 0 },
-    {     "R12",   e_R12,  8,                      0, 0, &mon_reg_list_6510dtv[19], 0 },
-    {     "R13",   e_R13,  8,                      0, 0, &mon_reg_list_6510dtv[20], 0 },
-    {     "R14",   e_R14,  8,                      0, 0, &mon_reg_list_6510dtv[21], 0 },
-    {     "R15",   e_R15,  8,                      0, 0, &mon_reg_list_6510dtv[22], 0 },
-    {     "ACM",   e_ACM,  8,                      0, 0, &mon_reg_list_6510dtv[23], 0 },
-    {     "YXM",   e_YXM,  8,                      0, 0, NULL, 0 }
+static mon_reg_list_t mon_reg_list_6510dtv[24 + 1] = {
+    {      "PC",    e_PC, 16,                      0, 0, 0 },
+    {       "A",     e_A,  8,                      0, 0, 0 },
+    {       "X",     e_X,  8,                      0, 0, 0 },
+    {       "Y",     e_Y,  8,                      0, 0, 0 },
+    {      "SP",    e_SP,  8,                      0, 0, 0 },
+    {      "00",      -1,  8, MON_REGISTER_IS_MEMORY, 0, 0 },
+    {      "01",      -1,  8, MON_REGISTER_IS_MEMORY, 1, 0 },
+    {      "FL", e_FLAGS,  8,                      0, 0, 0 },
+    {"NV-BDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, 0 },
+    {      "R3",    e_R3,  8,                      0, 0, 0 },
+    {      "R4",    e_R4,  8,                      0, 0, 0 },
+    {      "R5",    e_R5,  8,                      0, 0, 0 },
+    {      "R6",    e_R6,  8,                      0, 0, 0 },
+    {      "R7",    e_R7,  8,                      0, 0, 0 },
+    {      "R8",    e_R8,  8,                      0, 0, 0 },
+    {      "R9",    e_R9,  8,                      0, 0, 0 },
+    {     "R10",   e_R10,  8,                      0, 0, 0 },
+    {     "R11",   e_R11,  8,                      0, 0, 0 },
+    {     "R12",   e_R12,  8,                      0, 0, 0 },
+    {     "R13",   e_R13,  8,                      0, 0, 0 },
+    {     "R14",   e_R14,  8,                      0, 0, 0 },
+    {     "R15",   e_R15,  8,                      0, 0, 0 },
+    {     "ACM",   e_ACM,  8,                      0, 0, 0 },
+    {     "YXM",   e_YXM,  8,                      0, 0, 0 },
+    { NULL, -1,  0,  0, 0, 0 }
 };
 
 /* TODO: this function is generic, move it into mon_register.c and remove
@@ -108,8 +107,8 @@ static int mon_register_valid(int mem, int reg_id)
             ret = 1;
             break;
         }
-        regs = regs->next;
-    } while (regs != NULL);
+        ++regs;
+    } while (regs->name != NULL);
 
     lib_free(mon_reg_list);
 
@@ -357,8 +356,8 @@ static mon_reg_list_t *mon_register_list_get6502dtv(int mem)
         } else {
             regs->val = (unsigned int)mon_register_get_val(mem, regs->id);
         }
-        regs = regs->next;
-    } while (regs != NULL);
+        ++regs;
+    } while (regs->name != NULL);
 
     return mon_reg_list;
 }

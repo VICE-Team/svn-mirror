@@ -47,25 +47,24 @@
 
 /* TODO: make the other functions here use this table. when done also do the
  *       same with the other CPUs and finally move common code to mon_register.c
- *
- * TODO: also get rid of the ->next member
  */
 
-static mon_reg_list_t mon_reg_list_z80[14] = {
-    {  "PC",  e_PC, 16, 0, 0, &mon_reg_list_z80[1], 0 },
-    {  "AF",  e_AF, 16, 0, 0, &mon_reg_list_z80[2], 0 },
-    {  "BC",  e_BC, 16, 0, 0, &mon_reg_list_z80[3], 0 },
-    {  "DE",  e_DE, 16, 0, 0, &mon_reg_list_z80[4], 0 },
-    {  "HL",  e_HL, 16, 0, 0, &mon_reg_list_z80[5], 0 },
-    {  "IX",  e_IX, 16, 0, 0, &mon_reg_list_z80[6], 0 },
-    {  "IY",  e_IY, 16, 0, 0, &mon_reg_list_z80[7], 0 },
-    {  "SP",  e_SP, 16, 0, 0, &mon_reg_list_z80[8], 0 },
-    {   "I",   e_I,  8, 0, 0, &mon_reg_list_z80[9], 0 },
-    {   "R",   e_R,  8, 0, 0, &mon_reg_list_z80[10], 0 },
-    { "AF'", e_AF2, 16, 0, 0, &mon_reg_list_z80[11], 0 },
-    { "BC'", e_BC2, 16, 0, 0, &mon_reg_list_z80[12], 0 },
-    { "DE'", e_DE2, 16, 0, 0, &mon_reg_list_z80[13], 0 },
-    { "HL'", e_HL2, 16, 0, 0, NULL, 0 },
+static mon_reg_list_t mon_reg_list_z80[14 + 1] = {
+    {  "PC",  e_PC, 16, 0, 0, 0 },
+    {  "AF",  e_AF, 16, 0, 0, 0 },
+    {  "BC",  e_BC, 16, 0, 0, 0 },
+    {  "DE",  e_DE, 16, 0, 0, 0 },
+    {  "HL",  e_HL, 16, 0, 0, 0 },
+    {  "IX",  e_IX, 16, 0, 0, 0 },
+    {  "IY",  e_IY, 16, 0, 0, 0 },
+    {  "SP",  e_SP, 16, 0, 0, 0 },
+    {   "I",   e_I,  8, 0, 0, 0 },
+    {   "R",   e_R,  8, 0, 0, 0 },
+    { "AF'", e_AF2, 16, 0, 0, 0 },
+    { "BC'", e_BC2, 16, 0, 0, 0 },
+    { "DE'", e_DE2, 16, 0, 0, 0 },
+    { "HL'", e_HL2, 16, 0, 0, 0 },
+    { NULL, -1,  0,  0, 0, 0 }
 };
 
 /* TODO: this function is generic, move it into mon_register.c and remove
@@ -92,8 +91,8 @@ static int mon_register_valid(int mem, int reg_id)
             ret = 1;
             break;
         }
-        regs = regs->next;
-    } while (regs != NULL);
+        ++regs;
+    } while (regs->name != NULL);
 
     lib_free(mon_reg_list);
 
@@ -248,8 +247,8 @@ static mon_reg_list_t *mon_register_list_getz80(int mem)
 
     do {
         regs->val = (unsigned int)mon_register_get_val(mem, regs->id);
-        regs = regs->next;
-    } while (regs != NULL);
+        ++regs;
+    } while (regs->name != NULL);
 
     return mon_reg_list;
 }

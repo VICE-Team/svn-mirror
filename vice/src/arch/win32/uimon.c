@@ -1341,7 +1341,7 @@ static void update_last_shown_regs(reg_private_t *prp)
     unsigned int cnt;
 
     if (prp->LastShownRegs != NULL) {
-        for (p = pMonRegs, cnt = 0; p != NULL; p = p->next, cnt++ ) {
+        for (p = pMonRegs, cnt = 0; p->name != NULL; p++, cnt++ ) {
             if (cnt < prp->RegCount) {
                 prp->LastShownRegs[cnt] = p->val;
             }
@@ -1362,14 +1362,14 @@ static BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
 
     if (prp->LastShownRegs == NULL) {
         // initialize the values which have been last shown
-        for (p = pMonRegs, cnt = 0; p != NULL; p = p->next, cnt++) {
+        for (p = pMonRegs, cnt = 0; p->name != NULL; p++, cnt++) {
         }
 
         prp->RegCount = cnt;
         prp->LastShownRegs = lib_malloc(sizeof(*prp->LastShownRegs) * cnt);
 
         // ensure that ALL registers appear changed this time!
-        for (p = pMonRegs, cnt = 0; p != NULL; p = p->next) {
+        for (p = pMonRegs, cnt = 0; p->name != NULL; p++) {
             prp->LastShownRegs[cnt++] = ~(p->val);
         }
     }
@@ -1381,7 +1381,7 @@ static BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
         SelectObject(hdc, hg);
     }
 
-    for (p = pMonRegs, cnt = 0; p != NULL; p = p->next, cnt++)
+    for (p = pMonRegs, cnt = 0; p->name != NULL; p++, cnt++)
     {
         char buffer[5];
         int namelen = (int)strlen(p->name);

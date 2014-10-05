@@ -47,20 +47,25 @@
 
 #define TEST(x) ((x)!=0)
 
-static mon_reg_list_t mon_reg_list_65816[13] = {
-    {     "PBR",   e_PBR,  8,                      0, 0, &mon_reg_list_65816[1], 0 },
-    {      "PC",    e_PC, 16,                      0, 0, &mon_reg_list_65816[2], 0 },
-    {       "A",     e_A,  8,                      0, 0, &mon_reg_list_65816[3], 0 },
-    {       "B",     e_B, 16,                      0, 0, &mon_reg_list_65816[4], 0 },
-    {       "X",     e_X, 16,                      0, 0, &mon_reg_list_65816[5], 0 },
-    {       "Y",     e_Y, 16,                      0, 0, &mon_reg_list_65816[6], 0 },
-    {      "SP",    e_SP, 16,                      0, 0, &mon_reg_list_65816[7], 0 },
-    {     "DPR",   e_DPR, 16,                      0, 0, &mon_reg_list_65816[8], 0 },
-    {     "DBR",   e_DBR,  8,                      0, 0, &mon_reg_list_65816[9], 0 },
-    {      "FL", e_FLAGS,  8,                      0, 0, &mon_reg_list_65816[10], 0 },
-    {"NV-BDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, &mon_reg_list_65816[11], 0 },
-    {"NVMXDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, &mon_reg_list_65816[12], 0 },
-    {       "E",  e_EMUL,  1,                      0, 0, NULL, 0 }
+/* TODO: make the other functions here use this table. when done also do the
+ *       same with the other CPUs and finally move common code to mon_register.c
+ */
+
+static mon_reg_list_t mon_reg_list_65816[13 + 1] = {
+    {     "PBR",   e_PBR,  8,                      0, 0, 0 },
+    {      "PC",    e_PC, 16,                      0, 0, 0 },
+    {       "A",     e_A,  8,                      0, 0, 0 },
+    {       "B",     e_B, 16,                      0, 0, 0 },
+    {       "X",     e_X, 16,                      0, 0, 0 },
+    {       "Y",     e_Y, 16,                      0, 0, 0 },
+    {      "SP",    e_SP, 16,                      0, 0, 0 },
+    {     "DPR",   e_DPR, 16,                      0, 0, 0 },
+    {     "DBR",   e_DBR,  8,                      0, 0, 0 },
+    {      "FL", e_FLAGS,  8,                      0, 0, 0 },
+    {"NV-BDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, 0 },
+    {"NVMXDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, 0 },
+    {       "E",  e_EMUL,  1,                      0, 0, 0 },
+    { NULL, -1,  0,  0, 0, 0 }
 };
 
 /* TODO: this function is generic, move it into mon_register.c and remove
@@ -87,8 +92,8 @@ static int mon_register_valid(int mem, int reg_id)
             ret = 1;
             break;
         }
-        regs = regs->next;
-    } while (regs != NULL);
+        ++regs;
+    } while (regs->name != NULL);
 
     lib_free(mon_reg_list);
 
@@ -312,8 +317,8 @@ static mon_reg_list_t *mon_register_list_get65816(int mem)
 
     do {
         regs->val = (unsigned int)mon_register_get_val(mem, regs->id);
-        regs = regs->next;
-    } while (regs != NULL);
+        ++regs;
+    } while (regs->name != NULL);
 
     return mon_reg_list;
 }

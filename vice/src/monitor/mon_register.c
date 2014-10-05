@@ -65,8 +65,8 @@ int mon_register_name_to_id(int mem, char *name)
             reg_id = regs->id;
             break;
         }
-        regs = regs->next;
-    } while (regs != NULL);
+        ++regs;
+    } while (regs->name != NULL);
     lib_free(reg_list);
     DBG(("mon_register_name_to_id found id: %d\n", reg_id));
     return reg_id;

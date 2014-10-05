@@ -49,18 +49,17 @@
 
 /* TODO: make the other functions here use this table. when done also do the
  *       same with the other CPUs and finally move common code to mon_register.c
- *
- * TODO: also get rid of the ->next member
  */
 
-static mon_reg_list_t mon_reg_list_R65C02[7] = {
-    {      "PC",    e_PC, 16,                      0, 0, &mon_reg_list_R65C02[1], 0 },
-    {       "A",     e_A,  8,                      0, 0, &mon_reg_list_R65C02[2], 0 },
-    {       "X",     e_X,  8,                      0, 0, &mon_reg_list_R65C02[3], 0 },
-    {       "Y",     e_Y,  8,                      0, 0, &mon_reg_list_R65C02[4], 0 },
-    {      "SP",    e_SP,  8,                      0, 0, &mon_reg_list_R65C02[5], 0 },
-    {      "FL", e_FLAGS,  8,                      0, 0, &mon_reg_list_R65C02[6], 0 },
-    {"NV-BDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, NULL, 0 }
+static mon_reg_list_t mon_reg_list_R65C02[7 + 1] = {
+    {      "PC",    e_PC, 16,                      0, 0, 0 },
+    {       "A",     e_A,  8,                      0, 0, 0 },
+    {       "X",     e_X,  8,                      0, 0, 0 },
+    {       "Y",     e_Y,  8,                      0, 0, 0 },
+    {      "SP",    e_SP,  8,                      0, 0, 0 },
+    {      "FL", e_FLAGS,  8,                      0, 0, 0 },
+    {"NV-BDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, 0 },
+    { NULL, -1,  0,  0, 0, 0 }
 };
 
 /* TODO: this function is generic, move it into mon_register.c and remove
@@ -87,8 +86,8 @@ static int mon_register_valid(int mem, int reg_id)
             ret = 1;
             break;
         }
-        regs = regs->next;
-    } while (regs != NULL);
+        ++regs;
+    } while (regs->name != NULL);
 
     lib_free(mon_reg_list);
 
@@ -272,8 +271,8 @@ static mon_reg_list_t *mon_register_list_getR65C02(int mem)
         } else {
             regs->val = (unsigned int)mon_register_get_val(mem, regs->id);
         }
-        regs = regs->next;
-    } while (regs != NULL);
+        ++regs;
+    } while (regs->name != NULL);
 
     return mon_reg_list;
 }
