@@ -174,7 +174,7 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
         break;
       case 3:
         method = SAMPLE_RESAMPLE_FASTMEM;
-        sprintf(method_text, "resampling, pass to %dHz", (int)passband);
+        sprintf(method_text, "fast resampling, pass to %dHz", (int)passband);
         break;
     }
 

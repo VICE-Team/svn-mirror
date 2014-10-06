@@ -243,6 +243,7 @@ static int set_sid_resid_sampling(int val, void *param)
         case SID_RESID_SAMPLING_FAST:
         case SID_RESID_SAMPLING_INTERPOLATION:
         case SID_RESID_SAMPLING_RESAMPLING:
+        case SID_RESID_SAMPLING_FAST_RESAMPLING:
             break;
         default:
             return -1;
