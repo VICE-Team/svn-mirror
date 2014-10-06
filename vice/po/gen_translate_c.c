@@ -231,7 +231,7 @@ static void write_converted_text(char *text1, char *prefix_text, char *trail_tex
 int main(int argc, char *argv[])
 {
     int found = UNKNOWN;
-    int i, j = 0;
+    int i;
     int id_start;
     int text_start;
     char *id_string;
