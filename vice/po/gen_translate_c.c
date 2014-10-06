@@ -231,7 +231,7 @@ static void write_converted_text(char *text1, char *prefix_text, char *trail_tex
 int main(int argc, char *argv[])
 {
     int found = UNKNOWN;
-    int i;
+    int i, j = 0;
     int id_start;
     int text_start;
     char *id_string;
@@ -319,6 +319,20 @@ int main(int argc, char *argv[])
             trail_string = trailtest(text_string);
 
             fprintf(outfile, "\")},\n#ifdef HAS_TRANSLATION\n/* da */ {%s_DA, \"", id_string);
+            for (i = 0; text[i].msgid != NULL; i++) {
+                if (!strcmp(text[i].msgid, text_string)) {
+                    break;
+                }
+                if (!strcmp(text[i].msgid, text_string_orig)) {
+                    prefix_string = NULL;
+                    trail_string = NULL;
+                    break;
+                }
+            }
+            if (text[i].msgid == NULL) {
+                printf("Cannot find %s in the po-table\n", text_string);
+                exit(1);
+            }
             if (strlen(text[i].msgstr_da) != 0) {
                 write_converted_text(text[i].msgstr_da, prefix_string, trail_string);
             }
