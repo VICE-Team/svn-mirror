@@ -192,7 +192,7 @@ static char *prefix_test(char *text)
 
 static void write_converted_text(char *text1, char *prefix_text, char *trail_text)
 {
-    char *text2 = malloc(strlen(text1) * 3);
+    char *text2 = malloc(strlen(text1) * 4);
     int i;
     int counter = 0;
 

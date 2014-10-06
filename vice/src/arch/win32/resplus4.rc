@@ -513,7 +513,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
   IDS_MI_TED_SETTINGS             "TED settings..."
-  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
+  IDS_MI_TOGGLE_DIGIBLASTER       "enable Digiblaster"
 END
 
 
@@ -585,7 +585,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Stimme Einstellungen..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 Modell Einstellungen..."
   IDS_MI_TED_SETTINGS             "TED Einstellungen..."
-  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
+  IDS_MI_TOGGLE_DIGIBLASTER        "Digiblaster add-aktivieren"
 END
 
 
@@ -813,7 +813,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "V364 Spraak instellingen..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model instellingen..."
   IDS_MI_TED_SETTINGS             "TED instellingen..."
-  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
+  IDS_MI_TOGGLE_DIGIBLASTER        "Activeer Digiblaster"
 END
 
 
@@ -852,7 +852,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS      "Ustawienia mowy V364..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Ustawienia modelu Plus4..."
   IDS_MI_TED_SETTINGS             "Ustawienia TED..."
-  IDS_MI_TOGGLE_DIGIBLASTER        "enable Digiblaster"
+  IDS_MI_TOGGLE_DIGIBLASTER        "W³±cz Digiblaster"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

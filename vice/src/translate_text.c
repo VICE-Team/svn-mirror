@@ -1348,7 +1348,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_MON_NEXT_DESCRIPTION_HU, "A következõ utasításra lépés.  A szubrutinokat egy\nutasításnak tekinti."},
 /* it */ {IDGS_MON_NEXT_DESCRIPTION_IT, "Passa alla prossima istruzione. Le subrutine sono trattate come\nuna singola istruzione."},
 /* ko */ {IDGS_MON_NEXT_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_NEXT_DESCRIPTION_NL, "Ga naar de volgende instructie. Subroutines worden behandled als een\nenkele instructie."},
+/* nl */ {IDGS_MON_NEXT_DESCRIPTION_NL, "Ga naar de volgende instructie. Subroutines worden behandeld als een\nenkele instructie."},
 /* pl */ {IDGS_MON_NEXT_DESCRIPTION_PL, "Przechodzi do nastêpnej instrukcji. Procedury s± traktowane\njak pojedyncze instrukcje."},
 /* ru */ {IDGS_MON_NEXT_DESCRIPTION_RU, "Advance to the next instruction.  Subroutines are treated as\na single instruction."},
 /* sv */ {IDGS_MON_NEXT_DESCRIPTION_SV, "Gå till nästa instruktion. Underrutiner hanteras som en\nenda instruktion."},
@@ -2148,31 +2148,31 @@ translate_t string_table[] = {
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_CONDITION_DESCRIPTION,    N_("Each time the specified checkpoint is examined, the condition is\nevaluated. If it evalutes to true, the checkpoint is activated.\nOtherwise, it is ignored. If registers are specified in the expression,\nthe values used are those at the time the checkpoint is examined, not\nwhen the condition is set.\nThe condition can use registers (A, X, Y, PC, SP, FL and other cpu\nspecific registers (see manual)) and compare them (==, !=, <, >, <=, >=)\nagainst other registers or constants.\nRegisters can be the registers of other devices; this is denoted by\na memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\nExamples: A == 0, X == Y, 8:X == X)\n")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_CONDITION_DESCRIPTION_DA, "Betingelsen evalueres hver gang det angivne checkpoint undersøges.\nHvis evalueres til sand aktiveres checkpointet, allers ignoreres\ndet. Hvis betingelsen indeholder registre, anvendes de værdier,\nregistrene har når betingelsen evalueres, ikke når betingelsen\noprettes.\nBetingelsen kan anvende registrene (A, X, Y, PC, SP and FL) og\nsammenligne dem (==, !=, <, >, <=, >=) med andre registre eller\nkonstanter. Registre kan være i andre enheder, og dette angives\nsom et hukommelsesområdeprefix (dvs., c:, 8:, 9:, 10:, 11:)\nEksempel: A == 0, X == Y, 8:X == X)\n"},
-/* de */ {IDGS_MON_CONDITION_DESCRIPTION_DE, "Bei jeder Überprüfung des Checkpoints, wird die Bedingung evaluiert.\nIst das Ergebnis `Wahr', wird der Checkpoint aktiviert, sonst ingnoriert.\nWenn Register benutzt werden, werden deren Werte zum Zeitpunkt der\nÜberprüfung herangezogen.\nDie Bedingung kann Register benutzen (A, X, Y, PC, SP und FL) und gegen\nRegister oder Konstanten vergleichen (==, !=, <, >, <=, >=).\nRegister können auch Geräteregister sein; dazu wird die memspace Prefix-Syntax\nverwendet: c:, 8:, 9:, 10:, 11:\nBeispiel: A == 0, X == Y, 8:X == X)\n"},
-/* es */ {IDGS_MON_CONDITION_DESCRIPTION_ES, "Cada vez que un punto de control se examine, la condición se\nevaluará. Si la condición es cierta, se activa el punto de control.\nSi no, se ignora. Si los registros están especificado en la condición,\nse usan los valores en el momento en el que se examina el punto\nde ruptura, no en el momento de poner la condicion.\nLa condición puede usar los registros (A, X, Y, PC, SP and FL)  y compararlos\nm (==, !=, <, >, <=, >=) con otros registros y constantes.\nLos registros pueden ser de otros periféricos, esto se denota por el\nprefijo de espacio memoria (ejm., c:, 8:, 9:, 10:, 11:\nEjemplos: A == 0, X == Y, 8:X == X)\n"},
-/* fr */ {IDGS_MON_CONDITION_DESCRIPTION_FR, "Chaque fois qu'un point d'arrêt est examiné, la condition est\névaluée. Si elle donne Vrai, le point d'arrêt est activé.\nSinon, il est ignoré. Si des registres sont spécifiés dans l'expression,\nles valeurs utilisées sont celles au moment où le point d'arrêt est\nexaminé, et non lorsque la condition est réglée.\nLa condition peut faire usage de registres (A, X, Y, PC, SP and FL) et\nles comparer (==, !=, <, >, <=, >=) à d'autres registres ou constantes.\nLes registres peut être les registres d'autres périphériques; cela est\ndénoté par un préfixe d'espace-mémoire (exemples: c:, 8:, 9:, 10:, 11:)\nExemples valides : A == 0, X == Y, 8:X == X)\n"},
-/* hu */ {IDGS_MON_CONDITION_DESCRIPTION_HU, "Minden alkalommal, amikor egy adott ellenõrzési pontot megvizsgál, a\nfeltételt kiértékeli. Ha az eredmény igaz, a töréspont aktiválódik.\nEgyébként, figyelmen kívül hagyja. Ha regiszterek szerepelnek a kifejezésben,\naz ellenõrzés pillanatában vett értékük számít, nem pedig a beállításkori.\nA feltétel használhatja a regisztereket ( A, X, Y, PC, SP and FL) és össze is\nhasonlíthatja õket (==, !=, <, >, <=, >=) más regiszterekkel.\nA regiszterek lehetnek más eszközök regiszterei is; azokat egy memória tér\nelõtaggal kell ellátni (vagyis c:, 8:, 9:, 10:, 11:).\nPéldák: A == 0, X == Y, 8:X == X)\n"},
-/* it */ {IDGS_MON_CONDITION_DESCRIPTION_IT, "Ogni volta che si esamina il punto di controllo specificato, viene valutata\nla condizione. Se è vera, il punto di controllo è attivato.\nAltrimenti viene ignorato. Se nell'espressione sono specificati i registri,\nquesti valori sono quelli usati quando viene esaminato il punto di controllo,\nnon quando viene impostata la condizione.\nLa condizione può fare uso dei registri (A, X, Y, PC, SP and FL) e confontarli\n(==, !=, <, >, <=, >=) con altri registri o costanti.\nI registri possono essere registri di altre periferiche; questo è denotato da\nun prefisso che specifica lo spazio di memoria (cioé, c:, 8:, 9:, 10:, 11:)\nAlcuni esempi: A == 0, X == Y, 8:X == X)\n"},
+/* da */ {IDGS_MON_CONDITION_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_CONDITION_DESCRIPTION_DE, "Bei jeder Überprüfung des Checkpoints, wird die Bedingung evaluiert.\nIst das Ergebnis `Wahr', wird der Checkpoint aktiviert, sonst ingnoriert.\nWenn Register benutzt werden, werden deren Werte zum Zeitpunkt der \nÜberprüfung herangezogen, nicht zum Zeitpunkt des Setzens der Bedingung.\nDie Bedingung kann Register benutzen (A, X, Y, PC, SP, FL und andere\nCPU spezifische Register (siehe Handbuch)) und gegen andere Register oder\nKonstanten vergleichen (==, !=, <, >, <=, >=).\nRegister können auch Geräteregister sein; dazu wird die memspace Prefix-syntax \nverwendet: c:, 8:, 9:, 10:, 11:\nBeispiel: A == 0, X == Y, 8:X == X\n"},
+/* es */ {IDGS_MON_CONDITION_DESCRIPTION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_CONDITION_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_CONDITION_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_CONDITION_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_CONDITION_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_CONDITION_DESCRIPTION_NL, "Elke keer de opgegeven checkpunt wordt onderzocht zal de conditie worden\ngeevalueerd. Als de evaluatie positief is dan zal de checkpunt geactiveerd\nworden, bij negatief zal er niets worden gedaan. Als er registers zijn\nopgegeven in de expressie dan zullen de waarden in die registers gebruikt\nworden op het moment dat de checkpunt wordt onderzocht, niet op het moment\ndat de conditie is opgegeven.\nDe conditie kan gebruik maken van registers (A, X, Y, PC, SP and FL) en\nkan ze vergelijken (==, !=, <, >, <=, >=) met andere registers of constanten\nRegisters kunnen de registers van andere apparaten zijn; de manier van opgeven\nis door een geheugenruimte prefix (bijvoorbeeld: c:, 8:, 9:, 10:, 11:\nVoorbeelden: A == 0, X == Y, 8:X == X)\n"},
-/* pl */ {IDGS_MON_CONDITION_DESCRIPTION_PL, "Za ka¿dym razem, gdy analizowany jest punkt kontrolny, szacowany\njest stan. Je¶li jest oszacowany na 'prawda', punkt kontrolny jest\nuaktywniany. W innym razie jest ignorowany. Je¶li w wyra¿eniu\npodano rejestry, u¿ywane s± warto¶ci z czasu szacowania punktu\nkontrolnego, nie z czasu ustawienia stanu.Stan mo¿e korzystaæ z rejestrów (A, X, Y, PC, SP and FL) i porównywaæ je\n(==, !=, <, >, <=, >=) z innymi rejestrami lub sta³ymi. Rejestry mog± byæ\nrejestrami innych urz±dzeñ, co jest okre¶lone przedrostkiem przestrzeni\npamiêci (np. c:, 8:, 9:, 10:, 11)\nPrzyk³ady: A == 0, X == Y, 8:X == X)\n"},
-/* ru */ {IDGS_MON_CONDITION_DESCRIPTION_RU, "Each time the specified checkpoint is examined, the condition is\nevaluated.  If it evalutes to true, the checkpoint is activated.\nOtherwise, it is ignored.  If registers are specified in the expression,\nthe values used are those at the time the checkpoint is examined, not\nwhen the condition is set.\nThe condition can make use of registers (A, X, Y, PC, SP and FL) and\ncompare them (==, !=, <, >, <=, >=) again other registers or constants.\nRegisters can be the registers of other devices; this is denoted by\na memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\nExamples: A == 0, X == Y, 8:X == X)\n"},
-/* sv */ {IDGS_MON_CONDITION_DESCRIPTION_SV, "Villkoret utvärderas varje gång den givna kontrollpunkten\nundersöks. Om det utvärderas till sant aktiveras kontrollpunkten.\nI annat fall ignoreras den. Om uttrycket innehåller register\nanvänds de värden de har då kontrollpunkten utvärderas, inte\nnär villkoret sattes.\nVillkoret kan använda register (A, X, Y, PC, SP and FL) och\njämföra dem (==, !=, <, >, <=, >=) mot andra register eller\nkonstanter. Register kan vara register i andra enheter, detta\nanges som ett minnesområdesprefix (dvs., c:, 8:, 9:, 10:, 11:)\nExempel: A == 0, X == Y, 8:X == X)\n"},
-/* tr */ {IDGS_MON_CONDITION_DESCRIPTION_TR, "Her defasýnda belirtilmiþ bir kontrol noktasý incelendiðinde, koþul\ndeðerlendirilir.  Koþul doðru sonuç verirse, kontrol noktasý aktive edilir.\nAksi taktirde göz ardý edilir.  Eðer ifadede registerlar tanýmlanmýþsa,\nbu deðerler ifade tanýmlandýðýnda deðil kontrol noktasý incelendiðinde\nkullanýlýrlar.\nÝfadelerde (A, X, Y, PC, SP and FL) registerlarý kullanýlabilir ve\n(==, !=, <, >, <=, >=) opertatörleriyle diðer register ve sabit deðerlerle.\nkarþýlaþtýrýlabilirler. Registerlar baþka aygýtlarýn registerlarý da olabilir;\nbu bir bellek alaný ön ekiyle ifade edilir (yani, c:, 8:, 9:, 10:, 11:\nÖrnekler: A == 0, X == Y, 8:X == X)\n"},
+/* nl */ {IDGS_MON_CONDITION_DESCRIPTION_NL, "Elke keer de opgegeven checkpunt wordt onderzocht zal de conditie worden\ngeevalueerd. Als de evaluatie positief is dan zal de checkpunt geactiveerd\nworden, bij negatief zal er niets worden gedaan. Als er registers zijn\nopgegeven in de expressie dan zullen de waarden in die registers gebruikt\nworden op het moment dat de checkpunt wordt onderzocht, niet op het moment\ndat de conditie is opgegeven.\nDe conditie kan gebruik maken van registers (A, X, Y, PC, SP, FL en andere\nspecifieke registers (zie handleiding) en kan ze vergelijken\n (==, !=, <, >, <=, >=) met andere registers of constanten\nRegisters kunnen de registers van andere apparaten zijn; de manier van opgeven\nis door een geheugenruimte prefix (bijvoorbeeld: c:, 8:, 9:, 10:, 11:\nVoorbeelden: A == 0, X == Y, 8:X == X\n"},
+/* pl */ {IDGS_MON_CONDITION_DESCRIPTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MON_CONDITION_DESCRIPTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_CONDITION_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_CONDITION_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_DISABLE_DESCRIPTION,    N_("Disable checkpoint `checknum'. If no checkpoint is given all checkpoints will be disabled.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_DISABLE_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_DISABLE_DESCRIPTION_DE, "Deaktiviere Checkpoint `Checknummer'. Falls kein Checkpoint angegeben wird,\ndeaktiviere alle Checkpoints."},
+/* de */ {IDGS_MON_DISABLE_DESCRIPTION_DE, "Deaktiviere Checkpoint `Checknummer'. Falls kein Checkpoint angegeben wird,\nwerden alle Checkpoints deaktiviert."},
 /* es */ {IDGS_MON_DISABLE_DESCRIPTION_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_MON_DISABLE_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_DISABLE_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_DISABLE_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_DISABLE_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_DISABLE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_DISABLE_DESCRIPTION_NL, "Checkpunt 'checknum' uitschakelen. Als er geen checkpunt is gegeven dan worden alle checkpunten uitgeschakelt."},
 /* pl */ {IDGS_MON_DISABLE_DESCRIPTION_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MON_DISABLE_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_DISABLE_DESCRIPTION_SV, ""},  /* fuzzy */
@@ -2183,13 +2183,13 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_ENABLE_DESCRIPTION,    N_("Enable checkpoint `checknum'. If no checkpoint is given all checkpoints will be enabled.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_ENABLE_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_ENABLE_DESCRIPTION_DE, "Aktiviere Checkpoint `Checknummer'. Falls kein Checkpoint angegeben wird,\naktiviere alle Checkpoints."},  /* fuzzy */
+/* de */ {IDGS_MON_ENABLE_DESCRIPTION_DE, "Aktiviere Checkpoint `Checknummer'. Falls kein Checkpoint angegeben wird,\nwerden alle Checkpoints aktiviert."},
 /* es */ {IDGS_MON_ENABLE_DESCRIPTION_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_MON_ENABLE_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_ENABLE_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_ENABLE_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_ENABLE_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_ENABLE_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_ENABLE_DESCRIPTION_NL, "Activeer checkpunt 'checknum'. Als er geen checkpunt is gegeven dan worden alle checkpunter geactiveert"},
 /* pl */ {IDGS_MON_ENABLE_DESCRIPTION_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MON_ENABLE_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_ENABLE_DESCRIPTION_SV, ""},  /* fuzzy */
@@ -2371,7 +2371,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_SIDEFX_DESCRIPTION,    N_("Control how monitor generated reads affect memory locations that have\nread side-effects.  If the argument is 'on' then reads may cause\nside-effects.  If the argument is 'off' then reads don't cause\nside-effects.  If the argument is 'toggle' then the current mode is\nswitched.  No argument displays the current state.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_SIDEFX_DESCRIPTION_DA, "Bestemmer hvordan læsninger i monitoren påvirker hukommelsesområder,\nder har sedeeffekter ved læsning. Hvis argumentet er \"on\" kan læsninger\nforesage sideeffekter. Hvis argumentet er \"off\" vil læsninger ikke\nforesage sideeffekter. Hvis argumentet er \"toggle\" skiftes\nden nuværende tilstand. Hvis der ikke angives noget argument vises\nden nuværende tilstand."},
-/* de */ {IDGS_MON_SIDEFX_DESCRIPTION_DE, "Steuerung, wie die vom Monitor erzeugten Lesezugriffe die Speicherzellen\nmit Lese-Seiteneffekten betreffen.\nBei Argument \"on\" werden Lese-Seiteneffekte erzeugt.\nBei Argument \"off\" werden keine Lese-Seiteneffekte erzeugt.\nBei Argumenrt \"toggle\" wird das Verhalten vertauscht.\nBei keinem Argument wird das aktuelle Verhalten ausgegebene."},
+/* de */ {IDGS_MON_SIDEFX_DESCRIPTION_DE, "Steuerung, wie die vom Monitor erzeugten Lesezugriffe die Speicherzellen\nmit Lese-Seiteneffekten betreffen.\nBei Argument \"on\" werden Lese-Seiteneffekte erzeugt.\nBei Argument \"off\" werden keine Lese-Seiteneffekte erzeugt.\nBei Argument \"toggle\" wird das Verhalten vertauscht.\nBei keinem Argument wird das aktuelle Verhalten ausgegeben."},
 /* es */ {IDGS_MON_SIDEFX_DESCRIPTION_ES, "Controla como manejar las lecturas de localizaciones de memoria generadas por el\nmonitor que tengan efectos colaterales, Si el argumento es 'on' las lecturas causarán\nefectos colaterales. Si el argumento es 'off' no se causarán efectos colaterales. Si el\nargumento es 'intercambiar' se intervambiará el modo en uso. Sin argumentos, se \nmostrará el estado en uso."},
 /* fr */ {IDGS_MON_SIDEFX_DESCRIPTION_FR, "Contrôle comment les lectures du moniteur affecte les emplacements\nmémoire ayant des effets secondaires de lecture. Si l'argument est\n'on' alors les lectures peuvent causer des effets secondaires. Si\nl'argument est 'off' les lectures n'en causeront pas. Si l'argument\nest 'toggle' alors le mode actuel est commuté. Aucun argument ne peut\nafficher le mode en cours."},
 /* hu */ {IDGS_MON_SIDEFX_DESCRIPTION_HU, "Beállítja, hogyan hatnak a monitorprogram memória olvasásai azokra a\nmemóriahelyekre, amelyeknek olvasás-mellékhatásai vannak. Ha a paraméter\n'on', az olvasások okozhatnak mellékhatásokat. Ha a paraméter 'off', akkor pedig\nnem okoznak. Ha a paraméter 'toggle', az aktuális módot átkapcsolja.\nParaméter nélküli hívás kiírja az aktuális módot."},
@@ -3240,14 +3240,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG,    N_("Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk image)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DE, "Autstart Modus für PRG Dateien definieren (0: VirtualFS, 1:Inject, 2:\nDiskimage)"},
 /* es */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_NL, "Zet autostart modus voor PRG bestanden (0: VirtualFS, 1: Injecteer, 2: Disk bestand)"},
+/* pl */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_PL, "Okre¶l tryb autostartu z plików PRG (0: wirtualny system plików, 1: wstrzykniêcie, 2: obraz dysku)"},
 /* ru */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_TR, ""},  /* fuzzy */
@@ -3325,14 +3325,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_MACHINE_JAM_ACTION,    N_("Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_MACHINE_JAM_ACTION_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_MACHINE_JAM_ACTION_DE, "Setze Aktion für CPU JAM: (0: Nachfragen, 1: Fortfahren, 2: Monitor, 3: Reset, 4: Harter Reset, 5: Emulator beenden)"},
+/* de */ {IDCLS_SET_MACHINE_JAM_ACTION_DE, "Aktion bei CPU JAM: (0: Nachfrage, 1: Weitermachen, 2: Monitor, 3:\nReset, 4: Hard Reset, 5: Emulator beenden)"},
 /* es */ {IDCLS_SET_MACHINE_JAM_ACTION_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_MACHINE_JAM_ACTION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_MACHINE_JAM_ACTION_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_MACHINE_JAM_ACTION_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_MACHINE_JAM_ACTION_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_MACHINE_JAM_ACTION_NL, "Geef de actie op die gedaan moet worden bij een CPU JAM: (0: Vraag, 1: door gaan, 2: Monitor, 3: Reset, 4: Harde Reset, 5: Emulator uitschakelen)"},
-/* pl */ {IDCLS_SET_MACHINE_JAM_ACTION_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_MACHINE_JAM_ACTION_PL, "Ustal dzia³anie przy zatkaniu siê procesora: (0: zapytanie, 1: kontynuacja, 2: monitorowanie, 3: reset, 4: twardy reset, 5: wyj¶cie z emulatora)"},
 /* ru */ {IDCLS_SET_MACHINE_JAM_ACTION_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_MACHINE_JAM_ACTION_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_MACHINE_JAM_ACTION_TR, ""},  /* fuzzy */
@@ -3442,18 +3442,18 @@ translate_t string_table[] = {
    c64/c64_256k.c, pet/petreu.c, c64/plus256k.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_P_NAME,    N_("<Name>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_NAME_DA, "<Navn>"},
-/* de */ {IDCLS_P_NAME_DE, "<Name>"},
-/* es */ {IDCLS_P_NAME_ES, "<Nombre>"},
-/* fr */ {IDCLS_P_NAME_FR, "<Nom>"},
-/* hu */ {IDCLS_P_NAME_HU, "<Név>"},
-/* it */ {IDCLS_P_NAME_IT, "<Nome>"},
-/* ko */ {IDCLS_P_NAME_KO, "<ÀÌ¸§>"},
+/* da */ {IDCLS_P_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_NAME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_NAME_NL, "<Naam>"},
-/* pl */ {IDCLS_P_NAME_PL, "<Nazwa>"},
-/* ru */ {IDCLS_P_NAME_RU, "<¸Üï>"},
-/* sv */ {IDCLS_P_NAME_SV, "<Namn>"},
-/* tr */ {IDCLS_P_NAME_TR, "<Ýsim>"},
+/* pl */ {IDCLS_P_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_NAME_TR, ""},  /* fuzzy */
 #endif
 
 /* c128/c128-cmdline-options.c */
@@ -3579,14 +3579,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_CH_KERNEL_NAME,    N_("Specify name of Swiss Kernal ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CH_KERNEL_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_CH_KERNEL_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_CH_KERNEL_NAME_DE, "Name für schweizer Kernal ROM Datei definieren"},
 /* es */ {IDCLS_SPECIFY_CH_KERNEL_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_CH_KERNEL_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_CH_KERNEL_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_CH_KERNEL_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_CH_KERNEL_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_CH_KERNEL_NAME_NL, "Geef de naam van het Zwitse Kernal ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_CH_KERNEL_NAME_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_CH_KERNEL_NAME_PL, "Okre¶l nazwê obrazu szwajcarskiego ROM-u Kernala"},
 /* ru */ {IDCLS_SPECIFY_CH_KERNEL_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_CH_KERNEL_NAME_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_CH_KERNEL_NAME_TR, ""},  /* fuzzy */
@@ -4242,15 +4242,15 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_SCPU64_MODEL_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SET_SCPU64_MODEL_DE, "Wähle C64 Modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"},
-/* es */ {IDCLS_SET_SCPU64_MODEL_ES, "Seleccionar modelo C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"},
+/* es */ {IDCLS_SET_SCPU64_MODEL_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_SCPU64_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_SCPU64_MODEL_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_SCPU64_MODEL_IT, "Imposta modello C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"},
+/* it */ {IDCLS_SET_SCPU64_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_SCPU64_MODEL_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_SCPU64_MODEL_NL, "Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"},
 /* pl */ {IDCLS_SET_SCPU64_MODEL_PL, "Wybierz model C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"},
 /* ru */ {IDCLS_SET_SCPU64_MODEL_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_SCPU64_MODEL_SV, "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"},
+/* sv */ {IDCLS_SET_SCPU64_MODEL_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_SCPU64_MODEL_TR, ""},  /* fuzzy */
 #endif
 
@@ -4274,32 +4274,32 @@ translate_t string_table[] = {
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_C128_FULL_BANKS,    N_("Enable RAM banks 2 and 3")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_C128_FULL_BANKS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_C128_FULL_BANKS_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_ENABLE_C128_FULL_BANKS_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_C128_FULL_BANKS_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_C128_FULL_BANKS_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_C128_FULL_BANKS_IT, ""},  /* fuzzy */
+/* da */ {IDCLS_ENABLE_C128_FULL_BANKS_DA, "Aktivér RAM-bank 2 og 3"},
+/* de */ {IDCLS_ENABLE_C128_FULL_BANKS_DE, "RAM Bänke 2 und 3 aktivieren"},
+/* es */ {IDCLS_ENABLE_C128_FULL_BANKS_ES, "Permitir bancos 2 y 3"},
+/* fr */ {IDCLS_ENABLE_C128_FULL_BANKS_FR, "Activer les banques RAM 2 et 3"},
+/* hu */ {IDCLS_ENABLE_C128_FULL_BANKS_HU, "2-es és 3-as RAM bankok engedélyezése"},
+/* it */ {IDCLS_ENABLE_C128_FULL_BANKS_IT, "Attiva banchi RAM 2 e 3"},
 /* ko */ {IDCLS_ENABLE_C128_FULL_BANKS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_C128_FULL_BANKS_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_ENABLE_C128_FULL_BANKS_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_C128_FULL_BANKS_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_C128_FULL_BANKS_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_C128_FULL_BANKS_TR, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_C128_FULL_BANKS_NL, "Aktiveer RAM bank 2 en 3"},
+/* pl */ {IDCLS_ENABLE_C128_FULL_BANKS_PL, "W³±cz banki RAM 2 i 3"},
+/* ru */ {IDCLS_ENABLE_C128_FULL_BANKS_RU, "Enable RAM banks 2 and 3"},
+/* sv */ {IDCLS_ENABLE_C128_FULL_BANKS_SV, "Aktivera RAM-bank 2 och 3"},
+/* tr */ {IDCLS_ENABLE_C128_FULL_BANKS_TR, "RAM banklarý 2 ve 3'ü aktif et"},
 #endif
 
 /* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_C128_FULL_BANKS,    N_("Disable RAM banks 2 and 3")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_C128_FULL_BANKS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_C128_FULL_BANKS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_C128_FULL_BANKS_DE, "RAM Bänke 2 und 3 deaktivieren"},
 /* es */ {IDCLS_DISABLE_C128_FULL_BANKS_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_C128_FULL_BANKS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_C128_FULL_BANKS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_C128_FULL_BANKS_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_C128_FULL_BANKS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_C128_FULL_BANKS_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_DISABLE_C128_FULL_BANKS_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_C128_FULL_BANKS_NL, "RAM bank 2 en 3 uitschakelen"},
+/* pl */ {IDCLS_DISABLE_C128_FULL_BANKS_PL, "Wy³±cz banki RAM 2 i 3"},
 /* ru */ {IDCLS_DISABLE_C128_FULL_BANKS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_C128_FULL_BANKS_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_C128_FULL_BANKS_TR, ""},  /* fuzzy */
@@ -7094,14 +7094,14 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_VALUE_DA, "<værdi>"},
 /* de */ {IDCLS_P_VALUE_DE, "<Wert>"},
-/* es */ {IDCLS_P_VALUE_ES, "<valor>"},
+/* es */ {IDCLS_P_VALUE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_VALUE_FR, "<valeur>"},
-/* hu */ {IDCLS_P_VALUE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_VALUE_HU, "<érték>"},
 /* it */ {IDCLS_P_VALUE_IT, "<valore>"},
-/* ko */ {IDCLS_P_VALUE_KO, "<°¡Ä¡>"},
+/* ko */ {IDCLS_P_VALUE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_VALUE_NL, "<waarde>"},
-/* pl */ {IDCLS_P_VALUE_PL, "<warto¶æ>"},
-/* ru */ {IDCLS_P_VALUE_RU, "<value>"},
+/* pl */ {IDCLS_P_VALUE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_VALUE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_VALUE_SV, "<värde>"},
 /* tr */ {IDCLS_P_VALUE_TR, "<deðer>"},
 #endif
@@ -9533,7 +9533,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME,    N_("Specify name of printer driver for device #4")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DA, "Angiv navn på printer-driver for enhed #4"},
-/* de */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DE, "Name für Druckertreiber Gerät #4 definieren"},
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DE, "Name für Druckertreiber für Gerät #4 definieren"},
 /* es */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_ES, "Especificar nombre controlador impresora periférico #4"},
 /* fr */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_FR, "Spécifier le nom du pilote imprimante pour le périphérique #4"},
 /* hu */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_HU, "Adja meg a #4-es nyomtatómeghajtó nevét"},
@@ -9550,7 +9550,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME,    N_("Specify name of printer driver for device #5")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DA, "Angiv navn på printer-driver for enhed #5"},
-/* de */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DE, "Name für Druckertreiber Gerät #5 definieren"},
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DE, "Name für Druckertreiber für Gerät #5 definieren"},
 /* es */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_ES, "Especificar nombre controlador impresora periférico #5"},
 /* fr */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_FR, "Spécifier le nom du pilote imprimante pour le périphérique #5"},
 /* hu */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_HU, "Adja meg a #5-ös nyomtatómeghajtó nevét"},
@@ -9567,14 +9567,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME,    N_("Specify name of printer driver for device #6")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_DE, "Name für Druckertreiber für Gerät #6 definieren"},
 /* es */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_NL, "Geef de naam van het stuurprogramma voor apparaat #6"},
+/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_PL, "Okre¶l nazwê sterownika drukarki urz±dzenia #6"},
 /* ru */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_TR, ""},  /* fuzzy */
@@ -9635,14 +9635,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_DEVICE_TYPE_6,    N_("Set device type for device #6 (0: NONE, 1: FS, 2: REAL)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_DEVICE_TYPE_6_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_DEVICE_TYPE_6_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_6_DE, "Geräte Typ für Gerät #6 (0: NONE, 1: FS, 2: REAL) setzen"},
 /* es */ {IDCLS_SET_DEVICE_TYPE_6_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_DEVICE_TYPE_6_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_DEVICE_TYPE_6_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_6_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_6_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_DEVICE_TYPE_6_NL, "Zet apparaat soort voor apparaat #6 (0: GEEN, 1: FS, 2: ECHT)"},
-/* pl */ {IDCLS_SET_DEVICE_TYPE_6_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DEVICE_TYPE_6_PL, "Okre¶l typ urz±dzenia #6 (0: BRAK, 1: SYSTEM PLIKÓW, 2: RZECZYWISTE)"},
 /* ru */ {IDCLS_SET_DEVICE_TYPE_6_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_6_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_DEVICE_TYPE_6_TR, ""},  /* fuzzy */
@@ -9652,14 +9652,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_DEVICE_TYPE_7,    N_("Set device type for device #7 (0: NONE, 2: REAL)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_DEVICE_TYPE_7_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_DEVICE_TYPE_7_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_7_DE, "Geräte Typ für Gerät #7 (0: NONE, 2: REAL) setzen"},
 /* es */ {IDCLS_SET_DEVICE_TYPE_7_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_DEVICE_TYPE_7_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_DEVICE_TYPE_7_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_7_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_7_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_7_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_SET_DEVICE_TYPE_7_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_7_NL, "Zet apparaat soort voor apparaat #7 (0: GEEN, 2: ECHT)"},
+/* pl */ {IDCLS_SET_DEVICE_TYPE_7_PL, "Okre¶l typ urz±dzenia #7 (0: BRAK, 2: RZECZYWISTE)"},
 /* ru */ {IDCLS_SET_DEVICE_TYPE_7_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_7_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_DEVICE_TYPE_7_TR, ""},  /* fuzzy */
@@ -9771,7 +9771,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TEXT_DEVICE_4,    N_("Specify printer text output device for printer #4")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TEXT_DEVICE_4_DA, "Angiv printer tekst-uddata enhed for printer #4"},
-/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_4_DE, "Drucker #4 Gerät für Textausgabe definieren"},
+/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_4_DE, "Textausgabe Gerät für Drucker #4 definieren"},
 /* es */ {IDCLS_SPECIFY_TEXT_DEVICE_4_ES, "Especificar periférico salida impresión texto impresora #4"},
 /* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_4_FR, "Spécifier le périphérique de sortie texte pour l'imprimante 4"},
 /* hu */ {IDCLS_SPECIFY_TEXT_DEVICE_4_HU, ""},  /* fuzzy */
@@ -9788,7 +9788,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TEXT_DEVICE_5,    N_("Specify printer text output device for printer #5")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TEXT_DEVICE_5_DA, "Angiv printer tekst-uddata enhed for printer #5"},
-/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_5_DE, "Drucker #5 Gerät für Textausgabe definieren"},
+/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_5_DE, "Textausgabe Gerät für Drucker #5 definieren"},
 /* es */ {IDCLS_SPECIFY_TEXT_DEVICE_5_ES, "Especificar periférico salida impresión texto impresora #5"},
 /* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_5_FR, "Spécifier le périphérique de sortie texte pour l'imprimante 5"},
 /* hu */ {IDCLS_SPECIFY_TEXT_DEVICE_5_HU, ""},  /* fuzzy */
@@ -9805,14 +9805,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TEXT_DEVICE_6,    N_("Specify printer text output device for printer #6")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TEXT_DEVICE_6_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_6_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_6_DE, "Textausgabe Gerät für Drucker #6 definieren"},
 /* es */ {IDCLS_SPECIFY_TEXT_DEVICE_6_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_6_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_TEXT_DEVICE_6_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_TEXT_DEVICE_6_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_TEXT_DEVICE_6_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_TEXT_DEVICE_6_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_SPECIFY_TEXT_DEVICE_6_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_TEXT_DEVICE_6_NL, "Geef het tekst uitvoer apparaat voor printer #6"},
+/* pl */ {IDCLS_SPECIFY_TEXT_DEVICE_6_PL, "Okre¶l urz±dzenie wyj¶cia tekstowego drukarki #6"},
 /* ru */ {IDCLS_SPECIFY_TEXT_DEVICE_6_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_TEXT_DEVICE_6_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_TEXT_DEVICE_6_TR, ""},  /* fuzzy */
@@ -9822,7 +9822,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_TEXT_USERPORT,    N_("Specify printer text output device for userport printer")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TEXT_USERPORT_DA, "Angiv printer tekst-uddata enhed for brugerports-printer"},
-/* de */ {IDCLS_SPECIFY_TEXT_USERPORT_DE, "IEC Userport Drucker Gerät für Textausgabe definieren"},
+/* de */ {IDCLS_SPECIFY_TEXT_USERPORT_DE, "Textausgabe Gerät für Userport Drucker definieren"},
 /* es */ {IDCLS_SPECIFY_TEXT_USERPORT_ES, "Especificar periférico de salida para imprimir texto impresora puerto usuario"},
 /* fr */ {IDCLS_SPECIFY_TEXT_USERPORT_FR, "Spécifier le périphérique de sortie text pour l'imprimante userport"},
 /* hu */ {IDCLS_SPECIFY_TEXT_USERPORT_HU, "Adja meg a szövegnyomtató eszközt a userport nyomtatóhoz"},
@@ -10096,14 +10096,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_IEC_6,    N_("Enable IEC device emulation for device #6")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_IEC_6_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_IEC_6_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IEC_6_DE, "IEC Geräte Emulation für Gerät #6 aktivieren"},
 /* es */ {IDCLS_ENABLE_IEC_6_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_IEC_6_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_IEC_6_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_IEC_6_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_IEC_6_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_IEC_6_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_ENABLE_IEC_6_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IEC_6_NL, "Activeer IEC apparaat emulatie voor apparaat #6"},
+/* pl */ {IDCLS_ENABLE_IEC_6_PL, "W³±cz emulacjê IEC urz±dzenia #6"},
 /* ru */ {IDCLS_ENABLE_IEC_6_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_IEC_6_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ENABLE_IEC_6_TR, ""},  /* fuzzy */
@@ -10113,14 +10113,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_IEC_6,    N_("Disable IEC device emulation for device #6")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_IEC_6_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_IEC_6_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IEC_6_DE, "IEC Geräte Emulation für Gerät #6 deaktivieren"},
 /* es */ {IDCLS_DISABLE_IEC_6_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_IEC_6_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_IEC_6_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_IEC_6_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_IEC_6_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_IEC_6_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_DISABLE_IEC_6_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IEC_6_NL, "IEC apparaat emulatie voor apparaat #6 uitschakelen"},
+/* pl */ {IDCLS_DISABLE_IEC_6_PL, "Wy³±cz emulacjê urz±dzenia IEC dla urz±dzenia #6"},
 /* ru */ {IDCLS_DISABLE_IEC_6_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_IEC_6_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_IEC_6_TR, ""},  /* fuzzy */
@@ -10130,14 +10130,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_IEC_7,    N_("Enable IEC device emulation for device #7")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_IEC_7_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_IEC_7_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IEC_7_DE, "IEC Geräte Emulation für Gerät #7 aktivieren"},
 /* es */ {IDCLS_ENABLE_IEC_7_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_IEC_7_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_IEC_7_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_IEC_7_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_IEC_7_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_IEC_7_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_ENABLE_IEC_7_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IEC_7_NL, "Activeer IEC apparaat emulatie voor apparaat #7"},
+/* pl */ {IDCLS_ENABLE_IEC_7_PL, "W³±cz emulacjê IEC urz±dzenia #7"},
 /* ru */ {IDCLS_ENABLE_IEC_7_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_IEC_7_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ENABLE_IEC_7_TR, ""},  /* fuzzy */
@@ -10147,14 +10147,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_IEC_7,    N_("Disable IEC device emulation for device #7")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_IEC_7_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_IEC_7_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IEC_7_DE, "IEC Geräte Emulation für Gerät #7 deaktivieren"},
 /* es */ {IDCLS_DISABLE_IEC_7_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_IEC_7_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_IEC_7_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_IEC_7_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_IEC_7_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_IEC_7_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_DISABLE_IEC_7_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IEC_7_NL, "IEC apparaat emulatie voor apparaat #7 uitschakelen"},
+/* pl */ {IDCLS_DISABLE_IEC_7_PL, "Wy³±cz emulacjê urz±dzenia IEC dla urz±dzenia #7"},
 /* ru */ {IDCLS_DISABLE_IEC_7_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_IEC_7_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_IEC_7_TR, ""},  /* fuzzy */
@@ -11466,14 +11466,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_P_SECONDS,    N_("<Seconds>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_SECONDS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_P_SECONDS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_P_SECONDS_DE, "<Sekunden>"},
 /* es */ {IDCLS_P_SECONDS_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_SECONDS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_SECONDS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_SECONDS_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_P_SECONDS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_SECONDS_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_P_SECONDS_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_SECONDS_NL, "<Seconded>"},
+/* pl */ {IDCLS_P_SECONDS_PL, "<sekund>"},
 /* ru */ {IDCLS_P_SECONDS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_SECONDS_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_P_SECONDS_TR, ""},  /* fuzzy */
@@ -12277,7 +12277,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_LIMIT_CYCLES_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_LIMIT_CYCLES_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_LIMIT_CYCLES_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_LIMIT_CYCLES_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_LIMIT_CYCLES_NL, "Geef het aantal uit te voeren cycli voor het afsluiten met een fout"},
 /* pl */ {IDCLS_LIMIT_CYCLES_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_LIMIT_CYCLES_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_LIMIT_CYCLES_SV, ""},  /* fuzzy */
@@ -12441,14 +12441,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_KEYBUF_DELAY,    N_("Set additional keyboard buffer delay (0: use default)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_KEYBUF_DELAY_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_KEYBUF_DELAY_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_KEYBUF_DELAY_DE, "Setze zusätzliche Tastaturbuffer Verzögerung (0: benutze Standard)"},
 /* es */ {IDCLS_SET_KEYBUF_DELAY_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_KEYBUF_DELAY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_KEYBUF_DELAY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_KEYBUF_DELAY_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_KEYBUF_DELAY_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_KEYBUF_DELAY_NL, "Zet extra toetsenbord buffer vertraging (0: gebruik de standaard waarde)"},
-/* pl */ {IDCLS_SET_KEYBUF_DELAY_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_KEYBUF_DELAY_PL, "Okre¶l dodatkowe opó¼nienie bufora klawiatury (0: domy¶lne)"},
 /* ru */ {IDCLS_SET_KEYBUF_DELAY_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_KEYBUF_DELAY_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_KEYBUF_DELAY_TR, ""},  /* fuzzy */

@@ -159,8 +159,8 @@ BEGIN
   IDS_MI_NEXT_TUNE        "Næste sang"
   IDS_MI_PREVIOUS_TUNE    "Forrige sang"
   IDS_MI_PSID_OVERRIDE    "Overstyr PSID-indstillinger"
-  IDS_MP_TUNES            "Tunes"
-  IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_TUNES            "Numre"
+  IDS_MP_SOUND_RECORDING  "Lydoptagelse"
 END
 
 
@@ -177,7 +177,7 @@ BEGIN
   IDS_MI_PREVIOUS_TUNE    "Vorheriger Titel "
   IDS_MI_PSID_OVERRIDE    "PSID Einstellungen ignorieren"
   IDS_MP_TUNES            "Tunes"
-  IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_SOUND_RECORDING  "Tonaufnahme"
 END
 
 
@@ -193,8 +193,8 @@ BEGIN
   IDS_MI_NEXT_TUNE        "Siguiente melodia"
   IDS_MI_PREVIOUS_TUNE    "Melodia previa"
   IDS_MI_PSID_OVERRIDE    "No utilizar ajustes PSID"
-  IDS_MP_TUNES            "Tunes"
-  IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_TUNES            "Melodias"
+  IDS_MP_SOUND_RECORDING  "Grabación sonido"
 END
 
 
@@ -210,8 +210,8 @@ BEGIN
   IDS_MI_NEXT_TUNE        "Clip suivant"
   IDS_MI_PREVIOUS_TUNE    "Clip précédent"
   IDS_MI_PSID_OVERRIDE    "Écraser les paramètres PSID"
-  IDS_MP_TUNES            "Tunes"
-  IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_TUNES            "Tons"
+  IDS_MP_SOUND_RECORDING  "Enregistrement du son"
 END
 
 
@@ -230,7 +230,7 @@ BEGIN
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
   IDS_MI_PSID_OVERRIDE    "Override PSID settings"
-  IDS_MP_TUNES            "Tunes"
+  IDS_MP_TUNES            "Hangzatok"
   IDS_MP_SOUND_RECORDING  "Sound recording"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -250,8 +250,8 @@ BEGIN
   IDS_MI_NEXT_TUNE        "Melodia successiva"
   IDS_MI_PREVIOUS_TUNE    "Melodia precedente"
   IDS_MI_PSID_OVERRIDE    "Sovrascrivi impostazioni PSID"
-  IDS_MP_TUNES            "Tunes"
-  IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_TUNES            "Melodie"
+  IDS_MP_SOUND_RECORDING  "Registrazione audio"
 END
 
 
@@ -270,7 +270,7 @@ BEGIN
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
   IDS_MI_PSID_OVERRIDE    "PSID ¼ÂÆÃ ¿À¹ö¶óÀÌµå ÇÏ±â"
-  IDS_MP_TUNES            "Tunes"
+  IDS_MP_TUNES            "À½"
   IDS_MP_SOUND_RECORDING  "Sound recording"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -290,8 +290,8 @@ BEGIN
   IDS_MI_NEXT_TUNE        "Volgend deuntje"
   IDS_MI_PREVIOUS_TUNE    "Vorig deuntje"
   IDS_MI_PSID_OVERRIDE    "Overschrijf PSID instellingen"
-  IDS_MP_TUNES            "Tunes"
-  IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_TUNES            "Deuntjes"
+  IDS_MP_SOUND_RECORDING  "Geluidsopname gestart"
 END
 
 
@@ -310,8 +310,8 @@ BEGIN
   IDS_MI_NEXT_TUNE        "Nastêpny ton"
   IDS_MI_PREVIOUS_TUNE    "Poprzedni ton"
   IDS_MI_PSID_OVERRIDE    "Nadpisz ustawienia PSID"
-  IDS_MP_TUNES            "Tunes"
-  IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_TUNES            "Tony"
+  IDS_MP_SOUND_RECORDING  "Zapis d¼wiêku"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -334,7 +334,7 @@ BEGIN
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
   IDS_MI_PSID_OVERRIDE    "Override PSID settings"
   IDS_MP_TUNES            "Tunes"
-  IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_SOUND_RECORDING  "·ÐßØáì ×ÒãÚÐ"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -353,8 +353,8 @@ BEGIN
   IDS_MI_NEXT_TUNE        "Nästa låt"
   IDS_MI_PREVIOUS_TUNE    "Föregående låt"
   IDS_MI_PSID_OVERRIDE    "Överskugga PSID-inställningar"
-  IDS_MP_TUNES            "Tunes"
-  IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_TUNES            "Låtar"
+  IDS_MP_SOUND_RECORDING  "Ljudinspelning"
 END
 
 
@@ -373,8 +373,8 @@ BEGIN
   IDS_MI_NEXT_TUNE        "Sonraki þarký"
   IDS_MI_PREVIOUS_TUNE    "Önceki þarký"
   IDS_MI_PSID_OVERRIDE    "PSID ayarlarýný geçersiz kýl"
-  IDS_MP_TUNES            "Tunes"
-  IDS_MP_SOUND_RECORDING  "Sound recording"
+  IDS_MP_TUNES            "Parçalar"
+  IDS_MP_SOUND_RECORDING  "Ses kaydý"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
