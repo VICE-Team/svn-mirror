@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-05 19:56-0700\n"
-"PO-Revision-Date: 2014-09-27 11:19+0200\n"
+"PO-Revision-Date: 2014-10-06 21:27+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -33,7 +33,6 @@ msgstr "Gerät für extra Joystick Port 2 definieren"
 #: src/arch/unix/mididrv.c:672 src/arch/unix/mididrv.c:677
 #: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
 #: src/arch/unix/macosx/mididrv.c:130
-#, fuzzy
 msgid "<Name>"
 msgstr "<Name>"
 
@@ -46,9 +45,8 @@ msgid "Specify MIDI-Out device"
 msgstr "MIDI-Out Gerät spezifieren"
 
 #: src/arch/unix/mididrv.c:683
-#, fuzzy
 msgid "<Driver>"
-msgstr "Treiber"
+msgstr "<Treiber>"
 
 #: src/arch/unix/mididrv.c:683
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
@@ -56,9 +54,8 @@ msgstr "MIDI Treiber wählen (0 = OSS, 1 = ALSA)"
 
 #: src/arch/unix/rs232.c:195 src/arch/unix/rs232.c:200
 #: src/arch/unix/rs232.c:205 src/arch/unix/rs232.c:210
-#, fuzzy
 msgid "<baudrate>"
-msgstr "Baudrate"
+msgstr "<Baudrate>"
 
 #: src/arch/unix/rs232.c:195
 msgid "Specify baudrate of first RS232 device"
@@ -73,9 +70,8 @@ msgid "Specify baudrate of third RS232 device"
 msgstr "Baudrate für drittes RS232 Gerät definieren"
 
 #: src/arch/unix/rs232.c:210
-#, fuzzy
 msgid "Specify baudrate of fourth RS232 device"
-msgstr "Baudrate für erstes RS232 Gerät definieren"
+msgstr "Baudrate für viertes RS232 Gerät definieren"
 
 #: src/arch/unix/gui/c128ui.c:273 src/arch/unix/gui/c64scui.c:390
 #: src/arch/unix/gui/c64ui.c:451 src/arch/unix/gui/vsidui.c:236
@@ -4701,7 +4697,6 @@ msgstr ""
 "%s"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:42
-#, fuzzy
 msgid "<Command>"
 msgstr "<Kommando>"
 
@@ -4860,18 +4855,16 @@ msgid "Never use shared memory (slower)"
 msgstr "Shared Memory nicht benutzen (langsamer)"
 
 #: src/arch/unix/x11/xaw/x11video.c:280
-#, fuzzy
 msgid "<fourcc>"
-msgstr "fourcc"
+msgstr "<fourcc>"
 
 #: src/arch/unix/x11/xaw/x11video.c:280
 msgid "Request YUV FOURCC format"
 msgstr "YUV FOURCC Format"
 
 #: src/arch/unix/x11/xaw/x11video.c:285
-#, fuzzy
 msgid "<Aspect ratio>"
-msgstr "Seitenverhältnis"
+msgstr "<Seitenverhältnis>"
 
 #: src/arch/unix/x11/xaw/x11video.c:285
 msgid "Set aspect ratio (0.5 - 2.0)"
@@ -4991,9 +4984,8 @@ msgid "Enable flicker fixing in sync draw"
 msgstr "Flimmerfix bei Bildschirmsynchronisation aktivieren"
 
 #: src/arch/unix/macosx/cocoa/video.m:180
-#, fuzzy
 msgid "Disable flicker fixing in sync draw"
-msgstr "Flimmerfix bei Bildschirmsynchronisation aktivieren"
+msgstr "Flimmerfix bei Bildschirmsynchronisation deaktivieren"
 
 #: src/arch/win32/res.rc.po.c:104 src/arch/win32/res.rc.po.c:1369
 msgid "View"
@@ -5713,7 +5705,6 @@ msgid "Set input device for extra joystick #2"
 msgstr "Input Gerät für extra Joystick #2 definieren"
 
 #: src/arch/win32/res.rc.po.c:1111
-#, fuzzy
 msgid "Use all CPUs on SMP systems"
 msgstr "Alle SMP CPUs benutzen"
 
@@ -8550,11 +8541,9 @@ msgid "SIDcart Joy Fire"
 msgstr "SIDcart Joystick Feuer"
 
 #: src/arch/amigaos/intl_text.c.po.c:7735
-#, fuzzy
 msgid ""
 "Joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-msgstr ""
-"Joystick #1 Emulation: (0:Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"
+msgstr "Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:7749
 msgid ""
@@ -8564,7 +8553,6 @@ msgstr ""
 "AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:7763
-#, fuzzy
 msgid ""
 "Extra joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
@@ -12034,6 +12022,8 @@ msgstr "Konfigurationsdateiname definieren"
 #: src/translate_text.c.po.c:12185
 msgid "Specify number of cycles to run before quitting with an error."
 msgstr ""
+"Definiere die Zyklenanzahl, welche vor dem Beenden der Emulation noch\n"
+"ausgeführt wird."
 
 #: src/translate_text.c.po.c:12202
 msgid "Attach and autostart tape/disk image <name>"
