@@ -249,7 +249,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
 
         ctrldata[i].scale = ctrls[i].scale;
         ctrldata[i].offset = ctrls[i].offset;
-        ctrldata[i].adj = adj = GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 40100, 1, 100, 100));
+        ctrldata[i].adj = adj = GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 40100, ctrls[i].scale, ctrls[i].scale * 10, 100));
 
         if ((ctrls[i].vsid == 0) && (machine_class == VICE_MACHINE_VSID)) {
             v = 0;
