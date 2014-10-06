@@ -40,6 +40,8 @@
 #include "cmdline.h"
 #include "fullscreen.h"
 #include "fullscreenarch.h"
+#include "joy.h"
+#include "joystick.h"
 #include "lib.h"
 #include "lightpendrv.h"
 #include "log.h"
@@ -344,6 +346,13 @@ static const resource_int_t resources_int[] = {
 int video_arch_resources_init(void)
 {
     DBG(("%s", __func__));
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        if (joystick_arch_init_resources() < 0) {
+            return -1;
+        }
+    }
+
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
@@ -354,6 +363,11 @@ int video_arch_resources_init(void)
 void video_arch_resources_shutdown(void)
 {
     DBG(("%s", __func__));
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        joystick_arch_resources_shutdown();
+    }
+
 #ifdef HAVE_HWSCALE
     lib_free(aspect_ratio_s);
 #endif
@@ -401,6 +415,13 @@ static const cmdline_option_t cmdline_options[] = {
 int video_cmdline_options_init(void)
 {
     DBG(("%s", __func__));
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        if (joystick_cmdline_options_init() < 0) {
+            return -1;
+        }
+    }
+
     return cmdline_register_options(cmdline_options);
 }
 
