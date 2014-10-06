@@ -14,7 +14,11 @@ HL	16-bit accumulator/address register
 SP	16-bit stack pointer
 PC	16-bit program counter
 IX	16-bit index or base register for 8-bit immediate offsets
+IXL	8-bit low byte index
+IXH	8-bit high byte index
 IY	16-bit index or base register for 8-bit immediate offsets
+IYL	8-bit low byte index
+IYH	8-bit high byte index
 I	8-bit interrupt vector base register
 R	8-bit DRAM refresh counter
 AF'	alternate (or shadow) accumulator and flags (toggled in and out with EX AF,AF')
