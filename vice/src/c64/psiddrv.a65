@@ -158,6 +158,8 @@ doinit	lda #$2f
 	jsr getmap
 	sta $01
 	pla
+	tax
+	tay
 	jsr init
 
 	lda playvec+1
