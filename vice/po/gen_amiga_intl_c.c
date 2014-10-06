@@ -42,19 +42,6 @@
 #define FOUND_EOF            3
 #define FOUND_EMPTY_LINE     4
 
-char *vice_strdup(const char *str)
-{
-    char *copy;
-
-    if (str != NULL) {
-        copy = malloc(strlen(str) + 1);
-    }
-    if (copy != NULL) {
-        return strcpy(copy, str);
-    }
-    return NULL;
-}
-
 static char line_buffer[4096];
 
 static FILE *infile = NULL;
@@ -312,13 +299,13 @@ int main(int argc, char *argv[])
                 i++;
             }
             line_buffer[i] = 0;
-            id_string = vice_strdup(line_buffer + id_start);
-            text_string = vice_strdup(line_buffer + text_start);
+            id_string = strdup(line_buffer + id_start);
+            text_string = strdup(line_buffer + text_start);
             fprintf(outfile, "/* en */ {%s,    \"", line_buffer + id_start);
             write_converted_text(text_string, NULL, NULL);
             fprintf(outfile, "\" },\n/* da */ {%s_DA, \"", id_string);
 
-            text_string_orig = vice_strdup(text_string);
+            text_string_orig = strdup(text_string);
 
             prefix_string = prefix_test(text_string);
             trail_string = trailtest(text_string);
