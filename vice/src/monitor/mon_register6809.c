@@ -51,17 +51,26 @@
 
 #define REG_LIST_6809_SIZE (11 + 1)
 static mon_reg_list_t mon_reg_list_6809[REG_LIST_6809_SIZE] = {
-    {       "X",     e_X, 16,                      0, 0, 0 },
-    {       "Y",     e_Y, 16,                      0, 0, 0 },
-    {       "U",     e_U, 16,                      0, 0, 0 },
-    {       "S",    e_SP, 16,                      0, 0, 0 },
-    {      "PC",    e_PC, 16,                      0, 0, 0 },
-    {      "DP",    e_DP,  8,                      0, 0, 0 },
-    {      "CC", e_FLAGS,  8,                      0, 0, 0 },
-    {"EFHINZVC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, 0 },
-    {       "A",     e_A,  8,                      0, 0, 0 },
-    {       "B",     e_B,  8,                      0, 0, 0 },
-    {       "D",     e_D, 16,                      0, 0, 0 },
+    {       "X",     e_X, 16,                     0, 0, 0 },
+    {       "Y",     e_Y, 16,                     0, 0, 0 },
+    {       "U",     e_U, 16,                     0, 0, 0 },
+    {       "S",    e_SP, 16,                     0, 0, 0 },
+    {      "PC",    e_PC, 16,                     0, 0, 0 },
+    {      "DP",    e_DP,  8,                     0, 0, 0 },
+    {      "CC", e_FLAGS,  8,                     0, 0, 0 },
+    {"EFHINZVC", e_FLAGS,  8, MON_REGISTER_IS_FLAGS, 0, 0 },
+    {       "A",     e_A,  8,                     0, 0, 0 },
+    {       "B",     e_B,  8,                     0, 0, 0 },
+    {       "D",     e_D, 16,                     0, 0, 0 },
+#if 0
+    /* 6309 specific registers, for future support */
+    {       "E",     e_E,  8,                     0, 0, 0 },
+    {       "F",     e_F,  8,                     0, 0, 0 },
+    {       "W",     e_W, 16,                     0, 0, 0 },
+    {       "Q",     e_W, 32,                     0, 0, 0 },
+    {       "V",     e_V, 16,                     0, 0, 0 },
+    {       "MD",   e_MD,  8, MON_REGISTER_IS_FLAGS, 0, 0 },
+#endif
     { NULL, -1,  0,  0, 0, 0 }
 };
 
@@ -98,6 +107,21 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
             return H6809_REGS_GET_B(reg_ptr);
         case e_D:
             return H6809_REGS_GET_D(reg_ptr);
+#if 0
+        /* 6309 specific registers, for future support */
+        case e_E:
+            return H6809_REGS_GET_E(reg_ptr);
+        case e_F:
+            return H6809_REGS_GET_F(reg_ptr);
+        case e_W:
+            return H6809_REGS_GET_W(reg_ptr);
+        case e_Q:
+            return H6809_REGS_GET_Q(reg_ptr);
+        case e_V:
+            return H6809_REGS_GET_V(reg_ptr);
+        case e_MD:
+            return H6809_REGS_GET_MD(reg_ptr);
+#endif
         default:
             log_error(LOG_ERR, "Unknown register!");
     }
@@ -147,6 +171,27 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
         case e_D:
             H6809_REGS_SET_D(reg_ptr, val);
             break;
+#if 0
+        /* 6309 specific registers, for future support */
+        case e_E:
+            H6809_REGS_SET_E(reg_ptr, (BYTE)val);
+            break;
+        case e_F:
+            H6809_REGS_SET_F(reg_ptr, (BYTE)val);
+            break;
+        case e_W:
+            H6809_REGS_SET_W(reg_ptr, (WORD)val);
+            break;
+        case e_Q:
+            H6809_REGS_SET_Q(reg_ptr, (DWORD)val);
+            break;
+        case e_V:
+            H6809_REGS_SET_V(reg_ptr, (WORD)val);
+            break;
+        case e_MD:
+            H6809_REGS_SET_MD(reg_ptr, (BYTE)val);
+            break;
+#endif
         default:
             log_error(LOG_ERR, "Unknown register!");
             return;

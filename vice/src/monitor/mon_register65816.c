@@ -65,7 +65,7 @@ static mon_reg_list_t mon_reg_list_65816[REG_LIST_65816_SIZE] = {
     {      "FL", e_FLAGS,  8,                      0, 0, 0 },
     {"NV-BDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, 0 },
     {"NVMXDIZC", e_FLAGS,  8,  MON_REGISTER_IS_FLAGS, 0, 0 },
-    {       "E",  e_EMUL,  1,                      0, 0, 0 },
+    {       "E",  e_E,     1,                      0, 0, 0 },
     { NULL, -1,  0,  0, 0, 0 }
 };
 
@@ -102,7 +102,7 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
         return WDC65816_REGS_GET_DBR(reg_ptr);
       case e_DPR:
         return WDC65816_REGS_GET_DPR(reg_ptr);
-      case e_EMUL:
+      case e_E:
         return WDC65816_REGS_GET_EMUL(reg_ptr);
       case e_FLAGS:
           return WDC65816_REGS_GET_FLAGS(reg_ptr)
@@ -164,7 +164,7 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
       case e_FLAGS:
         WDC65816_REGS_SET_STATUS(reg_ptr, (BYTE)val);
         break;
-      case e_EMUL:
+      case e_E:
         WDC65816_REGS_SET_EMUL(reg_ptr, (BYTE)val);
         break;
       default:
@@ -196,7 +196,7 @@ static void mon_register_print(int mem)
         mon_interfaces[mem]->get_line_cycle(&line, &cycle, &half_cycle);
     }
 
-    if (mon_register_get_val(mem, e_EMUL)) {
+    if (mon_register_get_val(mem, e_E)) {
         mon_out("  PB ADDR A  B  X  Y  SP DPRE DB NV-BDIZC E");
         if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
             mon_out(" LIN CYC");

@@ -49,22 +49,35 @@
  *       same with the other CPUs and finally move common code to mon_register.c
  */
 
-#define REG_LIST_Z80_SIZE (14 + 1)
+#define REG_LIST_Z80_SIZE (27 + 1)
 static mon_reg_list_t mon_reg_list_z80[REG_LIST_Z80_SIZE] = {
-    {  "PC",  e_PC, 16, 0, 0, 0 },
-    {  "AF",  e_AF, 16, 0, 0, 0 },
-    {  "BC",  e_BC, 16, 0, 0, 0 },
-    {  "DE",  e_DE, 16, 0, 0, 0 },
-    {  "HL",  e_HL, 16, 0, 0, 0 },
-    {  "IX",  e_IX, 16, 0, 0, 0 },
-    {  "IY",  e_IY, 16, 0, 0, 0 },
-    {  "SP",  e_SP, 16, 0, 0, 0 },
-    {   "I",   e_I,  8, 0, 0, 0 },
-    {   "R",   e_R,  8, 0, 0, 0 },
-    { "AF'", e_AF2, 16, 0, 0, 0 },
-    { "BC'", e_BC2, 16, 0, 0, 0 },
-    { "DE'", e_DE2, 16, 0, 0, 0 },
-    { "HL'", e_HL2, 16, 0, 0, 0 },
+    {       "PC",    e_PC, 16,                     0, 0, 0 },
+    {        "A",     e_A,  8,                     0, 0, 0 },
+    {       "AF",    e_AF, 16,                     0, 0, 0 },
+    {        "B",     e_B,  8,                     0, 0, 0 },
+    {        "C",     e_C,  8,                     0, 0, 0 },
+    {       "BC",    e_BC, 16,                     0, 0, 0 },
+    {        "D",     e_D,  8,                     0, 0, 0 },
+    {        "E",     e_E,  8,                     0, 0, 0 },
+    {       "DE",    e_DE, 16,                     0, 0, 0 },
+    {        "H",     e_H,  8,                     0, 0, 0 },
+    {        "L",     e_L,  8,                     0, 0, 0 },
+    {       "HL",    e_HL, 16,                     0, 0, 0 },
+    {      "IXH",   e_IXH,  8,                     0, 0, 0 },
+    {      "IXL",   e_IXL,  8,                     0, 0, 0 },
+    {      "IX",     e_IX, 16,                     0, 0, 0 },
+    {      "IYH",   e_IYH,  8,                     0, 0, 0 },
+    {      "IYL",   e_IYL,  8,                     0, 0, 0 },
+    {       "IY",    e_IY, 16,                     0, 0, 0 },
+    {       "SP",    e_SP, 16,                     0, 0, 0 },
+    {        "I",     e_I,  8,                     0, 0, 0 },
+    {        "R",     e_R,  8,                     0, 0, 0 },
+    {      "AF'",   e_AF2, 16,                     0, 0, 0 },
+    {      "BC'",   e_BC2, 16,                     0, 0, 0 },
+    {      "DE'",   e_DE2, 16,                     0, 0, 0 },
+    {      "HL'",   e_HL2, 16,                     0, 0, 0 },
+    {      "FL",  e_FLAGS,  8,                     0, 0, 0 },
+    { "SZIH-P-C", e_FLAGS,  8, MON_REGISTER_IS_FLAGS, 0, 0 },
     { NULL, -1,  0,  0, 0, 0 }
 };
 
@@ -81,16 +94,40 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
     reg_ptr = mon_interfaces[mem]->z80_cpu_regs;
 
     switch (reg_id) {
+        case e_A:
+            return Z80_REGS_GET_A(reg_ptr);
+        case e_FLAGS:
+            return Z80_REGS_GET_FLAGS(reg_ptr);
         case e_AF:
             return Z80_REGS_GET_AF(reg_ptr);
+        case e_B:
+            return Z80_REGS_GET_B(reg_ptr);
+        case e_C:
+            return Z80_REGS_GET_C(reg_ptr);
         case e_BC:
             return Z80_REGS_GET_BC(reg_ptr);
+        case e_D:
+            return Z80_REGS_GET_D(reg_ptr);
+        case e_E:
+            return Z80_REGS_GET_E(reg_ptr);
         case e_DE:
             return Z80_REGS_GET_DE(reg_ptr);
+        case e_H:
+            return Z80_REGS_GET_H(reg_ptr);
+        case e_L:
+            return Z80_REGS_GET_L(reg_ptr);
         case e_HL:
             return Z80_REGS_GET_HL(reg_ptr);
+        case e_IXH:
+            return Z80_REGS_GET_IXH(reg_ptr);
+        case e_IXL:
+            return Z80_REGS_GET_IXL(reg_ptr);
         case e_IX:
             return Z80_REGS_GET_IX(reg_ptr);
+        case e_IYH:
+            return Z80_REGS_GET_IYH(reg_ptr);
+        case e_IYL:
+            return Z80_REGS_GET_IYL(reg_ptr);
         case e_IY:
             return Z80_REGS_GET_IY(reg_ptr);
         case e_SP:
@@ -128,20 +165,56 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
     reg_ptr = mon_interfaces[mem]->z80_cpu_regs;
 
     switch (reg_id) {
+        case e_A:
+            Z80_REGS_SET_A(reg_ptr, val);
+            break;
+        case e_FLAGS:
+            Z80_REGS_SET_FLAGS(reg_ptr, val);
+            break;
         case e_AF:
             Z80_REGS_SET_AF(reg_ptr, val);
+            break;
+        case e_B:
+            Z80_REGS_SET_B(reg_ptr, val);
+            break;
+        case e_C:
+            Z80_REGS_SET_C(reg_ptr, val);
             break;
         case e_BC:
             Z80_REGS_SET_BC(reg_ptr, val);
             break;
+        case e_D:
+            Z80_REGS_SET_D(reg_ptr, val);
+            break;
+        case e_E:
+            Z80_REGS_SET_E(reg_ptr, val);
+            break;
         case e_DE:
             Z80_REGS_SET_DE(reg_ptr, val);
+            break;
+        case e_H:
+            Z80_REGS_SET_H(reg_ptr, val);
+            break;
+        case e_L:
+            Z80_REGS_SET_L(reg_ptr, val);
             break;
         case e_HL:
             Z80_REGS_SET_HL(reg_ptr, val);
             break;
+        case e_IXH:
+            Z80_REGS_SET_IXH(reg_ptr, val);
+            break;
+        case e_IXL:
+            Z80_REGS_SET_IXL(reg_ptr, val);
+            break;
         case e_IX:
             Z80_REGS_SET_IX(reg_ptr, val);
+            break;
+        case e_IYH:
+            Z80_REGS_SET_IYH(reg_ptr, val);
+            break;
+        case e_IYL:
+            Z80_REGS_SET_IYL(reg_ptr, val);
             break;
         case e_IY:
             Z80_REGS_SET_IY(reg_ptr, val);

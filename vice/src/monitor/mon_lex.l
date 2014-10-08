@@ -342,52 +342,66 @@ if		{ BEGIN (COND_MODE); return IF; }
 
  /* see monitor.c and montypes.h for the commented list */
 <REG_ASGN>{
-        a   { yylval.i = e_A; return MON_REGISTER; }
-        x   { yylval.i = e_X; return MON_REGISTER; }
-        y   { yylval.i = e_Y; return MON_REGISTER; }
-        pc  { yylval.i = e_PC; return MON_REGISTER; }
-        sp  { yylval.i = e_SP; return MON_REGISTER; }
-        fl  { yylval.i = e_FLAGS; return MON_REGISTER; }
+        a   { yylval.i = e_A; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
+        x   { yylval.i = e_X; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09 */
+        y   { yylval.i = e_Y; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09 */
+        pc  { yylval.i = e_PC; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
+        sp  { yylval.i = e_SP; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
+        fl  { yylval.i = e_FLAGS; return MON_REGISTER; }	/* 65xx/c64dtv/658xx */
+        cc  { yylval.i = e_FLAGS; return MON_REGISTER; }	/* 6x09 */
 
-        b   { yylval.i = e_B; return MON_REGISTER; }
-        c   { yylval.i = e_C; return MON_REGISTER; }
-        dpr { yylval.i = e_DPR; return MON_REGISTER; }
-        pbr { yylval.i = e_PBR; return MON_REGISTER; }
-        dbr { yylval.i = e_DBR; return MON_REGISTER; }
-        e   { yylval.i = e_EMUL; return MON_REGISTER; }
+        b   { yylval.i = e_B; return MON_REGISTER; }		/* 658xx/6x09/z80 */
+        c   { yylval.i = e_C; return MON_REGISTER; }		/* 658xx/z80 */
+        dpr { yylval.i = e_DPR; return MON_REGISTER; }	/* 658xx */
+        pbr { yylval.i = e_PBR; return MON_REGISTER; }	/* 658xx */
+        dbr { yylval.i = e_DBR; return MON_REGISTER; }	/* 658xx */
+        e   { yylval.i = e_E; return MON_REGISTER; }		/* 658xx/6309/z80 */
 
-        r3  { yylval.i = e_R3; return MON_REGISTER; }
-        r4  { yylval.i = e_R4; return MON_REGISTER; }
-        r5  { yylval.i = e_R5; return MON_REGISTER; }
-        r6  { yylval.i = e_R6; return MON_REGISTER; }
-        r7  { yylval.i = e_R7; return MON_REGISTER; }
-        r8  { yylval.i = e_R8; return MON_REGISTER; }
-        r9  { yylval.i = e_R9; return MON_REGISTER; }
-        r10 { yylval.i = e_R10; return MON_REGISTER; }
-        r11 { yylval.i = e_R11; return MON_REGISTER; }
-        r12 { yylval.i = e_R12; return MON_REGISTER; }
-        r13 { yylval.i = e_R13; return MON_REGISTER; }
-        r14 { yylval.i = e_R14; return MON_REGISTER; }
-        r15 { yylval.i = e_R15; return MON_REGISTER; }
-        acm { yylval.i = e_ACM; return MON_REGISTER; }
-        yxm { yylval.i = e_YXM; return MON_REGISTER; }
+        r3  { yylval.i = e_R3; return MON_REGISTER; }		/* c64dtv */
+        r4  { yylval.i = e_R4; return MON_REGISTER; }		/* c64dtv */
+        r5  { yylval.i = e_R5; return MON_REGISTER; }		/* c64dtv */
+        r6  { yylval.i = e_R6; return MON_REGISTER; }		/* c64dtv */
+        r7  { yylval.i = e_R7; return MON_REGISTER; }		/* c64dtv */
+        r8  { yylval.i = e_R8; return MON_REGISTER; }		/* c64dtv */
+        r9  { yylval.i = e_R9; return MON_REGISTER; }		/* c64dtv */
+        r10 { yylval.i = e_R10; return MON_REGISTER; }	/* c64dtv */
+        r11 { yylval.i = e_R11; return MON_REGISTER; }	/* c64dtv */
+        r12 { yylval.i = e_R12; return MON_REGISTER; }	/* c64dtv */
+        r13 { yylval.i = e_R13; return MON_REGISTER; }	/* c64dtv */
+        r14 { yylval.i = e_R14; return MON_REGISTER; }	/* c64dtv */
+        r15 { yylval.i = e_R15; return MON_REGISTER; }	/* c64dtv */
+        acm { yylval.i = e_ACM; return MON_REGISTER; }	/* c64dtv */
+        yxm { yylval.i = e_YXM; return MON_REGISTER; }	/* c64dtv */
 
-        d   { yylval.i = e_D; return MON_REGISTER; }
-        dp  { yylval.i = e_DP; return MON_REGISTER; }
-        u   { yylval.i = e_U; return MON_REGISTER; }
+        d   { yylval.i = e_D; return MON_REGISTER; }		/* 6x09/z80 */
+        dp  { yylval.i = e_DP; return MON_REGISTER; }		/* 6x09 */
+        u   { yylval.i = e_U; return MON_REGISTER; }		/* 6x09 */
 
-        af  { yylval.i = e_AF; return MON_REGISTER; }
-        bc  { yylval.i = e_BC; return MON_REGISTER; }
-        de  { yylval.i = e_DE; return MON_REGISTER; }
-        hl  { yylval.i = e_HL; return MON_REGISTER; }
-        ix  { yylval.i = e_IX; return MON_REGISTER; }
-        iy  { yylval.i = e_IY; return MON_REGISTER; }
-        i   { yylval.i = e_I; return MON_REGISTER; }
-        r   { yylval.i = e_R; return MON_REGISTER; }
-        af2 { yylval.i = e_AF2; return MON_REGISTER; }
-        bc2 { yylval.i = e_BC2; return MON_REGISTER; }
-        de2 { yylval.i = e_DE2; return MON_REGISTER; }
-        hl2 { yylval.i = e_HL2; return MON_REGISTER; }
+        af  { yylval.i = e_AF; return MON_REGISTER; }		/* z80 */
+        bc  { yylval.i = e_BC; return MON_REGISTER; }		/* z80 */
+        de  { yylval.i = e_DE; return MON_REGISTER; }		/* z80 */
+        hl  { yylval.i = e_HL; return MON_REGISTER; }		/* z80 */
+        ix  { yylval.i = e_IX; return MON_REGISTER; }		/* z80 */
+        iy  { yylval.i = e_IY; return MON_REGISTER; }		/* z80 */
+        i   { yylval.i = e_I; return MON_REGISTER; }		/* z80 */
+        r   { yylval.i = e_R; return MON_REGISTER; }		/* z80 */
+        af2 { yylval.i = e_AF2; return MON_REGISTER; }	/* z80 */
+        bc2 { yylval.i = e_BC2; return MON_REGISTER; }	/* z80 */
+        de2 { yylval.i = e_DE2; return MON_REGISTER; }	/* z80 */
+        hl2 { yylval.i = e_HL2; return MON_REGISTER; }	/* z80 */
+
+        f   { yylval.i = e_F; return MON_REGISTER; }		/* 6309 */
+        w   { yylval.i = e_W; return MON_REGISTER; }		/* 6309 */
+        q   { yylval.i = e_Q; return MON_REGISTER; }		/* 6309 */
+        v   { yylval.i = e_V; return MON_REGISTER; }		/* 6309 */
+        md  { yylval.i = e_MD; return MON_REGISTER; }		/* 6309 */
+
+        h   { yylval.i = e_H; return MON_REGISTER; }		/* z80 */
+        l   { yylval.i = e_L; return MON_REGISTER; }		/* z80 */
+        ixl { yylval.i = e_IXL; return MON_REGISTER; }	/* z80 */
+        ixh { yylval.i = e_IXH; return MON_REGISTER; }	/* z80 */
+        iyl { yylval.i = e_IYL; return MON_REGISTER; }	/* z80 */
+        iyh { yylval.i = e_IYH; return MON_REGISTER; }	/* z80 */
 }
 
 <COND_MODE>{
@@ -400,52 +414,66 @@ if		{ BEGIN (COND_MODE); return IF; }
 	&&		{ yylval.i = e_AND; return COMPARE_OP; }
 	\|\|		{ yylval.i = e_OR;  return COMPARE_OP; }
 
-        A 		{ yylval.i = e_A; return MON_REGISTER; }
-	X 		{ yylval.i = e_X; return MON_REGISTER; }
-	Y 		{ yylval.i = e_Y; return MON_REGISTER; }
-	PC 		{ yylval.i = e_PC; return MON_REGISTER; }
-	SP		{ yylval.i = e_SP; return MON_REGISTER; }
-	FL		{ yylval.i = e_FLAGS; return MON_REGISTER; }
+	A 		{ yylval.i = e_A; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
+	X 		{ yylval.i = e_X; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09 */
+	Y 		{ yylval.i = e_Y; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09 */
+	PC 		{ yylval.i = e_PC; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
+	SP		{ yylval.i = e_SP; return MON_REGISTER; }		/* 65xx/c64dtv/658xx/6x09/z80 */
+	FL		{ yylval.i = e_FLAGS; return MON_REGISTER; }	/* 65xx/c64dtv/658xx */
+	CC		{ yylval.i = e_FLAGS; return MON_REGISTER; }	/* 6x09 */
 
-        B             	{ yylval.i = e_B; return MON_REGISTER; }
-        C             	{ yylval.i = e_C; return MON_REGISTER; }
-        DPR           	{ yylval.i = e_DPR; return MON_REGISTER; }
-        PBR           	{ yylval.i = e_PBR; return MON_REGISTER; }
-        DBR           	{ yylval.i = e_DBR; return MON_REGISTER; }
-        E             	{ yylval.i = e_EMUL; return MON_REGISTER; }
+	B		{ yylval.i = e_B; return MON_REGISTER; }		/* 658xx/6x09/z80 */
+	C		{ yylval.i = e_C; return MON_REGISTER; }		/* 658xx/z80 */
+	DPR		{ yylval.i = e_DPR; return MON_REGISTER; }		/* 658xx */
+	PBR		{ yylval.i = e_PBR; return MON_REGISTER; }		/* 658xx */
+	DBR		{ yylval.i = e_DBR; return MON_REGISTER; }		/* 658xx */
+	E		{ yylval.i = e_E; return MON_REGISTER; }		/* 658xx/6309/z80 */
 
-        R3            	{ yylval.i = e_R3; return MON_REGISTER; }
-        R4            	{ yylval.i = e_R4; return MON_REGISTER; }
-        R5            	{ yylval.i = e_R5; return MON_REGISTER; }
-        R6            	{ yylval.i = e_R6; return MON_REGISTER; }
-        R7            	{ yylval.i = e_R7; return MON_REGISTER; }
-        R8            	{ yylval.i = e_R8; return MON_REGISTER; }
-        R9            	{ yylval.i = e_R9; return MON_REGISTER; }
-        R10           	{ yylval.i = e_R10; return MON_REGISTER; }
-        R11           	{ yylval.i = e_R11; return MON_REGISTER; }
-        R12           	{ yylval.i = e_R12; return MON_REGISTER; }
-        R13           	{ yylval.i = e_R13; return MON_REGISTER; }
-        R14           	{ yylval.i = e_R14; return MON_REGISTER; }
-        R15           	{ yylval.i = e_R15; return MON_REGISTER; }
-        ACM           	{ yylval.i = e_ACM; return MON_REGISTER; }
-        YXM           	{ yylval.i = e_YXM; return MON_REGISTER; }
+	R3		{ yylval.i = e_R3; return MON_REGISTER; }		/* c64dtv */
+	R4		{ yylval.i = e_R4; return MON_REGISTER; }		/* c64dtv */
+	R5		{ yylval.i = e_R5; return MON_REGISTER; }		/* c64dtv */
+	R6		{ yylval.i = e_R6; return MON_REGISTER; }		/* c64dtv */
+	R7		{ yylval.i = e_R7; return MON_REGISTER; }		/* c64dtv */
+	R8		{ yylval.i = e_R8; return MON_REGISTER; }		/* c64dtv */
+	R9		{ yylval.i = e_R9; return MON_REGISTER; }		/* c64dtv */
+	R10		{ yylval.i = e_R10; return MON_REGISTER; }		/* c64dtv */
+	R11		{ yylval.i = e_R11; return MON_REGISTER; }		/* c64dtv */
+	R12		{ yylval.i = e_R12; return MON_REGISTER; }		/* c64dtv */
+	R13		{ yylval.i = e_R13; return MON_REGISTER; }		/* c64dtv */
+	R14		{ yylval.i = e_R14; return MON_REGISTER; }		/* c64dtv */
+	R15		{ yylval.i = e_R15; return MON_REGISTER; }		/* c64dtv */
+	ACM		{ yylval.i = e_ACM; return MON_REGISTER; }		/* c64dtv */
+	YXM		{ yylval.i = e_YXM; return MON_REGISTER; }		/* c64dtv */
 
-        D               { yylval.i = e_D; return MON_REGISTER; }
-        DP              { yylval.i = e_DP; return MON_REGISTER; }
-        U               { yylval.i = e_U; return MON_REGISTER; }
+	D		{ yylval.i = e_D; return MON_REGISTER; }		/* 6x09/z80 */
+	DP		{ yylval.i = e_DP; return MON_REGISTER; }		/* 6x09 */
+	U		{ yylval.i = e_U; return MON_REGISTER; }		/* 6x09 */
 
-        AF              { yylval.i = e_AF; return MON_REGISTER; }
-        BC              { yylval.i = e_BC; return MON_REGISTER; }
-        DE              { yylval.i = e_DE; return MON_REGISTER; }
-        HL              { yylval.i = e_HL; return MON_REGISTER; }
-        IX              { yylval.i = e_IX; return MON_REGISTER; }
-        IX              { yylval.i = e_IY; return MON_REGISTER; }
-        I               { yylval.i = e_I; return MON_REGISTER; }
-        R               { yylval.i = e_R; return MON_REGISTER; }
-        AF2             { yylval.i = e_AF2; return MON_REGISTER; }
-        BC2             { yylval.i = e_BC2; return MON_REGISTER; }
-        DE2             { yylval.i = e_DE2; return MON_REGISTER; }
-        HL2             { yylval.i = e_HL2; return MON_REGISTER; }
+	AF		{ yylval.i = e_AF; return MON_REGISTER; }		/* z80 */
+	BC		{ yylval.i = e_BC; return MON_REGISTER; }		/* z80 */
+	DE		{ yylval.i = e_DE; return MON_REGISTER; }		/* z80 */
+	HL		{ yylval.i = e_HL; return MON_REGISTER; }		/* z80 */
+	IX		{ yylval.i = e_IX; return MON_REGISTER; }		/* z80 */
+	IY		{ yylval.i = e_IY; return MON_REGISTER; }		/* z80 */
+	I		{ yylval.i = e_I; return MON_REGISTER; }		/* z80 */
+	R		{ yylval.i = e_R; return MON_REGISTER; }		/* z80 */
+	AF2		{ yylval.i = e_AF2; return MON_REGISTER; }		/* z80 */
+	BC2		{ yylval.i = e_BC2; return MON_REGISTER; }		/* z80 */
+ 	DE2		{ yylval.i = e_DE2; return MON_REGISTER; }		/* z80 */
+	HL2		{ yylval.i = e_HL2; return MON_REGISTER; }		/* z80 */
+
+	F		{ yylval.i = e_F; return MON_REGISTER; }		/* 6309 */
+	W		{ yylval.i = e_W; return MON_REGISTER; }		/* 6309 */
+	Q		{ yylval.i = e_Q; return MON_REGISTER; }		/* 6309 */
+	V		{ yylval.i = e_V; return MON_REGISTER; }		/* 6309 */
+	MD		{ yylval.i = e_MD; return MON_REGISTER; }		/* 6309 */
+
+	H		{ yylval.i = e_H; return MON_REGISTER; }		/* z80 */
+	L		{ yylval.i = e_L; return MON_REGISTER; }		/* z80 */
+	IXH		{ yylval.i = e_IXH; return MON_REGISTER; }		/* z80 */
+	IXL		{ yylval.i = e_IXL; return MON_REGISTER; }		/* z80 */
+	IYH		{ yylval.i = e_IYH; return MON_REGISTER; }		/* z80 */
+	IYL		{ yylval.i = e_IYL; return MON_REGISTER; }		/* z80 */
 
 	\(		{ return L_PAREN; }
 	\)		{ return R_PAREN; }

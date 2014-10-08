@@ -43,54 +43,64 @@
 typedef int bool;
 #endif
 
+/* 65xx: 6502/6509/6510/7501/8500/8501/8502/65C02/65SC02
+   658xx: 65802/65816
+   6x09: 6809/6309
+ */
 enum t_reg_id {
-/* 6502/65c02 */
-    e_A,
-    e_X,
-    e_Y,
-    e_PC,
-    e_SP,
-    e_FLAGS,
-/* z80 */
-    e_AF,
-    e_BC,
-    e_DE,
-    e_HL,
-    e_IX,
-    e_IY,
-    e_I,
-    e_R,
-    e_AF2,
-    e_BC2,
-    e_DE2,
-    e_HL2,
-/* C64DTV */
-    e_R3,
-    e_R4,
-    e_R5,
-    e_R6,
-    e_R7,
-    e_R8,
-    e_R9,
-    e_R10,
-    e_R11,
-    e_R12,
-    e_R13,
-    e_R14,
-    e_R15,
-    e_ACM,
-    e_YXM,
-/* 65816 */
-    e_B,
-    e_C,
-    e_DPR,
-    e_PBR,
-    e_DBR,
-    e_EMUL,
-/* 6809 */
-    e_D,
-    e_U,
-    e_DP
+    e_A,		/* 65xx/c64dtv/658xx/6x09/z80 */
+    e_X,		/* 65xx/c64dtv/658xx/6x09 */
+    e_Y,		/* 65xx/c64dtv/658xx/6x09 */
+    e_PC,		/* 65xx/c64dtv/658xx/6x09/z80 */
+    e_SP,		/* 65xx/c64dtv/658xx/6x09/z80 */
+    e_FLAGS,	/* 65xx/c64dtv/658xx/6x09 */
+    e_AF,		/* z80 */
+    e_BC,		/* z80 */
+    e_DE,		/* z80 */
+    e_HL,		/* z80 */
+    e_IX,		/* z80 */
+    e_IY,		/* z80 */
+    e_I,		/* z80 */
+    e_R,		/* z80 */
+    e_AF2,		/* z80 */
+    e_BC2,		/* z80 */
+    e_DE2,		/* z80 */
+    e_HL2,		/* z80 */
+    e_R3,		/* c64dtv */
+    e_R4,		/* c64dtv */
+    e_R5,		/* c64dtv */
+    e_R6,		/* c64dtv */
+    e_R7,		/* c64dtv */
+    e_R8,		/* c64dtv */
+    e_R9,		/* c64dtv */
+    e_R10,		/* c64dtv */
+    e_R11,		/* c64dtv */
+    e_R12,		/* c64dtv */
+    e_R13,		/* c64dtv */
+    e_R14,		/* c64dtv */
+    e_R15,		/* c64dtv */
+    e_ACM,		/* c64dtv */
+    e_YXM,		/* c64dtv */
+    e_B,		/* 658xx/6x09/z80 */
+    e_C,		/* 658xx/z80 */
+    e_DPR,		/* 658xx */
+    e_PBR,		/* 658xx */
+    e_DBR,		/* 658xx */
+    e_D,		/* 6x09/z80 */
+    e_U,		/* 6x09 */
+    e_DP,		/* 6x09 */
+    e_E,		/* 658xx/6309/z80 */
+    e_F,		/* 6309 */
+    e_W,		/* 6309 */
+    e_Q,		/* 6309 */
+    e_V,		/* 6309 */
+    e_MD,		/* 6309 */
+    e_H,		/* z80 */
+    e_L,		/* z80 */
+    e_IXL,		/* z80 */
+    e_IXH,		/* z80 */
+    e_IYL,		/* z80 */
+    e_IYH		/* z80 */
 };
 typedef enum t_reg_id REG_ID;
 
