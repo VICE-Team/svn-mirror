@@ -64,118 +64,119 @@ Read bits - One of these bits is set when the 6309 traps an error
 7	This bit is set (1) if a zero division occurs.
 
 
-opcode | 6809             | Full6809           | 6309
------------------------------------------------------
-0000   | NEG direct       | NEG direct         | NEG direct
-0001   | ---              | NEG direct         | OIM post, direct
-0002   | ---              | COM/NEG direct     | AIM post, direct
-0003   | COM direct       | COM direct         | COM direct
-0004   | LSR direct       | LSR direct         | LSR direct
-0005   | ---              | LSR direct         | EIM post, direct
-0006   | ROR direct       | ROR direct         | ROR direct
-0007   | ASR direct       | ASR direct         | ASR direct
-0008   | ASL/LSL direct   | ASL/LSL direct     | ASL/LSL direct
-0009   | ROL direct       | ROL direct         | ROL direct
-000A   | DEC direct       | DEC direct         | DEC direct
-000B   | ---              | DEC direct         | TIM post, direct
-000C   | INC direct       | INC direct         | INC direct
-000D   | TST direct       | TST direct         | TST direct
-000E   | JMP direct       | JMP direct         | JMP direct
-000F   | CLR direct       | CLR direct         | CLR direct
-0012   | NOP              | NOP                | NOP
-0013   | SYNC             | SYNC               | SYNC
-0014   | ---              | HCF                | SEXW
-0015   | ---              | HCF                | ***trap***
-0016   | LBRA             | LBRA               | LBRA
-0017   | LBSR             | LBSR               | LBSR
-0018   | ---              | CCRS               | ***trap***
-0019   | DAA              | DAA                | DAA
-001A   | ORCC imm         | ORCC imm           | ORCC imm
-001B   | ---              | NOP                | ***trap***
-001C   | ANDCC imm        | ANDCC imm          | ANDCC imm
-001D   | SEX              | SEX                | SEX
-001E   | EXG post         | EXG post           | EXG post
-001F   | TFR post         | TFR post           | TFR post
-0020   | BRA              | BRA                | BRA
-0021   | BRN              | BRN                | BRN
-0022   | BHI              | BHI                | BHI
-0023   | BLS              | BLS                | BLS
-0024   | BHS              | BHS                | BHS
-0025   | BLO              | BLO                | BLO
-0026   | BNE              | BNE                | BNE
-0027   | BEQ              | BEQ                | BEQ
-0028   | BVC              | BVC                | BVC
-0029   | BVS              | BVS                | BVS
-002A   | BPL              | BPL                | BPL
-002B   | BMI              | BMI                | BMI
-002C   | BGE              | BGE                | BGE
-002D   | BLT              | BLT                | BLT
-002E   | BGT              | BGT                | BGT
-002F   | BLE              | BLE                | BLE
-0030   | LEAX indexed     | LEAX indexed       | LEAX indexed
-0031   | LEAY indexed     | LEAY indexed       | LEAY indexed
-0032   | LEAS indexed     | LEAS indexed       | LEAS indexed
-0033   | LEAU indexed     | LEAU indexed       | LEAU indexed
-0034   | PSHS post        | PSHS post          | PSHS post
-0035   | PULS post        | PULS post          | PULS post
-0036   | PSHU post        | PSHU post          | PSHU post
-0037   | PULU post        | PULU post          | PULU post
-0038   | ---              | ANDCC imm          | ***trap***
-0039   | RTS              | RTS                | RTS
-003A   | ABX              | ABX                | ABX
-003B   | RTI              | RTI                | RTI
-003C   | CWAI             | CWAI               | CWAI
-003D   | MUL              | MUL                | MUL
-003E   | ---              | SWIRES             | ***trap***
-003F   | SWI              | SWI                | SWI
-0040   | NEGA             | NEGA               | NEGA
-0041   | ---              | NEGA               | ***trap***
-0042   | ---              | COMA/NEGA          | ***trap***
-0043   | COMA             | COMA               | COMA
-0044   | LSRA             | LSRA               | LSRA
-0045   | ---              | LSRA               | ***trap***
-0046   | RORA             | RORA               | RORA
-0047   | ASRA             | ASRA               | ASRA
-0048   | ASLA/LSLA        | ASLA/LSLA          | ASLA/LSLA
-0049   | ROLA             | ROLA               | ROLA
-004A   | DECA             | DECA               | DECA
-004B   | ---              | DECA               | ***trap***
-004C   | INCA             | INCA               | INCA
-004D   | TSTA             | TSTA               | TSTA
-004E   | ---              | CLRA               | ***trap***
-004F   | CLRA             | CLRA               | CLRA
-0050   | NEGB             | NEGB               | NEGB
-0051   | ---              | NEGB               | ***trap***
-0052   | ---              | COMB/NEGB          | ***trap***
-0053   | COMB             | COMB               | COMB
-0054   | LSRB             | LSRB               | LSRB
-0055   | ---              | LSRB               | ***trap***
-0056   | RORB             | RORB               | RORB
-0057   | ASRB             | ASRB               | ASRB
-0058   | ASLB/LSLB        | ASLB/LSLB          | ASLB/LSLB
-0059   | ROLB             | ROLB               | ROLB
-005A   | DECB             | DECB               | DECB
-005B   | ---              | DECB               | ***trap***
-005C   | INCB             | INCB               | INCB
-005D   | TSTB             | TSTB               | TSTB
-005E   | ---              | CLRB               | ***trap***
-005F   | CLRB             | CLRB               | CLRB
-0060   | NEG indexed      | NEG indexed        | NEG indexed
-0061   | ---              | NEG indexed        | OIM indexed
-0062   | ---              | COM/NEG indexed    | AIM post, indexed
-0063   | COM indexed      | COM indexed        | COM indexed
-0064   | LSR indexed      | LSR indexed        | LSR indexed
-0065   | ---              | LSR indexed        | EIM indexed
-0066   | ROR indexed      | ROR indexed        | ROR indexed
-0067   | ASR indexed      | ASR indexed        | ASR indexed
-0068   | ASL/LSL indexed  | ASL/LSL indexed    | ASL/LSL indexed
-0069   | ROL indexed      | ROL indexed        | ROL indexed
-006A   | DEC indexed      | DEC indexed        | DEC indexed
-006B   | ---              | DEC indexed        | TIM indexed
-006C   | INC indexed      | INC indexed        | INC indexed
-006D   | TST indexed      | TST indexed        | TST indexed
-006E   | JMP indexed      | JMP indexed        | JMP indexed
-006F   | CLR indexed      | CLR indexed        | CLR indexed
+opcode | 6809:           | size | cycles | Full6809:       | size | cycles | 6309              | size | cycles emul | cycles native
+------------------------------------------------------------------------------------------------------------------------------------
+0000   | NEG $xx         |   2  |    6   | NEG $xx         |   2  |    6   | NEG $xx           |   2  |       6     |       5
+0001   | ---             |      |        | NEG $xx         |   2  |    6   | OIM #$xx, $xx     |   3  |       6     |       6
+0002   | ---             |      |        | COM/NEG $xx     |   2  |    6   | AIM #$xx, $xx     |   3  |       6     |       6
+0003   | COM $xx         |   2  |    6   | COM $xx         |   2  |    6   | COM $xx           |   2  |       6     |       5
+0004   | LSR $xx         |   2  |    6   | LSR $xx         |   2  |    6   | LSR $xx           |   2  |       6     |       5
+0005   | ---             |      |        | LSR $xx         |   2  |    6   | EIM #$xx, $xx     |   3  |       6     |       6
+0006   | ROR $xx         |   2  |    6   | ROR $xx         |   2  |    6   | ROR $xx           |   2  |       6     |       5
+0007   | ASR $xx         |   2  |    6   | ASR $xx         |   2  |    6   | ASR $xx           |   2  |       6     |       5
+0008   | ASL/LSL $xx     |   2  |    6   | ASL/LSL $xx     |   2  |    6   | ASL/LSL $xx       |   2  |       6     |       5
+0009   | ROL $xx         |   2  |    6   | ROL $xx         |   2  |    6   | ROL $xx           |   2  |       6     |       5
+000A   | DEC $xx         |   2  |    6   | DEC $xx         |   2  |    6   | DEC $xx           |   2  |       6     |       5
+000B   | ---             |      |        | DEC $xx         |   2  |    6   | TIM #$xx, $xx     |   3  |       6     |       6
+000C   | INC $xx         |   2  |    6   | INC $xx         |   2  |    6   | INC $xx           |   2  |       6     |       5
+000D   | TST $xx         |   2  |    6   | TST $xx         |   2  |    6   | TST $xx           |   2  |       6     |       4
+000E   | JMP $xx         |   2  |    3   | JMP $xx         |   2  |    3   | JMP $xx           |   2  |       3     |       2
+000F   | CLR $xx         |   2  |    6   | CLR $xx         |   2  |    6   | CLR $xx           |   2  |       6     |       5
+0012   | NOP             |   1  |    2   | NOP             |   1  |    2   | NOP               |   1  |       2     |       1
+0013   | SYNC            |   1  |    2   | SYNC            |   1  |    2   | SYNC              |   1  |       2     |       1
+0014   | ---             |      |        | HCF             |   1  |   ???  | SEXW              |   1  |       4     |       4
+0015   | ---             |      |        | HCF             |   1  |   ???  | ***trap***        |   1  |      21     |      23
+0016   | LBRA $xxxx      |   3  |    5   | LBRA $xxxx      |   3  |    5   | LBRA $xxxx        |   3  |       5     |       4
+0017   | LBSR $xxxx      |   3  |    9   | LBSR $xxxx      |   3  |    9   | LBSR $xxxx        |   3  |       9     |       7
+0018   | ---             |      |        | CCRS            |   1  |    3   | ***trap***        |   1  |      21     |      23
+0019   | DAA             |   1  |    2   | DAA             |   1  |    2   | DAA               |   1  |       2     |       1
+001A   | ORCC #$xx       |   2  |    3   | ORCC #$xx       |   2  |    3   | ORCC #$xx         |   2  |       3     |       2
+001B   | ---             |      |        | NOP             |   1  |    2   | ***trap***        |   1  |      21     |      23
+001C   | ANDCC #$xx      |   2  |    3   | ANDCC #$xx      |   2  |    3   | ANDCC #$xx        |   2  |       3     |       3
+001D   | SEX             |   1  |    2   | SEX             |   1  |    2   | SEX               |   1  |       2     |       1
+001E   | EXG R0, R1      |   2  |    8   | EXG R0, R1      |   2  |    8   | EXG R0, R1        |   2  |       8     |       5
+001F   | TFR R0, R1      |   2  |    6   | TFR R0, R1      |   2  |    6   | TFR R0, R1        |   2  |       6     |       4
+0020   | BRA $xxxx       |   2  |    3   | BRA $xxxx       |   2  |    3   | BRA $xxxx         |   2  |       3     |       3
+0021   | BRN $xxxx       |   2  |    3   | BRN $xxxx       |   2  |    3   | BRN $xxxx         |   2  |       3     |       3
+0022   | BHI $xxxx       |   2  |    3   | BHI $xxxx       |   2  |    3   | BHI $xxxx         |   2  |       3     |       3
+0023   | BLS $xxxx       |   2  |    3   | BLS $xxxx       |   2  |    3   | BLS $xxxx         |   2  |       3     |       3
+0024   | BHS/BCC $xxxx   |   2  |    3   | BHS/BCC $xxxx   |   2  |    3   | BHS/BCC $xxxx     |   2  |       3     |       3
+0025   | BLO/BCS $xxxx   |   2  |    3   | BLO/BCS $xxxx   |   2  |    3   | BLO/BCS $xxxx     |   2  |       3     |       3
+0026   | BNE $xxxx       |   2  |    3   | BNE $xxxx       |   2  |    3   | BNE $xxxx         |   2  |       3     |       3
+0027   | BEQ $xxxx       |   2  |    3   | BEQ $xxxx       |   2  |    3   | BEQ $xxxx         |   2  |       3     |       3
+0028   | BVC $xxxx       |   2  |    3   | BVC $xxxx       |   2  |    3   | BVC $xxxx         |   2  |       3     |       3
+0029   | BVS $xxxx       |   2  |    3   | BVS $xxxx       |   2  |    3   | BVS $xxxx         |   2  |       3     |       3
+002A   | BPL $xxxx       |   2  |    3   | BPL $xxxx       |   2  |    3   | BPL $xxxx         |   2  |       3     |       3
+002B   | BMI $xxxx       |   2  |    3   | BMI $xxxx       |   2  |    3   | BMI $xxxx         |   2  |       3     |       3
+002C   | BGE $xxxx       |   2  |    3   | BGE $xxxx       |   2  |    3   | BGE $xxxx         |   2  |       3     |       3
+002D   | BLT $xxxx       |   2  |    3   | BLT $xxxx       |   2  |    3   | BLT $xxxx         |   2  |       3     |       3
+002E   | BGT $xxxx       |   2  |    3   | BGT $xxxx       |   2  |    3   | BGT $xxxx         |   2  |       3     |       3
+002F   | BLE $xxxx       |   2  |    3   | BLE $xxxx       |   2  |    3   | BLE $xxxx         |   2  |       3     |       3
+0030   | LEAX indexed    |   2  |    4+  | LEAX indexed    |   2  |    4+  | LEAX indexed      |   2  |       4+    |       4+
+0031   | LEAY indexed    |   2  |    4+  | LEAY indexed    |   2  |    4+  | LEAY indexed      |   2  |       4+    |       4+
+0032   | LEAS indexed    |   2  |    4+  | LEAS indexed    |   2  |    4+  | LEAS indexed      |   2  |       4+    |       4+
+0033   | LEAU indexed    |   2  |    4+  | LEAU indexed    |   2  |    4+  | LEAU indexed      |   2  |       4+    |       4+
+0034   | PSHS #$RM       |   2  |    5+  | PSHS #$RM       |   2  |    5+  | PSHS #$RM         |   2  |       5+    |       4+
+0035   | PULS #$RM       |   2  |    5+  | PULS #$RM       |   2  |    5+  | PULS #$RM         |   2  |       5+    |       4+
+0036   | PSHU #$RM       |   2  |    5+  | PSHU #$RM       |   2  |    5+  | PSHU #$RM         |   2  |       5+    |       4+
+0037   | PULU #$RM       |   2  |    5+  | PULU #$RM       |   2  |    5+  | PULU #$RM         |   2  |       5+    |       4+
+0038   | ---             |      |        | ANDCC imm       |   2  |    3   | ***trap***        |   1  |      21     |      23
+0039   | RTS             |   1  |    5   | RTS             |   1  |    5   | RTS               |   1  |       5     |       1
+003A   | ABX             |   1  |    3   | ABX             |   1  |    3   | ABX               |   1  |       3     |       1
+003B   | RTI             |   1  |   6/15 | RTI             |   1  |   6/15 | RTI               |   1  |      6/15   |      17
+003C   | CWAI            |   2  |   22   | CWAI            |   2  |   22   | CWAI              |   2  |      22     |      20
+003D   | MUL             |   1  |   11   | MUL             |   1  |   11   | MUL               |   1  |      11     |      10
+003E   | ---             |      |        | SWIRES          |   1  |   19   | ***trap***        |   1  |      21     |      23
+003F   | SWI             |   1  |   19   | SWI             |   1  |   19   | SWI               |   1  |      19     |      21
+0040   | NEGA            |   1  |    2   | NEGA            |   1  |    2   | NEGA              |   1  |       2     |       1
+0041   | ---             |      |        | NEGA            |   1  |    2   | ***trap***        |   1  |      21     |      23
+0042   | ---             |      |        | COMA/NEGA       |   1  |    2   | ***trap***        |   1  |      21     |      23
+0043   | COMA            |   1  |    2   | COMA            |   1  |    2   | COMA              |   1  |       2     |       1
+0044   | LSRA            |   1  |    2   | LSRA            |   1  |    2   | LSRA              |   1  |       2     |       1
+0045   | ---             |      |        | LSRA            |   1  |    2   | ***trap***        |   1  |      21     |      23
+0046   | RORA            |   1  |    2   | RORA            |   1  |    2   | RORA              |   1  |       2     |       1
+0047   | ASRA            |   1  |    2   | ASRA            |   1  |    2   | ASRA              |   1  |       2     |       1
+0048   | ASLA/LSLA       |   1  |    2   | ASLA/LSLA       |   1  |    2   | ASLA/LSLA         |   1  |       2     |       1
+0049   | ROLA            |   1  |    2   | ROLA            |   1  |    2   | ROLA              |   1  |       2     |       1
+004A   | DECA            |   1  |    2   | DECA            |   1  |    2   | DECA              |   1  |       2     |       1
+004B   | ---             |      |        | DECA            |   1  |    2   | ***trap***        |   1  |      21     |      23
+004C   | INCA            |   1  |    2   | INCA            |   1  |    2   | INCA              |   1  |       2     |       1
+004D   | TSTA            |   1  |    2   | TSTA            |   1  |    2   | TSTA              |   1  |       2     |       1
+004E   | ---             |      |        | CLRA            |   1  |    2   | ***trap***        |   1  |      21     |      23
+004F   | CLRA            |   1  |    2   | CLRA            |   1  |    2   | CLRA              |   1  |       2     |       1
+0050   | NEGB            |   1  |    2   | NEGB            |   1  |    2   | NEGB              |   1  |       2     |       1
+0051   | ---             |      |        | NEGB            |   1  |    2   | ***trap***        |   1  |      21     |      23
+0052   | ---             |      |        | COMB/NEGB       |   1  |    2   | ***trap***        |   1  |      21     |      23
+0053   | COMB            |   1  |    2   | COMB            |   1  |    2   | COMB              |   1  |       2     |       1
+0054   | LSRB            |   1  |    2   | LSRB            |   1  |    2   | LSRB              |   1  |       2     |       1
+0055   | ---             |      |        | LSRB            |   1  |    2   | ***trap***        |   1  |      21     |      23
+0056   | RORB            |   1  |    2   | RORB            |   1  |    2   | RORB              |   1  |       2     |       1
+0057   | ASRB            |   1  |    2   | ASRB            |   1  |    2   | ASRB              |   1  |       2     |       1
+0058   | ASLB/LSLB       |   1  |    2   | ASLB/LSLB       |   1  |    2   | ASLB/LSLB         |   1  |       2     |       1
+0059   | ROLB            |   1  |    2   | ROLB            |   1  |    2   | ROLB              |   1  |       2     |       1
+005A   | DECB            |   1  |    2   | DECB            |   1  |    2   | DECB              |   1  |       2     |       1
+005B   | ---             |      |        | DECB            |   1  |    2   | ***trap***        |   1  |      21     |      23
+005C   | INCB            |   1  |    2   | INCB            |   1  |    2   | INCB              |   1  |       2     |       1
+005D   | TSTB            |   1  |    2   | TSTB            |   1  |    2   | TSTB              |   1  |       2     |       1
+005E   | ---             |      |        | CLRB            |   1  |    2   | ***trap***        |   1  |      21     |      23
+005F   | CLRB            |   1  |    2   | CLRB            |   1  |    2   | CLRB              |   1  |       2     |       1
+0060   | NEG indexed     |   2+ |    6+  | NEG indexed     |   2+ |    6+  | NEG indexed       |   2+ |       6+    |       6+
+0061   | ---             |      |        | NEG indexed     |   2+ |    6+  | OIM #$xx, indexed |   3+ |       6+    |       6+
+0062   | ---             |      |        | COM/NEG indexed |   2+ |    6+  | AIM #$xx, indexed |   3+ |       7+    |       7+
+0063   | COM indexed     |   2+ |        | COM indexed     |   2+ |    6+  | COM indexed       |   2+ |       6+    |       6+
+0064   | LSR indexed     |   2+ |        | LSR indexed     |   2+ |    6+  | LSR indexed       |   2+ |       6+    |       6+
+0065   | ---             |      |        | LSR indexed     |   2+ |    6+  | EIM #$xx, indexed |   3+ |       7+    |       7+
+0066   | ROR indexed     |   2+ |    6+  | ROR indexed     |   2+ |    6+  | ROR indexed       |   2+ |       6+    |       6+
+0067   | ASR indexed     |   2+ |    6+  | ASR indexed     |   2+ |    6+  | ASR indexed       |   2+ |       6+    |       6+
+0068   | ASL/LSL indexed |   2+ |    6+  | ASL/LSL indexed |   2+ |    6+  | ASL/LSL indexed   |   2+ |       6+    |       6+
+0069   | ROL indexed     |   2+ |    6+  | ROL indexed     |   2+ |    6+  | ROL indexed       |   2+ |       6+    |       6+
+006A   | DEC indexed     |   2+ |    6+  | DEC indexed     |   2+ |    6+  | DEC indexed       |   2+ |       6+    |       6+
+006B   | ---             |      |        | DEC indexed     |   2+ |    6+  | TIM indexed       |   3+ |       7+    |       7+
+006C   | INC indexed     |   2+ |    6+  | INC indexed     |   2+ |    6+  | INC indexed       |   2+ |       6+    |       6+
+006D   | TST indexed     |   2+ |    6+  | TST indexed     |   2+ |    6+  | TST indexed       |   2+ |       6+    |       5+
+006E   | JMP indexed     |   2+ |    3+  | JMP indexed     |   2+ |    3+  | JMP indexed       |   2+ |       3+    |       3+
+006F   | CLR indexed     |   2+ |    6+  | CLR indexed     |   2+ |    6+  | CLR indexed       |   2+ |       6+    |       6+
+
 0070   | NEG extended     | NEG extended       | NEG extended
 0071   | ---              | NEG extended       | OIM extended
 0072   | ---              | COM/NEG extended   | AIM post, extended
