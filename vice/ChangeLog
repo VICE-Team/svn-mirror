@@ -1,7 +1,2428 @@
 ------------------------------------------------------------------------------
 
+2014-10-08  Marco van den Heuvel <blackystardust68@yahoo.com>
 
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/version.h: VICE 2.4.8
 
+2014-10-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/6809and6309.txt: Started on extending the 6809/6309
+	documentation.
+
+2014-10-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/h6809regs.h, src/monitor/mon_lex.c, src/monitor/mon_lex.l,
+	src/monitor/mon_register65816.c, src/monitor/mon_register6809.c,
+	src/monitor/mon_registerz80.c, src/monitor/montypes.h, src/z80regs.h:
+	Extended some of the register sets.
+
+2014-10-06  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uipalcontrol.c: increase step size for
+	sliders so each step changes the resource value by 1. fixes bug #562
+
+2014-10-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/vsidui.c: Code style fixes.
+
+2014-10-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/video.c: Enable joystick resources and command line
+	options for sdl vsid.
+
+2014-10-06  groepaz <groepaz@gmx.net>
+
+	* src/sid/resid.cc, src/sid/sid-resources.c, src/sid/sid-resources.h:
+	add constant for fast resampling, fix range check accordingly
+
+2014-10-06  groepaz <groepaz@gmx.net>
+
+	* src/c64/psiddrv.a65, src/c64/psiddrv.h: put song number into X/Y as
+	well before calling init
+
+2014-10-06  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2014-10-06  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/vsidui.c: remove 'toggle statusbar' menu item from
+	vsid. 'fixes' bug #557
+
+2014-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/z80.txt: Updated register descriptions.
+
+2014-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/gen_translate_c.c,
+	po/gen_win32_rc.c, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/win32/res.rc, src/arch/win32/resautostart.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/ressid.rc,
+	src/arch/win32/resvsid.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2014-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/gen_amiga_intl_c.c: Final fix.
+
+2014-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/gen_amiga_intl_c.c: Reverted strdup function.
+
+2014-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/gen_amiga_intl_c.c, po/gen_translate_c.c: Fixed.
+
+2014-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/gen_translate_c.c: Fixed.
+
+2014-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2014-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/gen_amiga_intl_c.c,
+	po/gen_translate_c.c, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, po/translations-status.txt:
+	Did a 'make update-po'.
+
+2014-10-05  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/socketimpl.h: Fixed SOCKET type.
+
+2014-10-05  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/vicemenu.cc: Moved some machine-specific menu items
+	into the "Expansion Carts" menu.
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* Makefile.am: make src dir depend on po dir, should fix bug #551
+
+2014-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvsid.rc,
+	src/monitor/mon_disassemble.c, src/monitor/mon_lex.c,
+	src/monitor/mon_lex.l, src/monitor/mon_register.c,
+	src/monitor/mon_register6502.c, src/monitor/mon_register6502dtv.c,
+	src/monitor/mon_registerR65C02.c, src/printerdrv/drv-mps803.c: Some
+	warning fixes.
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register6502.c, src/monitor/mon_register6502dtv.c,
+	src/monitor/mon_register65816.c, src/monitor/mon_register6809.c,
+	src/monitor/mon_registerR65C02.c, src/monitor/mon_registerz80.c: in
+	register dump always show values from cpu-port, regardless of active
+	bank
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register65816.c: a bit nicer display of sub-cycle
+
+2014-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/mkmsvc.c, src/arch/win32/vs_tmpl/mkmsvc.exe:
+	Ignore link optimization warnings in the msvc project files.
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* Makefile.am: put .SILENT into top level makefile to make output less
+	verbose and eg warnings more visible.
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register.c, src/monitor/mon_register6502.c: disable
+	debug output
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	src/monitor/mon_parse.y, src/monitor/mon_register.c,
+	src/monitor/mon_register.h, src/monitor/mon_register6502.c,
+	src/monitor/mon_register6502dtv.c, src/monitor/mon_register65816.c,
+	src/monitor/mon_register6809.c, src/monitor/mon_registerR65C02.c,
+	src/monitor/mon_registerz80.c, src/monitor.h: removed
+	mon_register_valid from monitor_cpu_type_t and made it a generic
+	function in mon_register.c instead. also use constants for length of
+	the register list and do not forget to copy including the end mark
+	(oops)
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/uimon.c, src/monitor/mon_register.c,
+	src/monitor/mon_register.h, src/monitor/mon_register6502.c,
+	src/monitor/mon_register6502dtv.c, src/monitor/mon_register65816.c,
+	src/monitor/mon_register6809.c, src/monitor/mon_registerR65C02.c,
+	src/monitor/mon_registerz80.c: remove 'next' member from
+	mon_reg_list_t, and thus make it a simple rather than a linked list.
+	UIs may need updating, see devlog
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* src/kbdbuf.c: cosmetics
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register6502.c, src/monitor/mon_register6502dtv.c,
+	src/monitor/mon_register65816.c, src/monitor/mon_register6809.c,
+	src/monitor/mon_registerR65C02.c, src/monitor/mon_registerz80.c,
+	src/monitor.h: removed unused mon_register_list_set
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_lex.c: updated
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register65816.c: use table
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register6809.c: use table
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_registerz80.c: use table
+
+2014-10-05  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_lex.l: rename emul->e
+
+2014-10-04  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register6502dtv.c, src/monitor/mon_registerR65C02.c:
+	use tables
+
+2014-10-04  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register6502.c: fix flags
+
+2014-10-04  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register6502.c: make mon_register_valid use the
+	table as well
+
+2014-10-04  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register6502.c, src/monitor/mon_register6502dtv.c,
+	src/monitor/mon_register65816.c, src/monitor/mon_register6809.c,
+	src/monitor/mon_registerR65C02.c, src/monitor/mon_registerz80.c,
+	src/monitor.h: comment out unused mon_register_list_set functions for
+	the time being, and remove from the monitor_cpu_type_t struct. should
+	probably be removed later
+
+2014-10-04  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register65816.c: rename ar/br/xr/yr/emul to
+	a/b/x/y/e
+
+2014-10-04  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register6502dtv.c, src/monitor/mon_registerR65C02.c:
+	rename AC/XR/YR to A/X/Y
+
+2014-10-04  groepaz <groepaz@gmx.net>
+
+	* src/arch/os2/dialogs/dlg-monitor.c,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	src/arch/win32/uimon.c, src/monitor/mon_register.h,
+	src/monitor/mon_register6502.c, src/monitor/mon_register6502dtv.c,
+	src/monitor/mon_register65816.c, src/monitor/mon_register6809.c,
+	src/monitor/mon_registerR65C02.c: made mon_register_list_get6502 table
+	based, rename AC/XR/YR to A/X/Y. changed semantics of
+	mon_reg_list_t->flags, blindly fixed win32 and os/2, osx still needs
+	fixing (see devlog)
+
+2014-10-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/quicktimedrv.c, src/pet/pet-cmdline-options.c,
+	src/pet/pet-sidcart.c, src/plus4/plus4-sidcart.c: Some command line
+	fixes.
+
+2014-10-04  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: updated
+
+2014-10-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/monitor.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/monitor.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/win32/watcom/monitor.tgt,
+	src/arch/win32/watcom/vice.wpj: Added mon_register.c to the ow project
+	files.
+
+2014-10-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/monitor.tmpl: Added mon_register.c to the
+	msvc monitor template.
+
+2014-10-04  groepaz <groepaz@gmx.net>
+
+	* src/monitor/Makefile.am, src/monitor/mon_register.c,
+	src/monitor/mon_register.h, src/monitor/mon_register6502.c,
+	src/monitor/mon_register6502dtv.c, src/monitor/mon_register65816.c,
+	src/monitor/mon_register6809.c, src/monitor/mon_registerR65C02.c,
+	src/monitor/mon_registerz80.c, src/monitor/monitor.c: allow
+	.<REGISTER> in all commands to refer to current register value,
+	replaces the existing hack that only worked for .PC. added some cpu
+	independend functions in mon_register.c.
+
+2014-10-03  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_assemble6502.c: remove pointless comment
+
+2014-10-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drive-cmdline-options.c,
+	src/drive/iec/c64exp/c64exp-cmdline-options.c,
+	src/drive/iec/iec-cmdline-options.c,
+	src/drive/iec/plus4exp/plus4exp-cmdline-options.c,
+	src/drive/iec128dcr/iec128dcr-cmdline-options.c,
+	src/drive/ieee/ieee-cmdline-options.c,
+	src/drive/tcbm/tcbm-cmdline-options.c: Some command line fixes.
+
+2014-10-03  groepaz <groepaz@gmx.net>
+
+	* src/monitor/monitor.c: added FIXMEs
+
+2014-10-03  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf: updated
+
+2014-10-03  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_register6502.c, src/monitor/mon_register6502dtv.c,
+	src/monitor/mon_register65816.c, src/monitor/mon_register6809.c,
+	src/monitor/mon_registerR65C02.c, src/monitor/mon_registerz80.c:
+	removed unused reg_ptr
+
+2014-10-03  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	src/monitor/mon_parse.y: removed remains of removed CMD_SYSTEM
+
+2014-10-03  groepaz <groepaz@gmx.net>
+
+	* src/monitor/monitor.c: print constant in condition as hex
+
+2014-10-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_disassemble.c: Add label lookup for zeropage address
+
+2014-10-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	src/monitor/mon_parse.y, src/monitor/mon_register6502.c,
+	src/monitor/mon_register6502dtv.c, src/monitor/mon_register65816.c,
+	src/monitor/mon_register6809.c, src/monitor/mon_registerR65C02.c,
+	src/monitor/mon_registerz80.c, src/monitor.h: Added an
+	'invalid register' check for using registers in the built-in monitor.
+
+2014-10-02  groepaz <groepaz@gmx.net>
+
+	* src/zfile.c: use SIZE_MAX instead of -1 for illegal value
+
+2014-10-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/archdep_unix.c: fork before changing variables to not
+	clobber them
+
+2014-10-01  groepaz <groepaz@gmx.net>
+
+	* configure.proto: raise warning level for mingw32 compiles
+
+2014-10-01  groepaz <groepaz@gmx.net>
+
+	* src/tape/t64.c: correctly limit size of the block that is being read
+
+2014-10-01  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_assemble65816.c: use DWORD for operand value
+
+2014-10-01  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/archdep.c: fork first, then setup variables, to avoid
+	clobbering.
+
+2014-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64dtv/c64dtv-cmdline-options.c: Cosmetic fix.
+
+2014-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/sfx_soundexpander.c, src/core/fmopl.c,
+	src/core/fmopl.h: Properly set the connect1 pointer.
+
+2014-10-01  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/socketimpl.h: SOCKET type should be int, as it equals
+	a file descriptor. amigaos, beos, msdos may need a similar fix
+
+2014-10-01  groepaz <groepaz@gmx.net>
+
+	* src/printerdrv/drv-mps803.c: fix warning
+
+2014-10-01  groepaz <groepaz@gmx.net>
+
+	* configure.proto: increase warning level even more
+
+2014-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/crt.c, src/drive/drive-sound.c, src/drive/iec/pc8477.c,
+	src/drive/iec/wd1770.c, src/video/video-sound.c: 'static' order fixes.
+
+2014-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/coding-guidelines.txt: Cosmetic fixes.
+
+2014-10-01  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/vic20ui.cc,
+	src/arch/beos/vicemenu.cc: Made most BeVICE-specific ACIA
+	menu/resource handling code only compile ifdef HAVE_RS232, which it
+	won't be because the BeOS port lacks any RS232 code.
+
+2014-09-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/intl.c: use countof instead of sizeof
+
+2014-09-30  groepaz <groepaz@gmx.net>
+
+	* src/socket.c: fix warning
+
+2014-09-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/ui-resources.c: fix warning
+
+2014-09-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_snapshot.c: comment out unused handlers
+
+2014-09-30  groepaz <groepaz@gmx.net>
+
+	* src/midi.c: fix warning
+
+2014-09-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_lex.l: Only include unistd.h
+	if it is really present.
+
+2014-09-29  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_lex.l: disable unused input
+	and unput lex functions. zero warnings now \o/
+
+2014-09-29  groepaz <groepaz@gmx.net>
+
+	* src/6510dtvcore.c: fixed last warning
+
+2014-09-29  stirring <fixme email>
+
+	* doc/building/SDL-Howto.txt: updated SDL build details for minGW
+	environments
+
+2014-09-29  groepaz <groepaz@gmx.net>
+
+	* src/6510dtvcore.c: fixed some warnings
+
+2014-09-29  stirring <fixme email>
+
+	* doc/coding-guidelines.txt: added brief project folder descriptions 
+
+2014-09-29  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_lex.l: added missing include
+
+2014-09-29  groepaz <groepaz@gmx.net>
+
+	* src/plus4/plus4model.c: fix warning
+
+2014-09-29  groepaz <groepaz@gmx.net>
+
+	* src/Makefile.am, src/gensvnversion.sh: prevent svnversion.h from
+	being generated all the time, but only when the svn version actually
+	changed
+
+2014-09-29  groepaz <groepaz@gmx.net>
+
+	* doc/coding-guidelines.txt: reworded comment on arch specific code
+	style
+
+2014-09-29  groepaz <groepaz@gmx.net>
+
+	* doc/coding-guidelines.txt: added christians comments/hints on OSX
+	GUI
+
+2014-09-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/scpu64/scpu64-cmdline-options.c: Fixed for xscpu64 as well.
+
+2014-09-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/mididrv.c, src/arch/unix/mididrv.c,
+	src/arch/unix/rs232.c, src/arch/unix/x11/ui-cmdline-options.c,
+	src/arch/unix/x11/xaw/x11video.c, src/arch/win32/res.rc,
+	src/arch/win32/ui-resources.c, src/autostart.c,
+	src/c128/c128-cmdline-options.c, src/c128/functionrom.c: Some command
+	line fixes.
+
+2014-09-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64-cmdline-options.c: Attempt to add some sanity to the
+	video sync command line options for x64sc.
+
+2014-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/ui.c, src/arch/unix/joy.c,
+	src/arch/unix/macosx/cocoa/ui-cmdline-options.c,
+	src/arch/unix/macosx/cocoa/video.m: Some command line fixes.
+
+2014-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/msdos/ui.c: Fixed.
+
+2014-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_lex.l, src/monitor/monitor.c,
+	src/monitor/montypes.h: Applied patch by Count Zero: Patches the
+	monitor to accept any valid register for conditional breakpoints.
+	Fixes segfaults when trying to define a condition using a flag not
+	available for the current cpu. TODO: add function to validate entered
+	flags versus per cpu available flags.
+
+2014-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/z80.txt: Added z80 register descriptions.
+
+2014-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/6809and6309.txt: Added 6809/6309 register
+	descriptions.
+
+2014-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/65802and65816.txt, doc/html/plain/65C02.txt,
+	doc/html/plain/65CE02.txt: Added some register descriptions.
+
+2014-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/kbd/kmap-pet.c, src/arch/os2/kbd.c,
+	src/monitor/mon_lex.l, src/monitor/monitor.c, src/translate_text.c:
+	This patch adds the (forgotten?) FL parameter to the condition
+	commands, patch provided by Count Zero.
+
+2014-09-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/sid/resid.cc, src/sid/sid-snapshot.c, src/sid/sid-snapshot.h:
+	ReSID snapshots didn't resume correctly. The voice mask was not
+	preserved, this caused garbled sound
+
+2014-09-27  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.txt, man/vice.1: fixed a typo
+
+2014-09-27  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32: fixed svn ignores
+
+2014-09-27  groepaz <groepaz@gmx.net>
+
+	* src/initcmdline.c: added missing video_disabled_mode=1
+
+2014-09-27  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64cpu.c, src/initcmdline.c, src/main65816cpu.c,
+	src/mainc64cpu.c, src/maincpu.c, src/maincpu.h, src/mainviccpu.c,
+	src/translate.txt, src/translate_text.c, src/vic20/vic20cpu.c: added
+	-limitcycles option to quit after N cycles
+
+2014-09-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2014-09-27  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/hardsid.c: include maincpu.h instead of using extern
+
+2014-09-27  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/ui-resources.c: Fixed macro
+	`HTML_BROWSER_COMMAND_DEFAULT' to compile again.
+
+2014-09-27  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2014-09-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/mididrv.c: Define missing command line options for
+	the sdl port, fixes bug #550.
+
+2014-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2014-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui-resources.c, src/arch/win32/video.c,
+	src/plus4/plus4acia.c: More resource related fixes.
+
+2014-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/beos/Makefile.am, build/beos/intel-build-sdl.sh,
+	build/beos/intel-build.sh: Added intel beos building scripts.
+
+2014-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_breakpoint.c, src/monitor/mon_lex.c,
+	src/monitor/mon_lex.l, src/monitor/mon_parse.h, src/monitor/monitor.c,
+	src/monitor/montypes.h, src/translate_text.c: Applied patch by Count
+	Zero which removes the 'dots' used for registers on conditionals.
+
+2014-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/de.po: Fixed some translations.
+
+2014-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/z80.txt: Updated.
+
+2014-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/openGL_sync.c, src/arch/unix/x11/ui-resources.c,
+	src/arch/unix/x11/xaw/x11video.c, src/arch/win32/mididrv.c: More
+	resource related fixes.
+
+2014-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/cocoa/mousedrv.m,
+	src/arch/unix/macosx/cocoa/ui-resources.c,
+	src/arch/unix/macosx/cocoa/video.m, src/arch/unix/mididrv.c,
+	src/arch/unix/ui-threads.c, src/arch/unix/x11/gnome/x11ui.c: More
+	resource related fixes.
+
+2014-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/z80.txt: Started on some z80 documentation.
+
+2014-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.y: Fixed.
+
+2014-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_breakpoint.c, src/monitor/mon_command.c,
+	src/monitor/mon_lex.l, src/translate_text.c: Applied monitor
+	enable/disable patch as provided by Scheisstyp.
+
+2014-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/wdc65816.h: Fixed svn properties.
+
+2014-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* gcccpu.sh: Fixed.
+
+2014-09-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64, src/cbm2, src/lib/p64, src/platform, src/rtc, src/scpu64,
+	src/userport, src/vic20/cart, src/viciisc: Added some svn ignores.
+
+2014-09-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsidstubs.c: Re-added 'cartridge_attach_image()' vsid stub,
+	as needed by the beos port.
+
+2014-09-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/petmem.c, src/plus4/plus4mem.c: Simplified sidcart address
+	checking.
+
+2014-09-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/kbd/kmap.c, src/arch/os2/mousedrv.c, src/arch/os2/ui.c,
+	src/arch/os2/video.c, src/arch/sdl/ui.c, src/arch/sdl/uistatusbar.c,
+	src/arch/sdl/video.c, src/arch/win32/vs_tmpl/arch_sdl.tmpl: More
+	resource related fixes.
+
+2014-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui.cc, src/arch/beos/video.cc, src/arch/msdos/ui.c,
+	src/arch/msdos/video.c, src/arch/msdos/vsync.c,
+	src/arch/os2/kbd/kmap-pet.c: More resource related fixes.
+
+2014-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uisidcart.c, src/arch/amigaos/mui/uisidcart.h,
+	src/arch/amigaos/petui.c, src/arch/amigaos/plus4ui.c,
+	src/arch/amigaos/vic20ui.c, src/arch/beos/petui.cc,
+	src/arch/beos/plus4ui.cc, src/arch/beos/ui_sidcart.cc,
+	src/arch/beos/ui_sidcart.h, src/arch/beos/vic20ui.cc,
+	src/arch/msdos/petui.c, src/arch/msdos/plus4ui.c,
+	src/arch/msdos/uisidcart.c, src/arch/msdos/uisidcart.h,
+	src/arch/msdos/vic20ui.c, src/arch/os2/dialogs/menubar.c,
+	src/arch/sdl/menu_sid.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/vic20ui.c,
+	src/arch/win32/uisidcart.c, src/pet/pet-sidcart.c, src/pet/petmem.c,
+	src/plus4/plus4-sidcart.c, src/plus4/plus4mem.c,
+	src/vic20/cart/vic20-sidcart.c: Changed sidcart address resource to
+	indicate the actual address instead of 'primary/secondary' address
+	indicator.
+
+2014-09-20  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c, src/arch/unix/ui-threads.h,
+	src/arch/unix/x11/gnome/uidialogs.c,
+	src/arch/unix/x11/gnome/uinetplay.c, src/arch/unix/x11/gnome/x11ui.c,
+	src/platform/platform_linux_runtime_os.c: Fixed some compiler
+	warnings.
+
+2014-09-19  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/vicemenu.cc: Fixed broken BeVICE menu code again.
+	Please use real machine_class defines from machine.h
+
+2014-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4-sidcart.c: Fixed native plus4 sidcart clock.
+
+2014-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/6809and6309.txt: Updated 6809/6309 documentation.
+
+2014-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/6510core.c, src/c128/c128cpu.c: Fixed ANE and LXA opcodes for
+	the 8502.
+
+2014-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Fixed comment.
+
+2014-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/pet-sidcart.c, src/plus4/plus4-sidcart.c,
+	src/vic20/cart/vic20-sidcart.c: Fixed sidcart resource handling.
+
+2014-09-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/uiapi.c: More resource related fixes.
+
+2014-09-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/acia.h, src/cbm2/cbm2-resources.c, src/video/video-resources.c:
+	Fixed some warnings.
+
+2014-09-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ppc-cc.sh: Fixed a typo.
+
+2014-09-17  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c: (dthread_calc_frames): Render frames in
+	case of paused emulation, fixes ticket #548 partly (the refresh when
+	emulation is paused)
+
+2014-09-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, gcccpu.sh: Added a script which will compile *cpu.c
+	files on low memory (or buggy compiler) systems. The script will use
+	the native gcc, when using configure use CC="<fullpath>/gcccpu.sh"
+
+2014-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vicii/vicii-resources.c, src/viciisc/vicii-resources.c,
+	src/video/video-resources.c, src/vsync.c: More resource related fixes.
+
+2014-09-16  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/gnomekbd.c,
+	src/arch/unix/x11/gnome/uiarch.h: (kbd_event_handler): workaround
+	gdk weirdness - see bug #549. added `GDK_KEY_ISO_Next_Group' and
+	`GDK_KEY_ISO_Prev_Group' and the respective 'older' versions.
+
+2014-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/amigaos/Makefile.am,
+	src/arch/amigaos/mui/Makefile.am, src/arch/beos/Makefile.am,
+	src/arch/msdos/Makefile.am, src/arch/os2/Makefile.am,
+	src/arch/os2/dialogs/Makefile.am, src/arch/os2/kbd/Makefile.am,
+	src/arch/os2/snippets/Makefile.am, src/arch/sdl/Makefile.am,
+	src/arch/unix/Makefile.am, src/arch/unix/gui/Makefile.am,
+	src/arch/unix/macosx/Makefile.am,
+	src/arch/unix/macosx/cocoa/Makefile.am,
+	src/arch/unix/macosx/cocoa/dialog/Makefile.am,
+	src/arch/unix/macosx/cocoa/menu/Makefile.am,
+	src/arch/unix/macosx/cocoa/view/Makefile.am,
+	src/arch/unix/readline/Makefile.am, src/arch/unix/x11/Makefile.am,
+	src/arch/unix/x11/gnome/Makefile.am,
+	src/arch/unix/x11/xaw/Makefile.am,
+	src/arch/unix/x11/xaw/widgets/Makefile.am, src/arch/win32/Makefile.am,
+	src/c128/Makefile.am, src/c64/Makefile.am, src/c64/cart/Makefile.am,
+	src/c64dtv/Makefile.am, src/cbm2/Makefile.am, src/core/Makefile.am,
+	src/crtc/Makefile.am, src/diskimage/Makefile.am,
+	src/drive/Makefile.am, src/drive/iec/Makefile.am,
+	src/drive/iec/c64exp/Makefile.am, src/drive/iec/plus4exp/Makefile.am,
+	src/drive/iec128dcr/Makefile.am, src/drive/iecieee/Makefile.am,
+	src/drive/ieee/Makefile.am, src/drive/tcbm/Makefile.am,
+	src/fileio/Makefile.am, src/fsdevice/Makefile.am,
+	src/gfxoutputdrv/Makefile.am, src/iecbus/Makefile.am,
+	src/imagecontents/Makefile.am, src/lib/p64/Makefile.am,
+	src/monitor/Makefile.am, src/parallel/Makefile.am,
+	src/pet/Makefile.am, src/platform/Makefile.am, src/plus4/Makefile.am,
+	src/printerdrv/Makefile.am, src/raster/Makefile.am,
+	src/rs232drv/Makefile.am, src/rtc/Makefile.am, src/scpu64/Makefile.am,
+	src/serial/Makefile.am, src/sid/Makefile.am, src/sounddrv/Makefile.am,
+	src/tape/Makefile.am, src/userport/Makefile.am, src/vdc/Makefile.am,
+	src/vdrive/Makefile.am, src/vic20/Makefile.am,
+	src/vic20/cart/Makefile.am, src/vicii/Makefile.am,
+	src/viciisc/Makefile.am, src/video/Makefile.am: Changed 'INCLUDES ='
+	to 'AM_CPPFLAGS =' in the Makefile.am files.
+
+2014-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4: Reverted previous commit since a newer autoconf should
+	take care of these.
+
+2014-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4: Added AC_TYPE_SSIZE_T and AC_MSG_FAILURE macros.
+
+2014-09-14  groepaz <groepaz@gmx.net>
+
+	* src/autostart.c, src/traps.c: by default use 'disk image' autostart
+	prg mode, and disable device traps for maximum compatibility
+
+2014-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/vic20/vic-resources.c,
+	src/vic20/vic20-resources.c, src/vic20/vic20io.c,
+	src/vicii/vicii-resources.c: More resource related fixes.
+
+2014-09-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c64ui.c, src/arch/win32/scpu64ui.c,
+	src/arch/win32/ui.c: Moved the iec reset toggle for the windows gui
+	from the generic gui file (ui.c) to the emulator specific gui files
+	(c64ui.c and scpu64ui.c).
+
+2014-09-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/userport/userport_dac.c,
+	src/userport/userport_joystick.c, src/userport/userport_rtc.c,
+	src/vdc/vdc-resources.c, src/vic20/cart/finalexpansion.c,
+	src/vic20/cart/megacart.c, src/vic20/cart/vic-fp.c,
+	src/vic20/cart/vic20-ieee488.c, src/vic20/cart/vic20-midi.c,
+	src/vic20/cart/vic20-sidcart.c, src/vic20/cart/vic20cart.c: More
+	resource related fixes.
+
+2014-09-14  groepaz <groepaz@gmx.net>
+
+	* src/c64/psid.c: init 780/1/2 with song number before running basic
+	tunes
+
+2014-09-14  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64rom.c, src/c64/vsidmemsnapshot.c: fix 'VirtualDevices'
+	warnings in vsid
+
+2014-09-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/autostart-prg.c: Better fault case handling
+
+2014-09-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/autostart-prg.c: Choose autostart disk image type based on drive
+	type
+
+2014-09-13  groepaz <groepaz@gmx.net>
+
+	* check-activity.sh: fixed
+
+2014-09-13  groepaz <groepaz@gmx.net>
+
+	* check-activity.sh: output a warning when temporary files are
+	outdated
+
+2014-09-13  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/uiprinteriecplus4.c,
+	src/arch/unix/gui/uiprinterieee.c: Fixed "Printer #..." submenu type
+	similar to r28351.
+
+2014-09-26  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po, po/translations-status.txt: Updated.
+
+2014-09-13  groepaz <groepaz@gmx.net>
+
+	* check-activity.sh: filter commits made by initial svn import script,
+	merge Loggedoubt and loggedoubt
+
+2014-09-13  groepaz <groepaz@gmx.net>
+
+	* check-activity.sh: add option to list all contributors sorted by
+	number of commits
+
+2014-09-13  groepaz <groepaz@gmx.net>
+
+	* check-activity.sh: script for checking SVN activity
+
+2014-09-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_sound.cc: Fixed overlapping controls in the BeVICE
+	sound settings dialog, and used a BOptionPopup for the "Buffer Size"
+	setting so it can have more choices.
+
+2014-09-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/sid/sid-resources.c, src/sound.c, src/traps.c:
+	More resource related fixes.
+
+2014-09-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, po/translations-status.txt,
+	src/scpu64/scpu64gluelogic.c, src/scpu64/scpu64gluelogic.h,
+	src/serial/serial-iec-device.c, src/sid/sid-cmdline-options.c,
+	src/sid/sid-resources.c, src/sid/sid-resources.h: More resource
+	related fixes.
+
+2014-09-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64acia1.c, src/cbm2/cbm2acia1.c, src/pet/petacia1.c,
+	src/plus4/plus4acia.c, src/plus4/plus4model.c: Some warning fixes.
+
+2014-09-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Fixed a typo.
+
+2014-09-11  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2014-09-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/koaladrv.c: Removed obsolete variable.
+
+2014-09-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsid.c: Removed serial resource init call from vsid.
+
+2014-09-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2014-09-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2014-09-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uiprinteriec.c,
+	src/arch/unix/gui/uiprinteriecplus4.c,
+	src/arch/unix/gui/uiprinterieee.c, src/printerdrv/driver-select.c,
+	src/printerdrv/interface-serial.c, src/printerdrv/output-text.c,
+	src/serial/serial-iec-device.c, src/translate.txt,
+	src/translate_text.c: Added previously untranslated items.
+
+2014-09-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform.h, src/printerdrv/output-text.c: Fixed for
+	android.
+
+2014-09-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/locnet_al/missing.cpp: Added a fallback.
+
+2014-09-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/scpu64/scpu64-cmdline-options.c, src/scpu64/scpu64-resources.c,
+	src/translate.txt, src/translate_text.c: More resource related fixes.
+
+2014-09-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c64ui.c, src/arch/amigaos/scpu64ui.c,
+	src/arch/amigaos/scpu64uires.h, src/arch/beos/vicemenu.cc,
+	src/arch/msdos/Makefile.am, src/arch/msdos/scpu64ui.c,
+	src/arch/msdos/uiscpu64model.c, src/arch/msdos/uiscpu64model.h,
+	src/arch/sdl/menu_c64model.c, src/arch/sdl/menu_c64model.h,
+	src/arch/sdl/menu_scpu64hw.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/win32/uiscpu64model.c, src/arch/win32/vs_tmpl/arch_sdl.tmpl,
+	src/arch/win32/vs_tmpl/c64scpu64.tmpl,
+	src/arch/win32/vs_tmpl/scpu64.tmpl, src/c64/Makefile.am,
+	src/scpu64/Makefile.am, src/scpu64/scpu64-resources.c,
+	src/scpu64/scpu64model.c: Gave xscpu64 its own model selection, got
+	rid of the basic and kernal resources from xscpu64 and adapted all the
+	gui's for the xscpu64 model selection changes.
+
+2014-09-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64dtv/c64dtv.c, src/printerdrv/output-text.c, src/ps2mouse.c,
+	src/rs232drv/rsuser.c: More resource related fixes.
+
+2014-09-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/printerdrv/interface-serial.c: Fixed missing case.
+
+2014-09-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/printerdrv/interface-serial.c,
+	src/printerdrv/interface-userport.c,
+	src/printerdrv/output-graphics.c, src/printerdrv/output-graphics.h,
+	src/printerdrv/output-select.c, src/printerdrv/output-select.h,
+	src/printerdrv/output-text.c, src/printerdrv/output-text.h,
+	src/printerdrv/printer.c: More resource related fixes.
+
+2014-09-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/koaladrv.c: Added a direct save function for the
+	koala screen shot, allowing multi color vicii graphics mode to be
+	saved directly.
+
+2014-09-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/printerdrv/driver-select.c: Added a string guard for the printer
+	driver names.
+
+2014-09-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/plus4ui.c, src/arch/beos/vicemenu.cc,
+	src/arch/msdos/uiprinter.c, src/arch/os2/dialogs/menubar.rc,
+	src/arch/win32/vs_tmpl/c64c64dtv.tmpl,
+	src/arch/win32/vs_tmpl/c64dtv.tmpl, src/c128/c128.c,
+	src/c64/Makefile.am, src/c64/c64.c, src/c64dtv/Makefile.am,
+	src/c64dtv/c64dtvprinter.c, src/cbm2/cbm2.c, src/cbm2/cbm5x0.c,
+	src/pet/pet.c, src/plus4/plus4.c, src/printer.h,
+	src/printerdrv/driver-select.c, src/printerdrv/driver-select.h,
+	src/printerdrv/printer.c, src/scpu64/scpu64.c, src/vic20/vic20.c:
+	Userport printer fixes.
+
+2014-09-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4model.c, src/plus4/plus4model.h: Improved the plus4
+	model selection.
+
+2014-09-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/makebindist.bat,
+	src/arch/sdl/msvc-files/make-bindist-mips.bat.proto,
+	src/arch/sdl/msvc-files/make-bindist.bat.proto,
+	src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	src/arch/win32/msvc/make-msvc-bindist-native.bat.proto,
+	src/arch/win32/watcom/make-watcom-bindist.bat: Added "c2lo.364" to
+	some of the 'make bindist' batch files.
+
+2014-09-08  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c: disable crtc/ted related
+	items for machines that do not have them
+
+2014-09-08  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64.c: set power freq for PALN to 50hz, fixes bug #547
+
+2014-09-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_drive.cc: Major rewrite of the BeVICE Drive
+	Settings dialog, making it auto-adjust to machine-specific number of
+	drive types, expansions and parallel cable types (which get radio
+	buttons now.)
+
+2014-09-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/pet-sidcart.c, src/pet/petdww.c, src/pet/pethre.c,
+	src/pet/petpia1.c, src/pet/petreu.c, src/plus4/digiblaster.c,
+	src/plus4/plus4-resources.c, src/plus4/plus4-sidcart.c,
+	src/plus4/plus4cart.c, src/plus4/plus4memcsory256k.c,
+	src/plus4/plus4memhannes256k.c, src/plus4/plus4memhannes256k.h,
+	src/plus4/plus4speech.c, src/plus4/ted-resources.c,
+	src/printerdrv/driver-select.c, src/sidcart.h: More resource related
+	fixes.
+
+2014-09-06  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uimenu.c: xaw/uimenu.c Add support for
+	UI_MENU_TYPE_BL_SUB to Xaw too.
+
+2014-09-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/machine.c, src/monitor/monitor.c,
+	src/monitor/monitor_network.c, src/mouse.c, src/network.c,
+	src/pet/pet-resources.c: More resource related fixes.
+
+2014-09-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/mididrv.c, src/arch/unix/mididrv.c,
+	src/socket.c: Some cosmetic fixes.
+
+2014-09-06  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/gui/uidrivec128.c, src/arch/unix/gui/uidrivec64.c,
+	src/arch/unix/gui/uidrivec64dtv.c, src/arch/unix/gui/uidrivepetcbm2.c,
+	src/arch/unix/gui/uidriveplus4.c, src/arch/unix/gui/uidrivevic20.c,
+	src/arch/unix/gui/uiprinteriec.c, src/arch/unix/x11/gnome/uimenu.c,
+	src/arch/unix/x11/x11menu.h: Changed drive expansion/40-track/idle
+	method submenu type to new `UI_MENU_TYPE_BL_SUB' to support blocking
+	from code. Fixed "Printer #..." submenu type. Reworked and cleanup to
+	support new `UI_MENU_TYPE_BL_SUB'. Added `UI_MENU_TYPE_BL_SUB'. Should
+	fix: http://sourceforge.net/p/vice-emu/bugs/494/
+
+2014-09-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/fsdevice/fsdevice-resources.c, src/gfxoutputdrv/doodledrv.c,
+	src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/koaladrv.c,
+	src/gfxoutputdrv/quicktimedrv.c, src/gfxoutputdrv/quicktimedrv.h,
+	src/joystick.c, src/lightpen.c: More resource related fixes.
+
+2014-09-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vsync.c: Removed useless 'your machine is too slow...' log
+	warning.
+
+2014-09-05  groepaz <groepaz@gmx.net>
+
+	* src/c64: updated svn ignores
+
+2014-09-05  groepaz <groepaz@gmx.net>
+
+	* src/c64/psiddrv.h: use alternative rules for setting $01, according
+	to wilfrid bos
+
+2014-09-05  groepaz <groepaz@gmx.net>
+
+	* src/c64/psid.c, src/c64/psiddrv.a65: use alternative rules for
+	setting /bin/bash1, according to wilfrid bos
+
+2014-09-05  groepaz <groepaz@gmx.net>
+
+	* src/c64/vsidstubs.c: added missing stubs
+
+2014-09-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drive-resources.c,
+	src/drive/iec/c64exp/c64exp-resources.c,
+	src/drive/iec/iec-resources.c,
+	src/drive/iec/plus4exp/plus4exp-resources.c,
+	src/drive/iec128dcr/iec128dcr-resources.c,
+	src/drive/ieee/ieee-resources.c, src/drive/tcbm/tcbm-resources.c,
+	src/event.c: More resource related fixes.
+
+2014-09-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/vsidlib.tmpl, src/c64/Makefile.am,
+	src/c64/vsid.c, src/c64/vsidmem.c, src/c64/vsidmemsnapshot.c,
+	src/c64/vsidstubs.c: Removed cartridge code and calls from vsid.
+
+2014-09-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsidmeminit.c: Changed reads from
+	c64memrom_kernal64_trap_rom to read from c64memrom_kernal64_rom
+	instead for vsid.
+
+2014-09-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsidmeminit.c, src/c64/vsidstubs.c: Simplified the vsid
+	memory handling and removed some unused vsid stubs.
+
+2014-09-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/crtc/crtc-resources.c, src/datasette.c, src/debug.c,
+	src/video/video-resources.c: More resource related fixes.
+
+2014-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64scmodel.c: Added comment about the VICII-6566, which is
+	used the the vic10/max.
+
+2014-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/plus256k.c, src/c64/plus60k.c, src/c64/psid.c,
+	src/c64/vsid-resources.c, src/c64dtv/c64dtv-resources.c,
+	src/c64dtv/c64dtvblitter.c, src/c64dtv/c64dtvdma.c,
+	src/c64dtv/c64dtvflash.c, src/c64dtv/flash-trap.c,
+	src/cbm2/Makefile.am, src/cbm2/cbm2-common-resources.c,
+	src/cbm2/cbm2-resources.c, src/cbm2/cbm2cart.c,
+	src/cbm2/cbm5x0-resources.c: More resource related fixes.
+
+2014-09-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/ui-resources.c: enable true aspect ratio by default
+
+2014-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/c64/cart/reu.c, src/c64/cart/sfx_soundexpander.c,
+	src/c64/cart/sfx_soundsampler.c, src/c64/cart/tfe.c: More resource
+	related fixes.
+
+2014-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64model.c, src/c64/c64model.h, src/c64/c64scmodel.c:
+	Extended model selection.
+
+2014-08-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/mmcreplay.c, src/c64/cart/mmcreplay.h,
+	src/c64/cart/ramcart.c, src/c64/cart/retroreplay.c,
+	src/c64/cart/retroreplay.h: More resource related fixes.
+
+2014-08-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ide64.c, src/c64/cart/isepic.c,
+	src/c64/cart/magicvoice.c, src/c64/cart/mmc64.c, src/c64/cart/mmc64.h:
+	More resource related fixes.
+
+2014-08-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/c64/c64_256k.c, src/c64/c64gluelogic.c,
+	src/c64/c64gluelogic.h, src/c64/c64io.c, src/c64/cart/c64-midi.c: Even
+	more resource related fixes.
+
+2014-08-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64acia1.c, src/c64/cart/c64cart.c,
+	src/c64/cart/c64tpi.c, src/c64/cart/digimax.c, src/c64/cart/dqbb.c,
+	src/c64/cart/ds12c887rtc.c, src/c64/cart/easyflash.c,
+	src/c64/cart/expert.c, src/c64/cart/georam.c: More resource related
+	fixes.
+
+2014-08-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drive-sound.c: Fixed to include 'archdep.h'.
+
+2014-08-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drive-sound.c: Use 'STATIC_PROTOTYPE'.
+
+2014-08-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/c64/c64-resources.c, src/c64/c64fastiec.c: Fixed.
+
+2014-08-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128model.c, src/c128/c128model.h, src/c64/c64model.c,
+	src/c64/c64model.h, src/c64dtv/c64dtvmodel.c,
+	src/c64dtv/c64dtvmodel.h, src/cbm2/cbm2model.c, src/cbm2/cbm2model.h,
+	src/pet/petmodel.c, src/pet/pets.h, src/plus4/plus4model.c,
+	src/plus4/plus4model.h, src/vic20/vic20model.c,
+	src/vic20/vic20model.h: Made some of the model code more clear, using
+	defines to show (at a glance) what the members of the various models
+	are set to and what they indicate, also extended the c64 model
+	structure to include currently unimplemented differences like the
+	presence of keyboard, datasette, userport and iec.
+
+2014-08-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/magicvoice.c, src/diskimage/fsimage-probe.c: Fixed
+	warnings.
+
+2014-08-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_sid.c, src/c64/vsidsound.c, src/plus4/ted-fetch.c,
+	src/viciisc/vicii-chip-model.c: Removed unused code/functions.
+
+2014-08-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/joy.c, src/arch/amigaos/joyll.c,
+	src/arch/msdos/joy.c, src/arch/os2/joy.c, src/arch/sdl/joy.c,
+	src/arch/unix/joy.c, src/arch/unix/macosx/joy.c, src/arch/win32/joy.c,
+	src/attach.c: Better and consistent handling of (void *) to
+	(unsigned) int casting.
+
+2014-08-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/aciacore.c: Fix acia warnings.
+
+2014-08-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/uimenu.c, src/arch/sdl/video.c,
+	src/arch/sdl/videoarch.h, src/arch/sdl/vsidui.c: Added seperate draw
+	buffer for the vsid ui in the sdl port. (fixes bug #453)
+
+2014-08-26  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: Remove additional 2 banks. I was there for a
+	reason, but the one I remember does not hold. Unfortunately no one
+	could verify this yet.
+
+2014-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c128/z80mem.c, src/c128/z80mem.h: Removed
+	obsolete z80mem resource/command-line code.
+
+2014-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_settings.c: Fix typo.
+
+2014-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/c128/functionrom.c: Fixed for function rom type
+	and range checking.
+
+2014-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128mmu.c: Fixed bool checking.
+
+2014-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/sdl/menu_settings.c,
+	src/arch/unix/gui/petui.c, src/arch/unix/gui/uikeyboard.c,
+	src/c128/c128-cmdline-options.c, src/c128/c128-resources.c,
+	src/c128/c128.c, src/c64/c64.c, src/c64/vsid.c, src/c64dtv/c64dtv.c,
+	src/cbm2/cbm2.c, src/cbm2/cbm5x0.c, src/keyboard.c, src/machine.h,
+	src/pet/pet.c, src/plus4/plus4.c, src/scpu64/scpu64.c,
+	src/translate.txt, src/translate_text.c, src/vic20/vic20.c,
+	src/vicii/vicii.c: Fixed the c128 resources and command-lines.
+
+2014-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/joy.c: Fixed.
+
+2014-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/aciacore.c, src/arch/amigaos/joy.c, src/arch/amigaos/joyll.c,
+	src/arch/msdos/joy.c, src/arch/unix/macosx/joy.c: Use a consistent way
+	of range checking 'named' members of a range.
+
+2014-08-25  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/uiattach.c: make 'attach read only' work in autostart
+	dialog, only show zip in filters when zlib is compiled in
+
+2014-08-25  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resvic20.rc: add HELP
+	attribute to help items
+
+2014-08-25  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/c128ui.c,
+	src/arch/win32/resc128.rc: added dqbb and isepic setup to x128
+
+2014-08-25  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64dtv/c64dtv.c,
+	src/cbm2/cbm2.c, src/pet/pet.c, src/plus4/plus4.c,
+	src/scpu64/scpu64.c, src/vic20/vic20.c: fix copypaste error
+
+2014-08-25  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/vsidui.c: display driver/tune info
+
+2014-08-25  groepaz <groepaz@gmx.net>
+
+	* src/c64/psiddrv.a65, src/c64/psiddrv.h: fix cpu port setup
+	(airwolf.sid). reported by ian coog
+
+2014-08-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/autostart.c, src/c128/c128.c, src/c64/c64.c,
+	src/c64dtv/c64dtv.c, src/cbm2/cbm2.c, src/cbm2/cbm5x0.c, src/init.c,
+	src/pet/pet.c, src/plus4/plus4.c, src/scpu64/scpu64.c,
+	src/translate.txt, src/translate_text.c, src/vic20/vic20.c: Fixed the
+	autostart translations and removed autostart calls from vsid.
+
+2014-08-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/vsid.c, src/c64dtv/c64dtv.c,
+	src/cbm2/cbm2.c, src/cbm2/cbm5x0.c, src/init.c, src/machine.c,
+	src/pet/pet.c, src/plus4/plus4.c, src/scpu64/scpu64.c,
+	src/vic20/vic20.c: Removed video resource/command-line options code
+	from vsid.
+
+2014-08-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/attach.c: Use consistent bool setting method.
+
+2014-08-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsid.c: Removed obsolete code.
+
+2014-08-24  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/plus4ui.c, src/arch/win32/resmenu.txt,
+	src/arch/win32/resplus4.rc, src/arch/win32/resstrings.txt: add item to
+	enable digiblaster addon in xplus4
+
+2014-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64dtv/c64dtv.c,
+	src/cbm2/cbm2.c, src/cbm2/cbm5x0.c, src/init.c, src/pet/pet.c,
+	src/plus4/plus4.c, src/scpu64/scpu64.c, src/vic20/vic20.c: Removed
+	network/netplay resource options code from vsid.
+
+2014-08-24  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/uisid.c: prevent error when closing dialog when resid
+	is not compiled in
+
+2014-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64dtv/c64dtv.c,
+	src/cbm2/cbm2.c, src/cbm2/cbm5x0.c, src/init.c, src/pet/pet.c,
+	src/plus4/plus4.c, src/scpu64/scpu64.c, src/vic20/vic20.c: Removed
+	kbdbuf resource/command-line options code from vsid.
+
+2014-08-24  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/resvsid.rc, src/arch/win32/vsidui.c: added pal/ntsc
+	selection to vsid
+
+2014-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/cbm5x0ui.c: Added needed include.
+
+2014-08-24  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/cbm5x0ui.c, src/arch/win32/rescbm5x0.rc: added VICII
+	settings
+
+2014-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/vsidlib.tmpl, src/c64/Makefile.am,
+	src/c64/c64mem.h, src/c64/c64sound.c, src/c64/vsid.c,
+	src/c64/vsidmem.c, src/c64/vsidmeminit.c, src/c64/vsidsound.c: Removed
+	I/O collision checking code and simplified memory access for vsid.
+
+2014-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/vsidstubs.c,
+	src/c64dtv/c64dtv.c, src/cbm2/cbm2.c, src/cbm2/cbm5x0.c, src/init.c,
+	src/machine.c, src/pet/pet.c, src/plus4/plus4.c, src/scpu64/scpu64.c,
+	src/vic20/vic20.c: removed fliplist, file_system, fsdevice,
+	disk_image, event and debug resources/command-line options from vsid.
+
+2014-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/joy.c, src/arch/amigaos/joyll.c,
+	src/arch/beos/joy.cc, src/arch/msdos/joy.c, src/arch/os2/joy.c,
+	src/arch/sdl/joy.c, src/arch/win32/joy.c: Renamed
+	joystick_init_cmdline_options() to joystick_cmdline_options_init().
+
+2014-08-23  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm5x0.rc: remove
+	redundant pal/ntsc selector
+
+2014-08-23  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/fullscrn.c,
+	src/arch/win32/petui.c, src/arch/win32/plus4ui.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm5x0.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	src/arch/win32/scpu64ui.c, src/arch/win32/uivideo.c,
+	src/arch/win32/vic20ui.c, src/arch/win32/video.c: move 'disable dx9'
+	to video settings, make video settings a bit more compact
+
+2014-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/vsid.c, src/c64dtv/c64dtv.c,
+	src/cbm2/cbm2.c, src/cbm2/cbm5x0.c, src/init.c, src/machine.c,
+	src/pet/pet.c, src/plus4/plus4.c, src/scpu64/scpu64.c,
+	src/vic20/vic20.c: Moved the sound resources/command-line init calls
+	to the init.c file.
+
+2014-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/vsid.c, src/c64dtv/c64dtv.c,
+	src/cbm2/cbm2.c, src/cbm2/cbm5x0.c, src/init.c, src/pet/pet.c,
+	src/plus4/plus4.c, src/scpu64/scpu64.c, src/vic20/vic20.c: Moved the
+	vsync resources/command-line init calls to the init.c file.
+
+2014-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64dtv/c64dtv.c,
+	src/cbm2/cbm2.c, src/cbm2/cbm5x0.c, src/init.c, src/pet/pet.c,
+	src/plus4/plus4.c, src/scpu64/scpu64.c, src/vic20/vic20.c: Removed
+	gfxoutput calls from vsid.
+
+2014-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/joy.h, src/arch/amigaos/joyll.h,
+	src/arch/beos/joy.h, src/arch/msdos/joy.h, src/arch/os2/joy.h,
+	src/arch/sdl/joy.h, src/arch/unix/joy.c, src/arch/unix/joy.h,
+	src/arch/unix/macosx/joy.c, src/arch/win32/joy.c,
+	src/arch/win32/joy.h, src/c128/c128.c, src/c64/c64.c,
+	src/c64dtv/c64dtv.c, src/cbm2/cbm2.c, src/cbm2/cbm5x0.c, src/init.c,
+	src/joystick.h, src/pet/pet.c, src/plus4/plus4.c, src/scpu64/scpu64.c,
+	src/vic20/vic20.c: Removed joystick init calls from vsid.
+
+2014-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsid.c: Removed traps init code from vsid.
+
+2014-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/video.c, src/arch/beos/video.cc,
+	src/arch/msdos/video.c, src/arch/os2/video.c, src/arch/sdl/video.c,
+	src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/xaw/x11video.c, src/arch/win32/video.c,
+	src/c128/c128.c, src/c64/c64.c, src/c64/psid.c, src/c64/psid.h,
+	src/c64/vsid.c, src/c64dtv/c64dtv.c, src/cbm2/cbm2.c,
+	src/cbm2/cbm5x0.c, src/init.c, src/init.h, src/joystick.c,
+	src/joystick.h, src/pet/pet.c, src/pet/petpia.h, src/pet/petpia1.c,
+	src/plus4/plus4.c, src/scpu64/scpu64.c, src/vdc/vdc.c, src/vdc/vdc.h,
+	src/vic20/vic20.c, src/video.h: Added error logs for the machine
+	specific resources/command line options, and make the function names
+	consistent.
+
+2014-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/de.po: Fixed a typo.
+
+2014-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Grammar fix.
+
+2014-08-22  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/resdrivevic20.rc: Added missing radio buttons to the
+	WinVICE xvic Drive Settings dialog.
+
+2014-08-22  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm2ui.cc,
+	src/arch/beos/cbm5x0ui.cc, src/arch/beos/petui.cc,
+	src/arch/beos/plus4ui.cc, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/ui.cc, src/arch/beos/ui_drive.cc,
+	src/arch/beos/ui_drive.h, src/arch/beos/ui_video.cc,
+	src/arch/beos/ui_video.h, src/arch/beos/vic20ui.cc: Made the BeVICE
+	Drive and Video Settings dialog code more machine specific, and not
+	used by vsid, fixing its build. Also fixed the scpu64 build and other
+	minor changes.
+
+2014-08-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui.h: added ui_pause_emulation() prototype.
+
+2014-08-21  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/resstrings.txt, src/arch/win32/resvsid.rc,
+	src/arch/win32/ui.c, src/arch/win32/vsidui.c: vsid menu cleanup
+
+2014-08-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/attach.c: Fixed.
+
+2014-08-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64cart.c: Fix the -default problem where default
+	attached cartridge is concerned.
+
+2014-08-21  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/resc128.rc: added missing
+	fullscreen item
+
+2014-08-21  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/resscpu64.rc: removed double defined
+	IDS_MI_NETWORK_SETTINGS
+
+2014-08-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/unix/macosx/joy.c: Fixed.
+
+2014-08-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/cbm2ui.c, src/arch/win32/cbm5x0ui.c,
+	src/arch/win32/petui.c, src/arch/win32/plus4ui.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm5x0.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/vic20ui.c: added missing
+	netplay menu items
+
+2014-08-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/resscpu64.rc: added missing CIA settings item
+
+2014-08-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/c64ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resmenu.txt,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/scpu64ui.c, src/arch/win32/ui.c: added menu item for
+	IECReset
+
+2014-08-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/statusbar.c: always show tape status widget (oops)
+
+2014-08-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/statusbar.c: always show tape status widget
+
+2014-08-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/unix/joy.c, src/arch/unix/joy.h: Fixed.
+
+2014-08-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/sdl/joy.c, src/arch/sdl/joy.h,
+	src/sounddrv/soundsdl.c: Fixed.
+
+2014-08-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/joy.c, src/arch/amigaos/joyll.c: Unified the code
+	for setting the joystick for the amigaos gui.
+
+2014-08-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/joy.c: Better handling of the android joy2 default for
+	the sdl port.
+
+2014-08-19  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/cbm2ui.c, src/arch/win32/cbm5x0ui.c,
+	src/arch/win32/petui.c, src/arch/win32/plus4ui.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm5x0.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/vic20ui.c: some more shuffling around menu items
+
+2014-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/os2/joy.c: Fixed.
+
+2014-08-19  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/uivideo.c, src/arch/win32/vic20ui.c: move renderer
+	options into video options dialog and remove them from menus
+
+2014-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/msdos/joy.c: Fixed.
+
+2014-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/beos/joy.cc: Fixed.
+
+2014-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/joyll.c: Fixed.
+
+2014-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/diskimage/fsimage-gcr.c, src/diskimage/fsimage-probe.c,
+	src/printerdrv/drv-mps803.c: Fixed some warnings.
+
+2014-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/joy.c, src/c128/c128.c, src/c64/c64.c,
+	src/c64dtv/c64dtv.c, src/cbm2/cbm2.c, src/cbm2/cbm5x0.c, src/init.c,
+	src/pet/pet.c, src/plus4/plus4.c, src/scpu64/scpu64.c,
+	src/vic20/vic20.c: Change the joystick and gfxoutput resources init
+	code to be machine specific, and no longer used by vsid.
+
+2014-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsidstubs.c: Cosmetic fix.
+
+2014-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiacia.c: Removed some obsolete variables.
+
+2014-08-19  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/resautostart.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resmenu.txt, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	src/arch/win32/scpu64ui.c, src/arch/win32/ui.c,
+	src/arch/win32/uiautostart.c, src/arch/win32/vic20ui.c: moved
+	'handle tde at autostart' into autostart dialog
+
+2014-08-18  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128rom.c, src/c128/c128romset.c, src/c128/c128video.c,
+	src/c128/daa.c: fix warning
+
+2014-08-18  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvsid.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/vic20ui.c, src/arch/win32/vsidui.c: moving around menus
+	part 2 - RIP 'options'
+
+2014-08-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/acia.h, src/aciacore.c, src/arch/amigaos/mui/uiacia.c,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xcbm2,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xcbm5x0,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xpet,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xplus4,
+	src/arch/beos/cbm2ui.cc, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/petui.cc, src/arch/beos/plus4ui.cc,
+	src/arch/beos/vicemenu.cc, src/arch/sdl/dingoo-files/sdl-vicerc,
+	src/arch/sdl/dingoo-files/sdl-vicerc-cbm5x0,
+	src/arch/sdl/dingoo-files/vicerc-native, src/arch/sdl/menu_rs232.c,
+	src/arch/win32/uiacia.c, src/c64/cart/c64acia1.c,
+	src/cbm2/cbm2acia1.c, src/pet/petacia1.c, src/plus4/plus4acia.c: Fixed
+	the ACIA resources and gui's.
+
+2014-08-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Some fixes.
+
+2014-08-17  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvsid.rc,
+	src/arch/win32/scpu64ui.c, src/arch/win32/vic20ui.c,
+	src/arch/win32/vsidui.c: shuffling around menus part 1 :)
+
+2014-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Documentation-Howto.txt: Added a section with information about
+	generating the various documentation formats.
+
+2014-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/push-roms.sh, src/arch/os2/watcom/makebindist.bat,
+	src/arch/sdl/make-bindist_qnx6.sh,
+	src/arch/sdl/msvc-files/make-bindist.bat.proto,
+	src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	src/arch/unix/hpux/make-bindist.sh,
+	src/arch/unix/qnx6/make-bindist.sh,
+	src/arch/win32/msvc/make-msvc-bindist-native.bat.proto,
+	src/arch/win32/watcom/make-watcom-bindist.bat: Updated for the scpu64
+	japanese chargen.
+
+2014-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/rescbm2common.rc, src/arch/win32/respet.rc: Fixed the
+	windows pet, cbm2 and cbm5x0 keyboard dialog.
+
+2014-08-17  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2014-08-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/parsid.c: Fixed windows parsid code to use
+	inpoutx64.dll on 64bit windows.
+
+2014-08-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/scpu64ui.c,
+	src/arch/win32/uiscpu64model.c, src/arch/win32/uiscpu64model.h,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/vice.wpj,
+	src/scpu64/scpu64meminit.c: Removed max model selection from the
+	windows scpu64 gui.
+
+2014-08-15  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/vicemenu.cc: Fix which emulators get which Drive ROM
+	menu items in BeVICE.
+
+2014-08-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resscpu64.rc: Fixed the scpu64 model selection dialog
+	for the windows gui.
+
+2014-08-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf: Updated properly.
+
+2014-08-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/texi2html: Use scalar() instead of defined() to find out if
+	an array has already been defined.
+
+2014-08-14  groepaz <groepaz@gmx.net>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.texi, doc/vice.txt: updated
+
+2014-08-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2014-08-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uisound.c: Added drive sound volume support to the
+	dos tui.
+
+2014-08-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uisound.c: Added sound volume support to the dos tui.
+
+2014-08-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c128ui.c: Added internal/external function rom
+	support to the dos tui.
+
+2014-08-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c128ui.c, src/arch/msdos/c64ui.c,
+	src/arch/msdos/scpu64ui.c: Removed unneeded 'been_activated' parts.
+
+2014-08-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c128ui.c, src/arch/msdos/c64ui.c,
+	src/arch/msdos/scpu64ui.c: Fixed the mouse menu.
+
+2014-08-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resdrivec128.rc, src/arch/win32/resdrivec64.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/scpu64ui.c, src/arch/win32/uidrivec128.c,
+	src/arch/win32/uidrivec64.c: Added profdos and sc+ support to the
+	windows gui.
+
+2014-08-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c128ui.c, src/arch/msdos/c64dtvui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/cbm2ui.c,
+	src/arch/msdos/cbm5x0ui.c, src/arch/msdos/petui.c,
+	src/arch/msdos/plus4ui.c, src/arch/msdos/scpu64ui.c,
+	src/arch/msdos/uidrivec128.c, src/arch/msdos/uidrivec64.c,
+	src/arch/msdos/vic20ui.c: Fixed rom menu and added profdos and sc+ to
+	the dos tui.
+
+2014-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm2ui.cc,
+	src/arch/beos/cbm5x0ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/petui.cc, src/arch/beos/plus4ui.cc,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/ui_drive.cc,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc: Added
+	computer/drive rom settings and profdos/sc+ support to the beos gui.
+
+2014-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/winmain.c: In case argc is 0, get the args
+	'manually'. (fixes mingw crashes)
+
+2014-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_ide64.cc: Cosmetic fix.
+
+2014-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uiromcbm2settings.c: Fixed.
+
+2014-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c64ui.c, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/Makefile.am,
+	src/arch/amigaos/mui/uidrivec128.c, src/arch/amigaos/mui/uidrivec64.c,
+	src/arch/amigaos/mui/uiromc128settings.c,
+	src/arch/amigaos/mui/uiromc64settings.c,
+	src/arch/amigaos/mui/uiromc64settings.h,
+	src/arch/amigaos/mui/uiromc64vic20settings.c,
+	src/arch/amigaos/mui/uiromscpu64settings.c,
+	src/arch/amigaos/mui/uiromvic20settings.c,
+	src/arch/amigaos/mui/uiromvic20settings.h, src/arch/amigaos/vic20ui.c:
+	Added profdos and sc+ support to the amiga gui.
+
+2014-08-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drivemem.c: The 2031 has via's, not riot's.
+
+2014-08-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/iec/c64exp/supercard.c: Extended supercard to also work in
+	1570 and 1571cr.
+
+2014-08-09  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/cbm2ui.cc, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/ui_cbm5x0.cc, src/arch/beos/vicemenu.cc: Fix build
+	breaking typos and more missing includes. Most emulators build on BeOS
+	again, but vsid is still broken.
+
+2014-08-05  groepaz <groepaz@gmx.net>
+
+	* src/cmdline.c: fix bug #541, patch by greg king
+
+2014-08-05  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2014-08-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/iec/c64exp/supercard.c: Changed to work for 1541, 1541-II
+	and 1571 drive types only.
+
+2014-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resvic20.rc: Only include videoarch.h when compiling
+	msvc/watcom windows resource files, this makes sure that no windows
+	includes are used when compiling in mingw, making wrc work without
+	needing any windows headers.
+
+2014-08-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/65816core.c, src/scpu64/scpu64cpu.c, src/scpu64/scpu64mem.c,
+	src/wdc65816.h: Warning fixes.
+
+2014-08-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64io.c, src/cartio.h, src/vic20/vic20io.c: Cosmetic fixes.
+
+2014-08-02  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_drive.h: Make sure all files using the drive type
+	struct can also use the drive type id defines; a first step to
+	unbreaking the BeOS build.
+
+2014-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uiprinter.c: Added IEC device 7 support to the
+	amiga gui.
+
+2014-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resmouse.rc, src/arch/win32/respet.rc,
+	src/arch/win32/respetcolour.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/ressiddtv.rc, src/arch/win32/resvic20.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2014-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2014-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_drive.c, src/arch/sdl/menu_printer.c: cosmetic
+	fixes.
+
+2014-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uiprinter.c: Fixed.
+
+2014-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/ko.po, po/translations-status.txt: Updated to current status.
+
+2014-08-01  groepaz <groepaz@gmx.net>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po: make
+	update-po
+
+2014-08-01  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: updated
+
+2014-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/65816core.c, src/pet/6809.c: Cosmetic fixes.
+
+2014-08-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resstrings.txt, src/arch/win32/uiperipheral.c: Added
+	IEC device 7 support to the windows gui.
+
+2014-07-31  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: updated
+
+2014-07-31  groepaz <groepaz@gmx.net>
+
+	* src/midi.c: midi tx irq implementation, patch by frank buss
+
+2014-07-31  groepaz <groepaz@gmx.net>
+
+	* src/cmdline.c: attempt at fixing bug #541
+
+2014-07-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_printer.c, src/arch/unix/gui/uiprinteriec.c,
+	src/arch/unix/gui/uiprinteriecplus4.c: Device 7 only present when
+	HAVE_OPENCBM is defined.
+
+2014-07-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_printer.c: Fixed.
+
+2014-07-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/ressid.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uisid.c: Added resid
+	gain and filter bias support to the windows port.
+
+2014-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uic64model.c: Added IEC reset support to the dos tui.
+
+2014-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/vicemenu.cc: Added IEC reset
+	support to the beos gui.
+
+2014-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uic64model.c: Added IEC reset support to the
+	amiga gui.
+
+2014-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/resmenu.txt,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/ui.c, src/arch/win32/vic20ui.c: Added cpu jam action
+	support to the windows gui.
+
+2014-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/menudefs.c: Added cpu jam action support to the dos
+	tui.
+
+2014-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uisidc128.c, src/arch/msdos/uisidc64.c,
+	src/arch/msdos/uisidcart.c, src/arch/msdos/uisidcbm2.c: Added resid
+	gain and filter bias support to the dos port.
+
+2014-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uisid.c, src/arch/amigaos/mui/uisidcart.c: Added
+	resid gain and filter bias support to the amiga port.
+
+2014-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_sid.cc, src/arch/beos/ui_sid.h,
+	src/arch/beos/ui_sidcart.cc, src/arch/beos/ui_sidcart.h: Added resid
+	gain and filter bias support to the beos port.
+
+2014-07-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/ui.cc,
+	src/arch/beos/vicemenu.cc: Added cpu jam action support to the beos
+	gui.
+
+2014-07-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/cbm5x0uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/Makefile.am,
+	src/arch/amigaos/mui/uijamaction.c,
+	src/arch/amigaos/mui/uijamaction.h, src/arch/amigaos/petuires.h,
+	src/arch/amigaos/plus4uires.h, src/arch/amigaos/scpu64uires.h,
+	src/arch/amigaos/ui.c, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20uires.h: Added cpu jam action support to the
+	amiga gui.
+
+2014-07-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uidrivesound.c: Changed the volume range to
+	0-4000.
+
+2014-07-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/cbm5x0uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/Makefile.am,
+	src/arch/amigaos/mui/uidrivesound.c,
+	src/arch/amigaos/mui/uidrivesound.h, src/arch/amigaos/petuires.h,
+	src/arch/amigaos/plus4uires.h, src/arch/amigaos/scpu64uires.h,
+	src/arch/amigaos/ui.c, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20uires.h: Added drive sound volume support to the
+	amiga gui.
+
+2014-07-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/mui/uidigimax.c, src/arch/amigaos/mui/uidigimax.h,
+	src/arch/amigaos/scpu64ui.c, src/arch/amigaos/vic20ui.c: Removed
+	obsolete parameter.
+
+2014-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/vic20ui.cc,
+	src/arch/beos/vicemenu.cc: Added vic20 model selection support to the
+	beos gui.
+
+2014-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vicemenu.cc: Added userport rtc support to the beos gui.
+
+2014-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/beos/ui.cc,
+	src/arch/msdos/ui.c, src/arch/os2/ui.c, src/arch/win32/res.rc: Made
+	the 'extend' ui dialogs more generic.
+
+2014-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc: Added DS12C887
+	RTC support to the beos gui.
+
+2014-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/vicemenu.cc: Added internal/external function rom
+	selection to the beos gui.
+
+2014-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/petui.cc,
+	src/arch/beos/ui_pet.cc, src/arch/beos/ui_pet.h,
+	src/arch/beos/vicemenu.cc: Updated the pet model selection for the
+	beos gui.
+
+2014-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/ui.c: Amiga style fixes.
+
+2014-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_video.cc, src/arch/beos/ui_video.h: Added audio
+	leak support to the beos gui.
+
+2014-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/cbm2ui.cc, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/vicemenu.cc: Added CIA model selection for xcbm2/xcbm5x0
+	to the beos gui.
+
+2014-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/vicemenu.cc: Added CIA model
+	selection for x128 to the beos gui.
+
+2014-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt, src/arch/win32/c128ui.c,
+	src/arch/win32/c64dtvui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/cbm2ui.c, src/arch/win32/cbm5x0ui.c,
+	src/arch/win32/petui.c, src/arch/win32/plus4ui.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2common.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/uidrivec64dtv.c, src/arch/win32/uilib.h,
+	src/arch/win32/uirom.c, src/arch/win32/uirom.h,
+	src/arch/win32/vic20ui.c: Removed romset dialogs and code from the
+	windows gui.
+
+2014-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cartridge.h: Fixed order of items.
+
+2014-07-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vicemenu.cc: Added Retro Replay settings to the beos
+	gui.
+
+2014-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/vicemenu.cc: Added c128 model selection to the beos gui.
+
+2014-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_sound.cc, src/arch/beos/ui_sound.h: Added sound
+	mode support to the beos gui.
+
+2014-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_ide64.cc: Changed text for IDE64 to
+	primary/secondary master/slave in the beos gui.
+
+2014-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/cbm2ui.cc, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/ui_file.cc,
+	src/arch/beos/ui_file.h, src/arch/beos/vicemenu.cc: Added cbm2/cbm5x0
+	cartridge support to the beos gui.
+
+2014-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm2ui.cc,
+	src/arch/beos/cbm5x0ui.cc, src/arch/beos/petui.cc,
+	src/arch/beos/plus4ui.cc, src/arch/beos/ui_drive.cc,
+	src/arch/beos/ui_drive.h, src/arch/beos/vic20ui.cc: Fixed the beos
+	drive gui.
+
+2014-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_drive.cc: Fix copy/paste error.
+
+2014-07-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_drive.cc, src/arch/beos/ui_drive.h: Use
+	drive_check_expansion*() functions instead of macros, first step in
+	beos gui drive fix-up.
+
+2014-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64dtvui.c, src/arch/msdos/c64ui.c,
+	src/arch/msdos/cbm2ui.c, src/arch/msdos/cbm5x0ui.c,
+	src/arch/msdos/menudefs.c, src/arch/msdos/menudefs.h,
+	src/arch/msdos/petui.c, src/arch/msdos/plus4ui.c,
+	src/arch/msdos/scpu64ui.c, src/arch/msdos/uidrive.c,
+	src/arch/msdos/uidrive.h, src/arch/msdos/uidrivec128.c,
+	src/arch/msdos/uidrivec64.c, src/arch/msdos/uidrivec64dtv.c,
+	src/arch/msdos/uidriveieee.c, src/arch/msdos/uidriveplus4.c,
+	src/arch/msdos/uidrivevic20.c, src/arch/msdos/vic20ui.c: Fixed the
+	drive tui for the dos port.
+
+2014-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/printerdrv/output-text.c: Fixed for the dos port.
+
+2014-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uipethre.c, src/arch/msdos/uiscpu64.c: Fixed.
+
+2014-07-23  groepaz <groepaz@gmx.net>
+
+	* src/cartconv.c, src/util.c, src/util.h: fix prototype of strncasecmp
+
+2014-07-23  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/ui.h: hack to get missing types like LPOLESTR in
+	mingw64
+
+2014-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_cbm2.cc, src/arch/beos/ui_cbm2.h,
+	src/arch/beos/ui_cbm5x0.cc, src/arch/beos/ui_cbm5x0.h,
+	src/cbm2/cbm2-cmdline-options.c, src/cbm2/cbm2mem.h: Removed beos gui
+	usage of cbm2_set_model() and made the function static.
+
+2014-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/cbm2ui.cc, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/vicemenu.cc: Added
+	cbm2/cbm5x0 model selection to the beos gui.
+
+2014-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uidrive.c: Extended drives to include 10 and 11 for
+	the dos tui, first step of dos drive tui fix-up.
+
+2014-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sound.c: Fixed comment typo.
+
+2014-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_darwin_runtime_os.c: Fixed typo.
+
+2014-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_darwin_runtime_os.c,
+	src/platform/platform_linux_runtime_os.c,
+	src/platform/platform_sco_runtime_os.c: Use archdep_tmpname() instead
+	of using /tmp/* directly.
+
+2014-07-22  groepaz <groepaz@gmx.net>
+
+	* src/platform/platform_linux_runtime_os.c: fix typo
+
+2014-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_linux_runtime_os.c,
+	src/platform/platform_sco_runtime_os.c,
+	src/platform/platform_solaris_runtime_os.c: On *nix platforms use
+	/tmp dir for temporary files.
+
+2014-07-22  groepaz <groepaz@gmx.net>
+
+	* src/sound.c: init sdl driver after the others so it will not get
+	selected by default if another native driver is enabled
+
+2014-07-22  groepaz <groepaz@gmx.net>
+
+	* doc/vice.txt: updated
+
+2014-07-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/archdep_amiga.h, src/arch/sdl/archdep_beos.h,
+	src/arch/sdl/archdep_cegcc.h, src/arch/sdl/archdep_dingoo.h,
+	src/arch/sdl/archdep_unix.h, src/arch/sdl/archdep_win32.h,
+	src/arch/sdl/archdep_xbox.h: use medium sized buffer by default in SDL
+	port, smaller buffers seem not to work well in SDL
+
+2014-07-22  groepaz <groepaz@gmx.net>
+
+	* src/sid/sid.c, src/sound.c: clear buffers on (re)allocation
+
+2014-07-22  groepaz <groepaz@gmx.net>
+
+	* src/sounddrv/soundsdl.c: fix calculation of number of samples
+
+2014-07-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_sid.c: add filter gain slider to SDL UI
+
+2014-07-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_jam.c: added 'quit emulator on cpu jam' option to
+	SDL UI
+
+2014-07-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_rom.c: added missing callbacks
+
+2014-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am,
+	src/arch/win32/c64dtvui.c, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resdrivec64dtv.rc, src/arch/win32/uidrivec64dtv.c,
+	src/arch/win32/uidrivec64dtv.h,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/x64dtv.tmpl, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/cartconv.tgt, src/arch/win32/watcom/vice.wpj:
+	Fixed c64dtv, c64 and vic20 drive dialogs in the windows gui.
+
+2014-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_drive.cc, src/arch/beos/vicemenu.cc: Added
+	fd2000/4000 support to the beos gui.
+
+2014-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c64dtvui.c, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/mui/Makefile.am, src/arch/amigaos/mui/uidrivec64.c,
+	src/arch/amigaos/mui/uidrivec64.h,
+	src/arch/amigaos/mui/uidrivec64dtv.c,
+	src/arch/amigaos/mui/uidrivec64dtv.h,
+	src/arch/amigaos/mui/uidrivec64vic20.c,
+	src/arch/amigaos/mui/uidrivec64vic20.h,
+	src/arch/amigaos/mui/uidrivevic20.c,
+	src/arch/amigaos/mui/uidrivevic20.h, src/arch/amigaos/vic20ui.c: Fixed
+	c64dtv, c64 and vic20 drive dialogs in the amigaos gui.
+
+2014-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/ui_cbm5x0.cc,
+	src/arch/beos/ui_cbm5x0.h: Better split of xcbm5x0 from xcbm2 gui for
+	beos.
+
+2014-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uisidcart.c: Added ReSID to the sidcart supported
+	engines for the dos tui.
+
+2014-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uisidcart.c: Added ReSID to the sidcart
+	supported engines for the amigaos gui.
+
+2014-07-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, ChangeLog.1, ChangeLog.2, ChangeLog.3, Makefile.am:
+	Started a new ChangeLog file.
 
 
 See `ChangeLog.1' for earlier changes.

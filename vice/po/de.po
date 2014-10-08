@@ -1,11 +1,11 @@
 # German Translation File for VICE
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-05 19:56-0700\n"
+"POT-Creation-Date: 2014-10-08 11:37-0700\n"
 "PO-Revision-Date: 2014-10-06 21:27+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
@@ -8543,7 +8543,9 @@ msgstr "SIDcart Joystick Feuer"
 #: src/arch/amigaos/intl_text.c.po.c:7735
 msgid ""
 "Joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-msgstr "Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"
+msgstr ""
+"Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/"
+"AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:7749
 msgid ""

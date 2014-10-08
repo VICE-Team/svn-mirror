@@ -886,7 +886,7 @@ drives are provided with their own CPU (a 6502 as the VIC20 and the
 PETs) and their own RAM and ROM.  So, in order to more closely emulate
 its features, a complete emulation of this hardware must be provided
 and that is what the "hardware level" emulation does. When the
-"hardware level" emulation is used, the kernal routines are remain
+"hardware level" emulation is used, the kernal routines remain
 unpatched and the serial line is fully emulated.  The problem with this
 emulation is that it needs a lot of processing power, mainly because
 the emulator has to emulate two CPUs instead of one.
@@ -2708,12 +2708,22 @@ Joystick resources
 `JoyDevice3'
 `JoyDevice4'
      Integer specifying which joystick device the emulator should use
-     for joystick emulation for ports 1 - 4, respectively (0=None,
-     1=Numpad, 2=Custom keys, 3=Analog joystick 1, 4=Analog joystick 2,
-     5=Digital joystick 1, 6=Digital joystick 2 on Unix) The available
-     joysticks might differ depending on operating system and joystick
-     support in the OS (Linux joystick module must be available for
-     example).
+     for joystick emulation for ports 1 - 4, respectively.  (0=None,
+     1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog
+     joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog
+     joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital
+     joystick 2, 12=USB joystick 1, 13=USB joystick 2 on Unix) (0=None,
+     1=Numpad, 2=Keyset 1, 3=Keyset 2 on AmigaOS4) (0=None, 1=Numpad,
+     2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3 on AmigaOS3, MorphOS and AROS)
+     (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware
+     joysticks on BeOS) (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
+     4=Joystick 1, 5=Joystick 2 on DOS) (0=None, 1=Joystick 1,
+     2=Joystick 2, 4=Numpad, 8=Keyset 1, 16=Keyset 2 on OS/2) (0=None,
+     1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick in SDL) (0=None,
+     1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=HID joystick 0, 5=HID joystick
+     1 on Mac OS X) The available joysticks might differ depending on
+     operating system and joystick support in the OS (Linux joystick
+     module must be available for example).
 
 `JoyOpposite'
      Boolean, if true allow (usually impossible) bitcombinations for
@@ -2732,7 +2742,8 @@ Joystick resources
 
 `Mousetype'
      Integer that specifies the type of emulated mouse. (0=1351,
-     1=NEOS, 2=Amiga, 3=Paddles, 4=Atari CX-22, 5=Atari ST, 6=Smart)
+     1=NEOS, 2=Amiga, 3=Paddles, 4=Atari CX-22, 5=Atari ST, 6=Smart,
+     7=Micromys 8 = Koalapad)
 
 `Mouseport'
      Integer that specifies the joystick port the emulated mouse is
@@ -2774,10 +2785,14 @@ Joystick resources
 Joystick command-line options
 -----------------------------
 
-`-joydev1 <0-8>'
-`-joydev2 <0-8>'
-     Set the device for joystick emulation of port 1 and 2, respectively
-     (`JoyDevice1', `JoyDevice2').
+`-joydev1 <range>'
+`-joydev2 <range>'
+     Set the device for joystick emulation of port 1 and 2,
+     respectively.  (`JoyDevice1', `JoyDevice2').  The range for unix
+     is 0-8.  The range for AmigaOS4 is 0-3.  The range for AmigaOS3,
+     MorphOS, AROS, DOS and Mac OS X is 0-5.  The range for BeOS is
+     0-19.  The range for OS/2 is, valid numbers in the range are 0, 1,
+     2, 4, 8 and 16.  The range for SDL is 0-4.
 
 `-extrajoydev1 <0-8>'
 `-extrajoydev2 <0-8>'
@@ -2891,61 +2906,100 @@ Sound resources
 
      Implemented drivers are:
 
+        * `ahi', for the Amiga/Morphos/Aros sound driver.
+
         * `aix', for the IBM AIX sound driver.
 
-        * `uss', for the Linux/FreeBSD Universal Sound System driver
-          (`SoundDeviceArg' specifies the audio device, `/dev/dsp' by
-          default);
+        * `allegro', for the MSDOS Allegro sound driver.
 
-        * `sgi', for the Silicon Graphics audio device (`SoundDeviceArg'
-          specifies the audio device, `/dev/audio' by default);
+        * `alsa', for the linux ALSA sound driver.
 
-        * `sun', for the Solaris audio device (unfinished;
-          `SoundDeviceArg' specifies the audio device, `/dev/audio' by
-          default).
+        * `arts', for the *nix ARTS sound driver.
 
-        * `hpux', for the HP-UX audio device (unfinished;
-          `SoundDeviceArg' specifies the audio device, `/dev/audio' by
-          default).
+        * `beos', for the BeOS/Zeta/Haiku sound driver.
 
-        * `sdl', for the Simple DirectMedia Layer audio driver.
+        * `bsp', for the BeOS/Zeta/Haiku BeOS Media Kit sound driver.
 
-        * `esd', for EsounD, the Enlightened Sound Daemon;
-          `SoundDeviceArg' specifies the ESD server (`host:port') to
-          connect, empty by default.
+        * `coreaudio', for the Mac OS X sound driver.
 
-        * `dummy', fully emulating the SID, but not actually playing
-          samples.
+        * `dart', for the OS/2 sound driver.
+
+        * `dummy', fully emulating the sound output chip(s), but not
+          actually playing samples.
 
         * `dump', writing all the write accesses to the registers to a
           file (specified by `SoundDeviceArg', default value is
           `vicesnd.sid');
 
-        * `speed', like `dummy' but also calculating samples (mainly
-          used to evaluate the speed of the sample generator);
+        * `dx', for the Windows Direct-X sound driver.
 
         * `fs', writing samples to a file (specified by
           `SoundDeviceArg'; default is `vicesnd.raw');
 
+        * `hpux', for the HP-UX audio device (unfinished;
+          `SoundDeviceArg' specifies the audio device, `/dev/audio' by
+          default).
+
+        * `midas', for the MSDOS Midas sound driver.
+
+        * `pulse', for the Pulseaudio sound driver.
+
+        * `sdl', for the Simple DirectMedia Layer audio driver.
+
+        * `sgi', for the Silicon Graphics audio device (`SoundDeviceArg'
+          specifies the audio device, `/dev/audio' by default);
+
+        * `speed', like `dummy' but also calculating samples (mainly
+          used to evaluate the speed of the sample generator);
+
+        * `sun', for the Solaris and NetBDS audio device (unfinished;
+          `SoundDeviceArg' specifies the audio device, `/dev/audio' by
+          default).
+
+        * `uss', for the Linux/FreeBSD Universal Sound System driver
+          (`SoundDeviceArg' specifies the audio device, `/dev/dsp' by
+          default);
+
+        * `wmm', for the Windows Multimedia Waveout sound device.
+
      These drivers will actually be present only if the VICE
-     configuration script detected the corresponding devices at the
-     time of compilation.
+     configuration script detected the corresponding development
+     support at the time of compilation.
 
 `SoundDeviceArg'
      String specifying an additional parameter for the audio driver (see
      `SoundDeviceName').
 
 `SoundRecordDeviceName'
-     String specifying the filename used for sound recording.
+     String specifying the driver used for sound recording.
+
+     Implemented drivers are:
+
+        * `aiff', for the Apple Interchange File Format 16bit sound
+          recorder driver.
+
+        * `iff', for the Amiga Interchange File Format (8SVX) 8bit
+          sound recorder driver.
+
+        * `mp3', for the MP3 sound recorder driver.
+
+        * `voc', for the Creative Voice (VOC) sound recorder driver.
+
+        * `wav', for the RIFF/WAV sound recorder driver.
+
+     These drivers will actually be present only if the VICE
+     configuration script detected the corresponding development
+     support at the time of compilation.
 
 `SoundRecordDeviceArg'
      String specifying additional arguments for sound recording.
 
 `SoundFragmentSize'
-     Enum specifying the fragment size (0: small, 1: medium, 2: large)
+     Enum specifying the fragment size (0: very small, 1: small, 2:
+     medium, 3: large, 4: very large)
 
 `SoundVolume'
-     Integer specifying the master volume in percent. [100] (0..100)s
+     Integer specifying the master volume in percent. [100] (0..100)
 
 `SoundOutput'
      Enum specifying how the type of sound output. Output is selectable
@@ -3578,8 +3632,10 @@ Printer resources
 
 `IECDevice4'
 `IECDevice5'
-     Booleans that specify whether IEC device emulation for device #4
-     and #5 is enabled.
+`IECDevice6'
+`IECDevice7'
+     Booleans that specify whether IEC device emulation for device #4,
+     #5, #6 and #7 is enabled.
 
 `PrinterTextDevice1'
 `PrinterTextDevice2'
@@ -3635,6 +3691,14 @@ Printer command-line options
 `-iecdevice5'
 `+iecdevice5'
      Enable/Disable IEC device emulation for device #5
+
+`-iecdevice6'
+`+iecdevice6'
+     Enable/Disable IEC device emulation for device #6
+
+`-iecdevice7'
+`+iecdevice7'
+     Enable/Disable IEC device emulation for device #7
 
 `-device4 <type>'
 `-device5 <type>'
@@ -3827,12 +3891,14 @@ RS232 resources
 
 `Acia1Dev'
      Integer (ranging from 0 to 3, for device 1-4) specifying what
-     RS232 device (see @{"RS232 settings" Link "RS232 settings"}) the ACIA is using (all except
-     VIC20).
+     RS232 device (see @{"RS232 settings" Link "RS232 settings"}) the ACIA is using (All emulators
+     except C64DTV and VSID, and only if RS232 support is enabled and
+     supported at compile time).
 
 `Acia1Irq'
      Integer specifying which interrupt to use. 0 = none, 1 = IRQ, 2 =
-     NMI (C64 and C128 only)
+     NMI (C64, VIC20 and C128 only, and only if RS232 support is
+     enabled and supported at compile time)
 
 `RsUserEnable'
      Boolean specifying if the user-port RS232 interface is being
@@ -3875,7 +3941,8 @@ RS232 command-line options
      `RsDevice3Baud' and `RsDevice4Baud').
 
 `-myaciadev <0-3>'
-     Specify RS232 device the ACIA should work on
+     Specify RS232 device the ACIA should work on (all emulators except
+     C64DTV and VSID)
 
 `-rsuser'
 `+rsuser'
@@ -3997,8 +4064,8 @@ Machine resources
 -----------------
 
 `MachineVideoStandard'
-     Integer that specifies that video standard of the emulated
-     machine. (-1: PAL, -2: NTSC, -3: NTSC (old), -4: PAL-N)
+     Integer that specifies the video standard of the emulated machine.
+     (-1: PAL, -2: NTSC, -3: NTSC (old), -4: PAL-N)
 
 Machine command-line options
 ----------------------------
@@ -5282,10 +5349,10 @@ VIC-II resources
 
 `VICIIColorSaturation'
      integer specifying saturation of internal calculated palette
-     [1000] <0-2000>
+     [1250] <0-2000>
 
 `VICIIColorContrast'
-     integer specifying contrast of internal calculated palette [1000]
+     integer specifying contrast of internal calculated palette [1250]
      <0-2000>
 
 `VICIIColorBrightness'
@@ -5302,19 +5369,19 @@ VIC-II resources
 
 `VICIIPALScanLineShade'
      integer specifying amount of scan line shading for the CRT
-     emulation [667] <0-1000>
+     emulation [750] <0-1000>
 
 `VICIIPALBlur'
      integer specifying amount of horizontal blur for the CRT
      emulation. [500] <0-1000>
 
 `VICIIPALOddLinePhase'
-     integer specifying phase offset for color carrier in odd lines
-     [750] <0-2000>
+     integer specifying phase for color carrier in odd lines [1125]
+     <0-2000>
 
 `VICIIPALOddLineOffset'
-     integer specifying phase for color carrier in odd lines [1250]
-     <0-2000>
+     integer specifying phase offset for color carrier in odd lines
+     [875] <0-2000>
 
 `VICIIAudioLeak'
      Boolean specifying whether to enable/disable video to audio leak
@@ -5403,10 +5470,10 @@ VIC-II command-line options
      Enable/Disable new luminances.
 
 `-VICIIsaturation <0-2000>'
-     Set saturation of internal calculated palette [1000]
+     Set saturation of internal calculated palette [1250]
 
 `-VICIIcontrast <0-2000>'
-     Set contrast of internal calculated palette [1000]
+     Set contrast of internal calculated palette [1250]
 
 `-VICIIbrightness <0-2000>'
      Set brightness of internal calculated palette [1000]
@@ -5418,16 +5485,16 @@ VIC-II command-line options
      Set tint of internal calculated palette [1000]
 
 `-VICIIoddlinesphase <0-2000>'
-     Set phase for color carrier in odd lines [1250]
+     Set phase for color carrier in odd lines [1125]
 
 `-VICIIoddlinesoffset <0-2000>'
-     Set phase offset for color carrier in odd lines [750]
+     Set phase offset for color carrier in odd lines [875]
 
 `-VICIIcrtblur <0-1000>'
      Amount of horizontal blur for the CRT emulation. [500]
 
 `-VICIIcrtscanlineshade <0-1000>'
-     Amount of scan line shading for the CRT emulation [667]
+     Amount of scan line shading for the CRT emulation [750]
 
 `-VICIIaudioleak'
 `+VICIIaudioleak'
@@ -5531,11 +5598,7 @@ SID resources
 
 `SidModel'
      Integer specifying what model of the SID must be emulated (`0':
-     6581 , `1': 8580, `2': 8580D, `3': 6581R4, `4': DTVSID, `8':
-     6581R3_4885 , `9': 6581R3_0486S, `10': 6581R3_3984, `11':
-     6581R4AR_3789, `12': 6581R3_4485 , `13': 6581R4_1986S, `16':
-     8580R5_3691, `17': 8580R5_3691D, `18': 8580R5_1489 , `19':
-     8580R5_1489D).
+     6581 , `1': 8580, `2': 8580D, `3': 6581R4, `4': DTVSID).
 
 `SidEngine'
      Integer specifying what SID engine will be used (`0': FASTSID,
@@ -5568,7 +5631,7 @@ SID command-line options
 ........................
 
 `-sidstereo'
-     Emulates a second SID chip for stereo sound (`SidStereo').
+     Specifies the amount of extra SID chips to emulate (`SidStereo').
 
 `-sidstereoaddress `ADDRESS''
      Specifies the start address for the second SID chip
@@ -5748,7 +5811,7 @@ C64 I/O extension resources
      emulated or not.
 
 `SFXSoundExpanderChip'
-     Enum specifying which YM chip is emulated (0: 3526, 1: 3812)
+     Integer specifying which YM chip is emulated (3526, 3812)
 
 `SFXSoundSampler'
      Boolean specifying whether the SFX Sound Sampler should be
@@ -5947,8 +6010,8 @@ C64 resources
 .............
 
 `GlueLogic'
-     Integer specifying the type of emulated glue-log. (0: discrete, 1:
-     custom IC)
+     Integer specifying the type of emulated glue-logic. (0: discrete,
+     1: custom IC)
 
 `BurstMod'
      Boolean, enable/disable the Burst-Mode modification.
@@ -6067,10 +6130,10 @@ VDC resources
 
 `VDCColorSaturation'
      integer specifying saturation of internal calculated palette
-     [1000] <0-2000>
+     [1250] <0-2000>
 
 `VDCColorContrast'
-     integer specifying contrast of internal calculated palette [1000]
+     integer specifying contrast of internal calculated palette [1250]
      <0-2000>
 
 `VDCColorBrightness'
@@ -6087,19 +6150,19 @@ VDC resources
 
 `VDCPALScanLineShade'
      integer specifying amount of scan line shading for the CRT
-     emulation [667] <0-1000>
+     emulation [750] <0-1000>
 
 `VDCPALBlur'
      integer specifying amount of horizontal blur for the CRT
      emulation. [500] <0-1000>
 
 `VDCPALOddLinePhase'
-     integer specifying phase offset for color carrier in odd lines
-     [750] <0-2000>
+     integer specifying phase for color carrier in odd lines [1125]
+     <0-2000>
 
 `VDCPALOddLineOffset'
-     integer specifying phase for color carrier in odd lines [1250]
-     <0-2000>
+     integer specifying phase offset for color carrier in odd lines
+     [875] <0-2000>
 
 `VDCAudioLeak'
      Boolean specifying whether to enable/disable video to audio leak
@@ -6160,10 +6223,10 @@ VDC command-line options
      Set VDC revision (0..2)
 
 `-VDCsaturation <0-2000>'
-     Set saturation of internal calculated palette [1000]
+     Set saturation of internal calculated palette [1250]
 
 `-VDCcontrast <0-2000>'
-     Set contrast of internal calculated palette [1000]
+     Set contrast of internal calculated palette [1250]
 
 `-VDCbrightness <0-2000>'
      Set brightness of internal calculated palette [1000]
@@ -6175,16 +6238,16 @@ VDC command-line options
      Set tint of internal calculated palette [1000]
 
 `-VDCoddlinesphase <0-2000>'
-     Set phase for color carrier in odd lines [1250]
+     Set phase for color carrier in odd lines [1125]
 
 `-VDCoddlinesoffset <0-2000>'
-     Set phase offset for color carrier in odd lines [750]
+     Set phase offset for color carrier in odd lines [875]
 
 `-VDCcrtblur <0-1000>'
      Amount of horizontal blur for the CRT emulation. [500]
 
 `-VDCcrtscanlineshade <0-1000>'
-     Amount of scan line shading for the CRT emulation [667]
+     Amount of scan line shading for the CRT emulation [750]
 
 `-VDCaudioleak'
 `+VDCaudioleak'
@@ -6200,6 +6263,7 @@ C128 system ROM resources
 `ChargenDEName'
 `ChargenFRName'
 `ChargenSEName'
+`ChargenCHName'
      Strings specifying the filename of the Chargen ROM images.
 
 `KernalIntName'
@@ -6209,6 +6273,7 @@ C128 system ROM resources
 `KernalITName'
 `KernalNOName'
 `KernalSEName'
+`KernalCHName'
      Strings specifying the filename of the Kernal ROM images.
 
 `BasicLoName'
@@ -6222,14 +6287,16 @@ C128 system ROM resources
      String specifying the filename of the C64 basic ROM image.
 
 `InternalFunctionROM'
-     Boolean, enables the internal function ROM.
+     Sets the internal function ROM type (0: None, 1: ROM, 2: RAM, 3:
+     RAM+RTC).
 
 `InternalFunctionName'
      Strings specifying the filename of the ROM image for the internal
      function ROM.
 
 `ExternalFunctionROM'
-     Boolean, enables the external function ROM.
+     Sets the external function ROM type (0: None, 1: ROM, 2: RAM, 3:
+     RAM+RTC).
 
 `ExternalFunctionName'
      Strings specifying the filename of the ROM image for the external
@@ -6289,18 +6356,16 @@ C128 system ROM command-line options
 `-chargch <name>'
      Specify name of Swiss character generator ROM image
 
-`-intfunc'
-`+intfunc'
-     Enable/Disable the internal Function ROM (0: None, 1: ROM, 2: RAM,
-     3: RTC)
+`-intfunc <type>'
+     Set the internal Function ROM type (0: None, 1: ROM, 2: RAM, 3:
+     RTC)
 
 `-intfrom <name>'
      Specify name of internal Function ROM image
 
-`-extfunc'
-`+extfunc'
-     Enable/Disable the external Function ROM (0: None, 1: ROM, 2: RAM,
-     3: RTC)
+`-extfunc <type>'
+     Set the external Function ROM type (0: None, 1: ROM, 2: RAM, 3:
+     RTC)
 
 `-extfrom <name>'
      Specify name of external Function ROM image
@@ -6864,10 +6929,10 @@ VIC resources
 
 `VICColorSaturation'
      integer specifying saturation of internal calculated palette
-     [1000] <0-2000>
+     [1250] <0-2000>
 
 `VICColorContrast'
-     integer specifying contrast of internal calculated palette [1000]
+     integer specifying contrast of internal calculated palette [1250]
      <0-2000>
 
 `VICColorBrightness'
@@ -6884,19 +6949,19 @@ VIC resources
 
 `VICPALScanLineShade'
      integer specifying amount of scan line shading for the CRT
-     emulation [667] <0-1000>
+     emulation [750] <0-1000>
 
 `VICPALBlur'
      integer specifying amount of horizontal blur for the CRT
      emulation. [500] <0-1000>
 
 `VICPALOddLinePhase'
-     integer specifying phase offset for color carrier in odd lines
-     [750] <0-2000>
+     integer specifying phase for color carrier in odd lines [1125]
+     <0-2000>
 
 `VICPALOddLineOffset'
-     integer specifying phase for color carrier in odd lines [1250]
-     <0-2000>
+     integer specifying phase offset for color carrier in odd lines
+     [875] <0-2000>
 
 `VICAudioLeak'
      Boolean specifying whether to enable/disable video to audio leak
@@ -6957,10 +7022,10 @@ VIC command-line options
      Set VIC border display mode (0: normal, 1: full, 2: debug, 3:none)
 
 `-VICsaturation <0-2000>'
-     Set saturation of internal calculated palette [1000]
+     Set saturation of internal calculated palette [1250]
 
 `-VICcontrast <0-2000>'
-     Set contrast of internal calculated palette [1000]
+     Set contrast of internal calculated palette [1250]
 
 `-VICbrightness <0-2000>'
      Set brightness of internal calculated palette [1000]
@@ -6972,16 +7037,16 @@ VIC command-line options
      Set tint of internal calculated palette [1000]
 
 `-VICoddlinesphase <0-2000>'
-     Set phase for color carrier in odd lines [1250]
+     Set phase for color carrier in odd lines [1125]
 
 `-VICoddlinesoffset <0-2000>'
-     Set phase offset for color carrier in odd lines [750]
+     Set phase offset for color carrier in odd lines [875]
 
 `-VICcrtblur <0-1000>'
      Amount of horizontal blur for the CRT emulation. [500]
 
 `-VICcrtscanlineshade <0-1000>'
-     Amount of scan line shading for the CRT emulation [667]
+     Amount of scan line shading for the CRT emulation [750]
 
 `-VICaudioleak'
 `+VICaudioleak'
@@ -7226,10 +7291,10 @@ TED resources
 
 `TEDColorSaturation'
      integer specifying saturation of internal calculated palette
-     [1000] <0-2000>
+     [1250] <0-2000>
 
 `TEDColorContrast'
-     integer specifying contrast of internal calculated palette [1000]
+     integer specifying contrast of internal calculated palette [1250]
      <0-2000>
 
 `TEDColorBrightness'
@@ -7246,19 +7311,19 @@ TED resources
 
 `TEDPALScanLineShade'
      integer specifying amount of scan line shading for the CRT
-     emulation [667] <0-1000>
+     emulation [750] <0-1000>
 
 `TEDPALBlur'
      integer specifying amount of horizontal blur for the CRT
      emulation. [500] <0-1000>
 
 `TEDPALOddLinePhase'
-     integer specifying phase offset for color carrier in odd lines
-     [750] <0-2000>
+     integer specifying phase for color carrier in odd lines [1125]
+     <0-2000>
 
 `TEDPALOddLineOffset'
-     integer specifying phase for color carrier in odd lines [1250]
-     <0-2000>
+     integer specifying phase offset for color carrier in odd lines
+     [875] <0-2000>
 
 `TEDAudioLeak'
      Boolean specifying whether to enable/disable video to audio leak
@@ -7316,10 +7381,10 @@ TED command-line options
      Set TED border display mode (0: normal, 1: full, 2: debug, 3:none)
 
 `-TEDsaturation <0-2000>'
-     Set saturation of internal calculated palette [1000]
+     Set saturation of internal calculated palette [1250]
 
 `-TEDcontrast <0-2000>'
-     Set contrast of internal calculated palette [1000]
+     Set contrast of internal calculated palette [1250]
 
 `-TEDbrightness <0-2000>'
      Set brightness of internal calculated palette [1000]
@@ -7331,16 +7396,16 @@ TED command-line options
      Set tint of internal calculated palette [1000]
 
 `-TEDoddlinesphase <0-2000>'
-     Set phase for color carrier in odd lines [1250]
+     Set phase for color carrier in odd lines [1125]
 
 `-TEDoddlinesoffset <0-2000>'
-     Set phase offset for color carrier in odd lines [750]
+     Set phase offset for color carrier in odd lines [875]
 
 `-TEDcrtblur <0-1000>'
      Amount of horizontal blur for the CRT emulation. [500]
 
 `-TEDcrtscanlineshade <0-1000>'
-     Amount of scan line shading for the CRT emulation [667]
+     Amount of scan line shading for the CRT emulation [750]
 
 `-TEDaudioleak'
 `+TEDaudioleak'
@@ -7675,10 +7740,10 @@ CRTC resources
 
 `CrtcColorSaturation'
      integer specifying saturation of internal calculated palette
-     [1000] <0-2000>
+     [1250] <0-2000>
 
 `CrtcColorContrast'
-     integer specifying contrast of internal calculated palette [1000]
+     integer specifying contrast of internal calculated palette [1250]
      <0-2000>
 
 `CrtcColorBrightness'
@@ -7695,19 +7760,19 @@ CRTC resources
 
 `CrtcPALScanLineShade'
      integer specifying amount of scan line shading for the CRT
-     emulation [667] <0-1000>
+     emulation [750] <0-1000>
 
 `CrtcPALBlur'
      integer specifying amount of horizontal blur for the CRT
      emulation. [500] <0-1000>
 
 `CrtcPALOddLinePhase'
-     integer specifying phase offset for color carrier in odd lines
-     [750] <0-2000>
+     integer specifying phase for color carrier in odd lines [1125]
+     <0-2000>
 
 `CrtcPALOddLineOffset'
-     integer specifying phase for color carrier in odd lines [1250]
-     <0-2000>
+     integer specifying phase offset for color carrier in odd lines
+     [875] <0-2000>
 
 `CrtcAudioLeak'
      Boolean specifying whether to enable/disable video to audio leak
@@ -7762,10 +7827,10 @@ CRTC command-line options
      Select fullscreen mode
 
 `-Crtcsaturation <0-2000>'
-     Set saturation of internal calculated palette [1000]
+     Set saturation of internal calculated palette [1250]
 
 `-Crtccontrast <0-2000>'
-     Set contrast of internal calculated palette [1000]
+     Set contrast of internal calculated palette [1250]
 
 `-Crtcbrightness <0-2000>'
      Set brightness of internal calculated palette [1000]
@@ -7777,16 +7842,16 @@ CRTC command-line options
      Set tint of internal calculated palette [1000]
 
 `-Crtcoddlinesphase <0-2000>'
-     Set phase for color carrier in odd lines [1250]
+     Set phase for color carrier in odd lines [1125]
 
 `-Crtcoddlinesoffset <0-2000>'
-     Set phase offset for color carrier in odd lines [750]
+     Set phase offset for color carrier in odd lines [875]
 
 `-Crtccrtblur <0-1000>'
      Amount of horizontal blur for the CRT emulation. [500]
 
 `-Crtccrtscanlineshade <0-1000>'
-     Amount of scan line shading for the CRT emulation [667]
+     Amount of scan line shading for the CRT emulation [750]
 
 `-Crtcaudioleak'
 `+Crtcaudioleak'
@@ -9438,12 +9503,9 @@ Monitor
 Every VICE emulator has a complete built-in monitor, which can be used
 to examine, disassemble and assemble machine language programs, as well
 as debug them through breakpoints.  It can be activated by using the
-"Activate monitor" command (left button menu).  Notice that you have to
-run the emulator from a terminal emulation program (such as `rxvt' or
-`xterm') in order to use the monitor.
-
-Warning: this version of the monitor is still under construction, and
-some of the features are not fully working yet.
+"Activate monitor" command (left button menu).  Notice that in some
+ports you have to run the emulator from a terminal emulation program
+(such as `rxvt' or `xterm') in order to use the monitor.
 
 
  @{" Terminology " Link "Terminology"} 
@@ -9497,8 +9559,11 @@ Terminology
      An address or an address range.
 
 `label'
-     `label' is the name of a label. it must start with a dot (".") in
-     order for the monitor to recognize it as a label.
+     `label' is the name of a label. It must start with a dot (".") in
+     order for the monitor to recognize it as a label. Register names
+     preceeded by a dot (for example `.PC') are special labels that
+     evaluate to value of the respective register at the time it is
+     used, and thus can not be used as a regular label.
 
 `prompt'
      The prompt has the format [x:y].  If x is -, memory reads from the
@@ -17003,11 +17068,11 @@ Concept Index
  @{" -georam, +georam " Link "C64 I-O extension options"}                     C64 I-O extension options
  @{" -georamimage " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -georamimage " Link "C64 I-O extension options"}                         C64 I-O extension options
- @{" -georamimagerw, +georamimagerw " Link "C64 I-O extension options"}       C64 I-O extension options
  @{" -georamimagerw, +georamimagerw " Link "VIC20 cartridges"}       VIC20 cartridges
+ @{" -georamimagerw, +georamimagerw " Link "C64 I-O extension options"}       C64 I-O extension options
  @{" -georamioswap, +georamioswap " Link "VIC20 cartridges"}         VIC20 cartridges
- @{" -georamsize " Link "C64 I-O extension options"}                          C64 I-O extension options
  @{" -georamsize " Link "VIC20 cartridges"}                          VIC20 cartridges
+ @{" -georamsize " Link "C64 I-O extension options"}                          C64 I-O extension options
  @{" -gluelogictype " Link "C64-128 system ROM options"}                       C64-128 system ROM options
  @{" -go64, +go64 " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" -grsymkeymap, -grposkeymap " Link "Keyboard options"}           Keyboard options
@@ -17015,8 +17080,8 @@ Concept Index
  @{" -h1024k " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" -h256k " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -h4096k " Link "VIC20 system ROM options"}                              VIC20 system ROM options
- @{" -help " Link "c1541 executing shell commands"}                                c1541 executing shell commands
  @{" -help " Link "Command-line initialization"}                                Command-line initialization
+ @{" -help " Link "c1541 executing shell commands"}                                c1541 executing shell commands
  @{" -htmlbrowser " Link "Misc options"}                         Misc options
  @{" -hummeradc, +hummeradc " Link "Userport"}               Userport
  @{" -i " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
@@ -17046,6 +17111,8 @@ Concept Index
  @{" -iecdevice11, +iecdevice11 " Link "File system device options"}           File system device options
  @{" -iecdevice4, +iecdevice4 " Link "Printer options"}             Printer options
  @{" -iecdevice5, +iecdevice5 " Link "Printer options"}             Printer options
+ @{" -iecdevice6, +iecdevice6 " Link "Printer options"}             Printer options
+ @{" -iecdevice7, +iecdevice7 " Link "Printer options"}             Printer options
  @{" -iecdevice8, +iecdevice8 " Link "File system device options"}             File system device options
  @{" -iecdevice9, +iecdevice9 " Link "File system device options"}             File system device options
  @{" -ieee488, +ieee488 " Link "VIC20 cartridges"}                   VIC20 cartridges
@@ -17065,11 +17132,11 @@ Concept Index
  @{" -k " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -k<version> " Link "c1541 executing shell commands"}                          c1541 executing shell commands
  @{" -keepenv " Link "CBM-II colors"}                             CBM-II colors
- @{" -kernal " Link "CBM-II model"}                              CBM-II model
- @{" -kernal " Link "VIC20 system ROM options"}                              VIC20 system ROM options
- @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
- @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
  @{" -kernal " Link "PET model"}                              PET model
+ @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
+ @{" -kernal " Link "CBM-II model"}                              CBM-II model
+ @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
+ @{" -kernal " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" -kernal64 " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" -kernalch " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" -kernalde " Link "C64-128 system ROM options"}                            C64-128 system ROM options
@@ -17212,9 +17279,9 @@ Concept Index
  @{" -sfxss, +sfxss " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" -sfxss, +sfxss " Link "C64 I-O extension options"}                       C64 I-O extension options
  @{" -sfxssioswap, +sfxssioswap " Link "VIC20 cartridges"}           VIC20 cartridges
- @{" -sidcart, +sidcart " Link "PET model"}                   PET model
- @{" -sidcart, +sidcart " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" -sidcart, +sidcart " Link "VIC20 system ROM options"}                   VIC20 system ROM options
+ @{" -sidcart, +sidcart " Link "VIC20 cartridges"}                   VIC20 cartridges
+ @{" -sidcart, +sidcart " Link "PET model"}                   PET model
  @{" -sidcartjoy, +sidcartjoy " Link "VIC20 system ROM options"}             VIC20 system ROM options
  @{" -sidenginemodel " Link "SID options"}                      SID options
  @{" -sidfilters, +sidfilters " Link "SID options"}             SID options
@@ -17403,8 +17470,8 @@ Index of Resources
  @{" 40/80ColumnKey " Link "C64-128 system ROM options"}                       C64-128 system ROM options
  @{" Acia1Base " Link "C64 I-O extension resources"}                            C64 I-O extension resources
  @{" Acia1Dev " Link "RS232 resources"}                             RS232 resources
- @{" Acia1Enable " Link "C64 I-O extension resources"}                          C64 I-O extension resources
  @{" Acia1Enable " Link "VIC20 system ROM options"}                          VIC20 system ROM options
+ @{" Acia1Enable " Link "C64 I-O extension resources"}                          C64 I-O extension resources
  @{" Acia1Irq " Link "RS232 resources"}                             RS232 resources
  @{" Acia1Mode " Link "C64 I-O extension resources"}                            C64 I-O extension resources
  @{" AttachDevice10Readonly " Link "Misc resources"}               Misc resources
@@ -17443,16 +17510,17 @@ Index of Resources
  @{" Cart6Name " Link "CBM-II model"}                            CBM-II model
  @{" CartridgeFile " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" CartridgeFile " Link "C64 cartridges"}                        C64 cartridges
- @{" CartridgeReset " Link "VIC20 system ROM options"}                       VIC20 system ROM options
- @{" CartridgeReset " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" CartridgeReset " Link "C64 cartridges"}                       C64 cartridges
- @{" CartridgeType " Link "C64 cartridges"}                        C64 cartridges
+ @{" CartridgeReset " Link "VIC20 cartridges"}                       VIC20 cartridges
+ @{" CartridgeReset " Link "VIC20 system ROM options"}                       VIC20 system ROM options
  @{" CartridgeType " Link "VIC20 cartridges"}                        VIC20 cartridges
+ @{" CartridgeType " Link "C64 cartridges"}                        C64 cartridges
+ @{" ChargenCHName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenDEName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenFRName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenIntName " Link "C64-128 system ROM options"}                       C64-128 system ROM options
- @{" ChargenName " Link "PET model"}                          PET model
  @{" ChargenName " Link "VIC20 system ROM resources"}                          VIC20 system ROM resources
+ @{" ChargenName " Link "PET model"}                          PET model
  @{" ChargenName " Link "C64-128 system ROM resources"}                          C64-128 system ROM resources
  @{" ChargenSEName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" CIA1Model " Link "C64 cartridges"}                            C64 cartridges
@@ -17664,6 +17732,8 @@ Index of Resources
  @{" IECDevice11 " Link "File system device resources"}                          File system device resources
  @{" IECDevice4 " Link "Printer resources"}                           Printer resources
  @{" IECDevice5 " Link "Printer resources"}                           Printer resources
+ @{" IECDevice6 " Link "Printer resources"}                           Printer resources
+ @{" IECDevice7 " Link "Printer resources"}                           Printer resources
  @{" IECDevice8 " Link "File system device resources"}                           File system device resources
  @{" IECDevice9 " Link "File system device resources"}                           File system device resources
  @{" IEEE488 " Link "C64 cartridges"}                              C64 cartridges
@@ -17685,14 +17755,15 @@ Index of Resources
  @{" KeepAspectRatio " Link "Video resources"}                      Video resources
  @{" KeepMonitorOpen " Link "Monitor options"}                      Monitor options
  @{" Kernal64Name " Link "C64-128 system ROM options"}                         C64-128 system ROM options
+ @{" KernalCHName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalDEName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalFIName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalFRName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalIntName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" KernalITName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
+ @{" KernalName " Link "C64-128 system ROM resources"}                           C64-128 system ROM resources
  @{" KernalName " Link "VIC20 system ROM resources"}                           VIC20 system ROM resources
  @{" KernalName " Link "PET model"}                           PET model
- @{" KernalName " Link "C64-128 system ROM resources"}                           C64-128 system ROM resources
  @{" KernalNOName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalRev " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
  @{" KernalSEName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
@@ -17856,13 +17927,13 @@ Index of Resources
  @{" SidAddress " Link "VIC20 system ROM options"}                           VIC20 system ROM options
  @{" SidAddress " Link "VIC20 cartridges"}                           VIC20 cartridges
  @{" SidAddress " Link "PET model"}                           PET model
- @{" SidCart " Link "PET model"}                              PET model
  @{" SidCart " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" SidCart " Link "VIC20 system ROM options"}                              VIC20 system ROM options
+ @{" SidCart " Link "PET model"}                              PET model
  @{" SIDCartJoy " Link "VIC20 system ROM options"}                           VIC20 system ROM options
- @{" SidClock " Link "VIC20 cartridges"}                             VIC20 cartridges
  @{" SidClock " Link "VIC20 system ROM options"}                             VIC20 system ROM options
  @{" SidClock " Link "PET model"}                             PET model
+ @{" SidClock " Link "VIC20 cartridges"}                             VIC20 cartridges
  @{" SidEngine " Link "SID resources"}                            SID resources
  @{" SidFilters " Link "SID resources"}                           SID resources
  @{" SidModel " Link "SID resources"}                             SID resources
