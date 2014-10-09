@@ -720,7 +720,7 @@ static void disable_mouse_menus(void)
     }
 }
 
-static void enable_mouse_callback()
+static void enable_mouse_callback(void)
 {
     int i;
 
@@ -733,7 +733,7 @@ static void enable_mouse_callback()
     }
 }
 
-static void disable_mouse_callback()
+static void disable_mouse_callback(void)
 {
     int i;
 

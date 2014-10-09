@@ -456,7 +456,10 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 #endif
 }
 
-static void video_refresh_func(void (*rfunc)(void));
+static void video_refresh_func(void (*rfunc)(void))
+{
+    _refresh_func = rfunc;
+}
 
 static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width, unsigned int height)
 {
@@ -758,13 +761,6 @@ void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
     }
 
     ui_finish_canvas(canvas);
-}
-
-/* ------------------------------------------------------------------------- */
-
-static void video_refresh_func(void (*rfunc)(void))
-{
-    _refresh_func = rfunc;
 }
 
 /* ------------------------------------------------------------------------- */
