@@ -140,5 +140,6 @@ extern int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable);
 extern void ui_set_drop_callback(void *cb);
 extern int get_num_shells(void);
 extern void ui_delete_menu(Widget w);
+extern void ui_update_menus(void);
 
 #endif
