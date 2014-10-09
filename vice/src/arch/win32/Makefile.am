@@ -329,6 +329,7 @@ libarch_a_DEPENDENCIES = \
 endif
 
 EXTRA_DIST = \
+	c64.ico \
 	dirent.c \
 	generate_msvc6_project.bat \
 	generate_msvc70_project.bat \
@@ -341,16 +342,16 @@ EXTRA_DIST = \
 	genmenuid.sh \
 	genstringid.sh \
 	genwinres.sh \
+	make-bindist.sh \
+	montb.bmp \
 	res.txt \
 	resdialogs.txt \
 	resmenu.txt \
 	resstrings.txt \
+	system.c \
 	vice.manifest \
-	montb.bmp \
-	make-bindist.sh \
 	vice-version.bat \
-	vice-version.bat.in \
-	c64.ico 
+	vice-version.bat.in
 
 BUILT_SOURCES = res.h menuid.h stringid.h
 
