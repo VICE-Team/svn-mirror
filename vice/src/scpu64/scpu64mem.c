@@ -1293,7 +1293,7 @@ void mem_set_basic_text(WORD start, WORD end)
 void mem_inject(DWORD addr, BYTE value)
 {
     /* could be made to handle various internal expansions in some sane way */
-    mem_sram[addr & 0xffff] = value;
+    mem_ram[addr & 0xffff] = mem_sram[addr & 0xffff] = value;
 }
 
 /* ------------------------------------------------------------------------- */

@@ -246,8 +246,6 @@ int kbdbuf_feed(const char *string)
 
     num_pending += num;
 
-    /* XXX: We waste time this way, as we copy into the queue and then into
-       memory.  */
     kbdbuf_flush();
 
     return 0;
@@ -267,9 +265,9 @@ void kbdbuf_flush(void)
 
     n = num_pending > buffer_size ? buffer_size : num_pending;
     for (i = 0; i < n; head_idx = (head_idx + 1) % QUEUE_SIZE, i++) {
-        mem_store((WORD)(buffer_location + i), queue[head_idx]);
+        mem_inject((WORD)(buffer_location + i), queue[head_idx]);
     }
 
-    mem_store((WORD)(num_pending_location), (BYTE)(n));
+    mem_inject((WORD)(num_pending_location), (BYTE)(n));
     num_pending -= n;
 }
