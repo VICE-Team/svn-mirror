@@ -51,6 +51,7 @@ extern void ui_menu_update_all(void);
 extern Widget ui_menu_create(const char *name, ...);
 extern void uimenu_shutdown(void);
 extern int ui_dispatch_hotkeys(int key);
+extern void ui_menu_delete(Widget widget);
 
 /* ------------------------------------------------------------------------- */
 
