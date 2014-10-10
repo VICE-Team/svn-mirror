@@ -73,13 +73,13 @@ const unsigned int c64meminit_io_config[32] = {
 
 BYTE vsid_io_read(WORD addr)
 {
-    if (sid_stereo == 1
+    if (sid_stereo >= 1
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end) {
         return sid_read(addr);
     }
 
-    if (sid_stereo == 2
+    if (sid_stereo >= 2
         && addr >= sid_triple_address_start
         && addr < sid_triple_address_end) {
         return sid_read(addr);
@@ -90,13 +90,13 @@ BYTE vsid_io_read(WORD addr)
 
 void vsid_io_store(WORD addr, BYTE val)
 {
-    if (sid_stereo == 1
+    if (sid_stereo >= 1
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end) {
         sid_store(addr, val);
     }
 
-    if (sid_stereo == 2
+    if (sid_stereo >= 2
         && addr >= sid_triple_address_start
         && addr < sid_triple_address_end) {
         sid_store(addr, val);

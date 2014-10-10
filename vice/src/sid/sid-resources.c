@@ -159,7 +159,7 @@ static int set_sid_stereo(int val, void *param)
         sid_stereo = 0;
     } else {
         if (val != sid_stereo) {
-            if (val < 0 || val > 2) {
+            if (val < 0 || val > (SOUND_SIDS_MAX - 1)) {
                 return -1;
             }
             sid_stereo = val;

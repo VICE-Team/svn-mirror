@@ -167,7 +167,7 @@ int machine_sid3_check_range(unsigned int sid3_adr)
                 io_source_unregister(triple_sid_list_item);
                 triple_sid_list_item = io_source_register(&triple_sid_device);
             } else {
-                if (sid_stereo == 2) {
+                if (sid_stereo >= 2) {
                     triple_sid_list_item = io_source_register(&triple_sid_device);
                 }
             }
@@ -183,7 +183,7 @@ int machine_sid3_check_range(unsigned int sid3_adr)
                 io_source_unregister(triple_sid_list_item);
                 triple_sid_list_item = io_source_register(&triple_sid_device);
             } else {
-                if (sid_stereo == 2) {
+                if (sid_stereo >= 2) {
                     triple_sid_list_item = io_source_register(&triple_sid_device);
                 }
             }
@@ -204,11 +204,10 @@ void machine_sid2_enable(int val)
         triple_sid_list_item = NULL;
     }
 
-    if (val == 1) {
+    if (val >= 1) {
         stereo_sid_list_item = io_source_register(&stereo_sid_device);
     }
-    if (val == 2) {
-        stereo_sid_list_item = io_source_register(&stereo_sid_device);
+    if (val >= 2) {
         triple_sid_list_item = io_source_register(&triple_sid_device);
     }
 }

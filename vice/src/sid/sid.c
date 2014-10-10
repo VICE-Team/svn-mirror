@@ -196,13 +196,13 @@ static void sid_store_chip(WORD addr, BYTE byte, int chipno)
 
 BYTE sid_read(WORD addr)
 {
-    if (sid_stereo == 1
+    if (sid_stereo >= 1
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end) {
         return sid_read_chip(addr, 1);
     }
 
-    if (sid_stereo == 2
+    if (sid_stereo >= 2
         && addr >= sid_triple_address_start
         && addr < sid_triple_address_end) {
         return sid_read_chip(addr, 2);
@@ -213,13 +213,13 @@ BYTE sid_read(WORD addr)
 
 BYTE sid_peek(WORD addr)
 {
-    if (sid_stereo == 1
+    if (sid_stereo >= 1
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end) {
         return sid_peek_chip(addr, 1);
     }
 
-    if (sid_stereo == 2
+    if (sid_stereo >= 2
         && addr >= sid_triple_address_start
         && addr < sid_triple_address_end) {
         return sid_peek_chip(addr, 2);
@@ -240,13 +240,13 @@ BYTE sid3_read(WORD addr)
 
 void sid_store(WORD addr, BYTE byte)
 {
-    if (sid_stereo == 1
+    if (sid_stereo >= 1
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end) {
         sid_store_chip(addr, byte, 1);
         return;
     }
-    if (sid_stereo == 2
+    if (sid_stereo >= 2
         && addr >= sid_triple_address_start
         && addr < sid_triple_address_end) {
         sid_store_chip(addr, byte, 2);
@@ -311,6 +311,7 @@ static SWORD *getbuf1(int len)
     }
     return buf1;
 }
+
 static SWORD *getbuf2(int len)
 {
     if ((buf2 == NULL) || (blen2 < len)) {
