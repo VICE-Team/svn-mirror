@@ -31,10 +31,12 @@
 
 #include "console.h"
 #include "lib.h"
+#include "machine.h"
 #include "monitor.h"
 #include "uimon.h"
 #include "ui.h"
 #include "uimenu.h"
+#include "videoarch.h"
 
 static console_t mon_console = {
     40,
@@ -52,6 +54,10 @@ void uimon_window_close(void)
 {
     if (menu_draw) {
       sdl_ui_activate_post_action();
+    }
+    if (machine_class == VICE_MACHINE_VSID) {
+        memset(sdl_active_canvas->draw_buffer_vsid->draw_buffer, 0, sdl_active_canvas->draw_buffer_vsid->draw_buffer_width * sdl_active_canvas->draw_buffer_vsid->draw_buffer_height);
+        sdl_ui_refresh();
     }
 }
 
