@@ -5037,6 +5037,12 @@ Number of sectors for the four harddisk images. Valid range is 1--63.
 @itemx IDE64AutodetectSize4
 Boolean specifying whether the disk geometry should be auto detected based
 on the disk image for the respective harddisk, or the cylinder/head/sector resources above should be used.
+@vindex IDE64USBServerAddress
+@item IDE64USBServerAddress
+String specifying the address the IDE64 USB server listens to (ip4://127.0.0.1:64245)
+@vindex IDE64USBServer
+@item IDE64USBServer
+Boolean specifying whether the IDE64 USB server is enabled.
 @vindex IEEE488
 @item IEEE488
 Boolean specifying whether the IEEE488 interface should be emulated or not.
@@ -5341,6 +5347,13 @@ Autodetect geometry of formatted images or do not autodetect and use specified g
 @item -IDE64version4
 @itemx +IDE64version4
 Emulate version 4 hardware/Emulate pre version 4 hardware
+@cindex -IDE64USB, +IDE64USB
+@item -IDE64USB
+@itemx +IDE64USB
+Enable/Disable IDE64 USB server
+@cindex -IDE64USBAddress
+@item -IDE64USBAddress <name>
+The local address the IDE64 USB server should bind to
 @cindex -cartieee
 @item -cartieee <name>
 Attach CBM IEEE-488 cartridge image

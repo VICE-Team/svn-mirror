@@ -66,6 +66,7 @@
 #include "ata.h"
 #include "monitor.h"
 #include "crt.h"
+#include "vicesocket.h"
 
 #ifdef IDE64_DEBUG
 #define debug(x) log_debug(x)
@@ -104,6 +105,18 @@ static WORD out_d030, in_d030, idebus;
 static char ide64_DS1302[65];
 
 static char *ide64_configuration_string = ide64_DS1302;
+
+#ifdef HAVE_NETWORK
+static char *settings_usbserver_address = NULL;
+static vice_network_socket_t * usbserver_socket = NULL;
+static vice_network_socket_t * usbserver_asocket = NULL;
+static int settings_usbserver;
+static int ft245_rx = -1;
+#else
+#define usbserver_asocket 0
+#define ft245_rx -1
+#define usbserver_activate(a) {}
+#endif
 
 static int settings_version4, rtc_offset_res;
 static time_t rtc_offset;
@@ -471,9 +484,74 @@ static int set_rtc_offset(int val, void *param)
 {
     rtc_offset_res = val;
     rtc_offset = (time_t)val;
-
     return 0;
 }
+
+#ifdef HAVE_NETWORK
+static int usbserver_activate(int mode)
+{
+    vice_network_socket_address_t * server_addr = NULL;
+    int error = 1;
+
+    ft245_rx = -1;
+
+    if (usbserver_socket) {
+        vice_network_socket_close(usbserver_socket);
+        usbserver_socket = NULL;
+    }
+
+    if (!mode || !settings_version4) {
+        return 0;
+    }
+
+    do {
+        if (!settings_usbserver_address) {
+            break;
+        }
+
+        server_addr = vice_network_address_generate(settings_usbserver_address, 0);
+        if (!server_addr) {
+            break;
+        }
+
+        usbserver_socket = vice_network_server(server_addr);
+        if (!usbserver_socket) {
+            break;
+        }
+
+        error = 0;
+    } while (0);
+
+    if (server_addr) {
+        vice_network_address_close(server_addr);
+    }
+    return error;
+}
+
+static int set_usbserver(int val, void *param)
+{
+    val = !!val;
+    if (settings_usbserver != val && ide64_rom_list_item) {
+        usbserver_activate(val);
+        settings_usbserver = val;
+    }
+    return 0;
+}
+
+static int set_usbserver_address(const char *name, void *param)
+{
+    if (settings_usbserver_address != NULL && name != NULL
+        && strcmp(name, settings_usbserver_address) == 0) {
+        return 0;
+    }
+
+    util_string_set(&settings_usbserver_address, name);
+    if (usbserver_socket) {
+        usbserver_activate(settings_usbserver);
+    }
+    return 0;
+}
+#endif
 
 static const resource_string_t resources_string[] = {
     { "IDE64Image1", "ide.cfa", RES_EVENT_NO, NULL,
@@ -486,6 +564,10 @@ static const resource_string_t resources_string[] = {
       &drives[3].filename, set_ide64_image_file, (void *)3 },
     { "IDE64Config", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", RES_EVENT_NO, NULL,
       &ide64_configuration_string, set_ide64_config, NULL },
+#ifdef HAVE_NETWORK
+    { "IDE64USBServerAddress", "ip4://127.0.0.1:64245", RES_EVENT_NO, NULL,
+      &settings_usbserver_address, set_usbserver_address, NULL },
+#endif
     { NULL }
 };
 
@@ -544,6 +626,11 @@ static const resource_int_t resources_int[] = {
     { "IDE64RTCOffset", 0,
       RES_EVENT_NO, NULL,
       (int *)&rtc_offset_res, set_rtc_offset, NULL },
+#ifdef HAVE_NETWORK
+    { "IDE64USBServer", 0,
+      RES_EVENT_NO, NULL,
+      &settings_usbserver, set_usbserver, NULL },
+#endif
     { NULL }
 };
 
@@ -712,6 +799,23 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_IDE64_PRE_V4,
       NULL, NULL },
+#ifdef HAVE_NETWORK
+    { "-IDE64USB", SET_RESOURCE, 0,
+      NULL, NULL, "IDE64USBServer", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_IDE64_USB_SERVER,
+      NULL, NULL },
+    { "+IDE64USB", SET_RESOURCE, 0,
+      NULL, NULL, "IDE64USBServer", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_IDE64_USB_SERVER,
+      NULL, NULL },
+    { "-IDE64USBAddress", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64USBServerAddress", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_IDE64_USB_SERVER_ADDRESS,
+      NULL, NULL },
+#endif
     { NULL }
 };
 
@@ -819,15 +923,63 @@ static void ide64_io_store(WORD addr, BYTE value)
     }
 }
 
+static void usb_getone(void) {
+#ifdef HAVE_NETWORK
+    if (usbserver_socket) {
+        if (!usbserver_asocket && vice_network_select_poll_one(usbserver_socket)) {
+            usbserver_asocket = vice_network_accept(usbserver_socket);
+        }
+        if (usbserver_asocket && vice_network_select_poll_one(usbserver_asocket)) {
+            BYTE c;
+            int r = vice_network_receive(usbserver_asocket, &c, 1, 0);
+            if (r <= 0) {
+                vice_network_socket_close(usbserver_asocket);
+                usbserver_asocket = NULL;
+            } else {
+                ft245_rx = c;
+            }
+        }
+    }
+#endif
+}
+
+static void usb_sendone(BYTE value) {
+#ifdef HAVE_NETWORK
+    if (usbserver_socket) {
+        if (!usbserver_asocket && vice_network_select_poll_one(usbserver_socket)) {
+            usbserver_asocket = vice_network_accept(usbserver_socket);
+        }
+        if (usbserver_asocket) {
+            int r = vice_network_send(usbserver_asocket, &value, 1, 0);
+            if (r < 0) {
+                vice_network_socket_close(usbserver_asocket);
+                usbserver_asocket = NULL;
+                ft245_rx = -1;
+            }
+        }
+    }
+#endif
+}
+
 static BYTE ide64_ft245_read(WORD addr)
 {
     if (settings_version4) {
         switch (addr ^ 1) {
             case 0:
+#ifdef HAVE_NETWORK
+                if (ft245_rx < 0) usb_getone();
+                if (ft245_rx >= 0) {
+                    BYTE c = ft245_rx;
+                    ft245_rx = -1;
+                    ide64_ft245_device.io_source_valid = 1;
+                    return c;
+                }
+#endif
                 break;
             case 1:
                 ide64_ft245_device.io_source_valid = 1;
-                return 0xc0;
+                if (ft245_rx < 0) usb_getone();
+                return (ft245_rx >= 0) ? 0x00 : (usbserver_asocket ? 0x40 : 0xc0);
         }
     }
     ide64_ft245_device.io_source_valid = 0;
@@ -839,9 +991,11 @@ static BYTE ide64_ft245_peek(WORD addr)
     if (settings_version4) {
         switch (addr ^ 1) {
             case 0:
-                return 0xff;
+                if (ft245_rx < 0) usb_getone();
+                return ft245_rx;
             case 1:
-                return 0xc0;
+                if (ft245_rx < 0) usb_getone();
+                return (ft245_rx >= 0) ? 0x00 : (usbserver_asocket ? 0x40 : 0xc0);
         }
     }
     return 0;
@@ -849,6 +1003,15 @@ static BYTE ide64_ft245_peek(WORD addr)
 
 static void ide64_ft245_store(WORD addr, BYTE value)
 {
+    if (settings_version4) {
+        switch (addr ^ 1) {
+            case 0:
+                usb_sendone(value);
+                break;
+            case 1:
+                break;
+        }
+    }
     return;
 }
 
@@ -1062,6 +1225,8 @@ void ide64_detach(void)
         }
     }
 
+    usbserver_activate(0);
+
     ide64_unregister();
     debug("IDE64 detached");
 }
@@ -1091,6 +1256,8 @@ static int ide64_common_attach(BYTE *rawcart, int detect)
         }
         drives[i].update_needed = 1;
     }
+
+    usbserver_activate(settings_usbserver);
 
     debug("IDE64 attached");
     return ide64_register();

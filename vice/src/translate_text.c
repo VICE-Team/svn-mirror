@@ -1277,7 +1277,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_ADDRESS_DE, "Adresse"},
 /* es */ {IDGS_ADDRESS_ES, "dirección"},
 /* fr */ {IDGS_ADDRESS_FR, "adresse"},
-/* hu */ {IDGS_ADDRESS_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_ADDRESS_HU, "cím"},
 /* it */ {IDGS_ADDRESS_IT, "indirizzo"},
 /* ko */ {IDGS_ADDRESS_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_ADDRESS_NL, "adres"},
@@ -1532,7 +1532,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_LABEL_DE, "Bezeichner"},
 /* es */ {IDGS_LABEL_ES, "Etiqueta"},
 /* fr */ {IDGS_LABEL_FR, "label"},
-/* hu */ {IDGS_LABEL_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_LABEL_HU, "cimke"},
 /* it */ {IDGS_LABEL_IT, "etichetta"},
 /* ko */ {IDGS_LABEL_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_LABEL_NL, "label"},
@@ -1719,7 +1719,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_ADDRESS_RANGE_DE, "Adressbereich"},
 /* es */ {IDGS_ADDRESS_RANGE_ES, "Rango de dirección"},
 /* fr */ {IDGS_ADDRESS_RANGE_FR, "plage_dadresses"},
-/* hu */ {IDGS_ADDRESS_RANGE_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_ADDRESS_RANGE_HU, "cím tartomány"},
 /* it */ {IDGS_ADDRESS_RANGE_IT, "intervallo indirizzi"},
 /* ko */ {IDGS_ADDRESS_RANGE_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_ADDRESS_RANGE_NL, "adres_bereik"},
@@ -3443,10 +3443,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_P_NAME,    N_("<Name>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_P_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_P_NAME_DE, "<Name>"},
 /* es */ {IDCLS_P_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_NAME_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_NAME_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_NAME_HU, "<Név>"},
 /* it */ {IDCLS_P_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_P_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_NAME_NL, "<Naam>"},
@@ -7164,7 +7164,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_DE, "Image Größe automatisch erkennen"},
 /* es */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_ES, "Autodetección del tamaño de la imagen"},
 /* fr */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_FR, "Autodétection de la taille de l'image"},
-/* hu */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_HU, "Formázott képmások geometriájának automatikus felismerése"},
 /* it */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_IT, "Rileva automaticamente immagine"},
 /* ko */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_KO, "ÀÌ¹ÌÁö Å©±â ÀÚµ¿À¸·Î Ã£±â"},
 /* nl */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_NL, "Automatisch detecteren bestandsgrootte"},
@@ -7198,7 +7198,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_IDE64_V4_DE, "Emulation der Version 5 Hardware"},
 /* es */ {IDCLS_IDE64_V4_ES, "Emular versión 4 hardware"},
 /* fr */ {IDCLS_IDE64_V4_FR, "Émuler le matériel version 4"},
-/* hu */ {IDCLS_IDE64_V4_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_IDE64_V4_HU, "Négyes verzió emulálása"},
 /* it */ {IDCLS_IDE64_V4_IT, "Emula hardware versione 4"},
 /* ko */ {IDCLS_IDE64_V4_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_IDE64_V4_NL, "Emuleer versie 4 hardware"},
@@ -7215,7 +7215,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_IDE64_PRE_V4_DE, "Emulation der pre-Version 4 Hardware"},
 /* es */ {IDCLS_IDE64_PRE_V4_ES, "Emular preversión 4 hardware"},
 /* fr */ {IDCLS_IDE64_PRE_V4_FR, "Émuler le matériel pré-version 4"},
-/* hu */ {IDCLS_IDE64_PRE_V4_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_IDE64_PRE_V4_HU, "Négyes elõtti verzió emulálása"},
 /* it */ {IDCLS_IDE64_PRE_V4_IT, "Emula hardware pre-versione 4"},
 /* ko */ {IDCLS_IDE64_PRE_V4_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_IDE64_PRE_V4_NL, "Emuleer hardware van voor versie 4"},
@@ -7223,6 +7223,57 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_IDE64_PRE_V4_RU, "Emulate pre version 4 hardware"},
 /* sv */ {IDCLS_IDE64_PRE_V4_SV, "Emulera för-version 4-maskinvara"},
 /* tr */ {IDCLS_IDE64_PRE_V4_TR, "Ön versiyon 4 donanýmýný emüle et"},
+#endif
+
+/* c64/cart/ide64.c */
+/* en */ {IDCLS_ENABLE_IDE64_USB_SERVER,    N_("Enable IDE64 USB server")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_IDE64_USB_SERVER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IDE64_USB_SERVER_DE, "IDE64 USB server aktivieren"},
+/* es */ {IDCLS_ENABLE_IDE64_USB_SERVER_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IDE64_USB_SERVER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_IDE64_USB_SERVER_HU, "IDE64 USB szerver engedélyezése"},
+/* it */ {IDCLS_ENABLE_IDE64_USB_SERVER_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_IDE64_USB_SERVER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IDE64_USB_SERVER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_IDE64_USB_SERVER_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_IDE64_USB_SERVER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IDE64_USB_SERVER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_IDE64_USB_SERVER_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/ide64.c */
+/* en */ {IDCLS_DISABLE_IDE64_USB_SERVER,    N_("Disable IDE64 USB server")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_IDE64_USB_SERVER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IDE64_USB_SERVER_DE, "IDE64 USB server deaktivieren"},
+/* es */ {IDCLS_DISABLE_IDE64_USB_SERVER_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IDE64_USB_SERVER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_IDE64_USB_SERVER_HU, "IDE64 USB szerver tiltása"},
+/* it */ {IDCLS_DISABLE_IDE64_USB_SERVER_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_IDE64_USB_SERVER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IDE64_USB_SERVER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_IDE64_USB_SERVER_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_IDE64_USB_SERVER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IDE64_USB_SERVER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_IDE64_USB_SERVER_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/ide64.c */
+/* en */ {IDCLS_IDE64_USB_SERVER_ADDRESS,    N_("IDE64 USB server address")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_IDE64_USB_SERVER_ADDRESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_IDE64_USB_SERVER_ADDRESS_DE, "Lokale Adresse für die IDE64 USB server"},
+/* es */ {IDCLS_IDE64_USB_SERVER_ADDRESS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_IDE64_USB_SERVER_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_IDE64_USB_SERVER_ADDRESS_HU, "IDE64 USB szerver helyi címe"},
+/* it */ {IDCLS_IDE64_USB_SERVER_ADDRESS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_IDE64_USB_SERVER_ADDRESS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_IDE64_USB_SERVER_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_IDE64_USB_SERVER_ADDRESS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_IDE64_USB_SERVER_ADDRESS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_IDE64_USB_SERVER_ADDRESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_IDE64_USB_SERVER_ADDRESS_TR, ""},  /* fuzzy */
 #endif
 
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
@@ -7300,7 +7351,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_P_LINENUMBER_DE, "<Zeilennummer>"},
 /* es */ {IDCLS_P_LINENUMBER_ES, "<número linea>"},
 /* fr */ {IDCLS_P_LINENUMBER_FR, "<numérodeligne>"},
-/* hu */ {IDCLS_P_LINENUMBER_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_LINENUMBER_HU, "<sorok száma>"},
 /* it */ {IDCLS_P_LINENUMBER_IT, "<numero di linea>"},
 /* ko */ {IDCLS_P_LINENUMBER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_LINENUMBER_NL, "<lijnnummer>"},
@@ -7334,7 +7385,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_P_RAMSIZE_DE, "<RAM Größe>"},
 /* es */ {IDCLS_P_RAMSIZE_ES, "<Tamaño RAM>"},
 /* fr */ {IDCLS_P_RAMSIZE_FR, "<Taille de la RAM>"},
-/* hu */ {IDCLS_P_RAMSIZE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_RAMSIZE_HU, "<RAM méret>"},
 /* it */ {IDCLS_P_RAMSIZE_IT, "<Dimensione RAM>"},
 /* ko */ {IDCLS_P_RAMSIZE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_RAMSIZE_NL, "<RAM grootte>"},
@@ -10498,7 +10549,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_P_BASE_ADDRESS_DE, "<Basis Adresse>"},
 /* es */ {IDCLS_P_BASE_ADDRESS_ES, "<Dirección base>"},
 /* fr */ {IDCLS_P_BASE_ADDRESS_FR, "<Adresse de base>"},
-/* hu */ {IDCLS_P_BASE_ADDRESS_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_BASE_ADDRESS_HU, "<Bázis cím>"},
 /* it */ {IDCLS_P_BASE_ADDRESS_IT, "<Indirizzo base>"},
 /* ko */ {IDCLS_P_BASE_ADDRESS_KO, "<º£ÀÌ½º ÁÖ¼Ò>"},
 /* nl */ {IDCLS_P_BASE_ADDRESS_NL, "<Basisadres>"},
@@ -12083,7 +12134,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_REMOTE_MONITOR_ADDRESS_DE, "Lokale Adresse für die Monitorfernsteuerung"},
 /* es */ {IDCLS_REMOTE_MONITOR_ADDRESS_ES, "Dirección del monitor remoto al que se debe unir"},
 /* fr */ {IDCLS_REMOTE_MONITOR_ADDRESS_FR, "L'adresse locale à laquelle le moniteur distant devrait se brancher"},
-/* hu */ {IDCLS_REMOTE_MONITOR_ADDRESS_HU, "A helyi cím, amelyet a monitorprogram lefoglal"},
+/* hu */ {IDCLS_REMOTE_MONITOR_ADDRESS_HU, "A helyi cím, amelyet a távoli monitor használ"},
 /* it */ {IDCLS_REMOTE_MONITOR_ADDRESS_IT, "Indirizzo locale a cui il monitor remoto dovrebbe collegarsi"},
 /* ko */ {IDCLS_REMOTE_MONITOR_ADDRESS_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_REMOTE_MONITOR_ADDRESS_NL, "Lokaal adres waar de afstandsbediening voor de monitor aan gebonden moet worden"},
