@@ -116,30 +116,6 @@ static ui_menu_entry_t set_sid_stereo_address_d4xx_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_sid_stereo_address_d5xx_submenu[] = {
-    { "$D500", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd500, NULL },
-    { "$D520", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd520, NULL },
-    { "$D540", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd540, NULL },
-    { "$D560", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd560, NULL },
-    { "$D580", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd580, NULL },
-    { "$D5A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd5a0, NULL },
-    { "$D5C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd5c0, NULL },
-    { "$D5E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd5e0, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t set_sid_stereo_address_d6xx_submenu[] = {
-    { "$D600", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd600, NULL },
-    { "$D620", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd620, NULL },
-    { "$D640", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd640, NULL },
-    { "$D660", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd660, NULL },
-    { "$D680", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd680, NULL },
-    { "$D6A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd6a0, NULL },
-    { "$D6C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd6c0, NULL },
-    { "$D6E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd6e0, NULL },
-    { NULL }
-};
-
 static ui_menu_entry_t set_sid_stereo_address_d7xx_submenu[] = {
     { "$D700", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd700, NULL },
     { "$D720", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd720, NULL },
@@ -178,8 +154,6 @@ static ui_menu_entry_t set_sid_stereo_address_dfxx_submenu[] = {
 
 static ui_menu_entry_t set_sid_stereo_address_submenu[] = {
     { "$D4xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_d4xx_submenu },
-    { "$D5xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_d5xx_submenu },
-    { "$D6xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_d6xx_submenu },
     { "$D7xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_d7xx_submenu },
     { "$DExx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_dexx_submenu },
     { "$DFxx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_dfxx_submenu },
@@ -194,30 +168,6 @@ static ui_menu_entry_t set_sid_triple_address_d4xx_submenu[] = {
     { "$D4A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd4a0, NULL },
     { "$D4C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd4c0, NULL },
     { "$D4E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd4e0, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t set_sid_triple_address_d5xx_submenu[] = {
-    { "$D500", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd500, NULL },
-    { "$D520", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd520, NULL },
-    { "$D540", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd540, NULL },
-    { "$D560", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd560, NULL },
-    { "$D580", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd580, NULL },
-    { "$D5A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd5a0, NULL },
-    { "$D5C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd5c0, NULL },
-    { "$D5E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd5e0, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t set_sid_triple_address_d6xx_submenu[] = {
-    { "$D600", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd600, NULL },
-    { "$D620", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd620, NULL },
-    { "$D640", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd640, NULL },
-    { "$D660", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd660, NULL },
-    { "$D680", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd680, NULL },
-    { "$D6A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd6a0, NULL },
-    { "$D6C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd6c0, NULL },
-    { "$D6E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd6e0, NULL },
     { NULL }
 };
 
@@ -259,8 +209,6 @@ static ui_menu_entry_t set_sid_triple_address_dfxx_submenu[] = {
 
 static ui_menu_entry_t set_sid_triple_address_submenu[] = {
     { "$D4xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_d4xx_submenu },
-    { "$D5xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_d5xx_submenu },
-    { "$D6xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_d6xx_submenu },
     { "$D7xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_d7xx_submenu },
     { "$DExx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_dexx_submenu },
     { "$DFxx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_dfxx_submenu },
