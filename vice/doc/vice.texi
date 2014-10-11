@@ -19273,31 +19273,30 @@ load files of this type.
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 64Kb or 128Kb (8 or 16 banks of 8Kb)
+@tab 64Kb or 128Kb (4 or 8 banks of 16Kb)
 @item GAME
-@tab inactive (0)
+@tab active (1)
 @item EXROM
 @tab inactive (0)
 @item Load address
-@tab $8000-$9FFF
+@tab $8000-$BFFF
 @end multitable
 
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 26 00 00 00 00 00 00 00 00  ???@@???'????????
-0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
-0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
-0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0010: 00 00 00 40 01 00 00 27 00 01 00 00 00 00 00 00  ???@@???'????????
+0020: 49 44 45 36 34 20 43 41 52 54 52 49 44 47 45 20  IDE64 CARTRIDGE?
+0030: 49 44 45 44 4f 53 20 32 30 31 33 31 32 31 32 00  IDEDOS 20131212?
+0040: 43 48 49 50 00 00 40 10 00 02 00 00 80 00 40 00  CHIP????????.???
 0050: 63 80 5E FE C3 C2 CD 38 30 20 49 44 45 36 34 20  c.^....80?IDE64?
 @end example
 
     The IDE64 cart uses the following registers:
 
 @example
-    $DE20 - $DE27  Primary HDD Registers
-    $DE28 - $DE2F  Secondary HDD Registers
+    $DE20 - $DE2F IDE BUS Registers
     $DE30 - Low Data HDD register
     $DE31 - High Data HDD register
 @end example
@@ -19318,11 +19317,11 @@ load files of this type.
 @end example
 
 @example
-    $DE33 - $DE35 = IDE64 ROM bank select registers
+    $DE32 - $DE35 = IDE64 ROM bank select registers
     $DE5F         = RTC access (bit 0 only to serial accessed RTC)
-    $DE60 - $DEFA = RAM used by software
+    $DE60 - $DEFF = ROM used by software
     $DEFB         = IDE64 clock reset, kill the cartridge
-    $DEFC - $DEFF = IDE64 ROM configuration registers
+    $DEFC - $DEFF = IDE64 memory configuration registers
 @end example
 
 @c @node FIXME
