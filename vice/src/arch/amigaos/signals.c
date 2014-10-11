@@ -61,7 +61,7 @@ void signals_init(int do_core_dumps)
 }
 
 /*
-    these two are used if the monitor is in remote mode. in this case we might
+    these two are used for socket send/recv. in this case we might
     get SIGPIPE if the connection is unexpectedly closed.
 */
 /*

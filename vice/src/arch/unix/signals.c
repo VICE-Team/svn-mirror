@@ -35,7 +35,6 @@
 #endif
 
 #include "log.h"
-#include "monitor.h"
 #include "signals.h"
 
 #ifdef SYS_SIGLIST_DECLARED
@@ -101,7 +100,7 @@ typedef void (*signal_handler_t)(int);
 static signal_handler_t old_pipe_handler;
 
 /*
-    these two are used for socket send. in this case we might
+    these two are used for socket send/recv. in this case we might
     get SIGPIPE if the connection is unexpectedly closed.
 */
 void signals_pipe_set(void)

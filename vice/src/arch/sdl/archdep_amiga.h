@@ -86,10 +86,6 @@
 #define ARCHDEP_SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_MEDIUM
 
 /*
-    these are used if the monitor is in remote mode. in this case we might
-    get SIGPIPE if the connection is unexpectedly closed.
-*/
-/*
     FIXME: confirm wether SIGPIPE must be handled or not. if the emulator quits
            or crashes when the connection is closed, you might have to install
            a signal handler which calls monitor_abort().
