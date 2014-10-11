@@ -77,7 +77,6 @@
 #include "montypes.h"
 #include "resources.h"
 #include "screenshot.h"
-#include "signals.h"
 #include "sysfile.h"
 #include "translate.h"
 #include "traps.h"
@@ -2376,10 +2375,6 @@ static void monitor_open(void)
         return;
     }
 
-    if (monitor_is_remote()) {
-        signals_pipe_set();
-    }
-
     inside_monitor = TRUE;
     monitor_trap_triggered = FALSE;
     vsync_suspend_speed_eval();
@@ -2497,10 +2492,6 @@ static void monitor_close(int check)
     exit_mon = 0;
 
     /* last_cmd = NULL; */
-
-    if (monitor_is_remote()) {
-        signals_pipe_unset();
-    }
 
     if (!monitor_is_remote()) {
         if (mon_console_suspend_on_leaving) {

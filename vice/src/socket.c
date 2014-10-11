@@ -48,6 +48,7 @@
 #include "log.h"
 #include "socketimpl.h"
 #include "vicesocket.h"
+#include "signals.h"
 
 #ifndef HAVE_SOCKLEN_T
 typedef size_t socklen_t;
@@ -945,7 +946,11 @@ int vice_network_socket_close(vice_network_socket_t * sockfd)
 */
 int vice_network_send(vice_network_socket_t * sockfd, const void * buffer, size_t buffer_length, int flags)
 {
-    return send(sockfd->sockfd, buffer, buffer_length, flags);
+    int ret;
+    signals_pipe_set();
+    ret = send(sockfd->sockfd, buffer, buffer_length, flags);
+    signals_pipe_unset();
+    return ret;
 }
 
 /*! \brief Receive data from a connected socket
@@ -980,7 +985,11 @@ int vice_network_send(vice_network_socket_t * sockfd, const void * buffer, size_
 */
 int vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size_t buffer_length, int flags)
 {
-    return recv(sockfd->sockfd, buffer, buffer_length, flags);
+    int ret;
+    signals_pipe_set();
+    ret = recv(sockfd->sockfd, buffer, buffer_length, flags);
+    signals_pipe_unset();
+    return ret;
 }
 
 /*! \brief Check if a socket has incoming data to receive

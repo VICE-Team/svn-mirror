@@ -100,19 +100,13 @@ typedef void (*signal_handler_t)(int);
 
 static signal_handler_t old_pipe_handler;
 
-static void handle_pipe(int signo)
-{
-    log_message(LOG_DEFAULT, "Received signal %d (%s), aborting remote monitor.", signo, signal_name(signo));
-    monitor_abort();
-}
-
 /*
-    these two are used if the monitor is in remote mode. in this case we might
+    these two are used for socket send. in this case we might
     get SIGPIPE if the connection is unexpectedly closed.
 */
 void signals_pipe_set(void)
 {
-    old_pipe_handler = signal(SIGPIPE, (signal_handler_t)handle_pipe);
+    old_pipe_handler = signal(SIGPIPE, SIG_IGN);
 }
 
 void signals_pipe_unset(void)
