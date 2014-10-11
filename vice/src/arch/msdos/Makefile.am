@@ -175,6 +175,7 @@ libarch_a_SOURCES = \
 	uiscpu64model.h \
 	uiscreenshot.c \
 	uiscreenshot.h \
+	uisid.h \
 	uisidc64.c \
 	uisidc64.h \
 	uisidc128.c \
