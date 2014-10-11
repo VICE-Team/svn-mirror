@@ -1238,7 +1238,13 @@ void sdl_ui_refresh(void)
 void sdl_ui_scroll_screen_up(void)
 {
     int i, j;
-    BYTE *draw_pos = sdl_active_canvas->draw_buffer->draw_buffer + menu_draw.offset;
+    BYTE *draw_pos;
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        draw_pos = sdl_active_canvas->draw_buffer_vsid->draw_buffer + menu_draw.offset;
+    } else {
+        draw_pos = sdl_active_canvas->draw_buffer->draw_buffer + menu_draw.offset;
+    }
 
     for (i = 0; i < menu_draw.max_text_y - 1; ++i) {
         for (j = 0; j < menufont.h; ++j) {
