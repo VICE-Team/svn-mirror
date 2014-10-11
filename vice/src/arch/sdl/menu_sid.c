@@ -220,241 +220,142 @@ static UI_MENU_CALLBACK(show_SidStereoAddressStart_callback)
     return buf;
 }
 
-static const ui_menu_entry_t sid_d4x0_menu[] = {
-    { "Second SID base address",
-      MENU_ENTRY_TEXT,
-      show_SidStereoAddressStart_callback,
-      NULL },
-    { "$D420",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd420 },
-    { "$D440",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd440 },
-    { "$D460",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd460 },
-    { "$D480",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd480 },
-    { "$D4A0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd4a0 },
-    { "$D4C0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd4c0 },
-    { "$D4E0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd4e0 },
-    SDL_MENU_LIST_END
+#define SID_D4XX_MENU(menu, txt, showcb, cb) \
+static const ui_menu_entry_t menu[] = {      \
+    { txt, MENU_ENTRY_TEXT, showcb, NULL },  \
+    { "$D420", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd420 },      \
+    { "$D440", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd440 },      \
+    { "$D460", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd460 },      \
+    { "$D480", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd480 },      \
+    { "$D4A0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd4a0 },      \
+    { "$D4C0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd4c0 },      \
+    { "$D4E0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd4e0 },      \
+    SDL_MENU_LIST_END                        \
 };
 
-static const ui_menu_entry_t sid_d5x0_menu[] = {
-    { "Second SID base address",
-      MENU_ENTRY_TEXT,
-      show_SidStereoAddressStart_callback,
-      NULL },
-    { "$D500",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd500 },
-    { "$D520",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd520 },
-    { "$D540",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd540 },
-    { "$D560",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd560 },
-    { "$D580",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd580 },
-    { "$D5A0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd5a0 },
-    { "$D5C0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd5c0 },
-    { "$D5E0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd5e0 },
-    SDL_MENU_LIST_END
+#define SID_D5XX_MENU(menu, txt, showcb, cb) \
+static const ui_menu_entry_t menu[] = {      \
+    { txt, MENU_ENTRY_TEXT, showcb, NULL },  \
+    { "$D500", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd500 },      \
+    { "$D520", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd520 },      \
+    { "$D540", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd540 },      \
+    { "$D560", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd560 },      \
+    { "$D580", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd580 },      \
+    { "$D5A0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd5a0 },      \
+    { "$D5C0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd5c0 },      \
+    { "$D5E0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd5e0 },      \
+    SDL_MENU_LIST_END                        \
 };
 
-static const ui_menu_entry_t sid_d6x0_menu[] = {
-    { "Second SID base address",
-      MENU_ENTRY_TEXT,
-      show_SidStereoAddressStart_callback,
-      NULL },
-    { "$D600",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd600 },
-    { "$D620",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd620 },
-    { "$D640",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd640 },
-    { "$D660",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd660 },
-    { "$D680",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd680 },
-    { "$D6A0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd6a0 },
-    { "$D6C0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd6c0 },
-    { "$D6E0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd6e0 },
-    SDL_MENU_LIST_END
+#define SID_D6XX_MENU(menu, txt, showcb, cb) \
+static const ui_menu_entry_t menu[] = {      \
+    { txt, MENU_ENTRY_TEXT, showcb, NULL },  \
+    { "$D600", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd600 },      \
+    { "$D620", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd620 },      \
+    { "$D640", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd640 },      \
+    { "$D660", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd660 },      \
+    { "$D680", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd680 },      \
+    { "$D6A0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd6a0 },      \
+    { "$D6C0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd6c0 },      \
+    { "$D6E0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd6e0 },      \
+    SDL_MENU_LIST_END                        \
 };
 
-static const ui_menu_entry_t sid_d7x0_menu[] = {
-    { "Second SID base address",
-      MENU_ENTRY_TEXT,
-      show_SidStereoAddressStart_callback,
-      NULL },
-    { "$D700",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd700 },
-    { "$D720",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd720 },
-    { "$D740",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd740 },
-    { "$D760",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd760 },
-    { "$D780",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd780 },
-    { "$D7A0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd7a0 },
-    { "$D7C0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd7c0 },
-    { "$D7E0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xd7e0 },
-    SDL_MENU_LIST_END
+#define SID_D7XX_MENU(menu, txt, showcb, cb) \
+static const ui_menu_entry_t menu[] = {      \
+    { txt, MENU_ENTRY_TEXT, showcb, NULL },  \
+    { "$D700", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd700 },      \
+    { "$D720", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd720 },      \
+    { "$D740", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd740 },      \
+    { "$D760", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd760 },      \
+    { "$D780", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd780 },      \
+    { "$D7A0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd7a0 },      \
+    { "$D7C0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd7c0 },      \
+    { "$D7E0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xd7e0 },      \
+    SDL_MENU_LIST_END                        \
 };
 
-static const ui_menu_entry_t sid_dex0_menu[] = {
-    { "Second SID base address",
-      MENU_ENTRY_TEXT,
-      show_SidStereoAddressStart_callback,
-      NULL },
-    { "$DE00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xde00 },
-    { "$DE20",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xde20 },
-    { "$DE40",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xde40 },
-    { "$DE60",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xde60 },
-    { "$DE80",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xde80 },
-    { "$DEA0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xdea0 },
-    { "$DEC0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xdec0 },
-    { "$DEE0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xdee0 },
-    SDL_MENU_LIST_END
+#define SID_DEXX_MENU(menu, txt, showcb, cb) \
+static const ui_menu_entry_t menu[] = {      \
+    { txt, MENU_ENTRY_TEXT, showcb, NULL },  \
+    { "$DE00", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xde00 },      \
+    { "$DE20", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xde20 },      \
+    { "$DE40", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xde40 },      \
+    { "$DE60", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xde60 },      \
+    { "$DE80", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xde80 },      \
+    { "$DEA0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xdea0 },      \
+    { "$DEC0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xdec0 },      \
+    { "$DEE0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xdee0 },      \
+    SDL_MENU_LIST_END                        \
 };
 
-static const ui_menu_entry_t sid_dfx0_menu[] = {
-    { "Second SID base address",
-      MENU_ENTRY_TEXT,
-      show_SidStereoAddressStart_callback,
-      NULL },
-    { "$DF00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xdf00 },
-    { "$DF20",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xdf20 },
-    { "$DF40",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xdf40 },
-    { "$DF60",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xdf60 },
-    { "$DF80",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xdf80 },
-    { "$DFA0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xdfa0 },
-    { "$DFC0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xdfc0 },
-    { "$DFE0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidStereoAddressStart_callback,
-      (ui_callback_data_t)0xdfe0 },
-    SDL_MENU_LIST_END
+#define SID_DFXX_MENU(menu, txt, showcb, cb) \
+static const ui_menu_entry_t menu[] = {      \
+    { txt, MENU_ENTRY_TEXT, showcb, NULL },  \
+    { "$DF00", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xdf00 },      \
+    { "$DF20", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xdf20 },      \
+    { "$DF40", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xdf40 },      \
+    { "$DF60", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xdf60 },      \
+    { "$DF80", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xdf80 },      \
+    { "$DFA0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xdfa0 },      \
+    { "$DFC0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xdfc0 },      \
+    { "$DFE0", MENU_ENTRY_RESOURCE_RADIO,    \
+      cb, (ui_callback_data_t)0xdfe0 },      \
+    SDL_MENU_LIST_END                        \
 };
+
+SID_D4XX_MENU(sid_d4x0_menu, "Second SID base address", show_SidStereoAddressStart_callback, radio_SidStereoAddressStart_callback)
+SID_D5XX_MENU(sid_d5x0_menu, "Second SID base address", show_SidStereoAddressStart_callback, radio_SidStereoAddressStart_callback)
+SID_D6XX_MENU(sid_d6x0_menu, "Second SID base address", show_SidStereoAddressStart_callback, radio_SidStereoAddressStart_callback)
+SID_D7XX_MENU(sid_d7x0_menu, "Second SID base address", show_SidStereoAddressStart_callback, radio_SidStereoAddressStart_callback)
+SID_DEXX_MENU(sid_dex0_menu, "Second SID base address", show_SidStereoAddressStart_callback, radio_SidStereoAddressStart_callback)
+SID_DFXX_MENU(sid_dfx0_menu, "Second SID base address", show_SidStereoAddressStart_callback, radio_SidStereoAddressStart_callback)
 
 static const ui_menu_entry_t c128_stereo_sid_base_menu[] = {
     { "Second SID base address",
@@ -523,241 +424,12 @@ static UI_MENU_CALLBACK(show_SidTripleAddressStart_callback)
     return buf;
 }
 
-static const ui_menu_entry_t sid3_d4x0_menu[] = {
-    { "Third SID base address",
-      MENU_ENTRY_TEXT,
-      show_SidTripleAddressStart_callback,
-      NULL },
-    { "$D420",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd420 },
-    { "$D440",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd440 },
-    { "$D460",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd460 },
-    { "$D480",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd480 },
-    { "$D4A0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd4a0 },
-    { "$D4C0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd4c0 },
-    { "$D4E0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd4e0 },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t sid3_d5x0_menu[] = {
-    { "Third SID base address",
-      MENU_ENTRY_TEXT,
-      show_SidTripleAddressStart_callback,
-      NULL },
-    { "$D500",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd500 },
-    { "$D520",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd520 },
-    { "$D540",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd540 },
-    { "$D560",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd560 },
-    { "$D580",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd580 },
-    { "$D5A0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd5a0 },
-    { "$D5C0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd5c0 },
-    { "$D5E0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd5e0 },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t sid3_d6x0_menu[] = {
-    { "Third SID base address",
-      MENU_ENTRY_TEXT,
-      show_SidTripleAddressStart_callback,
-      NULL },
-    { "$D600",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd600 },
-    { "$D620",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd620 },
-    { "$D640",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd640 },
-    { "$D660",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd660 },
-    { "$D680",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd680 },
-    { "$D6A0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd6a0 },
-    { "$D6C0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd6c0 },
-    { "$D6E0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd6e0 },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t sid3_d7x0_menu[] = {
-    { "Third SID base address",
-      MENU_ENTRY_TEXT,
-      show_SidTripleAddressStart_callback,
-      NULL },
-    { "$D700",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd700 },
-    { "$D720",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd720 },
-    { "$D740",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd740 },
-    { "$D760",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd760 },
-    { "$D780",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd780 },
-    { "$D7A0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd7a0 },
-    { "$D7C0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd7c0 },
-    { "$D7E0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xd7e0 },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t sid3_dex0_menu[] = {
-    { "Third SID base address",
-      MENU_ENTRY_TEXT,
-      show_SidTripleAddressStart_callback,
-      NULL },
-    { "$DE00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xde00 },
-    { "$DE20",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xde20 },
-    { "$DE40",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xde40 },
-    { "$DE60",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xde60 },
-    { "$DE80",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xde80 },
-    { "$DEA0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xdea0 },
-    { "$DEC0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xdec0 },
-    { "$DEE0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xdee0 },
-    SDL_MENU_LIST_END
-};
-
-static const ui_menu_entry_t sid3_dfx0_menu[] = {
-    { "Third SID base address",
-      MENU_ENTRY_TEXT,
-      show_SidTripleAddressStart_callback,
-      NULL },
-    { "$DF00",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xdf00 },
-    { "$DF20",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xdf20 },
-    { "$DF40",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xdf40 },
-    { "$DF60",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xdf60 },
-    { "$DF80",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xdf80 },
-    { "$DFA0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xdfa0 },
-    { "$DFC0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xdfc0 },
-    { "$DFE0",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SidTripleAddressStart_callback,
-      (ui_callback_data_t)0xdfe0 },
-    SDL_MENU_LIST_END
-};
+SID_D4XX_MENU(sid3_d4x0_menu, "Third SID base address", show_SidTripleAddressStart_callback, radio_SidTripleAddressStart_callback)
+SID_D5XX_MENU(sid3_d5x0_menu, "Third SID base address", show_SidTripleAddressStart_callback, radio_SidTripleAddressStart_callback)
+SID_D6XX_MENU(sid3_d6x0_menu, "Third SID base address", show_SidTripleAddressStart_callback, radio_SidTripleAddressStart_callback)
+SID_D7XX_MENU(sid3_d7x0_menu, "Third SID base address", show_SidTripleAddressStart_callback, radio_SidTripleAddressStart_callback)
+SID_DEXX_MENU(sid3_dex0_menu, "Third SID base address", show_SidTripleAddressStart_callback, radio_SidTripleAddressStart_callback)
+SID_DFXX_MENU(sid3_dfx0_menu, "Third SID base address", show_SidTripleAddressStart_callback, radio_SidTripleAddressStart_callback)
 
 static const ui_menu_entry_t c128_triple_sid_base_menu[] = {
     { "Third SID base address",
