@@ -978,7 +978,11 @@ void sdl_ui_invert_char(int pos_x, int pos_y)
         ++pos_y;
     }
 
-    draw_pos = &(sdl_active_canvas->draw_buffer->draw_buffer[pos_x * menufont.w + pos_y * menufont.h * menu_draw.pitch]);
+    if (machine_class == VICE_MACHINE_VSID) {
+        draw_pos = &(sdl_active_canvas->draw_buffer_vsid->draw_buffer[pos_x * menufont.w + pos_y * menufont.h * menu_draw.pitch]);
+    } else {
+        draw_pos = &(sdl_active_canvas->draw_buffer->draw_buffer[pos_x * menufont.w + pos_y * menufont.h * menu_draw.pitch]);
+    }
 
     draw_pos += menu_draw.offset;
 
