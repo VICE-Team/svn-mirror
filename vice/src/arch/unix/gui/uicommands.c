@@ -588,15 +588,7 @@ ui_menu_entry_t ui_sound_record_commands_menu[] = {
 
 static UI_CALLBACK(monitor_select_addr)
 {
-    const char *wd = NULL;
-    int len = 40;
-
-    resources_get_string("MonitorServerAddress", &wd);
-    vsync_suspend_speed_eval();
-    if (ui_input_string(_("VICE setting"), _("Select server address"), (char*)wd, len) == UI_BUTTON_OK) {
-        resources_set_string("MonitorServerAddress", wd);
-    }
-    lib_free(wd);
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("VICE setting"), _("Select server address"));
 }
 
 UI_MENU_DEFINE_TOGGLE(KeepMonitorOpen)
@@ -609,7 +601,8 @@ ui_menu_entry_t ui_monitor_commands_menu[] = {
     { N_("Enable remote monitor server"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MonitorServer, NULL, NULL },
     { N_("Set remote monitor server address"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)monitor_select_addr, NULL, NULL },
+      (ui_callback_t)monitor_select_addr,
+      (ui_callback_data_t)"MonitorServerAddress", NULL },
     { NULL }
 };
 
