@@ -67,12 +67,16 @@
 #include "monitor.h"
 #include "crt.h"
 #include "vicesocket.h"
+#include "alarm.h"
+#include "maincpu.h"
 
 #ifdef IDE64_DEBUG
 #define debug(x) log_debug(x)
 #else
 #define debug(x)
 #endif
+
+#define LATENCY_TIMER 4000
 
 /* Current IDE64 bank */
 static int current_bank;
@@ -107,14 +111,14 @@ static char ide64_DS1302[65];
 static char *ide64_configuration_string = ide64_DS1302;
 
 #ifdef HAVE_NETWORK
+static struct alarm_s *usb_alarm;
 static char *settings_usbserver_address = NULL;
 static vice_network_socket_t * usbserver_socket = NULL;
 static vice_network_socket_t * usbserver_asocket = NULL;
 static int settings_usbserver;
-static int ft245_rx = -1;
+static BYTE ft245_rx[256], ft245_tx[128];
+static int ft245_rxp, ft245_rxl, ft245_txp;
 #else
-#define usbserver_asocket 0
-#define ft245_rx -1
 #define usbserver_activate(a) {}
 #endif
 
@@ -461,6 +465,10 @@ static int set_autodetect_size(int autodetect_size, void *param)
     return 0;
 }
 
+#ifdef HAVE_NETWORK
+static void usbserver_activate(int);
+#endif
+
 static int set_version4(int value, void *param)
 {
     int val = value ? 1 : 0;
@@ -475,6 +483,7 @@ static int set_version4(int value, void *param)
         if (ide64_register() < 0) {
             return -1;
         }
+        usbserver_activate(settings_usbserver);
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     }
     return 0;
@@ -488,44 +497,59 @@ static int set_rtc_offset(int val, void *param)
 }
 
 #ifdef HAVE_NETWORK
-static int usbserver_activate(int mode)
+static void usb_send(void);
+
+static void usb_alarm_handler(CLOCK offset, void *data)
+{
+    usb_send();
+}
+
+static void usbserver_activate(int mode)
 {
     vice_network_socket_address_t * server_addr = NULL;
-    int error = 1;
 
-    ft245_rx = -1;
+    ft245_rxp = ft245_rxl = ft245_txp = 0;
+
+    if (!settings_version4) {
+        mode = 0;
+    }
+
+    if (usbserver_asocket) {
+        vice_network_socket_close(usbserver_asocket);
+        usbserver_asocket = NULL;
+    }
 
     if (usbserver_socket) {
         vice_network_socket_close(usbserver_socket);
         usbserver_socket = NULL;
     }
 
-    if (!mode || !settings_version4) {
-        return 0;
+    if (!mode) {
+        if (usb_alarm) {
+            alarm_destroy(usb_alarm);
+            usb_alarm = NULL;
+        }
+        return;
     }
 
-    do {
-        if (!settings_usbserver_address) {
-            break;
+    if (!usb_alarm) {
+        usb_alarm = alarm_new(maincpu_alarm_context, "IDE64USBAlarm", usb_alarm_handler, NULL);
+        if (!usb_alarm) {
+            return;
         }
-
-        server_addr = vice_network_address_generate(settings_usbserver_address, 0);
-        if (!server_addr) {
-            break;
-        }
-
-        usbserver_socket = vice_network_server(server_addr);
-        if (!usbserver_socket) {
-            break;
-        }
-
-        error = 0;
-    } while (0);
-
-    if (server_addr) {
-        vice_network_address_close(server_addr);
     }
-    return error;
+
+    if (!settings_usbserver_address) {
+        return;
+    }
+
+    server_addr = vice_network_address_generate(settings_usbserver_address, 0);
+    if (!server_addr) {
+        return;
+    }
+
+    usbserver_socket = vice_network_server(server_addr);
+    vice_network_address_close(server_addr);
 }
 
 static int set_usbserver(int val, void *param)
@@ -546,7 +570,7 @@ static int set_usbserver_address(const char *name, void *param)
     }
 
     util_string_set(&settings_usbserver_address, name);
-    if (usbserver_socket) {
+    if (usbserver_socket && ide64_rom_list_item) {
         usbserver_activate(settings_usbserver);
     }
     return 0;
@@ -923,43 +947,74 @@ static void ide64_io_store(WORD addr, BYTE value)
     }
 }
 
-static void usb_getone(void) {
 #ifdef HAVE_NETWORK
-    if (usbserver_socket) {
+static void usb_receive(void) {
+    if (ft245_rxp >= ft245_rxl && usbserver_socket) {
+        int reconnect = 2;
         if (!usbserver_asocket && vice_network_select_poll_one(usbserver_socket)) {
             usbserver_asocket = vice_network_accept(usbserver_socket);
         }
-        if (usbserver_asocket && vice_network_select_poll_one(usbserver_asocket)) {
-            BYTE c;
-            int r = vice_network_receive(usbserver_asocket, &c, 1, 0);
+        while (usbserver_asocket && vice_network_select_poll_one(usbserver_asocket) && reconnect--) {
+            int r;
+            r = vice_network_receive(usbserver_asocket, ft245_rx, sizeof(ft245_rx), 0);
             if (r <= 0) {
                 vice_network_socket_close(usbserver_asocket);
-                usbserver_asocket = NULL;
+                if (vice_network_select_poll_one(usbserver_socket)) {
+                    usbserver_asocket = vice_network_accept(usbserver_socket);
+                } else {
+                    usbserver_asocket = NULL;
+                }
+                if (ft245_txp)  {
+                    alarm_unset(usb_alarm);
+                    ft245_txp = 0; /* transmit buffer_lost */
+                }
             } else {
-                ft245_rx = c;
+                ft245_rxp = 0;
+                ft245_rxl = r;
+                break;
             }
         }
     }
-#endif
 }
 
-static void usb_sendone(BYTE value) {
-#ifdef HAVE_NETWORK
-    if (usbserver_socket) {
+static void usb_send(void) {
+    if (ft245_txp && usbserver_socket) {
+        int reconnect = 2;
         if (!usbserver_asocket && vice_network_select_poll_one(usbserver_socket)) {
             usbserver_asocket = vice_network_accept(usbserver_socket);
         }
-        if (usbserver_asocket) {
-            int r = vice_network_send(usbserver_asocket, &value, 1, 0);
-            if (r < 0) {
+        while (usbserver_asocket && reconnect--) {
+            int r = vice_network_send(usbserver_asocket, ft245_tx, ft245_txp, 0);
+            if (r > 0 && vice_network_send(usbserver_asocket, ft245_tx, 0, 0) < 0) {
+                r = -1;
+            }
+            if (r <= 0) {
                 vice_network_socket_close(usbserver_asocket);
-                usbserver_asocket = NULL;
-                ft245_rx = -1;
+                if (vice_network_select_poll_one(usbserver_socket)) {
+                    usbserver_asocket = vice_network_accept(usbserver_socket);
+                } else {
+                    usbserver_asocket = NULL;
+                }
+                ft245_rxp = ft245_rxl = 0; /* receive buffer lost */
+                if (!reconnect) {
+                    ft245_txp = 0; /* nowhere to transmit */
+                }
+            } else {
+                if (r < ft245_txp) {
+                    memmove(ft245_tx, ft245_tx + r, ft245_txp - r);
+                }
+                ft245_txp -= r;
+                break;
             }
         }
     }
-#endif
+    if (ft245_txp) {
+        alarm_set(usb_alarm, maincpu_clk + LATENCY_TIMER);
+    } else {
+        alarm_unset(usb_alarm);
+    }
 }
+#endif
 
 static BYTE ide64_ft245_read(WORD addr)
 {
@@ -967,19 +1022,28 @@ static BYTE ide64_ft245_read(WORD addr)
         switch (addr ^ 1) {
             case 0:
 #ifdef HAVE_NETWORK
-                if (ft245_rx < 0) usb_getone();
-                if (ft245_rx >= 0) {
-                    BYTE c = ft245_rx;
-                    ft245_rx = -1;
+                if (ft245_rxp >= ft245_rxl) {
+                    usb_receive();
+                }
+                if (ft245_rxp < ft245_rxl) {
                     ide64_ft245_device.io_source_valid = 1;
-                    return c;
+                    return ft245_rx[ft245_rxp++];
                 }
 #endif
                 break;
             case 1:
                 ide64_ft245_device.io_source_valid = 1;
-                if (ft245_rx < 0) usb_getone();
-                return (ft245_rx >= 0) ? 0x00 : (usbserver_asocket ? 0x40 : 0xc0);
+#ifdef HAVE_NETWORK
+                if (ft245_rxp >= ft245_rxl) {
+                    usb_receive();
+                }
+                if (ft245_txp >= sizeof(ft245_tx)) {
+                    usb_send();
+                }
+                return ((ft245_rxp < ft245_rxl && usbserver_asocket) ? 0x00 : 0x40) | (ft245_txp < sizeof(ft245_tx) && usbserver_asocket ? 0x00 : 0x80);
+#else
+                return 0xc0;
+#endif
         }
     }
     ide64_ft245_device.io_source_valid = 0;
@@ -991,11 +1055,27 @@ static BYTE ide64_ft245_peek(WORD addr)
     if (settings_version4) {
         switch (addr ^ 1) {
             case 0:
-                if (ft245_rx < 0) usb_getone();
-                return ft245_rx;
+#ifdef HAVE_NETWORK
+                if (ft245_rxp >= ft245_rxl) {
+                    usb_receive();
+                }
+                if (ft245_rxp < ft245_rxl) {
+                    return ft245_rx[ft245_rxp];
+                }
+#endif
+                return 0xff;
             case 1:
-                if (ft245_rx < 0) usb_getone();
-                return (ft245_rx >= 0) ? 0x00 : (usbserver_asocket ? 0x40 : 0xc0);
+#ifdef HAVE_NETWORK
+                if (ft245_rxp >= ft245_rxl) {
+                    usb_receive();
+                }
+                if (ft245_txp >= sizeof(ft245_tx)) {
+                    usb_send();
+                }
+                return (ft245_rxp < ft245_rxl) ? 0x00 : (usbserver_asocket ? 0x40 : 0xc0);
+#else
+                return 0xc0;
+#endif
         }
     }
     return 0;
@@ -1006,7 +1086,17 @@ static void ide64_ft245_store(WORD addr, BYTE value)
     if (settings_version4) {
         switch (addr ^ 1) {
             case 0:
-                usb_sendone(value);
+#ifdef HAVE_NETWORK
+                if (ft245_txp < sizeof(ft245_tx)) {
+                    if (!ft245_txp && usb_alarm) {
+                        alarm_set(usb_alarm, maincpu_clk + LATENCY_TIMER);
+                    }
+                    ft245_tx[ft245_txp++] = value;
+                }
+                if (ft245_txp >= sizeof(ft245_tx)) {
+                    usb_send();
+                }
+#endif
                 break;
             case 1:
                 break;
