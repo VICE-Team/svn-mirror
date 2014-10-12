@@ -34,6 +34,7 @@
 #include "uiide64.h"
 
 TUI_MENU_DEFINE_TOGGLE(IDE64version4)
+TUI_MENU_DEFINE_TOGGLE(IDE64USBServer)
 TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize1)
 TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize2)
 TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize3)
@@ -117,6 +118,26 @@ static TUI_MENU_CALLBACK(ui_set_sectors_callback)
         } else {
             return NULL;
         }
+    }
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(ui_ide64_usbserver_address_callback)
+{
+    if (been_activated) {
+      const char *current_address;
+      char buf[44];
+
+      resources_get_string("IDE64USBServerAddress", &current_address);
+
+      strncpy(buf, current_address, 40);
+
+      if (tui_input_string("Address", "Enter the address of USB server:", buf, 40) == 0) {
+          resources_set_string("IDE64USBServerAddress", buf);
+          tui_message("Address set to : %s", buf);
+      } else {
+          return NULL;
+      }
     }
     return NULL;
 }
@@ -212,6 +233,13 @@ static tui_menu_item_def_t ide64_hd4_menu_items[] = {
 static tui_menu_item_def_t ide64_menu_items[] = {
     { "_Enable IDE64 V4 support:", "Emulate IDE64 V4 model",
       toggle_IDE64version4_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_USB server:", "Enable USB server",
+      toggle_IDE64USBServer_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "USB server _address",
+      "Set USB server address",
+      ui_ide64_usbserver_address_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "IDE64 primary master settings:", "Primary master settings",
       NULL, NULL, 11,
