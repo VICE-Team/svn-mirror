@@ -182,6 +182,8 @@ const ui_menu_entry_t ds12c887rtc_c128_menu[] = {
 /* IDE64 CART MENU */
 
 UI_MENU_DEFINE_TOGGLE(IDE64version4)
+UI_MENU_DEFINE_TOGGLE(IDE64USBServer)
+UI_MENU_DEFINE_STRING(IDE64USBServerAddress)
 UI_MENU_DEFINE_FILE_STRING(IDE64Image1)
 UI_MENU_DEFINE_FILE_STRING(IDE64Image2)
 UI_MENU_DEFINE_FILE_STRING(IDE64Image3)
@@ -316,6 +318,14 @@ const ui_menu_entry_t ide64_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IDE64version4_callback,
       NULL },
+    { "Enable USB server",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IDE64USBServer_callback,
+      NULL },
+    { "USB server address",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_IDE64USBServerAddress_callback,
+      (ui_callback_data_t)"Set USB server address" },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Device settings"),
     { "Device 1 settings",
