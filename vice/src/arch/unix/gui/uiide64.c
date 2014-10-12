@@ -168,6 +168,11 @@ static UI_CALLBACK(set_sectors)
     }
 }
 
+static UI_CALLBACK(usbserver_select_addr)
+{
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("IDE64 USB setting"), _("USB server address:"));
+}
+
 static ui_menu_entry_t ide64_revision_submenu[] = {
     { N_("Version 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IDE64version4,
       (ui_callback_data_t)0, NULL },
@@ -252,9 +257,16 @@ static ui_menu_entry_t ide64_hd4_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(IDE64USBServer)
+
 ui_menu_entry_t ide64_submenu[] = {
     { N_("Revision"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_revision_submenu },
+    { N_("Enable USB server"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_IDE64USBServer, NULL, NULL },
+    { N_("Set USB server address"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)usbserver_select_addr,
+      (ui_callback_data_t)"IDE64USBServerAddress", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Device 1 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_hd1_submenu },
