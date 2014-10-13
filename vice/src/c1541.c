@@ -2218,6 +2218,7 @@ static int write_geos_cmd(int nargs, char **args)
                         (int)strlen(dest_name_petscii), 1, NULL)) {
         fprintf(stderr, "Cannot open `%s' for writing on image.\n",
                 dest_name_ascii);
+        fclose(f);
         return FD_WRTERR;
     }
 
