@@ -378,6 +378,8 @@ static DRAW_INLINE void draw_sprites(int i)
                     }
                     if (sprite_expx_bits & m) {
                         sbuf_expx_flops ^= m;
+                    } else {
+                        sbuf_expx_flops |= m;
                     }
                 }
 
