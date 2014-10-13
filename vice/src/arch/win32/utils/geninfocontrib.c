@@ -225,6 +225,7 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
     if (sedfile == NULL) {
         printf("cannot open %s for reading\n", sed_filename);
         fclose(infile);
+        return;
     }
 
     outfile = fopen(out_filename, "wb");
