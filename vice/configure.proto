@@ -2717,6 +2717,23 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
       fi
     fi
 
+    dnl We use a relatively "new" feature of Xaw, check for it.
+    dnl Also, in Xaw3d, the menus are buggy and remain inverted a lot.
+    AC_MSG_CHECKING([if XawNdisplayList is defined])
+    AC_TRY_COMPILE([
+        /* Xaw or Xaw3d */
+        #ifdef USE_XAW3D
+        #include <X11/Xaw3d/Simple.h>
+        #else
+        #include <X11/Xaw/Simple.h>
+        #endif
+      ],
+      [ char *c = XawNdisplayList ],
+      [AC_MSG_RESULT(yes)],
+      [AC_MSG_RESULT(no)
+       AC_MSG_WARN([[X11/{Xaw or Xaw3d}/Simple.h does not #define XawNdisplayList. It is recommended to use at least version 7 of Xaw. Xaw3d based on older versions is buggy and incomplete. This warning will turn into an error soon.]])]
+    )
+
     AC_CHECK_HEADER(X11/extensions/XShm.h,,,[#include <X11/Xlib.h>])
     if test x"$ac_cv_header_X11_extensions_XShm_h" = "xyes" ; then
       AC_CHECK_LIB(Xext, XShmAttach,
