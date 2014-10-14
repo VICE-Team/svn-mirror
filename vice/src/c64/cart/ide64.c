@@ -552,9 +552,10 @@ static void usbserver_activate(int mode)
     vice_network_address_close(server_addr);
 }
 
-static int set_usbserver(int val, void *param)
+static int set_usbserver(int value, void *param)
 {
-    val = !!val;
+    int val = value ? 1 : 0;
+
     if (settings_usbserver != val && ide64_rom_list_item) {
         usbserver_activate(val);
         settings_usbserver = val;

@@ -318,6 +318,7 @@ const ui_menu_entry_t ide64_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IDE64version4_callback,
       NULL },
+#ifdef HAVE_NETWORK
     { "Enable USB server",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IDE64USBServer_callback,
@@ -326,6 +327,7 @@ const ui_menu_entry_t ide64_menu[] = {
       MENU_ENTRY_RESOURCE_STRING,
       string_IDE64USBServerAddress_callback,
       (ui_callback_data_t)"Set USB server address" },
+#endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Device settings"),
     { "Device 1 settings",

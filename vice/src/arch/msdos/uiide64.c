@@ -234,6 +234,7 @@ static tui_menu_item_def_t ide64_menu_items[] = {
     { "_Enable IDE64 V4 support:", "Emulate IDE64 V4 model",
       toggle_IDE64version4_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+#ifdef HAVE_NETWORK
     { "_USB server:", "Enable USB server",
       toggle_IDE64USBServer_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
@@ -241,6 +242,7 @@ static tui_menu_item_def_t ide64_menu_items[] = {
       "Set USB server address",
       ui_ide64_usbserver_address_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+#endif
     { "IDE64 primary master settings:", "Primary master settings",
       NULL, NULL, 11,
       TUI_MENU_BEH_CONTINUE, ide64_hd1_menu_items,
