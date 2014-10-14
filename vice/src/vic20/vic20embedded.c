@@ -99,7 +99,7 @@ int embedded_palette_load(const char *fname, palette_t *p)
     while (palette_files[i].name1 != NULL) {
         if (!strcmp(palette_files[i].name1, fname) || !strcmp(palette_files[i].name2, fname)) {
             entries = palette_files[i].palette;
-            for (j == 0; j < palette_files[i].num_entries; j++) {
+            for (j = 0; j < palette_files[i].num_entries; j++) {
                 p->entries[j].red = entries[(j * 4) + 0];
                 p->entries[j].green = entries[(j * 4) + 1];
                 p->entries[j].blue = entries[(j * 4) + 2];
