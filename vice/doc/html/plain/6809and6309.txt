@@ -128,812 +128,769 @@ c  = cycles
 ce = 6309 emulation mode cycles
 cn = 6309 native mode cycles
 
---------------------------------------------------------------------------------------------------------
-| opc  | 6809:           | s  | c    | Full6809:       | s  | c    | 6309:           | s  | ce   | cn  |
---------------------------------------------------------------------------------------------------------
-|   00 | NEG $xx         | 2  |  6   | NEG $xx         | 2  |  6   | NEG $xx         | 2  |  6   |  5  |
-|   01 | ---             | -  |  -   | NEG $xx         | 2  |  6   | OIM #$xx, $xx   | 3  |  6   |  6  |
-|   02 | ---             | -  |  -   | COM/NEG $xx     | 2  |  6   | AIM #$xx, $xx   | 3  |  6   |  6  |
-|   03 | COM $xx         | 2  |  6   | COM $xx         | 2  |  6   | COM $xx         | 2  |  6   |  5  |
-|   04 | LSR $xx         | 2  |  6   | LSR $xx         | 2  |  6   | LSR $xx         | 2  |  6   |  5  |
-|   05 | ---             | -  |  -   | LSR $xx         | 2  |  6   | EIM #$xx, $xx   | 3  |  6   |  6  |
-|   06 | ROR $xx         | 2  |  6   | ROR $xx         | 2  |  6   | ROR $xx         | 2  |  6   |  5  |
-|   07 | ASR $xx         | 2  |  6   | ASR $xx         | 2  |  6   | ASR $xx         | 2  |  6   |  5  |
-|   08 | ASL/LSL $xx     | 2  |  6   | ASL/LSL $xx     | 2  |  6   | ASL/LSL $xx     | 2  |  6   |  5  |
-|   09 | ROL $xx         | 2  |  6   | ROL $xx         | 2  |  6   | ROL $xx         | 2  |  6   |  5  |
-|   0A | DEC $xx         | 2  |  6   | DEC $xx         | 2  |  6   | DEC $xx         | 2  |  6   |  5  |
-|   0B | ---             | -  |  -   | DEC $xx         | 2  |  6   | TIM #$xx, $xx   | 3  |  6   |  6  |
-|   0C | INC $xx         | 2  |  6   | INC $xx         | 2  |  6   | INC $xx         | 2  |  6   |  5  |
-|   0D | TST $xx         | 2  |  6   | TST $xx         | 2  |  6   | TST $xx         | 2  |  6   |  4  |
-|   0E | JMP $xx         | 2  |  3   | JMP $xx         | 2  |  3   | JMP $xx         | 2  |  3   |  2  |
-|   0F | CLR $xx         | 2  |  6   | CLR $xx         | 2  |  6   | CLR $xx         | 2  |  6   |  5  |
-|   12 | NOP             | 1  |  2   | NOP             | 1  |  2   | NOP             | 1  |  2   |  1  |
-|   13 | SYNC            | 1  |  2   | SYNC            | 1  |  2   | SYNC            | 1  |  2   |  1  |
-|   14 | ---             | -  |  -   | HCF             | 1  | ???  | SEXW            | 1  |  4   |  4  |
-|   15 | ---             | -  |  -   | HCF             | 1  | ???  | ***trap***      | 1  | 21   | 23  |
-|   16 | LBRA $xxxx      | 3  |  5   | LBRA $xxxx      | 3  |  5   | LBRA $xxxx      | 3  |  5   |  4  |
-|   17 | LBSR $xxxx      | 3  |  9   | LBSR $xxxx      | 3  |  9   | LBSR $xxxx      | 3  |  9   |  7  |
-|   18 | ---             | -  |  -   | CCRS            | 1  |  3   | ***trap***      | 1  | 21   | 23  |
-|   19 | DAA             | 1  |  2   | DAA             | 1  |  2   | DAA             | 1  |  2   |  1  |
-|   1A | ORCC #$xx       | 2  |  3   | ORCC #$xx       | 2  |  3   | ORCC #$xx       | 2  |  3   |  2  |
-|   1B | ---             | -  |  -   | NOP             | 1  |  2   | ***trap***      | 1  | 21   | 23  |
-|   1C | ANDCC #$xx      | 2  |  3   | ANDCC #$xx      | 2  |  3   | ANDCC #$xx      | 2  |  3   |  3  |
-|   1D | SEX             | 1  |  2   | SEX             | 1  |  2   | SEX             | 1  |  2   |  1  |
-|   1E | EXG R0, R1      | 2  |  8   | EXG R0, R1      | 2  |  8   | EXG R0, R1      | 2  |  8   |  5  |
-|   1F | TFR R0, R1      | 2  |  6   | TFR R0, R1      | 2  |  6   | TFR R0, R1      | 2  |  6   |  4  |
-|   20 | BRA $xxxx       | 2  |  3   | BRA $xxxx       | 2  |  3   | BRA $xxxx       | 2  |  3   |  3  |
-|   21 | BRN $xxxx       | 2  |  3   | BRN $xxxx       | 2  |  3   | BRN $xxxx       | 2  |  3   |  3  |
-|   22 | BHI $xxxx       | 2  |  3   | BHI $xxxx       | 2  |  3   | BHI $xxxx       | 2  |  3   |  3  |
-|   23 | BLS $xxxx       | 2  |  3   | BLS $xxxx       | 2  |  3   | BLS $xxxx       | 2  |  3   |  3  |
-|   24 | BHS/BCC $xxxx   | 2  |  3   | BHS/BCC $xxxx   | 2  |  3   | BHS/BCC $xxxx   | 2  |  3   |  3  |
-|   25 | BLO/BCS $xxxx   | 2  |  3   | BLO/BCS $xxxx   | 2  |  3   | BLO/BCS $xxxx   | 2  |  3   |  3  |
-|   26 | BNE $xxxx       | 2  |  3   | BNE $xxxx       | 2  |  3   | BNE $xxxx       | 2  |  3   |  3  |
-|   27 | BEQ $xxxx       | 2  |  3   | BEQ $xxxx       | 2  |  3   | BEQ $xxxx       | 2  |  3   |  3  |
-|   28 | BVC $xxxx       | 2  |  3   | BVC $xxxx       | 2  |  3   | BVC $xxxx       | 2  |  3   |  3  |
-|   29 | BVS $xxxx       | 2  |  3   | BVS $xxxx       | 2  |  3   | BVS $xxxx       | 2  |  3   |  3  |
-|   2A | BPL $xxxx       | 2  |  3   | BPL $xxxx       | 2  |  3   | BPL $xxxx       | 2  |  3   |  3  |
-|   2B | BMI $xxxx       | 2  |  3   | BMI $xxxx       | 2  |  3   | BMI $xxxx       | 2  |  3   |  3  |
-|   2C | BGE $xxxx       | 2  |  3   | BGE $xxxx       | 2  |  3   | BGE $xxxx       | 2  |  3   |  3  |
-|   2D | BLT $xxxx       | 2  |  3   | BLT $xxxx       | 2  |  3   | BLT $xxxx       | 2  |  3   |  3  |
-|   2E | BGT $xxxx       | 2  |  3   | BGT $xxxx       | 2  |  3   | BGT $xxxx       | 2  |  3   |  3  |
-|   2F | BLE $xxxx       | 2  |  3   | BLE $xxxx       | 2  |  3   | BLE $xxxx       | 2  |  3   |  3  |
-|   30 | LEAX index      | 2+ |  4+  | LEAX index      | 2  |  4+  | LEAX index      | 2  |  4+  |  4+ |
-|   31 | LEAY index      | 2+ |  4+  | LEAY index      | 2  |  4+  | LEAY index      | 2  |  4+  |  4+ |
-|   32 | LEAS index      | 2  |  4+  | LEAS index      | 2  |  4+  | LEAS index      | 2  |  4+  |  4+ |
-|   33 | LEAU index      | 2  |  4+  | LEAU index      | 2  |  4+  | LEAU index      | 2  |  4+  |  4+ |
-|   34 | PSHS #$RM       | 2  |  5+  | PSHS #$RM       | 2  |  5+  | PSHS #$RM       | 2  |  5+  |  4+ |
-|   35 | PULS #$RM       | 2  |  5+  | PULS #$RM       | 2  |  5+  | PULS #$RM       | 2  |  5+  |  4+ |
-|   36 | PSHU #$RM       | 2  |  5+  | PSHU #$RM       | 2  |  5+  | PSHU #$RM       | 2  |  5+  |  4+ |
-|   37 | PULU #$RM       | 2  |  5+  | PULU #$RM       | 2  |  5+  | PULU #$RM       | 2  |  5+  |  4+ |
-|   38 | ---             | -  |  -   | ANDCC imm       | 2  |  3   | ***trap***      | 1  | 21   | 23  |
-|   39 | RTS             | 1  |  5   | RTS             | 1  |  5   | RTS             | 1  |  5   |  1  |
-|   3A | ABX             | 1  |  3   | ABX             | 1  |  3   | ABX             | 1  |  3   |  1  |
-|   3B | RTI             | 1  | 6/15 | RTI             | 1  | 6/15 | RTI             | 1  | 6/15 | 17  |
-|   3C | CWAI            | 2  | 22   | CWAI            | 2  | 22   | CWAI            | 2  | 22   | 20  |
-|   3D | MUL             | 1  | 11   | MUL             | 1  | 11   | MUL             | 1  | 11   | 10  |
-|   3E | ---             | -  |  -   | SWIRES          | 1  | 19   | ***trap***      | 1  | 21   | 23  |
-|   3F | SWI             | 1  | 19   | SWI             | 1  | 19   | SWI             | 1  | 19   | 21  |
-|   40 | NEGA            | 1  |  2   | NEGA            | 1  |  2   | NEGA            | 1  |  2   |  1  |
-|   41 | ---             | -  |  -   | NEGA            | 1  |  2   | ***trap***      | 1  | 21   | 23  |
-|   42 | ---             | -  |  -   | COMA/NEGA       | 1  |  2   | ***trap***      | 1  | 21   | 23  |
-|   43 | COMA            | 1  |  2   | COMA            | 1  |  2   | COMA            | 1  |  2   |  1  |
-|   44 | LSRA            | 1  |  2   | LSRA            | 1  |  2   | LSRA            | 1  |  2   |  1  |
-|   45 | ---             | -  |  -   | LSRA            | 1  |  2   | ***trap***      | 1  | 21   | 23  |
-|   46 | RORA            | 1  |  2   | RORA            | 1  |  2   | RORA            | 1  |  2   |  1  |
-|   47 | ASRA            | 1  |  2   | ASRA            | 1  |  2   | ASRA            | 1  |  2   |  1  |
-|   48 | ASLA/LSLA       | 1  |  2   | ASLA/LSLA       | 1  |  2   | ASLA/LSLA       | 1  |  2   |  1  |
-|   49 | ROLA            | 1  |  2   | ROLA            | 1  |  2   | ROLA            | 1  |  2   |  1  |
-|   4A | DECA            | 1  |  2   | DECA            | 1  |  2   | DECA            | 1  |  2   |  1  |
-|   4B | ---             | -  |  -   | DECA            | 1  |  2   | ***trap***      | 1  | 21   | 23  |
-|   4C | INCA            | 1  |  2   | INCA            | 1  |  2   | INCA            | 1  |  2   |  1  |
-|   4D | TSTA            | 1  |  2   | TSTA            | 1  |  2   | TSTA            | 1  |  2   |  1  |
-|   4E | ---             | -  |  -   | CLRA            | 1  |  2   | ***trap***      | 1  | 21   | 23  |
-|   4F | CLRA            | 1  |  2   | CLRA            | 1  |  2   | CLRA            | 1  |  2   |  1  |
-|   50 | NEGB            | 1  |  2   | NEGB            | 1  |  2   | NEGB            | 1  |  2   |  1  |
-|   51 | ---             | -  |      | NEGB            | 1  |  2   | ***trap***      | 1  | 21   | 23  |
-|   52 | ---             | -  |  -   | COMB/NEGB       | 1  |  2   | ***trap***      | 1  | 21   | 23  |
-|   53 | COMB            | 1  |  2   | COMB            | 1  |  2   | COMB            | 1  |  2   |  1  |
-|   54 | LSRB            | 1  |  2   | LSRB            | 1  |  2   | LSRB            | 1  |  2   |  1  |
-|   55 | ---             | -  |  -   | LSRB            | 1  |  2   | ***trap***      | 1  | 21   | 23  |
-|   56 | RORB            | 1  |  2   | RORB            | 1  |  2   | RORB            | 1  |  2   |  1  |
-|   57 | ASRB            | 1  |  2   | ASRB            | 1  |  2   | ASRB            | 1  |  2   |  1  |
-|   58 | ASLB/LSLB       | 1  |  2   | ASLB/LSLB       | 1  |  2   | ASLB/LSLB       | 1  |  2   |  1  |
-|   59 | ROLB            | 1  |  2   | ROLB            | 1  |  2   | ROLB            | 1  |  2   |  1  |
-|   5A | DECB            | 1  |  2   | DECB            | 1  |  2   | DECB            | 1  |  2   |  1  |
-|   5B | ---             | -  |  -   | DECB            | 1  |  2   | ***trap***      | 1  | 21   | 23  |
-|   5C | INCB            | 1  |  2   | INCB            | 1  |  2   | INCB            | 1  |  2   |  1  |
-|   5D | TSTB            | 1  |  2   | TSTB            | 1  |  2   | TSTB            | 1  |  2   |  1  |
-|   5E | ---             | -  |  -   | CLRB            | 1  |  2   | ***trap***      | 1  | 21   | 23  |
-|   5F | CLRB            | 1  |  2   | CLRB            | 1  |  2   | CLRB            | 1  |  2   |  1  |
-|   60 | NEG index       | 2+ |  6+  | NEG index       | 2+ |  6+  | NEG index       | 2+ |  6+  |  6+ |
-|   61 | ---             | -  |  -   | NEG index       | 2+ |  6+  | OIM #$xx, index | 3+ |  6+  |  6+ |
-|   62 | ---             | -  |  -   | COM/NEG index   | 2+ |  6+  | AIM #$xx, index | 3+ |  7+  |  7+ |
-|   63 | COM index       | 2+ |  6+  | COM index       | 2+ |  6+  | COM index       | 2+ |  6+  |  6+ |
-|   64 | LSR index       | 2+ |  6+  | LSR index       | 2+ |  6+  | LSR index       | 2+ |  6+  |  6+ |
-|   65 | ---             | -  |  -   | LSR index       | 2+ |  6+  | EIM #$xx, index | 3+ |  7+  |  7+ |
-|   66 | ROR index       | 2+ |  6+  | ROR index       | 2+ |  6+  | ROR index       | 2+ |  6+  |  6+ |
-|   67 | ASR index       | 2+ |  6+  | ASR index       | 2+ |  6+  | ASR index       | 2+ |  6+  |  6+ |
-|   68 | ASL/LSL index   | 2+ |  6+  | ASL/LSL index   | 2+ |  6+  | ASL/LSL index   | 2+ |  6+  |  6+ |
-|   69 | ROL index       | 2+ |  6+  | ROL index       | 2+ |  6+  | ROL index       | 2+ |  6+  |  6+ |
-|   6A | DEC index       | 2+ |  6+  | DEC index       | 2+ |  6+  | DEC index       | 2+ |  6+  |  6+ |
-|   6B | ---             | -  |  -   | DEC index       | 2+ |  6+  | TIM index       | 3+ |  7+  |  7+ |
-|   6C | INC index       | 2+ |  6+  | INC index       | 2+ |  6+  | INC index       | 2+ |  6+  |  6+ |
-|   6D | TST index       | 2+ |  6+  | TST index       | 2+ |  6+  | TST index       | 2+ |  6+  |  5+ |
-|   6E | JMP index       | 2+ |  3+  | JMP index       | 2+ |  3+  | JMP index       | 2+ |  3+  |  3+ |
-|   6F | CLR index       | 2+ |  6+  | CLR index       | 2+ |  6+  | CLR index       | 2+ |  6+  |  6+ |
-|   70 | NEG $xxxx       | 3  |  7   | NEG $xxxx       | 3  |  7   | NEG $xxxx       | 3  |  7   |  6  |
-|   71 | ---             | -  |  -   | NEG $xxxx       | 3  |  7   | OIM #$xx, $xxxx | 4  |  7   |  7  |
-|   72 | ---             | -  |  -   | COM/NEG $xxxx   | 3  |  7   | AIM #$xx, $xxxx | 4  |  7   |  7  |
-|   73 | COM $xxxx       | 3  |  7   | COM $xxxx       | 3  |  7   | COM $xxxx       | 3  |  7   |  6  |
-|   74 | LSR $xxxx       | 3  |  7   | LSR $xxxx       | 3  |  7   | LSR $xxxx       | 3  |  7   |  6  |
-|   75 | ---             | -  |  -   | LSR $xxxx       | 3  |  7   | EIM #$xx, $xxxx | 4  |  7   |  7  |
-|   76 | ROR $xxxx       | 3  |  7   | ROR $xxxx       | 3  |  7   | ROR $xxxx       | 3  |  7   |  6  |
-|   77 | ASR $xxxx       | 3  |  7   | ASR $xxxx       | 3  |  7   | ASR $xxxx       | 3  |  7   |  6  |
-|   78 | ASL/LSL $xxxx   | 3  |  7   | ASL/LSL $xxxx   | 3  |  7   | ASL/LSL $xxxx   | 3  |  7   |  6  |
-|   79 | ROL $xxxx       | 3  |  7   | ROL $xxxx       | 3  |  7   | ROL $xxxx       | 3  |  7   |  6  |
-|   7A | DEC $xxxx       | 3  |  7   | DEC $xxxx       | 3  |  7   | DEC $xxxx       | 3  |  7   |  6  |
-|   7B | ---             | -  |  -   | DEC $xxxx       | 3  |  7   | TIM #$xx, $xxxx | 4  |  7   |  7  |
-|   7C | INC $xxxx       | 3  |  7   | INC $xxxx       | 3  |  7   | INC $xxxx       | 3  |  7   |  6  |
-|   7D | TST $xxxx       | 3  |  7   | TST $xxxx       | 3  |  7   | TST $xxxx       | 3  |  7   |  5  |
-|   7E | JMP $xxxx       | 3  |  4   | JMP $xxxx       | 3  |  4   | JMP $xxxx       | 3  |  4   |  3  |
-|   7F | CLR $xxxx       | 3  |  7   | CLR $xxxx       | 3  |  7   | CLR $xxxx       | 3  |  7   |  6  |
-|   80 | SUBA #$xx       | 2  |  2   | SUBA #$xx       | 2  |  2   | SUBA #$xx       | 2  |  2   |  2  |
-|   81 | CMPA #$xx       | 2  |  2   | CMPA #$xx       | 2  |  2   | CMPA #$xx       | 2  |  2   |  2  |
-|   82 | SBCA #$xx       | 2  |  2   | SBCA #$xx       | 2  |  2   | SBCA #$xx       | 2  |  2   |  2  |
-|   83 | SUBD #$xxxx     | 3  |  4   | SUBD #$xxxx     | 3  |  4   | SUBD #$xxxx     | 3  |  4   |  3  |
-|   84 | ANDA #$xx       | 2  |  2   | ANDA #$xx       | 2  |  2   | ANDA #$xx       | 2  |  2   |  2  |
-|   85 | BITA #$xx       | 2  |  2   | BITA #$xx       | 2  |  2   | BITA #$xx       | 2  |  2   |  2  |
-|   86 | LDA #$xx        | 2  |  2   | LDA #$xx        | 2  |  2   | LDA #$xx        | 2  |  2   |  2  |
-|   87 | ---             | -  |  -   | SCC #$xx        | 2  | ???  | ***trap***      | 1  | 21   | 23  |
-|   88 | EORA #$xx       | 2  |  2   | EORA #$xx       | 2  |  2   | EORA #$xx       | 2  |  2   |  2  |
-|   89 | ADCA #$xx       | 2  |  2   | ADCA #$xx       | 2  |  2   | ADCA #$xx       | 2  |  2   |  2  |
-|   8A | ORA #$xx        | 2  |  2   | ORA #$xx        | 2  |  2   | ORA #$xx        | 2  |  2   |  2  |
-|   8B | ADDA #$xx       | 2  |  2   | ADDA #$xx       | 2  |  2   | ADDA #$xx       | 2  |  2   |  2  |
-|   8C | CMPX #$xxxx     | 3  |  4   | CMPX #$xxxx     | 3  |  4   | CMPX #$xxxx     | 3  |  4   |  3  |
-|   8D | BSR $xxxx       | 2  |  7   | BSR $xxxx       | 2  |  7   | BSR $xxxx       | 2  |  7   |  6  |
-|   8E | LDX #$xxxx      | 3  |  3   | LDX #$xxxx      | 3  |  3   | LDX #$xxxx      | 3  |  3   |  3  |
-|   8F | ---             | -  |  -   | STX #$xxxx      | 3  | ???  | ***trap***      | 1  | 21   | 23  |
-|   90 | SUBA $xx        | 2  |  4   | SUBA $xx        | 2  |  4   | SUBA $xx        | 2  |  4   |  3  |
-|   91 | CMPA $xx        | 2  |  4   | CMPA $xx        | 2  |  4   | CMPA $xx        | 2  |  4   |  3  |
-|   92 | SBCA $xx        | 2  |  4   | SBCA $xx        | 2  |  4   | SBCA $xx        | 2  |  4   |  3  |
-|   93 | SUBD $xx        | 2  |  6   | SUBD $xx        | 2  |  6   | SUBD $xx        | 2  |  6   |  4  |
-|   94 | ANDA $xx        | 2  |  4   | ANDA $xx        | 2  |  4   | ANDA $xx        | 2  |  4   |  3  |
-|   95 | BITA $xx        | 2  |  4   | BITA $xx        | 2  |  4   | BITA $xx        | 2  |  4   |  3  |
-|   96 | LDA $xx         | 2  |  4   | LDA $xx         | 2  |  4   | LDA $xx         | 2  |  4   |  3  |
-|   97 | STA $xx         | 2  |  4   | STA $xx         | 2  |  4   | STA $xx         | 2  |  4   |  3  |
-|   98 | EORA $xx        | 2  |  4   | EORA $xx        | 2  |  4   | EORA $xx        | 2  |  4   |  3  |
-|   99 | ADCA $xx        | 2  |  4   | ADCA $xx        | 2  |  4   | ADCA $xx        | 2  |  4   |  3  |
-|   9A | ORA $xx         | 2  |  4   | ORA $xx         | 2  |  4   | ORA $xx         | 2  |  4   |  3  |
-|   9B | ADDA $xx        | 2  |  4   | ADDA $xx        | 2  |  4   | ADDA $xx        | 2  |  4   |  3  |
-|   9C | CMPX $xx        | 2  |  6   | CMPX $xx        | 2  |  6   | CMPX $xx        | 2  |  6   |  4  |
-|   9D | JSR $xx         | 2  |  7   | JSR $xx         | 2  |  7   | JSR $xx         | 2  |  7   |  6  |
-|   9E | LDX $xx         | 2  |  5   | LDX $xx         | 2  |  5   | LDX $xx         | 2  |  5   |  4  |
-|   9F | STX $xx         | 2  |  5   | STX $xx         | 2  |  5   | STX $xx         | 2  |  5   |  4  |
-|   A0 | SUBA index      | 2+ |  4+  | SUBA index      | 2+ |  4+  | SUBA index      | 2+ |  4+  |  4+ |
-|   A1 | CMPA index      | 2+ |  4+  | CMPA index      | 2+ |  4+  | CMPA index      | 2+ |  4+  |  4+ |
-|   A2 | SBCA index      | 2+ |  4+  | SBCA index      | 2+ |  4+  | SBCA index      | 2+ |  4+  |  4+ |
-|   A3 | SUBD index      | 2+ |  6+  | SUBD index      | 2+ |  6+  | SUBD index      | 2+ |  6+  |  5+ |
-|   A4 | ANDA index      | 2+ |  4+  | ANDA index      | 2+ |  4+  | ANDA index      | 2+ |  4+  |  4+ |
-|   A5 | BITA index      | 2+ |  4+  | BITA index      | 2+ |  4+  | BITA index      | 2+ |  4+  |  4+ |
-|   A6 | LDA index       | 2+ |  4+  | LDA index       | 2+ |  4+  | LDA index       | 2+ |  4+  |  4+ |
-|   A7 | STA index       | 2+ |  4+  | STA index       | 2+ |  4+  | STA index       | 2+ |  4+  |  4+ |
-|   A8 | EORA index      | 2+ |  4+  | EORA index      | 2+ |  4+  | EORA index      | 2+ |  4+  |  4+ |
-|   A9 | ADCA index      | 2+ |  4+  | ADCA index      | 2+ |  4+  | ADCA index      | 2+ |  4+  |  4+ |
-|   AA | ORA index       | 2+ |  4+  | ORA index       | 2+ |  4+  | ORA index       | 2+ |  4+  |  4+ |
-|   AB | ADDA index      | 2+ |  4+  | ADDA index      | 2+ |  4+  | ADDA index      | 2+ |  4+  |  4+ |
-|   AC | CMPX index      | 2+ |  6+  | CMPX index      | 2+ |  6+  | CMPX index      | 2+ |  6+  |  5+ |
-|   AD | JSR index       | 2+ |  7+  | JSR index       | 2+ |  7+  | JSR index       | 2+ |  7+  |  6+ |
-|   AE | LDX index       | 2+ |  5+  | LDX index       | 2+ |  5+  | LDX index       | 2+ |  5+  |  5+ |
-|   AF | STX index       | 2+ |  5+  | STX index       | 2+ |  5+  | STX index       | 2+ |  5+  |  5+ |
-|   B0 | SUBA $xxxx      | 3  |  5   | SUBA $xxxx      | 3  |  5   | SUBA $xxxx      | 3  |  5   |  4  |
-|   B1 | CMPA $xxxx      | 3  |  5   | CMPA $xxxx      | 3  |  5   | CMPA $xxxx      | 3  |  5   |  4  |
-|   B2 | SBCA $xxxx      | 3  |  5   | SBCA $xxxx      | 3  |  5   | SBCA $xxxx      | 3  |  5   |  4  |
-|   B3 | SUBD $xxxx      | 3  |  7   | SUBD $xxxx      | 3  |  7   | SUBD $xxxx      | 3  |  7   |  5  |
-|   B4 | ANDA $xxxx      | 3  |  5   | ANDA $xxxx      | 3  |  5   | ANDA $xxxx      | 3  |  5   |  4  |
-|   B5 | BITA $xxxx      | 3  |  5   | BITA $xxxx      | 3  |  5   | BITA $xxxx      | 3  |  5   |  4  |
-|   B6 | LDA $xxxx       | 3  |  5   | LDA $xxxx       | 3  |  5   | LDA $xxxx       | 3  |  5   |  4  |
-|   B7 | STA $xxxx       | 3  |  5   | STA $xxxx       | 3  |  5   | STA $xxxx       | 3  |  5   |  4  |
-|   B8 | EORA $xxxx      | 3  |  5   | EORA $xxxx      | 3  |  5   | EORA $xxxx      | 3  |  5   |  4  |
-|   B9 | ADCA $xxxx      | 3  |  5   | ADCA $xxxx      | 3  |  5   | ADCA $xxxx      | 3  |  5   |  4  |
-|   BA | ORA $xxxx       | 3  |  5   | ORA $xxxx       | 3  |  5   | ORA $xxxx       | 3  |  5   |  4  |
-|   BB | ADDA $xxxx      | 3  |  5   | ADDA $xxxx      | 3  |  5   | ADDA $xxxx      | 3  |  5   |  4  |
-|   BC | CMPX $xxxx      | 3  |  7   | CMPX $xxxx      | 3  |  7   | CMPX $xxxx      | 3  |  7   |  5  |
-|   BD | JSR $xxxx       | 3  |  8   | JSR $xxxx       | 3  |  8   | JSR $xxxx       | 3  |  8   |  7  |
-|   BE | LDX $xxxx       | 3  |  6   | LDX $xxxx       | 3  |  6   | LDX $xxxx       | 3  |  6   |  5  |
-|   BF | STX $xxxx       | 3  |  6   | STX $xxxx       | 3  |  6   | STX $xxxx       | 3  |  6   |  5  |
-|   C0 | SUBB #$xx       | 2  |  2   | SUBB #$xx       | 2  |  2   | SUBB #$xx       | 2  |  2   |  2  |
-|   C1 | CMPB #$xx       | 2  |  2   | CMPB #$xx       | 2  |  2   | CMPB #$xx       | 2  |  2   |  2  |
-|   C2 | SBCB #$xx       | 2  |  2   | SBCB #$x        | 2  |  2   | SBCB #$xx       | 2  |  2   |  2  |
-|   C3 | ADDD #$xxxx     | 3  |  4   | ADDD #$xxxx     | 3  |  4   | ADDD #$xxxx     | 3  |  4   |  3  |
-|   C4 | ANDB #$xx       | 2  |  2   | ANDB #$xx       | 2  |  2   | ANDB #$xx       | 2  |  2   |  2  |
-|   C5 | BITB #$xx       | 2  |  2   | BITB #$xx       | 2  |  2   | BITB #$xx       | 2  |  2   |  2  |
-|   C6 | LDB #$xx        | 2  |  2   | LDB #$xx        | 2  |  2   | LDB #$xx        | 2  |  2   |  2  |
-|   C7 | ---             | -  |  -   | SCC #$xx        | 2  | ???  | ***trap***      | 1  | 21   | 23  |
-|   C8 | EORB #$xx       | 2  |  2   | EORB #$xx       | 2  |  2   | EORB #$xx       | 2  |  2   |  2  |
-|   C9 | ADCB #$xx       | 2  |  2   | ADCB #$xx       | 2  |  2   | ADCB #$xx       | 2  |  2   |  2  |
-|   CA | ORB #$xx        | 2  |  2   | ORB #$xx        | 2  |  2   | ORB #$xx        | 2  |  2   |  2  |
-|   CB | ADDB #$xx       | 2  |  2   | ADDB #$xx       | 2  |  2   | ADDB #$xx       | 2  |  2   |  2  |
-|   CC | LDD #$xxxx      | 3  |  3   | LDD #$xxxx      | 3  |  3   | LDD #$xxxx      | 3  |  3   |  3  |
-|   CD | ---             | -  |  -   | HCF             | 1  | ???  | LDQ #$xxxxxxxx  | 5  |  5   |  5  |
-|   CE | LDU #$xxxx      | 3  |  3   | LDU #$xxxx      | 3  |  3   | LDU #$xxxx      | 3  |  3   |  3  |
-|   CF | ---             | -  |  -   | STU #$xxxx      | 3  | ???  | ***trap***      | 1  | 21   | 23  |
-|   D0 | SUBB $xx        | 2  |  4   | SUBB $xx        | 2  |  4   | SUBB $xx        | 2  |  4   |  3  |
-|   D1 | CMPB $xx        | 2  |  4   | CMPB $xx        | 2  |  4   | CMPB $xx        | 2  |  4   |  3  |
-|   D2 | SBCB $xx        | 2  |  4   | SBCB $xx        | 2  |  4   | SBCB $xx        | 2  |  4   |  3  |
-|   D3 | ADDD $xx        | 2  |  6   | ADDD $xx        | 2  |  6   | ADDD $xx        | 2  |  6   |  4  |
-|   D4 | ANDB $xx        | 2  |  4   | ANDB $xx        | 2  |  4   | ANDB $xx        | 2  |  4   |  3  |
-|   D5 | BITB $xx        | 2  |  4   | BITB $xx        | 2  |  4   | BITB $xx        | 2  |  4   |  3  |
-|   D6 | LDB $xx         | 2  |  4   | LDB $xx         | 2  |  4   | LDB $xx         | 2  |  4   |  3  |
-|   D7 | STB $xx         | 2  |  4   | STB $xx         | 2  |  4   | STB $xx         | 2  |  4   |  3  |
-|   D8 | EORB $xx        | 2  |  4   | EORB $xx        | 2  |  4   | EORB $xx        | 2  |  4   |  3  |
-|   D9 | ADCB $xx        | 2  |  4   | ADCB $xx        | 2  |  4   | ADCB $xx        | 2  |  4   |  3  |
-|   DA | ORB $xx         | 2  |  4   | ORB $xx         | 2  |  4   | ORB $xx         | 2  |  4   |  3  |
-|   DB | ADDB $xx        | 2  |  4   | ADDB $xx        | 2  |  4   | ADDB $xx        | 2  |  4   |  3  |
-|   DC | LDD $xx         | 2  |  5   | LDD $xx         | 2  |  5   | LDD $xx         | 2  |  5   |  4  |
-|   DD | STD $xx         | 2  |  5   | STD $xx         | 2  |  5   | STD $xx         | 2  |  5   |  4  |
-|   DE | LDU $xx         | 2  |  5   | LDU $xx         | 2  |  5   | LDU $xx         | 2  |  5   |  4  |
-|   DF | STU $xx         | 2  |  5   | STU $xx         | 2  |  5   | STU $xx         | 2  |  5   |  4  |
-|   E0 | SUBB index      | 2+ |  4+  | SUBB index      | 2+ |  4+  | SUBB index      | 2+ |  4+  |  4+ |
-|   E1 | CMPB index      | 2+ |  4+  | CMPB index      | 2+ |  4+  | CMPB index      | 2+ |  4+  |  4+ |
-|   E2 | SBCB index      | 2+ |  4+  | SBCB index      | 2+ |  4+  | SBCB index      | 2+ |  4+  |  4+ |
-|   E3 | ADDD index      | 2+ |  6+  | ADDD index      | 2+ |  6+  | ADDD index      | 2+ |  6+  |  5+ |
-|   E4 | ANDB index      | 2+ |  4+  | ANDB index      | 2+ |  4+  | ANDB index      | 2+ |  4+  |  4+ |
-|   E5 | BITB index      | 2+ |  4+  | BITB index      | 2+ |  4+  | BITB index      | 2+ |  4+  |  4+ |
-|   E6 | LDB index       | 2+ |  4+  | LDB index       | 2+ |  4+  | LDB index       | 2+ |  4+  |  4+ |
-|   E7 | STB index       | 2+ |  4+  | STB index       | 2+ |  4+  | STB index       | 2+ |  4+  |  4+ |
-|   E8 | EORB index      | 2+ |  4+  | EORB index      | 2+ |  4+  | EORB index      | 2+ |  4+  |  4+ |
-|   E9 | ADCB index      | 2+ |  4+  | ADCB index      | 2+ |  4+  | ADCB index      | 2+ |  4+  |  4+ |
-|   EA | ORB index       | 2+ |  4+  | ORB index       | 2+ |  4+  | ORB index       | 2+ |  4+  |  4+ |
-|   EB | ADDB index      | 2+ |  4+  | ADDB index      | 2+ |  4+  | ADDB index      | 2+ |  4+  |  4+ |
-|   EC | LDD index       | 2+ |  5+  | LDD index       | 2+ |  5+  | LDD index       | 2+ |  5+  |  5+ |
-|   ED | STD index       | 2+ |  5+  | STD index       | 2+ |  5+  | STD index       | 2+ |  5+  |  5+ |
-|   EE | LDU index       | 2+ |  5+  | LDU index       | 2+ |  5+  | LDU index       | 2+ |  5+  |  5+ |
-|   EF | STU index       | 2+ |  5+  | STU index       | 2+ |  5+  | STU index       | 2+ |  5+  |  5+ |
-|   F0 | SUBB $xxxx      | 3  |  5   | SUBB $xxxx      | 3  |  5   | SUBB $xxxx      | 3  |  5   |  4  |
-|   F1 | CMPB $xxxx      | 3  |  5   | CMPB $xxxx      | 3  |  5   | CMPB $xxxx      | 3  |  5   |  4  |
-|   F2 | SBCB $xxxx      | 3  |  5   | SBCB $xxxx      | 3  |  5   | SBCB $xxxx      | 3  |  5   |  4  |
-|   F3 | ADDD $xxxx      | 3  |  7   | ADDD $xxxx      | 3  |  7   | ADDD $xxxx      | 3  |  7   |  5  |
-|   F4 | ANDB $xxxx      | 3  |  5   | ANDB $xxxx      | 3  |  5   | ANDB $xxxx      | 3  |  5   |  4  |
-|   F5 | BITB $xxxx      | 3  |  5   | BITB $xxxx      | 3  |  5   | BITB $xxxx      | 3  |  5   |  4  |
-|   F6 | LDB $xxxx       | 3  |  5   | LDB $xxxx       | 3  |  5   | LDB $xxxx       | 3  |  5   |  4  |
-|   F7 | STB $xxxx       | 3  |  5   | STB $xxxx       | 3  |  5   | STB $xxxx       | 3  |  5   |  4  |
-|   F8 | EORB $xxxx      | 3  |  5   | EORB $xxxx      | 3  |  5   | EORB $xxxx      | 3  |  5   |  4  |
-|   F9 | ADCB $xxxx      | 3  |  5   | ADCB $xxxx      | 3  |  5   | ADCB $xxxx      | 3  |  5   |  4  |
-|   FA | ORB $xxxx       | 3  |  5   | ORB $xxxx       | 3  |  5   | ORB $xxxx       | 3  |  5   |  4  |
-|   FB | ADDB $xxxx      | 3  |  5   | ADDB $xxxx      | 3  |  5   | ADDB $xxxx      | 3  |  5   |  4  |
-|   FC | LDD $xxxx       | 3  |  6   | LDD $xxxx       | 3  |  6   | LDD $xxxx       | 3  |  6   |  5  |
-|   FD | STD $xxxx       | 3  |  6   | STD $xxxx       | 3  |  6   | STD $xxxx       | 3  |  6   |  5  |
-|   FE | LDU $xxxx       | 3  |  6   | LDU $xxxx       | 3  |  6   | LDU $xxxx       | 3  |  6   |  5  |
-|   FF | STU $xxxx       | 3  |  6   | STU $xxxx       | 3  |  6   | STU $xxxx       | 3  |  6   |  5  |
-| 1000 | ---             | -  |  -   | NEG $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 1001 | ---             | -  |  -   | NEG $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 1002 | ---             | -  |  -   | COM/NEG $xx     | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 1003 | ---             | -  |  -   | COM $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 1004 | ---             | -  |  -   | LSR $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 1005 | ---             | -  |  -   | LSR $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 1006 | ---             | -  |  -   | ROR $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 1007 | ---             | -  |  -   | ASR $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 1008 | ---             | -  |  -   | ASL/LSL $xx     | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 1009 | ---             | -  |  -   | ROL $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 100A | ---             | -  |  -   | DEC $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 100B | ---             | -  |  -   | DEC $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 100C | ---             | -  |  -   | INC $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 100D | ---             | -  |  -   | TST $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 100E | ---             | -  |  -   | JMP $xx         | 3  |  4   | ***trap***      | 2  | 22   | 24  |
-| 100F | ---             | -  |  -   | CLR $xx         | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 1012 | ---             | -  |  -   | NOP             | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 1013 | ---             | -  |  -   | SYNC            | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 1014 | ---             | -  |  -   | HCF             | 2  | ???  | ***trap***      | 2  | 22   | 24  |
-| 1015 | ---             | -  |  -   | HCF             | 2  | ???  | ***trap***      | 2  | 22   | 24  |
-| 1016 | ---             | -  |  -   | LBRA $xxxx      | 4  |  6   | ***trap***      | 2  | 22   | 24  |
-| 1017 | ---             | -  |  -   | LBSR $xxxx      | 4  | 10   | ***trap***      | 2  | 22   | 24  |
-| 1018 | ---             | -  |  -   | CCRS            | 2  |  4   | ***trap***      | 2  | 22   | 24  |
-| 1019 | ---             | -  |  -   | DAA             | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 101A | ---             | -  |  -   | ORCC #$xx       | 3  |  4   | ***trap***      | 2  | 22   | 24  |
-| 101B | ---             | -  |  -   | NOP             | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 101C | ---             | -  |  -   | ANDCC #$xx      | 3  |  4   | ***trap***      | 2  | 22   | 24  |
-| 101D | ---             | -  |  -   | SEX             | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 101E | ---             | -  |  -   | EXG R0, R1      | 3  |  9   | ***trap***      | 2  | 22   | 24  |
-| 101F | ---             | -  |  -   | TFR R0, R1      | 3  |  7   | ***trap***      | 2  | 22   | 24  |
-| 1020 | ---             | -  |  -   | LBRA $xxxx      | 4  |  6   | ***trap***      | 2  | 22   | 24  |
-| 1021 | LBRN $xxxx      | 4  |  5   | LBRN $xxxx      | 4  |  5   | LBRN $xxxx      | 4  |  5   |  5  |
-| 1022 | LBHI $xxxx      | 4  | 5/6  | LBHI $xxxx      | 4  | 5/6  | LBHI $xxxx      | 4  | 5/6  | 5/6 |
-| 1023 | LBLS $xxxx      | 4  | 5/6  | LBLS $xxxx      | 4  | 5/6  | LBLS $xxxx      | 4  | 5/6  | 5/6 |
-| 1024 | LBHS/LBCC $xxxx | 4  | 5/6  | LBHS/LBCC $xxxx | 4  | 5/6  | LBHS/LBCC $xxxx | 4  | 5/6  | 5/6 |
-| 1025 | LBLO/LBCS $xxxx | 4  | 5/6  | LBLO/LBCS $xxxx | 4  | 5/6  | LBLO/LBCS $xxxx | 4  | 5/6  | 5/6 |
-| 1026 | LBNE $xxxx      | 4  | 5/6  | LBNE $xxxx      | 4  | 5/6  | LBNE $xxxx      | 4  | 5/6  | 5/6 |
-| 1027 | LBEQ $xxxx      | 4  | 5/6  | LBEQ $xxxx      | 4  | 5/6  | LBEQ $xxxx      | 4  | 5/6  | 5/6 |
-| 1028 | LBVC $xxxx      | 4  | 5/6  | LBVC $xxxx      | 4  | 5/6  | LBVC $xxxx      | 4  | 5/6  | 5/6 |
-| 1029 | LBVS $xxxx      | 4  | 5/6  | LBVS $xxxx      | 4  | 5/6  | LBVS $xxxx      | 4  | 5/6  | 5/6 |
-| 102A | LBPL $xxxx      | 4  | 5/6  | LBPL $xxxx      | 4  | 5/6  | LBPL $xxxx      | 4  | 5/6  | 5/6 |
-| 102B | LBMI $xxxx      | 4  | 5/6  | LBMI $xxxx      | 4  | 5/6  | LBMI $xxxx      | 4  | 5/6  | 5/6 |
-| 102C | LBGE $xxxx      | 4  | 5/6  | LBGE $xxxx      | 4  | 5/6  | LBGE $xxxx      | 4  | 5/6  | 5/6 |
-| 102D | LBLT $xxxx      | 4  | 5/6  | LBLT $xxxx      | 4  | 5/6  | LBLT $xxxx      | 4  | 5/6  | 5/6 |
-| 102E | LBGT $xxxx      | 4  | 5/6  | LBGT $xxxx      | 4  | 5/6  | LBGT $xxxx      | 4  | 5/6  | 5/6 |
-| 102F | LBLE $xxxx      | 4  | 5/6  | LBLE $xxxx      | 4  | 5/6  | LBLE $xxxx      | 4  | 5/6  | 5/6 |
-| 1030 | ---             | -  |  -   | LEAX index      | 3+ |  5+  | ADDR R0, R1     | 3  |  4   |  4  |
-| 1031 | ---             | -  |  -   | LEAY index      | 3+ |  5+  | ADCR R0, R1     | 3  |  4   |  4  |
-| 1032 | ---             | -  |  -   | LEAS index      | 3+ |  5+  | SUBR R0, R1     | 3  |  4   |  4  |
-| 1033 | ---             | -  |  -   | LEAU index      | 3+ |  5+  | SBCR R0, R1     | 3  |  4   |  4  |
-| 1034 | ---             | -  |  -   | PSHS #$RM       | 2  |  5+  | ANDR R0, R1     | 3  |  4   |  4  |
-| 1035 | ---             | -  |  -   | PULS #$RM       | 2  |  5+  | ORR R0, R1      | 3  |  4   |  4  |
-| 1036 | ---             | -  |  -   | PSHU #$RM       | 2  |  5+  | EORR R0, R1     | 3  |  4   |  4  |
-| 1037 | ---             | -  |  -   | PULU #$RM       | 2  |  5+  | CMPR R0, R1     | 3  |  4   |  4  |
-| 1038 | ---             | -  |  -   | ANDCC+1c #$xx   | 3  |  5   | PSHSW           | 2  |  6   |  6  |
-| 1039 | ---             | -  |  -   | RTS             | 2  |  6   | PULSW           | 2  |  6   |  6  |
-| 103A | ---             | -  |  -   | ABX             | 2  |  4   | PSHUW           | 2  |  6   |  6  |
-| 103B | ---             | -  |  -   | RTI             | 2  | 7/16 | PULUW           | 2  |  6   |  6  |
-| 103C | ---             | -  |  -   | CWAI            | 3  | 23   | ***trap***      | 2  | 22   | 24  |
-| 103D | ---             | -  |  -   | MUL             | 2  | 12   | ***trap***      | 2  | 22   | 24  |
-| 103E | ---             | -  |  -   | SWIRES          | 2  | 20   | ***trap***      | 2  | 22   | 24  |
-| 103F | SWI2            | 2  | 20   | SWI2            | 2  | 20   | SWI2            | 2  | 20   | 22  |
-| 1040 | ---             | -  |  -   | NEGA            | 2  |  3   | NEGD            | 2  |  3   |  2  |
-| 1041 | ---             | -  |  -   | NEGA            | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 1042 | ---             | -  |  -   | COMA/NEGA       | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 1043 | ---             | -  |  -   | COMA            | 2  |  3   | COMD            | 2  |  3   |  2  |
-| 1044 | ---             | -  |  -   | LSRA            | 2  |  3   | LSRD            | 2  |  3   |  2  |
-| 1045 | ---             | -  |  -   | LSRA            | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 1046 | ---             | -  |  -   | RORA            | 2  |  3   | RORD            | 2  |  3   |  2  |
-| 1047 | ---             | -  |  -   | ASRA            | 2  |  3   | ASRD            | 2  |  3   |  2  |
-| 1048 | ---             | -  |  -   | ASLA/LSLA       | 2  |  3   | ASLD/LSLD       | 2  |  3   |  2  |
-| 1049 | ---             | -  |  -   | ROLA            | 2  |  3   | ROLD            | 2  |  3   |  2  |
-| 104A | ---             | -  |  -   | DECA            | 2  |  3   | DECD            | 2  |  3   |  2  |
-| 104B | ---             | -  |  -   | DECA            | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 104C | ---             | -  |  -   | INCA            | 2  |  3   | INCD            | 2  |  3   |  2  |
-| 104D | ---             | -  |  -   | TSTA            | 2  |  3   | TSTD            | 2  |  3   |  2  |
-| 104E | ---             | -  |  -   | CLRA            | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 104F | ---             | -  |  -   | CLRA            | 2  |  3   | CLRD            | 2  |  3   |  2  |
-| 1050 | ---             | -  |  -   | NEGB            | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 1051 | ---             | -  |  -   | NEGB            | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 1052 | ---             | -  |  -   | COMB/NEGB       | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 1053 | ---             | -  |  -   | COMB            | 2  |  3   | COMW            | 2  |  3   |  2  |
-| 1054 | ---             | -  |  -   | LSRB            | 2  |  3   | LSRW            | 2  |  3   |  2  |
-| 1055 | ---             | -  |  -   | LSRB            | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 1056 | ---             | -  |  -   | RORB            | 2  |  3   | RORW            | 2  |  3   |  2  |
-| 1057 | ---             | -  |  -   | ASRB            | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 1058 | ---             | -  |  -   | ASLB/LSLB       | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 1059 | ---             | -  |  -   | ROLB            | 2  |  3   | ROLW            | 2  |  3   |  2  |
-| 105A | ---             | -  |  -   | DECB            | 2  |  3   | DECW            | 2  |  3   |  2  |
-| 105B | ---             | -  |  -   | DECB            | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 105C | ---             | -  |  -   | INCB            | 2  |  3   | INCW            | 2  |  3   |  2  |
-| 105D | ---             | -  |  -   | TSTB            | 2  |  3   | TSTW            | 2  |  3   |  2  |
-| 105E | ---             | -  |  -   | CLRB            | 2  |  3   | ***trap***      | 2  | 22   | 24  |
-| 105F | ---             | -  |  -   | CLRB            | 2  |  3   | CLRW            | 2  |  3   |  2  |
-| 1060 | ---             | -  |  -   | NEG index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 1061 | ---             | -  |  -   | NEG index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 1062 | ---             | -  |  -   | COM/NEG index   | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 1063 | ---             | -  |  -   | COM index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 1064 | ---             | -  |  -   | LSR index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 1065 | ---             | -  |  -   | LSR index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 1066 | ---             | -  |  -   | ROR index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 1067 | ---             | -  |  -   | ASR index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 1068 | ---             | -  |  -   | ASL/LSL index   | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 1069 | ---             | -  |  -   | ROL index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 106A | ---             | -  |  -   | DEC index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 106B | ---             | -  |  -   | DEC index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 106C | ---             | -  |  -   | INC index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 106D | ---             | -  |  -   | TST index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 106E | ---             | -  |  -   | JMP index       | 3+ |  4+  | ***trap***      | 2  | 22   | 24  |
-| 106F | ---             | -  |  -   | CLR index       | 3+ |  7+  | ***trap***      | 2  | 22   | 24  |
-| 1070 | ---             | -  |  -   | NEG $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 1071 | ---             | -  |  -   | NEG $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 1072 | ---             | -  |  -   | COM/NEG $xxxx   | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 1073 | ---             | -  |  -   | COM $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 1074 | ---             | -  |  -   | LSR $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 1075 | ---             | -  |  -   | LSR $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 1076 | ---             | -  |  -   | ROR $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 1077 | ---             | -  |  -   | ASR $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 1078 | ---             | -  |  -   | ASL/LSL $xxxx   | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 1079 | ---             | -  |  -   | ROL $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 107A | ---             | -  |  -   | DEC $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 107B | ---             | -  |  -   | DEC $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 107C | ---             | -  |  -   | INC $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 107D | ---             | -  |  -   | TST $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 107E | ---             | -  |  -   | JMP $xxxx       | 4  |  5   | ***trap***      | 2  | 22   | 24  |
-| 107F | ---             | -  |  -   | CLR $xxxx       | 4  |  8   | ***trap***      | 2  | 22   | 24  |
-| 1080 | ---             | -  |  -   | SUBA #$xx       | 3  |  3   | SUBW #$xxxx     | 4  |  5   |  4  |
-| 1081 | ---             | -  |  -   | CMPA #$xx       | 3  |  3   | CMPW #$xxxx     | 4  |  5   |  4  |
-| 1082 | ---             | -  |  -   | SBCA #$xx       | 3  |  3   | SBCD #$xxxx     | 4  |  5   |  4  |
-| 1083 | CMPD #$xxxx     | 4  |  5   | CMPD #$xxxx     | 4  |  5   | CMPD #$xxxx     | 4  |  5   |  4  |
-| 1084 | ---             | -  |  -   | ANDA #$xx       | 3  |  3   | ANDD #$xxxx     | 4  |  5   |  4  |
-| 1085 | ---             | -  |  -   | BITA #$xx       | 3  |  3   | BITD #$xxxx     | 4  |  5   |  4  |
-| 1086 | ---             | -  |  -   | LDA #$xx        | 3  |  3   | LDW #$xxxx      | 4  |  5   |  4  |
-| 1087 | ---             | -  |  -   | SCC #$xx        | 3  | ???  | ***trap***      | 2  | 22   | 24  |
-| 1088 | ---             | -  |  -   | EORA #$xx       | 3  |  3   | EORD #$xxxx     | 4  |  5   |  4  |
-| 1089 | ---             | -  |  -   | ADCA #$xx       | 3  |  3   | ADCD #$xxxx     | 4  |  5   |  4  |
-| 108A | ---             | -  |  -   | ORA #$xx        | 3  |  3   | ORD #$xxxx      | 4  |  5   |  4  |
-| 108B | ---             | -  |  -   | ADDA #$xx       | 3  |  3   | ADDW #$xxxx     | 4  |  5   |  4  |
-| 108C | CMPY #$xxxx     | 4  |  5   | CMPY #$xxxx     | 4  |  5   | CMPY #$xxxx     | 4  |  5   |  4  |
-| 108D | ---             | -  |  -   | BSR $xxxx       | 3  |  8   | ***trap***      | 2  | 22   | 24  |
-| 108E | LDY #$xxxx      | 4  |  5   | LDY #$xxxx      | 4  |  5   | LDY #$xxxx      | 4  |  5   |  4  |
-| 108F | ---             | -  |  -   | STX #$xxxx      | 4  | ???  | ***trap***      | 2  | 22   | 24  |
-1090   | ---              | SUBA direct        | SUBW direct
-1091   | ---              | CMPA direct        | CMPW direct
-1092   | ---              | SBCA direct        | SBCD direct
-1093   | CMPD direct      | CMPD direct        | CMPD direct
-1094   | ---              | ANDA direct        | ANDD direct
-1095   | ---              | BITA direct        | BITD direct
-1096   | ---              | LDA direct         | LDW direct
-1097   | ---              | STA direct         | STW direct
-1098   | ---              | EORA direct        | EORD direct
-1099   | ---              | ADCA direct        | ADCD direct
-109A   | ---              | ORA direct         | ORD direct
-109B   | ---              | ADDA direct        | ADDW direct
-109C   | CMPY direct      | CMPY direct        | CMPY direct
-109D   | ---              | JSR direct         | ***trap***
-109E   | LDY direct       | LDY direct         | LDY direct
-109F   | STY direct       | STY direct         | STY direct
-
-|   90 | SUBA $xx        | 2  |  4   | SUBA $xx        | 2  |  4   | SUBA $xx        | 2  |  4   |  3  |
-         |  * 1090        SUBW       Direct          7  (5)         3     |
-
-|   91 | CMPA $xx        | 2  |  4   | CMPA $xx        | 2  |  4   | CMPA $xx        | 2  |  4   |  3  |
-         |  * 1091        CMPW       Direct          7  (5)         3     |
-
-|   92 | SBCA $xx        | 2  |  4   | SBCA $xx        | 2  |  4   | SBCA $xx        | 2  |  4   |  3  |
-         |  * 1092        SBCD       Direct          7  (5)         3     |
-
-         |    1093        CMPD       Direct          7  (5)         3     |
-
-|   94 | ANDA $xx        | 2  |  4   | ANDA $xx        | 2  |  4   | ANDA $xx        | 2  |  4   |  3  |
-         |  * 1094        ANDD       Direct          7  (5)         3     |
-
-|   95 | BITA $xx        | 2  |  4   | BITA $xx        | 2  |  4   | BITA $xx        | 2  |  4   |  3  |
-         |  * 1095        BITD       Direct          7  (5)         3     |
-
-|   96 | LDA $xx         | 2  |  4   | LDA $xx         | 2  |  4   | LDA $xx         | 2  |  4   |  3  |
-         |  * 1096        LDW        Direct          6  (5)         3     |
-
-|   97 | STA $xx         | 2  |  4   | STA $xx         | 2  |  4   | STA $xx         | 2  |  4   |  3  |
-         |  * 1097        STW        Direct          6  (5)         3     |
-
-|   98 | EORA $xx        | 2  |  4   | EORA $xx        | 2  |  4   | EORA $xx        | 2  |  4   |  3  |
-         |  * 1098        EORD       Direct          7  (5)         3     |
-
-|   99 | ADCA $xx        | 2  |  4   | ADCA $xx        | 2  |  4   | ADCA $xx        | 2  |  4   |  3  |
-         |  * 1099        ADCD       Direct          7  (5)         3     |
-
-|   9A | ORA $xx         | 2  |  4   | ORA $xx         | 2  |  4   | ORA $xx         | 2  |  4   |  3  |
-         |  * 109A        ORD        Direct          7  (5)         3     |
-
-|   9B | ADDA $xx        | 2  |  4   | ADDA $xx        | 2  |  4   | ADDA $xx        | 2  |  4   |  3  |
-         |  * 109B        ADDW       Direct          7  (5)         3     |
-
-         |    109C        CMPY       Direct          7  (5)         3     |
-
-|   9D | JSR $xx         | 2  |  7   | JSR $xx         | 2  |  7   | JSR $xx         | 2  |  7   |  6  |
-
-         |    109E        LDY        Direct          6  (5)         3     |
-
-         |    109F        STY        Direct          6  (5)         3     |
-
-10A0   | ---              | SUBA index       | SUBW index
-10A1   | ---              | CMPA index       | CMPW index
-10A2   | ---              | SBCA index       | SBCD index
-10A3   | CMPD index     | CMPD index       | CMPD index
-10A4   | ---              | ANDA index       | ANDD index
-10A5   | ---              | BITA index       | BITD index
-10A6   | ---              | LDA index        | LDW index
-10A7   | ---              | STA index        | STW index
-10A8   | ---              | EORA index       | EORD index
-10A9   | ---              | ADCA index       | ADCD index
-10AA   | ---              | ORA index        | ORD index
-10AB   | ---              | ADDA index       | ADDW index
-10AC   | CMPY index     | CMPY index       | CMPY index
-10AD   | ---              | JSR index        | ***trap***
-10AE   | LDY index      | LDY index        | LDY index
-10AF   | STY index      | STY index        | STY index
-10B0   | ---              | SUBA extended      | SUBW extended
-10B1   | ---              | CMPA extended      | CMPW extended
-10B2   | ---              | SBCA extended      | SBCD extended
-10B3   | CMPD extended    | CMPD extended      | CMPD extended
-10B4   | ---              | ANDA extended      | ANDD extended
-10B5   | ---              | BITA extended      | BITD extended
-10B6   | ---              | LDA extended       | LDW extended
-10B7   | ---              | STA extended       | STW extended
-10B8   | ---              | EORA extended      | EORD extended
-10B9   | ---              | ADCA extended      | ADCD extended
-10BA   | ---              | ORA extended       | ORD extended
-10BB   | ---              | ADDA extended      | ADDW extended
-10BC   | CMPY extended    | CMPY extended      | CMPY extended
-10BD   | ---              | JSR extended       | ***trap***
-10BE   | LDY extended     | LDY extended       | LDY extended
-10BF   | STY extended     | STY extended       | STY extended
-10C0   | ---              | SUBB immediate     | ***trap***
-10C1   | ---              | CMPB immediate     | ***trap***
-10C2   | ---              | SBCB immediate     | ***trap***
-10C3   | ---              | ADDD immediate     | ***trap***
-10C4   | ---              | ANDB immediate     | ***trap***
-10C5   | ---              | BITB immediate     | ***trap***
-10C6   | ---              | LDB immediate      | ***trap***
-10C7   | ---              | SCC immediate      | ***trap***
-10C8   | ---              | EORB immediate     | ***trap***
-10C9   | ---              | ADCB immediate     | ***trap***
-10CA   | ---              | ORB immediate      | ***trap***
-10CB   | ---              | ADDB immediate     | ***trap***
-10CC   | ---              | LDD immediate      | ***trap***
-10CD   | ---              | HCF                | ***trap***
-10CE   | LDS immediate    | LDS immediate      | LDS immediate
-10CF   | ---              | STU immediate      | ***trap***
-10D0   | ---              | SUBB direct        | ***trap***
-10D1   | ---              | CMPB direct        | ***trap***
-10D2   | ---              | SBCB direct        | ***trap***
-10D3   | ---              | ADDD direct        | ***trap***
-10D4   | ---              | ANDB direct        | ***trap***
-10D5   | ---              | BITB direct        | ***trap***
-10D6   | ---              | LDB direct         | ***trap***
-10D7   | ---              | STB direct         | ***trap***
-10D8   | ---              | EORB direct        | ***trap***
-10D9   | ---              | ADCB direct        | ***trap***
-10DA   | ---              | ORB direct         | ***trap***
-10DB   | ---              | ADDB direct        | ***trap***
-10DC   | ---              | LDD direct         | LDQ direct
-10DD   | ---              | STD direct         | STQ direct
-10DE   | LDS direct       | LDS direct         | LDS direct
-10DF   | STS direct       | STS direct         | STS direct
-10E0   | ---              | SUBB index       | ***trap***
-10E1   | ---              | CMPB index       | ***trap***
-10E2   | ---              | SBCB index       | ***trap***
-10E3   | ---              | ADDD index       | ***trap***
-10E4   | ---              | ANDB index       | ***trap***
-10E5   | ---              | BITB index       | ***trap***
-10E6   | ---              | LDB index        | ***trap***
-10E7   | ---              | STB index        | ***trap***
-10E8   | ---              | EORB index       | ***trap***
-10E9   | ---              | ADCB index       | ***trap***
-10EA   | ---              | ORB index        | ***trap***
-10EB   | ---              | ADDB index       | ***trap***
-10EC   | ---              | LDD index        | LDQ index
-10ED   | ---              | STD index        | STQ index
-10EE   | LDS index      | LDS index        | LDS index
-10EF   | STS index      | STS index        | STS index
-10F0   | ---              | SUBB extended      | ***trap***
-10F1   | ---              | CMPB extended      | ***trap***
-10F2   | ---              | SBCB extended      | ***trap***
-10F3   | ---              | ADDD extended      | ***trap***
-10F4   | ---              | ANDB extended      | ***trap***
-10F5   | ---              | BITB extended      | ***trap***
-10F6   | ---              | LDB extended       | ***trap***
-10F7   | ---              | STB extended       | ***trap***
-10F8   | ---              | EORB extended      | ***trap***
-10F9   | ---              | ADCB extended      | ***trap***
-10FA   | ---              | ORB extended       | ***trap***
-10FB   | ---              | ADDB extended      | ***trap***
-10FC   | ---              | LDD extended       | LDQ extended
-10FD   | ---              | STD extended       | STQ extended
-10FE   | LDS extended     | LDS extended       | LDS extended
-10FF   | STS extended     | STS extended       | STS extended
-1100   | ---              | NEG direct         | ***trap***
-1101   | ---              | NEG direct         | ***trap***
-1102   | ---              | COM/NEG direct     | ***trap***
-1103   | ---              | COM direct         | ***trap***
-1104   | ---              | LSR direct         | ***trap***
-1105   | ---              | LSR direct         | ***trap***
-1106   | ---              | ROR direct         | ***trap***
-1107   | ---              | ASR direct         | ***trap***
-1108   | ---              | ASL/LSL direct     | ***trap***
-1109   | ---              | ROL direct         | ***trap***
-110A   | ---              | DEC direct         | ***trap***
-110B   | ---              | DEC direct         | ***trap***
-110C   | ---              | INC direct         | ***trap***
-110D   | ---              | TST direct         | ***trap***
-110E   | ---              | JMP direct         | ***trap***
-110F   | ---              | CLR direct         | ***trap***
-1112   | ---              | NOP                | ***trap***
-1113   | ---              | SYNC               | ***trap***
-1114   | ---              | HCF                | ***trap***
-1115   | ---              | HCF                | ***trap***
-1116   | ---              | LBRA               | ***trap***
-1117   | ---              | LBSR               | ***trap***
-1118   | ---              | CCRS               | ***trap***
-1119   | ---              | DAA                | ***trap***
-111A   | ---              | ORCC immediate     | ***trap***
-111B   | ---              | NOP                | ***trap***
-111C   | ---              | ANDCC immediate    | ***trap***
-111D   | ---              | SEX                | ***trap***
-111E   | ---              | EXG post           | ***trap***
-111F   | ---              | TFR post           | ***trap***
-1120   | ---              | BRA                | ***trap***
-1121   | ---              | BRN                | ***trap***
-1122   | ---              | BHI                | ***trap***
-1123   | ---              | BLS                | ***trap***
-1124   | ---              | BHS                | ***trap***
-1125   | ---              | BLO                | ***trap***
-1126   | ---              | BNE                | ***trap***
-1127   | ---              | BEQ                | ***trap***
-1128   | ---              | BVC                | ***trap***
-1129   | ---              | BVS                | ***trap***
-112A   | ---              | BPL                | ***trap***
-112B   | ---              | BMI                | ***trap***
-112C   | ---              | BGE                | ***trap***
-112D   | ---              | BLT                | ***trap***
-112E   | ---              | BGT                | ***trap***
-112F   | ---              | BLE                | ***trap***
-1130   | ---              | LEAX index       | BAND post, direct
-1131   | ---              | LEAY index       | BIAND post, direct
-1132   | ---              | LEAS index       | BOR post,direct
-1133   | ---              | LEAU index       | BIOR post, direct
-1134   | ---              | PSHS post          | BEOR post,direct
-1135   | ---              | PULS post          | BIEOR post, direct
-1136   | ---              | PSHU post          | LDBT post, direct
-1137   | ---              | PULU post          | STBT post, direct
-1138   | ---              | ANDCC+1c immediate | TFM R+,R+
-1139   | ---              | RTS                | TFM R-,R-
-113A   | ---              | ABX                | TFM R+,R
-113B   | ---              | RTI                | TFM R,R+
-113C   | ---              | CWAI               | BITMD immediate
-113D   | ---              | MUL                | LDMD immediate
-113E   | ---              | SWIRES             | ***trap***
-113F   | SWI3             | SWI3               | SWI3
-1140   | ---              | NEGA               | ***trap***
-1141   | ---              | NEGA               | ***trap***
-1142   | ---              | COMA/NEGA          | ***trap***
-1143   | ---              | COMA               | COME
-1144   | ---              | LSRA               | ***trap***
-1145   | ---              | LSRA               | ***trap***
-1146   | ---              | RORA               | ***trap***
-1147   | ---              | ASRA               | ***trap***
-1148   | ---              | ASLA/LSLA          | ***trap***
-1149   | ---              | ROLA               | ***trap***
-114A   | ---              | DECA               | DECE
-114B   | ---              | DECA               | ***trap***
-114C   | ---              | INCA               | INCE
-114D   | ---              | TSTA               | TSTE
-114E   | ---              | CLRA               | ***trap***
-114F   | ---              | CLRA               | CLRE
-1150   | ---              | NEGB               | ***trap***
-1151   | ---              | NEGB               | ***trap***
-1152   | ---              | COMB/NEGB          | ***trap***
-1153   | ---              | COMB               | COMF
-1154   | ---              | LSRB               | ***trap***
-1155   | ---              | LSRB               | ***trap***
-1156   | ---              | RORB               | ***trap***
-1157   | ---              | ASRB               | ***trap***
-1158   | ---              | ASLB/LSLB          | ***trap***
-1159   | ---              | ROLB               | ***trap***
-115A   | ---              | DECB               | DECF
-115B   | ---              | DECB               | ***trap***
-115C   | ---              | INCB               | INCF
-115D   | ---              | TSTB               | TSTF
-115E   | ---              | CLRB               | ***trap***
-115F   | ---              | CLRB               | CLRF
-1160   | ---              | NEG index        | ***trap***
-1161   | ---              | NEG index        | ***trap***
-1162   | ---              | COM/NEG index    | ***trap***
-1163   | ---              | COM index        | ***trap***
-1164   | ---              | LSR index        | ***trap***
-1165   | ---              | LSR index        | ***trap***
-1166   | ---              | ROR index        | ***trap***
-1167   | ---              | ASR index        | ***trap***
-1168   | ---              | ASL/LSL index    | ***trap***
-1169   | ---              | ROL index        | ***trap***
-116A   | ---              | DEC index        | ***trap***
-116B   | ---              | DEC index        | ***trap***
-116C   | ---              | INC index        | ***trap***
-116D   | ---              | TST index        | ***trap***
-116E   | ---              | JMP index        | ***trap***
-116F   | ---              | CLR index        | ***trap***
-1170   | ---              | NEG extended       | ***trap***
-1171   | ---              | NEG extended       | ***trap***
-1172   | ---              | COM/NEG extended   | ***trap***
-1173   | ---              | COM extended       | ***trap***
-1174   | ---              | LSR extended       | ***trap***
-1175   | ---              | LSR extended       | ***trap***
-1176   | ---              | ROR extended       | ***trap***
-1177   | ---              | ASR extended       | ***trap***
-1178   | ---              | ASL/LSL extended   | ***trap***
-1179   | ---              | ROL extended       | ***trap***
-117A   | ---              | DEC extended       | ***trap***
-117B   | ---              | DEC extended       | ***trap***
-117C   | ---              | INC extended       | ***trap***
-117D   | ---              | TST extended       | ***trap***
-117E   | ---              | JMP extended       | ***trap***
-117F   | ---              | CLR extended       | ***trap***
-1180   | ---              | SUBA immediate     | SUBE immediate
-1181   | ---              | CMPA immediate     | CMPE immediate
-1182   | ---              | SBCA immediate     | ***trap***
-1183   | CMPU immediate   | CMPU immediate     | CMPU immediate
-1184   | ---              | ANDA immediate     | ***trap***
-1185   | ---              | BITA immediate     | ***trap***
-1186   | ---              | LDA immediate      | LDE immediate
-1187   | ---              | SCC immediate      | ***trap***
-1188   | ---              | EORA immediate     | ***trap***
-1189   | ---              | ADCA immediate     | ***trap***
-118A   | ---              | ORA immediate      | ***trap***
-118B   | ---              | ADDA immediate     | ADDE immediate
-118C   | CMPS immediate   | CMPS immediate     | CMPS immediate
-118D   | ---              | BSR                | DIVD immediate
-118E   | ---              | LDX immediate      | DIVQ immediate
-118F   | ---              | STX immediate      | MULD immediate
-1190   | ---              | SUBA direct        | SUBE direct
-1191   | ---              | CMPA direct        | CMPE direct
-1192   | ---              | SBCA direct        | ***trap***
-1193   | CMPU direct      | CMPU direct        | CMPU direct
-1194   | ---              | ANDA direct        | ***trap***
-1195   | ---              | BITA direct        | ***trap***
-1196   | ---              | LDA direct         | LDE direct
-1197   | ---              | STA direct         | STE direct
-1198   | ---              | EORA direct        | ***trap***
-1199   | ---              | ADCA direct        | ***trap***
-119A   | ---              | ORA direct         | ***trap***
-119B   | ---              | ADDA direct        | ADDE direct
-119C   | CMPS direct      | CMPS direct        | CMPS direct
-119D   | ---              | JSR direct         | DIVD direct
-119E   | ---              | LDX direct         | DIVQ direct
-119F   | ---              | STX direct         | MULD direct
-11A0   | ---              | SUBA index       | SUBE index
-11A1   | ---              | CMPA index       | CMPE index
-11A2   | ---              | SBCA index       | ***trap***
-11A3   | CMPU index     | CMPU index       | CMPU index
-11A4   | ---              | ANDA index       | ***trap***
-11A5   | ---              | BITA index       | ***trap***
-11A6   | ---              | LDA index        | LDE index
-11A7   | ---              | STA index        | STE index
-11A8   | ---              | EORA index       | ***trap***
-11A9   | ---              | ADCA index       | ***trap***
-11AA   | ---              | ORA index        | ***trap***
-11AB   | ---              | ADDA index       | ADDE index
-11AC   | CMPS index     | CMPS index       | CMPS index
-11AD   | ---              | JSR index        | DIVD index
-11AE   | ---              | LDX index        | DIVQ index
-11AF   | ---              | STX index        | MULD index
-11B0   | ---              | SUBA extended      | SUBE extended
-11B1   | ---              | CMPA extended      | CMPE extended
-11B2   | ---              | SBCA extended      | ***trap***
-11B3   | CMPU extended    | CMPU extended      | CMPU extended
-11B4   | ---              | ANDA extended      | ***trap***
-11B5   | ---              | BITA extended      | ***trap***
-11B6   | ---              | LDA extended       | LDE extended
-11B7   | ---              | STA extended       | STE extended
-11B8   | ---              | EORA extended      | ***trap***
-11B9   | ---              | ADCA extended      | ***trap***
-11BA   | ---              | ORA extended       | ***trap***
-11BB   | ---              | ADDA extended      | ADDE extended
-11BC   | CMPS extended    | CMPS extended      | CMPS extended
-11BD   | ---              | JSR extended       | DIVD extended
-11BE   | ---              | LDX extended       | DIVQ extended
-11BF   | ---              | STX extended       | MULD extended
-11C0   | ---              | SUBB immediate     | SUBF immediate
-11C1   | ---              | CMPB immediate     | CMPF immediate
-11C2   | ---              | SBCB immediate     | ***trap***
-11C3   | ---              | ADDD immediate     | ***trap***
-11C4   | ---              | ANDB immediate     | ***trap***
-11C5   | ---              | BITB immediate     | ***trap***
-11C6   | ---              | LDB immediate      | LDF immediate
-11C7   | ---              | SCC immediate      | ***trap***
-11C8   | ---              | EORB immediate     | ***trap***
-11C9   | ---              | ADCB immediate     | ***trap***
-11CA   | ---              | ORB immediate      | ***trap***
-11CB   | ---              | ADDB immediate     | ADDF immediate
-11CC   | ---              | LDD immediate      | ***trap***
-11CD   | ---              | HCF                | ***trap***
-11CE   | ---              | LDU immediate      | ***trap***
-11CF   | ---              | STU immediate      | ***trap***
-11D0   | ---              | SUBB direct        | SUBF direct
-11D1   | ---              | CMPB direct        | CMPF direct
-11D2   | ---              | SBCB direct        | ***trap***
-11D3   | ---              | ADDD direct        | ***trap***
-11D4   | ---              | ANDB direct        | ***trap***
-11D5   | ---              | BITB direct        | ***trap***
-11D6   | ---              | LDB direct         | LDF direct
-11D7   | ---              | STB direct         | STF direct
-11D8   | ---              | EORB direct        | ***trap***
-11D9   | ---              | ADCB direct        | ***trap***
-11DA   | ---              | ORB direct         | ***trap***
-11DB   | ---              | ADDB direct        | ADDF direct
-11DC   | ---              | LDD direct         | ***trap***
-11DD   | ---              | STD direct         | ***trap***
-11DE   | ---              | LDU direct         | ***trap***
-11DF   | ---              | STU direct         | ***trap***
-11E0   | ---              | SUBB index       | SUBF index
-11E1   | ---              | CMPB index       | CMPF index
-11E2   | ---              | SBCB index       | ***trap***
-11E3   | ---              | ADDD index       | ***trap***
-11E4   | ---              | ANDB index       | ***trap***
-11E5   | ---              | BITB index       | ***trap***
-11E6   | ---              | LDB index        | LDF index
-11E7   | ---              | STB index        | STF index
-11E8   | ---              | EORB index       | ***trap***
-11E9   | ---              | ADCB index       | ***trap***
-11EA   | ---              | ORB index        | ***trap***
-11EB   | ---              | ADDB index       | ADDF index
-11EC   | ---              | LDD index        | ***trap***
-11ED   | ---              | STD index        | ***trap***
-11EE   | ---              | LDU index        | ***trap***
-11EF   | ---              | STU index        | ***trap***
-11F0   | ---              | SUBB extended      | SUBF extended
-11F1   | ---              | CMPB extended      | CMPF extended
-11F2   | ---              | SBCB extended      | ***trap***
-11F3   | ---              | ADDD extended      | ***trap***
-11F4   | ---              | ANDB extended      | ***trap***
-11F5   | ---              | BITB extended      | ***trap***
-11F6   | ---              | LDB extended       | LDF extended
-11F7   | ---              | STB extended       | STF extended
-11F8   | ---              | EORB extended      | ***trap***
-11F9   | ---              | ADCB extended      | ***trap***
-11FA   | ---              | ORB extended       | ***trap***
-11FB   | ---              | ADDB extended      | ADDF extended
-11FC   | ---              | LDD extended       | ***trap***
-11FD   | ---              | STD extended       | ***trap***
-11FE   | ---              | LDU extended       | ***trap***
-11FF   | ---              | STU extended       | ***trap***
+--------------------------------------------------------------------------------------------------------------
+| opc  | 6809:           | s  | c    | Full6809:       | s  | c    | 6309:                | s  | ce   | cn   |
+--------------------------------------------------------------------------------------------------------------
+|   00 | NEG $xx         | 2  |  6   | NEG $xx         | 2  |  6   | NEG $xx              | 2  |  6   |  5   |
+|   01 | ---             | -  |  -   | NEG $xx         | 2  |  6   | OIM #$xx, $xx        | 3  |  6   |  6   |
+|   02 | ---             | -  |  -   | COM/NEG $xx     | 2  |  6   | AIM #$xx, $xx        | 3  |  6   |  6   |
+|   03 | COM $xx         | 2  |  6   | COM $xx         | 2  |  6   | COM $xx              | 2  |  6   |  5   |
+|   04 | LSR $xx         | 2  |  6   | LSR $xx         | 2  |  6   | LSR $xx              | 2  |  6   |  5   |
+|   05 | ---             | -  |  -   | LSR $xx         | 2  |  6   | EIM #$xx, $xx        | 3  |  6   |  6   |
+|   06 | ROR $xx         | 2  |  6   | ROR $xx         | 2  |  6   | ROR $xx              | 2  |  6   |  5   |
+|   07 | ASR $xx         | 2  |  6   | ASR $xx         | 2  |  6   | ASR $xx              | 2  |  6   |  5   |
+|   08 | ASL/LSL $xx     | 2  |  6   | ASL/LSL $xx     | 2  |  6   | ASL/LSL $xx          | 2  |  6   |  5   |
+|   09 | ROL $xx         | 2  |  6   | ROL $xx         | 2  |  6   | ROL $xx              | 2  |  6   |  5   |
+|   0A | DEC $xx         | 2  |  6   | DEC $xx         | 2  |  6   | DEC $xx              | 2  |  6   |  5   |
+|   0B | ---             | -  |  -   | DEC $xx         | 2  |  6   | TIM #$xx, $xx        | 3  |  6   |  6   |
+|   0C | INC $xx         | 2  |  6   | INC $xx         | 2  |  6   | INC $xx              | 2  |  6   |  5   |
+|   0D | TST $xx         | 2  |  6   | TST $xx         | 2  |  6   | TST $xx              | 2  |  6   |  4   |
+|   0E | JMP $xx         | 2  |  3   | JMP $xx         | 2  |  3   | JMP $xx              | 2  |  3   |  2   |
+|   0F | CLR $xx         | 2  |  6   | CLR $xx         | 2  |  6   | CLR $xx              | 2  |  6   |  5   |
+|   12 | NOP             | 1  |  2   | NOP             | 1  |  2   | NOP                  | 1  |  2   |  1   |
+|   13 | SYNC            | 1  |  2   | SYNC            | 1  |  2   | SYNC                 | 1  |  2   |  1   |
+|   14 | ---             | -  |  -   | HCF             | 1  | ???  | SEXW                 | 1  |  4   |  4   |
+|   15 | ---             | -  |  -   | HCF             | 1  | ???  | ***trap***           | 1  | 21   | 23   |
+|   16 | LBRA $xxxx      | 3  |  5   | LBRA $xxxx      | 3  |  5   | LBRA $xxxx           | 3  |  5   |  4   |
+|   17 | LBSR $xxxx      | 3  |  9   | LBSR $xxxx      | 3  |  9   | LBSR $xxxx           | 3  |  9   |  7   |
+|   18 | ---             | -  |  -   | CCRS            | 1  |  3   | ***trap***           | 1  | 21   | 23   |
+|   19 | DAA             | 1  |  2   | DAA             | 1  |  2   | DAA                  | 1  |  2   |  1   |
+|   1A | ORCC #$xx       | 2  |  3   | ORCC #$xx       | 2  |  3   | ORCC #$xx            | 2  |  3   |  2   |
+|   1B | ---             | -  |  -   | NOP             | 1  |  2   | ***trap***           | 1  | 21   | 23   |
+|   1C | ANDCC #$xx      | 2  |  3   | ANDCC #$xx      | 2  |  3   | ANDCC #$xx           | 2  |  3   |  3   |
+|   1D | SEX             | 1  |  2   | SEX             | 1  |  2   | SEX                  | 1  |  2   |  1   |
+|   1E | EXG R0, R1      | 2  |  8   | EXG R0, R1      | 2  |  8   | EXG R0, R1           | 2  |  8   |  5   |
+|   1F | TFR R0, R1      | 2  |  6   | TFR R0, R1      | 2  |  6   | TFR R0, R1           | 2  |  6   |  4   |
+|   20 | BRA $xxxx       | 2  |  3   | BRA $xxxx       | 2  |  3   | BRA $xxxx            | 2  |  3   |  3   |
+|   21 | BRN $xxxx       | 2  |  3   | BRN $xxxx       | 2  |  3   | BRN $xxxx            | 2  |  3   |  3   |
+|   22 | BHI $xxxx       | 2  |  3   | BHI $xxxx       | 2  |  3   | BHI $xxxx            | 2  |  3   |  3   |
+|   23 | BLS $xxxx       | 2  |  3   | BLS $xxxx       | 2  |  3   | BLS $xxxx            | 2  |  3   |  3   |
+|   24 | BHS/BCC $xxxx   | 2  |  3   | BHS/BCC $xxxx   | 2  |  3   | BHS/BCC $xxxx        | 2  |  3   |  3   |
+|   25 | BLO/BCS $xxxx   | 2  |  3   | BLO/BCS $xxxx   | 2  |  3   | BLO/BCS $xxxx        | 2  |  3   |  3   |
+|   26 | BNE $xxxx       | 2  |  3   | BNE $xxxx       | 2  |  3   | BNE $xxxx            | 2  |  3   |  3   |
+|   27 | BEQ $xxxx       | 2  |  3   | BEQ $xxxx       | 2  |  3   | BEQ $xxxx            | 2  |  3   |  3   |
+|   28 | BVC $xxxx       | 2  |  3   | BVC $xxxx       | 2  |  3   | BVC $xxxx            | 2  |  3   |  3   |
+|   29 | BVS $xxxx       | 2  |  3   | BVS $xxxx       | 2  |  3   | BVS $xxxx            | 2  |  3   |  3   |
+|   2A | BPL $xxxx       | 2  |  3   | BPL $xxxx       | 2  |  3   | BPL $xxxx            | 2  |  3   |  3   |
+|   2B | BMI $xxxx       | 2  |  3   | BMI $xxxx       | 2  |  3   | BMI $xxxx            | 2  |  3   |  3   |
+|   2C | BGE $xxxx       | 2  |  3   | BGE $xxxx       | 2  |  3   | BGE $xxxx            | 2  |  3   |  3   |
+|   2D | BLT $xxxx       | 2  |  3   | BLT $xxxx       | 2  |  3   | BLT $xxxx            | 2  |  3   |  3   |
+|   2E | BGT $xxxx       | 2  |  3   | BGT $xxxx       | 2  |  3   | BGT $xxxx            | 2  |  3   |  3   |
+|   2F | BLE $xxxx       | 2  |  3   | BLE $xxxx       | 2  |  3   | BLE $xxxx            | 2  |  3   |  3   |
+|   30 | LEAX index      | 2+ |  4+  | LEAX index      | 2+ |  4+  | LEAX index           | 2+ |  4+  |  4+  |
+|   31 | LEAY index      | 2+ |  4+  | LEAY index      | 2+ |  4+  | LEAY index           | 2+ |  4+  |  4+  |
+|   32 | LEAS index      | 2+ |  4+  | LEAS index      | 2+ |  4+  | LEAS index           | 2+ |  4+  |  4+  |
+|   33 | LEAU index      | 2+ |  4+  | LEAU index      | 2+ |  4+  | LEAU index           | 2+ |  4+  |  4+  |
+|   34 | PSHS #$RM       | 2  |  5+  | PSHS #$RM       | 2  |  5+  | PSHS #$RM            | 2  |  5+  |  4+  |
+|   35 | PULS #$RM       | 2  |  5+  | PULS #$RM       | 2  |  5+  | PULS #$RM            | 2  |  5+  |  4+  |
+|   36 | PSHU #$RM       | 2  |  5+  | PSHU #$RM       | 2  |  5+  | PSHU #$RM            | 2  |  5+  |  4+  |
+|   37 | PULU #$RM       | 2  |  5+  | PULU #$RM       | 2  |  5+  | PULU #$RM            | 2  |  5+  |  4+  |
+|   38 | ---             | -  |  -   | ANDCC imm       | 2  |  3   | ***trap***           | 1  | 21   | 23   |
+|   39 | RTS             | 1  |  5   | RTS             | 1  |  5   | RTS                  | 1  |  5   |  1   |
+|   3A | ABX             | 1  |  3   | ABX             | 1  |  3   | ABX                  | 1  |  3   |  1   |
+|   3B | RTI             | 1  | 6/15 | RTI             | 1  | 6/15 | RTI                  | 1  | 6/15 | 17   |
+|   3C | CWAI            | 2  | 22   | CWAI            | 2  | 22   | CWAI                 | 2  | 22   | 20   |
+|   3D | MUL             | 1  | 11   | MUL             | 1  | 11   | MUL                  | 1  | 11   | 10   |
+|   3E | ---             | -  |  -   | SWIRES          | 1  | 19   | ***trap***           | 1  | 21   | 23   |
+|   3F | SWI             | 1  | 19   | SWI             | 1  | 19   | SWI                  | 1  | 19   | 21   |
+|   40 | NEGA            | 1  |  2   | NEGA            | 1  |  2   | NEGA                 | 1  |  2   |  1   |
+|   41 | ---             | -  |  -   | NEGA            | 1  |  2   | ***trap***           | 1  | 21   | 23   |
+|   42 | ---             | -  |  -   | COMA/NEGA       | 1  |  2   | ***trap***           | 1  | 21   | 23   |
+|   43 | COMA            | 1  |  2   | COMA            | 1  |  2   | COMA                 | 1  |  2   |  1   |
+|   44 | LSRA            | 1  |  2   | LSRA            | 1  |  2   | LSRA                 | 1  |  2   |  1   |
+|   45 | ---             | -  |  -   | LSRA            | 1  |  2   | ***trap***           | 1  | 21   | 23   |
+|   46 | RORA            | 1  |  2   | RORA            | 1  |  2   | RORA                 | 1  |  2   |  1   |
+|   47 | ASRA            | 1  |  2   | ASRA            | 1  |  2   | ASRA                 | 1  |  2   |  1   |
+|   48 | ASLA/LSLA       | 1  |  2   | ASLA/LSLA       | 1  |  2   | ASLA/LSLA            | 1  |  2   |  1   |
+|   49 | ROLA            | 1  |  2   | ROLA            | 1  |  2   | ROLA                 | 1  |  2   |  1   |
+|   4A | DECA            | 1  |  2   | DECA            | 1  |  2   | DECA                 | 1  |  2   |  1   |
+|   4B | ---             | -  |  -   | DECA            | 1  |  2   | ***trap***           | 1  | 21   | 23   |
+|   4C | INCA            | 1  |  2   | INCA            | 1  |  2   | INCA                 | 1  |  2   |  1   |
+|   4D | TSTA            | 1  |  2   | TSTA            | 1  |  2   | TSTA                 | 1  |  2   |  1   |
+|   4E | ---             | -  |  -   | CLRA            | 1  |  2   | ***trap***           | 1  | 21   | 23   |
+|   4F | CLRA            | 1  |  2   | CLRA            | 1  |  2   | CLRA                 | 1  |  2   |  1   |
+|   50 | NEGB            | 1  |  2   | NEGB            | 1  |  2   | NEGB                 | 1  |  2   |  1   |
+|   51 | ---             | -  |      | NEGB            | 1  |  2   | ***trap***           | 1  | 21   | 23   |
+|   52 | ---             | -  |  -   | COMB/NEGB       | 1  |  2   | ***trap***           | 1  | 21   | 23   |
+|   53 | COMB            | 1  |  2   | COMB            | 1  |  2   | COMB                 | 1  |  2   |  1   |
+|   54 | LSRB            | 1  |  2   | LSRB            | 1  |  2   | LSRB                 | 1  |  2   |  1   |
+|   55 | ---             | -  |  -   | LSRB            | 1  |  2   | ***trap***           | 1  | 21   | 23   |
+|   56 | RORB            | 1  |  2   | RORB            | 1  |  2   | RORB                 | 1  |  2   |  1   |
+|   57 | ASRB            | 1  |  2   | ASRB            | 1  |  2   | ASRB                 | 1  |  2   |  1   |
+|   58 | ASLB/LSLB       | 1  |  2   | ASLB/LSLB       | 1  |  2   | ASLB/LSLB            | 1  |  2   |  1   |
+|   59 | ROLB            | 1  |  2   | ROLB            | 1  |  2   | ROLB                 | 1  |  2   |  1   |
+|   5A | DECB            | 1  |  2   | DECB            | 1  |  2   | DECB                 | 1  |  2   |  1   |
+|   5B | ---             | -  |  -   | DECB            | 1  |  2   | ***trap***           | 1  | 21   | 23   |
+|   5C | INCB            | 1  |  2   | INCB            | 1  |  2   | INCB                 | 1  |  2   |  1   |
+|   5D | TSTB            | 1  |  2   | TSTB            | 1  |  2   | TSTB                 | 1  |  2   |  1   |
+|   5E | ---             | -  |  -   | CLRB            | 1  |  2   | ***trap***           | 1  | 21   | 23   |
+|   5F | CLRB            | 1  |  2   | CLRB            | 1  |  2   | CLRB                 | 1  |  2   |  1   |
+|   60 | NEG index       | 2+ |  6+  | NEG index       | 2+ |  6+  | NEG index            | 2+ |  6+  |  6+  |
+|   61 | ---             | -  |  -   | NEG index       | 2+ |  6+  | OIM #$xx, index      | 3+ |  6+  |  6+  |
+|   62 | ---             | -  |  -   | COM/NEG index   | 2+ |  6+  | AIM #$xx, index      | 3+ |  7+  |  7+  |
+|   63 | COM index       | 2+ |  6+  | COM index       | 2+ |  6+  | COM index            | 2+ |  6+  |  6+  |
+|   64 | LSR index       | 2+ |  6+  | LSR index       | 2+ |  6+  | LSR index            | 2+ |  6+  |  6+  |
+|   65 | ---             | -  |  -   | LSR index       | 2+ |  6+  | EIM #$xx, index      | 3+ |  7+  |  7+  |
+|   66 | ROR index       | 2+ |  6+  | ROR index       | 2+ |  6+  | ROR index            | 2+ |  6+  |  6+  |
+|   67 | ASR index       | 2+ |  6+  | ASR index       | 2+ |  6+  | ASR index            | 2+ |  6+  |  6+  |
+|   68 | ASL/LSL index   | 2+ |  6+  | ASL/LSL index   | 2+ |  6+  | ASL/LSL index        | 2+ |  6+  |  6+  |
+|   69 | ROL index       | 2+ |  6+  | ROL index       | 2+ |  6+  | ROL index            | 2+ |  6+  |  6+  |
+|   6A | DEC index       | 2+ |  6+  | DEC index       | 2+ |  6+  | DEC index            | 2+ |  6+  |  6+  |
+|   6B | ---             | -  |  -   | DEC index       | 2+ |  6+  | TIM index            | 3+ |  7+  |  7+  |
+|   6C | INC index       | 2+ |  6+  | INC index       | 2+ |  6+  | INC index            | 2+ |  6+  |  6+  |
+|   6D | TST index       | 2+ |  6+  | TST index       | 2+ |  6+  | TST index            | 2+ |  6+  |  5+  |
+|   6E | JMP index       | 2+ |  3+  | JMP index       | 2+ |  3+  | JMP index            | 2+ |  3+  |  3+  |
+|   6F | CLR index       | 2+ |  6+  | CLR index       | 2+ |  6+  | CLR index            | 2+ |  6+  |  6+  |
+|   70 | NEG $xxxx       | 3  |  7   | NEG $xxxx       | 3  |  7   | NEG $xxxx            | 3  |  7   |  6   |
+|   71 | ---             | -  |  -   | NEG $xxxx       | 3  |  7   | OIM #$xx, $xxxx      | 4  |  7   |  7   |
+|   72 | ---             | -  |  -   | COM/NEG $xxxx   | 3  |  7   | AIM #$xx, $xxxx      | 4  |  7   |  7   |
+|   73 | COM $xxxx       | 3  |  7   | COM $xxxx       | 3  |  7   | COM $xxxx            | 3  |  7   |  6   |
+|   74 | LSR $xxxx       | 3  |  7   | LSR $xxxx       | 3  |  7   | LSR $xxxx            | 3  |  7   |  6   |
+|   75 | ---             | -  |  -   | LSR $xxxx       | 3  |  7   | EIM #$xx, $xxxx      | 4  |  7   |  7   |
+|   76 | ROR $xxxx       | 3  |  7   | ROR $xxxx       | 3  |  7   | ROR $xxxx            | 3  |  7   |  6   |
+|   77 | ASR $xxxx       | 3  |  7   | ASR $xxxx       | 3  |  7   | ASR $xxxx            | 3  |  7   |  6   |
+|   78 | ASL/LSL $xxxx   | 3  |  7   | ASL/LSL $xxxx   | 3  |  7   | ASL/LSL $xxxx        | 3  |  7   |  6   |
+|   79 | ROL $xxxx       | 3  |  7   | ROL $xxxx       | 3  |  7   | ROL $xxxx            | 3  |  7   |  6   |
+|   7A | DEC $xxxx       | 3  |  7   | DEC $xxxx       | 3  |  7   | DEC $xxxx            | 3  |  7   |  6   |
+|   7B | ---             | -  |  -   | DEC $xxxx       | 3  |  7   | TIM #$xx, $xxxx      | 4  |  7   |  7   |
+|   7C | INC $xxxx       | 3  |  7   | INC $xxxx       | 3  |  7   | INC $xxxx            | 3  |  7   |  6   |
+|   7D | TST $xxxx       | 3  |  7   | TST $xxxx       | 3  |  7   | TST $xxxx            | 3  |  7   |  5   |
+|   7E | JMP $xxxx       | 3  |  4   | JMP $xxxx       | 3  |  4   | JMP $xxxx            | 3  |  4   |  3   |
+|   7F | CLR $xxxx       | 3  |  7   | CLR $xxxx       | 3  |  7   | CLR $xxxx            | 3  |  7   |  6   |
+|   80 | SUBA #$xx       | 2  |  2   | SUBA #$xx       | 2  |  2   | SUBA #$xx            | 2  |  2   |  2   |
+|   81 | CMPA #$xx       | 2  |  2   | CMPA #$xx       | 2  |  2   | CMPA #$xx            | 2  |  2   |  2   |
+|   82 | SBCA #$xx       | 2  |  2   | SBCA #$xx       | 2  |  2   | SBCA #$xx            | 2  |  2   |  2   |
+|   83 | SUBD #$xxxx     | 3  |  4   | SUBD #$xxxx     | 3  |  4   | SUBD #$xxxx          | 3  |  4   |  3   |
+|   84 | ANDA #$xx       | 2  |  2   | ANDA #$xx       | 2  |  2   | ANDA #$xx            | 2  |  2   |  2   |
+|   85 | BITA #$xx       | 2  |  2   | BITA #$xx       | 2  |  2   | BITA #$xx            | 2  |  2   |  2   |
+|   86 | LDA #$xx        | 2  |  2   | LDA #$xx        | 2  |  2   | LDA #$xx             | 2  |  2   |  2   |
+|   87 | ---             | -  |  -   | SCC #$xx        | 2  | ???  | ***trap***           | 1  | 21   | 23   |
+|   88 | EORA #$xx       | 2  |  2   | EORA #$xx       | 2  |  2   | EORA #$xx            | 2  |  2   |  2   |
+|   89 | ADCA #$xx       | 2  |  2   | ADCA #$xx       | 2  |  2   | ADCA #$xx            | 2  |  2   |  2   |
+|   8A | ORA #$xx        | 2  |  2   | ORA #$xx        | 2  |  2   | ORA #$xx             | 2  |  2   |  2   |
+|   8B | ADDA #$xx       | 2  |  2   | ADDA #$xx       | 2  |  2   | ADDA #$xx            | 2  |  2   |  2   |
+|   8C | CMPX #$xxxx     | 3  |  4   | CMPX #$xxxx     | 3  |  4   | CMPX #$xxxx          | 3  |  4   |  3   |
+|   8D | BSR $xxxx       | 2  |  7   | BSR $xxxx       | 2  |  7   | BSR $xxxx            | 2  |  7   |  6   |
+|   8E | LDX #$xxxx      | 3  |  3   | LDX #$xxxx      | 3  |  3   | LDX #$xxxx           | 3  |  3   |  3   |
+|   8F | ---             | -  |  -   | STX #$xxxx      | 3  | ???  | ***trap***           | 1  | 21   | 23   |
+|   90 | SUBA $xx        | 2  |  4   | SUBA $xx        | 2  |  4   | SUBA $xx             | 2  |  4   |  3   |
+|   91 | CMPA $xx        | 2  |  4   | CMPA $xx        | 2  |  4   | CMPA $xx             | 2  |  4   |  3   |
+|   92 | SBCA $xx        | 2  |  4   | SBCA $xx        | 2  |  4   | SBCA $xx             | 2  |  4   |  3   |
+|   93 | SUBD $xx        | 2  |  6   | SUBD $xx        | 2  |  6   | SUBD $xx             | 2  |  6   |  4   |
+|   94 | ANDA $xx        | 2  |  4   | ANDA $xx        | 2  |  4   | ANDA $xx             | 2  |  4   |  3   |
+|   95 | BITA $xx        | 2  |  4   | BITA $xx        | 2  |  4   | BITA $xx             | 2  |  4   |  3   |
+|   96 | LDA $xx         | 2  |  4   | LDA $xx         | 2  |  4   | LDA $xx              | 2  |  4   |  3   |
+|   97 | STA $xx         | 2  |  4   | STA $xx         | 2  |  4   | STA $xx              | 2  |  4   |  3   |
+|   98 | EORA $xx        | 2  |  4   | EORA $xx        | 2  |  4   | EORA $xx             | 2  |  4   |  3   |
+|   99 | ADCA $xx        | 2  |  4   | ADCA $xx        | 2  |  4   | ADCA $xx             | 2  |  4   |  3   |
+|   9A | ORA $xx         | 2  |  4   | ORA $xx         | 2  |  4   | ORA $xx              | 2  |  4   |  3   |
+|   9B | ADDA $xx        | 2  |  4   | ADDA $xx        | 2  |  4   | ADDA $xx             | 2  |  4   |  3   |
+|   9C | CMPX $xx        | 2  |  6   | CMPX $xx        | 2  |  6   | CMPX $xx             | 2  |  6   |  4   |
+|   9D | JSR $xx         | 2  |  7   | JSR $xx         | 2  |  7   | JSR $xx              | 2  |  7   |  6   |
+|   9E | LDX $xx         | 2  |  5   | LDX $xx         | 2  |  5   | LDX $xx              | 2  |  5   |  4   |
+|   9F | STX $xx         | 2  |  5   | STX $xx         | 2  |  5   | STX $xx              | 2  |  5   |  4   |
+|   A0 | SUBA index      | 2+ |  4+  | SUBA index      | 2+ |  4+  | SUBA index           | 2+ |  4+  |  4+  |
+|   A1 | CMPA index      | 2+ |  4+  | CMPA index      | 2+ |  4+  | CMPA index           | 2+ |  4+  |  4+  |
+|   A2 | SBCA index      | 2+ |  4+  | SBCA index      | 2+ |  4+  | SBCA index           | 2+ |  4+  |  4+  |
+|   A3 | SUBD index      | 2+ |  6+  | SUBD index      | 2+ |  6+  | SUBD index           | 2+ |  6+  |  5+  |
+|   A4 | ANDA index      | 2+ |  4+  | ANDA index      | 2+ |  4+  | ANDA index           | 2+ |  4+  |  4+  |
+|   A5 | BITA index      | 2+ |  4+  | BITA index      | 2+ |  4+  | BITA index           | 2+ |  4+  |  4+  |
+|   A6 | LDA index       | 2+ |  4+  | LDA index       | 2+ |  4+  | LDA index            | 2+ |  4+  |  4+  |
+|   A7 | STA index       | 2+ |  4+  | STA index       | 2+ |  4+  | STA index            | 2+ |  4+  |  4+  |
+|   A8 | EORA index      | 2+ |  4+  | EORA index      | 2+ |  4+  | EORA index           | 2+ |  4+  |  4+  |
+|   A9 | ADCA index      | 2+ |  4+  | ADCA index      | 2+ |  4+  | ADCA index           | 2+ |  4+  |  4+  |
+|   AA | ORA index       | 2+ |  4+  | ORA index       | 2+ |  4+  | ORA index            | 2+ |  4+  |  4+  |
+|   AB | ADDA index      | 2+ |  4+  | ADDA index      | 2+ |  4+  | ADDA index           | 2+ |  4+  |  4+  |
+|   AC | CMPX index      | 2+ |  6+  | CMPX index      | 2+ |  6+  | CMPX index           | 2+ |  6+  |  5+  |
+|   AD | JSR index       | 2+ |  7+  | JSR index       | 2+ |  7+  | JSR index            | 2+ |  7+  |  6+  |
+|   AE | LDX index       | 2+ |  5+  | LDX index       | 2+ |  5+  | LDX index            | 2+ |  5+  |  5+  |
+|   AF | STX index       | 2+ |  5+  | STX index       | 2+ |  5+  | STX index            | 2+ |  5+  |  5+  |
+|   B0 | SUBA $xxxx      | 3  |  5   | SUBA $xxxx      | 3  |  5   | SUBA $xxxx           | 3  |  5   |  4   |
+|   B1 | CMPA $xxxx      | 3  |  5   | CMPA $xxxx      | 3  |  5   | CMPA $xxxx           | 3  |  5   |  4   |
+|   B2 | SBCA $xxxx      | 3  |  5   | SBCA $xxxx      | 3  |  5   | SBCA $xxxx           | 3  |  5   |  4   |
+|   B3 | SUBD $xxxx      | 3  |  7   | SUBD $xxxx      | 3  |  7   | SUBD $xxxx           | 3  |  7   |  5   |
+|   B4 | ANDA $xxxx      | 3  |  5   | ANDA $xxxx      | 3  |  5   | ANDA $xxxx           | 3  |  5   |  4   |
+|   B5 | BITA $xxxx      | 3  |  5   | BITA $xxxx      | 3  |  5   | BITA $xxxx           | 3  |  5   |  4   |
+|   B6 | LDA $xxxx       | 3  |  5   | LDA $xxxx       | 3  |  5   | LDA $xxxx            | 3  |  5   |  4   |
+|   B7 | STA $xxxx       | 3  |  5   | STA $xxxx       | 3  |  5   | STA $xxxx            | 3  |  5   |  4   |
+|   B8 | EORA $xxxx      | 3  |  5   | EORA $xxxx      | 3  |  5   | EORA $xxxx           | 3  |  5   |  4   |
+|   B9 | ADCA $xxxx      | 3  |  5   | ADCA $xxxx      | 3  |  5   | ADCA $xxxx           | 3  |  5   |  4   |
+|   BA | ORA $xxxx       | 3  |  5   | ORA $xxxx       | 3  |  5   | ORA $xxxx            | 3  |  5   |  4   |
+|   BB | ADDA $xxxx      | 3  |  5   | ADDA $xxxx      | 3  |  5   | ADDA $xxxx           | 3  |  5   |  4   |
+|   BC | CMPX $xxxx      | 3  |  7   | CMPX $xxxx      | 3  |  7   | CMPX $xxxx           | 3  |  7   |  5   |
+|   BD | JSR $xxxx       | 3  |  8   | JSR $xxxx       | 3  |  8   | JSR $xxxx            | 3  |  8   |  7   |
+|   BE | LDX $xxxx       | 3  |  6   | LDX $xxxx       | 3  |  6   | LDX $xxxx            | 3  |  6   |  5   |
+|   BF | STX $xxxx       | 3  |  6   | STX $xxxx       | 3  |  6   | STX $xxxx            | 3  |  6   |  5   |
+|   C0 | SUBB #$xx       | 2  |  2   | SUBB #$xx       | 2  |  2   | SUBB #$xx            | 2  |  2   |  2   |
+|   C1 | CMPB #$xx       | 2  |  2   | CMPB #$xx       | 2  |  2   | CMPB #$xx            | 2  |  2   |  2   |
+|   C2 | SBCB #$xx       | 2  |  2   | SBCB #$x        | 2  |  2   | SBCB #$xx            | 2  |  2   |  2   |
+|   C3 | ADDD #$xxxx     | 3  |  4   | ADDD #$xxxx     | 3  |  4   | ADDD #$xxxx          | 3  |  4   |  3   |
+|   C4 | ANDB #$xx       | 2  |  2   | ANDB #$xx       | 2  |  2   | ANDB #$xx            | 2  |  2   |  2   |
+|   C5 | BITB #$xx       | 2  |  2   | BITB #$xx       | 2  |  2   | BITB #$xx            | 2  |  2   |  2   |
+|   C6 | LDB #$xx        | 2  |  2   | LDB #$xx        | 2  |  2   | LDB #$xx             | 2  |  2   |  2   |
+|   C7 | ---             | -  |  -   | SCC #$xx        | 2  | ???  | ***trap***           | 1  | 21   | 23   |
+|   C8 | EORB #$xx       | 2  |  2   | EORB #$xx       | 2  |  2   | EORB #$xx            | 2  |  2   |  2   |
+|   C9 | ADCB #$xx       | 2  |  2   | ADCB #$xx       | 2  |  2   | ADCB #$xx            | 2  |  2   |  2   |
+|   CA | ORB #$xx        | 2  |  2   | ORB #$xx        | 2  |  2   | ORB #$xx             | 2  |  2   |  2   |
+|   CB | ADDB #$xx       | 2  |  2   | ADDB #$xx       | 2  |  2   | ADDB #$xx            | 2  |  2   |  2   |
+|   CC | LDD #$xxxx      | 3  |  3   | LDD #$xxxx      | 3  |  3   | LDD #$xxxx           | 3  |  3   |  3   |
+|   CD | ---             | -  |  -   | HCF             | 1  | ???  | LDQ #$xxxxxxxx       | 5  |  5   |  5   |
+|   CE | LDU #$xxxx      | 3  |  3   | LDU #$xxxx      | 3  |  3   | LDU #$xxxx           | 3  |  3   |  3   |
+|   CF | ---             | -  |  -   | STU #$xxxx      | 3  | ???  | ***trap***           | 1  | 21   | 23   |
+|   D0 | SUBB $xx        | 2  |  4   | SUBB $xx        | 2  |  4   | SUBB $xx             | 2  |  4   |  3   |
+|   D1 | CMPB $xx        | 2  |  4   | CMPB $xx        | 2  |  4   | CMPB $xx             | 2  |  4   |  3   |
+|   D2 | SBCB $xx        | 2  |  4   | SBCB $xx        | 2  |  4   | SBCB $xx             | 2  |  4   |  3   |
+|   D3 | ADDD $xx        | 2  |  6   | ADDD $xx        | 2  |  6   | ADDD $xx             | 2  |  6   |  4   |
+|   D4 | ANDB $xx        | 2  |  4   | ANDB $xx        | 2  |  4   | ANDB $xx             | 2  |  4   |  3   |
+|   D5 | BITB $xx        | 2  |  4   | BITB $xx        | 2  |  4   | BITB $xx             | 2  |  4   |  3   |
+|   D6 | LDB $xx         | 2  |  4   | LDB $xx         | 2  |  4   | LDB $xx              | 2  |  4   |  3   |
+|   D7 | STB $xx         | 2  |  4   | STB $xx         | 2  |  4   | STB $xx              | 2  |  4   |  3   |
+|   D8 | EORB $xx        | 2  |  4   | EORB $xx        | 2  |  4   | EORB $xx             | 2  |  4   |  3   |
+|   D9 | ADCB $xx        | 2  |  4   | ADCB $xx        | 2  |  4   | ADCB $xx             | 2  |  4   |  3   |
+|   DA | ORB $xx         | 2  |  4   | ORB $xx         | 2  |  4   | ORB $xx              | 2  |  4   |  3   |
+|   DB | ADDB $xx        | 2  |  4   | ADDB $xx        | 2  |  4   | ADDB $xx             | 2  |  4   |  3   |
+|   DC | LDD $xx         | 2  |  5   | LDD $xx         | 2  |  5   | LDD $xx              | 2  |  5   |  4   |
+|   DD | STD $xx         | 2  |  5   | STD $xx         | 2  |  5   | STD $xx              | 2  |  5   |  4   |
+|   DE | LDU $xx         | 2  |  5   | LDU $xx         | 2  |  5   | LDU $xx              | 2  |  5   |  4   |
+|   DF | STU $xx         | 2  |  5   | STU $xx         | 2  |  5   | STU $xx              | 2  |  5   |  4   |
+|   E0 | SUBB index      | 2+ |  4+  | SUBB index      | 2+ |  4+  | SUBB index           | 2+ |  4+  |  4+  |
+|   E1 | CMPB index      | 2+ |  4+  | CMPB index      | 2+ |  4+  | CMPB index           | 2+ |  4+  |  4+  |
+|   E2 | SBCB index      | 2+ |  4+  | SBCB index      | 2+ |  4+  | SBCB index           | 2+ |  4+  |  4+  |
+|   E3 | ADDD index      | 2+ |  6+  | ADDD index      | 2+ |  6+  | ADDD index           | 2+ |  6+  |  5+  |
+|   E4 | ANDB index      | 2+ |  4+  | ANDB index      | 2+ |  4+  | ANDB index           | 2+ |  4+  |  4+  |
+|   E5 | BITB index      | 2+ |  4+  | BITB index      | 2+ |  4+  | BITB index           | 2+ |  4+  |  4+  |
+|   E6 | LDB index       | 2+ |  4+  | LDB index       | 2+ |  4+  | LDB index            | 2+ |  4+  |  4+  |
+|   E7 | STB index       | 2+ |  4+  | STB index       | 2+ |  4+  | STB index            | 2+ |  4+  |  4+  |
+|   E8 | EORB index      | 2+ |  4+  | EORB index      | 2+ |  4+  | EORB index           | 2+ |  4+  |  4+  |
+|   E9 | ADCB index      | 2+ |  4+  | ADCB index      | 2+ |  4+  | ADCB index           | 2+ |  4+  |  4+  |
+|   EA | ORB index       | 2+ |  4+  | ORB index       | 2+ |  4+  | ORB index            | 2+ |  4+  |  4+  |
+|   EB | ADDB index      | 2+ |  4+  | ADDB index      | 2+ |  4+  | ADDB index           | 2+ |  4+  |  4+  |
+|   EC | LDD index       | 2+ |  5+  | LDD index       | 2+ |  5+  | LDD index            | 2+ |  5+  |  5+  |
+|   ED | STD index       | 2+ |  5+  | STD index       | 2+ |  5+  | STD index            | 2+ |  5+  |  5+  |
+|   EE | LDU index       | 2+ |  5+  | LDU index       | 2+ |  5+  | LDU index            | 2+ |  5+  |  5+  |
+|   EF | STU index       | 2+ |  5+  | STU index       | 2+ |  5+  | STU index            | 2+ |  5+  |  5+  |
+|   F0 | SUBB $xxxx      | 3  |  5   | SUBB $xxxx      | 3  |  5   | SUBB $xxxx           | 3  |  5   |  4   |
+|   F1 | CMPB $xxxx      | 3  |  5   | CMPB $xxxx      | 3  |  5   | CMPB $xxxx           | 3  |  5   |  4   |
+|   F2 | SBCB $xxxx      | 3  |  5   | SBCB $xxxx      | 3  |  5   | SBCB $xxxx           | 3  |  5   |  4   |
+|   F3 | ADDD $xxxx      | 3  |  7   | ADDD $xxxx      | 3  |  7   | ADDD $xxxx           | 3  |  7   |  5   |
+|   F4 | ANDB $xxxx      | 3  |  5   | ANDB $xxxx      | 3  |  5   | ANDB $xxxx           | 3  |  5   |  4   |
+|   F5 | BITB $xxxx      | 3  |  5   | BITB $xxxx      | 3  |  5   | BITB $xxxx           | 3  |  5   |  4   |
+|   F6 | LDB $xxxx       | 3  |  5   | LDB $xxxx       | 3  |  5   | LDB $xxxx            | 3  |  5   |  4   |
+|   F7 | STB $xxxx       | 3  |  5   | STB $xxxx       | 3  |  5   | STB $xxxx            | 3  |  5   |  4   |
+|   F8 | EORB $xxxx      | 3  |  5   | EORB $xxxx      | 3  |  5   | EORB $xxxx           | 3  |  5   |  4   |
+|   F9 | ADCB $xxxx      | 3  |  5   | ADCB $xxxx      | 3  |  5   | ADCB $xxxx           | 3  |  5   |  4   |
+|   FA | ORB $xxxx       | 3  |  5   | ORB $xxxx       | 3  |  5   | ORB $xxxx            | 3  |  5   |  4   |
+|   FB | ADDB $xxxx      | 3  |  5   | ADDB $xxxx      | 3  |  5   | ADDB $xxxx           | 3  |  5   |  4   |
+|   FC | LDD $xxxx       | 3  |  6   | LDD $xxxx       | 3  |  6   | LDD $xxxx            | 3  |  6   |  5   |
+|   FD | STD $xxxx       | 3  |  6   | STD $xxxx       | 3  |  6   | STD $xxxx            | 3  |  6   |  5   |
+|   FE | LDU $xxxx       | 3  |  6   | LDU $xxxx       | 3  |  6   | LDU $xxxx            | 3  |  6   |  5   |
+|   FF | STU $xxxx       | 3  |  6   | STU $xxxx       | 3  |  6   | STU $xxxx            | 3  |  6   |  5   |
+| 1000 | ---             | -  |  -   | NEG $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1001 | ---             | -  |  -   | NEG $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1002 | ---             | -  |  -   | COM/NEG $xx     | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1003 | ---             | -  |  -   | COM $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1004 | ---             | -  |  -   | LSR $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1005 | ---             | -  |  -   | LSR $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1006 | ---             | -  |  -   | ROR $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1007 | ---             | -  |  -   | ASR $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1008 | ---             | -  |  -   | ASL/LSL $xx     | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1009 | ---             | -  |  -   | ROL $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 100A | ---             | -  |  -   | DEC $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 100B | ---             | -  |  -   | DEC $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 100C | ---             | -  |  -   | INC $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 100D | ---             | -  |  -   | TST $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 100E | ---             | -  |  -   | JMP $xx         | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 100F | ---             | -  |  -   | CLR $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1012 | ---             | -  |  -   | NOP             | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1013 | ---             | -  |  -   | SYNC            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1014 | ---             | -  |  -   | HCF             | 2  | ???  | ***trap***           | 2  | 22   | 24   |
+| 1015 | ---             | -  |  -   | HCF             | 2  | ???  | ***trap***           | 2  | 22   | 24   |
+| 1016 | ---             | -  |  -   | LBRA $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 1017 | ---             | -  |  -   | LBSR $xxxx      | 4  | 10   | ***trap***           | 2  | 22   | 24   |
+| 1018 | ---             | -  |  -   | CCRS            | 2  |  4   | ***trap***           | 2  | 22   | 24   |
+| 1019 | ---             | -  |  -   | DAA             | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 101A | ---             | -  |  -   | ORCC #$xx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 101B | ---             | -  |  -   | NOP             | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 101C | ---             | -  |  -   | ANDCC #$xx      | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 101D | ---             | -  |  -   | SEX             | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 101E | ---             | -  |  -   | EXG R0, R1      | 3  |  9   | ***trap***           | 2  | 22   | 24   |
+| 101F | ---             | -  |  -   | TFR R0, R1      | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1020 | ---             | -  |  -   | LBRA $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 1021 | LBRN $xxxx      | 4  |  5   | LBRN $xxxx      | 4  |  5   | LBRN $xxxx           | 4  |  5   |  5   |
+| 1022 | LBHI $xxxx      | 4  | 5/6  | LBHI $xxxx      | 4  | 5/6  | LBHI $xxxx           | 4  | 5/6  | 5/6  |
+| 1023 | LBLS $xxxx      | 4  | 5/6  | LBLS $xxxx      | 4  | 5/6  | LBLS $xxxx           | 4  | 5/6  | 5/6  |
+| 1024 | LBHS/LBCC $xxxx | 4  | 5/6  | LBHS/LBCC $xxxx | 4  | 5/6  | LBHS/LBCC $xxxx      | 4  | 5/6  | 5/6  |
+| 1025 | LBLO/LBCS $xxxx | 4  | 5/6  | LBLO/LBCS $xxxx | 4  | 5/6  | LBLO/LBCS $xxxx      | 4  | 5/6  | 5/6  |
+| 1026 | LBNE $xxxx      | 4  | 5/6  | LBNE $xxxx      | 4  | 5/6  | LBNE $xxxx           | 4  | 5/6  | 5/6  |
+| 1027 | LBEQ $xxxx      | 4  | 5/6  | LBEQ $xxxx      | 4  | 5/6  | LBEQ $xxxx           | 4  | 5/6  | 5/6  |
+| 1028 | LBVC $xxxx      | 4  | 5/6  | LBVC $xxxx      | 4  | 5/6  | LBVC $xxxx           | 4  | 5/6  | 5/6  |
+| 1029 | LBVS $xxxx      | 4  | 5/6  | LBVS $xxxx      | 4  | 5/6  | LBVS $xxxx           | 4  | 5/6  | 5/6  |
+| 102A | LBPL $xxxx      | 4  | 5/6  | LBPL $xxxx      | 4  | 5/6  | LBPL $xxxx           | 4  | 5/6  | 5/6  |
+| 102B | LBMI $xxxx      | 4  | 5/6  | LBMI $xxxx      | 4  | 5/6  | LBMI $xxxx           | 4  | 5/6  | 5/6  |
+| 102C | LBGE $xxxx      | 4  | 5/6  | LBGE $xxxx      | 4  | 5/6  | LBGE $xxxx           | 4  | 5/6  | 5/6  |
+| 102D | LBLT $xxxx      | 4  | 5/6  | LBLT $xxxx      | 4  | 5/6  | LBLT $xxxx           | 4  | 5/6  | 5/6  |
+| 102E | LBGT $xxxx      | 4  | 5/6  | LBGT $xxxx      | 4  | 5/6  | LBGT $xxxx           | 4  | 5/6  | 5/6  |
+| 102F | LBLE $xxxx      | 4  | 5/6  | LBLE $xxxx      | 4  | 5/6  | LBLE $xxxx           | 4  | 5/6  | 5/6  |
+| 1030 | ---             | -  |  -   | LEAX index      | 3+ |  5+  | ADDR R0, R1          | 3  |  4   |  4   |
+| 1031 | ---             | -  |  -   | LEAY index      | 3+ |  5+  | ADCR R0, R1          | 3  |  4   |  4   |
+| 1032 | ---             | -  |  -   | LEAS index      | 3+ |  5+  | SUBR R0, R1          | 3  |  4   |  4   |
+| 1033 | ---             | -  |  -   | LEAU index      | 3+ |  5+  | SBCR R0, R1          | 3  |  4   |  4   |
+| 1034 | ---             | -  |  -   | PSHS #$RM       | 2  |  5+  | ANDR R0, R1          | 3  |  4   |  4   |
+| 1035 | ---             | -  |  -   | PULS #$RM       | 2  |  5+  | ORR R0, R1           | 3  |  4   |  4   |
+| 1036 | ---             | -  |  -   | PSHU #$RM       | 2  |  5+  | EORR R0, R1          | 3  |  4   |  4   |
+| 1037 | ---             | -  |  -   | PULU #$RM       | 2  |  5+  | CMPR R0, R1          | 3  |  4   |  4   |
+| 1038 | ---             | -  |  -   | ANDCC+1c #$xx   | 3  |  5   | PSHSW                | 2  |  6   |  6   |
+| 1039 | ---             | -  |  -   | RTS             | 2  |  6   | PULSW                | 2  |  6   |  6   |
+| 103A | ---             | -  |  -   | ABX             | 2  |  4   | PSHUW                | 2  |  6   |  6   |
+| 103B | ---             | -  |  -   | RTI             | 2  | 7/16 | PULUW                | 2  |  6   |  6   |
+| 103C | ---             | -  |  -   | CWAI            | 3  | 23   | ***trap***           | 2  | 22   | 24   |
+| 103D | ---             | -  |  -   | MUL             | 2  | 12   | ***trap***           | 2  | 22   | 24   |
+| 103E | ---             | -  |  -   | SWIRES          | 2  | 20   | ***trap***           | 2  | 22   | 24   |
+| 103F | SWI2            | 2  | 20   | SWI2            | 2  | 20   | SWI2                 | 2  | 20   | 22   |
+| 1040 | ---             | -  |  -   | NEGA            | 2  |  3   | NEGD                 | 2  |  3   |  2   |
+| 1041 | ---             | -  |  -   | NEGA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1042 | ---             | -  |  -   | COMA/NEGA       | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1043 | ---             | -  |  -   | COMA            | 2  |  3   | COMD                 | 2  |  3   |  2   |
+| 1044 | ---             | -  |  -   | LSRA            | 2  |  3   | LSRD                 | 2  |  3   |  2   |
+| 1045 | ---             | -  |  -   | LSRA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1046 | ---             | -  |  -   | RORA            | 2  |  3   | RORD                 | 2  |  3   |  2   |
+| 1047 | ---             | -  |  -   | ASRA            | 2  |  3   | ASRD                 | 2  |  3   |  2   |
+| 1048 | ---             | -  |  -   | ASLA/LSLA       | 2  |  3   | ASLD/LSLD            | 2  |  3   |  2   |
+| 1049 | ---             | -  |  -   | ROLA            | 2  |  3   | ROLD                 | 2  |  3   |  2   |
+| 104A | ---             | -  |  -   | DECA            | 2  |  3   | DECD                 | 2  |  3   |  2   |
+| 104B | ---             | -  |  -   | DECA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 104C | ---             | -  |  -   | INCA            | 2  |  3   | INCD                 | 2  |  3   |  2   |
+| 104D | ---             | -  |  -   | TSTA            | 2  |  3   | TSTD                 | 2  |  3   |  2   |
+| 104E | ---             | -  |  -   | CLRA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 104F | ---             | -  |  -   | CLRA            | 2  |  3   | CLRD                 | 2  |  3   |  2   |
+| 1050 | ---             | -  |  -   | NEGB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1051 | ---             | -  |  -   | NEGB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1052 | ---             | -  |  -   | COMB/NEGB       | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1053 | ---             | -  |  -   | COMB            | 2  |  3   | COMW                 | 2  |  3   |  2   |
+| 1054 | ---             | -  |  -   | LSRB            | 2  |  3   | LSRW                 | 2  |  3   |  2   |
+| 1055 | ---             | -  |  -   | LSRB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1056 | ---             | -  |  -   | RORB            | 2  |  3   | RORW                 | 2  |  3   |  2   |
+| 1057 | ---             | -  |  -   | ASRB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1058 | ---             | -  |  -   | ASLB/LSLB       | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1059 | ---             | -  |  -   | ROLB            | 2  |  3   | ROLW                 | 2  |  3   |  2   |
+| 105A | ---             | -  |  -   | DECB            | 2  |  3   | DECW                 | 2  |  3   |  2   |
+| 105B | ---             | -  |  -   | DECB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 105C | ---             | -  |  -   | INCB            | 2  |  3   | INCW                 | 2  |  3   |  2   |
+| 105D | ---             | -  |  -   | TSTB            | 2  |  3   | TSTW                 | 2  |  3   |  2   |
+| 105E | ---             | -  |  -   | CLRB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 105F | ---             | -  |  -   | CLRB            | 2  |  3   | CLRW                 | 2  |  3   |  2   |
+| 1060 | ---             | -  |  -   | NEG index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1061 | ---             | -  |  -   | NEG index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1062 | ---             | -  |  -   | COM/NEG index   | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1063 | ---             | -  |  -   | COM index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1064 | ---             | -  |  -   | LSR index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1065 | ---             | -  |  -   | LSR index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1066 | ---             | -  |  -   | ROR index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1067 | ---             | -  |  -   | ASR index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1068 | ---             | -  |  -   | ASL/LSL index   | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1069 | ---             | -  |  -   | ROL index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 106A | ---             | -  |  -   | DEC index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 106B | ---             | -  |  -   | DEC index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 106C | ---             | -  |  -   | INC index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 106D | ---             | -  |  -   | TST index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 106E | ---             | -  |  -   | JMP index       | 3+ |  4+  | ***trap***           | 2  | 22   | 24   |
+| 106F | ---             | -  |  -   | CLR index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1070 | ---             | -  |  -   | NEG $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1071 | ---             | -  |  -   | NEG $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1072 | ---             | -  |  -   | COM/NEG $xxxx   | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1073 | ---             | -  |  -   | COM $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1074 | ---             | -  |  -   | LSR $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1075 | ---             | -  |  -   | LSR $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1076 | ---             | -  |  -   | ROR $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1077 | ---             | -  |  -   | ASR $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1078 | ---             | -  |  -   | ASL/LSL $xxxx   | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1079 | ---             | -  |  -   | ROL $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 107A | ---             | -  |  -   | DEC $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 107B | ---             | -  |  -   | DEC $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 107C | ---             | -  |  -   | INC $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 107D | ---             | -  |  -   | TST $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 107E | ---             | -  |  -   | JMP $xxxx       | 4  |  5   | ***trap***           | 2  | 22   | 24   |
+| 107F | ---             | -  |  -   | CLR $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1080 | ---             | -  |  -   | SUBA #$xx       | 3  |  3   | SUBW #$xxxx          | 4  |  5   |  4   |
+| 1081 | ---             | -  |  -   | CMPA #$xx       | 3  |  3   | CMPW #$xxxx          | 4  |  5   |  4   |
+| 1082 | ---             | -  |  -   | SBCA #$xx       | 3  |  3   | SBCD #$xxxx          | 4  |  5   |  4   |
+| 1083 | CMPD #$xxxx     | 4  |  5   | CMPD #$xxxx     | 4  |  5   | CMPD #$xxxx          | 4  |  5   |  4   |
+| 1084 | ---             | -  |  -   | ANDA #$xx       | 3  |  3   | ANDD #$xxxx          | 4  |  5   |  4   |
+| 1085 | ---             | -  |  -   | BITA #$xx       | 3  |  3   | BITD #$xxxx          | 4  |  5   |  4   |
+| 1086 | ---             | -  |  -   | LDA #$xx        | 3  |  3   | LDW #$xxxx           | 4  |  5   |  4   |
+| 1087 | ---             | -  |  -   | SCC #$xx        | 3  | ???  | ***trap***           | 2  | 22   | 24   |
+| 1088 | ---             | -  |  -   | EORA #$xx       | 3  |  3   | EORD #$xxxx          | 4  |  5   |  4   |
+| 1089 | ---             | -  |  -   | ADCA #$xx       | 3  |  3   | ADCD #$xxxx          | 4  |  5   |  4   |
+| 108A | ---             | -  |  -   | ORA #$xx        | 3  |  3   | ORD #$xxxx           | 4  |  5   |  4   |
+| 108B | ---             | -  |  -   | ADDA #$xx       | 3  |  3   | ADDW #$xxxx          | 4  |  5   |  4   |
+| 108C | CMPY #$xxxx     | 4  |  5   | CMPY #$xxxx     | 4  |  5   | CMPY #$xxxx          | 4  |  5   |  4   |
+| 108D | ---             | -  |  -   | BSR $xxxx       | 3  |  8   | ***trap***           | 2  | 22   | 24   |
+| 108E | LDY #$xxxx      | 4  |  5   | LDY #$xxxx      | 4  |  5   | LDY #$xxxx           | 4  |  5   |  4   |
+| 108F | ---             | -  |  -   | STX #$xxxx      | 4  | ???  | ***trap***           | 2  | 22   | 24   |
+| 1090 | ---             | -  |  -   | SUBA $xx        | 3  |  5   | SUBW $xx             | 3  |  7   |  5   |
+| 1091 | ---             | -  |  -   | CMPA $xx        | 3  |  5   | CMPW $xx             | 3  |  7   |  5   |
+| 1092 | ---             | -  |  -   | SBCA $xx        | 3  |  5   | SBCD $xx             | 3  |  7   |  5   |
+| 1093 | CMPD $xx        | 3  |  7   | CMPD $xx        | 3  |  7   | CMPD $xx             | 3  |  7   |  5   |
+| 1094 | ---             | -  |  -   | ANDA $xx        | 3  |  5   | ANDD $xx             | 3  |  7   |  5   |
+| 1095 | ---             | -  |  -   | BITA $xx        | 3  |  5   | BITD $xx             | 3  |  7   |  5   |
+| 1096 | ---             | -  |  -   | LDA $xx         | 3  |  5   | LDW $xx              | 3  |  6   |  5   |
+| 1097 | ---             | -  |  -   | STA $xx         | 3  |  5   | STW $xx              | 3  |  6   |  5   |
+| 1098 | ---             | -  |  -   | EORA $xx        | 3  |  5   | EORD $xx             | 3  |  7   |  5   |
+| 1099 | ---             | -  |  -   | ADCA $xx        | 3  |  5   | ADCD $xx             | 3  |  7   |  5   |
+| 109A | ---             | -  |  -   | ORA $xx         | 3  |  5   | ORD $xx              | 3  |  7   |  5   |
+| 109B | ---             | -  |  -   | ADDA $xx        | 3  |  5   | ADDW $xx             | 3  |  7   |  5   |
+| 109C | CMPY $xx        | 3  |  7   | CMPY $xx        | 3  |  7   | CMPY $xx             | 3  |  7   |  5   |
+| 109D | ---             | -  |  -   | JSR $xx         | 3  |  8   | ***trap***           | 2  | 22   | 24   |
+| 109E | LDY $xx         | 3  |  6   | LDY $xx         | 3  |  6   | LDY $xx              | 3  |  6   |  5   |
+| 109F | STY $xx         | 3  |  6   | STY $xx         | 3  |  6   | STY $xx              | 3  |  6   |  5   |
+| 10A0 | ---             | -  |  -   | SUBA index      | 3+ |  5+  | SUBW index           | 3+ |  7+  |  6+  |
+| 10A1 | ---             | -  |  -   | CMPA index      | 3+ |  5+  | CMPW index           | 3+ |  7+  |  6+  |
+| 10A2 | ---             | -  |  -   | SBCA index      | 3+ |  5+  | SBCD index           | 3+ |  7+  |  6+  |
+| 10A3 | CMPD index      | 3+ |  7+  | CMPD index      | 3+ |  7+  | CMPD index           | 3+ |  7+  |  6+  |
+| 10A4 | ---             | -  |  -   | ANDA index      | 3+ |  5+  | ANDD index           | 3+ |  7+  |  6+  |
+| 10A5 | ---             | -  |  -   | BITA index      | 3+ |  5+  | BITD index           | 3+ |  7+  |  6+  |
+| 10A6 | ---             | -  |  -   | LDA index       | 3+ |  5+  | LDW index            | 3+ |  6+  |  6+  |
+| 10A7 | ---             | -  |  -   | STA index       | 3+ |  5+  | STW index            | 3+ |  6+  |  6+  |
+| 10A8 | ---             | -  |  -   | EORA index      | 3+ |  5+  | EORD index           | 3+ |  7+  |  6+  |
+| 10A9 | ---             | -  |  -   | ADCA index      | 3+ |  5+  | ADCD index           | 3+ |  7+  |  6+  |
+| 10AA | ---             | -  |  -   | ORA index       | 3+ |  5+  | ORD index            | 3+ |  7+  |  6+  |
+| 10AB | ---             | -  |  -   | ADDA index      | 3+ |  5+  | ADDW index           | 3+ |  7+  |  6+  |
+| 10AC | CMPY index      | 3+ |  7+  | CMPY index      | 3+ |  7+  | CMPY index           | 3+ |  7+  |  6+  |
+| 10AD | ---             | -  |  -   | JSR index       | 3+ |  8+  | ***trap***           | 2  | 22   | 24   |
+| 10AE | LDY index       | 3+ |  6+  | LDY index       | 3+ |  6+  | LDY index            | 3+ |  6+  |  6+  |
+| 10AF | STY index       | 3+ |  6+  | STY index       | 3+ |  6+  | STY index            | 3+ |  6+  |  6+  |
+| 10B0 | ---             | -  |  -   | SUBA $xxxx      | 4  |  6   | SUBW $xxxx           | 4  |  8   |  6   |
+| 10B1 | ---             | -  |  -   | CMPA $xxxx      | 4  |  6   | CMPW $xxxx           | 4  |  8   |  6   |
+| 10B2 | ---             | -  |  -   | SBCA $xxxx      | 4  |  6   | SBCD $xxxx           | 4  |  8   |  6   |
+| 10B3 | CMPD $xxxx      | 4  |  8   | CMPD $xxxx      | 4  |  8   | CMPD $xxxx           | 4  |  8   |  6   |
+| 10B4 | ---             | -  |  -   | ANDA $xxxx      | 4  |  6   | ANDD $xxxx           | 4  |  8   |  6   |
+| 10B5 | ---             | -  |  -   | BITA $xxxx      | 4  |  6   | BITD $xxxx           | 4  |  8   |  6   |
+| 10B6 | ---             | -  |  -   | LDA $xxxx       | 4  |  6   | LDW $xxxx            | 4  |  7   |  6   |
+| 10B7 | ---             | -  |  -   | STA $xxxx       | 4  |  6   | STW $xxxx            | 4  |  7   |  6   |
+| 10B8 | ---             | -  |  -   | EORA $xxxx      | 4  |  6   | EORD $xxxx           | 4  |  8   |  6   |
+| 10B9 | ---             | -  |  -   | ADCA $xxxx      | 4  |  6   | ADCD $xxxx           | 4  |  8   |  6   |
+| 10BA | ---             | -  |  -   | ORA $xxxx       | 4  |  6   | ORD $xxxx            | 4  |  8   |  6   |
+| 10BB | ---             | -  |  -   | ADDA $xxxx      | 4  |  6   | ADDW $xxxx           | 4  |  8   |  6   |
+| 10BC | CMPY $xxxx      | 4  |  8   | CMPY $xxxx      | 4  |  8   | CMPY $xxxx           | 4  |  8   |  6   |
+| 10BD | ---             | -  |  -   | JSR $xxxx       | 4  |  9   | ***trap***           | 2  | 22   | 24   |
+| 10BE | LDY $xxxx       | 4  |  7   | LDY $xxxx       | 4  |  7   | LDY $xxxx            | 4  |  7   |  6   |
+| 10BF | STY $xxxx       | 4  |  7   | STY $xxxx       | 4  |  7   | STY $xxxx            | 4  |  7   |  6   |
+| 10C0 | ---             | -  |  -   | SUBB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 10C1 | ---             | -  |  -   | CMPB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 10C2 | ---             | -  |  -   | SBCB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 10C3 | ---             | -  |  -   | ADDD #$xxxx     | 4  |  5   | ***trap***           | 2  | 22   | 24   |
+| 10C4 | ---             | -  |  -   | ANDB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 10C5 | ---             | -  |  -   | BITB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 10C6 | ---             | -  |  -   | LDB #$xx        | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 10C7 | ---             | -  |  -   | SCC #$xx        | 3  | ???  | ***trap***           | 2  | 22   | 24   |
+| 10C8 | ---             | -  |  -   | EORB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 10C9 | ---             | -  |  -   | ADCB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 10CA | ---             | -  |  -   | ORB #$xx        | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 10CB | ---             | -  |  -   | ADDB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 10CC | ---             | -  |  -   | LDD #$xxxx      | 4  |  4   | ***trap***           | 2  | 22   | 24   |
+| 10CD | ---             | -  |  -   | HCF             | 2  | ???  | ***trap***           | 2  | 22   | 24   |
+| 10CE | LDS #$xxxx      | 4  |  4   | LDS #$xxxx      | 4  |  4   | LDS #$xxxx           | 4  |  4   |  4   |
+| 10CF | ---             | -  |  -   | STU #$xxxx      | 4  | ???  | ***trap***           | 2  | 22   | 24   |
+| 10D0 | ---             | -  |  -   | SUBB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 10D1 | ---             | -  |  -   | CMPB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 10D2 | ---             | -  |  -   | SBCB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 10D3 | ---             | -  |  -   | ADDD $xx        | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 10D4 | ---             | -  |  -   | ANDB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 10D5 | ---             | -  |  -   | BITB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 10D6 | ---             | -  |  -   | LDB $xx         | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 10D7 | ---             | -  |  -   | STB $xx         | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 10D8 | ---             | -  |  -   | EORB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 10D9 | ---             | -  |  -   | ADCB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 10DA | ---             | -  |  -   | ORB $xx         | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 10DB | ---             | -  |  -   | ADDB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 10DC | ---             | -  |  -   | LDD $xx         | 3  |  6   | LDQ $xx              | 3  |  8   |  7   |
+| 10DD | ---             | -  |  -   | STD $xx         | 3  |  6   | STQ $xx              | 3  |  8   |  7   |
+| 10DE | LDS $xx         | -  |  -   | LDS $xx         | 3  |  6   | LDS $xx              | 3  |  6   |  5   |
+| 10DF | STS $xx         | -  |  -   | STS $xx         | 3  |  6   | STS $xx              | 3  |  6   |  5   |
+| 10E0 | ---             | -  |  -   | SUBB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 10E1 | ---             | -  |  -   | CMPB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 10E2 | ---             | -  |  -   | SBCB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 10E3 | ---             | -  |  -   | ADDD index      | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 10E4 | ---             | -  |  -   | ANDB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 10E5 | ---             | -  |  -   | BITB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 10E6 | ---             | -  |  -   | LDB index       | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 10E7 | ---             | -  |  -   | STB index       | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 10E8 | ---             | -  |  -   | EORB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 10E9 | ---             | -  |  -   | ADCB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 10EA | ---             | -  |  -   | ORB index       | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 10EB | ---             | -  |  -   | ADDB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 10EC | ---             | -  |  -   | LDD index       | 3+ |  6+  | LDQ index            | 3+ |  8+  |  8+  |
+| 10ED | ---             | -  |  -   | STD index       | 3+ |  6+  | STQ index            | 3+ |  8+  |  8+  |
+| 10EE | LDS index       | 3+ |  6+  | LDS index       | 3+ |  6+  | LDS index            | 3+ |  6+  |  6+  |
+| 10EF | STS index       | 3+ |  6+  | STS index       | 3+ |  6+  | STS index            | 3+ |  6+  |  6+  |
+| 10F0 | ---             | -  |  -   | SUBB $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 10F1 | ---             | -  |  -   | CMPB $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 10F2 | ---             | -  |  -   | SBCB $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 10F3 | ---             | -  |  -   | ADDD $xxxx      | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 10F4 | ---             | -  |  -   | ANDB $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 10F5 | ---             | -  |  -   | BITB $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 10F6 | ---             | -  |  -   | LDB $xxxx       | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 10F7 | ---             | -  |  -   | STB $xxxx       | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 10F8 | ---             | -  |  -   | EORB $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 10F9 | ---             | -  |  -   | ADCB $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 10FA | ---             | -  |  -   | ORB $xxxx       | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 10FB | ---             | -  |  -   | ADDB $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 10FC | ---             | -  |  -   | LDD $xxxx       | 4  |  7   | LDQ $xxxx            | 4  |  9   |  8   |
+| 10FD | ---             | -  |  -   | STD $xxxx       | 4  |  7   | STQ $xxxx            | 4  |  9   |  8   |
+| 10FE | LDS $xxxx       | 4  |  7   | LDS $xxxx       | 4  |  7   | LDS $xxxx            | 4  |  7   |  6   |
+| 10FF | STS $xxxx       | 4  |  7   | STS $xxxx       | 4  |  7   | STS $xxxx            | 4  |  7   |  6   |
+| 1100 | ---             | -  |  -   | NEG $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1101 | ---             | -  |  -   | NEG $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1102 | ---             | -  |  -   | COM/NEG $xx     | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1103 | ---             | -  |  -   | COM $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1104 | ---             | -  |  -   | LSR $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1105 | ---             | -  |  -   | LSR $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1106 | ---             | -  |  -   | ROR $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1107 | ---             | -  |  -   | ASR $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1108 | ---             | -  |  -   | ASL/LSL $xx     | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1109 | ---             | -  |  -   | ROL $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 110A | ---             | -  |  -   | DEC $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 110B | ---             | -  |  -   | DEC $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 110C | ---             | -  |  -   | INC $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 110D | ---             | -  |  -   | TST $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 110E | ---             | -  |  -   | JMP $xx         | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 110F | ---             | -  |  -   | CLR $xx         | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1112 | ---             | -  |  -   | NOP             | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1113 | ---             | -  |  -   | SYNC            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1114 | ---             | -  |  -   | HCF             | 2  | ???  | ***trap***           | 2  | 22   | 24   |
+| 1115 | ---             | -  |  -   | HCF             | 2  | ???  | ***trap***           | 2  | 22   | 24   |
+| 1116 | ---             | -  |  -   | LBRA $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 1117 | ---             | -  |  -   | LBSR $xxxx      | 4  | 10   | ***trap***           | 2  | 22   | 24   |
+| 1118 | ---             | -  |  -   | CCRS            | 2  |  4   | ***trap***           | 2  | 22   | 24   |
+| 1119 | ---             | -  |  -   | DAA             | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 111A | ---             | -  |  -   | ORCC #$xx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 111B | ---             | -  |  -   | NOP             | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 111C | ---             | -  |  -   | ANDCC #$xx      | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 111D | ---             | -  |  -   | SEX             | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 111E | ---             | -  |  -   | EXG R0, R1      | 3  |  9   | ***trap***           | 2  | 22   | 24   |
+| 111F | ---             | -  |  -   | TFR R0, R1      | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 1120 | ---             | -  |  -   | BRA $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 1121 | ---             | -  |  -   | BRN $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 1122 | ---             | -  |  -   | BHI $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 1123 | ---             | -  |  -   | BLS $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 1124 | ---             | -  |  -   | BHS/BCC $xxxx   | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 1125 | ---             | -  |  -   | BLO/BCS $xxxx   | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 1126 | ---             | -  |  -   | BNE $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 1127 | ---             | -  |  -   | BEQ $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 1128 | ---             | -  |  -   | BVC $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 1129 | ---             | -  |  -   | BVS $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 112A | ---             | -  |  -   | BPL $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 112B | ---             | -  |  -   | BMI $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 112C | ---             | -  |  -   | BGE $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 112D | ---             | -  |  -   | BLT $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 112E | ---             | -  |  -   | BGT $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 112F | ---             | -  |  -   | BLE $xxxx       | 3  |  4   | ***trap***           | 2  | 22   | 24   |
+| 1130 | ---             | -  |  -   | LEAX index      | 3+ |  5+  | BAND R, SB, DB, $xx  | 4  |  7   |  6   |
+| 1131 | ---             | -  |  -   | LEAY index      | 3+ |  5+  | BIAND R, SB, DB, $xx | 4  |  7   |  6   |
+| 1132 | ---             | -  |  -   | LEAS index      | 3+ |  5+  | BOR R, SB, DB, $xx   | 4  |  7   |  6   |
+| 1133 | ---             | -  |  -   | LEAU index      | 3+ |  5+  | BIOR R, SB, DB, $xx  | 4  |  7   |  6   |
+| 1134 | ---             | -  |  -   | PSHS #$RM       | 3  |  6+  | BEOR R, SB, DB, $xx  | 4  |  7   |  6   |
+| 1135 | ---             | -  |  -   | PULS #$RM       | 3  |  6+  | BIEOR R, SB, DB, $xx | 4  |  7   |  6   |
+| 1136 | ---             | -  |  -   | PSHU #$RM       | 3  |  6+  | LDBT R, SB, DB, $xx  | 4  |  7   |  6   |
+| 1137 | ---             | -  |  -   | PULU #$RM       | 3  |  6+  | STBT R, SB, DB, $xx  | 4  |  8   |  7   |
+| 1138 | ---             | -  |  -   | ANDCC+1c #$xx   | 3  |  5   | TFM R0+, R1+         | 3  | 6+3n | 6+3n |
+| 1139 | ---             | -  |  -   | RTS             | 2  |  6   | TFM R0-, R1-         | 3  | 6+3n | 6+3n |
+| 113A | ---             | -  |  -   | ABX             | 2  |  4   | TFM R0+, R1          | 3  | 6+3n | 6+3n |
+| 113B | ---             | -  |  -   | RTI             | 2  | 7/16 | TFM R0, R1+          | 3  | 6+3n | 6+3n |
+| 113C | ---             | -  |  -   | CWAI            | 3  | 23   | BITMD #$xx           | 3  |  4   |  4   |
+| 113D | ---             | -  |  -   | MUL             | 2  | 12   | LDMD #$xx            | 3  |  5   |  5   |
+| 113E | ---             | -  |  -   | SWIRES          | 2  | 20   | ***trap***           | 2  | 22   | 24   |
+| 113F | SWI3            | 2  | 20   | SWI3            | 2  | 20   | SWI3                 | 2  | 20   | 20   |
+| 1140 | ---             | -  |  -   | NEGA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1141 | ---             | -  |  -   | NEGA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1142 | ---             | -  |  -   | COMA/NEGA       | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1143 | ---             | -  |  -   | COMA            | 2  |  3   | COME                 | 2  |  3   |  2   |
+| 1144 | ---             | -  |  -   | LSRA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1145 | ---             | -  |  -   | LSRA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1146 | ---             | -  |  -   | RORA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1147 | ---             | -  |  -   | ASRA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1148 | ---             | -  |  -   | ASLA/LSLA       | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1149 | ---             | -  |  -   | ROLA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 114A | ---             | -  |  -   | DECA            | 2  |  3   | DECE                 | 2  |  3   |  2   |
+| 114B | ---             | -  |  -   | DECA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 114C | ---             | -  |  -   | INCA            | 2  |  3   | INCE                 | 2  |  3   |  2   |
+| 114D | ---             | -  |  -   | TSTA            | 2  |  3   | TSTE                 | 2  |  3   |  2   |
+| 114E | ---             | -  |  -   | CLRA            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 114F | ---             | -  |  -   | CLRA            | 2  |  3   | CLRE                 | 2  |  3   |  2   |
+| 1150 | ---             | -  |  -   | NEGB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1151 | ---             | -  |  -   | NEGB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1152 | ---             | -  |  -   | COMB/NEGB       | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1153 | ---             | -  |  -   | COMB            | 2  |  3   | COMF                 | 2  |  3   |  2   |
+| 1154 | ---             | -  |  -   | LSRB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1155 | ---             | -  |  -   | LSRB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1156 | ---             | -  |  -   | RORB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1157 | ---             | -  |  -   | ASRB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1158 | ---             | -  |  -   | ASLB/LSLB       | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1159 | ---             | -  |  -   | ROLB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 115A | ---             | -  |  -   | DECB            | 2  |  3   | DECF                 | 2  |  3   |  2   |
+| 115B | ---             | -  |  -   | DECB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 115C | ---             | -  |  -   | INCB            | 2  |  3   | INCF                 | 2  |  3   |  2   |
+| 115D | ---             | -  |  -   | TSTB            | 2  |  3   | TSTF                 | 2  |  3   |  2   |
+| 115E | ---             | -  |  -   | CLRB            | 2  |  3   | ***trap***           | 2  | 22   | 24   |
+| 115F | ---             | -  |  -   | CLRB            | 2  |  3   | CLRF                 | 2  |  3   |  2   |
+| 1160 | ---             | -  |  -   | NEG index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1161 | ---             | -  |  -   | NEG index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1162 | ---             | -  |  -   | COM/NEG index   | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1163 | ---             | -  |  -   | COM index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1164 | ---             | -  |  -   | LSR index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1165 | ---             | -  |  -   | LSR index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1166 | ---             | -  |  -   | ROR index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1167 | ---             | -  |  -   | ASR index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1168 | ---             | -  |  -   | ASL/LSL index   | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1169 | ---             | -  |  -   | ROL index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 116A | ---             | -  |  -   | DEC index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 116B | ---             | -  |  -   | DEC index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 116C | ---             | -  |  -   | INC index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 116D | ---             | -  |  -   | TST index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 116E | ---             | -  |  -   | JMP index       | 3+ |  4+  | ***trap***           | 2  | 22   | 24   |
+| 116F | ---             | -  |  -   | CLR index       | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 1170 | ---             | -  |  -   | NEG $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1171 | ---             | -  |  -   | NEG $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1172 | ---             | -  |  -   | COM/NEG $xxxx   | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1173 | ---             | -  |  -   | COM $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1174 | ---             | -  |  -   | LSR $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1175 | ---             | -  |  -   | LSR $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1176 | ---             | -  |  -   | ROR $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1177 | ---             | -  |  -   | ASR $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1178 | ---             | -  |  -   | ASL/LSL $xxxx   | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1179 | ---             | -  |  -   | ROL $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 117A | ---             | -  |  -   | DEC $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 117B | ---             | -  |  -   | DEC $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 117C | ---             | -  |  -   | INC $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 117D | ---             | -  |  -   | TST $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 117E | ---             | -  |  -   | JMP $xxxx       | 4  |  5   | ***trap***           | 2  | 22   | 24   |
+| 117F | ---             | -  |  -   | CLR $xxxx       | 4  |  8   | ***trap***           | 2  | 22   | 24   |
+| 1180 | ---             | -  |  -   | SUBA #$xx       | 3  |  3   | SUBE #$xx            | 3  |  3   |  3   |
+| 1181 | ---             | -  |  -   | CMPA #$xx       | 3  |  3   | CMPE #$xx            | 3  |  3   |  3   |
+| 1182 | ---             | -  |  -   | SBCA #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1183 | CMPU #$xxxx     | 4  |  5   | CMPU #$xxxx     | 4  |  5   | CMPU #$xxxx          | 4  |  5   |  4   |
+| 1184 | ---             | -  |  -   | ANDA #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1185 | ---             | -  |  -   | BITA #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1186 | ---             | -  |  -   | LDA #$xx        | 3  |  3   | LDE #$xx             | 3  |  3   |  3   |
+| 1187 | ---             | -  |  -   | SCC #$xx        | 3  | ???  | ***trap***           | 2  | 22   | 24   |
+| 1188 | ---             | -  |  -   | EORA #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 1189 | ---             | -  |  -   | ADCA #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 118A | ---             | -  |  -   | ORA #$xx        | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 118B | ---             | -  |  -   | ADDA #$xx       | 3  |  3   | ADDE #$xx            | 3  |  3   |  3   |
+| 118C | CMPS #$xxxx     | 4  |  5   | CMPS #$xxxx     | 4  |  5   | CMPS #$xxxx          | 4  |  5   |  4   |
+| 118D | ---             | -  |  -   | BSR $xxxx       | 3  |  8   | DIVD #$xxxx          | 4  | 25   | 25   |
+| 118E | ---             | -  |  -   | LDX #$xxxx      | 4  |  4   | DIVQ #$xxxx          | 4  | 36   | 36   |
+| 118F | ---             | -  |  -   | STX #$xxxx      | 4  | ???  | MULD #$xxxx          | 4  | 28   | 28   |
+| 1190 | ---             | -  |  -   | SUBA $xx        | 3  |  5   | SUBE $xx             | 3  |  5   |  4   |
+| 1191 | ---             | -  |  -   | CMPA $xx        | 3  |  5   | CMPE $xx             | 3  |  5   |  4   |
+| 1192 | ---             | -  |  -   | SBCA $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 1193 | CMPU $xx        | 3  |  7   | CMPU $xx        | 3  |  7   | CMPU $xx             | 3  |  7   |  5   |
+| 1194 | ---             | -  |  -   | ANDA $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 1195 | ---             | -  |  -   | BITA $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 1196 | ---             | -  |  -   | LDA $xx         | 3  |  5   | LDE $xx              | 3  |  5   |  4   |
+| 1197 | ---             | -  |  -   | STA $xx         | 3  |  5   | STE $xx              | 3  |  5   |  4   |
+| 1198 | ---             | -  |  -   | EORA $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 1199 | ---             | -  |  -   | ADCA $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 119A | ---             | -  |  -   | ORA $xx         | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 119B | ---             | -  |  -   | ADDA $xx        | 3  |  5   | ADDE $xx             | 3  |  5   |  4   |
+| 119C | CMPS $xx        | 3  |  7   | CMPS $xx        | 3  |  7   | CMPS $xx             | 3  |  7   |  5   |
+| 119D | ---             | -  |  -   | JSR $xx         | 3  |  8   | DIVD $xx             | 3  | 27   | 26   |
+| 119E | ---             | -  |  -   | LDX $xx         | 3  |  6   | DIVQ $xx             | 3  | 36   | 35   |
+| 119F | ---             | -  |  -   | STX $xx         | 3  |  6   | MULD $xx             | 3  | 30   | 29   |
+| 11A0 | ---             | -  |  -   | SUBA index      | 3+ |  5+  | SUBE index           | 3+ |  5+  |  5+  |
+| 11A1 | ---             | -  |  -   | CMPA index      | 3+ |  5+  | CMPE index           | 3+ |  5+  |  5+  |
+| 11A2 | ---             | -  |  -   | SBCA index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11A3 | CMPU index      | 3+ |  7+  | CMPU index      | 3+ |  7+  | CMPU index           | 3+ |  7+  |  6+  |
+| 11A4 | ---             | -  |  -   | ANDA index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11A5 | ---             | -  |  -   | BITA index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11A6 | ---             | -  |  -   | LDA index       | 3+ |  5+  | LDE index            | 3+ |  5+  |  5+  |
+| 11A7 | ---             | -  |  -   | STA index       | 3+ |  5+  | STE index            | 3+ |  5+  |  5+  |
+| 11A8 | ---             | -  |  -   | EORA index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11A9 | ---             | -  |  -   | ADCA index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11AA | ---             | -  |  -   | ORA index       | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11AB | ---             | -  |  -   | ADDA index      | 3+ |  5+  | ADDE index           | 3+ |  5+  |  5+  |
+| 11AC | CMPS index      | 3+ |  7+  | CMPS index      | 3+ |  7+  | CMPS index           | 3+ |  7+  |  6+  |
+| 11AD | ---             | -  |  -   | JSR index       | 3+ |  8+  | DIVD index           | 3+ | 27+  | 27+  |
+| 11AE | ---             | -  |  -   | LDX index       | 3+ |  6+  | DIVQ index           | 3+ | 36+  | 36+  |
+| 11AF | ---             | -  |  -   | STX index       | 3+ |  6+  | MULD index           | 3+ | 30+  | 30+  |
+| 11B0 | ---             | -  |  -   | SUBA $xxxx      | 4  |  6   | SUBE $xxxx           | 4  |  6   |  5   |
+| 11B1 | ---             | -  |  -   | CMPA $xxxx      | 4  |  6   | CMPE $xxxx           | 4  |  6   |  5   |
+| 11B2 | ---             | -  |  -   | SBCA $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 11B3 | CMPU $xxxx      | 4  |  8   | CMPU $xxxx      | 4  |  8   | CMPU $xxxx           | 4  |  8   |  6   |
+| 11B4 | ---             | -  |  -   | ANDA $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 11B5 | ---             | -  |  -   | BITA $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 11B6 | ---             | -  |  -   | LDA $xxxx       | 4  |  6   | LDE $xxxx            | 4  |  6   |  5   |
+| 11B7 | ---             | -  |  -   | STA $xxxx       | 4  |  6   | STE $xxxx            | 4  |  6   |  5   |
+| 11B8 | ---             | -  |  -   | EORA $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 11B9 | ---             | -  |  -   | ADCA $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 11BA | ---             | -  |  -   | ORA $xxxx       | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 11BB | ---             | -  |  -   | ADDA $xxxx      | 4  |  6   | ADDE $xxxx           | 4  |  6   |  5   |
+| 11BC | CMPS $xxxx      | 4  |  8   | CMPS $xxxx      | 4  |  8   | CMPS $xxxx           | 4  |  8   |  6   |
+| 11BD | ---             | -  |  -   | JSR $xxxx       | 4  |  9   | DIVD $xxxx           | 4  | 28   | 27   |
+| 11BE | ---             | -  |  -   | LDX $xxxx       | 4  |  7   | DIVQ $xxxx           | 4  | 37   | 36   |
+| 11BF | ---             | -  |  -   | STX $xxxx       | 4  |  7   | MULD $xxxx           | 4  | 31   | 30   |
+| 11C0 | ---             | -  |  -   | SUBB #$xx       | 3  |  3   | SUBF #$xx            | 3  |  3   |  3   |
+| 11C1 | ---             | -  |  -   | CMPB #$xx       | 3  |  3   | CMPF #$xx            | 3  |  3   |  3   |
+| 11C2 | ---             | -  |  -   | SBCB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 11C3 | ---             | -  |  -   | ADDD #$xxxx     | 4  |  5   | ***trap***           | 2  | 22   | 24   |
+| 11C4 | ---             | -  |  -   | ANDB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 11C5 | ---             | -  |  -   | BITB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 11C6 | ---             | -  |  -   | LDB #$xx        | 3  |  3   | LDF #$xx             | 3  |  3   |  3   |
+| 11C7 | ---             | -  |  -   | SCC #$xx        | 3  | ???  | ***trap***           | 2  | 22   | 24   |
+| 11C8 | ---             | -  |  -   | EORB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 11C9 | ---             | -  |  -   | ADCB #$xx       | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 11CA | ---             | -  |  -   | ORB #$xx        | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 11CB | ---             | -  |  -   | ADDB #$xx       | 3  |  3   | ADDF #$xx            | 3  |  3   |  3   |
+| 11CC | ---             | -  |  -   | LDD #$xxxx      | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 11CD | ---             | -  |  -   | HCF             | 2  | ???  | ***trap***           | 2  | 22   | 24   |
+| 11CE | ---             | -  |  -   | LDU #$xxxx      | 3  |  3   | ***trap***           | 2  | 22   | 24   |
+| 11CF | ---             | -  |  -   | STU #$xxxx      | 3  | ???  | ***trap***           | 2  | 22   | 24   |
+| 11D0 | ---             | -  |  -   | SUBB $xx        | 3  |  5   | SUBF $xx             | 3  |  5   |  4   |
+| 11D1 | ---             | -  |  -   | CMPB $xx        | 3  |  5   | CMPF $xx             | 3  |  5   |  4   |
+| 11D2 | ---             | -  |  -   | SBCB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 11D3 | ---             | -  |  -   | ADDD $xx        | 3  |  7   | ***trap***           | 2  | 22   | 24   |
+| 11D4 | ---             | -  |  -   | ANDB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 11D5 | ---             | -  |  -   | BITB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 11D6 | ---             | -  |  -   | LDB $xx         | 3  |  5   | LDF $xx              | 3  |  5   |  4   |
+| 11D7 | ---             | -  |  -   | STB $xx         | 3  |  5   | STF $xx              | 3  |  5   |  4   |
+| 11D8 | ---             | -  |  -   | EORB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 11D9 | ---             | -  |  -   | ADCB $xx        | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 11DA | ---             | -  |  -   | ORB $xx         | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 11DB | ---             | -  |  -   | ADDB $xx        | 3  |  5   | ADDF $xx             | 3  |  5   |  4   |
+| 11DC | ---             | -  |  -   | LDD $xx         | 3  |  6   | ***trap***           | 2  | 22   | 24   |
+| 11DD | ---             | -  |  -   | STD $xx         | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 11DE | ---             | -  |  -   | LDU $xx         | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 11DF | ---             | -  |  -   | STU $xx         | 3  |  5   | ***trap***           | 2  | 22   | 24   |
+| 11E0 | ---             | -  |  -   | SUBB index      | 3+ |  5+  | SUBF index           | 3+ |  5+  |  5+  |
+| 11E1 | ---             | -  |  -   | CMPB index      | 3+ |  5+  | CMPF index           | 3+ |  5+  |  5+  |
+| 11E2 | ---             | -  |  -   | SBCB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11E3 | ---             | -  |  -   | ADDD index      | 3+ |  7+  | ***trap***           | 2  | 22   | 24   |
+| 11E4 | ---             | -  |  -   | ANDB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11E5 | ---             | -  |  -   | BITB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11E6 | ---             | -  |  -   | LDB index       | 3+ |  5+  | LDF index            | 3+ |  5+  |  5+  |
+| 11E7 | ---             | -  |  -   | STB index       | 3+ |  5+  | STF index            | 3+ |  5+  |  5+  |
+| 11E8 | ---             | -  |  -   | EORB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11E9 | ---             | -  |  -   | ADCB index      | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11EA | ---             | -  |  -   | ORB index       | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11EB | ---             | -  |  -   | ADDB index      | 3+ |  5+  | ADDF index           | 3+ |  5+  |  5+  |
+| 11EC | ---             | -  |  -   | LDD index       | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11ED | ---             | -  |  -   | STD index       | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11EE | ---             | -  |  -   | LDU index       | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11EF | ---             | -  |  -   | STU index       | 3+ |  5+  | ***trap***           | 2  | 22   | 24   |
+| 11F0 | ---             | -  |  -   | SUBB $xxxx      | 4  |  7   | SUBF $xxxx           | 4  |  7   |  6   |
+| 11F1 | ---             | -  |  -   | CMPB $xxxx      | 4  |  7   | CMPF $xxxx           | 4  |  7   |  6   |
+| 11F2 | ---             | -  |  -   | SBCB $xxxx      | 4  |  7   | ***trap***           | 2  | 22   | 24   |
+| 11F3 | ---             | -  |  -   | ADDD $xxxx      | 4  |  7   | ***trap***           | 2  | 22   | 24   |
+| 11F4 | ---             | -  |  -   | ANDB $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 11F5 | ---             | -  |  -   | BITB $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 11F6 | ---             | -  |  -   | LDB $xxxx       | 4  |  6   | LDF $xxxx            | 4  |  6   |  5   |
+| 11F7 | ---             | -  |  -   | STB $xxxx       | 4  |  6   | STF $xxxx            | 4  |  6   |  5   |
+| 11F8 | ---             | -  |  -   | EORB $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 11F9 | ---             | -  |  -   | ADCB $xxxx      | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 11FA | ---             | -  |  -   | ORB $xxxx       | 4  |  6   | ***trap***           | 2  | 22   | 24   |
+| 11FB | ---             | -  |  -   | ADDB $xxxx      | 4  |  6   | ADDF $xxxx           | 4  |  6   |  5   |
+| 11FC | ---             | -  |  -   | LDD $xxxx       | 4  |  7   | ***trap***           | 2  | 22   | 24   |
+| 11FD | ---             | -  |  -   | STD $xxxx       | 4  |  7   | ***trap***           | 2  | 22   | 24   |
+| 11FE | ---             | -  |  -   | LDU $xxxx       | 4  |  7   | ***trap***           | 2  | 22   | 24   |
+| 11FF | ---             | -  |  -   | STU $xxxx       | 4  |  7   | ***trap***           | 2  | 22   | 24   |
+--------------------------------------------------------------------------------------------------------------
