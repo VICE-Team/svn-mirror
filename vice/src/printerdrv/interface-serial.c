@@ -386,7 +386,7 @@ static void flush_pr6(struct vdrive_s *var, unsigned int secondary)
 
 int interface_serial_close(unsigned int unit)
 {
-    if (unit >= FIRST_PRINTER_DEVICE_NUMBER + NUM_PRINTERS &&
+    if (unit >= FIRST_PRINTER_DEVICE_NUMBER &&
         unit <  FIRST_PRINTER_DEVICE_NUMBER + NUM_PRINTERS) {
         close_pr(unit - FIRST_PRINTER_DEVICE_NUMBER, 0);
     }
