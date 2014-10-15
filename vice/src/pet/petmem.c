@@ -243,8 +243,6 @@ static BYTE read_unused(WORD addr)
     if (sidcart_enabled()) {
         if (addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
             return sid_read(addr);
-        } else if (addr >= sidcart_address && addr <= sidcart_address + 0x1f) {
-            return sid_read(addr);
         }
     }
 
