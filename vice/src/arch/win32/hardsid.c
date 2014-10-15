@@ -133,10 +133,10 @@ void hardsid_reset(void)
 static VOID CALLBACK ftimerproc(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime)
 { 
     if (lastaccess_chipno >= 0 && lastaccess_ms > 0 && (dwTime - lastaccess_ms) >= HARDSID_FLUSH_MS) {
-        lastaccess_chipno = -1;
         lastaccess_ms = 0;
         lastaccess_clk = 0;
         HardSID_Flush((BYTE)device_map[lastaccess_chipno]);
+        lastaccess_chipno = -1;
     }
 }
 
