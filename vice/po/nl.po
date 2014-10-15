@@ -2491,14 +2491,12 @@ msgid "Sectors"
 msgstr "Sectors"
 
 #: src/arch/unix/gui/uiide64.c:173
-#, fuzzy
 msgid "IDE64 USB setting"
-msgstr "IDE64 instellingen"
+msgstr "IDE64 USB instellingen"
 
 #: src/arch/unix/gui/uiide64.c:173
-#, fuzzy
 msgid "USB server address:"
-msgstr "Selecteer server adres"
+msgstr "USB server adres:"
 
 #: src/arch/unix/gui/uiide64.c:177
 msgid "Version 3"
@@ -2538,14 +2536,12 @@ msgid "Revision"
 msgstr "Revisie"
 
 #: src/arch/unix/gui/uiide64.c:265
-#, fuzzy
 msgid "Enable USB server"
-msgstr "Activeer de Userport RTC uitbreiding"
+msgstr "Activeer USB server"
 
 #: src/arch/unix/gui/uiide64.c:267
-#, fuzzy
 msgid "Set USB server address"
-msgstr "Selecteer server adres"
+msgstr "Selecteer USB server adres"
 
 #: src/arch/unix/gui/uiide64.c:271
 msgid "Device 1 settings"
@@ -10899,18 +10895,16 @@ msgid "Emulate pre version 4 hardware"
 msgstr "Emuleer hardware van voor versie 4"
 
 #: src/translate_text.c.po.c:7148
-#, fuzzy
 msgid "Enable IDE64 USB server"
-msgstr "Activeer IDE64 V4"
+msgstr "Activeer IDE64 USB server"
 
 #: src/translate_text.c.po.c:7165
 msgid "Disable IDE64 USB server"
-msgstr ""
+msgstr "IDE64 USB server uitschakelen"
 
 #: src/translate_text.c.po.c:7182
-#, fuzzy
 msgid "IDE64 USB server address"
-msgstr "Selecteer server adres"
+msgstr "IDE64 USB server adres"
 
 #: src/translate_text.c.po.c:7199
 msgid "modelnumber"
