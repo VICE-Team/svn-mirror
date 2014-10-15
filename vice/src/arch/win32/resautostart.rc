@@ -49,18 +49,18 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                    "Autostart settings"
-    IDS_AUTOSTART_WARP                       "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                  "Use ':' with RUN"
-    IDS_AUTOSTART_LOAD_TO_BASIC              "Load to BASIC start"
-    IDS_AUTOSTART_RANDOM_DELAY               "Random delay"
+    IDS_AUTOSTART_CAPTION                       "Autostart settings"
+    IDS_AUTOSTART_WARP                          "Autostart warp"
+    IDS_AUTOSTART_COLON_RUN                     "Use ':' with RUN"
+    IDS_AUTOSTART_LOAD_TO_BASIC                 "Load to BASIC start"
+    IDS_AUTOSTART_RANDOM_DELAY                  "Random delay"
     IDS_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION   "Handle true drive emulation"
-    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
-    IDS_AUTOSTART_INJECT                     "Inject to RAM"
-    IDS_AUTOSTART_DISK                       "Disk image"
+    IDS_AUTOSTART_PRG_MODE                      "PRG autostart mode"
+    IDS_AUTOSTART_PRG_DISK_IMAGE                "PRG autostart disk image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE    "Select file for PRG autostart disk"
+    IDS_AUTOSTART_VIRTUAL_FS                    "Virtual FS"
+    IDS_AUTOSTART_INJECT                        "Inject to RAM"
+    IDS_AUTOSTART_DISK                          "Disk image"
 END
 
 
@@ -69,18 +69,18 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                       "Autostart-indstillinger"
-    IDS_AUTOSTART_WARP                          "Autostart i warp-tilstand"
-    IDS_AUTOSTART_COLON_RUN                     "Brug \042:\042 med RUN"
-    IDS_AUTOSTART_LOAD_TO_BASIC                 "Indlæs ved BASIC start"
-    IDS_AUTOSTART_RANDOM_DELAY                  "Tilfældig forsinkelse"
+    IDS_AUTOSTART_CAPTION                    "Autostart-indstillinger"
+    IDS_AUTOSTART_WARP                       "Autostart i warp-tilstand"
+    IDS_AUTOSTART_COLON_RUN                  "Brug \042:\042 med RUN"
+    IDS_AUTOSTART_LOAD_TO_BASIC              "Indlæs ved BASIC start"
+    IDS_AUTOSTART_RANDOM_DELAY               "Tilfældig forsinkelse"
     IDS_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION   "Handle true drive emulation"
-    IDS_AUTOSTART_PRG_MODE                      "PRG-autostarttilstand"
-    IDS_AUTOSTART_PRG_DISK_IMAGE                "PRG Autostart disk-image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE    "Vælg fil for PRG autostartdiskette"
-    IDS_AUTOSTART_VIRTUAL_FS                    "Virtuelt FS"
-    IDS_AUTOSTART_INJECT                        "Indskyd til RAM"
-    IDS_AUTOSTART_DISK                          "Diskimage"
+    IDS_AUTOSTART_PRG_MODE                   "PRG-autostarttilstand"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG Autostart disk-image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Vælg fil for PRG autostartdiskette"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtuelt FS"
+    IDS_AUTOSTART_INJECT                     "Indskyd til RAM"
+    IDS_AUTOSTART_DISK                       "Diskimage"
 END
 
 

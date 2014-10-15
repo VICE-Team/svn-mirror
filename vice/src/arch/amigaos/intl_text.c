@@ -7758,7 +7758,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SET_INPUT_JOYSTICK_1,    "Joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* da */ { IDS_SET_INPUT_JOYSTICK_1_DA, "" },  /* fuzzy */
-/* de */ { IDS_SET_INPUT_JOYSTICK_1_DE, "" },  /* fuzzy */
+/* de */ { IDS_SET_INPUT_JOYSTICK_1_DE, "Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)" },
 /* es */ { IDS_SET_INPUT_JOYSTICK_1_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SET_INPUT_JOYSTICK_1_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SET_INPUT_JOYSTICK_1_HU, "" },  /* fuzzy */
@@ -7786,7 +7786,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1,    "Extra joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)" },
 /* da */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_DA, "" },  /* fuzzy */
-/* de */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_DE, "" },  /* fuzzy */
+/* de */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_DE, "Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)" },
 /* es */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SET_INPUT_EXTRA_JOYSTICK_1_HU, "" },  /* fuzzy */

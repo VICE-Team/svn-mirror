@@ -2545,7 +2545,7 @@ BEGIN
   IDS_NO_SAVE_SETTINGS_ON_EXIT         "Einstellungen beim Beenden nie speichern"
   IDS_CONFIRM_QUIT_VICE                "Bestätige beenden von VICE"
   IDS_NO_CONFIRM_QUIT_VICE             "Keine Bestätigung beim Beenden von VICE"
-  IDS_USE_ALL_CPU_SMP                  "Use all CPUs on SMP systems"
+  IDS_USE_ALL_CPU_SMP                  "Alle SMP CPUs benutzen"
   IDS_USE_FIRST_CPU_SMP                "Nur erste SMP SPU nutzen"
   IDS_START_VICE_FULLSCREEN_MODE       "Aktiviere VICE Vollbild Modus"
   IDS_DISABLE_DX9                      "DirectX9 Video Treiber deaktivieren"
