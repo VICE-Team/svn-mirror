@@ -781,8 +781,6 @@ static void store_dummy(WORD addr, BYTE value)
     if (sidcart_enabled()) {
         if (addr >= sidcart_address && addr < sidcart_address + 0x1f) {
             sid_store(addr, value);
-        } else if (addr >= sidcart_address && addr < sidcart_address + 0x1f) {
-            sid_store(addr, value);
         }
     }
 
