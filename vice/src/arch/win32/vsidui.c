@@ -887,6 +887,8 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
     }
 }
 
+static int is_paused = 0;
+
 /* Window procedure.  All messages are handled here.  */
 static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -908,6 +910,15 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
             return 0;
         case WM_KEYDOWN:
             switch(wparam) {
+                case '0':
+                    psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+                    break;
+                case ' ':
+                    ui_pause_emulation();
+                    break;
+                case 'W':
+                    resources_set_int("WarpMode", 1);
+                    break;
                 case VK_LEFT:
                 case VK_DOWN:
                     if (current_song > 1) {
@@ -933,6 +944,11 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
             }
             return 0;
         case WM_KEYUP:
+             switch(wparam) {
+                case 'W':
+                    resources_set_int("WarpMode", 0);
+                    break;
+             }
             return 0;
         case WM_SIZE:
             return 0;
