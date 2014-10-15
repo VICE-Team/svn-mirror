@@ -1,5 +1,225 @@
 ------------------------------------------------------------------------------
 
+2014-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.9
+
+2014-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resplus4.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2014-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2014-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2014-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vsidui.c: Added some extra default keys, patch by
+	dinkc64.
+
+2014-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/hardsid.c: Do things in the right order.
+
+2014-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/petmem.c: Got rid of the other obsolete 'else' part.
+
+2014-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/petmem.c: Got rid of obsolete 'else' part.
+
+2014-10-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/6809and6309.txt: Updated.
+
+2014-10-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiide64.c, src/arch/sdl/menu_c64_common_expansions.c,
+	src/c64/cart/ide64.c: Use '#ifdef HAVE_NETWORK' for ide64 usb server
+	menu items.
+
+2014-10-14  groepaz <groepaz@gmx.net>
+
+	* src/printerdrv/interface-serial.c: fix range check, patch by
+	Lioncash
+
+2014-10-14  groepaz <groepaz@gmx.net>
+
+	* src/vic20/vic20embedded.c: fix accidential compare, patch by
+	Lioncash
+
+2014-10-14  Olaf Seibert <rhialto@falu.nl>
+
+	* configure.proto: Check for a required feature in libXaw or libXaw3d.
+	Check for a required feature in libXaw or libXaw3d, and warn sternly
+	if the feature is not found. At least libXaw7 (or compatibles) should
+	be used; older versions lack features and libXaw3d based on Xaw6 is
+	buggy. This should really be an error, and will become so in the
+	future.
+
+2014-10-13  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciisc/vicii-draw-cycle.c: Correctly reset x expansion flop
+	when x expansion is disabled. Fixes bug 445.
+
+2014-10-13  groepaz <groepaz@gmx.net>
+
+	* src/cbm2/cbm2embedded.c, src/cbm2/cbm5x0embedded.c: fix accidential
+	comparison, patch by Lioncash
+
+2014-10-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c: Applied patch by LionCash:
+	Fix a missing return in an error case. Also has the side-benefit of
+	preventing a double-fclose if this if statement was ever executed.
+
+2014-10-13  groepaz <groepaz@gmx.net>
+
+	* src/autostart-prg.h, src/autostart.c: sanitize check for value in
+	set_autostart_prg_mode, inspired by patch from Lioncash
+
+2014-10-13  groepaz <groepaz@gmx.net>
+
+	* src/c1541.c: close file before exiting the function, patch by
+	Lioncash
+
+2014-10-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/msdos/uiide64.c: Add msdos GUI items for IDE64 USB server
+
+2014-10-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/menu_c64_common_expansions.c: Add sdl GUI items for
+	IDE64 USB server
+
+2014-10-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/gui/uicommands.c: This was corrupting memory.
+
+2014-10-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/gui/uiide64.c: Add unix GUI items for IDE64 USB server
+
+2014-10-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Use buffering for IDE64 USB server (and other
+	fixes)
+
+2014-10-12  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/uimenu.c: fix cursor in vsid/SDL monitor
+
+2014-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/uimon.c: Clear screen after leaving sdl vsid monitor.
+
+2014-10-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/signals.c, src/arch/beos/signals.c,
+	src/arch/msdos/signals.c, src/arch/os2/signals.c,
+	src/arch/sdl/archdep_amiga.h, src/arch/sdl/archdep_unix.c,
+	src/arch/sdl/archdep_unix.h, src/arch/sdl/signals.c,
+	src/arch/unix/signals.c, src/arch/win32/signals.c: Update comments and
+	archdep_unix
+
+2014-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/uimenu.c: Fixed sdl vsid monitor ui scroll bug
+	(bug #558).
+
+2014-10-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi, src/c64/cart/ide64.c, src/translate.txt,
+	src/translate_text.c: Add IDE64 USB server
+
+2014-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uisid.h: Simplified unix sid gui a bit.
+
+2014-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/6809and6309.txt: More 6809/6309 documentation
+	updates.
+
+2014-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_sid.c: Simplified sdl sid gui a bit.
+
+2014-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/signals.c, src/monitor/monitor.c, src/socket.c: The
+	same SIGPIPE can happen on network play as with remote monitor, so
+	handle it at the socket handling.
+
+2014-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Fix IDE64 info
+
+2014-10-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c: No $d5xx or $d6xx ranges of sid(s) for
+	x128.
+
+2014-10-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/uisid.h,
+	src/arch/msdos/uisidc128.c, src/arch/msdos/uisidc64.c: Simplified dos
+	sid tui a bit.
+
+2014-10-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64sound.c, src/c64/vsidmeminit.c, src/sid/sid-resources.c,
+	src/sid/sid.c: Some sid related fixes.
+
+2014-10-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am: Added system.c to the extra dists file
+	list in the windows Makefile.am file.
+
+2014-10-09  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/kbdbuf.c, src/scpu64/scpu64mem.c: Use mem_inject instead of
+	mem_store. Otherwise there are side effects like cycle stretch
+
+2014-10-09  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11ui.c, src/arch/unix/x11/xaw/x11video.c: Fix
+	some warnings
+
+2014-10-09  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/gui/uipetcolour.c, src/arch/unix/gui/uipetcolour.h,
+	src/arch/unix/gui/uipetdww.h, src/arch/unix/gui/uipethre.c,
+	src/arch/unix/gui/uipethre.h: Fix properties
+
+2014-10-09  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/uiarch.h: Another missing prototype
+
+2014-10-09  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/uimenu.h: Missing prototype
+
+2014-10-09  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/gui/uinetplay.h: Fix warning with xaw
+
 2014-10-08  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,

@@ -4743,6 +4743,13 @@ C64 cartridge resources
      detected based on the disk image for the respective harddisk, or
      the cylinder/head/sector resources above should be used.
 
+`IDE64USBServerAddress'
+     String specifying the address the IDE64 USB server listens to
+     (ip4://127.0.0.1:64245)
+
+`IDE64USBServer'
+     Boolean specifying whether the IDE64 USB server is enabled.
+
 `IEEE488'
      Boolean specifying whether the IEEE488 interface should be
      emulated or not.
@@ -5037,6 +5044,13 @@ C64 cartridge command-line options
 `-IDE64version4'
 `+IDE64version4'
      Emulate version 4 hardware/Emulate pre version 4 hardware
+
+`-IDE64USB'
+`+IDE64USB'
+     Enable/Disable IDE64 USB server
+
+`-IDE64USBAddress <name>'
+     The local address the IDE64 USB server should bind to
 
 `-cartieee <name>'
      Attach CBM IEEE-488 cartridge image
@@ -15122,22 +15136,21 @@ to when bit 6 of $DF12 is 1
 39 - IDE64
 ..........
 
-.3 .7  Size  64Kb or 128Kb (8 or 16 banks of 8Kb)  GAME  inactive (0)
-EXROM  inactive (0)  Load address  $8000-$9FFF  multitable
+.3 .7  Size  64Kb or 128Kb (4 or 8 banks of 16Kb)  GAME  active (1)
+EXROM  inactive (0)  Load address  $8000-$BFFF  multitable
 
            00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
            -----------------------------------------------  ----------------
      0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-     0010: 00 00 00 40 01 00 00 26 00 00 00 00 00 00 00 00  ???@???'????????
-     0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
-     0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
-     0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+     0010: 00 00 00 40 01 00 00 27 00 01 00 00 00 00 00 00  ???@???'????????
+     0020: 49 44 45 36 34 20 43 41 52 54 52 49 44 47 45 20  IDE64 CARTRIDGE?
+     0030: 49 44 45 44 4f 53 20 32 30 31 33 31 32 31 32 00  IDEDOS 20131212?
+     0040: 43 48 49 50 00 00 40 10 00 02 00 00 80 00 40 00  CHIP????????.???
      0050: 63 80 5E FE C3 C2 CD 38 30 20 49 44 45 36 34 20  c.^....80?IDE64?
 
 The IDE64 cart uses the following registers:
 
-         $DE20 - $DE27  Primary HDD Registers
-         $DE28 - $DE2F  Secondary HDD Registers
+         $DE20 - $DE2F IDE BUS Registers
          $DE30 - Low Data HDD register
          $DE31 - High Data HDD register
 
@@ -15154,11 +15167,11 @@ $DE32 register:
          1    game
          0    exrom
 
-         $DE33 - $DE35 = IDE64 ROM bank select registers
+         $DE32 - $DE35 = IDE64 ROM bank select registers
          $DE5F         = RTC access (bit 0 only to serial accessed RTC)
-         $DE60 - $DEFA = RAM used by software
+         $DE60 - $DEFF = ROM used by software
          $DEFB         = IDE64 clock reset, kill the cartridge
-         $DEFC - $DEFF = IDE64 ROM configuration registers
+         $DEFC - $DEFF = IDE64 memory configuration registers
 
 40 - Super Snapshot V4
 ......................
@@ -16772,8 +16785,8 @@ Concept Index
 
 
 
- @{" +cart " Link "C64 cartridges"}                                C64 cartridges
  @{" +cart " Link "VIC20 system ROM options"}                                VIC20 system ROM options
+ @{" +cart " Link "C64 cartridges"}                                C64 cartridges
  @{" -1 " Link "Command-line initialization"}                                   Command-line initialization
  @{" -10 " Link "Command-line initialization"}                                  Command-line initialization
  @{" -11 " Link "Command-line initialization"}                                  Command-line initialization
@@ -16811,8 +16824,8 @@ Concept Index
  @{" -autostartprgdiskimage " Link "Command-line initialization"}               Command-line initialization
  @{" -autostartprgmode " Link "Command-line initialization"}                    Command-line initialization
  @{" -autostartwithcolon, +autostartwithcolon " Link "Command-line initialization"} Command-line initialization
- @{" -basic " Link "CBM-II model"}                               CBM-II model
  @{" -basic " Link "C64-128 system ROM options"}                               C64-128 system ROM options
+ @{" -basic " Link "CBM-II model"}                               CBM-II model
  @{" -basic " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -basic1, +basic1 " Link "PET commandline options"}                     PET commandline options
  @{" -basic1char, +basic1char " Link "PET commandline options"}             PET commandline options
@@ -16834,24 +16847,24 @@ Concept Index
  @{" -cart1 " Link "CBM-II model"}                               CBM-II model
  @{" -cart16 " Link "C64 cartridges"}                              C64 cartridges
  @{" -cart2 " Link "VIC20 cartridges"}                               VIC20 cartridges
- @{" -cart2 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart2 " Link "CBM-II model"}                               CBM-II model
- @{" -cart4 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
+ @{" -cart2 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart4 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart4 " Link "CBM-II model"}                               CBM-II model
- @{" -cart6 " Link "CBM-II model"}                               CBM-II model
+ @{" -cart4 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart6 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart6 " Link "VIC20 cartridges"}                               VIC20 cartridges
+ @{" -cart6 " Link "CBM-II model"}                               CBM-II model
  @{" -cart8 " Link "C64 cartridges"}                               C64 cartridges
- @{" -cartA " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartA " Link "VIC20 cartridges"}                               VIC20 cartridges
+ @{" -cartA " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartap " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartar2 " Link "C64 cartridges"}                             C64 cartridges
  @{" -cartar3 " Link "C64 cartridges"}                             C64 cartridges
  @{" -cartar4 " Link "C64 cartridges"}                             C64 cartridges
  @{" -cartar5 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartB " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cartB " Link "VIC20 system ROM options"}                               VIC20 system ROM options
+ @{" -cartB " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cartcap " Link "C64 cartridges"}                             C64 cartridges
  @{" -cartcomal " Link "C64 cartridges"}                           C64 cartridges
  @{" -cartcrt " Link "C64 cartridges"}                             C64 cartridges
@@ -16872,8 +16885,8 @@ Concept Index
  @{" -cartfe " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" -cartff " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartfm " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartfp " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartfp " Link "VIC20 cartridges"}                              VIC20 cartridges
+ @{" -cartfp " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartgeneric " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -cartgeoram " Link "C64 I-O extension options"}                          C64 I-O extension options
  @{" -cartgk " Link "C64 cartridges"}                              C64 cartridges
@@ -16917,11 +16930,11 @@ Concept Index
  @{" -cartzaxxon " Link "C64 cartridges"}                          C64 cartridges
  @{" -chargch " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargde " Link "C64-128 system ROM options"}                             C64-128 system ROM options
+ @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "PET model"}                             PET model
+ @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "VIC20 system ROM options"}                             VIC20 system ROM options
- @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "CBM-II model"}                             CBM-II model
- @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargfr " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargse " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chdir " Link "Command-line initialization"}                               Command-line initialization
@@ -16967,8 +16980,8 @@ Concept Index
  @{" -device9 " Link "File system device options"}                             File system device options
  @{" -diagpin, +diagpin " Link "PET commandline options"}                   PET commandline options
  @{" -digiblaster, +digiblaster " Link "VIC20 system ROM options"}           VIC20 system ROM options
- @{" -digimax, +digimax " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" -digimax, +digimax " Link "C64 I-O extension options"}                   C64 I-O extension options
+ @{" -digimax, +digimax " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" -digimaxbase " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -digimaxbase " Link "C64 I-O extension options"}                         C64 I-O extension options
  @{" -directory " Link "Misc options"}                           Misc options
@@ -17066,8 +17079,8 @@ Concept Index
  @{" -functionlo " Link "VIC20 system ROM options"}                          VIC20 system ROM options
  @{" -georam, +georam " Link "VIC20 cartridges"}                     VIC20 cartridges
  @{" -georam, +georam " Link "C64 I-O extension options"}                     C64 I-O extension options
- @{" -georamimage " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -georamimage " Link "C64 I-O extension options"}                         C64 I-O extension options
+ @{" -georamimage " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -georamimagerw, +georamimagerw " Link "VIC20 cartridges"}       VIC20 cartridges
  @{" -georamimagerw, +georamimagerw " Link "C64 I-O extension options"}       C64 I-O extension options
  @{" -georamioswap, +georamioswap " Link "VIC20 cartridges"}         VIC20 cartridges
@@ -17080,8 +17093,8 @@ Concept Index
  @{" -h1024k " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" -h256k " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -h4096k " Link "VIC20 system ROM options"}                              VIC20 system ROM options
- @{" -help " Link "Command-line initialization"}                                Command-line initialization
  @{" -help " Link "c1541 executing shell commands"}                                c1541 executing shell commands
+ @{" -help " Link "Command-line initialization"}                                Command-line initialization
  @{" -htmlbrowser " Link "Misc options"}                         Misc options
  @{" -hummeradc, +hummeradc " Link "Userport"}               Userport
  @{" -i " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
@@ -17106,6 +17119,8 @@ Concept Index
  @{" -IDE64sec2 " Link "C64 cartridges"}                           C64 cartridges
  @{" -IDE64sec3 " Link "C64 cartridges"}                           C64 cartridges
  @{" -IDE64sec4 " Link "C64 cartridges"}                           C64 cartridges
+ @{" -IDE64USB, +IDE64USB " Link "C64 cartridges"}                 C64 cartridges
+ @{" -IDE64USBAddress " Link "C64 cartridges"}                     C64 cartridges
  @{" -IDE64version4, +IDE64version4 " Link "C64 cartridges"}       C64 cartridges
  @{" -iecdevice10, +iecdevice10 " Link "File system device options"}           File system device options
  @{" -iecdevice11, +iecdevice11 " Link "File system device options"}           File system device options
@@ -17115,8 +17130,8 @@ Concept Index
  @{" -iecdevice7, +iecdevice7 " Link "Printer options"}             Printer options
  @{" -iecdevice8, +iecdevice8 " Link "File system device options"}             File system device options
  @{" -iecdevice9, +iecdevice9 " Link "File system device options"}             File system device options
- @{" -ieee488, +ieee488 " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" -ieee488, +ieee488 " Link "C64 cartridges"}                   C64 cartridges
+ @{" -ieee488, +ieee488 " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" -ieee488image " Link "C64 cartridges"}                        C64 cartridges
  @{" -initbreak " Link "Monitor options"}                           Monitor options
  @{" -install, +install " Link "Video options"}                   Video options
@@ -17132,10 +17147,10 @@ Concept Index
  @{" -k " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -k<version> " Link "c1541 executing shell commands"}                          c1541 executing shell commands
  @{" -keepenv " Link "CBM-II colors"}                             CBM-II colors
+ @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
+ @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
  @{" -kernal " Link "PET model"}                              PET model
- @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
  @{" -kernal " Link "CBM-II model"}                              CBM-II model
- @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
  @{" -kernal " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" -kernal64 " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" -kernalch " Link "C64-128 system ROM options"}                            C64-128 system ROM options
@@ -17271,17 +17286,17 @@ Concept Index
  @{" -rsuserbaud " Link "RS232 options"}                          RS232 options
  @{" -rsuserdev " Link "RS232 options"}                           RS232 options
  @{" -saveres, +saveres " Link "Misc options"}                   Misc options
- @{" -sfxse, +sfxse " Link "C64 I-O extension options"}                       C64 I-O extension options
  @{" -sfxse, +sfxse " Link "VIC20 cartridges"}                       VIC20 cartridges
+ @{" -sfxse, +sfxse " Link "C64 I-O extension options"}                       C64 I-O extension options
  @{" -sfxseioswap, +sfxseioswap " Link "VIC20 cartridges"}           VIC20 cartridges
- @{" -sfxsetype " Link "VIC20 cartridges"}                           VIC20 cartridges
  @{" -sfxsetype " Link "C64 I-O extension options"}                           C64 I-O extension options
+ @{" -sfxsetype " Link "VIC20 cartridges"}                           VIC20 cartridges
  @{" -sfxss, +sfxss " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" -sfxss, +sfxss " Link "C64 I-O extension options"}                       C64 I-O extension options
  @{" -sfxssioswap, +sfxssioswap " Link "VIC20 cartridges"}           VIC20 cartridges
  @{" -sidcart, +sidcart " Link "VIC20 system ROM options"}                   VIC20 system ROM options
- @{" -sidcart, +sidcart " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" -sidcart, +sidcart " Link "PET model"}                   PET model
+ @{" -sidcart, +sidcart " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" -sidcartjoy, +sidcartjoy " Link "VIC20 system ROM options"}             VIC20 system ROM options
  @{" -sidenginemodel " Link "SID options"}                      SID options
  @{" -sidfilters, +sidfilters " Link "SID options"}             SID options
@@ -17727,6 +17742,8 @@ Index of Resources
  @{" IDE64Sectors2 " Link "C64 cartridges"}                        C64 cartridges
  @{" IDE64Sectors3 " Link "C64 cartridges"}                        C64 cartridges
  @{" IDE64Sectors4 " Link "C64 cartridges"}                        C64 cartridges
+ @{" IDE64USBServer " Link "C64 cartridges"}                       C64 cartridges
+ @{" IDE64USBServerAddress " Link "C64 cartridges"}                C64 cartridges
  @{" IDE64version4 " Link "C64 cartridges"}                        C64 cartridges
  @{" IECDevice10 " Link "File system device resources"}                          File system device resources
  @{" IECDevice11 " Link "File system device resources"}                          File system device resources
@@ -17740,8 +17757,8 @@ Index of Resources
  @{" IEEE488Image " Link "C64 cartridges"}                         C64 cartridges
  @{" InternalFunctionName " Link "C64-128 system ROM options"}                 C64-128 system ROM options
  @{" InternalFunctionROM " Link "C64-128 system ROM options"}                  C64-128 system ROM options
- @{" IOCollisionHandling " Link "C64 cartridges"}                  C64 cartridges
  @{" IOCollisionHandling " Link "VIC20 cartridges"}                  VIC20 cartridges
+ @{" IOCollisionHandling " Link "C64 cartridges"}                  C64 cartridges
  @{" IOSize " Link "PET model"}                               PET model
  @{" IsepicCartridgeEnabled " Link "C64 cartridges"}               C64 cartridges
  @{" Isepicfilename " Link "C64 cartridges"}                       C64 cartridges
@@ -17924,16 +17941,16 @@ Index of Resources
  @{" SFXSoundExpanderIOSwap " Link "VIC20 cartridges"}               VIC20 cartridges
  @{" SFXSoundSampler " Link "C64 I-O extension resources"}                      C64 I-O extension resources
  @{" SFXSoundSamplerIOSwap " Link "VIC20 cartridges"}                VIC20 cartridges
- @{" SidAddress " Link "VIC20 system ROM options"}                           VIC20 system ROM options
  @{" SidAddress " Link "VIC20 cartridges"}                           VIC20 cartridges
+ @{" SidAddress " Link "VIC20 system ROM options"}                           VIC20 system ROM options
  @{" SidAddress " Link "PET model"}                           PET model
  @{" SidCart " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" SidCart " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" SidCart " Link "PET model"}                              PET model
  @{" SIDCartJoy " Link "VIC20 system ROM options"}                           VIC20 system ROM options
  @{" SidClock " Link "VIC20 system ROM options"}                             VIC20 system ROM options
- @{" SidClock " Link "PET model"}                             PET model
  @{" SidClock " Link "VIC20 cartridges"}                             VIC20 cartridges
+ @{" SidClock " Link "PET model"}                             PET model
  @{" SidEngine " Link "SID resources"}                            SID resources
  @{" SidFilters " Link "SID resources"}                           SID resources
  @{" SidModel " Link "SID resources"}                             SID resources

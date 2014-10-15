@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VICEVERSION=2.4.8
+VICEVERSION=2.4.9
 
 X64_STATUS_MESSAGE="x64 compiles correctly and runs correctly."
 X64SC_STATUS_MESSAGE="x64sc compiles correctly and runs correctly albeit slow, only meant for high end android devices."
