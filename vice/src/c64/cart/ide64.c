@@ -558,8 +558,8 @@ static int set_usbserver(int value, void *param)
 
     if (settings_usbserver != val && ide64_rom_list_item) {
         usbserver_activate(val);
-        settings_usbserver = val;
     }
+    settings_usbserver = val;
     return 0;
 }
 
