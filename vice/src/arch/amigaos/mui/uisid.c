@@ -359,9 +359,9 @@ static APTR build_gui2(void)
            CYCLE(ui_to_from2[1].object, translate_text(IDS_SID_FILTERS), ui_sid_enable)
 #ifdef HAVE_RESID
            CYCLE(ui_to_from2[2].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
-           STRING(ui_to_from2[3].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
-           STRING(ui_to_from2[4].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
-           STRING(ui_to_from2[5].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
+           NSTRING(ui_to_from2[3].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
+           NSTRING(ui_to_from2[4].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
+           NSTRING(ui_to_from2[5].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
 #endif
            OK_CANCEL_BUTTON
          End;
@@ -391,9 +391,9 @@ static APTR build_gui64(void)
            CYCLE(ui_to_from64[4].object, translate_text(IDS_SID_FILTERS), ui_sid_enable)
 #ifdef HAVE_RESID
            CYCLE(ui_to_from64[5].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
-           STRING(ui_to_from64[6].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
-           STRING(ui_to_from64[7].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
-           STRING(ui_to_from64[8].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
+           NSTRING(ui_to_from64[6].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
+           NSTRING(ui_to_from64[7].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
+           NSTRING(ui_to_from64[8].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
 #endif
            OK_CANCEL_BUTTON
          End;
@@ -423,9 +423,9 @@ static APTR build_gui128(void)
            CYCLE(ui_to_from128[4].object, translate_text(IDS_SID_FILTERS), ui_sid_enable)
 #ifdef HAVE_RESID
            CYCLE(ui_to_from128[5].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
-           STRING(ui_to_from128[6].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
-           STRING(ui_to_from128[7].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
-           STRING(ui_to_from128[8].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
+           NSTRING(ui_to_from128[6].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
+           NSTRING(ui_to_from128[7].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
+           NSTRING(ui_to_from128[8].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
 #endif
            OK_CANCEL_BUTTON
          End;

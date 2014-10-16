@@ -176,7 +176,7 @@ static APTR build_gui(void)
              CYCLE(ui_to_from[1].object, translate_text(IDS_BUFFER_SIZE), ui_sound_buffer)
              CYCLE(ui_to_from[2].object, translate_text(IDS_FRAGMENT_SIZE), ui_sound_fragment_size)
              CYCLE(ui_to_from[3].object, translate_text(IDS_SPEED_ADJUSTMENT), ui_sound_adjusting)
-             STRING(ui_to_from[4].object, translate_text(IDS_VOLUME), "0123456789", 5+1)
+             NSTRING(ui_to_from[4].object, translate_text(IDS_VOLUME), "0123456789", 5+1)
              CYCLE(ui_to_from[5].object, translate_text(IDS_SOUND_OUTPUT_MODE), ui_sound_output_mode)
            End;
 }

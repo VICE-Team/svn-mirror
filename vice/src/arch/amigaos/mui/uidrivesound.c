@@ -67,7 +67,7 @@ static APTR build_gui(void)
 
     ui = GroupObject,
            CYCLE(ui_to_from[0].object, translate_text(IDS_DRIVESOUND_ENABLED), ui_drivesound_enable)
-           STRING(ui_to_from[1].object, translate_text(IDS_VOLUME), "0123456789", 5+1)
+           NSTRING(ui_to_from[1].object, translate_text(IDS_VOLUME), "0123456789", 5+1)
            OK_CANCEL_BUTTON
          End;
 

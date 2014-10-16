@@ -162,11 +162,11 @@ static APTR build_gui_colors(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           STRING(ui_to_from_colors[0].object, translate_text(IDS_GAMMA_0_4), ".0123456789", 5+1)
-           STRING(ui_to_from_colors[1].object, translate_text(IDS_TINT_0_2), ".0123456789", 5+1)
-           STRING(ui_to_from_colors[2].object, translate_text(IDS_SATURATION_0_2), ".0123456789", 5+1)
-           STRING(ui_to_from_colors[3].object, translate_text(IDS_CONTRAST_0_2), ".0123456789", 5+1)
-           STRING(ui_to_from_colors[4].object, translate_text(IDS_BRIGHTNESS_0_2), ".0123456789", 5+1)
+           NSTRING(ui_to_from_colors[0].object, translate_text(IDS_GAMMA_0_4), ".0123456789", 5+1)
+           NSTRING(ui_to_from_colors[1].object, translate_text(IDS_TINT_0_2), ".0123456789", 5+1)
+           NSTRING(ui_to_from_colors[2].object, translate_text(IDS_SATURATION_0_2), ".0123456789", 5+1)
+           NSTRING(ui_to_from_colors[3].object, translate_text(IDS_CONTRAST_0_2), ".0123456789", 5+1)
+           NSTRING(ui_to_from_colors[4].object, translate_text(IDS_BRIGHTNESS_0_2), ".0123456789", 5+1)
            OK_CANCEL_BUTTON
          End;
 
@@ -210,10 +210,10 @@ static APTR build_gui_crt(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           STRING(ui_to_from_crt[0].object, translate_text(IDS_SCANLINE_SHADE_0_1), ".0123456789", 5+1)
-           STRING(ui_to_from_crt[1].object, translate_text(IDS_BLUR_0_1), ".0123456789", 5+1)
-           STRING(ui_to_from_crt[2].object, translate_text(IDS_ODDLINE_PHASE_0_2), ".0123456789", 5+1)
-           STRING(ui_to_from_crt[3].object, translate_text(IDS_ODDLINE_OFFSET_0_2), ".0123456789", 5+1)
+           NSTRING(ui_to_from_crt[0].object, translate_text(IDS_SCANLINE_SHADE_0_1), ".0123456789", 5+1)
+           NSTRING(ui_to_from_crt[1].object, translate_text(IDS_BLUR_0_1), ".0123456789", 5+1)
+           NSTRING(ui_to_from_crt[2].object, translate_text(IDS_ODDLINE_PHASE_0_2), ".0123456789", 5+1)
+           NSTRING(ui_to_from_crt[3].object, translate_text(IDS_ODDLINE_OFFSET_0_2), ".0123456789", 5+1)
            OK_CANCEL_BUTTON
          End;
 

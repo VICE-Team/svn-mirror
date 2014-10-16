@@ -120,21 +120,37 @@
     End,                                            \
     End,
 
-#define STRING(store, name, accept, maxlen) \
-    Child, HGroup,                          \
-    Child, TextObject,                      \
-    MUIA_Text_PreParse, "\033r",            \
-    MUIA_Text_Contents, name,               \
-    MUIA_Weight, 30,                        \
-    MUIA_InnerLeft, 0,                      \
-    MUIA_InnerRight, 0,                     \
-    End,                                    \
-    Child, store = StringObject,            \
-    MUIA_Frame, MUIV_Frame_String,          \
-    MUIA_FrameTitle, name,                  \
-    MUIA_String_Accept, accept,             \
-    MUIA_String_MaxLen, maxlen,             \
-    End,                                    \
+#define STRING(store, name, maxlen) \
+    Child, HGroup,                  \
+    Child, TextObject,              \
+    MUIA_Text_PreParse, "\033r",    \
+    MUIA_Text_Contents, name,       \
+    MUIA_Weight, 30,                \
+    MUIA_InnerLeft, 0,              \
+    MUIA_InnerRight, 0,             \
+    End,                            \
+    Child, store = StringObject,    \
+    MUIA_Frame, MUIV_Frame_String,  \
+    MUIA_FrameTitle, name,          \
+    MUIA_String_MaxLen, maxlen,     \
+    End,                            \
+    End,
+
+#define NSTRING(store, name, accept, maxlen) \
+    Child, HGroup,                           \
+    Child, TextObject,                       \
+    MUIA_Text_PreParse, "\033r",             \
+    MUIA_Text_Contents, name,                \
+    MUIA_Weight, 30,                         \
+    MUIA_InnerLeft, 0,                       \
+    MUIA_InnerRight, 0,                      \
+    End,                                     \
+    Child, store = StringObject,             \
+    MUIA_Frame, MUIV_Frame_String,           \
+    MUIA_FrameTitle, name,                   \
+    MUIA_String_Accept, accept,              \
+    MUIA_String_MaxLen, maxlen,              \
+    End,                                     \
     End,
 
 #define BUTTON(button, name)                  \
