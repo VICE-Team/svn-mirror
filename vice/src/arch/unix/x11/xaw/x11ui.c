@@ -501,9 +501,11 @@ int ui_focus_monitor(void)
     if (title) {
         for (i = 0; i < (int)len; i++) {
             char *name = getwinname(display, list[i]);
+            if (name == NULL) continue;
             if (!strcmp(title, name)) {
                 foundwin = list[i];
             }
+            free(name);
         }
         free(title);
     }
