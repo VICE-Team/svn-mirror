@@ -471,6 +471,34 @@ static char *getwinname (Display *disp, Window win)
     return name;
 }
 
+static void activate_window(Window foundwin)
+{
+    XEvent xev;
+    int width, height;
+
+    memset(&xev, 0, sizeof(xev));
+    xev.xclient.type = ClientMessage;
+    xev.xclient.send_event = True;
+    xev.xclient.window = foundwin;
+    xev.xclient.message_type = XInternAtom(display, "_NET_ACTIVE_WINDOW", False);
+    xev.xclient.format = 32;
+    XSendEvent(display, DefaultRootWindow(display), False, SubstructureRedirectMask | SubstructureNotifyMask, &xev);
+
+    XMapRaised(display, foundwin);
+    XSync(display, False);
+
+    /* The window manager may ignore the request to raise the window (for
+       example because it is in a different workspace). We have to check if
+       the window is actually visible, because a call to XSetInputFocus()
+       will crash if it is not.
+    */
+    if (wait_for_deiconify(foundwin, 0, &width, &height)) {
+        XSetInputFocus(display, foundwin, RevertToParent, CurrentTime);
+        XWarpPointer(display, 0, foundwin,  0, 0, 0, 0,  width/2, height/2);
+        XSync(display, False);
+    }
+}
+
 int ui_focus_monitor(void) 
 {
     int i;
@@ -537,21 +565,8 @@ int ui_focus_monitor(void)
 
     /* if a matching window was found, raise it and transfer focus to it */
     if (foundwin) {
-        int width, height;
-
         DBG(("using win: %lx\n", (long)foundwin));
-        XMapRaised(display, foundwin);
-        XSync(display, False);
-        /* The window manager may ignore the request to raise the window (for
-           example because it is in a different workspace). We have to check if
-           the window is actually visible, because a call to XSetInputFocus()
-           will crash if it is not.
-        */
-        if (wait_for_deiconify(foundwin, 0, &width, &height)) {
-            XSetInputFocus(display, foundwin, RevertToParent, CurrentTime);
-            XWarpPointer(display, 0, foundwin,  0, 0, 0, 0,  width/2, height/2);
-            XSync(display, False);
-        }
+        activate_window(foundwin);
     }
 
 
@@ -581,15 +596,7 @@ void ui_restore_focus(void)
     s = get_last_visited_app_shell();
     if (s) {
         Window w = XtWindow(s);
-        int width, height;
-
-        XMapRaised(display, w);                 /* raise and de-iconify */
-        /* TODO? move into view if needed */
-        if (wait_for_deiconify(w, 1, &width, &height)) {
-            XSetInputFocus(display, w, RevertToParent, CurrentTime);
-            /* Move the pointer to the middle of the window. */
-            XWarpPointer(display, 0, w,  0, 0, 0, 0,  width/2, height/2);
-        }
+        activate_window(w);                 /* raise and de-iconify */
     }
 }
 
