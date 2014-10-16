@@ -58,6 +58,7 @@ int console_init(void)
 
 console_t *uimon_window_open(void)
 {
+    pid_t mypid;
     if (!isatty(fileno(stdin))) {
         log_error(LOG_DEFAULT, "console_open: stdin is not a tty.");
         console_log_local = NULL;
@@ -67,7 +68,10 @@ console_t *uimon_window_open(void)
         console_log_local = NULL;
     }
     else {
+        mypid = getpid();
         console_log_local = lib_malloc(sizeof(console_t));
+        /* change window title for console identification purposes */
+        printf("\033]2;VICE monitor console (%d)\007", (int)mypid); 
 
 #if !defined(HAVE_READLINE)
         mon_input = stdin;

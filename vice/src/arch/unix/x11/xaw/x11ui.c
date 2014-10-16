@@ -443,6 +443,34 @@ static pid_t getwinpid (Display *disp, Window win)
     return pid;
 }
 
+static char *getwinname (Display *disp, Window win)
+{
+    Atom prop = XInternAtom(disp, "WM_NAME", False), type;
+    int form;
+    unsigned long remain, len;
+    unsigned char *name_p = NULL;
+    char *name;
+    int (*olderrorhandler)(Display *, XErrorEvent *);
+
+    getprop_failed = 0;
+    olderrorhandler = XSetErrorHandler(getprop_handler);
+    if (XGetWindowProperty(disp, win, prop, 0, 1024, False, XA_STRING,
+        &type, &form, &len, &remain, &name_p) != Success || len < 1 ||
+            getprop_failed) {
+        /* log_error(ui_log, "getwinpid: XGetWindowProperty; win=%lx, len=%ld", (long)win, len); */
+        XSetErrorHandler(olderrorhandler);
+        return NULL;
+    }
+    XSetErrorHandler(olderrorhandler);
+
+    len *= form / 8;
+    name = (char *)lib_malloc(len + 1);
+    memcpy(name, name_p, len);
+    name[len] = '\0';
+    XFree(name_p);
+    return name;
+}
+
 int ui_focus_monitor(void) 
 {
     int i;
@@ -451,6 +479,7 @@ int ui_focus_monitor(void)
     Window foundwin;
     pid_t winpid, mypid;
     int num, maxnum;
+    char *title;
 
     DBG(("uimon_focus_monitor"));
 
@@ -465,21 +494,37 @@ int ui_focus_monitor(void)
     list = (Window*)getwinlist(display, &len);
     DBG(("getwinlist: %ld windows\n", len));
 
+    /* title to look for */
+    title = lib_msprintf("VICE monitor console (%d)", (int)mypid);
+
+    /* for every window, check if it the title is the right one. */
+    if (title) {
+        for (i = 0; i < (int)len; i++) {
+            char *name = getwinname(display, list[i]);
+            if (!strcmp(title, name)) {
+                foundwin = list[i];
+            }
+        }
+        free(title);
+    }
+
     /* for every window, check if it is an ancestor of the current process. the
        one which is the closest ancestor will be the one we are interested in */
-    for (i = 0; i < (int)len; i++) {
-        winpid = getwinpid(display, list[i]);
-        num = check_ancestor(winpid);
-        if (num > 0) {
-            DBG(("found: n:%d win:%lx pid:%ld", num, (long)list[i], (long)winpid));
-            if ((num < maxnum) ||
-                /*
-                 * Skip hidden Gnome client leader windows; they have the
-                 * PID set on them anyway.
-                 */
-                (num == maxnum && list[i] > foundwin)) {
-                maxnum = num;
-                foundwin = list[i];
+    if (!foundwin) {
+        for (i = 0; i < (int)len; i++) {
+            winpid = getwinpid(display, list[i]);
+            num = check_ancestor(winpid);
+            if (num > 0) {
+                DBG(("found: n:%d win:%lx pid:%ld", num, (long)list[i], (long)winpid));
+                if ((num < maxnum) ||
+                    /*
+                     * Skip hidden Gnome client leader windows; they have the
+                     * PID set on them anyway.
+                     */
+                    (num == maxnum && list[i] > foundwin)) {
+                    maxnum = num;
+                    foundwin = list[i];
+                }
             }
         }
     }
