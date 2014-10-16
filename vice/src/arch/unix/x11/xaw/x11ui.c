@@ -229,7 +229,7 @@ void ui_set_drop_callback(void *cb)
  * This needs to have MapNotify (StructureNotifyMask) events selected
  * or there is no sensible event to wait for.
  */
-static int wait_for_deiconify(Window w, int dispatch, int *width, int *height)
+static int wait_for_deiconify(Window w)
 {
     int loop = 0;
 
@@ -237,12 +237,6 @@ static int wait_for_deiconify(Window w, int dispatch, int *width, int *height)
         XWindowAttributes wa;
 
         XGetWindowAttributes(display, w, &wa);
-        if (width) {
-            *width = wa.width;
-        }
-        if (height) {
-            *height = wa.height;
-        }
         if (wa.map_state == IsUnviewable) {
             DBG(("wait_for_deiconify: IsUnviewable, %d loops", loop));
             return 0;
@@ -251,15 +245,11 @@ static int wait_for_deiconify(Window w, int dispatch, int *width, int *height)
             DBG(("wait_for_deiconify: IsViewable, %d loops", loop));
             return 1;
         }
-        if (dispatch) {
-            ui_dispatch_next_event();
-        } else {
-            if (loop > 10) {
-                DBG(("wait_for_deiconify: IsUnmapped, %d loops", loop));
-                return 0;
-            }
-            usleep(30 * 1000);
+        if (loop > 10) {
+            DBG(("wait_for_deiconify: IsUnmapped, %d loops", loop));
+            return 0;
         }
+        usleep(30 * 1000);
         loop++;
     }
 }
@@ -474,7 +464,6 @@ static char *getwinname (Display *disp, Window win)
 static void activate_window(Window foundwin)
 {
     XEvent xev;
-    int width, height;
 
     memset(&xev, 0, sizeof(xev));
     xev.xclient.type = ClientMessage;
@@ -492,9 +481,8 @@ static void activate_window(Window foundwin)
        the window is actually visible, because a call to XSetInputFocus()
        will crash if it is not.
     */
-    if (wait_for_deiconify(foundwin, 0, &width, &height)) {
+    if (wait_for_deiconify(foundwin)) {
         XSetInputFocus(display, foundwin, RevertToParent, CurrentTime);
-        XWarpPointer(display, 0, foundwin,  0, 0, 0, 0,  width/2, height/2);
         XSync(display, False);
     }
 }
