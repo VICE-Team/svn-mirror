@@ -71,7 +71,9 @@ console_t *uimon_window_open(void)
         mypid = getpid();
         console_log_local = lib_malloc(sizeof(console_t));
         /* change window title for console identification purposes */
-        printf("\033]2;VICE monitor console (%d)\007", (int)mypid); 
+        if (getenv("WINDOWID") == NULL) {
+            printf("\033]2;VICE monitor console (%d)\007", (int)mypid); 
+        }
 
 #if !defined(HAVE_READLINE)
         mon_input = stdin;

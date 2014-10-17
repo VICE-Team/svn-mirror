@@ -496,8 +496,18 @@ int ui_focus_monitor(void)
     pid_t winpid, mypid;
     int num, maxnum;
     char *title;
+    const char *windowenv;
 
     DBG(("uimon_focus_monitor"));
+
+    windowenv = getenv("WINDOWID");
+    foundwin = atol(windowenv ? windowenv : "0");
+
+    if (foundwin) {
+        DBG(("using win: %lx\n", (long)foundwin));
+        activate_window(foundwin);
+        return 0;
+    }
 
     mypid = getpid();
     maxnum = INT_MAX;
