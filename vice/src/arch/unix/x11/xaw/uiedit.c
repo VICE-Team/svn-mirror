@@ -127,9 +127,9 @@ static void SetSelection(
     XtPointer callData)         /* unused */
 {
     XmuInternStrings(XtDisplay(_ui_top_level), &selection_type, 1, &selection);
-    if (XtOwnSelection(w, selection,
-                       XtLastTimestampProcessed(XtDisplay(w)),
-                       ConvertSelection, LoseSelection, NULL));
+    XtOwnSelection(w, selection,
+                   XtLastTimestampProcessed(XtDisplay(w)),
+                   ConvertSelection, LoseSelection, NULL);
 }
 
 /* VICE code */

@@ -343,7 +343,6 @@ Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent, ArgList args
     Widget toggle;
     Widget shell;
     cleanup_data_t *cleanupdata;
-    Display *display;
 
     toggle = XtCreateManagedWidget("toggle",
                                      toggleWidgetClass, parent,
@@ -359,7 +358,7 @@ Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent, ArgList args
     XtAddCallback(toggle, XtNcallback, ToggleProc, (XtPointer)shell);
     XtAddCallback(toggle, XtNdestroyCallback, destroy_pal_ctrl_widget, cleanupdata);
 
-    display = XtDisplay(toggle);
+    XtDisplay(toggle);
 
     XtAddEventHandler(shell, 0, True, (XtEventHandler)nonmaskable_callback_shell, (XtPointer)toggle);
 
