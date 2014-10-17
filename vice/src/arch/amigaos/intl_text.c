@@ -9632,6 +9632,34 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_IDE64_V4_SV, "IDE64 V4" },
 /* tr */ { IDS_IDE64_V4_TR, "IDE64 V4" },
 
+/* en */ { IDS_USB_SERVER,    "USB Server" },
+/* da */ { IDS_USB_SERVER_DA, "" },  /* fuzzy */
+/* de */ { IDS_USB_SERVER_DE, "" },  /* fuzzy */
+/* es */ { IDS_USB_SERVER_ES, "" },  /* fuzzy */
+/* fr */ { IDS_USB_SERVER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USB_SERVER_HU, "" },  /* fuzzy */
+/* it */ { IDS_USB_SERVER_IT, "" },  /* fuzzy */
+/* ko */ { IDS_USB_SERVER_KO, "" },  /* fuzzy */
+/* nl */ { IDS_USB_SERVER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USB_SERVER_PL, "" },  /* fuzzy */
+/* ru */ { IDS_USB_SERVER_RU, "" },  /* fuzzy */
+/* sv */ { IDS_USB_SERVER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USB_SERVER_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_USB_SERVER_ADDRESS,    "USB Server address to bind to" },
+/* da */ { IDS_USB_SERVER_ADDRESS_DA, "" },  /* fuzzy */
+/* de */ { IDS_USB_SERVER_ADDRESS_DE, "" },  /* fuzzy */
+/* es */ { IDS_USB_SERVER_ADDRESS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_USB_SERVER_ADDRESS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USB_SERVER_ADDRESS_HU, "" },  /* fuzzy */
+/* it */ { IDS_USB_SERVER_ADDRESS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_USB_SERVER_ADDRESS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_USB_SERVER_ADDRESS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USB_SERVER_ADDRESS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_USB_SERVER_ADDRESS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_USB_SERVER_ADDRESS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USB_SERVER_ADDRESS_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_AUTODETECT,    "Autodetect image size" },
 /* da */ { IDS_AUTODETECT_DA, "Autodetektér størrelse på image" },
 /* de */ { IDS_AUTODETECT_DE, "Image Größe automatisch erkennen" },

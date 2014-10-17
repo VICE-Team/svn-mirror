@@ -67,6 +67,8 @@ static int ui_sectors_range[] = {
 
 static ui_to_from_t ui_to_from_v4[] = {
     { NULL, MUI_TYPE_CYCLE, "IDE64version4", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "IDE64USBServer", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
+    { NULL, MUI_TYPE_TEXT, "IDE64USBServerAddress", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 
@@ -279,6 +281,8 @@ static APTR build_gui(void)
 
     ui = GroupObject,
            CYCLE(ui_to_from_v4[0].object, translate_text(IDS_IDE64_V4), ui_ide64_autodetect)
+           CYCLE(ui_to_from_v4[1].object, translate_text(IDS_USB_SERVER), ui_ide64_autodetect)
+           STRING(ui_to_from_v4[2].object, translate_text(IDS_USB_SERVER_ADDRESS), 50+1)
            BUTTON(hd_button1, translate_text(IDS_IDE64_HD_1_SETTINGS))
            BUTTON(hd_button2, translate_text(IDS_IDE64_HD_2_SETTINGS))
            BUTTON(hd_button3, translate_text(IDS_IDE64_HD_3_SETTINGS))
