@@ -14,7 +14,7 @@ Overview:
 
 * vice/doc/plain/*.txt should contain only technical information (related to
   actual commodore computers, not vice). Files placed here should get linked
-  from index.html and als mentioned in vice.texi
+  from index.html and also mentioned in vice.texi
 
 * vice/doc/readmes/*.txt should contain port specific readme files
 * vice/doc/building/*.txt should contain info on building specific ports
