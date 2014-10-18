@@ -95,6 +95,7 @@
 #include "vsiduiunix.h"
 #include "lightpendrv.h"
 #include "x11mouse.h"
+#include "focus.h"
 #include "gnomekbd.h"
 #ifdef USE_UI_THREADS
 #include "ui-threads.h"
@@ -270,165 +271,11 @@ static void get_window_resources(video_canvas_t *canvas, int *x, int *y, int *w,
     by the proper gtk function(s) :)
 */
 
-/*  return the parent pid for a given pid
-
-    note: doing this correctly, cleanly and portable in an application is almost
-          impossible. (http://www.steve.org.uk/Reference/Unix/faq_2.html#SEC17)
-
-    because of that, the following function is implemented in a way that it will 
-    likely work on a "typical" (linux) setup, without breaking any "exotic"
-    setups and/or requiring non standard functions.
-
-    FIXME: we should use the "ps" util as a fallback if reading from proc does
-           not work.
- */
-#if 0
-/* this only works on linux, and requires libproc */
-#include <proc/readproc.h>
-static pid_t get_ppid_from_pid(pid_t pid) 
-{
-    proc_t process_info;
-    get_proc_stats(pid, &process_info);
-    return process_info.ppid;
-}
-#endif
-
 #if !defined(HAVE_VTE)
-#define PROCSTATLEN     0x200
-static pid_t get_ppid_from_pid(pid_t pid) 
-{
-    pid_t ppid = 0;
-    FILE *f;
-    char *p;
-    char pscmd[0x40];
-    char status[PROCSTATLEN + 1];
-    int ret;
-
-    sprintf(pscmd, "/proc/%d/status", pid);
-
-    f = fopen(pscmd, "r");
-    if (f == NULL) {
-        return 0;
-    }
-    memset(status, 0, PROCSTATLEN + 1);
-    ret = fread(status, 1, PROCSTATLEN, f);
-    fclose(f);
-    if (ret < 1) {
-        return 0;
-    }
-
-    for (p = status; *p != 0; p++) {
-        *p = util_tolower(*p);
-    }
-
-    p = strstr(status, "ppid:");
-    if (p) {
-        p+=5;
-        while((*p != 0) && (*p == ' ')) {
-            p++;
-        }
-        ppid = strtoul(p, NULL, 10);
-        return ppid;
-    }
-    return 0;
-}
-
-/* check if winpid is an ancestor of pid, returns distance if found or 0 if not */
-static unsigned long check_ancestor(pid_t winpid, pid_t pid)
-{
-    pid_t ppid;
-    unsigned long n = 0;
-
-    do {
-        ppid = get_ppid_from_pid(pid);
-        n++;
-        if (winpid == ppid) {
-            return n;
-        }
-        pid = ppid;
-
-    } while (ppid > 1);
-
-    return 0;
-}
-
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-/* get list of client windows for given display */
-static Window *getwinlist (Display *disp, unsigned long *len) 
-{
-    Atom prop = XInternAtom(disp, "_NET_CLIENT_LIST", False), type;
-    int form;
-    unsigned long remain;
-    unsigned char *list;
-
-    if (XGetWindowProperty(disp, XDefaultRootWindow(disp), prop, 0, 1024, False,
-        XA_WINDOW, &type, &form, len, &remain, &list) != Success) {
-        log_error(ui_log, "getwinlist: XGetWindowProperty");
-        return 0;
-    }
-
-    return (Window*)list;
-}
-
-/* check window status for given window. returns 1 if the window is visible and
-   may recieve window focus */
-static int getwinstate (Display *disp, Window win)
-{
-    Atom prop = XInternAtom(disp, "_NET_WM_STATE", True), type;
-    int form;
-    unsigned long remain;
-    unsigned char *list = NULL;
-    unsigned long len;
-    int i;
-
-    if (XGetWindowProperty(disp, win, prop, 0, 1024, False, AnyPropertyType,
-        &type, &form, &len, &remain, &list) != Success) {
-        log_error(ui_log, "getwinstate: XGetWindowProperty");
-        return 0;
-    }
-
-    if (list) {
-        for (i = 0; i < (int)len; i++) {
-            if (((long *)(list))[i] == XInternAtom(disp, "_NET_WM_STATE_HIDDEN", False)) {
-                XFree(list);
-                return 0;
-            }
-        }
-        XFree(list);
-    }
-    return 1;
-}
-
-/* get the pid associated with a given window */
-static pid_t getwinpid (Display *disp, Window win)
-{
-    Atom prop = XInternAtom(disp, "_NET_WM_PID", False), type;
-    int form;
-    unsigned long remain, len;
-    unsigned char *pid = NULL;
-    pid_t _pid;
-
-    if (XGetWindowProperty(disp, win, prop, 0, 1024, False, XA_CARDINAL,
-        &type, &form, &len, &remain, &pid) != Success || len < 1) {
-        log_error(ui_log, "getwinpid: XGetWindowProperty");
-        return 0;
-    }
-
-    _pid = *(pid_t*)pid;
-    XFree(pid);
-    return _pid;
-}
-
 int ui_focus_monitor(void) 
 {
     int i;
-    unsigned long len;
     Display *disp;
-    Window *list;
-    Window foundwin;
-    pid_t winpid, mypid;
-    unsigned long num, maxnum;
 
     DBG(("uimon_grab_focus"));
 
@@ -437,49 +284,44 @@ int ui_focus_monitor(void)
         return -1;
     }
 
-    mypid = getpid();
-    maxnum = ~0;
-    foundwin = 0;
-
-    /* get list of all client windows on current display */
-    list = (Window*)getwinlist(disp, &len);
-
-    /* for every window, check if it is an ancestor of the current process. the
-       one which is the closest ancestor will be the one we are interested in */
-    for (i = 0; i < (int)len; i++) {
-        winpid = getwinpid(disp, list[i]);
-        num = check_ancestor(winpid, mypid);
-        if (num) {
-            DBG(("found: n:%d win:%d pid:%d\n", num, (int)list[i], winpid));
-            if (num < maxnum) {
-                maxnum = num;
-                foundwin = list[i];
-            }
-        }
-    }
-
-    XFree(list);
-
-    /* if a matching window was found, raise it and transfer focus to it */
-    if (foundwin) {
-        DBG(("using win: %d\n", (int)foundwin));
-        XRaiseWindow(disp, foundwin);
-        XFlush(disp);
-        /* the window manager may ignore the request to raise the window (for
-           example because it is minimized). we have to check if the window
-           is actually visible, because a call to XSetInputFocus will crash if
-           it is not. */
-        if (getwinstate (disp, foundwin)) {
-            XSetInputFocus(disp, foundwin, RevertToParent, CurrentTime);
-        }
-    }
+    i = ui_focus_terminal(disp, ui_log);
 
     XCloseDisplay(disp);
 
-    return 0;
+    return i;
 }
-#endif
 
+/*
+    Same as the GTK variant below, but without using the GTK focusing stuff.
+
+    That's because the GTK one seemd to give back focus to the main window
+    (according to window decorations), but still all keyboard input went to
+    the terminal instead.
+
+    So I use the X version instead. If it worked for the terminal focusing
+    it works for the main window focusing. And sure it does ;)
+*/
+void ui_restore_focus(void)
+{
+    GtkWidget *widget = get_active_toplevel();
+    GdkWindow *window;
+    Display *disp;
+
+    window = widget ? gtk_widget_get_window(widget) : NULL;
+    DBG(("ui_restore_focus %p:%p", window, widget));
+
+    if (!(disp = XOpenDisplay(NULL))) {
+        log_error(ui_log, "uimon_grab_focus: no display");
+        return;
+    }
+
+    if (window) {
+        ui_focus_window(disp, GDK_DRAWABLE_XID(window));
+    }
+
+    XCloseDisplay(disp);
+}
+#else 
 /*
     restore the main emulator window and transfer focus to it. in detail this
     function should:
@@ -512,6 +354,7 @@ void ui_restore_focus(void)
         gdk_window_focus(window, GDK_CURRENT_TIME);
     }
 }
+#endif
 
 /******************************************************************************/
 void archdep_ui_init(int argc, char *argv[])

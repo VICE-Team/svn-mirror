@@ -27,6 +27,8 @@ libx11ui_a_SOURCES = \
 	c64icon.c \
 	c64dtvicon.c \
 	cbm2icon.c \
+	focus.c \
+	focus.h \
 	fullscreen.c \
 	peticon.c \
 	plus4icon.c \
