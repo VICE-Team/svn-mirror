@@ -725,6 +725,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
 void video_canvas_destroy(video_canvas_t *canvas)
 {
+    video_arch_frame_buffer_free(canvas);
 #ifdef HAVE_FULLSCREEN
     if (canvas != NULL) {
         fullscreen_shutdown_alloc_hooks(canvas);
