@@ -672,6 +672,8 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 {
     int res;
     XGCValues gc_values;
+    int win_width = canvas->draw_buffer->visible_width * (canvas->videoconfig->doublesizex + 1);
+    int win_height = canvas->draw_buffer->visible_height * (canvas->videoconfig->doublesizey + 1);
 
     canvas->depth = x11ui_get_display_depth();
 
@@ -686,11 +688,20 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         }
         resources_set_int("HwScalePossible", 0);
     }
+    if (canvas->videoconfig->hwscale) {
+        double local_aspect_ratio = 1.0;
+        if (trueaspect) {
+            local_aspect_ratio = canvas->geometry->pixel_aspect_ratio;
+        } else if (keepaspect) {
+            local_aspect_ratio = aspect_ratio;
+        }
+        win_width = (int)((double)win_width * local_aspect_ratio + 0.5);
+    }
 #else
     resources_set_int("HwScalePossible", 0);
 #endif
 
-    res = ui_open_canvas_window(canvas, canvas->viewport->title, 300, 100, 1);
+    res = ui_open_canvas_window(canvas, canvas->viewport->title, win_width, win_height, 1);
     if (res < 0) {
         return NULL;
     }
