@@ -83,6 +83,8 @@ static void update_text(HWND hwnd)
 
 static uilib_localize_dialog_param ide64_v4_dialog[] = {
     { IDC_IDE64_V4, IDS_IDE64_V4, 0 },
+    { IDC_IDE64_USB_SERVER, IDS_IDE64_USB_SERVER, 0 },
+    { IDC_IDE64_USB_SERVER_BIND_LABEL, IDS_IDE64_USB_SERVER_BIND_LABEL, 0 },
     { 0, 0, 0 }
 };
 
@@ -124,17 +126,32 @@ static int move_buttons_group[] = {
 static void init_ide64_v4_dialog(HWND hwnd)
 {
     int res_value;
+    int xtemp;
+    const char *server_bind_address;
     HWND parent_hwnd;
 
     parent_hwnd = GetParent(hwnd);
 
+    /* translate the items */
     uilib_localize_dialog(hwnd, ide64_v4_dialog);
+
+    /* get max x of label */
+    uilib_get_element_max_x(hwnd, IDC_IDE64_USB_SERVER_BIND_LABEL, &xtemp);
+
+    /* move the text input element */
+    uilib_move_element(hwnd, IDC_ID64_USB_SERVER_BIND, xtemp + 10);
 
     /* translate the parent window items */
     uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
 
     resources_get_int("IDE64version4", &res_value);
     CheckDlgButton(hwnd, IDC_IDE64_V4, res_value ? BST_CHECKED : BST_UNCHECKED);
+
+    resources_get_int("IDE64USBServer", &res_value);
+    CheckDlgButton(hwnd, IDC_IDE64_USB_SERVER, res_value ? BST_CHECKED : BST_UNCHECKED);
+
+    resources_get_string("IDE64USBServerAddress", &server_bind_address);
+    SetDlgItemText(hwnd, IDC_ID64_USB_SERVER_BIND, TEXT(server_bind_address));
 }
 
 static void init_ide64_dialog(HWND hwnd, int num)
@@ -200,12 +217,16 @@ static void init_ide64_dialog(HWND hwnd, int num)
 
 static INT_PTR CALLBACK dialog_v4_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+    TCHAR st[MAX_PATH];
     int type;
 
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
                 resources_set_int("IDE64version4", (IsDlgButtonChecked(hwnd, IDC_IDE64_V4) == BST_CHECKED ? 1 : 0));
+                resources_set_int("IDE64USBServer", (IsDlgButtonChecked(hwnd, IDC_IDE64_USB_SERVER) == BST_CHECKED ? 1 : 0));
+                GetDlgItemText(hwnd, IDC_ID64_USB_SERVER_BIND, st, MAX_PATH);
+                resources_set_string("IDE64USBServerAddress", st);
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }
@@ -217,6 +238,8 @@ static INT_PTR CALLBACK dialog_v4_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARA
             type = LOWORD(wparam);
             switch (type) {
                 case IDC_IDE64_V4:
+                case IDC_IDE64_USB_SERVER:
+                case IDC_ID64_USB_SERVER_BIND:
                     break;
             }
             return TRUE;
