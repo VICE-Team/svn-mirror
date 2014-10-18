@@ -85,7 +85,7 @@ extern int archdep_require_vkbd(void);
 #include "archdep_amiga.h"
 #endif
 
-#ifdef __BEOS__
+#ifdef BEOS_COMPILE
 #include "archdep_beos.h"
 #endif
 

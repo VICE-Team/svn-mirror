@@ -35,7 +35,7 @@
 #include "../amigaos/socketimpl.h"
 #endif
 
-#ifdef __BEOS__
+#ifdef BEOS_COMPILE
 #include "../beos/socketimpl.h"
 #endif
 

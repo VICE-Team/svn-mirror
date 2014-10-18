@@ -33,7 +33,7 @@
 #include "archdep_amiga.c"
 #endif
 
-#ifdef __BEOS__
+#ifdef BEOS_COMPILE
 #include "archdep_beos.c"
 #endif
 

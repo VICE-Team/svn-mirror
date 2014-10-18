@@ -1542,7 +1542,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     lib_free(devlist);
 
     if (!device_name || device_name[0] == '\0') {
-#if defined(BEOS_COMPILE) && !defined(USE_SDL_AUDIO)
+#ifdef BEOS_COMPILE
         /* Don't use beos sound device as default for Haiku */
         if (CheckForHaiku()) {
             util_string_set(&device_name, "bsp");
