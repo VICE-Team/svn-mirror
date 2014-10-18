@@ -481,6 +481,7 @@ int convert_rc(char *in_filename, char *out_filename, char *src, char *dst)
                 if (stringtable_found == 0) {
                     if (status != SCANNING) {
                         wrong_location("STRINGTABLE", infile, outfile, in_filename);
+                        free(real_out_filename);
                         return 0;
                     }
                     status = STRINGTABLE_BEGIN_SCAN;
@@ -497,6 +498,7 @@ int convert_rc(char *in_filename, char *out_filename, char *src, char *dst)
             case FOUND_MENU:
                 if (status != SCANNING) {
                     wrong_location("MENU", infile, outfile, in_filename);
+                    free(real_out_filename);
                     return 0;
                 } else {
                     if (language_id(line_buffer) == 0) {
@@ -509,6 +511,7 @@ int convert_rc(char *in_filename, char *out_filename, char *src, char *dst)
                 if (status != SCANNING) {
                     printf("%s", line_buffer);
                     wrong_location("DIALOG", infile, outfile, in_filename);
+                    free(real_out_filename);
                     return 0;
                 } else {
                     if (language_id(line_buffer) == 0) {
