@@ -301,6 +301,12 @@ int ui_focus_monitor(void)
     So I use the X version instead. If it worked for the terminal focusing
     it works for the main window focusing. And sure it does ;)
 */
+
+/* Might be needed for gtk3. */
+#if GTK_CHECK_VERSION(3, 0, 0)
+#define GDK_DRAWABLE_XID GDK_WINDOW_XID
+#endif
+
 void ui_restore_focus(void)
 {
     GtkWidget *widget = get_active_toplevel();
