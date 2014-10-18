@@ -123,6 +123,7 @@
 #include "uipalcontrol.h"
 #include "uistatusbar.h"
 #include "focus.h"
+#include "kbd.h"
 
 /* #define DEBUG_X11UI */
 /* #define DEBUGMOUSECURSOR */
@@ -240,6 +241,7 @@ void ui_restore_focus(void)
         Window w = XtWindow(s);
         ui_focus_window(display, w);                 /* raise and de-iconify */
     }
+    x11kbd_focus_change();
 }
 
 /* ------------------------------------------------------------------------- */
