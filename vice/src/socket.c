@@ -54,6 +54,10 @@
 typedef size_t socklen_t;
 #endif
 
+#ifndef SOL_TCP
+#define SOL_TCP IPPROTO_TCP
+#endif
+
 /*! \brief determine the number of elements of an array
 
  \param _x
