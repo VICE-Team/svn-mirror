@@ -467,6 +467,12 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
             break;
         }
 
+#ifndef WATCOM_COMPILE
+#if defined(TCP_NODELAY)
+        setsockopt(sockfd, SOL_TCP, TCP_NODELAY, &error, sizeof(error)); /* just an integer with 1, not really an error */
+#endif
+#endif
+
         if (connect(sockfd, &server_address->address.generic, server_address->len) < 0) {
             break;
         }
