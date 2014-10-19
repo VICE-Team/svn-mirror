@@ -62,6 +62,10 @@ extern ssize_t send(int socket, const void *buffer, size_t length, int flags);
 #include <netinet/in.h>
 #endif
 
+#ifdef HAVE_NETINET_TCP_H
+#include <netinet/tcp.h>
+#endif
+
 #ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
 #endif
