@@ -1465,6 +1465,9 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = 
     dnl Check for needed functions
     UNIX_NETWORK_FUNCS_PRESENT=yes
 
+    dnl Check for netinet/tcp.h
+    AC_CHECK_HEADERS([netinet/tcp.h])
+
     AC_CHECK_FUNCS(socket send bind listen gethostbyname connect recv accept,,
                    [UNIX_NETWORK_FUNCS_PRESENT=no],)
 
