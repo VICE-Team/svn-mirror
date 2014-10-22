@@ -41,6 +41,7 @@
 #include "cmdline.h"
 #include "translate.h"
 #include "../sounddrv/soundmovie.h"
+#include "quicktimedrv.h"
 
 #ifndef MAC_OS_X_VERSION_10_5
 #define MAC_OS_X_VERSION_10_5 1050

@@ -191,10 +191,10 @@
 
     // count registers
     unsigned int cnt;
-    for (p = pMonRegs, cnt = 0; p != NULL; p = p->next, cnt++ );
+    for (p = pMonRegs, cnt = 0; p->name != NULL; p++, cnt++ );
 
     NSMutableArray *regs = [NSMutableArray arrayWithCapacity:cnt];
-    for (p = pMonRegs, cnt = 0; p != NULL; p = p->next, cnt++ ) {
+    for (p = pMonRegs, cnt = 0; p->name != NULL; p++, cnt++ ) {
         NSDictionary *entry = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSString stringWithCString:p->name encoding:NSUTF8StringEncoding], @"name",
         [NSNumber numberWithUnsignedInt:p->val], @"value",

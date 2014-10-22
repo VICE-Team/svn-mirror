@@ -1174,13 +1174,11 @@ IDCLS_USE_AS_DIRECTORY_FSDEVICE_10
 /* fsdevice/fsdevice-cmdline-options.c */
 IDCLS_USE_AS_DIRECTORY_FSDEVICE_11
 
-#ifdef HAVE_FFMPEG
 /* gfxoutputdrv/ffmpegdrv.c */
 IDCLS_SET_AUDIO_STREAM_BITRATE
 
 /* gfxoutputdrv/ffmpegdrv.c */
 IDCLS_SET_VIDEO_STREAM_BITRATE
-#endif   /* HAVE_FFMPEG */
 
 /* pet/pet-cmdline-options.c */
 IDCLS_SPECIFY_PET_MODEL

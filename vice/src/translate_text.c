@@ -8711,7 +8711,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_USE_AS_DIRECTORY_FSDEVICE_11_TR, "<isim>'i aygýt #11'in dosya sistemi dizini olarak kullan"},
 #endif
 
-#ifdef HAVE_FFMPEG
 /* gfxoutputdrv/ffmpegdrv.c */
 /* en */ {IDCLS_SET_AUDIO_STREAM_BITRATE,    N_("Set bitrate for audio stream in media file")},
 #ifdef HAS_TRANSLATION
@@ -8744,7 +8743,6 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SET_VIDEO_STREAM_BITRATE_RU, "Set bitrate for video stream in media file"},
 /* sv */ {IDCLS_SET_VIDEO_STREAM_BITRATE_SV, "Ange bithastighet för videoström i mediafil"},
 /* tr */ {IDCLS_SET_VIDEO_STREAM_BITRATE_TR, "Görüntü akýþý için ortam dosyasýndaki bithýzý'ný ayarla"},
-#endif
 #endif
 
 /* pet/pet-cmdline-options.c */

@@ -253,6 +253,12 @@ build_vice () {
     return
   fi
 
+  if test x"$BUILD_SDK" != "x"; then
+    ISYSROOT="-isysroot $BUILD_SDK"
+  else
+    ISYSROOT=""
+  fi
+
   # main VICE compile call
   pushd "$VICE_SRC"
   cd "$BUILD_DIR/$BUILD_ARCH"
@@ -263,9 +269,9 @@ build_vice () {
     CFLAGS="$COMMON_CFLAGS" \
     OBJCFLAGS="$COMMON_CFLAGS" \
     LDFLAGS="-L$EXTLIB_DIR/$BUILD_TAG/lib $LDFLAGS_EXTRA" \
-    CC="$BUILD_CC -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
-    CXX="$BUILD_CXX -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
-    LD="$BUILD_CC -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
+    CC="$BUILD_CC -arch $BUILD_ARCH $ISYSROOT -mmacosx-version-min=$BUILD_SDK_VERSION" \
+    CXX="$BUILD_CXX -arch $BUILD_ARCH $ISYSROOT -mmacosx-version-min=$BUILD_SDK_VERSION" \
+    LD="$BUILD_CC -arch $BUILD_ARCH $ISYSROOT -mmacosx-version-min=$BUILD_SDK_VERSION" \
     $VICE_SRC/configure --host=$BUILD_ARCH2-apple-darwin $CONFIGURE_FLAGS \
       --x-includes=$BUILD_SDK/usr/X11R6/include --x-libraries=$BUILD_SDK/usr/X11R6/lib
   set +x
@@ -377,29 +383,41 @@ case "$SDK_VERSION" in
 *) SDK_NAME=MacOSX${SDK_VERSION}.sdk;;
 esac
 
+case "$SDK_VERSION" in
+10.8) SDK_SEARCH="no";;
+*) SDK_SEARCH="yes";;
+esac
+
 # search compiler and SDK
-FOUND=0
-if [ "$DEV_BASES" = "" ]; then
-  DEV_BASES="/Developer /Developer3"
-fi
-for BASE in $DEV_BASES ; do
-  if [ $FOUND -eq 0 ]; then
-    TRY_CC="$BASE/usr/bin/$CC_NAME"
-    TRY_CXX="$BASE/usr/bin/$CXX_NAME"
-    TRY_SDK="$BASE/SDKs/$SDK_NAME"
-    echo "TRY_CC=$TRY_CC, TRY_CXX=$TRY_CXX, TRY_SDK=$TRY_SDK"
-    if [ -x "$TRY_CC" -a -x "$TRY_CXX" -a -d "$TRY_SDK" ]; then
-      BUILD_CC="$TRY_CC"
-      BUILD_CXX="$TRY_CXX"
-      SDK_PATH="$TRY_SDK"
-      FOUND=1
-    fi
+if test x"$SDK_SEARCH" !="xyes"; then
+  BUILD_CC="$CC_NAME"
+  BUILD_CXX="$CXX_NAME"
+  SDK_PATH=""
+else
+  FOUND=0
+  if [ "$DEV_BASES" = "" ]; then
+    DEV_BASES="/Developer /Developer3"
   fi
-done
-if [ $FOUND -eq 0 ]; then
-  echo "ERROR: C compiler, C++ compiler, or SDK not found!"
-  exit 1
+  for BASE in $DEV_BASES ; do
+    if [ $FOUND -eq 0 ]; then
+      TRY_CC="$BASE/usr/bin/$CC_NAME"
+      TRY_CXX="$BASE/usr/bin/$CXX_NAME"
+      TRY_SDK="$BASE/SDKs/$SDK_NAME"
+      echo "TRY_CC=$TRY_CC, TRY_CXX=$TRY_CXX, TRY_SDK=$TRY_SDK"
+      if [ -x "$TRY_CC" -a -x "$TRY_CXX" -a -d "$TRY_SDK" ]; then
+        BUILD_CC="$TRY_CC"
+        BUILD_CXX="$TRY_CXX"
+        SDK_PATH="$TRY_SDK"
+        FOUND=1
+      fi
+    fi
+  done
+  if [ $FOUND -eq 0 ]; then
+    echo "ERROR: C compiler, C++ compiler, or SDK not found!"
+    exit 1
+  fi
 fi
+
 # get versions of compiler
 BUILD_CC_VERSION=$($BUILD_CC --version | head -1)
 BUILD_CXX_VERSION=$($BUILD_CXX --version | head -1)
