@@ -389,7 +389,7 @@ case "$SDK_VERSION" in
 esac
 
 # search compiler and SDK
-if test x"$SDK_SEARCH" !="xyes"; then
+if test x"$SDK_SEARCH" != "xyes"; then
   BUILD_CC="$CC_NAME"
   BUILD_CXX="$CXX_NAME"
   SDK_PATH=""
