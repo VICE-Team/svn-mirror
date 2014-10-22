@@ -183,6 +183,8 @@ fi
 
 AM_CONDITIONAL(MACOSX_COCOA, test x"$with_cocoa" = "xyes")
 
+AM_CONDITIONAL(VICE_QUIET, test x"$verbose" != "xyes")
+
 if test x"$enable_textfield" != "xno"; then
   AC_DEFINE(ENABLE_TEXTFIELD,,[Enable support for the TextField widget.])
   echo "using TextField widget."

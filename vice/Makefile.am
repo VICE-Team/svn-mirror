@@ -1,5 +1,6 @@
-
+if VICE_QUIET
 .SILENT:
+endif
 
 # Process this file with automake to produce Makefile.in
 
