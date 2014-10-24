@@ -173,18 +173,6 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_CHARGEN_ROM_NAME,
       NULL, NULL },
-#ifdef HAVE_RS232
-    { "-acia1", SET_RESOURCE, 0,
-      NULL, NULL, "Acia1Enable", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_DEXX_ACIA_RS232_EMU,
-      NULL, NULL },
-    { "+acia1", SET_RESOURCE, 0,
-      NULL, NULL, "Acia1Enable", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_DEXX_ACIA_RS232_EMU,
-      NULL, NULL },
-#endif
 #ifdef COMMON_KBD
     { "-keymap", SET_RESOURCE, 1,
       NULL, NULL, "KeymapIndex", NULL,

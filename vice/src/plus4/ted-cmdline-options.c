@@ -64,7 +64,7 @@ int border_set_func(const char *value, void *extra_param)
 static const cmdline_option_t cmdline_options[] =
 {
     { "-TEDborders", CALL_FUNCTION, 1,
-      border_set_func, NULL, "TEDBorderMode", (void *)0,
+      border_set_func, NULL, "TEDBorderMode", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODE, IDCLS_SET_BORDER_MODE },
     CMDLINE_LIST_END
