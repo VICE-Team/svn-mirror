@@ -146,6 +146,12 @@ void machine_resources_shutdown(void)
 /* C64-specific command-line option initialization.  */
 int machine_cmdline_options_init(void)
 {
+#ifdef USE_SDLUI
+    if (vicii_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("vicii");
+        return -1;
+    }
+#endif
     if (sid_cmdline_options_init() < 0) {
         init_cmdline_options_fail("sid");
         return -1;
@@ -416,7 +422,7 @@ void machine_change_timing(int timeval)
             machine_timing.rfsh_per_sec = C64_PALN_RFSH_PER_SEC;
             machine_timing.cycles_per_line = C64_PALN_CYCLES_PER_LINE;
             machine_timing.screen_lines = C64_PALN_SCREEN_LINES;
-            machine_timing.power_freq = 60;
+            machine_timing.power_freq = 50;
             break;
         default:
             log_error(c64_log, "Unknown machine timing.");
