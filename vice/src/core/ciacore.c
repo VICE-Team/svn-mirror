@@ -99,8 +99,7 @@ static inline void my_set_int(cia_context_t *cia_context, int value,
 
 inline static void check_ciatodalarm(cia_context_t *cia_context, CLOCK rclk)
 {
-    if (!(cia_context->todstopped)
-        && !memcmp(cia_context->todalarm, cia_context->c_cia + CIA_TOD_TEN,
+    if (!memcmp(cia_context->todalarm, cia_context->c_cia + CIA_TOD_TEN,
                    sizeof(cia_context->todalarm))) {
         cia_context->irqflags |= CIA_IM_TOD;
         if (cia_context->c_cia[CIA_ICR] & CIA_IM_TOD) {
@@ -432,26 +431,33 @@ static void ciacore_store_internal(cia_context_t *cia_context, WORD addr, BYTE b
                 byte &= 0x0f;
             }
 
-            if (cia_context->c_cia[CIA_CRB] & 0x80) {
-                /* set alarm */
-                cia_context->todalarm[addr - CIA_TOD_TEN] = byte;
-            } else {
-                /* set time */
-                if (addr == CIA_TOD_TEN) {
-                    /* apparently the tickcounter is reset to 0 when the clock
-                       is not running and then restarted by writing to the 10th
-                       seconds register */
-                    if (cia_context->todstopped) {
-                        cia_context->todtickcounter = 0;
+            {
+                char changed;
+                if (cia_context->c_cia[CIA_CRB] & 0x80) {
+                    /* set alarm */
+                    changed = cia_context->todalarm[addr - CIA_TOD_TEN] != byte;
+                    cia_context->todalarm[addr - CIA_TOD_TEN] = byte;
+                } else {
+                    /* set time */
+                    if (addr == CIA_TOD_TEN) {
+                        /* apparently the tickcounter is reset to 0 when the clock
+                           is not running and then restarted by writing to the 10th
+                           seconds register */
+                        if (cia_context->todstopped) {
+                            cia_context->todtickcounter = 0;
+                        }
+                        cia_context->todstopped = 0;
                     }
-                    cia_context->todstopped = 0;
+                    if (addr == CIA_TOD_HR) {
+                        cia_context->todstopped = 1;
+                    }
+                    changed = cia_context->c_cia[addr] != byte;
+                    cia_context->c_cia[addr] = byte;
                 }
-                if (addr == CIA_TOD_HR) {
-                    cia_context->todstopped = 1;
+                if (changed) {
+                    check_ciatodalarm(cia_context, rclk);
                 }
-                cia_context->c_cia[addr] = byte;
             }
-            check_ciatodalarm(cia_context, rclk);
             break;
 
         case CIA_SDR:           /* Serial Port output buffer */
