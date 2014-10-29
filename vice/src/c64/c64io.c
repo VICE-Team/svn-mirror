@@ -324,6 +324,10 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
                         }
                         io_source_valid = 1;
                     } else {
+                        /* ignore low prio reads when a real value is present already */
+                        if (current->device->io_source_prio == IO_PRIO_LOW) {
+                            retval = realval;
+                        }
                         if (io_source_collision_handling == IO_COLLISION_METHOD_DETACH_LAST) {
                             if (current->device->order < lowest_order) {
                                 lowest_order = current->device->order;
