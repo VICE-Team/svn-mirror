@@ -14224,6 +14224,40 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/ds12c887rtc.c */
+/* en */ {IDCLS_DS12C887RTC_RUNMODE_HALTED,    N_("Set the RTC oscillator to 'halted'")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/ds12c887rtc.c */
+/* en */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING,    N_("Set the RTC oscillator to 'running'")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/ds12c887rtc.c */
 /* en */ {IDCLS_DS12C887RTC_BASE,    N_("Base address of the DS12C887 RTC cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DS12C887RTC_BASE_DA, "Baseadresse for DS12C887 RTC-cartridge"},

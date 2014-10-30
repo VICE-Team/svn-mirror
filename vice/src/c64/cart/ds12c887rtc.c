@@ -40,10 +40,15 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "rtc.h"
 #include "sid.h"
 #include "snapshot.h"
 #include "uiapi.h"
 #include "translate.h"
+
+#define RTC_RUNMODE_HALTED    0
+#define RTC_RUNMODE_RUNNING   1
+#define RTC_RUNMODE_CURRENT   2
 
 /*
     DS12C887 RTC Cartridge
@@ -61,6 +66,11 @@ static int ds12c887rtc_enabled = 0;
 
 /* RTC base address */
 static int ds12c887rtc_base_address;
+
+/* RTC run mode at first start */
+static int ds12c887rtc_run_mode = -1;
+
+static int ds12c887rtc_accessed = 0;
 
 /* ---------------------------------------------------------------------*/
 
@@ -110,8 +120,18 @@ int ds12c887rtc_cart_enabled(void)
 static int set_ds12c887rtc_enabled(int value, void *param)
 {
     int val = value ? 1 : 0;
+    int runmode;
 
     if (!ds12c887rtc_enabled && val) {
+        if (ds12c887rtc_accessed) {
+            runmode = RTC_RUNMODE_CURRENT;
+        } else {
+            if (ds12c887rtc_run_mode == -1) {
+                runmode = RTC_RUNMODE_RUNNING;
+            } else {
+                runmode = ds12c887rtc_run_mode;
+            }
+        }
         if (export_res.io1 != NULL || export_res.io2 != NULL) {
             if (c64export_add(&export_res) < 0) {
                 return -1;
@@ -119,6 +139,11 @@ static int set_ds12c887rtc_enabled(int value, void *param)
         }
         ds12c887rtc_list_item = io_source_register(&ds12c887rtc_device);
         ds12c887rtc_context = ds12c887_init((BYTE *)ds12c887rtc_ram, &ds12c887rtc_offset);
+        if (runmode == RTC_RUNMODE_HALTED) {
+            ds12c887rtc_context->clock_halt_latch = rtc_get_latch(0);
+            ds12c887rtc_context->clock_halt = 1;
+            ds12c887rtc_context->ctrl_regs[0] = 0;
+        }
         ds12c887rtc_enabled = 1;
     } else if (ds12c887rtc_enabled && !val) {
         if (ds12c887rtc_list_item != NULL) {
@@ -227,6 +252,17 @@ static int set_ds12c887rtc_base(int val, void *param)
     return 0;
 }
 
+static int set_ds12c887rtc_run_mode(int val, void *param)
+{
+    ds12c887rtc_run_mode = val ? 1 : 0;
+
+    if (ds12c887rtc_enabled) {
+        set_ds12c887rtc_enabled(0, NULL);
+        set_ds12c887rtc_enabled(1, NULL);
+    }
+    return 0;
+}
+
 void ds12c887rtc_reset(void)
 {
     if (ds12c887rtc_context) {
@@ -249,6 +285,7 @@ void ds12c887rtc_detach(void)
 static BYTE ds12c887rtc_read(WORD addr)
 {
     if (addr & 1) {
+        ds12c887rtc_accessed = 1;
         ds12c887rtc_device.io_source_valid = 1;
         return ds12c887_read(ds12c887rtc_context);
     }
@@ -265,6 +302,7 @@ static void ds12c887rtc_store(WORD addr, BYTE byte)
     } else {
         ds12c887_store_address(ds12c887rtc_context, byte);
     }
+    ds12c887rtc_accessed = 1;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -274,6 +312,8 @@ static const resource_int_t resources_int[] = {
       &ds12c887rtc_enabled, set_ds12c887rtc_enabled, NULL },
     { "DS12C887RTCbase", 0xffff, RES_EVENT_NO, NULL,
       &ds12c887rtc_base_address, set_ds12c887rtc_base, NULL },
+    { "DS12C887RTCRunMode", RTC_RUNMODE_RUNNING, RES_EVENT_NO, NULL,
+      &ds12c887rtc_run_mode, set_ds12c887rtc_run_mode, NULL },
     { NULL }
 };
 
@@ -308,6 +348,16 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "DS12C887RTCbase", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_BASE_ADDRESS, IDCLS_DS12C887RTC_BASE,
+      NULL, NULL },
+    { "-ds12c887rtchalted", SET_RESOURCE, 0,
+      NULL, NULL, "DS12C887RTCRunMode", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DS12C887RTC_RUNMODE_HALTED,
+      NULL, NULL },
+    { "-ds12c887rtcrunning", SET_RESOURCE, 0,
+      NULL, NULL, "DS12C887RTCRunMode", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DS12C887RTC_RUNMODE_RUNNING,
       NULL, NULL },
     { NULL }
 };

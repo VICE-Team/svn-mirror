@@ -227,6 +227,7 @@ rtc_ds12c887_t *ds12c887_init(BYTE *data, time_t *offset)
     retval->ram = data;
     retval->offset = offset;
     retval->bcd = 1;
+    retval->ctrl_regs[0] = 0x20;
     return retval;
 }
 
