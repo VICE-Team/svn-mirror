@@ -112,15 +112,19 @@ static int set_ds12c887rtc_enabled(int value, void *param)
     int val = value ? 1 : 0;
 
     if (!ds12c887rtc_enabled && val) {
-        if (c64export_add(&export_res) < 0) {
-            return -1;
+        if (export_res.io1 != NULL || export_res.io2 != NULL) {
+            if (c64export_add(&export_res) < 0) {
+                return -1;
+            }
         }
         ds12c887rtc_list_item = io_source_register(&ds12c887rtc_device);
         ds12c887rtc_context = ds12c887_init((BYTE *)ds12c887rtc_ram, &ds12c887rtc_offset);
         ds12c887rtc_enabled = 1;
     } else if (ds12c887rtc_enabled && !val) {
         if (ds12c887rtc_list_item != NULL) {
-            c64export_remove(&export_res);
+            if (export_res.io1 != NULL || export_res.io2 != NULL) {
+                c64export_remove(&export_res);
+            }
             io_source_unregister(ds12c887rtc_list_item);
             ds12c887rtc_list_item = NULL;
             if (ds12c887rtc_context) {
