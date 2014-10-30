@@ -123,7 +123,10 @@ static int set_ds12c887rtc_enabled(int value, void *param)
             c64export_remove(&export_res);
             io_source_unregister(ds12c887rtc_list_item);
             ds12c887rtc_list_item = NULL;
-            ds12c887_destroy(ds12c887rtc_context);
+            if (ds12c887rtc_context) {
+                ds12c887_destroy(ds12c887rtc_context);
+                ds12c887rtc_context = NULL;
+            }
         }
         ds12c887rtc_enabled = 0;
     }
@@ -279,6 +282,7 @@ void ds12c887rtc_resources_shutdown(void)
 {
     if (ds12c887rtc_context) {
         ds12c887_destroy(ds12c887rtc_context);
+        ds12c887rtc_context = NULL;
     }
 }
 
