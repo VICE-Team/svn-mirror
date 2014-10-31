@@ -188,7 +188,7 @@ ui_res_value_list vic20_ui_res_values[] = {
     { "Acia1Irq", vic20AciaInt },
     { "Acia1Mode", vic20AciaMode },
 #endif
-    { "GeoRAMsize", vic20GeoRAMSize },
+    { "GEORAMsize", vic20GeoRAMSize },
     { "DIGIMAXbase", vic20DigimaxBase },
     { "SFXSoundExpanderChip", vic20SFXSoundExpanderChip },
     { "VICFilter", vic20_RenderFilters },

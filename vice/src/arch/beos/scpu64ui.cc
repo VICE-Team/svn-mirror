@@ -339,7 +339,7 @@ ui_res_value_list scpu64_ui_res_values[] = {
     { "VICIIModel", scpu64ui_viciimodels },
     { "SIMMSize", scpu64ui_SimmSize },
     { "REUsize", scpu64ui_ReuSize },
-    { "GeoRAMsize", scpu64ui_GeoRAMSize },
+    { "GEORAMsize", scpu64ui_GeoRAMSize },
     { "RAMCARTsize", scpu64ui_RamCartSize },
     { "DIGIMAXbase", scpu64ui_DigimaxBase },
     { "SFXSoundExpanderChip", scpu64ui_SFXSoundExpanderChip },

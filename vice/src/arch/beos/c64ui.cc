@@ -345,7 +345,7 @@ ui_res_value_list c64_ui_res_values[] = {
     { "Acia1Mode", AciaMode },
 #endif
     { "REUsize", ReuSize },
-    { "GeoRAMsize", GeoRAMSize },
+    { "GEORAMsize", GeoRAMSize },
     { "RAMCARTsize", RamCartSize },
     { "PLUS60Kbase", Plus60kBase },
     { "C64_256Kbase", C64_256KBase },

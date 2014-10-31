@@ -299,7 +299,7 @@ ui_res_value_list c128_ui_res_values[] = {
     { "Acia1Mode", c128AciaMode },
 #endif
     { "REUsize", c128ReuSize },
-    { "GeoRAMsize", c128GeoRAMSize },
+    { "GEORAMsize", c128GeoRAMSize },
     { "RAMCARTsize", c128RamCartSize },
     { "DIGIMAXbase", c128DigimaxBase },
     { "SFXSoundExpanderChip", c128SFXSoundExpanderChip },
