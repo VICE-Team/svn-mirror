@@ -88,7 +88,6 @@ DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(10)
 DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(11)
 
 TUI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-TUI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
 
 TUI_MENU_DEFINE_RADIO(Drive8Type)
 TUI_MENU_DEFINE_RADIO(Drive9Type)
@@ -245,10 +244,6 @@ tui_menu_item_def_t drivec64dtv_settings_submenu[] = {
     { "True Drive _Emulation:",
       "Enable hardware-level floppy drive emulation",
       toggle_DriveTrueEmulation_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_Handle TDE with autostart:",
-      "Enable hardware-level floppy drive emulation handling for autostart",
-      toggle_AutostartHandleTrueDriveEmulation_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
     { "Drive #_8 model:",
