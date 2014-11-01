@@ -416,7 +416,7 @@ vice_network_socket_t * vice_network_server(const vice_network_socket_address_t 
           setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void*)&socket_reuse_address, sizeof(socket_reuse_address));
 #endif
 #if defined(TCP_NODELAY)
-          setsockopt(sockfd, SOL_TCP, TCP_NODELAY, &error, sizeof(error)); /* just an integer with 1, not really an error */
+          setsockopt(sockfd, SOL_TCP, TCP_NODELAY, (const void*)&error, sizeof(error)); /* just an integer with 1, not really an error */
 #endif
 #endif
         }
@@ -473,7 +473,7 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
 
 #ifndef WATCOM_COMPILE
 #if defined(TCP_NODELAY)
-        setsockopt(sockfd, SOL_TCP, TCP_NODELAY, &error, sizeof(error)); /* just an integer with 1, not really an error */
+        setsockopt(sockfd, SOL_TCP, TCP_NODELAY, (const void*)&error, sizeof(error)); /* just an integer with 1, not really an error */
 #endif
 #endif
 
