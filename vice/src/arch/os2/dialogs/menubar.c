@@ -867,7 +867,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_GEORAM1024:
         case IDM_GEORAM2048:
         case IDM_GEORAM4096:
-            resources_set_int("GEORAMSize", (idm & 0xff) << 6);
+            resources_set_int("GEORAMsize", (idm & 0xff) << 6);
             return;
         case IDM_SAVE_GEORAM:
             toggle("GEORAMImageWrite");
@@ -2458,7 +2458,7 @@ void menu_select(HWND hwnd, USHORT item)
 
 #if defined(__X64__) || defined(__X128__) || defined(__XVIC__) || defined(__XSCPU64__)
         case IDM_GEORAMSIZE:
-            resources_get_int("GEORAMSize", &val);
+            resources_get_int("GEORAMsize", &val);
             WinCheckMenuItem(hwnd, IDM_GEORAM64, val == 64);
             WinCheckMenuItem(hwnd, IDM_GEORAM128, val == 128);
             WinCheckMenuItem(hwnd, IDM_GEORAM256, val == 256);
