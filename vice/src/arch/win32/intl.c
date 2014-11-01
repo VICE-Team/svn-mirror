@@ -344,7 +344,7 @@ static int gethotkeyline(FILE *file)
 static void intl_set_hotkey(void)
 {
     int i = 0;
-    int ids, langid;
+    int ids = 0, langid = -1;
     int occurence = 1;
     int found_string = 0;
     char *langpos = NULL;

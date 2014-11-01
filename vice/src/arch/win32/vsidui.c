@@ -555,17 +555,17 @@ void vsid_ui_setdrv(char* driver_info_text)
     s = driver_info_text;
     while ((*s != 0) && (*s != '$')) { s++; } s++; /* forward behind next $ */
     val1 = strtoul(s, NULL, 16);
-    sprintf(vsidstrings[VSID_S_DRIVER], "Driver: $%04x", val1);
+    sprintf(vsidstrings[VSID_S_DRIVER], "Driver: $%04lx", val1);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_DRIVER]);
     val1 = strtoul(s + 13, NULL, 16);
     val2 = strtoul(s + 19, NULL, 16);
-    sprintf(vsidstrings[VSID_S_IMAGE], "Image:  $%04x-$%04x", val1, val2);
+    sprintf(vsidstrings[VSID_S_IMAGE], "Image:  $%04lx-$%04lx", val1, val2);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_IMAGE]);
     val1 = strtoul(s + 31, NULL, 16);
-    sprintf(vsidstrings[VSID_S_INIT], "Init:   $%04x", val1);
+    sprintf(vsidstrings[VSID_S_INIT], "Init:   $%04lx", val1);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_INIT]);
     val1 = strtoul(s + 43, NULL, 16);
-    sprintf(vsidstrings[VSID_S_PLAY], "Play:   $%04x", val1);
+    sprintf(vsidstrings[VSID_S_PLAY], "Play:   $%04lx", val1);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_PLAY]);
 }
 
@@ -886,8 +886,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             handle_default_command(wparam, lparam, hwnd);
     }
 }
-
-static int is_paused = 0;
 
 /* Window procedure.  All messages are handled here.  */
 static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)

@@ -116,12 +116,11 @@ static void fullscreen_set_res_from_current_display(void)
             height = 480;
             refreshrate = 0;
         }
+        resources_set_int("FullscreenBitdepth", bitdepth);
+        resources_set_int("FullscreenWidth", width);
+        resources_set_int("FullscreenHeight", height);
+        resources_set_int("FullscreenRefreshRate", refreshrate);
     }
-
-    resources_set_int("FullscreenBitdepth", bitdepth);
-    resources_set_int("FullscreenWidth", width);
-    resources_set_int("FullscreenHeight", height);
-    resources_set_int("FullscreenRefreshRate", refreshrate);
 #endif
 }
 
