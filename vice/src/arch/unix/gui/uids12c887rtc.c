@@ -33,6 +33,7 @@
 #include "uids12c887rtc.h"
 
 UI_MENU_DEFINE_TOGGLE(DS12C887RTC)
+UI_MENU_DEFINE_TOGGLE(DS12C887RTCRunMode)
 UI_MENU_DEFINE_RADIO(DS12C887RTCbase)
 
 static ui_menu_entry_t ds12c887rtc_c64_base_submenu[] = {
@@ -72,6 +73,8 @@ ui_menu_entry_t ds12c887rtc_c64_submenu[] = {
       (ui_callback_t)toggle_DS12C887RTC, NULL, NULL },
     { N_("Base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ds12c887rtc_c64_base_submenu },
+    { N_("Start with running oscillator"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DS12C887RTCRunMode, NULL, NULL },
     { NULL }
 };
 
@@ -80,6 +83,8 @@ ui_menu_entry_t ds12c887rtc_c128_submenu[] = {
       (ui_callback_t)toggle_DS12C887RTC, NULL, NULL },
     { N_("Base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ds12c887rtc_c128_base_submenu },
+    { N_("Start with running oscillator"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DS12C887RTCRunMode, NULL, NULL },
     { NULL }
 };
 
@@ -88,5 +93,7 @@ ui_menu_entry_t ds12c887rtc_vic20_submenu[] = {
       (ui_callback_t)toggle_DS12C887RTC, NULL, NULL },
     { N_("Base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ds12c887rtc_vic20_base_submenu },
+    { N_("Start with running oscillator"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DS12C887RTCRunMode, NULL, NULL },
     { NULL }
 };
