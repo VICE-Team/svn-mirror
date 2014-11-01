@@ -123,12 +123,17 @@ const ui_menu_entry_t digimax_menu[] = {
 /* DS12C887 RTC MENU */
 
 UI_MENU_DEFINE_TOGGLE(DS12C887RTC)
+UI_MENU_DEFINE_TOGGLE(DS12C887RTCRunMode)
 UI_MENU_DEFINE_RADIO(DS12C887RTCbase)
 
 const ui_menu_entry_t ds12c887rtc_c64_menu[] = {
     { "Enable " CARTRIDGE_NAME_DS12C887RTC,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DS12C887RTC_callback,
+      NULL },
+    { "Start with running oscillator",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DS12C887RTCRunMode_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Base address"),
