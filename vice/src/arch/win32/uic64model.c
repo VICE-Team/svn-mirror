@@ -104,7 +104,7 @@ static int c64_models_values[] = {
 static void init_c64model_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
-    int res_value, index;
+    int res_value, index = 0;
     int xpos, i;
     RECT rect;
 

@@ -130,7 +130,7 @@ static void init_vicii_dialog(HWND hwnd)
 {
     HWND sub_hwnd;
     int i, n;
-    int res_value, index;
+    int res_value, index = 0;
     TCHAR st[20];
 
     if (machine_class == VICE_MACHINE_C64SC) {

@@ -264,8 +264,10 @@ static void resize_general_sid_dialog(HWND hwnd)
 static void init_resid_sid_dialog(HWND hwnd)
 {
     HWND sid_hwnd;
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
     int res_value, i;
     TCHAR st[10];
+#endif
 
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_GROUP);
     SetWindowText(sid_hwnd, translate_text(IDS_SID_RESID_GROUP));

@@ -117,9 +117,9 @@ static void init_scpu64_dialog(HWND hwnd)
 static void end_scpu64_dialog(HWND hwnd)
 {
     int val;
-    int size;
+    int size = 0;
 
-	resources_set_int("JiffySwitch", (IsDlgButtonChecked(hwnd, IDC_SCPU64_JIFFY_SWITCH_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("JiffySwitch", (IsDlgButtonChecked(hwnd, IDC_SCPU64_JIFFY_SWITCH_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("SpeedSwitch", (IsDlgButtonChecked(hwnd, IDC_SCPU64_SPEED_SWITCH_ENABLE) == BST_CHECKED ? 1 : 0 ));
 
     val = SendMessage(GetDlgItem(hwnd, IDC_SCPU64_SIMM_SIZE), CB_GETCURSEL, 0, 0);
