@@ -59,7 +59,7 @@ typedef struct {
     int newmode;
 } _startupinfo;
 
-extern void __getmainargs (int *, char ***, char ***, int, _startupinfo *);
+extern void __wgetmainargs (int *, wchar_t ***, wchar_t ***, int, _startupinfo *);
 #  endif
 #endif
 
