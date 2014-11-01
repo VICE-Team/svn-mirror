@@ -177,16 +177,15 @@ HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
     HRESULT ddresult;
    int device = D3DADAPTER_DEFAULT;
 
-    if ((canvas->d3dsurface != NULL) 
-            && (S_OK != IDirect3DSurface9_Release(canvas->d3dsurface))
-        || (canvas->d3ddev != NULL &&
-		 ((S_OK != IDirect3DDevice9_GetSwapChain(canvas->d3ddev, 0, &d3dsc))
+    if (((canvas->d3dsurface != NULL) &&
+        (S_OK != IDirect3DSurface9_Release(canvas->d3dsurface)))
+        || ((canvas->d3ddev != NULL) &&
+        ((S_OK != IDirect3DDevice9_GetSwapChain(canvas->d3ddev, 0, &d3dsc))
         || (S_OK != IDirect3DSwapChain9_Release(d3dsc)))
-		))
-    {
+        )) {
         log_debug("video_dx9: Failed to release the DirectX9 device resources!");
     }
-    
+
     canvas->d3dsurface = NULL;
 
     if (canvas->d3dpp.Windowed == 0) {

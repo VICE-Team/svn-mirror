@@ -333,7 +333,7 @@ static void dump_shortcuts(void)
         }
         fprintf(fp, "%-16s", str);
 
-        if (accel.key >= '0' && accel.key <= '9' || accel.key >= 'A' && accel.key <= 'Z') {
+        if (((accel.key >= '0') && (accel.key <= '9')) || ((accel.key >= 'A') && (accel.key <= 'Z'))) {
             fprintf(fp, "'%c'         %-34s", accel.key, idmlist[j].str);
         } else {
             fprintf(fp, "0x%02X        %-34s", accel.key, idmlist[j].str);
