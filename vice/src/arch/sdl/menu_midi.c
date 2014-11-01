@@ -129,6 +129,8 @@ void sdl_menu_midi_out_free(void)
 #include <windows.h>
 #include <mmsystem.h>
 
+#include "lib.h"
+
 UI_MENU_DEFINE_RADIO(MIDIInDev)
 UI_MENU_DEFINE_RADIO(MIDIOutDev)
 
