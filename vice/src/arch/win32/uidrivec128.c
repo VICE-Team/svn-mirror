@@ -228,11 +228,13 @@ static uilib_dialog_group drive_right_group[] = {
     { 0, 0 }
 };
 
+/* unused?
 static uilib_dialog_group drive_right_window_group[] = {
     { IDC_IDLE_METHOD, 0 },
     { IDC_DRIVE_PARALLEL_CABLE, 0 },
     { 0, 0 }
 };
+*/
 
 static uilib_dialog_group drive_right_move_group[] = {
     { IDC_SELECT_DRIVE_IDLE_NO_IDLE, 0 },

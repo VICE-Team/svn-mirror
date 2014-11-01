@@ -68,6 +68,7 @@ static uilib_dialog_group model_right_group[] = {
     { 0, 0 }
 };
 
+/* unused?
 static uilib_dialog_group model_right_move_group[] = {
     { IDC_SELECT_PET_MEM4K, 0 },
     { IDC_SELECT_PET_MEM8K, 0 },
@@ -77,6 +78,7 @@ static uilib_dialog_group model_right_move_group[] = {
     { IDC_SELECT_PET_MEM128K, 0 },
     { 0, 0 }
 };
+*/
 
 static generic_trans_table_t generic_items[] = {
     { IDC_SELECT_PET_MEM4K, "4KB" },

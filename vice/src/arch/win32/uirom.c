@@ -49,7 +49,6 @@ static const uirom_settings_t *settings;
 
 static uilib_localize_dialog_param *main_trans;
 static uilib_localize_dialog_param *drive_trans;
-static uilib_localize_dialog_param *main_res_trans;
 
 static generic_trans_table_t *generic_trans;
 

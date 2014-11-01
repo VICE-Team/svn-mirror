@@ -49,9 +49,6 @@
 
 // -------------------------------------------------------------------------
 
-static unsigned long frequency = 0;
-static int perf_rotate = 0;
-static int perf_inited = 0;
 enum { EXTRA_PRECISION = 10 };
 
 signed long vsyncarch_frequency(void)
