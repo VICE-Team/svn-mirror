@@ -1091,7 +1091,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_REU4096:
         case IDM_REU8192:
         case IDM_REU16384:
-            resources_set_int("REUSize", (idm & 0xff) << 7);
+            resources_set_int("REUsize", (idm & 0xff) << 7);
             return;
         case IDM_SAVE_REU:
             toggle("REUImageWrite");
@@ -1101,7 +1101,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_RAMCART64:
         case IDM_RAMCART128:
-            resources_set_int("RAMCARTSize", (idm & 0xf) << 6);
+            resources_set_int("RAMCARTsize", (idm & 0xf) << 6);
             return;
         case IDM_SAVE_RAMCART:
             toggle("RAMCARTImageWrite");
@@ -2536,7 +2536,7 @@ void menu_select(HWND hwnd, USHORT item)
 
 #if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         case IDM_REUSIZE:
-            resources_get_int("REUSize", &val);
+            resources_get_int("REUsize", &val);
             WinCheckMenuItem(hwnd, IDM_REU128, val == 128);
             WinCheckMenuItem(hwnd, IDM_REU256, val == 256);
             WinCheckMenuItem(hwnd, IDM_REU512, val == 512);
@@ -2547,7 +2547,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_REU16384, val == 16384);
             return;
         case IDM_RAMCARTSIZE:
-            resources_get_int("RAMCARTSize", &val);
+            resources_get_int("RAMCARTsize", &val);
             WinCheckMenuItem(hwnd, IDM_RAMCART64, val == 64);
             WinCheckMenuItem(hwnd, IDM_RAMCART128, val == 128);
             return;
