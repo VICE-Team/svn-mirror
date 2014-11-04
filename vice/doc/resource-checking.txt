@@ -4255,8 +4255,6 @@ platform gui present:
 platform gui missing:           amigaos/unix
 note: not very useful to have in the UIs, perhaps make it available only if DEBUG is defined?
 
-<<<<gpz<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
 debug.c:
 --------
 resource type:                  bool
@@ -4269,8 +4267,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   -trace_maincpu / +trace_maincpu
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           unix
 platform gui missing:           amigaos
 fixme: Add to documentation
 
@@ -4286,8 +4284,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   -trace_drive0 / +trace_drive0
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           unix
 platform gui missing:           amigaos
 fixme: Add to documentation
 
@@ -4303,8 +4301,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   -trace_drive1 / +trace_drive1
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           unix
 platform gui missing:           amigaos
 fixme: Add to documentation
 
@@ -4320,8 +4318,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   -trace_drive2 / +trace_drive2
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           unix
 platform gui missing:           amigaos
 fixme: Add to documentation
 
@@ -4337,8 +4335,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   -trace_drive3 / +trace_drive3
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           unix
 platform gui missing:           amigaos
 fixme: Add to documentation
 
@@ -4354,8 +4352,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   -trace_mode
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           unix
 platform gui missing:           amigaos
 fixme: Add to documentation
 
@@ -4371,9 +4369,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
+platforms to check:             beos/dos/os2/sdl/osx/windows
 platform gui present:
-platform gui missing:           amigaos
+platform gui missing:           amigaos/unix
 fixme: Add to documentation
 
 diskimage/rawimage.c:
@@ -4388,8 +4386,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_RAWDRIVE
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           unix
 platform gui missing:           amigaos
 
 drive/drive-resources.c:
@@ -4411,8 +4409,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive8type
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4434,8 +4432,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive9type
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4457,8 +4455,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive10type
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4480,8 +4478,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive11type
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4496,8 +4494,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -truedrive / +truedrive
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4512,8 +4510,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drivesound / +drivesound
-platforms to check:             amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4528,8 +4526,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drivesoundvolume
-platforms to check:             amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 fixme: add to documentation
 
@@ -4545,8 +4543,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive8extend
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4561,8 +4559,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive9extend
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4577,8 +4575,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive10extend
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4593,8 +4591,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive11extend
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4609,8 +4607,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive8idle
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4625,8 +4623,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive9idle
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4641,8 +4639,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive10idle
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4657,8 +4655,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive11idle
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4673,8 +4671,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -parallel8
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4689,8 +4687,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -parallel9
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4705,8 +4703,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -parallel10
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4721,8 +4719,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -parallel11
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4737,8 +4735,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -drive8profdos / +drive8profdos
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4753,8 +4751,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -drive9profdos / +drive9profdos
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4769,8 +4767,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -drive10profdos / +drive10profdos
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4785,8 +4783,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -drive11profdos / +drive11profdos
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4801,8 +4799,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -drive8supercard / +drive8supercard
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 fixme: add to documentation
 
@@ -4818,8 +4816,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -drive9supercard / +drive9supercard
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 fixme: add to documentation
 
@@ -4835,8 +4833,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -drive10supercard / +drive10supercard
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 fixme: add to documentation
 
@@ -4852,8 +4850,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -drive11supercard / +drive11supercard
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 fixme: add to documentation
 
@@ -4869,8 +4867,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -profdos1571
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4885,8 +4883,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -supercard
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 fixme: add to documentation
 
@@ -4902,8 +4900,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -dos1541
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/iec-resources.c:
@@ -4918,8 +4916,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -dos1541II
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/iec-resources.c:
@@ -4934,8 +4932,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -dos1570
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/iec-resources.c:
@@ -4950,8 +4948,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -dos1571
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/iec-resources.c:
@@ -4966,8 +4964,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -dos1581
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/iec-resources.c:
@@ -4982,8 +4980,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -dos2000
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
 
 drive/iec/iec-resources.c:
@@ -4998,9 +4996,11 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -dos4000
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
 platform gui missing:
+
+<<<<gpz<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 drive/iec/iec-resources.c:
 --------------------------
