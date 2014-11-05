@@ -752,7 +752,7 @@
 			<key>CRTC</key>
 			<dict>
 				<key>Stretch Vertical</key>
-				<string>CRTCStretchVertical,b</string>
+				<string>CrtcStretchVertical,b</string>
 			</dict>
 		</dict>
 		<key>_PET_</key>

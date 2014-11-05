@@ -1073,7 +1073,7 @@
 								</object>
 								<object class="NSMenuItem" id="78481690">
 									<reference key="NSMenu" ref="484288457"/>
-									<string key="NSTitle">CRTC</string>
+									<string key="NSTitle">Crtc</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -1081,7 +1081,7 @@
 									<reference key="NSMixedImage" ref="550278490"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="242262938">
-										<string key="NSTitle">CRTC</string>
+										<string key="NSTitle">Crtc</string>
 										<object class="NSMutableArray" key="NSMenuItems">
 											<bool key="EncodedWithXMLCoder">YES</bool>
 											<object class="NSMenuItem" id="95178317">
