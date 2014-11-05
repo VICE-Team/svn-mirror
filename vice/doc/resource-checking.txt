@@ -7114,7 +7114,7 @@ pet/pet-resources.c:
 resource type:                  int
 resource name:                  "IOSize"
 resource range:                 N/A (256/2048)
-resource default:               2048
+resource default:               0x100
 resource function:              set_iosize()
 resource var:                   petres.IOSize
 resource emulators:             xpet
