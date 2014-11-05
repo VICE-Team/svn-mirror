@@ -74,7 +74,7 @@ static control_res_t crt_controls[] = {
     { NULL, NULL, 0 }
 };
 
-static const char *chip_name_table[] = { "VICII", "VIC", "CRTC", "VDC", "TED" };
+static const char *chip_name_table[] = { "VICII", "VIC", "Crtc", "VDC", "TED" };
 
 class VideoWindow : public BWindow {
         BBox *color_ctrlsbox;

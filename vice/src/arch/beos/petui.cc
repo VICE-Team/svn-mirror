@@ -69,10 +69,10 @@ static ui_drive_type_t pet_drive_types[] = {
 };
 
 ui_menu_toggle  pet_ui_menu_toggles[] = {
-    { "CRTCDoubleSize", MENU_TOGGLE_DOUBLESIZE },
-    { "CRTCStretchVertical", MENU_TOGGLE_STRETCHVERTICAL },
-    { "CRTCDoubleScan", MENU_TOGGLE_DOUBLESCAN },
-    { "CRTCVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "CrtcStretchVertical", MENU_TOGGLE_STRETCHVERTICAL },
+    { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
+    { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "PETREU", MENU_TOGGLE_PETREU },
     { "PETDWW", MENU_TOGGLE_PETDWW },
     { "PETHRE", MENU_TOGGLE_PETHRE },
@@ -105,7 +105,7 @@ ui_res_possible_values pet_RenderFilters[] = {
 ui_res_value_list pet_ui_res_values[] = {
     { "Acia1Dev", petAciaDevice },
     { "PETREUsize", PETREUSize},
-    { "CRTCFilter", pet_RenderFilters },
+    { "CrtcFilter", pet_RenderFilters },
     { NULL, NULL }
 };
 

@@ -58,10 +58,10 @@ static ui_drive_type_t cbm2_drive_types[] = {
 };
 
 ui_menu_toggle  cbm2_ui_menu_toggles[] = {
-    { "CRTCDoubleSize", MENU_TOGGLE_DOUBLESIZE },
-    { "CRTCStretchVertical", MENU_TOGGLE_STRETCHVERTICAL },
-    { "CRTCDoubleScan", MENU_TOGGLE_DOUBLESCAN },
-    { "CRTCVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "CrtcStretchVertical", MENU_TOGGLE_STRETCHVERTICAL },
+    { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
+    { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "CartridgeReset", MENU_CART_CBM2_RESET_ON_CHANGE },
     { NULL, 0 }
 };
@@ -88,7 +88,7 @@ ui_res_possible_values cbm2_cia1models[] = {
 
 ui_res_value_list cbm2_ui_res_values[] = {
     { "Acia1Dev", cbm2AciaDevice },
-    { "CRTCFilter", cbm2RenderFilters },
+    { "CrtcFilter", cbm2RenderFilters },
     { "CIA1Model", cbm2_cia1models },
     { NULL, NULL }
 };
