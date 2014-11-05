@@ -3782,8 +3782,6 @@ platforms to check:             sdl
 platform gui present:           amigaos/beos/os2/unix/osx/windows
 platform gui missing:			dos
 
---------------------------------------------------------------------------------------------------------------------------------------------------
-
 crtc/crtc-resources.c:
 ----------------------
 resource type:                  bool
@@ -3796,8 +3794,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -CRTCstretchvertical / +CRTCstretchvertical
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -3812,8 +3810,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtcvcache / +Crtcvcache
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -3828,8 +3826,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtcdsize / +Crtcdsize
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -3844,8 +3842,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtcdscan / +Crtcdscan
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -3876,8 +3874,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtcfilter
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -3988,8 +3986,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtcpalette
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4004,8 +4002,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtcintpal / -Crtcextpal
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4020,9 +4018,9 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE
-platforms to check:             sdl/windows
+platforms to check:             sdl
 platform gui present:
-platform gui missing:           amigaos/unix/beos/dos/os2/osx
+platform gui missing:           amigaos/unix/beos/dos/os2/osx/windows
 fixme: not used (remove?)
 
 crtc/crtc-resources.c:
@@ -4037,8 +4035,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtcsaturation
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4053,8 +4051,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtccontrast
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4069,8 +4067,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtcbrightness
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4085,8 +4083,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtcgamma
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4101,8 +4099,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtctint
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/windows
 platform gui missing:			osx
 
 crtc/crtc-resources.c:
@@ -4117,8 +4115,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtctcrtscanlineshade
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4133,8 +4131,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtccrtblur
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4149,8 +4147,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtcoddlinesphase
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4165,8 +4163,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtcoddlinesoffset
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix/osx
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4181,8 +4179,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -Crtcaudioleak / +Crtcaudioleak
-platforms to check:             sdl/windows
-platform gui present:           amigaos/beos/dos/os2/unix
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/windows
 platform gui missing:			osx
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
@@ -4389,6 +4387,8 @@ command-line:                   NONE (fixme)
 platforms to check:             beos/dos/os2/sdl/osx/windows
 platform gui present:           unix
 platform gui missing:           amigaos
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
 
 drive/drive-resources.c:
 ------------------------
