@@ -443,12 +443,13 @@ static const resource_string_t resources_string[] = {
     { NULL }
 };
 
+/* caution: make sure the defaults match an actual PET model */
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
     { "RamSize", 32, RES_EVENT_SAME, NULL,
       &petres.ramSize, set_ramsize, NULL },
-    { "IOSize", 0x800, RES_EVENT_SAME, NULL,
+    { "IOSize", 0x100, RES_EVENT_SAME, NULL,
       &petres.IOSize, set_iosize, NULL },
     { "Crtc", 1, RES_EVENT_SAME, NULL,
       &petres.crtc, set_crtc_enabled, NULL },

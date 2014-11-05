@@ -37,6 +37,14 @@
 #include "uiapi.h"
 #include "vsync.h"
 
+/* #define DEBUGPET */
+
+#ifdef DEBUGPET
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
+
 #define PET_CHARGEN_NAME        "chargen"
 #define SUPERPET_CHARGEN_NAME   "characters.901640-01.bin"
 
@@ -245,13 +253,15 @@ static int petmodel_get_temp(petinfo_t *pi)
 
 int petmodel_get(void)
 {
-    petinfo_t pinfo;
+    petinfo_t pi;
 
-    if (petmem_get_conf_info(&pinfo) < 0) {
+    if (petmem_get_conf_info(&pi) < 0) {
         return -1;
     }
+    DBG(("ramSize: %d IOSize: %d crtc: %d video: %d eoiblank: %d superpet: %d kbd_type: %d\n",
+           pi.ramSize, pi.IOSize, pi.crtc, pi.video, pi.eoiblank, pi.superpet, (pi.kbd_type & 1)));
 
-    return petmodel_get_temp(&pinfo);
+    return petmodel_get_temp(&pi);
 }
 
 void petmodel_set(int model)
