@@ -77,6 +77,7 @@ UI_MENU_DEFINE_RADIO(RamSize)
 UI_MENU_DEFINE_RADIO(IOSize)
 UI_MENU_DEFINE_TOGGLE(Basic1)
 UI_MENU_DEFINE_TOGGLE(Basic1Chars)
+UI_MENU_DEFINE_TOGGLE(EoiBlank)
 
 /* this is partially modeled after the radio_* callbacks */
 static UI_CALLBACK(set_KeyboardType)
@@ -371,6 +372,8 @@ static ui_menu_entry_t model_settings_submenu[] = {
       NULL, NULL, pet_iosize_submenu },
     { N_("CRTC chip enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Crtc, NULL, NULL },
+    { N_("EOI blanks screen"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_EoiBlank, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("SuperPET I/O enable (disables 8x96)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SuperPET, NULL, NULL },
