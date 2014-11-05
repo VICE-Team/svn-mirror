@@ -92,13 +92,13 @@ static UI_CALLBACK(load_save_fliplist)
     switch (button) {
         case UI_BUTTON_OK:
             if (what) {
-                if (fliplist_load_list((unsigned int)-1, filename, 0) == 0) {
+                if (fliplist_load_list(FLIPLIST_ALL_UNITS, filename, 0) == 0) {
                     ui_message(_("Successfully read `%s'."), filename);
                 } else {
                     ui_error(_("Error reading `%s'."), filename);
                 }
             } else {
-                if (fliplist_save_list((unsigned int)-1, filename) == 0) {
+                if (fliplist_save_list(FLIPLIST_ALL_UNITS, filename) == 0) {
                     ui_message(_("Successfully wrote `%s'"), filename);
                 } else {
                     ui_error(_("Error writing `%s'."), filename);
