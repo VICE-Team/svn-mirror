@@ -101,7 +101,8 @@ static int getmaxlen(void)
 }
 static void pal_ctrl_update_internal(pal_res_t *ctrldata)
 {
-    int i, enabled, rmode, filter, ispal, drvsnd;
+    int i, rmode, filter, ispal, drvsnd, hassid = 1;
+    unsigned int enabled;
     video_canvas_t *canvas;
 
     ctrldata = ctrldata->first;
@@ -112,9 +113,19 @@ static void pal_ctrl_update_internal(pal_res_t *ctrldata)
     } else {
         enabled = 0xffff;
         resources_get_int("DriveSoundEmulation", &drvsnd);
+        if ((machine_class == VICE_MACHINE_VIC20) ||
+            (machine_class == VICE_MACHINE_PLUS4) ||
+            (machine_class == VICE_MACHINE_PET)) {
+            resources_get_int("SidCart", &hassid);
+        }
         if (!drvsnd) {
             enabled &= ~(1 << 10);
         }
+#if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
+        if (!hassid) {
+            enabled &= ~(7 << 11);
+        }
+#endif
         if (canvas) {
             rmode = canvas->videoconfig->rendermode;
             filter = canvas->videoconfig->filter;
