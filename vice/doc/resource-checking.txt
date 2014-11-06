@@ -5493,8 +5493,6 @@ platforms to check:            	sdl
 platform gui present:           amigaos/beos/dos/unix/osx/windows
 platform gui missing:			os2
 
---------------------------------------------------------------------------------------------------------------------------------------------------
-
 event.c:
 --------
 resource type:                  string
@@ -5507,9 +5505,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             dos/os2/sdl/osx/windows
-platform gui present:           amigaos/beos/unix
-platform gui missing:
+platforms to check:             sdl
+platform gui present:           amigaos/beos/unix/osx/windows
+platform gui missing:			dos/os2
 
 event.c:
 --------
@@ -5523,9 +5521,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           amigaos
-platform gui missing:           unix
+platforms to check:             sdl
+platform gui present:           amigaos/beos/windows
+platform gui missing:           dos/os2/unix/osx
 note: not sure if its useful to make this user definable
 
 event.c:
@@ -5540,9 +5538,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           amigaos
-platform gui missing:           unix
+platforms to check:             sdl
+platform gui present:           amigaos/beos/windows
+platform gui missing:           dos/os2/unix/osx
 note: not sure if its useful to make this user definable
 
 event.c:
@@ -5558,9 +5556,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           amigaos/unix
-platform gui missing:
+platforms to check:             sdl
+platform gui present:           amigaos/beos/unix/osx/windows
+platform gui missing:			dos/os2
 
 event.c:
 --------
@@ -5574,9 +5572,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/osx/windows
+platforms to check:             sdl
 platform gui present:
-platform gui missing:           amigaos/unix
+platform gui missing:           amigaos/beos/dos/os2/unix/osx/windows
 fixme: apparently this resource appears ONLY in event.c and nowhere else in the code,
        and it is only declared, never used. in (at least) GTK ui the option is present
        in the UI, but it does not use the resource at all
@@ -5593,9 +5591,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -flipname
-platforms to check:             beos/dos/os2/sdl/osx/windows
+platforms to check:             sdl
 platform gui present:
-platform gui missing:           amigaos/unix
+platform gui missing:           amigaos/beos/dos/os2/unix/osx/windows
 fixme: apparently this resource appears ONLY in fliplist.c and nowhere else in the code,
        and it is only declared, never used.
 todo: update all UIs to use FLIPLIST_ALL_UNITS instead of ((unsigned int)-1) as parameter
@@ -5858,6 +5856,8 @@ command-line:                   NONE (fixme)
 platforms to check:             beos/dos/os2/sdl/osx/windows
 platform gui present:           unix
 platform gui missing:           amigaos
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
