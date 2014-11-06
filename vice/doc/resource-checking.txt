@@ -6204,8 +6204,6 @@ fixme: add to documentation
 gpz note: OSX only?
 blacky note: the quicktime sdk also seems available for windows, however, the section that should handle that in configure says 'TODO'
 
---------------------------------------------------------------------------------------------------------------------------------------------------
-
 joystick.c:
 -----------
 resource type:                  int
@@ -6218,8 +6216,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6234,8 +6232,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6250,8 +6248,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6266,8 +6264,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6282,8 +6280,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6298,8 +6296,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6314,8 +6312,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6330,8 +6328,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6346,8 +6344,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6362,8 +6360,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6378,8 +6376,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6394,8 +6392,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6410,8 +6408,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6426,8 +6424,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6442,8 +6440,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6458,8 +6456,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6474,8 +6472,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6490,8 +6488,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           unix(GTK)
+platforms to check:             sdl
+platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
 joystick.c:
@@ -6506,9 +6504,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   NONE (fixme ??)
-platforms to check:             beos/dos/sdl/osx/windows
-platform gui present:           amigaos/unix
-platform gui missing:
+platforms to check:             sdl
+platform gui present:           amigaos/dos/unix/osx/windows
+platform gui missing:			beos
 
 joystick.c:
 -----------
@@ -6522,11 +6520,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           amigaos/unix
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
-
---------------------------------------------------------------------------------------------------------------------------------------------------
 
 kbdbuf.c:
 ---------
@@ -6540,9 +6536,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -keybuf-delay
-platforms to check:             beos/dos/os2/sdl/osx/windows
+platforms to check:             sdl
 platform gui present:
-platform gui missing:           amigaos/unix
+platform gui missing:           amigaos/beos/dos/os2/unix/osx/windows
 fixme: add to documentation
 note: this makes no sense to be changeable in the UIs, as it is strictly related
 to the -keybuf commandline option
@@ -6559,9 +6555,9 @@ resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -lightpen / +lightpen
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           unix
-platform gui missing:           amigaos
+platforms to check:             sdl
+platform gui present:           dos/unix/osx/windows
+platform gui missing:           amigaos/beos/os2
 
 lightpen.c:
 -----------
@@ -6576,9 +6572,9 @@ resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -lightpentype
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           unix
-platform gui missing:           amigaos
+platforms to check:             sdl
+platform gui present:           dos/unix/osx/windows
+platform gui missing:           amigaos/beos/os2
 
 log.c:
 ------
@@ -6592,9 +6588,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/osx/windows
+platforms to check:             sdl
 platform gui present:
-platform gui missing:           amigaos/unix
+platform gui missing:           amigaos/beos/dos/os2/unix/osx/windows
 
 machine.c:
 ----------
@@ -6609,9 +6605,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -jamaction
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           amigaos/unix
-platform gui missing:
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/unix/windows
+platform gui missing:			os2/osx
 fixme: add to documentation
 
 monitor/monitor.c:
@@ -6626,9 +6622,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/osx/windows
+platforms to check:             sdl
 platform gui present:           unix
-platform gui missing:           amigaos
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 monitor/monitor_network.c:
 --------------------------
@@ -6642,9 +6638,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:                    #ifdef HAVE_NETWORK
 command-line:                   -remotemonitoraddress
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           unix
-platform gui missing:           amigaos
+platforms to check:             sdl
+platform gui present:           unix/osx
+platform gui missing:           amigaos/beos/dos/os2/windows
 
 monitor/monitor_network.c:
 --------------------------
@@ -6658,9 +6654,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:                    #ifdef HAVE_NETWORK
 command-line:                   -remotemonitor / +remotemonitor
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           unix
-platform gui missing:           amigaos
+platforms to check:             sdl
+platform gui present:           unix/osx
+platform gui missing:           amigaos/beos/dos/os2/windows
 
 mouse.c:
 --------
@@ -6674,8 +6670,8 @@ resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef HAVE_MOUSE
 command-line:                   -mouse / +mouse
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           amigaos/unix
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 mouse.c:
@@ -6691,8 +6687,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef HAVE_MOUSE
 command-line:                   -mousetype
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           amigaos/unix
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
 
 mouse.c:
@@ -6707,9 +6703,11 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef HAVE_MOUSE
 command-line:                   -mouseport
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           amigaos/unix
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform gui missing:
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
 
 network.c:
 ----------
@@ -6775,6 +6773,8 @@ platforms to check:             beos/dos/os2/sdl/osx/windows
 platform gui present:           unix
 platform gui missing:           amigaos
 fixme: fix documentation
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
 
 pet/pet-resources.c:
 --------------------
