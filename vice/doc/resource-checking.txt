@@ -8960,8 +8960,6 @@ platforms to check:             sdl
 platform gui present:           amigaos/beos/dos/unix/osx/windows
 platform gui missing:			os2
 
---------------------------------------------------------------------------------------------------------------------------------------------------
-
 scpu64/scpu64-resources.c:
 --------------------------
 resource type:                  int
@@ -8976,9 +8974,9 @@ resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platforms to check:             beos/dos/os2/sdl/osx/windows
-platform gui present:           amigaos/unix
-platform gui missing:
+platforms to check:             sdl
+platform gui present:           amigaos/beos/dos/unix/windows
+platform gui missing:			os2/osx
 
 <<<gpz<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -8994,9 +8992,9 @@ resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -burstmod
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/windows
+platform gui missing:			osx
 
 scpu64/scpu64-resources.c:
 --------------------------
@@ -9010,9 +9008,9 @@ resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -simmsize
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/windows
+platform gui missing:			osx
 fixme: add to documentation
 
 scpu64/scpu64-resources.c:
@@ -9027,9 +9025,9 @@ resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -jiffyswitch / +jiffyswitch
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/windows
+platform gui missing:			osx
 fixme: add to documentation
 
 scpu64/scpu64-resources.c:
@@ -9044,9 +9042,9 @@ resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -speedswitch / +speedswitch
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/windows
+platform gui missing:			osx
 fixme: add to documentation
 
 scpu64/scpu64gluelogic.c:
@@ -9061,9 +9059,9 @@ resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -gluelogictype
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/windows
+platform gui missing:			osx
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -9194,6 +9192,8 @@ command-line:                   -iecdevice11 / +iecdevice11
 platforms to check:             beos/dos/os2/sdl/unix/osx/windows
 platform gui present:
 platform gui missing:           amigaos
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
 
 sid/sid-resources.c:
 --------------------
