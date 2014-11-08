@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-15 14:15-0700\n"
-"PO-Revision-Date: 2014-10-06 21:27+0200\n"
+"PO-Revision-Date: 2014-11-08 14:35+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -2484,14 +2484,12 @@ msgid "Sectors"
 msgstr "Sektoren"
 
 #: src/arch/unix/gui/uiide64.c:173
-#, fuzzy
 msgid "IDE64 USB setting"
-msgstr "IDE64 Einstellungen"
+msgstr "IDE64 USB Einstellungen"
 
 #: src/arch/unix/gui/uiide64.c:173
-#, fuzzy
 msgid "USB server address:"
-msgstr "Server Adresse auswählen"
+msgstr "USB Server Adresse:"
 
 #: src/arch/unix/gui/uiide64.c:177
 msgid "Version 3"
@@ -2531,14 +2529,12 @@ msgid "Revision"
 msgstr "Revision"
 
 #: src/arch/unix/gui/uiide64.c:265
-#, fuzzy
 msgid "Enable USB server"
-msgstr "RS232 Userport Emulation aktivieren"
+msgstr "USB Server aktivieren"
 
 #: src/arch/unix/gui/uiide64.c:267
-#, fuzzy
 msgid "Set USB server address"
-msgstr "Server Adresse auswählen"
+msgstr "USB Server Adresse setzen"
 
 #: src/arch/unix/gui/uiide64.c:271
 msgid "Device 1 settings"
@@ -10873,19 +10869,16 @@ msgid "Emulate pre version 4 hardware"
 msgstr "Emulation der pre-Version 4 Hardware"
 
 #: src/translate_text.c.po.c:7148
-#, fuzzy
 msgid "Enable IDE64 USB server"
-msgstr "IDE64 V4 aktivieren"
+msgstr "IDE64 USB Server aktivieren"
 
 #: src/translate_text.c.po.c:7165
-#, fuzzy
 msgid "Disable IDE64 USB server"
-msgstr "IEEE488 Schnittstelle deaktivieren"
+msgstr "IDE64 USB Server deaktivieren"
 
 #: src/translate_text.c.po.c:7182
-#, fuzzy
 msgid "IDE64 USB server address"
-msgstr "Server Adresse auswählen"
+msgstr "IDE64 USB Server Adresse"
 
 #: src/translate_text.c.po.c:7199
 msgid "modelnumber"
