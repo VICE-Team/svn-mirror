@@ -9063,8 +9063,6 @@ platforms to check:             sdl/unix
 platform gui present:           amigaos/beos/dos/os2/windows
 platform gui missing:			osx
 
---------------------------------------------------------------------------------------------------------------------------------------------------
-
 serial/serial-iec-device.c:
 ---------------------------
 resource type:                  bool
@@ -9077,9 +9075,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice4 / +iecdevice4
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/osx/windows
+platform gui missing:			os2
 
 serial/serial-iec-device.c:
 ---------------------------
@@ -9093,9 +9091,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice5 / +iecdevice5
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/osx/windows
+platform gui missing:			os2
 
 serial/serial-iec-device.c:
 ---------------------------
@@ -9109,9 +9107,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice6 / +iecdevice6
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/osx/windows
+platform gui missing:			os2
 
 serial/serial-iec-device.c:
 ---------------------------
@@ -9125,9 +9123,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice7 / +iecdevice7
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/windows
+platform gui missing:			beos/dos/os2/osx
 
 serial/serial-iec-device.c:
 ---------------------------
@@ -9141,9 +9139,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice8 / +iecdevice8
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
-platform gui missing:           amigaos
+platforms to check:             sdl/unix
+platform gui present:			osx/windows
+platform gui missing:           amigaos/beos/dos/os2
 
 serial/serial-iec-device.c:
 ---------------------------
@@ -9157,9 +9155,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice9 / +iecdevice9
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
-platform gui missing:           amigaos
+platforms to check:             sdl/unix
+platform gui present:			osx/windows
+platform gui missing:           amigaos/beos/dos/os2
 
 serial/serial-iec-device.c:
 ---------------------------
@@ -9173,9 +9171,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice10 / +iecdevice10
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
-platform gui missing:           amigaos
+platforms to check:             sdl/unix
+platform gui present:			osx/windows
+platform gui missing:           amigaos/beos/dos/os2
 
 serial/serial-iec-device.c:
 ---------------------------
@@ -9189,11 +9187,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice11 / +iecdevice11
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
-platform gui missing:           amigaos
-
---------------------------------------------------------------------------------------------------------------------------------------------------
+platforms to check:             sdl/unix
+platform gui present:			osx/windows
+platform gui missing:           amigaos/beos/dos/os2
 
 sid/sid-resources.c:
 --------------------
@@ -9208,8 +9204,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residsamp
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 sid/sid-resources.c:
@@ -9224,8 +9220,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residpass
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 sid/sid-resources.c:
@@ -9240,9 +9236,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residgain
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/osx/windows
+platform gui missing:			os2
 
 sid/sid-resources.c:
 --------------------
@@ -9256,9 +9252,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residfilterbias
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/osx/windows
+platform gui missing:			os2
 
 sid/sid-resources.c:
 --------------------
@@ -9273,8 +9269,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   NONE
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 sid/sid-resources.c:
@@ -9289,8 +9285,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -sidfilters / +sidfilters
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 sid/sid-resources.c:
@@ -9305,8 +9301,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   NONE
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 sid/sid-resources.c:
@@ -9321,9 +9317,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #ifdef HAVE_HARDSID
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
-platform gui missing:           amigaos
+platforms to check:             sdl/unix
+platform gui present:			windows
+platform gui missing:           amigaos/beos/dos/os2/osx
 fixme: add to documentation
 
 sid/sid-resources.c:
@@ -9338,9 +9334,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #ifdef HAVE_HARDSID
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
-platform gui missing:           amigaos
+platforms to check:             sdl/unix
+platform gui present:			windows
+platform gui missing:           amigaos/beos/dos/os2/osx
 fixme: add to documentation
 
 sid/sid-resources.c:
@@ -9355,8 +9351,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -sidstereo
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 sound.c:
@@ -9372,9 +9368,10 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -sounddev
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
-platform gui missing:           amigaos
+platforms to check:             sdl/unix
+platform gui present:			os2/windows
+platform gui missing:           amigaos/beos/dos/osx
+fixme: os2 gui items for this resource need to be fixed.
 
 sound.c:
 --------
@@ -9388,9 +9385,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundarg
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
+platforms to check:             sdl/unix
 platform gui present:
-platform gui missing:           amigaos
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 sound.c:
 --------
@@ -9404,9 +9401,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundrecdev
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/windows
+platform gui missing:			dos/os2/osx
 
 sound.c:
 --------
@@ -9420,9 +9417,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundrecarg
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/windows
+platform gui missing:			dos/os2/osx
 
 sound.c:
 --------
@@ -9436,8 +9433,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -sound / +sound
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 sound.c:
@@ -9452,8 +9449,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundrate
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 sound.c:
@@ -9468,8 +9465,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundbufsize
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 sound.c:
@@ -9485,8 +9482,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundfragsize
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 sound.c:
@@ -9501,9 +9498,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
+platforms to check:             sdl/unix
 platform gui present:
-platform gui missing:           amigaos
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 sound.c:
 --------
@@ -9517,8 +9514,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundsync
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:            	sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 sound.c:
@@ -9533,9 +9530,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/dos/osx/windows
+platform gui missing:			beos/os2
 
 sound.c:
 --------
@@ -9549,9 +9546,11 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundoutput
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/os2/windows
+platform gui missing:			dos/osx
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
 
 sysfile.c:
 ----------
@@ -9603,6 +9602,8 @@ command-line:                   -virtualdev / +virtualdev
 platforms to check:             beos/dos/os2/sdl/unix/osx/windows
 platform gui present:           amigaos
 platform gui missing:
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
 
 userport/userport_dac.c:
 ------------------------
