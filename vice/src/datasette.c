@@ -692,7 +692,7 @@ static void datasette_internal_reset(void)
         alarm_unset(datasette_alarm);
         datasette_alarm_pending = 0;
     }
-    datasette_control(DATASETTE_CONTROL_STOP);
+    datasette_control(current_image ? DATASETTE_CONTROL_STOP : notape_mode);
     if (current_image != NULL) {
         if (!autostart_ignore_reset) {
             tap_seek_start(current_image);
