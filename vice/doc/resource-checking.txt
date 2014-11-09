@@ -10751,8 +10751,6 @@ platforms to check:             sdl/unix
 platform gui present:           amigaos/beos/osx/dos/os2/windows
 platform gui missing:
 
---------------------------------------------------------------------------------------------------------------------------------------------------
-
 vic20/vic20-resources.c:
 ------------------------
 resource type:                  string
@@ -10813,9 +10811,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
-platforms to check:             beos/dos/sdl/unix/osx/windows
-platform gui present:
-platform gui missing:           amigaos
+platforms to check:             sdl/unix
+platform gui present:			osx/windows
+platform gui missing:           amigaos/beos/dos
 
 vic20/vic20-resources.c:
 ------------------------
@@ -10829,9 +10827,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
-platforms to check:             beos/dos/sdl/unix/osx/windows
-platform gui present:
-platform gui missing:           amigaos
+platforms to check:             sdl/unix
+platform gui present:			osx/windows
+platform gui missing:           amigaos/beos/dos
 
 vic20/vic20-resources.c:
 ------------------------
@@ -10861,9 +10859,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -memory
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/windows
+platform gui missing:			os2/osx
 
 vic20/vic20-resources.c:
 ------------------------
@@ -10877,9 +10875,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -memory
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/windows
+platform gui missing:			os2/osx
 
 vic20/vic20-resources.c:
 ------------------------
@@ -10893,9 +10891,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -memory
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/windows
+platform gui missing:			os2/osx
 
 vic20/vic20-resources.c:
 ------------------------
@@ -10909,9 +10907,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -memory
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/windows
+platform gui missing:			os2/osx
 
 vic20/vic20-resources.c:
 ------------------------
@@ -10925,9 +10923,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -memory
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/windows
+platform gui missing:			os2/osx
 
 vic20/vic20-resources.c:
 ------------------------
@@ -10941,9 +10939,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
-platforms to check:             beos/sdl/unix/windows
-platform gui present:
-platform gui missing:           amigaos/dos/osx
+platforms to check:             sdl/unix
+platform gui present:			windows
+platform gui missing:           amigaos/dos/beos/osx
 
 vic20/vic20io.c:
 ----------------
@@ -10957,11 +10955,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -iocollision
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
+platforms to check:             sdl/unix
 platform gui present:
-platform gui missing:           amigaos
-
---------------------------------------------------------------------------------------------------------------------------------------------------
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 vicii/vicii-resources.c:
 ------------------------
@@ -10975,8 +10971,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIborders
-platforms to check:             beos/dos/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/osx/windows
 platform gui missing:			os2
 
 vicii/vicii-resources.c:
@@ -10991,8 +10987,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIcheckss / +VICIIcheckss
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11007,8 +11003,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIchecksb / +VICIIchecksb
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11023,8 +11019,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIInewluminance / +VICIInewluminance
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11039,8 +11035,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIvcache / +VICIIvcache
-platforms to check:             beos/dos/os2/sdl/unix/windows
-platform gui present:           amigaos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11055,8 +11051,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIdscan / +VICIIdscan
-platforms to check:             beos/dos/os2/sdl/unix/windows
-platform gui present:           amigaos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 Only if ARCHDEP_VICII_HWSCALE != 0
@@ -11088,8 +11084,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIdsize / +VICIIdsize
-platforms to check:             beos/dos/os2/sdl/unix/windows
-platform gui present:           amigaos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 Only if fullscreen device(s) available
@@ -11203,8 +11199,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIpalette
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11219,8 +11215,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIintpal / -VICIIextpal
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11235,8 +11231,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIsaturation
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11251,8 +11247,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIcontrast
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11267,8 +11263,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIbrightness
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11283,8 +11279,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIgamma
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11299,8 +11295,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIItint
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/windows
 platform gui missing:			osx
 
 vicii/vicii-resources.c:
@@ -11315,8 +11311,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIcrtscanlineshade
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11331,8 +11327,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIcrtblur
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11347,8 +11343,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIoddlinesphase
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11363,8 +11359,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIoddlinesoffset
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11379,8 +11375,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIaudioleak / +VICIIaudioleak
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/windows
 platform gui missing:			osx
 
 vicii/vicii-resources.c:
@@ -11395,8 +11391,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIfilter
-platforms to check:             beos/dos/os2/sdl/unix/windows
-platform gui present:           amigaos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11411,8 +11407,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIborders
-platforms to check:             beos/dos/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/osx/windows
 platform gui missing:			os2
 
 viciisc/vicii-resources.c:
@@ -11427,8 +11423,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIcheckss / +VICIIcheckss
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11443,8 +11439,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIchecksb / +VICIIchecksb
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11459,8 +11455,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIInewluminance / +VICIInewluminance
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11476,8 +11472,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE (fixme ??)
-platforms to check:             amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
+platforms to check:             sdl/unix
+platform gui present:			amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11492,8 +11488,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIvcache / +VICIIvcache
-platforms to check:             beos/dos/os2/sdl/unix/windows
-platform gui present:           amigaos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11508,8 +11504,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIdscan / +VICIIdscan
-platforms to check:             beos/dos/os2/sdl/unix/windows
-platform gui present:           amigaos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 Only if ARCHDEP_VICII_HWSCALE != 0
@@ -11541,8 +11537,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIdsize / +VICIIdsize
-platforms to check:             beos/dos/os2/sdl/unix/windows
-platform gui present:           amigaos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 Only if fullscreen device(s) available
@@ -11656,8 +11652,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIpalette
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11672,8 +11668,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIintpal / -VICIIextpal
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11688,8 +11684,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIsaturation
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11704,8 +11700,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIcontrast
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11720,8 +11716,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIbrightness
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11736,8 +11732,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIgamma
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11752,8 +11748,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIItint
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/windows
 platform gui missing:			osx
 
 viciisc/vicii-resources.c:
@@ -11768,8 +11764,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIcrtscanlineshade
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11784,8 +11780,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIcrtblur
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11800,8 +11796,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIoddlinesphase
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11816,8 +11812,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIoddlinesoffset
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11832,8 +11828,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIaudioleak / +VICIIaudioleak
-platforms to check:             dos/os2/sdl/unix/windows
-platform gui present:           amigaos/beos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/windows
 platform gui missing:			osx
 
 viciisc/vicii-resources.c:
@@ -11848,8 +11844,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIfilter
-platforms to check:             beos/dos/os2/sdl/unix/windows
-platform gui present:           amigaos/osx
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 platform gui missing:
 
 video/video-resources.c:
@@ -11864,9 +11860,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
+platforms to check:             sdl/unix
 platform gui present:
-platform gui missing:           amigaos
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 plus4/plus4acia.c:
 ------------------
@@ -11880,9 +11876,9 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -acia / +acia
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
-platform gui missing:
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/osx/windows
+platform gui missing:			dos/os2
 
 vsync.c:
 --------
@@ -11896,8 +11892,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -speed
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/os2/osx/windows
 platform gui missing:
 
 vsync.c:
@@ -11912,8 +11908,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -refresh
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/os2/osx/windows
 platform gui missing:
 
 vsync.c:
@@ -11928,9 +11924,11 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -warp / +warp
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:           amigaos
+platforms to check:             sdl/unix
+platform gui present:           amigaos/beos/os2/osx/windows
 platform gui missing:
+
+------------------------------------------------------------------------------------------------------------------------------------
 
 vsync.c:
 --------
@@ -11944,9 +11942,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:                    #ifdef DINGOO_NATIVE
 command-line:                   -warp / +warp
-platforms to check:             beos/dos/os2/sdl/unix/osx/windows
-platform gui present:
-platform gui missing:           amigaos
+platform gui present:			dingoo
+platform gui missing:           
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -11962,7 +11959,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -11978,7 +11976,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -11994,7 +11993,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12010,7 +12010,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12026,7 +12027,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12042,7 +12044,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12058,7 +12061,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12074,7 +12078,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12090,7 +12095,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12106,7 +12112,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12122,7 +12129,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12138,7 +12146,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12154,7 +12163,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:                    #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
 command-line:                   NONE (fixme)
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12170,7 +12180,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -saveres / +saveres
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 
 arch/amigaos/uiapi.c:
@@ -12185,7 +12196,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -confirmexit / +confirmexit
-platform gui present:           amigaos
+platforms to check:			amigaos
+platform gui present:           
 platform gui missing:
 
 arch/amigaos/joyai.c:
@@ -12200,7 +12212,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12216,7 +12229,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12232,7 +12246,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12248,7 +12263,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12264,7 +12280,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12280,7 +12297,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12296,7 +12314,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12312,7 +12331,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12328,7 +12348,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12344,7 +12365,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12360,7 +12382,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12376,7 +12399,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12393,7 +12417,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos3/morphos/aros
+platforms to check:			amigaos3/morphos/aros
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12410,7 +12435,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
 not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos3/morphos/aros
+platforms to check:			amigaos3/morphos/aros
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12427,7 +12453,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/
 not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos3/morphos/aros
+platforms to check:			amigaos3/morphos/aros
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12444,7 +12471,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
 not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos3/morphos/aros
+platforms to check:			amigaos3/morphos/aros
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12460,8 +12488,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
-platform expected:              amigaos4
-platform gui present:
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 
 arch/amigaos/joy.c:
@@ -12476,8 +12504,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
 not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
-platform expected:              amigaos4
-platform gui present:
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 
 arch/amigaos/joy.c:
@@ -12492,8 +12520,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/
 not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -extrajoydev1
-platform expected:              amigaos4
-platform gui present:
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 
 arch/amigaos/joy.c:
@@ -12508,8 +12536,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
 not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
-platform expected:              amigaos4
-platform gui present:
+platforms to check:			amigaos4
+platform gui present:           
 platform gui missing:
 
 arch/amigaos/joyll.c:
@@ -12524,8 +12552,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
-platform expected:              amigaos3/morphos/aros
-platform gui present:
+platforms to check:			amigaos3/morphos/aros
+platform gui present:           
 platform gui missing:
 
 arch/amigaos/joyll.c:
@@ -12540,8 +12568,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
 not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
-platform expected:              amigaos3/morphos/aros
-platform gui present:
+platforms to check:			amigaos3/morphos/aros
+platform gui present:           
 platform gui missing:
 
 arch/amigaos/joyll.c:
@@ -12556,8 +12584,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus
 not used in:                    xcbm2/vsid
 prepocessor:
 command-line:                   -extrajoydev1
-platform expected:              amigaos3/morphos/aros
-platform gui present:
+platforms to check:			amigaos3/morphos/aros
+platform gui present:           
 platform gui missing:
 
 arch/amigaos/joyll.c:
@@ -12572,8 +12600,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
 not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
-platform expected:              amigaos3/morphos/aros
-platform gui present:
+platforms to check:			amigaos3/morphos/aros
+platform gui present:           
 platform gui missing:
 
 ------------------------------------------------------------------------------------------------------------------------------------
@@ -12590,7 +12618,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -keymap
-platform gui present:           beos
+platforms to check:			beos
+platform gui present:           
 platform gui missing:
 fixme: do not use for vsid
 
@@ -12606,7 +12635,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:           beos
+platforms to check:			beos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 fixme: do not use for vsid
@@ -12623,7 +12653,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:           beos
+platforms to check:			beos
+platform gui present:           
 platform gui missing:
 
 arch/beos/ui.cc:
@@ -12638,7 +12669,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:           beos
+platforms to check:			beos
+platform gui present:           
 platform gui missing:
 
 arch/beos/video.cc:
@@ -12653,9 +12685,76 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -directwindow / +directwindow
-platform gui present:           beos
+platforms to check:			beos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
+
+arch/beos/joy.cc:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 0..19 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), HARDWARE (4..19))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platforms to check:			beos
+platform gui present:           
+platform gui missing:
+
+arch/beos/joy.cc:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 0..19 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), HARDWARE (4..19))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   -joydev2
+platforms to check:			beos
+platform gui present:           
+platform gui missing:
+
+arch/beos/joy.cc:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 0..19 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), HARDWARE (4..19))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platforms to check:			beos
+platform gui present:           
+platform gui missing:
+
+arch/beos/joy.cc:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 0..19 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), HARDWARE (4..19))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platforms to check:			beos
+platform gui present:           
+platform gui missing:
+
+------------------------------------------------------------------------------------------------------------------------------------
 
 arch/msdos/ui.c:
 ----------------
@@ -12669,7 +12768,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -leds / +leds
-platform gui present:           dos
+platforms to check:			dos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12685,7 +12785,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -statusbar / +statusbar (fixme, should be -statusbar 0/1/2)
-platform gui present:           dos
+platforms to check:			dos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12703,7 +12804,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -vgamode
-platform gui present:           dos
+platforms to check:			dos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12719,7 +12821,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:                    #ifndef USE_MIDAS_SOUND
 command-line:                   -triplebuf / +triplebuf
-platform gui present:           dos
+platforms to check:			dos
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12735,7 +12838,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -speed
-platform gui present:           dos
+platforms to check:			dos
+platform gui present:           
 platform gui missing:
 
 arch/msdos/vsync.c:
@@ -12750,7 +12854,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -refresh
-platform gui present:           dos
+platforms to check:			dos
+platform gui present:           
 platform gui missing:
 
 arch/msdos/vsync.c:
@@ -12765,8 +12870,103 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -warp / +warp
-platform gui present:           dos
+platforms to check:			dos
+platform gui present:           
 platform gui missing:
+
+arch/msdos/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "HwJoyType"
+
+resource range:                 N/A (JOY_TYPE_AUTODETECT (0xFFFFFFFF), JOY_TYPE_NONE (0x00000000), JOY_TYPE_STANDARD (0x53544420),
+                                        JOY_TYPE_2PADS (0x32504144), JOY_TYPE_4BUTTON (0x34425554), JOY_TYPE_6BUTTON (0x36425554), JOY_TYPE_8BUTTON (0x38425554),
+                                        JOY_TYPE_FSPRO (0x4650524F), JOY_TYPE_WINGEX (0x57494E47), JOY_TYPE_SIDEWINDER (0x53572020),
+                                        JOY_TYPE_SIDEWINDER_AG (0x53574147), JOY_TYPE_SIDEWINDER_PP (0x53575050), JOY_TYPE_GAMEPAD_PRO (0x4750524F),
+                                        JOY_TYPE_GRIP (0x47524950), JOY_TYPE_GRIP4 (0x47524934), JOY_TYPE_SNESPAD_LPT1 (0x534E4531),
+                                        JOY_TYPE_SNESPAD_LPT2 (0x534E4532), JOY_TYPE_SNESPAD_LPT3 (0x534E4533), JOY_TYPE_PSXPAD_LPT1 (0x50535831),
+                                        JOY_TYPE_PSXPAD_LPT2 (0x50535832), JOY_TYPE_PSXPAD_LPT3 (0x50535833), JOY_TYPE_N64PAD_LPT1 (0x4E363431),
+                                        JOY_TYPE_N64PAD_LPT2 (0x4E363432), JOY_TYPE_N64PAD_LPT3 (0x4E363433), JOY_TYPE_DB9_LPT1 (0x44423931),
+                                        JOY_TYPE_DB9_LPT2 (0x44423932), JOY_TYPE_DB9_LPT3 (0x44423933), JOY_TYPE_TURBOGRAFX_LPT1 (0x54475831),
+                                        JOY_TYPE_TURBOGRAFX_LPT2 (0x54475832), JOY_TYPE_TURBOGRAFX_LPT3 (0x54475833), JOY_TYPE_IFSEGA_ISA (0x53454749),
+                                        JOY_TYPE_IFSEGA_PCI (0x53454750), JOY_TYPE_IFSEGA_PCI_FAST (0x53475046), JOY_TYPE_WINGWARRIOR (0x57574152))
+resource default:               JOY_TYPE_NONE (0)
+resource function:              set_joystick_hw_type()
+resource var:                   joystick_hw_type[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			dos
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/msdos/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platforms to check:			dos
+platform gui present:           
+platform gui missing:
+
+arch/msdos/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/vsid/xvic
+prepocessor:
+command-line:                   -joydev2
+platforms to check:			dos
+platform gui present:           
+platform gui missing:
+
+arch/msdos/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platforms to check:			dos
+platform gui present:           
+platform gui missing:
+
+arch/msdos/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platforms to check:			dos
+platform gui present:           
+platform gui missing:
+
+------------------------------------------------------------------------------------------------------------------------------------
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -12780,7 +12980,8 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -buksymkeymap
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 
 arch/os2/kbd/kmap-pet.c:
@@ -12795,7 +12996,8 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -bukposkeymap
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 
 arch/os2/kbd/kmap-pet.c:
@@ -12810,7 +13012,8 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -grsymkeymap
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 
 arch/os2/kbd/kmap-pet.c:
@@ -12825,7 +13028,8 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -grposkeymap
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 
 arch/os2/kbd/kmap-pet.c:
@@ -12840,7 +13044,8 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -bdesymkeymap
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 
 arch/os2/kbd/kmap-pet.c:
@@ -12855,7 +13060,8 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -bdeposkeymap
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 
 arch/os2/kbd/kmap.c:
@@ -12870,7 +13076,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:                    xpet
 prepocessor:
 command-line:                   -symkeymap
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 
 arch/os2/kbd/kmap.c:
@@ -12885,7 +13092,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:                    xpet
 prepocessor:
 command-line:                   -poskeymap
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 
 arch/os2/mousedrv.c:
@@ -12900,7 +13108,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -hidemouseptr / +hidemouseptr
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12916,7 +13125,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12932,7 +13142,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -leds / +leds
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12948,7 +13159,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifndef DIRECT_ACCESS
 command-line:                   -stretch
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12964,7 +13176,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -border
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12980,7 +13193,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -menu / +menu
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -12996,9 +13210,518 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -logwin / +logwin
-platform gui present:           os/2
+platforms to check:			os2
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyAup"
+resource range:                 N/A
+resource default:               200
+resource function:              set_joy()
+resource var:                   joy[0].direction[KEYSET_N]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyAdown"
+resource range:                 N/A
+resource default:               600
+resource function:              set_joy()
+resource var:                   joy[0].direction[KEYSET_S]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyAleft"
+resource range:                 N/A
+resource default:               200
+resource function:              set_joy()
+resource var:                   joy[0].direction[KEYSET_W]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyAright"
+resource range:                 N/A
+resource default:               600
+resource function:              set_joy()
+resource var:                   joy[0].direction[KEYSET_E]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyBup"
+resource range:                 N/A
+resource default:               200
+resource function:              set_joy()
+resource var:                   joy[1].direction[KEYSET_N]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyBdown"
+resource range:                 N/A
+resource default:               600
+resource function:              set_joy()
+resource var:                   joy[1].direction[KEYSET_S]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyBleft"
+resource range:                 N/A
+resource default:               200
+resource function:              set_joy()
+resource var:                   joy[1].direction[KEYSET_W]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyBright"
+resource range:                 N/A
+resource default:               600
+resource function:              set_joy()
+resource var:                   joy[1].direction[KEYSET_E]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1NorthWest"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_NW]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1North"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_N]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1NorthEast"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_NE]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1East"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_E]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1SouthEast"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_SE]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1South"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_S]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1SouthWest"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_SW]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1West"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_W]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1Fire"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_FIRE]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2NorthWest"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_NW]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2North"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_N]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2NorthEast"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_NE]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2East"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_E]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2SouthEast"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_SE]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2South"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_S]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2SouthWest"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_SW]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2West"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_W]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2Fire"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_FIRE]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_cbm_joystick()
+resource var:                   cbm_joystick[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_cbm_joystick()
+resource var:                   cbm_joystick[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   -joydev2
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_cbm_joystick()
+resource var:                   cbm_joystick[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_cbm_joystick()
+resource var:                   cbm_joystick[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+
+------------------------------------------------------------------------------------------------------------------------------------
 
 arch/sdl/kbd.c:
 ---------------
@@ -13012,7 +13735,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:           sdl
+platforms to check:			sdl
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -13028,7 +13752,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -menukey
-platform gui present:           sdl
+platforms to check:			sdl
+platform gui present:           
 platform gui missing:
 fixme: add to documentation
 
@@ -13366,6 +14091,124 @@ platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
+arch/sdl/joy.c:
+---------------
+resource type:                  string
+resource name:                  "JoyMapFile"
+resource range:                 N/A
+resource default:               NULL
+resource function:              joymap_file_set()
+resource var:                   joymap_file
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
+command-line:                   -joymap
+platform gui present:           sdl
+platform gui missing:
+fixme: add to documentation
+
+arch/sdl/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyThreshold"
+resource range:                 0..32767
+resource default:               DEFAULT_JOYSTICK_THRESHOLD (10000)
+resource function:              set_joystick_threshold()
+resource var:                   joystick_threshold
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
+command-line:                   -joythreshold
+platform gui present:           sdl
+platform gui missing:
+fixme: add to documentation
+
+arch/sdl/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyFuzz"
+resource range:                 0..32767
+resource default:               DEFAULT_JOYSTICK_FUZZ (1000)
+resource function:              set_joystick_fuzz()
+resource var:                   joystick_fuzz
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
+command-line:                   -joyfuzz
+platform gui present:           sdl
+platform gui missing:
+fixme: add to documentation
+
+arch/sdl/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_JOYSTICK (4) only if the sdl
+                                        library was compiled with joystick support)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platform expected:              sdl
+platform gui present:
+platform gui missing:
+
+arch/sdl/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_JOYSTICK (4) only if the sdl
+                                        library was compiled with joystick support)
+resource default:               JOYDEV_NONE (0) / JOYDEV_JOYSTICK (4) (for android)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   -joydev2
+platform expected:              sdl
+platform gui present:
+platform gui missing:
+
+arch/sdl/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_JOYSTICK (4) only if the sdl
+                                        library was compiled with joystick support)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platform expected:              sdl
+platform gui present:
+platform gui missing:
+
+arch/sdl/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_JOYSTICK (4) only if the sdl
+                                        library was compiled with joystick support)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platform expected:              sdl
+platform gui present:
+platform gui missing:
+
+------------------------------------------------------------------------------------------------------------------------------------
+
 arch/unix/macosx/cocoa/mousedrv.m:
 ----------------------------------
 resource type:                  int
@@ -13555,6 +14398,520 @@ command-line:                   -midioutname
 platform gui present:           osx
 platform gui missing:
 fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyADevice"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_joy_a_device_name()
+resource var:                   joy_a.device_name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAdevice
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyAXAxis"
+resource range:                 N/A
+resource default:               "X"
+resource function:              set_joy_a_x_axis_name()
+resource var:                   joy_a.axis[HID_X_AXIS].name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAxaxis
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyAYAxis"
+resource range:                 N/A
+resource default:               "Y"
+resource function:              set_joy_a_y_axis_name()
+resource var:                   joy_a.axis[HID_Y_AXIS].name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAyaxis
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyAButtons"
+resource range:                 N/A
+resource default:               "1:2:0:0:0:0"
+resource function:              set_joy_a_button_mapping()
+resource var:                   joy_a.button_mapping
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAbuttons
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyAAutoButtons"
+resource range:                 N/A
+resource default:               "3:4:2:2:4:4"
+resource function:              set_joy_a_auto_button_mapping()
+resource var:                   joy_a.auto_button_mapping
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAautobuttons
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyBDevice"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_joy_b_device_name()
+resource var:                   joy_b.device_name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBdevice
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyBXAxis"
+resource range:                 N/A
+resource default:               "X"
+resource function:              set_joy_b_x_axis_name()
+resource var:                   joy_b.axis[HID_X_AXIS].name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBxaxis
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyBYAxis"
+resource range:                 N/A
+resource default:               "Y"
+resource function:              set_joy_b_y_axis_name()
+resource var:                   joy_b.axis[HID_Y_AXIS].name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyByaxis
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyBButtons"
+resource range:                 N/A
+resource default:               "1:2:0:0:0:0"
+resource function:              set_joy_b_button_mapping()
+resource var:                   joy_b.button_mapping
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBbuttons
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyBAutoButtons"
+resource range:                 N/A
+resource default:               "3:4:2:2:4:4"
+resource function:              set_joy_b_auto_button_mapping()
+resource var:                   joy_b.auto_button_mapping
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBautobuttons
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAXThreshold"
+resource range:                 0..100
+resource default:               50
+resource function:              set_joy_a_x_threshold()
+resource var:                   joy_a.axis[HID_X_AXIS].threshold
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAxthreshold
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAYThreshold"
+resource range:                 0..100
+resource default:               50
+resource function:              set_joy_a_y_threshold()
+resource var:                   joy_a.axis[HID_Y_AXIS].threshold
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAythreshold
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBXThreshold"
+resource range:                 0..100
+resource default:               50
+resource function:              set_joy_b_x_threshold()
+resource var:                   joy_b.axis[HID_X_AXIS].threshold
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBxthreshold
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBYThreshold"
+resource range:                 0..100
+resource default:               50
+resource function:              set_joy_b_y_threshold()
+resource var:                   joy_b.axis[HID_Y_AXIS].threshold
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBythreshold
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAXMin"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_a_x_min()
+resource var:                   joy_a.axis[HID_X_AXIS].min
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAYMin"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_a_y_min()
+resource var:                   joy_a.axis[HID_Y_AXIS].min
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBXMin"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_b_x_min()
+resource var:                   joy_b.axis[HID_X_AXIS].min
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBYMin"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_b_y_min()
+resource var:                   joy_b.axis[HID_Y_AXIS].min
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAXMax"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_a_x_max()
+resource var:                   joy_a.axis[HID_X_AXIS].max
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAYMax"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_a_y_max()
+resource var:                   joy_a.axis[HID_Y_AXIS].max
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBXMax"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_b_x_max()
+resource var:                   joy_b.axis[HID_X_AXIS].max
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBYMax"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_b_y_max()
+resource var:                   joy_b.axis[HID_Y_AXIS].max
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAXLogical"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_a_x_logical()
+resource var:                   joy_a.axis[HID_X_AXIS].logical
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAYLogical"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_a_y_logical()
+resource var:                   joy_a.axis[HID_Y_AXIS].logical
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBXLogical"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_b_x_logical()
+resource var:                   joy_b.axis[HID_X_AXIS].logical
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBYLogical"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_b_y_logical()
+resource var:                   joy_b.axis[HID_Y_AXIS].logical
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAHatSwitch"
+resource range:                 N/A
+resource default:               1
+resource function:              set_joy_a_hat_switch()
+resource var:                   joy_a.hat_switch.id
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAhatswitch
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBHatSwitch"
+resource range:                 N/A
+resource default:               1
+resource function:              set_joy_b_hat_switch()
+resource var:                   joy_b.hat_switch.id
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBhatswitch
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platform expected:              osx
+platform gui present:
+platform gui missing:
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   -joydev2
+platform expected:              osx
+platform gui present:
+platform gui missing:
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platform expected:              osx
+platform gui present:
+platform gui missing:
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platform expected:              osx
+platform gui present:
+platform gui missing:
+
+------------------------------------------------------------------------------------------------------------------------------------
 
 arch/unix/mididrv.c:
 --------------------
@@ -14104,6 +15461,110 @@ command-line:                   -trueaspect / +trueaspect
 platform gui present:           unix
 platform gui missing:
 
+arch/unix/joy.c:
+----------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
+                                        JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
+                                        JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
+                                        JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
+                                        JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
+                                        JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platform expected:              unix
+platform gui present:
+platform gui missing:
+
+arch/unix/joy.c:
+----------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
+                                        JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
+                                        JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
+                                        JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
+                                        JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
+                                        JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   -joydev2
+platform expected:              unix
+platform gui present:
+platform gui missing:
+
+arch/unix/joy.c:
+----------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
+                                        JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
+                                        JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
+                                        JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
+                                        JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
+                                        JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platform expected:              unix
+platform gui present:
+platform gui missing:
+
+arch/unix/joy.c:
+----------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
+                                        JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
+                                        JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
+                                        JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
+                                        JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
+                                        JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
+                                        JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platform expected:              unix
+platform gui present:
+platform gui missing:
+
 arch/win32/mididrv.c:
 ---------------------
 resource type:                  int
@@ -14566,945 +16027,6 @@ platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
 
-arch/msdos/joy.c:
------------------
-resource type:                  int
-resource name:                  "HwJoyType"
-
-resource range:                 N/A (JOY_TYPE_AUTODETECT (0xFFFFFFFF), JOY_TYPE_NONE (0x00000000), JOY_TYPE_STANDARD (0x53544420),
-                                        JOY_TYPE_2PADS (0x32504144), JOY_TYPE_4BUTTON (0x34425554), JOY_TYPE_6BUTTON (0x36425554), JOY_TYPE_8BUTTON (0x38425554),
-                                        JOY_TYPE_FSPRO (0x4650524F), JOY_TYPE_WINGEX (0x57494E47), JOY_TYPE_SIDEWINDER (0x53572020),
-                                        JOY_TYPE_SIDEWINDER_AG (0x53574147), JOY_TYPE_SIDEWINDER_PP (0x53575050), JOY_TYPE_GAMEPAD_PRO (0x4750524F),
-                                        JOY_TYPE_GRIP (0x47524950), JOY_TYPE_GRIP4 (0x47524934), JOY_TYPE_SNESPAD_LPT1 (0x534E4531),
-                                        JOY_TYPE_SNESPAD_LPT2 (0x534E4532), JOY_TYPE_SNESPAD_LPT3 (0x534E4533), JOY_TYPE_PSXPAD_LPT1 (0x50535831),
-                                        JOY_TYPE_PSXPAD_LPT2 (0x50535832), JOY_TYPE_PSXPAD_LPT3 (0x50535833), JOY_TYPE_N64PAD_LPT1 (0x4E363431),
-                                        JOY_TYPE_N64PAD_LPT2 (0x4E363432), JOY_TYPE_N64PAD_LPT3 (0x4E363433), JOY_TYPE_DB9_LPT1 (0x44423931),
-                                        JOY_TYPE_DB9_LPT2 (0x44423932), JOY_TYPE_DB9_LPT3 (0x44423933), JOY_TYPE_TURBOGRAFX_LPT1 (0x54475831),
-                                        JOY_TYPE_TURBOGRAFX_LPT2 (0x54475832), JOY_TYPE_TURBOGRAFX_LPT3 (0x54475833), JOY_TYPE_IFSEGA_ISA (0x53454749),
-                                        JOY_TYPE_IFSEGA_PCI (0x53454750), JOY_TYPE_IFSEGA_PCI_FAST (0x53475046), JOY_TYPE_WINGWARRIOR (0x57574152))
-resource default:               JOY_TYPE_NONE (0)
-resource function:              set_joystick_hw_type()
-resource var:                   joystick_hw_type[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           dos
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyAup"
-resource range:                 N/A
-resource default:               200
-resource function:              set_joy()
-resource var:                   joy[0].direction[KEYSET_N]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyAdown"
-resource range:                 N/A
-resource default:               600
-resource function:              set_joy()
-resource var:                   joy[0].direction[KEYSET_S]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyAleft"
-resource range:                 N/A
-resource default:               200
-resource function:              set_joy()
-resource var:                   joy[0].direction[KEYSET_W]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyAright"
-resource range:                 N/A
-resource default:               600
-resource function:              set_joy()
-resource var:                   joy[0].direction[KEYSET_E]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyBup"
-resource range:                 N/A
-resource default:               200
-resource function:              set_joy()
-resource var:                   joy[1].direction[KEYSET_N]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyBdown"
-resource range:                 N/A
-resource default:               600
-resource function:              set_joy()
-resource var:                   joy[1].direction[KEYSET_S]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyBleft"
-resource range:                 N/A
-resource default:               200
-resource function:              set_joy()
-resource var:                   joy[1].direction[KEYSET_W]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyBright"
-resource range:                 N/A
-resource default:               600
-resource function:              set_joy()
-resource var:                   joy[1].direction[KEYSET_E]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1NorthWest"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_NW]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1North"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_N]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1NorthEast"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_NE]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1East"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_E]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1SouthEast"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_SE]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1South"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_S]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1SouthWest"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_SW]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1West"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_W]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1Fire"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_FIRE]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2NorthWest"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_NW]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2North"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_N]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2NorthEast"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_NE]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2East"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_E]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2SouthEast"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_SE]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2South"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_S]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2SouthWest"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_SW]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2West"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_W]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2Fire"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_FIRE]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os/2
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/joy.c:
----------------
-resource type:                  string
-resource name:                  "JoyMapFile"
-resource range:                 N/A
-resource default:               NULL
-resource function:              joymap_file_set()
-resource var:                   joymap_file
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
-command-line:                   -joymap
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyThreshold"
-resource range:                 0..32767
-resource default:               DEFAULT_JOYSTICK_THRESHOLD (10000)
-resource function:              set_joystick_threshold()
-resource var:                   joystick_threshold
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
-command-line:                   -joythreshold
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyFuzz"
-resource range:                 0..32767
-resource default:               DEFAULT_JOYSTICK_FUZZ (1000)
-resource function:              set_joystick_fuzz()
-resource var:                   joystick_fuzz
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
-command-line:                   -joyfuzz
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyADevice"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_joy_a_device_name()
-resource var:                   joy_a.device_name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAdevice
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyAXAxis"
-resource range:                 N/A
-resource default:               "X"
-resource function:              set_joy_a_x_axis_name()
-resource var:                   joy_a.axis[HID_X_AXIS].name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAxaxis
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyAYAxis"
-resource range:                 N/A
-resource default:               "Y"
-resource function:              set_joy_a_y_axis_name()
-resource var:                   joy_a.axis[HID_Y_AXIS].name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAyaxis
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyAButtons"
-resource range:                 N/A
-resource default:               "1:2:0:0:0:0"
-resource function:              set_joy_a_button_mapping()
-resource var:                   joy_a.button_mapping
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAbuttons
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyAAutoButtons"
-resource range:                 N/A
-resource default:               "3:4:2:2:4:4"
-resource function:              set_joy_a_auto_button_mapping()
-resource var:                   joy_a.auto_button_mapping
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAautobuttons
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyBDevice"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_joy_b_device_name()
-resource var:                   joy_b.device_name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBdevice
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyBXAxis"
-resource range:                 N/A
-resource default:               "X"
-resource function:              set_joy_b_x_axis_name()
-resource var:                   joy_b.axis[HID_X_AXIS].name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBxaxis
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyBYAxis"
-resource range:                 N/A
-resource default:               "Y"
-resource function:              set_joy_b_y_axis_name()
-resource var:                   joy_b.axis[HID_Y_AXIS].name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyByaxis
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyBButtons"
-resource range:                 N/A
-resource default:               "1:2:0:0:0:0"
-resource function:              set_joy_b_button_mapping()
-resource var:                   joy_b.button_mapping
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBbuttons
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyBAutoButtons"
-resource range:                 N/A
-resource default:               "3:4:2:2:4:4"
-resource function:              set_joy_b_auto_button_mapping()
-resource var:                   joy_b.auto_button_mapping
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBautobuttons
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAXThreshold"
-resource range:                 0..100
-resource default:               50
-resource function:              set_joy_a_x_threshold()
-resource var:                   joy_a.axis[HID_X_AXIS].threshold
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAxthreshold
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAYThreshold"
-resource range:                 0..100
-resource default:               50
-resource function:              set_joy_a_y_threshold()
-resource var:                   joy_a.axis[HID_Y_AXIS].threshold
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAythreshold
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBXThreshold"
-resource range:                 0..100
-resource default:               50
-resource function:              set_joy_b_x_threshold()
-resource var:                   joy_b.axis[HID_X_AXIS].threshold
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBxthreshold
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBYThreshold"
-resource range:                 0..100
-resource default:               50
-resource function:              set_joy_b_y_threshold()
-resource var:                   joy_b.axis[HID_Y_AXIS].threshold
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBythreshold
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAXMin"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_a_x_min()
-resource var:                   joy_a.axis[HID_X_AXIS].min
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAYMin"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_a_y_min()
-resource var:                   joy_a.axis[HID_Y_AXIS].min
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBXMin"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_b_x_min()
-resource var:                   joy_b.axis[HID_X_AXIS].min
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBYMin"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_b_y_min()
-resource var:                   joy_b.axis[HID_Y_AXIS].min
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAXMax"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_a_x_max()
-resource var:                   joy_a.axis[HID_X_AXIS].max
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAYMax"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_a_y_max()
-resource var:                   joy_a.axis[HID_Y_AXIS].max
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBXMax"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_b_x_max()
-resource var:                   joy_b.axis[HID_X_AXIS].max
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBYMax"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_b_y_max()
-resource var:                   joy_b.axis[HID_Y_AXIS].max
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAXLogical"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_a_x_logical()
-resource var:                   joy_a.axis[HID_X_AXIS].logical
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAYLogical"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_a_y_logical()
-resource var:                   joy_a.axis[HID_Y_AXIS].logical
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBXLogical"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_b_x_logical()
-resource var:                   joy_b.axis[HID_X_AXIS].logical
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBYLogical"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_b_y_logical()
-resource var:                   joy_b.axis[HID_Y_AXIS].logical
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAHatSwitch"
-resource range:                 N/A
-resource default:               1
-resource function:              set_joy_a_hat_switch()
-resource var:                   joy_a.hat_switch.id
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAhatswitch
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBHatSwitch"
-resource range:                 N/A
-resource default:               1
-resource function:              set_joy_b_hat_switch()
-resource var:                   joy_b.hat_switch.id
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBhatswitch
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
 arch/win32/joy.c:
 -----------------
 resource type:                  int
@@ -15792,434 +16314,6 @@ command-line:                   -dx9disable (fixme: no +dx9disable)
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
-
-arch/beos/joy.cc:
------------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 0..19 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), HARDWARE (4..19))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform expected:              beos
-platform gui present:
-platform gui missing:
-
-arch/beos/joy.cc:
------------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 0..19 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), HARDWARE (4..19))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   -joydev2
-platform expected:              beos
-platform gui present:
-platform gui missing:
-
-arch/beos/joy.cc:
------------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 0..19 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), HARDWARE (4..19))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform expected:              beos
-platform gui present:
-platform gui missing:
-
-arch/beos/joy.cc:
------------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 0..19 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), HARDWARE (4..19))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform expected:              beos
-platform gui present:
-platform gui missing:
-
-arch/msdos/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform expected:              dos
-platform gui present:
-platform gui missing:
-
-arch/msdos/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/vsid/xvic
-prepocessor:
-command-line:                   -joydev2
-platform expected:              dos
-platform gui present:
-platform gui missing:
-
-arch/msdos/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform expected:              dos
-platform gui present:
-platform gui missing:
-
-arch/msdos/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform expected:              dos
-platform gui present:
-platform gui missing:
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_cbm_joystick()
-resource var:                   cbm_joystick[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform expected:              os2
-platform gui present:
-platform gui missing:
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_cbm_joystick()
-resource var:                   cbm_joystick[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   -joydev2
-platform expected:              os2
-platform gui present:
-platform gui missing:
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_cbm_joystick()
-resource var:                   cbm_joystick[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform expected:              os2
-platform gui present:
-platform gui missing:
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_cbm_joystick()
-resource var:                   cbm_joystick[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform expected:              os2
-platform gui present:
-platform gui missing:
-
-arch/sdl/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_JOYSTICK (4) only if the sdl
-                                        library was compiled with joystick support)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform expected:              sdl
-platform gui present:
-platform gui missing:
-
-arch/sdl/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_JOYSTICK (4) only if the sdl
-                                        library was compiled with joystick support)
-resource default:               JOYDEV_NONE (0) / JOYDEV_JOYSTICK (4) (for android)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   -joydev2
-platform expected:              sdl
-platform gui present:
-platform gui missing:
-
-arch/sdl/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_JOYSTICK (4) only if the sdl
-                                        library was compiled with joystick support)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform expected:              sdl
-platform gui present:
-platform gui missing:
-
-arch/sdl/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_JOYSTICK (4) only if the sdl
-                                        library was compiled with joystick support)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform expected:              sdl
-platform gui present:
-platform gui missing:
-
-arch/unix/joy.c:
-----------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
-                                        JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
-                                        JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
-                                        JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
-                                        JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
-                                        JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform expected:              unix
-platform gui present:
-platform gui missing:
-
-arch/unix/joy.c:
-----------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
-                                        JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
-                                        JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
-                                        JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
-                                        JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
-                                        JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   -joydev2
-platform expected:              unix
-platform gui present:
-platform gui missing:
-
-arch/unix/joy.c:
-----------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
-                                        JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
-                                        JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
-                                        JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
-                                        JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
-                                        JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform expected:              unix
-platform gui present:
-platform gui missing:
-
-arch/unix/joy.c:
-----------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
-                                        JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
-                                        JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
-                                        JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
-                                        JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
-                                        JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform expected:              unix
-platform gui present:
-platform gui missing:
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform expected:              osx
-platform gui present:
-platform gui missing:
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   -joydev2
-platform expected:              osx
-platform gui present:
-platform gui missing:
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform expected:              osx
-platform gui present:
-platform gui missing:
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform expected:              osx
-platform gui present:
-platform gui missing:
 
 arch/win32/joy.c:
 -----------------
