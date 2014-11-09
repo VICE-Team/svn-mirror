@@ -40,6 +40,7 @@
 #ifdef ENABLE_NLS
 #include <locale.h>
 #endif
+#include <time.h>
 
 #include "archdep.h"
 #include "cmdline.h"
@@ -94,6 +95,10 @@ int main_program(int argc, char **argv)
     int i;
     char *program_name;
     int ishelp = 0;
+
+    /* set random seed for rand() from current time, so things like random startup
+       delay are actually random, ie different on each startup, at all. */
+    srand((unsigned int)time(NULL));
 
     /* Check for -config and -console before initializing the user interface.
        -config  => use specified configuration file
