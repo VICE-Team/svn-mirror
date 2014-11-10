@@ -386,8 +386,8 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
                         if (SHORT2FROMMP(mp1) == SPBN_ENDSPIN) {
                             const ULONG val = WinGetSpinVal((HWND)mp2);
 
-                            resources_set_int(ctrl == SPB_UP ? (joy1 ? "joyAup" : "joyBup") : ctrl == SPB_DOWN ? (joy1 ? "joyAdown" : "joyBdown") :
-                                              ctrl == SPB_LEFT ? (joy1 ? "joyAleft" : "joyBleft") : (joy1 ? "joyAright" : "joyBright"), val);
+                            resources_set_int(ctrl == SPB_UP ? (joy1 ? "JoyAup" : "JoyBup") : ctrl == SPB_DOWN ? (joy1 ? "JoyAdown" : "JoyBdown") :
+                                              ctrl == SPB_LEFT ? (joy1 ? "JoyAleft" : "JoyBleft") : (joy1 ? "JoyAright" : "JoyBright"), val);
                         }
                         break;
                 }
