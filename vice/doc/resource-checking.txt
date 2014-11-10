@@ -5,7 +5,7 @@ aciacore.c as included from plus4/plus4acia.c:
 -------------------------------------------------
 resource type:                  int
 resource name:                  "Acia1Dev"
-resource range:                 0..3 (CHECKED)
+resource range:                 0..3
 resource default:               0
 resource function:              acia_set_device()
 resource var:                   acia.device
@@ -2621,8 +2621,7 @@ resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -plus256kimage
-platforms to check:             sdl
-platform gui present:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
 c64/plus256k.c:
@@ -2637,8 +2636,7 @@ resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -plus256k / +plus256k
-platforms to check:             sdl
-platform gui present:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
 c64/plus60k.c:
@@ -2653,8 +2651,7 @@ resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -plus60kimage
-platforms to check:             sdl
-platform gui present:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
 c64/plus60k.c:
@@ -2669,8 +2666,7 @@ resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -plus60k / +plus60k
-platforms to check:             sdl
-platform gui present:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
 c64/plus60k.c:
@@ -2685,8 +2681,7 @@ resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -plus60kbase
-platforms to check:             sdl
-platform gui present:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
 c64/psid.c:
@@ -2701,8 +2696,7 @@ resource emulators:             x64/x64sc/vsid
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             sdl
-platform gui present:           amigaos/beos/windows/unix
+platform gui present:           amigaos/beos/sdl/unix/windows
 platform gui missing:           dos/os2/osx
 fixme: only vsid needs this
 
@@ -2718,8 +2712,7 @@ resource emulators:             x64/x64sc/vsid
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             sdl
-platform gui present:           os2/unix
+platform gui present:           os2/sdl/unix
 platform gui missing:           amigaos/beos/dos/osx/windows
 fixme: only vsid needs this
 
@@ -2735,9 +2728,8 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -chargen
-platforms to check:             sdl/osx/windows
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: it's pointless to make this user-defineable in the GUIs
 blacky note: agreed.
 
@@ -2753,9 +2745,8 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -kernal
-platforms to check:             sdl/osx/windows
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: it's pointless to make this user-defineable in the GUIs
 blacky note: agreed.
 
@@ -2771,9 +2762,8 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -basic
-platforms to check:             sdl/osx/windows
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: it's pointless to make this user-defineable in the GUIs
 blacky note: agreed.
 
@@ -2789,9 +2779,8 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -kernalrev
-platforms to check:             sdl/osx/windows
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: it's pointless to make this user-defineable in the GUIs
 blacky note: agreed.
 
@@ -2807,9 +2796,8 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
-platforms to check:             sdl/osx/windows
 platform gui present:
-platform gui missing:           amigaos/beos/dos/unix
+platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
 fixme:                          it should get removed from vsid, as it has no keyboard
 
 c64/vsid-resources.c:
@@ -2824,9 +2812,8 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -poskeymap
-platforms to check:             sdl/osx/windows
 platform gui present:
-platform gui missing:           amigaos/beos/dos/unix
+platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
 fixme:                          it should get removed from vsid, as it has no keyboard
 
 c64/vsid-resources.c:
@@ -2841,15 +2828,14 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symdekeymap
-platforms to check:             sdl/osx/windows
 platform gui present:
-platform gui missing:           amigaos/beos/dos/unix
+platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
 fixme:                          it should get removed from vsid, as it has no keyboard
 
 c64/vsid-resources.c:
 ---------------------
 resource type:                  int
-resource name:                   "MachineVideoStandard"
+resource name:                  "MachineVideoStandard"
 resource range:                 -4..-1 (MACHINE_SYNC_PAL (-1), MACHINE_SYNC_NTSC (-2), MACHINE_SYNC_NTSCOLD (-3), MACHINE_SYNC_PALN (-4))
 resource default:               MACHINE_SYNC_PAL
 resource function:              set_sync_factor()
@@ -2874,9 +2860,8 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
 command-line:                   NONE
-platforms to check:             sdl/osx/windows
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: should not be in vsid at all, also its tied to the type of the machine so its pointless to make it user selectable
 
 c64/vsid-resources.c:
@@ -2891,9 +2876,8 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -cia1model
-platforms to check:             sdl/osx/windows
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: pointless to make user selectable in vsid UIs
 blacky note: agreed.
 
@@ -2909,9 +2893,8 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -cia2model
-platforms to check:             sdl/osx/windows
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: pointless to make user selectable in vsid UIs
 blacky note: agreed.
 
@@ -2927,9 +2910,8 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
-platforms to check:             sdl/osx/windows
 platform gui present:
-platform gui missing:           amigaos/beos/dos/unix
+platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
 fixme:                          it should get removed from vsid, as it has no keyboard
 
 c64/vsid-resources.c:
@@ -2946,8 +2928,7 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -sidstereoaddress
-platforms to check:             sdl/osx/windows
-platform gui present:           beos/unix
+platform gui present:           beos/sdl/unix/osx/windows
 platform gui missing:           amigaos/dos/os2
 
 c64/vsid-resources.c:
@@ -2964,8 +2945,7 @@ resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -sidtripleaddress
-platforms to check:             sdl/osx/windows
-platform gui present:           beos/unix
+platform gui present:           beos/sdl/unix/osx/windows
 platform gui missing:           amigaos/dos/os2
 
 c64dtv/c64dtv-resources.c:
@@ -2980,8 +2960,7 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -chargen
-platforms to check:             sdl
-platform gui present:           beos/dos/os2/osx/windows/unix
+platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
 
 c64dtv/c64dtv-resources.c:
@@ -2996,8 +2975,7 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -kernal
-platforms to check:             sdl
-platform gui present:           beos/dos/os2/osx/windows/unix
+platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
 
 c64dtv/c64dtv-resources.c:
@@ -3012,8 +2990,7 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -basic
-platforms to check:             sdl
-platform gui present:           beos/dos/os2/osx/windows/unix
+platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
 
 c64dtv/c64dtv-resources.c:
@@ -3028,12 +3005,10 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -kernalrev
-platforms to check:             sdl
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: perhaps does not make a lot of sense for DTV, because it only came with one (rev3???) kernal
 blacky note: agreed, is it used anywhere in the c64dtv code ?? (fixme: research)
-
 
 c64dtv/c64dtv-resources.c:
 --------------------------
@@ -3047,8 +3022,7 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
-platforms to check:             sdl
-platform gui present:           osx/windows/unix
+platform gui present:           osx/sdl/windows
 platform gui missing:           amigaos/beos/dos
 
 c64dtv/c64dtv-resources.c:
@@ -3063,8 +3037,7 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -poskeymap
-platforms to check:             sdl
-platform gui present:           osx/windows/unix
+platform gui present:           osx/sdl/unix/windows
 platform gui missing:           amigaos/beos/dos
 
 c64dtv/c64dtv-resources.c:
@@ -3079,8 +3052,7 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symdekeymap
-platforms to check:             sdl
-platform gui present:           osx/windows/unix
+platform gui present:           osx/sdl/unix/windows
 platform gui missing:           amigaos/beos/dos
 
 c64dtv/c64dtv-resources.c:
@@ -3095,8 +3067,7 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -pal / -ntsc
-platforms to check:             sdl
-platform gui present:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 fixme: fix documentation for x64dtv
 
@@ -3112,9 +3083,8 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
-platforms to check:             sdl
 platform gui present:           osx/windows/unix
-platform gui missing:           amigaos/beos/dos
+platform gui missing:           amigaos/beos/dos/sdl
 
 c64dtv/c64dtv-resources.c:
 --------------------------
@@ -3128,8 +3098,7 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -hummeradc / +hummeradc
-platforms to check:             sdl
-platform gui present:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
 c64dtv/c64dtvblitter.c:
@@ -3144,8 +3113,7 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -dtvrev
-platforms to check:             sdl
-platform gui present:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
 c64dtv/c64dtvblitter.c:
@@ -3160,9 +3128,8 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -dtvblitterlog / +dtvblitterlog
-platforms to check:             sdl
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: perhaps this should be only enabled when DEBUG is defined?
 blacky note: agreed.
 
@@ -3178,9 +3145,8 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -dtvdmalog / +dtvdmalog
-platforms to check:             sdl
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: perhaps this should be only enabled when DEBUG is defined?
 blacky note: agreed.
 
@@ -3196,8 +3162,7 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -c64dtvromimage
-platforms to check:             sdl
-platform gui present:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
 c64dtv/c64dtvflash.c:
@@ -3212,8 +3177,7 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -c64dtvromrw / +c64dtvromrw
-platforms to check:             sdl
-platform gui present:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
 c64dtv/c64dtvflash.c:
@@ -3228,9 +3192,8 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -dtvflashlog / +dtvflashlog
-platforms to check:             sdl
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows/unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: perhaps this should be only enabled when DEBUG is defined?
 blacky note: agreed.
 
@@ -7092,8 +7055,10 @@ platforms to check:             sdl
 platform gui present:           amigaos/beos/dos/os2/osx
 platform gui missing:           windows/unix
 fixme: Fix documentation for xpet
-note: since CRTC is not related to PAL/NTSC (tv norm), does having this in the UIs
-make sense? what exactly does it affect in case of the PETs?
+gpz note: since CRTC is not related to PAL/NTSC (tv norm), does having this in the UIs make sense?
+          what exactly does it affect in case of the PETs?
+blacky note: it seems that normally it would affect the pixel aspect ratio of the crtc, however
+             this code has been commented out and a fixme has been put in place.
 
 pet/pet-resources.c:
 --------------------
@@ -8323,7 +8288,9 @@ platforms to check:             sdl
 platform gui present:           amigaos/beos/dos/unix/windows
 platform gui missing:			os2/osx
 fixme: fix documentation
-note: having mps803 here is a bit odd, as that can not be connected to the userport
+gpz note: having mps803 here is a bit odd, as that can not be connected to the userport
+blacky note: agreed
+fixme: remove mps803 from the list.
 
 printerdrv/interface-serial.c:
 ------------------------------
@@ -8876,7 +8843,9 @@ command-line:                   NONE ?? (fixme)
 platforms to check:             sdl
 platform gui present:           amigaos/beos/osx/windows
 platform gui missing:           dos/os2/unix
-note: this is tied to the VICII type, changing it directly makes no sence
+gzp note: this is tied to the VICII type, changing it directly makes no sence
+blacky note: agreed, guis will need to be checked for usage of the resource directly and fixed where needed.
+fixme: check platforms for usage of this resource in x64sc and xscpu64 and fix to use the vicii model function where needed.
 
 scpu64/scpu64-resources.c:
 --------------------------
@@ -12126,7 +12095,7 @@ command-line:                   NONE (fixme)
 platform gui present:           
 platform gui missing:			amigaos
 fixme: add to documentation
-note: resource is used/checked
+blacky note: resource is used/checked
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -12143,7 +12112,7 @@ command-line:                   NONE (fixme)
 platform gui present:           
 platform gui missing:			amigaos
 fixme: add to documentation
-note: resource is used/checked
+blacky note: resource is used/checked
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -13090,7 +13059,7 @@ command-line:                   -leds / +leds
 platform gui present:           os2
 platform gui missing:
 fixme: add to documentation
-note: resource is used/checked
+blacky note: resource is used/checked
 
 arch/os2/video.c:
 -----------------
@@ -13123,7 +13092,7 @@ command-line:                   -border
 platform gui present:           
 platform gui missing:			os2
 fixme: add to documentation
-note: resource is used/checked
+blacky note: resource is used/checked
 
 arch/os2/video.c:
 -----------------
@@ -13156,7 +13125,7 @@ command-line:                   -logwin / +logwin
 platform gui present:           
 platform gui missing:			os2
 fixme: add to documentation
-note: resource is used/checked
+blacky note: resource is used/checked
 
 arch/os2/joy.c:
 ---------------
@@ -13666,10 +13635,10 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:			sdl
 platform gui present:           
-platform gui missing:
+platform gui missing:			sdl
 fixme: add to documentation
+blacky note: resource is used/checked
 
 arch/sdl/ui.c:
 --------------
@@ -13683,8 +13652,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -menukey
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13700,8 +13668,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -menukeyup
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13717,8 +13684,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -menukeydown
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13734,8 +13700,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -menukeyleft
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13751,8 +13716,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -menukeyright
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13768,8 +13732,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -menukeyselect
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13785,8 +13748,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -menukeycancel
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13802,8 +13764,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -menukeyexit
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13819,8 +13780,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -menukeymap
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13836,8 +13796,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -saveresourcesonexit / +saveresourcesonexit
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 
 arch/sdl/ui.c:
@@ -13852,8 +13811,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -confirmonexit / +confirmonexit
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 
 arch/sdl/uistatusbar.c:
@@ -13868,8 +13826,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13885,8 +13842,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:                    #ifdef HAVE_HWSCALE
 command-line:                   -aspect
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13902,10 +13858,10 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -sdlbitdepth
-platforms to check:			sdl
 platform gui present:           
-platform gui missing:
+platform gui missing:			sdl
 fixme: add to documentation
+blacky note: resource is used/checked
 
 arch/sdl/video.c:
 -----------------
@@ -13919,8 +13875,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -sdllimitmode
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13936,8 +13891,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -sdlcustomw
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13953,8 +13907,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -sdlcustomh
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -13970,10 +13923,10 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme ??)
-platforms to check:			sdl
 platform gui present:           
-platform gui missing:
+platform gui missing:			sdl
 fixme: add to documentation
+blacky note: resource is used/checked
 
 arch/sdl/video.c:
 -----------------
@@ -13987,10 +13940,10 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme ??)
-platforms to check:			sdl
 platform gui present:           
-platform gui missing:
+platform gui missing:			sdl
 fixme: add to documentation
+blacky note: resource is used/checked
 
 arch/sdl/video.c:
 -----------------
@@ -14004,8 +13957,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:                    #ifdef HAVE_HWSCALE
 command-line:                   -sdlaspectmode
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -14021,8 +13973,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:                    #ifdef HAVE_HWSCALE
 command-line:                   -sdlflipx / +sdlflipx
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -14034,12 +13985,11 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_sdl_gl_flipy()
 resource var:                   sdl_gl_flipy
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
+sresource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
 not used in:
 prepocessor:                    #ifdef HAVE_HWSCALE
 command-line:                   -sdlflipy / +sdlflipy
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -14055,10 +14005,10 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
 command-line:                   -joymap
-platforms to check:			sdl
 platform gui present:           
-platform gui missing:
+platform gui missing:			sdl
 fixme: add to documentation
+blacky note: the resource is used/checked
 
 arch/sdl/joy.c:
 ---------------
@@ -14072,8 +14022,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
 command-line:                   -joythreshold
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -14089,8 +14038,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
 command-line:                   -joyfuzz
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
 
@@ -14107,9 +14055,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
-platforms to check:			sdl
-platform gui present:           
-platform gui present:
+platform gui present:           sdl
 platform gui missing:
 
 arch/sdl/joy.c:
@@ -14125,8 +14071,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
 not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 
 arch/sdl/joy.c:
@@ -14142,8 +14087,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/
 not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -extrajoydev1
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 
 arch/sdl/joy.c:
@@ -14159,8 +14103,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
 not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
-platforms to check:			sdl
-platform gui present:           
+platform gui present:           sdl
 platform gui missing:
 
 ------------------------------------------------------------------------------------------------------------------------------------
@@ -15646,7 +15589,7 @@ command-line:                   NONE
 platform gui present:           
 platform gui missing:			windows
 fixme: add to documentation
-note resource does get set by monitor code
+blacky note resource does get set by monitor code
 
 arch/win32/ui-resources.c:
 --------------------------
