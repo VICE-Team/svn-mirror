@@ -152,7 +152,7 @@ HDIGIT  [0-9a-f]
         bank            { BEGIN(BNAME);         return CMD_BANK; }
         bload|bl        { BEGIN(FNAME);         return CMD_BLOAD; }
         block_read|br   { BEGIN(INITIAL);       return CMD_BLOCK_READ; }
-        break           { BEGIN(INITIAL);       return CMD_BREAK; }
+        break|bk        { BEGIN(INITIAL);       return CMD_BREAK; }
         bsave|bs        { BEGIN(FNAME);         return CMD_BSAVE; }
         backtrace|bt    { BEGIN(INITIAL);       return CMD_BACKTRACE; }
         block_write|bw  { BEGIN(INITIAL);       return CMD_BLOCK_WRITE; }
