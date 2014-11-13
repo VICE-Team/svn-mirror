@@ -5917,7 +5917,6 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
 command-line:                   NONE (fixme ??)
-platforms to check:             
 platform gui present:
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
@@ -5936,7 +5935,6 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
 command-line:                   -quicktimeaudiobitrate
-platforms to check:             
 platform gui present:
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
@@ -5955,7 +5953,6 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
 command-line:                   -quicktimevideobitrate
-platforms to check:             
 platform gui present:
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
@@ -5974,7 +5971,6 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
 command-line:                   NONE
-platforms to check:             
 platform gui present:
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
@@ -5993,7 +5989,6 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
 command-line:                   NONE
-platforms to check:             
 platform gui present:
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
@@ -8040,7 +8035,6 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -device6
-platforms to check:             sdl
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -8661,8 +8655,8 @@ resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -jiffyswitch / +jiffyswitch
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdlwindows
 platform gui missing:			osx
 fixme: add to documentation
 
@@ -8678,8 +8672,8 @@ resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -speedswitch / +speedswitch
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 fixme: add to documentation
 
@@ -8695,8 +8689,8 @@ resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -gluelogictype
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 
 serial/serial-iec-device.c:
@@ -8711,8 +8705,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice4 / +iecdevice4
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/osx/windows
 platform gui missing:			os2
 
 serial/serial-iec-device.c:
@@ -8727,8 +8721,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice5 / +iecdevice5
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/osx/windows
 platform gui missing:			os2
 
 serial/serial-iec-device.c:
@@ -8743,8 +8737,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice6 / +iecdevice6
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/osx/windows
 platform gui missing:			os2
 
 serial/serial-iec-device.c:
@@ -8759,8 +8753,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice7 / +iecdevice7
-platforms to check:             sdl/unix
-platform gui present:           amigaos/windows
+platforms to check:             unix
+platform gui present:           amigaos/sdl/windows
 platform gui missing:			beos/dos/os2/osx
 
 serial/serial-iec-device.c:
@@ -8775,8 +8769,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice8 / +iecdevice8
-platforms to check:             sdl/unix
-platform gui present:			osx/windows
+platforms to check:             unix
+platform gui present:			osx/sdl/windows
 platform gui missing:           amigaos/beos/dos/os2
 
 serial/serial-iec-device.c:
@@ -8791,8 +8785,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice9 / +iecdevice9
-platforms to check:             sdl/unix
-platform gui present:			osx/windows
+platforms to check:             unix
+platform gui present:			osx/sdl/windows
 platform gui missing:           amigaos/beos/dos/os2
 
 serial/serial-iec-device.c:
@@ -8807,8 +8801,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice10 / +iecdevice10
-platforms to check:             sdl/unix
-platform gui present:			osx/windows
+platforms to check:             unix
+platform gui present:			osx/sdl/windows
 platform gui missing:           amigaos/beos/dos/os2
 
 serial/serial-iec-device.c:
@@ -8823,8 +8817,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm2/xcbm5x0/xpet/vsid
 prepocessor:
 command-line:                   -iecdevice11 / +iecdevice11
-platforms to check:             sdl/unix
-platform gui present:			osx/windows
+platforms to check:             unix
+platform gui present:			osx/sdl/windows
 platform gui missing:           amigaos/beos/dos/os2
 
 sid/sid-resources.c:
@@ -8840,8 +8834,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residsamp
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 sid/sid-resources.c:
@@ -8856,8 +8850,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residpass
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 sid/sid-resources.c:
@@ -8872,8 +8866,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residgain
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/osx/windows
 platform gui missing:			os2
 
 sid/sid-resources.c:
@@ -8888,8 +8882,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residfilterbias
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/osx/windows
 platform gui missing:			os2
 
 sid/sid-resources.c:
@@ -8905,8 +8899,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   NONE
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 sid/sid-resources.c:
@@ -8921,8 +8915,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -sidfilters / +sidfilters
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 sid/sid-resources.c:
@@ -8937,8 +8931,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   NONE
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 sid/sid-resources.c:
@@ -8953,9 +8947,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #ifdef HAVE_HARDSID
 command-line:                   NONE (fixme)
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:			windows
-platform gui missing:           amigaos/beos/dos/os2/osx
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx
 fixme: add to documentation
 
 sid/sid-resources.c:
@@ -8970,9 +8964,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #ifdef HAVE_HARDSID
 command-line:                   NONE (fixme)
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:			windows
-platform gui missing:           amigaos/beos/dos/os2/osx
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx
 fixme: add to documentation
 
 sid/sid-resources.c:
@@ -8987,8 +8981,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -sidstereo
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 sound.c:
@@ -9004,8 +8998,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -sounddev
-platforms to check:             sdl/unix
-platform gui present:			os2/windows
+platforms to check:             unix
+platform gui present:			os2/sdl/windows
 platform gui missing:           amigaos/beos/dos/osx
 fixme: os2 gui items for this resource need to be fixed.
 
@@ -9021,9 +9015,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundarg
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 sound.c:
 --------
@@ -9037,9 +9031,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundrecdev
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:           amigaos/beos/windows
-platform gui missing:			dos/os2/osx
+platform gui missing:			dos/os2/sdl/osx
 
 sound.c:
 --------
@@ -9053,8 +9047,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundrecarg
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/sdl/windows
 platform gui missing:			dos/os2/osx
 
 sound.c:
@@ -9069,8 +9063,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -sound / +sound
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 sound.c:
@@ -9085,8 +9079,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundrate
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 sound.c:
@@ -9101,8 +9095,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundbufsize
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 sound.c:
@@ -9118,8 +9112,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundfragsize
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 sound.c:
@@ -9134,9 +9128,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 sound.c:
 --------
@@ -9150,8 +9144,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundsync
-platforms to check:            	sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:            	unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 sound.c:
@@ -9166,8 +9160,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             sdl/unix
-platform gui present:           amigaos/dos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/dos/sdl/osx/windows
 platform gui missing:			beos/os2
 
 sound.c:
@@ -9182,8 +9176,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundoutput
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/os2/sdl/windows
 platform gui missing:			dos/osx
 
 sysfile.c:
@@ -9198,9 +9192,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -directory
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 translate.c:
 ------------
@@ -9230,8 +9224,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:                    vsid
 prepocessor:
 command-line:                   -virtualdev / +virtualdev
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/osx/windows
 platform gui missing:			os2
 
 userport/userport_dac.c:
@@ -9246,8 +9240,8 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -userportdac / +userportdac
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 userport/userport_joystick.c:
@@ -9262,8 +9256,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/
 not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -userportjoy / +userportjoy
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 fixme: add to documentation
 
@@ -9280,8 +9274,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/
 not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -userportjoytype
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 fixme: add to documentation
 
@@ -9297,8 +9291,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -userportrtc / +userportrtc
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 fixme: add to documentation
 
@@ -9314,8 +9308,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDC16KB / -VDC64KB
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9330,8 +9324,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDC16KB / -VDC64KB
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/osx/windows
 platform gui missing:			os2
 
 vdc/vdc-resources.c:
@@ -9346,8 +9340,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCstretchvertical / +VDCstretchvertical
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9362,8 +9356,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCvcache / +VDCvcache
-platforms to check:             sdl/unix
-platform gui present:			beos/os2/osx/windows
+platforms to check:             unix
+platform gui present:			beos/os2/sdl/osx/windows
 platform gui missing:           amigaos/dos
 
 vdc/vdc-resources.c:
@@ -9378,8 +9372,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCdscan / +VDCdscan
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 Only if ARCHDEP_VDC_HWSCALE != 0
@@ -9395,8 +9389,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDChwscale / +VDChwscale
-platforms to check:             sdl/unix
-platform gui present:
+platforms to check:             unix
+platform gui present:			sdl
 platform gui missing:           
 
 vdc/vdc-resources.c:
@@ -9411,8 +9405,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCdsize / +VDCdsize
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 Only if fullscreen device available and only SDL
@@ -9428,8 +9422,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCfull / +VDCfull
-platforms to check:             sdl/unix
-platform gui present:
+platforms to check:             unix
+platform gui present:			sdl
 platform gui missing:           
 
 Only if fullscreen device available
@@ -9445,9 +9439,9 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           
+platform gui missing:           sdl
 
 Only if fullscreen device available
 vdc/vdc-resources.c:
@@ -9462,9 +9456,9 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCfulldevice
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           
+platform gui missing:           sdl
 
 vdc/vdc-resources.c:
 --------------------
@@ -9526,8 +9520,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCpalette / +VDCpalette
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9542,8 +9536,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCintpal / -VDCextpal
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/osx/windows
 platform gui missing:			os2
 
 vdc/vdc-resources.c:
@@ -9558,8 +9552,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCsaturation
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9574,8 +9568,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCcontrast
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9590,8 +9584,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCbrightness
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9606,8 +9600,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCgamma
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9622,8 +9616,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCtint
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 
 vdc/vdc-resources.c:
@@ -9638,8 +9632,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCcrtscanlineshade
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9654,8 +9648,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCcrtblur
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9670,8 +9664,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCoddlinesphase
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9686,8 +9680,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCoddlinesoffset
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9702,8 +9696,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCaudioleak / +VDCaudioleak
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 
 vdc/vdc-resources.c:
@@ -9718,8 +9712,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCfilter
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/osx/windows
 platform gui missing:			os2
 
 vic20/cart/finalexpansion.c:
@@ -9734,8 +9728,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -fewriteback / +fewriteback
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/cart/megacart.c:
@@ -9750,8 +9744,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -mcnvramfile
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/cart/megacart.c:
@@ -9766,8 +9760,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -mcnvramwriteback / +mcnvramwriteback
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/cart/vic-fp.c:
@@ -9782,8 +9776,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -fpwriteback / +fpwriteback
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/cart/vic20-generic.c:
@@ -9798,9 +9792,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   NONE
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 vic20/cart/vic20-generic.c:
 ---------------------------
@@ -9814,9 +9808,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   NONE
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 vic20/cart/vic20-generic.c:
 ---------------------------
@@ -9830,9 +9824,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   NONE
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 vic20/cart/vic20-generic.c:
 ---------------------------
@@ -9846,9 +9840,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   NONE
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 vic20/cart/vic20-generic.c:
 ---------------------------
@@ -9862,9 +9856,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   NONE
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 vic20/cart/vic20-ieee488.c:
 ---------------------------
@@ -9878,8 +9872,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -ieee488 / +ieee488
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/os2/sdl/osx/windows
 platform gui missing:			dos
 
 vic20/cart/vic20-midi.c:
@@ -9894,8 +9888,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef HAVE_MIDI
 command-line:                   -midi / +midi
-platforms to check:             sdl/unix
-platform gui present:			osx/windows
+platforms to check:             unix
+platform gui present:			sdl/osx/windows
 platform gui missing:           amigaos/beos/dos/os2
 
 vic20/cart/vic20-sidcart.c:
@@ -9958,9 +9952,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -9979,9 +9973,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:			os2/osx
-platform gui missing:           amigaos/beos/dos/windows
+platform gui missing:           amigaos/beos/dos/sdl/windows
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -9995,8 +9989,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -cartreset / +cartreset
-platforms to check:             sdl/unix
-platform gui present:           amigaos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/os2/sdl/osx/windows
 platform gui missing:			beos/dos
 
 vic20/vic-resources.c:
@@ -10011,8 +10005,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICborders
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/windows
 platform gui missing:			os2/osx
 
 vic20/vic-resources.c:
@@ -10027,8 +10021,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICvcache / +VICvcache
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10043,8 +10037,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICdscan / +VICdscan
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 Only if ARCHDEP_VIC_HWSCALE != 0
@@ -10060,8 +10054,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VIChwscale / +VIChwscale
-platforms to check:             sdl/unix
-platform gui present:
+platforms to check:             unix
+platform gui present:			sdl
 platform gui missing:           
 
 vic20/vic-resources.c:
@@ -10076,8 +10070,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICdsize / +VICdsize
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 Only if fullscreen device(s) available
@@ -10093,8 +10087,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICfull / +VICfull
-platforms to check:             sdl/unix
-platform gui present:
+platforms to check:             unix
+platform gui present:			sdl
 platform gui missing:           
 
 Only if fullscreen device(s) available
@@ -10110,9 +10104,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           
+platform gui missing:           sdl
 
 Only if fullscreen device(s) available
 vic20/vic-resources.c:
@@ -10127,9 +10121,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICfulldevice
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           
+platform gui missing:           sdl
 
 Only if fullscreen device(s) available
 vic20/vic-resources.c:
@@ -10191,8 +10185,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICpalette
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10207,8 +10201,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICintpal / -VICextpal
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10223,8 +10217,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICsaturation
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10239,8 +10233,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICcontrast
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10255,8 +10249,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICbrightness
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10271,8 +10265,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICgamma
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10287,8 +10281,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICtint
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 
 vic20/vic-resources.c:
@@ -10303,8 +10297,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICcrtscanlineshade
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10319,8 +10313,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICcrtblur
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10335,8 +10329,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICoddlinesphase
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10351,8 +10345,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICoddlinesoffset
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10367,8 +10361,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICaudioleak / +VICaudioleak
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 
 vic20/vic-resources.c:
@@ -10383,8 +10377,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICfilter
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/osx/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/osx/dos/os2/sdl/windows
 platform gui missing:
 
 vic20/vic20-resources.c:
@@ -10399,8 +10393,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -chargen
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic20-resources.c:
@@ -10415,8 +10409,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -kernal
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic20-resources.c:
@@ -10431,8 +10425,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -basic
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vic20/vic20-resources.c:
@@ -10447,9 +10441,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:			osx/windows
-platform gui missing:           amigaos/beos/dos
+platform gui missing:           amigaos/beos/dos/sdl
 
 vic20/vic20-resources.c:
 ------------------------
@@ -10463,9 +10457,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:			osx/windows
-platform gui missing:           amigaos/beos/dos
+platform gui missing:           amigaos/beos/dos/sdl
 
 vic20/vic20-resources.c:
 ------------------------
@@ -10479,8 +10473,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -pal / -ntsc
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx
 platform gui missing:			windows
 
 vic20/vic20-resources.c:
@@ -10495,8 +10489,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -memory
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/windows
 platform gui missing:			os2/osx
 
 vic20/vic20-resources.c:
@@ -10511,8 +10505,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -memory
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/windows
 platform gui missing:			os2/osx
 
 vic20/vic20-resources.c:
@@ -10527,8 +10521,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -memory
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/windows
 platform gui missing:			os2/osx
 
 vic20/vic20-resources.c:
@@ -10543,8 +10537,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -memory
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/windows
 platform gui missing:			os2/osx
 
 vic20/vic20-resources.c:
@@ -10559,8 +10553,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -memory
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/windows
 platform gui missing:			os2/osx
 
 vic20/vic20-resources.c:
@@ -10577,7 +10571,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platforms to check:             unix
 platform gui present:			windows
-platform gui missing:           amigaos/dos/beos/sdlosx
+platform gui missing:           amigaos/dos/beos/sdl/osx
 
 vic20/vic20io.c:
 ----------------
@@ -10591,9 +10585,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -iocollision
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 vicii/vicii-resources.c:
 ------------------------
@@ -10607,8 +10601,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIborders
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/osx/windows
 platform gui missing:			os2
 
 vicii/vicii-resources.c:
@@ -10623,9 +10617,9 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIcheckss / +VICIIcheckss
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:           amigaos/beos/dos/os2/osx/windows
-platform gui missing:
+platform gui missing:			sdl
 
 vicii/vicii-resources.c:
 ------------------------
@@ -10639,9 +10633,9 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIchecksb / +VICIIchecksb
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:           amigaos/beos/dos/os2/osx/windows
-platform gui missing:
+platform gui missing:			sdl
 
 vicii/vicii-resources.c:
 ------------------------
@@ -10655,8 +10649,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIInewluminance / +VICIInewluminance
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10671,8 +10665,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIvcache / +VICIIvcache
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10687,8 +10681,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIdscan / +VICIIdscan
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 Only if ARCHDEP_VICII_HWSCALE != 0
@@ -10704,8 +10698,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIhwscale / +VICIIhwscale
-platforms to check:             sdl/unix
-platform gui present:
+platforms to check:             unix
+platform gui present:			sdl
 platform gui missing:           
 
 vicii/vicii-resources.c:
@@ -10720,8 +10714,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIdsize / +VICIIdsize
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 Only if fullscreen device(s) available
@@ -10737,8 +10731,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIfull / +VICIIfull
-platforms to check:             sdl/unix
-platform gui present:
+platforms to check:             unix
+platform gui present:			sdl
 platform gui missing:           
 
 Only if fullscreen device(s) available
@@ -10754,9 +10748,9 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           
+platform gui missing:           sdl
 
 Only if fullscreen device(s) available
 vicii/vicii-resources.c:
@@ -10771,9 +10765,9 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIfulldevice
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           
+platform gui missing:           sdl
 
 Only if fullscreen device(s) available
 vicii/vicii-resources.c:
@@ -10835,8 +10829,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIpalette
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10851,8 +10845,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIintpal / -VICIIextpal
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10867,8 +10861,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIsaturation
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10883,8 +10877,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIcontrast
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10899,8 +10893,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIbrightness
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10915,8 +10909,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIgamma
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10931,8 +10925,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIItint
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 
 vicii/vicii-resources.c:
@@ -10947,8 +10941,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIcrtscanlineshade
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10963,8 +10957,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIcrtblur
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10979,8 +10973,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIoddlinesphase
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10995,8 +10989,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIoddlinesoffset
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -11011,8 +11005,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIaudioleak / +VICIIaudioleak
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 
 vicii/vicii-resources.c:
@@ -11027,8 +11021,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIfilter
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11043,8 +11037,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIborders
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/sdl/osx/windows
 platform gui missing:			os2
 
 viciisc/vicii-resources.c:
@@ -11059,8 +11053,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIcheckss / +VICIIcheckss
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11075,8 +11069,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIchecksb / +VICIIchecksb
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11091,8 +11085,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIInewluminance / +VICIInewluminance
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11108,8 +11102,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE (fixme ??)
-platforms to check:             sdl/unix
-platform gui present:			amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:			amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11124,8 +11118,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIvcache / +VICIIvcache
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11140,8 +11134,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIdscan / +VICIIdscan
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 Only if ARCHDEP_VICII_HWSCALE != 0
@@ -11157,8 +11151,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIhwscale / +VICIIhwscale
-platforms to check:             sdl/unix
-platform gui present:
+platforms to check:             unix
+platform gui present:			sdl
 platform gui missing:           
 
 viciisc/vicii-resources.c:
@@ -11173,8 +11167,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIdsize / +VICIIdsize
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 Only if fullscreen device(s) available
@@ -11190,8 +11184,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIfull / +VICIIfull
-platforms to check:             sdl/unix
-platform gui present:
+platforms to check:             unix
+platform gui present:			sdl
 platform gui missing:           
 
 Only if fullscreen device(s) available
@@ -11207,9 +11201,9 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           
+platform gui missing:           sdl
 
 Only if fullscreen device(s) available
 viciisc/vicii-resources.c:
@@ -11224,9 +11218,9 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIfulldevice
-platforms to check:             sdl/unix
+platforms to check:             unix
 platform gui present:
-platform gui missing:           
+platform gui missing:           sdl
 
 Only if fullscreen device(s) available
 viciisc/vicii-resources.c:
@@ -11288,8 +11282,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIpalette
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11304,8 +11298,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIintpal / -VICIIextpal
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11320,8 +11314,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIsaturation
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11336,8 +11330,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIcontrast
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11352,8 +11346,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIbrightness
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11368,8 +11362,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIgamma
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11384,8 +11378,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIItint
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 
 viciisc/vicii-resources.c:
@@ -11400,8 +11394,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIcrtscanlineshade
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11416,8 +11410,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIcrtblur
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11432,8 +11426,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIoddlinesphase
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11448,8 +11442,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIoddlinesoffset
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11464,8 +11458,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIaudioleak / +VICIIaudioleak
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/windows
 platform gui missing:			osx
 
 viciisc/vicii-resources.c:
@@ -11480,8 +11474,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIfilter
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/dos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
 platform gui missing:
 
 video/video-resources.c:
@@ -11496,8 +11490,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platforms to check:             sdl/unix
-platform gui present:
+platforms to check:             unix
+platform gui present:			sdl
 platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 plus4/plus4acia.c:
@@ -11512,8 +11506,8 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -acia / +acia
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/sdl/osx/windows
 platform gui missing:			dos/os2
 
 vsync.c:
@@ -11528,8 +11522,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -speed
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/os2/sdl/osx/windows
 platform gui missing:
 
 vsync.c:
@@ -11544,8 +11538,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -refresh
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/os2/sdl/osx/windows
 platform gui missing:
 
 vsync.c:
@@ -11560,8 +11554,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -warp / +warp
-platforms to check:             sdl/unix
-platform gui present:           amigaos/beos/os2/osx/windows
+platforms to check:             unix
+platform gui present:           amigaos/beos/os2/sdl/osx/windows
 platform gui missing:
 
 ------------------------------------------------------------------------------------------------------------------------------------
