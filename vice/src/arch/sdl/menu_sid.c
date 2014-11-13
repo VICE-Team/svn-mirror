@@ -68,32 +68,31 @@ static UI_MENU_CALLBACK(custom_SidModel_callback)
       custom_SidModel_callback,               \
       (ui_callback_data_t)SID_FASTSID_8580 },
 
-#define VICE_SDL_SID_RESID_MODELS             \
-    SDL_MENU_ITEM_SEPARATOR,                  \
-    SDL_MENU_ITEM_TITLE("ReSID"),             \
-    { "6581 (ReSID)",                         \
-      MENU_ENTRY_RESOURCE_RADIO,              \
-      custom_SidModel_callback,               \
-      (ui_callback_data_t)SID_RESID_6581 },   \
-    { "8580 (ReSID)",                         \
-      MENU_ENTRY_RESOURCE_RADIO,              \
-      custom_SidModel_callback,               \
-      (ui_callback_data_t)SID_RESID_8580 },   \
-    { "8580 + digi boost (ReSID)",            \
-      MENU_ENTRY_RESOURCE_RADIO,              \
-      custom_SidModel_callback,               \
+#define VICE_SDL_SID_RESID_MODELS           \
+    SDL_MENU_ITEM_SEPARATOR,                \
+    SDL_MENU_ITEM_TITLE("ReSID"),           \
+    { "6581 (ReSID)",                       \
+      MENU_ENTRY_RESOURCE_RADIO,            \
+      custom_SidModel_callback,             \
+      (ui_callback_data_t)SID_RESID_6581 }, \
+    { "8580 (ReSID)",                       \
+      MENU_ENTRY_RESOURCE_RADIO,            \
+      custom_SidModel_callback,             \
+      (ui_callback_data_t)SID_RESID_8580 }, \
+    { "8580 + digi boost (ReSID)",          \
+      MENU_ENTRY_RESOURCE_RADIO,            \
+      custom_SidModel_callback,             \
       (ui_callback_data_t)SID_RESID_8580D },
 
-#define VICE_SDL_SID_CATWEASEL_MODELS           \
-    { "Catweasel MKIII",                        \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      custom_SidModel_callback,                 \
+#define VICE_SDL_SID_CATWEASEL_MODELS \
+    { "Catweasel MKIII",              \
+      MENU_ENTRY_RESOURCE_RADIO,      \
+      custom_SidModel_callback,       \
       (ui_callback_data_t)SID_CATWEASELMKIII },
-
-#define VICE_SDL_SID_HARDSID_MODELS      \
-    { "HardSID",                         \
-      MENU_ENTRY_RESOURCE_RADIO,         \
-      custom_SidModel_callback,          \
+#define VICE_SDL_SID_HARDSID_MODELS \
+    { "HardSID",                    \
+      MENU_ENTRY_RESOURCE_RADIO,    \
+      custom_SidModel_callback,     \
       (ui_callback_data_t)SID_HARDSID },
 
 #define VICE_SDL_SID_PARSID_MODELS            \
@@ -184,22 +183,22 @@ UI_MENU_DEFINE_SLIDER(SidResidPassband, 0, 90)
 UI_MENU_DEFINE_SLIDER(SidResidGain, 90, 100)
 UI_MENU_DEFINE_SLIDER(SidResidFilterBias, -5000, 5000)
 
-#define VICE_SDL_RESID_OPTIONS          \
-    { "reSID sampling method",          \
-      MENU_ENTRY_SUBMENU,               \
-      submenu_radio_callback,           \
-      (ui_callback_data_t)sid_sampling_menu }, \
-    { "reSID resampling passband",      \
-      MENU_ENTRY_RESOURCE_INT,          \
-      slider_SidResidPassband_callback, \
+#define VICE_SDL_RESID_OPTIONS                                                                                     \
+    { "reSID sampling method",                                                                                     \
+      MENU_ENTRY_SUBMENU,                                                                                          \
+      submenu_radio_callback,                                                                                      \
+      (ui_callback_data_t)sid_sampling_menu },                                                                     \
+    { "reSID resampling passband",                                                                                 \
+      MENU_ENTRY_RESOURCE_INT,                                                                                     \
+      slider_SidResidPassband_callback,                                                                            \
       (ui_callback_data_t)"Enter passband in percentage of total bandwidth (lower is faster, higher is better)" }, \
-    { "reSID filter gain",      \
-      MENU_ENTRY_RESOURCE_INT,          \
-      slider_SidResidGain_callback, \
-      (ui_callback_data_t)"Set filter gain in percent" }, \
-    { "reSID filter bias",              \
-      MENU_ENTRY_RESOURCE_INT,          \
-      slider_SidResidFilterBias_callback, \
+    { "reSID filter gain",                                                                                         \
+      MENU_ENTRY_RESOURCE_INT,                                                                                     \
+      slider_SidResidGain_callback,                                                                                \
+      (ui_callback_data_t)"Set filter gain in percent" },                                                          \
+    { "reSID filter bias",                                                                                         \
+      MENU_ENTRY_RESOURCE_INT,                                                                                     \
+      slider_SidResidFilterBias_callback,                                                                          \
       (ui_callback_data_t)"Set filter bias in mV" },
 
 #endif /* HAVE_RESID */
