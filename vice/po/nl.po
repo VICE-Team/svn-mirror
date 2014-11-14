@@ -218,43 +218,36 @@ msgid "Reset on cart change"
 msgstr "Reset bij cartwisseling"
 
 #: src/arch/unix/gui/c128ui.c:292
-#, fuzzy
 msgid "Load new International Kernal ROM"
-msgstr "Laad nieuw Duits Kernal ROM"
+msgstr "Laad nieuw internationaal Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:295
 msgid "Load new German Kernal ROM"
 msgstr "Laad nieuw Duits Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:298
-#, fuzzy
 msgid "Load new Finnish Kernal ROM"
-msgstr "Laad nieuw Int. Kernal ROM"
+msgstr "Laad nieuw Fins Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:301
-#, fuzzy
 msgid "Load new French Kernal ROM"
-msgstr "Laad nieuw Duits Kernal ROM"
+msgstr "Laad nieuw Frans Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:304
-#, fuzzy
 msgid "Load new Italian Kernal ROM"
-msgstr "Laad nieuw Int. Kernal ROM"
+msgstr "Laad nieuw Italiaans Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:307
-#, fuzzy
 msgid "Load new Norwegian Kernal ROM"
-msgstr "Laad nieuw Duits Kernal ROM"
+msgstr "Laad nieuw Noors Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:310
-#, fuzzy
 msgid "Load new Swedish Kernal ROM"
-msgstr "Laad nieuw Duits Kernal ROM"
+msgstr "Laad nieuw Zweeds Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:313
-#, fuzzy
 msgid "Load new Swiss Kernal ROM"
-msgstr "Laad nieuw kernal ROM"
+msgstr "Laad nieuw Zwitsers Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:317
 msgid "Load new Basic Lo ROM"
@@ -265,39 +258,32 @@ msgid "Load new Basic Hi ROM"
 msgstr "Laad nieuw Basic Hi ROM"
 
 #: src/arch/unix/gui/c128ui.c:324
-#, fuzzy
 msgid "Load new International character ROM"
-msgstr "Laad nieuw karakter ROM"
+msgstr "Laad nieuw internationaal karakter ROM"
 
 #: src/arch/unix/gui/c128ui.c:327
-#, fuzzy
 msgid "Load new German character ROM"
-msgstr "Laad nieuw karakter ROM"
+msgstr "Laad nieuw Duits karakter ROM"
 
 #: src/arch/unix/gui/c128ui.c:330
-#, fuzzy
 msgid "Load new French character ROM"
-msgstr "Laad nieuw karakter ROM"
+msgstr "Laad nieuw Frans karakter ROM"
 
 #: src/arch/unix/gui/c128ui.c:333
-#, fuzzy
 msgid "Load new Swedish character ROM"
-msgstr "Laad nieuw karakter ROM"
+msgstr "Laad nieuw Zweeds karakter ROM"
 
 #: src/arch/unix/gui/c128ui.c:336
-#, fuzzy
 msgid "Load new Swiss character ROM"
-msgstr "Laad nieuw karakter ROM"
+msgstr "Laad nieuw Zwitsers karakter ROM"
 
 #: src/arch/unix/gui/c128ui.c:340
-#, fuzzy
 msgid "Load new C64 Kernal ROM"
-msgstr "Laad nieuw kernal ROM"
+msgstr "Laad nieuw C64 Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:343
-#, fuzzy
 msgid "Load new C64 Basic ROM"
-msgstr "Laad nieuw Basic Lo ROM"
+msgstr "Laad nieuw C64 Basic ROM"
 
 #: src/arch/unix/gui/c128ui.c:350 src/arch/unix/gui/c64dtvui.c:108
 #: src/arch/unix/gui/c64scui.c:390 src/arch/unix/gui/c64ui.c:451
@@ -7330,9 +7316,8 @@ msgid "Enable the DS12C887 RTC expansion"
 msgstr "Activeer de DS12C887 RTC cartridge"
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:26
-#, fuzzy
 msgid "Start with running oscillator"
-msgstr "Start met reset"
+msgstr "Start met werkende oscillator"
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:11431
@@ -7426,9 +7411,8 @@ msgid "Select ATA device image file"
 msgstr "Selecteer ATA apparaat bestand"
 
 #: src/arch/win32/reside64.rc.po.c:75
-#, fuzzy
 msgid "IDE64 USB Server address to bind to"
-msgstr "IDE64 USB server adres"
+msgstr "IDE64 USB server adres waaraan gebonden moet worden"
 
 #: src/arch/win32/resisepic.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:7258
 msgid "Select file for ISEPIC"
@@ -8871,14 +8855,12 @@ msgid "IDE64 V4"
 msgstr "IDE64 V4"
 
 #: src/arch/amigaos/intl_text.c.po.c:9611
-#, fuzzy
 msgid "USB Server"
-msgstr "Server"
+msgstr "USB Server"
 
 #: src/arch/amigaos/intl_text.c.po.c:9625
-#, fuzzy
 msgid "USB Server address to bind to"
-msgstr "USB server adres:"
+msgstr "USB server adres waaraan gebonden moet worden"
 
 #: src/arch/amigaos/intl_text.c.po.c:9723
 #: src/arch/amigaos/intl_text.c.po.c:9737
@@ -12561,13 +12543,12 @@ msgid "Disable the DS12C887 RTC cartridge"
 msgstr "De DS12C887 RTC cartridge uitschakelen"
 
 #: src/translate_text.c.po.c:14141
-#, fuzzy
 msgid "Set the RTC oscillator to 'halted'"
-msgstr "Zet de MMC64 als lezen/schrijven"
+msgstr "Zet de RTC oscillator als 'gestopt'"
 
 #: src/translate_text.c.po.c:14158
 msgid "Set the RTC oscillator to 'running'"
-msgstr ""
+msgstr "Zet de RTC oscillator als 'werkend'"
 
 #: src/translate_text.c.po.c:14175
 msgid "Base address of the DS12C887 RTC cartridge"
