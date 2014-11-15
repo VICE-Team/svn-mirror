@@ -125,7 +125,7 @@ BEGIN
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 Sekundär Slave Geräte Einstellungen"
     IDS_IDE64_SETTINGS              "IDE64 Einstellungen"
     IDS_IDE64_V4                    "IDE64 V4 aktivieren"
-    IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_USB_SERVER            "IDE64 USB Server aktivieren"
     IDS_IDE64_IMAGE                 "ATA Gerät Image Datei"
     IDS_IDE64_GEOMETRY              "Geometrie"
     IDS_IDE64_AUTODETECT            "Image Größe automatisch erkennen"
@@ -287,7 +287,7 @@ BEGIN
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 secondair slaaf apparaat instellingen"
     IDS_IDE64_SETTINGS              "IDE64 instellingen"
     IDS_IDE64_V4                    "Activeer IDE64 V4"
-    IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_USB_SERVER            "Activeer IDE64 USB server"
     IDS_IDE64_IMAGE                 "ATA apparaat bestand"
     IDS_IDE64_GEOMETRY              "Geometrie"
     IDS_IDE64_AUTODETECT            "Automatisch detecteren bestandsgrootte"
@@ -296,7 +296,7 @@ BEGIN
     IDS_IDE64_SECTORS               "Sectors"
     IDS_IDE64_TOTAL_SIZE            "Totale grootte: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Selecteer ATA apparaat bestand"
-    IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB server adres waaraan gebonden moet worden"
 END
 
 
@@ -416,3 +416,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

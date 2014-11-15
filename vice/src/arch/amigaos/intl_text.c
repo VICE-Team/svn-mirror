@@ -9640,7 +9640,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_USB_SERVER_HU, "" },  /* fuzzy */
 /* it */ { IDS_USB_SERVER_IT, "" },  /* fuzzy */
 /* ko */ { IDS_USB_SERVER_KO, "" },  /* fuzzy */
-/* nl */ { IDS_USB_SERVER_NL, "" },  /* fuzzy */
+/* nl */ { IDS_USB_SERVER_NL, "USB Server" },
 /* pl */ { IDS_USB_SERVER_PL, "" },  /* fuzzy */
 /* ru */ { IDS_USB_SERVER_RU, "" },  /* fuzzy */
 /* sv */ { IDS_USB_SERVER_SV, "" },  /* fuzzy */
@@ -9654,7 +9654,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_USB_SERVER_ADDRESS_HU, "" },  /* fuzzy */
 /* it */ { IDS_USB_SERVER_ADDRESS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_USB_SERVER_ADDRESS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_USB_SERVER_ADDRESS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_USB_SERVER_ADDRESS_NL, "USB server adres waaraan gebonden moet worden" },
 /* pl */ { IDS_USB_SERVER_ADDRESS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_USB_SERVER_ADDRESS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_USB_SERVER_ADDRESS_SV, "" },  /* fuzzy */

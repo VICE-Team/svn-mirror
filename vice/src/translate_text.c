@@ -7229,7 +7229,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_IDE64_USB_SERVER,    N_("Enable IDE64 USB server")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_IDE64_USB_SERVER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_IDE64_USB_SERVER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IDE64_USB_SERVER_DE, "IDE64 USB Server aktivieren"},
 /* es */ {IDCLS_ENABLE_IDE64_USB_SERVER_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_IDE64_USB_SERVER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_IDE64_USB_SERVER_HU, ""},  /* fuzzy */
@@ -7246,7 +7246,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_IDE64_USB_SERVER,    N_("Disable IDE64 USB server")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_IDE64_USB_SERVER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_IDE64_USB_SERVER_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IDE64_USB_SERVER_DE, "IDE64 USB Server deaktivieren"},
 /* es */ {IDCLS_DISABLE_IDE64_USB_SERVER_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_IDE64_USB_SERVER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_IDE64_USB_SERVER_HU, ""},  /* fuzzy */
@@ -7263,7 +7263,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_IDE64_USB_SERVER_ADDRESS,    N_("IDE64 USB server address")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_IDE64_USB_SERVER_ADDRESS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_IDE64_USB_SERVER_ADDRESS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_IDE64_USB_SERVER_ADDRESS_DE, "IDE64 USB Server Adresse"},
 /* es */ {IDCLS_IDE64_USB_SERVER_ADDRESS_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_IDE64_USB_SERVER_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_IDE64_USB_SERVER_ADDRESS_HU, ""},  /* fuzzy */
@@ -14233,7 +14233,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_NL, "Zet de RTC oscillator als 'gestopt'"},
 /* pl */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_SV, ""},  /* fuzzy */
@@ -14250,7 +14250,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_NL, "Zet de RTC oscillator als 'werkend'"},
 /* pl */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_SV, ""},  /* fuzzy */
