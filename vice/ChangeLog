@@ -1,5 +1,526 @@
 ------------------------------------------------------------------------------
 
+2014-11-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.hlp, doc/vice.pdf, po/da.po, po/de.po, po/es.po
+	po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po,
+	po/sv.po, po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.10
+
+2014-11-15  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/c1541.c: Readline allocs with plain malloc(), do not use
+	lib_free to free!
+
+2014-11-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: po/translations-status.txt: Updated.
+
+2014-11-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2014-11-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_sid.c: Cosmetic fix.
+
+2014-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_command.c, src/monitor/mon_lex.c,
+	src/monitor/mon_lex.l: Applied patch by lvd: adding abbreviation "bk"
+	of "break" command.
+
+2014-11-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: updated yet again.
+
+2014-11-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-joystick.c: Fixed resource names.
+
+2014-11-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Some more updates.
+
+2014-11-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated some more once yet again.
+
+2014-11-09  groepaz <groepaz@gmx.net>
+
+	* src/main.c: set random seed from current time at startup, so random
+	events are actually different each time the emulator runs
+
+2014-11-08  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/datasette.c: Return to correct state of T64 image after reset
+
+2014-11-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated some more once again.
+
+2014-11-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated some more.
+
+2014-11-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-08  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2014-11-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: updated.
+
+2014-11-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: updated yet again.
+
+2014-11-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated once again.
+
+2014-11-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: I love updating ;)
+
+2014-11-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated yet again.
+
+2014-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated again.
+
+2014-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated once again.
+
+2014-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	src/arch/unix/macosx/Resources/English.lproj/xpet.nib/designable.nib:
+	Fixed
+
+2014-11-05  groepaz <groepaz@gmx.net>
+
+	* doc/resource-checking.txt: updated
+
+2014-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated resource (new/changed) default
+	value.
+
+2014-11-05  groepaz <groepaz@gmx.net>
+
+	* doc/resource-checking.txt: updated
+
+2014-11-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uited.c: make TEDHwScale depend on HwScalePossible
+
+2014-11-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uipalcontrol.c: hide SID related sliders
+	when no SID-cart is active
+
+2014-11-05  groepaz <groepaz@gmx.net>
+
+	* src/pet/pet-resources.c, src/pet/petmodel.c: change default IOSize
+	to 256 bytes so the defaults match an actual PET model (8032)
+
+2014-11-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/petui.c: added missing EoiBlank option to GTK UI
+
+2014-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: updated
+
+2014-11-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uifliplist.c, src/fliplist.c, src/fliplist.h: used
+	constant FLIPLIST_ALL_UNITS instead of hardcoded (unsigned int)-1
+
+2014-11-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/cbm2ui.cc, src/arch/beos/petui.cc,
+	src/arch/beos/ui_video.cc: Fixed.
+
+2014-11-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-04  groepaz <groepaz@gmx.net>
+
+	* doc/resource-checking.txt: updated
+
+2014-11-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-04  groepaz <groepaz@gmx.net>
+
+	* doc/commandline-checking.txt: also moving to svn
+
+2014-11-04  groepaz <groepaz@gmx.net>
+
+	* doc/resource-checking.txt: added to svn, doing it in the wiki isnt a
+	good idea afterall
+
+2014-11-04  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uitfe.c: added missing TFE resources to GTK ui
+
+2014-11-03  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c: added some missing resources to gtk ui
+
+2014-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c: Fixed some resource names.
+
+2014-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c: Fixed resource name.
+
+2014-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/winmain.c: Made a prototype for __wgetmainargs() for
+	now, any future conflicts with visual studio will get handled as they
+	arise.
+
+2014-11-01  groepaz <groepaz@gmx.net>
+
+	* src/socket.c: fix warnings
+
+2014-11-01  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/uidrivec128.c, src/arch/win32/uidrivec64.c,
+	src/arch/win32/uidrivec64dtv.c, src/arch/win32/uidriveplus4.c,
+	src/arch/win32/uidrivevic20.c, src/arch/win32/uipetset.c,
+	src/arch/win32/uirom.c, src/arch/win32/vsyncarch.c: fix warnings
+
+2014-11-01  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/uic64model.c, src/arch/win32/uiscpu64.c,
+	src/arch/win32/uiscpu64model.c, src/arch/win32/uisid.c,
+	src/arch/win32/uivicii.c: fix warnings
+
+2014-11-01  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/intl.c,
+	src/arch/win32/vsidui.c: fix warnings
+
+2014-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed a typo.
+
+2014-11-01  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/uikeyboard.c, src/arch/win32/video-dx9.c: fix
+	warnings
+
+2014-11-01  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/resds12c887rtc.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uids12c887rtc.c: add
+	toggle for DS12C887RTCRunMode to windows ui
+
+2014-11-01  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_c64_common_expansions.c,
+	src/arch/sdl/menu_vic20cart.c: add toggle for DS12C887RTCRunMode to
+	SDL ui
+
+2014-11-01  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uids12c887rtc.c: add toggle for DS12C887RTCRunMode
+	in unix ui
+
+2014-11-01  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/sdl/menu_midi.c: Fixed win32 warnings.
+
+2014-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/vic20ui.cc: Fixed resource
+	name.
+
+2014-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uicia.c: Fixed a nasty typo.
+
+2014-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c: Commented out wrong item, didn't delete
+	it cause for now it serves as a placeholder for missing correct items
+	that will be added in the future.
+
+2014-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uidrivec128.c, src/arch/msdos/uidrivec64.c,
+	src/arch/msdos/uidrivec64dtv.c, src/arch/msdos/uidriveieee.c,
+	src/arch/msdos/uidriveplus4.c, src/arch/msdos/uidrivevic20.c: Fixed.
+
+2014-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ds12c887rtc.c, src/rtc/ds12c887.c, src/translate.txt,
+	src/translate_text.c: Added ds12c887 osc halted/running resource and
+	command-line options, gui changes to follow.
+
+2014-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ds12c887rtc.c: Don't 'c64export_add/remove' if not
+	IO-1/2.
+
+2014-10-30  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/ds12c887rtc.c: destroy context in
+	set_ds12c887rtc_enabled as well, set context to NULL afterwards.
+	should fix bug #571
+
+2014-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64io.c: Ignore low priority reads when a 'proper' value has
+	already been read.
+
+2014-10-29  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64export.c: improved output of 'export' monitor command a
+	bit
+
+2014-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/vic-cmdline-options.c, src/vic20/vic20-cmdline-options.c,
+	src/vicii/vicii-cmdline-options.c: Some command line related fixes.
+
+2014-10-27  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/core/ciacore.c: Fix comparison between TOD clock and TOD alarm
+
+2014-10-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/c64/vsid.c: The SDL port uses VIC-II settings when displaying
+	the vsid UI so it should get the corresponding cmdline option as well.
+
+2014-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/ted-cmdline-options.c, src/printerdrv/interface-serial.c,
+	src/printerdrv/output-text.c, src/romset.c, src/rs232drv/rsuser.c,
+	src/scpu64/scpu64-cmdline-options.c, src/sid/sid-cmdline-options.c,
+	src/userport/userport_joystick.c, src/vdc/vdc-cmdline-options.c: Some
+	command line related fixes.
+
+2014-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/cocoa/video.m: Add dummy
+	'int video_cmdline_options_init(void)' to osx port.
+
+2014-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.proto: Compile is 'silent' by default,
+	configure option --verbose now 'negates' the 'silent' compile.
+
+2014-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/macosx/build-vice-dist.sh: Fixed.
+
+2014-10-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/macosx/build-vice-dist.sh,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	src/gfxoutputdrv/quicktimedrv.c, src/translate.txt,
+	src/translate_text.c: Some osx fixes.
+
+2014-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/socket.c: define SOL_TCP as IPPROTO_TCP if SOL_TCP is not
+	defined.
+
+2014-10-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/socket.c: Add TCP_NODELAY to client as well
+
+2014-10-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* configure.proto: Add check for netinet/tcp.h (for socket
+	TCP_NODELAY). Seems no work so far...
+
+2014-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/6809and6309.txt: Updated.
+
+2014-10-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/socketimpl.h, src/socket.c: Use TCP_NODELAY for faster
+	response times
+
+2014-10-18  lioncash
+
+	* po/intl2po.c: Memory leak fixes.
+
+2014-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/reside64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uiide64.c: Added usb
+	server support to the windows gui.
+
+2014-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11video.c: Free frame buffer on canvas
+	destroy
+
+2014-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Without this only hotkeys worked on
+	XAW after returning from monitor
+
+2014-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11video.c: Create window with the correct
+	size, right first time (xaw). Statically creating a 300x100 window and
+	then resizing it is not just a cosmetic problem on startup. It can
+	confuse window managers with "inteligent" window placement strategy to
+	put our window somewhere where it'll not fit after resize. For example
+	in the lower right corner, which is rather annoying as most of the
+	window ends up off screen.
+
+2014-10-18  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/sdl/archdep.c, src/arch/sdl/archdep.h,
+	src/arch/sdl/archdep_beos.c, src/arch/sdl/socketimpl.h, src/sound.c:
+	Fixes to get the SDL port to build under Haiku.
+
+2014-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Possibly support gtk3
+
+2014-10-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/Makefile.am, src/arch/unix/x11/focus.c,
+	src/arch/unix/x11/focus.h, src/arch/unix/x11/gnome/x11ui.c,
+	src/arch/unix/x11/xaw/x11ui.c: Refactor window focusing and use common
+	code for gtk/xaw
+
+2014-10-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/uiedit.c,
+	src/arch/unix/x11/xaw/uipalcontrol.c: Fix some warnings
+
+2014-10-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uiide64.c: Added usb server support to the amiga
+	gui.
+
+2014-10-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Documentation-Howto.txt: Fixed a typo.
+
+2014-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/console.c, src/arch/unix/x11/xaw/x11ui.c: Try
+	to use WINDOWID to find monitor terminal window
+
+2014-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/mui.h, src/arch/amigaos/mui/uidrivesound.c,
+	src/arch/amigaos/mui/uipetcolour.c, src/arch/amigaos/mui/uisid.c,
+	src/arch/amigaos/mui/uisidcart.c, src/arch/amigaos/mui/uisound.c,
+	src/arch/amigaos/mui/uivideo.c: Changed STRING(...) macro to
+	NSTRING(...).
+
+2014-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/mui.h: Cosmetic fixes.
+
+2014-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: This should be outside.
+
+2014-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Remove mouse moving, not needed
+	possibly (and is a bit annoying)
+
+2014-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Activate window, otherwise some
+	window managers do not raise it.
+
+2014-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Coding style...
+
+2014-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Check result and free as well of
+	course
+
+2014-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/console.c, src/arch/unix/x11/xaw/x11ui.c: Set
+	VICE monitor terminal window title and use this window title for
+	focusing the right monitor console window. A lot more reliable than
+	process tree searching when multiple terminal windows are managed by a
+	single process. (urxvtd or konsole for example)
+
 2014-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,
