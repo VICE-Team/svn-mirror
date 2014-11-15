@@ -365,7 +365,7 @@ static char *read_line(const char *prompt)
 {
     static char *line;
 
-    lib_free(line);
+    free(line);
     line = readline(prompt);
     if (line != 0 && *line != 0) {
         add_history(line);
