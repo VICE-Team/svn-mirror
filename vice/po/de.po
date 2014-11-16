@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-11-15 11:50-0800\n"
-"PO-Revision-Date: 2014-11-08 14:35+0100\n"
+"PO-Revision-Date: 2014-11-16 16:45+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -215,43 +215,36 @@ msgid "Reset on cart change"
 msgstr "Reset bei Wechsel von Erweiterungsmodulen"
 
 #: src/arch/unix/gui/c128ui.c:292
-#, fuzzy
 msgid "Load new International Kernal ROM"
-msgstr "Deutsches Kernal ROM laden"
+msgstr "Internatinales Kernal ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:295
 msgid "Load new German Kernal ROM"
 msgstr "Deutsches Kernal ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:298
-#, fuzzy
 msgid "Load new Finnish Kernal ROM"
-msgstr "Int. Kernal ROM laden"
+msgstr "Finnisches Kernal ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:301
-#, fuzzy
 msgid "Load new French Kernal ROM"
-msgstr "Deutsches Kernal ROM laden"
+msgstr "Französisches Kernal ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:304
-#, fuzzy
 msgid "Load new Italian Kernal ROM"
-msgstr "Int. Kernal ROM laden"
+msgstr "Italienisches Kernal ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:307
-#, fuzzy
 msgid "Load new Norwegian Kernal ROM"
-msgstr "Deutsches Kernal ROM laden"
+msgstr "Norwegisches Kernal ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:310
-#, fuzzy
 msgid "Load new Swedish Kernal ROM"
-msgstr "Deutsches Kernal ROM laden"
+msgstr "Schwedisches Kernal ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:313
-#, fuzzy
 msgid "Load new Swiss Kernal ROM"
-msgstr "Kernal ROM laden"
+msgstr "Schweizer Kernal ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:317
 msgid "Load new Basic Lo ROM"
@@ -262,39 +255,32 @@ msgid "Load new Basic Hi ROM"
 msgstr "Basic Hi ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:324
-#, fuzzy
 msgid "Load new International character ROM"
-msgstr "Zeichensatz ROM laden"
+msgstr "Internatinales Zeichensatz ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:327
-#, fuzzy
 msgid "Load new German character ROM"
-msgstr "Zeichensatz ROM laden"
+msgstr "Deutsches Zeichensatz ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:330
-#, fuzzy
 msgid "Load new French character ROM"
-msgstr "Zeichensatz ROM laden"
+msgstr "Französiches Zeichensatz ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:333
-#, fuzzy
 msgid "Load new Swedish character ROM"
-msgstr "Zeichensatz ROM laden"
+msgstr "Schwedisches Zeichensatz ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:336
-#, fuzzy
 msgid "Load new Swiss character ROM"
-msgstr "Zeichensatz ROM laden"
+msgstr "Schweizer Zeichensatz ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:340
-#, fuzzy
 msgid "Load new C64 Kernal ROM"
-msgstr "Kernal ROM laden"
+msgstr "C64 Kernal ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:343
-#, fuzzy
 msgid "Load new C64 Basic ROM"
-msgstr "Basic Lo ROM laden"
+msgstr "C64 Basic ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:350 src/arch/unix/gui/c64dtvui.c:108
 #: src/arch/unix/gui/c64scui.c:390 src/arch/unix/gui/c64ui.c:451
@@ -7308,9 +7294,8 @@ msgid "Enable the DS12C887 RTC expansion"
 msgstr "DS12C887 RTC Modul aktivieren"
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:26
-#, fuzzy
 msgid "Start with running oscillator"
-msgstr "Mit Reset starten"
+msgstr "Mit laufendem Oszillator starten"
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:11431
@@ -8854,9 +8839,8 @@ msgid "IDE64 V4"
 msgstr "IDE64 V4"
 
 #: src/arch/amigaos/intl_text.c.po.c:9611
-#, fuzzy
 msgid "USB Server"
-msgstr "Server"
+msgstr "USB Server"
 
 #: src/arch/amigaos/intl_text.c.po.c:9625
 #, fuzzy
@@ -12511,13 +12495,12 @@ msgid "Disable the DS12C887 RTC cartridge"
 msgstr "DS12C887 RTC Modul deaktivieren"
 
 #: src/translate_text.c.po.c:14141
-#, fuzzy
 msgid "Set the RTC oscillator to 'halted'"
-msgstr "MMC64 Karte Schreibzugriff"
+msgstr "Setze RTC Oszillator auf 'gestoppt'"
 
 #: src/translate_text.c.po.c:14158
 msgid "Set the RTC oscillator to 'running'"
-msgstr ""
+msgstr "Setze RTC Oszillator auf 'laufend'"
 
 #: src/translate_text.c.po.c:14175
 msgid "Base address of the DS12C887 RTC cartridge"
