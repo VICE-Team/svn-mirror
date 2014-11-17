@@ -23,7 +23,7 @@ given, when libgtkgl-ext is available on your system (at compile
 time). 
 
 The default (without specific option) the Xaw widget set is used. Sane
-fullsscreen support is given when libxv is available on your system
+fullscreen support is given when libxv is available on your system
 (at compile time).
 
 2. Specfics on Video Output
