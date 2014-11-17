@@ -14,6 +14,8 @@ not used in:                    x64dtv/vsid
 prepocessor:                    #ifdef HAVE_RS232
 command-line:                   -myaciadev
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           dos/os2
 
 attach.c:
@@ -89,6 +91,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -device8
 platform gui present:           dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos
 
 attach.c:
@@ -104,6 +108,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -device9
 platform gui present:           dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos
 
 attach.c:
@@ -119,6 +125,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -device10
 platform gui present:           dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos
 
 attach.c:
@@ -134,6 +142,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -device11
 platform gui present:           dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos
 
 autostart.c:
@@ -229,6 +239,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -autostartprgmode
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: update documentation with platforms
 
@@ -245,6 +257,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -autostart-delay
 platform gui present:           amigaos/beos/dos/unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           os2/sdl/osx/windows
 fixme: update documentation with platforms
 
@@ -562,6 +576,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -pal / -ntsc
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: fix documentation for x128
 
@@ -579,6 +595,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   NONE ?? (fixme)
 platform gui present:           amigaos/os2/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           beos/dos/sdl
 
 c128/c128-resources.c:
@@ -594,6 +612,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -cia1model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c128/c128-resources.c:
@@ -609,6 +629,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -cia2model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c128/c128-resources.c:
@@ -624,6 +646,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:           unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl/osx
 
 c128/c128-resources.c:
@@ -640,6 +664,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -sidstereoaddress
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           os2
 
 c128/c128-resources.c:
@@ -656,6 +682,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -sidtripleaddress
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           os2
 
 c128/c128-resources.c:
@@ -747,6 +775,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -intfunc
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c128/functionrom.c:
@@ -762,6 +792,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -extfunc
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/c64-resources.c:
@@ -886,6 +918,8 @@ not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xv
 prepocessor:
 command-line:                   -pal / -ntsc / -ntscold / -paln
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			dos/os2
 
 c64/c64-resources.c:
@@ -901,6 +935,8 @@ not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xv
 prepocessor:
 command-line:                   NONE
 platform gui present:
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: add to documentation
 gpz note: this is implicitly set by choosing a C64 model and makes little sense to have as a seperate option in the UIs. there is no commandline option for it either for the same reason.
@@ -935,6 +971,8 @@ not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xv
 prepocessor:
 command-line:                   -cia1model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/c64-resources.c:
@@ -950,6 +988,8 @@ not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xv
 prepocessor:
 command-line:                   -cia2model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/c64-resources.c:
@@ -965,6 +1005,8 @@ not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xv
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:           sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos
 fixme: fix documentation
 
@@ -983,6 +1025,8 @@ not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xv
 prepocessor:
 command-line:                   -sidstereoaddress
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           os2
 
 c64/c64-resources.c:
@@ -1000,6 +1044,8 @@ not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xv
 prepocessor:
 command-line:                   -sidtripleaddress
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           os2
 
 c64/c64-resources.c:
@@ -1015,6 +1061,8 @@ not used in:                    x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -burstmod
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/c64gluelogic.c:
@@ -1030,6 +1078,8 @@ not used in:                    x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -gluelogictype
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/c64io.c:
@@ -1045,6 +1095,8 @@ not used in:                    x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -iocollision
 platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 c64/c64_256k.c:
@@ -1090,6 +1142,8 @@ not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xv
 prepocessor:
 command-line:                   -256kbase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/c64-midi.c:
@@ -1105,6 +1159,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef HAVE_MIDI
 command-line:                   -miditype
 platform gui present:           sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2
 fixme: fix documentation
 
@@ -1121,6 +1177,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef HAVE_MIDI
 command-line:                   -midi / +midi
 platform gui present:           sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2
 fixme: fix documentation
 
@@ -1137,6 +1195,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef HAVE_RS232
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           dos/os2
 
 c64/cart/c64acia1.c:
@@ -1152,6 +1212,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef HAVE_RS232
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           dos/os2
 
 c64/cart/c64acia1.c:
@@ -1167,6 +1229,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef HAVE_RS232
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           dos/os2
 
 c64/cart/c64acia1.c:
@@ -1182,6 +1246,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef HAVE_RS232
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           dos/os2
 
 c64/cart/c64cart.c:
@@ -1226,6 +1292,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE
 platform gui present:           os2
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
 
 c64/cart/c64cart.c:
@@ -1309,6 +1377,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -digimaxbase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/dqbb.c:
@@ -1386,6 +1456,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -ds12c887rtcbase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           osx
 fixme: add to documentation
 fixme: fix to also work for $D100, $D200 and $D300
@@ -1403,6 +1475,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -ds12c887rtchalted / -ds12c887rtcrunning
 platform gui present:           sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/osx
 fixme: add to documentation
 
@@ -1479,6 +1553,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/expert.c:
@@ -1539,6 +1615,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -georamsize
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/georam.c:
@@ -1661,6 +1739,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64cyl1
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ide64.c:
@@ -1676,6 +1756,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64cyl2
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ide64.c:
@@ -1691,6 +1773,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64cyl3
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ide64.c:
@@ -1706,6 +1790,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64cyl4
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ide64.c:
@@ -1721,6 +1807,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64hds1
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ide64.c:
@@ -1736,6 +1824,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64hds2
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ide64.c:
@@ -1751,6 +1841,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64hds3
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ide64.c:
@@ -1766,6 +1858,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64hds4
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ide64.c:
@@ -1781,6 +1875,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64sec1
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ide64.c:
@@ -1796,6 +1892,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64sec2
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ide64.c:
@@ -1811,6 +1909,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64sec3
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ide64.c:
@@ -1826,6 +1926,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64sec4
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ide64.c:
@@ -2126,6 +2228,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/mmc64.c:
@@ -2156,6 +2260,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/mmcreplay.c:
@@ -2246,6 +2352,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/mmcreplay.c:
@@ -2321,6 +2429,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -ramcartsize
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/ramcart.c:
@@ -2396,6 +2506,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -rrbioswrite / +rrbioswrite
 platform gui present:           amigaos/beos/dos/os2/windows/unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           sdl/osx
 
 c64/cart/reu.c:
@@ -2441,6 +2553,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -reusize
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/reu.c:
@@ -2486,6 +2600,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -sfxsetype
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/cart/sfx_soundexpander.c:
@@ -2682,6 +2798,8 @@ not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xv
 prepocessor:
 command-line:                   -plus60kbase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64/psid.c:
@@ -2713,6 +2831,8 @@ not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xv
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           os2/sdl/unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/osx/windows
 fixme: only vsid needs this
 
@@ -2846,6 +2966,8 @@ prepocessor:
 command-line:                   -pal / -ntsc / -ntscold / -paln
 platforms to check:             sdl/osx/windows
 platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2
 
 c64/vsid-resources.c:
@@ -2912,7 +3034,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:
 platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
-fixme:                          it should get removed from vsid, as it has no keyboard
+fixme: it should get removed from vsid, as it has no keyboard
 
 c64/vsid-resources.c:
 ---------------------
@@ -2929,6 +3051,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -sidstereoaddress
 platform gui present:           beos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/dos/os2
 
 c64/vsid-resources.c:
@@ -2946,6 +3070,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -sidtripleaddress
 platform gui present:           beos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/dos/os2
 
 c64dtv/c64dtv-resources.c:
@@ -3068,6 +3194,8 @@ not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4
 prepocessor:
 command-line:                   -pal / -ntsc
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: fix documentation for x64dtv
 
@@ -3084,6 +3212,8 @@ not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:           osx/windows/unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl
 
 c64dtv/c64dtv-resources.c:
@@ -3114,6 +3244,8 @@ not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4
 prepocessor:
 command-line:                   -dtvrev
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 c64dtv/c64dtvblitter.c:
@@ -3285,6 +3417,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus
 prepocessor:
 command-line:                   -pal / -ntsc
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			windows
 fixme: fix documentation for xcbm2
 
@@ -3301,6 +3435,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus
 prepocessor:
 command-line:                   -ramsize
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			dos
 
 cbm2/cbm2-resources.c:
@@ -3316,6 +3452,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/os2/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			dos/sdl
 
 cbm2/cbm2cart.c:
@@ -3601,6 +3739,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -cia1model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
@@ -3618,6 +3758,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/v
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:			windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl/unix/osx
 
 cbm2/cbm5x0-resources.c:
@@ -3678,6 +3820,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/
 prepocessor:
 command-line:                   -pal / -ntsc
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: fix documentation for xcbm5x0
 
@@ -3694,6 +3838,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/
 prepocessor:
 command-line:                   -ramsize
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			dos
 fixme: fix documentation for xcbm5x0
 
@@ -3710,6 +3856,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/os2/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			dos/sdl
 
 crtc/crtc-resources.c:
@@ -3801,6 +3949,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -Crtcfilter
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -3958,6 +4108,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -Crtcsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -3973,6 +4125,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -Crtccontrast
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -3988,6 +4142,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -Crtcbrightness
 platform gui present:           amigaos/beos/dos/sdl/os2/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4003,6 +4159,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -Crtcgamma
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4018,6 +4176,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -Crtctint
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			osx
 
 crtc/crtc-resources.c:
@@ -4033,6 +4193,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -Crtctcrtscanlineshade
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4048,6 +4210,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -Crtccrtblur
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4063,6 +4227,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -Crtcoddlinesphase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4078,6 +4244,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -Crtcoddlinesoffset
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 crtc/crtc-resources.c:
@@ -4252,6 +4420,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   -trace_mode
 platform gui present:           sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/osx
 fixme: Add to documentation
 fixme: windows vsid has support for this resource
@@ -4269,6 +4439,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   NONE (fixme)
 platform gui present:
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: Add to documentation
 
@@ -4296,10 +4468,10 @@ resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541)
                                         DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
                                         DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
 resource default:               x128: DRIVE_TYPE_1571 (1571)
-                                        x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
-                                        xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
-                                        xplus4: DRIVE_TYPE_1551 (1551)
-                                        xvic: DRIVE_TYPE_1541 (1541)
+                                x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
+                                xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
+                                xplus4: DRIVE_TYPE_1551 (1551)
+                                xvic: DRIVE_TYPE_1541 (1541)
 resource function:              drive_resources_type()
 resource var:                   drive->type
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
@@ -4307,6 +4479,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drive8type
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4318,10 +4492,10 @@ resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541)
                                         DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
                                         DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
 resource default:               x128: DRIVE_TYPE_1571 (1571)
-                                        x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
-                                        xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
-                                        xplus4: DRIVE_TYPE_1551 (1551)
-                                        xvic: DRIVE_TYPE_1541 (1541)
+                                x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
+                                xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
+                                xplus4: DRIVE_TYPE_1551 (1551)
+                                xvic: DRIVE_TYPE_1541 (1541)
 resource function:              drive_resources_type()
 resource var:                   drive->type
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
@@ -4329,6 +4503,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drive9type
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4340,10 +4516,10 @@ resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541)
                                         DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
                                         DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
 resource default:               x128: DRIVE_TYPE_1571 (1571)
-                                        x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
-                                        xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
-                                        xplus4: DRIVE_TYPE_1551 (1551)
-                                        xvic: DRIVE_TYPE_1541 (1541)
+                                x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
+                                xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
+                                xplus4: DRIVE_TYPE_1551 (1551)
+                                xvic: DRIVE_TYPE_1541 (1541)
 resource function:              drive_resources_type()
 resource var:                   drive->type
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
@@ -4351,6 +4527,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drive10type
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4362,10 +4540,10 @@ resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541)
                                         DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
                                         DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
 resource default:               x128: DRIVE_TYPE_1571 (1571)
-                                        x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
-                                        xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
-                                        xplus4: DRIVE_TYPE_1551 (1551)
-                                        xvic: DRIVE_TYPE_1541 (1541)
+                                x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
+                                xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
+                                xplus4: DRIVE_TYPE_1551 (1551)
+                                xvic: DRIVE_TYPE_1541 (1541)
 resource function:              drive_resources_type()
 resource var:                   drive->type
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
@@ -4373,6 +4551,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drive11type
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4418,6 +4598,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drivesoundvolume
 platform gui present:           amigaos/dos/sdl/unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			beos/os2/osx/windows
 fixme: add to documentation
 
@@ -4434,6 +4616,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drive8extend
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4449,6 +4633,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drive9extend
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4464,6 +4650,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drive10extend
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4479,6 +4667,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drive11extend
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4494,6 +4684,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drive8idle
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4509,6 +4701,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drive9idle
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4524,6 +4718,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drive10idle
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 drive/drive-resources.c:
@@ -4539,6 +4735,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drive11idle
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4554,6 +4752,8 @@ not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -parallel8
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4569,6 +4769,8 @@ not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -parallel9
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4584,6 +4786,8 @@ not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -parallel10
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -4599,6 +4803,8 @@ not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -parallel11
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -5174,6 +5380,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 prepocessor:
 command-line:                   -parallel8 / +parallel8
 platform gui present:           amigaos/dos/os2/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			beos/sdl
 
 drive/iec/plus4exp/plus4exp-resources.c:
@@ -5189,6 +5397,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 prepocessor:
 command-line:                   -parallel9 / +parallel9
 platform gui present:           amigaos/dos/os2/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			beos/sdl
 
 drive/iec/plus4exp/plus4exp-resources.c:
@@ -5204,6 +5414,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 prepocessor:
 command-line:                   -parallel10 / +parallel10
 platform gui present:           amigaos/dos/os2/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			beos/sdl
 
 drive/iec/plus4exp/plus4exp-resources.c:
@@ -5219,6 +5431,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 prepocessor:
 command-line:                   -parallel11 / +parallel11
 platform gui present:           amigaos/dos/os2/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			beos/sdl
 
 drive/iec128dcr/iec128dcr-resources.c:
@@ -5387,6 +5601,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			dos/os2
 
 event.c:
@@ -5682,6 +5898,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -doodleoversize
 platform gui present:           unix(GTK)
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 
 gfxoutputdrv/doodledrv.c:
@@ -5697,6 +5915,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -doodleundersize
 platform gui present:           unix(GTK)
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 fixme: add to documentation
 
@@ -5714,6 +5934,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -doodlemc
 platform gui present:           unix(GTK)
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 
 gfxoutputdrv/doodledrv.c:
@@ -5729,6 +5951,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 prepocessor:
 command-line:                   -doodletedlum
 platform gui present:           unix(GTK)
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 fixme: update documentation
 
@@ -5745,6 +5969,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -doodlecrtctextcolor
 platform gui present:           unix(GTK)
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 fixme: update documentation
 
@@ -5776,6 +6002,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_FFMPEG
 command-line:                   -ffmpegaudiobitrate
 platform gui present:           sdl/unix(GTK)/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/unix(XAW)/osx
 
 gfxoutputdrv/ffmpegdrv.c:
@@ -5791,6 +6019,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_FFMPEG
 command-line:                   -ffmpegvideobitrate
 platform gui present:           sdl/unix(GTK)/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/unix(XAW)/osx
 
 gfxoutputdrv/ffmpegdrv.c:
@@ -5854,6 +6084,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -koalaoversize
 platform gui present:           unix(GTK)
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 fixme: add to documentation
 
@@ -5870,6 +6102,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -koalaundersize
 platform gui present:           unix(GTK)
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 fixme: add to documentation
 
@@ -5886,6 +6120,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 prepocessor:
 command-line:                   -koalaundersize
 platform gui present:           unix(GTK)
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 fixme: add to documentation
 
@@ -5902,6 +6138,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -koalaundersize
 platform gui present:           unix(GTK)
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 fixme: add to documentation
 
@@ -5936,6 +6174,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
 command-line:                   -quicktimeaudiobitrate
 platform gui present:
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
 gpz note: OSX only?
@@ -5954,6 +6194,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
 command-line:                   -quicktimevideobitrate
 platform gui present:
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
 gpz note: OSX only?
@@ -6343,6 +6585,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -lightpentype
 platform gui present:           dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/os2
 
 log.c:
@@ -6374,6 +6618,8 @@ not used in:
 prepocessor:
 command-line:                   -jamaction
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2/osx
 fixme: add to documentation
 
@@ -6451,6 +6697,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef HAVE_MOUSE
 command-line:                   -mousetype
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 mouse.c:
@@ -6466,6 +6714,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef HAVE_MOUSE
 command-line:                   -mouseport
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 network.c:
@@ -6511,6 +6761,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_NETWORK
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 network.c:
@@ -6827,6 +7079,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:
 command-line:                   -pal / -ntsc
 platform gui present:           amigaos/beos/dos/os2/sdl/osx
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           unix/windows
 fixme: Fix documentation for xpet
 gpz note: since CRTC is not related to PAL/NTSC (tv norm), does having this in the UIs make sense?
@@ -6847,6 +7101,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 pet/pet-resources.c:
@@ -6862,6 +7118,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 pet/pet-resources.c:
@@ -6892,6 +7150,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			sdl
 
 pet/pet-resources.c:
@@ -6998,6 +7258,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           osx
 
 pet/pet-resources.c:
@@ -7013,6 +7275,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:
 command-line:                   -cpu6502 / -cpu6809 / -cpuprog
 platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 pet/pet-resources.c:
@@ -7028,6 +7292,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:
 command-line:                   -colour-rgbi / -colour-analog
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2/osx
 fixme: add to documentation
 
@@ -7075,6 +7341,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 pet/pet-sidcart.c:
@@ -7090,6 +7358,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 pet/petdww.c:
@@ -7196,6 +7466,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:
 command-line:                   -petreuramsize
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 plus4/digiblaster.c:
@@ -7376,6 +7648,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -pal / -ntsc
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           windows
 fixme: fix documentation for xplus4
 
@@ -7392,6 +7666,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -ramsize
 platform gui present:           amigaos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           beos/dos/osx
 
 plus4/plus4-resources.c:
@@ -7407,6 +7683,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:           beos/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/dos/sdl/osx
 
 plus4/plus4-sidcart.c:
@@ -7452,6 +7730,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 plus4/plus4-sidcart.c:
@@ -7467,6 +7747,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 plus4/plus4cart.c:
@@ -7512,6 +7794,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -h256k
 platform gui present:           amigaos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			beos/dos/os2
 
 plus4/plus4speech.c:
@@ -7557,6 +7841,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDborders
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2/osx
 
 plus4/ted-resources.c:
@@ -7759,6 +8045,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 plus4/ted-resources.c:
@@ -7774,6 +8062,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDcontrast
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 plus4/ted-resources.c:
@@ -7789,6 +8079,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDbrightness
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 plus4/ted-resources.c:
@@ -7804,6 +8096,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDgamma
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 plus4/ted-resources.c:
@@ -7819,6 +8113,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDgamma
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			osx
 
 plus4/ted-resources.c:
@@ -7834,6 +8130,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDcrtscanlineshade
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 plus4/ted-resources.c:
@@ -7849,6 +8147,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDcrtblur
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 plus4/ted-resources.c:
@@ -7864,6 +8164,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDoddlinesphase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 plus4/ted-resources.c:
@@ -7879,6 +8181,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDoddlinesoffset
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 plus4/ted-resources.c:
@@ -7909,6 +8213,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDfilter
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 plus4/ted-resources.c:
@@ -8006,6 +8312,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -device4
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 printerdrv/interface-serial.c:
@@ -8021,6 +8329,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -device5
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 printerdrv/interface-serial.c:
@@ -8036,6 +8346,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -device6
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 printerdrv/interface-serial.c:
@@ -8051,6 +8363,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -device7
 platform gui present:           sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/osx
 
 printerdrv/interface-userport.c:
@@ -8186,6 +8500,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -pr4txtdev
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 printerdrv/output-text.c:
@@ -8201,6 +8517,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -pr5txtdev
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 printerdrv/output-text.c:
@@ -8216,6 +8534,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -pr6txtdev
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 printerdrv/output-text.c:
@@ -8231,6 +8551,8 @@ not used in:                    x64dtv/xplus4/vsid
 prepocessor:
 command-line:                   -prusertxtdev
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 ps2mouse.c:
@@ -8276,6 +8598,8 @@ not used in:
 prepocessor:
 command-line:                   -raminitstartvalue
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			dos/os2
 
 ram.c:
@@ -8291,6 +8615,8 @@ not used in:
 prepocessor:
 command-line:                   -raminitvalueinvert
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			dos/os2
 
 ram.c:
@@ -8306,6 +8632,8 @@ not used in:
 prepocessor:
 command-line:                   -raminitpatterninvert
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			dos/os2
 
 rs232drv/rs232drv.c:
@@ -8401,6 +8729,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef HAVE_RS232
 command-line:                   -rsuserbaud
 platform gui present:           amigaos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			beos/dos/os2
 fixme: fix documentation
 
@@ -8417,6 +8747,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef HAVE_RS232
 command-line:                   -rsuserdev
 platform gui present:           amigaos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			beos/dos/os2
 fixme: fix documentation
 
@@ -8509,6 +8841,8 @@ not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/
 prepocessor:
 command-line:                   NONE ?? (fixme)
 platform gui present:           amigaos/beos/sdl/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           dos/os2/unix
 gzp note: this is tied to the VICII type, changing it directly makes no sence
 blacky note: agreed, guis will need to be checked for usage of the resource directly and fixed where needed.
@@ -8542,6 +8876,8 @@ not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/
 prepocessor:
 command-line:                   -cia1model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 scpu64/scpu64-resources.c:
@@ -8557,6 +8893,8 @@ not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/
 prepocessor:
 command-line:                   -cia2model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 scpu64/scpu64-resources.c:
@@ -8572,6 +8910,8 @@ not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:           unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl
 
 scpu64/scpu64-resources.c:
@@ -8589,6 +8929,8 @@ not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/
 prepocessor:
 command-line:                   NONE ?? (fixme)
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 scpu64/scpu64-resources.c:
@@ -8606,6 +8948,8 @@ not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/
 prepocessor:
 command-line:                   NONE ?? (fixme)
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2/osx
 
 scpu64/scpu64-resources.c:
@@ -8621,6 +8965,8 @@ not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/
 prepocessor:
 command-line:                   -burstmod
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			osx
 
 scpu64/scpu64-resources.c:
@@ -8636,6 +8982,8 @@ not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/
 prepocessor:
 command-line:                   -simmsize
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			osx
 fixme: add to documentation
 
@@ -8684,6 +9032,8 @@ not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/
 prepocessor:
 command-line:                   -gluelogictype
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			osx
 
 serial/serial-iec-device.c:
@@ -8820,6 +9170,8 @@ not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residsamp
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 sid/sid-resources.c:
@@ -8835,6 +9187,8 @@ not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residpass
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 sid/sid-resources.c:
@@ -8850,6 +9204,8 @@ not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residgain
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 sid/sid-resources.c:
@@ -8865,6 +9221,8 @@ not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residfilterbias
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 sid/sid-resources.c:
@@ -8881,6 +9239,8 @@ not used in:
 prepocessor:
 command-line:                   NONE
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 sid/sid-resources.c:
@@ -8911,6 +9271,8 @@ not used in:
 prepocessor:
 command-line:                   NONE
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 sid/sid-resources.c:
@@ -8926,6 +9288,8 @@ not used in:
 prepocessor:                    #ifdef HAVE_HARDSID
 command-line:                   NONE (fixme)
 platform gui present:			windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx
 fixme: add to documentation
 
@@ -8942,6 +9306,8 @@ not used in:
 prepocessor:                    #ifdef HAVE_HARDSID
 command-line:                   NONE (fixme)
 platform gui present:			windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx
 fixme: add to documentation
 
@@ -8958,6 +9324,8 @@ not used in:
 prepocessor:
 command-line:                   -sidstereo
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 sound.c:
@@ -9050,6 +9418,8 @@ not used in:
 prepocessor:
 command-line:                   -soundrate
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 sound.c:
@@ -9065,6 +9435,8 @@ not used in:
 prepocessor:
 command-line:                   -soundbufsize
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 sound.c:
@@ -9081,6 +9453,8 @@ not used in:
 prepocessor:
 command-line:                   -soundfragsize
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 sound.c:
@@ -9111,6 +9485,8 @@ not used in:
 prepocessor:
 command-line:                   -soundsync
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 sound.c:
@@ -9126,6 +9502,8 @@ not used in:
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			beos/os2
 
 sound.c:
@@ -9141,6 +9519,8 @@ not used in:
 prepocessor:
 command-line:                   -soundoutput
 platform gui present:           amigaos/beos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			dos/osx
 
 sysfile.c:
@@ -9234,6 +9614,8 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -userportjoytype
 platform gui present:           amigaos/beos/dos/os2/unix/sdl/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			osx
 fixme: add to documentation
 
@@ -9281,6 +9663,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDC16KB / -VDC64KB
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 vdc/vdc-resources.c:
@@ -9498,6 +9882,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9513,6 +9899,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCcontrast
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9528,6 +9916,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCbrightness
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9543,6 +9933,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCgamma
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9558,6 +9950,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCtint
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			osx
 
 vdc/vdc-resources.c:
@@ -9573,6 +9967,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCcrtscanlineshade
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9588,6 +9984,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCcrtblur
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9603,6 +10001,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCoddlinesphase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9618,6 +10018,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCoddlinesoffset
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vdc/vdc-resources.c:
@@ -9648,6 +10050,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCfilter
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 vic20/cart/finalexpansion.c:
@@ -9843,6 +10247,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vic20/cart/vic20-sidcart.c:
@@ -9858,6 +10264,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vic20/cart/vic20cart.c:
@@ -9893,6 +10301,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:			os2/osx
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl/unix/windows
 
 vic20/cart/vic20cart.c:
@@ -9923,6 +10333,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICborders
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2/osx
 
 vic20/vic-resources.c:
@@ -10125,6 +10537,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10140,6 +10554,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICcontrast
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10155,6 +10571,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICbrightness
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10170,6 +10588,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICgamma
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10185,6 +10605,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICtint
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			osx
 
 vic20/vic-resources.c:
@@ -10200,6 +10622,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICcrtscanlineshade
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10215,6 +10639,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICcrtblur
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10230,6 +10656,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICoddlinesphase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10245,6 +10673,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICoddlinesoffset
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vic20/vic-resources.c:
@@ -10275,6 +10705,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICfilter
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vic20/vic20-resources.c:
@@ -10365,6 +10797,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -pal / -ntsc
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			windows
 
 vic20/vic20-resources.c:
@@ -10455,6 +10889,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:			unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/dos/beos/sdl/osx
 
 vic20/vic20io.c:
@@ -10470,6 +10906,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -iocollision
 platform gui present:			unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 vicii/vicii-resources.c:
@@ -10485,6 +10923,8 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIborders
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 vicii/vicii-resources.c:
@@ -10732,6 +11172,8 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10747,6 +11189,8 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIcontrast
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10762,6 +11206,8 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIbrightness
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10777,6 +11223,8 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIgamma
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10792,6 +11240,8 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIItint
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			osx
 
 vicii/vicii-resources.c:
@@ -10807,6 +11257,8 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIcrtscanlineshade
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10822,6 +11274,8 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIcrtblur
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10837,6 +11291,8 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIoddlinesphase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10852,6 +11308,8 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIoddlinesoffset
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vicii/vicii-resources.c:
@@ -10882,6 +11340,8 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIfilter
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -10897,6 +11357,8 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIborders
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 
 viciisc/vicii-resources.c:
@@ -10958,6 +11420,8 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   NONE (fixme ??)
 platform gui present:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11160,6 +11624,8 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11175,6 +11641,8 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIcontrast
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11190,6 +11658,8 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIbrightness
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11205,6 +11675,8 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIgamma
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11220,6 +11692,8 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIItint
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			osx
 
 viciisc/vicii-resources.c:
@@ -11235,6 +11709,8 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIcrtscanlineshade
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11250,6 +11726,8 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIcrtblur
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11265,6 +11743,8 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIoddlinesphase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11280,6 +11760,8 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIoddlinesoffset
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 viciisc/vicii-resources.c:
@@ -11310,6 +11792,8 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIfilter
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 video/video-resources.c:
@@ -11355,6 +11839,8 @@ not used in:
 prepocessor:
 command-line:                   -speed
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vsync.c:
@@ -11370,6 +11856,8 @@ not used in:
 prepocessor:
 command-line:                   -refresh
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 vsync.c:
@@ -11856,6 +12344,8 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
 platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -11873,6 +12363,8 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
 platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -11890,6 +12382,8 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
 platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -11907,6 +12401,8 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   NONE ?? (fixme)
 platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -11923,6 +12419,8 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
 platform gui present:           amigaos4
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/amigaos/joy.c:
@@ -11938,6 +12436,8 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
 platform gui present:           amigaos4
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/amigaos/joy.c:
@@ -11953,6 +12453,8 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -extrajoydev1
 platform gui present:           amigaos4
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/amigaos/joy.c:
@@ -11968,6 +12470,8 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
 platform gui present:           amigaos4
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/amigaos/joyll.c:
@@ -11983,6 +12487,8 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
 platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/amigaos/joyll.c:
@@ -11998,6 +12504,8 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
 platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/amigaos/joyll.c:
@@ -12013,6 +12521,8 @@ not used in:                    xcbm2/vsid
 prepocessor:
 command-line:                   -extrajoydev1
 platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/amigaos/joyll.c:
@@ -12028,6 +12538,8 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
 platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 ------------------------------------------------------------------------------------------------------------------------------------
@@ -12126,6 +12638,8 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
 platform gui present:           beos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/beos/joy.cc:
@@ -12141,6 +12655,8 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
 platform gui present:           beos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/beos/joy.cc:
@@ -12156,6 +12672,8 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -extrajoydev1
 platform gui present:           beos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/beos/joy.cc:
@@ -12171,6 +12689,8 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
 platform gui present:           beos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 ------------------------------------------------------------------------------------------------------------------------------------
@@ -12204,6 +12724,8 @@ not used in:
 prepocessor:
 command-line:                   -statusbar / +statusbar (fixme, should be -statusbar 0/1/2)
 platform gui present:           dos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -12222,6 +12744,8 @@ not used in:
 prepocessor:
 command-line:                   -vgamode
 platform gui present:           dos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -12254,6 +12778,8 @@ not used in:
 prepocessor:
 command-line:                   -speed
 platform gui present:           dos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/msdos/vsync.c:
@@ -12269,6 +12795,8 @@ not used in:
 prepocessor:
 command-line:                   -refresh
 platform gui present:           dos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/msdos/vsync.c:
@@ -12284,6 +12812,8 @@ not used in:
 prepocessor:
 command-line:                   -warp / +warp
 platform gui present:           dos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/msdos/joy.c:
@@ -12309,6 +12839,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE
 platform gui present:           dos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -12325,6 +12857,8 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
 platform gui present:           dos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/msdos/joy.c:
@@ -12340,6 +12874,8 @@ not used in:                    xcbm2/xpet/vsid/xvic
 prepocessor:
 command-line:                   -joydev2
 platform gui present:           dos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/msdos/joy.c:
@@ -12355,6 +12891,8 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -extrajoydev1
 platform gui present:           dos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/msdos/joy.c:
@@ -12370,6 +12908,8 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
 platform gui present:           dos
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 ------------------------------------------------------------------------------------------------------------------------------------
@@ -12580,6 +13120,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -border
 platform gui present:           
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			os2
 fixme: add to documentation
 blacky note: resource is used/checked
@@ -13064,6 +13606,8 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
 platform gui present:           os2
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/os2/joy.c:
@@ -13079,6 +13623,8 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
 platform gui present:           os2
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/os2/joy.c:
@@ -13094,6 +13640,8 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -extrajoydev1
 platform gui present:           os2
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/os2/joy.c:
@@ -13109,6 +13657,8 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
 platform gui present:           os2
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 ------------------------------------------------------------------------------------------------------------------------------------
@@ -13448,6 +13998,8 @@ not used in:
 prepocessor:                    #ifdef HAVE_HWSCALE
 command-line:                   -sdlaspectmode
 platform gui present:           sdl
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -13513,6 +14065,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
 command-line:                   -joythreshold
 platform gui present:           sdl
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -13529,6 +14083,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
 command-line:                   -joyfuzz
 platform gui present:           sdl
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -13546,6 +14102,8 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
 platform gui present:           sdl
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/sdl/joy.c:
@@ -13562,6 +14120,8 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
 platform gui present:           sdl
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/sdl/joy.c:
@@ -13578,6 +14138,8 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -extrajoydev1
 platform gui present:           sdl
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/sdl/joy.c:
@@ -13594,6 +14156,8 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
 platform gui present:           sdl
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 ------------------------------------------------------------------------------------------------------------------------------------
@@ -13611,6 +14175,8 @@ not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -mousescalex
 platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -13627,6 +14193,8 @@ not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -mousescaley
 platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -13673,6 +14241,8 @@ not used in:
 prepocessor:
 command-line:                   -syncdrawmode
 platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -13689,6 +14259,8 @@ not used in:
 prepocessor:
 command-line:                   -syncdrawbuffers
 platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -13972,6 +14544,8 @@ prepocessor:
 command-line:                   -joyAxthreshold
 platforms to check:			osx
 platform gui present:           
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -13989,6 +14563,8 @@ prepocessor:
 command-line:                   -joyAythreshold
 platforms to check:			osx
 platform gui present:           
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -14006,6 +14582,8 @@ prepocessor:
 command-line:                   -joyBxthreshold
 platforms to check:			osx
 platform gui present:           
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -14023,6 +14601,8 @@ prepocessor:
 command-line:                   -joyBythreshold
 platforms to check:			osx
 platform gui present:           
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -14277,6 +14857,8 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
 platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/unix/macosx/joy.c:
@@ -14292,6 +14874,8 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
 platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/unix/macosx/joy.c:
@@ -14307,6 +14891,8 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -extrajoydev1
 platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/unix/macosx/joy.c:
@@ -14322,6 +14908,8 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
 platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 ------------------------------------------------------------------------------------------------------------------------------------
@@ -14369,6 +14957,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef HAVE_MIDI && #ifdef USE_ALSA
 command-line:                   -mididrv
 platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/unix/rs232.c:
@@ -14384,6 +14974,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_RS232
 command-line:                   -rsdev1baud
 platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/unix/rs232.c:
@@ -14399,6 +14991,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_RS232
 command-line:                   -rsdev2baud
 platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/unix/rs232.c:
@@ -14414,6 +15008,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_RS232
 command-line:                   -rsdev3baud
 platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/unix/rs232.c:
@@ -14429,6 +15025,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_RS232
 command-line:                   -rsdev4baud
 platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/unix/ui-threads.c:
@@ -14476,6 +15074,8 @@ not used in:
 prepocessor:                    #if defined(USE_UI_THREADS) && defined(HAVE_HWSCALE)
 command-line:                   NONE (fixme)
 platform gui present:           unix(GTK)
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			unix(XAW)
 fixme: add to documentation
 
@@ -14617,6 +15217,8 @@ not used in:
 prepocessor:
 command-line:                   -displaydepth
 platform gui present:           
+platform range correct:		
+platform range incorrect:		
 platform gui missing:			unix
 note: resource is used/checked
 
@@ -14816,6 +15418,8 @@ not used in:
 prepocessor:
 command-line:                   -aspect
 platform gui present:           unix(XAW)
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -14902,6 +15506,8 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
 platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/unix/joy.c:
@@ -14927,6 +15533,8 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
 platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/unix/joy.c:
@@ -14952,6 +15560,8 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -extrajoydev1
 platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/unix/joy.c:
@@ -14977,6 +15587,8 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
 platform gui present:           unix
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 ------------------------------------------------------------------------------------------------------------------------------------
@@ -15449,6 +16061,8 @@ not used in:
 prepocessor:
 command-line:                   NONE
 platform gui present:           windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -15465,6 +16079,8 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   NONE
 platform gui present:           windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -15513,6 +16129,8 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   NONE
 platform gui present:           windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -15561,6 +16179,8 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   NONE
 platform gui present:           windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -15609,6 +16229,8 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   NONE
 platform gui present:           windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 fixme: add to documentation
 
@@ -15753,6 +16375,8 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
 platform gui present:           windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/win32/joy.c:
@@ -15768,6 +16392,8 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
 platform gui present:           windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/win32/joy.c:
@@ -15783,6 +16409,8 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -extrajoydev1
 platform gui present:           windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
 
 arch/win32/joy.c:
@@ -15798,4 +16426,6 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
 platform gui present:           windows
+platform range correct:		
+platform range incorrect:		
 platform gui missing:
