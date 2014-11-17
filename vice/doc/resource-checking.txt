@@ -9233,7 +9233,6 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/
 not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -userportjoytype
-platforms to check:             unix
 platform gui present:           amigaos/beos/dos/os2/unix/sdl/windows
 platform gui missing:			osx
 fixme: add to documentation
