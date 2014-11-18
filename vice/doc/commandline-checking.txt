@@ -124,49 +124,49 @@ arch/beos/kbd.c:
 ----------------
 command line:   -keymap <number>
 description:    "Specify index of used keymap" (fixme: needs better description)
-resource:               "KeymapIndex"
+resource:       "KeymapIndex"
 action:         N/A
 
 arch/beos/video.cc:
 -------------------
 command line:   -directwindow
 description:    "Enable BeOS DirectWindow API"
-resource:               "DirectWindow" (set to 1)
+resource:       "DirectWindow" (set to 1)
 action:         N/A
 
 arch/beos/video.cc:
 -------------------
 command line:   +directwindow
 description:    "Disable BeOS DirectWindow API"
-resource:               "DirectWindow" (set to 0)
+resource:       "DirectWindow" (set to 0)
 action:         N/A
 
 arch/msdos/joy.c:
 -----------------
 command line:   -joydev1 <number>
-description:    "Set input device for joystick #1" (fixme: needs better description)
-resource:               "JoyDevice1"
+description:    "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
+resource:       "JoyDevice1"
 action:         N/A
 
 arch/msdos/joy.c:
 -----------------
 command line:   -joydev2 <number>
-description:    "Set input device for joystick #2" (fixme: needs better description)
-resource:               "JoyDevice2"
+description:    "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
+resource:       "JoyDevice2"
 action:         N/A
 
 arch/msdos/joy.c:
 -----------------
 command line:   -extrajoydev1 <number>
-description:    "Set input device for extra joystick #1" (fixme: needs better description)
-resource:               "JoyDevice3"
+description:    "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
+resource:       "JoyDevice3"
 action:         N/A
 
 arch/msdos/joy.c:
 -----------------
 command line:   -extrajoydev2 <number>
-description:    "Set input device for extra joystick #2" (fixme: needs better description)
-resource:               "JoyDevice4"
+description:    "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
+resource:       "JoyDevice4"
 action:         N/A
 
 arch/msdos/ui.c:
