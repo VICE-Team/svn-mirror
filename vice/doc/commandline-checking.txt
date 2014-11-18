@@ -5,119 +5,119 @@ aciacore.c as included from plus4/plus4acia.c:
 ------------------------------------------------
 command line:   -myaciadev <0-3>
 description:    "Specify RS232 device this ACIA should work on"
-resource:               "Acia1Dev"
+resource:       "Acia1Dev"
 action:         N/A
 
 arch/amigaos/joy.c:
 -------------------
 command line:   -joydev1 <number>
 description:    "Joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-resource:               "JoyDevice1"
+resource:       "JoyDevice1"
 action:         N/A
 
 arch/amigaos/joy.c:
 -------------------
 command line:   -joydev2 <number>
 description:    "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-resource:               "JoyDevice2"
+resource:       "JoyDevice2"
 action:         N/A
 
 arch/amigaos/joy.c:
 -------------------
 command line:   -extrajoydev1 <number>
 description:    "Extra joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-resource:               "JoyDevice3"
+resource:       "JoyDevice3"
 action:         N/A
 
 arch/amigaos/joy.c:
 -------------------
 command line:   -extrajoydev2 <number>
 description:    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-resource:               "JoyDevice4"
+resource:       "JoyDevice4"
 action:         N/A
 
 arch/amigaos/joyll.c:
 ---------------------
 command line:   -joydev1 <number>
 description:    "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-resource:               "JoyDevice1"
+resource:       "JoyDevice1"
 action:         N/A
 
 arch/amigaos/joyll.c:
 ---------------------
 command line:   -joydev2 <number>
 description:    "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-resource:               "JoyDevice2"
+resource:       "JoyDevice2"
 action:         N/A
 
 arch/amigaos/joyll.c:
 ---------------------
 command line:   -extrajoydev1 <number>
 description:    "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-resource:               "JoyDevice3"
+resource:       "JoyDevice3"
 action:         N/A
 
 arch/amigaos/joyll.c:
 ---------------------
 command line:   -extrajoydev2 <number>
 description:    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-resource:               "JoyDevice4"
+resource:       "JoyDevice4"
 action:         N/A
 
 arch/amigaos/uiapi.c:
 ---------------------
 command line:   -saveres
 description:    "Save settings on exit"
-resource:               "SaveResourcesOnExit" (set to 1)
+resource:       "SaveResourcesOnExit" (set to 1)
 action:         N/A
 
 arch/amigaos/uiapi.c:
 ---------------------
 command line:   +saveres
 description:    "Never save settings on exit"
-resource:               "SaveResourcesOnExit" (set to 0)
+resource:       "SaveResourcesOnExit" (set to 0)
 action:         N/A
 
 arch/amigaos/uiapi.c:
 ---------------------
 command line:   -confirmexit
 description:    "Confirm quiting VICE"
-resource:               "ConfirmOnExit" (set to 1)
+resource:       "ConfirmOnExit" (set to 1)
 action:         N/A
 
 arch/amigaos/uiapi.c:
 ---------------------
 command line:   +confirmexit
 description:    "Never confirm quiting VICE"
-resource:               "ConfirmOnExit" (set to 0)
+resource:       "ConfirmOnExit" (set to 0)
 action:         N/A
 
 arch/beos/joy.cc:
 -----------------
 command line:   -joydev1 <number>
-description:    "Set input device for joystick #1" (fixme: needs better description)
-resource:               "JoyDevice1"
+description:    "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)"
+resource:       "JoyDevice1"
 action:         N/A
 
 arch/beos/joy.cc:
 -----------------
 command line:   -joydev2 <number>
-description:    "Set input device for joystick #2" (fixme: needs better description)
-resource:               "JoyDevice2"
+description:    "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)"
+resource:       "JoyDevice2"
 action:         N/A
 
 arch/beos/joy.cc:
 -----------------
 command line:   -extrajoydev1 <number>
-description:    "Set input device for extra joystick #1" (fixme: needs better description)
-resource:               "JoyDevice3"
+description:    "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)"
+resource:       "JoyDevice3"
 action:         N/A
 
 arch/beos/joy.cc:
 -----------------
 command line:   -extrajoydev2 <number>
-description:    "Set input device for extra joystick #" (fixme: needs better description)
-resource:               "JoyDevice4"
+description:    "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)"
+resource:       "JoyDevice4"
 action:         N/A
 
 arch/beos/kbd.c:
