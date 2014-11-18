@@ -173,203 +173,203 @@ arch/msdos/ui.c:
 ----------------
 command line:   -leds
 description:    "Enable usage of PC keyboard LEDs"
-resource:               "UseLeds" (set to 1)
+resource:       "UseLeds" (set to 1)
 action:         N/A
 
 arch/msdos/ui.c:
 ----------------
 command line:   +leds
 description:    "Disable usage of PC keyboard LEDs"
-resource:               "UseLeds" (set to 0)
+resource:       "UseLeds" (set to 0)
 action:         N/A
 
 arch/msdos/ui.c:
 ----------------
 command line:   +statusbar
 description:    "Disable the Statusbar"
-resource:               "ShowStatusbar" (set to 0)
+resource:       "ShowStatusbar" (set to 0)
 action:         N/A
 
 arch/msdos/ui.c:
 ----------------
 command line:   -statusbar
 description:    "Enable the Statusbar"
-resource:               "ShowStatusbar" (set to 1)
+resource:       "ShowStatusbar" (set to 1)
 action:         N/A
 
 arch/msdos/video.c:
 -------------------
 command line:   -vgamode <mode>
 description:    "Set VGA mode to <mode>. (0:320x200x8, 1:360x240x8, 2:360x270x8, 3:376x282x8, 4:400x300x8, 5:640x480x8, 6:800x600x8, 7:1024x768x8, 8:320x200x16, 9:400x300x16, 10:640x480x16, 11:800x600x16, 12:1024x768x16, 13:640x480x32, 14:800x600x32, 15:1024x768x32)"
-resource:               "VGAMode"
+resource:       "VGAMode"
 action:         N/A
 
 arch/msdos/video.c:
 -------------------
 command line:   -triplebuf
 description:    "Try to use triple buffering when possible"
-resource:               "TripleBuffering" (set to 1)
+resource:       "TripleBuffering" (set to 1)
 action:         N/A
 
 arch/msdos/video.c:
 -------------------
 command line:   +triplebuf
 description:    "Disable usage of triple buffering"
-resource:               "TripleBuffering" (set to 0)
+resource:       "TripleBuffering" (set to 0)
 action:         N/A
 
 arch/msdos/vsync.c:
 -------------------
 command line:   -speed <percent>
 description:    "Limit emulation speed to specified value"
-resource:               "Speed"
+resource:       "Speed"
 action:         N/A
 
 arch/msdos/vsync.c:
 -------------------
 command line:   -refresh <value>
 description:    "Update every <value> frames (`0' for automatic)"
-resource:               "RefreshRate"
+resource:       "RefreshRate"
 action:         N/A
 
 arch/msdos/vsync.c:
 -------------------
 command line:   -warp
 description:    "Enable warp mode"
-resource:               "WarpMode" (set to 1)
+resource:       "WarpMode" (set to 1)
 action:         N/A
 
 arch/msdos/vsync.c:
 -------------------
 command line:   +warp
 description:    "Disable warp mode"
-resource:               "WarpMode" (set to 0)
+resource:       "WarpMode" (set to 0)
 action:         N/A
 
 arch/os2/joy.c:
 ---------------
 command line:   -joy1cal
 description:    "Start auto calibration for PC joystick #1"
-resource:               N/A
+resource:       N/A
 action:         set_joyA_autoCal()
 
 arch/os2/joy.c:
 ---------------
 command line:   -joy2cal
 description:    "Start auto calibration for PC joystick #2"
-resource:               N/A
+resource:       N/A
 action:         set_joyB_autoCal()
 
 arch/os2/joy.c:
 ---------------
 command line:   -joydev1 <number>
-description:    "Set input device for CBM joystick port #1" (fixme: needs better description)
-resource:               "JoyDevice1"
+description:    "Set input device for CBM joystick port #1 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
+resource:       "JoyDevice1"
 action:         N/A
 
 arch/os2/joy.c:
 ---------------
 command line:   -joydev2 <number>
-description:    "Set input device for CBM joystick port #2" (fixme: needs better description)
-resource:               "JoyDevice2"
+description:    "Set input device for CBM joystick port #2 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
+resource:       "JoyDevice2"
 action:         N/A
 
 arch/os2/joy.c:
 ---------------
 command line:   -extrajoydev1 <number>
-description:    "Set input device for extra CBM joystick port #1" (fixme: needs better description)
-resource:               "JoyDevice3"
+description:    "Set input device for extra CBM joystick port #1 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
+resource:       "JoyDevice3"
 action:         N/A
 
 arch/os2/joy.c:
 ---------------
 command line:   -extrajoydev2 <number>
-description:    "Set input device for extra CBM joystick port #2" (fixme: needs better description)
-resource:               "JoyDevice4"
+description:    "Set input device for extra CBM joystick port #2 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
+resource:       "JoyDevice4"
 action:         N/A
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
 command line:   -grsymkeymap <name>
 description:    "Specify the name of the graphics keyboard symbolic keymap file"
-resource:               "KeymapGraphicsSymFile"
+resource:       "KeymapGraphicsSymFile"
 action:         N/A
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
 command line:   -grposkeymap <name>
 description:    "Specify the name of the graphics keyboard positional keymap file"
-resource:               "KeymapGraphicsPosFile"
+resource:       "KeymapGraphicsPosFile"
 action:         N/A
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
 command line:   -buksymkeymap <name>
 description:    "Specify the name of the UK business keyboard symbolic keymap file"
-resource:               "KeymapBusinessUKSymFile"
+resource:       "KeymapBusinessUKSymFile"
 action:         N/A
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
 command line:   -bukposkeymap <name>
 description:    "Specify the name of the UK business keyboard positional keymap file"
-resource:               "KeymapBusinessUKPosFile"
+resource:       "KeymapBusinessUKPosFile"
 action:         N/A
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
 command line:   -bdesymkeymap <name>
 description:    "Specify the name of the German business keyboard symbolic keymap file"
-resource:               "KeymapBusinessDESymFile"
+resource:       "KeymapBusinessDESymFile"
 action:         N/A
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
 command line:   -bdeposkeymap <name>
 description:    "Specify the name of the German business keyboard positional keymap file"
-resource:               "KeymapBusinessDEPosFile"
+resource:       "KeymapBusinessDEPosFile"
 action:         N/A
 
 arch/os2/kbd/kmap.c:
 --------------------
 command line:   -symkeymap <name>
 description:    "Specify the name of the symbolic keymap file"
-resource:               "KeymapSymFile"
+resource:       "KeymapSymFile"
 action:         N/A
 
 arch/os2/kbd/kmap.c:
 --------------------
 command line:   -poskeymap <name>
 description:    "Specify the name of the positional keymap file"
-resource:               "KeymapPosFile"
+resource:       "KeymapPosFile"
 action:         N/A
 
 arch/os2/mousedrv.c:
 --------------------
 command line:   -hidemouseptr
 description:    "Enable hiding of mouse pointer inside the window"
-resource:               "HideMousePtr" (set to 1)
+resource:       "HideMousePtr" (set to 1)
 action:         N/A
 
 arch/os2/mousedrv.c:
 --------------------
 command line:   +hidemouseptr
 description:    "Disable hiding of mouse pointer inside the window"
-resource:               "HideMousePtr" (set to 0)
+resource:       "HideMousePtr" (set to 0)
 action:         N/A
 
 arch/os2/ui.c:
 --------------
 command line:   -leds
 description:    "Enable usage of PC keyboard LEDs"
-resource:               "UseLeds" (set to 1)
+resource:       "UseLeds" (set to 1)
 action:         N/A
 
 arch/os2/ui.c:
 --------------
 command line:   +leds
 description:    "Disable usage of PC keyboard LEDs"
-resource:               "UseLeds" (set to 0)
+resource:       "UseLeds" (set to 0)
 action:         N/A
 
 arch/os2/video.c:

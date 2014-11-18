@@ -310,7 +310,7 @@ static const cmdline_option_t joydev1cmdline_options[] = {
       NULL, NULL, "JoyDevice1", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<number>", "Set input device for CBM joystick port #1" },
+      "<number>", "Set input device for CBM joystick port #1 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)" },
     { NULL }
 };
 
@@ -319,7 +319,7 @@ static const cmdline_option_t joydev2cmdline_options[] = {
       NULL, NULL, "JoyDevice2", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<number>", "Set input device for CBM joystick port #2" },
+      "<number>", "Set input device for CBM joystick port #2 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)" },
     { NULL }
 };
 
@@ -328,7 +328,7 @@ static const cmdline_option_t joydev3cmdline_options[] = {
       NULL, NULL, "JoyDevice3", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<number>", "Set input device for extra CBM joystick port #1" },
+      "<number>", "Set input device for extra CBM joystick port #1 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)" },
     { NULL }
 };
 
@@ -337,7 +337,7 @@ static const cmdline_option_t joydev4cmdline_options[] = {
       NULL, NULL, "JoyDevice4", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<number>", "Set input device for extra CBM joystick port #2" },
+      "<number>", "Set input device for extra CBM joystick port #2 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)" },
     { NULL }
 };
 
