@@ -959,6 +959,7 @@ command line:   -install
 description:    "Install a private colormap"
 resource:               "PrivateColormap" (set to 1)
 action:         N/A
+fixme: can we change this to "-colormap" ??
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
