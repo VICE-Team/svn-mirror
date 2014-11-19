@@ -668,316 +668,315 @@ arch/unix/macosx/cocoa/mousedrv.m:
 ----------------------------------
 command line:   -mousescalex <1-8>
 description:    "Set scaling factor for mouse movement along X"
-resource:               "MouseScaleX"
+resource:       "MouseScaleX"
 action:         N/A
 
 arch/unix/macosx/cocoa/mousedrv.m:
 ----------------------------------
 command line:   -mousescaley <1-8>
 description:    "Set scaling factor for mouse movement along Y"
-resource:               "MouseScaleY"
+resource:       "MouseScaleY"
 action:         N/A
 
 arch/unix/macosx/cocoa/ui-cmdline-options.c:
 --------------------------------------------
 command line:   -saveres
 description:    "Save settings on exit"
-resource:               "SaveResourcesOnExit" (set to 1)
+resource:       "SaveResourcesOnExit" (set to 1)
 action:         N/A
 
 arch/unix/macosx/cocoa/ui-cmdline-options.c:
 --------------------------------------------
 command line:   +saveres
 description:    "Never save settings on exit"
-resource:               "SaveResourcesOnExit" (set to 0)
+resource:       "SaveResourcesOnExit" (set to 0)
 action:         N/A
 
 arch/unix/macosx/cocoa/ui-cmdline-options.c:
 --------------------------------------------
 command line:   +confirmexit
 description:    "Never confirm quitting VICE"
-resource:               "ConfirmOnExit" (set to 0)
+resource:       "ConfirmOnExit" (set to 0)
 action:         N/A
 
 arch/unix/macosx/cocoa/ui-cmdline-options.c:
 --------------------------------------------
 command line:   -confirmexit
 description:    "Confirm quitting VICE"
-resource:               "ConfirmOnExit" (set to 1)
+resource:       "ConfirmOnExit" (set to 1)
 action:         N/A
 
 arch/unix/macosx/cocoa/video.m:
 -------------------------------
 command line:   -syncdrawmode <0-2>
 description:    "Enable draw synchronization to vertical blank" (fixme: needs better description)
-resource:               "SyncDrawMode"
+resource:       "SyncDrawMode"
 action:         N/A
 
 arch/unix/macosx/cocoa/video.m:
 -------------------------------
 command line:   -syncdrawbuffers <0-8>
 description:    "Set number of buffers used for sync draw (0=use default)"
-resource:               "SyncDrawBuffers"
+resource:       "SyncDrawBuffers"
 action:         N/A
 
 arch/unix/macosx/cocoa/video.m:
 -------------------------------
 command line:   -syncdrawflickerfix
 description:    "Enable flicker fixing in sync draw"
-resource:               "SyncDrawFlickerFix" (set to 1)
+resource:       "SyncDrawFlickerFix" (set to 1)
 action:         N/A
 
 arch/unix/macosx/cocoa/video.m:
 -------------------------------
 command line:   +syncdrawflickerfix
 description:    "Disable flicker fixing in sync draw"
-resource:               "SyncDrawFlickerFix" (set to 0)
+resource:       "SyncDrawFlickerFix" (set to 0)
 action:         N/A
 
 arch/unix/macosx/cocoa/video.m:
 -------------------------------
 command line:   -trueaspect
 description:    "Enable true aspect ratio"
-resource:               "TrueAspectRatio" (set to 1)
+resource:       "TrueAspectRatio" (set to 1)
 action:         N/A
 
 arch/unix/macosx/cocoa/video.m:
 -------------------------------
 command line:   +trueaspect
 description:    "Disable true aspect ratio"
-resource:               "TrueAspectRatio" (set to 0)
+resource:       "TrueAspectRatio" (set to 0)
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyAdevice <vid:pid:sn>
 description:    "Set HID A device" (fixme: needs better description)
-resource:               "JoyADevice"
+resource:       "JoyADevice"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyAxaxis <X,Y,Z,Rx,Ry,Rz>
 description:    "Set X Axis for HID A device" (fixme: needs better description)
-resource:               "JoyAXAxis"
+resource:       "JoyAXAxis"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyAyaxis <X,Y,Z,Rx,Ry,Rz>
 description:    "Set Y Axis for HID A device" (fixme: needs better description)
-resource:               "JoyAYAxis"
+resource:       "JoyAYAxis"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyAbuttons <f:af:l:r:u:d>
 description:    "Set Buttons for HID A device" (fixme: needs better description)
-resource:               "JoyAButtons"
+resource:       "JoyAButtons"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyAautobuttons <af1:af2:af1p:af1r:af2p:af2r>
 description:    "Set Auto Fire Buttons for HID A device" (fixme: needs better description)
-resource:               "JoyAAutoButtons"
+resource:       "JoyAAutoButtons"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyAxthreshold <0-100>
 description:    "Set X Axis Threshold in Percent of HID A device"
-resource:               "JoyAXThreshold"
+resource:       "JoyAXThreshold"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyAythreshold <0-100>
 description:    "Set Y Axis Threshold in Percent of HID A device"
-resource:               "JoyAYThreshold"
+resource:       "JoyAYThreshold"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyBdevice <vid:pid:sn>
 description:    "Set HID B device" (fixme: needs better description)
-resource:               "JoyBDevice"
+resource:       "JoyBDevice"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyBxaxis <X,Y,Z,Rx,Ry,Rz>
 description:    "Set X Axis for HID B device" (fixme: needs better description)
-resource:               "JoyBXAxis"
+resource:       "JoyBXAxis"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyByaxis <X,Y,Z,Rx,Ry,Rz>
 description:    "Set Y Axis for HID B device" (fixme: needs better description)
-resource:               "JoyBYAxis"
+resource:       "JoyBYAxis"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyBbuttons <f:af:l:r:u:d>
 description:    "Set Buttons for HID B device" (fixme: needs better description)
-resource:               "JoyBButtons"
+resource:       "JoyBButtons"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyBautobuttons <af1:af2:af1p:af1r:af2p:af2r>
 description:    "Set Auto Fire Buttons for HID B device" (fixme: needs better description)
-resource:               "JoyBAutoButtons"
+resource:       "JoyBAutoButtons"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyBxthreshold <0-100>
 description:    "Set X Axis Threshold in Percent of HID B device"
-resource:               "JoyBXThreshold"
+resource:       "JoyBXThreshold"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyBythreshold <0-100>
 description:    "Set Y Axis Threshold in Percent of HID B device"
-resource:               "JoyBYThreshold"
+resource:       "JoyBYThreshold"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyAhatswitch <0-n>
 description:    "Set Hat Switch for Joystick of HID A device"
-resource:               "JoyAHatSwitch"
+resource:       "JoyAHatSwitch"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joyBhatswitch <0-n>
 description:    "Set Hat Switch for Joystick of HID B device"
-resource:               "JoyBHatSwitch"
+resource:       "JoyBHatSwitch"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joydev1 <0-5>
 description:    "Set device for joystick port 1"
-resource:               "JoyDevice1"
+resource:       "JoyDevice1"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -joydev2 <0-5>
 description:    "Set device for joystick port 2"
-resource:               "JoyDevice2"
+resource:       "JoyDevice2"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -extrajoydev1 <0-5>
 description:    "Set device for extra joystick port 1"
-resource:               "JoyDevice3"
+resource:       "JoyDevice3"
 action:         N/A
 
 arch/unix/macosx/joy.c:
 -----------------------
 command line:   -extrajoydev2 <0-5>
 description:    "Set device for extra joystick port 2"
-resource:               "JoyDevice4"
+resource:       "JoyDevice4"
 action:         N/A
 
 arch/unix/macosx/mididrv.c:
 ---------------------------
 command line:   -midiname <Name>
 description:    "Name of MIDI Client"
-resource:               "MIDIName"
+resource:       "MIDIName"
 action:         N/A
 
 arch/unix/macosx/mididrv.c:
 ---------------------------
 command line:   -midiinname <Name>
 description:    "Name of MIDI-In Port"
-resource:               "MIDIInName"
+resource:       "MIDIInName"
 action:         N/A
 
 arch/unix/macosx/mididrv.c:
 ---------------------------
 command line:   -midioutname <Name>
 description:    "Name of MIDI-Out Port"
-resource:               "MIDIOutName"
+resource:       "MIDIOutName"
 action:         N/A
 
 arch/unix/mididrv.c:
 --------------------
 command line:   -midiin <Name>
 description:    "Specify MIDI-In device"
-resource:               "MIDIInDev"
+resource:       "MIDIInDev"
 action:         N/A
 
 arch/unix/mididrv.c:
 --------------------
 command line:   -midiout <Name>
 description:    "Specify MIDI-Out device"
-resource:               "MIDIOutDev"
+resource:       "MIDIOutDev"
 action:         N/A
 
 arch/unix/mididrv.c:
 --------------------
 command line:   -mididrv <Driver>
 description:    "Specify MIDI driver (0 = OSS, 1 = ALSA)"
-resource:               "MIDIDriver"
+resource:       "MIDIDriver"
 action:         N/A
 
 arch/unix/rs232.c:
 ------------------
 command line:   -rsdev1baud <baudrate>
 description:    "Specify baudrate of first RS232 device"
-resource:               "RsDevice1Baud"
+resource:       "RsDevice1Baud"
 action:         N/A
 
 arch/unix/rs232.c:
 ------------------
 command line:   -rsdev2baud <baudrate>
 description:    "Specify baudrate of second RS232 device"
-resource:               "RsDevice2Baud"
+resource:       "RsDevice2Baud"
 action:         N/A
 
 arch/unix/rs232.c:
 ------------------
 command line:   -rsdev3baud <baudrate>
 description:    "Specify baudrate of third RS232 device"
-resource:               "RsDevice3Baud"
+resource:       "RsDevice3Baud"
 action:         N/A
 
 arch/unix/rs232.c:
 ------------------
 command line:   -rsdev4baud <baudrate>
 description:    "Specify baudrate of fourth RS232 device"
-resource:               "RsDevice4Baud"
+resource:       "RsDevice4Baud"
 action:         N/A
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
 command line:   -htmlbrowser <Command>
 description:    "Specify an HTML browser for the on-line help"
-resource:               "HTMLBrowserCommand"
+resource:       "HTMLBrowserCommand"
 action:         N/A
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
-command line:   -install
+command line:   -colormap
 description:    "Install a private colormap"
-resource:               "PrivateColormap" (set to 1)
+resource:       "PrivateColormap" (set to 1)
 action:         N/A
-fixme: can we change this to "-colormap" ??
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
-command line:   +install
+command line:   +colormap
 description:    "Use the default colormap"
-resource:               "PrivateColormap" (set to 0)
+resource:       "PrivateColormap" (set to 0)
 action:         N/A
 
 arch/unix/x11/ui-cmdline-options.c:
