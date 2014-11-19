@@ -2243,7 +2243,7 @@ resource var:                   mmc64_bios_write
 resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -mmc64bioswrite (fixme: no command line to switch it off)
+command-line:                   -mmc64bioswrite / -mmc64biosreadonly
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 

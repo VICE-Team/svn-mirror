@@ -1207,1640 +1207,1651 @@ attach.c:
 ---------
 command line:   -device8 <Type>
 description:    "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"
-resource:               "FileSystemDevice8"
+resource:       "FileSystemDevice8"
 action:         N/A
+fixme: why the SHOUTING ??
 
 attach.c:
 ---------
 command line:   -device9 <Type>
 description:    "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"
-resource:               "FileSystemDevice9"
+resource:       "FileSystemDevice9"
 action:         N/A
+fixme: why the SHOUTING ??
 
 attach.c:
 ---------
 command line:   -device10 <Type>
 description:    "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"
-resource:               "FileSystemDevice10"
+resource:       "FileSystemDevice10"
 action:         N/A
+fixme: why the SHOUTING ??
 
 attach.c:
 ---------
 command line:   -device11 <Type>
 description:    "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"
-resource:               "FileSystemDevice11"
+resource:       "FileSystemDevice11"
 action:         N/A
+fixme: why the SHOUTING ??
 
 attach.c:
 ---------
 command line:   -attach8ro
 description:    "Attach disk image for drive #8 read only"
-resource:               "AttachDevice8Readonly" (set to 1)
+resource:       "AttachDevice8Readonly" (set to 1)
 action:         N/A
 
 attach.c:
 ---------
 command line:   -attach8rw
 description:    "Attach disk image for drive #8 read write (if possible)"
-resource:               "AttachDevice8Readonly" (set to 0)
+resource:       "AttachDevice8Readonly" (set to 0)
 action:         N/A
 
 attach.c:
 ---------
 command line:   -attach9ro
 description:    "Attach disk image for drive #9 read only"
-resource:               "AttachDevice9Readonly" (set to 1)
+resource:       "AttachDevice9Readonly" (set to 1)
 action:         N/A
 
 attach.c:
 ---------
 command line:   -attach9rw
 description:    "Attach disk image for drive #9 read write (if possible)"
-resource:               "AttachDevice9Readonly" (set to 0)
+resource:       "AttachDevice9Readonly" (set to 0)
 action:         N/A
 
 attach.c:
 ---------
 command line:   -attach10ro
 description:    "Attach disk image for drive #10 read only"
-resource:               "AttachDevice10Readonly" (set to 1)
+resource:       "AttachDevice10Readonly" (set to 1)
 action:         N/A
 
 attach.c:
 ---------
 command line:   -attach10rw
 description:    "Attach disk image for drive #10 read write (if possible)"
-resource:               "AttachDevice10Readonly" (set to 0)
+resource:       "AttachDevice10Readonly" (set to 0)
 action:         N/A
 
 attach.c:
 ---------
 command line:   -attach11ro
 description:    "Attach disk image for drive #11 read only"
-resource:               "AttachDevice11Readonly" (set to 1)
+resource:       "AttachDevice11Readonly" (set to 1)
 action:         N/A
 
 attach.c:
 ---------
 command line:   -attach11rw
 description:    "Attach disk image for drive #11 read write (if possible)"
-resource:               "AttachDevice11Readonly" (set to 0)
+resource:       "AttachDevice11Readonly" (set to 0)
 action:         N/A
 
 autostart.c:
 ------------
 command line:   -basicload
 description:    "On autostart, load to BASIC start (without ',1')"
-resource:               "AutostartBasicLoad" (set to 1)
+resource:       "AutostartBasicLoad" (set to 1)
 action:         N/A
 
 autostart.c:
 ------------
 command line:   +basicload
 description:    "On autostart, load with ',1'"
-resource:               "AutostartBasicLoad" (set to 0)
+resource:       "AutostartBasicLoad" (set to 0)
 action:         N/A
 
 autostart.c:
 ------------
 command line:   -autostartwithcolon
 description:    "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
-resource:               "AutostartRunWithColon" (set to 1)
+resource:       "AutostartRunWithColon" (set to 1)
 action:         N/A
 
 autostart.c:
 ------------
 command line:   +autostartwithcolon
 description:    "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
-resource:               "AutostartRunWithColon" (set to 0)
+resource:       "AutostartRunWithColon" (set to 0)
 action:         N/A
 
 autostart.c:
 ------------
 command line:   -autostart-handle-tde
 description:    "Handle True Drive Emulation on autostart"
-resource:               "AutostartHandleTrueDriveEmulation" (set to 1)
+resource:       "AutostartHandleTrueDriveEmulation" (set to 1)
 action:         N/A
 
 autostart.c:
 ------------
 command line:   +autostart-handle-tde
 description:    "Do not handle True Drive Emulation on autostart"
-resource:               "AutostartHandleTrueDriveEmulation" (set to 0)
+resource:       "AutostartHandleTrueDriveEmulation" (set to 0)
 action:         N/A
 
 autostart.c:
 ------------
 command line:   -autostart-warp
 description:    "Enable warp mode during autostart"
-resource:               "AutostartWarp" (set to 1)
+resource:       "AutostartWarp" (set to 1)
 action:         N/A
 
 autostart.c:
 ------------
 command line:   +autostart-warp
 description:    "Disable warp mode during autostart"
-resource:               "AutostartWarp" (set to 0)
+resource:       "AutostartWarp" (set to 0)
 action:         N/A
 
 autostart.c:
 ------------
 command line:   -autostartprgmode <Mode>
 description:    "Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk image)"
-resource:               "AutostartPrgMode"
+resource:       "AutostartPrgMode"
 action:         N/A
 
 autostart.c:
 ------------
 command line:   -autostartprgdiskimage <Name>
 description:    "Set disk image for autostart of PRG files"
-resource:               "AutostartPrgDiskImage"
+resource:       "AutostartPrgDiskImage"
 action:         N/A
 
 autostart.c:
 ------------
 command line:   -autostart-delay <Seconds>
 description:    "Set initial autostart delay (0: use default)"
-resource:               "AutostartDelay"
+resource:       "AutostartDelay"
 action:         N/A
 
 autostart.c:
 ------------
 command line:   -autostart-delay-random
 description:    "Enable random initial autostart delay."
-resource:               "AutostartDelayRandom" (set to 1)
+resource:       "AutostartDelayRandom" (set to 1)
 action:         N/A
 
 autostart.c:
 ------------
 command line:   +autostart-delay-random
 description:    "Disable random initial autostart delay."
-resource:               "AutostartDelayRandom" (set to 0)
+resource:       "AutostartDelayRandom" (set to 0)
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -pal
 description:    "Use PAL sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -ntsc
 description:    "Use NTSC sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -kernal <Name>
 description:    "Specify name of international Kernal ROM image"
-resource:               "KernalIntName"
+resource:       "KernalIntName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -kernalde <Name>
 description:    "Specify name of German Kernal ROM image"
-resource:               "KernalDEName"
+resource:       "KernalDEName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -kernalfi <Name>
 description:    "Specify name of Finnish Kernal ROM image"
-resource:               "KernalFIName"
+resource:       "KernalFIName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -kernalfr <Name>
 description:    "Specify name of French Kernal ROM image"
-resource:               "KernalFRName"
+resource:       "KernalFRName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -kernalit <Name>
 description:    "Specify name of Italian Kernal ROM image"
-resource:               "KernalITName"
+resource:       "KernalITName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -kernalno <Name>
 description:    "Specify name of Norwegian Kernal ROM image"
-resource:               "KernalNOName"
+resource:       "KernalNOName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -kernalse <Name>
 description:    "Specify name of Swedish Kernal ROM image"
-resource:               "KernalSEName"
+resource:       "KernalSEName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -kernalch <Name>
 description:    "Specify name of Swiss Kernal ROM image"
-resource:               "KernalCHName"
+resource:       "KernalCHName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -basiclo <Name>
 description:    "Specify name of BASIC ROM image (lower part)"
-resource:               "BasicLoName"
+resource:       "BasicLoName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -basichi <Name>
 description:    "Specify name of BASIC ROM image (higher part)"
-resource:               "BasicHiName"
+resource:       "BasicHiName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -chargen <Name>
 description:    "Specify name of international character generator ROM image"
-resource:               "ChargenIntName"
+resource:       "ChargenIntName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -chargde <Name>
 description:    "Specify name of German character generator ROM image"
-resource:               "ChargenDEName"
+resource:       "ChargenDEName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -chargfr <Name>
 description:    "Specify name of French character generator ROM image"
-resource:               "ChargenFRName"
+resource:       "ChargenFRName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -chargse <Name>
 description:    "Specify name of Swedish character generator ROM image"
-resource:               "ChargenSEName"
+resource:       "ChargenSEName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -chargch <Name>
 description:    "Specify name of Swedish character generator ROM image"
-resource:               "ChargenCHName"
+resource:       "ChargenCHName"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -kernal64 <Name>
 description:    "Specify name of C64 mode Kernal ROM image"
-resource:               "Kernal64Name"
+resource:       "Kernal64Name"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -basic64 <Name>
 description:    "Specify name of C64 mode BASIC ROM image"
-resource:               "Basic64Name"
+resource:       "Basic64Name"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -kernalrev <Revision>
 description:    "Patch the Kernal ROM to the specified <revision>"
-resource:               "KernalRev"
+resource:       "KernalRev"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -acia1
 description:    "Enable the ACIA RS232 interface emulation"
-resource:               "Acia1Enable" (set to 1)
+resource:       "Acia1Enable" (set to 1)
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   +acia1
 description:    "Disable the ACIA RS232 interface emulation"
-resource:               "Acia1Enable" (set to 0)
+resource:       "Acia1Enable" (set to 0)
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -keymap <number>
 description:    "Specify index of keymap file (0=symbol, 1=positional)"
-resource:               "KeymapIndex"
+resource:       "KeymapIndex"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
-resource:               "KeymapSymFile"
+resource:       "KeymapSymFile"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
-resource:               "KeymapPosFile"
+resource:       "KeymapPosFile"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -ciamodel <Model>
 description:    "Set both CIA models (0 = old 6526, 1 = new 6526A)"
-resource:               N/A
+resource:       N/A
 action:         set_cia_model() (sets "CIA1Model" and "CIA2Model")
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -cia1model <Model>
 description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
-resource:               "CIA1Model"
+resource:       "CIA1Model"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -cia2model <Model>
 description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
-resource:               "CIA2Model"
+resource:       "CIA2Model"
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -model <Model>
 description:    "Set C128 model (c128/c128dcr, pal/ntsc)"
-resource:               N/A
+resource:       N/A
 action:         set_c128_model() (sets "MachineVideoStandard", "CIA1Model", "CIA2Model", "VICIINewLuminances", "VDCRevision", "VDC64KB",
-                        "SidEngine" and "SidModel");
+                "SidEngine" and "SidModel");
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -c128fullbanks
 description:    "Enable RAM banks 2 and 3"
-resource:               "C128FullBanks" (set to 1)
+resource:       "C128FullBanks" (set to 1)
 action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   +c128fullbanks
 description:    "Disable RAM banks 2 and 3"
-resource:               "C128FullBanks" (set to 0)
+resource:       "C128FullBanks" (set to 0)
 action:         N/A
 
 c128/c128mmu.c:
 ---------------
 command line:   -40col
 description:    "Activate 40 column mode"
-resource:               "40/80ColumnKey" (set to 1)
+resource:       "40/80ColumnKey" (set to 1)
 action:         N/A
 
 c128/c128mmu.c:
 ---------------
 command line:   -80col
 description:    "Activate 80 column mode"
-resource:               "40/80ColumnKey" (set to 0)
+resource:       "40/80ColumnKey" (set to 0)
 action:         N/A
 
 c128/c128mmu.c:
 ---------------
 command line:   -go64
 description:    "Always switch to C64 mode on reset"
-resource:               "Go64Mode" (set to 1)
+resource:       "Go64Mode" (set to 1)
 action:         N/A
 
 c128/c128mmu.c:
 ---------------
 command line:   +go64
 description:    "Always switch to C128 mode on reset"
-resource:               "Go64Mode" (set to 0)
+resource:       "Go64Mode" (set to 0)
 action:         N/A
 
 c128/functionrom.c:
 -------------------
 command line:   -intfrom <Name>
 description:    "Specify name of internal Function ROM image"
-resource:               "InternalFunctionName"
+resource:       "InternalFunctionName"
 action:         N/A
 
 c128/functionrom.c:
 -------------------
 command line:   -extfrom <Name>
 description:    "Specify name of external Function ROM image"
-resource:               "ExternalFunctionName"
+resource:       "ExternalFunctionName"
 action:         N/A
 
 c128/functionrom.c:
 -------------------
 command line:   -intfunc <Type>
 description:    "Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
-resource:               "InternalFunctionROM"
+resource:       "InternalFunctionROM"
 action:         N/A
 
 c128/functionrom.c:
 -------------------
 command line:   -extfunc <Type>
 description:    "Type of external Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
-resource:               "ExternalFunctionROM"
+resource:       "ExternalFunctionROM"
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -pal
 description:    "Use PAL sync factor"
-resource:               N/A
+resource:       N/A
 action:         set_video_standard() (sets "MachineVideoStandard" and "VICIIModel")
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -ntsc
 description:    "Use NTSC sync factor"
-resource:               N/A
+resource:       N/A
 action:         set_video_standard() (sets "MachineVideoStandard" and "VICIIModel")
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -ntscold
 description:    "Use old NTSC sync factor"
-resource:               N/A
+resource:       N/A
 action:         set_video_standard() (sets "MachineVideoStandard" and "VICIIModel")
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -paln
 description:    "Use PAL-N sync factor"
-resource:               N/A
+resource:       N/A
 action:         set_video_standard() (sets "MachineVideoStandard" and "VICIIModel")
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -kernal <Name>
 description:    "Specify name of Kernal ROM image"
-resource:               "KernalName"
+resource:       "KernalName"
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -basic <Name>
 description:    "Specify name of BASIC ROM image"
-resource:               "BasicName"
+resource:       "BasicName"
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -chargen <Name>
 description:    "Specify name of character generator ROM image"
-resource:               "ChargenName"
+resource:       "ChargenName"
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -kernalrev <Revision>
 description:    "Patch the Kernal ROM to the specified <revision>"
-resource:               "KernalRev"
+resource:       "KernalRev"
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -acia1
 description:    "Enable the ACIA RS232 interface emulation"
-resource:               "Acia1Enable" (set to 1)
+resource:       "Acia1Enable" (set to 1)
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   +acia1
 description:    "Disable the ACIA RS232 interface emulation"
-resource:               "Acia1Enable" (set to 0)
+resource:       "Acia1Enable" (set to 0)
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -keymap <number>
 description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
-resource:               "KeymapIndex"
+resource:       "KeymapIndex"
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
-resource:               "KeymapSymFile"
+resource:       "KeymapSymFile"
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -symdekeymap <Name>
 description:    "Specify name of symbolic German keymap file"
-resource:               "KeymapSymDeFile"
+resource:       "KeymapSymDeFile"
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
-resource:               "KeymapPosFile"
+resource:       "KeymapPosFile"
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -ciamodel <Model>
 description:    "Set both CIA models (0 = old 6526, 1 = new 6526A)"
-resource:               N/A
+resource:       N/A
 action:         set_cia_model() (sets CIA1Model and CIA2Model)
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -cia1model <Model>
 description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
-resource:               "CIA1Model"
+resource:       "CIA1Model"
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -cia2model <Model>
 description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
-resource:               "CIA2Model"
+resource:       "CIA2Model"
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -model <Model>
 description:    "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"
-resource:               N/A
+resource:       N/A
 action:         set_c64_model() (sets "VICIIModel", "CIA1Model", "CIA2Model", "GlueLogic", "BoardType", "IECReset", "KernalName", "ChargenName",
-                        "SidEngine" and "SidModel")
+                "SidEngine" and "SidModel")
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -burstmod <value>
 description:    "Burst modification (0 = None, 1 = CIA1, 2 = CIA2)"
-resource:               "BurstMod"
+resource:       "BurstMod"
 action:         N/A
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -iecreset <value>
 description:    "Computer reset goes to IEC bus (0 = No, 1 = Yes)"
-resource:               "IECReset"
+resource:       "IECReset"
 action:         N/A
 
 c64/c64gluelogic.c:
 -------------------
 command line:   -gluelogictype <Type>
 description:    "Set glue logic type (0 = discrete, 1 = 252535-01)"
-resource:               "GlueLogic"
+resource:       "GlueLogic"
 action:         N/A
 
 c64/c64io.c:
 ------------
 command line:   -iocollision <method>
 description:    "Select the way the I/O collisions should be handled, (0: error message and detach all involved carts, 1: error message and detach last attached involved carts, 2: warning in log and 'AND' the valid return values"
-resource:               "IOCollisionHandling"
+resource:       "IOCollisionHandling"
 action:         N/A
 
 c64/c64_256k.c:
 ---------------
 command line:   -256k
 description:    "Enable the 256K RAM expansion"
-resource:               "C64_256K" (set to 1)
+resource:       "C64_256K" (set to 1)
 action:         N/A
 
 c64/c64_256k.c:
 ---------------
 command line:   +256k
 description:    "Disable the 256K RAM expansion"
-resource:               "C64_256K" (set to 0)
+resource:       "C64_256K" (set to 0)
 action:         N/A
 
 c64/c64_256k.c:
 ---------------
 command line:   -256kimage <Name>
 description:    "Specify name of 256K image"
-resource:               "C64_256Kfilename"
+resource:       "C64_256Kfilename"
 action:         N/A
 
 c64/c64_256k.c:
 ---------------
 command line:   -256kbase <Base address>
 description:    "Base address of the 256K expansion"
-resource:               "C64_256Kbase"
+resource:       "C64_256Kbase"
 action:         N/A
 
 c64/cart/c64-midi.c:
 --------------------
 command line:   -miditype <0-4>
 description:    "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)"
-resource:               "MIDIMode"
+resource:       "MIDIMode"
 action:         N/A
 
 c64/cart/c64cart.c:
 -------------------
 command line:   -cartreset
 description:    "Reset machine if a cartridge is attached or detached"
-resource:               "CartridgeReset" (set to 1)
+resource:       "CartridgeReset" (set to 1)
 action:         N/A
 
 c64/cart/c64cart.c:
 -------------------
 command line:   +cartreset
 description:    "Do not reset machine if a cartridge is attached or detached"
-resource:               "CartridgeReset" (set to 0)
+resource:       "CartridgeReset" (set to 0)
 action:         N/A
 
 c64/cart/c64cart.c:
 -------------------
 command line:   +cart
 description:    "Disable default cartridge"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cart8 <Name>
 description:    "Attach raw 8KB cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cart16 <Name>
 description:    "Attach raw 16KB cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartultimax <Name>
 description:    "Attach generic 16kB Ultimax cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartcrt <Name>
 description:    "Attach CRT cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartap <Name>
 description:    "Attach raw 32KB Atomic Power cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartar2 <Name>
 description:    "Attach raw 16kB Action Replay MK2 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartar3 <Name>
 description:    "Attach raw 16KB Action Replay MK3 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartar4 <Name>
 description:    "Attach raw 32KB Action Replay MK4 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartar5 <Name>
 description:    "Attach raw 32KB Action Replay cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartcap <Name>
 description:    "Attach raw 8kB Capture cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartcomal <Name>
 description:    "Attach raw 64kB Comal 80 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartdep256 <Name>
 description:    "Attach raw Dela EP256 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartdep64 <Name>
 description:    "Attach raw Dela EP64 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartdep7x8 <Name>
 description:    "Attach raw Dela EP7x8 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartdin <Name>
 description:    "Attach raw 128kB Dinamic cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartdsm <Name>
 description:    "Attach raw 8kB Diashow-Maker cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartdqbb <Name>
 description:    "Attach raw 16kB Double Quick Brown Box cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -carteasy <Name>
 description:    "Attach raw EasyFlash cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartepyx <Name>
 description:    "Attach raw 8KB Epyx FastLoad cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartexos <Name>
 description:    "Attach raw 8kB EXOS cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartexpert <Name>
 description:    "Attach raw 8kB Expert Cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartf64 <Name>
 description:    "Attach raw 32kB Formel 64 image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartfc1 <Name>
 description:    "Attach raw 16kB Final Cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartfc3 <Name>
 description:    "Attach raw 64kB Final Cartridge III image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartfcplus <Name>
 description:    "Attach raw 32kB Final Cartridge Plus image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartff <Name>
 description:    "Attach raw 8kB Freeze Frame image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartfm <Name>
 description:    "Attach raw 32kB Freeze Machine image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartfp <Name>
 description:    "Attach raw 128kB Fun Play/Power Play cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartgk <Name>
 description:    "Attach raw 8KB Game Killer cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartgeoram <Name>
 description:    "Attach raw GEO-RAM cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartgs <Name>
 description:    "Attach raw 512kB Game System cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartide64 <Name>
 description:    "Attach raw 64KB IDE64 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartieee <Name>
 description:    "Attach IEEE-488 Interface cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartisepic <Name>
 description:    "Attach raw 2kB ISEPIC cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartkcs <Name>
 description:    "Attach raw 16kB KCS Power cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartks <Name>
 description:    "Attach raw 24kB Kingsoft cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmach5 <Name>
 description:    "Attach raw 8kB MACH 5 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmd <Name>
 description:    "Attach raw 32/64/128kB Magic Desk cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmf <Name>
 description:    "Attach raw Magic Formel cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmikro <Name>
 description:    "Attach raw 8kB Mikro Assembler cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmmc64 <Name>
 description:    "Attach raw 8kB MMC64 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmmcr <Name>
 description:    "Attach raw 512kB MMC Replay cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmv <Name>
 description:    "Attach raw 16kB Magic Voice cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartocean <Name>
 description:    "Attach raw Ocean cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartpf <Name>
 description:    "Attach raw 64KB Pagefox cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartp64 <Name>
 description:    "Attach raw 256KB Prophet 64 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartramcart <Name>
 description:    "Attach raw RamCart cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartreu <Name>
 description:    "Attach raw REU cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartrep256 <Name>
 description:    "Attach raw REX EP256 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartross <Name>
 description:    "Attach raw 16/32kB ROSS cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartrr <Name>
 description:    "Attach raw 64KB Retro Replay cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartru <Name>
 description:    "Attach raw 8kB REX Utility cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -carts64 <Name>
 description:    "Attach raw 4kB Snapshot 64 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartsb <Name>
 description:    "Attach raw Structured Basic cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartse5 <Name>
 description:    "Attach raw 16kB Super Explode V5 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartsg <Name>
 description:    "Attach raw 64kB Super Games cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartsilver <Name>
 description:    "Attach raw Silverrock 128 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartsimon <Name>
 description:    "Attach raw 16kB Simons Basic cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartss4 <Name>
 description:    "Attach raw 32KB Super Snapshot V4 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartss5 <Name>
 description:    "Attach raw 64KB Super Snapshot V5 cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartstar <Name>
 description:    "Attach raw 16KB Stardos cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartwl <Name>
 description:    "Attach raw 16KB Westermann Learning cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartws <Name>
 description:    "Attach raw 8kB Warp Speed cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartzaxxon <Name>
 description:    "Attach raw 16kB Zaxxon cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research resources affected)
 
 c64/cart/c64tpi.c:
 ------------------
 command line:   -ieee488
 description:    "Enable the IEEE488 interface emulation"
-resource:               "IEEE488" (set to 1)
+resource:       "IEEE488" (set to 1)
 action:         N/A
 
 c64/cart/c64tpi.c:
 ------------------
 command line:   +ieee488
 description:    "Disable the IEEE488 interface emulation"
-resource:               "IEEE488" (set to 0)
+resource:       "IEEE488" (set to 0)
 action:         N/A
 
 c64/cart/c64tpi.c:
 ------------------
 command line:   -ieee488image <Name>
 description:    "specify IEEE488 interface image name"
-resource:               "IEEE488Image"
+resource:       "IEEE488Image"
 action:         N/A
 
 c64/cart/digimax.c:
 -------------------
 command line:   -digimax
 description:    "Enable the DigiMAX cartridge"
-resource:               "DIGIMAX" (set to 1)
+resource:       "DIGIMAX" (set to 1)
 action:         N/A
 
 c64/cart/digimax.c:
 -------------------
 command line:   +digimax
 description:    "Disable the DigiMAX cartridge"
-resource:               "DIGIMAX" (set to 0)
+resource:       "DIGIMAX" (set to 0)
 action:         N/A
 
 c64/cart/digimax.c:
 -------------------
 command line:   -digimaxbase <Base address>
 description:    "Base address of the DigiMAX cartridge"
-resource:               "DIGIMAXbase"
+resource:       "DIGIMAXbase"
 action:         N/A
 
 c64/cart/dqbb.c:
 ----------------
 command line:   -dqbb
 description:    "Enable Double Quick Brown Box"
-resource:               "DQBB" (set to 1)
+resource:       "DQBB" (set to 1)
 action:         N/A
 
 c64/cart/dqbb.c:
 ----------------
 command line:   +dqbb
 description:    "Disable Double Quick Brown Box"
-resource:               "DQBB" (set to 0)
+resource:       "DQBB" (set to 0)
 action:         N/A
 
 c64/cart/dqbb.c:
 ----------------
 command line:   -dqbbimage <Name>
 description:    "Specify Double Quick Brown Box filename"
-resource:               "DQBBfilename"
+resource:       "DQBBfilename"
 action:         N/A
 
 c64/cart/dqbb.c:
 ----------------
 command line:   -dqbbimagerw
 description:    "Allow writing to DQBB image"
-resource:               "DQBBImageWrite" (set to 1)
+resource:       "DQBBImageWrite" (set to 1)
 action:         N/A
 
 c64/cart/dqbb.c:
 ----------------
 command line:   +dqbbimagerw
 description:    "Do not write to DQBB image"
-resource:               "DQBBImageWrite" (set to 0)
+resource:       "DQBBImageWrite" (set to 0)
 action:         N/A
 
 c64/cart/ds12c887rtc.c:
 -----------------------
 command line:   -ds12c887rtc
 description:    "Enable the DS12C887 RTC cartridge"
-resource:               "DS12C887RTC" (set to 1)
+resource:       "DS12C887RTC" (set to 1)
 action:         N/A
 
 c64/cart/ds12c887rtc.c:
 -----------------------
 command line:   +ds12c887rtc
 description:    "Disable the DS12C887 RTC cartridge"
-resource:               "DS12C887RTC" (set to 0)
+resource:       "DS12C887RTC" (set to 0)
 action:         N/A
 
 c64/cart/ds12c887rtc.c:
 -----------------------
 command line:   -ds12c887rtcbase <Base address>
 description:    "Base address of the DS12C887 RTC cartridge"
-resource:               "DS12C887RTCbase"
+resource:       "DS12C887RTCbase"
 action:         N/A
 
 c64/cart/ds12c887rtc.c:
 -----------------------
 command line:   -ds12c887rtchalted
 description:    "Set the RTC oscillator to 'halted'"
-resource:               "DS12C887RTCRunMode" (set to 0)
+resource:       "DS12C887RTCRunMode" (set to 0)
 action:         N/A
 
 c64/cart/ds12c887rtc.c:
 -----------------------
 command line:   -ds12c887rtcrunning
 description:    "Set the RTC oscillator to 'running'"
-resource:               "DS12C887RTCRunMode" (set to 1)
+resource:       "DS12C887RTCRunMode" (set to 1)
 action:         N/A
 
 c64/cart/easyflash.c:
 ---------------------
 command line:   -easyflashjumper
 description:    "Enable EasyFlash jumper"
-resource:               "EasyFlashJumper" (set to 1)
+resource:       "EasyFlashJumper" (set to 1)
 action:         N/A
 
 c64/cart/easyflash.c:
 ---------------------
 command line:   +easyflashjumper
 description:    "Disable EasyFlash jumper"
-resource:               "EasyFlashJumper" (set to 0)
+resource:       "EasyFlashJumper" (set to 0)
 action:         N/A
 
 c64/cart/easyflash.c:
 ---------------------
 command line:   -easyflashcrtwrite
 description:    "Enable writing to EasyFlash .crt image"
-resource:               "EasyFlashWriteCRT" (set to 1)
+resource:       "EasyFlashWriteCRT" (set to 1)
 action:         N/A
 
 c64/cart/easyflash.c:
 ---------------------
 command line:   +easyflashcrtwrite
 description:    "Disable writing to EasyFlash .crt image"
-resource:               "EasyFlashWriteCRT" (set to 0)
+resource:       "EasyFlashWriteCRT" (set to 0)
 action:         N/A
 
 c64/cart/expert.c:
 ------------------
 command line:   -expert
 description:    "Enable the Expert Cartridge"
-resource:               "ExpertCartridgeEnabled" (set to 1)
+resource:       "ExpertCartridgeEnabled" (set to 1)
 action:         N/A
 
 c64/cart/expert.c:
 ------------------
 command line:   +expert
 description:    "Disable the Expert Cartridge"
-resource:               "ExpertCartridgeEnabled" (set to 0)
+resource:       "ExpertCartridgeEnabled" (set to 0)
 action:         N/A
 
 c64/cart/expert.c:
 ------------------
 command line:   -expertimagename <Name>
 description:    "Set Expert Cartridge image name"
-resource:               "Expertfilename"
+resource:       "Expertfilename"
 action:         N/A
 
 c64/cart/expert.c:
 ------------------
 command line:   -expertimagerw
 description:    "Allow writing to Expert Cartridge image"
-resource:               "ExpertImageWrite" (set to 1)
+resource:       "ExpertImageWrite" (set to 1)
 action:         N/A
 
 c64/cart/expert.c:
 ------------------
 command line:   +expertimagerw
 description:    "Do not write to Expert Cartridge image"
-resource:               "ExpertImageWrite" (set to 0)
+resource:       "ExpertImageWrite" (set to 0)
 action:         N/A
 
 c64/cart/georam.c:
 ------------------
 command line:   -georam
 description:    "Enable the GEO-RAM expansion unit"
-resource:               "GEORAM" (set to 1)
+resource:       "GEORAM" (set to 1)
 action:         N/A
 
 c64/cart/georam.c:
 ------------------
 command line:   +georam
 description:    "Disable the GEO-RAM expansion unit"
-resource:               "GEORAM" (set to 0)
+resource:       "GEORAM" (set to 0)
 action:         N/A
 
 c64/cart/georam.c:
 ------------------
 command line:   -georamsize <size in KB>
 description:    "Size of the GEORAM expansion unit"
-resource:               "GEORAMsize"
+resource:       "GEORAMsize"
 action:         N/A
 
 c64/cart/georam.c:
 ------------------
 command line:   -georamimage <Name>
 description:    "Specify name of GEORAM image"
-resource:               "GEORAMfilename"
+resource:       "GEORAMfilename"
 action:         N/A
 
 c64/cart/georam.c:
 ------------------
 command line:   -georamimagerw
 description:    "Allow writing to GEORAM image"
-resource:               "GEORAMImageWrite" (set to 1)
+resource:       "GEORAMImageWrite" (set to 1)
 action:         N/A
 
 c64/cart/georam.c:
 ------------------
 command line:   +georamimagerw
 description:    "Do not write to GEORAM image"
-resource:               "GEORAMImageWrite" (set to 0)
+resource:       "GEORAMImageWrite" (set to 0)
 action:         N/A
 
 c64/cart/georam.c:
 ------------------
 command line:   -georamioswap
 description:    "Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)"
-resource:               "GEORAMIOSwap" (set to 1)
+resource:       "GEORAMIOSwap" (set to 1)
 action:         N/A
 
 c64/cart/georam.c:
 ------------------
 command line:   +georamioswap
 description:    "Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 I/O-3)"
-resource:               "GEORAMIOSwap" (set to 0)
+resource:       "GEORAMIOSwap" (set to 0)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64image1 <Name>
 description:    "Specify name of IDE64 image file"
-resource:               "IDE64Image1"
+resource:       "IDE64Image1"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64image2 <Name>
 description:    "Specify name of IDE64 image file"
-resource:               "IDE64Image2"
+resource:       "IDE64Image2"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64image3 <Name>
 description:    "Specify name of IDE64 image file"
-resource:               "IDE64Image3"
+resource:       "IDE64Image3"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64image4 <Name>
 description:    "Specify name of IDE64 image file"
-resource:               "IDE64Image4"
+resource:       "IDE64Image4"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64cyl1 <value>
 description:    "Set number of cylinders for the IDE64 emulation"
-resource:               "IDE64Cylinders1"
+resource:       "IDE64Cylinders1"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64cyl2 <value>
 description:    "Set number of cylinders for the IDE64 emulation"
-resource:               "IDE64Cylinders2"
+resource:       "IDE64Cylinders2"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64cyl3 <value>
 description:    "Set number of cylinders for the IDE64 emulation"
-resource:               "IDE64Cylinders3"
+resource:       "IDE64Cylinders3"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64cyl4 <value>
 description:    "Set number of cylinders for the IDE64 emulation"
-resource:               "IDE64Cylinders4"
+resource:       "IDE64Cylinders4"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64hds1 <value>
 description:    "Set number of heads for the IDE64 emulation"
-resource:               "IDE64Heads1"
+resource:       "IDE64Heads1"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64hds2 <value>
 description:    "Set number of heads for the IDE64 emulation"
-resource:               "IDE64Heads2"
+resource:       "IDE64Heads2"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64hds3 <value>
 description:    "Set number of heads for the IDE64 emulation"
-resource:               "IDE64Heads3"
+resource:       "IDE64Heads3"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64hds4 <value>
 description:    "Set number of heads for the IDE64 emulation"
-resource:               "IDE64Heads4"
+resource:       "IDE64Heads4"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64sec1 <value>
 description:    "Set number of sectors for the IDE64 emulation"
-resource:               "IDE64Sectors1"
+resource:       "IDE64Sectors1"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64sec2 <value>
 description:    "Set number of sectors for the IDE64 emulation"
-resource:               "IDE64Sectors2"
+resource:       "IDE64Sectors2"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64sec3 <value>
 description:    "Set number of sectors for the IDE64 emulation"
-resource:               "IDE64Sectors3"
+resource:       "IDE64Sectors3"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64sec4 <value>
 description:    "Set number of sectors for the IDE64 emulation"
-resource:               "IDE64Sectors4"
+resource:       "IDE64Sectors4"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64autosize1
 description:    "Autodetect image size"
-resource:               "IDE64AutodetectSize1" (set to 1)
+resource:       "IDE64AutodetectSize1" (set to 1)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   +IDE64autosize1
 description:    "Do not autodetect geometry of formatted images"
-resource:               "IDE64AutodetectSize1" (set to 0)
+resource:       "IDE64AutodetectSize1" (set to 0)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64autosize2
 description:    "Autodetect image size"
-resource:               "IDE64AutodetectSize2" (set to 1)
+resource:       "IDE64AutodetectSize2" (set to 1)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   +IDE64autosize2
 description:    "Do not autodetect geometry of formatted images"
-resource:               "IDE64AutodetectSize2" (set to 0)
+resource:       "IDE64AutodetectSize2" (set to 0)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64autosize3
 description:    "Autodetect image size"
-resource:               "IDE64AutodetectSize3" (set to 1)
+resource:       "IDE64AutodetectSize3" (set to 1)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   +IDE64autosize3
 description:    "Do not autodetect geometry of formatted images"
-resource:               "IDE64AutodetectSize3" (set to 0)
+resource:       "IDE64AutodetectSize3" (set to 0)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64autosize4
 description:    "Autodetect image size"
-resource:               "IDE64AutodetectSize4" (set to 1)
+resource:       "IDE64AutodetectSize4" (set to 1)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   +IDE64autosize4
 description:    "Do not autodetect geometry of formatted images"
-resource:               "IDE64AutodetectSize4" (set to 0)
+resource:       "IDE64AutodetectSize4" (set to 0)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64version4
 description:    "Emulate version 4 hardware"
-resource:               "IDE64version4" (set to 1)
+resource:       "IDE64version4" (set to 1)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   +IDE64version4
 description:    "Emulate pre version 4 hardware"
-resource:               "IDE64version4" (set to 0)
+resource:       "IDE64version4" (set to 0)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64USB
 description:    "Enable IDE64 USB server"
-resource:               "IDE64USBServer" (set to 1)
+resource:       "IDE64USBServer" (set to 1)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   +IDE64USB
 description:    "Disable IDE64 USB server"
-resource:               "IDE64USBServer" (set to 0)
+resource:       "IDE64USBServer" (set to 0)
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64USBAddress <Name>
 description:    "IDE64 USB server address"
-resource:               "IDE64USBServerAddress"
+resource:       "IDE64USBServerAddress"
 action:         N/A
 
 c64/cart/isepic.c:
 ------------------
 command line:   -isepic
 description:    "Enable the ISEPIC cartridge"
-resource:               "IsepicCartridgeEnabled" (set to 1)
+resource:       "IsepicCartridgeEnabled" (set to 1)
 action:         N/A
 
 c64/cart/isepic.c:
 ------------------
 command line:   +isepic
 description:    "Disable the ISEPIC cartridge"
-resource:               "IsepicCartridgeEnabled" (set to 0)
+resource:       "IsepicCartridgeEnabled" (set to 0)
 action:         N/A
 
 c64/cart/isepic.c:
 ------------------
 command line:   -isepicimagename <Name>
 description:    "Set ISEPIC image name"
-resource:               "Isepicfilename"
+resource:       "Isepicfilename"
 action:         N/A
 
 c64/cart/isepic.c:
 ------------------
 command line:   -isepicimagerw
 description:    "Allow writing to ISEPIC image"
-resource:               "IsepicImageWrite" (set to 1)
+resource:       "IsepicImageWrite" (set to 1)
 action:         N/A
 
 c64/cart/isepic.c:
 ------------------
 command line:   +isepicimagerw
 description:    "Do not write to ISEPIC image"
-resource:               "IsepicImageWrite" (set to 0)
+resource:       "IsepicImageWrite" (set to 0)
 action:         N/A
 
 c64/cart/mmc64.c:
 -----------------
 command line:   -mmc64
 description:    "Enable the MMC64 expansion"
-resource:               "MMC64" (set to 1)
+resource:       "MMC64" (set to 1)
 action:         N/A
 
 c64/cart/mmc64.c:
 -----------------
 command line:   +mmc64
 description:    "Disable the MMC64 expansion"
-resource:               "MMC64" (set to 0)
+resource:       "MMC64" (set to 0)
 action:         N/A
 
 c64/cart/mmc64.c:
 -----------------
 command line:   -mmc64bios <Name>
 description:    "Specify name of MMC64 BIOS image"
-resource:               "MMC64BIOSfilename"
+resource:       "MMC64BIOSfilename"
 action:         N/A
 
 c64/cart/mmc64.c:
 -----------------
 command line:   -mmc64image <Name>
 description:    "Specify name of MMC64 image"
-resource:               "MMC64imagefilename"
+resource:       "MMC64imagefilename"
 action:         N/A
 
 c64/cart/mmc64.c:
 -----------------
 command line:   -mmc64readonly
 description:    "Set the MMC64 card to read-only"
-resource:               "MMC64_RO" (set to 1)
+resource:       "MMC64_RO" (set to 1)
 action:         N/A
 
 c64/cart/mmc64.c:
 -----------------
 command line:   -mmc64readwrite
 description:    "Set the MMC64 card to read/write"
-resource:               "MMC64_RO" (set to 0)
+resource:       "MMC64_RO" (set to 0)
 action:         N/A
 
 c64/cart/mmc64.c:
 -----------------
 command line:   -mmc64bioswrite
 description:    "Save the MMC64 bios when changed"
-resource:               "MMC64_bios_write" (set to 1) (fixme: no option to set to 0)
+resource:       "MMC64_bios_write" (set to 1)
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+command line:   -mmc64biosreadonly
+description:    "Do not save the MMC64 bios when changed"
+resource:       "MMC64_bios_write" (set to 0)
 action:         N/A
 
 c64/cart/mmc64.c:
 -----------------
 command line:   -mmc64flash
 description:    "Set the MMC64 Flash Jumper"
-resource:               "MMC64_flashjumper" (set to 1)
+resource:       "MMC64_flashjumper" (set to 1)
 action:         N/A
 
 c64/cart/mmc64.c:
 -----------------
 command line:   +mmc64flash
 description:    "Remove the MMC64 Flash Jumper"
-resource:               "MMC64_flashjumper" (set to 0)
+resource:       "MMC64_flashjumper" (set to 0)
 action:         N/A
 
 c64/cart/mmcreplay.c:

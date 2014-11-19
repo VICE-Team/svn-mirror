@@ -5421,6 +5421,23 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/mmc64.c */
+/* en */ {IDCLS_MMC64_BIOS_READ_ONLY,    N_("Do not save the MMC64 bios when changed")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_MMC64_BIOS_READ_ONLY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC64_BIOS_READ_ONLY_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_MMC64_BIOS_READ_ONLY_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_MMC64_BIOS_READ_ONLY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_MMC64_BIOS_READ_ONLY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_MMC64_BIOS_READ_ONLY_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_MMC64_BIOS_READ_ONLY_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_MMC64_BIOS_READ_ONLY_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MMC64_BIOS_READ_ONLY_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_MMC64_BIOS_READ_ONLY_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_MMC64_BIOS_READ_ONLY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_MMC64_BIOS_READ_ONLY_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/mmc64.c */
 /* en */ {IDCLS_MMC64_SET_FLASH_JUMPER,    N_("Set the MMC64 Flash Jumper")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MMC64_SET_FLASH_JUMPER_DA, ""},  /* fuzzy */
