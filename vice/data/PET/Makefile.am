@@ -21,7 +21,9 @@ roms = \
 	waterloo-c000.901898-03.bin \
 	waterloo-d000.901898-04.bin \
 	waterloo-e000.901897-01.bin \
-	waterloo-f000.901898-05.bin
+	waterloo-f000.901898-05.bin \
+	hre-9000.324992-02.bin \
+	hre-a000.324993-02.bin
 
 romsets = \
 	rom1g.vrs \
@@ -30,7 +32,8 @@ romsets = \
 	rom4b40.vrs \
 	rom4b80.vrs \
 	rom4g40.vrs \
-	romsuperpet.vrs
+	romsuperpet.vrs \
+	hre.vrs
 
 palettes = \
 	amber.vpl \
