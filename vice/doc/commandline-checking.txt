@@ -376,280 +376,292 @@ arch/os2/video.c:
 -----------------
 command line:   -stretch <number>
 description:    "Specify stretch factor for PM Windows (1,2,3,...)"
-resource:               "WindowStretchFactor"
+resource:       "WindowStretchFactor"
 action:         N/A
 
 arch/os2/video.c:
 -----------------
 command line:   -border <number>
 description:    "Specify window border type (0=no border, 1=small, 2=dialog)"
-resource:               "PMBorderType"
+resource:       "PMBorderType"
 action:         N/A
 
 arch/os2/video.c:
 -----------------
 command line:   -menu
 description:    "Enable Main Menu Bar"
-resource:               "Menubar" (set to 1)
+resource:       "Menubar" (set to 1)
 action:         N/A
 
 arch/os2/video.c:
 -----------------
 command line:   +menu
 description:    "Disable Main Menu Bar"
-resource:               "Menubar" (set to 0)
+resource:       "Menubar" (set to 0)
 action:         N/A
 
 arch/sdl/joy.c:
 ---------------
 command line:   -joymap <name>
 description:    "Specify name of joystick map file"
-resource:               "JoyMapFile"
+resource:       "JoyMapFile"
 action:         N/A
 
 arch/sdl/joy.c:
 ---------------
 command line:   -joythreshold <0-32767>
 description:    "Set joystick threshold"
-resource:               "JoyThreshold"
+resource:       "JoyThreshold"
 action:         N/A
 
 arch/sdl/joy.c:
 ---------------
 command line:   -joyfuzz <0-32767>
 description:    "Set joystick fuzz"
-resource:               "JoyFuzz"
+resource:       "JoyFuzz"
 action:         N/A
 
 arch/sdl/joy.c:
 ---------------
 command line:   -joydev1 <0-4> / <0-3>
-description:    "Set device for joystick port 1"
-resource:               "JoyDevice1"
+description:    "Set device for joystick port 1" (fixme: needs better description)
+resource:       "JoyDevice1"
 action:         N/A
 
 arch/sdl/joy.c:
 ---------------
 command line:   -joydev2 <0-4> / <0-3>
-description:    "Set device for joystick port 2"
-resource:               "JoyDevice2"
+description:    "Set device for joystick port 2" (fixme: needs better description)
+resource:       "JoyDevice2"
 action:         N/A
 
 arch/sdl/joy.c:
 ---------------
 command line:   -extrajoydev1 <0-4> / <0-3>
-description:    "Set device for extra joystick port 1"
-resource:               "JoyDevice3"
+description:    "Set device for extra joystick port 1" (fixme: needs better description)
+resource:       "JoyDevice3"
 action:         N/A
 
 arch/sdl/joy.c:
 ---------------
 command line:   -extrajoydev2 <0-4> / <0-3>
-description:    "Set device for extra joystick port 2"
-resource:               "JoyDevice4"
+description:    "Set device for extra joystick port 2" (fixme: needs better description)
+resource:       "JoyDevice4"
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   -menukey <key>
 description:    "Keycode of the menu activate key"
-resource:               "MenuKey"
+resource:       "MenuKey"
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   -menukeyup <key>
 description:    "Keycode of the menu up key"
-resource:               "MenuKeyUp"
+resource:       "MenuKeyUp"
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   -menukeydown <key>
 description:    "Keycode of the menu down key"
-resource:               "MenuKeyDown"
+resource:       "MenuKeyDown"
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   -menukeyleft <key>
 description:    "Keycode of the menu left key"
-resource:               "MenuKeyLeft"
+resource:       "MenuKeyLeft"
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   -menukeyright <key>
 description:    "Keycode of the menu right key"
-resource:               "MenuKeyRight"
+resource:       "MenuKeyRight"
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   -menukeyselect <key>
 description:    "Keycode of the menu select key"
-resource:               "MenuKeySelect"
+resource:       "MenuKeySelect"
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   -menukeycancel <key>
 description:    "Keycode of the menu cancel key"
-resource:               "MenuKeyCancel"
+resource:       "MenuKeyCancel"
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   -menukeyexit <key>
 description:    "Keycode of the menu exit key"
-resource:               "MenuKeyExit"
+resource:       "MenuKeyExit"
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   -menukeymap <key>
 description:    "Keycode of the menu map key"
-resource:               "MenuKeyMap"
+resource:       "MenuKeyMap"
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   -saveresourcesonexit
 description:    "Enable saving of the resources on exit"
-resource:               "SaveResourcesOnExit" (set to 1)
+resource:       "SaveResourcesOnExit" (set to 1)
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   +saveresourcesonexit
 description:    "Disable saving of the resources on exit"
-resource:               "SaveResourcesOnExit" (set to 0)
+resource:       "SaveResourcesOnExit" (set to 0)
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   -confirmonexit
 description:    "Enable confirm on exit"
-resource:               "ConfirmOnExit" (set to 1)
+resource:       "ConfirmOnExit" (set to 1)
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   +confirmonexit
 description:    "Disable confirm on exit"
-resource:               "ConfirmOnExit" (set to 0)
+resource:       "ConfirmOnExit" (set to 0)
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   -statusbar
 description:    "Enable statusbar"
-resource:               "SDLStatusbar" (set to 1)
+resource:       "SDLStatusbar" (set to 1)
 action:         N/A
 
 arch/sdl/ui.c:
 --------------
 command line:   +statusbar
 description:    "Disable statusbar"
-resource:               "SDLStatusbar" (set to 0)
+resource:       "SDLStatusbar" (set to 0)
 action:         N/A
 
 arch/sdl/video.c:
 -----------------
 command line:   -sdlbitdepth <bpp>
 description:    "Set bitdepth (0 = current, 8, 15, 16, 24, 32)"
-resource:               "SDLBitdepth"
+resource:       "SDLBitdepth"
 action:         N/A
 
 arch/sdl/video.c:
 -----------------
 command line:   -sdllimitmode <mode>
 description:    "Set resolution limiting mode (0 = off, 1 = max, 2 = fixed)"
-resource:               "SDLLimitMode"
+resource:       "SDLLimitMode"
 action:         N/A
 
 arch/sdl/video.c:
 -----------------
 command line:   -sdlcustomw <width>
 description:    "Set custom resolution width"
-resource:               "SDLCustomWidth"
+resource:       "SDLCustomWidth"
 action:         N/A
 
 arch/sdl/video.c:
 -----------------
 command line:   -sdlcustomh <height>
 description:    "Set custom resolution height"
-resource:               "SDLCustomHeight"
+resource:       "SDLCustomHeight"
 action:         N/A
 
 arch/sdl/video.c:
 -----------------
 command line:   -sdlaspectmode <mode>
 description:    "Set aspect ratio mode (0 = off, 1 = custom, 2 = true)"
-resource:               "SDLGLAspectMode"
+resource:       "SDLGLAspectMode"
 action:         N/A
 
 arch/sdl/video.c:
 -----------------
 command line:   -aspect <aspect ratio>
 description:    "Set custom aspect ratio (0.5 - 2.0)"
-resource:               "AspectRatio"
+resource:       "AspectRatio"
 action:         N/A
 
 arch/sdl/video.c:
 -----------------
 command line:   -sdlflipx
 description:    "Enable X flip"
-resource:               "SDLGLFlipX" (set to 1)
+resource:       "SDLGLFlipX" (set to 1)
 action:         N/A
 
 arch/sdl/video.c:
 -----------------
 command line:   +sdlflipx
 description:    "Disable X flip"
-resource:               "SDLGLFlipX" (set to 0)
+resource:       "SDLGLFlipX" (set to 0)
 action:         N/A
 
 arch/sdl/video.c:
 -----------------
 command line:   -sdlflipy
 description:    "Enable Y flip"
-resource:               "SDLGLFlipY" (set to 1)
+resource:       "SDLGLFlipY" (set to 1)
 action:         N/A
 
 arch/sdl/video.c:
 -----------------
 command line:   +sdlflipy
 description:    "Disable Y flip"
-resource:               "SDLGLFlipY" (set to 0)
+resource:       "SDLGLFlipY" (set to 0)
 action:         N/A
 
 arch/unix/joy.c:
 ----------------
-command line:   -joydev1 <0-13> / <0-11> / <0-9>
-description:    "Set device for joystick port 1"
-resource:               "JoyDevice1"
+command line:   -joydev1 <0-13> / <0-11> / <0-9> / <0-3>
+description:    "Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1"
+			"Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1"
+			"Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5"
+			"Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
+resource:       "JoyDevice1"
 action:         N/A
 
 arch/unix/joy.c:
 ----------------
-command line:   -joydev2 <0-13> / <0-11> / <0-9>
-description:    "Set device for joystick port 2"
-resource:               "JoyDevice2"
+command line:   -joydev2 <0-13> / <0-11> / <0-9> / <0-3>
+description:    "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1"
+			"Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1"
+			"Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5"
+			"Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
+resource:       "JoyDevice2"
 action:         N/A
 
 arch/unix/joy.c:
 ----------------
-command line:   -extrajoydev1 <0-13> / <0-11> / <0-9>
-description:    "Set device for extra joystick port 1"
-resource:               "JoyDevice3"
+command line:   -extrajoydev1 <0-13> / <0-11> / <0-9> / <0-3>
+description:    "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1"
+			"Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1"
+			"Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5"
+			"Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
+resource:       "JoyDevice3"
 action:         N/A
 
 arch/unix/joy.c:
 ----------------
-command line:   -extrajoydev2 <0-13> / <0-11> / <0-9>
-description:    "Set device for extra joystick port 2"
-resource:               "JoyDevice4"
+command line:   -extrajoydev2 <0-13> / <0-11> / <0-9> / <0-3>
+description:    "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1"
+			"Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1"
+			"Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5"
+			"Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
+resource:       "JoyDevice4"
 action:         N/A
 
 arch/unix/macosx/cocoa/mousedrv.m:

@@ -99,7 +99,19 @@ static const cmdline_option_t joydev1cmdline_options[] = {
       NULL, NULL, "JoyDevice1", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      JOYDEV_RANGE_TEXT, N_("Set device for joystick port 1") },
+#ifdef HAS_JOYSTICK
+#  ifdef HAS_USB_JOYSTICK
+      "<0-13>", N_("Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1") },
+#  else
+#    ifdef HAS_DIGITAL_JOYSTICK
+      "<0-11>", N_("Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1") },
+#    else
+      "<0-9>", N_("Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5") },
+#    endif
+#  endif
+#else
+      "<0-3>", N_("Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2") },
+#endif
     { NULL },
 };
 
@@ -108,7 +120,19 @@ static const cmdline_option_t joydev2cmdline_options[] = {
       NULL, NULL, "JoyDevice2", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      JOYDEV_RANGE_TEXT, N_("Set device for joystick port 2") },
+#ifdef HAS_JOYSTICK
+#  ifdef HAS_USB_JOYSTICK
+      "<0-13>", N_("Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1") },
+#  else
+#    ifdef HAS_DIGITAL_JOYSTICK
+      "<0-11>", N_("Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1") },
+#    else
+      "<0-9>", N_("Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5") },
+#    endif
+#  endif
+#else
+      "<0-3>", N_("Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2") },
+#endif
     { NULL },
 };
 
@@ -117,7 +141,19 @@ static const cmdline_option_t joydev3cmdline_options[] = {
       NULL, NULL, "JoyDevice3", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      JOYDEV_RANGE_TEXT, N_("Set device for extra joystick port 1") },
+#ifdef HAS_JOYSTICK
+#  ifdef HAS_USB_JOYSTICK
+      "<0-13>", N_("Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1") },
+#  else
+#    ifdef HAS_DIGITAL_JOYSTICK
+      "<0-11>", N_("Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1") },
+#    else
+      "<0-9>", N_("Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5") },
+#    endif
+#  endif
+#else
+      "<0-3>", N_("Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2") },
+#endif
     { NULL },
 };
 
@@ -126,7 +162,19 @@ static const cmdline_option_t joydev4cmdline_options[] = {
       NULL, NULL, "JoyDevice4", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      JOYDEV_RANGE_TEXT, N_("Set device for extra joystick port 2") },
+#ifdef HAS_JOYSTICK
+#  ifdef HAS_USB_JOYSTICK
+      "<0-13>", N_("Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1") },
+#  else
+#    ifdef HAS_DIGITAL_JOYSTICK
+      "<0-11>", N_("Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1") },
+#    else
+      "<0-9>", N_("Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5") },
+#    endif
+#  endif
+#else
+      "<0-3>", N_("Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2") },
+#endif
     { NULL },
 };
 
