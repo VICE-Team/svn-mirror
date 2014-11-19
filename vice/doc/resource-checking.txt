@@ -3258,12 +3258,10 @@ resource function:              set_blitter_log()
 resource var:                   blitter_log_enabled
 resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
+prepocessor:				#ifdef DEBUG
 command-line:                   -dtvblitterlog / +dtvblitterlog
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-gpz note: perhaps this should be only enabled when DEBUG is defined?
-blacky note: agreed.
 
 c64dtv/c64dtvdma.c:
 -------------------

@@ -2858,514 +2858,512 @@ c64/cart/mmcreplay.c:
 ---------------------
 command line:   -mmcrrescue
 description:    "Enable MMC Replay rescue mode"
-resource:               "MMCRRescueMode" (set to 1)
+resource:       "MMCRRescueMode" (set to 1)
 action:         N/A
 
 c64/cart/mmcreplay.c:
 ---------------------
 command line:   +mmcrrescue
 description:    "Disable MMC Replay rescue mode"
-resource:               "MMCRRescueMode" (set to 0)
+resource:       "MMCRRescueMode" (set to 0)
 action:         N/A
 
 c64/cart/mmcreplay.c:
 ---------------------
 command line:   -mmcrimagerw
 description:    "Allow writing to MMC Replay image"
-resource:               "MMCRImageWrite" (set to 1)
+resource:       "MMCRImageWrite" (set to 1)
 action:         N/A
 
 c64/cart/mmcreplay.c:
 ---------------------
 command line:   +mmcrimagerw
 description:    "Do not write to MMC Replay image"
-resource:               "MMCRImageWrite" (set to 0)
+resource:       "MMCRImageWrite" (set to 0)
 action:         N/A
 
 c64/cart/mmcreplay.c:
 ---------------------
 command line:   -mmcrcardimage <filename>
 description:    "Specify MMC Replay card image filename"
-resource:               "MMCRCardImage"
+resource:       "MMCRCardImage"
 action:         N/A
 
 c64/cart/mmcreplay.c:
 ---------------------
 command line:   -mmcrcardrw
 description:    "Enable writes to MMC Replay card image"
-resource:               "MMCRCardRW" (set to 1)
+resource:       "MMCRCardRW" (set to 1)
 action:         N/A
 
 c64/cart/mmcreplay.c:
 ---------------------
 command line:   +mmcrcardrw
 description:    "Disable writes to MMC Replay card image"
-resource:               "MMCRCardRW" (set to 0)
+resource:       "MMCRCardRW" (set to 0)
 action:         N/A
 
 c64/cart/mmcreplay.c:
 ---------------------
 command line:   -mmcreepromimage <filename>
 description:    "Specify MMC Replay EEPROM image filename"
-resource:               "MMCREEPROMImage"
+resource:       "MMCREEPROMImage"
 action:         N/A
 
 c64/cart/mmcreplay.c:
 ---------------------
 command line:   -mmcreepromrw
 description:    "Enable writes to MMC Replay EEPROM image"
-resource:               "MMCREEPROMRW" (set to 1)
+resource:       "MMCREEPROMRW" (set to 1)
 action:         N/A
 
 c64/cart/mmcreplay.c:
 ---------------------
 command line:   +mmcreepromrw
 description:    "Disable writes to MMC Replay EEPROM image"
-resource:               "MMCREEPROMRW" (set to 0)
+resource:       "MMCREEPROMRW" (set to 0)
 action:         N/A
 
 c64/cart/ramcart.c:
 -------------------
 command line:   -ramcart
 description:    "Enable the RamCart expansion"
-resource:               "RAMCART" (set to 1)
+resource:       "RAMCART" (set to 1)
 action:         N/A
 
 c64/cart/ramcart.c:
 -------------------
 command line:   +ramcart
 description:    "Disable the RamCart expansion"
-resource:               "RAMCART" (set to 0)
+resource:       "RAMCART" (set to 0)
 action:         N/A
 
 c64/cart/ramcart.c:
 -------------------
 command line:   -ramcartsize <size in KB>
 description:    "Size of the RAMCART expansion"
-resource:               "RAMCARTsize"
+resource:       "RAMCARTsize"
 action:         N/A
 
 c64/cart/ramcart.c:
 -------------------
 command line:   -ramcartimage <Name>
 description:    "Specify name of RAMCART image"
-resource:               "RAMCARTfilename"
+resource:       "RAMCARTfilename"
 action:         N/A
 
 c64/cart/ramcart.c:
 -------------------
 command line:   -ramcartimagerw
 description:    "Allow writing to RAMCart image"
-resource:               "RAMCARTImageWrite" (set to 1)
+resource:       "RAMCARTImageWrite" (set to 1)
 action:         N/A
 
 c64/cart/ramcart.c:
 -------------------
 command line:   +ramcartimagerw
 description:    "Do not write to RAMCart image"
-resource:               "RAMCARTImageWrite" (set to 0)
+resource:       "RAMCARTImageWrite" (set to 0)
 action:         N/A
 
 c64/cart/retroreplay.c:
 -----------------------
 command line:   -rrbioswrite
 description:    "Enable saving of the RR ROM at exit"
-resource:               "RRBiosWrite" (set to 1)
+resource:       "RRBiosWrite" (set to 1)
 action:         N/A
 
 c64/cart/retroreplay.c:
 -----------------------
 command line:   +rrbioswrite
 description:    "Disable saving of the RR ROM at exit"
-resource:               "RRBiosWrite" (set to 0)
+resource:       "RRBiosWrite" (set to 0)
 action:         N/A
 
 c64/cart/retroreplay.c:
 -----------------------
 command line:   -rrbankjumper
 description:    "Set RR Bank Jumper"
-resource:               "RRBankJumper" (set to 1)
+resource:       "RRBankJumper" (set to 1)
 action:         N/A
 
 c64/cart/retroreplay.c:
 -----------------------
 command line:   +rrbankjumper
 description:    "Unset RR Bank Jumper"
-resource:               "RRBankJumper" (set to 0)
+resource:       "RRBankJumper" (set to 0)
 action:         N/A
 
 c64/cart/retroreplay.c:
 -----------------------
 command line:   -rrflashjumper
 description:    "Set RR Flash Jumper"
-resource:               "RRFlashJumper" (set to 1)
+resource:       "RRFlashJumper" (set to 1)
 action:         N/A
 
 c64/cart/retroreplay.c:
 -----------------------
 command line:   +rrflashjumper
 description:    "Unset RR Bank Jumper"
-resource:               "RRFlashJumper" (set to 0)
+resource:       "RRFlashJumper" (set to 0)
 action:         N/A
 
 c64/cart/reu.c:
 ---------------
 command line:   -reu
 description:    "Enable the RAM Expansion Unit"
-resource:               "REU" (set to 1)
+resource:       "REU" (set to 1)
 action:         N/A
 
 c64/cart/reu.c:
 ---------------
 command line:   +reu
 description:    "Disable the RAM Expansion Unit"
-resource:               "REU" (set to 0)
+resource:       "REU" (set to 0)
 action:         N/A
 
 c64/cart/reu.c:
 ---------------
 command line:   -reusize <size in KB>
 description:    "Size of the RAM expansion unit"
-resource:               "REUsize"
+resource:       "REUsize"
 action:         N/A
 
 c64/cart/reu.c:
 ---------------
 command line:   -reuimage <Name>
 description:    "Specify name of REU image"
-resource:               "REUfilename"
+resource:       "REUfilename"
 action:         N/A
 
 c64/cart/reu.c:
 ---------------
 command line:   -reuimagerw
 description:    "Allow writing to REU image"
-resource:               "REUImageWrite" (set to 1)
+resource:       "REUImageWrite" (set to 1)
 action:         N/A
 
 c64/cart/reu.c:
 ---------------
 command line:   +reuimagerw
 description:    "Do not write to REU image"
-resource:               "REUImageWrite" (set to 0)
+resource:       "REUImageWrite" (set to 0)
 action:         N/A
 
 c64/cart/sfx_soundexpander.c:
 -----------------------------
 command line:   -sfxse
 description:    "Enable the SFX Sound Expander cartridge"
-resource:               "SFXSoundExpander" (set to 1)
+resource:       "SFXSoundExpander" (set to 1)
 action:         N/A
 
 c64/cart/sfx_soundexpander.c:
 -----------------------------
 command line:   +sfxse
 description:    "Disable the SFX Sound Expander cartridge"
-resource:               "SFXSoundExpander" (set to 0)
+resource:       "SFXSoundExpander" (set to 0)
 action:         N/A
 
 c64/cart/sfx_soundexpander.c:
 -----------------------------
 command line:   -sfxsetype <Type>
 description:    "Set YM chip type (3526 / 3812)"
-resource:               "SFXSoundExpanderChip"
+resource:       "SFXSoundExpanderChip"
 action:         N/A
 
 c64/cart/sfx_soundexpander.c:
 -----------------------------
 command line:   -sfxseioswap
 description:    "Swap io mapping (map cart I/O to VIC20 I/O-2)"
-resource:               "SFXSoundExpanderIOSwap" (set to 1)
+resource:       "SFXSoundExpanderIOSwap" (set to 1)
 action:         N/A
 
 c64/cart/sfx_soundexpander.c:
 -----------------------------
 command line:   +sfxseioswap
 description:    "Don't swap io mapping (map cart I/O to VIC20 I/O-3)"
-resource:               "SFXSoundExpanderIOSwap" (set to 0)
+resource:       "SFXSoundExpanderIOSwap" (set to 0)
 action:         N/A
 
 c64/cart/sfx_soundsampler.c:
 ----------------------------
 command line:   -sfxss
 description:    "Enable the SFX Sound Sampler cartridge"
-resource:               "SFXSoundSampler" (set to 1)
+resource:       "SFXSoundSampler" (set to 1)
 action:         N/A
 
 c64/cart/sfx_soundsampler.c:
 ----------------------------
 command line:   +sfxss
 description:    "Disable the SFX Sound Sampler cartridge"
-resource:               "SFXSoundSampler" (set to 0)
+resource:       "SFXSoundSampler" (set to 0)
 action:         N/A
 
 c64/cart/sfx_soundsampler.c:
 ----------------------------
 command line:   -sfxssioswap
 description:    "Swap io mapping (map cart I/O to VIC20 I/O-2)"
-resource:               "SFXSoundSamplerIOSwap" (set to 1)
+resource:       "SFXSoundSamplerIOSwap" (set to 1)
 action:         N/A
 
 c64/cart/sfx_soundsampler.c:
 ----------------------------
 command line:   +sfxssioswap
 description:    "Don't swap io mapping (map cart I/O to VIC20 I/O-3)"
-resource:               "SFXSoundSamplerIOSwap" (set to 0)
+resource:       "SFXSoundSamplerIOSwap" (set to 0)
 action:         N/A
 
 c64/cart/tfe.c:
 ---------------
 command line:   -tfe
 description:    "Enable the TFE (\"The Final Ethernet\") unit"
-resource:               "ETHERNET_ACTIVE" (set to 1)
+resource:       "ETHERNET_ACTIVE" (set to 1)
 action:         N/A
 
 c64/cart/tfe.c:
 ---------------
 command line:   +tfe
 description:    "Disable the TFE (\"The Final Ethernet\") unit"
-resource:               "ETHERNET_ACTIVE" (set to 0)
+resource:       "ETHERNET_ACTIVE" (set to 0)
 action:         N/A
 
 c64/cart/tfe.c:
 ---------------
 command line:   -tfeif <Name>
 description:    "Set the system ethernet interface for TFE emulation"
-resource:               "ETHERNET_INTERFACE"
+resource:       "ETHERNET_INTERFACE"
 action:         N/A
 
 c64/cart/tfe.c:
 ---------------
 command line:   -tferrnet
 description:    "Enable RRNet mode of TFE emulation"
-resource:               "ETHERNET_AS_RR" (set to 1)
+resource:       "ETHERNET_AS_RR" (set to 1)
 action:         N/A
 
 c64/cart/tfe.c:
 ---------------
 command line:   +tferrnet
 description:    "Disable RRNet mode of TFE emulation"
-resource:               "ETHERNET_AS_RR" (set to 0)
+resource:       "ETHERNET_AS_RR" (set to 0)
 action:         N/A
 
 c64/cart/tfe.c:
 ---------------
 command line:   -tfeioswap
 description:    "Swap io mapping (map cart I/O to VIC20 I/O-2)"
-resource:               "TFEIOSwap" (set to 1)
+resource:       "TFEIOSwap" (set to 1)
 action:         N/A
 
 c64/cart/tfe.c:
 ---------------
 command line:   +tfeioswap
 description:    "Don't swap io mapping (map cart I/O to VIC20 I/O-3)"
-resource:               "TFEIOSwap" (set to 0)
+resource:       "TFEIOSwap" (set to 0)
 action:         N/A
 
 c64/plus256k.c:
 ---------------
 command line:   -plus256k
 description:    "Enable the PLUS256K RAM expansion"
-resource:               "PLUS256K" (set to 1)
+resource:       "PLUS256K" (set to 1)
 action:         N/A
 
 c64/plus256k.c:
 ---------------
 command line:   +plus256k
 description:    "Disable the PLUS256K RAM expansion"
-resource:               "PLUS256K" (set to 0)
+resource:       "PLUS256K" (set to 0)
 action:         N/A
 
 c64/plus256k.c:
 ---------------
 command line:   -plus256kimage <Name>
 description:    "Specify name of PLUS256K image"
-resource:               "PLUS256Kfilename"
+resource:       "PLUS256Kfilename"
 action:         N/A
 
 c64/plus60k.c:
 --------------
 command line:   -plus60k
 description:    "Enable the PLUS60K RAM expansion"
-resource:               "PLUS60K" (set to 1)
+resource:       "PLUS60K" (set to 1)
 action:         N/A
 
 c64/plus60k.c:
 --------------
 command line:   +plus60k
 description:    "Disable the PLUS60K RAM expansion"
-resource:               "PLUS60K" (set to 0)
+resource:       "PLUS60K" (set to 0)
 action:         N/A
 
 c64/plus60k.c:
 --------------
 command line:   -plus60kimage <Name>
 description:    "Specify name of PLUS60K image"
-resource:               "PLUS60Kfilename"
+resource:       "PLUS60Kfilename"
 action:         N/A
 
 c64/plus60k.c:
 --------------
 command line:   -plus60kbase <Base address>
 description:    "Base address of the PLUS60K expansion"
-resource:               "PLUS60Kbase"
+resource:       "PLUS60Kbase"
 action:         N/A
 
 c64/psid.c:
 -----------
 command line:   -pal
 description:    "Use PAL sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
 action:         N/A
 
 c64/psid.c:
 -----------
 command line:   -ntsc
 description:    "Use NTSC sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
 action:         N/A
 
 c64/psid.c:
 -----------
 command line:   -ntscold
 description:    "Use old NTSC sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_NTSCOLD)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_NTSCOLD)
 action:         N/A
 
 c64/psid.c:
 -----------
 command line:   -paln
 description:    "Use PAL-N sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_PALN)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PALN)
 action:         N/A
 
 c64/psid.c:
 -----------
 command line:   -keepenv
 description:    "Override PSID settings for Video standard and SID model"
-resource:               N/A
+resource:       N/A
 action:         cmdline_keepenv()
 
 c64/psid.c:
 -----------
 command line:   -tune <number>
 description:    "Specify PSID tune <number>"
-resource:               N/A
+resource:       N/A
 action:         cmdline_psid_tune()
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   -pal
 description:    "Use PAL sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
 action:         N/A
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   -ntsc
 description:    "Use NTSC sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
 action:         N/A
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   -kernal <Name>
 description:    "Specify name of Kernal ROM image"
-resource:               "KernalName"
+resource:       "KernalName"
 action:         N/A
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   -basic <Name>
 description:    "Specify name of BASIC ROM image"
-resource:               "BasicName"
+resource:       "BasicName"
 action:         N/A
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   -chargen <Name>
 description:    "Specify name of character generator ROM image"
-resource:               "ChargenName"
+resource:       "ChargenName"
 action:         N/A
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   -kernalrev <Revision>
 description:    "Patch the Kernal ROM to the specified <revision>"
-resource:               "KernalRev"
+resource:       "KernalRev"
 action:         N/A
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   -keymap <number>
 description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
-resource:               "KeymapIndex"
+resource:       "KeymapIndex"
 action:         N/A
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
-resource:               "KeymapSymFile"
+resource:       "KeymapSymFile"
 action:         N/A
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   -symdekeymap <Name>
 description:    "Specify name of symbolic German keymap file"
-resource:               "KeymapSymDeFile"
+resource:       "KeymapSymDeFile"
 action:         N/A
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
-resource:               "KeymapPosFile"
+resource:       "KeymapPosFile"
 action:         N/A
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   -model <Model>
 description:    "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
-resource:               N/A
+resource:       N/A
 action:         set_dtv_model() (sets "MachineVideoStandard", "DtvRevision" and "HummerADC")
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   -hummeradc
 description:    "Enable Hummer ADC"
-resource:               "HummerADC" (set to 1)
+resource:       "HummerADC" (set to 1)
 action:         N/A
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
 command line:   +hummeradc
 description:    "Disable Hummer ADC"
-resource:               "HummerADC" (set to 0)
+resource:       "HummerADC" (set to 0)
 action:         N/A
 
 c64dtv/c64dtvblitter.c:
 -----------------------
 command line:   -dtvrev <Revision>
 description:    "Specify DTV Revision (2: DTV2, 3: DTV3)"
-resource:               "DtvRevision"
+resource:       "DtvRevision"
 action:         N/A
 
 c64dtv/c64dtvblitter.c:
 -----------------------
 command line:   -dtvblitterlog
 description:    "Enable DTV blitter logs."
-resource:               "DtvBlitterLog" (set to 1)
+resource:       "DtvBlitterLog" (set to 1)
 action:         N/A
-fixme: is a debug option imo
 
 c64dtv/c64dtvblitter.c:
 -----------------------
 command line:   +dtvblitterlog
 description:    "Disable DTV blitter logs."
-resource:               "DtvBlitterLog" (set to 0)
+resource:       "DtvBlitterLog" (set to 0)
 action:         N/A
-fixme: is a debug option imo
 
 c64dtv/c64dtvdma.c:
 -------------------
