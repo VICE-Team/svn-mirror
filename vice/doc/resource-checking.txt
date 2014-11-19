@@ -7295,7 +7295,6 @@ platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			os2/osx
-fixme: add to documentation
 
 pet/pet-resources.c:
 --------------------
@@ -7311,7 +7310,6 @@ prepocessor:
 command-line:                   -colour-analog-bg
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
-fixme: add to documentation
 
 pet/pet-sidcart.c:
 ------------------
@@ -7406,7 +7404,6 @@ prepocessor:
 command-line:                   -pethre / +pethre
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
-fixme: add to documentation
 
 pet/petpia1.c:
 --------------
