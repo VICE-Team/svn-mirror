@@ -8117,8 +8117,8 @@ thus are not present in the other emulators.
 * PET model::
 * PET diagnostic pin::
 * PET settings::
-* PET colors::
 * Colour PET::
+* PET colors::
 * PET DWW high resolution grapics::
 * PET HRE (HiRes Emulator) high resolution grapics::
 @end menu
