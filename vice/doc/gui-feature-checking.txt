@@ -59,57 +59,69 @@ C64 RAW CARTRIDGE SUPPORT
 
 c64 raw bin cart attach:
 ------------------------
-raw 8KB cartridge image				amigaos/beos/msdos/os2/sdl/unix/windows
-raw 16KB cartridge image				amigaos/beos/msdos/os2/sdl/unix/windows
-raw Ultimax image					sdl
-raw Action Replay V5 image				amigaos/beos/msdos/os2/sdl/unix/windows
-raw Action Replay MK2 image			sdl
-raw Action Replay MK3 image			amigaos/beos/msdos/sdl/windows
-raw Action Replay MK4 image			amigaos/beos/msdos/sdl/windows
-raw Atomic Power cartridge image		amigaos/beos/msdos/os2/sdl/unix/windows
-raw Capture cartridge image			sdl
-raw Comal 80 cartridge image			sdl
-raw Diashow-Maker cartridge image		sdl
-raw Dinamic cartridge image			sdl
-raw EasyFlash cartridge image			sdl/unix
-raw Epyx FastLoad cartridge image		amigaos/beos/msdos/os2/unix/windows
-raw EXOS cartridge image				sdl
-raw Expert Cartridge image				sdl
-raw The Final Cartridge image			sdl
-raw The Final Cartridge III image		sdl
-raw Final Cartridge Plus image			sdl
-raw Freeze Frame cartridge image		sdl
-raw Freeze Machine cartridge image		sdl
-raw Fun Play cartridge image			sdl
-raw Game Killer cartridge image			sdl
-raw C64 Games System cartridge image		sdl
-raw IDE64 cartridge image				amigaos/beos/msdos/os2/sdl/unix/windows
-raw IEEE-488 Interface image			amigaos/beos/msdos/os2/sdl/windows
-raw KCS Power Cartridge image			sdl
-raw MACH 5 cartridge image				sdl
-raw Magic Desk cartridge image			sdl
-raw Magic Formel cartridge image		sdl/unix
-raw Magic Voice cartridge image			sdl
-raw Mikro Assembler cartridge image		sdl
-raw MMC64 cartridge image				sdl
-raw MMC Replay cartridge image			sdl/unix/windows
-raw Ocean cartridge image				sdl
-raw Prophet64 cartridge name			sdl
-raw Retro Replay cartridge image		amigaos/msdos/sdl/unix/windows
-raw REX Utility cartridge image			sdl
-raw ROSS cartridge image				sdl
-raw Silverrock 128K Cartridge image		sdl
-raw Simons' BASIC cartridge image		sdl
-raw Snapshot 64 cartridge image			sdl
-raw Stardos cartridge image			amigaos/beos/msdos/sdl/windows
-raw Structured BASIC cartridge image		amigaos/sdl/windows
-raw Super Explode V5.0 cartridge image	sdl
-raw Super Games cartridge image			sdl
-raw Super Snapshot V4 cartridge image		amigaos/beos/msdos/os2/sdl/windows
-raw Super Snapshot V5 cartridge image		amigaos/beos/msdos/os2/sdl/unix/windows
-raw Warp Speed cartridge image			sdl
-raw Westermann Learning cartridge image	os2/sdl
-raw Zaxxon cartridge image				sdl
+raw 8KB cartridge image				amigaos/beos/msdos/os2/sdl/unix/windows	cmdline
+raw 16KB cartridge image				amigaos/beos/msdos/os2/sdl/unix/windows	cmdline
+raw Ultimax image					sdl								cmdline
+raw Action Replay V5 image				amigaos/beos/msdos/os2/sdl/unix/windows	cmdline
+raw Action Replay MK2 image			sdl								cmdline
+raw Action Replay MK3 image			amigaos/beos/msdos/sdl/windows			cmdline
+raw Action Replay MK4 image			amigaos/beos/msdos/sdl/windows			cmdline
+raw Atomic Power cartridge image		amigaos/beos/msdos/os2/sdl/unix/windows	cmdline
+raw Capture cartridge image			sdl								cmdline
+raw Comal 80 cartridge image			sdl								cmdline
+raw Dela EP256 cartridge image											cmdline
+raw Dela EP64 cartridge image											cmdline
+raw Dela Ep7x8 cartridge image											cmdline
+raw Diashow-Maker cartridge image		sdl								cmdline
+raw Dinamic cartridge image			sdl								cmdline
+raw Double Quick Brown Box cartridge image									cmdline
+raw EasyFlash cartridge image			sdl/unix							cmdline
+raw Epyx FastLoad cartridge image		amigaos/beos/msdos/os2/unix/windows		cmdline
+raw EXOS cartridge image				sdl								cmdline
+raw Expert Cartridge image				sdl								cmdline
+raw The Final Cartridge image			sdl								cmdline
+raw The Final Cartridge III image		sdl								cmdline
+raw Final Cartridge Plus image			sdl								cmdline
+raw Formel 64 cartridge image											cmdline
+raw Freeze Frame cartridge image		sdl								cmdline
+raw Freeze Machine cartridge image		sdl								cmdline
+raw Fun Play cartridge image			sdl								cmdline
+raw Game Killer cartridge image			sdl								cmdline
+raw C64 Games System cartridge image		sdl								cmdline
+raw GEO-RAM cartridge image											cmdline
+raw IDE64 cartridge image				amigaos/beos/msdos/os2/sdl/unix/windows	cmdline
+raw IEEE-488 Interface image			amigaos/beos/msdos/os2/sdl/windows		cmdline
+raw ISEPIC cartridge image												cmdline
+raw KCS Power Cartridge image			sdl								cmdline
+raw Kingsoft cartridge image											cmdline
+raw MACH 5 cartridge image				sdl								cmdline
+raw Magic Desk cartridge image			sdl								cmdline
+raw Magic Formel cartridge image		sdl/unix							cmdline
+raw Magic Voice cartridge image			sdl								cmdline
+raw Mikro Assembler cartridge image		sdl								cmdline
+raw MMC64 cartridge image				sdl								cmdline
+raw MMC Replay cartridge image			sdl/unix/windows					cmdline
+raw Ocean cartridge image				sdl								cmdline
+raw Pagefox cartridge image											cmdline
+raw Prophet64 cartridge name			sdl								cmdline
+raw RamCart cartridge image											cmdline
+raw Retro Replay cartridge image		amigaos/msdos/sdl/unix/windows			cmdline
+raw REU cartridge image												cmdline
+raw REX EP256 cartridge image											cmdline
+raw REX Utility cartridge image			sdl								cmdline
+raw ROSS cartridge image				sdl								cmdline
+raw Silverrock 128K Cartridge image		sdl								cmdline
+raw Simons' BASIC cartridge image		sdl								cmdline
+raw Snapshot 64 cartridge image			sdl								cmdline
+raw Stardos cartridge image			amigaos/beos/msdos/sdl/windows			cmdline
+raw Structured BASIC cartridge image		amigaos/sdl/windows					cmdline
+raw Super Explode V5.0 cartridge image	sdl								cmdline
+raw Super Games cartridge image			sdl								cmdline
+raw Super Snapshot V4 cartridge image		amigaos/beos/msdos/os2/sdl/windows		cmdline
+raw Super Snapshot V5 cartridge image		amigaos/beos/msdos/os2/sdl/unix/windows	cmdline
+raw Warp Speed cartridge image			sdl								cmdline
+raw Westermann Learning cartridge image	os2/sdl							cmdline
+raw Zaxxon cartridge image				sdl								cmdline
 
 
 TO CHECK:
