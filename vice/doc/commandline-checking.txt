@@ -983,133 +983,133 @@ arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
 command line:   -saveres
 description:    "Save settings on exit"
-resource:               "SaveResourcesOnExit" (set to 1)
+resource:       "SaveResourcesOnExit" (set to 1)
 action:         N/A
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
 command line:   +saveres
 description:    "Never save settings on exit"
-resource:               "SaveResourcesOnExit" (set to 0)
+resource:       "SaveResourcesOnExit" (set to 0)
 action:         N/A
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
 command line:   -confirmexit
 description:    "Confirm quitting VICE"
-resource:               "ConfirmOnExit" (set to 1)
+resource:       "ConfirmOnExit" (set to 1)
 action:         N/A
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
 command line:   +confirmexit
 description:    "Never confirm quitting VICE"
-resource:               "ConfirmOnExit" (set to 0)
+resource:       "ConfirmOnExit" (set to 0)
 action:         N/A
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
 command line:   -fullscreen
 description:    "Enable fullscreen"
-resource:               "UseFullscreen" (set to 1)
+resource:       "UseFullscreen" (set to 1)
 action:         N/A
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
 command line:   +fullscreen
 description:    "Disable fullscreen"
-resource:               "UseFullscreen" (set to 0)
+resource:       "UseFullscreen" (set to 0)
 action:         N/A
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
 command line:   -displaydepth <value>
 description:    "Specify X display depth (1..32)"
-resource:               "DisplayDepth"
+resource:       "DisplayDepth"
 action:         N/A
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
 command line:   -xsync
 description:    "Call `XSync()' after updating the emulation window"
-resource:               "UseXSync" (set to 1)
+resource:       "UseXSync" (set to 1)
 action:         N/A
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
 command line:   +xsync
 description:    "Do not call `XSync()' after updating the emulation window"
-resource:               "UseXSync" (set to 0)
+resource:       "UseXSync" (set to 0)
 action:         N/A
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
 command line:   -mitshm
 description:    "Use shared memory"
-resource:               "MITSHM" (set to 1)
+resource:       "MITSHM" (set to 1)
 action:         N/A
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
 command line:   +mitshm
 description:    "Never use shared memory (slower)"
-resource:               "MITSHM" (set to 0)
+resource:       "MITSHM" (set to 0)
 action:         N/A
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
 command line:   -fourcc <fourcc>
 description:    "Request YUV FOURCC format"
-resource:               "FOURCC"
+resource:       "FOURCC"
 action:         N/A
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
 command line:   -aspect <Aspect ratio>
 description:    "Set aspect ratio (0.5 - 2.0)"
-resource:               "AspectRatio"
+resource:       "AspectRatio"
 action:         N/A
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
 command line:   -trueaspect
 description:    "Enable true aspect ratio"
-resource:               "TrueAspectRatio" (set to 1)
+resource:       "TrueAspectRatio" (set to 1)
 action:         N/A
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
 command line:   +trueaspect
 description:    "Disable true aspect ratio"
-resource:               "TrueAspectRatio" (set to 0)
+resource:       "TrueAspectRatio" (set to 0)
 action:         N/A
 
 arch/win32/joy.c:
 -----------------
 command line:   -joydev1 <number>
-description:    "Set input device for joystick #1" (fixme: needs better description)
-resource:               "JoyDevice1"
+description:    "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
+resource:       "JoyDevice1"
 action:         N/A
 
 arch/win32/joy.c:
 -----------------
 command line:   -joydev2 <number>
-description:    "Set input device for joystick #2" (fixme: needs better description)
-resource:               "JoyDevice2"
+description:    "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
+resource:       "JoyDevice2"
 action:         N/A
 
 arch/win32/joy.c:
 -----------------
 command line:   -extrajoydev1 <number>
-description:    "Set input device for extra joystick #1" (fixme: needs better description)
-resource:               "JoyDevice3"
+description:    "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
+resource:       "JoyDevice3"
 action:         N/A
 
 arch/win32/joy.c:
 -----------------
 command line:   -extrajoydev2 <number>
-description:    "Set input device for extra joystick #2" (fixme: needs better description)
-resource:               "JoyDevice4"
+description:    "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
+resource:       "JoyDevice4"
 action:         N/A
 
 arch/win32/mididrv.c:
