@@ -3383,38 +3383,36 @@ c64dtv/c64dtvflash.c:
 ---------------------
 command line:   -c64dtvromimage <Name>
 description:    "Specify name of C64DTV ROM image"
-resource:               "c64dtvromfilename"
+resource:       "c64dtvromfilename"
 action:         N/A
 
 c64dtv/c64dtvflash.c:
 ---------------------
 command line:   -c64dtvromrw
 description:    "Enable writes to C64DTV ROM image"
-resource:               "c64dtvromrw" (set to 1)
+resource:       "c64dtvromrw" (set to 1)
 action:         N/A
 
 c64dtv/c64dtvflash.c:
 ---------------------
 command line:   +c64dtvromrw
 description:    "Disable writes to C64DTV ROM image"
-resource:               "c64dtvromrw" (set to 0)
+resource:       "c64dtvromrw" (set to 0)
 action:         N/A
 
 c64dtv/c64dtvflash.c:
 ---------------------
 command line:   -dtvflashlog
 description:    "Enable DTV flash chip logs."
-resource:               "DtvFlashLog" (set to 1)
+resource:       "DtvFlashLog" (set to 1)
 action:         N/A
-fixme: is a debug option imo
 
 c64dtv/c64dtvflash.c:
 ---------------------
 command line:   +dtvflashlog
 description:    "Disable DTV flash chip logs."
-resource:               "DtvFlashLog" (set to 0)
+resource:       "DtvFlashLog" (set to 0)
 action:         N/A
-fixme: is a debug option imo
 
 c64dtv/flash-trap.c:
 --------------------
