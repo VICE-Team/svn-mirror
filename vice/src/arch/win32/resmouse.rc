@@ -43,7 +43,7 @@ BEGIN
   IDS_MOUSE_TYPE_LABEL        "Mouse type"
   IDS_MOUSE_PORT_LABEL        "Mouse port"
   IDS_P_SENSITIVITY           "<sensitivity>"
-  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse. [40]"
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse."
   IDS_MOUSE_SENSITIVITY_LABEL "Mouse sensitivity"
 END
 

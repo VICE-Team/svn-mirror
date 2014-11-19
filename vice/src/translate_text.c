@@ -9409,7 +9409,7 @@ translate_t string_table[] = {
 #endif
 
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_SATURATION,    N_("Set saturation of internal calculated palette [1000]")},
+/* en */ {IDCLS_SET_SATURATION,    N_("Set saturation of internal calculated palette")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_SATURATION_DA, "Indstil mætning af internt beregnet palette [1000]"},
 /* de */ {IDCLS_SET_SATURATION_DE, "Sättigung für intern berechneten Palette setzen [1000]"},
@@ -9426,7 +9426,7 @@ translate_t string_table[] = {
 #endif
 
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_CONTRAST,    N_("Set contrast of internal calculated palette [1000]")},
+/* en */ {IDCLS_SET_CONTRAST,    N_("Set contrast of internal calculated palette")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_CONTRAST_DA, "Indstil kontrast for internt beregnet palette [1000]"},
 /* de */ {IDCLS_SET_CONTRAST_DE, "Kontrast für intern berechnete Palette setzen [1000]"},
@@ -9443,7 +9443,7 @@ translate_t string_table[] = {
 #endif
 
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_BRIGHTNESS,    N_("Set brightness of internal calculated palette [1000]")},
+/* en */ {IDCLS_SET_BRIGHTNESS,    N_("Set brightness of internal calculated palette")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BRIGHTNESS_DA, "Indstil lysstyrke for internt beregnet palette [1000]"},
 /* de */ {IDCLS_SET_BRIGHTNESS_DE, "Helligkeit für intern berechnete Palette setzen [1000]"},
@@ -9460,7 +9460,7 @@ translate_t string_table[] = {
 #endif
 
 /* plus4/ted-cmdline-options.c`, vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_GAMMA,    N_("Set gamma of internal calculated palette [2200]")},
+/* en */ {IDCLS_SET_GAMMA,    N_("Set gamma of internal calculated palette")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_GAMMA_DA, "Indstil gamma for internt beregnet palette [2200]"},
 /* de */ {IDCLS_SET_GAMMA_DE, "Gamma für intern berechnete Palette setzen [2200]"},
@@ -9477,7 +9477,7 @@ translate_t string_table[] = {
 #endif
 
 /* vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_TINT,    N_("Set tint of internal calculated palette [1000]")},
+/* en */ {IDCLS_SET_TINT,    N_("Set tint of internal calculated palette")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_TINT_DA, "Indstil farvetone for internt beregnet palette [1000]"},
 /* de */ {IDCLS_SET_TINT_DE, "Farbton für intern berechneten Palette setzen [1000]"},
@@ -9494,7 +9494,7 @@ translate_t string_table[] = {
 #endif
 
 /* vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_ODDLINES_PHASE,    N_("Set phase for color carrier in odd lines [1250]")},
+/* en */ {IDCLS_SET_ODDLINES_PHASE,    N_("Set phase for color carrier in odd lines")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_ODDLINES_PHASE_DA, "Vælg fase for farve-bærebølge på ulige scanlinjer [1250]"},
 /* de */ {IDCLS_SET_ODDLINES_PHASE_DE, "Phase für Farbträger in ungeraden Zeilen setzen [1250]"},
@@ -9511,7 +9511,7 @@ translate_t string_table[] = {
 #endif
 
 /* vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_ODDLINES_OFFSET,    N_("Set phase offset for color carrier in odd lines [750]")},
+/* en */ {IDCLS_SET_ODDLINES_OFFSET,    N_("Set phase offset for color carrier in odd lines")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_ODDLINES_OFFSET_DA, "Vælg fase-offset for farve-bærebølge på ulige scanlinjer [750]"},
 /* de */ {IDCLS_SET_ODDLINES_OFFSET_DE, "Phasenoffset für Farbträger in ungeraden Zeilen setzen [750]"},
@@ -9528,7 +9528,7 @@ translate_t string_table[] = {
 #endif
 
 /* vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_BLUR,    N_("Amount of horizontal blur for the CRT emulation. [500]")},
+/* en */ {IDCLS_SET_BLUR,    N_("Amount of horizontal blur for the CRT emulation.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BLUR_DA, "Mængden af horizontal udtværing for CRT emulering. [500]"},
 /* de */ {IDCLS_SET_BLUR_DE, "Wert für horizontale Unschärfe für CRT Emulation. [500]"},
@@ -9545,7 +9545,7 @@ translate_t string_table[] = {
 #endif
 
 /* vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_SCANLINE_SHADE,    N_("Amount of scan line shading for the CRT emulation [667]")},
+/* en */ {IDCLS_SET_SCANLINE_SHADE,    N_("Amount of scan line shading for the CRT emulation")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_SCANLINE_SHADE_DA, "Mængden af scanlinjeskygge for CRT emulering [667]"},
 /* de */ {IDCLS_SET_SCANLINE_SHADE_DE, "Wert für Scanline Schatten für CRT Emulation [667]"},
