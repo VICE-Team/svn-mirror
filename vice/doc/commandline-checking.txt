@@ -3369,17 +3369,15 @@ c64dtv/c64dtvdma.c:
 -------------------
 command line:   -dtvdmalog
 description:    "Enable DTV DMA logs."
-resource:               "DtvDMALog" (set to 1)
+resource:       "DtvDMALog" (set to 1)
 action:         N/A
-fixme: is a debug option imo
 
 c64dtv/c64dtvdma.c:
 -------------------
 command line:   +dtvdmalog
 description:    "Disable DTV DMA logs."
-resource:               "DtvDMALog" (set to 0)
+resource:       "DtvDMALog" (set to 0)
 action:         N/A
-fixme: is a debug option imo
 
 c64dtv/c64dtvflash.c:
 ---------------------
