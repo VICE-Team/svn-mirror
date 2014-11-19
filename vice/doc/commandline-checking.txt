@@ -1116,21 +1116,21 @@ arch/win32/mididrv.c:
 ---------------------
 command line:   -midiin <number>
 description:    "Specify MIDI-In device"
-resource:               "MIDIInDev"
+resource:       "MIDIInDev"
 action:         N/A
 
 arch/win32/mididrv.c:
 ---------------------
 command line:   -midiout <number>
 description:    "Specify MIDI-Out device"
-resource:               "MIDIOutDev"
+resource:       "MIDIOutDev"
 action:         N/A
 
 arch/win32/mousedrv.c:
 ----------------------
 command line:   -mousesensitivity <sensitivity>
-description:    "Sensitivity of the mouse. [40]"
-resource:               "MouseSensitivity"
+description:    "Sensitivity of the mouse. [40]" (fixme: remove default)
+resource:       "MouseSensitivity"
 action:         N/A
 
 arch/win32/ui-resources.c:
@@ -3811,63 +3811,63 @@ action:         N/A
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCsaturation <0-2000>
-description:    "Set saturation of internal calculated palette [1000]"
+description:    "Set saturation of internal calculated palette [1000]" (fixme: remove default)
 resource:               "CRTCColorSaturation"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCcontrast <0-2000>
-description:    "Set contrast of internal calculated palette [1000]"
+description:    "Set contrast of internal calculated palette [1000]" (fixme: remove default)
 resource:               "CRTCColorContrast"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCbrightness <0-2000>
-description:    "Set brightness of internal calculated palette [1000]"
+description:    "Set brightness of internal calculated palette [1000]" (fixme: remove default)
 resource:               "CRTCColorBrightness"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCgamma <0-4000>
-description:    "Set gamma of internal calculated palette [2200]"
+description:    "Set gamma of internal calculated palette [2200]" (fixme: remove default)
 resource:               "CRTCColorGamma"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCtint <0-2000>
-description:    "Set tint of internal calculated palette [1000]"
+description:    "Set tint of internal calculated palette [1000]" (fixme: remove default)
 resource:               "CRTCColorTint"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCcrtblur <0-1000>
-description:    "Amount of horizontal blur for the CRT emulation. [500]"
+description:    "Amount of horizontal blur for the CRT emulation. [500]" (fixme: remove default)
 resource:               "CRTCPALBlur"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCcrtscanlineshade <0-1000>
-description:    "Amount of scan line shading for the CRT emulation [667]"
+description:    "Amount of scan line shading for the CRT emulation [667]" (fixme: remove default)
 resource:               "CRTCPALScanLineShade"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines [1250]"
+description:    "Set phase for color carrier in odd lines [1250]" (fixme: remove default)
 resource:               "CRTCPALOddLinePhase"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines [750]"
+description:    "Set phase offset for color carrier in odd lines [750]" (fixme: remove default)
 resource:               "CRTCPALOddLineOffset"
 action:         N/A
 
@@ -5872,63 +5872,63 @@ action:         N/A
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDsaturation <0-2000>
-description:    "Set saturation of internal calculated palette [1000]"
+description:    "Set saturation of internal calculated palette [1000]" (fixme: remove default)
 resource:               "TEDColorSaturation"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDcontrast <0-2000>
-description:    "Set contrast of internal calculated palette [1000]"
+description:    "Set contrast of internal calculated palette [1000]" (fixme: remove default)
 resource:               "TEDColorContrast"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDbrightness <0-2000>
-description:    "Set brightness of internal calculated palette [1000]"
+description:    "Set brightness of internal calculated palette [1000]" (fixme: remove default)
 resource:               "TEDColorBrightness"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDgamma <0-4000>
-description:    "Set gamma of internal calculated palette [2200]"
+description:    "Set gamma of internal calculated palette [2200]" (fixme: remove default)
 resource:               "TEDColorGamma"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDtint <0-2000>
-description:    "Set tint of internal calculated palette [1000]"
+description:    "Set tint of internal calculated palette [1000]" (fixme: remove default)
 resource:               "TEDColorTint"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines [1250]"
+description:    "Set phase for color carrier in odd lines [1250]" (fixme: remove default)
 resource:               "TEDPALOddLinePhase"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines [750]"
+description:    "Set phase offset for color carrier in odd lines [750]" (fixme: remove default)
 resource:               "TEDPALOddLineOffset"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDcrtblur <0-1000>
-description:    "Amount of horizontal blur for the CRT emulation. [500]"
+description:    "Amount of horizontal blur for the CRT emulation. [500]" (fixme: remove default)
 resource:               "TEDPALBlur"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDcrtscanlineshade <0-1000>
-description:    "Amount of scan line shading for the CRT emulation [667]"
+description:    "Amount of scan line shading for the CRT emulation [667]" (fixme: remove default)
 resource:               "TEDPALScanLineShade"
 action:         N/A
 
@@ -6839,63 +6839,63 @@ action:         N/A
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCsaturation <0-2000>
-description:    "Set saturation of internal calculated palette [1000]"
+description:    "Set saturation of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VDCColorSaturation"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCcontrast <0-2000>
-description:    "Set contrast of internal calculated palette [1000]"
+description:    "Set contrast of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VDCColorContrast"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCbrightness <0-2000>
-description:    "Set brightness of internal calculated palette [1000]"
+description:    "Set brightness of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VDCColorBrightness"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCgamma <0-4000>
-description:    "Set gamma of internal calculated palette [2200]"
+description:    "Set gamma of internal calculated palette [2200]" (fixme: remove default)
 resource:               "VDCColorGamma"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCtint <0-2000>
-description:    "Set tint of internal calculated palette [1000]"
+description:    "Set tint of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VDCColorTint"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines [1250]"
+description:    "Set phase for color carrier in odd lines [1250]" (fixme: remove default)
 resource:               "VDCPALOddLinePhase"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines [750]"
+description:    "Set phase offset for color carrier in odd lines [750]" (fixme: remove default)
 resource:               "VDCPALOddLineOffset"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCcrtblur <0-1000>
-description:    "Amount of horizontal blur for the CRT emulation. [500]"
+description:    "Amount of horizontal blur for the CRT emulation. [500]" (fixme: remove default)
 resource:               "VDCPALBlur"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCcrtscanlineshade <0-1000>
-description:    "Amount of scan line shading for the CRT emulation [667]"
+description:    "Amount of scan line shading for the CRT emulation [667]" (fixme: remove default)
 resource:               "VDCPALScanLineShade"
 action:         N/A
 
@@ -7210,63 +7210,63 @@ action:         N/A
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICsaturation <0-2000>
-description:    "Set saturation of internal calculated palette [1000]"
+description:    "Set saturation of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VICColorSaturation"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICcontrast <0-2000>
-description:    "Set contrast of internal calculated palette [1000]"
+description:    "Set contrast of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VICColorContrast"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICbrightness <0-2000>
-description:    "Set brightness of internal calculated palette [1000]"
+description:    "Set brightness of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VICColorBrightness"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICgamma <0-4000>
-description:    "Set gamma of internal calculated palette [2200]"
+description:    "Set gamma of internal calculated palette [2200]" (fixme: remove default)
 resource:               "VICColorGamma"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICtint <0-2000>
-description:    "Set tint of internal calculated palette [1000]"
+description:    "Set tint of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VICColorTint"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines [1250]"
+description:    "Set phase for color carrier in odd lines [1250]" (fixme: remove default)
 resource:               "VICPALOddLinePhase"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines [750]"
+description:    "Set phase offset for color carrier in odd lines [750]" (fixme: remove default)
 resource:               "VICPALOddLineOffset"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICcrtblur <0-1000>
-description:    "Amount of horizontal blur for the CRT emulation. [500]"
+description:    "Amount of horizontal blur for the CRT emulation. [500]" (fixme: remove default)
 resource:               "VICPALBlur"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICcrtscanlineshade <0-1000>
-description:    "Amount of scan line shading for the CRT emulation [667]"
+description:    "Amount of scan line shading for the CRT emulation [667]" (fixme: remove default)
 resource:               "VICPALScanLineShade"
 action:         N/A
 
@@ -7539,63 +7539,63 @@ action:         N/A
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIsaturation <0-2000>
-description:    "Set saturation of internal calculated palette [1000]"
+description:    "Set saturation of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VICIIColorSaturation"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIcontrast <0-2000>
-description:    "Set contrast of internal calculated palette [1000]"
+description:    "Set contrast of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VICIIColorContrast"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIbrightness <0-2000>
-description:    "Set brightness of internal calculated palette [1000]"
+description:    "Set brightness of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VICIIColorBrightness"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIgamma <0-4000>
-description:    "Set gamma of internal calculated palette [2200]"
+description:    "Set gamma of internal calculated palette [2200]" (fixme: remove default)
 resource:               "VICIIColorGamma"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIItint <0-2000>
-description:    "Set tint of internal calculated palette [1000]"
+description:    "Set tint of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VICIIColorTint"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines [1250]"
+description:    "Set phase for color carrier in odd lines [1250]" (fixme: remove default)
 resource:               "VICIIPALOddLinePhase"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines [750]"
+description:    "Set phase offset for color carrier in odd lines [750]" (fixme: remove default)
 resource:               "VICIIPALOddLineOffset"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIcrtblur <0-1000>
-description:    "Amount of horizontal blur for the CRT emulation. [500]"
+description:    "Amount of horizontal blur for the CRT emulation. [500]" (fixme: remove default)
 resource:               "VICIIPALBlur"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIcrtscanlineshade <0-1000>
-description:    "Amount of scan line shading for the CRT emulation [667]"
+description:    "Amount of scan line shading for the CRT emulation [667]" (fixme: remove default)
 resource:               "VICIIPALScanLineShade"
 action:         N/A
 
@@ -7798,63 +7798,63 @@ action:         N/A
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIsaturation <0-2000>
-description:    "Set saturation of internal calculated palette [1000]"
+description:    "Set saturation of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VICIIColorSaturation"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIcontrast <0-2000>
-description:    "Set contrast of internal calculated palette [1000]"
+description:    "Set contrast of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VICIIColorContrast"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIbrightness <0-2000>
-description:    "Set brightness of internal calculated palette [1000]"
+description:    "Set brightness of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VICIIColorBrightness"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIgamma <0-4000>
-description:    "Set gamma of internal calculated palette [2200]"
+description:    "Set gamma of internal calculated palette [2200]" (fixme: remove default)
 resource:               "VICIIColorGamma"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIItint <0-2000>
-description:    "Set tint of internal calculated palette [1000]"
+description:    "Set tint of internal calculated palette [1000]" (fixme: remove default)
 resource:               "VICIIColorTint"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines [1250]"
+description:    "Set phase for color carrier in odd lines [1250]" (fixme: remove default)
 resource:               "VICIIPALOddLinePhase"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines [750]"
+description:    "Set phase offset for color carrier in odd lines [750]" (fixme: remove default)
 resource:               "VICIIPALOddLineOffset"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIcrtblur <0-1000>
-description:    "Amount of horizontal blur for the CRT emulation. [500]"
+description:    "Amount of horizontal blur for the CRT emulation. [500]" (fixme: remove default)
 resource:               "VICIIPALBlur"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIcrtscanlineshade <0-1000>
-description:    "Amount of scan line shading for the CRT emulation [667]"
+description:    "Amount of scan line shading for the CRT emulation [667]" (fixme: remove default)
 resource:               "VICIIPALScanLineShade"
 action:         N/A
 
