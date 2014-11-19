@@ -1193,7 +1193,14 @@ arch/win32/video.c:
 -------------------
 command line:   -dx9disable
 description:    "Disable DirectX9 video driver"
-resource:               "DX9Disable" (set to 1) (fixme: no option to set to 0)
+resource:       "DX9Disable" (set to 1)
+action:         N/A
+
+arch/win32/video.c:
+-------------------
+command line:   -dx9enable
+description:    "Enable DirectX9 video driver"
+resource:       "DX9Disable" (set to 0)
 action:         N/A
 
 attach.c:

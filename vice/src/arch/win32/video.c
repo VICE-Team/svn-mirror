@@ -155,6 +155,11 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDS_DISABLE_DX9,
       NULL, NULL },
+    { "-dx9enable", SET_RESOURCE, 0,
+      NULL, NULL, "DX9Disable", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_ENABLE_DX9,
+      NULL, NULL },
 #endif
     { NULL }
 };

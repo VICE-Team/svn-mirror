@@ -16357,7 +16357,7 @@ resource var:                   dx9_disable
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:                    #ifdef HAVE_D3D9_H
-command-line:                   -dx9disable (fixme: no +dx9disable)
+command-line:                   -dx9disable / -dx9enable
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
