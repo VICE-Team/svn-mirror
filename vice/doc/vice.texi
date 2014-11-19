@@ -669,7 +669,7 @@ The IEEE-488 code is then started by @code{SYS45065}.
 @section PET emulator features
 
 The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
-SuperPET (MicroMainFrame 9000) models, covering practically the whole series.
+SuperPET (MicroMainFrame 9000) models, covering the whole series.
 The hardware is pretty much the same in each and that is why one single
 program is enough to emulate all of them.  For more detailed information
 about PET hardware please refer to the @file{PETdoc} file.
@@ -695,6 +695,14 @@ The PET 8x96 model emulations run the Commodore LOS-96 operating system
 - basically an improved BASIC 4 version with up to 32k for BASIC
 text and 32k for variables.  See @file{PETdoc} for more information.
 @c FIXME: add link to doc/html/plain/PETdoc.txt
+
+The PET 8296-G is a 8296 with built-in 8250 low-profile dual disk drive.
+
+The PET 8296-GD is a 8296-GD with additionally a "HiRes Emulator" (HRE).
+This is a cheaper version of a "HRG" hi-res board which was based on
+Thomson chips. This version instead uses no additional hardware support
+apart from some memory mapping tricks. It has supporting software in the
+hre-*.bin rom files.
 
 The SuperPET also is a PET 8032 with an expansion board.  It can map 4k
 at a time out of 64k into the @code{$9***} area.  Also it has an ACIA
@@ -1625,6 +1633,12 @@ ASCII/APL code.
 @file{waterloo-[abcdf]000.901898-0[1-5].bin},
 @file{waterloo-e000.901897-01.bin}.
 The Waterloo system ROMs.
+
+@item
+@file{hre-9000.324992-02.bin} HiRes Emulator (at $9000) and
+@file{hre-a000.324993-02.bin} HiRes BASIC (at $A000).
+These are the two roms for supporting the HRE on the 8296.
+The ROMs are initialized by the command @code{SYS 36864}.
 @end itemize
 
 The PETs also have sockets for extension ROMs for the addresses
@@ -1983,7 +1997,7 @@ name ends with either @file{.d64} or with @file{.x64}.
 @node Disk and tape images, Reset, File Selector, Basics
 @section Using disk and tape images
 
-The emulator is able to emulate disk drives and (read-only) tape
+The emulator is able to emulate disk drives and tape
 recorders if provided with suitable @dfn{disk images} or @dfn{tape
 images}.  An @dfn{image} is a raw dump of the contents of the media, and
 must be @dfn{attached} before the emulator can use it.  ``Attaching'' a
@@ -8102,11 +8116,14 @@ thus are not present in the other emulators.
 @menu
 * PET model::
 * PET diagnostic pin::
-* PET commandline options::
+* PET settings::
 * PET colors::
+* Colour PET::
+* PET DWW high resolution grapics::
+* PET HRE (HiRes Emulator) high resolution grapics::
 @end menu
 
-@node PET model, PET diagnostic pin, PET-specific, PET-specific
+@node PET model
 @subsection Changing PET model settings
 
 With @code{xpet}, it is possible to change at runtime the
@@ -8448,6 +8465,21 @@ Boolean specifying whether DWW emulation is enabled.
 @item PETDWWfilename
 String specifying the filename of the DWW image RAM image.
 
+@vindex PETHRE
+@item PETHRE
+Boolean specifying whether HRE emulation is enabled.
+
+@vindex PETColour
+@item PETColour
+Integer selecting the colour extension:
+0 = off;
+1 = RGBI;
+2 = Analog.
+
+@vindex PETColourBG
+@item PETColourBG
+Analog colour background on PET 4032 (0-255).
+
 @vindex UserportDAC
 @item UserportDAC
 Boolean specifying whether userport DAC emulation is enabled.
@@ -8488,14 +8520,27 @@ Enable or disable the userport DAC.
 @cindex -petdww, +petdww
 @item -petdww
 @itemx +petdww
-Enable/Disable the PET DWW hi-res board
+Enable/Disable the PET DWW hi-res board (30xx models only)
 @cindex -petdwwimage
 @item -petdwwimage <name>
-Specify name of PET DWW image
+Specify name of PET DWW RAM image
+
+@cindex -pethre, +pethre
+@item -pethre
+@itemx +pethre
+Enable/Disable the PET HRE extension (model 8296 only).
+
+@cindex -colour-rgbi, -colour-analog, -colour-analog-bg
+@item -colour-rgbi
+Enable the RGBI colour extension to PET 4032
+@item -colour-analog
+Enable the analog colour extension to PET 4032
+@item -colour-analog-bg <Colour 0-255>
+Select the analog colour background on PET 4032
 
 @cindex -sidcart, +sidcart
 @item -sidcart
-@item +sidcart
+@itemx +sidcart
 Enable/Disable SID Cartridge
 
 @end table
@@ -8572,7 +8617,7 @@ Specify 4K ROM file name at $F000 for 6809
 
 @end table
 
-@node PET diagnostic pin, PET commandline options, PET model, PET-specific
+@node PET diagnostic pin
 @subsection The PET diagnostic pin
 
 It is possible to enable or disable emulation of the PET diagnostic pin
@@ -8582,7 +8627,7 @@ item in the right-button menu.
 When the diagnostic pin is set, the Kernal does not try to initialize
 the BASIC, but directly jumps into the builtin machine monitor.
 
-@c @node FIXME
+@node PET settings
 @subsection PET settings
 
 @c @node FIXME
@@ -8596,11 +8641,9 @@ Integer specifying the status of the SuperPET CPU switch (0: 6502, 1: 6809, 2: P
 
 @end table
 
-@c FIXME: relink this node
-@node PET commandline options, PET colors, PET diagnostic pin, PET-specific
 @subsubsection PET command line options
 
-These are the commandline options specific for the CBM-II models.
+These are the commandline options specific for the PET models.
 
 @table @code
 
@@ -8655,7 +8698,24 @@ diagnostic pin at the PET userport.
 
 @end table
 
-@node PET colors,  , PET commandline options, PET-specific
+@node Colour PET
+@subsection Colour PET
+The Colour PET is a simple extension by Steve Gray
+@uref{http://www.6502.org/users/sjgray/projects/colourpet/}. It exploits
+the similarities and differences between the 4032 and 8032 models, to
+use memory at $8800 as colour RAM.
+
+There are two versions of the extension:
+
+with digital colour (RGBI), which can select 16 foreground and 16
+background colours for each charcter cell. The The 8 colour bits are
+used as RGBI RGBI, with the most significant bits for the background,
+and the least significant bits for the foreground.
+
+with analog colour, which can use 256 foreground colours for each
+character cell. The 8 colour bits are used as RRR GGG BB.
+
+@node PET colors
 @subsection Changing screen colors
 
 It is also possible to choose what color set is used for the emulation
@@ -8672,6 +8732,151 @@ feeling;
 @item
 @code{white.vpl} (``white''), simple white-on-black palette.
 @end itemize
+
+@node PET DWW high resolution grapics
+
+@subsection DWW high resolution grapics
+@cindex DWW
+The DWW, or Double-W
+@footnote{Dubbel-W bord, designed by Ben de Winter and Pieter
+Wolvekamp},
+board is a high resolution graphics board for PET models 30xx. It
+attaches to the internal expansion connector.  It would not physically
+fit in 20xx, 40xx or 80xx models because their connectors are physically
+and logically different. Apart from this, it requires address space at
+$EC00-$EFFF, which makes it unfit to work in 40xx and 80xx models, which
+have only 256 bytes of I/O space at $E800.
+
+The DWW board consists of 8 KB of RAM and a PIA to control various
+options. The RAM can be mapped either linearly at $9000-$AFFF,
+or bank-switched in 8 banks of 8 KB each at $EC00-$EFFF.
+
+It seems that in the demo programs, the BASIC versions like to
+POKE in 60200, where the machine language programs use $EB00.
+@verbatim
+60200 Port A or DDR A           $EB28
+$EBx0 1  0 \
+      2  1 - RAM block at $EC00 (0-7)
+      4  2 /
+      8  3 charrom         0 = off 1 = on
+      16 4 hires           0 = on  1 = off
+      32 5 extra charrom   0 = on  1 = off
+
+60201 Control Register A: bit #3 (worth 4) controls if 60200
+$EBx1 accesses the Data Direction Register A (0) or Port A (1).
+
+60202 Port B or DDR B
+$EBx2 0 = RAM is visible from $9000 - $AFFF
+      1 = RAM is bank-switched in blocks of 1 K in $EC00 - $EFFF
+
+      [Control Register B is never mentioned, so putting 1 in this
+       address would access the DDR, creating an output line, which
+       after RESET is default 0...]
+@end verbatim
+
+Typical initialisation sequence:
+@verbatim
+    poke 60201,0        poke 60200,255          (all outputs)
+    poke 60201,4        poke 60200,24 or 25 (16 + 8 + 1)
+@end verbatim
+
+Demo programs on disk PBE-110A, 110B, 111A, and 111B.
+(PBE = PET Benelux Exchange, the Dutch PET user group)
+
+The memory mapping is a bit strange. It seems each 1 K block contains
+the pixeldata for 1 bit-line of each text line. This is probably so that
+the addressing of the RAM can borrow part of the addressing
+logic/signals of the text screen. (The screen addressing cycles through
+0-39, then increases the line (= byte offset) which is fetched from
+the character ROM; for the graphics, the screen position selects the
+byte in a KB and the char ROM offset selects which KB of graphics RAM).
+
+My notes say: to set a pixel:
+@verbatim
+RE = INT(Y/8): LY = Y - 8*RE    (or Y AND 7)
+BY = INT(X/8): BI = X - 8*BY    (or X AND 7)
+@end verbatim
+
+when memory mapped to $9000:
+@verbatim
+    L = 36864 + 1024 * LY + 40 * RE + BY
+    POKE L, PEEK(L) OR 2^BI
+@end verbatim
+
+when memory mapped to $EC00:
+@verbatim
+    POKE 60200,LY + 40 (or 8?)
+    L = 60416 + RE * 40 + BY
+    POKE L, PEEK(L) OR 2^BI
+@end verbatim
+
+Unfortunately there is no logical means of expanding the memory
+to 16 K, so even in a 80 columns PET the resolution will be the same.
+
+@node PET HRE (HiRes Emulator) high resolution grapics
+
+@subsection HRE high resolution grapics
+
+This information comes from @email{kontakt@@michau.name, Michal Pleban},
+@uref{http://www.cbm-ii.com/}.
+
+@cindex HRE
+This is a short information about the HRE (HiRes Emulator) graphics
+board for PET 8296. This is a small board that is installed on the
+mainboard into sockets for the CRTC and character ROM. It adds the
+ability to display 512x256 graphics on the built-in monitor.
+
+The board is accompanied with two extension ROMs:
+
+@itemize
+@item
+324992-02 HiRes Emulator (at $9000)
+@item
+324993-02 HiRes BASIC (at $A000)
+@end itemize
+
+The ROMs are initialized by the command
+@code{SYS 36864}.
+
+@cindex HRG
+After that, the computer recognizes additional BASIC commands like
+DISPLAY, PLOT and so on; these commands are identical to those of the
+HiRes Graphics boards based on Thomson chips. All BASIC programs written
+for the HRG boards should also work on the HRE (albeit much slower).
+
+Upon initialization, the ROM code writes some routines into expansion
+RAM as $8800 - they are used to manipulate the bitmap data. The actual
+bitmap is located in expansion RAM at addresses $A000-$DFFF, and is
+organized linearly (first 64 bytes form the first display line, then
+comes the next line and so on).
+
+The RAM is accessed for reading by writing the value #$83 into $E888.
+This is a register in the CRTC memory space that is intercepted by the
+board and serves as a latch to drive jumpers on the 8296D mainboard.
+Because the ROMs are banked out this way, all video memory manipulation
+must happen with interrupts disabled. Normal ROM operation is restored
+by writing #$0F into $E888.
+
+As usual with the 8296, the RAM can also be written even when the ROMs
+are mapped normally.
+
+The board is initialized into graphics mode by modifying the following
+values in CRTC registers (it is done by the routine located at $8C1A):
+
+@itemize @bullet
+@item
+Register $01 (horizontal displayed) = #$20
+@item
+Register $02 (horizontal sync position) = original + #$02
+@item
+Register $06 (vertical displayed) = #$20
+@item
+Register $07 (vertical sync position) = original + #$04
+@item
+Register $0C (RAM address high) = #$02
+@end itemize
+
+The last value causes the board to switch into graphics mode; former values set up propoer screen dimensions for 512x256 display.
 
 @c --------------------------------------------------------------
 
