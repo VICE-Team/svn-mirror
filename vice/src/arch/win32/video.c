@@ -140,9 +140,14 @@ void video_arch_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] = {
     { "-fullscreen", SET_RESOURCE, 0,
-      NULL, NULL, "FullScreenEnabled", (resource_value_t) 1,
+      NULL, NULL, "FullScreenEnabled", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDS_START_VICE_FULLSCREEN_MODE,
+      NULL, NULL },
+    { "+fullscreen", SET_RESOURCE, 0,
+      NULL, NULL, "FullScreenEnabled", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_DONT_START_VICE_FULLSCREEN_MODE,
       NULL, NULL },
 #ifdef HAVE_D3D9_H
     { "-dx9disable", SET_RESOURCE, 0,

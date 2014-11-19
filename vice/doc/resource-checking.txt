@@ -15846,7 +15846,7 @@ resource var:                   ui_resources.fullscreenenabled
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   -fullscreen / +fullscreen
 platforms to check:			windows
 platform gui present:           
 platform gui missing:

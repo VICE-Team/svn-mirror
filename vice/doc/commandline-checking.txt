@@ -1179,7 +1179,14 @@ arch/win32/video.c:
 -------------------
 command line:   -fullscreen
 description:    "Start VICE in fullscreen mode"
-resource:       "FullScreenEnabled" (set to 1) (fixme: no option to set to 0)
+resource:       "FullScreenEnabled" (set to 1)
+action:         N/A
+
+arch/win32/video.c:
+-------------------
+command line:   +fullscreen
+description:    "Do not start VICE in fullscreen mode"
+resource:       "FullScreenEnabled" (set to 0)
 action:         N/A
 
 arch/win32/video.c:
