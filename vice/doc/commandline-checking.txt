@@ -3489,1491 +3489,1507 @@ cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -ram08
 description:    "Enable RAM mapping in $0800-$0FFF"
-resource:               "Ram08" (set to 1)
+resource:       "Ram08" (set to 1)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   +ram08
 description:    "Disable RAM mapping in $0800-$0FFF"
-resource:               "Ram08" (set to 0)
+resource:       "Ram08" (set to 0)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -ram1
 description:    "Enable RAM mapping in $1000-$1FFF"
-resource:               "Ram1" (set to 1)
+resource:       "Ram1" (set to 1)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   +ram1
 description:    "Disable RAM mapping in $1000-$1FFF"
-resource:               "Ram1" (set to 0)
+resource:       "Ram1" (set to 0)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -ram2
 description:    "Enable RAM mapping in $2000-$3FFF"
-resource:               "Ram2" (set to 1)
+resource:       "Ram2" (set to 1)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   +ram2
 description:    "Disable RAM mapping in $2000-$3FFF"
-resource:               "Ram2" (set to 0)
+resource:       "Ram2" (set to 0)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -ram4
 description:    "Enable RAM mapping in $4000-$5FFF"
-resource:               "Ram4" (set to 1)
+resource:       "Ram4" (set to 1)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   +ram4
 description:    "Disable RAM mapping in $4000-$5FFF"
-resource:               "Ram4" (set to 0)
+resource:       "Ram4" (set to 0)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -ram6
 description:    "Enable RAM mapping in $6000-$7FFF"
-resource:               "Ram6" (set to 1)
+resource:       "Ram6" (set to 1)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   +ram6
 description:    "Disable RAM mapping in $6000-$7FFF"
-resource:               "Ram6" (set to 0)
+resource:       "Ram6" (set to 0)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -ramC
 description:    "Enable RAM mapping in $C000-$CFFF"
-resource:               "RamC" (set to 1)
+resource:       "RamC" (set to 1)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   +ramC
 description:    "Disable RAM mapping in $C000-$CFFF"
-resource:               "RamC" (set to 0)
+resource:       "RamC" (set to 0)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -keymap <number>
 description:    "Specify index of keymap file" (fixme: needs better description)
-resource:               "KeymapIndex"
+resource:       "KeymapIndex"
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -grsymkeymap <Name>
 description:    "Specify name of graphics keyboard symbolic keymap file"
-resource:               "KeymapGraphicsSymFile"
+resource:       "KeymapGraphicsSymFile"
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -grposkeymap <Name>
 description:    "Specify name of graphics keyboard positional keymap file"
-resource:               "KeymapGraphicsPosFile"
+resource:       "KeymapGraphicsPosFile"
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -buksymkeymap <Name>
 description:    "Specify name of UK business keyboard symbolic keymap file"
-resource:               "KeymapBusinessUKSymFile"
+resource:       "KeymapBusinessUKSymFile"
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -bukposkeymap <Name>
 description:    "Specify name of UK business keyboard positional keymap file"
-resource:               "KeymapBusinessUKPosFile"
+resource:       "KeymapBusinessUKPosFile"
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -bdesymkeymap <Name>
 description:    "Specify name of German business keyboard symbolic keymap file"
-resource:               "KeymapBusinessDESymFile"
+resource:       "KeymapBusinessDESymFile"
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -bdeposkeymap <Name>
 description:    "Specify name of German business keyboard positional keymap file"
-resource:               "KeymapBusinessDEPosFile"
+resource:       "KeymapBusinessDEPosFile"
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -cia1model <Model>
 description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
-resource:               "CIA1Model"
+resource:       "CIA1Model"
 action:         N/A
 
 cbm2/cbm2cart.c:
 ----------------
 command line:   -cartreset
 description:    "Reset machine if a cartridge is attached or detached"
-resource:               "CartridgeReset" (set to 1)
+resource:       "CartridgeReset" (set to 1)
 action:         N/A
 
 cbm2/cbm2cart.c:
 ----------------
 command line:   +cartreset
 description:    "Do not reset machine if a cartridge is attached or detached"
-resource:               "CartridgeReset" (set to 0)
+resource:       "CartridgeReset" (set to 0)
 action:         N/A
 
 cbm2/cbm2cart.c:
 ----------------
 command line:   +cart
 description:    "Disable default cartridge"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline() (fixme: research what resources are used)
 
 cbm2/cbm2cart.c:
 ----------------
 command line:   -cart1 <Name>
 description:    "Specify name of cartridge ROM image for $1000"
-resource:               "Cart1Name"
+resource:       "Cart1Name"
 action:         N/A
 
 cbm2/cbm2cart.c:
 ----------------
 command line:   -cart2 <Name>
 description:    "Specify name of cartridge ROM image for $2000-$3fff"
-resource:               "Cart2Name"
+resource:       "Cart2Name"
 action:         N/A
 
 cbm2/cbm2cart.c:
 ----------------
 command line:   -cart4 <Name>
 description:    "Specify name of cartridge ROM image for $4000-$5fff"
-resource:               "Cart4Name"
+resource:       "Cart4Name"
 action:         N/A
 
 cbm2/cbm2cart.c:
 ----------------
 command line:   -cart6 <Name>
 description:    "Specify name of cartridge ROM image for $6000-$7fff"
-resource:               "Cart6Name"
+resource:       "Cart6Name"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCstretchvertical
 description:    "Enable additional vertical stretching."
-resource:               "CrtcStretchVertical" (set to 1)
+resource:       "CrtcStretchVertical" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTCstretchvertical
 description:    "Disable additional vertical stretching."
-resource:               "CrtcStretchVertical" (set to 0)
+resource:       "CrtcStretchVertical" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCvcache
 description:    "Enable the video cache"
-resource:               "CRTCVideoCache" (set to 1)
+resource:       "CRTCVideoCache" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTCvcache
 description:    "Disable the video cache"
-resource:               "CRTCVideoCache" (set to 0)
+resource:       "CRTCVideoCache" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCdsize
 description:    "Enable double size"
-resource:               "CRTCDoubleSize" (set to 1)
+resource:       "CRTCDoubleSize" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTCdsize
 description:    "Disable double size"
-resource:               "CRTCDoubleSize" (set to 0)
+resource:       "CRTCDoubleSize" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCdscan
 description:    "Enable double scan"
-resource:               "CRTCDoubleScan" (set to 1)
+resource:       "CRTCDoubleScan" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTCdscan
 description:    "Disable double scan"
-resource:               "CRTCDoubleScan" (set to 0)
+resource:       "CRTCDoubleScan" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCaudioleak
 description:    "Enable audio leak emulation"
-resource:               "CRTCAudioLeak" (set to 1)
+resource:       "CRTCAudioLeak" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTCaudioleak
 description:    "Disable audio leak emulation"
-resource:               "CRTCAudioLeak" (set to 0)
+resource:       "CRTCAudioLeak" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTChwscale
 description:    "Enable hardware scaling"
-resource:               "CRTCHwScale" (set to 1)
+resource:       "CRTCHwScale" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTChwscale
 description:    "Disable hardware scaling"
-resource:               "CRTCHwScale" (set to 0)
+resource:       "CRTCHwScale" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCfilter <Mode>
 description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:               "CRTCFilter"
+resource:       "CRTCFilter"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCintpal
 description:    "Use an internal calculated palette"
-resource:               "CRTCExternalPalette" (set to 0)
+resource:       "CRTCExternalPalette" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCextpal
 description:    "Use an external palette (file)"
-resource:               "CRTCExternalPalette" (set to 1)
+resource:       "CRTCExternalPalette" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCpalette <Name>
 description:    "Specify name of file of external palette"
-resource:               "CRTCPaletteFile"
+resource:       "CRTCPaletteFile"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCfull
 description:    "Enable fullscreen"
-resource:               "CRTCFullscreen" (set to 1)
+resource:       "CRTCFullscreen" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTCfull
 description:    "Disable fullscreen"
-resource:               "CRTCFullscreen" (set to 0)
+resource:       "CRTCFullscreen" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCfulldevice <device>
 description:    "Select fullscreen device"
-resource:               "CRTCFullscreenDevice"
+resource:       "CRTCFullscreenDevice"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCSDLfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "CRTCSDLFullscreenMode"
+resource:       "CRTCSDLFullscreenMode"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "CRTCXRANDRFullscreenMode"
+resource:       "CRTCXRANDRFullscreenMode"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "CRTCVidmodeFullscreenMode"
+resource:       "CRTCVidmodeFullscreenMode"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
-resource:               "CRTCColorSaturation"
+resource:       "CRTCColorSaturation"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
-resource:               "CRTCColorContrast"
+resource:       "CRTCColorContrast"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
-resource:               "CRTCColorBrightness"
+resource:       "CRTCColorBrightness"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
-resource:               "CRTCColorGamma"
+resource:       "CRTCColorGamma"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCtint <0-2000>
 description:    "Set tint of internal calculated palette"
-resource:               "CRTCColorTint"
+resource:       "CRTCColorTint"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
-resource:               "CRTCPALBlur"
+resource:       "CRTCPALBlur"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
-resource:               "CRTCPALScanLineShade"
+resource:       "CRTCPALScanLineShade"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
-resource:               "CRTCPALOddLinePhase"
+resource:       "CRTCPALOddLinePhase"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
-resource:               "CRTCPALOddLineOffset"
+resource:       "CRTCPALOddLineOffset"
 action:         N/A
 
 datasette.c:
 ------------
 command line:   -dsresetwithcpu
 description:    "Enable automatic Datasette-Reset"
-resource:               "DatasetteResetWithCPU" (set to 1)
+resource:       "DatasetteResetWithCPU" (set to 1)
 action:         N/A
 
 datasette.c:
 ------------
 command line:   +dsresetwithcpu
 description:    "Disable automatic Datasette-Reset"
-resource:               "DatasetteResetWithCPU" (set to 0)
+resource:       "DatasetteResetWithCPU" (set to 0)
 action:         N/A
 
 datasette.c:
 ------------
 command line:   -dszerogapdelay <value>
 description:    "Set delay in cycles for a zero in the tap"
-resource:               "DatasetteZeroGapDelay"
+resource:       "DatasetteZeroGapDelay"
 action:         N/A
 
 datasette.c:
 ------------
 command line:   -dsspeedtuning <value>
 description:    "Set number of cycles added to each gap in the tap"
-resource:               "DatasetteSpeedTuning"
+resource:       "DatasetteSpeedTuning"
 action:         N/A
 
 debug.c:
 --------
 command line:   -trace_maincpu
 description:    "Trace the main CPU"
-resource:               "MainCPU_TRACE" (set to 1)
+resource:       "MainCPU_TRACE" (set to 1)
 action:         N/A
 
 debug.c:
 --------
 command line:   +trace_maincpu
 description:    "Do not trace the main CPU"
-resource:               "MainCPU_TRACE" (set to 0)
+resource:       "MainCPU_TRACE" (set to 0)
 action:         N/A
 
 debug.c:
 --------
 command line:   -trace_drive0
 description:    "Trace the drive0 CPU"
-resource:               "Drive0CPU_TRACE" (set to 1)
+resource:       "Drive0CPU_TRACE" (set to 1)
 action:         N/A
 
 debug.c:
 --------
 command line:   +trace_drive0
 description:    "Do not trace the drive0 CPU"
-resource:               "Drive0CPU_TRACE" (set to 0)
+resource:       "Drive0CPU_TRACE" (set to 0)
 action:         N/A
 
 debug.c:
 --------
 command line:   -trace_drive1
 description:    "Trace the drive1 CPU"
-resource:               "Drive1CPU_TRACE" (set to 1)
+resource:       "Drive1CPU_TRACE" (set to 1)
 action:         N/A
 
 debug.c:
 --------
 command line:   +trace_drive1
 description:    "Do not trace the drive1 CPU"
-resource:               "Drive1CPU_TRACE" (set to 0)
+resource:       "Drive1CPU_TRACE" (set to 0)
 action:         N/A
 
 debug.c:
 --------
 command line:   -trace_drive2
 description:    "Trace the drive2 CPU"
-resource:               "Drive2CPU_TRACE" (set to 1)
+resource:       "Drive2CPU_TRACE" (set to 1)
 action:         N/A
 
 debug.c:
 --------
 command line:   +trace_drive2
 description:    "Do not trace the drive2 CPU"
-resource:               "Drive2CPU_TRACE" (set to 0)
+resource:       "Drive2CPU_TRACE" (set to 0)
 action:         N/A
 
 debug.c:
 --------
 command line:   -trace_drive3
 description:    "Trace the drive3 CPU"
-resource:               "Drive3CPU_TRACE" (set to 1)
+resource:       "Drive3CPU_TRACE" (set to 1)
 action:         N/A
 
 debug.c:
 --------
 command line:   +trace_drive3
 description:    "Do not trace the drive3 CPU"
-resource:               "Drive3CPU_TRACE" (set to 0)
+resource:       "Drive3CPU_TRACE" (set to 0)
 action:         N/A
 
 debug.c:
 --------
 command line:   -trace_mode <value>
 description:    "Trace mode (0=normal 1=small 2=history)"
-resource:               "TraceMode"
+resource:       "TraceMode"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -truedrive
 description:    "Enable hardware-level emulation of disk drives"
-resource:               "DriveTrueEmulation" (set to 1)
+resource:       "DriveTrueEmulation" (set to 1)
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   +truedrive
 description:    "Disable hardware-level emulation of disk drives"
-resource:               "DriveTrueEmulation" (set to 0)
+resource:       "DriveTrueEmulation" (set to 0)
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drivesound
 description:    "Enable sound emulation of disk drives"
-resource:               "DriveSoundEmulation" (set to 1)
+resource:       "DriveSoundEmulation" (set to 1)
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   +drivesound
 description:    "Disable sound emulation of disk drives"
-resource:               "DriveSoundEmulation" (set to 0)
+resource:       "DriveSoundEmulation" (set to 0)
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drivesoundvolume <Volume>
 description:    "Set volume for disk drive sound emulation (0-4000)"
-resource:               "DriveSoundEmulationVolume"
+resource:       "DriveSoundEmulationVolume"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive8type <Type>
-description:    "Set drive type (0: no drive)" (fixme: needs better description)
-resource:               "Drive8Type"
+description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+resource:       "Drive8Type"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive9type <Type>
-description:    "Set drive type (0: no drive)" (fixme: needs better description)
-resource:               "Drive9Type"
+description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+resource:       "Drive9Type"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive10type <Type>
-description:    "Set drive type (0: no drive)" (fixme: needs better description)
-resource:               "Drive10Type"
+description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+resource:       "Drive10Type"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive11type <Type>
-description:    "Set drive type (0: no drive)" (fixme: needs better description)
-resource:               "Drive11Type"
+description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+resource:       "Drive11Type"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive8extend <method>
 description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
-resource:               "Drive8ExtendImagePolicy"
+resource:       "Drive8ExtendImagePolicy"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive9extend <method>
 description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
-resource:               "Drive9ExtendImagePolicy"
+resource:       "Drive9ExtendImagePolicy"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive10extend <method>
 description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
-resource:               "Drive10ExtendImagePolicy"
+resource:       "Drive10ExtendImagePolicy"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive11extend <method>
 description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
-resource:               "Drive11ExtendImagePolicy"
+resource:       "Drive11ExtendImagePolicy"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive8idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
-resource:               "Drive8IdleMethod"
+resource:       "Drive8IdleMethod"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive9idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
-resource:               "Drive9IdleMethod"
+resource:       "Drive9IdleMethod"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive10idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
-resource:               "Drive10IdleMethod"
+resource:       "Drive10IdleMethod"
 action:         N/A
 
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive11idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
-resource:               "Drive11IdleMethod"
+resource:       "Drive11IdleMethod"
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -profdos1571 <Name>
 description:    "Specify name of Professional DOS 1571 ROM image"
-resource:               "DriveProfDOS1571Name"
+resource:       "DriveProfDOS1571Name"
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -supercard <Name>
 description:    "Specify name of SuperCard+ ROM image"
-resource:               "DriveSuperCardName"
+resource:       "DriveSuperCardName"
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -parallel8 <Type>
 description:    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"
-resource:               "Drive8ParallelCable"
+resource:       "Drive8ParallelCable"
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -parallel9 <Type>
 description:    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"
-resource:               "Drive9ParallelCable"
+resource:       "Drive9ParallelCable"
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -parallel10 <Type>
 description:    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"
-resource:               "Drive10ParallelCable"
+resource:       "Drive10ParallelCable"
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -parallel11 <Type>
 description:    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"
-resource:               "Drive11ParallelCable"
+resource:       "Drive11ParallelCable"
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -drive8profdos
 description:    "Enable Professional DOS"
-resource:               "Drive8ProfDOS" (set to 1)
+resource:       "Drive8ProfDOS" (set to 1)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   +drive8profdos
 description:    "Disable Professional DOS"
-resource:               "Drive8ProfDOS" (set to 0)
+resource:       "Drive8ProfDOS" (set to 0)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -drive9profdos
 description:    "Enable Professional DOS"
-resource:               "Drive9ProfDOS" (set to 1)
+resource:       "Drive9ProfDOS" (set to 1)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   +drive9profdos
 description:    "Disable Professional DOS"
-resource:               "Drive9ProfDOS" (set to 0)
+resource:       "Drive9ProfDOS" (set to 0)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -drive10profdos
 description:    "Enable Professional DOS"
-resource:               "Drive10ProfDOS" (set to 1)
+resource:       "Drive10ProfDOS" (set to 1)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   +drive10profdos
 description:    "Disable Professional DOS"
-resource:               "Drive10ProfDOS" (set to 0)
+resource:       "Drive10ProfDOS" (set to 0)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -drive11profdos
 description:    "Enable Professional DOS"
-resource:               "Drive11ProfDOS" (set to 1)
+resource:       "Drive11ProfDOS" (set to 1)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   +drive11profdos
 description:    "Disable Professional DOS"
-resource:               "Drive11ProfDOS" (set to 0)
+resource:       "Drive11ProfDOS" (set to 0)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -drive8supercard
 description:    "Enable SuperCard+"
-resource:               "Drive8SuperCard" (set to 1)
+resource:       "Drive8SuperCard" (set to 1)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   +drive8supercard
 description:    "Disable SuperCard+"
-resource:               "Drive8SuperCard" (set to 0)
+resource:       "Drive8SuperCard" (set to 0)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -drive9supercard
 description:    "Enable SuperCard+"
-resource:               "Drive9SuperCard" (set to 1)
+resource:       "Drive9SuperCard" (set to 1)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   +drive9supercard
 description:    "Disable SuperCard+"
-resource:               "Drive9SuperCard" (set to 0)
+resource:       "Drive9SuperCard" (set to 0)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -drive10supercard
 description:    "Enable SuperCard+"
-resource:               "Drive10SuperCard" (set to 1)
+resource:       "Drive10SuperCard" (set to 1)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   +drive10supercard
 description:    "Disable SuperCard+"
-resource:               "Drive10SuperCard" (set to 0)
+resource:       "Drive10SuperCard" (set to 0)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   -drive11supercard
 description:    "Enable SuperCard+"
-resource:               "Drive11SuperCard" (set to 1)
+resource:       "Drive11SuperCard" (set to 1)
 action:         N/A
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
 command line:   +drive11supercard
 description:    "Disable SuperCard+"
-resource:               "Drive11SuperCard" (set to 0)
+resource:       "Drive11SuperCard" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -dos1541 <Name>
 description:    "Specify name of 1541 DOS ROM image"
-resource:               "DosName1541"
+resource:       "DosName1541"
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -dos1541II <Name>
 description:    "Specify name of 1541-II DOS ROM image"
-resource:               "DosName1541II"
+resource:       "DosName1541II"
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -dos1570 <Name>
 description:    "Specify name of 1570 DOS ROM image"
-resource:               "DosName1570"
+resource:       "DosName1570"
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -dos1571 <Name>
 description:    "Specify name of 1571 DOS ROM image"
-resource:               "DosName1571"
+resource:       "DosName1571"
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -dos1581 <Name>
 description:    "Specify name of 1581 DOS ROM image"
-resource:               "DosName1581"
+resource:       "DosName1581"
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -dos2000 <Name>
 description:    "Specify name of 2000 DOS ROM image"
-resource:               "DosName2000"
+resource:       "DosName2000"
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -dos4000 <Name>
 description:    "Specify name of 4000 DOS ROM image"
-resource:               "DosName4000"
+resource:       "DosName4000"
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive8ram2000
 description:    "Enable 8KB RAM expansion at $2000-$3FFF"
-resource:               "Drive8RAM2000" (set to 1)
+resource:       "Drive8RAM2000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive8ram2000
 description:    "Disable 8KB RAM expansion at $2000-$3FFF"
-resource:               "Drive8RAM2000" (set to 0)
+resource:       "Drive8RAM2000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive9ram2000
 description:    "Enable 8KB RAM expansion at $2000-$3FFF"
-resource:               "Drive9RAM2000" (set to 1)
+resource:       "Drive9RAM2000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive9ram2000
 description:    "Disable 8KB RAM expansion at $2000-$3FFF"
-resource:               "Drive9RAM2000" (set to 0)
+resource:       "Drive9RAM2000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive10ram2000
 description:    "Enable 8KB RAM expansion at $2000-$3FFF"
-resource:               "Drive10RAM2000" (set to 1)
+resource:       "Drive10RAM2000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive10ram2000
 description:    "Disable 8KB RAM expansion at $2000-$3FFF"
-resource:               "Drive10RAM2000" (set to 0)
+resource:       "Drive10RAM2000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive11ram2000
 description:    "Enable 8KB RAM expansion at $2000-$3FFF"
-resource:               "Drive11RAM2000" (set to 1)
+resource:       "Drive11RAM2000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive11ram2000
 description:    "Disable 8KB RAM expansion at $2000-$3FFF"
-resource:               "Drive11RAM2000" (set to 0)
+resource:       "Drive11RAM2000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive8ram4000
 description:    "Enable 8KB RAM expansion at $4000-$5FFF"
-resource:               "Drive8RAM4000" (set to 1)
+resource:       "Drive8RAM4000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive8ram4000
 description:    "Disable 8KB RAM expansion at $4000-$5FFF"
-resource:               "Drive8RAM4000" (set to 0)
+resource:       "Drive8RAM4000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive9ram4000
 description:    "Enable 8KB RAM expansion at $4000-$5FFF"
-resource:               "Drive9RAM4000" (set to 1)
+resource:       "Drive9RAM4000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive9ram4000
 description:    "Disable 8KB RAM expansion at $4000-$5FFF"
-resource:               "Drive9RAM4000" (set to 0)
+resource:       "Drive9RAM4000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive10ram4000
 description:    "Enable 8KB RAM expansion at $4000-$5FFF"
-resource:               "Drive10RAM4000" (set to 1)
+resource:       "Drive10RAM4000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive10ram4000
 description:    "Disable 8KB RAM expansion at $4000-$5FFF"
-resource:               "Drive10RAM4000" (set to 0)
+resource:       "Drive10RAM4000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive11ram4000
 description:    "Enable 8KB RAM expansion at $4000-$5FFF"
-resource:               "Drive11RAM4000" (set to 1)
+resource:       "Drive11RAM4000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive11ram4000
 description:    "Disable 8KB RAM expansion at $4000-$5FFF"
-resource:               "Drive11RAM4000" (set to 0)
+resource:       "Drive11RAM4000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive8ram6000
 description:    "Enable 8KB RAM expansion at $6000-$7FFF"
-resource:               "Drive8RAM6000" (set to 1)
+resource:       "Drive8RAM6000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive8ram6000
 description:    "Disable 8KB RAM expansion at $6000-$7FFF"
-resource:               "Drive8RAM6000" (set to 0)
+resource:       "Drive8RAM6000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive9ram6000
 description:    "Enable 8KB RAM expansion at $6000-$7FFF"
-resource:               "Drive9RAM6000" (set to 1)
+resource:       "Drive9RAM6000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive9ram6000
 description:    "Disable 8KB RAM expansion at $6000-$7FFF"
-resource:               "Drive9RAM6000" (set to 0)
+resource:       "Drive9RAM6000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive10ram6000
 description:    "Enable 8KB RAM expansion at $6000-$7FFF"
-resource:               "Drive10RAM6000" (set to 1)
+resource:       "Drive10RAM6000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive10ram6000
 description:    "Disable 8KB RAM expansion at $6000-$7FFF"
-resource:               "Drive10RAM6000" (set to 0)
+resource:       "Drive10RAM6000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive11ram6000
 description:    "Enable 8KB RAM expansion at $6000-$7FFF"
-resource:               "Drive11RAM6000" (set to 1)
+resource:       "Drive11RAM6000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive11ram6000
 description:    "Disable 8KB RAM expansion at $6000-$7FFF"
-resource:               "Drive11RAM6000" (set to 0)
+resource:       "Drive11RAM6000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive8ram8000
 description:    "Enable 8KB RAM expansion at $8000-$9FFF"
-resource:               "Drive8RAM8000" (set to 1)
+resource:       "Drive8RAM8000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive8ram8000
 description:    "Disable 8KB RAM expansion at $8000-$9FFF"
-resource:               "Drive8RAM8000" (set to 0)
+resource:       "Drive8RAM8000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive9ram8000
 description:    "Enable 8KB RAM expansion at $8000-$9FFF"
-resource:               "Drive9RAM8000" (set to 1)
+resource:       "Drive9RAM8000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive9ram8000
 description:    "Disable 8KB RAM expansion at $8000-$9FFF"
-resource:               "Drive9RAM8000" (set to 0)
+resource:       "Drive9RAM8000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive10ram8000
 description:    "Enable 8KB RAM expansion at $8000-$9FFF"
-resource:               "Drive10RAM8000" (set to 1)
+resource:       "Drive10RAM8000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive10ram8000
 description:    "Disable 8KB RAM expansion at $8000-$9FFF"
-resource:               "Drive10RAM8000" (set to 0)
+resource:       "Drive10RAM8000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive11ram8000
 description:    "Enable 8KB RAM expansion at $8000-$9FFF"
-resource:               "Drive11RAM8000" (set to 1)
+resource:       "Drive11RAM8000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive11ram8000
 description:    "Disable 8KB RAM expansion at $8000-$9FFF"
-resource:               "Drive11RAM8000" (set to 0)
+resource:       "Drive11RAM8000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive8rama000
 description:    "Enable 8KB RAM expansion at $A000-$BFFF"
-resource:               "Drive8RAMA000" (set to 1)
+resource:       "Drive8RAMA000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive8rama000
 description:    "Disable 8KB RAM expansion at $A000-$BFFF"
-resource:               "Drive8RAMA000" (set to 0)
+resource:       "Drive8RAMA000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive9rama000
 description:    "Enable 8KB RAM expansion at $A000-$BFFF"
-resource:               "Drive9RAMA000" (set to 1)
+resource:       "Drive9RAMA000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive9rama000
 description:    "Disable 8KB RAM expansion at $A000-$BFFF"
-resource:               "Drive9RAMA000" (set to 0)
+resource:       "Drive9RAMA000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive10rama000
 description:    "Enable 8KB RAM expansion at $A000-$BFFF"
-resource:               "Drive10RAMA000" (set to 1)
+resource:       "Drive10RAMA000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive10rama000
 description:    "Disable 8KB RAM expansion at $A000-$BFFF"
-resource:               "Drive10RAMA000" (set to 0)
+resource:       "Drive10RAMA000" (set to 0)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -drive11rama000
 description:    "Enable 8KB RAM expansion at $A000-$BFFF"
-resource:               "Drive11RAMA000" (set to 1)
+resource:       "Drive11RAMA000" (set to 1)
 action:         N/A
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   +drive11rama000
 description:    "Disable 8KB RAM expansion at $A000-$BFFF"
-resource:               "Drive11RAMA000" (set to 0)
+resource:       "Drive11RAMA000" (set to 0)
 action:         N/A
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
 ----------------------------------------------
 command line:   -parallel8 <Type>
 description:    "Set parallel cable type (0: none, 1: standard)"
-resource:               "Drive8ParallelCable"
+resource:       "Drive8ParallelCable"
 action:         N/A
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
 ----------------------------------------------
 command line:   -parallel9 <Type>
 description:    "Set parallel cable type (0: none, 1: standard)"
-resource:               "Drive9ParallelCable"
+resource:       "Drive9ParallelCable"
 action:         N/A
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
 ----------------------------------------------
 command line:   -parallel10 <Type>
 description:    "Set parallel cable type (0: none, 1: standard)"
-resource:               "Drive10ParallelCable"
+resource:       "Drive10ParallelCable"
 action:         N/A
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
 ----------------------------------------------
 command line:   -parallel11 <Type>
 description:    "Set parallel cable type (0: none, 1: standard)"
-resource:               "Drive11ParallelCable"
+resource:       "Drive11ParallelCable"
 action:         N/A
 
 drive/iec128dcr/iec128dcr-cmdline-options.c:
 --------------------------------------------
 command line:   -dos1571cr <Name>
 description:    "Specify name of 1571CR DOS ROM image"
-resource:               "DosName1571cr"
+resource:       "DosName1571cr"
 action:         N/A
 
 drive/ieee/ieee-cmdline-options.c:
 ----------------------------------
 command line:   -dos2031 <Name>
 description:    "Specify name of 2031 DOS ROM image"
-resource:               "DosName2031"
+resource:       "DosName2031"
 action:         N/A
 
 drive/ieee/ieee-cmdline-options.c:
 ----------------------------------
 command line:   -dos2040 <Name>
 description:    "Specify name of 2040 DOS ROM image"
-resource:               "DosName2040"
+resource:       "DosName2040"
 action:         N/A
 
 drive/ieee/ieee-cmdline-options.c:
 ----------------------------------
 command line:   -dos3040 <Name>
 description:    "Specify name of 3040 DOS ROM image"
-resource:               "DosName3040"
+resource:       "DosName3040"
 action:         N/A
 
 drive/ieee/ieee-cmdline-options.c:
 ----------------------------------
 command line:   -dos4040 <Name>
 description:    "Specify name of 4040 DOS ROM image"
-resource:               "DosName4040"
+resource:       "DosName4040"
 action:         N/A
 
 drive/ieee/ieee-cmdline-options.c:
 ----------------------------------
 command line:   -dos1001 <Name>
 description:    "Specify name of 1001/8050/8250 DOS ROM image"
-resource:               "DosName1001"
+resource:       "DosName1001"
 action:         N/A
 
 drive/tcbm/tcbm-cmdline-options.c:
 ----------------------------------
 command line:   -dos1551 <Name>
 description:    "Specify name of 1551 DOS ROM image"
-resource:               "DosName1551"
+resource:       "DosName1551"
 action:         N/A
 
 event.c:
 --------
 command line:   -playback
 description:    "Playback recorded events"
-resource:               N/A
+resource:       N/A
 action:         cmdline_help()
 
 fliplist.c:
 -----------
 command line:   -flipname <Name>
 description:    "Specify name of the flip list file image"
-resource:               "FliplistName"
+resource:       "FliplistName"
 action:         N/A
 
 fsdevice/fsdevice-cmdline-options.c:
 ------------------------------------
 command line:   -fs8 <Name>
 description:    "Use <name> as directory for file system device #8"
-resource:               N/A
+resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice8Dir")
 
 fsdevice/fsdevice-cmdline-options.c:
 ------------------------------------
 command line:   -fs9 <Name>
 description:    "Use <name> as directory for file system device #9"
-resource:               N/A
+resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice9Dir")
 
 fsdevice/fsdevice-cmdline-options.c:
 ------------------------------------
 command line:   -fs10 <Name>
 description:    "Use <name> as directory for file system device #10"
-resource:               N/A
+resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice10Dir")
 
 fsdevice/fsdevice-cmdline-options.c:
 ------------------------------------
 command line:   -fs11 <Name>
 description:    "Use <name> as directory for file system device #11"
-resource:               N/A
+resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice11Dir")
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
 command line:   -doodleoversize <method>
 description:    "Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)"
-resource:               "DoodleOversizeHandling"
+resource:       "DoodleOversizeHandling"
 action:         N/A
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
 command line:   -doodleundersize <method>
 description:    "Select the way the undersized input should be handled, (0: scale up, 1: borderize)"
-resource:               "DoodleUndersizeHandling"
+resource:       "DoodleUndersizeHandling"
 action:         N/A
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
 command line:   -doodlemc <method>
 description:    "Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)"
-resource:               "DoodleMultiColorHandling"
+resource:       "DoodleMultiColorHandling"
 action:         N/A
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
 command line:   -doodletedlum <method>
 description:    "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)"
-resource:               "DoodleTEDLumHandling"
+resource:       "DoodleTEDLumHandling"
 action:         N/A
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
 command line:   -doodlecrtctextcolor <color>
 description:    "Select the CRTC text color (0: white, 1: amber, 2: green)"
-resource:               "DoodleCRTCTextColor"
+resource:       "DoodleCRTCTextColor"
 action:         N/A
 
 gfxoutputdrv/ffmpegdrv.c:
 -------------------------
 command line:   -ffmpegaudiobitrate <value>
 description:    "Set bitrate for audio stream in media file"
-resource:               "FFMPEGAudioBitrate"
+resource:       "FFMPEGAudioBitrate"
 action:         N/A
 
 gfxoutputdrv/ffmpegdrv.c:
 -------------------------
 command line:   -ffmpegvideobitrate <value>
 description:    "Set bitrate for video stream in media file"
-resource:               "FFMPEGVideoBitrate"
+resource:       "FFMPEGVideoBitrate"
 action:         N/A
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
 command line:   -koalaoversize <method>
 description:    "Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)"
-resource:               "KoalaOversizeHandling"
+resource:       "KoalaOversizeHandling"
 action:         N/A
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
 command line:   -koalaundersize <method>
 description:    "Select the way the undersized input should be handled, (0: scale up, 1: borderize)"
-resource:               "KoalaUndersizeHandling"
+resource:       "KoalaUndersizeHandling"
 action:         N/A
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
 command line:   -koalatedlum <method>
 description:    "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)"
-resource:               "KoalaTEDLumHandling"
+resource:       "KoalaTEDLumHandling"
 action:         N/A
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
 command line:   -koalacrtctextcolor <color>
 description:    "Select the CRTC text color (0: white, 1: amber, 2: green)"
-resource:               "KoalaCRTCTextColor"
+resource:       "KoalaCRTCTextColor"
 action:         N/A
 
 gfxoutputdrv/quicktimedrv.c:
 ----------------------------
 command line:   -quicktimeaudiobitrate <value>
 description:    "Set bitrate for audio stream in media file"
-resource:               "QuickTimeAudioBitrate"
+resource:       "QuickTimeAudioBitrate"
 action:         N/A
 
 gfxoutputdrv/quicktimedrv.c:
 ----------------------------
 command line:   -quicktimevideobitrate <value>
 description:    "Set bitrate for video stream in media file"
-resource:               "QuickTimeVideoBitrate"
+resource:       "QuickTimeVideoBitrate"
 action:         N/A
 
 initcmdline.c:
 --------------
 command line:   -help
 description:    "Show a list of the available options and exit normally"
-resource:               N/A
+resource:       N/A
 action:         cmdline_help()
 
 initcmdline.c:
 --------------
 command line:   -?
 description:    "Show a list of the available options and exit normally"
-resource:               N/A
+resource:       N/A
 action:         cmdline_help()
 
 initcmdline.c:
 --------------
 command line:   -h
 description:    "Show a list of the available options and exit normally"
-resource:               N/A
+resource:       N/A
 action:         cmdline_help()
 
 initcmdline.c:
 --------------
 command line:   -default
 description:    "Restore default settings"
-resource:               N/A
+resource:       N/A
 action:         cmdline_default() (sets all resources to the default)
 
 initcmdline.c:
 --------------
 command line:   -config <filename>
 description:    "Specify config file"
-resource:               N/A
+resource:       N/A
 action:         cmdline_config()
 
 initcmdline.c:
 --------------
 command line:   -chdir <Directory>
 description:    "Change current working directory."
-resource:               N/A
+resource:       N/A
 action:         cmdline_chdir()
 
 initcmdline.c:
 --------------
 command line:   -limitcycles <value>
 description:    "Specify number of cycles to run before quitting with an error."
-resource:               N/A
+resource:       N/A
 action:         cmdline_limitcycles()
 
 initcmdline.c:
 --------------
 command line:   -console
 description:    "Console mode (for music playback)" (fixme: we have vsid for music playback)
-resource:               N/A
+resource:       N/A
 action:         cmdline_console()
 
 initcmdline.c:
 --------------
 command line:   -core
 description:    "Allow production of core dumps"
-resource:               "DoCoreDump" (set to 1)
+resource:       "DoCoreDump" (set to 1)
 action:         N/A
 
 initcmdline.c:
 --------------
 command line:   +core
 description:    "Do not produce core dumps"
-resource:               "DoCoreDump" (set to 0)
+resource:       "DoCoreDump" (set to 0)
 action:         N/A
 
 initcmdline.c:
 --------------
 command line:   -debug
 description:    "Don't call exception handler"
-resource:               "DoCoreDump" (set to 1)
+resource:       "DoCoreDump" (set to 1)
 action:         N/A
 
 initcmdline.c:
 --------------
 command line:   +debug
 description:    "Call exception handler (default)"
-resource:               "DoCoreDump" (set to 0)
+resource:       "DoCoreDump" (set to 0)
 action:         N/A
 
 initcmdline.c:
 --------------
 command line:   -autostart <Name>
 description:    "Attach and autostart tape/disk image <name>"
-resource:               N/A
+resource:       N/A
 action:         cmdline_autostart()
 
 initcmdline.c:
 --------------
 command line:   -autoload <Name>
 description:    "Attach and autoload tape/disk image <name>"
-resource:               N/A
+resource:       N/A
 action:         cmdline_autoload()
 
 initcmdline.c:
 --------------
 command line:   -1 <Name>
 description:    "Attach <name> as a tape image"
-resource:               N/A
+resource:       N/A
 action:         cmdline_attach()
 
 initcmdline.c:
 --------------
 command line:   -8 <Name>
 description:    "Attach <name> as a disk image in drive #8"
-resource:               N/A
+resource:       N/A
 action:         cmdline_attach()
 
 initcmdline.c:
 --------------
 command line:   -9 <Name>
 description:    "Attach <name> as a disk image in drive #9"
-resource:               N/A
+resource:       N/A
 action:         cmdline_attach()
 
 initcmdline.c:
 --------------
 command line:   -10 <Name>
 description:    "Attach <name> as a disk image in drive #10"
-resource:               N/A
+resource:       N/A
 action:         cmdline_attach()
 
 initcmdline.c:
 --------------
 command line:   -11 <Name>
 description:    "Attach <name> as a disk image in drive #11"
-resource:               N/A
+resource:       N/A
 action:         cmdline_attach()
 
 kbdbuf.c:
 ---------
 command line:   -keybuf <string>
 description:    "Put the specified string into the keyboard buffer."
-resource:               N/A
+resource:       N/A
 action:         kdb_buf_feed_cmdline()
 
 kbdbuf.c:
 ---------
 command line:   -keybuf-delay <value>
 description:    "Set additional keyboard buffer delay (0: use default)"
-resource:               "KbdbufDelay"
+resource:       "KbdbufDelay"
 action:         N/A
 
 lightpen.c:
 -----------
 command line:   -lightpen
 description:    "Enable lightpen emulation"
-resource:               "Lightpen" (set to 1)
+resource:       "Lightpen" (set to 1)
 action:         N/A
 
 lightpen.c:
 -----------
 command line:   +lightpen
 description:    "Disable lightpen emulation"
-resource:               "Lightpen" (set to 0)
+resource:       "Lightpen" (set to 0)
 action:         N/A
 
 lightpen.c:
 -----------
 command line:   -lightpentype <Type>
 description:    "Set lightpen type" (fixme: needs better description)
-resource:               "LightpenType"
+resource:       "LightpenType"
 action:         N/A
 
 log.c:

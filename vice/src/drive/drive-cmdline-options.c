@@ -33,6 +33,7 @@
 #include "drive-cmdline-options.h"
 #include "drive.h"
 #include "lib.h"
+#include "machine.h"
 #include "machine-drive.h"
 #include "translate.h"
 
@@ -84,14 +85,43 @@ static cmdline_option_t cmd_drive[] = {
     { NULL }
 };
 
+typedef struct machine_drives_s {
+    int machine;
+    int id;
+} machine_drives_t;
+
+static machine_drives_t machine_drives[] = {
+    { VICE_MACHINE_C64,    IDCLS_SET_DRIVE_TYPE_C64    },
+    { VICE_MACHINE_C128,   IDCLS_SET_DRIVE_TYPE_C128   },
+    { VICE_MACHINE_VIC20,  IDCLS_SET_DRIVE_TYPE_C64    },
+    { VICE_MACHINE_PET,    IDCLS_SET_DRIVE_TYPE_IEEE   },
+    { VICE_MACHINE_CBM5x0, IDCLS_SET_DRIVE_TYPE_IEEE   },
+    { VICE_MACHINE_CBM6x0, IDCLS_SET_DRIVE_TYPE_IEEE   },
+    { VICE_MACHINE_PLUS4,  IDCLS_SET_DRIVE_TYPE_PLUS4  },
+    { VICE_MACHINE_C64DTV, IDCLS_SET_DRIVE_TYPE_C64DTV },
+    { VICE_MACHINE_C64SC,  IDCLS_SET_DRIVE_TYPE_C64    },
+    { VICE_MACHINE_VSID,   IDCLS_SET_DRIVE_TYPE_C64DTV },
+    { VICE_MACHINE_SCPU64, IDCLS_SET_DRIVE_TYPE_C64    },
+    { 0, 0 },
+};
+
 int drive_cmdline_options_init(void)
 {
-    unsigned int dnr, i;
+    unsigned int dnr, i, j;
+    unsigned int found_id = 0;
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         cmd_drive[0].name = lib_msprintf("-drive%itype", dnr + 8);
         cmd_drive[0].resource_name
             = lib_msprintf("Drive%iType", dnr + 8);
+        for (j = 0; machine_drives[j].machine != 0; j++) {
+            if (machine_drives[j].machine == machine_class) {
+                found_id = machine_drives[j].id;
+            }
+        }
+        if (found_id) {
+            cmd_drive[0].description_trans = found_id;
+        }
         cmd_drive[1].name = lib_msprintf("-drive%iextend", dnr + 8);
         cmd_drive[1].resource_name
             = lib_msprintf("Drive%iExtendImagePolicy", dnr + 8);

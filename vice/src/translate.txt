@@ -1048,6 +1048,21 @@ IDGS_TYPE
 /* drive/drive-cmdline-options.c */
 IDCLS_SET_DRIVE_TYPE
 
+/* drive/drive-cmdline-options.c */
+IDCLS_SET_DRIVE_TYPE_C64
+
+/* drive/drive-cmdline-options.c */
+IDCLS_SET_DRIVE_TYPE_C64DTV
+
+/* drive/drive-cmdline-options.c */
+IDCLS_SET_DRIVE_TYPE_C128
+
+/* drive/drive-cmdline-options.c */
+IDCLS_SET_DRIVE_TYPE_PLUS4
+
+/* drive/drive-cmdline-options.c */
+IDCLS_SET_DRIVE_TYPE_IEEE
+
 /* drive/drive-cmdline-options.c, gfxoutputdrv/doodledrv.c */
 IDCLS_P_METHOD
 

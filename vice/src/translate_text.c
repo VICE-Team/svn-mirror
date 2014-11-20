@@ -7981,18 +7981,103 @@ translate_t string_table[] = {
 /* drive/drive-cmdline-options.c */
 /* en */ {IDCLS_SET_DRIVE_TYPE,    N_("Set drive type (0: no drive)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_DRIVE_TYPE_DA, "Angiv enhedstype (0: ingen enhed)"},
-/* de */ {IDCLS_SET_DRIVE_TYPE_DE, "Setze Laufwerkstyp (0: kein Laufwerk)"},
-/* es */ {IDCLS_SET_DRIVE_TYPE_ES, "Seleccionar tipo unidad disco (0: sin unidad disco)"},
-/* fr */ {IDCLS_SET_DRIVE_TYPE_FR, "Spécifier le type de lecteur de disque (0: pas de lecteur)"},
-/* hu */ {IDCLS_SET_DRIVE_TYPE_HU, "Adja meg a lemezegység típusát (0: nincs)"},
-/* it */ {IDCLS_SET_DRIVE_TYPE_IT, "Imposta tipo drive (0: nessun drive)"},
+/* da */ {IDCLS_SET_DRIVE_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DRIVE_TYPE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DRIVE_TYPE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DRIVE_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DRIVE_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DRIVE_TYPE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DRIVE_TYPE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DRIVE_TYPE_NL, "Zet drive soort (0: geen drive)"},
-/* pl */ {IDCLS_SET_DRIVE_TYPE_PL, "Ustaw typ stacji (0: brak stacji)"},
-/* ru */ {IDCLS_SET_DRIVE_TYPE_RU, "Set drive type (0: no drive)"},
-/* sv */ {IDCLS_SET_DRIVE_TYPE_SV, "Ange enhetstyp (0: ingen enhet)"},
-/* tr */ {IDCLS_SET_DRIVE_TYPE_TR, "Sürücü tipini ayarlayýn (0: sürücü yok)"},
+/* nl */ {IDCLS_SET_DRIVE_TYPE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DRIVE_TYPE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DRIVE_TYPE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DRIVE_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DRIVE_TYPE_TR, ""},  /* fuzzy */
+#endif
+
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_SET_DRIVE_TYPE_C64,    N_("Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_DRIVE_TYPE_C64_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DRIVE_TYPE_C64_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DRIVE_TYPE_C64_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DRIVE_TYPE_C64_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DRIVE_TYPE_C64_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DRIVE_TYPE_C64_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_DRIVE_TYPE_C64_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DRIVE_TYPE_C64_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DRIVE_TYPE_C64_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DRIVE_TYPE_C64_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DRIVE_TYPE_C64_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DRIVE_TYPE_C64_TR, ""},  /* fuzzy */
+#endif
+
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_SET_DRIVE_TYPE_C64DTV,    N_("Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_DRIVE_TYPE_C64DTV_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DRIVE_TYPE_C64DTV_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DRIVE_TYPE_C64DTV_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DRIVE_TYPE_C64DTV_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DRIVE_TYPE_C64DTV_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DRIVE_TYPE_C64DTV_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_DRIVE_TYPE_C64DTV_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DRIVE_TYPE_C64DTV_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DRIVE_TYPE_C64DTV_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DRIVE_TYPE_C64DTV_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DRIVE_TYPE_C64DTV_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DRIVE_TYPE_C64DTV_TR, ""},  /* fuzzy */
+#endif
+
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_SET_DRIVE_TYPE_C128,    N_("Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_DRIVE_TYPE_C128_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DRIVE_TYPE_C128_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DRIVE_TYPE_C128_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DRIVE_TYPE_C128_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DRIVE_TYPE_C128_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DRIVE_TYPE_C128_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_DRIVE_TYPE_C128_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DRIVE_TYPE_C128_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DRIVE_TYPE_C128_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DRIVE_TYPE_C128_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DRIVE_TYPE_C128_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DRIVE_TYPE_C128_TR, ""},  /* fuzzy */
+#endif
+
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_SET_DRIVE_TYPE_PLUS4,    N_("Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_DRIVE_TYPE_PLUS4_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DRIVE_TYPE_PLUS4_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DRIVE_TYPE_PLUS4_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DRIVE_TYPE_PLUS4_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DRIVE_TYPE_PLUS4_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DRIVE_TYPE_PLUS4_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_DRIVE_TYPE_PLUS4_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DRIVE_TYPE_PLUS4_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DRIVE_TYPE_PLUS4_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DRIVE_TYPE_PLUS4_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DRIVE_TYPE_PLUS4_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DRIVE_TYPE_PLUS4_TR, ""},  /* fuzzy */
+#endif
+
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_SET_DRIVE_TYPE_IEEE,    N_("Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_DRIVE_TYPE_IEEE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DRIVE_TYPE_IEEE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DRIVE_TYPE_IEEE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DRIVE_TYPE_IEEE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DRIVE_TYPE_IEEE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DRIVE_TYPE_IEEE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_DRIVE_TYPE_IEEE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DRIVE_TYPE_IEEE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DRIVE_TYPE_IEEE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DRIVE_TYPE_IEEE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DRIVE_TYPE_IEEE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DRIVE_TYPE_IEEE_TR, ""},  /* fuzzy */
 #endif
 
 /* drive/drive-cmdline-options.c,
