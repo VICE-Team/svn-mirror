@@ -5114,515 +5114,515 @@ action:         N/A
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -model <modelnumber>
-description:    "Specify PET model to emulate" (fixme: needs better description)
+description:    "Specify PET model to emulate. (2001/3008/3016/3032/3032B/4016/4032/4032B/8032/8096/8296/SuperPET)"
 resource:       N/A
 action:         pet_set_model() (sets "Basic1", "Basic1Chars", "ChargenName", "KernalName", "BasicName", "EditorName", "RomModule9Name",
-                        "RomModuleAName", "RomModuleBName", "H6809RomAName", "H6809RomBName", "H6809RomCName", "H6809RomDName", "H6809RomEName",
-                        "H6809RomFName")
+                "RomModuleAName", "RomModuleBName", "H6809RomAName", "H6809RomBName", "H6809RomCName", "H6809RomDName", "H6809RomEName",
+                "H6809RomFName")
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -kernal <Name>
 description:    "Specify name of Kernal ROM image"
-resource:               "KernalName"
+resource:       "KernalName"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -basic <Name>
 description:    "Specify name of BASIC ROM image"
-resource:               "BasicName"
+resource:       "BasicName"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -editor <Name>
 description:    "Specify name of Editor ROM image"
-resource:               "EditorName"
+resource:       "EditorName"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -chargen <Name>
 description:    "Specify name of character generator ROM image"
-resource:               "ChargenName"
+resource:       "ChargenName"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -rom9 <Name>
 description:    "Specify 4K extension ROM name at $9***"
-resource:               "RomModule9Name"
+resource:       "RomModule9Name"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -romA <Name>
 description:    "Specify 4K extension ROM name at $A***"
-resource:               "RomModuleAName"
+resource:       "RomModuleAName"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -romB <Name>
 description:    "Specify 4K extension ROM name at $B***"
-resource:               "RomModuleBName"
+resource:       "RomModuleBName"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -petram9
 description:    "Enable PET8296 4K RAM mapping at $9***"
-resource:               "Ram9" (set to 1)
+resource:       "Ram9" (set to 1)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   +petram9
 description:    "Disable PET8296 4K RAM mapping at $9***"
-resource:               "Ram9" (set to 0)
+resource:       "Ram9" (set to 0)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -petramA
 description:    "Enable PET8296 4K RAM mapping at $A***"
-resource:               "RamA" (set to 1)
+resource:       "RamA" (set to 1)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   +petramA
 description:    "Disable PET8296 4K RAM mapping at $A***"
-resource:               "RamA" (set to 0)
+resource:       "RamA" (set to 0)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -superpet
 description:    "Enable SuperPET I/O"
-resource:               "SuperPET" (set to 1)
+resource:       "SuperPET" (set to 1)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   +superpet
 description:    "Disable SuperPET I/O"
-resource:               "SuperPET" (set to 0)
+resource:       "SuperPET" (set to 0)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -basic1
 description:    "Enable ROM 1 Kernal patches"
-resource:               "Basic1" (set to 1)
+resource:       "Basic1" (set to 1)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   +basic1
 description:    "Disable ROM 1 Kernal patches"
-resource:               "Basic1" (set to 0)
+resource:       "Basic1" (set to 0)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -basic1char
 description:    "Switch upper/lower case charset"
-resource:               "Basic1Chars" (set to 1)
+resource:       "Basic1Chars" (set to 1)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   +basic1char
 description:    "Do not switch upper/lower case charset"
-resource:               "Basic1Chars" (set to 0)
+resource:       "Basic1Chars" (set to 0)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -eoiblank
 description:    "EOI blanks screen"
-resource:               "EoiBlank" (set to 1)
+resource:       "EoiBlank" (set to 1)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   +eoiblank
 description:    "EOI does not blank screen"
-resource:               "EoiBlank" (set to 0)
+resource:       "EoiBlank" (set to 0)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -keymap <number>
 description:    "Specify index of keymap file" (fixme: needs better description)
-resource:               "KeymapIndex"
+resource:       "KeymapIndex"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -grsymkeymap <Name>
 description:    "Specify name of graphics keyboard symbolic keymap file"
-resource:               "KeymapGraphicsSymFile"
+resource:       "KeymapGraphicsSymFile"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -grposkeymap <Name>
 description:    "Specify name of graphics keyboard positional keymap file"
-resource:               "KeymapGraphicsPosFile"
+resource:       "KeymapGraphicsPosFile"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -buksymkeymap <Name>
 description:    "Specify name of UK business keyboard symbolic keymap file"
-resource:               "KeymapBusinessUKSymFile"
+resource:       "KeymapBusinessUKSymFile"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -bukposkeymap <Name>
 description:    "Specify name of UK business keyboard positional keymap file"
-resource:               "KeymapBusinessUKPosFile"
+resource:       "KeymapBusinessUKPosFile"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -bdesymkeymap <Name>
 description:    "Specify name of German business keyboard symbolic keymap file"
-resource:               "KeymapBusinessDESymFile"
+resource:       "KeymapBusinessDESymFile"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -bdeposkeymap <Name>
 description:    "Specify name of German business keyboard positional keymap file"
-resource:               "KeymapBusinessDEPosFile"
+resource:       "KeymapBusinessDEPosFile"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -cpu6502
 description:    "Set SuperPET CPU switch to '6502'"
-resource:               "CPUswitch" (set to SUPERPET_CPU_6502)
+resource:       "CPUswitch" (set to SUPERPET_CPU_6502)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -cpu6809
 description:    "Set SuperPET CPU switch to '6809'"
-resource:               "CPUswitch" (set to SUPERPET_CPU_6809)
+resource:       "CPUswitch" (set to SUPERPET_CPU_6809)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -cpuprog
 description:    "Set SuperPET CPU switch to 'Prog'"
-resource:               "CPUswitch" (set to SUPERPET_CPU_PROG)
+resource:       "CPUswitch" (set to SUPERPET_CPU_PROG)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -6809romA <Name>
 description:    "Specify 4K to 24K ROM file name at $A000 for 6809"
-resource:               "H6809RomAName"
+resource:       "H6809RomAName"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -6809romB <Name>
 description:    "Specify 4K to 20K ROM file name at $B000 for 6809"
-resource:               "H6809RomBName"
+resource:       "H6809RomBName"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -6809romC <Name>
 description:    "Specify 4K to 16K ROM file name at $C000 for 6809"
-resource:               "H6809RomCName"
+resource:       "H6809RomCName"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -6809romD <Name>
 description:    "Specify 4K to 12K ROM file name at $D000 for 6809"
-resource:               "H6809RomDName"
+resource:       "H6809RomDName"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -6809romE <Name>
 description:    "Specify 2K or 8K ROM file name at $E000 for 6809"
-resource:               "H6809RomEName"
+resource:       "H6809RomEName"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -6809romF <Name>
 description:    "Specify 4K ROM file name at $F000 for 6809"
-resource:               "H6809RomFName"
+resource:       "H6809RomFName"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -colour-rgbi
 description:    "RGBI colour extension to PET 4032"
-resource:               "PETColour" (set to PET_COLOUR_TYPE_RGBI)
+resource:       "PETColour" (set to PET_COLOUR_TYPE_RGBI)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -colour-analog
 description:    "Analog colour extension to PET 4032"
-resource:               "PETColour" (set to PET_COLOUR_TYPE_ANALOG)
+resource:       "PETColour" (set to PET_COLOUR_TYPE_ANALOG)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -colour-analog-bg <Colour 0-255>
 description:    "Analog colour background on PET 4032"
-resource:               "PETColourBG"
+resource:       "PETColourBG"
 action:         N/A
 
 pet/pet-sidcart.c:
 ------------------
 command line:   -sidcart
 description:    "Enable the SID cartridge"
-resource:               "SidCart" (set to 1)
+resource:       "SidCart" (set to 1)
 action:         N/A
 
 pet/pet-sidcart.c:
 ------------------
 command line:   +sidcart
 description:    "Disable the SID cartridge"
-resource:               "SidCart" (set to 0)
+resource:       "SidCart" (set to 0)
 action:         N/A
 
 pet/petdww.c:
 -------------
 command line:   -petdww
 description:    "Enable the PET DWW hi-res board"
-resource:               "PETDWW" (set to 1)
+resource:       "PETDWW" (set to 1)
 action:         N/A
 
 pet/petdww.c:
 -------------
 command line:   +petdww
 description:    "Disable the PET DWW hi-res board"
-resource:               "PETDWW" (set to 0)
+resource:       "PETDWW" (set to 0)
 action:         N/A
 
 pet/petdww.c:
 -------------
 command line:   -petdwwimage <Name>
 description:    "Specify name of PET DWW image"
-resource:               "PETDWWfilename"
+resource:       "PETDWWfilename"
 action:         N/A
 
 pet/pethre.c:
 -------------
 command line:   -pethre
 description:    "Enable HiRes Emulation Board"
-resource:               "PETHRE" (set to 1)
+resource:       "PETHRE" (set to 1)
 action:         N/A
 
 pet/pethre.c:
 -------------
 command line:   +pethre
 description:    "Disable HiRes Emulation Board"
-resource:               "PETHRE" (set to 0)
+resource:       "PETHRE" (set to 0)
 action:         N/A
 
 pet/petpia1.c:
 --------------
 command line:   -diagpin
 description:    "Enable userport diagnostic pin"
-resource:               "DiagPin" (set to 1)
+resource:       "DiagPin" (set to 1)
 action:         N/A
 
 pet/petpia1.c:
 --------------
 command line:   +diagpin
 description:    "Disable userport diagnostic pin"
-resource:               "DiagPin" (set to 0)
+resource:       "DiagPin" (set to 0)
 action:         N/A
 
 pet/petreu.c:
 -------------
 command line:   -petreu
 description:    "Enable the PET Ram and Expansion Unit"
-resource:               "PETREU" (set to 1)
+resource:       "PETREU" (set to 1)
 action:         N/A
 
 pet/petreu.c:
 -------------
 command line:   +petreu
 description:    "Disable the PET Ram and Expansion Unit"
-resource:               "PETREU" (set to 0)
+resource:       "PETREU" (set to 0)
 action:         N/A
 
 pet/petreu.c:
 -------------
 command line:   -petreuimage <Name>
 description:    "Specify name of PET Ram and Expansion Unit image"
-resource:               "PETREUfilename"
+resource:       "PETREUfilename"
 action:         N/A
 
 pet/petreu.c:
 -------------
 command line:   -petreuramsize <size in KB>
 description:    "Size of the PET Ram and Expansion Unit"
-resource:               "PETREUsize"
+resource:       "PETREUsize"
 action:         N/A
 
 plus4/digiblaster.c:
 --------------------
 command line:   -digiblaster
 description:    "Enable the digiblaster add-on"
-resource:               "DIGIBLASTER" (set to 1)
+resource:       "DIGIBLASTER" (set to 1)
 action:         N/A
 
 plus4/digiblaster.c:
 --------------------
 command line:   +digiblaster
 description:    "Disable the digiblaster add-on"
-resource:               "DIGIBLASTER" (set to 0)
+resource:       "DIGIBLASTER" (set to 0)
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -pal
 description:    "Use PAL sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -ntsc
 description:    "Use NTSC sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -kernal <Name>
 description:    "Specify name of Kernal ROM image"
-resource:               "KernalName"
+resource:       "KernalName"
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -basic <Name>
 description:    "Specify name of BASIC ROM image"
-resource:               "BasicName"
+resource:       "BasicName"
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -functionlo <Name>
 description:    "Specify name of Function low ROM image"
-resource:               "FunctionLowName"
+resource:       "FunctionLowName"
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -functionhi <Name>
 description:    "Specify name of Function high ROM image"
-resource:               "FunctionHighName"
+resource:       "FunctionHighName"
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -c1lo <Name>
 description:    "Specify name of Cartridge 1 low ROM image"
-resource:               "c1loName"
+resource:       "c1loName"
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -c1hi <Name>
 description:    "Specify name of Cartridge 1 high ROM image"
-resource:               "c1hiName"
+resource:       "c1hiName"
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -c2lo <Name>
 description:    "Specify name of Cartridge 2 low ROM image"
-resource:               "c2loName"
+resource:       "c2loName"
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -c2hi <Name>
 description:    "Specify name of Cartridge 2 high ROM image"
-resource:               "c2hiName"
+resource:       "c2hiName"
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -ramsize <RAM size>
 description:    "Specify size of RAM installed in kb (16/32/64)"
-resource:               "RamSize"
+resource:       "RamSize"
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -keymap <number>
 description:    "Specify index of keymap file (0=symbol, 1=positional)"
-resource:               "KeymapIndex"
+resource:       "KeymapIndex"
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
-resource:               "KeymapSymFile"
+resource:       "KeymapSymFile"
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
-resource:               "KeymapPosFile"
+resource:       "KeymapPosFile"
 action:         N/A
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
 command line:   -model <Model>
 description:    "Set Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"
-resource:               N/A
+resource:       N/A
 action:         set_plus4_model() (sets "MachineVideoStandard", "RamSize", "KernalName", "BasicName", "FunctionLowName", "FunctionHighName",
-                        "Acia1Enable", "SpeechImage", "SpeechEnabled")
+                "Acia1Enable", "SpeechImage", "SpeechEnabled")
 
 plus4/plus4-sidcart.c:
 ----------------------
 command line:   -sidcart
 description:    "Enable the SID cartridge"
-resource:               "SidCart" (set to 1)
+resource:       "SidCart" (set to 1)
 action:         N/A
 
 plus4/plus4-sidcart.c:
 ----------------------
 command line:   +sidcart
 description:    "Disable the SID cartridge"
-resource:               "SidCart" (set to 0)
+resource:       "SidCart" (set to 0)
 action:         N/A
 
 plus4/plus4-sidcart.c:
 ----------------------
 command line:   -sidcartjoy
 description:    "Enable SID cartridge joystick"
-resource:               "SIDCartJoy" (set to 1)
+resource:       "SIDCartJoy" (set to 1)
 action:         N/A
 
 plus4/plus4-sidcart.c:
 ----------------------
 command line:   +sidcartjoy
 description:    "Disable SID cartridge joystick"
-resource:               "SIDCartJoy" (set to 0)
+resource:       "SIDCartJoy" (set to 0)
 action:         N/A
 
 plus4/plus4acia.c:

@@ -8882,7 +8882,7 @@ translate_t string_table[] = {
 #endif
 
 /* pet/pet-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_PET_MODEL,    N_("Specify PET model to emulate")},
+/* en */ {IDCLS_SPECIFY_PET_MODEL,    N_("Specify PET model to emulate. (2001/3008/3016/3032/3032B/4016/4032/4032B/8032/8096/8296/SuperPET)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PET_MODEL_DA, "Angiv emuleret PET-model"},
 /* de */ {IDCLS_SPECIFY_PET_MODEL_DE, "PET Modell spezifizieren"},
