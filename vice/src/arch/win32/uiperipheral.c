@@ -561,6 +561,20 @@ static const char *ui_printer_driver_ascii[] = {
     NULL
 };
 
+static const TCHAR *ui_userprinter_driver[] = {
+    TEXT("ASCII"),
+    TEXT("NL10"),
+    TEXT("RAW"),
+    NULL
+};
+
+static const char *ui_userprinter_driver_ascii[] = {
+    "ascii",
+    "nl10",
+    "raw",
+    NULL
+};
+
 static const TCHAR *ui_plotter_driver[] = {
     TEXT("1520"),
     TEXT("RAW"),
@@ -751,10 +765,19 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
             }
         }
     } else {
-        for (res_value_loop = 0; ui_printer_driver[res_value_loop]; res_value_loop++) {
-            SendMessage(printer_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_printer_driver[res_value_loop]);
-            if (!strcmp(ui_printer_driver_ascii[res_value_loop], res_string)) {
-                current = res_value_loop;
+        if (num == 0) {
+            for (res_value_loop = 0; ui_userprinter_driver[res_value_loop]; res_value_loop++) {
+                SendMessage(printer_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_userprinter_driver[res_value_loop]);
+                if (!strcmp(ui_userprinter_driver_ascii[res_value_loop], res_string)) {
+                    current = res_value_loop;
+                }
+            }
+        } else {
+            for (res_value_loop = 0; ui_printer_driver[res_value_loop]; res_value_loop++) {
+                SendMessage(printer_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_printer_driver[res_value_loop]);
+                if (!strcmp(ui_printer_driver_ascii[res_value_loop], res_string)) {
+                    current = res_value_loop;
+                }
             }
         }
     }
@@ -810,7 +833,11 @@ static BOOL store_printer_dialog_results(HWND hwnd, unsigned int num)
     if (num == 6) {
         resources_set_string_sprintf("%sDriver", ui_plotter_driver_1520[SendMessage(GetDlgItem(hwnd, IDC_PRINTER_DRIVER), CB_GETCURSEL, 0, 0)], printer_name);
     } else {
-        resources_set_string_sprintf("%sDriver", ui_printer_driver_ascii[SendMessage(GetDlgItem(hwnd, IDC_PRINTER_DRIVER), CB_GETCURSEL, 0, 0)], printer_name);
+        if (num == 0) {
+            resources_set_string_sprintf("%sDriver", ui_userprinter_driver_ascii[SendMessage(GetDlgItem(hwnd, IDC_PRINTER_DRIVER), CB_GETCURSEL, 0, 0)], printer_name);
+        } else {
+            resources_set_string_sprintf("%sDriver", ui_printer_driver_ascii[SendMessage(GetDlgItem(hwnd, IDC_PRINTER_DRIVER), CB_GETCURSEL, 0, 0)], printer_name);
+        }
     }
 
     resources_set_string_sprintf("%sOutput", ui_printer_output_ascii[SendMessage(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT), CB_GETCURSEL, 0, 0)], printer_name);

@@ -70,8 +70,6 @@ TUI_MENU_DEFINE_RADIO(PrinterUserportDriver)
 static tui_menu_item_def_t printerusdriver_submenu[] = {
     { "_ASCII", NULL, radio_PrinterUserportDriver_callback,
       (void *)"ascii", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_MPS803", NULL, radio_PrinterUserportDriver_callback,
-      (void *)"mps803", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_NL10", NULL, radio_PrinterUserportDriver_callback,
       (void *)"nl10", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_RAW", NULL, radio_PrinterUserportDriver_callback,

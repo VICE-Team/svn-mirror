@@ -9715,71 +9715,71 @@ translate_t string_table[] = {
 #endif
 
 /* printerdrv/driver-select.c */
-/* en */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME,    N_("Specify name of printer driver for device #4")},
+/* en */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME,    N_("Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DA, "Angiv navn på printer-driver for enhed #4"},
-/* de */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DE, "Name für Druckertreiber für Gerät #4 definieren"},
-/* es */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_ES, "Especificar nombre controlador impresora periférico #4"},
-/* fr */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_FR, "Spécifier le nom du pilote imprimante pour le périphérique #4"},
-/* hu */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_HU, "Adja meg a #4-es nyomtatómeghajtó nevét"},
-/* it */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_IT, "Specifica il nome del driver di stampa per la periferica #4"},
+/* da */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_NL, "Geef de naam van het stuurprogramma voor apparaat #4"},
-/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_PL, "Okre¶l nazwê sterownika drukarki urz±dzenia #4"},
-/* ru */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_RU, "Specify name of printer driver for device #4"},
-/* sv */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_SV, "Ange namn på skrivardrivrutin för enhet 4"},
-/* tr */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_TR, "Aygýt #4 için yazýcý sürücüsü ismini belirt"},
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_TR, ""},  /* fuzzy */
 #endif
 
 /* printerdrv/driver-select.c */
-/* en */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME,    N_("Specify name of printer driver for device #5")},
+/* en */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME,    N_("Specify name of printer driver for device #5. (ascii/mps803/nl10/raw)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DA, "Angiv navn på printer-driver for enhed #5"},
-/* de */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DE, "Name für Druckertreiber für Gerät #5 definieren"},
-/* es */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_ES, "Especificar nombre controlador impresora periférico #5"},
-/* fr */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_FR, "Spécifier le nom du pilote imprimante pour le périphérique #5"},
-/* hu */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_HU, "Adja meg a #5-ös nyomtatómeghajtó nevét"},
-/* it */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_IT, "Specifica il nome del driver di stampa per la periferica #5"},
+/* da */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_NL, "Geef de naam van het stuurprogramma voor apparaat #5"},
-/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_PL, "Okre¶l nazwê sterownika drukarki urz±dzenia #5"},
-/* ru */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_RU, "Specify name of printer driver for device #5"},
-/* sv */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_SV, "Ange namn på skrivardrivrutin för enhet 5"},
-/* tr */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_TR, "Aygýt #5 için yazýcý sürücüsü ismini belirt"},
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_TR, ""},  /* fuzzy */
 #endif
 
 /* printerdrv/driver-select.c */
-/* en */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME,    N_("Specify name of printer driver for device #6")},
+/* en */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME,    N_("Specify name of printer driver for device #6. (1520/raw)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_DE, "Name für Druckertreiber für Gerät #6 definieren"},
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_NL, "Geef de naam van het stuurprogramma voor apparaat #6"},
-/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_PL, "Okre¶l nazwê sterownika drukarki urz±dzenia #6"},
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_TR, ""},  /* fuzzy */
 #endif
 
 /* printerdrv/driver-select.c */
-/* en */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME,    N_("Specify name of printer driver for the userport printer")},
+/* en */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME,    N_("Specify name of printer driver for the userport printer. (ascii/nl10/raw)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_DA, "Angiv navn på printerdriver for brugerport-printer"},
-/* de */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_DE, "Name für Userport Druckertreiber definieren"},
-/* es */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_ES, "Especificar nombre controlador impresión para puerto impresora"},
-/* fr */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_FR, "Spécifier le nom du pilote imprimante pour l'imprimante userport"},
-/* hu */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_HU, "Adja meg a userport nyomtatómeghajtó nevét"},
-/* it */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_IT, "Specifica il nome del driver di stampa per la stampante su userport"},
+/* da */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_NL, "Geef de naam van het stuurprogramma voor de userport printer"},
-/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_PL, "Okre¶l nazwê sterownika drukarki dla drukarki w userporcie"},
-/* ru */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_RU, "Specify name of printer driver for the userport printer"},
-/* sv */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_SV, "Ange namn på skrivardrivrutin för användarporten"},
-/* tr */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_TR, "Userport yazýcýsý için yazýcý sürücüsü ismini belirt"},
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_TR, ""},  /* fuzzy */
 #endif
 
 /* printerdrv/interface-serial.c */

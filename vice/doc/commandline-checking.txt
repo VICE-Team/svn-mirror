@@ -5971,29 +5971,29 @@ action:         N/A
 printerdrv/driver-select.c:
 ---------------------------
 command line:   -pr4drv <Name>
-description:    "Specify name of printer driver for device #4" (fixme: needs better description)
+description:    "Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)"
 resource:       "Printer4Driver"
 action:         N/A
 
 printerdrv/driver-select.c:
 ---------------------------
 command line:   -pr5drv <Name>
-description:    "Specify name of printer driver for device #5" (fixme: needs better description)
-resource:               "Printer5Driver"
+description:    "Specify name of printer driver for device #5. (ascii/mps803/nl10/raw)"
+resource:       "Printer5Driver"
 action:         N/A
 
 printerdrv/driver-select.c:
 ---------------------------
 command line:   -pr6drv <Name>
-description:    "Specify name of printer driver for device #6" (fixme: needs better description)
-resource:               "Printer6Driver"
+description:    "Specify name of printer driver for device #6. (1520/raw)"
+resource:       "Printer6Driver"
 action:         N/A
 
 printerdrv/driver-select.c:
 ---------------------------
 command line:   -pruserdrv <Name>
-description:    "Specify name of printer driver for the userport printer" (fixme: needs better description)
-resource:               "PrinterUserportDriver"
+description:    "Specify name of printer driver for the userport printer. (ascii/nl10/raw)"
+resource:       "PrinterUserportDriver"
 action:         N/A
 
 printerdrv/interface-serial.c:

@@ -57,9 +57,24 @@ static driver_select_t driver_select[NUM_DRIVER_SELECT];
 /* Pointer to registered printer driver.  */
 static driver_select_list_t *driver_select_list = NULL;
 
+static char *userprinter_names[] = { "ascii", "nl10", "raw", NULL };
+
 static char *printer_names[] = { "ascii", "mps803", "nl10", "raw", NULL };
 
 static char *plotter_names[] = { "1520", "raw", NULL };
+
+static int userprinter_name_is_valid(const char *name)
+{
+    int i = 0;
+
+    while (userprinter_names[i]) {
+        if (!strcmp(userprinter_names[i], name)) {
+            return 1;
+        }
+        i++;
+    }
+    return 0;
+}
 
 static int printer_name_is_valid(const char *name)
 {
@@ -94,6 +109,10 @@ static int set_printer_driver(const char *name, void *param)
 
     if (prnr == 2) {
         if (!plotter_name_is_valid(name)) {
+            return -1;
+        }
+    } else if (prnr == 3) {
+        if (!userprinter_name_is_valid(name)) {
             return -1;
         }
     } else {

@@ -8275,7 +8275,7 @@ printerdrv/driver-select.c:
 ---------------------------
 resource type:                  string
 resource name:                  "PrinterUserportDriver"
-resource range:                 N/A ("ascii"/"mps803"/"nl10"/"raw")
+resource range:                 N/A ("ascii"/"nl10"/"raw")
 resource default:               "ascii"
 resource function:              set_printer_driver()
 resource var:                   driver_select[3].drv_name
@@ -8286,9 +8286,6 @@ command-line:                   -pruserdrv
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
 fixme: fix documentation
-gpz note: having mps803 here is a bit odd, as that can not be connected to the userport
-blacky note: agreed
-fixme: remove mps803 from the list.
 
 printerdrv/interface-serial.c:
 ------------------------------

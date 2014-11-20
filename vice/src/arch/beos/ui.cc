@@ -234,7 +234,6 @@ ui_res_possible_strings Printer6Driver[] = {
 
 ui_res_possible_strings UserportPrinterDriver[] = {
     { "ascii", MENU_USERPORT_PRINTER_DRIVER_ASCII },
-    { "mps803", MENU_USERPORT_PRINTER_DRIVER_MPS803 },
     { "nl10", MENU_USERPORT_PRINTER_DRIVER_NL10 },
     { "raw", MENU_USERPORT_PRINTER_DRIVER_RAW },
     { NULL, 0 }

@@ -59,7 +59,24 @@
 
 VICE_SDL_PRINTER_DRIVER_MENU(4)
 VICE_SDL_PRINTER_DRIVER_MENU(5)
-VICE_SDL_PRINTER_DRIVER_MENU(Userport)
+
+UI_MENU_DEFINE_RADIO(PrinterUserportDriver)
+
+static const ui_menu_entry_t printer_Userport_driver_submenu[] = {
+    { "ASCII",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_PrinterUserportDriver_callback,
+      (ui_callback_data_t)"ascii" },
+    { "NL10",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_PrinterUserportDriver_callback,
+      (ui_callback_data_t)"nl10" },
+    { "Raw",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_PrinterUserportDriver_callback,
+      (ui_callback_data_t)"raw" },
+    SDL_MENU_LIST_END
+};
 
 UI_MENU_DEFINE_RADIO(Printer6Driver)
 

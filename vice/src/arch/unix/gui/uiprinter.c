@@ -110,8 +110,6 @@ UI_MENU_DEFINE_STRING_RADIO(PrinterUserportDriver)
 ui_menu_entry_t uiprinter_pruser_driver_submenu[] = {
     { "ASCII", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportDriver,
       (ui_callback_data_t)"ascii", NULL },
-    { "MPS803", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportDriver,
-      (ui_callback_data_t)"mps803", NULL },
     { "NL10", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportDriver,
       (ui_callback_data_t)"nl10", NULL },
     { "RAW", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportDriver,

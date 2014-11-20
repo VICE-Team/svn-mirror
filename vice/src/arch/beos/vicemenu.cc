@@ -1088,7 +1088,6 @@ BMenuBar *menu_create(int machine_class)
                     submenu->AddItem(extsubmenu = new BMenu("Userport printer driver"));
                         extsubmenu->SetRadioMode(true);
                         extsubmenu->AddItem(new BMenuItem("ASCII", new BMessage(MENU_USERPORT_PRINTER_DRIVER_ASCII)));
-                        extsubmenu->AddItem(new BMenuItem("MPS803", new BMessage(MENU_USERPORT_PRINTER_DRIVER_MPS803)));
                         extsubmenu->AddItem(new BMenuItem("NL10", new BMessage(MENU_USERPORT_PRINTER_DRIVER_NL10)));
                         extsubmenu->AddItem(new BMenuItem("Raw", new BMessage(MENU_USERPORT_PRINTER_DRIVER_RAW)));
                     submenu->AddItem(extsubmenu = new BMenu("Userport printer output type"));
