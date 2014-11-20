@@ -14190,7 +14190,7 @@ translate_t string_table[] = {
 #endif
 
 /* lightpen.c */
-/* en */ {IDCLS_SET_LIGHTPEN_TYPE,    N_("Set lightpen type")},
+/* en */ {IDCLS_SET_LIGHTPEN_TYPE,    N_("Set lightpen type. (0: Pen with button Up, 1: Pen with button Left, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_LIGHTPEN_TYPE_DA, "Angiv lyspen-type"},
 /* de */ {IDCLS_SET_LIGHTPEN_TYPE_DE, "Lichtgriffel Type bestimmen"},

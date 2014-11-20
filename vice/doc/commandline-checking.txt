@@ -1865,455 +1865,455 @@ c64/cart/c64cart.c:
 command line:   +cart
 description:    "Disable default cartridge"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cart8 <Name>
 description:    "Attach raw 8KB cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cart16 <Name>
 description:    "Attach raw 16KB cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartultimax <Name>
 description:    "Attach generic 16kB Ultimax cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartcrt <Name>
 description:    "Attach CRT cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartap <Name>
 description:    "Attach raw 32KB Atomic Power cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartar2 <Name>
 description:    "Attach raw 16kB Action Replay MK2 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartar3 <Name>
 description:    "Attach raw 16KB Action Replay MK3 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartar4 <Name>
 description:    "Attach raw 32KB Action Replay MK4 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartar5 <Name>
 description:    "Attach raw 32KB Action Replay cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartcap <Name>
 description:    "Attach raw 8kB Capture cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartcomal <Name>
 description:    "Attach raw 64kB Comal 80 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartdep256 <Name>
 description:    "Attach raw Dela EP256 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartdep64 <Name>
 description:    "Attach raw Dela EP64 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartdep7x8 <Name>
 description:    "Attach raw Dela EP7x8 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartdin <Name>
 description:    "Attach raw 128kB Dinamic cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartdsm <Name>
 description:    "Attach raw 8kB Diashow-Maker cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartdqbb <Name>
 description:    "Attach raw 16kB Double Quick Brown Box cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -carteasy <Name>
 description:    "Attach raw EasyFlash cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartepyx <Name>
 description:    "Attach raw 8KB Epyx FastLoad cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartexos <Name>
 description:    "Attach raw 8kB EXOS cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartexpert <Name>
 description:    "Attach raw 8kB Expert Cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartf64 <Name>
 description:    "Attach raw 32kB Formel 64 image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartfc1 <Name>
 description:    "Attach raw 16kB Final Cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartfc3 <Name>
 description:    "Attach raw 64kB Final Cartridge III image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartfcplus <Name>
 description:    "Attach raw 32kB Final Cartridge Plus image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartff <Name>
 description:    "Attach raw 8kB Freeze Frame image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartfm <Name>
 description:    "Attach raw 32kB Freeze Machine image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartfp <Name>
 description:    "Attach raw 128kB Fun Play/Power Play cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartgk <Name>
 description:    "Attach raw 8KB Game Killer cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartgeoram <Name>
 description:    "Attach raw GEO-RAM cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartgs <Name>
 description:    "Attach raw 512kB Game System cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartide64 <Name>
 description:    "Attach raw 64KB IDE64 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartieee <Name>
 description:    "Attach IEEE-488 Interface cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartisepic <Name>
 description:    "Attach raw 2kB ISEPIC cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartkcs <Name>
 description:    "Attach raw 16kB KCS Power cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartks <Name>
 description:    "Attach raw 24kB Kingsoft cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmach5 <Name>
 description:    "Attach raw 8kB MACH 5 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmd <Name>
 description:    "Attach raw 32/64/128kB Magic Desk cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmf <Name>
 description:    "Attach raw Magic Formel cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmikro <Name>
 description:    "Attach raw 8kB Mikro Assembler cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmmc64 <Name>
 description:    "Attach raw 8kB MMC64 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmmcr <Name>
 description:    "Attach raw 512kB MMC Replay cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartmv <Name>
 description:    "Attach raw 16kB Magic Voice cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartocean <Name>
 description:    "Attach raw Ocean cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartpf <Name>
 description:    "Attach raw 64KB Pagefox cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartp64 <Name>
 description:    "Attach raw 256KB Prophet 64 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartramcart <Name>
 description:    "Attach raw RamCart cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartreu <Name>
 description:    "Attach raw REU cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartrep256 <Name>
 description:    "Attach raw REX EP256 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartross <Name>
 description:    "Attach raw 16/32kB ROSS cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartrr <Name>
 description:    "Attach raw 64KB Retro Replay cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartru <Name>
 description:    "Attach raw 8kB REX Utility cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -carts64 <Name>
 description:    "Attach raw 4kB Snapshot 64 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartsb <Name>
 description:    "Attach raw Structured Basic cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartse5 <Name>
 description:    "Attach raw 16kB Super Explode V5 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartsg <Name>
 description:    "Attach raw 64kB Super Games cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartsilver <Name>
 description:    "Attach raw Silverrock 128 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartsimon <Name>
 description:    "Attach raw 16kB Simons Basic cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartss4 <Name>
 description:    "Attach raw 32KB Super Snapshot V4 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartss5 <Name>
 description:    "Attach raw 64KB Super Snapshot V5 cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartstar <Name>
 description:    "Attach raw 16KB Stardos cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartwl <Name>
 description:    "Attach raw 16KB Westermann Learning cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartws <Name>
 description:    "Attach raw 8kB Warp Speed cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64carthooks.c:
 ------------------------
 command line:   -cartzaxxon <Name>
 description:    "Attach raw 16kB Zaxxon cartridge image"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research resources affected)
+action:         cart_attach_cmdline() (note: research resources affected)
 
 c64/cart/c64tpi.c:
 ------------------
@@ -3644,7 +3644,7 @@ cbm2/cbm2cart.c:
 command line:   +cart
 description:    "Disable default cartridge"
 resource:       N/A
-action:         cart_attach_cmdline() (fixme: research what resources are used)
+action:         cart_attach_cmdline() (note: research what resources are used)
 
 cbm2/cbm2cart.c:
 ----------------
@@ -4988,7 +4988,7 @@ action:         N/A
 lightpen.c:
 -----------
 command line:   -lightpentype <Type>
-description:    "Set lightpen type" (fixme: needs better description)
+description:    "Set lightpen type. (0: Pen with button Up, 1: Pen with button Left, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)"
 resource:       "LightpenType"
 action:         N/A
 
@@ -4996,126 +4996,126 @@ log.c:
 ------
 command line:   -logfile <Name>
 description:    "Specify log file name"
-resource:               N/A
+resource:       N/A
 action:         log_logfile_opt() (sets "LogFileName")
 
 log.c:
 ------
 command line:   -verbose
 description:    "Enable verbose log output."
-resource:               N/A
+resource:       N/A
 action:         log_verbose_opt()
 
 machine.c:
 ----------
 command line:   -jamaction <Type>
 description:    "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)"
-resource:               "JAMAction"
+resource:       "JAMAction"
 action:         N/A
 
 midi.c:
 -------
 command line:   -midi
 description:    "Enable MIDI emulation"
-resource:               "MIDIEnable" (set to 1)
+resource:       "MIDIEnable" (set to 1)
 action:         N/A
 
 midi.c:
 -------
 command line:   +midi
 description:    "Disable MIDI emulation"
-resource:               "MIDIEnable" (set to 0)
+resource:       "MIDIEnable" (set to 0)
 action:         N/A
 
 monitor/monitor.c:
 ------------------
 command line:   -moncommands <Name>
 description:    "Execute monitor commands from file"
-resource:               N/A
+resource:       N/A
 action:         set_playback_name()
 
 monitor/monitor.c:
 ------------------
 command line:   -monlog <Name>
 description:    "Write monitor output also to file"
-resource:               N/A
+resource:       N/A
 action:         set_monlog_name()
 
 monitor/monitor.c:
 ------------------
 command line:   -initbreak <value>
 description:    "Set an initial breakpoint for the monitor"
-resource:               N/A
+resource:       N/A
 action:         monitor_set_initial_breakpoint()
 
 monitor/monitor_network.c:
 --------------------------
 command line:   -remotemonitor
 description:    "Enable remote monitor"
-resource:               "MonitorServer" (set to 1)
+resource:       "MonitorServer" (set to 1)
 action:         N/A
 
 monitor/monitor_network.c:
 --------------------------
 command line:   +remotemonitor
 description:    "Disable remote monitor"
-resource:               "MonitorServer" (set to 0)
+resource:       "MonitorServer" (set to 0)
 action:         N/A
 
 monitor/monitor_network.c:
 --------------------------
 command line:   -remotemonitoraddress <Name>
 description:    "The local address the remote monitor should bind to"
-resource:               "MonitorServerAddress"
+resource:       "MonitorServerAddress"
 action:         N/A
 
 mouse.c:
 --------
 command line:   -mouse
 description:    "Enable mouse grab"
-resource:               "Mouse" (set to 1)
+resource:       "Mouse" (set to 1)
 action:         N/A
 
 mouse.c:
 --------
 command line:   +mouse
 description:    "Disable mouse grab"
-resource:               "Mouse" (set to 0)
+resource:       "Mouse" (set to 0)
 action:         N/A
 
 mouse.c:
 --------
 command line:   -mousetype <value>
 description:    "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"
-resource:               "Mousetype"
+resource:       "Mousetype"
 action:         N/A
 
 mouse.c:
 --------
 command line:   -mouseport <value>
 description:    "Select the joystick port the mouse is attached to"
-resource:               "Mouseport"
+resource:       "Mouseport"
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -pal
 description:    "Use PAL sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -ntsc
 description:    "Use NTSC sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
 action:         N/A
 
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -model <modelnumber>
-description:    "Specify PET model to emulate"
-resource:               N/A
+description:    "Specify PET model to emulate" (fixme: needs better description)
+resource:       N/A
 action:         pet_set_model() (sets "Basic1", "Basic1Chars", "ChargenName", "KernalName", "BasicName", "EditorName", "RomModule9Name",
                         "RomModuleAName", "RomModuleBName", "H6809RomAName", "H6809RomBName", "H6809RomCName", "H6809RomDName", "H6809RomEName",
                         "H6809RomFName")
