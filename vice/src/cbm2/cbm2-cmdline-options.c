@@ -103,11 +103,6 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_USE_NTSC_SYNC_FACTOR,
       NULL, NULL },
-    { "-ramsize", SET_RESOURCE, 1,
-      NULL, NULL, "RamSize", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_RAMSIZE, IDCLS_SPECIFY_SIZE_OF_RAM,
-      NULL, NULL },
     { "-kernal", SET_RESOURCE, 1,
       NULL, NULL, "KernalName", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -234,6 +229,11 @@ static const cmdline_option_t cbm2_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODELNUMBER, IDCLS_SPECIFY_CBM2_MODEL,
       NULL, NULL },
+    { "-ramsize", SET_RESOURCE, 1,
+      NULL, NULL, "RamSize", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_RAMSIZE, IDCLS_SPECIFY_SIZE_OF_RAM_CBM2,
+      NULL, NULL },
     { NULL }
 };
 
@@ -242,6 +242,11 @@ static const cmdline_option_t cbm5x0_cmdline_options[] = {
       cbm2_set_model, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODELNUMBER, IDCLS_SPECIFY_CBM5X0_MODEL,
+      NULL, NULL },
+    { "-ramsize", SET_RESOURCE, 1,
+      NULL, NULL, "RamSize", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_RAMSIZE, IDCLS_SPECIFY_SIZE_OF_RAM,
       NULL, NULL },
     { NULL }
 };

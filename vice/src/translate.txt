@@ -945,6 +945,9 @@ IDCLS_P_RAMSIZE
 IDCLS_SPECIFY_SIZE_OF_RAM
 
 /* cbm2/cbm2-cmdline-options.c */
+IDCLS_SPECIFY_SIZE_OF_RAM_CBM2
+
+/* cbm2/cbm2-cmdline-options.c */
 IDCLS_SPECIFY_CART_ROM_1000_NAME
 
 /* cbm2/cbm2-cmdline-options.c */

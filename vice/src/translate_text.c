@@ -7447,6 +7447,23 @@ translate_t string_table[] = {
 #endif
 
 /* cbm2/cbm2-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2,    N_("Specify size of RAM (128/256/512/1024 kByte)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_TR, ""},  /* fuzzy */
+#endif
+
+/* cbm2/cbm2-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_CART_ROM_1000_NAME,    N_("Specify name of cartridge ROM image for $1000")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CART_ROM_1000_NAME_DA, "Angiv navn på cartridge-ROM-image for $1000"},

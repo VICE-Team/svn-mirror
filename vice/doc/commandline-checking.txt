@@ -3461,28 +3461,28 @@ cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -ramsize <RAM size>
 description:    "Specify size of RAM (64/128/256/512/1024 kByte)"
-resource:               "RamSize"
+resource:       "RamSize"
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -kernal <Name>
 description:    "Specify name of Kernal ROM image"
-resource:               "KernalName"
+resource:       "KernalName"
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -basic <Name>
 description:    "Specify name of BASIC ROM image"
-resource:               "BasicName"
+resource:       "BasicName"
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -chargen <Name>
 description:    "Specify name of character generator ROM image"
-resource:               "ChargenName"
+resource:       "ChargenName"
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
