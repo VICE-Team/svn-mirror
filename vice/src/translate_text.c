@@ -7311,20 +7311,37 @@ translate_t string_table[] = {
 #endif
 
 /* cbm2/cbm2-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_CBM2_MODEL,    N_("Specify CBM-II model to emulate")},
+/* en */ {IDCLS_SPECIFY_CBM2_MODEL,    N_("Specify CBM-II model to emulate. (610, 620, 620+, 710, 720, 720+)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_CBM2_MODEL_DA, "Angiv emuleret CBM-II-model"},
-/* de */ {IDCLS_SPECIFY_CBM2_MODEL_DE, "CBM-II Modell für Emulation definieren"},
-/* es */ {IDCLS_SPECIFY_CBM2_MODEL_ES, "Especificar modelo CBM-II para emular"},
-/* fr */ {IDCLS_SPECIFY_CBM2_MODEL_FR, "Spécifier le modèle CBM-II à émuler"},
-/* hu */ {IDCLS_SPECIFY_CBM2_MODEL_HU, "Adja meg az emulálandó CBM-II modell számát"},
-/* it */ {IDCLS_SPECIFY_CBM2_MODEL_IT, "Specifica il modello di CBM II da emulare"},
+/* da */ {IDCLS_SPECIFY_CBM2_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_CBM2_MODEL_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_CBM2_MODEL_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_CBM2_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_CBM2_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_CBM2_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_CBM2_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_CBM2_MODEL_NL, "Geef CBM-II model om te emuleren"},
-/* pl */ {IDCLS_SPECIFY_CBM2_MODEL_PL, "Okre¶l emulowany model CBM-II"},
-/* ru */ {IDCLS_SPECIFY_CBM2_MODEL_RU, "Specify CBM-II model to emulate"},
-/* sv */ {IDCLS_SPECIFY_CBM2_MODEL_SV, "Ange CBM-II-modell att emulera"},
-/* tr */ {IDCLS_SPECIFY_CBM2_MODEL_TR, "Emüle edilecek CBM-II modelini belirt"},
+/* nl */ {IDCLS_SPECIFY_CBM2_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_CBM2_MODEL_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_CBM2_MODEL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_CBM2_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_CBM2_MODEL_TR, ""},  /* fuzzy */
+#endif
+
+/* cbm2/cbm2-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_CBM5X0_MODEL,    N_("Specify CBM-II model to emulate. (510)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_CBM5X0_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_CBM5X0_MODEL_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_CBM5X0_MODEL_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_CBM5X0_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_CBM5X0_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_CBM5X0_MODEL_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_CBM5X0_MODEL_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_CBM5X0_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_CBM5X0_MODEL_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_CBM5X0_MODEL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_CBM5X0_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_CBM5X0_MODEL_TR, ""},  /* fuzzy */
 #endif
 
 /* cbm2/cbm2-cmdline-options.c */

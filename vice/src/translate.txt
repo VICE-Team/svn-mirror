@@ -924,6 +924,9 @@ IDCLS_P_MODELNUMBER
 IDCLS_SPECIFY_CBM2_MODEL
 
 /* cbm2/cbm2-cmdline-options.c */
+IDCLS_SPECIFY_CBM5X0_MODEL
+
+/* cbm2/cbm2-cmdline-options.c */
 IDCLS_SPECIFY_TO_USE_VIC_II
 
 /* cbm2/cbm2-cmdline-options.c */

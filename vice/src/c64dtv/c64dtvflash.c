@@ -273,8 +273,8 @@ void c64dtvflash_store(int addr, BYTE value)
                 c64dtvflash_mem[addr] &= value;
             }
             return;
-        default:
 #ifdef DEBUG
+        default:
             log_message(c64dtvflash_log, "BUG: Unknown flash chip emulation state.");
 #endif
     }

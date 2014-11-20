@@ -3418,42 +3418,43 @@ c64dtv/flash-trap.c:
 --------------------
 command line:   -fsflash <Name>
 description:    "Use <name> as directory for flash file system device"
-resource:               "FSFlashDir"
+resource:       "FSFlashDir"
 action:         N/A
 
 c64dtv/flash-trap.c:
 --------------------
 command line:   -trueflashfs
 description:    "Enable true hardware flash file system"
-resource:               "FlashTrueFS" (set to 1)
+resource:       "FlashTrueFS" (set to 1)
 action:         N/A
 
 c64dtv/flash-trap.c:
 --------------------
 command line:   +trueflashfs
 description:    "Disable true hardware flash file system"
-resource:               "FlashTrueFS" (set to 0)
+resource:       "FlashTrueFS" (set to 0)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -pal
 description:    "Use PAL sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -ntsc
 description:    "Use NTSC sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
 action:         N/A
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -model <modelnumber>
-description:    "Specify CBM-II model to emulate" (fixme: needs better description)
-resource:               N/A
+description:    "Specify CBM-II model to emulate (610, 620, 620+, 710, 720, 720+)"
+			"Specify CBM-II model to emulate (510)"
+resource:       N/A
 action:         cbm2_set_model() (sets "ModelLine", "MachineVideoStandard", "RamSize", "KernalName", "BasicName" and "ChargenName")
 
 cbm2/cbm2-cmdline-options.c:

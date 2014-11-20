@@ -103,11 +103,6 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_USE_NTSC_SYNC_FACTOR,
       NULL, NULL },
-    { "-model", CALL_FUNCTION, 1,
-      cbm2_set_model, NULL, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_MODELNUMBER, IDCLS_SPECIFY_CBM2_MODEL,
-      NULL, NULL },
     { "-ramsize", SET_RESOURCE, 1,
       NULL, NULL, "RamSize", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -233,7 +228,34 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
+static const cmdline_option_t cbm2_cmdline_options[] = {
+    { "-model", CALL_FUNCTION, 1,
+      cbm2_set_model, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODELNUMBER, IDCLS_SPECIFY_CBM2_MODEL,
+      NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t cbm5x0_cmdline_options[] = {
+    { "-model", CALL_FUNCTION, 1,
+      cbm2_set_model, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODELNUMBER, IDCLS_SPECIFY_CBM5X0_MODEL,
+      NULL, NULL },
+    { NULL }
+};
+
 int cbm2_cmdline_options_init(void)
 {
+    if (machine_class == VICE_MACHINE_CBM5x0) {
+        if (cmdline_register_options(cbm5x0_cmdline_options) < 0) {
+            return -1;
+        }
+    } else {
+        if (cmdline_register_options(cbm2_cmdline_options) < 0) {
+            return -1;
+        }
+    }
     return cmdline_register_options(cmdline_options);
 }
