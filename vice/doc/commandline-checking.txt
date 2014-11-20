@@ -5629,350 +5629,350 @@ plus4/plus4acia.c:
 ------------------
 command line:   -acia
 description:    "Enable the ACIA emulation"
-resource:               "Acia1Enable" (set to 1)
+resource:       "Acia1Enable" (set to 1)
 action:         N/A
 
 plus4/plus4acia.c:
 ------------------
 command line:   +acia
 description:    "Disable the ACIA emulation"
-resource:               "Acia1Enable" (set to 0)
+resource:       "Acia1Enable" (set to 0)
 action:         N/A
 
 plus4/plus4cart.c:
 ------------------
 command line:   -cartreset
 description:    "Reset machine if a cartridge is attached or detached"
-resource:               "CartridgeReset" (set to 1)
+resource:       "CartridgeReset" (set to 1)
 action:         N/A
 
 plus4/plus4cart.c:
 ------------------
 command line:   +cartreset
 description:    "Do not reset machine if a cartridge is attached or detached"
-resource:               "CartridgeReset" (set to 0)
+resource:       "CartridgeReset" (set to 0)
 action:         N/A
 
 plus4/plus4cart.c:
 ------------------
 command line:   -cart <Name>
 description:    "Smart-attach cartridge image"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline()
 
 plus4/plus4cart.c:
 ------------------
 command line:   +cart
 description:    "Disable default cartridge"
-resource:               N/A
+resource:       N/A
 action:         cart_attach_cmdline()
 
 plus4/plus4memcsory256k.c:
 --------------------------
 command line:   -cs256k
 description:    "Enable the CSORY 256K RAM expansion"
-resource:               "CS256K" (set to 1) (fixme: make a better system for this)
+resource:       "CS256K" (set to 1) (fixme: make a better system for this)
 action:         N/A
 
 plus4/plus4memhannes256k.c:
 ---------------------------
 command line:   -h256k
 description:    "Enable the HANNES 256K RAM expansion"
-resource:               "H256K" (set to 1) (fixme: make a better system for this)
+resource:       "H256K" (set to 1) (fixme: make a better system for this)
 action:         N/A
 
 plus4/plus4memhannes256k.c:
 ---------------------------
 command line:   -h1024k
 description:    "Enable the HANNES 1024K RAM expansion"
-resource:               "H256K" (set to 2) (fixme: make a better system for this)
+resource:       "H256K" (set to 2) (fixme: make a better system for this)
 action:         N/A
 
 plus4/plus4memhannes256k.c:
 ---------------------------
 command line:   -h4096k
 description:    "Enable the HANNES 4096K RAM expansion"
-resource:               "H256K" (set to 3) (fixme: make a better system for this)
+resource:       "H256K" (set to 3) (fixme: make a better system for this)
 action:         N/A
 
 plus4/plus4speech.c:
 --------------------
 command line:   -speech
 description:    "Enable the v364 speech add-on"
-resource:               "SpeechEnabled" (set to 1)
+resource:       "SpeechEnabled" (set to 1)
 action:         N/A
 
 plus4/plus4speech.c:
 --------------------
 command line:   +speech
 description:    "Disable the v364 speech add-on"
-resource:               "SpeechEnabled" (set to 0)
+resource:       "SpeechEnabled" (set to 0)
 action:         N/A
 
 plus4/plus4speech.c:
 --------------------
 command line:   -speechrom <Name>
 description:    "Attach Speech ROM image"
-resource:               N/A
+resource:       N/A
 action:         set_speech_rom() (sets "SpeechImage" and "SpeechEnabled")
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDborders <Mode>
 description:    "Set VIC-II border display mode (0: normal, 1: full, 2: debug)" (fixme: incorrect description)
-resource:               N/A
+resource:       N/A
 action:         border_set_func() (sets "TEDBorderMode")
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDvcache
 description:    "Enable the video cache"
-resource:               "TEDVideoCache" (set to 1)
+resource:       "TEDVideoCache" (set to 1)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   +TEDvcache
 description:    "Disable the video cache"
-resource:               "TEDVideoCache" (set to 0)
+resource:       "TEDVideoCache" (set to 0)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDdsize
 description:    "Enable double size"
-resource:               "TEDDoubleSize" (set to 1)
+resource:       "TEDDoubleSize" (set to 1)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   +TEDdsize
 description:    "Disable double size"
-resource:               "TEDDoubleSize" (set to 0)
+resource:       "TEDDoubleSize" (set to 0)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDdscan
 description:    "Enable double scan"
-resource:               "TEDDoubleScan" (set to 1)
+resource:       "TEDDoubleScan" (set to 1)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   +TEDdscan
 description:    "Disable double scan"
-resource:               "TEDDoubleScan" (set to 0)
+resource:       "TEDDoubleScan" (set to 0)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDaudioleak
 description:    "Enable audio leak emulation"
-resource:               "TEDAudioLeak" (set to 1)
+resource:       "TEDAudioLeak" (set to 1)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   +TEDaudioleak
 description:    "Disable audio leak emulation"
-resource:               "TEDAudioLeak" (set to 0)
+resource:       "TEDAudioLeak" (set to 0)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDhwscale
 description:    "Enable hardware scaling"
-resource:               "TEDHwScale" (set to 1)
+resource:       "TEDHwScale" (set to 1)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   +TEDhwscale
 description:    "Disable hardware scaling"
-resource:               "TEDHwScale" (set to 0)
+resource:       "TEDHwScale" (set to 0)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDfilter <Mode>
 description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:               "TEDFilter"
+resource:       "TEDFilter"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDintpal
 description:    "Use an internal calculated palette"
-resource:               "TEDExternalPalette" (set to 0)
+resource:       "TEDExternalPalette" (set to 0)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDextpal
 description:    "Use an external palette (file)"
-resource:               "TEDExternalPalette" (set to 1)
+resource:       "TEDExternalPalette" (set to 1)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDpalette <Name>
 description:    "Specify name of file of external palette"
-resource:               "TEDPaletteFile"
+resource:       "TEDPaletteFile"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDSDLfull
 description:    "Enable fullscreen"
-resource:               "TEDSDLFullscreen" (set to 1)
+resource:       "TEDSDLFullscreen" (set to 1)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   +TEDSDLfull
 description:    "Disable fullscreen"
-resource:               "TEDSDLFullscreen" (set to 0)
+resource:       "TEDSDLFullscreen" (set to 0)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDSDLfulldevice <device>
 description:    "Select fullscreen device"
-resource:               "TEDSDLFullscreenDevice"
+resource:       "TEDSDLFullscreenDevice"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDXRANDRfull
 description:    "Enable fullscreen"
-resource:               "TEDXRANDRFullscreen" (set to 1)
+resource:       "TEDXRANDRFullscreen" (set to 1)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   +TEDXRANDRfull
 description:    "Disable fullscreen"
-resource:               "TEDXRANDRFullscreen" (set to 0)
+resource:       "TEDXRANDRFullscreen" (set to 0)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDXRANDRfulldevice <device>
 description:    "Select fullscreen device"
-resource:               "TEDXRANDRFullscreenDevice"
+resource:       "TEDXRANDRFullscreenDevice"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDVidmodefull
 description:    "Enable fullscreen"
-resource:               "TEDVidmodeFullscreen" (set to 1)
+resource:       "TEDVidmodeFullscreen" (set to 1)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   +TEDVidmodefull
 description:    "Disable fullscreen"
-resource:               "TEDVidmodeFullscreen" (set to 0)
+resource:       "TEDVidmodeFullscreen" (set to 0)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDVidmodefulldevice <device>
 description:    "Select fullscreen device"
-resource:               "CRTCVidmodeFullscreenDevice"
+resource:       "TEDVidmodeFullscreenDevice"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDSDLfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "TEDSDLFullscreenMode"
+resource:       "TEDSDLFullscreenMode"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "TEDXRANDRFullscreenMode"
+resource:       "TEDXRANDRFullscreenMode"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "TEDVidmodeFullscreenMode"
+resource:       "TEDVidmodeFullscreenMode"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
-resource:               "TEDColorSaturation"
+resource:       "TEDColorSaturation"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
-resource:               "TEDColorContrast"
+resource:       "TEDColorContrast"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
-resource:               "TEDColorBrightness"
+resource:       "TEDColorBrightness"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
-resource:               "TEDColorGamma"
+resource:       "TEDColorGamma"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDtint <0-2000>
 description:    "Set tint of internal calculated palette"
-resource:               "TEDColorTint"
+resource:       "TEDColorTint"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
-resource:               "TEDPALOddLinePhase"
+resource:       "TEDPALOddLinePhase"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
-resource:               "TEDPALOddLineOffset"
+resource:       "TEDPALOddLineOffset"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
-resource:               "TEDPALBlur"
+resource:       "TEDPALBlur"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
-resource:               "TEDPALScanLineShade"
+resource:       "TEDPALScanLineShade"
 action:         N/A
 
 printerdrv/driver-select.c:
 ---------------------------
 command line:   -pr4drv <Name>
 description:    "Specify name of printer driver for device #4" (fixme: needs better description)
-resource:               "Printer4Driver"
+resource:       "Printer4Driver"
 action:         N/A
 
 printerdrv/driver-select.c:
