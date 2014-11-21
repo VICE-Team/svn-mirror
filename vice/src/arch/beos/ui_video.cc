@@ -74,14 +74,16 @@ static control_res_t crt_controls[] = {
     { NULL, NULL, 0 }
 };
 
-static const char *chip_name_table[] = { "VICII", "VIC", "Crtc", "VDC", "TED" };
+static const char *chip_display_names[] = { "VIC-II", "VIC", "CRTC", "VDC", "TED" };
+
+static const char *res_prefixes[] = { "VICII", "VIC", "Crtc", "VDC", "TED" };
 
 class VideoWindow : public BWindow {
         BBox *color_ctrlsbox;
         BBox *crt_ctrlsbox;
         BListView *palettelistview;
         int chip_no;
-        const char *chip_name;
+        const char *res_prefix;
 
         void CreateSliders(BBox *parent, control_res_t *ctrls);
         //~ void EnableSliders(BBox *parent);
@@ -105,7 +107,7 @@ void VideoWindow::CreateSliders(BBox *parent, control_res_t *ctrls)
     r.bottom = 50;
     r.InsetBy(5, 15);
     for (int i = 0; ctrls[i].name; i++) {
-        resname = util_concat(chip_name, ctrls[i].res_name, NULL);
+        resname = util_concat(res_prefix, ctrls[i].res_name, NULL);
         if (resources_get_int(resname, &res_val) == 0) {
             slider = new BSlider(r.OffsetByCopy(0, i * 45), resname, ctrls[i].name, NULL, 0, ctrls[i].multiplier, B_TRIANGLE_THUMB);
             msg = new BMessage(MESSAGE_VIDEO_COLOR);
@@ -137,7 +139,7 @@ VideoWindow::VideoWindow(int chipno, int chiptype, const char *titlestr)
     //~ BRadioButton *rb_mode;
 
     chip_no = chipno;
-    chip_name = chip_name_table[chiptype];
+    res_prefix = res_prefixes[chiptype];
 
     r = Bounds();
     background = new BView(r, NULL,  B_FOLLOW_NONE, B_WILL_DRAW);
@@ -158,7 +160,7 @@ VideoWindow::VideoWindow(int chipno, int chiptype, const char *titlestr)
     background->AddChild(crt_ctrlsbox);
 
     /* Audio Leak check box */
-    resname = util_concat(chip_name, "AudioLeak", NULL);
+    resname = util_concat(res_prefix, "AudioLeak", NULL);
     msg = new BMessage(MESSAGE_VIDEO_AUDIO_LEAK);
     msg->AddString("resname", resname);
     checkbox = new BCheckBox(BRect(250, 210, 380, 225), "AudioLeak", "Audio Leak", msg);
@@ -168,7 +170,7 @@ VideoWindow::VideoWindow(int chipno, int chiptype, const char *titlestr)
     lib_free(resname);
 
     /* External Palette check box */
-    resname = util_concat(chip_name, "ExternalPalette", NULL);
+    resname = util_concat(res_prefix, "ExternalPalette", NULL);
     msg = new BMessage(MESSAGE_VIDEO_EXTERNALPALETTE);
     msg->AddString("resname", resname);
     checkbox = new BCheckBox(BRect(250, 10, 380, 25), "ExternalPalette", "External Palette", msg);
@@ -178,7 +180,7 @@ VideoWindow::VideoWindow(int chipno, int chiptype, const char *titlestr)
     lib_free(resname);
 
     /* External Palette File list box */
-    resname = util_concat(chip_name, "PaletteFile", NULL);
+    resname = util_concat(res_prefix, "PaletteFile", NULL);
     msg = new BMessage(MESSAGE_VIDEO_PALETTEFILE);
     msg->AddString("resname", resname);
     palettelistview = new BListView(BRect(250, 35, 360, 125), "PaletteFile");
@@ -268,7 +270,6 @@ void VideoWindow::MessageReceived(BMessage *msg)
 
 void ui_video(int chip_type)
 {
-    const char *temp_str;
     char *title_str;
     int chip_no;
 
@@ -283,13 +284,7 @@ void ui_video(int chip_type)
         return;
     }
 
-    if (chip_type == UI_VIDEO_CHIP_VICII) {
-        temp_str = "VIC-II";
-    } else {
-        temp_str = chip_name_table[chip_type];
-    }
-
-    title_str = lib_msprintf("Video settings (%s)", temp_str);
+    title_str = lib_msprintf("Video settings (%s)", chip_display_names[chip_type]);
     videowindow[chip_no] = new VideoWindow(chip_no, chip_type, title_str);
     lib_free(title_str);
 }
