@@ -10968,20 +10968,20 @@ translate_t string_table[] = {
 #endif
 
 /* vic20/vic20-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_MEMORY_CONFIG,    N_("Specify memory configuration")},
+/* en */ {IDCLS_SPECIFY_MEMORY_CONFIG,    N_("Specify memory configuration. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / (04/20/40/60/a0)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_MEMORY_CONFIG_DA, "Angiv hukommelseskonfiguration"},
-/* de */ {IDCLS_SPECIFY_MEMORY_CONFIG_DE, "Speicher Konfiguration definieren"},
-/* es */ {IDCLS_SPECIFY_MEMORY_CONFIG_ES, "Especificar configuración de memoria"},
-/* fr */ {IDCLS_SPECIFY_MEMORY_CONFIG_FR, "Spécifier la configuration de la mémoire"},
-/* hu */ {IDCLS_SPECIFY_MEMORY_CONFIG_HU, "Adja meg a memória konfigurációt"},
-/* it */ {IDCLS_SPECIFY_MEMORY_CONFIG_IT, "Specifica la configurazione della memoria"},
+/* da */ {IDCLS_SPECIFY_MEMORY_CONFIG_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_MEMORY_CONFIG_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_MEMORY_CONFIG_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_MEMORY_CONFIG_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_MEMORY_CONFIG_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_MEMORY_CONFIG_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_MEMORY_CONFIG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_MEMORY_CONFIG_NL, "Geef geheugenconfiguratie"},
-/* pl */ {IDCLS_SPECIFY_MEMORY_CONFIG_PL, "Okre¶l konfiguracjê pamiêci"},
-/* ru */ {IDCLS_SPECIFY_MEMORY_CONFIG_RU, "Specify memory configuration"},
-/* sv */ {IDCLS_SPECIFY_MEMORY_CONFIG_SV, "Ange minneskonfiguration"},
-/* tr */ {IDCLS_SPECIFY_MEMORY_CONFIG_TR, "Bellek konfigürasyonunu ayarlayýn"},
+/* nl */ {IDCLS_SPECIFY_MEMORY_CONFIG_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_MEMORY_CONFIG_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_MEMORY_CONFIG_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_MEMORY_CONFIG_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_MEMORY_CONFIG_TR, ""},  /* fuzzy */
 #endif
 
 /* vic20/vic20-cmdline-options.c */

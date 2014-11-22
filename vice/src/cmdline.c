@@ -122,6 +122,8 @@ int cmdline_register_options(const cmdline_option_t *c)
         p->param_name_trans = c->param_name_trans;
         p->description_trans = c->description_trans;
 
+        p->combined_string = NULL;
+
         num_options++;
     }
 
@@ -135,6 +137,9 @@ static void cmdline_free(void)
     for (i = 0; i < num_options; i++) {
         lib_free((options + i)->name);
         lib_free((options + i)->resource_name);
+        if ((options + i)->combined_string) {
+            lib_free((options + i)->combined_string);
+        }
     }
 }
 
@@ -292,6 +297,12 @@ char *cmdline_options_get_description(int counter)
 {
     if (options[counter].use_description_id == USE_DESCRIPTION_ID) {
         return translate_text(options[counter].description_trans);
+    } else if (options[counter].use_description_id == USE_DESCRIPTION_COMBO) {
+        if (options[counter].combined_string) {
+            lib_free(options[counter].combined_string);
+        }
+        options[counter].combined_string = util_concat(translate_text(options[counter].description_trans), options[counter].description, NULL);
+        return options[counter].combined_string;
     } else {
         return (char *)_(options[counter].description);
     }

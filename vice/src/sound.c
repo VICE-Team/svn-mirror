@@ -604,8 +604,8 @@ static const cmdline_option_t cmdline_options[] = {
 static cmdline_option_t devs_cmdline_options[] = {
     { "-sounddev", SET_RESOURCE, 1,
       NULL, NULL, "SoundDeviceName", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
+      IDCLS_P_NAME, IDCLS_SPECIFY_SOUND_DRIVER,
       NULL, NULL },
     { "-soundarg", SET_RESOURCE, 1,
       NULL, NULL, "SoundDeviceArg", NULL,
@@ -614,8 +614,8 @@ static cmdline_option_t devs_cmdline_options[] = {
       NULL, NULL },
     { "-soundrecdev", SET_RESOURCE, 1,
       NULL, NULL, "SoundRecordDeviceName", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
+      IDCLS_P_NAME, IDCLS_SPECIFY_RECORDING_SOUND_DRIVER,
       NULL, NULL },
     { "-soundrecarg", SET_RESOURCE, 1,
       NULL, NULL, "SoundRecordDeviceArg", NULL,
@@ -636,8 +636,8 @@ int sound_cmdline_options_init(void)
         return -1;
     }
 
-    playback_devices_cmdline = util_concat(translate_text(IDCLS_SPECIFY_SOUND_DRIVER), ". (", NULL);
-    record_devices_cmdline = util_concat(translate_text(IDCLS_SPECIFY_RECORDING_SOUND_DRIVER), ". (", NULL);
+    playback_devices_cmdline = lib_stralloc(". (");
+    record_devices_cmdline = lib_stralloc(". (");
 
     for (i = 0; sound_register_devices[i].name; i++) {
         if (sound_register_devices[i].is_playback_device) {
