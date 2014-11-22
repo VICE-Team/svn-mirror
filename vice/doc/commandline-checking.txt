@@ -6000,827 +6000,831 @@ printerdrv/interface-serial.c:
 ------------------------------
 command line:   -device4 <Type>
 description:    "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
-resource:               "Printer4"
+resource:       "Printer4"
 action:         N/A
+fixme: why the SHOUTING ??
 
 printerdrv/interface-serial.c:
 ------------------------------
 command line:   -device5 <Type>
 description:    "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
-resource:               "Printer5"
+resource:       "Printer5"
 action:         N/A
+fixme: why the SHOUTING ??
 
 printerdrv/interface-serial.c:
 ------------------------------
 command line:   -device6 <Type>
 description:    "Set device type for device #6 (0: NONE, 1: FS, 2: REAL)"
-resource:               "Printer6"
+resource:       "Printer6"
 action:         N/A
+fixme: why the SHOUTING ??
 
 printerdrv/interface-serial.c:
 ------------------------------
 command line:   -device7 <Type>
 description:    "Set device type for device #7 (0: NONE, 2: REAL)"
-resource:               "Printer7"
+resource:       "Printer7"
 action:         N/A
+fixme: why the SHOUTING ??
 
 printerdrv/interface-userport.c:
 --------------------------------
 command line:   -pruser
 description:    "Enable the userport printer emulation"
-resource:               "PrinterUserport" (set to 1)
+resource:       "PrinterUserport" (set to 1)
 action:         N/A
 
 printerdrv/interface-userport.c:
 --------------------------------
 command line:   +pruser
 description:    "Disable the userport printer emulation"
-resource:               "PrinterUserport" (set to 0)
+resource:       "PrinterUserport" (set to 0)
 action:         N/A
 
 printerdrv/output-select.c:
 ---------------------------
 command line:   -pr4output <Name>
 description:    "Specify name of output device for device #4"
-resource:               "Printer4Output"
+resource:       "Printer4Output"
 action:         N/A
 
 printerdrv/output-select.c:
 ---------------------------
 command line:   -pr5output <Name>
 description:    "Specify name of output device for device #5"
-resource:               "Printer5Output"
+resource:       "Printer5Output"
 action:         N/A
 
 printerdrv/output-text.c:
 -------------------------
 command line:   -prtxtdev1 <Name>
 description:    "Specify name of printer text device or dump file"
-resource:               "PrinterTextDevice1"
+resource:       "PrinterTextDevice1"
 action:         N/A
 
 printerdrv/output-text.c:
 -------------------------
 command line:   -prtxtdev2 <Name>
 description:    "Specify name of printer text device or dump file"
-resource:               "PrinterTextDevice2"
+resource:       "PrinterTextDevice2"
 action:         N/A
 
 printerdrv/output-text.c:
 -------------------------
 command line:   -prtxtdev3 <Name>
 description:    "Specify name of printer text device or dump file"
-resource:               "PrinterTextDevice3"
+resource:       "PrinterTextDevice3"
 action:         N/A
 
 printerdrv/output-text.c:
 -------------------------
 command line:   -pr4txtdev <0-2>
 description:    "Specify printer text output device for printer #4"
-resource:               "Printer4TextDevice"
+resource:       "Printer4TextDevice"
 action:         N/A
 
 printerdrv/output-text.c:
 -------------------------
 command line:   -pr5txtdev <0-2>
 description:    "Specify printer text output device for printer #5"
-resource:               "Printer5TextDevice"
+resource:       "Printer5TextDevice"
 action:         N/A
 
 printerdrv/output-text.c:
 -------------------------
 command line:   -pr6txtdev <0-2>
 description:    "Specify printer text output device for printer #6"
-resource:               "Printer6TextDevice"
+resource:       "Printer6TextDevice"
 action:         N/A
 
 ps2mouse.c:
 -----------
 command line:   -ps2mouse
 description:    "Enable PS/2 mouse on userport"
-resource:               "PS2Mouse" (set to 1)
+resource:       "PS2Mouse" (set to 1)
 action:         N/A
 
 ps2mouse.c:
 -----------
 command line:   +ps2mouse
 description:    "Disable PS/2 mouse on userport"
-resource:               "PS2Mouse" (set to 0)
+resource:       "PS2Mouse" (set to 0)
 action:         N/A
 
 ram.c:
 ------
 command line:   -raminitstartvalue <value>
 description:    "Set the value for the very first RAM address after powerup"
-resource:               "RAMInitStartValue"
+resource:       "RAMInitStartValue"
 action:         N/A
 
 ram.c:
 ------
 command line:   -raminitvalueinvert <num of bytes>
 description:    "Length of memory block initialized with the same value"
-resource:               "RAMInitValueInvert"
+resource:       "RAMInitValueInvert"
 action:         N/A
 
 ram.c:
 ------
 command line:   -raminitpatterninvert <num of bytes>
 description:    "Length of memory block initialized with the same pattern"
-resource:               "RAMInitPatternInvert"
+resource:       "RAMInitPatternInvert"
 action:         N/A
 
 romset.c:
 ---------
 command line:   -romsetfile <File>
 description:    "load the given romset file"
-resource:               N/A
+resource:       N/A
 action:         option_romsetfile()
 
 romset.c:
 ---------
 command line:   -romsetarchive <File>
 description:    "load the given romset archive"
-resource:               N/A
+resource:       N/A
 action:         option_romsetarchive()
 
 romset.c:
 ---------
 command line:   -romsetarchiveselect <Item number>
 description:    "select the given item from the current romset archive"
-resource:               N/A
+resource:       N/A
 action:         option_romsetarchiveselect()
 
 rs232drv/rs232drv.c:
 --------------------
 command line:   -rsdev1 <Name>
 description:    "Specify name of first RS232 device"
-resource:               "RsDevice1"
+resource:       "RsDevice1"
 action:         N/A
 
 rs232drv/rs232drv.c:
 --------------------
 command line:   -rsdev2 <Name>
 description:    "Specify name of second RS232 device"
-resource:               "RsDevice2"
+resource:       "RsDevice2"
 action:         N/A
 
 rs232drv/rs232drv.c:
 --------------------
 command line:   -rsdev3 <Name>
 description:    "Specify name of third RS232 device"
-resource:               "RsDevice3"
+resource:       "RsDevice3"
 action:         N/A
 
 rs232drv/rs232drv.c:
 --------------------
 command line:   -rsdev4 <Name>
 description:    "Specify name of fourth RS232 device"
-resource:               "RsDevice4"
+resource:       "RsDevice4"
 action:         N/A
 
 rs232drv/rsuser.c:
 ------------------
 command line:   -rsuser
 description:    "Enable RS232 userport emulation"
-resource:               "RsUserEnable" (set to 1)
+resource:       "RsUserEnable" (set to 1)
 action:         N/A
 
 rs232drv/rsuser.c:
 ------------------
 command line:   +rsuser
 description:    "Disable RS232 userport emulation"
-resource:               "RsUserEnable" (set to 0)
+resource:       "RsUserEnable" (set to 0)
 action:         N/A
 
 rs232drv/rsuser.c:
 ------------------
 command line:   -rsuserbaud <baud>
 description:    "Set the baud rate of the RS232 userport emulation."
-resource:               "RsUserBaud"
+resource:       "RsUserBaud"
 action:         N/A
 
 rs232drv/rsuser.c:
 ------------------
 command line:   -rsuserdev <0-3>
 description:    "Specify VICE RS232 device for userport"
-resource:               "RsUserDev"
+resource:       "RsUserDev"
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -pal
 description:    "Use PAL sync factor"
-resource:               N/A
+resource:       N/A
 action:         set_video_standard() (sets "VICIIModel")
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -ntsc
 description:    "Use NTSC sync factor"
-resource:               N/A
+resource:       N/A
 action:         set_video_standard() (sets "VICIIModel")
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -ntscold
 description:    "Use old NTSC sync factor"
-resource:               N/A
+resource:       N/A
 action:         set_video_standard() (sets "VICIIModel")
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -paln
 description:    "Use PAL-N sync factor"
-resource:               N/A
+resource:       N/A
 action:         set_video_standard() (sets "VICIIModel")
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -scpu64 <Name>
-description:    "Specify name of Kernal ROM image" (fixme: needs better description)
-resource:               "SCPU64Name"
+description:    "Specify name of SCPU64 ROM image"
+resource:       "SCPU64Name"
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -chargen <Name>
 description:    "Specify name of character generator ROM image"
-resource:               "ChargenName"
+resource:       "ChargenName"
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -keymap <number>
 description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
-resource:               "KeymapIndex"
+resource:       "KeymapIndex"
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
-resource:               "KeymapSymFile"
+resource:       "KeymapSymFile"
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -symdekeymap <Name>
 description:    "Specify name of symbolic German keymap file"
-resource:               "KeymapSymDeFile"
+resource:       "KeymapSymDeFile"
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
-resource:               "KeymapPosFile"
+resource:       "KeymapPosFile"
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -ciamodel <Model>
 description:    "Set both CIA models (0 = old 6526, 1 = new 6526A)"
-resource:               N/A
+resource:       N/A
 action:         set_cia_model() (sets "CIA1Model" and "CIA2Model")
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -cia1model <Model>
 description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
-resource:               "CIA1Model"
+resource:       "CIA1Model"
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -cia2model <Model>
 description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
-resource:               "CIA2Model"
+resource:       "CIA2Model"
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -model <modelnumber>
 description:    "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"
-resource:               N/A
+resource:       N/A
 action:         set_c64_model() (sets "MachineVideoStandard", "CIA1Model", "CIA2Model", "VICIINewLuminances", "BoardType", "IECReset",
-                        "KernalName", "ChargenName", "SidEngine" and "SidModel")
+                "KernalName", "ChargenName", "SidEngine" and "SidModel")
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -burstmod <value>
 description:    "Burst modification (0 = None, 1 = CIA1, 2 = CIA2)"
-resource:               "BurstMod"
+resource:       "BurstMod"
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -iecreset <value>
 description:    "Computer reset goes to IEC bus (0 = No, 1 = Yes)"
-resource:               "IECReset"
+resource:       "IECReset"
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -simmsize <number>
 description:    "Size of the SIMM RAM (0/1/4/8/16 MB)"
-resource:               "SIMMSize"
+resource:       "SIMMSize"
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -jiffyswitch
 description:    "Turn on Jiffy switch"
-resource:               "JiffySwitch" (set to 1)
+resource:       "JiffySwitch" (set to 1)
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   +jiffyswitch
 description:    "Turn off Jiffy switch"
-resource:               "JiffySwitch" (set to 0)
+resource:       "JiffySwitch" (set to 0)
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   -speedswitch
 description:    "Turn on Speed switch"
-resource:               "SpeedSwitch" (set to 1)
+resource:       "SpeedSwitch" (set to 1)
 action:         N/A
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
 command line:   +speedswitch
 description:    "Turn off Speed switch"
-resource:               "SpeedSwitch" (set to 0)
+resource:       "SpeedSwitch" (set to 0)
 action:         N/A
 
 scpu64/scpu64gluelogic.c:
 -------------------------
 command line:   -gluelogictype <Type>
 description:    "Set glue logic type (0 = discrete, 1 = 252535-01)"
-resource:               "GlueLogic"
+resource:       "GlueLogic"
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   -iecdevice4
 description:    "Enable IEC device emulation for device #4"
-resource:               "IECDevice4" (set to 1)
+resource:       "IECDevice4" (set to 1)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   +iecdevice4
 description:    "Disable IEC device emulation for device #4"
-resource:               "IECDevice4" (set to 0)
+resource:       "IECDevice4" (set to 0)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   -iecdevice5
 description:    "Enable IEC device emulation for device #5"
-resource:               "IECDevice5" (set to 1)
+resource:       "IECDevice5" (set to 1)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   +iecdevice5
 description:    "Disable IEC device emulation for device #5"
-resource:               "IECDevice5" (set to 0)
+resource:       "IECDevice5" (set to 0)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   -iecdevice6
 description:    "Enable IEC device emulation for device #6"
-resource:               "IECDevice6" (set to 1)
+resource:       "IECDevice6" (set to 1)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   +iecdevice6
 description:    "Disable IEC device emulation for device #6"
-resource:               "IECDevice6" (set to 0)
+resource:       "IECDevice6" (set to 0)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   -iecdevice7
 description:    "Enable IEC device emulation for device #7"
-resource:               "IECDevice7" (set to 1)
+resource:       "IECDevice7" (set to 1)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   +iecdevice7
 description:    "Disable IEC device emulation for device #7"
-resource:               "IECDevice7" (set to 0)
+resource:       "IECDevice7" (set to 0)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   -iecdevice8
 description:    "Enable IEC device emulation for device #8"
-resource:               "IECDevice8" (set to 1)
+resource:       "IECDevice8" (set to 1)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   +iecdevice8
 description:    "Disable IEC device emulation for device #8"
-resource:               "IECDevice8" (set to 0)
+resource:       "IECDevice8" (set to 0)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   -iecdevice9
 description:    "Enable IEC device emulation for device #9"
-resource:               "IECDevice9" (set to 1)
+resource:       "IECDevice9" (set to 1)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   +iecdevice9
 description:    "Disable IEC device emulation for device #9"
-resource:               "IECDevice9" (set to 0)
+resource:       "IECDevice9" (set to 0)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   -iecdevice10
 description:    "Enable IEC device emulation for device #10"
-resource:               "IECDevice10" (set to 1)
+resource:       "IECDevice10" (set to 1)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   +iecdevice10
 description:    "Disable IEC device emulation for device #10"
-resource:               "IECDevice10" (set to 0)
+resource:       "IECDevice10" (set to 0)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   -iecdevice11
 description:    "Enable IEC device emulation for device #11"
-resource:               "IECDevice11" (set to 1)
+resource:       "IECDevice11" (set to 1)
 action:         N/A
 
 serial/serial-iec-device.c:
 ---------------------------
 command line:   +iecdevice11
 description:    "Disable IEC device emulation for device #11"
-resource:               "IECDevice11" (set to 0)
+resource:       "IECDevice11" (set to 0)
 action:         N/A
 
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   -sidenginemodel <engine and model>
 description:    "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
-resource:               N/A
+resource:       N/A
 action:         sid_common_set_engine_model() (sets "SidEngine" and "SidModel")
 
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   -residsamp <method>
 description:    "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast resampling)"
-resource:               "SidResidSampling"
+resource:       "SidResidSampling"
 action:         N/A
 
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   -residpass <percent>
 description:    "reSID resampling passband in percentage of total bandwidth (0 - 90)"
-resource:               "SidResidPassband"
+resource:       "SidResidPassband"
 action:         N/A
 
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   -residgain <percent>
 description:    "reSID gain in percent (90 - 100)"
-resource:               "SidResidGain"
+resource:       "SidResidGain"
 action:         N/A
 
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   -residfilterbias <number>
 description:    "reSID filter bias setting, which can be used to adjust DAC bias in millivolts."
-resource:               "SidResidGain"
+resource:       "SidResidGain"
 action:         N/A
 
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   -sidstereo <amount>
 description:    "amount of extra SID chips"
-resource:               "SidStereo"
+resource:       "SidStereo"
 action:         N/A
 
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   -sidstereoaddress <Base address>
 description:    "Specify base address for 2nd SID"
-resource:               "SidStereoAddressStart"
+resource:       "SidStereoAddressStart"
 action:         N/A
 
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   -sidtripleaddress <Base address>
 description:    "Specify base address for 3rd SID"
-resource:               "SidTripleAddressStart"
+resource:       "SidTripleAddressStart"
 action:         N/A
 
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   -sidfilters
 description:    "Emulate SID filters"
-resource:               "SidFilters" (set to 1)
+resource:       "SidFilters" (set to 1)
 action:         N/A
 
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   +sidfilters
 description:    "Do not emulate SID filters"
-resource:               "SidFilters" (set to 0)
+resource:       "SidFilters" (set to 0)
 action:         N/A
 
 sound.c:
 --------
 command line:   -sound
 description:    "Enable sound playback"
-resource:               "Sound" (set to 1)
+resource:       "Sound" (set to 1)
 action:         N/A
 
 sound.c:
 --------
 command line:   +sound
 description:    "Disable sound playback"
-resource:               "Sound" (set to 0)
+resource:       "Sound" (set to 0)
 action:         N/A
 
 sound.c:
 --------
 command line:   -soundrate <value>
 description:    "Set sound sample rate to <value> Hz"
-resource:               "SoundSampleRate"
+resource:       "SoundSampleRate"
 action:         N/A
 
 sound.c:
 --------
 command line:   -soundbufsize <value>
 description:    "Set sound buffer size to <value> msec"
-resource:               "SoundBufferSize"
+resource:       "SoundBufferSize"
 action:         N/A
 
 sound.c:
 --------
 command line:   -soundfragsize <value>
 description:    "Set sound fragment size (0 = small, 1 = medium, 2 = large)"
-resource:               "SoundFragmentSize"
+resource:       "SoundFragmentSize"
 action:         N/A
 
 sound.c:
 --------
 command line:   -sounddev <Name>
-description:    "Specify sound driver" (fixme: needs better description)
-resource:               "SoundDeviceName"
+description:    "Specify sound driver ([available drivers])"
+resource:       "SoundDeviceName"
 action:         N/A
 
 sound.c:
 --------
 command line:   -soundarg <args>
 description:    "Specify initialization parameters for sound driver" (fixme: needs better description)
-resource:               "SoundDeviceArg"
+resource:       "SoundDeviceArg"
 action:         N/A
 
 sound.c:
 --------
 command line:   -soundrecdev <Name>
-description:    "Specify recording sound driver" (fixme: needs better description)
-resource:               "SoundRecordDeviceName"
+description:    "Specify recording sound driver ([available drivers])"
+resource:       "SoundRecordDeviceName"
 action:         N/A
 
 sound.c:
 --------
 command line:   -soundrecarg <args>
 description:    "Specify initialization parameters for recording sound driver" (fixme: needs better description)
-resource:               "SoundRecordDeviceArg"
+resource:       "SoundRecordDeviceArg"
 action:         N/A
 
 sound.c:
 --------
 command line:   -soundsync <sync>
 description:    "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
-resource:               "SoundSpeedAdjustment"
+resource:       "SoundSpeedAdjustment"
 action:         N/A
 
 sound.c:
 --------
 command line:   -soundoutput <output mode>
 description:    "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always stereo)"
-resource:               "SoundOutput"
+resource:       "SoundOutput"
 action:         N/A
 
 sysfile.c:
 ----------
 command line:   -directory <Path>
 description:    "Define search path to locate system files"
-resource:               "Directory"
+resource:       "Directory"
 action:         N/A
 
 translate.c:
 ------------
 command line:   -lang <iso language code>
-description:    "Specify the iso code of the language" (fixme: needs better description)
-resource:               "Language"
+description:    "Specify the iso code of the language ([list of iso codes])"
+resource:       "Language"
 action:         N/A
 
 traps.c:
 --------
 command line:   -virtualdev
 description:    "Enable general mechanisms for fast disk/tape emulation"
-resource:               "VirtualDevices" (set to 1)
+resource:       "VirtualDevices" (set to 1)
 action:         N/A
 
 traps.c:
 --------
 command line:   +virtualdev
 description:    "Disable general mechanisms for fast disk/tape emulation"
-resource:               "VirtualDevices" (set to 0)
+resource:       "VirtualDevices" (set to 0)
 action:         N/A
 
 userport/userport_dac.c:
 ------------------------
 command line:   -userportdac
 description:    "Enable Userport DAC for sound output"
-resource:               "UserportDAC" (set to 1)
+resource:       "UserportDAC" (set to 1)
 action:         N/A
 
 userport/userport_dac.c:
 ------------------------
 command line:   +userportdac
 description:    "Disable Userport DAC for sound output"
-resource:               "UserportDAC" (set to 0)
+resource:       "UserportDAC" (set to 0)
 action:         N/A
 
 userport/userport_joystick.c:
 -----------------------------
 command line:   -userportjoy
 description:    "Enable Userport joystick adapter"
-resource:               "UserportJoy" (set to 1)
+resource:       "UserportJoy" (set to 1)
 action:         N/A
 
 userport/userport_joystick.c:
 -----------------------------
 command line:   +userportjoy
 description:    "Disable Userport joystick adapter"
-resource:               "UserportJoy" (set to 0)
+resource:       "UserportJoy" (set to 0)
 action:         N/A
 
 userport/userport_joystick.c:
 -----------------------------
 command line:   -userportjoytype <Type>
 description:    "Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
-resource:               "UserportJoyType"
+resource:       "UserportJoyType"
 action:         N/A
 
 userport/userport_rtc.c:
 ------------------------
 command line:   -userportrtc
 description:    "Enable Userport RTC"
-resource:               "UserportRTC" (set to 1)
+resource:       "UserportRTC" (set to 1)
 action:         N/A
 
 userport/userport_rtc.c:
 ------------------------
 command line:   +userportrtc
 description:    "Disable Userport RTC"
-resource:               "UserportRTC" (set to 0)
+resource:       "UserportRTC" (set to 0)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCstretchvertical
 description:    "Enable additional vertical stretching."
-resource:               "VDCStretchVertical" (set to 1)
+resource:       "VDCStretchVertical" (set to 1)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   +VDCstretchvertical
 description:    "Disable additional vertical stretching."
-resource:               "VDCStretchVertical" (set to 0)
+resource:       "VDCStretchVertical" (set to 0)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDC16KB
 description:    "Set the VDC memory size to 16KB"
-resource:               "VDC64KB" (set to 0)
+resource:       "VDC64KB" (set to 0)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDC64KB
 description:    "Set the VDC memory size to 64KB"
-resource:               "VDC64KB" (set to 1)
+resource:       "VDC64KB" (set to 1)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCRevision <number>
 description:    "Set VDC revision (0..2)"
-resource:               "VDCRevision"
+resource:       "VDCRevision"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCvcache
 description:    "Enable the video cache"
-resource:               "VDCVideoCache" (set to 1)
+resource:       "VDCVideoCache" (set to 1)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   +VDCvcache
 description:    "Disable the video cache"
-resource:               "VDCVideoCache" (set to 0)
+resource:       "VDCVideoCache" (set to 0)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCdsize
 description:    "Enable double size"
-resource:               "VDCDoubleSize" (set to 1)
+resource:       "VDCDoubleSize" (set to 1)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   +VDCdsize
 description:    "Disable double size"
-resource:               "VDCDoubleSize" (set to 0)
+resource:       "VDCDoubleSize" (set to 0)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCdscan
 description:    "Enable double scan"
-resource:               "VDCDoubleScan" (set to 1)
+resource:       "VDCDoubleScan" (set to 1)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   +VDCdscan
 description:    "Disable double scan"
-resource:               "VDCDoubleScan" (set to 0)
+resource:       "VDCDoubleScan" (set to 0)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCaudioleak
 description:    "Enable audio leak emulation"
-resource:               "VDCAudioLeak" (set to 1)
+resource:       "VDCAudioLeak" (set to 1)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   +VDCaudioleak
 description:    "Disable audio leak emulation"
-resource:               "VDCAudioLeak" (set to 0)
+resource:       "VDCAudioLeak" (set to 0)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDChwscale
 description:    "Enable hardware scaling"
-resource:               "VDCHwScale" (set to 1)
+resource:       "VDCHwScale" (set to 1)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   +VDChwscale
 description:    "Disable hardware scaling"
-resource:               "VDCHwScale" (set to 0)
+resource:       "VDCHwScale" (set to 0)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCfilter <Mode>
 description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:               "VDCFilter"
+resource:       "VDCFilter"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCintpal
 description:    "Use an internal calculated palette"
-resource:               "VDCExternalPalette" (set to 0)
+resource:       "VDCExternalPalette" (set to 0)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCextpal
 description:    "Use an external palette (file)"
-resource:               "VDCExternalPalette" (set to 1)
+resource:       "VDCExternalPalette" (set to 1)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
