@@ -435,6 +435,9 @@ IDCLS_SET_IEC_RESET
    vic20/vic20-cmdline-options.c */
 IDCLS_SPECIFY_KERNAL_ROM_NAME
 
+/* scpu64/scpu64-cmdline-options.c */
+IDCLS_SPECIFY_SCPU64_ROM_NAME
+
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */

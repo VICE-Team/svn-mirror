@@ -166,7 +166,7 @@ static const cmdline_option_t cmdline_options[] = {
     { "-scpu64", SET_RESOURCE, 1,
       NULL, NULL, "SCPU64Name", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_KERNAL_ROM_NAME,
+      IDCLS_P_NAME, IDCLS_SPECIFY_SCPU64_ROM_NAME,
       NULL, NULL },
     { "-chargen", SET_RESOURCE, 1,
       NULL, NULL, "ChargenName", NULL,
