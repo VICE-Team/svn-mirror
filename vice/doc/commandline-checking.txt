@@ -5719,7 +5719,7 @@ action:         set_speech_rom() (sets "SpeechImage" and "SpeechEnabled")
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDborders <Mode>
-description:    "Set VIC-II border display mode (0: normal, 1: full, 2: debug)" (fixme: incorrect description)
+description:    "Set border display mode (0: normal, 1: full, 2: debug)"
 resource:       N/A
 action:         border_set_func() (sets "TEDBorderMode")
 
@@ -6831,280 +6831,280 @@ vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCpalette <Name>
 description:    "Specify name of file of external palette"
-resource:               "VDCPaletteFile"
+resource:       "VDCPaletteFile"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCfull
 description:    "Enable fullscreen"
-resource:               "VDCFullscreen" (set to 1)
+resource:       "VDCFullscreen" (set to 1)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   +VDCfull
 description:    "Disable fullscreen"
-resource:               "VDCFullscreen" (set to 0)
+resource:       "VDCFullscreen" (set to 0)
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCfulldevice <device>
 description:    "Select fullscreen device"
-resource:               "VDCFullscreenDevice"
+resource:       "VDCFullscreenDevice"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCSDLfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "VDCSDLFullscreenMode"
+resource:       "VDCSDLFullscreenMode"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "VDCXRANDRFullscreenMode"
+resource:       "VDCXRANDRFullscreenMode"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "VDCVidmodeFullscreenMode"
+resource:       "VDCVidmodeFullscreenMode"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
-resource:               "VDCColorSaturation"
+resource:       "VDCColorSaturation"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
-resource:               "VDCColorContrast"
+resource:       "VDCColorContrast"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
-resource:               "VDCColorBrightness"
+resource:       "VDCColorBrightness"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
-resource:               "VDCColorGamma"
+resource:       "VDCColorGamma"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCtint <0-2000>
 description:    "Set tint of internal calculated palette"
-resource:               "VDCColorTint"
+resource:       "VDCColorTint"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
-resource:               "VDCPALOddLinePhase"
+resource:       "VDCPALOddLinePhase"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
-resource:               "VDCPALOddLineOffset"
+resource:       "VDCPALOddLineOffset"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
-resource:               "VDCPALBlur"
+resource:       "VDCPALBlur"
 action:         N/A
 
 vdc/vdc-cmdline-options.c:
 --------------------------
 command line:   -VDCcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
-resource:               "VDCPALScanLineShade"
+resource:       "VDCPALScanLineShade"
 action:         N/A
 
 vic20/cart/finalexpansion.c:
 ----------------------------
 command line:   -fewriteback
 description:    "Enable Final Expansion write back to ROM file"
-resource:               "FinalExpansionWriteBack" (set to 1)
+resource:       "FinalExpansionWriteBack" (set to 1)
 action:         N/A
 
 vic20/cart/finalexpansion.c:
 ----------------------------
 command line:   +fewriteback
 description:    "Disable Final Expansion write back to ROM file"
-resource:               "FinalExpansionWriteBack" (set to 0)
+resource:       "FinalExpansionWriteBack" (set to 0)
 action:         N/A
 
 vic20/cart/megacart.c:
 ----------------------
 command line:   -mcnvramfile <Name>
 description:    "Set Mega-Cart NvRAM filename"
-resource:               "MegaCartNvRAMfilename"
+resource:       "MegaCartNvRAMfilename"
 action:         N/A
 
 vic20/cart/megacart.c:
 ----------------------
 command line:   -mcnvramwriteback
 description:    "Enable Mega-Cart NvRAM writeback"
-resource:               "MegaCartNvRAMWriteBack" (set to 1)
+resource:       "MegaCartNvRAMWriteBack" (set to 1)
 action:         N/A
 
 vic20/cart/megacart.c:
 ----------------------
 command line:   +mcnvramwriteback
 description:    "Disable Mega-Cart NvRAM writeback"
-resource:               "MegaCartNvRAMWriteBack" (set to 0)
+resource:       "MegaCartNvRAMWriteBack" (set to 0)
 action:         N/A
 
 vic20/cart/vic-fp.c:
 --------------------
 command line:   -fpwriteback
 description:    "Enable Vic Flash Plugin write back to ROM file"
-resource:               "VicFlashPluginWriteBack" (set to 1)
+resource:       "VicFlashPluginWriteBack" (set to 1)
 action:         N/A
 
 vic20/cart/vic-fp.c:
 --------------------
 command line:   +fpwriteback
 description:    "Disable Vic Flash Plugin write back to ROM file"
-resource:               "VicFlashPluginWriteBack" (set to 0)
+resource:       "VicFlashPluginWriteBack" (set to 0)
 action:         N/A
 
 vic20/cart/vic20-ieee488.c:
 ---------------------------
 command line:   -ieee488
 description:    "Enable VIC-1112 IEEE488 interface"
-resource:               "IEEE488" (set to 1)
+resource:       "IEEE488" (set to 1)
 action:         N/A
 
 vic20/cart/vic20-ieee488.c:
 ---------------------------
 command line:   +ieee488
 description:    "Disable VIC-1112 IEEE488 interface"
-resource:               "IEEE488" (set to 0)
+resource:       "IEEE488" (set to 0)
 action:         N/A
 
 vic20/cart/vic20-sidcart.c:
 ---------------------------
 command line:   -sidcart
 description:    "Enable the SID cartridge"
-resource:               "SidCart" (set to 1)
+resource:       "SidCart" (set to 1)
 action:         N/A
 
 vic20/cart/vic20-sidcart.c:
 ---------------------------
 command line:   +sidcart
 description:    "Disable the SID cartridge"
-resource:               "SidCart" (set to 0)
+resource:       "SidCart" (set to 0)
 action:         N/A
 
 vic20/cart/vic20cart.c:
 -----------------------
 command line:   -cartreset
 description:    "Reset machine if a cartridge is attached or detached"
-resource:               "CartridgeReset" (set to 1)
+resource:       "CartridgeReset" (set to 1)
 action:         N/A
 
 vic20/cart/vic20cart.c:
 -----------------------
 command line:   +cartreset
 description:    "Do not reset machine if a cartridge is attached or detached"
-resource:               "CartridgeReset" (set to 0)
+resource:       "CartridgeReset" (set to 0)
 action:         N/A
 
 vic20/cart/vic20cart.c:
 -----------------------
 command line:   -cart2 <Name>
 description:    "Specify 4/8/16K extension ROM name at $2000"
-resource:               N/A
+resource:       N/A
 action:         attach_cartridge_cmdline()
 
 vic20/cart/vic20cart.c:
 -----------------------
 command line:   -cart4 <Name>
 description:    "Specify 4/8/16K extension ROM name at $4000"
-resource:               N/A
+resource:       N/A
 action:         attach_cartridge_cmdline()
 
 vic20/cart/vic20cart.c:
 -----------------------
 command line:   -cart6 <Name>
 description:    "Specify 4/8/16K extension ROM name at $6000"
-resource:               N/A
+resource:       N/A
 action:         attach_cartridge_cmdline()
 
 vic20/cart/vic20cart.c:
 -----------------------
 command line:   -cartA <Name>
 description:    "Specify 4/8K extension ROM name at $A000"
-resource:               N/A
+resource:       N/A
 action:         attach_cartridge_cmdline()
 
 vic20/cart/vic20cart.c:
 -----------------------
 command line:   -cartB <Name>
 description:    "Specify 4K extension ROM name at $B000"
-resource:               N/A
+resource:       N/A
 action:         attach_cartridge_cmdline()
 
 vic20/cart/vic20cart.c:
 -----------------------
 command line:   -cartgeneric <Name>
 description:    "Specify generic extension ROM name"
-resource:               N/A
+resource:       N/A
 action:         attach_cartridge_cmdline()
 
 vic20/cart/vic20cart.c:
 -----------------------
 command line:   -cartmega <Name>
 description:    "Specify Mega-Cart extension ROM name"
-resource:               N/A
+resource:       N/A
 action:         attach_cartridge_cmdline()
 
 vic20/cart/vic20cart.c:
 -----------------------
 command line:   -cartfe <Name>
 description:    "Specify Final Expansion extension ROM name"
-resource:               N/A
+resource:       N/A
 action:         attach_cartridge_cmdline()
 
 vic20/cart/vic20cart.c:
 -----------------------
 command line:   -cartfp <Name>
 description:    "Specify Vic Flash Plugin extension ROM name"
-resource:               N/A
+resource:       N/A
 action:         attach_cartridge_cmdline()
 
 vic20/cart/vic20cart.c:
 -----------------------
 command line:   +cart
 description:    "Disable default cartridge"
-resource:               N/A
+resource:       N/A
 action:         detach_cartridge_cmdline()
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICborders <Mode>
-description:    "Set VIC-II border display mode (0: normal, 1: full, 2: debug)" (fixme: wrong description)
-resource:               "VICBorderMode"
+description:    "Set border display mode (0: normal, 1: full, 2: debug)"
+resource:       "VICBorderMode"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
@@ -7390,8 +7390,8 @@ action:         N/A
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIborders <Mode>
-description:    "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
-resource:               N/A
+description:    "Set border display mode (0: normal, 1: full, 2: debug)"
+resource:       N/A
 action:         border_set_func()
 
 vicii/vicii-cmdline-options.c:
@@ -7642,8 +7642,8 @@ action:         N/A
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIborders <Mode>
-description:    "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
-resource:               N/A
+description:    "Set border display mode (0: normal, 1: full, 2: debug)"
+resource:       N/A
 action:         border_set_func()
 
 viciisc/vicii-cmdline-options.c:

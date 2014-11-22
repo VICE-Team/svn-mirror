@@ -11291,20 +11291,20 @@ translate_t string_table[] = {
 #endif
 
 /* vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_BORDER_MODE,    N_("Set VIC-II border display mode (0: normal, 1: full, 2: debug)")},
+/* en */ {IDCLS_SET_BORDER_MODE,    N_("Set border display mode (0: normal, 1: full, 2: debug)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_BORDER_MODE_DA, "Vælg VIC-II-rammevisningstilstand (0: normal, 1: fuld, 2: fejlsøgning)"},
-/* de */ {IDCLS_SET_BORDER_MODE_DE, "VIC-II Rahmen Darstellung Modus (0: normal, 1: full, 2: debug)"},
-/* es */ {IDCLS_SET_BORDER_MODE_ES, "Seleccionar VIC-II tipo de borde (0: normal, 1: completo, 2: depuración)"},
-/* fr */ {IDCLS_SET_BORDER_MODE_FR, "Régler le mode de bordure VIC-II (0: normal, 1: complet, 2: debug)"},
-/* hu */ {IDCLS_SET_BORDER_MODE_HU, "VIC-II keret megjelenítési mód (0: normál, 1: teljes, 2: hibakeresés)"},
-/* it */ {IDCLS_SET_BORDER_MODE_IT, "Imposta la modalità di visualizzazione del bordo del VIC-II (0: normale, 1: intero, 2: debug)"},
+/* da */ {IDCLS_SET_BORDER_MODE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_BORDER_MODE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_BORDER_MODE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_BORDER_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_BORDER_MODE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_BORDER_MODE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_BORDER_MODE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_BORDER_MODE_NL, "Zet VIC-II border weergavemodus (0: normaal, 1: volledig, 2: debug)"},
-/* pl */ {IDCLS_SET_BORDER_MODE_PL, "Okre¶l tryb wy¶wietlania ramki VIC-II (0: zwyk³a, 1: pe³na, 2: debug)"},
-/* ru */ {IDCLS_SET_BORDER_MODE_RU, "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"},
-/* sv */ {IDCLS_SET_BORDER_MODE_SV, "Välj VIC II-ramvisningsläge (0: normal, 1: full, 2: felsökning)"},
-/* tr */ {IDCLS_SET_BORDER_MODE_TR, "VIC-II çerçeve gösterim modunu ayarlayýn (0: normal, 1: tam, 2: hata ayýklama)"},
+/* nl */ {IDCLS_SET_BORDER_MODE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_BORDER_MODE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_BORDER_MODE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_BORDER_MODE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_BORDER_MODE_TR, ""},  /* fuzzy */
 #endif
 
 /* vicii/vicii-cmdline-options.c */
