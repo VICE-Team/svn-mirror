@@ -22,7 +22,7 @@ msgid ""
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital "
 "joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
-msgstr ""
+msgstr "Zet apparaat voor joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
 
 #: src/arch/unix/joy.c:107
 msgid ""
@@ -30,149 +30,107 @@ msgid ""
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital "
 "joystick 0, 11: Digital joystick 1)"
-msgstr ""
+msgstr "Zet apparaat voor joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1)"
 
 #: src/arch/unix/joy.c:109
-#, fuzzy
 msgid ""
 "Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5)"
 
 #: src/arch/unix/joy.c:113
-#, fuzzy
 msgid ""
 "Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
 
 #: src/arch/unix/joy.c:125
-#, fuzzy
 msgid ""
 "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital "
 "joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
 
 #: src/arch/unix/joy.c:128
-#, fuzzy
 msgid ""
 "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital "
 "joystick 0, 11: Digital joystick 1)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1)"
 
 #: src/arch/unix/joy.c:130
-#, fuzzy
 msgid ""
 "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5)"
 
 #: src/arch/unix/joy.c:134
-#, fuzzy
 msgid ""
 "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
 
 #: src/arch/unix/joy.c:146
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB "
 "joystick 1)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor extra joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
 
 #: src/arch/unix/joy.c:149
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor extra joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1)"
 
 #: src/arch/unix/joy.c:151
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor extra joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5)"
 
 #: src/arch/unix/joy.c:155
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor extra joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
 
 #: src/arch/unix/joy.c:167
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB "
 "joystick 1)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor extra joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
 
 #: src/arch/unix/joy.c:170
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor extra joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1)"
 
 #: src/arch/unix/joy.c:172
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor extra joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5)"
 
 #: src/arch/unix/joy.c:176
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet apparaat voor extra joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
 
 #: src/arch/unix/mididrv.c:672 src/arch/unix/mididrv.c:677
 #: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
@@ -5941,40 +5899,28 @@ msgid "number"
 msgstr "nummer"
 
 #: src/arch/win32/res.rc.po.c:1103
-#, fuzzy
 msgid ""
 "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Joystick 1, 5: joystick 2)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet invoer apparaat voor joystick #1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1104
-#, fuzzy
 msgid ""
 "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Joystick 1, 5: joystick 2)"
-msgstr ""
-"Emulatie extra joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet invoer apparaat voor joystick #2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1105
-#, fuzzy
 msgid ""
 "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Joystick 1, 5: joystick 2)"
-msgstr ""
-"Emulatie extra joystick #1: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet invoer apparaat voor extra joystick #1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1106
-#, fuzzy
 msgid ""
 "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Joystick 1, 5: joystick 2)"
-msgstr ""
-"Emulatie extra joystick #2: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
-"AI)"
+msgstr "Zet invoer apparaat voor extra joystick #2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1111
 msgid "Use all CPUs on SMP systems"
@@ -5989,9 +5935,8 @@ msgid "Start VICE in fullscreen mode"
 msgstr "Start VICE in volschermmodus"
 
 #: src/arch/win32/res.rc.po.c:1114
-#, fuzzy
 msgid "Do not start VICE in fullscreen mode"
-msgstr "Start VICE in volschermmodus"
+msgstr "Start VICE niet in volschermmodus"
 
 #: src/arch/win32/res.rc.po.c:1115 src/arch/win32/res.rc.po.c:1465
 #: src/arch/win32/res.rc.po.c:1466
@@ -5999,9 +5944,8 @@ msgid "Disable DirectX9 video driver"
 msgstr "DirectX9 video driver uitschakelen"
 
 #: src/arch/win32/res.rc.po.c:1116
-#, fuzzy
 msgid "Enable DirectX9 video driver"
-msgstr "DirectX9 video driver uitschakelen"
+msgstr "Activeer DirectX9 video driver"
 
 #: src/arch/win32/res.rc.po.c:1118
 #, c-format
@@ -7686,9 +7630,8 @@ msgid "sensitivity"
 msgstr "gevoeligheid"
 
 #: src/arch/win32/resmouse.rc.po.c:38
-#, fuzzy
 msgid "Sensitivity of the mouse."
-msgstr "Gevoeligheid van de muis. [40]"
+msgstr "Gevoeligheid van de muis."
 
 #: src/arch/win32/resmouse.rc.po.c:39
 msgid "Mouse sensitivity"
@@ -10614,9 +10557,8 @@ msgid "Specify name of Kernal ROM image"
 msgstr "Geef de naam van het Kernal ROM bestand"
 
 #: src/translate_text.c.po.c:4305
-#, fuzzy
 msgid "Specify name of SCPU64 ROM image"
-msgstr "Geef de naam van her C64DTV ROM bestand"
+msgstr "Geef de naam van het SCPU64 ROM bestand"
 
 #: src/translate_text.c.po.c:4322
 msgid "Specify name of BASIC ROM image"
@@ -10837,9 +10779,8 @@ msgid "Save the MMC64 bios when changed"
 msgstr "Sla de MMC64 BIOS op als er veranderingen zijn gemaakt"
 
 #: src/translate_text.c.po.c:5361
-#, fuzzy
 msgid "Do not save the MMC64 bios when changed"
-msgstr "Sla de MMC64 BIOS op als er veranderingen zijn gemaakt"
+msgstr "Sla de MMC64 BIOS niet op als er veranderingen zijn gemaakt"
 
 #: src/translate_text.c.po.c:5378
 msgid "Set the MMC64 Flash Jumper"
@@ -11182,14 +11123,12 @@ msgid "modelnumber"
 msgstr "modelnummer"
 
 #: src/translate_text.c.po.c:7250
-#, fuzzy
 msgid "Specify CBM-II model to emulate. (610, 620, 620+, 710, 720, 720+)"
-msgstr "Geef CBM-II model om te emuleren"
+msgstr "Geef CBM-II model om te emuleren. (610, 620, 620+, 710, 720, 720+)"
 
 #: src/translate_text.c.po.c:7267
-#, fuzzy
 msgid "Specify CBM-II model to emulate. (510)"
-msgstr "Geef CBM-II model om te emuleren"
+msgstr "Geef CBM-II model om te emuleren. (510)"
 
 #: src/translate_text.c.po.c:7284
 msgid "Specify to use VIC-II"
@@ -11212,9 +11151,8 @@ msgid "Specify size of RAM (64/128/256/512/1024 kByte)"
 msgstr "Geef geheugengrootte (64/128/256/512/1024 kByte)"
 
 #: src/translate_text.c.po.c:7386
-#, fuzzy
 msgid "Specify size of RAM (128/256/512/1024 kByte)"
-msgstr "Geef geheugengrootte (64/128/256/512/1024 kByte)"
+msgstr "Geef geheugengrootte (128/256/512/1024 kByte)"
 
 #: src/translate_text.c.po.c:7403
 msgid "Specify name of cartridge ROM image for $1000"
@@ -11339,9 +11277,8 @@ msgid "Set volume for disk drive sound emulation (0-4000)"
 msgstr "Zet de volume van de diskdrive geluidemulatie (0-4000)"
 
 #: src/translate_text.c.po.c:7915
-#, fuzzy
 msgid "Set drive type (0: no drive"
-msgstr "Zet drive soort (0: geen drive)"
+msgstr "Zet drive soort (0: geen drive"
 
 #: src/translate_text.c.po.c:7932
 msgid "method"
@@ -11555,7 +11492,7 @@ msgstr "Zet de bitrate voor het videogedeelte van het mediabestand"
 msgid ""
 "Specify PET model to emulate. "
 "(2001/3008/3016/3032/3032B/4016/4032/4032B/8032/8096/8296/SuperPET)"
-msgstr ""
+msgstr "Geef PET model om te emuleren. (2001/3008/3016/3032/3032B/4016/4032/4032B/8032/8096/8296/SuperPET)"
 
 #: src/translate_text.c.po.c:8748
 msgid "Specify name of Editor ROM image"
@@ -11711,94 +11648,77 @@ msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Geef de hoeveelheid RAM in kb (16/32/64)"
 
 #: src/translate_text.c.po.c:9394
-#, fuzzy
 msgid "Set saturation of internal calculated palette"
-msgstr "Zet de verzadiging van het intern berekend kleurenpalet [1000]"
+msgstr "Zet de verzadiging van het intern berekend kleurenpalet"
 
 #: src/translate_text.c.po.c:9411
-#, fuzzy
 msgid "Set contrast of internal calculated palette"
-msgstr "Zet het contrast van het intern berekend kleurenpalet [1000]"
+msgstr "Zet het contrast van het intern berekend kleurenpalet"
 
 #: src/translate_text.c.po.c:9428
-#, fuzzy
 msgid "Set brightness of internal calculated palette"
-msgstr "Zet de helderheid van het intern berekend kleurenpalet [1000]"
+msgstr "Zet de helderheid van het intern berekend kleurenpalet"
 
 #: src/translate_text.c.po.c:9445
-#, fuzzy
 msgid "Set gamma of internal calculated palette"
-msgstr "Zet de gamma van het intern berekend kleurenpalet [2200]"
+msgstr "Zet de gamma van het intern berekend kleurenpalet"
 
 #: src/translate_text.c.po.c:9462
-#, fuzzy
 msgid "Set tint of internal calculated palette"
-msgstr "Zet de tint van het intern berekend kleuren palette [1000]"
+msgstr "Zet de tint van het intern berekend kleuren palette"
 
 #: src/translate_text.c.po.c:9479
-#, fuzzy
 msgid "Set phase for color carrier in odd lines"
-msgstr "Zet de fase van de kleuren drager in oneven lijnen [1250]"
+msgstr "Zet de fase van de kleuren drager in oneven lijnen"
 
 #: src/translate_text.c.po.c:9496
-#, fuzzy
 msgid "Set phase offset for color carrier in odd lines"
-msgstr "Zet de fase compensatie van de kleuren drager in oneven lijnen [750]"
+msgstr "Zet de fase compensatie van de kleuren drager in oneven lijnen"
 
 #: src/translate_text.c.po.c:9513
-#, fuzzy
 msgid "Amount of horizontal blur for the CRT emulation."
-msgstr "Wazigheid hoeveelheid voor de CRT emulatie. [500]"
+msgstr "Wazigheid hoeveelheid voor de CRT emulatie."
 
 #: src/translate_text.c.po.c:9530
-#, fuzzy
 msgid "Amount of scan line shading for the CRT emulation"
-msgstr "Hoeveelheid van de scan lijn schaduw voor de CRT emulatie [667]"
+msgstr "Hoeveelheid van de scan lijn schaduw voor de CRT emulatie"
 
 #: src/translate_text.c.po.c:9547
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
 msgstr "Zet VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
 
 #: src/translate_text.c.po.c:9564
-#, fuzzy
 msgid "Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)"
-msgstr "Geef de naam van het stuurprogramma voor apparaat #4"
+msgstr "Geef de naam van het stuurprogramma voor apparaat #4. (ascii/mps803/nl10/raw)"
 
 #: src/translate_text.c.po.c:9581
-#, fuzzy
 msgid "Specify name of printer driver for device #5. (ascii/mps803/nl10/raw)"
-msgstr "Geef de naam van het stuurprogramma voor apparaat #5"
+msgstr "Geef de naam van het stuurprogramma voor apparaat #5. (ascii/mps803/nl10/raw)"
 
 #: src/translate_text.c.po.c:9598
-#, fuzzy
 msgid "Specify name of printer driver for device #6. (1520/raw)"
-msgstr "Geef de naam van het stuurprogramma voor apparaat #6"
+msgstr "Geef de naam van het stuurprogramma voor apparaat #6. (1520/raw)"
 
 #: src/translate_text.c.po.c:9615
-#, fuzzy
 msgid ""
 "Specify name of printer driver for the userport printer. (ascii/nl10/raw)"
-msgstr "Geef de naam van het stuurprogramma voor de userport printer"
+msgstr "Geef de naam van het stuurprogramma voor de userport printer. (ascii/nl10/raw)"
 
 #: src/translate_text.c.po.c:9632
-#, fuzzy
 msgid "Set device type for device #4 (0: None, 1: Filesystem, 2: Real)"
-msgstr "Zet apparaat soort voor apparaat #4 (0: GEEN, 1: FS, 2: ECHT)"
+msgstr "Zet apparaat soort voor apparaat #4 (0: Geen, 1: Bestandssysteem, 2: Echt)"
 
 #: src/translate_text.c.po.c:9649
-#, fuzzy
 msgid "Set device type for device #5 (0: None, 1: Filesystem, 2: Real)"
-msgstr "Zet apparaat soort voor apparaat #5 (0: GEEN, 1: FS, 2: ECHT)"
+msgstr "Zet apparaat soort voor apparaat #5 (0: Geen, 1: Bestandssysteem, 2: Echt)"
 
 #: src/translate_text.c.po.c:9666
-#, fuzzy
 msgid "Set device type for device #6 (0: None, 1: Filesystem, 2: Real)"
-msgstr "Zet apparaat soort voor apparaat #6 (0: GEEN, 1: FS, 2: ECHT)"
+msgstr "Zet apparaat soort voor apparaat #6 (0: Geen, 1: Bestandssysteem, 2: Echt)"
 
 #: src/translate_text.c.po.c:9683
-#, fuzzy
 msgid "Set device type for device #7 (0: None, 2: Real)"
-msgstr "Zet apparaat soort voor apparaat #7 (0: GEEN, 2: ECHT)"
+msgstr "Zet apparaat soort voor apparaat #7 (0: Geen, 2: Echt)"
 
 #: src/translate_text.c.po.c:9700
 msgid "Enable the userport printer emulation"
@@ -12061,7 +11981,7 @@ msgstr "spec"
 msgid ""
 "Specify memory configuration. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / "
 "(04/20/40/60/a0)"
-msgstr ""
+msgstr "Geef geheugen configuratie. (geen/3k/8k/16k/24k/allemaal) / (0/1/2/3/5) / (04/20/40/60/a0)"
 
 #: src/translate_text.c.po.c:10817
 msgid "Enable VIC-1112 IEEE488 interface"
@@ -12124,9 +12044,8 @@ msgid "Disable Vic Flash Plugin write back to ROM file"
 msgstr "Terug schrijven naar ROM bestand voor Vic Flash Plugin uitschakelen"
 
 #: src/translate_text.c.po.c:11123
-#, fuzzy
 msgid "Set border display mode (0: normal, 1: full, 2: debug)"
-msgstr "Zet VIC-II border weergavemodus (0: normaal, 1: volledig, 2: debug)"
+msgstr "Zet border weergavemodus (0: normaal, 1: volledig, 2: debug)"
 
 #: src/translate_text.c.po.c:11140
 msgid "Enable sprite-background collision registers"
@@ -12217,40 +12136,32 @@ msgid "Specify RS232 device this ACIA should work on"
 msgstr "Geef het RS232 apparaat waarmee deze ACIA moet werken"
 
 #: src/translate_text.c.po.c:11548
-#, fuzzy
 msgid ""
 "Set device type for device #8 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block "
 "device)"
 msgstr ""
-"Zet het apparaatsoort voor apparaat #8 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, "
-"3: BLOCK APPARAAT)"
+"Zet het apparaatsoort voor apparaat #8 (0: Geen, 1: Bestandssysteem, 2: OpenCBM, 3: Blok apparaat)"
 
 #: src/translate_text.c.po.c:11565
-#, fuzzy
 msgid ""
 "Set device type for device #9 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block "
 "device)"
 msgstr ""
-"Zet het apparaatsoort voor apparaat #9 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, "
-"3: BLOCK APPARAAT)"
+"Zet het apparaatsoort voor apparaat #9 (0: Geen, 1: Bestandssysteem, 2: OpenCBM, 3: Blok apparaat)"
 
 #: src/translate_text.c.po.c:11582
-#, fuzzy
 msgid ""
 "Set device type for device #10 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block "
 "device)"
 msgstr ""
-"Zet het apparaatsoort voor apparaat #10 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, "
-"3: BLOCK APPARAAT)"
+"Zet het apparaatsoort voor apparaat #10 (0: Geen, 1: Bestandssysteem, 2: OpenCBM, 3: Blok apparaat)"
 
 #: src/translate_text.c.po.c:11599
-#, fuzzy
 msgid ""
 "Set device type for device #11 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block "
 "device)"
 msgstr ""
-"Zet het apparaatsoort voor apparaat #11 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, "
-"3: BLOCK APPARAAT)"
+"Zet het apparaatsoort voor apparaat #11 (0: Geen, 1: Bestandssysteem, 2: OpenCBM, 3: Blok apparaat)"
 
 #: src/translate_text.c.po.c:11616
 msgid "Attach disk image for drive #8 read only"
@@ -12748,7 +12659,7 @@ msgstr "De lichtpen emulatie uitschakelen"
 msgid ""
 "Set lightpen type. (0: Pen with button Up, 1: Pen with button Left, 2: Datel "
 "Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)"
-msgstr ""
+msgstr "Zet lichtpen soort. (0: Pen met knop omhoog, 1: Pen met knop links, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light geweer, 5: Inkwell Pen)"
 
 #: src/translate_text.c.po.c:14056
 msgid "Enable EasyFlash jumper"
