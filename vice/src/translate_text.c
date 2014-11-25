@@ -9715,68 +9715,68 @@ translate_t string_table[] = {
 #endif
 
 /* printerdrv/interface-serial.c */
-/* en */ {IDCLS_SET_DEVICE_TYPE_4,    N_("Set device type for device #4 (0: NONE, 1: FS, 2: REAL)")},
+/* en */ {IDCLS_SET_DEVICE_TYPE_4,    N_("Set device type for device #4 (0: None, 1: Filesystem, 2: Real)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_DEVICE_TYPE_4_DA, "Sæt enhedstype for enhed #4 (0: INGEN, 1: FS, 2: ÆGTE)"},
-/* de */ {IDCLS_SET_DEVICE_TYPE_4_DE, "Geräte Typ für Gerät #4 (0: NONE, 1: FS, 2: REAL) setzen"},
-/* es */ {IDCLS_SET_DEVICE_TYPE_4_ES, "Seleccionar tipo para el periférico #4 (0:NO 1:FS, 2:REAL)"},
-/* fr */ {IDCLS_SET_DEVICE_TYPE_4_FR, "Spécifier le type de périphérique pour #4 (0: AUCUN, 1: SF, 2: RÉEL)"},
-/* hu */ {IDCLS_SET_DEVICE_TYPE_4_HU, "Adja meg a #4-es eszköz típusát (0:Nincs, 1: Fájlrendszer, 2: Valódi)"},
-/* it */ {IDCLS_SET_DEVICE_TYPE_4_IT, "Specifica il tipo di periferica #4 (0 NESSUNA, 1 FS, 2 REALE)"},
+/* da */ {IDCLS_SET_DEVICE_TYPE_4_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_4_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DEVICE_TYPE_4_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_4_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DEVICE_TYPE_4_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_4_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_4_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_4_NL, "Zet apparaat soort voor apparaat #4 (0: GEEN, 1: FS, 2: ECHT)"},
-/* pl */ {IDCLS_SET_DEVICE_TYPE_4_PL, "Okre¶l typ urz±dzenia #4 (0: BRAK, 1: SYSTEM PLIKÓW, 2: RZECZYWISTE)"},
-/* ru */ {IDCLS_SET_DEVICE_TYPE_4_RU, "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"},
-/* sv */ {IDCLS_SET_DEVICE_TYPE_4_SV, "Ange enhetstyp för enhet 4 (0: INGEN, 1: FS, 2: ÄKTA)"},
-/* tr */ {IDCLS_SET_DEVICE_TYPE_4_TR, "Aygýt #4 için aygýt tipini ayarlayýn (0: YOK, 1: FS, 2: GERÇEK)"},
+/* nl */ {IDCLS_SET_DEVICE_TYPE_4_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DEVICE_TYPE_4_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DEVICE_TYPE_4_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_4_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DEVICE_TYPE_4_TR, ""},  /* fuzzy */
 #endif
 
 /* printerdrv/interface-serial.c */
-/* en */ {IDCLS_SET_DEVICE_TYPE_5,    N_("Set device type for device #5 (0: NONE, 1: FS, 2: REAL)")},
+/* en */ {IDCLS_SET_DEVICE_TYPE_5,    N_("Set device type for device #5 (0: None, 1: Filesystem, 2: Real)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_DEVICE_TYPE_5_DA, "Sæt enhedstype for enhed #5 (0: INGEN, 1: FS, 2: ÆGTE)"},
-/* de */ {IDCLS_SET_DEVICE_TYPE_5_DE, "Geräte Typ für Gerät #5 (0: NONE, 1: FS, 2: REAL) setzen"},
-/* es */ {IDCLS_SET_DEVICE_TYPE_5_ES, "Seleccionar tipo para el periférico #5 (0:NO 1:FS, 2:REAL)"},
-/* fr */ {IDCLS_SET_DEVICE_TYPE_5_FR, "Spécifier le type de périphérique pour #5 (0: AUCUN, 1: SF, 2: RÉEL)"},
-/* hu */ {IDCLS_SET_DEVICE_TYPE_5_HU, "Adja meg a #5-ös eszköz típusát (0:Nincs, 1: Fájlrendszer, 2: Valódi)"},
-/* it */ {IDCLS_SET_DEVICE_TYPE_5_IT, "Specifica il tipo di periferica #5 (0 NESSUNA, 1 FS, 2 REALE)"},
+/* da */ {IDCLS_SET_DEVICE_TYPE_5_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_5_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DEVICE_TYPE_5_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_5_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DEVICE_TYPE_5_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_5_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_5_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_5_NL, "Zet apparaat soort voor apparaat #5 (0: GEEN, 1: FS, 2: ECHT)"},
-/* pl */ {IDCLS_SET_DEVICE_TYPE_5_PL, "Okre¶l typ urz±dzenia #5 (0: BRAK, 1: SYSTEM PLIKÓW, 2: RZECZYWISTE)"},
-/* ru */ {IDCLS_SET_DEVICE_TYPE_5_RU, "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"},
-/* sv */ {IDCLS_SET_DEVICE_TYPE_5_SV, "Ange enhetstyp för enhet 5 (0: INGEN, 1: FS, 2: ÄKTA)"},
-/* tr */ {IDCLS_SET_DEVICE_TYPE_5_TR, "Aygýt #5 için aygýt tipini ayarlayýn (0: YOK, 1: FS, 2: GERÇEK)"},
+/* nl */ {IDCLS_SET_DEVICE_TYPE_5_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DEVICE_TYPE_5_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DEVICE_TYPE_5_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_5_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DEVICE_TYPE_5_TR, ""},  /* fuzzy */
 #endif
 
 /* printerdrv/interface-serial.c */
-/* en */ {IDCLS_SET_DEVICE_TYPE_6,    N_("Set device type for device #6 (0: NONE, 1: FS, 2: REAL)")},
+/* en */ {IDCLS_SET_DEVICE_TYPE_6,    N_("Set device type for device #6 (0: None, 1: Filesystem, 2: Real)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_DEVICE_TYPE_6_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_DEVICE_TYPE_6_DE, "Geräte Typ für Gerät #6 (0: NONE, 1: FS, 2: REAL) setzen"},
+/* de */ {IDCLS_SET_DEVICE_TYPE_6_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_SET_DEVICE_TYPE_6_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_DEVICE_TYPE_6_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_DEVICE_TYPE_6_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_6_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_6_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_6_NL, "Zet apparaat soort voor apparaat #6 (0: GEEN, 1: FS, 2: ECHT)"},
-/* pl */ {IDCLS_SET_DEVICE_TYPE_6_PL, "Okre¶l typ urz±dzenia #6 (0: BRAK, 1: SYSTEM PLIKÓW, 2: RZECZYWISTE)"},
+/* nl */ {IDCLS_SET_DEVICE_TYPE_6_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DEVICE_TYPE_6_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DEVICE_TYPE_6_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_6_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_DEVICE_TYPE_6_TR, ""},  /* fuzzy */
 #endif
 
 /* printerdrv/interface-serial.c */
-/* en */ {IDCLS_SET_DEVICE_TYPE_7,    N_("Set device type for device #7 (0: NONE, 2: REAL)")},
+/* en */ {IDCLS_SET_DEVICE_TYPE_7,    N_("Set device type for device #7 (0: None, 2: Real)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_DEVICE_TYPE_7_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_DEVICE_TYPE_7_DE, "Geräte Typ für Gerät #7 (0: NONE, 2: REAL) setzen"},
+/* de */ {IDCLS_SET_DEVICE_TYPE_7_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_SET_DEVICE_TYPE_7_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_DEVICE_TYPE_7_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_DEVICE_TYPE_7_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_7_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_7_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_7_NL, "Zet apparaat soort voor apparaat #7 (0: GEEN, 2: ECHT)"},
-/* pl */ {IDCLS_SET_DEVICE_TYPE_7_PL, "Okre¶l typ urz±dzenia #7 (0: BRAK, 2: RZECZYWISTE)"},
+/* nl */ {IDCLS_SET_DEVICE_TYPE_7_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DEVICE_TYPE_7_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DEVICE_TYPE_7_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_7_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_DEVICE_TYPE_7_TR, ""},  /* fuzzy */
@@ -11631,71 +11631,71 @@ translate_t string_table[] = {
 #endif
 
 /* attach.c */
-/* en */ {IDCLS_SET_DEVICE_TYPE_8,    N_("Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)")},
+/* en */ {IDCLS_SET_DEVICE_TYPE_8,    N_("Set device type for device #8 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_DEVICE_TYPE_8_DA, "Vælg type for enhed #8 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOKENHED)"},
-/* de */ {IDCLS_SET_DEVICE_TYPE_8_DE, "Geräte Typ für Gerät #8 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
-/* es */ {IDCLS_SET_DEVICE_TYPE_8_ES, "Seleccionar tipo para periférico #8  (0: NINGUNO, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"},
-/* fr */ {IDCLS_SET_DEVICE_TYPE_8_FR, "Régler le type de périphérique pour #10 (0: AUCUN, 1: SF, 2: OPENCBM, 3: PÉRIPH.BLOC)"},
-/* hu */ {IDCLS_SET_DEVICE_TYPE_8_HU, "Adja meg a #8-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 blokk eszköz)"},
-/* it */ {IDCLS_SET_DEVICE_TYPE_8_IT, "Imposta il tipo di periferica #8 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: DISPOSITIVO A BLOCCHI)"},
+/* da */ {IDCLS_SET_DEVICE_TYPE_8_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_8_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DEVICE_TYPE_8_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_8_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DEVICE_TYPE_8_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_8_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_8_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_8_NL, "Zet het apparaatsoort voor apparaat #8 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK APPARAAT)"},
-/* pl */ {IDCLS_SET_DEVICE_TYPE_8_PL, "Okre¶l typ urz±dzenia #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"},
-/* ru */ {IDCLS_SET_DEVICE_TYPE_8_RU, "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"},
-/* sv */ {IDCLS_SET_DEVICE_TYPE_8_SV, "Ställ in enhetstyp för enhet 8 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOCKENHET)"},
-/* tr */ {IDCLS_SET_DEVICE_TYPE_8_TR, "Aygýt #8 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: BLOK AYIGTI)"},
+/* nl */ {IDCLS_SET_DEVICE_TYPE_8_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DEVICE_TYPE_8_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DEVICE_TYPE_8_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_8_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DEVICE_TYPE_8_TR, ""},  /* fuzzy */
 #endif
 
 /* attach.c */
-/* en */ {IDCLS_SET_DEVICE_TYPE_9,    N_("Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)")},
+/* en */ {IDCLS_SET_DEVICE_TYPE_9,    N_("Set device type for device #9 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_DEVICE_TYPE_9_DA, "Vælg type for enhed #9 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOKENHED)"},
-/* de */ {IDCLS_SET_DEVICE_TYPE_9_DE, "Geräte Typ für Gerät #9 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
-/* es */ {IDCLS_SET_DEVICE_TYPE_9_ES, "Seleccionar tipo para periférico #9  (0: NINGUNO, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"},
-/* fr */ {IDCLS_SET_DEVICE_TYPE_9_FR, "Régler le type de périphérique pour #10 (0: AUCUN, 1: SF, 2: OPENCBM, 3: PÉRIPH.BLOC)"},
-/* hu */ {IDCLS_SET_DEVICE_TYPE_9_HU, "Adja meg a #9-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3: blokk eszköz)"},
-/* it */ {IDCLS_SET_DEVICE_TYPE_9_IT, "Imposta il tipo di periferica #9 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: DISPOSITIVO A BLOCCHI)"},
+/* da */ {IDCLS_SET_DEVICE_TYPE_9_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_9_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DEVICE_TYPE_9_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_9_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DEVICE_TYPE_9_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_9_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_9_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_9_NL, "Zet het apparaatsoort voor apparaat #9 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK APPARAAT)"},
-/* pl */ {IDCLS_SET_DEVICE_TYPE_9_PL, "Okre¶l typ urz±dzenia #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"},
-/* ru */ {IDCLS_SET_DEVICE_TYPE_9_RU, "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"},
-/* sv */ {IDCLS_SET_DEVICE_TYPE_9_SV, "Ställ in enhetstyp för enhet 9 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOCKENHET)"},
-/* tr */ {IDCLS_SET_DEVICE_TYPE_9_TR, "Aygýt #9 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: BLOK AYIGTI)"},
+/* nl */ {IDCLS_SET_DEVICE_TYPE_9_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DEVICE_TYPE_9_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DEVICE_TYPE_9_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_9_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DEVICE_TYPE_9_TR, ""},  /* fuzzy */
 #endif
 
 /* attach.c */
-/* en */ {IDCLS_SET_DEVICE_TYPE_10,    N_("Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)")},
+/* en */ {IDCLS_SET_DEVICE_TYPE_10,    N_("Set device type for device #10 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_DEVICE_TYPE_10_DA, "Vælg type for enhed #10 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOKENHED)"},
-/* de */ {IDCLS_SET_DEVICE_TYPE_10_DE, "Geräte Typ für Gerät #10 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
-/* es */ {IDCLS_SET_DEVICE_TYPE_10_ES, "Seleccionar tipo para periférico #10  (0: NINGUNO, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"},
-/* fr */ {IDCLS_SET_DEVICE_TYPE_10_FR, "Régler le type de périphérique pour #10 (0: AUCUN, 1: SF, 2: OPENCBM, 3: PÉRIPH.BLOC)"},
-/* hu */ {IDCLS_SET_DEVICE_TYPE_10_HU, "Adja meg a #10-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENVMB, 3: blokk eszköz)"},
-/* it */ {IDCLS_SET_DEVICE_TYPE_10_IT, "Imposta il tipo di periferica #10 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: DISPOSITIVO A BLOCCHI)"},
+/* da */ {IDCLS_SET_DEVICE_TYPE_10_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_10_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DEVICE_TYPE_10_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_10_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DEVICE_TYPE_10_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_10_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_10_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_10_NL, "Zet het apparaatsoort voor apparaat #10 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK APPARAAT)"},
-/* pl */ {IDCLS_SET_DEVICE_TYPE_10_PL, "Okre¶l typ urz±dzenia #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"},
-/* ru */ {IDCLS_SET_DEVICE_TYPE_10_RU, "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"},
-/* sv */ {IDCLS_SET_DEVICE_TYPE_10_SV, "Ställ in enhetstyp för enhet 10 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOCKENHET)"},
-/* tr */ {IDCLS_SET_DEVICE_TYPE_10_TR, "Aygýt #10 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: BLOK AYIGTI)"},
+/* nl */ {IDCLS_SET_DEVICE_TYPE_10_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DEVICE_TYPE_10_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DEVICE_TYPE_10_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_10_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DEVICE_TYPE_10_TR, ""},  /* fuzzy */
 #endif
 
 /* attach.c */
-/* en */ {IDCLS_SET_DEVICE_TYPE_11,    N_("Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)")},
+/* en */ {IDCLS_SET_DEVICE_TYPE_11,    N_("Set device type for device #11 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_DEVICE_TYPE_11_DA, "Vælg type for enhed #11 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOKENHED)"},
-/* de */ {IDCLS_SET_DEVICE_TYPE_11_DE, "Geräte Typ für Gerät #11 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"},
-/* es */ {IDCLS_SET_DEVICE_TYPE_11_ES, "Seleccionar tipo para periférico #11  (0: NINGUNO, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"},
-/* fr */ {IDCLS_SET_DEVICE_TYPE_11_FR, "Régler le type de périphérique pour #11 (0: AUCUN, 1: SF, 2: OPENCBM, 3: PÉRIPH.BLOC)"},
-/* hu */ {IDCLS_SET_DEVICE_TYPE_11_HU, "Adja meg a #11-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3: blokk eszköz)"},
-/* it */ {IDCLS_SET_DEVICE_TYPE_11_IT, "Imposta il tipo di periferica #11 (0 NESSUNA, 1: FILESYSTEM, 2: OPENCBM, 3: DISPOSITIVO A BLOCCHI)"},
+/* da */ {IDCLS_SET_DEVICE_TYPE_11_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DEVICE_TYPE_11_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DEVICE_TYPE_11_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_11_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DEVICE_TYPE_11_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_11_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_11_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_11_NL, "Zet het apparaatsoort voor apparaat #11 (0: GEEN, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK APPARAAT)"},
-/* pl */ {IDCLS_SET_DEVICE_TYPE_11_PL, "Okre¶l typ urz±dzenia #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"},
-/* ru */ {IDCLS_SET_DEVICE_TYPE_11_RU, "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"},
-/* sv */ {IDCLS_SET_DEVICE_TYPE_11_SV, "Ställ in enhetstyp för enhet 11 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: BLOCKENHET)"},
-/* tr */ {IDCLS_SET_DEVICE_TYPE_11_TR, "Aygýt #11 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: BLOK AYIGTI)"},
+/* nl */ {IDCLS_SET_DEVICE_TYPE_11_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DEVICE_TYPE_11_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DEVICE_TYPE_11_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_11_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DEVICE_TYPE_11_TR, ""},  /* fuzzy */
 #endif
 
 /* attach.c */

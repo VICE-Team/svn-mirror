@@ -400,6 +400,20 @@ description:    "Disable Main Menu Bar"
 resource:       "Menubar" (set to 0)
 action:         N/A
 
+arch/os2/video.c:
+-----------------
+command line:   -logwin
+description:    "Enable Logging Window"
+resource:       "Logwin" (set to 1)
+action:         N/A
+
+arch/os2/video.c:
+-----------------
+command line:   +logwin
+description:    "Disable Logging Window"
+resource:       "Logwin" (set to 0)
+action:         N/A
+
 arch/sdl/joy.c:
 ---------------
 command line:   -joymap <name>
@@ -1206,34 +1220,30 @@ action:         N/A
 attach.c:
 ---------
 command line:   -device8 <Type>
-description:    "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"
+description:    "Set device type for device #8 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)"
 resource:       "FileSystemDevice8"
 action:         N/A
-fixme: why the SHOUTING ??
 
 attach.c:
 ---------
 command line:   -device9 <Type>
-description:    "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"
+description:    "Set device type for device #9 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)"
 resource:       "FileSystemDevice9"
 action:         N/A
-fixme: why the SHOUTING ??
 
 attach.c:
 ---------
 command line:   -device10 <Type>
-description:    "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"
+description:    "Set device type for device #10 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)"
 resource:       "FileSystemDevice10"
 action:         N/A
-fixme: why the SHOUTING ??
 
 attach.c:
 ---------
 command line:   -device11 <Type>
-description:    "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)"
+description:    "Set device type for device #11 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)"
 resource:       "FileSystemDevice11"
 action:         N/A
-fixme: why the SHOUTING ??
 
 attach.c:
 ---------
@@ -1517,13 +1527,6 @@ action:         N/A
 
 c128/c128-cmdline-options.c:
 ----------------------------
-command line:   -kernalrev <Revision>
-description:    "Patch the Kernal ROM to the specified <revision>"
-resource:       "KernalRev"
-action:         N/A
-
-c128/c128-cmdline-options.c:
-----------------------------
 command line:   -acia1
 description:    "Enable the ACIA RS232 interface emulation"
 resource:       "Acia1Enable" (set to 1)
@@ -1759,7 +1762,7 @@ c64/c64-cmdline-options.c:
 command line:   -ciamodel <Model>
 description:    "Set both CIA models (0 = old 6526, 1 = new 6526A)"
 resource:       N/A
-action:         set_cia_model() (sets CIA1Model and CIA2Model)
+action:         set_cia_model() (sets "CIA1Model" and "CIA2Model")
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -3692,203 +3695,203 @@ crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCvcache
 description:    "Enable the video cache"
-resource:       "CRTCVideoCache" (set to 1)
+resource:       "CrtcVideoCache" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTCvcache
 description:    "Disable the video cache"
-resource:       "CRTCVideoCache" (set to 0)
+resource:       "CrtcVideoCache" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCdsize
 description:    "Enable double size"
-resource:       "CRTCDoubleSize" (set to 1)
+resource:       "CrtcDoubleSize" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTCdsize
 description:    "Disable double size"
-resource:       "CRTCDoubleSize" (set to 0)
+resource:       "CrtcDoubleSize" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCdscan
 description:    "Enable double scan"
-resource:       "CRTCDoubleScan" (set to 1)
+resource:       "CrtcDoubleScan" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTCdscan
 description:    "Disable double scan"
-resource:       "CRTCDoubleScan" (set to 0)
+resource:       "CrtcDoubleScan" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCaudioleak
 description:    "Enable audio leak emulation"
-resource:       "CRTCAudioLeak" (set to 1)
+resource:       "CrtcAudioLeak" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTCaudioleak
 description:    "Disable audio leak emulation"
-resource:       "CRTCAudioLeak" (set to 0)
+resource:       "CrtcAudioLeak" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTChwscale
 description:    "Enable hardware scaling"
-resource:       "CRTCHwScale" (set to 1)
+resource:       "CrtcHwScale" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTChwscale
 description:    "Disable hardware scaling"
-resource:       "CRTCHwScale" (set to 0)
+resource:       "CrtcHwScale" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCfilter <Mode>
 description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:       "CRTCFilter"
+resource:       "CrtcFilter"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCintpal
 description:    "Use an internal calculated palette"
-resource:       "CRTCExternalPalette" (set to 0)
+resource:       "CrtcExternalPalette" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCextpal
 description:    "Use an external palette (file)"
-resource:       "CRTCExternalPalette" (set to 1)
+resource:       "CrtcExternalPalette" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCpalette <Name>
 description:    "Specify name of file of external palette"
-resource:       "CRTCPaletteFile"
+resource:       "CrtcPaletteFile"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCfull
 description:    "Enable fullscreen"
-resource:       "CRTCFullscreen" (set to 1)
+resource:       "CrtcFullscreen" (set to 1)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   +CRTCfull
 description:    "Disable fullscreen"
-resource:       "CRTCFullscreen" (set to 0)
+resource:       "CrtcFullscreen" (set to 0)
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCfulldevice <device>
 description:    "Select fullscreen device"
-resource:       "CRTCFullscreenDevice"
+resource:       "CrtcFullscreenDevice"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCSDLfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:       "CRTCSDLFullscreenMode"
+resource:       "CrtcSDLFullscreenMode"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:       "CRTCXRANDRFullscreenMode"
+resource:       "CrtcXRANDRFullscreenMode"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
-resource:       "CRTCVidmodeFullscreenMode"
+resource:       "CrtcVidmodeFullscreenMode"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
-resource:       "CRTCColorSaturation"
+resource:       "CrtcColorSaturation"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
-resource:       "CRTCColorContrast"
+resource:       "CrtcColorContrast"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
-resource:       "CRTCColorBrightness"
+resource:       "CrtcColorBrightness"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
-resource:       "CRTCColorGamma"
+resource:       "CrtcColorGamma"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCtint <0-2000>
 description:    "Set tint of internal calculated palette"
-resource:       "CRTCColorTint"
+resource:       "CrtcColorTint"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
-resource:       "CRTCPALBlur"
+resource:       "CrtcPALBlur"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
-resource:       "CRTCPALScanLineShade"
+resource:       "CrtcPALScanLineShade"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
-resource:       "CRTCPALOddLinePhase"
+resource:       "CrtcPALOddLinePhase"
 action:         N/A
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
 command line:   -CRTCoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
-resource:       "CRTCPALOddLineOffset"
+resource:       "CrtcPALOddLineOffset"
 action:         N/A
 
 datasette.c:
@@ -5823,65 +5826,23 @@ action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
-command line:   -TEDSDLfull
+command line:   -TEDfull
 description:    "Enable fullscreen"
-resource:       "TEDSDLFullscreen" (set to 1)
+resource:       "TEDFullscreen" (set to 1)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
-command line:   +TEDSDLfull
+command line:   +TEDfull
 description:    "Disable fullscreen"
-resource:       "TEDSDLFullscreen" (set to 0)
+resource:       "TEDFullscreen" (set to 0)
 action:         N/A
 
 plus4/ted-cmdline-options.c:
 ----------------------------
-command line:   -TEDSDLfulldevice <device>
+command line:   -TEDfulldevice <device>
 description:    "Select fullscreen device"
-resource:       "TEDSDLFullscreenDevice"
-action:         N/A
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDXRANDRfull
-description:    "Enable fullscreen"
-resource:       "TEDXRANDRFullscreen" (set to 1)
-action:         N/A
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   +TEDXRANDRfull
-description:    "Disable fullscreen"
-resource:       "TEDXRANDRFullscreen" (set to 0)
-action:         N/A
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDXRANDRfulldevice <device>
-description:    "Select fullscreen device"
-resource:       "TEDXRANDRFullscreenDevice"
-action:         N/A
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDVidmodefull
-description:    "Enable fullscreen"
-resource:       "TEDVidmodeFullscreen" (set to 1)
-action:         N/A
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   +TEDVidmodefull
-description:    "Disable fullscreen"
-resource:       "TEDVidmodeFullscreen" (set to 0)
-action:         N/A
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDVidmodefulldevice <device>
-description:    "Select fullscreen device"
-resource:       "TEDVidmodeFullscreenDevice"
+resource:       "TEDFullscreenDevice"
 action:         N/A
 
 plus4/ted-cmdline-options.c:
@@ -5999,34 +5960,30 @@ action:         N/A
 printerdrv/interface-serial.c:
 ------------------------------
 command line:   -device4 <Type>
-description:    "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
+description:    "Set device type for device #4 (0: None, 1: Filesystem, 2: Real)"
 resource:       "Printer4"
 action:         N/A
-fixme: why the SHOUTING ??
 
 printerdrv/interface-serial.c:
 ------------------------------
 command line:   -device5 <Type>
-description:    "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
+description:    "Set device type for device #5 (0: None, 1: Filesystem, 2: Real)"
 resource:       "Printer5"
 action:         N/A
-fixme: why the SHOUTING ??
 
 printerdrv/interface-serial.c:
 ------------------------------
 command line:   -device6 <Type>
-description:    "Set device type for device #6 (0: NONE, 1: FS, 2: REAL)"
+description:    "Set device type for device #6 (0: None, 1: Filesystem, 2: Real)"
 resource:       "Printer6"
 action:         N/A
-fixme: why the SHOUTING ??
 
 printerdrv/interface-serial.c:
 ------------------------------
 command line:   -device7 <Type>
-description:    "Set device type for device #7 (0: NONE, 2: REAL)"
+description:    "Set device type for device #7 (0: None, 2: Real)"
 resource:       "Printer7"
 action:         N/A
-fixme: why the SHOUTING ??
 
 printerdrv/interface-userport.c:
 --------------------------------
@@ -6054,6 +6011,13 @@ printerdrv/output-select.c:
 command line:   -pr5output <Name>
 description:    "Specify name of output device for device #5"
 resource:       "Printer5Output"
+action:         N/A
+
+printerdrv/output-select.c:
+---------------------------
+command line:   -pruseroutput <Name>
+description:    "Specify name of output device for the userport printer"
+resource:       "PrinterUserportOutput"
 action:         N/A
 
 printerdrv/output-text.c:
@@ -6096,6 +6060,13 @@ printerdrv/output-text.c:
 command line:   -pr6txtdev <0-2>
 description:    "Specify printer text output device for printer #6"
 resource:       "Printer6TextDevice"
+action:         N/A
+
+printerdrv/output-text.c:
+-------------------------
+command line:   -prusertxtdev <0-2>
+description:    "Specify printer text output device for userport printer"
+resource:       "PrinterUserportTextDevice"
 action:         N/A
 
 ps2mouse.c:
@@ -6306,8 +6277,8 @@ scpu64/scpu64-cmdline-options.c:
 command line:   -model <modelnumber>
 description:    "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)"
 resource:       N/A
-action:         set_c64_model() (sets "MachineVideoStandard", "CIA1Model", "CIA2Model", "VICIINewLuminances", "BoardType", "IECReset",
-                "KernalName", "ChargenName", "SidEngine" and "SidModel")
+action:         set_c64_model() (sets "MachineVideoStandard", "CIA1Model", "CIA2Model", "VICIINewLuminances", "IECReset", "ChargenName",
+			"SidEngine" and "SidModel")
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6509,7 +6480,7 @@ sid/sid-cmdline-options.c:
 --------------------------
 command line:   -residfilterbias <number>
 description:    "reSID filter bias setting, which can be used to adjust DAC bias in millivolts."
-resource:       "SidResidGain"
+resource:       "SidResidFilterBias"
 action:         N/A
 
 sid/sid-cmdline-options.c:
@@ -7111,280 +7082,280 @@ vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICvcache
 description:    "Enable the video cache"
-resource:               "VICVideoCache" (set to 1)
+resource:       "VICVideoCache" (set to 1)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   +VICvcache
 description:    "Disable the video cache"
-resource:               "VICVideoCache" (set to 0)
+resource:       "VICVideoCache" (set to 0)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICdsize
 description:    "Enable double size"
-resource:               "VICDoubleSize" (set to 1)
+resource:       "VICDoubleSize" (set to 1)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   +VICdsize
 description:    "Disable double size"
-resource:               "VICDoubleSize" (set to 0)
+resource:       "VICDoubleSize" (set to 0)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICdscan
 description:    "Enable double scan"
-resource:               "VICDoubleScan" (set to 1)
+resource:       "VICDoubleScan" (set to 1)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   +VICdscan
 description:    "Disable double scan"
-resource:               "VICDoubleScan" (set to 0)
+resource:       "VICDoubleScan" (set to 0)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICaudioleak
 description:    "Enable audio leak emulation"
-resource:               "VICAudioLeak" (set to 1)
+resource:       "VICAudioLeak" (set to 1)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   +VICaudioleak
 description:    "Disable audio leak emulation"
-resource:               "VICAudioLeak" (set to 0)
+resource:       "VICAudioLeak" (set to 0)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VIChwscale
 description:    "Enable hardware scaling"
-resource:               "VICHwScale" (set to 1)
+resource:       "VICHwScale" (set to 1)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   +VIChwscale
 description:    "Disable hardware scaling"
-resource:               "VICHwScale" (set to 0)
+resource:       "VICHwScale" (set to 0)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICfilter <Mode>
 description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:               "VICFilter"
+resource:       "VICFilter"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICintpal
 description:    "Use an internal calculated palette"
-resource:               "VICExternalPalette" (set to 0)
+resource:       "VICExternalPalette" (set to 0)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICextpal
 description:    "Use an external palette (file)"
-resource:               "VICExternalPalette" (set to 1)
+resource:       "VICExternalPalette" (set to 1)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICpalette <Name>
 description:    "Specify name of file of external palette"
-resource:               "VICPaletteFile"
+resource:       "VICPaletteFile"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICfull
 description:    "Enable fullscreen"
-resource:               "VICFullscreen" (set to 1)
+resource:       "VICFullscreen" (set to 1)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   +VICfull
 description:    "Disable fullscreen"
-resource:               "VICFullscreen" (set to 0)
+resource:       "VICFullscreen" (set to 0)
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICfulldevice <device>
 description:    "Select fullscreen device"
-resource:               "VICFullscreenDevice"
+resource:       "VICFullscreenDevice"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICSDLfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "VICSDLFullscreenMode"
+resource:       "VICSDLFullscreenMode"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "VICXRANDRFullscreenMode"
+resource:       "VICXRANDRFullscreenMode"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "VICVidmodeFullscreenMode"
+resource:       "VICVidmodeFullscreenMode"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
-resource:               "VICColorSaturation"
+resource:       "VICColorSaturation"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
-resource:               "VICColorContrast"
+resource:       "VICColorContrast"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
-resource:               "VICColorBrightness"
+resource:       "VICColorBrightness"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
-resource:               "VICColorGamma"
+resource:       "VICColorGamma"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICtint <0-2000>
 description:    "Set tint of internal calculated palette"
-resource:               "VICColorTint"
+resource:       "VICColorTint"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
-resource:               "VICPALOddLinePhase"
+resource:       "VICPALOddLinePhase"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
-resource:               "VICPALOddLineOffset"
+resource:       "VICPALOddLineOffset"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
-resource:               "VICPALBlur"
+resource:       "VICPALBlur"
 action:         N/A
 
 vic20/vic-cmdline-options.c:
 ----------------------------
 command line:   -VICcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
-resource:               "VICPALScanLineShade"
+resource:       "VICPALScanLineShade"
 action:         N/A
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
 command line:   -pal
 description:    "Use PAL sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
 action:         N/A
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
 command line:   -ntsc
 description:    "Use NTSC sync factor"
-resource:               "MachineVideoStandard" (set to MACHINE_SYNC_NSTC)
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_NSTC)
 action:         N/A
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
 command line:   -kernal <Name>
 description:    "Specify name of Kernal ROM image"
-resource:               "KernalName"
+resource:       "KernalName"
 action:         N/A
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
 command line:   -basic <Name>
 description:    "Specify name of BASIC ROM image"
-resource:               "BasicName"
+resource:       "BasicName"
 action:         N/A
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
 command line:   -chargen <Name>
 description:    "Specify name of character generator ROM image"
-resource:               "ChargenName"
+resource:       "ChargenName"
 action:         N/A
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
 command line:   -memory <spec>
-description:    "Specify memory configuration" (fixme: needs better description)
-resource:               N/A
+description:    "Specify memory configuration. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / (04/20/40/60/a0)"
+resource:       N/A
 action:         cmdline_memory() (sets "RAMBlock0", "RAMBlock1", "RAMBlock2", "RAMBlock3" and "RAMBlock5")
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
 command line:   -keymap <number>
 description:    "Specify index of keymap file (0=symbol, 1=positional)"
-resource:               "KeymapIndex"
+resource:       "KeymapIndex"
 action:         N/A
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
 command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
-resource:               "KeymapSymFile"
+resource:       "KeymapSymFile"
 action:         N/A
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
 command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
-resource:               "KeymapPosFile"
+resource:       "KeymapPosFile"
 action:         N/A
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
 command line:   -model <Model>
 description:    "Set VIC20 model (vic20/vic20pal/vic20ntsc, vic21)"
-resource:               N/A
+resource:       N/A
 action:         set_vic20_model() (sets "MachineVideoStandard", "RamBlock0", "RamBlock1", "RamBlock2", "RamBlock3" and "RamBlock5")
 
 vic20/vic20io.c:
 ----------------
 command line:   -iocollision <method>
 description:    "Select the way the I/O collisions should be handled, (0: error message and detach all involved carts, 1: error message and detach last attached involved carts, 2: warning in log and 'AND' the valid return values"
-resource:               "IOCollisionHandling"
+resource:       "IOCollisionHandling"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
@@ -7392,251 +7363,251 @@ vicii/vicii-cmdline-options.c:
 command line:   -VICIIborders <Mode>
 description:    "Set border display mode (0: normal, 1: full, 2: debug)"
 resource:       N/A
-action:         border_set_func()
+action:         border_set_func() (set "VICIIBorderMode")
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIchecksb
 description:    "Enable sprite-background collision registers"
-resource:               "VICIICheckSbColl" (set to 1)
+resource:       "VICIICheckSbColl" (set to 1)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   +VICIIchecksb
 description:    "Disable sprite-background collision registers"
-resource:               "VICIICheckSbColl" (set to 0)
+resource:       "VICIICheckSbColl" (set to 0)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIcheckss
 description:    "Enable sprite-sprite collision registers"
-resource:               "VICIICheckSsColl" (set to 1)
+resource:       "VICIICheckSsColl" (set to 1)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   +VICIIcheckss
 description:    "Disable sprite-sprite collision registers"
-resource:               "VICIICheckSsColl" (set to 0)
+resource:       "VICIICheckSsColl" (set to 0)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIInewluminance
 description:    "Use new luminances"
-resource:               "VICIINewLuminances" (set to 1)
+resource:       "VICIINewLuminances" (set to 1)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   +VICIInewluminance
 description:    "Use old luminances"
-resource:               "VICIINewLuminances" (set to 0)
+resource:       "VICIINewLuminances" (set to 0)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIvcache
 description:    "Enable the video cache"
-resource:               "VICIIVideoCache" (set to 1)
+resource:       "VICIIVideoCache" (set to 1)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   +VICIIvcache
 description:    "Disable the video cache"
-resource:               "VICIIVideoCache" (set to 0)
+resource:       "VICIIVideoCache" (set to 0)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIdsize
 description:    "Enable double size"
-resource:               "VICIIDoubleSize" (set to 1)
+resource:       "VICIIDoubleSize" (set to 1)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   +VICIIdsize
 description:    "Disable double size"
-resource:               "VICIIDoubleSize" (set to 0)
+resource:       "VICIIDoubleSize" (set to 0)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIdscan
 description:    "Enable double scan"
-resource:               "VICIIDoubleScan" (set to 1)
+resource:       "VICIIDoubleScan" (set to 1)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   +VICIIdscan
 description:    "Disable double scan"
-resource:               "VICIIDoubleScan" (set to 0)
+resource:       "VICIIDoubleScan" (set to 0)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIaudioleak
 description:    "Enable audio leak emulation"
-resource:               "VICIIAudioLeak" (set to 1)
+resource:       "VICIIAudioLeak" (set to 1)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   +VICIIaudioleak
 description:    "Disable audio leak emulation"
-resource:               "VICIIAudioLeak" (set to 0)
+resource:       "VICIIAudioLeak" (set to 0)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIhwscale
 description:    "Enable hardware scaling"
-resource:               "VICIIHwScale" (set to 1)
+resource:       "VICIIHwScale" (set to 1)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   +VICIIhwscale
 description:    "Disable hardware scaling"
-resource:               "VICIIHwScale" (set to 0)
+resource:       "VICIIHwScale" (set to 0)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIfilter <Mode>
 description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:               "VICIIFilter"
+resource:       "VICIIFilter"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIintpal
 description:    "Use an internal calculated palette"
-resource:               "VICIIExternalPalette" (set to 0)
+resource:       "VICIIExternalPalette" (set to 0)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIextpal
 description:    "Use an external palette (file)"
-resource:               "VICIIExternalPalette" (set to 1)
+resource:       "VICIIExternalPalette" (set to 1)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIpalette <Name>
 description:    "Specify name of file of external palette"
-resource:               "VICIIPaletteFile"
+resource:       "VICIIPaletteFile"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIfull
 description:    "Enable fullscreen"
-resource:               "VICIIFullscreen" (set to 1)
+resource:       "VICIIFullscreen" (set to 1)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   +VICIIfull
 description:    "Disable fullscreen"
-resource:               "VICIIFullscreen" (set to 0)
+resource:       "VICIIFullscreen" (set to 0)
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIfulldevice <device>
 description:    "Select fullscreen device"
-resource:               "VICIIFullscreenDevice"
+resource:       "VICIIFullscreenDevice"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIISDLfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "VICIISDLFullscreenMode"
+resource:       "VICIISDLFullscreenMode"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "VICIIXRANDRFullscreenMode"
+resource:       "VICIIXRANDRFullscreenMode"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "VICIIVidmodeFullscreenMode"
+resource:       "VICIIVidmodeFullscreenMode"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
-resource:               "VICIIColorSaturation"
+resource:       "VICIIColorSaturation"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
-resource:               "VICIIColorContrast"
+resource:       "VICIIColorContrast"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
-resource:               "VICIIColorBrightness"
+resource:       "VICIIColorBrightness"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
-resource:               "VICIIColorGamma"
+resource:       "VICIIColorGamma"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIItint <0-2000>
 description:    "Set tint of internal calculated palette"
-resource:               "VICIIColorTint"
+resource:       "VICIIColorTint"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
-resource:               "VICIIPALOddLinePhase"
+resource:       "VICIIPALOddLinePhase"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
-resource:               "VICIIPALOddLineOffset"
+resource:       "VICIIPALOddLineOffset"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
-resource:               "VICIIPALBlur"
+resource:       "VICIIPALBlur"
 action:         N/A
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
 command line:   -VICIIcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
-resource:               "VICIIPALScanLineShade"
+resource:       "VICIIPALScanLineShade"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
@@ -7644,284 +7615,284 @@ viciisc/vicii-cmdline-options.c:
 command line:   -VICIIborders <Mode>
 description:    "Set border display mode (0: normal, 1: full, 2: debug)"
 resource:       N/A
-action:         border_set_func()
+action:         border_set_func() (set "VICIIBorderMode")
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIchecksb
 description:    "Enable sprite-background collision registers"
-resource:               "VICIICheckSbColl" (set to 1)
+resource:       "VICIICheckSbColl" (set to 1)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   +VICIIchecksb
 description:    "Disable sprite-background collision registers"
-resource:               "VICIICheckSbColl" (set to 0)
+resource:       "VICIICheckSbColl" (set to 0)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIcheckss
 description:    "Enable sprite-sprite collision registers"
-resource:               "VICIICheckSsColl" (set to 1)
+resource:       "VICIICheckSsColl" (set to 1)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   +VICIIcheckss
 description:    "Disable sprite-sprite collision registers"
-resource:               "VICIICheckSsColl" (set to 0)
+resource:       "VICIICheckSsColl" (set to 0)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIInewluminance
 description:    "Use new luminances"
-resource:               "VICIINewLuminances" (set to 1)
+resource:       "VICIINewLuminances" (set to 1)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   +VICIInewluminance
 description:    "Use old luminances"
-resource:               "VICIINewLuminances" (set to 0)
+resource:       "VICIINewLuminances" (set to 0)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIImodel <Model>
 description:    "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
-resource:               N/A
+resource:       N/A
 action:         set_vicii_model() (sets "VICIIModel")
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIvcache
 description:    "Enable the video cache"
-resource:               "VICIIVideoCache" (set to 1)
+resource:       "VICIIVideoCache" (set to 1)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   +VICIIvcache
 description:    "Disable the video cache"
-resource:               "VICIIVideoCache" (set to 0)
+resource:       "VICIIVideoCache" (set to 0)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIdsize
 description:    "Enable double size"
-resource:               "VICIIDoubleSize" (set to 1)
+resource:       "VICIIDoubleSize" (set to 1)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   +VICIIdsize
 description:    "Disable double size"
-resource:               "VICIIDoubleSize" (set to 0)
+resource:       "VICIIDoubleSize" (set to 0)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIdscan
 description:    "Enable double scan"
-resource:               "VICIIDoubleScan" (set to 1)
+resource:       "VICIIDoubleScan" (set to 1)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   +VICIIdscan
 description:    "Disable double scan"
-resource:               "VICIIDoubleScan" (set to 0)
+resource:       "VICIIDoubleScan" (set to 0)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIaudioleak
 description:    "Enable audio leak emulation"
-resource:               "VICIIAudioLeak" (set to 1)
+resource:       "VICIIAudioLeak" (set to 1)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   +VICIIaudioleak
 description:    "Disable audio leak emulation"
-resource:               "VICIIAudioLeak" (set to 0)
+resource:       "VICIIAudioLeak" (set to 0)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIhwscale
 description:    "Enable hardware scaling"
-resource:               "VICIIHwScale" (set to 1)
+resource:       "VICIIHwScale" (set to 1)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   +VICIIhwscale
 description:    "Disable hardware scaling"
-resource:               "VICIIHwScale" (set to 0)
+resource:       "VICIIHwScale" (set to 0)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIfilter <Mode>
 description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:               "VICIIFilter"
+resource:       "VICIIFilter"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIintpal
 description:    "Use an internal calculated palette"
-resource:               "VICIIExternalPalette" (set to 0)
+resource:       "VICIIExternalPalette" (set to 0)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIextpal
 description:    "Use an external palette (file)"
-resource:               "VICIIExternalPalette" (set to 1)
+resource:       "VICIIExternalPalette" (set to 1)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIpalette <Name>
 description:    "Specify name of file of external palette"
-resource:               "VICIIPaletteFile"
+resource:       "VICIIPaletteFile"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIfull
 description:    "Enable fullscreen"
-resource:               "VICIIFullscreen" (set to 1)
+resource:       "VICIIFullscreen" (set to 1)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   +VICIIfull
 description:    "Disable fullscreen"
-resource:               "VICIIFullscreen" (set to 0)
+resource:       "VICIIFullscreen" (set to 0)
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIfulldevice <device>
 description:    "Select fullscreen device"
-resource:               "VICIIFullscreenDevice"
+resource:       "VICIIFullscreenDevice"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIISDLfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "VICIISDLFullscreenMode"
+resource:       "VICIISDLFullscreenMode"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "VICIIXRANDRFullscreenMode"
+resource:       "VICIIXRANDRFullscreenMode"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
-resource:               "VICIIVidmodeFullscreenMode"
+resource:       "VICIIVidmodeFullscreenMode"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
-resource:               "VICIIColorSaturation"
+resource:       "VICIIColorSaturation"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
-resource:               "VICIIColorContrast"
+resource:       "VICIIColorContrast"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
-resource:               "VICIIColorBrightness"
+resource:       "VICIIColorBrightness"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
-resource:               "VICIIColorGamma"
+resource:       "VICIIColorGamma"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIItint <0-2000>
 description:    "Set tint of internal calculated palette"
-resource:               "VICIIColorTint"
+resource:       "VICIIColorTint"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
-resource:               "VICIIPALOddLinePhase"
+resource:       "VICIIPALOddLinePhase"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
-resource:               "VICIIPALOddLineOffset"
+resource:       "VICIIPALOddLineOffset"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
-resource:               "VICIIPALBlur"
+resource:       "VICIIPALBlur"
 action:         N/A
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
 command line:   -VICIIcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
-resource:               "VICIIPALScanLineShade"
+resource:       "VICIIPALScanLineShade"
 action:         N/A
 
 vsync.c:
 --------
 command line:   -speed <percent>
 description:    "Limit emulation speed to specified value"
-resource:               "Speed"
+resource:       "Speed"
 action:         N/A
 
 vsync.c:
 --------
 command line:   -refresh <value>
 description:    "Update every <value> frames (`0' for automatic)"
-resource:               "RefreshRate"
+resource:       "RefreshRate"
 action:         N/A
 
 vsync.c:
 --------
 command line:   -warp
 description:    "Enable warp mode"
-resource:               "WarpMode" (set to 1)
+resource:       "WarpMode" (set to 1)
 action:         N/A
 
 vsync.c:
 --------
 command line:   +warp
 description:    "Disable warp mode"
-resource:               "WarpMode" (set to 0)
+resource:       "WarpMode" (set to 0)
 action:         N/A

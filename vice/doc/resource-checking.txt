@@ -574,7 +574,7 @@ resource var:                   sync_factor
 resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -pal / -ntsc
+command-line:                   -pal / -ntsc / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -610,7 +610,7 @@ resource var:                   cia1_model
 resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -cia1model
+command-line:                   -ciamodel / -cia1model / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -627,7 +627,7 @@ resource var:                   cia2_model
 resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -cia2model
+command-line:                   -ciamodel / -cia2model / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -807,7 +807,7 @@ resource var:                   chargen_rom_name
 resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -chargen
+command-line:                   -chargen / -model
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
 
@@ -822,7 +822,7 @@ resource var:                   kernal_rom_name
 resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -kernal
+command-line:                   -kernal / -model
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
 
@@ -933,7 +933,7 @@ resource var:                   board_type
 resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   -model
 platform gui present:
 platform range correct:		
 platform range incorrect:		
@@ -944,7 +944,7 @@ blacky note: agreed.
 
 c64/c64-resources.c:
 --------------------
-resource type:                  bool
+resource type:                  int
 resource name:                  "IECReset"
 resource range:                 0/1
 resource default:               1
@@ -953,7 +953,7 @@ resource var:                   iec_reset
 resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -iecreset (fixme: no command line to switch it off)
+command-line:                   -model / -iecreset
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 fixme: add to documentation
@@ -969,7 +969,7 @@ resource var:                   cia1_model
 resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -cia1model
+command-line:                   -cia1model / -ciamodel / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -986,7 +986,7 @@ resource var:                   cia2_model
 resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -cia2model
+command-line:                   -cia2model / -ciamodel / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -1076,7 +1076,7 @@ resource var:                   glue_logic_type
 resource emulators:             x64/x64sc/xscpu64
 not used in:                    x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -gluelogictype
+command-line:                   -gluelogictype / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -1227,7 +1227,7 @@ resource var:                   acia_enabled
 resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef HAVE_RS232
-command-line:                   NONE (fixme)
+command-line:                   -acia1 / +acia1
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -1325,7 +1325,7 @@ prepocessor:
 command-line:                   -ieee488image
 platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
-(fixme: string is only used for command-line ??)
+fixme: string is only used for command-line ??
 
 c64/cart/c64tpi.c:
 ------------------
@@ -2504,7 +2504,7 @@ resource var:                   rr_revision
 resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -rrbioswrite / +rrbioswrite
+command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/windows/unix
 platform range correct:		
 platform range incorrect:		
@@ -2918,7 +2918,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
 platform gui present:
 platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
-fixme:                          it should get removed from vsid, as it has no keyboard
+fixme: it should get removed from vsid, as it has no keyboard
 
 c64/vsid-resources.c:
 ---------------------
@@ -2934,7 +2934,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -poskeymap
 platform gui present:
 platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
-fixme:                          it should get removed from vsid, as it has no keyboard
+fixme: it should get removed from vsid, as it has no keyboard
 
 c64/vsid-resources.c:
 ---------------------
@@ -2950,7 +2950,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symdekeymap
 platform gui present:
 platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
-fixme:                          it should get removed from vsid, as it has no keyboard
+fixme: it should get removed from vsid, as it has no keyboard
 
 c64/vsid-resources.c:
 ---------------------
@@ -3192,7 +3192,7 @@ resource var:                   sync_factor
 resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -pal / -ntsc
+command-line:                   -pal / -ntsc / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -3227,7 +3227,7 @@ resource var:                   c64dtv_hummer_adc_enabled
 resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -hummeradc / +hummeradc
+command-line:                   -hummeradc / +hummeradc / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -3242,7 +3242,7 @@ resource var:                   dtvrevision
 resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -dtvrev
+command-line:                   -dtvrev / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -3364,7 +3364,7 @@ resource var:                   chargen_name
 resource emulators:             xcbm2
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -chargen
+command-line:                   -chargen / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -3379,7 +3379,7 @@ resource var:                   kernal_rom_name
 resource emulators:             xcbm2
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -kernal
+command-line:                   -kernal / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -3394,7 +3394,7 @@ resource var:                   basic_rom_name
 resource emulators:             xcbm2
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -basic
+command-line:                   -basic / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -3409,7 +3409,7 @@ resource var:                   sync_factor
 resource emulators:             xcbm2
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -pal / -ntsc
+command-line:                   -pal / -ntsc / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx
 platform range correct:		
 platform range incorrect:		
@@ -3427,7 +3427,7 @@ resource var:                   ramsize
 resource emulators:             xcbm2
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -ramsize
+command-line:                   -ramsize / -model
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -3444,7 +3444,7 @@ resource var:                   cbm2_model_line
 resource emulators:             xcbm2
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -model / NONE (fixme ??)
 platform gui present:           amigaos/beos/os2/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -3767,7 +3767,7 @@ resource var:                   chargen_name
 resource emulators:             xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -chargen
+command-line:                   -chargen / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
 platform gui missing:
 
@@ -3782,7 +3782,7 @@ resource var:                   kernal_rom_name
 resource emulators:             xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -kernal
+command-line:                   -kernal / -model
 platform gui present:           amigaos/beos/dos/unix/os2/sdl/osx/windows
 platform gui missing:
 
@@ -3797,7 +3797,7 @@ resource var:                   basic_rom_name
 resource emulators:             xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -basic
+command-line:                   -basic / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -3812,7 +3812,7 @@ resource var:                   sync_factor
 resource emulators:             xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -pal / -ntsc
+command-line:                   -pal / -ntsc / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -3830,7 +3830,7 @@ resource var:                   ramsize
 resource emulators:             xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -ramsize
+command-line:                   -ramsize / -model
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -3848,7 +3848,7 @@ resource var:                   cbm2_model_line
 resource emulators:             xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -model / NONE (fixme)
 platform gui present:           amigaos/beos/os2/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -3880,7 +3880,7 @@ resource var:                   raster_resource_chip->video_cache_enabled
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcvcache / +Crtcvcache
+command-line:                   -CRTCvcache / +CRTCvcache
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -3895,7 +3895,7 @@ resource var:                   crtc.raster->canvas->videoconfig->double_size_en
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcdsize / +Crtcdsize
+command-line:                   -CRTCdsize / +CRTCdsize
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -3910,7 +3910,7 @@ resource var:                   crtc.raster->canvas->videoconfig->doublescan
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcdscan / +Crtcdscan
+command-line:                   -CRTCdscan / +CRTCdscan
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -3925,7 +3925,7 @@ resource var:                   crtc.raster->canvas->videoconfig->hwscale
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtchwscale / +Crtchwscale
+command-line:                   -CRTChwscale / +CRTChwscale
 platform gui present:           unix
 platform gui missing:			sdl
 fixme: fix documentation to mention that this is SDL and Unix only
@@ -3941,7 +3941,7 @@ resource var:                   crtc.raster->canvas->videoconfig->filter
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcfilter
+command-line:                   -CRTCfilter
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -3958,7 +3958,7 @@ resource var:                   crtc.raster->canvas->videoconfig->fullscreen_dev
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcfulldevice
+command-line:                   -CRTCfulldevice
 platform gui present:           sdl/unix
 platform gui missing:
 fixme: fix documentation to mention that this is SDL and Unix only
@@ -3974,7 +3974,7 @@ resource var:                   crtc.raster->canvas->videoconfig->fullscreen_ena
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcfull / +Crtcfull (sdl) / NONE (unix fixme)
+command-line:                   -CRTCfull / +CRTCfull (sdl) / NONE (unix fixme)
 platform gui present:           sdl/unix
 platform gui missing:
 fixme: fix documentation to mention that this is SDL and Unix only
@@ -4006,7 +4006,7 @@ resource var:                   crtc.raster->canvas->videoconfig->fullscreen_mod
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -CrtcSDLfullmode
+command-line:                   -CRTCSDLfullmode
 platform gui present:           sdl
 platform gui missing:
 fixme: fix documentation to mention that this is SDL only
@@ -4022,7 +4022,7 @@ resource var:                   crtc.raster->canvas->videoconfig->fullscreen_mod
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -CrtcXRANDRfullmode
+command-line:                   -CRTCXRANDRfullmode
 platform gui present:           unix
 platform gui missing:
 fixme: fix documentation to mention that this is Unix only
@@ -4038,7 +4038,7 @@ resource var:                   crtc.raster->canvas->videoconfig->fullscreen_mod
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -CrtcVidmodefullmode
+command-line:                   -CRTCVidmodefullmode
 platform gui present:           unix
 platform gui missing:
 fixme: fix documentation to mention that this is Unix only
@@ -4054,7 +4054,7 @@ resource var:                   crtc.raster->canvas->videoconfig->external_palet
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcpalette
+command-line:                   -CRTCpalette
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -4069,7 +4069,7 @@ resource var:                   crtc.raster->canvas->videoconfig->external_palet
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcintpal / -Crtcextpal
+command-line:                   -CRTCintpal / -CRTCextpal
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -4100,7 +4100,7 @@ resource var:                   crtc.raster->canvas->videoconfig->video_resource
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcsaturation
+command-line:                   -CRTCsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -4117,7 +4117,7 @@ resource var:                   crtc.raster->canvas->videoconfig->video_resource
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtccontrast
+command-line:                   -CRTCcontrast
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -4134,7 +4134,7 @@ resource var:                   crtc.raster->canvas->videoconfig->video_resource
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcbrightness
+command-line:                   -CRTCbrightness
 platform gui present:           amigaos/beos/dos/sdl/os2/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -4151,7 +4151,7 @@ resource var:                   crtc.raster->canvas->videoconfig->video_resource
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcgamma
+command-line:                   -CRTCgamma
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -4168,7 +4168,7 @@ resource var:                   crtc.raster->canvas->videoconfig->video_resource
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtctint
+command-line:                   -CRTCtint
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
@@ -4185,7 +4185,7 @@ resource var:                   crtc.raster->canvas->videoconfig->video_resource
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtctcrtscanlineshade
+command-line:                   -CRTCcrtscanlineshade
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -4202,7 +4202,7 @@ resource var:                   crtc.raster->canvas->videoconfig->video_resource
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtccrtblur
+command-line:                   -CRTCcrtblur
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -4219,7 +4219,7 @@ resource var:                   crtc.raster->canvas->videoconfig->video_resource
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcoddlinesphase
+command-line:                   -CRTCoddlinesphase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -4236,7 +4236,7 @@ resource var:                   crtc.raster->canvas->videoconfig->video_resource
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcoddlinesoffset
+command-line:                   -CRTCoddlinesoffset
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -4253,7 +4253,7 @@ resource var:                   crtc.raster->canvas->videoconfig->video_resource
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -Crtcaudioleak / +Crtcaudioleak
+command-line:                   -CRTCaudioleak / +CRTCaudioleak
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform gui missing:			osx
 
@@ -4316,7 +4316,7 @@ resource var:                   debug.do_core_dumps
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -core / +core / -debug / +debug
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 note: not very useful to have in the UIs, perhaps make it available only if DEBUG is defined?
@@ -6028,7 +6028,7 @@ resource var:                   audio_codec
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_FFMPEG
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           sdl/unix(GTK)
 platform gui missing:           amigaos/beos/dos/os2/unix(XAW)/osx/windows
 
@@ -6043,7 +6043,7 @@ resource var:                   video_codec
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_FFMPEG
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           sdl/unix(GTK)/windows
 platform gui missing:           amigaos/beos/dos/os2/unix(XAW)/osx
 
@@ -6112,7 +6112,7 @@ resource var:                   ted_lum_handling
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xvic/vsid
 prepocessor:
-command-line:                   -koalaundersize
+command-line:                   -koalatedlum
 platform gui present:           unix(GTK)
 platform range correct:		
 platform range incorrect:		
@@ -6130,7 +6130,7 @@ resource var:                   crtc_text_color
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -koalaundersize
+command-line:                   -koalacrtctextcolor
 platform gui present:           unix(GTK)
 platform range correct:		
 platform range incorrect:		
@@ -6206,7 +6206,7 @@ resource var:                   audio_codec
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
@@ -6224,7 +6224,7 @@ resource var:                   video_codec
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
@@ -6594,7 +6594,7 @@ resource var:                   log_file_name
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -logfile
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 
@@ -6786,7 +6786,7 @@ resource var:                   petres.chargenName
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -chargen
+command-line:                   -chargen / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
 platform gui missing:
 
@@ -6801,7 +6801,7 @@ resource var:                   petres.kernalName
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -kernal
+command-line:                   -kernal / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
 platform gui missing:
 
@@ -6816,7 +6816,7 @@ resource var:                   petres.editorName
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -editor
+command-line:                   -editor / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform gui missing:			os2
 
@@ -6831,7 +6831,7 @@ resource var:                   petres.basicName
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -basic
+command-line:                   -basic / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
 platform gui missing:
 
@@ -6846,7 +6846,7 @@ resource var:                   petres.mem9name
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -rom9
+command-line:                   -rom9 / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -6861,7 +6861,7 @@ resource var:                   petres.memAname
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -romA
+command-line:                   -romA / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -6876,7 +6876,7 @@ resource var:                   petres.memBname
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -romB
+command-line:                   -romB / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -6981,7 +6981,7 @@ resource var:                   petres.h6809romName[0]
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -6809romA
+command-line:                   -6809romA / -model
 platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
@@ -6996,7 +6996,7 @@ resource var:                   petres.h6809romName[1]
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -6809romB
+command-line:                   -6809romB / -model
 platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
@@ -7011,7 +7011,7 @@ resource var:                   petres.h6809romName[2]
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -6809romC
+command-line:                   -6809romC / -model
 platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
@@ -7026,7 +7026,7 @@ resource var:                   petres.h6809romName[3]
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -6809romD
+command-line:                   -6809romD / -model
 platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
@@ -7041,7 +7041,7 @@ resource var:                   petres.h6809romName[4]
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -6809romE
+command-line:                   -6809romE / -model
 platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
@@ -7056,7 +7056,7 @@ resource var:                   petres.h6809romName[5]
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -6809romF
+command-line:                   -6809romF / -model
 platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
@@ -7159,7 +7159,7 @@ resource var:                   petres.ramsel9
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -petram9 / +petram9
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -7174,7 +7174,7 @@ resource var:                   petres.ramselA
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -petramA / +petramA
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -7204,7 +7204,7 @@ resource var:                   petres.pet2k
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -basic1 / +basic1
+command-line:                   -basic1 / +basic1 / -model
 platform gui present:           os2/unix/osx
 platform gui missing:           amigaos/beos/dos/sdl/windows
 
@@ -7219,7 +7219,7 @@ resource var:                   petres.pet2kchar
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -basic1char / +basic1char
+command-line:                   -basic1char / +basic1char / -model
 platform gui present:           os2/unix/osx
 platform gui missing:           amigaos/beos/dos/sdl/windows
 
@@ -7487,7 +7487,7 @@ resource var:                   kernal_rom_name
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
-command-line:                   -kernal
+command-line:                   -kernal / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
 platform gui missing:
 
@@ -7502,7 +7502,7 @@ resource var:                   basic_rom_name
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
-command-line:                   -basic
+command-line:                   -basic / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
 platform gui missing:
 
@@ -7517,7 +7517,7 @@ resource var:                   func_lo_rom_name
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
-command-line:                   -functionlo
+command-line:                   -functionlo / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform gui missing:			os2
 
@@ -7532,7 +7532,7 @@ resource var:                   func_hi_rom_name
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
-command-line:                   -functionhi
+command-line:                   -functionhi / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform gui missing:			os2
 
@@ -7637,7 +7637,7 @@ resource var:                   sync_factor
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
-command-line:                   -pal / -ntsc
+command-line:                   -pal / -ntsc / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix
 platform range correct:		
 platform range incorrect:		
@@ -7655,7 +7655,7 @@ resource var:                   ram_size_plus4
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
-command-line:                   -ramsize
+command-line:                   -ramsize / -model
 platform gui present:           amigaos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
@@ -7783,7 +7783,7 @@ resource var:                   h256k_enabled
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
-command-line:                   -h256k
+command-line:                   -h256k / -h1024k / -h4096k
 platform gui present:           amigaos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -7800,7 +7800,7 @@ resource var:                   speech_filename
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -speechrom / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -7815,7 +7815,7 @@ resource var:                   speech_sound_chip.chip_enabled
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
-command-line:                   -speech / +speech
+command-line:                   -speech / +speech / -speechrom / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -8102,7 +8102,7 @@ resource var:                   ted.raster->canvas->videoconfig->video_resources
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
-command-line:                   -TEDgamma
+command-line:                   -TEDtint
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
@@ -8366,7 +8366,7 @@ resource var:                   userport_printer_enabled
 resource emulators:             x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xvic
 not used in:                    x64dtv/xplus4/vsid
 prepocessor:
-command-line:                   -pruser
+command-line:                   -pruser / +pruser
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
 
@@ -8411,7 +8411,7 @@ resource var:                   output_select[2].output_name
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   -pr6output
+command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
 
@@ -8569,7 +8569,7 @@ resource var:                   _mouse_enabled
 resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -mouse / +mouse
 platform gui present:           amigaos/beos/dos/sdl/unix/osx
 platform gui missing:			os2/windows
 
@@ -8751,7 +8751,7 @@ resource var:                   chargen_rom_name
 resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -chargen
+command-line:                   -chargen / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
 platform gui missing:
 
@@ -8827,7 +8827,7 @@ resource var:                   sync_factor
 resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE ?? (fixme)
+command-line:                   -model / NONE ?? (fixme)
 platform gui present:           amigaos/beos/sdl/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -8838,7 +8838,7 @@ fixme: check platforms for usage of this resource in x64sc and xscpu64 and fix t
 
 scpu64/scpu64-resources.c:
 --------------------------
-resource type:                  bool
+resource type:                  int
 resource name:                  "IECReset"
 resource range:                 0/1
 resource default:               1
@@ -8847,7 +8847,7 @@ resource var:                   iec_reset
 resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -iecreset (fixme: no command line to switch it off)
+command-line:                   -iecreset / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
 
@@ -8862,7 +8862,7 @@ resource var:                   cia1_model
 resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -cia1model
+command-line:                   -cia1model / -ciamodel / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
 platform range correct:		
 platform range incorrect:		
@@ -8879,7 +8879,7 @@ resource var:                   cia2_model
 resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -cia2model
+command-line:                   -cia2model / -ciamodel / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
 platform range correct:		
 platform range incorrect:		
@@ -9225,7 +9225,7 @@ resource var:                   sid_engine
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   -sidenginemodel / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -9257,7 +9257,7 @@ resource var:                   sid_model
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   -sidenginemodel /-model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -9321,7 +9321,7 @@ sound.c:
 resource type:                  string
 resource name:                  "SoundDeviceName"
 resource range:                 N/A ("ahi"/"aix"/"allegro"/"alsa"/"arts"/"beos"/"bsp"/"coreaudio"/"dart"/"dummy"/"dump"/"dx"/"fs"/"hpux"/"midas"/
-                                        "pulse"/"sdl"/"sgi"/"speed"/"sun"/"uss"/"wmm")
+                                        "pulse"/"sdl"/"sgi"/"sun"/"uss"/"wmm")
 resource default:               ""
 resource function:              set_device_name()
 resource var:                   device_name
@@ -9634,7 +9634,7 @@ resource var:                   vdc_resources.vdc_64kb_expansion
 resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -VDC16KB / -VDC64KB
+command-line:                   -VDC16KB / -VDC64KB / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -9649,7 +9649,7 @@ resource var:                   vdc.revision
 resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -VDC16KB / -VDC64KB
+command-line:                   -VDCRevision / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -9838,7 +9838,7 @@ resource var:                   vdc.raster->canvas->videoconfig->external_palett
 resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -VDCpalette / +VDCpalette
+command-line:                   -VDCpalette
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -10783,7 +10783,7 @@ resource var:                   sync_factor
 resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -pal / -ntsc
+command-line:                   -pal / -ntsc / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx
 platform range correct:		
 platform range incorrect:		
@@ -10800,7 +10800,7 @@ resource var:                   ram_block_0_enabled
 resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
-command-line:                   -memory
+command-line:                   -memory / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
 
@@ -10815,7 +10815,7 @@ resource var:                   ram_block_1_enabled
 resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
-command-line:                   -memory
+command-line:                   -memory / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
 
@@ -10830,7 +10830,7 @@ resource var:                   ram_block_2_enabled
 resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
-command-line:                   -memory
+command-line:                   -memory / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
 
@@ -10845,7 +10845,7 @@ resource var:                   ram_block_3_enabled
 resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
-command-line:                   -memory
+command-line:                   -memory / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
 
@@ -10860,7 +10860,7 @@ resource var:                   ram_block_5_enabled
 resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
-command-line:                   -memory
+command-line:                   -memory / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
 
@@ -10956,7 +10956,7 @@ resource var:                   vicii_resources.new_luminances
 resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
-command-line:                   -VICIInewluminance / +VICIInewluminance
+command-line:                   -VICIInewluminance / +VICIInewluminance / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -11390,7 +11390,7 @@ resource var:                   vicii_resources.new_luminances
 resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -VICIInewluminance / +VICIInewluminance
+command-line:                   -VICIInewluminance / +VICIInewluminance / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
 
@@ -11406,7 +11406,7 @@ resource var:                   vicii_resources.model
 resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme ??)
+command-line:                   -pal / -ntsc / -ntscold / -paln / -VICIImodel / -model
 platform gui present:			amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -11810,7 +11810,7 @@ resource var:                   _acia_enabled
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -acia / +acia
+command-line:                   -acia / +acia / -model
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
 platform gui missing:			dos/os2
 
@@ -11876,7 +11876,7 @@ resource var:                   overclock_mode_enabled
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:                    #ifdef DINGOO_NATIVE
-command-line:                   -warp / +warp
+command-line:                   NONE (fixme)
 platform gui present:			dingoo
 platform gui missing:           
 
@@ -11910,7 +11910,7 @@ resource var:                   ui_resources.initialdir[0]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           amigaos
 platform gui missing:
 fixme: add to documentation
@@ -11926,7 +11926,7 @@ resource var:                   ui_resources.initialdir[1]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           amigaos
 platform gui missing:
 fixme: add to documentation
@@ -11942,7 +11942,7 @@ resource var:                   ui_resources.initialdir[2]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           amigaos
 platform gui missing:
 fixme: add to documentation
@@ -11958,7 +11958,7 @@ resource var:                   ui_resources.initialdir[3]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           amigaos
 platform gui missing:
 fixme: add to documentation
@@ -11974,7 +11974,7 @@ resource var:                   ui_resources.initialdir[4]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           amigaos
 platform gui missing:
 fixme: add to documentation
@@ -11990,7 +11990,7 @@ resource var:                   ui_resources.initialdir[5]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           amigaos
 platform gui missing:
 fixme: add to documentation
@@ -12825,7 +12825,7 @@ resource var:                   joystick_hw_type[3]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           dos
 platform range correct:		
 platform range incorrect:		
@@ -13853,7 +13853,7 @@ resource var:                   statusbar_enabled
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
 not used in:
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -statusbar / +statusbar
 platform gui present:           sdl
 platform gui missing:
 fixme: add to documentation
@@ -15157,7 +15157,7 @@ resource var:                   ui_resources.use_private_colormap
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used in vsid)
 not used in:
 prepocessor:
-command-line:                   -install / +install
+command-line:                   -colormap / +colormap
 platform gui present:           
 platform gui missing:			unix
 note: resource is used/checked
@@ -15657,7 +15657,7 @@ resource var:                   ui_resources.initialdir[0]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -15673,7 +15673,7 @@ resource var:                   ui_resources.initialdir[1]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for x64dtv and vsid)
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -15689,7 +15689,7 @@ resource var:                   ui_resources.initialdir[2]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -15705,7 +15705,7 @@ resource var:                   ui_resources.initialdir[3]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -15721,7 +15721,7 @@ resource var:                   ui_resources.initialdir[4]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for x64dtv and vsid)
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -15737,7 +15737,7 @@ resource var:                   ui_resources.initialdir[5]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -15753,7 +15753,7 @@ resource var:                   ui_resources.fullscreendevice
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platforms to check:			windows
 platform gui present:           
 platform gui missing:
@@ -15999,7 +15999,7 @@ resource var:                   ui_resources.alwaysontop
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -16015,7 +16015,7 @@ resource var:                   ui_resources.keep_aspect_ratio
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -16031,7 +16031,7 @@ resource var:                   ui_resources.true_aspect_ratio
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -16047,7 +16047,7 @@ resource var:                   ui_resources.aspect_ratio
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform range correct:		
 platform range incorrect:		
@@ -16065,7 +16065,7 @@ resource var:                   joystick_fire_speed[0]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
 not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform range correct:		
 platform range incorrect:		
@@ -16115,7 +16115,7 @@ resource var:                   joystick_fire_speed[1]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
 not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform range correct:		
 platform range incorrect:		
@@ -16165,7 +16165,7 @@ resource var:                   joystick_fire_speed[2]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
 not used in:                    xcbm5x0/vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform range correct:		
 platform range incorrect:		
@@ -16215,7 +16215,7 @@ resource var:                   joystick_fire_speed[3]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
 not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (fixme)
 platform gui present:           windows
 platform range correct:		
 platform range incorrect:		
