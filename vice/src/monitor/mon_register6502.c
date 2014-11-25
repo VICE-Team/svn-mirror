@@ -184,7 +184,11 @@ static void mon_register_print(int mem)
     }
 
     current_bank = mon_interfaces[mem]->current_bank;
-    mon_interfaces[mem]->current_bank = mon_interfaces[mem]->mem_bank_from_name("cpu");
+    if (mon_interfaces[mem]->mem_bank_from_name != NULL) {
+        mon_interfaces[mem]->current_bank = mon_interfaces[mem]->mem_bank_from_name("cpu");
+    } else {
+        mon_interfaces[mem]->current_bank = 0;
+    }
 
     mon_out(".;%04x %02x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d",
             addr_location(mon_register_get_val(mem, e_PC)),
