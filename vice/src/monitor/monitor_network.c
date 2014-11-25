@@ -268,11 +268,11 @@ static void monitor_network_process_binary_command(unsigned char * pbuffer, int 
                 monitor_network_binary_error(MON_ERR_CMD_TOO_SHORT);
             } else {
                 unsigned int startaddress = pbuffer[3] | (pbuffer[4] << 8);
-                unsigned int endaddress = pbuffer[4] | (pbuffer[5] << 8);
+                unsigned int endaddress = pbuffer[5] | (pbuffer[6] << 8);
 
                 MEMSPACE memspace = e_default_space;
 
-                switch (pbuffer[5]) {
+                switch (pbuffer[7]) {
                     case 0: memspace = e_comp_space; break;
                     case 1: memspace = e_disk8_space; break;
                     case 2: memspace = e_disk9_space; break;
@@ -280,7 +280,7 @@ static void monitor_network_process_binary_command(unsigned char * pbuffer, int 
                     case 4: memspace = e_disk11_space; break;
                     default:
                         monitor_network_binary_error(MON_ERR_INVALID_PARAMETER);
-                        log_message(LOG_DEFAULT, "monitor_network binary memdump: Unknown memspace %u", pbuffer[5]);
+                        log_message(LOG_DEFAULT, "monitor_network binary memdump: Unknown memspace %u", pbuffer[7]);
                         ok = 0;
                 }
 
