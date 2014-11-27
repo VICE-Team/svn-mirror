@@ -224,7 +224,7 @@ static int easyflash_write_chip_if_not_empty(FILE* fd, crt_chip_header_t *chip, 
 static const resource_int_t resources_int[] = {
     { "EasyFlashJumper", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &easyflash_jumper, set_easyflash_jumper, NULL },
-    { "EasyFlashWriteCRT", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "EasyFlashWriteCRT", 1, RES_EVENT_STRICT, (resource_value_t)0,
       &easyflash_crt_write, set_easyflash_crt_write, NULL },
     { NULL }
 };

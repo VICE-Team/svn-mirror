@@ -1500,7 +1500,7 @@ c64/cart/easyflash.c:
 resource type:                  bool
 resource name:                  "EasyFlashWriteCRT"
 resource range:                 0/1
-resource default:               0
+resource default:               1
 resource function:              set_easyflash_crt_write()
 resource var:                   easyflash_crt_write
 resource emulators:             x64/x64sc/xscpu64/x128
