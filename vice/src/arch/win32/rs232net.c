@@ -1,5 +1,5 @@
 /*
- * rs232net.c - RS232 emulation.
+ * rs232net.c - RS232 over network emulation.
  *
  * Written by
  *  Tim Newsham

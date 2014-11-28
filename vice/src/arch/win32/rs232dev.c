@@ -1,5 +1,5 @@
 /*
- * rs232dev.c - RS232 emulation.
+ * rs232dev.c - RS232 Device emulation.
  *
  * Written by
  *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
