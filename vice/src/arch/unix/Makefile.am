@@ -61,6 +61,10 @@ libarch_a_SOURCES = \
 	openGL_sync.h \
 	parsid.c \
 	rs232.c \
+	rs232dev.c \
+	rs232dev.h \
+	rs232net.c \
+	rs232net.h \
 	signals.c \
 	socketimpl.h \
 	rawnetarch.c \
