@@ -1,3 +1,15 @@
+RS232 NET SUPPORT
+=================
+platforms present:	windows
+platforms missing:	amigaos/beos/dos/os2/sdl/unix/osx
+
+
+RS232 HARDWARE SUPPORT
+======================
+platforms present:	sdl/unix/windows
+platforms missing:	amigaos/beos/dos/os2/osx
+
+
 MIDI SUPPORT
 ============
 platforms present:	sdl/unix/osx/windows
