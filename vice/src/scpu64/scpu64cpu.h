@@ -43,6 +43,7 @@ void scpu64_clock_write_stretch_io_long(void);
 void scpu64_clock_write_stretch_io_cia(void);
 void scpu64_clock_read_stretch_simm(DWORD addr);
 void scpu64_clock_write_stretch_simm(DWORD addr);
+void scpu64_clock_read_ioram(void);
 void maincpu_steal_cycles(void);
 int scpu64_snapshot_write_cpu_state(struct snapshot_module_s *m);
 int scpu64_snapshot_read_cpu_state(struct snapshot_module_s *m);

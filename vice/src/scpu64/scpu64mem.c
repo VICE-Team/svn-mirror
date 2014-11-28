@@ -63,6 +63,8 @@
 /* Machine class */
 int machine_class = VICE_MACHINE_SCPU64;
 
+static int scpu64_version_v2 = 1; /* for future v1 emulation */
+
 /* Dummy processor port.  */
 pport_t pport;
 
@@ -396,8 +398,10 @@ void mem_store2(DWORD addr, BYTE value)
     case 0x000000:
         if (addr & 0xfffe) {
             mem_sram[addr] = value;
-        } else {
+        } else if (scpu64_version_v2) {
             mem_sram[addr & 1] = value;
+        } else {
+            mem_sram[addr] = value;
         }
         return;
     default:
@@ -434,7 +438,7 @@ BYTE mem_read2(DWORD addr)
         if (addr & 0xfffe) {
             return mem_sram[addr];
         }
-        return mem_sram[addr & 1];
+        return scpu64_version_v2 ? mem_sram[addr & 1] : mem_sram[addr];
     default:
         if (mem_simm_ram_mask && addr < (unsigned int)mem_conf_size) {
             if (mem_simm_page_size != mem_conf_page_size) {
@@ -469,7 +473,7 @@ BYTE mem_peek2(DWORD addr)
         if (addr & 0xfffe) {
             return mem_sram[addr];
         }
-        return mem_sram[addr & 1];
+        return scpu64_version_v2 ? mem_sram[addr & 1] : mem_sram[addr];
     default:
         if (mem_simm_ram_mask && addr < (unsigned int)mem_conf_size) {
             if (mem_simm_page_size != mem_conf_page_size) {
@@ -516,7 +520,7 @@ static BYTE scpu64_hardware_read(WORD addr)
 
     switch (addr) {
     case 0xd0b0:
-        value = 0x40;
+        value = scpu64_version_v2 ? 0x40 : 0xc0;
         break;
     case 0xd0b1:
         break;
@@ -525,6 +529,10 @@ static BYTE scpu64_hardware_read(WORD addr)
         value = (mem_reg_hwenable ? 0x80 : 0x00) | (mem_reg_sys_1mhz ? 0x40 : 0x00);
         break;
     case 0xd0b3:
+        if (scpu64_version_v2) {
+            value = mem_reg_optim & 0xc0;
+        }
+        break;
     case 0xd0b4:
         value = mem_reg_optim & 0xc0;
         break;
@@ -636,7 +644,7 @@ void scpu64_hardware_store(WORD addr, BYTE value)
         }
         break;
     case 0xd0b3: /* set optim mode */
-        if (mem_reg_hwenable) {
+        if (mem_reg_hwenable && scpu64_version_v2) {
             mem_reg_optim = (mem_reg_optim & 0x38) | (value & 0xc7);
             mem_set_mirroring(mem_reg_optim);
         }
@@ -697,13 +705,16 @@ void scpu64_hardware_store(WORD addr, BYTE value)
 
 static void colorram_store(WORD addr, BYTE value)
 {
-    mem_sram[0x10000 + addr] = value;
+    if (scpu64_version_v2) mem_sram[0x10000 + addr] = value;
     mem_color_ram[addr & 0x3ff] = value & 0xf;
 }
 
 static BYTE colorram_read(WORD addr)
 {
-    return mem_sram[0x10000 + addr];
+    if (scpu64_version_v2) {
+        return mem_sram[0x10000 + addr];
+    }
+    return mem_color_ram[addr & 0x3ff] | (vicii_read_phi1() & 0xf0);
 }
 
 static BYTE scpu64_d200_read(WORD addr)
@@ -734,8 +745,12 @@ static void scpu64_d300_store(WORD addr, BYTE value)
 BYTE scpu64io_d000_read(WORD addr)
 {
     if ((addr & 0xfff0) == 0xd0b0) {
-        check_ba_read();
-        return scpu64_hardware_read(addr); /* not an i/o read! */
+        if (scpu64_version_v2) {
+            check_ba_read();
+            return scpu64_hardware_read(addr); /* not an i/o read! */
+        }
+        scpu64_clock_read_stretch_io();
+        return scpu64_hardware_read(addr); /* i/o read! */
     }
     scpu64_clock_read_stretch_io();
     return c64io_d000_read(addr); /* i/o read */
@@ -754,7 +769,7 @@ void scpu64io_d000_store(WORD addr, BYTE value)
 {
     int oldfastmode;
     scpu64_clock_write_stretch_io_start();
-    mem_sram[0x10000 + addr] = value;
+    if (scpu64_version_v2) mem_sram[0x10000 + addr] = value;
     if ((addr >= 0xd071 && addr < 0xd080) || (addr >= 0xd0b0 && addr < 0xd0c0)) {
         oldfastmode = scpu64_fastmode; 
         scpu64_hardware_store(addr, value);
@@ -776,7 +791,7 @@ BYTE scpu64io_d100_read(WORD addr)
 void scpu64io_d100_store(WORD addr, BYTE value)
 {
     scpu64_clock_write_stretch_io_start();
-    mem_sram[0x10000 + addr] = value;
+    if (scpu64_version_v2) mem_sram[0x10000 + addr] = value;
     c64io_d100_store(addr, value);
     scpu64_clock_write_stretch_io();
 }
@@ -784,6 +799,9 @@ void scpu64io_d100_store(WORD addr, BYTE value)
 BYTE scpu64io_d200_read(WORD addr)
 {
     check_ba_read();
+    if (!scpu64_version_v2) {
+        scpu64_clock_read_ioram();
+    }
     return scpu64_d200_read(addr); /* not an i/o read! */
 }
 
@@ -796,6 +814,9 @@ void scpu64io_d200_store(WORD addr, BYTE value)
 BYTE scpu64io_d300_read(WORD addr)
 {
     check_ba_read();
+    if (!scpu64_version_v2) {
+        scpu64_clock_read_ioram();
+    }
     return scpu64_d300_read(addr); /* not an i/o read! */
 }
 
@@ -814,7 +835,7 @@ BYTE scpu64io_d400_read(WORD addr)
 void scpu64io_d400_store(WORD addr, BYTE value)
 {
     scpu64_clock_write_stretch_io_start();
-    mem_sram[0x10000 + addr] = value;
+    if (scpu64_version_v2) mem_sram[0x10000 + addr] = value;
     c64io_d400_store(addr, value);
     scpu64_clock_write_stretch_io();
 }
@@ -828,7 +849,7 @@ BYTE scpu64io_d500_read(WORD addr)
 void scpu64io_d500_store(WORD addr, BYTE value)
 {
     scpu64_clock_write_stretch_io_start();
-    mem_sram[0x10000 + addr] = value;
+    if (scpu64_version_v2) mem_sram[0x10000 + addr] = value;
     c64io_d500_store(addr, value);
     scpu64_clock_write_stretch_io();
 }
@@ -860,8 +881,12 @@ void scpu64io_d700_store(WORD addr, BYTE value)
 
 BYTE scpu64io_colorram_read(WORD addr)
 {
-    check_ba_read();
-    return mem_sram[0x10000 + addr]; /* not an i/o read! */
+    if (scpu64_version_v2) {
+        check_ba_read();
+        return mem_sram[0x10000 + addr]; /* not an i/o read! */
+    }
+    scpu64_clock_read_stretch_io();
+    return mem_color_ram[addr & 0x3ff] | (vicii_read_phi1() & 0xf0); /* i/o read */
 }
 
 void scpu64io_colorram_store(WORD addr, BYTE value)
@@ -891,7 +916,7 @@ BYTE scpu64_cia1_read(WORD addr)
 void scpu64_cia1_store(WORD addr, BYTE value)
 {
     scpu64_clock_write_stretch_io_start_cia();
-    mem_sram[0x10000 + addr] = value;
+    if (scpu64_version_v2) mem_sram[0x10000 + addr] = value;
     cia1_store(addr, value);
     scpu64_clock_write_stretch_io_cia();
 }
@@ -905,7 +930,7 @@ BYTE scpu64_cia2_read(WORD addr)
 void scpu64_cia2_store(WORD addr, BYTE value)
 {
     scpu64_clock_write_stretch_io_start_cia();
-    mem_sram[0x10000 + addr] = value;
+    if (scpu64_version_v2) mem_sram[0x10000 + addr] = value;
     cia2_store(addr, value);
     scpu64_clock_write_stretch_io_cia();
 }

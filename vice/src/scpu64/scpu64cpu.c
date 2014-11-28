@@ -315,6 +315,13 @@ void scpu64_clock_write_stretch_simm(DWORD addr)
     } 
 }
 
+void scpu64_clock_read_ioram(void) /* scpu64 v1 $d200-$d3ff one extra 20 Mhz cycle */
+{
+    if (scpu64_fastmode) {
+        maincpu_accu += maincpu_diff; /* one delay */
+    }
+}
+
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
 {
     if (buffer_finish > sub) {
