@@ -1705,7 +1705,7 @@
           COP_65816(p1);                                        \
       } else {                                                  \
           if (trap_result) {                                    \
-             SET_OPCODE(trap_result);                           \
+             SET_OPCODE(trap_result & 0xff);                    \
              IMPORT_REGISTERS();                                \
              goto trap_skipped;                                 \
           } else {                                              \
