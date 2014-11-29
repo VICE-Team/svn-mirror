@@ -2819,11 +2819,11 @@ available for example).
 @vindex JoyOpposite
 @item JoyOpposite
 Boolean, if true allow (usually impossible) bitcombinations for opposite directions.
-@vindex ExtraJoy
-@item ExtraJoy
+@vindex UserportJoy
+@item UserportJoy
 Boolean, enables extra joysticks if true.
-@vindex ExtraJoyType
-@item ExtraJoyType
+@vindex UserportJoyType
+@item UserportJoyType
 Integer specifying the type of adapter used for the extra joysticks. (0=Classical Games/
 Protovision, 1=PET, 2=Hummer, 3=OEM, 4=Digital Excess/Hitmen, 5=Kingsoft, 6=Starbyte)
 
@@ -5012,7 +5012,7 @@ Integer in seconds which gives the difference between the local time and the tim
 @itemx IDE64Image2
 @itemx IDE64Image3
 @itemx IDE64Image4
-String specifying the full path to the four harddisk images. If a file is non-existing the drive is not emulated.
+Strings specifying the full path to the four harddisk images. If a file is non-existing the drive is not emulated.
 Some older IDEDOS versions only support the first two harddisks.
 @vindex IDE64Cylinders1
 @vindex IDE64Cylinders2
@@ -5049,7 +5049,7 @@ Number of sectors for the four harddisk images. Valid range is 1--63.
 @itemx IDE64AutodetectSize2
 @itemx IDE64AutodetectSize3
 @itemx IDE64AutodetectSize4
-Boolean specifying whether the disk geometry should be auto detected based
+Booleans specifying whether the disk geometry should be auto detected based
 on the disk image for the respective harddisk, or the cylinder/head/sector resources above should be used.
 @vindex IDE64USBServerAddress
 @item IDE64USBServerAddress
@@ -6721,14 +6721,14 @@ String specifying the filename of the C64 basic ROM image.
 Sets the internal function ROM type (0: None, 1: ROM, 2: RAM, 3: RAM+RTC).
 @vindex InternalFunctionName
 @item InternalFunctionName
-Strings specifying the filename of the ROM image for the internal function ROM.
+String specifying the filename of the ROM image for the internal function ROM.
 
 @vindex ExternalFunctionROM
 @item ExternalFunctionROM
 Sets the external function ROM type (0: None, 1: ROM, 2: RAM, 3: RAM+RTC).
 @vindex ExternalFunctionName
 @item ExternalFunctionName
-Strings specifying the filename of the ROM image for the external function ROM.
+String specifying the filename of the ROM image for the external function ROM.
 
 @end table
 
@@ -7155,7 +7155,7 @@ carts, 2: warning in log and 'AND' the valid return values)
 @itemx GenericCartridgeFile6000
 @itemx GenericCartridgeFileA000
 @itemx GenericCartridgeFileB000
-String specifying the name of the respective cartridge ROM images.
+Strings specifying the name of the respective cartridge ROM images.
 
 @vindex FinalExpansionWriteBack
 @item FinalExpansionWriteBack
