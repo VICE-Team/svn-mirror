@@ -160,11 +160,11 @@ static void network_event_record_sync_test(WORD addr, void *data)
 {
     BYTE regbuf[5 * 4];
 
-    util_dword_to_le_buf(&regbuf[0 * 4], (DWORD)(maincpu_regs.pc));
-    util_dword_to_le_buf(&regbuf[1 * 4], (DWORD)(maincpu_regs.a));
-    util_dword_to_le_buf(&regbuf[2 * 4], (DWORD)(maincpu_regs.x));
-    util_dword_to_le_buf(&regbuf[3 * 4], (DWORD)(maincpu_regs.y));
-    util_dword_to_le_buf(&regbuf[4 * 4], (DWORD)(maincpu_regs.sp));
+    util_dword_to_le_buf(&regbuf[0 * 4], (DWORD)(maincpu_get_pc()));
+    util_dword_to_le_buf(&regbuf[1 * 4], (DWORD)(maincpu_get_a()));
+    util_dword_to_le_buf(&regbuf[2 * 4], (DWORD)(maincpu_get_x()));
+    util_dword_to_le_buf(&regbuf[3 * 4], (DWORD)(maincpu_get_y()));
+    util_dword_to_le_buf(&regbuf[4 * 4], (DWORD)(maincpu_get_sp()));
 
     network_event_record(EVENT_SYNC_TEST, (void *)regbuf, sizeof(regbuf));
 }

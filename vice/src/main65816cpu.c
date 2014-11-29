@@ -351,6 +351,60 @@ void maincpu_mainloop(void)
 
 /* ------------------------------------------------------------------------- */
 
+void maincpu_set_pc(int pc) {
+    WDC65816_REGS_SET_PC(&maincpu_regs, pc);
+}
+
+void maincpu_set_a(int a) {
+    WDC65816_REGS_SET_A(&maincpu_regs, a);
+}
+
+void maincpu_set_x(int x) {
+    WDC65816_REGS_SET_X(&maincpu_regs, x);
+}
+
+void maincpu_set_y(int y) {
+    WDC65816_REGS_SET_Y(&maincpu_regs, y);
+}
+
+void maincpu_set_sign(int n) {
+    WDC65816_REGS_SET_SIGN(&maincpu_regs, n);
+}
+
+void maincpu_set_zero(int z) {
+    WDC65816_REGS_SET_ZERO(&maincpu_regs, z);
+}
+
+void maincpu_set_carry(int c) {
+    WDC65816_REGS_SET_CARRY(&maincpu_regs, c);
+}
+
+void maincpu_set_interrupt(int i) {
+    WDC65816_REGS_SET_INTERRUPT(&maincpu_regs, i);
+}
+
+unsigned int maincpu_get_pc(void) {
+    return WDC65816_REGS_GET_PC(&maincpu_regs);
+}
+
+unsigned int maincpu_get_a(void) {
+    return WDC65816_REGS_GET_A(&maincpu_regs);
+}
+
+unsigned int maincpu_get_x(void) {
+    return WDC65816_REGS_GET_X(&maincpu_regs);
+}
+
+unsigned int maincpu_get_y(void) {
+    return WDC65816_REGS_GET_Y(&maincpu_regs);
+}
+
+unsigned int maincpu_get_sp(void) {
+    return WDC65816_REGS_GET_SP(&maincpu_regs);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static char snap_module_name[] = "MAIN6565802CPU";
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 1

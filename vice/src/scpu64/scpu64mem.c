@@ -59,6 +59,7 @@
 #include "lib.h"
 #include "wdc65816.h"
 #include "vicii-cycle.h"
+#include "traps.h"
 
 /* Machine class */
 int machine_class = VICE_MACHINE_SCPU64;
@@ -88,12 +89,14 @@ static const WORD mem_mirrors[NUM_MIRRORS] = {
 /* The C64 memory.  */
 BYTE mem_ram[SCPU64_RAM_SIZE];
 BYTE mem_sram[SCPU64_SRAM_SIZE];
+BYTE mem_trap_ram[SCPU64_KERNAL_ROM_SIZE];
 BYTE *mem_simm_ram = NULL;
 static int mem_simm_page_size;
 static int mem_conf_page_size;
 static int mem_conf_size;
 unsigned int mem_simm_ram_mask = 0;
 BYTE mem_tooslow[1];
+static int traps_pending;
 
 #ifdef USE_EMBEDDED
 #include "c64chargen.h"
@@ -397,6 +400,10 @@ void mem_store2(DWORD addr, BYTE value)
         return;
     case 0x000000:
         if (addr & 0xfffe) {
+            if (addr >= 0x1e000 && mem_trap_ram[addr & 0x1fff] != value) {
+                traps_pending = 1;
+                mem_trap_ram[addr & 0x1fff] = value;
+            }
             mem_sram[addr] = value;
         } else if (scpu64_version_v2) {
             mem_sram[addr & 1] = value;
@@ -1138,13 +1145,14 @@ void mem_initialize_memory(void)
     for (i = 0; i < NUM_CONFIGS; i++) {
         for (j = 0, l = 1; j <= 0xff; l++) {
             BYTE *p = mem_read_base_tab[i][j];
+            read_func_ptr_t f = mem_read_tab[i][j];
             DWORD range;
 
             while (l <= 0xff && p == mem_read_base_tab[i][l]) {
                 l++;
             }
             /* Some areas are I/O or cartridge (NULL) or too slow and need cycle stretching */
-            range = (p == NULL || p == mem_ram || p == scpu64rom_scpu64_rom || p == mem_chargen_rom - 0xd000) ? 0 : ((j << 24) | ((l << 8)-3));
+            range = (p == NULL || f == ram_read_int || f == scpu64rom_scpu64_read || f == chargen_read) ? 0 : ((j << 24) | ((l << 8)-3));
             while (j < l) {
                 mem_read_limit_tab[i][j] = range;
                 j++;
@@ -1205,6 +1213,10 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
             limits = mem_read_limit_tab_ptr[addr >> 8];
             *limit = limits & 0xffff;
             *start = limits >> 16;
+            if (traps_pending) {
+                traps_refresh();
+                traps_pending = 0;
+            }
         } else if (scpu64_fastmode) {
             *base = NULL;
             *limit = 0;
@@ -1222,6 +1234,7 @@ void mem_powerup(void)
 {
     ram_init(mem_ram, SCPU64_RAM_SIZE);
     ram_init(mem_sram, SCPU64_SRAM_SIZE);
+    ram_init(mem_trap_ram, SCPU64_KERNAL_ROM_SIZE);
     cartridge_ram_init();  /* Clean cartridge ram too */
 }
 
@@ -1772,6 +1785,16 @@ void mem_set_speed_switch(int val)
 }
 
 /* ------------------------------------------------------------------------- */
+
+BYTE scpu64_trap_read(WORD addr)
+{
+    return mem_trap_ram[addr & 0x1fff];
+}
+
+void scpu64_trap_store(WORD addr, BYTE value)
+{
+    mem_trap_ram[addr & 0x1fff] = value;
+}
 
 void mem_color_ram_to_snapshot(BYTE *color_ram)
 {

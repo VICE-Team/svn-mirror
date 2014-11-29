@@ -46,7 +46,6 @@
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "mos6510dtv.h"
 #include "traps.h"
 #include "types.h"
 #include "util.h"
@@ -261,8 +260,8 @@ int flash_trap_load_body(void)
     mem_store((WORD)0xFB, laddr);
     mem_store((WORD)0xFC, maddr);
     mem_store((WORD)0xFD, haddr);
-    MOS6510DTV_REGS_SET_X(&maincpu_regs, laddr);
-    MOS6510DTV_REGS_SET_Y(&maincpu_regs, maddr);
+    maincpu_set_x(laddr);
+    maincpu_set_y(maddr);
     mem_store((WORD)0xAE, laddr);
     mem_store((WORD)0xAF, maddr);
 

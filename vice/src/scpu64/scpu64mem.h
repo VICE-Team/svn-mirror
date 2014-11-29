@@ -40,6 +40,7 @@
 #define SCPU64_SCPU64_ROM_MAXSIZE  0x80000
 
 extern BYTE mem_sram[];
+extern BYTE mem_trap_ram[];
 
 extern int c64_mem_init_resources(void);
 extern int c64_mem_init_cmdline_options(void);
@@ -50,6 +51,8 @@ extern BYTE ram_read(WORD addr);
 extern void ram_store(WORD addr, BYTE value);
 extern BYTE ram_read_int(WORD addr);
 extern void ram_store_int(WORD addr, BYTE value);
+extern BYTE scpu64_trap_read(WORD addr);
+extern void scpu64_trap_store(WORD addr, BYTE value);
 
 extern BYTE chargen_read(WORD addr);
 extern BYTE scpu64_kernalshadow_read(WORD addr);

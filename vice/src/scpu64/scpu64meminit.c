@@ -64,6 +64,7 @@ enum {
     CR, /* CHARROM */
     F8, /* EPROM */
     KS, /* Kernal shadow */
+    KT, /* Kernal trap */
     CO, /* Color RAM */
     OP, /* Internal Color RAM */
 };
@@ -238,12 +239,12 @@ static const BYTE config[AREAS][256] =
         CR, CR, CR, CR, CR, IO, IO, IO,  CR, CR, CR, CR, CR, IO, IO, IO,
         CR, CR, CR, CR, CR, IO, IO, IO,  CR, CR, CR, CR, CR, IO, IO, IO },
     {  /* e000-ffff */
-        R0, R0, R1, R1, R0, R0, R1, R1,  R0, R0, R1, R1, R0, R0, R1, R1,
-        R0, R0, R1, R1, R0, R0, R1, R1,  R0, R0, R1, R1, R0, R0, R1, R1,
+        R0, R0, KT, KT, R0, R0, KT, KT,  R0, R0, KT, KT, R0, R0, KT, KT,
+        R0, R0, KT, KT, R0, R0, KT, KT,  R0, R0, KT, KT, R0, R0, KT, KT,
         R0, R0, KS, KS, R0, R0, KS, KS,  R0, R0, KS, KS, R0, R0, KS, KS,
         R0, R0, KS, KS, R0, R0, KS, KS,  R0, R0, KS, KS, R0, R0, KS, KS,
-        R0, R0, R1, R1, R0, R0, R1, R1,  R0, R0, R1, R1, R0, R0, R1, R1,
-        R0, R0, R1, R1, R0, R0, R1, R1,  R0, R0, R1, R1, R0, R0, R1, R1,
+        R0, R0, KT, KT, R0, R0, KT, KT,  R0, R0, KT, KT, R0, R0, KT, KT,
+        R0, R0, KT, KT, R0, R0, KT, KT,  R0, R0, KT, KT, R0, R0, KT, KT,
         R0, R0, KS, KS, R0, R0, KS, KS,  R0, R0, KS, KS, R0, R0, KS, KS,
         R0, R0, KS, KS, R0, R0, KS, KS,  R0, R0, KS, KS, R0, R0, KS, KS,
         F8, F8, F8, F8, F8, F8, F8, F8,  F8, F8, F8, F8, F8, F8, F8, F8,
@@ -272,6 +273,11 @@ void scpu64meminit(void)
                 case R1:
                     mem_read_tab_set(k, j, ram1_read);
                     mem_read_base_set(k, j, mem_sram + 0x10000);
+                    /* write hook preset, ram */
+                    break;
+                case KT:
+                    mem_read_tab_set(k, j, ram1_read);
+                    mem_read_base_set(k, j, mem_trap_ram - 0xe000);
                     /* write hook preset, ram */
                     break;
                 case KS:

@@ -30,7 +30,6 @@
 
 #include "maincpu.h"
 #include "mem.h"
-#include "mos6510.h"
 #include "serial-iec-bus.h"
 /* Will be removed once serial.c is clean */
 #include "serial-iec-device.h"
@@ -148,8 +147,8 @@ int serial_trap_attention(void)
         serial_set_st(0x80);
     }
 
-    MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
-    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
+    maincpu_set_carry(0);
+    maincpu_set_interrupt(0);
 
     if (attention_callback_func) {
         attention_callback_func();
@@ -179,8 +178,8 @@ int serial_trap_send(void)
 
     serial_iec_bus_write(TrapDevice, TrapSecondary, data, serial_set_st);
 
-    MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
-    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
+    maincpu_set_carry(0);
+    maincpu_set_interrupt(0);
 
     return 1;
 }
@@ -211,11 +210,11 @@ int serial_trap_receive(void)
     }
 
     /* Set registers like the Kernal routine does.  */
-    MOS6510_REGS_SET_A(&maincpu_regs, data);
-    MOS6510_REGS_SET_SIGN(&maincpu_regs, (data & 0x80) ? 1 : 0);
-    MOS6510_REGS_SET_ZERO(&maincpu_regs, data ? 0 : 1);
-    MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
-    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
+    maincpu_set_a(data);
+    maincpu_set_sign((data & 0x80) ? 1 : 0);
+    maincpu_set_zero(data ? 0 : 1);
+    maincpu_set_carry(0);
+    maincpu_set_interrupt(0);
 
     return 1;
 }
@@ -230,11 +229,10 @@ int serial_trap_ready(void)
         return 0;
     }
 
-    MOS6510_REGS_SET_A(&maincpu_regs, 1);
-    MOS6510_REGS_SET_SIGN(&maincpu_regs, 0);
-    MOS6510_REGS_SET_ZERO(&maincpu_regs, 0);
-    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
-
+    maincpu_set_a(1);
+    maincpu_set_sign(0);
+    maincpu_set_zero(0);
+    maincpu_set_interrupt(0);
     return 1;
 }
 

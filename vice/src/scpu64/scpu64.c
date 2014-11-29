@@ -136,14 +136,14 @@ static void machine_vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
 
-/*static const trap_t scpu64_serial_traps[] = {
-    { "SerialListen", 0xED24, 0xEDAB, { 0x20, 0x97, 0xEE }, serial_trap_attention, scpu64memrom_trap_read, scpu64memrom_trap_store },
-    { "SerialSaListen", 0xED37, 0xEDAB, { 0x20, 0x8E, 0xEE }, serial_trap_attention, scpu64memrom_trap_read, scpu64memrom_trap_store },
-    { "SerialSendByte", 0xED41, 0xEDAB, { 0x20, 0x97, 0xEE }, serial_trap_send, scpu64memrom_trap_read, scpu64memrom_trap_store },
-    { "SerialReceiveByte", 0xEE14, 0xEDAB, { 0xA9, 0x00, 0x85 }, serial_trap_receive, scpu64memrom_trap_read, scpu64memrom_trap_store },
-    { "SerialReady", 0xEEA9, 0xEDAB, { 0xAD, 0x00, 0xDD }, serial_trap_ready, scpu64memrom_trap_read, scpu64memrom_trap_store },
+static const trap_t scpu64_serial_traps[] = {
+    { "SerialListen", 0xED24, 0xEDAB, { 0x20, 0x97, 0xEE }, serial_trap_attention, scpu64_trap_read, scpu64_trap_store },
+    { "SerialSaListen", 0xED37, 0xEDAB, { 0x20, 0x8E, 0xEE }, serial_trap_attention, scpu64_trap_read, scpu64_trap_store },
+    { "SerialSendByte", 0xED41, 0xEDAB, { 0x20, 0x97, 0xEE }, serial_trap_send, scpu64_trap_read, scpu64_trap_store },
+    { "SerialReceiveByte", 0xEE14, 0xEDAB, { 0xA9, 0x00, 0x85 }, serial_trap_receive, scpu64_trap_read, scpu64_trap_store },
+    { "SerialReady", 0xEEA9, 0xEDAB, { 0xAD, 0x00, 0xDD }, serial_trap_ready, scpu64_trap_read, scpu64_trap_store },
     { NULL, 0, 0, { 0, 0, 0 }, NULL, NULL, NULL }
-};*/
+};
 
 static log_t scpu64_log = LOG_ERR;
 static machine_timing_t machine_timing;
@@ -631,11 +631,11 @@ int machine_specific_init(void)
     gfxoutput_init();
 
     /* Initialize serial traps.  */
-/*    if (serial_init(c64_serial_traps) < 0) {
+    if (serial_init(scpu64_serial_traps) < 0) {
         return -1;
-    }*/
+    }
 
-/*    serial_trap_init(0xa4);*/
+    serial_trap_init(0xa4);
     serial_iec_bus_init();
 
     /* Initialize RS232 handler.  */

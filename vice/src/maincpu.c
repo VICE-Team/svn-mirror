@@ -520,6 +520,112 @@ void maincpu_mainloop(void)
 
 /* ------------------------------------------------------------------------- */
 
+void maincpu_set_pc(int pc) {
+#ifdef C64DTV
+    MOS6510DTV_REGS_SET_PC(&maincpu_regs, pc);
+#else
+    MOS6510_REGS_SET_PC(&maincpu_regs, pc);
+#endif
+}
+
+void maincpu_set_a(int a) {
+#ifdef C64DTV
+    MOS6510DTV_REGS_SET_A(&maincpu_regs, a);
+#else
+    MOS6510_REGS_SET_A(&maincpu_regs, a);
+#endif
+}
+
+void maincpu_set_x(int x) {
+#ifdef C64DTV
+    MOS6510DTV_REGS_SET_X(&maincpu_regs, x);
+#else
+    MOS6510_REGS_SET_X(&maincpu_regs, x);
+#endif
+}
+
+void maincpu_set_y(int y) {
+#ifdef C64DTV
+    MOS6510DTV_REGS_SET_Y(&maincpu_regs, y);
+#else
+    MOS6510_REGS_SET_Y(&maincpu_regs, y);
+#endif
+}
+
+void maincpu_set_sign(int n) {
+#ifdef C64DTV
+    MOS6510DTV_REGS_SET_SIGN(&maincpu_regs, n);
+#else
+    MOS6510_REGS_SET_SIGN(&maincpu_regs, n);
+#endif
+}
+
+void maincpu_set_zero(int z) {
+#ifdef C64DTV
+    MOS6510DTV_REGS_SET_ZERO(&maincpu_regs, z);
+#else
+    MOS6510_REGS_SET_ZERO(&maincpu_regs, z);
+#endif
+}
+
+void maincpu_set_carry(int c) {
+#ifdef C64DTV
+    MOS6510DTV_REGS_SET_CARRY(&maincpu_regs, c);
+#else
+    MOS6510_REGS_SET_CARRY(&maincpu_regs, c);
+#endif
+}
+
+void maincpu_set_interrupt(int i) {
+#ifdef C64DTV
+    MOS6510DTV_REGS_SET_INTERRUPT(&maincpu_regs, i);
+#else
+    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, i);
+#endif
+}
+
+unsigned int maincpu_get_pc(void) {
+#ifdef C64DTV
+    return MOS6510DTV_REGS_GET_PC(&maincpu_regs);
+#else
+    return MOS6510_REGS_GET_PC(&maincpu_regs);
+#endif
+}
+
+unsigned int maincpu_get_a(void) {
+#ifdef C64DTV
+    return MOS6510DTV_REGS_GET_A(&maincpu_regs);
+#else
+    return MOS6510_REGS_GET_A(&maincpu_regs);
+#endif
+}
+
+unsigned int maincpu_get_x(void) {
+#ifdef C64DTV
+    return MOS6510DTV_REGS_GET_X(&maincpu_regs);
+#else
+    return MOS6510_REGS_GET_X(&maincpu_regs);
+#endif
+}
+
+unsigned int maincpu_get_y(void) {
+#ifdef C64DTV
+    return MOS6510DTV_REGS_GET_Y(&maincpu_regs);
+#else
+    return MOS6510_REGS_GET_Y(&maincpu_regs);
+#endif
+}
+
+unsigned int maincpu_get_sp(void) {
+#ifdef C64DTV
+    return MOS6510DTV_REGS_GET_SP(&maincpu_regs);
+#else
+    return MOS6510_REGS_GET_SP(&maincpu_regs);
+#endif
+}
+
+/* ------------------------------------------------------------------------- */
+
 static char snap_module_name[] = "MAINCPU";
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 1
