@@ -14,7 +14,7 @@ not used in:                    x64dtv/vsid
 prepocessor:                    #ifdef HAVE_RS232
 command-line:                   -myaciadev
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
-platform range correct:		
+platform range correct:		amigaos/beos/sdl/unix/osx/windows
 platform range incorrect:		
 platform gui missing:           dos/os2
 
@@ -160,7 +160,6 @@ prepocessor:
 command-line:                   -autostartprgdiskimage
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
-fixme: update documentation with platforms
 
 autostart.c:
 ------------
@@ -176,7 +175,6 @@ prepocessor:
 command-line:                   -basicload / +basicload
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
-fixme: update documentation with platforms
 
 autostart.c:
 ------------
@@ -192,7 +190,6 @@ prepocessor:
 command-line:                   -autostartwithcolon / +autostartwithcolon
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
-fixme: update documentation with platforms
 
 autostart.c:
 ------------
@@ -208,7 +205,6 @@ prepocessor:
 command-line:                   -autostart-handle-tde / +autostart-handle-tde
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform gui missing:           os2
-fixme: update documentation with platforms
 
 autostart.c:
 ------------
@@ -224,7 +220,6 @@ prepocessor:
 command-line:                   -autostart-warp / +autostart-warp
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
-fixme: update documentation with platforms
 
 autostart.c:
 ------------
@@ -242,7 +237,6 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
-fixme: update documentation with platforms
 
 autostart.c:
 ------------
@@ -260,7 +254,7 @@ platform gui present:           amigaos/beos/dos/unix
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           os2/sdl/osx/windows
-fixme: update documentation with platforms
+fixme: update documentation with range
 
 autostart.c:
 ------------
@@ -276,7 +270,6 @@ prepocessor:
 command-line:                   -autostart-delay-random / +autostart-delay-random
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
-fixme: update documentation with platforms
 
 c128/c128-resources.c:
 ----------------------
@@ -598,6 +591,7 @@ platform gui present:           amigaos/os2/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           beos/dos/sdl
+fixme: fix documentation, range
 
 c128/c128-resources.c:
 ----------------------
@@ -667,6 +661,7 @@ platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           os2
+fixme: fix documentation, range
 
 c128/c128-resources.c:
 ----------------------
@@ -685,6 +680,7 @@ platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           os2
+fixme: fix documentation, range
 
 c128/c128-resources.c:
 ----------------------
@@ -778,6 +774,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c128/functionrom.c:
 -------------------
@@ -795,6 +792,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/c64-resources.c:
 --------------------
@@ -810,6 +808,7 @@ prepocessor:
 command-line:                   -chargen / -model
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+fixme: fix documentation, it says c128 and c64, but c128 does NOT have this resource
 
 c64/c64-resources.c:
 --------------------
@@ -825,6 +824,7 @@ prepocessor:
 command-line:                   -kernal / -model
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+fixme: fix documentation, it says c128 and c64, c128 does NOT have this resource
 
 c64/c64-resources.c:
 --------------------
@@ -840,6 +840,7 @@ prepocessor:
 command-line:                   -basic
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+fixme: documentation says c128/c64, but c128 does NOT have this resource
 
 c64/c64-resources.c:
 --------------------
@@ -855,7 +856,7 @@ prepocessor:
 command-line:                   -kernalrev
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme:                          valid values (currently only 0 and 3 seems to be valid)
+fixme: fix documentation, it says c64 and c128, c128 does NOT have this resource
 
 c64/c64-resources.c:
 --------------------
@@ -1028,6 +1029,7 @@ platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           os2
+fixme: fix documentation, range
 
 c64/c64-resources.c:
 --------------------
@@ -1047,6 +1049,7 @@ platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           os2
+fixme: fix documentation, range
 
 c64/c64-resources.c:
 --------------------
@@ -1064,6 +1067,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int and range
 
 c64/c64gluelogic.c:
 -------------------
@@ -1145,12 +1149,14 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, range
 
 c64/cart/c64-midi.c:
 --------------------
 resource type:                  int
 resource name:                  "MIDIMode"
-resource range:                 0..4 (MIDI_MODE_SEQUENTIAL (0), MIDI_MODE_PASSPORT (1), MIDI_MODE_DATEL (2), MIDI_MODE_NAMESOFT (3), MIDI_MODE_MAPLIN (4))
+resource range:                 0..4 (MIDI_MODE_SEQUENTIAL (0), MIDI_MODE_PASSPORT (1), MIDI_MODE_DATEL (2), MIDI_MODE_NAMESOFT (3),
+						MIDI_MODE_MAPLIN (4))
 resource default:               MIDI_MODE_SEQUENTIAL (0)
 resource function:              midi_set_c64mode()
 resource var:                   midi_mode
@@ -1162,7 +1168,6 @@ platform gui present:           sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2
-fixme: fix documentation
 
 c64/cart/c64-midi.c:
 --------------------
@@ -1295,6 +1300,7 @@ platform gui present:           os2
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
+fixme: fix documentation, range
 
 c64/cart/c64cart.c:
 -------------------
@@ -1310,6 +1316,7 @@ prepocessor:
 command-line:                   NONE ?? (fixme)
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+fixme: add to documentation
 
 c64/cart/c64tpi.c:
 ------------------
@@ -1380,6 +1387,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, add range
 
 c64/cart/dqbb.c:
 ----------------
@@ -1742,6 +1750,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/cart/ide64.c:
 -----------------
@@ -1759,6 +1768,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/cart/ide64.c:
 -----------------
@@ -1776,6 +1786,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/cart/ide64.c:
 -----------------
@@ -1793,6 +1804,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/cart/ide64.c:
 -----------------
@@ -1810,6 +1822,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/cart/ide64.c:
 -----------------
@@ -1827,6 +1840,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/cart/ide64.c:
 -----------------
@@ -1844,6 +1858,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/cart/ide64.c:
 -----------------
@@ -1861,6 +1876,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/cart/ide64.c:
 -----------------
@@ -1878,6 +1894,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/cart/ide64.c:
 -----------------
@@ -1895,6 +1912,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/cart/ide64.c:
 -----------------
@@ -1912,6 +1930,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/cart/ide64.c:
 -----------------
@@ -1929,6 +1948,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 c64/cart/ide64.c:
 -----------------
@@ -2034,6 +2054,7 @@ prepocessor:                    #ifdef HAVE_NETWORK
 command-line:                   -IDE64USBAddress
 platform gui present:           amigaos/dos/sdl/unix/windows
 platform gui missing:           beos/os2/osx
+fixme: fix documentation, only with network support
 
 c64/cart/ide64.c:
 -----------------
@@ -2049,6 +2070,7 @@ prepocessor:                    #ifdef HAVE_NETWORK
 command-line:                   -IDE64USB / +IDE64USB
 platform gui present:           amigaos/dos/sdl/unix/windows
 platform gui missing:           beos/os2/osx
+fixme: fix documentation, only with network support
 
 c64/cart/isepic.c:
 ------------------
@@ -2271,7 +2293,7 @@ resource name:                  "MMCRCardImage"
 resource range:                 N/A
 resource default:               ""
 resource function:              mmcr_card_filename()
-resource var:                   mmc64_sd_type
+resource var:                   mmcr_sd_type
 resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
@@ -2801,6 +2823,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, range
 
 c64/psid.c:
 -----------
@@ -2852,6 +2875,7 @@ platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: it's pointless to make this user-defineable in the GUIs
 blacky note: agreed.
+fixme: add to documentation
 
 c64/vsid-resources.c:
 ---------------------
@@ -2869,6 +2893,7 @@ platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: it's pointless to make this user-defineable in the GUIs
 blacky note: agreed.
+fixme: add to documentation
 
 c64/vsid-resources.c:
 ---------------------
@@ -2886,6 +2911,7 @@ platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: it's pointless to make this user-defineable in the GUIs
 blacky note: agreed.
+fixme: add to documentation
 
 c64/vsid-resources.c:
 ---------------------
@@ -2903,6 +2929,7 @@ platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: it's pointless to make this user-defineable in the GUIs
 blacky note: agreed.
+fixme: add to documentation
 
 c64/vsid-resources.c:
 ---------------------
@@ -3035,6 +3062,7 @@ command-line:                   -keymap
 platform gui present:
 platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
 fixme: it should get removed from vsid, as it has no keyboard
+fixme: fix documentation, range
 
 c64/vsid-resources.c:
 ---------------------
@@ -3054,6 +3082,7 @@ platform gui present:           beos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/dos/os2
+fixme: fix documentation, range
 
 c64/vsid-resources.c:
 ---------------------
@@ -3073,6 +3102,7 @@ platform gui present:           beos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/dos/os2
+fixme: fix documentation, range
 
 c64dtv/c64dtv-resources.c:
 --------------------------
@@ -3088,6 +3118,7 @@ prepocessor:
 command-line:                   -chargen
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+fixme: add to documentation
 
 c64dtv/c64dtv-resources.c:
 --------------------------
@@ -3103,6 +3134,7 @@ prepocessor:
 command-line:                   -kernal
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+fixme: add to documentation
 
 c64dtv/c64dtv-resources.c:
 --------------------------
@@ -3118,6 +3150,7 @@ prepocessor:
 command-line:                   -basic
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+fixme: add to documentation
 
 c64dtv/c64dtv-resources.c:
 --------------------------
@@ -3135,6 +3168,7 @@ platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: perhaps does not make a lot of sense for DTV, because it only came with one (rev3???) kernal
 blacky note: agreed, is it used anywhere in the c64dtv code ?? (fixme: research)
+fixme: remove from c64dtv as it is only used for patching c64 kernal roms
 
 c64dtv/c64dtv-resources.c:
 --------------------------
@@ -3215,6 +3249,7 @@ platform gui present:           osx/windows/unix
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl
+fixme: fix documentation, range
 
 c64dtv/c64dtv-resources.c:
 --------------------------
@@ -3367,6 +3402,7 @@ prepocessor:
 command-line:                   -chargen / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
+fixme: add to documentation
 
 cbm2/cbm2-resources.c:
 ----------------------
@@ -3382,6 +3418,7 @@ prepocessor:
 command-line:                   -kernal / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
+fixme: add to documentation
 
 cbm2/cbm2-resources.c:
 ----------------------
@@ -3397,6 +3434,7 @@ prepocessor:
 command-line:                   -basic / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
+fixme: add to documentation
 
 cbm2/cbm2-resources.c:
 ----------------------
@@ -3466,6 +3504,7 @@ platform gui present:           amigaos/os2/sdl/unix/windows
 platform gui missing:           beos/dos/osx
 gpz note: UIs should use cartridge_attach_image() and not change this resource directly
 blacky note: agreed, so instead of 'checking' for the resource the 'cartridge_attach_image()' usage needs to be checked for.
+fixme: fix documentation, string
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3483,6 +3522,7 @@ platform gui present:           amigaos/os2/sdl/unix/windows
 platform gui missing:           beos/dos/osx
 gpz note: UIs should use cartridge_attach_image() and not change this resource directly
 blacky note: agreed, so instead of 'checking' for the resource the 'cartridge_attach_image()' usage needs to be checked for.
+fixme: fix documentation, string
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3500,6 +3540,7 @@ platform gui present:           amigaos/os2/sdl/unix/windows
 platform gui missing:           beos/dos/osx
 gpz note: UIs should use cartridge_attach_image() and not change this resource directly
 blacky note: agreed, so instead of 'checking' for the resource the 'cartridge_attach_image()' usage needs to be checked for.
+fixme: fix documentation, string
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3517,6 +3558,7 @@ platform gui present:           amigaos/os2/sdl/unix/windows
 platform gui missing:           beos/dos/osx
 gpz note: UIs should use cartridge_attach_image() and not change this resource directly
 blacky note: agreed, so instead of 'checking' for the resource the 'cartridge_attach_image()' usage needs to be checked for.
+fixme: fix documentation, string
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3532,6 +3574,7 @@ prepocessor:
 command-line:                   -cartreset / +cartreset
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
+fixme: add to documentation
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3547,6 +3590,7 @@ prepocessor:
 command-line:                   -ram08 / +ram08
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
+fixme: fix documentation, bool
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3562,6 +3606,7 @@ prepocessor:
 command-line:                   -ram1 / +ram1
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
+fixme: fix documentation, bool
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3577,6 +3622,7 @@ prepocessor:
 command-line:                   -ram2 / +ram2
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
+fixme: fix documentation, bool
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3592,6 +3638,7 @@ prepocessor:
 command-line:                   -ram4 / +ram4
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
+fixme: fix documentation, bool
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3607,6 +3654,7 @@ prepocessor:
 command-line:                   -ram6 / +ram6
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
+fixme: fix documentation, bool
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3622,6 +3670,7 @@ prepocessor:
 command-line:                   -ramC / +ramC
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
+fixme: fix documentation, bool
 
 cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
 cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
@@ -3755,6 +3804,7 @@ platform gui present:			windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl/unix/osx
+fixme: add to documentation
 
 cbm2/cbm5x0-resources.c:
 ------------------------
@@ -3770,6 +3820,7 @@ prepocessor:
 command-line:                   -chargen / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
 platform gui missing:
+fixme: add to documentation
 
 cbm2/cbm5x0-resources.c:
 ------------------------
@@ -3785,6 +3836,7 @@ prepocessor:
 command-line:                   -kernal / -model
 platform gui present:           amigaos/beos/dos/unix/os2/sdl/osx/windows
 platform gui missing:
+fixme: add to documentation
 
 cbm2/cbm5x0-resources.c:
 ------------------------
@@ -3800,6 +3852,7 @@ prepocessor:
 command-line:                   -basic / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
+fixme: add to documentation
 
 cbm2/cbm5x0-resources.c:
 ------------------------
@@ -3853,6 +3906,7 @@ platform gui present:           amigaos/beos/os2/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			dos/sdl
+fixme: fix documentation
 
 crtc/crtc-resources.c:
 ----------------------
@@ -3961,7 +4015,7 @@ prepocessor:
 command-line:                   -CRTCfulldevice
 platform gui present:           sdl/unix
 platform gui missing:
-fixme: fix documentation to mention that this is SDL and Unix only
+fixme: fix documentation to mention that this is SDL and Unix only, and add that the resource is a string
 
 crtc/crtc-resources.c:
 ----------------------
@@ -4009,7 +4063,7 @@ prepocessor:
 command-line:                   -CRTCSDLfullmode
 platform gui present:           sdl
 platform gui missing:
-fixme: fix documentation to mention that this is SDL only
+fixme: add to documentation and mention that this is SDL only
 
 crtc/crtc-resources.c:
 ----------------------
@@ -4075,22 +4129,6 @@ platform gui missing:
 
 crtc/crtc-resources.c:
 ----------------------
-resource type:                  bool
-resource name:                  "CrtcDoubleBuffer"
-resource range:                 0/1
-resource default:               0
-resource function:              set_double_buffer_enabled()
-resource var:                   crtc.raster->canvas->videoconfig->double_buffer
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: not used (remove?)
-
-crtc/crtc-resources.c:
-----------------------
 resource type:                  int
 resource name:                  "CrtcColorSaturation"
 resource range:                 0..2000
@@ -4105,6 +4143,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 crtc/crtc-resources.c:
 ----------------------
@@ -4122,6 +4161,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 crtc/crtc-resources.c:
 ----------------------
@@ -4139,6 +4179,7 @@ platform gui present:           amigaos/beos/dos/sdl/os2/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 crtc/crtc-resources.c:
 ----------------------
@@ -4156,6 +4197,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 crtc/crtc-resources.c:
 ----------------------
@@ -4173,6 +4215,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
+fixme: fix documentation, remove default
 
 crtc/crtc-resources.c:
 ----------------------
@@ -4190,6 +4233,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 crtc/crtc-resources.c:
 ----------------------
@@ -4207,6 +4251,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 crtc/crtc-resources.c:
 ----------------------
@@ -4224,6 +4269,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 crtc/crtc-resources.c:
 ----------------------
@@ -4241,6 +4287,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 crtc/crtc-resources.c:
 ----------------------
@@ -5377,6 +5424,7 @@ platform gui present:           amigaos/dos/os2/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			beos/sdl
+fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-resources.c:
 ----------------------------------------
@@ -5394,6 +5442,7 @@ platform gui present:           amigaos/dos/os2/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			beos/sdl
+fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-resources.c:
 ----------------------------------------
@@ -5411,6 +5460,7 @@ platform gui present:           amigaos/dos/os2/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			beos/sdl
+fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-resources.c:
 ----------------------------------------
@@ -5428,6 +5478,7 @@ platform gui present:           amigaos/dos/os2/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			beos/sdl
+fixme: add to documentation
 
 drive/iec128dcr/iec128dcr-resources.c:
 --------------------------------------
@@ -5948,7 +5999,6 @@ platform gui present:           unix(GTK)
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
-fixme: update documentation
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
@@ -5966,7 +6016,6 @@ platform gui present:           unix(GTK)
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
-fixme: update documentation
 
 gfxoutputdrv/ffmpegdrv.c:
 -------------------------
@@ -5999,6 +6048,7 @@ platform gui present:           sdl/unix(GTK)/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/unix(XAW)/osx
+fixme: fix documentation, range
 
 gfxoutputdrv/ffmpegdrv.c:
 -------------------------
@@ -6016,6 +6066,7 @@ platform gui present:           sdl/unix(GTK)/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/unix(XAW)/osx
+fixme: fix documentation, range
 
 gfxoutputdrv/ffmpegdrv.c:
 -------------------------
@@ -6582,6 +6633,7 @@ platform gui present:           dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/os2
+fixme: fix documentation, range
 
 log.c:
 ------
@@ -6646,6 +6698,7 @@ prepocessor:                    #ifdef HAVE_NETWORK
 command-line:                   -remotemonitoraddress
 platform gui present:           sdl/unix/osx
 platform gui missing:           amigaos/beos/dos/os2/windows
+fixme: fix documentation, only with network support
 
 monitor/monitor_network.c:
 --------------------------
@@ -6661,6 +6714,7 @@ prepocessor:                    #ifdef HAVE_NETWORK
 command-line:                   -remotemonitor / +remotemonitor
 platform gui present:           sdl/unix/osx
 platform gui missing:           amigaos/beos/dos/os2/windows
+fixme: fix documentation, only with network support
 
 mouse.c:
 --------
@@ -6726,6 +6780,7 @@ prepocessor:                    #ifdef HAVE_NETWORK
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform gui missing:			os2
+fixme: fix documentation, network support only
 
 network.c:
 ----------
@@ -6741,6 +6796,7 @@ prepocessor:                    #ifdef HAVE_NETWORK
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/dos/sdl/unix/windows
 platform gui missing:			beos/os2/osx
+fixme: fix documentation, network support only
 
 network.c:
 ----------
@@ -6758,6 +6814,7 @@ platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			os2
+fixme: fix documentation, network support only
 
 network.c:
 ----------
@@ -6819,6 +6876,7 @@ prepocessor:
 command-line:                   -editor / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform gui missing:			os2
+fixme: fix documentation, string
 
 pet/pet-resources.c:
 --------------------
@@ -6834,6 +6892,7 @@ prepocessor:
 command-line:                   -basic / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
 platform gui missing:
+fixme: add to documentation
 
 pet/pet-resources.c:
 --------------------
@@ -6849,6 +6908,7 @@ prepocessor:
 command-line:                   -rom9 / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
+fixme: fix documentation, string
 
 pet/pet-resources.c:
 --------------------
@@ -6864,6 +6924,7 @@ prepocessor:
 command-line:                   -romA / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
+fixme: fix documentation, string
 
 pet/pet-resources.c:
 --------------------
@@ -6879,6 +6940,7 @@ prepocessor:
 command-line:                   -romB / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
+fixme: fix documentation, string
 
 pet/pet-resources.c:
 --------------------
@@ -7115,6 +7177,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, int
 
 pet/pet-resources.c:
 --------------------
@@ -7130,6 +7193,7 @@ prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+fixme: fix documentation, bool
 
 pet/pet-resources.c:
 --------------------
@@ -7147,6 +7211,7 @@ platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			sdl
+fixme: fix documentation, int
 
 pet/pet-resources.c:
 --------------------
@@ -7192,6 +7257,7 @@ prepocessor:
 command-line:                   -superpet / +superpet
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
+fixme: fix documentation, bool
 
 pet/pet-resources.c:
 --------------------
@@ -7207,6 +7273,7 @@ prepocessor:
 command-line:                   -basic1 / +basic1 / -model
 platform gui present:           os2/unix/osx
 platform gui missing:           amigaos/beos/dos/sdl/windows
+fixme: fix documentation bool
 
 pet/pet-resources.c:
 --------------------
@@ -7222,6 +7289,7 @@ prepocessor:
 command-line:                   -basic1char / +basic1char / -model
 platform gui present:           os2/unix/osx
 platform gui missing:           amigaos/beos/dos/sdl/windows
+fixme: fix documentation bool
 
 pet/pet-resources.c:
 --------------------
@@ -7237,6 +7305,7 @@ prepocessor:
 command-line:                   -eoiblank / +eoiblank
 platform gui present:           os2/unix/osx
 platform gui missing:           amigaos/beos/dos/sdl/windows
+fixme: fix documentation, bool
 
 pet/pet-resources.c:
 --------------------
@@ -7289,6 +7358,7 @@ platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			os2/osx
+fixme: add to documentation
 
 pet/pet-resources.c:
 --------------------
@@ -7304,6 +7374,7 @@ prepocessor:
 command-line:                   -colour-analog-bg
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
+fixme: add to documentation
 
 pet/pet-sidcart.c:
 ------------------
@@ -7336,6 +7407,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, addresses
 
 pet/pet-sidcart.c:
 ------------------
@@ -7398,6 +7470,7 @@ prepocessor:
 command-line:                   -pethre / +pethre
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
+fixme: add to documentation
 
 pet/petpia1.c:
 --------------
@@ -7413,6 +7486,7 @@ prepocessor:
 command-line:                   -diagpin / +diagpin
 platform gui present:           os2/unix/osx
 platform gui missing:           amigaos/beos/dos/sdl/windows
+fixme: fix documentation, bool
 
 pet/petreu.c:
 -------------
@@ -7490,6 +7564,7 @@ prepocessor:
 command-line:                   -kernal / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
 platform gui missing:
+fixme: add to documentation
 
 plus4/plus4-resources.c:
 ------------------------
@@ -7505,6 +7580,7 @@ prepocessor:
 command-line:                   -basic / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
 platform gui missing:
+fixme: add to documentation
 
 plus4/plus4-resources.c:
 ------------------------
@@ -7660,6 +7736,7 @@ platform gui present:           amigaos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           beos/dos/osx
+fixme: add to documentation
 
 plus4/plus4-resources.c:
 ------------------------
@@ -7724,6 +7801,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, addresses
 
 plus4/plus4-sidcart.c:
 ----------------------
@@ -7880,7 +7958,7 @@ prepocessor:
 command-line:                   -TEDhwscale / +TEDhwscale
 platform gui present:           sdl/unix
 platform gui missing:           
-fixme: Only if ARCHDEP_TED_HWSCALE != 0 in documentation
+fixme: Only if ARCHDEP_TED_HWSCALE != 0 in documentation, and unix/sdl only
 
 plus4/ted-resources.c:
 ----------------------
@@ -7911,7 +7989,7 @@ prepocessor:
 command-line:                   -TEDfull / +TEDfull
 platform gui present:           sdl/unix
 platform gui missing:           
-fixme: documentation -> Only if fullscreen device is present
+fixme: documentation -> Only if fullscreen device is present, and unix/sdl only
 
 plus4/ted-resources.c:
 ----------------------
@@ -7927,7 +8005,7 @@ prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           unix
 platform gui missing:           sdl
-fixme: documentation -> Only if fullscreen device is present
+fixme: documentation -> Only if fullscreen device is present, and unix/sdl only
 
 plus4/ted-resources.c:
 ----------------------
@@ -7943,7 +8021,7 @@ prepocessor:
 command-line:                   -TEDfulldevice
 platform gui present:           unix
 platform gui missing:           sdl
-fixme: documentation -> Only if fullscreen device is present
+fixme: documentation -> Only if fullscreen device is present, and unix/sdl only, string
 
 plus4/ted-resources.c:
 ----------------------
@@ -7975,7 +8053,7 @@ prepocessor:
 command-line:                   -TEDXRANDRfullmode
 platform gui present:           unix
 platform gui missing:
-fixme: add to documentation and -> Only if fullscreen device is present
+fixme: add to documentation and -> Only if fullscreen device is present, and unix only
 
 plus4/ted-resources.c:
 ----------------------
@@ -7991,7 +8069,7 @@ prepocessor:
 command-line:                   -TEDVidmodefullmode
 platform gui present:           unix
 platform gui missing:
-fixme: add to documentation and -> Only if fullscreen device is present
+fixme: add to documentation and -> Only if fullscreen device is present, and unix only
 
 plus4/ted-resources.c:
 ----------------------
@@ -8039,6 +8117,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 plus4/ted-resources.c:
 ----------------------
@@ -8056,6 +8135,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 plus4/ted-resources.c:
 ----------------------
@@ -8073,6 +8153,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 plus4/ted-resources.c:
 ----------------------
@@ -8090,6 +8171,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 plus4/ted-resources.c:
 ----------------------
@@ -8107,6 +8189,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
+fixme: fix documentation, remove default
 
 plus4/ted-resources.c:
 ----------------------
@@ -8124,6 +8207,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 plus4/ted-resources.c:
 ----------------------
@@ -8141,6 +8225,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 plus4/ted-resources.c:
 ----------------------
@@ -8158,6 +8243,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 plus4/ted-resources.c:
 ----------------------
@@ -8175,6 +8261,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 plus4/ted-resources.c:
 ----------------------
@@ -8285,7 +8372,7 @@ prepocessor:
 command-line:                   -pruserdrv
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
-fixme: fix documentation
+fixme: fix documentation, range
 
 printerdrv/interface-serial.c:
 ------------------------------
@@ -8337,6 +8424,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: add to documentation
 
 printerdrv/interface-serial.c:
 ------------------------------
@@ -8354,6 +8442,7 @@ platform gui present:           sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/osx
+fixme: add to documentation
 
 printerdrv/interface-userport.c:
 --------------------------------
@@ -8414,6 +8503,7 @@ prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
+fixme: add to documentation
 
 printerdrv/output-select.c:
 ---------------------------
@@ -8525,6 +8615,7 @@ platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			os2
+fixme: add to documentation
 
 printerdrv/output-text.c:
 -------------------------
@@ -8754,6 +8845,7 @@ prepocessor:
 command-line:                   -chargen / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
 platform gui missing:
+fixme: add to documentation
 
 scpu64/scpu64-resources.c:
 --------------------------
@@ -8850,6 +8942,7 @@ prepocessor:
 command-line:                   -iecreset / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
+fixme: add to documentation
 
 scpu64/scpu64-resources.c:
 --------------------------
@@ -8901,6 +8994,7 @@ platform gui present:           unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl
+fixme: fix documentation, range
 
 scpu64/scpu64-resources.c:
 --------------------------
@@ -8920,6 +9014,7 @@ platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			os2
+fixme: fix documentation, range
 
 scpu64/scpu64-resources.c:
 --------------------------
@@ -8939,6 +9034,7 @@ platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			os2/osx
+fixme: fix documentation, range
 
 scpu64/scpu64-resources.c:
 --------------------------
@@ -8956,6 +9052,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
+fixme: add to documentation
 
 scpu64/scpu64-resources.c:
 --------------------------
@@ -9023,6 +9120,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
+fixme: add to documentation
 
 serial/serial-iec-device.c:
 ---------------------------
@@ -9161,6 +9259,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, range
 
 sid/sid-resources.c:
 --------------------
@@ -9195,6 +9294,7 @@ platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			os2
+fixme: fix documentation, remove default
 
 sid/sid-resources.c:
 --------------------
@@ -9212,6 +9312,7 @@ platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			os2
+fixme: fix documentation, remove default
 
 sid/sid-resources.c:
 --------------------
@@ -9320,8 +9421,8 @@ sound.c:
 --------
 resource type:                  string
 resource name:                  "SoundDeviceName"
-resource range:                 N/A ("ahi"/"aix"/"allegro"/"alsa"/"arts"/"beos"/"bsp"/"coreaudio"/"dart"/"dummy"/"dump"/"dx"/"fs"/"hpux"/"midas"/
-                                        "pulse"/"sdl"/"sgi"/"sun"/"uss"/"wmm")
+resource range:                 N/A ("ahi"/"aix"/"allegro"/"alsa"/"arts"/"beos"/"bsp"/"coreaudio"/"dart"/"dummy"/"dx"/"hpux"/"midas"/"pulse"/"sdl"/
+						"sgi"/"sun"/"uss"/"wmm")
 resource default:               ""
 resource function:              set_device_name()
 resource var:                   device_name
@@ -9332,6 +9433,7 @@ command-line:                   -sounddev
 platform gui present:			os2/sdl/unix/windows
 platform gui missing:           amigaos/beos/dos/osx
 fixme: os2 gui items for this resource need to be fixed.
+fixme: fix documentation, range has changed
 
 sound.c:
 --------
@@ -9352,7 +9454,7 @@ sound.c:
 --------
 resource type:                  string
 resource name:                  "SoundRecordDeviceName"
-resource range:                 N/A ("aiff"/"iff"/"mp3"/"voc"/"wav")
+resource range:                 N/A ("aiff"/"dump"/"fs"/"iff"/"mp3"/"voc"/"wav")
 resource default:               ""
 resource function:              set_recorddevice_name()
 resource var:                   recorddevice_name
@@ -9362,6 +9464,7 @@ prepocessor:
 command-line:                   -soundrecdev
 platform gui present:           amigaos/beos/unix/windows
 platform gui missing:			dos/os2/sdl/osx
+fixme: fix documentation, range has changed
 
 sound.c:
 --------
@@ -9493,6 +9596,7 @@ platform gui present:           amigaos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			beos/os2
+fixme: fix documentation, remove default
 
 sound.c:
 --------
@@ -9715,6 +9819,7 @@ prepocessor:
 command-line:                   -VDChwscale / +VDChwscale
 platform gui present:			sdl/unix
 platform gui missing:           
+fixme: fix documentation, sdl/unix only
 
 vdc/vdc-resources.c:
 --------------------
@@ -9746,6 +9851,7 @@ prepocessor:
 command-line:                   -VDCfull / +VDCfull
 platform gui present:			sdl/unix
 platform gui missing:           
+fixme: fix documentation
 
 Only if fullscreen device available
 vdc/vdc-resources.c:
@@ -9762,6 +9868,7 @@ prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:			unix
 platform gui missing:           sdl
+fixme: fix documentation, unix/sdl only
 
 Only if fullscreen device available
 vdc/vdc-resources.c:
@@ -9778,6 +9885,7 @@ prepocessor:
 command-line:                   -VDCfulldevice
 platform gui present:			unix
 platform gui missing:           sdl
+fixme: fix documentation, string, unix/sdl only
 
 vdc/vdc-resources.c:
 --------------------
@@ -9793,7 +9901,7 @@ prepocessor:
 command-line:                   -VDCSDLfullmode
 platform gui present:           sdl
 platform gui missing:
-fixme: fix documentation to mention that this is SDL only
+fixme: add to documentation to mention that this is SDL only
 
 vdc/vdc-resources.c:
 --------------------
@@ -9873,6 +9981,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vdc/vdc-resources.c:
 --------------------
@@ -9890,6 +9999,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vdc/vdc-resources.c:
 --------------------
@@ -9907,6 +10017,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vdc/vdc-resources.c:
 --------------------
@@ -9924,6 +10035,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vdc/vdc-resources.c:
 --------------------
@@ -9941,6 +10053,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
+fixme: fix documentation, remove default
 
 vdc/vdc-resources.c:
 --------------------
@@ -9958,6 +10071,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vdc/vdc-resources.c:
 --------------------
@@ -9975,6 +10089,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vdc/vdc-resources.c:
 --------------------
@@ -9992,6 +10107,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vdc/vdc-resources.c:
 --------------------
@@ -10009,6 +10125,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vdc/vdc-resources.c:
 --------------------
@@ -10191,6 +10308,7 @@ prepocessor:
 command-line:                   -ieee488 / +ieee488
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
+fixme: add to documentation
 
 vic20/cart/vic20-midi.c:
 ------------------------
@@ -10238,6 +10356,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, addresses
 
 vic20/cart/vic20-sidcart.c:
 ---------------------------
@@ -10292,6 +10411,7 @@ platform gui present:			os2/osx
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl/unix/windows
+fixme: fix documenation, range
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -10401,6 +10521,7 @@ prepocessor:
 command-line:                   -VICfull / +VICfull
 platform gui present:			sdl/unix
 platform gui missing:           
+fixme: fix documentation
 
 Only if fullscreen device(s) available
 vic20/vic-resources.c:
@@ -10417,6 +10538,7 @@ prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:			unix
 platform gui missing:           sdl
+fixme: fix documentation
 
 Only if fullscreen device(s) available
 vic20/vic-resources.c:
@@ -10433,6 +10555,7 @@ prepocessor:
 command-line:                   -VICfulldevice
 platform gui present:			unix
 platform gui missing:           sdl
+fixme: fix documentation
 
 Only if fullscreen device(s) available
 vic20/vic-resources.c:
@@ -10449,6 +10572,7 @@ prepocessor:
 command-line:                   -VICSDLfullmode
 platform gui present:           sdl
 platform gui missing:
+fixme: add to documentation
 
 Only if fullscreen device(s) available
 vic20/vic-resources.c:
@@ -10465,6 +10589,7 @@ prepocessor:
 command-line:                   -VICXRANDRfullmode
 platform gui present:           unix
 platform gui missing:
+fixme: fix documentation
 
 Only if fullscreen device(s) available
 vic20/vic-resources.c:
@@ -10481,6 +10606,7 @@ prepocessor:
 command-line:                   -VICVidmodefullmode
 platform gui present:           unix
 platform gui missing:
+fixme: fix documentation
 
 vic20/vic-resources.c:
 ----------------------
@@ -10528,6 +10654,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vic20/vic-resources.c:
 ----------------------
@@ -10545,6 +10672,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vic20/vic-resources.c:
 ----------------------
@@ -10562,6 +10690,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vic20/vic-resources.c:
 ----------------------
@@ -10579,6 +10708,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vic20/vic-resources.c:
 ----------------------
@@ -10596,6 +10726,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
+fixme: fix documentation, remove default
 
 vic20/vic-resources.c:
 ----------------------
@@ -10613,6 +10744,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vic20/vic-resources.c:
 ----------------------
@@ -10630,6 +10762,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vic20/vic-resources.c:
 ----------------------
@@ -10647,6 +10780,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vic20/vic-resources.c:
 ----------------------
@@ -10664,6 +10798,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vic20/vic-resources.c:
 ----------------------
@@ -10788,6 +10923,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			windows
+fixme: fix documentation for xvic
 
 vic20/vic20-resources.c:
 ------------------------
@@ -11005,6 +11141,7 @@ prepocessor:
 command-line:                   -VICIIhwscale / +VICIIhwscale
 platform gui present:			sdl/unix
 platform gui missing:           
+fixme: fix documentation
 
 vicii/vicii-resources.c:
 ------------------------
@@ -11036,6 +11173,7 @@ prepocessor:
 command-line:                   -VICIIfull / +VICIIfull
 platform gui present:			sdl/unix
 platform gui missing:           
+fixme: fix documentation
 
 Only if fullscreen device(s) available
 vicii/vicii-resources.c:
@@ -11052,6 +11190,7 @@ prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:			unix
 platform gui missing:           sdl
+fixme: fix documentation
 
 Only if fullscreen device(s) available
 vicii/vicii-resources.c:
@@ -11068,6 +11207,7 @@ prepocessor:
 command-line:                   -VICIIfulldevice
 platform gui present:			unix
 platform gui missing:           sdl
+fixme: fix documentation
 
 Only if fullscreen device(s) available
 vicii/vicii-resources.c:
@@ -11084,6 +11224,7 @@ prepocessor:
 command-line:                   -VICIISDLfullmode
 platform gui present:           sdl
 platform gui missing:
+fixme: add to documentation
 
 Only if fullscreen device(s) available
 vicii/vicii-resources.c:
@@ -11100,6 +11241,7 @@ prepocessor:
 command-line:                   -VICIIXRANDRfullmode
 platform gui present:           unix
 platform gui missing:
+fixme: fix documentation
 
 Only if fullscreen device(s) available
 vicii/vicii-resources.c:
@@ -11116,6 +11258,7 @@ prepocessor:
 command-line:                   -VICIIVidmodefullmode
 platform gui present:           unix
 platform gui missing:
+fixme: fix documentation
 
 vicii/vicii-resources.c:
 ------------------------
@@ -11163,6 +11306,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vicii/vicii-resources.c:
 ------------------------
@@ -11180,6 +11324,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vicii/vicii-resources.c:
 ------------------------
@@ -11197,6 +11342,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vicii/vicii-resources.c:
 ------------------------
@@ -11214,6 +11360,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vicii/vicii-resources.c:
 ------------------------
@@ -11231,6 +11378,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
+fixme: fix documentation, remove default
 
 vicii/vicii-resources.c:
 ------------------------
@@ -11248,6 +11396,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vicii/vicii-resources.c:
 ------------------------
@@ -11265,6 +11414,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vicii/vicii-resources.c:
 ------------------------
@@ -11282,6 +11432,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vicii/vicii-resources.c:
 ------------------------
@@ -11299,6 +11450,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 vicii/vicii-resources.c:
 ------------------------
@@ -11411,6 +11563,7 @@ platform gui present:			amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, range
 
 viciisc/vicii-resources.c:
 --------------------------
@@ -11457,6 +11610,7 @@ prepocessor:
 command-line:                   -VICIIhwscale / +VICIIhwscale
 platform gui present:			sdl/unix
 platform gui missing:           
+fixme: fix documentation
 
 viciisc/vicii-resources.c:
 --------------------------
@@ -11488,6 +11642,7 @@ prepocessor:
 command-line:                   -VICIIfull / +VICIIfull
 platform gui present:			sdl/unix
 platform gui missing:           
+fixme: fix documentation
 
 Only if fullscreen device(s) available
 viciisc/vicii-resources.c:
@@ -11504,6 +11659,7 @@ prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:			unix
 platform gui missing:           sdl
+fixme: fix documentation
 
 Only if fullscreen device(s) available
 viciisc/vicii-resources.c:
@@ -11520,6 +11676,7 @@ prepocessor:
 command-line:                   -VICIIfulldevice
 platform gui present:			unix
 platform gui missing:           sdl
+fixme: fix documentation
 
 Only if fullscreen device(s) available
 viciisc/vicii-resources.c:
@@ -11536,6 +11693,7 @@ prepocessor:
 command-line:                   -VICIISDLfullmode
 platform gui present:           sdl
 platform gui missing:
+fixme: add to documentation
 
 Only if fullscreen device(s) available
 viciisc/vicii-resources.c:
@@ -11552,6 +11710,7 @@ prepocessor:
 command-line:                   -VICIIXRANDRfullmode
 platform gui present:           unix
 platform gui missing:
+fixme: fix documentation
 
 Only if fullscreen device(s) available
 viciisc/vicii-resources.c:
@@ -11568,6 +11727,7 @@ prepocessor:
 command-line:                   -VICIIVidmodefullmode
 platform gui present:           unix
 platform gui missing:
+fixme: fix documentation
 
 viciisc/vicii-resources.c:
 --------------------------
@@ -11615,6 +11775,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 viciisc/vicii-resources.c:
 --------------------------
@@ -11632,6 +11793,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 viciisc/vicii-resources.c:
 --------------------------
@@ -11649,6 +11811,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 viciisc/vicii-resources.c:
 --------------------------
@@ -11666,6 +11829,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 viciisc/vicii-resources.c:
 --------------------------
@@ -11683,6 +11847,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
+fixme: fix documentation, remove default
 
 viciisc/vicii-resources.c:
 --------------------------
@@ -11700,6 +11865,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 viciisc/vicii-resources.c:
 --------------------------
@@ -11717,6 +11883,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 viciisc/vicii-resources.c:
 --------------------------
@@ -11734,6 +11901,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 viciisc/vicii-resources.c:
 --------------------------
@@ -11751,6 +11919,7 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, remove default
 
 viciisc/vicii-resources.c:
 --------------------------
@@ -11879,6 +12048,7 @@ prepocessor:                    #ifdef DINGOO_NATIVE
 command-line:                   NONE (fixme)
 platform gui present:			dingoo
 platform gui missing:           
+fixme: add to documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -12110,6 +12280,7 @@ prepocessor:
 command-line:                   -saveres / +saveres
 platform gui present:           amigaos
 platform gui missing:
+fixme: fix documentation, not all archs have this resource
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -12125,6 +12296,7 @@ prepocessor:
 command-line:                   -confirmexit / +confirmexit
 platform gui present:           amigaos
 platform gui missing:
+fixme: add platform specific info to documentation
 
 arch/amigaos/joyai.c:
 ---------------------
@@ -12410,6 +12582,7 @@ platform gui present:           amigaos4
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/amigaos/joy.c:
 -------------------
@@ -12427,6 +12600,7 @@ platform gui present:           amigaos4
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/amigaos/joy.c:
 -------------------
@@ -12444,6 +12618,7 @@ platform gui present:           amigaos4
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/amigaos/joy.c:
 -------------------
@@ -12461,6 +12636,7 @@ platform gui present:           amigaos4
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -12478,6 +12654,7 @@ platform gui present:           amigaos3/morphos/aros
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -12495,6 +12672,7 @@ platform gui present:           amigaos3/morphos/aros
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -12512,6 +12690,7 @@ platform gui present:           amigaos3/morphos/aros
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -12529,6 +12708,7 @@ platform gui present:           amigaos3/morphos/aros
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -12629,6 +12809,7 @@ platform gui present:           beos
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/beos/joy.cc:
 -----------------
@@ -12646,6 +12827,7 @@ platform gui present:           beos
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/beos/joy.cc:
 -----------------
@@ -12663,6 +12845,7 @@ platform gui present:           beos
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/beos/joy.cc:
 -----------------
@@ -12680,6 +12863,7 @@ platform gui present:           beos
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -12848,6 +13032,7 @@ platform gui present:           dos
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/msdos/joy.c:
 -----------------
@@ -12865,6 +13050,7 @@ platform gui present:           dos
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/msdos/joy.c:
 -----------------
@@ -12882,6 +13068,7 @@ platform gui present:           dos
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/msdos/joy.c:
 -----------------
@@ -12899,6 +13086,7 @@ platform gui present:           dos
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -12917,6 +13105,7 @@ command-line:                   -buksymkeymap
 platform gui present:           os2
 platform gui missing:
 fixme: default vkm does not exist
+fixme: add to documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -12933,6 +13122,7 @@ command-line:                   -bukposkeymap
 platform gui present:           os2
 platform gui missing:
 fixme: default vkm does not exist
+fixme: add to documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -12949,6 +13139,7 @@ command-line:                   -grsymkeymap
 platform gui present:           os2
 platform gui missing:
 fixme: default vkm does not exist
+fixme: add to documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -12965,6 +13156,7 @@ command-line:                   -grposkeymap
 platform gui present:           os2
 platform gui missing:
 fixme: default vkm does not exist
+fixme: add to documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -12981,6 +13173,7 @@ command-line:                   -bdesymkeymap
 platform gui present:           os2
 platform gui missing:
 fixme: default vkm does not exist
+fixme: add to documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -12997,6 +13190,7 @@ command-line:                   -bdeposkeymap
 platform gui present:           os2
 platform gui missing:
 fixme: default vkm does not exist
+fixme: add to documentation
 
 arch/os2/kbd/kmap.c:
 --------------------
@@ -13029,6 +13223,7 @@ command-line:                   -poskeymap
 platform gui present:           os2
 platform gui missing:
 fixme: default vkm does not exist
+fixme: add to documentation
 
 arch/os2/mousedrv.c:
 --------------------
@@ -13597,6 +13792,7 @@ platform gui present:           os2
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/os2/joy.c:
 ---------------
@@ -13614,6 +13810,7 @@ platform gui present:           os2
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/os2/joy.c:
 ---------------
@@ -13631,6 +13828,7 @@ platform gui present:           os2
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/os2/joy.c:
 ---------------
@@ -13648,6 +13846,7 @@ platform gui present:           os2
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -14093,6 +14292,7 @@ platform gui present:           sdl
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/sdl/joy.c:
 ---------------
@@ -14111,6 +14311,7 @@ platform gui present:           sdl
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/sdl/joy.c:
 ---------------
@@ -14129,6 +14330,7 @@ platform gui present:           sdl
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/sdl/joy.c:
 ---------------
@@ -14147,6 +14349,7 @@ platform gui present:           sdl
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -14848,6 +15051,7 @@ platform gui present:           osx
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -14865,6 +15069,7 @@ platform gui present:           osx
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -14882,6 +15087,7 @@ platform gui present:           osx
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -14899,6 +15105,7 @@ platform gui present:           osx
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -14916,6 +15123,7 @@ prepocessor:                    #ifdef HAVE_MIDI
 command-line:                   -midiin
 platform gui present:           unix
 platform gui missing:
+fixme: fix documentation
 
 arch/unix/mididrv.c:
 --------------------
@@ -14931,6 +15139,7 @@ prepocessor:                    #ifdef HAVE_MIDI
 command-line:                   -midiout
 platform gui present:           unix
 platform gui missing:
+fixme: fix documentation
 
 arch/unix/mididrv.c:
 --------------------
@@ -14948,6 +15157,7 @@ platform gui present:           unix
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: fix documentation, unix only
 
 arch/unix/rs232.c:
 ------------------
@@ -15112,6 +15322,7 @@ command-line:                   NONE (fixme)
 platforms to check:			unix
 platform gui present:           
 platform gui missing:
+fixme: fix documentation, unix only
 
 arch/unix/x11/openGL_sync.c:
 ----------------------------
@@ -15145,6 +15356,7 @@ command-line:                   -htmlbrowser
 platform gui present:           
 platform gui missing:			unix
 note: resource is used/checked
+fixme: fix documentation, unix only
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
@@ -15161,6 +15373,7 @@ command-line:                   -colormap / +colormap
 platform gui present:           
 platform gui missing:			unix
 note: resource is used/checked
+fixme: fix documentation, unix only
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
@@ -15224,6 +15437,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:           unix(GTK)
 platform gui missing:
+fixme: fix documentation
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
@@ -15239,6 +15453,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:           unix(GTK)
 platform gui missing:
+fixme: fix documentation
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
@@ -15254,6 +15469,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:           unix(GTK)
 platform gui missing:
+fixme: fix documentation
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
@@ -15269,6 +15485,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:           unix(GTK)
 platform gui missing:
+fixme: fix documentation
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
@@ -15284,6 +15501,7 @@ prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(US
 command-line:                   -fullscreen / +fullscreen
 platform gui present:           unix
 platform gui missing:
+fixme: fix documentation, unix only
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
@@ -15331,6 +15549,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:           unix(GTK)
 platform gui missing:
+fixme: fix documentation
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
@@ -15346,6 +15565,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:           unix(GTK)
 platform gui missing:
+fixme: fix documentation
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
@@ -15361,6 +15581,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:           unix(GTK)
 platform gui missing:
+fixme: fix documentation
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
@@ -15376,6 +15597,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:           unix(GTK)
 platform gui missing:
+fixme: fix documentation
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
@@ -15425,12 +15647,13 @@ prepocessor:
 command-line:                   -xsync / +xsync
 platform gui present:           unix(XAW)
 platform gui missing:
+fixme: fix documentation, unix only
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
-resource type:                  bool
+resource type:                  int
 resource name:                  "MITSHM"
-resource range:                 0/1
+resource range:                 -1..1 (auto (-1), off (1), on (2))
 resource default:               1
 resource function:              set_try_mitshm()
 resource var:                   try_mitshm
@@ -15497,6 +15720,7 @@ platform gui present:           unix
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/unix/joy.c:
 ----------------
@@ -15524,6 +15748,7 @@ platform gui present:           unix
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/unix/joy.c:
 ----------------
@@ -15551,6 +15776,7 @@ platform gui present:           unix
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/unix/joy.c:
 ----------------
@@ -15578,6 +15804,7 @@ platform gui present:           unix
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -16366,6 +16593,7 @@ platform gui present:           windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/win32/joy.c:
 -----------------
@@ -16383,6 +16611,7 @@ platform gui present:           windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/win32/joy.c:
 -----------------
@@ -16400,6 +16629,7 @@ platform gui present:           windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
 
 arch/win32/joy.c:
 -----------------
@@ -16417,3 +16647,4 @@ platform gui present:           windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:
+fixme: better arch sections in documentation
