@@ -1767,7 +1767,7 @@ void mem_set_speed_switch(int val)
 {
     if (mem_reg_sw_1mhz == val) {
         mem_reg_sw_1mhz = !val;
-        scpu64_set_fastmode(!(mem_reg_soft_1mhz || mem_reg_sys_1mhz || (mem_reg_sw_1mhz && !mem_reg_hwenable)));
+        scpu64_set_fastmode_nosync(!(mem_reg_soft_1mhz || mem_reg_sys_1mhz || (mem_reg_sw_1mhz && !mem_reg_hwenable)));
     }
 }
 

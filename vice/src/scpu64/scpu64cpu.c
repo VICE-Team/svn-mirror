@@ -264,6 +264,14 @@ void scpu64_set_fastmode(int mode)
     }
 }
 
+void scpu64_set_fastmode_nosync(int mode)
+{
+    if (scpu64_fastmode != mode) {
+        scpu64_fastmode = mode;
+        maincpu_resync_limits();
+    }
+}
+
 /* TODO: refresh */
 static DWORD simm_cell;
 static DWORD simm_row_mask = ~(2048 * 4 - 1);
