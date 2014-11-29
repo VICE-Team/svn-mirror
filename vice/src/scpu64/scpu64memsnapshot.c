@@ -220,6 +220,7 @@ int scpu64_snapshot_read_module(snapshot_t *s)
     BYTE major_version, minor_version;
     snapshot_module_t *m;
     unsigned int simm_mask;
+    int trapfl;
 
     /* Main memory module.  */
 
@@ -250,6 +251,15 @@ int scpu64_snapshot_read_module(snapshot_t *s)
         || SMR_BA(m, mem_sram, SCPU64_SRAM_SIZE) < 0) {
         goto fail;
     }
+
+    /* disable traps before loading the ROM */
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
+
+    memcpy(mem_trap_ram, mem_sram + 0x1e000, SCPU64_KERNAL_ROM_SIZE);
+
+    /* enable traps again when necessary */
+    resources_set_int("VirtualDevices", trapfl);
 
     switch (simm_mask) {
     case 0x0:
