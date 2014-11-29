@@ -3944,13 +3944,13 @@ Integer specifying how the IEC printer (device 4-5) is being emulated.
 @vindex Printer5Driver
 @item Printer4Driver
 @itemx Printer5Driver
-String (ascii, mps803, nl10) specifying the IEC printer output driver.
+Strings (ascii, mps803, nl10) specifying the IEC printer output driver.
 
 @vindex Printer4Output
 @vindex Printer5Output
 @item Printer4Output
 @itemx Printer5Output
-String specifying the IEC printer output device.
+Strings specifying the IEC printer output device.
 
 
 @vindex PrinterUserport
@@ -4549,19 +4549,6 @@ Boolean specifying whether to show a confirmation dialog on exit.
 @itemx AttachDevice10Readonly
 @itemx AttachDevice11Readonly
 Booleans that specify whether to attach images on drives 8 to 11 read-only.
-
-@vindex RomsetArchiveName
-@item RomsetArchiveName
-String specifying the filename of the ROM set archive (.vra) file ["default"]
-@vindex RomsetArchiveActive
-@item RomsetArchiveActive
-String specifying the active configuration of the current ROM set archive [""]
-@vindex RomsetFileName
-@item RomsetFileName
-String specifying the filename of the ROM set resource file ["default"]
-@vindex RomsetSourceFile
-@item RomsetSourceFile
-Boolean specifying the type of currently used ROM set (0: .vra Archive, 1: resource file) [1]
 
 @end table
 
