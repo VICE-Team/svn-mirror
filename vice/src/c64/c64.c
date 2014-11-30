@@ -1147,7 +1147,7 @@ struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
 
 BYTE machine_tape_type_default(void)
 {
-    return TAPE_CAS_TYPE_BAS;
+    return TAPE_CAS_TYPE_PRG;
 }
 
 static int get_cart_emulation_state(void)
