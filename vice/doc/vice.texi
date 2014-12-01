@@ -1294,7 +1294,8 @@ On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'
 @itemx +autostart-handle-tde
 Handle/Do not handle True Drive Emulation on autostart
 @cindex -autostart-warp, +autostart-warp
-@item +autostart-warp
+@item -autostart-warp
+@itemx +autostart-warp
 Enable/Disable warp mode during autostart
 @cindex -autostartprgmode
 @item -autostartprgmode
@@ -2643,9 +2644,9 @@ window (@code{UseXSync=1}, @code{UseXSync=0}).
 Enable/disable usage of the MITSHM extensions (@code{MITSHM=1},
 @code{MITSHM=0}).
 
-@cindex -install, +install
-@item -install
-@itemx +install
+@cindex -colormap, +colormap
+@item -colormap
+@itemx +colormap
 Enable/disable installation of a private colormap
 (@code{PrivateColormap=1}, @code{PrivateColormap=0}).
 
@@ -7712,10 +7713,6 @@ Specify @file{NAME} as the cartridge image to attach.
 
 @table @code
 
-@cindex -OEMjoy, +OEMjoy
-@item -OEMjoy
-@item +OEMjoy
-Enable/Disable the OEM userport joystick adapter
 
 @end table
 
@@ -9103,7 +9100,7 @@ Integer that specifies the currently played sub tune.
 @cindex -keepenv
 @item -keepenv
 Override PSID settings for Video standard and SID model
-@cindex -tune <number>
+@cindex -tune
 @item -tune <number>
 Specify PSID tune <number>
 

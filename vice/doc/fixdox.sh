@@ -84,7 +84,7 @@ fixchm()
 
 fixhlp()
 {
-  sed <tmp.texi >vicetmp.texi -e 's/@firstparagraphindent none//g' -e 's/@exampleindent 0//g'
+  sed <tmp.texi >vicetmp.texi -e 's/@firstparagraphindent none//g' -e 's/@exampleindent 0//g' -e 's/@verbatim/@smallexample/g' -e 's/@end verbatim/@end smallexample/g'
   rm -f -r tmp.texi
 }
 
