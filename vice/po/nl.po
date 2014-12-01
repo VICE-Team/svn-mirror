@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-25 12:31-0800\n"
+"POT-Creation-Date: 2014-12-01 10:52-0800\n"
 "PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -22,7 +22,12 @@ msgid ""
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital "
 "joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
-msgstr "Zet apparaat voor joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
+msgstr ""
+"Zet apparaat voor joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: "
+"Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick "
+"2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: "
+"Digitale joystick 0, 11: Digitale joystick 1, 12: USB joystick 0, 13: USB "
+"joystick 1)"
 
 #: src/arch/unix/joy.c:107
 msgid ""
@@ -30,19 +35,28 @@ msgid ""
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital "
 "joystick 0, 11: Digital joystick 1)"
-msgstr "Zet apparaat voor joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1)"
+msgstr ""
+"Zet apparaat voor joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: "
+"Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick "
+"2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: "
+"Digitale joystick 0, 11: Digitale joystick 1)"
 
 #: src/arch/unix/joy.c:109
 msgid ""
 "Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr "Zet apparaat voor joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5)"
+msgstr ""
+"Zet apparaat voor joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: "
+"Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick "
+"2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5)"
 
 #: src/arch/unix/joy.c:113
 msgid ""
 "Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
-msgstr "Zet apparaat voor joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
+msgstr ""
+"Zet apparaat voor joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: "
+"Keyset 2)"
 
 #: src/arch/unix/joy.c:125
 msgid ""
@@ -50,7 +64,12 @@ msgid ""
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital "
 "joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
-msgstr "Zet apparaat voor joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
+msgstr ""
+"Zet apparaat voor joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: "
+"Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick "
+"2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: "
+"Digitale joystick 0, 11: Digitale joystick 1, 12: USB joystick 0, 13: USB "
+"joystick 1)"
 
 #: src/arch/unix/joy.c:128
 msgid ""
@@ -58,19 +77,28 @@ msgid ""
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital "
 "joystick 0, 11: Digital joystick 1)"
-msgstr "Zet apparaat voor joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1)"
+msgstr ""
+"Zet apparaat voor joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: "
+"Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick "
+"2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: "
+"Digitale joystick 0, 11: Digitale joystick 1)"
 
 #: src/arch/unix/joy.c:130
 msgid ""
 "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr "Zet apparaat voor joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5)"
+msgstr ""
+"Zet apparaat voor joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: "
+"Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick "
+"2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5)"
 
 #: src/arch/unix/joy.c:134
 msgid ""
 "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
-msgstr "Zet apparaat voor joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
+msgstr ""
+"Zet apparaat voor joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: "
+"Keyset 2)"
 
 #: src/arch/unix/joy.c:146
 msgid ""
@@ -79,7 +107,12 @@ msgid ""
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB "
 "joystick 1)"
-msgstr "Zet apparaat voor extra joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
+msgstr ""
+"Zet apparaat voor extra joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, "
+"3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge "
+"joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge "
+"joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1, 12: USB "
+"joystick 0, 13: USB joystick 1)"
 
 #: src/arch/unix/joy.c:149
 msgid ""
@@ -87,20 +120,30 @@ msgid ""
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1)"
-msgstr "Zet apparaat voor extra joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1)"
+msgstr ""
+"Zet apparaat voor extra joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, "
+"3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge "
+"joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge "
+"joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1)"
 
 #: src/arch/unix/joy.c:151
 msgid ""
 "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr "Zet apparaat voor extra joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5)"
+msgstr ""
+"Zet apparaat voor extra joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, "
+"3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge "
+"joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge "
+"joystick 5)"
 
 #: src/arch/unix/joy.c:155
 msgid ""
 "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2)"
-msgstr "Zet apparaat voor extra joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
+msgstr ""
+"Zet apparaat voor extra joystick poort 1 (0: Geen, 1: Numpad, 2: Keyset 1, "
+"3: Keyset 2)"
 
 #: src/arch/unix/joy.c:167
 msgid ""
@@ -109,7 +152,12 @@ msgid ""
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB "
 "joystick 1)"
-msgstr "Zet apparaat voor extra joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
+msgstr ""
+"Zet apparaat voor extra joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, "
+"3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge "
+"joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge "
+"joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1, 12: USB "
+"joystick 0, 13: USB joystick 1)"
 
 #: src/arch/unix/joy.c:170
 msgid ""
@@ -117,20 +165,30 @@ msgid ""
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1)"
-msgstr "Zet apparaat voor extra joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1)"
+msgstr ""
+"Zet apparaat voor extra joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, "
+"3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge "
+"joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge "
+"joystick 5, 10: Digitale joystick 0, 11: Digitale joystick 1)"
 
 #: src/arch/unix/joy.c:172
 msgid ""
 "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr "Zet apparaat voor extra joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge joystick 5)"
+msgstr ""
+"Zet apparaat voor extra joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, "
+"3: Keyset 2, 4: Analoge joystick 0, 5: Analoge joystick 1, 6: Analoge "
+"joystick 2, 7: Analoge joystick 3, 8: Analoge joystick 4, 9: Analoge "
+"joystick 5)"
 
 #: src/arch/unix/joy.c:176
 msgid ""
 "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2)"
-msgstr "Zet apparaat voor extra joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
+msgstr ""
+"Zet apparaat voor extra joystick poort 2 (0: Geen, 1: Numpad, 2: Keyset 1, "
+"3: Keyset 2)"
 
 #: src/arch/unix/mididrv.c:672 src/arch/unix/mididrv.c:677
 #: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
@@ -154,27 +212,6 @@ msgstr "<Stuurprogramma>"
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
 msgstr ""
 "Geef op welke MIDI stuurprogramma gebruikt moet worden (0 = OSS, 1 = ALSA)"
-
-#: src/arch/unix/rs232.c:195 src/arch/unix/rs232.c:200
-#: src/arch/unix/rs232.c:205 src/arch/unix/rs232.c:210
-msgid "<baudrate>"
-msgstr "<baud>"
-
-#: src/arch/unix/rs232.c:195
-msgid "Specify baudrate of first RS232 device"
-msgstr "Geef de baudrate van het eerste RS232 apparaat"
-
-#: src/arch/unix/rs232.c:200
-msgid "Specify baudrate of second RS232 device"
-msgstr "Geef de baudrate van het tweede RS232 apparaat"
-
-#: src/arch/unix/rs232.c:205
-msgid "Specify baudrate of third RS232 device"
-msgstr "Geef de baudrate van het derde RS232 apparaat"
-
-#: src/arch/unix/rs232.c:210
-msgid "Specify baudrate of fourth RS232 device"
-msgstr "Geef de baudrate van het vierde RS232 apparaat"
 
 #: src/arch/unix/gui/c128ui.c:137 src/arch/unix/gui/c64scui.c:262
 #: src/arch/unix/gui/c64ui.c:323 src/arch/unix/gui/vsidui.c:236
@@ -5902,25 +5939,33 @@ msgstr "nummer"
 msgid ""
 "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Joystick 1, 5: joystick 2)"
-msgstr "Zet invoer apparaat voor joystick #1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
+msgstr ""
+"Zet invoer apparaat voor joystick #1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: "
+"Keyset 2, 4: Joystick 1, 5: joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1104
 msgid ""
 "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Joystick 1, 5: joystick 2)"
-msgstr "Zet invoer apparaat voor joystick #2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
+msgstr ""
+"Zet invoer apparaat voor joystick #2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: "
+"Keyset 2, 4: Joystick 1, 5: joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1105
 msgid ""
 "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Joystick 1, 5: joystick 2)"
-msgstr "Zet invoer apparaat voor extra joystick #1 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
+msgstr ""
+"Zet invoer apparaat voor extra joystick #1 (0: Geen, 1: Numpad, 2: Keyset 1, "
+"3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1106
 msgid ""
 "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Joystick 1, 5: joystick 2)"
-msgstr "Zet invoer apparaat voor extra joystick #2 (0: Geen, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
+msgstr ""
+"Zet invoer apparaat voor extra joystick #2 (0: Geen, 1: Numpad, 2: Keyset 1, "
+"3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1111
 msgid "Use all CPUs on SMP systems"
@@ -11492,7 +11537,9 @@ msgstr "Zet de bitrate voor het videogedeelte van het mediabestand"
 msgid ""
 "Specify PET model to emulate. "
 "(2001/3008/3016/3032/3032B/4016/4032/4032B/8032/8096/8296/SuperPET)"
-msgstr "Geef PET model om te emuleren. (2001/3008/3016/3032/3032B/4016/4032/4032B/8032/8096/8296/SuperPET)"
+msgstr ""
+"Geef PET model om te emuleren. "
+"(2001/3008/3016/3032/3032B/4016/4032/4032B/8032/8096/8296/SuperPET)"
 
 #: src/translate_text.c.po.c:8748
 msgid "Specify name of Editor ROM image"
@@ -11689,11 +11736,13 @@ msgstr "Zet VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
 
 #: src/translate_text.c.po.c:9564
 msgid "Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)"
-msgstr "Geef de naam van het stuurprogramma voor apparaat #4. (ascii/mps803/nl10/raw)"
+msgstr ""
+"Geef de naam van het stuurprogramma voor apparaat #4. (ascii/mps803/nl10/raw)"
 
 #: src/translate_text.c.po.c:9581
 msgid "Specify name of printer driver for device #5. (ascii/mps803/nl10/raw)"
-msgstr "Geef de naam van het stuurprogramma voor apparaat #5. (ascii/mps803/nl10/raw)"
+msgstr ""
+"Geef de naam van het stuurprogramma voor apparaat #5. (ascii/mps803/nl10/raw)"
 
 #: src/translate_text.c.po.c:9598
 msgid "Specify name of printer driver for device #6. (1520/raw)"
@@ -11702,19 +11751,24 @@ msgstr "Geef de naam van het stuurprogramma voor apparaat #6. (1520/raw)"
 #: src/translate_text.c.po.c:9615
 msgid ""
 "Specify name of printer driver for the userport printer. (ascii/nl10/raw)"
-msgstr "Geef de naam van het stuurprogramma voor de userport printer. (ascii/nl10/raw)"
+msgstr ""
+"Geef de naam van het stuurprogramma voor de userport printer. (ascii/nl10/"
+"raw)"
 
 #: src/translate_text.c.po.c:9632
 msgid "Set device type for device #4 (0: None, 1: Filesystem, 2: Real)"
-msgstr "Zet apparaat soort voor apparaat #4 (0: Geen, 1: Bestandssysteem, 2: Echt)"
+msgstr ""
+"Zet apparaat soort voor apparaat #4 (0: Geen, 1: Bestandssysteem, 2: Echt)"
 
 #: src/translate_text.c.po.c:9649
 msgid "Set device type for device #5 (0: None, 1: Filesystem, 2: Real)"
-msgstr "Zet apparaat soort voor apparaat #5 (0: Geen, 1: Bestandssysteem, 2: Echt)"
+msgstr ""
+"Zet apparaat soort voor apparaat #5 (0: Geen, 1: Bestandssysteem, 2: Echt)"
 
 #: src/translate_text.c.po.c:9666
 msgid "Set device type for device #6 (0: None, 1: Filesystem, 2: Real)"
-msgstr "Zet apparaat soort voor apparaat #6 (0: Geen, 1: Bestandssysteem, 2: Echt)"
+msgstr ""
+"Zet apparaat soort voor apparaat #6 (0: Geen, 1: Bestandssysteem, 2: Echt)"
 
 #: src/translate_text.c.po.c:9683
 msgid "Set device type for device #7 (0: None, 2: Real)"
@@ -11981,7 +12035,9 @@ msgstr "spec"
 msgid ""
 "Specify memory configuration. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / "
 "(04/20/40/60/a0)"
-msgstr "Geef geheugen configuratie. (geen/3k/8k/16k/24k/allemaal) / (0/1/2/3/5) / (04/20/40/60/a0)"
+msgstr ""
+"Geef geheugen configuratie. (geen/3k/8k/16k/24k/allemaal) / (0/1/2/3/5) / "
+"(04/20/40/60/a0)"
 
 #: src/translate_text.c.po.c:10817
 msgid "Enable VIC-1112 IEEE488 interface"
@@ -12140,28 +12196,32 @@ msgid ""
 "Set device type for device #8 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block "
 "device)"
 msgstr ""
-"Zet het apparaatsoort voor apparaat #8 (0: Geen, 1: Bestandssysteem, 2: OpenCBM, 3: Blok apparaat)"
+"Zet het apparaatsoort voor apparaat #8 (0: Geen, 1: Bestandssysteem, 2: "
+"OpenCBM, 3: Blok apparaat)"
 
 #: src/translate_text.c.po.c:11565
 msgid ""
 "Set device type for device #9 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block "
 "device)"
 msgstr ""
-"Zet het apparaatsoort voor apparaat #9 (0: Geen, 1: Bestandssysteem, 2: OpenCBM, 3: Blok apparaat)"
+"Zet het apparaatsoort voor apparaat #9 (0: Geen, 1: Bestandssysteem, 2: "
+"OpenCBM, 3: Blok apparaat)"
 
 #: src/translate_text.c.po.c:11582
 msgid ""
 "Set device type for device #10 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block "
 "device)"
 msgstr ""
-"Zet het apparaatsoort voor apparaat #10 (0: Geen, 1: Bestandssysteem, 2: OpenCBM, 3: Blok apparaat)"
+"Zet het apparaatsoort voor apparaat #10 (0: Geen, 1: Bestandssysteem, 2: "
+"OpenCBM, 3: Blok apparaat)"
 
 #: src/translate_text.c.po.c:11599
 msgid ""
 "Set device type for device #11 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block "
 "device)"
 msgstr ""
-"Zet het apparaatsoort voor apparaat #11 (0: Geen, 1: Bestandssysteem, 2: OpenCBM, 3: Blok apparaat)"
+"Zet het apparaatsoort voor apparaat #11 (0: Geen, 1: Bestandssysteem, 2: "
+"OpenCBM, 3: Blok apparaat)"
 
 #: src/translate_text.c.po.c:11616
 msgid "Attach disk image for drive #8 read only"
@@ -12659,7 +12719,9 @@ msgstr "De lichtpen emulatie uitschakelen"
 msgid ""
 "Set lightpen type. (0: Pen with button Up, 1: Pen with button Left, 2: Datel "
 "Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)"
-msgstr "Zet lichtpen soort. (0: Pen met knop omhoog, 1: Pen met knop links, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light geweer, 5: Inkwell Pen)"
+msgstr ""
+"Zet lichtpen soort. (0: Pen met knop omhoog, 1: Pen met knop links, 2: Datel "
+"Pen, 3: Magnum Light Phaser, 4: Stack Light geweer, 5: Inkwell Pen)"
 
 #: src/translate_text.c.po.c:14056
 msgid "Enable EasyFlash jumper"
@@ -12732,6 +12794,21 @@ msgstr "Activeer PET High Res Emulation bord"
 #: src/translate_text.c.po.c:14362
 msgid "Disable HiRes Emulation Board"
 msgstr "PET High Res Emulation bord uitschakelen"
+
+#~ msgid "<baudrate>"
+#~ msgstr "<baud>"
+
+#~ msgid "Specify baudrate of first RS232 device"
+#~ msgstr "Geef de baudrate van het eerste RS232 apparaat"
+
+#~ msgid "Specify baudrate of second RS232 device"
+#~ msgstr "Geef de baudrate van het tweede RS232 apparaat"
+
+#~ msgid "Specify baudrate of third RS232 device"
+#~ msgstr "Geef de baudrate van het derde RS232 apparaat"
+
+#~ msgid "Specify baudrate of fourth RS232 device"
+#~ msgstr "Geef de baudrate van het vierde RS232 apparaat"
 
 #~ msgid "Set input device for joystick #1"
 #~ msgstr "Zet invoer apparaat voor joystick #1"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-25 12:31-0800\n"
+"POT-Creation-Date: 2014-12-01 10:52-0800\n"
 "PO-Revision-Date: 2014-01-13 14:34+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Svenska <tp-sv@listor.tp-sv.se>\n"
@@ -197,29 +197,6 @@ msgstr "Drivrutin"
 #: src/arch/unix/mididrv.c:683
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
 msgstr "Ange MIDI-drivrutin (0 = OSS, 1 = ALSA)"
-
-#: src/arch/unix/rs232.c:195 src/arch/unix/rs232.c:200
-#: src/arch/unix/rs232.c:205 src/arch/unix/rs232.c:210
-#, fuzzy
-msgid "<baudrate>"
-msgstr "baudhastighet"
-
-#: src/arch/unix/rs232.c:195
-msgid "Specify baudrate of first RS232 device"
-msgstr "Ange baudhastighet för första RS232-enheten"
-
-#: src/arch/unix/rs232.c:200
-msgid "Specify baudrate of second RS232 device"
-msgstr "Ange baudhastighet för andra RS232-enheten"
-
-#: src/arch/unix/rs232.c:205
-msgid "Specify baudrate of third RS232 device"
-msgstr "Ange baudhastighet för tredje RS232-enheten"
-
-#: src/arch/unix/rs232.c:210
-#, fuzzy
-msgid "Specify baudrate of fourth RS232 device"
-msgstr "Ange baudhastighet för första RS232-enheten"
 
 #: src/arch/unix/gui/c128ui.c:137 src/arch/unix/gui/c64scui.c:262
 #: src/arch/unix/gui/c64ui.c:323 src/arch/unix/gui/vsidui.c:236
@@ -12867,6 +12844,23 @@ msgstr "Aktivera högupplösningsemuleringskort"
 #: src/translate_text.c.po.c:14362
 msgid "Disable HiRes Emulation Board"
 msgstr "högupplösningsemuleringskort Inaktivera"
+
+#, fuzzy
+#~ msgid "<baudrate>"
+#~ msgstr "baudhastighet"
+
+#~ msgid "Specify baudrate of first RS232 device"
+#~ msgstr "Ange baudhastighet för första RS232-enheten"
+
+#~ msgid "Specify baudrate of second RS232 device"
+#~ msgstr "Ange baudhastighet för andra RS232-enheten"
+
+#~ msgid "Specify baudrate of third RS232 device"
+#~ msgstr "Ange baudhastighet för tredje RS232-enheten"
+
+#, fuzzy
+#~ msgid "Specify baudrate of fourth RS232 device"
+#~ msgstr "Ange baudhastighet för första RS232-enheten"
 
 #~ msgid "Set input device for joystick #1"
 #~ msgstr "Välj indataenhet för spelport 1"

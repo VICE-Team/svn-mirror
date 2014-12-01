@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-25 12:31-0800\n"
+"POT-Creation-Date: 2014-12-01 10:52-0800\n"
 "PO-Revision-Date: 2013-06-05 11:06+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -198,29 +198,6 @@ msgstr "Driver"
 #: src/arch/unix/mididrv.c:683
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
 msgstr "Specifica il driver MIDI (0 = OSS, 1 = ALSA)"
-
-#: src/arch/unix/rs232.c:195 src/arch/unix/rs232.c:200
-#: src/arch/unix/rs232.c:205 src/arch/unix/rs232.c:210
-#, fuzzy
-msgid "<baudrate>"
-msgstr "velocità"
-
-#: src/arch/unix/rs232.c:195
-msgid "Specify baudrate of first RS232 device"
-msgstr "Specifica la velocità della prima RS232 (in baud)"
-
-#: src/arch/unix/rs232.c:200
-msgid "Specify baudrate of second RS232 device"
-msgstr "Specifica la velocità della seconda RS232 (in baud)"
-
-#: src/arch/unix/rs232.c:205
-msgid "Specify baudrate of third RS232 device"
-msgstr "Specifica la velocità della terza RS232 (in baud)"
-
-#: src/arch/unix/rs232.c:210
-#, fuzzy
-msgid "Specify baudrate of fourth RS232 device"
-msgstr "Specifica la velocità della prima RS232 (in baud)"
 
 #: src/arch/unix/gui/c128ui.c:137 src/arch/unix/gui/c64scui.c:262
 #: src/arch/unix/gui/c64ui.c:323 src/arch/unix/gui/vsidui.c:236
@@ -12962,6 +12939,23 @@ msgstr "Attiva scheda HiRes Emulation"
 #: src/translate_text.c.po.c:14362
 msgid "Disable HiRes Emulation Board"
 msgstr "Disattiva scheda HiRes Emulation"
+
+#, fuzzy
+#~ msgid "<baudrate>"
+#~ msgstr "velocità"
+
+#~ msgid "Specify baudrate of first RS232 device"
+#~ msgstr "Specifica la velocità della prima RS232 (in baud)"
+
+#~ msgid "Specify baudrate of second RS232 device"
+#~ msgstr "Specifica la velocità della seconda RS232 (in baud)"
+
+#~ msgid "Specify baudrate of third RS232 device"
+#~ msgstr "Specifica la velocità della terza RS232 (in baud)"
+
+#, fuzzy
+#~ msgid "Specify baudrate of fourth RS232 device"
+#~ msgstr "Specifica la velocità della prima RS232 (in baud)"
 
 #~ msgid "Set input device for joystick #1"
 #~ msgstr "Imposta il dispositivo di input per il joystick 1"

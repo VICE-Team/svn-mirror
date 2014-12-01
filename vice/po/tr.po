@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-25 12:31-0800\n"
+"POT-Creation-Date: 2014-12-01 10:52-0800\n"
 "PO-Revision-Date: 2012-10-19 11:36+0300\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
@@ -197,29 +197,6 @@ msgstr "Sürücü"
 #: src/arch/unix/mididrv.c:683
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
 msgstr "MIDI sürücüsünü belirt (0: OSS, 1: ALSA)"
-
-#: src/arch/unix/rs232.c:195 src/arch/unix/rs232.c:200
-#: src/arch/unix/rs232.c:205 src/arch/unix/rs232.c:210
-#, fuzzy
-msgid "<baudrate>"
-msgstr "baudrate"
-
-#: src/arch/unix/rs232.c:195
-msgid "Specify baudrate of first RS232 device"
-msgstr "Ýlk RS232 aygýtýnýn Baudrate'ini belirleyin"
-
-#: src/arch/unix/rs232.c:200
-msgid "Specify baudrate of second RS232 device"
-msgstr "Ýkinci RS232 aygýtýnýn Baudrate'ini belirleyin"
-
-#: src/arch/unix/rs232.c:205
-msgid "Specify baudrate of third RS232 device"
-msgstr "Üçüncü RS232 aygýtýnýn Baudrate'ini belirleyin"
-
-#: src/arch/unix/rs232.c:210
-#, fuzzy
-msgid "Specify baudrate of fourth RS232 device"
-msgstr "Ýlk RS232 aygýtýnýn Baudrate'ini belirleyin"
 
 #: src/arch/unix/gui/c128ui.c:137 src/arch/unix/gui/c64scui.c:262
 #: src/arch/unix/gui/c64ui.c:323 src/arch/unix/gui/vsidui.c:236
@@ -12937,6 +12914,23 @@ msgstr "Iþýklý Kalem emülasyonunu aktif et"
 #, fuzzy
 msgid "Disable HiRes Emulation Board"
 msgstr "Iþýklý Kalem emülasyonunu aktif et"
+
+#, fuzzy
+#~ msgid "<baudrate>"
+#~ msgstr "baudrate"
+
+#~ msgid "Specify baudrate of first RS232 device"
+#~ msgstr "Ýlk RS232 aygýtýnýn Baudrate'ini belirleyin"
+
+#~ msgid "Specify baudrate of second RS232 device"
+#~ msgstr "Ýkinci RS232 aygýtýnýn Baudrate'ini belirleyin"
+
+#~ msgid "Specify baudrate of third RS232 device"
+#~ msgstr "Üçüncü RS232 aygýtýnýn Baudrate'ini belirleyin"
+
+#, fuzzy
+#~ msgid "Specify baudrate of fourth RS232 device"
+#~ msgstr "Ýlk RS232 aygýtýnýn Baudrate'ini belirleyin"
 
 #~ msgid "Set input device for joystick #1"
 #~ msgstr "Joystick #1 için giriþ aygýtý belirle"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-25 12:31-0800\n"
+"POT-Creation-Date: 2014-12-01 10:52-0800\n"
 "PO-Revision-Date: 2013-08-07 16:48+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
@@ -199,29 +199,6 @@ msgstr "<controlador>"
 #: src/arch/unix/mididrv.c:683
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
 msgstr "Especificar controlador MIDI (0 = OSS, 1 = ALSA)"
-
-#: src/arch/unix/rs232.c:195 src/arch/unix/rs232.c:200
-#: src/arch/unix/rs232.c:205 src/arch/unix/rs232.c:210
-#, fuzzy
-msgid "<baudrate>"
-msgstr "Velocidad (baudios)"
-
-#: src/arch/unix/rs232.c:195
-msgid "Specify baudrate of first RS232 device"
-msgstr "Especificar baudios primer periférico RS232"
-
-#: src/arch/unix/rs232.c:200
-msgid "Specify baudrate of second RS232 device"
-msgstr "Especificar baudios segundo periférico RS232"
-
-#: src/arch/unix/rs232.c:205
-msgid "Specify baudrate of third RS232 device"
-msgstr "Especificar baudios tercer periférico RS232"
-
-#: src/arch/unix/rs232.c:210
-#, fuzzy
-msgid "Specify baudrate of fourth RS232 device"
-msgstr "Especificar baudios primer periférico RS232"
 
 #: src/arch/unix/gui/c128ui.c:137 src/arch/unix/gui/c64scui.c:262
 #: src/arch/unix/gui/c64ui.c:323 src/arch/unix/gui/vsidui.c:236
@@ -12915,6 +12892,23 @@ msgstr "Permitir emulación tableta de alta resolución"
 #: src/translate_text.c.po.c:14362
 msgid "Disable HiRes Emulation Board"
 msgstr "Deshabilitar emulación tableta de alta resolución"
+
+#, fuzzy
+#~ msgid "<baudrate>"
+#~ msgstr "Velocidad (baudios)"
+
+#~ msgid "Specify baudrate of first RS232 device"
+#~ msgstr "Especificar baudios primer periférico RS232"
+
+#~ msgid "Specify baudrate of second RS232 device"
+#~ msgstr "Especificar baudios segundo periférico RS232"
+
+#~ msgid "Specify baudrate of third RS232 device"
+#~ msgstr "Especificar baudios tercer periférico RS232"
+
+#, fuzzy
+#~ msgid "Specify baudrate of fourth RS232 device"
+#~ msgstr "Especificar baudios primer periférico RS232"
 
 #~ msgid "Set input device for joystick #1"
 #~ msgstr "Periférico de entrada para joystick #1"
