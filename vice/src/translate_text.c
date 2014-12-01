@@ -4385,7 +4385,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_NL, "Geef de naam van het SCPU64 ROM bestand"},
 /* pl */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_SV, ""},  /* fuzzy */
@@ -5447,7 +5447,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_MMC64_BIOS_READ_ONLY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_MMC64_BIOS_READ_ONLY_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_MMC64_BIOS_READ_ONLY_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_MMC64_BIOS_READ_ONLY_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_MMC64_BIOS_READ_ONLY_NL, "Sla de MMC64 BIOS niet op als er veranderingen zijn gemaakt"},
 /* pl */ {IDCLS_MMC64_BIOS_READ_ONLY_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_MMC64_BIOS_READ_ONLY_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_MMC64_BIOS_READ_ONLY_SV, ""},  /* fuzzy */
@@ -7337,7 +7337,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_CBM2_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_CBM2_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_CBM2_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_CBM2_MODEL_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_CBM2_MODEL_NL, "Geef CBM-II model om te emuleren. (610, 620, 620+, 710, 720, 720+)"},
 /* pl */ {IDCLS_SPECIFY_CBM2_MODEL_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_CBM2_MODEL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_CBM2_MODEL_SV, ""},  /* fuzzy */
@@ -7354,7 +7354,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_CBM5X0_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_CBM5X0_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_CBM5X0_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_CBM5X0_MODEL_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_CBM5X0_MODEL_NL, "Geef CBM-II model om te emuleren. (510)"},
 /* pl */ {IDCLS_SPECIFY_CBM5X0_MODEL_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_CBM5X0_MODEL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_CBM5X0_MODEL_SV, ""},  /* fuzzy */
@@ -7473,7 +7473,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_NL, "Geef geheugengrootte (128/256/512/1024 kByte)"},
 /* pl */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SIZE_OF_RAM_CBM2_SV, ""},  /* fuzzy */
@@ -8005,7 +8005,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DRIVE_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DRIVE_TYPE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DRIVE_TYPE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DRIVE_TYPE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DRIVE_TYPE_NL, "Zet drive soort (0: geen drive"},
 /* pl */ {IDCLS_SET_DRIVE_TYPE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DRIVE_TYPE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DRIVE_TYPE_SV, ""},  /* fuzzy */
@@ -8816,18 +8816,18 @@ translate_t string_table[] = {
 /* pet/pet-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_PET_MODEL,    N_("Specify PET model to emulate. (2001/3008/3016/3032/3032B/4016/4032/4032B/8032/8096/8296/SuperPET)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_PET_MODEL_DA, "Angiv emuleret PET-model"},
-/* de */ {IDCLS_SPECIFY_PET_MODEL_DE, "PET Modell spezifizieren"},
-/* es */ {IDCLS_SPECIFY_PET_MODEL_ES, "Especificar modelo PET a emular"},
-/* fr */ {IDCLS_SPECIFY_PET_MODEL_FR, "Spécifier le modèle PET à émuler"},
-/* hu */ {IDCLS_SPECIFY_PET_MODEL_HU, "Adja meg az emulált PET modellt"},
-/* it */ {IDCLS_SPECIFY_PET_MODEL_IT, "Specifica il modello di PET da emulare"},
+/* da */ {IDCLS_SPECIFY_PET_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_PET_MODEL_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_PET_MODEL_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_PET_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_PET_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PET_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_PET_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_PET_MODEL_NL, "Geef PET model om te emuleren"},
-/* pl */ {IDCLS_SPECIFY_PET_MODEL_PL, "Okre¶l emulowany model PET"},
-/* ru */ {IDCLS_SPECIFY_PET_MODEL_RU, "Specify PET model to emulate"},
-/* sv */ {IDCLS_SPECIFY_PET_MODEL_SV, "Ange PET-modell att emulera"},
-/* tr */ {IDCLS_SPECIFY_PET_MODEL_TR, "Emüle edilecek PET modelini belirt"},
+/* nl */ {IDCLS_SPECIFY_PET_MODEL_NL, "Geef PET model om te emuleren. (2001/3008/3016/3032/3032B/4016/4032/4032B/8032/8096/8296/SuperPET)"},
+/* pl */ {IDCLS_SPECIFY_PET_MODEL_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_PET_MODEL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PET_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_PET_MODEL_TR, ""},  /* fuzzy */
 #endif
 
 /* pet/pet-cmdline-options.c */
@@ -9479,154 +9479,154 @@ translate_t string_table[] = {
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_SATURATION,    N_("Set saturation of internal calculated palette")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_SATURATION_DA, "Indstil mætning af internt beregnet palette [1000]"},
-/* de */ {IDCLS_SET_SATURATION_DE, "Sättigung für intern berechneten Palette setzen [1000]"},
-/* es */ {IDCLS_SET_SATURATION_ES, "Seleccionar saturación calculada en paleta interna [1000]"},
-/* fr */ {IDCLS_SET_SATURATION_FR, "Régler la saturation de la palette interne calculée [1000]"},
-/* hu */ {IDCLS_SET_SATURATION_HU, "A számolt paletta telítettsége [1000]"},
-/* it */ {IDCLS_SET_SATURATION_IT, "Imposta la saturazione della palette calcolata internamente [1000]"},
+/* da */ {IDCLS_SET_SATURATION_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_SATURATION_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_SATURATION_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_SATURATION_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_SATURATION_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_SATURATION_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_SATURATION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_SATURATION_NL, "Zet de verzadiging van het intern berekend kleurenpalet [1000]"},
-/* pl */ {IDCLS_SET_SATURATION_PL, "Okre¶l nasycenie wewnêtrznie obliczonej palety kolorystycznej [1000]"},
-/* ru */ {IDCLS_SET_SATURATION_RU, "Set saturation of internal calculated palette [1000]"},
-/* sv */ {IDCLS_SET_SATURATION_SV, "Ställ in mättnad på internt beräknad palett [1000]"},
-/* tr */ {IDCLS_SET_SATURATION_TR, "Dahili hesaplanmýþ paletin doygunluðunu ayarlayýn [1000]"},
+/* nl */ {IDCLS_SET_SATURATION_NL, "Zet de verzadiging van het intern berekend kleurenpalet"},
+/* pl */ {IDCLS_SET_SATURATION_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_SATURATION_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_SATURATION_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_SATURATION_TR, ""},  /* fuzzy */
 #endif
 
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_CONTRAST,    N_("Set contrast of internal calculated palette")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_CONTRAST_DA, "Indstil kontrast for internt beregnet palette [1000]"},
-/* de */ {IDCLS_SET_CONTRAST_DE, "Kontrast für intern berechnete Palette setzen [1000]"},
-/* es */ {IDCLS_SET_CONTRAST_ES, "Seleccionar contraste calculada en paleta interna [1000]"},
-/* fr */ {IDCLS_SET_CONTRAST_FR, "Régler le contraste de la palette interne calculée [1000]"},
+/* da */ {IDCLS_SET_CONTRAST_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CONTRAST_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_CONTRAST_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_CONTRAST_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_CONTRAST_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_CONTRAST_IT, "Imposta il constrasto della palette calcolata internamente [1000]"},
+/* it */ {IDCLS_SET_CONTRAST_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_CONTRAST_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_CONTRAST_NL, "Zet het contrast van het intern berekend kleurenpalet [1000]"},
-/* pl */ {IDCLS_SET_CONTRAST_PL, "Okre¶l kontrast wewnêtrznie obliczonej palety kolorystycznej [1000]"},
-/* ru */ {IDCLS_SET_CONTRAST_RU, "Set contrast of internal calculated palette [1000]"},
-/* sv */ {IDCLS_SET_CONTRAST_SV, "Ställ in kontrast på internt beräknad palett [1000]"},
-/* tr */ {IDCLS_SET_CONTRAST_TR, "Dahili hesaplanmýþ paletin karþýtlýðýný ayarlayýn [1000]"},
+/* nl */ {IDCLS_SET_CONTRAST_NL, "Zet het contrast van het intern berekend kleurenpalet"},
+/* pl */ {IDCLS_SET_CONTRAST_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_CONTRAST_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_CONTRAST_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_CONTRAST_TR, ""},  /* fuzzy */
 #endif
 
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_BRIGHTNESS,    N_("Set brightness of internal calculated palette")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_BRIGHTNESS_DA, "Indstil lysstyrke for internt beregnet palette [1000]"},
-/* de */ {IDCLS_SET_BRIGHTNESS_DE, "Helligkeit für intern berechnete Palette setzen [1000]"},
-/* es */ {IDCLS_SET_BRIGHTNESS_ES, "Seleccionar brillo calculada en paleta interna [1000]"},
-/* fr */ {IDCLS_SET_BRIGHTNESS_FR, "Régler la luminosité de la palette interne calculée [1000]"},
+/* da */ {IDCLS_SET_BRIGHTNESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_BRIGHTNESS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_BRIGHTNESS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_BRIGHTNESS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_BRIGHTNESS_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_BRIGHTNESS_IT, "Imposta la luminanza della palette calcolata internamente [1000]"},
+/* it */ {IDCLS_SET_BRIGHTNESS_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_BRIGHTNESS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_BRIGHTNESS_NL, "Zet de helderheid van het intern berekend kleurenpalet [1000]"},
-/* pl */ {IDCLS_SET_BRIGHTNESS_PL, "Okre¶l jasno¶æ wewnêtrznie obliczonej palety kolorystycznej [1000]"},
-/* ru */ {IDCLS_SET_BRIGHTNESS_RU, "Set brightness of internal calculated palette [1000]"},
-/* sv */ {IDCLS_SET_BRIGHTNESS_SV, "Ställ in ljusstyrka på internt beräknad palett [1000]"},
-/* tr */ {IDCLS_SET_BRIGHTNESS_TR, "Dahili hesaplanmýþ paletin parlaklýðýný ayarlayýn [1000]"},
+/* nl */ {IDCLS_SET_BRIGHTNESS_NL, "Zet de helderheid van het intern berekend kleurenpalet"},
+/* pl */ {IDCLS_SET_BRIGHTNESS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_BRIGHTNESS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_BRIGHTNESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_BRIGHTNESS_TR, ""},  /* fuzzy */
 #endif
 
 /* plus4/ted-cmdline-options.c`, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_GAMMA,    N_("Set gamma of internal calculated palette")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_GAMMA_DA, "Indstil gamma for internt beregnet palette [2200]"},
-/* de */ {IDCLS_SET_GAMMA_DE, "Gamma für intern berechnete Palette setzen [2200]"},
-/* es */ {IDCLS_SET_GAMMA_ES, "Seleccionar gamma calculada en paleta interna [2200]"},
-/* fr */ {IDCLS_SET_GAMMA_FR, "Régler le gamma de la palette interne calculée [2200]"},
+/* da */ {IDCLS_SET_GAMMA_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_GAMMA_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_GAMMA_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_GAMMA_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_GAMMA_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_GAMMA_IT, "Imposta la gamma della palette calcolata internamente [2200]"},
+/* it */ {IDCLS_SET_GAMMA_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_GAMMA_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_GAMMA_NL, "Zet de gamma van het intern berekend kleurenpalet [2200]"},
-/* pl */ {IDCLS_SET_GAMMA_PL, "Okre¶l jaskrawo¶æ wewnêtrznie obliczonej palety kolorystycznej [1000]"},
-/* ru */ {IDCLS_SET_GAMMA_RU, "Set gamma of internal calculated palette [2200]"},
-/* sv */ {IDCLS_SET_GAMMA_SV, "Ställ in gamma på internt beräknad palett [2200]"},
-/* tr */ {IDCLS_SET_GAMMA_TR, "Dahili hesaplanmýþ paletin gamasýný ayarlayýn [2200]"},
+/* nl */ {IDCLS_SET_GAMMA_NL, "Zet de gamma van het intern berekend kleurenpalet"},
+/* pl */ {IDCLS_SET_GAMMA_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_GAMMA_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_GAMMA_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_GAMMA_TR, ""},  /* fuzzy */
 #endif
 
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_TINT,    N_("Set tint of internal calculated palette")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_TINT_DA, "Indstil farvetone for internt beregnet palette [1000]"},
-/* de */ {IDCLS_SET_TINT_DE, "Farbton für intern berechneten Palette setzen [1000]"},
-/* es */ {IDCLS_SET_TINT_ES, "Seleccionar tinta calculada en paleta interna [1000]"},
-/* fr */ {IDCLS_SET_TINT_FR, "Régler la teinte de la palette interne calculée [1000]"},
-/* hu */ {IDCLS_SET_TINT_HU, "A számolt, belsõ paletta telítettsége [1000]"},
-/* it */ {IDCLS_SET_TINT_IT, "Imposta la sfumatura della palette calcolata internamente [1000]"},
+/* da */ {IDCLS_SET_TINT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_TINT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_TINT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_TINT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_TINT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_TINT_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_TINT_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_TINT_NL, "Zet de tint van het intern berekend kleuren palette [1000]"},
-/* pl */ {IDCLS_SET_TINT_PL, "Okre¶l odcieñ wewnêtrznie obliczonej palety kolorystycznej [1000]"},
-/* ru */ {IDCLS_SET_TINT_RU, "Set tint of internal calculated palette [1000]"},
-/* sv */ {IDCLS_SET_TINT_SV, "Ställ in ton på internt beräknad palett [1000]"},
-/* tr */ {IDCLS_SET_TINT_TR, "Dahili hesaplanmýþ paletin tonunu ayarlayýn [1000]"},
+/* nl */ {IDCLS_SET_TINT_NL, "Zet de tint van het intern berekend kleuren palette"},
+/* pl */ {IDCLS_SET_TINT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_TINT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_TINT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_TINT_TR, ""},  /* fuzzy */
 #endif
 
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_ODDLINES_PHASE,    N_("Set phase for color carrier in odd lines")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_ODDLINES_PHASE_DA, "Vælg fase for farve-bærebølge på ulige scanlinjer [1250]"},
-/* de */ {IDCLS_SET_ODDLINES_PHASE_DE, "Phase für Farbträger in ungeraden Zeilen setzen [1250]"},
-/* es */ {IDCLS_SET_ODDLINES_PHASE_ES, "Seleccionar fase trasporte color en lineas impares [1250]"},
-/* fr */ {IDCLS_SET_ODDLINES_PHASE_FR, "Définir la phase pour le support de la couleur dans les lignes impaires [1250]"},
-/* hu */ {IDCLS_SET_ODDLINES_PHASE_HU, "Szín vivõ fázisa a páratlan sorokban [1250]"},
-/* it */ {IDCLS_SET_ODDLINES_PHASE_IT, "Imposta la fase per la portante colore nelle linee dispari [1250]"},
+/* da */ {IDCLS_SET_ODDLINES_PHASE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_ODDLINES_PHASE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_ODDLINES_PHASE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_ODDLINES_PHASE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_ODDLINES_PHASE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_ODDLINES_PHASE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_ODDLINES_PHASE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_ODDLINES_PHASE_NL, "Zet de fase van de kleuren drager in oneven lijnen [1250]"},
-/* pl */ {IDCLS_SET_ODDLINES_PHASE_PL, "Okre¶l fazê no¶nika koloru w liniach nieparzystych [1250]"},
-/* ru */ {IDCLS_SET_ODDLINES_PHASE_RU, "Set phase for color carrier in odd lines [1250]"},
-/* sv */ {IDCLS_SET_ODDLINES_PHASE_SV, "Välj fas för färgbärarvåg på udda rader [1250]"},
-/* tr */ {IDCLS_SET_ODDLINES_PHASE_TR, "Tek satýrlardaki renk taþýyýcýlarý için fazý ayarlayýn [1250]"},
+/* nl */ {IDCLS_SET_ODDLINES_PHASE_NL, "Zet de fase van de kleuren drager in oneven lijnen"},
+/* pl */ {IDCLS_SET_ODDLINES_PHASE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_ODDLINES_PHASE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_ODDLINES_PHASE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_ODDLINES_PHASE_TR, ""},  /* fuzzy */
 #endif
 
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_ODDLINES_OFFSET,    N_("Set phase offset for color carrier in odd lines")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_ODDLINES_OFFSET_DA, "Vælg fase-offset for farve-bærebølge på ulige scanlinjer [750]"},
-/* de */ {IDCLS_SET_ODDLINES_OFFSET_DE, "Phasenoffset für Farbträger in ungeraden Zeilen setzen [750]"},
-/* es */ {IDCLS_SET_ODDLINES_OFFSET_ES, "Seleccionar añadido fase trasporte color en lineas impares [750]"},
-/* fr */ {IDCLS_SET_ODDLINES_OFFSET_FR, "Définir le décalage de phase pour le support de la couleur dans les lignes impaires [750]"},
-/* hu */ {IDCLS_SET_ODDLINES_OFFSET_HU, "Szín vivõ fázis offszet a páratlan sorokban [750]"},
-/* it */ {IDCLS_SET_ODDLINES_OFFSET_IT, "Imposta l'offset della fase per la portate colore nelle linee dispari [750]"},
+/* da */ {IDCLS_SET_ODDLINES_OFFSET_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_ODDLINES_OFFSET_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_ODDLINES_OFFSET_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_ODDLINES_OFFSET_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_ODDLINES_OFFSET_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_ODDLINES_OFFSET_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_ODDLINES_OFFSET_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_ODDLINES_OFFSET_NL, "Zet de fase compensatie van de kleuren drager in oneven lijnen [750]"},
-/* pl */ {IDCLS_SET_ODDLINES_OFFSET_PL, "Okre¶l wyrównanie fazy no¶nika koloru w liniach nieparzystych [750]"},
-/* ru */ {IDCLS_SET_ODDLINES_OFFSET_RU, "Set phase offset for color carrier in odd lines [750]"},
-/* sv */ {IDCLS_SET_ODDLINES_OFFSET_SV, "Välj fasutjämning för färgbärarvåg på udda rader [1250]"},
-/* tr */ {IDCLS_SET_ODDLINES_OFFSET_TR, "Tek satýrlardaki renk taþýyýcýlarý için faz ofsetini ayarlayýn [750]"},
+/* nl */ {IDCLS_SET_ODDLINES_OFFSET_NL, "Zet de fase compensatie van de kleuren drager in oneven lijnen"},
+/* pl */ {IDCLS_SET_ODDLINES_OFFSET_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_ODDLINES_OFFSET_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_ODDLINES_OFFSET_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_ODDLINES_OFFSET_TR, ""},  /* fuzzy */
 #endif
 
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_BLUR,    N_("Amount of horizontal blur for the CRT emulation.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_BLUR_DA, "Mængden af horizontal udtværing for CRT emulering. [500]"},
-/* de */ {IDCLS_SET_BLUR_DE, "Wert für horizontale Unschärfe für CRT Emulation. [500]"},
-/* es */ {IDCLS_SET_BLUR_ES, "Cantidad de borrosidad para emulacion CRT. [500]"},
-/* fr */ {IDCLS_SET_BLUR_FR, "Quantité de flou horizontal pour l'émulation CRT. [500]"},
+/* da */ {IDCLS_SET_BLUR_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_BLUR_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_BLUR_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_BLUR_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_BLUR_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_BLUR_IT, "Valore della sfuocatura orizzontale per l'emulazione CRT [500]"},
+/* it */ {IDCLS_SET_BLUR_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_BLUR_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_BLUR_NL, "Wazigheid hoeveelheid voor de CRT emulatie. [500]"},
-/* pl */ {IDCLS_SET_BLUR_PL, "Rozmycie w poziomie emulacji CRT [500]"},
-/* ru */ {IDCLS_SET_BLUR_RU, "Amount of horizontal blur for the CRT emulation. [500]"},
-/* sv */ {IDCLS_SET_BLUR_SV, "Mängd horisontell oskärpa för CRT-emulering. [500]"},
-/* tr */ {IDCLS_SET_BLUR_TR, "CRT emülasyonu için yatay bulanýklýk miktarý. [500]"},
+/* nl */ {IDCLS_SET_BLUR_NL, "Wazigheid hoeveelheid voor de CRT emulatie."},
+/* pl */ {IDCLS_SET_BLUR_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_BLUR_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_BLUR_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_BLUR_TR, ""},  /* fuzzy */
 #endif
 
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_SCANLINE_SHADE,    N_("Amount of scan line shading for the CRT emulation")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_SCANLINE_SHADE_DA, "Mængden af scanlinjeskygge for CRT emulering [667]"},
-/* de */ {IDCLS_SET_SCANLINE_SHADE_DE, "Wert für Scanline Schatten für CRT Emulation [667]"},
-/* es */ {IDCLS_SET_SCANLINE_SHADE_ES, "Cantidad de lineas sombra escaneo para emulación CRT [667]"},
-/* fr */ {IDCLS_SET_SCANLINE_SHADE_FR, "Quantité d'ombrages des lignes de scan pour l'émulation CRT. [667]"},
+/* da */ {IDCLS_SET_SCANLINE_SHADE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_SCANLINE_SHADE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_SCANLINE_SHADE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_SCANLINE_SHADE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_SCANLINE_SHADE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_SCANLINE_SHADE_IT, "Valore dell'ombreggiatura della scan line per l'emulazione CRT [667]"},
+/* it */ {IDCLS_SET_SCANLINE_SHADE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_SCANLINE_SHADE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_SCANLINE_SHADE_NL, "Hoeveelheid van de scan lijn schaduw voor de CRT emulatie [667]"},
-/* pl */ {IDCLS_SET_SCANLINE_SHADE_PL, "Cieniowanie linii wybierania emulacji CRT [667]"},
-/* ru */ {IDCLS_SET_SCANLINE_SHADE_RU, "Amount of scan line shading for the CRT emulation [667]"},
-/* sv */ {IDCLS_SET_SCANLINE_SHADE_SV, "Mängd skannlinjeskuggning i CRT-emuleringen [667]"},
-/* tr */ {IDCLS_SET_SCANLINE_SHADE_TR, "CRT emülasyonu için tarama satýrý nüans miktarý [667]"},
+/* nl */ {IDCLS_SET_SCANLINE_SHADE_NL, "Hoeveelheid van de scan lijn schaduw voor de CRT emulatie"},
+/* pl */ {IDCLS_SET_SCANLINE_SHADE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_SCANLINE_SHADE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_SCANLINE_SHADE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_SCANLINE_SHADE_TR, ""},  /* fuzzy */
 #endif
 
 /* viciisc/vicii-cmdline-options.c */
@@ -9656,7 +9656,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_NL, "Geef de naam van het stuurprogramma voor apparaat #4. (ascii/mps803/nl10/raw)"},
 /* pl */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_SV, ""},  /* fuzzy */
@@ -9673,7 +9673,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_NL, "Geef de naam van het stuurprogramma voor apparaat #5. (ascii/mps803/nl10/raw)"},
 /* pl */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_SV, ""},  /* fuzzy */
@@ -9690,7 +9690,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_NL, "Geef de naam van het stuurprogramma voor apparaat #6. (1520/raw)"},
 /* pl */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_PRT_DRIVER_6_NAME_SV, ""},  /* fuzzy */
@@ -9707,7 +9707,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_NL, "Geef de naam van het stuurprogramma voor de userport printer. (ascii/nl10/raw)"},
 /* pl */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_SV, ""},  /* fuzzy */
@@ -9724,7 +9724,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DEVICE_TYPE_4_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_4_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_4_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_4_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_4_NL, "Zet apparaat soort voor apparaat #4 (0: Geen, 1: Bestandssysteem, 2: Echt)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_4_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DEVICE_TYPE_4_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_4_SV, ""},  /* fuzzy */
@@ -9741,7 +9741,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DEVICE_TYPE_5_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_5_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_5_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_5_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_5_NL, "Zet apparaat soort voor apparaat #5 (0: Geen, 1: Bestandssysteem, 2: Echt)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_5_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DEVICE_TYPE_5_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_5_SV, ""},  /* fuzzy */
@@ -9758,7 +9758,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DEVICE_TYPE_6_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_6_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_6_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_6_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_6_NL, "Zet apparaat soort voor apparaat #6 (0: Geen, 1: Bestandssysteem, 2: Echt)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_6_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DEVICE_TYPE_6_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_6_SV, ""},  /* fuzzy */
@@ -9775,7 +9775,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DEVICE_TYPE_7_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_7_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_7_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_7_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_7_NL, "Zet apparaat soort voor apparaat #7 (0: Geen, 2: Echt)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_7_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DEVICE_TYPE_7_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_7_SV, ""},  /* fuzzy */
@@ -10892,7 +10892,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SPECIFY_MEMORY_CONFIG_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_MEMORY_CONFIG_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_MEMORY_CONFIG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_MEMORY_CONFIG_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_MEMORY_CONFIG_NL, "Geef geheugen configuratie. (geen/3k/8k/16k/24k/allemaal) / (0/1/2/3/5) / (04/20/40/60/a0)"},
 /* pl */ {IDCLS_SPECIFY_MEMORY_CONFIG_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_MEMORY_CONFIG_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_MEMORY_CONFIG_SV, ""},  /* fuzzy */
@@ -11215,7 +11215,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_BORDER_MODE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_BORDER_MODE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_BORDER_MODE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_BORDER_MODE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_BORDER_MODE_NL, "Zet border weergavemodus (0: normaal, 1: volledig, 2: debug)"},
 /* pl */ {IDCLS_SET_BORDER_MODE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_BORDER_MODE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_BORDER_MODE_SV, ""},  /* fuzzy */
@@ -11640,7 +11640,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DEVICE_TYPE_8_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_8_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_8_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_8_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_8_NL, "Zet het apparaatsoort voor apparaat #8 (0: Geen, 1: Bestandssysteem, 2: OpenCBM, 3: Blok apparaat)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_8_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DEVICE_TYPE_8_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_8_SV, ""},  /* fuzzy */
@@ -11657,7 +11657,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DEVICE_TYPE_9_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_9_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_9_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_9_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_9_NL, "Zet het apparaatsoort voor apparaat #9 (0: Geen, 1: Bestandssysteem, 2: OpenCBM, 3: Blok apparaat)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_9_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DEVICE_TYPE_9_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_9_SV, ""},  /* fuzzy */
@@ -11674,7 +11674,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DEVICE_TYPE_10_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_10_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_10_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_10_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_10_NL, "Zet het apparaatsoort voor apparaat #10 (0: Geen, 1: Bestandssysteem, 2: OpenCBM, 3: Blok apparaat)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_10_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DEVICE_TYPE_10_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_10_SV, ""},  /* fuzzy */
@@ -11691,7 +11691,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DEVICE_TYPE_11_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DEVICE_TYPE_11_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DEVICE_TYPE_11_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_11_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_11_NL, "Zet het apparaatsoort voor apparaat #11 (0: Geen, 1: Bestandssysteem, 2: OpenCBM, 3: Blok apparaat)"},
 /* pl */ {IDCLS_SET_DEVICE_TYPE_11_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DEVICE_TYPE_11_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DEVICE_TYPE_11_SV, ""},  /* fuzzy */
@@ -14124,18 +14124,18 @@ translate_t string_table[] = {
 /* lightpen.c */
 /* en */ {IDCLS_SET_LIGHTPEN_TYPE,    N_("Set lightpen type. (0: Pen with button Up, 1: Pen with button Left, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_LIGHTPEN_TYPE_DA, "Angiv lyspen-type"},
-/* de */ {IDCLS_SET_LIGHTPEN_TYPE_DE, "Lichtgriffel Type bestimmen"},
-/* es */ {IDCLS_SET_LIGHTPEN_TYPE_ES, "Seleccionar tipo lápiz óptico"},
-/* fr */ {IDCLS_SET_LIGHTPEN_TYPE_FR, "Régler le type de stylet optique"},
-/* hu */ {IDCLS_SET_LIGHTPEN_TYPE_HU, "Fényceruza típusának megadása"},
-/* it */ {IDCLS_SET_LIGHTPEN_TYPE_IT, "Imposta tipo penna ottica"},
+/* da */ {IDCLS_SET_LIGHTPEN_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_LIGHTPEN_TYPE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_LIGHTPEN_TYPE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_LIGHTPEN_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_LIGHTPEN_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_LIGHTPEN_TYPE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_LIGHTPEN_TYPE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_LIGHTPEN_TYPE_NL, "Geef de lichtpen soort op"},
-/* pl */ {IDCLS_SET_LIGHTPEN_TYPE_PL, "Okre¶l typ pióra ¶wietlnego"},
-/* ru */ {IDCLS_SET_LIGHTPEN_TYPE_RU, "Set lightpen type"},
-/* sv */ {IDCLS_SET_LIGHTPEN_TYPE_SV, "Välj typ av ljuspenna"},
-/* tr */ {IDCLS_SET_LIGHTPEN_TYPE_TR, "Iþýklý Kalem tipini ayarla"},
+/* nl */ {IDCLS_SET_LIGHTPEN_TYPE_NL, "Zet lichtpen soort. (0: Pen met knop omhoog, 1: Pen met knop links, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light geweer, 5: Inkwell Pen)"},
+/* pl */ {IDCLS_SET_LIGHTPEN_TYPE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_LIGHTPEN_TYPE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_LIGHTPEN_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_LIGHTPEN_TYPE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/easyflash.c */
@@ -14295,7 +14295,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DS12C887RTC_RUNMODE_HALTED,    N_("Set the RTC oscillator to 'halted'")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_DE, "Setze RTC Oszillator auf 'gestoppt'"},
 /* es */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DS12C887RTC_RUNMODE_HALTED_HU, ""},  /* fuzzy */
@@ -14312,7 +14312,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING,    N_("Set the RTC oscillator to 'running'")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_DE, "Setze RTC Oszillator auf 'laufend'"},
 /* es */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DS12C887RTC_RUNMODE_RUNNING_HU, ""},  /* fuzzy */

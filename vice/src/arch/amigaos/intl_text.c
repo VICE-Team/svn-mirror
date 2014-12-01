@@ -9634,7 +9634,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_USB_SERVER,    "USB Server" },
 /* da */ { IDS_USB_SERVER_DA, "" },  /* fuzzy */
-/* de */ { IDS_USB_SERVER_DE, "" },  /* fuzzy */
+/* de */ { IDS_USB_SERVER_DE, "USB Server" },
 /* es */ { IDS_USB_SERVER_ES, "" },  /* fuzzy */
 /* fr */ { IDS_USB_SERVER_FR, "" },  /* fuzzy */
 /* hu */ { IDS_USB_SERVER_HU, "" },  /* fuzzy */
