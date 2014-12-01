@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-01 10:52-0800\n"
+"POT-Creation-Date: 2014-12-01 12:43-0800\n"
 "PO-Revision-Date: 2012-12-29 13:44-0800\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: ko <ko@li.org>\n"
@@ -153,6 +153,28 @@ msgstr ""
 #: src/arch/unix/mididrv.c:683
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
 msgstr "MIDI 드라이버를 명시하세요(0=OSS, 1= ALSA)"
+
+#: src/arch/unix/rs232dev.c:195 src/arch/unix/rs232dev.c:200
+#: src/arch/unix/rs232dev.c:205 src/arch/unix/rs232dev.c:210
+msgid "<baudrate>"
+msgstr ""
+
+#: src/arch/unix/rs232dev.c:195
+msgid "Specify baudrate of first RS232 device"
+msgstr "처음 RS232 디바이스 의 보드 레이트를 명시하세요"
+
+#: src/arch/unix/rs232dev.c:200
+msgid "Specify baudrate of second RS232 device"
+msgstr "두번쩨 RS232 디바이스의 보드 레이트를 명시하세요"
+
+#: src/arch/unix/rs232dev.c:205
+msgid "Specify baudrate of third RS232 device"
+msgstr "세번쩨 RS232 디바이스의 보드 레이트를 명시하세요"
+
+#: src/arch/unix/rs232dev.c:210
+#, fuzzy
+msgid "Specify baudrate of fourth RS232 device"
+msgstr "처음 RS232 디바이스 의 보드 레이트를 명시하세요"
 
 #: src/arch/unix/gui/c128ui.c:137 src/arch/unix/gui/c64scui.c:262
 #: src/arch/unix/gui/c64ui.c:323 src/arch/unix/gui/vsidui.c:236
@@ -12345,15 +12367,6 @@ msgstr ""
 #: src/translate_text.c.po.c:14362
 msgid "Disable HiRes Emulation Board"
 msgstr ""
-
-#~ msgid "Specify baudrate of first RS232 device"
-#~ msgstr "처음 RS232 디바이스 의 보드 레이트를 명시하세요"
-
-#~ msgid "Specify baudrate of second RS232 device"
-#~ msgstr "두번쩨 RS232 디바이스의 보드 레이트를 명시하세요"
-
-#~ msgid "Specify baudrate of third RS232 device"
-#~ msgstr "세번쩨 RS232 디바이스의 보드 레이트를 명시하세요"
 
 #~ msgid "Set input device for joystick #1"
 #~ msgstr "인풋 디바이스를 조이스틱 #1 으로 설정 하세요"

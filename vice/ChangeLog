@@ -1,5 +1,376 @@
 ------------------------------------------------------------------------------
 
+2014-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.pdf, po/da.po,
+	po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.11
+
+2014-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resds12c887rtc.rc, src/arch/win32/resmouse.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2014-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po,
+	po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2014-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64_256k.c, src/c64/cart/ide64.c, src/c64/cart/ramcart.c,
+	src/c64/cart/reu.c, src/c64/plus60k.c, src/mouse.c, src/pet/petreu.c,
+	src/sid/sid-cmdline-options.c: Command line description fixes.
+
+2014-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/fixdox.sh, doc/vice.chm, doc/vice.guide, doc/vice.hlp,
+	doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt: Fixed
+	documentation a bit and regenerated documentation.
+
+2014-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, doc/gui-feature-checking.txt: Updated.
+
+2014-11-30  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/c64/c64.c, src/c64dtv/c64dtv.c, src/cbm2/cbm2.c,
+	src/cbm2/cbm5x0.c, src/plus4/plus4.c, src/tape.h: Correct BASIC
+	relocatable programs and binary programs. Deliberately change the
+	return value of machine_tape_type_default in xvic: now it returns
+	"relocatable", allowing loading of BASIC program for unexpanded VIC20
+	from T64
+
+2014-11-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Some more fixes.
+
+2014-11-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Fix untaken trap handling
+
+2014-11-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64memsnapshot.c: Update traps when loading snapshot
+
+2014-11-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vdrive/vdrive-rel.c: Fix #479 crash when trying to load REL file
+	from virtual device 
+
+2014-11-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/SCPU64/scpu64, src/c64dtv/flash-trap.c, src/main65816cpu.c,
+	src/main65816cpu.h, src/mainc64cpu.c, src/maincpu.c, src/maincpu.h,
+	src/mainviccpu.c, src/network.c, src/scpu64/scpu64.c,
+	src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h,
+	src/scpu64/scpu64meminit.c, src/serial/serial-trap.c, src/tape/tape.c,
+	src/traps.c, src/traps.h: Virtual devices work on xscpu64 with 0.06
+	ROM.
+
+2014-11-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64mem.c: Fix +speedswitch command line crash
+
+2014-11-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_register65816.c: Set eol property
+
+2014-11-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Some fixes.
+
+2014-11-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64mem.c: Note down some V1 differences
+
+2014-11-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/Makefile.am, src/arch/unix/rs232.c,
+	src/arch/unix/rs232dev.c, src/arch/unix/rs232dev.h,
+	src/arch/unix/rs232net.c, src/arch/unix/rs232net.h: Expanded the
+	rs232net support to unix, next step is generalizing this for all
+	platforms that have network support.
+
+2014-11-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/rs232dev.c, src/arch/win32/rs232net.c: Fixed some
+	comments.
+
+2014-11-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/gui-feature-checking.txt: Updated.
+
+2014-11-27  groepaz <groepaz@gmx.net>
+
+	* doc/resource-checking.txt, src/c64/cart/easyflash.c: write back
+	easyflash to image file by default
+
+2014-11-25  Uffe Jakobsen <microtop@starion.dk>
+
+	* src/monitor/monitor_network.c: Fixed the remote binary memdump
+	decode.
+
+2014-11-25  Uffe Jakobsen <microtop@starion.dk>
+
+	* src/monitor/mon_register6502.c, src/monitor/mon_register6502dtv.c:
+	Fixed 'mem_bank_from_name' validity check, should fix bug #579.
+
+2014-11-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2014-11-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2014-11-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, doc/resource-checking.txt,
+	src/c128/c128-cmdline-options.c, src/translate_text.c: Updated and
+	fixed.
+
+2014-11-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/joy.c: Fixed the others too.
+
+2014-11-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a another 'make update-po'.
+
+2014-11-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/joy.c: Fixed.
+
+2014-11-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2014-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drive-cmdline-options.c, src/translate.txt,
+	src/translate_text.c: Added autogenerating of drive types command line
+	description.
+
+2014-11-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/gentranslate.c, src/cmdline.c, src/cmdline.h,
+	src/gentranslate_h.sh, src/gentranslate_h.sh.in, src/sound.c,
+	src/translate.c, src/translate_text.c: Made the 'automatic parameter
+	list generation' for command line option descriptions generic.
+
+2014-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/translate_text.c: Better command
+	line descriptions.
+
+2014-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/sound.c, src/sound.h: Added
+	support for generating lists of sound playback and sound record
+	devices that the current platform supports, and inserting them into
+	the command line options description.
+
+2014-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/translate.c: Added support for generating a list of iso codes
+	and inserting them into the command line options description.
+
+2014-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/scpu64/scpu64-cmdline-options.c, src/translate.txt,
+	src/translate_text.c: Better command line descriptions.
+
+2014-11-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_video.cc: Use separate list of video chip names for
+	display verses resource name prefixes.
+
+2014-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, doc/resource-checking.txt,
+	src/arch/amigaos/mui/uiprinter.c, src/arch/beos/constants.h,
+	src/arch/beos/ui.cc, src/arch/beos/vicemenu.cc,
+	src/arch/msdos/uiprinter.c, src/arch/sdl/menu_printer.c,
+	src/arch/unix/gui/uiprinter.c, src/arch/win32/uiperipheral.c,
+	src/printerdrv/driver-select.c, src/translate_text.c: Improved some
+	printer command line option descriptions and removed 'mps803' from the
+	userport printer selection.
+
+2014-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt: Updated.
+
+2014-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/translate_text.c: Better command
+	line descriptions.
+
+2014-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/translate_text.c: Better command
+	line descriptions.
+
+2014-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/drive/drive-cmdline-options.c,
+	src/translate.txt, src/translate_text.c: Expanded drive type command
+	line option descriptions.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/cbm2/cbm2-cmdline-options.c,
+	src/translate.txt, src/translate_text.c: Better command line
+	descriptions.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/c64dtv/c64dtvflash.c,
+	src/cbm2/cbm2-cmdline-options.c, src/translate.txt,
+	src/translate_text.c: Better command line descriptions.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, doc/resource-checking.txt,
+	src/c64dtv/c64dtvflash.c: Made 'dtv flash log' a debug option.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, doc/resource-checking.txt,
+	src/c64dtv/c64dtvdma.c: Made 'dtv dma log' a debug option.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, doc/resource-checking.txt,
+	src/c64dtv/c64dtvblitter.c: Made 'dtv blitter log' a debug option.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, doc/resource-checking.txt,
+	src/c64/cart/mmc64.c, src/translate.txt, src/translate_text.c: Added a
+	'-mmc64biosreadonly' command line option.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/gui-feature-checking.txt: Updated.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, doc/resource-checking.txt,
+	src/arch/win32/res.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/video.c: Added a '-dx9enable' command line option to
+	the windows port.
+
+2014-11-19  Olaf Seibert <rhialto@falu.nl>
+
+	* doc/vice.texi: Swap menu items to be in the same order as the
+	following @nodes.
+
+2014-11-19  Olaf Seibert <rhialto@falu.nl>
+
+	* data/PET/Makefile.am, data/PET/hre-9000.324992-02.bin,
+	data/PET/hre-a000.324993-02.bin, data/PET/hre.vrs: Add Commodore's PET
+	HRE ROMs, since they are available from Zimmers anyway.
+
+2014-11-19  Olaf Seibert <rhialto@falu.nl>
+
+	* doc/vice.texi: Add some PET extension info. The @nodes in the PET
+	section are still structured a bit wonky, but with the automatic @node
+	linking they are at least in sequence.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, doc/resource-checking.txt,
+	src/arch/win32/res.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/video.c: Added a '+fullscreen' command line option to
+	the windows port.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/arch/win32/resmouse.rc,
+	src/translate_text.c: Removed 'defaults' from command line
+	descriptions.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt: Updated.
+
+2014-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/arch/win32/res.rc: Better command
+	line descriptions.
+
+2014-11-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt,
+	src/arch/unix/x11/ui-cmdline-options.c: Changed 'install' command line
+	option to 'colormap'.
+
+2014-11-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/arch/unix/joy.c,
+	src/arch/unix/joy.h: Fixed and updated.
+
+2014-11-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/arch/os2/joy.c: Better command
+	line descriptions.
+
+2014-11-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/arch/msdos/joy.c: Better command
+	line descriptions.
+
+2014-11-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/arch/beos/joy.cc: Better command
+	line descriptions.
+
+2014-11-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt: Updated.
+
+2014-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/readmes/Readme-Unix.txt: Fixed a typo.
+
+2014-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/gui-feature-checking.txt: Added gui-feature-checking.txt file.
+
+2014-11-16  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
 2014-11-15  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,
