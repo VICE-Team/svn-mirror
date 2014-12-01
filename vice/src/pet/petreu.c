@@ -212,9 +212,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-petreuramsize", SET_RESOURCE, 1,
       NULL, NULL, "PETREUsize", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDCLS_P_SIZE_IN_KB, IDCLS_PETREU_SIZE,
-      NULL, NULL },
+      NULL, ". (128/512/1024/2048)" },
     { NULL }
 };
 

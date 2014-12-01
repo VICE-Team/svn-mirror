@@ -318,9 +318,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-256kbase", SET_RESOURCE, 1,
       NULL, NULL, "C64_256Kbase", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDCLS_P_BASE_ADDRESS, IDCLS_C64_256K_BASE,
-      NULL, NULL },
+      NULL, ". (56832: $DE00, 56960: $DE80, 57088: $DF00, 57216: $DF80)" },
     { NULL }
 };
 
