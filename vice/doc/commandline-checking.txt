@@ -14,6 +14,7 @@ command line:   -joydev1 <number>
 description:    "Joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 resource:       "JoyDevice1"
 action:         N/A
+fixme: fix documentation
 
 arch/amigaos/joy.c:
 -------------------
@@ -21,6 +22,7 @@ command line:   -joydev2 <number>
 description:    "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 resource:       "JoyDevice2"
 action:         N/A
+fixme: fix documentation
 
 arch/amigaos/joy.c:
 -------------------
@@ -28,6 +30,7 @@ command line:   -extrajoydev1 <number>
 description:    "Extra joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 resource:       "JoyDevice3"
 action:         N/A
+fixme: fix documentation
 
 arch/amigaos/joy.c:
 -------------------
@@ -42,6 +45,7 @@ command line:   -joydev1 <number>
 description:    "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 resource:       "JoyDevice1"
 action:         N/A
+fixme: fix documentation
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -49,6 +53,7 @@ command line:   -joydev2 <number>
 description:    "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 resource:       "JoyDevice2"
 action:         N/A
+fixme: fix documentation
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -56,6 +61,7 @@ command line:   -extrajoydev1 <number>
 description:    "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 resource:       "JoyDevice3"
 action:         N/A
+fixme: fix documentation
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -63,6 +69,7 @@ command line:   -extrajoydev2 <number>
 description:    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 resource:       "JoyDevice4"
 action:         N/A
+fixme: fix documentation
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -70,6 +77,7 @@ command line:   -saveres
 description:    "Save settings on exit"
 resource:       "SaveResourcesOnExit" (set to 1)
 action:         N/A
+fixme: fix documentation, not every arch has this command line option
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -77,6 +85,7 @@ command line:   +saveres
 description:    "Never save settings on exit"
 resource:       "SaveResourcesOnExit" (set to 0)
 action:         N/A
+fixme: fix documentation, not every arch has this command line option
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -84,6 +93,7 @@ command line:   -confirmexit
 description:    "Confirm quiting VICE"
 resource:       "ConfirmOnExit" (set to 1)
 action:         N/A
+fixme: fix documentation, not all archs have this command line option
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -91,6 +101,7 @@ command line:   +confirmexit
 description:    "Never confirm quiting VICE"
 resource:       "ConfirmOnExit" (set to 0)
 action:         N/A
+fixme: fix documentation, not all archs have this command line option
 
 arch/beos/joy.cc:
 -----------------
@@ -98,6 +109,7 @@ command line:   -joydev1 <number>
 description:    "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)"
 resource:       "JoyDevice1"
 action:         N/A
+fixme: fix documentation
 
 arch/beos/joy.cc:
 -----------------
@@ -105,6 +117,7 @@ command line:   -joydev2 <number>
 description:    "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)"
 resource:       "JoyDevice2"
 action:         N/A
+fixme: fix documentation
 
 arch/beos/joy.cc:
 -----------------
@@ -112,6 +125,7 @@ command line:   -extrajoydev1 <number>
 description:    "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)"
 resource:       "JoyDevice3"
 action:         N/A
+fixme: fix documentation
 
 arch/beos/joy.cc:
 -----------------
@@ -119,6 +133,7 @@ command line:   -extrajoydev2 <number>
 description:    "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)"
 resource:       "JoyDevice4"
 action:         N/A
+fixme: fix documentation
 
 arch/beos/kbd.c:
 ----------------
@@ -126,6 +141,7 @@ command line:   -keymap <number>
 description:    "Specify index of used keymap" (fixme: needs better description)
 resource:       "KeymapIndex"
 action:         N/A
+fixme: conflict ??
 
 arch/beos/video.cc:
 -------------------
@@ -133,6 +149,7 @@ command line:   -directwindow
 description:    "Enable BeOS DirectWindow API"
 resource:       "DirectWindow" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/beos/video.cc:
 -------------------
@@ -140,6 +157,7 @@ command line:   +directwindow
 description:    "Disable BeOS DirectWindow API"
 resource:       "DirectWindow" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/msdos/joy.c:
 -----------------
@@ -147,6 +165,7 @@ command line:   -joydev1 <number>
 description:    "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
 resource:       "JoyDevice1"
 action:         N/A
+fixme: fix documentation
 
 arch/msdos/joy.c:
 -----------------
@@ -154,6 +173,7 @@ command line:   -joydev2 <number>
 description:    "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
 resource:       "JoyDevice2"
 action:         N/A
+fixme: fix documentation
 
 arch/msdos/joy.c:
 -----------------
@@ -161,6 +181,7 @@ command line:   -extrajoydev1 <number>
 description:    "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
 resource:       "JoyDevice3"
 action:         N/A
+fixme: fix documentation
 
 arch/msdos/joy.c:
 -----------------
@@ -168,6 +189,7 @@ command line:   -extrajoydev2 <number>
 description:    "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
 resource:       "JoyDevice4"
 action:         N/A
+fixme: fix documentation
 
 arch/msdos/ui.c:
 ----------------
@@ -175,6 +197,7 @@ command line:   -leds
 description:    "Enable usage of PC keyboard LEDs"
 resource:       "UseLeds" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/msdos/ui.c:
 ----------------
@@ -182,6 +205,7 @@ command line:   +leds
 description:    "Disable usage of PC keyboard LEDs"
 resource:       "UseLeds" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/msdos/ui.c:
 ----------------
@@ -189,6 +213,7 @@ command line:   +statusbar
 description:    "Disable the Statusbar"
 resource:       "ShowStatusbar" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/msdos/ui.c:
 ----------------
@@ -196,6 +221,7 @@ command line:   -statusbar
 description:    "Enable the Statusbar"
 resource:       "ShowStatusbar" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/msdos/video.c:
 -------------------
@@ -203,6 +229,7 @@ command line:   -vgamode <mode>
 description:    "Set VGA mode to <mode>. (0:320x200x8, 1:360x240x8, 2:360x270x8, 3:376x282x8, 4:400x300x8, 5:640x480x8, 6:800x600x8, 7:1024x768x8, 8:320x200x16, 9:400x300x16, 10:640x480x16, 11:800x600x16, 12:1024x768x16, 13:640x480x32, 14:800x600x32, 15:1024x768x32)"
 resource:       "VGAMode"
 action:         N/A
+fixme: add to documentation
 
 arch/msdos/video.c:
 -------------------
@@ -210,6 +237,7 @@ command line:   -triplebuf
 description:    "Try to use triple buffering when possible"
 resource:       "TripleBuffering" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/msdos/video.c:
 -------------------
@@ -217,6 +245,7 @@ command line:   +triplebuf
 description:    "Disable usage of triple buffering"
 resource:       "TripleBuffering" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/msdos/vsync.c:
 -------------------
@@ -224,6 +253,7 @@ command line:   -speed <percent>
 description:    "Limit emulation speed to specified value"
 resource:       "Speed"
 action:         N/A
+fixme: fix documentation
 
 arch/msdos/vsync.c:
 -------------------
@@ -231,6 +261,7 @@ command line:   -refresh <value>
 description:    "Update every <value> frames (`0' for automatic)"
 resource:       "RefreshRate"
 action:         N/A
+fixme: fix documentation
 
 arch/msdos/vsync.c:
 -------------------
@@ -252,6 +283,7 @@ command line:   -joy1cal
 description:    "Start auto calibration for PC joystick #1"
 resource:       N/A
 action:         set_joyA_autoCal()
+fixme: add to documentation
 
 arch/os2/joy.c:
 ---------------
@@ -259,6 +291,7 @@ command line:   -joy2cal
 description:    "Start auto calibration for PC joystick #2"
 resource:       N/A
 action:         set_joyB_autoCal()
+fixme: add to documentation
 
 arch/os2/joy.c:
 ---------------
@@ -266,6 +299,7 @@ command line:   -joydev1 <number>
 description:    "Set input device for CBM joystick port #1 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
 resource:       "JoyDevice1"
 action:         N/A
+fixme: fix documentation
 
 arch/os2/joy.c:
 ---------------
@@ -273,6 +307,7 @@ command line:   -joydev2 <number>
 description:    "Set input device for CBM joystick port #2 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
 resource:       "JoyDevice2"
 action:         N/A
+fixme: fix documentation
 
 arch/os2/joy.c:
 ---------------
@@ -280,6 +315,7 @@ command line:   -extrajoydev1 <number>
 description:    "Set input device for extra CBM joystick port #1 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
 resource:       "JoyDevice3"
 action:         N/A
+fixme: fix documentation
 
 arch/os2/joy.c:
 ---------------
@@ -287,6 +323,7 @@ command line:   -extrajoydev2 <number>
 description:    "Set input device for extra CBM joystick port #2 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
 resource:       "JoyDevice4"
 action:         N/A
+fixme: fix documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -294,6 +331,7 @@ command line:   -grsymkeymap <name>
 description:    "Specify the name of the graphics keyboard symbolic keymap file"
 resource:       "KeymapGraphicsSymFile"
 action:         N/A
+fixme: fix documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -301,6 +339,7 @@ command line:   -grposkeymap <name>
 description:    "Specify the name of the graphics keyboard positional keymap file"
 resource:       "KeymapGraphicsPosFile"
 action:         N/A
+fixme: fix documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -308,6 +347,7 @@ command line:   -buksymkeymap <name>
 description:    "Specify the name of the UK business keyboard symbolic keymap file"
 resource:       "KeymapBusinessUKSymFile"
 action:         N/A
+fixme: fix documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -315,6 +355,7 @@ command line:   -bukposkeymap <name>
 description:    "Specify the name of the UK business keyboard positional keymap file"
 resource:       "KeymapBusinessUKPosFile"
 action:         N/A
+fixme: fix documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -322,6 +363,7 @@ command line:   -bdesymkeymap <name>
 description:    "Specify the name of the German business keyboard symbolic keymap file"
 resource:       "KeymapBusinessDESymFile"
 action:         N/A
+fixme: fix documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -329,6 +371,7 @@ command line:   -bdeposkeymap <name>
 description:    "Specify the name of the German business keyboard positional keymap file"
 resource:       "KeymapBusinessDEPosFile"
 action:         N/A
+fixme: fix documentation
 
 arch/os2/kbd/kmap.c:
 --------------------
@@ -336,6 +379,7 @@ command line:   -symkeymap <name>
 description:    "Specify the name of the symbolic keymap file"
 resource:       "KeymapSymFile"
 action:         N/A
+fixme: fix documentation
 
 arch/os2/kbd/kmap.c:
 --------------------
@@ -343,6 +387,7 @@ command line:   -poskeymap <name>
 description:    "Specify the name of the positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
+fixme: fix documentation
 
 arch/os2/mousedrv.c:
 --------------------
@@ -350,6 +395,7 @@ command line:   -hidemouseptr
 description:    "Enable hiding of mouse pointer inside the window"
 resource:       "HideMousePtr" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/os2/mousedrv.c:
 --------------------
@@ -357,6 +403,7 @@ command line:   +hidemouseptr
 description:    "Disable hiding of mouse pointer inside the window"
 resource:       "HideMousePtr" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/os2/ui.c:
 --------------
@@ -364,6 +411,7 @@ command line:   -leds
 description:    "Enable usage of PC keyboard LEDs"
 resource:       "UseLeds" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/os2/ui.c:
 --------------
@@ -371,6 +419,7 @@ command line:   +leds
 description:    "Disable usage of PC keyboard LEDs"
 resource:       "UseLeds" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/os2/video.c:
 -----------------
@@ -378,6 +427,7 @@ command line:   -stretch <number>
 description:    "Specify stretch factor for PM Windows (1,2,3,...)"
 resource:       "WindowStretchFactor"
 action:         N/A
+fixme: add to documentation
 
 arch/os2/video.c:
 -----------------
@@ -385,6 +435,7 @@ command line:   -border <number>
 description:    "Specify window border type (0=no border, 1=small, 2=dialog)"
 resource:       "PMBorderType"
 action:         N/A
+fixme: add to documentation
 
 arch/os2/video.c:
 -----------------
@@ -392,6 +443,7 @@ command line:   -menu
 description:    "Enable Main Menu Bar"
 resource:       "Menubar" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/os2/video.c:
 -----------------
@@ -399,6 +451,7 @@ command line:   +menu
 description:    "Disable Main Menu Bar"
 resource:       "Menubar" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/os2/video.c:
 -----------------
@@ -406,6 +459,7 @@ command line:   -logwin
 description:    "Enable Logging Window"
 resource:       "Logwin" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/os2/video.c:
 -----------------
@@ -413,6 +467,7 @@ command line:   +logwin
 description:    "Disable Logging Window"
 resource:       "Logwin" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/joy.c:
 ---------------
@@ -420,6 +475,7 @@ command line:   -joymap <name>
 description:    "Specify name of joystick map file"
 resource:       "JoyMapFile"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/joy.c:
 ---------------
@@ -427,6 +483,7 @@ command line:   -joythreshold <0-32767>
 description:    "Set joystick threshold"
 resource:       "JoyThreshold"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/joy.c:
 ---------------
@@ -434,6 +491,7 @@ command line:   -joyfuzz <0-32767>
 description:    "Set joystick fuzz"
 resource:       "JoyFuzz"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/joy.c:
 ---------------
@@ -441,6 +499,7 @@ command line:   -joydev1 <0-4> / <0-3>
 description:    "Set device for joystick port 1" (fixme: needs better description)
 resource:       "JoyDevice1"
 action:         N/A
+fixme: fix documentation
 
 arch/sdl/joy.c:
 ---------------
@@ -448,6 +507,7 @@ command line:   -joydev2 <0-4> / <0-3>
 description:    "Set device for joystick port 2" (fixme: needs better description)
 resource:       "JoyDevice2"
 action:         N/A
+fixme: fix documentation
 
 arch/sdl/joy.c:
 ---------------
@@ -455,6 +515,7 @@ command line:   -extrajoydev1 <0-4> / <0-3>
 description:    "Set device for extra joystick port 1" (fixme: needs better description)
 resource:       "JoyDevice3"
 action:         N/A
+fixme: fix documentation
 
 arch/sdl/joy.c:
 ---------------
@@ -462,6 +523,7 @@ command line:   -extrajoydev2 <0-4> / <0-3>
 description:    "Set device for extra joystick port 2" (fixme: needs better description)
 resource:       "JoyDevice4"
 action:         N/A
+fixme: fix documentation
 
 arch/sdl/ui.c:
 --------------
@@ -469,6 +531,7 @@ command line:   -menukey <key>
 description:    "Keycode of the menu activate key"
 resource:       "MenuKey"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/ui.c:
 --------------
@@ -476,6 +539,7 @@ command line:   -menukeyup <key>
 description:    "Keycode of the menu up key"
 resource:       "MenuKeyUp"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/ui.c:
 --------------
@@ -483,6 +547,7 @@ command line:   -menukeydown <key>
 description:    "Keycode of the menu down key"
 resource:       "MenuKeyDown"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/ui.c:
 --------------
@@ -490,6 +555,7 @@ command line:   -menukeyleft <key>
 description:    "Keycode of the menu left key"
 resource:       "MenuKeyLeft"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/ui.c:
 --------------
@@ -497,6 +563,7 @@ command line:   -menukeyright <key>
 description:    "Keycode of the menu right key"
 resource:       "MenuKeyRight"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/ui.c:
 --------------
@@ -504,6 +571,7 @@ command line:   -menukeyselect <key>
 description:    "Keycode of the menu select key"
 resource:       "MenuKeySelect"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/ui.c:
 --------------
@@ -511,6 +579,7 @@ command line:   -menukeycancel <key>
 description:    "Keycode of the menu cancel key"
 resource:       "MenuKeyCancel"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/ui.c:
 --------------
@@ -518,6 +587,7 @@ command line:   -menukeyexit <key>
 description:    "Keycode of the menu exit key"
 resource:       "MenuKeyExit"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/ui.c:
 --------------
@@ -525,6 +595,7 @@ command line:   -menukeymap <key>
 description:    "Keycode of the menu map key"
 resource:       "MenuKeyMap"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/ui.c:
 --------------
@@ -532,6 +603,7 @@ command line:   -saveresourcesonexit
 description:    "Enable saving of the resources on exit"
 resource:       "SaveResourcesOnExit" (set to 1)
 action:         N/A
+fixme: fix documentation, not every arch has this command line option
 
 arch/sdl/ui.c:
 --------------
@@ -539,6 +611,7 @@ command line:   +saveresourcesonexit
 description:    "Disable saving of the resources on exit"
 resource:       "SaveResourcesOnExit" (set to 0)
 action:         N/A
+fixme: fix documentation, not every arch has this command line option
 
 arch/sdl/ui.c:
 --------------
@@ -546,6 +619,7 @@ command line:   -confirmonexit
 description:    "Enable confirm on exit"
 resource:       "ConfirmOnExit" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/ui.c:
 --------------
@@ -553,6 +627,7 @@ command line:   +confirmonexit
 description:    "Disable confirm on exit"
 resource:       "ConfirmOnExit" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/ui.c:
 --------------
@@ -560,6 +635,7 @@ command line:   -statusbar
 description:    "Enable statusbar"
 resource:       "SDLStatusbar" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/ui.c:
 --------------
@@ -567,6 +643,7 @@ command line:   +statusbar
 description:    "Disable statusbar"
 resource:       "SDLStatusbar" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/video.c:
 -----------------
@@ -574,6 +651,7 @@ command line:   -sdlbitdepth <bpp>
 description:    "Set bitdepth (0 = current, 8, 15, 16, 24, 32)"
 resource:       "SDLBitdepth"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/video.c:
 -----------------
@@ -581,6 +659,7 @@ command line:   -sdllimitmode <mode>
 description:    "Set resolution limiting mode (0 = off, 1 = max, 2 = fixed)"
 resource:       "SDLLimitMode"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/video.c:
 -----------------
@@ -588,6 +667,7 @@ command line:   -sdlcustomw <width>
 description:    "Set custom resolution width"
 resource:       "SDLCustomWidth"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/video.c:
 -----------------
@@ -595,6 +675,7 @@ command line:   -sdlcustomh <height>
 description:    "Set custom resolution height"
 resource:       "SDLCustomHeight"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/video.c:
 -----------------
@@ -602,6 +683,7 @@ command line:   -sdlaspectmode <mode>
 description:    "Set aspect ratio mode (0 = off, 1 = custom, 2 = true)"
 resource:       "SDLGLAspectMode"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/video.c:
 -----------------
@@ -609,6 +691,7 @@ command line:   -aspect <aspect ratio>
 description:    "Set custom aspect ratio (0.5 - 2.0)"
 resource:       "AspectRatio"
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/video.c:
 -----------------
@@ -616,6 +699,7 @@ command line:   -sdlflipx
 description:    "Enable X flip"
 resource:       "SDLGLFlipX" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/video.c:
 -----------------
@@ -623,6 +707,7 @@ command line:   +sdlflipx
 description:    "Disable X flip"
 resource:       "SDLGLFlipX" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/video.c:
 -----------------
@@ -630,6 +715,7 @@ command line:   -sdlflipy
 description:    "Enable Y flip"
 resource:       "SDLGLFlipY" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/sdl/video.c:
 -----------------
@@ -637,6 +723,7 @@ command line:   +sdlflipy
 description:    "Disable Y flip"
 resource:       "SDLGLFlipY" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/unix/joy.c:
 ----------------
@@ -647,6 +734,7 @@ description:    "Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1
 			"Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
 resource:       "JoyDevice1"
 action:         N/A
+fixme: fix documentation
 
 arch/unix/joy.c:
 ----------------
@@ -657,6 +745,7 @@ description:    "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1
 			"Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
 resource:       "JoyDevice2"
 action:         N/A
+fixme: fix documentation
 
 arch/unix/joy.c:
 ----------------
@@ -667,6 +756,7 @@ description:    "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Ke
 			"Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
 resource:       "JoyDevice3"
 action:         N/A
+fixme: fix documentation
 
 arch/unix/joy.c:
 ----------------
@@ -677,6 +767,7 @@ description:    "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Ke
 			"Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
 resource:       "JoyDevice4"
 action:         N/A
+fixme: fix documentation
 
 arch/unix/macosx/cocoa/mousedrv.m:
 ----------------------------------
@@ -684,6 +775,7 @@ command line:   -mousescalex <1-8>
 description:    "Set scaling factor for mouse movement along X"
 resource:       "MouseScaleX"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/cocoa/mousedrv.m:
 ----------------------------------
@@ -691,6 +783,7 @@ command line:   -mousescaley <1-8>
 description:    "Set scaling factor for mouse movement along Y"
 resource:       "MouseScaleY"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/cocoa/ui-cmdline-options.c:
 --------------------------------------------
@@ -698,6 +791,7 @@ command line:   -saveres
 description:    "Save settings on exit"
 resource:       "SaveResourcesOnExit" (set to 1)
 action:         N/A
+fixme: fix documentation, not every arch has this command line option
 
 arch/unix/macosx/cocoa/ui-cmdline-options.c:
 --------------------------------------------
@@ -705,6 +799,7 @@ command line:   +saveres
 description:    "Never save settings on exit"
 resource:       "SaveResourcesOnExit" (set to 0)
 action:         N/A
+fixme: fix documentation, not every arch has this command line option
 
 arch/unix/macosx/cocoa/ui-cmdline-options.c:
 --------------------------------------------
@@ -726,6 +821,7 @@ command line:   -syncdrawmode <0-2>
 description:    "Enable draw synchronization to vertical blank" (fixme: needs better description)
 resource:       "SyncDrawMode"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/cocoa/video.m:
 -------------------------------
@@ -733,6 +829,7 @@ command line:   -syncdrawbuffers <0-8>
 description:    "Set number of buffers used for sync draw (0=use default)"
 resource:       "SyncDrawBuffers"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/cocoa/video.m:
 -------------------------------
@@ -740,6 +837,7 @@ command line:   -syncdrawflickerfix
 description:    "Enable flicker fixing in sync draw"
 resource:       "SyncDrawFlickerFix" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/cocoa/video.m:
 -------------------------------
@@ -747,6 +845,7 @@ command line:   +syncdrawflickerfix
 description:    "Disable flicker fixing in sync draw"
 resource:       "SyncDrawFlickerFix" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/cocoa/video.m:
 -------------------------------
@@ -754,6 +853,7 @@ command line:   -trueaspect
 description:    "Enable true aspect ratio"
 resource:       "TrueAspectRatio" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/cocoa/video.m:
 -------------------------------
@@ -761,6 +861,7 @@ command line:   +trueaspect
 description:    "Disable true aspect ratio"
 resource:       "TrueAspectRatio" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -768,6 +869,7 @@ command line:   -joyAdevice <vid:pid:sn>
 description:    "Set HID A device" (fixme: needs better description)
 resource:       "JoyADevice"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -775,6 +877,7 @@ command line:   -joyAxaxis <X,Y,Z,Rx,Ry,Rz>
 description:    "Set X Axis for HID A device" (fixme: needs better description)
 resource:       "JoyAXAxis"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -782,6 +885,7 @@ command line:   -joyAyaxis <X,Y,Z,Rx,Ry,Rz>
 description:    "Set Y Axis for HID A device" (fixme: needs better description)
 resource:       "JoyAYAxis"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -789,6 +893,7 @@ command line:   -joyAbuttons <f:af:l:r:u:d>
 description:    "Set Buttons for HID A device" (fixme: needs better description)
 resource:       "JoyAButtons"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -796,6 +901,7 @@ command line:   -joyAautobuttons <af1:af2:af1p:af1r:af2p:af2r>
 description:    "Set Auto Fire Buttons for HID A device" (fixme: needs better description)
 resource:       "JoyAAutoButtons"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -803,6 +909,7 @@ command line:   -joyAxthreshold <0-100>
 description:    "Set X Axis Threshold in Percent of HID A device"
 resource:       "JoyAXThreshold"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -810,6 +917,7 @@ command line:   -joyAythreshold <0-100>
 description:    "Set Y Axis Threshold in Percent of HID A device"
 resource:       "JoyAYThreshold"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -817,6 +925,7 @@ command line:   -joyBdevice <vid:pid:sn>
 description:    "Set HID B device" (fixme: needs better description)
 resource:       "JoyBDevice"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -824,6 +933,7 @@ command line:   -joyBxaxis <X,Y,Z,Rx,Ry,Rz>
 description:    "Set X Axis for HID B device" (fixme: needs better description)
 resource:       "JoyBXAxis"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -831,6 +941,7 @@ command line:   -joyByaxis <X,Y,Z,Rx,Ry,Rz>
 description:    "Set Y Axis for HID B device" (fixme: needs better description)
 resource:       "JoyBYAxis"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -838,6 +949,7 @@ command line:   -joyBbuttons <f:af:l:r:u:d>
 description:    "Set Buttons for HID B device" (fixme: needs better description)
 resource:       "JoyBButtons"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -845,6 +957,7 @@ command line:   -joyBautobuttons <af1:af2:af1p:af1r:af2p:af2r>
 description:    "Set Auto Fire Buttons for HID B device" (fixme: needs better description)
 resource:       "JoyBAutoButtons"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -852,6 +965,7 @@ command line:   -joyBxthreshold <0-100>
 description:    "Set X Axis Threshold in Percent of HID B device"
 resource:       "JoyBXThreshold"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -859,6 +973,7 @@ command line:   -joyBythreshold <0-100>
 description:    "Set Y Axis Threshold in Percent of HID B device"
 resource:       "JoyBYThreshold"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -866,6 +981,7 @@ command line:   -joyAhatswitch <0-n>
 description:    "Set Hat Switch for Joystick of HID A device"
 resource:       "JoyAHatSwitch"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -873,6 +989,7 @@ command line:   -joyBhatswitch <0-n>
 description:    "Set Hat Switch for Joystick of HID B device"
 resource:       "JoyBHatSwitch"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -880,6 +997,7 @@ command line:   -joydev1 <0-5>
 description:    "Set device for joystick port 1"
 resource:       "JoyDevice1"
 action:         N/A
+fixme: fix documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -887,6 +1005,7 @@ command line:   -joydev2 <0-5>
 description:    "Set device for joystick port 2"
 resource:       "JoyDevice2"
 action:         N/A
+fixme: fix documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -894,6 +1013,7 @@ command line:   -extrajoydev1 <0-5>
 description:    "Set device for extra joystick port 1"
 resource:       "JoyDevice3"
 action:         N/A
+fixme: fix documentation
 
 arch/unix/macosx/joy.c:
 -----------------------
@@ -901,6 +1021,7 @@ command line:   -extrajoydev2 <0-5>
 description:    "Set device for extra joystick port 2"
 resource:       "JoyDevice4"
 action:         N/A
+fixme: fix documentation
 
 arch/unix/macosx/mididrv.c:
 ---------------------------
@@ -908,6 +1029,7 @@ command line:   -midiname <Name>
 description:    "Name of MIDI Client"
 resource:       "MIDIName"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/mididrv.c:
 ---------------------------
@@ -915,6 +1037,7 @@ command line:   -midiinname <Name>
 description:    "Name of MIDI-In Port"
 resource:       "MIDIInName"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/macosx/mididrv.c:
 ---------------------------
@@ -922,6 +1045,7 @@ command line:   -midioutname <Name>
 description:    "Name of MIDI-Out Port"
 resource:       "MIDIOutName"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/mididrv.c:
 --------------------
@@ -929,6 +1053,7 @@ command line:   -midiin <Name>
 description:    "Specify MIDI-In device"
 resource:       "MIDIInDev"
 action:         N/A
+fixme: fix documentation, unix only
 
 arch/unix/mididrv.c:
 --------------------
@@ -936,6 +1061,7 @@ command line:   -midiout <Name>
 description:    "Specify MIDI-Out device"
 resource:       "MIDIOutDev"
 action:         N/A
+fixme: fix documentation, unix only
 
 arch/unix/mididrv.c:
 --------------------
@@ -943,6 +1069,7 @@ command line:   -mididrv <Driver>
 description:    "Specify MIDI driver (0 = OSS, 1 = ALSA)"
 resource:       "MIDIDriver"
 action:         N/A
+fixme: fix documentation, unix only
 
 arch/unix/rs232.c:
 ------------------
@@ -950,6 +1077,7 @@ command line:   -rsdev1baud <baudrate>
 description:    "Specify baudrate of first RS232 device"
 resource:       "RsDevice1Baud"
 action:         N/A
+fixme: fix documentation
 
 arch/unix/rs232.c:
 ------------------
@@ -957,6 +1085,7 @@ command line:   -rsdev2baud <baudrate>
 description:    "Specify baudrate of second RS232 device"
 resource:       "RsDevice2Baud"
 action:         N/A
+fixme: fix documentation
 
 arch/unix/rs232.c:
 ------------------
@@ -964,6 +1093,7 @@ command line:   -rsdev3baud <baudrate>
 description:    "Specify baudrate of third RS232 device"
 resource:       "RsDevice3Baud"
 action:         N/A
+fixme: fix documentation
 
 arch/unix/rs232.c:
 ------------------
@@ -971,6 +1101,7 @@ command line:   -rsdev4baud <baudrate>
 description:    "Specify baudrate of fourth RS232 device"
 resource:       "RsDevice4Baud"
 action:         N/A
+fixme: fix documentation
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
@@ -978,6 +1109,7 @@ command line:   -htmlbrowser <Command>
 description:    "Specify an HTML browser for the on-line help"
 resource:       "HTMLBrowserCommand"
 action:         N/A
+fixme: fix documentation and unix only
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
@@ -999,6 +1131,7 @@ command line:   -saveres
 description:    "Save settings on exit"
 resource:       "SaveResourcesOnExit" (set to 1)
 action:         N/A
+fixme: fix documentation, not every arch has this command line option
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
@@ -1006,6 +1139,7 @@ command line:   +saveres
 description:    "Never save settings on exit"
 resource:       "SaveResourcesOnExit" (set to 0)
 action:         N/A
+fixme: fix documentation, not every arch has this command line option
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
@@ -1027,6 +1161,7 @@ command line:   -fullscreen
 description:    "Enable fullscreen"
 resource:       "UseFullscreen" (set to 1)
 action:         N/A
+fixme: fix documentation, unix only
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
@@ -1041,6 +1176,7 @@ command line:   -displaydepth <value>
 description:    "Specify X display depth (1..32)"
 resource:       "DisplayDepth"
 action:         N/A
+fixme: fix documentation and mention unix only
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
@@ -1048,6 +1184,7 @@ command line:   -xsync
 description:    "Call `XSync()' after updating the emulation window"
 resource:       "UseXSync" (set to 1)
 action:         N/A
+fixme: fix documentation, unix only
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
@@ -1055,6 +1192,7 @@ command line:   +xsync
 description:    "Do not call `XSync()' after updating the emulation window"
 resource:       "UseXSync" (set to 0)
 action:         N/A
+fixme: fix documentation, unix only
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
@@ -1062,6 +1200,7 @@ command line:   -mitshm
 description:    "Use shared memory"
 resource:       "MITSHM" (set to 1)
 action:         N/A
+fixme: fix documentation, unix only
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
@@ -1069,6 +1208,7 @@ command line:   +mitshm
 description:    "Never use shared memory (slower)"
 resource:       "MITSHM" (set to 0)
 action:         N/A
+fixme: fix documentation, unix only
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
@@ -1076,6 +1216,7 @@ command line:   -fourcc <fourcc>
 description:    "Request YUV FOURCC format"
 resource:       "FOURCC"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
@@ -1083,6 +1224,7 @@ command line:   -aspect <Aspect ratio>
 description:    "Set aspect ratio (0.5 - 2.0)"
 resource:       "AspectRatio"
 action:         N/A
+fixme: add to documentation
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
@@ -1090,6 +1232,7 @@ command line:   -trueaspect
 description:    "Enable true aspect ratio"
 resource:       "TrueAspectRatio" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
@@ -1097,6 +1240,7 @@ command line:   +trueaspect
 description:    "Disable true aspect ratio"
 resource:       "TrueAspectRatio" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/win32/joy.c:
 -----------------
@@ -1104,6 +1248,7 @@ command line:   -joydev1 <number>
 description:    "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 resource:       "JoyDevice1"
 action:         N/A
+fixme: fix documentation
 
 arch/win32/joy.c:
 -----------------
@@ -1111,6 +1256,7 @@ command line:   -joydev2 <number>
 description:    "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 resource:       "JoyDevice2"
 action:         N/A
+fixme: fix documentation
 
 arch/win32/joy.c:
 -----------------
@@ -1118,6 +1264,7 @@ command line:   -extrajoydev1 <number>
 description:    "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 resource:       "JoyDevice3"
 action:         N/A
+fixme: fix documentation
 
 arch/win32/joy.c:
 -----------------
@@ -1125,6 +1272,7 @@ command line:   -extrajoydev2 <number>
 description:    "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 resource:       "JoyDevice4"
 action:         N/A
+fixme: fix documentation
 
 arch/win32/mididrv.c:
 ---------------------
@@ -1132,6 +1280,7 @@ command line:   -midiin <number>
 description:    "Specify MIDI-In device"
 resource:       "MIDIInDev"
 action:         N/A
+fixme: add to documentation
 
 arch/win32/mididrv.c:
 ---------------------
@@ -1139,6 +1288,7 @@ command line:   -midiout <number>
 description:    "Specify MIDI-Out device"
 resource:       "MIDIOutDev"
 action:         N/A
+fixme: add to documentation
 
 arch/win32/mousedrv.c:
 ----------------------
@@ -1146,6 +1296,7 @@ command line:   -mousesensitivity <sensitivity>
 description:    "Sensitivity of the mouse."
 resource:       "MouseSensitivity"
 action:         N/A
+fixme: add to documentation
 
 arch/win32/ui-resources.c:
 --------------------------
@@ -1153,6 +1304,7 @@ command line:   -saveres
 description:    "Save settings on exit"
 resource:       "SaveResourcesOnExit" (set to 1)
 action:         N/A
+fixme: fix documentation, not every arch has this command line option
 
 arch/win32/ui-resources.c:
 --------------------------
@@ -1160,6 +1312,7 @@ command line:   +saveres
 description:    "Never save settings on exit"
 resource:       "SaveResourcesOnExit" (set to 0)
 action:         N/A
+fixme: fix documentation, not every arch has this command line option
 
 arch/win32/ui-resources.c:
 --------------------------
@@ -1181,6 +1334,7 @@ command line:   -singlecpu
 description:    "Use only first CPU on SMP systems"
 resource:       "SingleCPU" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/win32/ui-resources.c:
 --------------------------
@@ -1188,6 +1342,7 @@ command line:   +singlecpu
 description:    "Use all CPUs on SMP systems"
 resource:       "SingleCPU" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/win32/video.c:
 -------------------
@@ -1195,6 +1350,7 @@ command line:   -fullscreen
 description:    "Start VICE in fullscreen mode"
 resource:       "FullScreenEnabled" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/win32/video.c:
 -------------------
@@ -1202,6 +1358,7 @@ command line:   +fullscreen
 description:    "Do not start VICE in fullscreen mode"
 resource:       "FullScreenEnabled" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 arch/win32/video.c:
 -------------------
@@ -1209,6 +1366,7 @@ command line:   -dx9disable
 description:    "Disable DirectX9 video driver"
 resource:       "DX9Disable" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 arch/win32/video.c:
 -------------------
@@ -1216,6 +1374,7 @@ command line:   -dx9enable
 description:    "Enable DirectX9 video driver"
 resource:       "DX9Disable" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 attach.c:
 ---------
@@ -1223,6 +1382,7 @@ command line:   -device8 <Type>
 description:    "Set device type for device #8 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)"
 resource:       "FileSystemDevice8"
 action:         N/A
+fixme: fix documentation, says bool, but is int with range
 
 attach.c:
 ---------
@@ -1230,6 +1390,7 @@ command line:   -device9 <Type>
 description:    "Set device type for device #9 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)"
 resource:       "FileSystemDevice9"
 action:         N/A
+fixme: fix documentation, says bool, but is int with range
 
 attach.c:
 ---------
@@ -1237,6 +1398,7 @@ command line:   -device10 <Type>
 description:    "Set device type for device #10 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)"
 resource:       "FileSystemDevice10"
 action:         N/A
+fixme: fix documentation, says bool, but is int with range
 
 attach.c:
 ---------
@@ -1244,6 +1406,7 @@ command line:   -device11 <Type>
 description:    "Set device type for device #11 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)"
 resource:       "FileSystemDevice11"
 action:         N/A
+fixme: fix documentation, says bool, but is int with range
 
 attach.c:
 ---------
@@ -1363,6 +1526,7 @@ command line:   -autostartprgmode <Mode>
 description:    "Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk image)"
 resource:       "AutostartPrgMode"
 action:         N/A
+fixme: fix documentation, parameter, range
 
 autostart.c:
 ------------
@@ -1370,6 +1534,7 @@ command line:   -autostartprgdiskimage <Name>
 description:    "Set disk image for autostart of PRG files"
 resource:       "AutostartPrgDiskImage"
 action:         N/A
+fixme: fix documentation, parameter
 
 autostart.c:
 ------------
@@ -1377,6 +1542,7 @@ command line:   -autostart-delay <Seconds>
 description:    "Set initial autostart delay (0: use default)"
 resource:       "AutostartDelay"
 action:         N/A
+fixme: fix documentation, mention it is in seconds
 
 autostart.c:
 ------------
@@ -1482,6 +1648,7 @@ command line:   -chargen <Name>
 description:    "Specify name of international character generator ROM image"
 resource:       "ChargenIntName"
 action:         N/A
+fixme: fix documentation, duplicate
 
 c128/c128-cmdline-options.c:
 ----------------------------
@@ -1545,6 +1712,7 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=symbol, 1=positional)"
 resource:       "KeymapIndex"
 action:         N/A
+fixme: fix documentation
 
 c128/c128-cmdline-options.c:
 ----------------------------
@@ -1552,6 +1720,7 @@ command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
 resource:       "KeymapSymFile"
 action:         N/A
+fixme: fix documentation
 
 c128/c128-cmdline-options.c:
 ----------------------------
@@ -1559,6 +1728,7 @@ command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
+fixme: fix documentation
 
 c128/c128-cmdline-options.c:
 ----------------------------
@@ -1588,6 +1758,7 @@ description:    "Set C128 model (c128/c128dcr, pal/ntsc)"
 resource:       N/A
 action:         set_c128_model() (sets "MachineVideoStandard", "CIA1Model", "CIA2Model", "VICIINewLuminances", "VDCRevision", "VDC64KB",
                 "SidEngine" and "SidModel");
+fixme: add to documentation
 
 c128/c128-cmdline-options.c:
 ----------------------------
@@ -1595,6 +1766,7 @@ command line:   -c128fullbanks
 description:    "Enable RAM banks 2 and 3"
 resource:       "C128FullBanks" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 c128/c128-cmdline-options.c:
 ----------------------------
@@ -1602,6 +1774,7 @@ command line:   +c128fullbanks
 description:    "Disable RAM banks 2 and 3"
 resource:       "C128FullBanks" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 c128/c128mmu.c:
 ---------------
@@ -1679,6 +1852,7 @@ command line:   -ntscold
 description:    "Use old NTSC sync factor"
 resource:       N/A
 action:         set_video_standard() (sets "MachineVideoStandard" and "VICIIModel")
+fixme: fix documentation, mention emulators
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -1686,6 +1860,7 @@ command line:   -paln
 description:    "Use PAL-N sync factor"
 resource:       N/A
 action:         set_video_standard() (sets "MachineVideoStandard" and "VICIIModel")
+fixme: fix documentation, mention emulators
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -1714,6 +1889,7 @@ command line:   -kernalrev <Revision>
 description:    "Patch the Kernal ROM to the specified <revision>"
 resource:       "KernalRev"
 action:         N/A
+fixme: fix documentation, no longer a c128 command line option
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -1735,6 +1911,7 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
 resource:       "KeymapIndex"
 action:         N/A
+fixme: fix documentation
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -1742,6 +1919,7 @@ command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
 resource:       "KeymapSymFile"
 action:         N/A
+fixme: fix documentation
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -1749,6 +1927,7 @@ command line:   -symdekeymap <Name>
 description:    "Specify name of symbolic German keymap file"
 resource:       "KeymapSymDeFile"
 action:         N/A
+fixme: fix documentation
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -1756,6 +1935,7 @@ command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
+fixme: fix documentation
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -1785,6 +1965,7 @@ description:    "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, ja
 resource:       N/A
 action:         set_c64_model() (sets "VICIIModel", "CIA1Model", "CIA2Model", "GlueLogic", "BoardType", "IECReset", "KernalName", "ChargenName",
                 "SidEngine" and "SidModel")
+fixme: add to documentation
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -1799,6 +1980,7 @@ command line:   -iecreset <value>
 description:    "Computer reset goes to IEC bus (0 = No, 1 = Yes)"
 resource:       "IECReset"
 action:         N/A
+fixme: add to documentation
 
 c64/c64gluelogic.c:
 -------------------
@@ -1838,9 +2020,10 @@ action:         N/A
 c64/c64_256k.c:
 ---------------
 command line:   -256kbase <Base address>
-description:    "Base address of the 256K expansion"
+description:    "Base address of the 256K expansion. (56832: $DE00, 56960: $DE80, 57088: $DF00, 57216: $DF80)"
 resource:       "C64_256Kbase"
 action:         N/A
+fixme: fix documentation, range
 
 c64/cart/c64-midi.c:
 --------------------
@@ -2359,6 +2542,7 @@ command line:   -digimaxbase <Base address>
 description:    "Base address of the DigiMAX cartridge"
 resource:       "DIGIMAXbase"
 action:         N/A
+fixme: fix documentation, range
 
 c64/cart/dqbb.c:
 ----------------
@@ -2401,6 +2585,7 @@ command line:   -ds12c887rtc
 description:    "Enable the DS12C887 RTC cartridge"
 resource:       "DS12C887RTC" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -2408,6 +2593,7 @@ command line:   +ds12c887rtc
 description:    "Disable the DS12C887 RTC cartridge"
 resource:       "DS12C887RTC" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -2415,6 +2601,7 @@ command line:   -ds12c887rtcbase <Base address>
 description:    "Base address of the DS12C887 RTC cartridge"
 resource:       "DS12C887RTCbase"
 action:         N/A
+fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -2422,6 +2609,7 @@ command line:   -ds12c887rtchalted
 description:    "Set the RTC oscillator to 'halted'"
 resource:       "DS12C887RTCRunMode" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -2429,6 +2617,7 @@ command line:   -ds12c887rtcrunning
 description:    "Set the RTC oscillator to 'running'"
 resource:       "DS12C887RTCRunMode" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 c64/cart/easyflash.c:
 ---------------------
@@ -2513,6 +2702,7 @@ command line:   -georamsize <size in KB>
 description:    "Size of the GEORAM expansion unit"
 resource:       "GEORAMsize"
 action:         N/A
+fixme: fix documentation, range
 
 c64/cart/georam.c:
 ------------------
@@ -2580,84 +2770,84 @@ action:         N/A
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64cyl1 <value>
-description:    "Set number of cylinders for the IDE64 emulation"
+description:    "Set number of cylinders for the IDE64 emulation. (1..65535)"
 resource:       "IDE64Cylinders1"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64cyl2 <value>
-description:    "Set number of cylinders for the IDE64 emulation"
+description:    "Set number of cylinders for the IDE64 emulation. (1..65535)"
 resource:       "IDE64Cylinders2"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64cyl3 <value>
-description:    "Set number of cylinders for the IDE64 emulation"
+description:    "Set number of cylinders for the IDE64 emulation. (1..65535)"
 resource:       "IDE64Cylinders3"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64cyl4 <value>
-description:    "Set number of cylinders for the IDE64 emulation"
+description:    "Set number of cylinders for the IDE64 emulation. (1..65535)"
 resource:       "IDE64Cylinders4"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64hds1 <value>
-description:    "Set number of heads for the IDE64 emulation"
+description:    "Set number of heads for the IDE64 emulation. (1..16)"
 resource:       "IDE64Heads1"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64hds2 <value>
-description:    "Set number of heads for the IDE64 emulation"
+description:    "Set number of heads for the IDE64 emulation. (1..16)"
 resource:       "IDE64Heads2"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64hds3 <value>
-description:    "Set number of heads for the IDE64 emulation"
+description:    "Set number of heads for the IDE64 emulation. (1..16)"
 resource:       "IDE64Heads3"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64hds4 <value>
-description:    "Set number of heads for the IDE64 emulation"
+description:    "Set number of heads for the IDE64 emulation. (1..16)"
 resource:       "IDE64Heads4"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64sec1 <value>
-description:    "Set number of sectors for the IDE64 emulation"
+description:    "Set number of sectors for the IDE64 emulation. (1..63)"
 resource:       "IDE64Sectors1"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64sec2 <value>
-description:    "Set number of sectors for the IDE64 emulation"
+description:    "Set number of sectors for the IDE64 emulation. (1..63)"
 resource:       "IDE64Sectors2"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64sec3 <value>
-description:    "Set number of sectors for the IDE64 emulation"
+description:    "Set number of sectors for the IDE64 emulation. (1..63)"
 resource:       "IDE64Sectors3"
 action:         N/A
 
 c64/cart/ide64.c:
 -----------------
 command line:   -IDE64sec4 <value>
-description:    "Set number of sectors for the IDE64 emulation"
+description:    "Set number of sectors for the IDE64 emulation. (1..63)"
 resource:       "IDE64Sectors4"
 action:         N/A
 
@@ -2842,6 +3032,7 @@ command line:   -mmc64biosreadonly
 description:    "Do not save the MMC64 bios when changed"
 resource:       "MMC64_bios_write" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 c64/cart/mmc64.c:
 -----------------
@@ -2849,6 +3040,7 @@ command line:   -mmc64flash
 description:    "Set the MMC64 Flash Jumper"
 resource:       "MMC64_flashjumper" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 c64/cart/mmc64.c:
 -----------------
@@ -2856,6 +3048,7 @@ command line:   +mmc64flash
 description:    "Remove the MMC64 Flash Jumper"
 resource:       "MMC64_flashjumper" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 c64/cart/mmcreplay.c:
 ---------------------
@@ -2912,6 +3105,7 @@ command line:   -mmcreepromimage <filename>
 description:    "Specify MMC Replay EEPROM image filename"
 resource:       "MMCREEPROMImage"
 action:         N/A
+fixme: fix documentation, parameter
 
 c64/cart/mmcreplay.c:
 ---------------------
@@ -2944,9 +3138,10 @@ action:         N/A
 c64/cart/ramcart.c:
 -------------------
 command line:   -ramcartsize <size in KB>
-description:    "Size of the RAMCART expansion"
+description:    "Size of the RAMCART expansion. (64/128)"
 resource:       "RAMCARTsize"
 action:         N/A
+fixme: fix documentation, range
 
 c64/cart/ramcart.c:
 -------------------
@@ -3028,9 +3223,10 @@ action:         N/A
 c64/cart/reu.c:
 ---------------
 command line:   -reusize <size in KB>
-description:    "Size of the RAM expansion unit"
+description:    "Size of the RAM expansion unit. (128/256/512/1024/2048/4096/8192/16384)"
 resource:       "REUsize"
 action:         N/A
+fixme: fix documentation, range
 
 c64/cart/reu.c:
 ---------------
@@ -3210,9 +3406,10 @@ action:         N/A
 c64/plus60k.c:
 --------------
 command line:   -plus60kbase <Base address>
-description:    "Base address of the PLUS60K expansion"
+description:    "Base address of the PLUS60K expansion. (53312: $D040, 53504: $D100)"
 resource:       "PLUS60Kbase"
 action:         N/A
+fixme: fix documentation, range
 
 c64/psid.c:
 -----------
@@ -3234,6 +3431,7 @@ command line:   -ntscold
 description:    "Use old NTSC sync factor"
 resource:       "MachineVideoStandard" (set to MACHINE_SYNC_NTSCOLD)
 action:         N/A
+fixme: fix documentation, mention emulators
 
 c64/psid.c:
 -----------
@@ -3241,6 +3439,7 @@ command line:   -paln
 description:    "Use PAL-N sync factor"
 resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PALN)
 action:         N/A
+fixme: fix documentation, mention emulators
 
 c64/psid.c:
 -----------
@@ -3276,6 +3475,7 @@ command line:   -kernal <Name>
 description:    "Specify name of Kernal ROM image"
 resource:       "KernalName"
 action:         N/A
+fixme: add to documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -3283,6 +3483,7 @@ command line:   -basic <Name>
 description:    "Specify name of BASIC ROM image"
 resource:       "BasicName"
 action:         N/A
+fixme: add to documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -3290,6 +3491,7 @@ command line:   -chargen <Name>
 description:    "Specify name of character generator ROM image"
 resource:       "ChargenName"
 action:         N/A
+fixme: add to documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -3304,6 +3506,7 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
 resource:       "KeymapIndex"
 action:         N/A
+fixme: fix documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -3311,6 +3514,7 @@ command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
 resource:       "KeymapSymFile"
 action:         N/A
+fixme: fix documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -3318,6 +3522,7 @@ command line:   -symdekeymap <Name>
 description:    "Specify name of symbolic German keymap file"
 resource:       "KeymapSymDeFile"
 action:         N/A
+fixme: fix documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -3325,6 +3530,7 @@ command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
+fixme: fix documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -3332,6 +3538,7 @@ command line:   -model <Model>
 description:    "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
 resource:       N/A
 action:         set_dtv_model() (sets "MachineVideoStandard", "DtvRevision" and "HummerADC")
+fixme: add to documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -3353,6 +3560,7 @@ command line:   -dtvrev <Revision>
 description:    "Specify DTV Revision (2: DTV2, 3: DTV3)"
 resource:       "DtvRevision"
 action:         N/A
+fixme: fix documentation
 
 c64dtv/c64dtvblitter.c:
 -----------------------
@@ -3388,6 +3596,7 @@ command line:   -c64dtvromimage <Name>
 description:    "Specify name of C64DTV ROM image"
 resource:       "c64dtvromfilename"
 action:         N/A
+fixme: fix documentation
 
 c64dtv/c64dtvflash.c:
 ---------------------
@@ -3423,6 +3632,7 @@ command line:   -fsflash <Name>
 description:    "Use <name> as directory for flash file system device"
 resource:       "FSFlashDir"
 action:         N/A
+fixme: fix documentation
 
 c64dtv/flash-trap.c:
 --------------------
@@ -3459,6 +3669,7 @@ description:    "Specify CBM-II model to emulate (610, 620, 620+, 710, 720, 720+
 			"Specify CBM-II model to emulate (510)"
 resource:       N/A
 action:         cbm2_set_model() (sets "ModelLine", "MachineVideoStandard", "RamSize", "KernalName", "BasicName" and "ChargenName")
+fixme: fix documentation
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -3578,6 +3789,7 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file" (fixme: needs better description)
 resource:       "KeymapIndex"
 action:         N/A
+fixme: fix documentation
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -3585,6 +3797,7 @@ command line:   -grsymkeymap <Name>
 description:    "Specify name of graphics keyboard symbolic keymap file"
 resource:       "KeymapGraphicsSymFile"
 action:         N/A
+fixme: add to documentation
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -3592,6 +3805,7 @@ command line:   -grposkeymap <Name>
 description:    "Specify name of graphics keyboard positional keymap file"
 resource:       "KeymapGraphicsPosFile"
 action:         N/A
+fixme: add to documentation
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -3599,6 +3813,7 @@ command line:   -buksymkeymap <Name>
 description:    "Specify name of UK business keyboard symbolic keymap file"
 resource:       "KeymapBusinessUKSymFile"
 action:         N/A
+fixme: fix documentation
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -3606,6 +3821,7 @@ command line:   -bukposkeymap <Name>
 description:    "Specify name of UK business keyboard positional keymap file"
 resource:       "KeymapBusinessUKPosFile"
 action:         N/A
+fixme: fix documentation
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -3613,6 +3829,7 @@ command line:   -bdesymkeymap <Name>
 description:    "Specify name of German business keyboard symbolic keymap file"
 resource:       "KeymapBusinessDESymFile"
 action:         N/A
+fixme: fix documentation
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -3620,6 +3837,7 @@ command line:   -bdeposkeymap <Name>
 description:    "Specify name of German business keyboard positional keymap file"
 resource:       "KeymapBusinessDEPosFile"
 action:         N/A
+fixme: fix documentation
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -3634,6 +3852,7 @@ command line:   -cartreset
 description:    "Reset machine if a cartridge is attached or detached"
 resource:       "CartridgeReset" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3641,6 +3860,7 @@ command line:   +cartreset
 description:    "Do not reset machine if a cartridge is attached or detached"
 resource:       "CartridgeReset" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3648,6 +3868,7 @@ command line:   +cart
 description:    "Disable default cartridge"
 resource:       N/A
 action:         cart_attach_cmdline() (note: research what resources are used)
+fixme: add to documentation
 
 cbm2/cbm2cart.c:
 ----------------
@@ -3788,6 +4009,7 @@ command line:   -CRTCpalette <Name>
 description:    "Specify name of file of external palette"
 resource:       "CrtcPaletteFile"
 action:         N/A
+fixme: fix documentation
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3795,6 +4017,7 @@ command line:   -CRTCfull
 description:    "Enable fullscreen"
 resource:       "CrtcFullscreen" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3802,6 +4025,7 @@ command line:   +CRTCfull
 description:    "Disable fullscreen"
 resource:       "CrtcFullscreen" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3816,6 +4040,7 @@ command line:   -CRTCSDLfullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "CrtcSDLFullscreenMode"
 action:         N/A
+fixme: add to documentation
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3823,6 +4048,7 @@ command line:   -CRTCXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "CrtcXRANDRFullscreenMode"
 action:         N/A
+fixme: fix documentation, unix only
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3830,6 +4056,7 @@ command line:   -CRTCVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "CrtcVidmodeFullscreenMode"
 action:         N/A
+fixme: fix documentation, unix only
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3837,6 +4064,7 @@ command line:   -CRTCsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
 resource:       "CrtcColorSaturation"
 action:         N/A
+fixme: fix documentation, remove default
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3844,6 +4072,7 @@ command line:   -CRTCcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
 resource:       "CrtcColorContrast"
 action:         N/A
+fixme: fix documentation, remove default
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3851,6 +4080,7 @@ command line:   -CRTCbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
 resource:       "CrtcColorBrightness"
 action:         N/A
+fixme: fix documentation, remove default
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3858,6 +4088,7 @@ command line:   -CRTCgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
 resource:       "CrtcColorGamma"
 action:         N/A
+fixme: fix documentation, remove default
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3865,6 +4096,7 @@ command line:   -CRTCtint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "CrtcColorTint"
 action:         N/A
+fixme: fix documentation, remove default
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3872,6 +4104,7 @@ command line:   -CRTCcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
 resource:       "CrtcPALBlur"
 action:         N/A
+fixme: fix documentation, remove default
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3879,6 +4112,7 @@ command line:   -CRTCcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
 resource:       "CrtcPALScanLineShade"
 action:         N/A
+fixme: fix documentation, remove default
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3886,6 +4120,7 @@ command line:   -CRTCoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
 resource:       "CrtcPALOddLinePhase"
 action:         N/A
+fixme: fix documentation, remove default
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -3893,6 +4128,7 @@ command line:   -CRTCoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
 resource:       "CrtcPALOddLineOffset"
 action:         N/A
+fixme: fix documentation, remove default
 
 datasette.c:
 ------------
@@ -3928,6 +4164,7 @@ command line:   -trace_maincpu
 description:    "Trace the main CPU"
 resource:       "MainCPU_TRACE" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 debug.c:
 --------
@@ -3935,6 +4172,7 @@ command line:   +trace_maincpu
 description:    "Do not trace the main CPU"
 resource:       "MainCPU_TRACE" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 debug.c:
 --------
@@ -3942,6 +4180,7 @@ command line:   -trace_drive0
 description:    "Trace the drive0 CPU"
 resource:       "Drive0CPU_TRACE" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 debug.c:
 --------
@@ -3949,6 +4188,7 @@ command line:   +trace_drive0
 description:    "Do not trace the drive0 CPU"
 resource:       "Drive0CPU_TRACE" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 debug.c:
 --------
@@ -3956,6 +4196,7 @@ command line:   -trace_drive1
 description:    "Trace the drive1 CPU"
 resource:       "Drive1CPU_TRACE" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 debug.c:
 --------
@@ -3963,6 +4204,7 @@ command line:   +trace_drive1
 description:    "Do not trace the drive1 CPU"
 resource:       "Drive1CPU_TRACE" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 debug.c:
 --------
@@ -3970,6 +4212,7 @@ command line:   -trace_drive2
 description:    "Trace the drive2 CPU"
 resource:       "Drive2CPU_TRACE" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 debug.c:
 --------
@@ -3977,6 +4220,7 @@ command line:   +trace_drive2
 description:    "Do not trace the drive2 CPU"
 resource:       "Drive2CPU_TRACE" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 debug.c:
 --------
@@ -3984,6 +4228,7 @@ command line:   -trace_drive3
 description:    "Trace the drive3 CPU"
 resource:       "Drive3CPU_TRACE" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 debug.c:
 --------
@@ -3991,6 +4236,7 @@ command line:   +trace_drive3
 description:    "Do not trace the drive3 CPU"
 resource:       "Drive3CPU_TRACE" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 debug.c:
 --------
@@ -3998,6 +4244,7 @@ command line:   -trace_mode <value>
 description:    "Trace mode (0=normal 1=small 2=history)"
 resource:       "TraceMode"
 action:         N/A
+fixme: add to documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4033,6 +4280,7 @@ command line:   -drivesoundvolume <Volume>
 description:    "Set volume for disk drive sound emulation (0-4000)"
 resource:       "DriveSoundEmulationVolume"
 action:         N/A
+fixme: add to documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4044,6 +4292,7 @@ description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II,
 			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
 resource:       "Drive8Type"
 action:         N/A
+fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4055,6 +4304,7 @@ description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II,
 			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
 resource:       "Drive9Type"
 action:         N/A
+fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4066,6 +4316,7 @@ description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II,
 			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
 resource:       "Drive10Type"
 action:         N/A
+fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4077,6 +4328,7 @@ description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II,
 			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
 resource:       "Drive11Type"
 action:         N/A
+fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4084,6 +4336,7 @@ command line:   -drive8extend <method>
 description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 resource:       "Drive8ExtendImagePolicy"
 action:         N/A
+fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4091,6 +4344,7 @@ command line:   -drive9extend <method>
 description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 resource:       "Drive9ExtendImagePolicy"
 action:         N/A
+fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4098,6 +4352,7 @@ command line:   -drive10extend <method>
 description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 resource:       "Drive10ExtendImagePolicy"
 action:         N/A
+fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4105,6 +4360,7 @@ command line:   -drive11extend <method>
 description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 resource:       "Drive11ExtendImagePolicy"
 action:         N/A
+fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4112,6 +4368,7 @@ command line:   -drive8idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 resource:       "Drive8IdleMethod"
 action:         N/A
+fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4119,6 +4376,7 @@ command line:   -drive9idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 resource:       "Drive9IdleMethod"
 action:         N/A
+fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4126,6 +4384,7 @@ command line:   -drive10idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 resource:       "Drive10IdleMethod"
 action:         N/A
+fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4133,6 +4392,7 @@ command line:   -drive11idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 resource:       "Drive11IdleMethod"
 action:         N/A
+fixme: fix documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4147,6 +4407,7 @@ command line:   -supercard <Name>
 description:    "Specify name of SuperCard+ ROM image"
 resource:       "DriveSuperCardName"
 action:         N/A
+fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4154,6 +4415,7 @@ command line:   -parallel8 <Type>
 description:    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"
 resource:       "Drive8ParallelCable"
 action:         N/A
+fixme: fix documentation, range
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4161,6 +4423,7 @@ command line:   -parallel9 <Type>
 description:    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"
 resource:       "Drive9ParallelCable"
 action:         N/A
+fixme: fix documentation, range
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4168,6 +4431,7 @@ command line:   -parallel10 <Type>
 description:    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"
 resource:       "Drive10ParallelCable"
 action:         N/A
+fixme: fix documentation, range
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4175,6 +4439,7 @@ command line:   -parallel11 <Type>
 description:    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"
 resource:       "Drive11ParallelCable"
 action:         N/A
+fixme: fix documentation, range
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4238,6 +4503,7 @@ command line:   -drive8supercard
 description:    "Enable SuperCard+"
 resource:       "Drive8SuperCard" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4245,6 +4511,7 @@ command line:   +drive8supercard
 description:    "Disable SuperCard+"
 resource:       "Drive8SuperCard" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4252,6 +4519,7 @@ command line:   -drive9supercard
 description:    "Enable SuperCard+"
 resource:       "Drive9SuperCard" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4259,6 +4527,7 @@ command line:   +drive9supercard
 description:    "Disable SuperCard+"
 resource:       "Drive9SuperCard" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4266,6 +4535,7 @@ command line:   -drive10supercard
 description:    "Enable SuperCard+"
 resource:       "Drive10SuperCard" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4273,6 +4543,7 @@ command line:   +drive10supercard
 description:    "Disable SuperCard+"
 resource:       "Drive10SuperCard" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4280,6 +4551,7 @@ command line:   -drive11supercard
 description:    "Enable SuperCard+"
 resource:       "Drive11SuperCard" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4287,6 +4559,7 @@ command line:   +drive11supercard
 description:    "Disable SuperCard+"
 resource:       "Drive11SuperCard" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
@@ -4623,6 +4896,7 @@ command line:   -parallel8 <Type>
 description:    "Set parallel cable type (0: none, 1: standard)"
 resource:       "Drive8ParallelCable"
 action:         N/A
+fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
 ----------------------------------------------
@@ -4630,6 +4904,7 @@ command line:   -parallel9 <Type>
 description:    "Set parallel cable type (0: none, 1: standard)"
 resource:       "Drive9ParallelCable"
 action:         N/A
+fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
 ----------------------------------------------
@@ -4637,6 +4912,7 @@ command line:   -parallel10 <Type>
 description:    "Set parallel cable type (0: none, 1: standard)"
 resource:       "Drive10ParallelCable"
 action:         N/A
+fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
 ----------------------------------------------
@@ -4644,6 +4920,7 @@ command line:   -parallel11 <Type>
 description:    "Set parallel cable type (0: none, 1: standard)"
 resource:       "Drive11ParallelCable"
 action:         N/A
+fixme: add to documentation
 
 drive/iec128dcr/iec128dcr-cmdline-options.c:
 --------------------------------------------
@@ -4714,6 +4991,7 @@ command line:   -fs8 <Name>
 description:    "Use <name> as directory for file system device #8"
 resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice8Dir")
+fixme: fix documentation
 
 fsdevice/fsdevice-cmdline-options.c:
 ------------------------------------
@@ -4721,6 +4999,7 @@ command line:   -fs9 <Name>
 description:    "Use <name> as directory for file system device #9"
 resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice9Dir")
+fixme: fix documentation
 
 fsdevice/fsdevice-cmdline-options.c:
 ------------------------------------
@@ -4728,6 +5007,7 @@ command line:   -fs10 <Name>
 description:    "Use <name> as directory for file system device #10"
 resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice10Dir")
+fixme: fix documentation
 
 fsdevice/fsdevice-cmdline-options.c:
 ------------------------------------
@@ -4735,6 +5015,7 @@ command line:   -fs11 <Name>
 description:    "Use <name> as directory for file system device #11"
 resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice11Dir")
+fixme: fix documentation
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
@@ -4749,6 +5030,7 @@ command line:   -doodleundersize <method>
 description:    "Select the way the undersized input should be handled, (0: scale up, 1: borderize)"
 resource:       "DoodleUndersizeHandling"
 action:         N/A
+fixme: add to documentation
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
@@ -4791,6 +5073,7 @@ command line:   -koalaoversize <method>
 description:    "Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)"
 resource:       "KoalaOversizeHandling"
 action:         N/A
+fixme: add to documentation
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
@@ -4798,6 +5081,7 @@ command line:   -koalaundersize <method>
 description:    "Select the way the undersized input should be handled, (0: scale up, 1: borderize)"
 resource:       "KoalaUndersizeHandling"
 action:         N/A
+fixme: add to documentation
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
@@ -4805,6 +5089,7 @@ command line:   -koalatedlum <method>
 description:    "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)"
 resource:       "KoalaTEDLumHandling"
 action:         N/A
+fixme: add to documentation
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
@@ -4812,6 +5097,7 @@ command line:   -koalacrtctextcolor <color>
 description:    "Select the CRTC text color (0: white, 1: amber, 2: green)"
 resource:       "KoalaCRTCTextColor"
 action:         N/A
+fixme: add to documentation
 
 gfxoutputdrv/quicktimedrv.c:
 ----------------------------
@@ -4819,6 +5105,7 @@ command line:   -quicktimeaudiobitrate <value>
 description:    "Set bitrate for audio stream in media file"
 resource:       "QuickTimeAudioBitrate"
 action:         N/A
+fixme: add to documentation
 
 gfxoutputdrv/quicktimedrv.c:
 ----------------------------
@@ -4826,6 +5113,7 @@ command line:   -quicktimevideobitrate <value>
 description:    "Set bitrate for video stream in media file"
 resource:       "QuickTimeVideoBitrate"
 action:         N/A
+fixme: add to documentation
 
 initcmdline.c:
 --------------
@@ -4847,6 +5135,7 @@ command line:   -h
 description:    "Show a list of the available options and exit normally"
 resource:       N/A
 action:         cmdline_help()
+fixme: add to documentation
 
 initcmdline.c:
 --------------
@@ -4875,6 +5164,7 @@ command line:   -limitcycles <value>
 description:    "Specify number of cycles to run before quitting with an error."
 resource:       N/A
 action:         cmdline_limitcycles()
+fixme: add to documentation
 
 initcmdline.c:
 --------------
@@ -4903,6 +5193,7 @@ command line:   -debug
 description:    "Don't call exception handler"
 resource:       "DoCoreDump" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 initcmdline.c:
 --------------
@@ -4910,6 +5201,7 @@ command line:   +debug
 description:    "Call exception handler (default)"
 resource:       "DoCoreDump" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 initcmdline.c:
 --------------
@@ -4917,6 +5209,7 @@ command line:   -autostart <Name>
 description:    "Attach and autostart tape/disk image <name>"
 resource:       N/A
 action:         cmdline_autostart()
+fixme: fix documentation
 
 initcmdline.c:
 --------------
@@ -4931,6 +5224,7 @@ command line:   -1 <Name>
 description:    "Attach <name> as a tape image"
 resource:       N/A
 action:         cmdline_attach()
+fixme: fix documentation
 
 initcmdline.c:
 --------------
@@ -4938,6 +5232,7 @@ command line:   -8 <Name>
 description:    "Attach <name> as a disk image in drive #8"
 resource:       N/A
 action:         cmdline_attach()
+fixme: fix documentation
 
 initcmdline.c:
 --------------
@@ -4945,6 +5240,7 @@ command line:   -9 <Name>
 description:    "Attach <name> as a disk image in drive #9"
 resource:       N/A
 action:         cmdline_attach()
+fixme: fix documentation
 
 initcmdline.c:
 --------------
@@ -4952,6 +5248,7 @@ command line:   -10 <Name>
 description:    "Attach <name> as a disk image in drive #10"
 resource:       N/A
 action:         cmdline_attach()
+fixme: fix documentation
 
 initcmdline.c:
 --------------
@@ -4959,6 +5256,7 @@ command line:   -11 <Name>
 description:    "Attach <name> as a disk image in drive #11"
 resource:       N/A
 action:         cmdline_attach()
+fixme: fix documentation
 
 kbdbuf.c:
 ---------
@@ -4973,6 +5271,7 @@ command line:   -keybuf-delay <value>
 description:    "Set additional keyboard buffer delay (0: use default)"
 resource:       "KbdbufDelay"
 action:         N/A
+fixme: add to documentation
 
 lightpen.c:
 -----------
@@ -4994,6 +5293,7 @@ command line:   -lightpentype <Type>
 description:    "Set lightpen type. (0: Pen with button Up, 1: Pen with button Left, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)"
 resource:       "LightpenType"
 action:         N/A
+fixme: fix documentation, range
 
 log.c:
 ------
@@ -5015,6 +5315,7 @@ command line:   -jamaction <Type>
 description:    "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)"
 resource:       "JAMAction"
 action:         N/A
+fixme: add to documentation
 
 midi.c:
 -------
@@ -5036,6 +5337,7 @@ command line:   -moncommands <Name>
 description:    "Execute monitor commands from file"
 resource:       N/A
 action:         set_playback_name()
+fixme: fix documentation
 
 monitor/monitor.c:
 ------------------
@@ -5043,6 +5345,7 @@ command line:   -monlog <Name>
 description:    "Write monitor output also to file"
 resource:       N/A
 action:         set_monlog_name()
+fixme: add to documentation
 
 monitor/monitor.c:
 ------------------
@@ -5092,13 +5395,15 @@ command line:   -mousetype <value>
 description:    "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"
 resource:       "Mousetype"
 action:         N/A
+fixme: fix documentation, range
 
 mouse.c:
 --------
 command line:   -mouseport <value>
-description:    "Select the joystick port the mouse is attached to"
+description:    "Select the joystick port the mouse is attached to. (1/2)"
 resource:       "Mouseport"
 action:         N/A
+fixme: fix documentation, range
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5122,6 +5427,7 @@ resource:       N/A
 action:         pet_set_model() (sets "Basic1", "Basic1Chars", "ChargenName", "KernalName", "BasicName", "EditorName", "RomModule9Name",
                 "RomModuleAName", "RomModuleBName", "H6809RomAName", "H6809RomBName", "H6809RomCName", "H6809RomDName", "H6809RomEName",
                 "H6809RomFName")
+fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5136,6 +5442,7 @@ command line:   -basic <Name>
 description:    "Specify name of BASIC ROM image"
 resource:       "BasicName"
 action:         N/A
+fixme: add to documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5143,6 +5450,7 @@ command line:   -editor <Name>
 description:    "Specify name of Editor ROM image"
 resource:       "EditorName"
 action:         N/A
+fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5157,6 +5465,7 @@ command line:   -rom9 <Name>
 description:    "Specify 4K extension ROM name at $9***"
 resource:       "RomModule9Name"
 action:         N/A
+fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5164,6 +5473,7 @@ command line:   -romA <Name>
 description:    "Specify 4K extension ROM name at $A***"
 resource:       "RomModuleAName"
 action:         N/A
+fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5171,6 +5481,7 @@ command line:   -romB <Name>
 description:    "Specify 4K extension ROM name at $B***"
 resource:       "RomModuleBName"
 action:         N/A
+fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5262,6 +5573,7 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file" (fixme: needs better description)
 resource:       "KeymapIndex"
 action:         N/A
+fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5269,6 +5581,7 @@ command line:   -grsymkeymap <Name>
 description:    "Specify name of graphics keyboard symbolic keymap file"
 resource:       "KeymapGraphicsSymFile"
 action:         N/A
+fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5276,6 +5589,7 @@ command line:   -grposkeymap <Name>
 description:    "Specify name of graphics keyboard positional keymap file"
 resource:       "KeymapGraphicsPosFile"
 action:         N/A
+fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5283,6 +5597,7 @@ command line:   -buksymkeymap <Name>
 description:    "Specify name of UK business keyboard symbolic keymap file"
 resource:       "KeymapBusinessUKSymFile"
 action:         N/A
+fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5290,6 +5605,7 @@ command line:   -bukposkeymap <Name>
 description:    "Specify name of UK business keyboard positional keymap file"
 resource:       "KeymapBusinessUKPosFile"
 action:         N/A
+fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5297,6 +5613,7 @@ command line:   -bdesymkeymap <Name>
 description:    "Specify name of German business keyboard symbolic keymap file"
 resource:       "KeymapBusinessDESymFile"
 action:         N/A
+fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5304,6 +5621,7 @@ command line:   -bdeposkeymap <Name>
 description:    "Specify name of German business keyboard positional keymap file"
 resource:       "KeymapBusinessDEPosFile"
 action:         N/A
+fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5374,6 +5692,7 @@ command line:   -colour-rgbi
 description:    "RGBI colour extension to PET 4032"
 resource:       "PETColour" (set to PET_COLOUR_TYPE_RGBI)
 action:         N/A
+fixme: add to documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5381,6 +5700,7 @@ command line:   -colour-analog
 description:    "Analog colour extension to PET 4032"
 resource:       "PETColour" (set to PET_COLOUR_TYPE_ANALOG)
 action:         N/A
+fixme: add to documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5388,6 +5708,7 @@ command line:   -colour-analog-bg <Colour 0-255>
 description:    "Analog colour background on PET 4032"
 resource:       "PETColourBG"
 action:         N/A
+fixme: add to documentation
 
 pet/pet-sidcart.c:
 ------------------
@@ -5430,6 +5751,7 @@ command line:   -pethre
 description:    "Enable HiRes Emulation Board"
 resource:       "PETHRE" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 pet/pethre.c:
 -------------
@@ -5437,6 +5759,7 @@ command line:   +pethre
 description:    "Disable HiRes Emulation Board"
 resource:       "PETHRE" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 pet/petpia1.c:
 --------------
@@ -5476,9 +5799,10 @@ action:         N/A
 pet/petreu.c:
 -------------
 command line:   -petreuramsize <size in KB>
-description:    "Size of the PET Ram and Expansion Unit"
+description:    "Size of the PET Ram and Expansion Unit. (128/512/1024/2048)"
 resource:       "PETREUsize"
 action:         N/A
+fixme: fix documentation, range
 
 plus4/digiblaster.c:
 --------------------
@@ -5514,6 +5838,7 @@ command line:   -kernal <Name>
 description:    "Specify name of Kernal ROM image"
 resource:       "KernalName"
 action:         N/A
+fixme: add to documentation
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
@@ -5521,6 +5846,7 @@ command line:   -basic <Name>
 description:    "Specify name of BASIC ROM image"
 resource:       "BasicName"
 action:         N/A
+fixme: add to documentation
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
@@ -5577,6 +5903,7 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=symbol, 1=positional)"
 resource:       "KeymapIndex"
 action:         N/A
+fixme: fix documentation
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
@@ -5584,6 +5911,7 @@ command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
 resource:       "KeymapSymFile"
 action:         N/A
+fixme: fix documentation
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
@@ -5591,6 +5919,7 @@ command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
+fixme: fix documentation
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
@@ -5599,6 +5928,7 @@ description:    "Set Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, 
 resource:       N/A
 action:         set_plus4_model() (sets "MachineVideoStandard", "RamSize", "KernalName", "BasicName", "FunctionLowName", "FunctionHighName",
                 "Acia1Enable", "SpeechImage", "SpeechEnabled")
+fixme: add to documentation
 
 plus4/plus4-sidcart.c:
 ----------------------
@@ -5823,6 +6153,7 @@ command line:   -TEDpalette <Name>
 description:    "Specify name of file of external palette"
 resource:       "TEDPaletteFile"
 action:         N/A
+fixme: fix documentation
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5830,6 +6161,7 @@ command line:   -TEDfull
 description:    "Enable fullscreen"
 resource:       "TEDFullscreen" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5837,6 +6169,7 @@ command line:   +TEDfull
 description:    "Disable fullscreen"
 resource:       "TEDFullscreen" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5851,6 +6184,8 @@ command line:   -TEDSDLfullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "TEDSDLFullscreenMode"
 action:         N/A
+fixme: add to documentation
+
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5858,6 +6193,7 @@ command line:   -TEDXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "TEDXRANDRFullscreenMode"
 action:         N/A
+fixme: fix documentation, unix only
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5865,6 +6201,7 @@ command line:   -TEDVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "TEDVidmodeFullscreenMode"
 action:         N/A
+fixme: fix documentation, unix only
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5872,6 +6209,7 @@ command line:   -TEDsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
 resource:       "TEDColorSaturation"
 action:         N/A
+fixme: fix documentation, remove default
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5879,6 +6217,7 @@ command line:   -TEDcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
 resource:       "TEDColorContrast"
 action:         N/A
+fixme: fix documentation, remove default
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5886,6 +6225,7 @@ command line:   -TEDbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
 resource:       "TEDColorBrightness"
 action:         N/A
+fixme: fix documentation, remove default
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5893,6 +6233,7 @@ command line:   -TEDgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
 resource:       "TEDColorGamma"
 action:         N/A
+fixme: fix documentation, remove default
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5900,6 +6241,7 @@ command line:   -TEDtint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "TEDColorTint"
 action:         N/A
+fixme: fix documentation, remove default
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5907,6 +6249,7 @@ command line:   -TEDoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
 resource:       "TEDPALOddLinePhase"
 action:         N/A
+fixme: fix documentation, remove default
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5914,6 +6257,7 @@ command line:   -TEDoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
 resource:       "TEDPALOddLineOffset"
 action:         N/A
+fixme: fix documentation, remove default
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5921,6 +6265,7 @@ command line:   -TEDcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
 resource:       "TEDPALBlur"
 action:         N/A
+fixme: fix documentation, remove default
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -5928,6 +6273,7 @@ command line:   -TEDcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
 resource:       "TEDPALScanLineShade"
 action:         N/A
+fixme: fix documentation, remove default
 
 printerdrv/driver-select.c:
 ---------------------------
@@ -5949,6 +6295,7 @@ command line:   -pr6drv <Name>
 description:    "Specify name of printer driver for device #6. (1520/raw)"
 resource:       "Printer6Driver"
 action:         N/A
+fixme: add to documentation
 
 printerdrv/driver-select.c:
 ---------------------------
@@ -5963,6 +6310,7 @@ command line:   -device4 <Type>
 description:    "Set device type for device #4 (0: None, 1: Filesystem, 2: Real)"
 resource:       "Printer4"
 action:         N/A
+fixme: fix documentation, says bool, but is int with range
 
 printerdrv/interface-serial.c:
 ------------------------------
@@ -5970,6 +6318,7 @@ command line:   -device5 <Type>
 description:    "Set device type for device #5 (0: None, 1: Filesystem, 2: Real)"
 resource:       "Printer5"
 action:         N/A
+fixme: fix documentation, says bool, but is int with range
 
 printerdrv/interface-serial.c:
 ------------------------------
@@ -5977,6 +6326,7 @@ command line:   -device6 <Type>
 description:    "Set device type for device #6 (0: None, 1: Filesystem, 2: Real)"
 resource:       "Printer6"
 action:         N/A
+fixme: fix documentation, says bool, but is int with range
 
 printerdrv/interface-serial.c:
 ------------------------------
@@ -5984,6 +6334,7 @@ command line:   -device7 <Type>
 description:    "Set device type for device #7 (0: None, 2: Real)"
 resource:       "Printer7"
 action:         N/A
+fixme: fix documentation, says bool, but is int with range
 
 printerdrv/interface-userport.c:
 --------------------------------
@@ -6061,6 +6412,7 @@ command line:   -pr6txtdev <0-2>
 description:    "Specify printer text output device for printer #6"
 resource:       "Printer6TextDevice"
 action:         N/A
+fixme: add to documentation
 
 printerdrv/output-text.c:
 -------------------------
@@ -6110,6 +6462,7 @@ command line:   -romsetfile <File>
 description:    "load the given romset file"
 resource:       N/A
 action:         option_romsetfile()
+fixme: add to documentation
 
 romset.c:
 ---------
@@ -6117,6 +6470,7 @@ command line:   -romsetarchive <File>
 description:    "load the given romset archive"
 resource:       N/A
 action:         option_romsetarchive()
+fixme: add to documentation
 
 romset.c:
 ---------
@@ -6124,6 +6478,7 @@ command line:   -romsetarchiveselect <Item number>
 description:    "select the given item from the current romset archive"
 resource:       N/A
 action:         option_romsetarchiveselect()
+fixme: add to documentation
 
 rs232drv/rs232drv.c:
 --------------------
@@ -6131,6 +6486,7 @@ command line:   -rsdev1 <Name>
 description:    "Specify name of first RS232 device"
 resource:       "RsDevice1"
 action:         N/A
+fixme: fix documentation
 
 rs232drv/rs232drv.c:
 --------------------
@@ -6138,6 +6494,7 @@ command line:   -rsdev2 <Name>
 description:    "Specify name of second RS232 device"
 resource:       "RsDevice2"
 action:         N/A
+fixme: fix documentation
 
 rs232drv/rs232drv.c:
 --------------------
@@ -6145,6 +6502,7 @@ command line:   -rsdev3 <Name>
 description:    "Specify name of third RS232 device"
 resource:       "RsDevice3"
 action:         N/A
+fixme: fix documentation
 
 rs232drv/rs232drv.c:
 --------------------
@@ -6152,6 +6510,7 @@ command line:   -rsdev4 <Name>
 description:    "Specify name of fourth RS232 device"
 resource:       "RsDevice4"
 action:         N/A
+fixme: fix documentation
 
 rs232drv/rsuser.c:
 ------------------
@@ -6201,6 +6560,7 @@ command line:   -ntscold
 description:    "Use old NTSC sync factor"
 resource:       N/A
 action:         set_video_standard() (sets "VICIIModel")
+fixme: fix documentation, mention emulators
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6208,6 +6568,7 @@ command line:   -paln
 description:    "Use PAL-N sync factor"
 resource:       N/A
 action:         set_video_standard() (sets "VICIIModel")
+fixme: fix documentation, mention emulators
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6215,6 +6576,7 @@ command line:   -scpu64 <Name>
 description:    "Specify name of SCPU64 ROM image"
 resource:       "SCPU64Name"
 action:         N/A
+fixme: add to documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6222,6 +6584,7 @@ command line:   -chargen <Name>
 description:    "Specify name of character generator ROM image"
 resource:       "ChargenName"
 action:         N/A
+fixme: add to documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6229,6 +6592,7 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
 resource:       "KeymapIndex"
 action:         N/A
+fixme: fix documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6236,6 +6600,7 @@ command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
 resource:       "KeymapSymFile"
 action:         N/A
+fixme: fix documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6243,6 +6608,7 @@ command line:   -symdekeymap <Name>
 description:    "Specify name of symbolic German keymap file"
 resource:       "KeymapSymDeFile"
 action:         N/A
+fixme: fix documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6250,6 +6616,7 @@ command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
+fixme: fix documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6279,6 +6646,7 @@ description:    "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, ja
 resource:       N/A
 action:         set_c64_model() (sets "MachineVideoStandard", "CIA1Model", "CIA2Model", "VICIINewLuminances", "IECReset", "ChargenName",
 			"SidEngine" and "SidModel")
+fixme: add to documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6293,6 +6661,7 @@ command line:   -iecreset <value>
 description:    "Computer reset goes to IEC bus (0 = No, 1 = Yes)"
 resource:       "IECReset"
 action:         N/A
+fixme: add to documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6300,6 +6669,7 @@ command line:   -simmsize <number>
 description:    "Size of the SIMM RAM (0/1/4/8/16 MB)"
 resource:       "SIMMSize"
 action:         N/A
+fixme: add to documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6307,6 +6677,7 @@ command line:   -jiffyswitch
 description:    "Turn on Jiffy switch"
 resource:       "JiffySwitch" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6314,6 +6685,7 @@ command line:   +jiffyswitch
 description:    "Turn off Jiffy switch"
 resource:       "JiffySwitch" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6321,6 +6693,7 @@ command line:   -speedswitch
 description:    "Turn on Speed switch"
 resource:       "SpeedSwitch" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6328,6 +6701,7 @@ command line:   +speedswitch
 description:    "Turn off Speed switch"
 resource:       "SpeedSwitch" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 scpu64/scpu64gluelogic.c:
 -------------------------
@@ -6335,6 +6709,7 @@ command line:   -gluelogictype <Type>
 description:    "Set glue logic type (0 = discrete, 1 = 252535-01)"
 resource:       "GlueLogic"
 action:         N/A
+fixme: add to documentation
 
 serial/serial-iec-device.c:
 ---------------------------
@@ -6454,6 +6829,7 @@ command line:   -sidenginemodel <engine and model>
 description:    "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 resource:       N/A
 action:         sid_common_set_engine_model() (sets "SidEngine" and "SidModel")
+fixme: fix documentation, range
 
 sid/sid-cmdline-options.c:
 --------------------------
@@ -6461,6 +6837,7 @@ command line:   -residsamp <method>
 description:    "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast resampling)"
 resource:       "SidResidSampling"
 action:         N/A
+fixme: fix documentation
 
 sid/sid-cmdline-options.c:
 --------------------------
@@ -6468,6 +6845,7 @@ command line:   -residpass <percent>
 description:    "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 resource:       "SidResidPassband"
 action:         N/A
+fixme: fix documentation
 
 sid/sid-cmdline-options.c:
 --------------------------
@@ -6475,6 +6853,7 @@ command line:   -residgain <percent>
 description:    "reSID gain in percent (90 - 100)"
 resource:       "SidResidGain"
 action:         N/A
+fixme: fix documentation
 
 sid/sid-cmdline-options.c:
 --------------------------
@@ -6486,23 +6865,26 @@ action:         N/A
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   -sidstereo <amount>
-description:    "amount of extra SID chips"
+description:    "amount of extra SID chips. (0..2)"
 resource:       "SidStereo"
 action:         N/A
+fixme: fix documentation, range
 
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   -sidstereoaddress <Base address>
-description:    "Specify base address for 2nd SID"
+description:    "Specify base address for 2nd SID. ([address range])"
 resource:       "SidStereoAddressStart"
 action:         N/A
+fixme: fix documentation, range
 
 sid/sid-cmdline-options.c:
 --------------------------
 command line:   -sidtripleaddress <Base address>
-description:    "Specify base address for 3rd SID"
+description:    "Specify base address for 3rd SID. ([address range])"
 resource:       "SidTripleAddressStart"
 action:         N/A
+fixme: fix documentation, range
 
 sid/sid-cmdline-options.c:
 --------------------------
@@ -6538,6 +6920,7 @@ command line:   -soundrate <value>
 description:    "Set sound sample rate to <value> Hz"
 resource:       "SoundSampleRate"
 action:         N/A
+fixme: fix documentation
 
 sound.c:
 --------
@@ -6545,6 +6928,7 @@ command line:   -soundbufsize <value>
 description:    "Set sound buffer size to <value> msec"
 resource:       "SoundBufferSize"
 action:         N/A
+fixme: fix documentation
 
 sound.c:
 --------
@@ -6559,6 +6943,7 @@ command line:   -sounddev <Name>
 description:    "Specify sound driver ([available drivers])"
 resource:       "SoundDeviceName"
 action:         N/A
+fixme: fix documenation, range
 
 sound.c:
 --------
@@ -6566,6 +6951,7 @@ command line:   -soundarg <args>
 description:    "Specify initialization parameters for sound driver" (fixme: needs better description)
 resource:       "SoundDeviceArg"
 action:         N/A
+fixme: fix documentation
 
 sound.c:
 --------
@@ -6573,6 +6959,7 @@ command line:   -soundrecdev <Name>
 description:    "Specify recording sound driver ([available drivers])"
 resource:       "SoundRecordDeviceName"
 action:         N/A
+fixme: fix documenation, range
 
 sound.c:
 --------
@@ -6587,6 +6974,7 @@ command line:   -soundsync <sync>
 description:    "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 resource:       "SoundSpeedAdjustment"
 action:         N/A
+fixme: fix documentation
 
 sound.c:
 --------
@@ -6601,6 +6989,7 @@ command line:   -directory <Path>
 description:    "Define search path to locate system files"
 resource:       "Directory"
 action:         N/A
+fixme: fix documentation
 
 translate.c:
 ------------
@@ -6608,6 +6997,7 @@ command line:   -lang <iso language code>
 description:    "Specify the iso code of the language ([list of iso codes])"
 resource:       "Language"
 action:         N/A
+fixme: add to documentation
 
 traps.c:
 --------
@@ -6643,6 +7033,7 @@ command line:   -userportjoy
 description:    "Enable Userport joystick adapter"
 resource:       "UserportJoy" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 userport/userport_joystick.c:
 -----------------------------
@@ -6650,6 +7041,7 @@ command line:   +userportjoy
 description:    "Disable Userport joystick adapter"
 resource:       "UserportJoy" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 userport/userport_joystick.c:
 -----------------------------
@@ -6657,6 +7049,7 @@ command line:   -userportjoytype <Type>
 description:    "Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
 resource:       "UserportJoyType"
 action:         N/A
+fixme: add to documentation
 
 userport/userport_rtc.c:
 ------------------------
@@ -6664,6 +7057,7 @@ command line:   -userportrtc
 description:    "Enable Userport RTC"
 resource:       "UserportRTC" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 userport/userport_rtc.c:
 ------------------------
@@ -6671,6 +7065,7 @@ command line:   +userportrtc
 description:    "Disable Userport RTC"
 resource:       "UserportRTC" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6783,6 +7178,7 @@ command line:   -VDCfilter <Mode>
 description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
 resource:       "VDCFilter"
 action:         N/A
+fixme: add to documentation
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6804,6 +7200,7 @@ command line:   -VDCpalette <Name>
 description:    "Specify name of file of external palette"
 resource:       "VDCPaletteFile"
 action:         N/A
+fixme: fix documentation
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6811,6 +7208,7 @@ command line:   -VDCfull
 description:    "Enable fullscreen"
 resource:       "VDCFullscreen" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6818,6 +7216,7 @@ command line:   +VDCfull
 description:    "Disable fullscreen"
 resource:       "VDCFullscreen" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6832,6 +7231,7 @@ command line:   -VDCSDLfullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "VDCSDLFullscreenMode"
 action:         N/A
+fixme: add to documentation
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6839,6 +7239,7 @@ command line:   -VDCXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "VDCXRANDRFullscreenMode"
 action:         N/A
+fixme: fix documentation, unix only
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6846,6 +7247,7 @@ command line:   -VDCVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "VDCVidmodeFullscreenMode"
 action:         N/A
+fixme: fix documentation, unix only
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6853,6 +7255,7 @@ command line:   -VDCsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
 resource:       "VDCColorSaturation"
 action:         N/A
+fixme: fix documentation, remove default
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6860,6 +7263,7 @@ command line:   -VDCcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
 resource:       "VDCColorContrast"
 action:         N/A
+fixme: fix documentation, remove default
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6867,6 +7271,7 @@ command line:   -VDCbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
 resource:       "VDCColorBrightness"
 action:         N/A
+fixme: fix documentation, remove default
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6874,6 +7279,7 @@ command line:   -VDCgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
 resource:       "VDCColorGamma"
 action:         N/A
+fixme: fix documentation, remove default
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6881,6 +7287,7 @@ command line:   -VDCtint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VDCColorTint"
 action:         N/A
+fixme: fix documentation, remove default
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6888,6 +7295,7 @@ command line:   -VDCoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
 resource:       "VDCPALOddLinePhase"
 action:         N/A
+fixme: fix documentation, remove default
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6895,6 +7303,7 @@ command line:   -VDCoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
 resource:       "VDCPALOddLineOffset"
 action:         N/A
+fixme: fix documentation, remove default
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6902,6 +7311,7 @@ command line:   -VDCcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
 resource:       "VDCPALBlur"
 action:         N/A
+fixme: fix documentation, remove default
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -6909,6 +7319,7 @@ command line:   -VDCcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
 resource:       "VDCPALScanLineShade"
 action:         N/A
+fixme: fix documentation, remove default
 
 vic20/cart/finalexpansion.c:
 ----------------------------
@@ -6993,6 +7404,7 @@ command line:   -cartreset
 description:    "Reset machine if a cartridge is attached or detached"
 resource:       "CartridgeReset" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -7000,6 +7412,7 @@ command line:   +cartreset
 description:    "Do not reset machine if a cartridge is attached or detached"
 resource:       "CartridgeReset" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -7007,6 +7420,7 @@ command line:   -cart2 <Name>
 description:    "Specify 4/8/16K extension ROM name at $2000"
 resource:       N/A
 action:         attach_cartridge_cmdline()
+fixme: fix documentation, duplicate
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -7014,6 +7428,7 @@ command line:   -cart4 <Name>
 description:    "Specify 4/8/16K extension ROM name at $4000"
 resource:       N/A
 action:         attach_cartridge_cmdline()
+fixme: fix documentation, duplicate
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -7021,6 +7436,7 @@ command line:   -cart6 <Name>
 description:    "Specify 4/8/16K extension ROM name at $6000"
 resource:       N/A
 action:         attach_cartridge_cmdline()
+fixme: fix documentation, duplicate
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -7028,6 +7444,7 @@ command line:   -cartA <Name>
 description:    "Specify 4/8K extension ROM name at $A000"
 resource:       N/A
 action:         attach_cartridge_cmdline()
+fixme: fix documentation, duplicate
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -7035,6 +7452,7 @@ command line:   -cartB <Name>
 description:    "Specify 4K extension ROM name at $B000"
 resource:       N/A
 action:         attach_cartridge_cmdline()
+fixme: fix documentation, duplicate
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -7070,6 +7488,7 @@ command line:   +cart
 description:    "Disable default cartridge"
 resource:       N/A
 action:         detach_cartridge_cmdline()
+fixme: add to documentation
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7175,6 +7594,7 @@ command line:   -VICpalette <Name>
 description:    "Specify name of file of external palette"
 resource:       "VICPaletteFile"
 action:         N/A
+fixme: fix documentation
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7182,6 +7602,7 @@ command line:   -VICfull
 description:    "Enable fullscreen"
 resource:       "VICFullscreen" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7189,6 +7610,7 @@ command line:   +VICfull
 description:    "Disable fullscreen"
 resource:       "VICFullscreen" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7203,6 +7625,7 @@ command line:   -VICSDLfullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "VICSDLFullscreenMode"
 action:         N/A
+fixme: add to documentation
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7210,6 +7633,7 @@ command line:   -VICXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "VICXRANDRFullscreenMode"
 action:         N/A
+fixme: fix documentation, unix only
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7217,6 +7641,7 @@ command line:   -VICVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "VICVidmodeFullscreenMode"
 action:         N/A
+fixme: fix documentation, unix only
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7224,6 +7649,7 @@ command line:   -VICsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
 resource:       "VICColorSaturation"
 action:         N/A
+fixme: fix documentation, remove default
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7231,6 +7657,7 @@ command line:   -VICcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
 resource:       "VICColorContrast"
 action:         N/A
+fixme: fix documentation, remove default
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7238,6 +7665,7 @@ command line:   -VICbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
 resource:       "VICColorBrightness"
 action:         N/A
+fixme: fix documentation, remove default
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7245,6 +7673,7 @@ command line:   -VICgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
 resource:       "VICColorGamma"
 action:         N/A
+fixme: fix documentation, remove default
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7252,6 +7681,7 @@ command line:   -VICtint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VICColorTint"
 action:         N/A
+fixme: fix documentation, remove default
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7259,6 +7689,7 @@ command line:   -VICoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
 resource:       "VICPALOddLinePhase"
 action:         N/A
+fixme: fix documentation, remove default
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7266,6 +7697,7 @@ command line:   -VICoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
 resource:       "VICPALOddLineOffset"
 action:         N/A
+fixme: fix documentation, remove default
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7273,6 +7705,7 @@ command line:   -VICcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
 resource:       "VICPALBlur"
 action:         N/A
+fixme: fix documentation, remove default
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -7280,6 +7713,7 @@ command line:   -VICcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
 resource:       "VICPALScanLineShade"
 action:         N/A
+fixme: fix documentation, remove default
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
@@ -7322,6 +7756,7 @@ command line:   -memory <spec>
 description:    "Specify memory configuration. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / (04/20/40/60/a0)"
 resource:       N/A
 action:         cmdline_memory() (sets "RAMBlock0", "RAMBlock1", "RAMBlock2", "RAMBlock3" and "RAMBlock5")
+fixme: fix documentation
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
@@ -7329,6 +7764,7 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=symbol, 1=positional)"
 resource:       "KeymapIndex"
 action:         N/A
+fixme: fix documentation
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
@@ -7343,6 +7779,7 @@ command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
+fixme: fix documentation
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
@@ -7350,6 +7787,7 @@ command line:   -model <Model>
 description:    "Set VIC20 model (vic20/vic20pal/vic20ntsc, vic21)"
 resource:       N/A
 action:         set_vic20_model() (sets "MachineVideoStandard", "RamBlock0", "RamBlock1", "RamBlock2", "RamBlock3" and "RamBlock5")
+fixme: add to documentation
 
 vic20/vic20io.c:
 ----------------
@@ -7504,6 +7942,7 @@ command line:   -VICIIpalette <Name>
 description:    "Specify name of file of external palette"
 resource:       "VICIIPaletteFile"
 action:         N/A
+fixme: fix documentation
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7511,6 +7950,7 @@ command line:   -VICIIfull
 description:    "Enable fullscreen"
 resource:       "VICIIFullscreen" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7518,6 +7958,7 @@ command line:   +VICIIfull
 description:    "Disable fullscreen"
 resource:       "VICIIFullscreen" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7532,6 +7973,7 @@ command line:   -VICIISDLfullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "VICIISDLFullscreenMode"
 action:         N/A
+fixme: add to documentation
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7539,6 +7981,7 @@ command line:   -VICIIXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "VICIIXRANDRFullscreenMode"
 action:         N/A
+fixme: fix documentation, unix only
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7546,6 +7989,7 @@ command line:   -VICIIVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "VICIIVidmodeFullscreenMode"
 action:         N/A
+fixme: fix documentation, unix only
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7553,6 +7997,7 @@ command line:   -VICIIsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
 resource:       "VICIIColorSaturation"
 action:         N/A
+fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7560,6 +8005,7 @@ command line:   -VICIIcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
 resource:       "VICIIColorContrast"
 action:         N/A
+fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7567,6 +8013,7 @@ command line:   -VICIIbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
 resource:       "VICIIColorBrightness"
 action:         N/A
+fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7574,6 +8021,7 @@ command line:   -VICIIgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
 resource:       "VICIIColorGamma"
 action:         N/A
+fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7581,6 +8029,7 @@ command line:   -VICIItint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VICIIColorTint"
 action:         N/A
+fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7588,6 +8037,7 @@ command line:   -VICIIoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
 resource:       "VICIIPALOddLinePhase"
 action:         N/A
+fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7595,6 +8045,7 @@ command line:   -VICIIoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
 resource:       "VICIIPALOddLineOffset"
 action:         N/A
+fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7602,6 +8053,7 @@ command line:   -VICIIcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
 resource:       "VICIIPALBlur"
 action:         N/A
+fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7609,6 +8061,7 @@ command line:   -VICIIcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
 resource:       "VICIIPALScanLineShade"
 action:         N/A
+fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7763,6 +8216,7 @@ command line:   -VICIIpalette <Name>
 description:    "Specify name of file of external palette"
 resource:       "VICIIPaletteFile"
 action:         N/A
+fixme: fix documentation
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7770,6 +8224,7 @@ command line:   -VICIIfull
 description:    "Enable fullscreen"
 resource:       "VICIIFullscreen" (set to 1)
 action:         N/A
+fixme: add to documentation
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7777,6 +8232,7 @@ command line:   +VICIIfull
 description:    "Disable fullscreen"
 resource:       "VICIIFullscreen" (set to 0)
 action:         N/A
+fixme: add to documentation
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7791,6 +8247,7 @@ command line:   -VICIISDLfullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "VICIISDLFullscreenMode"
 action:         N/A
+fixme: add to documentation
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7798,6 +8255,7 @@ command line:   -VICIIXRANDRfullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "VICIIXRANDRFullscreenMode"
 action:         N/A
+fixme: fix documentation, unix only
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7805,6 +8263,7 @@ command line:   -VICIIVidmodefullmode <Mode>
 description:    "Select fullscreen mode"
 resource:       "VICIIVidmodeFullscreenMode"
 action:         N/A
+fixme: fix documentation, unix only
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7812,6 +8271,7 @@ command line:   -VICIIsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
 resource:       "VICIIColorSaturation"
 action:         N/A
+fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7819,6 +8279,7 @@ command line:   -VICIIcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
 resource:       "VICIIColorContrast"
 action:         N/A
+fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7826,6 +8287,7 @@ command line:   -VICIIbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
 resource:       "VICIIColorBrightness"
 action:         N/A
+fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7833,6 +8295,7 @@ command line:   -VICIIgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
 resource:       "VICIIColorGamma"
 action:         N/A
+fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7840,6 +8303,7 @@ command line:   -VICIItint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VICIIColorTint"
 action:         N/A
+fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7847,6 +8311,7 @@ command line:   -VICIIoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
 resource:       "VICIIPALOddLinePhase"
 action:         N/A
+fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7854,6 +8319,7 @@ command line:   -VICIIoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
 resource:       "VICIIPALOddLineOffset"
 action:         N/A
+fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7861,6 +8327,7 @@ command line:   -VICIIcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
 resource:       "VICIIPALBlur"
 action:         N/A
+fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -7868,6 +8335,7 @@ command line:   -VICIIcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
 resource:       "VICIIPALScanLineShade"
 action:         N/A
+fixme: fix documentation, remove default
 
 vsync.c:
 --------
@@ -7875,6 +8343,7 @@ command line:   -speed <percent>
 description:    "Limit emulation speed to specified value"
 resource:       "Speed"
 action:         N/A
+fixme: fix documentation
 
 vsync.c:
 --------
@@ -7882,6 +8351,7 @@ command line:   -refresh <value>
 description:    "Update every <value> frames (`0' for automatic)"
 resource:       "RefreshRate"
 action:         N/A
+fixme: fix documentation
 
 vsync.c:
 --------
