@@ -53,7 +53,7 @@
 #include "userport_joystick.h"
 #include "vicii.h"
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 #include "rsuser.h"
 #endif
 
@@ -129,7 +129,7 @@ static void do_reset_cia(cia_context_t *cia_context)
 {
     printer_userport_write_strobe(1);
     printer_userport_write_data((BYTE)0xff);
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl((BYTE)0xff);
     rsuser_set_tx_bit(1);
 #endif
@@ -159,7 +159,7 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
         BYTE tmp;
         int new_vbank;
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         if (rsuser_enabled && ((cia_context->old_pa ^ byte) & 0x04)) {
             rsuser_set_tx_bit(byte & 4);
         }
@@ -177,7 +177,7 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (rsuser_enabled) {
         rsuser_set_tx_bit((int)(byte & 4));
     }
@@ -191,7 +191,7 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     parallel_cable_cpu_write(DRIVE_PC_STANDARD, (BYTE)byte);
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl((BYTE)byte);
 #endif
 }
@@ -208,7 +208,7 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
 {
     parallel_cable_cpu_undump(DRIVE_PC_STANDARD, (BYTE)byte);
     printer_userport_write_data((BYTE)byte);
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl((BYTE)byte);
 #endif
     /* in the upcoming userport system this call needs to be conditional */
@@ -226,7 +226,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte;
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (rsuser_enabled) {
         byte = rsuser_read_ctrl();
     } else

@@ -70,9 +70,11 @@ enum {
 
 int rs232_resources_init(void)
 {
+#ifdef HAVE_RS232DEV
     rs232dev_resources_init();
+#endif
 
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RS232NET
     rs232net_resources_init();
 #endif
 
@@ -81,18 +83,22 @@ int rs232_resources_init(void)
 
 void rs232_resources_shutdown(void)
 {
+#ifdef HAVE_RS232DEV
     rs232dev_resources_shutdown();
+#endif
 
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RS232NET
     rs232net_resources_shutdown();
 #endif
 }
 
 int rs232_cmdline_options_init(void)
 {
+#ifdef HAVE_RS232DEV
     rs232dev_cmdline_options_init();
+#endif
 
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RS232NET
     rs232net_cmdline_options_init();
 #endif
 
@@ -104,9 +110,11 @@ int rs232_cmdline_options_init(void)
 /* initializes all RS232 stuff */
 void rs232_init(void)
 {
+#ifdef HAVE_RS232DEV
     rs232dev_init();
+#endif
 
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RS232NET
     rs232net_init();
 #endif
 }
@@ -114,9 +122,11 @@ void rs232_init(void)
 /* reset RS232 stuff */
 void rs232_reset(void)
 {
+#ifdef HAVE_RS232DEV
     rs232dev_reset();
+#endif
 
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RS232NET
     rs232net_reset();
 #endif
 }
@@ -147,12 +157,14 @@ int rs232_open(int device)
     assert(device < RS232_NUM_DEVICES);
 
     if (rs232_is_physical_device(device)) {
+#ifdef HAVE_RS232DEV
         ret = rs232dev_open(device);
         if (ret >= 0) {
             ret |= RS232_IS_PHYSICAL_DEVICE;
         }
+#endif
     } else {
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RS232NET
         ret = rs232net_open(device);
 #else
         ret = -1;
@@ -165,9 +177,11 @@ int rs232_open(int device)
 void rs232_close(int fd)
 {
     if (fd & RS232_IS_PHYSICAL_DEVICE) {
+#ifdef HAVE_RS232DEV
         rs232dev_close(fd & ~RS232_IS_PHYSICAL_DEVICE);
+#endif
     }
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RS232NET
     else {
         rs232net_close(fd);
     }
@@ -178,9 +192,11 @@ void rs232_close(int fd)
 int rs232_putc(int fd, BYTE b)
 {
     if (fd & RS232_IS_PHYSICAL_DEVICE) {
+#ifdef HAVE_RS232DEV
         return rs232dev_putc(fd & ~RS232_IS_PHYSICAL_DEVICE, b);
+#endif
     }
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RS232NET
     else {
         return rs232net_putc(fd, b);
     }
@@ -191,9 +207,11 @@ int rs232_putc(int fd, BYTE b)
 int rs232_getc(int fd, BYTE * b)
 {
     if (fd & RS232_IS_PHYSICAL_DEVICE) {
+#ifdef HAVE_RS232DEV
         return rs232dev_getc(fd & ~RS232_IS_PHYSICAL_DEVICE, b);
+#endif
     }
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RS232NET
     else {
         return rs232net_getc(fd, b);
     }
@@ -204,9 +222,11 @@ int rs232_getc(int fd, BYTE * b)
 int rs232_set_status(int fd, enum rs232handshake_out status)
 {
     if (fd & RS232_IS_PHYSICAL_DEVICE) {
+#ifdef HAVE_RS232DEV
         return rs232dev_set_status(fd & ~RS232_IS_PHYSICAL_DEVICE, status);
+#endif
     }
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RS232NET
     else {
         return rs232net_set_status(fd, status);
     }
@@ -217,9 +237,11 @@ int rs232_set_status(int fd, enum rs232handshake_out status)
 enum rs232handshake_in rs232_get_status(int fd)
 {
     if (fd & RS232_IS_PHYSICAL_DEVICE) {
+#ifdef HAVE_RS232DEV
         return rs232dev_get_status(fd & ~RS232_IS_PHYSICAL_DEVICE);
+#endif
     }
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RS232NET
     else {
         return rs232net_get_status(fd);
     }
@@ -230,6 +252,8 @@ enum rs232handshake_in rs232_get_status(int fd)
 void rs232_set_bps(int fd, unsigned int bps)
 {
     if (fd & RS232_IS_PHYSICAL_DEVICE) {
+#ifdef HAVE_RS232DEV
         rs232dev_set_bps(fd & ~RS232_IS_PHYSICAL_DEVICE, bps);
+#endif
     }
 }

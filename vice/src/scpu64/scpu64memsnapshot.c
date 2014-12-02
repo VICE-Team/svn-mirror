@@ -47,7 +47,7 @@
 #include "types.h"
 #include "uiapi.h"
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 #include "c64acia.h"
 #endif
 

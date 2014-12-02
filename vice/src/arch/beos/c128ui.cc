@@ -83,7 +83,7 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "Acia1Enable", MENU_TOGGLE_ACIA },
 #endif
     { "REU", MENU_TOGGLE_REU },
@@ -117,7 +117,7 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 ui_res_possible_values c128AciaDevice[] = {
     { 1, MENU_ACIA_RS323_DEVICE_1 },
     { 2, MENU_ACIA_RS323_DEVICE_2 },
@@ -292,7 +292,7 @@ ui_res_possible_values c128_DS12C887RTC_base[] = {
 };
 
 ui_res_value_list c128_ui_res_values[] = {
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "Acia1Dev", c128AciaDevice },
     { "Acia1Base", c128AciaBase },
     { "Acia1Irq", c128AciaInt },

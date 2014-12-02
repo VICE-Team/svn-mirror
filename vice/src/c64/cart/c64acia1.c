@@ -51,7 +51,7 @@
 
 extern int acia1_set_mode(int mode);
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 #define myacia_set_mode(x) acia1_set_mode(x)
 #else
 #define myacia_set_mode(x) 0
@@ -74,7 +74,7 @@ extern int acia1_set_mode(int mode);
 
 #include "aciacore.c"
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 /* Flag: Do we enable the ACIA RS232 interface emulation?  */
 static int acia_enabled = 0;
 
@@ -84,7 +84,7 @@ static int acia_base = 0xde00;
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 /* a prototype is needed */
 static BYTE aciacart_read(WORD addr);
 static BYTE aciacart_peek(WORD addr);
@@ -115,14 +115,14 @@ static const c64export_resource_t export_res = {
 
 int aciacart_cart_enabled(void)
 {
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     return acia_enabled;
 #else
     return 0;
 #endif
 }
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 static int acia1_enable(void)
 {
     if (c64export_add(&export_res) < 0) {
@@ -267,7 +267,7 @@ int acia1_set_mode(int mode)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 static const resource_int_t resources_i[] = {
     { "Acia1Enable", 0, RES_EVENT_STRICT, 0,
       &acia_enabled, set_acia_enabled, NULL },
@@ -283,7 +283,7 @@ static const resource_int_t resources_i[] = {
 
 int aciacart_resources_init(void)
 {
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (acia1_resources_init() < 0) {
         return -1;
     }
@@ -299,7 +299,7 @@ void aciacart_resources_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 static BYTE aciacart_read(WORD addr)
 {
     acia_device.io_source_valid = 0;
@@ -336,14 +336,14 @@ int aciacart_cmdline_options_init(void)
 
 void aciacart_detach(void)
 {
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     set_acia_enabled(0, NULL);
 #endif
 }
 
 int aciacart_enable(void)
 {
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     return set_acia_enabled(1, NULL);
 #else
     return 0;
@@ -354,7 +354,7 @@ int aciacart_enable(void)
 
 int aciacart_snapshot_write_module(struct snapshot_s *p)
 {
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (acia1_snapshot_write_module(p) < 0) {
         return -1;
     }
@@ -363,7 +363,7 @@ int aciacart_snapshot_write_module(struct snapshot_s *p)
 }
 int aciacart_snapshot_read_module(struct snapshot_s *p)
 {
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (acia1_snapshot_read_module(p) < 0) {
         acia_enabled = 0;
         return -1;

@@ -84,7 +84,7 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "Acia1Enable", MENU_TOGGLE_ACIA },
 #endif
     { "REU", MENU_TOGGLE_REU },
@@ -129,7 +129,7 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 ui_res_possible_values AciaDevice[] = {
     { 1, MENU_ACIA_RS323_DEVICE_1 },
     { 2, MENU_ACIA_RS323_DEVICE_2 },
@@ -338,7 +338,7 @@ ui_res_possible_values c64_DS12C887RTC_base[] = {
 /* VICIIModel has to be first for the hack below to work */
 ui_res_value_list c64_ui_res_values[] = {
     { "VICIIModel", viciimodels },
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "Acia1Dev", AciaDevice },
     { "Acia1Base", AciaBase },
     { "Acia1Irq", AciaInt },

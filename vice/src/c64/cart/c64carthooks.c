@@ -517,7 +517,7 @@ int cart_cmdline_options_init(void)
 #ifdef HAVE_MIDI
         || c64_midi_cmdline_options_init() < 0
 #endif
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         || aciacart_cmdline_options_init() < 0
 #endif
         || digimax_cmdline_options_init() < 0
@@ -569,7 +569,7 @@ int cart_resources_init(void)
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
 #endif
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         || aciacart_resources_init() < 0
 #endif
         /* "Main Slot" */
@@ -598,7 +598,7 @@ void cart_resources_shutdown(void)
 #ifdef HAVE_TFE
     tfe_resources_shutdown();
 #endif
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     aciacart_resources_shutdown();
 #endif
 
@@ -743,7 +743,7 @@ int cart_type_enabled(int type)
         case CARTRIDGE_TFE:
             return tfe_cart_enabled();
 #endif
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         case CARTRIDGE_TURBO232:
             return aciacart_cart_enabled();
 #endif
@@ -794,7 +794,7 @@ const char *cart_get_file_name(int type)
 #ifdef HAVE_TFE
         case CARTRIDGE_TFE:
 #endif
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         case CARTRIDGE_TURBO232:
 #endif
             break;
@@ -1281,7 +1281,7 @@ int cartridge_enable(int type)
             tfe_enable();
             break;
 #endif
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         case CARTRIDGE_TURBO232:
             aciacart_enable();
             break;
@@ -1330,7 +1330,7 @@ void cart_detach_all(void)
 #ifdef HAVE_TFE
     tfe_detach();
 #endif
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     aciacart_detach();
 #endif
     /* "Main Slot" */
@@ -1406,7 +1406,7 @@ void cart_detach(int type)
             tfe_detach();
             break;
 #endif
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         case CARTRIDGE_TURBO232:
             aciacart_detach();
             break;
@@ -1605,7 +1605,7 @@ void cart_init(void)
 #ifdef HAVE_TFE
     tfe_init();
 #endif
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     aciacart_init();
 #endif
 }
@@ -1875,7 +1875,7 @@ void cartridge_reset(void)
         tfe_reset();
     }
 #endif
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (aciacart_cart_enabled()) {
         aciacart_reset();
     }
@@ -2776,7 +2776,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 }
                 break;
 #endif
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
             case CARTRIDGE_TURBO232:
                 if (aciacart_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3240,7 +3240,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 }
                 break;
 #endif
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
             case CARTRIDGE_TURBO232:
                 if (aciacart_snapshot_read_module(s) < 0) {
                     goto fail2;

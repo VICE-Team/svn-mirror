@@ -318,7 +318,7 @@ IDCLS_P_REVISION
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
 IDCLS_PATCH_KERNAL_TO_REVISION
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    scpu64/scpu64-cmdline-options.c */
 IDCLS_ENABLE_DEXX_ACIA_RS232_EMU
@@ -1399,7 +1399,7 @@ IDCLS_ENABLE_VIDEO_CACHE
 /* raster/raster-cmdline-options.c */
 IDCLS_DISABLE_VIDEO_CACHE
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 /* rs232drv/rs232drv.c */
 IDCLS_SPECIFY_RS232_1_NAME
 

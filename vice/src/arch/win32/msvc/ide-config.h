@@ -22,7 +22,8 @@
 #define HAVE_MOUSE              1
 #define HAVE_CATWEASELMKIII     1
 #define HAVE_HARDSID            1
-#define HAVE_RS232              1
+#define HAVE_RS232DEV           1
+#define HAVE_RS232NET           1
 #define HAVE_DYNLIB_SUPPORT     1
 
 #ifndef _M_IA64

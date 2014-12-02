@@ -47,7 +47,7 @@
 #include "userport_joystick.h"
 #include "vicii.h"
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 #include "rsuser.h"
 #endif
 
@@ -491,7 +491,7 @@ static void store_sdr(cia_context_t *cia_context, BYTE byte)
     if (burst_mod == BURST_MOD_CIA1) {
         c64fastiec_fast_cpu_write((BYTE)byte);
     }
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (rsuser_enabled) {
         rsuser_tx_byte(byte);
     }

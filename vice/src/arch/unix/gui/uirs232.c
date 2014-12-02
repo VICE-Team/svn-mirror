@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 
 #include <stdio.h>
 #include <stdlib.h>

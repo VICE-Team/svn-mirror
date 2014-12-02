@@ -46,7 +46,7 @@
 #include "vic20iec.h"
 #include "vic20via.h"
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 #include "rsuser.h"
 #endif
 
@@ -131,7 +131,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
     userport_joystick_store_pbx(byte);
 
     printer_userport_write_data(byte);
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl(byte);
 #endif
 }
@@ -146,7 +146,7 @@ static void reset(via_context_t *via_context)
 
     printer_userport_write_data(0xff);
     printer_userport_write_strobe(1);
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     rsuser_write_ctrl(0xff);
     rsuser_set_tx_bit(1);
 #endif
@@ -167,7 +167,7 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
 
         datasette_set_motor(!(byte & 0x02));
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         /* switching userport strobe with CB2 */
         if (rsuser_enabled) {
             rsuser_set_tx_bit(byte & 0x20);
@@ -233,7 +233,7 @@ inline static BYTE read_prb(via_context_t *via_context)
     BYTE byte;
     byte = via_context->via[VIA_PRB] | ~(via_context->via[VIA_DDRB]);
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (rsuser_enabled) {
         byte = rsuser_read_ctrl();
     }

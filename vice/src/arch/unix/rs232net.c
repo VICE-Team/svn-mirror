@@ -39,6 +39,8 @@
 
 #include "vice.h"
 
+#ifdef HAVE_RS232NET
+
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
@@ -283,3 +285,4 @@ enum rs232handshake_in rs232net_get_status(int fd)
     /*! \todo dummy */
     return RS232_HSI_CTS | RS232_HSI_DSR;
 }
+#endif

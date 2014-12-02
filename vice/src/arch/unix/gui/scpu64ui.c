@@ -72,9 +72,11 @@
 #include "uiretroreplay.h"
 #include "uireu.h"
 #include "uiromset.h"
-#ifdef HAVE_RS232
+
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 #include "uirs232c64c128.h"
 #endif
+
 #include "uiscpu64.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
@@ -441,7 +443,7 @@ static ui_menu_entry_t scpu64_menu[] = {
       NULL, NULL, sid_submenu },
     { N_("I/O extensions"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, io_extensions_submenu },
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232_c64_submenu },
 #endif

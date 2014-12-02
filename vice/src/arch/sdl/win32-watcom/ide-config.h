@@ -11,7 +11,8 @@
 #define HAS_JOYSTICK          1
 #define HAVE_MOUSE            1
 #define HAVE_NETWORK          1
-#define HAVE_RS232            1
+#define HAVE_RS232DEV         1
+#define HAVE_RS232NET         1
 
 #define HAVE_RESID             1
 #define HAVE_RESID_FP          1

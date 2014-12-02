@@ -38,7 +38,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_RS232
+#ifdef HAVE_RS232DEV
 
 #include <errno.h>
 #include <fcntl.h>

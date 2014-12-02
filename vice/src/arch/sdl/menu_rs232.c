@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 
 #include <stdio.h>
 
@@ -457,5 +457,4 @@ const ui_menu_entry_t rs232_vic20_menu[] = {
     VICE_SDL_RS232_ARCHDEP_ITEMS
     SDL_MENU_LIST_END
 };
-
-#endif /* HAVE_RS232 */
+#endif

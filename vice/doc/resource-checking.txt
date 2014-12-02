@@ -11,7 +11,7 @@ resource function:              acia_set_device()
 resource var:                   acia.device
 resource emulators:             x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    x64dtv/vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -myaciadev
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
 platform range correct:		amigaos/beos/sdl/unix/osx/windows
@@ -1197,7 +1197,7 @@ resource function:              acia_set_irq()
 resource var:                   acia.irq_res
 resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
 platform range correct:		
@@ -1214,7 +1214,7 @@ resource function:              acia_set_mode()
 resource var:                   acia.mode
 resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
 platform range correct:		
@@ -1231,7 +1231,7 @@ resource function:              set_acia_enabled()
 resource var:                   acia_enabled
 resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -acia1 / +acia1
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
 platform range correct:		
@@ -1248,7 +1248,7 @@ resource function:              set_acia_base()
 resource var:                   acia_base
 resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
 platform range correct:		
@@ -8725,7 +8725,7 @@ resource function:              set_devfile()
 resource var:                   rs232_devfile[0]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -rsdev1
 platform gui present:           sdl/unix/osx/windows
 platform gui missing:           amigaos/beos/dos/os2
@@ -8741,7 +8741,7 @@ resource function:              set_devfile()
 resource var:                   rs232_devfile[1]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -rsdev2
 platform gui present:           sdl/unix/osx/windows
 platform gui missing:           amigaos/beos/dos/os2
@@ -8757,7 +8757,7 @@ resource function:              set_devfile()
 resource var:                   rs232_devfile[2]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -rsdev3
 platform gui present:           sdl/unix/osx/windows
 platform gui missing:           amigaos/beos/dos/os2
@@ -8773,7 +8773,7 @@ resource function:              set_devfile()
 resource var:                   rs232_devfile[3]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -rsdev4
 platform gui present:           sdl/unix/osx/windows
 platform gui missing:           amigaos/beos/dos/os2
@@ -8789,7 +8789,7 @@ resource function:              set_enable()
 resource var:                   rsuser_enabled
 resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -rsuser / +rsuser
 platform gui present:           amigaos/sdl/unix/osx/windows
 platform gui missing:			beos/dos/os2
@@ -8805,7 +8805,7 @@ resource function:              set_baudrate()
 resource var:                   rsuser_baudrate
 resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -rsuserbaud
 platform gui present:           amigaos/sdl/unix/osx/windows
 platform range correct:		
@@ -8823,7 +8823,7 @@ resource function:              set_up_device()
 resource var:                   rsuser_device
 resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -rsuserdev
 platform gui present:           amigaos/sdl/unix/osx/windows
 platform range correct:		
@@ -15169,7 +15169,7 @@ resource function:              set_devbaud()
 resource var:                   devbaud[0]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -rsdev1baud
 platform gui present:           unix
 platform range correct:		
@@ -15186,7 +15186,7 @@ resource function:              set_devbaud()
 resource var:                   devbaud[1]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -rsdev2baud
 platform gui present:           unix
 platform range correct:		
@@ -15203,7 +15203,7 @@ resource function:              set_devbaud()
 resource var:                   devbaud[2]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -rsdev3baud
 platform gui present:           unix
 platform range correct:		
@@ -15220,7 +15220,7 @@ resource function:              set_devbaud()
 resource var:                   devbaud[3]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
-prepocessor:                    #ifdef HAVE_RS232
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 command-line:                   -rsdev4baud
 platform gui present:           unix
 platform range correct:		

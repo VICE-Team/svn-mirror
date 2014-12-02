@@ -46,7 +46,7 @@
 #include "menu_ram.h"
 #include "menu_rom.h"
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 #include "menu_rs232.h"
 #endif
 
@@ -196,7 +196,7 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IEEE488_callback,
       NULL },
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "RS232 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

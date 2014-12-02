@@ -394,7 +394,7 @@ BYTE mem_read(WORD addr)
 
 static BYTE fdxx_read(WORD addr)
 {
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (addr >= 0xfd00 && addr <= 0xfd0f) {
         return acia_read(addr);
     }
@@ -437,7 +437,7 @@ static BYTE fdxx_read(WORD addr)
 
 static void fdxx_store(WORD addr, BYTE value)
 {
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (addr >= 0xfd00 && addr <= 0xfd0f) {
         acia_store(addr, value);
         return;

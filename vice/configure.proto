@@ -433,7 +433,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
 
   if test x"$enable_sdlui" != "xyes"; then
       if test x"$enable_rs232" != "xno"; then
-        AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+        AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
       fi
       AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
       AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
@@ -454,6 +454,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
     AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+    AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
     AC_CHECK_HEADERS(proto/openpci.h, openpci_present=yes,,)
     if test x"$enable_sdlui" != "xyes"; then
         AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo (overlay) support.])
@@ -471,6 +472,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
     AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+    AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
     AC_CHECK_HEADERS(aros/_timeval.h)
     AC_MSG_CHECKING(if common library bases are auto resolved)
     aros_common_resolve=no
@@ -493,6 +495,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
     AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+    AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
     AC_CHECK_HEADERS(proto/openpci.h, openpci_present=yes,,)
     if test x"$openpci_present" = "xyes"; then
       AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
@@ -533,6 +536,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
   AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
   AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+  AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
   AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
   AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
   if test x"$enable_parsid" = "xyes"; then
@@ -543,7 +547,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   fi
   AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
   if test x"$enable_rs232" != "xno"; then
-    AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+    AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
   fi
 
   if test x"$enable_sdlui" != "xyes"; then
@@ -702,7 +706,7 @@ darwin*)
 
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
   if test x"$enable_rs232" != "xno"; then
-    AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+    AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
   fi
 
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
@@ -811,7 +815,7 @@ dnl All other UN*X systems
       AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
     fi
     if test x"$enable_rs232" != "xno"; then
-      AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+      AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
     fi
   fi
 
@@ -1475,6 +1479,7 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = 
 
     if test x"$UNIX_NETWORK_FUNCS_PRESENT" = "xyes"; then
       AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+      AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
       AC_CHECK_FUNCS(htons htonl)
       AC_CHECK_FUNCS(getdtablesize getrlimit)
       AC_MSG_CHECKING([For socklen_t])
@@ -1521,6 +1526,7 @@ elif test x"$is_beos" = "xyes"; then
 
     if test x"$BEOS_NETWORK_FUNCS_PRESENT" = "xyes"; then
       AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+      AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
       AC_CHECK_FUNCS(getdtablesize getrlimit)
     fi
   fi

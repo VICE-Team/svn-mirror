@@ -49,7 +49,7 @@
 #include "menu_ram.h"
 #include "menu_rom.h"
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 #include "menu_rs232.h"
 #endif
 
@@ -150,7 +150,7 @@ const ui_menu_entry_t scpu64_hardware_menu[] = {
       (ui_callback_data_t)scpu64_rom_menu },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Hardware expansions"),
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "RS232 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

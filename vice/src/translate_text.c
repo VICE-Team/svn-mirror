@@ -3847,7 +3847,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_PATCH_KERNAL_TO_REVISION_TR, "Kernal ROM'u belirtilmiþ <revizyon>'a yama"},
 #endif
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c
    scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU,    N_("Enable the ACIA RS232 interface emulation")},
@@ -9986,7 +9986,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_VIDEO_CACHE_TR, "Görüntü önbelleðini pasifleþtir"},
 #endif
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 /* rs232drv/rs232drv.c */
 /* en */ {IDCLS_SPECIFY_RS232_1_NAME,    N_("Specify name of first RS232 device")},
 #ifdef HAS_TRANSLATION

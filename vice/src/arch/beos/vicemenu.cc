@@ -600,7 +600,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Expansion Carts"));
         if (machine_class == VICE_MACHINE_VIC20) {
@@ -644,7 +644,7 @@ BMenuBar *menu_create(int machine_class)
                 extsubmenu->AddItem(new BMenuItem("Turbo232", new BMessage(MENU_ACIA_MODE_TURBO232)));
         }
     }
-#else /* ! HAVE_RS232 */
+#else
     if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID &&
         machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(menu = new BMenu("Expansion Carts"));

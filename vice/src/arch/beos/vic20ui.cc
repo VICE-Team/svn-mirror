@@ -81,7 +81,7 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "VICDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "VICDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICVideoCache", MENU_TOGGLE_VIDEOCACHE },
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "Acia1Enable", MENU_TOGGLE_ACIA },
 #endif
     { "GEORAM", MENU_TOGGLE_GEORAM },
@@ -101,7 +101,7 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 ui_res_possible_values vic20AciaDevice[] = {
     { 1, MENU_ACIA_RS323_DEVICE_1 },
     { 2, MENU_ACIA_RS323_DEVICE_2 },
@@ -182,7 +182,7 @@ ui_res_possible_values vic20_DS12C887RTC_base[] = {
 };
 
 ui_res_value_list vic20_ui_res_values[] = {
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "Acia1Dev", vic20AciaDevice },
     { "Acia1Base", vic20AciaBase },
     { "Acia1Irq", vic20AciaInt },

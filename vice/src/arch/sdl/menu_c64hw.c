@@ -49,7 +49,7 @@
 #include "menu_ram.h"
 #include "menu_rom.h"
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 #include "menu_rs232.h"
 #endif
 
@@ -114,7 +114,7 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)c64_256k_menu },
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "RS232 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -192,7 +192,7 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)c64_256k_menu },
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "RS232 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

@@ -181,7 +181,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_C64_MODE_BASIC_NAME,
       NULL, NULL },
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "-acia1", SET_RESOURCE, 0,
       NULL, NULL, "Acia1Enable", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,

@@ -38,7 +38,7 @@
 #include "pet.h"
 #include "petmodel.h"
 
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 #include "menu_rs232.h"
 #endif
 
@@ -304,7 +304,7 @@ const ui_menu_entry_t pet_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_Crtc_callback,
       NULL },
-#ifdef HAVE_RS232
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { "RS232 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
