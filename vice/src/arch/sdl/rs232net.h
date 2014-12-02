@@ -29,6 +29,10 @@
 
 #include "vice.h"
 
+#ifdef UNIX_COMPILE
+#include "../unix/rs232net.h"
+#endif
+
 #if defined(WIN32_COMPILE) && !defined(__XBOX__)
 #include "../win32/rs232net.h"
 #endif
