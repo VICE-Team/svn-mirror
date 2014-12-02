@@ -361,7 +361,10 @@
 #define HAVE_NETINET_IN_H 1
 
 /* Enable netplay support */
-#define HAVE_NETWORK /**/
+#define HAVE_NETWORK
+
+/* Enable netplay support */
+#define HAVE_RS232NET
 
 /* Support for OpenCBM (former CBM4Linux). */
 /* #undef HAVE_OPENCBM */

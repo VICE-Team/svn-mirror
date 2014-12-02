@@ -38,6 +38,8 @@
 
 #include "vice.h"
 
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
+
 #include <assert.h>
 #include <errno.h>
 #include <string.h>
@@ -257,3 +259,4 @@ void rs232_set_bps(int fd, unsigned int bps)
 #endif
     }
 }
+#endif

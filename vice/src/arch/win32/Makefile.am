@@ -121,11 +121,7 @@ libarch_a_SOURCES = \
 	resvic20.rc \
 	resvicii.rc \
 	resvsid.rc \
-	rs232.c \
 	rs232dev.c \
-	rs232dev.h \
-	rs232net.c \
-	rs232net.h \
 	scpu64ui.c \
 	signals.c \
 	socketimpl.h \

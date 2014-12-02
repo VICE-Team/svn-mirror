@@ -199,6 +199,10 @@ noinst_HEADERS = \
 	resources.h \
 	riot.h \
 	romset.h \
+	rs232.c \
+	rs232dev.h \
+	rs232net.c \
+	rs232net.h \
 	rs232drv.h \
 	rsuser.h \
 	scpu64ui.h \

@@ -112,9 +112,7 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/menu_video.c \
 	$(MY_PATH2)/src/arch/sdl/mousedrv.c \
 	$(MY_PATH2)/src/arch/sdl/rawnetarch.c \
-	$(MY_PATH2)/src/arch/sdl/rs232.c \
 	$(MY_PATH2)/src/arch/sdl/rs232dev.c \
-	$(MY_PATH2)/src/arch/sdl/rs232net.c \
 	$(MY_PATH2)/src/arch/sdl/sdlmain.c \
 	$(MY_PATH2)/src/arch/sdl/signals.c \
 	$(MY_PATH2)/src/arch/sdl/ui.c \
@@ -192,6 +190,8 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/rawnet.c \
 	$(MY_PATH2)/src/resources.c \
 	$(MY_PATH2)/src/romset.c \
+	$(MY_PATH2)/src/rs232.c \
+	$(MY_PATH2)/src/rs232net.c \
 	$(MY_PATH2)/src/screenshot.c \
 	$(MY_PATH2)/src/snapshot.c \
 	$(MY_PATH2)/src/socket.c \

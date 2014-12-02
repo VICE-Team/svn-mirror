@@ -143,11 +143,7 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	parsid.c \
-	rs232.c \
 	rs232dev.c \
-	rs232dev.h \
-	rs232net.c \
-	rs232net.h \
 	sdlmain.c \
 	signals.c \
 	socketimpl.h \
