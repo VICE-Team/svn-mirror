@@ -100,7 +100,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/platform \
-	-I$(top_srcdir)/src/rtc
+	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/rs232drv
 
 noinst_HEADERS = \
 	6510core.h \
