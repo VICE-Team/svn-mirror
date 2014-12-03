@@ -799,6 +799,8 @@ void machine_specific_shutdown(void)
     mouse_shutdown();
 #endif
 
+    sid_cmdline_options_shutdown();
+
     scpu64ui_shutdown();
 }
 

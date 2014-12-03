@@ -1302,3 +1302,26 @@ char util_toupper(char c)
 {
     return (char)toupper((int)c);
 }
+
+/* generate a list in the form "%d: %X, %d: %X, ... %d: %X" */
+char *util_gen_hex_dec_address_list(int start, int stop, int step)
+{
+    char *temp1, *temp2, *temp3;
+    int i = start;
+
+    temp1 = lib_stralloc("");
+    while (i < stop) {
+        temp2 = lib_msprintf("%d: %X", i, i);
+        temp3 = util_concat(temp1, temp2, NULL);
+        lib_free(temp1);
+        lib_free(temp2);
+        temp1 = temp3;
+        if (i + step < stop) {
+            temp3 = util_concat(temp1, ", ", NULL);
+            lib_free(temp1);
+            temp1 = temp3;
+        }
+        i += step;
+    }
+    return temp3;
+}

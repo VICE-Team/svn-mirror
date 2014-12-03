@@ -33,12 +33,16 @@
 #include <string.h>
 
 #include "cmdline.h"
+#include "lib.h"
 #include "machine.h"
 #include "resources.h"
 #include "sid.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "translate.h"
+#include "util.h"
+
+static char *sid_address_range = NULL;
 
 struct engine_s {
     const char *name;
@@ -179,9 +183,9 @@ static const cmdline_option_t resid_cmdline_options[] = {
 static cmdline_option_t stereo_cmdline_options[] = {
     { "-sidstereo", SET_RESOURCE, 1,
       NULL, NULL, "SidStereo", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_AMOUNT, IDCLS_AMOUNT_EXTRA_SIDS,
-      NULL, ". (0..2)" },
+      NULL, NULL },
     { "-sidstereoaddress", SET_RESOURCE, 1,
       NULL, NULL, "SidStereoAddressStart", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_COMBO,
@@ -209,19 +213,36 @@ static const cmdline_option_t common_cmdline_options[] = {
     { NULL }
 };
 
-#define C128_SID_RANGE ". (" \
-"54304: $D420, 54336: $D440, 54368: $D460, 54400: $D480, 54432: $D4A0, 54464: $D4C0, 54496: $D4E0, " \
-"55040: $D700, 55072: $D720, 55104: $D740, 55136: $D760, 55168: $D780, 55200: $D7A0, 55232: $D7C0, 55264: $D7E0, " \
-"56832: $DE00, 56864: $DE20, 56896: $DE40, 56928: $DE60, 56960: $DE80, 56992: $DEA0, 57024: $DEC0, 57056: $DEE0, " \
-"57088: $DF00, 57120: $DF20, 57152: $DF40, 57184: $DF60, 57216: $DF80, 57248: $DFA0, 57280: $DFC0, 57312: $DFE0)"
+static char *generate_sid_address_range(void)
+{
+    char *temp1, *temp2, *temp3;
 
-#define C64_SID_RANGE ". (" \
-"54304: $D420, 54336: $D440, 54368: $D460, 54400: $D480, 54432: $D4A0, 54464: $D4C0, 54496: $D4E0, " \
-"54528: $D500, 54560: $D520, 54592: $D540, 54624: $D560, 54656: $D580, 54688: $D5A0, 54720: $D5C0, 54752: $D5E0, " \
-"54784: $D600, 54816: $D620, 54848: $D640, 54880: $D660, 54912: $D680, 54944: $D6A0, 54976: $D6C0, 55008: $D6E0, " \
-"55040: $D700, 55072: $D720, 55104: $D740, 55136: $D760, 55168: $D780, 55200: $D7A0, 55232: $D7C0, 55264: $D7E0, " \
-"56832: $DE00, 56864: $DE20, 56896: $DE40, 56928: $DE60, 56960: $DE80, 56992: $DEA0, 57024: $DEC0, 57056: $DEE0, " \
-"57088: $DF00, 57120: $DF20, 57152: $DF40, 57184: $DF60, 57216: $DF80, 57248: $DFA0, 57280: $DFC0, 57312: $DFE0)"
+    temp3 = lib_stralloc(". (");
+
+    temp1 = util_gen_hex_dec_address_list(0xd420, 0xd500, 0x20);
+    temp2 = util_concat(temp3, temp1, ", ", NULL);
+    lib_free(temp3);
+    lib_free(temp1);
+    temp3 = temp2;
+
+    if (machine_class == VICE_MACHINE_C128) {
+        temp1 = util_gen_hex_dec_address_list(0xd700, 0xd800, 0x20);
+    } else {
+        temp1 = util_gen_hex_dec_address_list(0xd500, 0xd800, 0x20);
+    }
+
+    temp2 = util_concat(temp3, temp1, ", ", NULL);
+    lib_free(temp3);
+    lib_free(temp1);
+    temp3 = temp2;
+
+    temp1 = util_gen_hex_dec_address_list(0xde00, 0xe000, 0x20);
+    temp2 = util_concat(temp3, temp1, ")", NULL);
+    lib_free(temp3);
+    lib_free(temp1);
+
+    return temp2;
+}
 
 int sid_cmdline_options_init(void)
 {
@@ -253,16 +274,21 @@ int sid_cmdline_options_init(void)
         (machine_class != VICE_MACHINE_PET) &&
         (machine_class != VICE_MACHINE_CBM5x0) &&
         (machine_class != VICE_MACHINE_CBM6x0)) {
-        if (machine_class == VICE_MACHINE_C128) {
-            stereo_cmdline_options[1].description = C128_SID_RANGE;
-            stereo_cmdline_options[2].description = C128_SID_RANGE;
-        } else {
-            stereo_cmdline_options[1].description = C64_SID_RANGE;
-            stereo_cmdline_options[2].description = C64_SID_RANGE;
-        }
+
+        sid_address_range = generate_sid_address_range();
+        stereo_cmdline_options[1].description = sid_address_range;
+        stereo_cmdline_options[2].description = sid_address_range;
+
         if (cmdline_register_options(stereo_cmdline_options) < 0) {
             return -1;
         }
     }
     return cmdline_register_options(common_cmdline_options);
+}
+
+void sid_cmdline_options_shutdown(void)
+{
+    if (sid_address_range) {
+        lib_free(sid_address_range);
+    }
 }

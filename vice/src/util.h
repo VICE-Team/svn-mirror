@@ -97,6 +97,8 @@ extern char *util_find_next_line(const char *pos);
 extern char util_tolower(char c);
 extern char util_toupper(char c);
 
+extern char *util_gen_hex_dec_address_list(int start, int stop, int step);
+
 #if !defined HAVE_MEMMOVE
 extern void *memmove(void *target, const void *source, unsigned int length);
 #endif

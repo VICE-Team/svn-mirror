@@ -977,6 +977,8 @@ void machine_specific_shutdown(void)
     vicii_shutdown();
     vdc_shutdown();
 
+    sid_cmdline_options_shutdown();
+
     c128ui_shutdown();
 }
 

@@ -333,9 +333,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-plus60kbase", SET_RESOURCE, 1,
       NULL, NULL, "PLUS60Kbase", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_BASE_ADDRESS, IDCLS_PLUS60K_BASE,
-      NULL, ". (53312: $D040, 53504: $D100)" },
+      NULL, NULL },
     { NULL }
 };
 

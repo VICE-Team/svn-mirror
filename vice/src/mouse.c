@@ -648,9 +648,9 @@ static const cmdline_option_t cmdline_extra_option[] = {
       NULL, NULL },
     { "-mouseport", SET_RESOURCE, 1,
       NULL, NULL, "Mouseport", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_VALUE, IDCLS_SELECT_MOUSE_JOY_PORT,
-      NULL, ". (1/2)" },
+      NULL, NULL },
     { NULL }
 };
 

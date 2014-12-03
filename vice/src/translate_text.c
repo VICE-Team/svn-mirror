@@ -4826,20 +4826,20 @@ translate_t string_table[] = {
 #endif
 
 /* pet/petreu.c */
-/* en */ {IDCLS_PETREU_SIZE,    N_("Size of the PET Ram and Expansion Unit")},
+/* en */ {IDCLS_PETREU_SIZE,    N_("Size of the PET Ram and Expansion Unit. (128/512/1024/2048)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_PETREU_SIZE_DA, "Størrelse på PET REU"},
-/* de */ {IDCLS_PETREU_SIZE_DE, "Größe des PET RAM Speicher und Erweiterungsmodul"},
-/* es */ {IDCLS_PETREU_SIZE_ES, "Tamaño de PET Ram y Unidad Expansión"},
-/* fr */ {IDCLS_PETREU_SIZE_FR, "Taille de l'unité d'expansion RAM"},
-/* hu */ {IDCLS_PETREU_SIZE_HU, "PET RAM and Expansion Unit mérete"},
-/* it */ {IDCLS_PETREU_SIZE_IT, "Dimensione della RAM e dell'unità di espansione del PET"},
+/* da */ {IDCLS_PETREU_SIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_PETREU_SIZE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_PETREU_SIZE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_PETREU_SIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PETREU_SIZE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PETREU_SIZE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_PETREU_SIZE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_PETREU_SIZE_NL, "Grootte van de PET RAM en uitbreidingseenheid"},
-/* pl */ {IDCLS_PETREU_SIZE_PL, "Rozmiar PET Ram i Expansion Unit"},
-/* ru */ {IDCLS_PETREU_SIZE_RU, "Size of the PET Ram and Expansion Unit"},
-/* sv */ {IDCLS_PETREU_SIZE_SV, "Storlek på PET Ram- och -expansionsenhet"},
-/* tr */ {IDCLS_PETREU_SIZE_TR, "PET Ram ve Geniþletme Birimi'nin boyutu"},
+/* nl */ {IDCLS_PETREU_SIZE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PETREU_SIZE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_PETREU_SIZE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_PETREU_SIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_PETREU_SIZE_TR, ""},  /* fuzzy */
 #endif
 
 /* pet/petdww.c */
@@ -5132,20 +5132,20 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/ramcart.c */
-/* en */ {IDCLS_RAMCART_SIZE,    N_("Size of the RAMCART expansion")},
+/* en */ {IDCLS_RAMCART_SIZE,    N_("Size of the RAMCART expansion. (64/128)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_RAMCART_SIZE_DA, "Størrelse på RAMCART-udviddelse"},
-/* de */ {IDCLS_RAMCART_SIZE_DE, "Größe der RAMCART Erweiterung"},
-/* es */ {IDCLS_RAMCART_SIZE_ES, "Tamaño expansión RAMCart"},
-/* fr */ {IDCLS_RAMCART_SIZE_FR, "Taille de l'expansion RAMCART"},
-/* hu */ {IDCLS_RAMCART_SIZE_HU, "RAMCART bõvítés mérete"},
-/* it */ {IDCLS_RAMCART_SIZE_IT, "Dimensione dell'espansione RAMCART"},
+/* da */ {IDCLS_RAMCART_SIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_RAMCART_SIZE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_RAMCART_SIZE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_RAMCART_SIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RAMCART_SIZE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_RAMCART_SIZE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_RAMCART_SIZE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_RAMCART_SIZE_NL, "Grootte van de RAMCART uitbreiding"},
-/* pl */ {IDCLS_RAMCART_SIZE_PL, "Rozmiar rozszerzenia RAMCART"},
-/* ru */ {IDCLS_RAMCART_SIZE_RU, "Size of the RAMCART expansion"},
-/* sv */ {IDCLS_RAMCART_SIZE_SV, "Storlek på RAMCART-expansion"},
-/* tr */ {IDCLS_RAMCART_SIZE_TR, "RAMCART geniþlemesinin boyutu"},
+/* nl */ {IDCLS_RAMCART_SIZE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_RAMCART_SIZE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_RAMCART_SIZE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_RAMCART_SIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_RAMCART_SIZE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/dqbb.c */
@@ -5846,20 +5846,20 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/reu.c */
-/* en */ {IDCLS_REU_SIZE,    N_("Size of the RAM expansion unit")},
+/* en */ {IDCLS_REU_SIZE,    N_("Size of the RAM expansion unit. (128/256/512/1024/2048/4096/8192/16384)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_REU_SIZE_DA, "Størrelse på RAM-udviddelsesenhed"},
-/* de */ {IDCLS_REU_SIZE_DE, "Größe der RAM Speichererweiterung"},
-/* es */ {IDCLS_REU_SIZE_ES, "Tamaño unidad expansion RAM"},
-/* fr */ {IDCLS_REU_SIZE_FR, "Taille de l'unité d'expansion RAM"},
-/* hu */ {IDCLS_REU_SIZE_HU, "RAM Expansion Unit mérete"},
-/* it */ {IDCLS_REU_SIZE_IT, "Dimensione dell'espansione di RAM"},
+/* da */ {IDCLS_REU_SIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_REU_SIZE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_REU_SIZE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_REU_SIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_REU_SIZE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_REU_SIZE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_REU_SIZE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_REU_SIZE_NL, "Grootte van de RAM uitbreidingseenheid (REU)"},
-/* pl */ {IDCLS_REU_SIZE_PL, "Rozmiar jednostki rozszerzenia RAM"},
-/* ru */ {IDCLS_REU_SIZE_RU, "Size of the RAM expansion unit"},
-/* sv */ {IDCLS_REU_SIZE_SV, "Storlek på RAM-expansionsenhet"},
-/* tr */ {IDCLS_REU_SIZE_TR, "RAM geniþletme biriminin boyutu"},
+/* nl */ {IDCLS_REU_SIZE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_REU_SIZE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_REU_SIZE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_REU_SIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_REU_SIZE_TR, ""},  /* fuzzy */
 #endif
 
 #ifdef HAVE_TFE
@@ -7141,54 +7141,54 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/ide64.c */
-/* en */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64,    N_("Set number of cylinders for the IDE64 emulation")},
+/* en */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64,    N_("Set number of cylinders for the IDE64 emulation. (1..65535)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_DA, "Vælg antal cylindrer for IDE64-emuleringen"},
-/* de */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_DE, "Anzahl der Zylinder für IDE64 Emulation"},
-/* es */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_ES, "Seleccionar número de cilindros para emulación IDE64"},
-/* fr */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_FR, "Régler le nombre de cylindres pour l'émulation IDE64"},
-/* hu */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_HU, "Adja meg a sávok számát IDE64 emulációhoz"},
-/* it */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_IT, "Imposta il numero di cilindri dell'emulazione IDE64"},
+/* da */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_NL, "Stel het aantal cylinders voor de IDE64 emulatie in"},
-/* pl */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_PL, "Ustaw liczbê cylindrów w emulacji IDE64"},
-/* ru */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_RU, "Set number of cylinders for the IDE64 emulation"},
-/* sv */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_SV, "Välj antal cylindrar för IDE64-emuleringen"},
-/* tr */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_TR, "IDE64 emülasyonu için silindir adedini girin"},
+/* nl */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/ide64.c */
-/* en */ {IDCLS_SET_AMOUNT_HEADS_IDE64,    N_("Set number of heads for the IDE64 emulation")},
+/* en */ {IDCLS_SET_AMOUNT_HEADS_IDE64,    N_("Set number of heads for the IDE64 emulation. (1..16)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_AMOUNT_HEADS_IDE64_DA, "Vælg antal hoveder for IDE64-emuleringen"},
-/* de */ {IDCLS_SET_AMOUNT_HEADS_IDE64_DE, "Anzahl der Laufwerksköpfe für IDE64 Emulation"},
-/* es */ {IDCLS_SET_AMOUNT_HEADS_IDE64_ES, "Seleccionar número de cabezas para emulación IDE64"},
-/* fr */ {IDCLS_SET_AMOUNT_HEADS_IDE64_FR, "Régler le nombre de têtes pour l'émulation IDE64"},
-/* hu */ {IDCLS_SET_AMOUNT_HEADS_IDE64_HU, "Adja meg a fejek számát IDE64 emulációhoz"},
-/* it */ {IDCLS_SET_AMOUNT_HEADS_IDE64_IT, "Imposta il numero di testine dell'emulazione IDE64"},
+/* da */ {IDCLS_SET_AMOUNT_HEADS_IDE64_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_AMOUNT_HEADS_IDE64_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_AMOUNT_HEADS_IDE64_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_AMOUNT_HEADS_IDE64_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_AMOUNT_HEADS_IDE64_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_AMOUNT_HEADS_IDE64_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_AMOUNT_HEADS_IDE64_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_AMOUNT_HEADS_IDE64_NL, "Stel het aantal koppen voor de IDE64 emulatie in"},
-/* pl */ {IDCLS_SET_AMOUNT_HEADS_IDE64_PL, "Ustaw liczbê g³owic w emulacji IDE64"},
-/* ru */ {IDCLS_SET_AMOUNT_HEADS_IDE64_RU, "Set number of heads for the IDE64 emulation"},
-/* sv */ {IDCLS_SET_AMOUNT_HEADS_IDE64_SV, "Ange antal huvuden för IDE64-emuleringen"},
-/* tr */ {IDCLS_SET_AMOUNT_HEADS_IDE64_TR, "IDE64 emülasyonu için kafa adedini girin"},
+/* nl */ {IDCLS_SET_AMOUNT_HEADS_IDE64_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_AMOUNT_HEADS_IDE64_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_AMOUNT_HEADS_IDE64_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_AMOUNT_HEADS_IDE64_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_AMOUNT_HEADS_IDE64_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/ide64.c */
-/* en */ {IDCLS_SET_AMOUNT_SECTORS_IDE64,    N_("Set number of sectors for the IDE64 emulation")},
+/* en */ {IDCLS_SET_AMOUNT_SECTORS_IDE64,    N_("Set number of sectors for the IDE64 emulation. (1..63)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_DA, "Vælg antal sektorer for IDE64-emuleringen"},
-/* de */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_DE, "Anzahl der Sektoren für IDE64 Emulation"},
-/* es */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_ES, "Seleccionar número de sectores para emulación IDE64"},
-/* fr */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_FR, "Régler le nombre de secteurs pour l'émulation IDE64"},
-/* hu */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_HU, "Adja meg a szektorok számát IDE64 emulációhoz"},
-/* it */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_IT, "Imposta il numero di settori dell'emulazione IDE64"},
+/* da */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_NL, "Stel het aantal sectors voor de IDE64 emulatie in"},
-/* pl */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_PL, "Ustaw liczbê sektorów w emulacji IDE64"},
-/* ru */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_RU, "Set number of sectors for the IDE64 emulation"},
-/* sv */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_SV, "Ange antal sektorer för IDE64-emuleringen"},
-/* tr */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_TR, "IDE64 emülasyonu için sektör adedini girin"},
+/* nl */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/ide64.c */
@@ -10448,20 +10448,20 @@ translate_t string_table[] = {
 #endif
 
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_AMOUNT_EXTRA_SIDS,    N_("amount of extra SID chips")},
+/* en */ {IDCLS_AMOUNT_EXTRA_SIDS,    N_("amount of extra SID chips. (0..2)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_AMOUNT_EXTRA_SIDS_DA, "antal ekstra SID-kredse"},
-/* de */ {IDCLS_AMOUNT_EXTRA_SIDS_DE, "Anzahl der extra SID Chips"},
-/* es */ {IDCLS_AMOUNT_EXTRA_SIDS_ES, "Cantidad de chips SID extra"},
-/* fr */ {IDCLS_AMOUNT_EXTRA_SIDS_FR, "quantité de puces SID supplémentaires"},
+/* da */ {IDCLS_AMOUNT_EXTRA_SIDS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_AMOUNT_EXTRA_SIDS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_AMOUNT_EXTRA_SIDS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_AMOUNT_EXTRA_SIDS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_AMOUNT_EXTRA_SIDS_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_AMOUNT_EXTRA_SIDS_IT, "numero di SID chip aggiuntivi"},
+/* it */ {IDCLS_AMOUNT_EXTRA_SIDS_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_AMOUNT_EXTRA_SIDS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_AMOUNT_EXTRA_SIDS_NL, "Aantal extra SID chips"},
-/* pl */ {IDCLS_AMOUNT_EXTRA_SIDS_PL, "Liczba dodatkowych czipów SID"},
+/* nl */ {IDCLS_AMOUNT_EXTRA_SIDS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_AMOUNT_EXTRA_SIDS_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_AMOUNT_EXTRA_SIDS_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_AMOUNT_EXTRA_SIDS_SV, "antal extra SID-kretsar"},
-/* tr */ {IDCLS_AMOUNT_EXTRA_SIDS_TR, "ekstra SID çiplerinin adedi"},
+/* sv */ {IDCLS_AMOUNT_EXTRA_SIDS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_AMOUNT_EXTRA_SIDS_TR, ""},  /* fuzzy */
 #endif
 
 /* sid/sid-cmdline-options.c */
@@ -12640,20 +12640,20 @@ translate_t string_table[] = {
 #endif
 
 /* mouse.c */
-/* en */ {IDCLS_SELECT_MOUSE_JOY_PORT,    N_("Select the joystick port the mouse is attached to")},
+/* en */ {IDCLS_SELECT_MOUSE_JOY_PORT,    N_("Select the joystick port the mouse is attached to. (1/2)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SELECT_MOUSE_JOY_PORT_DA, "Vælg hvilken joystickport musen er tilsluttet"},
-/* de */ {IDCLS_SELECT_MOUSE_JOY_PORT_DE, "Joystickport für Maus auswählen"},
-/* es */ {IDCLS_SELECT_MOUSE_JOY_PORT_ES, "Seleccionar el puerto de joystick en el que esta insertado el ratón"},
-/* fr */ {IDCLS_SELECT_MOUSE_JOY_PORT_FR, "Sélectionner le port sur lequel attacher la souris"},
-/* hu */ {IDCLS_SELECT_MOUSE_JOY_PORT_HU, "Válassza ki a joystick portot, ahová az egér csatolva van"},
-/* it */ {IDCLS_SELECT_MOUSE_JOY_PORT_IT, "Seleziona la porta joystick a cui è collegato il mouse"},
+/* da */ {IDCLS_SELECT_MOUSE_JOY_PORT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_MOUSE_JOY_PORT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SELECT_MOUSE_JOY_PORT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_MOUSE_JOY_PORT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SELECT_MOUSE_JOY_PORT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_MOUSE_JOY_PORT_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_MOUSE_JOY_PORT_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SELECT_MOUSE_JOY_PORT_NL, "Selecteer de joystickpoort waar de muis aan gekoppelt is"},
-/* pl */ {IDCLS_SELECT_MOUSE_JOY_PORT_PL, "Wybierz port joysticka, do którego pod³±czona jest mysz"},
-/* ru */ {IDCLS_SELECT_MOUSE_JOY_PORT_RU, "Select the joystick port the mouse is attached to"},
-/* sv */ {IDCLS_SELECT_MOUSE_JOY_PORT_SV, "Ange vilken spelport musen är ansluten till"},
-/* tr */ {IDCLS_SELECT_MOUSE_JOY_PORT_TR, "Mouse'un baðlý olduðu joystick portunu seçin"},
+/* nl */ {IDCLS_SELECT_MOUSE_JOY_PORT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_MOUSE_JOY_PORT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SELECT_MOUSE_JOY_PORT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_MOUSE_JOY_PORT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SELECT_MOUSE_JOY_PORT_TR, ""},  /* fuzzy */
 #endif
 
 /* mouse.c */
@@ -13372,20 +13372,20 @@ translate_t string_table[] = {
 #endif
 
 /* c64/plus60k.c */
-/* en */ {IDCLS_PLUS60K_BASE,    N_("Base address of the PLUS60K expansion")},
+/* en */ {IDCLS_PLUS60K_BASE,    N_("Base address of the PLUS60K expansion. (53312: $D040, 53504: $D100)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_PLUS60K_BASE_DA, "Baseadresse for PLUS60K-udviddelse"},
-/* de */ {IDCLS_PLUS60K_BASE_DE, "Basis Adresse für PLUS60K Erweiterung"},
-/* es */ {IDCLS_PLUS60K_BASE_ES, "Dirección base de la expansión PLUS60K"},
-/* fr */ {IDCLS_PLUS60K_BASE_FR, "Adresse de base de l'expansion PLUS60K"},
-/* hu */ {IDCLS_PLUS60K_BASE_HU, "A PLUS60K bõvítés báziscíme"},
-/* it */ {IDCLS_PLUS60K_BASE_IT, "Indirizzo base espansione PLUS60K"},
+/* da */ {IDCLS_PLUS60K_BASE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_PLUS60K_BASE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_PLUS60K_BASE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_PLUS60K_BASE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PLUS60K_BASE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PLUS60K_BASE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_PLUS60K_BASE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_PLUS60K_BASE_NL, "Basisadres van de PLUS60K geheugenuitbreiding"},
-/* pl */ {IDCLS_PLUS60K_BASE_PL, "Adres bazowy rozszerzenia PLUS60K"},
-/* ru */ {IDCLS_PLUS60K_BASE_RU, "Base address of the PLUS60K expansion"},
-/* sv */ {IDCLS_PLUS60K_BASE_SV, "Basadress för PLUS60K-expansion"},
-/* tr */ {IDCLS_PLUS60K_BASE_TR, "PLUS60K geniþletmesinin taban adresi"},
+/* nl */ {IDCLS_PLUS60K_BASE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PLUS60K_BASE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_PLUS60K_BASE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_PLUS60K_BASE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_PLUS60K_BASE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/c64_256k.c */

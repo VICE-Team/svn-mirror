@@ -300,6 +300,7 @@ static SWORD *buf1 = NULL;
 static SWORD *buf2 = NULL;
 static int blen1 = 0;
 static int blen2 = 0;
+
 static SWORD *getbuf1(int len)
 {
     if ((buf1 == NULL) || (blen1 < len)) {

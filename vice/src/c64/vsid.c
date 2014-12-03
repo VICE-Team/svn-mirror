@@ -290,6 +290,9 @@ void machine_specific_shutdown(void)
     if (!console_mode) {
         vsid_ui_close();
     }
+
+    sid_cmdline_options_shutdown();
+
     psid_shutdown();
 }
 
