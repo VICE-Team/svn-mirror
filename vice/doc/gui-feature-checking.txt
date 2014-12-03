@@ -1,7 +1,7 @@
 RS232 NET SUPPORT
 =================
-platforms present:	unix/windows
-platforms missing:	amigaos/beos/dos/os2/sdl/osx
+platforms present:	amigaos/beos/sdl/unix/osx/windows
+platforms missing:	dos/os2
 
 
 RS232 HARDWARE SUPPORT
