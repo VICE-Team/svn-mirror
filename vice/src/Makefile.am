@@ -199,11 +199,9 @@ noinst_HEADERS = \
 	resources.h \
 	riot.h \
 	romset.h \
-	rs232.c \
 	rs232dev.h \
-	rs232net.c \
-	rs232net.h \
 	rs232drv.h \
+	rs232net.h \
 	rsuser.h \
 	scpu64ui.h \
 	screenshot.h \
@@ -290,6 +288,8 @@ base_sources = \
 	rawnet.c \
 	resources.c \
 	romset.c \
+	rs232.c \
+	rs232net.c \
 	screenshot.c \
 	snapshot.c \
 	socket.c \
