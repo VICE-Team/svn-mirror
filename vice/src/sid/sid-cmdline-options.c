@@ -219,24 +219,24 @@ static char *generate_sid_address_range(void)
 
     temp3 = lib_stralloc(". (");
 
-    temp1 = util_gen_hex_dec_address_list(0xd420, 0xd500, 0x20);
-    temp2 = util_concat(temp3, temp1, ", ", NULL);
+    temp1 = util_gen_hex_address_list(0xd420, 0xd500, 0x20);
+    temp2 = util_concat(temp3, temp1, "/", NULL);
     lib_free(temp3);
     lib_free(temp1);
     temp3 = temp2;
 
     if (machine_class == VICE_MACHINE_C128) {
-        temp1 = util_gen_hex_dec_address_list(0xd700, 0xd800, 0x20);
+        temp1 = util_gen_hex_address_list(0xd700, 0xd800, 0x20);
     } else {
-        temp1 = util_gen_hex_dec_address_list(0xd500, 0xd800, 0x20);
+        temp1 = util_gen_hex_address_list(0xd500, 0xd800, 0x20);
     }
 
-    temp2 = util_concat(temp3, temp1, ", ", NULL);
+    temp2 = util_concat(temp3, temp1, "/", NULL);
     lib_free(temp3);
     lib_free(temp1);
     temp3 = temp2;
 
-    temp1 = util_gen_hex_dec_address_list(0xde00, 0xe000, 0x20);
+    temp1 = util_gen_hex_address_list(0xde00, 0xe000, 0x20);
     temp2 = util_concat(temp3, temp1, ")", NULL);
     lib_free(temp3);
     lib_free(temp1);

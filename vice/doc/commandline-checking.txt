@@ -2513,7 +2513,7 @@ action:         N/A
 c64/cart/digimax.c:
 -------------------
 command line:   -digimaxbase <Base address>
-description:    "Base address of the DigiMAX cartridge"
+description:    "Base address of the DigiMAX cartridge. ([address range])"
 resource:       "DIGIMAXbase"
 action:         N/A
 fixme: fix documentation, range
@@ -2572,7 +2572,7 @@ fixme: add to documentation
 c64/cart/ds12c887rtc.c:
 -----------------------
 command line:   -ds12c887rtcbase <Base address>
-description:    "Base address of the DS12C887 RTC cartridge"
+description:    "Base address of the DS12C887 RTC cartridge. ([address range])"
 resource:       "DS12C887RTCbase"
 action:         N/A
 fixme: add to documentation
@@ -3380,7 +3380,7 @@ action:         N/A
 c64/plus60k.c:
 --------------
 command line:   -plus60kbase <Base address>
-description:    "Base address of the PLUS60K expansion. (53312: $D040, 53504: $D100)"
+description:    "Base address of the PLUS60K expansion. (0xD040, 0xD100)"
 resource:       "PLUS60Kbase"
 action:         N/A
 fixme: fix documentation, range

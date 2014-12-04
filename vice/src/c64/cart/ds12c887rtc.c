@@ -344,11 +344,6 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_DS12C887RTC,
       NULL, NULL },
-    { "-ds12c887rtcbase", SET_RESOURCE, 1,
-      NULL, NULL, "DS12C887RTCbase", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_BASE_ADDRESS, IDCLS_DS12C887RTC_BASE,
-      NULL, NULL },
     { "-ds12c887rtchalted", SET_RESOURCE, 0,
       NULL, NULL, "DS12C887RTCRunMode", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -362,9 +357,31 @@ static const cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
+static cmdline_option_t base_cmdline_options[] =
+{
+    { "-ds12c887rtcbase", SET_RESOURCE, 1,
+      NULL, NULL, "DS12C887RTCbase", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
+      IDCLS_P_BASE_ADDRESS, IDCLS_DS12C887RTC_BASE,
+      NULL, NULL },
+    { NULL }
+};
+
 int ds12c887rtc_cmdline_options_init(void)
 {
-    return cmdline_register_options(cmdline_options);
+    if (cmdline_register_options(cmdline_options) < 0) {
+        return -1;
+    }
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        base_cmdline_options[0].description = ". (0x9800/0x9C00)";
+    } else if (machine_class == VICE_MACHINE_C128) {
+        base_cmdline_options[0].description = ". (0xD700/0xDE00/0xDF00)";
+    } else {
+        base_cmdline_options[0].description = ". (0xD500/0xD600/0xD700/0xDE00/0xDF00)";
+    }
+
+    return cmdline_register_options(base_cmdline_options);
 }
 
 /* ---------------------------------------------------------------------*/

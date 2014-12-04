@@ -13372,7 +13372,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/plus60k.c */
-/* en */ {IDCLS_PLUS60K_BASE,    N_("Base address of the PLUS60K expansion. (53312: $D040, 53504: $D100)")},
+/* en */ {IDCLS_PLUS60K_BASE,    N_("Base address of the PLUS60K expansion. (0xD040/0xD100)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PLUS60K_BASE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_PLUS60K_BASE_DE, ""},  /* fuzzy */
@@ -13440,20 +13440,20 @@ translate_t string_table[] = {
 #endif
 
 /* c64/c64_256k.c */
-/* en */ {IDCLS_C64_256K_BASE,    N_("Base address of the 256K expansion")},
+/* en */ {IDCLS_C64_256K_BASE,    N_("Base address of the 256K expansion. (0xDE00/0xDE80/0xDF00/0xDF80)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_C64_256K_BASE_DA, "Baseadresse for 256k-udviddelse"},
-/* de */ {IDCLS_C64_256K_BASE_DE, "Basis Adresse für 256K RAM Erweiterung"},
-/* es */ {IDCLS_C64_256K_BASE_ES, "Dirección base de la expansión 256K"},
-/* fr */ {IDCLS_C64_256K_BASE_FR, "Adresse de base de l'expansion 256K"},
-/* hu */ {IDCLS_C64_256K_BASE_HU, "A 256K-s RAM kiterjesztés báziscíme"},
-/* it */ {IDCLS_C64_256K_BASE_IT, "Indirizzo base dell'espansione 256K"},
+/* da */ {IDCLS_C64_256K_BASE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_C64_256K_BASE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_C64_256K_BASE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_C64_256K_BASE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_C64_256K_BASE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_C64_256K_BASE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_C64_256K_BASE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_C64_256K_BASE_NL, "Basisadres van de 256K geheugenuitbreiding"},
-/* pl */ {IDCLS_C64_256K_BASE_PL, "Adres bazowy rozszerzenia 256K"},
-/* ru */ {IDCLS_C64_256K_BASE_RU, "Base address of the 256K expansion"},
-/* sv */ {IDCLS_C64_256K_BASE_SV, "Basadress för 256K-expansionen"},
-/* tr */ {IDCLS_C64_256K_BASE_TR, "256K geniþletmesinin taban adresi"},
+/* nl */ {IDCLS_C64_256K_BASE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_C64_256K_BASE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_C64_256K_BASE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_C64_256K_BASE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_C64_256K_BASE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */

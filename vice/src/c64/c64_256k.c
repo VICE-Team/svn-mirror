@@ -329,9 +329,9 @@ static cmdline_option_t base_cmdline_options[] =
 {
     { "-256kbase", SET_RESOURCE, 1,
       NULL, NULL, "C64_256Kbase", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_BASE_ADDRESS, IDCLS_C64_256K_BASE,
-      NULL, ". (56832: $DE00, 56960: $DE80, 57088: $DF00, 57216: $DF80)" },
+      NULL, NULL },
     { NULL }
 };
 
@@ -343,7 +343,7 @@ int c64_256k_cmdline_options_init(void)
         return -1;
     }
 
-    temp = util_gen_hex_dec_address_list(0xde00, 0xe000, 0x80);
+    temp = util_gen_hex_address_list(0xde00, 0xe000, 0x80);
     c64_256k_base_string = util_concat(". (", temp, ")", NULL);
     lib_free(temp);
     base_cmdline_options[0].description = c64_256k_base_string;
