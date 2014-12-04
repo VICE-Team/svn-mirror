@@ -1274,8 +1274,8 @@ Console mode (for music playback)
 @item -chdir <directory>
 Change the working directory.
 @cindex -autostart
-@item -autostart IMAGE
-Autostart @file{IMAGE} (@pxref{Command-line autostart}).
+@item -autostart <name>
+Autostart <name> (@pxref{Command-line autostart}).
 @cindex -autoload
 @item -autoload <name>
 Attach and autoload tape/disk image <name>
@@ -1298,10 +1298,10 @@ Handle/Do not handle True Drive Emulation on autostart
 @itemx +autostart-warp
 Enable/Disable warp mode during autostart
 @cindex -autostartprgmode
-@item -autostartprgmode
-Set autostart mode for PRG files
+@item -autostartprgmode <Mode>
+Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk image)
 @cindex -autostartprgdiskimage
-@item -autostartprgdiskimage
+@item -autostartprgdiskimage <Name>
 Set disk image for autostart of PRG files
 
 @cindex -autostart-delay-random, +autostart-delay-random
@@ -1309,21 +1309,21 @@ Set disk image for autostart of PRG files
 @itemx +autostart-delay-random
 Enable/Disable random delay on autostart
 @cindex -autostart-delay
-@item -autostart-delay <value>
+@item -autostart-delay <seconds>
 Set initial autostart delay (0: use default)
 
 @cindex -1
-@item -1 NAME
-Attach @file{NAME} as a tape image file.
+@item -1 <Name>
+Attach <Name> as a tape image file.
 @cindex -8
-@item -8 NAME
+@item -8 <Name>
 @cindex -9
-@itemx -9 NAME
+@itemx -9 <Name>
 @cindex -10
-@itemx -10 NAME
+@itemx -10 <Name>
 @cindex -11
-@itemx -11 NAME
-Attach @file{NAME} as a disk image to device 8, 9, 10 or 11.
+@itemx -11 <Name>
+Attach <Name> as a disk image to device 8, 9, 10 or 11.
 
 @cindex -attach8ro
 @cindex -attach9ro
@@ -2408,12 +2408,12 @@ Booolean specifying whether ``warp mode'' is turned on or not.
 @table @code
 
 @cindex -speed
-@item -speed VALUE
+@item -speed <percent>
 Specifies the maximum speed as a percentage.  @code{0} stands for ``no
 limit''.  (Same as setting the @code{Speed} resource.)
 
 @cindex -refresh
-@item -refresh VALUE
+@item -refresh <value>
 Specifies refresh rate; a value of @code{n} specifies a refresh rate of
 1/@code{n}.  A value of @code{0} enables automatic frame skipping.
 (Same as setting the @code{RefreshRate} resource.)
@@ -2651,7 +2651,7 @@ Enable/disable installation of a private colormap
 (@code{PrivateColormap=1}, @code{PrivateColormap=0}).
 
 @cindex -displaydepth
-@item -displaydepth DEPTH
+@item -displaydepth <value>
 Specify the display depth (@code{DisplayDepth}).
 
 @cindex -fullscreen, +fullscreen
@@ -2744,43 +2744,43 @@ and positional mapping for the German business keyboard.
 @table @code
 
 @cindex -keymap
-@item -keymap N
+@item -keymap <number>
 Specifies which keymap is being used; @code{0} indicates symbolic
 mapping, @code{1} positional mapping (as for the @code{KeymapIndex}
 resource).
 
 @cindex -symkeymap
-@item -symkeymap NAME
-Specify @file{NAME} as the symbolic keymap file (@code{KeymapSymFile}).
+@item -symkeymap <Name>
+Specify <Name> as the symbolic keymap file (@code{KeymapSymFile}).
 
 @cindex -poskeymap
-@item -poskeymap NAME
-Specify @file{NAME} as the positional keymap file (@code{KeymapPosFile}).
+@item -poskeymap <Name>
+Specify <Name> as the positional keymap file (@code{KeymapPosFile}).
 
 @cindex -symdekeymap
 @item -symdekeymap NAME
 Specify @file{NAME} as the symbolic keymap file (@code{KeymapSymDeFile}).
 
 @cindex -buksymkeymap, -bukposkeymap
-@item -buksymkeymap NAME
-@itemx -bukposkeymap NAME
-Specify @file{NAME} as the symbolic/positional keymap file for the
+@item -buksymkeymap <Name>
+@itemx -bukposkeymap <Name>
+Specify <Name> as the symbolic/positional keymap file for the
 UK business keyboard
 (@code{KeymapBusinessUKSymFile}, @code{KeymapBusinessUKPosFile}, PET and CBM-II).
 
 @cindex -grsymkeymap, -grposkeymap
-@item -grsymkeymap NAME
-@itemx -grposkeymap NAME
-Specify @file{NAME} as the symbolic/positional keymap file for the
+@item -grsymkeymap <Name>
+@itemx -grposkeymap <Name>
+Specify <Name> as the symbolic/positional keymap file for the
 graphics keyboard
 (@code{KeymapGraphicsSymFile}, @code{KeymapGraphicsPosFile}, PET only).
 
 @cindex -bdesymkeymap, -bdeposkeymap
-@item -bdesymkeymap NAME
-@itemx -bdeposkeymap NAME
-Specify @file{NAME} as the symbolic/positional keymap file for the
+@item -bdesymkeymap <Name>
+@itemx -bdeposkeymap <Name>
+Specify <Name> as the symbolic/positional keymap file for the
 German business keyboard
-(@code{KeymapBusinessDESymFile}, @code{KeymapBusinessDEPosFile}, PET only).
+(@code{KeymapBusinessDESymFile}, @code{KeymapBusinessDEPosFile}, PET and CBM-II only).
 
 @end table
 
@@ -3157,12 +3157,11 @@ stream). (0=system, 1=mono, 2=stereo)
 Turns sound emulation on (@code{Sound=1}) and off (@code{Sound=0}).
 
 @cindex -soundsync
-@item -soundsync N
-Specify @code{N} as the sound speed adjustment method
-(@code{SoundSpeedAdjustment}).
+@item -soundsync <sync>
+Specify <sync> as the sound speed adjustment method (0: flexible, 1: adjusting, 2: exact) (@code{SoundSpeedAdjustment}).
 
 @cindex -soundrate
-@item -soundrate RATE
+@item -soundrate <value>
 Specifies the sound playback sample rate (@code{SoundSampleRate}).
 
 @cindex -soundoutput 
@@ -3170,7 +3169,7 @@ Specifies the sound playback sample rate (@code{SoundSampleRate}).
 Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always stereo)
 
 @cindex -soundbufsize
-@item -soundbufsize SIZE
+@item -soundbufsize <value>
 Specifies the size of the audio buffer in milliseconds
 (@code{SoundBufferSize}).
 
@@ -3179,17 +3178,19 @@ Specifies the size of the audio buffer in milliseconds
 Set sound fragment size (0 = small, 1 = medium, 2 = large)
 
 @cindex -sounddev
-@item -sounddev NAME
-Specifies the name of the audio device (@code{SoundDeviceName}).
+@item -sounddev <Name>
+Specifies the name of the audio device (ahi/aix/allegro/alsa/arts/beos/bsp/coreaudio/dart/dummy/dx/hpux/midas/pulse/sdl/sgi/sun/uss/wmm)
+(@code{SoundDeviceName}).
 
 @cindex -soundarg
-@item -soundarg ARG
+@item -soundarg <args>
 Specifies an additional parameter for the audio device
 (@code{SoundDeviceArg}).
 
 @cindex -soundrecdev
 @item -soundrecdev <name>
-Specify recording sound driver
+Specify recording sound driver (aiff/dump/fs/iff/mp3/speed/voc/wav)
+
 @cindex -soundrecarg
 @item -soundrecarg <args>
 Specify initialization parameters for recording sound driver
@@ -3531,10 +3532,10 @@ Turns drive sound emulation on (@code{DriveSoundEmulation=1}) and off
 @cindex -drive9type
 @cindex -drive10type
 @cindex -drive11type
-@item -drive8type TYPE
-@itemx -drive9type TYPE
-@itemx -drive10type TYPE
-@itemx -drive11type TYPE
+@item -drive8type <Type>
+@itemx -drive9type <Type>
+@itemx -drive10type <Type>
+@itemx -drive11type <Type>
 Specifies the drive types for drives 8-11, respectively.  Possible
 values for @code{TYPE} are @code{1541}, @code{1542} (meaning 1541-II),
 @code{1551}, @code{1570}, @code{1571}, @code{1573} (meaning 1571cr),
@@ -3555,26 +3556,27 @@ Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS)
 @cindex -drive9idle
 @cindex -drive10idle
 @cindex -drive11idle
-@item -drive8idle NUM
-@itemx -drive9idle NUM
-@itemx -drive10idle NUM
-@itemx -drive11idle NUM
-Specifies @code{NUM} as the idling method for drives 8-11
+@item -drive8idle <method>
+@itemx -drive9idle <method>
+@itemx -drive10idle <method>
+@itemx -drive11idle <method>
+Specifies <method> as the idling method for drives 8-11
 (0: no traps, 1: skip cycles, 2: trap idle), respectively
-(@code{Drive8IdleMethod}, @code{Drive9IdleMethod}),
+(@code{Drive8IdleMethod}, @code{Drive9IdleMethod},
 @code{Drive10IdleMethod}), @code{Drive11IdleMethod}).
 
 @cindex -drive8extend
 @cindex -drive9extend
 @cindex -drive10extend
 @cindex -drive11extend
-@item -drive8extend NUM
-@itemx -drive9extend NUM
-@itemx -drive10extend NUM
-@itemx -drive11extend NUM
-Specifies @code{NUM} as the track 40 extend policy in drives 8 and 9,
-respectively
-(@code{Drive8ExtendImagePolicy}, @code{Drive9ExtendImagePolicy}).
+@item -drive8extend <method>
+@itemx -drive9extend <method>
+@itemx -drive10extend <method>
+@itemx -drive11extend <method>
+Specifies <method> as the track 40 extend policy in drives 8-11
+(0: never, 1: ask, 2: on access), respectively
+(@code{Drive8ExtendImagePolicy}, @code{Drive9ExtendImagePolicy},
+@code{Drive10ExtendImagePolicy}, @code{Drive11ExtendImagePolicy}).
 
 @cindex -dos1541
 @cindex -dos1541II
@@ -3842,16 +3844,16 @@ Enable/Disable IEC device emulation for device #11
 @itemx -device9 <type>
 @itemx -device10 <type>
 @itemx -device11 <type>
-Set device type for device 8-11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM (Real), 3: BLOCK DEVICE (Raw))
+Set device type for device 8-11 (0: None, 1: Filesystem, 2: OpenCBM (Real), 3: Block device (Raw))
 
 @cindex -fs8
 @cindex -fs9
 @cindex -fs10
 @cindex -fs11
-@item -fs8 PATH
-@itemx -fs9 PATH
-@itemx -fs10 PATH
-@itemx -fs11 PATH
+@item -fs8 <Name>
+@itemx -fs9 <Name>
+@itemx -fs10 <Name>
+@itemx -fs11 <Name>
 Specify the paths for the file system access on drives 8, 9, 10 and 11,
 respectively (@code{FSDevice8Dir}, @code{FSDevice9Dir},
 @code{FSDevice10Dir} and @code{FSDevice11Dir}).
@@ -3982,14 +3984,17 @@ String specifying the user-port printer output device.
 @item -iecdevice4
 @itemx +iecdevice4
 Enable/Disable IEC device emulation for device #4
+
 @cindex -iecdevice5, +iecdevice5
 @item -iecdevice5
 @itemx +iecdevice5
 Enable/Disable IEC device emulation for device #5
+
 @cindex -iecdevice6, +iecdevice6
 @item -iecdevice6
 @itemx +iecdevice6
 Enable/Disable IEC device emulation for device #6
+
 @cindex -iecdevice7, +iecdevice7
 @item -iecdevice7
 @itemx +iecdevice7
@@ -4008,6 +4013,7 @@ Set device type for device 4-5 (0: NONE, 1: FS, 2: REAL)
 @itemx -prtxtdev2 <name>
 @itemx -prtxtdev3 <name>
 Specify name of printer text device or dump file
+
 @cindex -pr4txtdev
 @cindex -pr5txtdev
 @item -pr4txtdev <0-2>
@@ -4019,13 +4025,12 @@ Specify printer text output device for IEC printer #4-5
 @item -pr4output <name>
 @itemx -pr5output <name>
 Specify name of output device for device #4-5
-Specify name of output device for device #5-5
+
 @cindex -pr4drv
 @cindex -pr5drv
 @item -pr4drv <name>
 @itemx -pr5drv <name>
 Specify name of printer driver for device #4-5
-Specify name of printer driver for device #5-5
 
 @cindex -pruser, +pruser
 @item -pruser
@@ -4036,9 +4041,11 @@ Enable/disable emulation of the userport printer emulation (@code{PrUser=1},
 @cindex -prusertxtdev
 @item -prusertxtdev <0-2>
 Specify printer text output device for userport printer
+
 @cindex -pruseroutput
 @item -pruseroutput <name>
 Specify name of output device for the userport printer
+
 @cindex -pruserdrv
 @item -pruserdrv <name>
 Specify name of printer driver for the userport printer
@@ -4226,25 +4233,25 @@ the user-port interface is using (C64, C128 and VIC20).
 @table @code
 
 @cindex -rsdev1
-@item -rsdev1 NAME
+@item -rsdev1 <Name>
 @cindex -rsdev2
-@itemx -rsdev2 NAME
+@itemx -rsdev2 <Name>
 @cindex -rsdev3
-@itemx -rsdev3 NAME
+@itemx -rsdev3 <Name>
 @cindex -rsdev4
-@itemx -rsdev4 NAME
-Specify @code{NAME} as RS232 devices 1, 2, 3 and 4, respectively
+@itemx -rsdev4 <Name>
+Specify <Name> as RS232 devices 1, 2, 3 and 4, respectively
 (@code{RsDevice1}, @code{RsDevice2} @code{RsDevice3} and @code{RsDevice4}).
 
 @cindex -rsdev1baud
-@item -rsdev1 BAUDRATE
+@item -rsdev1baud <baudrate>
 @cindex -rsdev2baud
-@itemx -rsdev2 BAUDRATE
+@itemx -rsdev2baud <baudrate>
 @cindex -rsdev3baud
-@itemx -rsdev3 BAUDRATE
+@itemx -rsdev3baud <baudrate>
 @cindex -rsdev4baud
-@itemx -rsdev4 BAUDRATE
-Specify @code{BAUDRATE} as baudrate for the RS232 devices if the device name
+@itemx -rsdev4baud <baudrate>
+Specify <baudrate> as baudrate for the RS232 devices if the device name
 specifies a special device (like @file{/dev/ttyS0} for example,
 @pxref{RS232 settings};
 @code{RsDevice1Baud}, @code{RsDevice2Baud} @code{RsDevice3Baud} and
@@ -4345,8 +4352,8 @@ String specifying the address the remote monitor server listens to (ip4://127.0.
 
 @table @code
 @cindex -moncommands
-@item -moncommands FILENAME
-Execute the commands from the file @code{FILENAME} in the monitor after starting up. This
+@item -moncommands <Name>
+Execute the commands from the file <Name> in the monitor after starting up. This
 command line switch is mainly thought to load labels and to set breakpoints.
 Not all other commands are useful to be executed in this way, some may even
 lead to strange effects.
@@ -4558,7 +4565,7 @@ Booleans that specify whether to attach images on drives 8 to 11 read-only.
 
 @table @code
 @cindex -directory
-@item -directory SEARCHPATH
+@item -directory <Path>
 Specify the system file search path (@code{Directory}).
 @cindex -htmlbrowser
 @item -htmlbrowser COMMAND
@@ -5791,8 +5798,8 @@ Use an internal calculated palette
 Use an external palette (file)
 
 @cindex -VICIIpalette
-@item -VICIIpalette NAME
-Specify @code{NAME} as the palette file (@code{VICIIPaletteFile}).
+@item -VICIIpalette <Name>
+Specify <Name> as the palette file (@code{VICIIPaletteFile}).
 
 @cindex -VICIIfulldevice
 @item -VICIIfulldevice <device>
@@ -5818,31 +5825,31 @@ Enable/Disable new luminances.
 
 @cindex -VICIIsaturation
 @item -VICIIsaturation <0-2000>
-Set saturation of internal calculated palette [1250]
+Set saturation of internal calculated palette
 @cindex -VICIIcontrast
 @item -VICIIcontrast <0-2000>
-Set contrast of internal calculated palette [1250]
+Set contrast of internal calculated palette
 @cindex -VICIIbrightness
 @item -VICIIbrightness <0-2000>
-Set brightness of internal calculated palette [1000]
+Set brightness of internal calculated palette
 @cindex -VICIIgamma
 @item -VICIIgamma <0-4000>
-Set gamma of internal calculated palette [2200]
+Set gamma of internal calculated palette
 @cindex -VICIItint
 @item -VICIItint <0-2000>
-Set tint of internal calculated palette [1000]
+Set tint of internal calculated palette
 @cindex -VICIIoddlinesphase
 @item -VICIIoddlinesphase <0-2000>
-Set phase for color carrier in odd lines [1125]
+Set phase for color carrier in odd lines
 @cindex -VICIIoddlinesoffset
 @item -VICIIoddlinesoffset <0-2000>
-Set phase offset for color carrier in odd lines [875]
+Set phase offset for color carrier in odd lines
 @cindex -VICIIcrtblur
 @item -VICIIcrtblur <0-1000>
-Amount of horizontal blur for the CRT emulation. [500]
+Amount of horizontal blur for the CRT emulation
 @cindex -VICIIcrtscanlineshade
 @item -VICIIcrtscanlineshade <0-1000>
-Amount of scan line shading for the CRT emulation [750]
+Amount of scan line shading for the CRT emulation
 
 @cindex -VICIIaudioleak, +VICIIaudioleak
 @item -VICIIaudioleak
@@ -6345,7 +6352,7 @@ Commodore 4064 (also known as ``PET64'' or ``Educator 64'') ROM.
 @end table
 
 @node C64/128 system ROM options,  , C64/128 system ROM resources, C64/128 system ROM settings
-@subsubsection C64/128 system ROM command-line options
+@subsubsection C64 system ROM command-line options
 
 @table @code
 

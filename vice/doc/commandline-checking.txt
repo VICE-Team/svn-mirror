@@ -253,7 +253,6 @@ command line:   -speed <percent>
 description:    "Limit emulation speed to specified value"
 resource:       "Speed"
 action:         N/A
-fixme: fix documentation
 
 arch/msdos/vsync.c:
 -------------------
@@ -261,7 +260,6 @@ command line:   -refresh <value>
 description:    "Update every <value> frames (`0' for automatic)"
 resource:       "RefreshRate"
 action:         N/A
-fixme: fix documentation
 
 arch/msdos/vsync.c:
 -------------------
@@ -331,7 +329,6 @@ command line:   -grsymkeymap <name>
 description:    "Specify the name of the graphics keyboard symbolic keymap file"
 resource:       "KeymapGraphicsSymFile"
 action:         N/A
-fixme: fix documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -347,7 +344,6 @@ command line:   -buksymkeymap <name>
 description:    "Specify the name of the UK business keyboard symbolic keymap file"
 resource:       "KeymapBusinessUKSymFile"
 action:         N/A
-fixme: fix documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -363,7 +359,6 @@ command line:   -bdesymkeymap <name>
 description:    "Specify the name of the German business keyboard symbolic keymap file"
 resource:       "KeymapBusinessDESymFile"
 action:         N/A
-fixme: fix documentation
 
 arch/os2/kbd/kmap-pet.c:
 ------------------------
@@ -379,7 +374,6 @@ command line:   -symkeymap <name>
 description:    "Specify the name of the symbolic keymap file"
 resource:       "KeymapSymFile"
 action:         N/A
-fixme: fix documentation
 
 arch/os2/kbd/kmap.c:
 --------------------
@@ -387,7 +381,6 @@ command line:   -poskeymap <name>
 description:    "Specify the name of the positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
-fixme: fix documentation
 
 arch/os2/mousedrv.c:
 --------------------
@@ -1077,7 +1070,6 @@ command line:   -rsdev1baud <baudrate>
 description:    "Specify baudrate of first RS232 device"
 resource:       "RsDevice1Baud"
 action:         N/A
-fixme: fix documentation
 
 arch/unix/rs232.c:
 ------------------
@@ -1085,7 +1077,6 @@ command line:   -rsdev2baud <baudrate>
 description:    "Specify baudrate of second RS232 device"
 resource:       "RsDevice2Baud"
 action:         N/A
-fixme: fix documentation
 
 arch/unix/rs232.c:
 ------------------
@@ -1093,7 +1084,6 @@ command line:   -rsdev3baud <baudrate>
 description:    "Specify baudrate of third RS232 device"
 resource:       "RsDevice3Baud"
 action:         N/A
-fixme: fix documentation
 
 arch/unix/rs232.c:
 ------------------
@@ -1101,7 +1091,6 @@ command line:   -rsdev4baud <baudrate>
 description:    "Specify baudrate of fourth RS232 device"
 resource:       "RsDevice4Baud"
 action:         N/A
-fixme: fix documentation
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
@@ -1176,7 +1165,7 @@ command line:   -displaydepth <value>
 description:    "Specify X display depth (1..32)"
 resource:       "DisplayDepth"
 action:         N/A
-fixme: fix documentation and mention unix only
+fixme: fix documentation: mention unix only
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
@@ -1382,7 +1371,6 @@ command line:   -device8 <Type>
 description:    "Set device type for device #8 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)"
 resource:       "FileSystemDevice8"
 action:         N/A
-fixme: fix documentation, says bool, but is int with range
 
 attach.c:
 ---------
@@ -1390,7 +1378,6 @@ command line:   -device9 <Type>
 description:    "Set device type for device #9 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)"
 resource:       "FileSystemDevice9"
 action:         N/A
-fixme: fix documentation, says bool, but is int with range
 
 attach.c:
 ---------
@@ -1398,7 +1385,6 @@ command line:   -device10 <Type>
 description:    "Set device type for device #10 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)"
 resource:       "FileSystemDevice10"
 action:         N/A
-fixme: fix documentation, says bool, but is int with range
 
 attach.c:
 ---------
@@ -1406,7 +1392,6 @@ command line:   -device11 <Type>
 description:    "Set device type for device #11 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)"
 resource:       "FileSystemDevice11"
 action:         N/A
-fixme: fix documentation, says bool, but is int with range
 
 attach.c:
 ---------
@@ -1526,7 +1511,6 @@ command line:   -autostartprgmode <Mode>
 description:    "Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk image)"
 resource:       "AutostartPrgMode"
 action:         N/A
-fixme: fix documentation, parameter, range
 
 autostart.c:
 ------------
@@ -1534,7 +1518,6 @@ command line:   -autostartprgdiskimage <Name>
 description:    "Set disk image for autostart of PRG files"
 resource:       "AutostartPrgDiskImage"
 action:         N/A
-fixme: fix documentation, parameter
 
 autostart.c:
 ------------
@@ -1542,7 +1525,6 @@ command line:   -autostart-delay <Seconds>
 description:    "Set initial autostart delay (0: use default)"
 resource:       "AutostartDelay"
 action:         N/A
-fixme: fix documentation, mention it is in seconds
 
 autostart.c:
 ------------
@@ -1648,7 +1630,6 @@ command line:   -chargen <Name>
 description:    "Specify name of international character generator ROM image"
 resource:       "ChargenIntName"
 action:         N/A
-fixme: fix documentation, duplicate
 
 c128/c128-cmdline-options.c:
 ----------------------------
@@ -1712,7 +1693,6 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=symbol, 1=positional)"
 resource:       "KeymapIndex"
 action:         N/A
-fixme: fix documentation
 
 c128/c128-cmdline-options.c:
 ----------------------------
@@ -1720,7 +1700,6 @@ command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
 resource:       "KeymapSymFile"
 action:         N/A
-fixme: fix documentation
 
 c128/c128-cmdline-options.c:
 ----------------------------
@@ -1728,7 +1707,6 @@ command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
-fixme: fix documentation
 
 c128/c128-cmdline-options.c:
 ----------------------------
@@ -1889,7 +1867,6 @@ command line:   -kernalrev <Revision>
 description:    "Patch the Kernal ROM to the specified <revision>"
 resource:       "KernalRev"
 action:         N/A
-fixme: fix documentation, no longer a c128 command line option
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -1911,7 +1888,6 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
 resource:       "KeymapIndex"
 action:         N/A
-fixme: fix documentation
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -1919,7 +1895,6 @@ command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
 resource:       "KeymapSymFile"
 action:         N/A
-fixme: fix documentation
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -1935,7 +1910,6 @@ command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
-fixme: fix documentation
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -3506,7 +3480,6 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
 resource:       "KeymapIndex"
 action:         N/A
-fixme: fix documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -3514,7 +3487,6 @@ command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
 resource:       "KeymapSymFile"
 action:         N/A
-fixme: fix documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -3530,7 +3502,6 @@ command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
-fixme: fix documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -3789,7 +3760,6 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file" (fixme: needs better description)
 resource:       "KeymapIndex"
 action:         N/A
-fixme: fix documentation
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -3797,7 +3767,6 @@ command line:   -grsymkeymap <Name>
 description:    "Specify name of graphics keyboard symbolic keymap file"
 resource:       "KeymapGraphicsSymFile"
 action:         N/A
-fixme: add to documentation
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -3813,7 +3782,6 @@ command line:   -buksymkeymap <Name>
 description:    "Specify name of UK business keyboard symbolic keymap file"
 resource:       "KeymapBusinessUKSymFile"
 action:         N/A
-fixme: fix documentation
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -3829,7 +3797,6 @@ command line:   -bdesymkeymap <Name>
 description:    "Specify name of German business keyboard symbolic keymap file"
 resource:       "KeymapBusinessDESymFile"
 action:         N/A
-fixme: fix documentation
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -4292,7 +4259,6 @@ description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II,
 			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
 resource:       "Drive8Type"
 action:         N/A
-fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4304,7 +4270,6 @@ description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II,
 			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
 resource:       "Drive9Type"
 action:         N/A
-fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4316,7 +4281,6 @@ description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II,
 			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
 resource:       "Drive10Type"
 action:         N/A
-fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4328,7 +4292,6 @@ description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II,
 			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
 resource:       "Drive11Type"
 action:         N/A
-fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4336,7 +4299,6 @@ command line:   -drive8extend <method>
 description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 resource:       "Drive8ExtendImagePolicy"
 action:         N/A
-fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4344,7 +4306,6 @@ command line:   -drive9extend <method>
 description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 resource:       "Drive9ExtendImagePolicy"
 action:         N/A
-fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4352,7 +4313,6 @@ command line:   -drive10extend <method>
 description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 resource:       "Drive10ExtendImagePolicy"
 action:         N/A
-fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4360,7 +4320,6 @@ command line:   -drive11extend <method>
 description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 resource:       "Drive11ExtendImagePolicy"
 action:         N/A
-fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4368,7 +4327,6 @@ command line:   -drive8idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 resource:       "Drive8IdleMethod"
 action:         N/A
-fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4376,7 +4334,6 @@ command line:   -drive9idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 resource:       "Drive9IdleMethod"
 action:         N/A
-fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4384,7 +4341,6 @@ command line:   -drive10idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 resource:       "Drive10IdleMethod"
 action:         N/A
-fixme: fix documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -4392,7 +4348,6 @@ command line:   -drive11idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 resource:       "Drive11IdleMethod"
 action:         N/A
-fixme: fix documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -4991,7 +4946,6 @@ command line:   -fs8 <Name>
 description:    "Use <name> as directory for file system device #8"
 resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice8Dir")
-fixme: fix documentation
 
 fsdevice/fsdevice-cmdline-options.c:
 ------------------------------------
@@ -4999,7 +4953,6 @@ command line:   -fs9 <Name>
 description:    "Use <name> as directory for file system device #9"
 resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice9Dir")
-fixme: fix documentation
 
 fsdevice/fsdevice-cmdline-options.c:
 ------------------------------------
@@ -5007,7 +4960,6 @@ command line:   -fs10 <Name>
 description:    "Use <name> as directory for file system device #10"
 resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice10Dir")
-fixme: fix documentation
 
 fsdevice/fsdevice-cmdline-options.c:
 ------------------------------------
@@ -5015,7 +4967,6 @@ command line:   -fs11 <Name>
 description:    "Use <name> as directory for file system device #11"
 resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice11Dir")
-fixme: fix documentation
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
@@ -5209,7 +5160,6 @@ command line:   -autostart <Name>
 description:    "Attach and autostart tape/disk image <name>"
 resource:       N/A
 action:         cmdline_autostart()
-fixme: fix documentation
 
 initcmdline.c:
 --------------
@@ -5224,7 +5174,6 @@ command line:   -1 <Name>
 description:    "Attach <name> as a tape image"
 resource:       N/A
 action:         cmdline_attach()
-fixme: fix documentation
 
 initcmdline.c:
 --------------
@@ -5232,7 +5181,6 @@ command line:   -8 <Name>
 description:    "Attach <name> as a disk image in drive #8"
 resource:       N/A
 action:         cmdline_attach()
-fixme: fix documentation
 
 initcmdline.c:
 --------------
@@ -5240,7 +5188,6 @@ command line:   -9 <Name>
 description:    "Attach <name> as a disk image in drive #9"
 resource:       N/A
 action:         cmdline_attach()
-fixme: fix documentation
 
 initcmdline.c:
 --------------
@@ -5248,7 +5195,6 @@ command line:   -10 <Name>
 description:    "Attach <name> as a disk image in drive #10"
 resource:       N/A
 action:         cmdline_attach()
-fixme: fix documentation
 
 initcmdline.c:
 --------------
@@ -5256,7 +5202,6 @@ command line:   -11 <Name>
 description:    "Attach <name> as a disk image in drive #11"
 resource:       N/A
 action:         cmdline_attach()
-fixme: fix documentation
 
 kbdbuf.c:
 ---------
@@ -5337,7 +5282,6 @@ command line:   -moncommands <Name>
 description:    "Execute monitor commands from file"
 resource:       N/A
 action:         set_playback_name()
-fixme: fix documentation
 
 monitor/monitor.c:
 ------------------
@@ -5573,7 +5517,6 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file" (fixme: needs better description)
 resource:       "KeymapIndex"
 action:         N/A
-fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5581,7 +5524,6 @@ command line:   -grsymkeymap <Name>
 description:    "Specify name of graphics keyboard symbolic keymap file"
 resource:       "KeymapGraphicsSymFile"
 action:         N/A
-fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5597,7 +5539,6 @@ command line:   -buksymkeymap <Name>
 description:    "Specify name of UK business keyboard symbolic keymap file"
 resource:       "KeymapBusinessUKSymFile"
 action:         N/A
-fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5613,7 +5554,6 @@ command line:   -bdesymkeymap <Name>
 description:    "Specify name of German business keyboard symbolic keymap file"
 resource:       "KeymapBusinessDESymFile"
 action:         N/A
-fixme: fix documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -5903,7 +5843,6 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=symbol, 1=positional)"
 resource:       "KeymapIndex"
 action:         N/A
-fixme: fix documentation
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
@@ -5911,7 +5850,6 @@ command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
 resource:       "KeymapSymFile"
 action:         N/A
-fixme: fix documentation
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
@@ -5919,7 +5857,6 @@ command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
-fixme: fix documentation
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
@@ -6486,7 +6423,6 @@ command line:   -rsdev1 <Name>
 description:    "Specify name of first RS232 device"
 resource:       "RsDevice1"
 action:         N/A
-fixme: fix documentation
 
 rs232drv/rs232drv.c:
 --------------------
@@ -6494,7 +6430,6 @@ command line:   -rsdev2 <Name>
 description:    "Specify name of second RS232 device"
 resource:       "RsDevice2"
 action:         N/A
-fixme: fix documentation
 
 rs232drv/rs232drv.c:
 --------------------
@@ -6502,7 +6437,6 @@ command line:   -rsdev3 <Name>
 description:    "Specify name of third RS232 device"
 resource:       "RsDevice3"
 action:         N/A
-fixme: fix documentation
 
 rs232drv/rs232drv.c:
 --------------------
@@ -6510,7 +6444,6 @@ command line:   -rsdev4 <Name>
 description:    "Specify name of fourth RS232 device"
 resource:       "RsDevice4"
 action:         N/A
-fixme: fix documentation
 
 rs232drv/rsuser.c:
 ------------------
@@ -6592,7 +6525,6 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
 resource:       "KeymapIndex"
 action:         N/A
-fixme: fix documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6600,7 +6532,6 @@ command line:   -symkeymap <Name>
 description:    "Specify name of symbolic keymap file"
 resource:       "KeymapSymFile"
 action:         N/A
-fixme: fix documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6616,7 +6547,6 @@ command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
-fixme: fix documentation
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -6920,7 +6850,6 @@ command line:   -soundrate <value>
 description:    "Set sound sample rate to <value> Hz"
 resource:       "SoundSampleRate"
 action:         N/A
-fixme: fix documentation
 
 sound.c:
 --------
@@ -6928,7 +6857,6 @@ command line:   -soundbufsize <value>
 description:    "Set sound buffer size to <value> msec"
 resource:       "SoundBufferSize"
 action:         N/A
-fixme: fix documentation
 
 sound.c:
 --------
@@ -6943,7 +6871,6 @@ command line:   -sounddev <Name>
 description:    "Specify sound driver ([available drivers])"
 resource:       "SoundDeviceName"
 action:         N/A
-fixme: fix documenation, range
 
 sound.c:
 --------
@@ -6951,7 +6878,6 @@ command line:   -soundarg <args>
 description:    "Specify initialization parameters for sound driver" (fixme: needs better description)
 resource:       "SoundDeviceArg"
 action:         N/A
-fixme: fix documentation
 
 sound.c:
 --------
@@ -6974,7 +6900,6 @@ command line:   -soundsync <sync>
 description:    "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 resource:       "SoundSpeedAdjustment"
 action:         N/A
-fixme: fix documentation
 
 sound.c:
 --------
@@ -6989,7 +6914,6 @@ command line:   -directory <Path>
 description:    "Define search path to locate system files"
 resource:       "Directory"
 action:         N/A
-fixme: fix documentation
 
 translate.c:
 ------------
@@ -7764,7 +7688,6 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=symbol, 1=positional)"
 resource:       "KeymapIndex"
 action:         N/A
-fixme: fix documentation
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
@@ -7779,7 +7702,6 @@ command line:   -poskeymap <Name>
 description:    "Specify name of positional keymap file"
 resource:       "KeymapPosFile"
 action:         N/A
-fixme: fix documentation
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
@@ -7942,7 +7864,6 @@ command line:   -VICIIpalette <Name>
 description:    "Specify name of file of external palette"
 resource:       "VICIIPaletteFile"
 action:         N/A
-fixme: fix documentation
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -7997,7 +7918,6 @@ command line:   -VICIIsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
 resource:       "VICIIColorSaturation"
 action:         N/A
-fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -8005,7 +7925,6 @@ command line:   -VICIIcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
 resource:       "VICIIColorContrast"
 action:         N/A
-fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -8013,7 +7932,6 @@ command line:   -VICIIbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
 resource:       "VICIIColorBrightness"
 action:         N/A
-fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -8021,7 +7939,6 @@ command line:   -VICIIgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
 resource:       "VICIIColorGamma"
 action:         N/A
-fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -8029,7 +7946,6 @@ command line:   -VICIItint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VICIIColorTint"
 action:         N/A
-fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -8037,7 +7953,6 @@ command line:   -VICIIoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
 resource:       "VICIIPALOddLinePhase"
 action:         N/A
-fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -8045,7 +7960,6 @@ command line:   -VICIIoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
 resource:       "VICIIPALOddLineOffset"
 action:         N/A
-fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -8053,7 +7967,6 @@ command line:   -VICIIcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
 resource:       "VICIIPALBlur"
 action:         N/A
-fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -8061,7 +7974,6 @@ command line:   -VICIIcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
 resource:       "VICIIPALScanLineShade"
 action:         N/A
-fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -8216,7 +8128,6 @@ command line:   -VICIIpalette <Name>
 description:    "Specify name of file of external palette"
 resource:       "VICIIPaletteFile"
 action:         N/A
-fixme: fix documentation
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -8271,7 +8182,6 @@ command line:   -VICIIsaturation <0-2000>
 description:    "Set saturation of internal calculated palette"
 resource:       "VICIIColorSaturation"
 action:         N/A
-fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -8279,7 +8189,6 @@ command line:   -VICIIcontrast <0-2000>
 description:    "Set contrast of internal calculated palette"
 resource:       "VICIIColorContrast"
 action:         N/A
-fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -8287,7 +8196,6 @@ command line:   -VICIIbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
 resource:       "VICIIColorBrightness"
 action:         N/A
-fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -8295,7 +8203,6 @@ command line:   -VICIIgamma <0-4000>
 description:    "Set gamma of internal calculated palette"
 resource:       "VICIIColorGamma"
 action:         N/A
-fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -8303,7 +8210,6 @@ command line:   -VICIItint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VICIIColorTint"
 action:         N/A
-fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -8311,7 +8217,6 @@ command line:   -VICIIoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
 resource:       "VICIIPALOddLinePhase"
 action:         N/A
-fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -8319,7 +8224,6 @@ command line:   -VICIIoddlinesoffset <0-2000>
 description:    "Set phase offset for color carrier in odd lines"
 resource:       "VICIIPALOddLineOffset"
 action:         N/A
-fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -8327,7 +8231,6 @@ command line:   -VICIIcrtblur <0-1000>
 description:    "Amount of horizontal blur for the CRT emulation."
 resource:       "VICIIPALBlur"
 action:         N/A
-fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -8335,7 +8238,6 @@ command line:   -VICIIcrtscanlineshade <0-1000>
 description:    "Amount of scan line shading for the CRT emulation"
 resource:       "VICIIPALScanLineShade"
 action:         N/A
-fixme: fix documentation, remove default
 
 vsync.c:
 --------
@@ -8343,7 +8245,6 @@ command line:   -speed <percent>
 description:    "Limit emulation speed to specified value"
 resource:       "Speed"
 action:         N/A
-fixme: fix documentation
 
 vsync.c:
 --------
@@ -8351,7 +8252,6 @@ command line:   -refresh <value>
 description:    "Update every <value> frames (`0' for automatic)"
 resource:       "RefreshRate"
 action:         N/A
-fixme: fix documentation
 
 vsync.c:
 --------
