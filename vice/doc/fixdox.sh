@@ -65,7 +65,15 @@ fixchm()
   while read data
   do
     case x"${data}" in
-	"x@multitable"*)  table4chm;;
+      "x@multitable"*)
+        table4chm
+        ;;
+      "x@ifset"*)
+        outputok=no
+        ;;
+      "x@ifclear"*)
+        outputok=no
+        ;;
     esac
 
     if test x"$data" = "x@ifinfo"; then
@@ -76,7 +84,19 @@ fixchm()
       echo $data
     fi
 
+    if test x"$data" = "x@ifset platformwindows"; then
+      outputok=yes
+    fi
+
     if test x"$data" = "x@end ifinfo"; then
+      outputok=yes
+    fi
+
+    if test x"$data" = "x@end ifset"; then
+      outputok=yes
+    fi
+
+    if test x"$data" = "x@end ifclear"; then
       outputok=yes
     fi
   done

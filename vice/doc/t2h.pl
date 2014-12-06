@@ -178,6 +178,10 @@ sub htmlizee {
   $line =~ s[\@center][]g;
   $line =~ s[\@iftex][]g;
   $line =~ s[\@end\s+iftex][]g;
+  $line =~ s[\@ifset(.*?)\n][]g;
+  $line =~ s[\@end\s+ifset][]g;
+  $line =~ s[\@ifclear(.*?)\n][]g;
+  $line =~ s[\@end\s+ifclear][]g;
   $line =~ s[\@group][]g;
   $line =~ s[\@end\s+group][]g;
   $line =~ s[\@end\s+table][]g;
