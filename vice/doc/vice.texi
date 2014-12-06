@@ -18,6 +18,11 @@ END-INFO-DIR-ENTRY
 @paragraphindent 0
 @exampleindent 0
 
+@c define platformall as the default
+@ifclear platformall
+@set platformall
+@end ifclear
+
 @c @iftex
 @c @set CHAPTER chapter
 @c @end iftex
@@ -25,6 +30,74 @@ END-INFO-DIR-ENTRY
 @c @ifinfo
 @c @set CHAPTER node
 @c @end ifinfo
+
+@c define platformamiga if any of the following are set:
+@ifset platformamigaos3
+@set platformamiga
+@end ifset
+@ifset platformamigaos4
+@set platformamiga
+@end ifset
+@ifset platformmorphos
+@set platformamiga
+@end ifset
+@ifset platformaros
+@set platformamiga
+@end ifset
+
+@c define platformbeos if any of the following are set:
+@ifset platformintelbeos
+@set platformbeos
+@end ifset
+@ifset platformppcbeos
+@set platformbeos
+@end ifset
+@ifset platformzeta
+@set platformbeos
+@end ifset
+@ifset platformhaiku
+@set platformbeos
+@end ifset
+@ifset platformhaiku64
+@set platformbeos
+@end ifset
+
+@c define platformunix if any of the following are set:
+@ifset platformxaw
+@set platformunix
+@end ifset
+@ifset platformgtk2
+@set platformunix
+@end ifset
+@ifset platformgtk3
+@set platformunix
+@end ifset
+
+@c undef platformall if any of the following are set:
+@ifset platformamiga
+@clear platformall
+@end ifset
+@ifset platformbeos
+@clear platformall
+@end ifset
+@ifset platformdos
+@clear platformall
+@end ifset
+@ifset platformos2
+@clear platformall
+@end ifset
+@ifset platformsdl
+@clear platformall
+@end ifset
+@ifset platformunix
+@clear platformall
+@end ifset
+@ifset platformosx
+@clear platformall
+@end ifset
+@ifset platformwindows
+@clear platformall
+@end ifset
 
 @c Theoretically, this should not be needed.  But my makeinfo does not
 @c understand it.
