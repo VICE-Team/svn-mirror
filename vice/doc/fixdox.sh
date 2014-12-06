@@ -90,7 +90,7 @@ fixhlp()
 
 fixguide()
 {
-  echo not implemented yet
+  sed <tmp.texi >vicetmp.texi -e 's/@ifinfo//g' -e 's/@end ifinfo//g' -e 's/@format//g' -e 's/@end format//g' -e 's/@firstparagraphindent none//g' -e 's/@exampleindent 0//g'
 }
 
 fixpdf()

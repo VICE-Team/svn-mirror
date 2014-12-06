@@ -74,7 +74,10 @@ endif
 
 $(builddir)/vice.guide:	$(srcdir)/vice.texi
 if BUILD_AMIGAGUIDE
-	$(srcdir)/texi2guide.sh $(MAKEGUIDE) $(builddir)/vice.guide $(srcdir)/vice.texi
+	cp $(srcdir)/vice.texi tmp.texi
+	$(srcdir)/fixdox.sh guide
+	$(srcdir)/texi2guide.sh $(MAKEGUIDE) $(builddir)/vice.guide vicetmp.texi
+	rm -f tmp.texi vicetmp.texi
 
 GUIDE_DEPS=$(builddir)/vice.guide
 else

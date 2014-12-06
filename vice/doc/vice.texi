@@ -99,6 +99,30 @@ END-INFO-DIR-ENTRY
 @clear platformall
 @end ifset
 
+@c set all platform defines if platformall is still defined
+@ifset platformall
+@set platformamiga
+@set platformamigaos3
+@set platformamigaos4
+@set platformmorphos
+@set platformaros
+@set platformbeos
+@set platformintelbeos
+@set platformppcbeos
+@set platformzeta
+@set platformhaiku
+@set platformhaiku64
+@set platformdos
+@set platformos2
+@set platformsdl
+@set platformunix
+@set platformxaw
+@set platformgtk2
+@set platformgtk3
+@set platformosx
+@set platformwindows
+@end ifset
+
 @c Theoretically, this should not be needed.  But my makeinfo does not
 @c understand it.
 @ifinfo
@@ -9194,138 +9218,473 @@ Specify PSID tune <number>
 @chapter Platform-specific features
 
 @menu
+@ifset platformamiga
 * AmigaOS-specific features::
+@end ifset
+@ifset platformbeos
 * BeOS-specific features::
+@end ifset
+@ifset platformdos
 * DOS-specific features::
+@end ifset
+@ifset platformos2
 * OS2-specific features::
+@end ifset
+@ifset platformsdl
 * SDL-specific features::
+@end ifset
+@ifset platformunix
 * Unix-specific features::
+@end ifset
+@ifset platformosx
 * Mac OS X-specific features::
+@end ifset
+@ifset platformwindows
 * Windows-specific features::
+@end ifset
 @end menu
 
-@c TODO
+@c -----------------------------------------------------------------
 
+@ifset platformall
 @node AmigaOS-specific features, BeOS-specific features, Platform-specific features, Platform-specific features
 @section AmigaOS-specific features
+@end ifset
 
+@ifclear platformall
+@ifset platformamiga
+@node AmigaOS-specific features, , Platform-specific features, Platform-specific features
+@section AmigaOS-specific features
+@end ifset
+@end ifclear
+
+@ifset platformamiga
 @menu
+@ifset platformamigaos3
 * AmigaOS3-specific features::
+@end ifset
+@ifset platformamigaos4
 * AmigaOS4-specific features::
+@end ifset
+@ifset platformmorphos
 * MorphOS-specific features::
+@end ifset
+@ifset platformaros
 * AROS-specific features::
+@end ifset
 @end menu
 
-@c TODO
+@c TODO: AmigaOS3 / AmigaOS4 / MorphOS / AROS common content
 
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node AmigaOS3-specific features, AmigaOS4-specific features, AmigaOS-specific features, AmigaOS-specific features
 @subsection AmigaOS3-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformamigaos3
+@node AmigaOS3-specific features, , AmigaOS-specific features, AmigaOS-specific features
+@subsection AmigaOS3-specific features
+@end ifset
+@end ifclear
 
+@ifset platformamigaos3
+
+@c TODO: AmigaOS3 specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node AmigaOS4-specific features, MorphOS-specific features, AmigaOS3-specific features, AmigaOS-specific features
 @subsection AmigaOS4-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformamigaos4
+@node AmigaOS4-specific features, , AmigaOS-specific features, AmigaOS-specific features
+@subsection AmigaOS4-specific features
+@end ifset
+@end ifclear
 
+@ifset platformamigaos4
+
+@c TODO: AmigaOS4 specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node MorphOS-specific features, AROS-specific features, AmigaOS4-specific features, AmigaOS-specific features
 @subsection MorphOS-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformmorphos
+@node MorphOS-specific features, , AmigaOS-specific features, AmigaOS-specific features
+@subsection MorphOS-specific features
+@end ifset
+@end ifclear
 
+@ifset platformmorphos
+
+@c TODO: MorphOS specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node AROS-specific features, , MorphOS-specific features, AmigaOS-specific features
 @subsection AROS-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformaros
+@node AROS-specific features, , AmigaOS-specific features, AmigaOS-specific features
+@subsection AROS-specific features
+@end ifset
+@end ifclear
 
+@ifset platformaros
+
+@c TODO: AROS specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node BeOS-specific features, DOS-specific features, AmigaOS-specific features, Platform-specific features
 @section BeOS-specific features
+@end ifset
 
+@ifclear platformall
+@ifset platformbeos
+@node BeOS-specific features, , Platform-specific features, Platform-specific features
+@section BeOS-specific features
+@end ifset
+@end ifclear
+
+@ifset platformbeos
 @menu
+@ifset platformintelbeos
 * Intel BeOS-specific features::
+@end ifset
+@ifset platformppcbeos
 * PPC BeOS-specific features::
+@end ifset
+@ifset platformzeta
 * Zeta-specific features::
+@end ifset
+@ifset platformhaiku
 * Haiku-specific features::
+@end ifset
+@ifset platformhaiku64
 * Haiku64-specific features::
+@end ifset
 @end menu
 
-@c TODO
+@c TODO: Intel BeOS / PPC BeOS / Zeta / Haiku / Haiku64 common contents
 
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node Intel BeOS-specific features, PPC BeOS-specific features, BeOS-specific features, BeOS-specific features
 @subsection Intel BeOS-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformintelbeos
+@node Intel BeOS-specific features, , BeOS-specific features, BeOS-specific features
+@subsection Intel BeOS-specific features
+@end ifset
+@end ifclear
 
+@ifset platformintelbeos
+
+@c TODO: Intel BeOS specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node PPC BeOS-specific features, Zeta-specific features, Intel BeOS-specific features, BeOS-specific features
 @subsection PPC BeOS-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformppcbeos
+@node PPC BeOS-specific features, , BeOS-specific features, BeOS-specific features
+@subsection PPC BeOS-specific features
+@end ifset
+@end ifclear
 
+@ifset platformppcbeos
+
+@c TODO: PPC BeOS specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node Zeta-specific features, Haiku-specific features, PPC BeOS-specific features, BeOS-specific features
 @subsection Zeta-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformzeta
+@node Zeta-specific features, , BeOS-specific features, BeOS-specific features
+@subsection Zeta-specific features
+@end ifset
+@end ifclear
 
+@ifset platformzeta
+
+@c TODO: Zeta specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node Haiku-specific features, Haiku64-specific features, Zeta-specific features, BeOS-specific features
 @subsection Haiku-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformhaiku
+@node Haiku-specific features, , BeOS-specific features, BeOS-specific features
+@subsection Haiku-specific features
+@end ifset
+@end ifclear
 
+@ifset platformhaiku
+
+@c TODO: Haiku specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node Haiku64-specific features, , Haiku-specific features, BeOS-specific features
 @subsection Haiku64-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformhaiku64
+@node Haiku64-specific features, , BeOS-specific features, BeOS-specific features
+@subsection Haiku64-specific features
+@end ifset
+@end ifclear
 
+@ifset platformhaiku64
+
+@c TODO: Haiku64 specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node DOS-specific features, OS2-specific features, BeOS-specific features, Platform-specific features
 @section DOS-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformdos
+@node DOS-specific features, , Platform-specific features, Platform-specific features
+@section DOS-specific features
+@end ifset
+@end ifclear
 
+@ifset platformdos
+
+@c TODO: DOS specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node OS2-specific features, SDL-specific features, DOS-specific features, Platform-specific features
 @section OS2-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformos2
+@node OS2-specific features, , Platform-specific features, Platform-specific features
+@section OS2-specific features
+@end ifset
+@end ifclear
 
+@ifset platformos2
+
+@c TODO: OS/2 specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node SDL-specific features, Unix-specific features, OS2-specific features, Platform-specific features
 @section SDL-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformsdl
+@node SDL-specific features, , Platform-specific features, Platform-specific features
+@section SDL-specific features
+@end ifset
+@end ifclear
 
+@ifset platformsdl
+
+@c TODO: SDL specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node Unix-specific features, Mac OS X-specific features, SDL-specific features, Platform-specific features
 @section Unix-specific features
+@end ifset
 
+@ifclear platformall
+@ifset platformunix
+@node Unix-specific features, , Platform-specific features, Platform-specific features
+@section Unix-specific features
+@end ifset
+@end ifclear
+
+@ifset platformunix
 @menu
+@ifset platformxaw
 * XAW-specific features::
+@end ifset
+@ifset platformgtk2
 * GTK2-specific features::
+@end ifset
+@ifset platformgtk3
 * GTK3-specific features::
+@end ifset
 @end menu
 
-@c TODO
+@c TODO: Unix / Xaw / GTK2 / GTK3 common content
 
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node XAW-specific features, GTK2-specific features, Unix-specific features, Unix-specific features
 @subsection XAW-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformxaw
+@node XAW-specific features, , Unix-specific features, Unix-specific features
+@subsection XAW-specific features
+@end ifset
+@end ifclear
 
+@ifset platformxaw
+
+@c TODO: XAW specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node GTK2-specific features, GTK3-specific features, XAW-specific features, Unix-specific features
 @subsection GTK2-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformgtk2
+@node GTK2-specific features, , Unix-specific features, Unix-specific features
+@subsection GTK2-specific features
+@end ifset
+@end ifclear
 
+@ifset platformgtk2
+
+@c TODO: GTK2 specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node GTK3-specific features, , GTK2-specific features, Unix-specific features
 @subsection GTK3-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformgtk3
+@node GTK3-specific features, , Unix-specific features, Unix-specific features
+@subsection GTK3-specific features
+@end ifset
+@end ifclear
 
+@ifset platformgtk3
+
+@c TODO: GTK3 specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node Mac OS X-specific features, Windows-specific features, Unix-specific features, Platform-specific features
 @section Mac OS X-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformosx
+@node Mac OS X-specific features, , Platform-specific features, Platform-specific features
+@section Mac OS X-specific features
+@end ifset
+@end ifclear
 
+@ifset platformosx
+
+@c TODO: Mac OS X specific content
+
+@end ifset
+
+@c -----------------------------------------------------------------
+
+@ifset platformall
 @node Windows-specific features, , Mac OS X-specific features, Platform-specific features
 @section Windows-specific features
+@end ifset
 
-@c TODO
+@ifclear platformall
+@ifset platformwindows
+@node Windows-specific features, , Platform-specific features, Platform-specific features
+@section Windows-specific features
+@end ifset
+@end ifclear
+
+@ifset platformwindows
+
+@c TODO: Windows specific content
+
+@end ifset
 
 @c -----------------------------------------------------------------
 

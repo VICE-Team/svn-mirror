@@ -1,20 +1,17 @@
 @database ./vice.guide
 
-@Master ./vice.texi
+@Master vicetmp.texi
 
 @Width 72
 
 
 This is the AmigaGuide® file ./vice.guide, produced by Makeinfo-1.55 from 
-the input file ./vice.texi.
+the input file vicetmp.texi.
 
-START-INFO-DIR-ENTRY
-* VICE: (vice).        VICE, the Versatile Commodore Emulator.
-END-INFO-DIR-ENTRY
+   START-INFO-DIR-ENTRY * VICE: (vice).        VICE, the Versatile
+Commodore Emulator.  END-INFO-DIR-ENTRY
 
-   none  0
-
-\PARAM\  ifinfo
+\PARAM\  macro
 
 VICE Manual
 
@@ -50,6 +47,8 @@ Commodore Emulator.
  @{" Settings and resources " Link "Settings and resources"}       Emulator parameters you can change.
 
  @{" Machine-specific features " Link "Machine-specific features"}    Peculiar characteristics of the emulators.
+
+ @{" Platform-specific features " Link "Platform-specific features"}   Host platform specific features.
 
  @{" Snapshots " Link "Snapshots"}                    Save the emulator state in one file
  @{" Monitor " Link "Monitor"}                      The VICE built-in monitor.
@@ -1236,8 +1235,8 @@ initialize the emulator in some way:
 `-chdir <directory>'
      Change the working directory.
 
-`-autostart IMAGE'
-     Autostart `IMAGE' (see @{"Command-line autostart" Link "Command-line autostart"}).
+`-autostart <name>'
+     Autostart <name> (see @{"Command-line autostart" Link "Command-line autostart"}).
 
 `-autoload <name>'
      Attach and autoload tape/disk image <name>
@@ -1263,27 +1262,28 @@ initialize the emulator in some way:
 `+autostart-warp'
      Enable/Disable warp mode during autostart
 
-`-autostartprgmode'
-     Set autostart mode for PRG files
+`-autostartprgmode <Mode>'
+     Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk
+     image)
 
-`-autostartprgdiskimage'
+`-autostartprgdiskimage <Name>'
      Set disk image for autostart of PRG files
 
 `-autostart-delay-random'
 `+autostart-delay-random'
      Enable/Disable random delay on autostart
 
-`-autostart-delay <value>'
+`-autostart-delay <seconds>'
      Set initial autostart delay (0: use default)
 
-`-1 NAME'
-     Attach `NAME' as a tape image file.
+`-1 <Name>'
+     Attach <Name> as a tape image file.
 
-`-8 NAME'
-`-9 NAME'
-`-10 NAME'
-`-11 NAME'
-     Attach `NAME' as a disk image to device 8, 9, 10 or 11.
+`-8 <Name>'
+`-9 <Name>'
+`-10 <Name>'
+`-11 <Name>'
+     Attach <Name> as a disk image to device 8, 9, 10 or 11.
 
 `-attach8ro'
 `-attach9ro'
@@ -2360,11 +2360,11 @@ Performance resources
 Performance command-line options
 --------------------------------
 
-`-speed VALUE'
+`-speed <percent>'
      Specifies the maximum speed as a percentage.  `0' stands for "no
      limit".  (Same as setting the `Speed' resource.)
 
-`-refresh VALUE'
+`-refresh <value>'
      Specifies refresh rate; a value of `n' specifies a refresh rate of
      1/`n'.  A value of `0' enables automatic frame skipping.  (Same as
      setting the `RefreshRate' resource.)
@@ -2587,7 +2587,7 @@ Video command-line options
      Enable/disable installation of a private colormap
      (`PrivateColormap=1', `PrivateColormap=0').
 
-`-displaydepth DEPTH'
+`-displaydepth <value>'
      Specify the display depth (`DisplayDepth').
 
 `-fullscreen'
@@ -2679,37 +2679,37 @@ Keyboard resources
 Keyboard command-line options
 -----------------------------
 
-`-keymap N'
+`-keymap <number>'
      Specifies which keymap is being used; `0' indicates symbolic
      mapping, `1' positional mapping (as for the `KeymapIndex'
      resource).
 
-`-symkeymap NAME'
-     Specify `NAME' as the symbolic keymap file (`KeymapSymFile').
+`-symkeymap <Name>'
+     Specify <Name> as the symbolic keymap file (`KeymapSymFile').
 
-`-poskeymap NAME'
-     Specify `NAME' as the positional keymap file (`KeymapPosFile').
+`-poskeymap <Name>'
+     Specify <Name> as the positional keymap file (`KeymapPosFile').
 
 `-symdekeymap NAME'
      Specify `NAME' as the symbolic keymap file (`KeymapSymDeFile').
 
-`-buksymkeymap NAME'
-`-bukposkeymap NAME'
-     Specify `NAME' as the symbolic/positional keymap file for the UK
+`-buksymkeymap <Name>'
+`-bukposkeymap <Name>'
+     Specify <Name> as the symbolic/positional keymap file for the UK
      business keyboard (`KeymapBusinessUKSymFile',
      `KeymapBusinessUKPosFile', PET and CBM-II).
 
-`-grsymkeymap NAME'
-`-grposkeymap NAME'
-     Specify `NAME' as the symbolic/positional keymap file for the
+`-grsymkeymap <Name>'
+`-grposkeymap <Name>'
+     Specify <Name> as the symbolic/positional keymap file for the
      graphics keyboard (`KeymapGraphicsSymFile',
      `KeymapGraphicsPosFile', PET only).
 
-`-bdesymkeymap NAME'
-`-bdeposkeymap NAME'
-     Specify `NAME' as the symbolic/positional keymap file for the
+`-bdesymkeymap <Name>'
+`-bdeposkeymap <Name>'
+     Specify <Name> as the symbolic/positional keymap file for the
      German business keyboard (`KeymapBusinessDESymFile',
-     `KeymapBusinessDEPosFile', PET only).
+     `KeymapBusinessDEPosFile', PET and CBM-II only).
 
 Joystick settings
 =================
@@ -3037,33 +3037,65 @@ Sound command-line options
 `+sound'
      Turns sound emulation on (`Sound=1') and off (`Sound=0').
 
-`-soundsync N'
-     Specify `N' as the sound speed adjustment method
-     (`SoundSpeedAdjustment').
+`-soundsync <sync>'
+     Specify <sync> as the sound speed adjustment method (0: flexible,
+     1: adjusting, 2: exact) (`SoundSpeedAdjustment').
 
-`-soundrate RATE'
+`-soundrate <value>'
      Specifies the sound playback sample rate (`SoundSampleRate').
 
 `-soundoutput <output mode>'
      Sound output mode: (0: system decides mono/stereo, 1: always mono,
      2: always stereo)
 
-`-soundbufsize SIZE'
+`-soundbufsize <value>'
      Specifies the size of the audio buffer in milliseconds
      (`SoundBufferSize').
 
 `-soundfragsize <value>'
      Set sound fragment size (0 = small, 1 = medium, 2 = large)
 
-`-sounddev NAME'
-     Specifies the name of the audio device (`SoundDeviceName').
+`-sounddev <Name>'
+     Specifies the name of the audio device
 
-`-soundarg ARG'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     (ahi/aix/allegro/alsa/arts/beos/bsp/coreaudio/dart/dummy/dx/hpux/midas/pulse/sdl/sgi/sun/uss/wmm)
+     (`SoundDeviceName').
+
+`-soundarg <args>'
      Specifies an additional parameter for the audio device
      (`SoundDeviceArg').
 
 `-soundrecdev <name>'
-     Specify recording sound driver
+     Specify recording sound driver (aiff/dump/fs/iff/mp3/speed/voc/wav)
 
 `-soundrecarg <args>'
      Specify initialization parameters for recording sound driver
@@ -3331,10 +3363,10 @@ Drive command-line options
      Turns drive sound emulation on (`DriveSoundEmulation=1') and off
      (`DriveSoundEmulation=0'), respectively.
 
-`-drive8type TYPE'
-`-drive9type TYPE'
-`-drive10type TYPE'
-`-drive11type TYPE'
+`-drive8type <Type>'
+`-drive9type <Type>'
+`-drive10type <Type>'
+`-drive11type <Type>'
      Specifies the drive types for drives 8-11, respectively.  Possible
      values for `TYPE' are `1541', `1542' (meaning 1541-II), `1551',
      `1570', `1571', `1573' (meaning 1571cr), `1581', `2000', `4000',
@@ -3346,21 +3378,23 @@ Drive command-line options
 `-parallel11 <type>'
      Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS)
 
-`-drive8idle NUM'
-`-drive9idle NUM'
-`-drive10idle NUM'
-`-drive11idle NUM'
-     Specifies `NUM' as the idling method for drives 8-11 (0: no traps,
-     1: skip cycles, 2: trap idle), respectively (`Drive8IdleMethod',
-     `Drive9IdleMethod'), `Drive10IdleMethod'), `Drive11IdleMethod').
+`-drive8idle <method>'
+`-drive9idle <method>'
+`-drive10idle <method>'
+`-drive11idle <method>'
+     Specifies <method> as the idling method for drives 8-11 (0: no
+     traps, 1: skip cycles, 2: trap idle), respectively
+     (`Drive8IdleMethod', `Drive9IdleMethod', `Drive10IdleMethod'),
+     `Drive11IdleMethod').
 
-`-drive8extend NUM'
-`-drive9extend NUM'
-`-drive10extend NUM'
-`-drive11extend NUM'
-     Specifies `NUM' as the track 40 extend policy in drives 8 and 9,
-     respectively (`Drive8ExtendImagePolicy',
-     `Drive9ExtendImagePolicy').
+`-drive8extend <method>'
+`-drive9extend <method>'
+`-drive10extend <method>'
+`-drive11extend <method>'
+     Specifies <method> as the track 40 extend policy in drives 8-11
+     (0: never, 1: ask, 2: on access), respectively
+     (`Drive8ExtendImagePolicy', `Drive9ExtendImagePolicy',
+     `Drive10ExtendImagePolicy', `Drive11ExtendImagePolicy').
 
 `-dos1541 <name>'
 `-dos1541II <name>'
@@ -3576,13 +3610,13 @@ Command-line options for file system devices
 `-device9 <type>'
 `-device10 <type>'
 `-device11 <type>'
-     Set device type for device 8-11 (0: NONE, 1: FILESYSTEM, 2:
-     OPENCBM (Real), 3: BLOCK DEVICE (Raw))
+     Set device type for device 8-11 (0: None, 1: Filesystem, 2:
+     OpenCBM (Real), 3: Block device (Raw))
 
-`-fs8 PATH'
-`-fs9 PATH'
-`-fs10 PATH'
-`-fs11 PATH'
+`-fs8 <Name>'
+`-fs9 <Name>'
+`-fs10 <Name>'
+`-fs11 <Name>'
      Specify the paths for the file system access on drives 8, 9, 10
      and 11, respectively (`FSDevice8Dir', `FSDevice9Dir',
      `FSDevice10Dir' and `FSDevice11Dir').
@@ -3729,13 +3763,11 @@ Printer command-line options
 
 `-pr4output <name>'
 `-pr5output <name>'
-     Specify name of output device for device #4-5 Specify name of
-     output device for device #5-5
+     Specify name of output device for device #4-5
 
 `-pr4drv <name>'
 `-pr5drv <name>'
-     Specify name of printer driver for device #4-5 Specify name of
-     printer driver for device #5-5
+     Specify name of printer driver for device #4-5
 
 `-pruser'
 `+pruser'
@@ -3938,18 +3970,18 @@ RS232 resources
 RS232 command-line options
 --------------------------
 
-`-rsdev1 NAME'
-`-rsdev2 NAME'
-`-rsdev3 NAME'
-`-rsdev4 NAME'
-     Specify `NAME' as RS232 devices 1, 2, 3 and 4, respectively
+`-rsdev1 <Name>'
+`-rsdev2 <Name>'
+`-rsdev3 <Name>'
+`-rsdev4 <Name>'
+     Specify <Name> as RS232 devices 1, 2, 3 and 4, respectively
      (`RsDevice1', `RsDevice2' `RsDevice3' and `RsDevice4').
 
-`-rsdev1 BAUDRATE'
-`-rsdev2 BAUDRATE'
-`-rsdev3 BAUDRATE'
-`-rsdev4 BAUDRATE'
-     Specify `BAUDRATE' as baudrate for the RS232 devices if the device
+`-rsdev1baud <baudrate>'
+`-rsdev2baud <baudrate>'
+`-rsdev3baud <baudrate>'
+`-rsdev4baud <baudrate>'
+     Specify <baudrate> as baudrate for the RS232 devices if the device
      name specifies a special device (like `/dev/ttyS0' for example,
      see @{"RS232 settings" Link "RS232 settings"}; `RsDevice1Baud', `RsDevice2Baud'
      `RsDevice3Baud' and `RsDevice4Baud').
@@ -4054,8 +4086,8 @@ Monitor resources
 Monitor command-line options
 ----------------------------
 
-`-moncommands FILENAME'
-     Execute the commands from the file `FILENAME' in the monitor after
+`-moncommands <Name>'
+     Execute the commands from the file <Name> in the monitor after
      starting up. This command line switch is mainly thought to load
      labels and to set breakpoints.  Not all other commands are useful
      to be executed in this way, some may even lead to strange effects.
@@ -4241,7 +4273,7 @@ Miscellaneous resources
 Miscellaneous command-line options
 ----------------------------------
 
-`-directory SEARCHPATH'
+`-directory <Path>'
      Specify the system file search path (`Directory').
 
 `-htmlbrowser COMMAND'
@@ -4269,7 +4301,7 @@ Miscellaneous command-line options
 @EndNode
 
 @Node "Machine-specific features" "vice.guide/Machine-specific features"
-@Next "Snapshots"
+@Next "Platform-specific features"
 @Prev "Settings and resources"
 @Toc "Main"
 
@@ -5457,8 +5489,8 @@ VIC-II command-line options
 `-VICIIextpal'
      Use an external palette (file)
 
-`-VICIIpalette NAME'
-     Specify `NAME' as the palette file (`VICIIPaletteFile').
+`-VICIIpalette <Name>'
+     Specify <Name> as the palette file (`VICIIPaletteFile').
 
 `-VICIIfulldevice <device>'
      Select fullscreen device
@@ -5482,31 +5514,31 @@ VIC-II command-line options
      Enable/Disable new luminances.
 
 `-VICIIsaturation <0-2000>'
-     Set saturation of internal calculated palette [1250]
+     Set saturation of internal calculated palette
 
 `-VICIIcontrast <0-2000>'
-     Set contrast of internal calculated palette [1250]
+     Set contrast of internal calculated palette
 
 `-VICIIbrightness <0-2000>'
-     Set brightness of internal calculated palette [1000]
+     Set brightness of internal calculated palette
 
 `-VICIIgamma <0-4000>'
-     Set gamma of internal calculated palette [2200]
+     Set gamma of internal calculated palette
 
 `-VICIItint <0-2000>'
-     Set tint of internal calculated palette [1000]
+     Set tint of internal calculated palette
 
 `-VICIIoddlinesphase <0-2000>'
-     Set phase for color carrier in odd lines [1125]
+     Set phase for color carrier in odd lines
 
 `-VICIIoddlinesoffset <0-2000>'
-     Set phase offset for color carrier in odd lines [875]
+     Set phase offset for color carrier in odd lines
 
 `-VICIIcrtblur <0-1000>'
-     Amount of horizontal blur for the CRT emulation. [500]
+     Amount of horizontal blur for the CRT emulation
 
 `-VICIIcrtscanlineshade <0-1000>'
-     Amount of scan line shading for the CRT emulation [750]
+     Amount of scan line shading for the CRT emulation
 
 `-VICIIaudioleak'
 `+VICIIaudioleak'
@@ -6000,8 +6032,8 @@ C64/128 system ROM resources
 @Prev "C64-128 system ROM resources"
 @Toc "C64-128 system ROM settings"
 
-C64/128 system ROM command-line options
-.......................................
+C64 system ROM command-line options
+...................................
 
 `-kernal NAME'
      Specify `NAME' as the Kernal ROM file (`KernalName').
@@ -8494,9 +8526,284 @@ VSID command-line options
 
 @EndNode
 
+@Node "Platform-specific features" "vice.guide/Platform-specific features"
+@Next "Snapshots"
+@Prev "Machine-specific features"
+@Toc "Main"
+
+Platform-specific features
+**************************
+
+
+
+ @{" AmigaOS-specific features " Link "AmigaOS-specific features"} 
+
+ @{" BeOS-specific features " Link "BeOS-specific features"} 
+
+ @{" DOS-specific features " Link "DOS-specific features"} 
+
+ @{" OS2-specific features " Link "OS2-specific features"} 
+
+ @{" SDL-specific features " Link "SDL-specific features"} 
+
+ @{" Unix-specific features " Link "Unix-specific features"} 
+
+ @{" Mac OS X-specific features " Link "Mac OS X-specific features"} 
+
+ @{" Windows-specific features " Link "Windows-specific features"} 
+
+
+@EndNode
+
+@Node "AmigaOS-specific features" "vice.guide/AmigaOS-specific features"
+@Next "BeOS-specific features"
+@Prev "Platform-specific features"
+@Toc "Platform-specific features"
+
+AmigaOS-specific features
+=========================
+
+
+
+ @{" AmigaOS3-specific features " Link "AmigaOS3-specific features"} 
+
+ @{" AmigaOS4-specific features " Link "AmigaOS4-specific features"} 
+
+ @{" MorphOS-specific features " Link "MorphOS-specific features"} 
+
+ @{" AROS-specific features " Link "AROS-specific features"} 
+
+
+@EndNode
+
+@Node "AmigaOS3-specific features" "vice.guide/AmigaOS3-specific features"
+@Next "AmigaOS4-specific features"
+@Prev "AmigaOS-specific features"
+@Toc "AmigaOS-specific features"
+
+AmigaOS3-specific features
+--------------------------
+
+
+@EndNode
+
+@Node "AmigaOS4-specific features" "vice.guide/AmigaOS4-specific features"
+@Next "MorphOS-specific features"
+@Prev "AmigaOS3-specific features"
+@Toc "AmigaOS-specific features"
+
+AmigaOS4-specific features
+--------------------------
+
+
+@EndNode
+
+@Node "MorphOS-specific features" "vice.guide/MorphOS-specific features"
+@Next "AROS-specific features"
+@Prev "AmigaOS4-specific features"
+@Toc "AmigaOS-specific features"
+
+MorphOS-specific features
+-------------------------
+
+
+@EndNode
+
+@Node "AROS-specific features" "vice.guide/AROS-specific features"
+@Prev "MorphOS-specific features"
+@Toc "AmigaOS-specific features"
+
+AROS-specific features
+----------------------
+
+
+@EndNode
+
+@Node "BeOS-specific features" "vice.guide/BeOS-specific features"
+@Next "DOS-specific features"
+@Prev "AmigaOS-specific features"
+@Toc "Platform-specific features"
+
+BeOS-specific features
+======================
+
+
+
+ @{" Intel BeOS-specific features " Link "Intel BeOS-specific features"} 
+
+ @{" PPC BeOS-specific features " Link "PPC BeOS-specific features"} 
+
+ @{" Zeta-specific features " Link "Zeta-specific features"} 
+
+ @{" Haiku-specific features " Link "Haiku-specific features"} 
+
+ @{" Haiku64-specific features " Link "Haiku64-specific features"} 
+
+
+@EndNode
+
+@Node "Intel BeOS-specific features" "vice.guide/Intel BeOS-specific features"
+@Next "PPC BeOS-specific features"
+@Prev "BeOS-specific features"
+@Toc "BeOS-specific features"
+
+Intel BeOS-specific features
+----------------------------
+
+
+@EndNode
+
+@Node "PPC BeOS-specific features" "vice.guide/PPC BeOS-specific features"
+@Next "Zeta-specific features"
+@Prev "Intel BeOS-specific features"
+@Toc "BeOS-specific features"
+
+PPC BeOS-specific features
+--------------------------
+
+
+@EndNode
+
+@Node "Zeta-specific features" "vice.guide/Zeta-specific features"
+@Next "Haiku-specific features"
+@Prev "PPC BeOS-specific features"
+@Toc "BeOS-specific features"
+
+Zeta-specific features
+----------------------
+
+
+@EndNode
+
+@Node "Haiku-specific features" "vice.guide/Haiku-specific features"
+@Next "Haiku64-specific features"
+@Prev "Zeta-specific features"
+@Toc "BeOS-specific features"
+
+Haiku-specific features
+-----------------------
+
+
+@EndNode
+
+@Node "Haiku64-specific features" "vice.guide/Haiku64-specific features"
+@Prev "Haiku-specific features"
+@Toc "BeOS-specific features"
+
+Haiku64-specific features
+-------------------------
+
+
+@EndNode
+
+@Node "DOS-specific features" "vice.guide/DOS-specific features"
+@Next "OS2-specific features"
+@Prev "BeOS-specific features"
+@Toc "Platform-specific features"
+
+DOS-specific features
+=====================
+
+
+@EndNode
+
+@Node "OS2-specific features" "vice.guide/OS2-specific features"
+@Next "SDL-specific features"
+@Prev "DOS-specific features"
+@Toc "Platform-specific features"
+
+OS2-specific features
+=====================
+
+
+@EndNode
+
+@Node "SDL-specific features" "vice.guide/SDL-specific features"
+@Next "Unix-specific features"
+@Prev "OS2-specific features"
+@Toc "Platform-specific features"
+
+SDL-specific features
+=====================
+
+
+@EndNode
+
+@Node "Unix-specific features" "vice.guide/Unix-specific features"
+@Next "Mac OS X-specific features"
+@Prev "SDL-specific features"
+@Toc "Platform-specific features"
+
+Unix-specific features
+======================
+
+
+
+ @{" XAW-specific features " Link "XAW-specific features"} 
+
+ @{" GTK2-specific features " Link "GTK2-specific features"} 
+
+ @{" GTK3-specific features " Link "GTK3-specific features"} 
+
+
+@EndNode
+
+@Node "XAW-specific features" "vice.guide/XAW-specific features"
+@Next "GTK2-specific features"
+@Prev "Unix-specific features"
+@Toc "Unix-specific features"
+
+XAW-specific features
+---------------------
+
+
+@EndNode
+
+@Node "GTK2-specific features" "vice.guide/GTK2-specific features"
+@Next "GTK3-specific features"
+@Prev "XAW-specific features"
+@Toc "Unix-specific features"
+
+GTK2-specific features
+----------------------
+
+
+@EndNode
+
+@Node "GTK3-specific features" "vice.guide/GTK3-specific features"
+@Prev "GTK2-specific features"
+@Toc "Unix-specific features"
+
+GTK3-specific features
+----------------------
+
+
+@EndNode
+
+@Node "Mac OS X-specific features" "vice.guide/Mac OS X-specific features"
+@Next "Windows-specific features"
+@Prev "Unix-specific features"
+@Toc "Platform-specific features"
+
+Mac OS X-specific features
+==========================
+
+
+@EndNode
+
+@Node "Windows-specific features" "vice.guide/Windows-specific features"
+@Prev "Mac OS X-specific features"
+@Toc "Platform-specific features"
+
+Windows-specific features
+=========================
+
+
+@EndNode
+
 @Node "Snapshots" "vice.guide/Snapshots"
 @Next "Monitor"
-@Prev "Machine-specific features"
+@Prev "Platform-specific features"
 @Toc "Main"
 
 Snapshots
