@@ -142,6 +142,8 @@ Commodore Emulator.
 
 * Machine-specific features::   Peculiar characteristics of the emulators.
 
+* Platform-specific features::  Host platform specific features.
+
 * Snapshots::                   Save the emulator state in one file
 * Monitor::                     The VICE built-in monitor.
 * c1541::                       The disk-image maintenance utility.
@@ -4593,7 +4595,7 @@ Disable generation of core dumps (@code{DoCoreDump=0})
 @end table
 
 
-@node Machine-specific features, Snapshots, Settings and resources, Top
+@node Machine-specific features, Platform-specific features, Settings and resources, Top
 @chapter Machine-specific features
 
 @menu
@@ -9115,7 +9117,146 @@ Specify PSID tune <number>
 
 @c -----------------------------------------------------------------
 
-@node Snapshots, Monitor, Machine-specific features, Top
+@node Platform-specific features, Snapshots, Machine-specific features, Top
+@chapter Platform-specific features
+
+@menu
+* AmigaOS-specific features::
+* BeOS-specific features::
+* DOS-specific features::
+* OS2-specific features::
+* SDL-specific features::
+* Unix-specific features::
+* Mac OS X-specific features::
+* Windows-specific features::
+@end menu
+
+@c TODO
+
+@node AmigaOS-specific features, BeOS-specific features, Platform-specific features, Platform-specific features
+@section AmigaOS-specific features
+
+@menu
+* AmigaOS3-specific features::
+* AmigaOS4-specific features::
+* MorphOS-specific features::
+* AROS-specific features::
+@end menu
+
+@c TODO
+
+@node AmigaOS3-specific features, AmigaOS4-specific features, AmigaOS-specific features, AmigaOS-specific features
+@subsection AmigaOS3-specific features
+
+@c TODO
+
+@node AmigaOS4-specific features, MorphOS-specific features, AmigaOS3-specific features, AmigaOS-specific features
+@subsection AmigaOS4-specific features
+
+@c TODO
+
+@node MorphOS-specific features, AROS-specific features, AmigaOS4-specific features, AmigaOS-specific features
+@subsection MorphOS-specific features
+
+@c TODO
+
+@node AROS-specific features, , MorphOS-specific features, AmigaOS-specific features
+@subsection AROS-specific features
+
+@c TODO
+
+@node BeOS-specific features, DOS-specific features, AmigaOS-specific features, Platform-specific features
+@section BeOS-specific features
+
+@menu
+* Intel BeOS-specific features::
+* PPC BeOS-specific features::
+* Zeta-specific features::
+* Haiku-specific features::
+* Haiku64-specific features::
+@end menu
+
+@c TODO
+
+@node Intel BeOS-specific features, PPC BeOS-specific features, BeOS-specific features, BeOS-specific features
+@subsection Intel BeOS-specific features
+
+@c TODO
+
+@node PPC BeOS-specific features, Zeta-specific features, Intel BeOS-specific features, BeOS-specific features
+@subsection PPC BeOS-specific features
+
+@c TODO
+
+@node Zeta-specific features, Haiku-specific features, PPC BeOS-specific features, BeOS-specific features
+@subsection Zeta-specific features
+
+@c TODO
+
+@node Haiku-specific features, Haiku64-specific features, Zeta-specific features, BeOS-specific features
+@subsection Haiku-specific features
+
+@c TODO
+
+@node Haiku64-specific features, , Haiku-specific features, BeOS-specific features
+@subsection Haiku64-specific features
+
+@c TODO
+
+@node DOS-specific features, OS2-specific features, BeOS-specific features, Platform-specific features
+@section DOS-specific features
+
+@c TODO
+
+@node OS2-specific features, SDL-specific features, DOS-specific features, Platform-specific features
+@section OS2-specific features
+
+@c TODO
+
+@node SDL-specific features, Unix-specific features, OS2-specific features, Platform-specific features
+@section SDL-specific features
+
+@c TODO
+
+@node Unix-specific features, Mac OS X-specific features, SDL-specific features, Platform-specific features
+@section Unix-specific features
+
+@menu
+* XAW-specific features::
+* GTK2-specific features::
+* GTK3-specific features::
+@end menu
+
+@c TODO
+
+@node XAW-specific features, GTK2-specific features, Unix-specific features, Unix-specific features
+@subsection XAW-specific features
+
+@c TODO
+
+@node GTK2-specific features, GTK3-specific features, XAW-specific features, Unix-specific features
+@subsection GTK2-specific features
+
+@c TODO
+
+@node GTK3-specific features, , GTK2-specific features, Unix-specific features
+@subsection GTK3-specific features
+
+@c TODO
+
+@node Mac OS X-specific features, Windows-specific features, Unix-specific features, Platform-specific features
+@section Mac OS X-specific features
+
+@c TODO
+
+@node Windows-specific features, , Mac OS X-specific features, Platform-specific features
+@section Windows-specific features
+
+@c TODO
+
+@c -----------------------------------------------------------------
+
+@node Snapshots, Monitor, Platform-specific features, Top
 @chapter Snapshots
 
 Every VICE emulator has a built-in snapshot feature, that saves the
