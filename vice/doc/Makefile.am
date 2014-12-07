@@ -76,7 +76,7 @@ $(builddir)/vice.guide:	$(srcdir)/vice.texi
 if BUILD_AMIGAGUIDE
 	cp $(srcdir)/vice.texi tmp.texi
 	$(srcdir)/fixdox.sh guide
-	$(srcdir)/texi2guide.sh $(MAKEGUIDE) $(builddir)/vice.guide vicetmp.texi
+	$(srcdir)/texi2guide.sh $(MAKEGUIDE) $(builddir)/vice.guide vicetmp.texi $(host_cpu) $(host_os)
 	rm -f tmp.texi vicetmp.texi
 
 GUIDE_DEPS=$(builddir)/vice.guide

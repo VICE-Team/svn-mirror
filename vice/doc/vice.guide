@@ -8538,25 +8538,10 @@ Platform-specific features
 
  @{" AmigaOS-specific features " Link "AmigaOS-specific features"} 
 
- @{" BeOS-specific features " Link "BeOS-specific features"} 
-
- @{" DOS-specific features " Link "DOS-specific features"} 
-
- @{" OS2-specific features " Link "OS2-specific features"} 
-
- @{" SDL-specific features " Link "SDL-specific features"} 
-
- @{" Unix-specific features " Link "Unix-specific features"} 
-
- @{" Mac OS X-specific features " Link "Mac OS X-specific features"} 
-
- @{" Windows-specific features " Link "Windows-specific features"} 
-
 
 @EndNode
 
 @Node "AmigaOS-specific features" "vice.guide/AmigaOS-specific features"
-@Next "BeOS-specific features"
 @Prev "Platform-specific features"
 @Toc "Platform-specific features"
 
@@ -8577,7 +8562,6 @@ AmigaOS-specific features
 @EndNode
 
 @Node "AmigaOS3-specific features" "vice.guide/AmigaOS3-specific features"
-@Next "AmigaOS4-specific features"
 @Prev "AmigaOS-specific features"
 @Toc "AmigaOS-specific features"
 
@@ -8588,8 +8572,7 @@ AmigaOS3-specific features
 @EndNode
 
 @Node "AmigaOS4-specific features" "vice.guide/AmigaOS4-specific features"
-@Next "MorphOS-specific features"
-@Prev "AmigaOS3-specific features"
+@Prev "AmigaOS-specific features"
 @Toc "AmigaOS-specific features"
 
 AmigaOS4-specific features
@@ -8599,8 +8582,7 @@ AmigaOS4-specific features
 @EndNode
 
 @Node "MorphOS-specific features" "vice.guide/MorphOS-specific features"
-@Next "AROS-specific features"
-@Prev "AmigaOS4-specific features"
+@Prev "AmigaOS-specific features"
 @Toc "AmigaOS-specific features"
 
 MorphOS-specific features
@@ -8610,193 +8592,11 @@ MorphOS-specific features
 @EndNode
 
 @Node "AROS-specific features" "vice.guide/AROS-specific features"
-@Prev "MorphOS-specific features"
+@Prev "AmigaOS-specific features"
 @Toc "AmigaOS-specific features"
 
 AROS-specific features
 ----------------------
-
-
-@EndNode
-
-@Node "BeOS-specific features" "vice.guide/BeOS-specific features"
-@Next "DOS-specific features"
-@Prev "AmigaOS-specific features"
-@Toc "Platform-specific features"
-
-BeOS-specific features
-======================
-
-
-
- @{" Intel BeOS-specific features " Link "Intel BeOS-specific features"} 
-
- @{" PPC BeOS-specific features " Link "PPC BeOS-specific features"} 
-
- @{" Zeta-specific features " Link "Zeta-specific features"} 
-
- @{" Haiku-specific features " Link "Haiku-specific features"} 
-
- @{" Haiku64-specific features " Link "Haiku64-specific features"} 
-
-
-@EndNode
-
-@Node "Intel BeOS-specific features" "vice.guide/Intel BeOS-specific features"
-@Next "PPC BeOS-specific features"
-@Prev "BeOS-specific features"
-@Toc "BeOS-specific features"
-
-Intel BeOS-specific features
-----------------------------
-
-
-@EndNode
-
-@Node "PPC BeOS-specific features" "vice.guide/PPC BeOS-specific features"
-@Next "Zeta-specific features"
-@Prev "Intel BeOS-specific features"
-@Toc "BeOS-specific features"
-
-PPC BeOS-specific features
---------------------------
-
-
-@EndNode
-
-@Node "Zeta-specific features" "vice.guide/Zeta-specific features"
-@Next "Haiku-specific features"
-@Prev "PPC BeOS-specific features"
-@Toc "BeOS-specific features"
-
-Zeta-specific features
-----------------------
-
-
-@EndNode
-
-@Node "Haiku-specific features" "vice.guide/Haiku-specific features"
-@Next "Haiku64-specific features"
-@Prev "Zeta-specific features"
-@Toc "BeOS-specific features"
-
-Haiku-specific features
------------------------
-
-
-@EndNode
-
-@Node "Haiku64-specific features" "vice.guide/Haiku64-specific features"
-@Prev "Haiku-specific features"
-@Toc "BeOS-specific features"
-
-Haiku64-specific features
--------------------------
-
-
-@EndNode
-
-@Node "DOS-specific features" "vice.guide/DOS-specific features"
-@Next "OS2-specific features"
-@Prev "BeOS-specific features"
-@Toc "Platform-specific features"
-
-DOS-specific features
-=====================
-
-
-@EndNode
-
-@Node "OS2-specific features" "vice.guide/OS2-specific features"
-@Next "SDL-specific features"
-@Prev "DOS-specific features"
-@Toc "Platform-specific features"
-
-OS2-specific features
-=====================
-
-
-@EndNode
-
-@Node "SDL-specific features" "vice.guide/SDL-specific features"
-@Next "Unix-specific features"
-@Prev "OS2-specific features"
-@Toc "Platform-specific features"
-
-SDL-specific features
-=====================
-
-
-@EndNode
-
-@Node "Unix-specific features" "vice.guide/Unix-specific features"
-@Next "Mac OS X-specific features"
-@Prev "SDL-specific features"
-@Toc "Platform-specific features"
-
-Unix-specific features
-======================
-
-
-
- @{" XAW-specific features " Link "XAW-specific features"} 
-
- @{" GTK2-specific features " Link "GTK2-specific features"} 
-
- @{" GTK3-specific features " Link "GTK3-specific features"} 
-
-
-@EndNode
-
-@Node "XAW-specific features" "vice.guide/XAW-specific features"
-@Next "GTK2-specific features"
-@Prev "Unix-specific features"
-@Toc "Unix-specific features"
-
-XAW-specific features
----------------------
-
-
-@EndNode
-
-@Node "GTK2-specific features" "vice.guide/GTK2-specific features"
-@Next "GTK3-specific features"
-@Prev "XAW-specific features"
-@Toc "Unix-specific features"
-
-GTK2-specific features
-----------------------
-
-
-@EndNode
-
-@Node "GTK3-specific features" "vice.guide/GTK3-specific features"
-@Prev "GTK2-specific features"
-@Toc "Unix-specific features"
-
-GTK3-specific features
-----------------------
-
-
-@EndNode
-
-@Node "Mac OS X-specific features" "vice.guide/Mac OS X-specific features"
-@Next "Windows-specific features"
-@Prev "Unix-specific features"
-@Toc "Platform-specific features"
-
-Mac OS X-specific features
-==========================
-
-
-@EndNode
-
-@Node "Windows-specific features" "vice.guide/Windows-specific features"
-@Prev "Mac OS X-specific features"
-@Toc "Platform-specific features"
-
-Windows-specific features
-=========================
 
 
 @EndNode
