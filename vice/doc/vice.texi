@@ -45,23 +45,6 @@ END-INFO-DIR-ENTRY
 @set platformamiga
 @end ifset
 
-@c define platformbeos if any of the following are set:
-@ifset platformintelbeos
-@set platformbeos
-@end ifset
-@ifset platformppcbeos
-@set platformbeos
-@end ifset
-@ifset platformzeta
-@set platformbeos
-@end ifset
-@ifset platformhaiku
-@set platformbeos
-@end ifset
-@ifset platformhaiku64
-@set platformbeos
-@end ifset
-
 @c define platformunix if any of the following are set:
 @ifset platformxaw
 @set platformunix
@@ -71,6 +54,14 @@ END-INFO-DIR-ENTRY
 @end ifset
 @ifset platformgtk3
 @set platformunix
+@end ifset
+
+@c define all amiga platforms is platformamigaall is set:
+@ifset platformamigaall
+@set platformamigaos3
+@set platformamigaos4
+@set platformmorphos
+@set platformaros
 @end ifset
 
 @c undef platformall if any of the following are set:
@@ -102,16 +93,12 @@ END-INFO-DIR-ENTRY
 @c set all platform defines if platformall is still defined
 @ifset platformall
 @set platformamiga
+@set platformamigaall
 @set platformamigaos3
 @set platformamigaos4
 @set platformmorphos
 @set platformaros
 @set platformbeos
-@set platformintelbeos
-@set platformppcbeos
-@set platformzeta
-@set platformhaiku
-@set platformhaiku64
 @set platformdos
 @set platformos2
 @set platformsdl
@@ -9280,12 +9267,12 @@ Specify PSID tune <number>
 
 @c -----------------------------------------------------------------
 
-@ifset platformall
+@ifset platformamigaall
 @node AmigaOS3-specific features, AmigaOS4-specific features, AmigaOS-specific features, AmigaOS-specific features
 @subsection AmigaOS3-specific features
 @end ifset
 
-@ifclear platformall
+@ifclear platformamigaall
 @ifset platformamigaos3
 @node AmigaOS3-specific features, , AmigaOS-specific features, AmigaOS-specific features
 @subsection AmigaOS3-specific features
@@ -9300,12 +9287,12 @@ Specify PSID tune <number>
 
 @c -----------------------------------------------------------------
 
-@ifset platformall
+@ifset platformamigaall
 @node AmigaOS4-specific features, MorphOS-specific features, AmigaOS3-specific features, AmigaOS-specific features
 @subsection AmigaOS4-specific features
 @end ifset
 
-@ifclear platformall
+@ifclear platformamigaall
 @ifset platformamigaos4
 @node AmigaOS4-specific features, , AmigaOS-specific features, AmigaOS-specific features
 @subsection AmigaOS4-specific features
@@ -9320,12 +9307,12 @@ Specify PSID tune <number>
 
 @c -----------------------------------------------------------------
 
-@ifset platformall
+@ifset platformamigaall
 @node MorphOS-specific features, AROS-specific features, AmigaOS4-specific features, AmigaOS-specific features
 @subsection MorphOS-specific features
 @end ifset
 
-@ifclear platformall
+@ifclear platformamigaall
 @ifset platformmorphos
 @node MorphOS-specific features, , AmigaOS-specific features, AmigaOS-specific features
 @subsection MorphOS-specific features
@@ -9340,12 +9327,12 @@ Specify PSID tune <number>
 
 @c -----------------------------------------------------------------
 
-@ifset platformall
+@ifset platformamigaall
 @node AROS-specific features, , MorphOS-specific features, AmigaOS-specific features
 @subsection AROS-specific features
 @end ifset
 
-@ifclear platformall
+@ifclear platformamigaall
 @ifset platformaros
 @node AROS-specific features, , AmigaOS-specific features, AmigaOS-specific features
 @subsection AROS-specific features
@@ -9373,125 +9360,8 @@ Specify PSID tune <number>
 @end ifclear
 
 @ifset platformbeos
-@menu
-@ifset platformintelbeos
-* Intel BeOS-specific features::
-@end ifset
-@ifset platformppcbeos
-* PPC BeOS-specific features::
-@end ifset
-@ifset platformzeta
-* Zeta-specific features::
-@end ifset
-@ifset platformhaiku
-* Haiku-specific features::
-@end ifset
-@ifset platformhaiku64
-* Haiku64-specific features::
-@end ifset
-@end menu
 
-@c TODO: Intel BeOS / PPC BeOS / Zeta / Haiku / Haiku64 common contents
-
-@end ifset
-
-@c -----------------------------------------------------------------
-
-@ifset platformall
-@node Intel BeOS-specific features, PPC BeOS-specific features, BeOS-specific features, BeOS-specific features
-@subsection Intel BeOS-specific features
-@end ifset
-
-@ifclear platformall
-@ifset platformintelbeos
-@node Intel BeOS-specific features, , BeOS-specific features, BeOS-specific features
-@subsection Intel BeOS-specific features
-@end ifset
-@end ifclear
-
-@ifset platformintelbeos
-
-@c TODO: Intel BeOS specific content
-
-@end ifset
-
-@c -----------------------------------------------------------------
-
-@ifset platformall
-@node PPC BeOS-specific features, Zeta-specific features, Intel BeOS-specific features, BeOS-specific features
-@subsection PPC BeOS-specific features
-@end ifset
-
-@ifclear platformall
-@ifset platformppcbeos
-@node PPC BeOS-specific features, , BeOS-specific features, BeOS-specific features
-@subsection PPC BeOS-specific features
-@end ifset
-@end ifclear
-
-@ifset platformppcbeos
-
-@c TODO: PPC BeOS specific content
-
-@end ifset
-
-@c -----------------------------------------------------------------
-
-@ifset platformall
-@node Zeta-specific features, Haiku-specific features, PPC BeOS-specific features, BeOS-specific features
-@subsection Zeta-specific features
-@end ifset
-
-@ifclear platformall
-@ifset platformzeta
-@node Zeta-specific features, , BeOS-specific features, BeOS-specific features
-@subsection Zeta-specific features
-@end ifset
-@end ifclear
-
-@ifset platformzeta
-
-@c TODO: Zeta specific content
-
-@end ifset
-
-@c -----------------------------------------------------------------
-
-@ifset platformall
-@node Haiku-specific features, Haiku64-specific features, Zeta-specific features, BeOS-specific features
-@subsection Haiku-specific features
-@end ifset
-
-@ifclear platformall
-@ifset platformhaiku
-@node Haiku-specific features, , BeOS-specific features, BeOS-specific features
-@subsection Haiku-specific features
-@end ifset
-@end ifclear
-
-@ifset platformhaiku
-
-@c TODO: Haiku specific content
-
-@end ifset
-
-@c -----------------------------------------------------------------
-
-@ifset platformall
-@node Haiku64-specific features, , Haiku-specific features, BeOS-specific features
-@subsection Haiku64-specific features
-@end ifset
-
-@ifclear platformall
-@ifset platformhaiku64
-@node Haiku64-specific features, , BeOS-specific features, BeOS-specific features
-@subsection Haiku64-specific features
-@end ifset
-@end ifclear
-
-@ifset platformhaiku64
-
-@c TODO: Haiku64 specific content
+@c TODO: BeOS / Zeta / Haiku / Haiku64 common contents
 
 @end ifset
 

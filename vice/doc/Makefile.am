@@ -55,14 +55,14 @@ AM_MAKEINFOFLAGS = --no-split
 
 $(builddir)/vice.txt:		$(srcdir)/vice.texi
 	touch vicetmp.txt
-	LANG=C $(MAKEINFO) -o vicetmp.txt --no-headers $(srcdir)/vice.texi
+	LANG=C $(MAKEINFO) -D$(PLATFORM_DOX_FLAGS) -o vicetmp.txt --no-headers $(srcdir)/vice.texi
 	$(srcdir)/fixdox.sh txt <vicetmp.txt | sed 's/ \+$$//' >$(builddir)/vice.txt
 	rm -f vicetmp.txt
 
 $(builddir)/vice.pdf:	$(srcdir)/vice.texi
 if BUILD_PDF
 	sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
-	$(TEXI2DVI) -q --clean --pdf -o $(builddir)/vice.pdf vicepdf.texi
+	$(TEXI2DVI) -q --clean --pdf "--command=@set $(PLATFORM_DOX_FLAGS)" -o $(builddir)/vice.pdf vicepdf.texi
 	rm -f vicepdf.texi
 
 PDF_DEPS=$(builddir)/vice.pdf
@@ -115,7 +115,7 @@ endif
 
 $(builddir)/vice.inf:	$(srcdir)/vice.texi
 if BUILD_IPF
-	$(TEXI2IPF) $(srcdir)/vice.texi >temp.ipf
+	$(TEXI2IPF) -Dplatformos2 $(srcdir)/vice.texi >temp.ipf
 	$(IPFC) -i temp.ipf
 	mv temp.inf $(builddir)/vice.inf
 	rm -f temp.ipf
@@ -129,6 +129,6 @@ endif
 
 $(builddir)/vice.info:	$(srcdir)/vice.texi
 	touch $(builddir)/vice.info
-	$(MAKEINFO) -o $(builddir)/vice.info --no-split $(srcdir)/vice.texi
+	$(MAKEINFO) -D($PLATFORM_DOX_FLAGS) -o $(builddir)/vice.info --no-split $(srcdir)/vice.texi
 
 INFO_DEPS = $(builddir)/vice.txt $(builddir)/vice.info $(PDF_DEPS) $(GUIDE_DEPS) $(HLP_DEPS) $(CHM_DEPS) $(IPF_DEPS)

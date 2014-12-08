@@ -50,6 +50,7 @@ VICE_ARG_ENABLE_LIST(lame,        [  --disable-lame          disable MP3 export 
 VICE_ARG_ENABLE_LIST(static-lame, [  --enable-static-lame    enable static LAME linking])
 VICE_ARG_ENABLE_LIST(rs232,       [  --disable-rs232         disable RS232 support])
 VICE_ARG_ENABLE_LIST(midi,        [  --disable-midi          disable MIDI support])
+VICE_ARG_ENABLE_LIST(platformdox, [  --enable-platformdox    enable generating of documentation specific to the current host])
 VICE_ARG_ENABLE_LIST(embedded,    [  --enable-embedded       enable embedding of emulation data files])
 VICE_ARG_ENABLE_LIST(hidmgr,      [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
 VICE_ARG_ENABLE_LIST(hidutils,    [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
@@ -3508,6 +3509,67 @@ AC_SUBST(SOUND_HPUX_OBJ)
 AC_SUBST(SOUND_AIX_OBJ)
 AC_SUBST(SOUND_MIDAS_OBJ)
 AC_SUBST(SOUND_SDL_OBJ)
+
+PLATFORM_DOX_FLAGS=""
+if test x"$enable_platformdox" = "xyes"; then
+  if test x"$enable_sdlui" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformsdl"
+  fi
+
+  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$enable_gnomeui3" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformgtk3"
+  fi
+
+  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$enable_gnomeui" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformgtk2"
+  fi
+
+  if test x"$PLATFORM_DOX_FLAGS" = "x"; then
+    if test x"$is_unix_x11" = "xyes" -o x"$is_win32_x11" = "xyes" -o x"$is_beos_x11" = "xyes"; then
+      PLATFORM_DOX_FLAGS="platformxaw"
+    fi
+  fi
+
+  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_amigaos3" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformamigaos3"
+  fi
+
+  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_amigaos4" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformamigaos4"
+  fi
+
+  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_amiga_morphos" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformmorphos"
+  fi
+
+  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_amiga_aros" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformaros"
+  fi
+
+  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_unix_macosx" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformosx"
+  fi
+
+  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_beos" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformbeos"
+  fi
+
+  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_dos" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformdos"
+  fi
+
+  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_os2" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformos2"
+  fi
+
+  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_win32" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformwindows"
+  fi
+fi
+if test x"$PLATFORM_DOX_FLAGS" = "x"; then
+  PLATFORM_DOX_FLAGS="platformall"
+fi
+AC_SUBST(PLATFORM_DOX_FLAGS)
 
 if test "$prefix" = NONE && test "$exec_prefix" = NONE; then
   PREFIX="$ac_default_prefix"

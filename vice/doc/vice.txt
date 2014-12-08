@@ -7513,21 +7513,6 @@ Specify PSID tune <number>
 8.2 BeOS-specific features
 ==========================
 
-8.2.1 Intel BeOS-specific features
-----------------------------------
-
-8.2.2 PPC BeOS-specific features
---------------------------------
-
-8.2.3 Zeta-specific features
-----------------------------
-
-8.2.4 Haiku-specific features
------------------------------
-
-8.2.5 Haiku64-specific features
--------------------------------
-
 8.3 DOS-specific features
 =========================
 
@@ -16368,7 +16353,7 @@ Concept Index
 -bdesymkeymap, -bdeposkeymap:                  See 6.6.2.   (line  2227)
 -buksymkeymap, -bukposkeymap:                  See 6.6.2.   (line  2215)
 -burstmod:                                     See 7.1.6.2. (line  5145)
--c:                                            See 15.1.    (line  9725)
+-c:                                            See 15.1.    (line  9710)
 -c1hi:                                         See 7.5.3.2. (line  6613)
 -c1lo:                                         See 7.5.3.2. (line  6612)
 -c2hi:                                         See 7.5.3.2. (line  6619)
@@ -16526,10 +16511,10 @@ Concept Index
 -digimaxbase:                                  See 7.1.6.2. (line  5068)
 -directory:                                    See 6.16.2.  (line  3568)
 -displaydepth:                                 See 6.5.3.   (line  2134)
--doodlecrtctextcolor:                          See 10.2.    (line  8566)
--doodlemc:                                     See 10.2.    (line  8558)
--doodleoversize:                               See 10.2.    (line  8554)
--doodletedlum:                                 See 10.2.    (line  8562)
+-doodlecrtctextcolor:                          See 10.2.    (line  8551)
+-doodlemc:                                     See 10.2.    (line  8543)
+-doodleoversize:                               See 10.2.    (line  8539)
+-doodletedlum:                                 See 10.2.    (line  8547)
 -dos1001:                                      See 6.10.2.  (line  2843)
 -dos1541:                                      See 6.10.2.  (line  2843)
 -dos1541II:                                    See 6.10.2.  (line  2843)
@@ -16602,10 +16587,10 @@ Concept Index
 -extfunc:                                      See 7.2.2.2. (line  5580)
 -extrajoydev1:                                 See 6.7.2.   (line  2330)
 -extrajoydev2:                                 See 6.7.2.   (line  2330)
--f:                                            See 14.1.    (line  9489)
+-f:                                            See 14.1.    (line  9474)
 -fewriteback, +fewriteback:                    See 7.4.2.2. (line  5947)
--ffmpegaudiobitrate:                           See 10.2.    (line  8571)
--ffmpegvideobitrate:                           See 10.2.    (line  8572)
+-ffmpegaudiobitrate:                           See 10.2.    (line  8556)
+-ffmpegvideobitrate:                           See 10.2.    (line  8557)
 -flipname:                                     See 6.11.1.2.
 (line  3031)
 -fpwriteback, +fpwriteback:                    See 7.4.2.2. (line  5954)
@@ -16633,16 +16618,16 @@ Concept Index
 -gluelogictype:                                See 7.1.8.2. (line  5257)
 -go64, +go64:                                  See 7.2.3.2. (line  5617)
 -grsymkeymap, -grposkeymap:                    See 6.6.2.   (line  2221)
--h:                                            See 15.1.    (line  9735)
+-h:                                            See 15.1.    (line  9720)
 -h1024k:                                       See 7.5.4.2. (line  6649)
 -h256k:                                        See 7.5.4.2. (line  6648)
 -h4096k:                                       See 7.5.4.2. (line  6652)
--help <1>:                                     See 15.1.    (line  9721)
+-help <1>:                                     See 15.1.    (line  9706)
 -help:                                         See 3.1.     (line   982)
 -htmlbrowser:                                  See 6.16.2.  (line  3569)
 -hummeradc, +hummeradc:                        See 7.3.4.   (line  5715)
--i:                                            See 14.1.    (line  9468)
--ic:                                           See 15.1.    (line  9732)
+-i:                                            See 14.1.    (line  9453)
+-ic:                                           See 15.1.    (line  9717)
 -IDE64autosize1, +IDE64autosize1:              See 7.1.2.2. (line  4315)
 -IDE64autosize2, +IDE64autosize2:              See 7.1.2.2. (line  4315)
 -IDE64autosize3, +IDE64autosize3:              See 7.1.2.2. (line  4315)
@@ -16695,8 +16680,8 @@ Concept Index
 -isepicimagerw, +isepicimagerw:                See 7.1.2.2. (line  4361)
 -joydev1:                                      See 6.7.2.   (line  2323)
 -joydev2:                                      See 6.7.2.   (line  2323)
--k:                                            See 15.1.    (line  9756)
--k<version>:                                   See 15.1.    (line  9753)
+-k:                                            See 15.1.    (line  9741)
+-k<version>:                                   See 15.1.    (line  9738)
 -keepenv:                                      See 7.8.1.2. (line  7491)
 -kernal <1>:                                   See 7.4.5.2. (line  6316)
 -kernal <2>:                                   See 7.6.4.2. (line  7052)
@@ -16714,7 +16699,7 @@ Concept Index
 -kernalse:                                     See 7.2.2.2. (line  5550)
 -keybuf:                                       See 3.1.     (line   998)
 -keymap:                                       See 6.6.2.   (line  2201)
--l:                                            See 15.1.    (line  9759)
+-l:                                            See 15.1.    (line  9744)
 -lightpen, +lightpen:                          See 6.7.2.   (line  2347)
 -lightpentype:                                 See 6.7.2.   (line  2349)
 -logfile:                                      See 3.1.     (line   992)
@@ -16747,13 +16732,13 @@ Concept Index
 -mouseport:                                    See 6.7.2.   (line  2342)
 -mousetype:                                    See 6.7.2.   (line  2338)
 -myaciadev:                                    See 6.12.2.  (line  3321)
--n:                                            See 14.1.    (line  9480)
--nc:                                           See 15.1.    (line  9728)
--nh:                                           See 15.1.    (line  9738)
+-n:                                            See 14.1.    (line  9465)
+-nc:                                           See 15.1.    (line  9713)
+-nh:                                           See 15.1.    (line  9723)
 -ntsc:                                         See 6.14.2.  (line  3434)
 -ntscold:                                      See 6.14.2.  (line  3437)
--o:                                            See 14.1.    (line  9472)
--o <name>:                                     See 15.1.    (line  9762)
+-o:                                            See 14.1.    (line  9457)
+-o <name>:                                     See 15.1.    (line  9747)
 -pal:                                          See 6.14.2.  (line  3433)
 -paln:                                         See 6.14.2.  (line  3440)
 -parallel10:                                   See 6.10.2.  (line  2819)
@@ -16768,7 +16753,7 @@ Concept Index
 -petreu, +petreu:                              See 7.6.3.2. (line  6995)
 -petreuimage:                                  See 7.6.3.2. (line  6999)
 -petreuramsize:                                See 7.6.3.2. (line  7000)
--playback:                                     See 11.9.    (line  8711)
+-playback:                                     See 11.9.    (line  8696)
 -plus256k, +plus256k:                          See 7.1.8.2. (line  5270)
 -plus256kimage:                                See 7.1.8.2. (line  5272)
 -plus60k, +plus60k:                            See 7.1.8.2. (line  5260)
@@ -16803,8 +16788,8 @@ Concept Index
 -prusertxtdev:                                 See 6.11.2.2.
 (line  3159)
 -ps2mouse, +ps2mouse:                          See 7.3.4.   (line  5719)
--q:                                            See 14.1.    (line  9498)
--r:                                            See 14.1.    (line  9494)
+-q:                                            See 14.1.    (line  9483)
+-r:                                            See 14.1.    (line  9479)
 -ram08, +ram08:                                See 7.7.3.   (line  7422)
 -ram1, +ram1:                                  See 7.7.3.   (line  7425)
 -ram2, +ram2:                                  See 7.7.3.   (line  7430)
@@ -16866,7 +16851,7 @@ Concept Index
 -sidstereo:                                    See 7.1.5.2. (line  4889)
 -sidstereoaddress:                             See 7.1.5.2. (line  4892)
 -sidtripleaddress:                             See 7.1.5.2. (line  4896)
--skip <n>:                                     See 15.1.    (line  9741)
+-skip <n>:                                     See 15.1.    (line  9726)
 -sound, +sound:                                See 6.8.2.   (line  2533)
 -soundarg:                                     See 6.8.2.   (line  2560)
 -soundbufsize:                                 See 6.8.2.   (line  2548)
@@ -16883,7 +16868,7 @@ Concept Index
 -superpet, +superpet:                          See 7.6.6.2. (line  7119)
 -symdekeymap:                                  See 6.6.2.   (line  2212)
 -symkeymap:                                    See 6.6.2.   (line  2206)
--t:                                            See 14.1.    (line  9476)
+-t:                                            See 14.1.    (line  9461)
 -TEDaudioleak, +TEDaudioleak:                  See 7.5.1.2. (line  6504)
 -TEDborders:                                   See 7.5.1.2. (line  6472)
 -TEDbrightness:                                See 7.5.1.2. (line  6481)
@@ -16906,7 +16891,7 @@ Concept Index
 -TEDvcache, +TEDvcache:                        See 7.5.1.2. (line  6437)
 -TEDVidmodefullmode:                           See 7.5.1.2. (line  6469)
 -TEDXRANDRfullmode:                            See 7.5.1.2. (line  6466)
--text:                                         See 15.1.    (line  9744)
+-text:                                         See 15.1.    (line  9729)
 -tfe, +tfe <1>:                                See 7.1.6.2. (line  5134)
 -tfe, +tfe:                                    See 7.4.2.2. (line  5971)
 -tfeif <1>:                                    See 7.4.2.2. (line  5975)
@@ -16918,7 +16903,7 @@ Concept Index
 -trueflashfs, +trueflashfs:                    See 7.3.1.   (line  5667)
 -tune:                                         See 7.8.1.2. (line  7492)
 -userportdac, +userportdac:                    See 7.6.3.2. (line  7005)
--v:                                            See 15.1.    (line  9722)
+-v:                                            See 15.1.    (line  9707)
 -VDC16KB:                                      See 7.2.1.2. (line  5425)
 -VDC64KB:                                      See 7.2.1.2. (line  5428)
 -VDCaudioleak, +VDCaudioleak:                  See 7.2.1.2. (line  5463)
@@ -16994,7 +16979,7 @@ Concept Index
 -VICXRANDRfullmode:                            See 7.4.3.2. (line  6156)
 -virtualdev, +virtualdev:                      See 6.11.3.2.
 (line  3191)
--w<version>:                                   See 15.1.    (line  9750)
+-w<version>:                                   See 15.1.    (line  9735)
 -warp, +warp:                                  See 6.4.2.   (line  1940)
 -xsync, +xsync:                                See 6.5.3.   (line  2119)
 ACIA (Swiftlink, Turbo232):                    See 7.1.6.   (line  4940)
@@ -17135,10 +17120,10 @@ DIGIMAXbase:                                   See 7.1.6.1. (line  4976)
 Directory:                                     See 6.16.1.  (line  3487)
 DisplayDepth:                                  See 6.5.2.   (line  2076)
 DoCoreDump:                                    See 6.16.1.  (line  3530)
-DoodleCRTCTextColor:                           See 10.1.    (line  8526)
-DoodleMultiColorHandling:                      See 10.1.    (line  8517)
-DoodleOversizeHandling:                        See 10.1.    (line  8512)
-DoodleTEDLumHandling:                          See 10.1.    (line  8522)
+DoodleCRTCTextColor:                           See 10.1.    (line  8511)
+DoodleMultiColorHandling:                      See 10.1.    (line  8502)
+DoodleOversizeHandling:                        See 10.1.    (line  8497)
+DoodleTEDLumHandling:                          See 10.1.    (line  8507)
 DosName1001:                                   See 6.10.1.  (line  2775)
 DosName1541:                                   See 6.10.1.  (line  2775)
 DosName1541ii:                                 See 6.10.1.  (line  2775)
@@ -17211,23 +17196,23 @@ ETHERNET_ACTIVE:                               See 7.1.6.1. (line  4981)
 ETHERNET_AS_RR:                                See 7.1.6.1. (line  4991)
 ETHERNET_DISABLED:                             See 7.1.6.1. (line  4987)
 ETHERNET_INTERFACE:                            See 7.1.6.1. (line  4983)
-EventEndSnapshot:                              See 11.8.    (line  8694)
-EventImageInclude:                             See 11.8.    (line  8701)
-EventSnapshotDir:                              See 11.8.    (line  8688)
-EventStartMode:                                See 11.8.    (line  8697)
-EventStartSnapshot:                            See 11.8.    (line  8690)
+EventEndSnapshot:                              See 11.8.    (line  8679)
+EventImageInclude:                             See 11.8.    (line  8686)
+EventSnapshotDir:                              See 11.8.    (line  8673)
+EventStartMode:                                See 11.8.    (line  8682)
+EventStartSnapshot:                            See 11.8.    (line  8675)
 ExpertCartridgeEnabled:                        See 7.1.2.1. (line  3952)
 ExpertCartridgeMode:                           See 7.1.2.1. (line  3962)
 Expertfilename:                                See 7.1.2.1. (line  3954)
 ExpertImageWrite:                              See 7.1.2.1. (line  3957)
 ExternalFunctionName:                          See 7.2.2.1. (line  5512)
 ExternalFunctionROM:                           See 7.2.2.1. (line  5510)
-FFMPEGAudioBitrate:                            See 10.1.    (line  8533)
-FFMPEGAudioCodec:                              See 10.1.    (line  8539)
-FFMPEGFormat:                                  See 10.1.    (line  8532)
-FFMPEGVideoBitrate:                            See 10.1.    (line  8536)
-FFMPEGVideoCodec:                              See 10.1.    (line  8542)
-FFMPEGVideoHalveFramerate:                     See 10.1.    (line  8545)
+FFMPEGAudioBitrate:                            See 10.1.    (line  8518)
+FFMPEGAudioCodec:                              See 10.1.    (line  8524)
+FFMPEGFormat:                                  See 10.1.    (line  8517)
+FFMPEGVideoBitrate:                            See 10.1.    (line  8521)
+FFMPEGVideoCodec:                              See 10.1.    (line  8527)
+FFMPEGVideoHalveFramerate:                     See 10.1.    (line  8530)
 FileSystemDevice10:                            See 6.11.1.1.
 (line  2960)
 FileSystemDevice11:                            See 6.11.1.1.
@@ -17904,11 +17889,6 @@ How to Apply These Terms to Your New Programs
 8.1.3 MorphOS-specific features
 8.1.4 AROS-specific features
 8.2 BeOS-specific features
-8.2.1 Intel BeOS-specific features
-8.2.2 PPC BeOS-specific features
-8.2.3 Zeta-specific features
-8.2.4 Haiku-specific features
-8.2.5 Haiku64-specific features
 8.3 DOS-specific features
 8.4 OS2-specific features
 8.5 SDL-specific features

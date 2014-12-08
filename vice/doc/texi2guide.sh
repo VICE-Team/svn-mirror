@@ -39,9 +39,9 @@ if test x"$HOSTOS" = "xamigaos" -a x"$AMIGAFLAVOR" != "x-Dplatformamigaos3"; the
 fi
 
 if test x"$AMIGAFLAVOR" = "x"; then
-  AMIGAFLAVOR="-Dplatformaros -Dplatformmorphos -Dplatformamigaos3 -Dplatformamigaos4"
+  AMIGAFLAVOR="-Dplatformamigaall"
 fi
 
 echo generating amigaguide
-$MAKEGUIDE -Dplatformamiga $AMIGAFLAVOR --error-limit 10000 --amiga -o $GUIDEFILE $TEXIFILE
+$MAKEGUIDE $AMIGAFLAVOR --error-limit 10000 --amiga -o $GUIDEFILE $TEXIFILE
 echo done
