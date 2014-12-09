@@ -3416,22 +3416,6 @@ platform range incorrect:
 platform gui missing:			unix
 note: resource is used/checked
 
-arch/unix/x11/xaw/x11video.c:
------------------------------
-resource type:                  string
-resource name:                  "FOURCC"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_fourcc()
-resource var:                   fourcc_s
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -fourcc
-platform gui present:           
-platform gui missing:			unix
-fixme: add to documentation
-
 arch/unix/joy.c:
 ----------------
 resource type:                  int
@@ -3671,6 +3655,22 @@ platform gui missing:
 
 UNIX XAW ONLY COMMON RESOURCES:
 ===============================
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+resource type:                  string
+resource name:                  "FOURCC"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_fourcc()
+resource var:                   fourcc_s
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -fourcc
+platform gui present:           
+platform gui missing:			unix(XAW)
+fixme: add to documentation
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
