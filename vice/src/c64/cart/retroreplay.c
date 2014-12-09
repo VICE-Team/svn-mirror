@@ -764,8 +764,8 @@ int retroreplay_bin_attach(const char *filename, BYTE *rawcart)
 }
 
 /*
-    a CRT may contain up to 16 8k chunks. 64K and 128K total are accepted.
-    - 64K files will always get loaded into logical bank 0
+    a CRT may contain up to 16 8k chunks. 32K, 64K and 128K total are accepted.
+    - 32K and 64K files will always get loaded into logical bank 0
 */
 int retroreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
 {
@@ -791,7 +791,7 @@ int retroreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
         }
     }
 
-    if ((i != 8) && (i != 16)) {
+    if ((i != 4) && (i != 8) && (i != 16)) {
         return -1;
     }
 
