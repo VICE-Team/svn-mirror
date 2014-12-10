@@ -110,8 +110,8 @@ cp -a $TOPSCRDIR/doc/html VICE-$AMIGAFLAVOR
 cp $TOPSCRDIR/FEEDBACK $TOPSCRDIR/README VICE-$AMIGAFLAVOR
 cp $TOPSCRDIR/doc/readmes/Readme-Amiga.txt VICE-$AMIGAFLAVOR
 mkdir VICE-$AMIGAFLAVOR/doc
-cp $TOPSRCDIR/doc/vice.guide VICE-$AMIGAFLAVOR/doc
-cp $TOPSRCDIR/doc/vice.pdf VICE-$AMIGAFLAVOR/doc
+cp $TOPSCRDIR/doc/vice.guide VICE-$AMIGAFLAVOR/doc
+cp $TOPSCRDIR/doc/vice.pdf VICE-$AMIGAFLAVOR/doc
 if test x"$HOSTSYSTEM" = "xwarpos"; then
   for i in $EXECUTABLES
   do

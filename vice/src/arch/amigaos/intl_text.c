@@ -7924,6 +7924,90 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_NEVER_CONFIRM_QUITING_VICE_SV, "Bekräfta inte för att avsluta VICE" },
 /* tr */ { IDS_NEVER_CONFIRM_QUITING_VICE_TR, "VICE'dan çýkarken asla teyit etme" },
 
+/* en */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR,    "Specify initial default directory." },
+/* da */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_DA, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_DE, "" },  /* fuzzy */
+/* es */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_HU, "" },  /* fuzzy */
+/* it */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SPECIFY_INITIAL_TAPE_DIR,    "Specify initial tape directory." },
+/* da */ { IDS_SPECIFY_INITIAL_TAPE_DIR_DA, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFY_INITIAL_TAPE_DIR_DE, "" },  /* fuzzy */
+/* es */ { IDS_SPECIFY_INITIAL_TAPE_DIR_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SPECIFY_INITIAL_TAPE_DIR_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SPECIFY_INITIAL_TAPE_DIR_HU, "" },  /* fuzzy */
+/* it */ { IDS_SPECIFY_INITIAL_TAPE_DIR_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SPECIFY_INITIAL_TAPE_DIR_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFY_INITIAL_TAPE_DIR_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SPECIFY_INITIAL_TAPE_DIR_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SPECIFY_INITIAL_TAPE_DIR_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SPECIFY_INITIAL_TAPE_DIR_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SPECIFY_INITIAL_TAPE_DIR_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SPECIFY_INITIAL_DISK_DIR,    "Specify initial disk directory." },
+/* da */ { IDS_SPECIFY_INITIAL_DISK_DIR_DA, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFY_INITIAL_DISK_DIR_DE, "" },  /* fuzzy */
+/* es */ { IDS_SPECIFY_INITIAL_DISK_DIR_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SPECIFY_INITIAL_DISK_DIR_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SPECIFY_INITIAL_DISK_DIR_HU, "" },  /* fuzzy */
+/* it */ { IDS_SPECIFY_INITIAL_DISK_DIR_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SPECIFY_INITIAL_DISK_DIR_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFY_INITIAL_DISK_DIR_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SPECIFY_INITIAL_DISK_DIR_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SPECIFY_INITIAL_DISK_DIR_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SPECIFY_INITIAL_DISK_DIR_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SPECIFY_INITIAL_DISK_DIR_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR,    "Specify initial autostart directory." },
+/* da */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_DA, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_DE, "" },  /* fuzzy */
+/* es */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_HU, "" },  /* fuzzy */
+/* it */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SPECIFY_INITIAL_CART_DIR,    "Specify initial cartridge directory." },
+/* da */ { IDS_SPECIFY_INITIAL_CART_DIR_DA, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFY_INITIAL_CART_DIR_DE, "" },  /* fuzzy */
+/* es */ { IDS_SPECIFY_INITIAL_CART_DIR_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SPECIFY_INITIAL_CART_DIR_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SPECIFY_INITIAL_CART_DIR_HU, "" },  /* fuzzy */
+/* it */ { IDS_SPECIFY_INITIAL_CART_DIR_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SPECIFY_INITIAL_CART_DIR_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFY_INITIAL_CART_DIR_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SPECIFY_INITIAL_CART_DIR_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SPECIFY_INITIAL_CART_DIR_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SPECIFY_INITIAL_CART_DIR_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SPECIFY_INITIAL_CART_DIR_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR,    "Specify initial snapshot directory." },
+/* da */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_DA, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_DE, "" },  /* fuzzy */
+/* es */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_HU, "" },  /* fuzzy */
+/* it */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_PET_REU_SIZE,    "PET REU size" },
 /* da */ { IDS_PET_REU_SIZE_DA, "PET REU størrelse" },
 /* de */ { IDS_PET_REU_SIZE_DE, "PET REU Größe" },

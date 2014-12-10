@@ -7495,19 +7495,79 @@ Specify PSID tune <number>
 8 Platform-specific features
 ****************************
 
+This section lists the settings and commands that are platform specific.
+
 8.1 AmigaOS-specific features
 =============================
 
-8.1.1 AmigaOS3-specific features
+This section lists the settings and commands that are common and
+specific to all Amiga based platforms (this includes AmigaOS3,
+AmigaOS4, Morphos and AROS), and are thus not present in other
+platforms.
+
+8.1.1 Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific resources
+---------------------------------------------------------------
+
+`InitialDefaultDir'
+String specifying the initial default directory, which is used by
+the generic file browser dialog.
+
+`InitialTapeDir'
+String specifying the initial tape directory, which is used by the
+tape image file browser dialog.
+
+`InitialDiskDir'
+String specifying the initial tape directory, which is used by the
+disk image file browser dialog.
+
+`InitialAutostartDir'
+String specifying the initial autostart directory, which is used
+by the autostart image file browser dialog.
+
+`InitialCartDir'
+String specifying the initial cartridge directory, which is used
+by the cartridge image file browser dialog.
+
+`InitialSnapshotDir'
+String specifying the initial snapshots directory, which is used
+by the snapshots file browser dialog.
+
+
+8.1.2 Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific command-line options
+--------------------------------------------------------------------------
+
+`-initialdefaultdir <Name>'
+Select the initial default directory for the file browser dialog.
+
+`-initialtapedir <Name>'
+Select the initial tape images directory for the file browser
+dialog.
+
+`-initialdiskdir <Name>'
+Select the initial disk images directory for the file browser
+dialog.
+
+`-initialautostartdir <Name>'
+Select the initial autostart directory for the file browser dialog.
+
+`-initialcartdir <Name>'
+Select the initial cartridge images directory for the file browser
+dialog.
+
+`-initialsnapshotdir <Name>'
+Select the initial snapshot directory for the file browser dialog.
+
+
+8.1.3 AmigaOS3-specific features
 --------------------------------
 
-8.1.2 AmigaOS4-specific features
+8.1.4 AmigaOS4-specific features
 --------------------------------
 
-8.1.3 MorphOS-specific features
+8.1.5 MorphOS-specific features
 -------------------------------
 
-8.1.4 AROS-specific features
+8.1.6 AROS-specific features
 ----------------------------
 
 8.2 BeOS-specific features
@@ -16332,8 +16392,8 @@ Concept Index
 -attach9ro:                                    See 3.1.     (line  1059)
 -attach9rw:                                    See 3.1.     (line  1063)
 -autoload:                                     See 3.1.     (line  1010)
--autostart <1>:                                See 3.2.     (line  1091)
--autostart:                                    See 3.1.     (line  1007)
+-autostart <1>:                                See 3.1.     (line  1007)
+-autostart:                                    See 3.2.     (line  1091)
 -autostart-delay:                              See 3.1.     (line  1045)
 -autostart-delay-random, +autostart-delay-random:See 3.1.   (line  1043)
 -autostart-handle-tde, +autostart-handle-tde:  See 3.1.     (line  1026)
@@ -16341,8 +16401,8 @@ Concept Index
 -autostartprgdiskimage:                        See 3.1.     (line  1038)
 -autostartprgmode:                             See 3.1.     (line  1034)
 -autostartwithcolon, +autostartwithcolon:      See 3.1.     (line  1019)
--basic <1>:                                    See 7.1.7.2. (line  5205)
--basic <2>:                                    See 7.4.5.2. (line  6319)
+-basic <1>:                                    See 7.4.5.2. (line  6319)
+-basic <2>:                                    See 7.1.7.2. (line  5205)
 -basic:                                        See 7.7.2.2. (line  7392)
 -basic1, +basic1:                              See 7.6.6.2. (line  7131)
 -basic1char, +basic1char:                      See 7.6.6.2. (line  7135)
@@ -16353,7 +16413,7 @@ Concept Index
 -bdesymkeymap, -bdeposkeymap:                  See 6.6.2.   (line  2227)
 -buksymkeymap, -bukposkeymap:                  See 6.6.2.   (line  2215)
 -burstmod:                                     See 7.1.6.2. (line  5145)
--c:                                            See 15.1.    (line  9710)
+-c:                                            See 15.1.    (line  9770)
 -c1hi:                                         See 7.5.3.2. (line  6613)
 -c1lo:                                         See 7.5.3.2. (line  6612)
 -c2hi:                                         See 7.5.3.2. (line  6619)
@@ -16363,25 +16423,25 @@ Concept Index
 -cart:                                         See 7.5.2.2. (line  6548)
 -cart1:                                        See 7.7.2.2. (line  7398)
 -cart16:                                       See 7.1.2.2. (line  4159)
--cart2 <1>:                                    See 7.4.5.2. (line  6325)
--cart2 <2>:                                    See 7.7.2.2. (line  7400)
+-cart2 <1>:                                    See 7.7.2.2. (line  7400)
+-cart2 <2>:                                    See 7.4.5.2. (line  6325)
 -cart2:                                        See 7.4.2.2. (line  5918)
 -cart4 <1>:                                    See 7.4.5.2. (line  6325)
--cart4 <2>:                                    See 7.4.2.2. (line  5919)
--cart4:                                        See 7.7.2.2. (line  7404)
--cart6 <1>:                                    See 7.7.2.2. (line  7408)
--cart6 <2>:                                    See 7.4.2.2. (line  5922)
--cart6:                                        See 7.4.5.2. (line  6325)
+-cart4 <2>:                                    See 7.7.2.2. (line  7404)
+-cart4:                                        See 7.4.2.2. (line  5919)
+-cart6 <1>:                                    See 7.4.2.2. (line  5922)
+-cart6 <2>:                                    See 7.4.5.2. (line  6325)
+-cart6:                                        See 7.7.2.2. (line  7408)
 -cart8:                                        See 7.1.2.2. (line  4156)
--cartA <1>:                                    See 7.4.2.2. (line  5925)
--cartA:                                        See 7.4.5.2. (line  6325)
+-cartA <1>:                                    See 7.4.5.2. (line  6325)
+-cartA:                                        See 7.4.2.2. (line  5925)
 -cartap:                                       See 7.1.2.2. (line  4168)
 -cartar2:                                      See 7.1.2.2. (line  4171)
 -cartar3:                                      See 7.1.2.2. (line  4174)
 -cartar4:                                      See 7.1.2.2. (line  4177)
 -cartar5:                                      See 7.1.2.2. (line  4180)
--cartB <1>:                                    See 7.4.5.2. (line  6325)
--cartB:                                        See 7.4.2.2. (line  5928)
+-cartB <1>:                                    See 7.4.2.2. (line  5928)
+-cartB:                                        See 7.4.5.2. (line  6325)
 -cartcap:                                      See 7.1.2.2. (line  4183)
 -cartcomal:                                    See 7.1.2.2. (line  4186)
 -cartcrt:                                      See 7.1.2.2. (line  4165)
@@ -16402,8 +16462,8 @@ Concept Index
 -cartfe:                                       See 7.4.2.2. (line  5946)
 -cartff:                                       See 7.1.2.2. (line  4261)
 -cartfm:                                       See 7.1.2.2. (line  4264)
--cartfp <1>:                                   See 7.1.2.2. (line  4267)
--cartfp:                                       See 7.4.2.2. (line  5953)
+-cartfp <1>:                                   See 7.4.2.2. (line  5953)
+-cartfp:                                       See 7.1.2.2. (line  4267)
 -cartgeneric:                                  See 7.4.2.2. (line  5931)
 -cartgeoram:                                   See 7.1.6.2. (line  5092)
 -cartgk:                                       See 7.1.2.2. (line  4270)
@@ -16448,9 +16508,10 @@ Concept Index
 -chargch:                                      See 7.2.2.2. (line  5568)
 -chargde:                                      See 7.2.2.2. (line  5559)
 -chargen <1>:                                  See 7.4.5.2. (line  6322)
--chargen <2>:                                  See 7.6.4.2. (line  7058)
--chargen <3>:                                  See 7.7.2.2. (line  7395)
--chargen:                                      See 7.2.2.2. (line  5558)
+-chargen <2>:                                  See 7.2.2.2. (line  5558)
+-chargen <3>:                                  See 7.6.4.2. (line  7058)
+-chargen <4>:                                  See 7.7.2.2. (line  7395)
+-chargen:                                      See 7.1.7.2. (line  5208)
 -chargfr:                                      See 7.2.2.2. (line  5562)
 -chargse:                                      See 7.2.2.2. (line  5565)
 -chdir:                                        See 3.1.     (line  1004)
@@ -16511,10 +16572,10 @@ Concept Index
 -digimaxbase:                                  See 7.1.6.2. (line  5068)
 -directory:                                    See 6.16.2.  (line  3568)
 -displaydepth:                                 See 6.5.3.   (line  2134)
--doodlecrtctextcolor:                          See 10.2.    (line  8551)
--doodlemc:                                     See 10.2.    (line  8543)
--doodleoversize:                               See 10.2.    (line  8539)
--doodletedlum:                                 See 10.2.    (line  8547)
+-doodlecrtctextcolor:                          See 10.2.    (line  8611)
+-doodlemc:                                     See 10.2.    (line  8603)
+-doodleoversize:                               See 10.2.    (line  8599)
+-doodletedlum:                                 See 10.2.    (line  8607)
 -dos1001:                                      See 6.10.2.  (line  2843)
 -dos1541:                                      See 6.10.2.  (line  2843)
 -dos1541II:                                    See 6.10.2.  (line  2843)
@@ -16587,10 +16648,10 @@ Concept Index
 -extfunc:                                      See 7.2.2.2. (line  5580)
 -extrajoydev1:                                 See 6.7.2.   (line  2330)
 -extrajoydev2:                                 See 6.7.2.   (line  2330)
--f:                                            See 14.1.    (line  9474)
+-f:                                            See 14.1.    (line  9534)
 -fewriteback, +fewriteback:                    See 7.4.2.2. (line  5947)
--ffmpegaudiobitrate:                           See 10.2.    (line  8556)
--ffmpegvideobitrate:                           See 10.2.    (line  8557)
+-ffmpegaudiobitrate:                           See 10.2.    (line  8616)
+-ffmpegvideobitrate:                           See 10.2.    (line  8617)
 -flipname:                                     See 6.11.1.2.
 (line  3031)
 -fpwriteback, +fpwriteback:                    See 7.4.2.2. (line  5954)
@@ -16606,28 +16667,28 @@ Concept Index
 -fullscreen, +fullscreen:                      See 6.5.3.   (line  2137)
 -functionhi:                                   See 7.5.3.2. (line  6607)
 -functionlo:                                   See 7.5.3.2. (line  6606)
--georam, +georam <1>:                          See 7.4.2.2. (line  6013)
--georam, +georam:                              See 7.1.6.2. (line  5088)
+-georam, +georam <1>:                          See 7.1.6.2. (line  5088)
+-georam, +georam:                              See 7.4.2.2. (line  6013)
 -georamimage <1>:                              See 7.4.2.2. (line  6017)
 -georamimage:                                  See 7.1.6.2. (line  5095)
 -georamimagerw, +georamimagerw <1>:            See 7.1.6.2. (line  5098)
 -georamimagerw, +georamimagerw:                See 7.4.2.2. (line  6020)
 -georamioswap, +georamioswap:                  See 7.4.2.2. (line  6010)
--georamsize <1>:                               See 7.1.6.2. (line  5102)
--georamsize:                                   See 7.4.2.2. (line  6024)
+-georamsize <1>:                               See 7.4.2.2. (line  6024)
+-georamsize:                                   See 7.1.6.2. (line  5102)
 -gluelogictype:                                See 7.1.8.2. (line  5257)
 -go64, +go64:                                  See 7.2.3.2. (line  5617)
 -grsymkeymap, -grposkeymap:                    See 6.6.2.   (line  2221)
--h:                                            See 15.1.    (line  9720)
+-h:                                            See 15.1.    (line  9780)
 -h1024k:                                       See 7.5.4.2. (line  6649)
 -h256k:                                        See 7.5.4.2. (line  6648)
 -h4096k:                                       See 7.5.4.2. (line  6652)
--help <1>:                                     See 15.1.    (line  9706)
--help:                                         See 3.1.     (line   982)
+-help <1>:                                     See 3.1.     (line   982)
+-help:                                         See 15.1.    (line  9766)
 -htmlbrowser:                                  See 6.16.2.  (line  3569)
 -hummeradc, +hummeradc:                        See 7.3.4.   (line  5715)
--i:                                            See 14.1.    (line  9453)
--ic:                                           See 15.1.    (line  9717)
+-i:                                            See 14.1.    (line  9513)
+-ic:                                           See 15.1.    (line  9777)
 -IDE64autosize1, +IDE64autosize1:              See 7.1.2.2. (line  4315)
 -IDE64autosize2, +IDE64autosize2:              See 7.1.2.2. (line  4315)
 -IDE64autosize3, +IDE64autosize3:              See 7.1.2.2. (line  4315)
@@ -16667,27 +16728,32 @@ Concept Index
 (line  3000)
 -iecdevice9, +iecdevice9:                      See 6.11.1.2.
 (line  3002)
--ieee488, +ieee488 <1>:                        See 7.1.2.2. (line  4343)
--ieee488, +ieee488:                            See 7.4.2.2. (line  5960)
+-ieee488, +ieee488 <1>:                        See 7.4.2.2. (line  5960)
+-ieee488, +ieee488:                            See 7.1.2.2. (line  4343)
 -ieee488image:                                 See 7.1.2.2. (line  4348)
 -initbreak:                                    See 6.13.2.  (line  3407)
+-initialautostartdir:                          See 8.1.2.   (line  7551)
+-initialcartdir:                               See 8.1.2.   (line  7554)
+-initialdefaultdir:                            See 8.1.2.   (line  7542)
+-initialdiskdir:                               See 8.1.2.   (line  7547)
+-initialsnapshotdir:                           See 8.1.2.   (line  7558)
+-initialtapedir:                               See 8.1.2.   (line  7543)
 -intfrom:                                      See 7.2.2.2. (line  5575)
 -intfunc:                                      See 7.2.2.2. (line  5573)
--iocollision <1>:                              See 7.4.2.2. (line  5912)
--iocollision:                                  See 7.1.2.2. (line  4144)
+-iocollision <1>:                              See 7.1.2.2. (line  4144)
+-iocollision:                                  See 7.4.2.2. (line  5912)
 -isepic, +isepic:                              See 7.1.2.2. (line  4351)
 -isepicimagename:                              See 7.1.2.2. (line  4358)
 -isepicimagerw, +isepicimagerw:                See 7.1.2.2. (line  4361)
 -joydev1:                                      See 6.7.2.   (line  2323)
 -joydev2:                                      See 6.7.2.   (line  2323)
--k:                                            See 15.1.    (line  9741)
--k<version>:                                   See 15.1.    (line  9738)
+-k:                                            See 15.1.    (line  9801)
+-k<version>:                                   See 15.1.    (line  9798)
 -keepenv:                                      See 7.8.1.2. (line  7491)
--kernal <1>:                                   See 7.4.5.2. (line  6316)
--kernal <2>:                                   See 7.6.4.2. (line  7052)
--kernal <3>:                                   See 7.1.7.2. (line  5202)
--kernal <4>:                                   See 7.7.2.2. (line  7389)
--kernal:                                       See 7.2.2.2. (line  5534)
+-kernal <1>:                                   See 7.2.2.2. (line  5534)
+-kernal <2>:                                   See 7.7.2.2. (line  7389)
+-kernal <3>:                                   See 7.6.4.2. (line  7052)
+-kernal:                                       See 7.4.5.2. (line  6316)
 -kernal64:                                     See 7.2.2.2. (line  5523)
 -kernalch:                                     See 7.2.2.2. (line  5553)
 -kernalde:                                     See 7.2.2.2. (line  5535)
@@ -16699,7 +16765,7 @@ Concept Index
 -kernalse:                                     See 7.2.2.2. (line  5550)
 -keybuf:                                       See 3.1.     (line   998)
 -keymap:                                       See 6.6.2.   (line  2201)
--l:                                            See 15.1.    (line  9744)
+-l:                                            See 14.1.    (line  9529)
 -lightpen, +lightpen:                          See 6.7.2.   (line  2347)
 -lightpentype:                                 See 6.7.2.   (line  2349)
 -logfile:                                      See 3.1.     (line   992)
@@ -16711,8 +16777,8 @@ Concept Index
 -midiin:                                       See 7.1.6.2. (line  5079)
 -midiout:                                      See 7.1.6.2. (line  5082)
 -miditype:                                     See 7.1.6.2. (line  5071)
--mitshm, +mitshm <1>:                          See 6.5.3.   (line  2124)
--mitshm, +mitshm:                              See 2.12.2.  (line   880)
+-mitshm, +mitshm <1>:                          See 2.12.2.  (line   880)
+-mitshm, +mitshm:                              See 6.5.3.   (line  2124)
 -mmc64, +mmc64:                                See 7.1.2.2. (line  4383)
 -mmc64bios:                                    See 7.1.2.2. (line  4390)
 -mmc64bioswrite:                               See 7.1.2.2. (line  4402)
@@ -16725,20 +16791,20 @@ Concept Index
 -mmcreepromrw, +mmcreepromrw:                  See 7.1.2.2. (line  4426)
 -mmcrimagerw, +mmcrimagerw:                    See 7.1.2.2. (line  4412)
 -mmcrrescue, +mmcrrescue:                      See 7.1.2.2. (line  4408)
--model <1>:                                    See 7.6.6.2. (line  7110)
--model:                                        See 7.7.3.   (line  7452)
+-model <1>:                                    See 7.7.3.   (line  7452)
+-model:                                        See 7.6.6.2. (line  7110)
 -moncommands:                                  See 6.13.2.  (line  3401)
 -mouse, +mouse:                                See 6.7.2.   (line  2336)
 -mouseport:                                    See 6.7.2.   (line  2342)
 -mousetype:                                    See 6.7.2.   (line  2338)
 -myaciadev:                                    See 6.12.2.  (line  3321)
--n:                                            See 14.1.    (line  9465)
--nc:                                           See 15.1.    (line  9713)
--nh:                                           See 15.1.    (line  9723)
+-n:                                            See 14.1.    (line  9525)
+-nc:                                           See 15.1.    (line  9773)
+-nh:                                           See 15.1.    (line  9783)
 -ntsc:                                         See 6.14.2.  (line  3434)
 -ntscold:                                      See 6.14.2.  (line  3437)
--o:                                            See 14.1.    (line  9457)
--o <name>:                                     See 15.1.    (line  9747)
+-o:                                            See 14.1.    (line  9517)
+-o <name>:                                     See 15.1.    (line  9807)
 -pal:                                          See 6.14.2.  (line  3433)
 -paln:                                         See 6.14.2.  (line  3440)
 -parallel10:                                   See 6.10.2.  (line  2819)
@@ -16753,7 +16819,7 @@ Concept Index
 -petreu, +petreu:                              See 7.6.3.2. (line  6995)
 -petreuimage:                                  See 7.6.3.2. (line  6999)
 -petreuramsize:                                See 7.6.3.2. (line  7000)
--playback:                                     See 11.9.    (line  8696)
+-playback:                                     See 11.9.    (line  8756)
 -plus256k, +plus256k:                          See 7.1.8.2. (line  5270)
 -plus256kimage:                                See 7.1.8.2. (line  5272)
 -plus60k, +plus60k:                            See 7.1.8.2. (line  5260)
@@ -16788,8 +16854,8 @@ Concept Index
 -prusertxtdev:                                 See 6.11.2.2.
 (line  3159)
 -ps2mouse, +ps2mouse:                          See 7.3.4.   (line  5719)
--q:                                            See 14.1.    (line  9483)
--r:                                            See 14.1.    (line  9479)
+-q:                                            See 14.1.    (line  9543)
+-r:                                            See 14.1.    (line  9539)
 -ram08, +ram08:                                See 7.7.3.   (line  7422)
 -ram1, +ram1:                                  See 7.7.3.   (line  7425)
 -ram2, +ram2:                                  See 7.7.3.   (line  7430)
@@ -16803,8 +16869,8 @@ Concept Index
 -raminitpatterninvert:                         See 6.15.2.  (line  3472)
 -raminitstartvalue:                            See 6.15.2.  (line  3468)
 -raminitvalueinvert:                           See 6.15.2.  (line  3469)
--ramsize <1>:                                  See 7.7.3.   (line  7419)
--ramsize:                                      See 7.5.4.2. (line  6645)
+-ramsize <1>:                                  See 7.5.4.2. (line  6645)
+-ramsize:                                      See 7.7.3.   (line  7419)
 -refresh:                                      See 6.4.2.   (line  1935)
 -remotemonitor, +remotemonitor:                See 6.13.2.  (line  3411)
 -remotemonitoraddress:                         See 6.13.2.  (line  3415)
@@ -16839,19 +16905,19 @@ Concept Index
 -sfxseioswap, +sfxseioswap:                    See 7.4.2.2. (line  5991)
 -sfxsetype <1>:                                See 7.4.2.2. (line  5997)
 -sfxsetype:                                    See 7.1.6.2. (line  5127)
--sfxss, +sfxss <1>:                            See 7.1.6.2. (line  5130)
--sfxss, +sfxss:                                See 7.4.2.2. (line  6004)
+-sfxss, +sfxss <1>:                            See 7.4.2.2. (line  6004)
+-sfxss, +sfxss:                                See 7.1.6.2. (line  5130)
 -sfxssioswap, +sfxssioswap:                    See 7.4.2.2. (line  6002)
--sidcart, +sidcart <1>:                        See 7.4.2.2. (line  5964)
--sidcart, +sidcart <2>:                        See 7.5.2.2. (line  6560)
--sidcart, +sidcart:                            See 7.6.3.2. (line  7028)
+-sidcart, +sidcart <1>:                        See 7.5.2.2. (line  6560)
+-sidcart, +sidcart <2>:                        See 7.6.3.2. (line  7028)
+-sidcart, +sidcart:                            See 7.4.2.2. (line  5964)
 -sidcartjoy, +sidcartjoy:                      See 7.5.2.2. (line  6565)
 -sidenginemodel:                               See 7.1.5.2. (line  4900)
 -sidfilters, +sidfilters:                      See 7.1.5.2. (line  4906)
 -sidstereo:                                    See 7.1.5.2. (line  4889)
 -sidstereoaddress:                             See 7.1.5.2. (line  4892)
 -sidtripleaddress:                             See 7.1.5.2. (line  4896)
--skip <n>:                                     See 15.1.    (line  9726)
+-skip <n>:                                     See 15.1.    (line  9786)
 -sound, +sound:                                See 6.8.2.   (line  2533)
 -soundarg:                                     See 6.8.2.   (line  2560)
 -soundbufsize:                                 See 6.8.2.   (line  2548)
@@ -16868,7 +16934,7 @@ Concept Index
 -superpet, +superpet:                          See 7.6.6.2. (line  7119)
 -symdekeymap:                                  See 6.6.2.   (line  2212)
 -symkeymap:                                    See 6.6.2.   (line  2206)
--t:                                            See 14.1.    (line  9461)
+-t:                                            See 14.1.    (line  9521)
 -TEDaudioleak, +TEDaudioleak:                  See 7.5.1.2. (line  6504)
 -TEDborders:                                   See 7.5.1.2. (line  6472)
 -TEDbrightness:                                See 7.5.1.2. (line  6481)
@@ -16891,7 +16957,7 @@ Concept Index
 -TEDvcache, +TEDvcache:                        See 7.5.1.2. (line  6437)
 -TEDVidmodefullmode:                           See 7.5.1.2. (line  6469)
 -TEDXRANDRfullmode:                            See 7.5.1.2. (line  6466)
--text:                                         See 15.1.    (line  9729)
+-text:                                         See 15.1.    (line  9789)
 -tfe, +tfe <1>:                                See 7.1.6.2. (line  5134)
 -tfe, +tfe:                                    See 7.4.2.2. (line  5971)
 -tfeif <1>:                                    See 7.4.2.2. (line  5975)
@@ -16903,7 +16969,7 @@ Concept Index
 -trueflashfs, +trueflashfs:                    See 7.3.1.   (line  5667)
 -tune:                                         See 7.8.1.2. (line  7492)
 -userportdac, +userportdac:                    See 7.6.3.2. (line  7005)
--v:                                            See 15.1.    (line  9707)
+-v:                                            See 15.1.    (line  9767)
 -VDC16KB:                                      See 7.2.1.2. (line  5425)
 -VDC64KB:                                      See 7.2.1.2. (line  5428)
 -VDCaudioleak, +VDCaudioleak:                  See 7.2.1.2. (line  5463)
@@ -16979,7 +17045,7 @@ Concept Index
 -VICXRANDRfullmode:                            See 7.4.3.2. (line  6156)
 -virtualdev, +virtualdev:                      See 6.11.3.2.
 (line  3191)
--w<version>:                                   See 15.1.    (line  9735)
+-w<version>:                                   See 15.1.    (line  9795)
 -warp, +warp:                                  See 6.4.2.   (line  1940)
 -xsync, +xsync:                                See 6.5.3.   (line  2119)
 ACIA (Swiftlink, Turbo232):                    See 7.1.6.   (line  4940)
@@ -17066,20 +17132,20 @@ Cart1Name:                                     See 7.7.1.   (line  7337)
 Cart2Name:                                     See 7.7.1.   (line  7337)
 Cart4Name:                                     See 7.7.1.   (line  7337)
 Cart6Name:                                     See 7.7.1.   (line  7337)
-CartridgeFile <1>:                             See 7.1.2.1. (line  3926)
-CartridgeFile:                                 See 7.4.2.1. (line  5848)
-CartridgeReset <1>:                            See 7.1.2.1. (line  3920)
-CartridgeReset <2>:                            See 7.4.2.1. (line  5843)
-CartridgeReset:                                See 7.5.2.1. (line  6516)
-CartridgeType <1>:                             See 7.4.2.1. (line  5845)
-CartridgeType:                                 See 7.1.2.1. (line  3922)
+CartridgeFile <1>:                             See 7.4.2.1. (line  5848)
+CartridgeFile:                                 See 7.1.2.1. (line  3926)
+CartridgeReset <1>:                            See 7.5.2.1. (line  6516)
+CartridgeReset <2>:                            See 7.1.2.1. (line  3920)
+CartridgeReset:                                See 7.4.2.1. (line  5843)
+CartridgeType <1>:                             See 7.1.2.1. (line  3922)
+CartridgeType:                                 See 7.4.2.1. (line  5845)
 ChargenCHName:                                 See 7.2.2.1. (line  5475)
 ChargenDEName:                                 See 7.2.2.1. (line  5475)
 ChargenFRName:                                 See 7.2.2.1. (line  5475)
 ChargenIntName:                                See 7.2.2.1. (line  5475)
-ChargenName <1>:                               See 7.4.5.1. (line  6308)
-ChargenName <2>:                               See 7.6.1.   (line  6717)
-ChargenName:                                   See 7.1.7.1. (line  5171)
+ChargenName <1>:                               See 7.1.7.1. (line  5171)
+ChargenName <2>:                               See 7.4.5.1. (line  6308)
+ChargenName:                                   See 7.6.1.   (line  6717)
 ChargenSEName:                                 See 7.2.2.1. (line  5475)
 CIA1Model:                                     See 7.1.3.1. (line  4527)
 CIA2Model:                                     See 7.1.3.1. (line  4527)
@@ -17120,10 +17186,10 @@ DIGIMAXbase:                                   See 7.1.6.1. (line  4976)
 Directory:                                     See 6.16.1.  (line  3487)
 DisplayDepth:                                  See 6.5.2.   (line  2076)
 DoCoreDump:                                    See 6.16.1.  (line  3530)
-DoodleCRTCTextColor:                           See 10.1.    (line  8511)
-DoodleMultiColorHandling:                      See 10.1.    (line  8502)
-DoodleOversizeHandling:                        See 10.1.    (line  8497)
-DoodleTEDLumHandling:                          See 10.1.    (line  8507)
+DoodleCRTCTextColor:                           See 10.1.    (line  8571)
+DoodleMultiColorHandling:                      See 10.1.    (line  8562)
+DoodleOversizeHandling:                        See 10.1.    (line  8557)
+DoodleTEDLumHandling:                          See 10.1.    (line  8567)
 DosName1001:                                   See 6.10.1.  (line  2775)
 DosName1541:                                   See 6.10.1.  (line  2775)
 DosName1541ii:                                 See 6.10.1.  (line  2775)
@@ -17196,23 +17262,23 @@ ETHERNET_ACTIVE:                               See 7.1.6.1. (line  4981)
 ETHERNET_AS_RR:                                See 7.1.6.1. (line  4991)
 ETHERNET_DISABLED:                             See 7.1.6.1. (line  4987)
 ETHERNET_INTERFACE:                            See 7.1.6.1. (line  4983)
-EventEndSnapshot:                              See 11.8.    (line  8679)
-EventImageInclude:                             See 11.8.    (line  8686)
-EventSnapshotDir:                              See 11.8.    (line  8673)
-EventStartMode:                                See 11.8.    (line  8682)
-EventStartSnapshot:                            See 11.8.    (line  8675)
+EventEndSnapshot:                              See 11.8.    (line  8739)
+EventImageInclude:                             See 11.8.    (line  8746)
+EventSnapshotDir:                              See 11.8.    (line  8733)
+EventStartMode:                                See 11.8.    (line  8742)
+EventStartSnapshot:                            See 11.8.    (line  8735)
 ExpertCartridgeEnabled:                        See 7.1.2.1. (line  3952)
 ExpertCartridgeMode:                           See 7.1.2.1. (line  3962)
 Expertfilename:                                See 7.1.2.1. (line  3954)
 ExpertImageWrite:                              See 7.1.2.1. (line  3957)
 ExternalFunctionName:                          See 7.2.2.1. (line  5512)
 ExternalFunctionROM:                           See 7.2.2.1. (line  5510)
-FFMPEGAudioBitrate:                            See 10.1.    (line  8518)
-FFMPEGAudioCodec:                              See 10.1.    (line  8524)
-FFMPEGFormat:                                  See 10.1.    (line  8517)
-FFMPEGVideoBitrate:                            See 10.1.    (line  8521)
-FFMPEGVideoCodec:                              See 10.1.    (line  8527)
-FFMPEGVideoHalveFramerate:                     See 10.1.    (line  8530)
+FFMPEGAudioBitrate:                            See 10.1.    (line  8578)
+FFMPEGAudioCodec:                              See 10.1.    (line  8584)
+FFMPEGFormat:                                  See 10.1.    (line  8577)
+FFMPEGVideoBitrate:                            See 10.1.    (line  8581)
+FFMPEGVideoCodec:                              See 10.1.    (line  8587)
+FFMPEGVideoHalveFramerate:                     See 10.1.    (line  8590)
 FileSystemDevice10:                            See 6.11.1.1.
 (line  2960)
 FileSystemDevice11:                            See 6.11.1.1.
@@ -17324,6 +17390,12 @@ IECDevice9:                                    See 6.11.1.1.
 (line  2953)
 IEEE488:                                       See 7.1.2.1. (line  4023)
 IEEE488Image:                                  See 7.1.2.1. (line  4027)
+InitialAutostartDir:                           See 8.1.1.   (line  7524)
+InitialCartDir:                                See 8.1.1.   (line  7528)
+InitialDefaultDir:                             See 8.1.1.   (line  7514)
+InitialDiskDir:                                See 8.1.1.   (line  7520)
+InitialSnapshotDir:                            See 8.1.1.   (line  7532)
+InitialTapeDir:                                See 8.1.1.   (line  7516)
 InternalFunctionName:                          See 7.2.2.1. (line  5504)
 InternalFunctionROM:                           See 7.2.2.1. (line  5502)
 IOCollisionHandling <1>:                       See 7.1.2.1. (line  3914)
@@ -17347,9 +17419,9 @@ KernalFIName:                                  See 7.2.2.1. (line  5482)
 KernalFRName:                                  See 7.2.2.1. (line  5482)
 KernalIntName:                                 See 7.2.2.1. (line  5482)
 KernalITName:                                  See 7.2.2.1. (line  5482)
-KernalName <1>:                                See 7.6.1.   (line  6720)
-KernalName <2>:                                See 7.4.5.1. (line  6302)
-KernalName:                                    See 7.1.7.1. (line  5163)
+KernalName <1>:                                See 7.1.7.1. (line  5163)
+KernalName <2>:                                See 7.6.1.   (line  6720)
+KernalName:                                    See 7.4.5.1. (line  6302)
 KernalNOName:                                  See 7.2.2.1. (line  5482)
 KernalRev:                                     See 7.1.7.1. (line  5175)
 KernalSEName:                                  See 7.2.2.1. (line  5482)
@@ -17527,12 +17599,12 @@ SFXSoundSamplerIOSwap:                         See 7.4.2.1. (line  5889)
 SidAddress <1>:                                See 7.6.3.1. (line  6982)
 SidAddress <2>:                                See 7.4.2.1. (line  5899)
 SidAddress:                                    See 7.5.2.1. (line  6530)
-SidCart <1>:                                   See 7.5.2.1. (line  6529)
-SidCart <2>:                                   See 7.4.2.1. (line  5898)
-SidCart:                                       See 7.6.3.1. (line  6981)
+SidCart <1>:                                   See 7.4.2.1. (line  5898)
+SidCart <2>:                                   See 7.6.3.1. (line  6981)
+SidCart:                                       See 7.5.2.1. (line  6529)
 SIDCartJoy:                                    See 7.5.2.1. (line  6537)
-SidClock <1>:                                  See 7.6.3.1. (line  6985)
-SidClock <2>:                                  See 7.4.2.1. (line  5902)
+SidClock <1>:                                  See 7.4.2.1. (line  5902)
+SidClock <2>:                                  See 7.6.3.1. (line  6985)
 SidClock:                                      See 7.5.2.1. (line  6533)
 SidEngine:                                     See 7.1.5.1. (line  4865)
 SidFilters:                                    See 7.1.5.1. (line  4857)
@@ -17884,10 +17956,12 @@ How to Apply These Terms to Your New Programs
 7.8.1.2 VSID command-line options
 8 Platform-specific features
 8.1 AmigaOS-specific features
-8.1.1 AmigaOS3-specific features
-8.1.2 AmigaOS4-specific features
-8.1.3 MorphOS-specific features
-8.1.4 AROS-specific features
+8.1.1 Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific resources
+8.1.2 Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific command-line options
+8.1.3 AmigaOS3-specific features
+8.1.4 AmigaOS4-specific features
+8.1.5 MorphOS-specific features
+8.1.6 AROS-specific features
 8.2 BeOS-specific features
 8.3 DOS-specific features
 8.4 OS2-specific features

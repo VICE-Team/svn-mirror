@@ -1,6 +1,138 @@
 FIXED/CORRECT AMIGA ONLY COMMON RESOURCES/CMDLINES:
 ===================================================
 
+arch/amigaos/uiapi.c:
+---------------------
+resource type:                  string
+resource name:                  "InitialDefaultDir"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_initial_dir()
+resource var:                   ui_resources.initialdir[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -initialdefaultdir
+platform gui present:           amigaos
+platform gui missing:
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   -initialdefaultdir <Name>
+description:    "Specify initial default directory."
+resource:       "InitialDefaultDir"
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+resource type:                  string
+resource name:                  "InitialTapeDir"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_initial_dir()
+resource var:                   ui_resources.initialdir[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -initialtapedir
+platform gui present:           amigaos
+platform gui missing:
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   -initialtapedir <Name>
+description:    "Specify initial tape directory."
+resource:       "InitialTapeDir"
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+resource type:                  string
+resource name:                  "InitialDiskDir"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_initial_dir()
+resource var:                   ui_resources.initialdir[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -initialdiskdir
+platform gui present:           amigaos
+platform gui missing:
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   -initialdiskdir <Name>
+description:    "Specify initial disk directory."
+resource:       "InitialDiskDir"
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+resource type:                  string
+resource name:                  "InitialAutostartDir"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_initial_dir()
+resource var:                   ui_resources.initialdir[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -initialautostartdir
+platform gui present:           amigaos
+platform gui missing:
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   -initialautostartdir <Name>
+description:    "Specify initial autostart directory."
+resource:       "InitialAutostartDir"
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+resource type:                  string
+resource name:                  "InitialCartDir"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_initial_dir()
+resource var:                   ui_resources.initialdir[4]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -initialcartdir
+platform gui present:           amigaos
+platform gui missing:
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   -initialcartdir <Name>
+description:    "Specify initial cartridge directory."
+resource:       "InitialCartDir"
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+resource type:                  string
+resource name:                  "InitialSnapshotDir"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_initial_dir()
+resource var:                   ui_resources.initialdir[5]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -initialsnapshotdir
+platform gui present:           amigaos
+platform gui missing:
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   -initialsnapshotdir <Name>
+description:    "Specify initial snapshot directory."
+resource:       "InitialSnapshotDir"
+action:         N/A
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT AMIGAOS4 ONLY RESOURCES/CMDLINES:
@@ -130,102 +262,6 @@ FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 
 AMIGA ONLY COMMON RESOURCES/CMDLINES:
 =====================================
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  string
-resource name:                  "InitialDefaultDir"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_initial_dir()
-resource var:                   ui_resources.initialdir[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  string
-resource name:                  "InitialTapeDir"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_initial_dir()
-resource var:                   ui_resources.initialdir[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  string
-resource name:                  "InitialDiskDir"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_initial_dir()
-resource var:                   ui_resources.initialdir[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  string
-resource name:                  "InitialAutostartDir"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_initial_dir()
-resource var:                   ui_resources.initialdir[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  string
-resource name:                  "InitialCartDir"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_initial_dir()
-resource var:                   ui_resources.initialdir[4]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  string
-resource name:                  "InitialSnapshotDir"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_initial_dir()
-resource var:                   ui_resources.initialdir[5]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos
-platform gui missing:
-fixme: add to documentation
 
 arch/amigaos/uiapi.c:
 ---------------------

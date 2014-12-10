@@ -8534,29 +8534,16 @@ VSID command-line options
 Platform-specific features
 **************************
 
+This section lists the settings and commands that are platform specific.
+
 
 
  @{" AmigaOS-specific features " Link "AmigaOS-specific features"} 
-
- @{" BeOS-specific features " Link "BeOS-specific features"} 
-
- @{" DOS-specific features " Link "DOS-specific features"} 
-
- @{" OS2-specific features " Link "OS2-specific features"} 
-
- @{" SDL-specific features " Link "SDL-specific features"} 
-
- @{" Unix-specific features " Link "Unix-specific features"} 
-
- @{" Mac OS X-specific features " Link "Mac OS X-specific features"} 
-
- @{" Windows-specific features " Link "Windows-specific features"} 
 
 
 @EndNode
 
 @Node "AmigaOS-specific features" "vice.guide/AmigaOS-specific features"
-@Next "BeOS-specific features"
 @Prev "Platform-specific features"
 @Toc "Platform-specific features"
 
@@ -8567,170 +8554,71 @@ AmigaOS-specific features
 
  @{" AmigaOS3-specific features " Link "AmigaOS3-specific features"} 
 
- @{" AmigaOS4-specific features " Link "AmigaOS4-specific features"} 
+This section lists the settings and commands that are common and
+specific to all Amiga based platforms (this includes AmigaOS3,
+AmigaOS4, Morphos and AROS), and are thus not present in other
+platforms.
 
- @{" MorphOS-specific features " Link "MorphOS-specific features"} 
+Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific resources
+---------------------------------------------------------
 
- @{" AROS-specific features " Link "AROS-specific features"} 
+`InitialDefaultDir'
+     String specifying the initial default directory, which is used by
+     the generic file browser dialog.
+
+`InitialTapeDir'
+     String specifying the initial tape directory, which is used by the
+     tape image file browser dialog.
+
+`InitialDiskDir'
+     String specifying the initial tape directory, which is used by the
+     disk image file browser dialog.
+
+`InitialAutostartDir'
+     String specifying the initial autostart directory, which is used
+     by the autostart image file browser dialog.
+
+`InitialCartDir'
+     String specifying the initial cartridge directory, which is used
+     by the cartridge image file browser dialog.
+
+`InitialSnapshotDir'
+     String specifying the initial snapshots directory, which is used
+     by the snapshots file browser dialog.
+
+Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific command-line options
+--------------------------------------------------------------------
+
+`-initialdefaultdir <Name>'
+     Select the initial default directory for the file browser dialog.
+
+`-initialtapedir <Name>'
+     Select the initial tape images directory for the file browser
+     dialog.
+
+`-initialdiskdir <Name>'
+     Select the initial disk images directory for the file browser
+     dialog.
+
+`-initialautostartdir <Name>'
+     Select the initial autostart directory for the file browser dialog.
+
+`-initialcartdir <Name>'
+     Select the initial cartridge images directory for the file browser
+     dialog.
+
+`-initialsnapshotdir <Name>'
+     Select the initial snapshot directory for the file browser dialog.
 
 
 @EndNode
 
 @Node "AmigaOS3-specific features" "vice.guide/AmigaOS3-specific features"
-@Next "AmigaOS4-specific features"
 @Prev "AmigaOS-specific features"
 @Toc "AmigaOS-specific features"
 
 AmigaOS3-specific features
 --------------------------
-
-
-@EndNode
-
-@Node "AmigaOS4-specific features" "vice.guide/AmigaOS4-specific features"
-@Next "MorphOS-specific features"
-@Prev "AmigaOS3-specific features"
-@Toc "AmigaOS-specific features"
-
-AmigaOS4-specific features
---------------------------
-
-
-@EndNode
-
-@Node "MorphOS-specific features" "vice.guide/MorphOS-specific features"
-@Next "AROS-specific features"
-@Prev "AmigaOS4-specific features"
-@Toc "AmigaOS-specific features"
-
-MorphOS-specific features
--------------------------
-
-
-@EndNode
-
-@Node "AROS-specific features" "vice.guide/AROS-specific features"
-@Prev "MorphOS-specific features"
-@Toc "AmigaOS-specific features"
-
-AROS-specific features
-----------------------
-
-
-@EndNode
-
-@Node "BeOS-specific features" "vice.guide/BeOS-specific features"
-@Next "DOS-specific features"
-@Prev "AmigaOS-specific features"
-@Toc "Platform-specific features"
-
-BeOS-specific features
-======================
-
-
-@EndNode
-
-@Node "DOS-specific features" "vice.guide/DOS-specific features"
-@Next "OS2-specific features"
-@Prev "BeOS-specific features"
-@Toc "Platform-specific features"
-
-DOS-specific features
-=====================
-
-
-@EndNode
-
-@Node "OS2-specific features" "vice.guide/OS2-specific features"
-@Next "SDL-specific features"
-@Prev "DOS-specific features"
-@Toc "Platform-specific features"
-
-OS2-specific features
-=====================
-
-
-@EndNode
-
-@Node "SDL-specific features" "vice.guide/SDL-specific features"
-@Next "Unix-specific features"
-@Prev "OS2-specific features"
-@Toc "Platform-specific features"
-
-SDL-specific features
-=====================
-
-
-@EndNode
-
-@Node "Unix-specific features" "vice.guide/Unix-specific features"
-@Next "Mac OS X-specific features"
-@Prev "SDL-specific features"
-@Toc "Platform-specific features"
-
-Unix-specific features
-======================
-
-
-
- @{" XAW-specific features " Link "XAW-specific features"} 
-
- @{" GTK2-specific features " Link "GTK2-specific features"} 
-
- @{" GTK3-specific features " Link "GTK3-specific features"} 
-
-
-@EndNode
-
-@Node "XAW-specific features" "vice.guide/XAW-specific features"
-@Next "GTK2-specific features"
-@Prev "Unix-specific features"
-@Toc "Unix-specific features"
-
-XAW-specific features
----------------------
-
-
-@EndNode
-
-@Node "GTK2-specific features" "vice.guide/GTK2-specific features"
-@Next "GTK3-specific features"
-@Prev "XAW-specific features"
-@Toc "Unix-specific features"
-
-GTK2-specific features
-----------------------
-
-
-@EndNode
-
-@Node "GTK3-specific features" "vice.guide/GTK3-specific features"
-@Prev "GTK2-specific features"
-@Toc "Unix-specific features"
-
-GTK3-specific features
-----------------------
-
-
-@EndNode
-
-@Node "Mac OS X-specific features" "vice.guide/Mac OS X-specific features"
-@Next "Windows-specific features"
-@Prev "Unix-specific features"
-@Toc "Platform-specific features"
-
-Mac OS X-specific features
-==========================
-
-
-@EndNode
-
-@Node "Windows-specific features" "vice.guide/Windows-specific features"
-@Prev "Mac OS X-specific features"
-@Toc "Platform-specific features"
-
-Windows-specific features
-=========================
 
 
 @EndNode
@@ -17243,8 +17131,8 @@ Concept Index
  @{" -attach9ro " Link "Command-line initialization"}                           Command-line initialization
  @{" -attach9rw " Link "Command-line initialization"}                           Command-line initialization
  @{" -autoload " Link "Command-line initialization"}                            Command-line initialization
- @{" -autostart " Link "Command-line autostart"}                           Command-line autostart
  @{" -autostart " Link "Command-line initialization"}                           Command-line initialization
+ @{" -autostart " Link "Command-line autostart"}                           Command-line autostart
  @{" -autostart-delay " Link "Command-line initialization"}                     Command-line initialization
  @{" -autostart-delay-random, +autostart-delay-random " Link "Command-line initialization"} Command-line initialization
  @{" -autostart-handle-tde, +autostart-handle-tde " Link "Command-line initialization"} Command-line initialization
@@ -17252,8 +17140,8 @@ Concept Index
  @{" -autostartprgdiskimage " Link "Command-line initialization"}               Command-line initialization
  @{" -autostartprgmode " Link "Command-line initialization"}                    Command-line initialization
  @{" -autostartwithcolon, +autostartwithcolon " Link "Command-line initialization"} Command-line initialization
- @{" -basic " Link "C64-128 system ROM options"}                               C64-128 system ROM options
  @{" -basic " Link "VIC20 system ROM options"}                               VIC20 system ROM options
+ @{" -basic " Link "C64-128 system ROM options"}                               C64-128 system ROM options
  @{" -basic " Link "CBM-II model"}                               CBM-II model
  @{" -basic1, +basic1 " Link "PET settings"}                     PET settings
  @{" -basic1char, +basic1char " Link "PET settings"}             PET settings
@@ -17274,25 +17162,25 @@ Concept Index
  @{" -cart " Link "VIC20 system ROM options"}                                VIC20 system ROM options
  @{" -cart1 " Link "CBM-II model"}                               CBM-II model
  @{" -cart16 " Link "C64 cartridges"}                              C64 cartridges
- @{" -cart2 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart2 " Link "CBM-II model"}                               CBM-II model
+ @{" -cart2 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart2 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart4 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
- @{" -cart4 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart4 " Link "CBM-II model"}                               CBM-II model
- @{" -cart6 " Link "CBM-II model"}                               CBM-II model
+ @{" -cart4 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart6 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart6 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
+ @{" -cart6 " Link "CBM-II model"}                               CBM-II model
  @{" -cart8 " Link "C64 cartridges"}                               C64 cartridges
- @{" -cartA " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cartA " Link "VIC20 system ROM options"}                               VIC20 system ROM options
+ @{" -cartA " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cartap " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartar2 " Link "C64 cartridges"}                             C64 cartridges
  @{" -cartar3 " Link "C64 cartridges"}                             C64 cartridges
  @{" -cartar4 " Link "C64 cartridges"}                             C64 cartridges
  @{" -cartar5 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartB " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartB " Link "VIC20 cartridges"}                               VIC20 cartridges
+ @{" -cartB " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartcap " Link "C64 cartridges"}                             C64 cartridges
  @{" -cartcomal " Link "C64 cartridges"}                           C64 cartridges
  @{" -cartcrt " Link "C64 cartridges"}                             C64 cartridges
@@ -17313,8 +17201,8 @@ Concept Index
  @{" -cartfe " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" -cartff " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartfm " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartfp " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartfp " Link "VIC20 cartridges"}                              VIC20 cartridges
+ @{" -cartfp " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartgeneric " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -cartgeoram " Link "C64 I-O extension options"}                          C64 I-O extension options
  @{" -cartgk " Link "C64 cartridges"}                              C64 cartridges
@@ -17359,9 +17247,9 @@ Concept Index
  @{" -chargch " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargde " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "VIC20 system ROM options"}                             VIC20 system ROM options
+ @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "PET model"}                             PET model
  @{" -chargen " Link "CBM-II model"}                             CBM-II model
- @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargfr " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargse " Link "C64-128 system ROM options"}                             C64-128 system ROM options
@@ -17507,15 +17395,15 @@ Concept Index
  @{" -fullscreen, +fullscreen " Link "Video options"}             Video options
  @{" -functionhi " Link "VIC20 system ROM options"}                          VIC20 system ROM options
  @{" -functionlo " Link "VIC20 system ROM options"}                          VIC20 system ROM options
- @{" -georam, +georam " Link "VIC20 cartridges"}                     VIC20 cartridges
  @{" -georam, +georam " Link "C64 I-O extension options"}                     C64 I-O extension options
+ @{" -georam, +georam " Link "VIC20 cartridges"}                     VIC20 cartridges
  @{" -georamimage " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -georamimage " Link "C64 I-O extension options"}                         C64 I-O extension options
  @{" -georamimagerw, +georamimagerw " Link "C64 I-O extension options"}       C64 I-O extension options
  @{" -georamimagerw, +georamimagerw " Link "VIC20 cartridges"}       VIC20 cartridges
  @{" -georamioswap, +georamioswap " Link "VIC20 cartridges"}         VIC20 cartridges
- @{" -georamsize " Link "C64 I-O extension options"}                          C64 I-O extension options
  @{" -georamsize " Link "VIC20 cartridges"}                          VIC20 cartridges
+ @{" -georamsize " Link "C64 I-O extension options"}                          C64 I-O extension options
  @{" -gluelogictype " Link "C64-128 system ROM options"}                       C64-128 system ROM options
  @{" -go64, +go64 " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" -grsymkeymap, -grposkeymap " Link "Keyboard options"}           Keyboard options
@@ -17523,8 +17411,8 @@ Concept Index
  @{" -h1024k " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" -h256k " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -h4096k " Link "VIC20 system ROM options"}                              VIC20 system ROM options
- @{" -help " Link "c1541 executing shell commands"}                                c1541 executing shell commands
  @{" -help " Link "Command-line initialization"}                                Command-line initialization
+ @{" -help " Link "c1541 executing shell commands"}                                c1541 executing shell commands
  @{" -htmlbrowser " Link "Misc options"}                         Misc options
  @{" -hummeradc, +hummeradc " Link "Userport"}               Userport
  @{" -i " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
@@ -17560,14 +17448,20 @@ Concept Index
  @{" -iecdevice7, +iecdevice7 " Link "Printer options"}             Printer options
  @{" -iecdevice8, +iecdevice8 " Link "File system device options"}             File system device options
  @{" -iecdevice9, +iecdevice9 " Link "File system device options"}             File system device options
- @{" -ieee488, +ieee488 " Link "C64 cartridges"}                   C64 cartridges
  @{" -ieee488, +ieee488 " Link "VIC20 cartridges"}                   VIC20 cartridges
+ @{" -ieee488, +ieee488 " Link "C64 cartridges"}                   C64 cartridges
  @{" -ieee488image " Link "C64 cartridges"}                        C64 cartridges
  @{" -initbreak " Link "Monitor options"}                           Monitor options
+ @{" -initialautostartdir " Link "AmigaOS-specific features"}                 AmigaOS-specific features
+ @{" -initialcartdir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
+ @{" -initialdefaultdir " Link "AmigaOS-specific features"}                   AmigaOS-specific features
+ @{" -initialdiskdir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
+ @{" -initialsnapshotdir " Link "AmigaOS-specific features"}                  AmigaOS-specific features
+ @{" -initialtapedir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
  @{" -intfrom " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -intfunc " Link "C64-128 system ROM options"}                             C64-128 system ROM options
- @{" -iocollision " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -iocollision " Link "C64 cartridges"}                         C64 cartridges
+ @{" -iocollision " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -isepic, +isepic " Link "C64 cartridges"}                     C64 cartridges
  @{" -isepicimagename " Link "C64 cartridges"}                     C64 cartridges
  @{" -isepicimagerw, +isepicimagerw " Link "C64 cartridges"}       C64 cartridges
@@ -17576,11 +17470,11 @@ Concept Index
  @{" -k " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -k<version> " Link "c1541 executing shell commands"}                          c1541 executing shell commands
  @{" -keepenv " Link "CBM-II colors"}                             CBM-II colors
- @{" -kernal " Link "VIC20 system ROM options"}                              VIC20 system ROM options
- @{" -kernal " Link "PET model"}                              PET model
+ @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
  @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
  @{" -kernal " Link "CBM-II model"}                              CBM-II model
- @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
+ @{" -kernal " Link "PET model"}                              PET model
+ @{" -kernal " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" -kernal64 " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" -kernalch " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" -kernalde " Link "C64-128 system ROM options"}                            C64-128 system ROM options
@@ -17605,8 +17499,8 @@ Concept Index
  @{" -midiin " Link "C64 I-O extension options"}                              C64 I-O extension options
  @{" -midiout " Link "C64 I-O extension options"}                             C64 I-O extension options
  @{" -miditype " Link "C64 I-O extension options"}                            C64 I-O extension options
- @{" -mitshm, +mitshm " Link "Video options"}                     Video options
  @{" -mitshm, +mitshm " Link "Shared memory problems"}                     Shared memory problems
+ @{" -mitshm, +mitshm " Link "Video options"}                     Video options
  @{" -mmc64, +mmc64 " Link "C64 cartridges"}                       C64 cartridges
  @{" -mmc64bios " Link "C64 cartridges"}                           C64 cartridges
  @{" -mmc64bioswrite " Link "C64 cartridges"}                      C64 cartridges
@@ -17619,8 +17513,8 @@ Concept Index
  @{" -mmcreepromrw, +mmcreepromrw " Link "C64 cartridges"}         C64 cartridges
  @{" -mmcrimagerw, +mmcrimagerw " Link "C64 cartridges"}           C64 cartridges
  @{" -mmcrrescue, +mmcrrescue " Link "C64 cartridges"}             C64 cartridges
- @{" -model " Link "PET settings"}                               PET settings
  @{" -model " Link "CBM-II commandline options"}                               CBM-II commandline options
+ @{" -model " Link "PET settings"}                               PET settings
  @{" -moncommands " Link "Monitor options"}                         Monitor options
  @{" -mouse, +mouse " Link "Keyboard options"}                       Keyboard options
  @{" -mouseport " Link "Keyboard options"}                           Keyboard options
@@ -17684,8 +17578,8 @@ Concept Index
  @{" -raminitpatterninvert " Link "Monitor options"}                Monitor options
  @{" -raminitstartvalue " Link "Monitor options"}                   Monitor options
  @{" -raminitvalueinvert " Link "Monitor options"}                  Monitor options
- @{" -ramsize " Link "CBM-II commandline options"}                             CBM-II commandline options
  @{" -ramsize " Link "VIC20 system ROM options"}                             VIC20 system ROM options
+ @{" -ramsize " Link "CBM-II commandline options"}                             CBM-II commandline options
  @{" -refresh " Link "Performance options"}                             Performance options
  @{" -remotemonitor, +remotemonitor " Link "Monitor options"}       Monitor options
  @{" -remotemonitoraddress " Link "Monitor options"}                Monitor options
@@ -17720,12 +17614,12 @@ Concept Index
  @{" -sfxseioswap, +sfxseioswap " Link "VIC20 cartridges"}           VIC20 cartridges
  @{" -sfxsetype " Link "VIC20 cartridges"}                           VIC20 cartridges
  @{" -sfxsetype " Link "C64 I-O extension options"}                           C64 I-O extension options
- @{" -sfxss, +sfxss " Link "C64 I-O extension options"}                       C64 I-O extension options
  @{" -sfxss, +sfxss " Link "VIC20 cartridges"}                       VIC20 cartridges
+ @{" -sfxss, +sfxss " Link "C64 I-O extension options"}                       C64 I-O extension options
  @{" -sfxssioswap, +sfxssioswap " Link "VIC20 cartridges"}           VIC20 cartridges
- @{" -sidcart, +sidcart " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" -sidcart, +sidcart " Link "VIC20 system ROM options"}                   VIC20 system ROM options
  @{" -sidcart, +sidcart " Link "PET model"}                   PET model
+ @{" -sidcart, +sidcart " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" -sidcartjoy, +sidcartjoy " Link "VIC20 system ROM options"}             VIC20 system ROM options
  @{" -sidenginemodel " Link "SID options"}                      SID options
  @{" -sidfilters, +sidfilters " Link "SID options"}             SID options
@@ -17938,8 +17832,8 @@ Index of Resources
  @{" Basic64Name " Link "C64-128 system ROM options"}                          C64-128 system ROM options
  @{" BasicHiName " Link "C64-128 system ROM options"}                          C64-128 system ROM options
  @{" BasicLoName " Link "C64-128 system ROM options"}                          C64-128 system ROM options
- @{" BasicName " Link "VIC20 system ROM resources"}                            VIC20 system ROM resources
  @{" BasicName " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
+ @{" BasicName " Link "VIC20 system ROM resources"}                            VIC20 system ROM resources
  @{" BurstMod " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" C128FullBanks " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" c1hiName " Link "VIC20 system ROM options"}                             VIC20 system ROM options
@@ -17957,18 +17851,18 @@ Index of Resources
  @{" Cart6Name " Link "CBM-II model"}                            CBM-II model
  @{" CartridgeFile " Link "C64 cartridges"}                        C64 cartridges
  @{" CartridgeFile " Link "VIC20 cartridges"}                        VIC20 cartridges
+ @{" CartridgeReset " Link "VIC20 system ROM options"}                       VIC20 system ROM options
  @{" CartridgeReset " Link "C64 cartridges"}                       C64 cartridges
  @{" CartridgeReset " Link "VIC20 cartridges"}                       VIC20 cartridges
- @{" CartridgeReset " Link "VIC20 system ROM options"}                       VIC20 system ROM options
  @{" CartridgeType " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" CartridgeType " Link "C64 cartridges"}                        C64 cartridges
  @{" ChargenCHName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenDEName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenFRName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenIntName " Link "C64-128 system ROM options"}                       C64-128 system ROM options
+ @{" ChargenName " Link "C64-128 system ROM resources"}                          C64-128 system ROM resources
  @{" ChargenName " Link "VIC20 system ROM resources"}                          VIC20 system ROM resources
  @{" ChargenName " Link "PET model"}                          PET model
- @{" ChargenName " Link "C64-128 system ROM resources"}                          C64-128 system ROM resources
  @{" ChargenSEName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" CIA1Model " Link "C64 cartridges"}                            C64 cartridges
  @{" CIA2Model " Link "C64 cartridges"}                            C64 cartridges
@@ -18185,6 +18079,12 @@ Index of Resources
  @{" IECDevice9 " Link "File system device resources"}                           File system device resources
  @{" IEEE488 " Link "C64 cartridges"}                              C64 cartridges
  @{" IEEE488Image " Link "C64 cartridges"}                         C64 cartridges
+ @{" InitialAutostartDir " Link "AmigaOS-specific features"}                  AmigaOS-specific features
+ @{" InitialCartDir " Link "AmigaOS-specific features"}                       AmigaOS-specific features
+ @{" InitialDefaultDir " Link "AmigaOS-specific features"}                    AmigaOS-specific features
+ @{" InitialDiskDir " Link "AmigaOS-specific features"}                       AmigaOS-specific features
+ @{" InitialSnapshotDir " Link "AmigaOS-specific features"}                   AmigaOS-specific features
+ @{" InitialTapeDir " Link "AmigaOS-specific features"}                       AmigaOS-specific features
  @{" InternalFunctionName " Link "C64-128 system ROM options"}                 C64-128 system ROM options
  @{" InternalFunctionROM " Link "C64-128 system ROM options"}                  C64-128 system ROM options
  @{" IOCollisionHandling " Link "C64 cartridges"}                  C64 cartridges
@@ -18208,9 +18108,9 @@ Index of Resources
  @{" KernalFRName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalIntName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" KernalITName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
+ @{" KernalName " Link "C64-128 system ROM resources"}                           C64-128 system ROM resources
  @{" KernalName " Link "PET model"}                           PET model
  @{" KernalName " Link "VIC20 system ROM resources"}                           VIC20 system ROM resources
- @{" KernalName " Link "C64-128 system ROM resources"}                           C64-128 system ROM resources
  @{" KernalNOName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalRev " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
  @{" KernalSEName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
@@ -18338,8 +18238,8 @@ Index of Resources
  @{" RAMInitPatternInvert " Link "Monitor options"}                 Monitor options
  @{" RAMInitStartValue " Link "Monitor options"}                    Monitor options
  @{" RAMInitValueInvert " Link "Monitor options"}                   Monitor options
- @{" RamSize " Link "CBM-II model"}                              CBM-II model
  @{" RamSize " Link "PET model"}                              PET model
+ @{" RamSize " Link "CBM-II model"}                              CBM-II model
  @{" RawDriveDriver " Link "Drive resources"}                       Drive resources
  @{" RefreshRate " Link "Performance resources"}                          Performance resources
  @{" REU " Link "C64 I-O extension resources"}                                  C64 I-O extension resources
@@ -18373,12 +18273,12 @@ Index of Resources
  @{" SidAddress " Link "PET model"}                           PET model
  @{" SidAddress " Link "VIC20 cartridges"}                           VIC20 cartridges
  @{" SidAddress " Link "VIC20 system ROM options"}                           VIC20 system ROM options
- @{" SidCart " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" SidCart " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" SidCart " Link "PET model"}                              PET model
+ @{" SidCart " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" SIDCartJoy " Link "VIC20 system ROM options"}                           VIC20 system ROM options
- @{" SidClock " Link "PET model"}                             PET model
  @{" SidClock " Link "VIC20 cartridges"}                             VIC20 cartridges
+ @{" SidClock " Link "PET model"}                             PET model
  @{" SidClock " Link "VIC20 system ROM options"}                             VIC20 system ROM options
  @{" SidEngine " Link "SID resources"}                            SID resources
  @{" SidFilters " Link "SID resources"}                           SID resources
