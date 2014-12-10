@@ -137,17 +137,6 @@ static int set_confirm_on_exit(int val, void *param)
     return 0;
 }
 
-static int set_monitor_dimensions(const char *name, void *param)
-{
-    if (ui_resources.monitor_dimensions != NULL && name != NULL) {
-        if (strcmp(name, ui_resources.monitor_dimensions) == 0) {
-            return 0;
-        }
-    }
-    util_string_set(&ui_resources.monitor_dimensions, name ? name : "");
-    return 0;
-}
-
 static int set_initial_dir(const char *name, void *param)
 {
     int index = (int)param;
@@ -162,8 +151,6 @@ static int set_initial_dir(const char *name, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    { "MonitorDimensions", "", RES_EVENT_NO, NULL,
-      &ui_resources.monitor_dimensions, set_monitor_dimensions, NULL },
     { "InitialDefaultDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[0], set_initial_dir, (void *)0 },
     { "InitialTapeDir", "", RES_EVENT_NO, NULL,
@@ -217,8 +204,6 @@ void ui_resources_shutdown(void)
     int i;
 
     translate_resources_shutdown();
-
-    lib_free(ui_resources.monitor_dimensions);
 
     for (i = 0; i < UILIB_SELECTOR_STYLES_NUM; i++) {
         lib_free(ui_resources.initialdir[i]);

@@ -134,23 +134,6 @@ AMIGA ONLY COMMON RESOURCES/CMDLINES:
 arch/amigaos/uiapi.c:
 ---------------------
 resource type:                  string
-resource name:                  "MonitorDimensions"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_monitor_dimensions()
-resource var:                   ui_resources.monitor_dimensions
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE
-platform gui present:           
-platform gui missing:			amigaos
-fixme: add to documentation
-fixme: not used ??
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  string
 resource name:                  "InitialDefaultDir"
 resource range:                 N/A
 resource default:               ""

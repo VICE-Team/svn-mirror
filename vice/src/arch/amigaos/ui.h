@@ -42,7 +42,6 @@ typedef struct ui_resources_s {
 #endif
     int save_resources_on_exit;
     int confirm_on_exit;
-    char *monitor_dimensions;
     char *initialdir[UILIB_SELECTOR_STYLES_NUM];
 } ui_resources_t;
 
