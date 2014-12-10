@@ -138,7 +138,7 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             ui_vic20_settings_dialog();
             break;
         case IDM_COMPUTER_ROM_SETTINGS:
-            ui_c64vic20_computer_rom_settings_dialog(canvas);
+            ui_vic20_computer_rom_settings_dialog(canvas);
             break;
         case IDM_DRIVE_ROM_SETTINGS:
             ui_vic20_drive_rom_settings_dialog(canvas);

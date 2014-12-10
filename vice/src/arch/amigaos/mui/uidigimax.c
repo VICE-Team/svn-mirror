@@ -209,7 +209,7 @@ void ui_digimax_c64_settings_dialog(void)
     }
 }
 
-void ui_digimax_vic20_settings_dialog(video_canvas_t *canvas)
+void ui_digimax_vic20_settings_dialog(void)
 {
     APTR window;
 

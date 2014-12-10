@@ -133,7 +133,7 @@ static int set_joystick_fire(int value, void *param)
 
 static const resource_int_t joy1_resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[0], set_joystick_device_1, (void *)0 },
+      &joystick_device[0], set_joystick_device, (void *)0 },
     { "JoyFire1", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[0], set_joystick_fire, (void *)0 },
     { NULL }
@@ -141,7 +141,7 @@ static const resource_int_t joy1_resources_int[] = {
 
 static const resource_int_t joy2_resources_int[] = {
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[1], set_joystick_device_2, (void *)1 },
+      &joystick_device[1], set_joystick_device, (void *)1 },
     { "JoyFire2", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[1], set_joystick_fire, (void *)1 },
     { NULL }
@@ -149,7 +149,7 @@ static const resource_int_t joy2_resources_int[] = {
 
 static const resource_int_t joy3_resources_int[] = {
     { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[2], set_joystick_device_3, (void *)2 },
+      &joystick_device[2], set_joystick_device, (void *)2 },
     { "JoyFire3", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[2], set_joystick_fire, (void *)2 },
     { NULL }
@@ -157,7 +157,7 @@ static const resource_int_t joy3_resources_int[] = {
 
 static const resource_int_t joy4_resources_int[] = {
     { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[3], set_joystick_device_4, (void *)3 },
+      &joystick_device[3], set_joystick_device, (void *)3 },
     { "JoyFire4", JPF_BUTTON_RED, RES_EVENT_NO, NULL,
       &joystick_fire[3], set_joystick_fire, (void *)3 },
     { NULL }

@@ -39,66 +39,66 @@
 #include "rs232drv/rs232.h"
 
 /* Initializes all RS232 stuff */
-void rs232_init(void)
+void rs232dev_init(void)
 {
 }
 
 /* Reset for RS232 interfaces */
-void rs232_reset(void)
+void rs232dev_reset(void)
 {
 }
 
 /* Opens a rs232 window, returns handle to give to functions below. */
-int rs232_open(int device)
+int rs232dev_open(int device)
 {
     return -1;
 }
 
 /* Closes the rs232 window again */
-void rs232_close(int fd)
+void rs232dev_close(int fd)
 {
 }
 
 /* Sends a byte to the RS232 line */
-int rs232_putc(int fd, BYTE b)
+int rs232dev_putc(int fd, BYTE b)
 {
     return 0;
 }
 
 /* Gets a byte to the RS232 line, returns !=1 if byte received, byte in *b. */
-int rs232_getc(int fd, BYTE *b)
+int rs232dev_getc(int fd, BYTE *b)
 {
     return 0;
 }
 
 /* set the status lines of the RS232 device */
-int rs232_set_status(int fd, enum rs232handshake_out status)
+int rs232dev_set_status(int fd, enum rs232handshake_out status)
 {
     return -1;
 }
 
 /* get the status lines of the RS232 device */
-enum rs232handshake_in rs232_get_status(int fd)
+enum rs232handshake_in rs232dev_get_status(int fd)
 {
     /*! \todo dummy */
     return RS232_HSI_CTS | RS232_HSI_DSR;
 }
 
 /* set the bps rate of the physical device */
-void rs232_set_bps(int fd, unsigned int bps)
+void rs232dev_set_bps(int fd, unsigned int bps)
 {
 }
 
-int rs232_resources_init(void)
+int rs232dev_resources_init(void)
 {
     return 0;
 }
 
-void rs232_resources_shutdown(void)
+void rs232dev_resources_shutdown(void)
 {
 }
 
-int rs232_cmdline_options_init(void)
+int rs232dev_cmdline_options_init(void)
 {
     return 0;
 }

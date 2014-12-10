@@ -151,7 +151,7 @@ void ui_screenshot_dialog(video_canvas_t *canvas)
         case SS_KOALA:
             save_screenshot_file("#?.koa", "KOALA", canvas);
             break;
-        case SS_KOALA:
+        case SS_KOALA_COMPRESSED:
             save_screenshot_file("#?.gg", "KOALA_COMPRESSED", canvas);
             break;
         case SS_GIF:

@@ -112,6 +112,24 @@ static const int ui_sidcart_clock_values[] =
 };
 
 #ifdef HAVE_RESID
+static int ui_sid_samplemethod_translate[] = {
+    IDS_FAST,
+    IDS_INTERPOLATING,
+    IDS_RESAMPLING,
+    IDS_FAST_RESAMPLING,
+    0
+};
+
+static char *ui_sid_samplemethod[countof(ui_sid_samplemethod_translate)];
+
+static const int ui_sid_samplemethod_values[] = {
+    0,
+    1,
+    2,
+    3,
+    -1
+};
+
 static const int ui_band_range[] = {
     0,
     90

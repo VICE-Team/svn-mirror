@@ -45,7 +45,7 @@ static int ui_jamaction_translate[] = {
     0
 };
 
-static char *ui_jamaction_enable[countof(ui_jamaction_translate)];
+static char *ui_jamaction[countof(ui_jamaction_translate)];
 
 static const int ui_jamaction_values[] = {
     MACHINE_JAM_ACTION_DIALOG,

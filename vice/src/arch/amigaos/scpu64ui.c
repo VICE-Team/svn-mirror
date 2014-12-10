@@ -41,7 +41,7 @@
 #include "mui/uiburstmod.h"
 #include "mui/uic64model.h"
 #include "mui/uidigimax.h"
-#include "mui/uidrivec64vic20.h"
+#include "mui/uidrivec64.h"
 #include "mui/uids12c887rtc.h"
 #include "mui/uieasyflash.h"
 #include "mui/uiexpert.h"
@@ -199,7 +199,7 @@ static int scpu64_ui_specific(video_canvas_t *canvas, int idm)
             break;
 #endif
         case IDM_DRIVE_SETTINGS:
-            uidrivec64vic20_settings_dialog();
+            uidrivec64_settings_dialog();
             break;
         case IDM_PRINTER_SETTINGS:
             ui_printer_settings_dialog(canvas, 0, 1);

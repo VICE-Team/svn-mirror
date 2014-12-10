@@ -81,8 +81,8 @@ static APTR hook_object_drive[countof(ui_to_from_drive)];
     BROWSE(BrowseDrive9, DriveHook9, ui_to_from_drive[9].object);
     BROWSE(BrowseDrive10, DriveHook10, ui_to_from_drive[10].object);
     BROWSE(BrowseDrive11, DriveHook11, ui_to_from_drive[11].object);
-    BROWSE(BrowseDrive11, DriveHook12, ui_to_from_drive[12].object);
-    BROWSE(BrowseDrive11, DriveHook13, ui_to_from_drive[13].object);
+    BROWSE(BrowseDrive12, DriveHook12, ui_to_from_drive[12].object);
+    BROWSE(BrowseDrive13, DriveHook13, ui_to_from_drive[13].object);
 
 static APTR build_computer_gui(void)
 {

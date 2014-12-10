@@ -249,7 +249,7 @@ static APTR build_gui(int ieee, int userport)
     static const struct Hook BrowseFileHook3 = { { NULL, NULL }, (VOID *)Browse3, NULL, NULL };
     static const struct Hook FFHook4 = { { NULL, NULL }, (VOID *)formfeed_4, NULL, NULL };
     static const struct Hook FFHook5 = { { NULL, NULL }, (VOID *)formfeed_5, NULL, NULL };
-    static const struct Hook FFHook5 = { { NULL, NULL }, (VOID *)formfeed_6, NULL, NULL };
+    static const struct Hook FFHook6 = { { NULL, NULL }, (VOID *)formfeed_6, NULL, NULL };
     static const struct Hook FFHookUserport = { { NULL, NULL }, (VOID *)formfeed_userport, NULL, NULL };
 #endif
 

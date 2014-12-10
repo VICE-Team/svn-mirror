@@ -205,7 +205,7 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             ui_ide64_settings_dialog(canvas);
             break;
         case IDM_COMPUTER_ROM_SETTINGS:
-            ui_c64vic20_computer_rom_settings_dialog(canvas);
+            ui_c64_computer_rom_settings_dialog(canvas);
             break;
         case IDM_DRIVE_ROM_SETTINGS:
             ui_c64_drive_rom_settings_dialog(canvas);
