@@ -1,5 +1,5 @@
 #!/bin/sh
-# texi2chm.sh - This script uses t2h.sh and the windows chm compiler to generate a vice.chm
+# texi2chm.sh - This script uses t2h.pl and the windows chm compiler to generate a vice.chm
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #

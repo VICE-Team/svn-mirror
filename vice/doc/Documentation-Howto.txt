@@ -145,12 +145,11 @@ to generate them:
   http://aminet.net/text/hyper/mkguide155.lha
 
 - windows help (doc/vice.hlp)
-  Makertf and hcrtf from the winhelp compiler package 
-  is used to convert from texi to
-  windows help. The included doc/fixdox.sh shell script is used to pre-fix the
-  texi file so that it can be converted by makertf to rtf, which hcrtf then
-  converts to a windows help file. Makertf and hcrtf need to be installed to
-  be able to generate the window help documentation.
+  Makertf and hcrtf from the winhelp compiler package is used to convert from
+  texi to windows help. The included doc/fixdox.sh shell script is used to
+  pre-fix the texi file so that it can be converted by makertf to rtf, which
+  hcrtf then converts to a windows help file. Makertf and hcrtf need to be
+  installed to be able to generate the window help documentation.
 
   http://download.microsoft.com/download/office97dev/helpws97/4.03/win98/en-us/hcwsetup.exe
 
