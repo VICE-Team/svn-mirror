@@ -240,6 +240,7 @@ Commodore Emulator.
 
 * Concept Index::
 * Resource Index::
+* Command-line Index::
 @end menu
 
 @node License, Preface, Top, Top
@@ -9297,22 +9298,22 @@ String specifying the initial snapshots directory, which is used by the snapshot
 
 @table @code
 
-@cindex -initialdefaultdir
+@findex -initialdefaultdir
 @item -initialdefaultdir <Name>
 Select the initial default directory for the file browser dialog.
-@cindex -initialtapedir
+@findex -initialtapedir
 @item -initialtapedir <Name>
 Select the initial tape images directory for the file browser dialog.
-@cindex -initialdiskdir
+@findex -initialdiskdir
 @item -initialdiskdir <Name>
 Select the initial disk images directory for the file browser dialog.
-@cindex -initialautostartdir
+@findex -initialautostartdir
 @item -initialautostartdir <Name>
 Select the initial autostart directory for the file browser dialog.
-@cindex -initialcartdir
+@findex -initialcartdir
 @item -initialcartdir <Name>
 Select the initial cartridge images directory for the file browser dialog.
-@cindex -initialsnapshotdir
+@findex -initialsnapshotdir
 @item -initialsnapshotdir <Name>
 Select the initial snapshot directory for the file browser dialog.
 
@@ -22111,10 +22112,15 @@ corresponding newsgroups and are also available via FTP from
 
 @printindex cp
 
-@node Resource Index,  , Concept Index, Top
+@node Resource Index, Command-line Index, Concept Index, Top
 @unnumbered Index of Resources
 
 @printindex vr
+
+@node Command-line Index, , Resource Index, Top
+@unnumbered Index of Command-line options
+
+@printindex fn
 
 @contents
 
