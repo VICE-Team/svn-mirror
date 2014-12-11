@@ -133,6 +133,122 @@ description:    "Specify initial snapshot directory."
 resource:       "InitialSnapshotDir"
 action:         N/A
 
+arch/amigaos/uiapi.c:
+---------------------
+resource type:                  bool
+resource name:                  "FullscreenEnabled"
+resource range:                 0/1
+resource default:               0
+resource function:              set_fullscreen_enabled()
+resource var:                   ui_resources.fullscreenenabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -fullscreen / +fullscreen
+platform gui present:           
+platform gui missing:			amigaos
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   -fullscreen
+description:    "Enable fullscreen."
+resource:       "FullscreenEnabled" (set to 1)
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   +fullscreen
+description:    "Disable fullscreen."
+resource:       "FullscreenEnabled" (set to 0)
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+resource type:                  bool
+resource name:                  "StatusBarEnabled"
+resource range:                 0/1
+resource default:               1
+resource function:              set_statusbar_enabled()
+resource var:                   ui_resources.statusbarenabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -statusbar / +statusbar
+platform gui present:           
+platform gui missing:			amigaos
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   -statusbar
+description:    "Enable the statusbar."
+resource:       "StatusBarEnabled" (set to 1)
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   +statusbar
+description:    "Disable the statusbar."
+resource:       "StatusBarEnabled" (set to 0)
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+resource type:                  bool
+resource name:                  "SaveResourcesOnExit"
+resource range:                 0/1
+resource default:               0
+resource function:              set_save_resources_on_exit()
+resource var:                   ui_resources.save_resources_on_exit
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -saveres / +saveres
+platform gui present:           amigaos
+platform gui missing:
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   -saveres
+description:    "Save settings on exit"
+resource:       "SaveResourcesOnExit" (set to 1)
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   +saveres
+description:    "Never save settings on exit"
+resource:       "SaveResourcesOnExit" (set to 0)
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+resource type:                  bool
+resource name:                  "ConfirmOnExit"
+resource range:                 0/1
+resource default:               1
+resource function:              set_confirm_on_exit()
+resource var:                   ui_resources.confirm_on_exit
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -confirmexit / +confirmexit
+platform gui present:           amigaos
+platform gui missing:
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   -confirmexit
+description:    "Confirm quiting VICE"
+resource:       "ConfirmOnExit" (set to 1)
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   +confirmexit
+description:    "Never confirm quiting VICE"
+resource:       "ConfirmOnExit" (set to 0)
+action:         N/A
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT AMIGAOS4 ONLY RESOURCES/CMDLINES:
@@ -257,110 +373,6 @@ FIXED/CORRECT NON-DOS RESOURCES/CMDLINES:
 
 FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 ==========================================
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-AMIGA ONLY COMMON RESOURCES/CMDLINES:
-=====================================
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  bool
-resource name:                  "FullscreenEnabled"
-resource range:                 0/1
-resource default:               0
-resource function:              set_fullscreen_enabled()
-resource var:                   ui_resources.fullscreenenabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           
-platform gui missing:			amigaos
-fixme: add to documentation
-blacky note: resource is used/checked
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  bool
-resource name:                  "StatusBarEnabled"
-resource range:                 0/1
-resource default:               1
-resource function:              set_statusbar_enabled()
-resource var:                   ui_resources.statusbarenabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           
-platform gui missing:			amigaos
-fixme: add to documentation
-blacky note: resource is used/checked
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  bool
-resource name:                  "SaveResourcesOnExit"
-resource range:                 0/1
-resource default:               0
-resource function:              set_save_resources_on_exit()
-resource var:                   ui_resources.save_resources_on_exit
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -saveres / +saveres
-platform gui present:           amigaos
-platform gui missing:
-fixme: fix documentation, not all archs have this resource
-
-arch/amigaos/uiapi.c:
----------------------
-command line:   -saveres
-description:    "Save settings on exit"
-resource:       "SaveResourcesOnExit" (set to 1)
-action:         N/A
-fixme: fix documentation, not every arch has this command line option
-
-arch/amigaos/uiapi.c:
----------------------
-command line:   +saveres
-description:    "Never save settings on exit"
-resource:       "SaveResourcesOnExit" (set to 0)
-action:         N/A
-fixme: fix documentation, not every arch has this command line option
-
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  bool
-resource name:                  "ConfirmOnExit"
-resource range:                 0/1
-resource default:               1
-resource function:              set_confirm_on_exit()
-resource var:                   ui_resources.confirm_on_exit
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -confirmexit / +confirmexit
-platform gui present:           amigaos
-platform gui missing:
-fixme: add platform specific info to documentation
-
-arch/amigaos/uiapi.c:
----------------------
-command line:   -confirmexit
-description:    "Confirm quiting VICE"
-resource:       "ConfirmOnExit" (set to 1)
-action:         N/A
-fixme: fix documentation, not all archs have this command line option
-
-arch/amigaos/uiapi.c:
----------------------
-command line:   +confirmexit
-description:    "Never confirm quiting VICE"
-resource:       "ConfirmOnExit" (set to 0)
-action:         N/A
-fixme: fix documentation, not all archs have this command line option
 
 ------------------------------------------------------------------------------------------------------------------------------------
 

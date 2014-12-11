@@ -9291,6 +9291,24 @@ String specifying the initial cartridge directory, which is used by the cartridg
 @item InitialSnapshotDir
 String specifying the initial snapshots directory, which is used by the snapshots file browser dialog.
 
+@vindex FullscreenEnabled
+@item FullscreenEnabled
+Boolean to enable/disable fullscreen mode.
+
+@vindex StatusBarEnabled
+@item StatusBarEnabled
+Boolean to enable/disable the statusbar.
+
+@vindex SaveResourcesOnExit
+@item SaveResourcesOnExit
+Boolean specifying whether the emulator should save changed settings
+before exiting.  If this is enabled, the user will be always prompted
+first, in case the settings have changed.
+
+@vindex ConfirmOnExit
+@item ConfirmOnExit
+Boolean specifying whether to show a confirmation dialog on exit.
+
 @end table
 
 @c @node FIXME
@@ -9316,6 +9334,28 @@ Select the initial cartridge images directory for the file browser dialog.
 @findex -initialsnapshotdir
 @item -initialsnapshotdir <Name>
 Select the initial snapshot directory for the file browser dialog.
+
+@findex -fullscreen, +fullscreen
+@item -fullscreen
+@itemx +fullscreen
+Enable/Disable fullscreen mode.
+
+@findex -statusbar, +statusbar
+@item -statusbar
+@itemx +statusbar
+Enable/Disable the statusbar.
+
+@findex -saveres, +saveres
+@item -saveres
+@itemx +saveres
+Enable/disable automatic saving of settings on exit
+(@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
+
+@findex -confirmexit, +confirmexit
+@item -confirmexit
+Confirm quiting VICE
+@item +confirmexit
+Never confirm quiting VICE
 
 @end table
 

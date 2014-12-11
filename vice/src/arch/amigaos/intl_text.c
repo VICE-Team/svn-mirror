@@ -8008,6 +8008,62 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_SV, "" },  /* fuzzy */
 /* tr */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_TR, "" },  /* fuzzy */
 
+/* en */ { IDS_ENABLE_FULLSCREEN,    "Enable fullscreen." },
+/* da */ { IDS_ENABLE_FULLSCREEN_DA, "" },  /* fuzzy */
+/* de */ { IDS_ENABLE_FULLSCREEN_DE, "" },  /* fuzzy */
+/* es */ { IDS_ENABLE_FULLSCREEN_ES, "" },  /* fuzzy */
+/* fr */ { IDS_ENABLE_FULLSCREEN_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ENABLE_FULLSCREEN_HU, "" },  /* fuzzy */
+/* it */ { IDS_ENABLE_FULLSCREEN_IT, "" },  /* fuzzy */
+/* ko */ { IDS_ENABLE_FULLSCREEN_KO, "" },  /* fuzzy */
+/* nl */ { IDS_ENABLE_FULLSCREEN_NL, "" },  /* fuzzy */
+/* pl */ { IDS_ENABLE_FULLSCREEN_PL, "" },  /* fuzzy */
+/* ru */ { IDS_ENABLE_FULLSCREEN_RU, "" },  /* fuzzy */
+/* sv */ { IDS_ENABLE_FULLSCREEN_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ENABLE_FULLSCREEN_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DISABLE_FULLSCREEN,    "Disable fullscreen." },
+/* da */ { IDS_DISABLE_FULLSCREEN_DA, "" },  /* fuzzy */
+/* de */ { IDS_DISABLE_FULLSCREEN_DE, "" },  /* fuzzy */
+/* es */ { IDS_DISABLE_FULLSCREEN_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DISABLE_FULLSCREEN_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DISABLE_FULLSCREEN_HU, "" },  /* fuzzy */
+/* it */ { IDS_DISABLE_FULLSCREEN_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DISABLE_FULLSCREEN_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DISABLE_FULLSCREEN_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DISABLE_FULLSCREEN_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DISABLE_FULLSCREEN_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DISABLE_FULLSCREEN_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DISABLE_FULLSCREEN_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_ENABLE_STATUSBAR,    "Enable statusbar." },
+/* da */ { IDS_ENABLE_STATUSBAR_DA, "" },  /* fuzzy */
+/* de */ { IDS_ENABLE_STATUSBAR_DE, "" },  /* fuzzy */
+/* es */ { IDS_ENABLE_STATUSBAR_ES, "" },  /* fuzzy */
+/* fr */ { IDS_ENABLE_STATUSBAR_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ENABLE_STATUSBAR_HU, "" },  /* fuzzy */
+/* it */ { IDS_ENABLE_STATUSBAR_IT, "" },  /* fuzzy */
+/* ko */ { IDS_ENABLE_STATUSBAR_KO, "" },  /* fuzzy */
+/* nl */ { IDS_ENABLE_STATUSBAR_NL, "" },  /* fuzzy */
+/* pl */ { IDS_ENABLE_STATUSBAR_PL, "" },  /* fuzzy */
+/* ru */ { IDS_ENABLE_STATUSBAR_RU, "" },  /* fuzzy */
+/* sv */ { IDS_ENABLE_STATUSBAR_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ENABLE_STATUSBAR_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DISABLE_STATUSBAR,    "Disable statusbar." },
+/* da */ { IDS_DISABLE_STATUSBAR_DA, "" },  /* fuzzy */
+/* de */ { IDS_DISABLE_STATUSBAR_DE, "" },  /* fuzzy */
+/* es */ { IDS_DISABLE_STATUSBAR_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DISABLE_STATUSBAR_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DISABLE_STATUSBAR_HU, "" },  /* fuzzy */
+/* it */ { IDS_DISABLE_STATUSBAR_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DISABLE_STATUSBAR_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DISABLE_STATUSBAR_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DISABLE_STATUSBAR_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DISABLE_STATUSBAR_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DISABLE_STATUSBAR_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DISABLE_STATUSBAR_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_PET_REU_SIZE,    "PET REU size" },
 /* da */ { IDS_PET_REU_SIZE_DA, "PET REU størrelse" },
 /* de */ { IDS_PET_REU_SIZE_DE, "PET REU Größe" },

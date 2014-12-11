@@ -8587,6 +8587,20 @@ Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific resources
      String specifying the initial snapshots directory, which is used
      by the snapshots file browser dialog.
 
+`FullscreenEnabled'
+     Boolean to enable/disable fullscreen mode.
+
+`StatusBarEnabled'
+     Boolean to enable/disable the statusbar.
+
+`SaveResourcesOnExit'
+     Boolean specifying whether the emulator should save changed
+     settings before exiting.  If this is enabled, the user will be
+     always prompted first, in case the settings have changed.
+
+`ConfirmOnExit'
+     Boolean specifying whether to show a confirmation dialog on exit.
+
 Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific command-line options
 --------------------------------------------------------------------
 
@@ -8610,6 +8624,25 @@ Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific command-line options
 
 `-initialsnapshotdir <Name>'
      Select the initial snapshot directory for the file browser dialog.
+
+`-fullscreen'
+`+fullscreen'
+     Enable/Disable fullscreen mode.
+
+`-statusbar'
+`+statusbar'
+     Enable/Disable the statusbar.
+
+`-saveres'
+`+saveres'
+     Enable/disable automatic saving of settings on exit
+     (`SaveResourcesOnExit=1', `SaveResourcesOnExit=0').
+
+`-confirmexit'
+     Confirm quiting VICE
+
+`+confirmexit'
+     Never confirm quiting VICE
 
 
 @EndNode
@@ -17828,8 +17861,8 @@ Index of Resources
  @{" Basic64Name " Link "C64-128 system ROM options"}                          C64-128 system ROM options
  @{" BasicHiName " Link "C64-128 system ROM options"}                          C64-128 system ROM options
  @{" BasicLoName " Link "C64-128 system ROM options"}                          C64-128 system ROM options
- @{" BasicName " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
  @{" BasicName " Link "VIC20 system ROM resources"}                            VIC20 system ROM resources
+ @{" BasicName " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
  @{" BurstMod " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" C128FullBanks " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" c1hiName " Link "VIC20 system ROM options"}                             VIC20 system ROM options
@@ -17845,24 +17878,25 @@ Index of Resources
  @{" Cart2Name " Link "CBM-II model"}                            CBM-II model
  @{" Cart4Name " Link "CBM-II model"}                            CBM-II model
  @{" Cart6Name " Link "CBM-II model"}                            CBM-II model
- @{" CartridgeFile " Link "C64 cartridges"}                        C64 cartridges
  @{" CartridgeFile " Link "VIC20 cartridges"}                        VIC20 cartridges
- @{" CartridgeReset " Link "VIC20 system ROM options"}                       VIC20 system ROM options
+ @{" CartridgeFile " Link "C64 cartridges"}                        C64 cartridges
  @{" CartridgeReset " Link "C64 cartridges"}                       C64 cartridges
  @{" CartridgeReset " Link "VIC20 cartridges"}                       VIC20 cartridges
+ @{" CartridgeReset " Link "VIC20 system ROM options"}                       VIC20 system ROM options
  @{" CartridgeType " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" CartridgeType " Link "C64 cartridges"}                        C64 cartridges
  @{" ChargenCHName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenDEName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenFRName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenIntName " Link "C64-128 system ROM options"}                       C64-128 system ROM options
- @{" ChargenName " Link "C64-128 system ROM resources"}                          C64-128 system ROM resources
  @{" ChargenName " Link "VIC20 system ROM resources"}                          VIC20 system ROM resources
  @{" ChargenName " Link "PET model"}                          PET model
+ @{" ChargenName " Link "C64-128 system ROM resources"}                          C64-128 system ROM resources
  @{" ChargenSEName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" CIA1Model " Link "C64 cartridges"}                            C64 cartridges
  @{" CIA2Model " Link "C64 cartridges"}                            C64 cartridges
  @{" ConfirmOnExit " Link "Misc resources"}                        Misc resources
+ @{" ConfirmOnExit " Link "AmigaOS-specific features"}                        AmigaOS-specific features
  @{" CPUswitch " Link "PET settings"}                            PET settings
  @{" Crtc " Link "PET model"}                                 PET model
  @{" CrtcAudioLeak " Link "PET model"}                        PET model
@@ -18016,6 +18050,7 @@ Index of Resources
  @{" FSDevice9HideCBMFiles " Link "File system device resources"}                File system device resources
  @{" FSDevice9SaveP00 " Link "File system device resources"}                     File system device resources
  @{" FSFlashDir " Link "Monitor DTV features"}                           Monitor DTV features
+ @{" FullscreenEnabled " Link "AmigaOS-specific features"}                    AmigaOS-specific features
  @{" FunctionHighName " Link "VIC20 system ROM options"}                     VIC20 system ROM options
  @{" FunctionLowName " Link "VIC20 system ROM options"}                      VIC20 system ROM options
  @{" GenericCartridgeFile2000 " Link "VIC20 cartridges"}             VIC20 cartridges
@@ -18105,8 +18140,8 @@ Index of Resources
  @{" KernalIntName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" KernalITName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalName " Link "C64-128 system ROM resources"}                           C64-128 system ROM resources
- @{" KernalName " Link "PET model"}                           PET model
  @{" KernalName " Link "VIC20 system ROM resources"}                           VIC20 system ROM resources
+ @{" KernalName " Link "PET model"}                           PET model
  @{" KernalNOName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalRev " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
  @{" KernalSEName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
@@ -18260,18 +18295,19 @@ Index of Resources
  @{" RsUserBaud " Link "RS232 resources"}                           RS232 resources
  @{" RsUserDev " Link "RS232 resources"}                            RS232 resources
  @{" RsUserEnable " Link "RS232 resources"}                         RS232 resources
+ @{" SaveResourcesOnExit " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" SaveResourcesOnExit " Link "Misc resources"}                  Misc resources
  @{" SFXSoundExpander " Link "C64 I-O extension resources"}                     C64 I-O extension resources
  @{" SFXSoundExpanderChip " Link "C64 I-O extension resources"}                 C64 I-O extension resources
  @{" SFXSoundExpanderIOSwap " Link "VIC20 cartridges"}               VIC20 cartridges
  @{" SFXSoundSampler " Link "C64 I-O extension resources"}                      C64 I-O extension resources
  @{" SFXSoundSamplerIOSwap " Link "VIC20 cartridges"}                VIC20 cartridges
+ @{" SidAddress " Link "VIC20 system ROM options"}                           VIC20 system ROM options
  @{" SidAddress " Link "PET model"}                           PET model
  @{" SidAddress " Link "VIC20 cartridges"}                           VIC20 cartridges
- @{" SidAddress " Link "VIC20 system ROM options"}                           VIC20 system ROM options
- @{" SidCart " Link "VIC20 cartridges"}                              VIC20 cartridges
- @{" SidCart " Link "PET model"}                              PET model
  @{" SidCart " Link "VIC20 system ROM options"}                              VIC20 system ROM options
+ @{" SidCart " Link "PET model"}                              PET model
+ @{" SidCart " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" SIDCartJoy " Link "VIC20 system ROM options"}                           VIC20 system ROM options
  @{" SidClock " Link "VIC20 cartridges"}                             VIC20 cartridges
  @{" SidClock " Link "PET model"}                             PET model
@@ -18301,6 +18337,7 @@ Index of Resources
  @{" SpeechEnabled " Link "VIC20 system ROM options"}                        VIC20 system ROM options
  @{" SpeechImage " Link "VIC20 system ROM options"}                          VIC20 system ROM options
  @{" Speed " Link "Performance resources"}                                Performance resources
+ @{" StatusBarEnabled " Link "AmigaOS-specific features"}                     AmigaOS-specific features
  @{" SuperPET " Link "PET model"}                             PET model
  @{" TEDAudioLeak " Link "VIC20 system ROM options"}                         VIC20 system ROM options
  @{" TEDBorderMode " Link "VIC20 system ROM options"}                        VIC20 system ROM options
@@ -18432,12 +18469,16 @@ Index of Command-line options
 
 
 
+ @{" -confirmexit, +confirmexit " Link "AmigaOS-specific features"}           AmigaOS-specific features
+ @{" -fullscreen, +fullscreen " Link "AmigaOS-specific features"}             AmigaOS-specific features
  @{" -initialautostartdir " Link "AmigaOS-specific features"}                 AmigaOS-specific features
  @{" -initialcartdir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
  @{" -initialdefaultdir " Link "AmigaOS-specific features"}                   AmigaOS-specific features
  @{" -initialdiskdir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
  @{" -initialsnapshotdir " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" -initialtapedir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
+ @{" -saveres, +saveres " Link "AmigaOS-specific features"}                   AmigaOS-specific features
+ @{" -statusbar, +statusbar " Link "AmigaOS-specific features"}               AmigaOS-specific features
 
 @EndNode
 
