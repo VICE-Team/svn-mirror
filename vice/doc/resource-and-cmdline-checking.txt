@@ -254,6 +254,282 @@ action:         N/A
 FIXED/CORRECT AMIGAOS4 ONLY RESOURCES/CMDLINES:
 ===============================================
 
+arch/amigaos/joyai.c:
+---------------------
+resource type:                  string
+resource name:                  "JOYAI1_ID"
+resource range:                 N/A
+resource default:               "-1"
+resource function:              set_JOYAI_resource()
+resource var:                   joy_resource[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos4
+platform gui missing:
+
+arch/amigaos/joyai.c:
+---------------------
+resource type:                  string
+resource name:                  "JOYAI2_ID"
+resource range:                 N/A
+resource default:               "-1"
+resource function:              set_JOYAI_resource()
+resource var:                   joy_resource[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos4
+platform gui missing:
+
+arch/amigaos/joyai.c:
+---------------------
+resource type:                  string
+resource name:                  "JOYAI1_Up"
+resource range:                 N/A
+resource default:               "0,0,-1"
+resource function:              set_JOYAI_resource()
+resource var:                   keysym_1[0].resource
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos4
+platform gui missing:
+
+arch/amigaos/joyai.c:
+---------------------
+resource type:                  string
+resource name:                  "JOYAI2_Up"
+resource range:                 N/A
+resource default:               "0,0,-1"
+resource function:              set_JOYAI_resource()
+resource var:                   keysym_2[0].resource
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos4
+platform gui missing:
+
+arch/amigaos/joyai.c:
+---------------------
+resource type:                  string
+resource name:                  "JOYAI1_Down"
+resource range:                 N/A
+resource default:               "0,0,-1"
+resource function:              set_JOYAI_resource()
+resource var:                   keysym_1[1].resource
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos4
+platform gui missing:
+
+arch/amigaos/joyai.c:
+---------------------
+resource type:                  string
+resource name:                  "JOYAI2_Down"
+resource range:                 N/A
+resource default:               "0,0,-1"
+resource function:              set_JOYAI_resource()
+resource var:                   keysym_2[1].resource
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos4
+platform gui missing:
+
+arch/amigaos/joyai.c:
+---------------------
+resource type:                  string
+resource name:                  "JOYAI1_Left"
+resource range:                 N/A
+resource default:               "0,0,-1"
+resource function:              set_JOYAI_resource()
+resource var:                   keysym_1[2].resource
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos4
+platform gui missing:
+
+arch/amigaos/joyai.c:
+---------------------
+resource type:                  string
+resource name:                  "JOYAI2_Left"
+resource range:                 N/A
+resource default:               "0,0,-1"
+resource function:              set_JOYAI_resource()
+resource var:                   keysym_2[2].resource
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos4
+platform gui missing:
+
+arch/amigaos/joyai.c:
+---------------------
+resource type:                  string
+resource name:                  "JOYAI1_Right"
+resource range:                 N/A
+resource default:               "0,0,-1"
+resource function:              set_JOYAI_resource()
+resource var:                   keysym_1[3].resource
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos4
+platform gui missing:
+
+arch/amigaos/joyai.c:
+---------------------
+resource type:                  string
+resource name:                  "JOYAI2_Right"
+resource range:                 N/A
+resource default:               "0,0,-1"
+resource function:              set_JOYAI_resource()
+resource var:                   keysym_2[3].resource
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos4
+platform gui missing:
+
+arch/amigaos/joyai.c:
+---------------------
+resource type:                  string
+resource name:                  "JOYAI1_Fire"
+resource range:                 N/A
+resource default:               "0,0,-1"
+resource function:              set_JOYAI_resource()
+resource var:                   keysym_1[4].resource
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos4
+platform gui missing:
+
+arch/amigaos/joyai.c:
+---------------------
+resource type:                  string
+resource name:                  "JOYAI2_Fire"
+resource range:                 N/A
+resource default:               "0,0,-1"
+resource function:              set_JOYAI_resource()
+resource var:                   keysym_2[4].resource
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos4
+platform gui missing:
+
+arch/amigaos/joy.c:
+-------------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 0..3 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3)) (CHECKED)
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_device[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platform gui present:           amigaos4
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+
+arch/amigaos/joy.c:
+-------------------
+command line:   -joydev1 <number>
+description:    "Joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
+resource:       "JoyDevice1"
+action:         N/A
+
+arch/amigaos/joy.c:
+-------------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 0..3 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3)) (RANGE CHECKED)
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_device[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   -joydev2
+platform gui present:           amigaos4
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+
+arch/amigaos/joy.c:
+-------------------
+command line:   -joydev2 <number>
+description:    "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
+resource:       "JoyDevice2"
+action:         N/A
+
+arch/amigaos/joy.c:
+-------------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 0..3 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3)) (RANGE CHECKED)
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_device[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platform gui present:           amigaos4
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+
+arch/amigaos/joy.c:
+-------------------
+command line:   -extrajoydev1 <number>
+description:    "Extra joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
+resource:       "JoyDevice3"
+action:         N/A
+
+arch/amigaos/joy.c:
+-------------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 0..3 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3)) (RANGE CHECKED)
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_device[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platform gui present:           amigaos4
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+
+arch/amigaos/joy.c:
+-------------------
+command line:   -extrajoydev2 <number>
+description:    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
+resource:       "JoyDevice4"
+action:         N/A
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT AMIGAOS3/MORPHOS/AROS ONLY COMMON RESOURCES/CMDLINES:
@@ -373,306 +649,6 @@ FIXED/CORRECT NON-DOS RESOURCES/CMDLINES:
 
 FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 ==========================================
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-AMIGAOS4 ONLY RESOURCES/CMDLINES:
-=================================
-
-arch/amigaos/joyai.c:
----------------------
-resource type:                  string
-resource name:                  "JOYAI1_ID"
-resource range:                 N/A
-resource default:               "-1"
-resource function:              set_JOYAI_resource()
-resource var:                   joy_resource[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyai.c:
----------------------
-resource type:                  string
-resource name:                  "JOYAI1_Up"
-resource range:                 N/A
-resource default:               "0,0,-1"
-resource function:              set_JOYAI_resource()
-resource var:                   keysym_1[0].resource
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyai.c:
----------------------
-resource type:                  string
-resource name:                  "JOYAI1_Down"
-resource range:                 N/A
-resource default:               "0,0,-1"
-resource function:              set_JOYAI_resource()
-resource var:                   keysym_1[1].resource
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyai.c:
----------------------
-resource type:                  string
-resource name:                  "JOYAI1_Left"
-resource range:                 N/A
-resource default:               "0,0,-1"
-resource function:              set_JOYAI_resource()
-resource var:                   keysym_1[2].resource
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyai.c:
----------------------
-resource type:                  string
-resource name:                  "JOYAI1_Right"
-resource range:                 N/A
-resource default:               "0,0,-1"
-resource function:              set_JOYAI_resource()
-resource var:                   keysym_1[3].resource
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyai.c:
----------------------
-resource type:                  string
-resource name:                  "JOYAI1_Fire"
-resource range:                 N/A
-resource default:               "0,0,-1"
-resource function:              set_JOYAI_resource()
-resource var:                   keysym_1[4].resource
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyai.c:
----------------------
-resource type:                  string
-resource name:                  "JOYAI2_ID"
-resource range:                 N/A
-resource default:               "-1"
-resource function:              set_JOYAI_resource()
-resource var:                   joy_resource[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyai.c:
----------------------
-resource type:                  string
-resource name:                  "JOYAI2_Up"
-resource range:                 N/A
-resource default:               "0,0,-1"
-resource function:              set_JOYAI_resource()
-resource var:                   keysym_2[0].resource
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyai.c:
----------------------
-resource type:                  string
-resource name:                  "JOYAI2_Down"
-resource range:                 N/A
-resource default:               "0,0,-1"
-resource function:              set_JOYAI_resource()
-resource var:                   keysym_2[1].resource
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyai.c:
----------------------
-resource type:                  string
-resource name:                  "JOYAI2_Left"
-resource range:                 N/A
-resource default:               "0,0,-1"
-resource function:              set_JOYAI_resource()
-resource var:                   keysym_2[2].resource
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyai.c:
----------------------
-resource type:                  string
-resource name:                  "JOYAI2_Right"
-resource range:                 N/A
-resource default:               "0,0,-1"
-resource function:              set_JOYAI_resource()
-resource var:                   keysym_2[3].resource
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyai.c:
----------------------
-resource type:                  string
-resource name:                  "JOYAI2_Fire"
-resource range:                 N/A
-resource default:               "0,0,-1"
-resource function:              set_JOYAI_resource()
-resource var:                   keysym_2[4].resource
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos4
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joy.c:
--------------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 0..3 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3)) (CHECKED)
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_device[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform gui present:           amigaos4
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/amigaos/joy.c:
--------------------
-command line:   -joydev1 <number>
-description:    "Joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-resource:       "JoyDevice1"
-action:         N/A
-fixme: fix documentation
-
-arch/amigaos/joy.c:
--------------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 0..3 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3)) (RANGE CHECKED)
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_device[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   -joydev2
-platform gui present:           amigaos4
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/amigaos/joy.c:
--------------------
-command line:   -joydev2 <number>
-description:    "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-resource:       "JoyDevice2"
-action:         N/A
-fixme: fix documentation
-
-arch/amigaos/joy.c:
--------------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 0..3 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3)) (RANGE CHECKED)
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_device[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform gui present:           amigaos4
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/amigaos/joy.c:
--------------------
-command line:   -extrajoydev1 <number>
-description:    "Extra joystick #1 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-resource:       "JoyDevice3"
-action:         N/A
-fixme: fix documentation
-
-arch/amigaos/joy.c:
--------------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 0..3 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3)) (RANGE CHECKED)
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_device[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform gui present:           amigaos4
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/amigaos/joy.c:
--------------------
-command line:   -extrajoydev2 <number>
-description:    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-resource:       "JoyDevice4"
-action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
