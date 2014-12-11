@@ -265,57 +265,6 @@ AMIGA ONLY COMMON RESOURCES/CMDLINES:
 
 arch/amigaos/uiapi.c:
 ---------------------
-resource type:                  int
-resource name:                  "FullscreenBitdepth"
-resource range:                 N/A (fixme)
-resource default:               8
-resource function:              set_fullscreen_bitdepth()
-resource var:                   ui_resources.fullscreenbitdepth
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           
-platform gui missing:			amigaos
-fixme: add to documentation
-fixme: not used ??
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  int
-resource name:                  "FullscreenWidth"
-resource range:                 N/A (fixme)
-resource default:               640
-resource function:              set_fullscreen_width()
-resource var:                   ui_resources.fullscreenwidth
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           
-platform gui missing:			amigaos
-fixme: add to documentation
-fixme: not used ??
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  int
-resource name:                  "FullscreenHeight"
-resource range:                 N/A (fixme)
-resource default:               480
-resource function:              set_fullscreen_height()
-resource var:                   ui_resources.fullscreenheight
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           
-platform gui missing:			amigaos
-fixme: add to documentation
-fixme: not used ??
-
-arch/amigaos/uiapi.c:
----------------------
 resource type:                  bool
 resource name:                  "FullscreenEnabled"
 resource range:                 0/1

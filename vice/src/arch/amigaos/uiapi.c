@@ -69,24 +69,6 @@ extern video_canvas_t *canvaslist;
 
 ui_resources_t ui_resources;
 
-static int set_fullscreen_bitdepth(int val, void *param)
-{
-    ui_resources.fullscreenbitdepth = val;
-    return 0;
-}
-
-static int set_fullscreen_width(int val, void *param)
-{
-    ui_resources.fullscreenwidth = val;
-    return 0;
-}
-
-static int set_fullscreen_height(int val, void *param)
-{
-    ui_resources.fullscreenheight = val;
-    return 0;
-}
-
 static int set_fullscreen_enabled(int val, void *param)
 {
     ui_resources.fullscreenenabled = val ? 1 : 0;
@@ -167,12 +149,6 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
-    { "FullscreenBitdepth", 8, RES_EVENT_NO, NULL,
-      &ui_resources.fullscreenbitdepth, set_fullscreen_bitdepth, NULL },
-    { "FullscreenWidth", 640, RES_EVENT_NO, NULL,
-      &ui_resources.fullscreenwidth, set_fullscreen_width, NULL },
-    { "FullscreenHeight", 480, RES_EVENT_NO, NULL,
-      &ui_resources.fullscreenheight, set_fullscreen_height, NULL },
     { "FullscreenEnabled", 0, RES_EVENT_NO, NULL,
       &ui_resources.fullscreenenabled, set_fullscreen_enabled, NULL },
     { "StatusBarEnabled", 1, RES_EVENT_NO, NULL,
