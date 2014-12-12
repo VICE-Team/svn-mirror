@@ -59,9 +59,7 @@
 #include "util.h"
 #include "vice-event.h"
 
-
-/* #define KEYBOARD_RAND() (rand() % machine_get_cycles_per_frame()) */
-#define KEYBOARD_RAND() (1 + (int)(((float)machine_get_cycles_per_frame()) * rand() / (RAND_MAX + 1.0)))
+#define KEYBOARD_RAND() lib_unsigned_rand(1, machine_get_cycles_per_frame())
 
 /* Keyboard array.  */
 int keyarr[KBD_ROWS];
