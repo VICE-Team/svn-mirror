@@ -35,6 +35,7 @@
 #include "6809.h"
 #include "crtc-mem.h"
 #include "crtctypes.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -60,10 +61,6 @@
 #include "types.h"
 #include "via.h"
 #include "vsync.h"
-
-#ifndef HAVE_RANDOM
-#define random rand
-#endif
 
 static BYTE mem_read_patchbuf(WORD addr);
 static void mem_initialize_memory_6809_flat(void);
@@ -1435,9 +1432,12 @@ void mem_powerup(void)
      * models.
      * (And it helps a bit with the colour option when a proper editor
      * ROM isn't installed)
+     *
+     * FIXME: use memory init pattern
+     *
      */
     for (i = 0; i < 0x1000; i++) {
-        mem_ram[0x8000 + i] = (BYTE)random();
+        mem_ram[0x8000 + i] = (BYTE)lib_unsigned_rand(0, 255);
     }
 
     superpet_mem_powerup();

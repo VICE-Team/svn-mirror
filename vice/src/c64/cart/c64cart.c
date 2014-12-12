@@ -738,7 +738,7 @@ static void cart_freeze_alarm_triggered(CLOCK offset, void *data)
 */
 void cartridge_trigger_freeze(void)
 {
-    int delay = 1 + (int)(((float)machine_get_cycles_per_frame()) * rand() / (RAND_MAX + 1.0));
+    int delay = lib_unsigned_rand(1, machine_get_cycles_per_frame());
 
     cart_freeze_alarm_time = maincpu_clk + delay;
     alarm_set(cartridge_freeze_alarm, cart_freeze_alarm_time);

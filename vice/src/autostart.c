@@ -151,9 +151,6 @@ static int trigger_monitor = 0;
 
 int autostart_ignore_reset = 0; /* FIXME: only used by datasette.c, does it really have to be global? */
 
-/* additional random delay of up to 10 frames */
-#define AUTOSTART_RAND() (1 + (int)(((float)machine_get_cycles_per_frame()) * 10.0f * rand() / (RAND_MAX + 1.0)))
-
 /* flag for special case handling of C128 80 columns mode */
 static int c128_column4080_key;
 
@@ -1022,7 +1019,8 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
     autostart_initial_delay_cycles = min_cycles;
     resources_get_int("AutostartDelayRandom", &rnd);
     if (rnd) {
-        autostart_initial_delay_cycles += AUTOSTART_RAND();
+        /* additional random delay of up to 10 frames */
+        autostart_initial_delay_cycles += lib_unsigned_rand(1, machine_get_cycles_per_frame() * 10);
     }
     DBG(("autostart_initial_delay_cycles: %d", autostart_initial_delay_cycles));
 

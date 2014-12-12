@@ -40,6 +40,10 @@
 #define LIB_DEBUG_PINPOINT
 #endif
 
+extern void lib_init_rand(void);
+extern unsigned int lib_unsigned_rand(unsigned int min, unsigned int max);
+extern float lib_float_rand(float min, float max);
+
 extern char *lib_msprintf(const char *fmt, ...);
 extern char *lib_mvsprintf(const char *fmt, va_list args);
 

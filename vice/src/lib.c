@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #ifdef AMIGA_SUPPORT
 #ifndef __USE_INLINE__
@@ -1185,4 +1186,29 @@ void lib_FreeMem_pinpoint(void *ptr, unsigned long size, char *name, unsigned in
 }
 #endif
 
+/*----------------------------------------------------------------------------*/
+
 #endif
+
+/*
+    encapsulated random routines to generate random numbers within a given range.
+
+    see http://c-faq.com/lib/randrange.html
+*/
+
+/* set random seed for rand() from current time, so things like random startup
+   delay are actually random, ie different on each startup, at all. */
+void lib_init_rand(void)
+{
+    srand((unsigned int)time(NULL));
+}
+
+unsigned int lib_unsigned_rand(unsigned int min, unsigned int max)
+{
+    return min + (rand() / ((RAND_MAX / (max - min + 1)) + 1));
+}
+
+float lib_float_rand(float min, float max)
+{
+    return min + ((float)rand() / (((float)RAND_MAX / (max - min + 1.0f)) + 1.0f));
+}

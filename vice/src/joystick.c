@@ -41,6 +41,7 @@
 #include "joy.h"
 #include "joystick.h"
 #include "kbd.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -59,9 +60,6 @@
 #else
 #define DBG(x)
 #endif
-
-/* #define JOYSTICK_RAND() (rand() % machine_get_cycles_per_frame()) */
-#define JOYSTICK_RAND() (1 + (int)(((float)machine_get_cycles_per_frame()) * rand() / (RAND_MAX + 1.0)))
 
 #define JOYPAD_FIRE 0x10
 #define JOYPAD_E    0x08
@@ -187,12 +185,13 @@ void joystick_register_delay(unsigned int delay)
 /*-----------------------------------------------------------------------*/
 static void joystick_process_latch(void)
 {
+    CLOCK delay = lib_unsigned_rand(1, machine_get_cycles_per_frame());
+
     if (network_connected()) {
-        CLOCK joystick_delay = JOYSTICK_RAND();
-        network_event_record(EVENT_JOYSTICK_DELAY, (void *)&joystick_delay, sizeof(joystick_delay));
+        network_event_record(EVENT_JOYSTICK_DELAY, (void *)&delay, sizeof(delay));
         network_event_record(EVENT_JOYSTICK_VALUE, (void *)latch_joystick_value, sizeof(latch_joystick_value));
     } else {
-        alarm_set(joystick_alarm, maincpu_clk + JOYSTICK_RAND());
+        alarm_set(joystick_alarm, maincpu_clk + delay);
     }
 }
 

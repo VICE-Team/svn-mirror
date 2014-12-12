@@ -1125,14 +1125,14 @@ static void ciacore_inttod(CLOCK offset, void *data)
     tclk = ((cia_context->power_tickcounter * cia_context->ticks_per_sec) / cia_context->power_freq);
     if (cia_context->power_ticks < tclk) {
 #ifdef TODRANDOM
-          cia_context->todticks += (rand() & 3);
+          cia_context->todticks += lib_unsigned_rand(0, 3);
 #else
           /* cia_context->todticks += (((tclk - cia_context->power_ticks) * 3) / 2); */
           cia_context->todticks++;
 #endif
     } else if (cia_context->power_ticks > tclk) {
 #ifdef TODRANDOM
-          cia_context->todticks -= (rand() & 3);
+          cia_context->todticks -= lib_unsigned_rand(0, 3);
 #else
           /* cia_context->todticks -= (((cia_context->power_ticks - tclk) * 3) / 2); */
           cia_context->todticks--;
