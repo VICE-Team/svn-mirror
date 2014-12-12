@@ -291,7 +291,7 @@ time_t rtc_set_day_of_month(int day, time_t offset, int bcd)
     if (((year % 4) == 0) && ((year % 100) != 0)) {
         is_leap_year = 1;
     }
-    if (((year % 4) == 0) & ((year % 100) == 0) && ((year % 400) != 0)) {
+    if (((year % 4) == 0) && ((year % 100) == 0) && ((year % 400) != 0)) {
         is_leap_year = 1;
     }
     switch (local->tm_mon) {
@@ -412,7 +412,7 @@ time_t rtc_set_day_of_year(int day, time_t offset)
     if (((year % 4) == 0) && ((year % 100) != 0)) {
         is_leap_year = 1;
     }
-    if (((year % 4) == 0) & ((year % 100) == 0) && ((year % 400) != 0)) {
+    if (((year % 4) == 0) && ((year % 100) == 0) && ((year % 400) != 0)) {
         is_leap_year = 1;
     }
 
@@ -524,7 +524,7 @@ time_t rtc_set_latched_day_of_month(int day, time_t latch, int bcd)
     if (((year % 4) == 0) && ((year % 100) != 0)) {
         is_leap_year = 1;
     }
-    if (((year % 4) == 0) & ((year % 100) == 0) && ((year % 400) != 0)) {
+    if (((year % 4) == 0) && ((year % 100) == 0) && ((year % 400) != 0)) {
         is_leap_year = 1;
     }
     switch (local->tm_mon) {
@@ -645,7 +645,7 @@ time_t rtc_set_latched_day_of_year(int day, time_t latch)
     if (((year % 4) == 0) && ((year % 100) != 0)) {
         is_leap_year = 1;
     }
-    if (((year % 4) == 0) & ((year % 100) == 0) && ((year % 400) != 0)) {
+    if (((year % 4) == 0) && ((year % 100) == 0) && ((year % 400) != 0)) {
         is_leap_year = 1;
     }
 
