@@ -2728,16 +2728,15 @@ Joystick resources
      joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog
      joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital
      joystick 2, 12=USB joystick 1, 13=USB joystick 2 on Unix) (0=None,
-     1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3 on AmigaOS3, MorphOS and
-     AROS) (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware
-     joysticks on BeOS) (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
-     4=Joystick 1, 5=Joystick 2 on DOS) (0=None, 1=Joystick 1,
-     2=Joystick 2, 4=Numpad, 8=Keyset 1, 16=Keyset 2 on OS/2) (0=None,
-     1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick in SDL) (0=None,
-     1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=HID joystick 0, 5=HID joystick
-     1 on Mac OS X) The available joysticks might differ depending on
-     operating system and joystick support in the OS (Linux joystick
-     module must be available for example).
+     1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware joysticks on BeOS)
+     (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1,
+     5=Joystick 2 on DOS) (0=None, 1=Joystick 1, 2=Joystick 2,
+     4=Numpad, 8=Keyset 1, 16=Keyset 2 on OS/2) (0=None, 1=Numpad,
+     2=Keyset 1, 3=Keyset 2, 4=Joystick in SDL) (0=None, 1=Numpad,
+     2=Keyset 1, 3=Keyset 2, 4=HID joystick 0, 5=HID joystick 1 on Mac
+     OS X) The available joysticks might differ depending on operating
+     system and joystick support in the OS (Linux joystick module must
+     be available for example).
 
 `JoyOpposite'
      Boolean, if true allow (usually impossible) bitcombinations for
@@ -2803,10 +2802,9 @@ Joystick command-line options
 `-joydev2 <range>'
      Set the device for joystick emulation of port 1 and 2,
      respectively.  (`JoyDevice1', `JoyDevice2').  The range for unix
-     is 0-8.  The range for AmigaOS4 is 0-3.  The range for AmigaOS3,
-     MorphOS, AROS, DOS and Mac OS X is 0-5.  The range for BeOS is
-     0-19.  The range for OS/2 is, valid numbers in the range are 0, 1,
-     2, 4, 8 and 16.  The range for SDL is 0-4.
+     is 0-8.  The range for BeOS is 0-19.  The range for OS/2 is, valid
+     numbers in the range are 0, 1, 2, 4, 8 and 16.  The range for SDL
+     is 0-4.
 
 `-extrajoydev1 <0-8>'
 `-extrajoydev2 <0-8>'
@@ -8656,8 +8654,16 @@ AmigaOS4-specific features
 This section lists the settings and commands that are common and
 specific to AmigaOS4, and are thus not present in other platforms.
 
+The AmigaOS4 port uses the AHI sound system, the P96 graphics system,
+the AmigaInput input system, the MUI GUI system, and optionally the
+expansion library for access to expansion cards like Catweasel or
+HardSID.
+
 AmigaOS4 specific resources
 ...........................
+
+These are all joystick related resources and are therefor present in
+all emulators except VSID.
 
 `JOYAI1_ID'
      String specifying the AmigaInput ID of hardware joystick 1.
@@ -8715,6 +8721,9 @@ AmigaOS4 specific resources
 
 AmigaOS4 specific command-line options
 ......................................
+
+These are all joystick related command-line options and are therefor
+present in all emulators except VSID.
 
 `-joydev1 <0-3>'
 `-joydev2 <0-3>'

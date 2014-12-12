@@ -8064,6 +8064,36 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_DISABLE_STATUSBAR_SV, "" },  /* fuzzy */
 /* tr */ { IDS_DISABLE_STATUSBAR_TR, "" },  /* fuzzy */
 
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+/* en */ { IDS_ENABLE_VIDEOOVERLAY,    "Enable video overlay." },
+/* da */ { IDS_ENABLE_VIDEOOVERLAY_DA, "" },  /* fuzzy */
+/* de */ { IDS_ENABLE_VIDEOOVERLAY_DE, "" },  /* fuzzy */
+/* es */ { IDS_ENABLE_VIDEOOVERLAY_ES, "" },  /* fuzzy */
+/* fr */ { IDS_ENABLE_VIDEOOVERLAY_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ENABLE_VIDEOOVERLAY_HU, "" },  /* fuzzy */
+/* it */ { IDS_ENABLE_VIDEOOVERLAY_IT, "" },  /* fuzzy */
+/* ko */ { IDS_ENABLE_VIDEOOVERLAY_KO, "" },  /* fuzzy */
+/* nl */ { IDS_ENABLE_VIDEOOVERLAY_NL, "" },  /* fuzzy */
+/* pl */ { IDS_ENABLE_VIDEOOVERLAY_PL, "" },  /* fuzzy */
+/* ru */ { IDS_ENABLE_VIDEOOVERLAY_RU, "" },  /* fuzzy */
+/* sv */ { IDS_ENABLE_VIDEOOVERLAY_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ENABLE_VIDEOOVERLAY_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DISABLE_VIDEOOVERLAY,    "Disable video overlay." },
+/* da */ { IDS_DISABLE_VIDEOOVERLAY_DA, "" },  /* fuzzy */
+/* de */ { IDS_DISABLE_VIDEOOVERLAY_DE, "" },  /* fuzzy */
+/* es */ { IDS_DISABLE_VIDEOOVERLAY_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DISABLE_VIDEOOVERLAY_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DISABLE_VIDEOOVERLAY_HU, "" },  /* fuzzy */
+/* it */ { IDS_DISABLE_VIDEOOVERLAY_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DISABLE_VIDEOOVERLAY_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DISABLE_VIDEOOVERLAY_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DISABLE_VIDEOOVERLAY_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DISABLE_VIDEOOVERLAY_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DISABLE_VIDEOOVERLAY_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DISABLE_VIDEOOVERLAY_TR, "" },  /* fuzzy */
+#endif
+
 /* en */ { IDS_PET_REU_SIZE,    "PET REU size" },
 /* da */ { IDS_PET_REU_SIZE_DA, "PET REU størrelse" },
 /* de */ { IDS_PET_REU_SIZE_DE, "PET REU Größe" },

@@ -261,6 +261,18 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDS_DISABLE_STATUSBAR,
       NULL, NULL },
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+    { "-videooverlay", SET_RESOURCE, 0,
+      NULL, NULL, "VideoOverlayEnabled", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_ENABLE_VIDEOOVERLAY,
+      NULL, NULL },
+    { "+videooverlay", SET_RESOURCE, 0,
+      NULL, NULL, "VideoOverlayEnabled", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_DISABLE_VIDEOOVERLAY,
+      NULL, NULL },
+#endif
     { NULL }
 };
 

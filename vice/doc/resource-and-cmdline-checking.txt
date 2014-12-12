@@ -535,10 +535,207 @@ action:         N/A
 FIXED/CORRECT AMIGAOS3/MORPHOS/AROS ONLY COMMON RESOURCES/CMDLINES:
 ===================================================================
 
+arch/amigaos/joyll.c:
+---------------------
+resource type:                  int
+resource name:                  "JoyFire1"
+resource range:                 JPF_BUTTON_PLAY (1<<17)/JPF_BUTTON_REVERSE (1<<18)/JPF_BUTTON_FORWARD (1<<19)/JPF_BUTTON_GREEN (1<<20)/
+                                        JPF_BUTTON_YELLOW (1<<21)/JPF_BUTTON_RED (1<<22)/JPF_BUTTON_BLUE (1<<23)
+resource default:               JPF_BUTTON_RED (1<<22)
+resource function:              set_joystick_fire()
+resource var:                   joystick_fire[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+
+arch/amigaos/joyll.c:
+---------------------
+resource type:                  int
+resource name:                  "JoyFire2"
+resource range:                 JPF_BUTTON_PLAY (1<<17)/JPF_BUTTON_REVERSE (1<<18)/JPF_BUTTON_FORWARD (1<<19)/JPF_BUTTON_GREEN (1<<20)/
+                                        JPF_BUTTON_YELLOW (1<<21)/JPF_BUTTON_RED (1<<22)/JPF_BUTTON_BLUE (1<<23)
+resource default:               JPF_BUTTON_RED (1<<22)
+resource function:              set_joystick_fire()
+resource var:                   joystick_fire[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+
+arch/amigaos/joyll.c:
+---------------------
+resource type:                  int
+resource name:                  "JoyFire3"
+resource range:                 JPF_BUTTON_PLAY (1<<17)/JPF_BUTTON_REVERSE (1<<18)/JPF_BUTTON_FORWARD (1<<19)/JPF_BUTTON_GREEN (1<<20)/
+                                        JPF_BUTTON_YELLOW (1<<21)/JPF_BUTTON_RED (1<<22)/JPF_BUTTON_BLUE (1<<23)
+resource default:               JPF_BUTTON_RED (1<<22)
+resource function:              set_joystick_fire()
+resource var:                   joystick_fire[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+
+arch/amigaos/joyll.c:
+---------------------
+resource type:                  int
+resource name:                  "JoyFire4"
+resource range:                 JPF_BUTTON_PLAY (1<<17)/JPF_BUTTON_REVERSE (1<<18)/JPF_BUTTON_FORWARD (1<<19)/JPF_BUTTON_GREEN (1<<20)/
+                                        JPF_BUTTON_YELLOW (1<<21)/JPF_BUTTON_RED (1<<22)/JPF_BUTTON_BLUE (1<<23)
+resource default:               JPF_BUTTON_RED (1<<22)
+resource function:              set_joystick_fire()
+resource var:                   joystick_fire[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   NONE (correct)
+platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+
+arch/amigaos/joyll.c:
+---------------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_JOY0 (2), JOYDEV_JOY1 (3), JOYDEV_JOY2 (4), JOYDEV_JOY3 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_device[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+
+arch/amigaos/joyll.c:
+---------------------
+command line:   -joydev1 <number>
+description:    "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
+resource:       "JoyDevice1"
+action:         N/A
+
+arch/amigaos/joyll.c:
+---------------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_JOY0 (2), JOYDEV_JOY1 (3), JOYDEV_JOY2 (4), JOYDEV_JOY3 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_device[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   -joydev2
+platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+
+arch/amigaos/joyll.c:
+---------------------
+command line:   -joydev2 <number>
+description:    "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
+resource:       "JoyDevice2"
+action:         N/A
+
+arch/amigaos/joyll.c:
+---------------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_JOY0 (2), JOYDEV_JOY1 (3), JOYDEV_JOY2 (4), JOYDEV_JOY3 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_device[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic
+not used in:                    xcbm2/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+
+arch/amigaos/joyll.c:
+---------------------
+command line:   -extrajoydev1 <number>
+description:    "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
+resource:       "JoyDevice3"
+action:         N/A
+
+arch/amigaos/joyll.c:
+---------------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_JOY0 (2), JOYDEV_JOY1 (3), JOYDEV_JOY2 (4), JOYDEV_JOY3 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_device[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platform gui present:           amigaos3/morphos/aros
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+
+arch/amigaos/joyll.c:
+---------------------
+command line:   -extrajoydev2 <number>
+description:    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
+resource:       "JoyDevice4"
+action:         N/A
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT AMIGAOS3/MORPHOS/AROS ONLY OPTIONAL RESOURCES/CMDLINES:
 =====================================================================
+
+arch/amigaos/uiapi.c:
+---------------------
+resource type:                  bool
+resource name:                  "VideoOverlayEnabled"
+resource range:                 0/1
+resource default:               0
+resource function:              set_videooverlay_enabled()
+resource var:                   ui_resources.videooverlayenabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+command-line:                   -videooverlay / +videooverlay
+platform gui present:           amigaos3/morphos/aros
+platform gui missing:
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   -videooverlay
+description:    "Enable video overlay."
+resource:       "VideoOverlayEnabled" (set to 1)
+action:         N/A
+
+arch/amigaos/uiapi.c:
+---------------------
+command line:   +videooverlay
+description:    "Disable video overlay."
+resource:       "VideoOverlayEnabled" (set to 0)
+action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -649,212 +846,6 @@ FIXED/CORRECT NON-DOS RESOURCES/CMDLINES:
 
 FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 ==========================================
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-AMIGAOS3/MORPHOS/AROS ONLY COMMON RESOURCES/CMDLINES:
-=====================================================
-
-arch/amigaos/joyll.c:
----------------------
-resource type:                  int
-resource name:                  "JoyFire1"
-resource range:                 JPF_BUTTON_PLAY (1<<17)/JPF_BUTTON_REVERSE (1<<18)/JPF_BUTTON_FORWARD (1<<19)/JPF_BUTTON_GREEN (1<<20)/
-                                        JPF_BUTTON_YELLOW (1<<21)/JPF_BUTTON_RED (1<<22)/JPF_BUTTON_BLUE (1<<23)
-resource default:               JPF_BUTTON_RED (1<<22)
-resource function:              set_joystick_fire()
-resource var:                   joystick_fire[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyll.c:
----------------------
-resource type:                  int
-resource name:                  "JoyFire2"
-resource range:                 JPF_BUTTON_PLAY (1<<17)/JPF_BUTTON_REVERSE (1<<18)/JPF_BUTTON_FORWARD (1<<19)/JPF_BUTTON_GREEN (1<<20)/
-                                        JPF_BUTTON_YELLOW (1<<21)/JPF_BUTTON_RED (1<<22)/JPF_BUTTON_BLUE (1<<23)
-resource default:               JPF_BUTTON_RED (1<<22)
-resource function:              set_joystick_fire()
-resource var:                   joystick_fire[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyll.c:
----------------------
-resource type:                  int
-resource name:                  "JoyFire3"
-resource range:                 JPF_BUTTON_PLAY (1<<17)/JPF_BUTTON_REVERSE (1<<18)/JPF_BUTTON_FORWARD (1<<19)/JPF_BUTTON_GREEN (1<<20)/
-                                        JPF_BUTTON_YELLOW (1<<21)/JPF_BUTTON_RED (1<<22)/JPF_BUTTON_BLUE (1<<23)
-resource default:               JPF_BUTTON_RED (1<<22)
-resource function:              set_joystick_fire()
-resource var:                   joystick_fire[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyll.c:
----------------------
-resource type:                  int
-resource name:                  "JoyFire4"
-resource range:                 JPF_BUTTON_PLAY (1<<17)/JPF_BUTTON_REVERSE (1<<18)/JPF_BUTTON_FORWARD (1<<19)/JPF_BUTTON_GREEN (1<<20)/
-                                        JPF_BUTTON_YELLOW (1<<21)/JPF_BUTTON_RED (1<<22)/JPF_BUTTON_BLUE (1<<23)
-resource default:               JPF_BUTTON_RED (1<<22)
-resource function:              set_joystick_fire()
-resource var:                   joystick_fire[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/amigaos/joyll.c:
----------------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_JOY0 (2), JOYDEV_JOY1 (3), JOYDEV_JOY2 (4), JOYDEV_JOY3 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_device[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/amigaos/joyll.c:
----------------------
-command line:   -joydev1 <number>
-description:    "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-resource:       "JoyDevice1"
-action:         N/A
-fixme: fix documentation
-
-arch/amigaos/joyll.c:
----------------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_JOY0 (2), JOYDEV_JOY1 (3), JOYDEV_JOY2 (4), JOYDEV_JOY3 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_device[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   -joydev2
-platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/amigaos/joyll.c:
----------------------
-command line:   -joydev2 <number>
-description:    "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-resource:       "JoyDevice2"
-action:         N/A
-fixme: fix documentation
-
-arch/amigaos/joyll.c:
----------------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_JOY0 (2), JOYDEV_JOY1 (3), JOYDEV_JOY2 (4), JOYDEV_JOY3 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_device[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic
-not used in:                    xcbm2/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/amigaos/joyll.c:
----------------------
-command line:   -extrajoydev1 <number>
-description:    "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-resource:       "JoyDevice3"
-action:         N/A
-fixme: fix documentation
-
-arch/amigaos/joyll.c:
----------------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_JOY0 (2), JOYDEV_JOY1 (3), JOYDEV_JOY2 (4), JOYDEV_JOY3 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_device[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/amigaos/joyll.c:
----------------------
-command line:   -extrajoydev2 <number>
-description:    "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-resource:       "JoyDevice4"
-action:         N/A
-fixme: fix documentation
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-AMIGAOS3/MORPHOS/AROS ONLY OPTIONAL RESOURCES/CMDLINES:
-=======================================================
-
-arch/amigaos/uiapi.c:
----------------------
-resource type:                  bool
-resource name:                  "VideoOverlayEnabled"
-resource range:                 0/1
-resource default:               0
-resource function:              set_videooverlay_enabled()
-resource var:                   ui_resources.videooverlayenabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
-command-line:                   NONE (fixme)
-platform gui present:           amigaos
-platform gui missing:
-fixme: add to documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
 

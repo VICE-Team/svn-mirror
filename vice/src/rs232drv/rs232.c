@@ -140,6 +140,7 @@ void rs232_reset(void)
  */
 static int rs232_is_physical_device(int device)
 {
+#ifdef HAVE_RS232NET
     vice_network_socket_address_t *ad = NULL;
 
     ad = vice_network_address_generate(rs232_devfile[device], 0);
@@ -149,6 +150,9 @@ static int rs232_is_physical_device(int device)
     } else {
         return 0;
     }
+#else
+    return 1;
+#endif
 }
 
 /* opens a rs232 window, returns handle to give to functions below. */

@@ -90,7 +90,7 @@ static char *ui_sidcart_address[] =
     NULL
 };
 
-static const int ui_sidcart_address_values[] =
+static int ui_sidcart_address_values[] =
 {
     0, /* placeholder for primary address */
     1, /* placeholder for secondary address */
