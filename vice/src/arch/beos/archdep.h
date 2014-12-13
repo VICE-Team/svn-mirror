@@ -56,6 +56,12 @@
 #define ARCHDEP_PRINTER_DEFAULT_DEV2 "LPT:"
 #define ARCHDEP_PRINTER_DEFAULT_DEV3 "hmm"
 
+/* Default rs232 devices */
+#define ARCHDEP_RS232_DEV1 "10.0.0.1:25232"
+#define ARCHDEP_RS232_DEV2 "10.0.0.1:25232"
+#define ARCHDEP_RS232_DEV3 "10.0.0.1:25232"
+#define ARCHDEP_RS232_DEV4 "10.0.0.1:25232"
+
 /* Video chip scaling.  */
 #define ARCHDEP_VICII_DSIZE   1
 #define ARCHDEP_VICII_DSCAN   1
