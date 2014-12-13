@@ -14,7 +14,6 @@ not used in:
 prepocessor:
 command-line:                   -initialdefaultdir
 platform gui present:           amigaos
-platform gui missing:
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -36,7 +35,6 @@ not used in:
 prepocessor:
 command-line:                   -initialtapedir
 platform gui present:           amigaos
-platform gui missing:
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -58,7 +56,6 @@ not used in:
 prepocessor:
 command-line:                   -initialdiskdir
 platform gui present:           amigaos
-platform gui missing:
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -80,7 +77,6 @@ not used in:
 prepocessor:
 command-line:                   -initialautostartdir
 platform gui present:           amigaos
-platform gui missing:
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -102,7 +98,6 @@ not used in:
 prepocessor:
 command-line:                   -initialcartdir
 platform gui present:           amigaos
-platform gui missing:
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -124,7 +119,6 @@ not used in:
 prepocessor:
 command-line:                   -initialsnapshotdir
 platform gui present:           amigaos
-platform gui missing:
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -145,8 +139,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -fullscreen / +fullscreen
-platform gui present:           
-platform gui missing:			amigaos
+platform gui present:           amigaos
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -174,8 +167,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -statusbar / +statusbar
-platform gui present:           
-platform gui missing:			amigaos
+platform gui present:           amigaos
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -204,7 +196,6 @@ not used in:
 prepocessor:
 command-line:                   -saveres / +saveres
 platform gui present:           amigaos
-platform gui missing:
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -233,7 +224,6 @@ not used in:
 prepocessor:
 command-line:                   -confirmexit / +confirmexit
 platform gui present:           amigaos
-platform gui missing:
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -267,7 +257,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos4
-platform gui missing:
 
 arch/amigaos/joyai.c:
 ---------------------
@@ -282,7 +271,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos4
-platform gui missing:
 
 arch/amigaos/joyai.c:
 ---------------------
@@ -297,7 +285,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos4
-platform gui missing:
 
 arch/amigaos/joyai.c:
 ---------------------
@@ -312,7 +299,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos4
-platform gui missing:
 
 arch/amigaos/joyai.c:
 ---------------------
@@ -327,7 +313,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos4
-platform gui missing:
 
 arch/amigaos/joyai.c:
 ---------------------
@@ -342,7 +327,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos4
-platform gui missing:
 
 arch/amigaos/joyai.c:
 ---------------------
@@ -357,7 +341,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos4
-platform gui missing:
 
 arch/amigaos/joyai.c:
 ---------------------
@@ -372,7 +355,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos4
-platform gui missing:
 
 arch/amigaos/joyai.c:
 ---------------------
@@ -387,7 +369,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos4
-platform gui missing:
 
 arch/amigaos/joyai.c:
 ---------------------
@@ -402,7 +383,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos4
-platform gui missing:
 
 arch/amigaos/joyai.c:
 ---------------------
@@ -417,7 +397,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos4
-platform gui missing:
 
 arch/amigaos/joyai.c:
 ---------------------
@@ -432,7 +411,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos4
-platform gui missing:
 
 arch/amigaos/joy.c:
 -------------------
@@ -447,9 +425,7 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
 platform gui present:           amigaos4
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos4
 
 arch/amigaos/joy.c:
 -------------------
@@ -471,9 +447,7 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
 platform gui present:           amigaos4
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos4
 
 arch/amigaos/joy.c:
 -------------------
@@ -495,9 +469,7 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   -extrajoydev1
 platform gui present:           amigaos4
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos4
 
 arch/amigaos/joy.c:
 -------------------
@@ -519,9 +491,7 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
 platform gui present:           amigaos4
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos4
 
 arch/amigaos/joy.c:
 -------------------
@@ -549,9 +519,7 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos3/morphos/aros
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -567,9 +535,7 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos3/morphos/aros
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -585,9 +551,7 @@ not used in:                    xcbm5x0/vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos3/morphos/aros
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -603,9 +567,7 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   NONE (correct)
 platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos3/morphos/aros
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -620,9 +582,7 @@ not used in:                    xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -joydev1
 platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos3/morphos/aros
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -644,9 +604,7 @@ not used in:                    xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -joydev2
 platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos3/morphos/aros
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -668,9 +626,7 @@ not used in:                    xcbm2/vsid
 prepocessor:
 command-line:                   -extrajoydev1
 platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos3/morphos/aros
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -692,9 +648,7 @@ not used in:                    xcbm5x0/xplus4/vsid
 prepocessor:
 command-line:                   -extrajoydev2
 platform gui present:           amigaos3/morphos/aros
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos3/morphos/aros
 
 arch/amigaos/joyll.c:
 ---------------------
@@ -721,7 +675,7 @@ not used in:
 prepocessor:                    #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
 command-line:                   -videooverlay / +videooverlay
 platform gui present:           amigaos3/morphos/aros
-platform gui missing:
+platform range correct:		amigaos3/morphos/aros
 
 arch/amigaos/uiapi.c:
 ---------------------
@@ -852,32 +806,6 @@ FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 BEOS ONLY COMMON RESOURCES/CMDLINES:
 ====================================
 
-arch/beos/kbd.c:
-----------------
-resource type:                  int
-resource name:                  "KeymapIndex"
-resource range:                 N/A (fixme ??)
-resource default:               0
-resource function:              set_keymap_index()
-resource var:                   keymap_index
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -keymap
-platforms to check:			beos
-platform gui present:           
-platform gui missing:
-fixme: do not use for vsid
-fixme: doesn't this conflict with the common code "KeyMapIndex" resource ??
-
-arch/beos/kbd.c:
-----------------
-command line:   -keymap <number>
-description:    "Specify index of used keymap" (fixme: needs better description)
-resource:       "KeymapIndex"
-action:         N/A
-fixme: conflict ??
-
 arch/beos/ui.cc:
 ----------------
 resource type:                  bool
@@ -893,7 +821,6 @@ command-line:                   NONE (fixme)
 platform gui present:           beos
 platform gui missing:
 fixme: add to documentation
-fixme: do not use for vsid
 
 arch/beos/ui.cc:
 ----------------
@@ -1060,6 +987,32 @@ description:    "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: 
 resource:       "JoyDevice4"
 action:         N/A
 fixme: fix documentation
+
+arch/beos/kbd.c:
+----------------
+resource type:                  int
+resource name:                  "KeymapIndex"
+resource range:                 N/A (fixme ??)
+resource default:               0
+resource function:              set_keymap_index()
+resource var:                   keymap_index
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -keymap
+platforms to check:			beos
+platform gui present:           
+platform gui missing:
+fixme: do not use for vsid
+fixme: doesn't this conflict with the common code "KeyMapIndex" resource ??
+
+arch/beos/kbd.c:
+----------------
+command line:   -keymap <number>
+description:    "Specify index of used keymap" (fixme: needs better description)
+resource:       "KeymapIndex"
+action:         N/A
+fixme: conflict ??
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
