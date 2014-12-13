@@ -216,6 +216,7 @@ int psid_load_file(const char* filename)
         log_error(vlog, "Unknown PSID version number: %d.", (int)psid->version);
         goto fail;
     }
+    log_message(vlog, "PSID version number: %d.", (int)psid->version);
 
     length = (unsigned int)((psid->version == 1 ? PSID_V1_DATA_OFFSET : PSID_V2_DATA_OFFSET) - 6);
 
@@ -316,6 +317,8 @@ int psid_load_file(const char* filename)
         unsigned int last_page = 0;
         unsigned int i, page, tmp;
 
+        log_message(vlog, "No PSID freepages set, recalculating...");
+
         /* finish initialization */
         used[6] = startp; used[7] = endp;
 
@@ -386,7 +389,9 @@ static int psid_set_cbm80(WORD vec, WORD addr)
     cbm80[1] = vec >> 8;
 
     for (i = 0; i < sizeof(cbm80); i++) {
+        /* make backup of original content at 0x8000 */
         ram_store((WORD)(addr + i), ram_read((WORD)(0x8000 + i)));
+        /* copy header */
         ram_store((WORD)(0x8000 + i), cbm80[i]);
     }
 
@@ -482,10 +487,10 @@ void psid_init_tune(int install_driver_hook)
     /* Store parameters for PSID player. */
     if (install_driver_hook) {
         /* Skip JMP. */
-        addr = reloc_addr + 3;
+        addr = reloc_addr + 3 + 9;
 
         /* CBM80 reset vector. */
-        addr += psid_set_cbm80(reloc_addr, addr);
+        addr += psid_set_cbm80(reloc_addr + 9, addr);
 
         ram_store(addr, (BYTE)(start_song));
     }
@@ -614,6 +619,7 @@ void psid_init_driver(void)
     /* Relocation of C64 PSID driver code. */
     reloc_addr = psid->start_page << 8;
     psid_size = sizeof(psid_driver);
+    log_message(vlog, "PSID free pages: $%04x-$%04x", reloc_addr, (reloc_addr + (psid->max_pages << 8)) -1);
 
     if (!reloc65((char **)&psid_reloc, &psid_size, reloc_addr)) {
         log_error(vlog, "Relocation.");
@@ -631,7 +637,7 @@ void psid_init_driver(void)
     }
 
     /* Skip JMP and CBM80 reset vector. */
-    addr = reloc_addr + 3 + 9;
+    addr = reloc_addr + 3 + 9 + 9;
 
     /* Store parameters for PSID player. */
     ram_store(addr++, (BYTE)(0));

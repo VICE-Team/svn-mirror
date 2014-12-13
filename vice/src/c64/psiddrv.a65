@@ -28,12 +28,16 @@
 
 	.align 256
 
+        ; space for CBM80 signature, required when player is relocated to $8000
+        .byte 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        ; start vector (offset + 9)
 start	jmp cold
 
-	; CBM80 backup
+	; backup of original content of $8000-$8008 (offset + 12)
 cbm80	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0
 
-	; Parameters
+	; Parameters (offset + 21)
 playnum	.byte 0
 playmax	.byte 0
 loadvec .word 0
