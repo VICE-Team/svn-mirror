@@ -4316,6 +4316,7 @@ platform gui present:
 platform gui missing:			unix
 note: resource is used/checked
 fixme: fix documentation, unix only
+note: does this even make sense in the GUI? (giving the option is required to even use the GUI?)
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
@@ -4408,6 +4409,8 @@ platform range correct:
 platform range incorrect:		
 platform gui missing:			unix
 note: resource is used/checked
+note: can't we remove this? is anyone still using unix machines that a) is capable of running vice
+      and b) doesnt support 24/32 bits?
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
@@ -8815,6 +8818,10 @@ platform range correct:
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
 fixme: fix documentation, range
+note: CartridgeType and CartridgeFile are used for the _default_ cartridge. its
+      questionable to have a commandline option for it. UIs should use cartridge_set_default()
+      from cartridge.h to set the currently selected "main slot" cartridge as default
+      and not alter this resource directly.
 
 c64/cart/c64cart.c:
 -------------------
@@ -8831,6 +8838,10 @@ command-line:                   NONE ?? (fixme)
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: add to documentation
+note: CartridgeType and CartridgeFile are used for the _default_ cartridge. its
+      questionable to have a commandline option for it. UIs should use cartridge_set_default()
+      from cartridge.h to set the currently selected "main slot" cartridge as default
+      and not alter this resource directly.
 
 c64/cart/c64cart.c:
 -------------------
@@ -11694,7 +11705,8 @@ prepocessor:
 command-line:                   NONE
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: should not be in vsid at all, also its tied to the type of the machine so its pointless to make it user selectable
+fixme: should not be in vsid at all, also its tied to the type of the machine so
+       its pointless to make it user selectable
 
 c64/vsid-resources.c:
 ---------------------
@@ -15781,6 +15793,8 @@ prepocessor:
 command-line:                   -logfile
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+note: not sure if its useful to change the logfile name in the UIs, especially
+      because logging starts before
 
 log.c:
 ------
@@ -19284,6 +19298,8 @@ prepocessor:
 command-line:                   -directory
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+note: probably doesnt make a lot of sense to have in UIs either, the UI might
+      not even start up if it cant find certain files.
 
 sysfile.c:
 ----------
@@ -20073,6 +20089,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
 
 vic20/cart/vic20-generic.c:
 ---------------------------
@@ -20088,6 +20105,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
 
 vic20/cart/vic20-generic.c:
 ---------------------------
@@ -20103,6 +20121,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
 
 vic20/cart/vic20-generic.c:
 ---------------------------
@@ -20118,6 +20137,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
 
 vic20/cart/vic20-generic.c:
 ---------------------------
@@ -20133,6 +20153,7 @@ prepocessor:
 command-line:                   NONE
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
 
 vic20/cart/vic20-ieee488.c:
 ---------------------------
@@ -20242,6 +20263,7 @@ prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/unix/windows
+note: UIs should not modify this directly, use cartridge_set_default() from cartridge.h instead
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -20265,6 +20287,7 @@ platform range correct:
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl/unix/windows
 fixme: fix documenation, range
+note: UIs should not modify this directly, use cartridge_set_default() from cartridge.h instead
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -22395,6 +22418,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -buksymkeymap
 platform gui present:			osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -22402,6 +22426,7 @@ command line:   -buksymkeymap <Name>
 description:    "Specify name of UK business keyboard symbolic keymap file"
 resource:       "KeymapBusinessUKSymFile"
 action:         N/A
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
 cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
@@ -22418,6 +22443,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -bukposkeymap
 platform gui present:			osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -22426,6 +22452,7 @@ description:    "Specify name of UK business keyboard positional keymap file"
 resource:       "KeymapBusinessUKPosFile"
 action:         N/A
 fixme: fix documentation
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
 cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
@@ -22442,6 +22469,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -grsymkeymap
 platform gui present:			osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -22449,6 +22477,7 @@ command line:   -grsymkeymap <Name>
 description:    "Specify name of graphics keyboard symbolic keymap file"
 resource:       "KeymapGraphicsSymFile"
 action:         N/A
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
 cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
@@ -22465,6 +22494,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -grposkeymap
 platform gui present:			osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -22473,6 +22503,7 @@ description:    "Specify name of graphics keyboard positional keymap file"
 resource:       "KeymapGraphicsPosFile"
 action:         N/A
 fixme: add to documentation
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
 cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
@@ -22489,6 +22520,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -bdesymkeymap
 platform gui present:			osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -22496,6 +22528,7 @@ command line:   -bdesymkeymap <Name>
 description:    "Specify name of German business keyboard symbolic keymap file"
 resource:       "KeymapBusinessDESymFile"
 action:         N/A
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
 cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
@@ -22512,6 +22545,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -bdeposkeymap
 platform gui present:			osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -22520,6 +22554,7 @@ description:    "Specify name of German business keyboard positional keymap file
 resource:       "KeymapBusinessDEPosFile"
 action:         N/A
 fixme: fix documentation
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
 cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
@@ -22540,6 +22575,7 @@ platform range correct:
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl/unix/osx
 fixme: add to documentation
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -22547,6 +22583,7 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file" (fixme: needs better description)
 resource:       "KeymapIndex"
 action:         N/A
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 joystick.c:
 -----------
@@ -22847,6 +22884,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -buksymkeymap
 platform gui present:			osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -22854,6 +22892,7 @@ command line:   -buksymkeymap <Name>
 description:    "Specify name of UK business keyboard symbolic keymap file"
 resource:       "KeymapBusinessUKSymFile"
 action:         N/A
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-resources.c:
 --------------------
@@ -22869,6 +22908,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -bukposkeymap
 platform gui present:			osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -22877,6 +22917,7 @@ description:    "Specify name of UK business keyboard positional keymap file"
 resource:       "KeymapBusinessUKPosFile"
 action:         N/A
 fixme: fix documentation
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-resources.c:
 --------------------
@@ -22892,6 +22933,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -grsymkeymap
 platform gui present:			osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -22899,6 +22941,7 @@ command line:   -grsymkeymap <Name>
 description:    "Specify name of graphics keyboard symbolic keymap file"
 resource:       "KeymapGraphicsSymFile"
 action:         N/A
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-resources.c:
 --------------------
@@ -22914,6 +22957,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -grposkeymap
 platform gui present:			osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -22922,6 +22966,7 @@ description:    "Specify name of graphics keyboard positional keymap file"
 resource:       "KeymapGraphicsPosFile"
 action:         N/A
 fixme: fix documentation
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-resources.c:
 --------------------
@@ -22937,6 +22982,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -bdesymkeymap
 platform gui present:			osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -22944,6 +22990,7 @@ command line:   -bdesymkeymap <Name>
 description:    "Specify name of German business keyboard symbolic keymap file"
 resource:       "KeymapBusinessDESymFile"
 action:         N/A
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-resources.c:
 --------------------
@@ -22959,6 +23006,7 @@ prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -bdeposkeymap
 platform gui present:			osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -22967,6 +23015,7 @@ description:    "Specify name of German business keyboard positional keymap file
 resource:       "KeymapBusinessDEPosFile"
 action:         N/A
 fixme: fix documentation
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-resources.c:
 --------------------
@@ -22985,6 +23034,7 @@ platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           osx
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -22992,6 +23042,7 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file" (fixme: needs better description)
 resource:       "KeymapIndex"
 action:         N/A
+note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 plus4/plus4-resources.c:
 ------------------------
@@ -23165,8 +23216,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
-platform gui present:			osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
+platform gui present:   	osx/windows/unix
+platform gui missing:           amigaos/beos/dos/sdl
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
@@ -23187,8 +23238,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
-platform gui present:			osx/windows
-platform gui missing:           amigaos/beos/dos/sdl/unix
+platform gui present:		osx/windows/unix
+platform gui missing:           amigaos/beos/dos/sdl
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
@@ -24687,6 +24738,8 @@ platform range correct:
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx
 fixme: add to documentation
+note: hardsid is essentially abandoned and there are no drivers for current OSs.
+      we also have noone who could test it in the team(?) we should think about removing it
 
 sid/sid-resources.c:
 --------------------
@@ -24705,6 +24758,8 @@ platform range correct:
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx
 fixme: add to documentation
+note: hardsid is essentially abandoned and there are no drivers for current OSs.
+      we also have noone who could test it in the team(?) we should think about removing it
 
 translate.c:
 ------------
