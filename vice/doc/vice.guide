@@ -8538,10 +8538,25 @@ This section lists the settings and commands that are platform specific.
 
  @{" AmigaOS-specific features " Link "AmigaOS-specific features"} 
 
+ @{" BeOS-specific features " Link "BeOS-specific features"} 
+
+ @{" DOS-specific features " Link "DOS-specific features"} 
+
+ @{" OS2-specific features " Link "OS2-specific features"} 
+
+ @{" SDL-specific features " Link "SDL-specific features"} 
+
+ @{" Unix-specific features " Link "Unix-specific features"} 
+
+ @{" Mac OS X-specific features " Link "Mac OS X-specific features"} 
+
+ @{" Windows-specific features " Link "Windows-specific features"} 
+
 
 @EndNode
 
 @Node "AmigaOS-specific features" "vice.guide/AmigaOS-specific features"
+@Next "BeOS-specific features"
 @Prev "Platform-specific features"
 @Toc "Platform-specific features"
 
@@ -8550,7 +8565,13 @@ AmigaOS-specific features
 
 
 
+ @{" AmigaOS3-specific features " Link "AmigaOS3-specific features"} 
+
  @{" AmigaOS4-specific features " Link "AmigaOS4-specific features"} 
+
+ @{" MorphOS-specific features " Link "MorphOS-specific features"} 
+
+ @{" AROS-specific features " Link "AROS-specific features"} 
 
 This section lists the settings and commands that are common and
 specific to all Amiga based platforms (this includes AmigaOS3,
@@ -8602,33 +8623,38 @@ Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific command-line options
 --------------------------------------------------------------------
 
 `-initialdefaultdir <Name>'
-     Select the initial default directory for the file browser dialog.
+     Select the initial default directory for the file browser dialog
+     (`InitialDefaultDir').
 
 `-initialtapedir <Name>'
      Select the initial tape images directory for the file browser
-     dialog.
+     dialog (`InitialTapeDir').
 
 `-initialdiskdir <Name>'
      Select the initial disk images directory for the file browser
-     dialog.
+     dialog (`InitialDiskDir').
 
 `-initialautostartdir <Name>'
-     Select the initial autostart directory for the file browser dialog.
+     Select the initial autostart directory for the file browser dialog
+     (`InitialAutostartDir').
 
 `-initialcartdir <Name>'
      Select the initial cartridge images directory for the file browser
-     dialog.
+     dialog (`InitialCartDir').
 
 `-initialsnapshotdir <Name>'
-     Select the initial snapshot directory for the file browser dialog.
+     Select the initial snapshot directory for the file browser dialog
+     (`InitialSnapshotDir').
 
 `-fullscreen'
 `+fullscreen'
-     Enable/Disable fullscreen mode.
+     Enable/Disable fullscreen mode (`FullscreenEnabled=1',
+     `FullscreenEnabled=0').
 
 `-statusbar'
 `+statusbar'
-     Enable/Disable the statusbar.
+     Enable/Disable the statusbar (`StatusBarEnabled=1',
+     `StatusBarEnabled=0').
 
 `-saveres'
 `+saveres'
@@ -8636,16 +8662,109 @@ Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific command-line options
      (`SaveResourcesOnExit=1', `SaveResourcesOnExit=0').
 
 `-confirmexit'
-     Confirm quiting VICE
+     Confirm quiting VICE (`ConfirmOnExit=1').
 
 `+confirmexit'
-     Never confirm quiting VICE
+     Never confirm quiting VICE (`ConfirmOnExit=0').
+
+
+@EndNode
+
+@Node "AmigaOS3-specific features" "vice.guide/AmigaOS3-specific features"
+@Next "AmigaOS4-specific features"
+@Prev "AmigaOS-specific features"
+@Toc "AmigaOS-specific features"
+
+AmigaOS3-specific features
+--------------------------
+
+This section lists the settings and commands that are common and
+specific to AmigaOS3, and are thus not present in other platforms.
+
+The AmigaOS3 port uses the AHI sound system, the CGX or P96 graphics
+system, the LowLevel input system, the MUI GUI system, and optionally
+the OpenPCI library for access to expansion cards like Catweasel or
+HardSID. Please note that access to the Catweasel can also be done
+using catweaselsid.device.
+
+AmigaOS3 specific resources
+...........................
+
+`JoyFire1'
+     Integer specifying the code of the button to use for fire for the
+     emulation of joystick 1 (all emulators except xcbm2, xpet and
+     vsid).
+
+`JoyFire2'
+     Integer specifying the code of the button to use for fire for the
+     emulation of joystick 2 (all emulators except xcbm2, xpet, xvic
+     and vsid).
+
+`JoyFire3'
+     Integer specifying the code of the button to use for fire for the
+     emulation of joystick 3 (all emulators except xcbm5x0 and vsid).
+
+`JoyFire4'
+     Integer specifying the code of the button to use for fire for the
+     emulation of joystick 4 (all emulators except xcbm5x0, xplus4 and
+     vsid).
+
+`JoyDevice1'
+     Integer specifying which joystick device the emulator should use
+     for the emulation of joystick 1 (all emulators except xcbm2, xpet
+     and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
+`JoyDevice2'
+     Integer specifying which joystick device the emulator should use
+     for the emulation of joystick 2 (all emulators except xcbm2, xpet,
+     xvic and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
+`JoyDevice3'
+     Integer specifying which joystick device the emulator should use
+     for the emulation of joystick 3 (all emulators except xcbm5x0 and
+     vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
+`JoyDevice4'
+     Integer specifying which joystick device the emulator should use
+     for the emulation of joystick 3 (all emulators except xcbm5x0,
+     xplus4 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
+     5=Joy3)
+
+The following resource is only present if the CGX video system is
+present and used at compile time, and cgxvideo.library is present at
+runtime.
+
+`VideoOverlayEnabled'
+     Boolean to enable/disable video overlay mode.
+
+AmigaOS3 specific command-line options
+......................................
+
+`-joydev1 <0-5>'
+`-joydev2 <0-5>'
+     Set the device for joystick emulation of port 1 and 2, respectively
+     (`JoyDevice1', `JoyDevice2').
+
+`-extrajoydev1 <0-5>'
+`-extrajoydev2 <0-5>'
+     Set device for extra joystick port 1 and 2, respectively
+     (`JoyDevice3', `JoyDevice4').
+
+The following command-line option is only present if the CGX video
+system is present and used at compile time, and cgxvideo.library is
+present at runtime.
+
+`-videooverlay'
+`+videooverlay'
+     Enable/Disable video overlay mode (`VideoOverlayEnabled=1',
+     `VideoOverlayEnabled=0').
 
 
 @EndNode
 
 @Node "AmigaOS4-specific features" "vice.guide/AmigaOS4-specific features"
-@Prev "AmigaOS-specific features"
+@Next "MorphOS-specific features"
+@Prev "AmigaOS3-specific features"
 @Toc "AmigaOS-specific features"
 
 AmigaOS4-specific features
@@ -8662,8 +8781,8 @@ HardSID.
 AmigaOS4 specific resources
 ...........................
 
-These are all joystick related resources and are therefor present in
-all emulators except VSID.
+These are all generic joystick related resources and are therefor
+present in all emulators except VSID.
 
 `JOYAI1_ID'
      String specifying the AmigaInput ID of hardware joystick 1.
@@ -8712,28 +8831,430 @@ all emulators except VSID.
      hardware joystick 2.
 
 `JoyDevice1'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 1 (all emulators except xcbm2,
+     xpet and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+
 `JoyDevice2'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 2 (all emulators except xcbm2,
+     xpet, xvic and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset
+     2/AI)
+
 `JoyDevice3'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 3 (all emulators except xcbm5x0
+     and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+
 `JoyDevice4'
      Integer specifying which joystick device the emulator should use
-     for joystick emulation for ports 1 - 4, respectively.  (0=None,
-     1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+     for joystick emulation for port 4 (all emulators except xcbm5x0,
+     xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
 
 AmigaOS4 specific command-line options
 ......................................
 
-These are all joystick related command-line options and are therefor
-present in all emulators except VSID.
-
 `-joydev1 <0-3>'
 `-joydev2 <0-3>'
-     Set the device for joystick emulation of port 1 and 2,
-     respectively.  (`JoyDevice1', `JoyDevice2').
+     Set the device for joystick emulation of port 1 and 2, respectively
+     (`JoyDevice1', `JoyDevice2').
 
 `-extrajoydev1 <0-3>'
 `-extrajoydev2 <0-3>'
-     Set device for extra joystick port 1 and 2, respectively.
+     Set device for extra joystick port 1 and 2, respectively
      (`JoyDevice3', `JoyDevice4').
+
+
+@EndNode
+
+@Node "MorphOS-specific features" "vice.guide/MorphOS-specific features"
+@Next "AROS-specific features"
+@Prev "AmigaOS4-specific features"
+@Toc "AmigaOS-specific features"
+
+MorphOS-specific features
+-------------------------
+
+This section lists the settings and commands that are common and
+specific to MorphOS, and are thus not present in other platforms.
+
+The MorphOS port uses the AHI or SDL sound system, the CGX graphics
+system, the LowLevel input system, the MUI GUI system, and optionally
+the OpenPCI library for access to expansion cards like Catweasel or
+HardSID. Please note that access to the Catweasel can also be done
+using catweaselsid.device.
+
+MorphOS specific resources
+..........................
+
+`JoyFire1'
+     Integer specifying the code of the button to use for fire of
+     joystick emulation for port 1 (all emulators except xcbm2, xpet
+     and vsid).
+
+`JoyFire2'
+     Integer specifying the code of the button to use for fire of
+     joystick emulation for port 2 (all emulators except xcbm2, xpet,
+     xvic and vsid).
+
+`JoyFire3'
+     Integer specifying the code of the button to use for fire of
+     joystick emulation for port 3 (all emulators except xcbm5x0 and
+     vsid).
+
+`JoyFire4'
+     Integer specifying the code of the button to use for fire of
+     joystick emulation for port 3 (all emulators except xcbm5x0,
+     xplus4 and vsid).
+
+`JoyDevice1'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 1 (all emulators except xcbm2,
+     xpet and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
+`JoyDevice2'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 2 (all emulators except xcbm2,
+     xpet, xvic and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
+     5=Joy3)
+
+`JoyDevice3'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 3 (all emulators except xcbm5x0
+     and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
+`JoyDevice4'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 4 (all emulators except xcbm5x0,
+     xplus4 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
+     5=Joy3)
+
+The following resource is only present if the CGX video system is
+present and used at compile time, and cgxvideo.library is present at
+runtime.
+
+`VideoOverlayEnabled'
+     Boolean to enable/disable video overlay mode.
+
+MorphOS specific command-line options
+.....................................
+
+The following are joystick related command-line options and are
+therefor present in all emulators except VSID.
+
+`-joydev1 <0-5>'
+`-joydev2 <0-5>'
+     Set the device for joystick emulation of port 1 and 2, respectively
+     (`JoyDevice1', `JoyDevice2').
+
+`-extrajoydev1 <0-5>'
+`-extrajoydev2 <0-5>'
+     Set device for extra joystick port 1 and 2, respectively
+     (`JoyDevice3', `JoyDevice4').
+
+The following command-line option is only present if the CGX video
+system is present and used at compile time, and cgxvideo.library is
+present at runtime.
+
+`-videooverlay'
+`+videooverlay'
+     Enable/Disable video overlay mode (`VideoOverlayEnabled=1',
+     `VideoOverlayEnabled=0').
+
+
+@EndNode
+
+@Node "AROS-specific features" "vice.guide/AROS-specific features"
+@Prev "MorphOS-specific features"
+@Toc "AmigaOS-specific features"
+
+AROS-specific features
+----------------------
+
+This section lists the settings and commands that are common and
+specific to AROS, and are thus not present in other platforms.
+
+The AROS port uses the AHI or SDL sound system, the CGX graphics
+system, the LowLevel input system, the MUI GUI system.
+
+AROS specific resources
+.......................
+
+`JoyFire1'
+     Integer specifying the code of the button to use for fire of
+     joystick emulation for port 1 (all emulators except xcbm2, xpet
+     and vsid).
+
+`JoyFire2'
+     Integer specifying the code of the button to use for fire of
+     joystick emulation for port 2 (all emulators except xcbm2, xpet,
+     xvic and vsid).
+
+`JoyFire3'
+     Integer specifying the code of the button to use for fire of
+     joystick emulation for port 3 (all emulators except xcbm5x0 and
+     vsid).
+
+`JoyFire4'
+     Integer specifying the code of the button to use for fire of
+     joystick emulation for port 3 (all emulators except xcbm5x0,
+     xplus4 and vsid).
+
+`JoyDevice1'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 1 (all emulators except xcbm2,
+     xpet and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
+`JoyDevice2'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 2 (all emulators except xcbm2,
+     xpet, xvic and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
+     5=Joy3)
+
+`JoyDevice3'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 3 (all emulators except xcbm5x0
+     and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
+`JoyDevice4'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 4 (all emulators except xcbm5x0,
+     xplus4 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
+     5=Joy3)
+
+The following resource is only present if the CGX video system is
+present and used at compile time, and cgxvideo.library is present at
+runtime.
+
+`VideoOverlayEnabled'
+     Boolean to enable/disable video overlay mode.
+
+AROS specific command-line options
+..................................
+
+The following are joystick related command-line options and are
+therefor present in all emulators except VSID.
+
+`-joydev1 <0-5>'
+`-joydev2 <0-5>'
+     Set the device for joystick emulation of port 1 and 2, respectively
+     (`JoyDevice1', `JoyDevice2').
+
+`-extrajoydev1 <0-5>'
+`-extrajoydev2 <0-5>'
+     Set device for extra joystick port 1 and 2, respectively
+     (`JoyDevice3', `JoyDevice4').
+
+The following command-line option is only present if the CGX video
+system is present and used at compile time, and cgxvideo.library is
+present at runtime.
+
+`-videooverlay'
+`+videooverlay'
+     Enable/Disable video overlay mode (`VideoOverlayEnabled=1',
+     `VideoOverlayEnabled=0').
+
+
+@EndNode
+
+@Node "BeOS-specific features" "vice.guide/BeOS-specific features"
+@Next "DOS-specific features"
+@Prev "AmigaOS-specific features"
+@Toc "Platform-specific features"
+
+BeOS-specific features
+======================
+
+This section lists the settings and commands that are common and
+specific to BeOS, Zeta and Haiku, and are thus not present in other
+platforms.
+
+BeOS specific resources
+-----------------------
+
+`JoystickDisplay'
+     Boolean to enable/disable displaying the joystick status in the
+     emulator window.
+
+`SaveResourcesOnExit'
+     Boolean specifying whether the emulator should save changed
+     settings before exiting.  If this is enabled, the user will be
+     always prompted first, in case the settings have changed.
+
+`ConfirmOnExit'
+     Boolean specifying whether to show a confirmation dialog on exit.
+
+`DirectWindow'
+     Boolean specifying whether to use the BeOS DirectWindow API.
+
+The following are joystick related resources and are therefor present
+in all emulators except VSID.
+
+`JoyDevice1'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 1 (all emulators except xcbm2,
+     xpet and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
+     4..19=Hardware joysticks)
+
+`JoyDevice2'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 2 (all emulators except xcbm2,
+     xpet, xvic and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
+     4..19=Hardware joysticks)
+
+`JoyDevice3'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 3 (all emulators except xcbm5x0
+     and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
+     4..19=Hardware joysticks)
+
+`JoyDevice4'
+     Integer specifying which joystick device the emulator should use
+     for joystick emulation for port 4 (all emulators except xcbm5x0,
+     xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
+     4..19=Hardware joysticks)
+
+BeOS specific command-line options
+----------------------------------
+
+`-joydisplay'
+`+joydisplay'
+     Enable/Disable joystick display.  (`JoystickDisplay=1',
+     `JoystickDisplay=0').
+
+`-saveres'
+`+saveres'
+     Enable/disable automatic saving of settings on exit
+     (`SaveResourcesOnExit=1', `SaveResourcesOnExit=0').
+
+`-confirmexit'
+     Confirm quiting VICE (`ConfirmOnExit=1').
+
+`+confirmexit'
+     Never confirm quiting VICE (`ConfirmOnExit=0').
+
+`-directwindow'
+`+directwindow'
+     Enable/disable usage of the BeOS DirectWindow API
+     (`DirectWindow=1', `DirectWindow=0').
+
+The following are joystick related command-line options and are
+therefor present in all emulators except VSID.
+
+`-joydev1 <0-19>'
+`-joydev2 <0-19>'
+     Set the device for joystick emulation of port 1 and 2, respectively
+     (`JoyDevice1', `JoyDevice2').
+
+`-extrajoydev1 <0-19>'
+`-extrajoydev2 <0-19>'
+     Set device for extra joystick port 1 and 2, respectively
+     (`JoyDevice3', `JoyDevice4').
+
+
+@EndNode
+
+@Node "DOS-specific features" "vice.guide/DOS-specific features"
+@Next "OS2-specific features"
+@Prev "BeOS-specific features"
+@Toc "Platform-specific features"
+
+DOS-specific features
+=====================
+
+
+@EndNode
+
+@Node "OS2-specific features" "vice.guide/OS2-specific features"
+@Next "SDL-specific features"
+@Prev "DOS-specific features"
+@Toc "Platform-specific features"
+
+OS2-specific features
+=====================
+
+
+@EndNode
+
+@Node "SDL-specific features" "vice.guide/SDL-specific features"
+@Next "Unix-specific features"
+@Prev "OS2-specific features"
+@Toc "Platform-specific features"
+
+SDL-specific features
+=====================
+
+
+@EndNode
+
+@Node "Unix-specific features" "vice.guide/Unix-specific features"
+@Next "Mac OS X-specific features"
+@Prev "SDL-specific features"
+@Toc "Platform-specific features"
+
+Unix-specific features
+======================
+
+
+
+ @{" XAW-specific features " Link "XAW-specific features"} 
+
+ @{" GTK2-specific features " Link "GTK2-specific features"} 
+
+ @{" GTK3-specific features " Link "GTK3-specific features"} 
+
+
+@EndNode
+
+@Node "XAW-specific features" "vice.guide/XAW-specific features"
+@Next "GTK2-specific features"
+@Prev "Unix-specific features"
+@Toc "Unix-specific features"
+
+XAW-specific features
+---------------------
+
+
+@EndNode
+
+@Node "GTK2-specific features" "vice.guide/GTK2-specific features"
+@Next "GTK3-specific features"
+@Prev "XAW-specific features"
+@Toc "Unix-specific features"
+
+GTK2-specific features
+----------------------
+
+
+@EndNode
+
+@Node "GTK3-specific features" "vice.guide/GTK3-specific features"
+@Prev "GTK2-specific features"
+@Toc "Unix-specific features"
+
+GTK3-specific features
+----------------------
+
+
+@EndNode
+
+@Node "Mac OS X-specific features" "vice.guide/Mac OS X-specific features"
+@Next "Windows-specific features"
+@Prev "Unix-specific features"
+@Toc "Platform-specific features"
+
+Mac OS X-specific features
+==========================
+
+
+@EndNode
+
+@Node "Windows-specific features" "vice.guide/Windows-specific features"
+@Prev "Mac OS X-specific features"
+@Toc "Platform-specific features"
+
+Windows-specific features
+=========================
 
 
 @EndNode
@@ -17961,23 +18482,24 @@ Index of Resources
  @{" Cart6Name " Link "CBM-II model"}                            CBM-II model
  @{" CartridgeFile " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" CartridgeFile " Link "C64 cartridges"}                        C64 cartridges
- @{" CartridgeReset " Link "VIC20 system ROM options"}                       VIC20 system ROM options
  @{" CartridgeReset " Link "C64 cartridges"}                       C64 cartridges
  @{" CartridgeReset " Link "VIC20 cartridges"}                       VIC20 cartridges
+ @{" CartridgeReset " Link "VIC20 system ROM options"}                       VIC20 system ROM options
  @{" CartridgeType " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" CartridgeType " Link "C64 cartridges"}                        C64 cartridges
  @{" ChargenCHName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenDEName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenFRName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenIntName " Link "C64-128 system ROM options"}                       C64-128 system ROM options
- @{" ChargenName " Link "PET model"}                          PET model
  @{" ChargenName " Link "C64-128 system ROM resources"}                          C64-128 system ROM resources
  @{" ChargenName " Link "VIC20 system ROM resources"}                          VIC20 system ROM resources
+ @{" ChargenName " Link "PET model"}                          PET model
  @{" ChargenSEName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" CIA1Model " Link "C64 cartridges"}                            C64 cartridges
  @{" CIA2Model " Link "C64 cartridges"}                            C64 cartridges
- @{" ConfirmOnExit " Link "Misc resources"}                        Misc resources
+ @{" ConfirmOnExit " Link "BeOS-specific features"}                        BeOS-specific features
  @{" ConfirmOnExit " Link "AmigaOS-specific features"}                        AmigaOS-specific features
+ @{" ConfirmOnExit " Link "Misc resources"}                        Misc resources
  @{" CPUswitch " Link "PET settings"}                            PET settings
  @{" Crtc " Link "PET model"}                                 PET model
  @{" CrtcAudioLeak " Link "PET model"}                        PET model
@@ -18012,6 +18534,7 @@ Index of Resources
  @{" DIGIMAX " Link "C64 I-O extension resources"}                              C64 I-O extension resources
  @{" DIGIMAXbase " Link "C64 I-O extension resources"}                          C64 I-O extension resources
  @{" Directory " Link "Misc resources"}                            Misc resources
+ @{" DirectWindow " Link "BeOS-specific features"}                         BeOS-specific features
  @{" DisplayDepth " Link "Video resources"}                         Video resources
  @{" DoCoreDump " Link "Misc resources"}                           Misc resources
  @{" DoodleCRTCTextColor " Link "C500 data module"}                  C500 data module
@@ -18218,15 +18741,44 @@ Index of Resources
  @{" JOYAI2_Left " Link "AmigaOS4-specific features"}                          AmigaOS4-specific features
  @{" JOYAI2_Right " Link "AmigaOS4-specific features"}                         AmigaOS4-specific features
  @{" JOYAI2_Up " Link "AmigaOS4-specific features"}                            AmigaOS4-specific features
- @{" JoyDevice1 " Link "Keyboard options"}                           Keyboard options
+ @{" JoyDevice1 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice1 " Link "MorphOS-specific features"}                           MorphOS-specific features
  @{" JoyDevice1 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
+ @{" JoyDevice1 " Link "Keyboard options"}                           Keyboard options
+ @{" JoyDevice1 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
+ @{" JoyDevice1 " Link "AROS-specific features"}                           AROS-specific features
+ @{" JoyDevice2 " Link "MorphOS-specific features"}                           MorphOS-specific features
+ @{" JoyDevice2 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice2 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
  @{" JoyDevice2 " Link "Keyboard options"}                           Keyboard options
+ @{" JoyDevice2 " Link "AROS-specific features"}                           AROS-specific features
  @{" JoyDevice2 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
- @{" JoyDevice3 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
  @{" JoyDevice3 " Link "Keyboard options"}                           Keyboard options
- @{" JoyDevice4 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
+ @{" JoyDevice3 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice3 " Link "MorphOS-specific features"}                           MorphOS-specific features
+ @{" JoyDevice3 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
+ @{" JoyDevice3 " Link "AROS-specific features"}                           AROS-specific features
+ @{" JoyDevice3 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
+ @{" JoyDevice4 " Link "BeOS-specific features"}                           BeOS-specific features
  @{" JoyDevice4 " Link "Keyboard options"}                           Keyboard options
+ @{" JoyDevice4 " Link "MorphOS-specific features"}                           MorphOS-specific features
+ @{" JoyDevice4 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
+ @{" JoyDevice4 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
+ @{" JoyDevice4 " Link "AROS-specific features"}                           AROS-specific features
+ @{" JoyFire1 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
+ @{" JoyFire1 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" JoyFire1 " Link "AROS-specific features"}                             AROS-specific features
+ @{" JoyFire2 " Link "AROS-specific features"}                             AROS-specific features
+ @{" JoyFire2 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" JoyFire2 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
+ @{" JoyFire3 " Link "AROS-specific features"}                             AROS-specific features
+ @{" JoyFire3 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
+ @{" JoyFire3 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" JoyFire4 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
+ @{" JoyFire4 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" JoyFire4 " Link "AROS-specific features"}                             AROS-specific features
  @{" JoyOpposite " Link "Keyboard options"}                          Keyboard options
+ @{" JoystickDisplay " Link "BeOS-specific features"}                      BeOS-specific features
  @{" KeepAspectRatio " Link "Video resources"}                      Video resources
  @{" KeepMonitorOpen " Link "Monitor options"}                      Monitor options
  @{" Kernal64Name " Link "C64-128 system ROM options"}                         C64-128 system ROM options
@@ -18236,9 +18788,9 @@ Index of Resources
  @{" KernalFRName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalIntName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" KernalITName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
- @{" KernalName " Link "PET model"}                           PET model
- @{" KernalName " Link "C64-128 system ROM resources"}                           C64-128 system ROM resources
  @{" KernalName " Link "VIC20 system ROM resources"}                           VIC20 system ROM resources
+ @{" KernalName " Link "C64-128 system ROM resources"}                           C64-128 system ROM resources
+ @{" KernalName " Link "PET model"}                           PET model
  @{" KernalNOName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalRev " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
  @{" KernalSEName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
@@ -18392,8 +18944,9 @@ Index of Resources
  @{" RsUserBaud " Link "RS232 resources"}                           RS232 resources
  @{" RsUserDev " Link "RS232 resources"}                            RS232 resources
  @{" RsUserEnable " Link "RS232 resources"}                         RS232 resources
- @{" SaveResourcesOnExit " Link "Misc resources"}                  Misc resources
  @{" SaveResourcesOnExit " Link "AmigaOS-specific features"}                  AmigaOS-specific features
+ @{" SaveResourcesOnExit " Link "Misc resources"}                  Misc resources
+ @{" SaveResourcesOnExit " Link "BeOS-specific features"}                  BeOS-specific features
  @{" SFXSoundExpander " Link "C64 I-O extension resources"}                     C64 I-O extension resources
  @{" SFXSoundExpanderChip " Link "C64 I-O extension resources"}                 C64 I-O extension resources
  @{" SFXSoundExpanderIOSwap " Link "VIC20 cartridges"}               VIC20 cartridges
@@ -18403,12 +18956,12 @@ Index of Resources
  @{" SidAddress " Link "PET model"}                           PET model
  @{" SidAddress " Link "VIC20 cartridges"}                           VIC20 cartridges
  @{" SidCart " Link "VIC20 system ROM options"}                              VIC20 system ROM options
- @{" SidCart " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" SidCart " Link "PET model"}                              PET model
+ @{" SidCart " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" SIDCartJoy " Link "VIC20 system ROM options"}                           VIC20 system ROM options
- @{" SidClock " Link "VIC20 system ROM options"}                             VIC20 system ROM options
- @{" SidClock " Link "PET model"}                             PET model
  @{" SidClock " Link "VIC20 cartridges"}                             VIC20 cartridges
+ @{" SidClock " Link "PET model"}                             PET model
+ @{" SidClock " Link "VIC20 system ROM options"}                             VIC20 system ROM options
  @{" SidEngine " Link "SID resources"}                            SID resources
  @{" SidFilters " Link "SID resources"}                           SID resources
  @{" SidModel " Link "SID resources"}                             SID resources
@@ -18542,6 +19095,9 @@ Index of Resources
  @{" VICVideoCache " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" VICVidmodeFullscreenMode " Link "VIC20 cartridges"}             VIC20 cartridges
  @{" VICXRANDRFullscreenMode " Link "VIC20 cartridges"}              VIC20 cartridges
+ @{" VideoOverlayEnabled " Link "MorphOS-specific features"}                  MorphOS-specific features
+ @{" VideoOverlayEnabled " Link "AmigaOS3-specific features"}                  AmigaOS3-specific features
+ @{" VideoOverlayEnabled " Link "AROS-specific features"}                  AROS-specific features
  @{" VideoSize " Link "PET model"}                            PET model
  @{" VirtualDevices " Link "No traps resources"}                       No traps resources
  @{" WarpMode " Link "Performance resources"}                             Performance resources
@@ -18566,9 +19122,19 @@ Index of Command-line options
 
 
 
+ @{" -confirmexit, +confirmexit " Link "BeOS-specific features"}           BeOS-specific features
  @{" -confirmexit, +confirmexit " Link "AmigaOS-specific features"}           AmigaOS-specific features
+ @{" -directwindow, +directwindow " Link "BeOS-specific features"}         BeOS-specific features
  @{" -extrajoydev1 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
+ @{" -extrajoydev1 " Link "AROS-specific features"}                        AROS-specific features
+ @{" -extrajoydev1 " Link "MorphOS-specific features"}                        MorphOS-specific features
+ @{" -extrajoydev1 " Link "BeOS-specific features"}                        BeOS-specific features
+ @{" -extrajoydev1 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
+ @{" -extrajoydev2 " Link "BeOS-specific features"}                        BeOS-specific features
+ @{" -extrajoydev2 " Link "AROS-specific features"}                        AROS-specific features
+ @{" -extrajoydev2 " Link "MorphOS-specific features"}                        MorphOS-specific features
  @{" -extrajoydev2 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
+ @{" -extrajoydev2 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
  @{" -fullscreen, +fullscreen " Link "AmigaOS-specific features"}             AmigaOS-specific features
  @{" -initialautostartdir " Link "AmigaOS-specific features"}                 AmigaOS-specific features
  @{" -initialcartdir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
@@ -18576,10 +19142,23 @@ Index of Command-line options
  @{" -initialdiskdir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
  @{" -initialsnapshotdir " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" -initialtapedir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
+ @{" -joydev1 " Link "AROS-specific features"}                             AROS-specific features
  @{" -joydev1 " Link "AmigaOS4-specific features"}                             AmigaOS4-specific features
+ @{" -joydev1 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" -joydev1 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
+ @{" -joydev1 " Link "BeOS-specific features"}                             BeOS-specific features
+ @{" -joydev2 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
+ @{" -joydev2 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" -joydev2 " Link "AmigaOS4-specific features"}                             AmigaOS4-specific features
+ @{" -joydev2 " Link "BeOS-specific features"}                             BeOS-specific features
+ @{" -joydev2 " Link "AROS-specific features"}                             AROS-specific features
+ @{" -joydisplay, +joydisplay " Link "BeOS-specific features"}             BeOS-specific features
+ @{" -saveres, +saveres " Link "BeOS-specific features"}                   BeOS-specific features
  @{" -saveres, +saveres " Link "AmigaOS-specific features"}                   AmigaOS-specific features
  @{" -statusbar, +statusbar " Link "AmigaOS-specific features"}               AmigaOS-specific features
+ @{" -videooverlay, +videooverlay " Link "AROS-specific features"}         AROS-specific features
+ @{" -videooverlay, +videooverlay " Link "MorphOS-specific features"}         MorphOS-specific features
+ @{" -videooverlay, +videooverlay " Link "AmigaOS3-specific features"}         AmigaOS3-specific features
 
 @EndNode
 

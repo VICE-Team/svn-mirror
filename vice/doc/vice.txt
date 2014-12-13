@@ -7548,33 +7548,38 @@ Boolean specifying whether to show a confirmation dialog on exit.
 --------------------------------------------------------------------------
 
 `-initialdefaultdir <Name>'
-Select the initial default directory for the file browser dialog.
+Select the initial default directory for the file browser dialog
+(`InitialDefaultDir').
 
 `-initialtapedir <Name>'
 Select the initial tape images directory for the file browser
-dialog.
+dialog (`InitialTapeDir').
 
 `-initialdiskdir <Name>'
 Select the initial disk images directory for the file browser
-dialog.
+dialog (`InitialDiskDir').
 
 `-initialautostartdir <Name>'
-Select the initial autostart directory for the file browser dialog.
+Select the initial autostart directory for the file browser dialog
+(`InitialAutostartDir').
 
 `-initialcartdir <Name>'
 Select the initial cartridge images directory for the file browser
-dialog.
+dialog (`InitialCartDir').
 
 `-initialsnapshotdir <Name>'
-Select the initial snapshot directory for the file browser dialog.
+Select the initial snapshot directory for the file browser dialog
+(`InitialSnapshotDir').
 
 `-fullscreen'
 `+fullscreen'
-Enable/Disable fullscreen mode.
+Enable/Disable fullscreen mode (`FullscreenEnabled=1',
+`FullscreenEnabled=0').
 
 `-statusbar'
 `+statusbar'
-Enable/Disable the statusbar.
+Enable/Disable the statusbar (`StatusBarEnabled=1',
+`StatusBarEnabled=0').
 
 `-saveres'
 `+saveres'
@@ -7582,14 +7587,17 @@ Enable/disable automatic saving of settings on exit
 (`SaveResourcesOnExit=1', `SaveResourcesOnExit=0').
 
 `-confirmexit'
-Confirm quiting VICE
+Confirm quiting VICE (`ConfirmOnExit=1').
 
 `+confirmexit'
-Never confirm quiting VICE
+Never confirm quiting VICE (`ConfirmOnExit=0').
 
 
 8.1.3 AmigaOS3-specific features
 --------------------------------
+
+This section lists the settings and commands that are common and
+specific to AmigaOS3, and are thus not present in other platforms.
 
 The AmigaOS3 port uses the AHI sound system, the CGX or P96 graphics
 system, the LowLevel input system, the MUI GUI system, and optionally
@@ -7600,24 +7608,45 @@ using catweaselsid.device.
 8.1.3.1 AmigaOS3 specific resources
 ...................................
 
-The following are joystick related resources and are therefor present
-in all emulators except VSID.
-
 `JoyFire1'
+Integer specifying the code of the button to use for fire for the
+emulation of joystick 1 (all emulators except xcbm2, xpet and
+vsid).
+
 `JoyFire2'
+Integer specifying the code of the button to use for fire for the
+emulation of joystick 2 (all emulators except xcbm2, xpet, xvic
+and vsid).
+
 `JoyFire3'
+Integer specifying the code of the button to use for fire for the
+emulation of joystick 3 (all emulators except xcbm5x0 and vsid).
 
 `JoyFire4'
-Integer specifying the code of the button to use for fire of
-hardware joysticks 1-4 respectively.
+Integer specifying the code of the button to use for fire for the
+emulation of joystick 4 (all emulators except xcbm5x0, xplus4 and
+vsid).
 
 `JoyDevice1'
+Integer specifying which joystick device the emulator should use
+for the emulation of joystick 1 (all emulators except xcbm2, xpet
+and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
 `JoyDevice2'
+Integer specifying which joystick device the emulator should use
+for the emulation of joystick 2 (all emulators except xcbm2, xpet,
+xvic and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
 `JoyDevice3'
+Integer specifying which joystick device the emulator should use
+for the emulation of joystick 3 (all emulators except xcbm5x0 and
+vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
 `JoyDevice4'
 Integer specifying which joystick device the emulator should use
-for joystick emulation for ports 1 - 4, respectively.  (0=None,
-1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+for the emulation of joystick 3 (all emulators except xcbm5x0,
+xplus4 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
+5=Joy3)
 
 
 The following resource is only present if the CGX video system is
@@ -7631,17 +7660,14 @@ Boolean to enable/disable video overlay mode.
 8.1.3.2 AmigaOS3 specific command-line options
 ..............................................
 
-The following are joystick related command-line options and are
-therefor present in all emulators except VSID.
-
 `-joydev1 <0-5>'
 `-joydev2 <0-5>'
-Set the device for joystick emulation of port 1 and 2,
-respectively.  (`JoyDevice1', `JoyDevice2').
+Set the device for joystick emulation of port 1 and 2, respectively
+(`JoyDevice1', `JoyDevice2').
 
 `-extrajoydev1 <0-5>'
 `-extrajoydev2 <0-5>'
-Set device for extra joystick port 1 and 2, respectively.
+Set device for extra joystick port 1 and 2, respectively
 (`JoyDevice3', `JoyDevice4').
 
 
@@ -7651,7 +7677,8 @@ present at runtime.
 
 `-videooverlay'
 `+videooverlay'
-Enable/Disable video overlay mode.
+Enable/Disable video overlay mode (`VideoOverlayEnabled=1',
+`VideoOverlayEnabled=0').
 
 
 8.1.4 AmigaOS4-specific features
@@ -7668,8 +7695,8 @@ HardSID.
 8.1.4.1 AmigaOS4 specific resources
 ...................................
 
-These are all joystick related resources and are therefor present in
-all emulators except VSID.
+These are all generic joystick related resources and are therefor
+present in all emulators except VSID.
 
 `JOYAI1_ID'
 String specifying the AmigaInput ID of hardware joystick 1.
@@ -7717,34 +7744,48 @@ hardware joystick 1.
 String specifying the AmigaInput event ID for the fire button of
 hardware joystick 2.
 
+
 `JoyDevice1'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 1 (all emulators except xcbm2,
+xpet and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+
 `JoyDevice2'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 2 (all emulators except xcbm2,
+xpet, xvic and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset
+2/AI)
+
 `JoyDevice3'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 3 (all emulators except xcbm5x0
+and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+
 `JoyDevice4'
 Integer specifying which joystick device the emulator should use
-for joystick emulation for ports 1 - 4, respectively.  (0=None,
-1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+for joystick emulation for port 4 (all emulators except xcbm5x0,
+xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
 
 
 8.1.4.2 AmigaOS4 specific command-line options
 ..............................................
 
-These are all joystick related command-line options and are therefor
-present in all emulators except VSID.
-
 `-joydev1 <0-3>'
 `-joydev2 <0-3>'
-Set the device for joystick emulation of port 1 and 2,
-respectively.  (`JoyDevice1', `JoyDevice2').
+Set the device for joystick emulation of port 1 and 2, respectively
+(`JoyDevice1', `JoyDevice2').
 
 `-extrajoydev1 <0-3>'
 `-extrajoydev2 <0-3>'
-Set device for extra joystick port 1 and 2, respectively.
+Set device for extra joystick port 1 and 2, respectively
 (`JoyDevice3', `JoyDevice4').
 
 
 8.1.5 MorphOS-specific features
 -------------------------------
+
+This section lists the settings and commands that are common and
+specific to MorphOS, and are thus not present in other platforms.
 
 The MorphOS port uses the AHI or SDL sound system, the CGX graphics
 system, the LowLevel input system, the MUI GUI system, and optionally
@@ -7752,24 +7793,50 @@ the OpenPCI library for access to expansion cards like Catweasel or
 HardSID. Please note that access to the Catweasel can also be done
 using catweaselsid.device.
 
-The following are joystick related resources and are therefor present
-in all emulators except VSID.
+8.1.5.1 MorphOS specific resources
+..................................
 
 `JoyFire1'
+Integer specifying the code of the button to use for fire of
+joystick emulation for port 1 (all emulators except xcbm2, xpet
+and vsid).
+
 `JoyFire2'
+Integer specifying the code of the button to use for fire of
+joystick emulation for port 2 (all emulators except xcbm2, xpet,
+xvic and vsid).
+
 `JoyFire3'
+Integer specifying the code of the button to use for fire of
+joystick emulation for port 3 (all emulators except xcbm5x0 and
+vsid).
 
 `JoyFire4'
 Integer specifying the code of the button to use for fire of
-hardware joysticks 1-4 respectively.
+joystick emulation for port 3 (all emulators except xcbm5x0,
+xplus4 and vsid).
 
 `JoyDevice1'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 1 (all emulators except xcbm2,
+xpet and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
 `JoyDevice2'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 2 (all emulators except xcbm2,
+xpet, xvic and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
+5=Joy3)
+
 `JoyDevice3'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 3 (all emulators except xcbm5x0
+and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
 `JoyDevice4'
 Integer specifying which joystick device the emulator should use
-for joystick emulation for ports 1 - 4, respectively.  (0=None,
-1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+for joystick emulation for port 4 (all emulators except xcbm5x0,
+xplus4 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
+5=Joy3)
 
 
 The following resource is only present if the CGX video system is
@@ -7780,7 +7847,7 @@ runtime.
 Boolean to enable/disable video overlay mode.
 
 
-8.1.5.1 MorphOS specific command-line options
+8.1.5.2 MorphOS specific command-line options
 .............................................
 
 The following are joystick related command-line options and are
@@ -7788,12 +7855,12 @@ therefor present in all emulators except VSID.
 
 `-joydev1 <0-5>'
 `-joydev2 <0-5>'
-Set the device for joystick emulation of port 1 and 2,
-respectively.  (`JoyDevice1', `JoyDevice2').
+Set the device for joystick emulation of port 1 and 2, respectively
+(`JoyDevice1', `JoyDevice2').
 
 `-extrajoydev1 <0-5>'
 `-extrajoydev2 <0-5>'
-Set device for extra joystick port 1 and 2, respectively.
+Set device for extra joystick port 1 and 2, respectively
 (`JoyDevice3', `JoyDevice4').
 
 
@@ -7803,33 +7870,63 @@ present at runtime.
 
 `-videooverlay'
 `+videooverlay'
-Enable/Disable video overlay mode.
+Enable/Disable video overlay mode (`VideoOverlayEnabled=1',
+`VideoOverlayEnabled=0').
 
 
 8.1.6 AROS-specific features
 ----------------------------
 
+This section lists the settings and commands that are common and
+specific to AROS, and are thus not present in other platforms.
+
 The AROS port uses the AHI or SDL sound system, the CGX graphics
 system, the LowLevel input system, the MUI GUI system.
 
-The following are joystick related resources and are therefor present
-in all emulators except VSID.
+8.1.6.1 AROS specific resources
+...............................
 
 `JoyFire1'
+Integer specifying the code of the button to use for fire of
+joystick emulation for port 1 (all emulators except xcbm2, xpet
+and vsid).
+
 `JoyFire2'
+Integer specifying the code of the button to use for fire of
+joystick emulation for port 2 (all emulators except xcbm2, xpet,
+xvic and vsid).
+
 `JoyFire3'
+Integer specifying the code of the button to use for fire of
+joystick emulation for port 3 (all emulators except xcbm5x0 and
+vsid).
 
 `JoyFire4'
 Integer specifying the code of the button to use for fire of
-hardware joysticks 1-4 respectively.
+joystick emulation for port 3 (all emulators except xcbm5x0,
+xplus4 and vsid).
 
 `JoyDevice1'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 1 (all emulators except xcbm2,
+xpet and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
 `JoyDevice2'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 2 (all emulators except xcbm2,
+xpet, xvic and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
+5=Joy3)
+
 `JoyDevice3'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 3 (all emulators except xcbm5x0
+and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+
 `JoyDevice4'
 Integer specifying which joystick device the emulator should use
-for joystick emulation for ports 1 - 4, respectively.  (0=None,
-1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+for joystick emulation for port 4 (all emulators except xcbm5x0,
+xplus4 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
+5=Joy3)
 
 
 The following resource is only present if the CGX video system is
@@ -7840,17 +7937,20 @@ runtime.
 Boolean to enable/disable video overlay mode.
 
 
-8.1.6.1 AROS specific command-line options
+8.1.6.2 AROS specific command-line options
 ..........................................
+
+The following are joystick related command-line options and are
+therefor present in all emulators except VSID.
 
 `-joydev1 <0-5>'
 `-joydev2 <0-5>'
-Set the device for joystick emulation of port 1 and 2,
-respectively.  (`JoyDevice1', `JoyDevice2').
+Set the device for joystick emulation of port 1 and 2, respectively
+(`JoyDevice1', `JoyDevice2').
 
 `-extrajoydev1 <0-5>'
 `-extrajoydev2 <0-5>'
-Set device for extra joystick port 1 and 2, respectively.
+Set device for extra joystick port 1 and 2, respectively
 (`JoyDevice3', `JoyDevice4').
 
 
@@ -7860,11 +7960,102 @@ present at runtime.
 
 `-videooverlay'
 `+videooverlay'
-Enable/Disable video overlay mode.
+Enable/Disable video overlay mode (`VideoOverlayEnabled=1',
+`VideoOverlayEnabled=0').
 
 
 8.2 BeOS-specific features
 ==========================
+
+This section lists the settings and commands that are common and
+specific to BeOS, Zeta and Haiku, and are thus not present in other
+platforms.
+
+8.2.1 BeOS specific resources
+-----------------------------
+
+`JoystickDisplay'
+Boolean to enable/disable displaying the joystick status in the
+emulator window.
+
+`SaveResourcesOnExit'
+Boolean specifying whether the emulator should save changed
+settings before exiting.  If this is enabled, the user will be
+always prompted first, in case the settings have changed.
+
+`ConfirmOnExit'
+Boolean specifying whether to show a confirmation dialog on exit.
+
+`DirectWindow'
+Boolean specifying whether to use the BeOS DirectWindow API.
+
+
+The following are joystick related resources and are therefor present
+in all emulators except VSID.
+
+`JoyDevice1'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 1 (all emulators except xcbm2,
+xpet and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
+4..19=Hardware joysticks)
+
+`JoyDevice2'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 2 (all emulators except xcbm2,
+xpet, xvic and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
+4..19=Hardware joysticks)
+
+`JoyDevice3'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 3 (all emulators except xcbm5x0
+and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
+4..19=Hardware joysticks)
+
+`JoyDevice4'
+Integer specifying which joystick device the emulator should use
+for joystick emulation for port 4 (all emulators except xcbm5x0,
+xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
+4..19=Hardware joysticks)
+
+
+8.2.2 BeOS specific command-line options
+----------------------------------------
+
+`-joydisplay'
+`+joydisplay'
+Enable/Disable joystick display.  (`JoystickDisplay=1',
+`JoystickDisplay=0').
+
+`-saveres'
+`+saveres'
+Enable/disable automatic saving of settings on exit
+(`SaveResourcesOnExit=1', `SaveResourcesOnExit=0').
+
+`-confirmexit'
+Confirm quiting VICE (`ConfirmOnExit=1').
+
+`+confirmexit'
+Never confirm quiting VICE (`ConfirmOnExit=0').
+
+`-directwindow'
+`+directwindow'
+Enable/disable usage of the BeOS DirectWindow API
+(`DirectWindow=1', `DirectWindow=0').
+
+
+The following are joystick related command-line options and are
+therefor present in all emulators except VSID.
+
+`-joydev1 <0-19>'
+`-joydev2 <0-19>'
+Set the device for joystick emulation of port 1 and 2, respectively
+(`JoyDevice1', `JoyDevice2').
+
+`-extrajoydev1 <0-19>'
+`-extrajoydev2 <0-19>'
+Set device for extra joystick port 1 and 2, respectively
+(`JoyDevice3', `JoyDevice4').
+
 
 8.3 DOS-specific features
 =========================
@@ -16706,7 +16897,7 @@ Concept Index
 -bdesymkeymap, -bdeposkeymap:                  See 6.6.2.   (line  2227)
 -buksymkeymap, -bukposkeymap:                  See 6.6.2.   (line  2215)
 -burstmod:                                     See 7.1.6.2. (line  5142)
--c:                                            See 15.1.    (line 10063)
+-c:                                            See 15.1.    (line 10254)
 -c1hi:                                         See 7.5.3.2. (line  6610)
 -c1lo:                                         See 7.5.3.2. (line  6609)
 -c2hi:                                         See 7.5.3.2. (line  6616)
@@ -16864,10 +17055,10 @@ Concept Index
 -digimaxbase:                                  See 7.1.6.2. (line  5065)
 -directory:                                    See 6.16.2.  (line  3565)
 -displaydepth:                                 See 6.5.3.   (line  2134)
--doodlecrtctextcolor:                          See 10.2.    (line  8904)
--doodlemc:                                     See 10.2.    (line  8896)
--doodleoversize:                               See 10.2.    (line  8892)
--doodletedlum:                                 See 10.2.    (line  8900)
+-doodlecrtctextcolor:                          See 10.2.    (line  9095)
+-doodlemc:                                     See 10.2.    (line  9087)
+-doodleoversize:                               See 10.2.    (line  9083)
+-doodletedlum:                                 See 10.2.    (line  9091)
 -dos1001:                                      See 6.10.2.  (line  2840)
 -dos1541:                                      See 6.10.2.  (line  2840)
 -dos1541II:                                    See 6.10.2.  (line  2840)
@@ -16940,10 +17131,10 @@ Concept Index
 -extfunc:                                      See 7.2.2.2. (line  5577)
 -extrajoydev1:                                 See 6.7.2.   (line  2327)
 -extrajoydev2:                                 See 6.7.2.   (line  2327)
--f:                                            See 14.1.    (line  9827)
+-f:                                            See 14.1.    (line 10018)
 -fewriteback, +fewriteback:                    See 7.4.2.2. (line  5944)
--ffmpegaudiobitrate:                           See 10.2.    (line  8909)
--ffmpegvideobitrate:                           See 10.2.    (line  8910)
+-ffmpegaudiobitrate:                           See 10.2.    (line  9100)
+-ffmpegvideobitrate:                           See 10.2.    (line  9101)
 -flipname:                                     See 6.11.1.2.
 (line  3028)
 -fpwriteback, +fpwriteback:                    See 7.4.2.2. (line  5951)
@@ -16971,16 +17162,16 @@ Concept Index
 -gluelogictype:                                See 7.1.8.2. (line  5254)
 -go64, +go64:                                  See 7.2.3.2. (line  5614)
 -grsymkeymap, -grposkeymap:                    See 6.6.2.   (line  2221)
--h:                                            See 15.1.    (line 10073)
+-h:                                            See 15.1.    (line 10264)
 -h1024k:                                       See 7.5.4.2. (line  6646)
 -h256k:                                        See 7.5.4.2. (line  6645)
 -h4096k:                                       See 7.5.4.2. (line  6649)
--help <1>:                                     See 15.1.    (line 10059)
+-help <1>:                                     See 15.1.    (line 10250)
 -help:                                         See 3.1.     (line   982)
 -htmlbrowser:                                  See 6.16.2.  (line  3566)
 -hummeradc, +hummeradc:                        See 7.3.4.   (line  5712)
--i:                                            See 14.1.    (line  9806)
--ic:                                           See 15.1.    (line 10070)
+-i:                                            See 14.1.    (line  9997)
+-ic:                                           See 15.1.    (line 10261)
 -IDE64autosize1, +IDE64autosize1:              See 7.1.2.2. (line  4312)
 -IDE64autosize2, +IDE64autosize2:              See 7.1.2.2. (line  4312)
 -IDE64autosize3, +IDE64autosize3:              See 7.1.2.2. (line  4312)
@@ -17033,8 +17224,8 @@ Concept Index
 -isepicimagerw, +isepicimagerw:                See 7.1.2.2. (line  4358)
 -joydev1:                                      See 6.7.2.   (line  2321)
 -joydev2:                                      See 6.7.2.   (line  2321)
--k:                                            See 15.1.    (line 10094)
--k<version>:                                   See 15.1.    (line 10091)
+-k:                                            See 15.1.    (line 10285)
+-k<version>:                                   See 15.1.    (line 10282)
 -keepenv:                                      See 7.8.1.2. (line  7488)
 -kernal <1>:                                   See 7.4.5.2. (line  6313)
 -kernal <2>:                                   See 7.6.4.2. (line  7049)
@@ -17052,7 +17243,7 @@ Concept Index
 -kernalse:                                     See 7.2.2.2. (line  5547)
 -keybuf:                                       See 3.1.     (line   998)
 -keymap:                                       See 6.6.2.   (line  2201)
--l:                                            See 15.1.    (line 10097)
+-l:                                            See 15.1.    (line 10288)
 -lightpen, +lightpen:                          See 6.7.2.   (line  2344)
 -lightpentype:                                 See 6.7.2.   (line  2346)
 -logfile:                                      See 3.1.     (line   992)
@@ -17085,13 +17276,13 @@ Concept Index
 -mouseport:                                    See 6.7.2.   (line  2339)
 -mousetype:                                    See 6.7.2.   (line  2335)
 -myaciadev:                                    See 6.12.2.  (line  3318)
--n:                                            See 14.1.    (line  9818)
--nc:                                           See 15.1.    (line 10066)
--nh:                                           See 15.1.    (line 10076)
+-n:                                            See 14.1.    (line 10009)
+-nc:                                           See 15.1.    (line 10257)
+-nh:                                           See 15.1.    (line 10267)
 -ntsc:                                         See 6.14.2.  (line  3431)
 -ntscold:                                      See 6.14.2.  (line  3434)
--o:                                            See 14.1.    (line  9810)
--o <name>:                                     See 15.1.    (line 10100)
+-o:                                            See 14.1.    (line 10001)
+-o <name>:                                     See 15.1.    (line 10291)
 -pal:                                          See 6.14.2.  (line  3430)
 -paln:                                         See 6.14.2.  (line  3437)
 -parallel10:                                   See 6.10.2.  (line  2816)
@@ -17106,7 +17297,7 @@ Concept Index
 -petreu, +petreu:                              See 7.6.3.2. (line  6992)
 -petreuimage:                                  See 7.6.3.2. (line  6996)
 -petreuramsize:                                See 7.6.3.2. (line  6997)
--playback:                                     See 11.9.    (line  9049)
+-playback:                                     See 11.9.    (line  9240)
 -plus256k, +plus256k:                          See 7.1.8.2. (line  5267)
 -plus256kimage:                                See 7.1.8.2. (line  5269)
 -plus60k, +plus60k:                            See 7.1.8.2. (line  5257)
@@ -17141,8 +17332,8 @@ Concept Index
 -prusertxtdev:                                 See 6.11.2.2.
 (line  3156)
 -ps2mouse, +ps2mouse:                          See 7.3.4.   (line  5716)
--q:                                            See 14.1.    (line  9836)
--r:                                            See 14.1.    (line  9832)
+-q:                                            See 14.1.    (line 10027)
+-r:                                            See 14.1.    (line 10023)
 -ram08, +ram08:                                See 7.7.3.   (line  7419)
 -ram1, +ram1:                                  See 7.7.3.   (line  7422)
 -ram2, +ram2:                                  See 7.7.3.   (line  7427)
@@ -17204,7 +17395,7 @@ Concept Index
 -sidstereo:                                    See 7.1.5.2. (line  4886)
 -sidstereoaddress:                             See 7.1.5.2. (line  4889)
 -sidtripleaddress:                             See 7.1.5.2. (line  4893)
--skip <n>:                                     See 15.1.    (line 10079)
+-skip <n>:                                     See 15.1.    (line 10270)
 -sound, +sound:                                See 6.8.2.   (line  2530)
 -soundarg:                                     See 6.8.2.   (line  2557)
 -soundbufsize:                                 See 6.8.2.   (line  2545)
@@ -17221,7 +17412,7 @@ Concept Index
 -superpet, +superpet:                          See 7.6.6.2. (line  7116)
 -symdekeymap:                                  See 6.6.2.   (line  2212)
 -symkeymap:                                    See 6.6.2.   (line  2206)
--t:                                            See 14.1.    (line  9814)
+-t:                                            See 14.1.    (line 10005)
 -TEDaudioleak, +TEDaudioleak:                  See 7.5.1.2. (line  6501)
 -TEDborders:                                   See 7.5.1.2. (line  6469)
 -TEDbrightness:                                See 7.5.1.2. (line  6478)
@@ -17244,7 +17435,7 @@ Concept Index
 -TEDvcache, +TEDvcache:                        See 7.5.1.2. (line  6434)
 -TEDVidmodefullmode:                           See 7.5.1.2. (line  6466)
 -TEDXRANDRfullmode:                            See 7.5.1.2. (line  6463)
--text:                                         See 15.1.    (line 10082)
+-text:                                         See 15.1.    (line 10273)
 -tfe, +tfe <1>:                                See 7.1.6.2. (line  5131)
 -tfe, +tfe:                                    See 7.4.2.2. (line  5968)
 -tfeif <1>:                                    See 7.4.2.2. (line  5972)
@@ -17256,7 +17447,7 @@ Concept Index
 -trueflashfs, +trueflashfs:                    See 7.3.1.   (line  5664)
 -tune:                                         See 7.8.1.2. (line  7489)
 -userportdac, +userportdac:                    See 7.6.3.2. (line  7002)
--v:                                            See 15.1.    (line 10060)
+-v:                                            See 15.1.    (line 10251)
 -VDC16KB:                                      See 7.2.1.2. (line  5422)
 -VDC64KB:                                      See 7.2.1.2. (line  5425)
 -VDCaudioleak, +VDCaudioleak:                  See 7.2.1.2. (line  5460)
@@ -17332,7 +17523,7 @@ Concept Index
 -VICXRANDRfullmode:                            See 7.4.3.2. (line  6153)
 -virtualdev, +virtualdev:                      See 6.11.3.2.
 (line  3188)
--w<version>:                                   See 15.1.    (line 10088)
+-w<version>:                                   See 15.1.    (line 10279)
 -warp, +warp:                                  See 6.4.2.   (line  1940)
 -xsync, +xsync:                                See 6.5.3.   (line  2119)
 ACIA (Swiftlink, Turbo232):                    See 7.1.6.   (line  4937)
@@ -17421,22 +17612,23 @@ Cart4Name:                                     See 7.7.1.   (line  7334)
 Cart6Name:                                     See 7.7.1.   (line  7334)
 CartridgeFile <1>:                             See 7.4.2.1. (line  5845)
 CartridgeFile:                                 See 7.1.2.1. (line  3923)
-CartridgeReset <1>:                            See 7.5.2.1. (line  6513)
+CartridgeReset <1>:                            See 7.1.2.1. (line  3917)
 CartridgeReset <2>:                            See 7.4.2.1. (line  5840)
-CartridgeReset:                                See 7.1.2.1. (line  3917)
-CartridgeType <1>:                             See 7.1.2.1. (line  3919)
-CartridgeType:                                 See 7.4.2.1. (line  5842)
+CartridgeReset:                                See 7.5.2.1. (line  6513)
+CartridgeType <1>:                             See 7.4.2.1. (line  5842)
+CartridgeType:                                 See 7.1.2.1. (line  3919)
 ChargenCHName:                                 See 7.2.2.1. (line  5472)
 ChargenDEName:                                 See 7.2.2.1. (line  5472)
 ChargenFRName:                                 See 7.2.2.1. (line  5472)
 ChargenIntName:                                See 7.2.2.1. (line  5472)
-ChargenName <1>:                               See 7.4.5.1. (line  6305)
-ChargenName <2>:                               See 7.6.1.   (line  6714)
-ChargenName:                                   See 7.1.7.1. (line  5168)
+ChargenName <1>:                               See 7.1.7.1. (line  5168)
+ChargenName <2>:                               See 7.4.5.1. (line  6305)
+ChargenName:                                   See 7.6.1.   (line  6714)
 ChargenSEName:                                 See 7.2.2.1. (line  5472)
 CIA1Model:                                     See 7.1.3.1. (line  4524)
 CIA2Model:                                     See 7.1.3.1. (line  4524)
-ConfirmOnExit <1>:                             See 8.1.1.   (line  7546)
+ConfirmOnExit <1>:                             See 8.2.1.   (line  7989)
+ConfirmOnExit <2>:                             See 8.1.1.   (line  7546)
 ConfirmOnExit:                                 See 6.16.1.  (line  3551)
 CPUswitch:                                     See 7.6.6.1. (line  7097)
 Crtc:                                          See 7.6.2.1. (line  6780)
@@ -17472,12 +17664,13 @@ DIGIBLASTER:                                   See 7.5.2.1. (line  6517)
 DIGIMAX:                                       See 7.1.6.1. (line  4971)
 DIGIMAXbase:                                   See 7.1.6.1. (line  4973)
 Directory:                                     See 6.16.1.  (line  3484)
+DirectWindow:                                  See 8.2.1.   (line  7992)
 DisplayDepth:                                  See 6.5.2.   (line  2076)
 DoCoreDump:                                    See 6.16.1.  (line  3527)
-DoodleCRTCTextColor:                           See 10.1.    (line  8864)
-DoodleMultiColorHandling:                      See 10.1.    (line  8855)
-DoodleOversizeHandling:                        See 10.1.    (line  8850)
-DoodleTEDLumHandling:                          See 10.1.    (line  8860)
+DoodleCRTCTextColor:                           See 10.1.    (line  9055)
+DoodleMultiColorHandling:                      See 10.1.    (line  9046)
+DoodleOversizeHandling:                        See 10.1.    (line  9041)
+DoodleTEDLumHandling:                          See 10.1.    (line  9051)
 DosName1001:                                   See 6.10.1.  (line  2772)
 DosName1541:                                   See 6.10.1.  (line  2772)
 DosName1541ii:                                 See 6.10.1.  (line  2772)
@@ -17550,23 +17743,23 @@ ETHERNET_ACTIVE:                               See 7.1.6.1. (line  4978)
 ETHERNET_AS_RR:                                See 7.1.6.1. (line  4988)
 ETHERNET_DISABLED:                             See 7.1.6.1. (line  4984)
 ETHERNET_INTERFACE:                            See 7.1.6.1. (line  4980)
-EventEndSnapshot:                              See 11.8.    (line  9032)
-EventImageInclude:                             See 11.8.    (line  9039)
-EventSnapshotDir:                              See 11.8.    (line  9026)
-EventStartMode:                                See 11.8.    (line  9035)
-EventStartSnapshot:                            See 11.8.    (line  9028)
+EventEndSnapshot:                              See 11.8.    (line  9223)
+EventImageInclude:                             See 11.8.    (line  9230)
+EventSnapshotDir:                              See 11.8.    (line  9217)
+EventStartMode:                                See 11.8.    (line  9226)
+EventStartSnapshot:                            See 11.8.    (line  9219)
 ExpertCartridgeEnabled:                        See 7.1.2.1. (line  3949)
 ExpertCartridgeMode:                           See 7.1.2.1. (line  3959)
 Expertfilename:                                See 7.1.2.1. (line  3951)
 ExpertImageWrite:                              See 7.1.2.1. (line  3954)
 ExternalFunctionName:                          See 7.2.2.1. (line  5509)
 ExternalFunctionROM:                           See 7.2.2.1. (line  5507)
-FFMPEGAudioBitrate:                            See 10.1.    (line  8871)
-FFMPEGAudioCodec:                              See 10.1.    (line  8877)
-FFMPEGFormat:                                  See 10.1.    (line  8870)
-FFMPEGVideoBitrate:                            See 10.1.    (line  8874)
-FFMPEGVideoCodec:                              See 10.1.    (line  8880)
-FFMPEGVideoHalveFramerate:                     See 10.1.    (line  8883)
+FFMPEGAudioBitrate:                            See 10.1.    (line  9062)
+FFMPEGAudioCodec:                              See 10.1.    (line  9068)
+FFMPEGFormat:                                  See 10.1.    (line  9061)
+FFMPEGVideoBitrate:                            See 10.1.    (line  9065)
+FFMPEGVideoCodec:                              See 10.1.    (line  9071)
+FFMPEGVideoHalveFramerate:                     See 10.1.    (line  9074)
 FileSystemDevice10:                            See 6.11.1.1.
 (line  2957)
 FileSystemDevice11:                            See 6.11.1.1.
@@ -17694,51 +17887,56 @@ IsepicCartridgeEnabled:                        See 7.1.2.1. (line  4027)
 Isepicfilename:                                See 7.1.2.1. (line  4030)
 IsepicImageWrite:                              See 7.1.2.1. (line  4036)
 IsepicSwitch:                                  See 7.1.2.1. (line  4033)
-JOYAI1_Down:                                   See 8.1.4.1. (line  7689)
-JOYAI1_Fire:                                   See 8.1.4.1. (line  7713)
-JOYAI1_ID:                                     See 8.1.4.1. (line  7677)
-JOYAI1_Left:                                   See 8.1.4.1. (line  7697)
-JOYAI1_Right:                                  See 8.1.4.1. (line  7705)
-JOYAI1_Up:                                     See 8.1.4.1. (line  7681)
-JOYAI2_Down:                                   See 8.1.4.1. (line  7693)
-JOYAI2_Fire:                                   See 8.1.4.1. (line  7717)
-JOYAI2_ID:                                     See 8.1.4.1. (line  7678)
-JOYAI2_Left:                                   See 8.1.4.1. (line  7701)
-JOYAI2_Right:                                  See 8.1.4.1. (line  7709)
-JOYAI2_Up:                                     See 8.1.4.1. (line  7685)
-JoyDevice1 <1>:                                See 8.1.3.1. (line  7617)
-JoyDevice1 <2>:                                See 8.1.4.1. (line  7723)
-JoyDevice1 <3>:                                See 8.1.5.   (line  7769)
+JOYAI1_Down:                                   See 8.1.4.1. (line  7716)
+JOYAI1_Fire:                                   See 8.1.4.1. (line  7740)
+JOYAI1_ID:                                     See 8.1.4.1. (line  7704)
+JOYAI1_Left:                                   See 8.1.4.1. (line  7724)
+JOYAI1_Right:                                  See 8.1.4.1. (line  7732)
+JOYAI1_Up:                                     See 8.1.4.1. (line  7708)
+JOYAI2_Down:                                   See 8.1.4.1. (line  7720)
+JOYAI2_Fire:                                   See 8.1.4.1. (line  7744)
+JOYAI2_ID:                                     See 8.1.4.1. (line  7705)
+JOYAI2_Left:                                   See 8.1.4.1. (line  7728)
+JOYAI2_Right:                                  See 8.1.4.1. (line  7736)
+JOYAI2_Up:                                     See 8.1.4.1. (line  7712)
+JoyDevice1 <1>:                                See 8.2.1.   (line  7999)
+JoyDevice1 <2>:                                See 8.1.5.1. (line  7822)
+JoyDevice1 <3>:                                See 8.1.4.1. (line  7751)
 JoyDevice1 <4>:                                See 6.7.1.   (line  2240)
-JoyDevice1:                                    See 8.1.6.   (line  7829)
-JoyDevice2 <1>:                                See 8.1.4.1. (line  7723)
-JoyDevice2 <2>:                                See 6.7.1.   (line  2240)
-JoyDevice2 <3>:                                See 8.1.6.   (line  7829)
-JoyDevice2 <4>:                                See 8.1.5.   (line  7769)
-JoyDevice2:                                    See 8.1.3.1. (line  7617)
-JoyDevice3 <1>:                                See 8.1.5.   (line  7769)
-JoyDevice3 <2>:                                See 8.1.6.   (line  7829)
-JoyDevice3 <3>:                                See 8.1.3.1. (line  7617)
-JoyDevice3 <4>:                                See 8.1.4.1. (line  7723)
-JoyDevice3:                                    See 6.7.1.   (line  2240)
-JoyDevice4 <1>:                                See 8.1.3.1. (line  7617)
-JoyDevice4 <2>:                                See 8.1.5.   (line  7769)
-JoyDevice4 <3>:                                See 6.7.1.   (line  2240)
-JoyDevice4 <4>:                                See 8.1.4.1. (line  7723)
-JoyDevice4:                                    See 8.1.6.   (line  7829)
-JoyFire1 <1>:                                  See 8.1.3.1. (line  7609)
-JoyFire1 <2>:                                  See 8.1.5.   (line  7761)
-JoyFire1:                                      See 8.1.6.   (line  7821)
-JoyFire2 <1>:                                  See 8.1.3.1. (line  7609)
-JoyFire2 <2>:                                  See 8.1.5.   (line  7761)
-JoyFire2:                                      See 8.1.6.   (line  7821)
-JoyFire3 <1>:                                  See 8.1.3.1. (line  7609)
-JoyFire3 <2>:                                  See 8.1.6.   (line  7821)
-JoyFire3:                                      See 8.1.5.   (line  7761)
-JoyFire4 <1>:                                  See 8.1.6.   (line  7821)
-JoyFire4 <2>:                                  See 8.1.3.1. (line  7609)
-JoyFire4:                                      See 8.1.5.   (line  7761)
+JoyDevice1 <5>:                                See 8.1.3.1. (line  7633)
+JoyDevice1:                                    See 8.1.6.1. (line  7912)
+JoyDevice2 <1>:                                See 8.1.5.1. (line  7825)
+JoyDevice2 <2>:                                See 8.2.1.   (line  8003)
+JoyDevice2 <3>:                                See 8.1.3.1. (line  7636)
+JoyDevice2 <4>:                                See 6.7.1.   (line  2240)
+JoyDevice2 <5>:                                See 8.1.6.1. (line  7915)
+JoyDevice2:                                    See 8.1.4.1. (line  7754)
+JoyDevice3 <1>:                                See 6.7.1.   (line  2240)
+JoyDevice3 <2>:                                See 8.2.1.   (line  8009)
+JoyDevice3 <3>:                                See 8.1.5.1. (line  7831)
+JoyDevice3 <4>:                                See 8.1.4.1. (line  7760)
+JoyDevice3 <5>:                                See 8.1.6.1. (line  7921)
+JoyDevice3:                                    See 8.1.3.1. (line  7641)
+JoyDevice4 <1>:                                See 8.2.1.   (line  8015)
+JoyDevice4 <2>:                                See 6.7.1.   (line  2240)
+JoyDevice4 <3>:                                See 8.1.5.1. (line  7836)
+JoyDevice4 <4>:                                See 8.1.4.1. (line  7765)
+JoyDevice4 <5>:                                See 8.1.3.1. (line  7646)
+JoyDevice4:                                    See 8.1.6.1. (line  7926)
+JoyFire1 <1>:                                  See 8.1.3.1. (line  7614)
+JoyFire1 <2>:                                  See 8.1.5.1. (line  7802)
+JoyFire1:                                      See 8.1.6.1. (line  7892)
+JoyFire2 <1>:                                  See 8.1.6.1. (line  7895)
+JoyFire2 <2>:                                  See 8.1.5.1. (line  7805)
+JoyFire2:                                      See 8.1.3.1. (line  7617)
+JoyFire3 <1>:                                  See 8.1.6.1. (line  7900)
+JoyFire3 <2>:                                  See 8.1.3.1. (line  7622)
+JoyFire3:                                      See 8.1.5.1. (line  7810)
+JoyFire4 <1>:                                  See 8.1.3.1. (line  7626)
+JoyFire4 <2>:                                  See 8.1.5.1. (line  7815)
+JoyFire4:                                      See 8.1.6.1. (line  7905)
 JoyOpposite:                                   See 6.7.1.   (line  2260)
+JoystickDisplay:                               See 8.2.1.   (line  7980)
 KeepAspectRatio:                               See 6.5.2.   (line  2090)
 KeepMonitorOpen:                               See 6.13.1.  (line  3382)
 Kernal64Name:                                  See 7.2.2.1. (line  5493)
@@ -17748,9 +17946,9 @@ KernalFIName:                                  See 7.2.2.1. (line  5479)
 KernalFRName:                                  See 7.2.2.1. (line  5479)
 KernalIntName:                                 See 7.2.2.1. (line  5479)
 KernalITName:                                  See 7.2.2.1. (line  5479)
-KernalName <1>:                                See 7.6.1.   (line  6717)
+KernalName <1>:                                See 7.4.5.1. (line  6299)
 KernalName <2>:                                See 7.1.7.1. (line  5160)
-KernalName:                                    See 7.4.5.1. (line  6299)
+KernalName:                                    See 7.6.1.   (line  6717)
 KernalNOName:                                  See 7.2.2.1. (line  5479)
 KernalRev:                                     See 7.1.7.1. (line  5172)
 KernalSEName:                                  See 7.2.2.1. (line  5479)
@@ -17920,21 +18118,22 @@ RsUserBaud:                                    See 6.12.1.  (line  3289)
 RsUserDev:                                     See 6.12.1.  (line  3293)
 RsUserEnable:                                  See 6.12.1.  (line  3285)
 SaveResourcesOnExit <1>:                       See 8.1.1.   (line  7541)
-SaveResourcesOnExit:                           See 6.16.1.  (line  3522)
+SaveResourcesOnExit <2>:                       See 6.16.1.  (line  3522)
+SaveResourcesOnExit:                           See 8.2.1.   (line  7984)
 SFXSoundExpander:                              See 7.1.6.1. (line  5044)
 SFXSoundExpanderChip:                          See 7.1.6.1. (line  5046)
 SFXSoundExpanderIOSwap:                        See 7.4.2.1. (line  5883)
 SFXSoundSampler:                               See 7.1.6.1. (line  5051)
 SFXSoundSamplerIOSwap:                         See 7.4.2.1. (line  5886)
 SidAddress <1>:                                See 7.5.2.1. (line  6527)
-SidAddress <2>:                                See 7.4.2.1. (line  5896)
-SidAddress:                                    See 7.6.3.1. (line  6979)
-SidCart <1>:                                   See 7.6.3.1. (line  6978)
-SidCart <2>:                                   See 7.4.2.1. (line  5895)
-SidCart:                                       See 7.5.2.1. (line  6526)
+SidAddress <2>:                                See 7.6.3.1. (line  6979)
+SidAddress:                                    See 7.4.2.1. (line  5896)
+SidCart <1>:                                   See 7.5.2.1. (line  6526)
+SidCart <2>:                                   See 7.6.3.1. (line  6978)
+SidCart:                                       See 7.4.2.1. (line  5895)
 SIDCartJoy:                                    See 7.5.2.1. (line  6534)
-SidClock <1>:                                  See 7.6.3.1. (line  6982)
-SidClock <2>:                                  See 7.4.2.1. (line  5899)
+SidClock <1>:                                  See 7.4.2.1. (line  5899)
+SidClock <2>:                                  See 7.6.3.1. (line  6982)
 SidClock:                                      See 7.5.2.1. (line  6530)
 SidEngine:                                     See 7.1.5.1. (line  4862)
 SidFilters:                                    See 7.1.5.1. (line  4854)
@@ -18069,9 +18268,9 @@ VICPALScanLineShade:                           See 7.4.3.1. (line  6088)
 VICVideoCache:                                 See 7.4.3.1. (line  6033)
 VICVidmodeFullscreenMode:                      See 7.4.3.1. (line  6062)
 VICXRANDRFullscreenMode:                       See 7.4.3.1. (line  6059)
-VideoOverlayEnabled <1>:                       See 8.1.3.1. (line  7630)
-VideoOverlayEnabled <2>:                       See 8.1.6.   (line  7842)
-VideoOverlayEnabled:                           See 8.1.5.   (line  7782)
+VideoOverlayEnabled <1>:                       See 8.1.5.1. (line  7849)
+VideoOverlayEnabled <2>:                       See 8.1.3.1. (line  7659)
+VideoOverlayEnabled:                           See 8.1.6.1. (line  7939)
 VideoSize:                                     See 7.6.1.   (line  6685)
 VirtualDevices:                                See 6.11.3.1.
 (line  3178)
@@ -18087,35 +18286,43 @@ Window1Ypos:                                   See 6.5.2.   (line  2106)
 Index of Command-line options
 *****************************
 
--confirmexit, +confirmexit:                    See 8.1.2.   (line  7587)
--extrajoydev1 <1>:                             See 8.1.6.1. (line  7852)
--extrajoydev1 <2>:                             See 8.1.4.2. (line  7741)
--extrajoydev1 <3>:                             See 8.1.5.1. (line  7795)
--extrajoydev1:                                 See 8.1.3.2. (line  7643)
--extrajoydev2 <1>:                             See 8.1.3.2. (line  7643)
--extrajoydev2 <2>:                             See 8.1.6.1. (line  7852)
--extrajoydev2 <3>:                             See 8.1.5.1. (line  7795)
--extrajoydev2:                                 See 8.1.4.2. (line  7741)
--fullscreen, +fullscreen:                      See 8.1.2.   (line  7574)
--initialautostartdir:                          See 8.1.2.   (line  7562)
--initialcartdir:                               See 8.1.2.   (line  7565)
+-confirmexit, +confirmexit <1>:                See 8.2.2.   (line  8037)
+-confirmexit, +confirmexit:                    See 8.1.2.   (line  7592)
+-directwindow, +directwindow:                  See 8.2.2.   (line  8043)
+-extrajoydev1 <1>:                             See 8.1.4.2. (line  7779)
+-extrajoydev1 <2>:                             See 8.1.6.2. (line  7952)
+-extrajoydev1 <3>:                             See 8.1.5.2. (line  7862)
+-extrajoydev1 <4>:                             See 8.2.2.   (line  8055)
+-extrajoydev1:                                 See 8.1.3.2. (line  7669)
+-extrajoydev2 <1>:                             See 8.2.2.   (line  8055)
+-extrajoydev2 <2>:                             See 8.1.6.2. (line  7952)
+-extrajoydev2 <3>:                             See 8.1.5.2. (line  7862)
+-extrajoydev2 <4>:                             See 8.1.4.2. (line  7779)
+-extrajoydev2:                                 See 8.1.3.2. (line  7669)
+-fullscreen, +fullscreen:                      See 8.1.2.   (line  7577)
+-initialautostartdir:                          See 8.1.2.   (line  7563)
+-initialcartdir:                               See 8.1.2.   (line  7567)
 -initialdefaultdir:                            See 8.1.2.   (line  7553)
--initialdiskdir:                               See 8.1.2.   (line  7558)
--initialsnapshotdir:                           See 8.1.2.   (line  7569)
--initialtapedir:                               See 8.1.2.   (line  7554)
--joydev1 <1>:                                  See 8.1.3.2. (line  7640)
--joydev1 <2>:                                  See 8.1.4.2. (line  7738)
--joydev1 <3>:                                  See 8.1.5.1. (line  7792)
--joydev1:                                      See 8.1.6.1. (line  7849)
--joydev2 <1>:                                  See 8.1.4.2. (line  7738)
--joydev2 <2>:                                  See 8.1.3.2. (line  7640)
--joydev2 <3>:                                  See 8.1.6.1. (line  7849)
--joydev2:                                      See 8.1.5.1. (line  7792)
--saveres, +saveres:                            See 8.1.2.   (line  7582)
--statusbar, +statusbar:                        See 8.1.2.   (line  7578)
--videooverlay, +videooverlay <1>:              See 8.1.3.2. (line  7655)
--videooverlay, +videooverlay <2>:              See 8.1.5.1. (line  7807)
--videooverlay, +videooverlay:                  See 8.1.6.1. (line  7864)
+-initialdiskdir:                               See 8.1.2.   (line  7559)
+-initialsnapshotdir:                           See 8.1.2.   (line  7571)
+-initialtapedir:                               See 8.1.2.   (line  7555)
+-joydev1 <1>:                                  See 8.1.6.2. (line  7949)
+-joydev1 <2>:                                  See 8.1.4.2. (line  7776)
+-joydev1 <3>:                                  See 8.1.5.2. (line  7859)
+-joydev1 <4>:                                  See 8.1.3.2. (line  7666)
+-joydev1:                                      See 8.2.2.   (line  8052)
+-joydev2 <1>:                                  See 8.1.3.2. (line  7666)
+-joydev2 <2>:                                  See 8.1.5.2. (line  7859)
+-joydev2 <3>:                                  See 8.1.4.2. (line  7776)
+-joydev2 <4>:                                  See 8.2.2.   (line  8052)
+-joydev2:                                      See 8.1.6.2. (line  7949)
+-joydisplay, +joydisplay:                      See 8.2.2.   (line  8027)
+-saveres, +saveres <1>:                        See 8.2.2.   (line  8032)
+-saveres, +saveres:                            See 8.1.2.   (line  7587)
+-statusbar, +statusbar:                        See 8.1.2.   (line  7582)
+-videooverlay, +videooverlay <1>:              See 8.1.6.2. (line  7964)
+-videooverlay, +videooverlay <2>:              See 8.1.5.2. (line  7874)
+-videooverlay, +videooverlay:                  See 8.1.3.2. (line  7681)
 Table of Contents
 *****************
 
@@ -18331,10 +18538,14 @@ How to Apply These Terms to Your New Programs
 8.1.4.1 AmigaOS4 specific resources
 8.1.4.2 AmigaOS4 specific command-line options
 8.1.5 MorphOS-specific features
-8.1.5.1 MorphOS specific command-line options
+8.1.5.1 MorphOS specific resources
+8.1.5.2 MorphOS specific command-line options
 8.1.6 AROS-specific features
-8.1.6.1 AROS specific command-line options
+8.1.6.1 AROS specific resources
+8.1.6.2 AROS specific command-line options
 8.2 BeOS-specific features
+8.2.1 BeOS specific resources
+8.2.2 BeOS specific command-line options
 8.3 DOS-specific features
 8.4 OS2-specific features
 8.5 SDL-specific features

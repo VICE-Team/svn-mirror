@@ -405,12 +405,42 @@ void ui_resources_shutdown(void)
 
 /* UI-related command-line options.  */
 static const cmdline_option_t cmdline_options[] = {
+    { "-joydisplay", SET_RESOURCE, 0,
+      NULL, NULL, "JoystickDisplay", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable joystick display" },
+    { "+joydisplay", SET_RESOURCE, 0,
+      NULL, NULL, "JoystickDisplay", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable joystick display" },
+    { "-saveres", SET_RESOURCE, 0,
+      NULL, NULL, "SaveResourcesOnExit", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Save resources on exit" },
+    { "+saveres", SET_RESOURCE, 0,
+      NULL, NULL, "SaveResourcesOnExit", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Do not save resources on exit" },
+    { "-confirmexit", SET_RESOURCE, 0,
+      NULL, NULL, "ConfirmOnExit", (resource_value_t) 1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Confirm exiting the emulator" },
+    { "+confirmexit", SET_RESOURCE, 0,
+      NULL, NULL, "ConfirmOnExit", (resource_value_t) 0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Do not confirm exiting the emulator" },
     { NULL }
 };
 
 int ui_cmdline_options_init(void)
 {
-    return 0;
+    return cmdline_register_options(cmdline_options);
 }
 
 
