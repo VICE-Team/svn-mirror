@@ -901,6 +901,272 @@ action:         N/A
 FIXED/CORRECT DOS ONLY COMMON RESOURCES/CMDLINES:
 =================================================
 
+arch/msdos/ui.c:
+----------------
+resource type:                  bool
+resource name:                  "UseLeds"
+resource range:                 0/1
+resource default:               1
+resource function:              set_use_leds()
+resource var:                   use_leds
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -leds / +leds
+platform gui present:           dos
+
+arch/msdos/ui.c:
+----------------
+command line:   -leds
+description:    "Enable usage of PC keyboard LEDs"
+resource:       "UseLeds" (set to 1)
+action:         N/A
+
+arch/msdos/ui.c:
+----------------
+command line:   +leds
+description:    "Disable usage of PC keyboard LEDs"
+resource:       "UseLeds" (set to 0)
+action:         N/A
+
+arch/msdos/ui.c:
+----------------
+resource type:                  int
+resource name:                  "ShowStatusbar"
+resource range:                 0..2 (STATUSBAR_MODE_OFF (0), STATUSBAR_MODE_ON (1), STATUSBAR_MODE_AUTO (2))
+resource default:               STATUSBAR_MODE_AUTO (2)
+resource function:              set_statusbar_enabled()
+resource var:                   statusbar_is_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -statusbar
+platform gui present:           dos
+platform range correct:		dos
+
+arch/msdos/ui.c:
+----------------
+command line:   -statusbar <Mode>
+description:    "Set the Statusbar mode (0: Off, 1: On, 2: Auto)"
+resource:       "ShowStatusbar"
+action:         N/A
+
+arch/msdos/video.c:
+-------------------
+resource type:                  int
+resource name:                  "VGAMode"
+resource range:                 0..15 ( VGA_320x200x8 (0), VGA_360x240x8 (1), VGA_360x270x8 (2), VGA_376x282x8 (3), VGA_400x300x8 (4), VGA_640x480x8 (5),
+                                        VGA_800x600x8 (6), VGA_1024x768x8 (7), VGA_320x200x16 (8), VGA_400x300x16 (9), VGA_640x480x16 (10), VGA_800x600x16 (11),
+                                        VGA_1024x768x16 (12), VGA_640x480x32 (13), VGA_800x600x32 (14), VGA_1024x768x32 (15))
+resource default:               VGA_320x200x8 (0)
+resource function:              set_vga_mode()
+resource var:                   vga_mode
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -vgamode
+platform gui present:           dos
+platform range correct:		dos
+
+arch/msdos/video.c:
+-------------------
+command line:   -vgamode <mode>
+description:    "Set VGA mode to <mode>. (0:320x200x8, 1:360x240x8, 2:360x270x8, 3:376x282x8, 4:400x300x8, 5:640x480x8, 6:800x600x8, 7:1024x768x8, 8:320x200x16, 9:400x300x16, 10:640x480x16, 11:800x600x16, 12:1024x768x16, 13:640x480x32, 14:800x600x32, 15:1024x768x32)"
+resource:       "VGAMode"
+action:         N/A
+
+arch/msdos/vsync.c:
+-------------------
+resource type:                  int
+resource name:                  "Speed"
+resource range:                 0/1+
+resource default:               100
+resource function:              set_relative_speed()
+resource var:                   relative_speed
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -speed
+platform gui present:           dos
+platform range correct:		dos
+
+arch/msdos/vsync.c:
+-------------------
+command line:   -speed <percent>
+description:    "Limit emulation speed to specified value"
+resource:       "Speed"
+action:         N/A
+
+arch/msdos/vsync.c:
+-------------------
+resource type:                  int
+resource name:                  "RefreshRate"
+resource range:                 0/1+
+resource default:               0
+resource function:              set_refresh_rate()
+resource var:                   refresh_rate
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -refresh
+platform gui present:           dos
+platform range correct:		dos
+
+arch/msdos/vsync.c:
+-------------------
+command line:   -refresh <value>
+description:    "Update every <value> frames (`0' for automatic)"
+resource:       "RefreshRate"
+action:         N/A
+
+arch/msdos/vsync.c:
+-------------------
+resource type:                  bool
+resource name:                  "WarpMode"
+resource range:                 0/1
+resource default:               0
+resource function:              set_warp_mode()
+resource var:                   warp_mode_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -warp / +warp
+platform gui present:           dos
+
+arch/msdos/vsync.c:
+-------------------
+command line:   -warp
+description:    "Enable warp mode"
+resource:       "WarpMode" (set to 1)
+action:         N/A
+
+arch/msdos/vsync.c:
+-------------------
+command line:   +warp
+description:    "Disable warp mode"
+resource:       "WarpMode" (set to 0)
+action:         N/A
+
+arch/msdos/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "HwJoyType"
+resource range:                 N/A (JOY_TYPE_AUTODETECT (0xFFFFFFFF), JOY_TYPE_NONE (0x00000000), JOY_TYPE_STANDARD (0x53544420),
+                                        JOY_TYPE_2PADS (0x32504144), JOY_TYPE_4BUTTON (0x34425554), JOY_TYPE_6BUTTON (0x36425554), JOY_TYPE_8BUTTON (0x38425554),
+                                        JOY_TYPE_FSPRO (0x4650524F), JOY_TYPE_WINGEX (0x57494E47), JOY_TYPE_SIDEWINDER (0x53572020),
+                                        JOY_TYPE_SIDEWINDER_AG (0x53574147), JOY_TYPE_SIDEWINDER_PP (0x53575050), JOY_TYPE_GAMEPAD_PRO (0x4750524F),
+                                        JOY_TYPE_GRIP (0x47524950), JOY_TYPE_GRIP4 (0x47524934), JOY_TYPE_SNESPAD_LPT1 (0x534E4531),
+                                        JOY_TYPE_SNESPAD_LPT2 (0x534E4532), JOY_TYPE_SNESPAD_LPT3 (0x534E4533), JOY_TYPE_PSXPAD_LPT1 (0x50535831),
+                                        JOY_TYPE_PSXPAD_LPT2 (0x50535832), JOY_TYPE_PSXPAD_LPT3 (0x50535833), JOY_TYPE_N64PAD_LPT1 (0x4E363431),
+                                        JOY_TYPE_N64PAD_LPT2 (0x4E363432), JOY_TYPE_N64PAD_LPT3 (0x4E363433), JOY_TYPE_DB9_LPT1 (0x44423931),
+                                        JOY_TYPE_DB9_LPT2 (0x44423932), JOY_TYPE_DB9_LPT3 (0x44423933), JOY_TYPE_TURBOGRAFX_LPT1 (0x54475831),
+                                        JOY_TYPE_TURBOGRAFX_LPT2 (0x54475832), JOY_TYPE_TURBOGRAFX_LPT3 (0x54475833), JOY_TYPE_IFSEGA_ISA (0x53454749),
+                                        JOY_TYPE_IFSEGA_PCI (0x53454750), JOY_TYPE_IFSEGA_PCI_FAST (0x53475046), JOY_TYPE_WINGWARRIOR (0x57574152))
+resource default:               JOY_TYPE_NONE (0)
+resource function:              set_joystick_hw_type()
+resource var:                   joystick_hw_type
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyhwtype
+platform gui present:           dos
+platform range correct:		dos
+
+arch/msdos/joy.c:
+-----------------
+command line:   -joyhwtype <type>
+description:    "Set joystick hardware type (auto/none/standard/dual/4button/6button/8button/fspro/wingex/sidewinderag/sidewinderpp/sidewinder/gamepadpro/grip4/grip/sneslpt1/sneslpt2/sneslpt3/psxlpt1/psxlpt2/psxlpt3/n64lpt1/n64lpt2/n64lpt3/db9lpt1/db9lpt2/db9lpt3/tgxlpt1/tgxlpt2/tgxlpt3/wingwar/ifsegaisa/ifsegapcifast/ifsegapci)"
+resource:       N/A
+action:         set_hw_joy_type() (sets "HwJoyType")
+
+arch/msdos/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platform gui present:           dos
+platform range correct:		dos
+
+arch/msdos/joy.c:
+-----------------
+command line:   -joydev1 <number>
+description:    "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
+resource:       "JoyDevice1"
+action:         N/A
+
+arch/msdos/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/vsid/xvic
+prepocessor:
+command-line:                   -joydev2
+platform gui present:           dos
+platform range correct:		dos
+
+arch/msdos/joy.c:
+-----------------
+command line:   -joydev2 <number>
+description:    "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
+resource:       "JoyDevice2"
+action:         N/A
+
+arch/msdos/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platform gui present:           dos
+platform range correct:		dos
+
+arch/msdos/joy.c:
+-----------------
+command line:   -extrajoydev1 <number>
+description:    "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
+resource:       "JoyDevice3"
+action:         N/A
+
+arch/msdos/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platform gui present:           dos
+platform range correct:		dos
+
+arch/msdos/joy.c:
+-----------------
+command line:   -extrajoydev2 <number>
+description:    "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
+resource:       "JoyDevice4"
+action:         N/A
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT DOS ONLY OPTIONAL RESOURCES/CMDLINES:
@@ -1000,347 +1266,6 @@ FIXED/CORRECT NON-DOS RESOURCES/CMDLINES:
 
 FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 ==========================================
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-BEOS ONLY COMMON RESOURCES/CMDLINES:
-====================================
-
-arch/beos/kbd.c:
-----------------
-resource type:                  int
-resource name:                  "KeymapIndex"
-resource range:                 N/A (fixme ??)
-resource default:               0
-resource function:              set_keymap_index()
-resource var:                   keymap_index
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -keymap
-platforms to check:			beos
-platform gui present:           
-platform gui missing:
-fixme: do not use for vsid
-fixme: doesn't this conflict with the common code "KeyMapIndex" resource ??
-
-arch/beos/kbd.c:
-----------------
-command line:   -keymap <number>
-description:    "Specify index of used keymap" (fixme: needs better description)
-resource:       "KeymapIndex"
-action:         N/A
-fixme: conflict ??
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-DOS ONLY COMMON RESOURCES/CMDLINES:
-===================================
-
-arch/msdos/ui.c:
-----------------
-resource type:                  bool
-resource name:                  "UseLeds"
-resource range:                 0/1
-resource default:               1
-resource function:              set_use_leds()
-resource var:                   use_leds
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -leds / +leds
-platform gui present:           dos
-platform gui missing:
-fixme: add to documentation
-
-arch/msdos/ui.c:
-----------------
-command line:   -leds
-description:    "Enable usage of PC keyboard LEDs"
-resource:       "UseLeds" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/msdos/ui.c:
-----------------
-command line:   +leds
-description:    "Disable usage of PC keyboard LEDs"
-resource:       "UseLeds" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/msdos/ui.c:
-----------------
-resource type:                  int
-resource name:                  "ShowStatusbar"
-resource range:                 0..2 (STATUSBAR_MODE_OFF (0), STATUSBAR_MODE_ON (1), STATUSBAR_MODE_AUTO (2))
-resource default:               STATUSBAR_MODE_AUTO (2)
-resource function:              set_statusbar_enabled()
-resource var:                   statusbar_is_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -statusbar / +statusbar (fixme, should be -statusbar 0/1/2)
-platform gui present:           dos
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/msdos/ui.c:
-----------------
-command line:   +statusbar
-description:    "Disable the Statusbar"
-resource:       "ShowStatusbar" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/msdos/ui.c:
-----------------
-command line:   -statusbar
-description:    "Enable the Statusbar"
-resource:       "ShowStatusbar" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/msdos/video.c:
--------------------
-resource type:                  int
-resource name:                  "VGAMode"
-resource range:                 0..15 ( VGA_320x200x8 (0), VGA_360x240x8 (1), VGA_360x270x8 (2), VGA_376x282x8 (3), VGA_400x300x8 (4), VGA_640x480x8 (5),
-                                        VGA_800x600x8 (6), VGA_1024x768x8 (7), VGA_320x200x16 (8), VGA_400x300x16 (9), VGA_640x480x16 (10), VGA_800x600x16 (11),
-                                        VGA_1024x768x16 (12), VGA_640x480x32 (13), VGA_800x600x32 (14), VGA_1024x768x32 (15))
-resource default:               VGA_320x200x8 (0)
-resource function:              set_vga_mode()
-resource var:                   vga_mode
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -vgamode
-platform gui present:           dos
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/msdos/video.c:
--------------------
-command line:   -vgamode <mode>
-description:    "Set VGA mode to <mode>. (0:320x200x8, 1:360x240x8, 2:360x270x8, 3:376x282x8, 4:400x300x8, 5:640x480x8, 6:800x600x8, 7:1024x768x8, 8:320x200x16, 9:400x300x16, 10:640x480x16, 11:800x600x16, 12:1024x768x16, 13:640x480x32, 14:800x600x32, 15:1024x768x32)"
-resource:       "VGAMode"
-action:         N/A
-fixme: add to documentation
-
-arch/msdos/vsync.c:
--------------------
-resource type:                  int
-resource name:                  "Speed"
-resource range:                 0/1+
-resource default:               100
-resource function:              set_relative_speed()
-resource var:                   relative_speed
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -speed
-platform gui present:           dos
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-arch/msdos/vsync.c:
--------------------
-command line:   -speed <percent>
-description:    "Limit emulation speed to specified value"
-resource:       "Speed"
-action:         N/A
-
-arch/msdos/vsync.c:
--------------------
-resource type:                  int
-resource name:                  "RefreshRate"
-resource range:                 0/1+
-resource default:               0
-resource function:              set_refresh_rate()
-resource var:                   refresh_rate
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -refresh
-platform gui present:           dos
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-arch/msdos/vsync.c:
--------------------
-command line:   -refresh <value>
-description:    "Update every <value> frames (`0' for automatic)"
-resource:       "RefreshRate"
-action:         N/A
-
-arch/msdos/vsync.c:
--------------------
-resource type:                  bool
-resource name:                  "WarpMode"
-resource range:                 0/1
-resource default:               0
-resource function:              set_warp_mode()
-resource var:                   warp_mode_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -warp / +warp
-platform gui present:           dos
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-arch/msdos/vsync.c:
--------------------
-command line:   -warp
-description:    "Enable warp mode"
-resource:       "WarpMode" (set to 1)
-action:         N/A
-
-arch/msdos/vsync.c:
--------------------
-command line:   +warp
-description:    "Disable warp mode"
-resource:       "WarpMode" (set to 0)
-action:         N/A
-
-arch/msdos/joy.c:
------------------
-resource type:                  int
-resource name:                  "HwJoyType"
-resource range:                 N/A (JOY_TYPE_AUTODETECT (0xFFFFFFFF), JOY_TYPE_NONE (0x00000000), JOY_TYPE_STANDARD (0x53544420),
-                                        JOY_TYPE_2PADS (0x32504144), JOY_TYPE_4BUTTON (0x34425554), JOY_TYPE_6BUTTON (0x36425554), JOY_TYPE_8BUTTON (0x38425554),
-                                        JOY_TYPE_FSPRO (0x4650524F), JOY_TYPE_WINGEX (0x57494E47), JOY_TYPE_SIDEWINDER (0x53572020),
-                                        JOY_TYPE_SIDEWINDER_AG (0x53574147), JOY_TYPE_SIDEWINDER_PP (0x53575050), JOY_TYPE_GAMEPAD_PRO (0x4750524F),
-                                        JOY_TYPE_GRIP (0x47524950), JOY_TYPE_GRIP4 (0x47524934), JOY_TYPE_SNESPAD_LPT1 (0x534E4531),
-                                        JOY_TYPE_SNESPAD_LPT2 (0x534E4532), JOY_TYPE_SNESPAD_LPT3 (0x534E4533), JOY_TYPE_PSXPAD_LPT1 (0x50535831),
-                                        JOY_TYPE_PSXPAD_LPT2 (0x50535832), JOY_TYPE_PSXPAD_LPT3 (0x50535833), JOY_TYPE_N64PAD_LPT1 (0x4E363431),
-                                        JOY_TYPE_N64PAD_LPT2 (0x4E363432), JOY_TYPE_N64PAD_LPT3 (0x4E363433), JOY_TYPE_DB9_LPT1 (0x44423931),
-                                        JOY_TYPE_DB9_LPT2 (0x44423932), JOY_TYPE_DB9_LPT3 (0x44423933), JOY_TYPE_TURBOGRAFX_LPT1 (0x54475831),
-                                        JOY_TYPE_TURBOGRAFX_LPT2 (0x54475832), JOY_TYPE_TURBOGRAFX_LPT3 (0x54475833), JOY_TYPE_IFSEGA_ISA (0x53454749),
-                                        JOY_TYPE_IFSEGA_PCI (0x53454750), JOY_TYPE_IFSEGA_PCI_FAST (0x53475046), JOY_TYPE_WINGWARRIOR (0x57574152))
-resource default:               JOY_TYPE_NONE (0)
-resource function:              set_joystick_hw_type()
-resource var:                   joystick_hw_type[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           dos
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/msdos/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform gui present:           dos
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/msdos/joy.c:
------------------
-command line:   -joydev1 <number>
-description:    "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
-resource:       "JoyDevice1"
-action:         N/A
-fixme: fix documentation
-
-arch/msdos/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/vsid/xvic
-prepocessor:
-command-line:                   -joydev2
-platform gui present:           dos
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/msdos/joy.c:
------------------
-command line:   -joydev2 <number>
-description:    "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
-resource:       "JoyDevice2"
-action:         N/A
-fixme: fix documentation
-
-arch/msdos/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform gui present:           dos
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/msdos/joy.c:
------------------
-command line:   -extrajoydev1 <number>
-description:    "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
-resource:       "JoyDevice3"
-action:         N/A
-fixme: fix documentation
-
-arch/msdos/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform gui present:           dos
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/msdos/joy.c:
------------------
-command line:   -extrajoydev2 <number>
-description:    "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)"
-resource:       "JoyDevice4"
-action:         N/A
-fixme: fix documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -25135,3 +25060,35 @@ description:    "Disable default cartridge"
 resource:       N/A
 action:         detach_cartridge_cmdline()
 fixme: add to documentation
+
+
+BEOS ONLY COMMON RESOURCES/CMDLINES:
+====================================
+
+arch/beos/kbd.c:
+----------------
+resource type:                  int
+resource name:                  "KeymapIndex"
+resource range:                 N/A (fixme ??)
+resource default:               0
+resource function:              set_keymap_index()
+resource var:                   keymap_index
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -keymap
+platforms to check:			beos
+platform gui present:           
+platform gui missing:
+fixme: do not use for vsid
+fixme: doesn't this conflict with the common code "KeyMapIndex" resource ??
+
+arch/beos/kbd.c:
+----------------
+command line:   -keymap <number>
+description:    "Specify index of used keymap" (fixme: needs better description)
+resource:       "KeymapIndex"
+action:         N/A
+fixme: conflict ??
+
+------------------------------------------------------------------------------------------------------------------------------------

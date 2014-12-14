@@ -215,6 +215,83 @@ int joystick_arch_init_resources(void)
 
 /* ------------------------------------------------------------------------- */
 
+typedef struct joymodel_s {
+    const char *name;
+    unsigned int joymodel;
+} joymodel_t;
+
+static joymodel_t joyhwtypes[] = {
+    { "auto", JOY_TYPE_AUTODETECT },
+    { "none", JOY_TYPE_NONE },
+    { "standard", JOY_TYPE_STANDARD },
+    { "dual", JOY_TYPE_2PADS },
+    { "4button", JOY_TYPE_4BUTTON },
+    { "6button", JOY_TYPE_6BUTTON },
+    { "8button", JOY_TYPE_8BUTTON },
+    { "fspro", JOY_TYPE_FSPRO },
+    { "wingex", JOY_TYPE_WINGEX },
+    { "sidewinderag", JOY_TYPE_SIDEWINDER_AG },
+    { "sidewinderpp", JOY_TYPE_SIDEWINDER_PP },
+    { "sidewinder", JOY_TYPE_SIDEWINDER },
+    { "gamepadpro", JOY_TYPE_GAMEPAD_PRO },
+    { "grip4", JOY_TYPE_GRIP4 },
+    { "grip", JOY_TYPE_GRIP },
+    { "sneslpt1", JOY_TYPE_SNESPAD_LPT1 },
+    { "sneslpt2", JOY_TYPE_SNESPAD_LPT2 },
+    { "sneslpt3", JOY_TYPE_SNESPAD_LPT3 },
+    { "psxlpt1", JOY_TYPE_PSXPAD_LPT1 },
+    { "psxlpt2", JOY_TYPE_PSXPAD_LPT2 },
+    { "psxlpt3", JOY_TYPE_PSXPAD_LPT3 },
+    { "n64lpt1", JOY_TYPE_N64PAD_LPT1 },
+    { "n64lpt2", JOY_TYPE_N64PAD_LPT2 },
+    { "n64lpt3", JOY_TYPE_N64PAD_LPT3 },
+    { "db9lpt1", JOY_TYPE_DB9_LPT1 },
+    { "db9lpt2", JOY_TYPE_DB9_LPT2 },
+    { "db9lpt3", JOY_TYPE_DB9_LPT3 },
+    { "tgxlpt1", JOY_TYPE_TURBOGRAFX_LPT1 },
+    { "tgxlpt2", JOY_TYPE_TURBOGRAFX_LPT2 },
+    { "tgxlpt3", JOY_TYPE_TURBOGRAFX_LPT3 },
+    { "wingwar", JOY_TYPE_WINGWARRIOR },
+    { "ifsegaisa", JOY_TYPE_IFSEGA_ISA },
+    { "ifsegapcifast", JOY_TYPE_IFSEGA_PCI_FAST },
+    { "ifsegapci", JOY_TYPE_IFSEGA_PCI },
+    { NULL, 0 }
+};
+
+#define JOY_TYPE_UNKNOWN -2
+
+static int set_hw_joy_type(const char *param, void *extra_param)
+{
+    int joymodel = JOY_TYPE_UNKNOWN;
+    int i = 0;
+
+    if (!param) {
+        return -1;
+    }
+
+    do {
+        if (strcmp(joyhwtypes[i].name, param) == 0) {
+            joymodel = joyhwtypes[i].joymodel;
+        }
+        i++;
+    } while ((joymodel == JOY_TYPE_UNKNOWN) && (joyhwtypes[i].name != NULL));
+
+    if (joymodel == JOY_TYPE_UNKNOWN) {
+        return -1;
+    }
+
+    return resources_set_int("HwJoyType", joymodel);
+}
+
+static const cmdline_option_t joyhwtypecmdline_options[] = {
+    { "-joyhwtype", CALL_FUNCTION, 1,
+      set_hw_joy_type, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<type>", "Set joystick hardware type (auto/none/standard/dual/4button/6button/8button/fspro/wingex/sidewinderag/sidewinderpp/sidewinder/gamepadpro/grip4/grip/sneslpt1/sneslpt2/sneslpt3/psxlpt1/psxlpt2/psxlpt3/n64lpt1/n64lpt2/n64lpt3/db9lpt1/db9lpt2/db9lpt3/tgxlpt1/tgxlpt2/tgxlpt3/wingwar/ifsegaisa/ifsegapcifast/ifsegapci)" },
+    { NULL }
+};
+
 static const cmdline_option_t joydev1cmdline_options[] = {
     { "-joydev1", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice1", NULL,
@@ -253,6 +330,9 @@ static const cmdline_option_t joydev4cmdline_options[] = {
 
 int joystick_cmdline_options_init(void)
 {
+    if (cmdline_register_options(joyhwtypecmdline_options) < 0) {
+        return -1;
+    }
     switch (machine_class) {
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C64SC:
