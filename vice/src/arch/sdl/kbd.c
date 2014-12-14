@@ -273,7 +273,7 @@ int sdlkbd_hotkeys_dump(const char *filename)
 
     fprintf(fp, "# VICE hotkey mapping file\n"
             "#\n"
-            "# A hotkey map is read in as patch to the current map.\n"
+            "# A hotkey map is read in as a patch to the current map.\n"
             "#\n"
             "# File format:\n"
             "# - comment lines start with '#'\n"

@@ -1172,6 +1172,34 @@ action:         N/A
 FIXED/CORRECT DOS ONLY OPTIONAL RESOURCES/CMDLINES:
 ===================================================
 
+arch/msdos/video.c:
+-------------------
+resource type:                  bool
+resource name:                  "TripleBuffering"
+resource range:                 0/1
+resource default:               0
+resource function:              set_try_triple_buffering()
+resource var:                   try_triple_buffering
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifndef USE_MIDAS_SOUND
+command-line:                   -triplebuf / +triplebuf
+platform gui present:           dos
+
+arch/msdos/video.c:
+-------------------
+command line:   -triplebuf
+description:    "Try to use triple buffering when possible"
+resource:       "TripleBuffering" (set to 1)
+action:         N/A
+
+arch/msdos/video.c:
+-------------------
+command line:   +triplebuf
+description:    "Disable usage of triple buffering"
+resource:       "TripleBuffering" (set to 0)
+action:         N/A
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT OS/2 ONLY COMMON RESOURCES/CMDLINES:
@@ -1266,1000 +1294,6 @@ FIXED/CORRECT NON-DOS RESOURCES/CMDLINES:
 
 FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 ==========================================
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-DOS ONLY OPTIONAL RESOURCES/CMDLINES:
-=====================================
-
-arch/msdos/video.c:
--------------------
-resource type:                  bool
-resource name:                  "TripleBuffering"
-resource range:                 0/1
-resource default:               0
-resource function:              set_try_triple_buffering()
-resource var:                   try_triple_buffering
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #ifndef USE_MIDAS_SOUND
-command-line:                   -triplebuf / +triplebuf
-platform gui present:           dos
-platform gui missing:
-fixme: add to documentation
-
-arch/msdos/video.c:
--------------------
-command line:   -triplebuf
-description:    "Try to use triple buffering when possible"
-resource:       "TripleBuffering" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/msdos/video.c:
--------------------
-command line:   +triplebuf
-description:    "Disable usage of triple buffering"
-resource:       "TripleBuffering" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-OS/2 ONLY COMMON RESOURCES/CMDLINES:
-====================================
-
-arch/os2/kbd/kmap-pet.c:
-------------------------
-resource type:                  string
-resource name:                  "KeymapBusinessUKSymFile"
-resource range:                 N/A
-resource default:               "busi_uk.vkm"
-resource function:              set_keymap_file()
-resource var:                   keymap_file_list[0]
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -buksymkeymap
-platform gui present:           os2
-platform gui missing:
-fixme: default vkm does not exist
-fixme: add to documentation
-
-arch/os2/kbd/kmap-pet.c:
-------------------------
-command line:   -buksymkeymap <name>
-description:    "Specify the name of the UK business keyboard symbolic keymap file"
-resource:       "KeymapBusinessUKSymFile"
-action:         N/A
-
-arch/os2/kbd/kmap-pet.c:
-------------------------
-resource type:                  string
-resource name:                  "KeymapBusinessUKPosFile"
-resource range:                 N/A
-resource default:               "buk_pos.vkm"
-resource function:              set_keymap_file()
-resource var:                   keymap_file_list[1]
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -bukposkeymap
-platform gui present:           os2
-platform gui missing:
-fixme: default vkm does not exist
-fixme: add to documentation
-
-arch/os2/kbd/kmap-pet.c:
-------------------------
-command line:   -bukposkeymap <name>
-description:    "Specify the name of the UK business keyboard positional keymap file"
-resource:       "KeymapBusinessUKPosFile"
-action:         N/A
-fixme: fix documentation
-
-arch/os2/kbd/kmap-pet.c:
-------------------------
-resource type:                  string
-resource name:                  "KeymapGraphicsSymFile"
-resource range:                 N/A
-resource default:               "graphics.vkm"
-resource function:              set_keymap_file()
-resource var:                   keymap_file_list[2]
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -grsymkeymap
-platform gui present:           os2
-platform gui missing:
-fixme: default vkm does not exist
-fixme: add to documentation
-
-arch/os2/kbd/kmap-pet.c:
-------------------------
-command line:   -grsymkeymap <name>
-description:    "Specify the name of the graphics keyboard symbolic keymap file"
-resource:       "KeymapGraphicsSymFile"
-action:         N/A
-
-arch/os2/kbd/kmap-pet.c:
-------------------------
-resource type:                  string
-resource name:                  "KeymapGraphicsPosFile"
-resource range:                 N/A
-resource default:               "posg_de.vkm"
-resource function:              set_keymap_file()
-resource var:                   keymap_file_list[3]
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -grposkeymap
-platform gui present:           os2
-platform gui missing:
-fixme: default vkm does not exist
-fixme: add to documentation
-
-arch/os2/kbd/kmap-pet.c:
-------------------------
-command line:   -grposkeymap <name>
-description:    "Specify the name of the graphics keyboard positional keymap file"
-resource:       "KeymapGraphicsPosFile"
-action:         N/A
-fixme: fix documentation
-
-arch/os2/kbd/kmap-pet.c:
-------------------------
-resource type:                  string
-resource name:                  "KeymapBusinessDESymFile"
-resource range:                 N/A
-resource default:               "busi_de.vkm"
-resource function:              set_keymap_file()
-resource var:                   keymap_file_list[4]
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -bdesymkeymap
-platform gui present:           os2
-platform gui missing:
-fixme: default vkm does not exist
-fixme: add to documentation
-
-arch/os2/kbd/kmap-pet.c:
-------------------------
-command line:   -bdesymkeymap <name>
-description:    "Specify the name of the German business keyboard symbolic keymap file"
-resource:       "KeymapBusinessDESymFile"
-action:         N/A
-
-arch/os2/kbd/kmap-pet.c:
-------------------------
-resource type:                  string
-resource name:                  "KeymapBusinessDEPosFile"
-resource range:                 N/A
-resource default:               "bde_pos.vkm"
-resource function:              set_keymap_file()
-resource var:                   keymap_file_list[5]
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -bdeposkeymap
-platform gui present:           os2
-platform gui missing:
-fixme: default vkm does not exist
-fixme: add to documentation
-
-arch/os2/kbd/kmap-pet.c:
-------------------------
-command line:   -bdeposkeymap <name>
-description:    "Specify the name of the German business keyboard positional keymap file"
-resource:       "KeymapBusinessDEPosFile"
-action:         N/A
-fixme: fix documentation
-
-arch/os2/kbd/kmap.c:
---------------------
-resource type:                  string
-resource name:                  "KeymapSymFile"
-resource range:                 N/A
-resource default:               "default.vkm"
-resource function:              set_keymap_file()
-resource var:                   keymap_file_list[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-not used in:                    xpet
-prepocessor:
-command-line:                   -symkeymap
-platform gui present:           os2
-platform gui missing:
-fixme: default vkm does not exist
-
-arch/os2/kbd/kmap.c:
---------------------
-command line:   -symkeymap <name>
-description:    "Specify the name of the symbolic keymap file"
-resource:       "KeymapSymFile"
-action:         N/A
-
-arch/os2/kbd/kmap.c:
---------------------
-resource type:                  string
-resource name:                  "KeymapPosFile"
-resource range:                 N/A
-resource default:               "position.vkm"
-resource function:              set_keymap_file()
-resource var:                   keymap_file_list[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-not used in:                    xpet
-prepocessor:
-command-line:                   -poskeymap
-platform gui present:           os2
-platform gui missing:
-fixme: default vkm does not exist
-fixme: add to documentation
-
-arch/os2/kbd/kmap.c:
---------------------
-command line:   -poskeymap <name>
-description:    "Specify the name of the positional keymap file"
-resource:       "KeymapPosFile"
-action:         N/A
-
-arch/os2/mousedrv.c:
---------------------
-resource type:                  bool
-resource name:                  "HideMousePtr"
-resource range:                 0/1
-resource default:               0
-resource function:              set_hide_mouseptr()
-resource var:                   hide_mouseptr
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
-not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -hidemouseptr / +hidemouseptr
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/mousedrv.c:
---------------------
-command line:   -hidemouseptr
-description:    "Enable hiding of mouse pointer inside the window"
-resource:       "HideMousePtr" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/os2/mousedrv.c:
---------------------
-command line:   +hidemouseptr
-description:    "Disable hiding of mouse pointer inside the window"
-resource:       "HideMousePtr" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/os2/rs232.c:
------------------
-resource type:                  string
-resource name:                  "SerialFile"
-resource range:                 N/A
-resource default:               "SerialFile"
-resource function:              set_serial_file()
-resource var:                   SerialFile
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/ui.c:
---------------
-resource type:                  bool
-resource name:                  "UseLeds"
-resource range:                 0/1
-resource default:               1
-resource function:              set_use_leds()
-resource var:                   use_leds
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -leds / +leds
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-blacky note: resource is used/checked
-
-arch/os2/ui.c:
---------------
-command line:   -leds
-description:    "Enable usage of PC keyboard LEDs"
-resource:       "UseLeds" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/os2/ui.c:
---------------
-command line:   +leds
-description:    "Disable usage of PC keyboard LEDs"
-resource:       "UseLeds" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/os2/video.c:
------------------
-resource type:                  int
-resource name:                  "PMBorderType"
-resource range:                 0..2 (VIDEO_BORDER_NONE (0), VIDEO_BORDER_SMALL (1), VIDEO_BORDER_DIALOG (2))
-resource default:               VIDEO_BORDER_DIALOG (2)
-resource function:              set_border_type()
-resource var:                   border
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -border
-platform gui present:           
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			os2
-fixme: add to documentation
-blacky note: resource is used/checked
-
-arch/os2/video.c:
------------------
-command line:   -border <number>
-description:    "Specify window border type (0=no border, 1=small, 2=dialog)"
-resource:       "PMBorderType"
-action:         N/A
-fixme: add to documentation
-
-arch/os2/video.c:
------------------
-resource type:                  bool
-resource name:                  "Menubar"
-resource range:                 0/1
-resource default:               1
-resource function:              set_menu()
-resource var:                   menu
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -menu / +menu
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/video.c:
------------------
-command line:   -menu
-description:    "Enable Main Menu Bar"
-resource:       "Menubar" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/os2/video.c:
------------------
-command line:   +menu
-description:    "Disable Main Menu Bar"
-resource:       "Menubar" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/os2/video.c:
------------------
-resource type:                  bool
-resource name:                  "Logwin"
-resource range:                 0/1
-resource default:               1
-resource function:              set_logging()
-resource var:                   logwin
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -logwin / +logwin
-platform gui present:           
-platform gui missing:			os2
-fixme: add to documentation
-blacky note: resource is used/checked
-
-arch/os2/video.c:
------------------
-command line:   -logwin
-description:    "Enable Logging Window"
-resource:       "Logwin" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/os2/video.c:
------------------
-command line:   +logwin
-description:    "Disable Logging Window"
-resource:       "Logwin" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyAup"
-resource range:                 N/A
-resource default:               200
-resource function:              set_joy()
-resource var:                   joy[0].direction[KEYSET_N]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyAdown"
-resource range:                 N/A
-resource default:               600
-resource function:              set_joy()
-resource var:                   joy[0].direction[KEYSET_S]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyAleft"
-resource range:                 N/A
-resource default:               200
-resource function:              set_joy()
-resource var:                   joy[0].direction[KEYSET_W]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyAright"
-resource range:                 N/A
-resource default:               600
-resource function:              set_joy()
-resource var:                   joy[0].direction[KEYSET_E]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyBup"
-resource range:                 N/A
-resource default:               200
-resource function:              set_joy()
-resource var:                   joy[1].direction[KEYSET_N]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyBdown"
-resource range:                 N/A
-resource default:               600
-resource function:              set_joy()
-resource var:                   joy[1].direction[KEYSET_S]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyBleft"
-resource range:                 N/A
-resource default:               200
-resource function:              set_joy()
-resource var:                   joy[1].direction[KEYSET_W]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyBright"
-resource range:                 N/A
-resource default:               600
-resource function:              set_joy()
-resource var:                   joy[1].direction[KEYSET_E]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1NorthWest"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_NW]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1North"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_N]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1NorthEast"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_NE]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1East"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_E]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1SouthEast"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_SE]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1South"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_S]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1SouthWest"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_SW]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1West"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_W]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet1Fire"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[0][KEYSET_FIRE]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2NorthWest"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_NW]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2North"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_N]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2NorthEast"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_NE]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2East"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_E]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2SouthEast"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_SE]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2South"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_S]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2SouthWest"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_SW]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2West"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_W]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "KeySet2Fire"
-resource range:                 N/A
-resource default:               K_NONE
-resource function:              set_keyset()
-resource var:                   keyset[1][KEYSET_FIRE]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			os2
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_cbm_joystick()
-resource var:                   cbm_joystick[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform gui present:           os2
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/os2/joy.c:
----------------
-command line:   -joydev1 <number>
-description:    "Set input device for CBM joystick port #1 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
-resource:       "JoyDevice1"
-action:         N/A
-fixme: fix documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_cbm_joystick()
-resource var:                   cbm_joystick[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   -joydev2
-platform gui present:           os2
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/os2/joy.c:
----------------
-command line:   -joydev2 <number>
-description:    "Set input device for CBM joystick port #2 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
-resource:       "JoyDevice2"
-action:         N/A
-fixme: fix documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_cbm_joystick()
-resource var:                   cbm_joystick[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform gui present:           os2
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/os2/joy.c:
----------------
-command line:   -extrajoydev1 <number>
-description:    "Set input device for extra CBM joystick port #1 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
-resource:       "JoyDevice3"
-action:         N/A
-fixme: fix documentation
-
-arch/os2/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_cbm_joystick()
-resource var:                   cbm_joystick[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform gui present:           os2
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/os2/joy.c:
----------------
-command line:   -extrajoydev2 <number>
-description:    "Set input device for extra CBM joystick port #2 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
-resource:       "JoyDevice4"
-action:         N/A
-fixme: fix documentation
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-arch/os2/joy.c:
----------------
-command line:   -joy1cal
-description:    "Start auto calibration for PC joystick #1"
-resource:       N/A
-action:         set_joyA_autoCal()
-fixme: add to documentation
-
-arch/os2/joy.c:
----------------
-command line:   -joy2cal
-description:    "Start auto calibration for PC joystick #2"
-resource:       N/A
-action:         set_joyB_autoCal()
-fixme: add to documentation
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-OS/2 ONLY OPTIONAL RESOURCES/CMDLINES:
-======================================
-
-arch/os2/video.c:
------------------
-resource type:                  int
-resource name:                  "WindowStretchFactor"
-resource range:                 1+
-resource default:               1
-resource function:              set_stretch_factor()
-resource var:                   stretch
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:                    #ifndef DIRECT_ACCESS
-command-line:                   -stretch
-platform gui present:           os2
-platform gui missing:
-fixme: add to documentation
-
-arch/os2/video.c:
------------------
-command line:   -stretch <number>
-description:    "Specify stretch factor for PM Windows (1,2,3,...)"
-resource:       "WindowStretchFactor"
-action:         N/A
-fixme: add to documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -25090,5 +24124,962 @@ description:    "Specify index of used keymap" (fixme: needs better description)
 resource:       "KeymapIndex"
 action:         N/A
 fixme: conflict ??
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+OS/2 ONLY COMMON RESOURCES/CMDLINES:
+====================================
+
+arch/os2/kbd/kmap-pet.c:
+------------------------
+resource type:                  string
+resource name:                  "KeymapBusinessUKSymFile"
+resource range:                 N/A
+resource default:               "busi_uk.vkm"
+resource function:              set_keymap_file()
+resource var:                   keymap_file_list[0]
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -buksymkeymap
+platform gui present:           os2
+platform gui missing:
+fixme: default vkm does not exist
+fixme: add to documentation
+
+arch/os2/kbd/kmap-pet.c:
+------------------------
+command line:   -buksymkeymap <name>
+description:    "Specify the name of the UK business keyboard symbolic keymap file"
+resource:       "KeymapBusinessUKSymFile"
+action:         N/A
+
+arch/os2/kbd/kmap-pet.c:
+------------------------
+resource type:                  string
+resource name:                  "KeymapBusinessUKPosFile"
+resource range:                 N/A
+resource default:               "buk_pos.vkm"
+resource function:              set_keymap_file()
+resource var:                   keymap_file_list[1]
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -bukposkeymap
+platform gui present:           os2
+platform gui missing:
+fixme: default vkm does not exist
+fixme: add to documentation
+
+arch/os2/kbd/kmap-pet.c:
+------------------------
+command line:   -bukposkeymap <name>
+description:    "Specify the name of the UK business keyboard positional keymap file"
+resource:       "KeymapBusinessUKPosFile"
+action:         N/A
+fixme: fix documentation
+
+arch/os2/kbd/kmap-pet.c:
+------------------------
+resource type:                  string
+resource name:                  "KeymapGraphicsSymFile"
+resource range:                 N/A
+resource default:               "graphics.vkm"
+resource function:              set_keymap_file()
+resource var:                   keymap_file_list[2]
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -grsymkeymap
+platform gui present:           os2
+platform gui missing:
+fixme: default vkm does not exist
+fixme: add to documentation
+
+arch/os2/kbd/kmap-pet.c:
+------------------------
+command line:   -grsymkeymap <name>
+description:    "Specify the name of the graphics keyboard symbolic keymap file"
+resource:       "KeymapGraphicsSymFile"
+action:         N/A
+
+arch/os2/kbd/kmap-pet.c:
+------------------------
+resource type:                  string
+resource name:                  "KeymapGraphicsPosFile"
+resource range:                 N/A
+resource default:               "posg_de.vkm"
+resource function:              set_keymap_file()
+resource var:                   keymap_file_list[3]
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -grposkeymap
+platform gui present:           os2
+platform gui missing:
+fixme: default vkm does not exist
+fixme: add to documentation
+
+arch/os2/kbd/kmap-pet.c:
+------------------------
+command line:   -grposkeymap <name>
+description:    "Specify the name of the graphics keyboard positional keymap file"
+resource:       "KeymapGraphicsPosFile"
+action:         N/A
+fixme: fix documentation
+
+arch/os2/kbd/kmap-pet.c:
+------------------------
+resource type:                  string
+resource name:                  "KeymapBusinessDESymFile"
+resource range:                 N/A
+resource default:               "busi_de.vkm"
+resource function:              set_keymap_file()
+resource var:                   keymap_file_list[4]
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -bdesymkeymap
+platform gui present:           os2
+platform gui missing:
+fixme: default vkm does not exist
+fixme: add to documentation
+
+arch/os2/kbd/kmap-pet.c:
+------------------------
+command line:   -bdesymkeymap <name>
+description:    "Specify the name of the German business keyboard symbolic keymap file"
+resource:       "KeymapBusinessDESymFile"
+action:         N/A
+
+arch/os2/kbd/kmap-pet.c:
+------------------------
+resource type:                  string
+resource name:                  "KeymapBusinessDEPosFile"
+resource range:                 N/A
+resource default:               "bde_pos.vkm"
+resource function:              set_keymap_file()
+resource var:                   keymap_file_list[5]
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -bdeposkeymap
+platform gui present:           os2
+platform gui missing:
+fixme: default vkm does not exist
+fixme: add to documentation
+
+arch/os2/kbd/kmap-pet.c:
+------------------------
+command line:   -bdeposkeymap <name>
+description:    "Specify the name of the German business keyboard positional keymap file"
+resource:       "KeymapBusinessDEPosFile"
+action:         N/A
+fixme: fix documentation
+
+arch/os2/kbd/kmap.c:
+--------------------
+resource type:                  string
+resource name:                  "KeymapSymFile"
+resource range:                 N/A
+resource default:               "default.vkm"
+resource function:              set_keymap_file()
+resource var:                   keymap_file_list[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+not used in:                    xpet
+prepocessor:
+command-line:                   -symkeymap
+platform gui present:           os2
+platform gui missing:
+fixme: default vkm does not exist
+
+arch/os2/kbd/kmap.c:
+--------------------
+command line:   -symkeymap <name>
+description:    "Specify the name of the symbolic keymap file"
+resource:       "KeymapSymFile"
+action:         N/A
+
+arch/os2/kbd/kmap.c:
+--------------------
+resource type:                  string
+resource name:                  "KeymapPosFile"
+resource range:                 N/A
+resource default:               "position.vkm"
+resource function:              set_keymap_file()
+resource var:                   keymap_file_list[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+not used in:                    xpet
+prepocessor:
+command-line:                   -poskeymap
+platform gui present:           os2
+platform gui missing:
+fixme: default vkm does not exist
+fixme: add to documentation
+
+arch/os2/kbd/kmap.c:
+--------------------
+command line:   -poskeymap <name>
+description:    "Specify the name of the positional keymap file"
+resource:       "KeymapPosFile"
+action:         N/A
+
+arch/os2/mousedrv.c:
+--------------------
+resource type:                  bool
+resource name:                  "HideMousePtr"
+resource range:                 0/1
+resource default:               0
+resource function:              set_hide_mouseptr()
+resource var:                   hide_mouseptr
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
+not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -hidemouseptr / +hidemouseptr
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/mousedrv.c:
+--------------------
+command line:   -hidemouseptr
+description:    "Enable hiding of mouse pointer inside the window"
+resource:       "HideMousePtr" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+arch/os2/mousedrv.c:
+--------------------
+command line:   +hidemouseptr
+description:    "Disable hiding of mouse pointer inside the window"
+resource:       "HideMousePtr" (set to 0)
+action:         N/A
+fixme: add to documentation
+
+arch/os2/rs232.c:
+-----------------
+resource type:                  string
+resource name:                  "SerialFile"
+resource range:                 N/A
+resource default:               "SerialFile"
+resource function:              set_serial_file()
+resource var:                   SerialFile
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE (fixme)
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/ui.c:
+--------------
+resource type:                  bool
+resource name:                  "UseLeds"
+resource range:                 0/1
+resource default:               1
+resource function:              set_use_leds()
+resource var:                   use_leds
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -leds / +leds
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+blacky note: resource is used/checked
+
+arch/os2/ui.c:
+--------------
+command line:   -leds
+description:    "Enable usage of PC keyboard LEDs"
+resource:       "UseLeds" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+arch/os2/ui.c:
+--------------
+command line:   +leds
+description:    "Disable usage of PC keyboard LEDs"
+resource:       "UseLeds" (set to 0)
+action:         N/A
+fixme: add to documentation
+
+arch/os2/video.c:
+-----------------
+resource type:                  int
+resource name:                  "PMBorderType"
+resource range:                 0..2 (VIDEO_BORDER_NONE (0), VIDEO_BORDER_SMALL (1), VIDEO_BORDER_DIALOG (2))
+resource default:               VIDEO_BORDER_DIALOG (2)
+resource function:              set_border_type()
+resource var:                   border
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -border
+platform gui present:           
+platform range correct:		
+platform range incorrect:		
+platform gui missing:			os2
+fixme: add to documentation
+blacky note: resource is used/checked
+
+arch/os2/video.c:
+-----------------
+command line:   -border <number>
+description:    "Specify window border type (0=no border, 1=small, 2=dialog)"
+resource:       "PMBorderType"
+action:         N/A
+fixme: add to documentation
+
+arch/os2/video.c:
+-----------------
+resource type:                  bool
+resource name:                  "Menubar"
+resource range:                 0/1
+resource default:               1
+resource function:              set_menu()
+resource var:                   menu
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -menu / +menu
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/video.c:
+-----------------
+command line:   -menu
+description:    "Enable Main Menu Bar"
+resource:       "Menubar" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+arch/os2/video.c:
+-----------------
+command line:   +menu
+description:    "Disable Main Menu Bar"
+resource:       "Menubar" (set to 0)
+action:         N/A
+fixme: add to documentation
+
+arch/os2/video.c:
+-----------------
+resource type:                  bool
+resource name:                  "Logwin"
+resource range:                 0/1
+resource default:               1
+resource function:              set_logging()
+resource var:                   logwin
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -logwin / +logwin
+platform gui present:           
+platform gui missing:			os2
+fixme: add to documentation
+blacky note: resource is used/checked
+
+arch/os2/video.c:
+-----------------
+command line:   -logwin
+description:    "Enable Logging Window"
+resource:       "Logwin" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+arch/os2/video.c:
+-----------------
+command line:   +logwin
+description:    "Disable Logging Window"
+resource:       "Logwin" (set to 0)
+action:         N/A
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyAup"
+resource range:                 N/A
+resource default:               200
+resource function:              set_joy()
+resource var:                   joy[0].direction[KEYSET_N]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyAdown"
+resource range:                 N/A
+resource default:               600
+resource function:              set_joy()
+resource var:                   joy[0].direction[KEYSET_S]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyAleft"
+resource range:                 N/A
+resource default:               200
+resource function:              set_joy()
+resource var:                   joy[0].direction[KEYSET_W]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyAright"
+resource range:                 N/A
+resource default:               600
+resource function:              set_joy()
+resource var:                   joy[0].direction[KEYSET_E]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyBup"
+resource range:                 N/A
+resource default:               200
+resource function:              set_joy()
+resource var:                   joy[1].direction[KEYSET_N]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyBdown"
+resource range:                 N/A
+resource default:               600
+resource function:              set_joy()
+resource var:                   joy[1].direction[KEYSET_S]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyBleft"
+resource range:                 N/A
+resource default:               200
+resource function:              set_joy()
+resource var:                   joy[1].direction[KEYSET_W]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyBright"
+resource range:                 N/A
+resource default:               600
+resource function:              set_joy()
+resource var:                   joy[1].direction[KEYSET_E]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1NorthWest"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_NW]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1North"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_N]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1NorthEast"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_NE]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1East"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_E]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1SouthEast"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_SE]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1South"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_S]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1SouthWest"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_SW]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1West"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_W]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet1Fire"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[0][KEYSET_FIRE]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2NorthWest"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_NW]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2North"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_N]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2NorthEast"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_NE]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2East"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_E]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2SouthEast"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_SE]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2South"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_S]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2SouthWest"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_SW]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2West"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_W]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "KeySet2Fire"
+resource range:                 N/A
+resource default:               K_NONE
+resource function:              set_keyset()
+resource var:                   keyset[1][KEYSET_FIRE]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			os2
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_cbm_joystick()
+resource var:                   cbm_joystick[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platform gui present:           os2
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: better arch sections in documentation
+
+arch/os2/joy.c:
+---------------
+command line:   -joydev1 <number>
+description:    "Set input device for CBM joystick port #1 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
+resource:       "JoyDevice1"
+action:         N/A
+fixme: fix documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_cbm_joystick()
+resource var:                   cbm_joystick[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   -joydev2
+platform gui present:           os2
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: better arch sections in documentation
+
+arch/os2/joy.c:
+---------------
+command line:   -joydev2 <number>
+description:    "Set input device for CBM joystick port #2 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
+resource:       "JoyDevice2"
+action:         N/A
+fixme: fix documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_cbm_joystick()
+resource var:                   cbm_joystick[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platform gui present:           os2
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: better arch sections in documentation
+
+arch/os2/joy.c:
+---------------
+command line:   -extrajoydev1 <number>
+description:    "Set input device for extra CBM joystick port #1 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
+resource:       "JoyDevice3"
+action:         N/A
+fixme: fix documentation
+
+arch/os2/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 N/A (JOYDEV_NONE (0), JOYDEV_HW1 (1), JOYDEV_HW2 (2), JOYDEV_NUMPAD (4), JOYDEV_KEYSET1 (8), JOYDEV_KEYSET2 (16))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_cbm_joystick()
+resource var:                   cbm_joystick[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platform gui present:           os2
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: better arch sections in documentation
+
+arch/os2/joy.c:
+---------------
+command line:   -extrajoydev2 <number>
+description:    "Set input device for extra CBM joystick port #2 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)"
+resource:       "JoyDevice4"
+action:         N/A
+fixme: fix documentation
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+arch/os2/joy.c:
+---------------
+command line:   -joy1cal
+description:    "Start auto calibration for PC joystick #1"
+resource:       N/A
+action:         set_joyA_autoCal()
+fixme: add to documentation
+
+arch/os2/joy.c:
+---------------
+command line:   -joy2cal
+description:    "Start auto calibration for PC joystick #2"
+resource:       N/A
+action:         set_joyB_autoCal()
+fixme: add to documentation
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+OS/2 ONLY OPTIONAL RESOURCES/CMDLINES:
+======================================
+
+arch/os2/video.c:
+-----------------
+resource type:                  int
+resource name:                  "WindowStretchFactor"
+resource range:                 1+
+resource default:               1
+resource function:              set_stretch_factor()
+resource var:                   stretch
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:                    #ifndef DIRECT_ACCESS
+command-line:                   -stretch
+platform gui present:           os2
+platform gui missing:
+fixme: add to documentation
+
+arch/os2/video.c:
+-----------------
+command line:   -stretch <number>
+description:    "Specify stretch factor for PM Windows (1,2,3,...)"
+resource:       "WindowStretchFactor"
+action:         N/A
+fixme: add to documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------

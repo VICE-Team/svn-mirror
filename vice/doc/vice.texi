@@ -2201,11 +2201,11 @@ PkZip, @code{tar.gz}, @code{lha} and @code{zoo} support is
 @code{D64} file in the archive.  So archives containing multiple files
 will always be handled as if they contain only a single file.
 
-Windows and MSDOS don't contain the needful programs to handle
+Windows and DOS don't contain the needful programs to handle
 compressed archives. Get gzip and unzip for Windows at
-@uref{ftp://ftp.freesoftware.com/pub/infozip/WIN32} and for MSDOS at
+@uref{ftp://ftp.freesoftware.com/pub/infozip/WIN32} and for DOS at
 @uref{ftp://ftp.freesoftware.com/pub/infozip/MSDOS}. Don't use pkunzip
-for MSDOS, it doesn't work. The programs to use BZip2 archives may be
+for DOS, it doesn't work. The programs to use BZip2 archives may be
 found at @uref{http://sourceware.cygnus.com/bzip2}.
 Just put the programs (unzip.exe, gzip.exe, bzip2.exe) into a directory
 of your search path (e.g. C:\DOS or C:\WINDOWS\COMMAND; have a look at
@@ -3126,7 +3126,7 @@ Implemented drivers are:
 @item
 @code{aix}, for the IBM AIX sound driver.
 @item
-@code{allegro}, for the MSDOS Allegro sound driver.
+@code{allegro}, for the DOS Allegro sound driver.
 @item
 @code{alsa}, for the linux ALSA sound driver.
 @item
@@ -3155,7 +3155,7 @@ Implemented drivers are:
 @code{SoundDeviceArg} specifies the audio device, @file{/dev/audio} by
 default).
 @item
-@code{midas}, for the MSDOS Midas sound driver.
+@code{midas}, for the DOS Midas sound driver.
 @item
 @code{pulse}, for the Pulseaudio sound driver.
 @item
@@ -10059,7 +10059,7 @@ Boolean specifying whether ``warp mode'' is turned on or not.
 @vindex HwJoyType
 @item HwJoyType
 Integer specifying the hardware type of the joystick (all emulators except vsid).
-See @code{DOS joystick hardware types} for the types.
+See @code{'DOS joystick hardware types'} for the types.
 
 @vindex JoyDevice1
 @item JoyDevice1
@@ -10077,6 +10077,16 @@ Integer specifying which joystick device the emulator should use for joystick em
 @item JoyDevice4
 Integer specifying which joystick device the emulator should use for joystick emulation for port 4 (all emulators except xcbm5x0, xplus4 and vsid).
 (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+
+@end table
+
+The following resource is only available if the midas sound driver is not used during compile time.
+
+@table @code
+
+@vindex TripleBuffering
+@item TripleBuffering
+Boolean to enable/disable triple buffering if possible.
 
 @end table
 
@@ -10137,6 +10147,17 @@ Set device for extra joystick port 1 and 2, respectively
 
 @end table
 
+The following command-line options are only available if the midas sound driver is not used during compile time.
+
+@table @code
+
+@findex -triplebuf, +triplebuf
+@item -triplebuf
+@itemx +triplebuf
+Enable/Disable triple buffering (@code{TripleBuffering=1}, @code{TripleBuffering=0}).
+
+@end table
+
 @end ifset
 
 @c -----------------------------------------------------------------
@@ -10175,7 +10196,7 @@ Set device for extra joystick port 1 and 2, respectively
 
 @ifset platformsdl
 
-@c TODO: SDL specific content
+This section lists the settings and commands that are common and specific to SDL, and are thus not present in other platforms. 
 
 @end ifset
 
