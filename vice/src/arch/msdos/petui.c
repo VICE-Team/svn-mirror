@@ -321,7 +321,7 @@ int petui_init(void)
 
     uipetdww_init(ui_ioextensions_submenu);
 
-    uipethre`_init(ui_ioextensions_submenu);
+    uipethre_init(ui_ioextensions_submenu);
 
     uipetreu_init(ui_ioextensions_submenu);
 

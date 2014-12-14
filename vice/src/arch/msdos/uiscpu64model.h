@@ -29,6 +29,6 @@
 
 struct tui_menu;
 
-extern void uic64model_init(struct tui_menu *parent_submenu);
+extern void uiscpu64model_init(struct tui_menu *parent_submenu);
 
 #endif

@@ -278,7 +278,7 @@ static tui_menu_item_def_t c64_model_items[] = {
     { NULL }
 };
 
-void uic64model_init(struct tui_menu *parent_submenu)
+void uiscpu64model_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_c64model_submenu;
 

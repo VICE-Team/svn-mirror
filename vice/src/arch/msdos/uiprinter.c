@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "machine.h"
 #include "printer.h"
 #include "resources.h"
 #include "tuimenu.h"

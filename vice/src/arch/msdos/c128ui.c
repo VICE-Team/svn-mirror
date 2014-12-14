@@ -146,7 +146,7 @@ static TUI_MENU_CALLBACK(MousePort_callback)
     }
 }
 
-static tui_menu_item_def_t mouse_type_submenu[] = {
+static tui_menu_item_def_t mouse_port_submenu[] = {
     { "Joy1", NULL, radio_Mouseport_callback,
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "Joy2", NULL, radio_Mouseport_callback,

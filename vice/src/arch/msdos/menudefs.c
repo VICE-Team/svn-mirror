@@ -382,13 +382,13 @@ static tui_menu_item_def_t cpu_jam_actions_submenu[] = {
     { "_Continue", NULL, radio_JAMAction_callback,
       (void *)MACHINE_JAM_ACTION_CONTINUE, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "Start _Monitor", NULL, radio_JAMAction_callback,
-      (void *)JAM_ACTION_MONITOR, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+      (void *)MACHINE_JAM_ACTION_MONITOR, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_Reset", NULL, radio_JAMAction_callback,
-      (void *)JAM_ACTION_RESET, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+      (void *)MACHINE_JAM_ACTION_RESET, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_Hard reset", NULL, radio_JAMAction_callback,
-      (void *)JAM_ACTION_HARD_RESET, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+      (void *)MACHINE_JAM_ACTION_HARD_RESET, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_Quit emulator", NULL, radio_JAMAction_callback,
-      (void *)JAM_ACTION_QUIT, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+      (void *)MACHINE_JAM_ACTION_QUIT, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
