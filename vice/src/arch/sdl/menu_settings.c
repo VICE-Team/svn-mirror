@@ -179,6 +179,25 @@ static UI_MENU_CALLBACK(save_hotkeys_callback)
     return NULL;
 }
 
+static UI_MENU_CALLBACK(save_hotkeys_to_callback)
+{
+    if (activated) {
+        char *name = NULL;
+
+        name = sdl_ui_file_selection_dialog("Choose hotkey file", FILEREQ_MODE_SAVE_FILE);
+
+        if (name != NULL) {
+            if (sdlkbd_hotkeys_dump(name) < 0) {
+                ui_error("Cannot save current hotkeys.");
+            } else {
+                ui_message("Hotkeys saved.");
+            }
+            lib_free(name);
+        }
+    }
+    return NULL;
+}
+
 static UI_MENU_CALLBACK(load_hotkeys_callback)
 {
     const char *file = NULL;
@@ -192,6 +211,25 @@ static UI_MENU_CALLBACK(load_hotkeys_callback)
             ui_error("Cannot load hotkeys.");
         } else {
             ui_message("Hotkeys loaded.");
+        }
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(load_hotkeys_from_callback)
+{
+    if (activated) {
+        char *name = NULL;
+
+        name = sdl_ui_file_selection_dialog("Choose hotkeys file", FILEREQ_MODE_CHOOSE_FILE);
+
+        if (name != NULL) {
+            if (resources_set_string("HotkeyFile", name) < 0) {
+                ui_error("Cannot load hotkeys.");
+            } else {
+                ui_message("Hotkeys loaded.");
+            }
+            lib_free(name);
         }
     }
     return NULL;
@@ -341,6 +379,14 @@ const ui_menu_entry_t settings_manager_menu[] = {
     { "Save hotkeys",
       MENU_ENTRY_OTHER,
       save_hotkeys_callback,
+      NULL },
+    { "Save hotkeys to",
+      MENU_ENTRY_OTHER,
+      save_hotkeys_to_callback,
+      NULL },
+    { "Load hotkeys from",
+      MENU_ENTRY_OTHER,
+      load_hotkeys_from_callback,
       NULL },
     { "Load hotkeys",
       MENU_ENTRY_OTHER,

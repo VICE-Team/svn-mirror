@@ -1215,6 +1215,476 @@ FIXED/CORRECT OS/2 ONLY OPTIONAL RESOURCES/CMDLINES:
 FIXED/CORRECT SDL ONLY COMMON RESOURCES/CMDLINES:
 =================================================
 
+arch/sdl/kbd.c:
+---------------
+resource type:                  string
+resource name:                  "HotkeyFile"
+resource range:                 N/A
+resource default:               archdep_default_hotkey_file_name() (arch specific)
+resource function:              hotkey_file_set()
+resource var:                   hotkey_file
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -hotkeyfile
+platform gui present:           sdl
+
+arch/sdl/kbd.c:
+---------------
+command line:   -hotkeyfile <name>
+description:    "Specify name of hotkey file"
+resource:       "HotkeyFile"
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+resource type:                  int
+resource name:                  "MenuKey"
+resource range:                 N/A
+resource default:               SDLK_F12
+resource function:              set_ui_menukey()
+resource var:                   sdl_ui_menukeys[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -menukey
+platform gui present:           sdl
+
+arch/sdl/ui.c:
+--------------
+command line:   -menukey <key>
+description:    "Keycode of the menu activate key"
+resource:       "MenuKey"
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+resource type:                  int
+resource name:                  "MenuKeyUp"
+resource range:                 N/A
+resource default:               SDLK_UP
+resource function:              set_ui_menukey()
+resource var:                   sdl_ui_menukeys[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -menukeyup
+platform gui present:           sdl
+
+arch/sdl/ui.c:
+--------------
+command line:   -menukeyup <key>
+description:    "Keycode of the menu up key"
+resource:       "MenuKeyUp"
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+resource type:                  int
+resource name:                  "MenuKeyDown"
+resource range:                 N/A
+resource default:               SDLK_DOWN
+resource function:              set_ui_menukey()
+resource var:                   sdl_ui_menukeys[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -menukeydown
+platform gui present:           sdl
+
+arch/sdl/ui.c:
+--------------
+command line:   -menukeydown <key>
+description:    "Keycode of the menu down key"
+resource:       "MenuKeyDown"
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+resource type:                  int
+resource name:                  "MenuKeyLeft"
+resource range:                 N/A
+resource default:               SDLK_LEFT
+resource function:              set_ui_menukey()
+resource var:                   sdl_ui_menukeys[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -menukeyleft
+platform gui present:           sdl
+
+arch/sdl/ui.c:
+--------------
+command line:   -menukeyleft <key>
+description:    "Keycode of the menu left key"
+resource:       "MenuKeyLeft"
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+resource type:                  int
+resource name:                  "MenuKeyRight"
+resource range:                 N/A
+resource default:               SDLK_RIGHT
+resource function:              set_ui_menukey()
+resource var:                   sdl_ui_menukeys[4]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -menukeyright
+platform gui present:           sdl
+
+arch/sdl/ui.c:
+--------------
+command line:   -menukeyright <key>
+description:    "Keycode of the menu right key"
+resource:       "MenuKeyRight"
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+resource type:                  int
+resource name:                  "MenuKeySelect"
+resource range:                 N/A
+resource default:               SDLK_RETURN
+resource function:              set_ui_menukey()
+resource var:                   sdl_ui_menukeys[5]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -menukeyselect
+platform gui present:           sdl
+
+arch/sdl/ui.c:
+--------------
+command line:   -menukeyselect <key>
+description:    "Keycode of the menu select key"
+resource:       "MenuKeySelect"
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+resource type:                  int
+resource name:                  "MenuKeyCancel"
+resource range:                 N/A
+resource default:               SDLK_BACKSPACE
+resource function:              set_ui_menukey()
+resource var:                   sdl_ui_menukeys[6]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -menukeycancel
+platform gui present:           sdl
+
+arch/sdl/ui.c:
+--------------
+command line:   -menukeycancel <key>
+description:    "Keycode of the menu cancel key"
+resource:       "MenuKeyCancel"
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+resource type:                  int
+resource name:                  "MenuKeyExit"
+resource range:                 N/A
+resource default:               SDLK_ESCAPE
+resource function:              set_ui_menukey()
+resource var:                   sdl_ui_menukeys[7]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -menukeyexit
+platform gui present:           sdl
+
+arch/sdl/ui.c:
+--------------
+command line:   -menukeyexit <key>
+description:    "Keycode of the menu exit key"
+resource:       "MenuKeyExit"
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+resource type:                  int
+resource name:                  "MenuKeyMap"
+resource range:                 N/A
+resource default:               SDLK_m
+resource function:              set_ui_menukey()
+resource var:                   sdl_ui_menukeys[8]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -menukeymap
+platform gui present:           sdl
+
+arch/sdl/ui.c:
+--------------
+command line:   -menukeymap <key>
+description:    "Keycode of the menu map key"
+resource:       "MenuKeyMap"
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+resource type:                  bool
+resource name:                  "SaveResourcesOnExit"
+resource range:                 0/1
+resource default:               0
+resource function:              set_save_resources_on_exit()
+resource var:                   save_resources_on_exit
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -saveresourcesonexit / +saveresourcesonexit
+platform gui present:           sdl
+
+arch/sdl/ui.c:
+--------------
+command line:   -saveresourcesonexit
+description:    "Enable saving of the resources on exit"
+resource:       "SaveResourcesOnExit" (set to 1)
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+command line:   +saveresourcesonexit
+description:    "Disable saving of the resources on exit"
+resource:       "SaveResourcesOnExit" (set to 0)
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+resource type:                  bool
+resource name:                  "ConfirmOnExit"
+resource range:                 0/1
+resource default:               0
+resource function:              set_confirm_on_exit()
+resource var:                   confirm_on_exit
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -confirmonexit / +confirmonexit
+platform gui present:           sdl
+
+arch/sdl/ui.c:
+--------------
+command line:   -confirmonexit
+description:    "Enable confirm on exit"
+resource:       "ConfirmOnExit" (set to 1)
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+command line:   +confirmonexit
+description:    "Disable confirm on exit"
+resource:       "ConfirmOnExit" (set to 0)
+action:         N/A
+
+arch/sdl/uistatusbar.c:
+-----------------------
+resource type:                  bool
+resource name:                  "SDLStatusbar"
+resource range:                 0/1
+resource default:               0
+resource function:              set_statusbar()
+resource var:                   statusbar_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
+not used in:
+prepocessor:
+command-line:                   -statusbar / +statusbar
+platform gui present:           sdl
+
+arch/sdl/ui.c:
+--------------
+command line:   -statusbar
+description:    "Enable statusbar"
+resource:       "SDLStatusbar" (set to 1)
+action:         N/A
+
+arch/sdl/ui.c:
+--------------
+command line:   +statusbar
+description:    "Disable statusbar"
+resource:       "SDLStatusbar" (set to 0)
+action:         N/A
+
+arch/sdl/video.c:
+-----------------
+resource type:                  int
+resource name:                  "SDLBitdepth"
+resource range:                 N/A (0/8/15/16/24/32)
+resource default:               32 (watcom) / 0 (everything else)
+resource function:              set_sdl_bitdepth()
+resource var:                   sdl_bitdepth
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -sdlbitdepth
+Blacky note: It doesn't make sense to have this user changable in the GUI.
+
+arch/sdl/video.c:
+-----------------
+command line:   -sdlbitdepth <bpp>
+description:    "Set bitdepth (0 = current, 8, 15, 16, 24, 32)"
+resource:       "SDLBitdepth"
+action:         N/A
+
+arch/sdl/video.c:
+-----------------
+resource type:                  int
+resource name:                  "SDLLimitMode"
+resource range:                 0..2 (SDL_LIMIT_MODE_OFF (0), SDL_LIMIT_MODE_MAX (1), SDL_LIMIT_MODE_FIXED (2))
+resource default:               SDL_LIMIT_MODE_MAX (1) [android] / SDL_LIMIT_MODE_OFF (0) [everything else]
+resource function:              set_sdl_limit_mode()
+resource var:                   sdl_limit_mode
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -sdllimitmode
+platform gui present:           sdl
+
+arch/sdl/video.c:
+-----------------
+command line:   -sdllimitmode <mode>
+description:    "Set resolution limiting mode (0 = off, 1 = max, 2 = fixed)"
+resource:       "SDLLimitMode"
+action:         N/A
+
+arch/sdl/video.c:
+-----------------
+resource type:                  int
+resource name:                  "SDLCustomWidth"
+resource range:                 1+
+resource default:               320 (android) / 800 (everything else)
+resource function:              set_sdl_custom_width()
+resource var:                   sdl_custom_width
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -sdlcustomw
+platform gui present:           sdl
+
+arch/sdl/video.c:
+-----------------
+command line:   -sdlcustomw <width>
+description:    "Set custom resolution width"
+resource:       "SDLCustomWidth"
+action:         N/A
+
+arch/sdl/video.c:
+-----------------
+resource type:                  int
+resource name:                  "SDLCustomHeight"
+resource range:                 1+
+resource default:               200 (android) / 600 (everything else)
+resource function:              set_sdl_custom_height()
+resource var:                   sdl_custom_height
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -sdlcustomh
+platform gui present:           sdl
+
+arch/sdl/video.c:
+-----------------
+command line:   -sdlcustomh <height>
+description:    "Set custom resolution height"
+resource:       "SDLCustomHeight"
+action:         N/A
+
+arch/sdl/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
+						JOYDEV_JOYSTICK (4) only if the sdl library was compiled with joystick support)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platform gui present:           sdl
+platform range correct:		sdl
+
+arch/sdl/joy.c:
+---------------
+command line:   -joydev1 <0-4> / <0-3>
+description:    "Set device for joystick port 1 ([available devices]"
+resource:       "JoyDevice1"
+action:         N/A
+
+arch/sdl/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
+						JOYDEV_JOYSTICK (4) only if the sdl library was compiled with joystick support)
+resource default:               JOYDEV_NONE (0) / JOYDEV_JOYSTICK (4) (for android)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   -joydev2
+platform gui present:           sdl
+platform range correct:		sdl
+
+arch/sdl/joy.c:
+---------------
+command line:   -joydev2 <0-4> / <0-3>
+description:    "Set device for joystick port 2 ([available devices])"
+resource:       "JoyDevice2"
+action:         N/A
+
+arch/sdl/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
+						JOYDEV_JOYSTICK (4) only if the sdl library was compiled with joystick support)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platform gui present:           sdl
+platform range correct:		sdl
+
+arch/sdl/joy.c:
+---------------
+command line:   -extrajoydev1 <0-4> / <0-3>
+description:    "Set device for extra joystick port 1 ([available devices])"
+resource:       "JoyDevice3"
+action:         N/A
+
+arch/sdl/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
+						JOYDEV_JOYSTICK (4) only if the sdl library was compiled with joystick support)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platform gui present:           sdl
+platform range correct:		sdl
+
+arch/sdl/joy.c:
+---------------
+command line:   -extrajoydev2 <0-4> / <0-3>
+description:    "Set device for extra joystick port 2 ([available devices])"
+resource:       "JoyDevice4"
+action:         N/A
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT SDL ONLY OPTIONAL RESOURCES/CMDLINES:
@@ -1299,572 +1769,6 @@ FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 
 SDL ONLY COMMON RESOURCES/CMDLINES:
 ===================================
-
-arch/sdl/kbd.c:
----------------
-resource type:                  string
-resource name:                  "HotkeyFile"
-resource range:                 N/A
-resource default:               archdep_default_hotkey_file_name() (arch specific)
-resource function:              hotkey_file_set()
-resource var:                   hotkey_file
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           
-platform gui missing:			sdl
-fixme: add to documentation
-blacky note: resource is used/checked
-
-arch/sdl/ui.c:
---------------
-resource type:                  int
-resource name:                  "MenuKey"
-resource range:                 N/A
-resource default:               SDLK_F12
-resource function:              set_ui_menukey()
-resource var:                   sdl_ui_menukeys[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -menukey
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-command line:   -menukey <key>
-description:    "Keycode of the menu activate key"
-resource:       "MenuKey"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-resource type:                  int
-resource name:                  "MenuKeyUp"
-resource range:                 N/A
-resource default:               SDLK_UP
-resource function:              set_ui_menukey()
-resource var:                   sdl_ui_menukeys[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -menukeyup
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-command line:   -menukeyup <key>
-description:    "Keycode of the menu up key"
-resource:       "MenuKeyUp"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-resource type:                  int
-resource name:                  "MenuKeyDown"
-resource range:                 N/A
-resource default:               SDLK_DOWN
-resource function:              set_ui_menukey()
-resource var:                   sdl_ui_menukeys[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -menukeydown
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-command line:   -menukeydown <key>
-description:    "Keycode of the menu down key"
-resource:       "MenuKeyDown"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-resource type:                  int
-resource name:                  "MenuKeyLeft"
-resource range:                 N/A
-resource default:               SDLK_LEFT
-resource function:              set_ui_menukey()
-resource var:                   sdl_ui_menukeys[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -menukeyleft
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-command line:   -menukeyleft <key>
-description:    "Keycode of the menu left key"
-resource:       "MenuKeyLeft"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-resource type:                  int
-resource name:                  "MenuKeyRight"
-resource range:                 N/A
-resource default:               SDLK_RIGHT
-resource function:              set_ui_menukey()
-resource var:                   sdl_ui_menukeys[4]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -menukeyright
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-command line:   -menukeyright <key>
-description:    "Keycode of the menu right key"
-resource:       "MenuKeyRight"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-resource type:                  int
-resource name:                  "MenuKeySelect"
-resource range:                 N/A
-resource default:               SDLK_RETURN
-resource function:              set_ui_menukey()
-resource var:                   sdl_ui_menukeys[5]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -menukeyselect
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-command line:   -menukeyselect <key>
-description:    "Keycode of the menu select key"
-resource:       "MenuKeySelect"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-resource type:                  int
-resource name:                  "MenuKeyCancel"
-resource range:                 N/A
-resource default:               SDLK_BACKSPACE
-resource function:              set_ui_menukey()
-resource var:                   sdl_ui_menukeys[6]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -menukeycancel
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-command line:   -menukeycancel <key>
-description:    "Keycode of the menu cancel key"
-resource:       "MenuKeyCancel"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-resource type:                  int
-resource name:                  "MenuKeyExit"
-resource range:                 N/A
-resource default:               SDLK_ESCAPE
-resource function:              set_ui_menukey()
-resource var:                   sdl_ui_menukeys[7]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -menukeyexit
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-command line:   -menukeyexit <key>
-description:    "Keycode of the menu exit key"
-resource:       "MenuKeyExit"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-resource type:                  int
-resource name:                  "MenuKeyMap"
-resource range:                 N/A
-resource default:               SDLK_m
-resource function:              set_ui_menukey()
-resource var:                   sdl_ui_menukeys[8]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -menukeymap
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-command line:   -menukeymap <key>
-description:    "Keycode of the menu map key"
-resource:       "MenuKeyMap"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-resource type:                  bool
-resource name:                  "SaveResourcesOnExit"
-resource range:                 0/1
-resource default:               0
-resource function:              set_save_resources_on_exit()
-resource var:                   save_resources_on_exit
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -saveresourcesonexit / +saveresourcesonexit
-platform gui present:           sdl
-platform gui missing:
-
-arch/sdl/ui.c:
---------------
-command line:   -saveresourcesonexit
-description:    "Enable saving of the resources on exit"
-resource:       "SaveResourcesOnExit" (set to 1)
-action:         N/A
-fixme: fix documentation, not every arch has this command line option
-
-arch/sdl/ui.c:
---------------
-command line:   +saveresourcesonexit
-description:    "Disable saving of the resources on exit"
-resource:       "SaveResourcesOnExit" (set to 0)
-action:         N/A
-fixme: fix documentation, not every arch has this command line option
-
-arch/sdl/ui.c:
---------------
-resource type:                  bool
-resource name:                  "ConfirmOnExit"
-resource range:                 0/1
-resource default:               0
-resource function:              set_confirm_on_exit()
-resource var:                   confirm_on_exit
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -confirmonexit / +confirmonexit
-platform gui present:           sdl
-platform gui missing:
-
-arch/sdl/ui.c:
---------------
-command line:   -confirmonexit
-description:    "Enable confirm on exit"
-resource:       "ConfirmOnExit" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-command line:   +confirmonexit
-description:    "Disable confirm on exit"
-resource:       "ConfirmOnExit" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/uistatusbar.c:
------------------------
-resource type:                  bool
-resource name:                  "SDLStatusbar"
-resource range:                 0/1
-resource default:               0
-resource function:              set_statusbar()
-resource var:                   statusbar_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:
-command-line:                   -statusbar / +statusbar
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-command line:   -statusbar
-description:    "Enable statusbar"
-resource:       "SDLStatusbar" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/ui.c:
---------------
-command line:   +statusbar
-description:    "Disable statusbar"
-resource:       "SDLStatusbar" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-resource type:                  int
-resource name:                  "SDLBitdepth"
-resource range:                 N/A (0/8/15/16/24/32)
-resource default:               32 (watcom) / 0 (everything else)
-resource function:              set_sdl_bitdepth()
-resource var:                   sdl_bitdepth
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:
-command-line:                   -sdlbitdepth
-platform gui present:           
-platform gui missing:			sdl
-fixme: add to documentation
-blacky note: resource is used/checked
-
-arch/sdl/video.c:
------------------
-command line:   -sdlbitdepth <bpp>
-description:    "Set bitdepth (0 = current, 8, 15, 16, 24, 32)"
-resource:       "SDLBitdepth"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-resource type:                  int
-resource name:                  "SDLLimitMode"
-resource range:                 0..2 (SDL_LIMIT_MODE_OFF (0), SDL_LIMIT_MODE_MAX (1), SDL_LIMIT_MODE_FIXED (2))
-resource default:               SDL_LIMIT_MODE_MAX (1) [android] / SDL_LIMIT_MODE_OFF (0) [everything else]
-resource function:              set_sdl_limit_mode()
-resource var:                   sdl_limit_mode
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:
-command-line:                   -sdllimitmode
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-command line:   -sdllimitmode <mode>
-description:    "Set resolution limiting mode (0 = off, 1 = max, 2 = fixed)"
-resource:       "SDLLimitMode"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-resource type:                  int
-resource name:                  "SDLCustomWidth"
-resource range:                 1+
-resource default:               320 (android) / 800 (everything else)
-resource function:              set_sdl_custom_width()
-resource var:                   sdl_custom_width
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:
-command-line:                   -sdlcustomw
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-command line:   -sdlcustomw <width>
-description:    "Set custom resolution width"
-resource:       "SDLCustomWidth"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-resource type:                  int
-resource name:                  "SDLCustomHeight"
-resource range:                 1+
-resource default:               200 (android) / 600 (everything else)
-resource function:              set_sdl_custom_height()
-resource var:                   sdl_custom_height
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:
-command-line:                   -sdlcustomh
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-command line:   -sdlcustomh <height>
-description:    "Set custom resolution height"
-resource:       "SDLCustomHeight"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-resource type:                  int
-resource name:                  "SDLWindowWidth"
-resource range:                 0+
-resource default:               0
-resource function:              set_sdl_window_width()
-resource var:                   sdl_window_width
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:
-command-line:                   NONE (fixme ??)
-platform gui present:           
-platform gui missing:			sdl
-fixme: add to documentation
-blacky note: resource is used/checked
-
-arch/sdl/video.c:
------------------
-resource type:                  int
-resource name:                  "SDLWindowHeight"
-resource range:                 0+
-resource default:               0
-resource function:              set_sdl_window_height()
-resource var:                   sdl_window_height
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:
-command-line:                   NONE (fixme ??)
-platform gui present:           
-platform gui missing:			sdl
-fixme: add to documentation
-blacky note: resource is used/checked
-
-arch/sdl/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_JOYSTICK (4) only if the sdl
-                                        library was compiled with joystick support)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform gui present:           sdl
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/sdl/joy.c:
----------------
-command line:   -joydev1 <0-4> / <0-3>
-description:    "Set device for joystick port 1" (fixme: needs better description)
-resource:       "JoyDevice1"
-action:         N/A
-fixme: fix documentation
-
-arch/sdl/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_JOYSTICK (4) only if the sdl
-                                        library was compiled with joystick support)
-resource default:               JOYDEV_NONE (0) / JOYDEV_JOYSTICK (4) (for android)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   -joydev2
-platform gui present:           sdl
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/sdl/joy.c:
----------------
-command line:   -joydev2 <0-4> / <0-3>
-description:    "Set device for joystick port 2" (fixme: needs better description)
-resource:       "JoyDevice2"
-action:         N/A
-fixme: fix documentation
-
-arch/sdl/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_JOYSTICK (4) only if the sdl
-                                        library was compiled with joystick support)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform gui present:           sdl
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/sdl/joy.c:
----------------
-command line:   -extrajoydev1 <0-4> / <0-3>
-description:    "Set device for extra joystick port 1" (fixme: needs better description)
-resource:       "JoyDevice3"
-action:         N/A
-fixme: fix documentation
-
-arch/sdl/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 0..3/4 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_JOYSTICK (4) only if the sdl
-                                        library was compiled with joystick support)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform gui present:           sdl
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/sdl/joy.c:
----------------
-command line:   -extrajoydev2 <0-4> / <0-3>
-description:    "Set device for extra joystick port 2" (fixme: needs better description)
-resource:       "JoyDevice4"
-action:         N/A
-fixme: fix documentation
 
 crtc/crtc-resources.c:
 ----------------------
@@ -2013,6 +1917,40 @@ description:    "Select fullscreen mode"
 resource:       "VICIISDLFullscreenMode"
 action:         N/A
 fixme: add to documentation
+
+arch/sdl/video.c:
+-----------------
+resource type:                  int
+resource name:                  "SDLWindowWidth"
+resource range:                 0+
+resource default:               0
+resource function:              set_sdl_window_width()
+resource var:                   sdl_window_width
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE (fixme ??)
+platform gui present:           
+platform gui missing:			sdl
+fixme: add to documentation
+blacky note: resource is used/checked
+
+arch/sdl/video.c:
+-----------------
+resource type:                  int
+resource name:                  "SDLWindowHeight"
+resource range:                 0+
+resource default:               0
+resource function:              set_sdl_window_height()
+resource var:                   sdl_window_height
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE (fixme ??)
+platform gui present:           
+platform gui missing:			sdl
+fixme: add to documentation
+blacky note: resource is used/checked
 
 ------------------------------------------------------------------------------------------------------------------------------------
 

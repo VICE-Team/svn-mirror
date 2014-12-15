@@ -2893,7 +2893,6 @@ joystick emulation for ports 1 - 4, respectively.
 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4,
 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1,
 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2 on Unix)
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2 on DOS)
 (0=None, 1=Joystick 1, 2=Joystick 2, 4=Numpad, 8=Keyset 1, 16=Keyset 2 on OS/2)
 (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick in SDL)
 (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=HID joystick 0, 5=HID joystick 1 on Mac OS X)
@@ -10197,6 +10196,214 @@ Enable/Disable triple buffering (@code{TripleBuffering=1}, @code{TripleBuffering
 @ifset platformsdl
 
 This section lists the settings and commands that are common and specific to SDL, and are thus not present in other platforms. 
+
+@c @node FIXME
+@subsection SDL specific resources
+
+@table @code
+
+@vindex HotkeyFile
+@item HotkeyFile
+String specifying the name of the hotkey file.
+
+@vindex MenuKey
+@item MenuKey
+Integer specifying the keycode for activating the SDL menu.
+
+@vindex MenuKeyUp
+@item MenuKeyUp
+Integer specifying the keycode for 'up' in the SDL menu.
+
+@vindex MenuKeyDown
+@item MenuKeyDown
+Integer specifying the keycode for 'down' in the SDL menu.
+
+@vindex MenuKeyLeft
+@item MenuKeyLeft
+Integer specifying the keycode for 'left' in the SDL menu.
+
+@vindex MenuKeyRight
+@item MenuKeyRight
+Integer specifying the keycode for 'right' in the SDL menu.
+
+@vindex MenuKeySelect
+@item MenuKeySelect
+Integer specifying the keycode for 'select' in the SDL menu.
+
+@vindex MenuKeyCancel
+@item MenuKeyCancel
+Integer specifying the keycode for 'cancel' in the SDL menu.
+
+@vindex MenuKeyExit
+@item MenuKeyExit
+Integer specifying the keycode for 'exit' in the SDL menu.
+
+@vindex MenuKeyMap
+@item MenuKeyMap
+Integer specifying the keycode for 'map' in the SDL menu.
+
+@vindex SaveResourcesOnExit
+@item SaveResourcesOnExit
+Boolean specifying whether the emulator should save changed settings
+before exiting.  If this is enabled, the user will be always prompted
+first, in case the settings have changed.
+
+@vindex ConfirmOnExit
+@item ConfirmOnExit
+Boolean specifying whether to show a confirmation dialog on exit.
+
+@vindex SDLStatusbar
+@item SDLStatusbar
+Boolean to enable/disable the statusbar.
+
+@vindex SDLBitdepth
+@item SDLBitdepth
+Integer specifying the bitdepth used.
+(0=current, 8, 15, 16, 24, 32)
+
+@vindex SDLLimitMode
+@item SDLLimitMode
+Integer specifying the resolution limit mode.
+(0=off, 1=max, 2=fixed)
+
+@vindex SDLCustomWidth
+@item SDLCustomWidth
+Integer specifying the custom resolution width.
+
+@vindex SDLCustomHeight
+@item SDLCustomHeight
+Integer specifying the custom resolution height.
+
+@vindex JoyDevice1
+@item JoyDevice1
+Integer specifying which joystick device the emulator should use for joystick emulation for port 1 (all emulators except xcbm2, xpet and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was present in the compile time SDL library))
+@vindex JoyDevice2
+@item JoyDevice2
+Integer specifying which joystick device the emulator should use for joystick emulation for port 2 (all emulators except xcbm2, xpet, xvic and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was present in the compile time SDL library))
+@vindex JoyDevice3
+@item JoyDevice3
+Integer specifying which joystick device the emulator should use for joystick emulation for port 3 (all emulators except xcbm5x0 and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was present in the compile time SDL library))
+@vindex JoyDevice4
+@item JoyDevice4
+Integer specifying which joystick device the emulator should use for joystick emulation for port 4 (all emulators except xcbm5x0, xplus4 and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was present in the compile time SDL library))
+
+@end table
+
+@c @node FIXME
+@subsection SDL specific command-line options
+
+@table @code
+
+@findex -hotkeyfile
+@item -hotkeyfile <name>
+Set the hotkey file name
+(@code{HotkeyFile}).
+
+@findex -menukey
+@item -menukey <key>
+Set the keycode of the SDL menu activation key
+(@code{MenuKey}).
+
+@findex -menukeyup
+@item -menukeyup <key>
+Set the keycode of the 'up' in the SDL menu
+(@code{MenuKeyUp}).
+
+@findex -menukeydown
+@item -menukeydown <key>
+Set the keycode of the 'down' in the SDL menu
+(@code{MenuKeyDown}).
+
+@findex -menukeyleft
+@item -menukeyleft <key>
+Set the keycode of the 'left' in the SDL menu
+(@code{MenuKeyLeft}).
+
+@findex -menukeyright
+@item -menukeyright <key>
+Set the keycode of the 'right' in the SDL menu
+(@code{MenuKeyRight}).
+
+@findex -menukeyselect
+@item -menukeyselect <key>
+Set the keycode of the 'select' in the SDL menu
+(@code{MenuKeySelect}).
+
+@findex -menukeycancel
+@item -menukeycancel <key>
+Set the keycode of the 'cancel' in the SDL menu
+(@code{MenuKeyCancel}).
+
+@findex -menukeyexit
+@item -menukeyexit <key>
+Set the keycode of the 'exit' in the SDL menu
+(@code{MenuKeyExit}).
+
+@findex -menukeymap
+@item -menukeymap <key>
+Set the keycode of the 'map' in the SDL menu
+(@code{MenuKeyMap}).
+
+@findex -saveres, +saveres
+@item -saveres
+@itemx +saveres
+Enable/disable automatic saving of settings on exit
+(@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
+
+@findex -confirmexit, +confirmexit
+@item -confirmexit
+Confirm quiting VICE
+(@code{ConfirmOnExit=1}).
+@item +confirmexit
+Never confirm quiting VICE
+(@code{ConfirmOnExit=0}).
+
+@findex -statusbar, +statusbar
+@item -statusbar
+@itemx +statusbar
+Enable/disable the statusbar
+(@code{SDLStatusbar=1}, @code{SDLStatusbar=0}).
+
+@findex -sdlbitdepth
+@item -sdlbitdepth <bpp>
+Set the display bitdepth
+(@code{SDLBitdepth}).
+
+@findex -sdllimitmode
+@item -sdllimitmode <mode>
+Set the resolution limit mode
+(@code{SDLLimitMode}).
+
+@findex -sdlcustomw
+@item -sdlcustomw <width>
+Set the custom resolution width
+(@code{SDLCustomWidth}).
+
+@findex -sdlcustomh
+@item -sdlcustomh <height>
+Set the custom resolution height
+(@code{SDLCustomHeight}).
+
+
+
+@findex -joydev1
+@findex -joydev2
+@item -joydev1 <0-4> / <0-3>
+@itemx -joydev2 <0-4> / <0-3>
+Set the device for joystick emulation of port 1 and 2, respectively
+(@code{JoyDevice1}, @code{JoyDevice2}).
+@findex -extrajoydev1
+@findex -extrajoydev2
+@item -extrajoydev1 <0-4> / <0-3>
+@itemx -extrajoydev2 <0-4> / <0-3>
+Set device for extra joystick port 1 and 2, respectively
+(@code{JoyDevice3}, @code{JoyDevice4}).
+
+@end table
 
 @end ifset
 

@@ -1306,7 +1306,8 @@ char util_toupper(char c)
 /* generate a list in the form "%X/%X/.../%X" */
 char *util_gen_hex_address_list(int start, int stop, int step)
 {
-    char *temp1, *temp2, *temp3;
+    char *temp1, *temp2;
+    char *temp3 = NULL;
     int i = start;
 
     temp1 = lib_stralloc("");

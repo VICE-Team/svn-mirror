@@ -257,30 +257,38 @@ static const cmdline_option_t cmdline_options[] = {
 #endif
 
 static const cmdline_option_t joydev1cmdline_options[] = {
-    { "-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      JOYDEV_RANGE_TEXT, "Set device for joystick port 1" },
+    { "-joydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice1", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      JOYDEV_RANGE_TEXT, JOYDEV_DESCRIPTION_1 },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev2cmdline_options[] = {
-    { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      JOYDEV_RANGE_TEXT, "Set device for joystick port 2" },
+    { "-joydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice2", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      JOYDEV_RANGE_TEXT, JOYDEV_DESCRIPTION_2 },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev3cmdline_options[] = {
-    { "-extrajoydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice3", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      JOYDEV_RANGE_TEXT, "Set device for extra joystick port 1" },
+    { "-extrajoydev1", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice3", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      JOYDEV_RANGE_TEXT, JOYDEV_DESCRIPTION_3 },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev4cmdline_options[] = {
-    { "-extrajoydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice4", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      JOYDEV_RANGE_TEXT, "Set device for extra joystick port 2" },
+    { "-extrajoydev2", SET_RESOURCE, 1,
+      NULL, NULL, "JoyDevice4", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      JOYDEV_RANGE_TEXT, JOYDEV_DESCRIPTION_4 },
     CMDLINE_LIST_END
 };
 
@@ -372,6 +380,10 @@ int joystick_cmdline_options_init(void)
         return -1;
     }
 #endif
+
+    if (sdlkbd_init_cmdline() < 0) {
+        return -1;
+    }
 
     switch (machine_class) {
         case VICE_MACHINE_C64:

@@ -36,6 +36,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "cmdline.h"
 #include "kbd.h"
 #include "fullscreenarch.h"
 #include "keyboard.h"
@@ -45,6 +46,7 @@
 #include "monitor.h"
 #include "resources.h"
 #include "sysfile.h"
+#include "translate.h"
 #include "ui.h"
 #include "uihotkey.h"
 #include "uimenu.h"
@@ -105,6 +107,22 @@ void sdlkbd_resources_shutdown(void)
     resources_string[0].factory_value = NULL;
     lib_free(hotkey_file);
     hotkey_file = NULL;
+}
+
+/* ------------------------------------------------------------------------ */
+
+static const cmdline_option_t cmdline_options[] = {
+    { "-hotkeyfile", SET_RESOURCE, 1,
+      NULL, NULL, "HotkeyFile", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<name>", "Specify name of hotkey file" },
+    CMDLINE_LIST_END
+};
+
+int sdlkbd_init_cmdline(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------ */

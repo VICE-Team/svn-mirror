@@ -68,11 +68,19 @@ extern void sdljoy_swap_ports(void);
 #define JOYDEV_JOYSTICK 4
 
 #ifdef HAVE_SDL_NUMJOYSTICKS
-#define JOYDEV_MAX          JOYDEV_JOYSTICK
-#define JOYDEV_RANGE_TEXT   "<0-4>"
+#define JOYDEV_MAX            JOYDEV_JOYSTICK
+#define JOYDEV_RANGE_TEXT     "<0-4>"
+#define JOYDEV_DESCRIPTION_1  "Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick)"
+#define JOYDEV_DESCRIPTION_2  "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick)"
+#define JOYDEV_DESCRIPTION_3  "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick)"
+#define JOYDEV_DESCRIPTION_4  "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick)"
 #else
 #define JOYDEV_MAX          JOYDEV_KEYSET2
 #define JOYDEV_RANGE_TEXT   "<0-3>"
+#define JOYDEV_DESCRIPTION_1  "Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
+#define JOYDEV_DESCRIPTION_2  "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
+#define JOYDEV_DESCRIPTION_3  "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
+#define JOYDEV_DESCRIPTION_4  "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
 #endif
 
 #endif

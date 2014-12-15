@@ -490,7 +490,7 @@ void psid_init_tune(int install_driver_hook)
         addr = reloc_addr + 3 + 9;
 
         /* CBM80 reset vector. */
-        addr += psid_set_cbm80(reloc_addr + 9, addr);
+        addr += psid_set_cbm80((WORD)(reloc_addr + 9), addr);
 
         ram_store(addr, (BYTE)(start_song));
     }
