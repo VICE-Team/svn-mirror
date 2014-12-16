@@ -2116,34 +2116,6 @@ FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 UNIX ONLY COMMON RESOURCES/CMDLINES:
 ====================================
 
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  int
-resource name:                  "DisplayDepth"
-resource range:                 0..32
-resource default:               0
-resource function:              set_depth()
-resource var:                   ui_resources.depth
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -displaydepth
-platform gui present:           
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			unix
-note: resource is used/checked
-note: can't we remove this? is anyone still using unix machines that a) is capable of running vice
-      and b) doesnt support 24/32 bits?
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   -displaydepth <value>
-description:    "Specify X display depth (1..32)"
-resource:       "DisplayDepth"
-action:         N/A
-fixme: fix documentation: mention unix only
-
 arch/unix/joy.c:
 ----------------
 resource type:                  int
@@ -2504,6 +2476,35 @@ action:         N/A
 
 UNIX XAW ONLY COMMON RESOURCES/CMDLINES:
 ========================================
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  int
+resource name:                  "DisplayDepth"
+resource range:                 0..32
+resource default:               0
+resource function:              set_depth()
+resource var:                   ui_resources.depth
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -displaydepth
+platform gui present:           
+platform range correct:		
+platform range incorrect:		
+platform gui missing:			unix
+note: resource is used/checked
+note: can't we remove this? is anyone still using unix machines that a) is capable of running vice
+      and b) doesnt support 24/32 bits?
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   -displaydepth <value>
+description:    "Specify X display depth (1..32)"
+resource:       "DisplayDepth"
+action:         N/A
+fixme: fix documentation: mention unix only
+
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
