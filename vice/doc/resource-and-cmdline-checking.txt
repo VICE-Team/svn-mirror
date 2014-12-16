@@ -8239,7 +8239,7 @@ c64/cart/isepic.c:
 command line:   -isepicimagename <Name>
 description:    "Set ISEPIC image name"
 resource:       "Isepicfilename"
-action:         N/A
+action:         n/a
 
 c64/cart/isepic.c:
 ------------------
