@@ -3202,8 +3202,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -htmlbrowser
-platform gui present:           
-platform gui missing:			unix
+platform gui present:           unix
+
 note: resource is used/checked
 fixme: fix documentation, unix only
 

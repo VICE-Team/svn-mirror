@@ -109,12 +109,22 @@ static UI_CALLBACK(activate_monitor)
 
 static UI_CALLBACK(run_c1541)
 {
+    char *termvar, *termexec;
 #ifdef HAVE_FULLSCREEN
     fullscreen_suspend(0);
 #endif
     vsync_suspend_speed_eval();
     sound_close();
-    switch (system("xterm -sb -rightbar -e c1541 &")) {
+    /* try to get the system terminal from the TERM variable */
+    if (!(termvar = getenv("TERM"))) {
+        /* use xterm as fallback */
+        termvar = "xterm -sb -rightbar";
+    }
+    termexec = lib_malloc(strlen(termvar) + 20);
+    strcpy(termexec, termvar);
+    strcat(termexec, " -e c1541 &");
+
+    switch (system(termexec)) {
         case 127:
             ui_error(_("Couldn't run /bin/sh???"));
             break;
@@ -126,6 +136,7 @@ static UI_CALLBACK(run_c1541)
         default:
             ui_error(_("Unknown error while running c1541"));
     }
+    lib_free(termexec);
 }
 
 static UI_CALLBACK(drive_reset)
@@ -144,6 +155,14 @@ static UI_CALLBACK(powerup_reset)
 {
     vsync_suspend_speed_eval();
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+}
+
+static UI_CALLBACK(browse_set_browser_cmd)
+{
+    char *command_text = util_concat(_("Command"), ":", NULL);
+
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Command to execute for browsing html files"), command_text);
+    lib_free(command_text);
 }
 
 static UI_CALLBACK(browse_manual)
@@ -671,6 +690,9 @@ ui_menu_entry_t ui_help_commands_menu[] = {
       (ui_callback_t)ui_about_cmdline, NULL, NULL },
     { N_("About VICE"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_about, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Set browser command"), UI_MENU_TYPE_DOTS, (ui_callback_t)browse_set_browser_cmd,
+      (ui_callback_data_t)"HTMLBrowserCommand", NULL },
     { NULL }
 };
 
