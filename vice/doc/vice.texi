@@ -2894,7 +2894,6 @@ joystick emulation for ports 1 - 4, respectively.
 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1,
 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2 on Unix)
 (0=None, 1=Joystick 1, 2=Joystick 2, 4=Numpad, 8=Keyset 1, 16=Keyset 2 on OS/2)
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick in SDL)
 (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=HID joystick 0, 5=HID joystick 1 on Mac OS X)
 The available joysticks might differ depending on operating system and
 joystick support in the OS (Linux joystick module must be
@@ -10675,6 +10674,38 @@ first, in case the settings have changed.
 @item ConfirmOnExit
 Boolean specifying whether to show a confirmation dialog on exit.
 
+@vindex JoyDevice1
+@item JoyDevice1
+Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+@vindex JoyDevice2
+@item JoyDevice2
+Integer specifying which joystick device the emulator should use for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+@vindex JoyDevice3
+@item JoyDevice3
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+@vindex JoyDevice4
+@item JoyDevice4
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+
+@end table
+
+The available joysticks might differ depending on operating system and joystick support in the OS.
+
+@table @code
+
+@item Devices 4..9
+Only available if joystick support is available at compile time.
+
+@item Devices 10 and 11
+Only available if digital joystick support is available at compile time.
+
+@item Devices 12 and 13
+Only available if USB joystick support is available at compile time.
+
 @end table
 
 @c @node FIXME
@@ -10695,6 +10726,46 @@ Confirm quiting VICE
 @item +confirmexit
 Never confirm quiting VICE
 (@code{ConfirmOnExit=0}).
+
+@findex -joydev1
+@item -joydev1 <0-3> / <0-9> / <0-11> / <0-13>
+Set the device for joystick emulation of port 1
+(@code{JoyDevice1})
+(all emulators except xcbm2, xpet and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+@findex -joydev2
+@item -joydev2 <0-3> / <0-9> / <0-11> / <0-13>
+Set the device for joystick emulation of port 2
+(@code{JoyDevice2})
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+@findex -extrajoydev1
+@item -extrajoydev1 <0-3> / <0-9> / <0-11> / <0-13>
+Set device for extra joystick port 1
+(@code{JoyDevice3})
+(all emulators except xcbm5x0 and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+@findex -extrajoydev2
+@item -extrajoydev2 <0-3> / <0-9> / <0-11> / <0-13>
+Set device for extra joystick port 2
+(@code{JoyDevice4})
+(all emulators except xcbm5x0, xplus4 and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+
+@end table
+
+The available joysticks might differ depending on operating system and joystick support in the OS.
+
+@table @code
+
+@item Devices 4..9
+Only available if joystick support is available at compile time.
+
+@item Devices 10 and 11
+Only available if digital joystick support is available at compile time.
+
+@item Devices 12 and 13
+Only available if USB joystick support is available at compile time.
 
 @end table
 
