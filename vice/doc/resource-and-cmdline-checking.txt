@@ -1685,10 +1685,300 @@ description:    "Set device for extra joystick port 2 ([available devices])"
 resource:       "JoyDevice4"
 action:         N/A
 
+crtc/crtc-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CrtcSDLFullscreenMode"
+resource range:                 0+
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   crtc.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCSDLfullmode
+platform gui present:           sdl
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCSDLfullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "CrtcSDLFullscreenMode"
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "TEDSDLFullscreenMode"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   ted.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDSDLfullmode
+platform gui present:           sdl
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDSDLfullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "TEDSDLFullscreenMode"
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "VDCSDLFullscreenMode"
+resource range:                 0+
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   vdc.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCSDLfullmode
+platform gui present:           sdl
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCSDLfullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "VDCSDLFullscreenMode"
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "VICSDLFullscreenMode"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   vic.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICSDLfullmode
+platform gui present:           sdl
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICSDLfullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "VICSDLFullscreenMode"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "VICIISDLFullscreenMode"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIISDLfullmode
+platform gui present:           sdl
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIISDLfullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "VICIISDLFullscreenMode"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIISDLFullscreenMode"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIISDLfullmode
+platform gui present:           sdl
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIISDLfullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "VICIISDLFullscreenMode"
+action:         N/A
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT SDL ONLY OPTIONAL RESOURCES/CMDLINES:
 ===================================================
+
+arch/sdl/video.c:
+-----------------
+resource type:                  string (float)
+resource name:                  "AspectRatio"
+resource range:                 "0.5".."2.0"
+resource default:               "1.0"
+resource function:              set_aspect_ratio()
+resource var:                   aspect_ratio_s
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_HWSCALE
+command-line:                   -aspect
+platform gui present:           sdl
+
+arch/sdl/video.c:
+-----------------
+command line:   -aspect <aspect ratio>
+description:    "Set custom aspect ratio (0.5 - 2.0)"
+resource:       "AspectRatio"
+action:         N/A
+
+arch/sdl/video.c:
+-----------------
+resource type:                  int
+resource name:                  "SDLGLAspectMode"
+resource range:                 0..2 (SDL_ASPECT_MODE_OFF (0), SDL_ASPECT_MODE_CUSTOM (1), SDL_ASPECT_MODE_TRUE (2))
+resource default:               SDL_ASPECT_MODE_TRUE (2)
+resource function:              set_sdl_gl_aspect_mode()
+resource var:                   sdl_gl_aspect_mode
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_HWSCALE
+command-line:                   -sdlaspectmode
+platform gui present:           sdl
+platform range correct:		sdl
+
+arch/sdl/video.c:
+-----------------
+command line:   -sdlaspectmode <mode>
+description:    "Set aspect ratio mode (0 = off, 1 = custom, 2 = true)"
+resource:       "SDLGLAspectMode"
+action:         N/A
+
+arch/sdl/video.c:
+-----------------
+resource type:                  bool
+resource name:                  "SDLGLFlipX"
+resource range:                 0/1
+resource default:               0
+resource function:              set_sdl_gl_flipx()
+resource var:                   sdl_gl_flipx
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_HWSCALE
+command-line:                   -sdlflipx / +sdlflipx
+platform gui present:           sdl
+
+arch/sdl/video.c:
+-----------------
+command line:   -sdlflipx
+description:    "Enable X flip"
+resource:       "SDLGLFlipX" (set to 1)
+action:         N/A
+
+arch/sdl/video.c:
+-----------------
+command line:   +sdlflipx
+description:    "Disable X flip"
+resource:       "SDLGLFlipX" (set to 0)
+action:         N/A
+
+arch/sdl/video.c:
+-----------------
+resource type:                  bool
+resource name:                  "SDLGLFlipY"
+resource range:                 0/1
+resource default:               0
+resource function:              set_sdl_gl_flipy()
+resource var:                   sdl_gl_flipy
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_HWSCALE
+command-line:                   -sdlflipy / +sdlflipy
+platform gui present:           sdl
+
+arch/sdl/video.c:
+-----------------
+command line:   -sdlflipy
+description:    "Enable Y flip"
+resource:       "SDLGLFlipY" (set to 1)
+action:         N/A
+
+arch/sdl/video.c:
+-----------------
+command line:   +sdlflipy
+description:    "Disable Y flip"
+resource:       "SDLGLFlipY" (set to 0)
+action:         N/A
+
+arch/sdl/joy.c:
+---------------
+resource type:                  string
+resource name:                  "JoyMapFile"
+resource range:                 N/A
+resource default:               NULL
+resource function:              joymap_file_set()
+resource var:                   joymap_file
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
+command-line:                   -joymap
+platform gui present:           sdl
+
+arch/sdl/joy.c:
+---------------
+command line:   -joymap <name>
+description:    "Specify name of joystick map file"
+resource:       "JoyMapFile"
+action:         N/A
+
+arch/sdl/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyThreshold"
+resource range:                 0..32767
+resource default:               DEFAULT_JOYSTICK_THRESHOLD (10000)
+resource function:              set_joystick_threshold()
+resource var:                   joystick_threshold
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
+command-line:                   -joythreshold
+platform gui present:           sdl
+platform range correct:		sdl
+
+arch/sdl/joy.c:
+---------------
+command line:   -joythreshold <0-32767>
+description:    "Set joystick threshold"
+resource:       "JoyThreshold"
+action:         N/A
+
+arch/sdl/joy.c:
+---------------
+resource type:                  int
+resource name:                  "JoyFuzz"
+resource range:                 0..32767
+resource default:               DEFAULT_JOYSTICK_FUZZ (1000)
+resource function:              set_joystick_fuzz()
+resource var:                   joystick_fuzz
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
+command-line:                   -joyfuzz
+platform gui present:           sdl
+platform range correct:		sdl
+
+arch/sdl/joy.c:
+---------------
+command line:   -joyfuzz <0-32767>
+description:    "Set joystick fuzz"
+resource:       "JoyFuzz"
+action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1699,6 +1989,62 @@ FIXED/CORRECT OSX ONLY COMMON RESOURCES/CMDLINES:
 
 FIXED/CORRECT UNIX ONLY COMMON RESOURCES/CMDLINES:
 ==================================================
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  bool
+resource name:                  "SaveResourcesOnExit"
+resource range:                 0/1
+resource default:               0
+resource function:              set_save_resources_on_exit()
+resource var:                   ui_resources.save_resources_on_exit
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -saveres / +saveres
+platform gui present:           unix
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   -saveres
+description:    "Save settings on exit"
+resource:       "SaveResourcesOnExit" (set to 1)
+action:         N/A
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   +saveres
+description:    "Never save settings on exit"
+resource:       "SaveResourcesOnExit" (set to 0)
+action:         N/A
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  bool
+resource name:                  "ConfirmOnExit"
+resource range:                 0/1
+resource default:               1
+resource function:              set_confirm_on_exit()
+resource var:                   ui_resources.confirm_on_exit
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -confirmexit / +confirmexit
+platform gui present:           unix
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   -confirmexit
+description:    "Confirm quitting VICE"
+resource:       "ConfirmOnExit" (set to 1)
+action:         N/A
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   +confirmexit
+description:    "Never confirm quitting VICE"
+resource:       "ConfirmOnExit" (set to 0)
+action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1767,1545 +2113,8 @@ FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
-SDL ONLY COMMON RESOURCES/CMDLINES:
-===================================
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "CrtcSDLFullscreenMode"
-resource range:                 0+
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   crtc.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCSDLfullmode
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation and mention that this is SDL only
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCSDLfullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "CrtcSDLFullscreenMode"
-action:         N/A
-fixme: add to documentation
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "TEDSDLFullscreenMode"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   ted.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDSDLfullmode
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation and -> Only if fullscreen device is present
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDSDLfullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "TEDSDLFullscreenMode"
-action:         N/A
-fixme: add to documentation
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  int
-resource name:                  "VDCSDLFullscreenMode"
-resource range:                 0+
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   vdc.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCSDLfullmode
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation to mention that this is SDL only
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCSDLfullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "VDCSDLFullscreenMode"
-action:         N/A
-fixme: add to documentation
-
-
-Only if fullscreen device(s) available
-vic20/vic-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "VICSDLFullscreenMode"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   vic.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICSDLfullmode
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICSDLfullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "VICSDLFullscreenMode"
-action:         N/A
-fixme: add to documentation
-
-Only if fullscreen device(s) available
-vicii/vicii-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "VICIISDLFullscreenMode"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIISDLfullmode
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIISDLfullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "VICIISDLFullscreenMode"
-action:         N/A
-fixme: add to documentation
-
-Only if fullscreen device(s) available
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIISDLFullscreenMode"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIISDLfullmode
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIISDLfullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "VICIISDLFullscreenMode"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-resource type:                  int
-resource name:                  "SDLWindowWidth"
-resource range:                 0+
-resource default:               0
-resource function:              set_sdl_window_width()
-resource var:                   sdl_window_width
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme ??)
-platform gui present:           
-platform gui missing:			sdl
-fixme: add to documentation
-blacky note: resource is used/checked
-
-arch/sdl/video.c:
------------------
-resource type:                  int
-resource name:                  "SDLWindowHeight"
-resource range:                 0+
-resource default:               0
-resource function:              set_sdl_window_height()
-resource var:                   sdl_window_height
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme ??)
-platform gui present:           
-platform gui missing:			sdl
-fixme: add to documentation
-blacky note: resource is used/checked
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-SDL ONLY OPTIONAL RESOURCES/CMDLINES:
-=====================================
-
-arch/sdl/video.c:
------------------
-resource type:                  string (float)
-resource name:                  "AspectRatio"
-resource range:                 "0.5".."2.0"
-resource default:               "1.0"
-resource function:              set_aspect_ratio()
-resource var:                   aspect_ratio_s
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:                    #ifdef HAVE_HWSCALE
-command-line:                   -aspect
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-command line:   -aspect <aspect ratio>
-description:    "Set custom aspect ratio (0.5 - 2.0)"
-resource:       "AspectRatio"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-resource type:                  int
-resource name:                  "SDLGLAspectMode"
-resource range:                 0..2 (SDL_ASPECT_MODE_OFF (0), SDL_ASPECT_MODE_CUSTOM (1), SDL_ASPECT_MODE_TRUE (2))
-resource default:               SDL_ASPECT_MODE_TRUE (2)
-resource function:              set_sdl_gl_aspect_mode()
-resource var:                   sdl_gl_aspect_mode
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:                    #ifdef HAVE_HWSCALE
-command-line:                   -sdlaspectmode
-platform gui present:           sdl
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-command line:   -sdlaspectmode <mode>
-description:    "Set aspect ratio mode (0 = off, 1 = custom, 2 = true)"
-resource:       "SDLGLAspectMode"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-resource type:                  bool
-resource name:                  "SDLGLFlipX"
-resource range:                 0/1
-resource default:               0
-resource function:              set_sdl_gl_flipx()
-resource var:                   sdl_gl_flipx
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:                    #ifdef HAVE_HWSCALE
-command-line:                   -sdlflipx / +sdlflipx
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-command line:   -sdlflipx
-description:    "Enable X flip"
-resource:       "SDLGLFlipX" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-command line:   +sdlflipx
-description:    "Disable X flip"
-resource:       "SDLGLFlipX" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-resource type:                  bool
-resource name:                  "SDLGLFlipY"
-resource range:                 0/1
-resource default:               0
-resource function:              set_sdl_gl_flipy()
-resource var:                   sdl_gl_flipy
-sresource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:                    #ifdef HAVE_HWSCALE
-command-line:                   -sdlflipy / +sdlflipy
-platform gui present:           sdl
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-command line:   -sdlflipy
-description:    "Enable Y flip"
-resource:       "SDLGLFlipY" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/video.c:
------------------
-command line:   +sdlflipy
-description:    "Disable Y flip"
-resource:       "SDLGLFlipY" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/joy.c:
----------------
-resource type:                  string
-resource name:                  "JoyMapFile"
-resource range:                 N/A
-resource default:               NULL
-resource function:              joymap_file_set()
-resource var:                   joymap_file
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
-command-line:                   -joymap
-platform gui present:           
-platform gui missing:			sdl
-fixme: add to documentation
-blacky note: the resource is used/checked
-
-arch/sdl/joy.c:
----------------
-command line:   -joymap <name>
-description:    "Specify name of joystick map file"
-resource:       "JoyMapFile"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyThreshold"
-resource range:                 0..32767
-resource default:               DEFAULT_JOYSTICK_THRESHOLD (10000)
-resource function:              set_joystick_threshold()
-resource var:                   joystick_threshold
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
-command-line:                   -joythreshold
-platform gui present:           sdl
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/joy.c:
----------------
-command line:   -joythreshold <0-32767>
-description:    "Set joystick threshold"
-resource:       "JoyThreshold"
-action:         N/A
-fixme: add to documentation
-
-arch/sdl/joy.c:
----------------
-resource type:                  int
-resource name:                  "JoyFuzz"
-resource range:                 0..32767
-resource default:               DEFAULT_JOYSTICK_FUZZ (1000)
-resource function:              set_joystick_fuzz()
-resource var:                   joystick_fuzz
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:                    #ifdef HAVE_SDL_NUMJOYSTICKS
-command-line:                   -joyfuzz
-platform gui present:           sdl
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/sdl/joy.c:
----------------
-command line:   -joyfuzz <0-32767>
-description:    "Set joystick fuzz"
-resource:       "JoyFuzz"
-action:         N/A
-fixme: add to documentation
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-OSX ONLY COMMON RESOURCES/CMDLINES:
-===================================
-
-arch/unix/macosx/cocoa/mousedrv.m:
-----------------------------------
-resource type:                  int
-resource name:                  "MouseScaleX"
-resource range:                 1..8 / 1..64 (fixme: which is it ???)
-resource default:               1
-resource function:              set_scale_x()
-resource var:                   scale_x
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
-not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -mousescalex
-platform gui present:           osx
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/mousedrv.m:
-----------------------------------
-command line:   -mousescalex <1-8>
-description:    "Set scaling factor for mouse movement along X"
-resource:       "MouseScaleX"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/mousedrv.m:
-----------------------------------
-resource type:                  int
-resource name:                  "MouseScaleY"
-resource range:                 1..8 / 1..64 (fixme: which is it ???)
-resource default:               1
-resource function:              set_scale_y()
-resource var:                   scale_y
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
-not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -mousescaley
-platform gui present:           osx
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/mousedrv.m:
-----------------------------------
-command line:   -mousescaley <1-8>
-description:    "Set scaling factor for mouse movement along Y"
-resource:       "MouseScaleY"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/ui-resources.c:
---------------------------------------
-resource type:                  bool
-resource name:                  "SaveResourcesOnExit"
-resource range:                 0/1
-resource default:               0
-resource function:              set_save_resources_on_exit()
-resource var:                   ui_resources.save_resources_on_exit
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -saveres / +saveres
-platform gui present:           osx
-platform gui missing:
-
-arch/unix/macosx/cocoa/ui-cmdline-options.c:
---------------------------------------------
-command line:   -saveres
-description:    "Save settings on exit"
-resource:       "SaveResourcesOnExit" (set to 1)
-action:         N/A
-fixme: fix documentation, not every arch has this command line option
-
-arch/unix/macosx/cocoa/ui-cmdline-options.c:
---------------------------------------------
-command line:   +saveres
-description:    "Never save settings on exit"
-resource:       "SaveResourcesOnExit" (set to 0)
-action:         N/A
-fixme: fix documentation, not every arch has this command line option
-
-arch/unix/macosx/cocoa/ui-resources.c:
---------------------------------------
-resource type:                  bool
-resource name:                  "ConfirmOnExit"
-resource range:                 0/1
-resource default:               1
-resource function:              set_confirm_on_exit()
-resource var:                   ui_resources.confirm_on_exit
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -confirmexit / +confirmexit
-platform gui present:           osx
-platform gui missing:
-
-arch/unix/macosx/cocoa/ui-cmdline-options.c:
---------------------------------------------
-command line:   +confirmexit
-description:    "Never confirm quitting VICE"
-resource:       "ConfirmOnExit" (set to 0)
-action:         N/A
-
-arch/unix/macosx/cocoa/ui-cmdline-options.c:
---------------------------------------------
-command line:   -confirmexit
-description:    "Confirm quitting VICE"
-resource:       "ConfirmOnExit" (set to 1)
-action:         N/A
-
-arch/unix/macosx/cocoa/video.m:
--------------------------------
-resource type:                  int
-resource name:                  "SyncDrawMode"
-resource range:                 0..2 (SYNC_DRAW_OFF (0), SYNC_DRAW_NEAREST (1), SYNC_DRAW_BLEND (2))
-resource default:               SYNC_DRAW_OFF (0)
-resource function:              set_sync_draw_mode()
-resource var:                   video_param.sync_draw_mode
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -syncdrawmode
-platform gui present:           osx
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/video.m:
--------------------------------
-command line:   -syncdrawmode <0-2>
-description:    "Enable draw synchronization to vertical blank" (fixme: needs better description)
-resource:       "SyncDrawMode"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/video.m:
--------------------------------
-resource type:                  int
-resource name:                  "SyncDrawBuffers"
-resource range:                 0..8 or 0..16 (fixme: which is it ???)
-resource default:               0
-resource function:              set_sync_draw_buffers()
-resource var:                   video_param.sync_draw_buffers
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -syncdrawbuffers
-platform gui present:           osx
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/video.m:
--------------------------------
-command line:   -syncdrawbuffers <0-8>
-description:    "Set number of buffers used for sync draw (0=use default)"
-resource:       "SyncDrawBuffers"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/video.m:
--------------------------------
-resource type:                  bool
-resource name:                  "SyncDrawFlickerFix"
-resource range:                 0/1
-resource default:               0
-resource function:              set_sync_draw_flicker_fix()
-resource var:                   video_param.sync_draw_flicker_fix
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -syncdrawflickerfix / +syncdrawflickerfix
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/video.m:
--------------------------------
-command line:   -syncdrawflickerfix
-description:    "Enable flicker fixing in sync draw"
-resource:       "SyncDrawFlickerFix" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/video.m:
--------------------------------
-command line:   +syncdrawflickerfix
-description:    "Disable flicker fixing in sync draw"
-resource:       "SyncDrawFlickerFix" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/video.m:
--------------------------------
-resource type:                  bool
-resource name:                  "TrueAspectRatio"
-resource range:                 0/1
-resource default:               1
-resource function:              set_true_pixel_aspect()
-resource var:                   video_param.true_pixel_aspect
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -trueaspect / +trueaspect
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/video.m:
--------------------------------
-command line:   -trueaspect
-description:    "Enable true aspect ratio"
-resource:       "TrueAspectRatio" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/video.m:
--------------------------------
-command line:   +trueaspect
-description:    "Disable true aspect ratio"
-resource:       "TrueAspectRatio" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/cocoa/video.m:
--------------------------------
-resource type:                  bool
-resource name:                  "ShowKeyCodes"
-resource range:                 0/1
-resource default:               0
-resource function:              set_show_key_codes()
-resource var:                   video_param.show_key_codes
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/mididrv.c:
----------------------------
-resource type:                  string
-resource name:                  "MIDIName"
-resource range:                 N/A
-resource default:               "VICE"
-resource function:              set_midi_name()
-resource var:                   midi_name
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -midiname
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/mididrv.c:
----------------------------
-command line:   -midiname <Name>
-description:    "Name of MIDI Client"
-resource:       "MIDIName"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/mididrv.c:
----------------------------
-resource type:                  string
-resource name:                  "MIDIInName"
-resource range:                 N/A
-resource default:               "VICEInput"
-resource function:              set_midi_in_name()
-resource var:                   midi_in_name
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -midiinname
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/mididrv.c:
----------------------------
-command line:   -midiinname <Name>
-description:    "Name of MIDI-In Port"
-resource:       "MIDIInName"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/mididrv.c:
----------------------------
-resource type:                  string
-resource name:                  "MIDIOutName"
-resource range:                 N/A
-resource default:               "VICEOutput"
-resource function:              set_midi_out_name()
-resource var:                   midi_out_name
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -midioutname
-platform gui present:           osx
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/mididrv.c:
----------------------------
-command line:   -midioutname <Name>
-description:    "Name of MIDI-Out Port"
-resource:       "MIDIOutName"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyADevice"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_joy_a_device_name()
-resource var:                   joy_a.device_name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAdevice
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyAdevice <vid:pid:sn>
-description:    "Set HID A device" (fixme: needs better description)
-resource:       "JoyADevice"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyAXAxis"
-resource range:                 N/A
-resource default:               "X"
-resource function:              set_joy_a_x_axis_name()
-resource var:                   joy_a.axis[HID_X_AXIS].name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAxaxis
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyAxaxis <X,Y,Z,Rx,Ry,Rz>
-description:    "Set X Axis for HID A device" (fixme: needs better description)
-resource:       "JoyAXAxis"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyAYAxis"
-resource range:                 N/A
-resource default:               "Y"
-resource function:              set_joy_a_y_axis_name()
-resource var:                   joy_a.axis[HID_Y_AXIS].name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAyaxis
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyAyaxis <X,Y,Z,Rx,Ry,Rz>
-description:    "Set Y Axis for HID A device" (fixme: needs better description)
-resource:       "JoyAYAxis"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyAButtons"
-resource range:                 N/A
-resource default:               "1:2:0:0:0:0"
-resource function:              set_joy_a_button_mapping()
-resource var:                   joy_a.button_mapping
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAbuttons
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyAbuttons <f:af:l:r:u:d>
-description:    "Set Buttons for HID A device" (fixme: needs better description)
-resource:       "JoyAButtons"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyAAutoButtons"
-resource range:                 N/A
-resource default:               "3:4:2:2:4:4"
-resource function:              set_joy_a_auto_button_mapping()
-resource var:                   joy_a.auto_button_mapping
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAautobuttons
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyAautobuttons <af1:af2:af1p:af1r:af2p:af2r>
-description:    "Set Auto Fire Buttons for HID A device" (fixme: needs better description)
-resource:       "JoyAAutoButtons"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyBDevice"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_joy_b_device_name()
-resource var:                   joy_b.device_name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBdevice
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyBdevice <vid:pid:sn>
-description:    "Set HID B device" (fixme: needs better description)
-resource:       "JoyBDevice"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyBXAxis"
-resource range:                 N/A
-resource default:               "X"
-resource function:              set_joy_b_x_axis_name()
-resource var:                   joy_b.axis[HID_X_AXIS].name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBxaxis
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyBxaxis <X,Y,Z,Rx,Ry,Rz>
-description:    "Set X Axis for HID B device" (fixme: needs better description)
-resource:       "JoyBXAxis"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyBYAxis"
-resource range:                 N/A
-resource default:               "Y"
-resource function:              set_joy_b_y_axis_name()
-resource var:                   joy_b.axis[HID_Y_AXIS].name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyByaxis
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyByaxis <X,Y,Z,Rx,Ry,Rz>
-description:    "Set Y Axis for HID B device" (fixme: needs better description)
-resource:       "JoyBYAxis"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyBButtons"
-resource range:                 N/A
-resource default:               "1:2:0:0:0:0"
-resource function:              set_joy_b_button_mapping()
-resource var:                   joy_b.button_mapping
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBbuttons
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyBbuttons <f:af:l:r:u:d>
-description:    "Set Buttons for HID B device" (fixme: needs better description)
-resource:       "JoyBButtons"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  string
-resource name:                  "JoyBAutoButtons"
-resource range:                 N/A
-resource default:               "3:4:2:2:4:4"
-resource function:              set_joy_b_auto_button_mapping()
-resource var:                   joy_b.auto_button_mapping
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBautobuttons
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyBautobuttons <af1:af2:af1p:af1r:af2p:af2r>
-description:    "Set Auto Fire Buttons for HID B device" (fixme: needs better description)
-resource:       "JoyBAutoButtons"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAXThreshold"
-resource range:                 0..100
-resource default:               50
-resource function:              set_joy_a_x_threshold()
-resource var:                   joy_a.axis[HID_X_AXIS].threshold
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAxthreshold
-platforms to check:			osx
-platform gui present:           
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyAxthreshold <0-100>
-description:    "Set X Axis Threshold in Percent of HID A device"
-resource:       "JoyAXThreshold"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAYThreshold"
-resource range:                 0..100
-resource default:               50
-resource function:              set_joy_a_y_threshold()
-resource var:                   joy_a.axis[HID_Y_AXIS].threshold
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAythreshold
-platforms to check:			osx
-platform gui present:           
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyAythreshold <0-100>
-description:    "Set Y Axis Threshold in Percent of HID A device"
-resource:       "JoyAYThreshold"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBXThreshold"
-resource range:                 0..100
-resource default:               50
-resource function:              set_joy_b_x_threshold()
-resource var:                   joy_b.axis[HID_X_AXIS].threshold
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBxthreshold
-platforms to check:			osx
-platform gui present:           
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyBxthreshold <0-100>
-description:    "Set X Axis Threshold in Percent of HID B device"
-resource:       "JoyBXThreshold"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBYThreshold"
-resource range:                 0..100
-resource default:               50
-resource function:              set_joy_b_y_threshold()
-resource var:                   joy_b.axis[HID_Y_AXIS].threshold
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBythreshold
-platforms to check:			osx
-platform gui present:           
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyBythreshold <0-100>
-description:    "Set Y Axis Threshold in Percent of HID B device"
-resource:       "JoyBYThreshold"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAXMin"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_a_x_min()
-resource var:                   joy_a.axis[HID_X_AXIS].min
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAYMin"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_a_y_min()
-resource var:                   joy_a.axis[HID_Y_AXIS].min
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBXMin"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_b_x_min()
-resource var:                   joy_b.axis[HID_X_AXIS].min
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBYMin"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_b_y_min()
-resource var:                   joy_b.axis[HID_Y_AXIS].min
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAXMax"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_a_x_max()
-resource var:                   joy_a.axis[HID_X_AXIS].max
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAYMax"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_a_y_max()
-resource var:                   joy_a.axis[HID_Y_AXIS].max
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBXMax"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_b_x_max()
-resource var:                   joy_b.axis[HID_X_AXIS].max
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBYMax"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_b_y_max()
-resource var:                   joy_b.axis[HID_Y_AXIS].max
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAXLogical"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_a_x_logical()
-resource var:                   joy_a.axis[HID_X_AXIS].logical
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAYLogical"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_a_y_logical()
-resource var:                   joy_a.axis[HID_Y_AXIS].logical
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBXLogical"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_b_x_logical()
-resource var:                   joy_b.axis[HID_X_AXIS].logical
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBYLogical"
-resource range:                 N/A
-resource default:               0
-resource function:              set_joy_b_y_logical()
-resource var:                   joy_b.axis[HID_Y_AXIS].logical
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyAHatSwitch"
-resource range:                 N/A
-resource default:               1
-resource function:              set_joy_a_hat_switch()
-resource var:                   joy_a.hat_switch.id
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyAhatswitch
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyAhatswitch <0-n>
-description:    "Set Hat Switch for Joystick of HID A device"
-resource:       "JoyAHatSwitch"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyBHatSwitch"
-resource range:                 N/A
-resource default:               1
-resource function:              set_joy_b_hat_switch()
-resource var:                   joy_b.hat_switch.id
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -joyBhatswitch
-platforms to check:			osx
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joyBhatswitch <0-n>
-description:    "Set Hat Switch for Joystick of HID B device"
-resource:       "JoyBHatSwitch"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform gui present:           osx
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joydev1 <0-5>
-description:    "Set device for joystick port 1"
-resource:       "JoyDevice1"
-action:         N/A
-fixme: fix documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   -joydev2
-platform gui present:           osx
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -joydev2 <0-5>
-description:    "Set device for joystick port 2"
-resource:       "JoyDevice2"
-action:         N/A
-fixme: fix documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform gui present:           osx
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -extrajoydev1 <0-5>
-description:    "Set device for extra joystick port 1"
-resource:       "JoyDevice3"
-action:         N/A
-fixme: fix documentation
-
-arch/unix/macosx/joy.c:
------------------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform gui present:           osx
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/unix/macosx/joy.c:
------------------------
-command line:   -extrajoydev2 <0-5>
-description:    "Set device for extra joystick port 2"
-resource:       "JoyDevice4"
-action:         N/A
-fixme: fix documentation
-
-------------------------------------------------------------------------------------------------------------------------------------
-
 UNIX ONLY COMMON RESOURCES/CMDLINES:
 ====================================
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  string
-resource name:                  "HTMLBrowserCommand"
-resource range:                 N/A
-resource default:               "/usr/bin/open %s" (osx) / "firefox %s" (unix)
-resource function:              set_html_browser_command()
-resource var:                   ui_resources.html_browser_command
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -htmlbrowser
-platform gui present:           unix
-
-note: resource is used/checked
-fixme: fix documentation, unix only
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   -htmlbrowser <Command>
-description:    "Specify an HTML browser for the on-line help"
-resource:       "HTMLBrowserCommand"
-action:         N/A
-fixme: fix documentation and unix only
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  bool
-resource name:                  "PrivateColormap"
-resource range:                 0/1
-resource default:               0
-resource function:              set_use_private_colormap()
-resource var:                   ui_resources.use_private_colormap
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used in vsid)
-not used in:
-prepocessor:
-command-line:                   -colormap / +colormap
-platform gui present:           
-platform gui missing:			unix
-note: resource is used/checked
-fixme: fix documentation, unix only
-note: does this even make sense in the GUI? (giving the option is required to even use the GUI?)
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   -colormap
-description:    "Install a private colormap"
-resource:       "PrivateColormap" (set to 1)
-action:         N/A
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   +colormap
-description:    "Use the default colormap"
-resource:       "PrivateColormap" (set to 0)
-action:         N/A
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  bool
-resource name:                  "SaveResourcesOnExit"
-resource range:                 0/1
-resource default:               0
-resource function:              set_save_resources_on_exit()
-resource var:                   ui_resources.save_resources_on_exit
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -saveres / +saveres
-platform gui present:           unix
-platform gui missing:
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   -saveres
-description:    "Save settings on exit"
-resource:       "SaveResourcesOnExit" (set to 1)
-action:         N/A
-fixme: fix documentation, not every arch has this command line option
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   +saveres
-description:    "Never save settings on exit"
-resource:       "SaveResourcesOnExit" (set to 0)
-action:         N/A
-fixme: fix documentation, not every arch has this command line option
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  bool
-resource name:                  "ConfirmOnExit"
-resource range:                 0/1
-resource default:               1
-resource function:              set_confirm_on_exit()
-resource var:                   ui_resources.confirm_on_exit
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -confirmexit / +confirmexit
-platform gui present:           unix
-platform gui missing:
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   -confirmexit
-description:    "Confirm quitting VICE"
-resource:       "ConfirmOnExit" (set to 1)
-action:         N/A
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   +confirmexit
-description:    "Never confirm quitting VICE"
-resource:       "ConfirmOnExit" (set to 0)
-action:         N/A
 
 arch/unix/x11/ui-resources.c:
 -----------------------------
@@ -3491,6 +2300,31 @@ resource:       "JoyDevice4"
 action:         N/A
 fixme: fix documentation
 
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  string
+resource name:                  "HTMLBrowserCommand"
+resource range:                 N/A
+resource default:               "/usr/bin/open %s" (osx) / "firefox %s" (unix)
+resource function:              set_html_browser_command()
+resource var:                   ui_resources.html_browser_command
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -htmlbrowser
+platform gui present:           unix
+platform gui missing:			
+note: resource is used/checked
+fixme: fix documentation, unix only
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   -htmlbrowser <Command>
+description:    "Specify an HTML browser for the on-line help"
+resource:       "HTMLBrowserCommand"
+action:         N/A
+fixme: fix documentation and unix only
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 UNIX ONLY OPTIONAL RESOURCES/CMDLINES:
@@ -3670,6 +2504,36 @@ action:         N/A
 
 UNIX XAW ONLY COMMON RESOURCES/CMDLINES:
 ========================================
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  bool
+resource name:                  "PrivateColormap"
+resource range:                 0/1
+resource default:               0
+resource function:              set_use_private_colormap()
+resource var:                   ui_resources.use_private_colormap
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -colormap / +colormap
+platform gui present:           
+platform gui missing:			unix (CORRECT)
+fixme: fix documentation, unix only
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   -colormap
+description:    "Install a private colormap"
+resource:       "PrivateColormap" (set to 1)
+action:         N/A
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   +colormap
+description:    "Use the default colormap"
+resource:       "PrivateColormap" (set to 0)
+action:         N/A
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
@@ -25019,5 +23883,1081 @@ description:    "Specify stretch factor for PM Windows (1,2,3,...)"
 resource:       "WindowStretchFactor"
 action:         N/A
 fixme: add to documentation
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+SDL ONLY COMMON RESOURCES/CMDLINES:
+===================================
+
+arch/sdl/video.c:
+-----------------
+resource type:                  int
+resource name:                  "SDLWindowWidth"
+resource range:                 0+
+resource default:               0
+resource function:              set_sdl_window_width()
+resource var:                   sdl_window_width
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE (fixme ??)
+platform gui present:           
+platform gui missing:			sdl
+fixme: add to documentation
+blacky note: resource is used/checked
+
+arch/sdl/video.c:
+-----------------
+resource type:                  int
+resource name:                  "SDLWindowHeight"
+resource range:                 0+
+resource default:               0
+resource function:              set_sdl_window_height()
+resource var:                   sdl_window_height
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE (fixme ??)
+platform gui present:           
+platform gui missing:			sdl
+fixme: add to documentation
+blacky note: resource is used/checked
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+OSX ONLY COMMON RESOURCES/CMDLINES:
+===================================
+
+arch/unix/macosx/cocoa/mousedrv.m:
+----------------------------------
+resource type:                  int
+resource name:                  "MouseScaleX"
+resource range:                 1..8 / 1..64 (fixme: which is it ???)
+resource default:               1
+resource function:              set_scale_x()
+resource var:                   scale_x
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
+not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -mousescalex
+platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/mousedrv.m:
+----------------------------------
+command line:   -mousescalex <1-8>
+description:    "Set scaling factor for mouse movement along X"
+resource:       "MouseScaleX"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/mousedrv.m:
+----------------------------------
+resource type:                  int
+resource name:                  "MouseScaleY"
+resource range:                 1..8 / 1..64 (fixme: which is it ???)
+resource default:               1
+resource function:              set_scale_y()
+resource var:                   scale_y
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
+not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -mousescaley
+platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/mousedrv.m:
+----------------------------------
+command line:   -mousescaley <1-8>
+description:    "Set scaling factor for mouse movement along Y"
+resource:       "MouseScaleY"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/ui-resources.c:
+--------------------------------------
+resource type:                  bool
+resource name:                  "SaveResourcesOnExit"
+resource range:                 0/1
+resource default:               0
+resource function:              set_save_resources_on_exit()
+resource var:                   ui_resources.save_resources_on_exit
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -saveres / +saveres
+platform gui present:           osx
+platform gui missing:
+
+arch/unix/macosx/cocoa/ui-cmdline-options.c:
+--------------------------------------------
+command line:   -saveres
+description:    "Save settings on exit"
+resource:       "SaveResourcesOnExit" (set to 1)
+action:         N/A
+fixme: fix documentation, not every arch has this command line option
+
+arch/unix/macosx/cocoa/ui-cmdline-options.c:
+--------------------------------------------
+command line:   +saveres
+description:    "Never save settings on exit"
+resource:       "SaveResourcesOnExit" (set to 0)
+action:         N/A
+fixme: fix documentation, not every arch has this command line option
+
+arch/unix/macosx/cocoa/ui-resources.c:
+--------------------------------------
+resource type:                  bool
+resource name:                  "ConfirmOnExit"
+resource range:                 0/1
+resource default:               1
+resource function:              set_confirm_on_exit()
+resource var:                   ui_resources.confirm_on_exit
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -confirmexit / +confirmexit
+platform gui present:           osx
+platform gui missing:
+
+arch/unix/macosx/cocoa/ui-cmdline-options.c:
+--------------------------------------------
+command line:   +confirmexit
+description:    "Never confirm quitting VICE"
+resource:       "ConfirmOnExit" (set to 0)
+action:         N/A
+
+arch/unix/macosx/cocoa/ui-cmdline-options.c:
+--------------------------------------------
+command line:   -confirmexit
+description:    "Confirm quitting VICE"
+resource:       "ConfirmOnExit" (set to 1)
+action:         N/A
+
+arch/unix/macosx/cocoa/video.m:
+-------------------------------
+resource type:                  int
+resource name:                  "SyncDrawMode"
+resource range:                 0..2 (SYNC_DRAW_OFF (0), SYNC_DRAW_NEAREST (1), SYNC_DRAW_BLEND (2))
+resource default:               SYNC_DRAW_OFF (0)
+resource function:              set_sync_draw_mode()
+resource var:                   video_param.sync_draw_mode
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -syncdrawmode
+platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/video.m:
+-------------------------------
+command line:   -syncdrawmode <0-2>
+description:    "Enable draw synchronization to vertical blank" (fixme: needs better description)
+resource:       "SyncDrawMode"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/video.m:
+-------------------------------
+resource type:                  int
+resource name:                  "SyncDrawBuffers"
+resource range:                 0..8 or 0..16 (fixme: which is it ???)
+resource default:               0
+resource function:              set_sync_draw_buffers()
+resource var:                   video_param.sync_draw_buffers
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -syncdrawbuffers
+platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/video.m:
+-------------------------------
+command line:   -syncdrawbuffers <0-8>
+description:    "Set number of buffers used for sync draw (0=use default)"
+resource:       "SyncDrawBuffers"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/video.m:
+-------------------------------
+resource type:                  bool
+resource name:                  "SyncDrawFlickerFix"
+resource range:                 0/1
+resource default:               0
+resource function:              set_sync_draw_flicker_fix()
+resource var:                   video_param.sync_draw_flicker_fix
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -syncdrawflickerfix / +syncdrawflickerfix
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/video.m:
+-------------------------------
+command line:   -syncdrawflickerfix
+description:    "Enable flicker fixing in sync draw"
+resource:       "SyncDrawFlickerFix" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/video.m:
+-------------------------------
+command line:   +syncdrawflickerfix
+description:    "Disable flicker fixing in sync draw"
+resource:       "SyncDrawFlickerFix" (set to 0)
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/video.m:
+-------------------------------
+resource type:                  bool
+resource name:                  "TrueAspectRatio"
+resource range:                 0/1
+resource default:               1
+resource function:              set_true_pixel_aspect()
+resource var:                   video_param.true_pixel_aspect
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -trueaspect / +trueaspect
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/video.m:
+-------------------------------
+command line:   -trueaspect
+description:    "Enable true aspect ratio"
+resource:       "TrueAspectRatio" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/video.m:
+-------------------------------
+command line:   +trueaspect
+description:    "Disable true aspect ratio"
+resource:       "TrueAspectRatio" (set to 0)
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/cocoa/video.m:
+-------------------------------
+resource type:                  bool
+resource name:                  "ShowKeyCodes"
+resource range:                 0/1
+resource default:               0
+resource function:              set_show_key_codes()
+resource var:                   video_param.show_key_codes
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE (fixme)
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/mididrv.c:
+---------------------------
+resource type:                  string
+resource name:                  "MIDIName"
+resource range:                 N/A
+resource default:               "VICE"
+resource function:              set_midi_name()
+resource var:                   midi_name
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -midiname
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/mididrv.c:
+---------------------------
+command line:   -midiname <Name>
+description:    "Name of MIDI Client"
+resource:       "MIDIName"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/mididrv.c:
+---------------------------
+resource type:                  string
+resource name:                  "MIDIInName"
+resource range:                 N/A
+resource default:               "VICEInput"
+resource function:              set_midi_in_name()
+resource var:                   midi_in_name
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -midiinname
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/mididrv.c:
+---------------------------
+command line:   -midiinname <Name>
+description:    "Name of MIDI-In Port"
+resource:       "MIDIInName"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/mididrv.c:
+---------------------------
+resource type:                  string
+resource name:                  "MIDIOutName"
+resource range:                 N/A
+resource default:               "VICEOutput"
+resource function:              set_midi_out_name()
+resource var:                   midi_out_name
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -midioutname
+platform gui present:           osx
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/mididrv.c:
+---------------------------
+command line:   -midioutname <Name>
+description:    "Name of MIDI-Out Port"
+resource:       "MIDIOutName"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyADevice"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_joy_a_device_name()
+resource var:                   joy_a.device_name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAdevice
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyAdevice <vid:pid:sn>
+description:    "Set HID A device" (fixme: needs better description)
+resource:       "JoyADevice"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyAXAxis"
+resource range:                 N/A
+resource default:               "X"
+resource function:              set_joy_a_x_axis_name()
+resource var:                   joy_a.axis[HID_X_AXIS].name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAxaxis
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyAxaxis <X,Y,Z,Rx,Ry,Rz>
+description:    "Set X Axis for HID A device" (fixme: needs better description)
+resource:       "JoyAXAxis"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyAYAxis"
+resource range:                 N/A
+resource default:               "Y"
+resource function:              set_joy_a_y_axis_name()
+resource var:                   joy_a.axis[HID_Y_AXIS].name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAyaxis
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyAyaxis <X,Y,Z,Rx,Ry,Rz>
+description:    "Set Y Axis for HID A device" (fixme: needs better description)
+resource:       "JoyAYAxis"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyAButtons"
+resource range:                 N/A
+resource default:               "1:2:0:0:0:0"
+resource function:              set_joy_a_button_mapping()
+resource var:                   joy_a.button_mapping
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAbuttons
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyAbuttons <f:af:l:r:u:d>
+description:    "Set Buttons for HID A device" (fixme: needs better description)
+resource:       "JoyAButtons"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyAAutoButtons"
+resource range:                 N/A
+resource default:               "3:4:2:2:4:4"
+resource function:              set_joy_a_auto_button_mapping()
+resource var:                   joy_a.auto_button_mapping
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAautobuttons
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyAautobuttons <af1:af2:af1p:af1r:af2p:af2r>
+description:    "Set Auto Fire Buttons for HID A device" (fixme: needs better description)
+resource:       "JoyAAutoButtons"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyBDevice"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_joy_b_device_name()
+resource var:                   joy_b.device_name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBdevice
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyBdevice <vid:pid:sn>
+description:    "Set HID B device" (fixme: needs better description)
+resource:       "JoyBDevice"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyBXAxis"
+resource range:                 N/A
+resource default:               "X"
+resource function:              set_joy_b_x_axis_name()
+resource var:                   joy_b.axis[HID_X_AXIS].name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBxaxis
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyBxaxis <X,Y,Z,Rx,Ry,Rz>
+description:    "Set X Axis for HID B device" (fixme: needs better description)
+resource:       "JoyBXAxis"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyBYAxis"
+resource range:                 N/A
+resource default:               "Y"
+resource function:              set_joy_b_y_axis_name()
+resource var:                   joy_b.axis[HID_Y_AXIS].name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyByaxis
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyByaxis <X,Y,Z,Rx,Ry,Rz>
+description:    "Set Y Axis for HID B device" (fixme: needs better description)
+resource:       "JoyBYAxis"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyBButtons"
+resource range:                 N/A
+resource default:               "1:2:0:0:0:0"
+resource function:              set_joy_b_button_mapping()
+resource var:                   joy_b.button_mapping
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBbuttons
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyBbuttons <f:af:l:r:u:d>
+description:    "Set Buttons for HID B device" (fixme: needs better description)
+resource:       "JoyBButtons"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  string
+resource name:                  "JoyBAutoButtons"
+resource range:                 N/A
+resource default:               "3:4:2:2:4:4"
+resource function:              set_joy_b_auto_button_mapping()
+resource var:                   joy_b.auto_button_mapping
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBautobuttons
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyBautobuttons <af1:af2:af1p:af1r:af2p:af2r>
+description:    "Set Auto Fire Buttons for HID B device" (fixme: needs better description)
+resource:       "JoyBAutoButtons"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAXThreshold"
+resource range:                 0..100
+resource default:               50
+resource function:              set_joy_a_x_threshold()
+resource var:                   joy_a.axis[HID_X_AXIS].threshold
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAxthreshold
+platforms to check:			osx
+platform gui present:           
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyAxthreshold <0-100>
+description:    "Set X Axis Threshold in Percent of HID A device"
+resource:       "JoyAXThreshold"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAYThreshold"
+resource range:                 0..100
+resource default:               50
+resource function:              set_joy_a_y_threshold()
+resource var:                   joy_a.axis[HID_Y_AXIS].threshold
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAythreshold
+platforms to check:			osx
+platform gui present:           
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyAythreshold <0-100>
+description:    "Set Y Axis Threshold in Percent of HID A device"
+resource:       "JoyAYThreshold"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBXThreshold"
+resource range:                 0..100
+resource default:               50
+resource function:              set_joy_b_x_threshold()
+resource var:                   joy_b.axis[HID_X_AXIS].threshold
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBxthreshold
+platforms to check:			osx
+platform gui present:           
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyBxthreshold <0-100>
+description:    "Set X Axis Threshold in Percent of HID B device"
+resource:       "JoyBXThreshold"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBYThreshold"
+resource range:                 0..100
+resource default:               50
+resource function:              set_joy_b_y_threshold()
+resource var:                   joy_b.axis[HID_Y_AXIS].threshold
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBythreshold
+platforms to check:			osx
+platform gui present:           
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyBythreshold <0-100>
+description:    "Set Y Axis Threshold in Percent of HID B device"
+resource:       "JoyBYThreshold"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAXMin"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_a_x_min()
+resource var:                   joy_a.axis[HID_X_AXIS].min
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAYMin"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_a_y_min()
+resource var:                   joy_a.axis[HID_Y_AXIS].min
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBXMin"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_b_x_min()
+resource var:                   joy_b.axis[HID_X_AXIS].min
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBYMin"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_b_y_min()
+resource var:                   joy_b.axis[HID_Y_AXIS].min
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAXMax"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_a_x_max()
+resource var:                   joy_a.axis[HID_X_AXIS].max
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAYMax"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_a_y_max()
+resource var:                   joy_a.axis[HID_Y_AXIS].max
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBXMax"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_b_x_max()
+resource var:                   joy_b.axis[HID_X_AXIS].max
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBYMax"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_b_y_max()
+resource var:                   joy_b.axis[HID_Y_AXIS].max
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAXLogical"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_a_x_logical()
+resource var:                   joy_a.axis[HID_X_AXIS].logical
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAYLogical"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_a_y_logical()
+resource var:                   joy_a.axis[HID_Y_AXIS].logical
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBXLogical"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_b_x_logical()
+resource var:                   joy_b.axis[HID_X_AXIS].logical
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBYLogical"
+resource range:                 N/A
+resource default:               0
+resource function:              set_joy_b_y_logical()
+resource var:                   joy_b.axis[HID_Y_AXIS].logical
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   NONE
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyAHatSwitch"
+resource range:                 N/A
+resource default:               1
+resource function:              set_joy_a_hat_switch()
+resource var:                   joy_a.hat_switch.id
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyAhatswitch
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyAhatswitch <0-n>
+description:    "Set Hat Switch for Joystick of HID A device"
+resource:       "JoyAHatSwitch"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyBHatSwitch"
+resource range:                 N/A
+resource default:               1
+resource function:              set_joy_b_hat_switch()
+resource var:                   joy_b.hat_switch.id
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyBhatswitch
+platforms to check:			osx
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joyBhatswitch <0-n>
+description:    "Set Hat Switch for Joystick of HID B device"
+resource:       "JoyBHatSwitch"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: better arch sections in documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joydev1 <0-5>
+description:    "Set device for joystick port 1"
+resource:       "JoyDevice1"
+action:         N/A
+fixme: fix documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   -joydev2
+platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: better arch sections in documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -joydev2 <0-5>
+description:    "Set device for joystick port 2"
+resource:       "JoyDevice2"
+action:         N/A
+fixme: fix documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: better arch sections in documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -extrajoydev1 <0-5>
+description:    "Set device for extra joystick port 1"
+resource:       "JoyDevice3"
+action:         N/A
+fixme: fix documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HID_0 (4), JOYDEV_HID_1 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platform gui present:           osx
+platform range correct:		
+platform range incorrect:		
+platform gui missing:
+fixme: better arch sections in documentation
+
+arch/unix/macosx/joy.c:
+-----------------------
+command line:   -extrajoydev2 <0-5>
+description:    "Set device for extra joystick port 2"
+resource:       "JoyDevice4"
+action:         N/A
+fixme: fix documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------

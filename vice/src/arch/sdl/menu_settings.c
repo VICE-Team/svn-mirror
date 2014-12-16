@@ -254,6 +254,25 @@ static UI_MENU_CALLBACK(save_joymap_callback)
     return NULL;
 }
 
+static UI_MENU_CALLBACK(save_joymap_to_callback)
+{
+    if (activated) {
+        char *name = NULL;
+
+        name = sdl_ui_file_selection_dialog("Choose joystick map file", FILEREQ_MODE_SAVE_FILE);
+
+        if (name != NULL) {
+            if (joy_arch_mapping_dump(name) < 0) {
+                ui_error("Cannot save joymap.");
+            } else {
+                ui_message("Joymap saved.");
+            }
+            lib_free(name);
+        }
+    }
+    return NULL;
+}
+
 static UI_MENU_CALLBACK(load_joymap_callback)
 {
     const char *file = NULL;
@@ -267,6 +286,25 @@ static UI_MENU_CALLBACK(load_joymap_callback)
             ui_error("Cannot load joymap.");
         } else {
             ui_message("Joymap loaded.");
+        }
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(load_joymap_from_callback)
+{
+    if (activated) {
+        char *name = NULL;
+
+        name = sdl_ui_file_selection_dialog("Choose joystick map file", FILEREQ_MODE_CHOOSE_FILE);
+
+        if (name != NULL) {
+            if (resources_set_string("JoyMapFile", name) < 0) {
+                ui_error("Cannot load joymap.");
+            } else {
+                ui_message("Joymap loaded.");
+            }
+            lib_free(name);
         }
     }
     return NULL;
@@ -397,6 +435,14 @@ const ui_menu_entry_t settings_manager_menu[] = {
     { "Save joystick map",
       MENU_ENTRY_OTHER,
       save_joymap_callback,
+      NULL },
+    { "Save joystick map to",
+      MENU_ENTRY_OTHER,
+      save_joymap_to_callback,
+      NULL },
+    { "Load joystick map from",
+      MENU_ENTRY_OTHER,
+      load_joymap_from_callback,
       NULL },
     { "Load joystick map",
       MENU_ENTRY_OTHER,
