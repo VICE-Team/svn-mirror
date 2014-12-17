@@ -4266,17 +4266,6 @@ actually expects).
 @itemx RsDevice4
 Strings specifying the RS232 devices (@pxref{RS232 settings}).
 
-@vindex RsDevice1Baud
-@vindex RsDevice2Baud
-@vindex RsDevice3Baud
-@vindex RsDevice4Baud
-@item RsDevice1Baud
-@itemx RsDevice2Baud
-@itemx RsDevice3Baud
-@itemx RsDevice4Baud
-Integer specifying the RS232 baudrate devices if the device file points
-to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings}).
-
 @vindex Acia1Dev
 @item Acia1Dev
 Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device
@@ -4321,20 +4310,6 @@ the user-port interface is using (C64, C128 and VIC20).
 @itemx -rsdev4 <Name>
 Specify <Name> as RS232 devices 1, 2, 3 and 4, respectively
 (@code{RsDevice1}, @code{RsDevice2} @code{RsDevice3} and @code{RsDevice4}).
-
-@cindex -rsdev1baud
-@item -rsdev1baud <baudrate>
-@cindex -rsdev2baud
-@itemx -rsdev2baud <baudrate>
-@cindex -rsdev3baud
-@itemx -rsdev3baud <baudrate>
-@cindex -rsdev4baud
-@itemx -rsdev4baud <baudrate>
-Specify <baudrate> as baudrate for the RS232 devices if the device name
-specifies a special device (like @file{/dev/ttyS0} for example,
-@pxref{RS232 settings};
-@code{RsDevice1Baud}, @code{RsDevice2Baud} @code{RsDevice3Baud} and
-@code{RsDevice4Baud}).
 
 @cindex -myaciadev
 @item -myaciadev <0-3>
@@ -4583,19 +4558,6 @@ speeddos or JiffyDos) can be stored for example.
 @xref{System files}. for a description of the method used to load the
 emulator's system files.
 
-@vindex HTMLBrowserCommand
-@item HTMLBrowserCommand
-String specifying the command to run the help browser.  The help browser
-can be any HTML browser, and every @samp{%s} in the string is replaced
-with the name of the toplevel file of the VICE documentation.  For
-example, the default value @samp{netscape %s} runs Netscape Navigator.
-
-@vindex SaveResourcesOnExit
-@item SaveResourcesOnExit
-Boolean specifying whether the emulator should save changed settings
-before exiting.  If this is enabled, the user will be always prompted
-first, in case the settings have changed.
-
 @vindex DoCoreDump
 @item DoCoreDump
 Boolean specifying whether the emulator should dump core when it gets a
@@ -4623,10 +4585,6 @@ String specifying the filename of the current log file.
 @item FliplistName
 String specifying the filename of the current flip list. (Drive 8 only)
 
-@vindex ConfirmOnExit
-@item ConfirmOnExit
-Boolean specifying whether to show a confirmation dialog on exit.
-
 @vindex AttachDevice8Readonly
 @vindex AttachDevice9Readonly
 @vindex AttachDevice10Readonly
@@ -4646,22 +4604,6 @@ Booleans that specify whether to attach images on drives 8 to 11 read-only.
 @cindex -directory
 @item -directory <Path>
 Specify the system file search path (@code{Directory}).
-@cindex -htmlbrowser
-@item -htmlbrowser COMMAND
-Specify the command to run the HTML browser for the on-line help
-(@code{HTMLBrowserCommand}).
-
-@cindex -saveres, +saveres
-@item -saveres
-@itemx +saveres
-Enable/disable automatic saving of settings on exit
-(@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
-
-@cindex -confirmexit, +confirmexit
-@item -confirmexit
-Confirm quiting VICE
-@item +confirmexit
-Never confirm quiting VICE
 
 @cindex -core, +core
 @item -core
@@ -6240,15 +6182,6 @@ Boolean specifying whether the MIDI cartridge should be emulated or not.
 @item MIDIMode
 Enum specifying the type of emulated MIDI interface (0: Sequential, 1: Passport/Syntech,
 2: DATEL/Siel/JMS, 3: Namesoft, 4: Maplin)
-@vindex MIDIDriver
-@item MIDIDriver
-Enum specifying the MIDI driver (0: OSS; 1:ALSA)
-@vindex MIDIInDev
-@item MIDIInDev
-String specifying the MIDI input device.
-@vindex MIDIOutDev
-@item MIDIOutDev
-String specifying the MIDI output device.
 
 @vindex REU
 @item REU
@@ -6302,15 +6235,6 @@ MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Mapli
 @item -midi
 @itemx +midi
 Enable/Disable MIDI emulation
-@cindex -midiin
-@item -midiin <name>
-Specify MIDI-In device
-@cindex -midiout
-@item -midiout <name>
-Specify MIDI-Out device
-@cindex -mididrv
-@item -mididrv <driver>
-Specify MIDI driver (0 = OSS, 1 = ALSA)
 @cindex -georam, +georam
 @item -georam
 @itemx +georam
@@ -10674,6 +10598,13 @@ first, in case the settings have changed.
 @item ConfirmOnExit
 Boolean specifying whether to show a confirmation dialog on exit.
 
+@vindex HTMLBrowserCommand
+@item HTMLBrowserCommand
+String specifying the command to run the help browser.  The help browser
+can be any HTML browser, and every @samp{%s} in the string is replaced
+with the name of the toplevel file of the VICE documentation.  For
+example, the default value @samp{netscape %s} runs Netscape Navigator.
+
 @vindex JoyDevice1
 @item JoyDevice1
 Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
@@ -10708,6 +10639,52 @@ Only available if USB joystick support is available at compile time.
 
 @end table
 
+The following resources are only available if MIDI support is available at compile time.
+
+@table @code
+
+@vindex MIDIInDev
+@item MIDIInDev
+String specifying the MIDI input device
+(x64, x64sc, xscpu64, x128 and xvic only).
+
+@vindex MIDIOutDev
+@item MIDIOutDev
+String specifying the MIDI output device
+(x64, x64sc, xscpu64, x128 and xvic only).
+
+@end table
+
+The following resource is only available if MIDI support and ALSA support is available at compile time.
+
+@table @code
+
+@vindex MIDIDriver
+@item MIDIDriver
+Enum specifying the MIDI driver
+(x64, x64sc, xscpu64, x128 and xvic only).
+(0=OSS, 1=ALSA)
+
+@end table
+
+The following resources are only available if RS232 device support or RS232 network support is available at compile time.
+
+@table @code
+
+@vindex RsDevice1Baud
+@vindex RsDevice2Baud
+@vindex RsDevice3Baud
+@vindex RsDevice4Baud
+@item RsDevice1Baud
+@itemx RsDevice2Baud
+@itemx RsDevice3Baud
+@itemx RsDevice4Baud
+Integer specifying the RS232 baudrate devices if the device file points
+to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings})
+(all emulators except vsid).
+
+@end table
+
 @c @node FIXME
 @subsection Unix specific command-line options
 
@@ -10726,6 +10703,11 @@ Confirm quiting VICE
 @item +confirmexit
 Never confirm quiting VICE
 (@code{ConfirmOnExit=0}).
+
+@findex -htmlbrowser
+@item -htmlbrowser COMMAND
+Specify the command to run the HTML browser for the on-line help
+(@code{HTMLBrowserCommand}).
 
 @findex -joydev1
 @item -joydev1 <0-3> / <0-9> / <0-11> / <0-13>
@@ -10766,6 +10748,58 @@ Only available if digital joystick support is available at compile time.
 
 @item Devices 12 and 13
 Only available if USB joystick support is available at compile time.
+
+@end table
+
+The following command-line options are only available if MIDI support is available at compile time.
+
+@table @code
+
+@findex -midiin
+@item -midiin <name>
+Specify MIDI-In device
+(@code{MIDIInDev})
+(x64, x64sc, xscpu64, x128 and xvic only).
+
+@findex -midiout
+@item -midiout <name>
+Specify MIDI-Out device
+(@code{MIDIOutDev})
+(x64, x64sc, xscpu64, x128 and xvic only).
+
+@end table
+
+The following command-line option is only available if MIDI support and ALSA support is available at compile time.
+
+@table @code
+
+@findex -mididrv
+@item -mididrv <driver>
+Specify MIDI driver
+(@code{MIDIDriver})
+(x64, x64sc, xscpu64, x128 and xvic only).
+(0=OSS, 1=ALSA)
+
+@end table
+
+The following command-line options are only available if RS232 device support or RS232 network support is available at compile time.
+
+@table @code
+
+@findex -rsdev1baud
+@item -rsdev1baud <baudrate>
+@findex -rsdev2baud
+@itemx -rsdev2baud <baudrate>
+@findex -rsdev3baud
+@itemx -rsdev3baud <baudrate>
+@findex -rsdev4baud
+@itemx -rsdev4baud <baudrate>
+Specify <baudrate> as baudrate for the RS232 devices if the device name
+specifies a special device (like @file{/dev/ttyS0} for example,
+@pxref{RS232 settings};
+@code{RsDevice1Baud}, @code{RsDevice2Baud} @code{RsDevice3Baud} and
+@code{RsDevice4Baud})
+(all emulators except vsid).
 
 @end table
 

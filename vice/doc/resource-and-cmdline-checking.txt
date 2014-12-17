@@ -2046,6 +2046,167 @@ description:    "Never confirm quitting VICE"
 resource:       "ConfirmOnExit" (set to 0)
 action:         N/A
 
+arch/unix/joy.c:
+----------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
+						JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
+						JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
+						JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
+						JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
+						JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platform gui present:           unix
+platform range correct:		unix
+
+arch/unix/joy.c:
+----------------
+command line:   -joydev1 <0-13> / <0-11> / <0-9> / <0-3>
+description:    "Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1"
+			"Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1"
+			"Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5"
+			"Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
+resource:       "JoyDevice1"
+action:         N/A
+
+arch/unix/joy.c:
+----------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
+						JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
+						JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
+						JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
+						JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
+						JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   -joydev2
+platform gui present:           unix
+platform range correct:		unix
+
+arch/unix/joy.c:
+----------------
+command line:   -joydev2 <0-13> / <0-11> / <0-9> / <0-3>
+description:    "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1"
+			"Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1"
+			"Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5"
+			"Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
+resource:       "JoyDevice2"
+action:         N/A
+
+arch/unix/joy.c:
+----------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
+						JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
+						JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
+						JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
+						JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
+						JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platform gui present:           unix
+platform range correct:		unix
+
+arch/unix/joy.c:
+----------------
+command line:   -extrajoydev1 <0-13> / <0-11> / <0-9> / <0-3>
+description:    "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1"
+			"Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1"
+			"Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5"
+			"Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
+resource:       "JoyDevice3"
+action:         N/A
+
+arch/unix/joy.c:
+----------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
+						JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
+						JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
+						JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
+						JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
+						JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
+						JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
+resource default:               JOYDEV_NONE (0)
+resource function:              joyportselect()
+resource var:                   joystick_port_map[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platform gui present:           unix
+platform range correct:		unix
+
+arch/unix/joy.c:
+----------------
+command line:   -extrajoydev2 <0-13> / <0-11> / <0-9> / <0-3>
+description:    "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1"
+			"Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1"
+			"Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5"
+			"Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
+resource:       "JoyDevice4"
+action:         N/A
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  string
+resource name:                  "HTMLBrowserCommand"
+resource range:                 N/A
+resource default:               "/usr/bin/open %s" (osx) / "firefox %s" (unix)
+resource function:              set_html_browser_command()
+resource var:                   ui_resources.html_browser_command
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -htmlbrowser
+platform gui present:           unix
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   -htmlbrowser <Command>
+description:    "Specify an HTML browser for the on-line help"
+resource:       "HTMLBrowserCommand"
+action:         N/A
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT UNIX ONLY OPTIONAL RESOURCES/CMDLINES:
@@ -2055,6 +2216,158 @@ FIXED/CORRECT UNIX ONLY OPTIONAL RESOURCES/CMDLINES:
 
 FIXED/CORRECT UNIX XAW ONLY COMMON RESOURCES/CMDLINES:
 ======================================================
+
+arch/unix/mididrv.c:
+--------------------
+resource type:                  string
+resource name:                  "MIDIInDev"
+resource range:                 N/A
+resource default:               "/dev/midi"
+resource function:              set_midi_in_dev()
+resource var:                   midi_in_dev
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:                    #ifdef HAVE_MIDI
+command-line:                   -midiin
+platform gui present:           unix
+
+arch/unix/mididrv.c:
+--------------------
+command line:   -midiin <Name>
+description:    "Specify MIDI-In device"
+resource:       "MIDIInDev"
+action:         N/A
+
+arch/unix/mididrv.c:
+--------------------
+resource type:                  string
+resource name:                  "MIDIOutDev"
+resource range:                 N/A
+resource default:               "/dev/midi"
+resource function:              set_midi_out_dev()
+resource var:                   midi_out_dev
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:                    #ifdef HAVE_MIDI
+command-line:                   -midiout
+platform gui present:           unix
+
+arch/unix/mididrv.c:
+--------------------
+command line:   -midiout <Name>
+description:    "Specify MIDI-Out device"
+resource:       "MIDIOutDev"
+action:         N/A
+
+arch/unix/mididrv.c:
+--------------------
+resource type:                  int
+resource name:                  "MIDIDriver"
+resource range:                 0..1 (MIDI_DRIVER_OSS (0), MIDI_DRIVER_ALSA (1))
+resource default:               MIDI_DRIVER_OSS (0)
+resource function:              set_midi_driver()
+resource var:                   midi_driver_num
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:                    #ifdef HAVE_MIDI && #ifdef USE_ALSA
+command-line:                   -mididrv
+platform gui present:           unix
+platform range correct:		unix
+
+arch/unix/mididrv.c:
+--------------------
+command line:   -mididrv <Driver>
+description:    "Specify MIDI driver (0 = OSS, 1 = ALSA)"
+resource:       "MIDIDriver"
+action:         N/A
+
+arch/unix/rs232.c:
+------------------
+resource type:                  int
+resource name:                  "RsDevice1Baud"
+resource range:                 1+
+resource default:               9600
+resource function:              set_devbaud()
+resource var:                   devbaud[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
+command-line:                   -rsdev1baud
+platform gui present:           unix
+platform range correct:		unix
+
+arch/unix/rs232.c:
+------------------
+command line:   -rsdev1baud <baudrate>
+description:    "Specify baudrate of first RS232 device"
+resource:       "RsDevice1Baud"
+action:         N/A
+
+arch/unix/rs232.c:
+------------------
+resource type:                  int
+resource name:                  "RsDevice2Baud"
+resource range:                 1+
+resource default:               9600
+resource function:              set_devbaud()
+resource var:                   devbaud[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
+command-line:                   -rsdev2baud
+platform gui present:           unix
+platform range correct:		unix
+
+arch/unix/rs232.c:
+------------------
+command line:   -rsdev2baud <baudrate>
+description:    "Specify baudrate of second RS232 device"
+resource:       "RsDevice2Baud"
+action:         N/A
+
+arch/unix/rs232.c:
+------------------
+resource type:                  int
+resource name:                  "RsDevice3Baud"
+resource range:                 1+
+resource default:               9600
+resource function:              set_devbaud()
+resource var:                   devbaud[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
+command-line:                   -rsdev3baud
+platform gui present:           unix
+platform range correct:		unix
+
+arch/unix/rs232.c:
+------------------
+command line:   -rsdev3baud <baudrate>
+description:    "Specify baudrate of third RS232 device"
+resource:       "RsDevice3Baud"
+action:         N/A
+
+arch/unix/rs232.c:
+------------------
+resource type:                  int
+resource name:                  "RsDevice4Baud"
+resource range:                 1+
+resource default:               9600
+resource function:              set_devbaud()
+resource var:                   devbaud[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
+command-line:                   -rsdev4baud
+platform gui present:           unix
+platform range correct:		unix
+
+arch/unix/rs232.c:
+------------------
+command line:   -rsdev4baud <baudrate>
+description:    "Specify baudrate of fourth RS232 device"
+resource:       "RsDevice4Baud"
+action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2110,367 +2423,6 @@ FIXED/CORRECT NON-DOS RESOURCES/CMDLINES:
 
 FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 ==========================================
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-UNIX ONLY COMMON RESOURCES/CMDLINES:
-====================================
-
-arch/unix/joy.c:
-----------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
-                                        JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
-                                        JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
-                                        JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
-                                        JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
-                                        JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform gui present:           unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/unix/joy.c:
-----------------
-command line:   -joydev1 <0-13> / <0-11> / <0-9> / <0-3>
-description:    "Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1"
-			"Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1"
-			"Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5"
-			"Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
-resource:       "JoyDevice1"
-action:         N/A
-fixme: fix documentation
-
-arch/unix/joy.c:
-----------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
-                                        JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
-                                        JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
-                                        JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
-                                        JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
-                                        JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   -joydev2
-platform gui present:           unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/unix/joy.c:
-----------------
-command line:   -joydev2 <0-13> / <0-11> / <0-9> / <0-3>
-description:    "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1"
-			"Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1"
-			"Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5"
-			"Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
-resource:       "JoyDevice2"
-action:         N/A
-fixme: fix documentation
-
-arch/unix/joy.c:
-----------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
-                                        JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
-                                        JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
-                                        JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
-                                        JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
-                                        JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform gui present:           unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/unix/joy.c:
-----------------
-command line:   -extrajoydev1 <0-13> / <0-11> / <0-9> / <0-3>
-description:    "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1"
-			"Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1"
-			"Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5"
-			"Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
-resource:       "JoyDevice3"
-action:         N/A
-fixme: fix documentation
-
-arch/unix/joy.c:
-----------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 0..13 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3),
-                                        JOYDEV_ANALOG_0 (4) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_1 (5) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_2 (6) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_3 (7) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_4 (8) (only if joystick support is compiled in),
-                                        JOYDEV_ANALOG_5 (9) (only if joystick support is compiled in),
-                                        JOYDEV_DIGITAL_0 (10) (only if digital joystick support is compiled in),
-                                        JOYDEV_DIGITAL_1 (11) (only if digital joystick support is compiled in),
-                                        JOYDEV_USB_0 (12) (only if usb joystick support is compiled in),
-                                        JOYDEV_USB_1 (13) (only if usb joystick support is compiled in)
-resource default:               JOYDEV_NONE (0)
-resource function:              joyportselect()
-resource var:                   joystick_port_map[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform gui present:           unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/unix/joy.c:
-----------------
-command line:   -extrajoydev2 <0-13> / <0-11> / <0-9> / <0-3>
-description:    "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1"
-			"Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital joystick 0, 11: Digital joystick 1"
-			"Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5"
-			"Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2"
-resource:       "JoyDevice4"
-action:         N/A
-fixme: fix documentation
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  string
-resource name:                  "HTMLBrowserCommand"
-resource range:                 N/A
-resource default:               "/usr/bin/open %s" (osx) / "firefox %s" (unix)
-resource function:              set_html_browser_command()
-resource var:                   ui_resources.html_browser_command
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -htmlbrowser
-platform gui present:           unix
-platform gui missing:			
-note: resource is used/checked
-fixme: fix documentation, unix only
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   -htmlbrowser <Command>
-description:    "Specify an HTML browser for the on-line help"
-resource:       "HTMLBrowserCommand"
-action:         N/A
-fixme: fix documentation and unix only
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-UNIX ONLY OPTIONAL RESOURCES/CMDLINES:
-======================================
-
-arch/unix/mididrv.c:
---------------------
-resource type:                  string
-resource name:                  "MIDIInDev"
-resource range:                 N/A
-resource default:               "/dev/midi"
-resource function:              set_midi_in_dev()
-resource var:                   midi_in_dev
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef HAVE_MIDI
-command-line:                   -midiin
-platform gui present:           unix
-platform gui missing:
-fixme: fix documentation
-
-arch/unix/mididrv.c:
---------------------
-command line:   -midiin <Name>
-description:    "Specify MIDI-In device"
-resource:       "MIDIInDev"
-action:         N/A
-fixme: fix documentation, unix only
-
-arch/unix/mididrv.c:
---------------------
-resource type:                  string
-resource name:                  "MIDIOutDev"
-resource range:                 N/A
-resource default:               "/dev/midi"
-resource function:              set_midi_out_dev()
-resource var:                   midi_out_dev
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef HAVE_MIDI
-command-line:                   -midiout
-platform gui present:           unix
-platform gui missing:
-fixme: fix documentation
-
-arch/unix/mididrv.c:
---------------------
-command line:   -midiout <Name>
-description:    "Specify MIDI-Out device"
-resource:       "MIDIOutDev"
-action:         N/A
-fixme: fix documentation, unix only
-
-arch/unix/mididrv.c:
---------------------
-resource type:                  int
-resource name:                  "MIDIDriver"
-resource range:                 0..1 (MIDI_DRIVER_OSS (0), MIDI_DRIVER_ALSA (1))
-resource default:               MIDI_DRIVER_OSS (0)
-resource function:              set_midi_driver()
-resource var:                   midi_driver_num
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef HAVE_MIDI && #ifdef USE_ALSA
-command-line:                   -mididrv
-platform gui present:           unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, unix only
-
-arch/unix/mididrv.c:
---------------------
-command line:   -mididrv <Driver>
-description:    "Specify MIDI driver (0 = OSS, 1 = ALSA)"
-resource:       "MIDIDriver"
-action:         N/A
-fixme: fix documentation, unix only
-
-arch/unix/rs232.c:
-------------------
-resource type:                  int
-resource name:                  "RsDevice1Baud"
-resource range:                 1+
-resource default:               9600
-resource function:              set_devbaud()
-resource var:                   devbaud[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-command-line:                   -rsdev1baud
-platform gui present:           unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-arch/unix/rs232.c:
-------------------
-command line:   -rsdev1baud <baudrate>
-description:    "Specify baudrate of first RS232 device"
-resource:       "RsDevice1Baud"
-action:         N/A
-
-arch/unix/rs232.c:
-------------------
-resource type:                  int
-resource name:                  "RsDevice2Baud"
-resource range:                 1+
-resource default:               9600
-resource function:              set_devbaud()
-resource var:                   devbaud[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-command-line:                   -rsdev2baud
-platform gui present:           unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-arch/unix/rs232.c:
-------------------
-command line:   -rsdev2baud <baudrate>
-description:    "Specify baudrate of second RS232 device"
-resource:       "RsDevice2Baud"
-action:         N/A
-
-arch/unix/rs232.c:
-------------------
-resource type:                  int
-resource name:                  "RsDevice3Baud"
-resource range:                 1+
-resource default:               9600
-resource function:              set_devbaud()
-resource var:                   devbaud[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-command-line:                   -rsdev3baud
-platform gui present:           unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-arch/unix/rs232.c:
-------------------
-command line:   -rsdev3baud <baudrate>
-description:    "Specify baudrate of third RS232 device"
-resource:       "RsDevice3Baud"
-action:         N/A
-
-arch/unix/rs232.c:
-------------------
-resource type:                  int
-resource name:                  "RsDevice4Baud"
-resource range:                 1+
-resource default:               9600
-resource function:              set_devbaud()
-resource var:                   devbaud[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-command-line:                   -rsdev4baud
-platform gui present:           unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-arch/unix/rs232.c:
-------------------
-command line:   -rsdev4baud <baudrate>
-description:    "Specify baudrate of fourth RS232 device"
-resource:       "RsDevice4Baud"
-action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
