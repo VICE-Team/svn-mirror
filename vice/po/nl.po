@@ -1669,9 +1669,8 @@ msgid "Command"
 msgstr "Commando"
 
 #: src/arch/unix/gui/uicommands.c:164
-#, fuzzy
 msgid "Command to execute for browsing html files"
-msgstr "Commando voor printen (begin met '|')"
+msgstr "Uit te voeren commando voor het lezen van html bestanden"
 
 #: src/arch/unix/gui/uicommands.c:198
 msgid "No HTML browser is defined."
@@ -1933,9 +1932,8 @@ msgid "About VICE"
 msgstr "Over VICE"
 
 #: src/arch/unix/gui/uicommands.c:694
-#, fuzzy
 msgid "Set browser command"
-msgstr "Andere commandos"
+msgstr "Zet 'browser' commando"
 
 #: src/arch/unix/gui/uicommands.c:701
 msgid "Action on CPU JAM"
@@ -8903,62 +8901,51 @@ msgstr "Niet bevestigen van het afsluiten van VICE"
 
 #: src/arch/amigaos/intl_text.c.po.c:7903
 msgid "Specify initial default directory."
-msgstr ""
+msgstr "Selecteer aanvankelijke standaard folder."
 
 #: src/arch/amigaos/intl_text.c.po.c:7917
-#, fuzzy
 msgid "Specify initial tape directory."
-msgstr "Selecteer bestandssysteemdirectory"
+msgstr "Selecteer aanvankelijke tape folder."
 
 #: src/arch/amigaos/intl_text.c.po.c:7931
-#, fuzzy
 msgid "Specify initial disk directory."
-msgstr "Selecteer geschiedenis directory"
+msgstr "Selecteer aanvankelijke disk folder."
 
 #: src/arch/amigaos/intl_text.c.po.c:7945
-#, fuzzy
 msgid "Specify initial autostart directory."
-msgstr "Activeer willekeurige vertraging bij begin van het autostarten."
+msgstr "Selecteer aanvankelijke autostart folder."
 
 #: src/arch/amigaos/intl_text.c.po.c:7959
-#, fuzzy
 msgid "Specify initial cartridge directory."
-msgstr "Geef de naam van het cartridge ROM bestand voor $1000"
+msgstr "Selecteer aanvankelijke cartridge folder."
 
 #: src/arch/amigaos/intl_text.c.po.c:7973
-#, fuzzy
 msgid "Specify initial snapshot directory."
-msgstr "Selecteer bestandssysteemdirectory"
+msgstr "Selecteer aanvankelijke snapshot folder."
 
 #: src/arch/amigaos/intl_text.c.po.c:7987
-#, fuzzy
 msgid "Enable fullscreen."
-msgstr "Activeer volscherm"
+msgstr "Activeer volscherm."
 
 #: src/arch/amigaos/intl_text.c.po.c:8001
-#, fuzzy
 msgid "Disable fullscreen."
-msgstr "Volscherm uitschakelen"
+msgstr "Volscherm uitschakelen."
 
 #: src/arch/amigaos/intl_text.c.po.c:8015
-#, fuzzy
 msgid "Enable statusbar."
-msgstr "Activeer schakelaar"
+msgstr "Activeer statusbalk"
 
 #: src/arch/amigaos/intl_text.c.po.c:8029
-#, fuzzy
 msgid "Disable statusbar."
-msgstr "Volscherm uitschakelen"
+msgstr "Statusbalk uitschakelen"
 
 #: src/arch/amigaos/intl_text.c.po.c:8044
-#, fuzzy
 msgid "Enable video overlay."
-msgstr "Video overlay"
+msgstr "Activeer video overlay"
 
 #: src/arch/amigaos/intl_text.c.po.c:8058
-#, fuzzy
 msgid "Disable video overlay."
-msgstr "Video overlay"
+msgstr "Video overlay uitschakelen"
 
 #: src/arch/amigaos/intl_text.c.po.c:8129
 msgid "RGBI"
@@ -10790,9 +10777,8 @@ msgid "Specify name of PET Ram and Expansion Unit image"
 msgstr "Geef de naam van het PET RAM en uitbreidingseenheid bestand"
 
 #: src/translate_text.c.po.c:4749
-#, fuzzy
 msgid "Size of the PET Ram and Expansion Unit. (128/512/1024/2048)"
-msgstr "Grootte van de PET RAM en uitbreidingseenheid"
+msgstr "Grootte van de PET RAM en uitbreidingseenheid. (128/512/1024/2048)"
 
 #: src/translate_text.c.po.c:4766
 msgid "Specify name of PET DWW image"
@@ -10855,9 +10841,8 @@ msgid "Do not write to RAMCart image"
 msgstr "Schrijf niet naar RAMCart bestand"
 
 #: src/translate_text.c.po.c:5055
-#, fuzzy
 msgid "Size of the RAMCART expansion. (64/128)"
-msgstr "Grootte van de RAMCART uitbreiding"
+msgstr "Grootte van de RAMCART uitbreiding. (64/128)"
 
 #: src/translate_text.c.po.c:5089
 msgid "Disable Double Quick Brown Box"
@@ -11001,7 +10986,7 @@ msgstr "Schrijf niet naar REU bestand"
 
 #: src/translate_text.c.po.c:5769
 msgid "Size of the RAM expansion unit. (128/256/512/1024/2048/4096/8192/16384)"
-msgstr ""
+msgstr "Grootte van de RAM uitbreidingseenheid. (128/256/512/1024/2048/4096/8192/16384)"
 
 #: src/translate_text.c.po.c:5787
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
@@ -11224,19 +11209,16 @@ msgid "Specify name of IDE64 image file"
 msgstr "Geef de naam van het IDE64 bestand"
 
 #: src/translate_text.c.po.c:7063
-#, fuzzy
 msgid "Set number of cylinders for the IDE64 emulation."
-msgstr "Stel het aantal cylinders voor de IDE64 emulatie in"
+msgstr "Stel het aantal cylinders voor de IDE64 emulatie in."
 
 #: src/translate_text.c.po.c:7080
-#, fuzzy
 msgid "Set number of heads for the IDE64 emulation."
-msgstr "Stel het aantal koppen voor de IDE64 emulatie in"
+msgstr "Stel het aantal koppen voor de IDE64 emulatie in."
 
 #: src/translate_text.c.po.c:7097
-#, fuzzy
 msgid "Set number of sectors for the IDE64 emulation."
-msgstr "Stel het aantal sectors voor de IDE64 emulatie in"
+msgstr "Stel het aantal sectors voor de IDE64 emulatie in."
 
 #: src/translate_text.c.po.c:7131
 msgid "Do not autodetect geometry of formatted images"
@@ -12022,9 +12004,8 @@ msgid "amount"
 msgstr "hoeveelheid"
 
 #: src/translate_text.c.po.c:10365
-#, fuzzy
 msgid "amount of extra SID chips."
-msgstr "Aantal extra SID chips"
+msgstr "Aantal extra SID chips."
 
 #: src/translate_text.c.po.c:10382
 msgid "0: FastSID 6581, 1: FastSID 8580"
@@ -12523,9 +12504,8 @@ msgid "Disable mouse grab"
 msgstr "Gebruiken van de muis uitschakelen"
 
 #: src/translate_text.c.po.c:12557
-#, fuzzy
 msgid "Select the joystick port the mouse is attached to. (1/2)"
-msgstr "Selecteer de joystickpoort waar de muis aan gekoppelt is"
+msgstr "Selecteer de joystickpoort waar de muis aan gekoppelt is. (1/2)"
 
 #: src/translate_text.c.po.c:12575
 msgid ""
@@ -12681,9 +12661,8 @@ msgid "Specify name of PLUS60K image"
 msgstr "Geef de naam van het PLUS60K bestand"
 
 #: src/translate_text.c.po.c:13289
-#, fuzzy
 msgid "Base address of the PLUS60K expansion. (0xD040/0xD100)"
-msgstr "Basisadres van de PLUS60K geheugenuitbreiding"
+msgstr "Basisadres van de PLUS60K geheugenuitbreiding. (0xD040/0xD100)"
 
 #: src/translate_text.c.po.c:13323
 msgid "Disable the 256K RAM expansion"
@@ -12694,9 +12673,8 @@ msgid "Specify name of 256K image"
 msgstr "Geef de naam van het 256K bestand"
 
 #: src/translate_text.c.po.c:13357
-#, fuzzy
 msgid "Base address of the 256K expansion. (0xDE00/0xDE80/0xDF00/0xDF80)"
-msgstr "Basisadres van de 256K geheugenuitbreiding"
+msgstr "Basisadres van de 256K geheugenuitbreiding. (0xDE00/0xDE80/0xDF00/0xDF80)"
 
 #: src/translate_text.c.po.c:13391
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
