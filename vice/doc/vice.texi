@@ -2644,34 +2644,6 @@ The following resources affect the screen emulation.
 
 @table @code
 
-@vindex UseXSync
-@item UseXSync
-Boolean specifying whether @code{XSync()} is called after updating the
-emulation window.
-
-@vindex MITSHM
-@item MITSHM
-Integer specifying whether VICE should try to use the shared memory
-extensions (MITSHM) when starting up.  The shared memory extensions make
-things a lot faster but might not be available on your system.  You will
-not be able to use these extensions if you are sitting at an X terminal
-while running the emulator on a remote machine across a network.  Valid
-values are: 0 = do not use MITSHM, 1 = do use MITSHM, -1 = try to
-autodetect availability on startup (default).  The last is a simple test
-if the emulator runs across a network and if so disables MITSHM (If you
-have problems with this test please report it).
-
-@vindex PrivateColormap
-@item PrivateColormap
-Boolean specifying whether VICE should install a private colormap at
-startup.  This makes sense for 8-bit displays that could run out of
-colors if other color-hungry applications are running at the same time.
-
-@vindex DisplayDepth
-@item DisplayDepth
-Integer specifying the depth of the host display.  The value @samp{0}
-(the default) causes the emulator to autodetect it.
-
 @vindex UseFullscreen
 @item UseFullscreen
 Boolean specifying whether fullscreen mode is currently in use.
@@ -2718,28 +2690,6 @@ Integers specifying the position and size of the (second) emulator window.
 @subsection Video command-line options
 
 @table @code
-
-@cindex -xsync, +xsync
-@item -xsync
-@itemx +xsync
-Enable/disable usage of @code{XSync()} when updating the emulation
-window (@code{UseXSync=1}, @code{UseXSync=0}).
-
-@cindex -mitshm, +mitshm
-@item -mitshm
-@itemx +mitshm
-Enable/disable usage of the MITSHM extensions (@code{MITSHM=1},
-@code{MITSHM=0}).
-
-@cindex -colormap, +colormap
-@item -colormap
-@itemx +colormap
-Enable/disable installation of a private colormap
-(@code{PrivateColormap=1}, @code{PrivateColormap=0}).
-
-@cindex -displaydepth
-@item -displaydepth <value>
-Specify the display depth (@code{DisplayDepth}).
 
 @cindex -fullscreen, +fullscreen
 @item -fullscreen
@@ -2889,10 +2839,6 @@ German business keyboard
 @itemx JoyDevice4
 Integer specifying which joystick device the emulator should use for
 joystick emulation for ports 1 - 4, respectively.
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1,
-5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4,
-8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1,
-11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2 on Unix)
 (0=None, 1=Joystick 1, 2=Joystick 2, 4=Numpad, 8=Keyset 1, 16=Keyset 2 on OS/2)
 (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=HID joystick 0, 5=HID joystick 1 on Mac OS X)
 The available joysticks might differ depending on operating system and
@@ -2987,9 +2933,7 @@ Boolean that specifies whether user defined keysets are enabled.
 @itemx -joydev2 <range>
 Set the device for joystick emulation of port 1 and 2, respectively.
 (@code{JoyDevice1}, @code{JoyDevice2}).
-The range for unix is 0-8.
 The range for OS/2 is, valid numbers in the range are 0, 1, 2, 4, 8 and 16.
-The range for SDL is 0-4.
 @cindex -extrajoydev1
 @cindex -extrajoydev2
 @item -extrajoydev1 <0-8>
@@ -10821,7 +10765,96 @@ specifies a special device (like @file{/dev/ttyS0} for example,
 
 @ifset platformxaw
 
-@c TODO: XAW specific content
+This section lists the settings and commands that are common and specific to the XAW GUI, and are thus not present in other platforms. 
+
+@c @node FIXME
+@subsubsection XAW GUI specific resources
+
+@table @code
+
+@vindex DisplayDepth
+@item DisplayDepth
+Integer specifying the depth of the host display. The value @samp{0}
+(the default) causes the emulator to autodetect it.
+(0..32)
+
+@vindex PrivateColormap
+@item PrivateColormap
+Boolean specifying whether VICE should install a private colormap at
+startup. This only makes sense for 8-bit displays that could run out of
+colors if other color-hungry applications are running at the same time.
+
+@vindex UseXSync
+@item UseXSync
+Boolean specifying whether @code{XSync()} is called after updating the
+emulation window.
+
+@vindex MITSHM
+@item MITSHM
+Integer specifying whether VICE should try to use the shared memory
+extensions (MITSHM) when starting up. The shared memory extensions make
+things a lot faster but might not be available on your system. You will
+not be able to use these extensions if you are sitting at an X terminal
+while running the emulator on a remote machine across a network. Valid
+values are: 0 = do not use MITSHM, 1 = do use MITSHM, -1 = try to
+autodetect availability on startup (default). The last is a simple test
+if the emulator runs across a network and if so disables MITSHM (If you
+have problems with this test please report it).
+
+@end table
+
+The following resources are only available if Xvideo support is present at compile time.
+
+@table @code
+
+@vindex AspectRatio
+@item AspectRatio
+String/float specifying the aspect ratio
+(0.5-2.0).
+
+@end table
+
+@c @node FIXME
+@subsubsection XAW GUI specific command-line options
+
+@table @code
+
+@findex -displaydepth
+@item -displaydepth <value>
+Specify the display depth (@code{DisplayDepth}).
+(0..32)
+
+@findex -colormap, +colormap
+@item -colormap
+@itemx +colormap
+Enable/disable installation of a private colormap
+(@code{PrivateColormap=1}, @code{PrivateColormap=0}).
+
+@findex -xsync, +xsync
+@item -xsync
+@itemx +xsync
+Enable/disable usage of @code{XSync()} when updating the emulation
+window (@code{UseXSync=1}, @code{UseXSync=0}).
+
+@findex -mitshm, +mitshm
+@item -mitshm
+@itemx +mitshm
+Enable/disable usage of the MITSHM extensions
+(@code{MITSHM=1}, @code{MITSHM=0}).
+
+@end table
+
+The following resources are only available if Xvideo support is present at compile time.
+
+@table @code
+
+@findex -aspect
+@item -aspect <aspect ratio>
+Set the aspect ratio
+(@code{AspectRatio}).
+(0.5-2.0)
+
+@end table
 
 @end ifset
 

@@ -2212,11 +2212,6 @@ action:         N/A
 FIXED/CORRECT UNIX ONLY OPTIONAL RESOURCES/CMDLINES:
 ====================================================
 
-------------------------------------------------------------------------------------------------------------------------------------
-
-FIXED/CORRECT UNIX XAW ONLY COMMON RESOURCES/CMDLINES:
-======================================================
-
 arch/unix/mididrv.c:
 --------------------
 resource type:                  string
@@ -2371,8 +2366,145 @@ action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
+FIXED/CORRECT UNIX XAW ONLY COMMON RESOURCES/CMDLINES:
+======================================================
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  int
+resource name:                  "DisplayDepth"
+resource range:                 0..32
+resource default:               0
+resource function:              set_depth()
+resource var:                   ui_resources.depth
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -displaydepth
+platform gui present:           
+platform gui missing:			unix (CORRECT)
+note: can't we remove this? is anyone still using unix machines that a) is capable of running vice
+      and b) doesnt support 24/32 bits?
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   -displaydepth <value>
+description:    "Specify X display depth (1..32)"
+resource:       "DisplayDepth"
+action:         N/A
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  bool
+resource name:                  "PrivateColormap"
+resource range:                 0/1
+resource default:               0
+resource function:              set_use_private_colormap()
+resource var:                   ui_resources.use_private_colormap
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -colormap / +colormap
+platform gui present:           
+platform gui missing:			unix (CORRECT)
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   -colormap
+description:    "Install a private colormap"
+resource:       "PrivateColormap" (set to 1)
+action:         N/A
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   +colormap
+description:    "Use the default colormap"
+resource:       "PrivateColormap" (set to 0)
+action:         N/A
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+resource type:                  bool
+resource name:                  "UseXSync"
+resource range:                 0/1
+resource default:               1
+resource function:              set_use_xsync()
+resource var:                   _video_use_xsync
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -xsync / +xsync
+platform gui present:           unix(XAW)
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+command line:   -xsync
+description:    "Call `XSync()' after updating the emulation window"
+resource:       "UseXSync" (set to 1)
+action:         N/A
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+command line:   +xsync
+description:    "Do not call `XSync()' after updating the emulation window"
+resource:       "UseXSync" (set to 0)
+action:         N/A
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+resource type:                  int
+resource name:                  "MITSHM"
+resource range:                 -1..1 (auto (-1), off (1), on (2))
+resource default:               1
+resource function:              set_try_mitshm()
+resource var:                   try_mitshm
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -mitshm / +mitshm
+platform gui present:           
+platform gui missing:			unix(XAW) (CORRECT)
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+command line:   -mitshm
+description:    "Use shared memory"
+resource:       "MITSHM" (set to 1)
+action:         N/A
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+command line:   +mitshm
+description:    "Never use shared memory (slower)"
+resource:       "MITSHM" (set to 0)
+action:         N/A
+
+------------------------------------------------------------------------------------------------------------------------------------
+
 FIXED/CORRECT UNIX XAW ONLY OPTIONAL RESOURCES/CMDLINES:
 ========================================================
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+resource type:                  float
+resource name:                  "AspectRatio"
+resource range:                 "0.5".."2.0"
+resource default:               "1.0"
+resource function:              set_aspect_ratio()
+resource var:                   aspect_ratio_s
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_XVIDEO
+command-line:                   -aspect
+platform gui present:           unix(XAW)
+platform range correct:		unix(XAW)
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+command line:   -aspect <Aspect ratio>
+description:    "Set aspect ratio (0.5 - 2.0)"
+resource:       "AspectRatio"
+action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2426,250 +2558,8 @@ FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
-UNIX XAW ONLY COMMON RESOURCES/CMDLINES:
-========================================
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  int
-resource name:                  "DisplayDepth"
-resource range:                 0..32
-resource default:               0
-resource function:              set_depth()
-resource var:                   ui_resources.depth
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -displaydepth
-platform gui present:           
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			unix
-note: resource is used/checked
-note: can't we remove this? is anyone still using unix machines that a) is capable of running vice
-      and b) doesnt support 24/32 bits?
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   -displaydepth <value>
-description:    "Specify X display depth (1..32)"
-resource:       "DisplayDepth"
-action:         N/A
-fixme: fix documentation: mention unix only
-
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  bool
-resource name:                  "PrivateColormap"
-resource range:                 0/1
-resource default:               0
-resource function:              set_use_private_colormap()
-resource var:                   ui_resources.use_private_colormap
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -colormap / +colormap
-platform gui present:           
-platform gui missing:			unix (CORRECT)
-fixme: fix documentation, unix only
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   -colormap
-description:    "Install a private colormap"
-resource:       "PrivateColormap" (set to 1)
-action:         N/A
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   +colormap
-description:    "Use the default colormap"
-resource:       "PrivateColormap" (set to 0)
-action:         N/A
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-resource type:                  string
-resource name:                  "FOURCC"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_fourcc()
-resource var:                   fourcc_s
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -fourcc
-platform gui present:           
-platform gui missing:			unix(XAW)
-fixme: add to documentation
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-command line:   -fourcc <fourcc>
-description:    "Request YUV FOURCC format"
-resource:       "FOURCC"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  bool
-resource name:                  "UseFullscreen"
-resource range:                 0/1
-resource default:               0
-resource function:              fullscreen_set_fs()
-resource var:                   ui_resources.fs_enabled_pending
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -fullscreen / +fullscreen
-platform gui present:           unix(XAW)
-platform gui missing:
-fixme: fix documentation, unix only
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   -fullscreen
-description:    "Enable fullscreen"
-resource:       "UseFullscreen" (set to 1)
-action:         N/A
-fixme: fix documentation, unix only
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   +fullscreen
-description:    "Disable fullscreen"
-resource:       "UseFullscreen" (set to 0)
-action:         N/A
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-resource type:                  float
-resource name:                  "AspectRatio"
-resource range:                 "0.5".."2.0"
-resource default:               "1.0"
-resource function:              set_aspect_ratio()
-resource var:                   aspect_ratio_s
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -aspect
-platform gui present:           unix(XAW)
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-command line:   -aspect <Aspect ratio>
-description:    "Set aspect ratio (0.5 - 2.0)"
-resource:       "AspectRatio"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-resource type:                  bool
-resource name:                  "UseXSync"
-resource range:                 0/1
-resource default:               1
-resource function:              set_use_xsync()
-resource var:                   _video_use_xsync
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -xsync / +xsync
-platform gui present:           unix(XAW)
-platform gui missing:
-fixme: fix documentation, unix only
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-command line:   -xsync
-description:    "Call `XSync()' after updating the emulation window"
-resource:       "UseXSync" (set to 1)
-action:         N/A
-fixme: fix documentation, unix only
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-command line:   +xsync
-description:    "Do not call `XSync()' after updating the emulation window"
-resource:       "UseXSync" (set to 0)
-action:         N/A
-fixme: fix documentation, unix only
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-resource type:                  int
-resource name:                  "MITSHM"
-resource range:                 -1..1 (auto (-1), off (1), on (2))
-resource default:               1
-resource function:              set_try_mitshm()
-resource var:                   try_mitshm
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -mitshm / +mitshm
-platform gui present:           
-platform gui missing:			unix(XAW)
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-command line:   -mitshm
-description:    "Use shared memory"
-resource:       "MITSHM" (set to 1)
-action:         N/A
-fixme: fix documentation, unix only
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-command line:   +mitshm
-description:    "Never use shared memory (slower)"
-resource:       "MITSHM" (set to 0)
-action:         N/A
-fixme: fix documentation, unix only
-
-------------------------------------------------------------------------------------------------------------------------------------
-
 UNIX XAW ONLY OPTIONAL RESOURCES/CMDLINES:
 ==========================================
-
-arch/unix/x11/openGL_sync.c:
-----------------------------
-resource type:                  bool
-resource name:                  "openGL_sync"
-resource range:                 0/1
-resource default:               0
-resource function:              set_openGL_sync()
-resource var:                   openGL_sync
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used in vsid)
-not used in:
-prepocessor:                    #ifdef HAVE_OPENGL_SYNC
-command-line:                   NONE (fixme)
-platforms to check:			unix(XAW)
-platform gui present:           
-platform gui missing:
-fixme: fix documentation, unix only
-
-arch/unix/x11/openGL_sync.c:
-----------------------------
-resource type:                  bool
-resource name:                  "openGL_no_sync"
-resource range:                 0/1
-resource default:               0
-resource function:              openGL_dummy_set()
-resource var:                   no_sync
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used in vsid)
-not used in:
-prepocessor:                    #ifdef HAVE_OPENGL_SYNC
-command-line:                   NONE (fixme)
-platforms to check:			unix(XAW)
-platform gui present:           
-platform gui missing:
-fixme: resource abuse
 
 arch/unix/x11/xaw/x11video.c:
 -----------------------------
@@ -2717,6 +2607,61 @@ resource:       "TrueAspectRatio" (set to 0)
 action:         N/A
 fixme: add to documentation
 
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+resource type:                  string
+resource name:                  "FOURCC"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_fourcc()
+resource var:                   fourcc_s
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:				#ifdef HAVE_XVIDEO
+command-line:                   -fourcc
+platform gui present:           
+platform gui missing:			unix(XAW) (CORRECT)
+fixme: add to documentation
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+command line:   -fourcc <fourcc>
+description:    "Request YUV FOURCC format"
+resource:       "FOURCC"
+action:         N/A
+fixme: add to documentation
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  bool
+resource name:                  "UseFullscreen"
+resource range:                 0/1
+resource default:               0
+resource function:              fullscreen_set_fs()
+resource var:                   ui_resources.fs_enabled_pending
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
+command-line:                   -fullscreen / +fullscreen
+platform gui present:           unix(XAW)
+platform gui missing:
+fixme: fix documentation, unix only
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   -fullscreen
+description:    "Enable fullscreen"
+resource:       "UseFullscreen" (set to 1)
+action:         N/A
+fixme: fix documentation, unix only
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   +fullscreen
+description:    "Disable fullscreen"
+resource:       "UseFullscreen" (set to 0)
+action:         N/A
+
 crtc/crtc-resources.c:
 ----------------------
 resource type:                  int
@@ -2727,7 +2672,7 @@ resource function:              set_fullscreen_mode()
 resource var:                   crtc.raster->canvas->videoconfig->fullscreen_mode[i]
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 command-line:                   -CRTCXRANDRfullmode
 platform gui present:           unix
 platform gui missing:
@@ -2751,7 +2696,7 @@ resource function:              set_fullscreen_mode()
 resource var:                   crtc.raster->canvas->videoconfig->fullscreen_mode[i]
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 command-line:                   -CRTCVidmodefullmode
 platform gui present:           unix
 platform gui missing:
@@ -2775,7 +2720,7 @@ resource function:              set_fullscreen_mode()
 resource var:                   ted.raster->canvas->videoconfig->fullscreen_mode[i]
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 command-line:                   -TEDXRANDRfullmode
 platform gui present:           unix
 platform gui missing:
@@ -2799,7 +2744,7 @@ resource function:              set_fullscreen_mode()
 resource var:                   ted.raster->canvas->videoconfig->fullscreen_mode[i]
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 command-line:                   -TEDVidmodefullmode
 platform gui present:           unix
 platform gui missing:
@@ -2823,7 +2768,7 @@ resource function:              set_fullscreen_mode()
 resource var:                   vdc.raster->canvas->videoconfig->fullscreen_mode[i]
 resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 command-line:                   -VDCXRANDRfullmode
 platform gui present:           unix
 platform gui missing:
@@ -2847,7 +2792,7 @@ resource function:              set_fullscreen_mode()
 resource var:                   vdc.raster->canvas->videoconfig->fullscreen_mode[i]
 resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 command-line:                   -VDCVidmodefullmode
 platform gui present:           unix
 platform gui missing:
@@ -2872,7 +2817,7 @@ resource function:              set_fullscreen_mode()
 resource var:                   vic.raster->canvas->videoconfig->fullscreen_mode[i]
 resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 command-line:                   -VICXRANDRfullmode
 platform gui present:           unix
 platform gui missing:
@@ -2897,7 +2842,7 @@ resource function:              set_fullscreen_mode()
 resource var:                   vic.raster->canvas->videoconfig->fullscreen_mode[i]
 resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 command-line:                   -VICVidmodefullmode
 platform gui present:           unix
 platform gui missing:
@@ -2922,7 +2867,7 @@ resource function:              set_fullscreen_mode()
 resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
 resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 command-line:                   -VICIIXRANDRfullmode
 platform gui present:           unix
 platform gui missing:
@@ -2947,7 +2892,7 @@ resource function:              set_fullscreen_mode()
 resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
 resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 command-line:                   -VICIIVidmodefullmode
 platform gui present:           unix
 platform gui missing:
@@ -2972,7 +2917,7 @@ resource function:              set_fullscreen_mode()
 resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
 resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 command-line:                   -VICIIXRANDRfullmode
 platform gui present:           unix
 platform gui missing:
@@ -2997,7 +2942,7 @@ resource function:              set_fullscreen_mode()
 resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
 resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
 command-line:                   -VICIIVidmodefullmode
 platform gui present:           unix
 platform gui missing:
@@ -3010,6 +2955,40 @@ description:    "Select fullscreen mode"
 resource:       "VICIIVidmodeFullscreenMode"
 action:         N/A
 fixme: fix documentation, unix only
+
+arch/unix/x11/openGL_sync.c:
+----------------------------
+resource type:                  bool
+resource name:                  "openGL_sync"
+resource range:                 0/1
+resource default:               0
+resource function:              set_openGL_sync()
+resource var:                   openGL_sync
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_OPENGL_SYNC
+command-line:                   NONE (fixme)
+platforms to check:			unix(XAW)
+platform gui present:           
+platform gui missing:
+fixme: fix documentation, unix only
+
+arch/unix/x11/openGL_sync.c:
+----------------------------
+resource type:                  bool
+resource name:                  "openGL_no_sync"
+resource range:                 0/1
+resource default:               0
+resource function:              openGL_dummy_set()
+resource var:                   no_sync
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_OPENGL_SYNC
+command-line:                   NONE (fixme)
+platforms to check:			unix(XAW)
+platform gui present:           
+platform gui missing:
+fixme: resource abuse
 
 ------------------------------------------------------------------------------------------------------------------------------------
 

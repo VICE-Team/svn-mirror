@@ -1,5 +1,374 @@
 ------------------------------------------------------------------------------
 
+2014-12-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/translate_text.c: Did a
+	'make trans-update'.
+
+2014-12-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2014-12-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2014-12-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Some unix resource/cmdline/documentation fixes.
+
+2014-12-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.texi, doc/vice.txt: Some more
+	resource/cmdline/documentation fixes.
+
+2014-12-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt: Updated.
+
+2014-12-16  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt: combo breaker
+
+2014-12-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/sdl/menu_settings.c: Some more resource/cmdline/documentation
+	fixes.
+
+2014-12-15  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/unix/gui/uicommands.c: try using TERM env variable instead of
+	blindly using xterm. added menu item to select browser command.
+
+2014-12-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/sdl/joy.c, src/arch/sdl/joy.h, src/arch/sdl/kbd.c,
+	src/arch/sdl/kbd.h, src/arch/sdl/menu_settings.c, src/c64/psid.c,
+	src/util.c: Some sdl resource/cmdline/documentation fixes.
+
+2014-12-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi,
+	src/arch/sdl/kbd.c: Some more resource/cmdline/documentation fixes.
+
+2014-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/msdos/joy.c, src/arch/msdos/ui.c: Some dos
+	resource/cmdline/documentation fixes.
+
+2014-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/archdep.h, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/menudefs.c,
+	src/arch/msdos/petui.c, src/arch/msdos/scpu64ui.c,
+	src/arch/msdos/uiprinter.c, src/arch/msdos/uiscpu64model.c,
+	src/arch/msdos/uiscpu64model.h: Fixed some dos port problems.
+
+2014-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/archdep.h: Added rs232 device defines.
+
+2014-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Updated.
+
+2014-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/beos/ui.cc: Some beos resource/cmdline/documentation fixes.
+
+2014-12-13  groepaz <groepaz@gmx.net>
+
+	* src/c64/psid.c, src/c64/psiddrv.a65, src/c64/psiddrv.h: fix the case
+	when driver is relocated to 0x8000
+
+2014-12-13  groepaz <groepaz@gmx.net>
+
+		* doc/resource-and-cmdline-checking.txt: added some comments
+
+2014-12-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt: Updated.
+
+2014-12-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uisidcart.c, src/arch/amigaos/uiapi.c,
+	src/rs232drv/rs232.c: Some amigaos3/morphos/aros
+	resource/cmdline/documentation fixes.
+
+2014-12-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/rtc.c: Fixed.
+
+2014-12-12  groepaz <groepaz@gmx.net>
+
+	* src/keyboard.c: forgot :)
+
+2014-12-12  groepaz <groepaz@gmx.net>
+
+	* src/autostart.c, src/c64/cart/c64cart.c, src/core/ciacore.c,
+	src/core/t6721.c, src/joystick.c, src/lib.c, src/lib.h, src/main.c,
+	src/pet/petmem.c: replace all occurances of rand() and random() by a
+	common function in lib
+
+2014-12-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/Makefile.am, doc/resource-and-cmdline-checking.txt,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.texi, doc/vice.txt: Some amigaos4
+	resource/cmdline/documentation fixes.
+
+2014-12-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/uiapi.c: Some amiga resource/cmdline/documentation
+	fixes.
+
+2014-12-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/t2h.pl, doc/vice.chm, doc/vice.guide, doc/vice.hlp,
+	doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt: Started a
+	separate index for command-line options.
+
+2014-12-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/amigaos/ui.h,
+	src/arch/amigaos/uiapi.c: Removed some more unused resources (and
+	code) from the amiga port.
+
+2014-12-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Documentation-Howto.txt, doc/texi2chm.sh: Some cosmetic fixes.
+
+2014-12-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_amigaos3_runtime_os.c: Reverted the amiga
+	runtime cpu detection to using the exec 'attn' flags, the direct
+	detection of the cpu type was not stable in all conditions and could
+	lead to system lock up.
+
+2014-12-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/make-bindist.sh, src/arch/amigaos/uiapi.c: Some amiga
+	resource/cmdline/documentation fixes.
+
+2014-12-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am: Fixed.
+
+2014-12-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/amigaos/ui.h,
+	src/arch/amigaos/uiapi.c: Removed unused resource (and code) from the
+	amiga port.
+
+2014-12-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, doc/resource-and-cmdline-checking.txt,
+	doc/resource-checking.txt: Merged resource and command line checking
+	text files.
+
+2014-12-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c64dtvui.c, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/joyll.c, src/arch/amigaos/mui/uic128settings.c,
+	src/arch/amigaos/mui/uidigimax.c, src/arch/amigaos/mui/uijamaction.c,
+	src/arch/amigaos/mui/uiprinter.c,
+	src/arch/amigaos/mui/uiromc64settings.c,
+	src/arch/amigaos/mui/uisidcart.c, src/arch/amigaos/rs232.c,
+	src/arch/amigaos/scpu64ui.c, src/arch/amigaos/scpu64uires.h,
+	src/arch/amigaos/screen-shot.c, src/arch/amigaos/vic20ui.c,
+	src/arch/amigaos/vic20uires.h: Amiga port fixes.
+
+2014-12-09  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/retroreplay.c, src/cartconv.c: accept 32k crt files for
+	RR
+
+2014-12-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Updated.
+
+2014-12-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed.
+
+2014-12-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-checking.txt: Reorganized.
+
+2014-12-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, doc/Makefile.am, doc/gui-feature-checking.txt,
+	doc/html/Makefile.am, doc/texi2guide.sh, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Finished the platform specific generation.
+
+2014-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/vice.hlp: Fixed hlp generation.
+
+2014-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/texi2guide.sh, doc/vice.guide: Fixed guide
+	generation.
+
+2014-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/fixdox.sh, doc/t2h.pl, doc/vice.chm: Fixed chm generation.
+
+2014-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/fixdox.sh, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Added logic elements for platform specific documentation and
+	regenerated documentation files, next step is testing/fixing
+	generation in all circumstances.
+
+2014-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added texi platform logic elements.
+
+2014-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added some (empty) platform specific sections to the
+	documentation.
+
+2014-12-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, src/c64/c64_256k.c,
+	src/c64/cart/digimax.c, src/c64/cart/ds12c887rtc.c,
+	src/sid/sid-cmdline-options.c, src/translate_text.c, src/util.c,
+	src/util.h: Better address range command line descriptions.
+
+2014-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/commandline-checking.txt, doc/vice.texi: Some documentation
+	fixes.
+
+2014-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in: Removed 'moved' files.
+
+2014-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/c64_256k.c,
+	src/c64/cart/ide64.c, src/c64/cart/ramcart.c, src/c64/cart/reu.c,
+	src/c64/plus60k.c, src/c64/vsid.c, src/mouse.c, src/pet/petreu.c,
+	src/scpu64/scpu64.c, src/sid/sid-cmdline-options.c,
+	src/sid/sid-cmdline-options.h, src/sid/sid.c, src/translate_text.c,
+	src/util.c, src/util.h: Autogenerated command line parameter
+	fixes/improvements.
+
+2014-12-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/gui-feature-checking.txt: Updated.
+
+2014-12-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto,
+	src/arch/sdl/win32-watcom/base.tgt,
+	src/arch/sdl/win32-watcom/rs232drv.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/win32/vs_tmpl/base.tmpl,
+	src/arch/win32/vs_tmpl/rs232drv.tmpl, src/arch/win32/watcom/base.tgt,
+	src/arch/win32/watcom/rs232drv.tgt, src/arch/win32/watcom/vice.wpj,
+	src/rs232.c, src/rs232drv/Makefile.am, src/rs232drv/rs232.c,
+	src/rs232drv/rs232net.c, src/rs232net.c: Moved rs232.c and rs232net.c
+	to the rs232drv directory.
+
+2014-12-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Add rs232drv as include dir for the rs232.h header
+	file.
+
+2014-12-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Fixed base sources.
+
+2014-12-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/android/AnVICE/config.android.h,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto,
+	src/arch/sdl/Makefile.am, src/arch/sdl/rs232.c,
+	src/arch/sdl/rs232dev.h, src/arch/sdl/rs232net.c,
+	src/arch/sdl/rs232net.h, src/arch/sdl/win32-watcom/arch.tgt,
+	src/arch/sdl/win32-watcom/base.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/unix/Makefile.am,
+	src/arch/unix/rs232.c, src/arch/unix/rs232dev.h,
+	src/arch/unix/rs232net.c, src/arch/unix/rs232net.h,
+	src/arch/win32/Makefile.am, src/arch/win32/rs232.c,
+	src/arch/win32/rs232dev.h, src/arch/win32/rs232net.c,
+	src/arch/win32/rs232net.h, src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/arch_sdl.tmpl,
+	src/arch/win32/vs_tmpl/base.tmpl, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/base.tgt, src/arch/win32/watcom/vice.wpj,
+	src/rs232.c, src/rs232dev.h, src/rs232net.c, src/rs232net.h: Made
+	rs232 net support generic.
+
+2014-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, doc/resource-checking.txt, src/arch/beos/c128ui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc,
+	src/arch/sdl/menu_c128hw.c, src/arch/sdl/menu_c64hw.c,
+	src/arch/sdl/menu_cbm2hw.c, src/arch/sdl/menu_pethw.c,
+	src/arch/sdl/menu_plus4hw.c, src/arch/sdl/menu_rs232.c,
+	src/arch/sdl/menu_scpu64hw.c, src/arch/sdl/menu_vic20hw.c,
+	src/arch/sdl/msvc-files/ide-config-mips.h,
+	src/arch/sdl/msvc-files/ide-config.h,
+	src/arch/sdl/win32-watcom/ide-config.h, src/arch/unix/gui/c128ui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uirs232.c, src/arch/unix/gui/uirs232c64c128.c,
+	src/arch/unix/gui/uirs232petplus4cbm2.c,
+	src/arch/unix/gui/uirs232user.c, src/arch/unix/gui/vic20ui.c,
+	src/arch/unix/rs232.c, src/arch/unix/rs232dev.c,
+	src/arch/unix/rs232net.c, src/arch/win32/msvc/ide-config.h,
+	src/arch/win32/watcom/ide-config.h, src/c128/c128-cmdline-options.c,
+	src/c128/c128cia1.c, src/c128/c128memsnapshot.c,
+	src/c64/c64-cmdline-options.c, src/c64/c64cia1.c, src/c64/c64cia2.c,
+	src/c64/c64memsnapshot.c, src/c64/cart/c64acia1.c,
+	src/c64/cart/c64carthooks.c, src/c64/vsidmemsnapshot.c,
+	src/c64dtv/c64dtvcia1.c, src/c64dtv/c64dtvcia2.c,
+	src/plus4/plus4mem.c, src/rs232drv/rs232drv.c,
+	src/scpu64/scpu64memsnapshot.c, src/translate.txt,
+	src/translate_text.c, src/vic20/vic20via2.c: Changed rs232
+	definitions, 'HAVE_RS232DEV' is now used for 'real' rs232 device
+	support and 'HAVE_RS232NET' is used for rs232 network support, all
+	code has been fixed to work with these changes.
+
+2014-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/rs232dev.c, src/arch/sdl/rs232dev.h,
+	src/arch/sdl/rs232net.c, src/arch/sdl/rs232net.h: Extended rs232net
+	support to sdl, should fix bug #586
+
 2014-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,
