@@ -4835,7 +4835,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_PETREU_SIZE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_PETREU_SIZE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_PETREU_SIZE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_PETREU_SIZE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_PETREU_SIZE_NL, "Grootte van de PET RAM en uitbreidingseenheid. (128/512/1024/2048)"},
 /* pl */ {IDCLS_PETREU_SIZE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_PETREU_SIZE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_PETREU_SIZE_SV, ""},  /* fuzzy */
@@ -5141,7 +5141,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_RAMCART_SIZE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_RAMCART_SIZE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_RAMCART_SIZE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_RAMCART_SIZE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_RAMCART_SIZE_NL, "Grootte van de RAMCART uitbreiding. (64/128)"},
 /* pl */ {IDCLS_RAMCART_SIZE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_RAMCART_SIZE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_RAMCART_SIZE_SV, ""},  /* fuzzy */
@@ -5855,7 +5855,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_REU_SIZE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_REU_SIZE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_REU_SIZE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_REU_SIZE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_REU_SIZE_NL, "Grootte van de RAM uitbreidingseenheid. (128/256/512/1024/2048/4096/8192/16384)"},
 /* pl */ {IDCLS_REU_SIZE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_REU_SIZE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_REU_SIZE_SV, ""},  /* fuzzy */
@@ -7150,7 +7150,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_NL, "Stel het aantal cylinders voor de IDE64 emulatie in. (1..65535)"},
 /* pl */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_SV, ""},  /* fuzzy */
@@ -7167,7 +7167,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_AMOUNT_HEADS_IDE64_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_AMOUNT_HEADS_IDE64_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_AMOUNT_HEADS_IDE64_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_AMOUNT_HEADS_IDE64_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_AMOUNT_HEADS_IDE64_NL, "Stel het aantal koppen voor de IDE64 emulatie in. (1..16)"},
 /* pl */ {IDCLS_SET_AMOUNT_HEADS_IDE64_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_AMOUNT_HEADS_IDE64_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_AMOUNT_HEADS_IDE64_SV, ""},  /* fuzzy */
@@ -7184,7 +7184,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_NL, "Stel het aantal sectors voor de IDE64 emulatie in. (1..63)"},
 /* pl */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_SV, ""},  /* fuzzy */
@@ -10457,7 +10457,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_AMOUNT_EXTRA_SIDS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_AMOUNT_EXTRA_SIDS_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_AMOUNT_EXTRA_SIDS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_AMOUNT_EXTRA_SIDS_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_AMOUNT_EXTRA_SIDS_NL, "Aantal extra SID chips. (0..2)"},
 /* pl */ {IDCLS_AMOUNT_EXTRA_SIDS_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_AMOUNT_EXTRA_SIDS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_AMOUNT_EXTRA_SIDS_SV, ""},  /* fuzzy */
@@ -12649,7 +12649,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SELECT_MOUSE_JOY_PORT_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SELECT_MOUSE_JOY_PORT_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_MOUSE_JOY_PORT_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SELECT_MOUSE_JOY_PORT_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_MOUSE_JOY_PORT_NL, "Selecteer de joystickpoort waar de muis aan gekoppelt is. (1/2)"},
 /* pl */ {IDCLS_SELECT_MOUSE_JOY_PORT_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SELECT_MOUSE_JOY_PORT_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_MOUSE_JOY_PORT_SV, ""},  /* fuzzy */
@@ -13381,7 +13381,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_PLUS60K_BASE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_PLUS60K_BASE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_PLUS60K_BASE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_PLUS60K_BASE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_PLUS60K_BASE_NL, "Basisadres van de PLUS60K geheugenuitbreiding. (0xD040/0xD100)"},
 /* pl */ {IDCLS_PLUS60K_BASE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_PLUS60K_BASE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_PLUS60K_BASE_SV, ""},  /* fuzzy */
@@ -13449,7 +13449,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_C64_256K_BASE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_C64_256K_BASE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_C64_256K_BASE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_C64_256K_BASE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_C64_256K_BASE_NL, "Basisadres van de 256K geheugenuitbreiding. (0xDE00/0xDE80/0xDF00/0xDF80)"},
 /* pl */ {IDCLS_C64_256K_BASE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_C64_256K_BASE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_C64_256K_BASE_SV, ""},  /* fuzzy */

@@ -7932,7 +7932,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_HU, "" },  /* fuzzy */
 /* it */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_NL, "Selecteer aanvankelijke standaard folder." },
 /* pl */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_SV, "" },  /* fuzzy */
@@ -7946,7 +7946,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SPECIFY_INITIAL_TAPE_DIR_HU, "" },  /* fuzzy */
 /* it */ { IDS_SPECIFY_INITIAL_TAPE_DIR_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SPECIFY_INITIAL_TAPE_DIR_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SPECIFY_INITIAL_TAPE_DIR_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFY_INITIAL_TAPE_DIR_NL, "Selecteer aanvankelijke tape folder." },
 /* pl */ { IDS_SPECIFY_INITIAL_TAPE_DIR_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SPECIFY_INITIAL_TAPE_DIR_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SPECIFY_INITIAL_TAPE_DIR_SV, "" },  /* fuzzy */
@@ -7960,7 +7960,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SPECIFY_INITIAL_DISK_DIR_HU, "" },  /* fuzzy */
 /* it */ { IDS_SPECIFY_INITIAL_DISK_DIR_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SPECIFY_INITIAL_DISK_DIR_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SPECIFY_INITIAL_DISK_DIR_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFY_INITIAL_DISK_DIR_NL, "Selecteer aanvankelijke disk folder." },
 /* pl */ { IDS_SPECIFY_INITIAL_DISK_DIR_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SPECIFY_INITIAL_DISK_DIR_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SPECIFY_INITIAL_DISK_DIR_SV, "" },  /* fuzzy */
@@ -7974,7 +7974,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_HU, "" },  /* fuzzy */
 /* it */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_NL, "Selecteer aanvankelijke autostart folder." },
 /* pl */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_SV, "" },  /* fuzzy */
@@ -7988,7 +7988,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SPECIFY_INITIAL_CART_DIR_HU, "" },  /* fuzzy */
 /* it */ { IDS_SPECIFY_INITIAL_CART_DIR_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SPECIFY_INITIAL_CART_DIR_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SPECIFY_INITIAL_CART_DIR_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFY_INITIAL_CART_DIR_NL, "Selecteer aanvankelijke cartridge folder." },
 /* pl */ { IDS_SPECIFY_INITIAL_CART_DIR_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SPECIFY_INITIAL_CART_DIR_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SPECIFY_INITIAL_CART_DIR_SV, "" },  /* fuzzy */
@@ -8002,7 +8002,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_HU, "" },  /* fuzzy */
 /* it */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_NL, "Selecteer aanvankelijke snapshot folder." },
 /* pl */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_SV, "" },  /* fuzzy */
@@ -8016,7 +8016,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_ENABLE_FULLSCREEN_HU, "" },  /* fuzzy */
 /* it */ { IDS_ENABLE_FULLSCREEN_IT, "" },  /* fuzzy */
 /* ko */ { IDS_ENABLE_FULLSCREEN_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ENABLE_FULLSCREEN_NL, "" },  /* fuzzy */
+/* nl */ { IDS_ENABLE_FULLSCREEN_NL, "Activeer volscherm." },
 /* pl */ { IDS_ENABLE_FULLSCREEN_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ENABLE_FULLSCREEN_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ENABLE_FULLSCREEN_SV, "" },  /* fuzzy */
@@ -8030,7 +8030,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_DISABLE_FULLSCREEN_HU, "" },  /* fuzzy */
 /* it */ { IDS_DISABLE_FULLSCREEN_IT, "" },  /* fuzzy */
 /* ko */ { IDS_DISABLE_FULLSCREEN_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DISABLE_FULLSCREEN_NL, "" },  /* fuzzy */
+/* nl */ { IDS_DISABLE_FULLSCREEN_NL, "Volscherm uitschakelen." },
 /* pl */ { IDS_DISABLE_FULLSCREEN_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DISABLE_FULLSCREEN_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DISABLE_FULLSCREEN_SV, "" },  /* fuzzy */
@@ -8044,7 +8044,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_ENABLE_STATUSBAR_HU, "" },  /* fuzzy */
 /* it */ { IDS_ENABLE_STATUSBAR_IT, "" },  /* fuzzy */
 /* ko */ { IDS_ENABLE_STATUSBAR_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ENABLE_STATUSBAR_NL, "" },  /* fuzzy */
+/* nl */ { IDS_ENABLE_STATUSBAR_NL, "Activeer statusbalk" },
 /* pl */ { IDS_ENABLE_STATUSBAR_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ENABLE_STATUSBAR_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ENABLE_STATUSBAR_SV, "" },  /* fuzzy */
@@ -8058,7 +8058,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_DISABLE_STATUSBAR_HU, "" },  /* fuzzy */
 /* it */ { IDS_DISABLE_STATUSBAR_IT, "" },  /* fuzzy */
 /* ko */ { IDS_DISABLE_STATUSBAR_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DISABLE_STATUSBAR_NL, "" },  /* fuzzy */
+/* nl */ { IDS_DISABLE_STATUSBAR_NL, "Statusbalk uitschakelen" },
 /* pl */ { IDS_DISABLE_STATUSBAR_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DISABLE_STATUSBAR_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DISABLE_STATUSBAR_SV, "" },  /* fuzzy */
@@ -8073,7 +8073,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_ENABLE_VIDEOOVERLAY_HU, "" },  /* fuzzy */
 /* it */ { IDS_ENABLE_VIDEOOVERLAY_IT, "" },  /* fuzzy */
 /* ko */ { IDS_ENABLE_VIDEOOVERLAY_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ENABLE_VIDEOOVERLAY_NL, "" },  /* fuzzy */
+/* nl */ { IDS_ENABLE_VIDEOOVERLAY_NL, "Activeer video overlay" },
 /* pl */ { IDS_ENABLE_VIDEOOVERLAY_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ENABLE_VIDEOOVERLAY_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ENABLE_VIDEOOVERLAY_SV, "" },  /* fuzzy */
@@ -8087,12 +8087,11 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_DISABLE_VIDEOOVERLAY_HU, "" },  /* fuzzy */
 /* it */ { IDS_DISABLE_VIDEOOVERLAY_IT, "" },  /* fuzzy */
 /* ko */ { IDS_DISABLE_VIDEOOVERLAY_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DISABLE_VIDEOOVERLAY_NL, "" },  /* fuzzy */
+/* nl */ { IDS_DISABLE_VIDEOOVERLAY_NL, "Video overlay uitschakelen" },
 /* pl */ { IDS_DISABLE_VIDEOOVERLAY_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DISABLE_VIDEOOVERLAY_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DISABLE_VIDEOOVERLAY_SV, "" },  /* fuzzy */
 /* tr */ { IDS_DISABLE_VIDEOOVERLAY_TR, "" },  /* fuzzy */
-#endif
 
 /* en */ { IDS_PET_REU_SIZE,    "PET REU size" },
 /* da */ { IDS_PET_REU_SIZE_DA, "PET REU størrelse" },
