@@ -1205,8 +1205,8 @@ completely wrong.  This is not a VICE bug, but rather an OSS bug.
 @cindex MITSHM
 @cindex -mitshm, +mitshm
 If you cannot start VICE because you get errors about shared memory, try
-to run it with the @samp{+mitshm} command-line option (@pxref{Video
-options}).  This will completely disable usage of the MITSHM extensions,
+to run it with the @samp{+mitshm} command-line option.
+ This will completely disable usage of the MITSHM extensions,
 that are normally used to speed up the emulation window updates.  Of
 course, this will also result in a big loss in speed.
 
@@ -2560,7 +2560,6 @@ resources that it becomes impossible for the user to interact with it.
 
 @menu
 * Video resources::
-* Video options::
 @end menu
 
 @c @node FIXME
@@ -2637,16 +2636,13 @@ Settings->VICII Settings->Desktop Refreshrate (e.g. in x64)
 (this shouldn't be necessary if you use fullscreen via XRandR.
 @end itemize
 
-@node Video resources, Video options, Video settings, Video settings
+@node Video resources, , Video settings, Video settings
 @subsection Video resources
 
 The following resources affect the screen emulation.
 
 @table @code
 
-@vindex UseFullscreen
-@item UseFullscreen
-Boolean specifying whether fullscreen mode is currently in use.
 @vindex HwScalePossible
 @item HwScalePossible
 Boolean that indicates whether hardware scaling is possible or not.
@@ -2656,13 +2652,6 @@ Boolean, if true enable Open-GL frame sync.
 @vindex openGL_no_sync
 @item openGL_no_sync
 Boolean, if true Open-GL sync is not available.
-@vindex KeepAspectRatio
-@item KeepAspectRatio
-Boolean specifying whether the aspect ratio of the output window should be
-preserved. (0=free scaling, 1=scale with fixed aspect ratio)
-@vindex TrueAspectRatio
-@item TrueAspectRatio
-Boolean specifying whether to use the true (non square pixels) aspect ratio.
 
 @vindex Window0Width
 @vindex Window0Height
@@ -2682,19 +2671,6 @@ Integers specifying the position and size of the (first) emulator window.
 @itemx Window1Xpos
 @itemx Window1Ypos
 Integers specifying the position and size of the (second) emulator window.
-
-@end table
-
-
-@node Video options,  , Video resources, Video settings
-@subsection Video command-line options
-
-@table @code
-
-@cindex -fullscreen, +fullscreen
-@item -fullscreen
-@itemx +fullscreen
-Enable/disable fullscreen mode
 
 @end table
 
@@ -5650,14 +5626,6 @@ Boolean specifying whether to use fullscreen mode or not.
 @item VICIIFullscreenStatusbar
 Boolean specifying whether to show the status bar in fullscreen mode or not.
 
-@vindex VICIIXRANDRFullscreenMode
-@item VICIIXRANDRFullscreenMode
-integer specifying XRANDR fullscreen mode
-
-@vindex VICIIVidmodeFullscreenMode
-@item VICIIVidmodeFullscreenMode
-integer specifying Vidmode fullscreen mode
-
 @vindex VICIIExternalPalette
 @item VICIIExternalPalette
 Boolean specifying whether to use external palette file or not.
@@ -6462,14 +6430,6 @@ Boolean specifying whether to use fullscreen mode or not.
 @vindex VDCFullscreenStatusbar
 @item VDCFullscreenStatusbar
 Boolean specifying whether to show the status bar in fullscreen mode or not.
-
-@vindex VDCXRANDRFullscreenMode
-@item VDCXRANDRFullscreenMode
-integer specifying XRANDR fullscreen mode
-
-@vindex VDCVidmodeFullscreenMode
-@item VDCVidmodeFullscreenMode
-integer specifying Vidmode fullscreen mode
 
 @vindex VDCExternalPalette
 @item VDCExternalPalette
@@ -7316,14 +7276,6 @@ Boolean specifying whether to use fullscreen mode or not.
 @item VICFullscreenStatusbar
 Boolean specifying whether to show the status bar in fullscreen mode or not.
 
-@vindex VICXRANDRFullscreenMode
-@item VICXRANDRFullscreenMode
-integer specifying XRANDR fullscreen mode
-
-@vindex VICVidmodeFullscreenMode
-@item VICVidmodeFullscreenMode
-integer specifying Vidmode fullscreen mode
-
 @vindex VICExternalPalette
 @item VICExternalPalette
 Boolean specifying whether to use external palette file or not.
@@ -7712,14 +7664,6 @@ Boolean specifying whether to use fullscreen mode or not.
 @vindex TEDFullscreenStatusbar
 @item TEDFullscreenStatusbar
 Boolean specifying whether to show the status bar in fullscreen mode or not.
-
-@vindex TEDXRANDRFullscreenMode
-@item TEDXRANDRFullscreenMode
-integer specifying XRANDR fullscreen mode
-
-@vindex TEDVidmodeFullscreenMode
-@item TEDVidmodeFullscreenMode
-integer specifying Vidmode fullscreen mode
 
 @vindex TEDExternalPalette
 @item TEDExternalPalette
@@ -8239,14 +8183,6 @@ Boolean specifying whether to use fullscreen mode or not.
 @item CrtcFullscreenStatusbar
 Boolean specifying whether to show the status bar in fullscreen mode or not.
 
-@vindex CrtcXRANDRFullscreenMode
-@item CrtcXRANDRFullscreenMode
-integer specifying XRANDR fullscreen mode
-
-@vindex CrtcVidmodeFullscreenMode
-@item CrtcVidmodeFullscreenMode
-integer specifying Vidmode fullscreen mode
-
 @vindex CrtcExternalPalette
 @item CrtcExternalPalette
 Boolean specifying whether to use external palette file or not.
@@ -8336,9 +8272,6 @@ Specify @code{NAME} as the palette file (@code{CrtcPaletteFile}).
 @cindex -Crtcfulldevice
 @item -Crtcfulldevice <device>
 Select fullscreen device
-@cindex -CrtcXRANDRfullmode
-@item -CrtcXRANDRfullmode <mode>
-Select fullscreen mode
 @cindex -CrtcVidmodefullmode
 @item -CrtcVidmodefullmode <mode>
 Select fullscreen mode
@@ -10812,6 +10745,89 @@ The following resources are only available if Xvideo support is present at compi
 String/float specifying the aspect ratio
 (0.5-2.0).
 
+@vindex KeepAspectRatio
+@item KeepAspectRatio
+Boolean specifying whether the aspect ratio of the output window should be preserved.
+(0=free scaling, 1=scale with fixed aspect ratio)
+
+@vindex TrueAspectRatio
+@item TrueAspectRatio
+Boolean specifying whether to use the true (non square pixels) aspect ratio.
+
+@vindex FOURCC
+@item FOURCC
+String specifying the YUV FOURCC format to use.
+
+@end table
+
+The following resources are only available if XRandr support is present at compile time.
+
+@table @code
+
+@vindex UseFullscreen
+@item UseFullscreen
+Boolean specifying whether fullscreen mode is currently in use.
+
+@vindex CrtcXRANDRFullscreenMode
+@item CrtcXRANDRFullscreenMode
+integer specifying XRANDR fullscreen mode
+(xcbm2 and xpet only).
+
+@vindex TEDXRANDRFullscreenMode
+@item TEDXRANDRFullscreenMode
+integer specifying XRANDR fullscreen mode
+(xplus4 only).
+
+@vindex VDCXRANDRFullscreenMode
+@item VDCXRANDRFullscreenMode
+integer specifying XRANDR fullscreen mode
+(x128 only).
+
+@vindex VICXRANDRFullscreenMode
+@item VICXRANDRFullscreenMode
+integer specifying XRANDR fullscreen mode
+(xvic only).
+
+@vindex VICIIXRANDRFullscreenMode
+@item VICIIXRANDRFullscreenMode
+integer specifying XRANDR fullscreen mode
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@end table
+
+The following resources are only available if VidMode support is present at compile time.
+
+@table @code
+
+@vindex UseFullscreen
+@item UseFullscreen
+Boolean specifying whether fullscreen mode is currently in use.
+
+@vindex CrtcVidmodeFullscreenMode
+@item CrtcVidmodeFullscreenMode
+integer specifying VidMode fullscreen mode
+(xcbm2 and xpet only).
+
+@vindex TEDVidmodeFullscreenMode
+@item TEDVidmodeFullscreenMode
+integer specifying VidMode fullscreen mode
+(xplus4 only).
+
+@vindex VDCVidmodeFullscreenMode
+@item VDCVidmodeFullscreenMode
+integer specifying VidMode fullscreen mode
+(x128 only).
+
+@vindex VICVidmodeFullscreenMode
+@item VICVidmodeFullscreenMode
+integer specifying VidMode fullscreen mode
+(xvic only).
+
+@vindex VICIIVidmodeFullscreenMode
+@item VICIIVidmodeFullscreenMode
+integer specifying VidMode fullscreen mode
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
 @end table
 
 @c @node FIXME
@@ -10844,7 +10860,7 @@ Enable/disable usage of the MITSHM extensions
 
 @end table
 
-The following resources are only available if Xvideo support is present at compile time.
+The following command-line options are only available if Xvideo support is present at compile time.
 
 @table @code
 
@@ -10853,6 +10869,109 @@ The following resources are only available if Xvideo support is present at compi
 Set the aspect ratio
 (@code{AspectRatio}).
 (0.5-2.0)
+
+@findex -keepaspect, +keepaspect
+@item -keepaspect
+Enable keeping of the aspect ratio when scaling
+(@code{KeepAspectRatio=1}).
+@item +keepaspect
+Disable keeping of the aspect ratio when scaling (freescaling)
+(@code{KeepAspectRatio=0}).
+
+@findex -trueaspect, +trueaspect
+@item -trueaspect
+@itemx +keepaspect
+Enable/disable whether to use the true (non square pixels) aspect ratio
+(@code{KeepAspectRatio=1}, (@code{KeepAspectRatio=0}).
+
+@findex -fourcc
+@item -fourcc <fourcc>
+Set the YUV FOURCC format to use
+(@code{FOURCC}).
+
+@end table
+
+The following command-line options are only available if XRandr support is present at compile time.
+
+@table @code
+
+@findex -fullscreen, +fullscreen
+@item -fullscreen
+@itemx +fullscreen
+Enable/disable fullscreen mode
+(@code{UseFullscreen=1}, (@code{UseFullscreen=0}).
+
+@findex -CrtcXRANDRfullmode
+@item -CrtcXRANDRfullmode <mode>
+Select fullscreen mode
+(@code{CrtcXRANDRFullscreenMode}).
+(xcbm2 and xpet only)
+
+@findex -TEDXRANDRfullmode
+@item -TEDXRANDRfullmode <mode>
+Select fullscreen mode
+(@code{TEDXRANDRFullscreenMode}).
+(xplus4 only)
+
+@findex -VDCXRANDRfullmode
+@item -VDCXRANDRfullmode <mode>
+Select fullscreen mode
+(@code{VDCXRANDRFullscreenMode}).
+(x128 only)
+
+@findex -VICXRANDRfullmode
+@item -VICXRANDRfullmode <mode>
+Select fullscreen mode
+(@code{VICXRANDRFullscreenMode}).
+(xvic only)
+
+@findex -VICIIXRANDRfullmode
+@item -VICIIXRANDRfullmode <mode>
+Select fullscreen mode
+(@code{VICIIXRANDRFullscreenMode}).
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid)
+
+@end table
+
+The following command-line options are only available if VidMode support is present at compile time.
+
+@table @code
+
+@findex -fullscreen, +fullscreen
+@item -fullscreen
+@itemx +fullscreen
+Enable/disable fullscreen mode
+(@code{UseFullscreen=1}, (@code{UseFullscreen=0}).
+
+@findex -CrtcVidmodefullmode
+@item -CrtcVidmodefullmode <mode>
+Select fullscreen mode
+(@code{CrtcVidmodeFullscreenMode}).
+(xcbm2 and xpet only)
+
+@findex -TEDVidmodefullmode
+@item -TEDVidmodefullmode <mode>
+Select fullscreen mode
+(@code{TEDVidmodeFullscreenMode}).
+(xplus4 only)
+
+@findex -VDCVidmodefullmode
+@item -VDCVidmodefullmode <mode>
+Select fullscreen mode
+(@code{VDCVidmodeFullscreenMode}).
+(x128 only)
+
+@findex -VICVidmodefullmode
+@item -VICVidmodefullmode <mode>
+Select fullscreen mode
+(@code{VICVidmodeFullscreenMode}).
+(xvic only)
+
+@findex -VICIIVidmodefullmode
+@item -VICIIVidmodefullmode <mode>
+Select fullscreen mode
+(@code{VICIIVidmodeFullscreenMode}).
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid)
 
 @end table
 

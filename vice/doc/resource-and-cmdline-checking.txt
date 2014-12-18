@@ -2506,6 +2506,364 @@ description:    "Set aspect ratio (0.5 - 2.0)"
 resource:       "AspectRatio"
 action:         N/A
 
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+resource type:                  bool
+resource name:                  "KeepAspectRatio"
+resource range:                 0/1
+resource default:               1
+resource function:              set_keepaspect()
+resource var:                   keepaspect
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_XVIDEO
+command-line:                   -keepaspect / +keepaspect
+platform gui present:           unix(XAW)
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+command line:   -keepaspect
+description:    "Keep aspect ratio when scaling"
+resource:       "KeepAspectRatio" (set to 1)
+action:         N/A
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+command line:   +keepaspect
+description:    "Do not keep aspect ratio when scaling (freescale)"
+resource:       "KeepAspectRatio" (set to 0)
+action:         N/A
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+resource type:                  bool
+resource name:                  "TrueAspectRatio"
+resource range:                 0/1
+resource default:               1
+resource function:              set_trueaspect()
+resource var:                   trueaspect
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_XVIDEO
+command-line:                   -trueaspect / +trueaspect
+platform gui present:           unix(XAW)
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+command line:   -trueaspect
+description:    "Enable true aspect ratio"
+resource:       "TrueAspectRatio" (set to 1)
+action:         N/A
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+command line:   +trueaspect
+description:    "Disable true aspect ratio"
+resource:       "TrueAspectRatio" (set to 0)
+action:         N/A
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+resource type:                  string
+resource name:                  "FOURCC"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_fourcc()
+resource var:                   fourcc_s
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:				#ifdef HAVE_XVIDEO
+command-line:                   -fourcc
+platform gui present:           
+platform gui missing:			unix(XAW) (CORRECT)
+
+arch/unix/x11/xaw/x11video.c:
+-----------------------------
+command line:   -fourcc <fourcc>
+description:    "Request YUV FOURCC format"
+resource:       "FOURCC"
+action:         N/A
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  bool
+resource name:                  "UseFullscreen"
+resource range:                 0/1
+resource default:               0
+resource function:              fullscreen_set_fs()
+resource var:                   ui_resources.fs_enabled_pending
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
+command-line:                   -fullscreen / +fullscreen
+platform gui present:           unix(XAW)
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   -fullscreen
+description:    "Enable fullscreen"
+resource:       "UseFullscreen" (set to 1)
+action:         N/A
+
+arch/unix/x11/ui-cmdline-options.c:
+-----------------------------------
+command line:   +fullscreen
+description:    "Disable fullscreen"
+resource:       "UseFullscreen" (set to 0)
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CrtcXRANDRFullscreenMode"
+resource range:                 0+
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   crtc.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined (HAVE_XRANDR)
+command-line:                   -CRTCXRANDRfullmode
+platform gui present:           unix
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCXRANDRfullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "CrtcXRANDRFullscreenMode"
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "TEDXRANDRFullscreenMode"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   ted.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined (HAVE_XRANDR)
+command-line:                   -TEDXRANDRfullmode
+platform gui present:           unix
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDXRANDRfullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "TEDXRANDRFullscreenMode"
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "VDCXRANDRFullscreenMode"
+resource range:                 0+
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   vdc.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined (HAVE_XRANDR)
+command-line:                   -VDCXRANDRfullmode
+platform gui present:           unix
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCXRANDRfullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "VDCXRANDRFullscreenMode"
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "VICXRANDRFullscreenMode"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   vic.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined (HAVE_XRANDR)
+command-line:                   -VICXRANDRfullmode
+platform gui present:           unix
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICXRANDRfullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "VICXRANDRFullscreenMode"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "VICIIXRANDRFullscreenMode"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined (HAVE_XRANDR)
+command-line:                   -VICIIXRANDRfullmode
+platform gui present:           unix
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIXRANDRfullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "VICIIXRANDRFullscreenMode"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIXRANDRFullscreenMode"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined (HAVE_XRANDR)
+command-line:                   -VICIIXRANDRfullmode
+platform gui present:           unix
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIXRANDRfullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "VICIIXRANDRFullscreenMode"
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CrtcVidmodeFullscreenMode"
+resource range:                 0+
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   crtc.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined(USE_XF86_VIDMODE_EXT)
+command-line:                   -CRTCVidmodefullmode
+platform gui present:           unix
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCVidmodefullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "CrtcVidmodeFullscreenMode"
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "TEDVidmodeFullscreenMode"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   ted.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined(USE_XF86_VIDMODE_EXT)
+command-line:                   -TEDVidmodefullmode
+platform gui present:           unix
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDVidmodefullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "TEDVidmodeFullscreenMode"
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "VDCVidmodeFullscreenMode"
+resource range:                 0+
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   vdc.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined(USE_XF86_VIDMODE_EXT)
+command-line:                   -VDCVidmodefullmode
+platform gui present:           unix
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCVidmodefullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "VDCVidmodeFullscreenMode"
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "VICVidmodeFullscreenMode"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   vic.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined(USE_XF86_VIDMODE_EXT)
+command-line:                   -VICVidmodefullmode
+platform gui present:           unix
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICVidmodefullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "VICVidmodeFullscreenMode"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "VICIIVidmodeFullscreenMode"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined(USE_XF86_VIDMODE_EXT)
+command-line:                   -VICIIVidmodefullmode
+platform gui present:           unix
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIVidmodefullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "VICIIVidmodeFullscreenMode"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIVidmodeFullscreenMode"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_mode()
+resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined(USE_XF86_VIDMODE_EXT)
+command-line:                   -VICIIVidmodefullmode
+platform gui present:           unix
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIVidmodefullmode <Mode>
+description:    "Select fullscreen mode"
+resource:       "VICIIVidmodeFullscreenMode"
+action:         N/A
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT UNIX GTK ONLY COMMON RESOURCES/CMDLINES:
@@ -2560,401 +2918,6 @@ FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 
 UNIX XAW ONLY OPTIONAL RESOURCES/CMDLINES:
 ==========================================
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-resource type:                  bool
-resource name:                  "KeepAspectRatio"
-resource range:                 0/1
-resource default:               1
-resource function:              set_keepaspect()
-resource var:                   keepaspect
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #ifdef HAVE_XVIDEO
-command-line:                   NONE (fixme)
-platform gui present:           unix(XAW)
-platform gui missing:
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-resource type:                  bool
-resource name:                  "TrueAspectRatio"
-resource range:                 0/1
-resource default:               1
-resource function:              set_trueaspect()
-resource var:                   trueaspect
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #ifdef HAVE_XVIDEO
-command-line:                   -trueaspect / +trueaspect
-platform gui present:           unix(XAW)
-platform gui missing:
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-command line:   -trueaspect
-description:    "Enable true aspect ratio"
-resource:       "TrueAspectRatio" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-command line:   +trueaspect
-description:    "Disable true aspect ratio"
-resource:       "TrueAspectRatio" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-resource type:                  string
-resource name:                  "FOURCC"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_fourcc()
-resource var:                   fourcc_s
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:				#ifdef HAVE_XVIDEO
-command-line:                   -fourcc
-platform gui present:           
-platform gui missing:			unix(XAW) (CORRECT)
-fixme: add to documentation
-
-arch/unix/x11/xaw/x11video.c:
------------------------------
-command line:   -fourcc <fourcc>
-description:    "Request YUV FOURCC format"
-resource:       "FOURCC"
-action:         N/A
-fixme: add to documentation
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  bool
-resource name:                  "UseFullscreen"
-resource range:                 0/1
-resource default:               0
-resource function:              fullscreen_set_fs()
-resource var:                   ui_resources.fs_enabled_pending
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -fullscreen / +fullscreen
-platform gui present:           unix(XAW)
-platform gui missing:
-fixme: fix documentation, unix only
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   -fullscreen
-description:    "Enable fullscreen"
-resource:       "UseFullscreen" (set to 1)
-action:         N/A
-fixme: fix documentation, unix only
-
-arch/unix/x11/ui-cmdline-options.c:
------------------------------------
-command line:   +fullscreen
-description:    "Disable fullscreen"
-resource:       "UseFullscreen" (set to 0)
-action:         N/A
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "CrtcXRANDRFullscreenMode"
-resource range:                 0+
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   crtc.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -CRTCXRANDRfullmode
-platform gui present:           unix
-platform gui missing:
-fixme: fix documentation to mention that this is Unix only
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCXRANDRfullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "CrtcXRANDRFullscreenMode"
-action:         N/A
-fixme: fix documentation, unix only
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "CrtcVidmodeFullscreenMode"
-resource range:                 0+
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   crtc.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -CRTCVidmodefullmode
-platform gui present:           unix
-platform gui missing:
-fixme: fix documentation to mention that this is Unix only
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCVidmodefullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "CrtcVidmodeFullscreenMode"
-action:         N/A
-fixme: fix documentation, unix only
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "TEDXRANDRFullscreenMode"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   ted.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -TEDXRANDRfullmode
-platform gui present:           unix
-platform gui missing:
-fixme: add to documentation and -> Only if fullscreen device is present, and unix only
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDXRANDRfullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "TEDXRANDRFullscreenMode"
-action:         N/A
-fixme: fix documentation, unix only
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "TEDVidmodeFullscreenMode"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   ted.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -TEDVidmodefullmode
-platform gui present:           unix
-platform gui missing:
-fixme: add to documentation and -> Only if fullscreen device is present, and unix only
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDVidmodefullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "TEDVidmodeFullscreenMode"
-action:         N/A
-fixme: fix documentation, unix only
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  int
-resource name:                  "VDCXRANDRFullscreenMode"
-resource range:                 0+
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   vdc.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -VDCXRANDRfullmode
-platform gui present:           unix
-platform gui missing:
-fixme: fix documentation to mention that this is Unix only
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCXRANDRfullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "VDCXRANDRFullscreenMode"
-action:         N/A
-fixme: fix documentation, unix only
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  int
-resource name:                  "VDCVidmodeFullscreenMode"
-resource range:                 0+
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   vdc.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -VDCVidmodefullmode
-platform gui present:           unix
-platform gui missing:
-fixme: fix documentation to mention that this is Unix only
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCVidmodefullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "VDCVidmodeFullscreenMode"
-action:         N/A
-fixme: fix documentation, unix only
-
-Only if fullscreen device(s) available
-vic20/vic-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "VICXRANDRFullscreenMode"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   vic.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -VICXRANDRfullmode
-platform gui present:           unix
-platform gui missing:
-fixme: fix documentation
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICXRANDRfullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "VICXRANDRFullscreenMode"
-action:         N/A
-fixme: fix documentation, unix only
-
-Only if fullscreen device(s) available
-vic20/vic-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "VICVidmodeFullscreenMode"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   vic.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -VICVidmodefullmode
-platform gui present:           unix
-platform gui missing:
-fixme: fix documentation
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICVidmodefullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "VICVidmodeFullscreenMode"
-action:         N/A
-fixme: fix documentation, unix only
-
-Only if fullscreen device(s) available
-vicii/vicii-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "VICIIXRANDRFullscreenMode"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -VICIIXRANDRfullmode
-platform gui present:           unix
-platform gui missing:
-fixme: fix documentation
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIXRANDRfullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "VICIIXRANDRFullscreenMode"
-action:         N/A
-fixme: fix documentation, unix only
-
-Only if fullscreen device(s) available
-vicii/vicii-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "VICIIVidmodeFullscreenMode"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -VICIIVidmodefullmode
-platform gui present:           unix
-platform gui missing:
-fixme: fix documentation
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIVidmodefullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "VICIIVidmodeFullscreenMode"
-action:         N/A
-fixme: fix documentation, unix only
-
-Only if fullscreen device(s) available
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIXRANDRFullscreenMode"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -VICIIXRANDRfullmode
-platform gui present:           unix
-platform gui missing:
-fixme: fix documentation
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIXRANDRfullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "VICIIXRANDRFullscreenMode"
-action:         N/A
-fixme: fix documentation, unix only
-
-Only if fullscreen device(s) available
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIVidmodeFullscreenMode"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_mode()
-resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
-command-line:                   -VICIIVidmodefullmode
-platform gui present:           unix
-platform gui missing:
-fixme: fix documentation
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIVidmodefullmode <Mode>
-description:    "Select fullscreen mode"
-resource:       "VICIIVidmodeFullscreenMode"
-action:         N/A
-fixme: fix documentation, unix only
 
 arch/unix/x11/openGL_sync.c:
 ----------------------------
