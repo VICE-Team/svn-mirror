@@ -308,7 +308,9 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_WARRANTY, IDS_MI_WARRANTY },
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
     { IDM_SIDCART_SETTINGS, IDS_MI_SIDCART_SETTINGS },
+#ifdef HAVE_MIDI
     { IDM_MIDI_SETTINGS, IDS_MI_MIDI_SETTINGS },
+#endif
     { IDM_FINAL_EXPANSION_WRITEBACK, IDS_MI_FINAL_EXPANSION_WRITEBACK },
     { IDM_VIC_FLASH_PLUGIN_WRITEBACK, IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK },
     { IDM_MEGACART_WRITEBACK, IDS_MI_MEGACART_WRITEBACK },
@@ -552,9 +554,11 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_SFX_SS_SETTINGS:
             ui_soundsampler_settings_dialog(hwnd);
             break;
+#ifdef HAVE_MIDI
         case IDM_MIDI_SETTINGS:
             ui_midi_settings_dialog(hwnd);
             break;
+#endif
         case IDM_JOY_SETTINGS:
             ui_joystick_settings_dialog(hwnd);
             break;

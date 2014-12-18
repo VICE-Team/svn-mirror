@@ -72,7 +72,9 @@
 #endif
 
 #define HAVE_OPENCBM            1
+#if 0
 #define HAVE_MIDI               1
+#endif
 #define HAVE_CRTDBG             1
 #define HAS_TRANSLATION         1
 #define HAVE_HTONL              1

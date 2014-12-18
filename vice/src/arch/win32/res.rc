@@ -1271,8 +1271,10 @@ BEGIN
   IDS_CANCEL                           "Cancel"
   IDS_NONE                             "None"
   IDS_BROWSE                           "Browse..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "Specify MIDI-In device"
   IDS_SPECIFY_MIDI_OUT                 "Specify MIDI-Out device"
+#endif
   IDS_ERROR_SAVING_EASYFLASH_CRT       "Error saving EasyFlash crt file"
   IDS_NO_EASYFLASH_CART_INSERTED       "No EasyFlash cartridge inserted"
   IDS_DATASETTE_CAPTION                "Datasette settings"
@@ -1634,7 +1636,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay settings..."
   IDS_MI_RR_SETTINGS                   "Retro Replay settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice settings..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI settings..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX settings..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC settings..."
   IDS_MI_LIGHTPEN_SETTINGS             "Lightpen settings..."
@@ -1923,8 +1927,10 @@ BEGIN
   IDS_CANCEL                           "Annullér"
   IDS_NONE                             "Ingen"
   IDS_BROWSE                           "Gennemse..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "Angiv enhed for MIDI-ind"
   IDS_SPECIFY_MIDI_OUT                 "Angiv enhed for MIDI-ud"
+#endif
   IDS_ERROR_SAVING_EASYFLASH_CRT       "Fejl under skrivning af EasyFlash CRT-fil"
   IDS_NO_EASYFLASH_CART_INSERTED       "Intet EasyFlash cartridge isat"
   IDS_DATASETTE_CAPTION                "Datasetteindstillinger"
@@ -2286,7 +2292,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay-indstillinger..."
   IDS_MI_RR_SETTINGS                   "Retro Replay-indstillinger..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice indstillinger..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI-indstillinger..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX-indstillinger..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC-indstillinger..."
   IDS_MI_LIGHTPEN_SETTINGS             "Lyspenindstillinger..."
@@ -2575,8 +2583,10 @@ BEGIN
   IDS_CANCEL                           "Abbruch"
   IDS_NONE                             "Kein"
   IDS_BROWSE                           "Stöbern..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "MIDI-In Gerät spezifieren"
   IDS_SPECIFY_MIDI_OUT                 "MIDI-Out Gerät spezifieren"
+#endif
   IDS_ERROR_SAVING_EASYFLASH_CRT       "Fehler beim Speichern der EasyFlash CRT Datei"
   IDS_NO_EASYFLASH_CART_INSERTED       "Kein Easyflash Image eingelegt"
   IDS_DATASETTE_CAPTION                "Datasette Einstellungen"
@@ -2938,7 +2948,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay Einstellungen..."
   IDS_MI_RR_SETTINGS                   "Retro Replay Einstellungen..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice Einstellungen..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI Einstellungen..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX Einstellungen..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC Einstellungen..."
   IDS_MI_LIGHTPEN_SETTINGS             "Lichtgriffel Einstellungen..."
@@ -3227,7 +3239,9 @@ BEGIN
   IDS_CANCEL                           "Cancelar"
   IDS_NONE                             "No"
   IDS_BROWSE                           "Explora..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "Especificar periférico entrada MIDI"
+#endif
   IDS_SPECIFY_MIDI_OUT                 "Especificar periférico salida MIDI"
   IDS_ERROR_SAVING_EASYFLASH_CRT       "Error al grabar fichero EasyFlash crt"
   IDS_NO_EASYFLASH_CART_INSERTED       "No hay cartucho EasyFlash insertado"
@@ -3590,7 +3604,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "Ajustes MMC Replay..."
   IDS_MI_RR_SETTINGS                   "Ajustes Retro Replay..."
   IDS_MI_MAGICVOICE_SETTINGS           "Ajustes Magic Voice..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "Ajustes MIDI..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "Ajustes DigiMAX..."
   IDS_MI_DS12C887RTC_SETTINGS          "Ajustes DS12C887 RTC..."
   IDS_MI_LIGHTPEN_SETTINGS             "Ajustes lápiz óptico..."
@@ -3879,8 +3895,10 @@ BEGIN
   IDS_CANCEL                           "Annuler"
   IDS_NONE                             "Aucun"
   IDS_BROWSE                           "Parcourir..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "Spécifier le périphérique MIDI-IN"
   IDS_SPECIFY_MIDI_OUT                 "Spécifier le périphérique MIDI-OUT"
+#endif
   IDS_ERROR_SAVING_EASYFLASH_CRT       "Erreur de sauvegarde du fichier CRT EasyFlash"
   IDS_NO_EASYFLASH_CART_INSERTED       "Aucune cartouche EasyFlash attachée"
   IDS_DATASETTE_CAPTION                "Paramètres datassette"
@@ -4242,7 +4260,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "Paramètres MMC Replay..."
   IDS_MI_RR_SETTINGS                   "Paramètres Retro Replay..."
   IDS_MI_MAGICVOICE_SETTINGS           "Paramètres Magic Voice..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "Paramètres MIDI..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "Paramètres DigiMAX..."
   IDS_MI_DS12C887RTC_SETTINGS          "Paramètres DS12C887 RTC..."
   IDS_MI_LIGHTPEN_SETTINGS             "Paramètres crayon optique..."
@@ -4534,8 +4554,10 @@ BEGIN
   IDS_CANCEL                           "Mégsem"
   IDS_NONE                             "Nincs"
   IDS_BROWSE                           "Tallóz..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "Adja meg a MIDI-In eszközöt"
   IDS_SPECIFY_MIDI_OUT                 "Adja meg a MIDI-Out eszközöt"
+#endif
   IDS_ERROR_SAVING_EASYFLASH_CRT       "Hiba az EasyFlash crt fájl mentése közben"
   IDS_NO_EASYFLASH_CART_INSERTED       "No EasyFlash cartridge inserted"
   IDS_DATASETTE_CAPTION                "Datasette settings"
@@ -4897,7 +4919,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay settings..."
   IDS_MI_RR_SETTINGS                   "Retro Replay settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice settings..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI settings..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX settings..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC settings..."
   IDS_MI_LIGHTPEN_SETTINGS             "Lightpen settings..."
@@ -5189,8 +5213,10 @@ BEGIN
   IDS_CANCEL                           "Annulla"
   IDS_NONE                             "Nessuno"
   IDS_BROWSE                           "Sfoglia..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "Specifica il dispositivo MIDI-In"
   IDS_SPECIFY_MIDI_OUT                 "Specifica il dispositivo MIDI-Out"
+#endif
   IDS_ERROR_SAVING_EASYFLASH_CRT       "Errore durante il salvataggio del file crt EasyFlash"
   IDS_NO_EASYFLASH_CART_INSERTED       "Nessuna cartuccia EasyFlash inserita"
   IDS_DATASETTE_CAPTION                "Impostazioni registratore"
@@ -5552,7 +5578,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "Impostazioni MMC Replay..."
   IDS_MI_RR_SETTINGS                   "Impostazioni Retro Replay..."
   IDS_MI_MAGICVOICE_SETTINGS           "Impostazioni Magic Voice..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "Impostazioni MIDI..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "Impostazioni DigiMAX..."
   IDS_MI_DS12C887RTC_SETTINGS          "Impostazioni DS12C887 RTC..."
   IDS_MI_LIGHTPEN_SETTINGS             "Impostazioni penna ottica..."
@@ -5844,8 +5872,10 @@ BEGIN
   IDS_CANCEL                           "Ãë¼Ò"
   IDS_NONE                             "¾øÀ½"
   IDS_BROWSE                           "ºê¶ó¿ì½º..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "¹Ìµð ÀÎ µð¹ÙÀÌ½ºÀÇ ÀÌ¸§À» Á¤ÇÏ¼¼¿ä"
   IDS_SPECIFY_MIDI_OUT                 "¹Ì´Ù ¾Æ¿ô µð¹ÙÀÌ½ºÀÇ ÀÌ¸§À» Á¤ÇÏ¼¼¿ä"
+#endif
   IDS_ERROR_SAVING_EASYFLASH_CRT       "EasyFlash crt ÆÄÀÏ ÀúÀå ¿¡·¯°¡ ¹ß»ýÇß½À´Ï´Ù"
   IDS_NO_EASYFLASH_CART_INSERTED       "EasyFlash Ä«Æ®¸®Áö °¡ »ðÀÔµÇÁö ¾Ê¾Ò½À´Ï´Ù"
   IDS_DATASETTE_CAPTION                "Datasette settings"
@@ -6207,7 +6237,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay ¼³Á¤..."
   IDS_MI_RR_SETTINGS                   "Retro Replay settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice ¼³Á¤..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI ¼³Á¤..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX ¼³Á¤..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC settings..."
   IDS_MI_LIGHTPEN_SETTINGS             "Lightpen settings..."
@@ -6499,8 +6531,10 @@ BEGIN
   IDS_CANCEL                           "Annuleren"
   IDS_NONE                             "Geen"
   IDS_BROWSE                           "Bladeren..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "kies MIDI-In apparaat"
   IDS_SPECIFY_MIDI_OUT                 "Kies MIDI-uit apparaat"
+#endif
   IDS_ERROR_SAVING_EASYFLASH_CRT       "Kan het EasyFlash crt bestand niet opslaan"
   IDS_NO_EASYFLASH_CART_INSERTED       "Geen EasyFlash cartridge aanwezig"
   IDS_DATASETTE_CAPTION                "Datasette instellingen"
@@ -6862,7 +6896,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay instellingen..."
   IDS_MI_RR_SETTINGS                   "Retro Replay instellingen..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice instellingen..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI instellingen..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX instellingen..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC instellingen..."
   IDS_MI_LIGHTPEN_SETTINGS             "Lichtpen instellingen..."
@@ -7154,8 +7190,10 @@ BEGIN
   IDS_CANCEL                           "Anuluj"
   IDS_NONE                             "Brak"
   IDS_BROWSE                           "Przegl±daj..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "Okre¶l urz±dzenie wej¶cia MIDI"
   IDS_SPECIFY_MIDI_OUT                 "Okre¶l urz±dzenie wyj¶cia MIDI"
+#endif
   IDS_ERROR_SAVING_EASYFLASH_CRT       "B³±d zapisu pliku crt EasyFlash"
   IDS_NO_EASYFLASH_CART_INSERTED       "Nie w³o¿ono kartrid¿a EasyFlash"
   IDS_DATASETTE_CAPTION                "Ustawienia magnetofonu"
@@ -7517,7 +7555,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "Ustawienia MMC Replay..."
   IDS_MI_RR_SETTINGS                   "Ustawienia Retro Replay..."
   IDS_MI_MAGICVOICE_SETTINGS           "Ustawienia Magic Voice..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "Ustawienia MIDI..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "Ustawienia DigiMAX..."
   IDS_MI_DS12C887RTC_SETTINGS          "Ustawienia DS12C887 RTC..."
   IDS_MI_LIGHTPEN_SETTINGS             "Ustawienia pióra ¶wietlnego..."
@@ -7812,8 +7852,10 @@ BEGIN
   IDS_CANCEL                           "¾âÜÕÝØâì"
   IDS_NONE                             "None"
   IDS_BROWSE                           "¾Ñ×Þà..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "ÃÚÐ×Ðâì MIDI ãáâàÞÙáâÒÞ ÒÒÞÔÐ"
   IDS_SPECIFY_MIDI_OUT                 "ÃÚÐ×Ðâì MIDI ãáâàÞÙáâÒÞ ÒëÒÞÔÐ"
+#endif
   IDS_ERROR_SAVING_EASYFLASH_CRT       "Error saving EasyFlash crt file"
   IDS_NO_EASYFLASH_CART_INSERTED       "No EasyFlash cartridge inserted"
   IDS_DATASETTE_CAPTION                "Datasette settings"
@@ -8175,7 +8217,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay settings..."
   IDS_MI_RR_SETTINGS                   "Retro Replay settings..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice settings..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI settings..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX settings..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC settings..."
   IDS_MI_LIGHTPEN_SETTINGS             "Lightpen settings..."
@@ -8467,8 +8511,10 @@ BEGIN
   IDS_CANCEL                           "Avbryt"
   IDS_NONE                             "Ingen"
   IDS_BROWSE                           "Bläddra..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "Ange enhet för MIDI-in"
   IDS_SPECIFY_MIDI_OUT                 "Ange enhet för MIDI-ut"
+#endif
   IDS_ERROR_SAVING_EASYFLASH_CRT       "Fel vid skrivning av EasyFlash-crt-fil."
   IDS_NO_EASYFLASH_CART_INSERTED       "EasyFlash-insticksmodul har inte satts in"
   IDS_DATASETTE_CAPTION                "Datasetteinställningar"
@@ -8830,7 +8876,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay-inställningar..."
   IDS_MI_RR_SETTINGS                   "Retro Replay-inställningar..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice-inställningar..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI-inställningar..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX-inställningar..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC-inställningar..."
   IDS_MI_LIGHTPEN_SETTINGS             "Inställningar för ljuspenna..."
@@ -9122,8 +9170,10 @@ BEGIN
   IDS_CANCEL                           "Ýptal"
   IDS_NONE                             "Yok"
   IDS_BROWSE                           "Göz at..."
+#ifdef HAVE_MIDI
   IDS_SPECIFY_MIDI_IN                  "MIDI-In aygýtýný belirleyin"
   IDS_SPECIFY_MIDI_OUT                 "MIDI-Out aygýtýný belirleyin"
+#endif
   IDS_ERROR_SAVING_EASYFLASH_CRT       "EasyFlash crt dosyasý kayýt hatasý"
   IDS_NO_EASYFLASH_CART_INSERTED       "EasyFlash kartuþu takýlmamýþ"
   IDS_DATASETTE_CAPTION                "Teyp Ayarlarý"
@@ -9485,7 +9535,9 @@ BEGIN
   IDS_MI_MMCREPLAY_SETTINGS            "MMC Replay ayarlarý..."
   IDS_MI_RR_SETTINGS                   "Retro Replay ayarlarý..."
   IDS_MI_MAGICVOICE_SETTINGS           "Magic Voice ayarlarý..."
+#ifdef HAVE_MIDI
   IDS_MI_MIDI_SETTINGS                 "MIDI ayarlarý..."
+#endif
   IDS_MI_DIGIMAX_SETTINGS              "DigiMAX ayarlarý..."
   IDS_MI_DS12C887RTC_SETTINGS          "DS12C887 RTC ayarlarý..."
   IDS_MI_LIGHTPEN_SETTINGS             "Iþýklý Kalem ayarlarý..."

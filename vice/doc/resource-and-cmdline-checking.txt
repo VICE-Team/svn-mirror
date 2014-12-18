@@ -2479,6 +2479,118 @@ description:    "Never use shared memory (slower)"
 resource:       "MITSHM" (set to 0)
 action:         N/A
 
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  int
+resource name:                  "Window0Width"
+resource range:                 0+
+resource default:               0
+resource function:              set_width0()
+resource var:                   ui_resources.window0_width
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           unix(GTK)
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  int
+resource name:                  "Window0Height"
+resource range:                 0+
+resource default:               0
+resource function:              set_height0()
+resource var:                   ui_resources.window0_height
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           unix(GTK)
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  int
+resource name:                  "Window0Xpos"
+resource range:                 N/A
+resource default:               -1
+resource function:              set_xpos0()
+resource var:                   ui_resources.window0_xpos
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           unix(GTK)
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  int
+resource name:                  "Window0Ypos"
+resource range:                 N/A
+resource default:               -1
+resource function:              set_ypos0()
+resource var:                   ui_resources.window0_ypos
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           unix(GTK)
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  int
+resource name:                  "Window1Width"
+resource range:                 0+
+resource default:               0
+resource function:              set_width1()
+resource var:                   ui_resources.window1_width
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           unix(GTK)
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  int
+resource name:                  "Window1Height"
+resource range:                 0+
+resource default:               0
+resource function:              set_height1()
+resource var:                   ui_resources.window1_height
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           unix(GTK)
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  int
+resource name:                  "Window1Xpos"
+resource range:                 N/A
+resource default:               -1
+resource function:              set_xpos1()
+resource var:                   ui_resources.window1_xpos
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           unix(GTK)
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  int
+resource name:                  "Window1Ypos"
+resource range:                 N/A
+resource default:               -1
+resource function:              set_ypos1()
+resource var:                   ui_resources.window1_ypos
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           unix(GTK)
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT UNIX XAW ONLY OPTIONAL RESOURCES/CMDLINES:
@@ -2869,6 +2981,62 @@ action:         N/A
 FIXED/CORRECT UNIX GTK ONLY COMMON RESOURCES/CMDLINES:
 ======================================================
 
+arch/unix/x11/gnome/gnomevideo.c:
+---------------------------------
+resource type:                  bool
+resource name:                  "KeepAspectRatio"
+resource range:                 0/1
+resource default:               1
+resource function:              set_keepaspect()
+resource var:                   keepaspect
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -keepaspect / +keepaspect
+platform gui present:           unix(GTK)
+
+arch/unix/x11/gnome/gnomevideo.c:
+---------------------------------
+command line:   -keepaspect
+description:    "Keep aspect ratio when scaling"
+resource:       "KeepAspectRatio" (set to 1)
+action:         N/A
+
+arch/unix/x11/gnome/gnomevideo.c:
+---------------------------------
+command line:   +keepaspect
+description:    "Do not keep aspect ratio when scaling (freescale)"
+resource:       "KeepAspectRatio" (set to 0)
+action:         N/A
+
+arch/unix/x11/gnome/gnomevideo.c:
+---------------------------------
+resource type:                  bool
+resource name:                  "TrueAspectRatio"
+resource range:                 0/1
+resource default:               1
+resource function:              set_trueaspect()
+resource var:                   trueaspect
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -trueaspect / +trueaspect
+platform gui present:           unix(GTK)
+
+arch/unix/x11/gnome/gnomevideo.c:
+---------------------------------
+command line:   -trueaspect
+description:    "Enable true aspect ratio"
+resource:       "TrueAspectRatio" (set to 1)
+action:         N/A
+
+arch/unix/x11/gnome/gnomevideo.c:
+---------------------------------
+command line:   +trueaspect
+description:    "Disable true aspect ratio"
+resource:       "TrueAspectRatio" (set to 0)
+action:         N/A
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT UNIX GTK ONLY OPTIONAL RESOURCES/CMDLINES:
@@ -2878,6 +3046,27 @@ FIXED/CORRECT UNIX GTK ONLY OPTIONAL RESOURCES/CMDLINES:
 
 FIXED/CORRECT WINDOWS ONLY COMMON RESOURCES/CMDLINES:
 =====================================================
+
+arch/win32/mousedrv.c:
+----------------------
+resource type:                  int
+resource name:                  "MouseSensitivity"
+resource range:                 0..40
+resource default:               40
+resource function:              set_mouse_sensitivity_mult()
+resource var:                   mouse_sensitivity_mult
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
+not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -mousesensitivity
+platform gui present:           windows
+
+arch/win32/mousedrv.c:
+----------------------
+command line:   -mousesensitivity <sensitivity>
+description:    "Sensitivity of the mouse."
+resource:       "MouseSensitivity"
+action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2916,373 +3105,12 @@ FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
-UNIX XAW ONLY OPTIONAL RESOURCES/CMDLINES:
-==========================================
-
-arch/unix/x11/openGL_sync.c:
-----------------------------
-resource type:                  bool
-resource name:                  "openGL_sync"
-resource range:                 0/1
-resource default:               0
-resource function:              set_openGL_sync()
-resource var:                   openGL_sync
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #ifdef HAVE_OPENGL_SYNC
-command-line:                   NONE (fixme)
-platforms to check:			unix(XAW)
-platform gui present:           
-platform gui missing:
-fixme: fix documentation, unix only
-
-arch/unix/x11/openGL_sync.c:
-----------------------------
-resource type:                  bool
-resource name:                  "openGL_no_sync"
-resource range:                 0/1
-resource default:               0
-resource function:              openGL_dummy_set()
-resource var:                   no_sync
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #ifdef HAVE_OPENGL_SYNC
-command-line:                   NONE (fixme)
-platforms to check:			unix(XAW)
-platform gui present:           
-platform gui missing:
-fixme: resource abuse
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-UNIX GTK ONLY COMMON RESOURCES/CMDLINES:
-========================================
-
-arch/unix/x11/gnome/gnomevideo.c:
----------------------------------
-resource type:                  bool
-resource name:                  "KeepAspectRatio"
-resource range:                 0/1
-resource default:               1
-resource function:              set_keepaspect()
-resource var:                   keepaspect
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used in vsid)
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           unix(GTK)
-platform gui missing:
-
-arch/unix/x11/gnome/gnomevideo.c:
----------------------------------
-resource type:                  bool
-resource name:                  "TrueAspectRatio"
-resource range:                 0/1
-resource default:               1
-resource function:              set_trueaspect()
-resource var:                   trueaspect
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used in vsid)
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           unix(GTK)
-platform gui missing:
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  int
-resource name:                  "Window0Width"
-resource range:                 0+
-resource default:               0
-resource function:              set_width0()
-resource var:                   ui_resources.window0_width
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE
-platform gui present:           unix(GTK)
-platform gui missing:
-fixme: fix documentation
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  int
-resource name:                  "Window0Height"
-resource range:                 0+
-resource default:               0
-resource function:              set_height0()
-resource var:                   ui_resources.window0_height
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE
-platform gui present:           unix(GTK)
-platform gui missing:
-fixme: fix documentation
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  int
-resource name:                  "Window0Xpos"
-resource range:                 N/A
-resource default:               -1
-resource function:              set_xpos0()
-resource var:                   ui_resources.window0_xpos
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE
-platform gui present:           unix(GTK)
-platform gui missing:
-fixme: fix documentation
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  int
-resource name:                  "Window0Ypos"
-resource range:                 N/A
-resource default:               -1
-resource function:              set_ypos0()
-resource var:                   ui_resources.window0_ypos
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE
-platform gui present:           unix(GTK)
-platform gui missing:
-fixme: fix documentation
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  int
-resource name:                  "WindowTopHint"
-resource range:                 N/A
-resource default:               0
-resource function:              set_tophint()
-resource var:                   tophint
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #ifdef USE_GNOMEUI
-command-line:                   NONE
-platform gui present:           unix(GTK)
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  int
-resource name:                  "WindowBotHint"
-resource range:                 N/A
-resource default:               0
-resource function:              set_bothint()
-resource var:                   bothint
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #ifdef USE_GNOMEUI
-command-line:                   NONE
-platform gui present:           unix(GTK)
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  int
-resource name:                  "Window1Width"
-resource range:                 0+
-resource default:               0
-resource function:              set_width1()
-resource var:                   ui_resources.window1_width
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           unix(GTK)
-platform gui missing:
-fixme: fix documentation
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  int
-resource name:                  "Window1Height"
-resource range:                 0+
-resource default:               0
-resource function:              set_height1()
-resource var:                   ui_resources.window1_height
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           unix(GTK)
-platform gui missing:
-fixme: fix documentation
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  int
-resource name:                  "Window1Xpos"
-resource range:                 N/A
-resource default:               -1
-resource function:              set_xpos1()
-resource var:                   ui_resources.window1_xpos
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           unix(GTK)
-platform gui missing:
-fixme: fix documentation
-
-arch/unix/x11/ui-resources.c:
------------------------------
-resource type:                  int
-resource name:                  "Window1Ypos"
-resource range:                 N/A
-resource default:               -1
-resource function:              set_ypos1()
-resource var:                   ui_resources.window1_ypos
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:           unix(GTK)
-platform gui missing:
-fixme: fix documentation
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-UNIX GTK ONLY OPTIONAL RESOURCES/CMDLINES:
-==========================================
-
-arch/unix/ui-threads.c:
------------------------
-resource type:                  bool
-resource name:                  "AlphaBlending"
-resource range:                 0/1
-resource default:               1
-resource function:              set_alpha_blending()
-resource var:                   do_blending
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used in vsid)
-not used in:
-prepocessor:                    #if defined(USE_UI_THREADS) && defined(HAVE_HWSCALE)
-command-line:                   NONE (fixme)
-platform gui present:           unix(GTK)
-platform gui missing:
-fixme: add to documentation
-
-arch/unix/ui-threads.c:
------------------------
-resource type:                  int
-resource name:                  "DThreadRate"
-resource range:                 N/A
-resource default:               8
-resource function:              set_dthread_rfp()
-resource var:                   dthread_rfp
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used in vsid)
-not used in:
-prepocessor:                    #if defined(USE_UI_THREADS) && defined(HAVE_HWSCALE)
-command-line:                   NONE (fixme)
-platform gui present:           unix(GTK)
-platform gui missing:			
-fixme: add to documentation
-
-arch/unix/ui-threads.c:
------------------------
-resource type:                  int
-resource name:                  "DThreadGhosting"
-resource range:                 2..6
-resource default:               2
-resource function:              set_dthread_ghosting()
-resource var:                   dthread_ghosting
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used in vsid)
-not used in:
-prepocessor:                    #if defined(USE_UI_THREADS) && defined(HAVE_HWSCALE)
-command-line:                   NONE (fixme)
-platform gui present:           unix(GTK)
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			
-fixme: add to documentation
-
-------------------------------------------------------------------------------------------------------------------------------------
-
 WINDOWS ONLY COMMON RESOURCES/CMDLINES:
 =======================================
 
-arch/win32/mididrv.c:
----------------------
-resource type:                  int
-resource name:                  "MIDIInDev"
-resource range:                 N/A
-resource default:               0
-resource function:              set_midi_in_dev()
-resource var:                   midi_in_dev
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
-not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -midiin
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/mididrv.c:
----------------------
-command line:   -midiin <number>
-description:    "Specify MIDI-In device"
-resource:       "MIDIInDev"
-action:         N/A
-fixme: add to documentation
-
-arch/win32/mididrv.c:
----------------------
-resource type:                  int
-resource name:                  "MIDIOutDev"
-resource range:                 N/A
-resource default:               0
-resource function:              set_midi_out_dev()
-resource var:                   midi_out_dev
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
-not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -midiout
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/mididrv.c:
----------------------
-command line:   -midiout <number>
-description:    "Specify MIDI-Out device"
-resource:       "MIDIOutDev"
-action:         N/A
-fixme: add to documentation
-
-arch/win32/mousedrv.c:
-----------------------
-resource type:                  int
-resource name:                  "MouseSensitivity"
-resource range:                 0..40
-resource default:               40
-resource function:              set_mouse_sensitivity_mult()
-resource var:                   mouse_sensitivity_mult
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
-not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -mousesensitivity
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/mousedrv.c:
-----------------------
-command line:   -mousesensitivity <sensitivity>
-description:    "Sensitivity of the mouse."
-resource:       "MouseSensitivity"
-action:         N/A
-fixme: add to documentation
-
 arch/win32/ui-resources.c:
 --------------------------
-resource type:                  strings
+resource type:                  string
 resource name:                  "MonitorDimensions"
 resource range:                 N/A
 resource default:               ""
@@ -3291,15 +3119,14 @@ resource var:                   ui_resources.monitor_dimensions
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           
-platform gui missing:			windows
+platform gui missing:			windows (CORRECT)
 fixme: add to documentation
-blacky note resource does get set by monitor code
 
 arch/win32/ui-resources.c:
 --------------------------
-resource type:                  strings
+resource type:                  string
 resource name:                  "InitialDefaultDir"
 resource range:                 N/A
 resource default:               ""
@@ -3315,7 +3142,7 @@ fixme: add to documentation
 
 arch/win32/ui-resources.c:
 --------------------------
-resource type:                  strings
+resource type:                  string
 resource name:                  "InitialTapeDir"
 resource range:                 N/A
 resource default:               ""
@@ -3331,7 +3158,7 @@ fixme: add to documentation
 
 arch/win32/ui-resources.c:
 --------------------------
-resource type:                  strings
+resource type:                  string
 resource name:                  "InitialDiskDir"
 resource range:                 N/A
 resource default:               ""
@@ -3347,7 +3174,7 @@ fixme: add to documentation
 
 arch/win32/ui-resources.c:
 --------------------------
-resource type:                  strings
+resource type:                  string
 resource name:                  "InitialAutostartDir"
 resource range:                 N/A
 resource default:               ""
@@ -3363,7 +3190,7 @@ fixme: add to documentation
 
 arch/win32/ui-resources.c:
 --------------------------
-resource type:                  strings
+resource type:                  string
 resource name:                  "InitialCartDir"
 resource range:                 N/A
 resource default:               ""
@@ -3379,7 +3206,7 @@ fixme: add to documentation
 
 arch/win32/ui-resources.c:
 --------------------------
-resource type:                  strings
+resource type:                  string
 resource name:                  "InitialSnapshotDir"
 resource range:                 N/A
 resource default:               ""
@@ -4155,6 +3982,54 @@ fixme: fix documentation
 
 WINDOWS ONLY OPTIONAL RESOURCES/CMDLINES:
 =========================================
+
+arch/win32/mididrv.c:
+---------------------
+resource type:                  int
+resource name:                  "MIDIInDev"
+resource range:                 N/A
+resource default:               0
+resource function:              set_midi_in_dev()
+resource var:                   midi_in_dev
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
+not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:				#ifdef HAVE_MIDI
+command-line:                   -midiin
+platform gui present:           windows
+platform gui missing:
+fixme: add to documentation
+
+arch/win32/mididrv.c:
+---------------------
+command line:   -midiin <number>
+description:    "Specify MIDI-In device"
+resource:       "MIDIInDev"
+action:         N/A
+fixme: add to documentation
+
+arch/win32/mididrv.c:
+---------------------
+resource type:                  int
+resource name:                  "MIDIOutDev"
+resource range:                 N/A
+resource default:               0
+resource function:              set_midi_out_dev()
+resource var:                   midi_out_dev
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
+not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:				#ifdef HAVE_MIDI
+command-line:                   -midiout
+platform gui present:           windows
+platform gui missing:
+fixme: add to documentation
+
+arch/win32/mididrv.c:
+---------------------
+command line:   -midiout <number>
+description:    "Specify MIDI-Out device"
+resource:       "MIDIOutDev"
+action:         N/A
+fixme: add to documentation
 
 arch/win32/video.c:
 -------------------
@@ -24856,3 +24731,131 @@ action:         N/A
 fixme: fix documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
+
+UNIX XAW ONLY OPTIONAL RESOURCES/CMDLINES:
+==========================================
+
+arch/unix/x11/openGL_sync.c:
+----------------------------
+resource type:                  bool
+resource name:                  "openGL_sync"
+resource range:                 0/1
+resource default:               0
+resource function:              set_openGL_sync()
+resource var:                   openGL_sync
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_OPENGL_SYNC
+command-line:                   NONE (fixme)
+platforms to check:			unix(XAW)
+platform gui present:           
+platform gui missing:
+fixme: fix documentation, unix only
+
+arch/unix/x11/openGL_sync.c:
+----------------------------
+resource type:                  bool
+resource name:                  "openGL_no_sync"
+resource range:                 0/1
+resource default:               0
+resource function:              openGL_dummy_set()
+resource var:                   no_sync
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_OPENGL_SYNC
+command-line:                   NONE (fixme)
+platforms to check:			unix(XAW)
+platform gui present:           
+platform gui missing:
+fixme: resource abuse
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+UNIX GTK ONLY COMMON RESOURCES/CMDLINES:
+========================================
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  int
+resource name:                  "WindowTopHint"
+resource range:                 N/A
+resource default:               0
+resource function:              set_tophint()
+resource var:                   tophint
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    
+command-line:                   NONE (CORRECT)
+platform gui present:           unix(GTK)
+
+arch/unix/x11/ui-resources.c:
+-----------------------------
+resource type:                  int
+resource name:                  "WindowBotHint"
+resource range:                 N/A
+resource default:               0
+resource function:              set_bothint()
+resource var:                   bothint
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    
+command-line:                   NONE (CORRECT)
+platform gui present:           unix(GTK)
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+UNIX GTK ONLY OPTIONAL RESOURCES/CMDLINES:
+==========================================
+
+arch/unix/ui-threads.c:
+-----------------------
+resource type:                  bool
+resource name:                  "AlphaBlending"
+resource range:                 0/1
+resource default:               1
+resource function:              set_alpha_blending()
+resource var:                   do_blending
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #if defined(USE_UI_THREADS) && defined(HAVE_HWSCALE)
+command-line:                   NONE (fixme)
+platform gui present:           unix(GTK)
+platform gui missing:
+fixme: add to documentation
+
+arch/unix/ui-threads.c:
+-----------------------
+resource type:                  int
+resource name:                  "DThreadRate"
+resource range:                 N/A
+resource default:               8
+resource function:              set_dthread_rfp()
+resource var:                   dthread_rfp
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #if defined(USE_UI_THREADS) && defined(HAVE_HWSCALE)
+command-line:                   NONE (fixme)
+platform gui present:           unix(GTK)
+platform gui missing:			
+fixme: add to documentation
+
+arch/unix/ui-threads.c:
+-----------------------
+resource type:                  int
+resource name:                  "DThreadGhosting"
+resource range:                 2..6
+resource default:               2
+resource function:              set_dthread_ghosting()
+resource var:                   dthread_ghosting
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #if defined(USE_UI_THREADS) && defined(HAVE_HWSCALE)
+command-line:                   NONE (fixme)
+platform gui present:           unix(GTK)
+platform range correct:		
+platform range incorrect:		
+platform gui missing:			
+fixme: add to documentation
+
+------------------------------------------------------------------------------------------------------------------------------------
+

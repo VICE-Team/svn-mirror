@@ -119,9 +119,33 @@ void video_shutdown(void)
 {
 }
 
+static const cmdline_option_t cmdline_options[] = {
+    { "-trueaspect", SET_RESOURCE, 0,
+      NULL, NULL, "TrueAspectRatio", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Enable true aspect ratio") },
+    { "+trueaspect", SET_RESOURCE, 0,
+      NULL, NULL, "TrueAspectRatio", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Disable true aspect ratio") },
+    { "-keepaspect", SET_RESOURCE, 0,
+      NULL, NULL, "KeepAspectRatio", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Keep aspect ratio when scaling") },
+    { "+keepaspect", SET_RESOURCE, 0,
+      NULL, NULL, "KeepAspectRatio", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Do not keep aspect ratio when scaling (freescale)") },
+    { NULL }
+};
+
 int video_cmdline_options_init(void)
 {
-    return 0;
+    return cmdline_register_options(cmdline_options);
 }
 
 /* called from video/video-canvas.c:video_canvas_init */

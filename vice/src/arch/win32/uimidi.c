@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#ifdef HAVE_MIDI
+
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
@@ -215,3 +217,4 @@ void ui_midi_settings_dialog(HWND hwnd)
 {
     DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_MIDI_SETTINGS_DIALOG, hwnd, dialog_proc);
 }
+#endif

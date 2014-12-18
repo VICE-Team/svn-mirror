@@ -195,11 +195,13 @@ static int fullscreen_set_fs(int val, void *param)
  */
 #ifdef USE_GNOMEUI
 static int tophint, bothint;
+
 static int set_tophint(int d, void *param)
 {
     tophint = d;
     return 0;
 }
+
 static int set_bothint(int d, void *param)
 {
     bothint = d;

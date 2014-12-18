@@ -307,7 +307,9 @@ ui_menu_translation_table_t scpu64ui_menu_translation_table[] = {
     { IDM_DQBB_SETTINGS, IDS_MI_DQBB_SETTINGS },
     { IDM_EXPERT_SETTINGS, IDS_MI_EXPERT_SETTINGS },
     { IDM_ISEPIC_SETTINGS, IDS_MI_ISEPIC_SETTINGS },
+#ifdef HAVE_MIDI
     { IDM_MIDI_SETTINGS, IDS_MI_MIDI_SETTINGS },
+#endif
     { IDM_MMC64_SETTINGS, IDS_MI_MMC64_SETTINGS },
     { IDM_MMCREPLAY_SETTINGS, IDS_MI_MMCREPLAY_SETTINGS },
     { IDM_RR_SETTINGS, IDS_MI_RR_SETTINGS },
@@ -543,9 +545,11 @@ static void scpu64_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_ISEPIC_SETTINGS:
             ui_isepic_settings_dialog(hwnd);
             break;
+#ifdef HAVE_MIDI
         case IDM_MIDI_SETTINGS:
             ui_midi_settings_dialog(hwnd);
             break;
+#endif
         case IDM_MMC64_SETTINGS:
             ui_mmc64_settings_dialog(hwnd);
             break;

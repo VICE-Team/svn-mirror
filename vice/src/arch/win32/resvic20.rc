@@ -266,7 +266,9 @@ BEGIN
 #ifdef HAVE_TFE
             MENUITEM "", IDM_TFE_SETTINGS
 #endif
+#ifdef HAVE_MIDI
             MENUITEM "", IDM_MIDI_SETTINGS
+#endif
             MENUITEM SEPARATOR
             MENUITEM "", IDM_TOGGLE_CART_RESET
         END

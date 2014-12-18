@@ -28,6 +28,8 @@
 
 #include "vice.h"
 
+#ifdef HAVE_MIDI
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -407,3 +409,5 @@ int mididrv_in(BYTE *b)
     }
     return 0;
 }
+
+#endif

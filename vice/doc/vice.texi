@@ -56,6 +56,14 @@ END-INFO-DIR-ENTRY
 @set platformunix
 @end ifset
 
+@c define platformgtk if any of the following are set:
+@ifset platformgtk2
+@set platformgtk
+@end ifset
+@ifset platformgtk3
+@set platformgtk
+@end ifset
+
 @c define all amiga platforms is platformamigaall is set:
 @ifset platformamigaall
 @set platformamigaos3
@@ -104,6 +112,7 @@ END-INFO-DIR-ENTRY
 @set platformsdl
 @set platformunix
 @set platformxaw
+@set platformgtk
 @set platformgtk2
 @set platformgtk3
 @set platformosx
@@ -2652,25 +2661,6 @@ Boolean, if true enable Open-GL frame sync.
 @vindex openGL_no_sync
 @item openGL_no_sync
 Boolean, if true Open-GL sync is not available.
-
-@vindex Window0Width
-@vindex Window0Height
-@vindex Window0Xpos
-@vindex Window0Ypos
-@item Window0Width
-@itemx Window0Height
-@itemx Window0Xpos
-@itemx Window0Ypos
-Integers specifying the position and size of the (first) emulator window.
-@vindex Window1Width
-@vindex Window1Height
-@vindex Window1Xpos
-@vindex Window1Ypos
-@item Window1Width
-@itemx Window1Height
-@itemx Window1Xpos
-@itemx Window1Ypos
-Integers specifying the position and size of the (second) emulator window.
 
 @end table
 
@@ -10450,11 +10440,8 @@ Set the joystick fuzz
 @ifset platformxaw
 * XAW-specific features::
 @end ifset
-@ifset platformgtk2
-* GTK2-specific features::
-@end ifset
-@ifset platformgtk3
-* GTK3-specific features::
+@ifset platformgtk
+* GTK-specific features::
 @end ifset
 @end menu
 
@@ -10685,7 +10672,7 @@ specifies a special device (like @file{/dev/ttyS0} for example,
 @c -----------------------------------------------------------------
 
 @ifset platformall
-@node XAW-specific features, GTK2-specific features, Unix-specific features, Unix-specific features
+@node XAW-specific features, GTK-specific features, Unix-specific features, Unix-specific features
 @subsection XAW-specific features
 @end ifset
 
@@ -10733,6 +10720,25 @@ values are: 0 = do not use MITSHM, 1 = do use MITSHM, -1 = try to
 autodetect availability on startup (default). The last is a simple test
 if the emulator runs across a network and if so disables MITSHM (If you
 have problems with this test please report it).
+
+@vindex Window0Width
+@vindex Window0Height
+@vindex Window0Xpos
+@vindex Window0Ypos
+@item Window0Width
+@itemx Window0Height
+@itemx Window0Xpos
+@itemx Window0Ypos
+Integers specifying the position and size of the (first) emulator window.
+@vindex Window1Width
+@vindex Window1Height
+@vindex Window1Xpos
+@vindex Window1Ypos
+@item Window1Width
+@itemx Window1Height
+@itemx Window1Xpos
+@itemx Window1Ypos
+Integers specifying the position and size of the (second) emulator window.
 
 @end table
 
@@ -10880,9 +10886,9 @@ Disable keeping of the aspect ratio when scaling (freescaling)
 
 @findex -trueaspect, +trueaspect
 @item -trueaspect
-@itemx +keepaspect
+@itemx +trueaspect
 Enable/disable whether to use the true (non square pixels) aspect ratio
-(@code{KeepAspectRatio=1}, (@code{KeepAspectRatio=0}).
+(@code{TrueAspectRatio=1}, (@code{TrueAspectRatio=0}).
 
 @findex -fourcc
 @item -fourcc <fourcc>
@@ -10980,40 +10986,57 @@ Select fullscreen mode
 @c -----------------------------------------------------------------
 
 @ifset platformall
-@node GTK2-specific features, GTK3-specific features, XAW-specific features, Unix-specific features
-@subsection GTK2-specific features
+@node GTK-specific features, , XAW-specific features, Unix-specific features
+@subsection GTK-specific features
 @end ifset
 
 @ifclear platformall
-@ifset platformgtk2
-@node GTK2-specific features, , Unix-specific features, Unix-specific features
-@subsection GTK2-specific features
+@ifset platformgtk
+@node GTK-specific features, , Unix-specific features, Unix-specific features
+@subsection GTK-specific features
 @end ifset
 @end ifclear
 
-@ifset platformgtk2
+@ifset platformgtk
 
-@c TODO: GTK2 specific content
+This section lists the settings and commands that are common and specific to the GTK GUI, and are thus not present in other platforms. 
 
-@end ifset
+@c @node FIXME
+@subsubsection GTK GUI specific resources
 
-@c -----------------------------------------------------------------
+@table @code
 
-@ifset platformall
-@node GTK3-specific features, , GTK2-specific features, Unix-specific features
-@subsection GTK3-specific features
-@end ifset
+@vindex KeepAspectRatio
+@item KeepAspectRatio
+Boolean specifying whether the aspect ratio of the output window should be preserved.
+(0=free scaling, 1=scale with fixed aspect ratio)
 
-@ifclear platformall
-@ifset platformgtk3
-@node GTK3-specific features, , Unix-specific features, Unix-specific features
-@subsection GTK3-specific features
-@end ifset
-@end ifclear
+@vindex TrueAspectRatio
+@item TrueAspectRatio
+Boolean specifying whether to use the true (non square pixels) aspect ratio.
 
-@ifset platformgtk3
+@end table
 
-@c TODO: GTK3 specific content
+@c @node FIXME
+@subsubsection GTK GUI specific command-line options
+
+@table @code
+
+@findex -keepaspect, +keepaspect
+@item -keepaspect
+Enable keeping of the aspect ratio when scaling
+(@code{KeepAspectRatio=1}).
+@item +keepaspect
+Disable keeping of the aspect ratio when scaling (freescaling)
+(@code{KeepAspectRatio=0}).
+
+@findex -trueaspect, +trueaspect
+@item -trueaspect
+@itemx +trueaspect
+Enable/disable whether to use the true (non square pixels) aspect ratio
+(@code{TrueAspectRatio=1}, (@code{TrueAspectRatio=0}).
+
+@end table
 
 @end ifset
 
@@ -11053,7 +11076,33 @@ Select fullscreen mode
 
 @ifset platformwindows
 
-@c TODO: Windows specific content
+This section lists the settings and commands that are common and specific to the Windows GUI, and are thus not present in other platforms. 
+
+@c @node FIXME
+@subsection Windows GUI specific resources
+
+@table @code
+
+@vindex MouseSensitivity
+@item MouseSensitivity
+Integer specifying the sensitivity of the mouse (all emulators except xcbm2, xcbm5x0, xpet, xplus4 and vsid).
+(0..40)
+
+@end table
+
+@c @node FIXME
+@subsection Windows GUI specific command-line options
+
+@table @code
+
+@findex -mousesensitivity
+@item -mousesensitivity <sensitivity>
+Set the sensitivity of the mouse
+(@code{MouseSensitivity})
+(all emulators except xcbm2, xcbm5x0, xpet, xplus4 and vsid).
+(0..40)
+
+@end table
 
 @end ifset
 
