@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-17 11:09-0800\n"
-"PO-Revision-Date: 2014-11-16 16:45+0100\n"
+"PO-Revision-Date: 2014-12-19 15:13+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -20,7 +20,7 @@ msgid ""
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital "
 "joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
-msgstr ""
+msgstr "Gerät für joystick Port 1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5, 10: Digital Joystick 0, 11: Digital Joystick 1, 12: USB Joystick 0, 13: USB Joystick 1)"
 
 #: src/arch/unix/joy.c:107
 msgid ""
@@ -28,149 +28,107 @@ msgid ""
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital "
 "joystick 0, 11: Digital joystick 1)"
-msgstr ""
+msgstr "Gerät für Joystick Port 1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5, 10: Digital Joystick 0, 11: Digital Joystick 1)"
 
 #: src/arch/unix/joy.c:109
-#, fuzzy
 msgid ""
 "Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für Joystick Port 1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5)"
 
 #: src/arch/unix/joy.c:113
-#, fuzzy
 msgid ""
 "Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für Joystick Port 1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2)"
 
 #: src/arch/unix/joy.c:125
-#, fuzzy
 msgid ""
 "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital "
 "joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB joystick 1)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für Joystick Port 2 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5, 10: Digital Joystick 0, 11: Digital Joystick 1, 12: USB Joystick 0, 13: USB Joystick 1)"
 
 #: src/arch/unix/joy.c:128
-#, fuzzy
 msgid ""
 "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: Digital "
 "joystick 0, 11: Digital joystick 1)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für Joystick Port 2 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5, 10: Digital Joystick 0, 11: Digital Joystick 1)"
 
 #: src/arch/unix/joy.c:130
-#, fuzzy
 msgid ""
 "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, 7: "
 "Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für Joystick Port 2 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5)"
 
 #: src/arch/unix/joy.c:134
-#, fuzzy
 msgid ""
 "Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für Joystick Port 2 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2)"
 
 #: src/arch/unix/joy.c:146
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB "
 "joystick 1)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für extra Joystick Port 1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5, 10: Digital Joystick 0, 11: Digital Joystick 1, 12: USB Joystick 0, 13: USB Joystick 1)"
 
 #: src/arch/unix/joy.c:149
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für extra Joystick Port 1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5, 10: Digital Joystick 0, 11: Digital Joystick 1)"
 
 #: src/arch/unix/joy.c:151
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für extra Joystick Port 1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5)"
 
 #: src/arch/unix/joy.c:155
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für extra Joystick Port 1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2)"
 
 #: src/arch/unix/joy.c:167
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1, 12: USB joystick 0, 13: USB "
 "joystick 1)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für extra Joystick Port 2 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5, 10: Digital Joystick 0, 11: Digital Joystick 1, 12: USB Joystick 0, 13: USB Joystick 1)"
 
 #: src/arch/unix/joy.c:170
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5, 10: "
 "Digital joystick 0, 11: Digital joystick 1)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für extra Joystick Port 2 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5, 10: Digital Joystick 0, 11: Digital Joystick 1)"
 
 #: src/arch/unix/joy.c:172
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Analog joystick 0, 5: Analog joystick 1, 6: Analog joystick 2, "
 "7: Analog joystick 3, 8: Analog joystick 4, 9: Analog joystick 5)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für extra Joystick Port 2 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Analog Joystick 0, 5: Analog Joystick 1, 6: Analog Joystick 2, 7: Analog Joystick 3, 8: Analog Joystick 4, 9: Analog Joystick 5)"
 
 #: src/arch/unix/joy.c:176
-#, fuzzy
 msgid ""
 "Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Gerät für extra Joystick Port 2 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2)"
 
 #: src/arch/unix/mididrv.c:672 src/arch/unix/mididrv.c:677
 #: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
@@ -1650,9 +1608,8 @@ msgid "Command"
 msgstr "Kommando"
 
 #: src/arch/unix/gui/uicommands.c:164
-#, fuzzy
 msgid "Command to execute for browsing html files"
-msgstr "Kommand für Druckerausgabe definieren ('|' voranstellen!)"
+msgstr "Kommando für HTML Browser )"
 
 #: src/arch/unix/gui/uicommands.c:198
 msgid "No HTML browser is defined."
@@ -1910,9 +1867,8 @@ msgid "About VICE"
 msgstr "Über VICE"
 
 #: src/arch/unix/gui/uicommands.c:694
-#, fuzzy
 msgid "Set browser command"
-msgstr "Andere Kommandos"
+msgstr "Setze Browser Kommando"
 
 #: src/arch/unix/gui/uicommands.c:701
 msgid "Action on CPU JAM"
@@ -5929,40 +5885,28 @@ msgid "number"
 msgstr "Nummer"
 
 #: src/arch/win32/res.rc.po.c:1103
-#, fuzzy
 msgid ""
 "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Joystick 1, 5: joystick 2)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Eingabegerät für Joystick #1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Joystick 1, 5: Joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1104
-#, fuzzy
 msgid ""
 "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset "
 "2, 4: Joystick 1, 5: joystick 2)"
-msgstr ""
-"Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Eingabegerät für Joystick #2 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Joystick 1, 5: Joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1105
-#, fuzzy
 msgid ""
 "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Joystick 1, 5: joystick 2)"
-msgstr ""
-"Extra Joystick #1 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Eingabegerät für extra Joystick #1 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Joystick 1, 5: Joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1106
-#, fuzzy
 msgid ""
 "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: "
 "Keyset 2, 4: Joystick 1, 5: joystick 2)"
-msgstr ""
-"Extra Joystick #2 Emulation: (0: Keine, 1: Numpad, 2: Keysatz A/AI, 3: "
-"Keysatz B/AI)"
+msgstr "Eingabegerät für extra Joystick #2 (0: Kein, 1: Numpad, 2: Keysatz 1, 3: Keysatz 2, 4: Joystick 1, 5: Joystick 2)"
 
 #: src/arch/win32/res.rc.po.c:1111
 msgid "Use all CPUs on SMP systems"
@@ -5977,9 +5921,8 @@ msgid "Start VICE in fullscreen mode"
 msgstr "Aktiviere VICE Vollbild Modus"
 
 #: src/arch/win32/res.rc.po.c:1114
-#, fuzzy
 msgid "Do not start VICE in fullscreen mode"
-msgstr "Aktiviere VICE Vollbild Modus"
+msgstr "VICE nicht im Vollbild Modus starten"
 
 #: src/arch/win32/res.rc.po.c:1115 src/arch/win32/res.rc.po.c:1465
 #: src/arch/win32/res.rc.po.c:1466
@@ -5987,9 +5930,8 @@ msgid "Disable DirectX9 video driver"
 msgstr "DirectX9 Video Treiber deaktivieren"
 
 #: src/arch/win32/res.rc.po.c:1116
-#, fuzzy
 msgid "Enable DirectX9 video driver"
-msgstr "DirectX9 Video Treiber deaktivieren"
+msgstr "DirectX9 Video Treiber aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1118
 #, c-format
@@ -7587,7 +7529,6 @@ msgid "Select ATA device image file"
 msgstr "ATA Gerät Image Datei auswählen"
 
 #: src/arch/win32/reside64.rc.po.c:75
-#, fuzzy
 msgid "IDE64 USB Server address to bind to"
 msgstr "IDE64 USB Server Adresse"
 
@@ -7675,9 +7616,8 @@ msgid "sensitivity"
 msgstr "Sensibilität"
 
 #: src/arch/win32/resmouse.rc.po.c:38
-#, fuzzy
 msgid "Sensitivity of the mouse."
-msgstr "Sensibilität der Maus [40]."
+msgstr "Sensibilität der Maus."
 
 #: src/arch/win32/resmouse.rc.po.c:39
 msgid "Mouse sensitivity"
@@ -8878,62 +8818,51 @@ msgstr "Keine Bestätigung beim Beenden von VICE"
 
 #: src/arch/amigaos/intl_text.c.po.c:7903
 msgid "Specify initial default directory."
-msgstr ""
+msgstr "Initiales Standardverzeichnis wählen."
 
 #: src/arch/amigaos/intl_text.c.po.c:7917
-#, fuzzy
 msgid "Specify initial tape directory."
-msgstr "Systemverzeichnis wählen"
+msgstr "Intiales Bandverzeichnis wählen."
 
 #: src/arch/amigaos/intl_text.c.po.c:7931
-#, fuzzy
 msgid "Specify initial disk directory."
-msgstr "Verzeichnis für Event Aufnahme"
+msgstr "Initiales Diskverzeichnis wählen."
 
 #: src/arch/amigaos/intl_text.c.po.c:7945
-#, fuzzy
 msgid "Specify initial autostart directory."
-msgstr "Zufälle Verzögerung während Autostart aktivieren,"
+msgstr "Initiales Autostartverzeichnis wählen."
 
 #: src/arch/amigaos/intl_text.c.po.c:7959
-#, fuzzy
 msgid "Specify initial cartridge directory."
-msgstr "Name für ROM Module Image Datei ($1000)"
+msgstr "Initiales Modulverzeichnis wählen."
 
 #: src/arch/amigaos/intl_text.c.po.c:7973
-#, fuzzy
 msgid "Specify initial snapshot directory."
-msgstr "Systemverzeichnis wählen"
+msgstr "Initiales Snapshot verzeichnis wählen."
 
 #: src/arch/amigaos/intl_text.c.po.c:7987
-#, fuzzy
 msgid "Enable fullscreen."
-msgstr "Vollbild Modus aktivieren"
+msgstr "Vollbild Modus aktivieren."
 
 #: src/arch/amigaos/intl_text.c.po.c:8001
-#, fuzzy
 msgid "Disable fullscreen."
-msgstr "Vollbild Modus deaktivieren"
+msgstr "Vollbild Modus deaktivieren."
 
 #: src/arch/amigaos/intl_text.c.po.c:8015
-#, fuzzy
 msgid "Enable statusbar."
-msgstr "RamCart aktivieren"
+msgstr "Statusleiste aktivieren."
 
 #: src/arch/amigaos/intl_text.c.po.c:8029
-#, fuzzy
 msgid "Disable statusbar."
-msgstr "Vollbild Modus deaktivieren"
+msgstr "Statusleiste deaktivieren."
 
 #: src/arch/amigaos/intl_text.c.po.c:8044
-#, fuzzy
 msgid "Enable video overlay."
-msgstr "Video Overlay"
+msgstr "Video Overlay aktivieren."
 
 #: src/arch/amigaos/intl_text.c.po.c:8058
-#, fuzzy
 msgid "Disable video overlay."
-msgstr "Video Overlay"
+msgstr "Video Overlay deaktivieren."
 
 #: src/arch/amigaos/intl_text.c.po.c:8128
 msgid "RGBI"
@@ -9101,9 +9030,8 @@ msgid "USB Server"
 msgstr "USB Server"
 
 #: src/arch/amigaos/intl_text.c.po.c:9794
-#, fuzzy
 msgid "USB Server address to bind to"
-msgstr "USB Server Adresse:"
+msgstr "USB Server Adresse"
 
 #: src/arch/amigaos/intl_text.c.po.c:9892
 #: src/arch/amigaos/intl_text.c.po.c:9906
@@ -10656,9 +10584,8 @@ msgid "Specify name of Kernal ROM image"
 msgstr "Name von Kernal ROM Datei definieren"
 
 #: src/translate_text.c.po.c:4305
-#, fuzzy
 msgid "Specify name of SCPU64 ROM image"
-msgstr "Name von C64DTV ROM Datei definieren"
+msgstr "Name von SCPU64 ROM Datei definieren"
 
 #: src/translate_text.c.po.c:4322
 msgid "Specify name of BASIC ROM image"
@@ -10755,9 +10682,8 @@ msgid "Specify name of PET Ram and Expansion Unit image"
 msgstr "Namen für PET RAM Speicher und Erweiterungsmodul definieren"
 
 #: src/translate_text.c.po.c:4749
-#, fuzzy
 msgid "Size of the PET Ram and Expansion Unit. (128/512/1024/2048)"
-msgstr "Größe des PET RAM Speicher und Erweiterungsmodul"
+msgstr "Größe des PET RAM Speicher und Erweiterungsmodul. (128/512/1024/2048)"
 
 #: src/translate_text.c.po.c:4766
 msgid "Specify name of PET DWW image"
@@ -10820,9 +10746,8 @@ msgid "Do not write to RAMCart image"
 msgstr "Kein Schreibzugriff auf RAMCart Image"
 
 #: src/translate_text.c.po.c:5055
-#, fuzzy
 msgid "Size of the RAMCART expansion. (64/128)"
-msgstr "Größe der RAMCART Erweiterung"
+msgstr "Größe der RAMCART Erweiterung. (64/128)"
 
 #: src/translate_text.c.po.c:5089
 msgid "Disable Double Quick Brown Box"
@@ -10881,9 +10806,8 @@ msgid "Save the MMC64 bios when changed"
 msgstr "MMC64 BIOS speichern bei Änderung"
 
 #: src/translate_text.c.po.c:5361
-#, fuzzy
 msgid "Do not save the MMC64 bios when changed"
-msgstr "MMC64 BIOS speichern bei Änderung"
+msgstr "MMC64 BIOS nicht speichern bei Änderung"
 
 #: src/translate_text.c.po.c:5378
 msgid "Set the MMC64 Flash Jumper"
@@ -10967,7 +10891,7 @@ msgstr "Kein Schreibzugriff auf REU Image"
 
 #: src/translate_text.c.po.c:5769
 msgid "Size of the RAM expansion unit. (128/256/512/1024/2048/4096/8192/16384)"
-msgstr ""
+msgstr "Größe der RAM Erweiterung. (128/256/512/1024/2048/4096/8192/16384)"
 
 #: src/translate_text.c.po.c:5787
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
@@ -11193,19 +11117,16 @@ msgid "Specify name of IDE64 image file"
 msgstr "Namen für IDE64 Image Datei definieren"
 
 #: src/translate_text.c.po.c:7063
-#, fuzzy
 msgid "Set number of cylinders for the IDE64 emulation."
-msgstr "Anzahl der Zylinder für IDE64 Emulation"
+msgstr "Anzahl der Zylinder für IDE64 Emulation."
 
 #: src/translate_text.c.po.c:7080
-#, fuzzy
 msgid "Set number of heads for the IDE64 emulation."
-msgstr "Anzahl der Laufwerksköpfe für IDE64 Emulation"
+msgstr "Anzahl der Laufwerksköpfe für IDE64 Emulation."
 
 #: src/translate_text.c.po.c:7097
-#, fuzzy
 msgid "Set number of sectors for the IDE64 emulation."
-msgstr "Anzahl der Sektoren für IDE64 Emulation"
+msgstr "Anzahl der Sektoren für IDE64 Emulation."
 
 #: src/translate_text.c.po.c:7131
 msgid "Do not autodetect geometry of formatted images"
@@ -11232,14 +11153,12 @@ msgid "modelnumber"
 msgstr "Modell Nummer"
 
 #: src/translate_text.c.po.c:7250
-#, fuzzy
 msgid "Specify CBM-II model to emulate. (610, 620, 620+, 710, 720, 720+)"
-msgstr "CBM-II Modell für Emulation definieren"
+msgstr "CBM-II Modell für Emulation definieren. (610, 620, 620+, 710, 720, 720+)"
 
 #: src/translate_text.c.po.c:7267
-#, fuzzy
 msgid "Specify CBM-II model to emulate. (510)"
-msgstr "CBM-II Modell für Emulation definieren"
+msgstr "CBM-II Modell für Emulation definieren. (510)"
 
 #: src/translate_text.c.po.c:7284
 msgid "Specify to use VIC-II"
@@ -11262,9 +11181,8 @@ msgid "Specify size of RAM (64/128/256/512/1024 kByte)"
 msgstr "RAM Größe definieren (64/128/256/512/1024 kByte)"
 
 #: src/translate_text.c.po.c:7386
-#, fuzzy
 msgid "Specify size of RAM (128/256/512/1024 kByte)"
-msgstr "RAM Größe definieren (64/128/256/512/1024 kByte)"
+msgstr "RAM Größe definieren (128/256/512/1024 kByte)"
 
 #: src/translate_text.c.po.c:7403
 msgid "Specify name of cartridge ROM image for $1000"
@@ -11379,9 +11297,8 @@ msgid "Set volume for disk drive sound emulation (0-4000)"
 msgstr "Lautstärke für Floppygeräusch Emulation (0-4000)"
 
 #: src/translate_text.c.po.c:7915
-#, fuzzy
 msgid "Set drive type (0: no drive"
-msgstr "Setze Laufwerkstyp (0: kein Laufwerk)"
+msgstr "Setze Laufwerkstyp (0: kein Laufwerk"
 
 #: src/translate_text.c.po.c:7932
 msgid "method"
@@ -11588,7 +11505,7 @@ msgstr "Bitrate für Video Stream für Media Datei setzen"
 msgid ""
 "Specify PET model to emulate. "
 "(2001/3008/3016/3032/3032B/4016/4032/4032B/8032/8096/8296/SuperPET)"
-msgstr ""
+msgstr "PET model für Emulation wählen. (2001/3008/3016/3032/3032B/4016/4032/4032B/8032/8096/8296/SuperPET)"
 
 #: src/translate_text.c.po.c:8748
 msgid "Specify name of Editor ROM image"
@@ -11739,94 +11656,77 @@ msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Größe des emulierten RAM Speichers in kb (16/32/64) spezifizieren"
 
 #: src/translate_text.c.po.c:9394
-#, fuzzy
 msgid "Set saturation of internal calculated palette"
-msgstr "Sättigung für intern berechneten Palette setzen [1000]"
+msgstr "Sättigung für intern berechneten Palette setzen"
 
 #: src/translate_text.c.po.c:9411
-#, fuzzy
 msgid "Set contrast of internal calculated palette"
-msgstr "Kontrast für intern berechnete Palette setzen [1000]"
+msgstr "Kontrast für intern berechnete Palette setzen"
 
 #: src/translate_text.c.po.c:9428
-#, fuzzy
 msgid "Set brightness of internal calculated palette"
-msgstr "Helligkeit für intern berechnete Palette setzen [1000]"
+msgstr "Helligkeit für intern berechnete Palette setzen"
 
 #: src/translate_text.c.po.c:9445
-#, fuzzy
 msgid "Set gamma of internal calculated palette"
-msgstr "Gamma für intern berechnete Palette setzen [2200]"
+msgstr "Gamma für intern berechnete Palette setzen"
 
 #: src/translate_text.c.po.c:9462
-#, fuzzy
 msgid "Set tint of internal calculated palette"
-msgstr "Farbton für intern berechneten Palette setzen [1000]"
+msgstr "Farbton für intern berechneten Palette setzen"
 
 #: src/translate_text.c.po.c:9479
-#, fuzzy
 msgid "Set phase for color carrier in odd lines"
-msgstr "Phase für Farbträger in ungeraden Zeilen setzen [1250]"
+msgstr "Phase für Farbträger in ungeraden Zeilen setzen"
 
 #: src/translate_text.c.po.c:9496
-#, fuzzy
 msgid "Set phase offset for color carrier in odd lines"
-msgstr "Phasenoffset für Farbträger in ungeraden Zeilen setzen [750]"
+msgstr "Phasenoffset für Farbträger in ungeraden Zeilen setzen"
 
 #: src/translate_text.c.po.c:9513
-#, fuzzy
 msgid "Amount of horizontal blur for the CRT emulation."
-msgstr "Wert für horizontale Unschärfe für CRT Emulation. [500]"
+msgstr "Wert für horizontale Unschärfe für CRT Emulation."
 
 #: src/translate_text.c.po.c:9530
-#, fuzzy
 msgid "Amount of scan line shading for the CRT emulation"
-msgstr "Wert für Scanline Schatten für CRT Emulation [667]"
+msgstr "Wert für Scanline Schatten für CRT Emulation"
 
 #: src/translate_text.c.po.c:9547
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
 msgstr "Wähle VIC-II Modell (6569/6569r1/8565/6567/8562/6567r56a)"
 
 #: src/translate_text.c.po.c:9564
-#, fuzzy
 msgid "Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)"
-msgstr "Name für Druckertreiber für Gerät #4 definieren"
+msgstr "Name für Druckertreiber für Gerät #4 definieren. (ascii/mps803/nl10/raw)"
 
 #: src/translate_text.c.po.c:9581
-#, fuzzy
 msgid "Specify name of printer driver for device #5. (ascii/mps803/nl10/raw)"
-msgstr "Name für Druckertreiber für Gerät #5 definieren"
+msgstr "Name für Druckertreiber für Gerät #5 definieren. (ascii/mps803/nl10/raw)"
 
 #: src/translate_text.c.po.c:9598
-#, fuzzy
 msgid "Specify name of printer driver for device #6. (1520/raw)"
-msgstr "Name für Druckertreiber für Gerät #6 definieren"
+msgstr "Name für Druckertreiber für Gerät #6 definieren. (1520/raw)"
 
 #: src/translate_text.c.po.c:9615
-#, fuzzy
 msgid ""
 "Specify name of printer driver for the userport printer. (ascii/nl10/raw)"
-msgstr "Name für Userport Druckertreiber definieren"
+msgstr "Name für Userport Druckertreiber definieren. (ascii/nl10/raw)"
 
 #: src/translate_text.c.po.c:9632
-#, fuzzy
 msgid "Set device type for device #4 (0: None, 1: Filesystem, 2: Real)"
-msgstr "Geräte Typ für Gerät #4 (0: NONE, 1: FS, 2: REAL) setzen"
+msgstr "Gerätetyp für Gerät #4 (0: Kein, 1: Dateisystem, 2: Real) setzen"
 
 #: src/translate_text.c.po.c:9649
-#, fuzzy
 msgid "Set device type for device #5 (0: None, 1: Filesystem, 2: Real)"
-msgstr "Geräte Typ für Gerät #5 (0: NONE, 1: FS, 2: REAL) setzen"
+msgstr "Gerätetyp für Gerät #5 (0: Kein, 1: Dateisystem, 2: Real) setzen"
 
 #: src/translate_text.c.po.c:9666
-#, fuzzy
 msgid "Set device type for device #6 (0: None, 1: Filesystem, 2: Real)"
-msgstr "Geräte Typ für Gerät #6 (0: NONE, 1: FS, 2: REAL) setzen"
+msgstr "Gerätetyp für Gerät #6 (0: Kein, 1: Dateisystem, 2: Real) setzen"
 
 #: src/translate_text.c.po.c:9683
-#, fuzzy
 msgid "Set device type for device #7 (0: None, 2: Real)"
-msgstr "Geräte Typ für Gerät #7 (0: NONE, 2: REAL) setzen"
+msgstr "Gerätetyp für Gerät #7 (0: Kein, 2: Real) setzen"
 
 #: src/translate_text.c.po.c:9700
 msgid "Enable the userport printer emulation"
@@ -11981,9 +11881,8 @@ msgid "amount"
 msgstr "Anzahl"
 
 #: src/translate_text.c.po.c:10365
-#, fuzzy
 msgid "amount of extra SID chips."
-msgstr "Anzahl der extra SID Chips"
+msgstr "Anzahl der extra SID Chips."
 
 #: src/translate_text.c.po.c:10382
 msgid "0: FastSID 6581, 1: FastSID 8580"
@@ -12091,7 +11990,7 @@ msgstr "Spec"
 msgid ""
 "Specify memory configuration. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / "
 "(04/20/40/60/a0)"
-msgstr ""
+msgstr "Speicher Konfiguration wählen. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / (04/20/40/60/a0)"
 
 #: src/translate_text.c.po.c:10817
 msgid "Enable VIC-1112 IEEE488 interface"
@@ -12154,9 +12053,8 @@ msgid "Disable Vic Flash Plugin write back to ROM file"
 msgstr "Vic Flash Plugin Rückschreiben auf ROM Datei deaktivieren"
 
 #: src/translate_text.c.po.c:11123
-#, fuzzy
 msgid "Set border display mode (0: normal, 1: full, 2: debug)"
-msgstr "VIC-II Rahmen Darstellung Modus (0: normal, 1: full, 2: debug)"
+msgstr "Rahmen Darstellung Modus (0: Normal, 1: Voll, 2: Debug)"
 
 #: src/translate_text.c.po.c:11140
 msgid "Enable sprite-background collision registers"
@@ -12247,38 +12145,28 @@ msgid "Specify RS232 device this ACIA should work on"
 msgstr "RS232 Gerät für welches ACIA funktionieren soll ist zu spezifizieren"
 
 #: src/translate_text.c.po.c:11548
-#, fuzzy
 msgid ""
 "Set device type for device #8 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block "
 "device)"
-msgstr ""
-"Geräte Typ für Gerät #8 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"
+msgstr "Gerätetyp für Gerät #8 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"
 
 #: src/translate_text.c.po.c:11565
-#, fuzzy
 msgid ""
 "Set device type for device #9 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block "
 "device)"
-msgstr ""
-"Geräte Typ für Gerät #9 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"
+msgstr "Gerätetyp für Gerät #9 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"
 
 #: src/translate_text.c.po.c:11582
-#, fuzzy
 msgid ""
 "Set device type for device #10 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block "
 "device)"
-msgstr ""
-"Geräte Typ für Gerät #10 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block "
-"Gerät)"
+msgstr "Gerätetyp für Gerät #10 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"
 
 #: src/translate_text.c.po.c:11599
-#, fuzzy
 msgid ""
 "Set device type for device #11 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block "
 "device)"
-msgstr ""
-"Geräte Typ für Gerät #11 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block "
-"Gerät)"
+msgstr "Gerätetyp für Gerät #11 (0: Kein, 1: Dateisystem, 2: OpenCBM, 3: Block Gerät)"
 
 #: src/translate_text.c.po.c:11616
 msgid "Attach disk image for drive #8 read only"
@@ -12483,9 +12371,8 @@ msgid "Disable mouse grab"
 msgstr "Maus deaktivieren"
 
 #: src/translate_text.c.po.c:12557
-#, fuzzy
 msgid "Select the joystick port the mouse is attached to. (1/2)"
-msgstr "Joystickport für Maus auswählen"
+msgstr "Joystickport für Maus auswählen (1/2)"
 
 #: src/translate_text.c.po.c:12575
 msgid ""
@@ -12641,9 +12528,8 @@ msgid "Specify name of PLUS60K image"
 msgstr "Name der PLUS60K Image Datei definieren"
 
 #: src/translate_text.c.po.c:13289
-#, fuzzy
 msgid "Base address of the PLUS60K expansion. (0xD040/0xD100)"
-msgstr "Basis Adresse für PLUS60K Erweiterung"
+msgstr "Basis Adresse für PLUS60K Erweiterung. (0xD040/0xD100)"
 
 #: src/translate_text.c.po.c:13323
 msgid "Disable the 256K RAM expansion"
@@ -12654,9 +12540,8 @@ msgid "Specify name of 256K image"
 msgstr "Name der 256K Image Datei definieren"
 
 #: src/translate_text.c.po.c:13357
-#, fuzzy
 msgid "Base address of the 256K expansion. (0xDE00/0xDE80/0xDF00/0xDF80)"
-msgstr "Basis Adresse für 256K RAM Erweiterung"
+msgstr "Basis Adresse für 256K RAM Erweiterung. (0xDE00/0xDE80/0xDF00/0xDF80)"
 
 #: src/translate_text.c.po.c:13391
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
@@ -12778,7 +12663,7 @@ msgstr "Lichtgriffel Emulation deaktivieren"
 msgid ""
 "Set lightpen type. (0: Pen with button Up, 1: Pen with button Left, 2: Datel "
 "Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)"
-msgstr ""
+msgstr "Lichtgriffel Typ. (0: Griffel mit Taste oben, 1: Griffel mit Taste links, 2: Datel Griffel, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Griffel)"
 
 #: src/translate_text.c.po.c:14056
 msgid "Enable EasyFlash jumper"
