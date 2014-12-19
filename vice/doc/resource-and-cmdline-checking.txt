@@ -3068,6 +3068,296 @@ description:    "Sensitivity of the mouse."
 resource:       "MouseSensitivity"
 action:         N/A
 
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "MonitorDimensions"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_monitor_dimensions()
+resource var:                   ui_resources.monitor_dimensions
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           
+platform gui missing:			windows (CORRECT)
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "InitialDefaultDir"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_initial_dir()
+resource var:                   ui_resources.initialdir[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -initialdefaultdir
+platform gui present:           windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -initialdefaultdir <Name>
+description:    "Specify initial default directory."
+resource:       "InitialDefaultDir"
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "InitialTapeDir"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_initial_dir()
+resource var:                   ui_resources.initialdir[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for x64dtv and vsid)
+not used in:
+prepocessor:
+command-line:                   -initialtapedir
+platform gui present:           windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -initialtapedir <Name>
+description:    "Specify initial tape directory."
+resource:       "InitialTapeDir"
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "InitialDiskDir"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_initial_dir()
+resource var:                   ui_resources.initialdir[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
+not used in:
+prepocessor:
+command-line:                   -initialdiskdir
+platform gui present:           windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -initialdiskdir <Name>
+description:    "Specify initial disk directory."
+resource:       "InitialDiskDir"
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "InitialAutostartDir"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_initial_dir()
+resource var:                   ui_resources.initialdir[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
+not used in:
+prepocessor:
+command-line:                   -initialautostartdir
+platform gui present:           windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -initialautostartdir <Name>
+description:    "Specify initial autostart directory."
+resource:       "InitialAutostartDir"
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "InitialCartDir"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_initial_dir()
+resource var:                   ui_resources.initialdir[4]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for x64dtv and vsid)
+not used in:
+prepocessor:
+command-line:                   -initialcartdir
+platform gui present:           windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -initialcartdir <Name>
+description:    "Specify initial cartridge directory."
+resource:       "InitialCartDir"
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "InitialSnapshotDir"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_initial_dir()
+resource var:                   ui_resources.initialdir[5]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -initialsnapshotdir
+platform gui present:           windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -initialsnapshotdir <Name>
+description:    "Specify initial snapshot directory."
+resource:       "InitialSnapshotDir"
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "SaveResourcesOnExit"
+resource range:                 0/1
+resource default:               0
+resource function:              set_save_resources_on_exit()
+resource var:                   ui_resources.save_resources_on_exit
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -saveres / +saveres
+platform gui present:           windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -saveres
+description:    "Save settings on exit"
+resource:       "SaveResourcesOnExit" (set to 1)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   +saveres
+description:    "Never save settings on exit"
+resource:       "SaveResourcesOnExit" (set to 0)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "ConfirmOnExit"
+resource range:                 0/1
+resource default:               1
+resource function:              set_confirm_on_exit()
+resource var:                   ui_resources.confirm_on_exit
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -confirmexit / +confirmexit
+platform gui present:           windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -confirmexit
+description:    "Confirm quitting VICE"
+resource:       "ConfirmOnExit" (set to 1)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   +confirmexit
+description:    "Never confirm quitting VICE"
+resource:       "ConfirmOnExit" (set to 0)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "SingleCPU"
+resource range:                 0/1
+resource default:               0
+resource function:              set_single_cpu()
+resource var:                   ui_resources.single_cpu
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -singlecpu / +singlecpu
+platforms to check:			windows
+platform gui present:           windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -singlecpu
+description:    "Use only first CPU on SMP systems"
+resource:       "SingleCPU" (set to 1)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   +singlecpu
+description:    "Use all CPUs on SMP systems"
+resource:       "SingleCPU" (set to 0)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "Window0Xpos"
+resource range:                 N/A
+resource default:               CW_USEDEFAULT
+resource function:              set_window_xpos()
+resource var:                   ui_resources.window_xpos[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE
+platforms to check:			windows
+platform gui present:           
+platform gui missing:			windows (CORRECT)
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "Window0Ypos"
+resource range:                 N/A
+resource default:               CW_USEDEFAULT
+resource function:              set_window_ypos()
+resource var:                   ui_resources.window_ypos[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE
+platforms to check:			windows
+platform gui present:           
+platform gui missing:			windows (CORRECT)
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "Window1Xpos"
+resource range:                 N/A
+resource default:               CW_USEDEFAULT
+resource function:              set_window_xpos()
+resource var:                   ui_resources.window_xpos[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should only be used for x128)
+not used in:
+prepocessor:
+command-line:                   NONE
+platforms to check:			windows
+platform gui present:           
+platform gui missing:			windows (CORRECT)
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "Window1Ypos"
+resource range:                 N/A
+resource default:               CW_USEDEFAULT
+resource function:              set_window_ypos()
+resource var:                   ui_resources.window_ypos[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should only be used for x128)
+not used in:
+prepocessor:
+command-line:                   NONE
+platforms to check:			windows
+platform gui present:           
+platform gui missing:			windows (CORRECT)
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT WINDOWS ONLY OPTIONAL RESOURCES/CMDLINES:
@@ -3107,410 +3397,6 @@ FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 
 WINDOWS ONLY COMMON RESOURCES/CMDLINES:
 =======================================
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "MonitorDimensions"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_monitor_dimensions()
-resource var:                   ui_resources.monitor_dimensions
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           
-platform gui missing:			windows (CORRECT)
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "InitialDefaultDir"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_initial_dir()
-resource var:                   ui_resources.initialdir[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "InitialTapeDir"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_initial_dir()
-resource var:                   ui_resources.initialdir[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for x64dtv and vsid)
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "InitialDiskDir"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_initial_dir()
-resource var:                   ui_resources.initialdir[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "InitialAutostartDir"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_initial_dir()
-resource var:                   ui_resources.initialdir[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "InitialCartDir"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_initial_dir()
-resource var:                   ui_resources.initialdir[4]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for x64dtv and vsid)
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "InitialSnapshotDir"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_initial_dir()
-resource var:                   ui_resources.initialdir[5]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "FullscreenDevice"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_device()
-resource var:                   ui_resources.fullscreendevice
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platforms to check:			windows
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "FullscreenBitdepth"
-resource range:                 N/A
-resource default:               -1
-resource function:              set_fullscreen_bitdepth()
-resource var:                   ui_resources.fullscreenbitdepth
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "FullscreenWidth"
-resource range:                 N/A
-resource default:               -1
-resource function:              set_fullscreen_width()
-resource var:                   ui_resources.fullscreenwidth
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "FullscreenHeight"
-resource range:                 N/A
-resource default:               -1
-resource function:              set_fullscreen_height()
-resource var:                   ui_resources.fullscreenheight
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "FullscreenRefreshRate"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_refreshrate()
-resource var:                   ui_resources.fullscreenrefreshrate
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "FullscreenEnabled"
-resource range:                 0/1
-resource default:               0
-resource function:              set_fullscreen_enabled()
-resource var:                   ui_resources.fullscreenenabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -fullscreen / +fullscreen
-platforms to check:			windows
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/video.c:
--------------------
-command line:   -fullscreen
-description:    "Start VICE in fullscreen mode"
-resource:       "FullScreenEnabled" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/win32/video.c:
--------------------
-command line:   +fullscreen
-description:    "Do not start VICE in fullscreen mode"
-resource:       "FullScreenEnabled" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "SaveResourcesOnExit"
-resource range:                 0/1
-resource default:               0
-resource function:              set_save_resources_on_exit()
-resource var:                   ui_resources.save_resources_on_exit
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -saveres / +saveres
-platform gui present:           windows
-platform gui missing:
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   -saveres
-description:    "Save settings on exit"
-resource:       "SaveResourcesOnExit" (set to 1)
-action:         N/A
-fixme: fix documentation, not every arch has this command line option
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   +saveres
-description:    "Never save settings on exit"
-resource:       "SaveResourcesOnExit" (set to 0)
-action:         N/A
-fixme: fix documentation, not every arch has this command line option
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "ConfirmOnExit"
-resource range:                 0/1
-resource default:               1
-resource function:              set_confirm_on_exit()
-resource var:                   ui_resources.confirm_on_exit
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -confirmexit / +confirmexit
-platform gui present:           windows
-platform gui missing:
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   -confirmexit
-description:    "Confirm quitting VICE"
-resource:       "ConfirmOnExit" (set to 1)
-action:         N/A
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   +confirmexit
-description:    "Never confirm quitting VICE"
-resource:       "ConfirmOnExit" (set to 0)
-action:         N/A
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "SingleCPU"
-resource range:                 0/1
-resource default:               0
-resource function:              set_single_cpu()
-resource var:                   ui_resources.single_cpu
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -singlecpu / +singlecpu
-platforms to check:			windows
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   -singlecpu
-description:    "Use only first CPU on SMP systems"
-resource:       "SingleCPU" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   +singlecpu
-description:    "Use all CPUs on SMP systems"
-resource:       "SingleCPU" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "Window0Xpos"
-resource range:                 N/A
-resource default:               CW_USEDEFAULT
-resource function:              set_window_xpos()
-resource var:                   ui_resources.window_xpos[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE
-platforms to check:			windows
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "Window0Xpos"
-resource range:                 N/A
-resource default:               CW_USEDEFAULT
-resource function:              set_window_xpos()
-resource var:                   ui_resources.window_xpos[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE
-platforms to check:			windows
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "Window0Ypos"
-resource range:                 N/A
-resource default:               CW_USEDEFAULT
-resource function:              set_window_ypos()
-resource var:                   ui_resources.window_ypos[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE
-platforms to check:			windows
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "Window1Xpos"
-resource range:                 N/A
-resource default:               CW_USEDEFAULT
-resource function:              set_window_xpos()
-resource var:                   ui_resources.window_xpos[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should only be used for x128)
-not used in:
-prepocessor:
-command-line:                   NONE
-platforms to check:			windows
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "Window1Ypos"
-resource range:                 N/A
-resource default:               CW_USEDEFAULT
-resource function:              set_window_ypos()
-resource var:                   ui_resources.window_ypos[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should only be used for x128)
-not used in:
-prepocessor:
-command-line:                   NONE
-platforms to check:			windows
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
 
 arch/win32/ui-resources.c:
 --------------------------
@@ -4060,6 +3946,120 @@ arch/win32/video.c:
 command line:   -dx9enable
 description:    "Enable DirectX9 video driver"
 resource:       "DX9Disable" (set to 0)
+action:         N/A
+fixme: add to documentation
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "FullscreenDevice"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_device()
+resource var:                   ui_resources.fullscreendevice
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE (fixme)
+platforms to check:			windows
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "FullscreenBitdepth"
+resource range:                 N/A
+resource default:               -1
+resource function:              set_fullscreen_bitdepth()
+resource var:                   ui_resources.fullscreenbitdepth
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE
+platform gui present:           windows
+platform gui missing:
+fixme: add to documentation
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "FullscreenWidth"
+resource range:                 N/A
+resource default:               -1
+resource function:              set_fullscreen_width()
+resource var:                   ui_resources.fullscreenwidth
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE
+platform gui present:           windows
+platform gui missing:
+fixme: add to documentation
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "FullscreenHeight"
+resource range:                 N/A
+resource default:               -1
+resource function:              set_fullscreen_height()
+resource var:                   ui_resources.fullscreenheight
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE
+platform gui present:           windows
+platform gui missing:
+fixme: add to documentation
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "FullscreenRefreshRate"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_refreshrate()
+resource var:                   ui_resources.fullscreenrefreshrate
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   NONE
+platform gui present:           windows
+platform gui missing:
+fixme: add to documentation
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "FullscreenEnabled"
+resource range:                 0/1
+resource default:               0
+resource function:              set_fullscreen_enabled()
+resource var:                   ui_resources.fullscreenenabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -fullscreen / +fullscreen
+platforms to check:			windows
+platform gui present:           
+platform gui missing:
+fixme: add to documentation
+
+arch/win32/video.c:
+-------------------
+command line:   -fullscreen
+description:    "Start VICE in fullscreen mode"
+resource:       "FullScreenEnabled" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+arch/win32/video.c:
+-------------------
+command line:   +fullscreen
+description:    "Do not start VICE in fullscreen mode"
+resource:       "FullScreenEnabled" (set to 0)
 action:         N/A
 fixme: add to documentation
 

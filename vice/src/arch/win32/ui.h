@@ -70,10 +70,18 @@ typedef enum {
     UI_BUTTON_AUTOSTART
 } ui_button_t;
 
+struct ui_menu_grey_function_s {
+    /* Function */
+    int (*function)(void);
+    /* ID of the corresponding menu item. */
+    UINT item_id;
+};
+typedef struct ui_menu_grey_function_s ui_menu_grey_function_t;
+
 struct ui_menu_toggle_s {
     /* Name of resource.  */
     const char *name;
-    /* ID of the corresponding menu item.  */
+    /* ID of the corresponding menu item. */
     UINT item_id;
 };
 typedef struct ui_menu_toggle_s ui_menu_toggle_t;
@@ -81,14 +89,14 @@ typedef struct ui_menu_toggle_s ui_menu_toggle_t;
 struct ui_menu_toggle_by_machine_s {
     /* Machine class  */
     int machine_class;
-    /* ID of the corresponding menu item.  */
+    /* ID of the corresponding menu item. */
     UINT item_id;
 };
 typedef struct ui_menu_toggle_by_machine_s ui_menu_toggle_by_machine_t;
 
 struct ui_res_possible_values_s {
     int value;
-    UINT item_id; /* The last item_id has to be zero.  */
+    UINT item_id; /* The last item_id has to be zero. */
 };
 typedef struct ui_res_possible_values_s ui_res_possible_values_t;
 

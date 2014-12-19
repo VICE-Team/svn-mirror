@@ -119,17 +119,22 @@ static int set_single_cpu(int val, void *param)
     DWORD_PTR process_affinity;
     DWORD_PTR system_affinity;
 
-    ui_resources.single_cpu = val ? 1 : 0;
+    if (uilib_cpu_is_smp()) {
 
-    if (GetProcessAffinityMask(GetCurrentProcess(), &process_affinity, &system_affinity)) {
-        /* Check if multi CPU system or not */
-        if ((system_affinity & (system_affinity - 1))) {
-            if (ui_resources.single_cpu == 1) {
-                //  Set it to first CPU
-                SetThreadAffinityMask(GetCurrentThread(), system_affinity ^ (system_affinity & (system_affinity - 1)));
+        GetProcessAffinityMask(GetCurrentProcess(), &process_affinity, &system_affinity);
+        if (val == 1) {
+            /* Set it to first CPU */
+            if (SetThreadAffinityMask(GetCurrentThread(), system_affinity ^ (system_affinity & (system_affinity - 1)))) {
+                ui_resources.single_cpu = 1;
             } else {
-                //  Set it to all CPU
-                SetThreadAffinityMask(GetCurrentThread(),system_affinity);
+                return -1;
+            }
+        } else {
+            /* Set it to all CPUs */
+            if (SetThreadAffinityMask(GetCurrentThread(),system_affinity)) {
+                ui_resources.single_cpu = 0;
+            } else {
+                return -1;
             }
         }
     }
@@ -280,8 +285,6 @@ static const resource_int_t resources_int[] = {
       &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
       &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
-    { "SingleCPU", 0, RES_EVENT_NO, NULL,
-      &ui_resources.single_cpu, set_single_cpu, NULL },
     { "Window0Xpos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
       &ui_resources.window_xpos[0], set_window_xpos, (void *)0 },
     { "Window0Ypos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
@@ -303,12 +306,24 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
+static const resource_int_t resources_int_cpu[] = {
+    { "SingleCPU", 0, RES_EVENT_NO, NULL,
+      &ui_resources.single_cpu, set_single_cpu, NULL },
+    { NULL }
+};
+
 int ui_resources_init(void)
 {
     translate_resources_init();
 
     if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
+
+    if (uilib_cpu_is_smp()) {
+        if (resources_register_int(resources_int_cpu) < 0) {
+            return -1;
+        }
     }
 
     return resources_register_int(resources_int);
@@ -358,6 +373,40 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDS_NO_CONFIRM_QUIT_VICE,
       NULL, NULL },
+    { "-initialdefaultdir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialDefaultDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_DEFAULT_DIR,
+      NULL, NULL },
+    { "-initialtapedir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialTapeDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_TAPE_DIR,
+      NULL, NULL },
+    { "-initialdiskdir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialDiskDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_DISK_DIR,
+      NULL, NULL },
+    { "-initialautostartdir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialAutostartDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_AUTOSTART_DIR,
+      NULL, NULL },
+    { "-initialcartdir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialCartDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_CART_DIR,
+      NULL, NULL },
+    { "-initialsnapshotdir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialSnapshotDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_SNAPSHOT_DIR,
+      NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t cmdline_options_cpu[] = {
     { "+singlecpu", SET_RESOURCE, 0,
       NULL, NULL, "SingleCPU", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -374,5 +423,12 @@ static const cmdline_option_t cmdline_options[] = {
 int ui_cmdline_options_init(void)
 {
     translate_cmdline_options_init();
+
+    if (uilib_cpu_is_smp()) {
+        if (cmdline_register_options(cmdline_options_cpu) < 0) {
+            return -1;
+        }
+    }
+
     return cmdline_register_options(cmdline_options);
 }

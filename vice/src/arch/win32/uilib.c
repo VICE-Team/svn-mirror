@@ -1057,6 +1057,20 @@ void uilib_shutdown(void)
     }
 }
 
+int uilib_cpu_is_smp(void)
+{
+    DWORD_PTR process_affinity;
+    DWORD_PTR system_affinity;
+
+    if (GetProcessAffinityMask(GetCurrentProcess(), &process_affinity, &system_affinity)) {
+        /* Check if multi CPU system or not */
+        if ((system_affinity & (system_affinity - 1))) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 static uilib_dialogbox_param_t *uilib_dialogbox_param;
 
 static INT_PTR CALLBACK uilib_dialogbox_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

@@ -10058,12 +10058,102 @@ Windows GUI specific resources
      Integer specifying the sensitivity of the mouse (all emulators
      except xcbm2, xcbm5x0, xpet, xplus4 and vsid).  (0..40)
 
+`MonitorDimensions'
+     String that holds the dimensions and position in an encoded form.
+
+`InitialDefaultDir'
+     String specifying the initial default directory, which is used by
+     the generic file browser dialog.
+
+`InitialTapeDir'
+     String specifying the initial tape directory, which is used by the
+     tape image file browser dialog.
+
+`InitialDiskDir'
+     String specifying the initial tape directory, which is used by the
+     disk image file browser dialog.
+
+`InitialAutostartDir'
+     String specifying the initial autostart directory, which is used
+     by the autostart image file browser dialog.
+
+`InitialCartDir'
+     String specifying the initial cartridge directory, which is used
+     by the cartridge image file browser dialog.
+
+`InitialSnapshotDir'
+     String specifying the initial snapshots directory, which is used
+     by the snapshots file browser dialog.
+
+`SaveResourcesOnExit'
+     Boolean specifying whether the emulator should save changed
+     settings before exiting.  If this is enabled, the user will be
+     always prompted first, in case the settings have changed.
+
+`ConfirmOnExit'
+     Boolean specifying whether to show a confirmation dialog on exit.
+
+`SingleCPU'
+     Boolean specifying whether to use only the first CPU on an SMP
+     system, or all CPUs.
+
+`Window0Xpos'
+`Window0Ypos'
+     Integers specifying the position and size of the (first) emulator
+     window.
+
+`Window1Xpos'
+`Window1Ypos'
+     Integers specifying the position and size of the (second) emulator
+     window.
+
 Windows GUI specific command-line options
 -----------------------------------------
 
 `-mousesensitivity <sensitivity>'
      Set the sensitivity of the mouse (`MouseSensitivity') (all
      emulators except xcbm2, xcbm5x0, xpet, xplus4 and vsid).  (0..40)
+
+`-initialdefaultdir <Name>'
+     Select the initial default directory for the file browser dialog
+     (`InitialDefaultDir').
+
+`-initialtapedir <Name>'
+     Select the initial tape images directory for the file browser
+     dialog (`InitialTapeDir').
+
+`-initialdiskdir <Name>'
+     Select the initial disk images directory for the file browser
+     dialog (`InitialDiskDir').
+
+`-initialautostartdir <Name>'
+     Select the initial autostart directory for the file browser dialog
+     (`InitialAutostartDir').
+
+`-initialcartdir <Name>'
+     Select the initial cartridge images directory for the file browser
+     dialog (`InitialCartDir').
+
+`-initialsnapshotdir <Name>'
+     Select the initial snapshot directory for the file browser dialog
+     (`InitialSnapshotDir').
+
+`-saveres'
+`+saveres'
+     Enable/disable automatic saving of settings on exit
+     (`SaveResourcesOnExit=1', `SaveResourcesOnExit=0').
+
+`-confirmexit'
+     Confirm quiting VICE (`ConfirmOnExit=1').
+
+`+confirmexit'
+     Never confirm quiting VICE (`ConfirmOnExit=0').
+
+`-singlecpu'
+     Only use the first CPU on SMP systems (`SingleCPU=1').
+
+`+singlecpu'
+     Use all CPUs on SMP systems (`SingleCPU=0').
 
 
 @EndNode
@@ -19269,12 +19359,12 @@ Index of Resources
  @{" 40/80ColumnKey " Link "C64-128 system ROM options"}                       C64-128 system ROM options
  @{" Acia1Base " Link "C64 I-O extension resources"}                            C64 I-O extension resources
  @{" Acia1Dev " Link "RS232 resources"}                             RS232 resources
- @{" Acia1Enable " Link "VIC20 system ROM options"}                          VIC20 system ROM options
  @{" Acia1Enable " Link "C64 I-O extension resources"}                          C64 I-O extension resources
+ @{" Acia1Enable " Link "VIC20 system ROM options"}                          VIC20 system ROM options
  @{" Acia1Irq " Link "RS232 resources"}                             RS232 resources
  @{" Acia1Mode " Link "C64 I-O extension resources"}                            C64 I-O extension resources
- @{" AspectRatio " Link "SDL-specific features"}                          SDL-specific features
  @{" AspectRatio " Link "XAW-specific features"}                          XAW-specific features
+ @{" AspectRatio " Link "SDL-specific features"}                          SDL-specific features
  @{" AttachDevice10Readonly " Link "Misc resources"}               Misc resources
  @{" AttachDevice11Readonly " Link "Misc resources"}               Misc resources
  @{" AttachDevice8Readonly " Link "Misc resources"}                Misc resources
@@ -19311,25 +19401,26 @@ Index of Resources
  @{" Cart6Name " Link "CBM-II model"}                            CBM-II model
  @{" CartridgeFile " Link "C64 cartridges"}                        C64 cartridges
  @{" CartridgeFile " Link "VIC20 cartridges"}                        VIC20 cartridges
- @{" CartridgeReset " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" CartridgeReset " Link "C64 cartridges"}                       C64 cartridges
  @{" CartridgeReset " Link "VIC20 system ROM options"}                       VIC20 system ROM options
- @{" CartridgeType " Link "C64 cartridges"}                        C64 cartridges
+ @{" CartridgeReset " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" CartridgeType " Link "VIC20 cartridges"}                        VIC20 cartridges
+ @{" CartridgeType " Link "C64 cartridges"}                        C64 cartridges
  @{" ChargenCHName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenDEName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenFRName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" ChargenIntName " Link "C64-128 system ROM options"}                       C64-128 system ROM options
- @{" ChargenName " Link "PET model"}                          PET model
- @{" ChargenName " Link "VIC20 system ROM resources"}                          VIC20 system ROM resources
  @{" ChargenName " Link "C64-128 system ROM resources"}                          C64-128 system ROM resources
+ @{" ChargenName " Link "VIC20 system ROM resources"}                          VIC20 system ROM resources
+ @{" ChargenName " Link "PET model"}                          PET model
  @{" ChargenSEName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" CIA1Model " Link "C64 cartridges"}                            C64 cartridges
  @{" CIA2Model " Link "C64 cartridges"}                            C64 cartridges
+ @{" ConfirmOnExit " Link "Windows-specific features"}                        Windows-specific features
+ @{" ConfirmOnExit " Link "BeOS-specific features"}                        BeOS-specific features
  @{" ConfirmOnExit " Link "AmigaOS-specific features"}                        AmigaOS-specific features
  @{" ConfirmOnExit " Link "Unix-specific features"}                        Unix-specific features
  @{" ConfirmOnExit " Link "SDL-specific features"}                        SDL-specific features
- @{" ConfirmOnExit " Link "BeOS-specific features"}                        BeOS-specific features
  @{" CPUswitch " Link "PET settings"}                            PET settings
  @{" Crtc " Link "PET model"}                                 PET model
  @{" CrtcAudioLeak " Link "PET model"}                        PET model
@@ -19548,16 +19639,22 @@ Index of Resources
  @{" IECDevice9 " Link "File system device resources"}                           File system device resources
  @{" IEEE488 " Link "C64 cartridges"}                              C64 cartridges
  @{" IEEE488Image " Link "C64 cartridges"}                         C64 cartridges
+ @{" InitialAutostartDir " Link "Windows-specific features"}                  Windows-specific features
  @{" InitialAutostartDir " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" InitialCartDir " Link "AmigaOS-specific features"}                       AmigaOS-specific features
+ @{" InitialCartDir " Link "Windows-specific features"}                       Windows-specific features
+ @{" InitialDefaultDir " Link "Windows-specific features"}                    Windows-specific features
  @{" InitialDefaultDir " Link "AmigaOS-specific features"}                    AmigaOS-specific features
+ @{" InitialDiskDir " Link "Windows-specific features"}                       Windows-specific features
  @{" InitialDiskDir " Link "AmigaOS-specific features"}                       AmigaOS-specific features
+ @{" InitialSnapshotDir " Link "Windows-specific features"}                   Windows-specific features
  @{" InitialSnapshotDir " Link "AmigaOS-specific features"}                   AmigaOS-specific features
  @{" InitialTapeDir " Link "AmigaOS-specific features"}                       AmigaOS-specific features
+ @{" InitialTapeDir " Link "Windows-specific features"}                       Windows-specific features
  @{" InternalFunctionName " Link "C64-128 system ROM options"}                 C64-128 system ROM options
  @{" InternalFunctionROM " Link "C64-128 system ROM options"}                  C64-128 system ROM options
- @{" IOCollisionHandling " Link "VIC20 cartridges"}                  VIC20 cartridges
  @{" IOCollisionHandling " Link "C64 cartridges"}                  C64 cartridges
+ @{" IOCollisionHandling " Link "VIC20 cartridges"}                  VIC20 cartridges
  @{" IOSize " Link "PET model"}                               PET model
  @{" IsepicCartridgeEnabled " Link "C64 cartridges"}               C64 cartridges
  @{" Isepicfilename " Link "C64 cartridges"}                       C64 cartridges
@@ -19575,61 +19672,61 @@ Index of Resources
  @{" JOYAI2_Left " Link "AmigaOS4-specific features"}                          AmigaOS4-specific features
  @{" JOYAI2_Right " Link "AmigaOS4-specific features"}                         AmigaOS4-specific features
  @{" JOYAI2_Up " Link "AmigaOS4-specific features"}                            AmigaOS4-specific features
- @{" JoyDevice1 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
- @{" JoyDevice1 " Link "DOS-specific features"}                           DOS-specific features
- @{" JoyDevice1 " Link "Keyboard options"}                           Keyboard options
- @{" JoyDevice1 " Link "Unix-specific features"}                           Unix-specific features
- @{" JoyDevice1 " Link "BeOS-specific features"}                           BeOS-specific features
  @{" JoyDevice1 " Link "MorphOS-specific features"}                           MorphOS-specific features
- @{" JoyDevice1 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
+ @{" JoyDevice1 " Link "Keyboard options"}                           Keyboard options
  @{" JoyDevice1 " Link "AROS-specific features"}                           AROS-specific features
+ @{" JoyDevice1 " Link "DOS-specific features"}                           DOS-specific features
+ @{" JoyDevice1 " Link "Unix-specific features"}                           Unix-specific features
+ @{" JoyDevice1 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
+ @{" JoyDevice1 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice1 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
  @{" JoyDevice1 " Link "SDL-specific features"}                           SDL-specific features
- @{" JoyDevice2 " Link "DOS-specific features"}                           DOS-specific features
- @{" JoyDevice2 " Link "AROS-specific features"}                           AROS-specific features
  @{" JoyDevice2 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
- @{" JoyDevice2 " Link "MorphOS-specific features"}                           MorphOS-specific features
- @{" JoyDevice2 " Link "BeOS-specific features"}                           BeOS-specific features
  @{" JoyDevice2 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
- @{" JoyDevice2 " Link "Unix-specific features"}                           Unix-specific features
+ @{" JoyDevice2 " Link "MorphOS-specific features"}                           MorphOS-specific features
  @{" JoyDevice2 " Link "Keyboard options"}                           Keyboard options
+ @{" JoyDevice2 " Link "AROS-specific features"}                           AROS-specific features
+ @{" JoyDevice2 " Link "Unix-specific features"}                           Unix-specific features
+ @{" JoyDevice2 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice2 " Link "DOS-specific features"}                           DOS-specific features
  @{" JoyDevice2 " Link "SDL-specific features"}                           SDL-specific features
+ @{" JoyDevice3 " Link "SDL-specific features"}                           SDL-specific features
  @{" JoyDevice3 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice3 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
+ @{" JoyDevice3 " Link "AROS-specific features"}                           AROS-specific features
+ @{" JoyDevice3 " Link "DOS-specific features"}                           DOS-specific features
+ @{" JoyDevice3 " Link "MorphOS-specific features"}                           MorphOS-specific features
+ @{" JoyDevice3 " Link "Unix-specific features"}                           Unix-specific features
  @{" JoyDevice3 " Link "Keyboard options"}                           Keyboard options
  @{" JoyDevice3 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
- @{" JoyDevice3 " Link "AROS-specific features"}                           AROS-specific features
- @{" JoyDevice3 " Link "SDL-specific features"}                           SDL-specific features
- @{" JoyDevice3 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
- @{" JoyDevice3 " Link "MorphOS-specific features"}                           MorphOS-specific features
- @{" JoyDevice3 " Link "DOS-specific features"}                           DOS-specific features
- @{" JoyDevice3 " Link "Unix-specific features"}                           Unix-specific features
+ @{" JoyDevice4 " Link "Keyboard options"}                           Keyboard options
+ @{" JoyDevice4 " Link "Unix-specific features"}                           Unix-specific features
+ @{" JoyDevice4 " Link "SDL-specific features"}                           SDL-specific features
+ @{" JoyDevice4 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
  @{" JoyDevice4 " Link "DOS-specific features"}                           DOS-specific features
  @{" JoyDevice4 " Link "BeOS-specific features"}                           BeOS-specific features
- @{" JoyDevice4 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
  @{" JoyDevice4 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
  @{" JoyDevice4 " Link "AROS-specific features"}                           AROS-specific features
  @{" JoyDevice4 " Link "MorphOS-specific features"}                           MorphOS-specific features
- @{" JoyDevice4 " Link "SDL-specific features"}                           SDL-specific features
- @{" JoyDevice4 " Link "Keyboard options"}                           Keyboard options
- @{" JoyDevice4 " Link "Unix-specific features"}                           Unix-specific features
  @{" JoyFire1 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
- @{" JoyFire1 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" JoyFire1 " Link "AROS-specific features"}                             AROS-specific features
+ @{" JoyFire1 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" JoyFire2 " Link "AROS-specific features"}                             AROS-specific features
- @{" JoyFire2 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" JoyFire2 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
- @{" JoyFire3 " Link "AROS-specific features"}                             AROS-specific features
- @{" JoyFire3 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" JoyFire2 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" JoyFire3 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
- @{" JoyFire4 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
- @{" JoyFire4 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" JoyFire3 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" JoyFire3 " Link "AROS-specific features"}                             AROS-specific features
  @{" JoyFire4 " Link "AROS-specific features"}                             AROS-specific features
+ @{" JoyFire4 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" JoyFire4 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" JoyFuzz " Link "SDL-specific features"}                              SDL-specific features
  @{" JoyMapFile " Link "SDL-specific features"}                           SDL-specific features
  @{" JoyOpposite " Link "Keyboard options"}                          Keyboard options
  @{" JoystickDisplay " Link "BeOS-specific features"}                      BeOS-specific features
  @{" JoyThreshold " Link "SDL-specific features"}                         SDL-specific features
- @{" KeepAspectRatio " Link "XAW-specific features"}                      XAW-specific features
  @{" KeepAspectRatio " Link "GTK-specific features"}                      GTK-specific features
+ @{" KeepAspectRatio " Link "XAW-specific features"}                      XAW-specific features
  @{" KeepMonitorOpen " Link "Monitor options"}                      Monitor options
  @{" Kernal64Name " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalCHName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
@@ -19638,9 +19735,9 @@ Index of Resources
  @{" KernalFRName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalIntName " Link "C64-128 system ROM options"}                        C64-128 system ROM options
  @{" KernalITName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
- @{" KernalName " Link "PET model"}                           PET model
  @{" KernalName " Link "VIC20 system ROM resources"}                           VIC20 system ROM resources
  @{" KernalName " Link "C64-128 system ROM resources"}                           C64-128 system ROM resources
+ @{" KernalName " Link "PET model"}                           PET model
  @{" KernalNOName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" KernalRev " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
  @{" KernalSEName " Link "C64-128 system ROM options"}                         C64-128 system ROM options
@@ -19713,6 +19810,7 @@ Index of Resources
  @{" MMCRRescueMode " Link "C64 cartridges"}                       C64 cartridges
  @{" MMCRSDType " Link "C64 cartridges"}                           C64 cartridges
  @{" ModelLine " Link "CBM-II model"}                            CBM-II model
+ @{" MonitorDimensions " Link "Windows-specific features"}                    Windows-specific features
  @{" MonitorServer " Link "Monitor options"}                        Monitor options
  @{" MonitorServerAddress " Link "Monitor options"}                 Monitor options
  @{" Mouse " Link "Keyboard options"}                                Keyboard options
@@ -19778,11 +19876,11 @@ Index of Resources
  @{" RAMInitPatternInvert " Link "Monitor options"}                 Monitor options
  @{" RAMInitStartValue " Link "Monitor options"}                    Monitor options
  @{" RAMInitValueInvert " Link "Monitor options"}                   Monitor options
- @{" RamSize " Link "CBM-II model"}                              CBM-II model
  @{" RamSize " Link "PET model"}                              PET model
+ @{" RamSize " Link "CBM-II model"}                              CBM-II model
  @{" RawDriveDriver " Link "Drive resources"}                       Drive resources
- @{" RefreshRate " Link "DOS-specific features"}                          DOS-specific features
  @{" RefreshRate " Link "Performance resources"}                          Performance resources
+ @{" RefreshRate " Link "DOS-specific features"}                          DOS-specific features
  @{" REU " Link "C64 I-O extension resources"}                                  C64 I-O extension resources
  @{" REUfilename " Link "C64 I-O extension resources"}                          C64 I-O extension resources
  @{" REUImageWrite " Link "C64 I-O extension resources"}                        C64 I-O extension resources
@@ -19805,10 +19903,11 @@ Index of Resources
  @{" RsUserBaud " Link "RS232 resources"}                           RS232 resources
  @{" RsUserDev " Link "RS232 resources"}                            RS232 resources
  @{" RsUserEnable " Link "RS232 resources"}                         RS232 resources
- @{" SaveResourcesOnExit " Link "Unix-specific features"}                  Unix-specific features
- @{" SaveResourcesOnExit " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" SaveResourcesOnExit " Link "SDL-specific features"}                  SDL-specific features
  @{" SaveResourcesOnExit " Link "BeOS-specific features"}                  BeOS-specific features
+ @{" SaveResourcesOnExit " Link "Windows-specific features"}                  Windows-specific features
+ @{" SaveResourcesOnExit " Link "Unix-specific features"}                  Unix-specific features
+ @{" SaveResourcesOnExit " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" SDLBitdepth " Link "SDL-specific features"}                          SDL-specific features
  @{" SDLCustomHeight " Link "SDL-specific features"}                      SDL-specific features
  @{" SDLCustomWidth " Link "SDL-specific features"}                       SDL-specific features
@@ -19826,13 +19925,13 @@ Index of Resources
  @{" SidAddress " Link "VIC20 system ROM options"}                           VIC20 system ROM options
  @{" SidAddress " Link "PET model"}                           PET model
  @{" SidAddress " Link "VIC20 cartridges"}                           VIC20 cartridges
- @{" SidCart " Link "PET model"}                              PET model
  @{" SidCart " Link "VIC20 system ROM options"}                              VIC20 system ROM options
+ @{" SidCart " Link "PET model"}                              PET model
  @{" SidCart " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" SIDCartJoy " Link "VIC20 system ROM options"}                           VIC20 system ROM options
+ @{" SidClock " Link "PET model"}                             PET model
  @{" SidClock " Link "VIC20 cartridges"}                             VIC20 cartridges
  @{" SidClock " Link "VIC20 system ROM options"}                             VIC20 system ROM options
- @{" SidClock " Link "PET model"}                             PET model
  @{" SidEngine " Link "SID resources"}                            SID resources
  @{" SidFilters " Link "SID resources"}                           SID resources
  @{" SidModel " Link "SID resources"}                             SID resources
@@ -19843,6 +19942,7 @@ Index of Resources
  @{" SidStereo " Link "SID resources"}                            SID resources
  @{" SidStereoAddressStart " Link "SID resources"}                SID resources
  @{" SidTripleAddressStart " Link "SID resources"}                SID resources
+ @{" SingleCPU " Link "Windows-specific features"}                            Windows-specific features
  @{" Sound " Link "Sound resources"}                                Sound resources
  @{" SoundBufferSize " Link "Sound resources"}                      Sound resources
  @{" SoundDeviceArg " Link "Sound resources"}                       Sound resources
@@ -19857,8 +19957,8 @@ Index of Resources
  @{" SoundVolume " Link "Sound resources"}                          Sound resources
  @{" SpeechEnabled " Link "VIC20 system ROM options"}                        VIC20 system ROM options
  @{" SpeechImage " Link "VIC20 system ROM options"}                          VIC20 system ROM options
- @{" Speed " Link "DOS-specific features"}                                DOS-specific features
  @{" Speed " Link "Performance resources"}                                Performance resources
+ @{" Speed " Link "DOS-specific features"}                                DOS-specific features
  @{" StatusBarEnabled " Link "AmigaOS-specific features"}                     AmigaOS-specific features
  @{" SuperPET " Link "PET model"}                             PET model
  @{" TEDAudioLeak " Link "VIC20 system ROM options"}                         VIC20 system ROM options
@@ -19887,8 +19987,8 @@ Index of Resources
  @{" TEDXRANDRFullscreenMode " Link "XAW-specific features"}              XAW-specific features
  @{" TFEIOSwap " Link "VIC20 cartridges"}                            VIC20 cartridges
  @{" TripleBuffering " Link "DOS-specific features"}                      DOS-specific features
- @{" TrueAspectRatio " Link "XAW-specific features"}                      XAW-specific features
  @{" TrueAspectRatio " Link "GTK-specific features"}                      GTK-specific features
+ @{" TrueAspectRatio " Link "XAW-specific features"}                      XAW-specific features
  @{" UseFullscreen " Link "XAW-specific features"}                        XAW-specific features
  @{" UseFullscreen " Link "XAW-specific features"}                        XAW-specific features
  @{" UseLeds " Link "DOS-specific features"}                              DOS-specific features
@@ -19976,20 +20076,24 @@ Index of Resources
  @{" VICVideoCache " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" VICVidmodeFullscreenMode " Link "XAW-specific features"}             XAW-specific features
  @{" VICXRANDRFullscreenMode " Link "XAW-specific features"}              XAW-specific features
- @{" VideoOverlayEnabled " Link "AROS-specific features"}                  AROS-specific features
  @{" VideoOverlayEnabled " Link "MorphOS-specific features"}                  MorphOS-specific features
  @{" VideoOverlayEnabled " Link "AmigaOS3-specific features"}                  AmigaOS3-specific features
+ @{" VideoOverlayEnabled " Link "AROS-specific features"}                  AROS-specific features
  @{" VideoSize " Link "PET model"}                            PET model
  @{" VirtualDevices " Link "No traps resources"}                       No traps resources
- @{" WarpMode " Link "Performance resources"}                             Performance resources
  @{" WarpMode " Link "DOS-specific features"}                             DOS-specific features
+ @{" WarpMode " Link "Performance resources"}                             Performance resources
  @{" Window0Height " Link "XAW-specific features"}                        XAW-specific features
  @{" Window0Width " Link "XAW-specific features"}                         XAW-specific features
+ @{" Window0Xpos " Link "Windows-specific features"}                          Windows-specific features
  @{" Window0Xpos " Link "XAW-specific features"}                          XAW-specific features
+ @{" Window0Ypos " Link "Windows-specific features"}                          Windows-specific features
  @{" Window0Ypos " Link "XAW-specific features"}                          XAW-specific features
  @{" Window1Height " Link "XAW-specific features"}                        XAW-specific features
  @{" Window1Width " Link "XAW-specific features"}                         XAW-specific features
+ @{" Window1Xpos " Link "Windows-specific features"}                          Windows-specific features
  @{" Window1Xpos " Link "XAW-specific features"}                          XAW-specific features
+ @{" Window1Ypos " Link "Windows-specific features"}                          Windows-specific features
  @{" Window1Ypos " Link "XAW-specific features"}                          XAW-specific features
 
 
@@ -20004,62 +20108,69 @@ Index of Command-line options
 
 
 
- @{" -aspect " Link "XAW-specific features"}                              XAW-specific features
  @{" -aspect " Link "SDL-specific features"}                              SDL-specific features
+ @{" -aspect " Link "XAW-specific features"}                              XAW-specific features
  @{" -colormap, +colormap " Link "XAW-specific features"}                 XAW-specific features
- @{" -confirmexit, +confirmexit " Link "SDL-specific features"}           SDL-specific features
  @{" -confirmexit, +confirmexit " Link "BeOS-specific features"}           BeOS-specific features
- @{" -confirmexit, +confirmexit " Link "AmigaOS-specific features"}           AmigaOS-specific features
  @{" -confirmexit, +confirmexit " Link "Unix-specific features"}           Unix-specific features
+ @{" -confirmexit, +confirmexit " Link "AmigaOS-specific features"}           AmigaOS-specific features
+ @{" -confirmexit, +confirmexit " Link "Windows-specific features"}           Windows-specific features
+ @{" -confirmexit, +confirmexit " Link "SDL-specific features"}           SDL-specific features
  @{" -CRTCSDLfullmode " Link "SDL-specific features"}                     SDL-specific features
  @{" -CrtcVidmodefullmode " Link "XAW-specific features"}                 XAW-specific features
  @{" -CrtcXRANDRfullmode " Link "XAW-specific features"}                  XAW-specific features
  @{" -directwindow, +directwindow " Link "BeOS-specific features"}         BeOS-specific features
  @{" -displaydepth " Link "XAW-specific features"}                        XAW-specific features
- @{" -extrajoydev1 " Link "AROS-specific features"}                        AROS-specific features
- @{" -extrajoydev1 " Link "DOS-specific features"}                        DOS-specific features
- @{" -extrajoydev1 " Link "Unix-specific features"}                        Unix-specific features
- @{" -extrajoydev1 " Link "MorphOS-specific features"}                        MorphOS-specific features
- @{" -extrajoydev1 " Link "BeOS-specific features"}                        BeOS-specific features
- @{" -extrajoydev1 " Link "SDL-specific features"}                        SDL-specific features
- @{" -extrajoydev1 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
  @{" -extrajoydev1 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
- @{" -extrajoydev2 " Link "BeOS-specific features"}                        BeOS-specific features
- @{" -extrajoydev2 " Link "Unix-specific features"}                        Unix-specific features
+ @{" -extrajoydev1 " Link "SDL-specific features"}                        SDL-specific features
+ @{" -extrajoydev1 " Link "BeOS-specific features"}                        BeOS-specific features
+ @{" -extrajoydev1 " Link "Unix-specific features"}                        Unix-specific features
+ @{" -extrajoydev1 " Link "AROS-specific features"}                        AROS-specific features
+ @{" -extrajoydev1 " Link "MorphOS-specific features"}                        MorphOS-specific features
+ @{" -extrajoydev1 " Link "DOS-specific features"}                        DOS-specific features
+ @{" -extrajoydev1 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
+ @{" -extrajoydev2 " Link "AROS-specific features"}                        AROS-specific features
  @{" -extrajoydev2 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
  @{" -extrajoydev2 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
- @{" -extrajoydev2 " Link "SDL-specific features"}                        SDL-specific features
  @{" -extrajoydev2 " Link "MorphOS-specific features"}                        MorphOS-specific features
- @{" -extrajoydev2 " Link "AROS-specific features"}                        AROS-specific features
+ @{" -extrajoydev2 " Link "Unix-specific features"}                        Unix-specific features
+ @{" -extrajoydev2 " Link "BeOS-specific features"}                        BeOS-specific features
+ @{" -extrajoydev2 " Link "SDL-specific features"}                        SDL-specific features
  @{" -extrajoydev2 " Link "DOS-specific features"}                        DOS-specific features
  @{" -fourcc " Link "XAW-specific features"}                              XAW-specific features
- @{" -fullscreen, +fullscreen " Link "XAW-specific features"}             XAW-specific features
  @{" -fullscreen, +fullscreen " Link "AmigaOS-specific features"}             AmigaOS-specific features
+ @{" -fullscreen, +fullscreen " Link "XAW-specific features"}             XAW-specific features
  @{" -fullscreen, +fullscreen " Link "XAW-specific features"}             XAW-specific features
  @{" -hotkeyfile " Link "SDL-specific features"}                          SDL-specific features
  @{" -htmlbrowser " Link "Unix-specific features"}                         Unix-specific features
+ @{" -initialautostartdir " Link "Windows-specific features"}                 Windows-specific features
  @{" -initialautostartdir " Link "AmigaOS-specific features"}                 AmigaOS-specific features
  @{" -initialcartdir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
+ @{" -initialcartdir " Link "Windows-specific features"}                      Windows-specific features
+ @{" -initialdefaultdir " Link "Windows-specific features"}                   Windows-specific features
  @{" -initialdefaultdir " Link "AmigaOS-specific features"}                   AmigaOS-specific features
  @{" -initialdiskdir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
+ @{" -initialdiskdir " Link "Windows-specific features"}                      Windows-specific features
  @{" -initialsnapshotdir " Link "AmigaOS-specific features"}                  AmigaOS-specific features
+ @{" -initialsnapshotdir " Link "Windows-specific features"}                  Windows-specific features
+ @{" -initialtapedir " Link "Windows-specific features"}                      Windows-specific features
  @{" -initialtapedir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
- @{" -joydev1 " Link "SDL-specific features"}                             SDL-specific features
- @{" -joydev1 " Link "BeOS-specific features"}                             BeOS-specific features
  @{" -joydev1 " Link "Unix-specific features"}                             Unix-specific features
  @{" -joydev1 " Link "DOS-specific features"}                             DOS-specific features
  @{" -joydev1 " Link "AROS-specific features"}                             AROS-specific features
- @{" -joydev1 " Link "AmigaOS4-specific features"}                             AmigaOS4-specific features
- @{" -joydev1 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" -joydev1 " Link "MorphOS-specific features"}                             MorphOS-specific features
- @{" -joydev2 " Link "DOS-specific features"}                             DOS-specific features
- @{" -joydev2 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
- @{" -joydev2 " Link "Unix-specific features"}                             Unix-specific features
- @{" -joydev2 " Link "AmigaOS4-specific features"}                             AmigaOS4-specific features
- @{" -joydev2 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" -joydev1 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
+ @{" -joydev1 " Link "AmigaOS4-specific features"}                             AmigaOS4-specific features
+ @{" -joydev1 " Link "BeOS-specific features"}                             BeOS-specific features
+ @{" -joydev1 " Link "SDL-specific features"}                             SDL-specific features
  @{" -joydev2 " Link "SDL-specific features"}                             SDL-specific features
+ @{" -joydev2 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
+ @{" -joydev2 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" -joydev2 " Link "AROS-specific features"}                             AROS-specific features
+ @{" -joydev2 " Link "DOS-specific features"}                             DOS-specific features
+ @{" -joydev2 " Link "Unix-specific features"}                             Unix-specific features
  @{" -joydev2 " Link "BeOS-specific features"}                             BeOS-specific features
+ @{" -joydev2 " Link "AmigaOS4-specific features"}                             AmigaOS4-specific features
  @{" -joydisplay, +joydisplay " Link "BeOS-specific features"}             BeOS-specific features
  @{" -joyfuzz " Link "SDL-specific features"}                             SDL-specific features
  @{" -joyhwtype " Link "DOS-specific features"}                           DOS-specific features
@@ -20087,10 +20198,11 @@ Index of Command-line options
  @{" -rsdev2baud " Link "Unix-specific features"}                          Unix-specific features
  @{" -rsdev3baud " Link "Unix-specific features"}                          Unix-specific features
  @{" -rsdev4baud " Link "Unix-specific features"}                          Unix-specific features
- @{" -saveres, +saveres " Link "SDL-specific features"}                   SDL-specific features
- @{" -saveres, +saveres " Link "Unix-specific features"}                   Unix-specific features
  @{" -saveres, +saveres " Link "BeOS-specific features"}                   BeOS-specific features
+ @{" -saveres, +saveres " Link "SDL-specific features"}                   SDL-specific features
+ @{" -saveres, +saveres " Link "Windows-specific features"}                   Windows-specific features
  @{" -saveres, +saveres " Link "AmigaOS-specific features"}                   AmigaOS-specific features
+ @{" -saveres, +saveres " Link "Unix-specific features"}                   Unix-specific features
  @{" -sdlaspectmode " Link "SDL-specific features"}                       SDL-specific features
  @{" -sdlbitdepth " Link "SDL-specific features"}                         SDL-specific features
  @{" -sdlcustomh " Link "SDL-specific features"}                          SDL-specific features
@@ -20098,16 +20210,17 @@ Index of Command-line options
  @{" -sdlflipx, +sdlflipx " Link "SDL-specific features"}                 SDL-specific features
  @{" -sdlflipy, +sdlflipy " Link "SDL-specific features"}                 SDL-specific features
  @{" -sdllimitmode " Link "SDL-specific features"}                        SDL-specific features
+ @{" -singlecpu, +singlecpu " Link "Windows-specific features"}               Windows-specific features
  @{" -speed " Link "DOS-specific features"}                               DOS-specific features
  @{" -statusbar " Link "DOS-specific features"}                           DOS-specific features
- @{" -statusbar, +statusbar " Link "SDL-specific features"}               SDL-specific features
  @{" -statusbar, +statusbar " Link "AmigaOS-specific features"}               AmigaOS-specific features
+ @{" -statusbar, +statusbar " Link "SDL-specific features"}               SDL-specific features
  @{" -TEDSDLfullmode " Link "SDL-specific features"}                      SDL-specific features
  @{" -TEDVidmodefullmode " Link "XAW-specific features"}                  XAW-specific features
  @{" -TEDXRANDRfullmode " Link "XAW-specific features"}                   XAW-specific features
  @{" -triplebuf, +triplebuf " Link "DOS-specific features"}               DOS-specific features
- @{" -trueaspect, +trueaspect " Link "XAW-specific features"}             XAW-specific features
  @{" -trueaspect, +trueaspect " Link "GTK-specific features"}             GTK-specific features
+ @{" -trueaspect, +trueaspect " Link "XAW-specific features"}             XAW-specific features
  @{" -VDCSDLfullmode " Link "SDL-specific features"}                      SDL-specific features
  @{" -VDCVidmodefullmode " Link "XAW-specific features"}                  XAW-specific features
  @{" -VDCXRANDRfullmode " Link "XAW-specific features"}                   XAW-specific features
@@ -20118,8 +20231,8 @@ Index of Command-line options
  @{" -VICSDLfullmode " Link "SDL-specific features"}                      SDL-specific features
  @{" -VICVidmodefullmode " Link "XAW-specific features"}                  XAW-specific features
  @{" -VICXRANDRfullmode " Link "XAW-specific features"}                   XAW-specific features
- @{" -videooverlay, +videooverlay " Link "MorphOS-specific features"}         MorphOS-specific features
  @{" -videooverlay, +videooverlay " Link "AmigaOS3-specific features"}         AmigaOS3-specific features
+ @{" -videooverlay, +videooverlay " Link "MorphOS-specific features"}         MorphOS-specific features
  @{" -videooverlay, +videooverlay " Link "AROS-specific features"}         AROS-specific features
  @{" -warp, +warp " Link "DOS-specific features"}                         DOS-specific features
  @{" -xsync, +xsync " Link "XAW-specific features"}                       XAW-specific features

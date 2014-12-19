@@ -71,6 +71,7 @@ extern void ui_show_text(HWND hParent, const char *szCaption, const char *szHead
 extern int ui_messagebox(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
 extern void uilib_shutdown(void);
 
+extern int uilib_cpu_is_smp(void);
 
 #define UILIB_DIALOGBOX_MAX 256
 

@@ -140,6 +140,12 @@ static generic_trans_table_t generic_trans_table[] = {
 static LRESULT CALLBACK dummywindowproc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam);
 static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam);
 
+/* List of functions that determine if certain items can be grayed out from the menus.  */
+static const ui_menu_grey_function_t grayed_list_function[] = {
+    { uilib_cpu_is_smp, IDM_TOGGLE_CPU_AFFINITY }, 
+    { NULL, 0 }
+};
+
 /* List of resources that can be grayed out from the menus.  */
 static const ui_menu_toggle_t grayed_list_res[] = {
 #ifdef HAVE_TFE
@@ -176,6 +182,7 @@ static const ui_menu_toggle_t toggle_list[] = {
     { "Drive0CPU_TRACE", IDM_TOGGLE_DRIVE0CPU_TRACE },
     { "Drive1CPU_TRACE", IDM_TOGGLE_DRIVE1CPU_TRACE },
 #endif
+    { "SingleCPU", IDM_TOGGLE_CPU_AFFINITY },
     { NULL, 0 }
 };
 
@@ -874,6 +881,11 @@ static void update_menus(HWND hwnd)
     int result;
     const char *lang;
     HMENU menu = GetMenu(hwnd);
+
+    for (i = 0; grayed_list_function[i].function != NULL; i++) {
+        value = grayed_list_function[i].function();
+        EnableMenuItem(menu, grayed_list_function[i].item_id, value ? MF_ENABLED : MF_GRAYED);
+    }
 
     for (i = 0; grayed_list_res[i].name != NULL; i++) {
         resources_get_int(grayed_list_res[i].name, &value);
