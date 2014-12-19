@@ -39,6 +39,8 @@
 
 #include "fullscreenarch.h"
 #include "log.h"
+#include "cmdline.h"
+#include "translate.h"
 #include "resources.h"
 #include "types.h"
 #include "videoarch.h"
