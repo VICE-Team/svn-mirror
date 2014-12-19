@@ -3960,7 +3960,7 @@ resource var:                   ui_resources.fullscreendevice
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE (fixme)
+prepocessor:                    #ifdef HAVE_D3D9_H
 platforms to check:			windows
 platform gui present:           
 platform gui missing:
@@ -3977,7 +3977,7 @@ resource var:                   ui_resources.fullscreenbitdepth
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+prepocessor:                    #ifdef HAVE_D3D9_H
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -3993,7 +3993,7 @@ resource var:                   ui_resources.fullscreenwidth
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+prepocessor:                    #ifdef HAVE_D3D9_H
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -4009,7 +4009,7 @@ resource var:                   ui_resources.fullscreenheight
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+prepocessor:                    #ifdef HAVE_D3D9_H
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -4025,7 +4025,7 @@ resource var:                   ui_resources.fullscreenrefreshrate
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE
+prepocessor:                    #ifdef HAVE_D3D9_H
 platform gui present:           windows
 platform gui missing:
 fixme: add to documentation
@@ -4040,7 +4040,7 @@ resource function:              set_fullscreen_enabled()
 resource var:                   ui_resources.fullscreenenabled
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
-prepocessor:
+prepocessor:                    #ifdef HAVE_D3D9_H
 command-line:                   -fullscreen / +fullscreen
 platforms to check:			windows
 platform gui present:           

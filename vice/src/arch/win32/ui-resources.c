@@ -43,12 +43,14 @@
 /* UI-related resources.  */
 
 struct {
+#ifdef HAVE_D3D9_H
     int fullscreendevice;
     int fullscreenbitdepth;
     int fullscreenwidth;
     int fullscreenheight;
     int fullscreenrefreshrate;
     int fullscreenenabled;
+#endif
     int save_resources_on_exit;
     int confirm_on_exit;
     int single_cpu;
@@ -63,6 +65,7 @@ struct {
     int aspect_ratio;
 } ui_resources;
 
+#ifdef HAVE_D3D9_H
 static int set_fullscreen_device(int val, void *param)
 {
     ui_resources.fullscreendevice = val;
@@ -99,6 +102,7 @@ static int set_fullscreen_enabled(int val, void *param)
 
     return 0;
 }
+#endif
 
 static int set_save_resources_on_exit(int val, void *param)
 {
@@ -269,6 +273,7 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
+#ifdef HAVE_D3D9_H
     { "FullscreenDevice", 0, RES_EVENT_NO, NULL,
       &ui_resources.fullscreendevice, set_fullscreen_device, NULL },
     { "FullscreenBitdepth", -1, RES_EVENT_NO, NULL,
@@ -281,6 +286,7 @@ static const resource_int_t resources_int[] = {
       &ui_resources.fullscreenrefreshrate, set_fullscreen_refreshrate, NULL },
     { "FullscreenEnabled", 0, RES_EVENT_NO, NULL,
       &ui_resources.fullscreenenabled, set_fullscreen_enabled, NULL },
+#endif
     { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
       &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
