@@ -1,4 +1,7 @@
 
+the following notes come from an edited IRC session and the distribution used
+was Ubuntu, package names and installation commands may differ in other distros.
+
 --------------------------------------------------------------------------------
 1. adhoc build from SVN
 --------------------------------------------------------------------------------
