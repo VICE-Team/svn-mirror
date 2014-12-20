@@ -1,0 +1,86 @@
+
+--------------------------------------------------------------------------------
+1. adhoc build from SVN
+--------------------------------------------------------------------------------
+
+first, check out the svn:
+
+if you dont have svn, install it first
+$ sudo apt-get install subversion
+
+$ mkdir myworkdir
+$ cd myworkdir
+$ svn checkout https://svn.code.sf.net/p/vice-emu/code/trunk trunk
+
+now ... you will need some packages:
+
+$ sudo apt-get install build-essential  # (contains gcc, make)
+$ sudo apt-get install autoconf
+$ sudo apt-get install automake
+$ sudo apt-get install byacc
+$ sudo apt-get install texi2html
+
+if you have those installed, do run autogen.sh inside the vice dir:
+$ cd trunk/vice/
+$ ./autogen.sh
+that should complete without error (and generate the actual configure scripts)
+
+try configuring now:
+$ ./configure
+it should complete without error
+
+lets try compiling it... we'll reconfigure again later and enable the options
+you are missing :)
+$ make
+
+try running x64sc
+$ ./src/x64sc
+
+success :)
+$ sudo make install
+
+--------------------------------------------------------------------------------
+2. tweak the configuration
+--------------------------------------------------------------------------------
+
+run x64 in a terminal, it should print a line that tells some config details:
+
+$ ./src/x64
+<...>
+See the "About VICE" command for more info.
+
+X11: GTK version compiled with: 2.24 (xf86 ext:yes cairo:yes pango:yes VTE:yes hwscale:yes fullscreen:yes ui-threads:no)
+XRandR: XRandR reports current display: 1280x1024@60
+<...>
+
+install additional packages:
+
+$ sudo apt-get install libgtk2.0-cil-dev  # for GTK2 UI
+$ sudo apt-get install libgtkglext1-dev   # for hardware scaling / open-gl support
+$ sudo apt-get install libvte-dev         # (NOT libvte-2.90/2.91-dev) for GUI monitor terminal window
+
+$ sudo apt-get install libpcap-dev        # for ethernet emulation
+
+$ sudo apt-get install libavcodec-dev     # for video capturing support
+$ sudo apt-get install libavformat-dev
+$ sudo apt-get install libswscale-dev
+
+reconfigure with a few more options:
+$ ./configure --enable-arch=native --with-resid --with-x --enable-gnomeui --enable-ethernet --with-pulse --enable-fullscreen --enable-memmap --enable-vte
+
+compile again...
+$ make
+
+... and finally install
+$ sudo make install
+
+--------------------------------------------------------------------------------
+3. staying up to date
+--------------------------------------------------------------------------------
+
+once you did all this, you can keep your local work directory, and build yourself
+a cutting edge version simply by doing:
+
+$ svn up
+$ make
+$ sudo make install
