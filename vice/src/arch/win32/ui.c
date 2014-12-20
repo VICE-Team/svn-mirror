@@ -170,8 +170,8 @@ static const ui_menu_toggle_t toggle_list[] = {
     { "VirtualDevices", IDM_TOGGLE_VIRTUAL_DEVICES },
     { "SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT },
     { "ConfirmOnExit", IDM_TOGGLE_CONFIRM_ON_EXIT },
-    { "FullScreenEnabled", IDM_TOGGLE_FULLSCREEN },
 #ifdef HAVE_D3D9_H
+    { "FullScreenEnabled", IDM_TOGGLE_FULLSCREEN },
     { "DX9Disable", IDM_TOGGLE_DX9DISABLE },
 #endif
     { "AlwaysOnTop", IDM_TOGGLE_ALWAYSONTOP },
@@ -1686,10 +1686,12 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         case IDM_RAM_SETTINGS:
             ui_ram_settings_dialog(hwnd);
             break;
+#ifdef HAVE_D3D9_H
         case IDM_TOGGLE_FULLSCREEN:
             vsync_suspend_speed_eval();
             SwitchFullscreenMode(hwnd);
             break;
+#endif
         case IDM_SETTINGS_SAVE_FILE:
             if ((st_name = uilib_select_file(hwnd, translate_text(IDS_SAVE_CONFIG_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
                 char *name;

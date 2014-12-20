@@ -409,7 +409,9 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_LICENSE, IDS_MI_LICENSE },
     { IDM_WARRANTY, IDS_MI_WARRANTY },
     { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
+#ifdef HAVE_D3D9_H
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
+#endif
     { 0, 0 }
 };
 

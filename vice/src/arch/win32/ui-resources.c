@@ -135,7 +135,7 @@ static int set_single_cpu(int val, void *param)
             }
         } else {
             /* Set it to all CPUs */
-            if (SetThreadAffinityMask(GetCurrentThread(),system_affinity)) {
+            if (SetThreadAffinityMask(GetCurrentThread(), system_affinity)) {
                 ui_resources.single_cpu = 0;
             } else {
                 return -1;
@@ -187,7 +187,8 @@ static int set_window_ypos(int val, void *param)
 
 static int set_vblank_sync(int val, void *param)
 {
-    ui_resources.vblank_sync = val;
+    ui_resources.vblank_sync = val ? 1 : 0;
+
     return 0;
 }
 
@@ -409,6 +410,47 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDS_SPECIFY_INITIAL_SNAPSHOT_DIR,
       NULL, NULL },
+    { "-vblanksync", SET_RESOURCE, 0,
+      NULL, NULL, "VBLANKSync", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_ENABLE_VBLANK_SYNC,
+      NULL, NULL },
+    { "+vblanksync", SET_RESOURCE, 0,
+      NULL, NULL, "VBLANKSync", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_DISABLE_VBLANK_SYNC,
+      NULL, NULL },
+    { "-alwaysontop", SET_RESOURCE, 0,
+      NULL, NULL, "AlwaysOnTop", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_ENABLE_ALWAYS_ON_TOP,
+      NULL, NULL },
+    { "+alwaysontop", SET_RESOURCE, 0,
+      NULL, NULL, "AlwaysOnTop", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_DISABLE_ALWAYS_ON_TOP,
+      NULL, NULL },
+    { "-keepaspect", SET_RESOURCE, 0,
+      NULL, NULL, "KeepAspectRatio", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_ENABLE_KEEP_ASPECT,
+      NULL, NULL },
+    { "+keepaspect", SET_RESOURCE, 0,
+      NULL, NULL, "KeepAspectRatio", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_DISABLE_KEEP_ASPECT,
+      NULL, NULL },
+    { "-trueaspect", SET_RESOURCE, 0,
+      NULL, NULL, "TrueAspectRatio", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_ENABLE_TRUE_ASPECT,
+      NULL, NULL },
+    { "+trueaspect", SET_RESOURCE, 0,
+      NULL, NULL, "TrueAspectRatio", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_DISABLE_TRUE_ASPECT,
+      NULL, NULL },
+
     { NULL }
 };
 

@@ -253,20 +253,26 @@ void ui_fullscreen_shutdown(void)
 
 void GetCurrentModeParameters(int *device, int *width, int *height, int *bitdepth, int *refreshrate)
 {
+#ifdef HAVE_D3D9_H
     resources_get_int("FullscreenDevice", device);
     resources_get_int("FullscreenBitdepth", bitdepth);
     resources_get_int("FullscreenWidth", width);
     resources_get_int("FullscreenHeight", height);
     resources_get_int("FullscreenRefreshRate", refreshrate);
+#endif
 }
 
 int IsFullscreenEnabled(void)
 {
+#ifdef HAVE_D3D9_H
     int b;
 
     resources_get_int("FullscreenEnabled", &b);
 
     return (ui_setup_finished && b);
+#else
+    return 0;
+#endif
 }
 
 void SwitchToFullscreenMode(HWND hwnd)
@@ -347,47 +353,58 @@ void SwitchToWindowedMode(HWND hwnd)
 
 void StartFullscreenMode(HWND hwnd)
 {
+#ifdef HAVE_D3D9_H
     SwitchToFullscreenMode(hwnd);
     resources_set_int("FullScreenEnabled", 1);
+#endif
 }
 
 void EndFullscreenMode(HWND hwnd)
 {
+#ifdef HAVE_D3D9_H
     SwitchToWindowedMode(hwnd);
     resources_set_int("FullScreenEnabled", 0);
+#endif
 }
 
 void SwitchFullscreenMode(HWND hwnd)
 {
+#ifdef HAVE_D3D9_H
     if (IsFullscreenEnabled()) {
         EndFullscreenMode(hwnd);
     } else {
         StartFullscreenMode(hwnd);
     }
+#endif
 }
 
 void SuspendFullscreenMode(HWND hwnd)
 {
+#ifdef HAVE_D3D9_H
     if (IsFullscreenEnabled()) {
         if (fullscreen_nesting_level == 0) {
             SwitchToWindowedMode(hwnd);
         }
         fullscreen_nesting_level++;
     }
+#endif
 }
 
 void ResumeFullscreenMode(HWND hwnd)
 {
+#ifdef HAVE_D3D9_H
     if (IsFullscreenEnabled()) {
         fullscreen_nesting_level--;
         if (fullscreen_nesting_level == 0) {
             SwitchToFullscreenMode(hwnd);
         }
     }
+#endif
 }
 
 void SuspendFullscreenModeKeep(HWND hwnd)
 {
+#ifdef HAVE_D3D9_H
     int device, width, height, bitdepth, rate;
 
     GetCurrentModeParameters(&device, &width, &height, &bitdepth, &rate);
@@ -400,10 +417,12 @@ void SuspendFullscreenModeKeep(HWND hwnd)
             }
         }
     }
+#endif
 }
 
 void ResumeFullscreenModeKeep(HWND hwnd)
 {
+#ifdef HAVE_D3D9_H
     int device, width, height, bitdepth, rate;
 
     GetCurrentModeParameters(&device, &width, &height, &bitdepth, &rate);
@@ -416,6 +435,7 @@ void ResumeFullscreenModeKeep(HWND hwnd)
             }
         }
     }
+#endif
 }
 
 /*---------------------------------------------------------------------------*/
@@ -828,36 +848,36 @@ static void init_fullscreen_dialog(HWND hwnd)
 
 static void fullscreen_dialog_end(void)
 {
+#ifdef HAVE_D3D9_H
     resources_set_int("FullScreenDevice", fullscreen_device);
     resources_set_int("FullScreenBitdepth", fullscreen_bitdepth);
     resources_set_int("FullScreenWidth", fullscreen_width);
     resources_set_int("FullScreenHeight", fullscreen_height);
     resources_set_int("FullScreenRefreshRate", fullscreen_refreshrate);
-    resources_set_int("VBLANKSync", vblank_sync);
     resources_set_int("DXPrimarySurfaceRendering", dx_primary);
-    /* if (video_dx9_enabled()) */ {
-        resources_set_int("TrueAspectRatio", true_aspect_ratio);
-        resources_set_int("KeepAspectRatio", keep_aspect_ratio);
-        resources_set_int("AspectRatio", aspect_ratio);
-    }
     resources_set_int("DX9Disable", dx9disable);
+#endif
+    resources_set_int("VBLANKSync", vblank_sync);
+    resources_set_int("TrueAspectRatio", true_aspect_ratio);
+    resources_set_int("KeepAspectRatio", keep_aspect_ratio);
+    resources_set_int("AspectRatio", aspect_ratio);
 }
 
 static void fullscreen_dialog_init(HWND hwnd)
 {
+#ifdef HAVE_D3D9_H
     resources_get_int("FullscreenDevice", &fullscreen_device);
     resources_get_int("FullscreenBitdepth", &fullscreen_bitdepth);
     resources_get_int("FullscreenWidth", &fullscreen_width);
     resources_get_int("FullscreenHeight", &fullscreen_height);
     resources_get_int("FullscreenRefreshRate", &fullscreen_refreshrate);
-    resources_get_int("VBLANKSync", &vblank_sync);
     resources_get_int("DXPrimarySurfaceRendering", &dx_primary);
     resources_get_int("DX9Disable", &dx9disable);
-    /* if (video_dx9_enabled()) */ {
-        resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
-        resources_get_int("TrueAspectRatio", &true_aspect_ratio);
-        resources_get_int("AspectRatio", &aspect_ratio);
-    }
+#endif
+    resources_get_int("VBLANKSync", &vblank_sync);
+    resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
+    resources_get_int("TrueAspectRatio", &true_aspect_ratio);
+    resources_get_int("AspectRatio", &aspect_ratio);
     init_fullscreen_dialog(hwnd);
 }
 

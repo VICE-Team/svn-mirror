@@ -314,7 +314,9 @@ ui_menu_translation_table_t cbm2ui_menu_translation_table[] = {
     { IDM_CONTRIBUTORS, IDS_MI_CONTRIBUTORS },
     { IDM_LICENSE, IDS_MI_LICENSE },
     { IDM_WARRANTY, IDS_MI_WARRANTY },
+#ifdef HAVE_D3D9_H
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
+#endif
     { IDM_CBM2_SETTINGS, IDS_MI_CBM2_SETTINGS },
     { IDM_NETWORK_SETTINGS, IDS_MI_NETWORK_SETTINGS },
     { 0, 0 }

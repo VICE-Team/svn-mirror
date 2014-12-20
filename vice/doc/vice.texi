@@ -11136,6 +11136,23 @@ Integers specifying the position and size of the (first) emulator window.
 @itemx Window1Ypos
 Integers specifying the position and size of the (second) emulator window.
 
+@vindex VBLANKSync
+@item VBLANKSync
+Boolean to enable/disable vertical blank sync.
+
+@vindex AlwaysOnTop
+@item AlwaysOnTop
+Boolean specifying if the emulator should stay on top.
+
+@vindex KeepAspectRatio
+@item KeepAspectRatio
+Boolean specifying whether the aspect ratio of the output window should be preserved.
+(0=free scaling, 1=scale with fixed aspect ratio)
+
+@vindex TrueAspectRatio
+@item TrueAspectRatio
+Boolean specifying whether to use the true (non square pixels) aspect ratio.
+
 @end table
 
 @c @node FIXME
@@ -11196,6 +11213,32 @@ Only use the first CPU on SMP systems
 @item +singlecpu
 Use all CPUs on SMP systems
 (@code{SingleCPU=0}).
+
+@findex -vblanksync, +vblanksync
+@item -vblanksync
+@itemx +vblanksync
+Enable/disable vertical blank sync
+(@code{VBLANKSync=1}, @code{VBLANKSync=0}).
+
+@findex -alwaysontop, +alwaysontop
+@item -alwaysontop
+@itemx +alwaysontop
+Enable/disable always on top feature
+(@code{AlwaysOnTop=1}, @code{AlwaysOnTop=0}).
+
+@findex -keepaspect, +keepaspect
+@item -keepaspect
+Enable keeping of the aspect ratio when scaling
+(@code{KeepAspectRatio=1}).
+@item +keepaspect
+Disable keeping of the aspect ratio when scaling (freescaling)
+(@code{KeepAspectRatio=0}).
+
+@findex -trueaspect, +trueaspect
+@item -trueaspect
+@itemx +trueaspect
+Enable/disable whether to use the true (non square pixels) aspect ratio
+(@code{TrueAspectRatio=1}, (@code{TrueAspectRatio=0}).
 
 @end table
 
