@@ -11253,6 +11253,18 @@ Boolean to enable/disable fullscreen mode.
 @item FullscreenDevice
 Integer specifying the fullscreen device.
 
+@vindex FullscreenWidth
+@item FullscreenWidth
+Integer specifying the width of the fullscreen display.
+
+@vindex FullscreenHeight
+@item FullscreenHeight
+Integer specifying the height of the fullscreen display.
+
+@vindex FullscreenRefreshRate
+@item FullscreenRefreshRate
+Integer specifying the refresh rate of the fullscreen display.
+
 @end table
 
 @c @node FIXME
