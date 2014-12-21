@@ -391,45 +391,48 @@ void ui_error(const char *format, ...)
 void ui_exit(void)
 {
     ui_button_t b;
-    int value;
+    int value1, value2;
     char *s = util_concat(_("Exit "), (machine_class != VICE_MACHINE_VSID) ? machine_name : "SID", 
                           _(" emulator"), NULL);
 
 #ifdef HAVE_FULLSCREEN
     fullscreen_suspend(1);
 #endif
-    resources_get_int("ConfirmOnExit", &value);
-    if (value) {
+    resources_get_int("ConfirmOnExit", &value1);
+    resources_get_int("SaveResourcesOnExit", &value2);
+
+    b = UI_BUTTON_YES;
+    if ((value1) && (!value2)) {
         b = ui_ask_yesno(s, _("Do you really want to exit?"));
-    } else {
-        b = UI_BUTTON_YES;
     }
 
     if (b == UI_BUTTON_YES) {
-        resources_get_int("SaveResourcesOnExit", &value);
-        if (value) {
-            b = ui_ask_confirmation(s, _("Save the current settings?"));
+        if (value2) {
+            b = UI_BUTTON_YES;
+            if (value1) {
+                b = ui_ask_confirmation(s, _("Save the current settings?"));
+            }
             if (b == UI_BUTTON_YES) {
                 if (resources_save(NULL) < 0) {
                     ui_error(_("Cannot save settings."));
+                    b = UI_BUTTON_CANCEL;
                 }
-            } else if (b == UI_BUTTON_CANCEL) {
-                lib_free(s);
-                return;
             }
         }
-        /* ui_autorepeat_on(); */
-        ui_restore_mouse();
+        if (b != UI_BUTTON_CANCEL) {
+            /* ui_autorepeat_on(); */
+            ui_restore_mouse();
 #ifdef HAVE_FULLSCREEN
-        fullscreen_suspend(0);
+            fullscreen_suspend(0);
 #endif
-        ui_dispatch_events();
+            ui_dispatch_events();
 
-        lib_free(s);
+            lib_free(s);
 #ifdef USE_UI_THREADS
-	dthread_shutdown();
+            dthread_shutdown();
 #endif
-        exit(0);
+            exit(0);
+        };
     }
     lib_free(s);
     vsync_suspend_speed_eval();
