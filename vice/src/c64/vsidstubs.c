@@ -114,7 +114,7 @@ midi_interface_t midi_interface[] = {
     gfxoutput drivers
 *******************************************************************************/
 
-int gfxoutput_early_init(int drivers)
+int gfxoutput_early_init(int help)
 {
     return 0;
 }

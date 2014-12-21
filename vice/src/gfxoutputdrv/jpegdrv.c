@@ -227,7 +227,10 @@ static gfxoutputdrv_t jpeg_drv =
 #endif
 };
 
-void gfxoutput_init_jpeg(void)
+void gfxoutput_init_jpeg(int help)
 {
+    if (help) {
+        return;
+    }
     gfxoutput_register(&jpeg_drv);
 }

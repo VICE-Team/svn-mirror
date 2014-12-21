@@ -932,15 +932,20 @@ static gfxoutputdrv_t ffmpeg_drv = {
 #endif
 };
 
-void gfxoutput_init_ffmpeg(void)
+void gfxoutput_init_ffmpeg(int help)
 {
-    if (ffmpeglib_open(&ffmpeglib) < 0) {
+    if (help) {
+        gfxoutput_register(&ffmpeg_drv);
         return;
     }
+    if (!help) {
+        if (ffmpeglib_open(&ffmpeglib) < 0) {
+            return;
+        }
+        gfxoutput_register(&ffmpeg_drv);
 
-    gfxoutput_register(&ffmpeg_drv);
-
-    (*ffmpeglib.p_av_register_all)();
+        (*ffmpeglib.p_av_register_all)();
+    }
 }
 
 #endif

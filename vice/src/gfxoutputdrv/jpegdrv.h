@@ -27,6 +27,6 @@
 #ifndef VICE_JPEGDRV_H
 #define VICE_JPEGDRV_H
 
-extern void gfxoutput_init_jpeg(void);
+extern void gfxoutput_init_jpeg(int help);
 
 #endif

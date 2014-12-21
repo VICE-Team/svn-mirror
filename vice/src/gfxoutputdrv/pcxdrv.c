@@ -409,7 +409,10 @@ static gfxoutputdrv_t pcx_drv =
 #endif
 };
 
-void gfxoutput_init_pcx(void)
+void gfxoutput_init_pcx(int help)
 {
+    if (help) {
+        return;
+    }
     gfxoutput_register(&pcx_drv);
 }

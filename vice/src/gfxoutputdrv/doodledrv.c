@@ -740,7 +740,7 @@ static gfxoutputdrv_t doodle_compressed_drv =
 #endif
 };
 
-void gfxoutput_init_doodle(void)
+void gfxoutput_init_doodle(int help)
 {
     gfxoutput_register(&doodle_drv);
     gfxoutput_register(&doodle_compressed_drv);

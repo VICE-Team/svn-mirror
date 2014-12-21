@@ -319,7 +319,10 @@ static gfxoutputdrv_t png_drv =
 #endif
 };
 
-void gfxoutput_init_png(void)
+void gfxoutput_init_png(int help)
 {
+    if (help) {
+        return;
+    }
     gfxoutput_register(&png_drv);
 }

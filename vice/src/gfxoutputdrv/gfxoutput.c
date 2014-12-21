@@ -92,37 +92,36 @@ gfxoutputdrv_t *gfxoutput_drivers_iter_next(void)
     return NULL;
 }
 
-int gfxoutput_early_init(int drivers)
+int gfxoutput_early_init(int help)
 {
     /* Initialize graphics output driver list.  */
     gfxoutputdrv_list = lib_malloc(sizeof(gfxoutputdrv_list_t));
     gfxoutputdrv_list->drv = NULL;
     gfxoutputdrv_list->next = NULL;
 
-    if (drivers) {
-        gfxoutput_init_bmp();
-        gfxoutput_init_doodle();
-        gfxoutput_init_koala();
+    /* on early init for "-help" commandline, some initialization is skipped
+       by the individual drivers */
+    gfxoutput_init_bmp(help);
+    gfxoutput_init_doodle(help);
+    gfxoutput_init_koala(help);
 #ifdef HAVE_GIF
-        gfxoutput_init_gif();
+    gfxoutput_init_gif(help);
 #endif
-        gfxoutput_init_iff();
+    gfxoutput_init_iff(help);
 #ifdef HAVE_JPEG
-        gfxoutput_init_jpeg();
+    gfxoutput_init_jpeg(help);
 #endif
-        gfxoutput_init_pcx();
+    gfxoutput_init_pcx(help);
 #ifdef HAVE_PNG
-        gfxoutput_init_png();
+    gfxoutput_init_png(help);
 #endif
-        gfxoutput_init_ppm();
+    gfxoutput_init_ppm(help);
 #ifdef HAVE_FFMPEG
-        gfxoutput_init_ffmpeg();
+    gfxoutput_init_ffmpeg(help);
 #endif
 #ifdef HAVE_QUICKTIME
-        gfxoutput_init_quicktime();
+    gfxoutput_init_quicktime(help);
 #endif
-    }
-
     return 0;
 }
 

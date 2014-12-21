@@ -37,6 +37,6 @@
 #define QUICKTIME_VIDEO_BITRATE_MAX 10000000
 #define QUICKTIME_VIDEO_BITRATE_DEF 800000
 
-extern void gfxoutput_init_quicktime(void);
+extern void gfxoutput_init_quicktime(int help);
 
 #endif

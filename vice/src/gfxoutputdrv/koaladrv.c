@@ -823,7 +823,7 @@ static gfxoutputdrv_t koala_compressed_drv =
 #endif
 };
 
-void gfxoutput_init_koala(void)
+void gfxoutput_init_koala(int help)
 {
     gfxoutput_register(&koala_drv);
     gfxoutput_register(&koala_compressed_drv);

@@ -366,7 +366,10 @@ static gfxoutputdrv_t iff_drv =
 #endif
 };
 
-void gfxoutput_init_iff(void)
+void gfxoutput_init_iff(int help)
 {
+    if (help) {
+        return;
+    }
     gfxoutput_register(&iff_drv);
 }

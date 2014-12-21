@@ -281,7 +281,10 @@ static gfxoutputdrv_t gif_drv =
 #endif
 };
 
-void gfxoutput_init_gif(void)
+void gfxoutput_init_gif(int help)
 {
+    if (help) {
+        return;
+    }
     gfxoutput_register(&gif_drv);
 }

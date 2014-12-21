@@ -252,7 +252,10 @@ static gfxoutputdrv_t ppm_drv =
 #endif
 };
 
-void gfxoutput_init_ppm(void)
+void gfxoutput_init_ppm(int help)
 {
+    if (help) {
+        return;
+    }
     gfxoutput_register(&ppm_drv);
 }

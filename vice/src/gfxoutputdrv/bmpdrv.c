@@ -480,7 +480,10 @@ static gfxoutputdrv_t bmp_drv =
 #endif
 };
 
-void gfxoutput_init_bmp(void)
+void gfxoutput_init_bmp(int help)
 {
+    if (help) {
+        return;
+    }
     gfxoutput_register(&bmp_drv);
 }

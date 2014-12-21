@@ -647,13 +647,15 @@ static gfxoutputdrv_t quicktime_drv = {
 #endif
 };
 
-void gfxoutput_init_quicktime(void)
+void gfxoutput_init_quicktime(int help)
 {
-    /* init quicktime */
-    OSErr error = EnterMoviesOnThread(0);
-    if (error != noErr) {
-        log_debug("quicktime: error initializing!");
-        return;
+    if (!help) {
+        /* init quicktime */
+        OSErr error = EnterMoviesOnThread(0);
+        if (error != noErr) {
+            log_debug("quicktime: error initializing!");
+            return;
+        }
     }
 
     gfxoutput_register(&quicktime_drv);
