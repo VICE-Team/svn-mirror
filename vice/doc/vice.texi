@@ -11153,6 +11153,110 @@ Boolean specifying whether the aspect ratio of the output window should be prese
 @item TrueAspectRatio
 Boolean specifying whether to use the true (non square pixels) aspect ratio.
 
+@vindex AspectRatio
+@item AspectRatio
+Integer specifying the aspect ratio
+(500-2000).
+
+@vindex JoyDevice1
+@item JoyDevice1
+Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+@vindex JoyDevice2
+@item JoyDevice2
+Integer specifying which joystick device the emulator should use for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+@vindex JoyDevice3
+@item JoyDevice3
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+@vindex JoyDevice4
+@item JoyDevice4
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+
+@vindex JoyAutofire1Speed
+@item JoyAutofire1Speed
+Integer specifying the autofire speed for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
+(0-32)
+@vindex JoyAutofire2Speed
+@item JoyAutofire2Speed
+Integer specifying the autofire speed for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
+(0-32)
+@vindex JoyAutofire3Speed
+@item JoyAutofire3Speed
+Integer specifying the autofire speed for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
+(0-32)
+@vindex JoyAutofire4Speed
+@item JoyAutofire4Speed
+Integer specifying the autofire speed for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
+(0-32)
+
+@vindex JoyAutofire1Button
+@item JoyAutofire1Button
+Integer specifying the the code of the button to use for autofire for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
+@vindex JoyAutofire2Button
+@item JoyAutofire2Button
+Integer specifying the the code of the button to use for autofire for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
+@vindex JoyAutofire3Button
+@item JoyAutofire3Button
+Integer specifying the the code of the button to use for autofire for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
+@vindex JoyAutofire4Button
+@item JoyAutofire4Button
+Integer specifying the the code of the button to use for autofire for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
+
+@vindex JoyFire1Button
+@item JoyFire1Button
+Integer specifying the the code of the button to use for fire for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
+@vindex JoyFire2Button
+@item JoyFire2Button
+Integer specifying the the code of the button to use for fire for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
+@vindex JoyFire3Button
+@item JoyFire3Button
+Integer specifying the the code of the button to use for fire for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
+@vindex JoyFire4Button
+@item JoyFire4Button
+Integer specifying the the code of the button to use for fire for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
+
+@end table
+
+The following resources are only available if MIDI support is available at compile time.
+
+@table @code
+
+@vindex MIDIInDev
+@item MIDIInDev
+Integer specifying the MIDI input device
+(x64, x64sc, xscpu64, x128 and xvic only).
+
+@vindex MIDIOutDev
+@item MIDIOutDev
+Integer specifying the MIDI output device
+(x64, x64sc, xscpu64, x128 and xvic only).
+
+@end table
+
+The following resources are only available if DirectX 9 support is available at compile time.
+
+@table @code
+
+@vindex DX9Disable
+@item DX9Disable
+Boolean specifying whether to disable the DirectX 9 video driver and fall back on the GDI video driver.
+(0=use GDI, 1=use DX9)
+
+@vindex DXPrimarySurfaceRendering
+@item DXPrimarySurfaceRendering
+Boolean to enable/disable rendering to DirectX primary surface.
+
+@vindex FullscreenEnabled
+@item FullscreenEnabled
+Boolean to enable/disable fullscreen mode.
+
+@vindex FullscreenDevice
+@item FullscreenDevice
+Integer specifying the fullscreen device.
+
 @end table
 
 @c @node FIXME
@@ -11239,6 +11343,88 @@ Disable keeping of the aspect ratio when scaling (freescaling)
 @itemx +trueaspect
 Enable/disable whether to use the true (non square pixels) aspect ratio
 (@code{TrueAspectRatio=1}, (@code{TrueAspectRatio=0}).
+
+@findex -aspect
+@item -aspect <aspect ratio>
+Set the aspect ratio
+(@code{AspectRatio}).
+(500-2000)
+
+@findex -joydev1
+@item -joydev1 <0-5>
+Set the device for joystick emulation of port 1
+(@code{JoyDevice1})
+(all emulators except xcbm2, xpet and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+@findex -joydev2
+@item -joydev2 <0-5>
+Set the device for joystick emulation of port 2
+(@code{JoyDevice2})
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+@findex -extrajoydev1
+@item -extrajoydev1 <0-5>
+Set device for extra joystick port 1
+(@code{JoyDevice3})
+(all emulators except xcbm5x0 and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+@findex -extrajoydev2
+@item -extrajoydev2 <0-5>
+Set device for extra joystick port 2
+(@code{JoyDevice4})
+(all emulators except xcbm5x0, xplus4 and vsid).
+(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+
+@end table
+
+The following command-line options are only available if MIDI support is available at compile time.
+
+@table @code
+
+@findex -midiin
+@item -midiin <number>
+Specify MIDI-In device
+(@code{MIDIInDev})
+(x64, x64sc, xscpu64, x128 and xvic only).
+
+@findex -midiout
+@item -midiout <number>
+Specify MIDI-Out device
+(@code{MIDIOutDev})
+(x64, x64sc, xscpu64, x128 and xvic only).
+
+@end table
+
+The following command-line options are only available if Direct3D support is available at compile time.
+
+@table @code
+
+@findex -dx9disable
+@item -dx9disable
+Disable DirectX 9 video driver and fall back on the GDI video driver
+(@code{DX9Disable=1}).
+
+@findex -dx9enable
+@item -dx9enable
+Enable DirectX 9 video driver
+(@code{DX9Disable=1}).
+
+@findex -dxpsrender, +dxpsrender
+@item -dxpsrender
+@itemx +dxpsrender
+Enable/disable rendering to DirectX primary surface
+(@code{DXPrimarySurfaceRendering=1}, @code{DXPrimarySurfaceRendering=0}).
+
+@findex -fullscreen, +fullscreen
+@item -fullscreen
+@itemx +fullscreen
+Enable/Disable fullscreen mode
+(@code{FullscreenEnabled=1}, @code{FullscreenEnabled=0}).
+
+@findex -fullscreendevice
+@item -fullscreendevice <number>
+Specify fullscreen device
+(@code{FullscreenDevice}).
 
 @end table
 

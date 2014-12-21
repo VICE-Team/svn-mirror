@@ -3470,10 +3470,448 @@ description:    "Disable true aspect ratio"
 resource:       "TrueAspectRatio" (set to 0)
 action:         N/A
 
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "AspectRatio"
+resource range:                 500..2000
+resource default:               1000
+resource function:              set_aspect_ratio()
+resource var:                   ui_resources.aspect_ratio
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -aspect
+platform gui present:           windows
+platform range correct:		windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -aspect <aspect ratio>
+description:    "Set aspect ratio (500..2000)"
+resource:       "AspectRatio"
+action:         N/A
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice1"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
+not used in:                    xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -joydev1
+platform gui present:           windows
+platform range correct:		windows
+fixme: better arch sections in documentation
+
+arch/win32/joy.c:
+-----------------
+command line:   -joydev1 <number>
+description:    "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
+resource:       "JoyDevice1"
+action:         N/A
+fixme: fix documentation
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice2"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   -joydev2
+platform gui present:           windows
+platform range correct:		windows
+fixme: better arch sections in documentation
+
+arch/win32/joy.c:
+-----------------
+command line:   -joydev2 <number>
+description:    "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
+resource:       "JoyDevice2"
+action:         N/A
+fixme: fix documentation
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice3"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   -extrajoydev1
+platform gui present:           windows
+platform range correct:		windows
+fixme: better arch sections in documentation
+
+arch/win32/joy.c:
+-----------------
+command line:   -extrajoydev1 <number>
+description:    "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
+resource:       "JoyDevice3"
+action:         N/A
+fixme: fix documentation
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyDevice4"
+resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
+resource default:               JOYDEV_NONE (0)
+resource function:              set_joystick_device()
+resource var:                   joystick_port_map[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   -extrajoydev2
+platform gui present:           windows
+platform range correct:		windows
+fixme: better arch sections in documentation
+
+arch/win32/joy.c:
+-----------------
+command line:   -extrajoydev2 <number>
+description:    "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
+resource:       "JoyDevice4"
+action:         N/A
+fixme: fix documentation
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyAutofire1Speed"
+resource range:                 1..32
+resource default:               16
+resource function:              set_joystick_fire_speed()
+resource var:                   joystick_fire_speed[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+platform range correct:		windows
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyAutofire2Speed"
+resource range:                 1..32
+resource default:               16
+resource function:              set_joystick_fire_speed()
+resource var:                   joystick_fire_speed[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+platform range correct:		windows
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyAutofire3Speed"
+resource range:                 1..32
+resource default:               16
+resource function:              set_joystick_fire_speed()
+resource var:                   joystick_fire_speed[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+platform range correct:		windows
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyAutofire4Speed"
+resource range:                 1..32
+resource default:               16
+resource function:              set_joystick_fire_speed()
+resource var:                   joystick_fire_speed[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+platform range correct:		windows
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyAutofire1Button"
+resource range:                 0+
+resource default:               0
+resource function:              set_joystick_autofire_button()
+resource var:                   joystick_autofire_button[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyAutofire2Button"
+resource range:                 0+
+resource default:               0
+resource function:              set_joystick_autofire_button()
+resource var:                   joystick_autofire_button[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyAutofire3Button"
+resource range:                 0+
+resource default:               0
+resource function:              set_joystick_autofire_button()
+resource var:                   joystick_autofire_button[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyAutofire4Button"
+resource range:                 0+
+resource default:               0
+resource function:              set_joystick_autofire_button()
+resource var:                   joystick_autofire_button[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyFire1Button"
+resource range:                 0+
+resource default:               0
+resource function:              set_joystick_fire_button()
+resource var:                   joystick_fire_button[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyFire2Button"
+resource range:                 0+
+resource default:               0
+resource function:              set_joystick_fire_button()
+resource var:                   joystick_fire_button[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyFire3Button"
+resource range:                 0+
+resource default:               0
+resource function:              set_joystick_fire_button()
+resource var:                   joystick_fire_button[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyFire4Button"
+resource range:                 0+
+resource default:               0
+resource function:              set_joystick_fire_button()
+resource var:                   joystick_fire_button[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT WINDOWS ONLY OPTIONAL RESOURCES/CMDLINES:
 =======================================================
+
+arch/win32/mididrv.c:
+---------------------
+resource type:                  int
+resource name:                  "MIDIInDev"
+resource range:                 N/A
+resource default:               0
+resource function:              set_midi_in_dev()
+resource var:                   midi_in_dev
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:				#ifdef HAVE_MIDI
+command-line:                   -midiin
+platform gui present:           windows
+
+arch/win32/mididrv.c:
+---------------------
+command line:   -midiin <number>
+description:    "Specify MIDI-In device"
+resource:       "MIDIInDev"
+action:         N/A
+
+arch/win32/mididrv.c:
+---------------------
+resource type:                  int
+resource name:                  "MIDIOutDev"
+resource range:                 N/A
+resource default:               0
+resource function:              set_midi_out_dev()
+resource var:                   midi_out_dev
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
+not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:				#ifdef HAVE_MIDI
+command-line:                   -midiout
+platform gui present:           windows
+
+arch/win32/mididrv.c:
+---------------------
+command line:   -midiout <number>
+description:    "Specify MIDI-Out device"
+resource:       "MIDIOutDev"
+action:         N/A
+
+arch/win32/video.c:
+-------------------
+resource type:                  bool
+resource name:                  "DX9Disable"
+resource range:                 0/1
+resource default:               0
+resource function:              set_dx9_disable()
+resource var:                   dx9_disable
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_D3D9_H
+command-line:                   -dx9disable / -dx9enable
+platform gui present:           windows
+
+arch/win32/video.c:
+-------------------
+command line:   -dx9disable
+description:    "Disable DirectX9 video driver"
+resource:       "DX9Disable" (set to 1)
+action:         N/A
+
+arch/win32/video.c:
+-------------------
+command line:   -dx9enable
+description:    "Enable DirectX9 video driver"
+resource:       "DX9Disable" (set to 0)
+action:         N/A
+
+arch/win32/video.c:
+-------------------
+resource type:                  bool
+resource name:                  "DXPrimarySurfaceRendering"
+resource range:                 0/1
+resource default:               0
+resource function:              set_dx_primary_surface_rendering()
+resource var:                   dx_primary_surface_rendering
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_D3D9_H
+command-line:                   -dxpsrender / +dxpsrender
+platform gui present:           windows
+
+arch/win32/video.c:
+-------------------
+command line:   -dxpsrender
+description:    "Enable rendering to DirectX primary surface"
+resource:       "DXPrimarySurfaceRendering" (set to 1)
+action:         N/A
+
+arch/win32/video.c:
+-------------------
+command line:   +dxpsrender
+description:    "Disable rendering to DirectX primary surface"
+resource:       "DXPrimarySurfaceRendering" (set to 0)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "FullscreenEnabled"
+resource range:                 0/1
+resource default:               0
+resource function:              set_fullscreen_enabled()
+resource var:                   ui_resources.fullscreenenabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef HAVE_D3D9_H
+command-line:                   -fullscreen / +fullscreen
+platform gui present:           windows
+
+arch/win32/video.c:
+-------------------
+command line:   -fullscreen
+description:    "Start VICE in fullscreen mode"
+resource:       "FullScreenEnabled" (set to 1)
+action:         N/A
+
+arch/win32/video.c:
+-------------------
+command line:   +fullscreen
+description:    "Do not start VICE in fullscreen mode"
+resource:       "FullScreenEnabled" (set to 0)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "FullscreenDevice"
+resource range:                 N/A
+resource default:               0
+resource function:              set_fullscreen_device()
+resource var:                   ui_resources.fullscreendevice
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+prepocessor:                    #ifdef HAVE_D3D9_H
+command-line:                   -fullscreendevice
+platform gui present:           windows
+
+arch/win32/video.c:
+-------------------
+command line:   -fullscreendevice <number>
+description:    "Specify fullscreen device. ([generated device list])"
+resource:       "FullscreenDevice"
+action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -3507,510 +3945,8 @@ FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
-WINDOWS ONLY COMMON RESOURCES/CMDLINES:
-=======================================
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "AspectRatio"
-resource range:                 500..2000
-resource default:               1000
-resource function:              set_aspect_ratio()
-resource var:                   ui_resources.aspect_ratio
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           windows
-platform range correct:		windows
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyAutofire1Speed"
-resource range:                 1..32
-resource default:               16
-resource function:              set_joystick_fire_speed()
-resource var:                   joystick_fire_speed[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyAutofire1Axis"
-resource range:                 0+
-resource default:               0
-resource function:              set_joystick_fire_axis()
-resource var:                   joystick_fire_axis[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyAutofire1Button"
-resource range:                 0+
-resource default:               0
-resource function:              set_joystick_autofire_button()
-resource var:                   joystick_autofire_button[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyAutofire2Speed"
-resource range:                 1..32
-resource default:               16
-resource function:              set_joystick_fire_speed()
-resource var:                   joystick_fire_speed[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyAutofire2Axis"
-resource range:                 0+
-resource default:               0
-resource function:              set_joystick_fire_axis()
-resource var:                   joystick_fire_axis[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyAutofire2Button"
-resource range:                 0+
-resource default:               0
-resource function:              set_joystick_autofire_button()
-resource var:                   joystick_autofire_button[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyAutofire3Speed"
-resource range:                 1..32
-resource default:               16
-resource function:              set_joystick_fire_speed()
-resource var:                   joystick_fire_speed[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyAutofire3Axis"
-resource range:                 0+
-resource default:               0
-resource function:              set_joystick_fire_axis()
-resource var:                   joystick_fire_axis[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyAutofire3Button"
-resource range:                 0+
-resource default:               0
-resource function:              set_joystick_autofire_button()
-resource var:                   joystick_autofire_button[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyAutofire4Speed"
-resource range:                 1..32
-resource default:               16
-resource function:              set_joystick_fire_speed()
-resource var:                   joystick_fire_speed[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyAutofire4Axis"
-resource range:                 0+
-resource default:               0
-resource function:              set_joystick_fire_axis()
-resource var:                   joystick_fire_axis[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyAutofire4Button"
-resource range:                 0+
-resource default:               0
-resource function:              set_joystick_autofire_button()
-resource var:                   joystick_autofire_button[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyFire1Button"
-resource range:                 0+
-resource default:               0
-resource function:              set_joystick_fire_button()
-resource var:                   joystick_fire_button[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyFire2Button"
-resource range:                 0+
-resource default:               0
-resource function:              set_joystick_fire_button()
-resource var:                   joystick_fire_button[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyFire3Button"
-resource range:                 0+
-resource default:               0
-resource function:              set_joystick_fire_button()
-resource var:                   joystick_fire_button[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyFire4Button"
-resource range:                 0+
-resource default:               0
-resource function:              set_joystick_fire_button()
-resource var:                   joystick_fire_button[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyDevice1"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic
-not used in:                    xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -joydev1
-platform gui present:           windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/win32/joy.c:
------------------
-command line:   -joydev1 <number>
-description:    "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
-resource:       "JoyDevice1"
-action:         N/A
-fixme: fix documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyDevice2"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
-not used in:                    xcbm2/xpet/xvic/vsid
-prepocessor:
-command-line:                   -joydev2
-platform gui present:           windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/win32/joy.c:
------------------
-command line:   -joydev2 <number>
-description:    "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
-resource:       "JoyDevice2"
-action:         N/A
-fixme: fix documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyDevice3"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
-not used in:                    xcbm5x0/vsid
-prepocessor:
-command-line:                   -extrajoydev1
-platform gui present:           windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/win32/joy.c:
------------------
-command line:   -extrajoydev1 <number>
-description:    "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
-resource:       "JoyDevice3"
-action:         N/A
-fixme: fix documentation
-
-arch/win32/joy.c:
------------------
-resource type:                  int
-resource name:                  "JoyDevice4"
-resource range:                 0..5 (JOYDEV_NONE (0), JOYDEV_NUMPAD (1), JOYDEV_KEYSET1 (2), JOYDEV_KEYSET2 (3), JOYDEV_HW1 (4), JOYDEV_HW2 (5))
-resource default:               JOYDEV_NONE (0)
-resource function:              set_joystick_device()
-resource var:                   joystick_port_map[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
-not used in:                    xcbm5x0/xplus4/vsid
-prepocessor:
-command-line:                   -extrajoydev2
-platform gui present:           windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: better arch sections in documentation
-
-arch/win32/joy.c:
------------------
-command line:   -extrajoydev2 <number>
-description:    "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
-resource:       "JoyDevice4"
-action:         N/A
-fixme: fix documentation
-
-------------------------------------------------------------------------------------------------------------------------------------
-
 WINDOWS ONLY OPTIONAL RESOURCES/CMDLINES:
 =========================================
-
-arch/win32/mididrv.c:
----------------------
-resource type:                  int
-resource name:                  "MIDIInDev"
-resource range:                 N/A
-resource default:               0
-resource function:              set_midi_in_dev()
-resource var:                   midi_in_dev
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
-not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:				#ifdef HAVE_MIDI
-command-line:                   -midiin
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/mididrv.c:
----------------------
-command line:   -midiin <number>
-description:    "Specify MIDI-In device"
-resource:       "MIDIInDev"
-action:         N/A
-fixme: add to documentation
-
-arch/win32/mididrv.c:
----------------------
-resource type:                  int
-resource name:                  "MIDIOutDev"
-resource range:                 N/A
-resource default:               0
-resource function:              set_midi_out_dev()
-resource var:                   midi_out_dev
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xvic
-not used in:                    xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:				#ifdef HAVE_MIDI
-command-line:                   -midiout
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/mididrv.c:
----------------------
-command line:   -midiout <number>
-description:    "Specify MIDI-Out device"
-resource:       "MIDIOutDev"
-action:         N/A
-fixme: add to documentation
-
-arch/win32/video.c:
--------------------
-resource type:                  bool
-resource name:                  "DX9Disable"
-resource range:                 0/1
-resource default:               0
-resource function:              set_dx9_disable()
-resource var:                   dx9_disable
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #ifdef HAVE_D3D9_H
-command-line:                   -dx9disable / -dx9enable
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/video.c:
--------------------
-command line:   -dx9disable
-description:    "Disable DirectX9 video driver"
-resource:       "DX9Disable" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/win32/video.c:
--------------------
-command line:   -dx9enable
-description:    "Enable DirectX9 video driver"
-resource:       "DX9Disable" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-arch/win32/video.c:
--------------------
-resource type:                  bool
-resource name:                  "DXPrimarySurfaceRendering"
-resource range:                 0/1
-resource default:               0
-resource function:              set_dx_primary_surface_rendering()
-resource var:                   dx_primary_surface_rendering
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #ifdef HAVE_D3D9_H
-command-line:                   NONE (fixme)
-platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "FullscreenDevice"
-resource range:                 N/A
-resource default:               0
-resource function:              set_fullscreen_device()
-resource var:                   ui_resources.fullscreendevice
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-prepocessor:                    #ifdef HAVE_D3D9_H
-platforms to check:			windows
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
 
 arch/win32/ui-resources.c:
 --------------------------
@@ -4024,8 +3960,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 prepocessor:                    #ifdef HAVE_D3D9_H
+command-line:                   NONE (fixme)
 platform gui present:           windows
-platform gui missing:
 fixme: add to documentation
 
 arch/win32/ui-resources.c:
@@ -4040,8 +3976,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 prepocessor:                    #ifdef HAVE_D3D9_H
+command-line:                   NONE (fixme)
 platform gui present:           windows
-platform gui missing:
 fixme: add to documentation
 
 arch/win32/ui-resources.c:
@@ -4056,8 +3992,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 prepocessor:                    #ifdef HAVE_D3D9_H
+command-line:                   NONE (fixme)
 platform gui present:           windows
-platform gui missing:
 fixme: add to documentation
 
 arch/win32/ui-resources.c:
@@ -4072,41 +4008,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 prepocessor:                    #ifdef HAVE_D3D9_H
+command-line:                   NONE (fixme)
 platform gui present:           windows
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "FullscreenEnabled"
-resource range:                 0/1
-resource default:               0
-resource function:              set_fullscreen_enabled()
-resource var:                   ui_resources.fullscreenenabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #ifdef HAVE_D3D9_H
-command-line:                   -fullscreen / +fullscreen
-platforms to check:			windows
-platform gui present:           
-platform gui missing:
-fixme: add to documentation
-
-arch/win32/video.c:
--------------------
-command line:   -fullscreen
-description:    "Start VICE in fullscreen mode"
-resource:       "FullScreenEnabled" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-arch/win32/video.c:
--------------------
-command line:   +fullscreen
-description:    "Do not start VICE in fullscreen mode"
-resource:       "FullScreenEnabled" (set to 0)
-action:         N/A
 fixme: add to documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
@@ -24901,6 +24804,71 @@ platform gui present:           unix(GTK)
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			
+fixme: add to documentation
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+WINDOWS ONLY COMMON RESOURCES/CMDLINES:
+=======================================
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyAutofire1Axis"
+resource range:                 0+
+resource default:               0
+resource function:              set_joystick_fire_axis()
+resource var:                   joystick_fire_axis[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+fixme: add to documentation
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyAutofire2Axis"
+resource range:                 0+
+resource default:               0
+resource function:              set_joystick_fire_axis()
+resource var:                   joystick_fire_axis[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4
+not used in:                    xcbm2/xpet/xvic/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+fixme: add to documentation
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyAutofire3Axis"
+resource range:                 0+
+resource default:               0
+resource function:              set_joystick_fire_axis()
+resource var:                   joystick_fire_axis[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic
+not used in:                    xcbm5x0/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
+fixme: add to documentation
+
+arch/win32/joy.c:
+-----------------
+resource type:                  int
+resource name:                  "JoyAutofire4Axis"
+resource range:                 0+
+resource default:               0
+resource function:              set_joystick_fire_axis()
+resource var:                   joystick_fire_axis[3]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xvic
+not used in:                    xcbm5x0/xplus4/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:           windows
 fixme: add to documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------

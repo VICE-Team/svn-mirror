@@ -37,6 +37,7 @@
 #include "translate.h"
 #include "ui.h"
 #include "uiapi.h"
+#include "util.h"
 #include "video.h"
 #include "videoarch.h"
 #include "viewport.h"
@@ -52,6 +53,8 @@ static int dx9_available;
 int fullscreen_enabled;
 int dx_primary_surface_rendering;
 int dx9_disable;
+
+static char *fullscreen_device_list = NULL;
 
 static int set_dx_primary_surface_rendering(int val, void *param)
 {
@@ -116,9 +119,9 @@ static int set_dx9_disable(int value, void *param)
 }
 
 static const resource_int_t resources_int[] = {
+#ifdef HAVE_D3D9_H
     { "DXPrimarySurfaceRendering", 0, RES_EVENT_NO, NULL,
       &dx_primary_surface_rendering, set_dx_primary_surface_rendering, NULL },
-#ifdef HAVE_D3D9_H
     { "DX9Disable", 0, RES_EVENT_NO, NULL,
       &dx9_disable, set_dx9_disable, NULL },
 #endif
@@ -132,6 +135,9 @@ int video_arch_resources_init(void)
 
 void video_arch_resources_shutdown(void)
 {
+    if (fullscreen_device_list) {
+        lib_free(fullscreen_device_list);
+    }
 }
 
 /* ------------------------------------------------------------------------ */
@@ -139,6 +145,7 @@ void video_arch_resources_shutdown(void)
 /* Video-related command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
+#ifdef HAVE_D3D9_H
     { "-fullscreen", SET_RESOURCE, 0,
       NULL, NULL, "FullScreenEnabled", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -149,7 +156,6 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDS_DONT_START_VICE_FULLSCREEN_MODE,
       NULL, NULL },
-#ifdef HAVE_D3D9_H
     { "-dx9disable", SET_RESOURCE, 0,
       NULL, NULL, "DX9Disable", (resource_value_t) 1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -160,12 +166,65 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDS_ENABLE_DX9,
       NULL, NULL },
+    { "-dxpsrender", SET_RESOURCE, 0,
+      NULL, NULL, "DXPrimarySurfaceRendering", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_ENABLE_DXPS_RENDER,
+      NULL, NULL },
+    { "+dxpsrender", SET_RESOURCE, 0,
+      NULL, NULL, "DXPrimarySurfaceRendering", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_DISABLE_DXPS_RENDER,
+      NULL, NULL },
 #endif
     { NULL }
 };
 
+#ifdef HAVE_D3D9_H
+static cmdline_option_t generated_cmdline_options[] = {
+    { "-fullscreendevice", SET_RESOURCE, 1,
+      NULL, NULL, "FullscreenDevice", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
+      IDS_P_NUMBER, IDS_FULLSCREEN_DEVICE,
+      NULL, NULL },
+    { NULL }
+};
+#endif
+
 int video_cmdline_options_init(void)
 {
+#ifdef HAVE_D3D9_H
+    char *temp1, *temp2, *num, *dev;
+    int amount, i;
+
+    amount = fullscreen_get_devices_amount();
+    if (amount) {
+        dev = lib_stralloc(fullscreen_get_device(0));
+        util_remove_spaces(dev);
+        temp1 = util_concat(". (0: ", dev, NULL);
+        lib_free(dev);
+        for (i = 1; i < amount; i++) {
+            num = lib_msprintf("%d", i);
+            dev = lib_stralloc(fullscreen_get_device(i));
+            util_remove_spaces(dev);
+            temp2 = util_concat(temp1, ", ", num, ":", dev, NULL);
+            lib_free(num);
+            lib_free(dev);
+            lib_free(temp1);
+            temp1 = temp2;
+        }
+        fullscreen_device_list = util_concat(temp1, ")", NULL);
+    } else {
+        fullscreen_device_list = lib_stralloc(".");
+    }
+
+    generated_cmdline_options[0].description = fullscreen_device_list;
+
+    if (cmdline_register_options(generated_cmdline_options) < 0) {
+        return -1;
+    }
+#endif
+
     return cmdline_register_options(cmdline_options);
 }
 

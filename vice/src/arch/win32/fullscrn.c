@@ -129,7 +129,7 @@ static int fullscrn_res_valid(void)
 {
     int device, width, height, bitdepth, refreshrate;
 
-    GetCurrentModeParameters(&device, &width, &height, &bitdepth,&refreshrate);
+    GetCurrentModeParameters(&device, &width, &height, &bitdepth, &refreshrate);
 
     /* FIXME: May use modelist to check if combination is valid */
     if (device < 0 || width <= 0 || height <= 0 || bitdepth <= 0 || refreshrate < 0) {
@@ -210,6 +210,38 @@ void fullscreen_getmodes(void)
         fullscreen_set_res_from_current_display();
     }
 }
+
+#ifdef HAVE_D3D9_H
+int fullscreen_get_devices_amount(void)
+{
+    DirectDrawDeviceList *dev;
+    int amount = 0;
+
+    fullscreen_getmodes();
+    dev = devices;
+    while (dev != NULL) {
+        amount++;
+        dev = dev->next;
+    }
+    return amount;
+}
+
+char *fullscreen_get_device(int num)
+{
+    DirectDrawDeviceList *dev;
+    int i = 0;
+
+    dev = devices;
+    while (dev != NULL) {
+        if (i == num) {
+            return dev->desc;
+        }
+        dev = dev->next;
+        i++;
+    }
+    return NULL;
+}
+#endif
 
 void ui_fullscreen_init(void)
 {

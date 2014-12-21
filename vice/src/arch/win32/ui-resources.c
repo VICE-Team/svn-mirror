@@ -450,7 +450,11 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDS_DISABLE_TRUE_ASPECT,
       NULL, NULL },
-
+    { "-aspect", SET_RESOURCE, 1,
+      NULL, NULL, "AspectRatio", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDS_P_ASPECT_RATIO, IDS_SET_ASPECT_RATIO,
+      NULL, NULL },
     { NULL }
 };
 

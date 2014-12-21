@@ -1255,16 +1255,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "Start VICE in fullscreen mode"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Do not start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "Disable DirectX9 video driver"
   IDS_ENABLE_DX9                       "Enable DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "An unexpected error occured. Received signal %d (%s)."
 #else
@@ -1927,16 +1934,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "Start VICE i fullscreen-tilstand"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Do not start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "Deaktivér DirectX9 videodriver"
   IDS_ENABLE_DX9                       "Enable DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "Uventet fejl. Modtog signal %d (%s)."
 #else
@@ -2600,16 +2614,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "Aktiviere VICE Vollbild Modus"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Do not start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "DirectX9 Video Treiber deaktivieren"
   IDS_ENABLE_DX9                       "Enable DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "Ein unerwarteter Fehler ist aufgetreten. Signal %d (%s) empfangen."
 #else
@@ -3273,16 +3294,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "Iniciar VICE en modo de pantalla completa"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Do not start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "Deshabilitar controlador de video DirectX9"
   IDS_ENABLE_DX9                       "Enable DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "Se ha producido un erros inesperado. Recibida señal %d (%s)."
 #else
@@ -3946,16 +3974,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "Activer le mode plein écran au démarrage de VICE"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Do not start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "Désactiver le pilote vidéo DirectX 9"
   IDS_ENABLE_DX9                       "Enable DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "Un erreur innatendue s'est produite. Signal reçu : %d (%s)."
 #else
@@ -4622,16 +4657,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "A VICE indítása teljes képernyõs módban"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Do not start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "DirectX9 videó meghajtó tiltása"
   IDS_ENABLE_DX9                       "Enable DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "Váratlan hiba történt. %d szignál érkezett (%s)."
 #else
@@ -5298,16 +5340,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "Avvia VICE a schermo intero"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Do not start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "Disattiva driver video DirectX9"
   IDS_ENABLE_DX9                       "Enable DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "Si è verificato un errore imprevisto. E' stato ricevuto il segnale %d (%s)."
 #else
@@ -5974,16 +6023,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "VICE ÀüÃ¼È­¸é ¸ðµå¸¦ ½ÃÀÛ ÇÕ´Ï´Ù"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Do not start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "DirectX9 ºñµð·Î µå¶óÀÌ¹ö¸¦ »ç¿ëÇÏÁö ¾Ê½À´Ï´Ù"
   IDS_ENABLE_DX9                       "Enable DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "An unexpected error occured. Received signal %d (%s)."
 #else
@@ -6650,16 +6706,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "Start VICE in volschermmodus"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Start VICE niet in volschermmodus"
   IDS_DISABLE_DX9                      "DirectX9 video driver uitschakelen"
   IDS_ENABLE_DX9                       "Activeer DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "Onverwachte fout. Kreeg signaal %d (%s)."
 #else
@@ -7326,16 +7389,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "Uruchom VICE w trybie pe³noekranowym"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Do not start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "Wy³±cz sterownik wideo DirectX9"
   IDS_ENABLE_DX9                       "Enable DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "Wydarzy³ siê niespodziewany b³±d. Odebrano sygna³ %d (%s)."
 #else
@@ -8005,16 +8075,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "·ÐßãáâØâì VICE Ò ßÞÛÝÞíÚàÐÝÝÞÜ àÕÖØÜÕ"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Do not start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "¾âÚÛîçØâì ÒØÔÕÞ ÔàÐÙÒÕà DirectX9"
   IDS_ENABLE_DX9                       "Enable DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "An unexpected error occured. Received signal %d (%s)."
 #else
@@ -8681,16 +8758,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "Starta VICE i fullskärmsläge"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Do not start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "Inaktivera DirectX9-grafikdrivrutin"
   IDS_ENABLE_DX9                       "Enable DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "Ett okänt fel uppstod. Tog emot signal %d (%s)."
 #else
@@ -9357,16 +9441,23 @@ BEGIN
   IDS_DISABLE_KEEP_ASPECT              "Do not keep aspect ratio when scaling (freescale)"
   IDS_ENABLE_TRUE_ASPECT               "Enable true aspect ratio"
   IDS_DISABLE_TRUE_ASPECT              "Disable true aspect ratio"
+  IDS_P_ASPECT_RATIO                   "<aspect ratio>"
+  IDS_SET_ASPECT_RATIO                 "Set aspect ratio (500..2000)"
   IDS_SPECIFY_INITIAL_DEFAULT_DIR      "Specify initial default directory."
   IDS_SPECIFY_INITIAL_TAPE_DIR         "Specify initial tape directory."
   IDS_SPECIFY_INITIAL_DISK_DIR         "Specify initial disk directory."
   IDS_SPECIFY_INITIAL_AUTOSTART_DIR    "Specify initial autostart directory."
   IDS_SPECIFY_INITIAL_CART_DIR         "Specify initial cartridge directory."
   IDS_SPECIFY_INITIAL_SNAPSHOT_DIR     "Specify initial snapshot directory."
+#ifdef HAVE_D3D9_H
   IDS_START_VICE_FULLSCREEN_MODE       "VICE'ý tam ekran modunda baþlat"
   IDS_DONT_START_VICE_FULLSCREEN_MODE  "Do not start VICE in fullscreen mode"
   IDS_DISABLE_DX9                      "DirectX9 video sürücüsünü pasifleþtir"
   IDS_ENABLE_DX9                       "Enable DirectX9 video driver"
+  IDS_ENABLE_DXPS_RENDER               "Enable rendering to DirectX primary surface"
+  IDS_DISABLE_DXPS_RENDER              "Disable rendering to DirectX primary surface"
+  IDS_FULLSCREEN_DEVICE                "Specify fullscreen device"
+#endif
 #ifdef SYS_SIGLIST_DECLARED
   IDS_RECEIVED_SIGNAL_D_S              "Beklenmeyen hata oluþtu. %d sinyali alýndý (%s)."
 #else

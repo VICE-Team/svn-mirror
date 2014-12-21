@@ -51,4 +51,7 @@ extern void fullscrn_invalidate_refreshrate(void);
 extern void fullscreen_getmodes(void);
 extern void fullscreen_setup_finished(void);
 
+extern int fullscreen_get_devices_amount(void);
+extern char *fullscreen_get_device(int num);
+
 #endif
