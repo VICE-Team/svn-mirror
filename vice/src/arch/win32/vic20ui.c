@@ -61,6 +61,7 @@
 #include "uivicset.h"
 #include "uivideo.h"
 #include "vic20ui.h"
+#include "videoarch.h"
 #include "winmain.h"
 
 static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {

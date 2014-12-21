@@ -71,7 +71,7 @@
 #include "uivicii.h"
 #include "uivideo.h"
 #include "uilib.h"
-
+#include "videoarch.h"
 
 static const ui_res_possible_values_t VDCrev[] = {
     { 0, IDM_VDC_REV_0 },

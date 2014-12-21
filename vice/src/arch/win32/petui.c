@@ -48,6 +48,7 @@
 #include "uirom.h"
 #include "uisidcart.h"
 #include "uivideo.h"
+#include "videoarch.h"
 #include "winmain.h"
 
 static const ui_menu_toggle_t pet_ui_menu_toggles[] = {

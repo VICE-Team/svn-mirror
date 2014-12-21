@@ -52,6 +52,7 @@
 #include "uisiddtv.h"
 #include "uivicii.h"
 #include "uivideo.h"
+#include "videoarch.h"
 #include "winmain.h"
 
 static const ui_menu_toggle_t cbm5x0_ui_menu_toggles[] = {

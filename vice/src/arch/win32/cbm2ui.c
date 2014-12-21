@@ -50,6 +50,7 @@
 #include "uirom.h"
 #include "uisiddtv.h"
 #include "uivideo.h"
+#include "videoarch.h"
 #include "winmain.h"
 
 static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {

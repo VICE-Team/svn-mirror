@@ -50,6 +50,7 @@
 #include "uited.h"
 #include "uiv364speech.h"
 #include "uivideo.h"
+#include "videoarch.h"
 #include "winmain.h"
 
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {

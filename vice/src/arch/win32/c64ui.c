@@ -73,6 +73,7 @@
 #include "uitfe.h"
 #include "uivicii.h"
 #include "uivideo.h"
+#include "videoarch.h"
 
 static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "Mouse", IDM_MOUSE },
