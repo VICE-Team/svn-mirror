@@ -72,12 +72,6 @@ static int set_fullscreen_device(int val, void *param)
     return 0;
 }
 
-static int set_fullscreen_bitdepth(int val, void *param)
-{
-    ui_resources.fullscreenbitdepth = val;
-    return 0;
-}
-
 static int set_fullscreen_width(int val, void *param)
 {
     ui_resources.fullscreenwidth = val;
@@ -277,8 +271,6 @@ static const resource_int_t resources_int[] = {
 #ifdef HAVE_D3D9_H
     { "FullscreenDevice", 0, RES_EVENT_NO, NULL,
       &ui_resources.fullscreendevice, set_fullscreen_device, NULL },
-    { "FullscreenBitdepth", -1, RES_EVENT_NO, NULL,
-      &ui_resources.fullscreenbitdepth, set_fullscreen_bitdepth, NULL },
     { "FullscreenWidth", -1, RES_EVENT_NO, NULL,
       &ui_resources.fullscreenwidth, set_fullscreen_width, NULL },
     { "FullscreenHeight", -1, RES_EVENT_NO, NULL,

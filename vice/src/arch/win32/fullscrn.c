@@ -116,7 +116,7 @@ static void fullscreen_set_res_from_current_display(void)
             height = 480;
             refreshrate = 0;
         }
-        resources_set_int("FullscreenBitdepth", bitdepth);
+        bitdepth = 32;
         resources_set_int("FullscreenWidth", width);
         resources_set_int("FullscreenHeight", height);
         resources_set_int("FullscreenRefreshRate", refreshrate);
@@ -287,7 +287,7 @@ void GetCurrentModeParameters(int *device, int *width, int *height, int *bitdept
 {
 #ifdef HAVE_D3D9_H
     resources_get_int("FullscreenDevice", device);
-    resources_get_int("FullscreenBitdepth", bitdepth);
+    *bitdepth = 32;
     resources_get_int("FullscreenWidth", width);
     resources_get_int("FullscreenHeight", height);
     resources_get_int("FullscreenRefreshRate", refreshrate);
@@ -722,7 +722,7 @@ static uilib_localize_dialog_param fullscreen_dialog_trans[] = {
     {IDC_FULLSCREEN_DRIVER_REFRESHRATE, IDS_FULLSCREEN_DRVR_REFRESHRATE, 0},
     {IDC_TOGGLE_VIDEO_VBLANK_SYNC, IDS_TOGGLE_VIDEO_VBLANK_SYNC, 0},
     {IDC_TOGGLE_VIDEO_DX_PRIMARY, IDS_TOGGLE_VIDEO_DX_PRIMARY, 0},
-    {IDC_TOGGLE_DX9DISABLE, IDS_TOGGLE_DX9DISABLE, 0},
+    {IDC_TOGGLE_DX9DISABLE, IDS_MI_TOGGLE_DX9DISABLE, 0},
     {IDC_TOGGLE_KEEP_ASPECT_RATIO, IDS_TOGGLE_KEEP_ASPECT_RATIO, 0},
     {IDC_TOGGLE_TRUE_ASPECT_RATIO, IDS_TOGGLE_TRUE_ASPECT_RATIO, 0},
     {0, 0, 0}
@@ -882,7 +882,6 @@ static void fullscreen_dialog_end(void)
 {
 #ifdef HAVE_D3D9_H
     resources_set_int("FullScreenDevice", fullscreen_device);
-    resources_set_int("FullScreenBitdepth", fullscreen_bitdepth);
     resources_set_int("FullScreenWidth", fullscreen_width);
     resources_set_int("FullScreenHeight", fullscreen_height);
     resources_set_int("FullScreenRefreshRate", fullscreen_refreshrate);
@@ -899,7 +898,7 @@ static void fullscreen_dialog_init(HWND hwnd)
 {
 #ifdef HAVE_D3D9_H
     resources_get_int("FullscreenDevice", &fullscreen_device);
-    resources_get_int("FullscreenBitdepth", &fullscreen_bitdepth);
+    fullscreen_bitdepth = 32;
     resources_get_int("FullscreenWidth", &fullscreen_width);
     resources_get_int("FullscreenHeight", &fullscreen_height);
     resources_get_int("FullscreenRefreshRate", &fullscreen_refreshrate);

@@ -3951,22 +3951,6 @@ WINDOWS ONLY OPTIONAL RESOURCES/CMDLINES:
 arch/win32/ui-resources.c:
 --------------------------
 resource type:                  int
-resource name:                  "FullscreenBitdepth"
-resource range:                 N/A
-resource default:               -1
-resource function:              set_fullscreen_bitdepth()
-resource var:                   ui_resources.fullscreenbitdepth
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-prepocessor:                    #ifdef HAVE_D3D9_H
-command-line:                   NONE (fixme)
-platform gui present:           windows
-fixme: add to documentation
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
 resource name:                  "FullscreenWidth"
 resource range:                 N/A
 resource default:               -1
