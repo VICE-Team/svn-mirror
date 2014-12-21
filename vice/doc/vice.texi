@@ -9213,8 +9213,8 @@ Integer specifying which joystick device the emulator should use for the emulati
 
 @end table
 
-The following resource is only present if the CGX video system is present and used at compile time, and
-cgxvideo.library is present at runtime.
+@b{The following resource is only present if the CGX video system is present and used at compile time, and
+cgxvideo.library is present at runtime.}
 
 @table @code
 
@@ -9256,8 +9256,8 @@ Set device for extra joystick port 2
 
 @end table
 
-The following command-line option is only present if the CGX video system is present and used at compile time, and
-cgxvideo.library is present at runtime.
+@b{The following command-line option is only present if the CGX video system is present and used at compile time, and
+cgxvideo.library is present at runtime.}
 
 @table @code
 
@@ -9452,8 +9452,8 @@ Integer specifying which joystick device the emulator should use for the emulati
 
 @end table
 
-The following resource is only present if the CGX video system is present and used at compile time, and
-cgxvideo.library is present at runtime.
+@b{The following resource is only present if the CGX video system is present and used at compile time, and
+cgxvideo.library is present at runtime.}
 
 @table @code
 
@@ -9495,8 +9495,8 @@ Set device for extra joystick port 2
 
 @end table
 
-The following command-line option is only present if the CGX video system is present and used at compile time, and
-cgxvideo.library is present at runtime.
+@b{The following command-line option is only present if the CGX video system is present and used at compile time, and
+cgxvideo.library is present at runtime.}
 
 @table @code
 
@@ -9567,8 +9567,8 @@ Integer specifying which joystick device the emulator should use for the emulati
 
 @end table
 
-The following resource is only present if the CGX video system is present and used at compile time, and
-cgxvideo.library is present at runtime.
+@b{The following resource is only present if the CGX video system is present and used at compile time, and
+cgxvideo.library is present at runtime.}
 
 @table @code
 
@@ -9610,8 +9610,8 @@ Set device for extra joystick port 2
 
 @end table
 
-The following command-line option is only present if the CGX video system is present and used at compile time, and
-cgxvideo.library is present at runtime.
+@b{The following command-line option is only present if the CGX video system is present and used at compile time, and
+cgxvideo.library is present at runtime.}
 
 @table @code
 
@@ -9665,10 +9665,6 @@ Boolean specifying whether to show a confirmation dialog on exit.
 @vindex DirectWindow
 @item DirectWindow
 Boolean specifying whether to use the BeOS DirectWindow API.
-
-@end table
-
-@table @code
 
 @vindex JoyDevice1
 @item JoyDevice1
@@ -9925,7 +9921,7 @@ Integer specifying which joystick device the emulator should use for the emulati
 
 @end table
 
-The following resource is only available if the midas sound driver is not used during compile time.
+@b{The following resource is only available if the midas sound driver is not used during compile time.}
 
 @table @code
 
@@ -10004,7 +10000,7 @@ Set device for extra joystick port 2
 
 @end table
 
-The following command-line options are only available if the midas sound driver is not used during compile time.
+@b{The following command-line option is only available if the midas sound driver is not used during compile time.}
 
 @table @code
 
@@ -10171,7 +10167,7 @@ Integer specifying the fullscreen mode (all emulators except xcbm2, xpet, xplus4
 
 @end table
 
-The following resources are only present if the OpenGL library is present and used at compile time.
+@b{The following resources are only present if the OpenGL library is present and used at compile time.}
 
 @table @code
 
@@ -10195,7 +10191,7 @@ Boolean to enable/disable OpenGL vertical screen flip.
 
 @end table
 
-The following resources are only present if the SDL library has joystick support at compile time and applies to all emulators except vsid.
+@b{The following resources are only present if the SDL library has joystick support at compile time and applies to all emulators except vsid.}
 
 @table @code
 
@@ -10367,7 +10363,7 @@ Set the fullscreen mode
 
 @end table
 
-The following command-line options are only present if the OpenGL library is present and used at compile time.
+@b{The following command-line options are only present if the OpenGL library is present and used at compile time.}
 
 @table @code
 
@@ -10397,8 +10393,8 @@ Enable/disable OpenGL vertical screen flip
 
 @end table
 
-The following command-line options are only present if the SDL library has joystick support at compile time and applies
-to all emulators except vsid.
+@b{The following command-line options are only present if the SDL library has joystick support at compile time and applies
+to all emulators except vsid.}
 
 @table @code
 
@@ -10488,7 +10484,7 @@ Integer specifying which joystick device the emulator should use for the emulati
 
 @end table
 
-The available joysticks might differ depending on operating system and joystick support in the OS.
+@b{The available joysticks might differ depending on operating system and joystick support in the OS.}
 
 @table @code
 
@@ -10503,7 +10499,7 @@ Only available if USB joystick support is available at compile time.
 
 @end table
 
-The following resources are only available if MIDI support is available at compile time.
+@b{The following resources are only available if MIDI support is available at compile time.}
 
 @table @code
 
@@ -10519,7 +10515,7 @@ String specifying the MIDI output device
 
 @end table
 
-The following resource is only available if MIDI support and ALSA support is available at compile time.
+@b{The following resource is only available if MIDI support and ALSA support is available at compile time.}
 
 @table @code
 
@@ -10531,7 +10527,7 @@ Enum specifying the MIDI driver
 
 @end table
 
-The following resources are only available if RS232 device support or RS232 network support is available at compile time.
+@b{The following resources are only available if RS232 device support or RS232 network support is available at compile time.}
 
 @table @code
 
@@ -10600,7 +10596,7 @@ Set device for extra joystick port 2
 
 @end table
 
-The available joysticks might differ depending on operating system and joystick support in the OS.
+@b{The available joysticks might differ depending on operating system and joystick support in the OS.}
 
 @table @code
 
@@ -10615,7 +10611,7 @@ Only available if USB joystick support is available at compile time.
 
 @end table
 
-The following command-line options are only available if MIDI support is available at compile time.
+@b{The following command-line options are only available if MIDI support is available at compile time.}
 
 @table @code
 
@@ -10633,7 +10629,7 @@ Specify MIDI-Out device
 
 @end table
 
-The following command-line option is only available if MIDI support and ALSA support is available at compile time.
+@b{The following command-line option is only available if MIDI support and ALSA support is available at compile time.}
 
 @table @code
 
@@ -10646,7 +10642,7 @@ Specify MIDI driver
 
 @end table
 
-The following command-line options are only available if RS232 device support or RS232 network support is available at compile time.
+@b{The following command-line options are only available if RS232 device support or RS232 network support is available at compile time.}
 
 @table @code
 
@@ -10742,7 +10738,7 @@ Integers specifying the position and size of the (second) emulator window.
 
 @end table
 
-The following resources are only available if Xvideo support is present at compile time.
+@b{The following resources are only available if Xvideo support is present at compile time.}
 
 @table @code
 
@@ -10766,7 +10762,7 @@ String specifying the YUV FOURCC format to use.
 
 @end table
 
-The following resources are only available if XRandr support is present at compile time.
+@b{The following resources are only available if XRandr support is present at compile time.}
 
 @table @code
 
@@ -10801,7 +10797,7 @@ integer specifying XRANDR fullscreen mode
 
 @end table
 
-The following resources are only available if VidMode support is present at compile time.
+@b{The following resources are only available if VidMode support is present at compile time.}
 
 @table @code
 
@@ -10866,7 +10862,7 @@ Enable/disable usage of the MITSHM extensions
 
 @end table
 
-The following command-line options are only available if Xvideo support is present at compile time.
+@b{The following command-line options are only available if Xvideo support is present at compile time.}
 
 @table @code
 
@@ -10897,7 +10893,7 @@ Set the YUV FOURCC format to use
 
 @end table
 
-The following command-line options are only available if XRandr support is present at compile time.
+@b{The following command-line options are only available if XRandr support is present at compile time.}
 
 @table @code
 
@@ -10939,7 +10935,7 @@ Select fullscreen mode
 
 @end table
 
-The following command-line options are only available if VidMode support is present at compile time.
+@b{The following command-line options are only available if VidMode support is present at compile time.}
 
 @table @code
 
@@ -11220,7 +11216,7 @@ Integer specifying the the code of the button to use for fire for the emulation 
 
 @end table
 
-The following resources are only available if MIDI support is available at compile time.
+@b{The following resources are only available if MIDI support is available at compile time.}
 
 @table @code
 
@@ -11236,7 +11232,7 @@ Integer specifying the MIDI output device
 
 @end table
 
-The following resources are only available if DirectX 9 support is available at compile time.
+@b{The following resources are only available if DirectX 9 support is available at compile time.}
 
 @table @code
 
@@ -11377,7 +11373,7 @@ Set device for extra joystick port 2
 
 @end table
 
-The following command-line options are only available if MIDI support is available at compile time.
+@b{The following command-line options are only available if MIDI support is available at compile time.}
 
 @table @code
 
@@ -11395,7 +11391,7 @@ Specify MIDI-Out device
 
 @end table
 
-The following command-line options are only available if Direct3D support is available at compile time.
+@b{The following command-line options are only available if DirectX 9 support is available at compile time.}
 
 @table @code
 

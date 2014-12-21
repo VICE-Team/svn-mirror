@@ -9265,8 +9265,8 @@ DOS specific command-line options
      except xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1,
      3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
 
-The following command-line options are only available if the midas
-sound driver is not used during compile time.
+The following command-line option is only available if the midas sound
+driver is not used during compile time.
 
 `-triplebuf'
 `+triplebuf'
@@ -10338,7 +10338,7 @@ is available at compile time.
      Specify MIDI-Out device (`MIDIOutDev') (x64, x64sc, xscpu64, x128
      and xvic only).
 
-The following command-line options are only available if Direct3D
+The following command-line options are only available if DirectX 9
 support is available at compile time.
 
 `-dx9disable'
