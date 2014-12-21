@@ -64,6 +64,11 @@ END-INFO-DIR-ENTRY
 @set platformgtk
 @end ifset
 
+@c define platformsdl if any of the following are set:
+@ifset platformdingoo
+@set platformsdl
+@end ifset
+
 @c define all amiga platforms is platformamigaall is set:
 @ifset platformamigaall
 @set platformamigaos3
@@ -110,6 +115,7 @@ END-INFO-DIR-ENTRY
 @set platformdos
 @set platformos2
 @set platformsdl
+@set platformdingoo
 @set platformunix
 @set platformxaw
 @set platformgtk
@@ -10210,6 +10216,19 @@ Integer specifying the joystick fuzz.
 (0-32767)
 
 @end table
+
+@ifset platformdingoo
+@b{The following resource is only present if compiling for native dingoo.}
+
+@table @code
+
+@vindex OverClock
+@item OverClock
+Boolean to enable/disable overclocking.
+
+@end table
+
+@end ifset
 
 @c @node FIXME
 @subsection SDL specific command-line options

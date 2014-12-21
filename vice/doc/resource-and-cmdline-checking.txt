@@ -3963,6 +3963,20 @@ platform gui present:           windows
 FIXED/CORRECT DINGOO ONLY COMMON RESOURCES/CMDLINES:
 ====================================================
 
+vsync.c:
+--------
+resource type:                  bool
+resource name:                  "OverClock"
+resource range:                 0/1
+resource default:               0
+resource function:              set_overclock_mode()
+resource var:                   overclock_mode_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:                    #ifdef DINGOO_NATIVE
+command-line:                   NONE (CORRECT)
+platform gui present:			dingoo
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT SDL/UNIX ONLY COMMON RESOURCES/CMDLINES:
@@ -3987,27 +4001,6 @@ FIXED/CORRECT NON-DOS RESOURCES/CMDLINES:
 
 FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
 ==========================================
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-DINGOO ONLY COMMON RESOURCES/CMDLINES:
-======================================
-
-vsync.c:
---------
-resource type:                  bool
-resource name:                  "OverClock"
-resource range:                 0/1
-resource default:               0
-resource function:              set_overclock_mode()
-resource var:                   overclock_mode_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:                    #ifdef DINGOO_NATIVE
-command-line:                   NONE (fixme)
-platform gui present:			dingoo
-platform gui missing:           
-fixme: add to documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
 

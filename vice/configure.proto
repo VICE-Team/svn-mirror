@@ -620,6 +620,9 @@ elif test x"$enable_dingoo" = "xyes"; then
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   AC_DEFINE(DINGOO_NATIVE,,[Enable native DINGOO compilation])
   AC_DEFINE(DINGOO,,[Enable DINGOO compilation])
+  if test x"$enable_platformdox" = "xyes"; then
+    PLATFORM_DOX_FLAGS="platformdingoo"
+  fi
   with_png="no"
   dynlib_support="no"
   with_resid=no
