@@ -682,7 +682,7 @@ does so @emph{efficiently}.
 Please do @emph{not} expect the C64DTV, C128, PET, PLUS4, SCPU64 and CBM-II emulators to
 be as good as the C64 or VIC20 one, as they are still under construction.
 
-@emph{Notice:} This documentation is written for the Unix release of VICE.
+@emph{Notice:} This documentation is written for the Unix release of VICE, but is slowly being made universal.
 
 @menu
 * C64 emulator features::
@@ -5606,22 +5606,6 @@ Boolean specifying whether to use new (9 steps) luminances
 String specifying the name of the palette file being used.  The
 @file{.vpl} extension is optional.
 
-@vindex VICIIHwScale
-@item VICIIHwScale
-Boolean specifying whether to enable or disable hardware scaling
-
-@vindex VICIIFullscreenDevice
-@item VICIIFullscreenDevice
-fullscreen device
-
-@vindex VICIIFullscreen
-@item VICIIFullscreen
-Boolean specifying whether to use fullscreen mode or not.
-
-@vindex VICIIFullscreenStatusbar
-@item VICIIFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not.
-
 @vindex VICIIExternalPalette
 @item VICIIExternalPalette
 Boolean specifying whether to use external palette file or not.
@@ -5712,10 +5696,6 @@ Enable/disable the double size mode (@code{VICIIDoubleSize=1},
 Enable/disable the double scan mode (@code{VICIIDoubleScan=1},
 @code{VICIIDoubleScan=0}).
 
-@cindex -VICIIhwscale, +VICIIhwscale
-@item -VICIIhwscale
-@itemx +VICIIhwscale
-Enable/Disable hardware scaling
 @cindex -VICIIfilter
 @item -VICIIfilter <Mode>
 Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x
@@ -5730,9 +5710,6 @@ Use an external palette (file)
 @item -VICIIpalette <Name>
 Specify <Name> as the palette file (@code{VICIIPaletteFile}).
 
-@cindex -VICIIfulldevice
-@item -VICIIfulldevice <device>
-Select fullscreen device
 @cindex -VICIIXRANDRfullmode
 @item -VICIIXRANDRfullmode <mode>
 Select fullscreen mode
@@ -6411,22 +6388,6 @@ Boolean specifying whether vertical stretching is turned on.
 String specifying the name of the palette file being used.  The
 @file{.vpl} extension is optional.
 
-@vindex VDCHwScale
-@item VDCHwScale
-Boolean specifying whether to enable or disable hardware scaling
-
-@vindex VDCFullscreenDevice
-@item VDCFullscreenDevice
-fullscreen device
-
-@vindex VDCFullscreen
-@item VDCFullscreen
-Boolean specifying whether to use fullscreen mode or not.
-
-@vindex VDCFullscreenStatusbar
-@item VDCFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not.
-
 @vindex VDCExternalPalette
 @item VDCExternalPalette
 Boolean specifying whether to use external palette file or not.
@@ -6496,10 +6457,6 @@ Enable/Disable vertical stretching
 @item -VDCdscan
 @itemx +VDCdscan
 Enable/Disable double scan
-@cindex -VDChwscale, +VDChwscale
-@item -VDChwscale
-@itemx +VDChwscale
-Enable/Disable hardware scaling
 @cindex -VDCintpal
 @item -VDCintpal
 Use an internal calculated palette
@@ -6509,9 +6466,6 @@ Use an external palette (file)
 @cindex -VDCpalette
 @item -VDCpalette <name>
 Specify name of file of external palette
-@cindex -VDCfulldevice
-@item -VDCfulldevice <device>
-Select fullscreen device
 @cindex -VDCXRANDRfullmode
 @item -VDCXRANDRfullmode <mode>
 Select fullscreen mode
@@ -7256,22 +7210,6 @@ Boolean specifying whether double-scan mode is turned on.
 String specifying the name of the palette file being used.  The
 @file{.vpl} extension is optional.
 
-@vindex VICHwScale
-@item VICHwScale
-Boolean specifying whether to enable or disable hardware scaling
-
-@vindex VICFullscreenDevice
-@item VICFullscreenDevice
-fullscreen device
-
-@vindex VICFullscreen
-@item VICFullscreen
-Boolean specifying whether to use fullscreen mode or not.
-
-@vindex VICFullscreenStatusbar
-@item VICFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not.
-
 @vindex VICExternalPalette
 @item VICExternalPalette
 Boolean specifying whether to use external palette file or not.
@@ -7348,11 +7286,6 @@ Enable/disable the double size mode (@code{VICDoubleSize=1},
 Enable/disable the double scan mode (@code{VICDoubleScan=1},
 @code{VICDoubleScan=0}).
 
-@cindex -VIChwscale, +VIChwscale
-@item -VIChwscale
-@item +VIChwscale
-Enable/Disable hardware scaling
-
 @cindex -VICfilter
 @item -VICfilter <Mode>
 Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x
@@ -7367,9 +7300,6 @@ Use an internal calculated palette
 @cindex -VICextpal
 @item -VICextpal
 Use an external palette (file)
-@cindex -VICfulldevice
-@item -VICfulldevice <device>
-Select fullscreen device
 @cindex -VICXRANDRfullmode
 @item -VICXRANDRfullmode <mode>
 Select fullscreen mode
@@ -7645,22 +7575,6 @@ Boolean specifying whether double-scan mode is turned on.
 String specifying the name of the palette file being used.  The
 @file{.vpl} extension is optional.
 
-@vindex TEDHwScale
-@item TEDHwScale
-Boolean specifying whether to enable or disable hardware scaling
-
-@vindex TEDFullscreenDevice
-@item TEDFullscreenDevice
-fullscreen device
-
-@vindex TEDFullscreen
-@item TEDFullscreen
-Boolean specifying whether to use fullscreen mode or not.
-
-@vindex TEDFullscreenStatusbar
-@item TEDFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not.
-
 @vindex TEDExternalPalette
 @item TEDExternalPalette
 Boolean specifying whether to use external palette file or not.
@@ -7734,10 +7648,6 @@ Enable/Disable double scan
 @cindex -TEDfilter
 @item -TEDfilter <Mode>
 Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x
-@cindex -TEDhwscale, +TEDhwscale
-@item -TEDhwscale
-@itemx +TEDhwscale
-Enable/Disable hardware scaling
 @cindex -TEDintpal
 @item -TEDintpal
 Use an internal calculated palette
@@ -7747,9 +7657,6 @@ Use an external palette (file)
 @cindex -TEDpalette
 @item -TEDpalette <name>
 Specify name of file of external palette
-@cindex -TEDfulldevice
-@item -TEDfulldevice <device>
-Select fullscreen device
 @cindex -TEDXRANDRfullmode
 @item -TEDXRANDRfullmode <mode>
 Select fullscreen mode
@@ -8163,22 +8070,6 @@ Boolean specifying whether vertical stretching is turned on.
 String specifying the name of the palette file being used.  The
 @file{.vpl} extension is optional.
 
-@vindex CrtcHwScale
-@item CrtcHwScale
-Boolean specifying whether to enable or disable hardware scaling
-
-@vindex CrtcFullscreenDevice
-@item CrtcFullscreenDevice
-fullscreen device
-
-@vindex CrtcFullscreen
-@item CrtcFullscreen
-Boolean specifying whether to use fullscreen mode or not.
-
-@vindex CrtcFullscreenStatusbar
-@item CrtcFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not.
-
 @vindex CrtcExternalPalette
 @item CrtcExternalPalette
 Boolean specifying whether to use external palette file or not.
@@ -8252,10 +8143,6 @@ Enable/Disable double scan
 @cindex -Crtcfilter
 @item -Crtcfilter <Mode>
 Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x
-@cindex -Crtchwscale, +Crtchwscale
-@item -Crtchwscale
-@itemx +Crtchwscale
-Enable/Disable hardware scaling
 @cindex -Crtcintpal
 @item -Crtcintpal
 Use an internal calculated palette
@@ -8265,9 +8152,6 @@ Use an external palette (file)
 @cindex -Crtcpalette
 @item -Crtcpalette NAME
 Specify @code{NAME} as the palette file (@code{CrtcPaletteFile}).
-@cindex -Crtcfulldevice
-@item -Crtcfulldevice <device>
-Select fullscreen device
 @cindex -CrtcVidmodefullmode
 @item -CrtcVidmodefullmode <mode>
 Select fullscreen mode
@@ -10155,21 +10039,101 @@ Integer specifying which joystick device the emulator should use for the emulati
 @item CrtcSDLFullscreenMode
 Integer specifying the fullscreen mode (xcbm2 and xpet only).
 
+@vindex CrtcHwScale
+@item CrtcHwScale
+Boolean specifying whether to enable or disable hardware scaling (xcbm2 and xpet only).
+
+@vindex CrtcFullscreenDevice
+@item CrtcFullscreenDevice
+String specifying the fullscreen device (xcbm2 and xpet only).
+
+@vindex CrtcFullscreen
+@item CrtcFullscreen
+Boolean specifying whether to use fullscreen mode or not (xcbm2 and xpet only).
+
+@vindex CrtcFullscreenStatusbar
+@item CrtcFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not (xcbm2 and xpet only).
+
 @vindex TEDSDLFullscreenMode
 @item TEDSDLFullscreenMode
 Integer specifying the fullscreen mode (xplus4 only).
+
+@vindex TEDHwScale
+@item TEDHwScale
+Boolean specifying whether to enable or disable hardware scaling (xplus4 only).
+
+@vindex TEDFullscreenDevice
+@item TEDFullscreenDevice
+String specifying the fullscreen device (xplus4 only).
+
+@vindex TEDFullscreen
+@item TEDFullscreen
+Boolean specifying whether to use fullscreen mode or not (xplus4 only).
+
+@vindex TEDFullscreenStatusbar
+@item TEDFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not (xplus4 only).
 
 @vindex VDCSDLFullscreenMode
 @item VDCSDLFullscreenMode
 Integer specifying the fullscreen mode (x128 only).
 
+@vindex VDCHwScale
+@item VDCHwScale
+Boolean specifying whether to enable or disable hardware scaling (x128 only).
+
+@vindex VDCFullscreenDevice
+@item VDCFullscreenDevice
+String specifying the fullscreen device (x128 only).
+
+@vindex VDCFullscreen
+@item VDCFullscreen
+Boolean specifying whether to use fullscreen mode or not (x128 only).
+
+@vindex VDCFullscreenStatusbar
+@item VDCFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not (x128 only).
+
 @vindex VICSDLFullscreenMode
 @item VICSDLFullscreenMode
 Integer specifying the fullscreen mode (xvic only).
 
+@vindex VICHwScale
+@item VICHwScale
+Boolean specifying whether to enable or disable hardware scaling (xvic only).
+
+@vindex VICFullscreenDevice
+@item VICFullscreenDevice
+String specifying the fullscreen device (xvic only).
+
+@vindex VICFullscreen
+@item VICFullscreen
+Boolean specifying whether to use fullscreen mode or not (xvic only).
+
+@vindex VICFullscreenStatusbar
+@item VICFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not (xvic only).
+
 @vindex VICIISDLFullscreenMode
 @item VICIISDLFullscreenMode
 Integer specifying the fullscreen mode (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@vindex VICIIHwScale
+@item VICIIHwScale
+Boolean specifying whether to enable or disable hardware scaling (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@vindex VICIIFullscreenDevice
+@item VICIIFullscreenDevice
+String specifying the fullscreen device (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@vindex VICIIFullscreen
+@item VICIIFullscreen
+Boolean specifying whether to use fullscreen mode or not (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@vindex VICIIFullscreenStatusbar
+@item VICIIFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @end table
 
@@ -10356,10 +10320,50 @@ Set the fullscreen mode
 (@code{CrtcSDLFullscreenMode})
 (xcbm2 and xpet only).
 
+@findex -CRTChwscale, +CRTChwscale
+@item -CRTChwscale
+@itemx +CRTChwscale
+Enable/Disable hardware scaling
+(@code{CrtcHwScale=1}, @code{CrtcHwScale=0})
+(xcbm2 and xpet only).
+
+@findex -CRTCfulldevice
+@item -CRTCfulldevice <device>
+Select fullscreen device
+(@code{CrtcFullscreenDevice})
+(xcbm2 and xpet only).
+
+@findex -CRTCfull, +CRTCfull
+@item -CRTCfull
+@itemx +CRTCfull
+Enable/Disable fullscreen
+(@code{CrtcFullscreen=1}, @code{CrtcFullscreen=0})
+(xcbm2 and xpet only).
+
 @findex -TEDSDLfullmode
 @item -TEDSDLfullmode <Mode>
 Set the fullscreen mode
 (@code{TEDSDLFullscreenMode})
+(xplus4 only).
+
+@findex -TEDhwscale, +TEDhwscale
+@item -TEDhwscale
+@itemx +TEDhwscale
+Enable/Disable hardware scaling
+(@code{TEDHwScale=1}, @code{TEDHwScale=0})
+(xplus4 only).
+
+@findex -TEDfulldevice
+@item -TEDfulldevice <device>
+Select fullscreen device
+(@code{TEDFullscreenDevice})
+(xplus4 only).
+
+@findex -TEDfull, +TEDfull
+@item -TEDfull
+@itemx +TEDfull
+Enable/Disable fullscreen
+(@code{TEDFullscreen=1}, @code{TEDFullscreen=0})
 (xplus4 only).
 
 @findex -VDCSDLfullmode
@@ -10368,16 +10372,76 @@ Set the fullscreen mode
 (@code{VDCSDLFullscreenMode})
 (x128 only).
 
+@findex -VDChwscale, +VDChwscale
+@item -VDChwscale
+@itemx +VDChwscale
+Enable/Disable hardware scaling
+(@code{VDCHwScale=1}, @code{VDCHwScale=1})
+(x128 only).
+
+@cindex -VDCfulldevice
+@item -VDCfulldevice <device>
+Select fullscreen device
+(@code{VDCFullscreenDevice})
+(x128 only).
+
+@findex -VDCfull, +VDCfull
+@item -VDCfull
+@itemx +VDCfull
+Enable/Disable fullscreen
+(@code{VDCFullscreen=1}, @code{VDCFullscreen=0})
+(x128 only).
+
 @findex -VICSDLfullmode
 @item -VICSDLfullmode <Mode>
 Set the fullscreen mode
 (@code{VICSDLFullscreenMode})
 (xvic only).
 
+@findex -VIChwscale, +VIChwscale
+@item -VIChwscale
+@item +VIChwscale
+Enable/Disable hardware scaling
+(@code{VICHwScale=1}, @code{VICHwScale=0})
+(x128 only).
+
+@findex -VICfulldevice
+@item -VICfulldevice <device>
+Select fullscreen device
+(@code{VICFullscreenDevice})
+(xvic only).
+
+@findex -VICfull, +VICfull
+@item -VICfull
+@itemx +VICfull
+Enable/Disable fullscreen
+(@code{VICFullscreen=1}, @code{VICFullscreen=0})
+(xvic only).
+
 @findex -VICIISDLfullmode
 @item -VICIISDLfullmode <Mode>
 Set the fullscreen mode
 (@code{VICIISDLFullscreenMode})
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@findex -VICIIhwscale, +VICIIhwscale
+@item -VICIIhwscale
+@itemx +VICIIhwscale
+Enable/Disable hardware scaling
+(@code{VICIIHwScale=1}, @code{VICIIHwScale=0})
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@findex -VICIIfulldevice
+@item -VICIIfulldevice <device>
+Select fullscreen device
+(@code{VICIIFullscreenDevice})
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@findex -VICIIfull, +VICIIfull
+@item -VICIIfull
+@itemx +VICIIfull
+Enable/Disable fullscreen
+(@code{VICIIFullscreen=1}, @code{VICIIFullscreen=0})
 (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @end table
@@ -10484,6 +10548,86 @@ can be any HTML browser, and every @samp{%s} in the string is replaced
 with the name of the toplevel file of the VICE documentation.  For
 example, the default value @samp{netscape %s} runs Netscape Navigator.
 
+@vindex CrtcHwScale
+@item CrtcHwScale
+Boolean specifying whether to enable or disable hardware scaling (xcbm2 and xpet only).
+
+@vindex CrtcFullscreenDevice
+@item CrtcFullscreenDevice
+String specifying the fullscreen device (xcbm2 and xpet only).
+
+@vindex CrtcFullscreen
+@item CrtcFullscreen
+Boolean specifying whether to use fullscreen mode or not (xcbm2 and xpet only).
+
+@vindex CrtcFullscreenStatusbar
+@item CrtcFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not (xcbm2 and xpet only).
+
+@vindex TEDHwScale
+@item TEDHwScale
+Boolean specifying whether to enable or disable hardware scaling (xplus4 only).
+
+@vindex TEDFullscreenDevice
+@item TEDFullscreenDevice
+String specifying the fullscreen device (xplus4 only).
+
+@vindex TEDFullscreen
+@item TEDFullscreen
+Boolean specifying whether to use fullscreen mode or not (xplus4 only).
+
+@vindex TEDFullscreenStatusbar
+@item TEDFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not (xplus4 only).
+
+@vindex VDCHwScale
+@item VDCHwScale
+Boolean specifying whether to enable or disable hardware scaling (x128 only).
+
+@vindex VDCFullscreenDevice
+@item VDCFullscreenDevice
+String specifying the fullscreen device (x128 only).
+
+@vindex VDCFullscreen
+@item VDCFullscreen
+Boolean specifying whether to use fullscreen mode or not (x128 only).
+
+@vindex VDCFullscreenStatusbar
+@item VDCFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not (x128 only).
+
+@vindex VICHwScale
+@item VICHwScale
+Boolean specifying whether to enable or disable hardware scaling (xvic only).
+
+@vindex VICFullscreenDevice
+@item VICFullscreenDevice
+String specifying the fullscreen device (xvic only).
+
+@vindex VICFullscreen
+@item VICFullscreen
+Boolean specifying whether to use fullscreen mode or not (xvic only).
+
+@vindex VICFullscreenStatusbar
+@item VICFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not (xvic only).
+
+@vindex VICIIHwScale
+@item VICIIHwScale
+Boolean specifying whether to enable or disable hardware scaling (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@vindex VICIIFullscreenDevice
+@item VICIIFullscreenDevice
+String specifying the fullscreen device (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@vindex VICIIFullscreen
+@item VICIIFullscreen
+Boolean specifying whether to use fullscreen mode or not (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@vindex VICIIFullscreenStatusbar
+@item VICIIFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
 @vindex JoyDevice1
 @item JoyDevice1
 Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
@@ -10587,6 +10731,65 @@ Never confirm quiting VICE
 @item -htmlbrowser COMMAND
 Specify the command to run the HTML browser for the on-line help
 (@code{HTMLBrowserCommand}).
+
+@findex -CRTChwscale, +CRTChwscale
+@item -CRTChwscale
+@itemx +CRTChwscale
+Enable/Disable hardware scaling
+(@code{CrtcHwScale=1}, @code{CrtcHwScale=0})
+(xcbm2 and xpet only).
+
+@findex -CRTCfulldevice
+@item -CRTCfulldevice <device>
+Select fullscreen device
+(@code{CrtcFullscreenDevice})
+(xcbm2 and xpet only).
+
+@findex -TEDhwscale, +TEDhwscale
+@item -TEDhwscale
+@itemx +TEDhwscale
+Enable/Disable hardware scaling
+(@code{TEDHwScale=1}, @code{TEDHwScale=0})
+(xplus4 only).
+
+@findex -TEDfulldevice
+@item -TEDfulldevice <device>
+Select fullscreen device
+(@code{TEDFullscreenDevice})
+(xplus4 only).
+
+@findex -VDChwscale, +VDChwscale
+@item -VDChwscale
+@itemx +VDChwscale
+Enable/Disable hardware scaling
+(@code{VDCHwScale=1}, @code{VDCHwScale=1})
+(x128 only).
+
+@findex -VIChwscale, +VIChwscale
+@item -VIChwscale
+@item +VIChwscale
+Enable/Disable hardware scaling
+(@code{VICHwScale=1}, @code{VICHwScale=0})
+(x128 only).
+
+@findex -VICfulldevice
+@item -VICfulldevice <device>
+Select fullscreen device
+(@code{VICFullscreenDevice})
+(xvic only).
+
+@findex -VICIIhwscale, +VICIIhwscale
+@item -VICIIhwscale
+@itemx +VICIIhwscale
+Enable/Disable hardware scaling
+(@code{VICIIHwScale=1}, @code{VICIIHwScale=0})
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+
+@findex -VICIIfulldevice
+@item -VICIIfulldevice <device>
+Select fullscreen device
+(@code{VICIIFullscreenDevice})
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @findex -joydev1
 @item -joydev1 <0-3> / <0-9> / <0-11> / <0-13>

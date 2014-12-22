@@ -3982,31 +3982,6 @@ platform gui present:			dingoo
 FIXED/CORRECT SDL/UNIX ONLY COMMON RESOURCES/CMDLINES:
 ======================================================
 
-------------------------------------------------------------------------------------------------------------------------------------
-
-FIXED/CORRECT COMMON RESOURCES/CMDLINES:
-========================================
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
-==============================================
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-FIXED/CORRECT NON-DOS RESOURCES/CMDLINES:
-=========================================
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
-==========================================
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-SDL/UNIX ONLY COMMON RESOURCES/CMDLINES:
-========================================
-
 crtc/crtc-resources.c:
 ----------------------
 resource type:                  bool
@@ -4021,7 +3996,6 @@ prepocessor:
 command-line:                   -CRTChwscale / +CRTChwscale
 platform gui present:           unix
 platform gui missing:			sdl
-fixme: fix documentation to mention that this is SDL and Unix only
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -4050,8 +4024,6 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -CRTCfulldevice
 platform gui present:           sdl/unix
-platform gui missing:
-fixme: fix documentation to mention that this is SDL and Unix only, and add that the resource is a string
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -4073,8 +4045,6 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -CRTCfull / +CRTCfull (sdl) / NONE (unix fixme)
 platform gui present:           sdl/unix
-platform gui missing:
-fixme: fix documentation to mention that this is SDL and Unix only
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -4082,7 +4052,6 @@ command line:   -CRTCfull
 description:    "Enable fullscreen"
 resource:       "CrtcFullscreen" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -4090,7 +4059,6 @@ command line:   +CRTCfull
 description:    "Disable fullscreen"
 resource:       "CrtcFullscreen" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 crtc/crtc-resources.c:
 ----------------------
@@ -4103,10 +4071,8 @@ resource var:                   crtc.raster->canvas->videoconfig->fullscreen_sta
 resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   NONE (CORRECT)
 platform gui present:           sdl/unix
-platform gui missing:
-fixme: fix documentation to mention that this is SDL and Unix only
 
 plus4/ted-resources.c:
 ----------------------
@@ -4121,8 +4087,6 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDhwscale / +TEDhwscale
 platform gui present:           sdl/unix
-platform gui missing:           
-fixme: Only if ARCHDEP_TED_HWSCALE != 0 in documentation, and unix/sdl only
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -4151,8 +4115,6 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDfull / +TEDfull
 platform gui present:           sdl/unix
-platform gui missing:           
-fixme: documentation -> Only if fullscreen device is present, and unix/sdl only
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -4160,7 +4122,6 @@ command line:   -TEDfull
 description:    "Enable fullscreen"
 resource:       "TEDFullscreen" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -4168,7 +4129,6 @@ command line:   +TEDfull
 description:    "Disable fullscreen"
 resource:       "TEDFullscreen" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 plus4/ted-resources.c:
 ----------------------
@@ -4181,10 +4141,8 @@ resource var:                   ted.raster->canvas->videoconfig->fullscreen_stat
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   NONE (CORRECT)
 platform gui present:           unix
-platform gui missing:           sdl
-fixme: documentation -> Only if fullscreen device is present, and unix/sdl only
 
 plus4/ted-resources.c:
 ----------------------
@@ -4199,8 +4157,6 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDfulldevice
 platform gui present:           unix
-platform gui missing:           sdl
-fixme: documentation -> Only if fullscreen device is present, and unix/sdl only, string
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -4209,7 +4165,6 @@ description:    "Select fullscreen device"
 resource:       "TEDFullscreenDevice"
 action:         N/A
 
-Only if ARCHDEP_VDC_HWSCALE != 0
 vdc/vdc-resources.c:
 --------------------
 resource type:                  bool
@@ -4223,7 +4178,6 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDChwscale / +VDChwscale
 platform gui present:			sdl/unix
-platform gui missing:           
 fixme: fix documentation, sdl/unix only
 
 vdc/vdc-cmdline-options.c:
@@ -4240,7 +4194,6 @@ description:    "Disable hardware scaling"
 resource:       "VDCHwScale" (set to 0)
 action:         N/A
 
-Only if fullscreen device available and only SDL
 vdc/vdc-resources.c:
 --------------------
 resource type:                  bool
@@ -4254,8 +4207,6 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCfull / +VDCfull
 platform gui present:			sdl/unix
-platform gui missing:           
-fixme: fix documentation
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -4263,7 +4214,6 @@ command line:   -VDCfull
 description:    "Enable fullscreen"
 resource:       "VDCFullscreen" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -4271,9 +4221,7 @@ command line:   +VDCfull
 description:    "Disable fullscreen"
 resource:       "VDCFullscreen" (set to 0)
 action:         N/A
-fixme: add to documentation
 
-Only if fullscreen device available
 vdc/vdc-resources.c:
 --------------------
 resource type:                  bool
@@ -4285,12 +4233,9 @@ resource var:                   vdc.raster->canvas->videoconfig->fullscreen_stat
 resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   NONE (CORRECT)
 platform gui present:			unix
-platform gui missing:           sdl
-fixme: fix documentation, unix/sdl only
 
-Only if fullscreen device available
 vdc/vdc-resources.c:
 --------------------
 resource type:                  string
@@ -4304,8 +4249,6 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCfulldevice
 platform gui present:			unix
-platform gui missing:           sdl
-fixme: fix documentation, string, unix/sdl only
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -4314,7 +4257,6 @@ description:    "Select fullscreen device"
 resource:       "VDCFullscreenDevice"
 action:         N/A
 
-Only if ARCHDEP_VIC_HWSCALE != 0
 vic20/vic-resources.c:
 ----------------------
 resource type:                  bool
@@ -4328,7 +4270,6 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VIChwscale / +VIChwscale
 platform gui present:			sdl/unix
-platform gui missing:           
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -4344,57 +4285,6 @@ description:    "Disable hardware scaling"
 resource:       "VICHwScale" (set to 0)
 action:         N/A
 
-Only if fullscreen device(s) available
-vic20/vic-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "VICFullscreen"
-resource range:                 0/1
-resource default:               0
-resource function:              set_fullscreen_enabled()
-resource var:                   vic.raster->canvas->videoconfig->fullscreen_enabled
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICfull / +VICfull
-platform gui present:			sdl/unix
-platform gui missing:           
-fixme: fix documentation
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICfull
-description:    "Enable fullscreen"
-resource:       "VICFullscreen" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   +VICfull
-description:    "Disable fullscreen"
-resource:       "VICFullscreen" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-Only if fullscreen device(s) available
-vic20/vic-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "VICFullscreenStatusbar"
-resource range:                 0/1
-resource default:               0
-resource function:              set_fullscreen_statusbar()
-resource var:                   vic.raster->canvas->videoconfig->fullscreen_statusbar_enabled
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:			unix
-platform gui missing:           sdl
-fixme: fix documentation
-
-Only if fullscreen device(s) available
 vic20/vic-resources.c:
 ----------------------
 resource type:                  string
@@ -4408,8 +4298,6 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICfulldevice
 platform gui present:			unix
-platform gui missing:           sdl
-fixme: fix documentation
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -4418,7 +4306,48 @@ description:    "Select fullscreen device"
 resource:       "VICFullscreenDevice"
 action:         N/A
 
-Only if ARCHDEP_VICII_HWSCALE != 0
+vic20/vic-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "VICFullscreen"
+resource range:                 0/1
+resource default:               0
+resource function:              set_fullscreen_enabled()
+resource var:                   vic.raster->canvas->videoconfig->fullscreen_enabled
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICfull / +VICfull
+platform gui present:			sdl/unix
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICfull
+description:    "Enable fullscreen"
+resource:       "VICFullscreen" (set to 1)
+action:         N/A
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   +VICfull
+description:    "Disable fullscreen"
+resource:       "VICFullscreen" (set to 0)
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "VICFullscreenStatusbar"
+resource range:                 0/1
+resource default:               0
+resource function:              set_fullscreen_statusbar()
+resource var:                   vic.raster->canvas->videoconfig->fullscreen_statusbar_enabled
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:			unix
+
 vicii/vicii-resources.c:
 ------------------------
 resource type:                  bool
@@ -4432,8 +4361,6 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIhwscale / +VICIIhwscale
 platform gui present:			sdl/unix
-platform gui missing:           
-fixme: fix documentation
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -4449,57 +4376,6 @@ description:    "Disable hardware scaling"
 resource:       "VICIIHwScale" (set to 0)
 action:         N/A
 
-Only if fullscreen device(s) available
-vicii/vicii-resources.c:
-------------------------
-resource type:                  bool
-resource name:                  "VICIIFullscreen"
-resource range:                 0/1
-resource default:               0
-resource function:              set_fullscreen_enabled()
-resource var:                   vicii.raster->canvas->videoconfig->fullscreen_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIfull / +VICIIfull
-platform gui present:			sdl/unix
-platform gui missing:           
-fixme: fix documentation
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIfull
-description:    "Enable fullscreen"
-resource:       "VICIIFullscreen" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   +VICIIfull
-description:    "Disable fullscreen"
-resource:       "VICIIFullscreen" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-Only if fullscreen device(s) available
-vicii/vicii-resources.c:
-------------------------
-resource type:                  bool
-resource name:                  "VICIIFullscreenStatusbar"
-resource range:                 0/1
-resource default:               0
-resource function:              set_fullscreen_statusbar()
-resource var:                   vicii.raster->canvas->videoconfig->fullscreen_statusbar_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:			unix
-platform gui missing:           sdl
-fixme: fix documentation
-
-Only if fullscreen device(s) available
 vicii/vicii-resources.c:
 ------------------------
 resource type:                  string
@@ -4513,8 +4389,6 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIfulldevice
 platform gui present:			unix
-platform gui missing:           sdl
-fixme: fix documentation
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -4523,7 +4397,48 @@ description:    "Select fullscreen device"
 resource:       "VICIIFullscreenDevice"
 action:         N/A
 
-Only if ARCHDEP_VICII_HWSCALE != 0
+vicii/vicii-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "VICIIFullscreen"
+resource range:                 0/1
+resource default:               0
+resource function:              set_fullscreen_enabled()
+resource var:                   vicii.raster->canvas->videoconfig->fullscreen_enabled
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIfull / +VICIIfull
+platform gui present:			sdl/unix
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIfull
+description:    "Enable fullscreen"
+resource:       "VICIIFullscreen" (set to 1)
+action:         N/A
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   +VICIIfull
+description:    "Disable fullscreen"
+resource:       "VICIIFullscreen" (set to 0)
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "VICIIFullscreenStatusbar"
+resource range:                 0/1
+resource default:               0
+resource function:              set_fullscreen_statusbar()
+resource var:                   vicii.raster->canvas->videoconfig->fullscreen_statusbar_enabled
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:			unix
+
 viciisc/vicii-resources.c:
 --------------------------
 resource type:                  bool
@@ -4537,8 +4452,6 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIhwscale / +VICIIhwscale
 platform gui present:			sdl/unix
-platform gui missing:           
-fixme: fix documentation
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -4554,7 +4467,6 @@ description:    "Disable hardware scaling"
 resource:       "VICIIHwScale" (set to 0)
 action:         N/A
 
-Only if fullscreen device(s) available
 viciisc/vicii-resources.c:
 --------------------------
 resource type:                  bool
@@ -4568,8 +4480,6 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIfull / +VICIIfull
 platform gui present:			sdl/unix
-platform gui missing:           
-fixme: fix documentation
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -4577,7 +4487,6 @@ command line:   -VICIIfull
 description:    "Enable fullscreen"
 resource:       "VICIIFullscreen" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -4585,9 +4494,7 @@ command line:   +VICIIfull
 description:    "Disable fullscreen"
 resource:       "VICIIFullscreen" (set to 0)
 action:         N/A
-fixme: add to documentation
 
-Only if fullscreen device(s) available
 viciisc/vicii-resources.c:
 --------------------------
 resource type:                  bool
@@ -4599,12 +4506,9 @@ resource var:                   vicii.raster->canvas->videoconfig->fullscreen_st
 resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   NONE (CORRECT)
 platform gui present:			unix
-platform gui missing:           sdl
-fixme: fix documentation
 
-Only if fullscreen device(s) available
 viciisc/vicii-resources.c:
 --------------------------
 resource type:                  string
@@ -4618,8 +4522,6 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIfulldevice
 platform gui present:			unix
-platform gui missing:           sdl
-fixme: fix documentation
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -4627,6 +4529,26 @@ command line:   -VICIIfulldevice <device>
 description:    "Select fullscreen device"
 resource:       "VICIIFullscreenDevice"
 action:         N/A
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+FIXED/CORRECT COMMON RESOURCES/CMDLINES:
+========================================
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
+==============================================
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+FIXED/CORRECT NON-DOS RESOURCES/CMDLINES:
+=========================================
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+FIXED/CORRECT OPTIONAL RESOURCES/CMDLINES:
+==========================================
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
