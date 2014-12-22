@@ -4535,7 +4535,478 @@ action:         N/A
 FIXED/CORRECT COMMON RESOURCES/CMDLINES:
 ========================================
 
-------------------------------------------------------------------------------------------------------------------------------------
+autostart.c:
+------------
+resource type:                  string
+resource name:                  "AutostartPrgDiskImage"
+resource range:                 N/A
+resource default:               NULL
+resource function:              set_autostart_prg_disk_image()
+resource var:                   AutostartPrgDiskImage
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -autostartprgdiskimage
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui missing:
+
+autostart.c:
+------------
+command line:   -autostartprgdiskimage <Name>
+description:    "Set disk image for autostart of PRG files"
+resource:       "AutostartPrgDiskImage"
+action:         N/A
+
+autostart.c:
+------------
+resource type:                  bool
+resource name:                  "AutostartBasicLoad"
+resource range:                 0/1
+resource default:               0
+resource function:              set_autostart_basic_load()
+resource var:                   autostart_basic_load
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -basicload / +basicload
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+autostart.c:
+------------
+command line:   -basicload
+description:    "On autostart, load to BASIC start (without ',1')"
+resource:       "AutostartBasicLoad" (set to 1)
+action:         N/A
+
+autostart.c:
+------------
+command line:   +basicload
+description:    "On autostart, load with ',1'"
+resource:       "AutostartBasicLoad" (set to 0)
+action:         N/A
+
+autostart.c:
+------------
+resource type:                  bool
+resource name:                  "AutostartRunWithColon"
+resource range:                 0/1
+resource default:               0
+resource function:              set_autostart_run_with_colon()
+resource var:                   AutostartRunWithColon
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -autostartwithcolon / +autostartwithcolon
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+autostart.c:
+------------
+command line:   -autostartwithcolon
+description:    "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
+resource:       "AutostartRunWithColon" (set to 1)
+action:         N/A
+
+autostart.c:
+------------
+command line:   +autostartwithcolon
+description:    "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
+resource:       "AutostartRunWithColon" (set to 0)
+action:         N/A
+
+autostart.c:
+------------
+resource type:                  bool
+resource name:                  "AutostartWarp"
+resource range:                 0/1
+resource default:               1
+resource function:              set_autostart_warp()
+resource var:                   AutostartWarp
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -autostart-warp / +autostart-warp
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+autostart.c:
+------------
+command line:   -autostart-warp
+description:    "Enable warp mode during autostart"
+resource:       "AutostartWarp" (set to 1)
+action:         N/A
+
+autostart.c:
+------------
+command line:   +autostart-warp
+description:    "Disable warp mode during autostart"
+resource:       "AutostartWarp" (set to 0)
+action:         N/A
+
+autostart.c:
+------------
+resource type:                  int
+resource name:                  "AutostartPrgMode"
+resource range:                 0..2 (AUTOSTART_PRG_MODE_VFS (0), AUTOSTART_PRG_MODE_INJECT (1), AUTOSTART_PRG_MODE_DISK (2))
+resource default:               AUTOSTART_PRG_MODE_DISK (2)
+resource function:              set_autostart_prg_mode()
+resource var:                   AutostartPrgMode
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -autostartprgmode
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+autostart.c:
+------------
+command line:   -autostartprgmode <Mode>
+description:    "Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk image)"
+resource:       "AutostartPrgMode"
+action:         N/A
+
+autostart.c:
+------------
+resource type:                  bool
+resource name:                  "AutostartDelayRandom"
+resource range:                 0/1
+resource default:               1
+resource function:              set_autostart_delayrandom()
+resource var:                   AutostartDelayRandom
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -autostart-delay-random / +autostart-delay-random
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+autostart.c:
+------------
+command line:   -autostart-delay-random
+description:    "Enable random initial autostart delay."
+resource:       "AutostartDelayRandom" (set to 1)
+action:         N/A
+
+autostart.c:
+------------
+command line:   +autostart-delay-random
+description:    "Disable random initial autostart delay."
+resource:       "AutostartDelayRandom" (set to 0)
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "ChargenIntName"
+resource range:                 N/A
+resource default:               "chargen"
+resource function:              set_chargen_int_rom_name()
+resource var:                   chargen_int_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -chargen
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -chargen <Name>
+description:    "Specify name of international character generator ROM image"
+resource:       "ChargenIntName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "ChargenDEName"
+resource range:                 N/A
+resource default:               "chargde"
+resource function:              set_chargen_de_rom_name()
+resource var:                   chargen_de_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -chargde
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -chargde <Name>
+description:    "Specify name of German character generator ROM image"
+resource:       "ChargenDEName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "ChargenFRName"
+resource range:                 N/A
+resource default:               "chargfr"
+resource function:              set_chargen_fr_rom_name()
+resource var:                   chargen_fr_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -chargfr
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -chargfr <Name>
+description:    "Specify name of French character generator ROM image"
+resource:       "ChargenFRName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "ChargenSEName"
+resource range:                 N/A
+resource default:               "chargse"
+resource function:              set_chargen_se_rom_name()
+resource var:                   chargen_se_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -chargse
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -chargse <Name>
+description:    "Specify name of Swedish character generator ROM image"
+resource:       "ChargenSEName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "KernalIntName"
+resource range:                 N/A
+resource default:               "kernal"
+resource function:              set_kernal_int_rom_name()
+resource var:                   kernal_int_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -kernal
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -kernal <Name>
+description:    "Specify name of international Kernal ROM image"
+resource:       "KernalIntName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "KernalDEName"
+resource range:                 N/A
+resource default:               "kernalde"
+resource function:              set_kernal_de_rom_name()
+resource var:                   kernal_de_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -kernalde
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -kernalde <Name>
+description:    "Specify name of German Kernal ROM image"
+resource:       "KernalDEName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "KernalFIName"
+resource range:                 N/A
+resource default:               "kernalfi"
+resource function:              set_kernal_fi_rom_name()
+resource var:                   kernal_fi_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -kernalfi
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -kernalfi <Name>
+description:    "Specify name of Finnish Kernal ROM image"
+resource:       "KernalFIName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "KernalFRName"
+resource range:                 N/A
+resource default:               "kernalfr"
+resource function:              set_kernal_fr_rom_name()
+resource var:                   kernal_fr_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -kernalfr
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -kernalfr <Name>
+description:    "Specify name of French Kernal ROM image"
+resource:       "KernalFRName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "KernalITName"
+resource range:                 N/A
+resource default:               "kernalit"
+resource function:              set_kernal_it_rom_name()
+resource var:                   kernal_it_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -kernalit
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -kernalit <Name>
+description:    "Specify name of Italian Kernal ROM image"
+resource:       "KernalITName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "KernalNOName"
+resource range:                 N/A
+resource default:               "kernalno"
+resource function:              set_kernal_no_rom_name()
+resource var:                   kernal_no_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -kernalno
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -kernalno <Name>
+description:    "Specify name of Norwegian Kernal ROM image"
+resource:       "KernalNOName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "KernalSEName"
+resource range:                 N/A
+resource default:               "kernalse"
+resource function:              set_kernal_se_rom_name()
+resource var:                   kernal_se_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -kernalse
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -kernalse <Name>
+description:    "Specify name of Swedish Kernal ROM image"
+resource:       "KernalSEName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "BasicLoName"
+resource range:                 N/A
+resource default:               "basiclo"
+resource function:              set_basiclo_rom_name()
+resource var:                   basiclo_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -basiclo
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -basiclo <Name>
+description:    "Specify name of BASIC ROM image (lower part)"
+resource:       "BasicLoName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "BasicHiName"
+resource range:                 N/A
+resource default:               "basichi"
+resource function:              set_basichi_rom_name()
+resource var:                   basichi_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -basichi
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -basichi <Name>
+description:    "Specify name of BASIC ROM image (higher part)"
+resource:       "BasicHiName"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "Kernal64Name"
+resource range:                 N/A
+resource default:               "kernal64"
+resource function:              set_kernal64_rom_name()
+resource var:                   kernal64_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -kernal64
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -kernal64 <Name>
+description:    "Specify name of C64 mode Kernal ROM image"
+resource:       "Kernal64Name"
+action:         N/A
+
+c128/c128-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "Basic64Name"
+resource range:                 N/A
+resource default:               "basic64"
+resource function:              set_basic64_rom_name()
+resource var:                   basic64_rom_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -basic64
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -basic64 <Name>
+description:    "Specify name of C64 mode BASIC ROM image"
+resource:       "Basic64Name"
+action:         N/A
+
+-----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
 ==============================================
@@ -4769,86 +5240,6 @@ action:         N/A
 
 autostart.c:
 ------------
-resource type:                  string
-resource name:                  "AutostartPrgDiskImage"
-resource range:                 N/A
-resource default:               NULL
-resource function:              set_autostart_prg_disk_image()
-resource var:                   AutostartPrgDiskImage
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -autostartprgdiskimage
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-autostart.c:
-------------
-command line:   -autostartprgdiskimage <Name>
-description:    "Set disk image for autostart of PRG files"
-resource:       "AutostartPrgDiskImage"
-action:         N/A
-
-autostart.c:
-------------
-resource type:                  bool
-resource name:                  "AutostartBasicLoad"
-resource range:                 0/1
-resource default:               0
-resource function:              set_autostart_basic_load()
-resource var:                   autostart_basic_load
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -basicload / +basicload
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-autostart.c:
-------------
-command line:   -basicload
-description:    "On autostart, load to BASIC start (without ',1')"
-resource:       "AutostartBasicLoad" (set to 1)
-action:         N/A
-
-autostart.c:
-------------
-command line:   +basicload
-description:    "On autostart, load with ',1'"
-resource:       "AutostartBasicLoad" (set to 0)
-action:         N/A
-
-autostart.c:
-------------
-resource type:                  bool
-resource name:                  "AutostartRunWithColon"
-resource range:                 0/1
-resource default:               0
-resource function:              set_autostart_run_with_colon()
-resource var:                   AutostartRunWithColon
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -autostartwithcolon / +autostartwithcolon
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-autostart.c:
-------------
-command line:   -autostartwithcolon
-description:    "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
-resource:       "AutostartRunWithColon" (set to 1)
-action:         N/A
-
-autostart.c:
-------------
-command line:   +autostartwithcolon
-description:    "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
-resource:       "AutostartRunWithColon" (set to 0)
-action:         N/A
-
-autostart.c:
-------------
 resource type:                  bool
 resource name:                  "AutostartHandleTrueDriveEmulation"
 resource range:                 0/1
@@ -4878,59 +5269,6 @@ action:         N/A
 
 autostart.c:
 ------------
-resource type:                  bool
-resource name:                  "AutostartWarp"
-resource range:                 0/1
-resource default:               1
-resource function:              set_autostart_warp()
-resource var:                   AutostartWarp
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -autostart-warp / +autostart-warp
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-autostart.c:
-------------
-command line:   -autostart-warp
-description:    "Enable warp mode during autostart"
-resource:       "AutostartWarp" (set to 1)
-action:         N/A
-
-autostart.c:
-------------
-command line:   +autostart-warp
-description:    "Disable warp mode during autostart"
-resource:       "AutostartWarp" (set to 0)
-action:         N/A
-
-autostart.c:
-------------
-resource type:                  int
-resource name:                  "AutostartPrgMode"
-resource range:                 0..2 (AUTOSTART_PRG_MODE_VFS (0), AUTOSTART_PRG_MODE_INJECT (1), AUTOSTART_PRG_MODE_DISK (2))
-resource default:               AUTOSTART_PRG_MODE_DISK (2)
-resource function:              set_autostart_prg_mode()
-resource var:                   AutostartPrgMode
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -autostartprgmode
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-autostart.c:
-------------
-command line:   -autostartprgmode <Mode>
-description:    "Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk image)"
-resource:       "AutostartPrgMode"
-action:         N/A
-
-autostart.c:
-------------
 resource type:                  int
 resource name:                  "AutostartDelay"
 resource range:                 0..1000
@@ -4952,123 +5290,6 @@ autostart.c:
 command line:   -autostart-delay <Seconds>
 description:    "Set initial autostart delay (0: use default)"
 resource:       "AutostartDelay"
-action:         N/A
-
-autostart.c:
-------------
-resource type:                  bool
-resource name:                  "AutostartDelayRandom"
-resource range:                 0/1
-resource default:               1
-resource function:              set_autostart_delayrandom()
-resource var:                   AutostartDelayRandom
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -autostart-delay-random / +autostart-delay-random
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-autostart.c:
-------------
-command line:   -autostart-delay-random
-description:    "Enable random initial autostart delay."
-resource:       "AutostartDelayRandom" (set to 1)
-action:         N/A
-
-autostart.c:
-------------
-command line:   +autostart-delay-random
-description:    "Disable random initial autostart delay."
-resource:       "AutostartDelayRandom" (set to 0)
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "ChargenIntName"
-resource range:                 N/A
-resource default:               "chargen"
-resource function:              set_chargen_int_rom_name()
-resource var:                   chargen_int_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -chargen
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -chargen <Name>
-description:    "Specify name of international character generator ROM image"
-resource:       "ChargenIntName"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "ChargenDEName"
-resource range:                 N/A
-resource default:               "chargde"
-resource function:              set_chargen_de_rom_name()
-resource var:                   chargen_de_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -chargde
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -chargde <Name>
-description:    "Specify name of German character generator ROM image"
-resource:       "ChargenDEName"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "ChargenFRName"
-resource range:                 N/A
-resource default:               "chargfr"
-resource function:              set_chargen_fr_rom_name()
-resource var:                   chargen_fr_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -chargfr
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -chargfr <Name>
-description:    "Specify name of French character generator ROM image"
-resource:       "ChargenFRName"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "ChargenSEName"
-resource range:                 N/A
-resource default:               "chargse"
-resource function:              set_chargen_se_rom_name()
-resource var:                   chargen_se_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -chargse
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -chargse <Name>
-description:    "Specify name of Swedish character generator ROM image"
-resource:       "ChargenSEName"
 action:         N/A
 
 c128/c128-resources.c:
@@ -5096,160 +5317,6 @@ action:         N/A
 c128/c128-resources.c:
 ----------------------
 resource type:                  string
-resource name:                  "KernalIntName"
-resource range:                 N/A
-resource default:               "kernal"
-resource function:              set_kernal_int_rom_name()
-resource var:                   kernal_int_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -kernal
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -kernal <Name>
-description:    "Specify name of international Kernal ROM image"
-resource:       "KernalIntName"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "KernalDEName"
-resource range:                 N/A
-resource default:               "kernalde"
-resource function:              set_kernal_de_rom_name()
-resource var:                   kernal_de_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -kernalde
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -kernalde <Name>
-description:    "Specify name of German Kernal ROM image"
-resource:       "KernalDEName"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "KernalFIName"
-resource range:                 N/A
-resource default:               "kernalfi"
-resource function:              set_kernal_fi_rom_name()
-resource var:                   kernal_fi_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -kernalfi
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -kernalfi <Name>
-description:    "Specify name of Finnish Kernal ROM image"
-resource:       "KernalFIName"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "KernalFRName"
-resource range:                 N/A
-resource default:               "kernalfr"
-resource function:              set_kernal_fr_rom_name()
-resource var:                   kernal_fr_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -kernalfr
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -kernalfr <Name>
-description:    "Specify name of French Kernal ROM image"
-resource:       "KernalFRName"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "KernalITName"
-resource range:                 N/A
-resource default:               "kernalit"
-resource function:              set_kernal_it_rom_name()
-resource var:                   kernal_it_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -kernalit
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -kernalit <Name>
-description:    "Specify name of Italian Kernal ROM image"
-resource:       "KernalITName"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "KernalNOName"
-resource range:                 N/A
-resource default:               "kernalno"
-resource function:              set_kernal_no_rom_name()
-resource var:                   kernal_no_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -kernalno
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -kernalno <Name>
-description:    "Specify name of Norwegian Kernal ROM image"
-resource:       "KernalNOName"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "KernalSEName"
-resource range:                 N/A
-resource default:               "kernalse"
-resource function:              set_kernal_se_rom_name()
-resource var:                   kernal_se_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -kernalse
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -kernalse <Name>
-description:    "Specify name of Swedish Kernal ROM image"
-resource:       "KernalSEName"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
 resource name:                  "KernalCHName"
 resource range:                 N/A
 resource default:               "kernalch"
@@ -5269,93 +5336,7 @@ description:    "Specify name of Swiss Kernal ROM image"
 resource:       "KernalCHName"
 action:         N/A
 
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "BasicLoName"
-resource range:                 N/A
-resource default:               "basiclo"
-resource function:              set_basiclo_rom_name()
-resource var:                   basiclo_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -basiclo
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -basiclo <Name>
-description:    "Specify name of BASIC ROM image (lower part)"
-resource:       "BasicLoName"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "BasicHiName"
-resource range:                 N/A
-resource default:               "basichi"
-resource function:              set_basichi_rom_name()
-resource var:                   basichi_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -basichi
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -basichi <Name>
-description:    "Specify name of BASIC ROM image (higher part)"
-resource:       "BasicHiName"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "Kernal64Name"
-resource range:                 N/A
-resource default:               "kernal64"
-resource function:              set_kernal64_rom_name()
-resource var:                   kernal64_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -kernal64
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -kernal64 <Name>
-description:    "Specify name of C64 mode Kernal ROM image"
-resource:       "Kernal64Name"
-action:         N/A
-
-c128/c128-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "Basic64Name"
-resource range:                 N/A
-resource default:               "basic64"
-resource function:              set_basic64_rom_name()
-resource var:                   basic64_rom_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -basic64
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c128/c128-cmdline-options.c:
-----------------------------
-command line:   -basic64 <Name>
-description:    "Specify name of C64 mode BASIC ROM image"
-resource:       "Basic64Name"
-action:         N/A
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
 c128/c128-resources.c:
 ----------------------
@@ -5370,9 +5351,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -pal / -ntsc / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: fix documentation for x128
 
 c128/c128-cmdline-options.c:

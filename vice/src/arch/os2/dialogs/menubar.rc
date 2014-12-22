@@ -420,11 +420,11 @@ BEGIN
 #if (defined(__X64__) || defined(__X64DTV__) || defined(__XSCPU64__) || defined(__X128__) || defined(__XVIC__)) && !defined(__X64SC__)
         SUBMENU "~Video Frequency Standard",              IDM_VIDEOSTD,                 MIS_TEXT
         BEGIN
-            MENUITEM "~PAL-G",                            IDM_PAL,                      MIS_TEXT
-            MENUITEM "~NTSC-M",                           IDM_NTSC,                     MIS_TEXT
+            MENUITEM "~PAL",                              IDM_PAL,                      MIS_TEXT
+            MENUITEM "~NTSC",                             IDM_NTSC,                     MIS_TEXT
 
 #if defined(__X64__) || defined(__XSCPU64__)
-            MENUITEM "~old NTSC-M",                       IDM_NTSCOLD,                  MIS_TEXT
+            MENUITEM "~old NTSC",                         IDM_NTSCOLD,                  MIS_TEXT
 #endif // __X64__
 
         END

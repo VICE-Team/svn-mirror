@@ -365,12 +365,12 @@ BMenuBar *menu_create(int machine_class)
         machine_class == VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Video Standard"));
             menu->SetRadioMode(true);
-            menu->AddItem(new BMenuItem("PAL-G", new BMessage(MENU_SYNC_FACTOR_PAL)));
-            menu->AddItem(new BMenuItem("NTSC-M", new BMessage(MENU_SYNC_FACTOR_NTSC)));
+            menu->AddItem(new BMenuItem("PAL", new BMessage(MENU_SYNC_FACTOR_PAL)));
+            menu->AddItem(new BMenuItem("NTSC", new BMessage(MENU_SYNC_FACTOR_NTSC)));
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_VSID) {
-            menu->AddItem(new BMenuItem("Old NTSC-M", new BMessage(MENU_SYNC_FACTOR_NTSCOLD)));
+            menu->AddItem(new BMenuItem("Old NTSC", new BMessage(MENU_SYNC_FACTOR_NTSCOLD)));
             menu->AddItem(new BMenuItem("PAL-N", new BMessage(MENU_SYNC_FACTOR_PALN)));
     }
 
