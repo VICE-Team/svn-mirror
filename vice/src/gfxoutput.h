@@ -75,7 +75,7 @@ extern gfxoutputdrv_t *gfxoutput_get_driver(const char *drvname);
 /* Functions called by graphic output driver modules.  */
 extern int gfxoutput_register(gfxoutputdrv_t *drv);
 
-/* GIF driver functions. */
+/* GIF driver functions, needed for windows native gif driver */
 extern void gfxoutput_init_gif(int help);
 
 /* FFMPEG bitrate constants. */
