@@ -358,6 +358,7 @@ static void c64ui_dynamic_menu_create(void)
 #ifdef DEBUG
     memcpy(&debug_settings_submenu[UI_DEBUG_SETTINGS_SUBMENU_EXTRA_IDX], &x64dtv_debug_extra_menu[0], sizeof(ui_menu_entry_t));
 #endif
+    uiprinter_pruser_enable(0);
 }
 
 static void c64ui_dynamic_menu_shutdown(void)

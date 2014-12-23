@@ -49,4 +49,6 @@ extern ui_menu_entry_t uiprinter_pruser_driver_submenu[];
 extern ui_menu_entry_t uiprinter_pruser_output_submenu[];
 extern ui_menu_entry_t uiprinter_pruser_device_submenu[];
 
+extern void uiprinter_pruser_enable(int enable);
+
 #endif
