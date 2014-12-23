@@ -4376,28 +4376,10 @@ The local address the remote monitor should bind to
 @section Machine settings
 
 @c @node FIXME
-@subsection Machine resources
-
-@table @code
-
-@vindex MachineVideoStandard
-@item MachineVideoStandard
-Integer that specifies the video standard of the emulated machine. (-1: PAL, 
--2: NTSC, -3: NTSC (old), -4: PAL-N)
-
-@end table
-
-@c @node FIXME
 @subsection Machine command-line options
 
 @table @code
 
-@cindex -pal
-@item -pal
-Use PAL sync factor
-@cindex -ntsc
-@item -ntsc
-Use NTSC sync factor
 @cindex -ntscold
 @item -ntscold
 Use old NTSC sync factor
@@ -5517,10 +5499,15 @@ Attach raw 16kB Zaxxon cartridge image
 @table @code
 
 @vindex CIA1Model
-@vindex CIA2Model
 @item CIA1Model
-@itemx CIA2Model
-Enum specifying CIA model (0 = old 6526, 1 = new 6526A)
+@c the exceptions will be corrected as the resource list is implemented
+Integer specifying CIA1 model (all emulators except xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+(0=old 6526, 1=new 6526A)
+@vindex CIA2Model
+@item CIA2Model
+@c the exceptions will be corrected as the resource list is implemented
+Integer specifying CIA2 model (all emulators except xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+(0=old 6526, 1=new 6526A)
 
 @end table
 
@@ -5529,15 +5516,27 @@ Enum specifying CIA model (0 = old 6526, 1 = new 6526A)
 
 @table @code
 
-@cindex -ciamodel
+@findex -ciamodel
 @item -ciamodel <model>
-Set both CIA models (0 = old 6526, 1 = new 6526A)
-@cindex -cia1model
+Set both CIA models
+(@code{CIA1Model}, @code{CIA2Model})
+@c the exceptions will be corrected as the resource list is implemented
+(all emulators except xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+(0=old 6526, 1=new 6526A)
+@findex -cia1model
 @item -cia1model <model>
-Set CIA 1 model (0 = old 6526, 1 = new 6526A)
-@cindex -cia2model
+Set CIA1 model
+(@code{CIA1Model})
+@c the exceptions will be corrected as the resource list is implemented
+(all emulators except xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+(0=old 6526, 1=new 6526A)
+@findex -cia2model
 @item -cia2model <model>
-Set CIA 2 model (0 = old 6526, 1 = new 6526A)
+Set CIA2 model
+(@code{CIA2Model})
+@c the exceptions will be corrected as the resource list is implemented
+(all emulators except xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+(0=old 6526, 1=new 6526A)
 
 @end table
 
@@ -6300,11 +6299,22 @@ Specify Kernal revision (@code{KernalRev}).
 
 @vindex GlueLogic
 @item GlueLogic
-Integer specifying the type of emulated glue-logic. (0: discrete, 1: custom IC)
+Integer specifying the type of emulated glue-logic.
+(0=discrete, 1=custom IC)
 
 @vindex BurstMod
 @item BurstMod
 Boolean, enable/disable the Burst-Mode modification.
+
+@vindex BoardType
+@item BoardType
+Integer specifying the type of emulated board (not available in xscpu64).
+(0=C64, 1=MAX)
+
+@vindex IECReset
+@item IECReset
+Integer specifying if the IEC bus resets when the CPU resets.
+(0=No, 1=Yes)
 
 @vindex PLUS60K
 @item PLUS60K
@@ -6325,7 +6335,7 @@ String specifying the filename of the PLUS256K RAM image.
 
 @vindex C64_256K
 @item C64_256K
-Boolean, enable/disable the 256K RAM expansion
+Boolean to enable/disable the 256K RAM expansion.
 @vindex C64_256Kfilename
 @item C64_256Kfilename
 String specifying the filename of the 256K RAM image.
@@ -6340,9 +6350,19 @@ Integer that specifies the base address of the 256K RAM expansion.
 
 @table @code
 
-@cindex -gluelogictype
+@findex -gluelogictype
 @item -gluelogictype <type>
-Set glue logic type (0 = discrete, 1 = 252535-01)
+Set glue logic type
+(@code{GlueLogic})
+(not available for x64dtv).
+(0=discrete, 1=252535-01)
+
+@findex -iecreset
+@item -iecreset <value>
+Set IEC reset bahaviour
+(@code{IECReset})
+(not available for x64dtv).
+(0=Do not reset with CPU reset, 1=Reset with CPU reset)
 
 @cindex -plus60k, +plus60k
 @item -plus60k
@@ -6363,16 +6383,26 @@ Enable/Disable the PLUS256K RAM expansion
 @item -plus256kimage <name>
 Specify name of PLUS256K image
 
-@cindex -256k, +256k
+@findex -256k, +256k
 @item -256k
 @itemx +256k
 Enable/Disable the 256K RAM expansion
-@cindex -256kimage
+(@code{C64_256K=1}, @code{C64_256K=0}).
+@findex -256kimage
 @item -256kimage <name>
 Specify name of 256K image
+(@code{C64_256Kfilename}).
 @cindex -256kbase
 @item -256kbase <base address>
 Base address of the 256K expansion
+
+@findex -model
+@item -model <Model>
+Set the C64 model
+(@code{VICIIModel}, @code{CIA1Model}, @code{CIA2Model}, @code{GlueLogic}, @code{BoardType}, @code{IECReset}, @code{KernalName},
+@code{ChargenName}, @code{SidEngine}, @code{SidModel})
+(x64 and x64sc only).
+(c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)
 
 @end table
 
@@ -6729,11 +6759,16 @@ Boolean, status of the 40/80 columns key
 Boolean, if true enter C64 mode on reset
 @vindex C128FullBanks
 @item C128FullBanks
-Boolean, enables Banks 2 and 3.
+Boolean to enable/disable RAM banks 2 and 3.
 @vindex MachineType
 @item MachineType
 Integer specifying the C128 machine type. (0: Internatinal, 1: Finnish, 2: French,
 3: German, 4: Italian, 5: Norwegian, 6: Swedish)
+@vindex MachineVideoStandard
+@item MachineVideoStandard
+Integer that specifies the video standard of the emulated machine
+(-1: PAL, -2: NTSC).
+
 @end table
 
 @c @node FIXME
@@ -6753,6 +6788,29 @@ Activate 80 column mode
 Always switch to C64 mode on reset
 @item +go64
 Always switch to C128 mode on reset
+
+@findex -pal
+@item -pal
+Use PAL sync factor
+(@code{MachineVideoStandard=-1}).
+
+@findex -ntsc
+@item -ntsc
+Use NTSC sync factor
+(@code{MachineVideoStandard=-2}).
+
+@findex -model
+@item -model <Model>
+Set the C128 model
+(@code{MachineVideoStandard}, @code{CIA1Model}, @code{CIA2Model}, @code{VICIINewLuminances}, @code{VDCRevision},
+@code{VDC64KB}, @code{SidEngine}, @code{SidModel}).
+(c128/c128dcr, pal/ntsc)
+
+@findex -c128fullbanks, +c128fullbanks
+@item -c128fullbanks
+@itemx +c128fullbanks
+Enable/disable RAM banks 2 and 3
+(@code{C128FullBanks=1}, @code{C128FullBanks=0}).
 
 @end table
 
