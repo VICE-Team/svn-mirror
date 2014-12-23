@@ -33,6 +33,7 @@
 #include "archdep.h"
 #include "bmpdrv.h"
 #include "gfxoutput.h"
+#include "gifdrv.h"
 #include "lib.h"
 #include "log.h"
 #include "iffdrv.h"
