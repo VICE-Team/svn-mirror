@@ -62,6 +62,8 @@ $ sudo apt-get install libgtk2.0-cil-dev  # for GTK2 UI
 $ sudo apt-get install libgtkglext1-dev   # for hardware scaling / open-gl support
 $ sudo apt-get install libvte-dev         # (NOT libvte-2.90/2.91-dev) for GUI monitor terminal window
 
+$ sudo apt-get install libpulse-dev       # for pulse audio support
+
 $ sudo apt-get install libpcap-dev        # for ethernet emulation
 
 $ sudo apt-get install libavcodec-dev     # for video capturing support
