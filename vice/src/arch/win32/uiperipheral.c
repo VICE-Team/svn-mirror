@@ -42,6 +42,7 @@
 #include "imagecontents.h"
 #include "intl.h"
 #include "lib.h"
+#include "machine.h"
 #include "opencbmlib.h"
 #include "printer.h"
 #include "res.h"
@@ -54,6 +55,18 @@
 #include "uiperipheral.h"
 #include "winlong.h"
 #include "winmain.h"
+
+static int has_userport_printer(void)
+{
+    switch (machine_class) {
+        case VICE_MACHINE_NONE:
+        case VICE_MACHINE_PLUS4:
+        case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_VSID:
+            return 0;
+    }
+    return 1;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                             Disk Peripherals (8-11)                        */
@@ -71,7 +84,6 @@ static void enable_controls_for_disk_device_type(HWND hwnd, int type)
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_WRITEP00), type == IDC_SELECTDIR);
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_HIDENONP00), type == IDC_SELECTDIR);
 }
-
 
 static void enable_controls(HWND hwnd)
 {
@@ -1028,7 +1040,7 @@ static void uiperipheral_dialog(HWND hwnd)
     no_of_printers = 3;
 
     if (have_printer_userport < 0) {
-        have_printer_userport = (resources_touch("PrinterUserport")) < 0 ? 0 : 1;
+        have_printer_userport = has_userport_printer();
     }
     if (have_printer_userport) {
         no_of_printers++;
