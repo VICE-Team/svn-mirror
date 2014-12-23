@@ -400,19 +400,17 @@ ui_menu_entry_t ui_settings_settings_menu[] = {
     { NULL }
 };
 
+/* ------------------------------------------------------------------------- */
+
 #ifdef DEBUG
 
 UI_MENU_DEFINE_RADIO(TraceMode)
 
 ui_menu_entry_t debug_tracemode_submenu[] = {
-    { N_("Normal"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_NORMAL, NULL },
-    { N_("Small"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_SMALL, NULL },
-    { N_("History"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_HISTORY, NULL },
-    { N_("Autoplay"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_AUTOPLAY, NULL },
+    { N_("Normal"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_NORMAL, NULL },
+    { N_("Small"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_SMALL, NULL },
+    { N_("History"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_HISTORY, NULL },
+    { N_("Autoplay"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_AUTOPLAY, NULL },
     { NULL }
 };
 
@@ -421,28 +419,24 @@ UI_MENU_DEFINE_TOGGLE(Drive0CPU_TRACE)
 UI_MENU_DEFINE_TOGGLE(Drive1CPU_TRACE)
 UI_MENU_DEFINE_TOGGLE(Drive2CPU_TRACE)
 UI_MENU_DEFINE_TOGGLE(Drive3CPU_TRACE)
+UI_MENU_DEFINE_TOGGLE(DoCoreDump)
 
 ui_menu_entry_t debug_settings_submenu[] = {
-    { N_("Trace Mode"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, debug_tracemode_submenu },
+    { N_("Trace Mode"), UI_MENU_TYPE_NORMAL, NULL, NULL, debug_tracemode_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Main CPU Trace"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_MainCPU_TRACE, NULL, NULL },
+    { N_("Main CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_MainCPU_TRACE, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Drive0 CPU Trace"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive0CPU_TRACE, NULL, NULL },
-    { N_("Drive1 CPU Trace"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive1CPU_TRACE, NULL, NULL },
-    { N_("Drive2 CPU Trace"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive2CPU_TRACE, NULL, NULL },
-    { N_("Drive3 CPU Trace"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive3CPU_TRACE, NULL, NULL },
+    { N_("Drive0 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive0CPU_TRACE, NULL, NULL },
+    { N_("Drive1 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive1CPU_TRACE, NULL, NULL },
+    { N_("Drive2 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive2CPU_TRACE, NULL, NULL },
+    { N_("Drive3 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive3CPU_TRACE, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR }, /* replaced by extra items in XY_dynamic_menu_create() (eg DTV) */
+    { N_("Save core dump"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_DoCoreDump, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_debug_settings_menu[] = {
-    { N_("Debug settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, debug_settings_submenu },
+    { N_("Debug settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, debug_settings_submenu },
     { NULL }
 };
 #endif

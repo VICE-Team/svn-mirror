@@ -2381,8 +2381,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -displaydepth
-platform gui present:           
-platform gui missing:			unix (CORRECT)
+platform gui present:
+platform gui missing:           unix (CORRECT)
 note: can't we remove this? is anyone still using unix machines that a) is capable of running vice
       and b) doesnt support 24/32 bits?
 
@@ -2405,8 +2405,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -colormap / +colormap
-platform gui present:           
-platform gui missing:			unix (CORRECT)
+platform gui present:
+platform gui missing:           unix (CORRECT)
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
@@ -10553,8 +10553,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -core / +core / -debug / +debug
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix (DEBUG only)
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 note: not very useful to have in the UIs, perhaps make it available only if DEBUG is defined?
 
 initcmdline.c:
@@ -21051,10 +21051,10 @@ resource function:              set_blitter_log()
 resource var:                   blitter_log_enabled
 resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:				#ifdef DEBUG
+prepocessor:                    #ifdef DEBUG
 command-line:                   -dtvblitterlog / +dtvblitterlog
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 c64dtv/c64dtvblitter.c:
 -----------------------
@@ -21080,10 +21080,10 @@ resource function:              set_dma_log()
 resource var:                   dma_log_enabled
 resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:				#ifdef DEBUG
+prepocessor:                    #ifdef DEBUG
 command-line:                   -dtvdmalog / +dtvdmalog
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 c64dtv/c64dtvdma.c:
 -------------------
@@ -21109,10 +21109,10 @@ resource function:              set_flash_log()
 resource var:                   flash_log_enabled
 resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:				#ifdef DEBUG
+prepocessor:                    #ifdef DEBUG
 command-line:                   -dtvflashlog / +dtvflashlog
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 c64dtv/c64dtvflash.c:
 ---------------------

@@ -328,6 +328,26 @@ static ui_menu_entry_t x64_speed_menu[] = {
     { NULL }
 };
 
+#ifdef DEBUG
+UI_MENU_DEFINE_TOGGLE(DtvBlitterLog)
+UI_MENU_DEFINE_TOGGLE(DtvDMALog)
+UI_MENU_DEFINE_TOGGLE(DtvFlashLog)
+
+static ui_menu_entry_t ui_debug_extra_settings_menu[] = {
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Blitter Log"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_DtvBlitterLog, NULL, NULL },
+    { N_("DMA Log"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_DtvDMALog, NULL, NULL },
+    { N_("Flash Log"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_DtvFlashLog, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { NULL }
+};
+
+static ui_menu_entry_t x64dtv_debug_extra_menu[] = {
+    { "", UI_MENU_TYPE_NONE, NULL, NULL, ui_debug_extra_settings_menu },
+    { NULL }
+};
+#endif
+
 static void c64ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
@@ -335,6 +355,9 @@ static void c64ui_dynamic_menu_create(void)
 
     memcpy(uikeymap_sym_submenu, keymap_sym_submenu, sizeof(keymap_sym_submenu));
     memcpy(uikeymap_pos_submenu, keymap_pos_submenu, sizeof(keymap_pos_submenu));
+#ifdef DEBUG
+    memcpy(&debug_settings_submenu[UI_DEBUG_SETTINGS_SUBMENU_EXTRA_IDX], &x64dtv_debug_extra_menu[0], sizeof(ui_menu_entry_t));
+#endif
 }
 
 static void c64ui_dynamic_menu_shutdown(void)

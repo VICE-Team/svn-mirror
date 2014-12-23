@@ -35,6 +35,7 @@ extern struct ui_menu_entry_s ui_fullscreen_settings_menu[];
 extern struct ui_menu_entry_s ui_fullscreen_settings_submenu[];
 extern struct ui_menu_entry_s ui_settings_settings_menu[];
 extern struct ui_menu_entry_s ui_debug_settings_menu[];
+#define UI_DEBUG_SETTINGS_SUBMENU_EXTRA_IDX 8
 extern struct ui_menu_entry_s debug_settings_submenu[];
 
 #endif
