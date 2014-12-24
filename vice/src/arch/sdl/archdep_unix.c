@@ -288,6 +288,18 @@ char *archdep_default_fliplist_file_name(void)
     }
 }
 
+char *archdep_default_rtc_file_name(void)
+{
+    if (archdep_pref_path == NULL) {
+        const char *home;
+
+        home = archdep_home_path();
+        return util_concat(home, "/.vice/sdl-vice.rtc", NULL);
+    } else {
+        return util_concat(archdep_pref_path, "/sdl-vice.rtc", NULL);
+    }
+}
+
 char *archdep_default_autostart_disk_image_file_name(void)
 {
     if (archdep_pref_path == NULL) {

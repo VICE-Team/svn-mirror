@@ -82,23 +82,31 @@
  */
 
 /* This module is currently used in the following emulated hardware:
-   - C128 internal function RAM+RTC expansion
+   - C128 internal/external function RAM+RTC expansion
  */
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-rtc_bq4830y_t *bq4830y_init(BYTE *ram, time_t *offset)
+rtc_bq4830y_t *bq4830y_init(char *device)
 {
+    BYTE *ram = lib_malloc(BQ4830Y_RAM_SIZE);
     rtc_bq4830y_t *retval = lib_malloc(sizeof(rtc_bq4830y_t));
+
     memset(retval, 0, sizeof(rtc_bq4830y_t));
+    memset(ram, 0, BQ4830Y_RAM_SIZE);
+
     retval->ram = ram;
-    retval->offset = offset;
+    retval->offset = 0;
+    retval->device = lib_stralloc(device);
 
     return retval;
 }
 
 void bq4830y_destroy(rtc_bq4830y_t *context)
 {
+    rtc_save_context(context->ram, BQ4830Y_RAM_SIZE, context->clock_regs, BQ4830Y_REG_SIZE, context->device);
+    lib_free(context->ram);
+    lib_free(context->device);
     lib_free(context);
 }
 
@@ -162,31 +170,31 @@ static void bq4830y_write_clock_data(rtc_bq4830y_t *context)
     } else {
         if (context->clock_regs_changed[BQ4830Y_REG_YEARS & 7]) {
             val = context->clock_regs[BQ4830Y_REG_YEARS & 7];
-            context->offset[0] = rtc_set_year(val, context->offset[0], 1);
+            context->offset = rtc_set_year(val, context->offset, 1);
         }
         if (context->clock_regs_changed[BQ4830Y_REG_MONTHS & 7]) {
             val = context->clock_regs[BQ4830Y_REG_MONTHS & 7] & 0x1f;
-            context->offset[0] = rtc_set_month(val, context->offset[0], 1);
+            context->offset = rtc_set_month(val, context->offset, 1);
         }
         if (context->clock_regs_changed[BQ4830Y_REG_DAYS_OF_MONTH & 7]) {
             val = context->clock_regs[BQ4830Y_REG_DAYS_OF_MONTH & 7] & 0x3f;
-            context->offset[0] = rtc_set_day_of_month(val, context->offset[0], 1);
+            context->offset = rtc_set_day_of_month(val, context->offset, 1);
         }
         if (context->clock_regs_changed[BQ4830Y_REG_DAYS_OF_WEEK & 7]) {
             val = (context->clock_regs[BQ4830Y_REG_DAYS_OF_WEEK & 7] & 7) - 1;
-            context->offset[0] = rtc_set_weekday(val, context->offset[0]);
+            context->offset = rtc_set_weekday(val, context->offset);
         }
         if (context->clock_regs_changed[BQ4830Y_REG_HOURS & 7]) {
             val = context->clock_regs[BQ4830Y_REG_HOURS & 7] & 0x3f;
-            context->offset[0] = rtc_set_hour(val, context->offset[0], 1);
+            context->offset = rtc_set_hour(val, context->offset, 1);
         }
         if (context->clock_regs_changed[BQ4830Y_REG_MINUTES & 7]) {
             val = context->clock_regs[BQ4830Y_REG_MINUTES & 7] & 0x7f;
-            context->offset[0] = rtc_set_minute(val, context->offset[0], 1);
+            context->offset = rtc_set_minute(val, context->offset, 1);
         }
         if (context->clock_regs_changed[BQ4830Y_REG_SECONDS & 7]) {
             val = context->clock_regs[BQ4830Y_REG_SECONDS & 7] & 0x7f;
-            context->offset[0] = rtc_set_second(val, context->offset[0], 1);
+            context->offset = rtc_set_second(val, context->offset, 1);
         }
     }
 }
@@ -253,10 +261,10 @@ void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
             }
             if ((val >> 7) != context->clock_halt) {
                 if (val & 0x80) {
-                    context->clock_halt_latch = rtc_get_latch(context->offset[0]);
+                    context->clock_halt_latch = rtc_get_latch(context->offset);
                     context->clock_halt = 1;
                 } else {
-                    context->offset[0] = context->offset[0] - (rtc_get_latch(0) - (context->clock_halt_latch - context->offset[0]));
+                    context->offset = context->offset - (rtc_get_latch(0) - (context->clock_halt_latch - context->offset));
                     context->clock_halt = 0;
                 }
             }
@@ -291,7 +299,7 @@ void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
                             if (context->clock_halt) {
                                 context->latch = context->clock_halt_latch;
                             } else {
-                                context->latch = rtc_get_latch(context->offset[0]);
+                                context->latch = rtc_get_latch(context->offset);
                             }
                             context->read_latch = 1;
                             break;
@@ -310,7 +318,7 @@ void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
                             if (context->clock_halt) {
                                 context->latch = context->clock_halt_latch;
                             } else {
-                                context->latch = rtc_get_latch(context->offset[0]);
+                                context->latch = rtc_get_latch(context->offset);
                             }
                             bq4830y_latch_write_regs(context);
                             context->write_latch = 1;
@@ -326,7 +334,7 @@ void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
                             if (context->clock_halt) {
                                 context->latch = context->clock_halt_latch;
                             } else {
-                                context->latch = rtc_get_latch(context->offset[0]);
+                                context->latch = rtc_get_latch(context->offset);
                             }
                             context->read_latch = 1;
                             bq4830y_latch_write_regs(context);
@@ -362,7 +370,7 @@ BYTE bq4830y_read(rtc_bq4830y_t *context, WORD address)
             latch = context->clock_halt_latch;
         }
     } else {
-        latch = rtc_get_latch(context->offset[0]);
+        latch = rtc_get_latch(context->offset);
     }
 
     switch (address & 0x7fff) {

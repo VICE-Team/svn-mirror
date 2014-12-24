@@ -176,6 +176,15 @@ char *archdep_default_fliplist_file_name(void)
     return fname;
 }
 
+char *archdep_default_rtc_file_name(void)
+{
+    static char *fname;
+
+    lib_free(fname);
+    fname = util_concat(archdep_boot_path(), "/vice-sdl.rtc", NULL);
+    return fname;
+}
+
 char *archdep_default_autostart_disk_image_file_name(void)
 {
     const char *home;

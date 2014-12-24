@@ -33,7 +33,10 @@
 #endif
 
 #include "archapi.h"
+#include "lib.h"
+#include "machine.h"
 #include "rtc.h"
+#include "util.h"
 
 inline static int int_to_bcd(int dec)
 {
@@ -654,4 +657,100 @@ time_t rtc_set_latched_day_of_year(int day, time_t latch)
         return latch;
     }
     return latch + ((day - local->tm_yday) * 24 * 60 * 60);
+}
+
+/* ---------------------------------------------------------------------- */
+
+static char *byte_to_text(BYTE in)
+{
+    char *out = lib_malloc(3);
+
+    out[0] = (in >> 4) + 'a';
+    out[1] = (in & 0xf) + 'a';
+    out[2] = 0;
+
+    return out;
+}
+
+static BYTE text_to_byte(char *in)
+{
+    BYTE out = ((in[0] - 'a') << 4) | (in[1] - 'a');
+
+    return out;
+}
+
+static char *rtc_ram_to_string(BYTE *ram, int size)
+{
+    char *temp1, *temp2, *temp3;
+    int i;
+
+    temp1 = byte_to_text(ram[0]);
+
+    for (i = 1; i < size; i++) {
+        temp2 = byte_to_text(ram[i]);
+        temp3 = util_concat(temp1, temp2, NULL);
+        lib_free(temp1);
+        lib_free(temp2);
+        temp1 = temp3;
+    }
+    return temp3;
+}
+
+static BYTE *rtc_string_to_ram(char *str, int size)
+{
+    BYTE *ram = lib_malloc(size);
+    int i;
+
+    for (i = 0; i < size; i++) {
+        ram[i] = text_to_byte(str + (i * 2));
+    }
+    return ram;
+}
+
+static int rtc_is_empty(BYTE *array, int size)
+{
+    int i;
+
+    for (i = 0; i < size; i++) {
+        if (array[i]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+void rtc_save_context(BYTE *ram, int ram_size, BYTE *regs, int reg_size, char *device)
+{
+    FILE *outfile = NULL;
+    char *filename;
+    char *ram_string = NULL;
+    char *reg_string = NULL;
+
+    filename = archdep_default_rtc_file_name();
+
+    outfile = fopen(filename, "w");
+    if (outfile) {
+        fprintf(outfile, "[%s]\n", machine_name);
+        fprintf(outfile, "(%s)\n", device);
+        if (rtc_is_empty(ram, ram_size)) {
+            fprintf(outfile, "x\n");
+        } else {
+            ram_string = rtc_ram_to_string(ram, ram_size);
+            fprintf(outfile, "\"%s\"\n", ram_string);
+        }
+        if (rtc_is_empty(regs, reg_size)) {
+            fprintf(outfile, "x\n");
+        } else {
+            reg_string = rtc_ram_to_string(regs, reg_size);
+            fprintf(outfile, "\"%s\"\n", reg_string);
+        }
+        fclose(outfile);
+    }
+    if (ram_string) {
+        lib_free(ram_string);
+    }
+    if (reg_string) {
+        lib_free(reg_string);
+    }
+    lib_free(filename);
 }

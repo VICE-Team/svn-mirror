@@ -215,6 +215,14 @@ char *archdep_default_fliplist_file_name(void)
     return util_concat(home, "fliplist-", machine_get_name(), ".vfl", NULL);
 }
 
+char *archdep_default_rtc_file_name(void)
+{
+    const char *home;
+
+    home = archdep_boot_path();
+    return util_concat(home, "vice-sdl.rtc", NULL);
+}
+
 char *archdep_default_autostart_disk_image_file_name(void)
 {
     const char *home;

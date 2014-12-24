@@ -67,16 +67,9 @@ BYTE ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE];
 static int functionrom_load_internal(void);
 static int functionrom_load_external(void);
 
-extern rtc_bq4830y_t *bq4830y_init(BYTE *ram, time_t *offset);
-
 /* bq4830y context */
 static rtc_bq4830y_t *rtc1_context = NULL;
 static rtc_bq4830y_t *rtc2_context = NULL;
-
-/* rtc offset */
-/* FIXME: Implement saving/setting/loading of the offset */
-static time_t rtc1_offset = 0;
-static time_t rtc2_offset = 0;
 
 static int set_internal_function_rom_enabled(int val, void *param)
 {
@@ -103,7 +96,7 @@ static int set_internal_function_rom_enabled(int val, void *param)
 
     switch (val) {
         case INT_FUNCTION_RTC:
-            rtc1_context = bq4830y_init((BYTE *)int_function_rom, &rtc1_offset);
+            rtc1_context = bq4830y_init("IFR");
         case INT_FUNCTION_RAM:
             memset(int_function_rom, 0, sizeof(int_function_rom));
             break;
@@ -147,7 +140,7 @@ static int set_external_function_rom_enabled(int val, void *param)
 
     switch (val) {
         case EXT_FUNCTION_RTC:
-            rtc2_context = bq4830y_init((BYTE *)ext_function_rom, &rtc2_offset);
+            rtc2_context = bq4830y_init("EFR");
         case EXT_FUNCTION_RAM:
             memset(ext_function_rom, 0, sizeof(ext_function_rom));
             break;
@@ -198,6 +191,12 @@ int functionrom_resources_init(void)
 
 void functionrom_resources_shutdown(void)
 {
+    if (rtc1_context) {
+        bq4830y_destroy(rtc1_context);
+    }
+    if (rtc2_context) {
+        bq4830y_destroy(rtc2_context);
+    }
     lib_free(internal_function_rom_name);
     lib_free(external_function_rom_name);
 }

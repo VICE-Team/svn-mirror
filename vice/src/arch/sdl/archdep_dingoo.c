@@ -298,6 +298,11 @@ char *archdep_default_fliplist_file_name(void)
     return make_absolute_system_path("fliplist");
 }
 
+char *archdep_default_rtc_file_name(void)
+{
+    return make_absolute_system_path("rtcfile");
+}
+
 int archdep_file_set_gzip(const char *name)
 {
 }

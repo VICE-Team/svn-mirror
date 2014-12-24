@@ -58,6 +58,9 @@ extern char *archdep_default_save_resource_file_name(void);
 /* Fliplist.  */
 extern char *archdep_default_fliplist_file_name(void);
 
+/* RTC. */
+extern char *archdep_default_rtc_file_name(void);
+
 /* Autostart-PRG */
 extern char *archdep_default_autostart_disk_image_file_name(void);
 

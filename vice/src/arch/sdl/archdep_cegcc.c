@@ -220,6 +220,11 @@ char *archdep_default_fliplist_file_name(void)
     return util_concat(archdep_boot_path(), "\\fliplist-", machine_get_name(), ".vfl", NULL);
 }
 
+char *archdep_default_rtc_file_name(void)
+{
+    return util_concat(archdep_boot_path(), "\\sdl-vice.rtc", NULL);
+}
+
 char *archdep_default_autostart_disk_image_file_name(void)
 {
     return util_concat(archdep_boot_path(), "\\autostart-", machine_get_name(), ".d64", NULL);
