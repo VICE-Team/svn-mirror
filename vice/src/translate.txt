@@ -845,6 +845,9 @@ IDCLS_DISABLE_EXPERT_CART
 IDCLS_SET_EXPERT_FILENAME
 
 /* c64/cart/expert.c */
+IDCLS_SET_EXPERT_MODE
+
+/* c64/cart/expert.c */
 IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE
 
 /* c64/cart/expert.c */

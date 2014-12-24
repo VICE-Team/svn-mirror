@@ -5888,6 +5888,189 @@ description:    "Disable Double Quick Brown Box"
 resource:       "DQBB" (set to 0)
 action:         N/A
 
+c64/cart/dqbb.c:
+----------------
+resource type:                  bool
+resource name:                  "DQBBImageWrite"
+resource range:                 0/1
+resource default:               0
+resource function:              set_dqbb_image_write()
+resource var:                   dqbb_write_image
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -dqbbimagerw / +dqbbimagerw
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/dqbb.c:
+----------------
+command line:   -dqbbimagerw
+description:    "Allow writing to DQBB image"
+resource:       "DQBBImageWrite" (set to 1)
+action:         N/A
+
+c64/cart/dqbb.c:
+----------------
+command line:   +dqbbimagerw
+description:    "Do not write to DQBB image"
+resource:       "DQBBImageWrite" (set to 0)
+action:         N/A
+
+c64/cart/easyflash.c:
+---------------------
+resource type:                  bool
+resource name:                  "EasyFlashJumper"
+resource range:                 0/1
+resource default:               0
+resource function:              set_easyflash_jumper()
+resource var:                   easyflash_jumper
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -easyflashjumper / +easyflashjumper
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/easyflash.c:
+---------------------
+command line:   -easyflashjumper
+description:    "Enable EasyFlash jumper"
+resource:       "EasyFlashJumper" (set to 1)
+action:         N/A
+
+c64/cart/easyflash.c:
+---------------------
+command line:   +easyflashjumper
+description:    "Disable EasyFlash jumper"
+resource:       "EasyFlashJumper" (set to 0)
+action:         N/A
+
+c64/cart/easyflash.c:
+---------------------
+resource type:                  bool
+resource name:                  "EasyFlashWriteCRT"
+resource range:                 0/1
+resource default:               1
+resource function:              set_easyflash_crt_write()
+resource var:                   easyflash_crt_write
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -easyflashcrtwrite / +easyflashcrtwrite
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/easyflash.c:
+---------------------
+command line:   -easyflashcrtwrite
+description:    "Enable writing to EasyFlash .crt image"
+resource:       "EasyFlashWriteCRT" (set to 1)
+action:         N/A
+
+c64/cart/easyflash.c:
+---------------------
+command line:   +easyflashcrtwrite
+description:    "Disable writing to EasyFlash .crt image"
+resource:       "EasyFlashWriteCRT" (set to 0)
+action:         N/A
+
+c64/cart/expert.c:
+------------------
+resource type:                  string
+resource name:                  "Expertfilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_expert_filename()
+resource var:                   expert_filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -expertimagename
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/expert.c:
+------------------
+command line:   -expertimagename <Name>
+description:    "Set Expert Cartridge image name"
+resource:       "Expertfilename"
+action:         N/A
+
+c64/cart/expert.c:
+------------------
+resource type:                  bool
+resource name:                  "ExpertCartridgeEnabled"
+resource range:                 0/1
+resource default:               0
+resource function:              set_expert_enabled()
+resource var:                   expert_enabled
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -expert / +expert
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/expert.c:
+------------------
+command line:   -expert
+description:    "Enable the Expert Cartridge"
+resource:       "ExpertCartridgeEnabled" (set to 1)
+action:         N/A
+
+c64/cart/expert.c:
+------------------
+command line:   +expert
+description:    "Disable the Expert Cartridge"
+resource:       "ExpertCartridgeEnabled" (set to 0)
+action:         N/A
+
+c64/cart/expert.c:
+------------------
+resource type:                  int
+resource name:                  "ExpertCartridgeMode"
+resource range:                 0..2 (EXPERT_MODE_OFF (0), EXPERT_MODE_PRG (1), EXPERT_MODE_ON (2))
+resource default:               EXPERT_MODE_PRG (1)
+resource function:              expert_mode_changed()
+resource var:                   cartmode
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -expertmode
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/expert.c:
+------------------
+command line:   -expertmode <mode>
+description:    "Set Expert Cartridge mode (0: Off, 1: Prg, 2: On)"
+resource:       "ExpertCartridgeMode"
+action:         N/A
+
+c64/cart/expert.c:
+------------------
+resource type:                  bool
+resource name:                  "ExpertImageWrite"
+resource range:                 0/1
+resource default:               0
+resource function:              set_expert_rw()
+resource var:                   expert_write_image
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -expertimagerw / +expertimagerw
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/expert.c:
+------------------
+command line:   -expertimagerw
+description:    "Allow writing to Expert Cartridge image"
+resource:       "ExpertImageWrite" (set to 1)
+action:         N/A
+
+c64/cart/expert.c:
+------------------
+command line:   +expertimagerw
+description:    "Do not write to Expert Cartridge image"
+resource:       "ExpertImageWrite" (set to 0)
+action:         N/A
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -6769,36 +6952,6 @@ resource:       "DIGIMAXbase"
 action:         N/A
 fixme: fix documentation, range
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
-c64/cart/dqbb.c:
-----------------
-resource type:                  bool
-resource name:                  "DQBBImageWrite"
-resource range:                 0/1
-resource default:               0
-resource function:              set_dqbb_image_write()
-resource var:                   dqbb_write_image
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -dqbbimagerw / +dqbbimagerw
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-
-c64/cart/dqbb.c:
-----------------
-command line:   -dqbbimagerw
-description:    "Allow writing to DQBB image"
-resource:       "DQBBImageWrite" (set to 1)
-action:         N/A
-
-c64/cart/dqbb.c:
-----------------
-command line:   +dqbbimagerw
-description:    "Do not write to DQBB image"
-resource:       "DQBBImageWrite" (set to 0)
-action:         N/A
-
 c64/cart/ds12c887rtc.c:
 -----------------------
 resource type:                  bool
@@ -6893,160 +7046,7 @@ resource:       "DS12C887RTCRunMode" (set to 1)
 action:         N/A
 fixme: add to documentation
 
-c64/cart/easyflash.c:
----------------------
-resource type:                  bool
-resource name:                  "EasyFlashJumper"
-resource range:                 0/1
-resource default:               0
-resource function:              set_easyflash_jumper()
-resource var:                   easyflash_jumper
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -easyflashjumper / +easyflashjumper
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/easyflash.c:
----------------------
-command line:   -easyflashjumper
-description:    "Enable EasyFlash jumper"
-resource:       "EasyFlashJumper" (set to 1)
-action:         N/A
-
-c64/cart/easyflash.c:
----------------------
-command line:   +easyflashjumper
-description:    "Disable EasyFlash jumper"
-resource:       "EasyFlashJumper" (set to 0)
-action:         N/A
-
-c64/cart/easyflash.c:
----------------------
-resource type:                  bool
-resource name:                  "EasyFlashWriteCRT"
-resource range:                 0/1
-resource default:               1
-resource function:              set_easyflash_crt_write()
-resource var:                   easyflash_crt_write
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -easyflashcrtwrite / +easyflashcrtwrite
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/easyflash.c:
----------------------
-command line:   -easyflashcrtwrite
-description:    "Enable writing to EasyFlash .crt image"
-resource:       "EasyFlashWriteCRT" (set to 1)
-action:         N/A
-
-c64/cart/easyflash.c:
----------------------
-command line:   +easyflashcrtwrite
-description:    "Disable writing to EasyFlash .crt image"
-resource:       "EasyFlashWriteCRT" (set to 0)
-action:         N/A
-
-c64/cart/expert.c:
-------------------
-resource type:                  string
-resource name:                  "Expertfilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_expert_filename()
-resource var:                   expert_filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -expertimagename
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/expert.c:
-------------------
-command line:   -expertimagename <Name>
-description:    "Set Expert Cartridge image name"
-resource:       "Expertfilename"
-action:         N/A
-
-c64/cart/expert.c:
-------------------
-resource type:                  bool
-resource name:                  "ExpertCartridgeEnabled"
-resource range:                 0/1
-resource default:               0
-resource function:              set_expert_enabled()
-resource var:                   expert_enabled
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -expert / +expert
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/expert.c:
-------------------
-command line:   -expert
-description:    "Enable the Expert Cartridge"
-resource:       "ExpertCartridgeEnabled" (set to 1)
-action:         N/A
-
-c64/cart/expert.c:
-------------------
-command line:   +expert
-description:    "Disable the Expert Cartridge"
-resource:       "ExpertCartridgeEnabled" (set to 0)
-action:         N/A
-
-c64/cart/expert.c:
-------------------
-resource type:                  int
-resource name:                  "ExpertCartridgeMode"
-resource range:                 0..2 (EXPERT_MODE_OFF (0), EXPERT_MODE_PRG (1), EXPERT_MODE_ON (2))
-resource default:               EXPERT_MODE_PRG (1)
-resource function:              expert_mode_changed()
-resource var:                   cartmode
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-c64/cart/expert.c:
-------------------
-resource type:                  bool
-resource name:                  "ExpertImageWrite"
-resource range:                 0/1
-resource default:               0
-resource function:              set_expert_rw()
-resource var:                   expert_write_image
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -expertimagerw / +expertimagerw
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/expert.c:
-------------------
-command line:   -expertimagerw
-description:    "Allow writing to Expert Cartridge image"
-resource:       "ExpertImageWrite" (set to 1)
-action:         N/A
-
-c64/cart/expert.c:
-------------------
-command line:   +expertimagerw
-description:    "Do not write to Expert Cartridge image"
-resource:       "ExpertImageWrite" (set to 0)
-action:         N/A
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
 c64/cart/georam.c:
 ------------------

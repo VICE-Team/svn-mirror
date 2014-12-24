@@ -7038,6 +7038,23 @@ translate_t string_table[] = {
 #endif
 
 /* c64/expert.c */
+/* en */ {IDCLS_SET_EXPERT_MODE,    N_("Set Expert Cartridge mode (0: Off, 1: Prg, 2: On)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_EXPERT_MODE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_EXPERT_MODE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_EXPERT_MODE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_EXPERT_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_EXPERT_MODE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_EXPERT_MODE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_EXPERT_MODE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_EXPERT_MODE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_EXPERT_MODE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_EXPERT_MODE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_EXPERT_MODE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_EXPERT_MODE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/expert.c */
 /* en */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE,    N_("Allow writing to Expert Cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE_DA, "Tillad skrivning til Expert Cartridge image"},

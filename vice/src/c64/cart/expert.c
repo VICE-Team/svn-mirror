@@ -907,6 +907,12 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE,
       NULL, NULL },
+    { "-expertmode", SET_RESOURCE, 1,
+      NULL, NULL, "ExpertCartridgeMode", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODE, IDCLS_SET_EXPERT_MODE,
+      NULL, NULL },
+
     { NULL }
 };
 

@@ -4917,7 +4917,7 @@ contents changed, when detaching or quitting the emulator.
 Boolean specifying whether the Easy Flash jumper is set.
 @vindex EasyFlashWriteCRT
 @item EasyFlashWriteCRT
-Boolean, if true write back the Easy FLash image file automatically, incase the
+Boolean, if true write back the Easy Flash image file automatically, incase the
 contents changed, when detaching or quitting the emulator.
 
 @vindex ExpertCartridgeEnabled
@@ -4932,7 +4932,7 @@ Boolean, if true write back the Expert Cartridge image file automatically, incas
 contents changed, when detaching or quitting the emulator.
 @vindex ExpertCartridgeMode
 @item ExpertCartridgeMode
-Enum specifying the state of the expert cartridge switch (0=off 1=prg 2=on)
+Integer specifying the state of the expert cartridge switch (0=off, 1=prg, 2=on).
 @vindex IDE64Config
 @item IDE64Config
 String encoded content of IDE64 DS1302 RAM, used to store IDEDOS setup parameters. Not meant to
@@ -5185,21 +5185,24 @@ Enable/Disable Double Quick Brown Box
 @item -dqbbimage <name>
 Specify Double Quick Brown Box filename
 (@code{DQBBfilename}).
-@cindex -dqbbimagerw, +dqbbimagerw
+@findex -dqbbimagerw, +dqbbimagerw
 @item -dqbbimagerw
 @itemx +dqbbimagerw
 Allow/Disallow writing to DQBB image
+(@code{DQBBImageWrite=1}, @code{DQBBImageWrite=0}).
 @findex -carteasy
 @item -carteasy <name>
 Attach raw EasyFlash cartridge image.
-@cindex -easyflashjumper, +easyflashjumper
+@findex -easyflashjumper, +easyflashjumper
 @item -easyflashjumper
 @itemx +easyflashjumper
 Enable/Disable EasyFlash jumper
-@cindex -easyflashcrtwrite, +easyflashcrtwrite
+(@code{EasyFlashJumper=1}, @code{EasyFlashJumper=0}).
+@findex -easyflashcrtwrite, +easyflashcrtwrite
 @item -easyflashcrtwrite
 @itemx +easyflashcrtwrite
 Allow/Disallow writing to EasyFlash .crt image
+(@code{EasyFlashWriteCRT=1}, @code{EasyFlashWriteCRT=0}).
 @findex -cartepyx
 @item -cartepyx <name>
 Attach raw 8KB Epyx FastLoad cartridge image.
@@ -5209,17 +5212,25 @@ Attach raw 8kB EXOS cartridge image.
 @findex -cartexpert
 @item -cartexpert <name>
 Attach raw 8kB Expert Cartridge image.
-@cindex -expert, +expert
+@findex -expert, +expert
 @item -expert
 @itemx +expert
 Enable/Disable the Expert Cartridge
-@cindex -expertimagename
+(@code{ExpertCartridgeEnabled=1}, @code{ExpertCartridgeEnabled=0}).
+@findex -expertimagename
 @item -expertimagename <name>
 Set Expert Cartridge image name
-@cindex -expertimagerw, +expertimagerw
+(@code{Expertfilename}).
+@findex -expertimagerw, +expertimagerw
 @item -expertimagerw
 @itemx +expertimagerw
 Allow/Disallow writing to Expert Cartridge image
+(@code{ExpertImageWrite=1}, @code{ExpertImageWrite=0}).
+@findex -expertmode
+@item -expertmode <mode>
+Set Expert Cartridge mode
+(@code{ExpertCartridgeMode}).
+(0=off, 1=prg, 2=on)
 @findex -cartf64
 @item -cartf64 <Name>
 Attach raw 32kB Formel 64 image.
