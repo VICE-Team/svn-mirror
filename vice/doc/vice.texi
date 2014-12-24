@@ -4893,8 +4893,7 @@ carts, 2: warning in log and 'AND' the valid return values)
 
 @vindex CartridgeReset
 @item CartridgeReset
-Boolean specifying whether the machine should be reset when a cartridge is
-changed.
+Boolean specifying whether the machine should be reset when a cartridge is changed.
 @vindex CartridgeType
 @item CartridgeType
 Integer specifying the type of cartridge emulated in the "main" slot
@@ -5119,64 +5118,64 @@ Select the way the I/O collisions should be handled, (0: error message and
 detach all involved carts, 1: error message and detach last attached involved 
 carts, 2: warning in log and 'AND' the valid return values
 
-@cindex +cart
+@findex +cart
 @item +cart
 Disable all cartridges (which would eventually be enabled in the config file).
 @cindex -cartreset, +cartreset
 @item -cartreset
 @itemx +cartreset
 Reset/Do not reset machine if a cartridge is attached or detached
-@cindex -cart8
+@findex -cart8
 @item -cart8 <name>
-Attach generic 8KB cartridge image
-@cindex -cart16
+Attach generic 8KB cartridge image.
+@findex -cart16
 @item -cart16 <name>
-Attach generic 16KB cartridge image
-@cindex -cartultimax
+Attach generic 16KB cartridge image.
+@findex -cartultimax
 @item -cartultimax <name>
-Attach generic 16kB Ultimax cartridge image
-@cindex -cartcrt
+Attach generic 16kB Ultimax cartridge image.
+@findex -cartcrt
 @item -cartcrt <name>
-Attach CRT cartridge image
-@cindex -cartap
+Attach CRT cartridge image.
+@findex -cartap
 @item -cartap <name>
-Attach raw 32KB Atomic Power cartridge image
-@cindex -cartar2
+Attach raw 32KB Atomic Power cartridge image.
+@findex -cartar2
 @item -cartar2 <name>
-Attach raw 16kB Action Replay MK2 cartridge image
-@cindex -cartar3
+Attach raw 16kB Action Replay MK2 cartridge image.
+@findex -cartar3
 @item -cartar3 <name>
-Attach raw 16KB Action Replay MK3 cartridge image
-@cindex -cartar4
+Attach raw 16KB Action Replay MK3 cartridge image.
+@findex -cartar4
 @item -cartar4 <name>
-Attach raw 32KB Action Replay MK4 cartridge image
-@cindex -cartar5
+Attach raw 32KB Action Replay MK4 cartridge image.
+@findex -cartar5
 @item -cartar5 <name>
-Attach raw 32KB Action Replay cartridge image
-@cindex -cartcap
+Attach raw 32KB Action Replay cartridge image.
+@findex -cartcap
 @item -cartcap <name>
-Attach raw 8kB Capture cartridge image
-@cindex -cartcomal
+Attach raw 8kB Capture cartridge image.
+@findex -cartcomal
 @item -cartcomal <name>
-Attach raw 64kB Comal 80 cartridge image
-@cindex -cartdep256
+Attach raw 64kB Comal 80 cartridge image.
+@findex -cartdep256
 @item -cartdep256 <name>
-Attach raw Dela EP256 cartridge image
-@cindex -cartdep64
+Attach raw Dela EP256 cartridge image.
+@findex -cartdep64
 @item -cartdep64 <name>
-Attach raw Dela EP64 cartridge image
-@cindex -cartdep7x8
+Attach raw Dela EP64 cartridge image.
+@findex -cartdep7x8
 @item -cartdep7x8 <name>
-Attach raw Dela EP7x8 cartridge image
-@cindex -cartdin
+Attach raw Dela EP7x8 cartridge image.
+@findex -cartdin
 @item -cartdin <name>
-Attach raw 128kB Dinamic cartridge image
-@cindex -cartdsm
+Attach raw 128kB Dinamic cartridge image.
+@findex -cartdsm
 @item -cartdsm <name>
-Attach raw 8kB Diashow-Maker cartridge image
-@cindex -cartdqbb
+Attach raw 8kB Diashow-Maker cartridge image.
+@findex -cartdqbb
 @item -cartdqbb <name>
-Attach raw 16kB Double Quick Brown Box cartridge image
+Attach raw 16kB Double Quick Brown Box cartridge image.
 @cindex -dqbb, +dqbb
 @item -dqbb
 @itemx +dqbb
@@ -5188,9 +5187,9 @@ Specify Double Quick Brown Box filename
 @item -dqbbimagerw
 @itemx +dqbbimagerw
 Allow/Disallow writing to DQBB image
-@cindex -carteasy
+@findex -carteasy
 @item -carteasy <name>
-Attach raw EasyFlash cartridge image
+Attach raw EasyFlash cartridge image.
 @cindex -easyflashjumper, +easyflashjumper
 @item -easyflashjumper
 @itemx +easyflashjumper
@@ -5199,15 +5198,15 @@ Enable/Disable EasyFlash jumper
 @item -easyflashcrtwrite
 @itemx +easyflashcrtwrite
 Allow/Disallow writing to EasyFlash .crt image
-@cindex -cartepyx
+@findex -cartepyx
 @item -cartepyx <name>
-Attach raw 8KB Epyx FastLoad cartridge image
-@cindex -cartexos
+Attach raw 8KB Epyx FastLoad cartridge image.
+@findex -cartexos
 @item -cartexos <name>
-Attach raw 8kB EXOS cartridge image
-@cindex -cartexpert
+Attach raw 8kB EXOS cartridge image.
+@findex -cartexpert
 @item -cartexpert <name>
-Attach raw 8kB Expert Cartridge image
+Attach raw 8kB Expert Cartridge image.
 @cindex -expert, +expert
 @item -expert
 @itemx +expert
@@ -5219,36 +5218,36 @@ Set Expert Cartridge image name
 @item -expertimagerw
 @itemx +expertimagerw
 Allow/Disallow writing to Expert Cartridge image
-@cindex -cartf64
+@findex -cartf64
 @item -cartf64 <Name>
-Attach raw 32kB Formel 64 image
-@cindex -cartfc1
+Attach raw 32kB Formel 64 image.
+@findex -cartfc1
 @item -cartfc1 <name>
-Attach raw 16kB Final Cartridge image
-@cindex -cartfc3
+Attach raw 16kB Final Cartridge image.
+@findex -cartfc3
 @item -cartfc3 <name>
-Attach raw 64kB Final Cartridge III image
-@cindex -cartfcplus
+Attach raw 64kB Final Cartridge III image.
+@findex -cartfcplus
 @item -cartfcplus <name>
-Attach raw 32kB Final Cartridge Plus image
-@cindex -cartff
+Attach raw 32kB Final Cartridge Plus image.
+@findex -cartff
 @item -cartff <name>
-Attach raw 8kB Freeze Frame image
-@cindex -cartfm
+Attach raw 8kB Freeze Frame image.
+@findex -cartfm
 @item -cartfm <name>
-Attach raw 32kB Freeze Machine image
-@cindex -cartfp
+Attach raw 32kB Freeze Machine image.
+@findex -cartfp
 @item -cartfp <name>
-Attach raw 128kB Fun Play/Power Play cartridge image
-@cindex -cartgk
+Attach raw 128kB Fun Play/Power Play cartridge image.
+@findex -cartgk
 @item -cartgk <name>
-Attach raw 8KB Game Killer cartridge image
-@cindex -cartgs
+Attach raw 8KB Game Killer cartridge image.
+@findex -cartgs
 @item -cartgs <name>
-Attach raw 512kB Game System cartridge image
-@cindex -cartide64
+Attach raw 512kB Game System cartridge image.
+@findex -cartide64
 @item -cartide64 <name>
-Attach raw 64KB or 128KB IDE64 cartridge image
+Attach raw 64KB or 128KB IDE64 cartridge image.
 @cindex -IDE64image1
 @item -IDE64image1 <name>
 @cindex -IDE64image2
@@ -5309,9 +5308,9 @@ Enable/Disable IDE64 USB server
 @cindex -IDE64USBAddress
 @item -IDE64USBAddress <name>
 The local address the IDE64 USB server should bind to
-@cindex -cartieee
+@findex -cartieee
 @item -cartieee <name>
-Attach CBM IEEE-488 cartridge image
+Attach CBM IEEE-488 cartridge image.
 @cindex -ieee488, +ieee488
 @item -ieee488
 @itemx +ieee488
@@ -5324,9 +5323,9 @@ Set IEEE488 interface image name
 @item -isepic
 @itemx +isepic
 Enable/Disable the ISEPIC cart
-@cindex -cartisepic
+@findex -cartisepic
 @item -cartisepic <name>
-Attach raw 2kB ISEPIC cartridge image
+Attach raw 2kB ISEPIC cartridge image.
 @cindex -isepicimagename
 @item -isepicimagename <name>
 Set ISEPIC image name
@@ -5334,31 +5333,31 @@ Set ISEPIC image name
 @item -isepicimagerw
 @itemx +isepicimagerw
 Allow/Disallow writing to ISEPIC image
-@cindex -cartkcs
+@findex -cartkcs
 @item -cartkcs <name>
-Attach raw 16kB KCS Power cartridge image
-@cindex -cartks
+Attach raw 16kB KCS Power cartridge image.
+@findex -cartks
 @item -cartks <name>
-Attach raw 24kB Kingsoft cartridge image
-@cindex -cartmach5
+Attach raw 24kB Kingsoft cartridge image.
+@findex -cartmach5
 @item -cartmach5 <name>
-Attach raw 8kB MACH 5 cartridge image
-@cindex -cartmd
+Attach raw 8kB MACH 5 cartridge image.
+@findex -cartmd
 @item -cartmd <name>
-Attach raw 32/64/128kB Magic Desk cartridge image
-@cindex -cartmf
+Attach raw 32/64/128kB Magic Desk cartridge image.
+@findex -cartmf
 @item -cartmf <name>
-Attach raw Magic Formel cartridge image
-@cindex -cartmikro
+Attach raw Magic Formel cartridge image.
+@findex -cartmikro
 @item -cartmikro <name>
-Attach raw 8kB Mikro Assembler cartridge image
+Attach raw 8kB Mikro Assembler cartridge image.
 @cindex -mmc64, +mmc64
 @item -mmc64
 @itemx +mmc64
 Enable/Disable the MMC64 expansion
-@cindex -cartmmc64
+@findex -cartmmc64
 @item -cartmmc64 <name>
-Attach raw 8kB MMC64 cartridge image
+Attach raw 8kB MMC64 cartridge image.
 @cindex -mmc64bios
 @item -mmc64bios <name>
 Specify name of MMC64 BIOS image
@@ -5374,9 +5373,9 @@ Set the MMC64 card to read/write
 @cindex -mmc64bioswrite
 @item -mmc64bioswrite
 Save the MMC64 bios when changed
-@cindex -cartmmcr
+@findex -cartmmcr
 @item -cartmmcr <name>
-Attach raw 512kB MMC Replay cartridge image
+Attach raw 512kB MMC Replay cartridge image.
 @cindex -mmcrrescue, +mmcrrescue
 @item -mmcrrescue
 @itemx +mmcrrescue
@@ -5399,21 +5398,21 @@ Specify MMC Replay EEPROM image filename
 @item -mmcreepromrw
 @itemx +mmcreepromrw
 Allow/Disallow writes to MMC Replay EEPROM image
-@cindex -cartmv
+@findex -cartmv
 @item -cartmv <name>
-Attach raw 16kB Magic Voice cartridge image
-@cindex -cartocean
+Attach raw 16kB Magic Voice cartridge image.
+@findex -cartocean
 @item -cartocean <name>
-Attach raw Ocean cartridge image
-@cindex -cartp64
+Attach raw Ocean cartridge image.
+@findex -cartp64
 @item -cartp64 <name>
-Attach raw 256KB Prophet 64 cartridge image
-@cindex -cartpf
+Attach raw 256KB Prophet 64 cartridge image.
+@findex -cartpf
 @item -cartpf <name>
-Attach raw 64kb Pagefox cartridge image
-@cindex -cartramcart
+Attach raw 64kb Pagefox cartridge image.
+@findex -cartramcart
 @item -cartramcart <name>
-Attach raw RamCart cartridge image
+Attach raw RamCart cartridge image.
 @cindex -ramcart, +ramcart
 @item -ramcart
 @itemx +ramcart
@@ -5428,15 +5427,15 @@ Specify name of RAMCART image
 @item -ramcartimagerw
 @itemx +ramcartimagerw
 Allow/Disallow writing to RAMCart image
-@cindex -cartrep256
+@findex -cartrep256
 @item -cartrep256 <name>
-Attach raw REX EP256 cartridge image
-@cindex -cartross
+Attach raw REX EP256 cartridge image.
+@findex -cartross
 @item -cartross <name>
-Attach raw 16/32kB ROSS cartridge image
-@cindex -cartrr
+Attach raw 16/32kB ROSS cartridge image.
+@findex -cartrr
 @item -cartrr <name>
-Attach raw 64KB Retro Replay cartridge image
+Attach raw 64KB Retro Replay cartridge image.
 @cindex -rrbioswrite, +rrbioswrite
 @item -rrbioswrite
 @itemx +rrbioswrite
@@ -5449,45 +5448,45 @@ Set/Unset RR Bank Jumper
 @item -rrflashjumper
 @itemx +rrflashjumper
 Set/Unset RR Flash Jumper
-@cindex -cartru
+@findex -cartru
 @item -cartru <name>
-Attach raw 8kB REX Utility cartridge image
-@cindex -carts64
+Attach raw 8kB REX Utility cartridge image.
+@findex -carts64
 @item -carts64 <name>
-Attach raw 4kB Snapshot 64 cartridge image
-@cindex -cartsb
+Attach raw 4kB Snapshot 64 cartridge image.
+@findex -cartsb
 @item -cartsb <name>
-Attach raw Structured Basic cartridge image
-@cindex -cartse5
+Attach raw Structured Basic cartridge image.
+@findex -cartse5
 @item -cartse5 <name>
-Attach raw 16kB Super Explode V5 cartridge image
-@cindex -cartsg
+Attach raw 16kB Super Explode V5 cartridge image.
+@findex -cartsg
 @item -cartsg <name>
-Attach raw 64kB Super Games cartridge image
-@cindex -cartsilver
+Attach raw 64kB Super Games cartridge image.
+@findex -cartsilver
 @item -cartsilver <Name>
-Attach raw Silverrock 128 cartridge image
-@cindex -cartsimon
+Attach raw Silverrock 128 cartridge image.
+@findex -cartsimon
 @item -cartsimon <name>
-Attach raw 16kB Simons Basic cartridge image
-@cindex -cartss4
+Attach raw 16kB Simons Basic cartridge image.
+@findex -cartss4
 @item -cartss4 <name>
-Attach raw 32KB Super Snapshot V4 cartridge image
-@cindex -cartss5
+Attach raw 32KB Super Snapshot V4 cartridge image.
+@findex -cartss5
 @item -cartss5 <name>
-Attach raw 64KB Super Snapshot V5 cartridge image
-@cindex -cartstar
+Attach raw 64KB Super Snapshot V5 cartridge image.
+@findex -cartstar
 @item -cartstar <name>
-Attach raw 16KB Stardos cartridge image
-@cindex -cartwl
+Attach raw 16KB Stardos cartridge image.
+@findex -cartwl
 @item -cartwl <name>
-Attach raw 16KB Westermann Learning cartridge image
-@cindex -cartws
+Attach raw 16KB Westermann Learning cartridge image.
+@findex -cartws
 @item -cartws <name>
-Attach raw 8kB Warp Speed cartridge image
-@cindex -cartzaxxon
+Attach raw 8kB Warp Speed cartridge image.
+@findex -cartzaxxon
 @item -cartzaxxon <name>
-Attach raw 16kB Zaxxon cartridge image
+Attach raw 16kB Zaxxon cartridge image.
 @end table
 
 @c @node FIXME
@@ -6150,9 +6149,9 @@ Enable/Disable MIDI emulation
 @item -georam
 @itemx +georam
 Enable/Disable the GEORAM expansion unit
-@cindex -cartgeoram
+@findex -cartgeoram
 @item -cartgeoram <name>
-Attach raw GEO-RAM cartridge image
+Attach raw GEO-RAM cartridge image.
 @cindex -georamimage
 @item -georamimage <name>
 Specify name of GEORAM image
@@ -6168,9 +6167,9 @@ Size of the GEORAM expansion unit
 @itemx +reu
 Enable (@code{REU=1}) or disable (@code{REU=0}) emulation of the
 RAM Expansion Module.
-@cindex -cartreu
+@findex -cartreu
 @item -cartreu <name>
-Attach raw REU cartridge image
+Attach raw REU cartridge image.
 @cindex -reuimage
 @item -reuimage <name>
 Specify name of REU image
@@ -6342,7 +6341,7 @@ String specifying the filename of the 256K RAM image.
 @vindex C64_256Kbase
 @item C64_256Kbase
 Integer that specifies the base address of the 256K RAM expansion.
-
+(0xDE00/0xDE80/0xDF00/0xDF80)
 @end table
 
 @c @node FIXME
@@ -6392,9 +6391,11 @@ Enable/Disable the 256K RAM expansion
 @item -256kimage <name>
 Specify name of 256K image
 (@code{C64_256Kfilename}).
-@cindex -256kbase
+@findex -256kbase
 @item -256kbase <base address>
 Base address of the 256K expansion
+(@code{C64_256Kbase}).
+(0xDE00/0xDE80/0xDF00/0xDF80)
 
 @findex -model
 @item -model <Model>

@@ -2381,8 +2381,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -displaydepth
-platform gui present:
-platform gui missing:           unix (CORRECT)
+platform gui present:           
+platform gui missing:			unix (CORRECT)
 note: can't we remove this? is anyone still using unix machines that a) is capable of running vice
       and b) doesnt support 24/32 bits?
 
@@ -2405,8 +2405,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -colormap / +colormap
-platform gui present:
-platform gui missing:           unix (CORRECT)
+platform gui present:           
+platform gui missing:			unix (CORRECT)
 
 arch/unix/x11/ui-cmdline-options.c:
 -----------------------------------
@@ -5320,6 +5320,497 @@ description:    "Disable the 256K RAM expansion"
 resource:       "C64_256K" (set to 0)
 action:         N/A
 
+c64/c64_256k.c:
+---------------
+resource type:                  int
+resource name:                  "C64_256Kbase"
+resource range:                 N/A ($DE00/$DE80/$DF00/$DF80)
+resource default:               $DF80
+resource function:              set_c64_256k_base()
+resource var:                   c64_256k_start
+resource emulators:             x64/x64sc
+not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -256kbase
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/c64_256k.c:
+---------------
+command line:   -256kbase <Base address>
+description:    "Base address of the 256K expansion. (0xDE00/0xDE80/0xDF00/0xDF80)"
+resource:       "C64_256Kbase"
+action:         N/A
+
+c64/cart/c64cart.c:
+-------------------
+resource type:                  string
+resource name:                  "CartridgeFile"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_cartridge_file()
+resource var:                   cartridge_file
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+
+c64/cart/c64cart.c:
+-------------------
+command line:   +cart
+description:    "Disable default cartridge"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cart8 <Name>
+description:    "Attach raw 8KB cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cart16 <Name>
+description:    "Attach raw 16KB cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartultimax <Name>
+description:    "Attach generic 16kB Ultimax cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartcrt <Name>
+description:    "Attach CRT cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartap <Name>
+description:    "Attach raw 32KB Atomic Power cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartar2 <Name>
+description:    "Attach raw 16kB Action Replay MK2 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartar3 <Name>
+description:    "Attach raw 16KB Action Replay MK3 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartar4 <Name>
+description:    "Attach raw 32KB Action Replay MK4 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartar5 <Name>
+description:    "Attach raw 32KB Action Replay cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartcap <Name>
+description:    "Attach raw 8kB Capture cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartcomal <Name>
+description:    "Attach raw 64kB Comal 80 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartdep256 <Name>
+description:    "Attach raw Dela EP256 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartdep64 <Name>
+description:    "Attach raw Dela EP64 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartdep7x8 <Name>
+description:    "Attach raw Dela EP7x8 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartdin <Name>
+description:    "Attach raw 128kB Dinamic cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartdsm <Name>
+description:    "Attach raw 8kB Diashow-Maker cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartdqbb <Name>
+description:    "Attach raw 16kB Double Quick Brown Box cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -carteasy <Name>
+description:    "Attach raw EasyFlash cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartepyx <Name>
+description:    "Attach raw 8KB Epyx FastLoad cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartexos <Name>
+description:    "Attach raw 8kB EXOS cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartexpert <Name>
+description:    "Attach raw 8kB Expert Cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartf64 <Name>
+description:    "Attach raw 32kB Formel 64 image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartfc1 <Name>
+description:    "Attach raw 16kB Final Cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartfc3 <Name>
+description:    "Attach raw 64kB Final Cartridge III image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartfcplus <Name>
+description:    "Attach raw 32kB Final Cartridge Plus image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartff <Name>
+description:    "Attach raw 8kB Freeze Frame image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartfm <Name>
+description:    "Attach raw 32kB Freeze Machine image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartfp <Name>
+description:    "Attach raw 128kB Fun Play/Power Play cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartgk <Name>
+description:    "Attach raw 8KB Game Killer cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartgeoram <Name>
+description:    "Attach raw GEO-RAM cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartgs <Name>
+description:    "Attach raw 512kB Game System cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartide64 <Name>
+description:    "Attach raw 64KB IDE64 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartieee <Name>
+description:    "Attach IEEE-488 Interface cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartisepic <Name>
+description:    "Attach raw 2kB ISEPIC cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartkcs <Name>
+description:    "Attach raw 16kB KCS Power cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartks <Name>
+description:    "Attach raw 24kB Kingsoft cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartmach5 <Name>
+description:    "Attach raw 8kB MACH 5 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartmd <Name>
+description:    "Attach raw 32/64/128kB Magic Desk cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartmf <Name>
+description:    "Attach raw Magic Formel cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartmikro <Name>
+description:    "Attach raw 8kB Mikro Assembler cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartmmc64 <Name>
+description:    "Attach raw 8kB MMC64 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartmmcr <Name>
+description:    "Attach raw 512kB MMC Replay cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartmv <Name>
+description:    "Attach raw 16kB Magic Voice cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartocean <Name>
+description:    "Attach raw Ocean cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartpf <Name>
+description:    "Attach raw 64KB Pagefox cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartp64 <Name>
+description:    "Attach raw 256KB Prophet 64 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartramcart <Name>
+description:    "Attach raw RamCart cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartreu <Name>
+description:    "Attach raw REU cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartrep256 <Name>
+description:    "Attach raw REX EP256 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartross <Name>
+description:    "Attach raw 16/32kB ROSS cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartrr <Name>
+description:    "Attach raw 64KB Retro Replay cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartru <Name>
+description:    "Attach raw 8kB REX Utility cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -carts64 <Name>
+description:    "Attach raw 4kB Snapshot 64 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartsb <Name>
+description:    "Attach raw Structured Basic cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartse5 <Name>
+description:    "Attach raw 16kB Super Explode V5 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartsg <Name>
+description:    "Attach raw 64kB Super Games cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartsilver <Name>
+description:    "Attach raw Silverrock 128 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartsimon <Name>
+description:    "Attach raw 16kB Simons Basic cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartss4 <Name>
+description:    "Attach raw 32KB Super Snapshot V4 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartss5 <Name>
+description:    "Attach raw 64KB Super Snapshot V5 cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartstar <Name>
+description:    "Attach raw 16KB Stardos cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartwl <Name>
+description:    "Attach raw 16KB Westermann Learning cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartws <Name>
+description:    "Attach raw 8kB Warp Speed cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
+command line:   -cartzaxxon <Name>
+description:    "Attach raw 16kB Zaxxon cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -6052,33 +6543,6 @@ platform range incorrect:
 platform gui missing:           os2
 fixme: fix documentation, range
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
-c64/c64_256k.c:
----------------
-resource type:                  int
-resource name:                  "C64_256Kbase"
-resource range:                 N/A ($DE00/$DE80/$DF00/$DF80)
-resource default:               $DF80
-resource function:              set_c64_256k_base()
-resource var:                   c64_256k_start
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -256kbase
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: fix documentation, range
-
-c64/c64_256k.c:
----------------
-command line:   -256kbase <Base address>
-description:    "Base address of the 256K expansion. (56832: $DE00, 56960: $DE80, 57088: $DF00, 57216: $DF80)"
-resource:       "C64_256Kbase"
-action:         N/A
-fixme: fix documentation, range
-
 c64/cart/c64cart.c:
 -------------------
 resource type:                  bool
@@ -6144,480 +6608,7 @@ note: CartridgeType and CartridgeFile are used for the _default_ cartridge. its
       from cartridge.h to set the currently selected "main slot" cartridge as default
       and not alter this resource directly.
 
-c64/cart/c64cart.c:
--------------------
-resource type:                  string
-resource name:                  "CartridgeFile"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_cartridge_file()
-resource var:                   cartridge_file
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE ?? (fixme)
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: add to documentation
-note: CartridgeType and CartridgeFile are used for the _default_ cartridge. its
-      questionable to have a commandline option for it. UIs should use cartridge_set_default()
-      from cartridge.h to set the currently selected "main slot" cartridge as default
-      and not alter this resource directly.
-
-c64/cart/c64cart.c:
--------------------
-command line:   +cart
-description:    "Disable default cartridge"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cart8 <Name>
-description:    "Attach raw 8KB cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cart16 <Name>
-description:    "Attach raw 16KB cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartultimax <Name>
-description:    "Attach generic 16kB Ultimax cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartcrt <Name>
-description:    "Attach CRT cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartap <Name>
-description:    "Attach raw 32KB Atomic Power cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartar2 <Name>
-description:    "Attach raw 16kB Action Replay MK2 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartar3 <Name>
-description:    "Attach raw 16KB Action Replay MK3 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartar4 <Name>
-description:    "Attach raw 32KB Action Replay MK4 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartar5 <Name>
-description:    "Attach raw 32KB Action Replay cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartcap <Name>
-description:    "Attach raw 8kB Capture cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartcomal <Name>
-description:    "Attach raw 64kB Comal 80 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartdep256 <Name>
-description:    "Attach raw Dela EP256 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartdep64 <Name>
-description:    "Attach raw Dela EP64 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartdep7x8 <Name>
-description:    "Attach raw Dela EP7x8 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartdin <Name>
-description:    "Attach raw 128kB Dinamic cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartdsm <Name>
-description:    "Attach raw 8kB Diashow-Maker cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartdqbb <Name>
-description:    "Attach raw 16kB Double Quick Brown Box cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -carteasy <Name>
-description:    "Attach raw EasyFlash cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartepyx <Name>
-description:    "Attach raw 8KB Epyx FastLoad cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartexos <Name>
-description:    "Attach raw 8kB EXOS cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartexpert <Name>
-description:    "Attach raw 8kB Expert Cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartf64 <Name>
-description:    "Attach raw 32kB Formel 64 image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartfc1 <Name>
-description:    "Attach raw 16kB Final Cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartfc3 <Name>
-description:    "Attach raw 64kB Final Cartridge III image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartfcplus <Name>
-description:    "Attach raw 32kB Final Cartridge Plus image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartff <Name>
-description:    "Attach raw 8kB Freeze Frame image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartfm <Name>
-description:    "Attach raw 32kB Freeze Machine image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartfp <Name>
-description:    "Attach raw 128kB Fun Play/Power Play cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartgk <Name>
-description:    "Attach raw 8KB Game Killer cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartgeoram <Name>
-description:    "Attach raw GEO-RAM cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartgs <Name>
-description:    "Attach raw 512kB Game System cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartide64 <Name>
-description:    "Attach raw 64KB IDE64 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartieee <Name>
-description:    "Attach IEEE-488 Interface cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartisepic <Name>
-description:    "Attach raw 2kB ISEPIC cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartkcs <Name>
-description:    "Attach raw 16kB KCS Power cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartks <Name>
-description:    "Attach raw 24kB Kingsoft cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartmach5 <Name>
-description:    "Attach raw 8kB MACH 5 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartmd <Name>
-description:    "Attach raw 32/64/128kB Magic Desk cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartmf <Name>
-description:    "Attach raw Magic Formel cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartmikro <Name>
-description:    "Attach raw 8kB Mikro Assembler cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartmmc64 <Name>
-description:    "Attach raw 8kB MMC64 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartmmcr <Name>
-description:    "Attach raw 512kB MMC Replay cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartmv <Name>
-description:    "Attach raw 16kB Magic Voice cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartocean <Name>
-description:    "Attach raw Ocean cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartpf <Name>
-description:    "Attach raw 64KB Pagefox cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartp64 <Name>
-description:    "Attach raw 256KB Prophet 64 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartramcart <Name>
-description:    "Attach raw RamCart cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartreu <Name>
-description:    "Attach raw REU cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartrep256 <Name>
-description:    "Attach raw REX EP256 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartross <Name>
-description:    "Attach raw 16/32kB ROSS cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartrr <Name>
-description:    "Attach raw 64KB Retro Replay cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartru <Name>
-description:    "Attach raw 8kB REX Utility cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -carts64 <Name>
-description:    "Attach raw 4kB Snapshot 64 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartsb <Name>
-description:    "Attach raw Structured Basic cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartse5 <Name>
-description:    "Attach raw 16kB Super Explode V5 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartsg <Name>
-description:    "Attach raw 64kB Super Games cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartsilver <Name>
-description:    "Attach raw Silverrock 128 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartsimon <Name>
-description:    "Attach raw 16kB Simons Basic cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartss4 <Name>
-description:    "Attach raw 32KB Super Snapshot V4 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartss5 <Name>
-description:    "Attach raw 64KB Super Snapshot V5 cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartstar <Name>
-description:    "Attach raw 16KB Stardos cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartwl <Name>
-description:    "Attach raw 16KB Westermann Learning cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartws <Name>
-description:    "Attach raw 8kB Warp Speed cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
-
-c64/cart/c64carthooks.c:
-------------------------
-command line:   -cartzaxxon <Name>
-description:    "Attach raw 16kB Zaxxon cartridge image"
-resource:       N/A
-action:         cart_attach_cmdline() (note: research resources affected)
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
 c64/cart/c64tpi.c:
 ------------------
@@ -10551,9 +10542,9 @@ resource function:              set_do_core_dumps()
 resource var:                   debug.do_core_dumps
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
-prepocessor:
+prepocessor:			
 command-line:                   -core / +core / -debug / +debug
-platform gui present:           unix (DEBUG only)
+platform gui present:		unix (DEBUG only)
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 note: not very useful to have in the UIs, perhaps make it available only if DEBUG is defined?
 
@@ -21051,9 +21042,9 @@ resource function:              set_blitter_log()
 resource var:                   blitter_log_enabled
 resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef DEBUG
+prepocessor:			#ifdef DEBUG
 command-line:                   -dtvblitterlog / +dtvblitterlog
-platform gui present:           unix
+platform gui present:		unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 c64dtv/c64dtvblitter.c:
@@ -21080,9 +21071,9 @@ resource function:              set_dma_log()
 resource var:                   dma_log_enabled
 resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef DEBUG
+prepocessor:			#ifdef DEBUG
 command-line:                   -dtvdmalog / +dtvdmalog
-platform gui present:           unix
+platform gui present:		unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 c64dtv/c64dtvdma.c:
@@ -21109,9 +21100,9 @@ resource function:              set_flash_log()
 resource var:                   flash_log_enabled
 resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:                    #ifdef DEBUG
+prepocessor:			#ifdef DEBUG
 command-line:                   -dtvflashlog / +dtvflashlog
-platform gui present:           unix
+platform gui present:		unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 c64dtv/c64dtvflash.c:

@@ -4772,55 +4772,55 @@ C64 cartridge command-line options
      Reset/Do not reset machine if a cartridge is attached or detached
 
 `-cart8 <name>'
-     Attach generic 8KB cartridge image
+     Attach generic 8KB cartridge image.
 
 `-cart16 <name>'
-     Attach generic 16KB cartridge image
+     Attach generic 16KB cartridge image.
 
 `-cartultimax <name>'
-     Attach generic 16kB Ultimax cartridge image
+     Attach generic 16kB Ultimax cartridge image.
 
 `-cartcrt <name>'
-     Attach CRT cartridge image
+     Attach CRT cartridge image.
 
 `-cartap <name>'
-     Attach raw 32KB Atomic Power cartridge image
+     Attach raw 32KB Atomic Power cartridge image.
 
 `-cartar2 <name>'
-     Attach raw 16kB Action Replay MK2 cartridge image
+     Attach raw 16kB Action Replay MK2 cartridge image.
 
 `-cartar3 <name>'
-     Attach raw 16KB Action Replay MK3 cartridge image
+     Attach raw 16KB Action Replay MK3 cartridge image.
 
 `-cartar4 <name>'
-     Attach raw 32KB Action Replay MK4 cartridge image
+     Attach raw 32KB Action Replay MK4 cartridge image.
 
 `-cartar5 <name>'
-     Attach raw 32KB Action Replay cartridge image
+     Attach raw 32KB Action Replay cartridge image.
 
 `-cartcap <name>'
-     Attach raw 8kB Capture cartridge image
+     Attach raw 8kB Capture cartridge image.
 
 `-cartcomal <name>'
-     Attach raw 64kB Comal 80 cartridge image
+     Attach raw 64kB Comal 80 cartridge image.
 
 `-cartdep256 <name>'
-     Attach raw Dela EP256 cartridge image
+     Attach raw Dela EP256 cartridge image.
 
 `-cartdep64 <name>'
-     Attach raw Dela EP64 cartridge image
+     Attach raw Dela EP64 cartridge image.
 
 `-cartdep7x8 <name>'
-     Attach raw Dela EP7x8 cartridge image
+     Attach raw Dela EP7x8 cartridge image.
 
 `-cartdin <name>'
-     Attach raw 128kB Dinamic cartridge image
+     Attach raw 128kB Dinamic cartridge image.
 
 `-cartdsm <name>'
-     Attach raw 8kB Diashow-Maker cartridge image
+     Attach raw 8kB Diashow-Maker cartridge image.
 
 `-cartdqbb <name>'
-     Attach raw 16kB Double Quick Brown Box cartridge image
+     Attach raw 16kB Double Quick Brown Box cartridge image.
 
 `-dqbb'
 `+dqbb'
@@ -4834,7 +4834,7 @@ C64 cartridge command-line options
      Allow/Disallow writing to DQBB image
 
 `-carteasy <name>'
-     Attach raw EasyFlash cartridge image
+     Attach raw EasyFlash cartridge image.
 
 `-easyflashjumper'
 `+easyflashjumper'
@@ -4845,13 +4845,13 @@ C64 cartridge command-line options
      Allow/Disallow writing to EasyFlash .crt image
 
 `-cartepyx <name>'
-     Attach raw 8KB Epyx FastLoad cartridge image
+     Attach raw 8KB Epyx FastLoad cartridge image.
 
 `-cartexos <name>'
-     Attach raw 8kB EXOS cartridge image
+     Attach raw 8kB EXOS cartridge image.
 
 `-cartexpert <name>'
-     Attach raw 8kB Expert Cartridge image
+     Attach raw 8kB Expert Cartridge image.
 
 `-expert'
 `+expert'
@@ -4865,34 +4865,34 @@ C64 cartridge command-line options
      Allow/Disallow writing to Expert Cartridge image
 
 `-cartf64 <Name>'
-     Attach raw 32kB Formel 64 image
+     Attach raw 32kB Formel 64 image.
 
 `-cartfc1 <name>'
-     Attach raw 16kB Final Cartridge image
+     Attach raw 16kB Final Cartridge image.
 
 `-cartfc3 <name>'
-     Attach raw 64kB Final Cartridge III image
+     Attach raw 64kB Final Cartridge III image.
 
 `-cartfcplus <name>'
-     Attach raw 32kB Final Cartridge Plus image
+     Attach raw 32kB Final Cartridge Plus image.
 
 `-cartff <name>'
-     Attach raw 8kB Freeze Frame image
+     Attach raw 8kB Freeze Frame image.
 
 `-cartfm <name>'
-     Attach raw 32kB Freeze Machine image
+     Attach raw 32kB Freeze Machine image.
 
 `-cartfp <name>'
-     Attach raw 128kB Fun Play/Power Play cartridge image
+     Attach raw 128kB Fun Play/Power Play cartridge image.
 
 `-cartgk <name>'
-     Attach raw 8KB Game Killer cartridge image
+     Attach raw 8KB Game Killer cartridge image.
 
 `-cartgs <name>'
-     Attach raw 512kB Game System cartridge image
+     Attach raw 512kB Game System cartridge image.
 
 `-cartide64 <name>'
-     Attach raw 64KB or 128KB IDE64 cartridge image
+     Attach raw 64KB or 128KB IDE64 cartridge image.
 
 `-IDE64image1 <name>'
 `-IDE64image2 <name>'
@@ -4941,7 +4941,7 @@ C64 cartridge command-line options
      The local address the IDE64 USB server should bind to
 
 `-cartieee <name>'
-     Attach CBM IEEE-488 cartridge image
+     Attach CBM IEEE-488 cartridge image.
 
 `-ieee488'
 `+ieee488'
@@ -4956,7 +4956,7 @@ C64 cartridge command-line options
      Enable/Disable the ISEPIC cart
 
 `-cartisepic <name>'
-     Attach raw 2kB ISEPIC cartridge image
+     Attach raw 2kB ISEPIC cartridge image.
 
 `-isepicimagename <name>'
      Set ISEPIC image name
@@ -4966,29 +4966,29 @@ C64 cartridge command-line options
      Allow/Disallow writing to ISEPIC image
 
 `-cartkcs <name>'
-     Attach raw 16kB KCS Power cartridge image
+     Attach raw 16kB KCS Power cartridge image.
 
 `-cartks <name>'
-     Attach raw 24kB Kingsoft cartridge image
+     Attach raw 24kB Kingsoft cartridge image.
 
 `-cartmach5 <name>'
-     Attach raw 8kB MACH 5 cartridge image
+     Attach raw 8kB MACH 5 cartridge image.
 
 `-cartmd <name>'
-     Attach raw 32/64/128kB Magic Desk cartridge image
+     Attach raw 32/64/128kB Magic Desk cartridge image.
 
 `-cartmf <name>'
-     Attach raw Magic Formel cartridge image
+     Attach raw Magic Formel cartridge image.
 
 `-cartmikro <name>'
-     Attach raw 8kB Mikro Assembler cartridge image
+     Attach raw 8kB Mikro Assembler cartridge image.
 
 `-mmc64'
 `+mmc64'
      Enable/Disable the MMC64 expansion
 
 `-cartmmc64 <name>'
-     Attach raw 8kB MMC64 cartridge image
+     Attach raw 8kB MMC64 cartridge image.
 
 `-mmc64bios <name>'
      Specify name of MMC64 BIOS image
@@ -5006,7 +5006,7 @@ C64 cartridge command-line options
      Save the MMC64 bios when changed
 
 `-cartmmcr <name>'
-     Attach raw 512kB MMC Replay cartridge image
+     Attach raw 512kB MMC Replay cartridge image.
 
 `-mmcrrescue'
 `+mmcrrescue'
@@ -5031,19 +5031,19 @@ C64 cartridge command-line options
      Allow/Disallow writes to MMC Replay EEPROM image
 
 `-cartmv <name>'
-     Attach raw 16kB Magic Voice cartridge image
+     Attach raw 16kB Magic Voice cartridge image.
 
 `-cartocean <name>'
-     Attach raw Ocean cartridge image
+     Attach raw Ocean cartridge image.
 
 `-cartp64 <name>'
-     Attach raw 256KB Prophet 64 cartridge image
+     Attach raw 256KB Prophet 64 cartridge image.
 
 `-cartpf <name>'
-     Attach raw 64kb Pagefox cartridge image
+     Attach raw 64kb Pagefox cartridge image.
 
 `-cartramcart <name>'
-     Attach raw RamCart cartridge image
+     Attach raw RamCart cartridge image.
 
 `-ramcart'
 `+ramcart'
@@ -5060,13 +5060,13 @@ C64 cartridge command-line options
      Allow/Disallow writing to RAMCart image
 
 `-cartrep256 <name>'
-     Attach raw REX EP256 cartridge image
+     Attach raw REX EP256 cartridge image.
 
 `-cartross <name>'
-     Attach raw 16/32kB ROSS cartridge image
+     Attach raw 16/32kB ROSS cartridge image.
 
 `-cartrr <name>'
-     Attach raw 64KB Retro Replay cartridge image
+     Attach raw 64KB Retro Replay cartridge image.
 
 `-rrbioswrite'
 `+rrbioswrite'
@@ -5081,43 +5081,43 @@ C64 cartridge command-line options
      Set/Unset RR Flash Jumper
 
 `-cartru <name>'
-     Attach raw 8kB REX Utility cartridge image
+     Attach raw 8kB REX Utility cartridge image.
 
 `-carts64 <name>'
-     Attach raw 4kB Snapshot 64 cartridge image
+     Attach raw 4kB Snapshot 64 cartridge image.
 
 `-cartsb <name>'
-     Attach raw Structured Basic cartridge image
+     Attach raw Structured Basic cartridge image.
 
 `-cartse5 <name>'
-     Attach raw 16kB Super Explode V5 cartridge image
+     Attach raw 16kB Super Explode V5 cartridge image.
 
 `-cartsg <name>'
-     Attach raw 64kB Super Games cartridge image
+     Attach raw 64kB Super Games cartridge image.
 
 `-cartsilver <Name>'
-     Attach raw Silverrock 128 cartridge image
+     Attach raw Silverrock 128 cartridge image.
 
 `-cartsimon <name>'
-     Attach raw 16kB Simons Basic cartridge image
+     Attach raw 16kB Simons Basic cartridge image.
 
 `-cartss4 <name>'
-     Attach raw 32KB Super Snapshot V4 cartridge image
+     Attach raw 32KB Super Snapshot V4 cartridge image.
 
 `-cartss5 <name>'
-     Attach raw 64KB Super Snapshot V5 cartridge image
+     Attach raw 64KB Super Snapshot V5 cartridge image.
 
 `-cartstar <name>'
-     Attach raw 16KB Stardos cartridge image
+     Attach raw 16KB Stardos cartridge image.
 
 `-cartwl <name>'
-     Attach raw 16KB Westermann Learning cartridge image
+     Attach raw 16KB Westermann Learning cartridge image.
 
 `-cartws <name>'
-     Attach raw 8kB Warp Speed cartridge image
+     Attach raw 8kB Warp Speed cartridge image.
 
 `-cartzaxxon <name>'
-     Attach raw 16kB Zaxxon cartridge image
+     Attach raw 16kB Zaxxon cartridge image.
 
 CIA settings
 ------------
@@ -5730,7 +5730,7 @@ C64 I/O extension command-line options
      Enable/Disable the GEORAM expansion unit
 
 `-cartgeoram <name>'
-     Attach raw GEO-RAM cartridge image
+     Attach raw GEO-RAM cartridge image.
 
 `-georamimage <name>'
      Specify name of GEORAM image
@@ -5748,7 +5748,7 @@ C64 I/O extension command-line options
      Expansion Module.
 
 `-cartreu <name>'
-     Attach raw REU cartridge image
+     Attach raw REU cartridge image.
 
 `-reuimage <name>'
      Specify name of REU image
@@ -5918,6 +5918,7 @@ C64 resources
 
 `C64_256Kbase'
      Integer that specifies the base address of the 256K RAM expansion.
+     (0xDE00/0xDE80/0xDF00/0xDF80)
 
 C64 command-line options
 ........................
@@ -5955,7 +5956,8 @@ C64 command-line options
      Specify name of 256K image (`C64_256Kfilename').
 
 `-256kbase <base address>'
-     Base address of the 256K expansion
+     Base address of the 256K expansion (`C64_256Kbase').
+     (0xDE00/0xDE80/0xDF00/0xDF80)
 
 `-model <Model>'
      Set the C64 model (`VICIIModel', `CIA1Model', `CIA2Model',
@@ -19104,12 +19106,10 @@ Concept Index
 
 
 
- @{" +cart " Link "C64 cartridges"}                                C64 cartridges
  @{" +cart " Link "VIC20 system ROM options"}                                VIC20 system ROM options
  @{" -1 " Link "Command-line initialization"}                                   Command-line initialization
  @{" -10 " Link "Command-line initialization"}                                  Command-line initialization
  @{" -11 " Link "Command-line initialization"}                                  Command-line initialization
- @{" -256kbase " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" -40col " Link "C64-128 system ROM options"}                               C64-128 system ROM options
  @{" -6809romA " Link "PET model"}                            PET model
  @{" -6809romB " Link "PET model"}                            PET model
@@ -19153,94 +19153,30 @@ Concept Index
  @{" -c64dtvromrw, +c64dtvromrw " Link "C64DTV ROM image"}           C64DTV ROM image
  @{" -cart " Link "VIC20 system ROM options"}                                VIC20 system ROM options
  @{" -cart1 " Link "CBM-II model"}                               CBM-II model
- @{" -cart16 " Link "C64 cartridges"}                              C64 cartridges
- @{" -cart2 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
- @{" -cart2 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart2 " Link "CBM-II model"}                               CBM-II model
- @{" -cart4 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
- @{" -cart4 " Link "VIC20 cartridges"}                               VIC20 cartridges
+ @{" -cart2 " Link "VIC20 cartridges"}                               VIC20 cartridges
+ @{" -cart2 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart4 " Link "CBM-II model"}                               CBM-II model
+ @{" -cart4 " Link "VIC20 cartridges"}                               VIC20 cartridges
+ @{" -cart4 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart6 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart6 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart6 " Link "CBM-II model"}                               CBM-II model
- @{" -cart8 " Link "C64 cartridges"}                               C64 cartridges
  @{" -cartA " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartA " Link "VIC20 cartridges"}                               VIC20 cartridges
- @{" -cartap " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartar2 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartar3 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartar4 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartar5 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartB " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartB " Link "VIC20 cartridges"}                               VIC20 cartridges
- @{" -cartcap " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartcomal " Link "C64 cartridges"}                           C64 cartridges
- @{" -cartcrt " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartdep256 " Link "C64 cartridges"}                          C64 cartridges
- @{" -cartdep64 " Link "C64 cartridges"}                           C64 cartridges
- @{" -cartdep7x8 " Link "C64 cartridges"}                          C64 cartridges
- @{" -cartdin " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartdqbb " Link "C64 cartridges"}                            C64 cartridges
- @{" -cartdsm " Link "C64 cartridges"}                             C64 cartridges
- @{" -carteasy " Link "C64 cartridges"}                            C64 cartridges
- @{" -cartepyx " Link "C64 cartridges"}                            C64 cartridges
- @{" -cartexos " Link "C64 cartridges"}                            C64 cartridges
- @{" -cartexpert " Link "C64 cartridges"}                          C64 cartridges
- @{" -cartf64 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartfc1 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartfc3 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartfcplus " Link "C64 cartridges"}                          C64 cartridges
+ @{" -cartB " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartfe " Link "VIC20 cartridges"}                              VIC20 cartridges
- @{" -cartff " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartfm " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartfp " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartfp " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" -cartgeneric " Link "VIC20 cartridges"}                         VIC20 cartridges
- @{" -cartgeoram " Link "C64 I-O extension options"}                          C64 I-O extension options
- @{" -cartgk " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartgs " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartide64 " Link "C64 cartridges"}                           C64 cartridges
- @{" -cartieee " Link "C64 cartridges"}                            C64 cartridges
- @{" -cartisepic " Link "C64 cartridges"}                          C64 cartridges
- @{" -cartkcs " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartks " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartmach5 " Link "C64 cartridges"}                           C64 cartridges
- @{" -cartmd " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartmega " Link "VIC20 cartridges"}                            VIC20 cartridges
- @{" -cartmf " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartmikro " Link "C64 cartridges"}                           C64 cartridges
- @{" -cartmmc64 " Link "C64 cartridges"}                           C64 cartridges
- @{" -cartmmcr " Link "C64 cartridges"}                            C64 cartridges
- @{" -cartmv " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartocean " Link "C64 cartridges"}                           C64 cartridges
- @{" -cartp64 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartpf " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartramcart " Link "C64 cartridges"}                         C64 cartridges
- @{" -cartrep256 " Link "C64 cartridges"}                          C64 cartridges
  @{" -cartreset, +cartreset " Link "VIC20 system ROM options"}               VIC20 system ROM options
  @{" -cartreset, +cartreset " Link "C64 cartridges"}               C64 cartridges
- @{" -cartreu " Link "C64 I-O extension options"}                             C64 I-O extension options
- @{" -cartross " Link "C64 cartridges"}                            C64 cartridges
- @{" -cartrr " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartru " Link "C64 cartridges"}                              C64 cartridges
- @{" -carts64 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartsb " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartse5 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartsg " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartsilver " Link "C64 cartridges"}                          C64 cartridges
- @{" -cartsimon " Link "C64 cartridges"}                           C64 cartridges
- @{" -cartss4 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartss5 " Link "C64 cartridges"}                             C64 cartridges
- @{" -cartstar " Link "C64 cartridges"}                            C64 cartridges
- @{" -cartultimax " Link "C64 cartridges"}                         C64 cartridges
- @{" -cartwl " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartws " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartzaxxon " Link "C64 cartridges"}                          C64 cartridges
  @{" -chargch " Link "C64-128 system ROM options"}                             C64-128 system ROM options
- @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
- @{" -chargen " Link "PET model"}                             PET model
- @{" -chargen " Link "CBM-II model"}                             CBM-II model
  @{" -chargen " Link "VIC20 system ROM options"}                             VIC20 system ROM options
+ @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
+ @{" -chargen " Link "CBM-II model"}                             CBM-II model
+ @{" -chargen " Link "PET model"}                             PET model
  @{" -chdir " Link "Command-line initialization"}                               Command-line initialization
  @{" -colour-rgbi, -colour-analog, -colour-analog-bg " Link "PET model"} PET model
  @{" -config " Link "Command-line initialization"}                              Command-line initialization
@@ -19280,8 +19216,8 @@ Concept Index
  @{" -digiblaster, +digiblaster " Link "VIC20 system ROM options"}           VIC20 system ROM options
  @{" -digimax, +digimax " Link "C64 I-O extension options"}                   C64 I-O extension options
  @{" -digimax, +digimax " Link "VIC20 cartridges"}                   VIC20 cartridges
- @{" -digimaxbase " Link "C64 I-O extension options"}                         C64 I-O extension options
  @{" -digimaxbase " Link "VIC20 cartridges"}                         VIC20 cartridges
+ @{" -digimaxbase " Link "C64 I-O extension options"}                         C64 I-O extension options
  @{" -directory " Link "Misc options"}                           Misc options
  @{" -doodlecrtctextcolor " Link "C500 data module"}                 C500 data module
  @{" -doodlemc " Link "C500 data module"}                            C500 data module
@@ -19373,15 +19309,15 @@ Concept Index
  @{" -fsflash " Link "C64DTV ROM image"}                             C64DTV ROM image
  @{" -functionhi " Link "VIC20 system ROM options"}                          VIC20 system ROM options
  @{" -functionlo " Link "VIC20 system ROM options"}                          VIC20 system ROM options
- @{" -georam, +georam " Link "VIC20 cartridges"}                     VIC20 cartridges
  @{" -georam, +georam " Link "C64 I-O extension options"}                     C64 I-O extension options
- @{" -georamimage " Link "C64 I-O extension options"}                         C64 I-O extension options
+ @{" -georam, +georam " Link "VIC20 cartridges"}                     VIC20 cartridges
  @{" -georamimage " Link "VIC20 cartridges"}                         VIC20 cartridges
+ @{" -georamimage " Link "C64 I-O extension options"}                         C64 I-O extension options
  @{" -georamimagerw, +georamimagerw " Link "C64 I-O extension options"}       C64 I-O extension options
  @{" -georamimagerw, +georamimagerw " Link "VIC20 cartridges"}       VIC20 cartridges
  @{" -georamioswap, +georamioswap " Link "VIC20 cartridges"}         VIC20 cartridges
- @{" -georamsize " Link "C64 I-O extension options"}                          C64 I-O extension options
  @{" -georamsize " Link "VIC20 cartridges"}                          VIC20 cartridges
+ @{" -georamsize " Link "C64 I-O extension options"}                          C64 I-O extension options
  @{" -go64, +go64 " Link "C64-128 system ROM options"}                         C64-128 system ROM options
  @{" -grsymkeymap, -grposkeymap " Link "Keyboard options"}           Keyboard options
  @{" -h " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
@@ -19430,8 +19366,8 @@ Concept Index
  @{" -initbreak " Link "Monitor options"}                           Monitor options
  @{" -intfrom " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -intfunc " Link "C64-128 system ROM options"}                             C64-128 system ROM options
- @{" -iocollision " Link "C64 cartridges"}                         C64 cartridges
  @{" -iocollision " Link "VIC20 cartridges"}                         VIC20 cartridges
+ @{" -iocollision " Link "C64 cartridges"}                         C64 cartridges
  @{" -isepic, +isepic " Link "C64 cartridges"}                     C64 cartridges
  @{" -isepicimagename " Link "C64 cartridges"}                     C64 cartridges
  @{" -isepicimagerw, +isepicimagerw " Link "C64 cartridges"}       C64 cartridges
@@ -19440,10 +19376,10 @@ Concept Index
  @{" -k " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -k<version> " Link "c1541 executing shell commands"}                          c1541 executing shell commands
  @{" -keepenv " Link "CBM-II colors"}                             CBM-II colors
+ @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
+ @{" -kernal " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" -kernal " Link "PET model"}                              PET model
  @{" -kernal " Link "CBM-II model"}                              CBM-II model
- @{" -kernal " Link "VIC20 system ROM options"}                              VIC20 system ROM options
- @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
  @{" -kernalch " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" -kernalrev " Link "C64-128 system ROM options"}                           C64-128 system ROM options
  @{" -keybuf " Link "Command-line initialization"}                              Command-line initialization
@@ -19560,16 +19496,16 @@ Concept Index
  @{" -rsuser, +rsuser " Link "RS232 options"}                     RS232 options
  @{" -rsuserbaud " Link "RS232 options"}                          RS232 options
  @{" -rsuserdev " Link "RS232 options"}                           RS232 options
- @{" -sfxse, +sfxse " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" -sfxse, +sfxse " Link "C64 I-O extension options"}                       C64 I-O extension options
+ @{" -sfxse, +sfxse " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" -sfxseioswap, +sfxseioswap " Link "VIC20 cartridges"}           VIC20 cartridges
  @{" -sfxsetype " Link "VIC20 cartridges"}                           VIC20 cartridges
  @{" -sfxsetype " Link "C64 I-O extension options"}                           C64 I-O extension options
- @{" -sfxss, +sfxss " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" -sfxss, +sfxss " Link "C64 I-O extension options"}                       C64 I-O extension options
+ @{" -sfxss, +sfxss " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" -sfxssioswap, +sfxssioswap " Link "VIC20 cartridges"}           VIC20 cartridges
- @{" -sidcart, +sidcart " Link "VIC20 system ROM options"}                   VIC20 system ROM options
  @{" -sidcart, +sidcart " Link "VIC20 cartridges"}                   VIC20 cartridges
+ @{" -sidcart, +sidcart " Link "VIC20 system ROM options"}                   VIC20 system ROM options
  @{" -sidcart, +sidcart " Link "PET model"}                   PET model
  @{" -sidcartjoy, +sidcartjoy " Link "VIC20 system ROM options"}             VIC20 system ROM options
  @{" -sidenginemodel " Link "SID options"}                      SID options
@@ -19616,13 +19552,13 @@ Concept Index
  @{" -TEDVidmodefullmode " Link "VIC20 system ROM options"}                  VIC20 system ROM options
  @{" -TEDXRANDRfullmode " Link "VIC20 system ROM options"}                   VIC20 system ROM options
  @{" -text " Link "c1541 executing shell commands"}                                c1541 executing shell commands
- @{" -tfe, +tfe " Link "VIC20 cartridges"}                           VIC20 cartridges
  @{" -tfe, +tfe " Link "C64 I-O extension options"}                           C64 I-O extension options
+ @{" -tfe, +tfe " Link "VIC20 cartridges"}                           VIC20 cartridges
  @{" -tfeif " Link "C64 I-O extension options"}                               C64 I-O extension options
  @{" -tfeif " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -tfeioswap, +tfeioswap " Link "VIC20 cartridges"}               VIC20 cartridges
- @{" -tferrnet, +tferrnet " Link "VIC20 cartridges"}                 VIC20 cartridges
  @{" -tferrnet, +tferrnet " Link "C64 I-O extension options"}                 C64 I-O extension options
+ @{" -tferrnet, +tferrnet " Link "VIC20 cartridges"}                 VIC20 cartridges
  @{" -truedrive, +truedrive " Link "Drive options"}               Drive options
  @{" -trueflashfs, +trueflashfs " Link "C64DTV ROM image"}           C64DTV ROM image
  @{" -tune " Link "CBM-II colors"}                                CBM-II colors
@@ -20591,12 +20527,14 @@ Index of Command-line options
 
 
 
+ @{" +cart " Link "C64 cartridges"}                                C64 cartridges
  @{" -256k, +256k " Link "C64-128 system ROM options"}                         C64-128 system ROM options
+ @{" -256kbase " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" -256kimage " Link "C64-128 system ROM options"}                           C64-128 system ROM options
  @{" -alwaysontop, +alwaysontop " Link "Windows-specific features"}           Windows-specific features
- @{" -aspect " Link "SDL-specific features"}                              SDL-specific features
- @{" -aspect " Link "XAW-specific features"}                              XAW-specific features
  @{" -aspect " Link "Windows-specific features"}                              Windows-specific features
+ @{" -aspect " Link "XAW-specific features"}                              XAW-specific features
+ @{" -aspect " Link "SDL-specific features"}                              SDL-specific features
  @{" -autostart-delay-random, +autostart-delay-random " Link "Resources and command-line"} Resources and command-line
  @{" -autostart-warp, +autostart-warp " Link "Resources and command-line"}     Resources and command-line
  @{" -autostartprgdiskimage " Link "Resources and command-line"}               Resources and command-line
@@ -20607,6 +20545,70 @@ Index of Command-line options
  @{" -basiclo " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -basicload, +basicload " Link "Resources and command-line"}               Resources and command-line
  @{" -c128fullbanks, +c128fullbanks " Link "C64-128 system ROM options"}       C64-128 system ROM options
+ @{" -cart16 " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cart8 " Link "C64 cartridges"}                               C64 cartridges
+ @{" -cartap " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartar2 " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartar3 " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartar4 " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartar5 " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartcap " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartcomal " Link "C64 cartridges"}                           C64 cartridges
+ @{" -cartcrt " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartdep256 " Link "C64 cartridges"}                          C64 cartridges
+ @{" -cartdep64 " Link "C64 cartridges"}                           C64 cartridges
+ @{" -cartdep7x8 " Link "C64 cartridges"}                          C64 cartridges
+ @{" -cartdin " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartdqbb " Link "C64 cartridges"}                            C64 cartridges
+ @{" -cartdsm " Link "C64 cartridges"}                             C64 cartridges
+ @{" -carteasy " Link "C64 cartridges"}                            C64 cartridges
+ @{" -cartepyx " Link "C64 cartridges"}                            C64 cartridges
+ @{" -cartexos " Link "C64 cartridges"}                            C64 cartridges
+ @{" -cartexpert " Link "C64 cartridges"}                          C64 cartridges
+ @{" -cartf64 " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartfc1 " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartfc3 " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartfcplus " Link "C64 cartridges"}                          C64 cartridges
+ @{" -cartff " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartfm " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartfp " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartgeoram " Link "C64 I-O extension options"}                          C64 I-O extension options
+ @{" -cartgk " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartgs " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartide64 " Link "C64 cartridges"}                           C64 cartridges
+ @{" -cartieee " Link "C64 cartridges"}                            C64 cartridges
+ @{" -cartisepic " Link "C64 cartridges"}                          C64 cartridges
+ @{" -cartkcs " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartks " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartmach5 " Link "C64 cartridges"}                           C64 cartridges
+ @{" -cartmd " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartmf " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartmikro " Link "C64 cartridges"}                           C64 cartridges
+ @{" -cartmmc64 " Link "C64 cartridges"}                           C64 cartridges
+ @{" -cartmmcr " Link "C64 cartridges"}                            C64 cartridges
+ @{" -cartmv " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartocean " Link "C64 cartridges"}                           C64 cartridges
+ @{" -cartp64 " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartpf " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartramcart " Link "C64 cartridges"}                         C64 cartridges
+ @{" -cartrep256 " Link "C64 cartridges"}                          C64 cartridges
+ @{" -cartreu " Link "C64 I-O extension options"}                             C64 I-O extension options
+ @{" -cartross " Link "C64 cartridges"}                            C64 cartridges
+ @{" -cartrr " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartru " Link "C64 cartridges"}                              C64 cartridges
+ @{" -carts64 " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartsb " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartse5 " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartsg " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartsilver " Link "C64 cartridges"}                          C64 cartridges
+ @{" -cartsimon " Link "C64 cartridges"}                           C64 cartridges
+ @{" -cartss4 " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartss5 " Link "C64 cartridges"}                             C64 cartridges
+ @{" -cartstar " Link "C64 cartridges"}                            C64 cartridges
+ @{" -cartultimax " Link "C64 cartridges"}                         C64 cartridges
+ @{" -cartwl " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartws " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartzaxxon " Link "C64 cartridges"}                          C64 cartridges
  @{" -chargde " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargfr " Link "C64-128 system ROM options"}                             C64-128 system ROM options
@@ -20615,16 +20617,16 @@ Index of Command-line options
  @{" -cia2model " Link "C64 cartridges"}                           C64 cartridges
  @{" -ciamodel " Link "C64 cartridges"}                            C64 cartridges
  @{" -colormap, +colormap " Link "XAW-specific features"}                 XAW-specific features
+ @{" -confirmexit, +confirmexit " Link "SDL-specific features"}           SDL-specific features
+ @{" -confirmexit, +confirmexit " Link "AmigaOS-specific features"}           AmigaOS-specific features
  @{" -confirmexit, +confirmexit " Link "Windows-specific features"}           Windows-specific features
  @{" -confirmexit, +confirmexit " Link "Unix-specific features"}           Unix-specific features
- @{" -confirmexit, +confirmexit " Link "AmigaOS-specific features"}           AmigaOS-specific features
- @{" -confirmexit, +confirmexit " Link "SDL-specific features"}           SDL-specific features
  @{" -confirmexit, +confirmexit " Link "BeOS-specific features"}           BeOS-specific features
  @{" -CRTCfull, +CRTCfull " Link "SDL-specific features"}                 SDL-specific features
- @{" -CRTCfulldevice " Link "SDL-specific features"}                      SDL-specific features
  @{" -CRTCfulldevice " Link "Unix-specific features"}                      Unix-specific features
- @{" -CRTChwscale, +CRTChwscale " Link "Unix-specific features"}           Unix-specific features
+ @{" -CRTCfulldevice " Link "SDL-specific features"}                      SDL-specific features
  @{" -CRTChwscale, +CRTChwscale " Link "SDL-specific features"}           SDL-specific features
+ @{" -CRTChwscale, +CRTChwscale " Link "Unix-specific features"}           Unix-specific features
  @{" -CRTCSDLfullmode " Link "SDL-specific features"}                     SDL-specific features
  @{" -CrtcVidmodefullmode " Link "XAW-specific features"}                 XAW-specific features
  @{" -CrtcXRANDRfullmode " Link "XAW-specific features"}                  XAW-specific features
@@ -20633,28 +20635,28 @@ Index of Command-line options
  @{" -dx9disable " Link "Windows-specific features"}                          Windows-specific features
  @{" -dx9enable " Link "Windows-specific features"}                           Windows-specific features
  @{" -dxpsrender, +dxpsrender " Link "Windows-specific features"}             Windows-specific features
- @{" -extrajoydev1 " Link "MorphOS-specific features"}                        MorphOS-specific features
- @{" -extrajoydev1 " Link "BeOS-specific features"}                        BeOS-specific features
- @{" -extrajoydev1 " Link "AROS-specific features"}                        AROS-specific features
  @{" -extrajoydev1 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
- @{" -extrajoydev1 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
  @{" -extrajoydev1 " Link "Unix-specific features"}                        Unix-specific features
- @{" -extrajoydev1 " Link "Windows-specific features"}                        Windows-specific features
  @{" -extrajoydev1 " Link "SDL-specific features"}                        SDL-specific features
+ @{" -extrajoydev1 " Link "Windows-specific features"}                        Windows-specific features
+ @{" -extrajoydev1 " Link "BeOS-specific features"}                        BeOS-specific features
+ @{" -extrajoydev1 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
  @{" -extrajoydev1 " Link "DOS-specific features"}                        DOS-specific features
- @{" -extrajoydev2 " Link "Windows-specific features"}                        Windows-specific features
+ @{" -extrajoydev1 " Link "MorphOS-specific features"}                        MorphOS-specific features
+ @{" -extrajoydev1 " Link "AROS-specific features"}                        AROS-specific features
  @{" -extrajoydev2 " Link "SDL-specific features"}                        SDL-specific features
  @{" -extrajoydev2 " Link "MorphOS-specific features"}                        MorphOS-specific features
  @{" -extrajoydev2 " Link "DOS-specific features"}                        DOS-specific features
  @{" -extrajoydev2 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
- @{" -extrajoydev2 " Link "Unix-specific features"}                        Unix-specific features
- @{" -extrajoydev2 " Link "AROS-specific features"}                        AROS-specific features
  @{" -extrajoydev2 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
  @{" -extrajoydev2 " Link "BeOS-specific features"}                        BeOS-specific features
+ @{" -extrajoydev2 " Link "Windows-specific features"}                        Windows-specific features
+ @{" -extrajoydev2 " Link "AROS-specific features"}                        AROS-specific features
+ @{" -extrajoydev2 " Link "Unix-specific features"}                        Unix-specific features
  @{" -fourcc " Link "XAW-specific features"}                              XAW-specific features
  @{" -fullscreen, +fullscreen " Link "XAW-specific features"}             XAW-specific features
- @{" -fullscreen, +fullscreen " Link "XAW-specific features"}             XAW-specific features
  @{" -fullscreen, +fullscreen " Link "Windows-specific features"}             Windows-specific features
+ @{" -fullscreen, +fullscreen " Link "XAW-specific features"}             XAW-specific features
  @{" -fullscreen, +fullscreen " Link "AmigaOS-specific features"}             AmigaOS-specific features
  @{" -fullscreendevice " Link "Windows-specific features"}                    Windows-specific features
  @{" -gluelogictype " Link "C64-128 system ROM options"}                       C64-128 system ROM options
@@ -20669,35 +20671,35 @@ Index of Command-line options
  @{" -initialdefaultdir " Link "AmigaOS-specific features"}                   AmigaOS-specific features
  @{" -initialdiskdir " Link "Windows-specific features"}                      Windows-specific features
  @{" -initialdiskdir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
- @{" -initialsnapshotdir " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" -initialsnapshotdir " Link "Windows-specific features"}                  Windows-specific features
- @{" -initialtapedir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
+ @{" -initialsnapshotdir " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" -initialtapedir " Link "Windows-specific features"}                      Windows-specific features
- @{" -joydev1 " Link "BeOS-specific features"}                             BeOS-specific features
- @{" -joydev1 " Link "Unix-specific features"}                             Unix-specific features
+ @{" -initialtapedir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
  @{" -joydev1 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
- @{" -joydev1 " Link "AmigaOS4-specific features"}                             AmigaOS4-specific features
- @{" -joydev1 " Link "SDL-specific features"}                             SDL-specific features
- @{" -joydev1 " Link "MorphOS-specific features"}                             MorphOS-specific features
- @{" -joydev1 " Link "AROS-specific features"}                             AROS-specific features
+ @{" -joydev1 " Link "BeOS-specific features"}                             BeOS-specific features
  @{" -joydev1 " Link "DOS-specific features"}                             DOS-specific features
+ @{" -joydev1 " Link "Unix-specific features"}                             Unix-specific features
  @{" -joydev1 " Link "Windows-specific features"}                             Windows-specific features
+ @{" -joydev1 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" -joydev1 " Link "SDL-specific features"}                             SDL-specific features
+ @{" -joydev1 " Link "AmigaOS4-specific features"}                             AmigaOS4-specific features
+ @{" -joydev1 " Link "AROS-specific features"}                             AROS-specific features
+ @{" -joydev2 " Link "DOS-specific features"}                             DOS-specific features
  @{" -joydev2 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" -joydev2 " Link "AmigaOS4-specific features"}                             AmigaOS4-specific features
  @{" -joydev2 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
+ @{" -joydev2 " Link "AROS-specific features"}                             AROS-specific features
+ @{" -joydev2 " Link "Windows-specific features"}                             Windows-specific features
+ @{" -joydev2 " Link "BeOS-specific features"}                             BeOS-specific features
  @{" -joydev2 " Link "Unix-specific features"}                             Unix-specific features
  @{" -joydev2 " Link "SDL-specific features"}                             SDL-specific features
- @{" -joydev2 " Link "Windows-specific features"}                             Windows-specific features
- @{" -joydev2 " Link "AROS-specific features"}                             AROS-specific features
- @{" -joydev2 " Link "DOS-specific features"}                             DOS-specific features
- @{" -joydev2 " Link "BeOS-specific features"}                             BeOS-specific features
  @{" -joydisplay, +joydisplay " Link "BeOS-specific features"}             BeOS-specific features
  @{" -joyfuzz " Link "SDL-specific features"}                             SDL-specific features
  @{" -joyhwtype " Link "DOS-specific features"}                           DOS-specific features
  @{" -joymap " Link "SDL-specific features"}                              SDL-specific features
  @{" -joythreshold " Link "SDL-specific features"}                        SDL-specific features
- @{" -keepaspect, +keepaspect " Link "XAW-specific features"}             XAW-specific features
  @{" -keepaspect, +keepaspect " Link "Windows-specific features"}             Windows-specific features
+ @{" -keepaspect, +keepaspect " Link "XAW-specific features"}             XAW-specific features
  @{" -keepaspect, +keepaspect " Link "GTK-specific features"}             GTK-specific features
  @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
  @{" -kernal64 " Link "C64-128 system ROM options"}                            C64-128 system ROM options
@@ -20718,10 +20720,10 @@ Index of Command-line options
  @{" -menukeyselect " Link "SDL-specific features"}                       SDL-specific features
  @{" -menukeyup " Link "SDL-specific features"}                           SDL-specific features
  @{" -mididrv " Link "Unix-specific features"}                             Unix-specific features
- @{" -midiin " Link "Unix-specific features"}                              Unix-specific features
  @{" -midiin " Link "Windows-specific features"}                              Windows-specific features
- @{" -midiout " Link "Unix-specific features"}                             Unix-specific features
+ @{" -midiin " Link "Unix-specific features"}                              Unix-specific features
  @{" -midiout " Link "Windows-specific features"}                             Windows-specific features
+ @{" -midiout " Link "Unix-specific features"}                             Unix-specific features
  @{" -mitshm, +mitshm " Link "XAW-specific features"}                     XAW-specific features
  @{" -model " Link "C64-128 system ROM options"}                               C64-128 system ROM options
  @{" -model " Link "C64-128 system ROM options"}                               C64-128 system ROM options
@@ -20733,9 +20735,9 @@ Index of Command-line options
  @{" -rsdev2baud " Link "Unix-specific features"}                          Unix-specific features
  @{" -rsdev3baud " Link "Unix-specific features"}                          Unix-specific features
  @{" -rsdev4baud " Link "Unix-specific features"}                          Unix-specific features
+ @{" -saveres, +saveres " Link "SDL-specific features"}                   SDL-specific features
  @{" -saveres, +saveres " Link "Windows-specific features"}                   Windows-specific features
  @{" -saveres, +saveres " Link "BeOS-specific features"}                   BeOS-specific features
- @{" -saveres, +saveres " Link "SDL-specific features"}                   SDL-specific features
  @{" -saveres, +saveres " Link "AmigaOS-specific features"}                   AmigaOS-specific features
  @{" -saveres, +saveres " Link "Unix-specific features"}                   Unix-specific features
  @{" -sdlaspectmode " Link "SDL-specific features"}                       SDL-specific features
@@ -20751,16 +20753,16 @@ Index of Command-line options
  @{" -statusbar, +statusbar " Link "SDL-specific features"}               SDL-specific features
  @{" -statusbar, +statusbar " Link "AmigaOS-specific features"}               AmigaOS-specific features
  @{" -TEDfull, +TEDfull " Link "SDL-specific features"}                   SDL-specific features
- @{" -TEDfulldevice " Link "SDL-specific features"}                       SDL-specific features
  @{" -TEDfulldevice " Link "Unix-specific features"}                       Unix-specific features
+ @{" -TEDfulldevice " Link "SDL-specific features"}                       SDL-specific features
  @{" -TEDhwscale, +TEDhwscale " Link "SDL-specific features"}             SDL-specific features
  @{" -TEDhwscale, +TEDhwscale " Link "Unix-specific features"}             Unix-specific features
  @{" -TEDSDLfullmode " Link "SDL-specific features"}                      SDL-specific features
  @{" -TEDVidmodefullmode " Link "XAW-specific features"}                  XAW-specific features
  @{" -TEDXRANDRfullmode " Link "XAW-specific features"}                   XAW-specific features
  @{" -triplebuf, +triplebuf " Link "DOS-specific features"}               DOS-specific features
- @{" -trueaspect, +trueaspect " Link "GTK-specific features"}             GTK-specific features
  @{" -trueaspect, +trueaspect " Link "XAW-specific features"}             XAW-specific features
+ @{" -trueaspect, +trueaspect " Link "GTK-specific features"}             GTK-specific features
  @{" -trueaspect, +trueaspect " Link "Windows-specific features"}             Windows-specific features
  @{" -vblanksync, +vblanksync " Link "Windows-specific features"}             Windows-specific features
  @{" -VDCfull, +VDCfull " Link "SDL-specific features"}                   SDL-specific features
@@ -20771,24 +20773,24 @@ Index of Command-line options
  @{" -VDCXRANDRfullmode " Link "XAW-specific features"}                   XAW-specific features
  @{" -vgamode " Link "DOS-specific features"}                             DOS-specific features
  @{" -VICfull, +VICfull " Link "SDL-specific features"}                   SDL-specific features
- @{" -VICfulldevice " Link "SDL-specific features"}                       SDL-specific features
  @{" -VICfulldevice " Link "Unix-specific features"}                       Unix-specific features
+ @{" -VICfulldevice " Link "SDL-specific features"}                       SDL-specific features
  @{" -VIChwscale, +VIChwscale " Link "Unix-specific features"}             Unix-specific features
  @{" -VIChwscale, +VIChwscale " Link "SDL-specific features"}             SDL-specific features
  @{" -VICIIfull, +VICIIfull " Link "SDL-specific features"}               SDL-specific features
  @{" -VICIIfulldevice " Link "Unix-specific features"}                     Unix-specific features
  @{" -VICIIfulldevice " Link "SDL-specific features"}                     SDL-specific features
- @{" -VICIIhwscale, +VICIIhwscale " Link "SDL-specific features"}         SDL-specific features
  @{" -VICIIhwscale, +VICIIhwscale " Link "Unix-specific features"}         Unix-specific features
+ @{" -VICIIhwscale, +VICIIhwscale " Link "SDL-specific features"}         SDL-specific features
  @{" -VICIISDLfullmode " Link "SDL-specific features"}                    SDL-specific features
  @{" -VICIIVidmodefullmode " Link "XAW-specific features"}                XAW-specific features
  @{" -VICIIXRANDRfullmode " Link "XAW-specific features"}                 XAW-specific features
  @{" -VICSDLfullmode " Link "SDL-specific features"}                      SDL-specific features
  @{" -VICVidmodefullmode " Link "XAW-specific features"}                  XAW-specific features
  @{" -VICXRANDRfullmode " Link "XAW-specific features"}                   XAW-specific features
- @{" -videooverlay, +videooverlay " Link "AROS-specific features"}         AROS-specific features
  @{" -videooverlay, +videooverlay " Link "MorphOS-specific features"}         MorphOS-specific features
  @{" -videooverlay, +videooverlay " Link "AmigaOS3-specific features"}         AmigaOS3-specific features
+ @{" -videooverlay, +videooverlay " Link "AROS-specific features"}         AROS-specific features
  @{" -warp, +warp " Link "DOS-specific features"}                         DOS-specific features
  @{" -xsync, +xsync " Link "XAW-specific features"}                       XAW-specific features
 

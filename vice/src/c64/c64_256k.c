@@ -82,8 +82,6 @@ static char *c64_256k_filename = NULL;
 
 BYTE *c64_256k_ram = NULL;
 
-static char *c64_256k_base_string = NULL;
-
 /* ---------------------------------------------------------------------*/
 
 void pia_set_vbank(void)
@@ -297,10 +295,6 @@ int c64_256k_resources_init(void)
 void c64_256k_resources_shutdown(void)
 {
     lib_free(c64_256k_filename);
-
-    if (c64_256k_base_string) {
-        lib_free(c64_256k_base_string);
-    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -337,16 +331,9 @@ static cmdline_option_t base_cmdline_options[] =
 
 int c64_256k_cmdline_options_init(void)
 {
-    char *temp;
-
     if (cmdline_register_options(cmdline_options) < 0) {
         return -1;
     }
-
-    temp = util_gen_hex_address_list(0xde00, 0xe000, 0x80);
-    c64_256k_base_string = util_concat(". (", temp, ")", NULL);
-    lib_free(temp);
-    base_cmdline_options[0].description = c64_256k_base_string;
 
     return cmdline_register_options(base_cmdline_options);
 }
