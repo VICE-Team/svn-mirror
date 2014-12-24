@@ -5261,15 +5261,16 @@ Attach raw 512kB Game System cartridge image.
 @findex -cartide64
 @item -cartide64 <name>
 Attach raw 64KB or 128KB IDE64 cartridge image.
-@cindex -IDE64image1
+@findex -IDE64image1
 @item -IDE64image1 <name>
-@cindex -IDE64image2
+@findex -IDE64image2
 @item -IDE64image2 <name>
-@cindex -IDE64image3
+@findex -IDE64image3
 @item -IDE64image3 <name>
-@cindex -IDE64image4
+@findex -IDE64image4
 @item -IDE64image4 <name>
 Specify path to the image files for IDE64 harddisks
+(@code{IDE64Image1}, @code{IDE64Image2}, @code{IDE64Image3}, @code{IDE64Image4}).
 @cindex -IDE64cyl1
 @item -IDE64cyl1 <value>
 @cindex -IDE64cyl2
@@ -6096,7 +6097,7 @@ contents changed, when detaching or quitting the emulator.
 @vindex GEORAMsize
 @item GEORAMsize
 Integer specifying the size of the emulated GEO-RAM in KB (64, 128, 256, 512, 1024, 
-2048, 4096)
+2048, 4096).
 
 @vindex MIDIEnable
 @item MIDIEnable
@@ -6158,23 +6159,28 @@ MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Mapli
 @item -midi
 @itemx +midi
 Enable/Disable MIDI emulation
-@cindex -georam, +georam
+@findex -georam, +georam
 @item -georam
 @itemx +georam
 Enable/Disable the GEORAM expansion unit
+(@code{GEORAM=1}, @code{GEORAM=0}).
 @findex -cartgeoram
 @item -cartgeoram <name>
 Attach raw GEO-RAM cartridge image.
-@cindex -georamimage
+@findex -georamimage
 @item -georamimage <name>
 Specify name of GEORAM image
-@cindex -georamimagerw, +georamimagerw
+(@code{GEORAMfilename}).
+@findex -georamimagerw, +georamimagerw
 @item -georamimagerw
 @itemx +georamimagerw
 Allow/Disallow writing to GEORAM image
-@cindex -georamsize
+(@code{GEORAMImageWrite=1}, @code{GEORAMImageWrite=0}).
+@findex -georamsize
 @item -georamsize <size in KB>
 Size of the GEORAM expansion unit
+(@code{GEORAMsize}).
+(64/128/256/512/1024/2048/4096)
 @cindex -reu, +reu
 @item -reu
 @itemx +reu
@@ -7161,6 +7167,20 @@ Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
 @vindex SFXSoundSamplerIOSwap
 @item SFXSoundSamplerIOSwap
 Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+@vindex GEORAMfilename
+@item GEORAMfilename
+String specifying the filename of the GEORAM image.
+@vindex GEORAM
+@item GEORAM
+Boolean specifying whether the GEO-RAM cartridge (using the MasC=uerade cartridge adapter) should be emulated or not.
+@vindex GEORAMsize
+@item GEORAMsize
+Integer specifying the size of the emulated GEO-RAM in KB (64, 128, 256, 512, 1024, 
+2048, 4096).
+@vindex GEORAMImageWrite
+@item GEORAMImageWrite
+Boolean, if true write back the GEO-RAM image file automatically, incase the RAM
+contents changed, when detaching or quitting the emulator.
 @vindex GEORAMIOSwap
 @item GEORAMIOSwap
 Boolean, swap/don't swap  io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)
@@ -7298,20 +7318,25 @@ Enable/Disable the SFX Sound Sampler cartridge
 @item -georamioswap
 @itemx +georamioswap
 Swap/don't swap  io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)
-@cindex -georam, +georam
+@findex -georam, +georam
 @item -georam
 @itemx +georam
-Enable/Disable the GEORAM expansion unit
-@cindex -georamimage
+Enable/Disable the GEORAM expansion unit (using the MasC=uerade cartridge adapter)
+(@code{GEORAM=1}, @code{GEORAM=0}).
+@findex -georamimage
 @item -georamimage <name>
 Specify name of GEORAM image
-@cindex -georamimagerw, +georamimagerw
+(@code{GEORAMfilename}).
+@findex -georamimagerw, +georamimagerw
 @item -georamimagerw
 @itemx +georamimagerw
 Allow/Disallow writing to GEORAM image
-@cindex -georamsize
+(@code{GEORAMImageWrite=1}, @code{GEORAMImageWrite=0}).
+@findex -georamsize
 @item -georamsize <size in KB>
 Size of the GEORAM expansion unit
+(@code{GEORAMsize}).
+(64/128/256/512/1024/2048/4096)
 
 @end table
 

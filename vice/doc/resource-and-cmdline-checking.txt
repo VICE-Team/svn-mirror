@@ -6071,6 +6071,189 @@ description:    "Do not write to Expert Cartridge image"
 resource:       "ExpertImageWrite" (set to 0)
 action:         N/A
 
+c64/cart/georam.c:
+------------------
+resource type:                  string
+resource name:                  "GEORAMfilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_georam_filename()
+resource var:                   georam_filename
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -georamimage
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/georam.c:
+------------------
+command line:   -georamimage <Name>
+description:    "Specify name of GEORAM image"
+resource:       "GEORAMfilename"
+action:         N/A
+
+c64/cart/georam.c:
+------------------
+resource type:                  bool
+resource name:                  "GEORAM"
+resource range:                 0/1
+resource default:               0
+resource function:              set_georam_enabled()
+resource var:                   georam_enabled
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -georam / +georam
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/georam.c:
+------------------
+command line:   -georam
+description:    "Enable the GEO-RAM expansion unit"
+resource:       "GEORAM" (set to 1)
+action:         N/A
+
+c64/cart/georam.c:
+------------------
+command line:   +georam
+description:    "Disable the GEO-RAM expansion unit"
+resource:       "GEORAM" (set to 0)
+action:         N/A
+
+c64/cart/georam.c:
+------------------
+resource type:                  int
+resource name:                  "GEORAMsize"
+resource range:                 N/A (64/128/256/512/1024/2048/4096)
+resource default:               512
+resource function:              set_georam_size()
+resource var:                   georam_size_kb
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -georamsize
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/georam.c:
+------------------
+command line:   -georamsize <size in KB>
+description:    "Size of the GEORAM expansion unit"
+resource:       "GEORAMsize"
+action:         N/A
+
+c64/cart/georam.c:
+------------------
+resource type:                  bool
+resource name:                  "GEORAMImageWrite"
+resource range:                 0/1
+resource default:               0
+resource function:              set_georam_image_write()
+resource var:                   georam_write_image
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -georamimagerw / +georamimagerw
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/georam.c:
+------------------
+command line:   -georamimagerw
+description:    "Allow writing to GEORAM image"
+resource:       "GEORAMImageWrite" (set to 1)
+action:         N/A
+
+c64/cart/georam.c:
+------------------
+command line:   +georamimagerw
+description:    "Do not write to GEORAM image"
+resource:       "GEORAMImageWrite" (set to 0)
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  string
+resource name:                  "IDE64Image1"
+resource range:                 N/A
+resource default:               "ide.cfa"
+resource function:              set_ide64_image_file()
+resource var:                   drives[0].filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64image1
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64image1 <Name>
+description:    "Specify name of IDE64 image file"
+resource:       "IDE64Image1"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  string
+resource name:                  "IDE64Image2"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_ide64_image_file()
+resource var:                   drives[1].filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64image2
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64image2 <Name>
+description:    "Specify name of IDE64 image file"
+resource:       "IDE64Image2"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  string
+resource name:                  "IDE64Image3"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_ide64_image_file()
+resource var:                   drives[2].filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64image3
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64image3 <Name>
+description:    "Specify name of IDE64 image file"
+resource:       "IDE64Image3"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  string
+resource name:                  "IDE64Image4"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_ide64_image_file()
+resource var:                   drives[3].filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64image4
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64image4 <Name>
+description:    "Specify name of IDE64 image file"
+resource:       "IDE64Image4"
+action:         N/A
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -7046,113 +7229,6 @@ resource:       "DS12C887RTCRunMode" (set to 1)
 action:         N/A
 fixme: add to documentation
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
-c64/cart/georam.c:
-------------------
-resource type:                  string
-resource name:                  "GEORAMfilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_georam_filename()
-resource var:                   georam_filename
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -georamimage
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/georam.c:
-------------------
-command line:   -georamimage <Name>
-description:    "Specify name of GEORAM image"
-resource:       "GEORAMfilename"
-action:         N/A
-
-c64/cart/georam.c:
-------------------
-resource type:                  bool
-resource name:                  "GEORAM"
-resource range:                 0/1
-resource default:               0
-resource function:              set_georam_enabled()
-resource var:                   georam_enabled
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -georam / +georam
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/georam.c:
-------------------
-command line:   -georam
-description:    "Enable the GEO-RAM expansion unit"
-resource:       "GEORAM" (set to 1)
-action:         N/A
-
-c64/cart/georam.c:
-------------------
-command line:   +georam
-description:    "Disable the GEO-RAM expansion unit"
-resource:       "GEORAM" (set to 0)
-action:         N/A
-
-c64/cart/georam.c:
-------------------
-resource type:                  int
-resource name:                  "GEORAMsize"
-resource range:                 N/A (64/128/256/512/1024/2048/4096)
-resource default:               512
-resource function:              set_georam_size()
-resource var:                   georam_size_kb
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -georamsize
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-c64/cart/georam.c:
-------------------
-command line:   -georamsize <size in KB>
-description:    "Size of the GEORAM expansion unit"
-resource:       "GEORAMsize"
-action:         N/A
-fixme: fix documentation, range
-
-c64/cart/georam.c:
-------------------
-resource type:                  bool
-resource name:                  "GEORAMImageWrite"
-resource range:                 0/1
-resource default:               0
-resource function:              set_georam_image_write()
-resource var:                   georam_write_image
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -georamimagerw / +georamimagerw
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/georam.c:
-------------------
-command line:   -georamimagerw
-description:    "Allow writing to GEORAM image"
-resource:       "GEORAMImageWrite" (set to 1)
-action:         N/A
-
-c64/cart/georam.c:
-------------------
-command line:   +georamimagerw
-description:    "Do not write to GEORAM image"
-resource:       "GEORAMImageWrite" (set to 0)
-action:         N/A
-
 c64/cart/georam.c:
 ------------------
 resource type:                  bool
@@ -7182,93 +7258,7 @@ description:    "Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I
 resource:       "GEORAMIOSwap" (set to 0)
 action:         N/A
 
-c64/cart/ide64.c:
------------------
-resource type:                  string
-resource name:                  "IDE64Image1"
-resource range:                 N/A
-resource default:               "ide.cfa"
-resource function:              set_ide64_image_file()
-resource var:                   drives[0].filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64image1
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64image1 <Name>
-description:    "Specify name of IDE64 image file"
-resource:       "IDE64Image1"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  string
-resource name:                  "IDE64Image2"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_ide64_image_file()
-resource var:                   drives[1].filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64image2
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64image2 <Name>
-description:    "Specify name of IDE64 image file"
-resource:       "IDE64Image2"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  string
-resource name:                  "IDE64Image3"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_ide64_image_file()
-resource var:                   drives[2].filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64image3
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64image3 <Name>
-description:    "Specify name of IDE64 image file"
-resource:       "IDE64Image3"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  string
-resource name:                  "IDE64Image4"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_ide64_image_file()
-resource var:                   drives[3].filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64image4
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64image4 <Name>
-description:    "Specify name of IDE64 image file"
-resource:       "IDE64Image4"
-action:         N/A
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
 c64/cart/ide64.c:
 -----------------
