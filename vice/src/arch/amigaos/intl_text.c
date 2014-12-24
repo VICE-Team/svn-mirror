@@ -4409,7 +4409,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SAVE_SETTING_ON_EXIT_SV, "Spara inställningar vid avslut" },
 /* tr */ { IDMS_SAVE_SETTING_ON_EXIT_TR, "Çýkýþta ayarlarý kaydet" },
 
-/* en */ { IDMS_CONFIRM_ON_EXIT,    "Confirm quiting VICE" },
+/* en */ { IDMS_CONFIRM_ON_EXIT,    "Confirm quitting VICE" },
 /* da */ { IDMS_CONFIRM_ON_EXIT_DA, "Bekræft programafslutning" },
 /* de */ { IDMS_CONFIRM_ON_EXIT_DE, "Bestätige beenden von VICE" },
 /* es */ { IDMS_CONFIRM_ON_EXIT_ES, "Confirmar el cierre de VICE" },
@@ -7896,7 +7896,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_NEVER_SAVE_SETTINGS_EXIT_SV, "Spara aldrig inställningar vid avslut" },
 /* tr */ { IDS_NEVER_SAVE_SETTINGS_EXIT_TR, "Çýkýþta ayarlarý asla kaydetme" },
 
-/* en */ { IDS_CONFIRM_QUITING_VICE,    "Confirm quiting VICE" },
+/* en */ { IDS_CONFIRM_QUITING_VICE,    "Confirm quitting VICE" },
 /* da */ { IDS_CONFIRM_QUITING_VICE_DA, "Bekræft programafslutning" },
 /* de */ { IDS_CONFIRM_QUITING_VICE_DE, "Bestätige beenden von VICE" },
 /* es */ { IDS_CONFIRM_QUITING_VICE_ES, "Confirmar el cierre de VICE" },
@@ -7910,7 +7910,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_CONFIRM_QUITING_VICE_SV, "Bekräfta för att avsluta VICE" },
 /* tr */ { IDS_CONFIRM_QUITING_VICE_TR, "VICE'dan çýkarken teyit et" },
 
-/* en */ { IDS_NEVER_CONFIRM_QUITING_VICE,    "Never confirm quiting VICE" },
+/* en */ { IDS_NEVER_CONFIRM_QUITING_VICE,    "Never confirm quitting VICE" },
 /* da */ { IDS_NEVER_CONFIRM_QUITING_VICE_DA, "Bekræft ikke programafslutning" },
 /* de */ { IDS_NEVER_CONFIRM_QUITING_VICE_DE, "Keine Bestätigung beim Beenden von VICE" },
 /* es */ { IDS_NEVER_CONFIRM_QUITING_VICE_ES, "Nunca confirmar el cierre de VICE" },

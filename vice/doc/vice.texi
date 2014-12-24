@@ -5176,13 +5176,15 @@ Attach raw 8kB Diashow-Maker cartridge image.
 @findex -cartdqbb
 @item -cartdqbb <name>
 Attach raw 16kB Double Quick Brown Box cartridge image.
-@cindex -dqbb, +dqbb
+@findex -dqbb, +dqbb
 @item -dqbb
 @itemx +dqbb
 Enable/Disable Double Quick Brown Box
-@cindex -dqbbimage
+(@code{DQBB=1}, @code{DQBB=0}).
+@findex -dqbbimage
 @item -dqbbimage <name>
 Specify Double Quick Brown Box filename
+(@code{DQBBfilename}).
 @cindex -dqbbimagerw, +dqbbimagerw
 @item -dqbbimagerw
 @itemx +dqbbimagerw
@@ -7162,6 +7164,10 @@ Integer that specifies the base address of the emulated SID chip.
 @item SidClock
 Integer specifying the clock rate used for the emulated SID chip (0: C64, 1: VIC-20)
 
+@vindex DIGIMAX
+@item DIGIMAX
+Boolean specifying whether the DigiMAX cartridge (using the MasC=uerade cartridge adapter) should be emulated or not.
+
 @end table
 
 @c @node FIXME
@@ -7247,10 +7253,11 @@ Set the system ethernet interface for TFE emulation
 @itemx +tferrnet
 Enable/Disable RRNet mode of TFE emulation
 
-@cindex -digimax, +digimax
+@findex -digimax, +digimax
 @item -digimax
 @itemx +digimax
-Enable/Disable the DigiMAX cartridge
+Enable/Disable the DigiMAX cartridge (using the MasC=uerade cartridge adapter)
+(@code{DIGIMAX=1}, @code{DIGIMAX=0}).
 @cindex -digimaxbase
 @item -digimaxbase <base address>
 Base address of the DigiMAX cartridge
@@ -9146,10 +9153,10 @@ Enable/disable automatic saving of settings on exit
 
 @findex -confirmexit, +confirmexit
 @item -confirmexit
-Confirm quiting VICE
+Confirm quitting VICE
 (@code{ConfirmOnExit=1}).
 @item +confirmexit
-Never confirm quiting VICE
+Never confirm quitting VICE
 (@code{ConfirmOnExit=0}).
 
 @end table
@@ -9706,10 +9713,10 @@ Enable/disable automatic saving of settings on exit
 
 @findex -confirmexit, +confirmexit
 @item -confirmexit
-Confirm quiting VICE
+Confirm quitting VICE
 (@code{ConfirmOnExit=1}).
 @item +confirmexit
-Never confirm quiting VICE
+Never confirm quitting VICE
 (@code{ConfirmOnExit=0}).
 
 @findex -directwindow, +directwindow
@@ -10369,10 +10376,10 @@ Enable/disable automatic saving of settings on exit
 
 @findex -confirmexit, +confirmexit
 @item -confirmexit
-Confirm quiting VICE
+Confirm quitting VICE
 (@code{ConfirmOnExit=1}).
 @item +confirmexit
-Never confirm quiting VICE
+Never confirm quitting VICE
 (@code{ConfirmOnExit=0}).
 
 @findex -statusbar, +statusbar
@@ -10833,10 +10840,10 @@ Enable/disable automatic saving of settings on exit
 
 @findex -confirmexit, +confirmexit
 @item -confirmexit
-Confirm quiting VICE
+Confirm quitting VICE
 (@code{ConfirmOnExit=1}).
 @item +confirmexit
-Never confirm quiting VICE
+Never confirm quitting VICE
 (@code{ConfirmOnExit=0}).
 
 @findex -htmlbrowser
@@ -11646,10 +11653,10 @@ Enable/disable automatic saving of settings on exit
 
 @findex -confirmexit, +confirmexit
 @item -confirmexit
-Confirm quiting VICE
+Confirm quitting VICE
 (@code{ConfirmOnExit=1}).
 @item +confirmexit
-Never confirm quiting VICE
+Never confirm quitting VICE
 (@code{ConfirmOnExit=0}).
 
 @findex -singlecpu, +singlecpu

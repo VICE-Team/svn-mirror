@@ -5811,6 +5811,83 @@ description:    "Attach raw 16kB Zaxxon cartridge image"
 resource:       N/A
 action:         cart_attach_cmdline()
 
+c64/cart/digimax.c:
+-------------------
+resource type:                  bool
+resource name:                  "DIGIMAX"
+resource range:                 0/1
+resource default:               0
+resource function:              set_digimax_enabled()
+resource var:                   digimax_sound_chip.chip_enabled
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -digimax / +digimax
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/digimax.c:
+-------------------
+command line:   -digimax
+description:    "Enable the DigiMAX cartridge"
+resource:       "DIGIMAX" (set to 1)
+action:         N/A
+
+c64/cart/digimax.c:
+-------------------
+command line:   +digimax
+description:    "Disable the DigiMAX cartridge"
+resource:       "DIGIMAX" (set to 0)
+action:         N/A
+
+c64/cart/dqbb.c:
+----------------
+resource type:                  string
+resource name:                  "DQBBfilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_dqbb_filename()
+resource var:                   dqbb_filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -dqbbimage
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/dqbb.c:
+----------------
+command line:   -dqbbimage <Name>
+description:    "Specify Double Quick Brown Box filename"
+resource:       "DQBBfilename"
+action:         N/A
+
+c64/cart/dqbb.c:
+----------------
+resource type:                  bool
+resource name:                  "DQBB"
+resource range:                 0/1
+resource default:               0
+resource function:              set_dqbb_enabled()
+resource var:                   dqbb_enabled
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -dqbb / +dqbb
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/dqbb.c:
+----------------
+command line:   -dqbb
+description:    "Enable Double Quick Brown Box"
+resource:       "DQBB" (set to 1)
+action:         N/A
+
+c64/cart/dqbb.c:
+----------------
+command line:   +dqbb
+description:    "Disable Double Quick Brown Box"
+resource:       "DQBB" (set to 0)
+action:         N/A
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -6608,8 +6685,6 @@ note: CartridgeType and CartridgeFile are used for the _default_ cartridge. its
       from cartridge.h to set the currently selected "main slot" cartridge as default
       and not alter this resource directly.
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
 c64/cart/c64tpi.c:
 ------------------
 resource type:                  string
@@ -6664,35 +6739,6 @@ action:         N/A
 
 c64/cart/digimax.c:
 -------------------
-resource type:                  bool
-resource name:                  "DIGIMAX"
-resource range:                 0/1
-resource default:               0
-resource function:              set_digimax_enabled()
-resource var:                   digimax_sound_chip.chip_enabled
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -digimax / +digimax
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/digimax.c:
--------------------
-command line:   -digimax
-description:    "Enable the DigiMAX cartridge"
-resource:       "DIGIMAX" (set to 1)
-action:         N/A
-
-c64/cart/digimax.c:
--------------------
-command line:   +digimax
-description:    "Disable the DigiMAX cartridge"
-resource:       "DIGIMAX" (set to 0)
-action:         N/A
-
-c64/cart/digimax.c:
--------------------
 resource type:                  int
 resource name:                  "DIGIMAXbase"
 resource range:                 N/A ($9800 (xvic), $9820 (xvic), $9840 (xvic), $9860 (xvic), $9880 (xvic), $98A0 (xvic), $98C0 (xvic), $98E0 (xvic),
@@ -6711,9 +6757,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -digimaxbase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/windows
+platform range incorrect:		osx
 fixme: fix documentation, add range
 
 c64/cart/digimax.c:
@@ -6724,56 +6769,7 @@ resource:       "DIGIMAXbase"
 action:         N/A
 fixme: fix documentation, range
 
-c64/cart/dqbb.c:
-----------------
-resource type:                  string
-resource name:                  "DQBBfilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_dqbb_filename()
-resource var:                   dqbb_filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -dqbbimage
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/dqbb.c:
-----------------
-command line:   -dqbbimage <Name>
-description:    "Specify Double Quick Brown Box filename"
-resource:       "DQBBfilename"
-action:         N/A
-
-c64/cart/dqbb.c:
-----------------
-resource type:                  bool
-resource name:                  "DQBB"
-resource range:                 0/1
-resource default:               0
-resource function:              set_dqbb_enabled()
-resource var:                   dqbb_enabled
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -dqbb / +dqbb
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/dqbb.c:
-----------------
-command line:   -dqbb
-description:    "Enable Double Quick Brown Box"
-resource:       "DQBB" (set to 1)
-action:         N/A
-
-c64/cart/dqbb.c:
-----------------
-command line:   +dqbb
-description:    "Disable Double Quick Brown Box"
-resource:       "DQBB" (set to 0)
-action:         N/A
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
 c64/cart/dqbb.c:
 ----------------
@@ -6788,7 +6784,6 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -dqbbimagerw / +dqbbimagerw
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
 
 c64/cart/dqbb.c:
 ----------------

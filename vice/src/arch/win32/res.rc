@@ -1679,7 +1679,7 @@ BEGIN
   IDS_MI_SETTINGS_LOAD                 "Load saved settings"
   IDS_MI_SETTINGS_DEFAULT              "Set default settings"
   IDS_MI_SAVE_SETTINGS_ON_EXIT         "Save settings on exit"
-  IDS_MI_CONFIRM_ON_EXIT               "Confirm quiting VICE"
+  IDS_MI_CONFIRM_ON_EXIT               "Confirm quitting VICE"
   IDS_MI_LANG_EN                       "English"
   IDS_MI_LANG_DA                       "Danish"
   IDS_MI_LANG_DE                       "German"
