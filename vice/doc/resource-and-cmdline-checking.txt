@@ -6878,18 +6878,18 @@ action:         N/A
 
 c64/c64-resources.c:
 --------------------
-resource type:                  string
+resource type:                  int
 resource name:                  "KernalRev"
-resource range:                 N/A
-resource default:               ""
+resource range:                 N/A (C64_KERNAL_REV1, C64_KERNAL_REV2, C64_KERNAL_REV3, C64_KERNAL_SX64, C64_KERNAL_4064, C64_KERNAL_UNKNOWN)
+resource default:               C64_KERNAL_REV3
 resource function:              set_kernal_revision()
 resource var:                   kernal_revision
 resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -kernalrev
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 fixme: fix documentation, it says c64 and c128, c128 does NOT have this resource
 
 c64/c64-cmdline-options.c:
@@ -6897,7 +6897,8 @@ c64/c64-cmdline-options.c:
 command line:   -kernalrev <Revision>
 description:    "Patch the Kernal ROM to the specified <revision>"
 resource:       "KernalRev"
-action:         N/A
+action:         patch_rom(<Revision>) (sets "KernalRev")
+fixme: description is misleading, allowed are "1", "2", "3", "67", "100", "4064, "sx"
 
 c64/c64-resources.c:
 --------------------
@@ -8924,24 +8925,6 @@ fixme: add to documentation
 
 c64/vsid-resources.c:
 ---------------------
-resource type:                  string
-resource name:                  "KernalRev"
-resource range:                 N/A
-resource default:               "basic"
-resource function:              set_kernal_revision()
-resource var:                   kernal_revision
-resource emulators:             vsid
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -kernalrev
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-gpz note: it's pointless to make this user-defineable in the GUIs
-blacky note: agreed.
-fixme: add to documentation
-
-c64/vsid-resources.c:
----------------------
 resource type:                  int
 resource name:                  "MachineVideoStandard"
 resource range:                 -4..-1 (MACHINE_SYNC_PAL (-1), MACHINE_SYNC_NTSC (-2), MACHINE_SYNC_NTSCOLD (-3), MACHINE_SYNC_PALN (-4))
@@ -9164,31 +9147,6 @@ description:    "Specify name of BASIC ROM image"
 resource:       "BasicName"
 action:         N/A
 fixme: add to documentation
-
-c64dtv/c64dtv-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "KernalRev"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_kernal_revision()
-resource var:                   kernal_revision
-resource emulators:             x64dtv
-not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -kernalrev
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-gpz note: perhaps does not make a lot of sense for DTV, because it only came with one (rev3???) kernal
-blacky note: agreed, is it used anywhere in the c64dtv code ?? (fixme: research)
-fixme: remove from c64dtv as it is only used for patching c64 kernal roms
-
-c64dtv/c64dtv-cmdline-options.c:
---------------------------------
-command line:   -kernalrev <Revision>
-description:    "Patch the Kernal ROM to the specified <revision>"
-resource:       "KernalRev"
-action:         N/A
 
 c64dtv/c64dtv-resources.c:
 --------------------------

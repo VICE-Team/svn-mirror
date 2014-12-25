@@ -97,6 +97,7 @@ typedef struct {
     int iecreset; /* 1: reset goes to IEC bus (old) 0: only reset IEC on hard reset (new) */
     const char *kernal;
     const char *chargen;
+    int kernalrev;
 } c64model_details_t;
 
 extern int c64model_get(void);

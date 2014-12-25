@@ -104,11 +104,6 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_CHARGEN_ROM_NAME,
       NULL, NULL },
-    { "-kernalrev", SET_RESOURCE, 1,
-      NULL, NULL, "KernalRev", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_REVISION, IDCLS_PATCH_KERNAL_TO_REVISION,
-      NULL, NULL },
 #ifdef COMMON_KBD
     { "-keymap", SET_RESOURCE, 1,
       NULL, NULL, "KeymapIndex", NULL,

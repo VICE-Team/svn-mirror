@@ -68,9 +68,6 @@ static char *chargen_rom_name = NULL;
 /* Name of the SCPU64 ROM.  */
 static char *scpu64_rom_name = NULL;
 
-/* Kernal revision for ROM patcher.  */
-char *kernal_revision = NULL;
-
 int cia1_model;
 int cia2_model;
 

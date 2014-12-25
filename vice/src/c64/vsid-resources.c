@@ -69,9 +69,6 @@ static char *basic_rom_name = NULL;
 /* Name of the Kernal ROM.  */
 static char *kernal_rom_name = NULL;
 
-/* Kernal revision for ROM patcher.  */
-char *kernal_revision = NULL;
-
 int cia1_model;
 int cia2_model;
 
@@ -159,13 +156,6 @@ static int set_cia2_model(int val, void *param)
     return 0;
 }
 
-/* FIXME: Should patch the ROM on-the-fly.  */
-static int set_kernal_revision(const char *val, void *param)
-{
-    util_string_set(&kernal_revision, val);
-    return 0;
-}
-
 static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
@@ -217,8 +207,6 @@ static const resource_string_t resources_string[] = {
     { "BasicName", "basic", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &basic_rom_name, set_basic_rom_name, NULL },
-    { "KernalRev", "", RES_EVENT_SAME, NULL,
-      &kernal_revision, set_kernal_revision, NULL },
 #ifdef COMMON_KBD
     { "KeymapSymFile", KBD_C64_SYM_US, RES_EVENT_NO, NULL,
       &machine_keymap_file_list[0],
@@ -273,7 +261,6 @@ void c64_resources_shutdown(void)
     lib_free(chargen_rom_name);
     lib_free(basic_rom_name);
     lib_free(kernal_rom_name);
-    lib_free(kernal_revision);
     lib_free(machine_keymap_file_list[0]);
     lib_free(machine_keymap_file_list[1]);
     lib_free(machine_keymap_file_list[2]);

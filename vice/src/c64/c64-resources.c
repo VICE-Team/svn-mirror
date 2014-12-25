@@ -34,13 +34,17 @@
 #include "c64cart.h"
 #include "c64cia.h"
 #include "c64rom.h"
+#include "c64memrom.h"
+#include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
 #include "cia.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
+#include "patchrom.h"
 #include "resources.h"
 #include "reu.h"
 #include "georam.h"
@@ -70,7 +74,7 @@ static char *basic_rom_name = NULL;
 static char *kernal_rom_name = NULL;
 
 /* Kernal revision for ROM patcher.  */
-char *kernal_revision = NULL;
+int kernal_revision = C64_KERNAL_REV3;
 
 int cia1_model;
 int cia2_model;
@@ -171,10 +175,17 @@ static int set_cia2_model(int val, void *param)
     return 0;
 }
 
-/* FIXME: Should patch the ROM on-the-fly.  */
-static int set_kernal_revision(const char *val, void *param)
+static int set_kernal_revision(int val, void *param)
 {
-    util_string_set(&kernal_revision, val);
+    if(!c64rom_isloaded()) {
+        return 0;
+    }
+    if ((val != -1) && (patch_rom_idx(val) < 0)) {
+        kernal_revision = -1;
+    } else {
+        kernal_revision = val;
+    }
+    memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
     return 0;
 }
 
@@ -229,8 +240,6 @@ static const resource_string_t resources_string[] = {
     { "BasicName", "basic", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &basic_rom_name, set_basic_rom_name, NULL },
-    { "KernalRev", "", RES_EVENT_SAME, NULL,
-      &kernal_revision, set_kernal_revision, NULL },
 #ifdef COMMON_KBD
     { "KeymapSymFile", KBD_C64_SYM_US, RES_EVENT_NO, NULL,
       &machine_keymap_file_list[0],
@@ -256,6 +265,8 @@ static const resource_int_t resources_int[] = {
       &cia1_model, set_cia1_model, NULL },
     { "CIA2Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia2_model, set_cia2_model, NULL },
+    { "KernalRev", C64_KERNAL_REV3, RES_EVENT_SAME, NULL,
+      &kernal_revision, set_kernal_revision, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_C64_DEFAULT, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },
@@ -289,7 +300,6 @@ void c64_resources_shutdown(void)
     lib_free(chargen_rom_name);
     lib_free(basic_rom_name);
     lib_free(kernal_rom_name);
-    lib_free(kernal_revision);
     lib_free(machine_keymap_file_list[0]);
     lib_free(machine_keymap_file_list[1]);
     lib_free(machine_keymap_file_list[2]);

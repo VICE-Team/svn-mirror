@@ -34,7 +34,6 @@ extern void scpu64_resources_shutdown(void);
 extern void scpu64_resources_update_cia_models(int model);
 
 extern int acia_de_enabled;
-extern char *kernal_revision;
 extern int cia1_model;
 extern int cia2_model;
 

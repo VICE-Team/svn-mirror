@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "c64model.h"
+#include "c64-resources.h"
 #include "cartridge.h"
 #include "cia.h"
 #include "debug.h"
@@ -269,6 +270,19 @@ static ui_menu_entry_t set_iecreset_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_RADIO(KernalRev)
+
+static ui_menu_entry_t set_kernalrev_submenu[] = {
+    { N_("Rev 1"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_KernalRev, (ui_callback_data_t)C64_KERNAL_REV1, NULL },
+    { N_("Rev 2"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_KernalRev, (ui_callback_data_t)C64_KERNAL_REV2, NULL },
+    { N_("Rev 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_KernalRev, (ui_callback_data_t)C64_KERNAL_REV3, NULL },
+    { N_("SX-64"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_KernalRev, (ui_callback_data_t)C64_KERNAL_SX64, NULL },
+    { N_("4064"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_KernalRev, (ui_callback_data_t)C64_KERNAL_4064, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("other"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_KernalRev, (ui_callback_data_t)C64_KERNAL_UNKNOWN, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t c64_model_submenu[] = {
     { N_("C64 model"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_c64_model_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -277,6 +291,7 @@ static ui_menu_entry_t c64_model_submenu[] = {
     { N_("CIA 1 model"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_cia1model_submenu },
     { N_("CIA 2 model"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_cia2model_submenu },
     { N_("Reset goes to IEC"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_iecreset_submenu },
+    { N_("Kernal Revision"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_kernalrev_submenu },
     { NULL }
 };
 
