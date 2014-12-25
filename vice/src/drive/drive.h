@@ -260,7 +260,6 @@ typedef struct drive_s {
 
     /* RTC context */
     rtc_ds1216e_t *ds1216;
-    time_t rtc_offset;
 
     /* Drive ROM starts here.  */
     WORD rom_start;

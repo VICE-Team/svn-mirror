@@ -104,7 +104,7 @@ rtc_bq4830y_t *bq4830y_init(char *device)
 
 void bq4830y_destroy(rtc_bq4830y_t *context)
 {
-    rtc_save_context(context->ram, BQ4830Y_RAM_SIZE, context->clock_regs, BQ4830Y_REG_SIZE, context->device);
+    rtc_save_context(context->ram, BQ4830Y_RAM_SIZE, context->clock_regs, BQ4830Y_REG_SIZE, context->device, context->offset);
     lib_free(context->ram);
     lib_free(context->device);
     lib_free(context);

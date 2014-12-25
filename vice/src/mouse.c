@@ -113,8 +113,6 @@ static int update_limit = 512;
 static int last_mouse_x = 0;
 static int last_mouse_y = 0;
 static rtc_ds1202_1302_t *ds1202; /* smartmouse */
-static time_t rtc_offset;
-static char smart_ram[65];
 
 /*
     note: for the expected behaviour look at testprogs/SID/paddles/readme.txt
@@ -685,9 +683,7 @@ void mouse_init(void)
     neosmouse_alarm = alarm_new(maincpu_alarm_context, "NEOSMOUSEAlarm", neosmouse_alarm_handler, NULL);
     mousedrv_init();
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
-    rtc_offset = (time_t)0; /* TODO: offset */
-    memset(smart_ram, 0, sizeof(smart_ram));
-    ds1202 = ds1202_1302_init((BYTE *)smart_ram, &rtc_offset, 1202);
+    ds1202 = ds1202_1302_init("SM", 1202);
 }
 
 void mouse_shutdown(void)

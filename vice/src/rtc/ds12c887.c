@@ -219,20 +219,28 @@ void ds12c887_reset(rtc_ds12c887_t *context)
     context->end_of_update_flag = 0;
 }
 
-rtc_ds12c887_t *ds12c887_init(BYTE *data, time_t *offset)
+rtc_ds12c887_t *ds12c887_init(char *device)
 {
+    BYTE *ram = lib_malloc(DS12C887_RAM_SIZE);
     rtc_ds12c887_t *retval = lib_malloc(sizeof(rtc_ds12c887_t));
 
     memset(retval, 0, sizeof(rtc_ds12c887_t));
-    retval->ram = data;
-    retval->offset = offset;
+    memset(ram, 0, DS12C887_RAM_SIZE);
+
+    retval->ram = ram;
+    retval->offset = 0;
     retval->bcd = 1;
     retval->ctrl_regs[0] = 0x20;
+    retval->device = lib_stralloc(device);
+
     return retval;
 }
 
 void ds12c887_destroy(rtc_ds12c887_t *context)
 {
+    rtc_save_context(context->ram, DS12C887_RAM_SIZE, context->clock_regs, DS12C887_REG_SIZE, context->device, context->offset);
+    lib_free(context->ram);
+    lib_free(context->device);
     lib_free(context);
 }
 
@@ -342,7 +350,7 @@ static void ds12c887_write_clock_byte(rtc_ds12c887_t *context, BYTE address, BYT
             if (context->clock_halt) {
                 context->clock_halt_latch = rtc_set_latched_second(val, context->clock_halt_latch, context->bcd);
             } else {
-                context->offset[0] = rtc_set_second(val, context->offset[0], context->bcd);
+                context->offset = rtc_set_second(val, context->offset, context->bcd);
             }
             break;
         case DS12C887_REG_MINUTES:
@@ -351,7 +359,7 @@ static void ds12c887_write_clock_byte(rtc_ds12c887_t *context, BYTE address, BYT
             if (context->clock_halt) {
                 context->clock_halt_latch = rtc_set_latched_minute(val, context->clock_halt_latch, context->bcd);
             } else {
-                context->offset[0] = rtc_set_minute(val, context->offset[0], context->bcd);
+                context->offset = rtc_set_minute(val, context->offset, context->bcd);
             }
             break;
         case DS12C887_REG_HOURS:
@@ -398,7 +406,7 @@ static void ds12c887_write_clock_byte(rtc_ds12c887_t *context, BYTE address, BYT
             if (context->clock_halt) {
                 context->clock_halt_latch = rtc_set_latched_hour(val, context->clock_halt_latch, 0);
             } else {
-                context->offset[0] = rtc_set_hour(val, context->offset[0], 0);
+                context->offset = rtc_set_hour(val, context->offset, 0);
             }
             break;
         case DS12C887_REG_DAY_OF_WEEK:
@@ -408,7 +416,7 @@ static void ds12c887_write_clock_byte(rtc_ds12c887_t *context, BYTE address, BYT
             if (context->clock_halt) {
                 context->clock_halt_latch = rtc_set_latched_weekday(val, context->clock_halt_latch);
             } else {
-                context->offset[0] = rtc_set_weekday(val, context->offset[0]);
+                context->offset = rtc_set_weekday(val, context->offset);
             }
             break;
         case DS12C887_REG_DAY_OF_MONTH:
@@ -417,7 +425,7 @@ static void ds12c887_write_clock_byte(rtc_ds12c887_t *context, BYTE address, BYT
             if (context->clock_halt) {
                 context->clock_halt_latch = rtc_set_latched_day_of_month(val, context->clock_halt_latch, context->bcd);
             } else {
-                context->offset[0] = rtc_set_day_of_month(val, context->offset[0], context->bcd);
+                context->offset = rtc_set_day_of_month(val, context->offset, context->bcd);
             }
             break;
         case DS12C887_REG_MONTHS:
@@ -426,7 +434,7 @@ static void ds12c887_write_clock_byte(rtc_ds12c887_t *context, BYTE address, BYT
             if (context->clock_halt) {
                 context->clock_halt_latch = rtc_set_latched_month(val, context->clock_halt_latch, context->bcd);
             } else {
-                context->offset[0] = rtc_set_month(val, context->offset[0], context->bcd);
+                context->offset = rtc_set_month(val, context->offset, context->bcd);
             }
             break;
         case DS12C887_REG_YEARS:
@@ -434,7 +442,7 @@ static void ds12c887_write_clock_byte(rtc_ds12c887_t *context, BYTE address, BYT
             if (context->clock_halt) {
                 context->clock_halt_latch = rtc_set_latched_year(data, context->clock_halt_latch, context->bcd);
             } else {
-                context->offset[0] = rtc_set_year(data, context->offset[0], context->bcd);
+                context->offset = rtc_set_year(data, context->offset, context->bcd);
             }
             break;
         case DS12C887_REG_CENTURIES:
@@ -444,7 +452,7 @@ static void ds12c887_write_clock_byte(rtc_ds12c887_t *context, BYTE address, BYT
                 if (context->clock_halt) {
                     context->clock_halt_latch = rtc_set_latched_century(val, context->clock_halt_latch, 1);
                 } else {
-                    context->offset[0] = rtc_set_century(val, context->offset[0], 1);
+                    context->offset = rtc_set_century(val, context->offset, 1);
                 }
             }
             break;
@@ -481,7 +489,7 @@ int ds12c887_update_flags(rtc_ds12c887_t *context)
     if (context->clock_halt) {
         latch = context->clock_halt_latch;
     } else {
-        latch = rtc_get_latch(context->offset[0]);
+        latch = rtc_get_latch(context->offset);
     }
 
     /* get current second */
@@ -640,12 +648,12 @@ void ds12c887_store_data(rtc_ds12c887_t *context, BYTE data)
             data &= 0x7f;
             if ((data & 0x70) != 0x20) {
                 if (!context->clock_halt) {
-                    context->clock_halt_latch = rtc_get_latch(context->offset[0]);
+                    context->clock_halt_latch = rtc_get_latch(context->offset);
                     context->clock_halt = 1;
                 }
             } else {
                 if (context->clock_halt) {
-                    context->offset[0] = context->offset[0] - (rtc_get_latch(0) - (context->clock_halt_latch - context->offset[0]));
+                    context->offset = context->offset - (rtc_get_latch(0) - (context->clock_halt_latch - context->offset));
                     context->clock_halt = 0;
                 }
             }
@@ -657,7 +665,7 @@ void ds12c887_store_data(rtc_ds12c887_t *context, BYTE data)
                 if (!context->set) {
                     context->set = 1;
                     context->ctrl_regs[1] &= 0xef;
-                    context->set_latch = (context->clock_halt) ? context->clock_halt_latch : rtc_get_latch(context->offset[0]);
+                    context->set_latch = (context->clock_halt) ? context->clock_halt_latch : rtc_get_latch(context->offset);
                     for (i = 0; i < 11; i++) {
                         context->clock_regs_changed[i] = 0;
                     }
@@ -700,7 +708,7 @@ BYTE ds12c887_read(rtc_ds12c887_t *context)
             latch = context->clock_halt_latch;
         }
     } else {
-        latch = rtc_get_latch(context->offset[0]);
+        latch = rtc_get_latch(context->offset);
     }
 
     switch (context->reg) {

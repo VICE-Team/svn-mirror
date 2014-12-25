@@ -36,7 +36,8 @@ typedef struct rtc_58321a_s {
     int hour24;
     BYTE address;
     time_t latch;
-    time_t *offset;
+    time_t offset;
+    char *device;
 } rtc_58321a_t;
 
 #define RTC58321A_REGISTER_SECONDS       0
@@ -56,7 +57,7 @@ typedef struct rtc_58321a_s {
 #define RTC58321A_REGISTER_SS0           14
 #define RTC58321A_REGISTER_SS1           15
 
-extern rtc_58321a_t *rtc58321a_init(time_t *offset);
+extern rtc_58321a_t *rtc58321a_init(char *device);
 extern void rtc58321a_destroy(rtc_58321a_t *context);
 
 extern BYTE rtc58321a_read(rtc_58321a_t *context);

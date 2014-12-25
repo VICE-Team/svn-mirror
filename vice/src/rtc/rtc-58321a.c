@@ -89,18 +89,21 @@
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-rtc_58321a_t *rtc58321a_init(time_t *offset)
+rtc_58321a_t *rtc58321a_init(char *device)
 {
     rtc_58321a_t *retval = lib_malloc(sizeof(rtc_58321a_t));
     memset(retval, 0, sizeof(rtc_58321a_t));
-    retval->offset = offset;
+    retval->offset = 0;
     retval->hour24 = 1;
+    retval->device = lib_stralloc(device);
 
     return retval;
 }
 
 void rtc58321a_destroy(rtc_58321a_t *context)
 {
+    rtc_save_context(NULL, 0, NULL, 0, context->device, context->offset);
+    lib_free(context->device);
     lib_free(context);
 }
 
@@ -109,7 +112,7 @@ void rtc58321a_destroy(rtc_58321a_t *context)
 BYTE rtc58321a_read(rtc_58321a_t *context)
 {
     BYTE retval = 0;
-    time_t latch = (context->stop) ? context->latch : rtc_get_latch(context->offset[0]);
+    time_t latch = (context->stop) ? context->latch : rtc_get_latch(context->offset);
 
     switch (context->address) {
         case RTC58321A_REGISTER_SECONDS:
@@ -194,7 +197,7 @@ void rtc58321a_write_address(rtc_58321a_t *context, BYTE address)
 
 void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
 {
-    time_t latch = (context->stop) ? context->latch : rtc_get_latch(context->offset[0]);
+    time_t latch = (context->stop) ? context->latch : rtc_get_latch(context->offset);
     BYTE real_data = data & 0xf;
     BYTE new_data;
 
@@ -207,7 +210,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             if (context->stop) {
                 context->latch = rtc_set_latched_second(new_data, latch, 0);
             } else {
-                context->offset[0] = rtc_set_second(new_data, context->offset[0], 0);
+                context->offset = rtc_set_second(new_data, context->offset, 0);
             }
             break;
         case RTC58321A_REGISTER_10SECONDS:
@@ -217,7 +220,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             if (context->stop) {
                 context->latch = rtc_set_latched_second(new_data, latch, 0);
             } else {
-                context->offset[0] = rtc_set_second(new_data, context->offset[0], 0);
+                context->offset = rtc_set_second(new_data, context->offset, 0);
             }
             break;
         case RTC58321A_REGISTER_MINUTES:
@@ -228,7 +231,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             if (context->stop) {
                 context->latch = rtc_set_latched_minute(new_data, latch, 0);
             } else {
-                context->offset[0] = rtc_set_minute(new_data, context->offset[0], 0);
+                context->offset = rtc_set_minute(new_data, context->offset, 0);
             }
             break;
         case RTC58321A_REGISTER_10MINUTES:
@@ -238,7 +241,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             if (context->stop) {
                 context->latch = rtc_set_latched_minute(new_data, latch, 0);
             } else {
-                context->offset[0] = rtc_set_minute(new_data, context->offset[0], 0);
+                context->offset = rtc_set_minute(new_data, context->offset, 0);
             }
             break;
         case RTC58321A_REGISTER_HOURS:
@@ -250,7 +253,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
                 if (context->stop) {
                     context->latch = rtc_set_latched_hour(new_data, latch, 0);
                 } else {
-                    context->offset[0] = rtc_set_hour(new_data, context->offset[0], 0);
+                    context->offset = rtc_set_hour(new_data, context->offset, 0);
                 }
             } else {
                 new_data = rtc_get_hour_am_pm(latch, 0);
@@ -267,7 +270,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
                 if (context->stop) {
                     context->latch = rtc_set_latched_hour_am_pm(new_data, latch, 0);
                 } else {
-                    context->offset[0] = rtc_set_hour_am_pm(new_data, context->offset[0], 0);
+                    context->offset = rtc_set_hour_am_pm(new_data, context->offset, 0);
                 }
             }
             break;
@@ -280,7 +283,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
                 if (context->stop) {
                     context->latch = rtc_set_latched_hour(new_data, latch, 0);
                 } else {
-                    context->offset[0] = rtc_set_hour(new_data, context->offset[0], 0);
+                    context->offset = rtc_set_hour(new_data, context->offset, 0);
                 }
             } else {
                 real_data &= 7;
@@ -297,7 +300,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
                 if (context->stop) {
                     context->latch = rtc_set_latched_hour_am_pm(new_data, latch, 0);
                 } else {
-                    context->offset[0] = rtc_set_hour_am_pm(new_data, context->offset[0], 0);
+                    context->offset = rtc_set_hour_am_pm(new_data, context->offset, 0);
                 }
             }
             break;
@@ -305,7 +308,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             if (context->stop) {
                 context->latch = rtc_set_latched_weekday(((real_data + 1) & 7), latch);
             } else {
-                context->offset[0] = rtc_set_weekday(((real_data + 1) & 7), context->offset[0]);
+                context->offset = rtc_set_weekday(((real_data + 1) & 7), context->offset);
             }
             break;
         case RTC58321A_REGISTER_MONTHDAYS:
@@ -316,7 +319,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             if (context->stop) {
                 context->latch = rtc_set_latched_day_of_month(new_data, latch, 0);
             } else {
-                context->offset[0] = rtc_set_day_of_month(new_data, context->offset[0], 0);
+                context->offset = rtc_set_day_of_month(new_data, context->offset, 0);
             }
             break;
         case RTC58321A_REGISTER_10MONTHDAYS:
@@ -326,7 +329,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             if (context->stop) {
                 context->latch = rtc_set_latched_day_of_month(new_data, latch, 0);
             } else {
-                context->offset[0] = rtc_set_day_of_month(new_data, context->offset[0], 0);
+                context->offset = rtc_set_day_of_month(new_data, context->offset, 0);
             }
             break;
         case RTC58321A_REGISTER_MONTHS:
@@ -337,7 +340,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             if (context->stop) {
                 context->latch = rtc_set_latched_month(new_data, latch, 0);
             } else {
-                context->offset[0] = rtc_set_month(new_data, context->offset[0], 0);
+                context->offset = rtc_set_month(new_data, context->offset, 0);
             }
             break;
         case RTC58321A_REGISTER_10MONTHS:
@@ -347,7 +350,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             if (context->stop) {
                 context->latch = rtc_set_latched_month(new_data, latch, 0);
             } else {
-                context->offset[0] = rtc_set_month(new_data, context->offset[0], 0);
+                context->offset = rtc_set_month(new_data, context->offset, 0);
             }
             break;
         case RTC58321A_REGISTER_YEARS:
@@ -358,7 +361,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             if (context->stop) {
                 context->latch = rtc_set_latched_year(new_data, latch, 0);
             } else {
-                context->offset[0] = rtc_set_year(new_data, context->offset[0], 0);
+                context->offset = rtc_set_year(new_data, context->offset, 0);
             }
             break;
         case RTC58321A_REGISTER_10YEARS:
@@ -368,7 +371,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             if (context->stop) {
                 context->latch = rtc_set_latched_year(new_data, latch, 0);
             } else {
-                context->offset[0] = rtc_set_year(new_data, context->offset[0], 0);
+                context->offset = rtc_set_year(new_data, context->offset, 0);
             }
             break;
     }
@@ -378,7 +381,7 @@ void rtc58321_stop_clock(rtc_58321a_t *context)
 {
     if (!context->stop) {
         context->stop = 1;
-        context->latch = rtc_get_latch(context->offset[0]);
+        context->latch = rtc_get_latch(context->offset);
     }
 }
 
@@ -386,6 +389,6 @@ void rtc58321_start_clock(rtc_58321a_t *context)
 {
     if (context->stop) {
         context->stop = 0;
-        context->offset[0] = context->offset[0] - (rtc_get_latch(0) - (context->latch - context->offset[0]));
+        context->offset = context->offset - (rtc_get_latch(0) - (context->latch - context->offset));
     }
 }

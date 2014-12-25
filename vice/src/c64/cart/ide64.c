@@ -690,6 +690,11 @@ int ide64_resources_shutdown(void)
         }
         drives[i].filename = NULL;
     }
+
+    if (ds1302_context) {
+        ds1202_1302_destroy(ds1302_context);
+    }
+
     return 0;
 }
 
@@ -1327,7 +1332,7 @@ static int ide64_common_attach(BYTE *rawcart, int detect)
     int i;
 
     idebus = 0;
-    ds1302_context = ds1202_1302_init((BYTE *)ide64_DS1302, &rtc_offset, 1302);
+    ds1302_context = ds1202_1302_init("IDE64", 1302);
 
     if (detect) {
         for (i = 0x1e60; i < 0x1efd; i++) {

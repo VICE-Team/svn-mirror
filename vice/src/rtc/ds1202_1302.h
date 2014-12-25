@@ -31,6 +31,9 @@
 
 #include "types.h"
 
+#define DS1202_1302_RAM_SIZE   32
+#define DS1202_1302_REG_SIZE   8
+
 typedef struct rtc_ds1202_1302_s {
     int rtc_type;
     int clock_halt;
@@ -38,8 +41,8 @@ typedef struct rtc_ds1202_1302_s {
     int am_pm;
     int write_protect;
     time_t latch;
-    time_t *offset;
-    BYTE clock_regs[8];
+    time_t offset;
+    BYTE clock_regs[DS1202_1302_REG_SIZE];
     BYTE trickle_charge;
     BYTE *ram;
     BYTE state;
@@ -49,6 +52,7 @@ typedef struct rtc_ds1202_1302_s {
     BYTE io_byte;
     BYTE sclk_line;
     BYTE clock_register;
+    char *device;
 } rtc_ds1202_1302_t;
 
 #define DS1202_1302_REG_SECONDS_CH       0
@@ -70,7 +74,7 @@ typedef struct rtc_ds1202_1302_s {
 #define DS1202_1302_OUTPUT_BURST_DATA_BITS    4
 
 extern void ds1202_1302_reset(rtc_ds1202_1302_t *context);
-extern rtc_ds1202_1302_t *ds1202_1302_init(BYTE *data, time_t *offset, int rtc_type);
+extern rtc_ds1202_1302_t *ds1202_1302_init(char *device, int rtc_type);
 extern void ds1202_1302_destroy(rtc_ds1202_1302_t *context);
 
 extern void ds1202_1302_set_lines(rtc_ds1202_1302_t *context, unsigned int ce_line, unsigned int sclk_line, unsigned int input_bit);

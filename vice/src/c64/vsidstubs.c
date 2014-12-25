@@ -181,7 +181,7 @@ void printer_formfeed(unsigned int prnr)
 *******************************************************************************/
 
 /* FIXME: this stub can be removed once the drive code has been stubbed */
-rtc_ds1216e_t *ds1216e_init(time_t *offset)
+rtc_ds1216e_t *ds1216e_init(char *device)
 {
     return NULL;
 }
@@ -196,7 +196,7 @@ BYTE ds1216e_read(rtc_ds1216e_t *context, WORD address, BYTE origbyte)
     return 0;
 }
 
-rtc_ds1202_1302_t *ds1202_1302_init(BYTE *data, time_t *offset, int rtc_type)
+rtc_ds1202_1302_t *ds1202_1302_init(char *device, int rtc_type)
 {
     return NULL;
 }

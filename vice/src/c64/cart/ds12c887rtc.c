@@ -102,14 +102,6 @@ static c64export_resource_t export_res = {
 /* ds12c887 context */
 static rtc_ds12c887_t *ds12c887rtc_context = NULL;
 
-/* ds12c887 offset */
-/* FIXME: Implement saving/setting/loading of the offset */
-static time_t ds12c887rtc_offset = 0;
-
-/* rtc ram */
-/* FIXME: Implement saving/loading of the ram */
-static char ds12c887rtc_ram[128];
-
 /* ---------------------------------------------------------------------*/
 
 int ds12c887rtc_cart_enabled(void)
@@ -138,7 +130,7 @@ static int set_ds12c887rtc_enabled(int value, void *param)
             }
         }
         ds12c887rtc_list_item = io_source_register(&ds12c887rtc_device);
-        ds12c887rtc_context = ds12c887_init((BYTE *)ds12c887rtc_ram, &ds12c887rtc_offset);
+        ds12c887rtc_context = ds12c887_init("DS12C887");
         if (runmode == RTC_RUNMODE_HALTED) {
             ds12c887rtc_context->clock_halt_latch = rtc_get_latch(0);
             ds12c887rtc_context->clock_halt = 1;

@@ -44,10 +44,6 @@ int userport_rtc_enabled = 0;
 /* rtc context */
 static rtc_58321a_t *rtc58321a_context = NULL;
 
-/* rtc offset */
-/* FIXME: Implement saving/setting/loading of the offset */
-static time_t rtc58321a_offset = 0;
-
 static int read_line_active = 0;
 
 /* ------------------------------------------------------------------------- */
@@ -61,7 +57,7 @@ static int set_userport_rtc_enabled(int value, void *param)
     }
 
     if (val) {
-        rtc58321a_context = rtc58321a_init(&rtc58321a_offset);
+        rtc58321a_context = rtc58321a_init("USER");
     } else {
         rtc58321a_destroy(rtc58321a_context);
         rtc58321a_context = NULL;

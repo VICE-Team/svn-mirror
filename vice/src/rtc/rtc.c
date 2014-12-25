@@ -719,38 +719,164 @@ static int rtc_is_empty(BYTE *array, int size)
     return 1;
 }
 
-void rtc_save_context(BYTE *ram, int ram_size, BYTE *regs, int reg_size, char *device)
+static void rtc_write_data(FILE *outfile, BYTE *ram, int ram_size, BYTE *regs, int reg_size, char *device, time_t offset)
 {
-    FILE *outfile = NULL;
-    char *filename;
     char *ram_string = NULL;
     char *reg_string = NULL;
 
-    filename = archdep_default_rtc_file_name();
-
-    outfile = fopen(filename, "w");
-    if (outfile) {
-        fprintf(outfile, "[%s]\n", machine_name);
-        fprintf(outfile, "(%s)\n", device);
+    fprintf(outfile, "[%s]\n", machine_name);
+    fprintf(outfile, "(%s)\n", device);
+    fprintf(outfile, "{%d}\n", offset);
+    if (ram_size) {
         if (rtc_is_empty(ram, ram_size)) {
-            fprintf(outfile, "x\n");
+            fprintf(outfile, "<x>\n");
         } else {
             ram_string = rtc_ram_to_string(ram, ram_size);
-            fprintf(outfile, "\"%s\"\n", ram_string);
+            fprintf(outfile, "<%s>\n", ram_string);
         }
+    } else {
+        fprintf(outfile, "<x>\n");
+    }
+    if (reg_size) {
         if (rtc_is_empty(regs, reg_size)) {
-            fprintf(outfile, "x\n");
+            fprintf(outfile, "\"x\"\n\n");
         } else {
             reg_string = rtc_ram_to_string(regs, reg_size);
-            fprintf(outfile, "\"%s\"\n", reg_string);
+            fprintf(outfile, "\"%s\"\n\n", reg_string);
         }
-        fclose(outfile);
+    } else {
+        fprintf(outfile, "\"x\"\n");
     }
     if (ram_string) {
         lib_free(ram_string);
     }
     if (reg_string) {
         lib_free(reg_string);
+    }
+}
+
+static void rtc_write_direct(FILE *outfile, char *ram, char *regs, char *emulator, char *device, char *offset)
+{
+    fprintf(outfile, "[%s]\n", emulator);
+    fprintf(outfile, "(%s)\n", device);
+    fprintf(outfile, "{%s}\n", offset);
+    fprintf(outfile, "<%s>\n", ram);
+    fprintf(outfile, "\"%s\"\n\n", regs);
+}
+
+typedef struct rtc_item_s {
+    char *emulator;
+    char *device;
+    char *offset;
+    char *ram_data;
+    char *reg_data;
+} rtc_item_t;
+
+static rtc_item_t rtc_items[RTC_MAX];
+
+#define SEARCH_CHAR(x)                   \
+    while (buf[0] != 0 && buf[0] != x) { \
+        buf++;                           \
+    }                                    \
+    if (buf[0] == 0) {                   \
+        return 0;                        \
+    }
+
+static int rtc_parse_buffer(char *buffer)
+{
+    int i = 0;
+    char *buf = buffer;
+
+    while (buf[0]) {
+        SEARCH_CHAR('[')
+        buf++;
+        rtc_items[i].emulator = buf;
+        SEARCH_CHAR(']')
+        buf[0] = 0;
+        buf++;
+        SEARCH_CHAR('(')
+        buf++;
+        rtc_items[i].device = buf;
+        SEARCH_CHAR(')')
+        buf[0] = 0;
+        buf++;
+        SEARCH_CHAR('{')
+        buf++;
+        rtc_items[i].offset = buf;
+        SEARCH_CHAR('}')
+        buf[0] = 0;
+        buf++;
+        SEARCH_CHAR('<')
+        buf++;
+        rtc_items[i].ram_data = buf;
+        SEARCH_CHAR('>')
+        buf[0] = 0;
+        buf++;
+        SEARCH_CHAR('\"')
+        buf++;
+        rtc_items[i].reg_data = buf;
+        SEARCH_CHAR('\"')
+        buf[0] = 0;
+        buf++;
+        while (buf[0] != 0 && buf[0] != '[') {
+            buf++;
+        }
+        if (buf[0] == 0) {
+            rtc_items[i + 1].emulator = NULL;
+            return 1;
+        }
+        i++;
+        if (i >= RTC_MAX) {
+            return 0;
+        }
+    }
+    return 0;
+}
+
+void rtc_save_context(BYTE *ram, int ram_size, BYTE *regs, int reg_size, char *device, time_t offset)
+{
+    FILE *outfile = NULL;
+    FILE *infile = NULL;
+    char *filename;
+    char *indata = NULL;
+    size_t len = 0;
+    int ok = 0;
+    int i;
+
+    filename = archdep_default_rtc_file_name();
+
+    if (util_file_exists(filename)) {
+        infile = fopen(filename, "rb");
+        if (infile) {
+            len = util_file_length(infile);
+            indata = lib_malloc(len + 1);
+            memset(indata, 0, len + 1);
+            fread(indata, 1, len, infile);
+            fclose(infile);
+            ok = rtc_parse_buffer(indata);
+        }
+    }
+    outfile = fopen(filename, "wb");
+    if (outfile) {
+        if (ok) {
+            for (i = 0; rtc_items[i].emulator; i++) {
+                if (!strcmp(machine_name, rtc_items[i].emulator) && !strcmp(device, rtc_items[i].device)) {
+                    rtc_write_data(outfile, ram, ram_size, regs, reg_size, device, offset);
+                    ok = 0;
+                } else {
+                    rtc_write_direct(outfile, rtc_items[i].ram_data, rtc_items[i].reg_data, rtc_items[i].emulator, rtc_items[i].device, rtc_items[i].offset);
+                }
+            }
+            if (ok) {
+                rtc_write_data(outfile, ram, ram_size, regs, reg_size, device, offset);
+            }
+        } else {
+            rtc_write_data(outfile, ram, ram_size, regs, reg_size, device, offset);
+        }
+        fclose(outfile);
+    }
+    if (indata) {
+        lib_free(indata);
     }
     lib_free(filename);
 }
