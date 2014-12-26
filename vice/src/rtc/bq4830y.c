@@ -89,14 +89,28 @@
 
 rtc_bq4830y_t *bq4830y_init(char *device)
 {
-    BYTE *ram = lib_malloc(BQ4830Y_RAM_SIZE);
     rtc_bq4830y_t *retval = lib_malloc(sizeof(rtc_bq4830y_t));
+    BYTE *clockregs;
+    int loaded = rtc_load_context(device, BQ4830Y_RAM_SIZE, BQ4830Y_REG_SIZE);
+    int i;
 
     memset(retval, 0, sizeof(rtc_bq4830y_t));
-    memset(ram, 0, BQ4830Y_RAM_SIZE);
 
-    retval->ram = ram;
-    retval->offset = 0;
+    if (loaded) {
+        retval->ram = rtc_get_loaded_ram();
+        retval->offset = rtc_get_loaded_offset();
+        clockregs = rtc_get_loaded_clockregs();
+        for (i = 0; i < BQ4830Y_REG_SIZE; i++) {
+            retval->clock_regs[i] = clockregs[i];
+        }
+        lib_free(clockregs);
+    } else {
+        retval->ram = lib_malloc(BQ4830Y_RAM_SIZE);
+        memset(retval->ram, 0, BQ4830Y_RAM_SIZE);
+        retval->offset = 0;
+        memset(retval->clock_regs, 0, BQ4830Y_REG_SIZE);
+    }
+
     retval->device = lib_stralloc(device);
 
     return retval;

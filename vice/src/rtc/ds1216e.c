@@ -92,8 +92,24 @@
 rtc_ds1216e_t *ds1216e_init(char *device)
 {
     rtc_ds1216e_t *retval = lib_malloc(sizeof(rtc_ds1216e_t));
+    BYTE *clockregs;
+    int loaded = rtc_load_context(device, 0, DS1216E_REG_SIZE);
+    int i;
+
     memset(retval, 0, sizeof(rtc_ds1216e_t));
-    retval->offset = 0;
+
+    if (loaded) {
+        retval->offset = rtc_get_loaded_offset();
+        clockregs = rtc_get_loaded_clockregs();
+        for (i = 0; i < DS1216E_REG_SIZE; i++) {
+            retval->clock_regs[i] = clockregs[i];
+        }
+        lib_free(clockregs);
+    } else {
+        retval->offset = 0;
+        memset(retval->clock_regs, 0, DS1216E_REG_SIZE);
+    }
+
     retval->device = lib_stralloc(device);
 
     return retval;

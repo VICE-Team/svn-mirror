@@ -110,14 +110,28 @@ void ds1202_1302_reset(rtc_ds1202_1302_t *context)
 
 rtc_ds1202_1302_t *ds1202_1302_init(char *device, int rtc_type)
 {
-    BYTE *ram = lib_malloc(DS1202_1302_RAM_SIZE);
     rtc_ds1202_1302_t *retval = lib_malloc(sizeof(rtc_ds1202_1302_t));
+    BYTE *clockregs;
+    int loaded = rtc_load_context(device, DS1202_1302_RAM_SIZE, DS1202_1302_REG_SIZE);
+    int i;
 
     memset(retval, 0, sizeof(rtc_ds1202_1302_t));
-    memset(ram, 0, DS1202_1302_RAM_SIZE);
 
-    retval->ram = ram;
-    retval->offset = 0;
+    if (loaded) {
+        retval->ram = rtc_get_loaded_ram();
+        retval->offset = rtc_get_loaded_offset();
+        clockregs = rtc_get_loaded_clockregs();
+        for (i = 0; i < DS1202_1302_REG_SIZE; i++) {
+            retval->clock_regs[i] = clockregs[i];
+        }
+        lib_free(clockregs);
+    } else {
+        retval->ram = lib_malloc(DS1202_1302_RAM_SIZE);
+        memset(retval->ram, 0, DS1202_1302_RAM_SIZE);
+        retval->offset = 0;
+        memset(retval->clock_regs, 0, DS1202_1302_REG_SIZE);
+    }
+
     retval->rtc_type = rtc_type;
     retval->device = lib_stralloc(device);
 

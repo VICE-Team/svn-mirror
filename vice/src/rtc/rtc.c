@@ -880,3 +880,76 @@ void rtc_save_context(BYTE *ram, int ram_size, BYTE *regs, int reg_size, char *d
     }
     lib_free(filename);
 }
+
+static BYTE *loaded_ram = NULL;
+static BYTE *loaded_regs = NULL;
+static time_t loaded_offset = 0;
+
+int rtc_load_context(char *device, int ram_size, int reg_size)
+{
+    FILE *infile = NULL;
+    char *filename = archdep_default_rtc_file_name();
+    char *indata = NULL;
+    size_t len = 0;
+    int ok = 0;
+    int i;
+
+    loaded_ram = NULL;
+    loaded_regs = NULL;
+    loaded_offset = 0;
+
+    if (util_file_exists(filename)) {
+        infile = fopen(filename, "rb");
+        if (infile) {
+            len = util_file_length(infile);
+            indata = lib_malloc(len + 1);
+            memset(indata, 0, len + 1);
+            fread(indata, 1, len, infile);
+            fclose(infile);
+            ok = rtc_parse_buffer(indata);
+            if (!ok) {
+                lib_free(indata);
+                return 0;
+            }
+            for (i = 0; rtc_items[i].emulator; i++) {
+                if (!strcmp(machine_name, rtc_items[i].emulator) && !strcmp(device, rtc_items[i].device)) {
+                    if (ram_size) {
+                        if (rtc_items[i].ram_data[0] == 'x') {
+                            loaded_ram = lib_malloc(ram_size);
+                            memset(loaded_ram, 0, ram_size);
+                        } else {
+                            loaded_ram = rtc_string_to_ram(rtc_items[i].ram_data, ram_size);
+                        }
+                    }
+                    if (reg_size) {
+                        if (rtc_items[i].reg_data[0] == 'x') {
+                            loaded_regs = lib_malloc(reg_size);
+                            memset(loaded_regs, 0, reg_size);
+                        } else {
+                            loaded_regs = rtc_string_to_ram(rtc_items[i].reg_data, reg_size);
+                        }
+                    }
+                    loaded_offset = atoi(rtc_items[i].offset);
+                }
+            }
+            lib_free(indata);
+            return 1;
+        }
+    }
+    return 0;
+}
+
+BYTE *rtc_get_loaded_ram(void)
+{
+    return loaded_ram;
+}
+
+BYTE *rtc_get_loaded_clockregs(void)
+{
+    return loaded_regs;
+}
+
+time_t rtc_get_loaded_offset(void)
+{
+    return loaded_offset;
+}

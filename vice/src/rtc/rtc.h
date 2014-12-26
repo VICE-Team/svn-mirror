@@ -86,5 +86,9 @@ extern time_t rtc_set_latched_weekday(int day, time_t latch);                 /*
 extern time_t rtc_set_latched_day_of_year(int day, time_t latch);             /* 0 - 365 */
 
 extern void rtc_save_context(BYTE *ram, int ram_size, BYTE *regs, int reg_size, char *device, time_t offset);
+extern int rtc_load_context(char *device, int ram_size, int reg_size);
+extern BYTE *rtc_get_loaded_ram(void);
+extern time_t rtc_get_loaded_offset(void);
+extern BYTE *rtc_get_loaded_clockregs(void);
 
 #endif
