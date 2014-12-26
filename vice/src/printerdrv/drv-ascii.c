@@ -50,6 +50,24 @@ static ascii_t drv_ascii[NUM_OUTPUT_SELECT];
 
 static log_t drv_ascii_log = LOG_ERR;
 
+/*
+* a unix line ending is "LF", ie: 0x0a / "\n"
+* a win/dos line ending is "CRLF", ie: 0x0d, 0x0a / "\r\n"
+*/
+static int print_lineend(ascii_t *ascii, unsigned int prnr)
+{
+    ascii->pos = 0;
+#ifdef ARCHDEP_PRINTER_RETURN_BEFORE_NEWLINE
+    if (output_select_putc(prnr, '\r') < 0) {
+        return -1;
+    }
+#endif
+    if (output_select_putc(prnr, '\n') < 0) {
+        return -1;
+    }
+    return 0;
+}
+
 static int print_char(ascii_t *ascii, unsigned int prnr, BYTE c)
 {
     BYTE asc;
@@ -97,30 +115,21 @@ static int print_char(ascii_t *ascii, unsigned int prnr, BYTE c)
 
     asc = charset_p_toascii(c, 0);
 
-    if (output_select_putc(prnr, asc) < 0) {
-        return -1;
-    }
-    ascii->pos++;
-
     if (asc == '\n') {
-        ascii->pos = 0;
-#ifdef ARCHDEP_PRINTER_RETURN_BEFORE_NEWLINE
-        if (output_select_putc(prnr, '\r') < 0) {
+        if (print_lineend(ascii, prnr) < 0) {
             return -1;
         }
-#endif
+    } else {
+        if (output_select_putc(prnr, asc) < 0) {
+            return -1;
+        }
+        ascii->pos++;
     }
 
     if (ascii->pos == CHARSPERLINE) {
-        ascii->pos = 0;
-        if (output_select_putc(prnr, '\n') < 0) {
+        if (print_lineend(ascii, prnr) < 0) {
             return -1;
         }
-#ifdef ARCHDEP_PRINTER_RETURN_BEFORE_NEWLINE
-        if (output_select_putc(prnr, '\r') < 0) {
-            return -1;
-        }
-#endif
     }
 
     return 0;
