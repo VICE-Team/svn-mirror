@@ -930,10 +930,15 @@ int rtc_load_context(char *device, int ram_size, int reg_size)
                         }
                     }
                     loaded_offset = atoi(rtc_items[i].offset);
+                    ok = 0;
                 }
             }
             lib_free(indata);
-            return 1;
+            if (ok) {
+                return 0;
+            } else {
+                return 1;
+            }
         }
     }
     return 0;
