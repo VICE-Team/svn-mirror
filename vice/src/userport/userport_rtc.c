@@ -59,8 +59,10 @@ static int set_userport_rtc_enabled(int value, void *param)
     if (val) {
         rtc58321a_context = rtc58321a_init("USER");
     } else {
-        rtc58321a_destroy(rtc58321a_context);
-        rtc58321a_context = NULL;
+        if (rtc58321a_context) {
+            rtc58321a_destroy(rtc58321a_context);
+            rtc58321a_context = NULL;
+        }
     }
 
     userport_rtc_enabled = val;

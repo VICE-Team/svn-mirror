@@ -87,7 +87,7 @@ static int set_internal_function_rom_enabled(int val, void *param)
             return -1;
     }
 
-    if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
+    if (internal_function_rom_enabled == INT_FUNCTION_RTC && rtc1_context) {
         bq4830y_destroy(rtc1_context);
         rtc1_context = NULL;
     }
@@ -131,7 +131,7 @@ static int set_external_function_rom_enabled(int val, void *param)
             return -1;
     }
 
-    if (external_function_rom_enabled == EXT_FUNCTION_RTC) {
+    if (external_function_rom_enabled == EXT_FUNCTION_RTC && rtc2_context) {
         bq4830y_destroy(rtc2_context);
         rtc2_context = NULL;
     }
@@ -193,9 +193,11 @@ void functionrom_resources_shutdown(void)
 {
     if (rtc1_context) {
         bq4830y_destroy(rtc1_context);
+        rtc1_context = NULL;
     }
     if (rtc2_context) {
         bq4830y_destroy(rtc2_context);
+        rtc2_context = NULL;
     }
     lib_free(internal_function_rom_name);
     lib_free(external_function_rom_name);

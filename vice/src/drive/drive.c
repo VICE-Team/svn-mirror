@@ -289,7 +289,10 @@ void drive_shutdown(void)
             P64ImageDestroy(drive_context[dnr]->drive->p64);
             lib_free(drive_context[dnr]->drive->p64);
         }
-        ds1216e_destroy(drive_context[dnr]->drive->ds1216);
+        if (drive_context[dnr]->drive->ds1216) {
+            ds1216e_destroy(drive_context[dnr]->drive->ds1216);
+            drive_context[dnr]->drive->ds1216 = NULL;
+        }
     }
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {

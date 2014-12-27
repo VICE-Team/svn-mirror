@@ -188,7 +188,7 @@ static void init_ide64_dialog(HWND hwnd, int num)
     CheckDlgButton(hwnd, IDC_TOGGLE_IDE64_SIZEAUTODETECT, res_value ? BST_CHECKED : BST_UNCHECKED);
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_CYLINDERS);
-    for (index = 1; index <= 1024; index++) {
+    for (index = 1; index <= 65535; index++) {
         _stprintf(memb, TEXT("%d"), index);
         SendMessage(ide64_hwnd, CB_ADDSTRING, 0, (LPARAM)memb);
     }

@@ -80,7 +80,7 @@ static UI_CALLBACK(set_cylinders)
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
-            if (cylinders > 0 && cylinders <= 1024 && cylinders != i) {
+            if (cylinders > 0 && cylinders <= 65535 && cylinders != i) {
                 resources_set_int_sprintf("IDE64Cylinders%i", i, num);
                 ui_update_menus();
             }

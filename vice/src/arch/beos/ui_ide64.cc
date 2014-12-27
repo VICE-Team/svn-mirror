@@ -169,8 +169,8 @@ void IDE64Window::MessageReceived(BMessage *msg)
             temp = atoi(cylinderstextcontrol->Text());
             if (temp < 1) {
                 cylinders = 1;
-            } else if (temp > 1024) {
-                cylinders = 1024;
+            } else if (temp > 65535) {
+                cylinders = 65535;
             } else {
                 cylinders = temp;
             }

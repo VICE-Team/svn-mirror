@@ -57,8 +57,8 @@ static TUI_MENU_CALLBACK(ui_set_cylinders_callback)
 
         if (tui_input_string("Cylinders", "Enter the amount of cylinders (1-1024):", buf, 10) == 0) {
             value = atoi(buf);
-            if (value > 1024) {
-                value = 1024;
+            if (value > 65535) {
+                value = 65535;
             } else if (value < 1) {
                 value = 1;
             }

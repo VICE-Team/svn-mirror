@@ -6254,6 +6254,270 @@ description:    "Specify name of IDE64 image file"
 resource:       "IDE64Image4"
 action:         N/A
 
+c64/cart/ide64.c:
+-----------------
+resource type:                  int
+resource name:                  "IDE64Cylinders1"
+resource range:                 1..65535
+resource default:               256
+resource function:              set_cylinders()
+resource var:                   drives[0].settings.cylinders
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64cyl1
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64cyl1 <value>
+description:    "Set number of cylinders for the IDE64 emulation. (1..65535)"
+resource:       "IDE64Cylinders1"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  int
+resource name:                  "IDE64Cylinders2"
+resource range:                 1..65535
+resource default:               256
+resource function:              set_cylinders()
+resource var:                   drives[1].settings.cylinders
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64cyl2
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64cyl2 <value>
+description:    "Set number of cylinders for the IDE64 emulation. (1..65535)"
+resource:       "IDE64Cylinders2"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  int
+resource name:                  "IDE64Cylinders3"
+resource range:                 1..65535
+resource default:               256
+resource function:              set_cylinders()
+resource var:                   drives[2].settings.cylinders
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64cyl3
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64cyl3 <value>
+description:    "Set number of cylinders for the IDE64 emulation. (1..65535)"
+resource:       "IDE64Cylinders3"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  int
+resource name:                  "IDE64Cylinders4"
+resource range:                 1..65535
+resource default:               256
+resource function:              set_cylinders()
+resource var:                   drives[3].settings.cylinders
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64cyl4
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64cyl4 <value>
+description:    "Set number of cylinders for the IDE64 emulation. (1..65535)"
+resource:       "IDE64Cylinders4"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  int
+resource name:                  "IDE64Heads1"
+resource range:                 1..16
+resource default:               4
+resource function:              set_heads()
+resource var:                   drives[0].settings.heads
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64hds1
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64hds1 <value>
+description:    "Set number of heads for the IDE64 emulation. (1..16)"
+resource:       "IDE64Heads1"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  int
+resource name:                  "IDE64Heads2"
+resource range:                 1..16
+resource default:               4
+resource function:              set_heads()
+resource var:                   drives[1].settings.heads
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64hds2
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64hds2 <value>
+description:    "Set number of heads for the IDE64 emulation. (1..16)"
+resource:       "IDE64Heads2"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  int
+resource name:                  "IDE64Heads3"
+resource range:                 1..16
+resource default:               4
+resource function:              set_heads()
+resource var:                   drives[2].settings.heads
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64hds3
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64hds3 <value>
+description:    "Set number of heads for the IDE64 emulation. (1..16)"
+resource:       "IDE64Heads3"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  int
+resource name:                  "IDE64Heads4"
+resource range:                 1..16
+resource default:               4
+resource function:              set_heads()
+resource var:                   drives[3].settings.heads
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64hds4
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64hds4 <value>
+description:    "Set number of heads for the IDE64 emulation. (1..16)"
+resource:       "IDE64Heads4"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  int
+resource name:                  "IDE64Sectors1"
+resource range:                 1..63
+resource default:               16
+resource function:              set_sectors()
+resource var:                   drives[0].settings.sectors
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64sec1
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64sec1 <value>
+description:    "Set number of sectors for the IDE64 emulation. (1..63)"
+resource:       "IDE64Sectors1"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  int
+resource name:                  "IDE64Sectors2"
+resource range:                 1..63
+resource default:               16
+resource function:              set_sectors()
+resource var:                   drives[1].settings.sectors
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64sec2
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64sec2 <value>
+description:    "Set number of sectors for the IDE64 emulation. (1..63)"
+resource:       "IDE64Sectors2"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  int
+resource name:                  "IDE64Sectors3"
+resource range:                 1..63
+resource default:               16
+resource function:              set_sectors()
+resource var:                   drives[2].settings.sectors
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64sec3
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64sec3 <value>
+description:    "Set number of sectors for the IDE64 emulation. (1..63)"
+resource:       "IDE64Sectors3"
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  int
+resource name:                  "IDE64Sectors4"
+resource range:                 1..63
+resource default:               16
+resource function:              set_sectors()
+resource var:                   drives[3].settings.sectors
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64sec4
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64sec4 <value>
+description:    "Set number of sectors for the IDE64 emulation. (1..63)"
+resource:       "IDE64Sectors4"
+action:         N/A
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -7263,323 +7527,6 @@ action:         N/A
 
 c64/cart/ide64.c:
 -----------------
-resource type:                  string
-resource name:                  "IDE64Config"
-resource range:                 N/A
-resource default:               "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-resource function:              set_ide64_config()
-resource var:                   ide64_configuration_string
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-gpz note: this one is abusing a resource to keep the contents of the eeprom on the ide64 cartridge - there should be no gui items for it (as it should only be changed by the ide64 software itself). it should perhaps get changed to use an image file for the config data instead (as with eg mmcr)
-blacky note: I agree with a change to put this in an image, maybe something like an ide64.nvram image, this is because such an image could be saved immediately when changed, instead of relying on a 'save current settings'.
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64Cylinders1"
-resource range:                 1..65535
-resource default:               256
-resource function:              set_cylinders()
-resource var:                   drives[0].settings.cylinders
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64cyl1
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64cyl1 <value>
-description:    "Set number of cylinders for the IDE64 emulation. (1..65535)"
-resource:       "IDE64Cylinders1"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64Cylinders2"
-resource range:                 1..65535
-resource default:               256
-resource function:              set_cylinders()
-resource var:                   drives[1].settings.cylinders
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64cyl2
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64cyl2 <value>
-description:    "Set number of cylinders for the IDE64 emulation. (1..65535)"
-resource:       "IDE64Cylinders2"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64Cylinders3"
-resource range:                 1..65535
-resource default:               256
-resource function:              set_cylinders()
-resource var:                   drives[2].settings.cylinders
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64cyl3
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64cyl3 <value>
-description:    "Set number of cylinders for the IDE64 emulation. (1..65535)"
-resource:       "IDE64Cylinders3"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64Cylinders4"
-resource range:                 1..65535
-resource default:               256
-resource function:              set_cylinders()
-resource var:                   drives[3].settings.cylinders
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64cyl4
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64cyl4 <value>
-description:    "Set number of cylinders for the IDE64 emulation. (1..65535)"
-resource:       "IDE64Cylinders4"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64Heads1"
-resource range:                 1..16
-resource default:               4
-resource function:              set_heads()
-resource var:                   drives[0].settings.heads
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64hds1
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64hds1 <value>
-description:    "Set number of heads for the IDE64 emulation. (1..16)"
-resource:       "IDE64Heads1"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64Heads2"
-resource range:                 1..16
-resource default:               4
-resource function:              set_heads()
-resource var:                   drives[1].settings.heads
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64hds2
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64hds2 <value>
-description:    "Set number of heads for the IDE64 emulation. (1..16)"
-resource:       "IDE64Heads2"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64Heads3"
-resource range:                 1..16
-resource default:               4
-resource function:              set_heads()
-resource var:                   drives[2].settings.heads
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64hds3
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64hds3 <value>
-description:    "Set number of heads for the IDE64 emulation. (1..16)"
-resource:       "IDE64Heads3"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64Heads4"
-resource range:                 1..16
-resource default:               4
-resource function:              set_heads()
-resource var:                   drives[3].settings.heads
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64hds4
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64hds4 <value>
-description:    "Set number of heads for the IDE64 emulation. (1..16)"
-resource:       "IDE64Heads4"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64Sectors1"
-resource range:                 1..63
-resource default:               16
-resource function:              set_sectors()
-resource var:                   drives[0].settings.sectors
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64sec1
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64sec1 <value>
-description:    "Set number of sectors for the IDE64 emulation. (1..63)"
-resource:       "IDE64Sectors1"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64Sectors2"
-resource range:                 1..63
-resource default:               16
-resource function:              set_sectors()
-resource var:                   drives[1].settings.sectors
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64sec2
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64sec2 <value>
-description:    "Set number of sectors for the IDE64 emulation. (1..63)"
-resource:       "IDE64Sectors2"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64Sectors3"
-resource range:                 1..63
-resource default:               16
-resource function:              set_sectors()
-resource var:                   drives[2].settings.sectors
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64sec3
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64sec3 <value>
-description:    "Set number of sectors for the IDE64 emulation. (1..63)"
-resource:       "IDE64Sectors3"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64Sectors4"
-resource range:                 1..63
-resource default:               16
-resource function:              set_sectors()
-resource var:                   drives[3].settings.sectors
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64sec4
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64sec4 <value>
-description:    "Set number of sectors for the IDE64 emulation. (1..63)"
-resource:       "IDE64Sectors4"
-action:         N/A
-
-c64/cart/ide64.c:
------------------
 resource type:                  bool
 resource name:                  "IDE64AutodetectSize1"
 resource range:                 0/1
@@ -7722,21 +7669,6 @@ command line:   +IDE64version4
 description:    "Emulate pre version 4 hardware"
 resource:       "IDE64version4" (set to 0)
 action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  int
-resource name:                  "IDE64RTCOffset"
-resource range:                 N/A
-resource default:               0
-resource function:              set_rtc_offset()
-resource var:                   rtc_offset_res
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 
 c64/cart/isepic.c:
 ------------------

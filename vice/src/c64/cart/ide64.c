@@ -105,11 +105,6 @@ static int idrive = 0;
 /* communication latch */
 static WORD out_d030, in_d030, idebus;
 
-/* config ram */
-static char ide64_DS1302[65];
-
-static char *ide64_configuration_string = ide64_DS1302;
-
 #ifdef HAVE_NETWORK
 static struct alarm_s *usb_alarm;
 static char *settings_usbserver_address = NULL;
@@ -122,8 +117,7 @@ static int ft245_rxp, ft245_rxl, ft245_txp;
 #define usbserver_activate(a) {}
 #endif
 
-static int settings_version4, rtc_offset_res;
-static time_t rtc_offset;
+static int settings_version4;
 
 /* ---------------------------------------------------------------------*/
 
@@ -289,21 +283,6 @@ static void ide64_unregister(void)
     ide64_ft245_list_item = NULL;
     ide64_ds1302_list_item = NULL;
     ide64_rom_list_item = NULL;
-}
-
-static int set_ide64_config(const char *cfg, void *param)
-{
-    int i;
-
-    ide64_DS1302[64] = 0;
-    memset(ide64_DS1302, 0x40, 64);
-
-    if (cfg) {
-        for (i = 0; cfg[i] && i < 64; i++) {
-            ide64_DS1302[i] = cfg[i];
-        }
-    }
-    return 0;
 }
 
 static void detect_ide64_image(struct drive_s *drive)
@@ -489,13 +468,6 @@ static int set_version4(int value, void *param)
     return 0;
 }
 
-static int set_rtc_offset(int val, void *param)
-{
-    rtc_offset_res = val;
-    rtc_offset = (time_t)val;
-    return 0;
-}
-
 #ifdef HAVE_NETWORK
 static void usb_send(void);
 
@@ -587,8 +559,6 @@ static const resource_string_t resources_string[] = {
       &drives[2].filename, set_ide64_image_file, (void *)2 },
     { "IDE64Image4", "", RES_EVENT_NO, NULL,
       &drives[3].filename, set_ide64_image_file, (void *)3 },
-    { "IDE64Config", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", RES_EVENT_NO, NULL,
-      &ide64_configuration_string, set_ide64_config, NULL },
 #ifdef HAVE_NETWORK
     { "IDE64USBServerAddress", "ip4://127.0.0.1:64245", RES_EVENT_NO, NULL,
       &settings_usbserver_address, set_usbserver_address, NULL },
@@ -648,9 +618,6 @@ static const resource_int_t resources_int[] = {
     { "IDE64version4", 0,
       RES_EVENT_NO, NULL,
       &settings_version4, set_version4, NULL },
-    { "IDE64RTCOffset", 0,
-      RES_EVENT_NO, NULL,
-      (int *)&rtc_offset_res, set_rtc_offset, NULL },
 #ifdef HAVE_NETWORK
     { "IDE64USBServer", 0,
       RES_EVENT_NO, NULL,
@@ -693,6 +660,7 @@ int ide64_resources_shutdown(void)
 
     if (ds1302_context) {
         ds1202_1302_destroy(ds1302_context);
+        ds1302_context = NULL;
     }
 
     return 0;
@@ -1311,7 +1279,10 @@ void ide64_detach(void)
 {
     int i;
 
-    ds1202_1302_destroy(ds1302_context);
+    if (ds1302_context) {
+        ds1202_1302_destroy(ds1302_context);
+        ds1302_context = NULL;
+    }
 
     for (i = 0; i < 4; i++) {
         if (drives[i].drv) {
@@ -1450,7 +1421,8 @@ int ide64_snapshot_write_module(snapshot_t *s)
     SMW_DW(m, idrive);
     SMW_W(m, in_d030);
     SMW_W(m, out_d030);
-    SMW_BA(m, (unsigned char *)ide64_DS1302, 64); /* TODO: RTC snapshot! */
+
+    /* TODO: RTC snapshot! */
 
     snapshot_module_close(m);
 
@@ -1505,8 +1477,7 @@ int ide64_snapshot_read_module(snapshot_t *s)
     }
     SMR_W(m, &in_d030);
     SMR_W(m, &out_d030);
-    SMR_BA(m, (unsigned char *)ide64_DS1302, 64); /* TODO: RTC snapshot! */
-    ide64_DS1302[64] = 0;
+    /* TODO: RTC snapshot! */
 
     snapshot_module_close(m);
 

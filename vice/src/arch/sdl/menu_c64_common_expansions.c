@@ -225,7 +225,7 @@ static const ui_menu_entry_t ide64_menu_HD_1[] = {
     { "Cylinders",
       MENU_ENTRY_RESOURCE_INT,
       int_IDE64Cylinders1_callback,
-      (ui_callback_data_t)"Enter amount of cylinders (1-1024)" },
+      (ui_callback_data_t)"Enter amount of cylinders (1-65535)" },
     { "Heads",
       MENU_ENTRY_RESOURCE_INT,
       int_IDE64Heads1_callback,

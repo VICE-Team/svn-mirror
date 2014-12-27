@@ -52,7 +52,7 @@ static const int ui_ide64_autodetect_values[] = {
 
 static int ui_cylinders_range[] = {
     1,
-    1024
+    65535
 };
 
 static int ui_heads_range[] = {

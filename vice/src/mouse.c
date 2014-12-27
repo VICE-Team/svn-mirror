@@ -688,7 +688,10 @@ void mouse_init(void)
 
 void mouse_shutdown(void)
 {
-    ds1202_1302_destroy(ds1202);
+    if (ds1202) {
+        ds1202_1302_destroy(ds1202);
+        ds1202 = NULL;
+    }
 }
 
 /* --------------------------------------------------------- */
