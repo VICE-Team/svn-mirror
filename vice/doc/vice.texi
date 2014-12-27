@@ -5007,7 +5007,8 @@ Boolean specifying whether ISEPIC should be emulated or not.
 String specifying the filename of the ISEPIC RAM image.
 @vindex IsepicSwitch
 @item IsepicSwitch
-Boolean specifying the status of the ISEPIC switch (0: off, 1: on)
+Boolean specifying the status of the ISEPIC switch.
+(0=off, 1=on)
 @vindex IsepicImageWrite
 @item IsepicImageWrite
 Boolean, if true write back the ISEPIC image file automatically, incase the RAM
@@ -5300,23 +5301,31 @@ Set number of heads for the IDE64 harddisk emulation
 Set number of sectors for the IDE64 harddisk emulation
 (@code{IDE64Sectors1}, @code{IDE64Sectors2}, @code{IDE64Sectors3}, @code{IDE64Sectors4}).
 (1..63)
-@cindex -IDE64autosize1, +IDE64autosize1
-@cindex -IDE64autosize2, +IDE64autosize2
-@cindex -IDE64autosize3, +IDE64autosize3
-@cindex -IDE64autosize4, +IDE64autosize4
+@findex -IDE64autosize1, +IDE64autosize1
 @item -IDE64autosize1
 @itemx +IDE64autosize1
+Autodetect geometry of formatted image or do not autodetect and use specified geometry
+(@code{IDE64AutodetectSize1=1}, @code{IDE64AutodetectSize1=0}).
+@findex -IDE64autosize2, +IDE64autosize2
 @item -IDE64autosize2
 @itemx +IDE64autosize2
+Autodetect geometry of formatted image or do not autodetect and use specified geometry
+(@code{IDE64AutodetectSize2=1}, @code{IDE64AutodetectSize2=0}).
+@findex -IDE64autosize3, +IDE64autosize3
 @item -IDE64autosize3
 @itemx +IDE64autosize3
+Autodetect geometry of formatted image or do not autodetect and use specified geometry
+(@code{IDE64AutodetectSize3=1}, @code{IDE64AutodetectSize3=0}).
+@findex -IDE64autosize4, +IDE64autosize4
 @item -IDE64autosize4
 @itemx +IDE64autosize4
-Autodetect geometry of formatted images or do not autodetect and use specified geometry
-@cindex -IDE64version4, +IDE64version4
+Autodetect geometry of formatted image or do not autodetect and use specified geometry
+(@code{IDE64AutodetectSize4=1}, @code{IDE64AutodetectSize4=0}).
+@findex -IDE64version4, +IDE64version4
 @item -IDE64version4
 @itemx +IDE64version4
 Emulate version 4 hardware/Emulate pre version 4 hardware
+(@code{IDE64version4=1}, @code{IDE64version4=0}).
 @cindex -IDE64USB, +IDE64USB
 @item -IDE64USB
 @itemx +IDE64USB
@@ -5335,20 +5344,28 @@ IEEE488 interface.
 @cindex -ieee488image
 @item -ieee488image <name>
 Set IEEE488 interface image name
-@cindex -isepic, +isepic
+@findex -isepic, +isepic
 @item -isepic
 @itemx +isepic
 Enable/Disable the ISEPIC cart
+(@code{IsepicCartridgeEnabled=1}, @code{IsepicCartridgeEnabled=0}).
+@findex -isepicswitch, +isepicswitch
+@item -isepicswitch
+@itemx +isepicswitch
+Enable/Disable the ISEPIC switch
+(@code{IsepicSwitch=1}, @code{IsepicSwitch=0}).
 @findex -cartisepic
 @item -cartisepic <name>
 Attach raw 2kB ISEPIC cartridge image.
-@cindex -isepicimagename
+@findex -isepicimagename
 @item -isepicimagename <name>
 Set ISEPIC image name
-@cindex -isepicimagerw, +isepicimagerw
+(@code{Isepicfilename}).
+@findex -isepicimagerw, +isepicimagerw
 @item -isepicimagerw
 @itemx +isepicimagerw
 Allow/Disallow writing to ISEPIC image
+(@code{IsepicImageWrite=1}, @code{IsepicImageWrite=0}).
 @findex -cartkcs
 @item -cartkcs <name>
 Attach raw 16kB KCS Power cartridge image.

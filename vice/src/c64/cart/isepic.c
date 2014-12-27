@@ -405,6 +405,16 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE,
       NULL, NULL },
+    { "-isepicswitch", SET_RESOURCE, 0,
+      NULL, NULL, "IsepicSwitch", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_ISEPIC_SWITCH,
+      NULL, NULL },
+    { "+isepicswitch", SET_RESOURCE, 0,
+      NULL, NULL, "IsepicSwitch", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_ISEPIC_SWITCH,
+      NULL, NULL },
     { NULL }
 };
 

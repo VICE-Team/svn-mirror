@@ -558,6 +558,12 @@ IDCLS_ENABLE_ISEPIC
 IDCLS_DISABLE_ISEPIC
 
 /* c64/cart/isepic.c */
+IDCLS_ENABLE_ISEPIC_SWITCH
+
+/* c64/cart/isepic.c */
+IDCLS_DISABLE_ISEPIC_SWITCH
+
+/* c64/cart/isepic.c */
 IDCLS_SET_ISEPIC_FILENAME
 
 /* c64/cart/isepic.c */

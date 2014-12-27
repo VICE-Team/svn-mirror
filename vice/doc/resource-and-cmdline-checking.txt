@@ -6518,6 +6518,252 @@ description:    "Set number of sectors for the IDE64 emulation. (1..63)"
 resource:       "IDE64Sectors4"
 action:         N/A
 
+c64/cart/ide64.c:
+-----------------
+resource type:                  bool
+resource name:                  "IDE64AutodetectSize1"
+resource range:                 0/1
+resource default:               1
+resource function:              set_autodetect_size()
+resource var:                   drives[0].autodetect_size
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64autosize1 / +IDE64autosize1
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64autosize1
+description:    "Autodetect image size"
+resource:       "IDE64AutodetectSize1" (set to 1)
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+command line:   +IDE64autosize1
+description:    "Do not autodetect geometry of formatted images"
+resource:       "IDE64AutodetectSize1" (set to 0)
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  bool
+resource name:                  "IDE64AutodetectSize2"
+resource range:                 0/1
+resource default:               1
+resource function:              set_autodetect_size()
+resource var:                   drives[1].autodetect_size
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64autosize2 / +IDE64autosize2
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64autosize2
+description:    "Autodetect image size"
+resource:       "IDE64AutodetectSize2" (set to 1)
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+command line:   +IDE64autosize2
+description:    "Do not autodetect geometry of formatted images"
+resource:       "IDE64AutodetectSize2" (set to 0)
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  bool
+resource name:                  "IDE64AutodetectSize3"
+resource range:                 0/1
+resource default:               1
+resource function:              set_autodetect_size()
+resource var:                   drives[2].autodetect_size
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64autosize3 / +IDE64autosize3
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64autosize3
+description:    "Autodetect image size"
+resource:       "IDE64AutodetectSize3" (set to 1)
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+command line:   +IDE64autosize3
+description:    "Do not autodetect geometry of formatted images"
+resource:       "IDE64AutodetectSize3" (set to 0)
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  bool
+resource name:                  "IDE64AutodetectSize4"
+resource range:                 0/1
+resource default:               1
+resource function:              set_autodetect_size()
+resource var:                   drives[3].autodetect_size
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64autosize4 / +IDE64autosize4
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64autosize4
+description:    "Autodetect image size"
+resource:       "IDE64AutodetectSize4" (set to 1)
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+command line:   +IDE64autosize4
+description:    "Do not autodetect geometry of formatted images"
+resource:       "IDE64AutodetectSize4" (set to 0)
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+resource type:                  bool
+resource name:                  "IDE64version4"
+resource range:                 0/1
+resource default:               0
+resource function:              set_version4()
+resource var:                   settings_version4
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64version4 / +IDE64version4
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform gui missing:           osx
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64version4
+description:    "Emulate version 4 hardware"
+resource:       "IDE64version4" (set to 1)
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+command line:   +IDE64version4
+description:    "Emulate pre version 4 hardware"
+resource:       "IDE64version4" (set to 0)
+action:         N/A
+
+c64/cart/isepic.c:
+------------------
+resource type:                  string
+resource name:                  "Isepicfilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_isepic_filename()
+resource var:                   isepic_filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -isepicimagename
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/isepic.c:
+------------------
+command line:   -isepicimagename <Name>
+description:    "Set ISEPIC image name"
+resource:       "Isepicfilename"
+action:         n/a
+
+c64/cart/isepic.c:
+------------------
+resource type:                  bool
+resource name:                  "IsepicCartridgeEnabled"
+resource range:                 0/1
+resource default:               0
+resource function:              set_isepic_enabled()
+resource var:                   isepic_enabled
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -isepic / +isepic
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/isepic.c:
+------------------
+command line:   -isepic
+description:    "Enable the ISEPIC cartridge"
+resource:       "IsepicCartridgeEnabled" (set to 1)
+action:         N/A
+
+c64/cart/isepic.c:
+------------------
+command line:   +isepic
+description:    "Disable the ISEPIC cartridge"
+resource:       "IsepicCartridgeEnabled" (set to 0)
+action:         N/A
+
+c64/cart/isepic.c:
+------------------
+resource type:                  bool
+resource name:                  "IsepicSwitch"
+resource range:                 0/1
+resource default:               0
+resource function:              set_isepic_switch()
+resource var:                   isepic_switch
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -isepicswitch / +isepicswitch
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/isepic.c:
+------------------
+command line:   -isepicswitch
+description:    "Enable the ISEPIC switch"
+resource:       "IsepicSwitch" (set to 1)
+action:         N/A
+
+c64/cart/isepic.c:
+------------------
+command line:   +isepicswitch
+description:    "Disable the ISEPIC switch"
+resource:       "IsepicSwitch" (set to 0)
+action:         N/A
+
+c64/cart/isepic.c:
+------------------
+resource type:                  bool
+resource name:                  "IsepicImageWrite"
+resource range:                 0/1
+resource default:               0
+resource function:              set_isepic_rw()
+resource var:                   isepic_write_image
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -isepicimagerw / +isepicimagerw
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/isepic.c:
+------------------
+command line:   -isepicimagerw
+description:    "Allow writing to ISEPIC image"
+resource:       "IsepicImageWrite" (set to 1)
+action:         N/A
+
+c64/cart/isepic.c:
+------------------
+command line:   +isepicimagerw
+description:    "Do not write to ISEPIC image"
+resource:       "IsepicImageWrite" (set to 0)
+action:         N/A
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -7525,246 +7771,6 @@ action:         N/A
 
 ---------------------------------blacky---------------------------------------------------------------------------------------------
 
-c64/cart/ide64.c:
------------------
-resource type:                  bool
-resource name:                  "IDE64AutodetectSize1"
-resource range:                 0/1
-resource default:               1
-resource function:              set_autodetect_size()
-resource var:                   drives[0].autodetect_size
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64autosize1 / +IDE64autosize1
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64autosize1
-description:    "Autodetect image size"
-resource:       "IDE64AutodetectSize1" (set to 1)
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-command line:   +IDE64autosize1
-description:    "Do not autodetect geometry of formatted images"
-resource:       "IDE64AutodetectSize1" (set to 0)
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  bool
-resource name:                  "IDE64AutodetectSize2"
-resource range:                 0/1
-resource default:               1
-resource function:              set_autodetect_size()
-resource var:                   drives[1].autodetect_size
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64autosize2 / +IDE64autosize2
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64autosize2
-description:    "Autodetect image size"
-resource:       "IDE64AutodetectSize2" (set to 1)
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-command line:   +IDE64autosize2
-description:    "Do not autodetect geometry of formatted images"
-resource:       "IDE64AutodetectSize2" (set to 0)
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  bool
-resource name:                  "IDE64AutodetectSize3"
-resource range:                 0/1
-resource default:               1
-resource function:              set_autodetect_size()
-resource var:                   drives[2].autodetect_size
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64autosize3 / +IDE64autosize3
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64autosize3
-description:    "Autodetect image size"
-resource:       "IDE64AutodetectSize3" (set to 1)
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-command line:   +IDE64autosize3
-description:    "Do not autodetect geometry of formatted images"
-resource:       "IDE64AutodetectSize3" (set to 0)
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  bool
-resource name:                  "IDE64AutodetectSize4"
-resource range:                 0/1
-resource default:               1
-resource function:              set_autodetect_size()
-resource var:                   drives[3].autodetect_size
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64autosize4 / +IDE64autosize4
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64autosize4
-description:    "Autodetect image size"
-resource:       "IDE64AutodetectSize4" (set to 1)
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-command line:   +IDE64autosize4
-description:    "Do not autodetect geometry of formatted images"
-resource:       "IDE64AutodetectSize4" (set to 0)
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-resource type:                  bool
-resource name:                  "IDE64version4"
-resource range:                 0/1
-resource default:               0
-resource function:              set_version4()
-resource var:                   settings_version4
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64version4 / +IDE64version4
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:           osx
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64version4
-description:    "Emulate version 4 hardware"
-resource:       "IDE64version4" (set to 1)
-action:         N/A
-
-c64/cart/ide64.c:
------------------
-command line:   +IDE64version4
-description:    "Emulate pre version 4 hardware"
-resource:       "IDE64version4" (set to 0)
-action:         N/A
-
-c64/cart/isepic.c:
-------------------
-resource type:                  string
-resource name:                  "Isepicfilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_isepic_filename()
-resource var:                   isepic_filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -isepicimagename
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/isepic.c:
-------------------
-command line:   -isepicimagename <Name>
-description:    "Set ISEPIC image name"
-resource:       "Isepicfilename"
-action:         n/a
-
-c64/cart/isepic.c:
-------------------
-resource type:                  bool
-resource name:                  "IsepicCartridgeEnabled"
-resource range:                 0/1
-resource default:               0
-resource function:              set_isepic_enabled()
-resource var:                   isepic_enabled
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -isepic / +isepic
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/isepic.c:
-------------------
-command line:   -isepic
-description:    "Enable the ISEPIC cartridge"
-resource:       "IsepicCartridgeEnabled" (set to 1)
-action:         N/A
-
-c64/cart/isepic.c:
-------------------
-command line:   +isepic
-description:    "Disable the ISEPIC cartridge"
-resource:       "IsepicCartridgeEnabled" (set to 0)
-action:         N/A
-
-c64/cart/isepic.c:
-------------------
-resource type:                  bool
-resource name:                  "IsepicSwitch"
-resource range:                 0/1
-resource default:               0
-resource function:              set_isepic_switch()
-resource var:                   isepic_switch
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/isepic.c:
-------------------
-resource type:                  bool
-resource name:                  "IsepicImageWrite"
-resource range:                 0/1
-resource default:               0
-resource function:              set_isepic_rw()
-resource var:                   isepic_write_image
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -isepicimagerw / +isepicimagerw
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/isepic.c:
-------------------
-command line:   -isepicimagerw
-description:    "Allow writing to ISEPIC image"
-resource:       "IsepicImageWrite" (set to 1)
-action:         N/A
-
-c64/cart/isepic.c:
-------------------
-command line:   +isepicimagerw
-description:    "Do not write to ISEPIC image"
-resource:       "IsepicImageWrite" (set to 0)
-action:         N/A
-
 c64/cart/magicvoice.c:
 ----------------------
 resource type:                  string
@@ -7778,7 +7784,6 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
 
 c64/cart/magicvoice.c:
 ----------------------

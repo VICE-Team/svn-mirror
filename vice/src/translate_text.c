@@ -5268,6 +5268,40 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/isepic.c */
+/* en */ {IDCLS_ENABLE_ISEPIC_SWITCH,    N_("Enable the ISEPIC switch")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_ISEPIC_SWITCH_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_ISEPIC_SWITCH_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_ISEPIC_SWITCH_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_ISEPIC_SWITCH_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_ISEPIC_SWITCH_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_ISEPIC_SWITCH_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_ISEPIC_SWITCH_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_ISEPIC_SWITCH_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_ISEPIC_SWITCH_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_ISEPIC_SWITCH_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_ISEPIC_SWITCH_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_ISEPIC_SWITCH_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/isepic.c */
+/* en */ {IDCLS_DISABLE_ISEPIC_SWITCH,    N_("Disable the ISEPIC switch")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_ISEPIC_SWITCH_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_ISEPIC_SWITCH_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_ISEPIC_SWITCH_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_ISEPIC_SWITCH_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_ISEPIC_SWITCH_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_ISEPIC_SWITCH_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_ISEPIC_SWITCH_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_ISEPIC_SWITCH_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_ISEPIC_SWITCH_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_ISEPIC_SWITCH_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_ISEPIC_SWITCH_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_ISEPIC_SWITCH_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/isepic.c */
 /* en */ {IDCLS_SET_ISEPIC_FILENAME,    N_("Set ISEPIC image name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_ISEPIC_FILENAME_DA, "Vælg ISEPIC image-navn"},
