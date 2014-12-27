@@ -31,7 +31,7 @@
 
 #include "types.h"
 
-#define DS1202_1302_RAM_SIZE   32
+#define DS1202_1302_RAM_SIZE   64
 #define DS1202_1302_REG_SIZE   8
 
 typedef struct rtc_ds1202_1302_s {

@@ -672,28 +672,17 @@ static char *byte_to_text(BYTE in)
     return out;
 }
 
-static BYTE text_to_byte(char *in)
-{
-    BYTE out = ((in[0] - 'a') << 4) | (in[1] - 'a');
-
-    return out;
-}
-
 static char *rtc_ram_to_string(BYTE *ram, int size)
 {
-    char *temp1, *temp2, *temp3;
+    char *temp = lib_malloc((size * 2) + 1);
     int i;
 
-    temp1 = byte_to_text(ram[0]);
-
-    for (i = 1; i < size; i++) {
-        temp2 = byte_to_text(ram[i]);
-        temp3 = util_concat(temp1, temp2, NULL);
-        lib_free(temp1);
-        lib_free(temp2);
-        temp1 = temp3;
+    memset(temp, 0, (size * 2) + 1);
+    for (i = 0; i < size; i++) {
+        temp[i * 2] = (ram[i] >> 4) + 'a';
+        temp[(i * 2) + 1] = (ram[i] & 0xf) + 'a';
     }
-    return temp3;
+    return temp;
 }
 
 static BYTE *rtc_string_to_ram(char *str, int size)
@@ -702,7 +691,7 @@ static BYTE *rtc_string_to_ram(char *str, int size)
     int i;
 
     for (i = 0; i < size; i++) {
-        ram[i] = text_to_byte(str + (i * 2));
+        ram[i] = ((str[i * 2] - 'a') << 4) | (str[(i * 2) + 1] - 'a');
     }
     return ram;
 }
