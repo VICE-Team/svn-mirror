@@ -1,4 +1,5 @@
 EXTRA_DIST = \
+	_vice.tmpl \
 	arch_native.tmpl \
 	arch_sdl.tmpl \
 	base.tmpl \
