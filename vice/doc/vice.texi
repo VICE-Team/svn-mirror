@@ -6681,7 +6681,7 @@ String specifying the filename of the French character generator ROM image.
 @item ChargenSEName
 String specifying the filename of the Swedish character generator ROM image.
 @vindex ChargenCHName
-@itemx ChargenCHName
+@item ChargenCHName
 String specifying the filename of the Swiss character generator ROM image.
 
 @vindex KernalIntName
