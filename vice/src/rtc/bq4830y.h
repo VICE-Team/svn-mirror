@@ -41,9 +41,12 @@ typedef struct rtc_bq4830y_s {
     int write_latch;
     time_t latch;
     time_t offset;
-    BYTE clock_regs[BQ4830Y_REG_SIZE];
+    time_t old_offset;
+    BYTE *clock_regs;
+    BYTE old_clock_regs[BQ4830Y_REG_SIZE];
     BYTE clock_regs_changed[BQ4830Y_REG_SIZE];
     BYTE *ram;
+    BYTE old_ram[BQ4830Y_RAM_SIZE];
     char *device;
 } rtc_bq4830y_t;
 

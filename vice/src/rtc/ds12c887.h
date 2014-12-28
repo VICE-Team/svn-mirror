@@ -41,13 +41,16 @@ typedef struct rtc_ds12c887_s {
     int set;
     time_t set_latch;
     time_t offset;
+    time_t old_offset;
     int bcd;
     int alarm_flag;
     int end_of_update_flag;
-    BYTE clock_regs[DS12C887_REG_SIZE];
+    BYTE *clock_regs;
+    BYTE old_clock_regs[DS12C887_REG_SIZE];
     BYTE clock_regs_changed[DS12C887_REG_SIZE];
     BYTE ctrl_regs[2];
     BYTE *ram;
+    BYTE old_ram[DS12C887_RAM_SIZE];
     BYTE reg;
     BYTE prev_second;
     char *device;

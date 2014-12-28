@@ -43,7 +43,9 @@ typedef struct rtc_ds1216e_s {
     int output_pos;
     time_t latch;
     time_t offset;
-    BYTE clock_regs[DS1216E_REG_SIZE];
+    time_t old_offset;
+    BYTE *clock_regs;
+    BYTE old_clock_regs[DS1216E_REG_SIZE];
     BYTE clock_regs_changed[DS1216E_REG_SIZE];
     char *device;
 } rtc_ds1216e_t;

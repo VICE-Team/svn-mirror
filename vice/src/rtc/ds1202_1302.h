@@ -42,9 +42,12 @@ typedef struct rtc_ds1202_1302_s {
     int write_protect;
     time_t latch;
     time_t offset;
-    BYTE clock_regs[DS1202_1302_REG_SIZE];
+    time_t old_offset;
+    BYTE *clock_regs;
+    BYTE old_clock_regs[DS1202_1302_REG_SIZE];
     BYTE trickle_charge;
     BYTE *ram;
+    BYTE old_ram[DS1202_1302_RAM_SIZE];
     BYTE state;
     BYTE reg;
     BYTE bit;

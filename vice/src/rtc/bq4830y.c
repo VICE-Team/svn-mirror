@@ -89,27 +89,21 @@
 
 rtc_bq4830y_t *bq4830y_init(char *device)
 {
-    rtc_bq4830y_t *retval = lib_malloc(sizeof(rtc_bq4830y_t));
-    BYTE *clockregs;
+    rtc_bq4830y_t *retval = lib_calloc(1, sizeof(rtc_bq4830y_t));
     int loaded = rtc_load_context(device, BQ4830Y_RAM_SIZE, BQ4830Y_REG_SIZE);
-    int i;
-
-    memset(retval, 0, sizeof(rtc_bq4830y_t));
 
     if (loaded) {
         retval->ram = rtc_get_loaded_ram();
         retval->offset = rtc_get_loaded_offset();
-        clockregs = rtc_get_loaded_clockregs();
-        for (i = 0; i < BQ4830Y_REG_SIZE; i++) {
-            retval->clock_regs[i] = clockregs[i];
-        }
-        lib_free(clockregs);
+        retval->clock_regs = rtc_get_loaded_clockregs();
     } else {
-        retval->ram = lib_malloc(BQ4830Y_RAM_SIZE);
-        memset(retval->ram, 0, BQ4830Y_RAM_SIZE);
+        retval->ram = lib_calloc(1, BQ4830Y_RAM_SIZE);
         retval->offset = 0;
-        memset(retval->clock_regs, 0, BQ4830Y_REG_SIZE);
+        retval->clock_regs = lib_calloc(1, BQ4830Y_REG_SIZE);
     }
+    memcpy(retval->old_ram, retval->ram, BQ4830Y_RAM_SIZE);
+    retval->old_offset = retval->offset;
+    memcpy(retval->old_clock_regs, retval->clock_regs, BQ4830Y_REG_SIZE);
 
     retval->device = lib_stralloc(device);
 
@@ -118,8 +112,13 @@ rtc_bq4830y_t *bq4830y_init(char *device)
 
 void bq4830y_destroy(rtc_bq4830y_t *context)
 {
-    rtc_save_context(context->ram, BQ4830Y_RAM_SIZE, context->clock_regs, BQ4830Y_REG_SIZE, context->device, context->offset);
+    if (memcmp(context->ram, context->old_ram, BQ4830Y_RAM_SIZE) ||
+        memcmp(context->clock_regs, context->old_clock_regs, BQ4830Y_REG_SIZE) ||
+        context->offset != context->old_offset) {
+        rtc_save_context(context->ram, BQ4830Y_RAM_SIZE, context->clock_regs, BQ4830Y_REG_SIZE, context->device, context->offset);
+    }
     lib_free(context->ram);
+    lib_free(context->clock_regs);
     lib_free(context->device);
     lib_free(context);
 }

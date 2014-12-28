@@ -91,24 +91,18 @@
 
 rtc_ds1216e_t *ds1216e_init(char *device)
 {
-    rtc_ds1216e_t *retval = lib_malloc(sizeof(rtc_ds1216e_t));
-    BYTE *clockregs;
+    rtc_ds1216e_t *retval = lib_calloc(1, sizeof(rtc_ds1216e_t));
     int loaded = rtc_load_context(device, 0, DS1216E_REG_SIZE);
-    int i;
-
-    memset(retval, 0, sizeof(rtc_ds1216e_t));
 
     if (loaded) {
         retval->offset = rtc_get_loaded_offset();
-        clockregs = rtc_get_loaded_clockregs();
-        for (i = 0; i < DS1216E_REG_SIZE; i++) {
-            retval->clock_regs[i] = clockregs[i];
-        }
-        lib_free(clockregs);
+        retval->clock_regs = rtc_get_loaded_clockregs();
     } else {
         retval->offset = 0;
-        memset(retval->clock_regs, 0, DS1216E_REG_SIZE);
+        retval->clock_regs = lib_calloc(1, DS1216E_REG_SIZE);
     }
+    retval->old_offset = retval->offset;
+    memcpy(retval->old_clock_regs, retval->clock_regs, DS1216E_REG_SIZE);
 
     retval->device = lib_stralloc(device);
 
@@ -117,7 +111,11 @@ rtc_ds1216e_t *ds1216e_init(char *device)
 
 void ds1216e_destroy(rtc_ds1216e_t *context)
 {
-    rtc_save_context(NULL, 0, context->clock_regs, DS1216E_REG_SIZE, context->device, context->offset);
+    if (memcmp(context->clock_regs, context->old_clock_regs, DS1216E_REG_SIZE) ||
+        context->offset != context->old_offset) {
+        rtc_save_context(NULL, 0, context->clock_regs, DS1216E_REG_SIZE, context->device, context->offset);
+    }
+    lib_free(context->clock_regs);
     lib_free(context->device);
     lib_free(context);
 }

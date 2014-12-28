@@ -37,6 +37,7 @@ typedef struct rtc_58321a_s {
     BYTE address;
     time_t latch;
     time_t offset;
+    time_t old_offset;
     char *device;
 } rtc_58321a_t;
 

@@ -221,27 +221,21 @@ void ds12c887_reset(rtc_ds12c887_t *context)
 
 rtc_ds12c887_t *ds12c887_init(char *device)
 {
-    rtc_ds12c887_t *retval = lib_malloc(sizeof(rtc_ds12c887_t));
-    BYTE *clockregs;
+    rtc_ds12c887_t *retval = lib_calloc(1, sizeof(rtc_ds12c887_t));
     int loaded = rtc_load_context(device, DS12C887_RAM_SIZE, DS12C887_REG_SIZE);
-    int i;
-
-    memset(retval, 0, sizeof(rtc_ds12c887_t));
 
     if (loaded) {
         retval->ram = rtc_get_loaded_ram();
         retval->offset = rtc_get_loaded_offset();
-        clockregs = rtc_get_loaded_clockregs();
-        for (i = 0; i < DS12C887_REG_SIZE; i++) {
-            retval->clock_regs[i] = clockregs[i];
-        }
-        lib_free(clockregs);
+        retval->clock_regs = rtc_get_loaded_clockregs();
     } else {
-        retval->ram = lib_malloc(DS12C887_RAM_SIZE);
-        memset(retval->ram, 0, DS12C887_RAM_SIZE);
+        retval->ram = lib_calloc(1, DS12C887_RAM_SIZE);
         retval->offset = 0;
-        memset(retval->clock_regs, 0, DS12C887_REG_SIZE);
+        retval->clock_regs = lib_calloc(1, DS12C887_REG_SIZE);
     }
+    memcpy(retval->old_ram, retval->ram, DS12C887_RAM_SIZE);
+    retval->old_offset = retval->offset;
+    memcpy(retval->old_clock_regs, retval->clock_regs, DS12C887_REG_SIZE);
 
     retval->bcd = 1;
     retval->ctrl_regs[0] = 0x20;
@@ -252,8 +246,13 @@ rtc_ds12c887_t *ds12c887_init(char *device)
 
 void ds12c887_destroy(rtc_ds12c887_t *context)
 {
-    rtc_save_context(context->ram, DS12C887_RAM_SIZE, context->clock_regs, DS12C887_REG_SIZE, context->device, context->offset);
+    if (memcmp(context->ram, context->old_ram, DS12C887_RAM_SIZE) ||
+        memcmp(context->clock_regs, context->old_clock_regs, DS12C887_REG_SIZE) ||
+        context->offset != context->old_offset) {
+        rtc_save_context(context->ram, DS12C887_RAM_SIZE, context->clock_regs, DS12C887_REG_SIZE, context->device, context->offset);
+    }
     lib_free(context->ram);
+    lib_free(context->clock_regs);
     lib_free(context->device);
     lib_free(context);
 }

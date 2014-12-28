@@ -91,16 +91,15 @@
 
 rtc_58321a_t *rtc58321a_init(char *device)
 {
-    rtc_58321a_t *retval = lib_malloc(sizeof(rtc_58321a_t));
+    rtc_58321a_t *retval = lib_calloc(1, sizeof(rtc_58321a_t));
     int loaded = rtc_load_context(device, 0, 0);
-
-    memset(retval, 0, sizeof(rtc_58321a_t));
 
     if (loaded) {
         retval->offset = rtc_get_loaded_offset();
     } else {
         retval->offset = 0;
     }
+    retval->old_offset = retval->offset;
 
     retval->hour24 = 1;
     retval->device = lib_stralloc(device);
@@ -110,7 +109,9 @@ rtc_58321a_t *rtc58321a_init(char *device)
 
 void rtc58321a_destroy(rtc_58321a_t *context)
 {
-    rtc_save_context(NULL, 0, NULL, 0, context->device, context->offset);
+    if (context->old_offset != context->offset) {
+        rtc_save_context(NULL, 0, NULL, 0, context->device, context->offset);
+    }
     lib_free(context->device);
     lib_free(context);
 }
