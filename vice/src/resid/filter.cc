@@ -173,6 +173,13 @@ static model_filter_init_t model_filter_init[2] = {
 unsigned short Filter::vcr_kVg[1 << 16];
 unsigned short Filter::vcr_n_Ids_term[1 << 16];
 
+#ifndef HAS_LOG1P
+static double log1p(double x)
+{
+    return log(1 + x) - (((1 + x) - 1) - x) / (1 + x);
+}
+#endif
+
 Filter::model_filter_t Filter::model_filter[2];
 
 
