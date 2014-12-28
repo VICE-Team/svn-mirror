@@ -32,6 +32,8 @@
 #include <sys/time.h>
 #endif
 
+#include <string.h>
+
 #include "archapi.h"
 #include "lib.h"
 #include "machine.h"
@@ -840,9 +842,10 @@ void rtc_save_context(BYTE *ram, int ram_size, BYTE *regs, int reg_size, char *d
             len = util_file_length(infile);
             indata = lib_malloc(len + 1);
             memset(indata, 0, len + 1);
-            fread(indata, 1, len, infile);
+            if (fread(indata, 1, len, infile) == len) {
+                ok = rtc_parse_buffer(indata);
+            }
             fclose(infile);
-            ok = rtc_parse_buffer(indata);
         }
     }
     outfile = fopen(filename, "wb");
@@ -893,9 +896,10 @@ int rtc_load_context(char *device, int ram_size, int reg_size)
             len = util_file_length(infile);
             indata = lib_malloc(len + 1);
             memset(indata, 0, len + 1);
-            fread(indata, 1, len, infile);
+            if (fread(indata, 1, len, infile) == len) {
+                ok = rtc_parse_buffer(indata);
+            }
             fclose(infile);
-            ok = rtc_parse_buffer(indata);
             if (!ok) {
                 lib_free(indata);
                 return 0;
