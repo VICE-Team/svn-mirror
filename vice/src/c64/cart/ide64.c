@@ -658,9 +658,9 @@ int ide64_resources_shutdown(void)
         drives[i].filename = NULL;
     }
 
-    if (ds1302_context) {
-        ds1202_1302_destroy(ds1302_context);
-        ds1302_context = NULL;
+    if (settings_usbserver_address) {
+        free(settings_usbserver_address);
+        settings_usbserver_address = NULL;
     }
 
     return 0;
