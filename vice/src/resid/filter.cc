@@ -398,7 +398,7 @@ Filter::Filter()
     // kVg_Vx = k*Vg - Vx
     // I.e. if k != 1.0, Vg must be scaled accordingly.
     for (int kVg_Vx = 0; kVg_Vx < (1 << 16); kVg_Vx++) {
-      double log_term = log(1 + exp((kVg_Vx/N16 - kVt)/(2*Ut)));
+      double log_term = log1p(exp((kVg_Vx/N16 - kVt)/(2*Ut)));
       // Scaled by m*2^15
       vcr_n_Ids_term[kVg_Vx] = (unsigned short)(n_Is*log_term*log_term);
     }
