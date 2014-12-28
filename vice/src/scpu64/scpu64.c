@@ -50,7 +50,6 @@
 #include "cartridge.h"
 #include "cia.h"
 #include "clkguard.h"
-#include "datasette.h"
 #include "debug.h"
 #include "diskimage.h"
 #include "drive-cmdline-options.h"
@@ -406,10 +405,6 @@ int machine_resources_init(void)
         init_resource_fail("drive");
         return -1;
     }
-    if (datasette_resources_init() < 0) {
-        init_resource_fail("datasette");
-        return -1;
-    }
     if (scpu64_glue_resources_init() < 0) {
         init_resource_fail("scpu64 glue");
         return -1;
@@ -549,10 +544,6 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("drive");
         return -1;
     }
-    if (datasette_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("datasette");
-        return -1;
-    }
     if (scpu64_glue_cmdline_options_init() < 0) {
         init_cmdline_options_fail("scpu64 glue");
         return -1;
@@ -644,9 +635,6 @@ int machine_specific_init(void)
 
     /* Initialize print devices.  */
     printer_init();
-
-    /* Initialize the datasette emulation.  */
-    datasette_init();
 
     /* Fire up the hardware-level drive emulation.  */
     drive_init();
