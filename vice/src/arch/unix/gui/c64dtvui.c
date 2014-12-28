@@ -48,6 +48,7 @@
 #include "uinetplay.h"
 #include "uiperipheraliec.h"
 #include "uiprinteriec.h"
+#include "uiprinter.h"
 #include "uips2mouse.h"
 #include "uiram.h"
 #include "uiromset.h"
