@@ -285,7 +285,7 @@ tape_file_record_t *tape_get_current_file_record(tape_image_t *tape_image)
 
 int tape_image_open(tape_image_t *tape_image)
 {
-    return 0;
+    return -1;
 }
 
 int tape_image_close(tape_image_t *tape_image)
