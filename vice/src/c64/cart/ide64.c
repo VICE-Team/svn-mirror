@@ -659,7 +659,7 @@ int ide64_resources_shutdown(void)
     }
 
     if (settings_usbserver_address) {
-        free(settings_usbserver_address);
+        lib_free(settings_usbserver_address);
         settings_usbserver_address = NULL;
     }
 
