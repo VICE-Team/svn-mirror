@@ -385,6 +385,12 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
+#ifdef DEBUG
+    if (debug_resources_init() < 0) {
+        init_resource_fail("debug");
+        return -1;
+    }
+#endif
 #ifdef HAVE_MOUSE
     if (mouse_resources_init() < 0) {
         init_resource_fail("mouse");
@@ -519,7 +525,7 @@ int machine_cmdline_options_init(void)
         return -1;
     }
 #ifdef DEBUG
-    if (debug_resources_init() < 0) {
+    if (debug_cmdline_options_init() < 0) {
         init_cmdline_options_fail("debug");
         return -1;
     }
