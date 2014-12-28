@@ -43,6 +43,7 @@
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "cmdline.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
@@ -54,6 +55,7 @@
 #include "sound.h"
 #include "t6721.h"
 #include "tpi.h"
+#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "crt.h"
@@ -1166,6 +1168,33 @@ void magicvoice_resources_shutdown(void)
 {
     lib_free(magicvoice_filename);
     magicvoice_filename = NULL;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-magicvoiceimage", SET_RESOURCE, 1,
+      NULL, NULL, "MagicVoiceImage", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME,
+      NULL, NULL },
+    { "-magicvoice", SET_RESOURCE, 0,
+      NULL, NULL, "MagicVoiceCartridgeEnabled", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_MAGICVOICE,
+      NULL, NULL },
+    { "+magicvoice", SET_RESOURCE, 0,
+      NULL, NULL, "MagicVoiceCartridgeEnabled", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_MAGICVOICE,
+      NULL, NULL },
+  { NULL }
+};
+
+int magicvoice_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ---------------------------------------------------------------------*/

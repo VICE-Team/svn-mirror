@@ -6764,6 +6764,493 @@ description:    "Do not write to ISEPIC image"
 resource:       "IsepicImageWrite" (set to 0)
 action:         N/A
 
+c64/cart/magicvoice.c:
+----------------------
+resource type:                  string
+resource name:                  "MagicVoiceImage"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_magicvoice_filename()
+resource var:                   magicvoice_filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -magicvoiceimage
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/magicvoice.c:
+----------------------
+command line:   -magicvoiceimage <name>
+description:    "Specify name of Magic Voice ROM image"
+resource:       "MagicVoiceImage"
+action:         N/A
+
+c64/cart/magicvoice.c:
+----------------------
+resource type:                  bool
+resource name:                  "MagicVoiceCartridgeEnabled"
+resource range:                 0/1
+resource default:               0
+resource function:              set_magicvoice_enabled()
+resource var:                   magicvoice_sound_chip.chip_enabled
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -magicvoice / +magicvoice
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/georam.c:
+------------------
+command line:   -magicvoice
+description:    "Enable Magic Voice cartridge"
+resource:       "MagicVoiceCartridgeEnabled" (set to 1)
+action:         N/A
+
+c64/cart/georam.c:
+------------------
+command line:   +magicvoice
+description:    "Disable Magic Voice cartridge"
+resource:       "MagicVoiceCartridgeEnabled" (set to 0)
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+resource type:                  string
+resource name:                  "MMC64BIOSfilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_mmc64_bios_filename()
+resource var:                   mmc64_bios_filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmc64bios
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/mmc64.c:
+-----------------
+command line:   -mmc64bios <Name>
+description:    "Specify name of MMC64 BIOS image"
+resource:       "MMC64BIOSfilename"
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+resource type:                  string
+resource name:                  "MMC64imagefilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_mmc64_image_filename()
+resource var:                   mmc64_image_filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmc64image
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/mmc64.c:
+-----------------
+command line:   -mmc64image <Name>
+description:    "Specify name of MMC64 image"
+resource:       "MMC64imagefilename"
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+resource type:                  bool
+resource name:                  "MMC64"
+resource range:                 0/1
+resource default:               0
+resource function:              set_mmc64_enabled()
+resource var:                   mmc64_enabled
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmc64 / +mmc64
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/mmc64.c:
+-----------------
+command line:   -mmc64
+description:    "Enable the MMC64 expansion"
+resource:       "MMC64" (set to 1)
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+command line:   +mmc64
+description:    "Disable the MMC64 expansion"
+resource:       "MMC64" (set to 0)
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+resource type:                  bool
+resource name:                  "MMC64_RO"
+resource range:                 0/1
+resource default:               0
+resource function:              set_mmc64_readonly()
+resource var:                   mmc64_hw_writeprotect
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmc64readonly / -mmc64readwrite
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/mmc64.c:
+-----------------
+command line:   -mmc64readonly
+description:    "Set the MMC64 card to read-only"
+resource:       "MMC64_RO" (set to 1)
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+command line:   -mmc64readwrite
+description:    "Set the MMC64 card to read/write"
+resource:       "MMC64_RO" (set to 0)
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+resource type:                  bool
+resource name:                  "MMC64_flashjumper"
+resource range:                 0/1
+resource default:               0
+resource function:              set_mmc64_flashjumper()
+resource var:                   mmc64_hw_flashjumper
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmc64flash / +mmc64flash
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/mmc64.c:
+-----------------
+command line:   -mmc64flash
+description:    "Set the MMC64 Flash Jumper"
+resource:       "MMC64_flashjumper" (set to 1)
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+command line:   +mmc64flash
+description:    "Remove the MMC64 Flash Jumper"
+resource:       "MMC64_flashjumper" (set to 0)
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+resource type:                  int
+resource name:                  "MMC64_revision"
+resource range:                 0..1 (MMC64_REV_A (0), MMC64_REV_B (1))
+resource default:               MMC64_REV_A (0)
+resource function:              set_mmc64_revision()
+resource var:                   mmc64_revision
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmc64rev
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/mmc64.c:
+-----------------
+command line:   -mmc64rev <revision>
+description:    "Specify MMC64 revision (0: Rev A, 1: Rev B)"
+resource:       "MMC64_revision"
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+resource type:                  bool
+resource name:                  "MMC64_bios_write"
+resource range:                 0/1
+resource default:               0
+resource function:              set_mmc64_bios_write()
+resource var:                   mmc64_bios_write
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmc64bioswrite / -mmc64biosreadonly
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/mmc64.c:
+-----------------
+command line:   -mmc64bioswrite
+description:    "Save the MMC64 bios when changed"
+resource:       "MMC64_bios_write" (set to 1)
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+command line:   -mmc64biosreadonly
+description:    "Do not save the MMC64 bios when changed"
+resource:       "MMC64_bios_write" (set to 0)
+action:         N/A
+
+c64/cart/mmc64.c:
+-----------------
+resource type:                  int
+resource name:                  "MMC64_sd_type"
+resource range:                 0..3 (MMC64_TYPE_AUTO (0), MMC64_TYPE_MMC (1), MMC64_TYPE_SD (2), MMC64_TYPE_SDHC (3))
+resource default:               MMC64_TYPE_AUTO (0)
+resource function:              set_mmc64_sd_type()
+resource var:                   mmc64_sd_type
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmc64sdtype
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/georam.c:
+------------------
+command line:   -mmc64sdtype <type>
+description:    "Specify MMC64 SD type (0: auto, 1: MMC, 2: SD, 3: SDHC)"
+resource:       "MMC64_sd_type"
+action:         N/A
+
+c64/cart/mmcreplay.c:
+---------------------
+resource type:                  string
+resource name:                  "MMCRCardImage"
+resource range:                 N/A
+resource default:               ""
+resource function:              mmcr_card_filename()
+resource var:                   mmcr_sd_type
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmcrcardimage
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/mmcreplay.c:
+---------------------
+command line:   -mmcrcardimage <filename>
+description:    "Specify MMC Replay card image filename"
+resource:       "MMCRCardImage"
+action:         N/A
+
+c64/cart/mmcreplay.c:
+---------------------
+resource type:                  string
+resource name:                  "MMCREEPROMImage"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_mmcr_eeprom_filename()
+resource var:                   mmcr_eeprom_filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmcreepromimage
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/mmcreplay.c:
+---------------------
+command line:   -mmcreepromimage <filename>
+description:    "Specify MMC Replay EEPROM image filename"
+resource:       "MMCREEPROMImage"
+action:         N/A
+
+c64/cart/mmcreplay.c:
+---------------------
+resource type:                  bool
+resource name:                  "MMCRRescueMode"
+resource range:                 0/1
+resource default:               0
+resource function:              set_mmcr_rescue_mode()
+resource var:                   enable_rescue_mode
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmcrrescue / +mmcrrescue
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/mmcreplay.c:
+---------------------
+command line:   -mmcrrescue
+description:    "Enable MMC Replay rescue mode"
+resource:       "MMCRRescueMode" (set to 1)
+action:         N/A
+
+c64/cart/mmcreplay.c:
+---------------------
+command line:   +mmcrrescue
+description:    "Disable MMC Replay rescue mode"
+resource:       "MMCRRescueMode" (set to 0)
+action:         N/A
+
+c64/cart/mmcreplay.c:
+---------------------
+resource type:                  bool
+resource name:                  "MMCRImageWrite"
+resource range:                 0/1
+resource default:               0
+resource function:              set_mmcr_image_write()
+resource var:                   mmcr_write_image
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmcrimagerw / +mmcrimagerw
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/mmcreplay.c:
+---------------------
+command line:   -mmcrimagerw
+description:    "Allow writing to MMC Replay image"
+resource:       "MMCRImageWrite" (set to 1)
+action:         N/A
+
+c64/cart/mmcreplay.c:
+---------------------
+command line:   +mmcrimagerw
+description:    "Do not write to MMC Replay image"
+resource:       "MMCRImageWrite" (set to 0)
+action:         N/A
+
+c64/cart/mmcreplay.c:
+---------------------
+resource type:                  bool
+resource name:                  "MMCRCardRW"
+resource range:                 0/1
+resource default:               1
+resource function:              set_mmcr_card_rw()
+resource var:                   mmcr_card_rw
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmcrcardrw / +mmcrcardrw
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/mmcreplay.c:
+---------------------
+command line:   -mmcrcardrw
+description:    "Enable writes to MMC Replay card image"
+resource:       "MMCRCardRW" (set to 1)
+action:         N/A
+
+c64/cart/mmcreplay.c:
+---------------------
+command line:   +mmcrcardrw
+description:    "Disable writes to MMC Replay card image"
+resource:       "MMCRCardRW" (set to 0)
+action:         N/A
+
+c64/cart/mmcreplay.c:
+---------------------
+resource type:                  int
+resource name:                  "MMCRSDType"
+resource range:                 0..3 (MMCR_TYPE_AUTO (0), MMCR_TYPE_MMC (1), MMCR_TYPE_SD (2), MMCR_TYPE_SDHC (3))
+resource default:               MMCR_TYPE_AUTO (0)
+resource function:              set_mmcr_sd_type()
+resource var:                   mmcr_sd_type
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmcrsdtype
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/georam.c:
+------------------
+command line:   -mmcrsdtype <type>
+description:    "Specify MMC Replay SD type (0: auto, 1: MMC, 2: SD, 3: SDHC)"
+resource:       "MMCRSDType"
+action:         N/A
+
+c64/cart/mmcreplay.c:
+---------------------
+resource type:                  bool
+resource name:                  "MMCREEPROMRW"
+resource range:                 0/1
+resource default:               1
+resource function:              set_mmcr_eeprom_rw()
+resource var:                   mmcr_eeprom_rw
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -mmcreepromrw / +mmcreepromrw
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/mmcreplay.c:
+---------------------
+command line:   -mmcreepromrw
+description:    "Enable writes to MMC Replay EEPROM image"
+resource:       "MMCREEPROMRW" (set to 1)
+action:         N/A
+
+c64/cart/mmcreplay.c:
+---------------------
+command line:   +mmcreepromrw
+description:    "Disable writes to MMC Replay EEPROM image"
+resource:       "MMCREEPROMRW" (set to 0)
+action:         N/A
+
+c64/cart/ramcart.c:
+-------------------
+resource type:                  string
+resource name:                  "RAMCARTfilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_ramcart_filename()
+resource var:                   ramcart_filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -ramcartimage
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/ramcart.c:
+-------------------
+command line:   -ramcartimage <Name>
+description:    "Specify name of RAMCART image"
+resource:       "RAMCARTfilename"
+action:         N/A
+
+c64/cart/ramcart.c:
+-------------------
+resource type:                  bool
+resource name:                  "RAMCART"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ramcart_enabled()
+resource var:                   ramcart_enabled
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -ramcart / +ramcart
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/ramcart.c:
+-------------------
+command line:   -ramcart
+description:    "Enable the RamCart expansion"
+resource:       "RAMCART" (set to 1)
+action:         N/A
+
+c64/cart/ramcart.c:
+-------------------
+command line:   +ramcart
+description:    "Disable the RamCart expansion"
+resource:       "RAMCART" (set to 0)
+action:         N/A
+
+c64/cart/ramcart.c:
+-------------------
+resource type:                  bool
+resource name:                  "RAMCART_RO"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ramcart_readonly()
+resource var:                   ramcart_readonly
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   NONE (fixme)
+platform gui present:           amigaos/dos/sdl/osx/windows/unix
+platform gui missing:           beos/os2
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -7745,8 +8232,7 @@ c64/cart/georam.c:
 resource type:                  bool
 resource name:                  "GEORAMIOSwap"
 resource range:                 0/1
-resource default:               0
-resource function:              set_georam_io_swap()
+resource default:               resource function:              set_georam_io_swap()
 resource var:                   georam_io_swap
 resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
@@ -7771,476 +8257,6 @@ action:         N/A
 
 ---------------------------------blacky---------------------------------------------------------------------------------------------
 
-c64/cart/magicvoice.c:
-----------------------
-resource type:                  string
-resource name:                  "MagicVoiceImage"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_magicvoice_filename()
-resource var:                   magicvoice_filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-
-c64/cart/magicvoice.c:
-----------------------
-resource type:                  bool
-resource name:                  "MagicVoiceCartridgeEnabled"
-resource range:                 0/1
-resource default:               0
-resource function:              set_magicvoice_enabled()
-resource var:                   magicvoice_sound_chip.chip_enabled
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/mmc64.c:
------------------
-resource type:                  string
-resource name:                  "MMC64BIOSfilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_mmc64_bios_filename()
-resource var:                   mmc64_bios_filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -mmc64bios
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/mmc64.c:
------------------
-command line:   -mmc64bios <Name>
-description:    "Specify name of MMC64 BIOS image"
-resource:       "MMC64BIOSfilename"
-action:         N/A
-
-c64/cart/mmc64.c:
------------------
-resource type:                  string
-resource name:                  "MMC64imagefilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_mmc64_image_filename()
-resource var:                   mmc64_image_filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -mmc64image
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/mmc64.c:
------------------
-command line:   -mmc64image <Name>
-description:    "Specify name of MMC64 image"
-resource:       "MMC64imagefilename"
-action:         N/A
-
-c64/cart/mmc64.c:
------------------
-resource type:                  bool
-resource name:                  "MMC64"
-resource range:                 0/1
-resource default:               0
-resource function:              set_mmc64_enabled()
-resource var:                   mmc64_enabled
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -mmc64 / +mmc64
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/mmc64.c:
------------------
-command line:   -mmc64
-description:    "Enable the MMC64 expansion"
-resource:       "MMC64" (set to 1)
-action:         N/A
-
-c64/cart/mmc64.c:
------------------
-command line:   +mmc64
-description:    "Disable the MMC64 expansion"
-resource:       "MMC64" (set to 0)
-action:         N/A
-
-c64/cart/mmc64.c:
------------------
-resource type:                  bool
-resource name:                  "MMC64_RO"
-resource range:                 0/1
-resource default:               0
-resource function:              set_mmc64_readonly()
-resource var:                   mmc64_hw_writeprotect
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -mmc64readonly / -mmc64readwrite
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/mmc64.c:
------------------
-command line:   -mmc64readonly
-description:    "Set the MMC64 card to read-only"
-resource:       "MMC64_RO" (set to 1)
-action:         N/A
-
-c64/cart/mmc64.c:
------------------
-command line:   -mmc64readwrite
-description:    "Set the MMC64 card to read/write"
-resource:       "MMC64_RO" (set to 0)
-action:         N/A
-
-c64/cart/mmc64.c:
------------------
-resource type:                  bool
-resource name:                  "MMC64_flashjumper"
-resource range:                 0/1
-resource default:               0
-resource function:              set_mmc64_flashjumper()
-resource var:                   mmc64_hw_flashjumper
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -mmc64flash / +mmc64flash
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/mmc64.c:
------------------
-command line:   -mmc64flash
-description:    "Set the MMC64 Flash Jumper"
-resource:       "MMC64_flashjumper" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-c64/cart/mmc64.c:
------------------
-command line:   +mmc64flash
-description:    "Remove the MMC64 Flash Jumper"
-resource:       "MMC64_flashjumper" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-c64/cart/mmc64.c:
------------------
-resource type:                  int
-resource name:                  "MMC64_revision"
-resource range:                 0..1 (MMC64_REV_A (0), MMC64_REV_B (1))
-resource default:               MMC64_REV_A (0)
-resource function:              set_mmc64_revision()
-resource var:                   mmc64_revision
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-c64/cart/mmc64.c:
------------------
-resource type:                  bool
-resource name:                  "MMC64_bios_write"
-resource range:                 0/1
-resource default:               0
-resource function:              set_mmc64_bios_write()
-resource var:                   mmc64_bios_write
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -mmc64bioswrite / -mmc64biosreadonly
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/cart/mmc64.c:
------------------
-command line:   -mmc64bioswrite
-description:    "Save the MMC64 bios when changed"
-resource:       "MMC64_bios_write" (set to 1)
-action:         N/A
-
-c64/cart/mmc64.c:
------------------
-command line:   -mmc64biosreadonly
-description:    "Do not save the MMC64 bios when changed"
-resource:       "MMC64_bios_write" (set to 0)
-action:         N/A
-fixme: add to documentation
-
-c64/cart/mmc64.c:
------------------
-resource type:                  int
-resource name:                  "MMC64_sd_type"
-resource range:                 0..3 (MMC64_TYPE_AUTO (0), MMC64_TYPE_MMC (1), MMC64_TYPE_SD (2), MMC64_TYPE_SDHC (3))
-resource default:               MMC64_TYPE_AUTO (0)
-resource function:              set_mmc64_sd_type()
-resource var:                   mmc64_sd_type
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-c64/cart/mmcreplay.c:
----------------------
-resource type:                  string
-resource name:                  "MMCRCardImage"
-resource range:                 N/A
-resource default:               ""
-resource function:              mmcr_card_filename()
-resource var:                   mmcr_sd_type
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -mmcrcardimage
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/mmcreplay.c:
----------------------
-command line:   -mmcrcardimage <filename>
-description:    "Specify MMC Replay card image filename"
-resource:       "MMCRCardImage"
-action:         N/A
-
-c64/cart/mmcreplay.c:
----------------------
-resource type:                  string
-resource name:                  "MMCREEPROMImage"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_mmcr_eeprom_filename()
-resource var:                   mmcr_eeprom_filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -mmcreepromimage
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/mmcreplay.c:
----------------------
-command line:   -mmcreepromimage <filename>
-description:    "Specify MMC Replay EEPROM image filename"
-resource:       "MMCREEPROMImage"
-action:         N/A
-fixme: fix documentation, parameter
-
-c64/cart/mmcreplay.c:
----------------------
-resource type:                  bool
-resource name:                  "MMCRRescueMode"
-resource range:                 0/1
-resource default:               0
-resource function:              set_mmcr_rescue_mode()
-resource var:                   enable_rescue_mode
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -mmcrrescue / +mmcrrescue
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/mmcreplay.c:
----------------------
-command line:   -mmcrrescue
-description:    "Enable MMC Replay rescue mode"
-resource:       "MMCRRescueMode" (set to 1)
-action:         N/A
-
-c64/cart/mmcreplay.c:
----------------------
-command line:   +mmcrrescue
-description:    "Disable MMC Replay rescue mode"
-resource:       "MMCRRescueMode" (set to 0)
-action:         N/A
-
-c64/cart/mmcreplay.c:
----------------------
-resource type:                  bool
-resource name:                  "MMCRImageWrite"
-resource range:                 0/1
-resource default:               0
-resource function:              set_mmcr_image_write()
-resource var:                   mmcr_write_image
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -mmcrimagerw / +mmcrimagerw
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/mmcreplay.c:
----------------------
-command line:   -mmcrimagerw
-description:    "Allow writing to MMC Replay image"
-resource:       "MMCRImageWrite" (set to 1)
-action:         N/A
-
-c64/cart/mmcreplay.c:
----------------------
-command line:   +mmcrimagerw
-description:    "Do not write to MMC Replay image"
-resource:       "MMCRImageWrite" (set to 0)
-action:         N/A
-
-c64/cart/mmcreplay.c:
----------------------
-resource type:                  bool
-resource name:                  "MMCRCardRW"
-resource range:                 0/1
-resource default:               1
-resource function:              set_mmcr_card_rw()
-resource var:                   mmcr_card_rw
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -mmcrcardrw / +mmcrcardrw
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/mmcreplay.c:
----------------------
-command line:   -mmcrcardrw
-description:    "Enable writes to MMC Replay card image"
-resource:       "MMCRCardRW" (set to 1)
-action:         N/A
-
-c64/cart/mmcreplay.c:
----------------------
-command line:   +mmcrcardrw
-description:    "Disable writes to MMC Replay card image"
-resource:       "MMCRCardRW" (set to 0)
-action:         N/A
-
-c64/cart/mmcreplay.c:
----------------------
-resource type:                  int
-resource name:                  "MMCRSDType"
-resource range:                 0..3 (MMCR_TYPE_AUTO (0), MMCR_TYPE_MMC (1), MMCR_TYPE_SD (2), MMCR_TYPE_SDHC (3))
-resource default:               MMCR_TYPE_AUTO (0)
-resource function:              set_mmcr_sd_type()
-resource var:                   mmcr_sd_type
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-c64/cart/mmcreplay.c:
----------------------
-resource type:                  bool
-resource name:                  "MMCREEPROMRW"
-resource range:                 0/1
-resource default:               1
-resource function:              set_mmcr_eeprom_rw()
-resource var:                   mmcr_eeprom_rw
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -mmcreepromrw / +mmcreepromrw
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/mmcreplay.c:
----------------------
-command line:   -mmcreepromrw
-description:    "Enable writes to MMC Replay EEPROM image"
-resource:       "MMCREEPROMRW" (set to 1)
-action:         N/A
-
-c64/cart/mmcreplay.c:
----------------------
-command line:   +mmcreepromrw
-description:    "Disable writes to MMC Replay EEPROM image"
-resource:       "MMCREEPROMRW" (set to 0)
-action:         N/A
-
-c64/cart/ramcart.c:
--------------------
-resource type:                  string
-resource name:                  "RAMCARTfilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_ramcart_filename()
-resource var:                   ramcart_filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -ramcartimage
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/ramcart.c:
--------------------
-command line:   -ramcartimage <Name>
-description:    "Specify name of RAMCART image"
-resource:       "RAMCARTfilename"
-action:         N/A
-
-c64/cart/ramcart.c:
--------------------
-resource type:                  bool
-resource name:                  "RAMCART"
-resource range:                 0/1
-resource default:               0
-resource function:              set_ramcart_enabled()
-resource var:                   ramcart_enabled
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -ramcart / +ramcart
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/ramcart.c:
--------------------
-command line:   -ramcart
-description:    "Enable the RamCart expansion"
-resource:       "RAMCART" (set to 1)
-action:         N/A
-
-c64/cart/ramcart.c:
--------------------
-command line:   +ramcart
-description:    "Disable the RamCart expansion"
-resource:       "RAMCART" (set to 0)
-action:         N/A
-
-c64/cart/ramcart.c:
--------------------
-resource type:                  bool
-resource name:                  "RAMCART_RO"
-resource range:                 0/1
-resource default:               0
-resource function:              set_ramcart_readonly()
-resource var:                   ramcart_readonly
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/dos/sdl/osx/windows/unix
-platform gui missing:           beos/os2
-
 c64/cart/ramcart.c:
 -------------------
 resource type:                  int
@@ -8254,9 +8270,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -ramcartsize
 platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos
+platform range incorrect:		beos/dos/os2/sdl/osx/windows/unix
 
 c64/cart/ramcart.c:
 -------------------
@@ -10344,13 +10359,12 @@ resource range:                 0/1
 resource default:               1
 resource function:              set_reset_datasette_with_maincpu()
 resource var:                   reset_datasette_with_maincpu
-resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    x64dtv/vsid
+resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    xscpu64/x64dtv/vsid
 prepocessor:
 command-line:                   -dsresetwithcpu / +dsresetwithcpu
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
-fixme: should not be used in xscpu64
 
 datasette.c:
 ------------
@@ -10374,13 +10388,12 @@ resource range:                 0+
 resource default:               20000
 resource function:              set_datasette_zero_gap_delay()
 resource var:                   datasette_zero_gap_delay
-resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    x64dtv/vsid
+resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    xscpu64/x64dtv/vsid
 prepocessor:
 command-line:                   -dszerogapdelay
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
-fixme: should not be used in xscpu64
 
 datasette.c:
 ------------
@@ -10397,13 +10410,12 @@ resource range:                 0+
 resource default:               1
 resource function:              set_datasette_speed_tuning()
 resource var:                   datasette_speed_tuning
-resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    x64dtv/vsid
+resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    xscpu64/x64dtv/vsid
 prepocessor:
 command-line:                   -dsspeedtuning
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:
-fixme: should not be used in xscpu64
 
 datasette.c:
 ------------

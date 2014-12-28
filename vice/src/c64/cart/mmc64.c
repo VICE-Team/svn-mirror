@@ -1049,6 +1049,16 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_MMC64_UNSET_FLASH_JUMPER,
       NULL, NULL },
+    { "-mmc64rev", SET_RESOURCE, 1,
+      NULL, NULL, "MMC64_revision", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_REVISION, IDCLS_SPECIFY_MMC64_REVISION,
+      NULL, NULL },
+    { "-mmc64sdtype", SET_RESOURCE, 1,
+      NULL, NULL, "MMC64_sd_type", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_TYPE, IDCLS_SPECIFY_MMC64_SD_TYPE,
+      NULL, NULL },
   { NULL }
 };
 

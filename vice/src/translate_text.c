@@ -5352,6 +5352,57 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE_TR, "ISEPIC imajýna yazma"},
 #endif
 
+/* c64/cart/magicvoice.c */
+/* en */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME,    N_("Specify name of Magic Voice ROM image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/mmc64.c */
+/* en */ {IDCLS_ENABLE_MAGICVOICE,    N_("Enable the Magic Voice cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_MAGICVOICE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_MAGICVOICE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_MAGICVOICE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_MAGICVOICE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_MAGICVOICE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_MAGICVOICE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_MAGICVOICE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_MAGICVOICE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_MAGICVOICE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_MAGICVOICE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_MAGICVOICE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_MAGICVOICE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/mmc64.c */
+/* en */ {IDCLS_DISABLE_MAGICVOICE,    N_("Disable the Magic Voice cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_MAGICVOICE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_MAGICVOICE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_MAGICVOICE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_MAGICVOICE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_MAGICVOICE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_MAGICVOICE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_MAGICVOICE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_MAGICVOICE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_MAGICVOICE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_MAGICVOICE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_MAGICVOICE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_MAGICVOICE_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/mmc64.c */
 /* en */ {IDCLS_ENABLE_MMC64,    N_("Enable the MMC64 expansion")},
 #ifdef HAS_TRANSLATION
@@ -5418,6 +5469,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_RU, "Specify name of MMC64 image"},
 /* sv */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_SV, "Ange namn på MMC64-avbildning"},
 /* tr */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_TR, "MMC64 imajýnýn ismini belirt"},
+#endif
+
+/* c64/cart/mmc64.c */
+/* en */ {IDCLS_SPECIFY_MMC64_REVISION,    N_("Specify MMC64 revision (0: Rev A, 1: Rev B)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_MMC64_REVISION_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_MMC64_REVISION_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_MMC64_REVISION_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_MMC64_REVISION_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_MMC64_REVISION_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_MMC64_REVISION_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_MMC64_REVISION_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_MMC64_REVISION_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_MMC64_REVISION_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_MMC64_REVISION_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_MMC64_REVISION_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_MMC64_REVISION_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/mmc64.c */
+/* en */ {IDCLS_SPECIFY_MMC64_SD_TYPE,    N_("Specify MMC64 SD type (0: auto, 1: MMC, 2: SD, 3: SDHC)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_MMC64_SD_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_MMC64_SD_TYPE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_MMC64_SD_TYPE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_MMC64_SD_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_MMC64_SD_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_MMC64_SD_TYPE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_MMC64_SD_TYPE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_MMC64_SD_TYPE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_MMC64_SD_TYPE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_MMC64_SD_TYPE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_MMC64_SD_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_MMC64_SD_TYPE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/mmc64.c */
@@ -5537,6 +5622,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_RU, "Specify MMC Replay card image filename"},
 /* sv */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_SV, "Ange namn på avbildningsfil för MMC Replay-kort"},
 /* tr */ {IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME_TR, "MMC Replay kart imaj dosyaismini belirt"},
+#endif
+
+/* c64/cart/mmcreplay.c */
+/* en */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE,    N_("Specify MMC Replay SD type (0: auto, 1: MMC, 2: SD, 3: SDHC)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SELECT_MMC_REPLAY_SD_TYPE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/mmcreplay.c */

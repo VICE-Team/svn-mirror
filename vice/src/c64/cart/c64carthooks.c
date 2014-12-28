@@ -507,6 +507,7 @@ int cart_cmdline_options_init(void)
 {
     /* "Slot 0" */
     if (mmc64_cmdline_options_init() < 0
+        || magicvoice_cmdline_options_init() < 0
         || tpi_cmdline_options_init() < 0
         /* "Slot 1" */
         || dqbb_cmdline_options_init() < 0

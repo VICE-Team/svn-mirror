@@ -5018,8 +5018,7 @@ contents changed, when detaching or quitting the emulator.
 Boolean specifying whether the Magic Voice should be emulated or not.
 @vindex MagicVoiceImage
 @item MagicVoiceImage
-String specifying the filename of the Magic Voice ROM image
-
+String specifying the filename of the Magic Voice ROM image.
 @vindex MMC64
 @item MMC64
 Boolean specifying whether the MMC64 should be emulated or not.
@@ -5035,7 +5034,8 @@ contents changed, when detaching or quitting the emulator.
 Boolean that specifies whether the MMC64 flash jumper is set.
 @vindex MMC64_revision
 @item MMC64_revision
-Integer that specifies the MMC64 hardware revision (0=Rev. A, 1=Rev. B)
+Integer specifying the MMC64 hardware revision.
+(0=Rev. A, 1=Rev. B)
 @vindex MMC64imagefilename
 @item MMC64imagefilename
 String specifying the filename of the SD-Card image used by the MMC64 emulation.
@@ -5044,18 +5044,18 @@ String specifying the filename of the SD-Card image used by the MMC64 emulation.
 Boolean, if true the SD-Card image is mounted read-only.
 @vindex MMC64_sd_type
 @item MMC64_sd_type
-Integer that specifies the reported type for the emulated SD-Card. (0=Auto, 1=MMC,
-2=SD, 3=SDHC)
+Integer that specifies the reported type for the emulated SD-Card.
+(0=Auto, 1=MMC, 2=SD, 3=SDHC)
 
 @vindex MMCRCardImage
 @item MMCRCardImage
-String that specifies the filename of the SD-Card image used by the MMCR emulation.
+String specifying the filename of the SD-Card image used by the MMCR emulation.
 @vindex MMCREEPROMImage
 @item MMCREEPROMImage
-String that specifies the filename of the MMCR EEPROM image.
+String specifying the filename of the MMCR EEPROM image.
 @vindex MMCRRescueMode
 @item MMCRRescueMode
-Boolean that specifies if the rescue mode (both buttons pressed during powerup)
+Boolean specifying if the rescue mode (both buttons pressed during powerup)
 of the MMCR is active.
 @vindex MMCRImageWrite
 @item MMCRImageWrite
@@ -5063,14 +5063,14 @@ Boolean, if true write back the MMCR Flash ROM image file automatically, incase 
 contents changed, when detaching or quitting the emulator.
 @vindex MMCRCardRW
 @item MMCRCardRW
-Boolean that specifies if the SD-Card image used by the MMCR emulation is writeable.
+Boolean specifying if the SD-Card image used by the MMCR emulation is writeable.
 @vindex MMCRSDType
 @item MMCRSDType
-Integer that specifies the reported type for the emulated SD-Card. (0=Auto, 1=MMC,
-2=SD, 3=SDHC)
+Integer that specifies the reported type for the emulated SD-Card.
+(0=Auto, 1=MMC, 2=SD, 3=SDHC)
 @vindex MMCREEPROMRW
 @item MMCREEPROMRW
-Boolean that specifies if the MMCR EEPROM image is writeable.
+Boolean specifying if the MMCR EEPROM image is writeable.
 
 @vindex RAMCART
 @item RAMCART
@@ -5384,56 +5384,101 @@ Attach raw Magic Formel cartridge image.
 @findex -cartmikro
 @item -cartmikro <name>
 Attach raw 8kB Mikro Assembler cartridge image.
-@cindex -mmc64, +mmc64
+@findex -mmc64, +mmc64
 @item -mmc64
 @itemx +mmc64
 Enable/Disable the MMC64 expansion
+(@code{MMC64=1}, @code{MMC64=0}).
 @findex -cartmmc64
 @item -cartmmc64 <name>
 Attach raw 8kB MMC64 cartridge image.
-@cindex -mmc64bios
+@findex -mmc64bios
 @item -mmc64bios <name>
 Specify name of MMC64 BIOS image
-@cindex -mmc64image
+(@code{MMC64BIOSfilename}).
+@findex -mmc64image
 @item -mmc64image <name>
 Specify name of MMC64 image
-@cindex -mmc64readonly
+(@code{MMC64imagefilename}).
+@findex -mmc64readonly
 @item -mmc64readonly
 Set the MMC64 card to read-only
-@cindex -mmc64readwrite
+(@code{MMC64_RO=1}).
+@findex -mmc64readwrite
 @item -mmc64readwrite
 Set the MMC64 card to read/write
-@cindex -mmc64bioswrite
+(@code{MMC64_RO=0}).
+@findex -mmc64flash, +mmc64flash
+@item -mmc64flash
+@itemx +mmc64flash
+Enable/Disable the MMC64 flash jumper
+(@code{MMC64_flashjumper=1}, @code{MMC64_flashjumper=0}).
+@findex -mmc64bioswrite
 @item -mmc64bioswrite
 Save the MMC64 bios when changed
+(@code{MMC64_bios_write}=1).
+@findex -mmc64biosreadonly
+@item -mmc64biosreadonly
+Do not save the MMC64 bios when changed
+(@code{MMC64_bios_write}=0).
+@findex -mmc64rev
+@item -mmc64rev <revision>
+Specify MMC64 revision
+(@code{MMC64_revision}).
+(0=Rev. A, 1=Rev. B)
+@findex -mmc64sdtype
+@item -mmc64sdtype <type>
+Specify MMC64 SD type
+(@code{MMC64_sd_type}).
+(0=Auto, 1=MMC, 2=SD, 3=SDHC)
 @findex -cartmmcr
 @item -cartmmcr <name>
 Attach raw 512kB MMC Replay cartridge image.
-@cindex -mmcrrescue, +mmcrrescue
+@findex -mmcrrescue, +mmcrrescue
 @item -mmcrrescue
 @itemx +mmcrrescue
 Enable/Disable MMC Replay rescue mode
-@cindex -mmcrimagerw, +mmcrimagerw
+(@code{MMCRRescueMode=1}, @code{MMCRRescueMode=0}).
+@findex -mmcrimagerw, +mmcrimagerw
 @item -mmcrimagerw
 @itemx +mmcrimagerw
 Allow/Disallow writing to MMC Replay image
-@cindex -mmcrcardimage
+(@code{MMCRImageWrite=1}, @code{MMCRImageWrite=0}).
+@findex -mmcrsdtype
+@item -mmcrsdtype <type>
+Specify MMC Replay SD type
+(@code{MMCRSDType}).
+(0=Auto, 1=MMC, 2=SD, 3=SDHC)
+@findex -mmcrcardimage
 @item -mmcrcardimage <filename>
 Specify MMC Replay card image filename
-@cindex -mmcrcardrw, +mmcrcardrw
+(@code{MMCRCardImage}).
+@findex -mmcrcardrw, +mmcrcardrw
 @item -mmcrcardrw
 @itemx +mmcrcardrw
 Allow/Disallow writes to MMC Replay card image
-@cindex -mmcreepromimage
-@item -mmcreepromimage
+(@code{MMCRCardRW=1}, @code{MMCRCardRW=0}).
+@findex -mmcreepromimage
+@item -mmcreepromimage <filename>
 Specify MMC Replay EEPROM image filename
-@cindex -mmcreepromrw, +mmcreepromrw
+(@code{MMCREEPROMImage}).
+@findex -mmcreepromrw, +mmcreepromrw
 @item -mmcreepromrw
 @itemx +mmcreepromrw
 Allow/Disallow writes to MMC Replay EEPROM image
+(@code{MMCREEPROMRW=1}, @code{MMCREEPROMRW=0}).
 @findex -cartmv
 @item -cartmv <name>
 Attach raw 16kB Magic Voice cartridge image.
+@findex -magicvoiceimage
+@item -magicvoiceimage <name>
+Specify Magic Voice cartridge ROM image filename
+(@code{MagicVoiceImage}).
+@findex -magicvoice, +magicvoice
+@item -magicvoice
+@itemx +magicvoice
+Enable/Disable Magic Voice cartridge
+(@code{MagicVoiceCartridgeEnabled=1}, @code{MagicVoiceCartridgeEnabled=0}).
 @findex -cartocean
 @item -cartocean <name>
 Attach raw Ocean cartridge image.
@@ -5446,16 +5491,18 @@ Attach raw 64kb Pagefox cartridge image.
 @findex -cartramcart
 @item -cartramcart <name>
 Attach raw RamCart cartridge image.
-@cindex -ramcart, +ramcart
+@findex -ramcart, +ramcart
 @item -ramcart
 @itemx +ramcart
 Enable/Disable the RAMCART expansion
+(@code{RAMCART=1}, @code{RAMCART=0}).
 @cindex -ramcartsize
 @item -ramcartsize <size in KB>
 Size of the RAMCART expansion
-@cindex -ramcartimage
+@findex -ramcartimage
 @item -ramcartimage <name>
 Specify name of RAMCART image
+(@code{RAMCARTfilename}).
 @cindex -ramcartimagerw, +ramcartimagerw
 @item -ramcartimagerw
 @itemx +ramcartimagerw
