@@ -111,12 +111,18 @@ static int is_native(void) {
 /* "output driver" combo box */
 static void ffmpeg_output_driver_changed(GtkWidget *w, gpointer data)
 {
-    int i;
-
     g_return_if_fail(GTK_IS_COMBO_BOX(w));
+#ifdef DEBUG_UI
+    {
+	int i;
 
-    i = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
-    DBG(("ffmpeg_output_driver_changed (driver:%s)\n", buttons[i].driver));
+	i = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
+	DBG(("ffmpeg_output_driver_changed (driver:%s)\n", buttons[i].driver));
+    }
+#else
+    gtk_combo_box_get_active(GTK_COMBO_BOX(w));
+#endif
+
 #ifdef HAVE_FFMPEG
     if (strcmp(buttons[i].driver, "FFMPEG") == 0) {
         GtkListStore *store;
