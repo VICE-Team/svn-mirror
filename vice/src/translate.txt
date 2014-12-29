@@ -1833,6 +1833,9 @@ IDCLS_SPECIFY_FLIP_LIST_NAME
 /* initcmdline.c */
 IDCLS_SHOW_COMMAND_LINE_OPTIONS
 
+/* initcmdline.c */
+IDCLS_SHOW_COMPILETIME_FEATURES
+
 #if (!defined  __OS2__ && !defined __BEOS__)
 /* initcmdline.c */
 IDCLS_CONSOLE_MODE

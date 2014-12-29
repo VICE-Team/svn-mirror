@@ -22059,6 +22059,14 @@ fixme: add to documentation
 
 initcmdline.c:
 --------------
+command line:   -features
+description:    "Show a list of the available compile-time options and their configuration."
+resource:       N/A
+action:         cmdline_features()
+fixme: add to documentation
+
+initcmdline.c:
+--------------
 command line:   -default
 description:    "Restore default settings"
 resource:       N/A

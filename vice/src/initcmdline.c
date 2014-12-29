@@ -48,6 +48,7 @@
 #include "tape.h"
 #include "translate.h"
 #include "util.h"
+#include "vicefeatures.h"
 
 #ifdef DEBUG_CMDLINE
 #define DBG(x)  printf x
@@ -88,6 +89,20 @@ static int cmdline_help(const char *param, void *extra_param)
     cmdline_show_help(NULL);
     exit(0);
 
+    return 0;   /* OSF1 cc complains */
+}
+
+static int cmdline_features(const char *param, void *extra_param)
+{
+    feature_list_t *list = vice_get_feature_list();
+
+    printf("Compile time options:\n");
+    while (list->symbol) {
+        printf("%-25s %4s %s\n", list->symbol, list->isdefined ? "yes " : "no  ", list->descr);
+        ++list;
+    }
+
+    exit(0);
     return 0;   /* OSF1 cc complains */
 }
 
@@ -179,6 +194,11 @@ static const cmdline_option_t common_cmdline_options[] = {
       cmdline_help, NULL, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_SHOW_COMMAND_LINE_OPTIONS,
+      NULL, NULL },
+    { "-features", CALL_FUNCTION, 0,
+      cmdline_features, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SHOW_COMPILETIME_FEATURES,
       NULL, NULL },
     { "-default", CALL_FUNCTION, 0,
       cmdline_default, NULL, NULL, NULL,

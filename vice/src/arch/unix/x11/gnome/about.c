@@ -27,9 +27,11 @@
 #include "vice.h"
 
 #include "info.h"
+#include "lib.h"
 #include "platform_discovery.h"
 #include "uiarch.h"
 #include "version.h"
+#include "vicefeatures.h"
 
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
@@ -50,6 +52,34 @@ static void warranty_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 static void contrib_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
     ui_show_text(_("Contributors to the VICE project"), info_contrib_text, 500, 300);
+}
+
+static char *get_compiletime_features(void) {
+    feature_list_t *list;
+    char *str, *lstr;
+    unsigned int len = 0;
+
+    list = vice_get_feature_list();
+    while (list->symbol) {
+        len += strlen(list->descr) + strlen(list->symbol) + (15);
+        ++list;
+    }
+    str = lib_malloc(len);
+    lstr = str;
+    list = vice_get_feature_list();
+    while (list->symbol) {
+        sprintf(lstr, "%4s\t%s (%s)\n", list->isdefined ? "yes " : "no  ", list->descr, list->symbol);
+        lstr += strlen(lstr);
+        ++list;
+    }
+    return str;
+}
+static void features_cb(GtkWidget *w, GdkEvent *event, gpointer data)
+{
+    char *features = NULL;
+    features = get_compiletime_features();
+    ui_show_text(_("Compile time features"), features, 500, 300);
+    lib_free(features);
 }
 
 static void response_cb(GtkWidget *w, gint id, gpointer data)
@@ -140,6 +170,8 @@ void ui_about(gpointer data)
         g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(warranty_cb), NULL);
         button = gtk_dialog_add_button(GTK_DIALOG(about), _("Contributors"), GTK_RESPONSE_OK);
         g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(contrib_cb), NULL);
+        button = gtk_dialog_add_button(GTK_DIALOG(about), _("Features"), GTK_RESPONSE_OK);
+        g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(features_cb), NULL);
         g_signal_connect(G_OBJECT(about), "response", G_CALLBACK(response_cb), about);
     } else {
         gdk_window_show(gtk_widget_get_window(about));

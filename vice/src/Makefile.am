@@ -233,6 +233,7 @@ noinst_HEADERS = \
 	vice-event.h \
 	vicemaxpath.h \
 	vicesocket.h \
+	vicefeatures.h \
 	vicii.h \
 	video.h \
 	viewport.h \
@@ -296,6 +297,7 @@ base_sources = \
 	translate.c \
 	traps.c \
 	util.c \
+	vicefeatures.c \
 	vsync.c \
 	zfile.c \
 	zipcode.c

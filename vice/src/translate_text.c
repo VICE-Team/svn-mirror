@@ -12397,6 +12397,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_TR, "Mevcut seçeneklerin listesini göster ve normal çýk"},
 #endif
 
+/* initcmdline.c */
+/* en */ {IDCLS_SHOW_COMPILETIME_FEATURES,    N_("Show a list of the available compile-time options and their configuration.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SHOW_COMPILETIME_FEATURES_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SHOW_COMPILETIME_FEATURES_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SHOW_COMPILETIME_FEATURES_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SHOW_COMPILETIME_FEATURES_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SHOW_COMPILETIME_FEATURES_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SHOW_COMPILETIME_FEATURES_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SHOW_COMPILETIME_FEATURES_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SHOW_COMPILETIME_FEATURES_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SHOW_COMPILETIME_FEATURES_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SHOW_COMPILETIME_FEATURES_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SHOW_COMPILETIME_FEATURES_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SHOW_COMPILETIME_FEATURES_TR, ""},  /* fuzzy */
+#endif
+
 #if (!defined  __OS2__ && !defined __BEOS__)
 /* initcmdline.c */
 /* en */ {IDCLS_CONSOLE_MODE,    N_("Console mode (for music playback)")},

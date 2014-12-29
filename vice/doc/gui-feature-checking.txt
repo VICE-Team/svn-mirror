@@ -1,80 +1,11 @@
 ABOUT FEATURE DISPLAY SUPPORT
 =============================
-platforms present:	
-platforms missing:	amigaos/beos/dos/os2/sdl/unix/osx/windows
+platforms present:	unix(GTK)
+platforms missing:	amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 
-defines to determine compile time features:
-
-BSD_JOYSTICK			Enable support for BSD style joysticks.						(unix)
-DEBUG					Enable debugging code										(all)
-ENABLE_NLS				Define if NLS support is enabled.							(unix)
-FEATURE_CPUMEMHISTORY		Use the memmap feature.									(all)
-HAS_DIGITAL_JOYSTICK		Enable emulation for digital joysticks.						(unix)
-HAS_HIDMGR				Enable Mac IOHIDManager Joystick driver.						(osx)
-HAS_JOYSTICK			Enable joystick emulation.									(all)
-HAS_USB_JOYSTICK		Enable emulation for USB joysticks.							(unix)
-HAVE_ALLEGRO_H			Define to 1 if you have the <allegro.h> header file.				(dos)
-HAVE_AUDIO_UNIT			Enable AudioUnit support.									(???)
-HAVE_CAIRO				Enable Cairo rendering support								(unix)
-HAVE_CATWEASELMKIII		Support for Catweasel MKIII.								(amiga/dos/sdl/unix/windows)
-HAVE_D3D9_H			Support for DirectX9.										(windows)
-HAVE_DEVICES_AHI_H		Define to 1 if you have the <devices/ahi.h> header file.			(amiga)
-HAVE_DINPUT			Use DirectInput joystick driver								(windows)
-HAVE_DYNLIB_SUPPORT		Support for dynamic library loading.							(unix/osx/windows)
-HAVE_FFMPEG			Have FFMPEG av* libs available								(sdl/unix/windows)
-HAVE_FULLSCREEN			Enable Fullscreen support.									(all)
-HAVE_GIF				Can we use the GIF or UNGIF library?							(all)
-HAVE_HARDSID			Support for HardSID.										(amiga/dos/sdl/unix/windows)
-HAVE_HWSCALE			Enable arbitrary window scaling								(amiga/sdl/unix/osx/windows)
-HAVE_IPV6				Define if ipv6 can be used									(all)
-HAVE_JPEG				Can we use the JPEG library?								(all)
-HAVE_LIBIEEE1284		Define to 1 if you have the `ieee1284' library (-lieee1284).		(all)
-HAVE_LIBXPM			Is libXpm available?										(unix)
-HAVE_MIDI				Enable MIDI emulation.									(sdl/unix/osx/windows)
-HAVE_MOUSE				Enable 1351 mouse support									(all)
-HAVE_NETWORK			Enable netplay support									(all)
-HAVE_OPENCBM			Support for OpenCBM (former CBM4Linux).						(sdl/unix/windows)
-HAVE_OPENGL_SYNC		Enable openGL synchronization								(sdl/unix)
-HAVE_PANGO				Enable support for Pango									(unix)
-HAVE_PARSID			Support for ParSID.										(dos/sdl/unix/windows)
-HAVE_PNG				Can we use the PNG library?								(all)
-HAVE_PROTO_CYBERGRAPHICS_H	Define to 1 if you have the <proto/cybergraphics.h> header file.	(amiga)
-HAVE_PROTO_OPENPCI_H		Define to 1 if you have the <proto/openpci.h> header file.			(amiga)
-HAVE_PROTO_PICASSO96API_H	Define to 1 if you have the <proto/Picasso96API.h> header file.		(amiga)
-HAVE_PROTO_PICASSO96_H	Define to 1 if you have the <proto/Picasso96.h> header file.		(amiga)
-HAVE_QUICKTIME			Enable QuickTime support.									(osx/windows)
-HAVE_RAWDRIVE			Support for block device disk image access.					(all)
-HAVE_RESID				This version provides ReSID support.							(all)
-HAVE_RESID_DTV			This version provides ReSID-DTV support.						(all)
-HAVE_RS232				Enable RS232 emulation.									(all)
-HAVE_SDL_NUMJOYSTICKS		Define to 1 if you have the `SDL_NumJoysticks' function.			(sdl)
-HAVE_SYS_AUDIO_H		Define to 1 if you have the <sys/audio.h> header file.			(sdl/unix)
-HAVE_SYS_AUDIOIO_H		Define to 1 if you have the <sys/audioio.h> header file.			(sdl/unix)
-HAVE_TFE				Support for The Final Ethernet								(all)
-HAVE_VTE				Enable VTE support										(unix)
-HAVE_XRANDR			Enable XRandR extension.									(unix)
-HAVE_XVIDEO			Enable XVideo support.									(unix)
-HAVE_ZLIB				Can we use the ZLIB compression library?						(all)
-LINUX_JOYSTICK			Enable support for Linux style joysticks.						(unix)
-MAC_JOYSTICK			Enable Mac Joystick support.								(osx)
-USE_AIX_AUDIO			Enable aix sound support.									(sdl/unix)
-USE_ALSA				Enable alsa support.										(sdl/unix)
-USE_ARTS				Enable aRts support.										(sdl/unix)
-USE_COREAUDIO			Enable CoreAudio support.									(sdl/osx)
-USE_DMEDIA				Enable sgi sound support.									(sdl/unix)
-USE_DXSOUND			Enable directx sound support.								(sdl/windows)
-USE_EMBEDDED			Use embedded data files.									(all)
-USE_LAMEMP3			Enable lamemp3 support.									(all)
-USE_MIDAS_SOUND			Use MIDAS Sound System instead of the Allegro library.			(dos)
-USE_MITSHM				Enable MITSHM extensions.									(unix)
-USE_OSS				Enable oss support.										(sdl/unix)
-USE_PULSE				Enable pulseaudio support.									(all)
-USE_SDL_AUDIO			Enable SDL sound support.									(all)
-USE_UI_THREADS			Enable multithreaded UI.									(unix)
-USE_XAW3D				Enable Xaw3d.											(unix)
-USE_XF86_EXTENSIONS		Enable XF86 extensions.									(unix)
-USE_XF86_VIDMODE_EXT		Enable XF86 VidMode extensions.								(unix)
-
+a list of all defines to determine compile time features can be queried at
+runtime, see vicefeatures.h for the respective functions and datastructures.
+see initcmdline.c(cmdline_features) for a simple example.
 
 RS232 NET SUPPORT
 =================
@@ -98,6 +29,7 @@ SOUND VOLUME GUI DISPLAY
 ========================
 platforms present:	osx/windows
 platforms missing:	amigaos/beos/dos/os2/sdl/unix
+gpz note: does a slider widget not qualify?
 
 
 DATASETTE GUI ELEMENTS DISPLAY
