@@ -19,8 +19,6 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libvsid.a libc64.a libc64sc.a libc64c128.a libc64c64dtv.a libc64scpu64.a
 
 libvsid_a_SOURCES = \
-	c64-cmdline-options.c \
-	c64-cmdline-options.h \
 	c64embedded.c \
 	c64gluelogic.c \
 	c64gluelogic.h \
@@ -51,6 +49,7 @@ libvsid_a_SOURCES = \
 	psiddrv.a65 \
 	reloc65.c \
 	vsid.c \
+	vsid-cmdline-options.c \
 	vsid-resources.c \
 	vsid-snapshot.c \
 	vsidcia1.c \
