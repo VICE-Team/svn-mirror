@@ -60,7 +60,7 @@ typedef struct rtc_ds1216e_s {
 #define DS1216E_REGISTER_YEARS          7
 
 extern rtc_ds1216e_t *ds1216e_init(char *device);
-extern void ds1216e_destroy(rtc_ds1216e_t *context);
+extern void ds1216e_destroy(rtc_ds1216e_t *context, int save);
 
 extern BYTE ds1216e_read(rtc_ds1216e_t *context, WORD address, BYTE original_read);
 

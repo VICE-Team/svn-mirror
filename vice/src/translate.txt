@@ -381,6 +381,18 @@ IDCLS_ENABLE_INT_FUNC_ROM
 /* c128/functionrom.c */
 IDCLS_ENABLE_EXT_FUNC_ROM
 
+/* c128/functionrom.c */
+IDCLS_ENABLE_INT_FUNC_RTC_SAVE
+
+/* c128/functionrom.c */
+IDCLS_DISABLE_INT_FUNC_RTC_SAVE
+
+/* c128/functionrom.c */
+IDCLS_ENABLE_EXT_FUNC_RTC_SAVE
+
+/* c128/functionrom.c */
+IDCLS_DISABLE_EXT_FUNC_RTC_SAVE
+
 /* c64/c64-cmdline-options.c, c64/psid.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_USE_OLD_NTSC_SYNC_FACTOR
 
@@ -947,6 +959,12 @@ IDCLS_DISABLE_IDE64_USB_SERVER
 /* c64/cart/ide64.c */
 IDCLS_IDE64_USB_SERVER_ADDRESS
 
+/* c64/cart/ide64.c */
+IDCLS_ENABLE_IDE64_RTC_SAVE
+
+/* c64/cart/ide64.c */
+IDCLS_DISABLE_IDE64_RTC_SAVE
+
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
 IDCLS_P_MODELNUMBER
 
@@ -1125,6 +1143,12 @@ IDCLS_SPECIFY_4000_DOS_ROM_NAME
 
 /* drive/iec/iec-cmdline-options.c */
 IDCLS_SET_IDLE_METHOD
+
+/* drive/iec/iec-cmdline-options.c */
+IDCLS_ENABLE_DRIVE_RTC_SAVE
+
+/* drive/iec/iec-cmdline-options.c */
+IDCLS_DISABLE_DRIVE_RTC_SAVE
 
 /* drive/iec/iec-cmdline-options.c */
 IDCLS_ENABLE_DRIVE_RAM_2000
@@ -1910,6 +1934,12 @@ IDCLS_DISABLE_MOUSE_GRAB
 /* mouse.c */
 IDCLS_SELECT_MOUSE_JOY_PORT
 
+/* mouse.c */
+IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE
+
+/* mouse.c */
+IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE
+
 /* ps2mouse.c */
 IDCLS_ENABLE_PS2MOUSE
 
@@ -2104,6 +2134,12 @@ IDCLS_ENABLE_USERPORT_RTC
 /* userport/userport_rtc.c */
 IDCLS_DISABLE_USERPORT_RTC
 
+/* userport/userport_rtc.c */
+IDCLS_ENABLE_USERPORT_RTC_SAVE
+
+/* userport/userport_rtc.c */
+IDCLS_DISABLE_USERPORT_RTC_SAVE
+
 /* c64/plus256k.c */
 IDCLS_ENABLE_PLUS256K_EXPANSION
 
@@ -2169,6 +2205,12 @@ IDCLS_DS12C887RTC_RUNMODE_RUNNING
 
 /* c64/cart/ds12c887rtc.c */
 IDCLS_DS12C887RTC_BASE
+
+/* c64/cart/ds12c887rtc.c */
+IDCLS_ENABLE_DS12C887RTC_SAVE
+
+/* c64/cart/ds12c887rtc.c */
+IDCLS_DISABLE_DS12C887RTC_SAVE
 
 /* c64/cart/sfx_soundexpander.c */
 IDCLS_ENABLE_SFX_SE

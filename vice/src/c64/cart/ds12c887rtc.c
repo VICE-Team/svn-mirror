@@ -70,6 +70,9 @@ static int ds12c887rtc_base_address;
 /* RTC run mode at first start */
 static int ds12c887rtc_run_mode = -1;
 
+/* RTC data save ?? */
+static int ds12c887rtc_save;
+
 static int ds12c887rtc_accessed = 0;
 
 /* ---------------------------------------------------------------------*/
@@ -145,12 +148,19 @@ static int set_ds12c887rtc_enabled(int value, void *param)
             io_source_unregister(ds12c887rtc_list_item);
             ds12c887rtc_list_item = NULL;
             if (ds12c887rtc_context) {
-                ds12c887_destroy(ds12c887rtc_context);
+                ds12c887_destroy(ds12c887rtc_context, ds12c887rtc_save);
                 ds12c887rtc_context = NULL;
             }
         }
         ds12c887rtc_enabled = 0;
     }
+    return 0;
+}
+
+static int set_ds12c887rtc_save(int val, void *param)
+{
+    ds12c887rtc_save = val ? 1 : 0;
+
     return 0;
 }
 
@@ -306,6 +316,8 @@ static const resource_int_t resources_int[] = {
       &ds12c887rtc_base_address, set_ds12c887rtc_base, NULL },
     { "DS12C887RTCRunMode", RTC_RUNMODE_RUNNING, RES_EVENT_NO, NULL,
       &ds12c887rtc_run_mode, set_ds12c887rtc_run_mode, NULL },
+    { "DS12C887RTCSave", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &ds12c887rtc_save, set_ds12c887rtc_save, NULL },
     { NULL }
 };
 
@@ -317,7 +329,7 @@ int ds12c887rtc_resources_init(void)
 void ds12c887rtc_resources_shutdown(void)
 {
     if (ds12c887rtc_context) {
-        ds12c887_destroy(ds12c887rtc_context);
+        ds12c887_destroy(ds12c887rtc_context, ds12c887rtc_save);
         ds12c887rtc_context = NULL;
     }
 }
@@ -345,6 +357,16 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "DS12C887RTCRunMode", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DS12C887RTC_RUNMODE_RUNNING,
+      NULL, NULL },
+    { "-ds12c887rtcsave", SET_RESOURCE, 0,
+      NULL, NULL, "DS12C887RTCSave", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_DS12C887RTC_SAVE,
+      NULL, NULL },
+    { "+ds12c887rtcsave", SET_RESOURCE, 0,
+      NULL, NULL, "DS12C887RTCSave", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_DS12C887RTC_SAVE,
       NULL, NULL },
     { NULL }
 };

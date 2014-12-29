@@ -130,6 +130,9 @@ typedef struct drive_s {
     /* What idling method?  (See `DRIVE_IDLE_*')  */
     int idling_method;
 
+    /* FD2000/4000 RTC save? */
+    int rtc_save;
+
     /* pointers for detecting dual drives and finding the other one */
     /* (only needed as long as we abuse the odd devices for drive 1:) */
     struct drive_s *drive0;

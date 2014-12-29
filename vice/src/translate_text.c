@@ -4134,6 +4134,74 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_EXT_FUNC_ROM_TR, ""},  /* fuzzy */
 #endif
 
+/* c128/functionrom.c */
+/* en */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE,    N_("Enable saving of the internal function RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_INT_FUNC_RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* c128/functionrom.c */
+/* en */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE,    N_("Disable saving of the internal function RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_INT_FUNC_RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* c128/functionrom.c */
+/* en */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE,    N_("Enable saving of the external function RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_EXT_FUNC_RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* c128/functionrom.c */
+/* en */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE,    N_("Disable saving of the external function RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_EXT_FUNC_RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/c64-cmdline-options.c, c64/psid.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR,    N_("Use old NTSC sync factor")},
 #ifdef HAS_TRANSLATION
@@ -5010,6 +5078,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_RTC_SV, "Inaktivera användarport-RTC"},
 /* tr */ {IDCLS_DISABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_rtc.c */
+/* en */ {IDCLS_ENABLE_USERPORT_RTC_SAVE,    N_("Enable saving of the Userport RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_rtc.c */
+/* en */ {IDCLS_DISABLE_USERPORT_RTC_SAVE,    N_("Disable saving of the Userport RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_RTC_SAVE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/psid.c */
@@ -7463,6 +7565,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_IDE64_USB_SERVER_ADDRESS_TR, ""},  /* fuzzy */
 #endif
 
+/* c64/cart/ide64.c */
+/* en */ {IDCLS_ENABLE_IDE64_RTC_SAVE,    N_("Enable saving of IDE64 RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_IDE64_RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IDE64_RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_IDE64_RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IDE64_RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_IDE64_RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IDE64_RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_IDE64_RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IDE64_RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_IDE64_RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_IDE64_RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IDE64_RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_IDE64_RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/ide64.c */
+/* en */ {IDCLS_DISABLE_IDE64_RTC_SAVE,    N_("Disable saving of IDE64 RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_IDE64_RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IDE64_RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_IDE64_RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IDE64_RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_IDE64_RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IDE64_RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_IDE64_RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IDE64_RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_IDE64_RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_IDE64_RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IDE64_RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_IDE64_RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
 /* en */ {IDCLS_P_MODELNUMBER,    N_("<modelnumber>")},
 #ifdef HAS_TRANSLATION
@@ -8437,6 +8573,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SET_IDLE_METHOD_RU, "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"},
 /* sv */ {IDCLS_SET_IDLE_METHOD_SV, "Ställ in väntemetod för diskettstation (0: fånta inge, 1: hoppa cykler, 2: fånga väntan)"},
 /* tr */ {IDCLS_SET_IDLE_METHOD_TR, "Sürücü boþa vakit geçirme metodunu ayarlayýn (0: trap yok, 1: cyclelarý atla, 2: trap boþa vakit geçirme)"},
+#endif
+
+/* drive/iec/iec-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_DRIVE_RTC_SAVE,    N_("Enable saving of FD2000/4000 RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_DRIVE_RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DRIVE_RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_DRIVE_RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DRIVE_RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DRIVE_RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DRIVE_RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_DRIVE_RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DRIVE_RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_DRIVE_RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_DRIVE_RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DRIVE_RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_DRIVE_RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* drive/iec/iec-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_DRIVE_RTC_SAVE,    N_("Disable saving of FD2000/4000 RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_DRIVE_RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DRIVE_RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_DRIVE_RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DRIVE_RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DRIVE_RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DRIVE_RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_DRIVE_RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DRIVE_RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_DRIVE_RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_DRIVE_RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DRIVE_RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_DRIVE_RTC_SAVE_TR, ""},  /* fuzzy */
 #endif
 
 /* drive/iec/iec-cmdline-options.c */
@@ -12844,6 +13014,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, ""},  /* fuzzy */
 #endif
 
+/* mouse.c */
+/* en */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE,    N_("Enable saving of smart mouse RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* mouse.c */
+/* en */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE,    N_("Disable saving of smart mouse RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
 /* ps2mouse.c */
 /* en */ {IDCLS_ENABLE_PS2MOUSE,    N_("Enable PS/2 mouse on userport")},
 #ifdef HAS_TRANSLATION
@@ -14510,6 +14714,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DS12C887RTC_BASE_RU, "Base address of the DS12C887 RTC cartridge"},
 /* sv */ {IDCLS_DS12C887RTC_BASE_SV, "Basadress för DS12C887 RTC-insticksmodulen"},
 /* tr */ {IDCLS_DS12C887RTC_BASE_TR, "DS12C887 RTC kartuþunun taban adresi"},
+#endif
+
+/* c64/cart/ds12c887rtc.c */
+/* en */ {IDCLS_ENABLE_DS12C887RTC_SAVE,    N_("Enable saving of the DS12C887 RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_DS12C887RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DS12C887RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_DS12C887RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DS12C887RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DS12C887RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DS12C887RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_DS12C887RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DS12C887RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_DS12C887RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_DS12C887RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DS12C887RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_DS12C887RTC_SAVE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/ds12c887rtc.c */
+/* en */ {IDCLS_DISABLE_DS12C887RTC_SAVE,    N_("Disable saving of the DS12C887 RTC data when changed.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_DS12C887RTC_SAVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DS12C887RTC_SAVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_DS12C887RTC_SAVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DS12C887RTC_SAVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DS12C887RTC_SAVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DS12C887RTC_SAVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_DS12C887RTC_SAVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DS12C887RTC_SAVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_DS12C887RTC_SAVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_DS12C887RTC_SAVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DS12C887RTC_SAVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_DS12C887RTC_SAVE_TR, ""},  /* fuzzy */
 #endif
 
 /* scpu64/scpu64-cmdline-options.c */

@@ -132,12 +132,14 @@ rtc_ds1202_1302_t *ds1202_1302_init(char *device, int rtc_type)
     return retval;
 }
 
-void ds1202_1302_destroy(rtc_ds1202_1302_t *context)
+void ds1202_1302_destroy(rtc_ds1202_1302_t *context, int save)
 {
-    if (memcmp(context->ram, context->old_ram, DS1202_1302_RAM_SIZE) ||
-        memcmp(context->clock_regs, context->old_clock_regs, DS1202_1302_REG_SIZE) ||
-        context->offset != context->old_offset) {
-        rtc_save_context(context->ram, DS1202_1302_RAM_SIZE, context->clock_regs, DS1202_1302_REG_SIZE, context->device, context->offset);
+    if (save) {
+        if (memcmp(context->ram, context->old_ram, DS1202_1302_RAM_SIZE) ||
+            memcmp(context->clock_regs, context->old_clock_regs, DS1202_1302_REG_SIZE) ||
+            context->offset != context->old_offset) {
+            rtc_save_context(context->ram, DS1202_1302_RAM_SIZE, context->clock_regs, DS1202_1302_REG_SIZE, context->device, context->offset);
+        }
     }
     lib_free(context->ram);
     lib_free(context->clock_regs);

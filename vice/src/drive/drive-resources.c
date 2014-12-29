@@ -35,6 +35,7 @@
 #include "drivecpu65c02.h"
 #include "driverom.h"
 #include "drivetypes.h"
+#include "ds1216e.h"
 #include "iecbus.h"
 #include "iecdrive.h"
 #include "lib.h"
@@ -123,6 +124,7 @@ static int drive_resources_type(int val, void *param)
     unsigned int type, dnr;
     int busses;
     drive_t *drive, *drive0;
+    char *rtc_device = NULL;
 
     dnr = vice_ptr_to_uint(param);
     drive = drive_context[dnr]->drive;
@@ -160,6 +162,22 @@ static int drive_resources_type(int val, void *param)
                         "Dual disk drive %d disables emulated drive %d", mk_drive0(dnr), dnr);
 
             type = DRIVE_TYPE_NONE;
+        }
+    }
+
+    if (type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000) {
+        if (drive->type != DRIVE_TYPE_2000 && drive->type != DRIVE_TYPE_4000) {
+            rtc_device = lib_msprintf("FD%d", dnr + 8);
+            drive->ds1216 = ds1216e_init(rtc_device);
+            drive->ds1216->hours12 = 1;
+            lib_free(rtc_device);
+        }
+    } else {
+        if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+            if (drive->ds1216) {
+                ds1216e_destroy(drive->ds1216, drive->rtc_save);
+                drive->ds1216 = NULL;
+            }
         }
     }
 
@@ -275,6 +293,19 @@ static int set_drive_idling_method(int val, void *param)
     return 0;
 }
 
+static int set_drive_rtc_save(int val, void *param)
+{
+    unsigned int dnr;
+    drive_t *drive;
+
+    dnr = vice_ptr_to_uint(param);
+    drive = drive_context[dnr]->drive;
+
+    drive->rtc_save = val ? 1 : 0;
+
+    return 0;
+}
+
 static const resource_int_t resources_int[] = {
     { "DriveTrueEmulation", 1, RES_EVENT_STRICT, (resource_value_t)1,
       &drive_true_emulation, set_drive_true_emulation, NULL },
@@ -290,6 +321,8 @@ static resource_int_t res_drive[] = {
       NULL, set_drive_extend_image_policy, NULL },
     { NULL, DRIVE_IDLE_NO_IDLE, RES_EVENT_SAME, NULL,
       NULL, set_drive_idling_method, NULL },
+    { NULL, 0, RES_EVENT_NO, NULL,
+      NULL, set_drive_rtc_save, NULL },
     { NULL }
 };
 
@@ -307,6 +340,9 @@ int drive_resources_init(void)
         res_drive[1].name = lib_msprintf("Drive%iIdleMethod", dnr + 8);
         res_drive[1].value_ptr = &(drive->idling_method);
         res_drive[1].param = uint_to_void_ptr(dnr);
+        res_drive[2].name = lib_msprintf("Drive%iRTCSave", dnr + 8);
+        res_drive[2].value_ptr = &(drive->rtc_save);
+        res_drive[2].param = uint_to_void_ptr(dnr);
 
         if (resources_register_int(res_drive) < 0) {
             return -1;
@@ -314,6 +350,7 @@ int drive_resources_init(void)
 
         lib_free((char *)(res_drive[0].name));
         lib_free((char *)(res_drive[1].name));
+        lib_free((char *)(res_drive[2].name));
     }
 
     return machine_drive_resources_init()

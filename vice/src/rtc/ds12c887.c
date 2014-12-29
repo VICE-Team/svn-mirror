@@ -244,12 +244,14 @@ rtc_ds12c887_t *ds12c887_init(char *device)
     return retval;
 }
 
-void ds12c887_destroy(rtc_ds12c887_t *context)
+void ds12c887_destroy(rtc_ds12c887_t *context, int save)
 {
-    if (memcmp(context->ram, context->old_ram, DS12C887_RAM_SIZE) ||
-        memcmp(context->clock_regs, context->old_clock_regs, DS12C887_REG_SIZE) ||
-        context->offset != context->old_offset) {
-        rtc_save_context(context->ram, DS12C887_RAM_SIZE, context->clock_regs, DS12C887_REG_SIZE, context->device, context->offset);
+    if (save) {
+        if (memcmp(context->ram, context->old_ram, DS12C887_RAM_SIZE) ||
+            memcmp(context->clock_regs, context->old_clock_regs, DS12C887_REG_SIZE) ||
+            context->offset != context->old_offset) {
+            rtc_save_context(context->ram, DS12C887_RAM_SIZE, context->clock_regs, DS12C887_REG_SIZE, context->device, context->offset);
+        }
     }
     lib_free(context->ram);
     lib_free(context->clock_regs);

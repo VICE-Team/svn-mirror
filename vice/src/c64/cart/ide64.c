@@ -119,6 +119,8 @@ static int ft245_rxp, ft245_rxl, ft245_txp;
 
 static int settings_version4;
 
+static int ide64_rtc_save;
+
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
@@ -448,6 +450,13 @@ static int set_autodetect_size(int autodetect_size, void *param)
 static void usbserver_activate(int);
 #endif
 
+static int ide64_set_rtc_save(int val, void *param)
+{
+    ide64_rtc_save = val ? 1 : 0;
+
+    return 0;
+}
+
 static int set_version4(int value, void *param)
 {
     int val = value ? 1 : 0;
@@ -623,6 +632,9 @@ static const resource_int_t resources_int[] = {
       RES_EVENT_NO, NULL,
       &settings_usbserver, set_usbserver, NULL },
 #endif
+    { "IDE64RTCSave", 0,
+      RES_EVENT_NO, NULL,
+      &ide64_rtc_save, ide64_set_rtc_save, NULL },
     { NULL }
 };
 
@@ -814,6 +826,16 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_P_NAME, IDCLS_IDE64_USB_SERVER_ADDRESS,
       NULL, NULL },
 #endif
+    { "-IDE64rtcsave", SET_RESOURCE, 0,
+      NULL, NULL, "IDE64RTCSave", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_IDE64_RTC_SAVE,
+      NULL, NULL },
+    { "+IDE64rtcsave", SET_RESOURCE, 0,
+      NULL, NULL, "IDE64RTCSave", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_IDE64_RTC_SAVE,
+      NULL, NULL },
     { NULL }
 };
 
@@ -1280,7 +1302,7 @@ void ide64_detach(void)
     int i;
 
     if (ds1302_context) {
-        ds1202_1302_destroy(ds1302_context);
+        ds1202_1302_destroy(ds1302_context, ide64_rtc_save);
         ds1302_context = NULL;
     }
 

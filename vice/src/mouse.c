@@ -113,6 +113,7 @@ static int update_limit = 512;
 static int last_mouse_x = 0;
 static int last_mouse_y = 0;
 static rtc_ds1202_1302_t *ds1202; /* smartmouse */
+static int ds1202_rtc_save; /* smartmouse rtc data save */
 
 /*
     note: for the expected behaviour look at testprogs/SID/paddles/readme.txt
@@ -541,6 +542,10 @@ static BYTE mouse_get_paddle_y(void)
 
 static int set_mouse_enabled(int val, void *param)
 {
+    if (_mouse_enabled == val) {
+        return 0;
+    }
+
     _mouse_enabled = val ? 1 : 0;
     mousedrv_mouse_changed();
     latest_x = last_mouse_x = mousedrv_get_x();
@@ -548,6 +553,13 @@ static int set_mouse_enabled(int val, void *param)
     neos_lastx = (BYTE)(mousedrv_get_x() >> 1);
     neos_lasty = (BYTE)(mousedrv_get_y() >> 1);
     latest_os_ts = 0;
+    return 0;
+}
+
+static int set_smart_mouse_rtc_save(int val, void *param)
+{
+    ds1202_rtc_save = val ? 1 : 0;
+
     return 0;
 }
 
@@ -568,6 +580,10 @@ static int set_mouse_port(int val, void *param)
 
 static int set_mouse_type(int val, void *param)
 {
+    if (val == mouse_type) {
+        return 0;
+    }
+
     switch (val) {
         case MOUSE_TYPE_1351:
         case MOUSE_TYPE_NEOS:
@@ -575,9 +591,15 @@ static int set_mouse_type(int val, void *param)
         case MOUSE_TYPE_PADDLE:
         case MOUSE_TYPE_CX22:
         case MOUSE_TYPE_ST:
-        case MOUSE_TYPE_SMART:
         case MOUSE_TYPE_MICROMYS:
         case MOUSE_TYPE_KOALAPAD:
+            if (mouse_type == MOUSE_TYPE_SMART && ds1202) {
+                ds1202_1302_destroy(ds1202, ds1202_rtc_save);
+                ds1202 = NULL;
+            }
+            break;
+        case MOUSE_TYPE_SMART:
+            ds1202 = ds1202_1302_init("SM", 1202);
             break;
         default:
             return -1;
@@ -605,6 +627,8 @@ static const resource_int_t resources_extra_int[] = {
       &mouse_type, set_mouse_type, NULL },
     { "Mouseport", 1, RES_EVENT_SAME, NULL,
       &mouse_port, set_mouse_port, NULL },
+    { "SmartMouseRTCSave", 0, RES_EVENT_SAME, NULL,
+      &ds1202_rtc_save, set_smart_mouse_rtc_save, NULL },
     { NULL }
 };
 
@@ -649,6 +673,16 @@ static const cmdline_option_t cmdline_extra_option[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_VALUE, IDCLS_SELECT_MOUSE_JOY_PORT,
       NULL, NULL },
+    { "-smartmousertcsave", SET_RESOURCE, 0,
+      NULL, NULL, "SmartMouseRTCSave", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE,
+      NULL, NULL },
+    { "+smartmousertcsave", SET_RESOURCE, 0,
+      NULL, NULL, "SmartMouseRTCSave", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE,
+      NULL, NULL },
     { NULL }
 };
 
@@ -683,13 +717,12 @@ void mouse_init(void)
     neosmouse_alarm = alarm_new(maincpu_alarm_context, "NEOSMOUSEAlarm", neosmouse_alarm_handler, NULL);
     mousedrv_init();
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
-    ds1202 = ds1202_1302_init("SM", 1202);
 }
 
 void mouse_shutdown(void)
 {
     if (ds1202) {
-        ds1202_1302_destroy(ds1202);
+        ds1202_1302_destroy(ds1202, ds1202_rtc_save);
         ds1202 = NULL;
     }
 }

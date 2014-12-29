@@ -59,7 +59,7 @@ typedef struct rtc_58321a_s {
 #define RTC58321A_REGISTER_SS1           15
 
 extern rtc_58321a_t *rtc58321a_init(char *device);
-extern void rtc58321a_destroy(rtc_58321a_t *context);
+extern void rtc58321a_destroy(rtc_58321a_t *context, int save);
 
 extern BYTE rtc58321a_read(rtc_58321a_t *context);
 extern void rtc58321a_write_address(rtc_58321a_t *context, BYTE address);

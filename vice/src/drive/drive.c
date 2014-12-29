@@ -147,7 +147,6 @@ int drive_init(void)
 {
     unsigned int dnr;
     drive_t *drive;
-    char *rtc_device = NULL;
 
     if (rom_loaded) {
         return 0;
@@ -201,11 +200,6 @@ int drive_init(void)
         }
 
         machine_drive_rom_setup_image(dnr);
-
-        rtc_device = lib_msprintf("FD%d", dnr + 8);
-        drive->ds1216 = ds1216e_init(rtc_device);
-        drive->ds1216->hours12 = 1;
-        lib_free(rtc_device);
     }
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
@@ -290,7 +284,7 @@ void drive_shutdown(void)
             lib_free(drive_context[dnr]->drive->p64);
         }
         if (drive_context[dnr]->drive->ds1216) {
-            ds1216e_destroy(drive_context[dnr]->drive->ds1216);
+            ds1216e_destroy(drive_context[dnr]->drive->ds1216, drive_context[dnr]->drive->rtc_save);
             drive_context[dnr]->drive->ds1216 = NULL;
         }
     }

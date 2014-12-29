@@ -187,7 +187,7 @@ rtc_ds1216e_t *ds1216e_init(char *device)
 }
 
 /* FIXME: this stub can be removed once the drive code has been stubbed */
-void ds1216e_destroy(rtc_ds1216e_t *context)
+void ds1216e_destroy(rtc_ds1216e_t *context, int save)
 {
 }
 
@@ -210,7 +210,7 @@ BYTE ds1202_1302_read_data_line(rtc_ds1202_1302_t *context)
     return 1;
 }
 
-void ds1202_1302_destroy(rtc_ds1202_1302_t *context)
+void ds1202_1302_destroy(rtc_ds1202_1302_t *context, int save)
 {
 }
 

@@ -44,6 +44,9 @@ int userport_rtc_enabled = 0;
 /* rtc context */
 static rtc_58321a_t *rtc58321a_context = NULL;
 
+/* rtc save */
+static int rtc58321a_rtc_save;
+
 static int read_line_active = 0;
 
 /* ------------------------------------------------------------------------- */
@@ -60,7 +63,7 @@ static int set_userport_rtc_enabled(int value, void *param)
         rtc58321a_context = rtc58321a_init("USER");
     } else {
         if (rtc58321a_context) {
-            rtc58321a_destroy(rtc58321a_context);
+            rtc58321a_destroy(rtc58321a_context, rtc58321a_rtc_save);
             rtc58321a_context = NULL;
         }
     }
@@ -69,9 +72,19 @@ static int set_userport_rtc_enabled(int value, void *param)
     return 0;
 }
 
+static int set_userport_rtc_save(int val, void *param)
+{
+    rtc58321a_rtc_save = val ? 1 : 0;
+
+    return 0;
+}
+
+
 static const resource_int_t resources_int[] = {
     { "UserportRTC", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &userport_rtc_enabled, set_userport_rtc_enabled, NULL },
+    { "UserportRTCSave", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &rtc58321a_rtc_save, set_userport_rtc_save, NULL },
     { NULL }
 };
 
@@ -92,6 +105,16 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_RTC,
       NULL, NULL },
+    { "-userportrtcsave", SET_RESOURCE, 0,
+      NULL, NULL, "UserportRTCSave", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_USERPORT_RTC,
+      NULL, NULL },
+    { "+userportrtcsave", SET_RESOURCE, 0,
+      NULL, NULL, "UserportRTCSave", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_RTC,
+      NULL, NULL },
     { NULL }
 };
 
@@ -103,7 +126,7 @@ int userport_rtc_cmdline_options_init(void)
 void userport_rtc_resources_shutdown(void)
 {
     if (rtc58321a_context) {
-        rtc58321a_destroy(rtc58321a_context);
+        rtc58321a_destroy(rtc58321a_context, rtc58321a_rtc_save);
         rtc58321a_context = NULL;
     }
 }

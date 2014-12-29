@@ -69,7 +69,7 @@ typedef struct rtc_bq4830y_s {
 #define CLOCK_READ_WRITE_LATCH   7
 
 extern rtc_bq4830y_t *bq4830y_init(char *device);
-extern void bq4830y_destroy(rtc_bq4830y_t *context);
+extern void bq4830y_destroy(rtc_bq4830y_t *context, int save);
 
 extern void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val);
 extern BYTE bq4830y_read(rtc_bq4830y_t *context, WORD address);

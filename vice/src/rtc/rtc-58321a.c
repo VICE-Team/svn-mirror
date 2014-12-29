@@ -107,10 +107,12 @@ rtc_58321a_t *rtc58321a_init(char *device)
     return retval;
 }
 
-void rtc58321a_destroy(rtc_58321a_t *context)
+void rtc58321a_destroy(rtc_58321a_t *context, int save)
 {
-    if (context->old_offset != context->offset) {
-        rtc_save_context(NULL, 0, NULL, 0, context->device, context->offset);
+    if (save) {
+        if (context->old_offset != context->offset) {
+            rtc_save_context(NULL, 0, NULL, 0, context->device, context->offset);
+        }
     }
     lib_free(context->device);
     lib_free(context);

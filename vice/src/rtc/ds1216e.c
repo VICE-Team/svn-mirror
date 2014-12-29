@@ -109,11 +109,13 @@ rtc_ds1216e_t *ds1216e_init(char *device)
     return retval;
 }
 
-void ds1216e_destroy(rtc_ds1216e_t *context)
+void ds1216e_destroy(rtc_ds1216e_t *context, int save)
 {
-    if (memcmp(context->clock_regs, context->old_clock_regs, DS1216E_REG_SIZE) ||
-        context->offset != context->old_offset) {
-        rtc_save_context(NULL, 0, context->clock_regs, DS1216E_REG_SIZE, context->device, context->offset);
+    if (save) {
+        if (memcmp(context->clock_regs, context->old_clock_regs, DS1216E_REG_SIZE) ||
+            context->offset != context->old_offset) {
+            rtc_save_context(NULL, 0, context->clock_regs, DS1216E_REG_SIZE, context->device, context->offset);
+        }
     }
     lib_free(context->clock_regs);
     lib_free(context->device);

@@ -78,7 +78,7 @@ typedef struct rtc_ds1202_1302_s {
 
 extern void ds1202_1302_reset(rtc_ds1202_1302_t *context);
 extern rtc_ds1202_1302_t *ds1202_1302_init(char *device, int rtc_type);
-extern void ds1202_1302_destroy(rtc_ds1202_1302_t *context);
+extern void ds1202_1302_destroy(rtc_ds1202_1302_t *context, int save);
 
 extern void ds1202_1302_set_lines(rtc_ds1202_1302_t *context, unsigned int ce_line, unsigned int sclk_line, unsigned int input_bit);
 extern BYTE ds1202_1302_read_data_line(rtc_ds1202_1302_t *context);

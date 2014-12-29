@@ -6659,6 +6659,35 @@ description:    "Emulate pre version 4 hardware"
 resource:       "IDE64version4" (set to 0)
 action:         N/A
 
+c64/cart/ide64.c:
+-----------------
+resource type:                  bool
+resource name:                  "IDE64RTCSave"
+resource range:                 0/1
+resource default:               0
+resource function:              ide64_set_rtc_save()
+resource var:                   ide64_rtc_save
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64rtcsave / +IDE64rtcsave
+platform gui present:           
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64rtcsave
+description:    "Enable saving of IDE64 RTC data when changed."
+resource:       "IDE64RTCSave" (set to 1)
+action:         N/A
+
+c64/cart/ide64.c:
+-----------------
+command line:   +IDE64rtcsave
+description:    "Disable saving of IDE64 RTC data when changed."
+resource:       "IDE64RTCSave" (set to 0)
+action:         N/A
+
 c64/cart/isepic.c:
 ------------------
 resource type:                  string
@@ -7804,6 +7833,70 @@ description:    "Type of external Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC
 resource:       "ExternalFunctionROM"
 action:         N/A
 
+c128/functionrom.c:
+-------------------
+resource type:                  bool
+resource name:                  "InternalFunctionROMRTCSave"
+resource range:                 0/1
+resource default:               0
+resource function:              set_internal_function_rtc_save()
+resource var:                   internal_function_rtc_save
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -intfuncrtcsave / +intfuncrtcsave
+platform gui present:           
+platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+fixme: add to documentation
+
+c128/functionrom.c:
+-------------------
+command line:   -intfuncrtcsave
+description:    "Enable saving of the internal function RTC data when changed."
+resource:       "InternalFunctionROMRTCSave" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+c128/functionrom.c:
+-------------------
+command line:   +intfuncrtcsave
+description:    "Disable saving of the internal function RTC data when changed."
+resource:       "InternalFunctionROMRTCSave" (set to 0)
+action:         N/A
+fixme: add to documentation
+
+c128/functionrom.c:
+-------------------
+resource type:                  bool
+resource name:                  "ExternalFunctionROMRTCSave"
+resource range:                 0/1
+resource default:               0
+resource function:              set_external_function_rtc_save()
+resource var:                   external_function_rtc_save
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -extfuncrtcsave / +extfuncrtcsave
+platform gui present:           
+platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+fixme: add to documentation
+
+c128/functionrom.c:
+-------------------
+command line:   -extfuncrtcsave
+description:    "Enable saving of the external function RTC data when changed."
+resource:       "ExternalFunctionROMRTCSave" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+c128/functionrom.c:
+-------------------
+command line:   +extfuncrtcsave
+description:    "Disable saving of the external function RTC data when changed."
+resource:       "ExternalFunctionROMRTCSave" (set to 0)
+action:         N/A
+fixme: add to documentation
+
 c64/c64-resources.c:
 --------------------
 resource type:                  string
@@ -8224,6 +8317,38 @@ c64/cart/ds12c887rtc.c:
 command line:   -ds12c887rtcrunning
 description:    "Set the RTC oscillator to 'running'"
 resource:       "DS12C887RTCRunMode" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+c64/cart/ds12c887rtc.c:
+-----------------------
+resource type:                  bool
+resource name:                  "DS12C887RTCSave"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ds12c887rtc_save()
+resource var:                   ds12c887rtc_save
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -ds12c887rtcsave / +ds12c887rtcsave
+platform gui present:           
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+fixme: add to documentation
+
+c64/cart/ds12c887rtc.c:
+-----------------------
+command line:   -ds12c887rtcsave
+description:    "Enable saving of the DS12C887 RTC data when changed."
+resource:       "DS12C887RTCSave" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+c64/cart/ds12c887rtc.c:
+-----------------------
+command line:   +ds12c887rtcsave
+description:    "Disable saving of the DS12C887 RTC data when changed."
+resource:       "DS12C887RTCSave" (set to 0)
 action:         N/A
 fixme: add to documentation
 
@@ -10884,6 +11009,122 @@ drive/drive-cmdline-options.c:
 command line:   -drive11idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 resource:       "Drive11IdleMethod"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "Drive8RTCSave"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_rtc_save()
+resource var:                   drive->rtc_save
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive8rtcsave / +drive8rtcsave
+platform gui present:           
+platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive8rtcsave
+description:    "Enable saving of FD2000/4000 RTC data when changed."
+resource:       "Drive8RTCSave" (set to 1)
+action:         N/A
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   +drive8rtcsave
+description:    "Disable saving of FD2000/4000 RTC data when changed."
+resource:       "Drive8RTCSave" (set to 0)
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "Drive9RTCSave"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_rtc_save()
+resource var:                   drive->rtc_save
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive9rtcsave / +drive9rtcsave
+platform gui present:           
+platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive9rtcsave
+description:    "Enable saving of FD2000/4000 RTC data when changed."
+resource:       "Drive9RTCSave" (set to 1)
+action:         N/A
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   +drive9rtcsave
+description:    "Disable saving of FD2000/4000 RTC data when changed."
+resource:       "Drive9RTCSave" (set to 0)
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "Drive10RTCSave"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_rtc_save()
+resource var:                   drive->rtc_save
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive10rtcsave / +drive10rtcsave
+platform gui present:           
+platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive10rtcsave
+description:    "Enable saving of FD2000/4000 RTC data when changed."
+resource:       "Drive10RTCSave" (set to 1)
+action:         N/A
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   +drive10rtcsave
+description:    "Disable saving of FD2000/4000 RTC data when changed."
+resource:       "Drive10RTCSave" (set to 0)
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "Drive11RTCSave"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_rtc_save()
+resource var:                   drive->rtc_save
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive11rtcsave / +drive11rtcsave
+platform gui present:           
+platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive11rtcsave
+description:    "Enable saving of FD2000/4000 RTC data when changed."
+resource:       "Drive11RTCSave" (set to 1)
+action:         N/A
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   +drive11rtcsave
+description:    "Disable saving of FD2000/4000 RTC data when changed."
+resource:       "Drive11RTCSave" (set to 0)
 action:         N/A
 
 drive/iec/c64exp/c64exp-resources.c:
@@ -16661,6 +16902,38 @@ resource:       "UserportRTC" (set to 0)
 action:         N/A
 fixme: add to documentation
 
+userport/userport_rtc.c:
+------------------------
+resource type:                  bool
+resource name:                  "UserportRTCSave"
+resource range:                 0/1
+resource default:               0
+resource function:              set_userport_rtc_save()
+resource var:                   rtc58321a_rtc_save
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -userportrtcsave / +userportrtcsave
+platform gui present:           
+platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+fixme: add to documentation
+
+userport/userport_rtc.c:
+------------------------
+command line:   -userportrtcsave
+description:    "Enable saving of the Userport RTC data when changed."
+resource:       "UserportRTCSave" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+userport/userport_rtc.c:
+------------------------
+command line:   +userportrtcsave
+description:    "Disable saving of the Userport RTC data when changed."
+resource:       "UserportRTCSave" (set to 0)
+action:         N/A
+fixme: add to documentation
+
 vdc/vdc-resources.c:
 --------------------
 resource type:                  bool
@@ -21584,6 +21857,38 @@ resource:       "Mouseport"
 action:         N/A
 fixme: fix documentation, range
 
+mouse.c:
+--------
+resource type:                  bool
+resource name:                  "SmartMouseRTCSave"
+resource range:                 0/1
+resource default:               0
+resource function:              set_smart_mouse_rtc_save()
+resource var:                   ds1202_rtc_save
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:                    #ifdef HAVE_MOUSE
+command-line:                   -smartmousertcsave / +smartmousertcsave
+platform gui present:           
+platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+fixme: add to documentation
+
+mouse.c:
+--------
+command line:   -smartmousertcsave
+description:    "Enable saving of smart mouse RTC data when changed."
+resource:       "SmartMouseRTCSave" (set to 1)
+action:         N/A
+fixme: add to documentation
+
+mouse.c:
+--------
+command line:   +smartmousertcsave
+description:    "Disable saving of smart mouse RTC data when changed."
+resource:       "SmartMouseRTCSave" (set to 0)
+action:         N/A
+fixme: add to documentation
+
 network.c:
 ----------
 resource type:                  string
@@ -22055,14 +22360,6 @@ command line:   -h
 description:    "Show a list of the available options and exit normally"
 resource:       N/A
 action:         cmdline_help()
-fixme: add to documentation
-
-initcmdline.c:
---------------
-command line:   -features
-description:    "Show a list of the available compile-time options and their configuration."
-resource:       N/A
-action:         cmdline_features()
 fixme: add to documentation
 
 initcmdline.c:
