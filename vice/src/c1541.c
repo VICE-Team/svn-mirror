@@ -143,6 +143,7 @@ static int fix_ts(int unit, unsigned int trk, unsigned int sec,
                   unsigned int blk_offset);
 static int internal_write_geos_file(int unit, FILE* f);
 static int write_geos_cmd(int nargs, char **args);
+static int extract_geos_cmd(int nargs, char **args);
 
 int rom1541_loaded = 0;
 int rom1541ii_loaded = 0;
@@ -269,6 +270,10 @@ const command_t command_list[] = {
       "geoswrite <source>",
       "Write GOES Convert file <source> from the file system on a disk image.",
       1, 1, write_geos_cmd },
+    { "geosextract",
+      "geosextract <source>",
+      "Extract all the files to the file system and GEOS Convert them.",
+      0, 1, extract_geos_cmd },
     { "help",
       "help [<command>]",
       "Explain specified command.  If no command is specified, list available\n"      "ones.",
@@ -997,7 +1002,7 @@ static void unix_filename(char *p)
 /* Extract all files <gwesp@cosy.sbg.ac.at>.  */
 /* FIXME: This does not work with non-standard file names.  */
 
-static int extract_cmd(int nargs, char **args)
+static int extract_cmd_common(int nargs, char **args, int geos)
 {
     int dnr = 0, track, sector;
     vdrive_t *floppy;
@@ -1085,10 +1090,14 @@ static int extract_cmd(int nargs, char **args)
                     vdrive_iec_close(floppy, 0);
                     continue;
                 }
-                do {
-                    status = vdrive_iec_read(floppy, &c, 0);
-                    fputc(c, fd);
-                } while (status == SERIAL_OK);
+                if (geos) {
+                    status = internal_read_geos_file(dnr, fd, (char *)name);
+                } else {
+                    do {
+                        status = vdrive_iec_read(floppy, &c, 0);
+                        fputc(c, fd);
+                    } while (status == SERIAL_OK);
+                }
 
                 vdrive_iec_close(floppy, 0);
 
@@ -1106,6 +1115,15 @@ static int extract_cmd(int nargs, char **args)
     }
     vdrive_iec_close(floppy, channel);
     return FD_OK;
+}
+
+static int extract_cmd(int nargs, char **args)
+{
+    return extract_cmd_common(nargs, args, 0);
+}
+static int extract_geos_cmd(int nargs, char **args)
+{
+    return extract_cmd_common(nargs, args, 1);
 }
 
 static int format_cmd(int nargs, char **args)
