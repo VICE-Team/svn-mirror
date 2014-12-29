@@ -14231,7 +14231,7 @@ utility, called @code{c1541}.
 
 You can either invoke it from the command
 line or from within one of the VICE emulators, using the ``Run c1541''
-command which will open a new @code{xterm} window with a running
+menu item which will open a new terminal window with a running
 @code{c1541} in it.
 
 The syntax is:
@@ -14375,8 +14375,16 @@ disk image type, and must be either @code{x64}, @code{d64} (both VC1541/2031),
 (VC1581), @code{d80} (CBM8050) or @code{d82} (CBM8250/1001).
 Otherwise, format the disk in the current unit, if any.
 
-@item gcrformat <diskname,id> <imagename>
-Create and format a G64 disk image named @code{imagename}.
+@item geosread <source> [<destination>]
+Read GEOS <source> from the disk image and copy it as a Convert file into
+<destination> in the file system.  If <destination> is not specified, copy
+it into a file with the same name as <source>.
+
+@item geoswrite <source>
+Write GOES Convert file <source> from the file system on a disk image.
+
+@item geosextract <source>
+Extract all the files to the file system and GEOS Convert them.
 
 @item help [<command>]
 Explain specified command.  If no command is specified, list available
@@ -14387,7 +14395,14 @@ Display information about unit @code{unit} (if unspecified, use the current
 one).
 
 @item list [<pattern>]
+@item dir [<pattern>]
 List files matching @code{pattern} (default is all files).
+
+@item name <diskname>[,<id>] <unit>
+Change image name.
+
+@item p00save <enable> [<unit>]
+Save P00 files to the file system.
 
 @item quit
 Exit (same as @code{exit}).
@@ -14400,6 +14415,10 @@ file with the same name as @code{source}.",
 @item rename <oldname> <newname>
 Rename @code{oldname} into @code{newname}.  The files must be on the
 same drive.
+
+@item show [copying | warranty]
+Show conditions for redistributing copies of C1541 (`copying') or the
+various kinds of warranty you do not have with C1541 (`warranty').
 
 @item tape <t64name> [<file1> @dots{} <fileN>]
 Extract files from a T64 image.
@@ -14414,6 +14433,9 @@ is the current unit).
 @item validate [<unit>]
 Validate the disk in unit @code{unit}.  If @code{unit} is not specified,
 validate the disk in the current unit.
+
+@item verbose
+Enable verbose output.
 
 @item write <source> [<destination>]
 Write @code{source} from the file system into @code{destination} on a
@@ -14445,8 +14467,14 @@ files in the current directory.
 @c FIXME: add more c1541 examples
 
 @table @code
+@item c1541 -attach test.d64 -list
+Attach @code{test.d64} and show directory.
+
 @item c1541 -attach test.d64 -write test.prg testfile
 Write @code{test.prg} to @code{test.d64} as @code{testfile}.
+
+@item c1541 -format "name,id" d64 disk.d64
+Create a disk image in @code{d64} format, format it with the @code{name} and @code{id} and save it to @code{disk.d64}.
 @end table
 
 @c @node FIXME
