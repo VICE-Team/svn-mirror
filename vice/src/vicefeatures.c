@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+
 #include "vicefeatures.h"
 
 /* FIXME: define "UNIX" for all supported unixish OS */
