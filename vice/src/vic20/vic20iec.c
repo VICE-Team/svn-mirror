@@ -32,7 +32,6 @@
 
 #include "cia.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "drivetypes.h"
 #include "iecbus.h"
 #include "iecdrive.h"

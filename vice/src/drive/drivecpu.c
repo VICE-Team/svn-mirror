@@ -108,6 +108,7 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
     mi->context = (void *)drv;
     mi->cpu_regs = &(cpu->cpu_regs);
     mi->cpu_R65C02_regs = NULL;
+    mi->cpu_65816_regs = NULL;
     mi->dtv_cpu_regs = NULL;
     mi->z80_cpu_regs = NULL;
     mi->h6809_cpu_regs = NULL;
@@ -533,17 +534,6 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 #ifdef _MSC_VER
 #pragma optimize("",on)
 #endif
-
-void drivecpu_execute_all(CLOCK clk_value)
-{
-    unsigned int dnr;
-
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        if (drive_context[dnr]->drive->enable) {
-            drivecpu_execute(drive_context[dnr], clk_value);
-        }
-    }
-}
 
 /* ------------------------------------------------------------------------- */
 

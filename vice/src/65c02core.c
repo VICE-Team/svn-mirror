@@ -223,6 +223,7 @@
 #error "please define LAST_OPCODE_ADDR"
 #endif
 
+#ifndef DRIVE_CPU
 /* Export the local version of the registers.  */
 #define EXPORT_REGISTERS()       \
     do {                         \
@@ -249,6 +250,10 @@
         bank_start = bank_limit = 0; /* prevent caching */ \
         JUMP(GLOBAL_REGS.pc);                              \
     } while (0)
+#else  /* DRIVE_CPU */
+#define IMPORT_REGISTERS()
+#define EXPORT_REGISTERS()
+#endif /* !DRIVE_CPU */
 
 /* Stack operations. */
 
@@ -1529,11 +1534,17 @@
         opcode_t opcode;
 #ifdef DEBUG
         CLOCK debug_clk;
+#ifdef DRIVE_CPU
+        debug_clk = CLK;
+#else
         debug_clk = maincpu_clk;
+#endif
 #endif
 
 #ifdef FEATURE_CPUMEMHISTORY
+#ifndef DRIVE_CPU
         memmap_state |= (MEMMAP_STATE_INSTR | MEMMAP_STATE_OPCODE);
+#endif
 #endif
         SET_LAST_ADDR(reg_pc);
         FETCH_OPCODE(opcode);
@@ -1554,6 +1565,19 @@
 #endif
 
 #ifdef DEBUG
+#ifdef DRIVE_CPU
+        if (TRACEFLG) {
+            BYTE op = (BYTE)(p0);
+            BYTE lo = (BYTE)(p1);
+            BYTE hi = (BYTE)(p2 >> 8);
+
+            debug_drive((DWORD)(reg_pc), debug_clk,
+                        mon_disassemble_to_string(e_disk8_space,
+                                                  reg_pc, op,
+                                                  lo, hi, 0, 1, "R65(SC)02"),
+                        reg_a, reg_x, reg_y, reg_sp, drv->mynumber + 8);
+        }
+#else
         if (TRACEFLG) {
             BYTE op = (BYTE)(p0);
             BYTE lo = (BYTE)(p1);
@@ -1573,6 +1597,7 @@
             monitor_startup_trap();
             debug.perform_break_into_monitor = 0;
         }
+#endif
 #endif
 
 trap_skipped:

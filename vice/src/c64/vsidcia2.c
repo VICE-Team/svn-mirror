@@ -38,7 +38,7 @@
 #include "c64gluelogic.h"
 #include "cia.h"
 #include "iecbus.h"
-#include "drivecpu.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "keyboard.h"
 #include "lib.h"

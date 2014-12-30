@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 
-#include "drivecpu.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "maincpu.h"

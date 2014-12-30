@@ -41,7 +41,6 @@
 #include "c64parallel.h"
 #include "cia.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "iecbus.h"
 #include "interrupt.h"
 #include "keyboard.h"

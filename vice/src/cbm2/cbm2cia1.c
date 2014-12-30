@@ -39,7 +39,7 @@
 #include "cbm2.h"
 #include "cbm2cia.h"
 #include "cia.h"
-#include "drivecpu.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "joystick.h"
 #include "keyboard.h"

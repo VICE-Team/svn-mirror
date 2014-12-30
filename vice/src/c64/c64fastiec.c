@@ -30,7 +30,7 @@
 #include "c64.h"
 #include "cia.h"
 #include "via.h"
-#include "drivecpu.h"
+#include "drive.h"
 #include "drivetypes.h"
 #include "iecdrive.h"
 #include "maincpu.h"
@@ -74,7 +74,7 @@ void c64fastiec_fast_cpu_write(BYTE data)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
         if (drive->enable) {
-            drivecpu_execute(drive_context[dnr], maincpu_clk);
+            drivecpu_execute_one(drive_context[dnr], maincpu_clk);
             switch (drive->type) {
                 case DRIVE_TYPE_1570:
                 case DRIVE_TYPE_1571:

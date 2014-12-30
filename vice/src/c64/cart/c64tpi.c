@@ -41,7 +41,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
-#include "drivecpu.h"
+#include "drive.h"
 #include "lib.h"
 #include "log.h"
 #include "parallel.h"

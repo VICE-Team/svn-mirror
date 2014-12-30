@@ -31,7 +31,6 @@
 
 #include "cia.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "drivetypes.h"
 #include "iecbus.h"
 #include "iecdrive.h"
@@ -230,7 +229,7 @@ static void iecbus_cpu_write_conf1(BYTE data, CLOCK clock)
     drive_t *drive;
 
     drive = drive_context[0]->drive;
-    drivecpu_execute(drive_context[0], clock);
+    drivecpu_execute_one(drive_context[0], clock);
 
     DEBUG_IEC_CPU_WRITE(data);
 
@@ -288,7 +287,7 @@ static void iecbus_cpu_write_conf2(BYTE data, CLOCK clock)
     drive_t *drive;
 
     drive = drive_context[1]->drive;
-    drivecpu_execute(drive_context[1], clock);
+    drivecpu_execute_one(drive_context[1], clock);
 
     DEBUG_IEC_CPU_WRITE(data);
 

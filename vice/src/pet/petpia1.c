@@ -32,7 +32,7 @@
 #include "cmdline.h"
 #include "crtc.h"
 #include "datasette.h"
-#include "drivecpu.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "keyboard.h"
 #include "maincpu.h"

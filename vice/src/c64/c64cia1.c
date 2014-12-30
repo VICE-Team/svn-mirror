@@ -36,7 +36,7 @@
 #include "c64cia.h"
 #include "cia.h"
 #include "interrupt.h"
-#include "drivecpu.h"
+#include "drive.h"
 #include "joystick.h"
 #include "keyboard.h"
 #include "lib.h"

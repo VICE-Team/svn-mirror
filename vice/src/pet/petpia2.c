@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#include "drivecpu.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "maincpu.h"
 #include "parallel.h"

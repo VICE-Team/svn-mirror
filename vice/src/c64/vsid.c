@@ -47,7 +47,6 @@
 #include "clkguard.h"
 #include "debug.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "imagecontents.h"
 #include "init.h"
 #include "kbdbuf.h"

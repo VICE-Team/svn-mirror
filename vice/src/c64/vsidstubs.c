@@ -659,7 +659,7 @@ void drive_set_disk_memory(BYTE *id, unsigned int track, unsigned int sector, st
 {
 }
 
-void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
+void drivecpu_execute_one(drive_context_t *drv, CLOCK clk_value)
 {
 }
 

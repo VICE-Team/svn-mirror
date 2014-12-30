@@ -31,7 +31,7 @@
 
 #include "crtc.h"
 #include "datasette.h"
-#include "drivecpu.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "joystick.h"
 #include "keyboard.h"

@@ -35,7 +35,7 @@
 #include "cbm2tpi.h"
 #include "cia.h"
 #include "datasette.h"
-#include "drivecpu.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"

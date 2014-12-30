@@ -44,7 +44,6 @@
 #include "archdep.h"
 #include "cmdline.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "drivetypes.h"
 #include "ieee.h"
 #include "log.h"

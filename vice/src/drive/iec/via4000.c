@@ -39,7 +39,6 @@
 #include "drivecpu.h"
 #include "drivesync.h"
 #include "drivetypes.h"
-#include "glue1571.h"
 #include "iecbus.h"
 #include "iecdrive.h"
 #include "interrupt.h"

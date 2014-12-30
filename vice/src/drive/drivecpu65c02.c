@@ -34,7 +34,7 @@
 #include "clkguard.h"
 #include "debug.h"
 #include "drive.h"
-#include "drivecpu.h"
+#include "drivecpu65c02.h"
 #include "drive-check.h"
 #include "drivemem.h"
 #include "drivetypes.h"
@@ -49,6 +49,9 @@
 #include "rotation.h"
 #include "snapshot.h"
 #include "types.h"
+
+
+#define DRIVE_CPU
 
 static BYTE drive_bank_read(int bank, WORD addr, void *context);
 static BYTE drive_bank_peek(int bank, WORD addr, void *context);
@@ -96,6 +99,7 @@ void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
     mi->context = (void *)drv;
     mi->cpu_regs = NULL;
     mi->cpu_R65C02_regs = &(cpu->cpu_R65C02_regs);
+    mi->cpu_65816_regs = NULL;
     mi->dtv_cpu_regs = NULL;
     mi->z80_cpu_regs = NULL;
     mi->h6809_cpu_regs = NULL;
@@ -238,7 +242,7 @@ void drivecpu65c02_reset(drive_context_t *drv)
     int preserve_monitor;
 
     *(drv->clk_ptr) = 0;
-    drivecpu_reset_clk(drv);
+    drivecpu65c02_reset_clk(drv);
 
     preserve_monitor = drv->cpu->int_status->global_pending_int & IK_MONITOR;
 
@@ -339,8 +343,8 @@ void drivecpu65c02_prevent_clk_overflow_all(CLOCK sub)
 /* Handle a ROM trap. */
 inline static DWORD drive_trap_handler(drive_context_t *drv)
 {
-    if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == (WORD)drv->drive->trap) {
-        MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), drv->drive->trapcont);
+    if (R65C02_REGS_GET_PC(&(drv->cpu->cpu_R65C02_regs)) == (WORD)drv->drive->trap) {
+        R65C02_REGS_SET_PC(&(drv->cpu->cpu_R65C02_regs), drv->drive->trapcont);
         if (drv->drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
 
@@ -436,18 +440,18 @@ void drivecpu65c02_execute(drive_context_t *drv, CLOCK clk_value)
     drivecpu_context_t *cpu;
     int cpu_type = CPU_R65C02;
 
-#define reg_a   (cpu->cpu_regs.a)
-#define reg_x   (cpu->cpu_regs.x)
-#define reg_y   (cpu->cpu_regs.y)
-#define reg_pc  (cpu->cpu_regs.pc)
-#define reg_sp  (cpu->cpu_regs.sp)
-#define reg_p   (cpu->cpu_regs.p)
-#define flag_z  (cpu->cpu_regs.z)
-#define flag_n  (cpu->cpu_regs.n)
+#define reg_a   (cpu->cpu_R65C02_regs.a)
+#define reg_x   (cpu->cpu_R65C02_regs.x)
+#define reg_y   (cpu->cpu_R65C02_regs.y)
+#define reg_pc  (cpu->cpu_R65C02_regs.pc)
+#define reg_sp  (cpu->cpu_R65C02_regs.sp)
+#define reg_p   (cpu->cpu_R65C02_regs.p)
+#define flag_z  (cpu->cpu_R65C02_regs.z)
+#define flag_n  (cpu->cpu_R65C02_regs.n)
 
     cpu = drv->cpu;
 
-    drivecpu_wake_up(drv);
+    drivecpu65c02_wake_up(drv);
 
     /* Calculate number of main CPU clocks to emulate */
     if (clk_value > cpu->last_clk) {
@@ -502,10 +506,6 @@ void drivecpu65c02_execute(drive_context_t *drv, CLOCK clk_value)
 #define WDC_STP()
 #define WDC_WAI()
 
-#define GLOBAL_REGS cpu->cpu_R65C02_regs
-
-#define DRIVE_CPU
-
 #include "65c02core.c"
     }
 
@@ -516,17 +516,6 @@ void drivecpu65c02_execute(drive_context_t *drv, CLOCK clk_value)
 #ifdef _MSC_VER
 #pragma optimize("",on)
 #endif
-
-void drivecpu65c02_execute_all(CLOCK clk_value)
-{
-    unsigned int dnr;
-
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        if (drive_context[dnr]->drive->enable) {
-            drivecpu65c02_execute(drive_context[dnr], clk_value);
-        }
-    }
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -561,12 +550,12 @@ int drivecpu65c02_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
 
     if (0
         || SMW_DW(m, (DWORD) *(drv->clk_ptr)) < 0
-        || SMW_B(m, (BYTE)R65C02_REGS_GET_A(&(cpu->cpu_regs))) < 0
-        || SMW_B(m, (BYTE)R65C02_REGS_GET_X(&(cpu->cpu_regs))) < 0
-        || SMW_B(m, (BYTE)R65C02_REGS_GET_Y(&(cpu->cpu_regs))) < 0
-        || SMW_B(m, (BYTE)R65C02_REGS_GET_SP(&(cpu->cpu_regs))) < 0
-        || SMW_W(m, (WORD)R65C02_REGS_GET_PC(&(cpu->cpu_regs))) < 0
-        || SMW_B(m, (BYTE)R65C02_REGS_GET_STATUS(&(cpu->cpu_regs))) < 0
+        || SMW_B(m, (BYTE)R65C02_REGS_GET_A(&(cpu->cpu_R65C02_regs))) < 0
+        || SMW_B(m, (BYTE)R65C02_REGS_GET_X(&(cpu->cpu_R65C02_regs))) < 0
+        || SMW_B(m, (BYTE)R65C02_REGS_GET_Y(&(cpu->cpu_R65C02_regs))) < 0
+        || SMW_B(m, (BYTE)R65C02_REGS_GET_SP(&(cpu->cpu_R65C02_regs))) < 0
+        || SMW_W(m, (WORD)R65C02_REGS_GET_PC(&(cpu->cpu_R65C02_regs))) < 0
+        || SMW_B(m, (BYTE)R65C02_REGS_GET_STATUS(&(cpu->cpu_R65C02_regs))) < 0
         || SMW_DW(m, (DWORD)(cpu->last_opcode_info)) < 0
         || SMW_DW(m, (DWORD)(cpu->last_clk)) < 0
         || SMW_DW(m, (DWORD)(cpu->cycle_accum)) < 0
@@ -616,7 +605,7 @@ int drivecpu65c02_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     }
 
     /* Before we start make sure all devices are reset.  */
-    drivecpu_reset(drv);
+    drivecpu65c02_reset(drv);
 
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0
@@ -636,12 +625,12 @@ int drivecpu65c02_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         goto fail;
     }
 
-    R65C02_REGS_SET_A(&(cpu->cpu_regs), a);
-    R65C02_REGS_SET_X(&(cpu->cpu_regs), x);
-    R65C02_REGS_SET_Y(&(cpu->cpu_regs), y);
-    R65C02_REGS_SET_SP(&(cpu->cpu_regs), sp);
-    R65C02_REGS_SET_PC(&(cpu->cpu_regs), pc);
-    R65C02_REGS_SET_STATUS(&(cpu->cpu_regs), status);
+    R65C02_REGS_SET_A(&(cpu->cpu_R65C02_regs), a);
+    R65C02_REGS_SET_X(&(cpu->cpu_R65C02_regs), x);
+    R65C02_REGS_SET_Y(&(cpu->cpu_R65C02_regs), y);
+    R65C02_REGS_SET_SP(&(cpu->cpu_R65C02_regs), sp);
+    R65C02_REGS_SET_PC(&(cpu->cpu_R65C02_regs), pc);
+    R65C02_REGS_SET_STATUS(&(cpu->cpu_R65C02_regs), status);
 
     log_message(drv->drive->log, "RESET (For undump).");
 

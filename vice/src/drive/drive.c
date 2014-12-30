@@ -366,7 +366,7 @@ int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
         drive1->drive0 = NULL;
     }
 
-    if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+    if (type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000) {
         drivecpu65c02_init(drv, type);
     } else {
         drivecpu_init(drv, type);
@@ -744,6 +744,30 @@ int drive_num_leds(unsigned int dnr)
     return 1;
 }
 
+void drivecpu_execute_one(drive_context_t *drv, CLOCK clk_value)
+{
+    drive_t *drive = drv->drive;
+
+    if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+        drivecpu65c02_execute(drv, clk_value);
+    } else {
+        drivecpu_execute(drv, clk_value);
+    }
+}
+
+void drivecpu_execute_all(CLOCK clk_value)
+{
+    unsigned int dnr;
+    drive_t *drive;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        drive = drive_context[dnr]->drive;
+        if (drive->enable) {
+            drivecpu_execute_one(drive_context[dnr], clk_value);
+        }
+    }
+}
+
 /* This is called at every vsync. */
 void drive_vsync_hook(void)
 {
@@ -755,11 +779,7 @@ void drive_vsync_hook(void)
         drive_t *drive = drive_context[dnr]->drive;
         if (drive->enable) {
             if (drive->idling_method != DRIVE_IDLE_SKIP_CYCLES) {
-                if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
-                    drivecpu65c02_execute(drive_context[dnr], maincpu_clk);
-                } else {
-                    drivecpu_execute(drive_context[dnr], maincpu_clk);
-                }
+                drivecpu_execute_one(drive_context[dnr], maincpu_clk);
             }
             if (drive->idling_method == DRIVE_IDLE_NO_IDLE) {
                 /* if drive is never idle, also rotate the disk. this prevents
