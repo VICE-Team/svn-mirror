@@ -404,6 +404,30 @@ ui_menu_entry_t ui_settings_settings_menu[] = {
 
 #ifdef DEBUG
 
+static UI_CALLBACK(set_auto_playback_frames)
+{
+    static char input_string[32];
+    char *msg_string;
+    ui_button_t button;
+    int autoplaybackframes;
+
+    if (!CHECK_MENUS) {
+        vsync_suspend_speed_eval();
+        resources_get_int("AutoPlaybackFrames", &autoplaybackframes);
+        if (!*input_string) {
+            sprintf(input_string, "%d", autoplaybackframes);
+        }
+        msg_string = lib_stralloc(_("Enter auto playback frames"));
+        button = ui_input_string(_("Auto playback frames"), msg_string, input_string, 32);
+        lib_free(msg_string);
+        if (button == UI_BUTTON_OK) {
+            autoplaybackframes = atoi(input_string);
+            resources_set_int("AutoPlaybackFrames", autoplaybackframes);
+            ui_update_menus();
+        }
+    }
+}
+
 UI_MENU_DEFINE_RADIO(TraceMode)
 
 ui_menu_entry_t debug_tracemode_submenu[] = {
@@ -431,6 +455,7 @@ ui_menu_entry_t debug_settings_submenu[] = {
     { N_("Drive2 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive2CPU_TRACE, NULL, NULL },
     { N_("Drive3 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive3CPU_TRACE, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR }, /* replaced by extra items in XY_dynamic_menu_create() (eg DTV) */
+    { N_("Autoplay playback frames"), UI_MENU_TYPE_DOTS, (ui_callback_t)set_auto_playback_frames, NULL, NULL },
     { N_("Save core dump"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_DoCoreDump, NULL, NULL },
     { NULL }
 };

@@ -6673,6 +6673,7 @@ prepocessor:
 command-line:                   -IDE64rtcsave / +IDE64rtcsave
 platform gui present:           
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+FIXME: how did this change with the new RTC stuff?
 
 c64/cart/ide64.c:
 -----------------
@@ -6680,6 +6681,7 @@ command line:   -IDE64rtcsave
 description:    "Enable saving of IDE64 RTC data when changed."
 resource:       "IDE64RTCSave" (set to 1)
 action:         N/A
+FIXME: how did this change with the new RTC stuff?
 
 c64/cart/ide64.c:
 -----------------
@@ -6687,6 +6689,7 @@ command line:   +IDE64rtcsave
 description:    "Disable saving of IDE64 RTC data when changed."
 resource:       "IDE64RTCSave" (set to 0)
 action:         N/A
+FIXME: how did this change with the new RTC stuff?
 
 c64/cart/isepic.c:
 ------------------
@@ -13164,7 +13167,7 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -keybuf-delay
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
 fixme: add to documentation
 gpz note: this makes no sense to be changeable in the UIs, as it is strictly related
           to the -keybuf commandline option
@@ -13248,8 +13251,8 @@ prepocessor:
 command-line:                   -logfile
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-note: not sure if its useful to change the logfile name in the UIs, especially
-      because logging starts before
+gpz note: not sure if its useful to change the logfile name in the UIs, especially
+          because logging starts before
 
 log.c:
 ------
@@ -17575,7 +17578,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
 note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
 
 vic20/cart/vic20-generic.c:
@@ -17591,7 +17594,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
 note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
 
 vic20/cart/vic20-generic.c:
@@ -17607,7 +17610,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
 note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
 
 vic20/cart/vic20-generic.c:
@@ -17623,7 +17626,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
 note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
 
 vic20/cart/vic20-generic.c:
@@ -17639,7 +17642,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
 note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
 
 vic20/cart/vic20-ieee488.c:
@@ -17749,7 +17752,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/unix/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/unix/windows (CORRECT)
 note: UIs should not modify this directly, use cartridge_set_default() from cartridge.h instead
 
 vic20/cart/vic20cart.c:
@@ -17769,12 +17772,13 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:			os2/osx
+platform gui present:			os2/osx (FIX!)
 platform range correct:		
 platform range incorrect:		
-platform gui missing:           amigaos/beos/dos/sdl/unix/windows
-fixme: fix documenation, range
+platform gui missing:           amigaos/beos/dos/sdl/unix/windows (CORRECT)
 note: UIs should not modify this directly, use cartridge_set_default() from cartridge.h instead
+fixme: fix documenation, range
+fixme: os2/osx ports
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -19746,7 +19750,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
 platform gui present:
-platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows (CORRECT)
 fixme: it should get removed from vsid, as it has no keyboard
 
 c64/vsid-resources.c:
@@ -19762,7 +19766,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -poskeymap
 platform gui present:
-platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows (CORRECT)
 fixme: it should get removed from vsid, as it has no keyboard
 
 c64/vsid-resources.c:
@@ -19778,7 +19782,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symdekeymap
 platform gui present:
-platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows (CORRECT)
 fixme: it should get removed from vsid, as it has no keyboard
 
 c64/vsid-resources.c:
@@ -19794,7 +19798,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:
-platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows (CORRECT)
 fixme: it should get removed from vsid, as it has no keyboard
 fixme: fix documentation, range
 
@@ -21493,10 +21497,10 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   NONE (fixme)
-platform gui present:
+platform gui present:           unix
 platform range correct:		
 platform range incorrect:		
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 fixme: Add to documentation
 
 diskimage/rawimage.c:
