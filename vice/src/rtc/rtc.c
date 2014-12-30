@@ -663,6 +663,7 @@ time_t rtc_set_latched_day_of_year(int day, time_t latch)
 
 /* ---------------------------------------------------------------------- */
 
+#if 0 /* unsused? */
 static char *byte_to_text(BYTE in)
 {
     char *out = lib_malloc(3);
@@ -673,6 +674,7 @@ static char *byte_to_text(BYTE in)
 
     return out;
 }
+#endif
 
 static char *rtc_ram_to_string(BYTE *ram, int size)
 {
@@ -717,7 +719,7 @@ static void rtc_write_data(FILE *outfile, BYTE *ram, int ram_size, BYTE *regs, i
 
     fprintf(outfile, "[%s]\n", machine_name);
     fprintf(outfile, "(%s)\n", device);
-    fprintf(outfile, "{%d}\n", offset);
+    fprintf(outfile, "{%d}\n", (int)offset);
     if (ram_size) {
         if (rtc_is_empty(ram, ram_size)) {
             fprintf(outfile, "<x>\n");
