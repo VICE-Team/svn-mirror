@@ -7280,6 +7280,454 @@ command-line:                   NONE (fixme)
 platform gui present:           amigaos/dos/sdl/osx/windows/unix
 platform gui missing:           beos/os2
 
+c64/cart/ramcart.c:
+-------------------
+resource type:                  int
+resource name:                  "RAMCARTsize"
+resource range:                 N/A (64/128)
+resource default:               128
+resource function:              set_ramcart_size()
+resource var:                   ramcart_size_kb
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -ramcartsize
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+platform range correct:		amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/ramcart.c:
+-------------------
+command line:   -ramcartsize <size in KB>
+description:    "Size of the RAMCART expansion. (64/128)"
+resource:       "RAMCARTsize"
+action:         N/A
+
+c64/cart/ramcart.c:
+-------------------
+resource type:                  bool
+resource name:                  "RAMCARTImageWrite"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ramcart_image_write()
+resource var:                   ramcart_write_image
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -ramcartimagerw / +ramcartimagerw
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/ramcart.c:
+-------------------
+command line:   -ramcartimagerw
+description:    "Allow writing to RAMCart image"
+resource:       "RAMCARTImageWrite" (set to 1)
+action:         N/A
+
+c64/cart/ramcart.c:
+-------------------
+command line:   +ramcartimagerw
+description:    "Do not write to RAMCart image"
+resource:       "RAMCARTImageWrite" (set to 0)
+action:         N/A
+
+c64/cart/reu.c:
+---------------
+resource type:                  string
+resource name:                  "REUfilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_reu_filename()
+resource var:                   reu_filename
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -reuimage
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/reu.c:
+---------------
+command line:   -reuimage <Name>
+description:    "Specify name of REU image"
+resource:       "REUfilename"
+action:         N/A
+
+c64/cart/reu.c:
+---------------
+resource type:                  bool
+resource name:                  "REUImageWrite"
+resource range:                 0/1
+resource default:               0
+resource function:              set_reu_image_write()
+resource var:                   reu_write_image
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -reuimagerw / +reuimagerw
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/reu.c:
+---------------
+command line:   -reuimagerw
+description:    "Allow writing to REU image"
+resource:       "REUImageWrite" (set to 1)
+action:         N/A
+
+c64/cart/reu.c:
+---------------
+command line:   +reuimagerw
+description:    "Do not write to REU image"
+resource:       "REUImageWrite" (set to 0)
+action:         N/A
+
+c64/cart/reu.c:
+---------------
+resource type:                  int
+resource name:                  "REUsize"
+resource range:                 N/A (128/256/512/1024/2048/4096/8192/16384)
+resource default:               512
+resource function:              set_reu_size()
+resource var:                   reu_size_kb
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -reusize
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/cart/reu.c:
+---------------
+command line:   -reusize <size in KB>
+description:    "Size of the RAM expansion unit. (128/256/512/1024/2048/4096/8192/16384)"
+resource:       "REUsize"
+action:         N/A
+
+c64/cart/reu.c:
+---------------
+resource type:                  bool
+resource name:                  "REU"
+resource range:                 0/1
+resource default:               0
+resource function:              set_reu_enabled()
+resource var:                   reu_enabled
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -reu / +reu
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/reu.c:
+---------------
+command line:   -reu
+description:    "Enable the RAM Expansion Unit"
+resource:       "REU" (set to 1)
+action:         N/A
+
+c64/cart/reu.c:
+---------------
+command line:   +reu
+description:    "Disable the RAM Expansion Unit"
+resource:       "REU" (set to 0)
+action:         N/A
+
+c64/cart/sfx_soundexpander.c:
+-----------------------------
+resource type:                  bool
+resource name:                  "SFXSoundExpander"
+resource range:                 0/1
+resource default:               0
+resource function:              set_sfx_soundexpander_enabled()
+resource var:                   sfx_soundexpander_sound_chip.chip_enabled
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -sfxse / +sfxse
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/sfx_soundexpander.c:
+-----------------------------
+command line:   -sfxse
+description:    "Enable the SFX Sound Expander cartridge"
+resource:       "SFXSoundExpander" (set to 1)
+action:         N/A
+
+c64/cart/sfx_soundexpander.c:
+-----------------------------
+command line:   +sfxse
+description:    "Disable the SFX Sound Expander cartridge"
+resource:       "SFXSoundExpander" (set to 0)
+action:         N/A
+
+c64/cart/sfx_soundexpander.c:
+-----------------------------
+resource type:                  int
+resource name:                  "SFXSoundExpanderChip"
+resource range:                 N/A (3526/3812)
+resource default:               3526
+resource function:              set_sfx_soundexpander_chip()
+resource var:                    sfx_soundexpander_chip
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -sfxsetype
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/sfx_soundexpander.c:
+-----------------------------
+command line:   -sfxsetype <Type>
+description:    "Set YM chip type (3526 / 3812)"
+resource:       "SFXSoundExpanderChip"
+action:         N/A
+
+c64/cart/sfx_soundsampler.c:
+----------------------------
+resource type:                  bool
+resource name:                  "SFXSoundSampler"
+resource range:                 0/1
+resource default:               0
+resource function:              set_sfx_soundsampler_enabled()
+resource var:                   sfx_soundsampler_sound_chip.chip_enabled
+resource emulators:             x64/x64sc/xscpu64/x128/xvic
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -sfxss / +sfxss
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+c64/cart/sfx_soundsampler.c:
+----------------------------
+command line:   -sfxss
+description:    "Enable the SFX Sound Sampler cartridge"
+resource:       "SFXSoundSampler" (set to 1)
+action:         N/A
+
+c64/cart/sfx_soundsampler.c:
+----------------------------
+command line:   +sfxss
+description:    "Disable the SFX Sound Sampler cartridge"
+resource:       "SFXSoundSampler" (set to 0)
+action:         N/A
+
+c64/plus256k.c:
+---------------
+resource type:                  string
+resource name:                  "PLUS256Kfilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_plus256k_filename()
+resource var:                   plus256k_filename
+resource emulators:             x64/x64sc
+not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -plus256kimage
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/plus256k.c:
+---------------
+command line:   -plus256kimage <Name>
+description:    "Specify name of PLUS256K image"
+resource:       "PLUS256Kfilename"
+action:         N/A
+
+c64/plus256k.c:
+---------------
+resource type:                  bool
+resource name:                  "PLUS256K"
+resource range:                 0/1
+resource default:               0
+resource function:              set_plus256k_enabled()
+resource var:                   plus256k_enabled
+resource emulators:             x64/x64sc
+not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -plus256k / +plus256k
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/plus256k.c:
+---------------
+command line:   -plus256k
+description:    "Enable the PLUS256K RAM expansion"
+resource:       "PLUS256K" (set to 1)
+action:         N/A
+
+c64/plus256k.c:
+---------------
+command line:   +plus256k
+description:    "Disable the PLUS256K RAM expansion"
+resource:       "PLUS256K" (set to 0)
+action:         N/A
+
+c64/plus60k.c:
+--------------
+resource type:                  string
+resource name:                  "PLUS60Kfilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_plus60k_filename()
+resource var:                   plus60k_filename
+resource emulators:             x64/x64sc
+not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -plus60kimage
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/plus60k.c:
+--------------
+command line:   -plus60kimage <Name>
+description:    "Specify name of PLUS60K image"
+resource:       "PLUS60Kfilename"
+action:         N/A
+
+c64/plus60k.c:
+--------------
+resource type:                  bool
+resource name:                  "PLUS60K"
+resource range:                 0/1
+resource default:               0
+resource function:              set_plus60k_enabled()
+resource var:                   plus60k_enabled
+resource emulators:             x64/x64sc
+not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -plus60k / +plus60k
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/plus60k.c:
+--------------
+command line:   -plus60k
+description:    "Enable the PLUS60K RAM expansion"
+resource:       "PLUS60K" (set to 1)
+action:         N/A
+
+c64/plus60k.c:
+--------------
+command line:   +plus60k
+description:    "Disable the PLUS60K RAM expansion"
+resource:       "PLUS60K" (set to 0)
+action:         N/A
+
+c64/plus60k.c:
+--------------
+resource type:                  int
+resource name:                  "PLUS60Kbase"
+resource range:                 N/A ($D040/$D100)
+resource default:               $D100
+resource function:              set_plus60k_base()
+resource var:                   plus60k_base
+resource emulators:             x64/x64sc
+not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -plus60kbase
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64/plus60k.c:
+--------------
+command line:   -plus60kbase <Base address>
+description:    "Base address of the PLUS60K expansion. (0xD040, 0xD100)"
+resource:       "PLUS60Kbase"
+action:         N/A
+
+c64/vsid-resources.c:
+---------------------
+resource type:                  string
+resource name:                  "ChargenName"
+resource range:                 N/A
+resource default:               "chargen"
+resource function:              set_chargen_rom_name()
+resource var:                   chargen_rom_name
+resource emulators:             vsid
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -chargen
+platform gui present:
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+
+c64/vsid-cmdline-options.c:
+---------------------------
+command line:   -chargen <name>
+description:    "Specify name of character generator ROM image"
+resource:       "ChargenName"
+action:         N/A
+
+c64/vsid-resources.c:
+---------------------
+resource type:                  string
+resource name:                  "KernalName"
+resource range:                 N/A
+resource default:               "kernal"
+resource function:              set_kernal_rom_name()
+resource var:                   kernal_rom_name
+resource emulators:             vsid
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -kernal
+platform gui present:
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+
+c64/vsid-cmdline-options.c:
+---------------------------
+command line:   -kernal <name>
+description:    "Specify name of Kernal ROM image"
+resource:       "KernalName"
+action:         N/A
+
+c64/vsid-resources.c:
+---------------------
+resource type:                  string
+resource name:                  "BasicName"
+resource range:                 N/A
+resource default:               "basic"
+resource function:              set_basic_rom_name()
+resource var:                   basic_rom_name
+resource emulators:             vsid
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -basic
+platform gui present:
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+
+c64/vsid-cmdline-options.c:
+---------------------------
+command line:   -basic <name>
+description:    "Specify name of BASIC ROM image"
+resource:       "BasicName"
+action:         N/A
+
+c64/psid.c:
+-----------
+command line:   -keepenv
+description:    "Override PSID settings for Video standard and SID model"
+resource:       N/A
+action:         cmdline_keepenv()
+
+c64/psid.c:
+-----------
+command line:   -tune <number>
+description:    "Specify PSID tune <number>"
+resource:       N/A
+action:         cmdline_psid_tune()
+
+c64dtv/c64dtv-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "MachineVideoStandard"
+resource range:                 -2..-1 (MACHINE_SYNC_PAL (-1), MACHINE_SYNC_NTSC (-2))
+resource default:               MACHINE_SYNC_PAL
+resource function:              set_sync_factor()
+resource var:                   sync_factor
+resource emulators:             x64dtv
+not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -pal / -ntsc / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64dtv/c64dtv-cmdline-options.c:
+--------------------------------
+command line:   -model <Model>
+description:    "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
+resource:       N/A
+action:         set_dtv_model() (sets "MachineVideoStandard", "DtvRevision" and "HummerADC")
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -8380,61 +8828,6 @@ description:    "Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I
 resource:       "GEORAMIOSwap" (set to 0)
 action:         N/A
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
-c64/cart/ramcart.c:
--------------------
-resource type:                  int
-resource name:                  "RAMCARTsize"
-resource range:                 N/A (64/128)
-resource default:               128
-resource function:              set_ramcart_size()
-resource var:                   ramcart_size_kb
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -ramcartsize
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform range correct:		amigaos
-platform range incorrect:		beos/dos/os2/sdl/osx/windows/unix
-
-c64/cart/ramcart.c:
--------------------
-command line:   -ramcartsize <size in KB>
-description:    "Size of the RAMCART expansion. (64/128)"
-resource:       "RAMCARTsize"
-action:         N/A
-fixme: fix documentation, range
-
-c64/cart/ramcart.c:
--------------------
-resource type:                  bool
-resource name:                  "RAMCARTImageWrite"
-resource range:                 0/1
-resource default:               0
-resource function:              set_ramcart_image_write()
-resource var:                   ramcart_write_image
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -ramcartimagerw / +ramcartimagerw
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/ramcart.c:
--------------------
-command line:   -ramcartimagerw
-description:    "Allow writing to RAMCart image"
-resource:       "RAMCARTImageWrite" (set to 1)
-action:         N/A
-
-c64/cart/ramcart.c:
--------------------
-command line:   +ramcartimagerw
-description:    "Do not write to RAMCart image"
-resource:       "RAMCARTImageWrite" (set to 0)
-action:         N/A
-
 c64/cart/retroreplay.c:
 -----------------------
 resource type:                  bool
@@ -8539,164 +8932,6 @@ platform range correct:
 platform range incorrect:		
 platform gui missing:           sdl/osx
 
-c64/cart/reu.c:
----------------
-resource type:                  string
-resource name:                  "REUfilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_reu_filename()
-resource var:                   reu_filename
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -reuimage
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/reu.c:
----------------
-command line:   -reuimage <Name>
-description:    "Specify name of REU image"
-resource:       "REUfilename"
-action:         N/A
-
-c64/cart/reu.c:
----------------
-resource type:                  bool
-resource name:                  "REUImageWrite"
-resource range:                 0/1
-resource default:               0
-resource function:              set_reu_image_write()
-resource var:                   reu_write_image
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -reuimagerw / +reuimagerw
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/reu.c:
----------------
-command line:   -reuimagerw
-description:    "Allow writing to REU image"
-resource:       "REUImageWrite" (set to 1)
-action:         N/A
-
-c64/cart/reu.c:
----------------
-command line:   +reuimagerw
-description:    "Do not write to REU image"
-resource:       "REUImageWrite" (set to 0)
-action:         N/A
-
-c64/cart/reu.c:
----------------
-resource type:                  int
-resource name:                  "REUsize"
-resource range:                 N/A (128/256/512/1024/2048/4096/8192/16384)
-resource default:               512
-resource function:              set_reu_size()
-resource var:                   reu_size_kb
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -reusize
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-c64/cart/reu.c:
----------------
-command line:   -reusize <size in KB>
-description:    "Size of the RAM expansion unit. (128/256/512/1024/2048/4096/8192/16384)"
-resource:       "REUsize"
-action:         N/A
-fixme: fix documentation, range
-
-c64/cart/reu.c:
----------------
-resource type:                  bool
-resource name:                  "REU"
-resource range:                 0/1
-resource default:               0
-resource function:              set_reu_enabled()
-resource var:                   reu_enabled
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -reu / +reu
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/reu.c:
----------------
-command line:   -reu
-description:    "Enable the RAM Expansion Unit"
-resource:       "REU" (set to 1)
-action:         N/A
-
-c64/cart/reu.c:
----------------
-command line:   +reu
-description:    "Disable the RAM Expansion Unit"
-resource:       "REU" (set to 0)
-action:         N/A
-
-c64/cart/sfx_soundexpander.c:
------------------------------
-resource type:                  bool
-resource name:                  "SFXSoundExpander"
-resource range:                 0/1
-resource default:               0
-resource function:              set_sfx_soundexpander_enabled()
-resource var:                   sfx_soundexpander_sound_chip.chip_enabled
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -sfxse / +sfxse
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/sfx_soundexpander.c:
------------------------------
-command line:   -sfxse
-description:    "Enable the SFX Sound Expander cartridge"
-resource:       "SFXSoundExpander" (set to 1)
-action:         N/A
-
-c64/cart/sfx_soundexpander.c:
------------------------------
-command line:   +sfxse
-description:    "Disable the SFX Sound Expander cartridge"
-resource:       "SFXSoundExpander" (set to 0)
-action:         N/A
-
-c64/cart/sfx_soundexpander.c:
------------------------------
-resource type:                  int
-resource name:                  "SFXSoundExpanderChip"
-resource range:                 N/A (3526/3812)
-resource default:               3526
-resource function:              set_sfx_soundexpander_chip()
-resource var:                    sfx_soundexpander_chip
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -sfxsetype
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-c64/cart/sfx_soundexpander.c:
------------------------------
-command line:   -sfxsetype <Type>
-description:    "Set YM chip type (3526 / 3812)"
-resource:       "SFXSoundExpanderChip"
-action:         N/A
-
 c64/cart/sfx_soundexpander.c:
 -----------------------------
 resource type:                  bool
@@ -8729,35 +8964,6 @@ action:         N/A
 c64/cart/sfx_soundsampler.c:
 ----------------------------
 resource type:                  bool
-resource name:                  "SFXSoundSampler"
-resource range:                 0/1
-resource default:               0
-resource function:              set_sfx_soundsampler_enabled()
-resource var:                   sfx_soundsampler_sound_chip.chip_enabled
-resource emulators:             x64/x64sc/xscpu64/x128/xvic
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -sfxss / +sfxss
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-c64/cart/sfx_soundsampler.c:
-----------------------------
-command line:   -sfxss
-description:    "Enable the SFX Sound Sampler cartridge"
-resource:       "SFXSoundSampler" (set to 1)
-action:         N/A
-
-c64/cart/sfx_soundsampler.c:
-----------------------------
-command line:   +sfxss
-description:    "Disable the SFX Sound Sampler cartridge"
-resource:       "SFXSoundSampler" (set to 0)
-action:         N/A
-
-c64/cart/sfx_soundsampler.c:
-----------------------------
-resource type:                  bool
 resource name:                  "SFXSoundSamplerIOSwap"
 resource range:                 0/1
 resource default:               0
@@ -8783,134 +8989,6 @@ command line:   +sfxssioswap
 description:    "Don't swap io mapping (map cart I/O to VIC20 I/O-3)"
 resource:       "SFXSoundSamplerIOSwap" (set to 0)
 action:         N/A
-
-c64/plus256k.c:
----------------
-resource type:                  string
-resource name:                  "PLUS256Kfilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_plus256k_filename()
-resource var:                   plus256k_filename
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -plus256kimage
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/plus256k.c:
----------------
-command line:   -plus256kimage <Name>
-description:    "Specify name of PLUS256K image"
-resource:       "PLUS256Kfilename"
-action:         N/A
-
-c64/plus256k.c:
----------------
-resource type:                  bool
-resource name:                  "PLUS256K"
-resource range:                 0/1
-resource default:               0
-resource function:              set_plus256k_enabled()
-resource var:                   plus256k_enabled
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -plus256k / +plus256k
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/plus256k.c:
----------------
-command line:   -plus256k
-description:    "Enable the PLUS256K RAM expansion"
-resource:       "PLUS256K" (set to 1)
-action:         N/A
-
-c64/plus256k.c:
----------------
-command line:   +plus256k
-description:    "Disable the PLUS256K RAM expansion"
-resource:       "PLUS256K" (set to 0)
-action:         N/A
-
-c64/plus60k.c:
---------------
-resource type:                  string
-resource name:                  "PLUS60Kfilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_plus60k_filename()
-resource var:                   plus60k_filename
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -plus60kimage
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/plus60k.c:
---------------
-command line:   -plus60kimage <Name>
-description:    "Specify name of PLUS60K image"
-resource:       "PLUS60Kfilename"
-action:         N/A
-
-c64/plus60k.c:
---------------
-resource type:                  bool
-resource name:                  "PLUS60K"
-resource range:                 0/1
-resource default:               0
-resource function:              set_plus60k_enabled()
-resource var:                   plus60k_enabled
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -plus60k / +plus60k
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64/plus60k.c:
---------------
-command line:   -plus60k
-description:    "Enable the PLUS60K RAM expansion"
-resource:       "PLUS60K" (set to 1)
-action:         N/A
-
-c64/plus60k.c:
---------------
-command line:   +plus60k
-description:    "Disable the PLUS60K RAM expansion"
-resource:       "PLUS60K" (set to 0)
-action:         N/A
-
-c64/plus60k.c:
---------------
-resource type:                  int
-resource name:                  "PLUS60Kbase"
-resource range:                 N/A ($D040/$D100)
-resource default:               $D100
-resource function:              set_plus60k_base()
-resource var:                   plus60k_base
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -plus60kbase
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, range
-
-c64/plus60k.c:
---------------
-command line:   -plus60kbase <Base address>
-description:    "Base address of the PLUS60K expansion. (0xD040, 0xD100)"
-resource:       "PLUS60Kbase"
-action:         N/A
-fixme: fix documentation, range
 
 c64/psid.c:
 -----------
@@ -8945,60 +9023,6 @@ platform range correct:
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/osx/windows
 fixme: only vsid needs this
-
-c64/vsid-resources.c:
----------------------
-resource type:                  string
-resource name:                  "ChargenName"
-resource range:                 N/A
-resource default:               "chargen"
-resource function:              set_chargen_rom_name()
-resource var:                   chargen_rom_name
-resource emulators:             vsid
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -chargen
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-gpz note: it's pointless to make this user-defineable in the GUIs
-blacky note: agreed.
-fixme: add to documentation
-
-c64/vsid-resources.c:
----------------------
-resource type:                  string
-resource name:                  "KernalName"
-resource range:                 N/A
-resource default:               "kernal"
-resource function:              set_kernal_rom_name()
-resource var:                   kernal_rom_name
-resource emulators:             vsid
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -kernal
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-gpz note: it's pointless to make this user-defineable in the GUIs
-blacky note: agreed.
-fixme: add to documentation
-
-c64/vsid-resources.c:
----------------------
-resource type:                  string
-resource name:                  "BasicName"
-resource range:                 N/A
-resource default:               "basic"
-resource function:              set_basic_rom_name()
-resource var:                   basic_rom_name
-resource emulators:             vsid
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -basic
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-gpz note: it's pointless to make this user-defineable in the GUIs
-blacky note: agreed.
-fixme: add to documentation
 
 c64/vsid-resources.c:
 ---------------------
@@ -9082,6 +9106,22 @@ platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: pointless to make user selectable in vsid UIs
 blacky note: agreed.
 
+c64/vsid-cmdline-options.c:
+---------------------------
+command line:   -ciamodel <model>
+description:    "Set both CIA models (0 = old 6526, 1 = new 6526A)"
+resource:       N/A
+action:         set_cia_model() (sets "CIA1Model" and "CIA2Model")
+fixme: add to documentation
+
+c64/vsid-cmdline-options.c:
+---------------------------
+command line:   -cia1model <model>
+description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
+resource:       "CIA1Model"
+action:         N/A
+fixme: add to documentation
+
 c64/vsid-resources.c:
 ---------------------
 resource type:                  int
@@ -9098,6 +9138,14 @@ platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz note: pointless to make user selectable in vsid UIs
 blacky note: agreed.
+
+c64/vsid-cmdline-options.c:
+---------------------------
+command line:   -cia2model <model>
+description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
+resource:       "CIA2Model"
+action:         N/A
+fixme: add to documentation
 
 c64/vsid-resources.c:
 ---------------------
@@ -9138,20 +9186,6 @@ platform range correct:
 platform range incorrect:		
 platform gui missing:           amigaos/dos/os2
 fixme: fix documentation, range
-
-c64/psid.c:
------------
-command line:   -keepenv
-description:    "Override PSID settings for Video standard and SID model"
-resource:       N/A
-action:         cmdline_keepenv()
-
-c64/psid.c:
------------
-command line:   -tune <number>
-description:    "Specify PSID tune <number>"
-resource:       N/A
-action:         cmdline_psid_tune()
 
 c64dtv/c64dtv-resources.c:
 --------------------------
@@ -9225,31 +9259,7 @@ resource:       "BasicName"
 action:         N/A
 fixme: add to documentation
 
-c64dtv/c64dtv-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "MachineVideoStandard"
-resource range:                 -2..-1 (MACHINE_SYNC_PAL (-1), MACHINE_SYNC_NTSC (-2))
-resource default:               MACHINE_SYNC_PAL
-resource function:              set_sync_factor()
-resource var:                   sync_factor
-resource emulators:             x64dtv
-not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -pal / -ntsc / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation for x64dtv
-
-c64dtv/c64dtv-cmdline-options.c:
---------------------------------
-command line:   -model <Model>
-description:    "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
-resource:       N/A
-action:         set_dtv_model() (sets "MachineVideoStandard", "DtvRevision" and "HummerADC")
-fixme: add to documentation
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
