@@ -69,11 +69,11 @@
 static unsigned int lib_debug_initialized = 0;
 
 #ifdef LIB_DEBUG_PINPOINT
-static char *lib_debug_filename[LIB_DEBUG_SIZE];
+static const char *lib_debug_filename[LIB_DEBUG_SIZE];
 static unsigned int lib_debug_line[LIB_DEBUG_SIZE];
-static char *lib_debug_top_filename[LIB_DEBUG_TOPMAX];
+static const char *lib_debug_top_filename[LIB_DEBUG_TOPMAX];
 static unsigned int lib_debug_top_line[LIB_DEBUG_TOPMAX];
-static char *lib_debug_pinpoint_filename;
+static const char *lib_debug_pinpoint_filename;
 static unsigned int lib_debug_pinpoint_line = 0;
 #endif
 
@@ -126,7 +126,7 @@ static void lib_debug_init(void)
     lib_debug_initialized = 1;
 }
 
-static void lib_debug_add_top(char *filename, unsigned int line, unsigned int size)
+static void lib_debug_add_top(const char *filename, unsigned int line, unsigned int size)
 {
     unsigned int index, i;
     for (index = 0; index < LIB_DEBUG_TOPMAX; index++) {
@@ -465,7 +465,7 @@ static void printsize(unsigned int size)
 #define LIB_DEBUG_LEAKLIST_MAX 0x80
 
 unsigned int lib_debug_leaklist_num = 0;
-char *lib_debug_leaklist_filename[LIB_DEBUG_LEAKLIST_MAX];
+const char *lib_debug_leaklist_filename[LIB_DEBUG_LEAKLIST_MAX];
 unsigned int lib_debug_leaklist_line[LIB_DEBUG_LEAKLIST_MAX];
 unsigned int lib_debug_leaklist_size[LIB_DEBUG_LEAKLIST_MAX];
 void *lib_debug_leaklist_address[LIB_DEBUG_LEAKLIST_MAX];
@@ -1121,35 +1121,35 @@ char *lib_msprintf(const char *fmt, ...)
 /*----------------------------------------------------------------------------*/
 
 #ifdef LIB_DEBUG_PINPOINT
-void *lib_malloc_pinpoint(size_t size, char *name, unsigned int line)
+void *lib_malloc_pinpoint(size_t size, const char *name, unsigned int line)
 {
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
     return lib_malloc(size);
 }
 
-void lib_free_pinpoint(const void *p, char *name, unsigned int line)
+void lib_free_pinpoint(const void *p, const char *name, unsigned int line)
 {
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
     lib_free(p);
 }
 
-void *lib_calloc_pinpoint(size_t nmemb, size_t size, char *name, unsigned int line)
+void *lib_calloc_pinpoint(size_t nmemb, size_t size, const char *name, unsigned int line)
 {
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
     return lib_calloc(nmemb, size);
 }
 
-void *lib_realloc_pinpoint(void *p, size_t size, char *name, unsigned int line)
+void *lib_realloc_pinpoint(void *p, size_t size, const char *name, unsigned int line)
 {
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
     return lib_realloc(p, size);
 }
 
-char *lib_stralloc_pinpoint(const char *str, char *name, unsigned int line)
+char *lib_stralloc_pinpoint(const char *str, const char *name, unsigned int line)
 {
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;

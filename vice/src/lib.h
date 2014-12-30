@@ -50,12 +50,12 @@ extern char *lib_mvsprintf(const char *fmt, va_list args);
 extern void lib_debug_check(void);
 
 #ifdef LIB_DEBUG_PINPOINT
-extern void *lib_malloc_pinpoint(size_t size, char *name, unsigned int line);
-extern void *lib_calloc_pinpoint(size_t nmemb, size_t size, char *name, unsigned int line);
-extern void *lib_realloc_pinpoint(void *p, size_t size, char *name, unsigned int line);
-extern void lib_free_pinpoint(const void *p, char *name, unsigned int line);
+extern void *lib_malloc_pinpoint(size_t size, const char *name, unsigned int line);
+extern void *lib_calloc_pinpoint(size_t nmemb, size_t size, const char *name, unsigned int line);
+extern void *lib_realloc_pinpoint(void *p, size_t size, const char *name, unsigned int line);
+extern void lib_free_pinpoint(const void *p, const char *name, unsigned int line);
 
-extern char *lib_stralloc_pinpoint(const char *str, char *name, unsigned int line);
+extern char *lib_stralloc_pinpoint(const char *str, const char *name, unsigned int line);
 
 #define lib_malloc(x) lib_malloc_pinpoint(x, __FILE__, __LINE__)
 #define lib_free(x) lib_free_pinpoint(x, __FILE__, __LINE__)
