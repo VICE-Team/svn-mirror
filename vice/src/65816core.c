@@ -2555,13 +2555,13 @@
     {
         unsigned int p0, p1, p2, p3;
 #ifdef DEBUG
-        CLOCK debug_clk;
-        unsigned int debug_pc;
-        WORD debug_c;
-        WORD debug_x;
-        WORD debug_y;
-        WORD debug_sp;
-        BYTE debug_pbr;
+        CLOCK debug_clk = 0;
+        unsigned int debug_pc = 0;
+        WORD debug_c = 0;
+        WORD debug_x = 0;
+        WORD debug_y = 0;
+        WORD debug_sp = 0;
+        BYTE debug_pbr = 0;
 
         if (TRACEFLG) {
             debug_clk = maincpu_clk;
