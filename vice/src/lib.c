@@ -1128,7 +1128,7 @@ void *lib_malloc_pinpoint(size_t size, char *name, unsigned int line)
     return lib_malloc(size);
 }
 
-void lib_free_pinpoint(void *p, char *name, unsigned int line)
+void lib_free_pinpoint(const void *p, char *name, unsigned int line)
 {
     lib_debug_pinpoint_filename = name;
     lib_debug_pinpoint_line = line;
