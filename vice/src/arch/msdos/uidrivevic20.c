@@ -282,6 +282,42 @@ DEFINE_DRIVE_IDLE_METHOD_SUBMENU(9)
 DEFINE_DRIVE_IDLE_METHOD_SUBMENU(10)
 DEFINE_DRIVE_IDLE_METHOD_SUBMENU(11)
 
+#define DEFINE_DRIVE_EXPANSIONS_SUBMENU(num)                         \
+TUI_MENU_DEFINE_TOGGLE(Drive##num##RAM2000)                          \
+TUI_MENU_DEFINE_TOGGLE(Drive##num##RAM4000)                          \
+TUI_MENU_DEFINE_TOGGLE(Drive##num##RAM6000)                          \
+TUI_MENU_DEFINE_TOGGLE(Drive##num##RAM8000)                          \
+TUI_MENU_DEFINE_TOGGLE(Drive##num##RAMA000)                          \
+TUI_MENU_DEFINE_TOFFLE(Drive##num##RTCSave)                          \
+                                                                     \
+static tui_menu_item_def_t ui_drive_expanions_##num##_menu_def[] = { \
+    { "RAM at $2000-$3FFF", "RAM at $2000-$3FFF",                    \
+      toggle_Drive##num##RAM2000_callback, NULL, 3,                  \
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },                           \
+    { "RAM at $4000-$5FFF", "RAM at $4000-$5FFF",                    \
+      toggle_Drive##num##RAM4000_callback, NULL, 3,                  \
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },                           \
+    { "RAM at $6000-$7FFF", "RAM at $6000-$7FFF",                    \
+      toggle_Drive##num##RAM6000_callback, NULL, 3,                  \
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },                           \
+    { "RAM at $8000-$9FFF", "RAM at $8000-$9FFF",                    \
+      toggle_Drive##num##RAM8000_callback, NULL, 3,                  \
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },                           \
+    { "RAM at $A000-$BFFF", "RAM at $A000-$BFFF",                    \
+      toggle_Drive##num##RAMA000_callback, NULL, 3,                  \
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },                           \
+    { "Save FD2000/4000 RTC data when changed",                      \
+      "Save FD2000/4000 RTC data when changed",                      \
+      toggle_Drive##num##RTCSave_callback, NULL, 3,                  \
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },                           \
+    { NULL }                                                         \
+};
+
+DEFINE_DRIVE_EXPANSIONS_SUBMENU(8)
+DEFINE_DRIVE_EXPANSIONS_SUBMENU(9)
+DEFINE_DRIVE_EXPANSIONS_SUBMENU(10)
+DEFINE_DRIVE_EXPANSIONS_SUBMENU(11)
+
 tui_menu_item_def_t drivevic20_settings_submenu[] = {
     { "True Drive _Emulation:",
       "Enable hardware-level floppy drive emulation",
@@ -302,6 +338,10 @@ tui_menu_item_def_t drivevic20_settings_submenu[] = {
       "Settings for dealing with 40-track disk images in drive #8",
       drive_extend_image_policy_submenu_callback, (void *)8, 16,
       TUI_MENU_BEH_CONTINUE, drive8_extend_image_policy_submenu, "" },
+    { "Drive #8 Expansions...",
+      "Drive #8 Expansions", 
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, ui_drive_expanions_8_menu_def, NULL },
     { "--" },
     { "Drive #_9 model:",
       "Specify model for drive #9",
@@ -317,6 +357,10 @@ tui_menu_item_def_t drivevic20_settings_submenu[] = {
       "Settings for dealing with 40-track disk images in drive #9",
       drive_extend_image_policy_submenu_callback, (void *)9, 16,
       TUI_MENU_BEH_CONTINUE, drive9_extend_image_policy_submenu, "" },
+    { "Drive #9 Expansions...",
+      "Drive #9 Expansions", 
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, ui_drive_expanions_9_menu_def, NULL },
     { "--" },
     { "Drive #1_0 model:",
       "Specify model for drive #10",
@@ -332,6 +376,10 @@ tui_menu_item_def_t drivevic20_settings_submenu[] = {
       "Settings for dealing with 40-track disk images in drive #10",
       drive_extend_image_policy_submenu_callback, (void *)10, 16,
       TUI_MENU_BEH_CONTINUE, drive10_extend_image_policy_submenu, "" },
+    { "Drive #10 Expansions...",
+      "Drive #10 Expansions", 
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, ui_drive_expanions_10_menu_def, NULL },
     { "--" },
     { "Drive #_11 model:",
       "Specify model for drive #11",
@@ -347,5 +395,9 @@ tui_menu_item_def_t drivevic20_settings_submenu[] = {
       "Settings for dealing with 40-track disk images in drive #11",
       drive_extend_image_policy_submenu_callback, (void *)11, 16,
       TUI_MENU_BEH_CONTINUE, drive11_extend_image_policy_submenu, "" },
+    { "Drive #11 Expansions...",
+      "Drive #11 Expansions", 
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, ui_drive_expanions_11_menu_def, NULL },
     { NULL }
 };

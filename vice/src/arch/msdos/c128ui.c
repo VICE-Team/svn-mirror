@@ -67,6 +67,10 @@
 
 TUI_MENU_DEFINE_TOGGLE(Mouse)
 TUI_MENU_DEFINE_TOGGLE(C128FullBanks)
+TUI_MENU_DEFINE_TOGGLE(SmartMouseRTCSave)
+
+TUI_MENU_DEFINE_TOGGLE(InternalFunctionROMRTCSave)
+TUI_MENU_DEFINE_TOGGLE(ExternalFunctionROMRTCSave)
 
 TUI_MENU_DEFINE_RADIO(Mousetype)
 
@@ -234,6 +238,10 @@ static tui_menu_item_def_t ioextenstions_menu_items[] = {
       MousePort_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, mouse_port_submenu,
       "Mouse Port" },
+    { "Save Smart Mouse RTC data when changed",
+      "Save Smart Mouse RTC data when changed",
+      toggle_SmartMouseRTCSave_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Grab mouse events:",
       "Emulate a mouse",
       toggle_Mouse_callback, NULL, 3,
@@ -247,11 +255,19 @@ static tui_menu_item_def_t ioextenstions_menu_items[] = {
       InternalFunctionROM_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, int_function_rom_submenu,
       "Internal function ROM" },
+    { "Save Internal function RTC when changed:",
+      "Enable saving the Internal function RTC when changed",
+      toggle_InternalFunctionROMRTCSave_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "External function ROM:",
       "Change external function ROM type",
       ExternalFunctionROM_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, ext_function_rom_submenu,
       "External function ROM" },
+    { "Save External function RTC when changed:",
+      "Enable saving the External function RTC when changed",
+      toggle_ExternalFunctionROMRTCSave_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
 
@@ -412,6 +428,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 TUI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 TUI_MENU_DEFINE_TOGGLE(UserportRTC)
+TUI_MENU_DEFINE_TOGGLE(UserportRTCSave)
 
 int c128ui_init(void)
 {
@@ -480,6 +497,12 @@ int c128ui_init(void)
     tui_menu_add_item(ui_ioextensions_submenu, "Enable Userport RTC",
                       "Enable Userport RTC",
                       toggle_UserportRTC_callback,
+                      NULL, 3,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(ui_ioextensions_submenu, "Save Userport RTC data when changed",
+                      "Save Userport RTC data when changed",
+                      toggle_UserportRTCSave_callback,
                       NULL, 3,
                       TUI_MENU_BEH_CONTINUE);
 

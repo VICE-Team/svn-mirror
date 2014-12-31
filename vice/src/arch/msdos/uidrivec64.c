@@ -360,6 +360,7 @@ TUI_MENU_DEFINE_TOGGLE(Drive##num##RAM8000)                          \
 TUI_MENU_DEFINE_TOGGLE(Drive##num##RAMA000)                          \
 TUI_MENU_DEFINE_TOGGLE(Drive##num##ProfDOS)                          \
 TUI_MENU_DEFINE_TOGGLE(Drive##num##SuperCard)                        \
+TUI_MENU_DEFINE_TOFFLE(Drive##num##RTCSave)                          \
                                                                      \
 static tui_menu_item_def_t ui_drive_expanions_##num##_menu_def[] = { \
     { "RAM at $2000-$3FFF", "RAM at $2000-$3FFF",                    \
@@ -382,6 +383,10 @@ static tui_menu_item_def_t ui_drive_expanions_##num##_menu_def[] = { \
       TUI_MENU_BEH_CONTINUE, NULL, NULL },                           \
     { "SuperCard+", "SuperCard+",                                    \
       toggle_Drive##num##SuperCard_callback, NULL, 3,                \
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },                           \
+    { "Save FD2000/4000 RTC data when changed",                      \
+      "Save FD2000/4000 RTC data when changed",                      \
+      toggle_Drive##num##RTCSave_callback, NULL, 3,                  \
       TUI_MENU_BEH_CONTINUE, NULL, NULL },                           \
     { NULL }                                                         \
 };

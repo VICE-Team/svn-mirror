@@ -68,6 +68,7 @@
 
 TUI_MENU_DEFINE_TOGGLE(Mouse)
 TUI_MENU_DEFINE_RADIO(Mousetype)
+TUI_MENU_DEFINE_TOGGLE(SmartMouseRTCSave)
 
 static TUI_MENU_CALLBACK(MouseType_callback)
 {
@@ -165,6 +166,10 @@ static tui_menu_item_def_t ioextenstions_menu_items[] = {
       MousePort_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, mouse_port_submenu,
       "Mouse Port" },
+    { "Save Smart Mouse RTC data when changed",
+      "Save Smart Mouse RTC data when changed",
+      toggle_SmartMouseRTCSave_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Grab mouse events:",
       "Emulate a mouse",
       toggle_Mouse_callback, NULL, 3,
@@ -265,6 +270,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 TUI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 TUI_MENU_DEFINE_TOGGLE(UserportRTC)
+TUI_MENU_DEFINE_TOGGLE(UserportRTCSave)
 
 int scpu64ui_init(void)
 {
@@ -340,6 +346,12 @@ int scpu64ui_init(void)
     tui_menu_add_item(ui_ioextensions_submenu, "Enable Userport RTC",
                       "Enable Userport RTC",
                       toggle_UserportRTC_callback,
+                      NULL, 3,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(ui_ioextensions_submenu, "Save Userport RTC data when changed",
+                      "Save Userport RTC data when changed",
+                      toggle_UserportRTCSave_callback,
                       NULL, 3,
                       TUI_MENU_BEH_CONTINUE);
 

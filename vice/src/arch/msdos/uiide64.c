@@ -34,6 +34,7 @@
 #include "uiide64.h"
 
 TUI_MENU_DEFINE_TOGGLE(IDE64version4)
+TUI_MENU_DEFINE_TOGGLE(IDE64RTCSave)
 TUI_MENU_DEFINE_TOGGLE(IDE64USBServer)
 TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize1)
 TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize2)
@@ -233,6 +234,9 @@ static tui_menu_item_def_t ide64_hd4_menu_items[] = {
 static tui_menu_item_def_t ide64_menu_items[] = {
     { "_Enable IDE64 V4 support:", "Emulate IDE64 V4 model",
       toggle_IDE64version4_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Save IDE64 RTC data when changed:", "Save IDE64 RTC data when changed",
+      toggle_IDE64RTCSave_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
 #ifdef HAVE_NETWORK
     { "_USB server:", "Enable USB server",

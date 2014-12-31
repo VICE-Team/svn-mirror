@@ -8398,8 +8398,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -intfuncrtcsave / +intfuncrtcsave
-platform gui present:           amigaos/beos/unix
-platform gui missing:			dos/os2/sdl/osx/windows
+platform gui present:           amigaos/beos/dos/unix
+platform gui missing:			os2/sdl/osx/windows
 fixme: add to documentation
 
 c128/functionrom.c:
@@ -8430,8 +8430,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -extfuncrtcsave / +extfuncrtcsave
-platform gui present:           amigaos/beos/unix
-platform gui missing:			dos/os2/sdl/osx/windows
+platform gui present:           amigaos/beos/dos/unix
+platform gui missing:			os2/sdl/osx/windows
 fixme: add to documentation
 
 c128/functionrom.c:
@@ -8886,8 +8886,8 @@ resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -ds12c887rtcsave / +ds12c887rtcsave
-platform gui present:           amigaos/unix/beos
-platform gui missing:           dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix/beos/dos
+platform gui missing:           os2/sdl/osx/windows
 fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
@@ -9431,8 +9431,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64rtcsave / +IDE64rtcsave
-platform gui present:           amigaos/beos/unix
-platform gui missing:           dos/os2/sdl/osx/windows
+platform gui present:           amigaos/beos/dos/unix
+platform gui missing:           os2/sdl/osx/windows
 
 c64/cart/ide64.c:
 -----------------
@@ -11027,8 +11027,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -drive8rtcsave / +drive8rtcsave
-platform gui present:           amigaos/beos/unix
-platform gui missing:			dos/os2/sdl/osx/windows
+platform gui present:           amigaos/beos/dos/unix
+platform gui missing:			os2/sdl/osx/windows
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -11056,8 +11056,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -drive9rtcsave / +drive9rtcsave
-platform gui present:           amigaos/beos/unix
-platform gui missing:			dos/os2/sdl/osx/windows
+platform gui present:           amigaos/beos/dos/unix
+platform gui missing:			os2/sdl/osx/windows
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -11085,8 +11085,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -drive10rtcsave / +drive10rtcsave
-platform gui present:           amigaos/beos/unix
-platform gui missing:			dos/os2/sdl/osx/windows
+platform gui present:           amigaos/beos/dos/unix
+platform gui missing:			os2/sdl/osx/windows
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -11114,8 +11114,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -drive11rtcsave / +drive11rtcsave
-platform gui present:           amigaos/beos/unix
-platform gui missing:			dos/os2/sdl/osx/windows
+platform gui present:           amigaos/beos/dos/unix
+platform gui missing:			os2/sdl/osx/windows
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -16918,8 +16918,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -userportrtcsave / +userportrtcsave
-platform gui present:           amigaos/beos/unix
-platform gui missing:			dos/os2/sdl/osx/windows
+platform gui present:           amigaos/beos/dos/unix
+platform gui missing:			os2/sdl/osx/windows
 fixme: add to documentation
 
 userport/userport_rtc.c:
@@ -21874,8 +21874,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef HAVE_MOUSE
 command-line:                   -smartmousertcsave / +smartmousertcsave
-platform gui present:           amigaos/beos/unix
-platform gui missing:			dos/os2/sdl/osx/windows
+platform gui present:           amigaos/beos/dos/unix
+platform gui missing:			os2/sdl/osx/windows
 fixme: add to documentation
 
 mouse.c:
