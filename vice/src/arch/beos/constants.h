@@ -238,9 +238,12 @@ const uint32 MENU_TOGGLE_GEORAM                   = 'M096';
 const uint32 MENU_TOGGLE_RAMCART                  = 'M097';
 const uint32 MENU_TOGGLE_DQBB                     = 'M098';
 const uint32 MENU_TOGGLE_USERPORT_RTC             = 'M505';
+const uint32 MENU_TOGGLE_USERPORT_RTC_SAVE        = 'M572';
 
 const uint32 MENU_TOGGLE_MAGICVOICE               = 'M165';
 const uint32 MENU_TOGGLE_IDE64_V4                 = 'M262';
+const uint32 MENU_TOGGLE_IDE64_RTC_SAVE           = 'M571';
+
 const uint32 MENU_TOGGLE_ISEPIC                   = 'M166';
 const uint32 MENU_TOGGLE_ISEPIC_SWITCH            = 'M167';
 
@@ -293,12 +296,14 @@ const uint32 MENU_C128_INTERNAL_FUNCTION_ROM      = 'M510';
 const uint32 MENU_C128_INTERNAL_FUNCTION_RAM      = 'M511';
 const uint32 MENU_C128_INTERNAL_FUNCTION_RTC      = 'M512';
 const uint32 MENU_C128_INTERNAL_FUNCTION_FILE     = 'M513';
+const uint32 MENU_TOGGLE_INT_FUNCTION_RTC_SAVE    = 'M297';
 
 const uint32 MENU_C128_EXTERNAL_FUNCTION_NONE     = 'M514';
 const uint32 MENU_C128_EXTERNAL_FUNCTION_ROM      = 'M515';
 const uint32 MENU_C128_EXTERNAL_FUNCTION_RAM      = 'M516';
 const uint32 MENU_C128_EXTERNAL_FUNCTION_RTC      = 'M517';
 const uint32 MENU_C128_EXTERNAL_FUNCTION_FILE     = 'M518';
+const uint32 MENU_TOGGLE_EXT_FUNCTION_RTC_SAVE    = 'M569';
 
 const uint32 MENU_VDC_RENDER_FILTER_NONE          = 'M176';
 const uint32 MENU_VDC_RENDER_FILTER_CRT_EMULATION = 'M177';
@@ -605,6 +610,7 @@ const uint32 MENU_DS12C887_RTC_BASE_D600          = 'M501';
 const uint32 MENU_DS12C887_RTC_BASE_D700          = 'M502';
 const uint32 MENU_DS12C887_RTC_BASE_DE00          = 'M503';
 const uint32 MENU_DS12C887_RTC_BASE_DF00          = 'M504';
+const uint32 MENU_TOGGLE_DS12C887_RTC_SAVE        = 'M570';
 
 const uint32 MENU_SFX_SE_3526                     = 'M085';
 const uint32 MENU_SFX_SE_3812                     = 'M086';
@@ -662,6 +668,8 @@ const uint32 MENU_MOUSE_TYPE_KOALAPAD             = 'M256';
 
 const uint32 MENU_MOUSE_PORT_JOY1                 = 'M156';
 const uint32 MENU_MOUSE_PORT_JOY2                 = 'M157';
+
+const uint32 MENU_TOGGLE_SMART_MOUSE_RTC_SAVE     = 'M573';
 
 const uint32 MENU_COMPUTER_KERNAL_ROM_FILE        = 'M526';
 const uint32 MENU_COMPUTER_BASIC_ROM_FILE         = 'M527';

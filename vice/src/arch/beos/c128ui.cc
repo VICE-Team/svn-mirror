@@ -95,6 +95,7 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "DIGIMAX", MENU_TOGGLE_DIGIMAX },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { "Mouse", MENU_TOGGLE_MOUSE },
+    { "SmartMouseRTCSave", MENU_TOGGLE_SMART_MOUSE_RTC_SAVE },
     { "VDCDoubleSize", MENU_TOGGLE_VDC_DOUBLESIZE },
     { "VDCStretchVertical", MENU_TOGGLE_STRETCHVERTICAL },
     { "VDCDoubleScan", MENU_TOGGLE_VDC_DOUBLESCAN },
@@ -107,13 +108,18 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
     { "MagicVoiceCartridgeEnabled", MENU_TOGGLE_MAGICVOICE },
     { "IDE64version4", MENU_TOGGLE_IDE64_V4 },
+    { "IDE64RTCSave", MENU_TOGGLE_IDE64_RTC_SAVE },
     { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
     { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
     { "RRFlashJumper", MENU_TOGGLE_RR_FLASH_JUMPER },
     { "RRBankJumper", MENU_TOGGLE_RR_BANK_JUMPER },
     { "RRBiosWrite",MENU_TOGGLE_SAVE_RR_FLASH },
     { "DS12C887RTC", MENU_TOGGLE_DS12C887_RTC },
+    { "DS12C887RTCSave", MENU_TOGGLE_DS12C887_RTC_SAVE },
     { "UserportRTC", MENU_TOGGLE_USERPORT_RTC },
+    { "UserportRTCSave", MENU_TOGGLE_USERPORT_RTC_SAVE },
+    { "InternalFunctionROMRTCSave", MENU_TOGGLE_INT_FUNCTION_RTC_SAVE },
+    { "ExternalFunctionROMRTCSave", MENU_TOGGLE_EXT_FUNCTION_RTC_SAVE },
     { NULL, 0 }
 };
 

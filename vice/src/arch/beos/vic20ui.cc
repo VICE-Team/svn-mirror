@@ -98,6 +98,7 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "MegaCartNvRAMWriteBack", MENU_TOGGLE_MC_NVRAM_WRITE_BACK },
     { "VicFlashPluginWriteBack", MENU_TOGGLE_VFP_WRITE_BACK },
     { "DS12C887RTC", MENU_TOGGLE_DS12C887_RTC },
+    { "DS12C887RTCSave", MENU_TOGGLE_DS12C887_RTC_SAVE },
     { NULL, 0 }
 };
 

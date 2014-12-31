@@ -112,6 +112,7 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "MMCRRescueMode", MENU_TOGGLE_MMCR_RESCUE_MODE },
     { "MMCRCardRW", MENU_TOGGLE_MMCR_READ_WRITE },
     { "Mouse", MENU_TOGGLE_MOUSE },
+    { "SmartMouseRTCSave", MENU_TOGGLE_SMART_MOUSE_RTC_SAVE },
     { "SFXSoundExpander", MENU_TOGGLE_SFX_SE },
     { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
     { "EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER },
@@ -119,13 +120,16 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "VICIINewLuminances", MENU_VICII_NEW_LUMINANCES },
     { "IECReset", MENU_IEC_RESET },
     { "IDE64version4", MENU_TOGGLE_IDE64_V4 },
+    { "IDE64RTCSave", MENU_TOGGLE_IDE64_RTC_SAVE },
     { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
     { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
     { "RRFlashJumper", MENU_TOGGLE_RR_FLASH_JUMPER },
     { "RRBankJumper", MENU_TOGGLE_RR_BANK_JUMPER },
     { "RRBiosWrite", MENU_TOGGLE_SAVE_RR_FLASH },
     { "DS12C887RTC", MENU_TOGGLE_DS12C887_RTC },
+    { "DS12C887RTCSave", MENU_TOGGLE_DS12C887_RTC_SAVE },
     { "UserportRTC", MENU_TOGGLE_USERPORT_RTC },
+    { "UserportRTCSave", MENU_TOGGLE_USERPORT_RTC_SAVE },
     { NULL, 0 }
 };
 

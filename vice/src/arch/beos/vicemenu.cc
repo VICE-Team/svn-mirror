@@ -521,6 +521,7 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("RAM", new BMessage(MENU_C128_INTERNAL_FUNCTION_RAM)));
                 submenu->AddItem(new BMenuItem("RAM+RTC", new BMessage(MENU_C128_INTERNAL_FUNCTION_RTC)));
             menu->AddItem(new BMenuItem("Select ROM file", new BMessage(MENU_C128_INTERNAL_FUNCTION_FILE)));
+            menu->AddItem(new BMenuItem("Save Internal Function RTC data when changed", new BMessage(MENU_TOGGLE_INT_FUNCTION_RTC_SAVE)));
 
         uppermenu->AddItem(menu = new BMenu("External Function ROM options"));
             menu->AddItem(submenu = new BMenu("External Function ROM type"));
@@ -530,6 +531,7 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("RAM", new BMessage(MENU_C128_EXTERNAL_FUNCTION_RAM)));
                 submenu->AddItem(new BMenuItem("RAM+RTC", new BMessage(MENU_C128_EXTERNAL_FUNCTION_RTC)));
             menu->AddItem(new BMenuItem("Select ROM file", new BMessage(MENU_C128_EXTERNAL_FUNCTION_FILE)));
+            menu->AddItem(new BMenuItem("Save External Function RTC data when changed", new BMessage(MENU_TOGGLE_EXT_FUNCTION_RTC_SAVE)));
     }
 
     if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_PLUS4 ||
@@ -597,6 +599,7 @@ BMenuBar *menu_create(int machine_class)
                 submenu->SetRadioMode(true);
                 submenu->AddItem(new BMenuItem("Joy1", new BMessage(MENU_MOUSE_PORT_JOY1)));
                 submenu->AddItem(new BMenuItem("Joy2", new BMessage(MENU_MOUSE_PORT_JOY2)));
+            menu->AddItem(new BMenuItem("Save Smart Moude RTC data when changed", new BMessage(MENU_TOGGLE_SMART_MOUSE_RTC_SAVE)));
         uppermenu->AddSeparatorItem();
     }
 
@@ -707,6 +710,7 @@ BMenuBar *menu_create(int machine_class)
 
             menu->AddItem(submenu = new BMenu("IDE64 Options"));
                 submenu->AddItem(new BMenuItem("IDE64 V4 emulation", new BMessage(MENU_TOGGLE_IDE64_V4)));
+                submenu->AddItem(new BMenuItem("Save IDE64 RTC data when changed", new BMessage(MENU_TOGGLE_IDE64_RTC_SAVE)));
                 submenu->AddItem(new BMenuItem("IDE64 device #1 File", new BMessage(MENU_IDE64_FILE1)));
                 submenu->AddItem(new BMenuItem("IDE64 device #1 image size ...", new BMessage(MENU_IDE64_SIZE1)));
                 submenu->AddItem(new BMenuItem("IDE64 device #2 File", new BMessage(MENU_IDE64_FILE2)));
@@ -722,6 +726,7 @@ BMenuBar *menu_create(int machine_class)
 
             menu->AddItem(submenu = new BMenu("Userport RTC Options"));
                 submenu->AddItem(new BMenuItem("Userport RTC emulation", new BMessage(MENU_TOGGLE_USERPORT_RTC)));
+                submenu->AddItem(new BMenuItem("Save Userport RTC data when changed", new BMessage(MENU_TOGGLE_USERPORT_RTC_SAVE)));
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
@@ -815,6 +820,7 @@ BMenuBar *menu_create(int machine_class)
                         extsubmenu->AddItem(new BMenuItem("$DE00", new BMessage(MENU_DS12C887_RTC_BASE_DE00)));
                         extsubmenu->AddItem(new BMenuItem("$DF00", new BMessage(MENU_DS12C887_RTC_BASE_DF00)));
                     }
+                submenu->AddItem(new BMenuItem("Save DS12C887 RTC data when changed", new BMessage(MENU_TOGGLE_DS12C887_RTC_SAVE)));
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
