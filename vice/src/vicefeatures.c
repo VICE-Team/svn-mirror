@@ -29,6 +29,7 @@
 
 #include <stdlib.h>
 
+#include "debug.h"
 #include "vicefeatures.h"
 
 /* FIXME: define "UNIX" for all supported unixish OS */
@@ -106,12 +107,13 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
-/* (???) */
+#if defined(MACOSX_SUPPORT) /* (osx ???) */
     { "HAVE_AUDIO_UNIT", "Enable AudioUnit support.",
 #ifndef HAVE_AUDIO_UNIT
         0 },
 #else
         1 },
+#endif
 #endif
 #ifdef UNIX /* (unix) */
     { "HAVE_CAIRO", "Enable Cairo rendering support",
@@ -351,8 +353,15 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 /* (all) */
-    { "HAVE_RS232", "Enable RS232 emulation.",
-#ifndef HAVE_RS232
+    { "HAVE_RS232DEV", "Enable RS232 emulation.",
+#ifndef HAVE_RS232DEV
+        0 },
+#else
+        1 },
+#endif
+/* (all) */
+    { "HAVE_RS232NET", "Enable RS232 emulation. (via network)",
+#ifndef HAVE_RS232NET
         0 },
 #else
         1 },
