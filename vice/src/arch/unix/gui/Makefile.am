@@ -185,6 +185,8 @@ libarchgui_a_SOURCES = \
 	uitfe.h \
 	uitpi.c \
 	uitpi.h \
+	uiuserportrtc.c \
+	uiuserportrtc.h \
 	uiv364speech.c \
 	uiv364speech.h \
 	uivdc.c \

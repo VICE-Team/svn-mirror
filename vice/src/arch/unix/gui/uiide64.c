@@ -258,6 +258,7 @@ static ui_menu_entry_t ide64_hd4_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(IDE64USBServer)
+UI_MENU_DEFINE_TOGGLE(IDE64RTCSave)
 
 ui_menu_entry_t ide64_submenu[] = {
     { N_("Revision"), UI_MENU_TYPE_NORMAL,
@@ -267,6 +268,8 @@ ui_menu_entry_t ide64_submenu[] = {
     { N_("Set USB server address"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)usbserver_select_addr,
       (ui_callback_data_t)"IDE64USBServerAddress", NULL },
+    { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_IDE64RTCSave, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Device 1 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_hd1_submenu },

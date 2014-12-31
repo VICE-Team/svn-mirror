@@ -85,6 +85,7 @@
 #include "uisoundexpander.h"
 #include "uitfe.h"
 #include "uitpi.h"
+#include "uiuserportrtc.h"
 #include "uivicii.h"
 #include "vsync.h"
 #include "vicii.h"
@@ -294,7 +295,6 @@ static ui_menu_entry_t iocollision_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
-UI_MENU_DEFINE_TOGGLE(UserportRTC)
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
@@ -348,7 +348,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { CARTRIDGE_NAME_DS12C887RTC, UI_MENU_TYPE_NORMAL,
       NULL, NULL, ds12c887rtc_c64_submenu },
     { "Userport RTC", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)toggle_UserportRTC, NULL, NULL },
+      NULL, NULL, userportrtc_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("I/O collision handling"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, iocollision_submenu },

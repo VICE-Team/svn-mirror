@@ -68,6 +68,7 @@ static ui_menu_entry_t mouseport_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(Mouse)
+UI_MENU_DEFINE_TOGGLE(SmartMouseRTCSave)
 
 ui_menu_entry_t mouse_submenu[] = {
     { N_("Enable mouse grab"), UI_MENU_TYPE_TICK,
@@ -76,6 +77,8 @@ ui_menu_entry_t mouse_submenu[] = {
       NULL, NULL, mousetype_submenu },
     { N_("Mouse port"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mouseport_submenu },
+    { N_("Enable SmartMouse RTC saving"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_SmartMouseRTCSave, NULL },
     { NULL }
 };
 

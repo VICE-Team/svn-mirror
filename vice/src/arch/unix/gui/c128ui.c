@@ -88,6 +88,7 @@
 #include "uisoundexpander.h"
 #include "uitfe.h"
 #include "uitpi.h"
+#include "uiuserportrtc.h"
 #include "uivdc.h"
 #include "uivicii.h"
 #include "vsync.h"
@@ -155,10 +156,12 @@ static ui_menu_entry_t sid_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
-UI_MENU_DEFINE_TOGGLE(UserportRTC)
-UI_MENU_DEFINE_RADIO(InternalFunctionROM)
-UI_MENU_DEFINE_RADIO(ExternalFunctionROM)
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
+
+UI_MENU_DEFINE_RADIO(InternalFunctionROM)
+UI_MENU_DEFINE_TOGGLE(InternalFunctionROMRTCSave)
+UI_MENU_DEFINE_RADIO(ExternalFunctionROM)
+UI_MENU_DEFINE_TOGGLE(ExternalFunctionROMRTCSave)
 
 static ui_menu_entry_t int_function_type_submenu[] = {
     { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_InternalFunctionROM,
@@ -209,12 +212,16 @@ static ui_menu_entry_t functionrom_submenu[] = {
     { N_("Internal Function ROM file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_function_rom_name,
       (ui_callback_data_t)"InternalFunctionName", NULL },
+    { N_("enable internal Function ROM RTC saving"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_InternalFunctionROMRTCSave, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("External Function ROM type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ext_function_type_submenu },
     { N_("External Function ROM file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_function_rom_name,
       (ui_callback_data_t)"ExternalFunctionName", NULL },
+    { N_("enable external Function ROM RTC saving"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_ExternalFunctionROMRTCSave, NULL, NULL },
     { NULL }
 };
 
@@ -281,7 +288,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { CARTRIDGE_NAME_DS12C887RTC, UI_MENU_TYPE_NORMAL,
       NULL, NULL, ds12c887rtc_c128_submenu },
     { "Userport RTC", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)toggle_UserportRTC, NULL, NULL },
+      NULL, NULL, userportrtc_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },

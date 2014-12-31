@@ -6671,9 +6671,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64rtcsave / +IDE64rtcsave
-platform gui present:           
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-FIXME: how did this change with the new RTC stuff?
+platform gui present:           unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 c64/cart/ide64.c:
 -----------------
@@ -6689,7 +6688,6 @@ command line:   +IDE64rtcsave
 description:    "Disable saving of IDE64 RTC data when changed."
 resource:       "IDE64RTCSave" (set to 0)
 action:         N/A
-FIXME: how did this change with the new RTC stuff?
 
 c64/cart/isepic.c:
 ------------------
@@ -8296,8 +8294,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -intfuncrtcsave / +intfuncrtcsave
-platform gui present:           
-platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
 fixme: add to documentation
 
 c128/functionrom.c:
@@ -8328,8 +8326,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -extfuncrtcsave / +extfuncrtcsave
-platform gui present:           
-platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
 fixme: add to documentation
 
 c128/functionrom.c:
@@ -8583,15 +8581,16 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE
-platform gui present:           os2
+platform gui present:           os2 (FIX!)
 platform range correct:		
 platform range incorrect:		
-platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows (CORRECT)
 fixme: fix documentation, range
 note: CartridgeType and CartridgeFile are used for the _default_ cartridge. its
       questionable to have a commandline option for it. UIs should use cartridge_set_default()
       from cartridge.h to set the currently selected "main slot" cartridge as default
       and not alter this resource directly.
+fixme: os2 port
 
 c64/cart/c64tpi.c:
 ------------------
@@ -8783,8 +8782,8 @@ resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -ds12c887rtcsave / +ds12c887rtcsave
-platform gui present:           
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
@@ -9088,7 +9087,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
 fixme: should not be in vsid at all, also its tied to the type of the machine so
        its pointless to make it user selectable
 
@@ -9105,7 +9104,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -cia1model
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
 gpz note: pointless to make user selectable in vsid UIs
 blacky note: agreed.
 
@@ -9138,7 +9137,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -cia2model
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
 gpz note: pointless to make user selectable in vsid UIs
 blacky note: agreed.
 
@@ -11036,8 +11035,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive8rtcsave / +drive8rtcsave
-platform gui present:           
-platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -11065,8 +11064,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive9rtcsave / +drive9rtcsave
-platform gui present:           
-platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -11094,8 +11093,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive10rtcsave / +drive10rtcsave
-platform gui present:           
-platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -11123,8 +11122,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drive11rtcsave / +drive11rtcsave
-platform gui present:           
-platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -16927,8 +16926,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -userportrtcsave / +userportrtcsave
-platform gui present:           
-platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
 fixme: add to documentation
 
 userport/userport_rtc.c:
@@ -20061,10 +20060,10 @@ resource emulators:             xcbm2/xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
-platform gui present:			windows
+platform gui present:		windows/unix
 platform range correct:		
 platform range incorrect:		
-platform gui missing:           amigaos/beos/dos/sdl/unix/osx
+platform gui missing:           amigaos/beos/dos/sdl/osx
 fixme: add to documentation
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -21883,8 +21882,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef HAVE_MOUSE
 command-line:                   -smartmousertcsave / +smartmousertcsave
-platform gui present:           
-platform gui missing:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform gui present:           unix
+platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
 fixme: add to documentation
 
 mouse.c:
@@ -22662,6 +22661,7 @@ platform gui present:
 platform gui missing:
 fixme: do not use for vsid
 fixme: doesn't this conflict with the common code "KeyMapIndex" resource ??
+gpz note: certainly sounds like it - what is it exactly and why is it there?
 
 arch/beos/kbd.c:
 ----------------

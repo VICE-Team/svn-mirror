@@ -57,6 +57,10 @@ UI_MENU_DEFINE_TOGGLE(IECDevice8)
 UI_MENU_DEFINE_TOGGLE(IECDevice9)
 UI_MENU_DEFINE_TOGGLE(IECDevice10)
 UI_MENU_DEFINE_TOGGLE(IECDevice11)
+UI_MENU_DEFINE_TOGGLE(Drive8RTCSave)
+UI_MENU_DEFINE_TOGGLE(Drive9RTCSave)
+UI_MENU_DEFINE_TOGGLE(Drive10RTCSave)
+UI_MENU_DEFINE_TOGGLE(Drive11RTCSave)
 
 static ui_menu_entry_t fsdevice_drive8_submenu[] = {
     { N_("Enable IEC device"), UI_MENU_TYPE_TICK,
@@ -72,6 +76,9 @@ static ui_menu_entry_t fsdevice_drive8_submenu[] = {
       NULL, NULL },
     { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice8HideCBMFiles,
       NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Drive8RTCSave, NULL, NULL },
     { NULL }
 };
 
@@ -89,6 +96,9 @@ static ui_menu_entry_t fsdevice_drive9_submenu[] = {
       NULL, NULL },
     { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice9HideCBMFiles,
       NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Drive9RTCSave, NULL, NULL },
     { NULL }
 };
 
@@ -106,6 +116,9 @@ static ui_menu_entry_t fsdevice_drive10_submenu[] = {
       (ui_callback_t)toggle_FSDevice10SaveP00, NULL, NULL },
     { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice10HideCBMFiles, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Drive10RTCSave, NULL, NULL },
     { NULL }
 };
 
@@ -123,6 +136,9 @@ static ui_menu_entry_t fsdevice_drive11_submenu[] = {
       (ui_callback_t)toggle_FSDevice11SaveP00, NULL, NULL },
     { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice11HideCBMFiles, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Drive11RTCSave, NULL, NULL },
     { NULL }
 };
 
