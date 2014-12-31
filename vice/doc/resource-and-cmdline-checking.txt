@@ -6659,36 +6659,6 @@ description:    "Emulate pre version 4 hardware"
 resource:       "IDE64version4" (set to 0)
 action:         N/A
 
-c64/cart/ide64.c:
------------------
-resource type:                  bool
-resource name:                  "IDE64RTCSave"
-resource range:                 0/1
-resource default:               0
-resource function:              ide64_set_rtc_save()
-resource var:                   ide64_rtc_save
-resource emulators:             x64/x64sc/xscpu64/x128
-not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -IDE64rtcsave / +IDE64rtcsave
-platform gui present:           unix
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
-
-c64/cart/ide64.c:
------------------
-command line:   -IDE64rtcsave
-description:    "Enable saving of IDE64 RTC data when changed."
-resource:       "IDE64RTCSave" (set to 1)
-action:         N/A
-FIXME: how did this change with the new RTC stuff?
-
-c64/cart/ide64.c:
------------------
-command line:   +IDE64rtcsave
-description:    "Disable saving of IDE64 RTC data when changed."
-resource:       "IDE64RTCSave" (set to 0)
-action:         N/A
-
 c64/cart/isepic.c:
 ------------------
 resource type:                  string
@@ -7729,6 +7699,140 @@ description:    "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
 resource:       N/A
 action:         set_dtv_model() (sets "MachineVideoStandard", "DtvRevision" and "HummerADC")
 
+c64dtv/c64dtv-cmdline-options.c:
+--------------------------------
+command line:   -pal
+description:    "Use PAL sync factor"
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PAL (-1))
+action:         N/A
+
+c64dtv/c64dtv-cmdline-options.c:
+--------------------------------
+command line:   -ntsc
+description:    "Use NTSC sync factor"
+resource:       "MachineVideoStandard" (set to MACHINE_SYNC_NTSC (-2))
+action:         N/A
+
+c64dtv/c64dtv-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "HummerADC"
+resource range:                 0/1
+resource default:               0
+resource function:              c64dtv_hummer_adc_set()
+resource var:                   c64dtv_hummer_adc_enabled
+resource emulators:             x64dtv
+not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -hummeradc / +hummeradc / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64dtv/c64dtv-cmdline-options.c:
+--------------------------------
+command line:   -hummeradc
+description:    "Enable Hummer ADC"
+resource:       "HummerADC" (set to 1)
+action:         N/A
+
+c64dtv/c64dtv-cmdline-options.c:
+--------------------------------
+command line:   +hummeradc
+description:    "Disable Hummer ADC"
+resource:       "HummerADC" (set to 0)
+action:         N/A
+
+c64dtv/c64dtvblitter.c:
+-----------------------
+resource type:                  int
+resource name:                  "DtvRevision"
+resource range:                 2..3
+resource default:               3
+resource function:              set_dtvrevision()
+resource var:                   dtvrevision
+resource emulators:             x64dtv
+not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -dtvrev / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64dtv/c64dtvblitter.c:
+-----------------------
+command line:   -dtvrev <Revision>
+description:    "Specify DTV Revision (2: DTV2, 3: DTV3)"
+resource:       "DtvRevision"
+action:         N/A
+
+c64dtv/c64dtvflash.c:
+---------------------
+resource type:                  string
+resource name:                  "c64dtvromfilename"
+resource range:                 N/A
+resource default:               "PROGDIR:C64DTV/dtvrom.bin" (Amiga) / "dtvrom.bin" (everything else)
+resource function:              set_c64dtvflash_filename()
+resource var:                   c64dtvflash_filename
+resource emulators:             x64dtv
+not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -c64dtvromimage
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64dtv/c64dtvflash.c:
+---------------------
+command line:   -c64dtvromimage <Name>
+description:    "Specify name of C64DTV ROM image"
+resource:       "c64dtvromfilename"
+action:         N/A
+
+c64dtv/c64dtvflash.c:
+---------------------
+resource type:                  bool
+resource name:                  "c64dtvromrw"
+resource range:                 0/1
+resource default:               0
+resource function:              set_c64dtvflash_mem_rw()
+resource var:                   c64dtvflash_mem_rw
+resource emulators:             x64dtv
+not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -c64dtvromrw / +c64dtvromrw
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+c64dtv/c64dtvflash.c:
+---------------------
+command line:   -c64dtvromrw
+description:    "Enable writes to C64DTV ROM image"
+resource:       "c64dtvromrw" (set to 1)
+action:         N/A
+
+c64dtv/c64dtvflash.c:
+---------------------
+command line:   +c64dtvromrw
+description:    "Disable writes to C64DTV ROM image"
+resource:       "c64dtvromrw" (set to 0)
+action:         N/A
+
+cbm2/cbm2-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "ChargenName"
+resource range:                 N/A
+resource default:               CBM2_CHARGEN600
+resource function:              set_chargen_rom_name()
+resource var:                   chargen_name
+resource emulators:             xcbm2
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -chargen / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+cbm2/cbm2-cmdline-options.c:
+----------------------------
+command line:   -chargen <Name>
+description:    "Specify name of character generator ROM image"
+resource:       "ChargenName"
+action:         N/A
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -8294,8 +8398,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -intfuncrtcsave / +intfuncrtcsave
-platform gui present:           unix
-platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
+platform gui missing:			beos/dos/os2/sdl/osx/windows
 fixme: add to documentation
 
 c128/functionrom.c:
@@ -8326,8 +8430,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -extfuncrtcsave / +extfuncrtcsave
-platform gui present:           unix
-platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
+platform gui missing:			beos/dos/os2/sdl/osx/windows
 fixme: add to documentation
 
 c128/functionrom.c:
@@ -8782,8 +8886,8 @@ resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -ds12c887rtcsave / +ds12c887rtcsave
-platform gui present:           unix
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
+platform gui missing:           beos/dos/os2/sdl/osx/windows
 fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
@@ -9261,128 +9365,6 @@ resource:       "BasicName"
 action:         N/A
 fixme: add to documentation
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
-c64dtv/c64dtv-cmdline-options.c:
---------------------------------
-command line:   -pal
-description:    "Use PAL sync factor"
-resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PAL)
-action:         N/A
-
-c64dtv/c64dtv-cmdline-options.c:
---------------------------------
-command line:   -ntsc
-description:    "Use NTSC sync factor"
-resource:       "MachineVideoStandard" (set to MACHINE_SYNC_NTSC)
-action:         N/A
-
-c64dtv/c64dtv-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "HummerADC"
-resource range:                 0/1
-resource default:               0
-resource function:              c64dtv_hummer_adc_set()
-resource var:                   c64dtv_hummer_adc_enabled
-resource emulators:             x64dtv
-not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -hummeradc / +hummeradc / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64dtv/c64dtv-cmdline-options.c:
---------------------------------
-command line:   -hummeradc
-description:    "Enable Hummer ADC"
-resource:       "HummerADC" (set to 1)
-action:         N/A
-
-c64dtv/c64dtv-cmdline-options.c:
---------------------------------
-command line:   +hummeradc
-description:    "Disable Hummer ADC"
-resource:       "HummerADC" (set to 0)
-action:         N/A
-
-c64dtv/c64dtvblitter.c:
------------------------
-resource type:                  int
-resource name:                  "DtvRevision"
-resource range:                 2..3
-resource default:               3
-resource function:              set_dtvrevision()
-resource var:                   dtvrevision
-resource emulators:             x64dtv
-not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -dtvrev / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-c64dtv/c64dtvblitter.c:
------------------------
-command line:   -dtvrev <Revision>
-description:    "Specify DTV Revision (2: DTV2, 3: DTV3)"
-resource:       "DtvRevision"
-action:         N/A
-fixme: fix documentation
-
-c64dtv/c64dtvflash.c:
----------------------
-resource type:                  string
-resource name:                  "c64dtvromfilename"
-resource range:                 N/A
-resource default:               "PROGDIR:C64DTV/dtvrom.bin" (Amiga) / "dtvrom.bin" (everything else)
-resource function:              set_c64dtvflash_filename()
-resource var:                   c64dtvflash_filename
-resource emulators:             x64dtv
-not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -c64dtvromimage
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64dtv/c64dtvflash.c:
----------------------
-command line:   -c64dtvromimage <Name>
-description:    "Specify name of C64DTV ROM image"
-resource:       "c64dtvromfilename"
-action:         N/A
-fixme: fix documentation
-
-c64dtv/c64dtvflash.c:
----------------------
-resource type:                  bool
-resource name:                  "c64dtvromrw"
-resource range:                 0/1
-resource default:               0
-resource function:              set_c64dtvflash_mem_rw()
-resource var:                   c64dtvflash_mem_rw
-resource emulators:             x64dtv
-not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -c64dtvromrw / +c64dtvromrw
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-c64dtv/c64dtvflash.c:
----------------------
-command line:   -c64dtvromrw
-description:    "Enable writes to C64DTV ROM image"
-resource:       "c64dtvromrw" (set to 1)
-action:         N/A
-
-c64dtv/c64dtvflash.c:
----------------------
-command line:   +c64dtvromrw
-description:    "Disable writes to C64DTV ROM image"
-resource:       "c64dtvromrw" (set to 0)
-action:         N/A
-
 c64dtv/flash-trap.c:
 --------------------
 resource type:                  string
@@ -9435,27 +9417,37 @@ description:    "Disable true hardware flash file system"
 resource:       "FlashTrueFS" (set to 0)
 action:         N/A
 
-cbm2/cbm2-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "ChargenName"
-resource range:                 N/A
-resource default:               CBM2_CHARGEN600
-resource function:              set_chargen_rom_name()
-resource var:                   chargen_name
-resource emulators:             xcbm2
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -chargen / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-fixme: add to documentation
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
-cbm2/cbm2-cmdline-options.c:
-----------------------------
-command line:   -chargen <Name>
-description:    "Specify name of character generator ROM image"
-resource:       "ChargenName"
+c64/cart/ide64.c:
+-----------------
+resource type:                  bool
+resource name:                  "IDE64RTCSave"
+resource range:                 0/1
+resource default:               0
+resource function:              ide64_set_rtc_save()
+resource var:                   ide64_rtc_save
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -IDE64rtcsave / +IDE64rtcsave
+platform gui present:           amigaos/unix
+platform gui missing:           beos/dos/os2/sdl/osx/windows
+
+c64/cart/ide64.c:
+-----------------
+command line:   -IDE64rtcsave
+description:    "Enable saving of IDE64 RTC data when changed."
+resource:       "IDE64RTCSave" (set to 1)
+action:         N/A
+FIXME: how did this change with the new RTC stuff?
+blacky note: when the rtc saving got implemented the rtc save command-line options got added as well.
+
+c64/cart/ide64.c:
+-----------------
+command line:   +IDE64rtcsave
+description:    "Disable saving of IDE64 RTC data when changed."
+resource:       "IDE64RTCSave" (set to 0)
 action:         N/A
 
 cbm2/cbm2-resources.c:
@@ -11031,12 +11023,12 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_drive_rtc_save()
 resource var:                   drive->rtc_save
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -drive8rtcsave / +drive8rtcsave
-platform gui present:           unix
-platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
+platform gui missing:			beos/dos/os2/sdl/osx/windows
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -11060,12 +11052,12 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_drive_rtc_save()
 resource var:                   drive->rtc_save
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -drive9rtcsave / +drive9rtcsave
-platform gui present:           unix
-platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
+platform gui missing:			beos/dos/os2/sdl/osx/windows
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -11089,12 +11081,12 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_drive_rtc_save()
 resource var:                   drive->rtc_save
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -drive10rtcsave / +drive10rtcsave
-platform gui present:           unix
-platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
+platform gui missing:			beos/dos/os2/sdl/osx/windows
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -11118,12 +11110,12 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_drive_rtc_save()
 resource var:                   drive->rtc_save
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -drive11rtcsave / +drive11rtcsave
-platform gui present:           unix
-platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
+platform gui missing:			beos/dos/os2/sdl/osx/windows
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -16926,8 +16918,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -userportrtcsave / +userportrtcsave
-platform gui present:           unix
-platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
+platform gui missing:			beos/dos/os2/sdl/osx/windows
 fixme: add to documentation
 
 userport/userport_rtc.c:
@@ -21882,8 +21874,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef HAVE_MOUSE
 command-line:                   -smartmousertcsave / +smartmousertcsave
-platform gui present:           unix
-platform gui missing:		amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           amigaos/unix
+platform gui missing:			beos/dos/os2/sdl/osx/windows
 fixme: add to documentation
 
 mouse.c:

@@ -186,7 +186,8 @@ static const int drive_idle_values[] = {
     { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM4000", NULL, NULL, NULL },                                               \
     { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM6000", NULL, NULL, NULL },                                               \
     { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM8000", NULL, NULL, NULL },                                               \
-    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAMA000", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAMA000", NULL, NULL, NULL },                                               \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "RTCSave", NULL, NULL, NULL },
 
 #define DECL_NUM (8)
 
@@ -229,6 +230,7 @@ static APTR build_gui(void)
                      CHECK(data[5].object, "$6000-$7FFF RAM")
                      CHECK(data[6].object, "$8000-$9FFF RAM")
                      CHECK(data[7].object, "$A000-$BFFF RAM")
+                     CHECK(data[8].object, translate_text(IDS_DRIVE_RTC_SAVE))
                    End,
                  End,
                  Child, GroupObject,

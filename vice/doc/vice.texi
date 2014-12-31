@@ -6975,14 +6975,16 @@ normally you should use a patched rom.
 
 @table @code
 
-@cindex -c64dtvromimage
-@item -c64dtvromimage NAME
-Specify @file{NAME} as the C64DTV ROM image
+@findex -c64dtvromimage
+@item -c64dtvromimage <name>
+Specify filename of the C64DTV ROM image
+(@code{c64dtvromfilename}).
 
-@cindex -c64dtvromrw, +c64dtvromrw
+@findex -c64dtvromrw, +c64dtvromrw
 @item -c64dtvromrw
 @itemx +c64dtvromrw
-Enable or disable writing to C64DTV ROM image
+Enable/disable writing to C64DTV ROM image
+(@code{c64dtvromrw=1}, @code{c64dtvromrw=0}).
 
 @end table
 
@@ -7013,9 +7015,11 @@ bug is intended for testing DTV software.
 
 @table @code
 
-@cindex -dtvrev
-@item -dtvrev REVISION
-Specify DTV @file{REVISION} (2 or 3)
+@findex -dtvrev
+@item -dtvrev <revision>
+Specify DTV revision
+(@code{DtvRevision}).
+(2/3)
 
 @end table
 
@@ -7052,10 +7056,11 @@ can be used simultaneously with either Hummer ADC or userport joystick.
 
 @table @code
 
-@cindex -hummeradc, +hummeradc
+@findex -hummeradc, +hummeradc
 @item -hummeradc
 @itemx +hummeradc
 Enable/Disable Hummer ADC
+(@code{HummerADC=1}, @code{HummerADC=0}).
 
 @cindex -ps2mouse, +ps2mouse
 @item -ps2mouse
@@ -7111,7 +7116,8 @@ to "ramXX", where XX is the starting bank (usually "bank00").
 
 @vindex DtvRevision
 @item DtvRevision
-Integer specifying the emulated DTV revision (2: DTV2, 3: DTV3)
+Integer specifying the emulated DTV revision.
+(2=DTV2, 3=DTV3)
 
 @vindex c64dtvromfilename
 @item c64dtvromfilename
@@ -7128,7 +7134,7 @@ Boolean, enables true hardware flash file system.
 
 @vindex HummerADC
 @item HummerADC
-Boolean, enables Hummer ADC emulation.
+Boolean to enable/disable the Hummer ADC emulation.
 
 @vindex ps2mouse
 @item ps2mouse
@@ -7161,6 +7167,16 @@ Integer that specifies the video standard of the emulated machine
 Set the DTV model
 (@code{MachineVideoStandard}, @code{DtvRevision}, @code{HummerADC}).
 (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)
+
+@findex -pal
+@item -pal
+Use PAL sync factor
+(@code{MachineVideoStandard=-1}).
+
+@findex -ntsc
+@item -ntsc
+Use NTSC sync factor
+(@code{MachineVideoStandard=-2}).
 
 @end table
 
@@ -8993,6 +9009,11 @@ CRTC video chip for either 50Hz (Europe) or 60Hz (North America),
 and either for 8 (C6x0) or 14 (C7x0) scanlines per character.
 0 = CBM 7x0 (50Hz), 1 = 60Hz C6x0, 2 = 50Hz C6x0).
 
+@vindex ChargenName
+@item ChargenName
+String specifying the name of the character generator ROM (default
+@file{chargen.600}).
+
 @end table
 
 Choosing a common CBM-II model is done from the right-button menu instead,
@@ -9044,9 +9065,9 @@ Specify @file{NAME} as the Kernal ROM file (@code{KernalName}).
 @item -basic NAME
 Specify @file{NAME} as the Basic ROM file (@code{BasicName}).
 
-@cindex -chargen
-@item -chargen NAME
-Specify @file{NAME} as the character generator ROM file
+@findex -chargen
+@item -chargen <name>
+Specify the filename for the character generator ROM file
 (@code{ChargenName}).
 
 @cindex -cart1

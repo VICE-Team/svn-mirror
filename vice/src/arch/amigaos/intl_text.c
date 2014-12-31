@@ -4073,19 +4073,33 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ENABLE_SFX_SS_SV, "Aktivera SFX Sound Sampler-insticksmodul" },
 /* tr */ { IDMS_ENABLE_SFX_SS_TR, "SFX Sound Sampler kartuþunu aktif et" },
 
-/* en */ { IDMS_ENABLE_USERPORT_RTC,    "Enable the SFX Sound Sampler cartridge" },
-/* da */ { IDMS_ENABLE_USERPORT_RTC_DA, "Aktivér SFX Sound Sampler cartridge" },
-/* de */ { IDMS_ENABLE_USERPORT_RTC_DE, "SFX Sound Sampler Modul aktivieren" },
-/* es */ { IDMS_ENABLE_USERPORT_RTC_ES, "Permitir cartucho SFX Sound Sampler" },
-/* fr */ { IDMS_ENABLE_USERPORT_RTC_FR, "Activer la cartouche SFX Sound Sampler" },
-/* hu */ { IDMS_ENABLE_USERPORT_RTC_HU, "SFX Sound Sampler engedélyezése" },
-/* it */ { IDMS_ENABLE_USERPORT_RTC_IT, "Attiva cartuccia SFX Sound Sampler" },
-/* ko */ { IDMS_ENABLE_USERPORT_RTC_KO, "SFX Sound Sampler Ä«Æ®¸®Áö ¸¦ ÀÛµ¿½ÃÅ²´Ù" },
-/* nl */ { IDMS_ENABLE_USERPORT_RTC_NL, "Activeer de SFX Sound Sampler cartridge" },
-/* pl */ { IDMS_ENABLE_USERPORT_RTC_PL, "W³±cz kartrid¿ SFX Sound Sampler" },
-/* ru */ { IDMS_ENABLE_USERPORT_RTC_RU, "Enable the SFX Sound Sampler cartridge" },
-/* sv */ { IDMS_ENABLE_USERPORT_RTC_SV, "Aktivera SFX Sound Sampler-insticksmodul" },
-/* tr */ { IDMS_ENABLE_USERPORT_RTC_TR, "SFX Sound Sampler kartuþunu aktif et" },
+/* en */ { IDMS_ENABLE_USERPORT_RTC,    "Enable the Userport RTC" },
+/* da */ { IDMS_ENABLE_USERPORT_RTC_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_RTC_DE, "" },  /* fuzzy */
+/* es */ { IDMS_ENABLE_USERPORT_RTC_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_ENABLE_USERPORT_RTC_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_USERPORT_RTC_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_USERPORT_RTC_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_ENABLE_USERPORT_RTC_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_RTC_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_ENABLE_USERPORT_RTC_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_ENABLE_USERPORT_RTC_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_ENABLE_USERPORT_RTC_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ENABLE_USERPORT_RTC_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_USERPORT_RTC_SAVE,    "Enable saving the Userport RTC data" },
+/* da */ { IDMS_USERPORT_RTC_SAVE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_USERPORT_RTC_SAVE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_USERPORT_RTC_SAVE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_USERPORT_RTC_SAVE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_USERPORT_RTC_SAVE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_USERPORT_RTC_SAVE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_USERPORT_RTC_SAVE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_USERPORT_RTC_SAVE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_USERPORT_RTC_SAVE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_USERPORT_RTC_SAVE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_USERPORT_RTC_SAVE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_USERPORT_RTC_SAVE_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_BURST_MOD_SETTINGS,    "Drive burst modification settings..." },
 /* da */ { IDMS_BURST_MOD_SETTINGS_DA, "Drev burst-modifikations-indstillinger..." },
@@ -6956,6 +6970,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_SUPERCARD_PLUS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SUPERCARD_PLUS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_SUPERCARD_PLUS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DRIVE_RTC_SAVE,    "Enable FD2000/4000 RTC data saving" },
+/* da */ { IDS_DRIVE_RTC_SAVE_DA, "" },  /* fuzzy */
+/* de */ { IDS_DRIVE_RTC_SAVE_DE, "" },  /* fuzzy */
+/* es */ { IDS_DRIVE_RTC_SAVE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DRIVE_RTC_SAVE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DRIVE_RTC_SAVE_HU, "" },  /* fuzzy */
+/* it */ { IDS_DRIVE_RTC_SAVE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DRIVE_RTC_SAVE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DRIVE_RTC_SAVE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DRIVE_RTC_SAVE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DRIVE_RTC_SAVE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DRIVE_RTC_SAVE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DRIVE_RTC_SAVE_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_DRIVE_SETTINGS,    "Drive settings" },
 /* da */ { IDS_DRIVE_SETTINGS_DA, "Diskettedrevsindstillinger" },
@@ -9829,6 +9857,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_USB_SERVER_ADDRESS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_USB_SERVER_ADDRESS_TR, "" },  /* fuzzy */
 
+/* en */ { IDS_IDE64_RTC_SAVE,    "Enable saving of the IDE64 RTC data" },
+/* da */ { IDS_IDE64_RTC_SAVE_DA, "" },  /* fuzzy */
+/* de */ { IDS_IDE64_RTC_SAVE_DE, "" },  /* fuzzy */
+/* es */ { IDS_IDE64_RTC_SAVE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_IDE64_RTC_SAVE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_IDE64_RTC_SAVE_HU, "" },  /* fuzzy */
+/* it */ { IDS_IDE64_RTC_SAVE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_IDE64_RTC_SAVE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_IDE64_RTC_SAVE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IDE64_RTC_SAVE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_IDE64_RTC_SAVE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_IDE64_RTC_SAVE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IDE64_RTC_SAVE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_AUTODETECT,    "Autodetect image size" },
 /* da */ { IDS_AUTODETECT_DA, "Autodetektér størrelse på image" },
 /* de */ { IDS_AUTODETECT_DE, "Image Größe automatisch erkennen" },
@@ -11383,6 +11425,34 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RAM_BANKS_2_AND_3_SV, "RAM-bank 2 & 3" },
 /* tr */ { IDS_RAM_BANKS_2_AND_3_TR, "RAM banklarý 2 & 3" },
 
+/* en */ { IDS_INTERNAL_FUNCTION_RTC_SAVE,    "Enable Internal Function RTC data saving" },
+/* da */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_DA, "" },  /* fuzzy */
+/* de */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_DE, "" },  /* fuzzy */
+/* es */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_HU, "" },  /* fuzzy */
+/* it */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE,    "Enable External Function RTC data saving" },
+/* da */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_DA, "" },  /* fuzzy */
+/* de */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_DE, "" },  /* fuzzy */
+/* es */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_HU, "" },  /* fuzzy */
+/* it */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_C128_SETTINGS,    "C128 settings" },
 /* da */ { IDS_C128_SETTINGS_DA, "C128-indstillinger" },
 /* de */ { IDS_C128_SETTINGS_DE, "C128 Einstellungen" },
@@ -11634,6 +11704,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_DS12C887RTC_BASE_RU, "DS12C887 RTC base" },
 /* sv */ { IDS_DS12C887RTC_BASE_SV, "DS12C887 RTC-bas" },
 /* tr */ { IDS_DS12C887RTC_BASE_TR, "DS12C887 RTC tabaný" },
+
+/* en */ { IDS_DS12C887RTC_SAVE,    "Enable DS12C887 RTC data saving" },
+/* da */ { IDS_DS12C887RTC_SAVE_DA, "" },  /* fuzzy */
+/* de */ { IDS_DS12C887RTC_SAVE_DE, "" },  /* fuzzy */
+/* es */ { IDS_DS12C887RTC_SAVE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DS12C887RTC_SAVE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DS12C887RTC_SAVE_HU, "" },  /* fuzzy */
+/* it */ { IDS_DS12C887RTC_SAVE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DS12C887RTC_SAVE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DS12C887RTC_SAVE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DS12C887RTC_SAVE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DS12C887RTC_SAVE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DS12C887RTC_SAVE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DS12C887RTC_SAVE_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_DS12C887RTC_SETTINGS,    "DS12C887 RTC settings" },
 /* da */ { IDS_DS12C887RTC_SETTINGS_DA, "DS12C887 RTC-indstillinger" },
@@ -12096,6 +12180,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_MOUSE_PORT_RU, "¿Þàâ ÜëèØ" },
 /* sv */ { IDS_MOUSE_PORT_SV, "Musport" },
 /* tr */ { IDS_MOUSE_PORT_TR, "Mouse portu" },
+
+/* en */ { IDS_SMART_MOUSE_RTC_SAVE,    "Enable Smart Mouse RTC saving" },
+/* da */ { IDS_SMART_MOUSE_RTC_SAVE_DA, "" },  /* fuzzy */
+/* de */ { IDS_SMART_MOUSE_RTC_SAVE_DE, "" },  /* fuzzy */
+/* es */ { IDS_SMART_MOUSE_RTC_SAVE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SMART_MOUSE_RTC_SAVE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SMART_MOUSE_RTC_SAVE_HU, "" },  /* fuzzy */
+/* it */ { IDS_SMART_MOUSE_RTC_SAVE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SMART_MOUSE_RTC_SAVE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SMART_MOUSE_RTC_SAVE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SMART_MOUSE_RTC_SAVE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SMART_MOUSE_RTC_SAVE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SMART_MOUSE_RTC_SAVE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SMART_MOUSE_RTC_SAVE_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_MOUSE_1351,    "1351 mouse" },
 /* da */ { IDS_MOUSE_1351_DA, "1351-mus" },

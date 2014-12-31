@@ -77,9 +77,24 @@ static const int ui_mouse_port_values[] = {
     -1
 };
 
+static int ui_mouse_rtc_save_enable_translate[] = {
+    IDMS_DISABLED,
+    IDS_ENABLED,
+    0
+};
+
+static char *ui_mouse_rtc_save_enable[countof(ui_mouse_rtc_save_enable_translate)];
+
+static const int ui_mouse_rtc_save_enable_values[] = {
+    0,
+    1,
+    -1
+};
+
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "Mousetype", ui_mouse_type, ui_mouse_type_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "Mouseport", ui_mouse_port, ui_mouse_port_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SmartMouseRTCSave", ui_mouse_rtc_save_enable, ui_mouse_rtc_save_enable_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -88,11 +103,13 @@ static APTR build_gui(void)
     return GroupObject,
       CYCLE(ui_to_from[0].object, translate_text(IDS_MOUSE_TYPE), ui_mouse_type)
       CYCLE(ui_to_from[1].object, translate_text(IDS_MOUSE_PORT), ui_mouse_port)
+      CYCLE(ui_to_from[2].object, translate_text(IDS_SMART_MOUSE_RTC_SAVE), ui_mouse_rtc_save_enable)
     End;
 }
 
 void ui_mouse_settings_dialog(void)
 {
+    intl_convert_mui_table(ui_mouse_rtc_save_enable_translate, ui_mouse_rtc_save_enable);
     intl_convert_mui_table(ui_mouse_type_translate, ui_mouse_type);
     intl_convert_mui_table(ui_mouse_port_translate, ui_mouse_port);
     mui_show_dialog(build_gui(), translate_text(IDS_MOUSE_SETTINGS), ui_to_from);

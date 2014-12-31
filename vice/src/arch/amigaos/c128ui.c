@@ -89,6 +89,7 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VDC64KB", IDM_TOGGLE_VDC64KB },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
     { "UserportRTC", IDM_TOGGLE_USERPORT_RTC },
+    { "UserportRTCSave", IDM_TOGGLE_USERPORT_RTC_SAVE },
     { NULL, 0 }
 };
 
