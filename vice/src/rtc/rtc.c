@@ -663,19 +663,6 @@ time_t rtc_set_latched_day_of_year(int day, time_t latch)
 
 /* ---------------------------------------------------------------------- */
 
-#if 0 /* unsused? */
-static char *byte_to_text(BYTE in)
-{
-    char *out = lib_malloc(3);
-
-    out[0] = (in >> 4) + 'a';
-    out[1] = (in & 0xf) + 'a';
-    out[2] = 0;
-
-    return out;
-}
-#endif
-
 static char *rtc_ram_to_string(BYTE *ram, int size)
 {
     char *temp = lib_malloc((size * 2) + 1);
