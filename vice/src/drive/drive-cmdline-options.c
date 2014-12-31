@@ -82,6 +82,10 @@ static cmdline_option_t cmd_drive[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_METHOD, IDCLS_SET_IDLE_METHOD,
       NULL, NULL },
+    { NULL }
+};
+
+static cmdline_option_t cmd_drive_rtc[] = {
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -107,8 +111,8 @@ typedef struct machine_drives_s {
 #define DRIVES_C64    4
 
 static char *drives[] = {
-	", 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250",
-	", 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)",
+    ", 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250",
+    ", 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)",
     ", 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)",
     ", 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)",
     ", 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
@@ -133,6 +137,19 @@ int drive_cmdline_options_init(void)
 {
     unsigned int dnr, i, j;
     char *found_string = NULL;
+    int has_iec;
+
+    switch (machine_class) {
+        case VICE_MACHINE_NONE:
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM6x0:
+        case VICE_MACHINE_VSID:
+            has_iec = 0;
+            break;
+        default:
+            has_iec = 1;
+    }
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         cmd_drive[0].name = lib_msprintf("-drive%itype", dnr + 8);
@@ -154,20 +171,31 @@ int drive_cmdline_options_init(void)
         cmd_drive[2].resource_name
             = lib_msprintf("Drive%iIdleMethod", dnr + 8);
 
-        cmd_drive[3].name = lib_msprintf("-drive%irtcsave", dnr + 8);
-        cmd_drive[3].resource_name
-            = lib_msprintf("Drive%iRTCSave", dnr + 8);
-        cmd_drive[4].name = lib_msprintf("+drive%irtcsave", dnr + 8);
-        cmd_drive[4].resource_name
-            = lib_msprintf("Drive%iRTCSave", dnr + 8);
-
+        if (has_iec) {
+            cmd_drive_rtc[0].name = lib_msprintf("-drive%irtcsave", dnr + 8);
+            cmd_drive_rtc[0].resource_name
+                = lib_msprintf("Drive%iRTCSave", dnr + 8);
+            cmd_drive_rtc[1].name = lib_msprintf("+drive%irtcsave", dnr + 8);
+            cmd_drive_rtc[1].resource_name
+                = lib_msprintf("Drive%iRTCSave", dnr + 8);
+            if (cmdline_register_options(cmd_drive_rtc) < 0) {
+                return -1;
+            }
+        }
         if (cmdline_register_options(cmd_drive) < 0) {
             return -1;
         }
 
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < 3; i++) {
             lib_free((char *)cmd_drive[i].name);
             lib_free((char *)cmd_drive[i].resource_name);
+        }
+
+        if (has_iec) {
+            lib_free((char *)cmd_drive_rtc[0].name);
+            lib_free((char *)cmd_drive_rtc[0].resource_name);
+            lib_free((char *)cmd_drive_rtc[1].name);
+            lib_free((char *)cmd_drive_rtc[1].resource_name);
         }
     }
 

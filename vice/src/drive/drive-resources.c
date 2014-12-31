@@ -40,6 +40,7 @@
 #include "iecdrive.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "machine-bus.h"
 #include "machine-drive.h"
 #include "resources.h"
@@ -321,6 +322,10 @@ static resource_int_t res_drive[] = {
       NULL, set_drive_extend_image_policy, NULL },
     { NULL, DRIVE_IDLE_NO_IDLE, RES_EVENT_SAME, NULL,
       NULL, set_drive_idling_method, NULL },
+    { NULL }
+};
+
+static resource_int_t res_drive_rtc[] = {
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_drive_rtc_save, NULL },
     { NULL }
@@ -330,6 +335,19 @@ int drive_resources_init(void)
 {
     unsigned int dnr;
     drive_t *drive;
+    int has_iec;
+
+    switch (machine_class) {
+        case VICE_MACHINE_NONE:
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM6x0:
+        case VICE_MACHINE_VSID:
+            has_iec = 0;
+            break;
+        default:
+            has_iec = 1;
+    }
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
@@ -340,9 +358,15 @@ int drive_resources_init(void)
         res_drive[1].name = lib_msprintf("Drive%iIdleMethod", dnr + 8);
         res_drive[1].value_ptr = &(drive->idling_method);
         res_drive[1].param = uint_to_void_ptr(dnr);
-        res_drive[2].name = lib_msprintf("Drive%iRTCSave", dnr + 8);
-        res_drive[2].value_ptr = &(drive->rtc_save);
-        res_drive[2].param = uint_to_void_ptr(dnr);
+
+        if (has_iec) {
+            res_drive_rtc[0].name = lib_msprintf("Drive%iRTCSave", dnr + 8);
+            res_drive_rtc[0].value_ptr = &(drive->rtc_save);
+            res_drive_rtc[0].param = uint_to_void_ptr(dnr);
+            if (resources_register_int(res_drive_rtc) < 0) {
+                return -1;
+            }
+        }
 
         if (resources_register_int(res_drive) < 0) {
             return -1;
@@ -350,7 +374,9 @@ int drive_resources_init(void)
 
         lib_free((char *)(res_drive[0].name));
         lib_free((char *)(res_drive[1].name));
-        lib_free((char *)(res_drive[2].name));
+        if (has_iec) {
+            lib_free((char *)(res_drive_rtc[0].name));
+        }
     }
 
     return machine_drive_resources_init()
