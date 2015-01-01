@@ -177,11 +177,14 @@
 #define IDM_INTFUNCROM_ROM           0x328
 #define IDM_INTFUNCROM_RAM           0x329
 #define IDM_INTFUNCROM_RTC           0x32a
+#define IDM_INTFUNCROM_RTC_SAVE      0x349
+
 #define IDM_EXTFUNCROM               0x145
 #define IDM_EXTFUNCROM_NONE          0x344
 #define IDM_EXTFUNCROM_ROM           0x345
 #define IDM_EXTFUNCROM_RAM           0x346
 #define IDM_EXTFUNCROM_RTC           0x347
+#define IDM_EXTFUNCROM_RTC_SAVE      0x34a
 
 #define IDM_PAL                      0x146
 #define IDM_NTSC                     0x147
@@ -272,6 +275,7 @@
 #define IDM_IDE64_IMAGE4             0x2c1
 #define IDM_IDE64_AUTO4              0x2c2
 #define IDM_IDE64_GEO4               0x2b3
+#define IDM_IDE64_RTC_SAVE           0x34c
 
 #define IDM_MMC64_SETTINGS           0x229
 #define IDM_MMC64                    0x22a
@@ -341,6 +345,7 @@
 #define IDM_DS12C887RTCDF00          0x323
 #define IDM_DS12C887RTC9800          0x324
 #define IDM_DS12C887RTC9C00          0x325
+#define IDM_DS12C887RTC_SAVE         0x34b
 
 #define IDM_SFX_SE_SETTINGS          0x1f0
 #define IDM_SFX_SE                   0x192
@@ -420,7 +425,9 @@
 
 #define IDM_PET_USERPORT_DAC         0x1cc
 
+#define IDM_USERPORT_RTC_SETTINGS    0x34d
 #define IDM_USERPORT_RTC             0x326
+#define IDM_USERPORT_RTC_SAVE        0x34e
 
 #define IDM_TFE_SETTINGS             0x2ca
 #define IDM_TFE                      0x158
@@ -442,6 +449,8 @@
 #define IDM_MOUSE_PORT               0x15e
 #define IDM_MOUSE_PORT_1             0x15f
 #define IDM_MOUSE_PORT_2             0x18a
+
+#define IDM_SMART_MOUSE_RTC_SAVE     0x34f
 
 #define IDM_VCACHE                   0x154
 #define IDM_SBCOLL                   0x155

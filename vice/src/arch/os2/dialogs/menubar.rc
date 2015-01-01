@@ -539,6 +539,7 @@ BEGIN
             MENUITEM "Port ~1",                           IDM_MOUSE_PORT_1,             MIS_TEXT
             MENUITEM "Port ~2",                           IDM_MOUSE_PORT_2,             MIS_TEXT
         END
+        MENUITEM "Save Smart Mouse RTC data when changed",IDM_SMART_MOUSE_RTC_SAVE,     MIS_TEXT
         MENUITEM "~Grab Mouse Events",                    IDM_MOUSE,                    MIS_TEXT
         MENUITEM "~Hide Mouse Pointer",                   IDM_HIDEMOUSE,                MIS_TEXT
 #endif
@@ -564,6 +565,7 @@ BEGIN
                 MENUITEM "RAM",                           IDM_INTFUNCROM_RAM,           MIS_TEXT
                 MENUITEM "RTC",                           IDM_INTFUNCROM_RTC,           MIS_TEXT
             END
+            MENUITEM "Save Internal Function RTC when changed", IDM_INTFUNCROM_RTC_SAVE,MIS_TEXT
             SUBMENU "External Function ROM type",         IDM_EXTFUNCROM,               MIS_TEXT
             BEGIN
                 MENUITEM "None",                          IDM_EXTFUNCROM_NONE,          MIS_TEXT
@@ -571,6 +573,7 @@ BEGIN
                 MENUITEM "RAM",                           IDM_EXTFUNCROM_RAM,           MIS_TEXT
                 MENUITEM "RTC",                           IDM_EXTFUNCROM_RTC,           MIS_TEXT
             END
+            MENUITEM "Save External Function RTC when changed", IDM_EXTFUNCROM_RTC_SAVE,MIS_TEXT
         END
 #endif // __X128__
 
@@ -888,6 +891,7 @@ BEGIN
 
         SUBMENU "IDE64 Settings",                         IDM_IDE64_SETTINGS,           MIS_TEXT
         BEGIN
+            MENUITEM "Save IDE64 RTC data when changed",  IDM_IDE64_RTC_SAVE,           MIS_TEXT
             SUBMENU "IDE64 Revision",                     IDM_IDE64_REVISION,           MIS_TEXT
             BEGIN
                 MENUITEM "Version 3",                     IDM_IDE64_VER_3,              MIS_TEXT
@@ -1008,6 +1012,7 @@ BEGIN
                 MENUITEM "$DE00",                         IDM_DS12C887RTCDE00,          MIS_TEXT
                 MENUITEM "$DF00",                         IDM_DS12C887RTCDF00,          MIS_TEXT
             END
+            MENUITEM "Save DS12C887 RTC data when changed", IDM_DS12C887RTC_SAVE,       MIS_TEXT
         END
 
         SUBMENU "EasyFlash Settings",                         IDM_EASYFLASH_SETTINGS,   MIS_TEXT
@@ -1028,7 +1033,12 @@ BEGIN
         END
 
         MENUITEM "SFX Sound Sampler cartridge",           IDM_SFX_SS,                   MIS_TEXT
-        MENUITEM "Userport RTC",                          IDM_USERPORT_RTC,             MIS_TEXT
+
+        SUBMENU "Userport RTC Settings",                  IDM_USERPORT_RTC_SETTINGS,    MIS_TEXT
+        BEGIN
+            MENUITEM "Userport RTC",                      IDM_USERPORT_RTC,             MIS_TEXT
+            MENUITEM "Save Userport RTC data when changed", IDM_USERPORT_RTC_SAVE,      MIS_TEXT
+        END
 #endif // __X64__ || __X128__
 
 #if defined(__X64__) || defined(__XSCPU64__)

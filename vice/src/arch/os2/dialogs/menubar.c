@@ -792,6 +792,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_INTFUNCROM_RTC:
             resources_set_int("InternalFunctionROM", 3);
             return;
+        case IDM_INTFUNCROM_RTC_SAVE:
+            toggle("InternalFunctionROMRTCSave");
+            return;
         case IDM_EXTFUNCROM_NONE:
             resources_set_int("ExternalFunctionROM", 0);
             return;
@@ -803,6 +806,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_EXTFUNCROM_RTC:
             resources_set_int("ExternalFunctionROM", 3);
+            return;
+        case IDM_EXTFUNCROM_RTC_SAVE:
+            toggle("ExternalFunctionROMRTCSave");
             return;
         case IDM_VDCDSIZE:
             interrupt_maincpu_trigger_trap(toggle_async, "VDCDoubleSize");
@@ -892,6 +898,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_DS12C887RTC:
             toggle("DS12C887RTC");
+            return;
+        case IDM_DS12C887RTC_SAVE:
+            toggle("DS12C887RTCSave");
             return;
 #ifdef HAVE_TFE
         case IDM_TFE:
@@ -1012,6 +1021,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_USERPORT_RTC:
             toggle("UserportRTC");
+            return;
+        case IDM_USERPORT_RTC_SAVE:
+            toggle("UserportRTCSave");
             return;
         case IDM_DQBB:
             toggle("DQBB");
@@ -1136,6 +1148,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_IDE64_VER_3:
         case IDM_IDE64_VER_4:
             resources_set_int("IDE64version4", idm - IDM_IDE64_VER_3);
+            return;
+        case IDM_IDE64_RTC_SAVE:
+            toggle("IDE64RTCSave");
             return;
         case IDM_IDE64_IMAGE1:
             resources_set_string("IDE64Image1", ViceFileSelect(hwnd, 1));
@@ -1359,6 +1374,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_HIDEMOUSE:
             toggle("HideMousePtr");
+            return;
+        case IDM_SMART_MOUSE_RTC_SAVE:
+            toggle("SmartMouseRTCSave");
             return;
 
 #if defined(__X128__) || defined(__X64__) || defined(__XSCPU64__)
@@ -1932,6 +1950,9 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 
 #if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
+        case IDM_IDE64_SETTINGS:
+            WinCheckRes(hwnd, IDM_IDE64_RTC_SAVE, "IDE64RTCSave");
+            return;
         case IDM_IDE64_REVISION:
             resources_get_int("IDE64version4", &val);
             WinCheckMenuItem(hwnd, IDM_IDE64_VER_3, val == 0);
@@ -2108,6 +2129,7 @@ void menu_select(HWND hwnd, USHORT item)
 #ifdef HAVE_MOUSE
             WinCheckRes(hwnd, IDM_MOUSE, "Mouse");
             WinCheckRes(hwnd, IDM_HIDEMOUSE, "HideMousePtr");
+            WinCheckRes(hwnd, IDM_SMART_MOUSE_RTC_SAVE, "SmartMouseRTCSave");
 
 #if defined(__X128__) || defined(__X64__) || defined(__XSCPU64__)
             WinEnableMenuItem(hwnd, IDM_MOUSE_TYPE, 1);
@@ -2156,6 +2178,7 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("DS12C887RTC", &val);
             WinCheckMenuItem(hwnd, IDM_DS12C887RTC, val);
             WinEnableMenuItem(hwnd, IDM_DS12C887RTCBASE, val);
+            WinEnableMenuItem(hwnd, IDM_DS12C887RTC_SAVE, val);
 #ifdef HAVE_TFE
             resources_get_int("ETHERNET_ACTIVE", &val);
             WinCheckMenuItem(hwnd, IDM_TFE, val);
@@ -2205,6 +2228,8 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_EASYFLASH_AUTOSAVE, val);
             resources_get_int("UserportRTC", &val);
             WinCheckMenuItem(hwnd, IDM_USERPORT_RTC, val);
+            resources_get_int("UserportRTCSave", &val);
+            WinCheckMenuItem(hwnd, IDM_USERPORT_RTC_SAVE, val);
 #endif
 
 #if defined(__X64__) || defined(__XSCPU64__)
@@ -2471,6 +2496,10 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("SFXSoundExpanderChip", &val);
             WinCheckMenuItem(hwnd, IDM_SFX_SE_3526, val == 3526);
             WinCheckMenuItem(hwnd, IDM_SFX_SE_3812, val == 3812);
+            return;
+        case IDM_DS12C887RTC_SETTINGS:
+            resources_get_int("DS12C887RTCSave", &val);
+            WinCheckMenuItem(hwnd, IDM_DS12C887RTC_SETTINGS, val);
             return;
 #ifndef __XVIC__
         case IDM_DIGIMAXBASE:
@@ -2776,11 +2805,15 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_INTFUNCROM_ROM, val == 1);
             WinCheckMenuItem(hwnd, IDM_INTFUNCROM_RAM, val == 2);
             WinCheckMenuItem(hwnd, IDM_INTFUNCROM_RTC, val == 3);
+            resources_get_int("InternalFunctionROMRTCSave", &val);
+            WinCheckMenuItem(hwnd, IDM_INTFUNCROM_RTC_SAVE, val);
             resources_get_int("ExternalFunctionROM", &val);
             WinCheckMenuItem(hwnd, IDM_EXTFUNCROM_NONE, val == 0);
             WinCheckMenuItem(hwnd, IDM_EXTFUNCROM_ROM, val == 1);
             WinCheckMenuItem(hwnd, IDM_EXTFUNCROM_RAM, val == 2);
             WinCheckMenuItem(hwnd, IDM_EXTFUNCROM_RTC, val == 3);
+            resources_get_int("ExternalFunctionROMRTCSave", &val);
+            WinCheckMenuItem(hwnd, IDM_EXTFUNCROM_RTC_SAVE, val);
             return;
 #endif // __X128__
 
