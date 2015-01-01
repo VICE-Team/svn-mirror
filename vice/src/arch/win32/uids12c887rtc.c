@@ -72,12 +72,14 @@ static void enable_ds12c887rtc_controls(HWND hwnd)
 
     EnableWindow(GetDlgItem(hwnd, IDC_DS12C887RTC_RUNMODE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_DS12C887RTC_BASE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_DS12C887RTC_SAVE), is_enabled);
 }
 
 static uilib_localize_dialog_param ds12c887rtc_dialog[] = {
     { 0, IDS_DS12C887RTC_CAPTION, -1 },
     { IDC_DS12C887RTC_ENABLE, IDS_DS12C887RTC_ENABLE, 0 },
     { IDC_DS12C887RTC_RUNMODE, IDS_DS12C887RTC_RUNMODE, 0 },
+    { IDC_DS12C887RTC_SAVE, IDS_DS12C887RTC_SAVE, 0 },
     { IDC_DS12C887RTC_BASE_LABEL, IDS_DS12C887RTC_BASE, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
@@ -92,6 +94,7 @@ static uilib_dialog_group ds12c887rtc_leftgroup[] = {
 static uilib_dialog_group ds12c887rtc_left_total_group[] = {
     { IDC_DS12C887RTC_ENABLE, 1 },
     { IDC_DS12C887RTC_RUNMODE, 1 },
+    { IDC_DS12C887RTC_SAVE, 1 },
     { IDC_DS12C887RTC_BASE_LABEL, 0 },
     { 0, 0 }
 };
@@ -130,6 +133,9 @@ static void init_ds12c887rtc_dialog(HWND hwnd)
     resources_get_int("DS12C887RTCRunMode", &res_value);
     CheckDlgButton(hwnd, IDC_DS12C887RTC_RUNMODE, res_value ? BST_CHECKED : BST_UNCHECKED);
 
+    resources_get_int("DS12C887RTCSave", &res_value);
+    CheckDlgButton(hwnd, IDC_DS12C887RTC_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
+
     temp_hwnd = GetDlgItem(hwnd, IDC_DS12C887RTC_BASE);
     for (res_value_loop = 0; ui_ds12c887rtc_base[res_value_loop] != -1; res_value_loop++) {
         TCHAR st[40];
@@ -163,6 +169,7 @@ static void end_ds12c887rtc_dialog(HWND hwnd)
 
     resources_set_int("DS12C887RTC", (IsDlgButtonChecked(hwnd, IDC_DS12C887RTC_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("DS12C887RTCRunMode", (IsDlgButtonChecked(hwnd, IDC_DS12C887RTC_RUNMODE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("DS12C887RTCSave", (IsDlgButtonChecked(hwnd, IDC_DS12C887RTC_SAVE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("DS12C887RTCbase", ui_ds12c887rtc_base[SendMessage(GetDlgItem(hwnd, IDC_DS12C887RTC_BASE), CB_GETCURSEL, 0, 0)]);
 }
 

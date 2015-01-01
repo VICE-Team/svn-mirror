@@ -8886,8 +8886,8 @@ resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -ds12c887rtcsave / +ds12c887rtcsave
-platform gui present:           amigaos/beos/dos/os2/sdl/unix
-platform gui missing:           osx/windows
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform gui missing:           osx
 fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:

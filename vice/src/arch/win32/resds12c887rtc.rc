@@ -11,10 +11,12 @@ BEGIN
                     7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_DS12C887RTC_RUNMODE,
                     7, 17, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_DS12C887RTC_SAVE,
+                    7, 27, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "", IDC_DS12C887RTC_BASE_LABEL,
-                    9, 34, 30, 8
+                    9, 44, 30, 8
     COMBOBOX        IDC_DS12C887RTC_BASE,
-                    45, 32, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    45, 42, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "", IDOK,
                     30, 90, 50, 14, WS_TABSTOP
@@ -33,6 +35,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "Enable the DS12C887 RTC expansion"
   IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC base"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 
 
@@ -45,6 +48,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "Aktivér DS12C887 RTC udviddelse"
   IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC base"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 
 
@@ -57,6 +61,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "DS12C887 RTC Modul aktivieren"
   IDS_DS12C887RTC_RUNMODE "Mit laufendem Oszillator starten"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC Base"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 
 
@@ -69,6 +74,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "Permitir expansión DS12C887 RTC"
   IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC base"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 
 
@@ -81,6 +87,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "Activer l'expansion RTC DS12C887"
   IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
   IDS_DS12C887RTC_BASE    "Base RTC DS12C887"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 
 
@@ -96,6 +103,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "Enable the DS12C887 RTC expansion"
   IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC base"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -111,6 +119,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "Attiva l'espansione DS12C887 RTC"
   IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
   IDS_DS12C887RTC_BASE    "Indirizzo base DS12C887 RTC"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 
 
@@ -126,6 +135,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "Enable the DS12C887 RTC expansion"
   IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC base"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -141,6 +151,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "Activeer de DS12C887 RTC cartridge"
   IDS_DS12C887RTC_RUNMODE "Start met werkende oscillator"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC basis adres"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 
 
@@ -156,6 +167,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "W³±cz rozszerzenie DS12C887 RTC"
   IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
   IDS_DS12C887RTC_BASE    "Baza DS12C887 RTC"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -174,6 +186,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "Enable the DS12C887 RTC expansion"
   IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC base"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -189,6 +202,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "Aktivera DS12C887 RTC-utökning"
   IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC-bas"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 
 
@@ -204,9 +218,8 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "DS12C887 RTC geniþlemesini aktif et"
   IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC tabaný"
+  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-
