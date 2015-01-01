@@ -84,6 +84,7 @@ static void update_text(HWND hwnd)
 static uilib_localize_dialog_param ide64_v4_dialog[] = {
     { IDC_IDE64_V4, IDS_IDE64_V4, 0 },
     { IDC_IDE64_USB_SERVER, IDS_IDE64_USB_SERVER, 0 },
+    { IDC_IDE64_RTC_SAVE, IDS_IDE64_RTC_SAVE, 0 },
     { IDC_IDE64_USB_SERVER_BIND_LABEL, IDS_IDE64_USB_SERVER_BIND_LABEL, 0 },
     { 0, 0, 0 }
 };
@@ -115,14 +116,6 @@ static uilib_dialog_group ide64_rightgroup[] = {
     { 0, 0 }
 };
 
-#if 0
-static int move_buttons_group[] = {
-    IDOK,
-    IDCANCEL,
-    0
-};
-#endif
-
 static void init_ide64_v4_dialog(HWND hwnd)
 {
     int res_value;
@@ -141,6 +134,9 @@ static void init_ide64_v4_dialog(HWND hwnd)
     /* move the text input element */
     uilib_move_element(hwnd, IDC_ID64_USB_SERVER_BIND, xtemp + 10);
 
+    /* resize rtc save element */
+    uilib_adjust_element_width(hwnd, IDC_IDE64_RTC_SAVE);
+
     /* translate the parent window items */
     uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
 
@@ -149,6 +145,9 @@ static void init_ide64_v4_dialog(HWND hwnd)
 
     resources_get_int("IDE64USBServer", &res_value);
     CheckDlgButton(hwnd, IDC_IDE64_USB_SERVER, res_value ? BST_CHECKED : BST_UNCHECKED);
+
+    resources_get_int("IDE64RTCSave", &res_value);
+    CheckDlgButton(hwnd, IDC_IDE64_RTC_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_string("IDE64USBServerAddress", &server_bind_address);
     SetDlgItemText(hwnd, IDC_ID64_USB_SERVER_BIND, TEXT(server_bind_address));
@@ -172,11 +171,6 @@ static void init_ide64_dialog(HWND hwnd, int num)
     uilib_get_group_extent(hwnd, ide64_leftgroup, &xsize, &ysize);
     uilib_adjust_group_width(hwnd, ide64_leftgroup);
     uilib_move_group(hwnd, ide64_rightgroup, xsize + 30);
-
-#if 0
-    /* recenter the buttons in the newly resized dialog window */
-    uilib_center_buttons(parent_hwnd, move_buttons_group, 0);
-#endif
 
     sprintf(tmp, "IDE64Image%d", num);
     resources_get_string(tmp, &ide64file);
@@ -225,6 +219,7 @@ static INT_PTR CALLBACK dialog_v4_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARA
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
                 resources_set_int("IDE64version4", (IsDlgButtonChecked(hwnd, IDC_IDE64_V4) == BST_CHECKED ? 1 : 0));
                 resources_set_int("IDE64USBServer", (IsDlgButtonChecked(hwnd, IDC_IDE64_USB_SERVER) == BST_CHECKED ? 1 : 0));
+                resources_set_int("IDE64RTCSave", (IsDlgButtonChecked(hwnd, IDC_IDE64_RTC_SAVE) == BST_CHECKED ? 1 : 0));
                 GetDlgItemText(hwnd, IDC_ID64_USB_SERVER_BIND, st, MAX_PATH);
                 resources_set_string("IDE64USBServerAddress", st);
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
@@ -239,6 +234,7 @@ static INT_PTR CALLBACK dialog_v4_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARA
             switch (type) {
                 case IDC_IDE64_V4:
                 case IDC_IDE64_USB_SERVER:
+                case IDC_IDE64_RTC_SAVE:
                 case IDC_ID64_USB_SERVER_BIND:
                     break;
             }

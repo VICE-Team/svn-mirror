@@ -20,10 +20,12 @@ BEGIN
                     10, 14, 90, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_IDE64_USB_SERVER,
                     10, 29, 100, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_IDE64_RTC_SAVE,
+                    10, 44, 100, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     LTEXT           "", IDC_IDE64_USB_SERVER_BIND_LABEL,
-                    9, 45, 50, 8
+                    9, 60, 50, 8
     EDITTEXT        IDC_ID64_USB_SERVER_BIND,
-                    51, 46, 95, 12, WS_TABSTOP | ES_AUTOHSCROLL
+                    51, 61, 95, 12, WS_TABSTOP | ES_AUTOHSCROLL
 END
 
 // -----------------------------------------------------------------------------
@@ -76,6 +78,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "IDE64 settings"
     IDS_IDE64_V4                    "Enable IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "ATA device image file"
     IDS_IDE64_GEOMETRY              "Geometry"
     IDS_IDE64_AUTODETECT            "Autodetect image size"
@@ -101,6 +104,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "IDE64-indstillinger"
     IDS_IDE64_V4                    "Aktivér IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "ATA-enhed imagefil"
     IDS_IDE64_GEOMETRY              "Geometri"
     IDS_IDE64_AUTODETECT            "Autodetektér størrelse på image"
@@ -126,6 +130,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "IDE64 Einstellungen"
     IDS_IDE64_V4                    "IDE64 V4 aktivieren"
     IDS_IDE64_USB_SERVER            "IDE64 USB Server aktivieren"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "ATA Gerät Image Datei"
     IDS_IDE64_GEOMETRY              "Geometrie"
     IDS_IDE64_AUTODETECT            "Image Größe automatisch erkennen"
@@ -151,6 +156,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "Ajustes IDE64"
     IDS_IDE64_V4                    "Permitir IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "Fichero imagen periférico ATA"
     IDS_IDE64_GEOMETRY              "Geometria"
     IDS_IDE64_AUTODETECT            "Autodetección del tamaño de la imagen"
@@ -176,6 +182,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "Paramètres IDE64"
     IDS_IDE64_V4                    "Activer IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "Fichier image périphérique ATA"
     IDS_IDE64_GEOMETRY              "Géométrie"
     IDS_IDE64_AUTODETECT            "Autodétection de la taille de l'image"
@@ -204,6 +211,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "IDE64 beállításai"
     IDS_IDE64_V4                    "Enable IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "ATA device image file"
     IDS_IDE64_GEOMETRY              "Geometry"
     IDS_IDE64_AUTODETECT            "Autodetect image size"
@@ -232,6 +240,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "Impostazioni IDE64"
     IDS_IDE64_V4                    "Attiva IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "File immagine dispositivo ATA"
     IDS_IDE64_GEOMETRY              "Geometria"
     IDS_IDE64_AUTODETECT            "Rileva automaticamente immagine"
@@ -260,6 +269,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "IDE64 ¼³Á¤"
     IDS_IDE64_V4                    "Enable IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "ATA device image file"
     IDS_IDE64_GEOMETRY              "Áö¿À¸ÞÆ®¸®"
     IDS_IDE64_AUTODETECT            "ÀÌ¹ÌÁö Å©±â ÀÚµ¿À¸·Î Ã£±â"
@@ -288,6 +298,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "IDE64 instellingen"
     IDS_IDE64_V4                    "Activeer IDE64 V4"
     IDS_IDE64_USB_SERVER            "Activeer IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "ATA apparaat bestand"
     IDS_IDE64_GEOMETRY              "Geometrie"
     IDS_IDE64_AUTODETECT            "Automatisch detecteren bestandsgrootte"
@@ -316,6 +327,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "Ustawienia IDE64"
     IDS_IDE64_V4                    "W³±cz IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "Plik obrazu urz±dzenia ATA"
     IDS_IDE64_GEOMETRY              "Geometria"
     IDS_IDE64_AUTODETECT            "Automatycznie wykrywaj rozmiar obrazu"
@@ -347,6 +359,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "IDE64 settings"
     IDS_IDE64_V4                    "Enable IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "ATA device image file"
     IDS_IDE64_GEOMETRY              "Geometry"
     IDS_IDE64_AUTODETECT            "°ÒâÞÜÐâØçÕáÚÞÕ ÞßàÕÔÕÛÕÝØÕ àÐ×ÜÕàÐ Ø×ÞÑàÐÖÕÝØï"
@@ -375,6 +388,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "IDE64-inställningar"
     IDS_IDE64_V4                    "Aktivera IDE64 V4"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "ATA-enhetsavbildning"
     IDS_IDE64_GEOMETRY              "Geometri"
     IDS_IDE64_AUTODETECT            "Autodetektera storlek på avbildning"
@@ -403,6 +417,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "IDE64 ayarlarý"
     IDS_IDE64_V4                    "IDE64 V4'ü aktif et"
     IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
     IDS_IDE64_IMAGE                 "ATA sürücü imaj dosyasý"
     IDS_IDE64_GEOMETRY              "Geometri"
     IDS_IDE64_AUTODETECT            "Imaj boyutunu otomatik algýla"
@@ -416,5 +431,3 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-

@@ -9431,8 +9431,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64rtcsave / +IDE64rtcsave
-platform gui present:           amigaos/beos/dos/os2/sdl/unix
-platform gui missing:           osx/windows
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform gui missing:           osx
 
 c64/cart/ide64.c:
 -----------------
