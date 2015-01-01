@@ -39,6 +39,7 @@
 UI_MENU_DEFINE_TOGGLE(Mouse)
 UI_MENU_DEFINE_RADIO(Mousetype)
 UI_MENU_DEFINE_RADIO(Mouseport)
+UI_MENU_DEFINE_TOGGLE(SmartMouseRTCSave)
 
 const ui_menu_entry_t mouse_menu[] = {
     { "Enable mouse",
@@ -93,6 +94,11 @@ const ui_menu_entry_t mouse_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Mouseport_callback,
       (ui_callback_data_t)2 },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Save Smart Mouse RTC data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SmartMouseRTCSave_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 #endif

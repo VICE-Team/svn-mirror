@@ -133,6 +133,7 @@ UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 
 UI_MENU_DEFINE_TOGGLE(UserportRTC)
+UI_MENU_DEFINE_TOGGLE(UserportRTCSave)
 
 const ui_menu_entry_t c128_hardware_menu[] = {
     { "Select C128 model",
@@ -206,6 +207,10 @@ const ui_menu_entry_t c128_hardware_menu[] = {
     { "Userport RTC enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportRTC_callback,
+      NULL },
+    { "Save Userport RTC data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTCSave_callback,
       NULL },
 #ifdef HAVE_MIDI
     { "MIDI settings",

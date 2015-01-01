@@ -125,6 +125,7 @@ const ui_menu_entry_t digimax_menu[] = {
 UI_MENU_DEFINE_TOGGLE(DS12C887RTC)
 UI_MENU_DEFINE_TOGGLE(DS12C887RTCRunMode)
 UI_MENU_DEFINE_RADIO(DS12C887RTCbase)
+UI_MENU_DEFINE_TOGGLE(DS12C887RTCSave)
 
 const ui_menu_entry_t ds12c887rtc_c64_menu[] = {
     { "Enable " CARTRIDGE_NAME_DS12C887RTC,
@@ -134,6 +135,10 @@ const ui_menu_entry_t ds12c887rtc_c64_menu[] = {
     { "Start with running oscillator",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DS12C887RTCRunMode_callback,
+      NULL },
+    { "Save RTC data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DS12C887RTCSave_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Base address"),
@@ -166,6 +171,14 @@ const ui_menu_entry_t ds12c887rtc_c128_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DS12C887RTC_callback,
       NULL },
+    { "Start with running oscillator",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DS12C887RTCRunMode_callback,
+      NULL },
+    { "Save RTC data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DS12C887RTCSave_callback,
+      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Base address"),
     { "$D700",
@@ -186,6 +199,7 @@ const ui_menu_entry_t ds12c887rtc_c128_menu[] = {
 
 /* IDE64 CART MENU */
 
+UI_MENU_DEFINE_TOGGLE(IDE64RTCSave)
 UI_MENU_DEFINE_TOGGLE(IDE64version4)
 UI_MENU_DEFINE_TOGGLE(IDE64USBServer)
 UI_MENU_DEFINE_STRING(IDE64USBServerAddress)
@@ -322,6 +336,10 @@ const ui_menu_entry_t ide64_menu[] = {
     { "Cartridge version 4",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IDE64version4_callback,
+      NULL },
+    { "Save RTC data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IDE64RTCSave_callback,
       NULL },
 #ifdef HAVE_NETWORK
     { "Enable USB server",

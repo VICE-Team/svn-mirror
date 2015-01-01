@@ -106,6 +106,7 @@ const ui_menu_entry_t scpu64_simmsize_menu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(UserportRTC)
+UI_MENU_DEFINE_TOGGLE(UserportRTCSave)
 UI_MENU_DEFINE_TOGGLE(JiffySwitch)
 UI_MENU_DEFINE_TOGGLE(SpeedSwitch)
 
@@ -183,6 +184,10 @@ const ui_menu_entry_t scpu64_hardware_menu[] = {
     { "Userport RTC enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportRTC_callback,
+      NULL },
+    { "Save Userport RTC data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTCSave_callback,
       NULL },
     SDL_MENU_LIST_END
 };

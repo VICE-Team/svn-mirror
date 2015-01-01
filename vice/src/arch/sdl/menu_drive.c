@@ -979,6 +979,11 @@ DRIVE_IDLE_MENU(9)
 DRIVE_IDLE_MENU(10)
 DRIVE_IDLE_MENU(11)
 
+UI_MENU_DEFINE_TOGGLE(Drive8RTCSave)
+UI_MENU_DEFINE_TOGGLE(Drive9RTCSave)
+UI_MENU_DEFINE_TOGGLE(Drive10RTCSave)
+UI_MENU_DEFINE_TOGGLE(Drive11RTCSave)
+
 #ifdef HAVE_RAWDRIVE
 UI_MENU_DEFINE_FILE_STRING(RawDriveDriver)
 #endif
@@ -993,38 +998,42 @@ UI_MENU_DEFINE_FILE_STRING(RawDriveDriver)
 #define DRIVE_MENU_RAWDRIVE_ITEM
 #endif
 
-#define DRIVE_MENU(x)                                      \
-    static const ui_menu_entry_t drive_##x##_menu[] = {    \
-        { "Drive " #x " type",                             \
-          MENU_ENTRY_SUBMENU,                              \
-          drive_##x##_show_type_callback,                  \
-          (ui_callback_data_t)drive_##x##_type_menu },     \
-        { "Drive " #x " dir settings",                     \
-          MENU_ENTRY_SUBMENU,                              \
-          submenu_callback,                                \
-          (ui_callback_data_t)drive_##x##_fsdir_menu },    \
-        { "Drive " #x " 40 track handling",                \
-          MENU_ENTRY_SUBMENU,                              \
-          drive_##x##_show_extend_callback,                \
-          (ui_callback_data_t)drive_##x##_extend_menu },   \
-        { "Drive " #x " expansion memory",                 \
-          MENU_ENTRY_SUBMENU,                              \
-          drive_##x##_show_expand_callback,                \
-          (ui_callback_data_t)drive_##x##_expand_menu },   \
-        { "Drive " #x " expansion board",                  \
-          MENU_ENTRY_SUBMENU,                              \
-          drive_##x##_show_exboard_callback,               \
-          (ui_callback_data_t)drive_##x##_exboard_menu },  \
-        { "Drive " #x " idle method",                      \
-          MENU_ENTRY_SUBMENU,                              \
-          drive_##x##_show_idle_callback,                  \
-          (ui_callback_data_t)drive_##x##_idle_menu },     \
-        { "Drive " #x " parallel cable",                   \
-          MENU_ENTRY_SUBMENU,                              \
-          drive_##x##_show_parallel_callback,              \
-          (ui_callback_data_t)drive_##x##_parallel_menu }, \
-        DRIVE_MENU_RAWDRIVE_ITEM                           \
-        SDL_MENU_LIST_END                                  \
+#define DRIVE_MENU(x)                                           \
+    static const ui_menu_entry_t drive_##x##_menu[] = {         \
+        { "Drive " #x " type",                                  \
+          MENU_ENTRY_SUBMENU,                                   \
+          drive_##x##_show_type_callback,                       \
+          (ui_callback_data_t)drive_##x##_type_menu },          \
+        { "Drive " #x " dir settings",                          \
+          MENU_ENTRY_SUBMENU,                                   \
+          submenu_callback,                                     \
+          (ui_callback_data_t)drive_##x##_fsdir_menu },         \
+        { "Drive " #x " 40 track handling",                     \
+          MENU_ENTRY_SUBMENU,                                   \
+          drive_##x##_show_extend_callback,                     \
+          (ui_callback_data_t)drive_##x##_extend_menu },        \
+        { "Drive " #x " expansion memory",                      \
+          MENU_ENTRY_SUBMENU,                                   \
+          drive_##x##_show_expand_callback,                     \
+          (ui_callback_data_t)drive_##x##_expand_menu },        \
+        { "Drive " #x " expansion board",                       \
+          MENU_ENTRY_SUBMENU,                                   \
+          drive_##x##_show_exboard_callback,                    \
+          (ui_callback_data_t)drive_##x##_exboard_menu },       \
+        { "Drive " #x " idle method",                           \
+          MENU_ENTRY_SUBMENU,                                   \
+          drive_##x##_show_idle_callback,                       \
+          (ui_callback_data_t)drive_##x##_idle_menu },          \
+        { "Drive " #x " parallel cable",                        \
+          MENU_ENTRY_SUBMENU,                                   \
+          drive_##x##_show_parallel_callback,                   \
+          (ui_callback_data_t)drive_##x##_parallel_menu },      \
+        { "Save Drive " #x" FD2000/4000 RTC data when changed", \
+          MENU_ENTRY_RESOURCE_TOGGLE,                           \
+          toggle_Drive##x##RTCSave_callback,                    \
+          NULL },                                               \
+        DRIVE_MENU_RAWDRIVE_ITEM                                \
+        SDL_MENU_LIST_END                                       \
     };
 
 

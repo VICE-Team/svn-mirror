@@ -80,6 +80,7 @@ const ui_menu_entry_t burstmod_menu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(UserportRTC)
+UI_MENU_DEFINE_TOGGLE(UserportRTCSave)
 
 const ui_menu_entry_t c64_hardware_menu[] = {
     { "Model settings",
@@ -233,6 +234,10 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
     { "Userport RTC enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportRTC_callback,
+      NULL },
+    { "Save Userport RTC data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTCSave_callback,
       NULL },
     SDL_MENU_LIST_END
 };

@@ -41,6 +41,9 @@ UI_MENU_DEFINE_FILE_STRING(ExternalFunctionName)
 UI_MENU_DEFINE_RADIO(InternalFunctionROM)
 UI_MENU_DEFINE_RADIO(ExternalFunctionROM)
 
+UI_MENU_DEFINE_TOGGLE(InternalFunctionROMRTCSave)
+UI_MENU_DEFINE_TOGGLE(ExternalFunctionROMRTCSave)
+
 const ui_menu_entry_t int_func_rom_menu[] = {
     { "None",
       MENU_ENTRY_RESOURCE_RADIO,
@@ -90,6 +93,10 @@ static const ui_menu_entry_t c128_function_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_InternalFunctionName_callback,
       (ui_callback_data_t)"Select internal function ROM image" },
+    { "Save Internal Function RTC data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_InternalFunctionROMRTCSave_callback,
+      NULL },
     { "External function ROM type",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -98,6 +105,10 @@ static const ui_menu_entry_t c128_function_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_ExternalFunctionName_callback,
       (ui_callback_data_t)"Select external function ROM image" },
+    { "Save External Function RTC data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_ExternalFunctionROMRTCSave_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 

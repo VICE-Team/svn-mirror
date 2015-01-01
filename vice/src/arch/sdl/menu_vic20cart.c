@@ -323,6 +323,7 @@ static const ui_menu_entry_t digimax_vic20_menu[] = {
 UI_MENU_DEFINE_TOGGLE(DS12C887RTC)
 UI_MENU_DEFINE_TOGGLE(DS12C887RTCRunMode)
 UI_MENU_DEFINE_RADIO(DS12C887RTCbase)
+UI_MENU_DEFINE_TOGGLE(DS12C887RTCSave)
 
 static const ui_menu_entry_t ds12c887rtc_vic20_menu[] = {
     { "Enable " CARTRIDGE_NAME_DS12C887RTC,
@@ -332,6 +333,10 @@ static const ui_menu_entry_t ds12c887rtc_vic20_menu[] = {
     { "Start with running oscillator",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DS12C887RTCRunMode_callback,
+      NULL },
+    { "Save RTC data when changed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DS12C887RTCSave_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Base address"),
