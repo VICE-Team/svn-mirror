@@ -162,25 +162,25 @@ notice identical to this one.
 
 @c page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2014 Dag Lem
-Copyright @copyright{} 1999-2014 Andreas Matthies
-Copyright @copyright{} 1999-2014 Martin Pottendorfer
-Copyright @copyright{} 2005-2014 Marco van den Heuvel
-Copyright @copyright{} 2006-2014 Christian Vogelgsang
-Copyright @copyright{} 2007-2014 Fabrizio Gennari
-Copyright @copyright{} 2007-2014 Daniel Kahlin
-Copyright @copyright{} 2008-2014 Antti S. Lankila
-Copyright @copyright{} 2009-2014 Groepaz
-Copyright @copyright{} 2009-2014 Ingo Korb
-Copyright @copyright{} 2009-2014 Errol Smith
-Copyright @copyright{} 2010-2014 Olaf Seibert
-Copyright @copyright{} 2011-2014 Marcus Sutton
+Copyright @copyright{} 1999-2015 Andreas Matthies
+Copyright @copyright{} 1999-2015 Martin Pottendorfer
+Copyright @copyright{} 2005-2015 Marco van den Heuvel
+Copyright @copyright{} 2007-2015 Fabrizio Gennari
+Copyright @copyright{} 2007-2015 Daniel Kahlin
+Copyright @copyright{} 2009-2015 Groepaz
+Copyright @copyright{} 2009-2015 Errol Smith
+Copyright @copyright{} 2010-2015 Olaf Seibert
+Copyright @copyright{} 2011-2015 Marcus Sutton
+Copyright @copyright{} 2011-2015 Kajtar Zsolt
+
+Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
 Copyright @copyright{} 2011-2014 Ulrich Schulz
 Copyright @copyright{} 2011-2014 Stefan Haubenthal
 Copyright @copyright{} 2011-2014 Thomas Giesel
-Copyright @copyright{} 2011-2014 Kajtar Zsolt
-Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
-
+Copyright @copyright{} 2009-2014 Ingo Korb
+Copyright @copyright{} 2008-2014 Antti S. Lankila
+Copyright @copyright{} 2006-2014 Christian Vogelgsang
+Copyright @copyright{} 1998-2014 Dag Lem
 Copyright @copyright{} 2000-2011 Spiro Trikaliotis
 Copyright @copyright{} 2007-2011 Hannu Nuotio
 Copyright @copyright{} 1998-2010 Andreas Boose
@@ -23483,11 +23483,6 @@ The VICE core team:
 @c The Texinfo manual says we should not use @b though!
 
 @item
-@b{Dag Lem}
-Implemented the reSID SID emulation engine and video hardware
-scaling.
-
-@item
 @b{Andreas Matthies}
 Improved the datasette support, the VIC20 video emulation and
 some UI stuff in the Win32 and DOS ports. He also wrote the
@@ -23530,13 +23525,6 @@ the 6309 CPU emulation. Added the 65(S)C02 emulation. And
 lots of other fixes and improvements.
 
 @item
-@b{Christian Vogelgsang}
-Maintains the Mac OS X port. Added Intel Mac support and
-universal binary creation. Wrote the build scripts for all
-external Mac libraries and the bindist bundle tool. Improved
-the TFE chip emulation. Added some GTK+ fixes.
-
-@item
 @b{Fabrizio Gennari}
 Added some improvements to the DOS and GTK+ ports. Changed the
 Windows video to use GDI as fallback, making it compile without
@@ -23555,13 +23543,6 @@ used in x64sc, especially the dot clock domain emulation. Wrote
 many test programs for hardware analysis.
 
 @item
-@b{Antti S. Lankila}
-Made the ReSID-fp engine, rewrote the PAL emulation code and
-fixed the sound core for lower latency. Rewrote DTV SID support
-(ReSID-dtv). Improved 1541 drive rotation emulation. Worked on
-x64sc.
-
-@item
 @b{Groepaz}
 Added new more precise CRT emulation. Added support for the new
 cartridge system and many new cartridges. Fixed up parts of
@@ -23569,14 +23550,6 @@ cartconv, c1541 and petcat. Added video to audio leak sound support.
 Implemented many bug fixes. 
 Wrote test programs. Updated this document after a long period
 of outdated mess.
-
-@item
-@b{Ingo Korb}
-Corrected block allocation and interleave for c1541/vdrive,
-added rudimentary xplus4 tape recording support, corrected a
-case of missing Pi symbols in petcat, changed the trap opcode
-byte, stopped the high-level serial drive code from responding
-to addresses 16-30 and was forced to update this entry himself.
 
 @item
 @b{Errol Smith}
@@ -23589,21 +23562,9 @@ hardware scaling, and disk drive patches. Added proper SuperPET
 support, including 6809/6309 CPU emulation. Maintains the Xaw UI.
 
 @item
-@b{Stefan Haubenthal}
-Added some Amiga fixes.
-
-@item
-@b{Thomas Giesel}
-Added new monitor commands, features and improvements.
-
-@item
 @b{Marcus Sutton}
 Made some console, dialog and joystick fixes for the BeOS port.
 Maintains the BeOS port.
-
-@item
-@b{Ulrich Schulz}
-Maintains the Dingoo port(s).
 
 @item
 @b{Kajtar Zsolt}
@@ -23617,6 +23578,45 @@ c64 cart emulation.
 Former/inactive team members:
 
 @itemize @bullet
+
+@item
+@b{Ulrich Schulz}
+Maintains the Dingoo port(s).
+
+@item
+@b{Stefan Haubenthal}
+Added some Amiga fixes.
+
+@item
+@b{Thomas Giesel}
+Added new monitor commands, features and improvements.
+
+@item
+@b{Ingo Korb}
+Corrected block allocation and interleave for c1541/vdrive,
+added rudimentary xplus4 tape recording support, corrected a
+case of missing Pi symbols in petcat, changed the trap opcode
+byte, stopped the high-level serial drive code from responding
+to addresses 16-30 and was forced to update this entry himself.
+
+@item
+@b{Antti S. Lankila}
+Made the ReSID-fp engine, rewrote the PAL emulation code and
+fixed the sound core for lower latency. Rewrote DTV SID support
+(ReSID-dtv). Improved 1541 drive rotation emulation. Worked on
+x64sc.
+
+@item
+@b{Christian Vogelgsang}
+Maintained the Mac OS X port. Added Intel Mac support and
+universal binary creation. Wrote the build scripts for all
+external Mac libraries and the bindist bundle tool. Improved
+the TFE chip emulation. Added some GTK+ fixes.
+
+@item
+@b{Dag Lem}
+Implemented the reSID SID emulation engine and video hardware
+scaling.
 
 @item
 @b{Spiro Trikaliotis}
@@ -24235,29 +24235,28 @@ cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1998-2014 Dag Lem
+Copyright @copyright{} 1999-2015 Andreas Matthies
 @item
-Copyright @copyright{} 1999-2014 Andreas Matthies
+Copyright @copyright{} 1999-2015 Martin Pottendorfer
 @item
-Copyright @copyright{} 1999-2014 Martin Pottendorfer
+Copyright @copyright{} 2005-2015 Marco van den Heuvel
 @item
-Copyright @copyright{} 2005-2014 Marco van den Heuvel
+Copyright @copyright{} 2007-2015 Fabrizio Gennari
 @item
-Copyright @copyright{} 2006-2014 Christian Vogelgsang
+Copyright @copyright{} 2007-2015 Daniel Kahlin
 @item
-Copyright @copyright{} 2007-2014 Fabrizio Gennari
+Copyright @copyright{} 2009-2015 Groepaz
 @item
-Copyright @copyright{} 2007-2014 Daniel Kahlin
+Copyright @copyright{} 2009-2015 Errol Smith
 @item
-Copyright @copyright{} 2009-2014 Groepaz
+Copyright @copyright{} 2010-2015 Olaf Seibert
 @item
-Copyright @copyright{} 2009-2014 Ingo Korb
+Copyright @copyright{} 2011-2015 Marcus Sutton
 @item
-Copyright @copyright{} 2009-2014 Errol Smith
+Copyright @copyright{} 2011-2014 Kajtar Zsolt
+
 @item
-Copyright @copyright{} 2010-2014 Olaf Seibert
-@item
-Copyright @copyright{} 2011-2014 Marcus Sutton
+Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
 @item
 Copyright @copyright{} 2011-2014 Ulrich Schulz
 @item
@@ -24265,10 +24264,11 @@ Copyright @copyright{} 2011-2014 Stefan Haubenthal
 @item
 Copyright @copyright{} 2011-2014 Thomas Giesel
 @item
-Copyright @copyright{} 2011-2014 Kajtar Zsolt
+Copyright @copyright{} 2009-2014 Ingo Korb
 @item
-Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
-
+Copyright @copyright{} 2006-2014 Christian Vogelgsang
+@item
+Copyright @copyright{} 1998-2014 Dag Lem
 @item
 Copyright @copyright{} 2000-2011 Spiro Trikaliotis
 @item

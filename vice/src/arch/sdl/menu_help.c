@@ -329,24 +329,16 @@ static UI_MENU_CALLBACK(about_callback)
 #endif
         sdl_ui_print_center("SDL " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER, 3);
         sdl_ui_print_center("The VICE Team", 5);
-        sdl_ui_print_center("(C) 1998-2014 Dag Lem", 6);
-        sdl_ui_print_center("(C) 1999-2014 Andreas Matthies", 7);
-        sdl_ui_print_center("(C) 1999-2014 Martin Pottendorfer", 8);
-        sdl_ui_print_center("(C) 2005-2014 Marco van den Heuvel", 9);
-        sdl_ui_print_center("(C) 2006-2014 Christian Vogelgsang", 10);
-        sdl_ui_print_center("(C) 2007-2014 Fabrizio Gennari", 11);
-        sdl_ui_print_center("(C) 2007-2014 Daniel Kahlin", 12);
-        sdl_ui_print_center("(C) 2008-2014 Antti S. Lankila", 13);
-        sdl_ui_print_center("(C) 2009-2014 Groepaz", 14);
-        sdl_ui_print_center("(C) 2009-2014 Ingo Korb", 15);
-        sdl_ui_print_center("(C) 2009-2014 Errol Smith", 16);
-        sdl_ui_print_center("(C) 2010-2014 Olaf Seibert", 17);
-        sdl_ui_print_center("(C) 2011-2014 Marcus Sutton", 18);
-        sdl_ui_print_center("(C) 2011-2014 Ulrich Schulz", 19);
-        sdl_ui_print_center("(C) 2011-2014 Stefan Haubenthal", 20);
-        sdl_ui_print_center("(C) 2011-2014 Thomas Giesel", 21);
-        sdl_ui_print_center("(C) 2011-2014 Kajtar Zsolt", 22);
-        sdl_ui_print_center("(C) 2012-2014 Benjamin 'BeRo' Rosseaux", 23);
+        sdl_ui_print_center("(C) 1999-2015 Andreas Matthies", 6);
+        sdl_ui_print_center("(C) 1999-2015 Martin Pottendorfer", 7);
+        sdl_ui_print_center("(C) 2005-2015 Marco van den Heuvel", 8);
+        sdl_ui_print_center("(C) 2007-2015 Fabrizio Gennari", 9);
+        sdl_ui_print_center("(C) 2007-2015 Daniel Kahlin", 10);
+        sdl_ui_print_center("(C) 2009-2015 Groepaz", 11);
+        sdl_ui_print_center("(C) 2009-2015 Errol Smith", 12);
+        sdl_ui_print_center("(C) 2010-2015 Olaf Seibert", 13);
+        sdl_ui_print_center("(C) 2011-2015 Marcus Sutton", 14);
+        sdl_ui_print_center("(C) 2011-2015 Kajtar Zsolt", 15);
         sdl_ui_refresh();
 
         while (active) {
