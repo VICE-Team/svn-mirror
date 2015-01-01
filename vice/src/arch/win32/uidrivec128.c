@@ -114,6 +114,7 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
 
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_PROFDOS), drive_check_profdos(drive_type));
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_SUPERCARD), drive_check_supercard(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_RTC_SAVE), drive_type == DRIVE_TYPE_2000 || drive_type == DRIVE_TYPE_4000);
 }
 
 static uilib_localize_dialog_param drive_dialog_trans[] = {
@@ -136,6 +137,7 @@ static uilib_localize_dialog_param drive_dialog_trans[] = {
     { IDC_TOGGLE_DRIVE_EXPANSION_A000, IDS_TOGGLE_DRIVE_EXPANSION_A000, 0 },
     { IDC_TOGGLE_DRIVE_EXPANSION_PROFDOS, IDS_TOGGLE_DRIVE_EXPANSION_PROFDOS, 0 },
     { IDC_TOGGLE_DRIVE_EXPANSION_SUPERCARD, IDS_TOGGLE_DRIVE_EXPANSION_SUPERCARD, 0 },
+    { IDC_TOGGLE_DRIVE_RTC_SAVE, IDS_TOGGLE_DRIVE_RTC_SAVE, 0 },
     { 0, 0, 0 }
 };
 
@@ -165,6 +167,7 @@ static uilib_dialog_group drive_main_group[] = {
     { IDC_TOGGLE_DRIVE_EXPANSION_A000, 1 },
     { IDC_TOGGLE_DRIVE_EXPANSION_PROFDOS, 1 },
     { IDC_TOGGLE_DRIVE_EXPANSION_SUPERCARD, 1 },
+    { IDC_TOGGLE_DRIVE_RTC_SAVE, 1 },
     { 0, 0 }
 };
 
@@ -202,6 +205,7 @@ static uilib_dialog_group drive_middle_group[] = {
     { IDC_TOGGLE_DRIVE_EXPANSION_A000, 0 },
     { IDC_TOGGLE_DRIVE_EXPANSION_PROFDOS, 0 },
     { IDC_TOGGLE_DRIVE_EXPANSION_SUPERCARD, 0 },
+    { IDC_TOGGLE_DRIVE_RTC_SAVE, 0 },
     { 0, 0 }
 };
 
@@ -216,6 +220,7 @@ static uilib_dialog_group drive_middle_move_group[] = {
     { IDC_TOGGLE_DRIVE_EXPANSION_A000, 0 },
     { IDC_TOGGLE_DRIVE_EXPANSION_PROFDOS, 0 },
     { IDC_TOGGLE_DRIVE_EXPANSION_SUPERCARD, 0 },
+    { IDC_TOGGLE_DRIVE_RTC_SAVE, 0 },
     { 0, 0 }
 };
 
@@ -494,6 +499,9 @@ static void init_dialog(HWND hwnd, int num)
 
     resources_get_int_sprintf("Drive%dSuperCard", &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_SUPERCARD, n ? BST_CHECKED : BST_UNCHECKED);
+
+    resources_get_int_sprintf("Drive%dRTCSave", &n, num);
+    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_RTC_SAVE, n ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -514,6 +522,7 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LP
                 resources_set_int_sprintf("Drive%dRAMA000", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_A000) == BST_CHECKED ? 1 : 0), num);
                 resources_set_int_sprintf("Drive%dProfDOS", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_PROFDOS) == BST_CHECKED ? 1 : 0), num);
                 resources_set_int_sprintf("Drive%dSuperCard", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_SUPERCARD) == BST_CHECKED ? 1 : 0), num);
+                resources_set_int_sprintf("Drive%dRTCSave", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_DRIVE_RTC_SAVE) == BST_CHECKED ? 1 : 0), num);
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }
@@ -614,6 +623,7 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LP
                 case IDC_TOGGLE_DRIVE_EXPANSION_A000:
                 case IDC_TOGGLE_DRIVE_EXPANSION_PROFDOS:
                 case IDC_TOGGLE_DRIVE_EXPANSION_SUPERCARD:
+                case IDC_TOGGLE_DRIVE_RTC_SAVE:
                     break;
             }
             return TRUE;
