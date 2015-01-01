@@ -628,12 +628,12 @@ END
 
 // dialog template for all languages
 
-IDD_C128_FUNCTIONROM_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 110
+IDD_C128_FUNCTIONROM_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 140
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX     "", IDC_INTERNAL_FUNCTION_ROM,
-                 5, 5, 225, 45
+                 5, 5, 225, 60
     LTEXT        "", IDC_C128_FUNCTIONROM_INTERNAL_TYPE_LABEL,
                  15, 15, 30, 8
     COMBOBOX     IDC_C128_FUNCTIONROM_INTERNAL_TYPE,
@@ -644,18 +644,22 @@ BEGIN
                  50, 30, 115, 15, WS_TABSTOP
     PUSHBUTTON   "", IDC_C128_FUNCTIONROM_INTERNAL_BROWSE,
                  175, 30, 50, 14, 0
+    AUTOCHECKBOX "", IDC_C128_FUNCTIONROM_INTERNAL_RTC_SAVE,
+                 15, 48, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     GROUPBOX     "", IDC_EXTERNAL_FUNCTION_ROM,
-                 5, 55, 225, 45
+                 5, 70, 225, 60
     LTEXT        "", IDC_C128_FUNCTIONROM_EXTERNAL_TYPE_LABEL,
-                 15, 65, 30, 8
+                 15, 80, 30, 8
     COMBOBOX     IDC_C128_FUNCTIONROM_EXTERNAL_TYPE,
-                 45, 63, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                 45, 78, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT        "", IDC_FILE_NAME_2,
-                 11, 83, 50, 8
+                 11, 98, 50, 8
     EDITTEXT     IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
-                 50, 80, 115, 15, WS_TABSTOP
+                 50, 95, 115, 15, WS_TABSTOP
     PUSHBUTTON   "", IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE,
-                 175, 80, 50, 14, 0
+                 175, 95, 50, 14, 0
+    AUTOCHECKBOX "", IDC_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE,
+                 15, 113, 120, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -710,50 +714,52 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM   "Select Internal Function ROM file"
-  IDS_SELECT_EXT_FUNCTION_ROM   "Select External Function ROM file"
-  IDS_MACHINE_TYPE              "Machine type"
-  IDS_FUNCTION_ROM              "Function ROM"
-  IDS_RAM_BANKS                 "RAM banks"
-  IDS_C128_SETTINGS             "C128 settings"
-  IDS_KERNAL_INT                "Kernal Int."
-  IDS_KERNAL_DE                 "Kernal DE"
-  IDS_KERNAL_FI                 "Kernal FI"
-  IDS_KERNAL_FR                 "Kernal FR"
-  IDS_KERNAL_IT                 "Kernal IT"
-  IDS_KERNAL_NO                 "Kernal NO"
-  IDS_KERNAL_SE                 "Kernal SE"
-  IDS_KERNAL_CH                 "Kernal CH"
-  IDS_BASIC_LO                  "Basic LO"
-  IDS_BASIC_HI                  "Basic HI"
-  IDS_CHAR_INT                  "Char. Int."
-  IDS_CHAR_DE                   "Char. DE"
-  IDS_CHAR_FR                   "Char. FR"
-  IDS_CHAR_SE                   "Char. SE"
-  IDS_CHAR_CH                   "Char. CH"
-  IDS_KERNAL_C64                "Kernal C64"
-  IDS_BASIC_C64                 "Basic C64"
-  IDS_INTERNATIONAL             "International"
-  IDS_FINNISH                   "Finnish"
-  IDS_FRENCH                    "French"
-  IDS_GERMAN                    "German"
-  IDS_ITALIAN                   "Italian"
-  IDS_NORWEGIAN                 "Norwegian"
-  IDS_SWEDISH                   "Swedish"
-  IDS_SWISS                     "Swiss"
-  IDS_INT_FUNCTION_ROM          "Internal Function ROM"
-  IDS_INT_FUNCTION_ROM_TYPE     "Internal Function ROM type"
-  IDS_FILE_NAME                 "File name"
-  IDS_EXT_FUNCTION_ROM          "External Function ROM"
-  IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
-  IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
-  IDS_C128MODEL                 "C128 model"
-  IDS_MP_VDC_SETTINGS           "VDC settings"
-  IDS_MP_VDC_REVISION           "VDC revision"
-  IDS_MI_TOGGLE_VDC64KB         "64KB video memory"
-  IDS_MI_IEEE488                "IEEE488 Interface emulation"
-  IDS_MI_C128_SETTINGS          "C128 settings..."
-  IDS_MI_C128MODEL_SETTINGS     "C128 model settings..."
+  IDS_SELECT_INT_FUNCTION_ROM            "Select Internal Function ROM file"
+  IDS_SELECT_EXT_FUNCTION_ROM            "Select External Function ROM file"
+  IDS_MACHINE_TYPE                       "Machine type"
+  IDS_FUNCTION_ROM                       "Function ROM"
+  IDS_RAM_BANKS                          "RAM banks"
+  IDS_C128_SETTINGS                      "C128 settings"
+  IDS_KERNAL_INT                         "Kernal Int."
+  IDS_KERNAL_DE                          "Kernal DE"
+  IDS_KERNAL_FI                          "Kernal FI"
+  IDS_KERNAL_FR                          "Kernal FR"
+  IDS_KERNAL_IT                          "Kernal IT"
+  IDS_KERNAL_NO                          "Kernal NO"
+  IDS_KERNAL_SE                          "Kernal SE"
+  IDS_KERNAL_CH                          "Kernal CH"
+  IDS_BASIC_LO                           "Basic LO"
+  IDS_BASIC_HI                           "Basic HI"
+  IDS_CHAR_INT                           "Char. Int."
+  IDS_CHAR_DE                            "Char. DE"
+  IDS_CHAR_FR                            "Char. FR"
+  IDS_CHAR_SE                            "Char. SE"
+  IDS_CHAR_CH                            "Char. CH"
+  IDS_KERNAL_C64                         "Kernal C64"
+  IDS_BASIC_C64                          "Basic C64"
+  IDS_INTERNATIONAL                      "International"
+  IDS_FINNISH                            "Finnish"
+  IDS_FRENCH                             "French"
+  IDS_GERMAN                             "German"
+  IDS_ITALIAN                            "Italian"
+  IDS_NORWEGIAN                          "Norwegian"
+  IDS_SWEDISH                            "Swedish"
+  IDS_SWISS                              "Swiss"
+  IDS_INT_FUNCTION_ROM                   "Internal Function ROM"
+  IDS_INT_FUNCTION_ROM_TYPE              "Internal Function ROM type"
+  IDS_FILE_NAME                          "File name"
+  IDS_EXT_FUNCTION_ROM                   "External Function ROM"
+  IDS_EXT_FUNCTION_ROM_TYPE              "External Function ROM type"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FULL_BANKS                    "Enable RAM banks 2 and 3"
+  IDS_C128MODEL                          "C128 model"
+  IDS_MP_VDC_SETTINGS                    "VDC settings"
+  IDS_MP_VDC_REVISION                    "VDC revision"
+  IDS_MI_TOGGLE_VDC64KB                  "64KB video memory"
+  IDS_MI_IEEE488                         "IEEE488 Interface emulation"
+  IDS_MI_C128_SETTINGS                   "C128 settings..."
+  IDS_MI_C128MODEL_SETTINGS              "C128 model settings..."
 END
 
 
@@ -798,6 +804,8 @@ BEGIN
   IDS_FILE_NAME                 "Filnavn"
   IDS_EXT_FUNCTION_ROM          "Extern funktions-ROM"
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
   IDS_C128_FULL_BANKS           "Aktivér RAM-bank 2 og 3"
   IDS_C128MODEL                 "C128 model"
   IDS_MP_VDC_SETTINGS           "VDC-indstillinger"
@@ -850,6 +858,8 @@ BEGIN
   IDS_FILE_NAME                 "Dateiname"
   IDS_EXT_FUNCTION_ROM          "Externes Funktions ROM"
   IDS_EXT_FUNCTION_ROM_TYPE     "Externes Funktions ROM Typ"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
   IDS_C128_FULL_BANKS           "RAM Bänke 2 und 3 aktivieren"
   IDS_C128MODEL                 "C128 Modell"
   IDS_MP_VDC_SETTINGS           "VDC Einstellungen"
@@ -902,6 +912,8 @@ BEGIN
   IDS_FILE_NAME                 "nombre de fichero"
   IDS_EXT_FUNCTION_ROM          "ROM de función externa"
   IDS_EXT_FUNCTION_ROM_TYPE     "Tipo  Function ROM externa"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
   IDS_C128_FULL_BANKS           "Permitir bancos 2 y 3"
   IDS_C128MODEL                 "Modelo C128"
   IDS_MP_VDC_SETTINGS           "Ajustes VDC"
@@ -954,6 +966,8 @@ BEGIN
   IDS_FILE_NAME                 "Nom de fichier"
   IDS_EXT_FUNCTION_ROM          "Image ROM Fonction externe"
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
   IDS_C128_FULL_BANKS           "Activer les banques RAM 2 et 3"
   IDS_C128MODEL                 "Modèle C128"
   IDS_MP_VDC_SETTINGS           "Paramètres VDC"
@@ -1009,6 +1023,8 @@ BEGIN
   IDS_FILE_NAME                 "Fájlnév"
   IDS_EXT_FUNCTION_ROM          "Külsõ Function ROM"
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
   IDS_C128_FULL_BANKS           "2-es és 3-as RAM bankok engedélyezése"
   IDS_C128MODEL                 "C128 model"
   IDS_MP_VDC_SETTINGS           "VDC beállításai"
@@ -1064,6 +1080,8 @@ BEGIN
   IDS_FILE_NAME                 "Nome file"
   IDS_EXT_FUNCTION_ROM          "Function ROM esterna"
   IDS_EXT_FUNCTION_ROM_TYPE     "Tipo Function ROM esterna"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
   IDS_C128_FULL_BANKS           "Attiva banchi RAM 2 e 3"
   IDS_C128MODEL                 "Modello C128"
   IDS_MP_VDC_SETTINGS           "Impostazioni VDC"
@@ -1119,6 +1137,8 @@ BEGIN
   IDS_FILE_NAME                 "ÆÄÀÏ ÀÌ¸§"
   IDS_EXT_FUNCTION_ROM          "External Function ROM"
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_C128MODEL                 "C128 model"
   IDS_MP_VDC_SETTINGS           "VDC ¼³Á¤"
@@ -1174,6 +1194,8 @@ BEGIN
   IDS_FILE_NAME                 "Bestandsnaam"
   IDS_EXT_FUNCTION_ROM          "Externe functie ROM"
   IDS_EXT_FUNCTION_ROM_TYPE     "Externe functie ROM soort"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
   IDS_C128_FULL_BANKS           "Aktiveer RAM bank 2 en 3"
   IDS_C128MODEL                 "C128 model"
   IDS_MP_VDC_SETTINGS           "VDC instellingen"
@@ -1229,6 +1251,8 @@ BEGIN
   IDS_FILE_NAME                 "Nazwa pliku"
   IDS_EXT_FUNCTION_ROM          "Zewnêtrzny Function ROM"
   IDS_EXT_FUNCTION_ROM_TYPE     "Typ zewnêtrznego Function ROM-u"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
   IDS_C128_FULL_BANKS           "W³±cz banki RAM 2 i 3"
   IDS_C128MODEL                 "Model C128"
   IDS_MP_VDC_SETTINGS           "Ustawienia VDC"
@@ -1287,6 +1311,8 @@ BEGIN
   IDS_FILE_NAME                 "¸Üï äÐÙÛÐ"
   IDS_EXT_FUNCTION_ROM          "External Function ROM"
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_C128MODEL                 "C128 model"
   IDS_MP_VDC_SETTINGS           "½ÐáâàÞÙÚØ VDC"
@@ -1342,6 +1368,8 @@ BEGIN
   IDS_FILE_NAME                 "Filnamn"
   IDS_EXT_FUNCTION_ROM          "Externt funktions-ROM"
   IDS_EXT_FUNCTION_ROM_TYPE     "Externt funktions-ROM-typ"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
   IDS_C128_FULL_BANKS           "Aktivera RAM-bank 2 och 3"
   IDS_C128MODEL                 "C128-modell"
   IDS_MP_VDC_SETTINGS           "VDC-inställningar"
@@ -1397,6 +1425,8 @@ BEGIN
   IDS_FILE_NAME                 "Dosya ismi"
   IDS_EXT_FUNCTION_ROM          "Harici Function ROM"
   IDS_EXT_FUNCTION_ROM_TYPE     "External Function ROM type"
+  IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
+  IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE "Save Internal Function RTC data when changed"
   IDS_C128_FULL_BANKS           "RAM banklarý 2 ve 3'ü aktif et"
   IDS_C128MODEL                 "C128 modeli"
   IDS_MP_VDC_SETTINGS           "VDC ayarlarý"

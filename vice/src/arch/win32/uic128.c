@@ -101,12 +101,16 @@ static uilib_localize_dialog_param functionrom_dialog_trans[] = {
     { IDC_C128_FUNCTIONROM_INTERNAL_BROWSE, IDS_BROWSE, 0 },
     { IDC_C128_FUNCTIONROM_EXTERNAL_TYPE_LABEL, IDS_EXT_FUNCTION_ROM_TYPE, 0 },
     { IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE, IDS_BROWSE, 0 },
+    { IDC_C128_FUNCTIONROM_INTERNAL_RTC_SAVE, IDS_C128_FUNCTIONROM_INTERNAL_RTC_SAVE, 0 },
+    { IDC_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE, IDS_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE, 0 },
     { 0, 0, 0 }
 };
 
 static uilib_dialog_group enable_group[] = {
     { IDC_C128_FUNCTIONROM_INTERNAL_TYPE_LABEL, 0 },
     { IDC_C128_FUNCTIONROM_EXTERNAL_TYPE_LABEL, 0 },
+    { IDC_C128_FUNCTIONROM_INTERNAL_RTC_SAVE, 1 },
+    { IDC_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE, 1 },
     { 0, 0 }
 };
 
@@ -194,6 +198,11 @@ static void init_functionrom_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"RAM+RTC");
     resources_get_int("ExternalFunctionROM", &res_value);
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
+    resources_get_int("InternalFunctionROMRTCSave", &res_value);
+    CheckDlgButton(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_RTC_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
+    resources_get_int("ExternalFunctionROMRTCSave", &res_value);
+    CheckDlgButton(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static uilib_localize_dialog_param rambanks_dialog_trans[] = {
@@ -263,6 +272,9 @@ static void end_functionrom_dialog(HWND hwnd)
     GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME, st_name, MAX_PATH);
     system_wcstombs(name, st_name, MAX_PATH);
     resources_set_string("ExternalFunctionName", name);
+
+    resources_set_int("InternalFunctionROMRTCSave", (IsDlgButtonChecked(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_RTC_SAVE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("ExternalFunctionROMRTCSave", (IsDlgButtonChecked(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_RTC_SAVE) == BST_CHECKED ? 1 : 0 ));
 }
 
 static INT_PTR CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
