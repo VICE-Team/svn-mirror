@@ -151,7 +151,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "Activeer de DS12C887 RTC cartridge"
   IDS_DS12C887RTC_RUNMODE "Start met werkende oscillator"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC basis adres"
-  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
+  IDS_DS12C887RTC_SAVE    "Sla de RTC data op indien gewijzigd"
 END
 
 
@@ -223,3 +223,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

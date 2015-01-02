@@ -73,7 +73,7 @@ BEGIN
   IDS_MOUSE_TYPE_LABEL        "Maustyp"
   IDS_MOUSE_PORT_LABEL        "Maus Port"
   IDS_P_SENSITIVITY           "<Sensibilität>"
-  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse."
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensibilität der Maus."
   IDS_MOUSE_SENSITIVITY_LABEL "Maus Sensibilität"
   IDS_SMART_MOUSE_RTC_SAVE    "Save Smart Mouse RTC data when changed"
 END
@@ -171,7 +171,7 @@ BEGIN
   IDS_P_SENSITIVITY           "<gevoeligheid>"
   IDS_DESC_MOUSE_SENSITIVITY  "Gevoeligheid van de muis."
   IDS_MOUSE_SENSITIVITY_LABEL "Muis gevoeligheid"
-  IDS_SMART_MOUSE_RTC_SAVE    "Save Smart Mouse RTC data when changed"
+  IDS_SMART_MOUSE_RTC_SAVE    "Sla de Smart Mouse RTC data op indien gewijzigd"
 END
 
 
@@ -247,3 +247,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

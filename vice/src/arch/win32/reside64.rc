@@ -139,7 +139,7 @@ BEGIN
     IDS_IDE64_SECTORS               "Sektoren"
     IDS_IDE64_TOTAL_SIZE            "Gesamtgröße: %iKB"
     IDS_IDE64_SELECT_IMAGE          "ATA Gerät Image Datei auswählen"
-    IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server Adresse"
 END
 
 
@@ -298,7 +298,7 @@ BEGIN
     IDS_IDE64_SETTINGS              "IDE64 instellingen"
     IDS_IDE64_V4                    "Activeer IDE64 V4"
     IDS_IDE64_USB_SERVER            "Activeer IDE64 USB server"
-    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
+    IDS_IDE64_RTC_SAVE              "Sla de IDE64 RTC data op indien gewijzigd"
     IDS_IDE64_IMAGE                 "ATA apparaat bestand"
     IDS_IDE64_GEOMETRY              "Geometrie"
     IDS_IDE64_AUTODETECT            "Automatisch detecteren bestandsgrootte"
@@ -431,3 +431,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

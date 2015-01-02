@@ -4081,7 +4081,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_ENABLE_USERPORT_RTC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_ENABLE_USERPORT_RTC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_ENABLE_USERPORT_RTC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_USERPORT_RTC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_RTC_NL, "Activeer de Userport RTC uitbreiding" },
 /* pl */ { IDMS_ENABLE_USERPORT_RTC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ENABLE_USERPORT_RTC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_USERPORT_RTC_SV, "" },  /* fuzzy */
@@ -4095,7 +4095,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_USERPORT_RTC_SAVE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_USERPORT_RTC_SAVE_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_USERPORT_RTC_SAVE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_USERPORT_RTC_SAVE_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_USERPORT_RTC_SAVE_NL, "Activeer opslaan van de Userport RTC data" },
 /* pl */ { IDMS_USERPORT_RTC_SAVE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_USERPORT_RTC_SAVE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_USERPORT_RTC_SAVE_SV, "" },  /* fuzzy */
@@ -4426,16 +4426,16 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_CONFIRM_ON_EXIT,    "Confirm quitting VICE" },
 /* da */ { IDMS_CONFIRM_ON_EXIT_DA, "Bekræft programafslutning" },
 /* de */ { IDMS_CONFIRM_ON_EXIT_DE, "Bestätige beenden von VICE" },
-/* es */ { IDMS_CONFIRM_ON_EXIT_ES, "Confirmar el cierre de VICE" },
-/* fr */ { IDMS_CONFIRM_ON_EXIT_FR, "Demander une confirmation avant de quitter VICE" },
-/* hu */ { IDMS_CONFIRM_ON_EXIT_HU, "Megerõsítés kilépés elõtt" },
+/* es */ { IDMS_CONFIRM_ON_EXIT_ES, "Confirmar cierre de VICE" },
+/* fr */ { IDMS_CONFIRM_ON_EXIT_FR, "Confirmer avant de quitter VICE" },
+/* hu */ { IDMS_CONFIRM_ON_EXIT_HU, "" },  /* fuzzy */
 /* it */ { IDMS_CONFIRM_ON_EXIT_IT, "Conferma l'uscita da VICE" },
 /* ko */ { IDMS_CONFIRM_ON_EXIT_KO, "VICE È®ÀÎ Á¾·á" },
 /* nl */ { IDMS_CONFIRM_ON_EXIT_NL, "Bevestigen van het aflsuiten van VICE" },
 /* pl */ { IDMS_CONFIRM_ON_EXIT_PL, "Potwierdzaj zamkniêcie VICE" },
 /* ru */ { IDMS_CONFIRM_ON_EXIT_RU, "¿ÞÔâÒÕàÔØâì ×ÐÚàëâØÕ VICE" },
 /* sv */ { IDMS_CONFIRM_ON_EXIT_SV, "Bekräfta för att avsluta VICE" },
-/* tr */ { IDMS_CONFIRM_ON_EXIT_TR, "VICE'dan çýkarken teyit et" },
+/* tr */ { IDMS_CONFIRM_ON_EXIT_TR, "VICE'dan çýkýþý teyit et" },
 
 /* en */ { IDMS_HELP,    "Help" },
 /* da */ { IDMS_HELP_DA, "Hjælp" },
@@ -6979,7 +6979,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_DRIVE_RTC_SAVE_HU, "" },  /* fuzzy */
 /* it */ { IDS_DRIVE_RTC_SAVE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_DRIVE_RTC_SAVE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DRIVE_RTC_SAVE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_DRIVE_RTC_SAVE_NL, "Activeer opslaan van de FD2000/4000 RTC data" },
 /* pl */ { IDS_DRIVE_RTC_SAVE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DRIVE_RTC_SAVE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DRIVE_RTC_SAVE_SV, "" },  /* fuzzy */
@@ -7927,34 +7927,34 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_CONFIRM_QUITING_VICE,    "Confirm quitting VICE" },
 /* da */ { IDS_CONFIRM_QUITING_VICE_DA, "Bekræft programafslutning" },
 /* de */ { IDS_CONFIRM_QUITING_VICE_DE, "Bestätige beenden von VICE" },
-/* es */ { IDS_CONFIRM_QUITING_VICE_ES, "Confirmar el cierre de VICE" },
-/* fr */ { IDS_CONFIRM_QUITING_VICE_FR, "Demander une confirmation avant de quitter VICE" },
-/* hu */ { IDS_CONFIRM_QUITING_VICE_HU, "Megerõsítés kilépés elõtt" },
+/* es */ { IDS_CONFIRM_QUITING_VICE_ES, "Confirmar cierre de VICE" },
+/* fr */ { IDS_CONFIRM_QUITING_VICE_FR, "Confirmer avant de quitter VICE" },
+/* hu */ { IDS_CONFIRM_QUITING_VICE_HU, "" },  /* fuzzy */
 /* it */ { IDS_CONFIRM_QUITING_VICE_IT, "Conferma l'uscita da VICE" },
 /* ko */ { IDS_CONFIRM_QUITING_VICE_KO, "VICE È®ÀÎ Á¾·á" },
 /* nl */ { IDS_CONFIRM_QUITING_VICE_NL, "Bevestigen van het aflsuiten van VICE" },
 /* pl */ { IDS_CONFIRM_QUITING_VICE_PL, "Potwierdzaj zamkniêcie VICE" },
 /* ru */ { IDS_CONFIRM_QUITING_VICE_RU, "¿ÞÔâÒÕàÔØâì ×ÐÚàëâØÕ VICE" },
 /* sv */ { IDS_CONFIRM_QUITING_VICE_SV, "Bekräfta för att avsluta VICE" },
-/* tr */ { IDS_CONFIRM_QUITING_VICE_TR, "VICE'dan çýkarken teyit et" },
+/* tr */ { IDS_CONFIRM_QUITING_VICE_TR, "VICE'dan çýkýþý teyit et" },
 
 /* en */ { IDS_NEVER_CONFIRM_QUITING_VICE,    "Never confirm quitting VICE" },
 /* da */ { IDS_NEVER_CONFIRM_QUITING_VICE_DA, "Bekræft ikke programafslutning" },
 /* de */ { IDS_NEVER_CONFIRM_QUITING_VICE_DE, "Keine Bestätigung beim Beenden von VICE" },
-/* es */ { IDS_NEVER_CONFIRM_QUITING_VICE_ES, "Nunca confirmar el cierre de VICE" },
-/* fr */ { IDS_NEVER_CONFIRM_QUITING_VICE_FR, "Ne pas demander de confirmation pour quitter VICE" },
-/* hu */ { IDS_NEVER_CONFIRM_QUITING_VICE_HU, "Sosem kér megerõsítést kilépés elõtt" },
-/* it */ { IDS_NEVER_CONFIRM_QUITING_VICE_IT, "Non confermare mai l'uscita da VICE" },
+/* es */ { IDS_NEVER_CONFIRM_QUITING_VICE_ES, "Nunca confirmar cierre de VICE" },
+/* fr */ { IDS_NEVER_CONFIRM_QUITING_VICE_FR, "Ne pas confirmer pour quitter VICE" },
+/* hu */ { IDS_NEVER_CONFIRM_QUITING_VICE_HU, "" },  /* fuzzy */
+/* it */ { IDS_NEVER_CONFIRM_QUITING_VICE_IT, "Never confirm quitting VICE" },
 /* ko */ { IDS_NEVER_CONFIRM_QUITING_VICE_KO, "VICE ¸¦ Àý´ë ³¡³»Áö ¾Ê½À´Ï´Ù" },
 /* nl */ { IDS_NEVER_CONFIRM_QUITING_VICE_NL, "Niet bevestigen van het afsluiten van VICE" },
 /* pl */ { IDS_NEVER_CONFIRM_QUITING_VICE_PL, "Nigdy nie potwierdzaj zamkniêcia VICE" },
 /* ru */ { IDS_NEVER_CONFIRM_QUITING_VICE_RU, "½ØÚÞÓÔÐ ÝÕ ßÞÔâÒÕàÖÔÐâì ×ÐÚàëâØÕ VICE" },
 /* sv */ { IDS_NEVER_CONFIRM_QUITING_VICE_SV, "Bekräfta inte för att avsluta VICE" },
-/* tr */ { IDS_NEVER_CONFIRM_QUITING_VICE_TR, "VICE'dan çýkarken asla teyit etme" },
+/* tr */ { IDS_NEVER_CONFIRM_QUITING_VICE_TR, "VICE'dan çýkýþý asla teyit etme" },
 
 /* en */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR,    "Specify initial default directory." },
 /* da */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_DA, "" },  /* fuzzy */
-/* de */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_DE, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_DE, "Initiales Standardverzeichnis wählen." },
 /* es */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SPECIFY_INITIAL_DEFAULT_DIR_HU, "" },  /* fuzzy */
@@ -7968,7 +7968,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SPECIFY_INITIAL_TAPE_DIR,    "Specify initial tape directory." },
 /* da */ { IDS_SPECIFY_INITIAL_TAPE_DIR_DA, "" },  /* fuzzy */
-/* de */ { IDS_SPECIFY_INITIAL_TAPE_DIR_DE, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFY_INITIAL_TAPE_DIR_DE, "Intiales Bandverzeichnis wählen." },
 /* es */ { IDS_SPECIFY_INITIAL_TAPE_DIR_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SPECIFY_INITIAL_TAPE_DIR_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SPECIFY_INITIAL_TAPE_DIR_HU, "" },  /* fuzzy */
@@ -7982,7 +7982,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SPECIFY_INITIAL_DISK_DIR,    "Specify initial disk directory." },
 /* da */ { IDS_SPECIFY_INITIAL_DISK_DIR_DA, "" },  /* fuzzy */
-/* de */ { IDS_SPECIFY_INITIAL_DISK_DIR_DE, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFY_INITIAL_DISK_DIR_DE, "Initiales Diskverzeichnis wählen." },
 /* es */ { IDS_SPECIFY_INITIAL_DISK_DIR_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SPECIFY_INITIAL_DISK_DIR_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SPECIFY_INITIAL_DISK_DIR_HU, "" },  /* fuzzy */
@@ -7996,7 +7996,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR,    "Specify initial autostart directory." },
 /* da */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_DA, "" },  /* fuzzy */
-/* de */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_DE, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_DE, "Initiales Autostartverzeichnis wählen." },
 /* es */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SPECIFY_INITIAL_AUTOSTART_DIR_HU, "" },  /* fuzzy */
@@ -8010,7 +8010,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SPECIFY_INITIAL_CART_DIR,    "Specify initial cartridge directory." },
 /* da */ { IDS_SPECIFY_INITIAL_CART_DIR_DA, "" },  /* fuzzy */
-/* de */ { IDS_SPECIFY_INITIAL_CART_DIR_DE, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFY_INITIAL_CART_DIR_DE, "Initiales Modulverzeichnis wählen." },
 /* es */ { IDS_SPECIFY_INITIAL_CART_DIR_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SPECIFY_INITIAL_CART_DIR_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SPECIFY_INITIAL_CART_DIR_HU, "" },  /* fuzzy */
@@ -8024,7 +8024,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR,    "Specify initial snapshot directory." },
 /* da */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_DA, "" },  /* fuzzy */
-/* de */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_DE, "" },  /* fuzzy */
+/* de */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_DE, "Initiales Snapshot verzeichnis wählen." },
 /* es */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SPECIFY_INITIAL_SNAPSHOT_DIR_HU, "" },  /* fuzzy */
@@ -8038,7 +8038,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_ENABLE_FULLSCREEN,    "Enable fullscreen." },
 /* da */ { IDS_ENABLE_FULLSCREEN_DA, "" },  /* fuzzy */
-/* de */ { IDS_ENABLE_FULLSCREEN_DE, "" },  /* fuzzy */
+/* de */ { IDS_ENABLE_FULLSCREEN_DE, "Vollbild Modus aktivieren." },
 /* es */ { IDS_ENABLE_FULLSCREEN_ES, "" },  /* fuzzy */
 /* fr */ { IDS_ENABLE_FULLSCREEN_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ENABLE_FULLSCREEN_HU, "" },  /* fuzzy */
@@ -8052,7 +8052,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DISABLE_FULLSCREEN,    "Disable fullscreen." },
 /* da */ { IDS_DISABLE_FULLSCREEN_DA, "" },  /* fuzzy */
-/* de */ { IDS_DISABLE_FULLSCREEN_DE, "" },  /* fuzzy */
+/* de */ { IDS_DISABLE_FULLSCREEN_DE, "Vollbild Modus deaktivieren." },
 /* es */ { IDS_DISABLE_FULLSCREEN_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DISABLE_FULLSCREEN_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DISABLE_FULLSCREEN_HU, "" },  /* fuzzy */
@@ -8066,7 +8066,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_ENABLE_STATUSBAR,    "Enable statusbar." },
 /* da */ { IDS_ENABLE_STATUSBAR_DA, "" },  /* fuzzy */
-/* de */ { IDS_ENABLE_STATUSBAR_DE, "" },  /* fuzzy */
+/* de */ { IDS_ENABLE_STATUSBAR_DE, "Statusleiste aktivieren." },
 /* es */ { IDS_ENABLE_STATUSBAR_ES, "" },  /* fuzzy */
 /* fr */ { IDS_ENABLE_STATUSBAR_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ENABLE_STATUSBAR_HU, "" },  /* fuzzy */
@@ -8080,7 +8080,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DISABLE_STATUSBAR,    "Disable statusbar." },
 /* da */ { IDS_DISABLE_STATUSBAR_DA, "" },  /* fuzzy */
-/* de */ { IDS_DISABLE_STATUSBAR_DE, "" },  /* fuzzy */
+/* de */ { IDS_DISABLE_STATUSBAR_DE, "Statusleiste deaktivieren." },
 /* es */ { IDS_DISABLE_STATUSBAR_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DISABLE_STATUSBAR_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DISABLE_STATUSBAR_HU, "" },  /* fuzzy */
@@ -8095,7 +8095,7 @@ intl_translate_t intl_string_table[] = {
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
 /* en */ { IDS_ENABLE_VIDEOOVERLAY,    "Enable video overlay." },
 /* da */ { IDS_ENABLE_VIDEOOVERLAY_DA, "" },  /* fuzzy */
-/* de */ { IDS_ENABLE_VIDEOOVERLAY_DE, "" },  /* fuzzy */
+/* de */ { IDS_ENABLE_VIDEOOVERLAY_DE, "Video Overlay aktivieren." },
 /* es */ { IDS_ENABLE_VIDEOOVERLAY_ES, "" },  /* fuzzy */
 /* fr */ { IDS_ENABLE_VIDEOOVERLAY_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ENABLE_VIDEOOVERLAY_HU, "" },  /* fuzzy */
@@ -8109,7 +8109,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DISABLE_VIDEOOVERLAY,    "Disable video overlay." },
 /* da */ { IDS_DISABLE_VIDEOOVERLAY_DA, "" },  /* fuzzy */
-/* de */ { IDS_DISABLE_VIDEOOVERLAY_DE, "" },  /* fuzzy */
+/* de */ { IDS_DISABLE_VIDEOOVERLAY_DE, "Video Overlay deaktivieren." },
 /* es */ { IDS_DISABLE_VIDEOOVERLAY_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DISABLE_VIDEOOVERLAY_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DISABLE_VIDEOOVERLAY_HU, "" },  /* fuzzy */
@@ -9845,7 +9845,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_USB_SERVER_ADDRESS,    "USB Server address to bind to" },
 /* da */ { IDS_USB_SERVER_ADDRESS_DA, "" },  /* fuzzy */
-/* de */ { IDS_USB_SERVER_ADDRESS_DE, "" },  /* fuzzy */
+/* de */ { IDS_USB_SERVER_ADDRESS_DE, "USB Server Adresse" },
 /* es */ { IDS_USB_SERVER_ADDRESS_ES, "" },  /* fuzzy */
 /* fr */ { IDS_USB_SERVER_ADDRESS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_USB_SERVER_ADDRESS_HU, "" },  /* fuzzy */
@@ -9865,7 +9865,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_IDE64_RTC_SAVE_HU, "" },  /* fuzzy */
 /* it */ { IDS_IDE64_RTC_SAVE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_IDE64_RTC_SAVE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_IDE64_RTC_SAVE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_IDE64_RTC_SAVE_NL, "Activeer opslaan van de IDE64 RTC data" },
 /* pl */ { IDS_IDE64_RTC_SAVE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_IDE64_RTC_SAVE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_IDE64_RTC_SAVE_SV, "" },  /* fuzzy */
@@ -11433,7 +11433,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_HU, "" },  /* fuzzy */
 /* it */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_NL, "Activeer het opslaan van de interne functie RTC data" },
 /* pl */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_SV, "" },  /* fuzzy */
@@ -11447,7 +11447,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_HU, "" },  /* fuzzy */
 /* it */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_NL, "Activeer het opslaan van de externe functie RTC data" },
 /* pl */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_SV, "" },  /* fuzzy */
@@ -11713,7 +11713,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_DS12C887RTC_SAVE_HU, "" },  /* fuzzy */
 /* it */ { IDS_DS12C887RTC_SAVE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_DS12C887RTC_SAVE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DS12C887RTC_SAVE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_DS12C887RTC_SAVE_NL, "Activeer het opslaan van de DS12C887 RTC data" },
 /* pl */ { IDS_DS12C887RTC_SAVE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DS12C887RTC_SAVE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DS12C887RTC_SAVE_SV, "" },  /* fuzzy */
@@ -12189,7 +12189,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SMART_MOUSE_RTC_SAVE_HU, "" },  /* fuzzy */
 /* it */ { IDS_SMART_MOUSE_RTC_SAVE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_SMART_MOUSE_RTC_SAVE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SMART_MOUSE_RTC_SAVE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_SMART_MOUSE_RTC_SAVE_NL, "Activeer het opslaan van de Smart Mouse RTC" },
 /* pl */ { IDS_SMART_MOUSE_RTC_SAVE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SMART_MOUSE_RTC_SAVE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SMART_MOUSE_RTC_SAVE_SV, "" },  /* fuzzy */

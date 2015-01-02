@@ -10770,7 +10770,8 @@ msgstr "Activeer het opslaan van de interne functie RTC data indien gewijzigd"
 
 #: src/translate_text.c.po.c:4084
 msgid "Disable saving of the internal function RTC data when changed."
-msgstr "Oplaan van de interne functie RTC data op indien gewijzigd uitschakelen"
+msgstr ""
+"Oplaan van de interne functie RTC data op indien gewijzigd uitschakelen"
 
 #: src/translate_text.c.po.c:4101
 msgid "Enable saving of the external function RTC data when changed."
@@ -10778,7 +10779,8 @@ msgstr "Activeer het opslaan van de externe functie RTC data indien gewijzigd"
 
 #: src/translate_text.c.po.c:4118
 msgid "Disable saving of the external function RTC data when changed."
-msgstr "Oplaan van de externe functie RTC data op indien gewijzigd uitschakelen"
+msgstr ""
+"Oplaan van de externe functie RTC data op indien gewijzigd uitschakelen"
 
 #: src/translate_text.c.po.c:4135
 msgid "Use old NTSC sync factor"
@@ -11114,7 +11116,8 @@ msgstr "Geef de naam van het MMC Replay card bestand"
 
 #: src/translate_text.c.po.c:5650
 msgid "Specify MMC Replay SD type (0: auto, 1: MMC, 2: SD, 3: SDHC)"
-msgstr "Geef de MMC Replay SD soort op (0: automatisch, 1: MMC, 2: SD, 3: SDHC)"
+msgstr ""
+"Geef de MMC Replay SD soort op (0: automatisch, 1: MMC, 2: SD, 3: SDHC)"
 
 #: src/translate_text.c.po.c:5667
 msgid "Enable writes to MMC Replay card image"
@@ -12655,7 +12658,9 @@ msgstr "Toon een lijst van de beschikbare opties en exit zoals normaal"
 #: src/translate_text.c.po.c:12485
 msgid ""
 "Show a list of the available compile-time options and their configuration."
-msgstr "Toon een lijst van de beschikbare 'compile-time' opties en de bij behorende configuraties."
+msgstr ""
+"Toon een lijst van de beschikbare 'compile-time' opties en de bij behorende "
+"configuraties."
 
 #: src/translate_text.c.po.c:12503
 msgid "Console mode (for music playback)"
