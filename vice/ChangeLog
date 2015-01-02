@@ -1,5 +1,685 @@
 ------------------------------------------------------------------------------
 
+2015-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.13
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/Makefile.in.in: Added '.NOTPARALLEL' target in the po directory
+	makefile, this should cause gnu make to build targets in the po
+	directory in serial instead of in parallel.
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resds12c887rtc.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resmouse.rc,
+	src/arch/win32/resuserportrtc.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resmouse.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uimouse.c: Added smart
+	mouse 'RTC save' support to the windows gui.
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am, src/arch/win32/c128ui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/resuserportrtc.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/uiuserportrtc.c, src/arch/win32/uiuserportrtc.h,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/cartconv.tgt, src/arch/win32/watcom/vice.wpj:
+	Added userport 'RTC save' support to the windows gui.
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/win32/res.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resdrivec128.rc,
+	src/arch/win32/resdrivec64.rc, src/arch/win32/resdrivec64dtv.rc,
+	src/arch/win32/resdriveplus4.rc, src/arch/win32/resdrivevic20.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uidrivec128.c,
+	src/arch/win32/uidrivec64.c, src/arch/win32/uidrivec64dtv.c,
+	src/arch/win32/uidriveplus4.c, src/arch/win32/uidrivevic20.c: Added
+	FD2000/4000 'RTC save' support to the windows gui.
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/win32/resdialogs.txt, src/arch/win32/reside64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uiide64.c: Added ide64
+	'RTC save' support to the windows gui.
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resds12c887rtc.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uids12c887rtc.c: Added
+	ds12c887 'RTC save' support to the windows gui.
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/win32/resc128.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt,
+	src/arch/win32/uic128.c: Added c128 internal/external function
+	'RTC save' support to the windows gui.
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/sdl/menu_c128hw.c,
+	src/arch/sdl/menu_c64_common_expansions.c, src/arch/sdl/menu_c64hw.c,
+	src/arch/sdl/menu_drive.c, src/arch/sdl/menu_mouse.c,
+	src/arch/sdl/menu_rom.c, src/arch/sdl/menu_scpu64hw.c,
+	src/arch/sdl/menu_vic20cart.c: Added 'RTC save' support to the sdl
+	gui.
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added most (but not all) of the
+	'RTC save' support to the os/2 gui.
+
+2015-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* README, doc/vice.texi, src/arch/amigaos/mui/mui.c,
+	src/arch/beos/ui.cc, src/arch/msdos/menudefs.c,
+	src/arch/os2/dialogs/dialogs.rc, src/arch/sdl/menu_help.c,
+	src/arch/unix/macosx/Info.plist, src/arch/unix/x11/gnome/about.c,
+	src/arch/unix/x11/xaw/about.c, src/arch/win32/res.rc, src/c1541.c:
+	Changed '2014' to '2015' where needed and 'moved'/'deleted' inactive
+	core team members from the various member lists.
+
+2014-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/scpu64ui.c,
+	src/arch/msdos/uidrivec128.c, src/arch/msdos/uidrivec64.c,
+	src/arch/msdos/uidrivec64dtv.c, src/arch/msdos/uidriveplus4.c,
+	src/arch/msdos/uidrivevic20.c, src/arch/msdos/uids12c887rtc.c,
+	src/arch/msdos/uiide64.c: Added 'RTC save' support to the dos tui.
+
+2014-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/beos/c128ui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/ui_drive.cc,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc: Added 'RTC save'
+	support to the beos gui.
+
+2014-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi,
+	src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uic128settings.c,
+	src/arch/amigaos/mui/uidrivec128.c, src/arch/amigaos/mui/uidrivec64.c,
+	src/arch/amigaos/mui/uidrivec64dtv.c,
+	src/arch/amigaos/mui/uidriveplus4.c,
+	src/arch/amigaos/mui/uidrivevic20.c,
+	src/arch/amigaos/mui/uids12c887rtc.c, src/arch/amigaos/mui/uiide64.c,
+	src/arch/amigaos/mui/uimouse.c, src/arch/amigaos/scpu64ui.c,
+	src/arch/amigaos/scpu64uires.h, src/arch/amigaos/uires.h: Added
+	'RTC save' support to the amiga gui.
+
+2014-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drive-cmdline-options.c, src/drive/drive-resources.c: Made
+	the drive RTC resources and command-line options iec machine specific.
+
+2014-12-30  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/unix/gui/Makefile.am, src/arch/unix/gui/c128ui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/scpu64ui.c, src/arch/unix/gui/uids12c887rtc.c,
+	src/arch/unix/gui/uiide64.c, src/arch/unix/gui/uimouse.c,
+	src/arch/unix/gui/uiperipheraliec.c,
+	src/arch/unix/gui/uiuserportrtc.c, src/arch/unix/gui/uiuserportrtc.h:
+	added GUI items for RTC saving to unix UI
+
+2014-12-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/rtc.c: removed useless code.
+
+2014-12-30  groepaz <groepaz@gmx.net>
+
+	* src/vicefeatures.c: include debug.h, use RS232DEV/RS232NET
+
+2014-12-30  groepaz <groepaz@gmx.net>
+
+	* src/rtc/rtc.c: fix warnings
+
+2014-12-30  groepaz <groepaz@gmx.net>
+
+	* src/lib.c, src/lib.h: make some params const, removes warning with
+	resid in debug mode
+
+2014-12-30  groepaz <groepaz@gmx.net>
+
+	* src/65816core.c: fix warnings
+
+2014-12-30  groepaz <groepaz@gmx.net>
+
+	* src/lib.c, src/lib.h: lib_free() and lib_free_pinpoint() must have
+	exactly same prototype
+
+2014-12-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65c02core.c, src/c128/c128-snapshot.c, src/c128/c128cia1.c,
+	src/c128/c128fastiec.c, src/c64/c64-snapshot.c, src/c64/c64cia1.c,
+	src/c64/c64cia2.c, src/c64/c64fastiec.c, src/c64/c64parallel.c,
+	src/c64/cart/c64tpi.c, src/c64/vsid-snapshot.c, src/c64/vsid.c,
+	src/c64/vsidcia1.c, src/c64/vsidcia2.c, src/c64/vsidstubs.c,
+	src/c64dtv/c64dtv-snapshot.c, src/cbm2/cbm2-snapshot.c,
+	src/cbm2/cbm2cia1.c, src/cbm2/cbm2tpi1.c, src/cbm2/cbm5x0-snapshot.c,
+	src/drive/drive.c, src/drive/drive.h, src/drive/drivecpu.c,
+	src/drive/drivecpu.h, src/drive/drivecpu65c02.c,
+	src/drive/drivecpu65c02.h, src/drive/iec/via4000.c,
+	src/iecbus/iecbus.c, src/parallel/parallel.c, src/pet/petpia1.c,
+	src/pet/petpia2.c, src/pet/petvia.c, src/plus4/plus4-snapshot.c,
+	src/plus4/plus4parallel.c, src/plus4/plus4tcbm.c,
+	src/scpu64/scpu64-snapshot.c, src/vic20/vic20iec.c,
+	src/vic20/vic20ieeevia1.c, src/vic20/vic20ieeevia2.c: Clean up the
+	R65C02 drive CPU mess. There was severe confusion 6510 and R65C02
+	drive CPUs. It only worked by luck, and because of the incorrectly
+	shared drive registers. That was the reason why the monitor didn't
+	show any cpu state for the R65C02. Also for the R65C02 drives
+	sometimes the 6510 was executing the code. Luckily the DOS does not
+	have R65C02 opcodes...
+
+2014-12-30  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/unix/gui/uisettings.c: added menu item to set
+	AutoPlaybackFrames in unix ui
+
+2014-12-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Some more resource/cmdline/documentation fixes.
+
+2014-12-29  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: updated c1541
+	documentation
+
+2014-12-29  groepaz <groepaz@gmx.net>
+
+	* src/c1541.c: added -extractgeos option, patch by michael steil
+
+2014-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/vsidlib.tmpl, src/c64/Makefile.am,
+	src/c64/vsid-cmdline-options.c: Made a vsid specific cmdline-options
+	source file.
+
+2014-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/base.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/win32/watcom/base.tgt,
+	src/arch/win32/watcom/vice.wpj: Added vicefeatures.c to the ow project
+	files.
+
+2014-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/c128/functionrom.c,
+	src/c64/cart/ds12c887rtc.c, src/c64/cart/ide64.c, src/c64/vsidstubs.c,
+	src/drive/drive-cmdline-options.c, src/drive/drive-resources.c,
+	src/drive/drive.c, src/drive/drive.h, src/mouse.c, src/rtc/bq4830y.c,
+	src/rtc/bq4830y.h, src/rtc/ds1202_1302.c, src/rtc/ds1202_1302.h,
+	src/rtc/ds1216e.c, src/rtc/ds1216e.h, src/rtc/ds12c887.c,
+	src/rtc/ds12c887.h, src/rtc/rtc-58321a.c, src/rtc/rtc-58321a.h,
+	src/translate.txt, src/translate_text.c, src/userport/userport_rtc.c:
+	Added resources and command lines to the devices that use an rtc for
+	the rtc saving enabled/disabled, and rewrote the code to only init the
+	rtc if it is actually being used.
+
+2014-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vicefeatures.c: Added 'stdlib.h' include for 'NULL'.
+
+2014-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/base.tmpl: Added 'vicefeatures.c' to the
+	win32 base template.
+
+2014-12-28  groepaz <groepaz@gmx.net>
+
+	* doc/gui-feature-checking.txt, doc/resource-and-cmdline-checking.txt,
+	src/Makefile.am, src/arch/unix/x11/gnome/about.c, src/initcmdline.c,
+	src/translate.txt, src/translate_text.c, src/vicefeatures.c,
+	src/vicefeatures.h: added generic function/list for querying the
+	enabled compile time features. added -features commandline options to
+	show the list. added list to about dialog in gnome ui.
+
+2014-12-28  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c:
+	(ffmpeg_output_driver_changed): use `log_verbose()'
+
+2014-12-28  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c:
+	(ffmpeg_output_driver_changed): fixed compiler warning.
+
+2014-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/rtc.c: Fixed.
+
+2014-12-28  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/gui/c64dtvui.c: fixed a compile warning.
+
+2014-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Fixed a vice.texi warning.
+
+2014-12-28  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Fixed header warning.
+
+2014-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid/configure.in, src/resid/filter.cc, src/resid/siddefs.h.in:
+	Check for log1p and provide 'log1p function' if not present.
+
+2014-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/c64/cart/c64carthooks.c, src/c64/cart/magicvoice.c,
+	src/c64/cart/magicvoice.h, src/c64/cart/mmc64.c,
+	src/c64/cart/mmcreplay.c, src/translate.txt, src/translate_text.c:
+	Some more resource/cmdline/documentation fixes.
+
+2014-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/rtc/bq4830y.c, src/rtc/bq4830y.h, src/rtc/ds1202_1302.c,
+	src/rtc/ds1202_1302.h, src/rtc/ds1216e.c, src/rtc/ds1216e.h,
+	src/rtc/ds12c887.c, src/rtc/ds12c887.h, src/rtc/rtc-58321a.c,
+	src/rtc/rtc-58321a.h: Only save if changed
+
+2014-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: With lib_free
+
+2014-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: This should not be here. Only resources here.
+
+2014-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/vsidstubs.c, src/scpu64/scpu64stubs.c: Fix stubs. Otherwise
+	fsdevice_open_file segfaults.
+
+2014-12-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64.c: Fix debug options
+
+2014-12-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64.c: Remove datasette options
+
+2014-12-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/resid/filter.cc: Use log1p
+
+2014-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/c64/cart/isepic.c, src/translate.txt, src/translate_text.c: Some
+	more resource/cmdline/documentation fixes.
+
+2014-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/ds1202_1302.h, src/rtc/rtc.c: Fixed the ram size of the
+	ds1202/1302 and optimized the rtc conversion code a bit.
+
+2014-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi,
+	src/arch/amigaos/mui/uiide64.c, src/arch/beos/ui_ide64.cc,
+	src/arch/msdos/uiide64.c, src/arch/os2/dialogs/dlg-ide64.rc,
+	src/arch/sdl/menu_c64_common_expansions.c,
+	src/arch/unix/gui/uiide64.c, src/arch/win32/uiide64.c,
+	src/c128/functionrom.c, src/c64/cart/ide64.c, src/drive/drive.c,
+	src/mouse.c, src/userport/userport_rtc.c: Some more
+	resource/cmdline/documentation fixes.
+
+2014-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/Makefile.am: Added missing template.
+
+2014-12-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/rtc.c: Fixed.
+
+2014-12-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/bq4830y.c, src/rtc/ds1202_1302.c, src/rtc/ds1216e.c,
+	src/rtc/ds12c887.c, src/rtc/rtc-58321a.c, src/rtc/rtc.c,
+	src/rtc/rtc.h: Finished the rtc load/save system.
+
+2014-12-25  groepaz <groepaz@gmx.net>
+
+	* src/printerdrv/drv-ascii.c: fix line endings on platforms that want
+	to see CRLF
+
+2014-12-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am: Fixed.
+
+2014-12-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ds12c887rtc.c, src/c64/cart/ide64.c,
+	src/c64/vsidstubs.c, src/drive/drive.c, src/drive/drive.h,
+	src/mouse.c, src/rtc/bq4830y.c, src/rtc/ds1202_1302.c,
+	src/rtc/ds1202_1302.h, src/rtc/ds1216e.c, src/rtc/ds1216e.h,
+	src/rtc/ds12c887.c, src/rtc/ds12c887.h, src/rtc/rtc-58321a.c,
+	src/rtc/rtc-58321a.h, src/rtc/rtc.c, src/rtc/rtc.h,
+	src/userport/userport_rtc.c: Some progress on the rtc offset/data
+	system, saving works now, next is the loading part.
+
+2014-12-24  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/c64/c64-cmdline-options.c,
+	src/c64/c64-resources.c, src/c64/c64-resources.h, src/c64/c64mem.h,
+	src/c64/c64model.c, src/c64/c64model.h, src/c64/c64rom.c,
+	src/c64/c64rom.h, src/c64/c64scmodel.c, src/c64/patchrom.c,
+	src/c64/patchrom.h, src/c64/vsid-resources.c,
+	src/c64dtv/c64dtv-cmdline-options.c, src/c64dtv/c64dtv-resources.c,
+	src/c64dtv/c64dtv-resources.h, src/scpu64/scpu64-resources.c,
+	src/scpu64/scpu64-resources.h: converted KernalRev resource to int,
+	removed useless references to KernalRev and kernal_revision from DTV,
+	VSID, SCPU. kernal ROM loading and patching reworked so it works at
+	runtime (by changing KernalRev). added menu items to unix UI.
+
+2014-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/archdep.c, src/arch/beos/archdep.c,
+	src/arch/msdos/archdep.c, src/arch/os2/archdep.c,
+	src/arch/sdl/archdep_amiga.c, src/arch/sdl/archdep_beos.c,
+	src/arch/sdl/archdep_cegcc.c, src/arch/sdl/archdep_dingoo.c,
+	src/arch/sdl/archdep_unix.c, src/arch/sdl/archdep_win32.c,
+	src/arch/sdl/archdep_xbox.c, src/arch/unix/archdep.c,
+	src/arch/win32/archdep.c, src/archapi.h, src/c128/functionrom.c,
+	src/rtc/bq4830y.c, src/rtc/bq4830y.h, src/rtc/rtc.c, src/rtc/rtc.h:
+	Started on an rtc ram/register/offset save system.
+
+2014-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Some more resource/cmdline/documentation fixes.
+
+2014-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/c64/cart/expert.c, src/translate.txt, src/translate_text.c: Some
+	more resource/cmdline/documentation fixes.
+
+2014-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi,
+	src/arch/amigaos/intl_text.c, src/arch/unix/gui/uisettings.c,
+	src/arch/win32/res.rc: 'quiting' -> 'quitting'
+
+2014-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/c64/c64_256k.c: Some more resource/cmdline/documentation fixes.
+
+2014-12-23  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c64dtvui.c, src/arch/unix/gui/uiprinter.h,
+	src/arch/unix/gui/uiprinteriec.c: remove userport printer menu from
+	DTV
+
+2014-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiperipheral.c: Improved the code for finding out if
+	the current machine can handle a userport printer.
+
+2014-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutput.h, src/gfxoutputdrv/Makefile.am,
+	src/gfxoutputdrv/gfxoutput.c, src/gfxoutputdrv/gifdrv.h: Added gif
+	driver header and moved the gif driver prototype to that header.
+
+2014-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutput.h: Added a comment.
+
+2014-12-23  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/uisettings.c, src/arch/unix/gui/uisettings.h: added
+	DTV debug options to unix gui
+
+2014-12-23  groepaz <groepaz@gmx.net>
+
+	* doc/building/Linux-Native-Howto.txt: updated
+
+2014-12-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* doc/readmes/Readme-DOS.txt, doc/readmes/Readme-OS2.txt,
+	doc/readmes/Readme-Unix.txt: Fix eol-style of Readme files: native for
+	Unix and CRLF for DOS and OS2.
+
+2014-12-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* doc/CIA-README.txt, doc/Documentation-Howto.txt,
+	doc/Doxygen-Howto.txt, doc/MacOSX-ResourceTree.txt,
+	doc/building/Linux-Mingw32-Howto.txt,
+	doc/building/Linux-Native-Howto.txt, doc/building/MacOSX-Howto.txt,
+	doc/building/Win32-MSVC-Howto.txt, doc/checkdoc.c, doc/checkdoc.mak,
+	doc/checkdoc.mon, doc/gui-feature-checking.txt, doc/mkdoxy.sh,
+	doc/resource-and-cmdline-checking.txt, doc/src2doxy.sh,
+	doc/txt2doxy.sh, doc/uncrustify.cfg: Fix svn properties.
+
+2014-12-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/amigaos/c128ui.c: Some more resource/cmdline/documentation
+	fixes.
+
+2014-12-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/beos/vicemenu.cc, src/arch/os2/dialogs/menubar.rc,
+	src/arch/unix/gui/c128ui.c: Some more resource/cmdline/documentation
+	fixes.
+
+2014-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Some more resource/cmdline/documentation fixes.
+
+2014-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, doc/resource-and-cmdline-checking.txt,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.texi, doc/vice.txt: Added a small dingoo native
+	specific section.
+
+2014-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Some more windows resource/cmdline/documentation fixes.
+
+2014-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/win32/fullscrn.c,
+	src/arch/win32/res.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/ui-resources.c: Removed the (unused/useless)
+	'FullscreenBitdepth' resource from the windows port.
+
+2014-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/scpu64ui.c,
+	src/arch/win32/vic20ui.c: Fixed.
+
+2014-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.texi, doc/vice.txt: Updated.
+
+2014-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/win32/fullscrn.c, src/arch/win32/fullscrn.h,
+	src/arch/win32/gifdrv.c, src/arch/win32/res.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/ui-resources.c,
+	src/arch/win32/video.c, src/gfxoutput.h: Some more windows
+	resource/cmdline/documentation fixes.
+
+2014-12-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uidialogs.c: fix behaviour of safety request
+	at exit
+
+2014-12-20  groepaz <groepaz@gmx.net>
+
+	* src/c64/vsidstubs.c, src/gfxoutput.h, src/gfxoutputdrv/bmpdrv.c,
+	src/gfxoutputdrv/bmpdrv.h, src/gfxoutputdrv/doodledrv.c,
+	src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpegdrv.h,
+	src/gfxoutputdrv/gfxoutput.c, src/gfxoutputdrv/gifdrv.c,
+	src/gfxoutputdrv/iffdrv.c, src/gfxoutputdrv/iffdrv.h,
+	src/gfxoutputdrv/jpegdrv.c, src/gfxoutputdrv/jpegdrv.h,
+	src/gfxoutputdrv/koaladrv.c, src/gfxoutputdrv/nativedrv.h,
+	src/gfxoutputdrv/pcxdrv.c, src/gfxoutputdrv/pcxdrv.h,
+	src/gfxoutputdrv/pngdrv.c, src/gfxoutputdrv/pngdrv.h,
+	src/gfxoutputdrv/ppmdrv.c, src/gfxoutputdrv/ppmdrv.h,
+	src/gfxoutputdrv/quicktimedrv.c, src/gfxoutputdrv/quicktimedrv.h,
+	src/main.c: fix bug that prevented the commandline options help for
+	doodle/koala/ffmpeg/quicktime drivers from showing up in the -help
+	output
+
+2014-12-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/building/Makefile.am: Added the new file.
+
+2014-12-20  groepaz <groepaz@gmx.net>
+
+	* doc/building/Linux-Native-Howto.txt: updated
+
+2014-12-20  groepaz <groepaz@gmx.net>
+
+	* doc/building/Linux-Native-Howto.txt: some notes on building VICE in
+	linux
+
+2014-12-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/fullscrn.c,
+	src/arch/win32/petui.c, src/arch/win32/plus4ui.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm5x0.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/ui-resources.c, src/arch/win32/ui.c,
+	src/arch/win32/vic20ui.c: Some more windows
+	resource/cmdline/documentation fixes.
+
+2014-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/win32/ui-resources.c: Put '#ifdef HAVE_D3D9_H' around windows
+	fullscreen elements.
+
+2014-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/msvc/ide-config.h,
+	src/arch/win32/petui.c, src/arch/win32/plus4ui.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm5x0.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvsid.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/ui-resources.c, src/arch/win32/ui.c,
+	src/arch/win32/ui.h, src/arch/win32/uilib.c, src/arch/win32/uilib.h,
+	src/arch/win32/vic20ui.c, src/arch/win32/vsidui.c: Some windows
+	resource/cmdline/documentation fixes.
+
+2014-12-19  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2014-12-19  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c: Added missing includes
+	`cmdline.h' and `translate.h'. Fixes compilation breakage.
+
+2014-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/ui-resources.c, src/arch/win32/c128ui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/mididrv.c,
+	src/arch/win32/msvc/ide-config.h, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/scpu64ui.c, src/arch/win32/uimidi.c,
+	src/arch/win32/vic20ui.c: Some more resource/cmdline/documentation
+	fixes.
+
+2014-12-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/unix/x11/xaw/x11video.c: Some more unix
+	resource/cmdline/documentation fixes.
+
 2014-12-16  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
