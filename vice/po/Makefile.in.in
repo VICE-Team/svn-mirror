@@ -59,6 +59,8 @@ CATALOGS = $(POFILES:%.po=%$(CATOBJEXT))
 CATOBJEXT = @CATOBJEXT@
 INSTOBJEXT = @INSTOBJEXT@
 
+.NOTPARALLEL:
+
 .SUFFIXES:
 .SUFFIXES: .c .o .po .pox .gmo .mo .msg .cat .rc .rc.po.c .c.po.c
 
