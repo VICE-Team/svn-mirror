@@ -107,36 +107,64 @@ static UI_CALLBACK(activate_monitor)
     }
 }
 
+/* run c1541, termvar points to the terminal program to use */
+static int runc1541(char *termvar)
+{
+    char *termexec;
+    int err;
+
+    termexec = lib_malloc(strlen(termvar) + PATH_MAX);
+    strcpy(termexec, termvar);
+    strcat(termexec, " -e ");
+    strcat(termexec, PREFIX);
+    strcat(termexec, "/bin/c1541");
+    err = system(termexec);
+    lib_free(termexec);
+    return err;
+}
+
 static UI_CALLBACK(run_c1541)
 {
-    char *termvar, *termexec;
+    int i = 0;
+    char *termvar;
+    char *terms[5] = {
+        "konsole",
+        "gterm",
+        "aterm",
+        "xterm -sb -rightbar",
+        NULL
+    };
+    int err = -1;
 #ifdef HAVE_FULLSCREEN
     fullscreen_suspend(0);
 #endif
     vsync_suspend_speed_eval();
     sound_close();
-    /* try to get the system terminal from the TERM variable */
-    if (!(termvar = getenv("TERM"))) {
-        /* use xterm as fallback */
-        termvar = "xterm -sb -rightbar";
-    }
-    termexec = lib_malloc(strlen(termvar) + 20);
-    strcpy(termexec, termvar);
-    strcat(termexec, " -e c1541 &");
 
-    switch (system(termexec)) {
-        case 127:
+    /* first try the TERM environment variable */
+    if ((termvar = getenv("TERM"))) {
+        err = runc1541(termvar);
+    }
+    /* try a couple of known terminal programs */
+    while ((err != 0) && (terms[i])) {
+        err = runc1541(terms[i]);
+        i++;
+    }
+    switch (err) {
+        case 127: /* If a shell could not be executed in the child process,
+                     then the return value is as though the child shell
+                     terminated by calling _exit(2) with the status 127 */
             ui_error(_("Couldn't run /bin/sh???"));
             break;
-        case -1:
-            ui_error(_("Couldn't run xterm"));
+        case -1: /*  If a child process could not be created,
+                     or its status could not be retrieved */
+            ui_error(_("Couldn't run terminal"));
             break;
         case 0:
             break;
         default:
             ui_error(_("Unknown error while running c1541"));
     }
-    lib_free(termexec);
 }
 
 static UI_CALLBACK(drive_reset)
