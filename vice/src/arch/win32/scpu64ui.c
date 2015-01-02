@@ -67,6 +67,7 @@
 #include "uisid.h"
 #include "uisoundexpander.h"
 #include "uitfe.h"
+#include "uiuserportrtc.h"
 #include "uivicii.h"
 #include "uivideo.h"
 #include "videoarch.h"
@@ -75,7 +76,6 @@ static const ui_menu_toggle_t scpu64_ui_menu_toggles[] = {
     { "Mouse", IDM_MOUSE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
-    { "UserportRTC", IDM_TOGGLE_USERPORT_RTC },
     { "IECReset", IDM_TOGGLE_RESET_IEC_WITH_CPU },
     { NULL, 0 }
 };
@@ -328,7 +328,6 @@ ui_menu_translation_table_t scpu64ui_menu_translation_table[] = {
     { IDM_EASYFLASH_SETTINGS, IDS_MI_EASYFLASH_SETTINGS },
     { IDM_SFX_SE_SETTINGS, IDS_MI_SFX_SE_SETTINGS },
     { IDM_TOGGLE_SFX_SS, IDS_MI_TOGGLE_SFX_SS },
-    { IDM_TOGGLE_USERPORT_RTC, IDS_MI_TOGGLE_USERPORT_RTC },
     { IDM_SETTINGS_SAVE_FILE, IDS_MI_SETTINGS_SAVE_FILE },
     { IDM_SETTINGS_LOAD_FILE, IDS_MI_SETTINGS_LOAD_FILE },
     { IDM_SETTINGS_SAVE, IDS_MI_SETTINGS_SAVE },
@@ -357,6 +356,7 @@ ui_menu_translation_table_t scpu64ui_menu_translation_table[] = {
 #ifdef HAVE_D3D9_H
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
 #endif
+    { IDM_USERPORT_RTC_SETTINGS, IDS_MI_USERPORT_RTC_SETTINGS },
     { 0, 0 }
 };
 
@@ -571,6 +571,9 @@ static void scpu64_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_DS12C887RTC_SETTINGS:
             ui_ds12c887rtc_settings_dialog(hwnd);
+            break;
+        case IDM_USERPORT_RTC_SETTINGS:
+            ui_userport_rtc_settings_dialog(hwnd);
             break;
         case IDM_LIGHTPEN_SETTINGS:
             ui_lightpen_settings_dialog(hwnd);
