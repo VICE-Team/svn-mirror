@@ -5594,7 +5594,7 @@ Attach raw 16kB Zaxxon cartridge image.
 @vindex CIA1Model
 @item CIA1Model
 @c the exceptions will be corrected as the resource list is implemented
-Integer specifying CIA1 model (all emulators except xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+Integer specifying CIA1 model (all emulators except xscpu64/x64dtv/xpet/xplus4/xvic/vsid).
 (0=old 6526, 1=new 6526A)
 @vindex CIA2Model
 @item CIA2Model
@@ -5621,7 +5621,7 @@ Set both CIA models
 Set CIA1 model
 (@code{CIA1Model})
 @c the exceptions will be corrected as the resource list is implemented
-(all emulators except xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+(all emulators except xscpu64/x64dtv/xpet/xplus4/xvic/vsid).
 (0=old 6526, 1=new 6526A)
 @findex -cia2model
 @item -cia2model <model>
@@ -8381,7 +8381,7 @@ Boolean specifying whether vertical stretching is turned on.
 
 @vindex CrtcPaletteFile
 @item CrtcPaletteFile
-String specifying the name of the palette file being used.  The
+String specifying the name of the palette file being used. The
 @file{.vpl} extension is optional.
 
 @vindex CrtcExternalPalette
@@ -8390,19 +8390,19 @@ Boolean specifying whether to use external palette file or not.
 
 @vindex CrtcColorSaturation
 @item CrtcColorSaturation
-integer specifying saturation of internal calculated palette [1250] <0-2000>
+integer specifying saturation of internal calculated palette (0..2000).
 
 @vindex CrtcColorContrast
 @item CrtcColorContrast
-integer specifying contrast of internal calculated palette [1250] <0-2000>
+integer specifying contrast of internal calculated palette (0..2000).
 
 @vindex CrtcColorBrightness
 @item CrtcColorBrightness
-integer specifying brightness of internal calculated palette [1000] <0-2000>
+integer specifying brightness of internal calculated palette (0..2000).
 
 @vindex CrtcColorGamma
 @item CrtcColorGamma
-integer specifying gamma of internal calculated palette [2200] <0-4000>
+integer specifying gamma of internal calculated palette (0..4000).
 
 @vindex CrtcColorTint
 @item CrtcColorTint
@@ -8410,19 +8410,19 @@ integer specifying tint of internal calculated palette [1000] <0-2000>
 
 @vindex CrtcPALScanLineShade
 @item CrtcPALScanLineShade
-integer specifying amount of scan line shading for the CRT emulation [750] <0-1000>
+integer specifying amount of scan line shading for the CRT emulation (0..1000).
 
 @vindex CrtcPALBlur
 @item CrtcPALBlur
-integer specifying amount of horizontal blur for the CRT emulation. [500] <0-1000>
+integer specifying amount of horizontal blur for the CRT emulation (0..1000).
 
 @vindex CrtcPALOddLinePhase
 @item CrtcPALOddLinePhase
-integer specifying phase for color carrier in odd lines [1125] <0-2000>
+integer specifying phase for color carrier in odd lines (0..2000).
 
 @vindex CrtcPALOddLineOffset
 @item CrtcPALOddLineOffset
-integer specifying phase offset for color carrier in odd lines [875] <0-2000>
+integer specifying phase offset for color carrier in odd lines (0..2000).
 
 @vindex CrtcAudioLeak
 @item CrtcAudioLeak
@@ -8430,7 +8430,7 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 
 @vindex CrtcFilter
 @item CrtcFilter
-integer specifying rendering filter, 0:none, 1:CRT emulation, 2: scale2x
+integer specifying rendering filter (0=none, 1=CRT emulation, 2=scale2x).
 
 @end table
 
@@ -8438,65 +8438,82 @@ integer specifying rendering filter, 0:none, 1:CRT emulation, 2: scale2x
 @subsubsection CRTC command-line options
 
 @table @code
-@cindex -Crtcvcache, +Crtcvcache
+@findex -Crtcvcache, +Crtcvcache
 @item -Crtcvcache
 @itemx +Crtcvcache
 Enable/Disable the video cache
-@cindex -Crtcdsize, +Crtcdsize
+(@code{CrtcVideoCache=1}, @code{CrtcVideoCache=0}).
+@findex -Crtcdsize, +Crtcdsize
 @item -Crtcdsize
 @itemx +Crtcdsize
 Enable/Disable double size
-@cindex -CRTCstretchvertical, +CRTCstretchvertical
+(@code{CrtcDoubleSize=1}, @code{CrtcDoubleSize=0}).
+@findex -CRTCstretchvertical, +CRTCstretchvertical
 @item -CRTCstretchvertical
 @itemx +CRTCstretchvertical
 Enable/Disable vertical stretching
-@cindex -Crtcdscan, +Crtcdscan
+(@code{CrtcStretchVertical=1}, @code{CrtcStretchVertical=0}).
+@findex -Crtcdscan, +Crtcdscan
 @item -Crtcdscan
 @itemx +Crtcdscan
 Enable/Disable double scan
-@cindex -Crtcfilter
+(@code{CrtcDoubleScan=1}, @code{CrtcDoubleScan=0}).
+@findex -Crtcfilter
 @item -Crtcfilter <Mode>
-Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x
-@cindex -Crtcintpal
+Select rendering filter
+(@code{CrtcFilter}).
+(0=none, 1=CRT emulation, 2=scale2x)
+@findex -Crtcintpal
 @item -Crtcintpal
 Use an internal calculated palette
-@cindex -Crtcextpal
+(@code{CrtcExternalPalette=0}).
+@findex -Crtcextpal
 @item -Crtcextpal
 Use an external palette (file)
-@cindex -Crtcpalette
-@item -Crtcpalette NAME
-Specify @code{NAME} as the palette file (@code{CrtcPaletteFile}).
+(@code{CrtcExternalPalette=1}).
+@findex -Crtcpalette
+@item -Crtcpalette <name>
+Specify the name of the palette file
+(@code{CrtcPaletteFile}).
 @cindex -CrtcVidmodefullmode
 @item -CrtcVidmodefullmode <mode>
 Select fullscreen mode
 
-@cindex -Crtcsaturation
+@findex -Crtcsaturation
 @item -Crtcsaturation <0-2000>
-Set saturation of internal calculated palette [1250]
-@cindex -Crtccontrast
+Set saturation of internal calculated palette
+(@code{CrtcColorSaturation}).
+@findex -Crtccontrast
 @item -Crtccontrast <0-2000>
-Set contrast of internal calculated palette [1250]
-@cindex -Crtcbrightness
+Set contrast of internal calculated palette
+(@code{CrtcColorContrast}).
+@findex -Crtcbrightness
 @item -Crtcbrightness <0-2000>
-Set brightness of internal calculated palette [1000]
-@cindex -Crtcgamma
+Set brightness of internal calculated palette
+(@code{CrtcColorBrightness}).
+@findex -Crtcgamma
 @item -Crtcgamma <0-4000>
-Set gamma of internal calculated palette [2200]
+Set gamma of internal calculated palette
+(@code{CrtcColorGamma}).
 @cindex -Crtctint
 @item -Crtctint <0-2000>
 Set tint of internal calculated palette [1000]
-@cindex -Crtcoddlinesphase
+@findex -Crtcoddlinesphase
 @item -Crtcoddlinesphase <0-2000>
-Set phase for color carrier in odd lines [1125]
-@cindex -Crtcoddlinesoffset
+Set phase for color carrier in odd lines
+(@code{CrtcPALOddLinePhase}).
+@findex -Crtcoddlinesoffset
 @item -Crtcoddlinesoffset <0-2000>
-Set phase offset for color carrier in odd lines [875]
-@cindex -Crtccrtblur
+Set phase offset for color carrier in odd lines
+(@code{CrtcPALOddLineOffset}).
+@findex -Crtccrtblur
 @item -Crtccrtblur <0-1000>
-Amount of horizontal blur for the CRT emulation. [500]
-@cindex -Crtccrtscanlineshade
+Amount of horizontal blur for the CRT emulation
+(@code{CrtcPALBlur}).
+@findex -Crtccrtscanlineshade
 @item -Crtccrtscanlineshade <0-1000>
-Amount of scan line shading for the CRT emulation [750]
+Amount of scan line shading for the CRT emulation
+(@code{CrtcPALScanLineShade}).
 
 @cindex -Crtcaudioleak, +Crtcaudioleak
 @item -Crtcaudioleak
@@ -9011,8 +9028,24 @@ and either for 8 (C6x0) or 14 (C7x0) scanlines per character.
 
 @vindex ChargenName
 @item ChargenName
-String specifying the name of the character generator ROM (default
-@file{chargen.600}).
+String specifying the name of the character generator ROM
+(default for xcbm2: @file{chargen.600}, default for xcbm5x0: @file{chargen.500}).
+
+@vindex KernalName
+@item KernalName
+String specifying the name of the Kernal ROM
+(default for xcbm2: @file{kernal}, default for xcbm5x0: @file{kernal.500}).
+
+@vindex BasicName
+@item BasicName
+String specifying the name of the Basic ROM
+(default for xcbm2: @file{basic.128}, default for xcbm5x0: @file{basic.500}).
+
+@vindex MachineVideoStandard
+@item MachineVideoStandard
+@c will be 'fixed' for xcbm2 later, for now xcbm5x0 only
+Integer that specifies the video standard of the emulated machine
+(-1: PAL, -2: NTSC).
 
 @end table
 
@@ -9057,13 +9090,16 @@ will emulate a CBM 610 while @samp{xcbm2 -model 620} will emulate a CBM
 @subsubsection CBM-II system ROM command line options
 
 @table @code
-@cindex -kernal
-@item -kernal NAME
-Specify @file{NAME} as the Kernal ROM file (@code{KernalName}).
 
-@cindex -basic
-@item -basic NAME
-Specify @file{NAME} as the Basic ROM file (@code{BasicName}).
+@findex -kernal
+@item -kernal <name>
+Specify the name of the Kernal ROM file
+(@code{KernalName}).
+
+@findex -basic
+@item -basic <name>
+Specify the name of the Basic ROM file
+(@code{BasicName}).
 
 @findex -chargen
 @item -chargen <name>

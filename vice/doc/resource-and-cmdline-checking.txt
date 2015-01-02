@@ -7826,11 +7826,496 @@ prepocessor:
 command-line:                   -chargen / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 
+cbm2/cbm5x0-resources.c:
+------------------------
+resource type:                  string
+resource name:                  "ChargenName"
+resource range:                 N/A
+resource default:               CBM2_CHARGEN500
+resource function:              set_chargen_rom_name()
+resource var:                   chargen_name
+resource emulators:             xcbm5x0
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -chargen / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
+
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -chargen <Name>
 description:    "Specify name of character generator ROM image"
 resource:       "ChargenName"
+action:         N/A
+
+cbm2/cbm2-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "KernalName"
+resource range:                 N/A
+resource default:               CBM2_KERNAL
+resource function:              set_kernal_rom_name()
+resource var:                   kernal_rom_name
+resource emulators:             xcbm2
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -kernal / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+fixme: add to documentation
+
+cbm2/cbm5x0-resources.c:
+------------------------
+resource type:                  string
+resource name:                  "KernalName"
+resource range:                 N/A
+resource default:               CBM2_KERNAL500
+resource function:              set_kernal_rom_name()
+resource var:                   kernal_rom_name
+resource emulators:             xcbm5x0
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -kernal / -model
+platform gui present:           amigaos/beos/dos/unix/os2/sdl/osx/windows
+fixme: add to documentation
+
+cbm2/cbm2-cmdline-options.c:
+----------------------------
+command line:   -kernal <Name>
+description:    "Specify name of Kernal ROM image"
+resource:       "KernalName"
+action:         N/A
+
+cbm2/cbm2-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "BasicName"
+resource range:                 N/A
+resource default:               CBM2_BASIC128
+resource function:              set_basic_rom_name()
+resource var:                   basic_rom_name
+resource emulators:             xcbm2
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -basic / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+fixme: add to documentation
+
+cbm2/cbm5x0-resources.c:
+------------------------
+resource type:                  string
+resource name:                  "BasicName"
+resource range:                 N/A
+resource default:               CBM2_BASIC500
+resource function:              set_basic_rom_name()
+resource var:                   basic_rom_name
+resource emulators:             xcbm5x0
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -basic / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+fixme: add to documentation
+
+cbm2/cbm2-cmdline-options.c:
+----------------------------
+command line:   -basic <Name>
+description:    "Specify name of BASIC ROM image"
+resource:       "BasicName"
+action:         N/A
+
+cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
+cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
+----------------------------------------------------------------------
+resource type:                  int
+resource name:                  "CIA1Model"
+resource range:                 0/1 (CIA_MODEL_6526 (0), CIA_MODEL_6526A (1))
+resource default:               CIA_MODEL_6526 (0)
+resource function:              set_cia1_model()
+resource var:                   cia1_model
+resource emulators:             xcbm2/xcbm5x0
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -cia1model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+cbm2/cbm2-cmdline-options.c:
+----------------------------
+command line:   -cia1model <Model>
+description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
+resource:       "CIA1Model"
+action:         N/A
+
+cbm2/cbm5x0-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "MachineVideoStandard"
+resource range:                 -2..-1 (MACHINE_SYNC_PAL (-1), MACHINE_SYNC_NTSC (-2))
+resource default:               MACHINE_SYNC_PAL (-1)
+resource function:              cbm5x0_set_sync_factor()
+resource var:                   sync_factor
+resource emulators:             xcbm5x0
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -pal / -ntsc / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "CrtcStretchVertical"
+resource range:                 0/1
+resource default:               1
+resource function:              set_stretch()
+resource var:                   crtc_stretchy
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCstretchvertical / +CRTCstretchvertical
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCstretchvertical
+description:    "Enable additional vertical stretching."
+resource:       "CrtcStretchVertical" (set to 1)
+action:         N/A
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   +CRTCstretchvertical
+description:    "Disable additional vertical stretching."
+resource:       "CrtcStretchVertical" (set to 0)
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "CrtcVideoCache"
+resource range:                 0/1
+resource default:               1
+resource function:              set_video_cache_enabled()
+resource var:                   raster_resource_chip->video_cache_enabled
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCvcache / +CRTCvcache
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCvcache
+description:    "Enable the video cache"
+resource:       "CrtcVideoCache" (set to 1)
+action:         N/A
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   +CRTCvcache
+description:    "Disable the video cache"
+resource:       "CrtcVideoCache" (set to 0)
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "CrtcDoubleSize"
+resource range:                 0/1
+resource default:               0
+resource function:              set_double_size_enabled()
+resource var:                   crtc.raster->canvas->videoconfig->double_size_enabled
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCdsize / +CRTCdsize
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCdsize
+description:    "Enable double size"
+resource:       "CrtcDoubleSize" (set to 1)
+action:         N/A
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   +CRTCdsize
+description:    "Disable double size"
+resource:       "CrtcDoubleSize" (set to 0)
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "CrtcDoubleScan"
+resource range:                 0/1
+resource default:               1
+resource function:              set_double_scan_enabled()
+resource var:                   crtc.raster->canvas->videoconfig->doublescan
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCdscan / +CRTCdscan
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCdscan
+description:    "Enable double scan"
+resource:       "CrtcDoubleScan" (set to 1)
+action:         N/A
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   +CRTCdscan
+description:    "Disable double scan"
+resource:       "CrtcDoubleScan" (set to 0)
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CrtcFilter"
+resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1), VIDEO_FILTER_SCALE2X (2))
+resource default:               VIDEO_FILTER_CRT (1)
+resource function:              set_chip_rendermode()
+resource var:                   crtc.raster->canvas->videoconfig->filter
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCfilter
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCfilter <Mode>
+description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
+resource:       "CrtcFilter"
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "CrtcPaletteFile"
+resource range:                 N/A
+resource default:               "green"
+resource function:              set_palette_file_name()
+resource var:                   crtc.raster->canvas->videoconfig->external_palette_name
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCpalette
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCpalette <Name>
+description:    "Specify name of file of external palette"
+resource:       "CrtcPaletteFile"
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "CrtcExternalPalette"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ext_palette()
+resource var:                   crtc.raster->canvas->videoconfig->external_palette
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCintpal / -CRTCextpal
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCintpal
+description:    "Use an internal calculated palette"
+resource:       "CrtcExternalPalette" (set to 0)
+action:         N/A
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCextpal
+description:    "Use an external palette (file)"
+resource:       "CrtcExternalPalette" (set to 1)
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CrtcColorSaturation"
+resource range:                 0..2000
+resource default:               1250
+resource function:              set_color_saturation()
+resource var:                   crtc.raster->canvas->videoconfig->video_resources.color_saturation
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCsaturation
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCsaturation <0-2000>
+description:    "Set saturation of internal calculated palette"
+resource:       "CrtcColorSaturation"
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CrtcColorContrast"
+resource range:                 0..2000
+resource default:               1250
+resource function:              set_color_contrast()
+resource var:                   crtc.raster->canvas->videoconfig->video_resources.color_contrast
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCcontrast
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCcontrast <0-2000>
+description:    "Set contrast of internal calculated palette"
+resource:       "CrtcColorContrast"
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CrtcColorBrightness"
+resource range:                 0..2000
+resource default:               1000
+resource function:              set_color_brightness()
+resource var:                   crtc.raster->canvas->videoconfig->video_resources.color_brightness
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCbrightness
+platform gui present:           amigaos/beos/dos/sdl/os2/unix/osx/windows
+platform range correct:		amigaos/beos/dos/sdl/os2/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCbrightness <0-2000>
+description:    "Set brightness of internal calculated palette"
+resource:       "CrtcColorBrightness"
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CrtcColorGamma"
+resource range:                 0..4000
+resource default:               2200
+resource function:              set_color_gamma()
+resource var:                   crtc.raster->canvas->videoconfig->video_resources.color_gamma
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCgamma
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCgamma <0-4000>
+description:    "Set gamma of internal calculated palette"
+resource:       "CrtcColorGamma"
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CrtcPALScanLineShade"
+resource range:                 0..1000
+resource default:               750
+resource function:              set_pal_scanlineshade()
+resource var:                   crtc.raster->canvas->videoconfig->video_resources.pal_scanlineshade
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCcrtscanlineshade
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCcrtscanlineshade <0-1000>
+description:    "Amount of scan line shading for the CRT emulation"
+resource:       "CrtcPALScanLineShade"
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CrtcPALBlur"
+resource range:                 0..1000
+resource default:               500
+resource function:              set_pal_blur()
+resource var:                   crtc.raster->canvas->videoconfig->video_resources.pal_blur
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCcrtblur
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCcrtblur <0-1000>
+description:    "Amount of horizontal blur for the CRT emulation."
+resource:       "CrtcPALBlur"
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CrtcPALOddLinePhase"
+resource range:                 0..2000
+resource default:               1125
+resource function:              set_pal_oddlinesphase()
+resource var:                   crtc.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCoddlinesphase
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCoddlinesphase <0-2000>
+description:    "Set phase for color carrier in odd lines"
+resource:       "CrtcPALOddLinePhase"
+action:         N/A
+
+crtc/crtc-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CrtcPALOddLineOffset"
+resource range:                 0..2000
+resource default:               875
+resource function:              set_pal_oddlinesoffset()
+resource var:                   crtc.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
+resource emulators:             xcbm2/xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -CRTCoddlinesoffset
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+crtc/crtc-cmdline-options.c:
+----------------------------
+command line:   -CRTCoddlinesoffset <0-2000>
+description:    "Set phase offset for color carrier in odd lines"
+resource:       "CrtcPALOddLineOffset"
 action:         N/A
 
 -----------------------------------------blacky-------------------------------------------------------------------------------------
@@ -9417,8 +9902,6 @@ description:    "Disable true hardware flash file system"
 resource:       "FlashTrueFS" (set to 0)
 action:         N/A
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
 c64/cart/ide64.c:
 -----------------
 resource type:                  bool
@@ -9448,52 +9931,6 @@ c64/cart/ide64.c:
 command line:   +IDE64rtcsave
 description:    "Disable saving of IDE64 RTC data when changed."
 resource:       "IDE64RTCSave" (set to 0)
-action:         N/A
-
-cbm2/cbm2-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "KernalName"
-resource range:                 N/A
-resource default:               CBM2_KERNAL
-resource function:              set_kernal_rom_name()
-resource var:                   kernal_rom_name
-resource emulators:             xcbm2
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -kernal / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-fixme: add to documentation
-
-cbm2/cbm2-cmdline-options.c:
-----------------------------
-command line:   -kernal <Name>
-description:    "Specify name of Kernal ROM image"
-resource:       "KernalName"
-action:         N/A
-
-cbm2/cbm2-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "BasicName"
-resource range:                 N/A
-resource default:               CBM2_BASIC128
-resource function:              set_basic_rom_name()
-resource var:                   basic_rom_name
-resource emulators:             xcbm2
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -basic / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-fixme: add to documentation
-
-cbm2/cbm2-cmdline-options.c:
-----------------------------
-command line:   -basic <Name>
-description:    "Specify name of BASIC ROM image"
-resource:       "BasicName"
 action:         N/A
 
 cbm2/cbm2-resources.c:
@@ -9898,97 +10335,6 @@ resource:       N/A
 action:         cart_attach_cmdline() (note: research what resources are used)
 fixme: add to documentation
 
-cbm2/cbm2-common-resources.c as included from cbm2/cbm2-resources.c:
-cbm2/cbm2-common-resources.c as included from cbm2/cbm5x0-resources.c:
-----------------------------------------------------------------------
-resource type:                  int
-resource name:                  "CIA1Model"
-resource range:                 0/1 (CIA_MODEL_6526 (0), CIA_MODEL_6526A (1))
-resource default:               CIA_MODEL_6526 (0)
-resource function:              set_cia1_model()
-resource var:                   cia1_model
-resource emulators:             xcbm2/xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -cia1model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-cbm2/cbm2-cmdline-options.c:
-----------------------------
-command line:   -cia1model <Model>
-description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
-resource:       "CIA1Model"
-action:         N/A
-
-cbm2/cbm5x0-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "ChargenName"
-resource range:                 N/A
-resource default:               CBM2_CHARGEN500
-resource function:              set_chargen_rom_name()
-resource var:                   chargen_name
-resource emulators:             xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -chargen / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
-platform gui missing:
-fixme: add to documentation
-
-cbm2/cbm5x0-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "KernalName"
-resource range:                 N/A
-resource default:               CBM2_KERNAL500
-resource function:              set_kernal_rom_name()
-resource var:                   kernal_rom_name
-resource emulators:             xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -kernal / -model
-platform gui present:           amigaos/beos/dos/unix/os2/sdl/osx/windows
-platform gui missing:
-fixme: add to documentation
-
-cbm2/cbm5x0-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "BasicName"
-resource range:                 N/A
-resource default:               CBM2_BASIC500
-resource function:              set_basic_rom_name()
-resource var:                   basic_rom_name
-resource emulators:             xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -basic / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-fixme: add to documentation
-
-cbm2/cbm5x0-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "MachineVideoStandard"
-resource range:                 -2..-1 (MACHINE_SYNC_PAL (-1), MACHINE_SYNC_NTSC (-2))
-resource default:               MACHINE_SYNC_PAL (-1)
-resource function:              cbm5x0_set_sync_factor()
-resource var:                   sync_factor
-resource emulators:             xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -pal / -ntsc / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation for xcbm5x0
-
 cbm2/cbm5x0-resources.c:
 ------------------------
 resource type:                  int
@@ -10027,302 +10373,6 @@ fixme: fix documentation
 
 crtc/crtc-resources.c:
 ----------------------
-resource type:                  bool
-resource name:                  "CrtcStretchVertical"
-resource range:                 0/1
-resource default:               1
-resource function:              set_stretch()
-resource var:                   crtc_stretchy
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCstretchvertical / +CRTCstretchvertical
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCstretchvertical
-description:    "Enable additional vertical stretching."
-resource:       "CrtcStretchVertical" (set to 1)
-action:         N/A
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   +CRTCstretchvertical
-description:    "Disable additional vertical stretching."
-resource:       "CrtcStretchVertical" (set to 0)
-action:         N/A
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "CrtcVideoCache"
-resource range:                 0/1
-resource default:               1
-resource function:              set_video_cache_enabled()
-resource var:                   raster_resource_chip->video_cache_enabled
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCvcache / +CRTCvcache
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCvcache
-description:    "Enable the video cache"
-resource:       "CrtcVideoCache" (set to 1)
-action:         N/A
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   +CRTCvcache
-description:    "Disable the video cache"
-resource:       "CrtcVideoCache" (set to 0)
-action:         N/A
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "CrtcDoubleSize"
-resource range:                 0/1
-resource default:               0
-resource function:              set_double_size_enabled()
-resource var:                   crtc.raster->canvas->videoconfig->double_size_enabled
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCdsize / +CRTCdsize
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCdsize
-description:    "Enable double size"
-resource:       "CrtcDoubleSize" (set to 1)
-action:         N/A
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   +CRTCdsize
-description:    "Disable double size"
-resource:       "CrtcDoubleSize" (set to 0)
-action:         N/A
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "CrtcDoubleScan"
-resource range:                 0/1
-resource default:               1
-resource function:              set_double_scan_enabled()
-resource var:                   crtc.raster->canvas->videoconfig->doublescan
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCdscan / +CRTCdscan
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCdscan
-description:    "Enable double scan"
-resource:       "CrtcDoubleScan" (set to 1)
-action:         N/A
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   +CRTCdscan
-description:    "Disable double scan"
-resource:       "CrtcDoubleScan" (set to 0)
-action:         N/A
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "CrtcFilter"
-resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1), VIDEO_FILTER_SCALE2X (2))
-resource default:               VIDEO_FILTER_CRT (1)
-resource function:              set_chip_rendermode()
-resource var:                   crtc.raster->canvas->videoconfig->filter
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCfilter
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCfilter <Mode>
-description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:       "CrtcFilter"
-action:         N/A
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "CrtcPaletteFile"
-resource range:                 N/A
-resource default:               "green"
-resource function:              set_palette_file_name()
-resource var:                   crtc.raster->canvas->videoconfig->external_palette_name
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCpalette
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCpalette <Name>
-description:    "Specify name of file of external palette"
-resource:       "CrtcPaletteFile"
-action:         N/A
-fixme: fix documentation
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "CrtcExternalPalette"
-resource range:                 0/1
-resource default:               0
-resource function:              set_ext_palette()
-resource var:                   crtc.raster->canvas->videoconfig->external_palette
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCintpal / -CRTCextpal
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCintpal
-description:    "Use an internal calculated palette"
-resource:       "CrtcExternalPalette" (set to 0)
-action:         N/A
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCextpal
-description:    "Use an external palette (file)"
-resource:       "CrtcExternalPalette" (set to 1)
-action:         N/A
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "CrtcColorSaturation"
-resource range:                 0..2000
-resource default:               1250
-resource function:              set_color_saturation()
-resource var:                   crtc.raster->canvas->videoconfig->video_resources.color_saturation
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCsaturation
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCsaturation <0-2000>
-description:    "Set saturation of internal calculated palette"
-resource:       "CrtcColorSaturation"
-action:         N/A
-fixme: fix documentation, remove default
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "CrtcColorContrast"
-resource range:                 0..2000
-resource default:               1250
-resource function:              set_color_contrast()
-resource var:                   crtc.raster->canvas->videoconfig->video_resources.color_contrast
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCcontrast
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCcontrast <0-2000>
-description:    "Set contrast of internal calculated palette"
-resource:       "CrtcColorContrast"
-action:         N/A
-fixme: fix documentation, remove default
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "CrtcColorBrightness"
-resource range:                 0..2000
-resource default:               1000
-resource function:              set_color_brightness()
-resource var:                   crtc.raster->canvas->videoconfig->video_resources.color_brightness
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCbrightness
-platform gui present:           amigaos/beos/dos/sdl/os2/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCbrightness <0-2000>
-description:    "Set brightness of internal calculated palette"
-resource:       "CrtcColorBrightness"
-action:         N/A
-fixme: fix documentation, remove default
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "CrtcColorGamma"
-resource range:                 0..4000
-resource default:               2200
-resource function:              set_color_gamma()
-resource var:                   crtc.raster->canvas->videoconfig->video_resources.color_gamma
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCgamma
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCgamma <0-4000>
-description:    "Set gamma of internal calculated palette"
-resource:       "CrtcColorGamma"
-action:         N/A
-fixme: fix documentation, remove default
-
-crtc/crtc-resources.c:
-----------------------
 resource type:                  int
 resource name:                  "CrtcColorTint"
 resource range:                 0..2000
@@ -10344,110 +10394,6 @@ crtc/crtc-cmdline-options.c:
 command line:   -CRTCtint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "CrtcColorTint"
-action:         N/A
-fixme: fix documentation, remove default
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "CrtcPALScanLineShade"
-resource range:                 0..1000
-resource default:               750
-resource function:              set_pal_scanlineshade()
-resource var:                   crtc.raster->canvas->videoconfig->video_resources.pal_scanlineshade
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCcrtscanlineshade
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCcrtscanlineshade <0-1000>
-description:    "Amount of scan line shading for the CRT emulation"
-resource:       "CrtcPALScanLineShade"
-action:         N/A
-fixme: fix documentation, remove default
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "CrtcPALBlur"
-resource range:                 0..1000
-resource default:               500
-resource function:              set_pal_blur()
-resource var:                   crtc.raster->canvas->videoconfig->video_resources.pal_blur
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCcrtblur
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCcrtblur <0-1000>
-description:    "Amount of horizontal blur for the CRT emulation."
-resource:       "CrtcPALBlur"
-action:         N/A
-fixme: fix documentation, remove default
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "CrtcPALOddLinePhase"
-resource range:                 0..2000
-resource default:               1125
-resource function:              set_pal_oddlinesphase()
-resource var:                   crtc.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCoddlinesphase
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines"
-resource:       "CrtcPALOddLinePhase"
-action:         N/A
-fixme: fix documentation, remove default
-
-crtc/crtc-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "CrtcPALOddLineOffset"
-resource range:                 0..2000
-resource default:               875
-resource function:              set_pal_oddlinesoffset()
-resource var:                   crtc.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
-resource emulators:             xcbm2/xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -CRTCoddlinesoffset
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-crtc/crtc-cmdline-options.c:
-----------------------------
-command line:   -CRTCoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines"
-resource:       "CrtcPALOddLineOffset"
 action:         N/A
 fixme: fix documentation, remove default
 
@@ -10479,6 +10425,8 @@ command line:   +CRTCaudioleak
 description:    "Disable audio leak emulation"
 resource:       "CrtcAudioLeak" (set to 0)
 action:         N/A
+
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
 datasette.c:
 ------------
@@ -14916,9 +14864,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -TEDsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: fix documentation, remove default
 
 plus4/ted-cmdline-options.c:
@@ -17172,9 +17118,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -VDCsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: fix documentation, remove default
 
 vdc/vdc-cmdline-options.c:
@@ -17978,9 +17922,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -VICsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: fix documentation, remove default
 
 vic20/vic-cmdline-options.c:
@@ -18727,9 +18669,7 @@ not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
@@ -19280,9 +19220,7 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   -VICIIsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: fix documentation, remove default
 
 viciisc/vicii-cmdline-options.c:
