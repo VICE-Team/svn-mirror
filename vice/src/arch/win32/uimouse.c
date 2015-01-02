@@ -44,12 +44,14 @@ static void enable_mouse_controls(HWND hwnd)
 {
     EnableWindow(GetDlgItem(hwnd, IDC_MOUSE_TYPE), 1);
     EnableWindow(GetDlgItem(hwnd, IDC_MOUSE_PORT), 1);
+    EnableWindow(GetDlgItem(hwnd, IDC_SMART_MOUSE_RTC_SAVE), 1);
 }
 
 static uilib_localize_dialog_param mouse_dialog_trans[] = {
     { IDC_MOUSE_TYPE_LABEL, IDS_MOUSE_TYPE_LABEL, 0 },
     { IDC_MOUSE_PORT_LABEL, IDS_MOUSE_PORT_LABEL, 0 },
     { IDC_MOUSE_SENSITIVITY_LABEL, IDS_MOUSE_SENSITIVITY_LABEL, 0 },
+    { IDC_SMART_MOUSE_RTC_SAVE, IDS_SMART_MOUSE_RTC_SAVE, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
@@ -143,6 +145,9 @@ static void init_mouse_dialog(HWND hwnd)
     }   
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)(res_value / 5) - 1, 0);
 
+    resources_get_int("SmartMouseRTCSave", &res_value);
+    CheckDlgButton(hwnd, IDC_SMART_MOUSE_RTC_SAVE, res_value ? BST_CHECKED : BST_UNCHECKED);
+
     enable_mouse_controls(hwnd);
 }
 
@@ -151,6 +156,7 @@ static void end_mouse_dialog(HWND hwnd)
     resources_set_int("Mousetype",(int)SendMessage(GetDlgItem(hwnd, IDC_MOUSE_TYPE), CB_GETCURSEL, 0, 0));
     resources_set_int("Mouseport",(int)SendMessage(GetDlgItem(hwnd, IDC_MOUSE_PORT), CB_GETCURSEL, 0, 0) + 1);
     resources_set_int("MouseSensitivity",((int)SendMessage(GetDlgItem(hwnd, IDC_MOUSE_SENSITIVITY), CB_GETCURSEL, 0, 0) + 1) * 5);
+    resources_set_int("SmartMouseRTCSave", (IsDlgButtonChecked(hwnd, IDC_SMART_MOUSE_RTC_SAVE) == BST_CHECKED ? 1 : 0 ));
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

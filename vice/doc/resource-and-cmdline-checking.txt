@@ -16918,8 +16918,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -userportrtcsave / +userportrtcsave
-platform gui present:           amigaos/beos/dos/os2/sdl/unix
-platform gui missing:			osx/windows
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform gui missing:			osx
 fixme: add to documentation
 
 userport/userport_rtc.c:
@@ -21874,8 +21874,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef HAVE_MOUSE
 command-line:                   -smartmousertcsave / +smartmousertcsave
-platform gui present:           amigaos/beos/dos/os2/sdl/unix
-platform gui missing:			osx/windows
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform gui missing:			osx
 fixme: add to documentation
 
 mouse.c:
