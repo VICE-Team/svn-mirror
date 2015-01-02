@@ -328,9 +328,8 @@ msgid "Internal Function ROM file"
 msgstr "Intern functie ROM bestand"
 
 #: src/arch/unix/gui/c128ui.c:215
-#, fuzzy
 msgid "enable internal Function ROM RTC saving"
-msgstr "Selecteer intern functie ROM bestand"
+msgstr "Activeer opslaan van de interne functie ROM RTC"
 
 #: src/arch/unix/gui/c128ui.c:218 src/arch/win32/resc128.rc.po.c:714
 msgid "External Function ROM type"
@@ -341,9 +340,8 @@ msgid "External Function ROM file"
 msgstr "Extern functie ROM bestand"
 
 #: src/arch/unix/gui/c128ui.c:223
-#, fuzzy
 msgid "enable external Function ROM RTC saving"
-msgstr "Selecteer extern functie ROM bestand"
+msgstr "Activeer opslaan van de externe functie ROM RTC"
 
 #: src/arch/unix/gui/c128ui.c:229 src/arch/win32/resc128.rc.po.c:682
 msgid "Function ROM"
@@ -835,16 +833,15 @@ msgstr "I/O extenties"
 
 #: src/arch/unix/gui/c64dtvui.c:339
 msgid "Blitter Log"
-msgstr ""
+msgstr "Blitter logboek"
 
 #: src/arch/unix/gui/c64dtvui.c:340
 msgid "DMA Log"
-msgstr ""
+msgstr "DMA logboek"
 
 #: src/arch/unix/gui/c64dtvui.c:341
-#, fuzzy
 msgid "Flash Log"
-msgstr "Flash instellingen"
+msgstr "Flash logboek"
 
 #: src/arch/unix/gui/c64scui.c:125 src/arch/unix/gui/c64ui.c:183
 #: src/arch/win32/resc64.rc.po.c:546 src/arch/win32/resscpu64.rc.po.c:532
@@ -906,22 +903,20 @@ msgid "Rev 2"
 msgstr "Revisie 2"
 
 #: src/arch/unix/gui/c64scui.c:217 src/arch/unix/gui/c64ui.c:279
-#, fuzzy
 msgid "Rev 3"
-msgstr "Revisie 0"
+msgstr "Rev 3"
 
 #: src/arch/unix/gui/c64scui.c:218 src/arch/unix/gui/c64ui.c:280
 msgid "SX-64"
-msgstr ""
+msgstr "SX-64"
 
 #: src/arch/unix/gui/c64scui.c:219 src/arch/unix/gui/c64ui.c:281
 msgid "4064"
-msgstr ""
+msgstr "4064"
 
 #: src/arch/unix/gui/c64scui.c:221 src/arch/unix/gui/c64ui.c:283
-#, fuzzy
 msgid "other"
-msgstr "dither"
+msgstr "anderen"
 
 #: src/arch/unix/gui/c64scui.c:226 src/arch/unix/gui/c64ui.c:288
 #: src/arch/win32/resc64.rc.po.c:532 src/arch/win32/resscpu64.rc.po.c:529
@@ -938,9 +933,8 @@ msgid "Reset goes to IEC"
 msgstr "Reset gaat naar IEC"
 
 #: src/arch/unix/gui/c64scui.c:234 src/arch/unix/gui/c64ui.c:295
-#, fuzzy
 msgid "Kernal Revision"
-msgstr "Revisie"
+msgstr "Kernal Revisie"
 
 #: src/arch/unix/gui/c64scui.c:302 src/arch/unix/gui/c64ui.c:363
 msgid "CIA1"
@@ -2831,9 +2825,8 @@ msgstr "Selecteer USB server adres"
 #: src/arch/unix/gui/uiperipheraliec.c:100
 #: src/arch/unix/gui/uiperipheraliec.c:120
 #: src/arch/unix/gui/uiperipheraliec.c:140
-#, fuzzy
 msgid "Enable RTC saving"
-msgstr "Activeer hardwareschaling"
+msgstr "Activeer opslaan van de RTC"
 
 #: src/arch/unix/gui/uiide64.c:274
 msgid "Device 1 settings"
@@ -3246,9 +3239,8 @@ msgid "Mouse port"
 msgstr "Muis poort"
 
 #: src/arch/unix/gui/uimouse.c:80
-#, fuzzy
 msgid "Enable SmartMouse RTC saving"
-msgstr "Activeer hardwareschaling"
+msgstr "Activeer opslaan van de SmartMouse RTC"
 
 #: src/arch/unix/gui/uimouse.c:86 src/arch/win32/resvic20.rc.po.c:539
 #: src/arch/amigaos/intl_text.c.po.c:2190
@@ -4047,12 +4039,11 @@ msgstr "Bevestigen van het aflsuiten van VICE"
 
 #: src/arch/unix/gui/uisettings.c:420
 msgid "Enter auto playback frames"
-msgstr ""
+msgstr "Geef het aantal automatische weergave frames"
 
 #: src/arch/unix/gui/uisettings.c:421
-#, fuzzy
 msgid "Auto playback frames"
-msgstr "Stop weergave gebeurtenissen"
+msgstr "Automatisch weergave van de frames"
 
 #: src/arch/unix/gui/uisettings.c:435 src/arch/unix/gui/uisound.c:93
 #: src/arch/win32/res.rc.po.c:1203 src/arch/win32/res.rc.po.c:1447
@@ -4094,13 +4085,12 @@ msgstr "Drive3 CPU Volgen"
 
 #. replaced by extra items in XY_dynamic_menu_create() (eg DTV)
 #: src/arch/unix/gui/uisettings.c:458
-#, fuzzy
 msgid "Autoplay playback frames"
-msgstr "Stop weergave gebeurtenissen"
+msgstr "Automatische weergave van weergave frames"
 
 #: src/arch/unix/gui/uisettings.c:459
 msgid "Save core dump"
-msgstr ""
+msgstr "Sla de core dump op"
 
 #: src/arch/unix/gui/uisettings.c:464
 msgid "Debug settings"
@@ -4561,9 +4551,8 @@ msgid "Contributors to the VICE project"
 msgstr "Medewerkers aan het VICE project"
 
 #: src/arch/unix/x11/gnome/about.c:81
-#, fuzzy
 msgid "Compile time features"
-msgstr "Computer resources"
+msgstr "Speciale opties aanwezig bij het compileren"
 
 #: src/arch/unix/x11/gnome/about.c:99
 msgid "The VICE Team"
@@ -4602,9 +4591,8 @@ msgstr ""
 "Emir Akaydin (aka: Skate) - Turks\n"
 
 #: src/arch/unix/x11/gnome/about.c:152
-#, fuzzy
 msgid "(c) 1998 - 2015 The VICE Team"
-msgstr "(c) 1998 - 2014 The VICE Team"
+msgstr "(c) 1998 - 2015 The VICE Team"
 
 #: src/arch/unix/x11/gnome/about.c:159 src/arch/win32/res.rc.po.c:1032
 #: src/arch/win32/res.rc.po.c:1554 src/arch/amigaos/intl_text.c.po.c:4472
@@ -4622,7 +4610,7 @@ msgstr "Medewerkers"
 
 #: src/arch/unix/x11/gnome/about.c:165
 msgid "Features"
-msgstr ""
+msgstr "Speciale opties"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:52
 #: src/arch/unix/x11/gnome/uicartridge.c:56
@@ -5222,13 +5210,12 @@ msgid "Disable true aspect ratio"
 msgstr "Werkelijke aspect verhouding uitschakelen"
 
 #: src/arch/unix/x11/xaw/x11video.c:300 src/arch/win32/res.rc.po.c:1109
-#, fuzzy
 msgid "Keep aspect ratio when scaling"
-msgstr "Aspect verhouding gebruiken"
+msgstr "Aspect verhouding behouden bij het schaal verandering"
 
 #: src/arch/unix/x11/xaw/x11video.c:305 src/arch/win32/res.rc.po.c:1110
 msgid "Do not keep aspect ratio when scaling (freescale)"
-msgstr ""
+msgstr "Aspect verhouding niet behouden bij het schaal verandering"
 
 #: src/arch/unix/x11/xaw/x11video.c:374
 #, c-format
@@ -5383,54 +5370,44 @@ msgid "Version 0.0"
 msgstr "Versie 0.0"
 
 #: src/arch/win32/res.rc.po.c:182
-#, fuzzy
 msgid "Copyright (c) 1999-2015 Andreas Matthies"
-msgstr "Copyright (c) 1999-2014 Andreas Matthies"
+msgstr "Copyright (c) 1999-2015 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:183
-#, fuzzy
 msgid "Copyright (c) 1999-2015 Martin Pottendorfer"
-msgstr "Copyright (c) 1999-2014 Martin Pottendorfer"
+msgstr "Copyright (c) 1999-2015 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:184
-#, fuzzy
 msgid "Copyright (c) 2005-2015 Marco van den Heuvel"
-msgstr "Copyright (c) 2005-2014 Marco van den Heuvel"
+msgstr "Copyright (c) 2005-2015 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:185
-#, fuzzy
 msgid "Copyright (c) 2007-2015 Fabrizio Gennari"
-msgstr "Copyright (c) 2007-2014 Fabrizio Gennari"
+msgstr "Copyright (c) 2007-2015 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:186
-#, fuzzy
 msgid "Copyright (c) 2007-2015 Daniel Kahlin"
-msgstr "Copyright (c) 2007-2014 Daniel Kahlin"
+msgstr "Copyright (c) 2007-2015 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:187
-#, fuzzy
 msgid "Copyright (c) 2009-2015 Groepaz"
-msgstr "Copyright (c) 2009-2014 Groepaz"
+msgstr "Copyright (c) 2009-2015 Groepaz"
 
 #: src/arch/win32/res.rc.po.c:188
-#, fuzzy
 msgid "Copyright (c) 2009-2015 Errol Smith"
-msgstr "Copyright (c) 2009-2014 Errol Smith"
+msgstr "Copyright (c) 2009-2015 Errol Smith"
 
 #: src/arch/win32/res.rc.po.c:189
-#, fuzzy
 msgid "Copyright (c) 2010-2015 Olaf Seibert"
-msgstr "Copyright (c) 2010-2014 Olaf Seibert"
+msgstr "Copyright (c) 2010-2015 Olaf Seibert"
 
 #: src/arch/win32/res.rc.po.c:190
-#, fuzzy
 msgid "Copyright (c) 2011-2015 Marcus Sutton"
-msgstr "Copyright (c) 2011-2014 Marcus Sutton"
+msgstr "Copyright (c) 2011-2015 Marcus Sutton"
 
 #: src/arch/win32/res.rc.po.c:191
-#, fuzzy
 msgid "Copyright (c) 2011-2015 Kajtar Zsolt"
-msgstr "Copyright (c) 2011-2014 Kajtar Zsolt"
+msgstr "Copyright (c) 2011-2015 Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:914 src/arch/amigaos/intl_text.c.po.c:5550
 msgid "VICE Question"
@@ -6081,34 +6058,28 @@ msgid "Use only first CPU on SMP systems"
 msgstr "Gebruik alleen de eerste CPU op SMP systemen"
 
 #: src/arch/win32/res.rc.po.c:1105
-#, fuzzy
 msgid "Enable vertical blank sync"
-msgstr "Naast elkaar"
+msgstr "Activeer de vertikale synchronisatie"
 
 #: src/arch/win32/res.rc.po.c:1106
-#, fuzzy
 msgid "Disable vertical blank sync"
-msgstr "Naast elkaar"
+msgstr "De vertikale synchronisatie uitschakelen"
 
 #: src/arch/win32/res.rc.po.c:1107
-#, fuzzy
 msgid "Enable always on top"
-msgstr "Altijd Boven"
+msgstr "Activeer altijd boven"
 
 #: src/arch/win32/res.rc.po.c:1108
-#, fuzzy
 msgid "Disable always on top"
-msgstr "Altijd Boven"
+msgstr "Altijd boven uitschakelen"
 
 #: src/arch/win32/res.rc.po.c:1113
-#, fuzzy
 msgid "aspect ratio"
 msgstr "Aspect verhouding"
 
 #: src/arch/win32/res.rc.po.c:1114
-#, fuzzy
 msgid "Set aspect ratio"
-msgstr "Aspect verhouding gebruiken"
+msgstr "Zet de aspect verhouding"
 
 #: src/arch/win32/res.rc.po.c:1115 src/arch/amigaos/intl_text.c.po.c:7931
 msgid "Specify initial default directory."
@@ -6151,19 +6122,16 @@ msgid "Enable DirectX9 video driver"
 msgstr "Activeer DirectX9 video driver"
 
 #: src/arch/win32/res.rc.po.c:1126
-#, fuzzy
 msgid "Enable rendering to DirectX primary surface"
-msgstr "Render naar DX Primaire oppervlakte"
+msgstr "Activeer de weergave naar DX Primaire oppervlakte"
 
 #: src/arch/win32/res.rc.po.c:1127
-#, fuzzy
 msgid "Disable rendering to DirectX primary surface"
-msgstr "Render naar DX Primaire oppervlakte"
+msgstr "De weergave naar DX Primaire oppervlakte uitschakelen"
 
 #: src/arch/win32/res.rc.po.c:1128
-#, fuzzy
 msgid "Specify fullscreen device"
-msgstr "Selecteer volschermapparaat"
+msgstr "Geef volschermapparaat op"
 
 #: src/arch/win32/res.rc.po.c:1131
 #, c-format
@@ -6715,9 +6683,8 @@ msgstr "SuperCard+"
 
 #: src/arch/win32/res.rc.po.c:1354 src/arch/win32/resds12c887rtc.rc.po.c:30
 #: src/arch/win32/resuserportrtc.rc.po.c:22
-#, fuzzy
 msgid "Save RTC data when changed"
-msgstr "RR flasg bestand opslaan indien gewijzigd"
+msgstr "Sla de RTC data op indien gewijzigd"
 
 #: src/arch/win32/res.rc.po.c:1364 src/arch/win32/resc128.rc.po.c:114
 #: src/arch/win32/resc64.rc.po.c:110 src/arch/win32/resc64dtv.rc.po.c:77
@@ -6905,9 +6872,8 @@ msgid "Always on Top"
 msgstr "Altijd Boven"
 
 #: src/arch/win32/res.rc.po.c:1481
-#, fuzzy
 msgid "Use only first CPU"
-msgstr "Gebruik alleen de eerste CPU op SMP systemen"
+msgstr "Gebruik alleen de eerste CPU"
 
 #: src/arch/win32/res.rc.po.c:1483
 msgid "Reset IEC with CPU"
@@ -7058,9 +7024,8 @@ msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "Activeer de SFX Sound Sampler cartridge"
 
 #: src/arch/win32/res.rc.po.c:1531
-#, fuzzy
 msgid "Userport RTC expansion settings"
-msgstr "Userport joystick instellingen"
+msgstr "Userport RTC uitbreiding instellingen"
 
 #: src/arch/win32/res.rc.po.c:1532 src/arch/amigaos/intl_text.c.po.c:4318
 msgid "Save current settings to specified file"
@@ -7348,9 +7313,8 @@ msgid "External Function ROM"
 msgstr "Externe functie ROM"
 
 #: src/arch/win32/resc128.rc.po.c:715 src/arch/win32/resc128.rc.po.c:716
-#, fuzzy
 msgid "Save Internal Function RTC data when changed"
-msgstr "Ramcart bestand opslaan indien gewijzigd"
+msgstr "Sla de interne functie RTC data op indien gewijzigd"
 
 #: src/arch/win32/resc128.rc.po.c:717 src/translate_text.c.po.c:4271
 msgid "Enable RAM banks 2 and 3"
@@ -7760,9 +7724,8 @@ msgid "Enable IDE64 USB server"
 msgstr "Activeer IDE64 USB server"
 
 #: src/arch/win32/reside64.rc.po.c:69
-#, fuzzy
 msgid "Save IDE64 RTC data when changed"
-msgstr "ISEPIC bestand opslaan indien gewijzigd"
+msgstr "Sla de IDE64 RTC data op indien gewijzigd"
 
 #: src/arch/win32/reside64.rc.po.c:70
 msgid "ATA device image file"
@@ -7877,9 +7840,8 @@ msgid "Mouse sensitivity"
 msgstr "Muis gevoeligheid"
 
 #: src/arch/win32/resmouse.rc.po.c:42
-#, fuzzy
 msgid "Save Smart Mouse RTC data when changed"
-msgstr "Ramcart bestand opslaan indien gewijzigd"
+msgstr "Sla de Smart Mouse RTC data op indien gewijzigd"
 
 #: src/arch/win32/respet.rc.po.c:514
 msgid "Input/Output"
@@ -8303,9 +8265,8 @@ msgid "Ethernet"
 msgstr "Ethernet"
 
 #: src/arch/win32/resuserportrtc.rc.po.c:20
-#, fuzzy
 msgid "Userport RTC settings"
-msgstr "Userport joystick instellingen"
+msgstr "Userport RTC instellingen"
 
 #: src/arch/win32/resuserportrtc.rc.po.c:21
 msgid "Enable the Userport RTC expansion"
@@ -8763,14 +8724,12 @@ msgid "Drive ROM settings"
 msgstr "Drive ROM instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:4052
-#, fuzzy
 msgid "Enable the Userport RTC"
 msgstr "Activeer de Userport RTC uitbreiding"
 
 #: src/arch/amigaos/intl_text.c.po.c:4066
-#, fuzzy
 msgid "Enable saving the Userport RTC data"
-msgstr "Activeer de Userport RTC uitbreiding"
+msgstr "Activeer opslaan van de Userport RTC data"
 
 #: src/arch/amigaos/intl_text.c.po.c:4080
 #: src/arch/amigaos/intl_text.c.po.c:8618
@@ -8946,7 +8905,7 @@ msgstr "Extra vertraging"
 
 #: src/arch/amigaos/intl_text.c.po.c:6950
 msgid "Enable FD2000/4000 RTC data saving"
-msgstr ""
+msgstr "Activeer opslaan van de FD2000/4000 RTC data"
 
 #: src/arch/amigaos/intl_text.c.po.c:7062
 msgid "Expert Cartridge mode"
@@ -9282,9 +9241,8 @@ msgid "USB Server address to bind to"
 msgstr "USB server adres waaraan gebonden moet worden"
 
 #: src/arch/amigaos/intl_text.c.po.c:9836
-#, fuzzy
 msgid "Enable saving of the IDE64 RTC data"
-msgstr "Activeer opslaan van het RR ROM bestand bij afsluiten"
+msgstr "Activeer opslaan van de IDE64 RTC data"
 
 #: src/arch/amigaos/intl_text.c.po.c:9934
 #: src/arch/amigaos/intl_text.c.po.c:9948
@@ -9384,14 +9342,12 @@ msgid "RAM banks 2 & 3"
 msgstr "RAM banken 2 & 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:11404
-#, fuzzy
 msgid "Enable Internal Function RTC data saving"
-msgstr "Selecteer intern functie ROM bestand"
+msgstr "Activeer het opslaan van de interne functie RTC data"
 
 #: src/arch/amigaos/intl_text.c.po.c:11418
-#, fuzzy
 msgid "Enable External Function RTC data saving"
-msgstr "Selecteer extern functie ROM bestand"
+msgstr "Activeer het opslaan van de externe functie RTC data"
 
 #: src/arch/amigaos/intl_text.c.po.c:11446
 msgid "Select ROM file"
@@ -9414,9 +9370,8 @@ msgid "DS12C887 RTC Enabled"
 msgstr "DS12C887 Aan/Uit"
 
 #: src/arch/amigaos/intl_text.c.po.c:11684
-#, fuzzy
 msgid "Enable DS12C887 RTC data saving"
-msgstr "Activeer de DS12C887 RTC cartridge"
+msgstr "Activeer het opslaan van de DS12C887 RTC data"
 
 #: src/arch/amigaos/intl_text.c.po.c:11712
 msgid "SFX Sound Expander Enabled"
@@ -9447,9 +9402,8 @@ msgid "Volume (0-100%)"
 msgstr "Volume (0-100%)"
 
 #: src/arch/amigaos/intl_text.c.po.c:12160
-#, fuzzy
 msgid "Enable Smart Mouse RTC saving"
-msgstr "Activeer hardwareschaling"
+msgstr "Activeer het opslaan van de Smart Mouse RTC"
 
 #: src/arch/amigaos/intl_text.c.po.c:12174
 msgid "1351 mouse"
@@ -10812,19 +10766,19 @@ msgstr "Extern functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"
 
 #: src/translate_text.c.po.c:4067
 msgid "Enable saving of the internal function RTC data when changed."
-msgstr ""
+msgstr "Activeer het opslaan van de interne functie RTC data indien gewijzigd"
 
 #: src/translate_text.c.po.c:4084
 msgid "Disable saving of the internal function RTC data when changed."
-msgstr ""
+msgstr "Oplaan van de interne functie RTC data op indien gewijzigd uitschakelen"
 
 #: src/translate_text.c.po.c:4101
 msgid "Enable saving of the external function RTC data when changed."
-msgstr ""
+msgstr "Activeer het opslaan van de externe functie RTC data indien gewijzigd"
 
 #: src/translate_text.c.po.c:4118
 msgid "Disable saving of the external function RTC data when changed."
-msgstr ""
+msgstr "Oplaan van de externe functie RTC data op indien gewijzigd uitschakelen"
 
 #: src/translate_text.c.po.c:4135
 msgid "Use old NTSC sync factor"
@@ -11023,14 +10977,12 @@ msgid "Disable Userport RTC"
 msgstr "De Userport RTC uitbreiding uitschakelen"
 
 #: src/translate_text.c.po.c:5004
-#, fuzzy
 msgid "Enable saving of the Userport RTC data when changed."
-msgstr "Activeer opslaan van het RR ROM bestand bij afsluiten"
+msgstr "Activeer opslaan van de Userport RTC data indien gewijzigd"
 
 #: src/translate_text.c.po.c:5021
-#, fuzzy
 msgid "Disable saving of the Userport RTC data when changed."
-msgstr "Uitschakelen van het opslaan van het RR ROM bestand bij afsluiten"
+msgstr "Opslaan van de Userport RTC data indien gewijzigd uitschakelen"
 
 #: src/translate_text.c.po.c:5038
 msgid "Override PSID settings for Video standard and SID model"
@@ -11081,14 +11033,12 @@ msgid "Disable the ISEPIC cartridge"
 msgstr "De ISEPIC cartridge uitschakelen"
 
 #: src/translate_text.c.po.c:5293
-#, fuzzy
 msgid "Enable the ISEPIC switch"
-msgstr "Activeer de jiffy schakelaar"
+msgstr "Activeer de ISEPIC schakelaar"
 
 #: src/translate_text.c.po.c:5310
-#, fuzzy
 msgid "Disable the ISEPIC switch"
-msgstr "De ISEPIC cartridge uitschakelen"
+msgstr "De ISEPIC schakelaar uitschakelen"
 
 #: src/translate_text.c.po.c:5327
 msgid "Set ISEPIC image name"
@@ -11103,19 +11053,16 @@ msgid "Do not write to ISEPIC image"
 msgstr "Schrijf niet naar ISEPIC bestand"
 
 #: src/translate_text.c.po.c:5378
-#, fuzzy
 msgid "Specify name of Magic Voice ROM image"
-msgstr "Geef naam van het Editor ROM bestand"
+msgstr "Geef de naam van het Magic Voice ROM bestand op"
 
 #: src/translate_text.c.po.c:5395
-#, fuzzy
 msgid "Enable the Magic Voice cartridge"
-msgstr "Activeer de DigiMAX cartridge"
+msgstr "Activeer de Magic Voice cartridge"
 
 #: src/translate_text.c.po.c:5412
-#, fuzzy
 msgid "Disable the Magic Voice cartridge"
-msgstr "De DigiMAX cartridge uitschakelen"
+msgstr "De Magic Voice cartridge uitschakelen"
 
 #: src/translate_text.c.po.c:5446
 msgid "Disable the MMC64 expansion"
@@ -11130,13 +11077,12 @@ msgid "Specify name of MMC64 image"
 msgstr "Geef de naam van het MMC64 bestand"
 
 #: src/translate_text.c.po.c:5497
-#, fuzzy
 msgid "Specify MMC64 revision (0: Rev A, 1: Rev B)"
-msgstr "Geef de DTV revisie (2: DTV2, 3: DTV3)"
+msgstr "Geef de MMC64 revisie (0: Rev A, 1: Rev B)"
 
 #: src/translate_text.c.po.c:5514
 msgid "Specify MMC64 SD type (0: auto, 1: MMC, 2: SD, 3: SDHC)"
-msgstr ""
+msgstr "Geef het MMC64 SD soort op (0: automatisch, 1: MMC, 2: SD, 3: SDHC)"
 
 #: src/translate_text.c.po.c:5531
 msgid "Set the MMC64 card to read-only"
@@ -11168,7 +11114,7 @@ msgstr "Geef de naam van het MMC Replay card bestand"
 
 #: src/translate_text.c.po.c:5650
 msgid "Specify MMC Replay SD type (0: auto, 1: MMC, 2: SD, 3: SDHC)"
-msgstr ""
+msgstr "Geef de MMC Replay SD soort op (0: automatisch, 1: MMC, 2: SD, 3: SDHC)"
 
 #: src/translate_text.c.po.c:5667
 msgid "Enable writes to MMC Replay card image"
@@ -11449,9 +11395,8 @@ msgid "Set Expert Cartridge image name"
 msgstr "Zet Expert Cartridge bestandsnaam"
 
 #: src/translate_text.c.po.c:7199
-#, fuzzy
 msgid "Set Expert Cartridge mode (0: Off, 1: Prg, 2: On)"
-msgstr "Zet Expert Cartridge bestandsnaam"
+msgstr "Zet de Expert Cartridge modus (0: uit, 1: prg, 2: aan)"
 
 #: src/translate_text.c.po.c:7216
 msgid "Allow writing to Expert Cartridge image"
@@ -11502,14 +11447,12 @@ msgid "IDE64 USB server address"
 msgstr "IDE64 USB server adres"
 
 #: src/translate_text.c.po.c:7488
-#, fuzzy
 msgid "Enable saving of IDE64 RTC data when changed."
-msgstr "Activeer opslaan van het RR ROM bestand bij afsluiten"
+msgstr "Activeer opslaan van de IDE64 RTC data indien gewijzigd"
 
 #: src/translate_text.c.po.c:7505
-#, fuzzy
 msgid "Disable saving of IDE64 RTC data when changed."
-msgstr "Uitschakelen van het opslaan van het RR ROM bestand bij afsluiten"
+msgstr "Opslaan van de IDE64 RTC data indien gewijzigd uitschakelen"
 
 #: src/translate_text.c.po.c:7522
 msgid "modelnumber"
@@ -11763,11 +11706,11 @@ msgstr ""
 
 #: src/translate_text.c.po.c:8493
 msgid "Enable saving of FD2000/4000 RTC data when changed."
-msgstr ""
+msgstr "Activeer het opslaan van de FD2000/4000 RTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:8510
 msgid "Disable saving of FD2000/4000 RTC data when changed."
-msgstr ""
+msgstr "Het opslaan van de FD2000/4000 RTC data indien gewijzigd uitschakelen."
 
 #: src/translate_text.c.po.c:8527
 msgid "Enable 8KB RAM expansion at $2000-$3FFF"
@@ -12710,10 +12653,9 @@ msgid "Show a list of the available options and exit normally"
 msgstr "Toon een lijst van de beschikbare opties en exit zoals normaal"
 
 #: src/translate_text.c.po.c:12485
-#, fuzzy
 msgid ""
 "Show a list of the available compile-time options and their configuration."
-msgstr "Toon een lijst van de beschikbare opties en exit zoals normaal"
+msgstr "Toon een lijst van de beschikbare 'compile-time' opties en de bij behorende configuraties."
 
 #: src/translate_text.c.po.c:12503
 msgid "Console mode (for music playback)"
@@ -12801,14 +12743,12 @@ msgstr ""
 "CX-22, 5 = ST, 6 = Smart, 7 = Micromys, 8 = Koalapad)"
 
 #: src/translate_text.c.po.c:12932
-#, fuzzy
 msgid "Enable saving of smart mouse RTC data when changed."
-msgstr "Activeer opslaan van het RR ROM bestand bij afsluiten"
+msgstr "Activeer opslaan van de smart mouse RTC data indien gewijzigd"
 
 #: src/translate_text.c.po.c:12949
-#, fuzzy
 msgid "Disable saving of smart mouse RTC data when changed."
-msgstr "Uitschakelen van het opslaan van het RR ROM bestand bij afsluiten"
+msgstr "Opslaan van de smart mouse RTC data indien gewijzigd uitschakelen"
 
 #: src/translate_text.c.po.c:12966
 msgid "Enable PS/2 mouse on userport"
@@ -13141,14 +13081,12 @@ msgid "Base address of the DS12C887 RTC cartridge"
 msgstr "Basisadres van de DS12C887 RTC cartridge"
 
 #: src/translate_text.c.po.c:14634
-#, fuzzy
 msgid "Enable saving of the DS12C887 RTC data when changed."
-msgstr "Activeer de DS12C887 RTC cartridge"
+msgstr "Activeer opslaan van de DS12C887 RTC data indien gewijzigd."
 
 #: src/translate_text.c.po.c:14651
-#, fuzzy
 msgid "Disable saving of the DS12C887 RTC data when changed."
-msgstr "De DS12C887 RTC cartridge uitschakelen"
+msgstr "Opslaan van de DS12C887 RTC data indien gewijzigd uitschakelen."
 
 #: src/translate_text.c.po.c:14668
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
