@@ -38,6 +38,8 @@ libgnomeui_a_SOURCES = \
 	uifilechooser.h \
 	uifileentry.c \
 	uifileentry.h \
+	uijoystatus.c \
+	uijoystatus.h \
 	uijoystickkeys.c \
 	uimenu.c \
 	uimenu.h \

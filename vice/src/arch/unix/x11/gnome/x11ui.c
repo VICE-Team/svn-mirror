@@ -86,6 +86,7 @@
 #include "uistatusbar.h"
 #include "uitapestatus.h"
 #include "uidrivestatus.h"
+#include "uijoystatus.h"
 #include "util.h"
 #include "version.h"
 #include "vsync.h"
@@ -889,6 +890,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         }
 
         ui_init_drive_status_widget();
+        ui_init_joystick_status_widget();
         mouse_init_cursor();
         gtk_init_lightpen();
 

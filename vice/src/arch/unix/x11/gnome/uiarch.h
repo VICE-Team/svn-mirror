@@ -105,6 +105,7 @@
 /* #undef HAVE_FULLSCREEN */
 /* #undef USE_XF86_EXTENSIONS */
 
+#include "joystick.h"
 #include "log.h"
 #include "ui.h"
 #include "uiapi.h"
@@ -239,6 +240,18 @@ typedef enum ui_keysym_s ui_keysym_t;
 #define CHECK_MENUS      (((ui_menu_cb_obj*)event_data)->status != CB_NORMAL)
 #define UI_MENU_CB_PARAM (((ui_menu_cb_obj*)event_data)->value) 
 
+/* Joystick status widget */
+typedef struct {
+    GtkWidget *box;                     /* contains all the widgets */
+    GtkWidget *pixmap;
+    GtkWidget *event_box;
+    GtkWidget *led;
+#if !defined(HAVE_CAIRO)
+    GdkPixmap *led_pixmap;
+#endif
+    GdkColor *colors[5]; /* FIXME */
+} joystick_status_widget;
+
 /* Drive status widget */
 typedef struct {
     GtkWidget *box;                     /* contains all the widgets */
@@ -279,6 +292,7 @@ typedef struct {
     GtkLabel *speed_label;
     GtkLabel *statustext;
     GtkAccelGroup *accel;
+    joystick_status_widget joystick_status[JOYSTICK_NUM];
     drive_status_widget drive_status[NUM_DRIVES];
     tape_status_widget tape_status;
     GdkGeometry geo;

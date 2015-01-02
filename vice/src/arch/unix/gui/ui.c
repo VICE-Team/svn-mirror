@@ -24,10 +24,13 @@
  *
  */
 
+/* #define DEBUG_UI */
+
 #include "vice.h"
 
 #include "fullscreenarch.h"
 #include "interrupt.h"
+#include "joystick.h"
 #include "ui.h"
 #include "uiapi.h"
 #include "uiattach.h"
@@ -38,6 +41,12 @@
 #include "types.h"
 #include "vsync.h"
 #include "openGL_sync.h"
+
+#ifdef DEBUG_UI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
 
 static int is_paused = 0;
 
@@ -86,8 +95,24 @@ void ui_common_shutdown(void)
     uiscreenshot_shutdown();
 }
 
+/* FIXME: implement for XAW */
+extern void ui_display_joystick_status_widget(int joystick_number, int status);
+
 void ui_display_joyport(BYTE *joyport)
 {
+/* FIXME: implement for XAW */
+#ifdef USE_GNOMEUI
+    int n;
+    DBG(("ui_display_joyport %02x %02x %02x %02x %02x\n",
+           joyport[0], joyport[1], joyport[2], joyport[3], joyport[4]));
+#if 1
+    for (n = 0; n < JOYSTICK_NUM; ++n) {
+        ui_display_joystick_status_widget(n, joyport[1 + n]);
+    }
+#else
+    ui_display_joystick_status_widget(joyport[0], joyport[1 + n]);
+#endif
+#endif
 }
 
 void ui_display_event_time(unsigned int current, unsigned int total)

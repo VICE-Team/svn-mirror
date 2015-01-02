@@ -42,6 +42,7 @@
 #include "uimenu.h"
 #include "uitapestatus.h"
 #include "util.h"
+#include "uijoystatus.h"
 #include "video.h"
 #include "resources.h"
 #include "screenshot.h"
@@ -271,7 +272,7 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
 {
     /* Create the status bar on the bottom.  */
     GdkWindow *window = gtk_widget_get_window(get_active_toplevel());
-    GtkWidget *speed_label, *drive_box, *frame, *event_box, *pcb, *vcb, *tmp, *pal_ctrl_checkbox, *status_bar;
+    GtkWidget *speed_label, *drive_box, *joystick_box, *frame, *event_box, *pcb, *vcb, *tmp, *pal_ctrl_checkbox, *status_bar;
     int i;
     app_shell_type *as;
     char *empty = util_concat("<", _("empty"), ">", NULL);
@@ -376,6 +377,10 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
         gtk_widget_show(vcb);
         gtk_box_pack_start(GTK_BOX(status_bar), event_playback_checkbox, FALSE, FALSE, 0);
         gtk_widget_set_tooltip_text(GTK_WIDGET(vcb), _("click to stop playback"));
+
+        joystick_box = build_joystick_status_widget(as, window);
+        gtk_widget_show(joystick_box);
+        gtk_box_pack_start(GTK_BOX(status_bar), joystick_box, FALSE, FALSE, 0);
 
         drive_box = build_drive_status_widget(as, window);
         gtk_widget_show(drive_box);
