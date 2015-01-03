@@ -171,17 +171,24 @@ IDGS_ERROR_CREATING_FILE_S
 IDGS_ERROR_WRITING_TO_FILE_S
 
 /* c64dtv/c64dtvflash.c */
+IDGS_DTV_ROM_CREATED
+
+
+/* COMMAND-LINE STRING ID DEFINITIONS */
+
+/* joystick.c */
+IDCLS_ENABLE_JOY_OPPOSITE
+
+/* joystick.c */
+IDCLS_DISABLE_JOY_OPPOSITE
+
+/* c64dtv/c64dtvflash.c */
 IDCLS_ENABLE_DTV_FLASH_LOG
 
 /* c64dtv/c64dtvflash.c */
 IDCLS_DISABLE_DTV_FLASH_LOG
 
-/* c64dtv/c64dtvflash.c */
-IDGS_DTV_ROM_CREATED
-
-
-/* COMMAND-LINE STRING ID DEFINITIONS */
-/* MACHINE.c */
+/* machine.c */
 IDCLS_SET_MACHINE_JAM_ACTION
 
 /* autostart.c */
@@ -506,6 +513,9 @@ IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE
 
 /* c64/cart/georam.c */
 IDCLS_P_SIZE_IN_KB
+
+/* pet/pet-cmdline-options.c */
+IDCLS_P_SIZE
 
 /* c64/cart/georam.c */
 IDCLS_GEORAM_SIZE
@@ -1332,6 +1342,12 @@ IDCLS_P_COLOUR_0_255
 
 /* pet/pet-cmdline-options.c */
 IDCLS_PET4032_COLOUR_BACKGROUND
+
+/* pet/pet-cmdline-options.c */
+IDCLS_PET_RAM_SIZE
+
+/* pet/pet-cmdline-options.c */
+IDCLS_PET_IO_SIZE
 
 /* pet/petpia1.c */
 IDCLS_ENABLE_USERPORT_DIAG_PIN

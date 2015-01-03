@@ -373,7 +373,7 @@ void joystick_arch_resources_shutdown(void)
 #endif
 }
 
-int joystick_cmdline_options_init(void)
+int joystick_arch_cmdline_options_init(void)
 {
 #ifdef HAVE_SDL_NUMJOYSTICKS
     if (cmdline_register_options(cmdline_options) < 0) {

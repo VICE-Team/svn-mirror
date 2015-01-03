@@ -37,6 +37,7 @@
 
 #include "archdep.h"
 #include "alarm.h"
+#include "cmdline.h"
 #include "keyboard.h"
 #include "joy.h"
 #include "joystick.h"
@@ -48,6 +49,7 @@
 #include "network.h"
 #include "resources.h"
 #include "snapshot.h"
+#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "userport_joystick.h"
@@ -511,6 +513,34 @@ int joystick_extra_init_resources(void)
 }
 #endif /* COMMON_KBD */
 
+/* ------------------------------------------------------------------------- */
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-joyopposite", SET_RESOURCE, 0,
+      NULL, NULL, "JoyOpposite", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_JOY_OPPOSITE,
+      NULL, NULL },
+    { "+joyopposite", SET_RESOURCE, 0,
+      NULL, NULL, "JoyOpposite", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_JOY_OPPOSITE,
+      NULL, NULL },
+    { NULL }
+};
+
+int joystick_cmdline_options_init(void)
+{
+    if (joystick_arch_cmdline_options_init() < 0) {
+        return -1;
+    }
+
+    return cmdline_register_options(cmdline_options);
+}
+
+/*--------------------------------------------------------------------------*/
+
 int joystick_init(void)
 {
     joystick_alarm = alarm_new(maincpu_alarm_context, "Joystick",
@@ -524,6 +554,7 @@ int joystick_init(void)
 }
 
 /*--------------------------------------------------------------------------*/
+
 int joystick_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;

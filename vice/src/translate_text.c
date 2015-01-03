@@ -3100,6 +3100,40 @@ translate_t string_table[] = {
 
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
+/* joystick.c */
+/* en */ {IDCLS_ENABLE_JOY_OPPOSITE,    N_("Enable opposite joystick directions")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_JOY_OPPOSITE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_JOY_OPPOSITE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_JOY_OPPOSITE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_JOY_OPPOSITE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_JOY_OPPOSITE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_JOY_OPPOSITE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_JOY_OPPOSITE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_JOY_OPPOSITE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_JOY_OPPOSITE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_JOY_OPPOSITE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_JOY_OPPOSITE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_JOY_OPPOSITE_TR, ""},  /* fuzzy */
+#endif
+
+/* joystick.c */
+/* en */ {IDCLS_DISABLE_JOY_OPPOSITE,    N_("Disable opposite joystick directions")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_JOY_OPPOSITE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_JOY_OPPOSITE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_JOY_OPPOSITE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_JOY_OPPOSITE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_JOY_OPPOSITE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_JOY_OPPOSITE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_JOY_OPPOSITE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_JOY_OPPOSITE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_JOY_OPPOSITE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_JOY_OPPOSITE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_JOY_OPPOSITE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_JOY_OPPOSITE_TR, ""},  /* fuzzy */
+#endif
+
 /* autostart.c */
 /* en */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START,    N_("On autostart, load to BASIC start (without ',1')")},
 #ifdef HAS_TRANSLATION
@@ -4823,6 +4857,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_P_SIZE_IN_KB_RU, "<àÐ×ÜÕà Ò º±>"},
 /* sv */ {IDCLS_P_SIZE_IN_KB_SV, "<storlek i KB>"},
 /* tr */ {IDCLS_P_SIZE_IN_KB_TR, "<KB cinsinden boyut>"},
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_P_SIZE,    N_("<size>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_SIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_SIZE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_SIZE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_SIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_SIZE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_SIZE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_SIZE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_SIZE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_SIZE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_SIZE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_SIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_SIZE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/georam.c */
@@ -9644,6 +9695,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_PET4032_COLOUR_BACKGROUND_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_PET4032_COLOUR_BACKGROUND_SV, "Analog färgbakgrund på PET 4032"},
 /* tr */ {IDCLS_PET4032_COLOUR_BACKGROUND_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_PET_RAM_SIZE,    N_("PET RAM size (4/8/16/32/96/128)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_PET_RAM_SIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_PET_RAM_SIZE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_PET_RAM_SIZE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_PET_RAM_SIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PET_RAM_SIZE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PET_RAM_SIZE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_PET_RAM_SIZE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_PET_RAM_SIZE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PET_RAM_SIZE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_PET_RAM_SIZE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_PET_RAM_SIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_PET_RAM_SIZE_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_PET_IO_SIZE,    N_("PET I/O size (256/2048)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_PET_IO_SIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_PET_IO_SIZE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_PET_IO_SIZE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_PET_IO_SIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PET_IO_SIZE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PET_IO_SIZE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_PET_IO_SIZE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_PET_IO_SIZE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PET_IO_SIZE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_PET_IO_SIZE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_PET_IO_SIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_PET_IO_SIZE_TR, ""},  /* fuzzy */
 #endif
 
 /* pet/petpia1.c */

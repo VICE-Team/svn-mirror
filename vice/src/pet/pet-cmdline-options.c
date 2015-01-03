@@ -246,6 +246,16 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_COLOUR_0_255, IDCLS_PET4032_COLOUR_BACKGROUND,
       NULL, NULL },
+    { "-ramsize", SET_RESOURCE, 1,
+      NULL, NULL, "RamSize", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_SIZE_IN_KB, IDCLS_PET_RAM_SIZE,
+      NULL, NULL },
+    { "-iosize", SET_RESOURCE, 1,
+      NULL, NULL, "IOSize", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_SIZE, IDCLS_PET_IO_SIZE,
+      NULL, NULL },
     { NULL }
 };
 

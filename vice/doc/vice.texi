@@ -1360,9 +1360,10 @@ specified afterwards on the command line.
 @cindex -config
 @item -config <filename>
 Specify config file
-@cindex -logfile
+@findex -logfile
 @item -logfile <name>
 Specify log file name
+(@code{LogFileName}).
 @cindex -verbose
 @item -verbose
 Enable verbose log output.
@@ -2847,6 +2848,7 @@ available for example).
 @vindex JoyOpposite
 @item JoyOpposite
 Boolean, if true allow (usually impossible) bitcombinations for opposite directions.
+(all emulators except vsid)
 @vindex UserportJoy
 @item UserportJoy
 Boolean, enables extra joysticks if true.
@@ -2919,6 +2921,10 @@ Integers specifying the keycodes for keyset 2.
 @item KeySetEnable
 Boolean that specifies whether user defined keysets are enabled.
 
+@vindex KbdbufDelay
+@item KbdbufDelay
+Integer specifying the additional keyboard delay (0=use default).
+
 @end table
 
 @c @node FIXME
@@ -2939,6 +2945,13 @@ The range for OS/2 is, valid numbers in the range are 0, 1, 2, 4, 8 and 16.
 @itemx -extrajoydev2 <0-8>
 Set device for extra joystick port 1 and 2.
 
+@findex -joyopposite, +joyopposite
+@item -joyopposite
+@itemx +joyopposite
+Enable/Disable opposite joystick directions
+(@code{JoyOpposite=1}, @code{JoyOpposite=0}).
+(all emulators except vsid)
+
 @cindex -mouse, +mouse
 @item -mouse
 @itemx +mouse
@@ -2957,6 +2970,11 @@ Enable/Disable lightpen emulation
 @cindex -lightpentype
 @item -lightpentype <type>
 Set lightpen type
+
+@findex -keybuf-delay
+@item -keybuf-delay <value>
+Set additional keyboard buffer delay
+(@code{KbdbufDelay}).
 
 @end table
 
@@ -3246,18 +3264,21 @@ Integer specifying the number of cycles added to each gap in the tap.
 
 @table @code
 
-@cindex -dsresetwithcpu, +dsresetwithcpu
+@findex -dsresetwithcpu, +dsresetwithcpu
 @item -dsresetwithcpu
 @itemx +dsresetwithcpu
 Enable/Disable automatic Datasette-Reset
+(@code{DatasetteResetWithCPU=1}, @code{DatasetteResetWithCPU=0}).
 
-@cindex -dszerogapdelay
+@findex -dszerogapdelay
 @item -dszerogapdelay <value>
 Set delay in cycles for a zero in the tap
+(@code{DatasetteZeroGapDelay}).
 
-@cindex -dsspeedtuning
+@findex -dsspeedtuning
 @item -dsspeedtuning <value>
 Set number of cycles added to each gap in the tap
+(@code{DatasetteSpeedTuning}).
 
 @end table
 
@@ -3405,9 +3426,22 @@ Boolean controlling whether the drive noise emulation is turned on.
 @itemx Drive10Type
 @itemx Drive11Type
 Integers specifying the model number for drives 8 to 11.  Possible
-values are @code{1541}, @code{1542} (1541-II), @code{1570}, @code{1571}, 
-@code{1573} (1571CR), @code{1551}, @code{1581}, @code{1001}, @code{2000}, 
-@code{2031}, @code{2040}, @code{3040}, @code{4000}, @code{4040}, @code{8050}, @code{8250}.
+values are @code{1541} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{1542} (1541-II) [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{1570} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{1571} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{1573} (1571CR) [x128 only],
+@code{1551} [xplus4 only],
+@code{1581} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{1001} [all emulators except x64dtv, xplus4 and vsid],
+@code{2000} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{2031} [all emulators except x64dtv, xplus4 and vsid],
+@code{2040} [all emulators except x64dtv, xplus4 and vsid],
+@code{3040} [all emulators except x64dtv, xplus4 and vsid],
+@code{4000} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{4040} [all emulators except x64dtv, xplus4 and vsid],
+@code{8050} [all emulators except x64dtv, xplus4 and vsid],
+@code{8250} [all emulators except x64dtv, xplus4 and vsid].
 
 @vindex Drive8ParallelCable
 @vindex Drive9ParallelCable
@@ -3471,7 +3505,7 @@ Booleans controlling whether Professional DOS is emulated or not for drives 8 to
 @itemx Drive11RAM8000
 @itemx Drive11RAMA000
 Booleans controlling whether a RAM block is emulated at the respective block or
-not for drives 8 to 11.
+not for drives 8 to 11 respectively.
 
 @vindex Drive8ExtendImagePolicy
 @vindex Drive9ExtendImagePolicy
@@ -3482,8 +3516,7 @@ not for drives 8 to 11.
 @itemx Drive10ExtendImagePolicy
 @itemx Drive11ExtendImagePolicy
 Integer specifying the policy for 40-track support for drives 8 to 11.
-Possible values are @code{0} (never extend), @code{1} (ask on extend),
-@code{2} (extend on access).
+(0=never extend, 1=ask on extend, 2=extend on access)
 
 @vindex Drive8IdleMethod
 @vindex Drive9IdleMethod
@@ -3493,39 +3526,49 @@ Possible values are @code{0} (never extend), @code{1} (ask on extend),
 @itemx Drive9IdleMethod
 @itemx Drive10IdleMethod
 @itemx Drive11IdleMethod
-Integers specifying the idling method for the drive CPU.  Possible values
-are @code{0} (none), @code{1} (skip cycles), @code{2} (trap idle).
+Integers specifying the idling method for the drive CPU.
 @xref{Drive settings}.
+(0=none, 1=skip cycles, 2=trap idle)
 
 @vindex DosName1541
 @vindex DosName1541ii
 @vindex DosName1570
 @vindex DosName1571
-@vindex DosName1571cr
 @vindex DosName1581
 @vindex DosName2000
 @vindex DosName4000
+@item DosName1541
+@itemx DosName1541ii
+@itemx DosName1570
+@itemx DosName1571
+@itemx DosName1581
+@itemx DosName2000
+@itemx DosName4000
+Strings specifying the names of the ROM images for the drive emulation.
+(all emulators except xcbm2, xcbm5x0, xpet and vsid)
+
+@vindex DosName1551
+@item DosName1551
+String specifying the name of the ROM image for the drive emulation.
+(xplus4 only)
+
+@vindex DosName1571cr
+@item DosName1571cr
+String specifying the name of the ROM image for the drive emulation.
+(x128 only)
+
 @vindex DosName2031
 @vindex DosName2040
 @vindex DosName3040
 @vindex DosName4040
 @vindex DosName1001
-@vindex DosName1551
-@item DosName1541
-@itemx DosName1541ii
-@itemx DosName1570
-@itemx DosName1571
-@itemx DosName1571cr
-@itemx DosName1581
-@itemx DosName2000
-@itemx DosName4000
-@itemx DosName2031
+@item DosName2031
 @itemx DosName2040
 @itemx DosName3040
 @itemx DosName4040
 @itemx DosName1001
-@itemx DosName1551
 Strings specifying the names of the ROM images for the drive emulation.
+(all emulators except x64dtv, xplus4 and vsid)
 
 @vindex DriveProfDOS1571Name
 @item DriveProfDOS1571Name
@@ -3538,11 +3581,11 @@ String specifying the filename of the 1571 professional DOS ROM image.
 
 @table @code
 
-@cindex -truedrive, +truedrive
+@findex -truedrive, +truedrive
 @item -truedrive
 @itemx +truedrive
-Turns true drive emulation on (@code{DriveTrueEmulation=1}) and off
-(@code{DriveTrueEmulation=0}), respectively.
+Enable/disable true drive emulation
+(@code{DriveTrueEmulation=1}, @code{DriveTrueEmulation=0}).
 
 @cindex -drivesound, +drivesound
 @item -drivesound
@@ -3550,19 +3593,32 @@ Turns true drive emulation on (@code{DriveTrueEmulation=1}) and off
 Turns drive sound emulation on (@code{DriveSoundEmulation=1}) and off
 (@code{DriveSoundEmulation=0}), respectively.
 
-@cindex -drive8type
-@cindex -drive9type
-@cindex -drive10type
-@cindex -drive11type
+@findex -drive8type
+@findex -drive9type
+@findex -drive10type
+@findex -drive11type
 @item -drive8type <Type>
 @itemx -drive9type <Type>
 @itemx -drive10type <Type>
 @itemx -drive11type <Type>
-Specifies the drive types for drives 8-11, respectively.  Possible
-values for @code{TYPE} are @code{1541}, @code{1542} (meaning 1541-II),
-@code{1551}, @code{1570}, @code{1571}, @code{1573} (meaning 1571cr),
-@code{1581}, @code{2000}, @code{4000}, @code{2031}, @code{2040},
-@code{3040}, @code{4040}, @code{1001}, @code{8050} and @code{8250}.
+Specifies the drive types for drives 8-11, respectively.
+Possible values for @code{TYPE} are
+@code{1541} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{1542} (meaning 1541-II) [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{1551} [xplus4 only],
+@code{1570} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{1571} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{1573} (meaning 1571cr) [x128 only],
+@code{1581} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{2000} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{4000} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
+@code{2031} [all emulators except x64dtv, xplus4 and vsid],
+@code{2040} [all emulators except x64dtv, xplus4 and vsid],
+@code{3040} [all emulators except x64dtv, xplus4 and vsid],
+@code{4040} [all emulators except x64dtv, xplus4 and vsid],
+@code{1001} [all emulators except x64dtv, xplus4 and vsid],
+@code{8050} [all emulators except x64dtv, xplus4 and vsid]
+and @code{8250} [all emulators except x64dtv, xplus4 and vsid].
 
 @cindex -parallel8
 @cindex -parallel9
@@ -3574,108 +3630,200 @@ values for @code{TYPE} are @code{1541}, @code{1542} (meaning 1541-II),
 @itemx -parallel11 <type>
 Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS)
 
-@cindex -drive8idle
-@cindex -drive9idle
-@cindex -drive10idle
-@cindex -drive11idle
+@findex -drive8idle
+@findex -drive9idle
+@findex -drive10idle
+@findex -drive11idle
 @item -drive8idle <method>
 @itemx -drive9idle <method>
 @itemx -drive10idle <method>
 @itemx -drive11idle <method>
-Specifies <method> as the idling method for drives 8-11
-(0: no traps, 1: skip cycles, 2: trap idle), respectively
+Specifies <method> as the idling method for drives 8-11 respectively
 (@code{Drive8IdleMethod}, @code{Drive9IdleMethod},
 @code{Drive10IdleMethod}), @code{Drive11IdleMethod}).
+(0=no traps, 1=skip cycles, 2=trap idle)
 
-@cindex -drive8extend
-@cindex -drive9extend
-@cindex -drive10extend
-@cindex -drive11extend
+@findex -drive8extend
+@findex -drive9extend
+@findex -drive10extend
+@findex -drive11extend
 @item -drive8extend <method>
 @itemx -drive9extend <method>
 @itemx -drive10extend <method>
 @itemx -drive11extend <method>
-Specifies <method> as the track 40 extend policy in drives 8-11
-(0: never, 1: ask, 2: on access), respectively
+Specifies <method> as the track 40 extend policy in drives 8-11 respectively
 (@code{Drive8ExtendImagePolicy}, @code{Drive9ExtendImagePolicy},
 @code{Drive10ExtendImagePolicy}, @code{Drive11ExtendImagePolicy}).
+(0=never, 1=ask, 2=on access)
 
-@cindex -dos1541
-@cindex -dos1541II
-@cindex -dos1551
-@cindex -dos1570
-@cindex -dos1571
-@cindex -dos1571cr
-@cindex -dos1581
-@cindex -dos2000
-@cindex -dos4000
-@cindex -dos2031
-@cindex -dos2040
-@cindex -dos3040
-@cindex -dos4040
-@cindex -dos1001
+@findex -dos1541
 @item -dos1541 <name>
-@itemx -dos1541II <name>
-@item -dos1551 <name>
-@itemx -dos1570 <name>
-@itemx -dos1571 <name>
-@itemx -dos1571cr <name>
-@itemx -dos1581 <name>
-@itemx -dos2000 <name>
-@itemx -dos4000 <name>
-@itemx -dos2031 <name>
-@itemx -dos2040 <name>
-@itemx -dos3040 <name>
-@itemx -dos4040 <name>
-@itemx -dos1001 <name>
-Specify the ROM names for the 1541, 1541II, 1551, 1570, 1571, 1571cr, 1581,
-2000, 4000, 2031, 2040, 3040, 4040 and 1001 emulation respectively.
+Specify the ROM name for the 1541 emulation
+(@code{DosName1541}).
+(all emulators except xcbm2, xcbm5x0, xpet and vsid)
 
-@cindex -drive8ram2000, +drive8ram2000
-@cindex -drive9ram2000, +drive9ram2000
-@cindex -drive10ram2000, +drive10ram2000
-@cindex -drive11ram2000, +drive11ram2000
+@findex -dos1541II
+@item -dos1541II <name>
+Specify the ROM name for the 1541-II emulation
+(@code{DosName1541ii}).
+(all emulators except xcbm2, xcbm5x0, xpet and vsid)
+
+@findex -dos1551
+@item -dos1551 <name>
+Specify the ROM name for the 1551 emulation
+(@code{DosName1551}).
+(xplus4 only)
+
+@findex -dos1570
+@item -dos1570 <name>
+Specify the ROM name for the 1570 emulation
+(@code{DosName1570}).
+(all emulators except xcbm2, xcbm5x0, xpet and vsid)
+
+@findex -dos1571
+@item -dos1571 <name>
+Specify the ROM name for the 1571 emulation
+(@code{DosName1571}).
+(all emulators except xcbm2, xcbm5x0, xpet and vsid)
+
+@findex -dos1571cr
+@item -dos1571cr <name>
+Specify the ROM name for the 1571 emulation
+(@code{DosName1571CR}).
+(x128 only)
+
+@findex -dos1581
+@item -dos1581 <name>
+Specify the ROM name for the 1581 emulation
+(@code{DosName1581}).
+(all emulators except xcbm2, xcbm5x0, xpet and vsid)
+
+@findex -dos2000
+@item -dos2000 <name>
+Specify the ROM name for the FD2000 emulation
+(@code{DosName2000}).
+(all emulators except xcbm2, xcbm5x0, xpet and vsid)
+
+@findex -dos4000
+@item -dos4000 <name>
+Specify the ROM name for the FD4000 emulation
+(@code{DosName4000}).
+(all emulators except xcbm2, xcbm5x0, xpet and vsid)
+
+@findex -dos2031
+@item -dos2031 <name>
+Specify the ROM name for the 2031 emulation
+(@code{DosName2031}).
+(all emulators except x64dtv, xplus4 and vsid)
+
+@findex -dos2040
+@item -dos2040 <name>
+Specify the ROM name for the 2040 emulation
+(@code{DosName2040}).
+(all emulators except x64dtv, xplus4 and vsid)
+
+@findex -dos3040
+@item -dos3040 <name>
+Specify the ROM name for the 3040 emulation
+(@code{DosName3040}).
+(all emulators except x64dtv, xplus4 and vsid)
+
+@findex -dos4040
+@item -dos4040 <name>
+Specify the ROM name for the 4040 emulation
+(@code{DosName4040}).
+(all emulators except x64dtv, xplus4 and vsid)
+
+@findex -dos1001
+@item -dos1001 <name>
+Specify the ROM name for the 1001, 8050 and 8250 emulations
+(@code{DosName1001}).
+(all emulators except x64dtv, xplus4 and vsid)
+
+@findex -drive8ram2000, +drive8ram2000
 @item -drive8ram2000, +drive8ram2000
-@itemx -drive9ram2000, +drive9ram2000
-@itemx -drive10ram2000, +drive10ram2000
-@itemx -drive11ram2000, +drive11ram2000
-Enable/Disable 8KB RAM expansion at $2000-$3FFF
-@cindex -drive8ram4000, +drive8ram4000
-@cindex -drive9ram4000, +drive9ram4000
-@cindex -drive10ram4000, +drive10ram4000
-@cindex -drive11ram4000, +drive11ram4000
+Enable/Disable 8KB RAM expansion at $2000-$3FFF for drive 8
+(@code{Drive8RAM2000=1}, @code{Drive8RAM2000=0}).
+@findex -drive9ram2000, +drive9ram2000
+@item -drive9ram2000, +drive9ram2000
+Enable/Disable 8KB RAM expansion at $2000-$3FFF for drive 9
+(@code{Drive9RAM2000=1}, @code{Drive9RAM2000=0}).
+@findex -drive10ram2000, +drive10ram2000
+@item -drive10ram2000, +drive10ram2000
+Enable/Disable 8KB RAM expansion at $2000-$3FFF for drive 10
+(@code{Drive10RAM2000=1}, @code{Drive10RAM2000=0}).
+@findex -drive11ram2000, +drive11ram2000
+@item -drive11ram2000, +drive11ram2000
+Enable/Disable 8KB RAM expansion at $2000-$3FFF for drive 11
+(@code{Drive11RAM2000=1}, @code{Drive11RAM2000=0}).
+
+@findex -drive8ram4000, +drive8ram4000
 @item -drive8ram4000, +drive8ram4000
-@itemx -drive9ram4000, +drive9ram4000
-@itemx -drive10ram4000, +drive10ram4000
-@itemx -drive11ram4000, +drive11ram4000
-Enable/Disable 8KB RAM expansion at $4000-$5FFF
-@cindex -drive8ram6000, +drive8ram6000
-@cindex -drive9ram6000, +drive9ram6000
-@cindex -drive10ram6000, +drive10ram6000
-@cindex -drive11ram6000, +drive11ram6000
+Enable/Disable 8KB RAM expansion at $4000-$5FFF for drive 8
+(@code{Drive8RAM4000=1}, @code{Drive8RAM4000=0}).
+@findex -drive9ram4000, +drive9ram4000
+@item -drive9ram4000, +drive9ram4000
+Enable/Disable 8KB RAM expansion at $4000-$5FFF for drive 9
+(@code{Drive9RAM4000=1}, @code{Drive9RAM4000=0}).
+@findex -drive10ram4000, +drive10ram4000
+@item -drive10ram4000, +drive10ram4000
+Enable/Disable 8KB RAM expansion at $4000-$5FFF for drive 10
+(@code{Drive10RAM4000=1}, @code{Drive10RAM4000=0}).
+@findex -drive11ram4000, +drive11ram4000
+@item -drive11ram4000, +drive11ram4000
+Enable/Disable 8KB RAM expansion at $4000-$5FFF for drive 11
+(@code{Drive11RAM4000=1}, @code{Drive11RAM4000=0}).
+
+@findex -drive8ram6000, +drive8ram6000
 @item -drive8ram6000, +drive8ram6000
-@itemx -drive9ram6000, +drive9ram6000
-@itemx -drive10ram6000, +drive10ram6000
-@itemx -drive11ram6000, +drive11ram6000
-Enable/Disable 8KB RAM expansion at $6000-$7FFF
-@cindex -drive8ram8000, +drive8ram8000
-@cindex -drive9ram8000, +drive9ram8000
-@cindex -drive10ram8000, +drive10ram8000
-@cindex -drive11ram8000, +drive11ram8000
+Enable/Disable 8KB RAM expansion at $6000-$7FFF for drive 8
+(@code{Drive8RAM6000=1}, @code{Drive8RAM6000=0}).
+@findex -drive9ram6000, +drive9ram6000
+@item -drive9ram6000, +drive9ram6000
+Enable/Disable 8KB RAM expansion at $6000-$7FFF for drive 9
+(@code{Drive9RAM6000=1}, @code{Drive9RAM6000=0}).
+@findex -drive10ram6000, +drive10ram6000
+@item -drive10ram6000, +drive10ram6000
+Enable/Disable 8KB RAM expansion at $6000-$7FFF for drive 10
+(@code{Drive10RAM6000=1}, @code{Drive10RAM6000=0}).
+@findex -drive11ram6000, +drive11ram6000
+@item -drive11ram6000, +drive11ram6000
+Enable/Disable 8KB RAM expansion at $6000-$7FFF for drive 11
+(@code{Drive11RAM6000=1}, @code{Drive11RAM6000=0}).
+
+@findex -drive8ram8000, +drive8ram8000
 @item -drive8ram8000, +drive8ram8000
-@itemx -drive9ram8000, +drive9ram8000
-@itemx -drive10ram8000, +drive10ram8000
-@itemx -drive11ram8000, +drive11ram8000
-Enable/Disable 8KB RAM expansion at $8000-$9FFF
-@cindex -drive8rama000, +drive8rama000
-@cindex -drive9rama000, +drive9rama000
-@cindex -drive10rama000, +drive10rama000
-@cindex -drive11rama000, +drive11rama000
+Enable/Disable 8KB RAM expansion at $8000-$9FFF for drive 8
+(@code{Drive8RAM8000=1}, @code{Drive8RAM8000=0}).
+@findex -drive9ram8000, +drive9ram8000
+@item -drive9ram8000, +drive9ram8000
+Enable/Disable 8KB RAM expansion at $8000-$9FFF for drive 9
+(@code{Drive9RAM8000=1}, @code{Drive9RAM8000=0}).
+@findex -drive10ram8000, +drive10ram8000
+@item -drive10ram8000, +drive10ram8000
+Enable/Disable 8KB RAM expansion at $8000-$9FFF for drive 10
+(@code{Drive10RAM8000=1}, @code{Drive10RAM8000=0}).
+@findex -drive11ram8000, +drive11ram8000
+@item -drive11ram8000, +drive11ram8000
+Enable/Disable 8KB RAM expansion at $8000-$9FFF for drive 11
+(@code{Drive11RAM8000=1}, @code{Drive11RAM8000=0}).
+
+@findex -drive8rama000, +drive8rama000
 @item -drive8rama000, +drive8rama000
-@itemx -drive9rama000, +drive9rama000
-@itemx -drive10rama000, +drive10rama000
-@itemx -drive11rama000, +drive11rama000
-Enable/Disable 8KB RAM expansion at $A000-$BFFF
+Enable/Disable 8KB RAM expansion at $A000-$BFFF for drive 8
+(@code{Drive8RAMA000=1}, @code{Drive8RAMA000=0}).
+@findex -drive9rama000, +drive9rama000
+@item -drive9rama000, +drive9rama000
+Enable/Disable 8KB RAM expansion at $A000-$BFFF for drive 9
+(@code{Drive9RAMA000=1}, @code{Drive9RAMA000=0}).
+@findex -drive10rama000, +drive10rama000
+@item -drive10rama000, +drive10rama000
+Enable/Disable 8KB RAM expansion at $A000-$BFFF for drive 10
+(@code{Drive10RAMA000=1}, @code{Drive10RAMA000=0}).
+@findex -drive11rama000, +drive11rama000
+@item -drive11rama000, +drive11rama000
+Enable/Disable 8KB RAM expansion at $A000-$BFFF for drive 11
+(@code{Drive11RAMA000=1}, @code{Drive11RAMA000=0}).
 
 @cindex -drive8profdos, +drive8profdos
 @cindex -drive9profdos, +drive9profdos
@@ -8237,11 +8385,13 @@ file, command line options or right-menu items):
 
 @vindex RamSize
 @item RamSize
-Size of memory in kByte. 96k denotes a 8096, 128k a 8296.
+Integer specifying the size of the memory in kByte. 96k denotes a 8096, 128k a 8296.
+(4/8/16/32/96/128)
 
 @vindex IOSize
 @item IOSize
-Size of I/O area in Byte.  Either 2048 or 256 for 8296.
+Integer specifying the size of the I/O area in Bytes for the 8296 model.
+(256/2048)
 
 @vindex VideoSize
 @item VideoSize
@@ -8250,16 +8400,16 @@ from the ROM.
 
 @vindex Ram9
 @item Ram9
-The 8296 can map RAM into the address range $9***
+Boolean specifying if the 8296 can map RAM into the address range $9*** or not.
 
 @vindex RamA
 @item RamA
-The 8296 can map RAM into the address range $A***
+Boolean specifying if the 8296 can map RAM into the address range $A*** or not.
 
 @vindex SuperPET
 @item SuperPET
-This resource enables the SuperPET (MicroMainFrame 9000) I/O and 6809 CPU,
-and disables the 8x96 mappings.
+Boolean that enables/disables the SuperPET (MicroMainFrame 9000) I/O and 6809 CPU,
+and disables/enables the 8x96 mappings.
 
 @vindex Basic1
 @item Basic1
@@ -8282,13 +8432,16 @@ Set the diagnositc pin on the PET userport (see below).
 
 @vindex ChargenName
 @item ChargenName
-Specify @file{NAME} as the character generator ROM file
+String specifying the name of the character generator ROM (default
+@file{chargen}).
 
 @vindex KernalName
 @item KernalName
-Specify @file{NAME} as the kernal ROM file.  This file contains the
-complete BASIC, EDITOR and KERNAL ROMs and is either 16k (BASIC 1 and 2)
-or 20k (BASIC 4) in size.
+String specifying the name of the Kernal ROM (default @file{kernal4}).
+
+@vindex BasicName
+@item BasicName
+String specifying the name of the Basic ROM (default @file{basic4}).
 
 @vindex EditorName
 @item EditorName
@@ -8297,17 +8450,17 @@ an overlay for the editor ROM at $E000-$E7FF if necessary.
 
 @vindex RomModule9Name
 @item RomModule9Name
-Specify @file{NAME} as the $9*** Expansion ROM file.  This file contains
+String specifying the filename for the $9*** Expansion ROM file. This file contains
 an expansion ROM image of 4k.
 
 @vindex RomModuleAName
 @item RomModuleAName
-Specify @file{NAME} as the $A*** Expansion ROM file.  This file contains
+String specifying the filename for the $A*** Expansion ROM file. This file contains
 an expansion ROM image of 4k.
 
 @vindex RomModuleBName
 @item RomModuleBName
-Specify @file{NAME} as the $B*** Expansion ROM file.  This file contains
+String specifying the filename for the $B*** Expansion ROM file. This file contains
 an expansion ROM image of 4k.
 This file overlays the lowest 4k of a BASIC 4 ROM.
 
@@ -8568,7 +8721,7 @@ Boolean specifying whether userport DAC emulation is enabled.
 
 @vindex SidCart
 @item SidCart
-Boolean specifying whether SID Cart emulation is enabled.
+Boolean specifying whether SID Cart emulation is enabled or not.
 @vindex SidAddress
 @item SidAddress
 Integer that specifies the base address of the emulated SID chip.
@@ -8620,10 +8773,11 @@ Enable the analog colour extension to PET 4032
 @item -colour-analog-bg <Colour 0-255>
 Select the analog colour background on PET 4032
 
-@cindex -sidcart, +sidcart
+@findex -sidcart, +sidcart
 @item -sidcart
 @itemx +sidcart
-Enable/Disable SID Cartridge
+Enable/Disable the SID Cartridge
+(@code{SidCart=1}, @code{SidCart=0}).
 
 @end table
 
@@ -8657,26 +8811,37 @@ relevant for the SuperPET.
 
 @table @code
 
-@cindex -kernal
-@item -kernal NAME
-Specify @file{NAME} as the Kernal/BASIC ROM file (@code{KernalName}).
+@findex -kernal
+@item -kernal <name>
+Specify filename of the Kernal ROM file
+(@code{KernalName}).
+
+@findex -basic
+@item -basic <name>
+Specify filename of the BASIC ROM file
+(@code{BasicName}).
 
 @cindex -editor
 @item -editor NAME
 Specify @file{NAME} as the editor ROM file (@code{EditorName}).
 
-@cindex -chargen
-@item -chargen NAME
-Specify @file{NAME} as the character generator ROM file
+@findex -chargen
+@item -chargen <name>
+Specify filename of the character generator ROM file
 (@code{ChargenName}).
 
-@cindex -rom9
-@cindex -romA
-@cindex -romB
-@item -rom9 NAME, -romA NAME, -romB NAME
-Specify @file{NAME} as the ROM image file for the respective
-cartridge areas (@code{RomModule9Name}, @code{RomModuleAName},
-@code{RomModuleBName}).
+@findex -rom9
+@item -rom9 <name>
+Specify the filename for the ROM image file for the $9***
+cartridge area (@code{RomModule9Name}).
+@findex -romA
+@item -romA <name>
+Specify the filename for the ROM image file for the $A***
+cartridge area (@code{RomModuleAName}).
+@findex -romB
+@item -romB <name>
+Specify the filename for the ROM image file for the $B***
+cartridge area (@code{RomModuleBName}).
 
 @cindex -6809romA
 @item -6809romA <Name>
@@ -8733,19 +8898,35 @@ These are the commandline options specific for the PET models.
 @item -model MODEL
 Specify the PET model you want to emulate.
 
-@cindex -petram9, +petram9
-@item -petram9, +petram9
-Switch on RAM mapping on addresses
-$9000-$9fff (@code{Ram9}).
+@findex -iosize
+@item -iosize <size>
+Specify size of I/O in Bytes
+(@code{IOSize}).
+(256/2048)
 
-@cindex -petramA, +petramA
-@item -petramA, +petramA
-Switch on RAM mapping on addresses
-$a000-$afff (@code{RamA}).
+@findex -ramsize
+@item -ramsize <size>
+Specify size of RAM in KB
+(@code{RamSize}).
+(8/16/32/96/128)
 
-@cindex -superpet, +superpet
-@item -superpet, +superpet
-Enable/Disable SuperPET I/O and CPU emulation (@code{SuperPET}).
+@findex -petram9, +petram9
+@item -petram9
+@itemx +petram9
+Switch on/off RAM mapping at address $9000-$9FFF
+(@code{Ram9=1}, @code{Ram9=0}).
+
+@findex -petramA, +petramA
+@item -petramA
+@itemx +petramA
+Switch on/off RAM mapping at address $A000-$AFFF
+(@code{RamA=1}, @code{RamA=0}).
+
+@findex -superpet, +superpet
+@item -superpet
+@itemx +superpet
+Enable/Disable SuperPET I/O and CPU emulation
+(@code{SuperPET}).
 
 @cindex -cpu6502
 @item -cpu6502

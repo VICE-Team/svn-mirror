@@ -328,7 +328,7 @@ static const cmdline_option_t joydev4cmdline_options[] = {
     { NULL }
 };
 
-int joystick_cmdline_options_init(void)
+int joystick_arch_cmdline_options_init(void)
 {
     if (cmdline_register_options(joyhwtypecmdline_options) < 0) {
         return -1;

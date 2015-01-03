@@ -8318,6 +8318,1515 @@ description:    "Set phase offset for color carrier in odd lines"
 resource:       "CrtcPALOddLineOffset"
 action:         N/A
 
+datasette.c:
+------------
+resource type:                  bool
+resource name:                  "DatasetteResetWithCPU"
+resource range:                 0/1
+resource default:               1
+resource function:              set_reset_datasette_with_maincpu()
+resource var:                   reset_datasette_with_maincpu
+resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    xscpu64/x64dtv/vsid
+prepocessor:
+command-line:                   -dsresetwithcpu / +dsresetwithcpu
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+datasette.c:
+------------
+command line:   -dsresetwithcpu
+description:    "Enable automatic Datasette-Reset"
+resource:       "DatasetteResetWithCPU" (set to 1)
+action:         N/A
+
+datasette.c:
+------------
+command line:   +dsresetwithcpu
+description:    "Disable automatic Datasette-Reset"
+resource:       "DatasetteResetWithCPU" (set to 0)
+action:         N/A
+
+datasette.c:
+------------
+resource type:                  int
+resource name:                  "DatasetteZeroGapDelay"
+resource range:                 0+
+resource default:               20000
+resource function:              set_datasette_zero_gap_delay()
+resource var:                   datasette_zero_gap_delay
+resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    xscpu64/x64dtv/vsid
+prepocessor:
+command-line:                   -dszerogapdelay
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+datasette.c:
+------------
+command line:   -dszerogapdelay <value>
+description:    "Set delay in cycles for a zero in the tap"
+resource:       "DatasetteZeroGapDelay"
+action:         N/A
+
+datasette.c:
+------------
+resource type:                  int
+resource name:                  "DatasetteSpeedTuning"
+resource range:                 0+
+resource default:               1
+resource function:              set_datasette_speed_tuning()
+resource var:                   datasette_speed_tuning
+resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    xscpu64/x64dtv/vsid
+prepocessor:
+command-line:                   -dsspeedtuning
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+datasette.c:
+------------
+command line:   -dsspeedtuning <value>
+description:    "Set number of cycles added to each gap in the tap"
+resource:       "DatasetteSpeedTuning"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive8Type"
+resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
+                                        DRIVE_TYPE_1570 (1570), DRIVE_TYPE_1571 (1571), DRIVE_TYPE_1571CR (1573), DRIVE_TYPE_1581 (1581), DRIVE_TYPE_2000 (2000),
+                                        DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
+                                        DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
+resource default:               x128: DRIVE_TYPE_1571 (1571)
+                                x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
+                                xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
+                                xplus4: DRIVE_TYPE_1551 (1551)
+                                xvic: DRIVE_TYPE_1541 (1541)
+resource function:              drive_resources_type()
+resource var:                   drive->type
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive8type
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive8type <Type>
+description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+resource:       "Drive8Type"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive9Type"
+resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
+                                        DRIVE_TYPE_1570 (1570), DRIVE_TYPE_1571 (1571), DRIVE_TYPE_1571CR (1573), DRIVE_TYPE_1581 (1581), DRIVE_TYPE_2000 (2000),
+                                        DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
+                                        DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
+resource default:               x128: DRIVE_TYPE_1571 (1571)
+                                x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
+                                xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
+                                xplus4: DRIVE_TYPE_1551 (1551)
+                                xvic: DRIVE_TYPE_1541 (1541)
+resource function:              drive_resources_type()
+resource var:                   drive->type
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive9type
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive9type <Type>
+description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+resource:       "Drive9Type"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive10Type"
+resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
+                                        DRIVE_TYPE_1570 (1570), DRIVE_TYPE_1571 (1571), DRIVE_TYPE_1571CR (1573), DRIVE_TYPE_1581 (1581), DRIVE_TYPE_2000 (2000),
+                                        DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
+                                        DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
+resource default:               x128: DRIVE_TYPE_1571 (1571)
+                                x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
+                                xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
+                                xplus4: DRIVE_TYPE_1551 (1551)
+                                xvic: DRIVE_TYPE_1541 (1541)
+resource function:              drive_resources_type()
+resource var:                   drive->type
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive10type
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive10type <Type>
+description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+resource:       "Drive10Type"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive11Type"
+resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
+                                        DRIVE_TYPE_1570 (1570), DRIVE_TYPE_1571 (1571), DRIVE_TYPE_1571CR (1573), DRIVE_TYPE_1581 (1581), DRIVE_TYPE_2000 (2000),
+                                        DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
+                                        DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
+resource default:               x128: DRIVE_TYPE_1571 (1571)
+                                x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
+                                xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
+                                xplus4: DRIVE_TYPE_1551 (1551)
+                                xvic: DRIVE_TYPE_1541 (1541)
+resource function:              drive_resources_type()
+resource var:                   drive->type
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive11type
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive11type <Type>
+description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+resource:       "Drive11Type"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "DriveTrueEmulation"
+resource range:                 0/1
+resource default:               1
+resource function:              set_drive_true_emulation()
+resource var:                   drive_true_emulation
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -truedrive / +truedrive
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -truedrive
+description:    "Enable hardware-level emulation of disk drives"
+resource:       "DriveTrueEmulation" (set to 1)
+action:         N/A
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   +truedrive
+description:    "Disable hardware-level emulation of disk drives"
+resource:       "DriveTrueEmulation" (set to 0)
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive8ExtendImagePolicy"
+resource range:                 0..2 (DRIVE_EXTEND_NEVER (0), DRIVE_EXTEND_ASK (1), DRIVE_EXTEND_ACCESS (2))
+resource default:               DRIVE_EXTEND_NEVER (0)
+resource function:              set_drive_extend_image_policy()
+resource var:                   drive->extend_image_policy
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive8extend
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive8extend <method>
+description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
+resource:       "Drive8ExtendImagePolicy"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive9ExtendImagePolicy"
+resource range:                 0..2 (DRIVE_EXTEND_NEVER (0), DRIVE_EXTEND_ASK (1), DRIVE_EXTEND_ACCESS (2))
+resource default:               DRIVE_EXTEND_NEVER (0)
+resource function:              set_drive_extend_image_policy()
+resource var:                   drive->extend_image_policy
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive9extend
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive9extend <method>
+description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
+resource:       "Drive9ExtendImagePolicy"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive10ExtendImagePolicy"
+resource range:                 0..2 (DRIVE_EXTEND_NEVER (0), DRIVE_EXTEND_ASK (1), DRIVE_EXTEND_ACCESS (2))
+resource default:               DRIVE_EXTEND_NEVER (0)
+resource function:              set_drive_extend_image_policy()
+resource var:                   drive->extend_image_policy
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive10extend
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive10extend <method>
+description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
+resource:       "Drive10ExtendImagePolicy"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive11ExtendImagePolicy"
+resource range:                 0..2 (DRIVE_EXTEND_NEVER (0), DRIVE_EXTEND_ASK (1), DRIVE_EXTEND_ACCESS (2))
+resource default:               DRIVE_EXTEND_NEVER (0)
+resource function:              set_drive_extend_image_policy()
+resource var:                   drive->extend_image_policy
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive11extend
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive11extend <method>
+description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
+resource:       "Drive11ExtendImagePolicy"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive8IdleMethod"
+resource range:                 0..2 (DRIVE_IDLE_NO_IDLE (0), DRIVE_IDLE_SKIP_CYCLES (1), DRIVE_IDLE_TRAP_IDLE (2))
+resource default:               DRIVE_IDLE_NO_IDLE (0)
+resource function:              set_drive_idling_method()
+resource var:                   drive->idling_method
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive8idle
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive8idle <method>
+description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
+resource:       "Drive8IdleMethod"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive9IdleMethod"
+resource range:                 0..2 (DRIVE_IDLE_NO_IDLE (0), DRIVE_IDLE_SKIP_CYCLES (1), DRIVE_IDLE_TRAP_IDLE (2))
+resource default:               DRIVE_IDLE_NO_IDLE (0)
+resource function:              set_drive_idling_method()
+resource var:                   drive->idling_method
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive9idle
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive9idle <method>
+description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
+resource:       "Drive9IdleMethod"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive10IdleMethod"
+resource range:                 0..2 (DRIVE_IDLE_NO_IDLE (0), DRIVE_IDLE_SKIP_CYCLES (1), DRIVE_IDLE_TRAP_IDLE (2))
+resource default:               DRIVE_IDLE_NO_IDLE (0)
+resource function:              set_drive_idling_method()
+resource var:                   drive->idling_method
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive10idle
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive10idle <method>
+description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
+resource:       "Drive10IdleMethod"
+action:         N/A
+
+drive/drive-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "Drive11IdleMethod"
+resource range:                 0..2 (DRIVE_IDLE_NO_IDLE (0), DRIVE_IDLE_SKIP_CYCLES (1), DRIVE_IDLE_TRAP_IDLE (2))
+resource default:               DRIVE_IDLE_NO_IDLE (0)
+resource function:              set_drive_idling_method()
+resource var:                   drive->idling_method
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -drive11idle
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/drive-cmdline-options.c:
+------------------------------
+command line:   -drive11idle <method>
+description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
+resource:       "Drive11IdleMethod"
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "DosName1541"
+resource range:                 N/A
+resource default:               "dos1541"
+resource function:              set_dos_rom_name_1541()
+resource var:                   dos_rom_name_1541
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -dos1541
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -dos1541 <Name>
+description:    "Specify name of 1541 DOS ROM image"
+resource:       "DosName1541"
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "DosName1570"
+resource range:                 N/A
+resource default:               "dos1570"
+resource function:              set_dos_rom_name_1570()
+resource var:                   dos_rom_name_1570
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -dos1570
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -dos1570 <Name>
+description:    "Specify name of 1570 DOS ROM image"
+resource:       "DosName1570"
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "DosName1571"
+resource range:                 N/A
+resource default:               "dos1571"
+resource function:              set_dos_rom_name_1571()
+resource var:                   dos_rom_name_1571
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -dos1571
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -dos1571 <Name>
+description:    "Specify name of 1571 DOS ROM image"
+resource:       "DosName1571"
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "DosName1581"
+resource range:                 N/A
+resource default:               "dos1581"
+resource function:              set_dos_rom_name_1581()
+resource var:                   dos_rom_name_1581
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -dos1581
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -dos1581 <Name>
+description:    "Specify name of 1581 DOS ROM image"
+resource:       "DosName1581"
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive8RAM2000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram2()
+resource var:                   drive->drive_ram2_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive8ram2000 / +drive8ram2000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive8ram2000
+description:    "Enable 8KB RAM expansion at $2000-$3FFF"
+resource:       "Drive8RAM2000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive8ram2000
+description:    "Disable 8KB RAM expansion at $2000-$3FFF"
+resource:       "Drive8RAM2000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive9RAM2000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram2()
+resource var:                   drive->drive_ram2_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive9ram2000 / +drive9ram2000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive9ram2000
+description:    "Enable 8KB RAM expansion at $2000-$3FFF"
+resource:       "Drive9RAM2000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive9ram2000
+description:    "Disable 8KB RAM expansion at $2000-$3FFF"
+resource:       "Drive9RAM2000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive10RAM2000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram2()
+resource var:                   drive->drive_ram2_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive10ram2000 / +drive10ram2000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive10ram2000
+description:    "Enable 8KB RAM expansion at $2000-$3FFF"
+resource:       "Drive10RAM2000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive10ram2000
+description:    "Disable 8KB RAM expansion at $2000-$3FFF"
+resource:       "Drive10RAM2000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive11RAM2000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram2()
+resource var:                   drive->drive_ram2_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive11ram2000 / +drive11ram2000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive11ram2000
+description:    "Enable 8KB RAM expansion at $2000-$3FFF"
+resource:       "Drive11RAM2000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive11ram2000
+description:    "Disable 8KB RAM expansion at $2000-$3FFF"
+resource:       "Drive11RAM2000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive8RAM4000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram4()
+resource var:                   drive->drive_ram4_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive8ram4000 / +drive8ram4000
+platform gui present:           amigsos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive8ram4000
+description:    "Enable 8KB RAM expansion at $4000-$5FFF"
+resource:       "Drive8RAM4000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive8ram4000
+description:    "Disable 8KB RAM expansion at $4000-$5FFF"
+resource:       "Drive8RAM4000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive9RAM4000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram4()
+resource var:                   drive->drive_ram4_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive9ram4000 / +drive9ram4000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive9ram4000
+description:    "Enable 8KB RAM expansion at $4000-$5FFF"
+resource:       "Drive9RAM4000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive9ram4000
+description:    "Disable 8KB RAM expansion at $4000-$5FFF"
+resource:       "Drive9RAM4000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive10RAM4000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram4()
+resource var:                   drive->drive_ram4_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive10ram4000 / +drive10ram4000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive10ram4000
+description:    "Enable 8KB RAM expansion at $4000-$5FFF"
+resource:       "Drive10RAM4000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive10ram4000
+description:    "Disable 8KB RAM expansion at $4000-$5FFF"
+resource:       "Drive10RAM4000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive11RAM4000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram4()
+resource var:                   drive->drive_ram4_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive11ram4000 / +drive11ram4000
+platform gui present:           amigaos/beos/dos/sdl/os2/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive11ram4000
+description:    "Enable 8KB RAM expansion at $4000-$5FFF"
+resource:       "Drive11RAM4000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive11ram4000
+description:    "Disable 8KB RAM expansion at $4000-$5FFF"
+resource:       "Drive11RAM4000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive8RAM6000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram6()
+resource var:                   drive->drive_ram6_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive8ram6000 / +drive8ram6000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive8ram6000
+description:    "Enable 8KB RAM expansion at $6000-$7FFF"
+resource:       "Drive8RAM6000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive8ram6000
+description:    "Disable 8KB RAM expansion at $6000-$7FFF"
+resource:       "Drive8RAM6000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive9RAM6000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram6()
+resource var:                   drive->drive_ram6_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive9ram6000 / +drive9ram6000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive9ram6000
+description:    "Enable 8KB RAM expansion at $6000-$7FFF"
+resource:       "Drive9RAM6000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive9ram6000
+description:    "Disable 8KB RAM expansion at $6000-$7FFF"
+resource:       "Drive9RAM6000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive10RAM6000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram6()
+resource var:                   drive->drive_ram6_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive10ram6000 / +drive10ram6000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive10ram6000
+description:    "Enable 8KB RAM expansion at $6000-$7FFF"
+resource:       "Drive10RAM6000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive10ram6000
+description:    "Disable 8KB RAM expansion at $6000-$7FFF"
+resource:       "Drive10RAM6000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive11RAM6000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram6()
+resource var:                   drive->drive_ram6_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive11ram6000 / +drive11ram6000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive11ram6000
+description:    "Enable 8KB RAM expansion at $6000-$7FFF"
+resource:       "Drive11RAM6000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive11ram6000
+description:    "Disable 8KB RAM expansion at $6000-$7FFF"
+resource:       "Drive11RAM6000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive8RAM8000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram8()
+resource var:                   drive->drive_ram8_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive8ram8000 / +drive8ram8000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive8ram8000
+description:    "Enable 8KB RAM expansion at $8000-$9FFF"
+resource:       "Drive8RAM8000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive8ram8000
+description:    "Disable 8KB RAM expansion at $8000-$9FFF"
+resource:       "Drive8RAM8000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive9RAM8000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram8()
+resource var:                   drive->drive_ram8_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive9ram8000 / +drive9ram8000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive9ram8000
+description:    "Enable 8KB RAM expansion at $8000-$9FFF"
+resource:       "Drive9RAM8000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive9ram8000
+description:    "Disable 8KB RAM expansion at $8000-$9FFF"
+resource:       "Drive9RAM8000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive10RAM8000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram8()
+resource var:                   drive->drive_ram8_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive10ram8000 / +drive10ram8000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive10ram8000
+description:    "Enable 8KB RAM expansion at $8000-$9FFF"
+resource:       "Drive10RAM8000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive10ram8000
+description:    "Disable 8KB RAM expansion at $8000-$9FFF"
+resource:       "Drive10RAM8000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive11RAM8000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_ram8()
+resource var:                   drive->drive_ram8_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive11ram8000 / +drive11ram8000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive11ram8000
+description:    "Enable 8KB RAM expansion at $8000-$9FFF"
+resource:       "Drive11RAM8000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive11ram8000
+description:    "Disable 8KB RAM expansion at $8000-$9FFF"
+resource:       "Drive11RAM8000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive8RAMA000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_rama()
+resource var:                   drive->drive_rama_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive8rama000 / +drive8rama000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive8rama000
+description:    "Enable 8KB RAM expansion at $A000-$BFFF"
+resource:       "Drive8RAMA000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive8rama000
+description:    "Disable 8KB RAM expansion at $A000-$BFFF"
+resource:       "Drive8RAMA000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive9RAMA000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_rama()
+resource var:                   drive->drive_rama_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive9rama000 / +drive9rama000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive9rama000
+description:    "Enable 8KB RAM expansion at $A000-$BFFF"
+resource:       "Drive9RAMA000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive9rama000
+description:    "Disable 8KB RAM expansion at $A000-$BFFF"
+resource:       "Drive9RAMA000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive10RAMA000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_rama()
+resource var:                   drive->drive_rama_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive10rama000 / +drive10rama000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive10rama000
+description:    "Enable 8KB RAM expansion at $A000-$BFFF"
+resource:       "Drive10RAMA000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive10rama000
+description:    "Disable 8KB RAM expansion at $A000-$BFFF"
+resource:       "Drive10RAMA000" (set to 0)
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "Drive11RAMA000"
+resource range:                 0/1
+resource default:               0
+resource function:              set_drive_rama()
+resource var:                   drive->drive_rama_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -drive11rama000 / +drive11rama000
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -drive11rama000
+description:    "Enable 8KB RAM expansion at $A000-$BFFF"
+resource:       "Drive11RAMA000" (set to 1)
+action:         N/A
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   +drive11rama000
+description:    "Disable 8KB RAM expansion at $A000-$BFFF"
+resource:       "Drive11RAMA000" (set to 0)
+action:         N/A
+
+drive/ieee/ieee-resources.c:
+----------------------------
+resource type:                  string
+resource name:                  "DosName2031"
+resource range:                 N/A
+resource default:               "dos2031"
+resource function:              set_dos_rom_name_2031()
+resource var:                   dos_rom_name_2031
+resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xvic
+not used in:                    x64dtv/xplus4/vsid
+prepocessor:
+command-line:                   -dos2031
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/ieee/ieee-cmdline-options.c:
+----------------------------------
+command line:   -dos2031 <Name>
+description:    "Specify name of 2031 DOS ROM image"
+resource:       "DosName2031"
+action:         N/A
+
+drive/ieee/ieee-resources.c:
+----------------------------
+resource type:                  string
+resource name:                  "DosName2040"
+resource range:                 N/A
+resource default:               "dos2040"
+resource function:              set_dos_rom_name_2040()
+resource var:                   dos_rom_name_2040
+resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xvic
+not used in:                    x64dtv/xplus4/vsid
+prepocessor:
+command-line:                   -dos2040
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/ieee/ieee-cmdline-options.c:
+----------------------------------
+command line:   -dos2040 <Name>
+description:    "Specify name of 2040 DOS ROM image"
+resource:       "DosName2040"
+action:         N/A
+
+drive/ieee/ieee-resources.c:
+----------------------------
+resource type:                  string
+resource name:                  "DosName3040"
+resource range:                 N/A
+resource default:               "dos3040"
+resource function:              set_dos_rom_name_3040()
+resource var:                   dos_rom_name_3040
+resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xvic
+not used in:                    x64dtv/xplus4/vsid
+prepocessor:
+command-line:                   -dos3040
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/ieee/ieee-cmdline-options.c:
+----------------------------------
+command line:   -dos3040 <Name>
+description:    "Specify name of 3040 DOS ROM image"
+resource:       "DosName3040"
+action:         N/A
+
+drive/ieee/ieee-resources.c:
+----------------------------
+resource type:                  string
+resource name:                  "DosName4040"
+resource range:                 N/A
+resource default:               "dos4040"
+resource function:              set_dos_rom_name_4040()
+resource var:                   dos_rom_name_4040
+resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xvic
+not used in:                    x64dtv/xplus4/vsid
+prepocessor:
+command-line:                   -dos4040
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/ieee/ieee-cmdline-options.c:
+----------------------------------
+command line:   -dos4040 <Name>
+description:    "Specify name of 4040 DOS ROM image"
+resource:       "DosName4040"
+action:         N/A
+
+drive/ieee/ieee-resources.c:
+----------------------------
+resource type:                  string
+resource name:                  "DosName1001"
+resource range:                 N/A
+resource default:               "dos1001"
+resource function:              set_dos_rom_name_1001()
+resource var:                   dos_rom_name_1001
+resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xvic
+not used in:                    x64dtv/xplus4/vsid
+prepocessor:
+command-line:                   -dos1001
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/ieee/ieee-cmdline-options.c:
+----------------------------------
+command line:   -dos1001 <Name>
+description:    "Specify name of 1001/8050/8250 DOS ROM image"
+resource:       "DosName1001"
+action:         N/A
+
+joystick.c:
+-----------
+resource type:                  bool
+resource name:                  "JoyOpposite"
+resource range:                 0/1
+resource default:               0
+resource function:              set_joystick_opposite_enable()
+resource var:                   joystick_opposite_enable
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -joyopposite / +joyopposite
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+joystick.c:
+-----------
+command line:   -joyopposite
+description:    "Enable opposite joystick directions"
+resource:       "JoyOpposite" (set to 1)
+action:         N/A
+
+joystick.c:
+-----------
+command line:   -joyopposite
+description:    "Disable opposite joystick directions"
+resource:       "JoyOpposite" (set to 1)
+action:         N/A
+
+kbdbuf.c:
+---------
+resource type:                  int
+resource name:                  "KbdbufDelay"
+resource range:                 0+
+resource default:               0
+resource function:              set_kbdbuf_delay()
+resource var:                   KbdbufDelay
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -keybuf-delay
+platform gui present:
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+
+kbdbuf.c:
+---------
+command line:   -keybuf-delay <value>
+description:    "Set additional keyboard buffer delay (0: use default)"
+resource:       "KbdbufDelay"
+action:         N/A
+
+log.c:
+------
+resource type:                  string
+resource name:                  "LogFileName"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_log_file_name()
+resource var:                   log_file_name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -logfile
+platform gui present:
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+
+log.c:
+------
+command line:   -logfile <Name>
+description:    "Specify log file name"
+resource:       N/A
+action:         log_logfile_opt() (sets "LogFileName")
+
+pet/pet-resources.c:
+--------------------
+resource type:                  string
+resource name:                  "ChargenName"
+resource range:                 N/A
+resource default:               "chargen"
+resource function:              set_chargen_rom_name()
+resource var:                   petres.chargenName
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -chargen / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -chargen <Name>
+description:    "Specify name of character generator ROM image"
+resource:       "ChargenName"
+action:         N/A
+
+pet/pet-resources.c:
+--------------------
+resource type:                  string
+resource name:                  "KernalName"
+resource range:                 N/A
+resource default:               PET_KERNAL4NAME
+resource function:              set_kernal_rom_name()
+resource var:                   petres.kernalName
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -kernal / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -kernal <Name>
+description:    "Specify name of Kernal ROM image"
+resource:       "KernalName"
+action:         N/A
+
+pet/pet-resources.c:
+--------------------
+resource type:                  string
+resource name:                  "BasicName"
+resource range:                 N/A
+resource default:               PET_BASIC4NAME
+resource function:              set_basic_rom_name()
+resource var:                   petres.basicName
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -basic / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -basic <Name>
+description:    "Specify name of BASIC ROM image"
+resource:       "BasicName"
+action:         N/A
+
+pet/pet-resources.c:
+--------------------
+resource type:                  string
+resource name:                  "RomModule9Name"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_rom_module_9_name()
+resource var:                   petres.mem9name
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -rom9 / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -rom9 <Name>
+description:    "Specify 4K extension ROM name at $9***"
+resource:       "RomModule9Name"
+action:         N/A
+
+pet/pet-resources.c:
+--------------------
+resource type:                  string
+resource name:                  "RomModuleAName"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_rom_module_a_name()
+resource var:                   petres.memAname
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -romA / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -romA <Name>
+description:    "Specify 4K extension ROM name at $A***"
+resource:       "RomModuleAName"
+action:         N/A
+
+pet/pet-resources.c:
+--------------------
+resource type:                  string
+resource name:                  "RomModuleBName"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_rom_module_b_name()
+resource var:                   petres.memBname
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -romB / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -romB <Name>
+description:    "Specify 4K extension ROM name at $B***"
+resource:       "RomModuleBName"
+action:         N/A
+
+pet/pet-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "RamSize"
+resource range:                 N/A (4/8/16/32/96/128)
+resource default:               32
+resource function:              set_ramsize()
+resource var:                   petres.ramSize
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -ramsize
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -ramsize <size in KB>
+description:    "PET RAM size (4/8/16/32/96/128)"
+resource:       "RamSize"
+action:         N/A
+
+pet/pet-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "IOSize"
+resource range:                 N/A (256/2048)
+resource default:               0x100
+resource function:              set_iosize()
+resource var:                   petres.IOSize
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -iosize
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -iosize <size in KB>
+description:    "PET I/O size (256/2048)"
+resource:       "IOSize"
+action:         N/A
+
+pet/pet-resources.c:
+--------------------
+resource type:                  bool
+resource name:                  "Ram9"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ram_9_enabled()
+resource var:                   petres.ramsel9
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -petram9 / +petram9
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -petram9
+description:    "Enable PET8296 4K RAM mapping at $9***"
+resource:       "Ram9" (set to 1)
+action:         N/A
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   +petram9
+description:    "Disable PET8296 4K RAM mapping at $9***"
+resource:       "Ram9" (set to 0)
+action:         N/A
+
+pet/pet-resources.c:
+--------------------
+resource type:                  bool
+resource name:                  "RamA"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ram_a_enabled()
+resource var:                   petres.ramselA
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -petramA / +petramA
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -petramA
+description:    "Enable PET8296 4K RAM mapping at $A***"
+resource:       "RamA" (set to 1)
+action:         N/A
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   +petramA
+description:    "Disable PET8296 4K RAM mapping at $A***"
+resource:       "RamA" (set to 0)
+action:         N/A
+
+pet/pet-resources.c:
+--------------------
+resource type:                  bool
+resource name:                  "SuperPET"
+resource range:                 0/1
+resource default:               0
+resource function:              set_superpet_enabled()
+resource var:                   petres.superpet
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -superpet / +superpet
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -superpet
+description:    "Enable SuperPET I/O"
+resource:       "SuperPET" (set to 1)
+action:         N/A
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   +superpet
+description:    "Disable SuperPET I/O"
+resource:       "SuperPET" (set to 0)
+action:         N/A
+
+pet/pet-sidcart.c:
+------------------
+resource type:                  bool
+resource name:                  "SidCart"
+resource range:                 0/1
+resource default:               0
+resource function:              set_sidcart_enabled()
+resource var:                   sidcart_sound_chip.chip_enabled
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -sidcart / +sidcart
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/pet-sidcart.c:
+------------------
+command line:   -sidcart
+description:    "Enable the SID cartridge"
+resource:       "SidCart" (set to 1)
+action:         N/A
+
+pet/pet-sidcart.c:
+------------------
+command line:   +sidcart
+description:    "Disable the SID cartridge"
+resource:       "SidCart" (set to 0)
+action:         N/A
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -10426,81 +11935,6 @@ description:    "Disable audio leak emulation"
 resource:       "CrtcAudioLeak" (set to 0)
 action:         N/A
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
-datasette.c:
-------------
-resource type:                  bool
-resource name:                  "DatasetteResetWithCPU"
-resource range:                 0/1
-resource default:               1
-resource function:              set_reset_datasette_with_maincpu()
-resource var:                   reset_datasette_with_maincpu
-resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    xscpu64/x64dtv/vsid
-prepocessor:
-command-line:                   -dsresetwithcpu / +dsresetwithcpu
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-datasette.c:
-------------
-command line:   -dsresetwithcpu
-description:    "Enable automatic Datasette-Reset"
-resource:       "DatasetteResetWithCPU" (set to 1)
-action:         N/A
-
-datasette.c:
-------------
-command line:   +dsresetwithcpu
-description:    "Disable automatic Datasette-Reset"
-resource:       "DatasetteResetWithCPU" (set to 0)
-action:         N/A
-
-datasette.c:
-------------
-resource type:                  int
-resource name:                  "DatasetteZeroGapDelay"
-resource range:                 0+
-resource default:               20000
-resource function:              set_datasette_zero_gap_delay()
-resource var:                   datasette_zero_gap_delay
-resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    xscpu64/x64dtv/vsid
-prepocessor:
-command-line:                   -dszerogapdelay
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-datasette.c:
-------------
-command line:   -dszerogapdelay <value>
-description:    "Set delay in cycles for a zero in the tap"
-resource:       "DatasetteZeroGapDelay"
-action:         N/A
-
-datasette.c:
-------------
-resource type:                  int
-resource name:                  "DatasetteSpeedTuning"
-resource range:                 0+
-resource default:               1
-resource function:              set_datasette_speed_tuning()
-resource var:                   datasette_speed_tuning
-resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    xscpu64/x64dtv/vsid
-prepocessor:
-command-line:                   -dsspeedtuning
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-datasette.c:
-------------
-command line:   -dsspeedtuning <value>
-description:    "Set number of cycles added to each gap in the tap"
-resource:       "DatasetteSpeedTuning"
-action:         N/A
-
 debug.c:
 --------
 resource type:                  bool
@@ -10513,7 +11947,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:			
 command-line:                   -core / +core / -debug / +debug
-platform gui present:		unix (DEBUG only)
+platform gui present:			unix (DEBUG only)
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 note: not very useful to have in the UIs, perhaps make it available only if DEBUG is defined?
 
@@ -10546,175 +11980,6 @@ description:    "Call exception handler (default)"
 resource:       "DoCoreDump" (set to 0)
 action:         N/A
 fixme: add to documentation
-
-drive/drive-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "Drive8Type"
-resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
-                                        DRIVE_TYPE_1570 (1570), DRIVE_TYPE_1571 (1571), DRIVE_TYPE_1571CR (1573), DRIVE_TYPE_1581 (1581), DRIVE_TYPE_2000 (2000),
-                                        DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
-                                        DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
-resource default:               x128: DRIVE_TYPE_1571 (1571)
-                                x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
-                                xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
-                                xplus4: DRIVE_TYPE_1551 (1551)
-                                xvic: DRIVE_TYPE_1541 (1541)
-resource function:              drive_resources_type()
-resource var:                   drive->type
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -drive8type
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -drive8type <Type>
-description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
-			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-resource:       "Drive8Type"
-action:         N/A
-
-drive/drive-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "Drive9Type"
-resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
-                                        DRIVE_TYPE_1570 (1570), DRIVE_TYPE_1571 (1571), DRIVE_TYPE_1571CR (1573), DRIVE_TYPE_1581 (1581), DRIVE_TYPE_2000 (2000),
-                                        DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
-                                        DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
-resource default:               x128: DRIVE_TYPE_1571 (1571)
-                                x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
-                                xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
-                                xplus4: DRIVE_TYPE_1551 (1551)
-                                xvic: DRIVE_TYPE_1541 (1541)
-resource function:              drive_resources_type()
-resource var:                   drive->type
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -drive9type
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -drive9type <Type>
-description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
-			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-resource:       "Drive9Type"
-action:         N/A
-
-drive/drive-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "Drive10Type"
-resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
-                                        DRIVE_TYPE_1570 (1570), DRIVE_TYPE_1571 (1571), DRIVE_TYPE_1571CR (1573), DRIVE_TYPE_1581 (1581), DRIVE_TYPE_2000 (2000),
-                                        DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
-                                        DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
-resource default:               x128: DRIVE_TYPE_1571 (1571)
-                                x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
-                                xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
-                                xplus4: DRIVE_TYPE_1551 (1551)
-                                xvic: DRIVE_TYPE_1541 (1541)
-resource function:              drive_resources_type()
-resource var:                   drive->type
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -drive10type
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -drive10type <Type>
-description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
-			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-resource:       "Drive10Type"
-action:         N/A
-
-drive/drive-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "Drive11Type"
-resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
-                                        DRIVE_TYPE_1570 (1570), DRIVE_TYPE_1571 (1571), DRIVE_TYPE_1571CR (1573), DRIVE_TYPE_1581 (1581), DRIVE_TYPE_2000 (2000),
-                                        DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
-                                        DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
-resource default:               x128: DRIVE_TYPE_1571 (1571)
-                                x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
-                                xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
-                                xplus4: DRIVE_TYPE_1551 (1551)
-                                xvic: DRIVE_TYPE_1541 (1541)
-resource function:              drive_resources_type()
-resource var:                   drive->type
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -drive11type
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -drive11type <Type>
-description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
-			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-resource:       "Drive11Type"
-action:         N/A
-
-drive/drive-resources.c:
-------------------------
-resource type:                  bool
-resource name:                  "DriveTrueEmulation"
-resource range:                 0/1
-resource default:               1
-resource function:              set_drive_true_emulation()
-resource var:                   drive_true_emulation
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -truedrive / +truedrive
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -truedrive
-description:    "Enable hardware-level emulation of disk drives"
-resource:       "DriveTrueEmulation" (set to 1)
-action:         N/A
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   +truedrive
-description:    "Disable hardware-level emulation of disk drives"
-resource:       "DriveTrueEmulation" (set to 0)
-action:         N/A
 
 drive/drive-resources.c:
 ------------------------
@@ -10770,198 +12035,6 @@ description:    "Set volume for disk drive sound emulation (0-4000)"
 resource:       "DriveSoundEmulationVolume"
 action:         N/A
 fixme: add to documentation
-
-drive/drive-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "Drive8ExtendImagePolicy"
-resource range:                 0..2 (DRIVE_EXTEND_NEVER (0), DRIVE_EXTEND_ASK (1), DRIVE_EXTEND_ACCESS (2))
-resource default:               DRIVE_EXTEND_NEVER (0)
-resource function:              set_drive_extend_image_policy()
-resource var:                   drive->extend_image_policy
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -drive8extend
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -drive8extend <method>
-description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
-resource:       "Drive8ExtendImagePolicy"
-action:         N/A
-
-drive/drive-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "Drive9ExtendImagePolicy"
-resource range:                 0..2 (DRIVE_EXTEND_NEVER (0), DRIVE_EXTEND_ASK (1), DRIVE_EXTEND_ACCESS (2))
-resource default:               DRIVE_EXTEND_NEVER (0)
-resource function:              set_drive_extend_image_policy()
-resource var:                   drive->extend_image_policy
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -drive9extend
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -drive9extend <method>
-description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
-resource:       "Drive9ExtendImagePolicy"
-action:         N/A
-
-drive/drive-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "Drive10ExtendImagePolicy"
-resource range:                 0..2 (DRIVE_EXTEND_NEVER (0), DRIVE_EXTEND_ASK (1), DRIVE_EXTEND_ACCESS (2))
-resource default:               DRIVE_EXTEND_NEVER (0)
-resource function:              set_drive_extend_image_policy()
-resource var:                   drive->extend_image_policy
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -drive10extend
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -drive10extend <method>
-description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
-resource:       "Drive10ExtendImagePolicy"
-action:         N/A
-
-drive/drive-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "Drive11ExtendImagePolicy"
-resource range:                 0..2 (DRIVE_EXTEND_NEVER (0), DRIVE_EXTEND_ASK (1), DRIVE_EXTEND_ACCESS (2))
-resource default:               DRIVE_EXTEND_NEVER (0)
-resource function:              set_drive_extend_image_policy()
-resource var:                   drive->extend_image_policy
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -drive11extend
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -drive11extend <method>
-description:    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
-resource:       "Drive11ExtendImagePolicy"
-action:         N/A
-
-drive/drive-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "Drive8IdleMethod"
-resource range:                 0..2 (DRIVE_IDLE_NO_IDLE (0), DRIVE_IDLE_SKIP_CYCLES (1), DRIVE_IDLE_TRAP_IDLE (2))
-resource default:               DRIVE_IDLE_NO_IDLE (0)
-resource function:              set_drive_idling_method()
-resource var:                   drive->idling_method
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -drive8idle
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -drive8idle <method>
-description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
-resource:       "Drive8IdleMethod"
-action:         N/A
-
-drive/drive-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "Drive9IdleMethod"
-resource range:                 0..2 (DRIVE_IDLE_NO_IDLE (0), DRIVE_IDLE_SKIP_CYCLES (1), DRIVE_IDLE_TRAP_IDLE (2))
-resource default:               DRIVE_IDLE_NO_IDLE (0)
-resource function:              set_drive_idling_method()
-resource var:                   drive->idling_method
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -drive9idle
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -drive9idle <method>
-description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
-resource:       "Drive9IdleMethod"
-action:         N/A
-
-drive/drive-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "Drive10IdleMethod"
-resource range:                 0..2 (DRIVE_IDLE_NO_IDLE (0), DRIVE_IDLE_SKIP_CYCLES (1), DRIVE_IDLE_TRAP_IDLE (2))
-resource default:               DRIVE_IDLE_NO_IDLE (0)
-resource function:              set_drive_idling_method()
-resource var:                   drive->idling_method
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -drive10idle
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -drive10idle <method>
-description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
-resource:       "Drive10IdleMethod"
-action:         N/A
-
-drive/drive-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "Drive11IdleMethod"
-resource range:                 0..2 (DRIVE_IDLE_NO_IDLE (0), DRIVE_IDLE_SKIP_CYCLES (1), DRIVE_IDLE_TRAP_IDLE (2))
-resource default:               DRIVE_IDLE_NO_IDLE (0)
-resource function:              set_drive_idling_method()
-resource var:                   drive->idling_method
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -drive11idle
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-drive/drive-cmdline-options.c:
-------------------------------
-command line:   -drive11idle <method>
-description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
-resource:       "Drive11IdleMethod"
-action:         N/A
 
 drive/drive-resources.c:
 ------------------------
@@ -11472,28 +12545,6 @@ fixme: add to documentation
 drive/iec/iec-resources.c:
 --------------------------
 resource type:                  string
-resource name:                  "DosName1541"
-resource range:                 N/A
-resource default:               "dos1541"
-resource function:              set_dos_rom_name_1541()
-resource var:                   dos_rom_name_1541
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -dos1541
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -dos1541 <Name>
-description:    "Specify name of 1541 DOS ROM image"
-resource:       "DosName1541"
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  string
 resource name:                  "DosName1541ii"
 resource range:                 N/A
 resource default:               "d1541II"
@@ -11511,72 +12562,6 @@ drive/iec/iec-cmdline-options.c:
 command line:   -dos1541II <Name>
 description:    "Specify name of 1541-II DOS ROM image"
 resource:       "DosName1541II"
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "DosName1570"
-resource range:                 N/A
-resource default:               "dos1570"
-resource function:              set_dos_rom_name_1570()
-resource var:                   dos_rom_name_1570
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -dos1570
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -dos1570 <Name>
-description:    "Specify name of 1570 DOS ROM image"
-resource:       "DosName1570"
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "DosName1571"
-resource range:                 N/A
-resource default:               "dos1571"
-resource function:              set_dos_rom_name_1571()
-resource var:                   dos_rom_name_1571
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -dos1571
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -dos1571 <Name>
-description:    "Specify name of 1571 DOS ROM image"
-resource:       "DosName1571"
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "DosName1581"
-resource range:                 N/A
-resource default:               "dos1581"
-resource function:              set_dos_rom_name_1581()
-resource var:                   dos_rom_name_1581
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -dos1581
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -dos1581 <Name>
-description:    "Specify name of 1581 DOS ROM image"
-resource:       "DosName1581"
 action:         N/A
 
 drive/iec/iec-resources.c:
@@ -11613,594 +12598,14 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
 not used in:                    xcbm5x0/xcbm2/xpet/vsid
 prepocessor:
 command-line:                   -dos4000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform gui missing:			osx
 
 drive/iec/iec-cmdline-options.c:
 --------------------------------
 command line:   -dos4000 <Name>
 description:    "Specify name of 4000 DOS ROM image"
 resource:       "DosName4000"
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive8RAM2000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram2()
-resource var:                   drive->drive_ram2_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive8ram2000 / +drive8ram2000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive8ram2000
-description:    "Enable 8KB RAM expansion at $2000-$3FFF"
-resource:       "Drive8RAM2000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive8ram2000
-description:    "Disable 8KB RAM expansion at $2000-$3FFF"
-resource:       "Drive8RAM2000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive9RAM2000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram2()
-resource var:                   drive->drive_ram2_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive9ram2000 / +drive9ram2000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive9ram2000
-description:    "Enable 8KB RAM expansion at $2000-$3FFF"
-resource:       "Drive9RAM2000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive9ram2000
-description:    "Disable 8KB RAM expansion at $2000-$3FFF"
-resource:       "Drive9RAM2000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive10RAM2000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram2()
-resource var:                   drive->drive_ram2_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive10ram2000 / +drive10ram2000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive10ram2000
-description:    "Enable 8KB RAM expansion at $2000-$3FFF"
-resource:       "Drive10RAM2000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive10ram2000
-description:    "Disable 8KB RAM expansion at $2000-$3FFF"
-resource:       "Drive10RAM2000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive11RAM2000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram2()
-resource var:                   drive->drive_ram2_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive11ram2000 / +drive11ram2000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive11ram2000
-description:    "Enable 8KB RAM expansion at $2000-$3FFF"
-resource:       "Drive11RAM2000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive11ram2000
-description:    "Disable 8KB RAM expansion at $2000-$3FFF"
-resource:       "Drive11RAM2000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive8RAM4000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram4()
-resource var:                   drive->drive_ram4_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive8ram4000 / +drive8ram4000
-platform gui present:           amigsos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive8ram4000
-description:    "Enable 8KB RAM expansion at $4000-$5FFF"
-resource:       "Drive8RAM4000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive8ram4000
-description:    "Disable 8KB RAM expansion at $4000-$5FFF"
-resource:       "Drive8RAM4000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive9RAM4000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram4()
-resource var:                   drive->drive_ram4_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive9ram4000 / +drive9ram4000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive9ram4000
-description:    "Enable 8KB RAM expansion at $4000-$5FFF"
-resource:       "Drive9RAM4000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive9ram4000
-description:    "Disable 8KB RAM expansion at $4000-$5FFF"
-resource:       "Drive9RAM4000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive10RAM4000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram4()
-resource var:                   drive->drive_ram4_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive10ram4000 / +drive10ram4000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive10ram4000
-description:    "Enable 8KB RAM expansion at $4000-$5FFF"
-resource:       "Drive10RAM4000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive10ram4000
-description:    "Disable 8KB RAM expansion at $4000-$5FFF"
-resource:       "Drive10RAM4000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive11RAM4000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram4()
-resource var:                   drive->drive_ram4_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive11ram4000 / +drive11ram4000
-platform gui present:           amigaos/beos/dos/sdl/os2/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive11ram4000
-description:    "Enable 8KB RAM expansion at $4000-$5FFF"
-resource:       "Drive11RAM4000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive11ram4000
-description:    "Disable 8KB RAM expansion at $4000-$5FFF"
-resource:       "Drive11RAM4000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive8RAM6000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram6()
-resource var:                   drive->drive_ram6_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive8ram6000 / +drive8ram6000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive8ram6000
-description:    "Enable 8KB RAM expansion at $6000-$7FFF"
-resource:       "Drive8RAM6000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive8ram6000
-description:    "Disable 8KB RAM expansion at $6000-$7FFF"
-resource:       "Drive8RAM6000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive9RAM6000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram6()
-resource var:                   drive->drive_ram6_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive9ram6000 / +drive9ram6000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive9ram6000
-description:    "Enable 8KB RAM expansion at $6000-$7FFF"
-resource:       "Drive9RAM6000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive9ram6000
-description:    "Disable 8KB RAM expansion at $6000-$7FFF"
-resource:       "Drive9RAM6000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive10RAM6000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram6()
-resource var:                   drive->drive_ram6_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive10ram6000 / +drive10ram6000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive10ram6000
-description:    "Enable 8KB RAM expansion at $6000-$7FFF"
-resource:       "Drive10RAM6000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive10ram6000
-description:    "Disable 8KB RAM expansion at $6000-$7FFF"
-resource:       "Drive10RAM6000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive11RAM6000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram6()
-resource var:                   drive->drive_ram6_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive11ram6000 / +drive11ram6000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive11ram6000
-description:    "Enable 8KB RAM expansion at $6000-$7FFF"
-resource:       "Drive11RAM6000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive11ram6000
-description:    "Disable 8KB RAM expansion at $6000-$7FFF"
-resource:       "Drive11RAM6000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive8RAM8000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram8()
-resource var:                   drive->drive_ram8_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive8ram8000 / +drive8ram8000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive8ram8000
-description:    "Enable 8KB RAM expansion at $8000-$9FFF"
-resource:       "Drive8RAM8000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive8ram8000
-description:    "Disable 8KB RAM expansion at $8000-$9FFF"
-resource:       "Drive8RAM8000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive9RAM8000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram8()
-resource var:                   drive->drive_ram8_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive9ram8000 / +drive9ram8000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive9ram8000
-description:    "Enable 8KB RAM expansion at $8000-$9FFF"
-resource:       "Drive9RAM8000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive9ram8000
-description:    "Disable 8KB RAM expansion at $8000-$9FFF"
-resource:       "Drive9RAM8000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive10RAM8000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram8()
-resource var:                   drive->drive_ram8_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive10ram8000 / +drive10ram8000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive10ram8000
-description:    "Enable 8KB RAM expansion at $8000-$9FFF"
-resource:       "Drive10RAM8000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive10ram8000
-description:    "Disable 8KB RAM expansion at $8000-$9FFF"
-resource:       "Drive10RAM8000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive11RAM8000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_ram8()
-resource var:                   drive->drive_ram8_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive11ram8000 / +drive11ram8000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive11ram8000
-description:    "Enable 8KB RAM expansion at $8000-$9FFF"
-resource:       "Drive11RAM8000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive11ram8000
-description:    "Disable 8KB RAM expansion at $8000-$9FFF"
-resource:       "Drive11RAM8000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive8RAMA000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_rama()
-resource var:                   drive->drive_rama_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive8rama000 / +drive8rama000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive8rama000
-description:    "Enable 8KB RAM expansion at $A000-$BFFF"
-resource:       "Drive8RAMA000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive8rama000
-description:    "Disable 8KB RAM expansion at $A000-$BFFF"
-resource:       "Drive8RAMA000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive9RAMA000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_rama()
-resource var:                   drive->drive_rama_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive9rama000 / +drive9rama000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive9rama000
-description:    "Enable 8KB RAM expansion at $A000-$BFFF"
-resource:       "Drive9RAMA000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive9rama000
-description:    "Disable 8KB RAM expansion at $A000-$BFFF"
-resource:       "Drive9RAMA000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive10RAMA000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_rama()
-resource var:                   drive->drive_rama_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive10rama000 / +drive10rama000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive10rama000
-description:    "Enable 8KB RAM expansion at $A000-$BFFF"
-resource:       "Drive10RAMA000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive10rama000
-description:    "Disable 8KB RAM expansion at $A000-$BFFF"
-resource:       "Drive10RAMA000" (set to 0)
-action:         N/A
-
-drive/iec/iec-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "Drive11RAMA000"
-resource range:                 0/1
-resource default:               0
-resource function:              set_drive_rama()
-resource var:                   drive->drive_rama_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
-not used in:                    xcbm5x0/xcbm2/xpet/vsid
-prepocessor:
-command-line:                   -drive11rama000 / +drive11rama000
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   -drive11rama000
-description:    "Enable 8KB RAM expansion at $A000-$BFFF"
-resource:       "Drive11RAMA000" (set to 1)
-action:         N/A
-
-drive/iec/iec-cmdline-options.c:
---------------------------------
-command line:   +drive11rama000
-description:    "Disable 8KB RAM expansion at $A000-$BFFF"
-resource:       "Drive11RAMA000" (set to 0)
 action:         N/A
 
 drive/iec/plus4exp/plus4exp-resources.c:
@@ -12327,116 +12732,6 @@ drive/iec128dcr/iec128dcr-cmdline-options.c:
 command line:   -dos1571cr <Name>
 description:    "Specify name of 1571CR DOS ROM image"
 resource:       "DosName1571cr"
-action:         N/A
-
-drive/ieee/ieee-resources.c:
-----------------------------
-resource type:                  string
-resource name:                  "DosName2031"
-resource range:                 N/A
-resource default:               "dos2031"
-resource function:              set_dos_rom_name_2031()
-resource var:                   dos_rom_name_2031
-resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xvic
-not used in:                    x64dtv/xplus4/vsid
-prepocessor:
-command-line:                   -dos2031
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/ieee/ieee-cmdline-options.c:
-----------------------------------
-command line:   -dos2031 <Name>
-description:    "Specify name of 2031 DOS ROM image"
-resource:       "DosName2031"
-action:         N/A
-
-drive/ieee/ieee-resources.c:
-----------------------------
-resource type:                  string
-resource name:                  "DosName2040"
-resource range:                 N/A
-resource default:               "dos2040"
-resource function:              set_dos_rom_name_2040()
-resource var:                   dos_rom_name_2040
-resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xvic
-not used in:                    x64dtv/xplus4/vsid
-prepocessor:
-command-line:                   -dos2040
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/ieee/ieee-cmdline-options.c:
-----------------------------------
-command line:   -dos2040 <Name>
-description:    "Specify name of 2040 DOS ROM image"
-resource:       "DosName2040"
-action:         N/A
-
-drive/ieee/ieee-resources.c:
-----------------------------
-resource type:                  string
-resource name:                  "DosName3040"
-resource range:                 N/A
-resource default:               "dos3040"
-resource function:              set_dos_rom_name_3040()
-resource var:                   dos_rom_name_3040
-resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xvic
-not used in:                    x64dtv/xplus4/vsid
-prepocessor:
-command-line:                   -dos3040
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/ieee/ieee-cmdline-options.c:
-----------------------------------
-command line:   -dos3040 <Name>
-description:    "Specify name of 3040 DOS ROM image"
-resource:       "DosName3040"
-action:         N/A
-
-drive/ieee/ieee-resources.c:
-----------------------------
-resource type:                  string
-resource name:                  "DosName4040"
-resource range:                 N/A
-resource default:               "dos4040"
-resource function:              set_dos_rom_name_4040()
-resource var:                   dos_rom_name_4040
-resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xvic
-not used in:                    x64dtv/xplus4/vsid
-prepocessor:
-command-line:                   -dos4040
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/ieee/ieee-cmdline-options.c:
-----------------------------------
-command line:   -dos4040 <Name>
-description:    "Specify name of 4040 DOS ROM image"
-resource:       "DosName4040"
-action:         N/A
-
-drive/ieee/ieee-resources.c:
-----------------------------
-resource type:                  string
-resource name:                  "DosName1001"
-resource range:                 N/A
-resource default:               "dos1001"
-resource function:              set_dos_rom_name_1001()
-resource var:                   dos_rom_name_1001
-resource emulators:             x64/x64sc/xscpu64/x128/xcbm5x0/xcbm2/xpet/xvic
-not used in:                    x64dtv/xplus4/vsid
-prepocessor:
-command-line:                   -dos1001
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-drive/ieee/ieee-cmdline-options.c:
-----------------------------------
-command line:   -dos1001 <Name>
-description:    "Specify name of 1001/8050/8250 DOS ROM image"
-resource:       "DosName1001"
 action:         N/A
 
 drive/tcbm/tcbm-resources.c:
@@ -13078,48 +13373,6 @@ resource:       "KoalaCRTCTextColor"
 action:         N/A
 fixme: add to documentation
 
-joystick.c:
------------
-resource type:                  bool
-resource name:                  "JoyOpposite"
-resource range:                 0/1
-resource default:               0
-resource function:              set_joystick_opposite_enable()
-resource var:                   joystick_opposite_enable
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-kbdbuf.c:
----------
-resource type:                  int
-resource name:                  "KbdbufDelay"
-resource range:                 0+
-resource default:               0
-resource function:              set_kbdbuf_delay()
-resource var:                   KbdbufDelay
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -keybuf-delay
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
-fixme: add to documentation
-gpz note: this makes no sense to be changeable in the UIs, as it is strictly related
-          to the -keybuf commandline option
-blacky note: agreed.
-
-kbdbuf.c:
----------
-command line:   -keybuf-delay <value>
-description:    "Set additional keyboard buffer delay (0: use default)"
-resource:       "KbdbufDelay"
-action:         N/A
-fixme: add to documentation
-
 lightpen.c:
 -----------
 resource type:                  bool
@@ -13176,30 +13429,6 @@ resource:       "LightpenType"
 action:         N/A
 fixme: fix documentation, range
 
-log.c:
-------
-resource type:                  string
-resource name:                  "LogFileName"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_log_file_name()
-resource var:                   log_file_name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -logfile
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-gpz note: not sure if its useful to change the logfile name in the UIs, especially
-          because logging starts before
-
-log.c:
-------
-command line:   -logfile <Name>
-description:    "Specify log file name"
-resource:       N/A
-action:         log_logfile_opt() (sets "LogFileName")
-
 machine.c:
 ----------
 resource type:                  int
@@ -13245,50 +13474,6 @@ platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 pet/pet-resources.c:
 --------------------
 resource type:                  string
-resource name:                  "ChargenName"
-resource range:                 N/A
-resource default:               "chargen"
-resource function:              set_chargen_rom_name()
-resource var:                   petres.chargenName
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -chargen / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -chargen <Name>
-description:    "Specify name of character generator ROM image"
-resource:       "ChargenName"
-action:         N/A
-
-pet/pet-resources.c:
---------------------
-resource type:                  string
-resource name:                  "KernalName"
-resource range:                 N/A
-resource default:               PET_KERNAL4NAME
-resource function:              set_kernal_rom_name()
-resource var:                   petres.kernalName
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -kernal / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -kernal <Name>
-description:    "Specify name of Kernal ROM image"
-resource:       "KernalName"
-action:         N/A
-
-pet/pet-resources.c:
---------------------
-resource type:                  string
 resource name:                  "EditorName"
 resource range:                 N/A
 resource default:               PET_EDITOR4B80NAME
@@ -13307,102 +13492,6 @@ pet/pet-cmdline-options.c:
 command line:   -editor <Name>
 description:    "Specify name of Editor ROM image"
 resource:       "EditorName"
-action:         N/A
-fixme: fix documentation
-
-pet/pet-resources.c:
---------------------
-resource type:                  string
-resource name:                  "BasicName"
-resource range:                 N/A
-resource default:               PET_BASIC4NAME
-resource function:              set_basic_rom_name()
-resource var:                   petres.basicName
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -basic / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-fixme: add to documentation
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -basic <Name>
-description:    "Specify name of BASIC ROM image"
-resource:       "BasicName"
-action:         N/A
-fixme: add to documentation
-
-pet/pet-resources.c:
---------------------
-resource type:                  string
-resource name:                  "RomModule9Name"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_rom_module_9_name()
-resource var:                   petres.mem9name
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -rom9 / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-fixme: fix documentation, string
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -rom9 <Name>
-description:    "Specify 4K extension ROM name at $9***"
-resource:       "RomModule9Name"
-action:         N/A
-fixme: fix documentation
-
-pet/pet-resources.c:
---------------------
-resource type:                  string
-resource name:                  "RomModuleAName"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_rom_module_a_name()
-resource var:                   petres.memAname
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -romA / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-fixme: fix documentation, string
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -romA <Name>
-description:    "Specify 4K extension ROM name at $A***"
-resource:       "RomModuleAName"
-action:         N/A
-fixme: fix documentation
-
-pet/pet-resources.c:
---------------------
-resource type:                  string
-resource name:                  "RomModuleBName"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_rom_module_b_name()
-resource var:                   petres.memBname
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -romB / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-fixme: fix documentation, string
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -romB <Name>
-description:    "Specify 4K extension ROM name at $B***"
-resource:       "RomModuleBName"
 action:         N/A
 fixme: fix documentation
 
@@ -13576,41 +13665,6 @@ action:         N/A
 
 pet/pet-resources.c:
 --------------------
-resource type:                  int
-resource name:                  "RamSize"
-resource range:                 N/A (4/8/16/32/96/128)
-resource default:               32
-resource function:              set_ramsize()
-resource var:                   petres.ramSize
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-pet/pet-resources.c:
---------------------
-resource type:                  int
-resource name:                  "IOSize"
-resource range:                 N/A (256/2048)
-resource default:               0x100
-resource function:              set_iosize()
-resource var:                   petres.IOSize
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, int
-
-pet/pet-resources.c:
---------------------
 resource type:                  bool
 resource name:                  "Crtc"
 resource range:                 0/1
@@ -13642,94 +13696,6 @@ platform range correct:
 platform range incorrect:		
 platform gui missing:			sdl
 fixme: fix documentation, int
-
-pet/pet-resources.c:
---------------------
-resource type:                  bool
-resource name:                  "Ram9"
-resource range:                 0/1
-resource default:               0
-resource function:              set_ram_9_enabled()
-resource var:                   petres.ramsel9
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -petram9 / +petram9
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -petram9
-description:    "Enable PET8296 4K RAM mapping at $9***"
-resource:       "Ram9" (set to 1)
-action:         N/A
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   +petram9
-description:    "Disable PET8296 4K RAM mapping at $9***"
-resource:       "Ram9" (set to 0)
-action:         N/A
-
-pet/pet-resources.c:
---------------------
-resource type:                  bool
-resource name:                  "RamA"
-resource range:                 0/1
-resource default:               0
-resource function:              set_ram_a_enabled()
-resource var:                   petres.ramselA
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -petramA / +petramA
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -petramA
-description:    "Enable PET8296 4K RAM mapping at $A***"
-resource:       "RamA" (set to 1)
-action:         N/A
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   +petramA
-description:    "Disable PET8296 4K RAM mapping at $A***"
-resource:       "RamA" (set to 0)
-action:         N/A
-
-pet/pet-resources.c:
---------------------
-resource type:                  bool
-resource name:                  "SuperPET"
-resource range:                 0/1
-resource default:               0
-resource function:              set_superpet_enabled()
-resource var:                   petres.superpet
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -superpet / +superpet
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-fixme: fix documentation, bool
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   -superpet
-description:    "Enable SuperPET I/O"
-resource:       "SuperPET" (set to 1)
-action:         N/A
-
-pet/pet-cmdline-options.c:
---------------------------
-command line:   +superpet
-description:    "Disable SuperPET I/O"
-resource:       "SuperPET" (set to 0)
-action:         N/A
 
 pet/pet-resources.c:
 --------------------
@@ -13927,41 +13893,14 @@ resource:       "PETColourBG"
 action:         N/A
 fixme: add to documentation
 
-pet/pet-sidcart.c:
-------------------
-resource type:                  bool
-resource name:                  "SidCart"
-resource range:                 0/1
-resource default:               0
-resource function:              set_sidcart_enabled()
-resource var:                   sidcart_sound_chip.chip_enabled
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -sidcart / +sidcart
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
 pet/pet-sidcart.c:
 ------------------
-command line:   -sidcart
-description:    "Enable the SID cartridge"
-resource:       "SidCart" (set to 1)
-action:         N/A
-
-pet/pet-sidcart.c:
-------------------
-command line:   +sidcart
-description:    "Disable the SID cartridge"
-resource:       "SidCart" (set to 0)
-action:         N/A
-
-pet/pet-sidcart.c:
-------------------
-resource type:                  bool
+resource type:                  int
 resource name:                  "SidAddress"
-resource range:                 N/A ($8F00/$E900)
-resource default:               $E900
+resource range:                 0x8F00/0xE900
+resource default:               0xE900
 resource function:              set_sid_address()
 resource var:                   sidcart_address
 resource emulators:             xpet
@@ -13969,9 +13908,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: fix documentation, addresses
 
 pet/pet-sidcart.c:
