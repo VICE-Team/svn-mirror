@@ -126,8 +126,8 @@ static int runc1541(char *termvar)
 static UI_CALLBACK(run_c1541)
 {
     int i = 0;
-    char *termvar;
-    char *terms[5] = {
+    char *terms[6] = {
+        "x-terminal-emulator",
         "konsole",
         "gterm",
         "aterm",
@@ -141,10 +141,6 @@ static UI_CALLBACK(run_c1541)
     vsync_suspend_speed_eval();
     sound_close();
 
-    /* first try the TERM environment variable */
-    if ((termvar = getenv("TERM"))) {
-        err = runc1541(termvar);
-    }
     /* try a couple of known terminal programs */
     while ((err != 0) && (terms[i])) {
         err = runc1541(terms[i]);
