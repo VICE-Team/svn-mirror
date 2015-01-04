@@ -535,6 +535,8 @@ UI_MENU_DEFINE_TOGGLE(CrtcExternalPalette)
 UI_MENU_DEFINE_TOGGLE(TEDExternalPalette)
 UI_MENU_DEFINE_TOGGLE(VICExternalPalette)
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
+UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
+UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
 
 static UI_MENU_CALLBACK(restore_size_callback)
 {
@@ -668,6 +670,15 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MachineVideoStandard_callback,
       (ui_callback_data_t)MACHINE_SYNC_NTSC },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Enable Sprite-Sprite collisions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIICheckSsColl_callback,
+      NULL },
+    { "Enable Sprite-Background collisions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIICheckSbColl_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 
@@ -723,6 +734,15 @@ const ui_menu_entry_t c64_video_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIAudioLeak_callback,
       NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Enable Sprite-Sprite collisions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIICheckSsColl_callback,
+      NULL },
+    { "Enable Sprite-Background collisions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIICheckSbColl_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 
@@ -768,6 +788,15 @@ const ui_menu_entry_t c64sc_video_menu[] = {
     { "VICII Audio Leak emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIAudioLeak_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Enable Sprite-Sprite collisions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIICheckSsColl_callback,
+      NULL },
+    { "Enable Sprite-Background collisions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIICheckSbColl_callback,
       NULL },
     SDL_MENU_LIST_END
 };
@@ -835,9 +864,17 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MachineVideoStandard_callback,
       (ui_callback_data_t)MACHINE_SYNC_NTSC },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Enable Sprite-Sprite collisions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIICheckSsColl_callback,
+      NULL },
+    { "Enable Sprite-Background collisions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIICheckSbColl_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
-
 
 /* CBM-II 5x0 video menu */
 
@@ -896,6 +933,15 @@ const ui_menu_entry_t cbm5x0_video_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_MachineVideoStandard_callback,
       (ui_callback_data_t)MACHINE_SYNC_NTSC },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Enable Sprite-Sprite collisions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIICheckSsColl_callback,
+      NULL },
+    { "Enable Sprite-Background collisions",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIICheckSbColl_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 

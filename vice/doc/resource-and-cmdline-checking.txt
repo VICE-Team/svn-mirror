@@ -18381,8 +18381,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIcheckss / +VICIIcheckss
-platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
-platform gui missing:			sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows/sdl
+platform gui missing:
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -18410,8 +18410,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIchecksb / +VICIIchecksb
-platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
-platform gui missing:			sdl
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows/sdl
+platform gui missing:
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
