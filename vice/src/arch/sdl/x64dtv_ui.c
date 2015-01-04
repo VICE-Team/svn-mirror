@@ -123,7 +123,7 @@ static const ui_menu_entry_t x64dtv_main_menu[] = {
     { "Debug",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)debug_menu },
+      (ui_callback_data_t)debug_menu_dtv },
 #endif
     { "Help",
       MENU_ENTRY_SUBMENU,

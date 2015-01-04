@@ -10849,8 +10849,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -autostart-delay
 platform gui present:           amigaos/beos/dos/unix
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           os2/sdl/osx/windows
 fixme: update documentation with range
 
@@ -21051,8 +21051,8 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   -dtvblitterlog / +dtvblitterlog
-platform gui present:           unix
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           unix/sdl
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 c64dtv/c64dtvblitter.c:
 -----------------------
@@ -21080,8 +21080,8 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:			#ifdef DEBUG
 command-line:                   -dtvdmalog / +dtvdmalog
-platform gui present:		unix
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:		unix/sdl
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 c64dtv/c64dtvdma.c:
 -------------------
@@ -21109,8 +21109,8 @@ resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:			#ifdef DEBUG
 command-line:                   -dtvflashlog / +dtvflashlog
-platform gui present:		unix
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:		unix/sdl
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 c64dtv/c64dtvflash.c:
 ---------------------
@@ -21234,8 +21234,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   -trace_drive2 / +trace_drive2
-platform gui present:           unix
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           unix/sdl
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 fixme: Add to documentation
 
 debug.c:
@@ -21266,8 +21266,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   -trace_drive3 / +trace_drive3
-platform gui present:           unix
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           unix/sdl
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 fixme: Add to documentation
 
 debug.c:
@@ -21325,10 +21325,10 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
 command-line:                   NONE (fixme)
-platform gui present:           unix
-platform range correct:		
-platform range incorrect:		
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           unix/sdl
+platform range correct:
+platform range incorrect:
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 fixme: Add to documentation
 
 diskimage/rawimage.c:
@@ -22084,9 +22084,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #ifdef HAVE_HARDSID
 command-line:                   NONE (fixme)
-platform gui present:			windows
-platform range correct:		
-platform range incorrect:		
+platform gui present:           windows
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx
 fixme: add to documentation
 note: hardsid is essentially abandoned and there are no drivers for current OSs.
@@ -23474,8 +23474,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme ??)
-platform gui present:           
-platform gui missing:			sdl
+platform gui present:
+platform gui missing:           sdl
 fixme: add to documentation
 blacky note: resource is used/checked
 
@@ -23491,8 +23491,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   NONE (fixme ??)
-platform gui present:           
-platform gui missing:			sdl
+platform gui present:
+platform gui missing:           sdl
 fixme: add to documentation
 blacky note: resource is used/checked
 
