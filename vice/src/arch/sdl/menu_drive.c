@@ -545,7 +545,7 @@ static UI_MENU_CALLBACK(set_par_callback)
 }
 
 #define DRIVE_PARALLEL_MENU(x)                                   \
-    static const ui_menu_entry_t drive_##x##_parallel_menu[] = { \
+    static ui_menu_entry_t drive_##x##_parallel_menu[] = {       \
         { "None",                                                \
           MENU_ENTRY_OTHER,                                      \
           set_par_callback,                                      \
@@ -569,6 +569,22 @@ DRIVE_PARALLEL_MENU(8)
 DRIVE_PARALLEL_MENU(9)
 DRIVE_PARALLEL_MENU(10)
 DRIVE_PARALLEL_MENU(11)
+
+/* patch some things that are slightly different in the emulators */
+void uidrive_menu_create(void)
+{
+    int newend = 4;
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        newend = 1;
+    } else if (machine_class == VICE_MACHINE_PLUS4) {
+        newend = 2;
+    }
+    memset(&drive_8_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+    memset(&drive_9_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+    memset(&drive_10_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+    memset(&drive_11_parallel_menu[newend], 0, sizeof(ui_menu_entry_t));
+}
 
 static UI_MENU_CALLBACK(set_expand_callback)
 {

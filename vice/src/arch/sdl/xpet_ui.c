@@ -187,6 +187,7 @@ int petui_init(void)
 #endif
 
     sdl_ui_set_menu_params = petui_set_menu_params;
+    uidrive_menu_create();
 
     sdl_ui_set_main_menu(xpet_main_menu);
 

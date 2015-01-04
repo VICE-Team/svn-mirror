@@ -178,6 +178,7 @@ int c128ui_init(void)
     sdl_ui_set_menu_params = c128ui_set_menu_params;
 
     uicart_menu_create();
+    uidrive_menu_create();
 
     sdl_ui_set_main_menu(x128_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);

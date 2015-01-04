@@ -12693,9 +12693,9 @@ resource function:              set_do_core_dumps()
 resource var:                   debug.do_core_dumps
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
-prepocessor:			
+prepocessor:
 command-line:                   -core / +core / -debug / +debug
-platform gui present:			unix (DEBUG only)
+platform gui present:           unix (DEBUG only)
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 note: not very useful to have in the UIs, perhaps make it available only if DEBUG is defined?
 
@@ -12742,7 +12742,7 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -drivesound / +drivesound
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:			osx
+platform gui missing:           osx
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -13368,10 +13368,10 @@ resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -parallel8 / +parallel8
-platform gui present:           amigaos/dos/os2/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			beos/sdl
+platform gui present:           amigaos/dos/os2/unix/osx/windows/sdl
+platform range correct:
+platform range incorrect:
+platform gui missing:           beos
 fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
@@ -13394,10 +13394,10 @@ resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -parallel9 / +parallel9
-platform gui present:           amigaos/dos/os2/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			beos/sdl
+platform gui present:           amigaos/dos/os2/unix/osx/windows/sdl
+platform range correct:
+platform range incorrect:
+platform gui missing:           beos
 fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
@@ -13420,10 +13420,10 @@ resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -parallel10 / +parallel10
-platform gui present:           amigaos/dos/os2/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			beos/sdl
+platform gui present:           amigaos/dos/os2/unix/osx/windows/sdl
+platform range correct:
+platform range incorrect:
+platform gui missing:           beos
 fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
@@ -13446,10 +13446,10 @@ resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xvic/vsid
 prepocessor:
 command-line:                   -parallel11 / +parallel11
-platform gui present:           amigaos/dos/os2/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			beos/sdl
+platform gui present:           amigaos/dos/os2/unix/osx/windows/sdl
+platform range correct:
+platform range incorrect:
+platform gui missing:           beos
 fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
@@ -16341,7 +16341,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   -soundarg
-platform gui present:			unix
+platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 sound.c:
@@ -16364,7 +16364,7 @@ not used in:
 prepocessor:
 command-line:                   -soundrecdev
 platform gui present:           amigaos/beos/unix/windows
-platform gui missing:			dos/os2/sdl/osx
+platform gui missing:           dos/os2/sdl/osx
 fixme: fix documentation, range has changed
 
 sound.c:
@@ -16388,7 +16388,7 @@ not used in:
 prepocessor:
 command-line:                   -soundrecarg
 platform gui present:           amigaos/beos/sdl/unix/windows
-platform gui missing:			dos/os2/osx
+platform gui missing:           dos/os2/osx
 
 sound.c:
 --------
@@ -16511,7 +16511,7 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:			unix
+platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 sound.c:
@@ -17494,7 +17494,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -ieee488 / +ieee488
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
-platform gui missing:			dos
+platform gui missing:           dos
 fixme: add to documentation
 
 vic20/cart/vic20-ieee488.c:
@@ -19459,8 +19459,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:           unix/windows
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/sdl/osx
 
 c128/c128-cmdline-options.c:
@@ -19710,8 +19710,8 @@ not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:           osx/windows/unix
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/sdl
 fixme: fix documentation, range
 
@@ -19735,7 +19735,7 @@ resource emulators:             xcbm2/xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -buksymkeymap
-platform gui present:			osx/windows
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -19760,7 +19760,7 @@ resource emulators:             xcbm2/xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -bukposkeymap
-platform gui present:			osx/windows
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -19786,7 +19786,7 @@ resource emulators:             xcbm2/xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -grsymkeymap
-platform gui present:			osx/windows
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -19811,7 +19811,7 @@ resource emulators:             xcbm2/xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -grposkeymap
-platform gui present:			osx/windows
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -19837,7 +19837,7 @@ resource emulators:             xcbm2/xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -bdesymkeymap
-platform gui present:			osx/windows
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -19862,7 +19862,7 @@ resource emulators:             xcbm2/xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -bdeposkeymap
-platform gui present:			osx/windows
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -19889,9 +19889,9 @@ resource emulators:             xcbm2/xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
-platform gui present:		windows/unix
-platform range correct:		
-platform range incorrect:		
+platform gui present:           windows/unix
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/sdl/osx
 fixme: add to documentation
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
@@ -20201,7 +20201,7 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -buksymkeymap
-platform gui present:			osx/windows
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -20225,7 +20225,7 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -bukposkeymap
-platform gui present:			osx/windows
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -20250,7 +20250,7 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -grsymkeymap
-platform gui present:			osx/windows
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -20274,7 +20274,7 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -grposkeymap
-platform gui present:			osx/windows
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -20299,7 +20299,7 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -bdesymkeymap
-platform gui present:			osx/windows
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -20323,7 +20323,7 @@ resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -bdeposkeymap
-platform gui present:			osx/windows
+platform gui present:           osx/windows
 platform gui missing:           amigaos/beos/dos/sdl/unix
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
@@ -20420,8 +20420,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:           beos/unix/windows
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/dos/sdl/osx
 
 plus4/plus4-cmdline-options.c:
@@ -20511,8 +20511,8 @@ not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
 platform gui present:           unix/osx/windows
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/sdl
 fixme: fix documentation, range
 
@@ -20557,7 +20557,7 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
-platform gui present:		osx/windows/unix
+platform gui present:           osx/windows/unix
 platform gui missing:           amigaos/beos/dos/sdl
 
 vic20/vic20-cmdline-options.c:
@@ -20579,9 +20579,9 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -keymap
-platform gui present:			unix/windows
-platform range correct:		
-platform range incorrect:		
+platform gui present:           unix/windows
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/dos/beos/sdl/osx
 
 vic20/vic20-cmdline-options.c:
@@ -21049,9 +21049,9 @@ resource function:              set_blitter_log()
 resource var:                   blitter_log_enabled
 resource emulators:             x64dtv
 not used in:                    x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:			#ifdef DEBUG
+prepocessor:                    #ifdef DEBUG
 command-line:                   -dtvblitterlog / +dtvblitterlog
-platform gui present:		unix
+platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 c64dtv/c64dtvblitter.c:
