@@ -10029,8 +10029,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -attach8ro / -attach8rw
-platform gui present:           amigaos/beos/os2/unix/osx/windows
-platform gui missing:           dos/sdl
+platform gui present:           amigaos/beos/os2/unix/osx/windows/sdl
+platform gui missing:           dos
 
 attach.c:
 ---------
@@ -10058,8 +10058,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -attach9ro / -attach9rw
-platform gui present:           amigaos/beos/os2/unix/osx/windows
-platform gui missing:           dos/sdl
+platform gui present:           amigaos/beos/os2/unix/osx/windows/sdl
+platform gui missing:           dos
 
 attach.c:
 ---------
@@ -10087,8 +10087,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -attach10ro / -attach10rw
-platform gui present:           amigaos/beos/os2/unix/osx/windows
-platform gui missing:           dos/sdl
+platform gui present:           amigaos/beos/os2/unix/osx/windows/sdl
+platform gui missing:           dos
 
 attach.c:
 ---------
@@ -10116,8 +10116,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -attach11ro / -attach11rw
-platform gui present:           amigaos/beos/os2/unix/osx/windows
-platform gui missing:           dos/sdl
+platform gui present:           amigaos/beos/os2/unix/osx/windows/sdl
+platform gui missing:           dos
 
 attach.c:
 ---------
@@ -20988,7 +20988,7 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef HAVE_TFE
 command-line:                   NONE
 platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows/unix (CORRECT)
 fixme: misuse of resource, needs to use a function instead
 
 c64/cart/tfe.c:
