@@ -317,28 +317,32 @@ static void show_text(const char *text)
 static UI_MENU_CALLBACK(about_callback)
 {
     int active = 1;
+    int i;
 
     if (activated) {
         sdl_ui_clear();
-        sdl_ui_print_center("VICE", 0);
-        sdl_ui_print_center("Versatile Commodore Emulator", 1);
+        i = 0;
+        sdl_ui_print_center("VICE", i++);
+        sdl_ui_print_center("Versatile Commodore Emulator", i++);
 #ifdef USE_SVN_REVISION
-        sdl_ui_print_center("Version " VERSION " rev " VICE_SVN_REV_STRING, 2);
+        sdl_ui_print_center("Version " VERSION " rev " VICE_SVN_REV_STRING, i);
 #else
-        sdl_ui_print_center("Version " VERSION, 2);
+        sdl_ui_print_center("Version " VERSION, i);
 #endif
-        sdl_ui_print_center("SDL " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER, 3);
-        sdl_ui_print_center("The VICE Team", 5);
-        sdl_ui_print_center("(C) 1999-2015 Andreas Matthies", 6);
-        sdl_ui_print_center("(C) 1999-2015 Martin Pottendorfer", 7);
-        sdl_ui_print_center("(C) 2005-2015 Marco van den Heuvel", 8);
-        sdl_ui_print_center("(C) 2007-2015 Fabrizio Gennari", 9);
-        sdl_ui_print_center("(C) 2007-2015 Daniel Kahlin", 10);
-        sdl_ui_print_center("(C) 2009-2015 Groepaz", 11);
-        sdl_ui_print_center("(C) 2009-2015 Errol Smith", 12);
-        sdl_ui_print_center("(C) 2010-2015 Olaf Seibert", 13);
-        sdl_ui_print_center("(C) 2011-2015 Marcus Sutton", 14);
-        sdl_ui_print_center("(C) 2011-2015 Kajtar Zsolt", 15);
+        i++;
+        sdl_ui_print_center("SDL " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER, i++);
+        i++;
+        sdl_ui_print_center("The VICE Team", i++);
+        sdl_ui_print_center("(C) 1999-2015 Andreas Matthies", i++);
+        sdl_ui_print_center("(C) 1999-2015 Martin Pottendorfer", i++);
+        sdl_ui_print_center("(C) 2005-2015 Marco van den Heuvel", i++);
+        sdl_ui_print_center("(C) 2007-2015 Fabrizio Gennari", i++);
+        sdl_ui_print_center("(C) 2007-2015 Daniel Kahlin", i++);
+        sdl_ui_print_center("(C) 2009-2015 Groepaz", i++);
+        sdl_ui_print_center("(C) 2009-2015 Errol Smith", i++);
+        sdl_ui_print_center("(C) 2010-2015 Olaf Seibert", i++);
+        sdl_ui_print_center("(C) 2011-2015 Marcus Sutton", i++);
+        sdl_ui_print_center("(C) 2011-2015 Kajtar Zsolt", i++);
         sdl_ui_refresh();
 
         while (active) {
