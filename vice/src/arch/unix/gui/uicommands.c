@@ -55,6 +55,7 @@
 #include "util.h"
 #include "vice-event.h"
 #include "vsync.h"
+#include "vicemaxpath.h"
 
 #ifdef USE_GNOMEUI
 extern int ui_open_manual(const char *path);
