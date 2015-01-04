@@ -74,6 +74,7 @@ static char *get_compiletime_features(void) {
     }
     return str;
 }
+
 static void features_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
     char *features = NULL;
