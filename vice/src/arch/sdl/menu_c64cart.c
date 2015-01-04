@@ -59,213 +59,49 @@ static UI_MENU_CALLBACK(attach_c64_cart_callback)
     return NULL;
 }
 
-static const ui_menu_entry_t attach_raw_cart_menu[] = {
-    { "Attach generic 8kB image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_GENERIC_8KB },
-    { "Attach generic 16kB image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_GENERIC_16KB },
-    { "Attach Ultimax image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_ULTIMAX },
-    { "Attach " CARTRIDGE_NAME_ACTION_REPLAY " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_ACTION_REPLAY },
-    { "Attach " CARTRIDGE_NAME_ACTION_REPLAY2 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_ACTION_REPLAY2 },
-    { "Attach " CARTRIDGE_NAME_ACTION_REPLAY3 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_ACTION_REPLAY3 },
-    { "Attach " CARTRIDGE_NAME_ACTION_REPLAY4 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_ACTION_REPLAY4 },
-    { "Attach " CARTRIDGE_NAME_ATOMIC_POWER " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_ATOMIC_POWER },
-    { "Attach " CARTRIDGE_NAME_CAPTURE " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_CAPTURE },
-    { "Attach " CARTRIDGE_NAME_COMAL80 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_COMAL80 },
-    { "Attach " CARTRIDGE_NAME_DIASHOW_MAKER " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_DIASHOW_MAKER },
-    { "Attach " CARTRIDGE_NAME_DINAMIC " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_DINAMIC },
-    { "Attach " CARTRIDGE_NAME_EASYFLASH " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_EASYFLASH },
-    { "Attach " CARTRIDGE_NAME_EPYX_FASTLOAD " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_EPYX_FASTLOAD },
-    { "Attach " CARTRIDGE_NAME_EXOS " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_EXOS },
-    { "Attach " CARTRIDGE_NAME_EXPERT " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_EXPERT },
-    { "Attach " CARTRIDGE_NAME_FINAL_I " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_FINAL_I },
-    { "Attach " CARTRIDGE_NAME_FINAL_III " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_FINAL_III },
-    { "Attach " CARTRIDGE_NAME_FINAL_PLUS " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_FINAL_PLUS },
-    { "Attach " CARTRIDGE_NAME_FREEZE_FRAME " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_FREEZE_FRAME },
-    { "Attach " CARTRIDGE_NAME_FREEZE_MACHINE " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_FREEZE_MACHINE },
-    { "Attach " CARTRIDGE_NAME_FUNPLAY " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_FUNPLAY },
-    { "Attach " CARTRIDGE_NAME_GAME_KILLER " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_GAME_KILLER },
-    { "Attach " CARTRIDGE_NAME_GS " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_GS },
-    { "Attach " CARTRIDGE_NAME_IDE64 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_IDE64 },
-    { "Attach " CARTRIDGE_NAME_IEEE488 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_IEEE488 },
-    { "Attach " CARTRIDGE_NAME_KCS_POWER " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_KCS_POWER },
-    { "Attach " CARTRIDGE_NAME_MACH5 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_MACH5 },
-    { "Attach " CARTRIDGE_NAME_MAGIC_DESK " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_MAGIC_DESK },
-    { "Attach " CARTRIDGE_NAME_MAGIC_FORMEL " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_MAGIC_FORMEL },
-    { "Attach " CARTRIDGE_NAME_MAGIC_VOICE " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_MAGIC_VOICE },
-    { "Attach " CARTRIDGE_NAME_MIKRO_ASSEMBLER " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_MIKRO_ASSEMBLER },
-    { "Attach " CARTRIDGE_NAME_MMC64 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_MMC64 },
-    { "Attach " CARTRIDGE_NAME_MMC_REPLAY " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_MMC_REPLAY },
-    { "Attach " CARTRIDGE_NAME_OCEAN " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_OCEAN },
-    { "Attach " CARTRIDGE_NAME_P64 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_P64 },
-    { "Attach " CARTRIDGE_NAME_RETRO_REPLAY " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_RETRO_REPLAY },
-    { "Attach " CARTRIDGE_NAME_REX " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_REX },
-    { "Attach " CARTRIDGE_NAME_ROSS " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_ROSS },
-    { "Attach " CARTRIDGE_NAME_SILVERROCK_128 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_SILVERROCK_128 },
-    { "Attach " CARTRIDGE_NAME_SIMONS_BASIC " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_SIMONS_BASIC },
-    { "Attach " CARTRIDGE_NAME_SNAPSHOT64 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_SNAPSHOT64 },
-    { "Attach " CARTRIDGE_NAME_STARDOS " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_STARDOS },
-    { "Attach " CARTRIDGE_NAME_STRUCTURED_BASIC " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_STRUCTURED_BASIC },
-    { "Attach " CARTRIDGE_NAME_SUPER_EXPLODE_V5 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_SUPER_EXPLODE_V5 },
-    { "Attach " CARTRIDGE_NAME_SUPER_GAMES " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_SUPER_GAMES },
-    { "Attach " CARTRIDGE_NAME_SUPER_SNAPSHOT " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_SUPER_SNAPSHOT },
-    { "Attach " CARTRIDGE_NAME_SUPER_SNAPSHOT_V5 " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_SUPER_SNAPSHOT_V5 },
-    { "Attach " CARTRIDGE_NAME_WARPSPEED " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_WARPSPEED },
-    { "Attach " CARTRIDGE_NAME_WESTERMANN " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_WESTERMANN },
-    { "Attach " CARTRIDGE_NAME_ZAXXON " image",
-      MENU_ENTRY_DIALOG,
-      attach_c64_cart_callback,
-      (ui_callback_data_t)CARTRIDGE_ZAXXON },
-    SDL_MENU_LIST_END
+ui_menu_entry_t ui_c64cart_entry = {
+    NULL, MENU_ENTRY_DIALOG, (ui_callback_t)attach_c64_cart_callback,
+    (ui_callback_data_t)0
 };
+
+static int countgroup(cartridge_info_t *cartlist, int flags)
+{
+    int num = 0;
+    while(cartlist->name) {
+        if (cartlist->flags & flags) {
+            num++;
+        }
+        cartlist++;
+    }
+    return num;
+}
+
+static void makegroup(cartridge_info_t *cartlist, ui_menu_entry_t *entry, int flags)
+{
+    while(cartlist->name) {
+        if (cartlist->flags & flags) {
+            ui_c64cart_entry.string = cartlist->name;
+            ui_c64cart_entry.data = (ui_callback_data_t)(unsigned long)cartlist->crtid;
+            memcpy(entry, &ui_c64cart_entry, sizeof(ui_menu_entry_t));
+            entry++;
+        }
+        cartlist++;
+    }
+    memset(entry, 0, sizeof(ui_menu_entry_t));
+}
+
+static ui_menu_entry_t *attach_raw_cart_menu;
+
+void uicart_menu_create(void)
+{
+    int num;
+    cartridge_info_t *cartlist = cartridge_get_info_list();
+
+    num = countgroup(cartlist, CARTRIDGE_GROUP_GENERIC | CARTRIDGE_GROUP_FREEZER | CARTRIDGE_GROUP_GAME | CARTRIDGE_GROUP_UTIL);
+    attach_raw_cart_menu = lib_malloc(sizeof(ui_menu_entry_t) * (num + 1));
+    makegroup(cartlist, attach_raw_cart_menu, CARTRIDGE_GROUP_GENERIC | CARTRIDGE_GROUP_FREEZER | CARTRIDGE_GROUP_GAME | CARTRIDGE_GROUP_UTIL);
+    c64cart_menu[1].data = attach_raw_cart_menu;
+}
 
 static UI_MENU_CALLBACK(detach_c64_cart_callback)
 {
@@ -972,7 +808,7 @@ static const ui_menu_entry_t soundexpander_menu[] = {
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 
-const ui_menu_entry_t c64cart_menu[] = {
+ui_menu_entry_t c64cart_menu[] = {
     { "Attach CRT image",
       MENU_ENTRY_DIALOG,
       attach_c64_cart_callback,
@@ -980,7 +816,7 @@ const ui_menu_entry_t c64cart_menu[] = {
     { "Attach raw image",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)attach_raw_cart_menu },
+      NULL },
     { "Detach cartridge image",
       MENU_ENTRY_OTHER,
       detach_c64_cart_callback,

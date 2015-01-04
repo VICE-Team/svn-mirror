@@ -703,6 +703,7 @@ static void c64ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
     uivicii_menu_create();
+    uicart_menu_create();
 
     memcpy(uikeymap_sym_submenu, keymap_sym_submenu, sizeof(keymap_sym_submenu));
     memcpy(uikeymap_pos_submenu, keymap_pos_submenu, sizeof(keymap_pos_submenu));

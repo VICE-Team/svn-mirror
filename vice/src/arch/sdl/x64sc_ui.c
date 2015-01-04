@@ -166,6 +166,8 @@ int c64scui_init(void)
 
     sdl_ui_set_menu_params = c64scui_set_menu_params;
 
+    uicart_menu_create();
+
     sdl_ui_set_main_menu(x64sc_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
     sdl_vkbd_set_vkbd(&vkbd_c64);

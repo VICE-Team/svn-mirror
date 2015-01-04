@@ -30,5 +30,6 @@
 #include "uimenu.h"
 
 extern struct ui_menu_entry_s ui_c64cart_commands_menu[];
+extern void uicart_menu_create(void);
 
 #endif

@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "c64cart.h"
 #include "cartridge.h"
@@ -95,57 +96,26 @@ static UI_CALLBACK(freeze_cartridge)
            is pointless to put them all here, for this reason
            only a handful of commonly used "Main Slot" carts are
            here.
-
-    FIXME: names should ideally be taken from cartridge.h
 */
+static ui_menu_entry_t *attach_cartridge_image_freezer_submenu;
+static ui_menu_entry_t *attach_cartridge_image_game_submenu;
+static ui_menu_entry_t *attach_cartridge_image_util_submenu;
+
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Smart attach CRT image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_CRT, NULL, KEYSYM_c, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Attach raw 8KB cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_GENERIC_8KB, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_GENERIC_8KB, NULL },
     { N_("Attach raw 16KB cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_GENERIC_16KB, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_GENERIC_16KB, NULL },
+    { N_("Attach raw ultimax cartridge image"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_ULTIMAX, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    /* Translators: "Action Replay V5" is the name of the cartridge and should not get translated. */
-    { N_("Attach Action Replay V5 image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_ACTION_REPLAY, NULL },
-    /* Translators: "Atomic Power" is the name of the cartridge and should not get translated. */
-    { N_("Attach raw 32KB Atomic Power cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_ATOMIC_POWER, NULL },
-    /* Translators: "EasyFlash" is the name of the cartridge and should not get translated. */
-    { N_("Attach raw EasyFlash cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_EASYFLASH, NULL },
-    /* Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated. */
-    { N_("Attach raw 8KB Epyx FastLoad cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_EPYX_FASTLOAD, NULL },
-    /* Translators: "IDE64" is the name of the cartridge and should not get translated. */
-    { N_("Attach raw 64KB IDE64 cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_IDE64, NULL },
-    /* Translators: "Magic Formel" is the name of the cartridge and should not get translated. */
-    { N_("Attach raw Magic Formel cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_MAGIC_FORMEL, NULL },
-    /* Translators: "MMC Replay" is the name of the cartridge and should not get translated. */
-    { N_("Attach raw 512kB MMC Replay cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_MMC_REPLAY, NULL },
-    /* Translators: "Retro Replay" is the name of the cartridge and should not get translated. */
-    { N_("Attach raw 64KB Retro Replay cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_RETRO_REPLAY, NULL },
-    /* Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated. */
-    { N_("Attach raw 64KB Super Snapshot V5 cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_SUPER_SNAPSHOT_V5, NULL },
+    { N_("Freezer"), UI_MENU_TYPE_NORMAL, NULL, NULL, NULL },
+    { N_("Games"), UI_MENU_TYPE_NORMAL, NULL, NULL, NULL },
+    { N_("Utilities"), UI_MENU_TYPE_NORMAL, NULL, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Set cartridge as default"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)default_cartridge, NULL, NULL },
@@ -161,3 +131,56 @@ ui_menu_entry_t ui_c64cart_commands_menu[] = {
       (ui_callback_t)freeze_cartridge, NULL, NULL, KEYSYM_z, UI_HOTMOD_META },
     { NULL }
 };
+
+ui_menu_entry_t ui_c64cart_entry = {
+    NULL, UI_MENU_TYPE_DOTS, (ui_callback_t)attach_cartridge,
+    (ui_callback_data_t)0, NULL
+};
+
+static int countgroup(cartridge_info_t *cartlist, int flags)
+{
+    int num = 0;
+    while(cartlist->name) {
+        if ((cartlist->flags & flags) == flags) {
+            num++;
+        }
+        cartlist++;
+    }
+    return num;
+}
+
+static void makegroup(cartridge_info_t *cartlist, ui_menu_entry_t *entry, int flags)
+{
+    while(cartlist->name) {
+        if ((cartlist->flags & flags) == flags) {
+            ui_c64cart_entry.string = cartlist->name;
+            ui_c64cart_entry.callback_data = (ui_callback_data_t)(unsigned long)cartlist->crtid;
+            memcpy(entry, &ui_c64cart_entry, sizeof(ui_menu_entry_t));
+            entry++;
+        }
+        cartlist++;
+    }
+    memset(entry, 0, sizeof(ui_menu_entry_t));
+}
+
+void uicart_menu_create(void)
+{
+    int num;
+    cartridge_info_t *cartlist = cartridge_get_info_list();
+
+    num = countgroup(cartlist, CARTRIDGE_GROUP_FREEZER);
+    attach_cartridge_image_freezer_submenu = lib_malloc(sizeof(ui_menu_entry_t) * (num + 1));
+    makegroup(cartlist, attach_cartridge_image_freezer_submenu, CARTRIDGE_GROUP_FREEZER);
+    attach_cartridge_image_submenu[6 + 0].sub_menu = attach_cartridge_image_freezer_submenu;
+
+    num = countgroup(cartlist, CARTRIDGE_GROUP_GAME);
+    attach_cartridge_image_game_submenu = lib_malloc(sizeof(ui_menu_entry_t) * (num + 1));
+    makegroup(cartlist, attach_cartridge_image_game_submenu, CARTRIDGE_GROUP_GAME);
+    attach_cartridge_image_submenu[6 + 1].sub_menu = attach_cartridge_image_game_submenu;
+
+    num = countgroup(cartlist, CARTRIDGE_GROUP_UTIL);
+    attach_cartridge_image_util_submenu = lib_malloc(sizeof(ui_menu_entry_t) * (num + 1));
+    makegroup(cartlist, attach_cartridge_image_util_submenu, CARTRIDGE_GROUP_UTIL);
+    attach_cartridge_image_submenu[6 + 2].sub_menu = attach_cartridge_image_util_submenu;
+
+}

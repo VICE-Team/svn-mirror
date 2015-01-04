@@ -102,7 +102,7 @@ extern void cartridge_ram_init(void);
 
 extern void cartridge_sound_chip_init(void);
 
-/* Carts that don't have a rom images */
+/* Carts that don't have a rom image */
 #define CARTRIDGE_DIGIMAX            -100 /* digimax.c */
 #define CARTRIDGE_DQBB               -101 /* dqbb.c */
 #define CARTRIDGE_GEORAM             -102 /* georam.c */
@@ -294,6 +294,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_WESTERMANN         "Westermann Learning"
 #define CARTRIDGE_NAME_ZAXXON             "Zaxxon"
 
+#define CARTRIDGE_NAME_GENERIC_8KB        "8k game"
+#define CARTRIDGE_NAME_GENERIC_16KB       "16k game"
+#define CARTRIDGE_NAME_ULTIMAX            "Ultimax"
 
 /*
  * VIC20 cartridge system
@@ -385,5 +388,21 @@ extern void cartridge_sound_chip_init(void);
 
 #define CARTRIDGE_FILETYPE_BIN  1
 #define CARTRIDGE_FILETYPE_CRT  2
+
+/* cartridge info for GUIs */
+typedef struct {
+    char *name;
+    int crtid;
+    unsigned int flags;
+} cartridge_info_t;
+
+#define CARTRIDGE_GROUP_GENERIC         0x0001
+#define CARTRIDGE_GROUP_RAMEX           0x0002
+
+#define CARTRIDGE_GROUP_FREEZER         0x0004
+#define CARTRIDGE_GROUP_GAME            0x0008
+#define CARTRIDGE_GROUP_UTIL            0x0010
+
+extern cartridge_info_t *cartridge_get_info_list(void);
 
 #endif
