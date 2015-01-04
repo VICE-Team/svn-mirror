@@ -4876,6 +4876,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_P_SIZE_TR, ""},  /* fuzzy */
 #endif
 
+/* pet/pet-sidcart.c */
+/* en */ {IDCLS_P_ADDRESS,    N_("<address>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_ADDRESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_ADDRESS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_ADDRESS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_ADDRESS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_ADDRESS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_ADDRESS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_ADDRESS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_ADDRESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_ADDRESS_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-sidcart.c */
+/* en */ {IDCLS_P_CLOCK,    N_("<clock>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_CLOCK_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_CLOCK_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_CLOCK_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_CLOCK_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_CLOCK_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_CLOCK_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_CLOCK_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_CLOCK_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_CLOCK_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_CLOCK_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_CLOCK_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_CLOCK_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/georam.c */
 /* en */ {IDCLS_GEORAM_SIZE,    N_("Size of the GEORAM expansion unit")},
 #ifdef HAS_TRANSLATION
@@ -11014,6 +11048,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_SIDCART_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_SIDCART_SV, "Inaktivera SID-insticksmodul"},
 /* tr */ {IDCLS_DISABLE_SIDCART_TR, "SID kartuþunu pasifleþtir"},
+#endif
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_PET_SIDCART_ADDRESS,    N_("SID cartridge address (0x8F00/0xE900)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_PET_SIDCART_ADDRESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_PET_SIDCART_ADDRESS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_PET_SIDCART_ADDRESS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_PET_SIDCART_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PET_SIDCART_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PET_SIDCART_ADDRESS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_PET_SIDCART_ADDRESS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_PET_SIDCART_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PET_SIDCART_ADDRESS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_PET_SIDCART_ADDRESS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_PET_SIDCART_ADDRESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_PET_SIDCART_ADDRESS_TR, ""},  /* fuzzy */
+#endif
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_PET_SIDCART_CLOCK,    N_("SID cartridge address (0: C64 clock, 1: PET clock)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_PET_SIDCART_CLOCK_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_PET_SIDCART_CLOCK_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_PET_SIDCART_CLOCK_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_PET_SIDCART_CLOCK_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PET_SIDCART_CLOCK_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PET_SIDCART_CLOCK_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_PET_SIDCART_CLOCK_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_PET_SIDCART_CLOCK_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PET_SIDCART_CLOCK_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_PET_SIDCART_CLOCK_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_PET_SIDCART_CLOCK_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_PET_SIDCART_CLOCK_TR, ""},  /* fuzzy */
 #endif
 
 /* sid/sid-cmdline-options.c, c64/plus60k, c64/c64_256k.c */

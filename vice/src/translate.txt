@@ -517,6 +517,12 @@ IDCLS_P_SIZE_IN_KB
 /* pet/pet-cmdline-options.c */
 IDCLS_P_SIZE
 
+/* pet/pet-sidcart.c */
+IDCLS_P_ADDRESS
+
+/* pet/pet-sidcart.c */
+IDCLS_P_CLOCK
+
 /* c64/cart/georam.c */
 IDCLS_GEORAM_SIZE
 
@@ -1583,6 +1589,12 @@ IDCLS_ENABLE_SIDCART
 
 /* sid/sid-cmdline-options.c */
 IDCLS_DISABLE_SIDCART
+
+/* sid/sid-cmdline-options.c */
+IDCLS_PET_SIDCART_ADDRESS
+
+/* sid/sid-cmdline-options.c */
+IDCLS_PET_SIDCART_CLOCK
 
 /* sid/sid-cmdline-options.c, c64/plus60k.c, c64/c64_256k.c c64/cart/digimax.c */
 IDCLS_P_BASE_ADDRESS

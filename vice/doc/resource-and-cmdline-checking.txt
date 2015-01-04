@@ -9827,6 +9827,176 @@ description:    "Disable the SID cartridge"
 resource:       "SidCart" (set to 0)
 action:         N/A
 
+pet/pet-sidcart.c:
+------------------
+resource type:                  int
+resource name:                  "SidAddress"
+resource range:                 0x8F00/0xE900
+resource default:               0xE900
+resource function:              set_sid_address()
+resource var:                   sidcart_address
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -sidcartaddress
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/pet-sidcart.c:
+------------------
+command line:   -sidcartaddress <address>
+description:    "SID cartridge address (0x8F00/0xE900)"
+resource:       "SidAddress"
+action:         N/A
+
+pet/pet-sidcart.c:
+------------------
+resource type:                  int
+resource name:                  "SidClock"
+resource range:                 0..1 (SIDCART_CLOCK_C64 (0), SIDCART_CLOCK_NATIVE (1))
+resource default:               SIDCART_CLOCK_NATIVE (1)
+resource function:              set_sid_clock()
+resource var:                   sidcart_clock
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -sidcartclock
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/pet-sidcart.c:
+------------------
+command line:   -sidcartclock <clock>
+description:    "SID cartridge address (0: C64 clock, 1: PET clock)"
+resource:       "SidClock"
+action:         N/A
+
+pet/petdww.c:
+-------------
+resource type:                  string
+resource name:                  "PETDWWfilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_petdww_filename()
+resource var:                   petdww_filename
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -petdwwimage
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/petdww.c:
+-------------
+command line:   -petdwwimage <Name>
+description:    "Specify name of PET DWW image"
+resource:       "PETDWWfilename"
+action:         N/A
+
+pet/petdww.c:
+-------------
+resource type:                  bool
+resource name:                  "PETDWW"
+resource range:                 0/1
+resource default:               0
+resource function:              set_petdww_enabled()
+resource var:                   petdww_enabled
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -petdww / +petdww
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/petdww.c:
+-------------
+command line:   -petdww
+description:    "Enable the PET DWW hi-res board"
+resource:       "PETDWW" (set to 1)
+action:         N/A
+
+pet/petdww.c:
+-------------
+command line:   +petdww
+description:    "Disable the PET DWW hi-res board"
+resource:       "PETDWW" (set to 0)
+action:         N/A
+
+pet/pethre.c:
+-------------
+resource type:                  bool
+resource name:                  "PETHRE"
+resource range:                 0/1
+resource default:               0
+resource function:              set_pethre_enabled()
+resource var:                   pethre_enabled
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -pethre / +pethre
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/pethre.c:
+-------------
+command line:   -pethre
+description:    "Enable HiRes Emulation Board"
+resource:       "PETHRE" (set to 1)
+action:         N/A
+
+pet/pethre.c:
+-------------
+command line:   +pethre
+description:    "Disable HiRes Emulation Board"
+resource:       "PETHRE" (set to 0)
+action:         N/A
+
+pet/petreu.c:
+-------------
+resource type:                  string
+resource name:                  "PETREUfilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_petreu_filename()
+resource var:                   petreu_filename
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -petreuimage
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/petreu.c:
+-------------
+command line:   -petreuimage <Name>
+description:    "Specify name of PET Ram and Expansion Unit image"
+resource:       "PETREUfilename"
+action:         N/A
+
+pet/petreu.c:
+-------------
+resource type:                  bool
+resource name:                  "PETREU"
+resource range:                 0/1
+resource default:               0
+resource function:              set_petreu_enabled()
+resource var:                   petreu_enabled
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -petreu / +petreu
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+pet/petreu.c:
+-------------
+command line:   -petreu
+description:    "Enable the PET Ram and Expansion Unit"
+resource:       "PETREU" (set to 1)
+action:         N/A
+
+pet/petreu.c:
+-------------
+command line:   +petreu
+description:    "Disable the PET Ram and Expansion Unit"
+resource:       "PETREU" (set to 0)
+action:         N/A
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -13893,124 +14063,6 @@ resource:       "PETColourBG"
 action:         N/A
 fixme: add to documentation
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
-pet/pet-sidcart.c:
-------------------
-resource type:                  int
-resource name:                  "SidAddress"
-resource range:                 0x8F00/0xE900
-resource default:               0xE900
-resource function:              set_sid_address()
-resource var:                   sidcart_address
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: fix documentation, addresses
-
-pet/pet-sidcart.c:
-------------------
-resource type:                  int
-resource name:                  "SidClock"
-resource range:                 0..1 (SIDCART_CLOCK_C64 (0), SIDCART_CLOCK_NATIVE (1))
-resource default:               SIDCART_CLOCK_NATIVE (1)
-resource function:              set_sid_clock()
-resource var:                   sidcart_clock
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-pet/petdww.c:
--------------
-resource type:                  string
-resource name:                  "PETDWWfilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_petdww_filename()
-resource var:                   petdww_filename
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -petdwwimage
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-pet/petdww.c:
--------------
-command line:   -petdwwimage <Name>
-description:    "Specify name of PET DWW image"
-resource:       "PETDWWfilename"
-action:         N/A
-
-pet/petdww.c:
--------------
-resource type:                  bool
-resource name:                  "PETDWW"
-resource range:                 0/1
-resource default:               0
-resource function:              set_petdww_enabled()
-resource var:                   petdww_enabled
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -petdww / +petdww
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-pet/petdww.c:
--------------
-command line:   -petdww
-description:    "Enable the PET DWW hi-res board"
-resource:       "PETDWW" (set to 1)
-action:         N/A
-
-pet/petdww.c:
--------------
-command line:   +petdww
-description:    "Disable the PET DWW hi-res board"
-resource:       "PETDWW" (set to 0)
-action:         N/A
-
-pet/pethre.c:
--------------
-resource type:                  bool
-resource name:                  "PETHRE"
-resource range:                 0/1
-resource default:               0
-resource function:              set_pethre_enabled()
-resource var:                   pethre_enabled
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -pethre / +pethre
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-fixme: add to documentation
-
-pet/pethre.c:
--------------
-command line:   -pethre
-description:    "Enable HiRes Emulation Board"
-resource:       "PETHRE" (set to 1)
-action:         N/A
-fixme: add to documentation
-
-pet/pethre.c:
--------------
-command line:   +pethre
-description:    "Disable HiRes Emulation Board"
-resource:       "PETHRE" (set to 0)
-action:         N/A
-fixme: add to documentation
-
 pet/petpia1.c:
 --------------
 resource type:                  bool
@@ -14043,57 +14095,6 @@ action:         N/A
 
 pet/petreu.c:
 -------------
-resource type:                  string
-resource name:                  "PETREUfilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_petreu_filename()
-resource var:                   petreu_filename
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -petreuimage
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-pet/petreu.c:
--------------
-command line:   -petreuimage <Name>
-description:    "Specify name of PET Ram and Expansion Unit image"
-resource:       "PETREUfilename"
-action:         N/A
-
-pet/petreu.c:
--------------
-resource type:                  bool
-resource name:                  "PETREU"
-resource range:                 0/1
-resource default:               0
-resource function:              set_petreu_enabled()
-resource var:                   petreu_enabled
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -petreu / +petreu
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-pet/petreu.c:
--------------
-command line:   -petreu
-description:    "Enable the PET Ram and Expansion Unit"
-resource:       "PETREU" (set to 1)
-action:         N/A
-
-pet/petreu.c:
--------------
-command line:   +petreu
-description:    "Disable the PET Ram and Expansion Unit"
-resource:       "PETREU" (set to 0)
-action:         N/A
-
-pet/petreu.c:
--------------
 resource type:                  int
 resource name:                  "PETREUsize"
 resource range:                 N/A (128/512/1024/2048)
@@ -14116,6 +14117,8 @@ description:    "Size of the PET Ram and Expansion Unit. (128/512/1024/2048)"
 resource:       "PETREUsize"
 action:         N/A
 fixme: fix documentation, range
+
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
 plus4/digiblaster.c:
 --------------------
@@ -14463,9 +14466,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: fix documentation, addresses
 
 plus4/plus4-sidcart.c:
@@ -17589,9 +17590,7 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 fixme: fix documentation, addresses
 
 vic20/cart/vic20-sidcart.c:
