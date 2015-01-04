@@ -8032,7 +8032,7 @@ Boolean specifying whether double-scan mode is turned on.
 
 @vindex TEDPaletteFile
 @item TEDPaletteFile
-String specifying the name of the palette file being used.  The
+String specifying the name of the palette file being used. The
 @file{.vpl} extension is optional.
 
 @vindex TEDExternalPalette
@@ -8041,39 +8041,47 @@ Boolean specifying whether to use external palette file or not.
 
 @vindex TEDColorSaturation
 @item TEDColorSaturation
-integer specifying saturation of internal calculated palette [1250] <0-2000>
+Integer specifying saturation of internal calculated palette.
+(0..2000)
 
 @vindex TEDColorContrast
 @item TEDColorContrast
-integer specifying contrast of internal calculated palette [1250] <0-2000>
+Integer specifying contrast of internal calculated palette.
+(0..2000)
 
 @vindex TEDColorBrightness
 @item TEDColorBrightness
-integer specifying brightness of internal calculated palette [1000] <0-2000>
+Integer specifying brightness of internal calculated palette.
+(0..2000)
 
 @vindex TEDColorGamma
 @item TEDColorGamma
-integer specifying gamma of internal calculated palette [2200] <0-4000>
+Integer specifying gamma of internal calculated palette.
+(0..4000)
 
 @vindex TEDColorTint
 @item TEDColorTint
-integer specifying tint of internal calculated palette [1000] <0-2000>
+Integer specifying tint of internal calculated palette [1000] <0-2000>
 
 @vindex TEDPALScanLineShade
 @item TEDPALScanLineShade
-integer specifying amount of scan line shading for the CRT emulation [750] <0-1000>
+Integer specifying amount of scan line shading for the CRT emulation.
+(0..1000)
 
 @vindex TEDPALBlur
 @item TEDPALBlur
-integer specifying amount of horizontal blur for the CRT emulation. [500] <0-1000>
+Integer specifying amount of horizontal blur for the CRT emulation.
+(0..1000)
 
 @vindex TEDPALOddLinePhase
 @item TEDPALOddLinePhase
-integer specifying phase for color carrier in odd lines [1125] <0-2000>
+Integer specifying phase for color carrier in odd lines.
+(0..2000)
 
 @vindex TEDPALOddLineOffset
 @item TEDPALOddLineOffset
-integer specifying phase offset for color carrier in odd lines [875] <0-2000>
+Integer specifying phase offset for color carrier in odd lines.
+(0..2000)
 
 @vindex TEDAudioLeak
 @item TEDAudioLeak
@@ -8081,7 +8089,8 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 
 @vindex TEDFilter
 @item TEDFilter
-integer specifying rendering filter, 0:none, 1:CRT emulation, 2: scale2x
+Integer specifying rendering filter.
+(0=none, 1=CRT emulation, 2=scale2x)
 
 @vindex TEDBorderMode
 @item TEDBorderMode
@@ -8093,30 +8102,38 @@ integer specifying border display mode (0: normal, 1: full, 2: debug, 3:none)
 @subsubsection TED command-line options
 
 @table @code
-@cindex -TEDvcache, +TEDvcache
+@findex -TEDvcache, +TEDvcache
 @item -TEDvcache
 @itemx +TEDvcache
 Enable/Disable the video cache
-@cindex -TEDdsize, +TEDdsize
+(@code{TEDVideoCache=1}, @code{TEDVideoCache=0}).
+@findex -TEDdsize, +TEDdsize
 @item -TEDdsize
 @itemx +TEDdsize
 Enable/Disable double size
-@cindex -TEDdscan, +TEDdscan
+(@code{TEDDoubleSize=1}, @code{TEDDoubleSize=0}).
+@findex -TEDdscan, +TEDdscan
 @item -TEDdscan
 @itemx +TEDdscan
 Enable/Disable double scan
-@cindex -TEDfilter
+(@code{TEDDoubleScan=1}, @code{TEDDoubleScan=0}).
+@findex -TEDfilter
 @item -TEDfilter <Mode>
-Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x
-@cindex -TEDintpal
+Select rendering filter
+(@code{TEDFilter}).
+(0=none, 1=CRT emulation, 2=scale2x)
+@findex -TEDintpal
 @item -TEDintpal
 Use an internal calculated palette
-@cindex -TEDextpal
+(@code{TEDExternalPalette=0}).
+@findex -TEDextpal
 @item -TEDextpal
 Use an external palette (file)
-@cindex -TEDpalette
+(@code{TEDExternalPalette=1}).
+@findex -TEDpalette
 @item -TEDpalette <name>
-Specify name of file of external palette
+Specify name of the external palette file
+(@code{TEDPaletteFile}).
 @cindex -TEDXRANDRfullmode
 @item -TEDXRANDRfullmode <mode>
 Select fullscreen mode
@@ -8127,33 +8144,41 @@ Select fullscreen mode
 @item -TEDborders <mode>
 Set TED border display mode (0: normal, 1: full, 2: debug, 3:none)
 
-@cindex -TEDsaturation
+@findex -TEDsaturation
 @item -TEDsaturation <0-2000>
-Set saturation of internal calculated palette [1250]
-@cindex -TEDcontrast
+Set saturation of internal calculated palette
+(@code{TEDColorSaturation}).
+@findex -TEDcontrast
 @item -TEDcontrast <0-2000>
-Set contrast of internal calculated palette [1250]
-@cindex -TEDbrightness
+Set contrast of internal calculated palette
+(@code{TEDColorContrast}).
+@findex -TEDbrightness
 @item -TEDbrightness <0-2000>
-Set brightness of internal calculated palette [1000]
-@cindex -TEDgamma
+Set brightness of internal calculated palette
+(@code{TEDColorBrightness}).
+@findex -TEDgamma
 @item -TEDgamma <0-4000>
-Set gamma of internal calculated palette [2200]
+Set gamma of internal calculated palette
+(@code{TEDColorGamma}).
 @cindex -TEDtint
 @item -TEDtint <0-2000>
 Set tint of internal calculated palette [1000]
-@cindex -TEDoddlinesphase
+@findex -TEDoddlinesphase
 @item -TEDoddlinesphase <0-2000>
-Set phase for color carrier in odd lines [1125]
-@cindex -TEDoddlinesoffset
+Set phase for color carrier in odd lines
+(@code{TEDPALOddLinePhase}).
+@findex -TEDoddlinesoffset
 @item -TEDoddlinesoffset <0-2000>
-Set phase offset for color carrier in odd lines [875]
-@cindex -TEDcrtblur
+Set phase offset for color carrier in odd lines
+(@code{TEDPALOddLineOffset}).
+@findex -TEDcrtblur
 @item -TEDcrtblur <0-1000>
-Amount of horizontal blur for the CRT emulation. [500]
-@cindex -TEDcrtscanlineshade
+Amount of horizontal blur for the CRT emulation
+(@code{TEDPALBlur}).
+@findex -TEDcrtscanlineshade
 @item -TEDcrtscanlineshade <0-1000>
-Amount of scan line shading for the CRT emulation [750]
+Amount of scan line shading for the CRT emulation
+(@code{TEDPALScanLineShade}).
 
 @cindex -TEDaudioleak, +TEDaudioleak
 @item -TEDaudioleak
@@ -8177,27 +8202,29 @@ changed.
 
 @vindex DIGIBLASTER
 @item DIGIBLASTER
-Boolean, enables Digiblaster emulation.
+Boolean to enable/disable the Digiblaster emulation.
 
 @vindex SpeechEnabled
 @item SpeechEnabled
-Boolean, enables emulation of the V364 speech chip.
+Boolean to enable/disable the emulation of the V364 speech chip.
 @vindex SpeechImage
 @item SpeechImage
 String specifying the filename of the speech ROM image.
 
 @vindex SidCart
 @item SidCart
-Boolean, enables emulation of the SID-Cart
+Boolean specifying whether SID-Cart emulation is enabled or not.
 @vindex SidAddress
 @item SidAddress
 Integer that specifies the base address of the emulated SID chip.
+(0xFD40/0xFE80)
 @vindex SidClock
 @item SidClock
-Integer specifying the clock rate used for the emulated SID chip (0: C64, 1: Plus4)
+Integer specifying the clock rate used for the emulated SID chip
+(0=C64, 1=Plus4)
 @vindex SIDCartJoy
 @item SIDCartJoy
-Boolean, enables emulation of the SID-Cart joystick
+Boolean to enable/disable the emulation of the SID-Cart joystick.
 
 @end table
 
@@ -8206,10 +8233,11 @@ Boolean, enables emulation of the SID-Cart joystick
 
 @table @code
 
-@cindex -cartreset, +cartreset
+@findex -cartreset, +cartreset
 @item -cartreset
 @itemx +cartreset
 Do/don't reset machine if a cartridge is attached or detached
+(@code{CartridgeReset=1}, @code{CartridgeReset}).
 @cindex -cart
 @item -cart <Name>
 Smart-attach cartridge image
@@ -8217,29 +8245,46 @@ Smart-attach cartridge image
 @item +cart
 Disable default cartridge
 
-@cindex -digiblaster, +digiblaster
+@findex -digiblaster, +digiblaster
 @item -digiblaster
 @itemx +digiblaster
 Enable/Disable the digiblaster add-on
+(@code{DIGIBLASTER=1}, @code{DIGIBLASTER=0}).
 
-@cindex -sidcart, +sidcart
+@findex -sidcart, +sidcart
 @item -sidcart
 @item +sidcart
 Enable/Disable SID Cartridge
+(@code{SidCart=1}, @code{SidCart=0}).
 
-@cindex -sidcartjoy, +sidcartjoy
+@findex -sidcartjoy, +sidcartjoy
 @item -sidcartjoy
 @item +sidcartjoy
 Enable/Disable SID cartridge joystick
+(@code{SIDCartJoy=1}, @code{SIDCartJoy=0}).
 
-@cindex -speech, +speech
+@findex -sidcartaddress
+@item -sidcartaddress <address>
+Specify address of the SID Cartridge
+(@code{SidAddress}).
+(0xFD40/0xFE80)
+
+@findex -sidcartclock
+@item -sidcartclock <clock>
+Specify clock of the SID Cartridge
+(@code{SidClock}).
+(0=C64, 1=Plus4)
+
+@findex -speech, +speech
 @item -speech
 @itemx +speech
 Enable/Disable the v364 speech add-on
+(@code{SpeechEnabled=1}, @code{SpeechEnabled=0}).
 
-@cindex -speechrom
+@findex -speechrom
 @item -speechrom <name>
 Attach Speech ROM image
+(@code{SpeechImage}, @code{SpeechEnabled}).
 
 @end table
 
@@ -8250,6 +8295,14 @@ Attach Speech ROM image
 @subsubsection PLUS4 system ROM resources
 
 @table @code
+
+@vindex KernalName
+@item KernalName
+String specifying the name of the Kernal ROM (default @file{kernal}).
+
+@vindex BasicName
+@item BasicName
+String specifying the name of the Basic ROM (default @file{basic}).
 
 @vindex FunctionLowName
 @item FunctionLowName
@@ -8277,6 +8330,16 @@ String specifying the filenames of cartridge 2 High ROM.
 @subsubsection PLUS4 system ROM command-line options
 
 @table @code
+
+@findex -kernal <Name>
+@item -kernal <Name>
+Specify name of the Kernal ROM image
+(@code{KernalName}).
+
+@findex -basic <Name>
+@item -basic <Name>
+Specify name of the BASIC ROM image
+(@code{BasicName}).
 
 @cindex -functionlo
 @item -functionlo <name>

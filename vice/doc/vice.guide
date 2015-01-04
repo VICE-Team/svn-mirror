@@ -7442,55 +7442,53 @@ TED resources
      Boolean specifying whether double-scan mode is turned on.
 
 `TEDPaletteFile'
-     String specifying the name of the palette file being used.  The
+     String specifying the name of the palette file being used. The
      `.vpl' extension is optional.
 
 `TEDExternalPalette'
      Boolean specifying whether to use external palette file or not.
 
 `TEDColorSaturation'
-     integer specifying saturation of internal calculated palette
-     [1250] <0-2000>
+     Integer specifying saturation of internal calculated palette.
+     (0..2000)
 
 `TEDColorContrast'
-     integer specifying contrast of internal calculated palette [1250]
-     <0-2000>
+     Integer specifying contrast of internal calculated palette.
+     (0..2000)
 
 `TEDColorBrightness'
-     integer specifying brightness of internal calculated palette
-     [1000] <0-2000>
+     Integer specifying brightness of internal calculated palette.
+     (0..2000)
 
 `TEDColorGamma'
-     integer specifying gamma of internal calculated palette [2200]
-     <0-4000>
+     Integer specifying gamma of internal calculated palette.  (0..4000)
 
 `TEDColorTint'
-     integer specifying tint of internal calculated palette [1000]
+     Integer specifying tint of internal calculated palette [1000]
      <0-2000>
 
 `TEDPALScanLineShade'
-     integer specifying amount of scan line shading for the CRT
-     emulation [750] <0-1000>
+     Integer specifying amount of scan line shading for the CRT
+     emulation.  (0..1000)
 
 `TEDPALBlur'
-     integer specifying amount of horizontal blur for the CRT
-     emulation. [500] <0-1000>
+     Integer specifying amount of horizontal blur for the CRT emulation.
+     (0..1000)
 
 `TEDPALOddLinePhase'
-     integer specifying phase for color carrier in odd lines [1125]
-     <0-2000>
+     Integer specifying phase for color carrier in odd lines.  (0..2000)
 
 `TEDPALOddLineOffset'
-     integer specifying phase offset for color carrier in odd lines
-     [875] <0-2000>
+     Integer specifying phase offset for color carrier in odd lines.
+     (0..2000)
 
 `TEDAudioLeak'
      Boolean specifying whether to enable/disable video to audio leak
      emulation.
 
 `TEDFilter'
-     integer specifying rendering filter, 0:none, 1:CRT emulation, 2:
-     scale2x
+     Integer specifying rendering filter.  (0=none, 1=CRT emulation,
+     2=scale2x)
 
 `TEDBorderMode'
      integer specifying border display mode (0: normal, 1: full, 2:
@@ -7501,27 +7499,29 @@ TED command-line options
 
 `-TEDvcache'
 `+TEDvcache'
-     Enable/Disable the video cache
+     Enable/Disable the video cache (`TEDVideoCache=1',
+     `TEDVideoCache=0').
 
 `-TEDdsize'
 `+TEDdsize'
-     Enable/Disable double size
+     Enable/Disable double size (`TEDDoubleSize=1', `TEDDoubleSize=0').
 
 `-TEDdscan'
 `+TEDdscan'
-     Enable/Disable double scan
+     Enable/Disable double scan (`TEDDoubleScan=1', `TEDDoubleScan=0').
 
 `-TEDfilter <Mode>'
-     Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x
+     Select rendering filter (`TEDFilter').  (0=none, 1=CRT emulation,
+     2=scale2x)
 
 `-TEDintpal'
-     Use an internal calculated palette
+     Use an internal calculated palette (`TEDExternalPalette=0').
 
 `-TEDextpal'
-     Use an external palette (file)
+     Use an external palette (file) (`TEDExternalPalette=1').
 
 `-TEDpalette <name>'
-     Specify name of file of external palette
+     Specify name of the external palette file (`TEDPaletteFile').
 
 `-TEDXRANDRfullmode <mode>'
      Select fullscreen mode
@@ -7533,31 +7533,35 @@ TED command-line options
      Set TED border display mode (0: normal, 1: full, 2: debug, 3:none)
 
 `-TEDsaturation <0-2000>'
-     Set saturation of internal calculated palette [1250]
+     Set saturation of internal calculated palette
+     (`TEDColorSaturation').
 
 `-TEDcontrast <0-2000>'
-     Set contrast of internal calculated palette [1250]
+     Set contrast of internal calculated palette (`TEDColorContrast').
 
 `-TEDbrightness <0-2000>'
-     Set brightness of internal calculated palette [1000]
+     Set brightness of internal calculated palette
+     (`TEDColorBrightness').
 
 `-TEDgamma <0-4000>'
-     Set gamma of internal calculated palette [2200]
+     Set gamma of internal calculated palette (`TEDColorGamma').
 
 `-TEDtint <0-2000>'
      Set tint of internal calculated palette [1000]
 
 `-TEDoddlinesphase <0-2000>'
-     Set phase for color carrier in odd lines [1125]
+     Set phase for color carrier in odd lines (`TEDPALOddLinePhase').
 
 `-TEDoddlinesoffset <0-2000>'
-     Set phase offset for color carrier in odd lines [875]
+     Set phase offset for color carrier in odd lines
+     (`TEDPALOddLineOffset').
 
 `-TEDcrtblur <0-1000>'
-     Amount of horizontal blur for the CRT emulation. [500]
+     Amount of horizontal blur for the CRT emulation (`TEDPALBlur').
 
 `-TEDcrtscanlineshade <0-1000>'
-     Amount of scan line shading for the CRT emulation [750]
+     Amount of scan line shading for the CRT emulation
+     (`TEDPALScanLineShade').
 
 `-TEDaudioleak'
 `+TEDaudioleak'
@@ -7574,26 +7578,27 @@ PLUS4 I/O extension resources
      cartridge is changed.
 
 `DIGIBLASTER'
-     Boolean, enables Digiblaster emulation.
+     Boolean to enable/disable the Digiblaster emulation.
 
 `SpeechEnabled'
-     Boolean, enables emulation of the V364 speech chip.
+     Boolean to enable/disable the emulation of the V364 speech chip.
 
 `SpeechImage'
      String specifying the filename of the speech ROM image.
 
 `SidCart'
-     Boolean, enables emulation of the SID-Cart
+     Boolean specifying whether SID-Cart emulation is enabled or not.
 
 `SidAddress'
      Integer that specifies the base address of the emulated SID chip.
+     (0xFD40/0xFE80)
 
 `SidClock'
      Integer specifying the clock rate used for the emulated SID chip
-     (0: C64, 1: Plus4)
+     (0=C64, 1=Plus4)
 
 `SIDCartJoy'
-     Boolean, enables emulation of the SID-Cart joystick
+     Boolean to enable/disable the emulation of the SID-Cart joystick.
 
 PLUS4 I/O extension command-line options
 ........................................
@@ -7601,6 +7606,7 @@ PLUS4 I/O extension command-line options
 `-cartreset'
 `+cartreset'
      Do/don't reset machine if a cartridge is attached or detached
+     (`CartridgeReset=1', `CartridgeReset').
 
 `-cart <Name>'
      Smart-attach cartridge image
@@ -7610,28 +7616,44 @@ PLUS4 I/O extension command-line options
 
 `-digiblaster'
 `+digiblaster'
-     Enable/Disable the digiblaster add-on
+     Enable/Disable the digiblaster add-on (`DIGIBLASTER=1',
+     `DIGIBLASTER=0').
 
 `-sidcart'
 `+sidcart'
-     Enable/Disable SID Cartridge
+     Enable/Disable SID Cartridge (`SidCart=1', `SidCart=0').
 
 `-sidcartjoy'
 `+sidcartjoy'
-     Enable/Disable SID cartridge joystick
+     Enable/Disable SID cartridge joystick (`SIDCartJoy=1',
+     `SIDCartJoy=0').
+
+`-sidcartaddress <address>'
+     Specify address of the SID Cartridge (`SidAddress').
+     (0xFD40/0xFE80)
+
+`-sidcartclock <clock>'
+     Specify clock of the SID Cartridge (`SidClock').  (0=C64, 1=Plus4)
 
 `-speech'
 `+speech'
-     Enable/Disable the v364 speech add-on
+     Enable/Disable the v364 speech add-on (`SpeechEnabled=1',
+     `SpeechEnabled=0').
 
 `-speechrom <name>'
-     Attach Speech ROM image
+     Attach Speech ROM image (`SpeechImage', `SpeechEnabled').
 
 PLUS4 system ROM settings
 -------------------------
 
 PLUS4 system ROM resources
 ..........................
+
+`KernalName'
+     String specifying the name of the Kernal ROM (default `kernal').
+
+`BasicName'
+     String specifying the name of the Basic ROM (default `basic').
 
 `FunctionLowName'
      String specifying the filenames of the Lo Function ROM.
@@ -7653,6 +7675,12 @@ PLUS4 system ROM resources
 
 PLUS4 system ROM command-line options
 .....................................
+
+`-kernal <Name>'
+     Specify name of the Kernal ROM image (`KernalName').
+
+`-basic <Name>'
+     Specify name of the BASIC ROM image (`BasicName').
 
 `-functionlo <name>'
      Specify name of Function low ROM image
@@ -19568,22 +19596,21 @@ Concept Index
  @{" -cart2 " Link "CBM-II model"}                               CBM-II model
  @{" -cart2 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart2 " Link "VIC20 cartridges"}                               VIC20 cartridges
- @{" -cart4 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart4 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart4 " Link "CBM-II model"}                               CBM-II model
- @{" -cart6 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
+ @{" -cart4 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart6 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart6 " Link "CBM-II model"}                               CBM-II model
- @{" -cartA " Link "VIC20 cartridges"}                               VIC20 cartridges
+ @{" -cart6 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartA " Link "VIC20 system ROM options"}                               VIC20 system ROM options
- @{" -cartB " Link "VIC20 system ROM options"}                               VIC20 system ROM options
+ @{" -cartA " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cartB " Link "VIC20 cartridges"}                               VIC20 cartridges
+ @{" -cartB " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartfe " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" -cartfp " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" -cartgeneric " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -cartmega " Link "VIC20 cartridges"}                            VIC20 cartridges
  @{" -cartreset, +cartreset " Link "C64 cartridges"}               C64 cartridges
- @{" -cartreset, +cartreset " Link "PLUS4-specific"}               PLUS4-specific
  @{" -chargch " Link "C128-specific"}                             C128-specific
  @{" -chargen " Link "VIC20 system ROM options"}                             VIC20 system ROM options
  @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
@@ -19607,10 +19634,9 @@ Concept Index
  @{" -device8 " Link "File system device options"}                             File system device options
  @{" -device9 " Link "File system device options"}                             File system device options
  @{" -diagpin, +diagpin " Link "PET settings"}                   PET settings
- @{" -digiblaster, +digiblaster " Link "PLUS4-specific"}           PLUS4-specific
  @{" -digimax, +digimax " Link "C64 I-O extension options"}                   C64 I-O extension options
- @{" -digimaxbase " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -digimaxbase " Link "C64 I-O extension options"}                         C64 I-O extension options
+ @{" -digimaxbase " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -directory " Link "Misc options"}                           Misc options
  @{" -doodlecrtctextcolor " Link "C500 data module"}                 C500 data module
  @{" -doodlemc " Link "C500 data module"}                            C500 data module
@@ -19762,8 +19788,6 @@ Concept Index
  @{" -sfxseioswap, +sfxseioswap " Link "VIC20 cartridges"}           VIC20 cartridges
  @{" -sfxssioswap, +sfxssioswap " Link "VIC20 cartridges"}           VIC20 cartridges
  @{" -sidcart, +sidcart " Link "VIC20 cartridges"}                   VIC20 cartridges
- @{" -sidcart, +sidcart " Link "PLUS4-specific"}                   PLUS4-specific
- @{" -sidcartjoy, +sidcartjoy " Link "PLUS4-specific"}             PLUS4-specific
  @{" -sidenginemodel " Link "SID options"}                      SID options
  @{" -sidfilters, +sidfilters " Link "SID options"}             SID options
  @{" -sidstereo " Link "SID options"}                           SID options
@@ -19780,40 +19804,23 @@ Concept Index
  @{" -soundrecarg " Link "Sound options"}                         Sound options
  @{" -soundrecdev " Link "Sound options"}                         Sound options
  @{" -soundsync " Link "Sound options"}                           Sound options
- @{" -speech, +speech " Link "PLUS4-specific"}                     PLUS4-specific
- @{" -speechrom " Link "PLUS4-specific"}                           PLUS4-specific
  @{" -speed " Link "Performance options"}                               Performance options
  @{" -symdekeymap " Link "Keyboard options"}                         Keyboard options
  @{" -symkeymap " Link "Keyboard options"}                           Keyboard options
  @{" -t " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -TEDaudioleak, +TEDaudioleak " Link "PLUS4-specific"}         PLUS4-specific
  @{" -TEDborders " Link "PLUS4-specific"}                          PLUS4-specific
- @{" -TEDbrightness " Link "PLUS4-specific"}                       PLUS4-specific
- @{" -TEDcontrast " Link "PLUS4-specific"}                         PLUS4-specific
- @{" -TEDcrtblur " Link "PLUS4-specific"}                          PLUS4-specific
- @{" -TEDcrtscanlineshade " Link "PLUS4-specific"}                 PLUS4-specific
- @{" -TEDdscan, +TEDdscan " Link "PLUS4-specific"}                 PLUS4-specific
- @{" -TEDdsize, +TEDdsize " Link "PLUS4-specific"}                 PLUS4-specific
- @{" -TEDextpal " Link "PLUS4-specific"}                           PLUS4-specific
- @{" -TEDfilter " Link "PLUS4-specific"}                           PLUS4-specific
- @{" -TEDgamma " Link "PLUS4-specific"}                            PLUS4-specific
- @{" -TEDintpal " Link "PLUS4-specific"}                           PLUS4-specific
- @{" -TEDoddlinesoffset " Link "PLUS4-specific"}                   PLUS4-specific
- @{" -TEDoddlinesphase " Link "PLUS4-specific"}                    PLUS4-specific
- @{" -TEDpalette " Link "PLUS4-specific"}                          PLUS4-specific
- @{" -TEDsaturation " Link "PLUS4-specific"}                       PLUS4-specific
  @{" -TEDtint " Link "PLUS4-specific"}                             PLUS4-specific
- @{" -TEDvcache, +TEDvcache " Link "PLUS4-specific"}               PLUS4-specific
  @{" -TEDVidmodefullmode " Link "PLUS4-specific"}                  PLUS4-specific
  @{" -TEDXRANDRfullmode " Link "PLUS4-specific"}                   PLUS4-specific
  @{" -text " Link "c1541 executing shell commands"}                                c1541 executing shell commands
  @{" -tfe, +tfe " Link "C64 I-O extension options"}                           C64 I-O extension options
  @{" -tfe, +tfe " Link "VIC20 cartridges"}                           VIC20 cartridges
- @{" -tfeif " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -tfeif " Link "C64 I-O extension options"}                               C64 I-O extension options
+ @{" -tfeif " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -tfeioswap, +tfeioswap " Link "VIC20 cartridges"}               VIC20 cartridges
- @{" -tferrnet, +tferrnet " Link "VIC20 cartridges"}                 VIC20 cartridges
  @{" -tferrnet, +tferrnet " Link "C64 I-O extension options"}                 C64 I-O extension options
+ @{" -tferrnet, +tferrnet " Link "VIC20 cartridges"}                 VIC20 cartridges
  @{" -trueflashfs, +trueflashfs " Link "C64DTV ROM image"}           C64DTV ROM image
  @{" -userportdac, +userportdac " Link "PET model"}           PET model
  @{" -v " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
@@ -19978,14 +19985,14 @@ Index of Resources
  @{" 40/80ColumnKey " Link "C128-specific"}                       C128-specific
  @{" Acia1Base " Link "C64 I-O extension resources"}                            C64 I-O extension resources
  @{" Acia1Dev " Link "RS232 resources"}                             RS232 resources
- @{" Acia1Enable " Link "C64 I-O extension resources"}                          C64 I-O extension resources
  @{" Acia1Enable " Link "PLUS4-specific"}                          PLUS4-specific
+ @{" Acia1Enable " Link "C64 I-O extension resources"}                          C64 I-O extension resources
  @{" Acia1Irq " Link "RS232 resources"}                             RS232 resources
  @{" Acia1Mode " Link "C64 I-O extension resources"}                            C64 I-O extension resources
  @{" AlwaysOnTop " Link "Windows-specific features"}                          Windows-specific features
+ @{" AspectRatio " Link "XAW-specific features"}                          XAW-specific features
  @{" AspectRatio " Link "Windows-specific features"}                          Windows-specific features
  @{" AspectRatio " Link "SDL-specific features"}                          SDL-specific features
- @{" AspectRatio " Link "XAW-specific features"}                          XAW-specific features
  @{" AttachDevice10Readonly " Link "Misc resources"}               Misc resources
  @{" AttachDevice11Readonly " Link "Misc resources"}               Misc resources
  @{" AttachDevice8Readonly " Link "Misc resources"}                Misc resources
@@ -20003,11 +20010,12 @@ Index of Resources
  @{" Basic64Name " Link "C128-specific"}                          C128-specific
  @{" BasicHiName " Link "C128-specific"}                          C128-specific
  @{" BasicLoName " Link "C128-specific"}                          C128-specific
- @{" BasicName " Link "VIC20 system ROM resources"}                            VIC20 system ROM resources
- @{" BasicName " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
- @{" BasicName " Link "PET model"}                            PET model
- @{" BasicName " Link "CBM-II model"}                            CBM-II model
  @{" BasicName " Link "VSID-specific"}                            VSID-specific
+ @{" BasicName " Link "CBM-II model"}                            CBM-II model
+ @{" BasicName " Link "VIC20 system ROM resources"}                            VIC20 system ROM resources
+ @{" BasicName " Link "PLUS4-specific"}                            PLUS4-specific
+ @{" BasicName " Link "PET model"}                            PET model
+ @{" BasicName " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
  @{" BoardType " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" BurstMod " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" C128FullBanks " Link "C128-specific"}                        C128-specific
@@ -20024,30 +20032,30 @@ Index of Resources
  @{" Cart2Name " Link "CBM-II model"}                            CBM-II model
  @{" Cart4Name " Link "CBM-II model"}                            CBM-II model
  @{" Cart6Name " Link "CBM-II model"}                            CBM-II model
- @{" CartridgeFile " Link "C64 cartridges"}                        C64 cartridges
  @{" CartridgeFile " Link "VIC20 cartridges"}                        VIC20 cartridges
+ @{" CartridgeFile " Link "C64 cartridges"}                        C64 cartridges
  @{" CartridgeReset " Link "PLUS4-specific"}                       PLUS4-specific
  @{" CartridgeReset " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" CartridgeReset " Link "C64 cartridges"}                       C64 cartridges
- @{" CartridgeType " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" CartridgeType " Link "C64 cartridges"}                        C64 cartridges
+ @{" CartridgeType " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" ChargenCHName " Link "C128-specific"}                        C128-specific
  @{" ChargenDEName " Link "C128-specific"}                        C128-specific
  @{" ChargenFRName " Link "C128-specific"}                        C128-specific
  @{" ChargenIntName " Link "C128-specific"}                       C128-specific
- @{" ChargenName " Link "VSID-specific"}                          VSID-specific
  @{" ChargenName " Link "C64-128 system ROM resources"}                          C64-128 system ROM resources
- @{" ChargenName " Link "VIC20 system ROM resources"}                          VIC20 system ROM resources
- @{" ChargenName " Link "PET model"}                          PET model
  @{" ChargenName " Link "CBM-II model"}                          CBM-II model
+ @{" ChargenName " Link "VIC20 system ROM resources"}                          VIC20 system ROM resources
+ @{" ChargenName " Link "VSID-specific"}                          VSID-specific
+ @{" ChargenName " Link "PET model"}                          PET model
  @{" ChargenSEName " Link "C128-specific"}                        C128-specific
  @{" CIA1Model " Link "C64 cartridges"}                            C64 cartridges
  @{" CIA2Model " Link "C64 cartridges"}                            C64 cartridges
  @{" ConfirmOnExit " Link "Windows-specific features"}                        Windows-specific features
- @{" ConfirmOnExit " Link "Unix-specific features"}                        Unix-specific features
- @{" ConfirmOnExit " Link "SDL-specific features"}                        SDL-specific features
- @{" ConfirmOnExit " Link "BeOS-specific features"}                        BeOS-specific features
  @{" ConfirmOnExit " Link "AmigaOS-specific features"}                        AmigaOS-specific features
+ @{" ConfirmOnExit " Link "BeOS-specific features"}                        BeOS-specific features
+ @{" ConfirmOnExit " Link "SDL-specific features"}                        SDL-specific features
+ @{" ConfirmOnExit " Link "Unix-specific features"}                        Unix-specific features
  @{" CPUswitch " Link "PET settings"}                            PET settings
  @{" Crtc " Link "PET model"}                                 PET model
  @{" CrtcAudioLeak " Link "PET model"}                        PET model
@@ -20060,8 +20068,8 @@ Index of Resources
  @{" CrtcDoubleSize " Link "PET model"}                       PET model
  @{" CrtcExternalPalette " Link "PET model"}                  PET model
  @{" CrtcFilter " Link "PET model"}                           PET model
- @{" CrtcFullscreen " Link "Unix-specific features"}                       Unix-specific features
  @{" CrtcFullscreen " Link "SDL-specific features"}                       SDL-specific features
+ @{" CrtcFullscreen " Link "Unix-specific features"}                       Unix-specific features
  @{" CrtcFullscreenDevice " Link "Unix-specific features"}                 Unix-specific features
  @{" CrtcFullscreenDevice " Link "SDL-specific features"}                 SDL-specific features
  @{" CrtcFullscreenStatusbar " Link "Unix-specific features"}              Unix-specific features
@@ -20287,10 +20295,10 @@ Index of Resources
  @{" InitialCartDir " Link "Windows-specific features"}                       Windows-specific features
  @{" InitialDefaultDir " Link "Windows-specific features"}                    Windows-specific features
  @{" InitialDefaultDir " Link "AmigaOS-specific features"}                    AmigaOS-specific features
- @{" InitialDiskDir " Link "AmigaOS-specific features"}                       AmigaOS-specific features
  @{" InitialDiskDir " Link "Windows-specific features"}                       Windows-specific features
- @{" InitialSnapshotDir " Link "AmigaOS-specific features"}                   AmigaOS-specific features
+ @{" InitialDiskDir " Link "AmigaOS-specific features"}                       AmigaOS-specific features
  @{" InitialSnapshotDir " Link "Windows-specific features"}                   Windows-specific features
+ @{" InitialSnapshotDir " Link "AmigaOS-specific features"}                   AmigaOS-specific features
  @{" InitialTapeDir " Link "Windows-specific features"}                       Windows-specific features
  @{" InitialTapeDir " Link "AmigaOS-specific features"}                       AmigaOS-specific features
  @{" InternalFunctionName " Link "C128-specific"}                 C128-specific
@@ -20322,61 +20330,61 @@ Index of Resources
  @{" JoyAutofire3Speed " Link "Windows-specific features"}                    Windows-specific features
  @{" JoyAutofire4Button " Link "Windows-specific features"}                   Windows-specific features
  @{" JoyAutofire4Speed " Link "Windows-specific features"}                    Windows-specific features
- @{" JoyDevice1 " Link "Unix-specific features"}                           Unix-specific features
- @{" JoyDevice1 " Link "BeOS-specific features"}                           BeOS-specific features
  @{" JoyDevice1 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
- @{" JoyDevice1 " Link "Windows-specific features"}                           Windows-specific features
- @{" JoyDevice1 " Link "SDL-specific features"}                           SDL-specific features
- @{" JoyDevice1 " Link "DOS-specific features"}                           DOS-specific features
- @{" JoyDevice1 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
- @{" JoyDevice1 " Link "Keyboard options"}                           Keyboard options
- @{" JoyDevice1 " Link "MorphOS-specific features"}                           MorphOS-specific features
  @{" JoyDevice1 " Link "AROS-specific features"}                           AROS-specific features
- @{" JoyDevice2 " Link "BeOS-specific features"}                           BeOS-specific features
- @{" JoyDevice2 " Link "MorphOS-specific features"}                           MorphOS-specific features
- @{" JoyDevice2 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
- @{" JoyDevice2 " Link "Keyboard options"}                           Keyboard options
- @{" JoyDevice2 " Link "DOS-specific features"}                           DOS-specific features
+ @{" JoyDevice1 " Link "SDL-specific features"}                           SDL-specific features
+ @{" JoyDevice1 " Link "Windows-specific features"}                           Windows-specific features
+ @{" JoyDevice1 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice1 " Link "Keyboard options"}                           Keyboard options
+ @{" JoyDevice1 " Link "DOS-specific features"}                           DOS-specific features
+ @{" JoyDevice1 " Link "Unix-specific features"}                           Unix-specific features
+ @{" JoyDevice1 " Link "MorphOS-specific features"}                           MorphOS-specific features
+ @{" JoyDevice1 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
  @{" JoyDevice2 " Link "SDL-specific features"}                           SDL-specific features
- @{" JoyDevice2 " Link "AROS-specific features"}                           AROS-specific features
- @{" JoyDevice2 " Link "Windows-specific features"}                           Windows-specific features
- @{" JoyDevice2 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
  @{" JoyDevice2 " Link "Unix-specific features"}                           Unix-specific features
- @{" JoyDevice3 " Link "Windows-specific features"}                           Windows-specific features
- @{" JoyDevice3 " Link "Unix-specific features"}                           Unix-specific features
- @{" JoyDevice3 " Link "Keyboard options"}                           Keyboard options
- @{" JoyDevice3 " Link "SDL-specific features"}                           SDL-specific features
- @{" JoyDevice3 " Link "DOS-specific features"}                           DOS-specific features
- @{" JoyDevice3 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice2 " Link "Keyboard options"}                           Keyboard options
+ @{" JoyDevice2 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
+ @{" JoyDevice2 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
+ @{" JoyDevice2 " Link "MorphOS-specific features"}                           MorphOS-specific features
+ @{" JoyDevice2 " Link "AROS-specific features"}                           AROS-specific features
+ @{" JoyDevice2 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice2 " Link "Windows-specific features"}                           Windows-specific features
+ @{" JoyDevice2 " Link "DOS-specific features"}                           DOS-specific features
  @{" JoyDevice3 " Link "AROS-specific features"}                           AROS-specific features
- @{" JoyDevice3 " Link "MorphOS-specific features"}                           MorphOS-specific features
+ @{" JoyDevice3 " Link "SDL-specific features"}                           SDL-specific features
  @{" JoyDevice3 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
+ @{" JoyDevice3 " Link "Windows-specific features"}                           Windows-specific features
+ @{" JoyDevice3 " Link "Keyboard options"}                           Keyboard options
+ @{" JoyDevice3 " Link "DOS-specific features"}                           DOS-specific features
+ @{" JoyDevice3 " Link "MorphOS-specific features"}                           MorphOS-specific features
  @{" JoyDevice3 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
- @{" JoyDevice4 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
+ @{" JoyDevice3 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice3 " Link "Unix-specific features"}                           Unix-specific features
  @{" JoyDevice4 " Link "Keyboard options"}                           Keyboard options
- @{" JoyDevice4 " Link "MorphOS-specific features"}                           MorphOS-specific features
  @{" JoyDevice4 " Link "SDL-specific features"}                           SDL-specific features
- @{" JoyDevice4 " Link "DOS-specific features"}                           DOS-specific features
- @{" JoyDevice4 " Link "BeOS-specific features"}                           BeOS-specific features
  @{" JoyDevice4 " Link "AROS-specific features"}                           AROS-specific features
- @{" JoyDevice4 " Link "Unix-specific features"}                           Unix-specific features
+ @{" JoyDevice4 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
  @{" JoyDevice4 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
+ @{" JoyDevice4 " Link "MorphOS-specific features"}                           MorphOS-specific features
+ @{" JoyDevice4 " Link "Unix-specific features"}                           Unix-specific features
+ @{" JoyDevice4 " Link "DOS-specific features"}                           DOS-specific features
  @{" JoyDevice4 " Link "Windows-specific features"}                           Windows-specific features
+ @{" JoyDevice4 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyFire1 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" JoyFire1 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" JoyFire1 " Link "AROS-specific features"}                             AROS-specific features
- @{" JoyFire1 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" JoyFire1Button " Link "Windows-specific features"}                       Windows-specific features
+ @{" JoyFire2 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" JoyFire2 " Link "AROS-specific features"}                             AROS-specific features
  @{" JoyFire2 " Link "MorphOS-specific features"}                             MorphOS-specific features
- @{" JoyFire2 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" JoyFire2Button " Link "Windows-specific features"}                       Windows-specific features
  @{" JoyFire3 " Link "AROS-specific features"}                             AROS-specific features
  @{" JoyFire3 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" JoyFire3 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" JoyFire3Button " Link "Windows-specific features"}                       Windows-specific features
- @{" JoyFire4 " Link "AROS-specific features"}                             AROS-specific features
- @{" JoyFire4 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" JoyFire4 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" JoyFire4 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
+ @{" JoyFire4 " Link "AROS-specific features"}                             AROS-specific features
  @{" JoyFire4Button " Link "Windows-specific features"}                       Windows-specific features
  @{" JoyFuzz " Link "SDL-specific features"}                              SDL-specific features
  @{" JoyMapFile " Link "SDL-specific features"}                           SDL-specific features
@@ -20397,9 +20405,10 @@ Index of Resources
  @{" KernalITName " Link "C128-specific"}                         C128-specific
  @{" KernalName " Link "VSID-specific"}                           VSID-specific
  @{" KernalName " Link "VIC20 system ROM resources"}                           VIC20 system ROM resources
- @{" KernalName " Link "PET model"}                           PET model
  @{" KernalName " Link "C64-128 system ROM resources"}                           C64-128 system ROM resources
+ @{" KernalName " Link "PLUS4-specific"}                           PLUS4-specific
  @{" KernalName " Link "CBM-II model"}                           CBM-II model
+ @{" KernalName " Link "PET model"}                           PET model
  @{" KernalNOName " Link "C128-specific"}                         C128-specific
  @{" KernalRev " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
  @{" KernalSEName " Link "C128-specific"}                         C128-specific
@@ -20436,9 +20445,9 @@ Index of Resources
  @{" LightpenType " Link "Keyboard options"}                         Keyboard options
  @{" LogFileName " Link "Misc resources"}                          Misc resources
  @{" MachineType " Link "C128-specific"}                          C128-specific
+ @{" MachineVideoStandard " Link "C128-specific"}                 C128-specific
  @{" MachineVideoStandard " Link "CBM-II model"}                 CBM-II model
  @{" MachineVideoStandard " Link "Monitor DTV features"}                 Monitor DTV features
- @{" MachineVideoStandard " Link "C128-specific"}                 C128-specific
  @{" MagicVoiceCartridgeEnabled " Link "C64 cartridges"}           C64 cartridges
  @{" MagicVoiceImage " Link "C64 cartridges"}                      C64 cartridges
  @{" MegaCartNvRAMfilename " Link "VIC20 cartridges"}                VIC20 cartridges
@@ -20454,11 +20463,11 @@ Index of Resources
  @{" MenuKeyUp " Link "SDL-specific features"}                            SDL-specific features
  @{" MIDIDriver " Link "Unix-specific features"}                           Unix-specific features
  @{" MIDIEnable " Link "C64 I-O extension resources"}                           C64 I-O extension resources
- @{" MIDIInDev " Link "Windows-specific features"}                            Windows-specific features
  @{" MIDIInDev " Link "Unix-specific features"}                            Unix-specific features
+ @{" MIDIInDev " Link "Windows-specific features"}                            Windows-specific features
  @{" MIDIMode " Link "C64 I-O extension resources"}                             C64 I-O extension resources
- @{" MIDIOutDev " Link "Unix-specific features"}                           Unix-specific features
  @{" MIDIOutDev " Link "Windows-specific features"}                           Windows-specific features
+ @{" MIDIOutDev " Link "Unix-specific features"}                           Unix-specific features
  @{" MITSHM " Link "XAW-specific features"}                               XAW-specific features
  @{" MMC64 " Link "C64 cartridges"}                                C64 cartridges
  @{" MMC64BIOSfilename " Link "C64 cartridges"}                    C64 cartridges
@@ -20543,11 +20552,11 @@ Index of Resources
  @{" RAMInitPatternInvert " Link "Monitor options"}                 Monitor options
  @{" RAMInitStartValue " Link "Monitor options"}                    Monitor options
  @{" RAMInitValueInvert " Link "Monitor options"}                   Monitor options
- @{" RamSize " Link "CBM-II model"}                              CBM-II model
  @{" RamSize " Link "PET model"}                              PET model
+ @{" RamSize " Link "CBM-II model"}                              CBM-II model
  @{" RawDriveDriver " Link "Drive resources"}                       Drive resources
- @{" RefreshRate " Link "Performance resources"}                          Performance resources
  @{" RefreshRate " Link "DOS-specific features"}                          DOS-specific features
+ @{" RefreshRate " Link "Performance resources"}                          Performance resources
  @{" REU " Link "C64 I-O extension resources"}                                  C64 I-O extension resources
  @{" REUfilename " Link "C64 I-O extension resources"}                          C64 I-O extension resources
  @{" REUImageWrite " Link "C64 I-O extension resources"}                        C64 I-O extension resources
@@ -20570,11 +20579,11 @@ Index of Resources
  @{" RsUserBaud " Link "RS232 resources"}                           RS232 resources
  @{" RsUserDev " Link "RS232 resources"}                            RS232 resources
  @{" RsUserEnable " Link "RS232 resources"}                         RS232 resources
+ @{" SaveResourcesOnExit " Link "Windows-specific features"}                  Windows-specific features
+ @{" SaveResourcesOnExit " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" SaveResourcesOnExit " Link "BeOS-specific features"}                  BeOS-specific features
  @{" SaveResourcesOnExit " Link "Unix-specific features"}                  Unix-specific features
- @{" SaveResourcesOnExit " Link "Windows-specific features"}                  Windows-specific features
  @{" SaveResourcesOnExit " Link "SDL-specific features"}                  SDL-specific features
- @{" SaveResourcesOnExit " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" SDLBitdepth " Link "SDL-specific features"}                          SDL-specific features
  @{" SDLCustomHeight " Link "SDL-specific features"}                      SDL-specific features
  @{" SDLCustomWidth " Link "SDL-specific features"}                       SDL-specific features
@@ -20595,13 +20604,13 @@ Index of Resources
  @{" SidAddress " Link "PET model"}                           PET model
  @{" SidAddress " Link "PLUS4-specific"}                           PLUS4-specific
  @{" SidAddress " Link "VIC20 cartridges"}                           VIC20 cartridges
- @{" SidCart " Link "PET model"}                              PET model
  @{" SidCart " Link "PLUS4-specific"}                              PLUS4-specific
+ @{" SidCart " Link "PET model"}                              PET model
  @{" SidCart " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" SIDCartJoy " Link "PLUS4-specific"}                           PLUS4-specific
- @{" SidClock " Link "PET model"}                             PET model
  @{" SidClock " Link "PLUS4-specific"}                             PLUS4-specific
  @{" SidClock " Link "VIC20 cartridges"}                             VIC20 cartridges
+ @{" SidClock " Link "PET model"}                             PET model
  @{" SidEngine " Link "SID resources"}                            SID resources
  @{" SidFilters " Link "SID resources"}                           SID resources
  @{" SidModel " Link "SID resources"}                             SID resources
@@ -20627,8 +20636,8 @@ Index of Resources
  @{" SoundVolume " Link "Sound resources"}                          Sound resources
  @{" SpeechEnabled " Link "PLUS4-specific"}                        PLUS4-specific
  @{" SpeechImage " Link "PLUS4-specific"}                          PLUS4-specific
- @{" Speed " Link "Performance resources"}                                Performance resources
  @{" Speed " Link "DOS-specific features"}                                DOS-specific features
+ @{" Speed " Link "Performance resources"}                                Performance resources
  @{" StatusBarEnabled " Link "AmigaOS-specific features"}                     AmigaOS-specific features
  @{" SuperPET " Link "PET model"}                             PET model
  @{" TEDAudioLeak " Link "PLUS4-specific"}                         PLUS4-specific
@@ -20642,8 +20651,8 @@ Index of Resources
  @{" TEDDoubleSize " Link "PLUS4-specific"}                        PLUS4-specific
  @{" TEDExternalPalette " Link "PLUS4-specific"}                   PLUS4-specific
  @{" TEDFilter " Link "PLUS4-specific"}                            PLUS4-specific
- @{" TEDFullscreen " Link "SDL-specific features"}                        SDL-specific features
  @{" TEDFullscreen " Link "Unix-specific features"}                        Unix-specific features
+ @{" TEDFullscreen " Link "SDL-specific features"}                        SDL-specific features
  @{" TEDFullscreenDevice " Link "Unix-specific features"}                  Unix-specific features
  @{" TEDFullscreenDevice " Link "SDL-specific features"}                  SDL-specific features
  @{" TEDFullscreenStatusbar " Link "Unix-specific features"}               Unix-specific features
@@ -20661,9 +20670,9 @@ Index of Resources
  @{" TEDXRANDRFullscreenMode " Link "XAW-specific features"}              XAW-specific features
  @{" TFEIOSwap " Link "VIC20 cartridges"}                            VIC20 cartridges
  @{" TripleBuffering " Link "DOS-specific features"}                      DOS-specific features
- @{" TrueAspectRatio " Link "GTK-specific features"}                      GTK-specific features
  @{" TrueAspectRatio " Link "Windows-specific features"}                      Windows-specific features
  @{" TrueAspectRatio " Link "XAW-specific features"}                      XAW-specific features
+ @{" TrueAspectRatio " Link "GTK-specific features"}                      GTK-specific features
  @{" UseFullscreen " Link "XAW-specific features"}                        XAW-specific features
  @{" UseFullscreen " Link "XAW-specific features"}                        XAW-specific features
  @{" UseLeds " Link "DOS-specific features"}                              DOS-specific features
@@ -20685,12 +20694,12 @@ Index of Resources
  @{" VDCFilter " Link "C128-specific"}                            C128-specific
  @{" VDCFullscreen " Link "SDL-specific features"}                        SDL-specific features
  @{" VDCFullscreen " Link "Unix-specific features"}                        Unix-specific features
- @{" VDCFullscreenDevice " Link "Unix-specific features"}                  Unix-specific features
  @{" VDCFullscreenDevice " Link "SDL-specific features"}                  SDL-specific features
- @{" VDCFullscreenStatusbar " Link "SDL-specific features"}               SDL-specific features
+ @{" VDCFullscreenDevice " Link "Unix-specific features"}                  Unix-specific features
  @{" VDCFullscreenStatusbar " Link "Unix-specific features"}               Unix-specific features
- @{" VDCHwScale " Link "Unix-specific features"}                           Unix-specific features
+ @{" VDCFullscreenStatusbar " Link "SDL-specific features"}               SDL-specific features
  @{" VDCHwScale " Link "SDL-specific features"}                           SDL-specific features
+ @{" VDCHwScale " Link "Unix-specific features"}                           Unix-specific features
  @{" VDCPALBlur " Link "C128-specific"}                           C128-specific
  @{" VDCPaletteFile " Link "C128-specific"}                       C128-specific
  @{" VDCPALOddLineOffset " Link "C128-specific"}                  C128-specific
@@ -20715,14 +20724,14 @@ Index of Resources
  @{" VICExternalPalette " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" VICFilter " Link "VIC20 cartridges"}                            VIC20 cartridges
  @{" VicFlashPluginWriteBack " Link "VIC20 cartridges"}              VIC20 cartridges
- @{" VICFullscreen " Link "SDL-specific features"}                        SDL-specific features
  @{" VICFullscreen " Link "Unix-specific features"}                        Unix-specific features
- @{" VICFullscreenDevice " Link "SDL-specific features"}                  SDL-specific features
+ @{" VICFullscreen " Link "SDL-specific features"}                        SDL-specific features
  @{" VICFullscreenDevice " Link "Unix-specific features"}                  Unix-specific features
+ @{" VICFullscreenDevice " Link "SDL-specific features"}                  SDL-specific features
  @{" VICFullscreenStatusbar " Link "Unix-specific features"}               Unix-specific features
  @{" VICFullscreenStatusbar " Link "SDL-specific features"}               SDL-specific features
- @{" VICHwScale " Link "Unix-specific features"}                           Unix-specific features
  @{" VICHwScale " Link "SDL-specific features"}                           SDL-specific features
+ @{" VICHwScale " Link "Unix-specific features"}                           Unix-specific features
  @{" VICIIAudioLeak " Link "VIC-II resources"}                       VIC-II resources
  @{" VICIIBorderMode " Link "VIC-II resources"}                      VIC-II resources
  @{" VICIICheckSbColl " Link "VIC-II resources"}                     VIC-II resources
@@ -20736,14 +20745,14 @@ Index of Resources
  @{" VICIIDoubleSize " Link "VIC-II resources"}                      VIC-II resources
  @{" VICIIExternalPalette " Link "VIC-II resources"}                 VIC-II resources
  @{" VICIIFilter " Link "VIC-II resources"}                          VIC-II resources
- @{" VICIIFullscreen " Link "Unix-specific features"}                      Unix-specific features
  @{" VICIIFullscreen " Link "SDL-specific features"}                      SDL-specific features
+ @{" VICIIFullscreen " Link "Unix-specific features"}                      Unix-specific features
  @{" VICIIFullscreenDevice " Link "SDL-specific features"}                SDL-specific features
  @{" VICIIFullscreenDevice " Link "Unix-specific features"}                Unix-specific features
- @{" VICIIFullscreenStatusbar " Link "Unix-specific features"}             Unix-specific features
  @{" VICIIFullscreenStatusbar " Link "SDL-specific features"}             SDL-specific features
- @{" VICIIHwScale " Link "SDL-specific features"}                         SDL-specific features
+ @{" VICIIFullscreenStatusbar " Link "Unix-specific features"}             Unix-specific features
  @{" VICIIHwScale " Link "Unix-specific features"}                         Unix-specific features
+ @{" VICIIHwScale " Link "SDL-specific features"}                         SDL-specific features
  @{" VICIIModel " Link "VIC-II resources"}                           VIC-II resources
  @{" VICIINewLuminances " Link "VIC-II resources"}                   VIC-II resources
  @{" VICIIPALBlur " Link "VIC-II resources"}                         VIC-II resources
@@ -20765,24 +20774,24 @@ Index of Resources
  @{" VICVidmodeFullscreenMode " Link "XAW-specific features"}             XAW-specific features
  @{" VICXRANDRFullscreenMode " Link "XAW-specific features"}              XAW-specific features
  @{" VideoOverlayEnabled " Link "AROS-specific features"}                  AROS-specific features
- @{" VideoOverlayEnabled " Link "MorphOS-specific features"}                  MorphOS-specific features
  @{" VideoOverlayEnabled " Link "AmigaOS3-specific features"}                  AmigaOS3-specific features
+ @{" VideoOverlayEnabled " Link "MorphOS-specific features"}                  MorphOS-specific features
  @{" VideoSize " Link "PET model"}                            PET model
  @{" VirtualDevices " Link "No traps resources"}                       No traps resources
  @{" WarpMode " Link "Performance resources"}                             Performance resources
  @{" WarpMode " Link "DOS-specific features"}                             DOS-specific features
  @{" Window0Height " Link "XAW-specific features"}                        XAW-specific features
  @{" Window0Width " Link "XAW-specific features"}                         XAW-specific features
- @{" Window0Xpos " Link "Windows-specific features"}                          Windows-specific features
  @{" Window0Xpos " Link "XAW-specific features"}                          XAW-specific features
+ @{" Window0Xpos " Link "Windows-specific features"}                          Windows-specific features
  @{" Window0Ypos " Link "XAW-specific features"}                          XAW-specific features
  @{" Window0Ypos " Link "Windows-specific features"}                          Windows-specific features
  @{" Window1Height " Link "XAW-specific features"}                        XAW-specific features
  @{" Window1Width " Link "XAW-specific features"}                         XAW-specific features
  @{" Window1Xpos " Link "Windows-specific features"}                          Windows-specific features
  @{" Window1Xpos " Link "XAW-specific features"}                          XAW-specific features
- @{" Window1Ypos " Link "Windows-specific features"}                          Windows-specific features
  @{" Window1Ypos " Link "XAW-specific features"}                          XAW-specific features
+ @{" Window1Ypos " Link "Windows-specific features"}                          Windows-specific features
 
 
 @EndNode
@@ -20802,16 +20811,17 @@ Index of Command-line options
  @{" -256kimage " Link "C64-128 system ROM options"}                           C64-128 system ROM options
  @{" -alwaysontop, +alwaysontop " Link "Windows-specific features"}           Windows-specific features
  @{" -aspect " Link "SDL-specific features"}                              SDL-specific features
- @{" -aspect " Link "Windows-specific features"}                              Windows-specific features
  @{" -aspect " Link "XAW-specific features"}                              XAW-specific features
+ @{" -aspect " Link "Windows-specific features"}                              Windows-specific features
  @{" -autostart-delay-random, +autostart-delay-random " Link "Resources and command-line"} Resources and command-line
  @{" -autostart-warp, +autostart-warp " Link "Resources and command-line"}     Resources and command-line
  @{" -autostartprgdiskimage " Link "Resources and command-line"}               Resources and command-line
  @{" -autostartprgmode " Link "Resources and command-line"}                    Resources and command-line
  @{" -autostartwithcolon, +autostartwithcolon " Link "Resources and command-line"} Resources and command-line
  @{" -basic " Link "CBM-II model"}                               CBM-II model
- @{" -basic " Link "VSID-specific"}                               VSID-specific
  @{" -basic " Link "PET model"}                               PET model
+ @{" -basic " Link "VSID-specific"}                               VSID-specific
+ @{" -basic <Name> " Link "PLUS4-specific"}                        PLUS4-specific
  @{" -basic64 " Link "C128-specific"}                             C128-specific
  @{" -basichi " Link "C128-specific"}                             C128-specific
  @{" -basiclo " Link "C128-specific"}                             C128-specific
@@ -20866,6 +20876,7 @@ Index of Command-line options
  @{" -cartpf " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartramcart " Link "C64 cartridges"}                         C64 cartridges
  @{" -cartrep256 " Link "C64 cartridges"}                          C64 cartridges
+ @{" -cartreset, +cartreset " Link "PLUS4-specific"}               PLUS4-specific
  @{" -cartreu " Link "C64 I-O extension options"}                             C64 I-O extension options
  @{" -cartross " Link "C64 cartridges"}                            C64 cartridges
  @{" -cartrr " Link "C64 cartridges"}                              C64 cartridges
@@ -20884,9 +20895,9 @@ Index of Command-line options
  @{" -cartws " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartzaxxon " Link "C64 cartridges"}                          C64 cartridges
  @{" -chargde " Link "C128-specific"}                             C128-specific
- @{" -chargen " Link "CBM-II model"}                             CBM-II model
- @{" -chargen " Link "VSID-specific"}                             VSID-specific
  @{" -chargen " Link "PET model"}                             PET model
+ @{" -chargen " Link "VSID-specific"}                             VSID-specific
+ @{" -chargen " Link "CBM-II model"}                             CBM-II model
  @{" -chargen " Link "C128-specific"}                             C128-specific
  @{" -chargfr " Link "C128-specific"}                             C128-specific
  @{" -chargse " Link "C128-specific"}                             C128-specific
@@ -20894,11 +20905,11 @@ Index of Command-line options
  @{" -cia2model " Link "C64 cartridges"}                           C64 cartridges
  @{" -ciamodel " Link "C64 cartridges"}                            C64 cartridges
  @{" -colormap, +colormap " Link "XAW-specific features"}                 XAW-specific features
- @{" -confirmexit, +confirmexit " Link "SDL-specific features"}           SDL-specific features
- @{" -confirmexit, +confirmexit " Link "BeOS-specific features"}           BeOS-specific features
- @{" -confirmexit, +confirmexit " Link "AmigaOS-specific features"}           AmigaOS-specific features
- @{" -confirmexit, +confirmexit " Link "Unix-specific features"}           Unix-specific features
  @{" -confirmexit, +confirmexit " Link "Windows-specific features"}           Windows-specific features
+ @{" -confirmexit, +confirmexit " Link "Unix-specific features"}           Unix-specific features
+ @{" -confirmexit, +confirmexit " Link "BeOS-specific features"}           BeOS-specific features
+ @{" -confirmexit, +confirmexit " Link "SDL-specific features"}           SDL-specific features
+ @{" -confirmexit, +confirmexit " Link "AmigaOS-specific features"}           AmigaOS-specific features
  @{" -Crtcbrightness " Link "PET model"}                      PET model
  @{" -Crtccontrast " Link "PET model"}                        PET model
  @{" -Crtccrtblur " Link "PET model"}                         PET model
@@ -20908,8 +20919,8 @@ Index of Command-line options
  @{" -Crtcextpal " Link "PET model"}                          PET model
  @{" -Crtcfilter " Link "PET model"}                          PET model
  @{" -CRTCfull, +CRTCfull " Link "SDL-specific features"}                 SDL-specific features
- @{" -CRTCfulldevice " Link "SDL-specific features"}                      SDL-specific features
  @{" -CRTCfulldevice " Link "Unix-specific features"}                      Unix-specific features
+ @{" -CRTCfulldevice " Link "SDL-specific features"}                      SDL-specific features
  @{" -Crtcgamma " Link "PET model"}                           PET model
  @{" -CRTChwscale, +CRTChwscale " Link "Unix-specific features"}           Unix-specific features
  @{" -CRTChwscale, +CRTChwscale " Link "SDL-specific features"}           SDL-specific features
@@ -20923,6 +20934,7 @@ Index of Command-line options
  @{" -Crtcvcache, +Crtcvcache " Link "PET model"}             PET model
  @{" -CrtcVidmodefullmode " Link "XAW-specific features"}                 XAW-specific features
  @{" -CrtcXRANDRfullmode " Link "XAW-specific features"}                  XAW-specific features
+ @{" -digiblaster, +digiblaster " Link "PLUS4-specific"}           PLUS4-specific
  @{" -digimax, +digimax " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" -directwindow, +directwindow " Link "BeOS-specific features"}         BeOS-specific features
  @{" -displaydepth " Link "XAW-specific features"}                        XAW-specific features
@@ -20988,36 +21000,36 @@ Index of Command-line options
  @{" -expertimagename " Link "C64 cartridges"}                     C64 cartridges
  @{" -expertimagerw, +expertimagerw " Link "C64 cartridges"}       C64 cartridges
  @{" -expertmode " Link "C64 cartridges"}                          C64 cartridges
- @{" -extrajoydev1 " Link "Windows-specific features"}                        Windows-specific features
- @{" -extrajoydev1 " Link "MorphOS-specific features"}                        MorphOS-specific features
- @{" -extrajoydev1 " Link "SDL-specific features"}                        SDL-specific features
- @{" -extrajoydev1 " Link "AROS-specific features"}                        AROS-specific features
- @{" -extrajoydev1 " Link "BeOS-specific features"}                        BeOS-specific features
- @{" -extrajoydev1 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
- @{" -extrajoydev1 " Link "DOS-specific features"}                        DOS-specific features
  @{" -extrajoydev1 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
+ @{" -extrajoydev1 " Link "DOS-specific features"}                        DOS-specific features
+ @{" -extrajoydev1 " Link "BeOS-specific features"}                        BeOS-specific features
+ @{" -extrajoydev1 " Link "AROS-specific features"}                        AROS-specific features
  @{" -extrajoydev1 " Link "Unix-specific features"}                        Unix-specific features
+ @{" -extrajoydev1 " Link "MorphOS-specific features"}                        MorphOS-specific features
+ @{" -extrajoydev1 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
+ @{" -extrajoydev1 " Link "SDL-specific features"}                        SDL-specific features
+ @{" -extrajoydev1 " Link "Windows-specific features"}                        Windows-specific features
+ @{" -extrajoydev2 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
+ @{" -extrajoydev2 " Link "Unix-specific features"}                        Unix-specific features
+ @{" -extrajoydev2 " Link "MorphOS-specific features"}                        MorphOS-specific features
  @{" -extrajoydev2 " Link "Windows-specific features"}                        Windows-specific features
+ @{" -extrajoydev2 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
+ @{" -extrajoydev2 " Link "BeOS-specific features"}                        BeOS-specific features
  @{" -extrajoydev2 " Link "DOS-specific features"}                        DOS-specific features
  @{" -extrajoydev2 " Link "SDL-specific features"}                        SDL-specific features
- @{" -extrajoydev2 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
- @{" -extrajoydev2 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
- @{" -extrajoydev2 " Link "BeOS-specific features"}                        BeOS-specific features
- @{" -extrajoydev2 " Link "MorphOS-specific features"}                        MorphOS-specific features
  @{" -extrajoydev2 " Link "AROS-specific features"}                        AROS-specific features
- @{" -extrajoydev2 " Link "Unix-specific features"}                        Unix-specific features
  @{" -fourcc " Link "XAW-specific features"}                              XAW-specific features
- @{" -fullscreen, +fullscreen " Link "Windows-specific features"}             Windows-specific features
  @{" -fullscreen, +fullscreen " Link "AmigaOS-specific features"}             AmigaOS-specific features
  @{" -fullscreen, +fullscreen " Link "XAW-specific features"}             XAW-specific features
  @{" -fullscreen, +fullscreen " Link "XAW-specific features"}             XAW-specific features
+ @{" -fullscreen, +fullscreen " Link "Windows-specific features"}             Windows-specific features
  @{" -fullscreendevice " Link "Windows-specific features"}                    Windows-specific features
- @{" -georam, +georam " Link "C64 I-O extension options"}                     C64 I-O extension options
  @{" -georam, +georam " Link "VIC20 cartridges"}                     VIC20 cartridges
- @{" -georamimage " Link "VIC20 cartridges"}                         VIC20 cartridges
+ @{" -georam, +georam " Link "C64 I-O extension options"}                     C64 I-O extension options
  @{" -georamimage " Link "C64 I-O extension options"}                         C64 I-O extension options
- @{" -georamimagerw, +georamimagerw " Link "C64 I-O extension options"}       C64 I-O extension options
+ @{" -georamimage " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -georamimagerw, +georamimagerw " Link "VIC20 cartridges"}       VIC20 cartridges
+ @{" -georamimagerw, +georamimagerw " Link "C64 I-O extension options"}       C64 I-O extension options
  @{" -georamsize " Link "C64 I-O extension options"}                          C64 I-O extension options
  @{" -georamsize " Link "VIC20 cartridges"}                          VIC20 cartridges
  @{" -gluelogictype " Link "C64-128 system ROM options"}                       C64-128 system ROM options
@@ -21052,8 +21064,8 @@ Index of Command-line options
  @{" -initialcartdir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
  @{" -initialdefaultdir " Link "AmigaOS-specific features"}                   AmigaOS-specific features
  @{" -initialdefaultdir " Link "Windows-specific features"}                   Windows-specific features
- @{" -initialdiskdir " Link "Windows-specific features"}                      Windows-specific features
  @{" -initialdiskdir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
+ @{" -initialdiskdir " Link "Windows-specific features"}                      Windows-specific features
  @{" -initialsnapshotdir " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" -initialsnapshotdir " Link "Windows-specific features"}                  Windows-specific features
  @{" -initialtapedir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
@@ -21063,38 +21075,39 @@ Index of Command-line options
  @{" -isepicimagename " Link "C64 cartridges"}                     C64 cartridges
  @{" -isepicimagerw, +isepicimagerw " Link "C64 cartridges"}       C64 cartridges
  @{" -isepicswitch, +isepicswitch " Link "C64 cartridges"}         C64 cartridges
- @{" -joydev1 " Link "BeOS-specific features"}                             BeOS-specific features
- @{" -joydev1 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" -joydev1 " Link "DOS-specific features"}                             DOS-specific features
- @{" -joydev1 " Link "Windows-specific features"}                             Windows-specific features
  @{" -joydev1 " Link "SDL-specific features"}                             SDL-specific features
+ @{" -joydev1 " Link "Windows-specific features"}                             Windows-specific features
  @{" -joydev1 " Link "Unix-specific features"}                             Unix-specific features
+ @{" -joydev1 " Link "BeOS-specific features"}                             BeOS-specific features
  @{" -joydev1 " Link "AROS-specific features"}                             AROS-specific features
- @{" -joydev1 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
+ @{" -joydev1 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" -joydev1 " Link "AmigaOS4-specific features"}                             AmigaOS4-specific features
- @{" -joydev2 " Link "MorphOS-specific features"}                             MorphOS-specific features
- @{" -joydev2 " Link "Unix-specific features"}                             Unix-specific features
- @{" -joydev2 " Link "BeOS-specific features"}                             BeOS-specific features
- @{" -joydev2 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
- @{" -joydev2 " Link "Windows-specific features"}                             Windows-specific features
- @{" -joydev2 " Link "AROS-specific features"}                             AROS-specific features
+ @{" -joydev1 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" -joydev2 " Link "AmigaOS4-specific features"}                             AmigaOS4-specific features
- @{" -joydev2 " Link "SDL-specific features"}                             SDL-specific features
+ @{" -joydev2 " Link "BeOS-specific features"}                             BeOS-specific features
+ @{" -joydev2 " Link "Unix-specific features"}                             Unix-specific features
+ @{" -joydev2 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
+ @{" -joydev2 " Link "AROS-specific features"}                             AROS-specific features
+ @{" -joydev2 " Link "Windows-specific features"}                             Windows-specific features
+ @{" -joydev2 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" -joydev2 " Link "DOS-specific features"}                             DOS-specific features
+ @{" -joydev2 " Link "SDL-specific features"}                             SDL-specific features
  @{" -joydisplay, +joydisplay " Link "BeOS-specific features"}             BeOS-specific features
  @{" -joyfuzz " Link "SDL-specific features"}                             SDL-specific features
  @{" -joyhwtype " Link "DOS-specific features"}                           DOS-specific features
  @{" -joymap " Link "SDL-specific features"}                              SDL-specific features
  @{" -joyopposite, +joyopposite " Link "Keyboard options"}           Keyboard options
  @{" -joythreshold " Link "SDL-specific features"}                        SDL-specific features
- @{" -keepaspect, +keepaspect " Link "Windows-specific features"}             Windows-specific features
  @{" -keepaspect, +keepaspect " Link "GTK-specific features"}             GTK-specific features
+ @{" -keepaspect, +keepaspect " Link "Windows-specific features"}             Windows-specific features
  @{" -keepaspect, +keepaspect " Link "XAW-specific features"}             XAW-specific features
  @{" -keepenv " Link "VSID-specific"}                             VSID-specific
  @{" -kernal " Link "CBM-II model"}                              CBM-II model
- @{" -kernal " Link "C128-specific"}                              C128-specific
  @{" -kernal " Link "PET model"}                              PET model
+ @{" -kernal " Link "C128-specific"}                              C128-specific
  @{" -kernal " Link "VSID-specific"}                              VSID-specific
+ @{" -kernal <Name> " Link "PLUS4-specific"}                       PLUS4-specific
  @{" -kernal64 " Link "C128-specific"}                            C128-specific
  @{" -kernalde " Link "C128-specific"}                            C128-specific
  @{" -kernalfi " Link "C128-specific"}                            C128-specific
@@ -21119,8 +21132,8 @@ Index of Command-line options
  @{" -mididrv " Link "Unix-specific features"}                             Unix-specific features
  @{" -midiin " Link "Windows-specific features"}                              Windows-specific features
  @{" -midiin " Link "Unix-specific features"}                              Unix-specific features
- @{" -midiout " Link "Unix-specific features"}                             Unix-specific features
  @{" -midiout " Link "Windows-specific features"}                             Windows-specific features
+ @{" -midiout " Link "Unix-specific features"}                             Unix-specific features
  @{" -mitshm, +mitshm " Link "XAW-specific features"}                     XAW-specific features
  @{" -mmc64, +mmc64 " Link "C64 cartridges"}                       C64 cartridges
  @{" -mmc64bios " Link "C64 cartridges"}                           C64 cartridges
@@ -21140,13 +21153,13 @@ Index of Command-line options
  @{" -mmcrrescue, +mmcrrescue " Link "C64 cartridges"}             C64 cartridges
  @{" -mmcrsdtype " Link "C64 cartridges"}                          C64 cartridges
  @{" -model " Link "Monitor DTV features"}                               Monitor DTV features
- @{" -model " Link "C64-128 system ROM options"}                               C64-128 system ROM options
  @{" -model " Link "C128-specific"}                               C128-specific
+ @{" -model " Link "C64-128 system ROM options"}                               C64-128 system ROM options
  @{" -mousesensitivity " Link "Windows-specific features"}                    Windows-specific features
  @{" -ntsc " Link "Monitor DTV features"}                                Monitor DTV features
  @{" -ntsc " Link "C128-specific"}                                C128-specific
- @{" -pal " Link "C128-specific"}                                 C128-specific
  @{" -pal " Link "Monitor DTV features"}                                 Monitor DTV features
+ @{" -pal " Link "C128-specific"}                                 C128-specific
  @{" -petdww, +petdww " Link "PET model"}                     PET model
  @{" -petdwwimage " Link "PET model"}                         PET model
  @{" -pethre, +pethre " Link "PET model"}                     PET model
@@ -21176,11 +21189,11 @@ Index of Command-line options
  @{" -rsdev2baud " Link "Unix-specific features"}                          Unix-specific features
  @{" -rsdev3baud " Link "Unix-specific features"}                          Unix-specific features
  @{" -rsdev4baud " Link "Unix-specific features"}                          Unix-specific features
- @{" -saveres, +saveres " Link "AmigaOS-specific features"}                   AmigaOS-specific features
- @{" -saveres, +saveres " Link "Windows-specific features"}                   Windows-specific features
  @{" -saveres, +saveres " Link "Unix-specific features"}                   Unix-specific features
- @{" -saveres, +saveres " Link "BeOS-specific features"}                   BeOS-specific features
+ @{" -saveres, +saveres " Link "Windows-specific features"}                   Windows-specific features
+ @{" -saveres, +saveres " Link "AmigaOS-specific features"}                   AmigaOS-specific features
  @{" -saveres, +saveres " Link "SDL-specific features"}                   SDL-specific features
+ @{" -saveres, +saveres " Link "BeOS-specific features"}                   BeOS-specific features
  @{" -sdlaspectmode " Link "SDL-specific features"}                       SDL-specific features
  @{" -sdlbitdepth " Link "SDL-specific features"}                         SDL-specific features
  @{" -sdlcustomh " Link "SDL-specific features"}                          SDL-specific features
@@ -21188,32 +21201,53 @@ Index of Command-line options
  @{" -sdlflipx, +sdlflipx " Link "SDL-specific features"}                 SDL-specific features
  @{" -sdlflipy, +sdlflipy " Link "SDL-specific features"}                 SDL-specific features
  @{" -sdllimitmode " Link "SDL-specific features"}                        SDL-specific features
- @{" -sfxse, +sfxse " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" -sfxse, +sfxse " Link "C64 I-O extension options"}                       C64 I-O extension options
+ @{" -sfxse, +sfxse " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" -sfxsetype " Link "VIC20 cartridges"}                           VIC20 cartridges
  @{" -sfxsetype " Link "C64 I-O extension options"}                           C64 I-O extension options
  @{" -sfxss, +sfxss " Link "C64 I-O extension options"}                       C64 I-O extension options
  @{" -sfxss, +sfxss " Link "VIC20 cartridges"}                       VIC20 cartridges
  @{" -sidcart, +sidcart " Link "PET model"}                   PET model
+ @{" -sidcart, +sidcart " Link "PLUS4-specific"}                   PLUS4-specific
+ @{" -sidcartaddress " Link "PLUS4-specific"}                      PLUS4-specific
  @{" -sidcartaddress " Link "PET model"}                      PET model
  @{" -sidcartclock " Link "PET model"}                        PET model
+ @{" -sidcartclock " Link "PLUS4-specific"}                        PLUS4-specific
+ @{" -sidcartjoy, +sidcartjoy " Link "PLUS4-specific"}             PLUS4-specific
  @{" -singlecpu, +singlecpu " Link "Windows-specific features"}               Windows-specific features
+ @{" -speech, +speech " Link "PLUS4-specific"}                     PLUS4-specific
+ @{" -speechrom " Link "PLUS4-specific"}                           PLUS4-specific
  @{" -speed " Link "DOS-specific features"}                               DOS-specific features
  @{" -statusbar " Link "DOS-specific features"}                           DOS-specific features
- @{" -statusbar, +statusbar " Link "SDL-specific features"}               SDL-specific features
  @{" -statusbar, +statusbar " Link "AmigaOS-specific features"}               AmigaOS-specific features
+ @{" -statusbar, +statusbar " Link "SDL-specific features"}               SDL-specific features
  @{" -superpet, +superpet " Link "PET settings"}                 PET settings
+ @{" -TEDbrightness " Link "PLUS4-specific"}                       PLUS4-specific
+ @{" -TEDcontrast " Link "PLUS4-specific"}                         PLUS4-specific
+ @{" -TEDcrtblur " Link "PLUS4-specific"}                          PLUS4-specific
+ @{" -TEDcrtscanlineshade " Link "PLUS4-specific"}                 PLUS4-specific
+ @{" -TEDdscan, +TEDdscan " Link "PLUS4-specific"}                 PLUS4-specific
+ @{" -TEDdsize, +TEDdsize " Link "PLUS4-specific"}                 PLUS4-specific
+ @{" -TEDextpal " Link "PLUS4-specific"}                           PLUS4-specific
+ @{" -TEDfilter " Link "PLUS4-specific"}                           PLUS4-specific
  @{" -TEDfull, +TEDfull " Link "SDL-specific features"}                   SDL-specific features
- @{" -TEDfulldevice " Link "Unix-specific features"}                       Unix-specific features
  @{" -TEDfulldevice " Link "SDL-specific features"}                       SDL-specific features
+ @{" -TEDfulldevice " Link "Unix-specific features"}                       Unix-specific features
+ @{" -TEDgamma " Link "PLUS4-specific"}                            PLUS4-specific
  @{" -TEDhwscale, +TEDhwscale " Link "Unix-specific features"}             Unix-specific features
  @{" -TEDhwscale, +TEDhwscale " Link "SDL-specific features"}             SDL-specific features
+ @{" -TEDintpal " Link "PLUS4-specific"}                           PLUS4-specific
+ @{" -TEDoddlinesoffset " Link "PLUS4-specific"}                   PLUS4-specific
+ @{" -TEDoddlinesphase " Link "PLUS4-specific"}                    PLUS4-specific
+ @{" -TEDpalette " Link "PLUS4-specific"}                          PLUS4-specific
+ @{" -TEDsaturation " Link "PLUS4-specific"}                       PLUS4-specific
  @{" -TEDSDLfullmode " Link "SDL-specific features"}                      SDL-specific features
+ @{" -TEDvcache, +TEDvcache " Link "PLUS4-specific"}               PLUS4-specific
  @{" -TEDVidmodefullmode " Link "XAW-specific features"}                  XAW-specific features
  @{" -TEDXRANDRfullmode " Link "XAW-specific features"}                   XAW-specific features
  @{" -triplebuf, +triplebuf " Link "DOS-specific features"}               DOS-specific features
- @{" -trueaspect, +trueaspect " Link "GTK-specific features"}             GTK-specific features
  @{" -trueaspect, +trueaspect " Link "XAW-specific features"}             XAW-specific features
+ @{" -trueaspect, +trueaspect " Link "GTK-specific features"}             GTK-specific features
  @{" -trueaspect, +trueaspect " Link "Windows-specific features"}             Windows-specific features
  @{" -truedrive, +truedrive " Link "Drive options"}               Drive options
  @{" -tune " Link "VSID-specific"}                                VSID-specific
@@ -21226,24 +21260,24 @@ Index of Command-line options
  @{" -VDCXRANDRfullmode " Link "XAW-specific features"}                   XAW-specific features
  @{" -vgamode " Link "DOS-specific features"}                             DOS-specific features
  @{" -VICfull, +VICfull " Link "SDL-specific features"}                   SDL-specific features
- @{" -VICfulldevice " Link "SDL-specific features"}                       SDL-specific features
  @{" -VICfulldevice " Link "Unix-specific features"}                       Unix-specific features
+ @{" -VICfulldevice " Link "SDL-specific features"}                       SDL-specific features
  @{" -VIChwscale, +VIChwscale " Link "Unix-specific features"}             Unix-specific features
  @{" -VIChwscale, +VIChwscale " Link "SDL-specific features"}             SDL-specific features
  @{" -VICIIfull, +VICIIfull " Link "SDL-specific features"}               SDL-specific features
  @{" -VICIIfulldevice " Link "SDL-specific features"}                     SDL-specific features
  @{" -VICIIfulldevice " Link "Unix-specific features"}                     Unix-specific features
- @{" -VICIIhwscale, +VICIIhwscale " Link "SDL-specific features"}         SDL-specific features
  @{" -VICIIhwscale, +VICIIhwscale " Link "Unix-specific features"}         Unix-specific features
+ @{" -VICIIhwscale, +VICIIhwscale " Link "SDL-specific features"}         SDL-specific features
  @{" -VICIISDLfullmode " Link "SDL-specific features"}                    SDL-specific features
  @{" -VICIIVidmodefullmode " Link "XAW-specific features"}                XAW-specific features
  @{" -VICIIXRANDRfullmode " Link "XAW-specific features"}                 XAW-specific features
  @{" -VICSDLfullmode " Link "SDL-specific features"}                      SDL-specific features
  @{" -VICVidmodefullmode " Link "XAW-specific features"}                  XAW-specific features
  @{" -VICXRANDRfullmode " Link "XAW-specific features"}                   XAW-specific features
+ @{" -videooverlay, +videooverlay " Link "AmigaOS3-specific features"}         AmigaOS3-specific features
  @{" -videooverlay, +videooverlay " Link "AROS-specific features"}         AROS-specific features
  @{" -videooverlay, +videooverlay " Link "MorphOS-specific features"}         MorphOS-specific features
- @{" -videooverlay, +videooverlay " Link "AmigaOS3-specific features"}         AmigaOS3-specific features
  @{" -warp, +warp " Link "DOS-specific features"}                         DOS-specific features
  @{" -xsync, +xsync " Link "XAW-specific features"}                       XAW-specific features
 

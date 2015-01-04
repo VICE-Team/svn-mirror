@@ -9997,6 +9997,584 @@ description:    "Disable the PET Ram and Expansion Unit"
 resource:       "PETREU" (set to 0)
 action:         N/A
 
+plus4/digiblaster.c:
+--------------------
+resource type:                  bool
+resource name:                  "DIGIBLASTER"
+resource range:                 0/1
+resource default:               0
+resource function:              set_digiblaster_enabled()
+resource var:                   digiblaster_sound_chip.chip_enabled
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -digiblaster / +digiblaster
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/digiblaster.c:
+--------------------
+command line:   -digiblaster
+description:    "Enable the digiblaster add-on"
+resource:       "DIGIBLASTER" (set to 1)
+action:         N/A
+
+plus4/digiblaster.c:
+--------------------
+command line:   +digiblaster
+description:    "Disable the digiblaster add-on"
+resource:       "DIGIBLASTER" (set to 0)
+action:         N/A
+
+plus4/plus4-resources.c:
+------------------------
+resource type:                  string
+resource name:                  "KernalName"
+resource range:                 N/A
+resource default:               "kernal"
+resource function:              set_kernal_rom_name()
+resource var:                   kernal_rom_name
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -kernal / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+plus4/plus4-cmdline-options.c:
+------------------------------
+command line:   -kernal <Name>
+description:    "Specify name of Kernal ROM image"
+resource:       "KernalName"
+action:         N/A
+
+plus4/plus4-resources.c:
+------------------------
+resource type:                  string
+resource name:                  "BasicName"
+resource range:                 N/A
+resource default:               "basic"
+resource function:              set_basic_rom_name()
+resource var:                   basic_rom_name
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -basic / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+plus4/plus4-cmdline-options.c:
+------------------------------
+command line:   -basic <Name>
+description:    "Specify name of BASIC ROM image"
+resource:       "BasicName"
+action:         N/A
+
+plus4/plus4-sidcart.c:
+----------------------
+resource type:                  bool
+resource name:                  "SidCart"
+resource range:                 0/1
+resource default:               0
+resource function:              set_sidcart_enabled()
+resource var:                   sidcart_sound_chip.chip_enabled
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -sidcart / +sidcart
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/plus4-sidcart.c:
+----------------------
+command line:   -sidcart
+description:    "Enable the SID cartridge"
+resource:       "SidCart" (set to 1)
+action:         N/A
+
+plus4/plus4-sidcart.c:
+----------------------
+command line:   +sidcart
+description:    "Disable the SID cartridge"
+resource:       "SidCart" (set to 0)
+action:         N/A
+
+plus4/plus4-sidcart.c:
+----------------------
+resource type:                  bool
+resource name:                  "SIDCartJoy"
+resource range:                 0/1
+resource default:               0
+resource function:              set_sidcartjoy_enabled()
+resource var:                   sidcartjoy_enabled
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -sidcartjoy / +sidcartjoy
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/plus4-sidcart.c:
+----------------------
+command line:   -sidcartjoy
+description:    "Enable SID cartridge joystick"
+resource:       "SIDCartJoy" (set to 1)
+action:         N/A
+
+plus4/plus4-sidcart.c:
+----------------------
+command line:   +sidcartjoy
+description:    "Disable SID cartridge joystick"
+resource:       "SIDCartJoy" (set to 0)
+action:         N/A
+
+plus4/plus4-sidcart.c:
+----------------------
+resource type:                  int
+resource name:                  "SidAddress"
+resource range:                 N/A ($FD40/$FE80)
+resource default:               $FD40
+resource function:              set_sid_address()
+resource var:                   sidcart_address
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -sidcartaddress
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/plus4-sidcart.c:
+----------------------
+command line:   -sidcartaddress <address>
+description:    "SID cartridge address (0xFD40/0xFE80)"
+resource:       "SidAddress"
+action:         N/A
+
+plus4/plus4-sidcart.c:
+----------------------
+resource type:                  int
+resource name:                  "SidClock"
+resource range:                 0..1 (SIDCART_CLOCK_C64 (0), SIDCART_CLOCK_NATIVE (1))
+resource default:               $FD40
+resource function:              set_sid_clock()
+resource var:                   sidcart_clock
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -sidcartclock
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/plus4-sidcart.c:
+----------------------
+command line:   -sidcartclock <clock>
+description:    "SID cartridge address (0: C64 clock, 1: PLUS4 clock)"
+resource:       "SidClock"
+action:         N/A
+
+plus4/plus4cart.c:
+------------------
+resource type:                  bool
+resource name:                  "CartridgeReset"
+resource range:                 0/1
+resource default:               1
+resource function:              set_cartridge_reset()
+resource var:                   plus4cartridge_reset
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -cartreset / +cartreset
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+plus4/plus4cart.c:
+------------------
+command line:   -cartreset
+description:    "Reset machine if a cartridge is attached or detached"
+resource:       "CartridgeReset" (set to 1)
+action:         N/A
+
+plus4/plus4cart.c:
+------------------
+command line:   +cartreset
+description:    "Do not reset machine if a cartridge is attached or detached"
+resource:       "CartridgeReset" (set to 0)
+action:         N/A
+
+plus4/plus4speech.c:
+--------------------
+resource type:                  string
+resource name:                  "SpeechImage"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_speech_filename()
+resource var:                   speech_filename
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -speechrom / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/plus4speech.c:
+--------------------
+command line:   -speechrom <Name>
+description:    "Attach Speech ROM image"
+resource:       N/A
+action:         set_speech_rom() (sets "SpeechImage" and "SpeechEnabled")
+
+plus4/plus4speech.c:
+--------------------
+resource type:                  bool
+resource name:                  "SpeechEnabled"
+resource range:                 0/1
+resource default:               0
+resource function:              set_speech_enabled()
+resource var:                   speech_sound_chip.chip_enabled
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -speech / +speech / -speechrom / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/plus4speech.c:
+--------------------
+command line:   -speech
+description:    "Enable the v364 speech add-on"
+resource:       "SpeechEnabled" (set to 1)
+action:         N/A
+
+plus4/plus4speech.c:
+--------------------
+command line:   +speech
+description:    "Disable the v364 speech add-on"
+resource:       "SpeechEnabled" (set to 0)
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "TEDVideoCache"
+resource range:                 0/1
+resource default:               DEFAULT_VideoCache_VALUE (arch specific)
+resource function:              set_video_cache_enabled()
+resource var:                   raster_resource_chip->video_cache_enabled
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDvcache / +TEDvcache
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDvcache
+description:    "Enable the video cache"
+resource:       "TEDVideoCache" (set to 1)
+action:         N/A
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   +TEDvcache
+description:    "Disable the video cache"
+resource:       "TEDVideoCache" (set to 0)
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "TEDDoubleScan"
+resource range:                 0/1
+resource default:               1
+resource function:              set_double_scan_enabled()
+resource var:                   ted.raster->canvas->videoconfig->doublescan
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDdscan / +TEDdscan
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDdscan
+description:    "Enable double scan"
+resource:       "TEDDoubleScan" (set to 1)
+action:         N/A
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   +TEDdscan
+description:    "Disable double scan"
+resource:       "TEDDoubleScan" (set to 0)
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "TEDDoubleSize"
+resource range:                 0/1
+resource default:               1
+resource function:              set_double_size_enabled()
+resource var:                   ted.raster->canvas->videoconfig->double_size_enabled
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDdsize / +TEDdsize
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDdsize
+description:    "Enable double size"
+resource:       "TEDDoubleSize" (set to 1)
+action:         N/A
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   +TEDdsize
+description:    "Disable double size"
+resource:       "TEDDoubleSize" (set to 0)
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "TEDPaletteFile"
+resource range:                 N/A
+resource default:               "default"
+resource function:              set_palette_file_name()
+resource var:                   ted.raster->canvas->videoconfig->external_palette_name
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDpalette
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDpalette <Name>
+description:    "Specify name of file of external palette"
+resource:       "TEDPaletteFile"
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "TEDExternalPalette"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ext_palette()
+resource var:                   ted.raster->canvas->videoconfig->external_palette
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDintpal / -TEDextpal
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDintpal
+description:    "Use an internal calculated palette"
+resource:       "TEDExternalPalette" (set to 0)
+action:         N/A
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDextpal
+description:    "Use an external palette (file)"
+resource:       "TEDExternalPalette" (set to 1)
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "TEDColorSaturation"
+resource range:                 0..2000
+resource default:               1250
+resource function:              set_color_saturation()
+resource var:                   ted.raster->canvas->videoconfig->video_resources.color_saturation
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDsaturation
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDsaturation <0-2000>
+description:    "Set saturation of internal calculated palette"
+resource:       "TEDColorSaturation"
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "TEDColorContrast"
+resource range:                 0..2000
+resource default:               1250
+resource function:              set_color_contrast()
+resource var:                   ted.raster->canvas->videoconfig->video_resources.color_contrast
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDcontrast
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDcontrast <0-2000>
+description:    "Set contrast of internal calculated palette"
+resource:       "TEDColorContrast"
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "TEDColorBrightness"
+resource range:                 0..2000
+resource default:               1000
+resource function:              set_color_brightness()
+resource var:                   ted.raster->canvas->videoconfig->video_resources.color_brightness
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDbrightness
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDbrightness <0-2000>
+description:    "Set brightness of internal calculated palette"
+resource:       "TEDColorBrightness"
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "TEDColorGamma"
+resource range:                 0..4000
+resource default:               2200
+resource function:              set_color_gamma()
+resource var:                   ted.raster->canvas->videoconfig->video_resources.color_gamma
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDgamma
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDgamma <0-4000>
+description:    "Set gamma of internal calculated palette"
+resource:       "TEDColorGamma"
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "TEDPALScanLineShade"
+resource range:                 0..1000
+resource default:               750
+resource function:              set_pal_scanlineshade()
+resource var:                   ted.raster->canvas->videoconfig->video_resources.pal_scanlineshade
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDcrtscanlineshade
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDcrtscanlineshade <0-1000>
+description:    "Amount of scan line shading for the CRT emulation"
+resource:       "TEDPALScanLineShade"
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "TEDPALBlur"
+resource range:                 0..1000
+resource default:               500
+resource function:              set_pal_blur()
+resource var:                   ted.raster->canvas->videoconfig->video_resources.pal_blur
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDcrtblur
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDcrtblur <0-1000>
+description:    "Amount of horizontal blur for the CRT emulation."
+resource:       "TEDPALBlur"
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "TEDPALOddLinePhase"
+resource range:                 0..2000
+resource default:               1125
+resource function:              set_pal_oddlinesphase()
+resource var:                   ted.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDoddlinesphase
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDoddlinesphase <0-2000>
+description:    "Set phase for color carrier in odd lines"
+resource:       "TEDPALOddLinePhase"
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "TEDPALOddLineOffset"
+resource range:                 0..2000
+resource default:               875
+resource function:              set_pal_oddlinesoffset()
+resource var:                   ted.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDoddlinesoffset
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDoddlinesoffset <0-2000>
+description:    "Set phase offset for color carrier in odd lines"
+resource:       "TEDPALOddLineOffset"
+action:         N/A
+
+plus4/ted-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "TEDFilter"
+resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1), VIDEO_FILTER_SCALE2X (2))
+resource default:               VIDEO_FILTER_CRT (1)
+resource function:              set_chip_rendermode()
+resource var:                   ted.raster->canvas->videoconfig->filter
+resource emulators:             xplus4
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
+prepocessor:
+command-line:                   -TEDfilter
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+plus4/ted-cmdline-options.c:
+----------------------------
+command line:   -TEDfilter <Mode>
+description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
+resource:       "TEDFilter"
+action:         N/A
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -14120,85 +14698,6 @@ resource:       "PETREUsize"
 action:         N/A
 fixme: fix documentation, range
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
-plus4/digiblaster.c:
---------------------
-resource type:                  bool
-resource name:                  "DIGIBLASTER"
-resource range:                 0/1
-resource default:               0
-resource function:              set_digiblaster_enabled()
-resource var:                   digiblaster_sound_chip.chip_enabled
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -digiblaster / +digiblaster
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-plus4/digiblaster.c:
---------------------
-command line:   -digiblaster
-description:    "Enable the digiblaster add-on"
-resource:       "DIGIBLASTER" (set to 1)
-action:         N/A
-
-plus4/digiblaster.c:
---------------------
-command line:   +digiblaster
-description:    "Disable the digiblaster add-on"
-resource:       "DIGIBLASTER" (set to 0)
-action:         N/A
-
-plus4/plus4-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "KernalName"
-resource range:                 N/A
-resource default:               "kernal"
-resource function:              set_kernal_rom_name()
-resource var:                   kernal_rom_name
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -kernal / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-fixme: add to documentation
-
-plus4/plus4-cmdline-options.c:
-------------------------------
-command line:   -kernal <Name>
-description:    "Specify name of Kernal ROM image"
-resource:       "KernalName"
-action:         N/A
-fixme: add to documentation
-
-plus4/plus4-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "BasicName"
-resource range:                 N/A
-resource default:               "basic"
-resource function:              set_basic_rom_name()
-resource var:                   basic_rom_name
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -basic / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-fixme: add to documentation
-
-plus4/plus4-cmdline-options.c:
-------------------------------
-command line:   -basic <Name>
-description:    "Specify name of BASIC ROM image"
-resource:       "BasicName"
-action:         N/A
-fixme: add to documentation
-
 plus4/plus4-resources.c:
 ------------------------
 resource type:                  string
@@ -14397,126 +14896,6 @@ description:    "Specify size of RAM installed in kb (16/32/64)"
 resource:       "RamSize"
 action:         N/A
 
-plus4/plus4-sidcart.c:
-----------------------
-resource type:                  bool
-resource name:                  "SidCart"
-resource range:                 0/1
-resource default:               0
-resource function:              set_sidcart_enabled()
-resource var:                   sidcart_sound_chip.chip_enabled
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -sidcart / +sidcart
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-plus4/plus4-sidcart.c:
-----------------------
-command line:   -sidcart
-description:    "Enable the SID cartridge"
-resource:       "SidCart" (set to 1)
-action:         N/A
-
-plus4/plus4-sidcart.c:
-----------------------
-command line:   +sidcart
-description:    "Disable the SID cartridge"
-resource:       "SidCart" (set to 0)
-action:         N/A
-
-plus4/plus4-sidcart.c:
-----------------------
-resource type:                  bool
-resource name:                  "SIDCartJoy"
-resource range:                 0/1
-resource default:               0
-resource function:              set_sidcartjoy_enabled()
-resource var:                   sidcartjoy_enabled
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -sidcartjoy / +sidcartjoy
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-plus4/plus4-sidcart.c:
-----------------------
-command line:   -sidcartjoy
-description:    "Enable SID cartridge joystick"
-resource:       "SIDCartJoy" (set to 1)
-action:         N/A
-
-plus4/plus4-sidcart.c:
-----------------------
-command line:   +sidcartjoy
-description:    "Disable SID cartridge joystick"
-resource:       "SIDCartJoy" (set to 0)
-action:         N/A
-
-plus4/plus4-sidcart.c:
-----------------------
-resource type:                  int
-resource name:                  "SidAddress"
-resource range:                 N/A ($FD40/$FE80)
-resource default:               $FD40
-resource function:              set_sid_address()
-resource var:                   sidcart_address
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: fix documentation, addresses
-
-plus4/plus4-sidcart.c:
-----------------------
-resource type:                  int
-resource name:                  "SidClock"
-resource range:                 0..1 (SIDCART_CLOCK_C64 (0), SIDCART_CLOCK_NATIVE (1))
-resource default:               $FD40
-resource function:              set_sid_clock()
-resource var:                   sidcart_clock
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-plus4/plus4cart.c:
-------------------
-resource type:                  bool
-resource name:                  "CartridgeReset"
-resource range:                 0/1
-resource default:               1
-resource function:              set_cartridge_reset()
-resource var:                   plus4cartridge_reset
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -cartreset / +cartreset
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-
-plus4/plus4cart.c:
-------------------
-command line:   -cartreset
-description:    "Reset machine if a cartridge is attached or detached"
-resource:       "CartridgeReset" (set to 1)
-action:         N/A
-
-plus4/plus4cart.c:
-------------------
-command line:   +cartreset
-description:    "Do not reset machine if a cartridge is attached or detached"
-resource:       "CartridgeReset" (set to 0)
-action:         N/A
-
 plus4/plus4memcsory256k.c:
 --------------------------
 resource type:                  bool
@@ -14577,57 +14956,6 @@ description:    "Enable the HANNES 4096K RAM expansion"
 resource:       "H256K" (set to 3) (fixme: make a better system for this)
 action:         N/A
 
-plus4/plus4speech.c:
---------------------
-resource type:                  string
-resource name:                  "SpeechImage"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_speech_filename()
-resource var:                   speech_filename
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -speechrom / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-plus4/plus4speech.c:
---------------------
-command line:   -speechrom <Name>
-description:    "Attach Speech ROM image"
-resource:       N/A
-action:         set_speech_rom() (sets "SpeechImage" and "SpeechEnabled")
-
-plus4/plus4speech.c:
---------------------
-resource type:                  bool
-resource name:                  "SpeechEnabled"
-resource range:                 0/1
-resource default:               0
-resource function:              set_speech_enabled()
-resource var:                   speech_sound_chip.chip_enabled
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -speech / +speech / -speechrom / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-plus4/plus4speech.c:
---------------------
-command line:   -speech
-description:    "Enable the v364 speech add-on"
-resource:       "SpeechEnabled" (set to 1)
-action:         N/A
-
-plus4/plus4speech.c:
---------------------
-command line:   +speech
-description:    "Disable the v364 speech add-on"
-resource:       "SpeechEnabled" (set to 0)
-action:         N/A
-
 plus4/ted-resources.c:
 ----------------------
 resource type:                  int
@@ -14654,247 +14982,6 @@ action:         border_set_func() (sets "TEDBorderMode")
 
 plus4/ted-resources.c:
 ----------------------
-resource type:                  bool
-resource name:                  "TEDVideoCache"
-resource range:                 0/1
-resource default:               DEFAULT_VideoCache_VALUE (arch specific)
-resource function:              set_video_cache_enabled()
-resource var:                   raster_resource_chip->video_cache_enabled
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDvcache / +TEDvcache
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDvcache
-description:    "Enable the video cache"
-resource:       "TEDVideoCache" (set to 1)
-action:         N/A
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   +TEDvcache
-description:    "Disable the video cache"
-resource:       "TEDVideoCache" (set to 0)
-action:         N/A
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "TEDDoubleScan"
-resource range:                 0/1
-resource default:               1
-resource function:              set_double_scan_enabled()
-resource var:                   ted.raster->canvas->videoconfig->doublescan
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDdscan / +TEDdscan
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDdscan
-description:    "Enable double scan"
-resource:       "TEDDoubleScan" (set to 1)
-action:         N/A
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   +TEDdscan
-description:    "Disable double scan"
-resource:       "TEDDoubleScan" (set to 0)
-action:         N/A
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "TEDDoubleSize"
-resource range:                 0/1
-resource default:               1
-resource function:              set_double_size_enabled()
-resource var:                   ted.raster->canvas->videoconfig->double_size_enabled
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDdsize / +TEDdsize
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDdsize
-description:    "Enable double size"
-resource:       "TEDDoubleSize" (set to 1)
-action:         N/A
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   +TEDdsize
-description:    "Disable double size"
-resource:       "TEDDoubleSize" (set to 0)
-action:         N/A
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "TEDPaletteFile"
-resource range:                 N/A
-resource default:               "default"
-resource function:              set_palette_file_name()
-resource var:                   ted.raster->canvas->videoconfig->external_palette_name
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDpalette
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDpalette <Name>
-description:    "Specify name of file of external palette"
-resource:       "TEDPaletteFile"
-action:         N/A
-fixme: fix documentation
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "TEDExternalPalette"
-resource range:                 0/1
-resource default:               0
-resource function:              set_ext_palette()
-resource var:                   ted.raster->canvas->videoconfig->external_palette
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDintpal / -TEDextpal
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDintpal
-description:    "Use an internal calculated palette"
-resource:       "TEDExternalPalette" (set to 0)
-action:         N/A
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDextpal
-description:    "Use an external palette (file)"
-resource:       "TEDExternalPalette" (set to 1)
-action:         N/A
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "TEDColorSaturation"
-resource range:                 0..2000
-resource default:               1250
-resource function:              set_color_saturation()
-resource var:                   ted.raster->canvas->videoconfig->video_resources.color_saturation
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDsaturation
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: fix documentation, remove default
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDsaturation <0-2000>
-description:    "Set saturation of internal calculated palette"
-resource:       "TEDColorSaturation"
-action:         N/A
-fixme: fix documentation, remove default
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "TEDColorContrast"
-resource range:                 0..2000
-resource default:               1250
-resource function:              set_color_contrast()
-resource var:                   ted.raster->canvas->videoconfig->video_resources.color_contrast
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDcontrast
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDcontrast <0-2000>
-description:    "Set contrast of internal calculated palette"
-resource:       "TEDColorContrast"
-action:         N/A
-fixme: fix documentation, remove default
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "TEDColorBrightness"
-resource range:                 0..2000
-resource default:               1000
-resource function:              set_color_brightness()
-resource var:                   ted.raster->canvas->videoconfig->video_resources.color_brightness
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDbrightness
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDbrightness <0-2000>
-description:    "Set brightness of internal calculated palette"
-resource:       "TEDColorBrightness"
-action:         N/A
-fixme: fix documentation, remove default
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "TEDColorGamma"
-resource range:                 0..4000
-resource default:               2200
-resource function:              set_color_gamma()
-resource var:                   ted.raster->canvas->videoconfig->video_resources.color_gamma
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDgamma
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDgamma <0-4000>
-description:    "Set gamma of internal calculated palette"
-resource:       "TEDColorGamma"
-action:         N/A
-fixme: fix documentation, remove default
-
-plus4/ted-resources.c:
-----------------------
 resource type:                  int
 resource name:                  "TEDColorTint"
 resource range:                 0..2000
@@ -14916,110 +15003,6 @@ plus4/ted-cmdline-options.c:
 command line:   -TEDtint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "TEDColorTint"
-action:         N/A
-fixme: fix documentation, remove default
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "TEDPALScanLineShade"
-resource range:                 0..1000
-resource default:               750
-resource function:              set_pal_scanlineshade()
-resource var:                   ted.raster->canvas->videoconfig->video_resources.pal_scanlineshade
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDcrtscanlineshade
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDcrtscanlineshade <0-1000>
-description:    "Amount of scan line shading for the CRT emulation"
-resource:       "TEDPALScanLineShade"
-action:         N/A
-fixme: fix documentation, remove default
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "TEDPALBlur"
-resource range:                 0..1000
-resource default:               500
-resource function:              set_pal_blur()
-resource var:                   ted.raster->canvas->videoconfig->video_resources.pal_blur
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDcrtblur
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDcrtblur <0-1000>
-description:    "Amount of horizontal blur for the CRT emulation."
-resource:       "TEDPALBlur"
-action:         N/A
-fixme: fix documentation, remove default
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "TEDPALOddLinePhase"
-resource range:                 0..2000
-resource default:               1125
-resource function:              set_pal_oddlinesphase()
-resource var:                   ted.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDoddlinesphase
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines"
-resource:       "TEDPALOddLinePhase"
-action:         N/A
-fixme: fix documentation, remove default
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "TEDPALOddLineOffset"
-resource range:                 0..2000
-resource default:               875
-resource function:              set_pal_oddlinesoffset()
-resource var:                   ted.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDoddlinesoffset
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines"
-resource:       "TEDPALOddLineOffset"
 action:         N/A
 fixme: fix documentation, remove default
 
@@ -15054,30 +15037,6 @@ action:         N/A
 
 plus4/ted-resources.c:
 ----------------------
-resource type:                  int
-resource name:                  "TEDFilter"
-resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1), VIDEO_FILTER_SCALE2X (2))
-resource default:               VIDEO_FILTER_CRT (1)
-resource function:              set_chip_rendermode()
-resource var:                   ted.raster->canvas->videoconfig->filter
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -TEDfilter
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-plus4/ted-cmdline-options.c:
-----------------------------
-command line:   -TEDfilter <Mode>
-description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:       "TEDFilter"
-action:         N/A
-
-plus4/ted-resources.c:
-----------------------
 resource type:                  bool
 resource name:                  "HwScalePossible"
 resource range:                 0/1
@@ -15090,6 +15049,8 @@ prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           sdl/unix
 platform gui missing:           amigaos/beos/dos/os2/osx/windows
+
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
 printerdrv/driver-select.c:
 ---------------------------
