@@ -33,6 +33,7 @@
 
 #include "c64cart.h"
 #include "cartridge.h"
+#include "cartio.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "menu_common.h"
@@ -802,6 +803,42 @@ static const ui_menu_entry_t soundexpander_menu[] = {
     SDL_MENU_LIST_END
 };
 
+UI_MENU_DEFINE_RADIO(IOCollisionHandling)
+
+static const ui_menu_entry_t iocollision_menu[] = {
+    { "Detach all",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_IOCollisionHandling_callback,
+      (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_ALL },
+    { "Detach last",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_IOCollisionHandling_callback,
+      (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_LAST },
+    { "AND values",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_IOCollisionHandling_callback,
+      (ui_callback_data_t)IO_COLLISION_METHOD_AND_WIRES },
+    SDL_MENU_LIST_END
+};
+
+static UI_MENU_CALLBACK(iocollision_show_type_callback)
+{
+    int type;
+
+    resources_get_int("IOCollisionHandling", &type);
+    switch (type) {
+        case IO_COLLISION_METHOD_DETACH_ALL:
+            return "-> detach all";
+            break;
+        case IO_COLLISION_METHOD_DETACH_LAST:
+            return "-> detach last";
+            break;
+        case IO_COLLISION_METHOD_AND_WIRES:
+            return "-> AND values";
+            break;
+    }
+    return "n/a";
+}
 
 /* Cartridge menu */
 
@@ -830,6 +867,10 @@ ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_OTHER,
       set_c64_cart_default_callback,
       NULL },
+    { "I/O collision handling",
+      MENU_ENTRY_SUBMENU,
+      iocollision_show_type_callback,
+      (ui_callback_data_t)iocollision_menu },
     { "Reset on cartridge change",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_CartridgeReset_callback,

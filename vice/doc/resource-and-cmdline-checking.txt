@@ -3994,8 +3994,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -CRTChwscale / +CRTChwscale
-platform gui present:           unix
-platform gui missing:			sdl
+platform gui present:           unix/sdl
+platform gui missing:
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
