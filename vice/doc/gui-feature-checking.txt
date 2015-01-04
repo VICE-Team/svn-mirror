@@ -7,6 +7,7 @@ a list of all defines to determine compile time features can be queried at
 runtime, see vicefeatures.h for the respective functions and datastructures.
 see initcmdline.c(cmdline_features) for a simple example.
 
+
 RS232 NET SUPPORT
 =================
 platforms present:	amigaos/beos/sdl/unix/osx/windows
@@ -35,18 +36,16 @@ gpz note: does a slider widget not qualify?
 DATASETTE GUI ELEMENTS DISPLAY
 ==============================
 platforms present:	amigaos/beos/dos/os2/sdl/unix/osx/windows
-platforms missing:	
 
 
 DRIVE GUI LEDS / TRACK DISPLAY
 ==============================
 platforms present:	amigaos/beos/dos/os2/sdl/unix/osx/windows
-platforms missing:	
 
 
 JOYSTICK GUI ELEMENTS DISPLAY
 =============================
-platforms present:	beos/osx/windows/unix
+platforms present:	beos/unix(GTK)/osx/windows
 platforms missing:	amigaos/dos/os2/sdl/unix(XAW)
 
 
@@ -156,7 +155,7 @@ note: all UIs should be converted to use the API mentioned above. the status for
       this transition looks like this:
 
 platforms present:      sdl/unix
-platforms missing:      amigaos/beos/msdos/os2/windows/osx
+platforms missing:      amigaos/beos/msdos/os2/osx/windows
 
 
 TO CHECK:
