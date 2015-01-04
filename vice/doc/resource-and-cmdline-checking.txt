@@ -5259,10 +5259,10 @@ resource emulators:             x64/x64sc/xscpu64
 not used in:                    x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -iocollision
-platform gui present:           unix
+platform gui present:           unix/sdl
 platform range correct:		
 platform range incorrect:		
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 c64/c64io.c:
 ------------
@@ -13640,6 +13640,8 @@ prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+note: this one only makes sense as an option for platforms that can offer more
+      than one window at a time - ie _not_ for: SDL/DOS/(?)
 
 pet/pet-resources.c:
 --------------------
@@ -18331,10 +18333,10 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -iocollision
-platform gui present:			unix
+platform gui present:		unix/sdl
 platform range correct:		
 platform range incorrect:		
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 vic20/vic20io.c:
 ----------------
