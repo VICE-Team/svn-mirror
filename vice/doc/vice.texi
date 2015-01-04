@@ -3047,16 +3047,8 @@ Boolean specifying whether audio emulation is turned on.
 
 @vindex SoundSpeedAdjustment
 @item SoundSpeedAdjustment
-Integer specifying what speed adjustment method the audio renderer should
-use.  Possible values are:
-@itemize @bullet
-@item
-@code{0}: ``flexible''
-@item
-@code{1}: ``adjusting''
-@item
-@code{2}: ``exact''
-@end itemize
+Integer specifying what speed adjustment method the audio renderer should use.
+(0=flexible, 1=adjusting, 2=exact)
 
 @vindex SoundSampleRate
 @item SoundSampleRate
@@ -3172,7 +3164,8 @@ script detected the corresponding development support at the time of compilation
 String specifying additional arguments for sound recording.
 @vindex SoundFragmentSize
 @item SoundFragmentSize
-Enum specifying the fragment size (0: very small, 1: small, 2: medium, 3: large, 4: very large)
+Integer specifying the fragment size.
+(0=very small, 1=small, 2=medium, 3=large, 4=very large)
 @vindex SoundVolume
 @item SoundVolume
 Integer specifying the master volume in percent. [100] (0..100)
@@ -3191,31 +3184,37 @@ stream). (0=system, 1=mono, 2=stereo)
 
 @table @code
 
-@cindex -sound, +sound
+@findex -sound, +sound
 @item -sound
 @itemx +sound
-Turns sound emulation on (@code{Sound=1}) and off (@code{Sound=0}).
+Enable/disable sound emulation
+(@code{Sound=1}, @code{Sound=0}).
 
-@cindex -soundsync
+@findex -soundsync
 @item -soundsync <sync>
-Specify <sync> as the sound speed adjustment method (0: flexible, 1: adjusting, 2: exact) (@code{SoundSpeedAdjustment}).
+Specify the sound speed adjustment method
+(@code{SoundSpeedAdjustment}).
+(0=flexible, 1=adjusting, 2=exact)
 
-@cindex -soundrate
+@findex -soundrate
 @item -soundrate <value>
-Specifies the sound playback sample rate (@code{SoundSampleRate}).
+Specify the sound playback sample rate
+(@code{SoundSampleRate}).
 
 @cindex -soundoutput 
 @item -soundoutput <output mode>
 Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always stereo)
 
-@cindex -soundbufsize
+@findex -soundbufsize
 @item -soundbufsize <value>
-Specifies the size of the audio buffer in milliseconds
+Specify the size of the audio buffer in milliseconds
 (@code{SoundBufferSize}).
 
-@cindex -soundfragsize
+@findex -soundfragsize
 @item -soundfragsize <value>
-Set sound fragment size (0 = small, 1 = medium, 2 = large)
+Set sound fragment size
+(@code{SoundFragmentSize}).
+(0=very small, 1=small, 2=medium, 3=large, 4=very large)
 
 @cindex -sounddev
 @item -sounddev <Name>
@@ -4108,16 +4107,27 @@ Integer (ranging from 0 to 2, for device 1-3) specifying what printer device
 
 @vindex Printer4
 @vindex Printer5
+@vindex Printer6
 @item Printer4
 @itemx Printer5
-Integer specifying how the IEC printer (device 4-5) is being emulated.
-(0: NONE, 1: FS, 2: REAL)
+@itemx Printer6
+Integer specifying how the printer (device 4-6) is being emulated.
+(0=None, 1=FS, 2=Real)
 
 @vindex Printer4Driver
-@vindex Printer5Driver
 @item Printer4Driver
-@itemx Printer5Driver
-Strings (ascii, mps803, nl10) specifying the IEC printer output driver.
+String specifying the printer output driver.
+(raw, ascii, mps803, nl10)
+
+@vindex Printer5Driver
+@item Printer5Driver
+String specifying the printer output driver.
+(raw, ascii, mps803, nl10)
+
+@vindex Printer6Driver
+@item Printer6Driver
+String specifying the printer output driver.
+(raw, 1520)
 
 @vindex Printer4Output
 @vindex Printer5Output
@@ -4170,11 +4180,23 @@ Enable/Disable IEC device emulation for device #6
 @itemx +iecdevice7
 Enable/Disable IEC device emulation for device #7
 
-@cindex -device4
-@cindex -device5
+@findex -device4
 @item -device4 <type>
-@itemx -device5 <type>
-Set device type for device 4-5 (0: NONE, 1: FS, 2: REAL)
+Set device type for device 4
+(@code{Printer4}).
+(0=None, 1=FS, 2=Real)
+
+@findex -device5
+@item -device5 <type>
+Set device type for device 5
+(@code{Printer5}).
+(0=None, 1=FS, 2=Real)
+
+@findex -device6
+@item -device6 <type>
+Set device type for device 6
+(@code{Printer6}).
+(0=None, 1=FS, 2=Real)
 
 @cindex -prtxtdev1
 @cindex -prtxtdev2
@@ -4196,11 +4218,23 @@ Specify printer text output device for IEC printer #4-5
 @itemx -pr5output <name>
 Specify name of output device for device #4-5
 
-@cindex -pr4drv
-@cindex -pr5drv
+@findex -pr4drv
 @item -pr4drv <name>
-@itemx -pr5drv <name>
-Specify name of printer driver for device #4-5
+Specify name of printer driver for device #4
+(@code{Printer4Driver}).
+(ascii/mps803/nl10/raw)
+
+@findex -pr5drv
+@item -pr5drv <name>
+Specify name of printer driver for device #5
+(@code{Printer5Driver}).
+(ascii/mps803/nl10/raw)
+
+@findex -pr6drv
+@item -pr6drv <name>
+Specify name of printer driver for device #6
+(@code{Printer6Driver}).
+(1520/raw)
 
 @cindex -pruser, +pruser
 @item -pruser
@@ -4598,7 +4632,11 @@ categories.
 String specifying the search path for system files.  It is defined as a
 sequence of directory names, separated by colons (@samp{:}), just like
 the @code{PATH} variable in the shell.  The special string @samp{$$}
-stands for the default search path, which is initialized at startup to
+stands for the default search path.
+
+@c FIXME: add the following section to archdep stuff:
+@ifset dummy
+, which is initialized at startup to
 the following value:
 
 @example
@@ -4631,6 +4669,7 @@ speeddos or JiffyDos) can be stored for example.
 @xref{System files}. for a description of the method used to load the
 emulator's system files.
 
+@end ifset
 @vindex DoCoreDump
 @item DoCoreDump
 Boolean specifying whether the emulator should dump core when it gets a
@@ -5742,12 +5781,12 @@ Attach raw 16kB Zaxxon cartridge image.
 @vindex CIA1Model
 @item CIA1Model
 @c the exceptions will be corrected as the resource list is implemented
-Integer specifying CIA1 model (all emulators except xscpu64/x64dtv/xpet/xplus4/xvic/vsid).
+Integer specifying CIA1 model (all emulators except x64dtv/xpet/xplus4/xvic/vsid).
 (0=old 6526, 1=new 6526A)
 @vindex CIA2Model
 @item CIA2Model
 @c the exceptions will be corrected as the resource list is implemented
-Integer specifying CIA2 model (all emulators except xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+Integer specifying CIA2 model (all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
 (0=old 6526, 1=new 6526A)
 
 @end table
@@ -5762,21 +5801,21 @@ Integer specifying CIA2 model (all emulators except xscpu64/x64dtv/xcbm2/xcbm5x0
 Set both CIA models
 (@code{CIA1Model}, @code{CIA2Model})
 @c the exceptions will be corrected as the resource list is implemented
-(all emulators except xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+(all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
 (0=old 6526, 1=new 6526A)
 @findex -cia1model
 @item -cia1model <model>
 Set CIA1 model
 (@code{CIA1Model})
 @c the exceptions will be corrected as the resource list is implemented
-(all emulators except xscpu64/x64dtv/xpet/xplus4/xvic/vsid).
+(all emulators except x64dtv/xpet/xplus4/xvic/vsid).
 (0=old 6526, 1=new 6526A)
 @findex -cia2model
 @item -cia2model <model>
 Set CIA2 model
 (@code{CIA2Model})
 @c the exceptions will be corrected as the resource list is implemented
-(all emulators except xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+(all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
 (0=old 6526, 1=new 6526A)
 
 @end table
@@ -6121,8 +6160,8 @@ almost 20kHz).
 
 @vindex SidStereo
 @item SidStereo
-Integer specifying the amount of emulated extra SIDs. (0=off, 1=1 extra sid, 
-2=2 extra sids.
+Integer specifying the amount of emulated extra SIDs.
+(0=off, 1=1 extra sid, 2=2 extra sids)
 
 @vindex SidStereoAddressStart
 @item SidStereoAddressStart
@@ -6138,14 +6177,13 @@ Boolean specifying whether the built-in SID filters must be emulated.
 
 @vindex SidModel
 @item SidModel
-Integer specifying what model of the SID must be emulated (@code{0}: 6581
-, @code{1}: 8580, @code{2}: 8580D, @code{3}: 6581R4, @code{4}: DTVSID).
+Integer specifying what model of the SID must be emulated.
+(0=6581, 1=8580, 2=8580D, 3=6581R4, 4=DTVSID)
 
 @vindex SidEngine
 @item SidEngine
-Integer specifying what SID engine will be used (@code{0}: FASTSID, @code{1}: RESID
-, @code{2}: CATWEASELMKIII, @code{3}: HARDSID, @code{4}: PARSID_PORT1, @code{5}: PARSID_PORT2
-, @code{6}: PARSID_PORT3).
+Integer specifying what SID engine will be used.
+(0=FastSID, 1=ReSID, 2=Catweasel MKIII, 3=HardSID, 4=ParSID Port 1, 5=ParSID Port 2, 6=ParSID Port 3)
 
 @vindex SidResidSampling
 @item SidResidSampling
@@ -6173,9 +6211,10 @@ in millivolts. [0] (-5000..5000)
 
 @table @code
 
-@cindex -sidstereo
+@findex -sidstereo
 @item -sidstereo
-Specifies the amount of extra SID chips to emulate (@code{SidStereo}).
+Specify the amount of extra SID chips to emulate
+(@code{SidStereo}).
 
 @cindex -sidstereoaddress
 @item -sidstereoaddress @code{ADDRESS}
@@ -6187,23 +6226,27 @@ Specifies the start address for the second SID chip
 Specifies the start address for the third SID chip
 (@code{SidTripleAddressStart}).
 
-@cindex -sidenginemodel
+@findex -sidenginemodel
 @item -sidenginemodel <engine and model>
-Specify @code{SID engine} and @code{MODEL} for the emulated SID chip (
-0: FastSID 6581,
-1: FastSID 8580,
-256: ReSID 6581,
-257: ReSID 8580,
-258: ReSID 8580 + digiboost,
-1024: ParSID in par port 1,
-1280: ParSID in par port 2,
-1536: ParSID in par port 3).
+Specify engine and model for the emulated SID chip
+(@code{SidEngine}, @code{SidModel}).
+(FastSID 6581: 0/fast/fastold/fast6581,
+FastSID 8580: 1/fastnew/fast8580,
+ReSID 6581: 256/resid/residold/resid6581,
+ReSID 8580: 257/residnew/resid8580,
+ReSID 8580 + digiboost: 258/residdigital/residd/residnewd/resid8580d,
+DTVSID: 260/dtv/c64dtv/dtvsid,
+Catweasel MKIII: 512/catweaselmkiii/catweasel3/catweasel/cwmkiii/cw3/cw,
+HardSID: 768/hardsid/hard/hs,
+ParSID Port 1: 1024/parsid/parsid1/par1/lpt1,
+ParSID Port 2: 1280/parsid2/par2/lpt2
+ParSID Port 3: 1536/parsid3/par3/lpt3)
 
-@cindex -sidfilters, +sidfilters
+@findex -sidfilters, +sidfilters
 @item -sidfilters
 @itemx +sidfilters
-Enable (@code{SidFilters=1}) or disable (@code{SidFilters=0}) emulation
-of the built-in SID filters.
+Enable/disable emulation of the built-in SID filters
+(@code{SidFilters=1}, @code{SidFilters=0}).
 
 @cindex -residsamp
 @item -residsamp @code{METHOD}
@@ -7333,6 +7376,30 @@ Use NTSC sync factor
 @node SCPU64-specific, VIC20-specific, C64DTV-specific, Machine-specific features
 
 @section SCPU64-specific commands and settings
+
+@c @node FIXME
+@subsection SCPU64 resources
+
+@table @code
+
+@vindex ChargenName
+@item ChargenName
+String specifying the name of the character generator ROM (default
+@file{chargen}).
+
+@end table
+
+'@c @node FIXME
+@subsection SCPU64 command-line options
+
+@table @code
+
+@findex -chargen
+@item -chargen <name>
+Specify filename of the character generator ROM file
+(@code{ChargenName}).
+
+@end table
 
 @c -----------------------------------------------------------------------------
 

@@ -10575,6 +10575,410 @@ description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x
 resource:       "TEDFilter"
 action:         N/A
 
+printerdrv/driver-select.c:
+---------------------------
+resource type:                  string
+resource name:                  "Printer4Driver"
+resource range:                 N/A ("ascii"/"mps803"/"nl10"/"raw")
+resource default:               "ascii"
+resource function:              set_printer_driver()
+resource var:                   driver_select[0].drv_name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -pr4drv
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+printerdrv/driver-select.c:
+---------------------------
+command line:   -pr4drv <Name>
+description:    "Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)"
+resource:       "Printer4Driver"
+action:         N/A
+
+printerdrv/driver-select.c:
+---------------------------
+resource type:                  string
+resource name:                  "Printer5Driver"
+resource range:                 N/A ("ascii"/"mps803"/"nl10"/"raw")
+resource default:               "ascii"
+resource function:              set_printer_driver()
+resource var:                   driver_select[1].drv_name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -pr5drv
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+printerdrv/driver-select.c:
+---------------------------
+command line:   -pr5drv <Name>
+description:    "Specify name of printer driver for device #5. (ascii/mps803/nl10/raw)"
+resource:       "Printer5Driver"
+action:         N/A
+
+printerdrv/driver-select.c:
+---------------------------
+resource type:                  string
+resource name:                  "Printer6Driver"
+resource range:                 N/A ("1520"/"raw")
+resource default:               "1520"
+resource function:              set_printer_driver()
+resource var:                   driver_select[2].drv_name
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -pr6drv
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+printerdrv/driver-select.c:
+---------------------------
+command line:   -pr6drv <Name>
+description:    "Specify name of printer driver for device #6. (1520/raw)"
+resource:       "Printer6Driver"
+action:         N/A
+
+printerdrv/interface-serial.c:
+------------------------------
+resource type:                  int
+resource name:                  "Printer4"
+resource range:                 0..2 (PRINTER_DEVICE_NONE (0), PRINTER_DEVICE_FS (1), PRINTER_DEVICE_REAL (2))
+resource default:               PRINTER_DEVICE_NONE (0)
+resource function:              set_printer_enabled()
+resource var:                   printer_enabled[0]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -device4
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+printerdrv/interface-serial.c:
+------------------------------
+command line:   -device4 <Type>
+description:    "Set device type for device #4 (0: None, 1: Filesystem, 2: Real)"
+resource:       "Printer4"
+action:         N/A
+
+printerdrv/interface-serial.c:
+------------------------------
+resource type:                  int
+resource name:                  "Printer5"
+resource range:                 0..2 (PRINTER_DEVICE_NONE (0), PRINTER_DEVICE_FS (1), PRINTER_DEVICE_REAL (2))
+resource default:               PRINTER_DEVICE_NONE (0)
+resource function:              set_printer_enabled()
+resource var:                   printer_enabled[1]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -device5
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+printerdrv/interface-serial.c:
+------------------------------
+command line:   -device5 <Type>
+description:    "Set device type for device #5 (0: None, 1: Filesystem, 2: Real)"
+resource:       "Printer5"
+action:         N/A
+
+printerdrv/interface-serial.c:
+------------------------------
+resource type:                  int
+resource name:                  "Printer6"
+resource range:                 0..2 (PRINTER_DEVICE_NONE (0), PRINTER_DEVICE_FS (1), PRINTER_DEVICE_REAL (2))
+resource default:               PRINTER_DEVICE_NONE (0)
+resource function:              set_printer_enabled()
+resource var:                   printer_enabled[2]
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:                    vsid
+prepocessor:
+command-line:                   -device6
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+printerdrv/interface-serial.c:
+------------------------------
+command line:   -device6 <Type>
+description:    "Set device type for device #6 (0: None, 1: Filesystem, 2: Real)"
+resource:       "Printer6"
+action:         N/A
+
+scpu64/scpu64-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "ChargenName"
+resource range:                 N/A
+resource default:               "chargen"
+resource function:              set_chargen_rom_name()
+resource var:                   chargen_rom_name
+resource emulators:             xscpu64
+not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -chargen / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
+
+scpu64/scpu64-cmdline-options.c:
+--------------------------------
+command line:   -chargen <Name>
+description:    "Specify name of character generator ROM image"
+resource:       "ChargenName"
+action:         N/A
+
+scpu64/scpu64-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "CIA1Model"
+resource range:                 0/1 (CIA_MODEL_6526 (0), CIA_MODEL_6526A (1))
+resource default:               CIA_MODEL_6526 (0)
+resource function:              set_cia1_model()
+resource var:                   cia1_model
+resource emulators:             xscpu64
+not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -cia1model / -ciamodel / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/osx/unix/windows
+
+scpu64/scpu64-cmdline-options.c:
+--------------------------------
+command line:   -ciamodel <Model>
+description:    "Set both CIA models (0 = old 6526, 1 = new 6526A)"
+resource:       N/A
+action:         set_cia_model() (sets "CIA1Model" and "CIA2Model")
+
+scpu64/scpu64-cmdline-options.c:
+--------------------------------
+command line:   -cia1model <Model>
+description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
+resource:       "CIA1Model"
+action:         N/A
+
+scpu64/scpu64-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "CIA2Model"
+resource range:                 0/1 (CIA_MODEL_6526 (0), CIA_MODEL_6526A (1))
+resource default:               CIA_MODEL_6526 (0)
+resource function:              set_cia2_model()
+resource var:                   cia2_model
+resource emulators:             xscpu64
+not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -cia2model / -ciamodel / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/osx/unix/windows
+
+scpu64/scpu64-cmdline-options.c:
+--------------------------------
+command line:   -cia2model <Model>
+description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
+resource:       "CIA2Model"
+action:         N/A
+
+sid/sid-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "SidEngine"
+resource range:                 0..6 (SID_ENGINE_FASTSID (0), SID_ENGINE_RESID (1), SID_ENGINE_CATWEASELMKIII (2), SID_ENGINE_HARDSID (3),
+                                        SID_ENGINE_PARSID_PORT1 (4), SID_ENGINE_PARSID_PORT2 (5), SID_ENGINE_PARSID_PORT3 (6))
+resource default:               SID_ENGINE_DEFAULT
+resource function:              set_sid_engine()
+resource var:                   sid_engine
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -sidenginemodel / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+sid/sid-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "SidModel"
+resource range:                 0..4 (SID_MODEL_6581 (0), SID_MODEL_8580 (1), SID_MODEL_8580D (2), SID_MODEL_6581R4 (3), SID_MODEL_DTVSID (4))
+resource default:               SID_MODEL_DEFAULT
+resource function:              set_sid_model()
+resource var:                   sid_model
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -sidenginemodel /-model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+sid/sid-cmdline-options.c:
+--------------------------
+command line:   -sidenginemodel <engine and model>
+description:    "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
+resource:       N/A
+action:         sid_common_set_engine_model() (sets "SidEngine" and "SidModel")
+
+sid/sid-resources.c:
+--------------------
+resource type:                  bool
+resource name:                  "SidFilters"
+resource range:                 0/1
+resource default:               1
+resource function:              set_sid_filters_enabled()
+resource var:                   sid_filters_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -sidfilters / +sidfilters
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+sid/sid-cmdline-options.c:
+--------------------------
+command line:   -sidfilters
+description:    "Emulate SID filters"
+resource:       "SidFilters" (set to 1)
+action:         N/A
+
+sid/sid-cmdline-options.c:
+--------------------------
+command line:   +sidfilters
+description:    "Do not emulate SID filters"
+resource:       "SidFilters" (set to 0)
+action:         N/A
+
+sid/sid-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "SidStereo"
+resource range:                 0..2
+resource default:               0
+resource function:              set_sid_stereo()
+resource var:                   sid_stereo
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -sidstereo
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+sid/sid-cmdline-options.c:
+--------------------------
+command line:   -sidstereo <amount>
+description:    "amount of extra SID chips. (0..2)"
+resource:       "SidStereo"
+action:         N/A
+
+sound.c:
+--------
+resource type:                  bool
+resource name:                  "Sound"
+resource range:                 0/1
+resource default:               1
+resource function:              set_playback_enabled()
+resource var:                   playback_enabled
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -sound / +sound
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+sound.c:
+--------
+command line:   -sound
+description:    "Enable sound playback"
+resource:       "Sound" (set to 1)
+action:         N/A
+
+sound.c:
+--------
+command line:   +sound
+description:    "Disable sound playback"
+resource:       "Sound" (set to 0)
+action:         N/A
+
+sound.c:
+--------
+resource type:                  int
+resource name:                  "SoundSampleRate"
+resource range:                 N/A
+resource default:               SOUND_SAMPLE_RATE
+resource function:              set_sample_rate()
+resource var:                   sample_rate
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -soundrate
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+sound.c:
+--------
+command line:   -soundrate <value>
+description:    "Set sound sample rate to <value> Hz"
+resource:       "SoundSampleRate"
+action:         N/A
+
+sound.c:
+--------
+resource type:                  int
+resource name:                  "SoundBufferSize"
+resource range:                 1+
+resource default:               SOUND_SAMPLE_MAX_BUFFER_SIZE (vsid) / SOUND_SAMPLE_BUFFER_SIZE (all others)
+resource function:              set_buffer_size()
+resource var:                   buffer_size
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -soundbufsize
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+sound.c:
+--------
+command line:   -soundbufsize <value>
+description:    "Set sound buffer size to <value> msec"
+resource:       "SoundBufferSize"
+action:         N/A
+
+sound.c:
+--------
+resource type:                  int
+resource name:                  "SoundFragmentSize"
+resource range:                 0..4 (SOUND_FRAGMENT_VERY_SMALL (0), SOUND_FRAGMENT_SMALL (1), SOUND_FRAGMENT_MEDIUM (2), SOUND_FRAGMENT_LARGE (3),
+                                        SOUND_FRAGMENT_VERY_LARGE (4))
+resource default:               ARCHDEP_SOUND_FRAGMENT_SIZE (arch specific)
+resource function:              set_fragment_size()
+resource var:                   fragment_size
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -soundfragsize
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+sound.c:
+--------
+command line:   -soundfragsize <value>
+description:    "Set sound fragment size (0: very small, 1: small, 2: medium, 3: large, 4: very large)"
+resource:       "SoundFragmentSize"
+action:         N/A
+
+sound.c:
+--------
+resource type:                  int
+resource name:                  "SoundSpeedAdjustment"
+resource range:                 0..2 (SOUND_ADJUST_FLEXIBLE (0), SOUND_ADJUST_ADJUSTING (1), SOUND_ADJUST_EXACT (2))
+resource default:               SOUND_ADJUST_EXACT (2)
+resource function:              set_speed_adjustment_setting()
+resource var:                   speed_adjustment_setting
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -soundsync
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+sound.c:
+--------
+command line:   -soundsync <sync>
+description:    "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
+resource:       "SoundSpeedAdjustment"
+action:         N/A
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -15050,78 +15454,6 @@ command-line:                   NONE (fixme)
 platform gui present:           sdl/unix
 platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
-printerdrv/driver-select.c:
----------------------------
-resource type:                  string
-resource name:                  "Printer4Driver"
-resource range:                 N/A ("ascii"/"mps803"/"nl10"/"raw")
-resource default:               "ascii"
-resource function:              set_printer_driver()
-resource var:                   driver_select[0].drv_name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -pr4drv
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-fixme: documentation states it's IEC only, no mention of the "raw" or "1520" driver
-
-printerdrv/driver-select.c:
----------------------------
-command line:   -pr4drv <Name>
-description:    "Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)"
-resource:       "Printer4Driver"
-action:         N/A
-
-printerdrv/driver-select.c:
----------------------------
-resource type:                  string
-resource name:                  "Printer5Driver"
-resource range:                 N/A ("ascii"/"mps803"/"nl10"/"raw")
-resource default:               "ascii"
-resource function:              set_printer_driver()
-resource var:                   driver_select[1].drv_name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -pr5drv
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-fixme: documentation states it's IEC only, no mention of the "raw" or "1520" driver
-
-printerdrv/driver-select.c:
----------------------------
-command line:   -pr5drv <Name>
-description:    "Specify name of printer driver for device #5. (ascii/mps803/nl10/raw)"
-resource:       "Printer5Driver"
-action:         N/A
-
-printerdrv/driver-select.c:
----------------------------
-resource type:                  string
-resource name:                  "Printer6Driver"
-resource range:                 N/A ("1520"/"raw")
-resource default:               "1520"
-resource function:              set_printer_driver()
-resource var:                   driver_select[2].drv_name
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -pr6drv
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-fixme: add to documentation
-
-printerdrv/driver-select.c:
----------------------------
-command line:   -pr6drv <Name>
-description:    "Specify name of printer driver for device #6. (1520/raw)"
-resource:       "Printer6Driver"
-action:         N/A
-fixme: add to documentation
-
 printerdrv/driver-select.c:
 ---------------------------
 resource type:                  string
@@ -15144,82 +15476,6 @@ command line:   -pruserdrv <Name>
 description:    "Specify name of printer driver for the userport printer. (ascii/nl10/raw)"
 resource:       "PrinterUserportDriver"
 action:         N/A
-
-printerdrv/interface-serial.c:
-------------------------------
-resource type:                  int
-resource name:                  "Printer4"
-resource range:                 0..2 (PRINTER_DEVICE_NONE (0), PRINTER_DEVICE_FS (1), PRINTER_DEVICE_REAL (2))
-resource default:               PRINTER_DEVICE_NONE (0)
-resource function:              set_printer_enabled()
-resource var:                   printer_enabled[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -device4
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-printerdrv/interface-serial.c:
-------------------------------
-command line:   -device4 <Type>
-description:    "Set device type for device #4 (0: None, 1: Filesystem, 2: Real)"
-resource:       "Printer4"
-action:         N/A
-fixme: fix documentation, says bool, but is int with range
-
-printerdrv/interface-serial.c:
-------------------------------
-resource type:                  int
-resource name:                  "Printer5"
-resource range:                 0..2 (PRINTER_DEVICE_NONE (0), PRINTER_DEVICE_FS (1), PRINTER_DEVICE_REAL (2))
-resource default:               PRINTER_DEVICE_NONE (0)
-resource function:              set_printer_enabled()
-resource var:                   printer_enabled[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -device5
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-printerdrv/interface-serial.c:
-------------------------------
-command line:   -device5 <Type>
-description:    "Set device type for device #5 (0: None, 1: Filesystem, 2: Real)"
-resource:       "Printer5"
-action:         N/A
-fixme: fix documentation, says bool, but is int with range
-
-printerdrv/interface-serial.c:
-------------------------------
-resource type:                  int
-resource name:                  "Printer6"
-resource range:                 0..2 (PRINTER_DEVICE_NONE (0), PRINTER_DEVICE_FS (1), PRINTER_DEVICE_REAL (2))
-resource default:               PRINTER_DEVICE_NONE (0)
-resource function:              set_printer_enabled()
-resource var:                   printer_enabled[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:                    vsid
-prepocessor:
-command-line:                   -device6
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: add to documentation
-
-printerdrv/interface-serial.c:
-------------------------------
-command line:   -device6 <Type>
-description:    "Set device type for device #6 (0: None, 1: Filesystem, 2: Real)"
-resource:       "Printer6"
-action:         N/A
-fixme: fix documentation, says bool, but is int with range
 
 printerdrv/interface-serial.c:
 ------------------------------
@@ -15641,30 +15897,6 @@ action:         N/A
 scpu64/scpu64-resources.c:
 --------------------------
 resource type:                  string
-resource name:                  "ChargenName"
-resource range:                 N/A
-resource default:               "chargen"
-resource function:              set_chargen_rom_name()
-resource var:                   chargen_rom_name
-resource emulators:             xscpu64
-not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -chargen / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows/unix
-platform gui missing:
-fixme: add to documentation
-
-scpu64/scpu64-cmdline-options.c:
---------------------------------
-command line:   -chargen <Name>
-description:    "Specify name of character generator ROM image"
-resource:       "ChargenName"
-action:         N/A
-fixme: add to documentation
-
-scpu64/scpu64-resources.c:
---------------------------
-resource type:                  string
 resource name:                  "SCPU64Name"
 resource range:                 N/A
 resource default:               "scpu64"
@@ -15738,61 +15970,6 @@ description:    "Computer reset goes to IEC bus (0 = No, 1 = Yes)"
 resource:       "IECReset"
 action:         N/A
 fixme: add to documentation
-
-scpu64/scpu64-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "CIA1Model"
-resource range:                 0/1 (CIA_MODEL_6526 (0), CIA_MODEL_6526A (1))
-resource default:               CIA_MODEL_6526 (0)
-resource function:              set_cia1_model()
-resource var:                   cia1_model
-resource emulators:             xscpu64
-not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -cia1model / -ciamodel / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-scpu64/scpu64-cmdline-options.c:
---------------------------------
-command line:   -ciamodel <Model>
-description:    "Set both CIA models (0 = old 6526, 1 = new 6526A)"
-resource:       N/A
-action:         set_cia_model() (sets "CIA1Model" and "CIA2Model")
-
-scpu64/scpu64-cmdline-options.c:
---------------------------------
-command line:   -cia1model <Model>
-description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
-resource:       "CIA1Model"
-action:         N/A
-
-scpu64/scpu64-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "CIA2Model"
-resource range:                 0/1 (CIA_MODEL_6526 (0), CIA_MODEL_6526A (1))
-resource default:               CIA_MODEL_6526 (0)
-resource function:              set_cia2_model()
-resource var:                   cia2_model
-resource emulators:             xscpu64
-not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -cia2model / -ciamodel / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-scpu64/scpu64-cmdline-options.c:
---------------------------------
-command line:   -cia2model <Model>
-description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
-resource:       "CIA2Model"
-action:         N/A
 
 scpu64/scpu64-resources.c:
 --------------------------
@@ -16207,103 +16384,6 @@ description:    "Disable IEC device emulation for device #11"
 resource:       "IECDevice11" (set to 0)
 action:         N/A
 
-sid/sid-resources.c:
---------------------
-resource type:                  int
-resource name:                  "SidEngine"
-resource range:                 0..6 (SID_ENGINE_FASTSID (0), SID_ENGINE_RESID (1), SID_ENGINE_CATWEASELMKIII (2), SID_ENGINE_HARDSID (3),
-                                        SID_ENGINE_PARSID_PORT1 (4), SID_ENGINE_PARSID_PORT2 (5), SID_ENGINE_PARSID_PORT3 (6))
-resource default:               SID_ENGINE_DEFAULT
-resource function:              set_sid_engine()
-resource var:                   sid_engine
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -sidenginemodel / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-sid/sid-cmdline-options.c:
---------------------------
-command line:   -sidenginemodel <engine and model>
-description:    "Specify SID engine and model (0: FastSID 6581, 1: FastSID 8580, 256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost, 260: DTVSID, 512: Catweasel, 768: HardSID, 1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
-resource:       N/A
-action:         sid_common_set_engine_model() (sets "SidEngine" and "SidModel")
-fixme: fix documentation, range
-
-sid/sid-resources.c:
---------------------
-resource type:                  bool
-resource name:                  "SidFilters"
-resource range:                 0/1
-resource default:               1
-resource function:              set_sid_filters_enabled()
-resource var:                   sid_filters_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -sidfilters / +sidfilters
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-sid/sid-cmdline-options.c:
---------------------------
-command line:   -sidfilters
-description:    "Emulate SID filters"
-resource:       "SidFilters" (set to 1)
-action:         N/A
-
-sid/sid-cmdline-options.c:
---------------------------
-command line:   +sidfilters
-description:    "Do not emulate SID filters"
-resource:       "SidFilters" (set to 0)
-action:         N/A
-
-sid/sid-resources.c:
---------------------
-resource type:                  int
-resource name:                  "SidModel"
-resource range:                 0..4 (SID_MODEL_6581 (0), SID_MODEL_8580 (1), SID_MODEL_8580D (2), SID_MODEL_6581R4 (3), SID_MODEL_DTVSID (4))
-resource default:               SID_MODEL_DEFAULT
-resource function:              set_sid_model()
-resource var:                   sid_model
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -sidenginemodel /-model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-sid/sid-resources.c:
---------------------
-resource type:                  int
-resource name:                  "SidStereo"
-resource range:                 0..2
-resource default:               0
-resource function:              set_sid_stereo()
-resource var:                   sid_stereo
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -sidstereo
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-sid/sid-cmdline-options.c:
---------------------------
-command line:   -sidstereo <amount>
-description:    "amount of extra SID chips. (0..2)"
-resource:       "SidStereo"
-action:         N/A
-fixme: fix documentation, range
-
 sound.c:
 --------
 resource type:                  string
@@ -16399,108 +16479,6 @@ action:         N/A
 
 sound.c:
 --------
-resource type:                  bool
-resource name:                  "Sound"
-resource range:                 0/1
-resource default:               1
-resource function:              set_playback_enabled()
-resource var:                   playback_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -sound / +sound
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-sound.c:
---------
-command line:   -sound
-description:    "Enable sound playback"
-resource:       "Sound" (set to 1)
-action:         N/A
-
-sound.c:
---------
-command line:   +sound
-description:    "Disable sound playback"
-resource:       "Sound" (set to 0)
-action:         N/A
-
-sound.c:
---------
-resource type:                  int
-resource name:                  "SoundSampleRate"
-resource range:                 N/A
-resource default:               SOUND_SAMPLE_RATE
-resource function:              set_sample_rate()
-resource var:                   sample_rate
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -soundrate
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-sound.c:
---------
-command line:   -soundrate <value>
-description:    "Set sound sample rate to <value> Hz"
-resource:       "SoundSampleRate"
-action:         N/A
-
-sound.c:
---------
-resource type:                  int
-resource name:                  "SoundBufferSize"
-resource range:                 1+
-resource default:               SOUND_SAMPLE_MAX_BUFFER_SIZE (vsid) / SOUND_SAMPLE_BUFFER_SIZE (all others)
-resource function:              set_buffer_size()
-resource var:                   buffer_size
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -soundbufsize
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-sound.c:
---------
-command line:   -soundbufsize <value>
-description:    "Set sound buffer size to <value> msec"
-resource:       "SoundBufferSize"
-action:         N/A
-
-sound.c:
---------
-resource type:                  int
-resource name:                  "SoundFragmentSize"
-resource range:                 0..4 (SOUND_FRAGMENT_VERY_SMALL (0), SOUND_FRAGMENT_SMALL (1), SOUND_FRAGMENT_MEDIUM (2), SOUND_FRAGMENT_LARGE (3),
-                                        SOUND_FRAGMENT_VERY_LARGE (4))
-resource default:               ARCHDEP_SOUND_FRAGMENT_SIZE (arch specific)
-resource function:              set_fragment_size()
-resource var:                   fragment_size
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -soundfragsize
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-sound.c:
---------
-command line:   -soundfragsize <value>
-description:    "Set sound fragment size (0 = small, 1 = medium, 2 = large)"
-resource:       "SoundFragmentSize"
-action:         N/A
-
-sound.c:
---------
 resource type:                  int
 resource name:                  "SoundSuspendTime"
 resource range:                 0+
@@ -16513,30 +16491,6 @@ prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
-
-sound.c:
---------
-resource type:                  int
-resource name:                  "SoundSpeedAdjustment"
-resource range:                 0..2 (SOUND_ADJUST_FLEXIBLE (0), SOUND_ADJUST_ADJUSTING (1), SOUND_ADJUST_EXACT (2))
-resource default:               SOUND_ADJUST_EXACT (2)
-resource function:              set_speed_adjustment_setting()
-resource var:                   speed_adjustment_setting
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -soundsync
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-sound.c:
---------
-command line:   -soundsync <sync>
-description:    "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
-resource:       "SoundSpeedAdjustment"
-action:         N/A
 
 sound.c:
 --------
@@ -16579,6 +16533,8 @@ command line:   -soundoutput <output mode>
 description:    "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always stereo)"
 resource:       "SoundOutput"
 action:         N/A
+
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
 sysfile.c:
 ----------

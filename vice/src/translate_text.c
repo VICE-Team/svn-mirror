@@ -13491,20 +13491,20 @@ translate_t string_table[] = {
 #endif
 
 /* sound.c */
-/* en */ {IDCLS_SET_SOUND_FRAGMENT_SIZE,    N_("Set sound fragment size (0 = small, 1 = medium, 2 = large)")},
+/* en */ {IDCLS_SET_SOUND_FRAGMENT_SIZE,    N_("Set sound fragment size (0: very small, 1: small, 2: medium, 3: large, 4: very large)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_DA, "Sæt størrelse på lydfragmenter (0 = lille, 1 = medium, 2 = stor)"},
-/* de */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_DE, "Setze Sound Fragmentgröße (0 = klein, 1 = mittel, 2 = groß)"},
-/* es */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_ES, "Seleccionar tamaño fragmento  (0 = pequeño, 1 = medio, 2 = grande)"},
-/* fr */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_FR, "Régler la taille du fragment de son (0:petite, 1:moyenne, 2:large)"},
+/* da */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_IT, "Imposta la dimensione dei frammenti audio (0 = piccola, 1 = media, 2 = grande)"},
+/* it */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_NL, "Zet geluidsfragment grootte (0 = klein, 1 = matig, 2 = groot)"},
-/* pl */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_PL, "Ustaw rozmiar fragmentu d¼wiêku (0 = ma³y, 1 = ¶redni, 2 = du¿y)"},
-/* ru */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_RU, "Set sound fragment size (0 = small, 1 = medium, 2 = large)"},
-/* sv */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_SV, "Välj storlek för ljudfragment (0 = liten, 1= medium, 2 = stor)"},
-/* tr */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_TR, "Ses parça boyutunu ayarla (0 = küçük, 1 = orta, 2 = büyük)"},
+/* nl */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_SOUND_FRAGMENT_SIZE_TR, ""},  /* fuzzy */
 #endif
 
 /* sound.c */
