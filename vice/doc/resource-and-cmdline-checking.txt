@@ -1,12 +1,6 @@
 UNNEEDED COMMON VSID RESOURCES
 ==============================
 
-InitialDefaultDir
-InitialTapeDir
-InitialDiskDir
-InitialAutostartDir
-InitialCartDir
-InitialSnapshotDir
 HwScalePossible
 KeymapSymFile
 KeymapPosFile
@@ -45,6 +39,12 @@ RAMInitPatternInvert
 UNNEEDED WIN32 VSID RESOURCES
 =============================
 
+InitialDefaultDir
+InitialTapeDir
+InitialDiskDir
+InitialAutostartDir
+InitialCartDir
+InitialSnapshotDir
 FullscreenDevice
 FullscreenWidth
 FullscreenHeight
@@ -63,11 +63,35 @@ DX9Disable
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
+UNNEEDED GTK VSID RESOURCES
+===========================
+
+PrivateColormap
+DisplayDepth
+Window0Width
+Window0Height
+Window0Xpos
+Window0Ypos
+UseFullscreen
+WindowTopHint
+WindowBotHint
+KeepAspectRatio
+TrueAspectRatio
+VICIIHwScale
+
+------------------------------------------------------------------------------------------------------------------------------------
+
 UNNEEDED COMMON VSID COMMAND LINE OPTIONS
 =========================================
 
 -chdir <Directory>
 	Change current working directory.
+	
+------------------------------------------------------------------------------------------------------------------------------------
+
+UNNEEDED WINDOWS VSID COMMAND LINE OPTIONS
+==========================================
+
 -initialdefaultdir <Name>
 	Specify initial default directory.
 -initialtapedir <Name>
@@ -80,12 +104,6 @@ UNNEEDED COMMON VSID COMMAND LINE OPTIONS
 	Specify initial cartridge directory.
 -initialsnapshotdir <Name>
 	Specify initial snapshot directory.
-	
-------------------------------------------------------------------------------------------------------------------------------------
-
-UNNEEDED WINDOWS VSID COMMAND LINE OPTIONS
-==========================================
-
 -vblanksync
 	Enable vertical blank sync
 +vblanksync
@@ -14270,6 +14288,22 @@ fixme: only vsid needs this
 c64/vsid-resources.c:
 ---------------------
 resource type:                  int
+resource name:                  "KernalRev"
+resource range:                 N/A (C64_KERNAL_REV1, C64_KERNAL_REV2, C64_KERNAL_REV3, C64_KERNAL_SX64, C64_KERNAL_4064, C64_KERNAL_UNKNOWN)
+resource default:               C64_KERNAL_REV3
+resource function:              set_kernal_revision()
+resource var:                   kernal_revision
+resource emulators:             vsid
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+prepocessor:
+command-line:                   NONE
+platform gui present:           
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+fixme: add to documentation, it says c64 and c128, c128 does NOT have this resource
+
+c64/vsid-resources.c:
+---------------------
+resource type:                  int
 resource name:                  "MachineVideoStandard"
 resource range:                 -4..-1 (MACHINE_SYNC_PAL (-1), MACHINE_SYNC_NTSC (-2), MACHINE_SYNC_NTSCOLD (-3), MACHINE_SYNC_PALN (-4))
 resource default:               MACHINE_SYNC_PAL
@@ -17429,21 +17463,6 @@ command line:   +TEDaudioleak
 description:    "Disable audio leak emulation"
 resource:       "TEDAudioLeak" (set to 0)
 action:         N/A
-
-plus4/ted-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "HwScalePossible"
-resource range:                 0/1
-resource default:               HWSCALE_DEFAULT
-resource function:              set_hwscale_possible()
-resource var:                   hwscale_possible
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           sdl/unix
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 printerdrv/driver-select.c:
 ---------------------------
