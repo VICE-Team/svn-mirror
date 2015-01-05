@@ -5879,8 +5879,8 @@ C64 graphics package GoDot
 
 @vindex VICIIModel
 @item VICIIModel
-Integer that specifies VIC-II model (6569/6569r1/8565/6567/8562/6567r56a).
-only available in @code{x64sc}.
+Integer that specifies VIC-II model (x64sc only).
+(6569/6569r1/8565/6567/8562/6567r56a/6572)
 
 @vindex VICIICheckSsColl
 @item VICIICheckSsColl
@@ -5906,11 +5906,11 @@ Boolean specifying whether double-scan mode is turned on.
 
 @vindex VICIINewLuminances
 @item VICIINewLuminances
-Boolean specifying whether to use new (9 steps) luminances
+Boolean specifying whether to use new (9 steps) luminances.
 
 @vindex VICIIPaletteFile
 @item VICIIPaletteFile
-String specifying the name of the palette file being used.  The
+String specifying the name of the palette file being used. The
 @file{.vpl} extension is optional.
 
 @vindex VICIIExternalPalette
@@ -5919,19 +5919,23 @@ Boolean specifying whether to use external palette file or not.
 
 @vindex VICIIColorSaturation
 @item VICIIColorSaturation
-integer specifying saturation of internal calculated palette [1250] <0-2000>
+Integer specifying saturation of internal calculated palette.
+(0..2000)
 
 @vindex VICIIColorContrast
 @item VICIIColorContrast
-integer specifying contrast of internal calculated palette [1250] <0-2000>
+Integer specifying contrast of internal calculated palette.
+(0..2000)
 
 @vindex VICIIColorBrightness
 @item VICIIColorBrightness
-integer specifying brightness of internal calculated palette [1000] <0-2000>
+Integer specifying brightness of internal calculated palette.
+(0..2000)
 
 @vindex VICIIColorGamma
 @item VICIIColorGamma
-integer specifying gamma of internal calculated palette [2200] <0-4000>
+Integer specifying gamma of internal calculated palette.
+(0..4000)
 
 @vindex VICIIColorTint
 @item VICIIColorTint
@@ -5939,19 +5943,23 @@ integer specifying tint of internal calculated palette [1000] <0-2000>
 
 @vindex VICIIPALScanLineShade
 @item VICIIPALScanLineShade
-integer specifying amount of scan line shading for the CRT emulation [750] <0-1000>
+Integer specifying amount of scan line shading for the CRT emulation.
+(0..1000)
 
 @vindex VICIIPALBlur
 @item VICIIPALBlur
-integer specifying amount of horizontal blur for the CRT emulation. [500] <0-1000>
+Integer specifying amount of horizontal blur for the CRT emulation.
+(0..1000)
 
 @vindex VICIIPALOddLinePhase
 @item VICIIPALOddLinePhase
-integer specifying phase for color carrier in odd lines [1125] <0-2000>
+Integer specifying phase for color carrier in odd lines.
+(0..2000)
 
 @vindex VICIIPALOddLineOffset
 @item VICIIPALOddLineOffset
-integer specifying phase offset for color carrier in odd lines [875] <0-2000>
+Integer specifying phase offset for color carrier in odd lines.
+(0..2000)
 
 @vindex VICIIAudioLeak
 @item VICIIAudioLeak
@@ -5959,7 +5967,8 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 
 @vindex VICIIFilter
 @item VICIIFilter
-integer specifying rendering filter, 0:none, 1:CRT emulation, 2: scale2x
+Integer specifying rendering filter.
+(0=none, 1=CRT emulation, 2=scale2x)
 
 @vindex VICIIBorderMode
 @item VICIIBorderMode
@@ -5973,49 +5982,54 @@ integer specifying border display mode (0: normal, 1: full, 2: debug, 3:none)
 
 @table @code
 
-@cindex -VICIIcheckss, +VICIIcheckss
+@findex -VICIIcheckss, +VICIIcheckss
 @item -VICIIcheckss
 @itemx +VICIIcheckss
-Enable (@code{VICIICheckSsColl=1}) and disable (@code{VICIICheckSsColl=0})
-emulation of hardware sprite-sprite collision detection, respectively.
+Enable/disable emulation of hardware sprite-sprite collision detection
+(@code{VICIICheckSsColl=1}, @code{VICIICheckSsColl=0}).
 
-@cindex -VICIIchecksb, +VICIIchecksb
+@findex -VICIIchecksb, +VICIIchecksb
 @item -VICIIchecksb
 @itemx +VICIIchecksb
-Enable (@code{VICIICheckSbColl=1}) and disable (@code{VICIICheckSbColl=0})
-emulation of hardware sprite-background collision detection,
-respectively.
+Enable/disable emulation of hardware sprite-background collision detection
+(@code{VICIICheckSbColl=1}, @code{VICIICheckSbColl=0}).
 
-@cindex -VICIIvcache, +VICIIvcache
+@findex -VICIIvcache, +VICIIvcache
 @item -VICIIvcache
 @itemx +VICIIvcache
-Enable/disable the video cache (@code{VICIIVideoCache=1}, @code{VICIIVideoCache=0}).
+Enable/disable the video cache
+(@code{VICIIVideoCache=1}, @code{VICIIVideoCache=0}).
 
-@cindex -VICIIdsize, +VICIIdsize
+@findex -VICIIdsize, +VICIIdsize
 @item -VICIIdsize
 @itemx +VICIIdsize
-Enable/disable the double size mode (@code{VICIIDoubleSize=1},
-@code{VICIIDoubleSize=0}).
+Enable/disable the double size mode
+(@code{VICIIDoubleSize=1}, @code{VICIIDoubleSize=0}).
 
-@cindex -VICIIdscan, +VICIIdscan
+@findex -VICIIdscan, +VICIIdscan
 @item -VICIIdscan
 @itemx +VICIIdscan
-Enable/disable the double scan mode (@code{VICIIDoubleScan=1},
-@code{VICIIDoubleScan=0}).
+Enable/disable the double scan mode
+(@code{VICIIDoubleScan=1}, @code{VICIIDoubleScan=0}).
 
-@cindex -VICIIfilter
+@findex -VICIIfilter
 @item -VICIIfilter <Mode>
-Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x
-@cindex -VICIIintpal
+Select rendering filter
+(@code{VICIIFilter}).
+(0=none, 1=CRT emulation, 2=scale2x)
+@findex -VICIIintpal
 @item -VICIIintpal
 Use an internal calculated palette
-@cindex -VICIIextpal
+(@code{VICIIExternalPalette=0}).
+@findex -VICIIextpal
 @item -VICIIextpal
 Use an external palette (file)
+(@code{VICIIExternalPalette=1}).
 
-@cindex -VICIIpalette
+@findex -VICIIpalette
 @item -VICIIpalette <Name>
-Specify <Name> as the palette file (@code{VICIIPaletteFile}).
+Specify the name of the palette file
+(@code{VICIIPaletteFile}).
 
 @cindex -VICIIXRANDRfullmode
 @item -VICIIXRANDRfullmode <mode>
@@ -6026,43 +6040,53 @@ Select fullscreen mode
 @cindex -VICIIborders
 @item -VICIIborders <mode>
 Set VIC-II border display mode (0: normal, 1: full, 2: debug, 3:none)
-@cindex -VICIImodel
+@findex -VICIImodel
 @item -VICIImodel <model>
-Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a). This setting is
-only available in @code{x64sc}.
+Set VIC-II model (x64sc only)
+(@code{VICIIModel}).
+(6569/6569r1/8565/6567/8562/6567r56a/6572)
 
-@cindex -VICIInewluminance, +VICIInewluminance
+@findex -VICIInewluminance, +VICIInewluminance
 @item -VICIInewluminance
 @item +VICIInewluminance
-Enable/Disable new luminances.
+Enable/Disable new luminances
+(@code{VICIINewLuminances=1}, @code{VICIINewLuminances=0}).
 
-@cindex -VICIIsaturation
+@findex -VICIIsaturation
 @item -VICIIsaturation <0-2000>
 Set saturation of internal calculated palette
-@cindex -VICIIcontrast
+(@code{VICIIColorSaturation}).
+@findex -VICIIcontrast
 @item -VICIIcontrast <0-2000>
 Set contrast of internal calculated palette
-@cindex -VICIIbrightness
+(@code{VICIIColorContrast}).
+@findex -VICIIbrightness
 @item -VICIIbrightness <0-2000>
 Set brightness of internal calculated palette
-@cindex -VICIIgamma
+(@code{VICIIColorBrightness}).
+@findex -VICIIgamma
 @item -VICIIgamma <0-4000>
 Set gamma of internal calculated palette
+(@code{VICIIColorGamma}).
 @cindex -VICIItint
 @item -VICIItint <0-2000>
 Set tint of internal calculated palette
-@cindex -VICIIoddlinesphase
+@findex -VICIIoddlinesphase
 @item -VICIIoddlinesphase <0-2000>
 Set phase for color carrier in odd lines
-@cindex -VICIIoddlinesoffset
+(@code{VICIIPALOddLinePhase}).
+@findex -VICIIoddlinesoffset
 @item -VICIIoddlinesoffset <0-2000>
 Set phase offset for color carrier in odd lines
-@cindex -VICIIcrtblur
+(@code{VICIIPALOddLineOffset}).
+@findex -VICIIcrtblur
 @item -VICIIcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation
-@cindex -VICIIcrtscanlineshade
+(@code{VICIIPALBlur}).
+@findex -VICIIcrtscanlineshade
 @item -VICIIcrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation
+(@code{VICIIPALScanLineShade}).
 
 @cindex -VICIIaudioleak, +VICIIaudioleak
 @item -VICIIaudioleak
@@ -8090,8 +8114,7 @@ String specifying the name of the Basic ROM (default @file{basic}).
 
 @vindex ChargenName
 @item ChargenName
-String specifying the name of the character generator ROM (default
-@file{chargen}).
+String specifying the name of the character generator ROM (default @file{chargen}).
 
 @end table
 
@@ -8100,17 +8123,19 @@ String specifying the name of the character generator ROM (default
 
 @table @code
 
-@cindex -kernal
-@item -kernal NAME
-Specify @file{NAME} as the Kernal ROM file (@code{KernalName}).
+@findex -kernal
+@item -kernal <name>
+Specify the filename of the Kernal ROM file
+(@code{KernalName}).
 
-@cindex -basic
-@item -basic NAME
-Specify @file{NAME} as the Basic ROM file (@code{BasicName}).
+@findex -basic
+@item -basic <name>
+Specify the filename of the Basic ROM file
+(@code{BasicName}).
 
-@cindex -chargen
-@item -chargen NAME
-Specify @file{NAME} as the character generator ROM file
+@findex -chargen
+@item -chargen <name>
+Specify the filename of the character generator ROM file
 (@code{ChargenName}).
 
 @cindex -cart2

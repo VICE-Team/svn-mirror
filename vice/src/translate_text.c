@@ -10072,20 +10072,20 @@ translate_t string_table[] = {
 #endif
 
 /* viciisc/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_VICII_MODEL,    N_("Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)")},
+/* en */ {IDCLS_SET_VICII_MODEL,    N_("Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a/6572)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_VICII_MODEL_DA, "Vælg VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"},
-/* de */ {IDCLS_SET_VICII_MODEL_DE, "Wähle VIC-II Modell (6569/6569r1/8565/6567/8562/6567r56a)"},
-/* es */ {IDCLS_SET_VICII_MODEL_ES, "Seleccionar modelo VIC-II (6569/6569r1/8565/6567/8562/6567r56a)"},
-/* fr */ {IDCLS_SET_VICII_MODEL_FR, "Définir le modèle VIC-II (6569/6569r1/8565/6567/8562/6567r56a)"},
+/* da */ {IDCLS_SET_VICII_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_VICII_MODEL_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_VICII_MODEL_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_VICII_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_VICII_MODEL_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_VICII_MODEL_IT, "Imposta modello VIC-II (6569/6569r1/8565/6567/8562/6567r56a)"},
+/* it */ {IDCLS_SET_VICII_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_VICII_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_VICII_MODEL_NL, "Zet VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"},
-/* pl */ {IDCLS_SET_VICII_MODEL_PL, "Ustaw model VIC-II (6569/6569r1/8565/6567/8562/6567r56a)"},
-/* ru */ {IDCLS_SET_VICII_MODEL_RU, "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"},
-/* sv */ {IDCLS_SET_VICII_MODEL_SV, "Välj VIC-II-modell (6569/6569r1/8565/6567/8562/6567r56a)"},
-/* tr */ {IDCLS_SET_VICII_MODEL_TR, "VIC-II modelini ayarla (6569/6569r1/8565/6567/8562/6567r56a)"},
+/* nl */ {IDCLS_SET_VICII_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_VICII_MODEL_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_VICII_MODEL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_VICII_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_VICII_MODEL_TR, ""},  /* fuzzy */
 #endif
 
 /* printerdrv/driver-select.c */

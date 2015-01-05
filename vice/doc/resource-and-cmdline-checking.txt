@@ -1,3 +1,124 @@
+UNNEEDED COMMON VSID RESOURCES
+==============================
+
+InitialDefaultDir
+InitialTapeDir
+InitialDiskDir
+InitialAutostartDir
+InitialCartDir
+InitialSnapshotDir
+JAMAction
+HwScalePossible
+KeymapSymFile
+KeymapPosFile
+KeymapSymDeFile
+BoardType
+CIA1Model
+CIA2Model
+KeymapIndex
+VICIIVideoCache
+VICIIDoubleScan
+VICIIDoubleSize
+VICIIPaletteFile
+VICIIExternalPalette
+VICIIColorSaturation
+VICIIColorContrast
+VICIIColorBrightness
+VICIIColorGamma
+VICIIColorTint
+VICIIPALScanLineShade
+VICIIPALBlur
+VICIIPALOddLinePhase
+VICIIPALOddLineOffset
+VICIIAudioLeak
+VICIIFilter
+VICIIBorderMode
+VICIICheckSsColl
+VICIICheckSbColl
+VICIINewLuminances
+GlueLogic
+RAMInitStartValue
+RAMInitValueInvert
+RAMInitPatternInvert
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+UNNEEDED WIN32 VSID RESOURCES
+=============================
+
+FullscreenDevice
+FullscreenWidth
+FullscreenHeight
+FullscreenRefreshRate
+FullscreenEnabled
+Window0Xpos
+Window0Ypos
+Window1Xpos
+Window1Ypos
+VBLANKSync
+KeepAspectRatio
+TrueAspectRatio
+AspectRatio
+DXPrimarySurfaceRendering
+DX9Disable
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+UNNEEDED COMMON VSID COMMAND LINE OPTIONS
+=========================================
+
+-chdir <Directory>
+	Change current working directory.
+-initialdefaultdir <Name>
+	Specify initial default directory.
+-initialtapedir <Name>
+	Specify initial tape directory.
+-initialdiskdir <Name>
+	Specify initial disk directory.
+-initialautostartdir <Name>
+	Specify initial autostart directory.
+-initialcartdir <Name>
+	Specify initial cartridge directory.
+-initialsnapshotdir <Name>
+	Specify initial snapshot directory.
+-jamaction <Type>
+	Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)
+	
+------------------------------------------------------------------------------------------------------------------------------------
+
+UNNEEDED WINDOWS VSID COMMAND LINE OPTIONS
+==========================================
+
+-vblanksync
+	Enable vertical blank sync
++vblanksync
+	Disable vertical blank sync
+-keepaspect
+	Keep aspect ratio when scaling
++keepaspect
+	Do not keep aspect ratio when scaling (freescale)
+-trueaspect
+	Enable true aspect ratio
++trueaspect
+	Disable true aspect ratio
+-aspect <aspect ratio>
+	Set aspect ratio (500..2000)
+-fullscreendevice <number>
+	. (0: \\.\DISPLAY1 - AMD Radeon HD 6310 Graphics)
+-fullscreen
+	
++fullscreen
+	
+-dx9disable
+	
+-dx9enable
+	
+-dxpsrender
+	
++dxpsrender
+
+------------------------------------------------------------------------------------------------------------------------------------
+
 FIXED/CORRECT AMIGA ONLY COMMON RESOURCES/CMDLINES:
 ===================================================
 
@@ -11936,7 +12057,923 @@ description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x
 resource:       "VICFilter"
 action:         N/A
 
------------------------------------------blacky-------------------------------------------------------------------------------------
+vic20/vic20-resources.c:
+------------------------
+resource type:                  string
+resource name:                  "ChargenName"
+resource range:                 N/A
+resource default:               "chargen"
+resource function:              set_chargen_rom_name()
+resource var:                   chargen_rom_name
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -chargen
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic20-cmdline-options.c:
+------------------------------
+command line:   -chargen <Name>
+description:    "Specify name of character generator ROM image"
+resource:       "ChargenName"
+action:         N/A
+
+vic20/vic20-resources.c:
+------------------------
+resource type:                  string
+resource name:                  "KernalName"
+resource range:                 N/A
+resource default:               "kernal"
+resource function:              set_kernal_rom_name()
+resource var:                   kernal_rom_name
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -kernal
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic20-cmdline-options.c:
+------------------------------
+command line:   -kernal <Name>
+description:    "Specify name of Kernal ROM image"
+resource:       "KernalName"
+action:         N/A
+
+vic20/vic20-resources.c:
+------------------------
+resource type:                  string
+resource name:                  "BasicName"
+resource range:                 N/A
+resource default:               "basic"
+resource function:              set_basic_rom_name()
+resource var:                   basic_rom_name
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -basic
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic20-cmdline-options.c:
+------------------------------
+command line:   -basic <Name>
+description:    "Specify name of BASIC ROM image"
+resource:       "BasicName"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "VICIICheckSsColl"
+resource range:                 0/1
+resource default:               1
+resource function:              set_sprite_sprite_collisions_enabled()
+resource var:                   vicii_resources.sprite_sprite_collisions_enabled
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIcheckss / +VICIIcheckss
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIcheckss
+description:    "Enable sprite-sprite collision registers"
+resource:       "VICIICheckSsColl" (set to 1)
+action:         N/A
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   +VICIIcheckss
+description:    "Disable sprite-sprite collision registers"
+resource:       "VICIICheckSsColl" (set to 0)
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "VICIICheckSbColl"
+resource range:                 0/1
+resource default:               1
+resource function:              set_sprite_background_collisions_enabled()
+resource var:                   vicii_resources.sprite_background_collisions_enabled
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIchecksb / +VICIIchecksb
+platform gui present:           amigaos/beos/dos/os2/unix/osx/windows/sdl
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIchecksb
+description:    "Enable sprite-background collision registers"
+resource:       "VICIICheckSbColl" (set to 1)
+action:         N/A
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   +VICIIchecksb
+description:    "Disable sprite-background collision registers"
+resource:       "VICIICheckSbColl" (set to 0)
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "VICIINewLuminances"
+resource range:                 0/1
+resource default:               1
+resource function:              set_new_luminances()
+resource var:                   vicii_resources.new_luminances
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIInewluminance / +VICIInewluminance / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIInewluminance
+description:    "Use new luminances"
+resource:       "VICIINewLuminances" (set to 1)
+action:         N/A
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   +VICIInewluminance
+description:    "Use old luminances"
+resource:       "VICIINewLuminances" (set to 0)
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "VICIIVideoCache"
+resource range:                 0/1
+resource default:               DEFAULT_VideoCache_VALUE
+resource function:              set_video_cache_enabled()
+resource var:                   raster_resource_chip->video_cache_enabled
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIvcache / +VICIIvcache
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIvcache
+description:    "Enable the video cache"
+resource:       "VICIIVideoCache" (set to 1)
+action:         N/A
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   +VICIIvcache
+description:    "Disable the video cache"
+resource:       "VICIIVideoCache" (set to 0)
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "VICIIDoubleScan"
+resource range:                 0/1
+resource default:               1
+resource function:              set_double_scan_enabled()
+resource var:                   vicii.raster->canvas->videoconfig->doublescan
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIdscan / +VICIIdscan
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIdscan
+description:    "Enable double scan"
+resource:       "VICIIDoubleScan" (set to 1)
+action:         N/A
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   +VICIIdscan
+description:    "Disable double scan"
+resource:       "VICIIDoubleScan" (set to 0)
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "VICIIDoubleSize"
+resource range:                 0/1
+resource default:               1
+resource function:              set_double_size_enabled()
+resource var:                   vicii.raster->canvas->videoconfig->double_size_enabled
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIdsize / +VICIIdsize
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIdsize
+description:    "Enable double size"
+resource:       "VICIIDoubleSize" (set to 1)
+action:         N/A
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   +VICIIdsize
+description:    "Disable double size"
+resource:       "VICIIDoubleSize" (set to 0)
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  string
+resource name:                  "VICIIPaletteFile"
+resource range:                 N/A
+resource default:               "default"
+resource function:              set_palette_file_name()
+resource var:                   vicii.raster->canvas->videoconfig->external_palette_name
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIpalette
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIpalette <Name>
+description:    "Specify name of file of external palette"
+resource:       "VICIIPaletteFile"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "VICIIExternalPalette"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ext_palette()
+resource var:                   vicii.raster->canvas->videoconfig->external_palette
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIintpal / -VICIIextpal
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIintpal
+description:    "Use an internal calculated palette"
+resource:       "VICIIExternalPalette" (set to 0)
+action:         N/A
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIextpal
+description:    "Use an external palette (file)"
+resource:       "VICIIExternalPalette" (set to 1)
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "VICIIColorSaturation"
+resource range:                 0..2000
+resource default:               1250
+resource function:              set_color_saturation()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_saturation
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIsaturation
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIsaturation <0-2000>
+description:    "Set saturation of internal calculated palette"
+resource:       "VICIIColorSaturation"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "VICIIColorContrast"
+resource range:                 0..2000
+resource default:               1250
+resource function:              set_color_contrast()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_contrast
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIcontrast
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIcontrast <0-2000>
+description:    "Set contrast of internal calculated palette"
+resource:       "VICIIColorContrast"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "VICIIColorBrightness"
+resource range:                 0..2000
+resource default:               1000
+resource function:              set_color_brightness()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_brightness
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIbrightness
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIbrightness <0-2000>
+description:    "Set brightness of internal calculated palette"
+resource:       "VICIIColorBrightness"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "VICIIColorGamma"
+resource range:                 0..4000
+resource default:               2200
+resource function:              set_color_gamma()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_gamma
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIgamma
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIgamma <0-4000>
+description:    "Set gamma of internal calculated palette"
+resource:       "VICIIColorGamma"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "VICIIPALScanLineShade"
+resource range:                 0..1000
+resource default:               750
+resource function:              set_pal_scanlineshade()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_scanlineshade
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIcrtscanlineshade
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIcrtscanlineshade <0-1000>
+description:    "Amount of scan line shading for the CRT emulation"
+resource:       "VICIIPALScanLineShade"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "VICIIPALBlur"
+resource range:                 0..1000
+resource default:               500
+resource function:              set_pal_blur()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_blur
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIcrtblur
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIcrtblur <0-1000>
+description:    "Amount of horizontal blur for the CRT emulation."
+resource:       "VICIIPALBlur"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "VICIIPALOddLinePhase"
+resource range:                 0..2000
+resource default:               1125
+resource function:              set_pal_oddlinesphase()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIoddlinesphase
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIoddlinesphase <0-2000>
+description:    "Set phase for color carrier in odd lines"
+resource:       "VICIIPALOddLinePhase"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "VICIIPALOddLineOffset"
+resource range:                 0..2000
+resource default:               875
+resource function:              set_pal_oddlinesoffset()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIoddlinesoffset
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIoddlinesoffset <0-2000>
+description:    "Set phase offset for color carrier in odd lines"
+resource:       "VICIIPALOddLineOffset"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "VICIIFilter"
+resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1), VIDEO_FILTER_SCALE2X (2))
+resource default:               VIDEO_FILTER_CRT (1)
+resource function:              set_chip_rendermode()
+resource var:                   vicii.raster->canvas->videoconfig->filter
+resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+prepocessor:
+command-line:                   -VICIIfilter
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIfilter <Mode>
+description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
+resource:       "VICIIFilter"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "VICIICheckSsColl"
+resource range:                 0/1
+resource default:               1
+resource function:              set_sprite_sprite_collisions_enabled()
+resource var:                   vicii_resources.sprite_sprite_collisions_enabled
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIcheckss / +VICIIcheckss
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIcheckss
+description:    "Enable sprite-sprite collision registers"
+resource:       "VICIICheckSsColl" (set to 1)
+action:         N/A
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   +VICIIcheckss
+description:    "Disable sprite-sprite collision registers"
+resource:       "VICIICheckSsColl" (set to 0)
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "VICIICheckSbColl"
+resource range:                 0/1
+resource default:               1
+resource function:              set_sprite_background_collisions_enabled()
+resource var:                   vicii_resources.sprite_background_collisions_enabled
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIchecksb / +VICIIchecksb
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIchecksb
+description:    "Enable sprite-background collision registers"
+resource:       "VICIICheckSbColl" (set to 1)
+action:         N/A
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   +VICIIchecksb
+description:    "Disable sprite-background collision registers"
+resource:       "VICIICheckSbColl" (set to 0)
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "VICIINewLuminances"
+resource range:                 0/1
+resource default:               1
+resource function:              set_new_luminances()
+resource var:                   vicii_resources.new_luminances
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIInewluminance / +VICIInewluminance / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIInewluminance
+description:    "Use new luminances"
+resource:       "VICIINewLuminances" (set to 1)
+action:         N/A
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   +VICIInewluminance
+description:    "Use old luminances"
+resource:       "VICIINewLuminances" (set to 0)
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIModel"
+resource range:                 0..6 (VICII_MODEL_6569 (0), VICII_MODEL_8565 (1), VICII_MODEL_6569R1 (2), VICII_MODEL_6567 (3), VICII_MODEL_8562 (4),
+                                        VICII_MODEL_6567R56A (5), VICII_MODEL_6572 (6))
+resource default:               VICII_MODEL_6569 (0)
+resource function:              set_model()
+resource var:                   vicii_resources.model
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -pal / -ntsc / -ntscold / -paln / -VICIImodel / -model
+platform gui present:			amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIImodel <Model>
+description:    "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a/6572)"
+resource:       N/A
+action:         set_vicii_model() (sets "VICIIModel")
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "VICIIVideoCache"
+resource range:                 0/1
+resource default:               DEFAULT_VideoCache_VALUE
+resource function:              set_video_cache_enabled()
+resource var:                   raster_resource_chip->video_cache_enabled
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIvcache / +VICIIvcache
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIvcache
+description:    "Enable the video cache"
+resource:       "VICIIVideoCache" (set to 1)
+action:         N/A
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   +VICIIvcache
+description:    "Disable the video cache"
+resource:       "VICIIVideoCache" (set to 0)
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "VICIIDoubleScan"
+resource range:                 0/1
+resource default:               1
+resource function:              set_double_scan_enabled()
+resource var:                   vicii.raster->canvas->videoconfig->doublescan
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIdscan / +VICIIdscan
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIdscan
+description:    "Enable double scan"
+resource:       "VICIIDoubleScan" (set to 1)
+action:         N/A
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   +VICIIdscan
+description:    "Disable double scan"
+resource:       "VICIIDoubleScan" (set to 0)
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "VICIIDoubleSize"
+resource range:                 0/1
+resource default:               1
+resource function:              set_double_size_enabled()
+resource var:                   vicii.raster->canvas->videoconfig->double_size_enabled
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIdsize / +VICIIdsize
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIdsize
+description:    "Enable double size"
+resource:       "VICIIDoubleSize" (set to 1)
+action:         N/A
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   +VICIIdsize
+description:    "Disable double size"
+resource:       "VICIIDoubleSize" (set to 0)
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "VICIIPaletteFile"
+resource range:                 N/A
+resource default:               "default"
+resource function:              set_palette_file_name()
+resource var:                   vicii.raster->canvas->videoconfig->external_palette_name
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIpalette
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIpalette <Name>
+description:    "Specify name of file of external palette"
+resource:       "VICIIPaletteFile"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "VICIIExternalPalette"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ext_palette()
+resource var:                   vicii.raster->canvas->videoconfig->external_palette
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIintpal / -VICIIextpal
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIintpal
+description:    "Use an internal calculated palette"
+resource:       "VICIIExternalPalette" (set to 0)
+action:         N/A
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIextpal
+description:    "Use an external palette (file)"
+resource:       "VICIIExternalPalette" (set to 1)
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIColorSaturation"
+resource range:                 0..2000
+resource default:               1250
+resource function:              set_color_saturation()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_saturation
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIsaturation
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIsaturation <0-2000>
+description:    "Set saturation of internal calculated palette"
+resource:       "VICIIColorSaturation"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIColorContrast"
+resource range:                 0..2000
+resource default:               1250
+resource function:              set_color_contrast()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_contrast
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIcontrast
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIcontrast <0-2000>
+description:    "Set contrast of internal calculated palette"
+resource:       "VICIIColorContrast"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIColorBrightness"
+resource range:                 0..2000
+resource default:               1000
+resource function:              set_color_brightness()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_brightness
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIbrightness
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIbrightness <0-2000>
+description:    "Set brightness of internal calculated palette"
+resource:       "VICIIColorBrightness"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIColorGamma"
+resource range:                 0..4000
+resource default:               2200
+resource function:              set_color_gamma()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_gamma
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIgamma
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIgamma <0-4000>
+description:    "Set gamma of internal calculated palette"
+resource:       "VICIIColorGamma"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIPALScanLineShade"
+resource range:                 0..1000
+resource default:               750
+resource function:              set_pal_scanlineshade()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_scanlineshade
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIcrtscanlineshade
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIcrtscanlineshade <0-1000>
+description:    "Amount of scan line shading for the CRT emulation"
+resource:       "VICIIPALScanLineShade"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIPALBlur"
+resource range:                 0..1000
+resource default:               500
+resource function:              set_pal_blur()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_blur
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIcrtblur
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIcrtblur <0-1000>
+description:    "Amount of horizontal blur for the CRT emulation."
+resource:       "VICIIPALBlur"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIPALOddLinePhase"
+resource range:                 0..2000
+resource default:               1125
+resource function:              set_pal_oddlinesphase()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIoddlinesphase
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIoddlinesphase <0-2000>
+description:    "Set phase for color carrier in odd lines"
+resource:       "VICIIPALOddLinePhase"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIPALOddLineOffset"
+resource range:                 0..2000
+resource default:               875
+resource function:              set_pal_oddlinesoffset()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIoddlinesoffset
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIoddlinesoffset <0-2000>
+description:    "Set phase offset for color carrier in odd lines"
+resource:       "VICIIPALOddLineOffset"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIFilter"
+resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1), VIDEO_FILTER_SCALE2X (2))
+resource default:               VIDEO_FILTER_CRT (1)
+resource function:              set_chip_rendermode()
+resource var:                   vicii.raster->canvas->videoconfig->filter
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIfilter
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIfilter <Mode>
+description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
+resource:       "VICIIFilter"
+action:         N/A
+
+------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
 ==============================================
@@ -17970,73 +19007,6 @@ description:    "Disable audio leak emulation"
 resource:       "VICAudioLeak" (set to 0)
 action:         N/A
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
-vic20/vic20-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "ChargenName"
-resource range:                 N/A
-resource default:               "chargen"
-resource function:              set_chargen_rom_name()
-resource var:                   chargen_rom_name
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -chargen
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-
-vic20/vic20-cmdline-options.c:
-------------------------------
-command line:   -chargen <Name>
-description:    "Specify name of character generator ROM image"
-resource:       "ChargenName"
-action:         N/A
-
-vic20/vic20-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "KernalName"
-resource range:                 N/A
-resource default:               "kernal"
-resource function:              set_kernal_rom_name()
-resource var:                   kernal_rom_name
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -kernal
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vic20/vic20-cmdline-options.c:
-------------------------------
-command line:   -kernal <Name>
-description:    "Specify name of Kernal ROM image"
-resource:       "KernalName"
-action:         N/A
-
-vic20/vic20-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "BasicName"
-resource range:                 N/A
-resource default:               "basic"
-resource function:              set_basic_rom_name()
-resource var:                   basic_rom_name
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -basic
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vic20/vic20-cmdline-options.c:
-------------------------------
-command line:   -basic <Name>
-description:    "Specify name of BASIC ROM image"
-resource:       "BasicName"
-action:         N/A
-
 vic20/vic20-resources.c:
 ------------------------
 resource type:                  int
@@ -18172,7 +19142,7 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -iocollision
-platform gui present:		unix/sdl
+platform gui present:			unix/sdl
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/osx/windows
@@ -18210,329 +19180,6 @@ action:         border_set_func() (set "VICIIBorderMode")
 
 vicii/vicii-resources.c:
 ------------------------
-resource type:                  bool
-resource name:                  "VICIICheckSsColl"
-resource range:                 0/1
-resource default:               1
-resource function:              set_sprite_sprite_collisions_enabled()
-resource var:                   vicii_resources.sprite_sprite_collisions_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIcheckss / +VICIIcheckss
-platform gui present:           amigaos/beos/dos/os2/unix/osx/windows/sdl
-platform gui missing:
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIcheckss
-description:    "Enable sprite-sprite collision registers"
-resource:       "VICIICheckSsColl" (set to 1)
-action:         N/A
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   +VICIIcheckss
-description:    "Disable sprite-sprite collision registers"
-resource:       "VICIICheckSsColl" (set to 0)
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  bool
-resource name:                  "VICIICheckSbColl"
-resource range:                 0/1
-resource default:               1
-resource function:              set_sprite_background_collisions_enabled()
-resource var:                   vicii_resources.sprite_background_collisions_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIchecksb / +VICIIchecksb
-platform gui present:           amigaos/beos/dos/os2/unix/osx/windows/sdl
-platform gui missing:
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIchecksb
-description:    "Enable sprite-background collision registers"
-resource:       "VICIICheckSbColl" (set to 1)
-action:         N/A
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   +VICIIchecksb
-description:    "Disable sprite-background collision registers"
-resource:       "VICIICheckSbColl" (set to 0)
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  bool
-resource name:                  "VICIINewLuminances"
-resource range:                 0/1
-resource default:               1
-resource function:              set_new_luminances()
-resource var:                   vicii_resources.new_luminances
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIInewluminance / +VICIInewluminance / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIInewluminance
-description:    "Use new luminances"
-resource:       "VICIINewLuminances" (set to 1)
-action:         N/A
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   +VICIInewluminance
-description:    "Use old luminances"
-resource:       "VICIINewLuminances" (set to 0)
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  bool
-resource name:                  "VICIIVideoCache"
-resource range:                 0/1
-resource default:               DEFAULT_VideoCache_VALUE
-resource function:              set_video_cache_enabled()
-resource var:                   raster_resource_chip->video_cache_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIvcache / +VICIIvcache
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIvcache
-description:    "Enable the video cache"
-resource:       "VICIIVideoCache" (set to 1)
-action:         N/A
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   +VICIIvcache
-description:    "Disable the video cache"
-resource:       "VICIIVideoCache" (set to 0)
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  bool
-resource name:                  "VICIIDoubleScan"
-resource range:                 0/1
-resource default:               1
-resource function:              set_double_scan_enabled()
-resource var:                   vicii.raster->canvas->videoconfig->doublescan
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIdscan / +VICIIdscan
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIdscan
-description:    "Enable double scan"
-resource:       "VICIIDoubleScan" (set to 1)
-action:         N/A
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   +VICIIdscan
-description:    "Disable double scan"
-resource:       "VICIIDoubleScan" (set to 0)
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  bool
-resource name:                  "VICIIDoubleSize"
-resource range:                 0/1
-resource default:               1
-resource function:              set_double_size_enabled()
-resource var:                   vicii.raster->canvas->videoconfig->double_size_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIdsize / +VICIIdsize
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIdsize
-description:    "Enable double size"
-resource:       "VICIIDoubleSize" (set to 1)
-action:         N/A
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   +VICIIdsize
-description:    "Disable double size"
-resource:       "VICIIDoubleSize" (set to 0)
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "VICIIPaletteFile"
-resource range:                 N/A
-resource default:               "default"
-resource function:              set_palette_file_name()
-resource var:                   vicii.raster->canvas->videoconfig->external_palette_name
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIpalette
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIpalette <Name>
-description:    "Specify name of file of external palette"
-resource:       "VICIIPaletteFile"
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  bool
-resource name:                  "VICIIExternalPalette"
-resource range:                 0/1
-resource default:               0
-resource function:              set_ext_palette()
-resource var:                   vicii.raster->canvas->videoconfig->external_palette
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIintpal / -VICIIextpal
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIintpal
-description:    "Use an internal calculated palette"
-resource:       "VICIIExternalPalette" (set to 0)
-action:         N/A
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIextpal
-description:    "Use an external palette (file)"
-resource:       "VICIIExternalPalette" (set to 1)
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "VICIIColorSaturation"
-resource range:                 0..2000
-resource default:               1250
-resource function:              set_color_saturation()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_saturation
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIsaturation
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: fix documentation, remove default
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIsaturation <0-2000>
-description:    "Set saturation of internal calculated palette"
-resource:       "VICIIColorSaturation"
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "VICIIColorContrast"
-resource range:                 0..2000
-resource default:               1250
-resource function:              set_color_contrast()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_contrast
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIcontrast
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIcontrast <0-2000>
-description:    "Set contrast of internal calculated palette"
-resource:       "VICIIColorContrast"
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "VICIIColorBrightness"
-resource range:                 0..2000
-resource default:               1000
-resource function:              set_color_brightness()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_brightness
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIbrightness
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIbrightness <0-2000>
-description:    "Set brightness of internal calculated palette"
-resource:       "VICIIColorBrightness"
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "VICIIColorGamma"
-resource range:                 0..4000
-resource default:               2200
-resource function:              set_color_gamma()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_gamma
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIgamma
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIgamma <0-4000>
-description:    "Set gamma of internal calculated palette"
-resource:       "VICIIColorGamma"
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
 resource type:                  int
 resource name:                  "VICIIColorTint"
 resource range:                 0..2000
@@ -18554,106 +19201,6 @@ vicii/vicii-cmdline-options.c:
 command line:   -VICIItint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VICIIColorTint"
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "VICIIPALScanLineShade"
-resource range:                 0..1000
-resource default:               750
-resource function:              set_pal_scanlineshade()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_scanlineshade
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIcrtscanlineshade
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIcrtscanlineshade <0-1000>
-description:    "Amount of scan line shading for the CRT emulation"
-resource:       "VICIIPALScanLineShade"
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "VICIIPALBlur"
-resource range:                 0..1000
-resource default:               500
-resource function:              set_pal_blur()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_blur
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIcrtblur
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIcrtblur <0-1000>
-description:    "Amount of horizontal blur for the CRT emulation."
-resource:       "VICIIPALBlur"
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "VICIIPALOddLinePhase"
-resource range:                 0..2000
-resource default:               1125
-resource function:              set_pal_oddlinesphase()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIoddlinesphase
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines"
-resource:       "VICIIPALOddLinePhase"
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "VICIIPALOddLineOffset"
-resource range:                 0..2000
-resource default:               875
-resource function:              set_pal_oddlinesoffset()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIoddlinesoffset
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines"
-resource:       "VICIIPALOddLineOffset"
 action:         N/A
 
 vicii/vicii-resources.c:
@@ -18683,30 +19230,6 @@ vicii/vicii-cmdline-options.c:
 command line:   +VICIIaudioleak
 description:    "Disable audio leak emulation"
 resource:       "VICIIAudioLeak" (set to 0)
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "VICIIFilter"
-resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1), VIDEO_FILTER_SCALE2X (2))
-resource default:               VIDEO_FILTER_CRT (1)
-resource function:              set_chip_rendermode()
-resource var:                   vicii.raster->canvas->videoconfig->filter
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -VICIIfilter
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIfilter <Mode>
-description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:       "VICIIFilter"
 action:         N/A
 
 viciisc/vicii-resources.c:
@@ -18735,355 +19258,6 @@ action:         border_set_func() (set "VICIIBorderMode")
 
 viciisc/vicii-resources.c:
 --------------------------
-resource type:                  bool
-resource name:                  "VICIICheckSsColl"
-resource range:                 0/1
-resource default:               1
-resource function:              set_sprite_sprite_collisions_enabled()
-resource var:                   vicii_resources.sprite_sprite_collisions_enabled
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIcheckss / +VICIIcheckss
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIcheckss
-description:    "Enable sprite-sprite collision registers"
-resource:       "VICIICheckSsColl" (set to 1)
-action:         N/A
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   +VICIIcheckss
-description:    "Disable sprite-sprite collision registers"
-resource:       "VICIICheckSsColl" (set to 0)
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "VICIICheckSbColl"
-resource range:                 0/1
-resource default:               1
-resource function:              set_sprite_background_collisions_enabled()
-resource var:                   vicii_resources.sprite_background_collisions_enabled
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIchecksb / +VICIIchecksb
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIchecksb
-description:    "Enable sprite-background collision registers"
-resource:       "VICIICheckSbColl" (set to 1)
-action:         N/A
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   +VICIIchecksb
-description:    "Disable sprite-background collision registers"
-resource:       "VICIICheckSbColl" (set to 0)
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "VICIINewLuminances"
-resource range:                 0/1
-resource default:               1
-resource function:              set_new_luminances()
-resource var:                   vicii_resources.new_luminances
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIInewluminance / +VICIInewluminance / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIInewluminance
-description:    "Use new luminances"
-resource:       "VICIINewLuminances" (set to 1)
-action:         N/A
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   +VICIInewluminance
-description:    "Use old luminances"
-resource:       "VICIINewLuminances" (set to 0)
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIModel"
-resource range:                 0..6 (VICII_MODEL_6569 (0), VICII_MODEL_8565 (1), VICII_MODEL_6569R1 (2), VICII_MODEL_6567 (3), VICII_MODEL_8562 (4),
-                                        VICII_MODEL_6567R56A (5), VICII_MODEL_6572 (6))
-resource default:               VICII_MODEL_6569 (0)
-resource function:              set_model()
-resource var:                   vicii_resources.model
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -pal / -ntsc / -ntscold / -paln / -VICIImodel / -model
-platform gui present:			amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, range
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIImodel <Model>
-description:    "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
-resource:       N/A
-action:         set_vicii_model() (sets "VICIIModel")
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "VICIIVideoCache"
-resource range:                 0/1
-resource default:               DEFAULT_VideoCache_VALUE
-resource function:              set_video_cache_enabled()
-resource var:                   raster_resource_chip->video_cache_enabled
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIvcache / +VICIIvcache
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIvcache
-description:    "Enable the video cache"
-resource:       "VICIIVideoCache" (set to 1)
-action:         N/A
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   +VICIIvcache
-description:    "Disable the video cache"
-resource:       "VICIIVideoCache" (set to 0)
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "VICIIDoubleScan"
-resource range:                 0/1
-resource default:               1
-resource function:              set_double_scan_enabled()
-resource var:                   vicii.raster->canvas->videoconfig->doublescan
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIdscan / +VICIIdscan
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIdscan
-description:    "Enable double scan"
-resource:       "VICIIDoubleScan" (set to 1)
-action:         N/A
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   +VICIIdscan
-description:    "Disable double scan"
-resource:       "VICIIDoubleScan" (set to 0)
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "VICIIDoubleSize"
-resource range:                 0/1
-resource default:               1
-resource function:              set_double_size_enabled()
-resource var:                   vicii.raster->canvas->videoconfig->double_size_enabled
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIdsize / +VICIIdsize
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIdsize
-description:    "Enable double size"
-resource:       "VICIIDoubleSize" (set to 1)
-action:         N/A
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   +VICIIdsize
-description:    "Disable double size"
-resource:       "VICIIDoubleSize" (set to 0)
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "VICIIPaletteFile"
-resource range:                 N/A
-resource default:               "default"
-resource function:              set_palette_file_name()
-resource var:                   vicii.raster->canvas->videoconfig->external_palette_name
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIpalette
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIpalette <Name>
-description:    "Specify name of file of external palette"
-resource:       "VICIIPaletteFile"
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "VICIIExternalPalette"
-resource range:                 0/1
-resource default:               0
-resource function:              set_ext_palette()
-resource var:                   vicii.raster->canvas->videoconfig->external_palette
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIintpal / -VICIIextpal
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIintpal
-description:    "Use an internal calculated palette"
-resource:       "VICIIExternalPalette" (set to 0)
-action:         N/A
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIextpal
-description:    "Use an external palette (file)"
-resource:       "VICIIExternalPalette" (set to 1)
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIColorSaturation"
-resource range:                 0..2000
-resource default:               1250
-resource function:              set_color_saturation()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_saturation
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIsaturation
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: fix documentation, remove default
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIsaturation <0-2000>
-description:    "Set saturation of internal calculated palette"
-resource:       "VICIIColorSaturation"
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIColorContrast"
-resource range:                 0..2000
-resource default:               1250
-resource function:              set_color_contrast()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_contrast
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIcontrast
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIcontrast <0-2000>
-description:    "Set contrast of internal calculated palette"
-resource:       "VICIIColorContrast"
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIColorBrightness"
-resource range:                 0..2000
-resource default:               1000
-resource function:              set_color_brightness()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_brightness
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIbrightness
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIbrightness <0-2000>
-description:    "Set brightness of internal calculated palette"
-resource:       "VICIIColorBrightness"
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIColorGamma"
-resource range:                 0..4000
-resource default:               2200
-resource function:              set_color_gamma()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_gamma
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIgamma
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIgamma <0-4000>
-description:    "Set gamma of internal calculated palette"
-resource:       "VICIIColorGamma"
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
 resource type:                  int
 resource name:                  "VICIIColorTint"
 resource range:                 0..2000
@@ -19105,106 +19279,6 @@ viciisc/vicii-cmdline-options.c:
 command line:   -VICIItint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VICIIColorTint"
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIPALScanLineShade"
-resource range:                 0..1000
-resource default:               750
-resource function:              set_pal_scanlineshade()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_scanlineshade
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIcrtscanlineshade
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIcrtscanlineshade <0-1000>
-description:    "Amount of scan line shading for the CRT emulation"
-resource:       "VICIIPALScanLineShade"
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIPALBlur"
-resource range:                 0..1000
-resource default:               500
-resource function:              set_pal_blur()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_blur
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIcrtblur
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIcrtblur <0-1000>
-description:    "Amount of horizontal blur for the CRT emulation."
-resource:       "VICIIPALBlur"
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIPALOddLinePhase"
-resource range:                 0..2000
-resource default:               1125
-resource function:              set_pal_oddlinesphase()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIoddlinesphase
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines"
-resource:       "VICIIPALOddLinePhase"
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIPALOddLineOffset"
-resource range:                 0..2000
-resource default:               875
-resource function:              set_pal_oddlinesoffset()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIoddlinesoffset
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines"
-resource:       "VICIIPALOddLineOffset"
 action:         N/A
 
 viciisc/vicii-resources.c:
@@ -19234,30 +19308,6 @@ viciisc/vicii-cmdline-options.c:
 command line:   +VICIIaudioleak
 description:    "Disable audio leak emulation"
 resource:       "VICIIAudioLeak" (set to 0)
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIFilter"
-resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1), VIDEO_FILTER_SCALE2X (2))
-resource default:               VIDEO_FILTER_CRT (1)
-resource function:              set_chip_rendermode()
-resource var:                   vicii.raster->canvas->videoconfig->filter
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIfilter
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIfilter <Mode>
-description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:       "VICIIFilter"
 action:         N/A
 
 video/video-resources.c:
