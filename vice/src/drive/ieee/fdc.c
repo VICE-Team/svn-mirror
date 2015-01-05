@@ -35,7 +35,6 @@
 #include "diskimage.h"
 #include "drive-check.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "drivetypes.h"
 #include "fdc.h"
 #include "lib.h"

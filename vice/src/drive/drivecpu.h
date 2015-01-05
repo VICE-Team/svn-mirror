@@ -48,8 +48,7 @@ extern void drivecpu_init(struct drive_context_s *drv, int type);
 extern void drivecpu_reset(struct drive_context_s *drv);
 extern void drivecpu_sleep(struct drive_context_s *drv);
 extern void drivecpu_wake_up(struct drive_context_s *drv);
-extern void drivecpu_prevent_clk_overflow_all(CLOCK sub);
-extern void drivecpu_early_init_all(void);
+extern CLOCK drivecpu_prevent_clk_overflow(struct drive_context_s *drv, CLOCK sub);
 extern void drivecpu_shutdown(struct drive_context_s *drv);
 extern void drivecpu_reset_clk(struct drive_context_s *drv);
 extern void drivecpu_trigger_reset(unsigned int dnr);
@@ -59,9 +58,5 @@ extern int drivecpu_snapshot_write_module(struct drive_context_s *drv,
                                           struct snapshot_s *s);
 extern int drivecpu_snapshot_read_module(struct drive_context_s *drv,
                                          struct snapshot_s *s);
-
-/* Don't use these pointers before the context is set up!  */
-extern struct monitor_interface_s *drivecpu_monitor_interface_get(
-    unsigned int dnr);
 
 #endif

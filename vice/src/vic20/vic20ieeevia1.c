@@ -138,7 +138,7 @@ static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
 
-    drivecpu_execute_all(maincpu_clk);
+    drive_cpu_execute_all(maincpu_clk);
 
     byte = 255
            - (parallel_atn ? 0x80 : 0)

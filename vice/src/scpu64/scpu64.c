@@ -56,7 +56,6 @@
 #include "drive-resources.h"
 #include "drive-sound.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "fliplist.h"
 #include "fsdevice.h"
 #include "gfxoutput.h"
@@ -590,7 +589,7 @@ static void scpu64_monitor_init(void)
     asm65816_init(&asm6502);
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drive_interface_init[dnr] = drivecpu_monitor_interface_get(dnr);
+        drive_interface_init[dnr] = drive_cpu_monitor_interface_get(dnr);
     }
 
     /* Initialize the monitor.  */
@@ -822,7 +821,7 @@ static void machine_vsync_hook(void)
 
     /* The drive has to deal both with our overflowing and its own one, so
        it is called even when there is no overflowing in the main CPU.  */
-    drivecpu_prevent_clk_overflow_all(sub);
+    drive_cpu_prevent_clk_overflow_all(sub);
 }
 
 void machine_set_restore_key(int v)

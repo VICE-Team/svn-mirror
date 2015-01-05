@@ -32,7 +32,6 @@
 #include "cmdline.h"
 #include "console.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "initcmdline.h"
 #include "keyboard.h"
 #include "log.h"
@@ -208,7 +207,7 @@ int init_main(void)
     if (machine_class != VICE_MACHINE_VSID) {
         screenshot_init();
 
-        drivecpu_early_init_all();
+        drive_cpu_early_init_all();
     }
 
     machine_bus_init();

@@ -71,6 +71,7 @@
 #include "ds1216e.h"
 #include "drive-sound.h"
 #include "p64.h"
+#include "monitor.h"
 
 static int drive_init_was_called = 0;
 
@@ -482,6 +483,44 @@ void drive_disable(drive_context_t *drv)
     drive_enable_update_ui(drv);
 }
 
+monitor_interface_t *drive_cpu_monitor_interface_get(unsigned int dnr)
+{
+    return drive_context[dnr]->cpu->monitor_interface;
+}
+
+void drive_cpu_early_init_all(void)
+{
+    unsigned int dnr;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        machine_drive_init(drive_context[dnr]);
+    }
+}
+
+void drive_cpu_prevent_clk_overflow_all(CLOCK sub)
+{
+    unsigned int dnr;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        drive_t *drive = drive_context[dnr]->drive;
+        if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+            drivecpu65c02_prevent_clk_overflow(drive_context[dnr], sub);
+        } else {
+            drivecpu_prevent_clk_overflow(drive_context[dnr], sub);
+        }
+    }
+}
+
+void drive_cpu_trigger_reset(unsigned int dnr)
+{
+    drive_t *drive = drive_context[dnr]->drive;
+    if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+        drivecpu65c02_trigger_reset(dnr);
+    } else {
+        drivecpu_trigger_reset(dnr);
+    }
+}
+
 /* called by machine_specific_reset() */
 void drive_reset(void)
 {
@@ -744,7 +783,7 @@ int drive_num_leds(unsigned int dnr)
     return 1;
 }
 
-void drivecpu_execute_one(drive_context_t *drv, CLOCK clk_value)
+void drive_cpu_execute_one(drive_context_t *drv, CLOCK clk_value)
 {
     drive_t *drive = drv->drive;
 
@@ -755,7 +794,7 @@ void drivecpu_execute_one(drive_context_t *drv, CLOCK clk_value)
     }
 }
 
-void drivecpu_execute_all(CLOCK clk_value)
+void drive_cpu_execute_all(CLOCK clk_value)
 {
     unsigned int dnr;
     drive_t *drive;
@@ -763,7 +802,7 @@ void drivecpu_execute_all(CLOCK clk_value)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
         if (drive->enable) {
-            drivecpu_execute_one(drive_context[dnr], clk_value);
+            drive_cpu_execute_one(drive_context[dnr], clk_value);
         }
     }
 }
@@ -779,7 +818,7 @@ void drive_vsync_hook(void)
         drive_t *drive = drive_context[dnr]->drive;
         if (drive->enable) {
             if (drive->idling_method != DRIVE_IDLE_SKIP_CYCLES) {
-                drivecpu_execute_one(drive_context[dnr], maincpu_clk);
+                drive_cpu_execute_one(drive_context[dnr], maincpu_clk);
             }
             if (drive->idling_method == DRIVE_IDLE_NO_IDLE) {
                 /* if drive is never idle, also rotate the disk. this prevents
@@ -802,11 +841,8 @@ static void drive_setup_context_for_drive(drive_context_t *drv,
     drv->drive = lib_calloc(1, sizeof(drive_t));
     drv->clk_ptr = &drive_clk[dnr];
 
-    if (drv->drive->type == DRIVE_TYPE_2000 || drv->drive->type == DRIVE_TYPE_4000) {
-        drivecpu65c02_setup_context(drv, 1);
-    } else {
-        drivecpu_setup_context(drv, 1);
-    }
+    drivecpu_setup_context(drv, 1); /* no need for 65c02, only allocating common stuff */
+
     machine_drive_setup_context(drv);
 }
 

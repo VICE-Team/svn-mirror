@@ -33,7 +33,6 @@
 
 #include "debug.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "drivesync.h"
 #include "drivetypes.h"
 #include "glue1571.h"

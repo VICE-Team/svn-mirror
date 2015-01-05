@@ -59,7 +59,7 @@ void c128fastiec_fast_cpu_write(BYTE data)
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
             drive = drive_context[dnr]->drive;
             if (drive->enable) {
-                drivecpu_execute_one(drive_context[dnr], maincpu_clk);
+                drive_cpu_execute_one(drive_context[dnr], maincpu_clk);
                 switch (drive->type) {
                     case DRIVE_TYPE_1570:
                     case DRIVE_TYPE_1571:

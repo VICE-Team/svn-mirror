@@ -40,7 +40,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "datasette.h"
-#include "drivecpu.h"
+#include "drive.h"
 #include "imagecontents.h"
 #include "tapecontents.h"
 #include "info.h"
@@ -557,7 +557,7 @@ static TUI_MENU_CALLBACK(hard_reset_callback)
 static TUI_MENU_CALLBACK(reset_drive_callback)
 {
     if (been_activated) {
-        drivecpu_trigger_reset((unsigned int)param);
+        drive_cpu_trigger_reset((unsigned int)param);
     }
 
     *become_default = 0;

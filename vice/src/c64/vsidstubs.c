@@ -629,11 +629,11 @@ void drive_setup_context(void)
 {
 }
 
-void drivecpu_early_init_all(void)
+void drive_cpu_early_init_all(void)
 {
 }
 
-void drivecpu_trigger_reset(unsigned int dnr)
+void drive_cpu_trigger_reset(unsigned int dnr)
 {
 }
 
@@ -659,11 +659,11 @@ void drive_set_disk_memory(BYTE *id, unsigned int track, unsigned int sector, st
 {
 }
 
-void drivecpu_execute_one(drive_context_t *drv, CLOCK clk_value)
+void drive_cpu_execute_one(drive_context_t *drv, CLOCK clk_value)
 {
 }
 
-void drivecpu_execute_all(CLOCK clk_value)
+void drive_cpu_execute_all(CLOCK clk_value)
 {
 }
 

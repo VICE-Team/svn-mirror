@@ -121,7 +121,7 @@ static BYTE read_pa(void)
 {
     BYTE byte;
 
-    drivecpu_execute_all(maincpu_clk);
+    drive_cpu_execute_all(maincpu_clk);
 
     if (parallel_debug) {
         log_message(mypia_log,

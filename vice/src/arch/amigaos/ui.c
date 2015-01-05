@@ -647,16 +647,16 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
             machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
             break;
         case IDM_RESET_DRIVE8:
-            drivecpu_trigger_reset(0);
+            drive_cpu_trigger_reset(0);
             break;
         case IDM_RESET_DRIVE9:
-            drivecpu_trigger_reset(1);
+            drive_cpu_trigger_reset(1);
             break;
         case IDM_RESET_DRIVE10:
-            drivecpu_trigger_reset(2);
+            drive_cpu_trigger_reset(2);
             break;
         case IDM_RESET_DRIVE11:
-            drivecpu_trigger_reset(3);
+            drive_cpu_trigger_reset(3);
             break;
         case IDM_COPY:
             ui_copy_clipboard();

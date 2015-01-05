@@ -50,7 +50,6 @@
 #include "console.h"
 #include "datasette.h"
 #include "drive.h"
-#include "drivecpu.h"
 
 #ifdef HAVE_FULLSCREEN
 #include "fullscreenarch.h"
@@ -1139,7 +1138,7 @@ void mon_reset_machine(int type)
         case 9:
         case 10:
         case 11:
-            drivecpu_trigger_reset(type - 8);
+            drive_cpu_trigger_reset(type - 8);
             break;
         default:
             machine_trigger_reset(MACHINE_RESET_MODE_SOFT);

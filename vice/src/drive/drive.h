@@ -288,10 +288,15 @@ extern int drive_init(void);
 extern int drive_enable(struct drive_context_s *drv);
 extern void drive_disable(struct drive_context_s *drv);
 extern void drive_move_head(int step, struct drive_s *drive);
+/* Don't use these pointers before the context is set up!  */
+extern struct monitor_interface_s *drive_cpu_monitor_interface_get(unsigned int dnr);
+extern void drive_cpu_early_init_all(void);
+extern void drive_cpu_prevent_clk_overflow_all(CLOCK sub);
+extern void drive_cpu_trigger_reset(unsigned int dnr);
 extern void drive_reset(void);
 extern void drive_shutdown(void);
-extern void drivecpu_execute_one(struct drive_context_s *drv, CLOCK clk_value);
-extern void drivecpu_execute_all(CLOCK clk_value);
+extern void drive_cpu_execute_one(struct drive_context_s *drv, CLOCK clk_value);
+extern void drive_cpu_execute_all(CLOCK clk_value);
 extern void drive_vsync_hook(void);
 extern int drive_get_disk_drive_type(int dnr);
 extern void drive_enable_update_ui(struct drive_context_s *drv);

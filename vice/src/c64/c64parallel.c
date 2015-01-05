@@ -140,7 +140,7 @@ void parallel_cable_cpu_execute(int type)
         drive = drive_context[dnr]->drive;
         if (drive->enable && drive->parallel_cable) {
             if (portmap[drive->parallel_cable] == port) {
-                drivecpu_execute_one(drive_context[dnr], maincpu_clk);
+                drive_cpu_execute_one(drive_context[dnr], maincpu_clk);
             }
         }
     }

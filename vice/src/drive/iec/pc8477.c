@@ -31,7 +31,6 @@
 #include "clkguard.h"
 #include "diskimage.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "drivetypes.h"
 #include "log.h"
 #include "lib.h"

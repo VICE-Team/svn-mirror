@@ -238,7 +238,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 static void read_ciaicr(cia_context_t *cia_context)
 {
     if (burst_mod == BURST_MOD_CIA2) {
-        drivecpu_execute_all(maincpu_clk);
+        drive_cpu_execute_all(maincpu_clk);
     }
     parallel_cable_cpu_execute(DRIVE_PC_STANDARD);
 }
@@ -246,7 +246,7 @@ static void read_ciaicr(cia_context_t *cia_context)
 static void read_sdr(cia_context_t *cia_context)
 {
     if (burst_mod == BURST_MOD_CIA2) {
-        drivecpu_execute_all(maincpu_clk);
+        drive_cpu_execute_all(maincpu_clk);
     }
     /* FIXME: in the upcomming userport system this call needs to be conditional */
     cia_context->c_cia[CIA_SDR] = userport_joystick_read_sdr(cia_context->c_cia[CIA_SDR]);

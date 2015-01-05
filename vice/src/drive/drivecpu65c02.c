@@ -61,12 +61,6 @@ static void drivecpu65c02_set_bank_base(void *context);
 
 static interrupt_cpu_status_t *drivecpu_int_status_ptr[DRIVE_NUM];
 
-
-monitor_interface_t *drivecpu65c02_monitor_interface_get(unsigned int dnr)
-{
-    return drive_context[dnr]->cpu->monitor_interface;
-}
-
 void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
 {
     monitor_interface_t *mi;
@@ -83,8 +77,8 @@ void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
 
         cpu->int_status = interrupt_cpu_status_new();
         interrupt_cpu_status_init(cpu->int_status, &(cpu->last_opcode_info));
-        drivecpu_int_status_ptr[drv->mynumber] = cpu->int_status;
     }
+    drivecpu_int_status_ptr[drv->mynumber] = cpu->int_status;
 
     cpu->rmw_flag = 0;
     cpu->d_bank_limit = 0;
@@ -311,7 +305,7 @@ void drivecpu65c02_sleep(drive_context_t *drv)
 
 /* Make sure the drive clock counters never overflow; return nonzero if
    they have been decremented to prevent overflow.  */
-static CLOCK drivecpu65c02_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
+CLOCK drivecpu65c02_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
 {
     if (sub != 0) {
         /* First, get in sync with what the main CPU has done.  Notice that
@@ -319,7 +313,7 @@ static CLOCK drivecpu65c02_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
         if (drv->drive->enable) {
             if (drv->cpu->last_clk < sub) {
                 /* Hm, this is kludgy.  :-(  */
-                drivecpu_execute_all(maincpu_clk + sub);
+                drive_cpu_execute_all(maincpu_clk + sub);
             }
             drv->cpu->last_clk -= sub;
         } else {
@@ -329,15 +323,6 @@ static CLOCK drivecpu65c02_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
 
     /* Then, check our own clock counters.  */
     return clk_guard_prevent_overflow(drv->cpu->clk_guard);
-}
-
-void drivecpu65c02_prevent_clk_overflow_all(CLOCK sub)
-{
-    unsigned int dnr;
-
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drivecpu65c02_prevent_clk_overflow(drive_context[dnr], sub);
-    }
 }
 
 /* Handle a ROM trap. */

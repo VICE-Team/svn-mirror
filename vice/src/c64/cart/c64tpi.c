@@ -307,7 +307,7 @@ static BYTE read_pa(tpi_context_t *tpi_context)
 {
     BYTE byte;
 
-    drivecpu_execute_all(maincpu_clk);
+    drive_cpu_execute_all(maincpu_clk);
 
     byte = 0xff;
     if (ieee_is_out) {
@@ -340,7 +340,7 @@ static BYTE read_pb(tpi_context_t *tpi_context)
 {
     BYTE byte;
 
-    drivecpu_execute_all(maincpu_clk);
+    drive_cpu_execute_all(maincpu_clk);
 
     byte = ieee_is_out ? 0xff : parallel_bus;
     byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPB]) | (tpi_context->c_tpi[TPI_PB] & tpi_context->c_tpi[TPI_DDPB]);

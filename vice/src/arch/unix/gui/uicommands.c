@@ -34,7 +34,7 @@
 
 #include "archdep.h"
 #include "cmdline.h"
-#include "drivecpu.h"
+#include "drive.h"
 #include "fullscreenarch.h"
 #include "interrupt.h"
 #include "ioutil.h"
@@ -164,10 +164,10 @@ static UI_CALLBACK(run_c1541)
     }
 }
 
-static UI_CALLBACK(drive_reset)
+static UI_CALLBACK(drive_trigger_reset)
 {
     vsync_suspend_speed_eval();
-    drivecpu_trigger_reset(vice_ptr_to_uint(UI_MENU_CB_PARAM));
+    drive_cpu_trigger_reset(vice_ptr_to_uint(UI_MENU_CB_PARAM));
 }
 
 static UI_CALLBACK(reset)
@@ -519,13 +519,13 @@ static ui_menu_entry_t reset_submenu[] = {
       KEYSYM_F12, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Unit #8"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)drive_reset, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)drive_trigger_reset, (ui_callback_data_t)0, NULL },
     { N_("Unit #9"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)drive_reset, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)drive_trigger_reset, (ui_callback_data_t)1, NULL },
     { N_("Unit #10"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)drive_reset, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)drive_trigger_reset, (ui_callback_data_t)2, NULL },
     { N_("Unit #11"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)drive_reset, (ui_callback_data_t)3, NULL },
+      (ui_callback_t)drive_trigger_reset, (ui_callback_data_t)3, NULL },
     { NULL }
 };
 

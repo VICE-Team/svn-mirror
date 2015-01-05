@@ -28,7 +28,7 @@
 #include "autostart.h"
 #include "attach.h"
 #include "vsync.h"
-#include "drivecpu.h"
+#include "drive.h"
 #include "monitor.h"
 #include "monitor/mon_register.h"
 #include "monitor/montypes.h"
@@ -169,7 +169,7 @@
 
 -(void)resetDrive:(int)unit
 {
-    drivecpu_trigger_reset(unit);
+    drive_cpu_trigger_reset(unit);
 }
 
 // ----- Monitor -----

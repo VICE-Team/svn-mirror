@@ -318,12 +318,12 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
 static void read_ciaicr(cia_context_t *cia_context)
 {
-    drivecpu_execute_all(maincpu_clk);
+    drive_cpu_execute_all(maincpu_clk);
 }
 
 static void read_sdr(cia_context_t *cia_context)
 {
-    drivecpu_execute_all(maincpu_clk);
+    drive_cpu_execute_all(maincpu_clk);
 }
 
 static void store_sdr(cia_context_t *cia_context, BYTE byte)

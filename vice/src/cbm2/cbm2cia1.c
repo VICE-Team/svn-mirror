@@ -161,7 +161,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 {
     BYTE byte;
 
-    drivecpu_execute_all(maincpu_clk);
+    drive_cpu_execute_all(maincpu_clk);
 
     /* this reads the 8 bit IEEE488 data bus, but joystick 1 and 2 buttons
        can pull down inputs pa6 and pa7 resp. */

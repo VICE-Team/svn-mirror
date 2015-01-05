@@ -39,7 +39,6 @@
 #include "attach.h"
 #include "autostart.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "vsync.h"
 #include "machine.h"
 #include "ui.h"

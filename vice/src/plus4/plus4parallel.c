@@ -54,7 +54,7 @@ void parallel_cable_cpu_write(int type, BYTE data)
         return;
     }
 
-    drivecpu_execute_all(last_write_cycle);
+    drive_cpu_execute_all(last_write_cycle);
 
     parallel_cable_cpu_value = data;
 }
@@ -66,7 +66,7 @@ BYTE parallel_cable_cpu_read(int type)
         return 0;
     }
 
-    drivecpu_execute_all(maincpu_clk);
+    drive_cpu_execute_all(maincpu_clk);
 
     return parallel_cable_cpu_value & parallel_cable_drive_value[0] & parallel_cable_drive_value[1];
 }

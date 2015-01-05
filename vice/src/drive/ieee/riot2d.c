@@ -31,7 +31,6 @@
 
 #include "drive-check.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "drivetypes.h"
 #include "interrupt.h"
 #include "lib.h"

@@ -46,7 +46,6 @@
 #include "clipboard.h"
 #include "debug.h"
 #include "drive.h"
-#include "drivecpu.h"
 #include "fullscrn.h"
 #include "imagecontents.h"
 #include "interrupt.h"
@@ -1650,19 +1649,19 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             break;
         case IDM_RESET_DRIVE8:
             vsync_suspend_speed_eval();
-            drivecpu_trigger_reset(0);
+            drive_cpu_trigger_reset(0);
             break;
         case IDM_RESET_DRIVE9:
             vsync_suspend_speed_eval();
-            drivecpu_trigger_reset(1);
+            drive_cpu_trigger_reset(1);
             break;
         case IDM_RESET_DRIVE10:
             vsync_suspend_speed_eval();
-            drivecpu_trigger_reset(2);
+            drive_cpu_trigger_reset(2);
             break;
         case IDM_RESET_DRIVE11:
             vsync_suspend_speed_eval();
-            drivecpu_trigger_reset(3);
+            drive_cpu_trigger_reset(3);
             break;
         case IDM_MAXIMUM_SPEED_CUSTOM:
             ui_speed_settings_dialog(hwnd);

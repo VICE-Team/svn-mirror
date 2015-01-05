@@ -143,7 +143,7 @@ static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
 
-    drivecpu_execute_all(maincpu_clk);
+    drive_cpu_execute_all(maincpu_clk);
 
     byte = (parallel_bus & ~(via_context->via[VIA_DDRB]))
            | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
