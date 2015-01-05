@@ -1597,10 +1597,16 @@ IDCLS_PET_SIDCART_ADDRESS
 IDCLS_PLUS4_SIDCART_ADDRESS
 
 /* sid/sid-cmdline-options.c */
+IDCLS_VIC20_SIDCART_ADDRESS
+
+/* sid/sid-cmdline-options.c */
 IDCLS_PET_SIDCART_CLOCK
 
 /* sid/sid-cmdline-options.c */
 IDCLS_PLUS4_SIDCART_CLOCK
+
+/* sid/sid-cmdline-options.c */
+IDCLS_VIC20_SIDCART_CLOCK
 
 /* sid/sid-cmdline-options.c, c64/plus60k.c, c64/c64_256k.c c64/cart/digimax.c */
 IDCLS_P_BASE_ADDRESS

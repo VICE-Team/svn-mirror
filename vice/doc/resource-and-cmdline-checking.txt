@@ -10979,6 +10979,963 @@ description:    "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact
 resource:       "SoundSpeedAdjustment"
 action:         N/A
 
+sysfile.c:
+----------
+resource type:                  string
+resource name:                  "Directory"
+resource range:                 N/A
+resource default:               "$$"
+resource function:              set_system_path()
+resource var:                   system_path
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
+not used in:
+prepocessor:
+command-line:                   -directory
+platform gui present:
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+
+sysfile.c:
+----------
+command line:   -directory <Path>
+description:    "Define search path to locate system files"
+resource:       "Directory"
+action:         N/A
+
+userport/userport_dac.c:
+------------------------
+resource type:                  bool
+resource name:                  "UserportDAC"
+resource range:                 0/1
+resource default:               0
+resource function:              set_userport_dac_enabled()
+resource var:                   userport_dac_sound_chip.chip_enabled
+resource emulators:             xpet
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -userportdac / +userportdac
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+userport/userport_dac.c:
+------------------------
+command line:   -userportdac
+description:    "Enable Userport DAC for sound output"
+resource:       "UserportDAC" (set to 1)
+action:         N/A
+
+userport/userport_dac.c:
+------------------------
+command line:   +userportdac
+description:    "Disable Userport DAC for sound output"
+resource:       "UserportDAC" (set to 0)
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  bool
+resource name:                  "VDC64KB"
+resource range:                 0/1
+resource default:               1
+resource function:              set_64kb_expansion()
+resource var:                   vdc_resources.vdc_64kb_expansion
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDC16KB / -VDC64KB / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDC16KB
+description:    "Set the VDC memory size to 16KB"
+resource:       "VDC64KB" (set to 0)
+action:         N/A
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDC64KB
+description:    "Set the VDC memory size to 64KB"
+resource:       "VDC64KB" (set to 1)
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  bool
+resource name:                  "VDCStretchVertical"
+resource range:                 0/1
+resource default:               1
+resource function:              set_stretch()
+resource var:                   vdc_resources.stretchy
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCstretchvertical / +VDCstretchvertical
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCstretchvertical
+description:    "Enable additional vertical stretching."
+resource:       "VDCStretchVertical" (set to 1)
+action:         N/A
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   +VDCstretchvertical
+description:    "Disable additional vertical stretching."
+resource:       "VDCStretchVertical" (set to 0)
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  bool
+resource name:                  "VDCDoubleScan"
+resource range:                 0/1
+resource default:               1
+resource function:              set_double_scan_enabled()
+resource var:                   vdc.raster->canvas->videoconfig->doublescan
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCdscan / +VDCdscan
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCdscan
+description:    "Enable double scan"
+resource:       "VDCDoubleScan" (set to 1)
+action:         N/A
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   +VDCdscan
+description:    "Disable double scan"
+resource:       "VDCDoubleScan" (set to 0)
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  bool
+resource name:                  "VDCDoubleSize"
+resource range:                 0/1
+resource default:               0
+resource function:              set_double_size_enabled()
+resource var:                   vdc.raster->canvas->videoconfig->double_size_enabled
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCdsize / +VDCdsize
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCdsize
+description:    "Enable double size"
+resource:       "VDCDoubleSize" (set to 1)
+action:         N/A
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   +VDCdsize
+description:    "Disable double size"
+resource:       "VDCDoubleSize" (set to 0)
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  string
+resource name:                  "VDCPaletteFile"
+resource range:                 N/A
+resource default:               "vdc_deft"
+resource function:              set_palette_file_name()
+resource var:                   vdc.raster->canvas->videoconfig->external_palette_name
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCpalette
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCpalette <Name>
+description:    "Specify name of file of external palette"
+resource:       "VDCPaletteFile"
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "VDCColorSaturation"
+resource range:                 0..2000
+resource default:               1250
+resource function:              set_color_saturation()
+resource var:                   vdc.raster->canvas->videoconfig->video_resources.color_saturation
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCsaturation
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCsaturation <0-2000>
+description:    "Set saturation of internal calculated palette"
+resource:       "VDCColorSaturation"
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "VDCColorContrast"
+resource range:                 0..2000
+resource default:               1250
+resource function:              set_color_contrast()
+resource var:                   vdc.raster->canvas->videoconfig->video_resources.color_contrast
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCcontrast
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCcontrast <0-2000>
+description:    "Set contrast of internal calculated palette"
+resource:       "VDCColorContrast"
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "VDCColorBrightness"
+resource range:                 0..2000
+resource default:               1000
+resource function:              set_color_brightness()
+resource var:                   vdc.raster->canvas->videoconfig->video_resources.color_brightness
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCbrightness
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/osx/unix/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCbrightness <0-2000>
+description:    "Set brightness of internal calculated palette"
+resource:       "VDCColorBrightness"
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "VDCColorGamma"
+resource range:                 0..4000
+resource default:               2200
+resource function:              set_color_gamma()
+resource var:                   vdc.raster->canvas->videoconfig->video_resources.color_gamma
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCgamma
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCgamma <0-4000>
+description:    "Set gamma of internal calculated palette"
+resource:       "VDCColorGamma"
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "VDCPALScanLineShade"
+resource range:                 0..1000
+resource default:               750
+resource function:              set_pal_scanlineshade()
+resource var:                   vdc.raster->canvas->videoconfig->video_resources.pal_scanlineshade
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCcrtscanlineshade
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCcrtscanlineshade <0-1000>
+description:    "Amount of scan line shading for the CRT emulation"
+resource:       "VDCPALScanLineShade"
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "VDCPALBlur"
+resource range:                 0..1000
+resource default:               500
+resource function:              set_pal_blur()
+resource var:                   vdc.raster->canvas->videoconfig->video_resources.pal_blur
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCcrtblur
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCcrtblur <0-1000>
+description:    "Amount of horizontal blur for the CRT emulation."
+resource:       "VDCPALBlur"
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "VDCPALOddLinePhase"
+resource range:                 0..2000
+resource default:               1125
+resource function:              set_pal_oddlinesphase()
+resource var:                   vdc.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCoddlinesphase
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCoddlinesphase <0-2000>
+description:    "Set phase for color carrier in odd lines"
+resource:       "VDCPALOddLinePhase"
+action:         N/A
+
+vdc/vdc-resources.c:
+--------------------
+resource type:                  int
+resource name:                  "VDCPALOddLineOffset"
+resource range:                 0..2000
+resource default:               875
+resource function:              set_pal_oddlinesoffset()
+resource var:                   vdc.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VDCoddlinesoffset
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vdc/vdc-cmdline-options.c:
+--------------------------
+command line:   -VDCoddlinesoffset <0-2000>
+description:    "Set phase offset for color carrier in odd lines"
+resource:       "VDCPALOddLineOffset"
+action:         N/A
+
+vic20/cart/finalexpansion.c:
+----------------------------
+resource type:                  bool
+resource name:                  "FinalExpansionWriteBack"
+resource range:                 0/1
+resource default:               0
+resource function:              set_finalexpansion_writeback()
+resource var:                   finalexpansion_writeback
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -fewriteback / +fewriteback
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/cart/finalexpansion.c:
+----------------------------
+command line:   -fewriteback
+description:    "Enable Final Expansion write back to ROM file"
+resource:       "FinalExpansionWriteBack" (set to 1)
+action:         N/A
+
+vic20/cart/finalexpansion.c:
+----------------------------
+command line:   +fewriteback
+description:    "Disable Final Expansion write back to ROM file"
+resource:       "FinalExpansionWriteBack" (set to 0)
+action:         N/A
+
+vic20/cart/megacart.c:
+----------------------
+resource type:                  string
+resource name:                  "MegaCartNvRAMfilename"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_nvram_filename()
+resource var:                   nvram_filename
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -mcnvramfile
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/cart/megacart.c:
+----------------------
+command line:   -mcnvramfile <Name>
+description:    "Set Mega-Cart NvRAM filename"
+resource:       "MegaCartNvRAMfilename"
+action:         N/A
+
+vic20/cart/megacart.c:
+----------------------
+resource type:                  bool
+resource name:                  "MegaCartNvRAMWriteBack"
+resource range:                 0/1
+resource default:               0
+resource function:              set_nvram_writeback()
+resource var:                   nvram_writeback
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -mcnvramwriteback / +mcnvramwriteback
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/cart/megacart.c:
+----------------------
+command line:   -mcnvramwriteback
+description:    "Enable Mega-Cart NvRAM writeback"
+resource:       "MegaCartNvRAMWriteBack" (set to 1)
+action:         N/A
+
+vic20/cart/megacart.c:
+----------------------
+command line:   +mcnvramwriteback
+description:    "Disable Mega-Cart NvRAM writeback"
+resource:       "MegaCartNvRAMWriteBack" (set to 0)
+action:         N/A
+
+vic20/cart/vic-fp.c:
+--------------------
+resource type:                  bool
+resource name:                  "VicFlashPluginWriteBack"
+resource range:                 0/1
+resource default:               0
+resource function:              set_vic_fp_writeback()
+resource var:                   vic_fp_writeback
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -fpwriteback / +fpwriteback
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/cart/vic-fp.c:
+--------------------
+command line:   -fpwriteback
+description:    "Enable Vic Flash Plugin write back to ROM file"
+resource:       "VicFlashPluginWriteBack" (set to 1)
+action:         N/A
+
+vic20/cart/vic-fp.c:
+--------------------
+command line:   +fpwriteback
+description:    "Disable Vic Flash Plugin write back to ROM file"
+resource:       "VicFlashPluginWriteBack" (set to 0)
+action:         N/A
+
+vic20/cart/vic20-generic.c:
+---------------------------
+resource type:                  string
+resource name:                  "GenericCartridgeFile2000"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_cartridge_file_2()
+resource var:                   cartridge_file_2
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+
+vic20/cart/vic20-generic.c:
+---------------------------
+resource type:                  string
+resource name:                  "GenericCartridgeFile4000"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_cartridge_file_4()
+resource var:                   cartridge_file_4
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+
+vic20/cart/vic20-generic.c:
+---------------------------
+resource type:                  string
+resource name:                  "GenericCartridgeFile6000"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_cartridge_file_6()
+resource var:                   cartridge_file_6
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+
+vic20/cart/vic20-generic.c:
+---------------------------
+resource type:                  string
+resource name:                  "GenericCartridgeFileA000"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_cartridge_file_A()
+resource var:                   cartridge_file_A
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+
+vic20/cart/vic20-generic.c:
+---------------------------
+resource type:                  string
+resource name:                  "GenericCartridgeFileB000"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_cartridge_file_B()
+resource var:                   cartridge_file_B
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
+
+vic20/cart/vic20-sidcart.c:
+---------------------------
+resource type:                  bool
+resource name:                  "SidCart"
+resource range:                 0/1
+resource default:               0
+resource function:              set_sidcart_enabled()
+resource var:                   sidcart_sound_chip.chip_enabled
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -sidcart / +sidcart
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/cart/vic20-sidcart.c:
+---------------------------
+command line:   -sidcart
+description:    "Enable the SID cartridge"
+resource:       "SidCart" (set to 1)
+action:         N/A
+
+vic20/cart/vic20-sidcart.c:
+---------------------------
+command line:   +sidcart
+description:    "Disable the SID cartridge"
+resource:       "SidCart" (set to 0)
+action:         N/A
+
+vic20/cart/vic20-sidcart.c:
+---------------------------
+resource type:                  int
+resource name:                  "SidAddress"
+resource range:                 N/A ($9800/$9C00)
+resource default:               $9C00
+resource function:              set_sid_address()
+resource var:                   sidcart_address
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -sidcartaddress
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/cart/vic20-sidcart.c:
+---------------------------
+command line:   -sidcartaddress <address>
+description:    "SID cartridge address (0x9800/0x9C00)"
+resource:       "SidAddress"
+action:         N/A
+
+vic20/cart/vic20-sidcart.c:
+---------------------------
+resource type:                  int
+resource name:                  "SidClock"
+resource range:                 0..1 (SIDCART_CLOCK_C64 (0), SIDCART_CLOCK_NATIVE (1))
+resource default:               SIDCART_CLOCK_NATIVE (1)
+resource function:              set_sid_clock()
+resource var:                   sidcart_clock
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -sidcartclock
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/cart/vic20-sidcart.c:
+---------------------------
+command line:   -sidcartclock <clock>
+description:    "SID cartridge address (0: C64 clock, 1: VIC20 clock)"
+resource:       "SidClock"
+action:         N/A
+
+vic20/cart/vic20cart.c:
+-----------------------
+resource type:                  string
+resource name:                  "CartridgeFile"
+resource range:                 N/A
+resource default:               ""
+resource function:              set_cartridge_file()
+resource var:                   cartridge_file
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   NONE
+platform gui present:
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/unix/windows (CORRECT)
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "VICVideoCache"
+resource range:                 0/1
+resource default:               DEFAULT_VideoCache_VALUE
+resource function:              set_video_cache_enabled()
+resource var:                   raster_resource_chip->video_cache_enabled
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICvcache / +VICvcache
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICvcache
+description:    "Enable the video cache"
+resource:       "VICVideoCache" (set to 1)
+action:         N/A
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   +VICvcache
+description:    "Disable the video cache"
+resource:       "VICVideoCache" (set to 0)
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "VICDoubleScan"
+resource range:                 0/1
+resource default:               1
+resource function:              set_double_scan_enabled()
+resource var:                   vic.raster->canvas->videoconfig->doublescan
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICdscan / +VICdscan
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICdscan
+description:    "Enable double scan"
+resource:       "VICDoubleScan" (set to 1)
+action:         N/A
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   +VICdscan
+description:    "Disable double scan"
+resource:       "VICDoubleScan" (set to 0)
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "VICDoubleSize"
+resource range:                 0/1
+resource default:               1
+resource function:              set_double_size_enabled()
+resource var:                   vic.raster->canvas->videoconfig->double_size_enabled
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICdsize / +VICdsize
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICdsize
+description:    "Enable double size"
+resource:       "VICDoubleSize" (set to 1)
+action:         N/A
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   +VICdsize
+description:    "Disable double size"
+resource:       "VICDoubleSize" (set to 0)
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  string
+resource name:                  "VICPaletteFile"
+resource range:                 N/A
+resource default:               "default"
+resource function:              set_palette_file_name()
+resource var:                   vic.raster->canvas->videoconfig->external_palette_name
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICpalette
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICpalette <Name>
+description:    "Specify name of file of external palette"
+resource:       "VICPaletteFile"
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  bool
+resource name:                  "VICExternalPalette"
+resource range:                 0/1
+resource default:               0
+resource function:              set_ext_palette()
+resource var:                   vic.raster->canvas->videoconfig->external_palette
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICintpal / -VICextpal
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICintpal
+description:    "Use an internal calculated palette"
+resource:       "VICExternalPalette" (set to 0)
+action:         N/A
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICextpal
+description:    "Use an external palette (file)"
+resource:       "VICExternalPalette" (set to 1)
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "VICColorSaturation"
+resource range:                 0..2000
+resource default:               1250
+resource function:              set_color_saturation()
+resource var:                   vic.raster->canvas->videoconfig->video_resources.color_saturation
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICsaturation
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICsaturation <0-2000>
+description:    "Set saturation of internal calculated palette"
+resource:       "VICColorSaturation"
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "VICColorContrast"
+resource range:                 0..2000
+resource default:               1250
+resource function:              set_color_contrast()
+resource var:                   vic.raster->canvas->videoconfig->video_resources.color_contrast
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICcontrast
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICcontrast <0-2000>
+description:    "Set contrast of internal calculated palette"
+resource:       "VICColorContrast"
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "VICColorBrightness"
+resource range:                 0..2000
+resource default:               1000
+resource function:              set_color_brightness()
+resource var:                   vic.raster->canvas->videoconfig->video_resources.color_brightness
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICbrightness
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICbrightness <0-2000>
+description:    "Set brightness of internal calculated palette"
+resource:       "VICColorBrightness"
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "VICColorGamma"
+resource range:                 0..4000
+resource default:               2200
+resource function:              set_color_gamma()
+resource var:                   vic.raster->canvas->videoconfig->video_resources.color_gamma
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICgamma
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICgamma <0-4000>
+description:    "Set gamma of internal calculated palette"
+resource:       "VICColorGamma"
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "VICPALScanLineShade"
+resource range:                 0..1000
+resource default:               750
+resource function:              set_pal_scanlineshade()
+resource var:                   vic.raster->canvas->videoconfig->video_resources.pal_scanlineshade
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICcrtscanlineshade
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICcrtscanlineshade <0-1000>
+description:    "Amount of scan line shading for the CRT emulation"
+resource:       "VICPALScanLineShade"
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "VICPALBlur"
+resource range:                 0..1000
+resource default:               500
+resource function:              set_pal_blur()
+resource var:                   vic.raster->canvas->videoconfig->video_resources.pal_blur
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICcrtblur
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICcrtblur <0-1000>
+description:    "Amount of horizontal blur for the CRT emulation."
+resource:       "VICPALBlur"
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "VICPALOddLinePhase"
+resource range:                 0..2000
+resource default:               1125
+resource function:              set_pal_oddlinesphase()
+resource var:                   vic.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICoddlinesphase
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICoddlinesphase <0-2000>
+description:    "Set phase for color carrier in odd lines"
+resource:       "VICPALOddLinePhase"
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "VICPALOddLineOffset"
+resource range:                 0..2000
+resource default:               875
+resource function:              set_pal_oddlinesoffset()
+resource var:                   vic.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICoddlinesoffset
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICoddlinesoffset <0-2000>
+description:    "Set phase offset for color carrier in odd lines"
+resource:       "VICPALOddLineOffset"
+action:         N/A
+
+vic20/vic-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "VICFilter"
+resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1), VIDEO_FILTER_SCALE2X (2))
+resource default:               VIDEO_FILTER_CRT (1)
+resource function:              set_chip_rendermode()
+resource var:                   vic.raster->canvas->videoconfig->filter
+resource emulators:             xvic
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
+prepocessor:
+command-line:                   -VICfilter
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+vic20/vic-cmdline-options.c:
+----------------------------
+command line:   -VICfilter <Mode>
+description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
+resource:       "VICFilter"
+action:         N/A
+
 -----------------------------------------blacky-------------------------------------------------------------------------------------
 
 FIXED/CORRECT 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -16534,32 +17491,6 @@ description:    "Sound output mode: (0: system decides mono/stereo, 1: always mo
 resource:       "SoundOutput"
 action:         N/A
 
----------------------------------blacky---------------------------------------------------------------------------------------------
-
-sysfile.c:
-----------
-resource type:                  string
-resource name:                  "Directory"
-resource range:                 N/A
-resource default:               "$$"
-resource function:              set_system_path()
-resource var:                   system_path
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -directory
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-note: probably doesnt make a lot of sense to have in UIs either, the UI might
-      not even start up if it cant find certain files.
-
-sysfile.c:
-----------
-command line:   -directory <Path>
-description:    "Define search path to locate system files"
-resource:       "Directory"
-action:         N/A
-
 traps.c:
 --------
 resource type:                  bool
@@ -16587,35 +17518,6 @@ traps.c:
 command line:   +virtualdev
 description:    "Disable general mechanisms for fast disk/tape emulation"
 resource:       "VirtualDevices" (set to 0)
-action:         N/A
-
-userport/userport_dac.c:
-------------------------
-resource type:                  bool
-resource name:                  "UserportDAC"
-resource range:                 0/1
-resource default:               0
-resource function:              set_userport_dac_enabled()
-resource var:                   userport_dac_sound_chip.chip_enabled
-resource emulators:             xpet
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -userportdac / +userportdac
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-userport/userport_dac.c:
-------------------------
-command line:   -userportdac
-description:    "Enable Userport DAC for sound output"
-resource:       "UserportDAC" (set to 1)
-action:         N/A
-
-userport/userport_dac.c:
-------------------------
-command line:   +userportdac
-description:    "Disable Userport DAC for sound output"
-resource:       "UserportDAC" (set to 0)
 action:         N/A
 
 userport/userport_joystick.c:
@@ -16743,35 +17645,6 @@ fixme: add to documentation
 
 vdc/vdc-resources.c:
 --------------------
-resource type:                  bool
-resource name:                  "VDC64KB"
-resource range:                 0/1
-resource default:               1
-resource function:              set_64kb_expansion()
-resource var:                   vdc_resources.vdc_64kb_expansion
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDC16KB / -VDC64KB / -model
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDC16KB
-description:    "Set the VDC memory size to 16KB"
-resource:       "VDC64KB" (set to 0)
-action:         N/A
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDC64KB
-description:    "Set the VDC memory size to 64KB"
-resource:       "VDC64KB" (set to 1)
-action:         N/A
-
-vdc/vdc-resources.c:
---------------------
 resource type:                  int
 resource name:                  "VDCRevision"
 resource range:                 0..2 (VDC_REVISION_0 (0), VDC_REVISION_1 (1), VDC_REVISION_2 (2))
@@ -16792,35 +17665,6 @@ vdc/vdc-cmdline-options.c:
 command line:   -VDCRevision <number>
 description:    "Set VDC revision (0..2)"
 resource:       "VDCRevision"
-action:         N/A
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  bool
-resource name:                  "VDCStretchVertical"
-resource range:                 0/1
-resource default:               1
-resource function:              set_stretch()
-resource var:                   vdc_resources.stretchy
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCstretchvertical / +VDCstretchvertical
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCstretchvertical
-description:    "Enable additional vertical stretching."
-resource:       "VDCStretchVertical" (set to 1)
-action:         N/A
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   +VDCstretchvertical
-description:    "Disable additional vertical stretching."
-resource:       "VDCStretchVertical" (set to 0)
 action:         N/A
 
 vdc/vdc-resources.c:
@@ -16855,87 +17699,6 @@ action:         N/A
 vdc/vdc-resources.c:
 --------------------
 resource type:                  bool
-resource name:                  "VDCDoubleScan"
-resource range:                 0/1
-resource default:               1
-resource function:              set_double_scan_enabled()
-resource var:                   vdc.raster->canvas->videoconfig->doublescan
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCdscan / +VDCdscan
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCdscan
-description:    "Enable double scan"
-resource:       "VDCDoubleScan" (set to 1)
-action:         N/A
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   +VDCdscan
-description:    "Disable double scan"
-resource:       "VDCDoubleScan" (set to 0)
-action:         N/A
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  bool
-resource name:                  "VDCDoubleSize"
-resource range:                 0/1
-resource default:               0
-resource function:              set_double_size_enabled()
-resource var:                   vdc.raster->canvas->videoconfig->double_size_enabled
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCdsize / +VDCdsize
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCdsize
-description:    "Enable double size"
-resource:       "VDCDoubleSize" (set to 1)
-action:         N/A
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   +VDCdsize
-description:    "Disable double size"
-resource:       "VDCDoubleSize" (set to 0)
-action:         N/A
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  string
-resource name:                  "VDCPaletteFile"
-resource range:                 N/A
-resource default:               "vdc_deft"
-resource function:              set_palette_file_name()
-resource var:                   vdc.raster->canvas->videoconfig->external_palette_name
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCpalette
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCpalette <Name>
-description:    "Specify name of file of external palette"
-resource:       "VDCPaletteFile"
-action:         N/A
-fixme: fix documentation
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  bool
 resource name:                  "VDCExternalPalette"
 resource range:                 0/1
 resource default:               0
@@ -16965,108 +17728,6 @@ action:         N/A
 vdc/vdc-resources.c:
 --------------------
 resource type:                  int
-resource name:                  "VDCColorSaturation"
-resource range:                 0..2000
-resource default:               1250
-resource function:              set_color_saturation()
-resource var:                   vdc.raster->canvas->videoconfig->video_resources.color_saturation
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCsaturation
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: fix documentation, remove default
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCsaturation <0-2000>
-description:    "Set saturation of internal calculated palette"
-resource:       "VDCColorSaturation"
-action:         N/A
-fixme: fix documentation, remove default
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  int
-resource name:                  "VDCColorContrast"
-resource range:                 0..2000
-resource default:               1250
-resource function:              set_color_contrast()
-resource var:                   vdc.raster->canvas->videoconfig->video_resources.color_contrast
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCcontrast
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCcontrast <0-2000>
-description:    "Set contrast of internal calculated palette"
-resource:       "VDCColorContrast"
-action:         N/A
-fixme: fix documentation, remove default
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  int
-resource name:                  "VDCColorBrightness"
-resource range:                 0..2000
-resource default:               1000
-resource function:              set_color_brightness()
-resource var:                   vdc.raster->canvas->videoconfig->video_resources.color_brightness
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCbrightness
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCbrightness <0-2000>
-description:    "Set brightness of internal calculated palette"
-resource:       "VDCColorBrightness"
-action:         N/A
-fixme: fix documentation, remove default
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  int
-resource name:                  "VDCColorGamma"
-resource range:                 0..4000
-resource default:               2200
-resource function:              set_color_gamma()
-resource var:                   vdc.raster->canvas->videoconfig->video_resources.color_gamma
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCgamma
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCgamma <0-4000>
-description:    "Set gamma of internal calculated palette"
-resource:       "VDCColorGamma"
-action:         N/A
-fixme: fix documentation, remove default
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  int
 resource name:                  "VDCColorTint"
 resource range:                 0..2000
 resource default:               1000
@@ -17087,110 +17748,6 @@ vdc/vdc-cmdline-options.c:
 command line:   -VDCtint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VDCColorTint"
-action:         N/A
-fixme: fix documentation, remove default
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  int
-resource name:                  "VDCPALScanLineShade"
-resource range:                 0..1000
-resource default:               750
-resource function:              set_pal_scanlineshade()
-resource var:                   vdc.raster->canvas->videoconfig->video_resources.pal_scanlineshade
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCcrtscanlineshade
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCcrtscanlineshade <0-1000>
-description:    "Amount of scan line shading for the CRT emulation"
-resource:       "VDCPALScanLineShade"
-action:         N/A
-fixme: fix documentation, remove default
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  int
-resource name:                  "VDCPALBlur"
-resource range:                 0..1000
-resource default:               500
-resource function:              set_pal_blur()
-resource var:                   vdc.raster->canvas->videoconfig->video_resources.pal_blur
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCcrtblur
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCcrtblur <0-1000>
-description:    "Amount of horizontal blur for the CRT emulation."
-resource:       "VDCPALBlur"
-action:         N/A
-fixme: fix documentation, remove default
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  int
-resource name:                  "VDCPALOddLinePhase"
-resource range:                 0..2000
-resource default:               1125
-resource function:              set_pal_oddlinesphase()
-resource var:                   vdc.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCoddlinesphase
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines"
-resource:       "VDCPALOddLinePhase"
-action:         N/A
-fixme: fix documentation, remove default
-
-vdc/vdc-resources.c:
---------------------
-resource type:                  int
-resource name:                  "VDCPALOddLineOffset"
-resource range:                 0..2000
-resource default:               875
-resource function:              set_pal_oddlinesoffset()
-resource var:                   vdc.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
-resource emulators:             x128
-not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VDCoddlinesoffset
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vdc/vdc-cmdline-options.c:
---------------------------
-command line:   -VDCoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines"
-resource:       "VDCPALOddLineOffset"
 action:         N/A
 fixme: fix documentation, remove default
 
@@ -17248,195 +17805,6 @@ resource:       "VDCFilter"
 action:         N/A
 fixme: add to documentation
 
-vic20/cart/finalexpansion.c:
-----------------------------
-resource type:                  bool
-resource name:                  "FinalExpansionWriteBack"
-resource range:                 0/1
-resource default:               0
-resource function:              set_finalexpansion_writeback()
-resource var:                   finalexpansion_writeback
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -fewriteback / +fewriteback
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vic20/cart/finalexpansion.c:
-----------------------------
-command line:   -fewriteback
-description:    "Enable Final Expansion write back to ROM file"
-resource:       "FinalExpansionWriteBack" (set to 1)
-action:         N/A
-
-vic20/cart/finalexpansion.c:
-----------------------------
-command line:   +fewriteback
-description:    "Disable Final Expansion write back to ROM file"
-resource:       "FinalExpansionWriteBack" (set to 0)
-action:         N/A
-
-vic20/cart/megacart.c:
-----------------------
-resource type:                  string
-resource name:                  "MegaCartNvRAMfilename"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_nvram_filename()
-resource var:                   nvram_filename
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -mcnvramfile
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vic20/cart/megacart.c:
-----------------------
-command line:   -mcnvramfile <Name>
-description:    "Set Mega-Cart NvRAM filename"
-resource:       "MegaCartNvRAMfilename"
-action:         N/A
-
-vic20/cart/megacart.c:
-----------------------
-resource type:                  bool
-resource name:                  "MegaCartNvRAMWriteBack"
-resource range:                 0/1
-resource default:               0
-resource function:              set_nvram_writeback()
-resource var:                   nvram_writeback
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -mcnvramwriteback / +mcnvramwriteback
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vic20/cart/megacart.c:
-----------------------
-command line:   -mcnvramwriteback
-description:    "Enable Mega-Cart NvRAM writeback"
-resource:       "MegaCartNvRAMWriteBack" (set to 1)
-action:         N/A
-
-vic20/cart/megacart.c:
-----------------------
-command line:   +mcnvramwriteback
-description:    "Disable Mega-Cart NvRAM writeback"
-resource:       "MegaCartNvRAMWriteBack" (set to 0)
-action:         N/A
-
-vic20/cart/vic-fp.c:
---------------------
-resource type:                  bool
-resource name:                  "VicFlashPluginWriteBack"
-resource range:                 0/1
-resource default:               0
-resource function:              set_vic_fp_writeback()
-resource var:                   vic_fp_writeback
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -fpwriteback / +fpwriteback
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vic20/cart/vic-fp.c:
---------------------
-command line:   -fpwriteback
-description:    "Enable Vic Flash Plugin write back to ROM file"
-resource:       "VicFlashPluginWriteBack" (set to 1)
-action:         N/A
-
-vic20/cart/vic-fp.c:
---------------------
-command line:   +fpwriteback
-description:    "Disable Vic Flash Plugin write back to ROM file"
-resource:       "VicFlashPluginWriteBack" (set to 0)
-action:         N/A
-
-vic20/cart/vic20-generic.c:
----------------------------
-resource type:                  string
-resource name:                  "GenericCartridgeFile2000"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_cartridge_file_2()
-resource var:                   cartridge_file_2
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
-note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
-
-vic20/cart/vic20-generic.c:
----------------------------
-resource type:                  string
-resource name:                  "GenericCartridgeFile4000"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_cartridge_file_4()
-resource var:                   cartridge_file_4
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
-note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
-
-vic20/cart/vic20-generic.c:
----------------------------
-resource type:                  string
-resource name:                  "GenericCartridgeFile6000"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_cartridge_file_6()
-resource var:                   cartridge_file_6
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
-note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
-
-vic20/cart/vic20-generic.c:
----------------------------
-resource type:                  string
-resource name:                  "GenericCartridgeFileA000"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_cartridge_file_A()
-resource var:                   cartridge_file_A
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
-note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
-
-vic20/cart/vic20-generic.c:
----------------------------
-resource type:                  string
-resource name:                  "GenericCartridgeFileB000"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_cartridge_file_B()
-resource var:                   cartridge_file_B
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   NONE
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
-note: UIs should not modify this directly, use cartridge_attach_image() from cartridge.h instead
-
 vic20/cart/vic20-ieee488.c:
 ---------------------------
 resource type:                  bool
@@ -17466,84 +17834,6 @@ command line:   +ieee488
 description:    "Disable VIC-1112 IEEE488 interface"
 resource:       "IEEE488" (set to 0)
 action:         N/A
-
-vic20/cart/vic20-sidcart.c:
----------------------------
-resource type:                  bool
-resource name:                  "SidCart"
-resource range:                 0/1
-resource default:               0
-resource function:              set_sidcart_enabled()
-resource var:                   sidcart_sound_chip.chip_enabled
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -sidcart / +sidcart
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vic20/cart/vic20-sidcart.c:
----------------------------
-command line:   -sidcart
-description:    "Enable the SID cartridge"
-resource:       "SidCart" (set to 1)
-action:         N/A
-
-vic20/cart/vic20-sidcart.c:
----------------------------
-command line:   +sidcart
-description:    "Disable the SID cartridge"
-resource:       "SidCart" (set to 0)
-action:         N/A
-
-vic20/cart/vic20-sidcart.c:
----------------------------
-resource type:                  int
-resource name:                  "SidAddress"
-resource range:                 N/A ($9800/$9C00)
-resource default:               $9C00
-resource function:              set_sid_address()
-resource var:                   sidcart_address
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: fix documentation, addresses
-
-vic20/cart/vic20-sidcart.c:
----------------------------
-resource type:                  int
-resource name:                  "SidClock"
-resource range:                 0..1 (SIDCART_CLOCK_C64 (0), SIDCART_CLOCK_NATIVE (1))
-resource default:               SIDCART_CLOCK_NATIVE (1)
-resource function:              set_sid_clock()
-resource var:                   sidcart_clock
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-vic20/cart/vic20cart.c:
------------------------
-resource type:                  string
-resource name:                  "CartridgeFile"
-resource range:                 N/A
-resource default:               ""
-resource function:              set_cartridge_file()
-resource var:                   cartridge_file
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/unix/windows (CORRECT)
-note: UIs should not modify this directly, use cartridge_set_default() from cartridge.h instead
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -17627,247 +17917,6 @@ action:         N/A
 
 vic20/vic-resources.c:
 ----------------------
-resource type:                  bool
-resource name:                  "VICVideoCache"
-resource range:                 0/1
-resource default:               DEFAULT_VideoCache_VALUE
-resource function:              set_video_cache_enabled()
-resource var:                   raster_resource_chip->video_cache_enabled
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICvcache / +VICvcache
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICvcache
-description:    "Enable the video cache"
-resource:       "VICVideoCache" (set to 1)
-action:         N/A
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   +VICvcache
-description:    "Disable the video cache"
-resource:       "VICVideoCache" (set to 0)
-action:         N/A
-
-vic20/vic-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "VICDoubleScan"
-resource range:                 0/1
-resource default:               1
-resource function:              set_double_scan_enabled()
-resource var:                   vic.raster->canvas->videoconfig->doublescan
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICdscan / +VICdscan
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICdscan
-description:    "Enable double scan"
-resource:       "VICDoubleScan" (set to 1)
-action:         N/A
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   +VICdscan
-description:    "Disable double scan"
-resource:       "VICDoubleScan" (set to 0)
-action:         N/A
-
-vic20/vic-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "VICDoubleSize"
-resource range:                 0/1
-resource default:               1
-resource function:              set_double_size_enabled()
-resource var:                   vic.raster->canvas->videoconfig->double_size_enabled
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICdsize / +VICdsize
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICdsize
-description:    "Enable double size"
-resource:       "VICDoubleSize" (set to 1)
-action:         N/A
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   +VICdsize
-description:    "Disable double size"
-resource:       "VICDoubleSize" (set to 0)
-action:         N/A
-
-vic20/vic-resources.c:
-----------------------
-resource type:                  string
-resource name:                  "VICPaletteFile"
-resource range:                 N/A
-resource default:               "default"
-resource function:              set_palette_file_name()
-resource var:                   vic.raster->canvas->videoconfig->external_palette_name
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICpalette
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICpalette <Name>
-description:    "Specify name of file of external palette"
-resource:       "VICPaletteFile"
-action:         N/A
-fixme: fix documentation
-
-vic20/vic-resources.c:
-----------------------
-resource type:                  bool
-resource name:                  "VICExternalPalette"
-resource range:                 0/1
-resource default:               0
-resource function:              set_ext_palette()
-resource var:                   vic.raster->canvas->videoconfig->external_palette
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICintpal / -VICextpal
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICintpal
-description:    "Use an internal calculated palette"
-resource:       "VICExternalPalette" (set to 0)
-action:         N/A
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICextpal
-description:    "Use an external palette (file)"
-resource:       "VICExternalPalette" (set to 1)
-action:         N/A
-
-vic20/vic-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "VICColorSaturation"
-resource range:                 0..2000
-resource default:               1250
-resource function:              set_color_saturation()
-resource var:                   vic.raster->canvas->videoconfig->video_resources.color_saturation
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICsaturation
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: fix documentation, remove default
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICsaturation <0-2000>
-description:    "Set saturation of internal calculated palette"
-resource:       "VICColorSaturation"
-action:         N/A
-fixme: fix documentation, remove default
-
-vic20/vic-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "VICColorContrast"
-resource range:                 0..2000
-resource default:               1250
-resource function:              set_color_contrast()
-resource var:                   vic.raster->canvas->videoconfig->video_resources.color_contrast
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICcontrast
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICcontrast <0-2000>
-description:    "Set contrast of internal calculated palette"
-resource:       "VICColorContrast"
-action:         N/A
-fixme: fix documentation, remove default
-
-vic20/vic-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "VICColorBrightness"
-resource range:                 0..2000
-resource default:               1000
-resource function:              set_color_brightness()
-resource var:                   vic.raster->canvas->videoconfig->video_resources.color_brightness
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICbrightness
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICbrightness <0-2000>
-description:    "Set brightness of internal calculated palette"
-resource:       "VICColorBrightness"
-action:         N/A
-fixme: fix documentation, remove default
-
-vic20/vic-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "VICColorGamma"
-resource range:                 0..4000
-resource default:               2200
-resource function:              set_color_gamma()
-resource var:                   vic.raster->canvas->videoconfig->video_resources.color_gamma
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICgamma
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICgamma <0-4000>
-description:    "Set gamma of internal calculated palette"
-resource:       "VICColorGamma"
-action:         N/A
-fixme: fix documentation, remove default
-
-vic20/vic-resources.c:
-----------------------
 resource type:                  int
 resource name:                  "VICColorTint"
 resource range:                 0..2000
@@ -17889,110 +17938,6 @@ vic20/vic-cmdline-options.c:
 command line:   -VICtint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VICColorTint"
-action:         N/A
-fixme: fix documentation, remove default
-
-vic20/vic-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "VICPALScanLineShade"
-resource range:                 0..1000
-resource default:               750
-resource function:              set_pal_scanlineshade()
-resource var:                   vic.raster->canvas->videoconfig->video_resources.pal_scanlineshade
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICcrtscanlineshade
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICcrtscanlineshade <0-1000>
-description:    "Amount of scan line shading for the CRT emulation"
-resource:       "VICPALScanLineShade"
-action:         N/A
-fixme: fix documentation, remove default
-
-vic20/vic-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "VICPALBlur"
-resource range:                 0..1000
-resource default:               500
-resource function:              set_pal_blur()
-resource var:                   vic.raster->canvas->videoconfig->video_resources.pal_blur
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICcrtblur
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICcrtblur <0-1000>
-description:    "Amount of horizontal blur for the CRT emulation."
-resource:       "VICPALBlur"
-action:         N/A
-fixme: fix documentation, remove default
-
-vic20/vic-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "VICPALOddLinePhase"
-resource range:                 0..2000
-resource default:               1125
-resource function:              set_pal_oddlinesphase()
-resource var:                   vic.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICoddlinesphase
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines"
-resource:       "VICPALOddLinePhase"
-action:         N/A
-fixme: fix documentation, remove default
-
-vic20/vic-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "VICPALOddLineOffset"
-resource range:                 0..2000
-resource default:               875
-resource function:              set_pal_oddlinesoffset()
-resource var:                   vic.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICoddlinesoffset
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-fixme: fix documentation, remove default
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines"
-resource:       "VICPALOddLineOffset"
 action:         N/A
 fixme: fix documentation, remove default
 
@@ -18025,29 +17970,7 @@ description:    "Disable audio leak emulation"
 resource:       "VICAudioLeak" (set to 0)
 action:         N/A
 
-vic20/vic-resources.c:
-----------------------
-resource type:                  int
-resource name:                  "VICFilter"
-resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1), VIDEO_FILTER_SCALE2X (2))
-resource default:               VIDEO_FILTER_CRT (1)
-resource function:              set_chip_rendermode()
-resource var:                   vic.raster->canvas->videoconfig->filter
-resource emulators:             xvic
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:
-command-line:                   -VICfilter
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:
-
-vic20/vic-cmdline-options.c:
-----------------------------
-command line:   -VICfilter <Mode>
-description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:       "VICFilter"
-action:         N/A
+---------------------------------blacky---------------------------------------------------------------------------------------------
 
 vic20/vic20-resources.c:
 ------------------------
@@ -18062,7 +17985,6 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 prepocessor:
 command-line:                   -chargen
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
 
 vic20/vic20-cmdline-options.c:
 ------------------------------

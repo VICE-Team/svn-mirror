@@ -11085,6 +11085,23 @@ translate_t string_table[] = {
 #endif
 
 /* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_VIC20_SIDCART_ADDRESS,    N_("SID cartridge address (0x9800/0x9C00)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_VIC20_SIDCART_ADDRESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_VIC20_SIDCART_ADDRESS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_VIC20_SIDCART_ADDRESS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_VIC20_SIDCART_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_VIC20_SIDCART_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_VIC20_SIDCART_ADDRESS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_VIC20_SIDCART_ADDRESS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_VIC20_SIDCART_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_VIC20_SIDCART_ADDRESS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_VIC20_SIDCART_ADDRESS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_VIC20_SIDCART_ADDRESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_VIC20_SIDCART_ADDRESS_TR, ""},  /* fuzzy */
+#endif
+
+/* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_PET_SIDCART_CLOCK,    N_("SID cartridge address (0: C64 clock, 1: PET clock)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PET_SIDCART_CLOCK_DA, ""},  /* fuzzy */
@@ -11116,6 +11133,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_PLUS4_SIDCART_CLOCK_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_PLUS4_SIDCART_CLOCK_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_PLUS4_SIDCART_CLOCK_TR, ""},  /* fuzzy */
+#endif
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_VIC20_SIDCART_CLOCK,    N_("SID cartridge address (0: C64 clock, 1: VIC20 clock)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_VIC20_SIDCART_CLOCK_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_VIC20_SIDCART_CLOCK_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_VIC20_SIDCART_CLOCK_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_VIC20_SIDCART_CLOCK_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_VIC20_SIDCART_CLOCK_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_VIC20_SIDCART_CLOCK_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_VIC20_SIDCART_CLOCK_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_VIC20_SIDCART_CLOCK_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_VIC20_SIDCART_CLOCK_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_VIC20_SIDCART_CLOCK_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_VIC20_SIDCART_CLOCK_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_VIC20_SIDCART_CLOCK_TR, ""},  /* fuzzy */
 #endif
 
 /* sid/sid-cmdline-options.c, c64/plus60k, c64/c64_256k.c */
