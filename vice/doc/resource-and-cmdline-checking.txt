@@ -7,7 +7,6 @@ InitialDiskDir
 InitialAutostartDir
 InitialCartDir
 InitialSnapshotDir
-JAMAction
 HwScalePossible
 KeymapSymFile
 KeymapPosFile
@@ -81,8 +80,6 @@ UNNEEDED COMMON VSID COMMAND LINE OPTIONS
 	Specify initial cartridge directory.
 -initialsnapshotdir <Name>
 	Specify initial snapshot directory.
--jamaction <Type>
-	Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)
 	
 ------------------------------------------------------------------------------------------------------------------------------------
 
