@@ -170,14 +170,14 @@ void ui_display_joystick_status_widget(int joystick_number, int status)
 
             if (machine_class == VICE_MACHINE_PLUS4) {
                 if ((joystick_number == 2) && (sidjoy == 0)) {
-                    gtk_widget_hide_all(ds->event_box);
+                    gtk_widget_hide(ds->event_box);
                 } else {
                     gtk_widget_show_all(ds->event_box);
                 }
             }
             if (machine_class != VICE_MACHINE_PLUS4) {
                 if ((joystick_number > 1) && (upjoy == 0)) {
-                    gtk_widget_hide_all(ds->event_box);
+                    gtk_widget_hide(ds->event_box);
                 } else {
                     gtk_widget_show_all(ds->event_box);
                 }
