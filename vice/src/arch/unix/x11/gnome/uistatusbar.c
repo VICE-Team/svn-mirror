@@ -378,20 +378,21 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
         gtk_box_pack_start(GTK_BOX(status_bar), event_playback_checkbox, FALSE, FALSE, 0);
         gtk_widget_set_tooltip_text(GTK_WIDGET(vcb), _("click to stop playback"));
 
-        joystick_box = build_joystick_status_widget(as, window);
-        gtk_widget_show(joystick_box);
-        gtk_box_pack_start(GTK_BOX(status_bar), joystick_box, FALSE, FALSE, 0);
+        if (machine_class != VICE_MACHINE_VSID) {
+            joystick_box = build_joystick_status_widget(as, window);
+            gtk_widget_show(joystick_box);
+            gtk_box_pack_start(GTK_BOX(status_bar), joystick_box, FALSE, FALSE, 0);
+            drive_box = build_drive_status_widget(as, window);
+            gtk_widget_show(drive_box);
+            gtk_box_pack_start(GTK_BOX(status_bar), drive_box, FALSE, FALSE, 0);
 
-        drive_box = build_drive_status_widget(as, window);
-        gtk_widget_show(drive_box);
-        gtk_box_pack_start(GTK_BOX(status_bar), drive_box, FALSE, FALSE, 0);
-
-        if ((machine_class != VICE_MACHINE_C64DTV) &&
-            (machine_class != VICE_MACHINE_SCPU64)) {
-            build_tape_status_widget(as, window);
-            gtk_box_pack_start(GTK_BOX(status_bar), as->tape_status.event_box, FALSE, FALSE, 0);
-            gtk_widget_show(as->tape_status.event_box);
-            gdk_window_set_cursor(gtk_widget_get_window(as->tape_status.event_box), gdk_cursor_new(GDK_HAND1)); 
+            if ((machine_class != VICE_MACHINE_C64DTV) &&
+                (machine_class != VICE_MACHINE_SCPU64)) {
+                build_tape_status_widget(as, window);
+                gtk_box_pack_start(GTK_BOX(status_bar), as->tape_status.event_box, FALSE, FALSE, 0);
+                gtk_widget_show(as->tape_status.event_box);
+                gdk_window_set_cursor(gtk_widget_get_window(as->tape_status.event_box), gdk_cursor_new(GDK_HAND1));
+            }
         }
 
         gtk_widget_show(status_bar);

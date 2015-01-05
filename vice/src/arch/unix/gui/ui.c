@@ -31,6 +31,7 @@
 #include "fullscreenarch.h"
 #include "interrupt.h"
 #include "joystick.h"
+#include "machine.h"
 #include "ui.h"
 #include "uiapi.h"
 #include "uiattach.h"
@@ -101,18 +102,20 @@ extern void ui_display_joystick_status_widget(int joystick_number, int status);
 void ui_display_joyport(BYTE *joyport)
 {
 /* FIXME: implement for XAW */
+    if (machine_class != VICE_MACHINE_VSID) {
 #ifdef USE_GNOMEUI
-    int n;
-    DBG(("ui_display_joyport %02x %02x %02x %02x %02x\n",
-           joyport[0], joyport[1], joyport[2], joyport[3], joyport[4]));
+        int n;
+        DBG(("ui_display_joyport %02x %02x %02x %02x %02x\n",
+            joyport[0], joyport[1], joyport[2], joyport[3], joyport[4]));
 #if 1
-    for (n = 0; n < JOYSTICK_NUM; ++n) {
-        ui_display_joystick_status_widget(n, joyport[1 + n]);
-    }
+        for (n = 0; n < JOYSTICK_NUM; ++n) {
+            ui_display_joystick_status_widget(n, joyport[1 + n]);
+        }
 #else
-    ui_display_joystick_status_widget(joyport[0], joyport[1 + n]);
+        ui_display_joystick_status_widget(joyport[0], joyport[1 + n]);
 #endif
 #endif
+    }
 }
 
 void ui_display_event_time(unsigned int current, unsigned int total)
