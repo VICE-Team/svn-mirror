@@ -69,6 +69,9 @@ static char *basic_rom_name = NULL;
 /* Name of the Kernal ROM.  */
 static char *kernal_rom_name = NULL;
 
+/* Kernal revision for ROM patcher.  */
+int kernal_revision = C64_KERNAL_REV3;
+
 int cia1_model;
 int cia2_model;
 
@@ -156,6 +159,20 @@ static int set_cia2_model(int val, void *param)
     return 0;
 }
 
+static int set_kernal_revision(int val, void *param)
+{
+    if(!c64rom_isloaded()) {
+        return 0;
+    }
+    if ((val != -1) && (patch_rom_idx(val) < 0)) {
+        kernal_revision = -1;
+    } else {
+        kernal_revision = val;
+    }
+    memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
+    return 0;
+}
+
 static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
@@ -230,6 +247,8 @@ static const resource_int_t resources_int[] = {
       &cia1_model, set_cia1_model, NULL },
     { "CIA2Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia2_model, set_cia2_model, NULL },
+    { "KernalRev", C64_KERNAL_REV3, RES_EVENT_SAME, NULL,
+      &kernal_revision, set_kernal_revision, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_C64_DEFAULT, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },
