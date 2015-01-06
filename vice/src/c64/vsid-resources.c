@@ -43,6 +43,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "machine.h"
+#include "patchrom.h"
 #include "resources.h"
 #include "reu.h"
 #include "georam.h"
