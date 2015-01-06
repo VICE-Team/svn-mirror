@@ -829,6 +829,11 @@
 		</dict>
 		<key>_PLUS4_</key>
 		<dict>
+			<key>TED</key>
+			<dict>
+				<key>Border Mode</key>
+				<string>TEDBorderMode,e,Normal,Full,Debug,None</string>
+			</dict>
 			<key>RAM</key>
 			<dict>
 				<key>Size (KiB)</key>
@@ -877,6 +882,11 @@
 		</dict>
 		<key>_VIC20_</key>
 		<dict>
+			<key>VIC</key>
+			<dict>
+				<key>Border Mode</key>
+				<string>VICBorderMode,e,Normal,Full,Debug,None</string>
+			</dict>
 			<key>RAM</key>
 			<dict>
 				<key>Block 0</key>
