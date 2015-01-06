@@ -33,6 +33,8 @@
 #include "c64acia.h"
 #include "c64cart.h"
 #include "c64cia.h"
+#include "c64mem.h"
+#include "c64memrom.h"
 #include "c64rom.h"
 #include "cartio.h"
 #include "cartridge.h"
