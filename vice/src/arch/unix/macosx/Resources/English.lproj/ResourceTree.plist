@@ -555,7 +555,7 @@
 			<key>VIC II</key>
 			<dict>
 				<key>Border Mode</key>
-				<string>VICIIBorderMode,e,Normal,Full,Debug</string>
+				<string>VICIIBorderMode,e,Normal,Full,Debug,None</string>
 				<key>Check Sprite Background Collision</key>
 				<string>VICIICheckSbColl,b</string>
 				<key>Check Sprite Sprite Collision</key>
