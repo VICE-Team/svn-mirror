@@ -1,13 +1,9 @@
 UNNEEDED COMMON VSID RESOURCES
 ==============================
 
-KeymapSymFile
-KeymapPosFile
-KeymapSymDeFile
 BoardType
 CIA1Model
 CIA2Model
-KeymapIndex
 VICIIVideoCache
 VICIIDoubleScan
 VICIIDoubleSize
@@ -19492,71 +19488,6 @@ command line:   -keymap <number>
 description:    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
 resource:       "KeymapIndex"
 action:         N/A
-
-c64/vsid-resources.c:
----------------------
-resource type:                  string
-resource name:                  "KeymapSymFile"
-resource range:                 N/A
-resource default:               KBD_C64_SYM_US
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[0]
-resource emulators:             vsid
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -symkeymap
-platform gui present:
-platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows (CORRECT)
-fixme: it should get removed from vsid, as it has no keyboard
-
-c64/vsid-resources.c:
----------------------
-resource type:                  string
-resource name:                  "KeymapPosFile"
-resource range:                 N/A
-resource default:               KBD_C64_POS
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[1]
-resource emulators:             vsid
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -poskeymap
-platform gui present:
-platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows (CORRECT)
-fixme: it should get removed from vsid, as it has no keyboard
-
-c64/vsid-resources.c:
----------------------
-resource type:                  string
-resource name:                  "KeymapSymDeFile"
-resource range:                 N/A
-resource default:               KBD_C64_SYM_DE
-resource function:              keyboard_set_keymap_file()
-resource var:                   machine_keymap_file_list[2]
-resource emulators:             vsid
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -symdekeymap
-platform gui present:
-platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows (CORRECT)
-fixme: it should get removed from vsid, as it has no keyboard
-
-c64/vsid-resources.c:
----------------------
-resource type:                  int
-resource name:                  "KeymapIndex"
-resource range:                 0..2 (KBD_INDEX_C64_SYM (0), KBD_INDEX_C64_POS (1), KBD_INDEX_C64_SYMDE (2))
-resource default:               KBD_INDEX_C64_DEFAULT (arch specific)
-resource function:              keyboard_set_keymap_index()
-resource var:                   machine_keymap_index
-resource emulators:             vsid
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-prepocessor:                    #ifdef COMMON_KBD
-command-line:                   -keymap
-platform gui present:
-platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows (CORRECT)
-fixme: it should get removed from vsid, as it has no keyboard
-fixme: fix documentation, range
 
 c64dtv/c64dtv-resources.c:
 --------------------------

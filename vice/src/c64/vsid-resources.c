@@ -227,17 +227,6 @@ static const resource_string_t resources_string[] = {
     { "BasicName", "basic", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &basic_rom_name, set_basic_rom_name, NULL },
-#ifdef COMMON_KBD
-    { "KeymapSymFile", KBD_C64_SYM_US, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[0],
-      keyboard_set_keymap_file, (void *)0 },
-    { "KeymapPosFile", KBD_C64_POS, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[1],
-      keyboard_set_keymap_file, (void *)1 },
-    { "KeymapSymDeFile", KBD_C64_SYM_DE, RES_EVENT_NO, NULL,
-      &machine_keymap_file_list[2],
-      keyboard_set_keymap_file, (void *)2 },
-#endif
     { NULL }
 };
 
@@ -252,10 +241,6 @@ static const resource_int_t resources_int[] = {
       &cia2_model, set_cia2_model, NULL },
     { "KernalRev", C64_KERNAL_REV3, RES_EVENT_SAME, NULL,
       &kernal_revision, set_kernal_revision, NULL },
-#ifdef COMMON_KBD
-    { "KeymapIndex", KBD_INDEX_C64_DEFAULT, RES_EVENT_NO, NULL,
-      &machine_keymap_index, keyboard_set_keymap_index, NULL },
-#endif
     { "SidStereoAddressStart", 0xde00, RES_EVENT_SAME, NULL,
       (int *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },
     { "SidTripleAddressStart", 0xdf00, RES_EVENT_SAME, NULL,
@@ -274,6 +259,14 @@ int c64_resources_init(void)
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
+
+#ifdef COMMON_KBD
+    /* Set defaults of keymaps */
+    keyboard_set_keymap_file(KBD_C64_SYM_US, (void *)0);
+    keyboard_set_keymap_file(KBD_C64_POS, (void *)1);
+    keyboard_set_keymap_file(KBD_C64_SYM_DE, (void *)2);
+    keyboard_set_keymap_index(KBD_INDEX_C64_DEFAULT, NULL);
+#endif
 
     return resources_register_int(resources_int);
 }
