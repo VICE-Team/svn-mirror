@@ -31,10 +31,39 @@
 
 #include "cmdline.h"
 #include "lib.h"
+#include "machine.h"
 #include "resources.h"
 #include "translate.h"
 #include "util.h"
 #include "video.h"
+
+#ifdef HAVE_HWSCALE
+static cmdline_option_t cmdline_options[] = {
+    { "-hwscalepossible", SET_RESOURCE, 0,
+      NULL, NULL, "HwScalePossible", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_HWSCALE_POSSIBLE,
+      NULL, NULL },
+    { "+hwscalepossible", SET_RESOURCE, 0,
+      NULL, NULL, "HwScalePossible", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_HWSCALE_POSSIBLE,
+      NULL, NULL },
+    { NULL }
+};
+#endif
+
+int video_cmdline_options_init(void)
+{
+#ifdef HAVE_HWSCALE
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (cmdline_register_options(cmdline_options) < 0) {
+            return -1;
+        }
+    }
+#endif
+    return video_arch_cmdline_options_init();
+}
 
 static const char *cname_chip_size[] =
 {

@@ -39,23 +39,19 @@
 #include <string.h>
 
 #include "lib.h"
+#include "log.h"
+#include "machine.h"
 #include "resources.h"
 #include "video-color.h"
 #include "video.h"
 #include "videoarch.h"
 #include "viewport.h"
 #include "util.h"
-#include "log.h"
-
-#ifdef HAVE_HWSCALE
-#define HWSCALE_DEFAULT  1
-#else
-#define HWSCALE_DEFAULT  0
-#endif
 
 /*-----------------------------------------------------------------------*/
 /* global resources.  */
 
+#ifdef HAVE_HWSCALE
 static int hwscale_possible;
 
 static int set_hwscale_possible(int val, void *param)
@@ -67,16 +63,21 @@ static int set_hwscale_possible(int val, void *param)
 
 static resource_int_t resources_hwscale_possible[] =
 {
-    { "HwScalePossible", HWSCALE_DEFAULT, RES_EVENT_NO, NULL,
+    { "HwScalePossible", 1, RES_EVENT_NO, NULL,
       &hwscale_possible, set_hwscale_possible, NULL },
     RESOURCE_INT_LIST_END
 };
+#endif
 
 int video_resources_init(void)
 {
-    if (resources_register_int(resources_hwscale_possible) < 0) {
-        return -1;
+#ifdef HAVE_HWSCALE
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (resources_register_int(resources_hwscale_possible) < 0) {
+            return -1;
+        }
     }
+#endif
 
     return video_arch_resources_init();
 }
@@ -185,9 +186,12 @@ static int set_hwscale_enabled(int val, void *param)
 {
     video_canvas_t *canvas = (video_canvas_t *)param;
 
+#ifdef HAVE_HWSCALE
     if (val
         && !canvas->videoconfig->hwscale
-        && !hwscale_possible) {
+        && !hwscale_possible)
+#endif
+    {
         log_message(LOG_DEFAULT, "HW scale not available, forcing to disabled");
         return 0;
     }
@@ -205,7 +209,7 @@ static const char *vname_chip_hwscale[] = { "HwScale", NULL };
 
 static resource_int_t resources_chip_hwscale[] =
 {
-    { NULL, HWSCALE_DEFAULT, RES_EVENT_NO, NULL, NULL, set_hwscale_enabled, NULL },
+    { NULL, 1, RES_EVENT_NO, NULL, NULL, set_hwscale_enabled, NULL },
     RESOURCE_INT_LIST_END
 };
 

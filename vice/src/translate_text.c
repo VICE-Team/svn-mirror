@@ -11869,6 +11869,40 @@ translate_t string_table[] = {
 #endif
 
 /* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_HWSCALE_POSSIBLE,    N_("Enable the possibility of hardware scaling")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_HWSCALE_POSSIBLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_HWSCALE_POSSIBLE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_HWSCALE_POSSIBLE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_HWSCALE_POSSIBLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_HWSCALE_POSSIBLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_HWSCALE_POSSIBLE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_HWSCALE_POSSIBLE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_HWSCALE_POSSIBLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_HWSCALE_POSSIBLE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_HWSCALE_POSSIBLE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_HWSCALE_POSSIBLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_HWSCALE_POSSIBLE_TR, ""},  /* fuzzy */
+#endif
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_HWSCALE_POSSIBLE,    N_("Disable the possibility of hardware scaling")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_HWSCALE_POSSIBLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_HWSCALE_POSSIBLE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_HWSCALE_POSSIBLE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_HWSCALE_POSSIBLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_HWSCALE_POSSIBLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_HWSCALE_POSSIBLE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_HWSCALE_POSSIBLE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_HWSCALE_POSSIBLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_HWSCALE_POSSIBLE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_HWSCALE_POSSIBLE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_HWSCALE_POSSIBLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_HWSCALE_POSSIBLE_TR, ""},  /* fuzzy */
+#endif
+
+/* video/video-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DOUBLE_SIZE,    N_("Enable double size")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DOUBLE_SIZE_DA, "Aktivér dobbelt størrelse"},

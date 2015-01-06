@@ -1734,6 +1734,12 @@ IDCLS_USE_NEW_LUMINANCES
 IDCLS_USE_OLD_LUMINANCES
 
 /* video/video-cmdline-options.c */
+IDCLS_ENABLE_HWSCALE_POSSIBLE
+
+/* video/video-cmdline-options.c */
+IDCLS_DISABLE_HWSCALE_POSSIBLE
+
+/* video/video-cmdline-options.c */
 IDCLS_ENABLE_DOUBLE_SIZE
 
 /* video/video-cmdline-options.c */

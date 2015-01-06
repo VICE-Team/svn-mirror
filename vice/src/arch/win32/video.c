@@ -191,7 +191,7 @@ static cmdline_option_t generated_cmdline_options[] = {
 };
 #endif
 
-int video_cmdline_options_init(void)
+int video_arch_cmdline_options_init(void)
 {
 #ifdef HAVE_D3D9_H
     char *temp1, *temp2, *num, *dev;

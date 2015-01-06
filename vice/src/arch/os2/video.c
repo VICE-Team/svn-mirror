@@ -446,7 +446,7 @@ static const cmdline_option_t cmdline_options2[] = {
     { NULL }
 };
 
-int video_cmdline_options_init(void)
+int video_arch_cmdline_options_init(void)
 {
     return ((machine_class == VICE_MACHINE_VSID) ? 0 : cmdline_register_options(cmdline_options1)) | cmdline_register_options(cmdline_options2);
 }

@@ -1,7 +1,6 @@
 UNNEEDED COMMON VSID RESOURCES
 ==============================
 
-HwScalePossible
 KeymapSymFile
 KeymapPosFile
 KeymapSymDeFile
@@ -19326,21 +19325,6 @@ description:    "Disable audio leak emulation"
 resource:       "VICIIAudioLeak" (set to 0)
 action:         N/A
 
-video/video-resources.c:
-------------------------
-resource type:                  bool
-resource name:                  "HwScalePossible"
-resource range:                 0/1
-resource default:               HWSCALE_DEFAULT
-resource function:              set_hwscale_possible()
-resource var:                   hwscale_possible
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   NONE (fixme)
-platform gui present:			sdl/unix
-platform gui missing:           amigaos/beos/dos/os2/osx/windows
-
 ------------------------------------------------------------------------------------------------------------------------------------
 
 'COMMON_KBD' RESOURCES/CMDLINES:
@@ -22122,6 +22106,35 @@ plus4/plus4acia.c:
 command line:   +acia
 description:    "Disable the ACIA emulation"
 resource:       "Acia1Enable" (set to 0)
+action:         N/A
+
+video/video-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "HwScalePossible"
+resource range:                 0/1
+resource default:               1
+resource function:              set_hwscale_possible()
+resource var:                   hwscale_possible
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
+prepocessor:				#ifdef HAVE_HWSCALE
+command-line:                   -hwscalepossible / +hwscalepossible
+platform gui present:			sdl/unix
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
+
+video/video-cmdline-options.c:
+------------------------------
+command line:   -hwscalepossible
+description:    "Enable the possibility of hardware scaling"
+resource:       "HwScalePossible" (set to 1)
+action:         N/A
+
+video/video-cmdline-options.c:
+------------------------------
+command line:   +hwscalepossible
+description:    "Disable the possibility of hardware scaling"
+resource:       "HwScalePossible" (set to 0)
 action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------

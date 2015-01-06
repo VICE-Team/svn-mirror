@@ -43,7 +43,7 @@ log_t video_log = LOG_ERR;
 static video_param_t video_param;
 
 // dummy
-int video_cmdline_options_init(void)
+int video_arch_cmdline_options_init(void)
 {
 }
 

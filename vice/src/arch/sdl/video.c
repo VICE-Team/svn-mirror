@@ -412,7 +412,7 @@ static const cmdline_option_t cmdline_options[] = {
     CMDLINE_LIST_END
 };
 
-int video_cmdline_options_init(void)
+int video_arch_cmdline_options_init(void)
 {
     DBG(("%s", __func__));
 

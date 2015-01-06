@@ -96,7 +96,7 @@
 
 video_canvas_t *canvaslist = NULL;
 
-int video_cmdline_options_init(void)
+int video_arch_cmdline_options_init(void)
 {
     return 0;
 }
