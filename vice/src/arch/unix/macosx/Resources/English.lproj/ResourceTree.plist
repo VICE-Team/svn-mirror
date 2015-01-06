@@ -228,7 +228,7 @@
 				<key>Extra Joystick Enable</key>
 				<string>ExtraJoy,b</string>
 				<key>Extra Joystick Hardware</key>
-				<string>ExtraJoyType,e,CGA/Protovision Userport,PET Userport,HUMMER Userport,OEM Userport,DXS/HIT Userport</string>
+				<string>ExtraJoyType,e,CGA/Protovision Userport,PET Userport,HUMMER Userport,OEM Userport,DXS/HIT Userport,Kingsoft Userport,Starbyte Userport</string>
 			</dict>
 			<key>Mouse</key>
 			<dict>
@@ -423,6 +423,8 @@
 				<string>DIGIBLASTER,b</string>
 				<key>SID Cart + Joy</key>
 				<string>SIDCartJoy,b</string>
+				<key>Reset on Cartridge change</key>
+				<string>CartridgeReset,b</string>
 			</dict>
 		</dict>
 		<key>_VIC20_</key>
@@ -472,6 +474,13 @@
 		</dict>
 		<key>_C128_</key>
 		<dict>
+			<key>Model</key>
+			<dict>
+				<key>CIA 1 Model</key>
+				<string>CIA1Model,e,6526 (old),6526A (new)</string>
+				<key>CIA 2 Model</key>
+				<string>CIA2Model,e,6526 (old),6526A (new)</string>
+			</dict>
 			<key>C128</key>
 			<dict>
 				<key>40/80 Column Key</key>
@@ -680,15 +689,27 @@
 		</dict>
 		<key>_CBM-II_</key>
 		<dict>
+			<key>Reset on Cartridge change</key>
+			<string>CartridgeReset,b</string>
 			<key>CBM-II</key>
 			<dict>
 				<key>_6_</key>
 				<dict>
+					<key>Model</key>
+					<dict>
+						<key>CIA 1 Model</key>
+						<string>CIA1Model,e,6526 (old),6526A (new)</string>
+					</dict>
 					<key>Model Line</key>
 					<string>ModelLine,e,7x0 (50 Hz),6x0 60 Hz,6x0 50 Hz</string>
 				</dict>
 				<key>_5_</key>
 				<dict>
+					<key>Model</key>
+					<dict>
+						<key>CIA 1 Model</key>
+						<string>CIA1Model,e,6526 (old),6526A (new)</string>
+					</dict>
 					<key>Model Line</key>
 					<string>ModelLine,m,6x0 60 Hz=1,6x0 50 Hz=2</string>
 				</dict>
