@@ -13327,8 +13327,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   NONE ?? (fixme)
 platform gui present:           amigaos/os2/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           beos/dos/sdl
 fixme: fix documentation, range
 
@@ -14184,8 +14184,8 @@ not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/windows/unix
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           sdl/osx
 
 c64/cart/sfx_soundexpander.c:
@@ -14692,9 +14692,9 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus
 prepocessor:
 command-line:                   -model / NONE (fixme ??)
 platform gui present:           amigaos/beos/os2/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			dos/sdl
+platform range correct:
+platform range incorrect:
+platform gui missing:           dos/sdl
 
 cbm2/cbm2cart.c:
 ----------------
@@ -15047,9 +15047,9 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/
 prepocessor:
 command-line:                   -model / NONE (fixme)
 platform gui present:           amigaos/beos/os2/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			dos/sdl
+platform range correct:
+platform range incorrect:
+platform gui missing:           dos/sdl
 fixme: fix documentation
 
 crtc/crtc-resources.c:
@@ -15941,7 +15941,7 @@ not used in:                    vsid
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
-platform gui missing:			dos/os2
+platform gui missing:           dos/os2
 
 event.c:
 --------
@@ -16328,8 +16328,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -doodleoversize
 platform gui present:           unix(GTK)
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 
 gfxoutputdrv/doodledrv.c:
@@ -16352,8 +16352,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -doodleundersize
 platform gui present:           unix(GTK)
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 fixme: add to documentation
 
@@ -16379,8 +16379,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -doodlemc
 platform gui present:           unix(GTK)
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 
 gfxoutputdrv/doodledrv.c:
@@ -16403,8 +16403,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 prepocessor:
 command-line:                   -doodletedlum
 platform gui present:           unix(GTK)
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 
 gfxoutputdrv/doodledrv.c:
@@ -16427,8 +16427,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -doodlecrtctextcolor
 platform gui present:           unix(GTK)
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 
 gfxoutputdrv/doodledrv.c:
@@ -16454,8 +16454,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -koalaoversize
 platform gui present:           unix(GTK)
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 fixme: add to documentation
 
@@ -16480,8 +16480,8 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -koalaundersize
 platform gui present:           unix(GTK)
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 fixme: add to documentation
 
@@ -16506,8 +16506,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 prepocessor:
 command-line:                   -koalatedlum
 platform gui present:           unix(GTK)
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 fixme: add to documentation
 
@@ -16532,8 +16532,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvi
 prepocessor:
 command-line:                   -koalacrtctextcolor
 platform gui present:           unix(GTK)
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 fixme: add to documentation
 
@@ -16866,9 +16866,9 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			sdl
+platform range correct:
+platform range incorrect:
+platform gui missing:           sdl
 fixme: fix documentation, int
 
 pet/pet-resources.c:
@@ -16984,8 +16984,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 prepocessor:
 command-line:                   -cpu6502 / -cpu6809 / -cpuprog
 platform gui present:           unix
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
 
 pet/pet-cmdline-options.c:
@@ -21346,8 +21346,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
 command-line:                   -quicktimeaudiobitrate
 platform gui present:
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
 gpz note: OSX only?
@@ -21374,8 +21374,8 @@ not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
 command-line:                   -quicktimevideobitrate
 platform gui present:
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
 gpz note: OSX only?
@@ -21963,9 +21963,9 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplu
 not used in:
 prepocessor:                    #ifdef HAVE_HARDSID
 command-line:                   NONE (fixme)
-platform gui present:			windows
-platform range correct:		
-platform range incorrect:		
+platform gui present:           windows
+platform range correct:
+platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx
 fixme: add to documentation
 note: hardsid is essentially abandoned and there are no drivers for current OSs.
