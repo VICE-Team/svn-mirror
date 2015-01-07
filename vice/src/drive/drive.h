@@ -51,6 +51,8 @@
 
 /* Drive type.  */
 #define DRIVE_TYPE_NONE      0
+#define DRIVE_TYPE_ANY    9999
+
 /* #define DRIVE_TYPE_1540   1540 */ /* FIXME: we should emulate 1540 */
 #define DRIVE_TYPE_1541   1541
 #define DRIVE_TYPE_1541II 1542
@@ -68,8 +70,8 @@
 #define DRIVE_TYPE_1001   1001  /* DOS 2.7 single floppy drive, 1M/disk */
 #define DRIVE_TYPE_8050   8050  /* DOS 2.7 dual floppy drive, 0.5M/disk */
 #define DRIVE_TYPE_8250   8250  /* DOS 2.7 dual floppy drive, 1M/disk */
-#define DRIVE_TYPE_ANY    9999
 
+#define DRIVE_TYPE_NUM    16
 
 /* Possible colors of the drive active LED.  */
 #define DRIVE_ACTIVE_RED     0
