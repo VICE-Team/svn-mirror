@@ -1,12 +1,9 @@
 /*
- * vicii-irq.c - IRQ related functions for the MOS 6569 (VIC-II) emulation.
+ * viciivsid-irq.c - IRQ related functions for the MOS 6569 (VIC-II) emulation.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
- *
- * DTV sections written by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

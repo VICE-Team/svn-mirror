@@ -1,13 +1,9 @@
 /*
- * vicii-fetch.c - Phi2 data fetch for the MOS 6569 (VIC-II) emulation.
+ * viciivsid-fetch.c - Phi2 data fetch for the MOS 6569 (VIC-II) emulation.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
- *
- * DTV sections written by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
- *  Daniel Kahlin <daniel@kahlin.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -159,9 +155,6 @@ inline static int do_matrix_fetch(CLOCK sub)
             if ((vicii.fastmode == 0) && !vicii.badline_disable && !vicii.colorfetch_disable) {
                 dma_maincpu_steal_cycles(vicii.fetch_clk,
                                          VICII_SCREEN_TEXTCOLS + 3 - sub, sub);
-            } else if (vicii.viciidtv && !vicii.colorfetch_disable) {
-                /* Steal cycles from DMA/Blitter */
-                dtvclockneg += VICII_SCREEN_TEXTCOLS + 3;
             }
             vicii.bad_line = 1;
             return 1;
@@ -472,9 +465,6 @@ phi2noultimax:
 
     if ((vicii.fastmode == 0) && !vicii.badline_disable) {
         dma_maincpu_steal_cycles(vicii.fetch_clk, num_cycles - sub, sub);
-    } else if (vicii.viciidtv) {
-        /* Steal cycles from DMA/Blitter */
-        dtvclockneg += num_cycles;
     }
 
     *write_offset = sub == 0 ? num_cycles : 0;

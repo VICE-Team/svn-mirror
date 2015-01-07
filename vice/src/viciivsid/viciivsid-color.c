@@ -1,5 +1,5 @@
 /*
- * vicii-color.c - Colors for the MOS 6569 (VIC-II) emulation.
+ * viciivsid-color.c - Colors for the MOS 6569 (VIC-II) emulation.
  *
  * Written by
  *  John Selck <graham@cruise.de>

@@ -1,5 +1,5 @@
 /*
- * vicii-timing.c - Timing related settings for the MOS 6569 (VIC-II) emulation.
+ * viciivsid-timing.c - Timing related settings for the MOS 6569 (VIC-II) emulation.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>

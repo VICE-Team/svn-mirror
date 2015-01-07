@@ -35,6 +35,5 @@ libviciivsid_a_SOURCES = \
 	viciivsid-resources.c \
 	viciivsid-snapshot.c \
 	viciivsid-sprites.c \
-	viciivsid-stubs.c \
 	viciivsid-timing.c \
 	viciivsid.c

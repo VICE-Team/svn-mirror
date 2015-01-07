@@ -1,5 +1,5 @@
 /*
- * vicii-cmdline-options.c - Command-line options for the MOS 6569 (VIC-II)
+ * viciivsid-cmdline-options.c - Command-line options for the MOS 6569 (VIC-II)
  * emulation.
  *
  * Written by

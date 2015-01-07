@@ -1,5 +1,5 @@
 /*
- * vicii-sprites.c - Sprites for the MOS 6569 (VIC-II) emulation.
+ * viciivsid-sprites.c - Sprites for the MOS 6569 (VIC-II) emulation.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>

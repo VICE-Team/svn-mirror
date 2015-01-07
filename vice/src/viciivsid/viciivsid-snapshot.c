@@ -1,5 +1,5 @@
 /*
- * vicii-snapshot.c - Snapshot functionality for the MOS 6569 (VIC-II)
+ * viciivsid-snapshot.c - Snapshot functionality for the MOS 6569 (VIC-II)
  * emulation.
  *
  * Written by

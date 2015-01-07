@@ -1,13 +1,9 @@
 /*
- * vicii.c - A cycle-exact event-driven MOS6569 (VIC-II) emulation.
+ * viciivsid.c - A cycle-exact event-driven MOS6569 (VIC-II) emulation.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
- *
- * DTV sections written by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
- *  Daniel Kahlin <daniel@kahlin.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

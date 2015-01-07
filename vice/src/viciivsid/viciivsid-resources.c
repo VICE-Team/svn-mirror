@@ -1,5 +1,5 @@
 /*
- * vicii-resources.c - Resources for the MOS 6569 (VIC-II) emulation.
+ * viciivsid-resources.c - Resources for the MOS 6569 (VIC-II) emulation.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>

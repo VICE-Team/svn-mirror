@@ -1,5 +1,5 @@
 /*
- * vicii-clock-stretch.c - 8502 clock cycle strechting routines.
+ * viciivsid-clock-stretch.c - 8502 clock cycle strechting routines.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

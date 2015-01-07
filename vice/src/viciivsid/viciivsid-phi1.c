@@ -1,5 +1,5 @@
 /*
- * vicii-phi1.c - Memory interface for the MOS6569 (VIC-II) emulation,
+ * viciivsid-phi1.c - Memory interface for the MOS6569 (VIC-II) emulation,
  *                PHI1 support.
  *
  * Written by

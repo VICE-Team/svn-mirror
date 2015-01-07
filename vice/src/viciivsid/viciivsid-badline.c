@@ -1,13 +1,9 @@
 /*
- * vicii-badline.c - Bad line handling for the MOS 6569 (VIC-II) emulation.
+ * viciivsid-badline.c - Bad line handling for the MOS 6569 (VIC-II) emulation.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
- *
- * DTV sections written by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
- *  Daniel Kahlin <daniel@kahlin.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -101,9 +97,6 @@ inline static void line_becomes_bad(const int cycle)
         /* Take over the bus until the memory fetch is done.  */
         if (vicii.fastmode == 0 && !vicii.badline_disable && !vicii.colorfetch_disable) {
             dma_maincpu_steal_cycles(maincpu_clk, num_chars, 0);
-        } else if (vicii.viciidtv && !vicii.colorfetch_disable) {
-            /* Steal cycles from DMA/Blitter */
-            dtvclockneg += num_chars;
         }
 
         if (num_chars <= VICII_SCREEN_TEXTCOLS) {

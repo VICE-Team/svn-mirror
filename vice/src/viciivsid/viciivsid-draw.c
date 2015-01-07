@@ -1,5 +1,5 @@
 /*
- * vicii-draw.c - Rendering for the MOS6569 (VIC-II) emulation.
+ * viciivsid-draw.c - Rendering for the MOS6569 (VIC-II) emulation.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
