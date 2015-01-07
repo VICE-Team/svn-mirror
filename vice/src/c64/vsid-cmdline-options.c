@@ -43,79 +43,6 @@
 #include "translate.h"
 #include "vicii.h"
 
-int set_cia_model(const char *value, void *extra_param)
-{
-    int model;
-
-    model = atoi(value);
-    c64_resources_update_cia_models(model);
-
-    return 0;
-}
-
-struct model_s {
-    const char *name;
-    int model;
-};
-
-static struct model_s model_match[] = {
-    { "c64", C64MODEL_C64_PAL },
-    { "breadbox", C64MODEL_C64_PAL },
-    { "pal", C64MODEL_C64_PAL },
-    { "c64c", C64MODEL_C64C_PAL },
-    { "c64new", C64MODEL_C64C_PAL },
-    { "newpal", C64MODEL_C64C_PAL },
-    { "c64old", C64MODEL_C64_OLD_PAL },
-    { "oldpal", C64MODEL_C64_OLD_PAL },
-    { "ntsc", C64MODEL_C64_NTSC },
-    { "c64ntsc", C64MODEL_C64_NTSC },
-    { "c64cntsc", C64MODEL_C64C_NTSC },
-    { "newntsc", C64MODEL_C64C_NTSC },
-    { "c64newntsc", C64MODEL_C64C_NTSC },
-    { "oldntsc", C64MODEL_C64_OLD_NTSC },
-    { "c64oldntsc", C64MODEL_C64_OLD_NTSC },
-    { "paln", C64MODEL_C64_PAL_N },
-    { "drean", C64MODEL_C64_PAL_N },
-    { "sx64", C64MODEL_C64SX_PAL },
-    { "sx64pal", C64MODEL_C64SX_PAL },
-    { "sx64ntsc", C64MODEL_C64SX_NTSC },
-    { "pet64", C64MODEL_PET64_PAL },
-    { "pet64pal", C64MODEL_PET64_PAL },
-    { "pet64ntsc", C64MODEL_PET64_NTSC },
-    { "max", C64MODEL_ULTIMAX },
-    { "ultimax", C64MODEL_ULTIMAX },
-    { "gs", C64MODEL_C64_GS },
-    { "c64gs", C64MODEL_C64_GS },
-    { "jap", C64MODEL_C64_JAP },
-    { "c64jap", C64MODEL_C64_JAP },
-    { NULL, C64MODEL_UNKNOWN }
-};
-
-static int set_c64_model(const char *param, void *extra_param)
-{
-    int model = C64MODEL_UNKNOWN;
-    int i = 0;
-
-    if (!param) {
-        return -1;
-    }
-
-    do {
-        if (strcmp(model_match[i].name, param) == 0) {
-            model = model_match[i].model;
-        }
-        i++;
-    } while ((model == C64MODEL_UNKNOWN) && (model_match[i].name != NULL));
-
-    if (model == C64MODEL_UNKNOWN) {
-        return -1;
-    }
-
-    c64model_set(model);
-
-    return 0;
-}
-
 static int set_video_standard(const char *param, void *extra_param)
 {
     int value = vice_ptr_to_int(extra_param);
@@ -244,26 +171,6 @@ static const cmdline_option_t cmdline_options[] = {
       set_kernal_revision, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_REVISION, IDCLS_PATCH_KERNAL_TO_REVISION,
-      NULL, NULL },
-    { "-ciamodel", CALL_FUNCTION, 1,
-      set_cia_model, NULL, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_MODEL, IDCLS_SET_BOTH_CIA_MODELS,
-      NULL, NULL },
-    { "-cia1model", SET_RESOURCE, 1,
-      NULL, NULL, "CIA1Model", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_MODEL, IDCLS_SET_CIA1_MODEL,
-      NULL, NULL },
-    { "-cia2model", SET_RESOURCE, 1,
-      NULL, NULL, "CIA2Model", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_MODEL, IDCLS_SET_CIA2_MODEL,
-      NULL, NULL },
-    { "-model", CALL_FUNCTION, 1,
-      set_c64_model, NULL, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_MODEL, IDCLS_SET_C64_MODEL,
       NULL, NULL },
     { NULL }
 };

@@ -1,9 +1,6 @@
 UNNEEDED COMMON VSID RESOURCES
 ==============================
 
-BoardType
-CIA1Model
-CIA2Model
 VICIIVideoCache
 VICIIDoubleScan
 VICIIDoubleSize
@@ -24,7 +21,6 @@ VICIIBorderMode
 VICIICheckSsColl
 VICIICheckSbColl
 VICIINewLuminances
-GlueLogic
 RAMInitStartValue
 RAMInitValueInvert
 RAMInitPatternInvert
@@ -14343,81 +14339,6 @@ description:    "Use PAL-N sync factor"
 resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PALN)
 action:         N/A
 fixme: fix documentation, mention emulators
-
-c64/vsid-resources.c:
----------------------
-resource type:                  int
-resource name:                  "BoardType"
-resource range:                 0/1 (0: C64, 1: MAX)
-resource default:               0 (C64)
-resource function:              set_board_type()
-resource var:                   board_type
-resource emulators:             vsid
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-prepocessor:
-command-line:                   NONE
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
-fixme: should not be in vsid at all, also its tied to the type of the machine so
-       its pointless to make it user selectable
-
-c64/vsid-resources.c:
----------------------
-resource type:                  int
-resource name:                  "CIA1Model"
-resource range:                 0/1 (CIA_MODEL_6526 (0), CIA_MODEL_6526A (1))
-resource default:               CIA_MODEL_6526A (1)
-resource function:              set_cia1_model()
-resource var:                   cia1_model
-resource emulators:             vsid
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -cia1model
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
-gpz note: pointless to make user selectable in vsid UIs
-blacky note: agreed.
-
-c64/vsid-cmdline-options.c:
----------------------------
-command line:   -ciamodel <model>
-description:    "Set both CIA models (0 = old 6526, 1 = new 6526A)"
-resource:       N/A
-action:         set_cia_model() (sets "CIA1Model" and "CIA2Model")
-fixme: add to documentation
-
-c64/vsid-cmdline-options.c:
----------------------------
-command line:   -cia1model <model>
-description:    "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
-resource:       "CIA1Model"
-action:         N/A
-fixme: add to documentation
-
-c64/vsid-resources.c:
----------------------
-resource type:                  int
-resource name:                  "CIA2Model"
-resource range:                 0/1 (CIA_MODEL_6526 (0), CIA_MODEL_6526A (1))
-resource default:               CIA_MODEL_6526A
-resource function:              set_cia2_model()
-resource var:                   cia2_model
-resource emulators:             vsid
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-prepocessor:
-command-line:                   -cia2model
-platform gui present:
-platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
-gpz note: pointless to make user selectable in vsid UIs
-blacky note: agreed.
-
-c64/vsid-cmdline-options.c:
----------------------------
-command line:   -cia2model <model>
-description:    "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
-resource:       "CIA2Model"
-action:         N/A
-fixme: add to documentation
 
 c64/vsid-resources.c:
 ---------------------

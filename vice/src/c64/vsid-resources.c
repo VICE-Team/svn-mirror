@@ -75,10 +75,8 @@ static char *kernal_rom_name = NULL;
 /* Kernal revision for ROM patcher.  */
 int kernal_revision = C64_KERNAL_REV3;
 
-int cia1_model;
-int cia2_model;
-
-static int board_type = 0;
+int cia1_model = CIA_MODEL_6526;
+int cia2_model = CIA_MODEL_6526;
 
 static int set_chargen_rom_name(const char *val, void *param)
 {
@@ -106,60 +104,6 @@ static int set_basic_rom_name(const char *val, void *param)
     }
 
     return c64rom_load_basic(basic_rom_name);
-}
-
-static int set_board_type(int val, void *param)
-{
-    int old_board_type = board_type;
-
-    if ((val < 0) || (val > 1)) {
-        return -1;
-    }
-    board_type = val;
-    if (old_board_type != board_type) {
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-    }
-    return 0;
-}
-
-static int set_cia1_model(int val, void *param)
-{
-    int old_cia_model = cia1_model;
-
-    switch (val) {
-        case CIA_MODEL_6526:
-        case CIA_MODEL_6526A:
-            cia1_model = val;
-            break;
-        default:
-            return -1;
-    }
-
-    if (old_cia_model != cia1_model) {
-        cia1_update_model();
-    }
-
-    return 0;
-}
-
-static int set_cia2_model(int val, void *param)
-{
-    int old_cia_model = cia2_model;
-
-    switch (val) {
-        case CIA_MODEL_6526:
-        case CIA_MODEL_6526A:
-            cia2_model = val;
-            break;
-        default:
-            return -1;
-    }
-
-    if (old_cia_model != cia2_model) {
-        cia2_update_model();
-    }
-
-    return 0;
 }
 
 static int set_kernal_revision(int val, void *param)
@@ -233,12 +177,6 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
-    { "BoardType", 0, RES_EVENT_SAME, NULL,
-      &board_type, set_board_type, NULL },
-    { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
-      &cia1_model, set_cia1_model, NULL },
-    { "CIA2Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
-      &cia2_model, set_cia2_model, NULL },
     { "KernalRev", C64_KERNAL_REV3, RES_EVENT_SAME, NULL,
       &kernal_revision, set_kernal_revision, NULL },
     { "SidStereoAddressStart", 0xde00, RES_EVENT_SAME, NULL,
@@ -247,12 +185,6 @@ static const resource_int_t resources_int[] = {
       (int *)&sid_triple_address_start, sid_set_sid_triple_address, NULL },
     { NULL }
 };
-
-void c64_resources_update_cia_models(int model)
-{
-    set_cia1_model(model, NULL);
-    set_cia2_model(model, NULL);
-}
 
 int c64_resources_init(void)
 {

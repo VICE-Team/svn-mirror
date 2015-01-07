@@ -5782,12 +5782,12 @@ Attach raw 16kB Zaxxon cartridge image.
 @vindex CIA1Model
 @item CIA1Model
 @c the exceptions will be corrected as the resource list is implemented
-Integer specifying CIA1 model (all emulators except x64dtv/xpet/xplus4/xvic/vsid).
+Integer specifying CIA1 model (all emulators except x64dtv/xpet/xplus4/xvic).
 (0=old 6526, 1=new 6526A)
 @vindex CIA2Model
 @item CIA2Model
 @c the exceptions will be corrected as the resource list is implemented
-Integer specifying CIA2 model (all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+Integer specifying CIA2 model (all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic).
 (0=old 6526, 1=new 6526A)
 
 @end table
@@ -5802,21 +5802,21 @@ Integer specifying CIA2 model (all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xp
 Set both CIA models
 (@code{CIA1Model}, @code{CIA2Model})
 @c the exceptions will be corrected as the resource list is implemented
-(all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+(all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic).
 (0=old 6526, 1=new 6526A)
 @findex -cia1model
 @item -cia1model <model>
 Set CIA1 model
 (@code{CIA1Model})
 @c the exceptions will be corrected as the resource list is implemented
-(all emulators except x64dtv/xpet/xplus4/xvic/vsid).
+(all emulators except x64dtv/xpet/xplus4/xvic).
 (0=old 6526, 1=new 6526A)
 @findex -cia2model
 @item -cia2model <model>
 Set CIA2 model
 (@code{CIA2Model})
 @c the exceptions will be corrected as the resource list is implemented
-(all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).
+(all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic).
 (0=old 6526, 1=new 6526A)
 
 @end table

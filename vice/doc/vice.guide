@@ -5320,29 +5320,27 @@ CIA resources
 
 `CIA1Model'
      Integer specifying CIA1 model (all emulators except
-     x64dtv/xpet/xplus4/xvic/vsid).  (0=old 6526, 1=new 6526A)
+     x64dtv/xpet/xplus4/xvic).  (0=old 6526, 1=new 6526A)
 
 `CIA2Model'
      Integer specifying CIA2 model (all emulators except
-     x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).  (0=old 6526, 1=new
-     6526A)
+     x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic).  (0=old 6526, 1=new 6526A)
 
 CIA command-line options
 ........................
 
 `-ciamodel <model>'
      Set both CIA models (`CIA1Model', `CIA2Model') (all emulators
-     except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).  (0=old 6526,
-     1=new 6526A)
+     except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic).  (0=old 6526, 1=new
+     6526A)
 
 `-cia1model <model>'
      Set CIA1 model (`CIA1Model') (all emulators except
-     x64dtv/xpet/xplus4/xvic/vsid).  (0=old 6526, 1=new 6526A)
+     x64dtv/xpet/xplus4/xvic).  (0=old 6526, 1=new 6526A)
 
 `-cia2model <model>'
      Set CIA2 model (`CIA2Model') (all emulators except
-     x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid).  (0=old 6526, 1=new
-     6526A)
+     x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic).  (0=old 6526, 1=new 6526A)
 
 
 @EndNode

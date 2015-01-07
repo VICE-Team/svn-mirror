@@ -126,10 +126,6 @@ int machine_resources_init(void)
         init_resource_fail("sid");
         return -1;
     }
-    if (c64_glue_resources_init() < 0) {
-        init_resource_fail("c64 glue");
-        return -1;
-    }
     if (psid_resources_init() < 0) {
         init_resource_fail("psid");
         return -1;

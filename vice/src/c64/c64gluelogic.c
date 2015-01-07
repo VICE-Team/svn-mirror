@@ -34,6 +34,7 @@
 #include "c64mem.h"
 #include "cmdline.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -41,7 +42,7 @@
 #include "types.h"
 #include "vicii.h"
 
-static int glue_logic_type = 0;
+static int glue_logic_type = GLUE_LOGIC_DISCRETE;
 static int old_vbank = 0;
 static int glue_alarm_active = 0;
 static alarm_t *glue_alarm = NULL;
