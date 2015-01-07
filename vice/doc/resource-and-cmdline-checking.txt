@@ -13548,8 +13548,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -intfuncrtcsave / +intfuncrtcsave
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:			osx
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform gui missing:
 fixme: add to documentation
 
 c128/functionrom.c:
@@ -13580,8 +13580,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -extfuncrtcsave / +extfuncrtcsave
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:			osx
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform gui missing:
 fixme: add to documentation
 
 c128/functionrom.c:
@@ -14183,10 +14183,10 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE (fixme)
-platform gui present:           amigaos/beos/dos/os2/windows/unix
+platform gui present:           amigaos/beos/dos/os2/windows/unix/osx
 platform range correct:
 platform range incorrect:
-platform gui missing:           sdl/osx
+platform gui missing:           sdl
 
 c64/cart/sfx_soundexpander.c:
 -----------------------------
@@ -14595,8 +14595,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -IDE64rtcsave / +IDE64rtcsave
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:           osx
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform gui missing:
 
 c64/cart/ide64.c:
 -----------------
@@ -15090,8 +15090,8 @@ resource emulators:             xcbm2/xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -CRTCaudioleak / +CRTCaudioleak
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:			osx
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform gui missing:
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -15165,8 +15165,8 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet
 not used in:                    vsid
 prepocessor:
 command-line:                   -drivesound / +drivesound
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:           osx
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform gui missing:
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -17442,8 +17442,8 @@ resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
 command-line:                   -TEDaudioleak / +TEDaudioleak
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:			osx
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform gui missing:
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -17964,8 +17964,8 @@ resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -iecreset / -model
-platform gui present:           amigaos/beos/dos/sdl/unix/windows
-platform gui missing:			os2/osx
+platform gui present:           amigaos/beos/dos/sdl/unix/windows/osx
+platform gui missing:           os2
 fixme: add to documentation
 
 scpu64/scpu64-cmdline-options.c:
@@ -18028,10 +18028,10 @@ resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -burstmod
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			osx
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform range correct:
+platform range incorrect:
+platform gui missing:
 fixme: add to documentation
 
 scpu64/scpu64-cmdline-options.c:
@@ -18811,8 +18811,8 @@ resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VDCaudioleak / +VDCaudioleak
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:			osx
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform gui missing:
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -19001,8 +19001,8 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
 command-line:                   -VICaudioleak / +VICaudioleak
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:			osx
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform gui missing:
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -19226,8 +19226,8 @@ resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
 not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
 prepocessor:
 command-line:                   -VICIIaudioleak / +VICIIaudioleak
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:			osx
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform gui missing:
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
@@ -19304,8 +19304,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIaudioleak / +VICIIaudioleak
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform gui missing:			osx
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform gui missing:
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
@@ -20732,8 +20732,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef HAVE_NETWORK
 command-line:                   -IDE64USBAddress
-platform gui present:           amigaos/dos/sdl/unix/windows
-platform gui missing:           beos/os2/osx
+platform gui present:           amigaos/dos/sdl/unix/windows/osx
+platform gui missing:           beos/os2
 fixme: fix documentation, only with network support
 
 c64/cart/ide64.c:
@@ -20755,8 +20755,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:                    #ifdef HAVE_NETWORK
 command-line:                   -IDE64USB / +IDE64USB
-platform gui present:           amigaos/dos/sdl/unix/windows
-platform gui missing:           beos/os2/osx
+platform gui present:           amigaos/dos/sdl/unix/windows/osx
+platform gui missing:           beos/os2
 fixme: fix documentation, only with network support
 
 c64/cart/ide64.c:
@@ -21868,8 +21868,8 @@ not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residpass
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
+platform range correct:
+platform range incorrect:
 platform gui missing:
 
 sid/sid-cmdline-options.c:
@@ -21893,9 +21893,9 @@ not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residgain
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			os2
+platform range correct:
+platform range incorrect:
+platform gui missing:           os2
 fixme: fix documentation, remove default
 
 sid/sid-cmdline-options.c:
@@ -21919,9 +21919,9 @@ not used in:
 prepocessor:                    #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
 command-line:                   -residfilterbias
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			os2
+platform range correct:
+platform range incorrect:
+platform gui missing:           os2
 fixme: fix documentation, remove default
 
 sid/sid-cmdline-options.c:
