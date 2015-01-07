@@ -75,6 +75,11 @@
 		<dict>
 			<key>Cartridges</key>
 			<dict>
+				<key>Retro Replay</key>
+				<dict>
+					<key>Revision</key>
+					<string>RRrevision,e,Retro Replay,Nordic Replay</string>
+				</dict>
 				<key>EasyFlash</key>
 				<dict>
 					<key>Jumper</key>
@@ -149,6 +154,12 @@
 					</dict>
 					<key>Version 4</key>
 					<string>IDE64Version4,b</string>
+					<key>USB Server enabled</key>
+					<string>IDE64USBServer,b</string>
+					<key>USB Server Address</key>
+					<string>IDE64USBServerAddress,s</string>
+					<key>save RTC data when changed</key>
+					<string>IDE64RTCSave,b</string>
 				</dict>
 				<key>MIDI</key>
 				<dict>
@@ -235,7 +246,7 @@
 				<key>Mouse Port</key>
 				<string>Mouseport,m,Joy1=1,Joy2=2</string>
 				<key>Mouse Type</key>
-				<string>Mousetype,e,1351,NEOS,AMIGA,Paddles,CX-22,ST,Smart</string>
+				<string>Mousetype,e,1351,NEOS,AMIGA,Paddles,CX-22,ST,Smart,Micromys,Koalapad</string>
 			</dict>
 		</dict>
 		<key>_C128_C64_PLUS4_</key>
@@ -520,10 +531,14 @@
 				<string>ExternalFunctionName,fo</string>
 				<key>External Function ROM Enable</key>
 				<string>ExternalFunctionROM,b</string>
+				<key>External Function ROM RTC save</key>
+				<string>ExternalFunctionRTCSave,b</string>
 				<key>Internal Function ROM</key>
 				<string>InternalFunctionName,fo</string>
 				<key>Internal Function ROM Enable</key>
 				<string>InternalFunctionROM,b</string>
+				<key>Internal Function ROM RTC save</key>
+				<string>InternalFunctionRTCSave,b</string>
 				<key>Kernal C64</key>
 				<string>Kernal64Name,fo</string>
 				<key>Kernal DE</key>
@@ -549,6 +564,8 @@
 				<string>VDCRevision,e,Rev _0,Rev _1,Rev _2</string>
 				<key>Stretch Vertical</key>
 				<string>VDCStretchVertical,b</string>
+				<key>Audio Leak</key>
+				<string>VDCAudioLeak,e,Disabled,Enabled</string>
 			</dict>
 		</dict>
 		<key>_C128_PLUS4_VIC20_</key>
@@ -571,6 +588,8 @@
 				<string>VICIICheckSsColl,b</string>
 				<key>New Luminances</key>
 				<string>VICIINewLuminances,b</string>
+				<key>Audio Leak</key>
+				<string>VICIIAudioLeak,e,Disabled,Enabled</string>
 			</dict>
 		</dict>
 		<key>_C128_C64_C64DTV_PLUS4_VIC20_</key>
@@ -633,14 +652,18 @@
 		</dict>
 		<key>_C64_C64SC_</key>
 		<dict>
+			<key>Burst Modification</key>
+			<string>BurstMod,e,None,CIA1,CIA2</string>
 			<key>Model</key>
 			<dict>
-				<key>ASIC glue logic</key>
-				<string>GlueLogic,b</string>
 				<key>CIA 1 Model</key>
 				<string>CIA1Model,e,6526 (old),6526A (new)</string>
 				<key>CIA 2 Model</key>
 				<string>CIA2Model,e,6526 (old),6526A (new)</string>
+				<key>glue logic</key>
+				<string>GlueLogic,e,Discrete,Integrated</string>
+				<key>Reset goes to IEC</key>
+				<string>IECReset,b</string>
 			</dict>
 		</dict>
 		<key>_C64_C64DTV_CBM-II_PET_VIC20_</key>
@@ -774,6 +797,8 @@
 			<dict>
 				<key>Stretch Vertical</key>
 				<string>CrtcStretchVertical,b</string>
+				<key>Audio Leak</key>
+				<string>CrtcAudioLeak,e,Disabled,Enabled</string>
 			</dict>
 		</dict>
 		<key>_PET_</key>
@@ -854,6 +879,8 @@
 			<dict>
 				<key>Border Mode</key>
 				<string>TEDBorderMode,e,Normal,Full,Debug,None</string>
+				<key>Audio Leak</key>
+				<string>TEDAudioLeak,e,Disabled,Enabled</string>
 			</dict>
 			<key>RAM</key>
 			<dict>
@@ -907,6 +934,8 @@
 			<dict>
 				<key>Border Mode</key>
 				<string>VICBorderMode,e,Normal,Full,Debug,None</string>
+				<key>Audio Leak</key>
+				<string>VICAudioLeak,e,Disabled,Enabled</string>
 			</dict>
 			<key>RAM</key>
 			<dict>
@@ -971,6 +1000,13 @@
 			<key>IP Address</key>
 			<string>MonitorServerAddress,s</string>
 		</dict>
+		<key>Sound</key>
+		<dict>
+			<key>Sound Output</key>
+			<string>SoundOutput,e,System,Mono,Stereo</string>
+			<key>Drive Sound Emulation</key>
+			<string>DriveSoundEmulation,e,Disabled,Enabled</string>
+		</dict>
 		<key>SID Engine</key>
 		<dict>
 			<key>_C128_C64_C64DTV_CBM-II_</key>
@@ -981,16 +1017,18 @@
 					<string>SidResidGain,r,90,100</string>
 					<key>Passband (0-90%)</key>
 					<string>SidResidPassband,r,0,90</string>
+					<key>Filter BIAS (-5000-5000)</key>
+					<string>SidResidFilterBias,r,-5000,5000</string>
 					<key>Sample Method</key>
 					<string>SidResidSampling,e,Fast,Interpolating,Resampling,Fast Resampling</string>
 				</dict>
 			</dict>
 			<key>Model</key>
-			<string>SidModel,m,6581=0,8580=1,8580+digiboost=2,6581R3 4885=8,6581R3 0486S=9,6581R3 3984=10,6581R4AR 3789=11,6581R3 4485=12,6581R4 1986S=13,8580R5 3691=16,8580R5 3691D=17,8580R5 1489=18,8580R5 1489D=19</string>
+			<string>SidModel,m,6581=0,8580=1,8580+digiboost=2</string>
 			<key>Filters</key>
 			<string>SidFilters,b</string>
 			<key>Engine</key>
-			<string>SidEngine,m,Fast SID=0,ReSID=1,ReSID-FP=7</string>
+			<string>SidEngine,m,Fast SID=0,ReSID=1</string>
 		</dict>
 	</dict>
 </dict>

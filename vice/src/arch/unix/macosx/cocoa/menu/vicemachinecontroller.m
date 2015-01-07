@@ -694,7 +694,8 @@ extern void mouse_move_f(float x, float y);
     const int ids[] = {
         DISK_IMAGE_TYPE_D64, DISK_IMAGE_TYPE_D67, DISK_IMAGE_TYPE_D71,
         DISK_IMAGE_TYPE_D80, DISK_IMAGE_TYPE_D81, DISK_IMAGE_TYPE_D82,
-        DISK_IMAGE_TYPE_G64, DISK_IMAGE_TYPE_P64, DISK_IMAGE_TYPE_X64
+        DISK_IMAGE_TYPE_G64, DISK_IMAGE_TYPE_P64, DISK_IMAGE_TYPE_X64,
+        DISK_IMAGE_TYPE_D1M, DISK_IMAGE_TYPE_D2M, DISK_IMAGE_TYPE_D4M
     };
     return vdrive_internal_create_format_disk_image([path fileSystemRepresentation],
                                                     [name cStringUsingEncoding:NSUTF8StringEncoding],

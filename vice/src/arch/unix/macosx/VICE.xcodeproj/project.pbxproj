@@ -7,6 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E86EF211A5C90B10042700C /* c64dtvcommoncontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF201A5C90B10042700C /* c64dtvcommoncontroller.m */; };
+		1E86EF291A5CA3D20042700C /* controlwindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF241A5CA3D20042700C /* controlwindow.m */; };
+		1E86EF2A1A5CA3D20042700C /* soundview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF261A5CA3D20042700C /* soundview.m */; };
+		1E86EF2B1A5CA3D20042700C /* statusview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF281A5CA3D20042700C /* statusview.m */; };
+		1E88E6B51A5C8A73003FC867 /* c64commoncontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6921A5C8A73003FC867 /* c64commoncontroller.m */; };
+		1E88E6B61A5C8A73003FC867 /* c64commonmachinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6941A5C8A73003FC867 /* c64commonmachinecontroller.m */; };
+		1E88E6B71A5C8A73003FC867 /* c64dtvcommonmachinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6961A5C8A73003FC867 /* c64dtvcommonmachinecontroller.m */; };
+		1E88E6B81A5C8A73003FC867 /* c64dtvcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6981A5C8A73003FC867 /* c64dtvcontroller.m */; };
+		1E88E6B91A5C8A73003FC867 /* c64dtvmachinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E69A1A5C8A73003FC867 /* c64dtvmachinecontroller.m */; };
+		1E88E6BA1A5C8A73003FC867 /* c64dtvui.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E69B1A5C8A73003FC867 /* c64dtvui.m */; };
+		1E88E6BB1A5C8A73003FC867 /* c64scui.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E69C1A5C8A73003FC867 /* c64scui.m */; };
+		1E88E6BC1A5C8A73003FC867 /* cbm2controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E69E1A5C8A73003FC867 /* cbm2controller.m */; };
+		1E88E6BD1A5C8A73003FC867 /* cbm2machinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6A01A5C8A73003FC867 /* cbm2machinecontroller.m */; };
+		1E88E6BE1A5C8A73003FC867 /* cbm5x0controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6A21A5C8A73003FC867 /* cbm5x0controller.m */; };
+		1E88E6BF1A5C8A73003FC867 /* cbm5x0machinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6A41A5C8A73003FC867 /* cbm5x0machinecontroller.m */; };
+		1E88E6C01A5C8A73003FC867 /* cbm5x0ui.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6A51A5C8A73003FC867 /* cbm5x0ui.m */; };
+		1E88E6C11A5C8A73003FC867 /* petcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6A71A5C8A73003FC867 /* petcontroller.m */; };
+		1E88E6C21A5C8A73003FC867 /* petmachinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6A91A5C8A73003FC867 /* petmachinecontroller.m */; };
+		1E88E6C31A5C8A73003FC867 /* plus4controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6AB1A5C8A73003FC867 /* plus4controller.m */; };
+		1E88E6C41A5C8A73003FC867 /* plus4machinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6AD1A5C8A73003FC867 /* plus4machinecontroller.m */; };
+		1E88E6C51A5C8A73003FC867 /* scpu64ui.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6AE1A5C8A73003FC867 /* scpu64ui.m */; };
+		1E88E6C61A5C8A73003FC867 /* vic20controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6B01A5C8A73003FC867 /* vic20controller.m */; };
+		1E88E6C71A5C8A73003FC867 /* vic20machinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6B21A5C8A73003FC867 /* vic20machinecontroller.m */; };
+		1E88E6C81A5C8A73003FC867 /* vicefilepanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6B41A5C8A73003FC867 /* vicefilepanel.m */; };
+		1E88E6EB1A5C8AB5003FC867 /* DisassemblyWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6C91A5C8AB5003FC867 /* DisassemblyWindow.nib */; };
+		1E88E6EC1A5C8AB5003FC867 /* FilePanelImageContents.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6CB1A5C8AB5003FC867 /* FilePanelImageContents.nib */; };
+		1E88E6ED1A5C8AB5003FC867 /* IOTreeWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6CD1A5C8AB5003FC867 /* IOTreeWindow.nib */; };
+		1E88E6EE1A5C8AB5003FC867 /* MemoryWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6CF1A5C8AB5003FC867 /* MemoryWindow.nib */; };
+		1E88E6EF1A5C8AB5003FC867 /* NetplayControl.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6D11A5C8AB5003FC867 /* NetplayControl.nib */; };
+		1E88E6F01A5C8AB5003FC867 /* RecordHistory.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6D31A5C8AB5003FC867 /* RecordHistory.nib */; };
+		1E88E6F11A5C8AB5003FC867 /* RegisterWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6D51A5C8AB5003FC867 /* RegisterWindow.nib */; };
+		1E88E6F21A5C8AB5003FC867 /* SIDSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6D71A5C8AB5003FC867 /* SIDSettings.nib */; };
+		1E88E6F31A5C8AB5003FC867 /* VideoSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6D91A5C8AB5003FC867 /* VideoSettings.nib */; };
+		1E88E6F41A5C8AB5003FC867 /* x64dtv.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6DB1A5C8AB5003FC867 /* x64dtv.nib */; };
+		1E88E6F51A5C8AB5003FC867 /* x64sc.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6DD1A5C8AB5003FC867 /* x64sc.nib */; };
+		1E88E6F61A5C8AB5003FC867 /* x128.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6DF1A5C8AB5003FC867 /* x128.nib */; };
+		1E88E6F71A5C8AB5003FC867 /* xcbm2.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6E11A5C8AB5003FC867 /* xcbm2.nib */; };
+		1E88E6F81A5C8AB5003FC867 /* xcbm5x0.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6E31A5C8AB5003FC867 /* xcbm5x0.nib */; };
+		1E88E6F91A5C8AB5003FC867 /* xpet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6E51A5C8AB5003FC867 /* xpet.nib */; };
+		1E88E6FA1A5C8AB5003FC867 /* xplus4.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6E71A5C8AB5003FC867 /* xplus4.nib */; };
+		1E88E6FB1A5C8AB5003FC867 /* xvic.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6E91A5C8AB5003FC867 /* xvic.nib */; };
 		83E499CD0DE4CA54001DE90F /* IECDriveSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4997B0DE4C8C8001DE90F /* IECDriveSettings.nib */; };
 		83E499CE0DE4CA54001DE90F /* SoundSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4998D0DE4C8C8001DE90F /* SoundSettings.nib */; };
 		83E499CF0DE4CA54001DE90F /* KeyboardSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4997F0DE4C8C8001DE90F /* KeyboardSettings.nib */; };
@@ -61,7 +102,6 @@
 		83E49A6C0DE4CCA9001DE90F /* keypressview.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A310DE4CCA9001DE90F /* keypressview.m */; };
 		83E49A6D0DE4CCA9001DE90F /* logview.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A330DE4CCA9001DE90F /* logview.m */; };
 		83E49A6E0DE4CCA9001DE90F /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 83E49A340DE4CCA9001DE90F /* Makefile.am */; };
-		83E49A700DE4CCA9001DE90F /* peripheraldrawer.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A370DE4CCA9001DE90F /* peripheraldrawer.m */; };
 		83E49A710DE4CCA9001DE90F /* tapeview.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A390DE4CCA9001DE90F /* tapeview.m */; };
 		83E49A720DE4CCA9001DE90F /* viceglview.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A3B0DE4CCA9001DE90F /* viceglview.m */; };
 		83E49A730DE4CCA9001DE90F /* vicewindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E49A3D0DE4CCA9001DE90F /* vicewindow.m */; };
@@ -71,7 +111,68 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		83E4997A0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = DriveSettings.nib; sourceTree = "<group>"; };
+		1E86EF1F1A5C90B10042700C /* c64dtvcommoncontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64dtvcommoncontroller.h; sourceTree = "<group>"; };
+		1E86EF201A5C90B10042700C /* c64dtvcommoncontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64dtvcommoncontroller.m; sourceTree = "<group>"; };
+		1E86EF231A5CA3D20042700C /* controlwindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controlwindow.h; sourceTree = "<group>"; };
+		1E86EF241A5CA3D20042700C /* controlwindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = controlwindow.m; sourceTree = "<group>"; };
+		1E86EF251A5CA3D20042700C /* soundview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = soundview.h; sourceTree = "<group>"; };
+		1E86EF261A5CA3D20042700C /* soundview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = soundview.m; sourceTree = "<group>"; };
+		1E86EF271A5CA3D20042700C /* statusview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statusview.h; sourceTree = "<group>"; };
+		1E86EF281A5CA3D20042700C /* statusview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = statusview.m; sourceTree = "<group>"; };
+		1E88E6911A5C8A73003FC867 /* c64commoncontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64commoncontroller.h; sourceTree = "<group>"; };
+		1E88E6921A5C8A73003FC867 /* c64commoncontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64commoncontroller.m; sourceTree = "<group>"; };
+		1E88E6931A5C8A73003FC867 /* c64commonmachinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64commonmachinecontroller.h; sourceTree = "<group>"; };
+		1E88E6941A5C8A73003FC867 /* c64commonmachinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64commonmachinecontroller.m; sourceTree = "<group>"; };
+		1E88E6951A5C8A73003FC867 /* c64dtvcommonmachinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64dtvcommonmachinecontroller.h; sourceTree = "<group>"; };
+		1E88E6961A5C8A73003FC867 /* c64dtvcommonmachinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64dtvcommonmachinecontroller.m; sourceTree = "<group>"; };
+		1E88E6971A5C8A73003FC867 /* c64dtvcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64dtvcontroller.h; sourceTree = "<group>"; };
+		1E88E6981A5C8A73003FC867 /* c64dtvcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64dtvcontroller.m; sourceTree = "<group>"; };
+		1E88E6991A5C8A73003FC867 /* c64dtvmachinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64dtvmachinecontroller.h; sourceTree = "<group>"; };
+		1E88E69A1A5C8A73003FC867 /* c64dtvmachinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64dtvmachinecontroller.m; sourceTree = "<group>"; };
+		1E88E69B1A5C8A73003FC867 /* c64dtvui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64dtvui.m; sourceTree = "<group>"; };
+		1E88E69C1A5C8A73003FC867 /* c64scui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64scui.m; sourceTree = "<group>"; };
+		1E88E69D1A5C8A73003FC867 /* cbm2controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cbm2controller.h; sourceTree = "<group>"; };
+		1E88E69E1A5C8A73003FC867 /* cbm2controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cbm2controller.m; sourceTree = "<group>"; };
+		1E88E69F1A5C8A73003FC867 /* cbm2machinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cbm2machinecontroller.h; sourceTree = "<group>"; };
+		1E88E6A01A5C8A73003FC867 /* cbm2machinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cbm2machinecontroller.m; sourceTree = "<group>"; };
+		1E88E6A11A5C8A73003FC867 /* cbm5x0controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cbm5x0controller.h; sourceTree = "<group>"; };
+		1E88E6A21A5C8A73003FC867 /* cbm5x0controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cbm5x0controller.m; sourceTree = "<group>"; };
+		1E88E6A31A5C8A73003FC867 /* cbm5x0machinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cbm5x0machinecontroller.h; sourceTree = "<group>"; };
+		1E88E6A41A5C8A73003FC867 /* cbm5x0machinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cbm5x0machinecontroller.m; sourceTree = "<group>"; };
+		1E88E6A51A5C8A73003FC867 /* cbm5x0ui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cbm5x0ui.m; sourceTree = "<group>"; };
+		1E88E6A61A5C8A73003FC867 /* petcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = petcontroller.h; sourceTree = "<group>"; };
+		1E88E6A71A5C8A73003FC867 /* petcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = petcontroller.m; sourceTree = "<group>"; };
+		1E88E6A81A5C8A73003FC867 /* petmachinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = petmachinecontroller.h; sourceTree = "<group>"; };
+		1E88E6A91A5C8A73003FC867 /* petmachinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = petmachinecontroller.m; sourceTree = "<group>"; };
+		1E88E6AA1A5C8A73003FC867 /* plus4controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plus4controller.h; sourceTree = "<group>"; };
+		1E88E6AB1A5C8A73003FC867 /* plus4controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = plus4controller.m; sourceTree = "<group>"; };
+		1E88E6AC1A5C8A73003FC867 /* plus4machinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plus4machinecontroller.h; sourceTree = "<group>"; };
+		1E88E6AD1A5C8A73003FC867 /* plus4machinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = plus4machinecontroller.m; sourceTree = "<group>"; };
+		1E88E6AE1A5C8A73003FC867 /* scpu64ui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = scpu64ui.m; sourceTree = "<group>"; };
+		1E88E6AF1A5C8A73003FC867 /* vic20controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vic20controller.h; sourceTree = "<group>"; };
+		1E88E6B01A5C8A73003FC867 /* vic20controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vic20controller.m; sourceTree = "<group>"; };
+		1E88E6B11A5C8A73003FC867 /* vic20machinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vic20machinecontroller.h; sourceTree = "<group>"; };
+		1E88E6B21A5C8A73003FC867 /* vic20machinecontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vic20machinecontroller.m; sourceTree = "<group>"; };
+		1E88E6B31A5C8A73003FC867 /* vicefilepanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vicefilepanel.h; sourceTree = "<group>"; };
+		1E88E6B41A5C8A73003FC867 /* vicefilepanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vicefilepanel.m; sourceTree = "<group>"; };
+		1E88E6CA1A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = DisassemblyWindow.nib; sourceTree = "<group>"; };
+		1E88E6CC1A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = FilePanelImageContents.nib; sourceTree = "<group>"; };
+		1E88E6CE1A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = IOTreeWindow.nib; sourceTree = "<group>"; };
+		1E88E6D01A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = MemoryWindow.nib; sourceTree = "<group>"; };
+		1E88E6D21A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = NetplayControl.nib; sourceTree = "<group>"; };
+		1E88E6D41A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = RecordHistory.nib; sourceTree = "<group>"; };
+		1E88E6D61A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = RegisterWindow.nib; sourceTree = "<group>"; };
+		1E88E6D81A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = SIDSettings.nib; sourceTree = "<group>"; };
+		1E88E6DA1A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = VideoSettings.nib; sourceTree = "<group>"; };
+		1E88E6DC1A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = x64dtv.nib; sourceTree = "<group>"; };
+		1E88E6DE1A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = x64sc.nib; sourceTree = "<group>"; };
+		1E88E6E01A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = x128.nib; sourceTree = "<group>"; };
+		1E88E6E21A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = xcbm2.nib; sourceTree = "<group>"; };
+		1E88E6E41A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = xcbm5x0.nib; sourceTree = "<group>"; };
+		1E88E6E61A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = xpet.nib; sourceTree = "<group>"; };
+		1E88E6E81A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = xplus4.nib; sourceTree = "<group>"; };
+		1E88E6EA1A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = xvic.nib; sourceTree = "<group>"; };
+		83E4997A0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = DriveSettings.nib; sourceTree = "<group>"; };
 		83E4997C0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = IECDriveSettings.nib; sourceTree = "<group>"; };
 		83E4997E0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = JoystickSettings.nib; sourceTree = "<group>"; };
 		83E499800DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = KeyboardSettings.nib; sourceTree = "<group>"; };
@@ -156,8 +257,6 @@
 		83E49A320DE4CCA9001DE90F /* logview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logview.h; sourceTree = "<group>"; };
 		83E49A330DE4CCA9001DE90F /* logview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = logview.m; sourceTree = "<group>"; };
 		83E49A340DE4CCA9001DE90F /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		83E49A360DE4CCA9001DE90F /* peripheraldrawer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = peripheraldrawer.h; sourceTree = "<group>"; };
-		83E49A370DE4CCA9001DE90F /* peripheraldrawer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = peripheraldrawer.m; sourceTree = "<group>"; };
 		83E49A380DE4CCA9001DE90F /* tapeview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tapeview.h; sourceTree = "<group>"; };
 		83E49A390DE4CCA9001DE90F /* tapeview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tapeview.m; sourceTree = "<group>"; };
 		83E49A3A0DE4CCA9001DE90F /* viceglview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viceglview.h; sourceTree = "<group>"; };
@@ -193,6 +292,24 @@
 		83E499780DE4C8C8001DE90F /* English.lproj */ = {
 			isa = PBXGroup;
 			children = (
+				1E88E6C91A5C8AB5003FC867 /* DisassemblyWindow.nib */,
+				1E88E6CB1A5C8AB5003FC867 /* FilePanelImageContents.nib */,
+				1E88E6CD1A5C8AB5003FC867 /* IOTreeWindow.nib */,
+				1E88E6CF1A5C8AB5003FC867 /* MemoryWindow.nib */,
+				1E88E6D11A5C8AB5003FC867 /* NetplayControl.nib */,
+				1E88E6D31A5C8AB5003FC867 /* RecordHistory.nib */,
+				1E88E6D51A5C8AB5003FC867 /* RegisterWindow.nib */,
+				1E88E6D71A5C8AB5003FC867 /* SIDSettings.nib */,
+				1E88E6D91A5C8AB5003FC867 /* VideoSettings.nib */,
+				1E88E6DB1A5C8AB5003FC867 /* x64dtv.nib */,
+				1E88E6DD1A5C8AB5003FC867 /* x64sc.nib */,
+				1E88E6DF1A5C8AB5003FC867 /* x128.nib */,
+				1E88E6E11A5C8AB5003FC867 /* xcbm2.nib */,
+				1E88E6E31A5C8AB5003FC867 /* xcbm5x0.nib */,
+				1E88E6E51A5C8AB5003FC867 /* xpet.nib */,
+				1E88E6E71A5C8AB5003FC867 /* xplus4.nib */,
+				1E88E6E91A5C8AB5003FC867 /* xvic.nib */,
+				83E499910DE4C8C8001DE90F /* x64.nib */,
 				83E49A860DE6B6AA001DE90F /* RecordMedia.nib */,
 				83E499790DE4C8C8001DE90F /* DriveSettings.nib */,
 				83E4997B0DE4C8C8001DE90F /* IECDriveSettings.nib */,
@@ -202,7 +319,6 @@
 				83E499890DE4C8C8001DE90F /* ResourceEditor.nib */,
 				83E4998D0DE4C8C8001DE90F /* SoundSettings.nib */,
 				83E4998F0DE4C8C8001DE90F /* VICEInformation.nib */,
-				83E499910DE4C8C8001DE90F /* x64.nib */,
 			);
 			name = English.lproj;
 			path = Resources/English.lproj;
@@ -282,6 +398,44 @@
 		83E49A020DE4CCA9001DE90F /* menu */ = {
 			isa = PBXGroup;
 			children = (
+				1E86EF1F1A5C90B10042700C /* c64dtvcommoncontroller.h */,
+				1E86EF201A5C90B10042700C /* c64dtvcommoncontroller.m */,
+				1E88E6911A5C8A73003FC867 /* c64commoncontroller.h */,
+				1E88E6921A5C8A73003FC867 /* c64commoncontroller.m */,
+				1E88E6931A5C8A73003FC867 /* c64commonmachinecontroller.h */,
+				1E88E6941A5C8A73003FC867 /* c64commonmachinecontroller.m */,
+				1E88E6951A5C8A73003FC867 /* c64dtvcommonmachinecontroller.h */,
+				1E88E6961A5C8A73003FC867 /* c64dtvcommonmachinecontroller.m */,
+				1E88E6971A5C8A73003FC867 /* c64dtvcontroller.h */,
+				1E88E6981A5C8A73003FC867 /* c64dtvcontroller.m */,
+				1E88E6991A5C8A73003FC867 /* c64dtvmachinecontroller.h */,
+				1E88E69A1A5C8A73003FC867 /* c64dtvmachinecontroller.m */,
+				1E88E69B1A5C8A73003FC867 /* c64dtvui.m */,
+				1E88E69C1A5C8A73003FC867 /* c64scui.m */,
+				1E88E69D1A5C8A73003FC867 /* cbm2controller.h */,
+				1E88E69E1A5C8A73003FC867 /* cbm2controller.m */,
+				1E88E69F1A5C8A73003FC867 /* cbm2machinecontroller.h */,
+				1E88E6A01A5C8A73003FC867 /* cbm2machinecontroller.m */,
+				1E88E6A11A5C8A73003FC867 /* cbm5x0controller.h */,
+				1E88E6A21A5C8A73003FC867 /* cbm5x0controller.m */,
+				1E88E6A31A5C8A73003FC867 /* cbm5x0machinecontroller.h */,
+				1E88E6A41A5C8A73003FC867 /* cbm5x0machinecontroller.m */,
+				1E88E6A51A5C8A73003FC867 /* cbm5x0ui.m */,
+				1E88E6A61A5C8A73003FC867 /* petcontroller.h */,
+				1E88E6A71A5C8A73003FC867 /* petcontroller.m */,
+				1E88E6A81A5C8A73003FC867 /* petmachinecontroller.h */,
+				1E88E6A91A5C8A73003FC867 /* petmachinecontroller.m */,
+				1E88E6AA1A5C8A73003FC867 /* plus4controller.h */,
+				1E88E6AB1A5C8A73003FC867 /* plus4controller.m */,
+				1E88E6AC1A5C8A73003FC867 /* plus4machinecontroller.h */,
+				1E88E6AD1A5C8A73003FC867 /* plus4machinecontroller.m */,
+				1E88E6AE1A5C8A73003FC867 /* scpu64ui.m */,
+				1E88E6AF1A5C8A73003FC867 /* vic20controller.h */,
+				1E88E6B01A5C8A73003FC867 /* vic20controller.m */,
+				1E88E6B11A5C8A73003FC867 /* vic20machinecontroller.h */,
+				1E88E6B21A5C8A73003FC867 /* vic20machinecontroller.m */,
+				1E88E6B31A5C8A73003FC867 /* vicefilepanel.h */,
+				1E88E6B41A5C8A73003FC867 /* vicefilepanel.m */,
 				83E49A030DE4CCA9001DE90F /* c128controller.h */,
 				83E49A040DE4CCA9001DE90F /* c128controller.m */,
 				83E49A050DE4CCA9001DE90F /* c128machinecontroller.h */,
@@ -308,6 +462,12 @@
 		83E49A270DE4CCA9001DE90F /* view */ = {
 			isa = PBXGroup;
 			children = (
+				1E86EF231A5CA3D20042700C /* controlwindow.h */,
+				1E86EF241A5CA3D20042700C /* controlwindow.m */,
+				1E86EF251A5CA3D20042700C /* soundview.h */,
+				1E86EF261A5CA3D20042700C /* soundview.m */,
+				1E86EF271A5CA3D20042700C /* statusview.h */,
+				1E86EF281A5CA3D20042700C /* statusview.m */,
 				83E49A280DE4CCA9001DE90F /* consolewindow.h */,
 				83E49A290DE4CCA9001DE90F /* consolewindow.m */,
 				83E49A2A0DE4CCA9001DE90F /* driveview.h */,
@@ -321,8 +481,6 @@
 				83E49A320DE4CCA9001DE90F /* logview.h */,
 				83E49A330DE4CCA9001DE90F /* logview.m */,
 				83E49A340DE4CCA9001DE90F /* Makefile.am */,
-				83E49A360DE4CCA9001DE90F /* peripheraldrawer.h */,
-				83E49A370DE4CCA9001DE90F /* peripheraldrawer.m */,
 				83E49A380DE4CCA9001DE90F /* tapeview.h */,
 				83E49A390DE4CCA9001DE90F /* tapeview.m */,
 				83E49A3A0DE4CCA9001DE90F /* viceglview.h */,
@@ -360,7 +518,12 @@
 			isa = PBXProject;
 			buildConfigurationList = 83E499610DE4C808001DE90F /* Build configuration list for PBXProject "VICE" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				English,
+			);
 			mainGroup = 83E4995C0DE4C808001DE90F;
 			productRefGroup = 83E499A60DE4C96B001DE90F /* Products */;
 			projectDirPath = "";
@@ -390,6 +553,23 @@
 				83E49A580DE4CCA9001DE90F /* Makefile.am in Resources */,
 				83E49A6E0DE4CCA9001DE90F /* Makefile.am in Resources */,
 				83E49A880DE6B6AA001DE90F /* RecordMedia.nib in Resources */,
+				1E88E6EB1A5C8AB5003FC867 /* DisassemblyWindow.nib in Resources */,
+				1E88E6EC1A5C8AB5003FC867 /* FilePanelImageContents.nib in Resources */,
+				1E88E6ED1A5C8AB5003FC867 /* IOTreeWindow.nib in Resources */,
+				1E88E6EE1A5C8AB5003FC867 /* MemoryWindow.nib in Resources */,
+				1E88E6EF1A5C8AB5003FC867 /* NetplayControl.nib in Resources */,
+				1E88E6F01A5C8AB5003FC867 /* RecordHistory.nib in Resources */,
+				1E88E6F11A5C8AB5003FC867 /* RegisterWindow.nib in Resources */,
+				1E88E6F21A5C8AB5003FC867 /* SIDSettings.nib in Resources */,
+				1E88E6F31A5C8AB5003FC867 /* VideoSettings.nib in Resources */,
+				1E88E6F41A5C8AB5003FC867 /* x64dtv.nib in Resources */,
+				1E88E6F51A5C8AB5003FC867 /* x64sc.nib in Resources */,
+				1E88E6F61A5C8AB5003FC867 /* x128.nib in Resources */,
+				1E88E6F71A5C8AB5003FC867 /* xcbm2.nib in Resources */,
+				1E88E6F81A5C8AB5003FC867 /* xcbm5x0.nib in Resources */,
+				1E88E6F91A5C8AB5003FC867 /* xpet.nib in Resources */,
+				1E88E6FA1A5C8AB5003FC867 /* xplus4.nib in Resources */,
+				1E88E6FB1A5C8AB5003FC867 /* xvic.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +584,7 @@
 				83E49A400DE4CCA9001DE90F /* drivesettingswindowcontroller.m in Sources */,
 				83E49A410DE4CCA9001DE90F /* iecdrivesettingswindowcontroller.m in Sources */,
 				83E49A420DE4CCA9001DE90F /* joysticksettingswindowcontroller.m in Sources */,
+				1E88E6B91A5C8A73003FC867 /* c64dtvmachinecontroller.m in Sources */,
 				83E49A430DE4CCA9001DE90F /* keyboardsettingswindowcontroller.m in Sources */,
 				83E49A460DE4CCA9001DE90F /* printersettingswindowcontroller.m in Sources */,
 				83E49A470DE4CCA9001DE90F /* resourceeditorcontroller.m in Sources */,
@@ -441,18 +622,176 @@
 				83E49A6B0DE4CCA9001DE90F /* joystickview.m in Sources */,
 				83E49A6C0DE4CCA9001DE90F /* keypressview.m in Sources */,
 				83E49A6D0DE4CCA9001DE90F /* logview.m in Sources */,
-				83E49A700DE4CCA9001DE90F /* peripheraldrawer.m in Sources */,
 				83E49A710DE4CCA9001DE90F /* tapeview.m in Sources */,
 				83E49A720DE4CCA9001DE90F /* viceglview.m in Sources */,
 				83E49A730DE4CCA9001DE90F /* vicewindow.m in Sources */,
 				83E49A740DE4CCA9001DE90F /* vsidui.m in Sources */,
 				83E49A830DE6B688001DE90F /* recordmediawindowcontroller.m in Sources */,
+				1E88E6B51A5C8A73003FC867 /* c64commoncontroller.m in Sources */,
+				1E88E6B61A5C8A73003FC867 /* c64commonmachinecontroller.m in Sources */,
+				1E88E6B71A5C8A73003FC867 /* c64dtvcommonmachinecontroller.m in Sources */,
+				1E88E6B81A5C8A73003FC867 /* c64dtvcontroller.m in Sources */,
+				1E88E6BA1A5C8A73003FC867 /* c64dtvui.m in Sources */,
+				1E88E6BB1A5C8A73003FC867 /* c64scui.m in Sources */,
+				1E88E6BC1A5C8A73003FC867 /* cbm2controller.m in Sources */,
+				1E88E6BD1A5C8A73003FC867 /* cbm2machinecontroller.m in Sources */,
+				1E88E6BE1A5C8A73003FC867 /* cbm5x0controller.m in Sources */,
+				1E88E6BF1A5C8A73003FC867 /* cbm5x0machinecontroller.m in Sources */,
+				1E88E6C01A5C8A73003FC867 /* cbm5x0ui.m in Sources */,
+				1E88E6C11A5C8A73003FC867 /* petcontroller.m in Sources */,
+				1E88E6C21A5C8A73003FC867 /* petmachinecontroller.m in Sources */,
+				1E88E6C31A5C8A73003FC867 /* plus4controller.m in Sources */,
+				1E88E6C41A5C8A73003FC867 /* plus4machinecontroller.m in Sources */,
+				1E88E6C51A5C8A73003FC867 /* scpu64ui.m in Sources */,
+				1E88E6C61A5C8A73003FC867 /* vic20controller.m in Sources */,
+				1E88E6C71A5C8A73003FC867 /* vic20machinecontroller.m in Sources */,
+				1E88E6C81A5C8A73003FC867 /* vicefilepanel.m in Sources */,
+				1E86EF211A5C90B10042700C /* c64dtvcommoncontroller.m in Sources */,
+				1E86EF291A5CA3D20042700C /* controlwindow.m in Sources */,
+				1E86EF2A1A5CA3D20042700C /* soundview.m in Sources */,
+				1E86EF2B1A5CA3D20042700C /* statusview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		1E88E6C91A5C8AB5003FC867 /* DisassemblyWindow.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6CA1A5C8AB5003FC867 /* English */,
+			);
+			name = DisassemblyWindow.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6CB1A5C8AB5003FC867 /* FilePanelImageContents.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6CC1A5C8AB5003FC867 /* English */,
+			);
+			name = FilePanelImageContents.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6CD1A5C8AB5003FC867 /* IOTreeWindow.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6CE1A5C8AB5003FC867 /* English */,
+			);
+			name = IOTreeWindow.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6CF1A5C8AB5003FC867 /* MemoryWindow.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6D01A5C8AB5003FC867 /* English */,
+			);
+			name = MemoryWindow.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6D11A5C8AB5003FC867 /* NetplayControl.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6D21A5C8AB5003FC867 /* English */,
+			);
+			name = NetplayControl.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6D31A5C8AB5003FC867 /* RecordHistory.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6D41A5C8AB5003FC867 /* English */,
+			);
+			name = RecordHistory.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6D51A5C8AB5003FC867 /* RegisterWindow.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6D61A5C8AB5003FC867 /* English */,
+			);
+			name = RegisterWindow.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6D71A5C8AB5003FC867 /* SIDSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6D81A5C8AB5003FC867 /* English */,
+			);
+			name = SIDSettings.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6D91A5C8AB5003FC867 /* VideoSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6DA1A5C8AB5003FC867 /* English */,
+			);
+			name = VideoSettings.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6DB1A5C8AB5003FC867 /* x64dtv.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6DC1A5C8AB5003FC867 /* English */,
+			);
+			name = x64dtv.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6DD1A5C8AB5003FC867 /* x64sc.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6DE1A5C8AB5003FC867 /* English */,
+			);
+			name = x64sc.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6DF1A5C8AB5003FC867 /* x128.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6E01A5C8AB5003FC867 /* English */,
+			);
+			name = x128.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6E11A5C8AB5003FC867 /* xcbm2.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6E21A5C8AB5003FC867 /* English */,
+			);
+			name = xcbm2.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6E31A5C8AB5003FC867 /* xcbm5x0.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6E41A5C8AB5003FC867 /* English */,
+			);
+			name = xcbm5x0.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6E51A5C8AB5003FC867 /* xpet.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6E61A5C8AB5003FC867 /* English */,
+			);
+			name = xpet.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6E71A5C8AB5003FC867 /* xplus4.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6E81A5C8AB5003FC867 /* English */,
+			);
+			name = xplus4.nib;
+			sourceTree = "<group>";
+		};
+		1E88E6E91A5C8AB5003FC867 /* xvic.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E88E6EA1A5C8AB5003FC867 /* English */,
+			);
+			name = xvic.nib;
+			sourceTree = "<group>";
+		};
 		83E499790DE4C8C8001DE90F /* DriveSettings.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -540,7 +879,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SDKROOT = "";
 			};
 			name = Debug;
 		};
@@ -548,7 +887,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SDKROOT = "";
 			};
 			name = Release;
 		};
@@ -560,9 +899,27 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "VICE-Info.plist";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					MACOSX_COCOA,
+					MACOSX_SUPPORT,
+					DARWIN_COMPILE,
+					__APPLE__,
+					__x86_64,
+				);
+				HEADER_SEARCH_PATHS = (
+					../../../../src/arch/unix/macosx,
+					../../../../src/arch/unix,
+					../../../../src/sid,
+					../../../../src/resid,
+					../../../../src/drive,
+					"../../../../src/lib/**",
+					../../../../src/vdrive,
+					"../../../../src/c64/**",
+					../../../../src,
+				);
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -571,7 +928,9 @@
 					AppKit,
 				);
 				PREBINDING = NO;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = VICE;
+				SDKROOT = "";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -584,9 +943,27 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "VICE-Info.plist";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					MACOSX_COCOA,
+					MACOSX_SUPPORT,
+					DARWIN_COMPILE,
+					__APPLE__,
+					__x86_64,
+				);
+				HEADER_SEARCH_PATHS = (
+					../../../../src/arch/unix/macosx,
+					../../../../src/arch/unix,
+					../../../../src/sid,
+					../../../../src/resid,
+					../../../../src/drive,
+					"../../../../src/lib/**",
+					../../../../src/vdrive,
+					"../../../../src/c64/**",
+					../../../../src,
+				);
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -595,7 +972,9 @@
 					AppKit,
 				);
 				PREBINDING = NO;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = VICE;
+				SDKROOT = "";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};

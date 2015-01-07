@@ -27,6 +27,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "viceresourcewindowcontroller.h"
+#import "sid/sid.h"
 
 @interface SIDSettingsWindowController : VICEResourceWindowController
 {
