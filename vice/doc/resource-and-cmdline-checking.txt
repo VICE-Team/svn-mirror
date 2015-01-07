@@ -63,6 +63,14 @@ VICIIHwScale
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
+UNNEEDED SDL VSID RESOURCES
+===========================
+
+SDLStatusbar=0
+VICIISDLFullscreenMode=0
+
+------------------------------------------------------------------------------------------------------------------------------------
+
 UNNEEDED COMMON VSID COMMAND LINE OPTIONS
 =========================================
 
@@ -3420,11 +3428,10 @@ resource range:                 N/A
 resource default:               CW_USEDEFAULT
 resource function:              set_window_xpos()
 resource var:                   ui_resources.window_xpos[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:
 command-line:                   NONE
-platforms to check:			windows
 platform gui present:           
 platform gui missing:			windows (CORRECT)
 
@@ -3436,11 +3443,10 @@ resource range:                 N/A
 resource default:               CW_USEDEFAULT
 resource function:              set_window_ypos()
 resource var:                   ui_resources.window_ypos[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:
 command-line:                   NONE
-platforms to check:			windows
 platform gui present:           
 platform gui missing:			windows (CORRECT)
 
@@ -3452,11 +3458,10 @@ resource range:                 N/A
 resource default:               CW_USEDEFAULT
 resource function:              set_window_xpos()
 resource var:                   ui_resources.window_xpos[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should only be used for x128)
-not used in:
+resource emulators:             x128
+not used in:				x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE
-platforms to check:			windows
 platform gui present:           
 platform gui missing:			windows (CORRECT)
 
@@ -3468,11 +3473,10 @@ resource range:                 N/A
 resource default:               CW_USEDEFAULT
 resource function:              set_window_ypos()
 resource var:                   ui_resources.window_ypos[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should only be used for x128)
-not used in:
+resource emulators:             x128
+not used in:				x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE
-platforms to check:			windows
 platform gui present:           
 platform gui missing:			windows (CORRECT)
 

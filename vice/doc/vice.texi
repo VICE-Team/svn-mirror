@@ -12150,12 +12150,12 @@ Boolean specifying whether to use only the first CPU on an SMP system, or all CP
 @vindex Window0Ypos
 @item Window0Xpos
 @itemx Window0Ypos
-Integers specifying the position and size of the (first) emulator window.
+Integers specifying the position and size of the (first) emulator window (all emulators except vsid).
 @vindex Window1Xpos
 @vindex Window1Ypos
 @item Window1Xpos
 @itemx Window1Ypos
-Integers specifying the position and size of the (second) emulator window.
+Integers specifying the position and size of the (second) emulator window (x128 only).
 
 @vindex VBLANKSync
 @item VBLANKSync

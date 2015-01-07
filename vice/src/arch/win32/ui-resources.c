@@ -297,14 +297,6 @@ static const resource_int_t resources_int[] = {
       &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
       &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
-    { "Window0Xpos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
-      &ui_resources.window_xpos[0], set_window_xpos, (void *)0 },
-    { "Window0Ypos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
-      &ui_resources.window_ypos[0], set_window_ypos, (void *)0 },
-    { "Window1Xpos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
-      &ui_resources.window_xpos[1], set_window_xpos, (void *)1 },
-    { "Window1Ypos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
-      &ui_resources.window_ypos[1], set_window_ypos, (void *)1 },
     { "VBLANKSync", 0, RES_EVENT_NO, NULL,
       &ui_resources.vblank_sync, set_vblank_sync, NULL },
     { "AlwaysOnTop", 0, RES_EVENT_NO, NULL,
@@ -315,6 +307,22 @@ static const resource_int_t resources_int[] = {
       &ui_resources.true_aspect_ratio, set_true_aspect_ratio, NULL },
     { "AspectRatio", 1000, RES_EVENT_NO, NULL,
       &ui_resources.aspect_ratio, set_aspect_ratio, NULL },
+    { NULL }
+};
+
+static const resource_int_t window0_resources_int[] = {
+    { "Window0Xpos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
+      &ui_resources.window_xpos[0], set_window_xpos, (void *)0 },
+    { "Window0Ypos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
+      &ui_resources.window_ypos[0], set_window_ypos, (void *)0 },
+    { NULL }
+};
+
+static const resource_int_t window1_resources_int[] = {
+    { "Window1Xpos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
+      &ui_resources.window_xpos[1], set_window_xpos, (void *)1 },
+    { "Window1Ypos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
+      &ui_resources.window_ypos[1], set_window_ypos, (void *)1 },
     { NULL }
 };
 
@@ -348,6 +356,14 @@ int ui_resources_init(void)
             if (resources_register_string(cart_resources_string) < 0) {
                 return -1;
             }
+        }
+        if (machine_class == VICE_MACHINE_C128) {
+            if (resources_register_int(window1_resources_int) < 0) {
+                return -1;
+            }
+        }
+        if (resources_register_int(window0_resources_int) < 0) {
+            return -1;
         }
         if (resources_register_string(resources_string) < 0) {
             return -1;
