@@ -70,6 +70,7 @@ EXTRA_DIST = \
 	vicii.tmpl \
 	viciidtv.tmpl \
 	viciisc.tmpl \
+	viciivsid.tmpl \
 	video.tmpl \
 	vsid.tmpl \
 	vsidlib.tmpl \

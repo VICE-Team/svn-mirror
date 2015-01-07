@@ -23,6 +23,7 @@ SUBDIRS = \
 	raster \
 	vicii \
 	viciisc \
+	viciivsid \
 	vdc \
 	crtc \
 	gfxoutputdrv \
@@ -61,6 +62,7 @@ DIST_SUBDIRS = \
 	raster \
 	vicii \
 	viciisc \
+	viciivsid \
 	vdc \
 	crtc \
 	gfxoutputdrv \
@@ -805,6 +807,7 @@ vic20cart_lib = $(top_builddir)/src/vic20/cart/libvic20cart.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 viciidtv_lib = $(top_builddir)/src/vicii/libviciidtv.a
 viciisc_lib = $(top_builddir)/src/viciisc/libviciisc.a
+viciivsid_lib = $(top_builddir)/src/viciivsid/libviciivsid.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 vsid_lib = $(top_builddir)/src/c64/libvsid.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
@@ -900,7 +903,7 @@ vsid_libs =  \
 	$(sounddrv_lib) \
 	$(serial_lib) \
 	$(core_lib) \
-	$(vicii_lib) \
+	$(viciivsid_lib) \
 	$(raster_lib) \
 	$(video_lib) \
 	$(common_libs) \
@@ -920,7 +923,7 @@ vsid-all: \
 	libraster \
 	libsid \
 	libsounddrv \
-	libvicii \
+	libviciivsid \
 	libvideo \
 	libarch \
 	libmonitor \
@@ -1713,9 +1716,10 @@ DISTCLEANFILES = $(BUILT_SOURCES)
 .PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20
 	libpet libplus4 libcbm2 libcbm5x0 libdrive libvdrive libprinterdrv
 	librs232drv libgfxoutputdrv libsounddrv libdiskimage libfsdevice
-	libtape libarch libvicii libviciisc libviciidtv libvdc libsid libcrtc
-	libvideo libserial libparallel libcore libiecbus libfileio librtc
-	libuserport libp64 libscpu64 @RESID_DEP@ @RESID_DTV_DEP@
+	libtape libarch libvicii libviciisc libviciidtv libviciivsid libvdc
+	libsid libcrtc libvideo libserial libparallel libcore libiecbus
+	libfileio librtc libuserport libp64 libscpu64 @RESID_DEP@
+	@RESID_DTV_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -1829,6 +1833,8 @@ libviciidtv:
 	(cd vicii && $(MAKE) libviciidtv.a)
 libviciisc:
 	(cd viciisc && $(MAKE) libviciisc.a)
+libviciivsid:
+	(cd viciivsid && $(MAKE) libviciivsid.a)
 libvideo:
 	(cd video && $(MAKE))
 libvsid:

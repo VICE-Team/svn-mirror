@@ -32,10 +32,6 @@ FullscreenWidth
 FullscreenHeight
 FullscreenRefreshRate
 FullscreenEnabled
-Window0Xpos
-Window0Ypos
-Window1Xpos
-Window1Ypos
 VBLANKSync
 KeepAspectRatio
 TrueAspectRatio
