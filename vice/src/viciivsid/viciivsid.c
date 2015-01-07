@@ -53,8 +53,6 @@
 #include "cartridge.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
-#include "c64dtvblitter.h"
-#include "c64dtvdma.h"
 #include "clkguard.h"
 #include "dma.h"
 #include "lib.h"
@@ -1265,15 +1263,6 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
 
         if (vicii.viciidtv) {
             memset(vicii.cbuf, 0, sizeof(vicii.cbuf));
-
-            /* Scheduled Blitter */
-            if (blitter_on_irq & 0x40) {
-                c64dtvblitter_trigger_blitter();
-            }
-            /* Scheduled DMA */
-            if (dma_on_irq & 0x40) {
-                c64dtvdma_trigger_dma();
-            }
 
             /* HACK to make vcache display gfx in chunky & the rest */
             if ((vicii.video_mode >= VICII_8BPP_CHUNKY_MODE) &&

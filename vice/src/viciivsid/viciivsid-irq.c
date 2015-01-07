@@ -36,8 +36,6 @@
 #include "types.h"
 #include "vicii-irq.h"
 #include "viciitypes.h"
-#include "c64dtvblitter.h"
-#include "c64dtvdma.h"
 
 void vicii_irq_set_line(void)
 {
@@ -246,15 +244,6 @@ void vicii_irq_next_frame(void)
    line counter matches the value stored in the raster line register.  */
 void vicii_irq_alarm_handler(CLOCK offset, void *data)
 {
-    /* Scheduled Blitter */
-    if (blitter_on_irq & 0x10) {
-        c64dtvblitter_trigger_blitter();
-    }
-    /* Scheduled DMA */
-    if (dma_on_irq & 0x10) {
-        c64dtvdma_trigger_dma();
-    }
-
     vicii_irq_raster_set(vicii.raster_irq_clk);
     vicii_irq_next_frame();
 }

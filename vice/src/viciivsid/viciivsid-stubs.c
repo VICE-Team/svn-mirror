@@ -26,9 +26,6 @@
 
 #include "vice.h"
 
-#include "c64dtvblitter.h"
-#include "c64dtvdma.h"
-
 int dtvclockneg = 0;
 int blitter_on_irq = 0;
 int dma_on_irq = 0;
