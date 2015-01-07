@@ -21,9 +21,6 @@ VICIIBorderMode
 VICIICheckSsColl
 VICIICheckSbColl
 VICIINewLuminances
-RAMInitStartValue
-RAMInitValueInvert
-RAMInitPatternInvert
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -17756,8 +17753,8 @@ resource range:                 0..255
 resource default:               0
 resource function:              set_start_value()
 resource var:                   start_value
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:
 command-line:                   -raminitstartvalue
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
@@ -17780,8 +17777,8 @@ resource range:                 0+
 resource default:               64
 resource function:              set_value_invert()
 resource var:                   value_invert
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:
 command-line:                   -raminitvalueinvert
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
@@ -17804,8 +17801,8 @@ resource range:                 0+
 resource default:               0
 resource function:              set_pattern_invert()
 resource var:                   pattern_invert
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:
 command-line:                   -raminitpatterninvert
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
