@@ -12115,22 +12115,22 @@ String that holds the dimensions and position in an encoded form.
 
 @vindex InitialDefaultDir
 @item InitialDefaultDir
-String specifying the initial default directory, which is used by the generic file browser dialog.
+String specifying the initial default directory, which is used by the generic file browser dialog (all emulators except vsid).
 @vindex InitialTapeDir
 @item InitialTapeDir
-String specifying the initial tape directory, which is used by the tape image file browser dialog.
+String specifying the initial tape directory, which is used by the tape image file browser dialog (all emulators except x64dtv, xscpu64 and vsid).
 @vindex InitialDiskDir
 @item InitialDiskDir
-String specifying the initial tape directory, which is used by the disk image file browser dialog.
+String specifying the initial tape directory, which is used by the disk image file browser dialog (all emulators except vsid).
 @vindex InitialAutostartDir
 @item InitialAutostartDir
-String specifying the initial autostart directory, which is used by the autostart image file browser dialog.
+String specifying the initial autostart directory, which is used by the autostart image file browser dialog (all emulators except vsid).
 @vindex InitialCartDir
 @item InitialCartDir
-String specifying the initial cartridge directory, which is used by the cartridge image file browser dialog.
+String specifying the initial cartridge directory, which is used by the cartridge image file browser dialog (all emulators except x64dtv and vsid).
 @vindex InitialSnapshotDir
 @item InitialSnapshotDir
-String specifying the initial snapshots directory, which is used by the snapshots file browser dialog.
+String specifying the initial snapshots directory, which is used by the snapshots file browser dialog (all emulators except vsid).
 
 @vindex SaveResourcesOnExit
 @item SaveResourcesOnExit
@@ -12306,27 +12306,27 @@ Set the sensitivity of the mouse
 
 @findex -initialdefaultdir
 @item -initialdefaultdir <Name>
-Select the initial default directory for the file browser dialog
+Select the initial default directory for the file browser dialog (all emulators except vsid)
 (@code{InitialDefaultDir}).
 @findex -initialtapedir
 @item -initialtapedir <Name>
-Select the initial tape images directory for the file browser dialog
+Select the initial tape images directory for the file browser dialog (all emulators except x64dtv, xscpu64 and vsid)
 (@code{InitialTapeDir}).
 @findex -initialdiskdir
 @item -initialdiskdir <Name>
-Select the initial disk images directory for the file browser dialog
+Select the initial disk images directory for the file browser dialog (all emulators except vsid)
 (@code{InitialDiskDir}).
 @findex -initialautostartdir
 @item -initialautostartdir <Name>
-Select the initial autostart directory for the file browser dialog
+Select the initial autostart directory for the file browser dialog (all emulators except vsid)
 (@code{InitialAutostartDir}).
 @findex -initialcartdir
 @item -initialcartdir <Name>
-Select the initial cartridge images directory for the file browser dialog
+Select the initial cartridge images directory for the file browser dialog (all emulators except x64dtv and vsid)
 (@code{InitialCartDir}).
 @findex -initialsnapshotdir
 @item -initialsnapshotdir <Name>
-Select the initial snapshot directory for the file browser dialog
+Select the initial snapshot directory for the file browser dialog (all emulators except vsid)
 (@code{InitialSnapshotDir}).
 
 @findex -saveres, +saveres

@@ -32,6 +32,7 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "res.h"
+#include "machine.h"
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
@@ -249,19 +250,31 @@ static int set_aspect_ratio(int val, void *param)
     return 0;
 }
 
-static const resource_string_t resources_string[] = {
+static const resource_string_t monitor_resources_string[] = {
     { "MonitorDimensions", "", RES_EVENT_NO, NULL,
       &ui_resources.monitor_dimensions, set_monitor_dimensions, NULL },
-    { "InitialDefaultDir", "", RES_EVENT_NO, NULL,
-      &ui_resources.initialdir[0], set_initial_dir, (void *)0 },
+    { NULL }
+};
+
+static const resource_string_t cart_resources_string[] = {
+    { "InitialCartDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[4], set_initial_dir, (void *)4 },
+    { NULL }
+};
+
+static const resource_string_t tape_resources_string[] = {
     { "InitialTapeDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[1], set_initial_dir, (void *)1 },
+    { NULL }
+};
+
+static const resource_string_t resources_string[] = {
+    { "InitialDefaultDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[0], set_initial_dir, (void *)0 },
     { "InitialDiskDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[2], set_initial_dir, (void *)2 },
     { "InitialAutostartDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[3], set_initial_dir, (void *)3 },
-    { "InitialCartDir", "", RES_EVENT_NO, NULL,
-      &ui_resources.initialdir[4], set_initial_dir, (void *)4 },
     { "InitialSnapshotDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[5], set_initial_dir, (void *)5 },
     { NULL }
@@ -313,10 +326,32 @@ static const resource_int_t resources_int_cpu[] = {
 
 int ui_resources_init(void)
 {
+    int i;
+
     translate_resources_init();
 
-    if (resources_register_string(resources_string) < 0) {
+    if (resources_register_string(monitor_resources_string) < 0) {
         return -1;
+    }
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        for (i = 0; i < 6; i++) {
+            set_initial_dir("", (void *)i);
+        }
+    } else {
+        if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_SCPU64) {
+            if (resources_register_string(tape_resources_string) < 0) {
+                return -1;
+            }
+        }
+        if (machine_class != VICE_MACHINE_C64DTV) {
+            if (resources_register_string(cart_resources_string) < 0) {
+                return -1;
+            }
+        }
+        if (resources_register_string(resources_string) < 0) {
+            return -1;
+        }
     }
 
     if (uilib_cpu_is_smp()) {
@@ -351,7 +386,7 @@ int ui_vblank_sync_enabled()
 
 /* UI-related command-line options.  */
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t common_cmdline_options[] = {
     { "-saveres", SET_RESOURCE, 0,
       NULL, NULL, "SaveResourcesOnExit", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -371,36 +406,6 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "ConfirmOnExit", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDS_NO_CONFIRM_QUIT_VICE,
-      NULL, NULL },
-    { "-initialdefaultdir", SET_RESOURCE, 1,
-      NULL, NULL, "InitialDefaultDir", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_DEFAULT_DIR,
-      NULL, NULL },
-    { "-initialtapedir", SET_RESOURCE, 1,
-      NULL, NULL, "InitialTapeDir", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_TAPE_DIR,
-      NULL, NULL },
-    { "-initialdiskdir", SET_RESOURCE, 1,
-      NULL, NULL, "InitialDiskDir", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_DISK_DIR,
-      NULL, NULL },
-    { "-initialautostartdir", SET_RESOURCE, 1,
-      NULL, NULL, "InitialAutostartDir", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_AUTOSTART_DIR,
-      NULL, NULL },
-    { "-initialcartdir", SET_RESOURCE, 1,
-      NULL, NULL, "InitialCartDir", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_CART_DIR,
-      NULL, NULL },
-    { "-initialsnapshotdir", SET_RESOURCE, 1,
-      NULL, NULL, "InitialSnapshotDir", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_SNAPSHOT_DIR,
       NULL, NULL },
     { "-vblanksync", SET_RESOURCE, 0,
       NULL, NULL, "VBLANKSync", (resource_value_t)1,
@@ -450,6 +455,48 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
+static const cmdline_option_t cmdline_options[] = {
+    { "-initialdefaultdir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialDefaultDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_DEFAULT_DIR,
+      NULL, NULL },
+    { "-initialdiskdir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialDiskDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_DISK_DIR,
+      NULL, NULL },
+    { "-initialautostartdir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialAutostartDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_AUTOSTART_DIR,
+      NULL, NULL },
+    { "-initialsnapshotdir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialSnapshotDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_SNAPSHOT_DIR,
+      NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t tape_cmdline_options[] = {
+    { "-initialtapedir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialTapeDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_TAPE_DIR,
+      NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t cart_cmdline_options[] = {
+    { "-initialcartdir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialCartDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_CART_DIR,
+      NULL, NULL },
+    { NULL }
+};
+
 static const cmdline_option_t cmdline_options_cpu[] = {
     { "+singlecpu", SET_RESOURCE, 0,
       NULL, NULL, "SingleCPU", (resource_value_t)0,
@@ -474,5 +521,21 @@ int ui_cmdline_options_init(void)
         }
     }
 
-    return cmdline_register_options(cmdline_options);
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_SCPU64) {
+            if (cmdline_register_options(tape_cmdline_options) < 0) {
+                return -1;
+            }
+        }
+        if (machine_class != VICE_MACHINE_C64DTV) {
+            if (cmdline_register_options(cart_cmdline_options) < 0) {
+                return -1;
+            }
+        }
+        if (cmdline_register_options(cmdline_options) < 0) {
+            return -1;
+        }
+    }
+
+    return cmdline_register_options(common_cmdline_options);
 }
