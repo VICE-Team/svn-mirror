@@ -184,10 +184,6 @@ inline void vicii_delay_clk(void)
 
 inline void vicii_handle_pending_alarms(int num_write_cycles)
 {
-    if (vicii.viciie != 0) {
-        vicii_delay_clk();
-    }
-
     if (num_write_cycles != 0) {
         int f;
 
@@ -207,16 +203,10 @@ inline void vicii_handle_pending_alarms(int num_write_cycles)
             if (maincpu_clk > vicii.fetch_clk) {
                 vicii_fetch_alarm_handler(0, NULL);
                 f = 1;
-                if (vicii.viciie != 0) {
-                    vicii_delay_clk();
-                }
             }
             if (maincpu_clk >= vicii.draw_clk) {
                 vicii_raster_draw_alarm_handler((CLOCK)(maincpu_clk - vicii.draw_clk), NULL);
                 f = 1;
-                if (vicii.viciie != 0) {
-                    vicii_delay_clk();
-                }
             }
         }
         while (f);
@@ -235,16 +225,10 @@ inline void vicii_handle_pending_alarms(int num_write_cycles)
             if (maincpu_clk >= vicii.fetch_clk) {
                 vicii_fetch_alarm_handler(0, NULL);
                 f = 1;
-                if (vicii.viciie != 0) {
-                    vicii_delay_clk();
-                }
             }
             if (maincpu_clk >= vicii.draw_clk) {
                 vicii_raster_draw_alarm_handler(0, NULL);
                 f = 1;
-                if (vicii.viciie != 0) {
-                    vicii_delay_clk();
-                }
             }
         }
         while (f);
@@ -377,18 +361,15 @@ raster_t *vicii_init(unsigned int flag)
 
     switch (flag) {
         case VICII_EXTENDED:
-            vicii.viciie = 1;
             vicii.viciidtv = 0;
             vicii.log = log_open("VIC-IIe");
             break;
         case VICII_DTV:
-            vicii.viciie = 0;
             vicii.viciidtv = 1;
             vicii.log = log_open("VIC-II DTV");
             break;
         default:
         case VICII_STANDARD:
-            vicii.viciie = 0;
             vicii.viciidtv = 0;
             vicii.log = log_open("VIC-II");
             break;

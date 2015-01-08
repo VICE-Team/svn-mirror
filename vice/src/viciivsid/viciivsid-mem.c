@@ -103,10 +103,6 @@ inline static void vicii_local_store_vbank(WORD addr, BYTE value)
 {
     unsigned int f;
 
-    if (vicii.viciie != 0) {
-        vicii_delay_clk();
-    }
-
     do {
         CLOCK mclk;
 
@@ -140,9 +136,6 @@ inline static void vicii_local_store_vbank(WORD addr, BYTE value)
         if (mclk >= vicii.draw_clk) {
             vicii_raster_draw_alarm_handler(0, NULL);
             f = 1;
-        }
-        if (vicii.viciie != 0) {
-            vicii_delay_clk();
         }
     } while (f);
 
@@ -954,25 +947,12 @@ inline static void sprite_color_store(WORD addr, BYTE value)
 
 inline static void d02f_store(BYTE value)
 {
-    if (vicii.viciie) {
-        VICII_DEBUG_REGISTER(("Extended keyboard row enable: $%02X", value));
-        vicii.regs[0x2f] = value | 0xf8;
-        cia1_set_extended_keyboard_rows_mask(value);
-    } else {
-        VICII_DEBUG_REGISTER(("(unused)"));
-    }
+    VICII_DEBUG_REGISTER(("(unused)"));
 }
 
 inline static void d030_store(BYTE value)
 {
-    if (vicii.viciie) {
-        VICII_DEBUG_REGISTER(("Store $D030: $%02X", value));
-        vicii.regs[0x30] = value | 0xfc;
-        vicii.fastmode = value & 1;
-        vicii.half_cycles = 0;
-    } else {
-        VICII_DEBUG_REGISTER(("(unused)"));
-    }
+    VICII_DEBUG_REGISTER(("(unused)"));
 }
 
 void viciidtv_update_colorram()
@@ -1818,24 +1798,13 @@ BYTE vicii_read(WORD addr)
 
         case 0x2f:                /* $D02F: Unused (or extended keyboard row
                                      select) */
-            if (vicii.viciie) {
-                VICII_DEBUG_REGISTER(("Extended keyboard row enable: $%02X",
-                                      vicii.regs[addr]));
-                return vicii.regs[addr];
-            } else {
-                VICII_DEBUG_REGISTER(("(unused)"));
-                return 0xff;
-            }
+            VICII_DEBUG_REGISTER(("(unused)"));
+            return 0xff;
             break;
 
         case 0x30:                /* $D030: Unused (or VIC-IIe extension) */
-            if (vicii.viciie) {
-                VICII_DEBUG_REGISTER(("Read $D030: $%02X", vicii.regs[addr]));
-                return vicii.regs[addr];
-            } else {
-                VICII_DEBUG_REGISTER(("(unused)"));
-                return 0xff;
-            }
+            VICII_DEBUG_REGISTER(("(unused)"));
+            return 0xff;
             break;
 
         case 0x31:                /* $D031: Unused */
@@ -2041,11 +2010,7 @@ BYTE vicii_peek(WORD addr)
         case 0x1f:            /* $D01F: Sprite-background collision */
             return vicii.sprite_background_collisions;
         case 0x2f:            /* Extended keyboard row select */
-            if (vicii.viciie) {
-                return vicii.regs[addr] | 0xf8;
-            } else {
-                return /* vicii.regs[addr] | */ 0xff;
-            }
+            return /* vicii.regs[addr] | */ 0xff;
         default:
             if (!vicii.viciidtv) {
                 return vicii.regs[addr] | unused_bits_in_registers[addr];

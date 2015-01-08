@@ -393,9 +393,6 @@ struct vicii_s {
     unsigned int num_idle_3fff_old;
     idle_3fff_t *idle_3fff_old;
 
-    /* Flag: Enable VIC-IIe features.  */
-    unsigned int viciie;
-
     /* Flag: Enable DTV VIC-II features.  */
     unsigned int viciidtv;
 
