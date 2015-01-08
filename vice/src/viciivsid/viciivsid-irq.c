@@ -106,12 +106,6 @@ void vicii_irq_lightpen_clear(CLOCK mclk)
 
 void vicii_irq_set_raster_line(unsigned int line)
 {
-    if (vicii.raster_irq_prevent) {
-        vicii.raster_irq_clk = CLOCK_MAX;
-        alarm_unset(vicii.raster_irq_alarm);
-        return;
-    }
-
     if (line == vicii.raster_irq_line && vicii.raster_irq_clk != CLOCK_MAX) {
         return;
     }
@@ -123,10 +117,6 @@ void vicii_irq_set_raster_line(unsigned int line)
                                 + VICII_RASTER_IRQ_DELAY - INTERRUPT_DELAY
                                 + (vicii.cycles_per_line
                                    * (line - current_line)));
-        if (vicii.viciidtv) {
-            vicii.raster_irq_clk += vicii.raster_irq_offset;
-        }
-
         /* Raster interrupts on line 0 are delayed by 1 cycle.  */
         if (line == 0) {
             vicii.raster_irq_clk++;

@@ -86,18 +86,10 @@ inline static void line_becomes_bad(const int cycle)
 
         xpos = cycle - (VICII_FETCH_CYCLE + 3);
 
-        if (vicii.viciidtv) {
-            /* there is a skew of DMA delay on the DTV.
-            this fix partly works. */
-            xpos -= 1;
-        }
-
         num_chars = VICII_SCREEN_TEXTCOLS - xpos;
 
         /* Take over the bus until the memory fetch is done.  */
-        if (vicii.fastmode == 0 && !vicii.badline_disable && !vicii.colorfetch_disable) {
-            dma_maincpu_steal_cycles(maincpu_clk, num_chars, 0);
-        }
+        dma_maincpu_steal_cycles(maincpu_clk, num_chars, 0);
 
         if (num_chars <= VICII_SCREEN_TEXTCOLS) {
             /* Matrix fetches starts immediately, but the VICII needs

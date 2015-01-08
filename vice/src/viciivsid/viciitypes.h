@@ -5,10 +5,6 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
  *
- * DTV sections written by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
- *  Daniel Kahlin <daniel@kahlin.net>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -45,13 +41,12 @@
 #define VICII_40COL_START_PIXEL vicii.screen_leftborderwidth
 #define VICII_40COL_STOP_PIXEL  (vicii.screen_leftborderwidth + VICII_SCREEN_XPIX)
 /* these are one pixel 'off' on the DTV */
-#define VICII_38COL_START_PIXEL (vicii.screen_leftborderwidth + 7 + vicii.viciidtv)
-#define VICII_38COL_STOP_PIXEL  (vicii.screen_leftborderwidth + 311 + vicii.viciidtv)
+#define VICII_38COL_START_PIXEL (vicii.screen_leftborderwidth + 7)
+#define VICII_38COL_STOP_PIXEL  (vicii.screen_leftborderwidth + 311)
 
 #define VICII_NUM_SPRITES      8
 #define VICII_MAX_SPRITE_WIDTH 56  /* expanded sprite in bug area */
 #define VICII_NUM_COLORS       16
-#define VICIIDTV_NUM_COLORS    256
 
 /* Available video modes.  The number is given by
    ((vicii.regs[0x11] & 0x60) | (vicii.regs[0x16] & 0x10)) >> 4.  */
@@ -67,18 +62,6 @@ enum vicii_video_mode_s {
     VICII_ILLEGAL_TEXT_MODE,
     VICII_ILLEGAL_BITMAP_MODE_1,
     VICII_ILLEGAL_BITMAP_MODE_2,
-/* DTV modes */
-    VICII_8BPP_NORMAL_TEXT_MODE,
-    VICII_8BPP_MULTICOLOR_TEXT_MODE,
-    VICII_8BPP_HIRES_BITMAP_MODE, /* TODO: doesn't exist */
-    VICII_8BPP_MULTICOLOR_BITMAP_MODE,
-    VICII_8BPP_EXTENDED_TEXT_MODE,
-    VICII_8BPP_CHUNKY_MODE,
-    VICII_8BPP_TWO_PLANE_BITMAP_MODE,
-    VICII_8BPP_FRED_MODE,
-    VICII_8BPP_FRED2_MODE,
-    VICII_8BPP_PIXEL_CELL_MODE,
-    VICII_ILLEGAL_LINEAR_MODE,
     VICII_IDLE_MODE,           /* Special mode for idle state.  */
     VICII_NUM_VMODES  /* valid for DTV only */
 };
@@ -93,13 +76,6 @@ typedef enum vicii_video_mode_s vicii_video_mode_t;
                                   || (x) == VICII_MULTICOLOR_TEXT_MODE \
                                   || (x) == VICII_EXTENDED_TEXT_MODE)
 
-/* The actual modes with modulo bug (possibly incomplete) */
-/*
-#define VICII_MODULO_BUG(x)      ((x) == VICII_8BPP_FRED_MODE \
-                                 || (x) == VICII_8BPP_FRED2_MODE \
-                                 || (x) == VICII_ILLEGAL_TEXT_MODE \
-                                 || (x) == VICII_8BPP_TWO_PLANE_BITMAP_MODE)
-*/
 /* Temporary list to keep all demos running correctly */
 #define VICII_MODULO_BUG(x)      ((x) == VICII_ILLEGAL_TEXT_MODE)
 
@@ -123,10 +99,6 @@ typedef enum vicii_video_mode_s vicii_video_mode_t;
    SCREEN_WIDTH if outside the visible range.  */
 #define VICII_RASTER_X(cycle)      (((int)(cycle) - 17) * 8 + vicii.screen_leftborderwidth)
 
-/* Adjusted RASTER_X position to account for -2 pixel difference on some
-   C64DTV stores */
-#define VICIIDTV_RASTER_X_ADJ(cycle)     (VICII_RASTER_X(cycle) - 2)
-
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending drawing event has been served, this is
    guarranteed to be always correct.  It is a bit slow, though.  */
@@ -137,10 +109,6 @@ typedef enum vicii_video_mode_s vicii_video_mode_t;
 /* Cycle # within the current line.  */
 #define VICII_RASTER_CYCLE(clk)    ((unsigned int)((clk) \
                                                    % vicii.cycles_per_line))
-/* DTV Cycle # within the current line.
-   Handles the "hole" on PAL systems at cycles 54-55 and the 1 cycle shift */
-#define VICIIDTV_RASTER_CYCLE(clk) ((unsigned int)((((clk) - 1) % vicii.cycles_per_line) + ((vicii.cycles_per_line == 63 && (((clk) - 1) % vicii.cycles_per_line) > 53) ? 2 : 0)))
-
 /* `clk' value for the beginning of the current line.  */
 #define VICII_LINE_START_CLK(clk)  (((clk) / vicii.cycles_per_line) \
                                     * vicii.cycles_per_line)
@@ -191,22 +159,7 @@ struct vicii_s {
     raster_t raster;
 
     /* VIC-II registers.  */
-    BYTE regs[0x50];
-
-    /* DTV Linear Counters */
-    int counta;
-    int counta_mod;
-    int counta_step;
-    int countb;
-    int countb_mod;
-    int countb_step;
-
-    /* DTV Palette lookup */
-    BYTE dtvpalette[256];
-
-    /* DTV raster IRQ */
-    int raster_irq_offset;
-    int raster_irq_prevent;
+    BYTE regs[0x40];
 
     /* Interrupt register.  */
     int irq_status;             /* = 0; */
@@ -393,15 +346,6 @@ struct vicii_s {
     unsigned int num_idle_3fff_old;
     idle_3fff_t *idle_3fff_old;
 
-    /* Flag: Enable DTV VIC-II features.  */
-    unsigned int viciidtv;
-
-    /* VIC-IIe clock mode.  */
-    unsigned int fastmode;
-
-    /* C128 2mhz cycle counter */
-    int half_cycles;
-
     /* Last value read from VICII (used for RMW access).  */
     BYTE last_read;
 
@@ -409,27 +353,6 @@ struct vicii_s {
     struct video_chip_cap_s *video_chip_cap;
 
     unsigned int int_num;
-
-    /* Flag: DTV extended register enable */
-    unsigned int extended_enable;
-
-    /* Flag: DTV extended register lockout */
-    unsigned int extended_lockout;
-
-    /* Flag: DTV badline disable */
-    unsigned int badline_disable;
-
-    /* Flag: DTV colorfetch disable */
-    unsigned int colorfetch_disable;
-
-    /* Flag: DTV overscan */
-    unsigned int overscan;
-
-    /* Flag: DTV high color */
-    unsigned int high_color;
-
-    /* Flag: DTV border off */
-    unsigned int border_off;
 
     /* Pointer to color ram */
     BYTE *color_ram_ptr;
