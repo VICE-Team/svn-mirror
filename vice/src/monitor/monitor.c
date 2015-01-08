@@ -1892,7 +1892,7 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
             if (prev_ptr) {
                 prev_ptr->next = sym_ptr->next;
             } else {
-                monitor_labels[mem].name_list = NULL;
+                monitor_labels[mem].name_list = sym_ptr->next;
             }
             lib_free(sym_ptr);
             break;
@@ -1910,7 +1910,7 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
             if (prev_ptr) {
                 prev_ptr->next = sym_ptr->next;
             } else {
-                monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)] = NULL;
+                monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)] = sym_ptr->next;
             }
             lib_free(sym_ptr);
             return;
