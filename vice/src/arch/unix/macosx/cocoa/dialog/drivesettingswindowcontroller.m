@@ -39,15 +39,16 @@
     self = [super initWithWindowNibName:@"DriveSettings"];
     [self registerForResourceUpdate:@selector(updateResources:)];
     
-    int map[14] = {
+    int map[DRIVE_TYPE_NUM] = {
         DRIVE_TYPE_1541, DRIVE_TYPE_1541II, DRIVE_TYPE_1551,
         DRIVE_TYPE_1570, DRIVE_TYPE_1571,   DRIVE_TYPE_1571CR,
         DRIVE_TYPE_1581, DRIVE_TYPE_2031,   DRIVE_TYPE_2040,
         DRIVE_TYPE_3040, DRIVE_TYPE_4040,   DRIVE_TYPE_1001,
-        DRIVE_TYPE_8050, DRIVE_TYPE_8250
+        DRIVE_TYPE_8050, DRIVE_TYPE_8250,   DRIVE_TYPE_2000,
+        DRIVE_TYPE_4000
     };
     int i;
-    numDriveTypes = 14;
+    numDriveTypes = DRIVE_TYPE_NUM;
     for (i = 0; i < numDriveTypes; i++) {
         driveTypeMap[i] = map[i];
     }
@@ -182,7 +183,7 @@
             int canParallel = drive_check_parallel_cable(driveTypeVal);
             [parallelCable setEnabled:canParallel];
             int parallelCableVal = [self getIntResource:@"Drive%dParallelCable" withNumber:driveNum];
-            [parallelCable setState:parallelCableVal];
+            [parallelCable selectCellAtRow:parallelCableVal column:0];
         }
 
     } else {
@@ -324,11 +325,12 @@
 -(void)toggledParallelCable:(id)sender
 {
     int driveNum = [driveChooser selectedSegment] + driveOffset;
-    int on = [sender state];
+    id cell = [sender selectedCell];
+    int type = [cell tag];
 
     [self setIntResource:@"Drive%dParallelCable"
               withNumber:driveNum
-                 toValue:on];
+                 toValue:type];
 }
 
 @end

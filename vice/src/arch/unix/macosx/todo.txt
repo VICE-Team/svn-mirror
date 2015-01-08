@@ -1,0 +1,18 @@
+
+- the xcode project should get fixed. currently VICE does not compile from
+  within xcode. 
+
+- vsid UI is missing
+
+- model switching is missing for c128, DTV, plus4, vic20, pet, cbm2, cbm5x0
+
+- VICII-Settings gives an empty dialog (open end)
+
+--------------------------------------------------------------------------------
+cosmetical issues:
+
+- in the drive emulation settings dialog, "2000" and "4000" entries should get
+  moved up in the list
+
+- generally the menu structure should get reworked to be similar to what windows
+  and GTK ports do. (at least get rid of "options" vs "settings")

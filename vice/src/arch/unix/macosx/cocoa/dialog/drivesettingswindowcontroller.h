@@ -24,6 +24,7 @@
  *
  */
 
+#include "drive.h"
 
 #import <Cocoa/Cocoa.h>
 #import "viceresourcewindowcontroller.h"
@@ -38,14 +39,14 @@
     IBOutlet NSMatrix *driveType;
     IBOutlet NSMatrix *trackHandling;
     IBOutlet NSMatrix *idleMethod;
-    IBOutlet NSButton *parallelCable;
+    IBOutlet NSMatrix *parallelCable;
     IBOutlet NSButton *driveExpansion_2000;
     IBOutlet NSButton *driveExpansion_4000;
     IBOutlet NSButton *driveExpansion_6000;
     IBOutlet NSButton *driveExpansion_8000;
     IBOutlet NSButton *driveExpansion_A000;
 
-    int driveTypeMap[14];
+    int driveTypeMap[DRIVE_TYPE_NUM];
     int numDriveTypes;
     int driveOffset;
     int driveCount;

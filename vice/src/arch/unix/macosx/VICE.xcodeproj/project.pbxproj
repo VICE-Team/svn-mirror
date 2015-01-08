@@ -11,6 +11,29 @@
 		1E86EF291A5CA3D20042700C /* controlwindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF241A5CA3D20042700C /* controlwindow.m */; };
 		1E86EF2A1A5CA3D20042700C /* soundview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF261A5CA3D20042700C /* soundview.m */; };
 		1E86EF2B1A5CA3D20042700C /* statusview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF281A5CA3D20042700C /* statusview.m */; };
+		1E86EF2E1A5CE05E0042700C /* x64.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF2C1A5CE05D0042700C /* x64.nib */; };
+		1E86EF411A5CE10B0042700C /* IECDriveSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF2F1A5CE10B0042700C /* IECDriveSettings.nib */; };
+		1E86EF421A5CE10B0042700C /* IOTree.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF311A5CE10B0042700C /* IOTree.plist */; };
+		1E86EF431A5CE10B0042700C /* JoystickSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF331A5CE10B0042700C /* JoystickSettings.nib */; };
+		1E86EF441A5CE10B0042700C /* KeyboardSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF351A5CE10B0042700C /* KeyboardSettings.nib */; };
+		1E86EF451A5CE10B0042700C /* PrinterSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF371A5CE10B0042700C /* PrinterSettings.nib */; };
+		1E86EF461A5CE10B0042700C /* ResourceEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF391A5CE10B0042700C /* ResourceEditor.nib */; };
+		1E86EF471A5CE10B0042700C /* ResourceTree.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF3B1A5CE10B0042700C /* ResourceTree.plist */; };
+		1E86EF481A5CE10B0042700C /* SoundSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF3D1A5CE10B0042700C /* SoundSettings.nib */; };
+		1E86EF491A5CE10B0042700C /* VICEInformation.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF3F1A5CE10B0042700C /* VICEInformation.nib */; };
+		1E86EF4B1A5DDC8C0042700C /* todo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF4A1A5DDC8C0042700C /* todo.txt */; };
+		1E86EF5B1A5DDCE40042700C /* analyze-vicerc.pl in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF4C1A5DDCDB0042700C /* analyze-vicerc.pl */; };
+		1E86EF5C1A5DDCE40042700C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF4D1A5DDCDC0042700C /* Info.plist */; };
+		1E86EF5D1A5DDCE40042700C /* joy-hid.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF4E1A5DDCDC0042700C /* joy-hid.c */; };
+		1E86EF5E1A5DDCE40042700C /* joy-hidmgr.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF511A5DDCDE0042700C /* joy-hidmgr.c */; };
+		1E86EF5F1A5DDCE40042700C /* joy-hidutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF521A5DDCDF0042700C /* joy-hidutil.c */; };
+		1E86EF601A5DDCE40042700C /* joy.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF531A5DDCDF0042700C /* joy.c */; };
+		1E86EF611A5DDCE40042700C /* make-bindist.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF551A5DDCE00042700C /* make-bindist.sh */; };
+		1E86EF621A5DDCE40042700C /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF561A5DDCE10042700C /* Makefile.am */; };
+		1E86EF631A5DDCE40042700C /* mididrv.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF571A5DDCE10042700C /* mididrv.c */; };
+		1E86EF641A5DDCE40042700C /* vice-launcher.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF581A5DDCE20042700C /* vice-launcher.sh */; };
+		1E86EF651A5DDCE40042700C /* vsyncarch.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E86EF591A5DDCE30042700C /* vsyncarch.c */; };
+		1E86EF661A5DDCE40042700C /* x11-launcher.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1E86EF5A1A5DDCE30042700C /* x11-launcher.sh */; };
 		1E88E6B51A5C8A73003FC867 /* c64commoncontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6921A5C8A73003FC867 /* c64commoncontroller.m */; };
 		1E88E6B61A5C8A73003FC867 /* c64commonmachinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6941A5C8A73003FC867 /* c64commonmachinecontroller.m */; };
 		1E88E6B71A5C8A73003FC867 /* c64dtvcommonmachinecontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E88E6961A5C8A73003FC867 /* c64dtvcommonmachinecontroller.m */; };
@@ -48,15 +71,7 @@
 		1E88E6F91A5C8AB5003FC867 /* xpet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6E51A5C8AB5003FC867 /* xpet.nib */; };
 		1E88E6FA1A5C8AB5003FC867 /* xplus4.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6E71A5C8AB5003FC867 /* xplus4.nib */; };
 		1E88E6FB1A5C8AB5003FC867 /* xvic.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E88E6E91A5C8AB5003FC867 /* xvic.nib */; };
-		83E499CD0DE4CA54001DE90F /* IECDriveSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4997B0DE4C8C8001DE90F /* IECDriveSettings.nib */; };
-		83E499CE0DE4CA54001DE90F /* SoundSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4998D0DE4C8C8001DE90F /* SoundSettings.nib */; };
-		83E499CF0DE4CA54001DE90F /* KeyboardSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4997F0DE4C8C8001DE90F /* KeyboardSettings.nib */; };
 		83E499D00DE4CA54001DE90F /* DriveSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E499790DE4C8C8001DE90F /* DriveSettings.nib */; };
-		83E499D20DE4CA54001DE90F /* PrinterSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E499850DE4C8C8001DE90F /* PrinterSettings.nib */; };
-		83E499D30DE4CA54001DE90F /* VICEInformation.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4998F0DE4C8C8001DE90F /* VICEInformation.nib */; };
-		83E499D40DE4CA54001DE90F /* ResourceEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E499890DE4C8C8001DE90F /* ResourceEditor.nib */; };
-		83E499D50DE4CA54001DE90F /* x64.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E499910DE4C8C8001DE90F /* x64.nib */; };
-		83E499D60DE4CA54001DE90F /* JoystickSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4997D0DE4C8C8001DE90F /* JoystickSettings.nib */; };
 		83E49A3F0DE4CCA9001DE90F /* console.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499E40DE4CCA9001DE90F /* console.m */; };
 		83E49A400DE4CCA9001DE90F /* drivesettingswindowcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499E70DE4CCA9001DE90F /* drivesettingswindowcontroller.m */; };
 		83E49A410DE4CCA9001DE90F /* iecdrivesettingswindowcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E499E90DE4CCA9001DE90F /* iecdrivesettingswindowcontroller.m */; };
@@ -119,6 +134,36 @@
 		1E86EF261A5CA3D20042700C /* soundview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = soundview.m; sourceTree = "<group>"; };
 		1E86EF271A5CA3D20042700C /* statusview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statusview.h; sourceTree = "<group>"; };
 		1E86EF281A5CA3D20042700C /* statusview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = statusview.m; sourceTree = "<group>"; };
+		1E86EF2D1A5CE05E0042700C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = x64.nib; sourceTree = "<group>"; };
+		1E86EF301A5CE10B0042700C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = IECDriveSettings.nib; sourceTree = "<group>"; };
+		1E86EF321A5CE10B0042700C /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = English; path = IOTree.plist; sourceTree = "<group>"; };
+		1E86EF341A5CE10B0042700C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = JoystickSettings.nib; sourceTree = "<group>"; };
+		1E86EF361A5CE10B0042700C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = KeyboardSettings.nib; sourceTree = "<group>"; };
+		1E86EF381A5CE10B0042700C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = PrinterSettings.nib; sourceTree = "<group>"; };
+		1E86EF3A1A5CE10B0042700C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = ResourceEditor.nib; sourceTree = "<group>"; };
+		1E86EF3C1A5CE10B0042700C /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = English; path = ResourceTree.plist; sourceTree = "<group>"; };
+		1E86EF3E1A5CE10B0042700C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = SoundSettings.nib; sourceTree = "<group>"; };
+		1E86EF401A5CE10B0042700C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = VICEInformation.nib; sourceTree = "<group>"; };
+		1E86EF4A1A5DDC8C0042700C /* todo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = todo.txt; sourceTree = "<group>"; };
+		1E86EF4C1A5DDCDB0042700C /* analyze-vicerc.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = "analyze-vicerc.pl"; sourceTree = "<group>"; };
+		1E86EF4D1A5DDCDC0042700C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E86EF4E1A5DDCDC0042700C /* joy-hid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "joy-hid.c"; sourceTree = "<group>"; };
+		1E86EF4F1A5DDCDD0042700C /* joy-hid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "joy-hid.h"; sourceTree = "<group>"; };
+		1E86EF501A5DDCDE0042700C /* joy-hidlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "joy-hidlib.h"; sourceTree = "<group>"; };
+		1E86EF511A5DDCDE0042700C /* joy-hidmgr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "joy-hidmgr.c"; sourceTree = "<group>"; };
+		1E86EF521A5DDCDF0042700C /* joy-hidutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "joy-hidutil.c"; sourceTree = "<group>"; };
+		1E86EF531A5DDCDF0042700C /* joy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = joy.c; sourceTree = "<group>"; };
+		1E86EF541A5DDCE00042700C /* joy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = joy.h; sourceTree = "<group>"; };
+		1E86EF551A5DDCE00042700C /* make-bindist.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "make-bindist.sh"; sourceTree = "<group>"; };
+		1E86EF561A5DDCE10042700C /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		1E86EF571A5DDCE10042700C /* mididrv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mididrv.c; sourceTree = "<group>"; };
+		1E86EF581A5DDCE20042700C /* vice-launcher.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "vice-launcher.sh"; sourceTree = "<group>"; };
+		1E86EF591A5DDCE30042700C /* vsyncarch.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vsyncarch.c; sourceTree = "<group>"; };
+		1E86EF5A1A5DDCE30042700C /* x11-launcher.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "x11-launcher.sh"; sourceTree = "<group>"; };
+		1E86EFEA1A5E02D50042700C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		1E86EFED1A5E02D50042700C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		1E86EFEE1A5E02D50042700C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1E86EFEF1A5E02D50042700C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1E88E6911A5C8A73003FC867 /* c64commoncontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64commoncontroller.h; sourceTree = "<group>"; };
 		1E88E6921A5C8A73003FC867 /* c64commoncontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = c64commoncontroller.m; sourceTree = "<group>"; };
 		1E88E6931A5C8A73003FC867 /* c64commonmachinecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c64commonmachinecontroller.h; sourceTree = "<group>"; };
@@ -173,15 +218,7 @@
 		1E88E6E81A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = xplus4.nib; sourceTree = "<group>"; };
 		1E88E6EA1A5C8AB5003FC867 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = xvic.nib; sourceTree = "<group>"; };
 		83E4997A0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = DriveSettings.nib; sourceTree = "<group>"; };
-		83E4997C0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = IECDriveSettings.nib; sourceTree = "<group>"; };
-		83E4997E0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = JoystickSettings.nib; sourceTree = "<group>"; };
-		83E499800DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = KeyboardSettings.nib; sourceTree = "<group>"; };
-		83E499860DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = PrinterSettings.nib; sourceTree = "<group>"; };
-		83E4998A0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = ResourceEditor.nib; sourceTree = "<group>"; };
-		83E4998E0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = SoundSettings.nib; sourceTree = "<group>"; };
-		83E499900DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = VICEInformation.nib; sourceTree = "<group>"; };
-		83E499920DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = x64.nib; sourceTree = "<group>"; };
-		83E499C70DE4CA1B001DE90F /* VICE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VICE.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		83E499C70DE4CA1B001DE90F /* VICE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = VICE.app; path = /Users/vice/Desktop/vice/trunk/vice/src/arch/unix/macosx/build/Release/VICE.app; sourceTree = "<absolute>"; };
 		83E499E40DE4CCA9001DE90F /* console.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = console.m; sourceTree = "<group>"; };
 		83E499E60DE4CCA9001DE90F /* drivesettingswindowcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = drivesettingswindowcontroller.h; sourceTree = "<group>"; };
 		83E499E70DE4CCA9001DE90F /* drivesettingswindowcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = drivesettingswindowcontroller.m; sourceTree = "<group>"; };
@@ -280,19 +317,66 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E86EFE91A5E02D40042700C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1E86EFEA1A5E02D50042700C /* Cocoa.framework */,
+				1E86EFEC1A5E02D50042700C /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1E86EFEC1A5E02D50042700C /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1E86EFED1A5E02D50042700C /* AppKit.framework */,
+				1E86EFEE1A5E02D50042700C /* CoreData.framework */,
+				1E86EFEF1A5E02D50042700C /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
 		83E4995C0DE4C808001DE90F = {
 			isa = PBXGroup;
 			children = (
+				1E86EF561A5DDCE10042700C /* Makefile.am */,
+				1E86EF4A1A5DDC8C0042700C /* todo.txt */,
+				1E86EF4C1A5DDCDB0042700C /* analyze-vicerc.pl */,
+				1E86EF581A5DDCE20042700C /* vice-launcher.sh */,
+				1E86EF5A1A5DDCE30042700C /* x11-launcher.sh */,
+				1E86EF551A5DDCE00042700C /* make-bindist.sh */,
+				1E86EF4D1A5DDCDC0042700C /* Info.plist */,
+				1E86EF4E1A5DDCDC0042700C /* joy-hid.c */,
+				1E86EF4F1A5DDCDD0042700C /* joy-hid.h */,
+				1E86EF501A5DDCDE0042700C /* joy-hidlib.h */,
+				1E86EF511A5DDCDE0042700C /* joy-hidmgr.c */,
+				1E86EF521A5DDCDF0042700C /* joy-hidutil.c */,
+				1E86EF531A5DDCDF0042700C /* joy.c */,
+				1E86EF541A5DDCE00042700C /* joy.h */,
+				1E86EF571A5DDCE10042700C /* mididrv.c */,
+				1E86EF591A5DDCE30042700C /* vsyncarch.c */,
 				83E499E30DE4CCA9001DE90F /* cocoa */,
 				83E499780DE4C8C8001DE90F /* English.lproj */,
-				83E499A60DE4C96B001DE90F /* Products */,
+				1E86EFE91A5E02D40042700C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		83E499780DE4C8C8001DE90F /* English.lproj */ = {
 			isa = PBXGroup;
 			children = (
+				1E86EF3B1A5CE10B0042700C /* ResourceTree.plist */,
+				1E86EF311A5CE10B0042700C /* IOTree.plist */,
+				1E86EF2C1A5CE05D0042700C /* x64.nib */,
+				1E88E6DD1A5C8AB5003FC867 /* x64sc.nib */,
+				1E88E6DB1A5C8AB5003FC867 /* x64dtv.nib */,
+				1E88E6DF1A5C8AB5003FC867 /* x128.nib */,
+				1E88E6E91A5C8AB5003FC867 /* xvic.nib */,
+				1E88E6E71A5C8AB5003FC867 /* xplus4.nib */,
+				1E88E6E51A5C8AB5003FC867 /* xpet.nib */,
+				1E88E6E11A5C8AB5003FC867 /* xcbm2.nib */,
+				1E88E6E31A5C8AB5003FC867 /* xcbm5x0.nib */,
 				1E88E6C91A5C8AB5003FC867 /* DisassemblyWindow.nib */,
+				83E499790DE4C8C8001DE90F /* DriveSettings.nib */,
 				1E88E6CB1A5C8AB5003FC867 /* FilePanelImageContents.nib */,
 				1E88E6CD1A5C8AB5003FC867 /* IOTreeWindow.nib */,
 				1E88E6CF1A5C8AB5003FC867 /* MemoryWindow.nib */,
@@ -301,48 +385,31 @@
 				1E88E6D51A5C8AB5003FC867 /* RegisterWindow.nib */,
 				1E88E6D71A5C8AB5003FC867 /* SIDSettings.nib */,
 				1E88E6D91A5C8AB5003FC867 /* VideoSettings.nib */,
-				1E88E6DB1A5C8AB5003FC867 /* x64dtv.nib */,
-				1E88E6DD1A5C8AB5003FC867 /* x64sc.nib */,
-				1E88E6DF1A5C8AB5003FC867 /* x128.nib */,
-				1E88E6E11A5C8AB5003FC867 /* xcbm2.nib */,
-				1E88E6E31A5C8AB5003FC867 /* xcbm5x0.nib */,
-				1E88E6E51A5C8AB5003FC867 /* xpet.nib */,
-				1E88E6E71A5C8AB5003FC867 /* xplus4.nib */,
-				1E88E6E91A5C8AB5003FC867 /* xvic.nib */,
-				83E499910DE4C8C8001DE90F /* x64.nib */,
 				83E49A860DE6B6AA001DE90F /* RecordMedia.nib */,
-				83E499790DE4C8C8001DE90F /* DriveSettings.nib */,
-				83E4997B0DE4C8C8001DE90F /* IECDriveSettings.nib */,
-				83E4997D0DE4C8C8001DE90F /* JoystickSettings.nib */,
-				83E4997F0DE4C8C8001DE90F /* KeyboardSettings.nib */,
-				83E499850DE4C8C8001DE90F /* PrinterSettings.nib */,
-				83E499890DE4C8C8001DE90F /* ResourceEditor.nib */,
-				83E4998D0DE4C8C8001DE90F /* SoundSettings.nib */,
-				83E4998F0DE4C8C8001DE90F /* VICEInformation.nib */,
+				1E86EF2F1A5CE10B0042700C /* IECDriveSettings.nib */,
+				1E86EF331A5CE10B0042700C /* JoystickSettings.nib */,
+				1E86EF351A5CE10B0042700C /* KeyboardSettings.nib */,
+				1E86EF371A5CE10B0042700C /* PrinterSettings.nib */,
+				1E86EF391A5CE10B0042700C /* ResourceEditor.nib */,
+				1E86EF3D1A5CE10B0042700C /* SoundSettings.nib */,
+				1E86EF3F1A5CE10B0042700C /* VICEInformation.nib */,
 			);
 			name = English.lproj;
 			path = Resources/English.lproj;
 			sourceTree = "<group>";
 		};
-		83E499A60DE4C96B001DE90F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				83E499C70DE4CA1B001DE90F /* VICE.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		83E499E30DE4CCA9001DE90F /* cocoa */ = {
 			isa = PBXGroup;
 			children = (
-				83E499E40DE4CCA9001DE90F /* console.m */,
+				83E49A000DE4CCA9001DE90F /* Makefile.am */,
 				83E499E50DE4CCA9001DE90F /* dialog */,
+				83E49A020DE4CCA9001DE90F /* menu */,
+				83E49A270DE4CCA9001DE90F /* view */,
+				83E499E40DE4CCA9001DE90F /* console.m */,
 				83E499FC0DE4CCA9001DE90F /* fullscreen.m */,
 				83E499FD0DE4CCA9001DE90F /* kbd.h */,
 				83E499FE0DE4CCA9001DE90F /* kbd.m */,
 				83E499FF0DE4CCA9001DE90F /* main.m */,
-				83E49A000DE4CCA9001DE90F /* Makefile.am */,
-				83E49A020DE4CCA9001DE90F /* menu */,
 				83E49A170DE4CCA9001DE90F /* mousedrv.m */,
 				83E49A180DE4CCA9001DE90F /* ui-cmdline-options.c */,
 				83E49A190DE4CCA9001DE90F /* ui-resources.c */,
@@ -359,7 +426,6 @@
 				83E49A240DE4CCA9001DE90F /* vicenotifications.h */,
 				83E49A250DE4CCA9001DE90F /* video.m */,
 				83E49A260DE4CCA9001DE90F /* videoarch.h */,
-				83E49A270DE4CCA9001DE90F /* view */,
 				83E49A3E0DE4CCA9001DE90F /* vsidui.m */,
 			);
 			path = cocoa;
@@ -368,6 +434,7 @@
 		83E499E50DE4CCA9001DE90F /* dialog */ = {
 			isa = PBXGroup;
 			children = (
+				83E499EE0DE4CCA9001DE90F /* Makefile.am */,
 				83E49A810DE6B688001DE90F /* recordmediawindowcontroller.h */,
 				83E49A820DE6B688001DE90F /* recordmediawindowcontroller.m */,
 				83E499E60DE4CCA9001DE90F /* drivesettingswindowcontroller.h */,
@@ -378,7 +445,6 @@
 				83E499EB0DE4CCA9001DE90F /* joysticksettingswindowcontroller.m */,
 				83E499EC0DE4CCA9001DE90F /* keyboardsettingswindowcontroller.h */,
 				83E499ED0DE4CCA9001DE90F /* keyboardsettingswindowcontroller.m */,
-				83E499EE0DE4CCA9001DE90F /* Makefile.am */,
 				83E499F00DE4CCA9001DE90F /* printersettingswindowcontroller.h */,
 				83E499F10DE4CCA9001DE90F /* printersettingswindowcontroller.m */,
 				83E499F20DE4CCA9001DE90F /* resourceeditorcontroller.h */,
@@ -462,6 +528,7 @@
 		83E49A270DE4CCA9001DE90F /* view */ = {
 			isa = PBXGroup;
 			children = (
+				83E49A340DE4CCA9001DE90F /* Makefile.am */,
 				1E86EF231A5CA3D20042700C /* controlwindow.h */,
 				1E86EF241A5CA3D20042700C /* controlwindow.m */,
 				1E86EF251A5CA3D20042700C /* soundview.h */,
@@ -480,7 +547,6 @@
 				83E49A310DE4CCA9001DE90F /* keypressview.m */,
 				83E49A320DE4CCA9001DE90F /* logview.h */,
 				83E49A330DE4CCA9001DE90F /* logview.m */,
-				83E49A340DE4CCA9001DE90F /* Makefile.am */,
 				83E49A380DE4CCA9001DE90F /* tapeview.h */,
 				83E49A390DE4CCA9001DE90F /* tapeview.m */,
 				83E49A3A0DE4CCA9001DE90F /* viceglview.h */,
@@ -494,9 +560,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		83E499C60DE4CA1B001DE90F /* VICE */ = {
+		83E499C60DE4CA1B001DE90F /* x64 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 83E499CC0DE4CA1C001DE90F /* Build configuration list for PBXNativeTarget "VICE" */;
+			buildConfigurationList = 83E499CC0DE4CA1C001DE90F /* Build configuration list for PBXNativeTarget "x64" */;
 			buildPhases = (
 				83E499C30DE4CA1B001DE90F /* Resources */,
 				83E499C40DE4CA1B001DE90F /* Sources */,
@@ -506,7 +572,7 @@
 			);
 			dependencies = (
 			);
-			name = VICE;
+			name = x64;
 			productName = VICE;
 			productReference = 83E499C70DE4CA1B001DE90F /* VICE.app */;
 			productType = "com.apple.product-type.application";
@@ -525,11 +591,11 @@
 				English,
 			);
 			mainGroup = 83E4995C0DE4C808001DE90F;
-			productRefGroup = 83E499A60DE4C96B001DE90F /* Products */;
+			productRefGroup = 83E4995C0DE4C808001DE90F;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				83E499C60DE4CA1B001DE90F /* VICE */,
+				83E499C60DE4CA1B001DE90F /* x64 */,
 			);
 		};
 /* End PBXProject section */
@@ -539,15 +605,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83E499CD0DE4CA54001DE90F /* IECDriveSettings.nib in Resources */,
-				83E499CE0DE4CA54001DE90F /* SoundSettings.nib in Resources */,
-				83E499CF0DE4CA54001DE90F /* KeyboardSettings.nib in Resources */,
 				83E499D00DE4CA54001DE90F /* DriveSettings.nib in Resources */,
-				83E499D20DE4CA54001DE90F /* PrinterSettings.nib in Resources */,
-				83E499D30DE4CA54001DE90F /* VICEInformation.nib in Resources */,
-				83E499D40DE4CA54001DE90F /* ResourceEditor.nib in Resources */,
-				83E499D50DE4CA54001DE90F /* x64.nib in Resources */,
-				83E499D60DE4CA54001DE90F /* JoystickSettings.nib in Resources */,
 				83E49A440DE4CCA9001DE90F /* Makefile.am in Resources */,
 				83E49A4F0DE4CCA9001DE90F /* Makefile.am in Resources */,
 				83E49A580DE4CCA9001DE90F /* Makefile.am in Resources */,
@@ -570,6 +628,23 @@
 				1E88E6F91A5C8AB5003FC867 /* xpet.nib in Resources */,
 				1E88E6FA1A5C8AB5003FC867 /* xplus4.nib in Resources */,
 				1E88E6FB1A5C8AB5003FC867 /* xvic.nib in Resources */,
+				1E86EF2E1A5CE05E0042700C /* x64.nib in Resources */,
+				1E86EF411A5CE10B0042700C /* IECDriveSettings.nib in Resources */,
+				1E86EF421A5CE10B0042700C /* IOTree.plist in Resources */,
+				1E86EF431A5CE10B0042700C /* JoystickSettings.nib in Resources */,
+				1E86EF441A5CE10B0042700C /* KeyboardSettings.nib in Resources */,
+				1E86EF451A5CE10B0042700C /* PrinterSettings.nib in Resources */,
+				1E86EF461A5CE10B0042700C /* ResourceEditor.nib in Resources */,
+				1E86EF471A5CE10B0042700C /* ResourceTree.plist in Resources */,
+				1E86EF481A5CE10B0042700C /* SoundSettings.nib in Resources */,
+				1E86EF491A5CE10B0042700C /* VICEInformation.nib in Resources */,
+				1E86EF4B1A5DDC8C0042700C /* todo.txt in Resources */,
+				1E86EF5B1A5DDCE40042700C /* analyze-vicerc.pl in Resources */,
+				1E86EF5C1A5DDCE40042700C /* Info.plist in Resources */,
+				1E86EF611A5DDCE40042700C /* make-bindist.sh in Resources */,
+				1E86EF621A5DDCE40042700C /* Makefile.am in Resources */,
+				1E86EF641A5DDCE40042700C /* vice-launcher.sh in Resources */,
+				1E86EF661A5DDCE40042700C /* x11-launcher.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,12 +725,98 @@
 				1E86EF291A5CA3D20042700C /* controlwindow.m in Sources */,
 				1E86EF2A1A5CA3D20042700C /* soundview.m in Sources */,
 				1E86EF2B1A5CA3D20042700C /* statusview.m in Sources */,
+				1E86EF5D1A5DDCE40042700C /* joy-hid.c in Sources */,
+				1E86EF5E1A5DDCE40042700C /* joy-hidmgr.c in Sources */,
+				1E86EF5F1A5DDCE40042700C /* joy-hidutil.c in Sources */,
+				1E86EF601A5DDCE40042700C /* joy.c in Sources */,
+				1E86EF631A5DDCE40042700C /* mididrv.c in Sources */,
+				1E86EF651A5DDCE40042700C /* vsyncarch.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		1E86EF2C1A5CE05D0042700C /* x64.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E86EF2D1A5CE05E0042700C /* English */,
+			);
+			name = x64.nib;
+			sourceTree = "<group>";
+		};
+		1E86EF2F1A5CE10B0042700C /* IECDriveSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E86EF301A5CE10B0042700C /* English */,
+			);
+			name = IECDriveSettings.nib;
+			sourceTree = "<group>";
+		};
+		1E86EF311A5CE10B0042700C /* IOTree.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E86EF321A5CE10B0042700C /* English */,
+			);
+			name = IOTree.plist;
+			sourceTree = "<group>";
+		};
+		1E86EF331A5CE10B0042700C /* JoystickSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E86EF341A5CE10B0042700C /* English */,
+			);
+			name = JoystickSettings.nib;
+			sourceTree = "<group>";
+		};
+		1E86EF351A5CE10B0042700C /* KeyboardSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E86EF361A5CE10B0042700C /* English */,
+			);
+			name = KeyboardSettings.nib;
+			sourceTree = "<group>";
+		};
+		1E86EF371A5CE10B0042700C /* PrinterSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E86EF381A5CE10B0042700C /* English */,
+			);
+			name = PrinterSettings.nib;
+			sourceTree = "<group>";
+		};
+		1E86EF391A5CE10B0042700C /* ResourceEditor.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E86EF3A1A5CE10B0042700C /* English */,
+			);
+			name = ResourceEditor.nib;
+			sourceTree = "<group>";
+		};
+		1E86EF3B1A5CE10B0042700C /* ResourceTree.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E86EF3C1A5CE10B0042700C /* English */,
+			);
+			name = ResourceTree.plist;
+			sourceTree = "<group>";
+		};
+		1E86EF3D1A5CE10B0042700C /* SoundSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E86EF3E1A5CE10B0042700C /* English */,
+			);
+			name = SoundSettings.nib;
+			sourceTree = "<group>";
+		};
+		1E86EF3F1A5CE10B0042700C /* VICEInformation.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E86EF401A5CE10B0042700C /* English */,
+			);
+			name = VICEInformation.nib;
+			sourceTree = "<group>";
+		};
 		1E88E6C91A5C8AB5003FC867 /* DisassemblyWindow.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -800,70 +961,6 @@
 			name = DriveSettings.nib;
 			sourceTree = "<group>";
 		};
-		83E4997B0DE4C8C8001DE90F /* IECDriveSettings.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				83E4997C0DE4C8C8001DE90F /* English */,
-			);
-			name = IECDriveSettings.nib;
-			sourceTree = "<group>";
-		};
-		83E4997D0DE4C8C8001DE90F /* JoystickSettings.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				83E4997E0DE4C8C8001DE90F /* English */,
-			);
-			name = JoystickSettings.nib;
-			sourceTree = "<group>";
-		};
-		83E4997F0DE4C8C8001DE90F /* KeyboardSettings.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				83E499800DE4C8C8001DE90F /* English */,
-			);
-			name = KeyboardSettings.nib;
-			sourceTree = "<group>";
-		};
-		83E499850DE4C8C8001DE90F /* PrinterSettings.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				83E499860DE4C8C8001DE90F /* English */,
-			);
-			name = PrinterSettings.nib;
-			sourceTree = "<group>";
-		};
-		83E499890DE4C8C8001DE90F /* ResourceEditor.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				83E4998A0DE4C8C8001DE90F /* English */,
-			);
-			name = ResourceEditor.nib;
-			sourceTree = "<group>";
-		};
-		83E4998D0DE4C8C8001DE90F /* SoundSettings.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				83E4998E0DE4C8C8001DE90F /* English */,
-			);
-			name = SoundSettings.nib;
-			sourceTree = "<group>";
-		};
-		83E4998F0DE4C8C8001DE90F /* VICEInformation.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				83E499900DE4C8C8001DE90F /* English */,
-			);
-			name = VICEInformation.nib;
-			sourceTree = "<group>";
-		};
-		83E499910DE4C8C8001DE90F /* x64.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				83E499920DE4C8C8001DE90F /* English */,
-			);
-			name = x64.nib;
-			sourceTree = "<group>";
-		};
 		83E49A860DE6B6AA001DE90F /* RecordMedia.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -878,7 +975,9 @@
 		83E4995F0DE4C808001DE90F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
+				INFOPLIST_FILE = Info.plist;
 				SDKROOT = "";
 			};
 			name = Debug;
@@ -886,7 +985,9 @@
 		83E499600DE4C808001DE90F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = YES;
+				INFOPLIST_FILE = Info.plist;
 				SDKROOT = "";
 			};
 			name = Release;
@@ -894,6 +995,7 @@
 		83E499CA0DE4CA1C001DE90F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -939,6 +1041,7 @@
 		83E499CB0DE4CA1C001DE90F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -992,7 +1095,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83E499CC0DE4CA1C001DE90F /* Build configuration list for PBXNativeTarget "VICE" */ = {
+		83E499CC0DE4CA1C001DE90F /* Build configuration list for PBXNativeTarget "x64" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83E499CA0DE4CA1C001DE90F /* Debug */,

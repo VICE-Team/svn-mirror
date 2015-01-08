@@ -110,7 +110,7 @@
 						<string>IDE64Cylinders1,i</string>
 						<key>Autodetect Size</key>
 						<string>IDE64AutodetectSize1,b</string>
-						<key>HD Image File</key>
+						<key>ATA Image File</key>
 						<string>IDE64Image1,fs</string>
 					</dict>
 					<key>Drive 2</key>
@@ -123,7 +123,7 @@
 						<string>IDE64Cylinders2,i</string>
 						<key>Autodetect Size</key>
 						<string>IDE64AutodetectSize2,b</string>
-						<key>HD Image File</key>
+						<key>ATA Image File</key>
 						<string>IDE64Image2,fs</string>
 					</dict>
 					<key>Drive 3</key>
@@ -136,7 +136,7 @@
 						<string>IDE64Cylinders3,i</string>
 						<key>Autodetect Size</key>
 						<string>IDE64AutodetectSize3,b</string>
-						<key>HD Image File</key>
+						<key>ATA Image File</key>
 						<string>IDE64Image3,fs</string>
 					</dict>
 					<key>Drive 4</key>
@@ -149,7 +149,7 @@
 						<string>IDE64Cylinders4,i</string>
 						<key>Autodetect Size</key>
 						<string>IDE64AutodetectSize4,b</string>
-						<key>HD Image File</key>
+						<key>ATA Image File</key>
 						<string>IDE64Image4,fs</string>
 					</dict>
 					<key>Version 4</key>
@@ -474,6 +474,11 @@
 	</dict>
 	<key>Machine</key>
 	<dict>
+		<key>CPU</key>
+		<dict>
+			<key>action on CPU JAM</key>
+			<string>JAMAction,e,Dialog,Continue,Monitor,Reset,Hard Reset,Quit</string>
+		</dict>
 		<key>RAM</key>
 		<dict>
 			<key>Length of constant pattern</key>
@@ -527,6 +532,8 @@
 				<string>ChargenIntName,fo</string>
 				<key>Chargen SE</key>
 				<string>ChargenSEName,fo</string>
+				<key>Chargen CH</key>
+				<string>ChargenCHName,fo</string>
 				<key>External Function ROM</key>
 				<string>ExternalFunctionName,fo</string>
 				<key>External Function ROM Enable</key>
@@ -536,11 +543,13 @@
 				<key>Internal Function ROM</key>
 				<string>InternalFunctionName,fo</string>
 				<key>Internal Function ROM Enable</key>
-				<string>InternalFunctionROM,b</string>
+				<string>InternalFunctionROM,e,None,ROM,RAM,RAM+RTC</string>
 				<key>Internal Function ROM RTC save</key>
 				<string>InternalFunctionRTCSave,b</string>
 				<key>Kernal C64</key>
 				<string>Kernal64Name,fo</string>
+				<key>Kernal CH</key>
+				<string>KernalCHName,fo</string>
 				<key>Kernal DE</key>
 				<string>KernalDEName,fo</string>
 				<key>Kernal FI</key>
@@ -613,6 +622,10 @@
 				<string>DosName1571,fo</string>
 				<key>1581</key>
 				<string>DosName1581,fo</string>
+				<key>2000</key>
+				<string>DosName2000,fo</string>
+				<key>4000</key>
+				<string>DosName4000,fo</string>
 			</dict>
 		</dict>
 		<key>_C128_C64_C64DTV_CBM-II_PET_VIC20_</key>
