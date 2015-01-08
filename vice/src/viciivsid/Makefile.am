@@ -24,7 +24,6 @@ libviciivsid_a_SOURCES = \
 	vicii-timing.h \
 	viciitypes.h \
 	viciivsid-badline.c \
-	viciivsid-clock-stretch.c \
 	viciivsid-cmdline-options.c \
 	viciivsid-color.c \
 	viciivsid-draw.c \
