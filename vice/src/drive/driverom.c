@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "drive.h"
+#include "drivetypes.h"
 #include "driverom.h"
 #include "log.h"
 #include "machine-drive.h"
@@ -61,8 +62,52 @@ static unsigned char rompatch[26]=
 static log_t driverom_log;
 
 /* If nonzero, we are far enough in init that we can load ROMs.  */
-int drive_rom_load_ok = 0;
+static int drive_rom_load_ok = 0;
 
+
+int driverom_load(const char *resource_name, BYTE *drive_rom, unsigned
+                  int *loaded, int min, int max, const char *name, int type,
+                  unsigned int *size) 
+{
+    const char *rom_name = NULL;
+    int filesize;
+    unsigned int dnr;
+    drive_t *drive;
+
+    if (!drive_rom_load_ok) {
+        return 0;
+    }
+
+    resources_get_string(resource_name, &rom_name);
+
+    filesize = sysfile_load(rom_name, drive_rom, min, max);
+
+    if (filesize < 0) {
+        log_error(driverom_log, "%s ROM image not found. "
+                  "Hardware-level %s emulation is not available.", name, name);
+
+        if (size != NULL) {
+            *size = 0;
+        }
+        return -1;
+    } 
+    *loaded = 1;
+    if (size != NULL) {
+        *size = (unsigned int)filesize;
+    }
+    if (filesize <= min && min < max) {
+        memcpy(drive_rom, &drive_rom[max - min], min);
+    }
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        drive = drive_context[dnr]->drive;
+
+        if (drive->type == type) {
+            machine_drive_rom_setup_image(dnr);
+        }
+    }
+    return 0;
+}
 
 int driverom_load_images(void)
 {
@@ -186,7 +231,7 @@ int driverom_snapshot_write(snapshot_t *s, const drive_t *drive)
             break;
         case DRIVE_TYPE_1570:
             base = drive->rom;
-            len = DRIVE_ROM1571_SIZE;
+            len = DRIVE_ROM1570_SIZE;
             break;
         case DRIVE_TYPE_1571:
             base = drive->rom;
@@ -194,7 +239,7 @@ int driverom_snapshot_write(snapshot_t *s, const drive_t *drive)
             break;
         case DRIVE_TYPE_1571CR:
             base = drive->rom;
-            len = DRIVE_ROM1571_SIZE;
+            len = DRIVE_ROM1571CR_SIZE;
             break;
         case DRIVE_TYPE_1581:
             base = drive->rom;
@@ -284,7 +329,7 @@ int driverom_snapshot_read(snapshot_t *s, drive_t *drive)
             break;
         case DRIVE_TYPE_1570:
             base = drive->rom;
-            len = DRIVE_ROM1571_SIZE;
+            len = DRIVE_ROM1570_SIZE;
             break;
         case DRIVE_TYPE_1571:
             base = drive->rom;
@@ -292,7 +337,7 @@ int driverom_snapshot_read(snapshot_t *s, drive_t *drive)
             break;
         case DRIVE_TYPE_1571CR:
             base = drive->rom;
-            len = DRIVE_ROM1571_SIZE;
+            len = DRIVE_ROM1571CR_SIZE;
             break;
         case DRIVE_TYPE_1581:
             base = drive->rom;

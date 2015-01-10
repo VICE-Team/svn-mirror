@@ -587,7 +587,7 @@ drived1541II.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/d1541II drived1541II.h "static BYTE drive_rom1541ii_embedded[DRIVE_ROM1541II_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drived1571cr.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/d1571cr drived1571cr.h "static BYTE drive_rom1571cr[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/d1571cr drived1571cr.h "static BYTE drive_rom1571cr[DRIVE_ROM1571CR_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drivedos1001.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1001 drivedos1001.h "static BYTE drive_rom1001[DRIVE_ROM1001_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
@@ -599,7 +599,7 @@ drivedos1551.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1551 drivedos1551.h "static BYTE drive_rom1551[DRIVE_ROM1551_SIZE]" $(CROSS) $(SHELL)  $(top_srcdir)
 
 drivedos1570.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1570 drivedos1570.h "static BYTE drive_rom1570[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1570 drivedos1570.h "static BYTE drive_rom1570[DRIVE_ROM1570_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drivedos1571.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1571 drivedos1571.h "static BYTE drive_rom1571[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
