@@ -1,7 +1,9 @@
 ABOUT FEATURE DISPLAY SUPPORT
 =============================
-platforms present:	unix(GTK) (also commandline -features)
-platforms missing:	amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
+platforms present:	amigaos/unix(GTK)
+platforms missing:	beos/dos/os2/sdl/unix(XAW)/osx/windows
+
+(commandline: -features)
 
 a list of all defines to determine compile time features can be queried at
 runtime, see vicefeatures.h for the respective functions and datastructures.

@@ -4479,6 +4479,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_COMMAND_LINE_OPTIONS_SV, "Kommandoradsflaggor" },
 /* tr */ { IDMS_COMMAND_LINE_OPTIONS_TR, "Komut satýrý seçenekleri" },
 
+/* en */ { IDMS_COMPILE_FEATURES,    "Compile time features" },
+/* da */ { IDMS_COMPILE_FEATURES_DA, "" },  /* fuzzy */
+/* de */ { IDMS_COMPILE_FEATURES_DE, "" },  /* fuzzy */
+/* es */ { IDMS_COMPILE_FEATURES_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_COMPILE_FEATURES_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_COMPILE_FEATURES_HU, "" },  /* fuzzy */
+/* it */ { IDMS_COMPILE_FEATURES_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_COMPILE_FEATURES_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_COMPILE_FEATURES_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_COMPILE_FEATURES_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_COMPILE_FEATURES_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_COMPILE_FEATURES_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_COMPILE_FEATURES_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_CONTRIBUTORS,    "Contributors" },
 /* da */ { IDMS_CONTRIBUTORS_DA, "Bidragsydere" },
 /* de */ { IDMS_CONTRIBUTORS_DE, "VICE Hackers" },
@@ -5052,6 +5066,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDMES_WHICH_COMMANDS_AVAILABLE_RU, "ºÐÚØÕ ÞßæØØ ÚÞÜÐÝÔÝÞÙ áâàÞÚØ Õáâì Ò ÝÐÛØçØØ?" },
 /* sv */ { IDMES_WHICH_COMMANDS_AVAILABLE_SV, "Vilka kommandoradsflaggor är tillgängliga?" },
 /* tr */ { IDMES_WHICH_COMMANDS_AVAILABLE_TR, "Hangi komut satýrý seçenekleri mevcut?" },
+
+/* en */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE,    "Which compile time features are available?" },
+/* da */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_DA, "" },  /* fuzzy */
+/* de */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_DE, "" },  /* fuzzy */
+/* es */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_ES, "" },  /* fuzzy */
+/* fr */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_FR, "" },  /* fuzzy */
+/* hu */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_HU, "" },  /* fuzzy */
+/* it */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_IT, "" },  /* fuzzy */
+/* ko */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_KO, "" },  /* fuzzy */
+/* nl */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_NL, "" },  /* fuzzy */
+/* pl */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_PL, "" },  /* fuzzy */
+/* ru */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_RU, "" },  /* fuzzy */
+/* sv */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_SV, "" },  /* fuzzy */
+/* tr */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_TR, "" },  /* fuzzy */
 
 /* en */ { IDMES_CANNOT_SAVE_SETTINGS,    "Cannot save settings." },
 /* da */ { IDMES_CANNOT_SAVE_SETTINGS_DA, "Kunne ikke gemme indstillinger." },

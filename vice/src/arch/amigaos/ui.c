@@ -59,6 +59,7 @@
 #include "ui.h"
 #include "util.h"
 #include "machine.h"
+#include "vicefeatures.h"
 
 #include "mui/filereq.h"
 #include "mui/mui.h"
@@ -571,6 +572,28 @@ int ui_menu_update(video_canvas_t *canvas)
     return 0;
 }
 
+static char *get_compiletime_features(void)
+{
+    feature_list_t *list;
+    char *str, *lstr;
+    unsigned int len = 0;
+
+    list = vice_get_feature_list();
+    while (list->symbol) {
+        len += strlen(list->descr) + strlen(list->symbol) + (15);
+        ++list;
+    }
+    str = lib_malloc(len);
+    lstr = str;
+    list = vice_get_feature_list();
+    while (list->symbol) {
+        sprintf(lstr, "%4s\t%s (%s)\n", list->isdefined ? "yes " : "no  ", list->descr, list->symbol);
+        lstr += strlen(lstr);
+        ++list;
+    }
+    return str;
+}
+
 int ui_menu_handle(video_canvas_t *canvas, int idm)
 {
     char *fname = NULL;
@@ -783,6 +806,15 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
                 options = cmdline_options_string();
                 ui_show_text(translate_text(IDMS_COMMAND_LINE_OPTIONS), translate_text(IDMES_WHICH_COMMANDS_AVAILABLE), options);
                 lib_free(options);
+            }
+            break;
+        case IDM_FEATURES:
+            {
+                char *features = NULL;
+
+                features = get_compiletime_features();
+                ui_show_text(translate_text(IDMS_COMPILE_FEATURES), translate_text(IDMES_WHICH_COMPILE_FEATURES_AVAILABLE), features);
+                lib_free(features);
             }
             break;
         case IDM_EVENT_DIRECTORY:
