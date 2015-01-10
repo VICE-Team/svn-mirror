@@ -95,6 +95,7 @@ extern "C" {
 #include "version.h"
 #include "vice-event.h"
 #include "viceapp.h"
+#include "vicefeatures.h"
 #include "videoarch.h"
 #include "vsync.h"
 
@@ -665,6 +666,28 @@ void ui_add_event(void *msg)
     }
 }
 
+static char *get_compiletime_features(void)
+{
+    feature_list_t *list;
+    char *str, *lstr;
+    unsigned int len = 0;
+
+    list = vice_get_feature_list();
+    while (list->symbol) {
+        len += strlen(list->descr) + strlen(list->symbol) + (15);
+        ++list;
+    }
+    str = lib_malloc(len);
+    lstr = str;
+    list = vice_get_feature_list();
+    while (list->symbol) {
+        sprintf(lstr, "%4s\t%s (%s)\n", list->isdefined ? "yes " : "no  ", list->descr, list->symbol);
+        lstr += strlen(lstr);
+        ++list;
+    }
+    return str;
+}
+
 void ui_dispatch_events(void)
 {
     int i;
@@ -995,6 +1018,15 @@ void ui_dispatch_events(void)
                     options = cmdline_options_string();
                     ui_show_text("Command line options", "Which command line options are available?", options);
                     free(options);
+                    break;
+                }
+            case MENU_COMPILE_TIME_FEATURES:
+                {
+                    char *features;
+
+                    features = get_compiletime_features();
+                    ui_show_text("Compile time features", "Which compile time features are available?", features);
+                    free(features);
                     break;
                 }
             case MESSAGE_ATTACH_READONLY:

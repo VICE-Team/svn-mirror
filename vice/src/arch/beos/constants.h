@@ -721,5 +721,6 @@ const uint32 MENU_CONTRIBUTORS                    = 'M902';
 const uint32 MENU_LICENSE                         = 'M904';
 const uint32 MENU_WARRANTY                        = 'M905';
 const uint32 MENU_CMDLINE                         = 'M906';
+const uint32 MENU_COMPILE_TIME_FEATURES           = 'M574';
 
 #endif

@@ -1266,6 +1266,7 @@ BMenuBar *menu_create(int machine_class)
     uppermenu->AddItem(new BMenuItem("About BeVICE...", new BMessage(MENU_ABOUT)));
     uppermenu->AddSeparatorItem();
     uppermenu->AddItem(new BMenuItem("Commandline Options", new BMessage(MENU_CMDLINE)));
+    uppermenu->AddItem(new BMenuItem("Compile Time Features", new BMessage(MENU_COMPILE_TIME_FEATURES)));
     uppermenu->AddSeparatorItem();
     uppermenu->AddItem(new BMenuItem("Contributors", new BMessage(MENU_CONTRIBUTORS)));
     uppermenu->AddItem(new BMenuItem("License", new BMessage(MENU_LICENSE)));
