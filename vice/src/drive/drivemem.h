@@ -34,6 +34,10 @@ struct drive_context_s;
 struct drivecpud_context_s;
 struct mem_ioreg_list_s;
 
+extern void drivemem_toggle_watchpoints(int flag, void *context);
+extern BYTE drivemem_bank_read(int bank, WORD addr, void *context);
+extern BYTE drivemem_bank_peek(int bank, WORD addr, void *context);
+extern void drivemem_bank_store(int bank, WORD addr, BYTE value, void *context);
 extern void drivemem_init(struct drive_context_s *drv, unsigned int type);
 extern void drivemem_set_func(struct drivecpud_context_s *cpud,
                               unsigned int start, unsigned int stop,

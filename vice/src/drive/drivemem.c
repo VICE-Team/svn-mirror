@@ -94,6 +94,23 @@ static void drive_store_watch(drive_context_t *drv, WORD address, BYTE value)
     drv->cpud->store_func_nowatch[address >> 8](drv, address, value);
 }
 
+void drivemem_toggle_watchpoints(int flag, void *context)
+{
+    drive_context_t *drv = (drive_context_t *)context;
+
+    if (flag) {
+        memcpy(drv->cpud->read_func, drv->cpud->read_func_watch,
+               sizeof(drive_read_func_t *) * 0x101);
+        memcpy(drv->cpud->store_func, drv->cpud->store_func_watch,
+               sizeof(drive_store_func_t *) * 0x101);
+    } else {
+        memcpy(drv->cpud->read_func, drv->cpud->read_func_nowatch,
+               sizeof(drive_read_func_t *) * 0x101);
+        memcpy(drv->cpud->store_func, drv->cpud->store_func_nowatch,
+               sizeof(drive_store_func_t *) * 0x101);
+    }
+}
+
 /* ------------------------------------------------------------------------- */
 
 void drivemem_set_func(drivecpud_context_t *cpud,
@@ -181,6 +198,33 @@ void drivemem_init(drive_context_t *drv, unsigned int type)
 #ifdef _MSC_VER
 #pragma optimize("",on)
 #endif
+
+/* ------------------------------------------------------------------------- */
+/* This is the external interface for banked memory access.  */
+
+BYTE drivemem_bank_read(int bank, WORD addr, void *context)
+{
+    drive_context_t *drv = (drive_context_t *)context;
+
+    return drv->cpud->read_func[addr >> 8](drv, addr);
+}
+
+/* FIXME: use peek in IO area */
+BYTE drivemem_bank_peek(int bank, WORD addr, void *context)
+{
+    drive_context_t *drv = (drive_context_t *)context;
+
+    return drv->cpud->read_func[addr >> 8](drv, addr);
+}
+
+void drivemem_bank_store(int bank, WORD addr, BYTE value, void *context)
+{
+    drive_context_t *drv = (drive_context_t *)context;
+
+    drv->cpud->store_func[addr >> 8](drv, addr, value);
+}
+
+/* ------------------------------------------------------------------------- */
 
 mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
 {

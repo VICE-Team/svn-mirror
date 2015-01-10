@@ -62,10 +62,6 @@ CLOCK drive_clk[DRIVE_NUM];
 
 static void drive_jam(drive_context_t *drv);
 
-static BYTE drive_bank_read(int bank, WORD addr, void *context);
-static BYTE drive_bank_peek(int bank, WORD addr, void *context);
-static void drive_bank_store(int bank, WORD addr, BYTE value, void *context);
-static void drivecpu_toggle_watchpoints(int flag, void *context);
 static void drivecpu_set_bank_base(void *context);
 
 static interrupt_cpu_status_t *drivecpu_int_status_ptr[DRIVE_NUM];
@@ -112,11 +108,11 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
     mi->mem_bank_list = NULL;
     mi->mem_bank_from_name = NULL;
     mi->get_line_cycle = NULL;
-    mi->mem_bank_read = drive_bank_read;
-    mi->mem_bank_peek = drive_bank_peek;
-    mi->mem_bank_write = drive_bank_store;
+    mi->mem_bank_read = drivemem_bank_read;
+    mi->mem_bank_peek = drivemem_bank_peek;
+    mi->mem_bank_write = drivemem_bank_store;
     mi->mem_ioreg_list_get = drivemem_ioreg_list_get;
-    mi->toggle_watchpoints_func = drivecpu_toggle_watchpoints;
+    mi->toggle_watchpoints_func = drivemem_toggle_watchpoints;
     mi->set_bank_base = drivecpu_set_bank_base;
     cpu->monspace = monitor_diskspace_mem(drv->mynumber);
 
@@ -165,32 +161,6 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
 
 /* ------------------------------------------------------------------------- */
 
-/* This is the external interface for banked memory access.  */
-
-static BYTE drive_bank_read(int bank, WORD addr, void *context)
-{
-    drive_context_t *drv = (drive_context_t *)context;
-
-    return drv->cpud->read_func[addr >> 8](drv, addr);
-}
-
-/* FIXME: use peek in IO area */
-static BYTE drive_bank_peek(int bank, WORD addr, void *context)
-{
-    drive_context_t *drv = (drive_context_t *)context;
-
-    return drv->cpud->read_func[addr >> 8](drv, addr);
-}
-
-static void drive_bank_store(int bank, WORD addr, BYTE value, void *context)
-{
-    drive_context_t *drv = (drive_context_t *)context;
-
-    drv->cpud->store_func[addr >> 8](drv, addr, value);
-}
-
-/* ------------------------------------------------------------------------- */
-
 static void cpu_reset(drive_context_t *drv)
 {
     int preserve_monitor;
@@ -207,23 +177,6 @@ static void cpu_reset(drive_context_t *drv)
 
     if (preserve_monitor) {
         interrupt_monitor_trap_on(drv->cpu->int_status);
-    }
-}
-
-static void drivecpu_toggle_watchpoints(int flag, void *context)
-{
-    drive_context_t *drv = (drive_context_t *)context;
-
-    if (flag) {
-        memcpy(drv->cpud->read_func, drv->cpud->read_func_watch,
-               sizeof(drive_read_func_t *) * 0x101);
-        memcpy(drv->cpud->store_func, drv->cpud->store_func_watch,
-               sizeof(drive_store_func_t *) * 0x101);
-    } else {
-        memcpy(drv->cpud->read_func, drv->cpud->read_func_nowatch,
-               sizeof(drive_read_func_t *) * 0x101);
-        memcpy(drv->cpud->store_func, drv->cpud->store_func_nowatch,
-               sizeof(drive_store_func_t *) * 0x101);
     }
 }
 
