@@ -67,7 +67,7 @@ extern void RegExpFree(fwf_regex_t *r);
 extern int RegExpCompile(const char *regexp, fwf_regex_t *r);
 extern int RegExpMatch(const char *string, fwf_regex_t *r);
 extern void _RegExpError(int val);
-extern void RegExpPatternToRegExp(const char *pattern, char *reg_exp, int size);
+extern void ShellPatternToRegExp(const char *pattern, char *reg_exp, int size);
 
 #ifndef TRUE
 #define TRUE 1

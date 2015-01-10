@@ -52,17 +52,21 @@ static char *file_name = NULL;
 static char *format_name = NULL;
 static unsigned int file_type = 0;
 
-static char *image_type_name[] = { ".d64", ".d71", ".d80", ".d81", ".d82", ".g64", ".p64", ".x64" };
-static char *image_type_name_for_user[] = { "D64", "D71", "D80" ,"D81", "D82", "G64", "P64", "X64" };
+static char *image_type_name[] = { ".d64", ".d67", ".d71", ".d80", ".d81", ".d82", ".g64", ".p64", ".x64", ".d1m", ".d2m", ".d4m" };
+static char *image_type_name_for_user[] = { "D64", "D67", "D71", "D80" ,"D81", "D82", "G64", "P64", "X64", "D1M", "D2M", "D4M" };
 static int image_type[] = {
     DISK_IMAGE_TYPE_D64,
+    DISK_IMAGE_TYPE_D67,
     DISK_IMAGE_TYPE_D71,
     DISK_IMAGE_TYPE_D80,
     DISK_IMAGE_TYPE_D81,
     DISK_IMAGE_TYPE_D82,
     DISK_IMAGE_TYPE_G64,
     DISK_IMAGE_TYPE_P64,
-    DISK_IMAGE_TYPE_X64
+    DISK_IMAGE_TYPE_X64,
+    DISK_IMAGE_TYPE_D1M,
+    DISK_IMAGE_TYPE_D2M,
+    DISK_IMAGE_TYPE_D4M
 };
 
 static TUI_MENU_CALLBACK(attach_disk_callback);
@@ -80,20 +84,28 @@ static TUI_MENU_CALLBACK(flip_previous_callback);
 static tui_menu_item_def_t disk_image_type_submenu[] = {
     { "D_64", "Create D64 disk image", create_set_disk_image_type_callback,
       (void *)0, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "D_71", "Create D71 disk image", create_set_disk_image_type_callback,
+    { "_D67", "Create D67 disk image", create_set_disk_image_type_callback,
       (void *)1, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "D8_0", "Create D80 disk image", create_set_disk_image_type_callback,
+    { "D_71", "Create D71 disk image", create_set_disk_image_type_callback,
       (void *)2, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "D_81", "Create D81 disk image", create_set_disk_image_type_callback,
+    { "D8_0", "Create D80 disk image", create_set_disk_image_type_callback,
       (void *)3, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "D8_2", "Create D82 disk image", create_set_disk_image_type_callback,
+    { "D_81", "Create D81 disk image", create_set_disk_image_type_callback,
       (void *)4, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_G64", "Create GCR disk image", create_set_disk_image_type_callback,
+    { "D8_2", "Create D82 disk image", create_set_disk_image_type_callback,
       (void *)5, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_P64", "Create P64 disk image", create_set_disk_image_type_callback,
+    { "_G64", "Create GCR disk image", create_set_disk_image_type_callback,
       (void *)6, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_X64", "Create X64 disk image", create_set_disk_image_type_callback,
+    { "_P64", "Create P64 disk image", create_set_disk_image_type_callback,
       (void *)7, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_X64", "Create X64 disk image", create_set_disk_image_type_callback,
+      (void *)8, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "D_1M", "Create D1M disk image", create_set_disk_image_type_callback,
+      (void *)9, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "D2_M", "Create D2M disk image", create_set_disk_image_type_callback,
+      (void *)10, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "D_4M", "Create D4M disk image", create_set_disk_image_type_callback,
+      (void *)11, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
@@ -292,7 +304,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
         util_fname_split(s, &directory, &default_item);
 
         name = tui_file_selector("Attach a disk image", directory, 
-                                 "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82;"
+                                 "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.p64;*.d80;*.d82;*.d67;*.d1m;*.d2m;*.d4m;"
                                  "*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z;*.zip;*.gz;*.lzh",
                                  default_item, diskcontents_filesystem_read, &file,
                                  &file_number);

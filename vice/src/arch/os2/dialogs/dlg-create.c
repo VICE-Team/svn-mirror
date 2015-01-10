@@ -43,7 +43,7 @@
 #include "diskimage.h"        // DISK_IMAGE_TYPE_*
 #include "snippets\pmwin2.h"  // WinQueryDlgPos
 
-#define nTYPES 8
+#define nTYPES 12
 
 const char imgType[nTYPES][13] = {
     "<1541> *.d64",
@@ -52,8 +52,12 @@ const char imgType[nTYPES][13] = {
     "<1541> *.x64",
     "<1571> *.d71",
     "<1581> *.d81",
+    "<2040> *.d67",
     "<8050> *.d80",
-    "<8250> *.d82"
+    "<8250> *.d82",
+    "<2000> *.d1m",
+    "<2000> *.d2m",
+    "<4000> *.d4m"
 };
 
 const int imgRes[nTYPES] = {
@@ -63,8 +67,12 @@ const int imgRes[nTYPES] = {
     DISK_IMAGE_TYPE_X64,
     DISK_IMAGE_TYPE_D71,
     DISK_IMAGE_TYPE_D81,
+    DISK_IMAGE_TYPE_D67,
     DISK_IMAGE_TYPE_D80,
-    DISK_IMAGE_TYPE_D82
+    DISK_IMAGE_TYPE_D82,
+    DISK_IMAGE_TYPE_D1M,
+    DISK_IMAGE_TYPE_D2M,
+    DISK_IMAGE_TYPE_D4M
 };
 
 #define CBS_IMGTYPE 0x1001

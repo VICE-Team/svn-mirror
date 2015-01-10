@@ -309,7 +309,7 @@ int DirectoryMgrSimpleFilterFunc(char *pattern, PFI *ff_ptr, fwf_regex_t *fd_ptr
         *ff_ptr = DirectoryMgrFilterName;
     }
     RegExpInit(fd_ptr);
-    RegExpPatternToRegExp(pattern, regexp, sizeof(regexp));
+    ShellPatternToRegExp(pattern, regexp, sizeof(regexp));
     if (RegExpCompile(regexp, fd_ptr)) {
         (void)RegExpCompile(".*", fd_ptr);
     }

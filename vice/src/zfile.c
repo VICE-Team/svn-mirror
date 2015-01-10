@@ -338,13 +338,17 @@ static int is_zipcode_name(char *name)
 /* Extensions we know about */
 static const char *extensions[] = {
     FSDEV_EXT_SEP_STR "d64",
+    FSDEV_EXT_SEP_STR "d67",
     FSDEV_EXT_SEP_STR "d71",
     FSDEV_EXT_SEP_STR "d80",
     FSDEV_EXT_SEP_STR "d81",
     FSDEV_EXT_SEP_STR "d82",
+    FSDEV_EXT_SEP_STR "d1m",
+    FSDEV_EXT_SEP_STR "d2m",
+    FSDEV_EXT_SEP_STR "d4m",
     FSDEV_EXT_SEP_STR "g64",
+    FSDEV_EXT_SEP_STR "p64",
     FSDEV_EXT_SEP_STR "g41",
-    FSDEV_EXT_SEP_STR "p41",
     FSDEV_EXT_SEP_STR "x64",
     FSDEV_EXT_SEP_STR "dsk",
     FSDEV_EXT_SEP_STR "t64",

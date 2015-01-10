@@ -72,6 +72,7 @@ struct ObjApp {
 
 static const char *image_type_name[] = {
     "d64",
+    "d67",
     "d71",
     "d80",
     "d81",
@@ -87,6 +88,7 @@ static const char *image_type_name[] = {
 
 static const int image_type[] = {
     DISK_IMAGE_TYPE_D64,
+    DISK_IMAGE_TYPE_D67,
     DISK_IMAGE_TYPE_D71,
     DISK_IMAGE_TYPE_D80,
     DISK_IMAGE_TYPE_D81,

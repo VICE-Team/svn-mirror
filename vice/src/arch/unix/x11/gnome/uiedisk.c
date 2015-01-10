@@ -47,6 +47,7 @@ static struct {
     int type;
 } type_radio[] = {
     { "d64", NULL, DISK_IMAGE_TYPE_D64 },
+    { "d67", NULL, DISK_IMAGE_TYPE_D67 },
     { "d71", NULL, DISK_IMAGE_TYPE_D71 },
     { "d80", NULL, DISK_IMAGE_TYPE_D80 },
     { "d81", NULL, DISK_IMAGE_TYPE_D81 },

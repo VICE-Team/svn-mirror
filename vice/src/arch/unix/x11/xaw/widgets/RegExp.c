@@ -48,7 +48,7 @@ void RegExpFree(fwf_regex_t *r)
 
 int RegExpCompile(const char *regexp, fwf_regex_t *r)
 {
-    return regcomp(r, regexp, 0);
+    return regcomp(r, regexp, REG_ICASE);
 }
 
 int RegExpMatch(const char *string, fwf_regex_t *r)
@@ -142,7 +142,7 @@ int RegExpMatch(const char *string, fwf_regex_t *r)
 
 /* ------------------------------------------------------------------------- */
 
-void RegExpPatternToRegExp(const char *pattern, char *reg_exp, int size)
+void ShellPatternToRegExp(const char *pattern, char *reg_exp, int size)
 {
     int in_bracket;
     char *reg_exp_end = reg_exp + size - 2 - 2 - 1;
@@ -160,6 +160,14 @@ void RegExpPatternToRegExp(const char *pattern, char *reg_exp, int size)
                     in_bracket = 1;
                     *reg_exp++ = '[';
                     break;
+                case '{':
+                    *reg_exp++ = '\\';
+                    *reg_exp++ = '(';
+                    break;
+                case '}':
+                    *reg_exp++ = '\\';
+                    *reg_exp++ = ')';
+                    break;
                 case '?':
                     *reg_exp++ = '.';
                     break;
@@ -170,6 +178,14 @@ void RegExpPatternToRegExp(const char *pattern, char *reg_exp, int size)
                 case '.':
                     *reg_exp++ = '\\';
                     *reg_exp++ = '.';
+                    break;
+                case '\\':
+                    *reg_exp++ = '\\';
+                    *reg_exp++ = '\\';
+                    break;
+                case ',':
+                    *reg_exp++ = '\\';
+                    *reg_exp++ = '|';
                     break;
                 default:
                     *reg_exp++ = *pattern;
@@ -183,4 +199,4 @@ void RegExpPatternToRegExp(const char *pattern, char *reg_exp, int size)
     }
     *reg_exp++ = '$';
     *reg_exp++ = '\0';
-} /* End RegExpPatternToRegExp */
+} /* End ShellPatternToRegExp */

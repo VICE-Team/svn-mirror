@@ -48,6 +48,7 @@ static uilib_file_filter_t snapshot_filter[] = { { "*.vsf", 0 }, { NULL } };
 
 static uilib_file_filter_t disk_image_filter[] = {
     { "*.d64", 0 },
+    { "*.d67", 0 },
     { "*.d71", 0 },
     { "*.d80", 0 },
     { "*.d81", 0 },
@@ -88,7 +89,7 @@ static uilib_file_filter_t compressed_filter[] = {
 static uilib_file_filter_t eth_filter[] = { { "eth*", 1 }, { NULL } };
 static uilib_file_filter_t midi_filter[] = { { "mi*", 1 }, { NULL } }; /* FIXME */
 static uilib_file_filter_t hd_image_filter[] = {
-    { "*.bin", 0 },
+    { "*.hdd", 0 },
     { "*.iso", 0 },
     { "*.fdd", 0 },
     { "*.cfa", 0 },
