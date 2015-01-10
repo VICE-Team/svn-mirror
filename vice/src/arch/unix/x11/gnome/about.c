@@ -54,7 +54,8 @@ static void contrib_cb(GtkWidget *w, GdkEvent *event, gpointer data)
     ui_show_text(_("Contributors to the VICE project"), info_contrib_text, 500, 300);
 }
 
-static char *get_compiletime_features(void) {
+static char *get_compiletime_features(void)
+{
     feature_list_t *list;
     char *str, *lstr;
     unsigned int len = 0;
