@@ -60,7 +60,6 @@ static char snap_rom_module_name[] = "C128ROM";
 static int mem_write_rom_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
-    int trapfl;
 
     /* Main memory module.  */
 
@@ -69,10 +68,6 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
     if (m == NULL) {
         return -1;
     }
-
-    /* disable traps before saving the ROM */
-    resources_get_int("VirtualDevices", &trapfl);
-    resources_set_int("VirtualDevices", 0);
 
     if (0
         || SMW_BA(m, c128memrom_kernal_rom, C128_KERNAL_ROM_SIZE) < 0
@@ -92,19 +87,9 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
        - cartridge RAM areas
     */
 
-    /* enable traps again when necessary */
-    resources_set_int("VirtualDevices", trapfl);
-
-    if (snapshot_module_close(m) < 0) {
-        goto fail;
-    }
-
-    return 0;
+    return snapshot_module_close(m);
 
 fail:
-    /* enable traps again when necessary */
-    resources_set_int("VirtualDevices", trapfl);
-
     if (m != NULL) {
         snapshot_module_close(m);
     }

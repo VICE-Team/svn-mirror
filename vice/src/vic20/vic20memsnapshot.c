@@ -219,7 +219,6 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 {
     snapshot_module_t *m;
-    int trapfl;
 
     if (!save_roms) {
         return 0;
@@ -230,10 +229,6 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         return -1;
     }
 
-    /* disable traps before saving the ROM */
-    resources_get_int("VirtualDevices", &trapfl);
-    resources_set_int("VirtualDevices", 0);
-
     /* old cart system config bits.  all zero = no roms */
     SMW_B(m, 0x00);
 
@@ -243,9 +238,6 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     SMW_BA(m, vic20memrom_basic_rom, 0x2000);
 
     SMW_BA(m, vic20memrom_chargen_rom, 0x1000);
-
-    /* enable traps again when necessary */
-    resources_set_int("VirtualDevices", trapfl);
 
     snapshot_module_close(m);
 

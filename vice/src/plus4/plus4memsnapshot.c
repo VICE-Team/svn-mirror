@@ -60,7 +60,6 @@ static const char snap_rom_module_name[] = "PLUS4ROM";
 static int plus4_snapshot_write_rom_module(snapshot_t *s)
 {
     snapshot_module_t *m;
-    int trapfl;
 
     /* Main memory module.  */
 
@@ -68,10 +67,6 @@ static int plus4_snapshot_write_rom_module(snapshot_t *s)
     if (m == NULL) {
         return -1;
     }
-
-    /* disable traps before saving the ROM */
-    resources_get_int("VirtualDevices", &trapfl);
-    resources_set_int("VirtualDevices", 0);
 
     if (SMW_BA(m, plus4memrom_kernal_rom, PLUS4_KERNAL_ROM_SIZE) < 0
         || SMW_BA(m, plus4memrom_basic_rom, PLUS4_BASIC_ROM_SIZE) < 0
@@ -88,10 +83,8 @@ static int plus4_snapshot_write_rom_module(snapshot_t *s)
     ui_update_menus();
 
     if (snapshot_module_close(m) < 0) {
-        goto fail;
+        goto fail2;
     }
-
-    resources_set_int("VirtualDevices", trapfl);
 
     DBG(("rom snapshots written.\n"));
     return 0;
@@ -100,8 +93,7 @@ fail:
     if (m != NULL) {
         snapshot_module_close(m);
     }
-
-    resources_set_int("VirtualDevices", trapfl);
+fail2:
     DBG(("error writing rom snapshots.\n"));
     return -1;
 }
