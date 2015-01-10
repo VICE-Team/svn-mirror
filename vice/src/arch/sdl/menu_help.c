@@ -41,6 +41,7 @@
 #include "uimenu.h"
 #include "util.h"
 #include "version.h"
+#include "vicefeatures.h"
 
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
@@ -256,6 +257,9 @@ static void show_text(const char *text)
                     case 'å':
                         string[x + z] = 'a';
                         break;
+                    case '_':
+                        string[x + z] = (unsigned char)164;
+                        break;
                     case '\t':
                         string[x + z] = ' ';
                         string[x + z + 1] = ' ';
@@ -357,6 +361,42 @@ static UI_MENU_CALLBACK(about_callback)
                     break;
             }
         }
+    }
+    return NULL;
+}
+
+static char *get_compiletime_features(void)
+{
+    feature_list_t *list;
+    char *str, *lstr;
+    unsigned int len = 0;
+
+    list = vice_get_feature_list();
+    while (list->symbol) {
+        len += strlen(list->descr) + strlen(list->symbol) + (15);
+        ++list;
+    }
+    str = lib_malloc(len);
+    lstr = str;
+    list = vice_get_feature_list();
+    while (list->symbol) {
+        sprintf(lstr, "%s\n%s\n%s\n\n", list->isdefined ? "yes " : "no  ", list->descr, list->symbol);
+        lstr += strlen(lstr);
+        ++list;
+    }
+    return str;
+}
+
+static UI_MENU_CALLBACK(features_callback)
+{
+    menu_draw_t *menu_draw;
+    char *features;
+
+    if (activated) {
+        menu_draw = sdl_ui_get_menu_param();
+        features = get_compiletime_features();
+        show_text((const char *)features);
+        lib_free(features);
     }
     return NULL;
 }
@@ -489,6 +529,10 @@ const ui_menu_entry_t help_menu[] = {
     { "Command-line options",
       MENU_ENTRY_DIALOG,
       cmdline_callback,
+      NULL },
+    { "Compile time features",
+      MENU_ENTRY_DIALOG,
+      features_callback,
       NULL },
     { "Contributors",
       MENU_ENTRY_DIALOG,
