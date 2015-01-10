@@ -195,6 +195,7 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
         drivemem_set_func(cpud, 0x30, 0x40, drive_read_2040buffer3_ram, drive_store_2040buffer3_ram);
         drivemem_set_func(cpud, 0x40, 0x50, drive_read_2040buffer4_ram, drive_store_2040buffer4_ram);
         drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL);
+        return;
     case DRIVE_TYPE_2040:
         drivemem_set_func(cpud, 0x60, 0x80, drive_read_rom, NULL);
         drivemem_set_func(cpud, 0xe0, 0x100, drive_read_rom, NULL);
