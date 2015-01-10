@@ -34,15 +34,18 @@
 #include "types.h"
 
 
+static BYTE drive_read_rom(drive_context_t *drv, WORD address)
+{
+    return drv->drive->rom[address & 0x7fff];
+}
+
 static BYTE drive_read_ram(drive_context_t *drv, WORD address)
 {
-    /* FIXME: This breaks the 1541 RAM mirror!  */
     return drv->cpud->drive_ram[address & 0x1fff];
 }
 
 static void drive_store_ram(drive_context_t *drv, WORD address, BYTE value)
 {
-    /* FIXME: This breaks the 1541 RAM mirror!  */
     drv->cpud->drive_ram[address & 0x1fff] = value;
 }
 

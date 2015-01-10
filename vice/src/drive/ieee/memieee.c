@@ -37,12 +37,17 @@
 #include "viad.h"
 
 
-static BYTE drive_read_ram(drive_context_t *drv, WORD address)
+static BYTE drive_read_rom(drive_context_t *drv, WORD address)
+{
+    return drv->drive->rom[address & 0x7fff];
+}
+
+static BYTE drive_read_2031ram(drive_context_t *drv, WORD address)
 {
     return drv->cpud->drive_ram[address & 0x7ff];
 }
 
-static void drive_store_ram(drive_context_t *drv, WORD address, BYTE value)
+static void drive_store_2031ram(drive_context_t *drv, WORD address, BYTE value)
 {
     drv->cpud->drive_ram[address & 0x7ff] = value;
 }
@@ -111,7 +116,7 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
         /* Setup drive RAM.  */
         for (j = 0; j < 0x80; j += 0x20) {
             drivemem_set_func(cpud, 0x00 + j, 0x08 + j,
-                    drive_read_ram, drive_store_ram);
+                    drive_read_2031ram, drive_store_2031ram);
         }
         drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero);
 

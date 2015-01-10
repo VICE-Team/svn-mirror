@@ -45,16 +45,6 @@
 /* ------------------------------------------------------------------------- */
 /* Common memory access.  */
 
-BYTE drive_read_rom(drive_context_t *drv, WORD address)
-{
-    return drv->drive->rom[address & 0x7fff];
-}
-
-BYTE drive_read_rom_ds1216(drive_context_t *drv, WORD address)
-{
-    return ds1216e_read(drv->drive->ds1216, address, drv->drive->rom[address & 0x7fff]);
-}
-
 static BYTE drive_read_free(drive_context_t *drv, WORD address)
 {
     return address >> 8;

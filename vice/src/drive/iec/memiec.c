@@ -41,6 +41,16 @@
 #include "via4000.h"
 #include "pc8477.h"
 
+static BYTE drive_read_rom(drive_context_t *drv, WORD address)
+{
+    return drv->drive->rom[address & 0x7fff];
+}
+
+static BYTE drive_read_rom_ds1216(drive_context_t *drv, WORD address)
+{
+    return ds1216e_read(drv->drive->ds1216, address, drv->drive->rom[address & 0x7fff]);
+}
+
 static BYTE drive_read_ram(drive_context_t *drv, WORD address)
 {
     return drv->cpud->drive_ram[address & 0x7ff];
