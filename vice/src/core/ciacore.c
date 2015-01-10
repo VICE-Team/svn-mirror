@@ -280,6 +280,9 @@ static void ciacore_clk_overflow_callback(CLOCK sub, void *data)
 /* -------------------------------------------------------------------------- */
 void ciacore_disable(cia_context_t *cia_context)
 {
+#ifdef USE_IDLE_CALLBACK
+    alarm_unset(cia_context->idle_alarm);
+#endif
     alarm_unset(cia_context->ta_alarm);
     alarm_unset(cia_context->tb_alarm);
     alarm_unset(cia_context->tod_alarm);
