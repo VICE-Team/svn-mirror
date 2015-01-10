@@ -259,7 +259,10 @@ int drive_check_idle_method(int drive_type)
         || drive_type == DRIVE_TYPE_1581
         || drive_type == DRIVE_TYPE_2000
         || drive_type == DRIVE_TYPE_4000
-        || drive_type == DRIVE_TYPE_2031) {
+        || drive_type == DRIVE_TYPE_2031
+        || drive_type == DRIVE_TYPE_2040
+        || drive_type == DRIVE_TYPE_3040
+        || drive_type == DRIVE_TYPE_4040) {
         return 1;
     }
     return 0;
