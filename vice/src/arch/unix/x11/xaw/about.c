@@ -55,9 +55,11 @@
 #endif
 
 #include "info.h"
+#include "lib.h"
 #include "platform_discovery.h"
 #include "uiapi.h"
 #include "version.h"
+#include "vicefeatures.h"
 #include "videoarch.h"
 #include "vsync.h"
 
@@ -65,10 +67,34 @@
 #include "svnversion.h"
 #endif
 
+static char *get_compiletime_features(void)
+{
+    feature_list_t *list;
+    char *str, *lstr;
+    unsigned int len = 0;
+
+    list = vice_get_feature_list();
+    while (list->symbol) {
+        len += strlen(list->descr) + strlen(list->symbol) + (15);
+        ++list;
+    }
+    str = lib_malloc(len);
+    lstr = str;
+    list = vice_get_feature_list();
+    while (list->symbol) {
+        sprintf(lstr, "%4s\t%s (%s)\n", list->isdefined ? "yes " : "no  ", list->descr, list->symbol);
+        lstr += strlen(lstr);
+        ++list;
+    }
+    return str;
+}
+
+
 static UI_CALLBACK(info_dialog_close_callback)
 {
     *((ui_button_t *)UI_MENU_CB_PARAM) = 1;
 }
+
 /* ------------------------------------------------------------------------- */
 
 static UI_CALLBACK(info_dialog_license_callback)
@@ -84,6 +110,15 @@ static UI_CALLBACK(info_dialog_no_warranty_callback)
 static UI_CALLBACK(info_dialog_contrib_callback)
 {
     ui_show_text(_("Contributors to the VICE project"), info_contrib_text, -1, -1);
+}
+
+static UI_CALLBACK(info_dialog_features_callback)
+{
+    char *features = NULL;
+
+    features = get_compiletime_features();
+    ui_show_text(_("Compile time features"), features, -1, -1);
+    lib_free(features);
 }
 
 static Widget build_info_dialog(Widget parent, int *return_flag, ...)
@@ -139,6 +174,11 @@ static Widget build_info_dialog(Widget parent, int *return_flag, ...)
                                   XtNfromHoriz, tmp,
                                   NULL);
     XtAddCallback(tmp, XtNcallback, info_dialog_contrib_callback, NULL);
+    tmp = XtVaCreateManagedWidget("featuresButton",
+                                  commandWidgetClass, button_form,
+                                  XtNfromHoriz, tmp,
+                                  NULL);
+    XtAddCallback(tmp, XtNcallback, info_dialog_features_callback, NULL);
     return pane;
 }
 
