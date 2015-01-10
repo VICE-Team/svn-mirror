@@ -30,9 +30,6 @@
 
 /* VIC-II resources.  */
 struct vicii_resources_s {
-    /* VIC-II border mode, 0..3 */
-    int border_mode;
-
     /* Flag: Do we emulate the sprite-sprite collision register and IRQ?  */
     int sprite_sprite_collisions_enabled;
 

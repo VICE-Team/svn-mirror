@@ -63,7 +63,7 @@
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sid.h"
-#include "vicii.h"
+#include "viciivsid.h"
 #include "vicii-mem.h"
 #include "video.h"
 #include "vsidui.h"
@@ -355,39 +355,7 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
 
 void machine_change_timing(int timeval)
 {
-    int border_mode;
-
-    switch (timeval) {
-        default:
-        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-        case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-        case MACHINE_SYNC_PALN ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-            timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
-            border_mode = VICII_NORMAL_BORDERS;
-            break;
-        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-        case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-        case MACHINE_SYNC_PALN ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-            timeval ^= VICII_BORDER_MODE(VICII_FULL_BORDERS);
-            border_mode = VICII_FULL_BORDERS;
-            break;
-        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-        case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-        case MACHINE_SYNC_PALN ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-            timeval ^= VICII_BORDER_MODE(VICII_DEBUG_BORDERS);
-            border_mode = VICII_DEBUG_BORDERS;
-            break;
-        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
-        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
-        case MACHINE_SYNC_NTSCOLD ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
-        case MACHINE_SYNC_PALN ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
-            timeval ^= VICII_BORDER_MODE(VICII_NO_BORDERS);
-            border_mode = VICII_NO_BORDERS;
-            break;
-    }
+    timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
 
     switch (timeval) {
         case MACHINE_SYNC_PAL:
@@ -432,7 +400,7 @@ void machine_change_timing(int timeval)
     sid_set_machine_parameter(machine_timing.cycles_per_sec);
     clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
-    vicii_change_timing(&machine_timing, border_mode);
+    vicii_change_timing(&machine_timing);
 
     cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_sec, machine_timing.power_freq);
     cia2_set_timing(machine_context.cia2, machine_timing.cycles_per_sec, machine_timing.power_freq);

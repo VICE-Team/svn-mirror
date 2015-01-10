@@ -17,7 +17,6 @@ VICIIPALOddLinePhase
 VICIIPALOddLineOffset
 VICIIAudioLeak
 VICIIFilter
-VICIIBorderMode
 VICIICheckSsColl
 VICIICheckSbColl
 VICIINewLuminances
@@ -78,18 +77,6 @@ UNNEEDED COMMON VSID COMMAND LINE OPTIONS
 UNNEEDED WINDOWS VSID COMMAND LINE OPTIONS
 ==========================================
 
--initialdefaultdir <Name>
-	Specify initial default directory.
--initialtapedir <Name>
-	Specify initial tape directory.
--initialdiskdir <Name>
-	Specify initial disk directory.
--initialautostartdir <Name>
-	Specify initial autostart directory.
--initialcartdir <Name>
-	Specify initial cartridge directory.
--initialsnapshotdir <Name>
-	Specify initial snapshot directory.
 -vblanksync
 	Enable vertical blank sync
 +vblanksync

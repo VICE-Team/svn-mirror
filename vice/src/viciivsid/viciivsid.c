@@ -74,7 +74,7 @@
 #include "vicii-sprites.h"
 #include "vicii-resources.h"
 #include "vicii-timing.h"
-#include "vicii.h"
+#include "viciivsid.h"
 #include "viciitypes.h"
 #include "vsync.h"
 #include "video.h"
@@ -144,9 +144,9 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
     vicii.sprite_fetch_clk -= sub;
 }
 
-void vicii_change_timing(machine_timing_t *machine_timing, int border_mode)
+void vicii_change_timing(machine_timing_t *machine_timing)
 {
-    vicii_timing_set(machine_timing, border_mode);
+    vicii_timing_set(machine_timing);
 
     if (vicii.initialized) {
         vicii_set_geometry();

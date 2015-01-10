@@ -41,34 +41,8 @@
 #include "viciitypes.h"
 #include "video.h"
 
-vicii_resources_t vicii_resources = { 0, 0, 0, 0 };
+vicii_resources_t vicii_resources = { 0, 0, 0 };
 static video_chip_cap_t video_chip_cap;
-
-
-static int set_border_mode(int val, void *param)
-{
-    int sync;
-
-    switch (val) {
-        case VICII_NORMAL_BORDERS:
-        case VICII_FULL_BORDERS:
-        case VICII_DEBUG_BORDERS:
-        case VICII_NO_BORDERS:
-            break;
-        default:
-            return -1;
-    }
-
-    if (resources_get_int("MachineVideoStandard", &sync) < 0) {
-        sync = MACHINE_SYNC_PAL;
-    }
-
-    if (vicii_resources.border_mode != val) {
-        vicii_resources.border_mode = val;
-        machine_change_timing(sync ^ VICII_BORDER_MODE(vicii_resources.border_mode));
-    }
-    return 0;
-}
 
 static int set_sprite_sprite_collisions_enabled(int val, void *param)
 {
@@ -93,9 +67,6 @@ static int set_new_luminances(int val, void *param)
 
 static const resource_int_t resources_int[] =
 {
-    { "VICIIBorderMode", VICII_NORMAL_BORDERS, RES_EVENT_SAME, NULL,
-      &vicii_resources.border_mode,
-      set_border_mode, NULL },
     { "VICIICheckSsColl", 1, RES_EVENT_SAME, NULL,
       &vicii_resources.sprite_sprite_collisions_enabled,
       set_sprite_sprite_collisions_enabled, NULL },
