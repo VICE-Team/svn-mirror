@@ -66,8 +66,8 @@ static int drive_rom_load_ok = 0;
 
 
 int driverom_load(const char *resource_name, BYTE *drive_rom, unsigned
-                  int *loaded, int min, int max, const char *name, int type,
-                  unsigned int *size) 
+                  int *loaded, int min, int max, const char *name,
+                  unsigned int type, unsigned int *size) 
 {
     const char *rom_name = NULL;
     int filesize;
@@ -102,7 +102,7 @@ int driverom_load(const char *resource_name, BYTE *drive_rom, unsigned
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
 
-        if (drive->type == (unsigned int)type) {
+        if (drive->type == type) {
             machine_drive_rom_setup_image(dnr);
         }
     }
