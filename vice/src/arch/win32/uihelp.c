@@ -129,30 +129,7 @@ void uihelp_dialog(HWND hwnd, WPARAM wparam)
             DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_ABOUT), hwnd, (DLGPROC)about_dialog_proc);
             break;
         case IDM_HELP:
-            switch (machine_class) {
-                case VICE_MACHINE_C128:
-                    fname = util_concat(archdep_boot_path(), "\\DOC\\x128.chm", NULL);
-                    break;
-                case VICE_MACHINE_VIC20:
-                    fname = util_concat(archdep_boot_path(), "\\DOC\\xvic.chm", NULL);
-                    break;
-                case VICE_MACHINE_PET:
-                    fname = util_concat(archdep_boot_path(), "\\DOC\\xpet.chm", NULL);
-                    break;
-                case VICE_MACHINE_CBM5x0:
-                case VICE_MACHINE_CBM6x0:
-                    fname = util_concat(archdep_boot_path(), "\\DOC\\xcbm2.chm", NULL);
-                    break;
-                case VICE_MACHINE_PLUS4:
-                    fname = util_concat(archdep_boot_path(), "\\DOC\\xplus4.chm", NULL);
-                    break;
-                case VICE_MACHINE_C64DTV:
-                    fname = util_concat(archdep_boot_path(), "\\DOC\\x64dtv.chm", NULL);
-                    break;
-                default:
-                    fname = util_concat(archdep_boot_path(), "\\DOC\\x64.chm", NULL);
-                    break;
-            }
+            fname = util_concat(archdep_boot_path(), "\\DOC\\vice.chm", NULL);
             dname = util_concat(archdep_boot_path(), "\\DOC", NULL);
             ShellExecute(NULL, "open", fname, NULL, dname, SW_SHOWNORMAL);
             lib_free(fname);
