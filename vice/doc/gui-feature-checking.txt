@@ -1,7 +1,7 @@
 ABOUT FEATURE DISPLAY SUPPORT
 =============================
-platforms present:	amigaos/beos/sdl/unix
-platforms missing:	dos/os2/osx/windows
+platforms present:	amigaos/beos/sdl/unix/windows
+platforms missing:	dos/os2/osx
 
 (commandline: -features)
 

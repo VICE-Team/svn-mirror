@@ -1575,6 +1575,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         case IDM_ABOUT:
         case IDM_HELP:
         case IDM_CONTRIBUTORS:
+        case IDM_FEATURES:
         case IDM_LICENSE:
         case IDM_WARRANTY:
         case IDM_CMDLINE:

@@ -45,6 +45,7 @@
 #include "uilib.h"
 #include "util.h"
 #include "version.h"
+#include "vicefeatures.h"
 #include "winmain.h"
 
 #ifdef USE_SVN_REVISION
@@ -89,10 +90,33 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg, UINT wparam, LONG lparam)
     return FALSE;
 }
 
+static char *get_compiletime_features(void)
+{
+    feature_list_t *list;
+    char *str, *lstr;
+    unsigned int len = 0;
+
+    list = vice_get_feature_list();
+    while (list->symbol) {
+        len += strlen(list->descr) + strlen(list->symbol) + (15);
+        ++list;
+    }
+    str = lib_malloc(len);
+    lstr = str;
+    list = vice_get_feature_list();
+    while (list->symbol) {
+        sprintf(lstr, "%4s\t%s (%s)\n", list->isdefined ? "yes " : "no  ", list->descr, list->symbol);
+        lstr += strlen(lstr);
+        ++list;
+    }
+    return str;
+}
+
 void uihelp_dialog(HWND hwnd, WPARAM wparam)
 {
     char *fname;
     char *dname;
+    char *features = NULL;
 
     STARTUPINFOW si;
     PROCESS_INFORMATION pi;
@@ -133,6 +157,11 @@ void uihelp_dialog(HWND hwnd, WPARAM wparam)
             ShellExecute(NULL, "open", fname, NULL, dname, SW_SHOWNORMAL);
             lib_free(fname);
             lib_free(dname);
+            break;
+        case IDM_FEATURES:
+            features = get_compiletime_features();
+            ui_show_text(hwnd, translate_text(IDS_VICE_FEATURES), translate_text(IDS_WHAT_FEATURES_ARE_AVAILABLE), features);
+            lib_free(features);
             break;
         case IDM_CONTRIBUTORS:
             ui_show_text(hwnd, translate_text(IDS_VICE_CONTRIBUTORS), translate_text(IDS_WHO_MADE_WHAT), info_contrib_text);

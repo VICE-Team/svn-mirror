@@ -349,6 +349,7 @@ ui_menu_translation_table_t scpu64ui_menu_translation_table[] = {
     { IDM_LANG_SV, IDS_MI_LANG_SV },
     { IDM_LANG_TR, IDS_MI_LANG_TR },
     { IDM_CMDLINE, IDS_MI_CMDLINE },
+    { IDM_FEATURES, IDS_MI_FEATURES },
     { IDM_CONTRIBUTORS, IDS_MI_CONTRIBUTORS },
     { IDM_LICENSE, IDS_MI_LICENSE },
     { IDM_WARRANTY, IDS_MI_WARRANTY },
