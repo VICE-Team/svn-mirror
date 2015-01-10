@@ -108,45 +108,29 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
     if (type == DRIVE_TYPE_2031) {
         drv->cpu->pageone = cpud->drive_ram + 0x100;
 
-        cpud->read_func_nowatch[0] = drive_read_zero;
-        cpud->store_func_nowatch[0] = drive_store_zero;
-
         /* Setup drive RAM.  */
         for (j = 0; j < 0x80; j += 0x20) {
-            for (i = 0x00 + j; i < 0x08 + j; i++) {
-                cpud->read_func_nowatch[i] = drive_read_ram;
-                cpud->store_func_nowatch[i] = drive_store_ram;
-            }
+            drivemem_set_func(cpud, 0x00 + j, 0x08 + j,
+                    drive_read_ram, drive_store_ram);
         }
+        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero);
 
         /* Setup 2031 VIAs.  */
-        for (i = 0x18; i < 0x1c; i++) {
-            cpud->read_func_nowatch[i] = via1d2031_read;
-            cpud->store_func_nowatch[i] = via1d2031_store;
-        }
-        for (i = 0x1c; i < 0x20; i++) {
-            cpud->read_func_nowatch[i] = via2d_read;
-            cpud->store_func_nowatch[i] = via2d_store;
-        }
+        drivemem_set_func(cpud, 0x18, 0x1c, via1d2031_read, via1d2031_store);
+        drivemem_set_func(cpud, 0x1c, 0x20, via2d_read, via2d_store);
     }
 
     if (type == DRIVE_TYPE_2031 || type == DRIVE_TYPE_1001
         || type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250) {
-        for (i = 0xc0; i < 0x100; i++) {
-            cpud->read_func_nowatch[i] = drive_read_rom;
-        }
+        drivemem_set_func(cpud, 0xc0, 0x100, drive_read_rom, NULL);
     }
 
     if (type == DRIVE_TYPE_2040) {
-        for (i = 0x100 - (DRIVE_ROM2040_SIZE >> 8); i < 0x100; i++) {
-            cpud->read_func_nowatch[i] = drive_read_rom;
-        }
+        drivemem_set_func(cpud, 0x100 - (DRIVE_ROM2040_SIZE >> 8), 0x100, drive_read_rom, NULL);
     }
 
     if (type == DRIVE_TYPE_3040 || type == DRIVE_TYPE_4040) {
-        for (i = 0x100 - (DRIVE_ROM3040_SIZE >> 8); i < 0x100; i++) {
-            cpud->read_func_nowatch[i] = drive_read_rom;
-        }
+        drivemem_set_func(cpud, 0x100 - (DRIVE_ROM3040_SIZE >> 8), 0x100, drive_read_rom, NULL);
     }
 
     if (drive_check_old(type)) {
@@ -164,19 +148,13 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
         drv->cpu->pageone = cpud->drive_ram;
 
         for (i = 0; i < 0x10; i += 4) {
-            cpud->read_func_nowatch[i] = drive_read_1001zero_ram;
-            cpud->store_func_nowatch[i] = drive_store_1001zero_ram;
-            cpud->read_func_nowatch[i + 1] = drive_read_1001zero_ram;
-            cpud->store_func_nowatch[i + 1] = drive_store_1001zero_ram;
-            cpud->read_func_nowatch[i + 2] = drive_read_1001_io;
-            cpud->store_func_nowatch[i + 2] = drive_store_1001_io;
-            cpud->read_func_nowatch[i + 3] = drive_read_1001_io;
-            cpud->store_func_nowatch[i + 3] = drive_store_1001_io;
+            drivemem_set_func(cpud, i, i + 2,
+                    drive_read_1001zero_ram, drive_store_1001zero_ram);
+            drivemem_set_func(cpud, i + 2, i + 4,
+                    drive_read_1001_io, drive_store_1001_io);
         }
 
-        for (i = 0x10; i < 0x50; i++) {
-            cpud->read_func_nowatch[i] = drive_read_1001buffer_ram;
-            cpud->store_func_nowatch[i] = drive_store_1001buffer_ram;
-        }
+        drivemem_set_func(cpud, 0x10, 0x50,
+                drive_read_1001buffer_ram, drive_store_1001buffer_ram);
     }
 }

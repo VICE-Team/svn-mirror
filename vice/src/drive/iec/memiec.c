@@ -132,9 +132,7 @@ static void realloc_expram(BYTE **expram, int size)
 void memiec_init(struct drive_context_s *drv, unsigned int type)
 {
     unsigned int j;
-    drivecpud_context_t *cpud;
-
-    cpud = drv->cpud;
+    drivecpud_context_t *cpud = drv->cpud;
 
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
         || type == DRIVE_TYPE_1570 || type == DRIVE_TYPE_1571
@@ -176,9 +174,7 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
         }
 
         drv->cpu->pageone = cpud->drive_ram + 0x100;
-
-        cpud->read_func_nowatch[0] = drive_read_zero;
-        cpud->store_func_nowatch[0] = drive_store_zero;
+        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero);
 
         /* Setup drive ROM.  */
         drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL);

@@ -74,27 +74,21 @@ static void drive_store_zero(drive_context_t *drv, WORD address, BYTE value)
 
 void mem1551_init(struct drive_context_s *drv, unsigned int type)
 {
-    unsigned int i;
+    drivecpud_context_t *cpud = drv->cpud;
 
     if (type == DRIVE_TYPE_1551) {
         drv->cpu->pageone = drv->cpud->drive_ram + 0x100;
 
         /* Setup drive RAM.  */
-        for (i = 0x01; i < 0x08; i++) {
-            drv->cpud->read_func_nowatch[i] = drive_read_ram;
-            drv->cpud->store_func_nowatch[i] = drive_store_ram;
-        }
-        for (i = 0xc0; i < 0x100; i++) {
-            drv->cpud->read_func_nowatch[i] = drive_read_rom;
-        }
+        drivemem_set_func(cpud, 0x00, 0x01,
+                drive_read_zero, drive_store_zero);
+        drivemem_set_func(cpud, 0x01, 0x08,
+                drive_read_ram, drive_store_ram);
 
-        drv->cpud->read_func_nowatch[0] = drive_read_zero;
-        drv->cpud->store_func_nowatch[0] = drive_store_zero;
+        /* Setup drive ROM.  */
+        drivemem_set_func(cpud, 0xc0, 0x100, drive_read_rom, NULL);
 
         /* Setup 1551 TPI.  */
-        for (i = 0x40; i < 0x7f; i++) {
-            drv->cpud->read_func_nowatch[i] = tpid_read;
-            drv->cpud->store_func_nowatch[i] = tpid_store;
-        }
+        drivemem_set_func(cpud, 0x40, 0x80, tpid_read, tpid_store);
     }
 }
