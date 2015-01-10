@@ -102,7 +102,7 @@ int driverom_load(const char *resource_name, BYTE *drive_rom, unsigned
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
 
-        if (drive->type == type) {
+        if (drive->type == (unsigned int)type) {
             machine_drive_rom_setup_image(dnr);
         }
     }
