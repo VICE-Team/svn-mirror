@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Kajtar Zsolt <soci@c64.rulez.org>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -91,75 +92,145 @@ static void drive_store_1001zero_ram(drive_context_t *drv, WORD address, BYTE by
     drv->cpud->drive_ram[address & 0xff] = byte;
 }
 
-static BYTE drive_read_1001buffer_ram(drive_context_t *drv, WORD address)
+static BYTE drive_read_1001buffer1_ram(drive_context_t *drv, WORD address)
 {
-    return drv->cpud->drive_ram[(((address >> 2) & 0x1c00)
-                                 | (address & 0x03ff)) - 0x300];
+    return drv->cpud->drive_ram[(address & 0x7ff) + 0x100];
 }
 
-static void drive_store_1001buffer_ram(drive_context_t *drv, WORD address, BYTE byte)
+static void drive_store_1001buffer1_ram(drive_context_t *drv, WORD address, BYTE byte)
 {
-    drv->cpud->drive_ram[(((address >> 2) & 0x1c00) | (address & 0x03ff))
-                         - 0x300] = byte;
+    drv->cpud->drive_ram[(address & 0x7ff) + 0x100] = byte;
+}
+
+static BYTE drive_read_1001buffer2_ram(drive_context_t *drv, WORD address)
+{
+    return drv->cpud->drive_ram[(address & 0x7ff) + 0x900];
+}
+
+static void drive_store_1001buffer2_ram(drive_context_t *drv, WORD address, BYTE byte)
+{
+    drv->cpud->drive_ram[(address & 0x7ff) + 0x900] = byte;
+}
+
+static BYTE drive_read_2040buffer1_ram(drive_context_t *drv, WORD address)
+{
+    return drv->cpud->drive_ram[(address & 0x3ff) + 0x100];
+}
+
+static void drive_store_2040buffer1_ram(drive_context_t *drv, WORD address, BYTE byte)
+{
+    drv->cpud->drive_ram[(address & 0x3ff) + 0x100] = byte;
+}
+
+static BYTE drive_read_2040buffer2_ram(drive_context_t *drv, WORD address)
+{
+    return drv->cpud->drive_ram[(address & 0x3ff) + 0x500];
+}
+
+static void drive_store_2040buffer2_ram(drive_context_t *drv, WORD address, BYTE byte)
+{
+    drv->cpud->drive_ram[(address & 0x3ff) + 0x500] = byte;
+}
+
+static BYTE drive_read_2040buffer3_ram(drive_context_t *drv, WORD address)
+{
+    return drv->cpud->drive_ram[(address & 0x3ff) + 0x900];
+}
+
+static void drive_store_2040buffer3_ram(drive_context_t *drv, WORD address, BYTE byte)
+{
+    drv->cpud->drive_ram[(address & 0x3ff) + 0x900] = byte;
+}
+
+static BYTE drive_read_2040buffer4_ram(drive_context_t *drv, WORD address)
+{
+    return drv->cpud->drive_ram[(address & 0x3ff) + 0xd00];
+}
+
+static void drive_store_2040buffer4_ram(drive_context_t *drv, WORD address, BYTE byte)
+{
+    drv->cpud->drive_ram[(address & 0x3ff) + 0xd00] = byte;
 }
 
 void memieee_init(struct drive_context_s *drv, unsigned int type)
 {
-    unsigned int i, j;
-    drivecpud_context_t *cpud;
+    drivecpud_context_t *cpud = drv->cpud;
 
-    cpud = drv->cpud;
-
-    if (type == DRIVE_TYPE_2031) {
+    switch (type) {
+    case DRIVE_TYPE_2031: 
         drv->cpu->pageone = cpud->drive_ram + 0x100;
-
-        /* Setup drive RAM.  */
-        for (j = 0; j < 0x80; j += 0x20) {
-            drivemem_set_func(cpud, 0x00 + j, 0x08 + j,
-                    drive_read_2031ram, drive_store_2031ram);
-        }
         drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero);
-
-        /* Setup 2031 VIAs.  */
+        drivemem_set_func(cpud, 0x01, 0x08, drive_read_2031ram, drive_store_2031ram);
         drivemem_set_func(cpud, 0x18, 0x1c, via1d2031_read, via1d2031_store);
         drivemem_set_func(cpud, 0x1c, 0x20, via2d_read, via2d_store);
-    }
-
-    if (type == DRIVE_TYPE_2031 || type == DRIVE_TYPE_1001
-        || type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250) {
-        drivemem_set_func(cpud, 0xc0, 0x100, drive_read_rom, NULL);
-    }
-
-    if (type == DRIVE_TYPE_2040) {
-        drivemem_set_func(cpud, 0x100 - (DRIVE_ROM2040_SIZE >> 8), 0x100, drive_read_rom, NULL);
-    }
-
-    if (type == DRIVE_TYPE_3040 || type == DRIVE_TYPE_4040) {
-        drivemem_set_func(cpud, 0x100 - (DRIVE_ROM3040_SIZE >> 8), 0x100, drive_read_rom, NULL);
-    }
-
-    if (drive_check_old(type)) {
-        /* The 2040/3040/4040/1001/8050/8250 have 256 byte at $00xx,
-           mirrored at $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
-           (From the 2 RIOT's 128 byte RAM each. The RIOT's I/O fill
-           the gaps, x00-7f the first and x80-ff the second, at
-           $02xx, $03xx, $06xx, $07xx, $0axx, $0bxx, $0exx, $0fxx).
-           Then we have 4k of buffers, at $1000-13ff, 2000-23ff, 3000-33ff
-           and 4000-43ff, each mirrored at $x400-$x7fff, $x800-$xbff,
-           and $xc00-$xfff.
-
-           Here we set zeropage, stack and buffer RAM as well as I/O */
-
+        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL);
+        return;
+    case DRIVE_TYPE_1001:
         drv->cpu->pageone = cpud->drive_ram;
-
-        for (i = 0; i < 0x10; i += 4) {
-            drivemem_set_func(cpud, i, i + 2,
-                    drive_read_1001zero_ram, drive_store_1001zero_ram);
-            drivemem_set_func(cpud, i + 2, i + 4,
-                    drive_read_1001_io, drive_store_1001_io);
-        }
-
-        drivemem_set_func(cpud, 0x10, 0x50,
-                drive_read_1001buffer_ram, drive_store_1001buffer_ram);
+        drivemem_set_func(cpud, 0x00, 0x02, drive_read_1001zero_ram, drive_store_1001zero_ram);
+        drivemem_set_func(cpud, 0x02, 0x04, drive_read_1001_io, drive_store_1001_io);
+        drivemem_set_func(cpud, 0x04, 0x06, drive_read_1001zero_ram, drive_store_1001zero_ram);
+        drivemem_set_func(cpud, 0x06, 0x08, drive_read_1001_io, drive_store_1001_io);
+        drivemem_set_func(cpud, 0x08, 0x0a, drive_read_1001zero_ram, drive_store_1001zero_ram);
+        drivemem_set_func(cpud, 0x0a, 0x0c, drive_read_1001_io, drive_store_1001_io);
+        drivemem_set_func(cpud, 0x0c, 0x0e, drive_read_1001zero_ram, drive_store_1001zero_ram);
+        drivemem_set_func(cpud, 0x0e, 0x10, drive_read_1001_io, drive_store_1001_io);
+        drivemem_set_func(cpud, 0x10, 0x30, drive_read_1001buffer1_ram, drive_store_1001buffer1_ram);
+        drivemem_set_func(cpud, 0x30, 0x50, drive_read_1001buffer2_ram, drive_store_1001buffer2_ram);
+        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL);
+        return;
+    case DRIVE_TYPE_8050:
+    case DRIVE_TYPE_8250:
+        drv->cpu->pageone = cpud->drive_ram;
+        drivemem_set_func(cpud, 0x00, 0x02, drive_read_1001zero_ram, drive_store_1001zero_ram);
+        drivemem_set_func(cpud, 0x02, 0x04, drive_read_1001_io, drive_store_1001_io);
+        drivemem_set_func(cpud, 0x04, 0x06, drive_read_1001zero_ram, drive_store_1001zero_ram);
+        drivemem_set_func(cpud, 0x06, 0x08, drive_read_1001_io, drive_store_1001_io);
+        drivemem_set_func(cpud, 0x08, 0x0a, drive_read_1001zero_ram, drive_store_1001zero_ram);
+        drivemem_set_func(cpud, 0x0a, 0x0c, drive_read_1001_io, drive_store_1001_io);
+        drivemem_set_func(cpud, 0x0c, 0x0e, drive_read_1001zero_ram, drive_store_1001zero_ram);
+        drivemem_set_func(cpud, 0x0e, 0x10, drive_read_1001_io, drive_store_1001_io);
+        drivemem_set_func(cpud, 0x10, 0x20, drive_read_2040buffer1_ram, drive_store_2040buffer1_ram);
+        drivemem_set_func(cpud, 0x20, 0x30, drive_read_2040buffer2_ram, drive_store_2040buffer2_ram);
+        drivemem_set_func(cpud, 0x30, 0x40, drive_read_2040buffer3_ram, drive_store_2040buffer3_ram);
+        drivemem_set_func(cpud, 0x40, 0x50, drive_read_2040buffer4_ram, drive_store_2040buffer4_ram);
+        drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL);
+    case DRIVE_TYPE_2040:
+        drivemem_set_func(cpud, 0x60, 0x80, drive_read_rom, NULL);
+        drivemem_set_func(cpud, 0xe0, 0x100, drive_read_rom, NULL);
+        break;
+    case DRIVE_TYPE_3040:
+    case DRIVE_TYPE_4040:
+        drivemem_set_func(cpud, 0x50, 0x80, drive_read_rom, NULL);
+        drivemem_set_func(cpud, 0xd0, 0x100, drive_read_rom, NULL);
+        break;
+    default:
+        return;
     }
+
+    drv->cpu->pageone = cpud->drive_ram;
+    drivemem_set_func(cpud, 0x00, 0x02, drive_read_1001zero_ram, drive_store_1001zero_ram);
+    drivemem_set_func(cpud, 0x02, 0x04, drive_read_1001_io, drive_store_1001_io);
+    drivemem_set_func(cpud, 0x04, 0x06, drive_read_1001zero_ram, drive_store_1001zero_ram);
+    drivemem_set_func(cpud, 0x06, 0x08, drive_read_1001_io, drive_store_1001_io);
+    drivemem_set_func(cpud, 0x08, 0x0a, drive_read_1001zero_ram, drive_store_1001zero_ram);
+    drivemem_set_func(cpud, 0x0a, 0x0c, drive_read_1001_io, drive_store_1001_io);
+    drivemem_set_func(cpud, 0x0c, 0x0e, drive_read_1001zero_ram, drive_store_1001zero_ram);
+    drivemem_set_func(cpud, 0x0e, 0x10, drive_read_1001_io, drive_store_1001_io);
+    drivemem_set_func(cpud, 0x10, 0x20, drive_read_2040buffer1_ram, drive_store_2040buffer1_ram);
+    drivemem_set_func(cpud, 0x20, 0x30, drive_read_2040buffer2_ram, drive_store_2040buffer2_ram);
+    drivemem_set_func(cpud, 0x30, 0x40, drive_read_2040buffer3_ram, drive_store_2040buffer3_ram);
+    drivemem_set_func(cpud, 0x40, 0x50, drive_read_2040buffer4_ram, drive_store_2040buffer4_ram);
+    drivemem_set_func(cpud, 0x80, 0x82, drive_read_1001zero_ram, drive_store_1001zero_ram);
+    drivemem_set_func(cpud, 0x82, 0x84, drive_read_1001_io, drive_store_1001_io);
+    drivemem_set_func(cpud, 0x84, 0x86, drive_read_1001zero_ram, drive_store_1001zero_ram);
+    drivemem_set_func(cpud, 0x86, 0x88, drive_read_1001_io, drive_store_1001_io);
+    drivemem_set_func(cpud, 0x88, 0x8a, drive_read_1001zero_ram, drive_store_1001zero_ram);
+    drivemem_set_func(cpud, 0x8a, 0x8c, drive_read_1001_io, drive_store_1001_io);
+    drivemem_set_func(cpud, 0x8c, 0x8e, drive_read_1001zero_ram, drive_store_1001zero_ram);
+    drivemem_set_func(cpud, 0x8e, 0x90, drive_read_1001_io, drive_store_1001_io);
+    drivemem_set_func(cpud, 0x90, 0xa0, drive_read_2040buffer1_ram, drive_store_2040buffer1_ram);
+    drivemem_set_func(cpud, 0xa0, 0xb0, drive_read_2040buffer2_ram, drive_store_2040buffer2_ram);
+    drivemem_set_func(cpud, 0xb0, 0xc0, drive_read_2040buffer3_ram, drive_store_2040buffer3_ram);
+    drivemem_set_func(cpud, 0xc0, 0xd0, drive_read_2040buffer4_ram, drive_store_2040buffer4_ram);
 }

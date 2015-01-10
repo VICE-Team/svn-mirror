@@ -39,14 +39,14 @@ static BYTE drive_read_rom(drive_context_t *drv, WORD address)
     return drv->drive->rom[address & 0x7fff];
 }
 
-static BYTE drive_read_ram(drive_context_t *drv, WORD address)
+static BYTE drive_read_1551ram(drive_context_t *drv, WORD address)
 {
-    return drv->cpud->drive_ram[address & 0x1fff];
+    return drv->cpud->drive_ram[address & 0x7ff];
 }
 
-static void drive_store_ram(drive_context_t *drv, WORD address, BYTE value)
+static void drive_store_1551ram(drive_context_t *drv, WORD address, BYTE value)
 {
-    drv->cpud->drive_ram[address & 0x1fff] = value;
+    drv->cpud->drive_ram[address & 0x7ff] = value;
 }
 
 static BYTE drive_read_zero(drive_context_t *drv, WORD address)
@@ -79,19 +79,15 @@ void mem1551_init(struct drive_context_s *drv, unsigned int type)
 {
     drivecpud_context_t *cpud = drv->cpud;
 
-    if (type == DRIVE_TYPE_1551) {
+    switch (type) {
+    case DRIVE_TYPE_1551:
         drv->cpu->pageone = drv->cpud->drive_ram + 0x100;
-
-        /* Setup drive RAM.  */
-        drivemem_set_func(cpud, 0x00, 0x01,
-                drive_read_zero, drive_store_zero);
-        drivemem_set_func(cpud, 0x01, 0x08,
-                drive_read_ram, drive_store_ram);
-
-        /* Setup drive ROM.  */
-        drivemem_set_func(cpud, 0xc0, 0x100, drive_read_rom, NULL);
-
-        /* Setup 1551 TPI.  */
+        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero);
+        drivemem_set_func(cpud, 0x01, 0x08, drive_read_1551ram, drive_store_1551ram);
         drivemem_set_func(cpud, 0x40, 0x80, tpid_read, tpid_store);
+        drivemem_set_func(cpud, 0xc0, 0x100, drive_read_rom, NULL);
+        break;
+    default:
+        break;
     }
 }
