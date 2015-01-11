@@ -378,6 +378,7 @@ void ui_drive(ui_drive_type_t *drive_types, int caps)
 
     for (i = 0; drive_types[i].name; i++) {
         switch (drive_types[i].id) {
+            case DRIVE_TYPE_1540:
             case DRIVE_TYPE_1541:
             case DRIVE_TYPE_1541II:
             case DRIVE_TYPE_1570:
