@@ -187,6 +187,7 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
     type = ((drive_context_t *)context)->drive->type;
 
     switch (type) {
+        case DRIVE_TYPE_1540:
         case DRIVE_TYPE_1541:
         case DRIVE_TYPE_1541II:
         case DRIVE_TYPE_2031:

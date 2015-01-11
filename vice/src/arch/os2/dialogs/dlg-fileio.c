@@ -153,10 +153,13 @@ static filter_t FilterChargen[] = { { "charg*", "Character ROM" }, { NULL } };
 static filter_t FilterZ80[] = { { "z80bios*", "Z80 BIOS" }, { NULL } };
 #endif
 
+static filter_t Filter1540[] = { { "dos1540*", "1540 ROM" }, { NULL } };
 static filter_t Filter1541[] = { { "dos1541*", "1541 ROM" }, { NULL } };
 static filter_t Filter15412[] = { { "d1541II*", "1541-II ROM" }, { NULL } };
 static filter_t Filter1571[] = { { "dos1571*", "1571 ROM" }, { NULL } };
 static filter_t Filter1581[] = { { "dos1581*", "1581 ROM" }, { NULL } };
+static filter_t Filter2000[] = { { "dos2000*", "2000 ROM" }, { NULL } };
+static filter_t Filter4000[] = { { "dos4000*", "4000 ROM" }, { NULL } };
 static filter_t Filter2031[] = { { "dos2031*", "2031 ROM" }, { NULL } };
 static filter_t Filter1001[] = { { "dos1001*", "1001 ROM" }, { NULL } };
 static filter_t Filter2040[] = { { "dos2040*", "2040 ROM" }, { NULL } };
@@ -254,10 +257,13 @@ static subaction_t SubFuncRom[] = {
 static subaction_t SubRom[] = {
     { "as Kernal ROM", FilterKernal },
     { "as Character ROM", FilterChargen },
+    { "as 1540 ROM", Filter1540 },
     { "as 1541 ROM", Filter1541 },
     { "as 1541-II ROM", Filter15412 },
     { "as 1571 ROM", Filter1571 },
     { "as 1581 ROM", Filter1581 },
+    { "as 2000 ROM", Filter2000 },
+    { "as 4000 ROM", Filter4000 },
     { "as 2031 ROM", Filter2031 },
     { "as 1001 ROM", Filter1001 },
     { "as 2040 ROM", Filter2040 },
@@ -274,11 +280,10 @@ static subaction_t SubRom[] = {
     { "as German Character ROM", FilterChargen },
     { "as French Character ROM", FilterChargen },
     { "as Swedish Character ROM", FilterChargen },
-    { "as Swedish Character ROM", FilterChargen },
     { "as International Kernal ROM", FilterKernal },
     { "as German Kernal  ROM", FilterKernal },
     { "as Finnish Kernal ROM", FilterKernal },
-    { "as Frensh Kernal ROM", FilterKernal },
+    { "as French Kernal ROM", FilterKernal },
     { "as Italian Kernal ROM", FilterKernal },
     { "as Norwegian Kernal ROM", FilterKernal },
     { "as Swedish Kernal ROM", FilterKernal },
@@ -448,59 +453,67 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
                 case 1:
                     return resources_set_string("ChargenName", szpath);
                 case 2:
-                    return resources_set_string("DosName1541", szpath);
+                    return resources_set_string("DosName1540", szpath);
                 case 3:
-                    return resources_set_string("DosName154ii", szpath);
+                    return resources_set_string("DosName1541", szpath);
                 case 4:
-                    return resources_set_string("DosName1571", szpath);
+                    return resources_set_string("DosName154ii", szpath);
                 case 5:
-                    return resources_set_string("DosName1581", szpath);
+                    return resources_set_string("DosName1571", szpath);
                 case 6:
-                    return resources_set_string("DosName2031", szpath);
+                    return resources_set_string("DosName1581", szpath);
                 case 7:
-                    return resources_set_string("DosName1001", szpath);
+                    return resources_set_string("DosName2000", szpath);
                 case 8:
-                    return resources_set_string("DosName2040", szpath);
+                    return resources_set_string("DosName4000", szpath);
                 case 9:
-                    return resources_set_string("DosName3040", szpath);
+                    return resources_set_string("DosName2031", szpath);
                 case 10:
-                    return resources_set_string("DosName4040", szpath);
+                    return resources_set_string("DosName1001", szpath);
                 case 11:
-                    return resources_set_string("BasicName", szpath);
+                    return resources_set_string("DosName2040", szpath);
                 case 12:
-                    return resources_set_string("Z80BiosName", szpath);
+                    return resources_set_string("DosName3040", szpath);
                 case 13:
-                    return resources_set_string("Kernal64Name", szpath);
+                    return resources_set_string("DosName4040", szpath);
                 case 14:
-                    return resources_set_string("Basic64Name", szpath);
+#ifndef __X128__
+                    return resources_set_string("BasicName", szpath);
+#else
+                    return resources_set_string("Z80BiosName", szpath);
                 case 15:
-                    return resources_set_string("Chargen64Name", szpath);
+                    return resources_set_string("Kernal64Name", szpath);
                 case 16:
-                    return resources_set_string("ChargenIntName", szpath);
+                    return resources_set_string("Basic64Name", szpath);
                 case 17:
-                    return resources_set_string("ChargenDEName", szpath);
+                    return resources_set_string("Chargen64Name", szpath);
                 case 18:
-                    return resources_set_string("ChargenFRName", szpath);
+                    return resources_set_string("ChargenIntName", szpath);
                 case 19:
-                    return resources_set_string("ChargenSEName", szpath);
+                    return resources_set_string("ChargenDEName", szpath);
                 case 20:
-                    return resources_set_string("KernalIntName", szpath);
+                    return resources_set_string("ChargenFRName", szpath);
                 case 21:
-                    return resources_set_string("KernalDEName", szpath);
+                    return resources_set_string("ChargenSEName", szpath);
                 case 22:
-                    return resources_set_string("KernalFIName", szpath);
+                    return resources_set_string("KernalIntName", szpath);
                 case 23:
-                    return resources_set_string("KernalFRName", szpath);
+                    return resources_set_string("KernalDEName", szpath);
                 case 24:
-                    return resources_set_string("KernalITName", szpath);
+                    return resources_set_string("KernalFIName", szpath);
                 case 25:
-                    return resources_set_string("KernalNOName", szpath);
+                    return resources_set_string("KernalFRName", szpath);
                 case 26:
-                    return resources_set_string("KernalSEName", szpath);
+                    return resources_set_string("KernalITName", szpath);
                 case 27:
-                    return resources_set_string("BasicHiName", szpath);
+                    return resources_set_string("KernalNOName", szpath);
                 case 28:
+                    return resources_set_string("KernalSEName", szpath);
+                case 29:
+                    return resources_set_string("BasicHiName", szpath);
+                case 30:
                     return resources_set_string("BasicLoName", szpath);
+#endif
             }
             return -1;
         case 8:

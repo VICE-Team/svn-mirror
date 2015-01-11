@@ -215,12 +215,17 @@ copy ..\..\..\..\data\CBM-II\rom500.vrs  %VICEDIR%\CBM-II
 copy ..\..\..\..\data\CBM-II\white.vpl   %VICEDIR%\CBM-II
 
 mkdir %VICEDIR%\DRIVES
-copy ..\..\..\..\data\DRIVES\d1541II %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos1001 %VICEDIR%\DRIVES
+copy ..\..\..\..\data\DRIVES\dos1540 %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos1541 %VICEDIR%\DRIVES
+copy ..\..\..\..\data\DRIVES\d1541II %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos1551 %VICEDIR%\DRIVES
+copy ..\..\..\..\data\DRIVES\dos1570 %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos1571 %VICEDIR%\DRIVES
+copy ..\..\..\..\data\DRIVES\d1571cr %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos1581 %VICEDIR%\DRIVES
+copy ..\..\..\..\data\DRIVES\dos2000 %VICEDIR%\DRIVES
+copy ..\..\..\..\data\DRIVES\dos4000 %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos2031 %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos2040 %VICEDIR%\DRIVES
 copy ..\..\..\..\data\DRIVES\dos3040 %VICEDIR%\DRIVES

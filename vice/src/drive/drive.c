@@ -96,7 +96,8 @@ void drive_set_disk_memory(BYTE *id, unsigned int track, unsigned int sector,
 
     drive = drv->drive;
 
-    if (drive->type == DRIVE_TYPE_1541
+    if (drive->type == DRIVE_TYPE_1540
+        || drive->type == DRIVE_TYPE_1541
         || drive->type == DRIVE_TYPE_1541II
         || drive->type == DRIVE_TYPE_1570
         || drive->type == DRIVE_TYPE_1571
@@ -131,7 +132,8 @@ void drive_set_last_read(unsigned int track, unsigned int sector, BYTE *buffer,
     }
     drive_set_half_track(track * 2, side, drive);
 
-    if (drive->type == DRIVE_TYPE_1541
+    if (drive->type == DRIVE_TYPE_1540
+        || drive->type == DRIVE_TYPE_1541
         || drive->type == DRIVE_TYPE_1541II
         || drive->type == DRIVE_TYPE_1570
         || drive->type == DRIVE_TYPE_1571
@@ -293,6 +295,7 @@ void drive_shutdown(void)
 void drive_set_active_led_color(unsigned int type, unsigned int dnr)
 {
     switch (type) {
+        case DRIVE_TYPE_1540:
         case DRIVE_TYPE_1541:
         case DRIVE_TYPE_1551:
         case DRIVE_TYPE_1570:
@@ -539,8 +542,11 @@ void drive_reset(void)
 /* Move the head to half track `num'.  */
 void drive_set_half_track(int num, int side, drive_t *dptr)
 {
-    if ((dptr->type == DRIVE_TYPE_1541 || dptr->type == DRIVE_TYPE_1541II
-         || dptr->type == DRIVE_TYPE_1551 || dptr->type == DRIVE_TYPE_1570
+    if ((dptr->type == DRIVE_TYPE_1540
+         || dptr->type == DRIVE_TYPE_1541
+         || dptr->type == DRIVE_TYPE_1541II
+         || dptr->type == DRIVE_TYPE_1551
+         || dptr->type == DRIVE_TYPE_1570
          || dptr->type == DRIVE_TYPE_2031) && num > 84) {
         num = 84;
     }

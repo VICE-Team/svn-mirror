@@ -46,6 +46,7 @@ static ui_to_from_t ui_to_from_computer[] = {
 static APTR hook_object_computer[countof(ui_to_from_computer)];
 
 static ui_to_from_t ui_to_from_drive[] = {
+    { NULL, MUI_TYPE_FILENAME, "DosName1540", NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "DosName1541", NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "DosName1541ii", NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "DosName1570", NULL, NULL },
@@ -79,6 +80,7 @@ static APTR hook_object_drive[countof(ui_to_from_drive)];
     BROWSE(BrowseDrive9, DriveHook9, ui_to_from_drive[9].object);
     BROWSE(BrowseDrive10, DriveHook10, ui_to_from_drive[10].object);
     BROWSE(BrowseDrive11, DriveHook11, ui_to_from_drive[11].object);
+    BROWSE(BrowseDrive12, DriveHook12, ui_to_from_drive[12].object);
 
 static APTR build_computer_gui(void)
 {
@@ -120,18 +122,19 @@ static APTR build_drive_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           FILENAME(ui_to_from_drive[0].object, "1541", hook_object_drive[0])
-           FILENAME(ui_to_from_drive[1].object, "1541-II", hook_object_drive[1])
-           FILENAME(ui_to_from_drive[2].object, "1570", hook_object_drive[2])
-           FILENAME(ui_to_from_drive[3].object, "1571", hook_object_drive[3])
-           FILENAME(ui_to_from_drive[4].object, "1581", hook_object_drive[4])
-           FILENAME(ui_to_from_drive[5].object, "2000", hook_object_drive[5])
-           FILENAME(ui_to_from_drive[6].object, "4000", hook_object_drive[6])
-           FILENAME(ui_to_from_drive[7].object, "2031", hook_object_drive[7])
-           FILENAME(ui_to_from_drive[8].object, "2030", hook_object_drive[8])
-           FILENAME(ui_to_from_drive[9].object, "3040", hook_object_drive[9])
-           FILENAME(ui_to_from_drive[10].object, "4040", hook_object_drive[10])
-           FILENAME(ui_to_from_drive[11].object, "1001", hook_object_drive[11])
+           FILENAME(ui_to_from_drive[0].object, "1540", hook_object_drive[0])
+           FILENAME(ui_to_from_drive[1].object, "1541", hook_object_drive[1])
+           FILENAME(ui_to_from_drive[2].object, "1541-II", hook_object_drive[2])
+           FILENAME(ui_to_from_drive[3].object, "1570", hook_object_drive[3])
+           FILENAME(ui_to_from_drive[4].object, "1571", hook_object_drive[4])
+           FILENAME(ui_to_from_drive[5].object, "1581", hook_object_drive[5])
+           FILENAME(ui_to_from_drive[6].object, "2000", hook_object_drive[6])
+           FILENAME(ui_to_from_drive[7].object, "4000", hook_object_drive[7])
+           FILENAME(ui_to_from_drive[8].object, "2031", hook_object_drive[8])
+           FILENAME(ui_to_from_drive[9].object, "2030", hook_object_drive[9])
+           FILENAME(ui_to_from_drive[10].object, "3040", hook_object_drive[10])
+           FILENAME(ui_to_from_drive[11].object, "4040", hook_object_drive[11])
+           FILENAME(ui_to_from_drive[12].object, "1001", hook_object_drive[12])
            OK_CANCEL_BUTTON
          End;
 
@@ -177,6 +180,9 @@ static APTR build_drive_gui(void)
 
         DoMethod(hook_object_drive[11], MUIM_Notify, MUIA_Pressed, FALSE,
                  app, 2, MUIM_CallHook, &BrowseDrive11);
+
+        DoMethod(hook_object_drive[12], MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseDrive12);
     }
 
     return ui;

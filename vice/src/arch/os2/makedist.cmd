@@ -195,12 +195,17 @@ copy ..\..\..\data\CBM-II\rom500.vrs    Vice2\CBM-II
 copy ..\..\..\data\CBM-II\white.vpl     Vice2\CBM-II
 
 md Vice2\DRIVES
-copy ..\..\..\data\DRIVES\d1541II       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos1001       Vice2\DRIVES
+copy ..\..\..\data\DRIVES\dos1540       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos1541       Vice2\DRIVES
+copy ..\..\..\data\DRIVES\d1541II       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos1551       Vice2\DRIVES
+copy ..\..\..\data\DRIVES\dos1570       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos1571       Vice2\DRIVES
+copy ..\..\..\data\DRIVES\dos1571cr     Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos1581       Vice2\DRIVES
+copy ..\..\..\data\DRIVES\dos2000       Vice2\DRIVES
+copy ..\..\..\data\DRIVES\dos4000       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos2031       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos2040       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos3040       Vice2\DRIVES

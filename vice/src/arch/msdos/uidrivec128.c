@@ -118,6 +118,8 @@ static TUI_MENU_CALLBACK(drive_type_submenu_callback)
     switch (value) {
         case 0:
             return "None";
+        case DRIVE_TYPE_1540:
+            return "1540, 5\"1/4 SS";
         case DRIVE_TYPE_1541:
             return "1541, 5\"1/4 SS";
         case DRIVE_TYPE_1541II:
@@ -156,6 +158,10 @@ static tui_menu_item_def_t drive##num##_type_submenu[] = {                      
     { "_None",                                                                          \
       "Disable hardware-level emulation of drive #" #num,                               \
       radio_Drive##num##Type_callback, (void *)0, 0,                                    \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "1540, 5\"1/4 SS",                                                                \
+      "Emulate a 1540 5\"1/4 single-sided disk drive as unit #" #num,                   \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1540, 0,                      \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
     { "_1541, 5\"1/4 SS",                                                               \
       "Emulate a 1541 5\"1/4 single-sided disk drive as unit #" #num,                   \

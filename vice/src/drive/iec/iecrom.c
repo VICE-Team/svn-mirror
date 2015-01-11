@@ -44,6 +44,7 @@
 /* Logging goes here.  */
 static log_t iecrom_log;
 
+static BYTE drive_rom1540[DRIVE_ROM1540_SIZE_EXPANDED];
 static BYTE drive_rom1541[DRIVE_ROM1541_SIZE_EXPANDED];
 static BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE_EXPANDED];
 
@@ -62,6 +63,7 @@ static BYTE drive_rom4000[DRIVE_ROM4000_SIZE];
 #endif
 
 /* If nonzero, the ROM image has been loaded.  */
+static unsigned int rom1540_loaded = 0;
 static unsigned int rom1541_loaded = 0;
 static unsigned int rom1541ii_loaded = 0;
 static unsigned int rom1570_loaded = 0;
@@ -70,6 +72,7 @@ static unsigned int rom1581_loaded = 0;
 static unsigned int rom2000_loaded = 0;
 static unsigned int rom4000_loaded = 0;
 
+static unsigned int drive_rom1540_size;
 static unsigned int drive_rom1541_size;
 static unsigned int drive_rom1541ii_size;
 
@@ -90,6 +93,13 @@ static int iecrom_do_1541_checksum(void)
     }
 
     return 0;
+}
+
+int iecrom_load_1540(void)
+{
+    return driverom_load("DosName1540", drive_rom1540, &rom1540_loaded,
+            DRIVE_ROM1540_SIZE, DRIVE_ROM1540_SIZE_EXPANDED, "1540",
+            DRIVE_TYPE_1540, &drive_rom1540_size);
 }
 
 int iecrom_load_1541(void)
@@ -141,6 +151,18 @@ void iecrom_setup_image(drive_t *drive)
 {
     if (rom_loaded) {
         switch (drive->type) {
+            case DRIVE_TYPE_1540:
+                if (drive_rom1540_size <= DRIVE_ROM1540_SIZE) {
+                    memcpy(drive->rom, &drive_rom1540[DRIVE_ROM1540_SIZE],
+                           DRIVE_ROM1540_SIZE);
+                    memcpy(&(drive->rom[DRIVE_ROM1540_SIZE]),
+                           &drive_rom1540[DRIVE_ROM1540_SIZE],
+                           DRIVE_ROM1540_SIZE);
+                } else {
+                    memcpy(drive->rom, drive_rom1540,
+                           DRIVE_ROM1540_SIZE_EXPANDED);
+                }
+                break;
             case DRIVE_TYPE_1541:
                 if (drive_rom1541_size <= DRIVE_ROM1541_SIZE) {
                     memcpy(drive->rom, &drive_rom1541[DRIVE_ROM1541_SIZE],
@@ -187,6 +209,9 @@ void iecrom_setup_image(drive_t *drive)
 int iecrom_read(unsigned int type, WORD addr, BYTE *data)
 {
     switch (type) {
+        case DRIVE_TYPE_1540:
+            *data = drive_rom1540[addr & (DRIVE_ROM1540_SIZE - 1)];
+            return 0;
         case DRIVE_TYPE_1541:
             *data = drive_rom1541[addr & (DRIVE_ROM1541_SIZE - 1)];
             return 0;
@@ -218,6 +243,11 @@ int iecrom_check_loaded(unsigned int type)
     switch (type) {
         case DRIVE_TYPE_NONE:
             return 0;
+        case DRIVE_TYPE_1540:
+            if (rom1540_loaded < 1 && rom_loaded) {
+                return -1;
+            }
+            break;
         case DRIVE_TYPE_1541:
             if (rom1541_loaded < 1 && rom_loaded) {
                 return -1;
@@ -254,7 +284,7 @@ int iecrom_check_loaded(unsigned int type)
             }
             break;
         case DRIVE_TYPE_ANY:
-            if ((!rom1541_loaded && !rom1541ii_loaded && !rom1570_loaded
+            if ((!rom1540_loaded && !rom1541_loaded && !rom1541ii_loaded && !rom1570_loaded
                  && !rom1571_loaded && !rom1581_loaded && !rom2000_loaded)
                 && !rom4000_loaded && rom_loaded) {
                 return -1;

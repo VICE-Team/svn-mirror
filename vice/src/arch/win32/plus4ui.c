@@ -68,6 +68,8 @@ static const uirom_settings_t uirom_settings[] = {
       IDC_PLUS4ROM_FUNCTION_LO_FILE, IDC_PLUS4ROM_FUNCTION_LO_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("Function HI"), "FunctionHighName",
       IDC_PLUS4ROM_FUNCTION_HI_FILE, IDC_PLUS4ROM_FUNCTION_HI_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1540"), "DosName1540",
+      IDC_DRIVEROM_1540_FILE, IDC_DRIVEROM_1540_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1541"), "DosName1541",
       IDC_DRIVEROM_1541_FILE, IDC_DRIVEROM_1541_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1541-II"), "DosName1541ii",
@@ -344,6 +346,7 @@ static uilib_localize_dialog_param plus4_main_trans[] = {
 };
 
 static uilib_localize_dialog_param plus4_drive_trans[] = {
+    { IDC_DRIVEROM_1540_BROWSE, IDS_BROWSE, 0 },
     { IDC_DRIVEROM_1541_BROWSE, IDS_BROWSE, 0 },
     { IDC_DRIVEROM_1541II_BROWSE, IDS_BROWSE, 0 },
     { IDC_DRIVEROM_1551_BROWSE, IDS_BROWSE, 0 },
@@ -380,6 +383,7 @@ static uilib_dialog_group plus4_main_right_group[] = {
 };
 
 static uilib_dialog_group plus4_drive_left_group[] = {
+    { IDC_1540, 0 },
     { IDC_1541, 0 },
     { IDC_1541_II, 0 },
     { IDC_1551, 0 },
@@ -392,6 +396,7 @@ static uilib_dialog_group plus4_drive_left_group[] = {
 };
 
 static uilib_dialog_group plus4_drive_middle_group[] = {
+    { IDC_DRIVEROM_1540_FILE, 0 },
     { IDC_DRIVEROM_1541_FILE, 0 },
     { IDC_DRIVEROM_1541II_FILE, 0 },
     { IDC_DRIVEROM_1551_FILE, 0 },
@@ -404,6 +409,7 @@ static uilib_dialog_group plus4_drive_middle_group[] = {
 };
 
 static uilib_dialog_group plus4_drive_right_group[] = {
+    { IDC_DRIVEROM_1540_BROWSE, 0 },
     { IDC_DRIVEROM_1541_BROWSE, 0 },
     { IDC_DRIVEROM_1541II_BROWSE, 0 },
     { IDC_DRIVEROM_1551_BROWSE, 0 },
@@ -416,6 +422,7 @@ static uilib_dialog_group plus4_drive_right_group[] = {
 };
 
 static generic_trans_table_t plus4_generic_trans[] = {
+    { IDC_1540, "1540" },
     { IDC_1541, "1541" },
     { IDC_1541_II, "1541-II" },
     { IDC_1551, "1551" },

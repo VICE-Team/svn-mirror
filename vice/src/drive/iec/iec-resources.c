@@ -39,6 +39,7 @@
 #include "traps.h"
 #include "util.h"
 
+static char *dos_rom_name_1540 = NULL;
 static char *dos_rom_name_1541 = NULL;
 static char *dos_rom_name_1541ii = NULL;
 static char *dos_rom_name_1570 = NULL;
@@ -58,6 +59,15 @@ static void set_drive_ram(unsigned int dnr)
     drivemem_init(drive_context[dnr], drive->type);
 
     return;
+}
+
+static int set_dos_rom_name_1540(const char *val, void *param)
+{
+    if (util_string_set(&dos_rom_name_1540, val)) {
+        return 0;
+    }
+
+    return iecrom_load_1540();
 }
 
 static int set_dos_rom_name_1541(const char *val, void *param)
@@ -169,8 +179,10 @@ static int set_drive_rama(int val, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    { "DosName1541", "dos1541", RES_EVENT_NO, NULL,
+    { "DosName1540", "dos1540", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
+      &dos_rom_name_1540, set_dos_rom_name_1540, NULL },
+    { "DosName1541", "dos1541", RES_EVENT_NO, NULL,
       &dos_rom_name_1541, set_dos_rom_name_1541, NULL },
     { "DosName1541ii", "d1541II", RES_EVENT_NO, NULL,
       &dos_rom_name_1541ii, set_dos_rom_name_1541ii, NULL },
@@ -245,6 +257,7 @@ int iec_resources_init(void)
 
 void iec_resources_shutdown(void)
 {
+    lib_free(dos_rom_name_1540);
     lib_free(dos_rom_name_1541);
     lib_free(dos_rom_name_1541ii);
     lib_free(dos_rom_name_1570);

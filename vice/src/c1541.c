@@ -145,6 +145,7 @@ static int internal_write_geos_file(int unit, FILE* f);
 static int write_geos_cmd(int nargs, char **args);
 static int extract_geos_cmd(int nargs, char **args);
 
+int rom1540_loaded = 0;
 int rom1541_loaded = 0;
 int rom1541ii_loaded = 0;
 int rom1571_loaded = 0;
@@ -155,6 +156,7 @@ int rom2031_loaded = 0;
 int rom1001_loaded = 0;
 int rom2040_loaded = 0;
 
+BYTE *drive_rom1540;
 BYTE *drive_rom1541;
 BYTE *drive_rom1541ii;
 BYTE *drive_rom1571;

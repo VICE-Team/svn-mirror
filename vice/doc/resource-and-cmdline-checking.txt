@@ -8497,7 +8497,7 @@ drive/drive-resources.c:
 ------------------------
 resource type:                  int
 resource name:                  "Drive8Type"
-resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
+resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1540 (1540), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
                                         DRIVE_TYPE_1570 (1570), DRIVE_TYPE_1571 (1571), DRIVE_TYPE_1571CR (1573), DRIVE_TYPE_1581 (1581), DRIVE_TYPE_2000 (2000),
                                         DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
                                         DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
@@ -8505,7 +8505,7 @@ resource default:               x128: DRIVE_TYPE_1571 (1571)
                                 x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
                                 xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
                                 xplus4: DRIVE_TYPE_1551 (1551)
-                                xvic: DRIVE_TYPE_1541 (1541)
+                                xvic: DRIVE_TYPE_1540 (1540)
 resource function:              drive_resources_type()
 resource var:                   drive->type
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
@@ -8518,10 +8518,10 @@ platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive8type <Type>
-description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+description:    "Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
 			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
 resource:       "Drive8Type"
 action:         N/A
@@ -8530,7 +8530,7 @@ drive/drive-resources.c:
 ------------------------
 resource type:                  int
 resource name:                  "Drive9Type"
-resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
+resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1540 (1540), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
                                         DRIVE_TYPE_1570 (1570), DRIVE_TYPE_1571 (1571), DRIVE_TYPE_1571CR (1573), DRIVE_TYPE_1581 (1581), DRIVE_TYPE_2000 (2000),
                                         DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
                                         DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
@@ -8538,7 +8538,7 @@ resource default:               x128: DRIVE_TYPE_1571 (1571)
                                 x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
                                 xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
                                 xplus4: DRIVE_TYPE_1551 (1551)
-                                xvic: DRIVE_TYPE_1541 (1541)
+                                xvic: DRIVE_TYPE_1540 (1540)
 resource function:              drive_resources_type()
 resource var:                   drive->type
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
@@ -8551,10 +8551,10 @@ platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive9type <Type>
-description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+description:    "Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
 			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
 resource:       "Drive9Type"
 action:         N/A
@@ -8563,7 +8563,7 @@ drive/drive-resources.c:
 ------------------------
 resource type:                  int
 resource name:                  "Drive10Type"
-resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
+resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1540 (1540), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
                                         DRIVE_TYPE_1570 (1570), DRIVE_TYPE_1571 (1571), DRIVE_TYPE_1571CR (1573), DRIVE_TYPE_1581 (1581), DRIVE_TYPE_2000 (2000),
                                         DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
                                         DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
@@ -8571,7 +8571,7 @@ resource default:               x128: DRIVE_TYPE_1571 (1571)
                                 x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
                                 xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
                                 xplus4: DRIVE_TYPE_1551 (1551)
-                                xvic: DRIVE_TYPE_1541 (1541)
+                                xvic: DRIVE_TYPE_1540 (1540)
 resource function:              drive_resources_type()
 resource var:                   drive->type
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
@@ -8584,10 +8584,10 @@ platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive10type <Type>
-description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+description:    "Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
 			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
 resource:       "Drive10Type"
 action:         N/A
@@ -8596,7 +8596,7 @@ drive/drive-resources.c:
 ------------------------
 resource type:                  int
 resource name:                  "Drive11Type"
-resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
+resource range:                 N/A (DRIVE_TYPE_NONE (0), DRIVE_TYPE_1540 (1540), DRIVE_TYPE_1541 (1541), DRIVE_TYPE_1541II (1542), DRIVE_TYPE_1551 (1551),
                                         DRIVE_TYPE_1570 (1570), DRIVE_TYPE_1571 (1571), DRIVE_TYPE_1571CR (1573), DRIVE_TYPE_1581 (1581), DRIVE_TYPE_2000 (2000),
                                         DRIVE_TYPE_4000 (4000), DRIVE_TYPE_2031 (2031), DRIVE_TYPE_2040 (2040), DRIVE_TYPE_3040 (3040), DRIVE_TYPE_4040 (4040),
                                         DRIVE_TYPE_1001 (1001), DRIVE_TYPE_8050 (8050), DRIVE_TYPE_8250 (8250))
@@ -8604,7 +8604,7 @@ resource default:               x128: DRIVE_TYPE_1571 (1571)
                                 x64/x64sc/xscpu64: DRIVE_TYPE_1541II (1542)
                                 xcbm2/xcbm5x0/xpet: DRIVE_TYPE_2031 (2031)
                                 xplus4: DRIVE_TYPE_1551 (1551)
-                                xvic: DRIVE_TYPE_1541 (1541)
+                                xvic: DRIVE_TYPE_1540 (1540)
 resource function:              drive_resources_type()
 resource var:                   drive->type
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
@@ -8617,10 +8617,10 @@ platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 drive/drive-cmdline-options.c:
 ------------------------------
 command line:   -drive11type <Type>
-description:    "Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
-			"Set drive type (0: no drive, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+description:    "Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
+			"Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1570: CBM 1570, 1571: CBM 1571, 1573: CBM 1571CR, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
+			"Set drive type (0: no drive, 1540: CBM 1540, 1541: CBM 1541, 1542: CBM 1541-II, 1551: CBM 1551, 1570: CBM 1570, 1571: CBM 1571, 1581: CBM 1581, 2000: CMD FD-2000, 4000: CMD FD-4000)"
 			"Set drive type (0: no drive, 2031: CBM 2031, 2040: CBM 2040, 3040: CBM 3040, 4040: CBM 4040, 1001: CBM 1001, 8050: CBM 8050, 8250: CBM 8250)"
 resource:       "Drive11Type"
 action:         N/A
@@ -8827,6 +8827,27 @@ drive/drive-cmdline-options.c:
 command line:   -drive11idle <method>
 description:    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 resource:       "Drive11IdleMethod"
+action:         N/A
+
+drive/iec/iec-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "DosName1540"
+resource range:                 N/A
+resource default:               "dos1540"
+resource function:              set_dos_rom_name_1540()
+resource var:                   dos_rom_name_1540
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xplus4/xvic
+not used in:                    xcbm5x0/xcbm2/xpet/vsid
+prepocessor:
+command-line:                   -dos1540
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+drive/iec/iec-cmdline-options.c:
+--------------------------------
+command line:   -dos1540 <Name>
+description:    "Specify name of 1540 DOS ROM image"
+resource:       "DosName1540"
 action:         N/A
 
 drive/iec/iec-resources.c:

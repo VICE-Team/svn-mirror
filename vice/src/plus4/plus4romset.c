@@ -35,6 +35,7 @@ const char *machine_romset_resources_list[] = {
     "BasicName",
     "FunctionLowName",
     "FunctionHighName",
+    "DosName1540",
     "DosName1541",
     "DosName1541ii",
     "DosName1570",

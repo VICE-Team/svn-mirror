@@ -88,6 +88,7 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
     drivecpud_context_t *cpud = drv->cpud;
 
     switch (type) {
+    case DRIVE_TYPE_1540:
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:
         drv->cpu->pageone = drv->drive->drive_ram + 0x100;

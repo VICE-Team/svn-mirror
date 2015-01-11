@@ -158,6 +158,7 @@ void dd3_mem_init(struct drive_context_s *drv, unsigned int type)
 
     /* Setup parallel cable */
     switch (type) {
+    case DRIVE_TYPE_1540:
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:
     case DRIVE_TYPE_1570:

@@ -52,6 +52,7 @@ static int drive_type_strings_translate[] = {
 
 static char *drive_type_strings_8[] = {
     NULL,		/* "None" placeholder */
+    "1540",
     "1541",
     "1541-II",
     "1570",
@@ -71,6 +72,7 @@ static char *drive_type_strings_8[] = {
 
 static const int drive_type_values_8[] = {
     DRIVE_TYPE_NONE,
+    DRIVE_TYPE_1540,
     DRIVE_TYPE_1541,
     DRIVE_TYPE_1541II,
     DRIVE_TYPE_1570,
@@ -90,6 +92,7 @@ static const int drive_type_values_8[] = {
 
 static char *drive_type_strings_9[] = {
     NULL,		/* "None" placeholder */
+    "1540",
     "1541",
     "1541-II",
     "1570",
@@ -104,6 +107,7 @@ static char *drive_type_strings_9[] = {
 
 static const int drive_type_values_9[] = {
     DRIVE_TYPE_NONE,
+    DRIVE_TYPE_1540,
     DRIVE_TYPE_1541,
     DRIVE_TYPE_1541II,
     DRIVE_TYPE_1570,
@@ -118,6 +122,7 @@ static const int drive_type_values_9[] = {
 
 static char *drive_type_strings_10[] = {
     NULL,		/* "None" placeholder */
+    "1540",
     "1541",
     "1541-II",
     "1570",
@@ -132,6 +137,7 @@ static char *drive_type_strings_10[] = {
 
 static const int drive_type_values_10[] = {
     DRIVE_TYPE_NONE,
+    DRIVE_TYPE_1540,
     DRIVE_TYPE_1541,
     DRIVE_TYPE_1541II,
     DRIVE_TYPE_1570,
@@ -146,6 +152,7 @@ static const int drive_type_values_10[] = {
 
 static char *drive_type_strings_11[] = {
     NULL,		/* "None" placeholder */
+    "1540",
     "1541",
     "1541-II",
     "1570",
@@ -160,6 +167,7 @@ static char *drive_type_strings_11[] = {
 
 static const int drive_type_values_11[] = {
     DRIVE_TYPE_NONE,
+    DRIVE_TYPE_1540,
     DRIVE_TYPE_1541,
     DRIVE_TYPE_1541II,
     DRIVE_TYPE_1570,

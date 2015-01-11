@@ -491,6 +491,9 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
     if (filetype == COMPUTER_FUNCTION_HI_ROM_FILE) {
         sprintf(title, "Select Function HI ROM file");
     }
+    if (filetype == DRIVE_1540_ROM_FILE) {
+        sprintf(title, "Select 1540 ROM file");
+    }
     if (filetype == DRIVE_1541_ROM_FILE) {
         sprintf(title, "Select 1541 ROM file");
     }
@@ -816,6 +819,8 @@ void ui_select_file_action(BMessage *msg)
             resources_set_string("FunctionLowName", fullpath);
         } else if (last_filetype[1] == COMPUTER_FUNCTION_HI_ROM_FILE) {
             resources_set_string("FunctionHighName", fullpath);
+        } else if (last_filetype[1] == DRIVE_1540_ROM_FILE) {
+            resources_set_string("DosName1540", fullpath);
         } else if (last_filetype[1] == DRIVE_1541_ROM_FILE) {
             resources_set_string("DosName1541", fullpath);
         } else if (last_filetype[1] == DRIVE_1541II_ROM_FILE) {

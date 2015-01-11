@@ -34,6 +34,7 @@
 #include "menu_drive_rom.h"
 #include "uimenu.h"
 
+UI_MENU_DEFINE_FILE_STRING(DosName1540)
 UI_MENU_DEFINE_FILE_STRING(DosName1541)
 UI_MENU_DEFINE_FILE_STRING(DosName1541ii)
 UI_MENU_DEFINE_FILE_STRING(DosName1570)
@@ -48,6 +49,12 @@ UI_MENU_DEFINE_FILE_STRING(DosName4040)
 UI_MENU_DEFINE_FILE_STRING(DosName1001)
 UI_MENU_DEFINE_FILE_STRING(DosName1571cr)
 UI_MENU_DEFINE_FILE_STRING(DosName1551)
+
+#define DRIVE_ROM_1540_ITEM             \
+    { "1540 ROM file",                  \
+      MENU_ENTRY_DIALOG,                \
+      file_string_DosName1540_callback, \
+      (ui_callback_data_t)"Select 1540 ROM image" }
 
 #define DRIVE_ROM_1541_ITEM             \
     { "1541 ROM file",                  \
@@ -134,6 +141,7 @@ UI_MENU_DEFINE_FILE_STRING(DosName1551)
       (ui_callback_data_t)"Select 1001 ROM image" }
 
 const ui_menu_entry_t c128_drive_rom_menu[] = {
+    DRIVE_ROM_1540_ITEM,
     DRIVE_ROM_1541_ITEM,
     DRIVE_ROM_1541II_ITEM,
     DRIVE_ROM_1570_ITEM,
@@ -151,6 +159,7 @@ const ui_menu_entry_t c128_drive_rom_menu[] = {
 };
 
 const ui_menu_entry_t plus4_drive_rom_menu[] = {
+    DRIVE_ROM_1540_ITEM,
     DRIVE_ROM_1541_ITEM,
     DRIVE_ROM_1541II_ITEM,
     DRIVE_ROM_1551_ITEM,
@@ -163,6 +172,7 @@ const ui_menu_entry_t plus4_drive_rom_menu[] = {
 };
 
 const ui_menu_entry_t iec_ieee_drive_rom_menu[] = {
+    DRIVE_ROM_1540_ITEM,
     DRIVE_ROM_1541_ITEM,
     DRIVE_ROM_1541II_ITEM,
     DRIVE_ROM_1570_ITEM,
@@ -188,6 +198,7 @@ const ui_menu_entry_t ieee_drive_rom_menu[] = {
 };
 
 const ui_menu_entry_t iec_drive_rom_menu[] = {
+    DRIVE_ROM_1540_ITEM,
     DRIVE_ROM_1541_ITEM,
     DRIVE_ROM_1541II_ITEM,
     DRIVE_ROM_1570_ITEM,

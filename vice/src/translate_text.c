@@ -8525,6 +8525,23 @@ translate_t string_table[] = {
 #endif
 
 /* drive/iec/iec-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME,    N_("Specify name of 1540 DOS ROM image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_DA, "Angiv navn på 1540-DOS-ROM-image"},
+/* de */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_DE, "Name der 1540 DOS ROM Image Datei definieren"},
+/* es */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_ES, "Especificar nombre imagen ROM de 1540 DOS "},
+/* fr */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 1540 DOS ROM"},
+/* hu */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_HU, "Adja meg az 1540 DOS ROM képmás nevét"},
+/* it */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_IT, "Specifica il nome immagine della ROM del DOS del 1540"},
+/* ko */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_NL, "Geef de naam van het 1540 DOS ROM bestand"},
+/* pl */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_PL, "Okre¶l nazwê obrazu ROM DOS-a 1540"},
+/* ru */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_RU, "Specify name of 1540 DOS ROM image"},
+/* sv */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_SV, "Ange namn på 1540-DOS-ROM-avbildning"},
+/* tr */ {IDCLS_SPECIFY_1540_DOS_ROM_NAME_TR, "1540 DOS ROM imajýnýn ismini belirt"},
+#endif
+
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME,    N_("Specify name of 1541 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME_DA, "Angiv navn på 1541-DOS-ROM-image"},

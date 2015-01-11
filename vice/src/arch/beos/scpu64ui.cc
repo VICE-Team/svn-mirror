@@ -62,6 +62,7 @@ extern "C" {
 }
 
 static ui_drive_type_t scpu64_drive_types[] = {
+    { "1540", DRIVE_TYPE_1540 },
     { "1541", DRIVE_TYPE_1541 },
     { "1541-II", DRIVE_TYPE_1541II },
     { "1570", DRIVE_TYPE_1570 },
@@ -535,6 +536,9 @@ static void scpu64_ui_specific(void *msg, void *window)
             break;
         case MENU_COMPUTER_CHARGEN_ROM_FILE:
             ui_select_file(B_SAVE_PANEL, COMPUTER_CHARGEN_ROM_FILE, (void*)0);
+            break;
+        case MENU_DRIVE_1540_ROM_FILE:
+            ui_select_file(B_SAVE_PANEL, DRIVE_1540_ROM_FILE, (void*)0);
             break;
         case MENU_DRIVE_1541_ROM_FILE:
             ui_select_file(B_SAVE_PANEL, DRIVE_1541_ROM_FILE, (void*)0);

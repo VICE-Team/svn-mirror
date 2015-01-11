@@ -194,6 +194,7 @@ int autostart_prg_with_disk_image(const char *file_name,
 
     /* identify disk image type */
     switch (drive_get_disk_drive_type(drive - 8)) {
+    case DRIVE_TYPE_1540:
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:
     case DRIVE_TYPE_1551:

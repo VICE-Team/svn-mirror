@@ -183,6 +183,7 @@ static int drive_resources_type(int val, void *param)
     }
 
     switch (type) {
+        case DRIVE_TYPE_1540:
         case DRIVE_TYPE_1541:
         case DRIVE_TYPE_1541II:
         case DRIVE_TYPE_1551:

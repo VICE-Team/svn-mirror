@@ -136,70 +136,32 @@ static char *get_drive_type_string(int drive)
 
     type = get_drive_type(drive);
     switch (type) {
-        case 0:
-            return "-> none";
-            break;
-        case ATTACH_DEVICE_FS:
-            return "-> directory";
-            break;
+        case 0:                  return "-> none";
+        case ATTACH_DEVICE_FS:   return "-> directory";
 #ifdef HAVE_OPENCBM
-        case ATTACH_DEVICE_REAL:
-            return "-> real drive";
-            break;
+        case ATTACH_DEVICE_REAL: return "-> real drive";
 #endif
 #ifdef HAVE_RAWDRIVE
-        case ATTACH_DEVICE_RAW:
-            return "-> block device";
-            break;
+        case ATTACH_DEVICE_RAW:  return "-> block device";
 #endif
-        case DRIVE_TYPE_1541II:
-            return "-> 1541-II";
-            break;
-        case DRIVE_TYPE_1551:
-            return "-> 1551";
-            break;
-        case DRIVE_TYPE_1570:
-            return "-> 1570";
-            break;
-        case DRIVE_TYPE_1571:
-            return "-> 1571";
-            break;
-        case DRIVE_TYPE_1571CR:
-            return "-> 1571CR";
-            break;
-        case DRIVE_TYPE_1581:
-            return "-> 1581";
-            break;
-        case DRIVE_TYPE_2000:
-            return "-> 2000";
-            break;
-        case DRIVE_TYPE_4000:
-            return "-> 4000";
-            break;
-        case DRIVE_TYPE_2031:
-            return "-> 2031";
-            break;
-        case DRIVE_TYPE_2040:
-            return "-> 2040";
-            break;
-        case DRIVE_TYPE_3040:
-            return "-> 3040";
-            break;
-        case DRIVE_TYPE_4040:
-            return "-> 4040";
-            break;
-        case DRIVE_TYPE_1001:
-            return "-> 1001";
-            break;
-        case DRIVE_TYPE_8050:
-            return "-> 8050";
-            break;
-        case DRIVE_TYPE_8250:
-            return "-> 8250";
-            break;
-        default:
-            return "-> 1541";
-            break;
+        case DRIVE_TYPE_1540:    return "-> 1540";
+        case DRIVE_TYPE_1541:    return "-> 1541";
+        case DRIVE_TYPE_1541II:  return "-> 1541-II";
+        case DRIVE_TYPE_1551:    return "-> 1551";
+        case DRIVE_TYPE_1570:    return "-> 1570";
+        case DRIVE_TYPE_1571:    return "-> 1571";
+        case DRIVE_TYPE_1571CR:  return "-> 1571CR";
+        case DRIVE_TYPE_1581:    return "-> 1581";
+        case DRIVE_TYPE_2000:    return "-> 2000";
+        case DRIVE_TYPE_4000:    return "-> 4000";
+        case DRIVE_TYPE_2031:    return "-> 2031";
+        case DRIVE_TYPE_2040:    return "-> 2040";
+        case DRIVE_TYPE_3040:    return "-> 3040";
+        case DRIVE_TYPE_4040:    return "-> 4040";
+        case DRIVE_TYPE_1001:    return "-> 1001";
+        case DRIVE_TYPE_8050:    return "-> 8050";
+        case DRIVE_TYPE_8250:    return "-> 8250";
+        default:                 return "-> ????";
     }
 }
 
@@ -842,6 +804,7 @@ static const ui_menu_entry_t create_disk_image_menu[] = {
         DRIVE_TYPE_ITEM("Directory", ATTACH_DEVICE_FS + (x << 16))              \
         DRIVE_TYPE_ITEM_OPENCBM("Real drive", ATTACH_DEVICE_REAL + (x << 16))   \
         DRIVE_TYPE_ITEM_RAWDRIVE("Block device", ATTACH_DEVICE_RAW + (x << 16)) \
+        DRIVE_TYPE_ITEM("1540", DRIVE_TYPE_1540 + (x << 16))                    \
         DRIVE_TYPE_ITEM("1541", DRIVE_TYPE_1541 + (x << 16))                    \
         DRIVE_TYPE_ITEM("1541-II", DRIVE_TYPE_1541II + (x << 16))               \
         DRIVE_TYPE_ITEM("1551", DRIVE_TYPE_1551 + (x << 16))                    \

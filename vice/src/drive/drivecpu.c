@@ -473,6 +473,9 @@ static void drive_jam(drive_context_t *drv)
     cpu = drv->cpu;
 
     switch (drv->drive->type) {
+        case DRIVE_TYPE_1540:
+            dname = "  1540";
+            break;
         case DRIVE_TYPE_1541:
             dname = "  1541";
             break;
@@ -576,7 +579,8 @@ int drivecpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
         goto fail;
     }
 
-    if (drv->drive->type == DRIVE_TYPE_1541
+    if (drv->drive->type == DRIVE_TYPE_1540
+        || drv->drive->type == DRIVE_TYPE_1541
         || drv->drive->type == DRIVE_TYPE_1541II
         || drv->drive->type == DRIVE_TYPE_1551
         || drv->drive->type == DRIVE_TYPE_1570
@@ -667,7 +671,8 @@ int drivecpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         goto fail;
     }
 
-    if (drv->drive->type == DRIVE_TYPE_1541
+    if (drv->drive->type == DRIVE_TYPE_1540
+        || drv->drive->type == DRIVE_TYPE_1541
         || drv->drive->type == DRIVE_TYPE_1541II
         || drv->drive->type == DRIVE_TYPE_1551
         || drv->drive->type == DRIVE_TYPE_1570

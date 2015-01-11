@@ -612,6 +612,8 @@
 			</dict>
 			<key>Drive ROM</key>
 			<dict>
+				<key>1540</key>
+				<string>DosName1540,fo</string>
 				<key>1541</key>
 				<string>DosName1541,fo</string>
 				<key>1541-II</key>

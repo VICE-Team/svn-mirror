@@ -41,12 +41,14 @@
 
 #define NL10_ROM_SIZE      0x8000
 
+#include "drivedos1540.h"
 #include "drivedos1541.h"
 #include "drived1541II.h"
 
 static embedded_t commonfiles[] = {
     { "mps803", 512 * 7, 512 * 7, 512 * 7, NULL },
     { "nl10-cbm", NL10_ROM_SIZE, NL10_ROM_SIZE, NL10_ROM_SIZE, NULL },
+    { "dos1540", DRIVE_ROM1540_SIZE, DRIVE_ROM1540_SIZE_EXPANDED, DRIVE_ROM1540_SIZE, drive_rom1540_embedded },
     { "dos1541", DRIVE_ROM1541_SIZE, DRIVE_ROM1541_SIZE_EXPANDED, DRIVE_ROM1541_SIZE, drive_rom1541_embedded },
     { "d1541II", DRIVE_ROM1541II_SIZE, DRIVE_ROM1541II_SIZE_EXPANDED, DRIVE_ROM1541II_SIZE, drive_rom1541ii_embedded },
     { "dos1001", DRIVE_ROM1001_SIZE, DRIVE_ROM1001_SIZE, DRIVE_ROM1001_SIZE, NULL },

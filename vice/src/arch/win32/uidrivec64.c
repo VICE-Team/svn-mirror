@@ -49,6 +49,9 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
     int drive_type = 0;
 
     switch (type) {
+        case IDC_SELECT_DRIVE_TYPE_1540:
+            drive_type = DRIVE_TYPE_1540;
+            break;
         case IDC_SELECT_DRIVE_TYPE_1541:
             drive_type = DRIVE_TYPE_1541;
             break;
@@ -171,6 +174,7 @@ static uilib_dialog_group drive_main_group[] = {
 
 static uilib_dialog_group drive_left_group[] = {
     { IDC_DRIVE_TYPE, 0 },
+    { IDC_SELECT_DRIVE_TYPE_1540, 0 },
     { IDC_SELECT_DRIVE_TYPE_1541, 0 },
     { IDC_SELECT_DRIVE_TYPE_1541II, 0 },
     { IDC_SELECT_DRIVE_TYPE_1570, 0 },
@@ -253,6 +257,7 @@ static int move_buttons_group[] = {
 };
 
 static generic_trans_table_t generic_items[] = {
+    { IDC_SELECT_DRIVE_TYPE_1540, "1540" },
     { IDC_SELECT_DRIVE_TYPE_1541, "1541" },
     { IDC_SELECT_DRIVE_TYPE_1541II, "1541-II" },
     { IDC_SELECT_DRIVE_TYPE_1570, "1570" },
@@ -355,6 +360,7 @@ static void init_dialog(HWND hwnd, int num)
     resources_get_int("DriveTrueEmulation", &drive_true_emulation);
     enabled = drive_true_emulation && !iecdevice;
 
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1540), enabled && drive_check_type(DRIVE_TYPE_1540, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541), enabled && drive_check_type(DRIVE_TYPE_1541, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541II), enabled && drive_check_type(DRIVE_TYPE_1541II, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1570), enabled && drive_check_type(DRIVE_TYPE_1570, num - 8));
@@ -379,6 +385,9 @@ static void init_dialog(HWND hwnd, int num)
     switch (drive_type) {
         case DRIVE_TYPE_NONE:
             n = IDC_SELECT_DRIVE_TYPE_NONE;
+            break;
+        case DRIVE_TYPE_1540:
+            n = IDC_SELECT_DRIVE_TYPE_1540;
             break;
         case DRIVE_TYPE_1541:
             n = IDC_SELECT_DRIVE_TYPE_1541;
@@ -527,6 +536,10 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LP
             switch (type) {
                 case IDC_SELECT_DRIVE_TYPE_NONE:
                     dialog_drive_type[num - 8] = DRIVE_TYPE_NONE;
+                    enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+                    break;
+                case IDC_SELECT_DRIVE_TYPE_1540:
+                    dialog_drive_type[num - 8] = DRIVE_TYPE_1540;
                     enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
                     break;
                 case IDC_SELECT_DRIVE_TYPE_1541:

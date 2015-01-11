@@ -35,6 +35,11 @@
 #include "translate.h"
 
 static const cmdline_option_t cmdline_options[] = {
+    { "-dos1540", SET_RESOURCE, 1,
+      NULL, NULL, "DosName1540", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_1540_DOS_ROM_NAME,
+      NULL, NULL },
     { "-dos1541", SET_RESOURCE, 1,
       NULL, NULL, "DosName1541", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,

@@ -699,6 +699,7 @@ const uint32 MENU_COMPUTER_ROM_B_FILE             = 'M550';
 const uint32 MENU_COMPUTER_FUNCTION_LO_ROM_FILE   = 'M551';
 const uint32 MENU_COMPUTER_FUNCTION_HI_ROM_FILE   = 'M552';
 
+const uint32 MENU_DRIVE_1540_ROM_FILE             = 'M575';
 const uint32 MENU_DRIVE_1541_ROM_FILE             = 'M553';
 const uint32 MENU_DRIVE_1541II_ROM_FILE           = 'M554';
 const uint32 MENU_DRIVE_1551_ROM_FILE             = 'M555';

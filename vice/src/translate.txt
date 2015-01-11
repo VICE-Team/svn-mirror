@@ -1137,6 +1137,9 @@ IDCLS_CRTC_TEXT_COLOR
 IDCLS_SET_DRIVE_EXTENSION_POLICY
 
 /* drive/iec/iec-cmdline-options.c */
+IDCLS_SPECIFY_1540_DOS_ROM_NAME
+
+/* drive/iec/iec-cmdline-options.c */
 IDCLS_SPECIFY_1541_DOS_ROM_NAME
 
 /* drive/iec/iec-cmdline-options.c */

@@ -32,6 +32,8 @@
 struct drive_s;
 struct snapshot_s;
 
+#define DRIVE_ROM1540_SIZE            0x4000
+#define DRIVE_ROM1540_SIZE_EXPANDED   0x8000
 #define DRIVE_ROM1541_SIZE            0x4000
 #define DRIVE_ROM1541_SIZE_EXPANDED   0x8000
 #define DRIVE_ROM1541II_SIZE          0x4000

@@ -131,6 +131,8 @@ static const uirom_settings_t uirom_settings[] = {
       IDC_C128ROM_KERNAL64_FILE, IDC_C128ROM_KERNAL64_BROWSE },
     { UIROM_TYPE_MAIN, TEXT("C64 mode Basic"), "Basic64Name",
       IDC_C128ROM_BASIC64_FILE, IDC_C128ROM_BASIC64_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1540"), "DosName1540",
+      IDC_DRIVEROM_1540_FILE, IDC_DRIVEROM_1540_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1541"), "DosName1541",
       IDC_DRIVEROM_1541_FILE, IDC_DRIVEROM_1541_BROWSE },
     { UIROM_TYPE_DRIVE, TEXT("1541-II"), "DosName1541ii",
@@ -487,6 +489,7 @@ static uilib_localize_dialog_param c128_main_trans[] = {
 };
 
 static uilib_localize_dialog_param c128_drive_trans[] = {
+    { IDC_DRIVEROM_1540_BROWSE, IDS_BROWSE, 0 },
     { IDC_DRIVEROM_1541_BROWSE, IDS_BROWSE, 0 },
     { IDC_DRIVEROM_1541II_BROWSE, IDS_BROWSE, 0 },
     { IDC_DRIVEROM_1570_BROWSE, IDS_BROWSE, 0 },
@@ -568,6 +571,7 @@ static uilib_dialog_group c128_main_right_group[] = {
 };
 
 static uilib_dialog_group c128_drive_left_group[] = {
+    { IDC_1540, 0 },
     { IDC_1541, 0 },
     { IDC_1541_II, 0 },
     { IDC_1570, 0 },
@@ -587,6 +591,7 @@ static uilib_dialog_group c128_drive_left_group[] = {
 };
 
 static uilib_dialog_group c128_drive_middle_group[] = {
+    { IDC_DRIVEROM_1540_FILE, 0 },
     { IDC_DRIVEROM_1541_FILE, 0 },
     { IDC_DRIVEROM_1541II_FILE, 0 },
     { IDC_DRIVEROM_1570_FILE, 0 },
@@ -606,6 +611,7 @@ static uilib_dialog_group c128_drive_middle_group[] = {
 };
 
 static uilib_dialog_group c128_drive_right_group[] = {
+    { IDC_DRIVEROM_1540_BROWSE, 0 },
     { IDC_DRIVEROM_1541_BROWSE, 0 },
     { IDC_DRIVEROM_1541II_BROWSE, 0 },
     { IDC_DRIVEROM_1570_BROWSE, 0 },
@@ -625,6 +631,7 @@ static uilib_dialog_group c128_drive_right_group[] = {
 };
 
 static generic_trans_table_t c128_generic_trans[] = {
+    { IDC_1540, "1540" },
     { IDC_1541, "1541" },
     { IDC_1541_II, "1541-II" },
     { IDC_1570, "1570" },

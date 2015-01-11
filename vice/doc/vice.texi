@@ -1572,10 +1572,13 @@ The C128 needs the following files:
 @end itemize
 
 The C128, VIC20, SCPU64 and C64 emulators also need the following DOS ROMs for
-the hardware-level emulation of the 1541, 1571, 1581, 2000 and 4000 disk
+the hardware-level emulation of the 1540, 1541, 1571, 1581, 2000 and 4000 disk
 drives:
 
 @itemize @bullet
+
+@item
+@file{dos1540}, the 1540 drive ROM (16 Kbytes)
 
 @item
 @file{dos1541}, the 1541 drive ROM (16 Kbytes)
@@ -3654,6 +3657,12 @@ Specifies <method> as the track 40 extend policy in drives 8-11 respectively
 (@code{Drive8ExtendImagePolicy}, @code{Drive9ExtendImagePolicy},
 @code{Drive10ExtendImagePolicy}, @code{Drive11ExtendImagePolicy}).
 (0=never, 1=ask, 2=on access)
+
+@findex -dos1540
+@item -dos1540 <name>
+Specify the ROM name for the 1540 emulation
+(@code{DosName1540}).
+(all emulators except xcbm2, xcbm5x0, xpet and vsid)
 
 @findex -dos1541
 @item -dos1541 <name>

@@ -38,6 +38,8 @@
 ui_menu_entry_t uidrivec64vic20_set_drive0_type_submenu[] = {
     { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
+    { "1540", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_1540, NULL },
     { "1541", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
     { "1541-II", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
@@ -72,6 +74,8 @@ ui_menu_entry_t uidrivec64vic20_set_drive0_type_submenu[] = {
 ui_menu_entry_t uidrivec64vic20_set_drive1_type_submenu[] = {
     { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
+    { "1540", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
+      (ui_callback_data_t)DRIVE_TYPE_1540, NULL },
     { "1541", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
     { "1541-II", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
@@ -96,6 +100,8 @@ ui_menu_entry_t uidrivec64vic20_set_drive1_type_submenu[] = {
 ui_menu_entry_t uidrivec64vic20_set_drive2_type_submenu[] = {
     { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
+    { "1540", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_1540, NULL },
     { "1541", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
     { "1541-II", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
@@ -130,6 +136,8 @@ ui_menu_entry_t uidrivec64vic20_set_drive2_type_submenu[] = {
 ui_menu_entry_t uidrivec64vic20_set_drive3_type_submenu[] = {
     { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
+    { "1540", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
+      (ui_callback_data_t)DRIVE_TYPE_1540, NULL },
     { "1541", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
     { "1541-II", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
@@ -154,6 +162,9 @@ ui_menu_entry_t uidrivec64vic20_set_drive3_type_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 ui_menu_entry_t ui_drivec64vic20_romset_submenu[] = {
+    { N_("Load new 1540 ROM"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName1540", NULL },
     { N_("Load new 1541 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1541", NULL },

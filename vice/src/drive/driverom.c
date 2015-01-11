@@ -137,6 +137,7 @@ void driverom_initialize_traps(drive_t *drive)
     }
 
     switch (drive->type) {
+        case DRIVE_TYPE_1540:
         case DRIVE_TYPE_1541:
         case DRIVE_TYPE_1541II:
         case DRIVE_TYPE_1570:
@@ -217,6 +218,10 @@ int driverom_snapshot_write(snapshot_t *s, const drive_t *drive)
     }
 
     switch (drive->type) {
+        case DRIVE_TYPE_1540:
+            base = &(drive->rom[0x4000]);
+            len = DRIVE_ROM1540_SIZE;
+            break;
         case DRIVE_TYPE_1541:
             base = &(drive->rom[0x4000]);
             len = DRIVE_ROM1541_SIZE;
@@ -315,6 +320,10 @@ int driverom_snapshot_read(snapshot_t *s, drive_t *drive)
     }
 
     switch (drive->type) {
+        case DRIVE_TYPE_1540:
+            base = &(drive->rom[0x4000]);
+            len = DRIVE_ROM1540_SIZE;
+            break;
         case DRIVE_TYPE_1541:
             base = &(drive->rom[0x4000]);
             len = DRIVE_ROM1541_SIZE;

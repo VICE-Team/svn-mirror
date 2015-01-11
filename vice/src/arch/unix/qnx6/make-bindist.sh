@@ -488,13 +488,14 @@ _END
                         </QPM:Dir>
 
                         <QPM:Dir name="DRIVES">
-                           <QPM:File>d1541II</QPM:File>
-                           <QPM:File>d1571cr</QPM:File>
                            <QPM:File>dos1001</QPM:File>
+                           <QPM:File>dos1540</QPM:File>
                            <QPM:File>dos1541</QPM:File>
+                           <QPM:File>d1541II</QPM:File>
                            <QPM:File>dos1551</QPM:File>
                            <QPM:File>dos1570</QPM:File>
                            <QPM:File>dos1571</QPM:File>
+                           <QPM:File>d1571cr</QPM:File>
                            <QPM:File>dos1581</QPM:File>
                            <QPM:File>dos2000</QPM:File>
                            <QPM:File>dos2031</QPM:File>
