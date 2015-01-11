@@ -308,10 +308,14 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int 
         w = app_shells[i].drive_widgets[drive_number].driveled;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
 
+        on_pixel = (drive_active_led[drive_number] & 1) ? drive_led_on_green_pixel
+                                                  : drive_led_on_red_pixel;
         pixel = (status & 1) ? on_pixel : drive_led_off_pixel;
         w = app_shells[i].drive_widgets[drive_number].driveled1;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
 
+        on_pixel = (drive_active_led[drive_number] & 2) ? drive_led_on_green_pixel
+                                                  : drive_led_on_red_pixel;
         pixel = (status & 2) ? on_pixel : drive_led_off_pixel;
         w = app_shells[i].drive_widgets[drive_number].driveled2;
         XtVaSetValues(w, XtNbackground, pixel, NULL);

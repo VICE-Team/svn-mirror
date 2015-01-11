@@ -74,8 +74,10 @@
 #define DRIVE_TYPE_NUM    17
 
 /* Possible colors of the drive active LED.  */
-#define DRIVE_ACTIVE_RED     0
-#define DRIVE_ACTIVE_GREEN   1
+#define DRIVE_LED1_RED     0
+#define DRIVE_LED1_GREEN   1
+#define DRIVE_LED2_RED     0
+#define DRIVE_LED2_GREEN   2
 
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */

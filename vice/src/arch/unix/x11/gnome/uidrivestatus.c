@@ -436,8 +436,8 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int 
             ds->color1 = status ? (drive_active_led[drive_number] ? &drive_led_on_green_pixels[ci1] : &drive_led_on_red_pixels[ci1]) : &drive_led_off_pixel;
             set_led(ds->color1, i, drive_number);
         } else {
-            ds->color1 = (status & 1) ? (drive_active_led[drive_number] ? &drive_led_on_green_pixels[ci1] : &drive_led_on_red_pixels[ci1]) : &drive_led_off_pixel;
-            ds->color2 = (status & 2) ? (drive_active_led[drive_number] ? &drive_led_on_green_pixels[ci2] : &drive_led_on_red_pixels[ci2]) : &drive_led_off_pixel;
+            ds->color1 = (status & 1) ? ((drive_active_led[drive_number] & 1) ? &drive_led_on_green_pixels[ci1] : &drive_led_on_red_pixels[ci1]) : &drive_led_off_pixel;
+            ds->color2 = (status & 2) ? ((drive_active_led[drive_number] & 2) ? &drive_led_on_green_pixels[ci2] : &drive_led_on_red_pixels[ci2]) : &drive_led_off_pixel;
             set_led2(ds->color1, ds->color2, i, drive_number);
         }
     }

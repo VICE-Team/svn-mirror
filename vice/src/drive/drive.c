@@ -295,31 +295,36 @@ void drive_shutdown(void)
 void drive_set_active_led_color(unsigned int type, unsigned int dnr)
 {
     switch (type) {
-        case DRIVE_TYPE_1540:
-        case DRIVE_TYPE_1541:
-        case DRIVE_TYPE_1551:
-        case DRIVE_TYPE_1570:
-        case DRIVE_TYPE_1571:
-        case DRIVE_TYPE_1571CR:
-            drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+        case DRIVE_TYPE_1540:   /* green power, red drive, horizontal, round */
+        case DRIVE_TYPE_1541:   /* green power, red drive, horizontal, round */
+        case DRIVE_TYPE_1551:   /* green power, red drive, horizontal, round */
+        case DRIVE_TYPE_1570:   /* green power, red drive, horizontal, round */
+        case DRIVE_TYPE_2031:   /* green power, red drive, horizontal, round */
+        case DRIVE_TYPE_1001:   /* green power, red drive, horizontal, round */
+            drive_led_color[dnr] = DRIVE_LED1_RED;
             break;
-        case DRIVE_TYPE_1541II:
-        case DRIVE_TYPE_1581:
-        case DRIVE_TYPE_2000:
-        case DRIVE_TYPE_4000:
-            drive_led_color[dnr] = DRIVE_ACTIVE_GREEN;
+        case DRIVE_TYPE_1571:   /* red power, green drive, horizontal, line */
+        case DRIVE_TYPE_1571CR: /* red power, green drive, horizontal, line */
+        case DRIVE_TYPE_1541II: /* red power, green drive, vertical, line (some models only) */
+        case DRIVE_TYPE_1581:   /* red power, green drive, vertical, line */
+            drive_led_color[dnr] = DRIVE_LED1_GREEN;
             break;
-        case DRIVE_TYPE_2031:
-        case DRIVE_TYPE_2040:
-        case DRIVE_TYPE_3040:
-        case DRIVE_TYPE_4040:
-        case DRIVE_TYPE_1001:
-        case DRIVE_TYPE_8050:
-        case DRIVE_TYPE_8250:
-            drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+        case DRIVE_TYPE_2000:   /* red power, green activity, red error, horizontal, line */
+        case DRIVE_TYPE_4000:   /* red power, green activity, red error, horizontal, line */
+            drive_led_color[dnr] = DRIVE_LED1_GREEN | DRIVE_LED2_RED;
+            break;
+        case DRIVE_TYPE_2040:   /* red drive1, red power, red drive2, horizontal, round */
+        case DRIVE_TYPE_3040:   /* red drive1, red power, red drive2, horizontal, round */
+        case DRIVE_TYPE_4040:   /* red drive1, red power, red drive2, horizontal, round */
+        case DRIVE_TYPE_8050:   /* red drive1, green power, red drive2, horizontal, round */
+            drive_led_color[dnr] = DRIVE_LED1_RED | DRIVE_LED2_RED;
+            break;
+        case DRIVE_TYPE_8250:   /* red green, green power,green, horizontal, round */
+            drive_led_color[dnr] = DRIVE_LED1_GREEN | DRIVE_LED2_GREEN; /* only the LP version is RED */
             break;
         default:
-            drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+            drive_led_color[dnr] = DRIVE_LED1_RED;
+            break;
     }
 }
 
@@ -767,20 +772,18 @@ int drive_num_leds(unsigned int dnr)
 {
     drive_t *drive = drive_context[dnr]->drive;
 
-    if (drive_check_old(drive->type)) {
+    switch (drive->type) {
+    case DRIVE_TYPE_2040:
+    case DRIVE_TYPE_3040:
+    case DRIVE_TYPE_4040:
+    case DRIVE_TYPE_8050:
+    case DRIVE_TYPE_8250:
+    case DRIVE_TYPE_2000:
+    case DRIVE_TYPE_4000:
         return 2;
+    default:
+        return 1;
     }
-
-    if (drive->drive0) {
-        return 2;
-    }
-
-    if (drive->type == DRIVE_TYPE_2000
-        || drive->type == DRIVE_TYPE_4000) {
-        return 2;
-    }
-
-    return 1;
 }
 
 void drive_cpu_execute_one(drive_context_t *drv, CLOCK clk_value)
