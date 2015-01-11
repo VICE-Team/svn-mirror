@@ -41,6 +41,8 @@
 #include "types.h"
 #include "ds1216e.h"
 
+static drive_read_func_t *read_tab_watch[0x101];
+static drive_store_func_t *store_tab_watch[0x101];
 
 /* ------------------------------------------------------------------------- */
 /* Common memory access.  */
@@ -62,26 +64,26 @@ static BYTE drive_zero_read_watch(drive_context_t *drv, WORD addr)
 {
     addr &= 0xff;
     monitor_watch_push_load_addr(addr, drv->cpu->monspace);
-    return drv->cpud->read_func_nowatch[0](drv, addr);
+    return drv->cpud->read_tab[0][0](drv, addr);
 }
 
 static void drive_zero_store_watch(drive_context_t *drv, WORD addr, BYTE value)
 {
     addr &= 0xff;
     monitor_watch_push_store_addr(addr, drv->cpu->monspace);
-    drv->cpud->store_func_nowatch[0](drv, addr, value);
+    drv->cpud->store_tab[0][0](drv, addr, value);
 }
 
 static BYTE drive_read_watch(drive_context_t *drv, WORD address)
 {
     monitor_watch_push_load_addr(address, drv->cpu->monspace);
-    return drv->cpud->read_func_nowatch[address >> 8](drv, address);
+    return drv->cpud->read_tab[0][address >> 8](drv, address);
 }
 
 static void drive_store_watch(drive_context_t *drv, WORD address, BYTE value)
 {
     monitor_watch_push_store_addr(address, drv->cpu->monspace);
-    drv->cpud->store_func_nowatch[address >> 8](drv, address, value);
+    drv->cpud->store_tab[0][address >> 8](drv, address, value);
 }
 
 void drivemem_toggle_watchpoints(int flag, void *context)
@@ -89,15 +91,11 @@ void drivemem_toggle_watchpoints(int flag, void *context)
     drive_context_t *drv = (drive_context_t *)context;
 
     if (flag) {
-        memcpy(drv->cpud->read_func, drv->cpud->read_func_watch,
-               sizeof(drive_read_func_t *) * 0x101);
-        memcpy(drv->cpud->store_func, drv->cpud->store_func_watch,
-               sizeof(drive_store_func_t *) * 0x101);
+        drv->cpud->read_func_ptr = read_tab_watch;
+        drv->cpud->store_func_ptr = store_tab_watch;
     } else {
-        memcpy(drv->cpud->read_func, drv->cpud->read_func_nowatch,
-               sizeof(drive_read_func_t *) * 0x101);
-        memcpy(drv->cpud->store_func, drv->cpud->store_func_nowatch,
-               sizeof(drive_store_func_t *) * 0x101);
+        drv->cpud->read_func_ptr = drv->cpud->read_tab[0];
+        drv->cpud->store_func_ptr = drv->cpud->store_tab[0];
     }
 }
 
@@ -106,88 +104,26 @@ void drivemem_toggle_watchpoints(int flag, void *context)
 void drivemem_set_func(drivecpud_context_t *cpud,
                        unsigned int start, unsigned int stop,
                        drive_read_func_t *read_func,
-                       drive_store_func_t *store_func)
+                       drive_store_func_t *store_func,
+                       BYTE *base, DWORD limit)
 {
     unsigned int i;
 
     if (read_func != NULL) {
         for (i = start; i < stop; i++) {
-            cpud->read_func_nowatch[i] = read_func;
+            cpud->read_tab[0][i] = read_func;
         }
     }
     if (store_func != NULL) {
         for (i = start; i < stop; i++) {
-            cpud->store_func_nowatch[i] = store_func;
+            cpud->store_tab[0][i] = store_func;
         }
     }
-}
-
-#ifdef _MSC_VER
-#pragma optimize("",off)
-#endif
-
-void drivemem_init(drive_context_t *drv, unsigned int type)
-{
-    int i;
-
-    /* setup watchpoint tables */
-    drv->cpud->read_func_watch[0] = drive_zero_read_watch;
-    drv->cpud->store_func_watch[0] = drive_zero_store_watch;
-    for (i = 1; i < 0x101; i++) {
-        drv->cpud->read_func_watch[i] = drive_read_watch;
-        drv->cpud->store_func_watch[i] = drive_store_watch;
-    }
-
-    for (i = 0; i < 0x101; i++) {
-        drv->cpud->read_func_nowatch[i] = drive_read_free;
-        drv->cpud->store_func_nowatch[i] = drive_store_free;
-    }
-
-    machine_drive_mem_init(drv, type);
-
-    drv->cpud->read_func_nowatch[0x100] = drv->cpud->read_func_nowatch[0];
-    drv->cpud->store_func_nowatch[0x100] = drv->cpud->store_func_nowatch[0];
-
-    memcpy(drv->cpud->read_func, drv->cpud->read_func_nowatch,
-           sizeof(drive_read_func_t *) * 0x101);
-    memcpy(drv->cpud->store_func, drv->cpud->store_func_nowatch,
-           sizeof(drive_store_func_t *) * 0x101);
-
-    switch (type) {
-        case DRIVE_TYPE_NONE:
-            break;
-        case DRIVE_TYPE_2040:
-            drv->drive->rom_start = 0xe000;
-            break;
-        case DRIVE_TYPE_3040:
-        case DRIVE_TYPE_4040:
-            drv->drive->rom_start = 0xd000;
-            break;
-        case DRIVE_TYPE_1541II:
-        case DRIVE_TYPE_1551:
-        case DRIVE_TYPE_2031:
-        case DRIVE_TYPE_1001:
-        case DRIVE_TYPE_8050:
-        case DRIVE_TYPE_8250:
-            drv->drive->rom_start = 0xc000;
-            break;
-        case DRIVE_TYPE_1541:
-        case DRIVE_TYPE_1570:
-        case DRIVE_TYPE_1571:
-        case DRIVE_TYPE_1571CR:
-        case DRIVE_TYPE_1581:
-        case DRIVE_TYPE_2000:
-        case DRIVE_TYPE_4000:
-            drv->drive->rom_start = 0x8000;
-            break;
-        default:
-            log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);
+    for (i = start; i < stop; i++) {
+        cpud->read_base_tab[0][i] = base ? (base - (start << 8)) : NULL;
+        cpud->read_limit_tab[0][i] = limit;
     }
 }
-
-#ifdef _MSC_VER
-#pragma optimize("",on)
-#endif
 
 /* ------------------------------------------------------------------------- */
 /* This is the external interface for banked memory access.  */
@@ -196,7 +132,7 @@ BYTE drivemem_bank_read(int bank, WORD addr, void *context)
 {
     drive_context_t *drv = (drive_context_t *)context;
 
-    return drv->cpud->read_func[addr >> 8](drv, addr);
+    return drv->cpud->read_func_ptr[addr >> 8](drv, addr);
 }
 
 /* FIXME: use peek in IO area */
@@ -204,17 +140,44 @@ BYTE drivemem_bank_peek(int bank, WORD addr, void *context)
 {
     drive_context_t *drv = (drive_context_t *)context;
 
-    return drv->cpud->read_func[addr >> 8](drv, addr);
+    return drv->cpud->read_func_ptr[addr >> 8](drv, addr);
 }
 
 void drivemem_bank_store(int bank, WORD addr, BYTE value, void *context)
 {
     drive_context_t *drv = (drive_context_t *)context;
 
-    drv->cpud->store_func[addr >> 8](drv, addr, value);
+    drv->cpud->store_func_ptr[addr >> 8](drv, addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
+
+void drivemem_init(drive_context_t *drv, unsigned int type)
+{
+    int i;
+
+    /* setup watchpoint tables */
+    if (!read_tab_watch[0]) {
+        read_tab_watch[0] = drive_zero_read_watch;
+        store_tab_watch[0] = drive_zero_store_watch;
+        for (i = 1; i < 0x101; i++) {
+            read_tab_watch[i] = drive_read_watch;
+            store_tab_watch[i] = drive_store_watch;
+        }
+    }
+
+    drivemem_set_func(drv->cpud, 0x00, 0x101, drive_read_free, drive_store_free, NULL, 0);
+
+    machine_drive_mem_init(drv, type);
+
+    drv->cpud->read_tab[0][0x100] = drv->cpud->read_tab[0][0];
+    drv->cpud->store_tab[0][0x100] = drv->cpud->store_tab[0][0];
+
+    drv->cpud->read_func_ptr = drv->cpud->read_tab[0];
+    drv->cpud->store_func_ptr = drv->cpud->store_tab[0];
+    drv->cpud->read_base_tab_ptr = drv->cpud->read_base_tab[0];
+    drv->cpud->read_limit_tab_ptr = drv->cpud->read_limit_tab[0];
+}
 
 mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
 {

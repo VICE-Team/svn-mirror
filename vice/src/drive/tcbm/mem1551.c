@@ -41,12 +41,12 @@ static BYTE drive_read_rom(drive_context_t *drv, WORD address)
 
 static BYTE drive_read_1551ram(drive_context_t *drv, WORD address)
 {
-    return drv->cpud->drive_ram[address & 0x7ff];
+    return drv->drive->drive_ram[address & 0x7ff];
 }
 
 static void drive_store_1551ram(drive_context_t *drv, WORD address, BYTE value)
 {
-    drv->cpud->drive_ram[address & 0x7ff] = value;
+    drv->drive->drive_ram[address & 0x7ff] = value;
 }
 
 static BYTE drive_read_zero(drive_context_t *drv, WORD address)
@@ -58,7 +58,7 @@ static BYTE drive_read_zero(drive_context_t *drv, WORD address)
             return glue1551_port1_read(drv);
     }
 
-    return drv->cpud->drive_ram[address & 0xff];
+    return drv->drive->drive_ram[address & 0xff];
 }
 
 static void drive_store_zero(drive_context_t *drv, WORD address, BYTE value)
@@ -72,7 +72,7 @@ static void drive_store_zero(drive_context_t *drv, WORD address, BYTE value)
             return;
     }
 
-    drv->cpud->drive_ram[address & 0xff] = value;
+    drv->drive->drive_ram[address & 0xff] = value;
 }
 
 void mem1551_init(struct drive_context_s *drv, unsigned int type)
@@ -81,11 +81,11 @@ void mem1551_init(struct drive_context_s *drv, unsigned int type)
 
     switch (type) {
     case DRIVE_TYPE_1551:
-        drv->cpu->pageone = drv->cpud->drive_ram + 0x100;
-        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero);
-        drivemem_set_func(cpud, 0x01, 0x08, drive_read_1551ram, drive_store_1551ram);
-        drivemem_set_func(cpud, 0x40, 0x80, tpid_read, tpid_store);
-        drivemem_set_func(cpud, 0xc0, 0x100, drive_read_rom, NULL);
+        drv->cpu->pageone = drv->drive->drive_ram + 0x100;
+        drivemem_set_func(cpud, 0x00, 0x01, drive_read_zero, drive_store_zero, drv->drive->drive_ram, 0x000207fd);
+        drivemem_set_func(cpud, 0x01, 0x08, drive_read_1551ram, drive_store_1551ram, &drv->drive->drive_ram[0x0100], 0x000207fd);
+        drivemem_set_func(cpud, 0x40, 0x80, tpid_read, tpid_store, NULL, 0);
+        drivemem_set_func(cpud, 0xc0, 0x100, drive_read_rom, NULL, &drv->drive->trap_rom[0x4000], 0xc000fffd);
         break;
     default:
         break;

@@ -125,38 +125,29 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
 
 /* ------------------------------------------------------------------------- */
 
-#define LOAD(a)           (drv->cpud->read_func[(a) >> 8](drv, (WORD)(a)))
-#define LOAD_ZERO(a)      (drv->cpud->read_func[0](drv, (WORD)(a)))
+#define LOAD(a)           (*drv->cpud->read_func_ptr[(a) >> 8])(drv, (WORD)(a))
+#define LOAD_ZERO(a)      (*drv->cpud->read_func_ptr[0])(drv, (WORD)(a))
 #define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
 #define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
-#define STORE(a, b)       (drv->cpud->store_func[(a) >> 8](drv, (WORD)(a), (BYTE)(b)))
-#define STORE_ZERO(a, b)  (drv->cpud->store_func[0](drv, (WORD)(a), (BYTE)(b)))
+#define STORE(a, b)       (*drv->cpud->store_func_ptr[(a) >> 8])(drv, (WORD)(a), (BYTE)(b))
+#define STORE_ZERO(a, b)  (*drv->cpud->store_func_ptr[0])(drv, (WORD)(a), (BYTE)(b))
 
-/* FIXME: pc can not jump to VIA adress space in 1541 and 1571 emulation.  */
-/* FIXME: SFD1001 does not use bank_base at all due to messy memory mapping.
-   We should use tables like in maincpu instead (AF) */
-#define JUMP(addr)                                                       \
-    do {                                                                 \
-        reg_pc = (unsigned int)(addr);                                   \
-        if (reg_pc >= cpu->d_bank_limit || reg_pc < cpu->d_bank_start) { \
-            if (drv->drive->type == DRIVE_TYPE_1001) {                   \
-                cpu->d_bank_base = NULL;                                 \
-                cpu->d_bank_start = 0;                                   \
-                cpu->d_bank_limit = 0;                                   \
-            } else if (reg_pc > 1 && reg_pc < 0x800) {                   \
-                cpu->d_bank_base = drv->cpud->drive_ram;                 \
-                cpu->d_bank_start = 2; /* 1551! */                       \
-                cpu->d_bank_limit = 0x07fd;                              \
-            } else if (reg_pc >= drv->drive->rom_start) {                \
-                cpu->d_bank_base = drv->drive->trap_rom - 0x8000;        \
-                cpu->d_bank_start = drv->drive->rom_start;               \
-                cpu->d_bank_limit = 0xfffd;                              \
-            } else {                                                     \
-                cpu->d_bank_base = NULL;                                 \
-                cpu->d_bank_start = 0;                                   \
-                cpu->d_bank_limit = 0;                                   \
-            }                                                            \
-        }                                                                \
+#define JUMP(addr)                                                         \
+    do {                                                                   \
+        reg_pc = (unsigned int)(addr);                                     \
+        if (reg_pc >= cpu->d_bank_limit || reg_pc < cpu->d_bank_start) {   \
+            BYTE *p = drv->cpud->read_base_tab_ptr[addr >> 8];             \
+            cpu->d_bank_base = p;                                          \
+                                                                           \
+            if (p != NULL) {                                               \
+                DWORD limits = drv->cpud->read_limit_tab_ptr[addr >> 8];   \
+                cpu->d_bank_limit = limits & 0xffff;                       \
+                cpu->d_bank_start = limits >> 16;                          \
+            } else {                                                       \
+                cpu->d_bank_start = 0;                                     \
+                cpu->d_bank_limit = 0;                                     \
+            }                                                              \
+        }                                                                  \
     } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -592,7 +583,7 @@ int drivecpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
         || drv->drive->type == DRIVE_TYPE_1571
         || drv->drive->type == DRIVE_TYPE_1571CR
         || drv->drive->type == DRIVE_TYPE_2031) {
-        if (SMW_BA(m, drv->cpud->drive_ram, 0x800) < 0) {
+        if (SMW_BA(m, drv->drive->drive_ram, 0x800) < 0) {
             goto fail;
         }
     }
@@ -600,12 +591,12 @@ int drivecpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
     if (drv->drive->type == DRIVE_TYPE_1581
         || drv->drive->type == DRIVE_TYPE_2000
         || drv->drive->type == DRIVE_TYPE_4000) {
-        if (SMW_BA(m, drv->cpud->drive_ram, 0x2000) < 0) {
+        if (SMW_BA(m, drv->drive->drive_ram, 0x2000) < 0) {
             goto fail;
         }
     }
     if (drive_check_old(drv->drive->type)) {
-        if (SMW_BA(m, drv->cpud->drive_ram, 0x1100) < 0) {
+        if (SMW_BA(m, drv->drive->drive_ram, 0x1100) < 0) {
             goto fail;
         }
     }
@@ -683,7 +674,7 @@ int drivecpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         || drv->drive->type == DRIVE_TYPE_1571
         || drv->drive->type == DRIVE_TYPE_1571CR
         || drv->drive->type == DRIVE_TYPE_2031) {
-        if (SMR_BA(m, drv->cpud->drive_ram, 0x800) < 0) {
+        if (SMR_BA(m, drv->drive->drive_ram, 0x800) < 0) {
             goto fail;
         }
     }
@@ -691,13 +682,13 @@ int drivecpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     if (drv->drive->type == DRIVE_TYPE_1581
         || drv->drive->type == DRIVE_TYPE_2000
         || drv->drive->type == DRIVE_TYPE_4000) {
-        if (SMR_BA(m, drv->cpud->drive_ram, 0x2000) < 0) {
+        if (SMR_BA(m, drv->drive->drive_ram, 0x2000) < 0) {
             goto fail;
         }
     }
 
     if (drive_check_old(drv->drive->type)) {
-        if (SMR_BA(m, drv->cpud->drive_ram, 0x1100) < 0) {
+        if (SMR_BA(m, drv->drive->drive_ram, 0x1100) < 0) {
             goto fail;
         }
     }

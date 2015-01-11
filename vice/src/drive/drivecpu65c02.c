@@ -116,40 +116,25 @@ void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
 
 /* ------------------------------------------------------------------------- */
 
-#define LOAD(a)           (drv->cpud->read_func[(a) >> 8](drv, (WORD)(a)))
-#define LOAD_ZERO(a)      (drv->cpud->read_func[0](drv, (WORD)(a)))
+#define LOAD(a)           (*drv->cpud->read_func_ptr[(a) >> 8])(drv, (WORD)(a))
+#define LOAD_ZERO(a)      (*drv->cpud->read_func_ptr[0])(drv, (WORD)(a))
 #define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
 #define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
-#define STORE(a, b)       (drv->cpud->store_func[(a) >> 8](drv, (WORD)(a), (BYTE)(b)))
-#define STORE_ZERO(a, b)  (drv->cpud->store_func[0](drv, (WORD)(a), (BYTE)(b)))
+#define STORE(a, b)       (*drv->cpud->store_func_ptr[(a) >> 8])(drv, (WORD)(a), (BYTE)(b))
+#define STORE_ZERO(a, b)  (*drv->cpud->store_func_ptr[0])(drv, (WORD)(a), (BYTE)(b))
 
-/* We should use tables like in maincpu instead (AF) */
 #define JUMP(addr)                                                         \
     do {                                                                   \
         reg_pc = (unsigned int)(addr);                                     \
         if (reg_pc >= cpu->d_bank_limit || reg_pc < cpu->d_bank_start) {   \
-            if (reg_pc >= drv->drive->rom_start) {                         \
-                cpu->d_bank_base = drv->drive->trap_rom - 0x8000;          \
-                cpu->d_bank_start = drv->drive->rom_start;                 \
-                cpu->d_bank_limit = 0xfffd;                                \
-            } else if (reg_pc < 0x2000) {                                  \
-                cpu->d_bank_base = drv->cpud->drive_ram;                   \
-                cpu->d_bank_start = 0x0000;                                \
-                cpu->d_bank_limit = 0x1ffd;                                \
-            } else if (reg_pc < 0x4000) {                                  \
-                cpu->d_bank_base = drv->drive->drive_ram_expand2 - 0x2000; \
-                cpu->d_bank_start = 0x2000;                                \
-                cpu->d_bank_limit = 0x3ffd;                                \
-            } else if (reg_pc >= 0x6000) {                                 \
-                cpu->d_bank_base = drv->drive->drive_ram_expand6 - 0x6000; \
-                cpu->d_bank_start = 0x6000;                                \
-                cpu->d_bank_limit = 0x7ffd;                                \
-            } else if (reg_pc >= 0x5000) {                                 \
-                cpu->d_bank_base = drv->drive->drive_ram_expand4 - 0x4000; \
-                cpu->d_bank_start = 0x5000;                                \
-                cpu->d_bank_limit = 0x5ffd;                                \
+            BYTE *p = drv->cpud->read_base_tab_ptr[addr >> 8];             \
+            cpu->d_bank_base = p;                                          \
+                                                                           \
+            if (p != NULL) {                                               \
+                DWORD limits = drv->cpud->read_limit_tab_ptr[addr >> 8];   \
+                cpu->d_bank_limit = limits & 0xffff;                       \
+                cpu->d_bank_start = limits >> 16;                          \
             } else {                                                       \
-                cpu->d_bank_base = NULL;                                   \
                 cpu->d_bank_start = 0;                                     \
                 cpu->d_bank_limit = 0;                                     \
             }                                                              \
@@ -509,7 +494,7 @@ int drivecpu65c02_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
 
     if (drv->drive->type == DRIVE_TYPE_2000
         || drv->drive->type == DRIVE_TYPE_4000) {
-        if (SMW_BA(m, drv->cpud->drive_ram, 0x2000) < 0) {
+        if (SMW_BA(m, drv->drive->drive_ram, 0x2000) < 0) {
             goto fail;
         }
     }
@@ -582,7 +567,7 @@ int drivecpu65c02_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 
     if (drv->drive->type == DRIVE_TYPE_2000
         || drv->drive->type == DRIVE_TYPE_4000) {
-        if (SMR_BA(m, drv->cpud->drive_ram, 0x2000) < 0) {
+        if (SMR_BA(m, drv->drive->drive_ram, 0x2000) < 0) {
             goto fail;
         }
     }

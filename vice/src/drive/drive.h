@@ -37,7 +37,7 @@
 #define MAX_PWM 1000
 
 #define DRIVE_ROM_SIZE 0x8000
-#define DRIVE_RAM_SIZE 0x2000
+#define DRIVE_RAM_SIZE 0xc000
 
 /* Extended disk image handling.  */
 #define DRIVE_EXTEND_NEVER  0
@@ -250,10 +250,6 @@ typedef struct drive_s {
 
     PP64Image p64;
 
-    /* Pointer to 8KB RAM expansion.  */
-    BYTE *drive_ram_expand2, *drive_ram_expand4, *drive_ram_expand6,
-    *drive_ram_expand8, *drive_ram_expanda;
-
     /* Which RAM expansion is enabled?  */
     int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
         drive_ram8_enabled, drive_rama_enabled;
@@ -266,14 +262,14 @@ typedef struct drive_s {
     /* RTC context */
     rtc_ds1216e_t *ds1216;
 
-    /* Drive ROM starts here.  */
-    WORD rom_start;
-
     /* Current ROM image.  */
     BYTE rom[DRIVE_ROM_SIZE];
 
     /* Current trap ROM image.  */
     BYTE trap_rom[DRIVE_ROM_SIZE];
+
+    /* Drive RAM */
+    BYTE drive_ram[DRIVE_RAM_SIZE];
 } drive_t;
 
 
