@@ -45,11 +45,19 @@ static ui_drive_type_t *drive_list;
 
 static int machine_drive_type_count;
 
+struct _expansion {
+    const char *name;
+    const char *resource_name;
+    int (*check_func) (int drive_type);
+};
+
+static struct _expansion *expansion_list;
+
 static int machine_drive_expansion_count;
 
 static int machine_parallel_cable_type_count;
 
-static unsigned int drive_check_rtc(unsigned int type)
+static int drive_check_rtc(int type)
 {
     switch (type) {
         case DRIVE_TYPE_2000:
@@ -70,11 +78,7 @@ static struct _extend_image_policy {
     { NULL, 0 }
 };
 
-static struct _expansion {
-    const char *name;
-    const char *resource_name;
-    int (*check_func) (int drive_type);
-} expansion[] = {
+static struct _expansion expansion_with_profdos[] = {
     { "$2000-$3FFF RAM", "Drive%dRAM2000", drive_check_expansion2000 },
     { "$4000-$5FFF RAM", "Drive%dRAM4000", drive_check_expansion4000 },
     { "$6000-$7FFF RAM", "Drive%dRAM6000", drive_check_expansion6000 },
@@ -82,6 +86,16 @@ static struct _expansion {
     { "$A000-$BFFF RAM", "Drive%dRAMA000", drive_check_expansionA000 },
     { "Professional DOS", "Drive%dProfDOS", drive_check_profdos },
     { "SuperCard+", "Drive%dSuperCard", drive_check_supercard },
+    { "Save Drive RTC data when changed", "Drive%dRTCSave", drive_check_rtc },
+    { NULL, NULL, NULL }
+};
+
+static struct _expansion expansion_no_profdos[] = {
+    { "$2000-$3FFF RAM", "Drive%dRAM2000", drive_check_expansion2000 },
+    { "$4000-$5FFF RAM", "Drive%dRAM4000", drive_check_expansion4000 },
+    { "$6000-$7FFF RAM", "Drive%dRAM6000", drive_check_expansion6000 },
+    { "$8000-$9FFF RAM", "Drive%dRAM8000", drive_check_expansion8000 },
+    { "$A000-$BFFF RAM", "Drive%dRAMA000", drive_check_expansionA000 },
     { "Save Drive RTC data when changed", "Drive%dRTCSave", drive_check_rtc },
     { NULL, NULL, NULL }
 };
@@ -116,7 +130,7 @@ class DriveView : public BView {
         BRadioButton *rb_extendimagepolicy[3];
         BRadioButton *rb_idlemethod[3];
         BRadioButton *rb_parallelcable[4];
-        BCheckBox *cb_expansion[7];
+        BCheckBox *cb_expansion[8];
 };
 
 void DriveView::EnableControlsForDriveSettings(int type_index)
@@ -134,7 +148,7 @@ void DriveView::EnableControlsForDriveSettings(int type_index)
         rb_idlemethod[i]->SetEnabled(drive_check_idle_method(current_drive_type));
     }
     for (i = 0; i < machine_drive_expansion_count; i++) {
-        expand_is_possible = expansion[i].check_func(current_drive_type);
+        expand_is_possible = expansion_list[i].check_func(current_drive_type);
         cb_expansion[i]->SetEnabled(expand_is_possible);
     }
     for (i = 0; i < machine_parallel_cable_type_count; i++) {
@@ -183,15 +197,15 @@ DriveView::DriveView(BRect r, int drive_num) : BView(r, "drive_view", B_FOLLOW_N
         r.left = 90;
         r.top = 100;
         r.right = 220;
-        r.bottom = r.top + 20 + machine_drive_expansion_count * 25; /* 245 or 295 */
+        r.bottom = r.top + 20 + machine_drive_expansion_count * 25; /* 270 or 320 */
         box = new BBox(r);
         box->SetLabel("Drive expansion");
         AddChild(box);
         for (i = 0; i < machine_drive_expansion_count; i++) {
-            sprintf(resname, expansion[i].resource_name, drive_num);
+            sprintf(resname, expansion_list[i].resource_name, drive_num);
             msg = new BMessage(MESSAGE_DRIVE_EXPANSION);
             msg->AddString("resname", resname);
-            checkbox = new BCheckBox(BRect(10, 20 + i * 25, 120, 30 + i * 25), resname, expansion[i].name, msg);
+            checkbox = new BCheckBox(BRect(10, 20 + i * 25, 120, 30 + i * 25), resname, expansion_list[i].name, msg);
             box->AddChild(checkbox);
             cb_expansion[i] = checkbox;
             resources_get_int(resname, &current_value);
@@ -354,21 +368,40 @@ void ui_drive(ui_drive_type_t *drive_types, int caps)
     status_t exit_value;
     BRect r;
     int i;
+    int num_ram_exp_opts = 0, has_rtc_opt = 0;
 
     if (drivewindow != NULL) {
         return;
     }
 
     drive_list = drive_types;
-    machine_drive_expansion_count = 0;
+
     for (i = 0; drive_types[i].name; i++) {
-        if (drive_types[i].id >= DRIVE_TYPE_1541 &&
-            drive_types[i].id <= DRIVE_TYPE_1571CR &&
-            drive_types[i].id != DRIVE_TYPE_1551) {
-            machine_drive_expansion_count = (caps & HAS_PROFDOS) ? 7 : 5;
+        switch (drive_types[i].id) {
+            case DRIVE_TYPE_1541:
+            case DRIVE_TYPE_1541II:
+            case DRIVE_TYPE_1570:
+            case DRIVE_TYPE_1571:
+            case DRIVE_TYPE_1571CR:
+                num_ram_exp_opts = 5;
+            case DRIVE_TYPE_2000:
+            case DRIVE_TYPE_4000:
+                has_rtc_opt = 1;
         }
     }
+
     machine_drive_type_count = i;
+    expansion_list = NULL;
+    machine_drive_expansion_count = 0;
+
+    if (caps & HAS_PROFDOS) {
+        expansion_list = expansion_with_profdos;
+        machine_drive_expansion_count = num_ram_exp_opts + 2 + has_rtc_opt;
+    } else {
+        expansion_list = expansion_no_profdos;
+        machine_drive_expansion_count = num_ram_exp_opts + has_rtc_opt;
+    }
+
 
     if (caps == HAS_PARA_CABLE) {
         /* This hack deals with Plus4 only having the Standard parallel cable. */
@@ -378,10 +411,10 @@ void ui_drive(ui_drive_type_t *drive_types, int caps)
     }
 
     r.Set(50, 50, 400, 310);
-    if (machine_drive_type_count > 8) {
+    if (machine_drive_type_count > 9) {
         r.bottom = 110 + machine_drive_type_count * 25;  /* max 510 */
     } else if (machine_drive_expansion_count > 0) {
-        r.bottom = 210 + machine_drive_expansion_count * 25;  /* 335 or 385 */
+        r.bottom = 210 + machine_drive_expansion_count * 25;  /* 360 or 410 */
     }
 
     drivewindow = new DriveWindow(r);

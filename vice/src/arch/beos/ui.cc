@@ -81,6 +81,7 @@ extern "C" {
 #include "resources.h"
 #include "sound.h"
 #include "tape.h"
+#include "translate.h"
 #include "types.h"
 #include "ui.h"
 #include "ui_datasette.h"
