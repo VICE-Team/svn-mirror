@@ -1,24 +1,3 @@
-UNNEEDED COMMON VSID RESOURCES
-==============================
-
-VICIIDoubleScan
-VICIIDoubleSize
-VICIIPaletteFile
-VICIIExternalPalette
-VICIIColorSaturation
-VICIIColorContrast
-VICIIColorBrightness
-VICIIColorGamma
-VICIIColorTint
-VICIIPALScanLineShade
-VICIIPALBlur
-VICIIPALOddLinePhase
-VICIIPALOddLineOffset
-VICIIAudioLeak
-VICIIFilter
-
-------------------------------------------------------------------------------------------------------------------------------------
-
 UNNEEDED WIN32 VSID RESOURCES
 =============================
 
@@ -43,7 +22,6 @@ WindowTopHint
 WindowBotHint
 KeepAspectRatio
 TrueAspectRatio
-VICIIHwScale
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -51,7 +29,6 @@ UNNEEDED SDL VSID RESOURCES
 ===========================
 
 SDLStatusbar=0
-VICIISDLFullscreenMode=0
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1862,8 +1839,8 @@ resource range:                 N/A
 resource default:               0
 resource function:              set_fullscreen_mode()
 resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIISDLfullmode
 platform gui present:           sdl
@@ -2901,8 +2878,8 @@ resource range:                 N/A
 resource default:               0
 resource function:              set_fullscreen_mode()
 resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined (HAVE_XRANDR)
 command-line:                   -VICIIXRANDRfullmode
 platform gui present:           unix
@@ -3027,8 +3004,8 @@ resource range:                 N/A
 resource default:               0
 resource function:              set_fullscreen_mode()
 resource var:                   vicii.raster->canvas->videoconfig->fullscreen_mode[i]
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:                    #if defined (USE_XF86_EXTENSIONS) && defined(USE_XF86_VIDMODE_EXT)
 command-line:                   -VICIIVidmodefullmode
 platform gui present:           unix
@@ -4433,8 +4410,8 @@ resource range:                 0/1
 resource default:               HWSCALE_DEFAULT
 resource function:              set_hwscale_enabled()
 resource var:                   vicii.raster->canvas->videoconfig->hwscale
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIhwscale / +VICIIhwscale
 platform gui present:			sdl/unix
@@ -4461,8 +4438,8 @@ resource range:                 N/A
 resource default:               video_chip_cap->fullscreen.device_name[0]
 resource function:              set_fullscreen_device()
 resource var:                   vicii.raster->canvas->videoconfig->fullscreen_device
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIfulldevice
 platform gui present:			unix
@@ -4482,8 +4459,8 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_fullscreen_enabled()
 resource var:                   vicii.raster->canvas->videoconfig->fullscreen_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIfull / +VICIIfull
 platform gui present:			sdl/unix
@@ -4510,8 +4487,8 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_fullscreen_statusbar()
 resource var:                   vicii.raster->canvas->videoconfig->fullscreen_statusbar_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   NONE (CORRECT)
 platform gui present:			unix
@@ -12217,8 +12194,8 @@ resource range:                 0/1
 resource default:               1
 resource function:              set_double_scan_enabled()
 resource var:                   vicii.raster->canvas->videoconfig->doublescan
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIdscan / +VICIIdscan
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12245,8 +12222,8 @@ resource range:                 0/1
 resource default:               1
 resource function:              set_double_size_enabled()
 resource var:                   vicii.raster->canvas->videoconfig->double_size_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIdsize / +VICIIdsize
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12273,8 +12250,8 @@ resource range:                 N/A
 resource default:               "default"
 resource function:              set_palette_file_name()
 resource var:                   vicii.raster->canvas->videoconfig->external_palette_name
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIpalette
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12294,8 +12271,8 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_ext_palette()
 resource var:                   vicii.raster->canvas->videoconfig->external_palette
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIintpal / -VICIIextpal
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12322,8 +12299,8 @@ resource range:                 0..2000
 resource default:               1250
 resource function:              set_color_saturation()
 resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_saturation
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIsaturation
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12344,8 +12321,8 @@ resource range:                 0..2000
 resource default:               1250
 resource function:              set_color_contrast()
 resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_contrast
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIcontrast
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12366,8 +12343,8 @@ resource range:                 0..2000
 resource default:               1000
 resource function:              set_color_brightness()
 resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_brightness
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIbrightness
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12388,8 +12365,8 @@ resource range:                 0..4000
 resource default:               2200
 resource function:              set_color_gamma()
 resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_gamma
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIgamma
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12410,8 +12387,8 @@ resource range:                 0..1000
 resource default:               750
 resource function:              set_pal_scanlineshade()
 resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_scanlineshade
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIcrtscanlineshade
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12432,8 +12409,8 @@ resource range:                 0..1000
 resource default:               500
 resource function:              set_pal_blur()
 resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_blur
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIcrtblur
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12454,8 +12431,8 @@ resource range:                 0..2000
 resource default:               1125
 resource function:              set_pal_oddlinesphase()
 resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIoddlinesphase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12476,8 +12453,8 @@ resource range:                 0..2000
 resource default:               875
 resource function:              set_pal_oddlinesoffset()
 resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIoddlinesoffset
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12498,8 +12475,8 @@ resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1
 resource default:               VIDEO_FILTER_CRT (1)
 resource function:              set_chip_rendermode()
 resource var:                   vicii.raster->canvas->videoconfig->filter
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIfilter
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -19089,8 +19066,8 @@ resource range:                 0..2000
 resource default:               1000
 resource function:              set_color_tint()
 resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_tint
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIItint
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
@@ -19114,8 +19091,8 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_audioleak()
 resource var:                   vicii.raster->canvas->videoconfig->video_resources.audioleak
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIaudioleak / +VICIIaudioleak
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx

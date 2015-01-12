@@ -344,6 +344,10 @@ int video_cmdline_options_chip_init(const char *chipname,
 {
     unsigned int i, j;
 
+    if (machine_class == VICE_MACHINE_VSID) {
+        return 0;
+    }
+
     if (video_chip_cap->dsize_allowed) {
         for (i = 0; cname_chip_size[i * 3] != NULL; i++) {
             cmdline_options_chip_size[i].name

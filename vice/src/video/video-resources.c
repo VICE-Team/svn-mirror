@@ -678,197 +678,252 @@ int video_resources_chip_init(const char *chipname,
 
     /* CHIPDoubleScan */
     if (video_chip_cap->dscan_allowed != 0) {
-        resources_chip_scan[0].name
-            = util_concat(chipname, vname_chip_scan[0], NULL);
-        resources_chip_scan[0].value_ptr
-            = &((*canvas)->videoconfig->doublescan);
-        resources_chip_scan[0].param = (void *)*canvas;
-        if (resources_register_int(resources_chip_scan) < 0) {
-            return -1;
-        }
+        if (machine_class != VICE_MACHINE_VSID) {
+            resources_chip_scan[0].name
+                = util_concat(chipname, vname_chip_scan[0], NULL);
+            resources_chip_scan[0].value_ptr
+                = &((*canvas)->videoconfig->doublescan);
+            resources_chip_scan[0].param = (void *)*canvas;
+            if (resources_register_int(resources_chip_scan) < 0) {
+                return -1;
+            }
 
-        lib_free((char *)(resources_chip_scan[0].name));
+            lib_free((char *)(resources_chip_scan[0].name));
+        } else {
+            set_double_scan_enabled(0, (void *)*canvas);
+        }
     }
 
     if (video_chip_cap->hwscale_allowed != 0) {
-        resources_chip_hwscale[0].name
-            = util_concat(chipname, vname_chip_hwscale[0], NULL);
-        resources_chip_hwscale[0].value_ptr
-            = &((*canvas)->videoconfig->hwscale);
-        resources_chip_hwscale[0].param = (void *)*canvas;
-        if (resources_register_int(resources_chip_hwscale) < 0) {
-            return -1;
-        }
+        if (machine_class != VICE_MACHINE_VSID) {
+            resources_chip_hwscale[0].name
+                = util_concat(chipname, vname_chip_hwscale[0], NULL);
+            resources_chip_hwscale[0].value_ptr
+                = &((*canvas)->videoconfig->hwscale);
+            resources_chip_hwscale[0].param = (void *)*canvas;
+            if (resources_register_int(resources_chip_hwscale) < 0) {
+                return -1;
+            }
 
-        lib_free((char *)(resources_chip_hwscale[0].name));
+            lib_free((char *)(resources_chip_hwscale[0].name));
+        } else {
+            set_hwscale_enabled(0, (void *)*canvas);
+        }
     }
 
     /* CHIPDoubleSize */
     if (video_chip_cap->dsize_allowed != 0) {
-        resources_chip_size[0].name
-            = util_concat(chipname, vname_chip_size[0], NULL);
-        resources_chip_size[0].factory_value
-            = video_chip_cap->dsize_default;
-        resources_chip_size[0].value_ptr
-            = &((*canvas)->videoconfig->double_size_enabled);
-        resources_chip_size[0].param = (void *)*canvas;
-        if (resources_register_int(resources_chip_size) < 0) {
-            return -1;
-        }
+        if (machine_class != VICE_MACHINE_VSID) {
+            resources_chip_size[0].name
+                = util_concat(chipname, vname_chip_size[0], NULL);
+            resources_chip_size[0].factory_value
+                = video_chip_cap->dsize_default;
+            resources_chip_size[0].value_ptr
+                = &((*canvas)->videoconfig->double_size_enabled);
+            resources_chip_size[0].param = (void *)*canvas;
+            if (resources_register_int(resources_chip_size) < 0) {
+                return -1;
+            }
 
-        lib_free((char *)(resources_chip_size[0].name));
+            lib_free((char *)(resources_chip_size[0].name));
+        } else {
+            set_double_size_enabled(0, (void *)*canvas);
+        }
     }
 
     if (video_chip_cap->fullscreen.device_num > 0) {
         video_resource_chip_mode_t *resource_chip_mode;
 
-        resources_chip_fullscreen_int[0].name
-            = util_concat(chipname, vname_chip_fullscreen[0], NULL);
-        resources_chip_fullscreen_int[0].value_ptr
-            = &((*canvas)->videoconfig->fullscreen_enabled);
-        resources_chip_fullscreen_int[0].param = (void *)*canvas;
+        if (machine_class != VICE_MACHINE_VSID) {
+            resources_chip_fullscreen_int[0].name
+                = util_concat(chipname, vname_chip_fullscreen[0], NULL);
+            resources_chip_fullscreen_int[0].value_ptr
+                = &((*canvas)->videoconfig->fullscreen_enabled);
+            resources_chip_fullscreen_int[0].param = (void *)*canvas;
 
-        resources_chip_fullscreen_int[1].name
-            = util_concat(chipname, vname_chip_fullscreen[1], NULL);
-        resources_chip_fullscreen_int[1].value_ptr
-            = &((*canvas)->videoconfig->fullscreen_statusbar_enabled);
-        resources_chip_fullscreen_int[1].param = (void *)*canvas;
+            resources_chip_fullscreen_int[1].name
+                = util_concat(chipname, vname_chip_fullscreen[1], NULL);
+            resources_chip_fullscreen_int[1].value_ptr
+                = &((*canvas)->videoconfig->fullscreen_statusbar_enabled);
+            resources_chip_fullscreen_int[1].param = (void *)*canvas;
 
-        resources_chip_fullscreen_string[0].name
-            = util_concat(chipname, vname_chip_fullscreen[2], NULL);
-        resources_chip_fullscreen_string[0].factory_value
-            = video_chip_cap->fullscreen.device_name[0];
-        resources_chip_fullscreen_string[0].value_ptr
-            = &((*canvas)->videoconfig->fullscreen_device);
-        resources_chip_fullscreen_string[0].param = (void *)*canvas;
+            resources_chip_fullscreen_string[0].name
+                = util_concat(chipname, vname_chip_fullscreen[2], NULL);
+            resources_chip_fullscreen_string[0].factory_value
+                = video_chip_cap->fullscreen.device_name[0];
+            resources_chip_fullscreen_string[0].value_ptr
+                = &((*canvas)->videoconfig->fullscreen_device);
+            resources_chip_fullscreen_string[0].param = (void *)*canvas;
 
-        if (resources_register_string(resources_chip_fullscreen_string) < 0) {
-            return -1;
+            if (resources_register_string(resources_chip_fullscreen_string) < 0) {
+                return -1;
+            }
+
+            if (resources_register_int(resources_chip_fullscreen_int) < 0) {
+                return -1;
+            }
+
+            lib_free((char *)(resources_chip_fullscreen_int[0].name));
+            lib_free((char *)(resources_chip_fullscreen_int[1].name));
+            lib_free((char *)(resources_chip_fullscreen_string[0].name));
+        } else {
+            set_fullscreen_enabled(0, (void *)*canvas);
+            set_fullscreen_statusbar(0, (void *)*canvas);
+            set_fullscreen_device(video_chip_cap->fullscreen.device_name[0], (void *)*canvas);
         }
-
-        if (resources_register_int(resources_chip_fullscreen_int) < 0) {
-            return -1;
-        }
-
-        lib_free((char *)(resources_chip_fullscreen_int[0].name));
-        lib_free((char *)(resources_chip_fullscreen_int[1].name));
-        lib_free((char *)(resources_chip_fullscreen_string[0].name));
 
         for (i = 0; i < video_chip_cap->fullscreen.device_num; i++) {
             resource_chip_mode = get_resource_chip_mode();
             resource_chip_mode->resource_chip = *canvas;
             resource_chip_mode->device = i;
 
-            resources_chip_fullscreen_mode[0].name
-                = util_concat(chipname,
-                              video_chip_cap->fullscreen.device_name[i],
-                              vname_chip_fullscreen_mode[0], NULL);
-            resources_chip_fullscreen_mode[0].value_ptr
-                = &((*canvas)->videoconfig->fullscreen_mode[i]);
-            resources_chip_fullscreen_mode[0].param
-                = (void *)resource_chip_mode;
+            if (machine_class != VICE_MACHINE_VSID) {
+                resources_chip_fullscreen_mode[0].name
+                    = util_concat(chipname,
+                                  video_chip_cap->fullscreen.device_name[i],
+                                  vname_chip_fullscreen_mode[0], NULL);
+                resources_chip_fullscreen_mode[0].value_ptr
+                    = &((*canvas)->videoconfig->fullscreen_mode[i]);
+                resources_chip_fullscreen_mode[0].param
+                    = (void *)resource_chip_mode;
 
-            if (resources_register_int(resources_chip_fullscreen_mode) < 0) {
-                return -1;
+                if (resources_register_int(resources_chip_fullscreen_mode) < 0) {
+                    return -1;
+                }
+
+                lib_free((char *)(resources_chip_fullscreen_mode[0].name));
+            } else {
+                set_fullscreen_mode(0, (void *)resource_chip_mode);
             }
-
-            lib_free((char *)(resources_chip_fullscreen_mode[0].name));
         }
     }
 
     /* Palette related */
-    resources_chip_palette_string[0].name
-        = util_concat(chipname, vname_chip_palette[0], NULL);
-    resources_chip_palette_string[0].factory_value
-        = video_chip_cap->external_palette_name;
-    resources_chip_palette_string[0].value_ptr
-        = &((*canvas)->videoconfig->external_palette_name);
-    resources_chip_palette_string[0].param = (void *)*canvas;
+    if (machine_class != VICE_MACHINE_VSID) {
+        resources_chip_palette_string[0].name
+            = util_concat(chipname, vname_chip_palette[0], NULL);
+        resources_chip_palette_string[0].factory_value
+            = video_chip_cap->external_palette_name;
+        resources_chip_palette_string[0].value_ptr
+            = &((*canvas)->videoconfig->external_palette_name);
+        resources_chip_palette_string[0].param = (void *)*canvas;
 
-    resources_chip_palette_int[0].name
-        = util_concat(chipname, vname_chip_palette[1], NULL);
-    resources_chip_palette_int[0].value_ptr
-        = &((*canvas)->videoconfig->external_palette);
-    resources_chip_palette_int[0].param = (void *)*canvas;
+        resources_chip_palette_int[0].name
+            = util_concat(chipname, vname_chip_palette[1], NULL);
+        resources_chip_palette_int[0].value_ptr
+            = &((*canvas)->videoconfig->external_palette);
+        resources_chip_palette_int[0].param = (void *)*canvas;
 
-    if (resources_register_string(resources_chip_palette_string) < 0) {
-        return -1;
-    }
-
-    if (resources_register_int(resources_chip_palette_int) < 0) {
-        return -1;
-    }
-
-    lib_free((char *)(resources_chip_palette_string[0].name));
-    lib_free((char *)(resources_chip_palette_int[0].name));
-
-    /* double buffering */
-    if (video_chip_cap->double_buffering_allowed != 0) {
-        resources_chip_double_buffer[0].name
-            = util_concat(chipname, vname_chip_double_buffer[0], NULL);
-        resources_chip_double_buffer[0].value_ptr
-            = &((*canvas)->videoconfig->double_buffer);
-        resources_chip_double_buffer[0].param = (void *)*canvas;
-        if (resources_register_int(resources_chip_double_buffer) < 0) {
+        if (resources_register_string(resources_chip_palette_string) < 0) {
             return -1;
         }
 
-        lib_free((char *)(resources_chip_double_buffer[0].name));
+        if (resources_register_int(resources_chip_palette_int) < 0) {
+            return -1;
+        }
+
+        lib_free((char *)(resources_chip_palette_string[0].name));
+        lib_free((char *)(resources_chip_palette_int[0].name));
+    } else {
+        set_palette_file_name(video_chip_cap->external_palette_name, (void *)*canvas);
+        set_ext_palette(0, (void *)*canvas);
+    }
+
+    /* double buffering */
+    if (video_chip_cap->double_buffering_allowed != 0) {
+        if (machine_class != VICE_MACHINE_VSID) {
+            resources_chip_double_buffer[0].name
+                = util_concat(chipname, vname_chip_double_buffer[0], NULL);
+            resources_chip_double_buffer[0].value_ptr
+                = &((*canvas)->videoconfig->double_buffer);
+            resources_chip_double_buffer[0].param = (void *)*canvas;
+            if (resources_register_int(resources_chip_double_buffer) < 0) {
+                return -1;
+            }
+
+            lib_free((char *)(resources_chip_double_buffer[0].name));
+        } else {
+            set_double_buffer_enabled(0, (void *)*canvas);
+        }
     }
 
     /* palette generator */
-    i = 0; while (vname_chip_colors[i]) {
-        resources_chip_colors[i].name = util_concat(chipname, vname_chip_colors[i], NULL);
-        resources_chip_colors[i].param = (void *)*canvas;
-        ++i;
-    }
-    resources_chip_colors[0].value_ptr = &((*canvas)->videoconfig->video_resources.color_saturation);
-    resources_chip_colors[1].value_ptr = &((*canvas)->videoconfig->video_resources.color_contrast);
-    resources_chip_colors[2].value_ptr = &((*canvas)->videoconfig->video_resources.color_brightness);
-    resources_chip_colors[3].value_ptr = &((*canvas)->videoconfig->video_resources.color_gamma);
-    resources_chip_colors[4].value_ptr = &((*canvas)->videoconfig->video_resources.color_tint);
+    if (machine_class != VICE_MACHINE_VSID) {
+        i = 0;
+        while (vname_chip_colors[i]) {
+            resources_chip_colors[i].name = util_concat(chipname, vname_chip_colors[i], NULL);
+            resources_chip_colors[i].param = (void *)*canvas;
+            ++i;
+        }
+        resources_chip_colors[0].value_ptr = &((*canvas)->videoconfig->video_resources.color_saturation);
+        resources_chip_colors[1].value_ptr = &((*canvas)->videoconfig->video_resources.color_contrast);
+        resources_chip_colors[2].value_ptr = &((*canvas)->videoconfig->video_resources.color_brightness);
+        resources_chip_colors[3].value_ptr = &((*canvas)->videoconfig->video_resources.color_gamma);
+        resources_chip_colors[4].value_ptr = &((*canvas)->videoconfig->video_resources.color_tint);
 
-    if (resources_register_int(resources_chip_colors) < 0) {
-        return -1;
-    }
+        if (resources_register_int(resources_chip_colors) < 0) {
+            return -1;
+        }
 
-    i = 0; while (vname_chip_colors[i]) {
-        lib_free((char *)(resources_chip_colors[i].name));
-        ++i;
+        i = 0;
+        while (vname_chip_colors[i]) {
+            lib_free((char *)(resources_chip_colors[i].name));
+            ++i;
+        }
+    } else {
+        set_color_saturation(1250, (void *)*canvas);
+        set_color_contrast(1250, (void *)*canvas);
+        set_color_brightness(1000, (void *)*canvas);
+        set_color_gamma(2200, (void *)*canvas);
+        set_color_tint(1000, (void *)*canvas);
     }
 
     /* crt emulation */
-    i = 0; while (vname_chip_crtemu[i]) {
-        resources_chip_crtemu[i].name = util_concat(chipname, vname_chip_crtemu[i], NULL);
-        resources_chip_crtemu[i].param = (void *)*canvas;
-        ++i;
-    }
-    resources_chip_crtemu[0].value_ptr = &((*canvas)->videoconfig->video_resources.pal_scanlineshade);
-    resources_chip_crtemu[1].value_ptr = &((*canvas)->videoconfig->video_resources.pal_blur);
-    resources_chip_crtemu[2].value_ptr = &((*canvas)->videoconfig->video_resources.pal_oddlines_phase);
-    resources_chip_crtemu[3].value_ptr = &((*canvas)->videoconfig->video_resources.pal_oddlines_offset);
-    resources_chip_crtemu[4].value_ptr = &((*canvas)->videoconfig->video_resources.audioleak);
+    if (machine_class != VICE_MACHINE_VSID) {
+        i = 0;
+        while (vname_chip_crtemu[i]) {
+            resources_chip_crtemu[i].name = util_concat(chipname, vname_chip_crtemu[i], NULL);
+            resources_chip_crtemu[i].param = (void *)*canvas;
+            ++i;
+        }
+        resources_chip_crtemu[0].value_ptr = &((*canvas)->videoconfig->video_resources.pal_scanlineshade);
+        resources_chip_crtemu[1].value_ptr = &((*canvas)->videoconfig->video_resources.pal_blur);
+        resources_chip_crtemu[2].value_ptr = &((*canvas)->videoconfig->video_resources.pal_oddlines_phase);
+        resources_chip_crtemu[3].value_ptr = &((*canvas)->videoconfig->video_resources.pal_oddlines_offset);
+        resources_chip_crtemu[4].value_ptr = &((*canvas)->videoconfig->video_resources.audioleak);
 
-    if (resources_register_int(resources_chip_crtemu) < 0) {
-        return -1;
-    }
+        if (resources_register_int(resources_chip_crtemu) < 0) {
+            return -1;
+        }
 
-    i = 0; while (vname_chip_crtemu[i]) {
-        lib_free((char *)(resources_chip_crtemu[i].name));
-        ++i;
+        i = 0;
+        while (vname_chip_crtemu[i]) {
+            lib_free((char *)(resources_chip_crtemu[i].name));
+            ++i;
+        }
+    } else {
+        set_pal_scanlineshade(750, (void *)*canvas);
+        set_pal_blur(500, (void *)*canvas);
+        set_pal_oddlinesphase(1125, (void *)*canvas);
+        set_pal_oddlinesoffset(875, (void *)*canvas);
+        set_audioleak(0, (void *)*canvas);
     }
 
     /* CHIPFilter */
-    resources_chip_rendermode[0].name
-        = util_concat(chipname, vname_chip_rendermode[0], NULL);
-    resources_chip_rendermode[0].value_ptr
-        = &((*canvas)->videoconfig->filter);
-    resources_chip_rendermode[0].param = (void *)*canvas;
-    if (resources_register_int(resources_chip_rendermode) < 0) {
-        return -1;
-    }
+    if (machine_class != VICE_MACHINE_VSID) {
+        resources_chip_rendermode[0].name
+            = util_concat(chipname, vname_chip_rendermode[0], NULL);
+        resources_chip_rendermode[0].value_ptr
+            = &((*canvas)->videoconfig->filter);
+        resources_chip_rendermode[0].param = (void *)*canvas;
+        if (resources_register_int(resources_chip_rendermode) < 0) {
+            return -1;
+        }
 
-    lib_free((char *)(resources_chip_rendermode[0].name));
+        lib_free((char *)(resources_chip_rendermode[0].name));
+    } else {
+        set_chip_rendermode(VIDEO_FILTER_NONE, (void *)*canvas);
+    }
 
     return 0;
 }
