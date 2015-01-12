@@ -65,57 +65,6 @@
 #define LUMN7   199.0f
 #define LUMN8   256.0f
 
-/* old luminances */
-
-#define LUMO0     0.0f
-#define LUMO1    56.0f
-#define LUMO2   128.0f
-#define LUMO3   191.0f
-#define LUMO4   256.0f
-
-/* default dithering */
-
-/*
-static char vicii_color_dither[16] =
-{
-    0x00,0x0E,0x04,0x0C,
-    0x08,0x04,0x04,0x0C,
-    0x04,0x04,0x08,0x04,
-    0x08,0x08,0x08,0x0C
-};
-*/
-
-/* very old vic-ii palette with less luminances */
-
-static video_cbm_color_t vicii_colors_old[VICII_NUM_COLORS] =
-{
-    { LUMO0, ANGLE_ORN, -0, "Black"       },
-    { LUMO4, ANGLE_BRN,  0, "White"       },
-    { LUMO1, ANGLE_RED,  1, "Red"         },
-    { LUMO3, ANGLE_RED, -1, "Cyan"        },
-    { LUMO2, ANGLE_GRN, -1, "Purple"      },
-    { LUMO2, ANGLE_GRN,  1, "Green"       },
-    { LUMO1, ANGLE_BLU,  1, "Blue"        },
-    { LUMO3, ANGLE_BLU, -1, "Yellow"      },
-    { LUMO2, ANGLE_ORN, -1, "Orange"      },
-    { LUMO1, ANGLE_BRN,  1, "Brown"       },
-    { LUMO2, ANGLE_RED,  1, "Light Red"   },
-    { LUMO1, ANGLE_RED, -0, "Dark Grey"   },
-    { LUMO2, ANGLE_GRN, -0, "Medium Grey" },
-    { LUMO3, ANGLE_GRN,  1, "Light Green" },
-    { LUMO2, ANGLE_BLU,  1, "Light Blue"  },
-    { LUMO3, ANGLE_BLU, -0, "Light Grey"  }
-};
-
-static video_cbm_palette_t vicii_palette_old =
-{
-    VICII_NUM_COLORS,
-    vicii_colors_old,
-    VICII_SATURATION,
-    VICII_PHASE,
-    CBM_PALETTE_YUV
-};
-
 /* the wellknown vic-ii palette used for 99% of all vic-ii chips */
 
 static video_cbm_color_t vicii_colors[VICII_NUM_COLORS] =
@@ -149,13 +98,7 @@ static video_cbm_palette_t vicii_palette =
 
 int vicii_color_update_palette(struct video_canvas_s *canvas)
 {
-    video_cbm_palette_t *cp;
-
-    if (vicii_resources.new_luminances) {
-        cp = &vicii_palette;
-    } else {
-        cp = &vicii_palette_old;
-    }
+    video_cbm_palette_t *cp = &vicii_palette;
 
     video_color_palette_internal(canvas, cp);
     return 0;

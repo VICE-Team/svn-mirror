@@ -1161,14 +1161,12 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
     /* As explained in Christian's article, only the first collision
        (i.e. the first time the collision register becomes non-zero) actually
        triggers an interrupt.  */
-    if (vicii_resources.sprite_sprite_collisions_enabled
-        && vicii.raster.sprite_status->sprite_sprite_collisions != 0
+    if (vicii.raster.sprite_status->sprite_sprite_collisions != 0
         && !prev_sprite_sprite_collisions) {
         vicii_irq_sscoll_set();
     }
 
-    if (vicii_resources.sprite_background_collisions_enabled
-        && vicii.raster.sprite_status->sprite_background_collisions
+    if (vicii.raster.sprite_status->sprite_background_collisions
         && !prev_sprite_background_collisions) {
         vicii_irq_sbcoll_set();
     }

@@ -17,9 +17,6 @@ VICIIPALOddLinePhase
 VICIIPALOddLineOffset
 VICIIAudioLeak
 VICIIFilter
-VICIICheckSsColl
-VICIICheckSbColl
-VICIINewLuminances
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -12133,8 +12130,8 @@ resource range:                 0/1
 resource default:               1
 resource function:              set_sprite_sprite_collisions_enabled()
 resource var:                   vicii_resources.sprite_sprite_collisions_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIcheckss / +VICIIcheckss
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -12161,8 +12158,8 @@ resource range:                 0/1
 resource default:               1
 resource function:              set_sprite_background_collisions_enabled()
 resource var:                   vicii_resources.sprite_background_collisions_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIchecksb / +VICIIchecksb
 platform gui present:           amigaos/beos/dos/os2/unix/osx/windows/sdl
@@ -12189,8 +12186,8 @@ resource range:                 0/1
 resource default:               1
 resource function:              set_new_luminances()
 resource var:                   vicii_resources.new_luminances
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIInewluminance / +VICIInewluminance / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
@@ -19093,8 +19090,8 @@ resource range:                 0..3 (VICII_NORMAL_BORDERS (0), VICII_FULL_BORDE
 resource default:               VICII_NORMAL_BORDERS (0)
 resource function:              set_border_mode()
 resource var:                   vicii_resources.border_mode
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIborders
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows

@@ -43,47 +43,7 @@
 #include "viciitypes.h"
 
 
-/* VIC-II command-line options.  */
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-VICIIchecksb", SET_RESOURCE, 0,
-      NULL, NULL, "VICIICheckSbColl", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_SPRITE_BACKGROUND,
-      NULL, NULL },
-    { "+VICIIchecksb", SET_RESOURCE, 0,
-      NULL, NULL, "VICIICheckSbColl", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_SPRITE_BACKGROUND,
-      NULL, NULL },
-    { "-VICIIcheckss", SET_RESOURCE, 0,
-      NULL, NULL, "VICIICheckSsColl", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_SPRITE_SPRITE,
-      NULL, NULL },
-    { "+VICIIcheckss", SET_RESOURCE, 0,
-      NULL, NULL, "VICIICheckSsColl", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_SPRITE_SPRITE,
-      NULL, NULL },
-    { "-VICIInewluminance", SET_RESOURCE, 0,
-      NULL, NULL, "VICIINewLuminances", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_USE_NEW_LUMINANCES,
-      NULL, NULL },
-    { "+VICIInewluminance", SET_RESOURCE, 0,
-      NULL, NULL, "VICIINewLuminances", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_USE_OLD_LUMINANCES,
-      NULL, NULL },
-    CMDLINE_LIST_END
-};
-
 int vicii_cmdline_options_init(void)
 {
-    if (raster_cmdline_options_chip_init("VICII", vicii.video_chip_cap) < 0) {
-        return -1;
-    }
-
-    return cmdline_register_options(cmdline_options);
+    return raster_cmdline_options_chip_init("VICII", vicii.video_chip_cap);
 }

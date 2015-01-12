@@ -28,22 +28,6 @@
 #ifndef VICE_VICII_RESOURCES_H
 #define VICE_VICII_RESOURCES_H
 
-/* VIC-II resources.  */
-struct vicii_resources_s {
-    /* Flag: Do we emulate the sprite-sprite collision register and IRQ?  */
-    int sprite_sprite_collisions_enabled;
-
-    /* Flag: Do we emulate the sprite-background collision register and
-       IRQ?  */
-    int sprite_background_collisions_enabled;
-
-    /* Flag: New or old luminances? */
-    int new_luminances;
-};
-typedef struct vicii_resources_s vicii_resources_t;
-
-extern vicii_resources_t vicii_resources;
-
 extern int vicii_resources_init(void);
 
 #endif
