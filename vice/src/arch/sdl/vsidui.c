@@ -50,7 +50,6 @@
 #include "menu_sid.h"
 #include "menu_sound.h"
 #include "menu_speed.h"
-#include "menu_video.h"
 #include "psid.h"
 #include "ui.h"
 #include "uifilereq.h"
@@ -277,10 +276,6 @@ static const ui_menu_entry_t vsid_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)sound_output_menu },
-    { "Video settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)c64_video_menu },
     { "Reset",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
