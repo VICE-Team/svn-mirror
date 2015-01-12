@@ -31,6 +31,7 @@
 #include "fullscrn.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "palette.h"
 #include "res.h"
 #include "resources.h"
@@ -130,7 +131,11 @@ static const resource_int_t resources_int[] = {
 
 int video_arch_resources_init(void)
 {
-    return resources_register_int(resources_int);
+    if (machine_class != VICE_MACHINE_VSID) {
+        return resources_register_int(resources_int);
+    }
+    set_dx9_disable(1, NULL);
+    return 0;
 }
 
 void video_arch_resources_shutdown(void)
@@ -197,35 +202,38 @@ int video_arch_cmdline_options_init(void)
     char *temp1, *temp2, *num, *dev;
     int amount, i;
 
-    amount = fullscreen_get_devices_amount();
-    if (amount) {
-        dev = lib_stralloc(fullscreen_get_device(0));
-        util_remove_spaces(dev);
-        temp1 = util_concat(". (0: ", dev, NULL);
-        lib_free(dev);
-        for (i = 1; i < amount; i++) {
-            num = lib_msprintf("%d", i);
-            dev = lib_stralloc(fullscreen_get_device(i));
+    if (machine_class != VICE_MACHINE_VSID) {
+        amount = fullscreen_get_devices_amount();
+        if (amount) {
+            dev = lib_stralloc(fullscreen_get_device(0));
             util_remove_spaces(dev);
-            temp2 = util_concat(temp1, ", ", num, ":", dev, NULL);
-            lib_free(num);
+            temp1 = util_concat(". (0: ", dev, NULL);
             lib_free(dev);
-            lib_free(temp1);
-            temp1 = temp2;
+            for (i = 1; i < amount; i++) {
+                num = lib_msprintf("%d", i);
+                dev = lib_stralloc(fullscreen_get_device(i));
+                util_remove_spaces(dev);
+                temp2 = util_concat(temp1, ", ", num, ":", dev, NULL);
+                lib_free(num);
+                lib_free(dev);
+                lib_free(temp1);
+                temp1 = temp2;
+            }
+            fullscreen_device_list = util_concat(temp1, ")", NULL);
+        } else {
+            fullscreen_device_list = lib_stralloc(".");
         }
-        fullscreen_device_list = util_concat(temp1, ")", NULL);
-    } else {
-        fullscreen_device_list = lib_stralloc(".");
-    }
 
-    generated_cmdline_options[0].description = fullscreen_device_list;
+        generated_cmdline_options[0].description = fullscreen_device_list;
 
-    if (cmdline_register_options(generated_cmdline_options) < 0) {
-        return -1;
-    }
+        if (cmdline_register_options(generated_cmdline_options) < 0) {
+            return -1;
+        }
 #endif
 
-    return cmdline_register_options(cmdline_options);
+        return cmdline_register_options(cmdline_options);
+    }
+    return 0;
 }
 
 
@@ -255,6 +263,9 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 
 int video_dx9_enabled(void)
 {
+    if (machine_class == VICE_MACHINE_VSID) {
+        return 0;
+    }
     return (dx9_available && !dx9_disable);
 }
 

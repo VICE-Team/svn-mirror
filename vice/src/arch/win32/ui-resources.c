@@ -280,19 +280,7 @@ static const resource_string_t resources_string[] = {
     { NULL }
 };
 
-static const resource_int_t resources_int[] = {
-#ifdef HAVE_D3D9_H
-    { "FullscreenDevice", 0, RES_EVENT_NO, NULL,
-      &ui_resources.fullscreendevice, set_fullscreen_device, NULL },
-    { "FullscreenWidth", -1, RES_EVENT_NO, NULL,
-      &ui_resources.fullscreenwidth, set_fullscreen_width, NULL },
-    { "FullscreenHeight", -1, RES_EVENT_NO, NULL,
-      &ui_resources.fullscreenheight, set_fullscreen_height, NULL },
-    { "FullscreenRefreshRate", 0, RES_EVENT_NO, NULL,
-      &ui_resources.fullscreenrefreshrate, set_fullscreen_refreshrate, NULL },
-    { "FullscreenEnabled", 0, RES_EVENT_NO, NULL,
-      &ui_resources.fullscreenenabled, set_fullscreen_enabled, NULL },
-#endif
+static const resource_int_t common_resources_int[] = {
     { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
       &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
@@ -307,6 +295,22 @@ static const resource_int_t resources_int[] = {
       &ui_resources.true_aspect_ratio, set_true_aspect_ratio, NULL },
     { "AspectRatio", 1000, RES_EVENT_NO, NULL,
       &ui_resources.aspect_ratio, set_aspect_ratio, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+#ifdef HAVE_D3D9_H
+    { "FullscreenDevice", 0, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreendevice, set_fullscreen_device, NULL },
+    { "FullscreenWidth", -1, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreenwidth, set_fullscreen_width, NULL },
+    { "FullscreenHeight", -1, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreenheight, set_fullscreen_height, NULL },
+    { "FullscreenRefreshRate", 0, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreenrefreshrate, set_fullscreen_refreshrate, NULL },
+    { "FullscreenEnabled", 0, RES_EVENT_NO, NULL,
+      &ui_resources.fullscreenenabled, set_fullscreen_enabled, NULL },
+#endif
     { NULL }
 };
 
@@ -365,6 +369,9 @@ int ui_resources_init(void)
         if (resources_register_int(window0_resources_int) < 0) {
             return -1;
         }
+        if (resources_register_int(resources_int) < 0) {
+            return -1;
+        }
         if (resources_register_string(resources_string) < 0) {
             return -1;
         }
@@ -376,7 +383,7 @@ int ui_resources_init(void)
         }
     }
 
-    return resources_register_int(resources_int);
+    return resources_register_int(common_resources_int);
 }
 
 void ui_resources_shutdown(void)
