@@ -1,7 +1,6 @@
 UNNEEDED COMMON VSID RESOURCES
 ==============================
 
-VICIIVideoCache
 VICIIDoubleScan
 VICIIDoubleSize
 VICIIPaletteFile
@@ -12190,8 +12189,8 @@ resource range:                 0/1
 resource default:               DEFAULT_VideoCache_VALUE
 resource function:              set_video_cache_enabled()
 resource var:                   raster_resource_chip->video_cache_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0/vsid
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIvcache / +VICIIvcache
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
