@@ -1,11 +1,3 @@
-UNNEEDED WIN32 VSID RESOURCES
-=============================
-
-TrueAspectRatio
-AspectRatio
-
-------------------------------------------------------------------------------------------------------------------------------------
-
 UNNEEDED GTK VSID RESOURCES
 ===========================
 
@@ -27,31 +19,7 @@ UNNEEDED SDL VSID RESOURCES
 ===========================
 
 SDLStatusbar=0
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-UNNEEDED COMMON VSID COMMAND LINE OPTIONS
-=========================================
-
--chdir <Directory>
-	Change current working directory.
 	
-------------------------------------------------------------------------------------------------------------------------------------
-
-UNNEEDED WINDOWS VSID COMMAND LINE OPTIONS
-==========================================
-
--keepaspect
-	Keep aspect ratio when scaling
-+keepaspect
-	Do not keep aspect ratio when scaling (freescale)
--trueaspect
-	Enable true aspect ratio
-+trueaspect
-	Disable true aspect ratio
--aspect <aspect ratio>
-	Set aspect ratio (500..2000)
-
 ------------------------------------------------------------------------------------------------------------------------------------
 
 FIXED/CORRECT AMIGA ONLY COMMON RESOURCES/CMDLINES:
