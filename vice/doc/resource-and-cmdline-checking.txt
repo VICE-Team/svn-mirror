@@ -1,8 +1,6 @@
 UNNEEDED WIN32 VSID RESOURCES
 =============================
 
-VBLANKSync
-KeepAspectRatio
 TrueAspectRatio
 AspectRatio
 
@@ -43,10 +41,6 @@ UNNEEDED COMMON VSID COMMAND LINE OPTIONS
 UNNEEDED WINDOWS VSID COMMAND LINE OPTIONS
 ==========================================
 
--vblanksync
-	Enable vertical blank sync
-+vblanksync
-	Disable vertical blank sync
 -keepaspect
 	Keep aspect ratio when scaling
 +keepaspect
@@ -3419,34 +3413,6 @@ platform gui missing:			windows (CORRECT)
 arch/win32/ui-resources.c:
 --------------------------
 resource type:                  bool
-resource name:                  "VBLANKSync"
-resource range:                 0/1
-resource default:               0
-resource function:              set_vblank_sync()
-resource var:                   ui_resources.vblank_sync
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -vblanksync / +vblanksync
-platform gui present:           windows
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   -vblanksync
-description:    "Enable vertical blank sync"
-resource:       "VBLANKSync" (set to 1)
-action:         N/A
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   +vblanksync
-description:    "Disable vertical blank sync"
-resource:       "VBLANKSync" (set to 0)
-action:         N/A
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  bool
 resource name:                  "AlwaysOnTop"
 resource range:                 0/1
 resource default:               0
@@ -3470,84 +3436,6 @@ arch/win32/ui-resources.c:
 command line:   +alwaysontop
 description:    "Disable always on top"
 resource:       "AlwaysOnTop" (set to 0)
-action:         N/A
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "KeepAspectRatio"
-resource range:                 0/1
-resource default:               1
-resource function:              set_keep_aspect_ratio()
-resource var:                   ui_resources.keep_aspect_ratio
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -keepaspect / +keepaspect
-platform gui present:           windows
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   -keepaspect
-description:    "Keep aspect ratio when scaling"
-resource:       "KeepAspectRatio" (set to 1)
-action:         N/A
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   +keepaspect
-description:    "Do not keep aspect ratio when scaling (freescale)"
-resource:       "KeepAspectRatio" (set to 0)
-action:         N/A
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  bool
-resource name:                  "TrueAspectRatio"
-resource range:                 0/1
-resource default:               1
-resource function:              set_true_aspect_ratio()
-resource var:                   ui_resources.true_aspect_ratio
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -trueaspect / +trueaspect
-platform gui present:           windows
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   -trueaspect
-description:    "Enable true aspect ratio"
-resource:       "TrueAspectRatio" (set to 1)
-action:         N/A
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   +trueaspect
-description:    "Disable true aspect ratio"
-resource:       "TrueAspectRatio" (set to 0)
-action:         N/A
-
-arch/win32/ui-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "AspectRatio"
-resource range:                 500..2000
-resource default:               1000
-resource function:              set_aspect_ratio()
-resource var:                   ui_resources.aspect_ratio
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
-prepocessor:
-command-line:                   -aspect
-platform gui present:           windows
-platform range correct:		windows
-
-arch/win32/ui-resources.c:
---------------------------
-command line:   -aspect <aspect ratio>
-description:    "Set aspect ratio (500..2000)"
-resource:       "AspectRatio"
 action:         N/A
 
 arch/win32/joy.c:
@@ -3873,8 +3761,8 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_dx9_disable()
 resource var:                   dx9_disable
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:                    #ifdef HAVE_D3D9_H
 command-line:                   -dx9disable / -dx9enable
 platform gui present:           windows
@@ -3901,8 +3789,8 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_dx_primary_surface_rendering()
 resource var:                   dx_primary_surface_rendering
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:                    #ifdef HAVE_D3D9_H
 command-line:                   -dxpsrender / +dxpsrender
 platform gui present:           windows
@@ -3919,6 +3807,112 @@ arch/win32/video.c:
 command line:   +dxpsrender
 description:    "Disable rendering to DirectX primary surface"
 resource:       "DXPrimarySurfaceRendering" (set to 0)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "KeepAspectRatio"
+resource range:                 0/1
+resource default:               1
+resource function:              set_keep_aspect_ratio()
+resource var:                   ui_resources.keep_aspect_ratio
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
+prepocessor:                    #ifdef HAVE_D3D9_H
+command-line:                   -keepaspect / +keepaspect
+platform gui present:           windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -keepaspect
+description:    "Keep aspect ratio when scaling"
+resource:       "KeepAspectRatio" (set to 1)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   +keepaspect
+description:    "Do not keep aspect ratio when scaling (freescale)"
+resource:       "KeepAspectRatio" (set to 0)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "TrueAspectRatio"
+resource range:                 0/1
+resource default:               1
+resource function:              set_true_aspect_ratio()
+resource var:                   ui_resources.true_aspect_ratio
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
+prepocessor:                    #ifdef HAVE_D3D9_H
+command-line:                   -trueaspect / +trueaspect
+platform gui present:           windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -trueaspect
+description:    "Enable true aspect ratio"
+resource:       "TrueAspectRatio" (set to 1)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   +trueaspect
+description:    "Disable true aspect ratio"
+resource:       "TrueAspectRatio" (set to 0)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "AspectRatio"
+resource range:                 500..2000
+resource default:               1000
+resource function:              set_aspect_ratio()
+resource var:                   ui_resources.aspect_ratio
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
+prepocessor:                    #ifdef HAVE_D3D9_H
+command-line:                   -aspect
+platform gui present:           windows
+platform range correct:		windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -aspect <aspect ratio>
+description:    "Set aspect ratio (500..2000)"
+resource:       "AspectRatio"
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+resource type:                  bool
+resource name:                  "VBLANKSync"
+resource range:                 0/1
+resource default:               0
+resource function:              set_vblank_sync()
+resource var:                   ui_resources.vblank_sync
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
+prepocessor:                    #ifdef HAVE_D3D9_H
+command-line:                   -vblanksync / +vblanksync
+platform gui present:           windows
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   -vblanksync
+description:    "Enable vertical blank sync"
+resource:       "VBLANKSync" (set to 1)
+action:         N/A
+
+arch/win32/ui-resources.c:
+--------------------------
+command line:   +vblanksync
+description:    "Disable vertical blank sync"
+resource:       "VBLANKSync" (set to 0)
 action:         N/A
 
 arch/win32/ui-resources.c:

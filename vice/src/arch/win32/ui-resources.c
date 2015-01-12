@@ -180,12 +180,14 @@ static int set_window_ypos(int val, void *param)
     return 0;
 }
 
+#ifdef HAVE_D3D9_H
 static int set_vblank_sync(int val, void *param)
 {
     ui_resources.vblank_sync = val ? 1 : 0;
 
     return 0;
 }
+#endif
 
 static int set_alwaysontop(int val, void *param)
 {
@@ -208,6 +210,7 @@ void resize_every_canvas(void)
     }
 }
 
+#ifdef HAVE_D3D9_H
 static int set_keep_aspect_ratio(int val, void *param)
 {
     int old_val = ui_resources.keep_aspect_ratio;
@@ -249,6 +252,7 @@ static int set_aspect_ratio(int val, void *param)
     }
     return 0;
 }
+#endif
 
 static const resource_string_t monitor_resources_string[] = {
     { "MonitorDimensions", "", RES_EVENT_NO, NULL,
@@ -285,21 +289,13 @@ static const resource_int_t common_resources_int[] = {
       &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
       &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
-    { "VBLANKSync", 0, RES_EVENT_NO, NULL,
-      &ui_resources.vblank_sync, set_vblank_sync, NULL },
     { "AlwaysOnTop", 0, RES_EVENT_NO, NULL,
       &ui_resources.alwaysontop, set_alwaysontop, NULL },
-    { "KeepAspectRatio", 1, RES_EVENT_NO, NULL,
-      &ui_resources.keep_aspect_ratio, set_keep_aspect_ratio, NULL },
-    { "TrueAspectRatio", 1, RES_EVENT_NO, NULL,
-      &ui_resources.true_aspect_ratio, set_true_aspect_ratio, NULL },
-    { "AspectRatio", 1000, RES_EVENT_NO, NULL,
-      &ui_resources.aspect_ratio, set_aspect_ratio, NULL },
     { NULL }
 };
 
-static const resource_int_t resources_int[] = {
 #ifdef HAVE_D3D9_H
+static const resource_int_t resources_int[] = {
     { "FullscreenDevice", 0, RES_EVENT_NO, NULL,
       &ui_resources.fullscreendevice, set_fullscreen_device, NULL },
     { "FullscreenWidth", -1, RES_EVENT_NO, NULL,
@@ -310,9 +306,17 @@ static const resource_int_t resources_int[] = {
       &ui_resources.fullscreenrefreshrate, set_fullscreen_refreshrate, NULL },
     { "FullscreenEnabled", 0, RES_EVENT_NO, NULL,
       &ui_resources.fullscreenenabled, set_fullscreen_enabled, NULL },
-#endif
+    { "KeepAspectRatio", 1, RES_EVENT_NO, NULL,
+      &ui_resources.keep_aspect_ratio, set_keep_aspect_ratio, NULL },
+    { "TrueAspectRatio", 1, RES_EVENT_NO, NULL,
+      &ui_resources.true_aspect_ratio, set_true_aspect_ratio, NULL },
+    { "AspectRatio", 1000, RES_EVENT_NO, NULL,
+      &ui_resources.aspect_ratio, set_aspect_ratio, NULL },
+    { "VBLANKSync", 0, RES_EVENT_NO, NULL,
+      &ui_resources.vblank_sync, set_vblank_sync, NULL },
     { NULL }
 };
+#endif
 
 static const resource_int_t window0_resources_int[] = {
     { "Window0Xpos", CW_USEDEFAULT, RES_EVENT_NO, NULL,
@@ -369,9 +373,13 @@ int ui_resources_init(void)
         if (resources_register_int(window0_resources_int) < 0) {
             return -1;
         }
-        if (resources_register_int(resources_int) < 0) {
-            return -1;
+#ifdef HAVE_D3D9_H
+        if (machine_class != VICE_MACHINE_VSID) {
+            if (resources_register_int(resources_int) < 0) {
+                return -1;
+            }
         }
+#endif
         if (resources_register_string(resources_string) < 0) {
             return -1;
         }
@@ -409,27 +417,8 @@ int ui_vblank_sync_enabled()
 
 /* UI-related command-line options.  */
 
-static const cmdline_option_t common_cmdline_options[] = {
-    { "-saveres", SET_RESOURCE, 0,
-      NULL, NULL, "SaveResourcesOnExit", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDS_SAVE_SETTINGS_ON_EXIT,
-      NULL, NULL },
-    { "+saveres", SET_RESOURCE, 0,
-      NULL, NULL, "SaveResourcesOnExit", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDS_NO_SAVE_SETTINGS_ON_EXIT,
-      NULL, NULL },
-    { "-confirmexit", SET_RESOURCE, 0,
-      NULL, NULL, "ConfirmOnExit", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDS_CONFIRM_QUIT_VICE,
-      NULL, NULL },
-    { "+confirmexit", SET_RESOURCE, 0,
-      NULL, NULL, "ConfirmOnExit", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDS_NO_CONFIRM_QUIT_VICE,
-      NULL, NULL },
+#ifdef HAVE_D3D9_H
+static const cmdline_option_t dx9_cmdline_options[] = {
     { "-vblanksync", SET_RESOURCE, 0,
       NULL, NULL, "VBLANKSync", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -439,16 +428,6 @@ static const cmdline_option_t common_cmdline_options[] = {
       NULL, NULL, "VBLANKSync", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDS_DISABLE_VBLANK_SYNC,
-      NULL, NULL },
-    { "-alwaysontop", SET_RESOURCE, 0,
-      NULL, NULL, "AlwaysOnTop", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDS_ENABLE_ALWAYS_ON_TOP,
-      NULL, NULL },
-    { "+alwaysontop", SET_RESOURCE, 0,
-      NULL, NULL, "AlwaysOnTop", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDS_DISABLE_ALWAYS_ON_TOP,
       NULL, NULL },
     { "-keepaspect", SET_RESOURCE, 0,
       NULL, NULL, "KeepAspectRatio", (resource_value_t)1,
@@ -474,6 +453,41 @@ static const cmdline_option_t common_cmdline_options[] = {
       NULL, NULL, "AspectRatio", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDS_P_ASPECT_RATIO, IDS_SET_ASPECT_RATIO,
+      NULL, NULL },
+    { NULL }
+};
+#endif
+
+static const cmdline_option_t common_cmdline_options[] = {
+    { "-saveres", SET_RESOURCE, 0,
+      NULL, NULL, "SaveResourcesOnExit", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_SAVE_SETTINGS_ON_EXIT,
+      NULL, NULL },
+    { "+saveres", SET_RESOURCE, 0,
+      NULL, NULL, "SaveResourcesOnExit", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_NO_SAVE_SETTINGS_ON_EXIT,
+      NULL, NULL },
+    { "-confirmexit", SET_RESOURCE, 0,
+      NULL, NULL, "ConfirmOnExit", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_CONFIRM_QUIT_VICE,
+      NULL, NULL },
+    { "+confirmexit", SET_RESOURCE, 0,
+      NULL, NULL, "ConfirmOnExit", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_NO_CONFIRM_QUIT_VICE,
+      NULL, NULL },
+    { "-alwaysontop", SET_RESOURCE, 0,
+      NULL, NULL, "AlwaysOnTop", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_ENABLE_ALWAYS_ON_TOP,
+      NULL, NULL },
+    { "+alwaysontop", SET_RESOURCE, 0,
+      NULL, NULL, "AlwaysOnTop", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_DISABLE_ALWAYS_ON_TOP,
       NULL, NULL },
     { "-initialdefaultdir", SET_RESOURCE, 1,
       NULL, NULL, "InitialDefaultDir", NULL,
@@ -559,6 +573,14 @@ int ui_cmdline_options_init(void)
             return -1;
         }
     }
+
+#ifdef HAVE_D3D9_H
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (cmdline_register_options(dx9_cmdline_options) < 0) {
+            return -1;
+        }
+    }
+#endif
 
     return cmdline_register_options(common_cmdline_options);
 }
