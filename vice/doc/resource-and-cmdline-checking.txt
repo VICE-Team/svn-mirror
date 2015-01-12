@@ -3153,8 +3153,8 @@ resource range:                 N/A
 resource default:               ""
 resource function:              set_initial_dir()
 resource var:                   ui_resources.initialdir[0]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:				vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+not used in:				
 prepocessor:
 command-line:                   -initialdefaultdir
 platform gui present:           windows

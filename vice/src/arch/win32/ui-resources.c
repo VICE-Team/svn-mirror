@@ -253,6 +253,8 @@ static int set_aspect_ratio(int val, void *param)
 static const resource_string_t monitor_resources_string[] = {
     { "MonitorDimensions", "", RES_EVENT_NO, NULL,
       &ui_resources.monitor_dimensions, set_monitor_dimensions, NULL },
+    { "InitialDefaultDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[0], set_initial_dir, (void *)0 },
     { NULL }
 };
 
@@ -269,8 +271,6 @@ static const resource_string_t tape_resources_string[] = {
 };
 
 static const resource_string_t resources_string[] = {
-    { "InitialDefaultDir", "", RES_EVENT_NO, NULL,
-      &ui_resources.initialdir[0], set_initial_dir, (void *)0 },
     { "InitialDiskDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[2], set_initial_dir, (void *)2 },
     { "InitialAutostartDir", "", RES_EVENT_NO, NULL,
@@ -475,15 +475,15 @@ static const cmdline_option_t common_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDS_P_ASPECT_RATIO, IDS_SET_ASPECT_RATIO,
       NULL, NULL },
-    { NULL }
-};
-
-static const cmdline_option_t cmdline_options[] = {
     { "-initialdefaultdir", SET_RESOURCE, 1,
       NULL, NULL, "InitialDefaultDir", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDS_SPECIFY_INITIAL_DEFAULT_DIR,
       NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t cmdline_options[] = {
     { "-initialdiskdir", SET_RESOURCE, 1,
       NULL, NULL, "InitialDiskDir", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
