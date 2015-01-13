@@ -15,13 +15,6 @@ TrueAspectRatio
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
-UNNEEDED SDL VSID RESOURCES
-===========================
-
-SDLStatusbar=0
-	
-------------------------------------------------------------------------------------------------------------------------------------
-
 FIXED/CORRECT AMIGA ONLY COMMON RESOURCES/CMDLINES:
 ===================================================
 
@@ -1513,8 +1506,8 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_statusbar()
 resource var:                   statusbar_enabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:
 command-line:                   -statusbar / +statusbar
 platform gui present:           sdl

@@ -42,6 +42,7 @@
 #include "lib.h"
 #include "lightpen.h"
 #include "log.h"
+#include "machine.h"
 #include "mouse.h"
 #include "mousedrv.h"
 #include "resources.h"
@@ -561,7 +562,10 @@ int ui_resources_init(void)
         return -1;
     }
 
-    return uistatusbar_init_resources();
+    if (machine_class != VICE_MACHINE_VSID) {
+        return uistatusbar_init_resources();
+    }
+    return 0;
 }
 
 void ui_resources_shutdown(void)
@@ -611,6 +615,10 @@ static const cmdline_option_t cmdline_options[] = {
     { "+confirmonexit", SET_RESOURCE, 0, NULL, NULL, "ConfirmOnExit", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable confirm on exit" },
+    CMDLINE_LIST_END
+};
+
+static const cmdline_option_t statusbar_cmdline_options[] = {
     { "-statusbar", SET_RESOURCE, 0, NULL, NULL, "SDLStatusbar", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Enable statusbar" },
@@ -623,6 +631,12 @@ static const cmdline_option_t cmdline_options[] = {
 int ui_cmdline_options_init(void)
 {
     DBG(("%s", __func__));
+
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (cmdline_register_options(statusbar_cmdline_options) < 0) {
+            return -1;
+        }
+    }
 
     return cmdline_register_options(cmdline_options);
 }
