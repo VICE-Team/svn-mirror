@@ -1,5 +1,734 @@
 ------------------------------------------------------------------------------
 
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, Makefile.am, build/android/build-android.sh,
+	configure.proto, doc/vice.chm, doc/vice.guide, doc/vice.hlp,
+	doc/vice.inf, doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po,
+	po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h, src/viciivsid: VICE
+	2.4.14
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt: Updated.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/win32/ui-resources.c: Removed windows aspect ratio and vblank
+	resources from vsid.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/win32/ui-resources.c: Reverted the removal of the
+	"InitialDefaultDir" from the windows vsid port, since it is used when
+	browsing for sid files
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/video/video-cmdline-options.c, src/video/video-resources.c:
+	Removed all the other "VICII*" resources from vsid.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/raster/raster-cmdline-options.c, src/raster/raster-resources.c:
+	Removed the "VICIIVideoCache" resource from vsid.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/vsidui.c: Removed video settings menu from the sdl vsid
+	gui.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/win32/fullscrn.c,
+	src/arch/win32/ui-resources.c, src/arch/win32/video.c: Removed windows
+	fullscreen and dx9 related resources from vsid.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/viciivsid/vicii-resources.h,
+	src/viciivsid/viciivsid-cmdline-options.c,
+	src/viciivsid/viciivsid-color.c, src/viciivsid/viciivsid-mem.c,
+	src/viciivsid/viciivsid-resources.c, src/viciivsid/viciivsid.c:
+	Removed the "VICIICheckSsColl", "VICIICheckSbColl" and
+	"VICIINewLuminances" resources from viciivsid.
+
+2015-01-12  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2015-01-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/gnome/uidrivestatus.c,
+	src/arch/unix/x11/xaw/uidrivestatus.c, src/drive/drive.c,
+	src/drive/drive.h: Split LED colours, LED colour fixes, 1001 not dual
+
+2015-01-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/beos/ui_drive.cc: Add 1540 to the list
+
+2015-01-11  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui.cc, src/arch/beos/ui_drive.cc: Fixed BeVICE compile
+	and drive RTC UI element.
+
+2015-01-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive.h: Forgot about DRIVE_TYPE_NUM...
+
+2015-01-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	build/android/push-roms.sh, data/C128/default.vrs,
+	data/C64/default.vrs, data/C64DTV/default.vrs,
+	data/DRIVES/Makefile.am, data/DRIVES/dos1540, data/PLUS4/default.vrs,
+	data/SCPU64/default.vrs, data/VIC20/default.vrs,
+	doc/resource-and-cmdline-checking.txt, doc/vice.pdf, doc/vice.texi,
+	src/Makefile.am, src/arch/amigaos/mui/uidrivec128.c,
+	src/arch/amigaos/mui/uidrivec64.c,
+	src/arch/amigaos/mui/uidrivec64dtv.c,
+	src/arch/amigaos/mui/uidriveplus4.c,
+	src/arch/amigaos/mui/uidrivevic20.c,
+	src/arch/amigaos/mui/uiromc128settings.c,
+	src/arch/amigaos/mui/uiromc64settings.c,
+	src/arch/amigaos/mui/uiromplus4settings.c,
+	src/arch/amigaos/mui/uiromscpu64settings.c,
+	src/arch/amigaos/mui/uiromvic20settings.c,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x128,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64dtv,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64sc,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xplus4,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xscpu64,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xvic,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java,
+	src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/plus4ui.cc, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc,
+	src/arch/msdos/c128ui.c, src/arch/msdos/c64dtvui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/plus4ui.c,
+	src/arch/msdos/scpu64ui.c, src/arch/msdos/uidrivec128.c,
+	src/arch/msdos/uidrivec64.c, src/arch/msdos/uidrivec64dtv.c,
+	src/arch/msdos/uidriveplus4.c, src/arch/msdos/uidrivevic20.c,
+	src/arch/msdos/vic20ui.c, src/arch/os2/dialogs/dlg-drive.c,
+	src/arch/os2/dialogs/dlg-fileio.c, src/arch/os2/makedist.cmd,
+	src/arch/os2/watcom/makebindist.bat,
+	src/arch/sdl/dingoo-files/sdl-vicerc,
+	src/arch/sdl/dingoo-files/vicerc-native,
+	src/arch/sdl/make-bindist_qnx6.sh, src/arch/sdl/menu_drive.c,
+	src/arch/sdl/menu_drive_rom.c, src/arch/unix/gui/uidrivec128.c,
+	src/arch/unix/gui/uidrivec64vic20.c, src/arch/unix/gui/uidriveplus4.c,
+	src/arch/unix/hpux/make-bindist.sh,
+	src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	src/arch/unix/macosx/cocoa/dialog/drivesettingswindowcontroller.m,
+	src/arch/unix/qnx6/make-bindist.sh, src/arch/win32/c128ui.c,
+	src/arch/win32/c64dtvui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resdrivec128.rc,
+	src/arch/win32/resdrivec64.rc, src/arch/win32/resdrivec64dtv.rc,
+	src/arch/win32/resdriveplus4.rc, src/arch/win32/resdrivevic20.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/uidrivec128.c, src/arch/win32/uidrivec64.c,
+	src/arch/win32/uidrivec64dtv.c, src/arch/win32/uidriveplus4.c,
+	src/arch/win32/uidrivevic20.c, src/arch/win32/vic20ui.c,
+	src/autostart-prg.c, src/c128/c128romset.c, src/c1541.c,
+	src/c64/c64romset.c, src/drive/drive-check.c,
+	src/drive/drive-cmdline-options.c, src/drive/drive-resources.c,
+	src/drive/drive-snapshot.c, src/drive/drive.c, src/drive/drive.h,
+	src/drive/drivecpu.c, src/drive/driveimage.c, src/drive/drivemem.c,
+	src/drive/driverom.c, src/drive/driverom.h, src/drive/drivesync.c,
+	src/drive/iec/c64exp/dolphindos3.c, src/drive/iec/c64exp/supercard.c,
+	src/drive/iec/iec-cmdline-options.c, src/drive/iec/iec-resources.c,
+	src/drive/iec/iec.c, src/drive/iec/iecrom.c, src/drive/iec/iecrom.h,
+	src/drive/iec/memiec.c, src/drive/iec/via1d1541.c,
+	src/drive/iecieee/iecieee.c, src/embedded.c, src/findhacks.sh,
+	src/plus4/plus4romset.c, src/translate.txt, src/translate_text.c,
+	src/vic20/vic20drive.c, src/vic20/vic20romset.c: Add 1540 and make it
+	default for VIC-20
+
+2015-01-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive.c, src/drive/drive.h, src/drive/drivecpu.c,
+	src/drive/drivecpu65c02.c, src/drive/drivemem.c, src/drive/drivemem.h,
+	src/drive/drivetypes.h, src/drive/iec/c64exp/dolphindos3.c,
+	src/drive/iec/c64exp/profdos.c, src/drive/iec/c64exp/supercard.c,
+	src/drive/iec/memiec.c, src/drive/ieee/fdc.c,
+	src/drive/ieee/memieee.c, src/drive/tcbm/glue1551.c,
+	src/drive/tcbm/mem1551.c: Use tables for drive base/limit
+
+2015-01-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/ieee/memieee.c: Missing return...
+
+2015-01-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/driverom.c, src/drive/driverom.h: Ok, better like this
+
+2015-01-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/memiec.c, src/drive/ieee/memieee.c,
+	src/drive/tcbm/mem1551.c: Easier drive maps, ieee map corrections
+
+2015-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uihelp.c: Fixed opening of the help file (vice.chm)
+	for the windows port.
+
+2015-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/gui-feature-checking.txt, src/arch/win32/c128ui.c,
+	src/arch/win32/c64dtvui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/cbm2ui.c, src/arch/win32/cbm5x0ui.c,
+	src/arch/win32/petui.c, src/arch/win32/plus4ui.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm5x0.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvsid.rc, src/arch/win32/scpu64ui.c,
+	src/arch/win32/ui.c, src/arch/win32/uihelp.c,
+	src/arch/win32/vic20ui.c, src/arch/win32/vsidui.c: Added compile time
+	feature list support to the windows gui.
+
+2015-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/driverom.c: Warning fix.
+
+2015-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/gui-feature-checking.txt, src/arch/unix/x11/xaw/about.c: Added
+	compile time feature list support to the xaw gui.
+
+2015-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/gui-feature-checking.txt, src/arch/sdl/menu_help.c: Added
+	compile time feature list support to the sdl gui.
+
+2015-01-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drivemem.c, src/drive/drivemem.h, src/drive/iec/memiec.c,
+	src/drive/ieee/memieee.c, src/drive/tcbm/mem1551.c: Move
+	drive_read_rom
+
+2015-01-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drivecpu.c, src/drive/drivecpu65c02.c,
+	src/drive/drivemem.c, src/drive/drivemem.h: Move common stuff to
+	drivemem
+
+2015-01-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128memsnapshot.c, src/c64/c64memsnapshot.c,
+	src/plus4/plus4memsnapshot.c, src/vic20/vic20memsnapshot.c: No need to
+	toggle traps, there's a separate ROM
+
+2015-01-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/Makefile.am, src/drive/driverom.c, src/drive/driverom.h,
+	src/drive/iec/iecrom.c, src/drive/iec128dcr/iec128dcrrom.c,
+	src/drive/ieee/ieeerom.c, src/drive/tcbm/tcbmrom.c, src/embedded.c:
+	General drive rom loader
+
+2015-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/gui-feature-checking.txt, src/arch/beos/constants.h,
+	src/arch/beos/ui.cc, src/arch/beos/vicemenu.cc: Added compile time
+	feature list support to the beos gui.
+
+2015-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/gui-feature-checking.txt, src/arch/amigaos/c128uires.h,
+	src/arch/amigaos/c64dtvuires.h, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/cbm2uires.h, src/arch/amigaos/cbm5x0uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/scpu64uires.h, src/arch/amigaos/ui.c,
+	src/arch/amigaos/uires.h, src/arch/amigaos/vic20uires.h: Added compile
+	time feature list support to the amiga gui.
+
+2015-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/gnome/about.c: Style fix.
+
+2015-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/win32/vs_tmpl/vsidlib.tmpl, src/c64/Makefile.am,
+	src/c64/vsid-resources.c, src/c64/vsid.c, src/viciivsid/Makefile.am,
+	src/viciivsid/vicii-resources.h, src/viciivsid/vicii-timing.h,
+	src/viciivsid/viciivsid-cmdline-options.c,
+	src/viciivsid/viciivsid-resources.c, src/viciivsid/viciivsid-timing.c,
+	src/viciivsid/viciivsid.c, src/viciivsid/viciivsid.h: Removed
+	bordermode from viciivsid.
+
+2015-01-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-check.c: There are idle traps for 2040/3040/4040
+	too.
+
+2015-01-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/memiec.c, src/drive/ieee/memieee.c,
+	src/drive/tcbm/mem1551.c: Use drivemem_set_func everywhere
+
+2015-01-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ciacore.c: Don't forget the idle alarm...
+
+2015-01-09  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/mui/filereq.c, src/arch/msdos/uiattach.c,
+	src/arch/os2/dialogs/dlg-create.c, src/arch/os2/dialogs/dlg-fileio.c,
+	src/arch/unix/x11/gnome/uiedisk.c,
+	src/arch/unix/x11/gnome/uifileentry.c,
+	src/arch/unix/x11/xaw/widgets/DirMgr.c,
+	src/arch/unix/x11/xaw/widgets/RegExp.c,
+	src/arch/unix/x11/xaw/widgets/RegExp.h, src/arch/unix/x11/xaw/x11ui.c,
+	src/arch/win32/uilib.c, src/zfile.c: Improve image file filters
+
+2015-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/viciivsid/viciitypes.h, src/viciivsid/viciivsid-badline.c,
+	src/viciivsid/viciivsid-fetch.c, src/viciivsid/viciivsid-irq.c,
+	src/viciivsid/viciivsid-mem.c, src/viciivsid/viciivsid.c: Removed more
+	unneeded code from viciivsid.
+
+2015-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/monitor.c: Applied patch by David Wood and Greg King to
+	fix a nullification of the monitor labels list, should fix bug #596.
+
+2015-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/viciivsid/viciitypes.h, src/viciivsid/viciivsid-mem.c,
+	src/viciivsid/viciivsid.c: Removed viciie elements from viciivsid.
+
+2015-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/viciivsid.tmpl, src/viciivsid/Makefile.am,
+	src/viciivsid/viciivsid-clock-stretch.c: Removed the unneeded vicii
+	clock stretch code from viciivsid.
+
+2015-01-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/Info.plist,
+	src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/IECDriveSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/PrinterSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/SoundSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/VICEInformation.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/VICEInformation.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xvic.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xvic.nib/keyedobjects.nib,
+	src/arch/unix/macosx/VICE.xcodeproj/project.pbxproj,
+	src/arch/unix/macosx/cocoa/dialog/drivesettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/drivesettingswindowcontroller.m,
+	src/arch/unix/macosx/todo.txt: more OSX UI updates
+
+2015-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/viciivsid.tmpl, src/viciivsid/Makefile.am,
+	src/viciivsid/viciivsid-badline.c,
+	src/viciivsid/viciivsid-clock-stretch.c,
+	src/viciivsid/viciivsid-cmdline-options.c,
+	src/viciivsid/viciivsid-color.c, src/viciivsid/viciivsid-draw.c,
+	src/viciivsid/viciivsid-fetch.c, src/viciivsid/viciivsid-irq.c,
+	src/viciivsid/viciivsid-mem.c, src/viciivsid/viciivsid-phi1.c,
+	src/viciivsid/viciivsid-resources.c,
+	src/viciivsid/viciivsid-snapshot.c, src/viciivsid/viciivsid-sprites.c,
+	src/viciivsid/viciivsid-stubs.c, src/viciivsid/viciivsid-timing.c,
+	src/viciivsid/viciivsid.c: Removed the useless viciivsid-stubs.c file
+	and removed some of the dtv specific code from viciivsid.
+
+2015-01-07  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/fdd.c, src/drive/iec/fdd.h, src/drive/iec/iec.c,
+	src/drive/iec/wd1770.c, src/drive/iec/wd1770.h: Add some snapshot
+	stuff.
+
+2015-01-07  groepaz <groepaz@gmx.net>
+
+	* src/viciivsid/viciivsid-irq.c, src/viciivsid/viciivsid-stubs.c,
+	src/viciivsid/viciivsid.c: remove some DTV things to make it compile
+	again
+
+2015-01-07  groepaz <groepaz@gmx.net>
+
+	* src/drive/drive.h: added DRIVE_TYPE_NUM
+
+2015-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Forgot to add the viciivsid library to
+	configure.proto.
+
+2015-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/Makefile.am,
+	src/arch/win32/vs_tmpl/Makefile.am, src/arch/win32/vs_tmpl/vice.tmpl,
+	src/arch/win32/vs_tmpl/viciivsid.tmpl,
+	src/arch/win32/vs_tmpl/vsid.tmpl, src/viciivsid,
+	src/viciivsid/Makefile.am, src/viciivsid/vicii-badline.h,
+	src/viciivsid/vicii-cmdline-options.h, src/viciivsid/vicii-color.h,
+	src/viciivsid/vicii-draw.h, src/viciivsid/vicii-fetch.h,
+	src/viciivsid/vicii-irq.h, src/viciivsid/vicii-mem.h,
+	src/viciivsid/vicii-phi1.h, src/viciivsid/vicii-resources.h,
+	src/viciivsid/vicii-snapshot.h, src/viciivsid/vicii-sprites.h,
+	src/viciivsid/vicii-timing.h, src/viciivsid/viciitypes.h,
+	src/viciivsid/viciivsid-badline.c,
+	src/viciivsid/viciivsid-clock-stretch.c,
+	src/viciivsid/viciivsid-cmdline-options.c,
+	src/viciivsid/viciivsid-color.c, src/viciivsid/viciivsid-draw.c,
+	src/viciivsid/viciivsid-fetch.c, src/viciivsid/viciivsid-irq.c,
+	src/viciivsid/viciivsid-mem.c, src/viciivsid/viciivsid-phi1.c,
+	src/viciivsid/viciivsid-resources.c,
+	src/viciivsid/viciivsid-snapshot.c, src/viciivsid/viciivsid-sprites.c,
+	src/viciivsid/viciivsid-stubs.c, src/viciivsid/viciivsid-timing.c,
+	src/viciivsid/viciivsid.c: Started on a cutdown version of the vicii
+	library for vsid.
+
+2015-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi,
+	src/arch/win32/ui-resources.c: Removed the windows "Window0Xpos" and
+	"Window0Ypos" from vsid and made the windows "Window1Xpos" and
+	"Window1Ypos" resources x128 only.
+
+2015-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am: Fixed a typo.
+
+2015-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi,
+	src/arch/win32/ui-resources.c: Removed unneeded "InitialDefault*Dir"
+	resources from the windows vsid port.
+
+2015-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/ram.c: Removed the
+	"RAMInitStartValue", "RAMInitValueInvert" and "RAMInitPatternInvert"
+	resources from vsid.
+
+2015-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/c64/c64gluelogic.c, src/c64/vsid-cmdline-options.c,
+	src/c64/vsid-resources.c, src/c64/vsid.c: Removed some more unneeded
+	vsid resources.
+
+2015-01-06  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt: updated
+
+2015-01-06  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/DriveSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib,
+	src/arch/unix/macosx/VICE.xcodeproj/project.pbxproj,
+	src/arch/unix/macosx/cocoa/dialog/sidsettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/vicefilepanel.m,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m: more OSX UI
+	updates
+
+2015-01-06  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt: updated
+
+2015-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/c64/vsid-resources.c:
+	Removed the "KeymapSymFile", "KeymapPosFile", "KeymapSymDeFile" and
+	"KeymapIndex" resources from vsid.
+
+2015-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/amigaos/video.c,
+	src/arch/beos/video.cc, src/arch/msdos/video.c, src/arch/os2/video.c,
+	src/arch/sdl/video.c, src/arch/unix/macosx/cocoa/video.m,
+	src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/xaw/x11video.c, src/arch/win32/video.c,
+	src/translate.txt, src/translate_text.c,
+	src/video/video-cmdline-options.c, src/video/video-resources.c,
+	src/video.h: Removed the HwScalePossible resource from vsid and made
+	the handling of the resource more sane.
+
+2015-01-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	added some more stuff to resource tree
+
+2015-01-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	add no border mode for VIC/TED to OSXUI
+
+2015-01-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib:
+	add no border mode for VICII to OSXUI
+
+2015-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsid-resources.c: Added one more missing includes.
+
+2015-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsid-resources.c: Added missing includes.
+
+2015-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt: Updated.
+
+2015-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsid-resources.c: Added 'KernalRev' resource to the
+	vsid-resource.c file.
+
+2015-01-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/ui.c, src/arch/unix/x11/gnome/uistatusbar.c: fix
+	read from unknown resource UserportJoy
+
+2015-01-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/keyedobjects.nib:
+	added missing c64 models to x64sc /OSX UI
+
+2015-01-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib:
+	added missing c64 models to x64 /OSX UI
+
+2015-01-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/private.h, src/arch/amigaos/ui.c,
+	src/arch/msdos/menudefs.c, src/arch/sdl/menu_reset.c,
+	src/arch/unix/gui/uicommands.c,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	src/arch/win32/ui.c, src/c128/c128.c, src/c128/c128cia1.c,
+	src/c128/c128fastiec.c, src/c64/c64-snapshot.c, src/c64/c64.c,
+	src/c64/c64cia1.c, src/c64/c64cia2.c, src/c64/c64fastiec.c,
+	src/c64/c64parallel.c, src/c64/cart/c64tpi.c, src/c64/vsid-snapshot.c,
+	src/c64/vsidstubs.c, src/c64dtv/c64dtv-snapshot.c,
+	src/c64dtv/c64dtv.c, src/cbm2/cbm2.c, src/cbm2/cbm2cia1.c,
+	src/cbm2/cbm2tpi1.c, src/cbm2/cbm5x0.c, src/drive/drive.c,
+	src/drive/drive.h, src/drive/drivecpu.c, src/drive/drivecpu.h,
+	src/drive/drivecpu65c02.c, src/drive/drivecpu65c02.h,
+	src/drive/iec/cia1581d.c, src/drive/iec/pc8477.c,
+	src/drive/iec/via1d1541.c, src/drive/iec/via4000.c,
+	src/drive/iec/wd1770.c, src/drive/ieee/fdc.c, src/drive/ieee/riot2d.c,
+	src/drive/ieee/via1d2031.c, src/iecbus/iecbus.c, src/init.c,
+	src/monitor/monitor.c, src/parallel/parallel.c, src/pet/pet.c,
+	src/pet/petpia1.c, src/pet/petpia2.c, src/pet/petvia.c,
+	src/plus4/plus4-snapshot.c, src/plus4/plus4.c,
+	src/plus4/plus4parallel.c, src/plus4/plus4tcbm.c,
+	src/scpu64/scpu64-snapshot.c, src/scpu64/scpu64.c, src/vic20/vic20.c,
+	src/vic20/vic20iec.c, src/vic20/vic20ieeevia1.c,
+	src/vic20/vic20ieeevia2.c: More drivecpu cleanup. And 65C02 reset
+	works all the time now.
+
+2015-01-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uijoystatus.c: use gtk_widget_hide instead
+	of gtk_widget_hide_all
+
+2015-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt: Removed 'jamaction' from the
+	vsid list.
+
+2015-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/translate_text.c: Some more resource/cmdline/documentation fixes,
+	and prepended a list of 'unneeded vsid resource/cmdline-options' to
+	the list.
+
+2015-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/translate.txt, src/translate_text.c,
+	src/vic20/cart/vic20-sidcart.c: Some more
+	resource/cmdline/documentation fixes.
+
+2015-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/translate_text.c: Some more resource/cmdline/documentation fixes.
+
+2015-01-04  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/sdl/menu_debug.c,
+	src/arch/sdl/menu_debug.h, src/arch/sdl/x64dtv_ui.c: added missing
+	debug options to SDL UI
+
+2015-01-04  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/sdl/menu_drive.c,
+	src/arch/sdl/menu_drive.h, src/arch/sdl/x128_ui.c,
+	src/arch/sdl/x64_ui.c, src/arch/sdl/x64dtv_ui.c,
+	src/arch/sdl/x64sc_ui.c, src/arch/sdl/xcbm2_ui.c,
+	src/arch/sdl/xpet_ui.c, src/arch/sdl/xplus4_ui.c,
+	src/arch/sdl/xscpu64_ui.c, src/arch/sdl/xvic_ui.c: build drive menu at
+	runtime, handle different types of DriveNParallelCable
+
+2015-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/plus4/plus4-sidcart.c, src/translate.txt, src/translate_text.c:
+	Some more resource/cmdline/documentation fixes.
+
+2015-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/gnome/about.c: style fix.
+
+2015-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/gui-feature-checking.txt: Updated.
+
+2015-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_help.c: Improved slightly.
+
+2015-01-04  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/sdl/menu_drive.c:
+	added menu items for AttachDeviceNReadonly to SDL UI
+
+2015-01-04  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/sdl/menu_video.c:
+	added menu items for VICIICheckSsColl and VICIICheckSbColl to SDL UI
+
+2015-01-04  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/sdl/menu_vic20cart.c: added menu item for vic20
+	iocollisionhandling to SDL UI
+
+2015-01-04  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/sdl/menu_c64cart.c:
+	added menu item for iocollisionhandling to SDL UI
+
+2015-01-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/gui/uicommands.c: Add  missing include
+
+2015-01-03  groepaz <groepaz@gmx.net>
+
+	* doc/gui-feature-checking.txt, src/arch/sdl/menu_c64cart.c,
+	src/arch/sdl/menu_c64cart.h, src/arch/sdl/x128_ui.c,
+	src/arch/sdl/x64_ui.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xscpu64_ui.c, src/arch/unix/gui/c128ui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/scpu64ui.c, src/arch/unix/gui/uic64cart.c,
+	src/arch/unix/gui/uic64cart.h, src/c64/cart/c64cart.c,
+	src/cartridge.h: added common list of cartridges for C64, which UIs
+	can/should use to build the "attach binary image" menu. updated unix
+	and sdl ports.
+
+2015-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/pet/pet-sidcart.c, src/translate.txt, src/translate_text.c: Some
+	more resource/cmdline/documentation fixes.
+
+2015-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/arch/amigaos/joy.c, src/arch/amigaos/joyll.c,
+	src/arch/beos/joy.cc, src/arch/msdos/joy.c, src/arch/os2/joy.c,
+	src/arch/sdl/joy.c, src/arch/unix/joy.c, src/arch/unix/macosx/joy.c,
+	src/arch/win32/joy.c, src/joystick.c, src/joystick.h,
+	src/pet/pet-cmdline-options.c, src/translate.txt,
+	src/translate_text.c: Some more resource/cmdline/documentation fixes.
+
+2015-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added POTFILES.in to the list of 'dos2unix'
+	conversions.
+
+2015-01-03  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicommands.c: sanitize... TERM doesnt actually
+	hold the name of the terminal emulator binary, too bad :(
+
+2015-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am: Fixed a typo.
+
+2015-01-02  Marcus Sutton <loggedoubt@gmail.com>
+
+	* doc/Doxyfile, doc/indent-test.c, doc/mainpage.dox: Fix some svn
+	properties I missed.
+
+2015-01-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicommands.c: try a couple of known terms instead
+	of relying on xterm
+
+2015-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt: doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Some more resource/cmdline/documentation fixes.
+
+2015-01-02  groepaz <groepaz@gmx.net>
+
+	* doc/gui-feature-checking.txt, src/arch/unix/gui/ui.c,
+	src/arch/unix/x11/gnome/Makefile.am, src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/uijoystatus.c,
+	src/arch/unix/x11/gnome/uijoystatus.h,
+	src/arch/unix/x11/gnome/uistatusbar.c,
+	src/arch/unix/x11/gnome/x11ui.c: show joystick status in GTK UI
+
+2015-01-02  Uffe Jakobsen <microtop@starion.dk>
+
+	* src/ioutil.c: ioutil.c functions does not handle filesystem links
+	right. This problem was found using SDL build on linux: ioutil.c
+	functions treats any symbolic-link as a file - no matter if the
+	sym-link is actually for a directory. How to test (under SDL): make a
+	symbolic link that points to a directory and try to navigate to the
+	directory using the sym-link. What happends is that vice will try to
+	open the sym-links as if it was a file. This is only a problem for
+	platforms that define feature macro _DIRENT_HAVE_D_TYPE
+
 2015-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,

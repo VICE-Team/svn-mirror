@@ -424,6 +424,7 @@ dist dist-all:
 	$(DOS2UNIX) `find $(top_srcdir) -name "*.sh"`
 	$(DOS2UNIX) $(top_srcdir)/src/translate.txt
 	$(DOS2UNIX) $(top_srcdir)/doc/vice.texi
+	$(DOS2UNIX) $(top_srcdir)/po/POTFILES.in
 	$(MAKE) distdir
 	$(AMTAR) chf - $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
 	$(am__remove_distdir)
