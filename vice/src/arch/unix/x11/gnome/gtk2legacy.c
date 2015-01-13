@@ -59,6 +59,7 @@ GtkWidget *gtk_combo_box_text_new(void)
 {
     return gtk_combo_box_new_text();
 }
+
 /* since 2.24 */
 void gtk_combo_box_text_append_text(GtkComboBoxText *combo_box, const gchar *text)
 {
@@ -74,6 +75,7 @@ int gtk_widget_get_allocated_height(GtkWidget *widget)
     gtk_widget_get_allocation(widget, &allocation);
     return allocation.height;
 }
+
 int gtk_widget_get_allocated_width(GtkWidget *widget)
 {
     GtkAllocation allocation;
@@ -81,4 +83,3 @@ int gtk_widget_get_allocated_width(GtkWidget *widget)
     return allocation.width;
 }
 #endif
-
