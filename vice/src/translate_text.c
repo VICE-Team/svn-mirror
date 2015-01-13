@@ -11119,7 +11119,7 @@ translate_t string_table[] = {
 #endif
 
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_PET_SIDCART_CLOCK,    N_("SID cartridge address (0: C64 clock, 1: PET clock)")},
+/* en */ {IDCLS_PET_SIDCART_CLOCK,    N_("SID cartridge clock (0: C64 clock, 1: PET clock)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PET_SIDCART_CLOCK_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_PET_SIDCART_CLOCK_DE, ""},  /* fuzzy */
@@ -11136,7 +11136,7 @@ translate_t string_table[] = {
 #endif
 
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_PLUS4_SIDCART_CLOCK,    N_("SID cartridge address (0: C64 clock, 1: PLUS4 clock)")},
+/* en */ {IDCLS_PLUS4_SIDCART_CLOCK,    N_("SID cartridge clock (0: C64 clock, 1: PLUS4 clock)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PLUS4_SIDCART_CLOCK_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_PLUS4_SIDCART_CLOCK_DE, ""},  /* fuzzy */
@@ -11153,7 +11153,7 @@ translate_t string_table[] = {
 #endif
 
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_VIC20_SIDCART_CLOCK,    N_("SID cartridge address (0: C64 clock, 1: VIC20 clock)")},
+/* en */ {IDCLS_VIC20_SIDCART_CLOCK,    N_("SID cartridge clock (0: C64 clock, 1: VIC20 clock)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_VIC20_SIDCART_CLOCK_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_VIC20_SIDCART_CLOCK_DE, ""},  /* fuzzy */
