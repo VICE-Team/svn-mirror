@@ -1600,21 +1600,20 @@ msgid "Attach raw 16KB cartridge image"
 msgstr "Koppel binair 16KB cartridge bestand"
 
 #: src/arch/unix/gui/uic64cart.c:113
-#, fuzzy
 msgid "Attach raw ultimax cartridge image"
-msgstr "Koppel binair RamCart cartridge bestand"
+msgstr "Koppel binair ultimax cartridge bestand"
 
 #: src/arch/unix/gui/uic64cart.c:116
 msgid "Freezer"
-msgstr ""
+msgstr "Freezer"
 
 #: src/arch/unix/gui/uic64cart.c:117
 msgid "Games"
-msgstr ""
+msgstr "Spelletjes"
 
 #: src/arch/unix/gui/uic64cart.c:118
 msgid "Utilities"
-msgstr ""
+msgstr "Gebruiksprogrammas"
 
 #: src/arch/unix/gui/uic64cart.c:120 src/arch/unix/gui/vic20ui.c:329
 #: src/arch/win32/res.rc.po.c:1442 src/arch/amigaos/intl_text.c.po.c:1028
@@ -1679,9 +1678,8 @@ msgstr "Kon /bin/sh niet uitvoeren???"
 #. If a child process could not be created,
 #. or its status could not be retrieved
 #: src/arch/unix/gui/uicommands.c:158
-#, fuzzy
 msgid "Couldn't run terminal"
-msgstr "Kon xterm niet uitvoeren"
+msgstr "Kon terminal niet uitvoeren"
 
 #: src/arch/unix/gui/uicommands.c:163
 msgid "Unknown error while running c1541"
@@ -2395,9 +2393,8 @@ msgstr "Drive instellingen"
 
 #: src/arch/unix/gui/uidrivec128.c:257 src/arch/unix/gui/uidrivec64vic20.c:165
 #: src/arch/unix/gui/uidriveplus4.c:314
-#, fuzzy
 msgid "Load new 1540 ROM"
-msgstr "Laad nieuw 1541 ROM"
+msgstr "Laad nieuw 1540 ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:260 src/arch/unix/gui/uidrivec64vic20.c:168
 #: src/arch/unix/gui/uidriveplus4.c:317
@@ -5822,14 +5819,12 @@ msgid "Who made what?"
 msgstr "Wie heeft wat gemaakt?"
 
 #: src/arch/win32/res.rc.po.c:1032
-#, fuzzy
 msgid "VICE compile time features"
 msgstr "Speciale opties aanwezig bij het compileren"
 
 #: src/arch/win32/res.rc.po.c:1033
-#, fuzzy
 msgid "What compile time features are available?"
-msgstr "Welke commando opties zijn beschikbaar?"
+msgstr "Welke speciale compileer opties zijn beschikbaar?"
 
 #: src/arch/win32/res.rc.po.c:1036 src/arch/amigaos/intl_text.c.po.c:5018
 msgid "VICE is distributed WITHOUT ANY WARRANTY!"
@@ -8793,9 +8788,8 @@ msgid "VICE Message"
 msgstr "VICE bericht"
 
 #: src/arch/amigaos/intl_text.c.po.c:5046
-#, fuzzy
 msgid "Which compile time features are available?"
-msgstr "Welke commando opties zijn beschikbaar?"
+msgstr "Welke speciale compileer opties zijn beschikbaar?"
 
 #: src/arch/amigaos/intl_text.c.po.c:5102
 msgid "The device on this port is not a gamepad"
@@ -10567,14 +10561,12 @@ msgstr ""
 "5 = reset, 6 = reset teller."
 
 #: src/translate_text.c.po.c:3060
-#, fuzzy
 msgid "Enable opposite joystick directions"
 msgstr "Tegenovergestelde richtingen toestaan"
 
 #: src/translate_text.c.po.c:3077
-#, fuzzy
 msgid "Disable opposite joystick directions"
-msgstr "Tegenovergestelde richtingen toestaan"
+msgstr "Tegenovergestelde richtingen niet toestaan"
 
 #: src/translate_text.c.po.c:3094
 msgid "On autostart, load to BASIC start (without ',1')"
@@ -10960,14 +10952,12 @@ msgid "size in KB"
 msgstr "grootte in KB"
 
 #: src/translate_text.c.po.c:4783
-#, fuzzy
 msgid "size"
-msgstr "I/O grootte"
+msgstr "grootte"
 
 #: src/translate_text.c.po.c:4817
-#, fuzzy
 msgid "clock"
-msgstr "SID klok"
+msgstr "klok"
 
 #: src/translate_text.c.po.c:4834
 msgid "Size of the GEORAM expansion unit"
@@ -11726,9 +11716,8 @@ msgstr ""
 "toegang)"
 
 #: src/translate_text.c.po.c:8442
-#, fuzzy
 msgid "Specify name of 1540 DOS ROM image"
-msgstr "Geef de naam van het 1541 DOS ROM bestand"
+msgstr "Geef de naam van het 1540 DOS ROM bestand"
 
 #: src/translate_text.c.po.c:8459
 msgid "Specify name of 1541 DOS ROM image"
@@ -12018,11 +12007,11 @@ msgstr "Analoge kleuren achtergrond voor de PET 4032"
 
 #: src/translate_text.c.po.c:9666
 msgid "PET RAM size (4/8/16/32/96/128)"
-msgstr ""
+msgstr "PET RAM grootte (4/8/16/32/96/128)"
 
 #: src/translate_text.c.po.c:9683
 msgid "PET I/O size (256/2048)"
-msgstr ""
+msgstr "PET I/O grootte (256/2048)"
 
 #: src/translate_text.c.po.c:9700
 msgid "Enable userport diagnostic pin"
@@ -12097,9 +12086,8 @@ msgid "Amount of scan line shading for the CRT emulation"
 msgstr "Hoeveelheid van de scan lijn schaduw voor de CRT emulatie"
 
 #: src/translate_text.c.po.c:10006
-#, fuzzy
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a/6572)"
-msgstr "Zet VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
+msgstr "Zet VIC-II model (6569/6569r1/8565/6567/8562/6567r56a/6572)"
 
 #: src/translate_text.c.po.c:10023
 msgid "Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)"
@@ -12331,15 +12319,15 @@ msgstr "De SID cartridge uitschakelen"
 
 #: src/translate_text.c.po.c:10985
 msgid "SID cartridge address (0x8F00/0xE900)"
-msgstr ""
+msgstr "SID cartridge adres (0x8F00/0xE900)"
 
 #: src/translate_text.c.po.c:11002
 msgid "SID cartridge address (0xFD40/0xFE80)"
-msgstr ""
+msgstr "SID cartridge adres (0xFD40/0xFE80)"
 
 #: src/translate_text.c.po.c:11019
 msgid "SID cartridge address (0x9800/0x9C00)"
-msgstr ""
+msgstr "SID cartridge adres (0x9800/0x9C00)"
 
 #: src/translate_text.c.po.c:11036
 msgid "SID cartridge address (0: C64 clock, 1: PET clock)"
@@ -12519,14 +12507,12 @@ msgid "Use old luminances"
 msgstr "Gebruik oude kleuren"
 
 #: src/translate_text.c.po.c:11803
-#, fuzzy
 msgid "Enable the possibility of hardware scaling"
-msgstr "Activeer hardwareschaling"
+msgstr "Activeer de mogelijkheid van hardwareschaling"
 
 #: src/translate_text.c.po.c:11820
-#, fuzzy
 msgid "Disable the possibility of hardware scaling"
-msgstr "Hardwareschaling uitschakelen"
+msgstr "De mogelijkheid van hardwareschaling uitschakelen"
 
 #: src/translate_text.c.po.c:11837
 msgid "Enable double size"
@@ -12907,11 +12893,10 @@ msgid "Set sound buffer size to <value> msec"
 msgstr "Zet de geluidsbuffergrootte naar <waarde> msec"
 
 #: src/translate_text.c.po.c:13493
-#, fuzzy
 msgid ""
 "Set sound fragment size (0: very small, 1: small, 2: medium, 3: large, 4: "
 "very large)"
-msgstr "Zet geluidsfragment grootte (0 = klein, 1 = matig, 2 = groot)"
+msgstr "Zet geluidsfragment grootte (0: heel klein, 1: klein, 2: matig, 3: groot, 4: heel groot)"
 
 #: src/translate_text.c.po.c:13510
 msgid "Specify sound driver"
