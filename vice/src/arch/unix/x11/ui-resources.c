@@ -214,14 +214,6 @@ static const resource_int_t common_resources_int[] = {
       &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
       &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
-    { NULL }
-};
-
-static const resource_int_t resources_int[] = {
-    { "PrivateColormap", 0, RES_EVENT_NO, NULL,
-      &ui_resources.use_private_colormap, set_use_private_colormap, NULL },
-    { "DisplayDepth", 0, RES_EVENT_NO, NULL,
-      &ui_resources.depth, set_depth, NULL },
     { "Window0Width", 0, RES_EVENT_NO, NULL,
       &ui_resources.window0_width, set_width0, NULL },
     { "Window0Height", 0, RES_EVENT_NO, NULL,
@@ -230,6 +222,14 @@ static const resource_int_t resources_int[] = {
       &ui_resources.window0_xpos, set_xpos0, NULL },
     { "Window0Ypos", -1, RES_EVENT_NO, NULL,
       &ui_resources.window0_ypos, set_ypos0, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "PrivateColormap", 0, RES_EVENT_NO, NULL,
+      &ui_resources.use_private_colormap, set_use_private_colormap, NULL },
+    { "DisplayDepth", 0, RES_EVENT_NO, NULL,
+      &ui_resources.depth, set_depth, NULL },
 #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     { "UseFullscreen", 0, RES_EVENT_NO, NULL,
       &ui_resources.fs_enabled_pending, fullscreen_set_fs, NULL },
