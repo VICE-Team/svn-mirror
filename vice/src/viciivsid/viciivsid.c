@@ -328,7 +328,6 @@ static int init_raster(void)
         return -1;
     }
     raster_modes_set_idle_mode(raster->modes, VICII_IDLE_MODE);
-    resources_touch("VICIIVideoCache");
 
     vicii_set_geometry();
 
