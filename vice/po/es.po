@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-12 15:46-0800\n"
+"POT-Creation-Date: 2015-01-12 18:26-0800\n"
 "PO-Revision-Date: 2013-08-07 16:48+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
@@ -12485,15 +12485,15 @@ msgid "SID cartridge address (0x9800/0x9C00)"
 msgstr ""
 
 #: src/translate_text.c.po.c:11036
-msgid "SID cartridge address (0: C64 clock, 1: PET clock)"
+msgid "SID cartridge clock (0: C64 clock, 1: PET clock)"
 msgstr ""
 
 #: src/translate_text.c.po.c:11053
-msgid "SID cartridge address (0: C64 clock, 1: PLUS4 clock)"
+msgid "SID cartridge clock (0: C64 clock, 1: PLUS4 clock)"
 msgstr ""
 
 #: src/translate_text.c.po.c:11070
-msgid "SID cartridge address (0: C64 clock, 1: VIC20 clock)"
+msgid "SID cartridge clock (0: C64 clock, 1: VIC20 clock)"
 msgstr ""
 
 #: src/translate_text.c.po.c:11104
