@@ -209,13 +209,17 @@ static int set_bothint(int d, void *param)
 }
 #endif
 
-static const resource_int_t resources_int[] = {
-    { "PrivateColormap", 0, RES_EVENT_NO, NULL,
-      &ui_resources.use_private_colormap, set_use_private_colormap, NULL },
+static const resource_int_t common_resources_int[] = {
     { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
       &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
       &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "PrivateColormap", 0, RES_EVENT_NO, NULL,
+      &ui_resources.use_private_colormap, set_use_private_colormap, NULL },
     { "DisplayDepth", 0, RES_EVENT_NO, NULL,
       &ui_resources.depth, set_depth, NULL },
     { "Window0Width", 0, RES_EVENT_NO, NULL,
@@ -268,7 +272,13 @@ int ui_resources_init(void)
         }
     }
 
-    return resources_register_int(resources_int);
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (resources_register_int(resources_int) < 0) {
+            return -1;
+        }
+    }
+
+    return resources_register_int(common_resources_int);
 }
 
 void ui_resources_shutdown(void)
