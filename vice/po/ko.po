@@ -1537,9 +1537,8 @@ msgid "Attach raw 16KB cartridge image"
 msgstr "16kb 카트리지 이미지를 붙이세요"
 
 #: src/arch/unix/gui/uic64cart.c:113
-#, fuzzy
 msgid "Attach raw ultimax cartridge image"
-msgstr "8kb 카트리지 이미지를 붙이세요"
+msgstr ""
 
 #: src/arch/unix/gui/uic64cart.c:116
 msgid "Freezer"
@@ -1616,9 +1615,8 @@ msgstr "를 돌릴수 없습니다"
 #. If a child process could not be created,
 #. or its status could not be retrieved
 #: src/arch/unix/gui/uicommands.c:158
-#, fuzzy
 msgid "Couldn't run terminal"
-msgstr "를 돌릴수없습니다."
+msgstr ""
 
 #: src/arch/unix/gui/uicommands.c:163
 msgid "Unknown error while running c1541"
@@ -2332,9 +2330,8 @@ msgstr "드라이브 셋팅"
 
 #: src/arch/unix/gui/uidrivec128.c:257 src/arch/unix/gui/uidrivec64vic20.c:165
 #: src/arch/unix/gui/uidriveplus4.c:314
-#, fuzzy
 msgid "Load new 1540 ROM"
-msgstr "세로운 1541 ROM 불러오기"
+msgstr ""
 
 #: src/arch/unix/gui/uidrivec128.c:260 src/arch/unix/gui/uidrivec64vic20.c:168
 #: src/arch/unix/gui/uidriveplus4.c:317
@@ -5698,9 +5695,8 @@ msgid "VICE compile time features"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1033
-#, fuzzy
 msgid "What compile time features are available?"
-msgstr "어떤 커맨드 라인 옵션이 가능합니까?"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1036 src/arch/amigaos/intl_text.c.po.c:5018
 msgid "VICE is distributed WITHOUT ANY WARRANTY!"
@@ -8646,9 +8642,8 @@ msgid "VICE Message"
 msgstr "VICE 메세지"
 
 #: src/arch/amigaos/intl_text.c.po.c:5046
-#, fuzzy
 msgid "Which compile time features are available?"
-msgstr "어떤 커맨드 라인 옵션이 가능합니까?"
+msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:5102
 msgid "The device on this port is not a gamepad"
@@ -10212,14 +10207,12 @@ msgid ""
 msgstr ""
 
 #: src/translate_text.c.po.c:3060
-#, fuzzy
 msgid "Enable opposite joystick directions"
-msgstr "반대 방향 허가하기"
+msgstr ""
 
 #: src/translate_text.c.po.c:3077
-#, fuzzy
 msgid "Disable opposite joystick directions"
-msgstr "반대 방향 허가하기"
+msgstr ""
 
 #: src/translate_text.c.po.c:3094
 msgid "On autostart, load to BASIC start (without ',1')"
@@ -10580,14 +10573,12 @@ msgid "size in KB"
 msgstr ""
 
 #: src/translate_text.c.po.c:4783
-#, fuzzy
 msgid "size"
-msgstr "I/O 크기"
+msgstr ""
 
 #: src/translate_text.c.po.c:4817
-#, fuzzy
 msgid "clock"
-msgstr "SID 클락"
+msgstr ""
 
 #: src/translate_text.c.po.c:4834
 msgid "Size of the GEORAM expansion unit"
