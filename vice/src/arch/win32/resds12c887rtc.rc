@@ -61,7 +61,7 @@ BEGIN
   IDS_DS12C887RTC_ENABLE  "DS12C887 RTC Modul aktivieren"
   IDS_DS12C887RTC_RUNMODE "Mit laufendem Oszillator starten"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC Base"
-  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
+  IDS_DS12C887RTC_SAVE    "RTC Daten bei Änderung speichern"
 END
 
 

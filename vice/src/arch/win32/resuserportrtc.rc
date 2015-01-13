@@ -47,9 +47,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_USERPORT_RTC_CAPTION "Userport RTC settings"
+  IDS_USERPORT_RTC_CAPTION "Userport RTC Einstellungen"
   IDS_USERPORT_RTC_ENABLE  "Userport RTC Erweiterung aktivieren"
-  IDS_USERPORT_RTC_SAVE    "Save RTC data when changed"
+  IDS_USERPORT_RTC_SAVE    "RTC Daten bei Änderung speichern"
 END
 
 

@@ -75,7 +75,7 @@ BEGIN
   IDS_P_SENSITIVITY           "<Sensibilität>"
   IDS_DESC_MOUSE_SENSITIVITY  "Sensibilität der Maus."
   IDS_MOUSE_SENSITIVITY_LABEL "Maus Sensibilität"
-  IDS_SMART_MOUSE_RTC_SAVE    "Save Smart Mouse RTC data when changed"
+  IDS_SMART_MOUSE_RTC_SAVE    "Smart Mouse RTC Daten bei Änderung speichern"
 END
 
 

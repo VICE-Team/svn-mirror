@@ -4075,7 +4075,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_ENABLE_USERPORT_RTC,    "Enable the Userport RTC" },
 /* da */ { IDMS_ENABLE_USERPORT_RTC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_ENABLE_USERPORT_RTC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_RTC_DE, "Userport RTC aktivieren" },
 /* es */ { IDMS_ENABLE_USERPORT_RTC_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_ENABLE_USERPORT_RTC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_USERPORT_RTC_HU, "" },  /* fuzzy */
@@ -4089,7 +4089,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_USERPORT_RTC_SAVE,    "Enable saving the Userport RTC data" },
 /* da */ { IDMS_USERPORT_RTC_SAVE_DA, "" },  /* fuzzy */
-/* de */ { IDMS_USERPORT_RTC_SAVE_DE, "" },  /* fuzzy */
+/* de */ { IDMS_USERPORT_RTC_SAVE_DE, "Userport RTC Daten Speicherung aktivieren" },
 /* es */ { IDMS_USERPORT_RTC_SAVE_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_USERPORT_RTC_SAVE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_USERPORT_RTC_SAVE_HU, "" },  /* fuzzy */
@@ -4481,13 +4481,13 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_COMPILE_FEATURES,    "Compile time features" },
 /* da */ { IDMS_COMPILE_FEATURES_DA, "" },  /* fuzzy */
-/* de */ { IDMS_COMPILE_FEATURES_DE, "" },  /* fuzzy */
+/* de */ { IDMS_COMPILE_FEATURES_DE, "Kompilierte Funktionen" },
 /* es */ { IDMS_COMPILE_FEATURES_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_COMPILE_FEATURES_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_COMPILE_FEATURES_HU, "" },  /* fuzzy */
 /* it */ { IDMS_COMPILE_FEATURES_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_COMPILE_FEATURES_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_COMPILE_FEATURES_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_COMPILE_FEATURES_NL, "Speciale opties aanwezig bij het compileren" },
 /* pl */ { IDMS_COMPILE_FEATURES_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_COMPILE_FEATURES_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_COMPILE_FEATURES_SV, "" },  /* fuzzy */
@@ -5075,7 +5075,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_HU, "" },  /* fuzzy */
 /* it */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_IT, "" },  /* fuzzy */
 /* ko */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_KO, "" },  /* fuzzy */
-/* nl */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_NL, "" },  /* fuzzy */
+/* nl */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_NL, "Welke speciale compileer opties zijn beschikbaar?" },
 /* pl */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_PL, "" },  /* fuzzy */
 /* ru */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_RU, "" },  /* fuzzy */
 /* sv */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_SV, "" },  /* fuzzy */
@@ -7001,7 +7001,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DRIVE_RTC_SAVE,    "Enable FD2000/4000 RTC data saving" },
 /* da */ { IDS_DRIVE_RTC_SAVE_DA, "" },  /* fuzzy */
-/* de */ { IDS_DRIVE_RTC_SAVE_DE, "" },  /* fuzzy */
+/* de */ { IDS_DRIVE_RTC_SAVE_DE, "FD2000/4000 RTC Daten Speichung aktivieren" },
 /* es */ { IDS_DRIVE_RTC_SAVE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DRIVE_RTC_SAVE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DRIVE_RTC_SAVE_HU, "" },  /* fuzzy */
@@ -9887,7 +9887,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_IDE64_RTC_SAVE,    "Enable saving of the IDE64 RTC data" },
 /* da */ { IDS_IDE64_RTC_SAVE_DA, "" },  /* fuzzy */
-/* de */ { IDS_IDE64_RTC_SAVE_DE, "" },  /* fuzzy */
+/* de */ { IDS_IDE64_RTC_SAVE_DE, "IDE64 RTC Daten Speicherung aktivieren" },
 /* es */ { IDS_IDE64_RTC_SAVE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_IDE64_RTC_SAVE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_IDE64_RTC_SAVE_HU, "" },  /* fuzzy */
@@ -11455,7 +11455,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_INTERNAL_FUNCTION_RTC_SAVE,    "Enable Internal Function RTC data saving" },
 /* da */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_DA, "" },  /* fuzzy */
-/* de */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_DE, "" },  /* fuzzy */
+/* de */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_DE, "Interne Funktions RTC Speicherung aktivieren" },
 /* es */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_INTERNAL_FUNCTION_RTC_SAVE_HU, "" },  /* fuzzy */
@@ -11469,7 +11469,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE,    "Enable External Function RTC data saving" },
 /* da */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_DA, "" },  /* fuzzy */
-/* de */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_DE, "" },  /* fuzzy */
+/* de */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_DE, "Externe Funktions RTC Speicherung aktivieren" },
 /* es */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_EXTERNAL_FUNCTION_RTC_SAVE_HU, "" },  /* fuzzy */
@@ -11735,7 +11735,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DS12C887RTC_SAVE,    "Enable DS12C887 RTC data saving" },
 /* da */ { IDS_DS12C887RTC_SAVE_DA, "" },  /* fuzzy */
-/* de */ { IDS_DS12C887RTC_SAVE_DE, "" },  /* fuzzy */
+/* de */ { IDS_DS12C887RTC_SAVE_DE, "DS12C887 RTC Speicherung aktivieren" },
 /* es */ { IDS_DS12C887RTC_SAVE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_DS12C887RTC_SAVE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DS12C887RTC_SAVE_HU, "" },  /* fuzzy */
@@ -12211,7 +12211,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SMART_MOUSE_RTC_SAVE,    "Enable Smart Mouse RTC saving" },
 /* da */ { IDS_SMART_MOUSE_RTC_SAVE_DA, "" },  /* fuzzy */
-/* de */ { IDS_SMART_MOUSE_RTC_SAVE_DE, "" },  /* fuzzy */
+/* de */ { IDS_SMART_MOUSE_RTC_SAVE_DE, "Smart Mouse RTC Speicherung aktivieren" },
 /* es */ { IDS_SMART_MOUSE_RTC_SAVE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SMART_MOUSE_RTC_SAVE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SMART_MOUSE_RTC_SAVE_HU, "" },  /* fuzzy */
