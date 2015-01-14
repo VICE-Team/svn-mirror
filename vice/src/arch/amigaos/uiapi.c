@@ -135,6 +135,10 @@ static int set_initial_dir(const char *name, void *param)
 static const resource_string_t resources_string[] = {
     { "InitialDefaultDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[0], set_initial_dir, (void *)0 },
+    { NULL }
+};
+
+static const resource_string_t init_resources_string[] = {
     { "InitialTapeDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[1], set_initial_dir, (void *)1 },
     { "InitialDiskDir", "", RES_EVENT_NO, NULL,
@@ -172,6 +176,12 @@ int ui_resources_init(void)
         return -1;
     }
 
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (resources_register_string(init_resources_string) < 0) {
+            return -1;
+        }
+    }
+
     return resources_register_int(resources_int);
 }
 
@@ -191,31 +201,6 @@ void ui_resources_shutdown(void)
 /* UI-related command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-saveres", SET_RESOURCE, 0,
-      NULL, NULL, "SaveResourcesOnExit", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDS_SAVE_SETTINGS_ON_EXIT,
-      NULL, NULL },
-    { "+saveres", SET_RESOURCE, 0,
-      NULL, NULL, "SaveResourcesOnExit", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDS_NEVER_SAVE_SETTINGS_EXIT,
-      NULL, NULL },
-    { "-confirmexit", SET_RESOURCE, 0,
-      NULL, NULL, "ConfirmOnExit", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDS_CONFIRM_QUITING_VICE,
-      NULL, NULL },
-    { "+confirmexit", SET_RESOURCE, 0,
-      NULL, NULL, "ConfirmOnExit", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDS_NEVER_CONFIRM_QUITING_VICE,
-      NULL, NULL },
-    { "-initialdefaultdir", SET_RESOURCE, 1,
-      NULL, NULL, "InitialDefaultDir", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_DEFAULT_DIR,
-      NULL, NULL },
     { "-initialtapedir", SET_RESOURCE, 1,
       NULL, NULL, "InitialTapeDir", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -240,6 +225,35 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "InitialSnapshotDir", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDS_SPECIFY_INITIAL_SNAPSHOT_DIR,
+      NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t common_cmdline_options[] = {
+    { "-saveres", SET_RESOURCE, 0,
+      NULL, NULL, "SaveResourcesOnExit", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_SAVE_SETTINGS_ON_EXIT,
+      NULL, NULL },
+    { "+saveres", SET_RESOURCE, 0,
+      NULL, NULL, "SaveResourcesOnExit", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_NEVER_SAVE_SETTINGS_EXIT,
+      NULL, NULL },
+    { "-confirmexit", SET_RESOURCE, 0,
+      NULL, NULL, "ConfirmOnExit", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_CONFIRM_QUITING_VICE,
+      NULL, NULL },
+    { "+confirmexit", SET_RESOURCE, 0,
+      NULL, NULL, "ConfirmOnExit", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDS_NEVER_CONFIRM_QUITING_VICE,
+      NULL, NULL },
+    { "-initialdefaultdir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialDefaultDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_DEFAULT_DIR,
       NULL, NULL },
     { "-fullscreen", SET_RESOURCE, 0,
       NULL, NULL, "FullscreenEnabled", (resource_value_t)1,
@@ -279,7 +293,14 @@ static const cmdline_option_t cmdline_options[] = {
 int ui_cmdline_options_init(void)
 {
     translate_cmdline_options_init();
-    return cmdline_register_options(cmdline_options);
+
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (cmdline_register_options(cmdline_options) < 0) {
+            return -1;
+        }
+    }
+
+    return cmdline_register_options(common_cmdline_options);
 }
 
 int ui_init(int *argc, char **argv)
