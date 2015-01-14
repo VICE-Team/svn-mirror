@@ -38,8 +38,8 @@ resource range:                 N/A
 resource default:               ""
 resource function:              set_initial_dir()
 resource var:                   ui_resources.initialdir[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:
 command-line:                   -initialtapedir
 platform gui present:           amigaos
@@ -59,8 +59,8 @@ resource range:                 N/A
 resource default:               ""
 resource function:              set_initial_dir()
 resource var:                   ui_resources.initialdir[2]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:
 command-line:                   -initialdiskdir
 platform gui present:           amigaos
@@ -80,8 +80,8 @@ resource range:                 N/A
 resource default:               ""
 resource function:              set_initial_dir()
 resource var:                   ui_resources.initialdir[3]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:
 command-line:                   -initialautostartdir
 platform gui present:           amigaos
@@ -101,8 +101,8 @@ resource range:                 N/A
 resource default:               ""
 resource function:              set_initial_dir()
 resource var:                   ui_resources.initialdir[4]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:
 command-line:                   -initialcartdir
 platform gui present:           amigaos
@@ -122,8 +122,8 @@ resource range:                 N/A
 resource default:               ""
 resource function:              set_initial_dir()
 resource var:                   ui_resources.initialdir[5]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-not used in:
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				vsid
 prepocessor:
 command-line:                   -initialsnapshotdir
 platform gui present:           amigaos
@@ -7663,20 +7663,6 @@ description:    "Specify name of BASIC ROM image"
 resource:       "BasicName"
 action:         N/A
 
-c64/psid.c:
------------
-command line:   -keepenv
-description:    "Override PSID settings for Video standard and SID model"
-resource:       N/A
-action:         cmdline_keepenv()
-
-c64/psid.c:
------------
-command line:   -tune <number>
-description:    "Specify PSID tune <number>"
-resource:       N/A
-action:         cmdline_psid_tune()
-
 c64dtv/c64dtv-resources.c:
 --------------------------
 resource type:                  int
@@ -13215,12 +13201,19 @@ resource var:                   machine_type
 resource emulators:             x128
 not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE ?? (fixme)
+command-line:                   -machinetype
 platform gui present:           amigaos/os2/unix/osx/windows
 platform range correct:
 platform range incorrect:
 platform gui missing:           beos/dos/sdl
 fixme: fix documentation, range
+
+c128/c128-cmdline-options.c:
+----------------------------
+command line:   -machinetype <Type>
+description:    "Set C128 machine type (0: International, 1: Finnish, 2: French, 3: German, 4: Italian, 5: Norwegian, 6: Swedish, 7: Swiss)"
+resource:       "MachineType"
+action:         N/A
 
 c128/c128-resources.c:
 ----------------------
@@ -13724,7 +13717,7 @@ resource var:                   cartridge_type
 resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           os2 (FIX!)
 platform range correct:		
 platform range incorrect:		
@@ -14078,6 +14071,14 @@ platform range correct:
 platform range incorrect:
 platform gui missing:           sdl
 
+c64/cart/retroreplay.c:
+-----------------------
+command line:   -rrrev <Revision>
+description:    "Set RR Revision (0: Retro Replay, 1: Nordic Replay)"
+resource:       "RRrevision"
+action:         N/A
+fixme: add to documentation
+
 c64/cart/sfx_soundexpander.c:
 -----------------------------
 resource type:                  bool
@@ -14147,10 +14148,17 @@ resource var:                   keepenv
 resource emulators:             x64/x64sc/vsid
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -keepenv
 platform gui present:           amigaos/beos/sdl/unix/windows
 platform gui missing:           dos/os2/osx
 fixme: only vsid needs this
+
+c64/psid.c:
+-----------
+command line:   -keepenv
+description:    "Override PSID settings for Video standard and SID model"
+resource:       N/A
+action:         cmdline_keepenv() (sets "PSIDKeepEnv" to 1)
 
 c64/psid.c:
 -----------
@@ -14163,12 +14171,19 @@ resource var:                   psid_tune
 resource emulators:             x64/x64sc/vsid
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -tune
 platform gui present:           os2/sdl/unix
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/osx/windows
 fixme: only vsid needs this
+
+c64/psid.c:
+-----------
+command line:   -tune <number>
+description:    "Specify PSID tune <number>"
+resource:       N/A
+action:         cmdline_psid_tune() (sets "PSIDTune")
 
 c64/vsid-resources.c:
 ---------------------
@@ -14181,7 +14196,7 @@ resource var:                   kernal_revision
 resource emulators:             vsid
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
 fixme: add to documentation, it says c64 and c128, c128 does NOT have this resource
@@ -14505,7 +14520,7 @@ resource var:                   cbm2_model_line
 resource emulators:             xcbm2
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -model / NONE (fixme ??)
+command-line:                   -model
 platform gui present:           amigaos/beos/os2/unix/osx/windows
 platform range correct:
 platform range incorrect:
@@ -14860,7 +14875,7 @@ resource var:                   cbm2_model_line
 resource emulators:             xcbm5x0
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -model / NONE (fixme)
+command-line:                   -model
 platform gui present:           amigaos/beos/os2/unix/osx/windows
 platform range correct:
 platform range incorrect:
@@ -15754,9 +15769,16 @@ resource var:                   event_snapshot_dir
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -eventsnapshotdir
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
 platform gui missing:           dos/os2
+
+event.c:
+--------
+command line:   -eventsnapshotdir <Name>
+description:    "Set event snapshot directory"
+resource:       "EventSnapshotDir"
+action:         N/A
 
 event.c:
 --------
@@ -15769,10 +15791,17 @@ resource var:                   event_start_snapshot
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -eventstartsnapshot
 platform gui present:           amigaos/beos/windows
 platform gui missing:           dos/os2/sdl/unix/osx
 note: not sure if its useful to make this user definable
+
+event.c:
+--------
+command line:   -eventstartsnapshot <Name>
+description:    "Set event start snapshot"
+resource:       "EventStartSnapshot"
+action:         N/A
 
 event.c:
 --------
@@ -15785,10 +15814,17 @@ resource var:                   event_end_snapshot
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -eventendsnapshot
 platform gui present:           amigaos/beos/windows
 platform gui missing:           dos/os2/sdl/unix/osx
 note: not sure if its useful to make this user definable
+
+event.c:
+--------
+command line:   -eventendsnapshot <Name>
+description:    "Set event end snapshot"
+resource:       "EventEndSnapshot"
+action:         N/A
 
 event.c:
 --------
@@ -15802,11 +15838,20 @@ resource var:                   event_start_mode
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -eventstartmode
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			dos/os2
+
+event.c:
+--------
+command line:   -eventstartmode <Mode>
+description:    "Set event start mode (0: file save, 1: file load, 2: reset, 3: playback)"
+resource:       "EventStartMode"
+action:         N/A
+
+-------blacky command line fixup run------------------------------------------------------------------------------------------------
 
 event.c:
 --------

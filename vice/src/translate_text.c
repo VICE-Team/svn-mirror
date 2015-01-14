@@ -4374,6 +4374,23 @@ translate_t string_table[] = {
 #endif
 
 /* c128/c128-cmdline-options.c */
+/* en */ {IDCLS_SET_C128_MACHINE_TYPE,    N_("Set C128 machine type (0: International, 1: Finnish, 2: French, 3: German, 4: Italian, 5: Norwegian, 6: Swedish, 7: Swiss)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_C128_MACHINE_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_C128_MACHINE_TYPE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_C128_MACHINE_TYPE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_C128_MACHINE_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_C128_MACHINE_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_C128_MACHINE_TYPE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_C128_MACHINE_TYPE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_C128_MACHINE_TYPE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_C128_MACHINE_TYPE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_C128_MACHINE_TYPE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_C128_MACHINE_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_C128_MACHINE_TYPE_TR, ""},  /* fuzzy */
+#endif
+
+/* c128/c128-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_C128_FULL_BANKS,    N_("Enable RAM banks 2 and 3")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_C128_FULL_BANKS_DA, "Aktivér RAM-bank 2 og 3"},
@@ -6081,6 +6098,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_UNSET_RR_FLASH_JUMPER_RU, "Unset RR Bank Jumper"},
 /* sv */ {IDCLS_UNSET_RR_FLASH_JUMPER_SV, "Inaktivera RR-bankbygel"},
 /* tr */ {IDCLS_UNSET_RR_FLASH_JUMPER_TR, "RR Bank Jumper'ý çýkart"},
+#endif
+
+/* c64/cart/retroreplay.c */
+/* en */ {IDCLS_RR_REVISION,    N_("Set RR Revision (0: Retro Replay, 1: Nordic Replay)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_RR_REVISION_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_RR_REVISION_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_RR_REVISION_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_RR_REVISION_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RR_REVISION_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_RR_REVISION_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_RR_REVISION_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_RR_REVISION_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_RR_REVISION_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_RR_REVISION_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_RR_REVISION_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_RR_REVISION_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/reu.c */
@@ -12701,6 +12735,74 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_PLAYBACK_RECORDED_EVENTS_RU, "Playback recorded events"},
 /* sv */ {IDCLS_PLAYBACK_RECORDED_EVENTS_SV, "Spela upp inspelade händelser"},
 /* tr */ {IDCLS_PLAYBACK_RECORDED_EVENTS_TR, "Kayýttan yürütme kaydedilmiþ olaylarý"},
+#endif
+
+/* event.c */
+/* en */ {IDCLS_SET_EVENT_SNAPSHOT_DIR,    N_("Set event snapshot directory")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_EVENT_SNAPSHOT_DIR_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_EVENT_SNAPSHOT_DIR_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_EVENT_SNAPSHOT_DIR_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_EVENT_SNAPSHOT_DIR_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_EVENT_SNAPSHOT_DIR_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_EVENT_SNAPSHOT_DIR_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_EVENT_SNAPSHOT_DIR_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_EVENT_SNAPSHOT_DIR_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_EVENT_SNAPSHOT_DIR_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_EVENT_SNAPSHOT_DIR_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_EVENT_SNAPSHOT_DIR_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_EVENT_SNAPSHOT_DIR_TR, ""},  /* fuzzy */
+#endif
+
+/* event.c */
+/* en */ {IDCLS_SET_EVENT_START_SNAPSHOT,    N_("Set event start snapshot")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_EVENT_START_SNAPSHOT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_EVENT_START_SNAPSHOT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_EVENT_START_SNAPSHOT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_EVENT_START_SNAPSHOT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_EVENT_START_SNAPSHOT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_EVENT_START_SNAPSHOT_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_EVENT_START_SNAPSHOT_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_EVENT_START_SNAPSHOT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_EVENT_START_SNAPSHOT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_EVENT_START_SNAPSHOT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_EVENT_START_SNAPSHOT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_EVENT_START_SNAPSHOT_TR, ""},  /* fuzzy */
+#endif
+
+/* event.c */
+/* en */ {IDCLS_SET_EVENT_END_SNAPSHOT,    N_("Set event end snapshot")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_EVENT_END_SNAPSHOT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_EVENT_END_SNAPSHOT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_EVENT_END_SNAPSHOT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_EVENT_END_SNAPSHOT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_EVENT_END_SNAPSHOT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_EVENT_END_SNAPSHOT_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_EVENT_END_SNAPSHOT_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_EVENT_END_SNAPSHOT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_EVENT_END_SNAPSHOT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_EVENT_END_SNAPSHOT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_EVENT_END_SNAPSHOT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_EVENT_END_SNAPSHOT_TR, ""},  /* fuzzy */
+#endif
+
+/* event.c */
+/* en */ {IDCLS_SET_EVENT_START_MODE,    N_("Set event start mode (0: file save, 1: file load, 2: reset, 3: playback)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_EVENT_START_MODE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_EVENT_START_MODE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_EVENT_START_MODE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_EVENT_START_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_EVENT_START_MODE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_EVENT_START_MODE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_EVENT_START_MODE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_EVENT_START_MODE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_EVENT_START_MODE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_EVENT_START_MODE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_EVENT_START_MODE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_EVENT_START_MODE_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor.c */

@@ -1241,6 +1241,28 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_PLAYBACK_RECORDED_EVENTS,
       NULL, NULL },
+    { "-eventsnapshotdir", SET_RESOURCE, 1,
+      NULL, NULL, "EventSnapshotDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SET_EVENT_SNAPSHOT_DIR,
+      NULL, NULL },
+    { "-eventstartsnapshot", SET_RESOURCE, 1,
+      NULL, NULL, "EventStartSnapshot", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SET_EVENT_START_SNAPSHOT,
+      NULL, NULL },
+    { "-eventendsnapshot", SET_RESOURCE, 1,
+      NULL, NULL, "EventEndSnapshot", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SET_EVENT_END_SNAPSHOT,
+      NULL, NULL },
+
+    { "-eventstartmode", SET_RESOURCE, 1,
+      NULL, NULL, "EventStartMode", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODE, IDCLS_SET_EVENT_START_MODE,
+      NULL, NULL },
+
     { NULL }
 };
 

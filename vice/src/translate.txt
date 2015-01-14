@@ -426,6 +426,9 @@ IDCLS_SET_SCPU64_MODEL
 IDCLS_SET_C128_MODEL
 
 /* c128/c128-cmdline-options.c */
+IDCLS_SET_C128_MACHINE_TYPE
+
+/* c128/c128-cmdline-options.c */
 IDCLS_ENABLE_C128_FULL_BANKS
 
 /* c128/c128-cmdline-options.c */
@@ -695,6 +698,9 @@ IDCLS_SET_RR_FLASH_JUMPER
 
 /* c64/cart/retroplay.c */
 IDCLS_UNSET_RR_FLASH_JUMPER
+
+/* c64/cart/retroplay.c */
+IDCLS_RR_REVISION
 
 /* c64/cart/reu.c */
 IDCLS_ENABLE_REU
@@ -1881,6 +1887,18 @@ IDCLS_TRACE_MODE
 
 /* event.c */
 IDCLS_PLAYBACK_RECORDED_EVENTS
+
+/* event.c */
+IDCLS_SET_EVENT_SNAPSHOT_DIR
+
+/* event.c */
+IDCLS_SET_EVENT_START_SNAPSHOT
+
+/* event.c */
+IDCLS_SET_EVENT_END_SNAPSHOT
+
+/* event.c */
+IDCLS_SET_EVENT_START_MODE
 
 /* monitor.c */
 IDCLS_EXECUTE_MONITOR_FROM_FILE
