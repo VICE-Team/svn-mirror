@@ -162,6 +162,7 @@ notice identical to this one.
 
 @c page
 @vskip 0pt plus 1filll
+@c ---vice-core-team---
 Copyright @copyright{} 1999-2015 Andreas Matthies
 Copyright @copyright{} 1999-2015 Martin Pottendorfer
 Copyright @copyright{} 2005-2015 Marco van den Heuvel
@@ -172,7 +173,9 @@ Copyright @copyright{} 2009-2015 Errol Smith
 Copyright @copyright{} 2010-2015 Olaf Seibert
 Copyright @copyright{} 2011-2015 Marcus Sutton
 Copyright @copyright{} 2011-2015 Kajtar Zsolt
+@c ---vice-core-team-end---
 
+@c ---ex-team---
 Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
 Copyright @copyright{} 2011-2014 Ulrich Schulz
 Copyright @copyright{} 2011-2014 Stefan Haubenthal
@@ -196,6 +199,7 @@ Copyright @copyright{} 1996-1999 Ettore Perazzoli
 Copyright @copyright{} 1993-1994, 1997-1999 Teemu Rantanen
 Copyright @copyright{} 1993-1996 Jouko Valta
 Copyright @copyright{} 1993-1994 Jarkko Sonninen
+@c ---ex-team-end---
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -24213,6 +24217,7 @@ Internationalization Team:
 
 @itemize @bullet
 
+@c ---translation-team---
 @item
 @b{Mikkel Holm Olsen}
 Provided the Danish user interface translations and fixed a few
@@ -24240,12 +24245,38 @@ Provided the new Polish user interface translations.
 @b{Michael Litvinov}
 Provided the Russian user interface translations.
 
+@b{Marco van den Heuvel}
+Provided the Dutch user interface translations.
+
+@b{Martin Pottendorfer}
+Provided the German user interface translations.
+
 @b{Peter Krefting}
 Provided the Swedish user interface translations.
 
 @b{Emir Akaydin}
 Provided the Turkish user interface translations (in world
 record time).
+@c ---translation-team-end---
+
+@end itemize
+
+Documentation Team:
+
+@itemize @bullet
+
+@c ---documentation-team---
+@item
+@b{Daniel Kahlin}
+
+@b{Groepaz}
+
+@b{Kajtar Zsolt}
+
+@b{Marco van den Heuvel}
+
+@b{Olaf Seibert}
+@c ---translation-team-end---
 
 @end itemize
 
