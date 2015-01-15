@@ -208,10 +208,41 @@ static void replace_tokens(void)
     }
 }
 
+static char *vice_stralloc(const char *str)
+{
+    size_t size;
+    char *ptr;
+
+    if (str == NULL) {
+        exit(-1);
+    }
+
+    size = strlen(str) + 1;
+    ptr = malloc(size);
+
+    memcpy(ptr, str, size);
+
+    return ptr;
+}
+
+static char *core_team[200];
+static char *ex_team[200];
+static char *trans_team[200];
+static char *doc_team[100];
+
 static void generate_infocontrib(char *in_filename, char *out_filename, char *sed_filename)
 {
     int found_start = 0;
     int found_end = 0;
+    int found_trans = 0;
+    int found_doc = 0;
+    int i;
+    int core_count = 0;
+    int ex_count = 0;
+    int trans_count = 0;
+    int doc_count = 0;
+    char *buffer;
+    char *ptr;
     size_t line_size;
     FILE *infile, *outfile, *sedfile;
 
@@ -276,6 +307,76 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
 
     while (found_start == 0) {
         line_size = get_line(infile);
+        if (line_size >= strlen("@c ---vice-core-team---")) {
+            if (!strncmp(line_buffer, "@c ---vice-core-team---", 23)) { 
+                found_start = 1;
+            }
+        }
+    }
+
+    while (found_end == 0) {
+        line_size = get_line(infile);
+        if (line_buffer[0] != '@') {
+            buffer = line_buffer;
+            while (buffer[0] != '}') {
+                buffer++;
+            }
+            buffer += 2;
+            for (i = 0; buffer[i] != ' '; i++) {
+            }
+            buffer[i] = 0;
+            core_team[core_count++] = vice_stralloc(buffer);
+            buffer += (i + 1);
+            core_team[core_count++] = vice_stralloc(buffer);
+            core_team[core_count] = NULL;
+        } else {
+            found_end = 1;
+        }
+    }
+
+    found_start = 0;
+    found_end = 0;
+
+    while (found_start == 0) {
+        line_size = get_line(infile);
+        if (line_size >= strlen("@c ---ex-team---")) {
+            if (!strncmp(line_buffer, "@c ---ex-team---", 23)) { 
+                found_start = 1;
+            }
+        }
+    }
+
+    while (found_end == 0) {
+        line_size = get_line(infile);
+        if (line_buffer[0] != '@') {
+            buffer = line_buffer;
+            while (buffer[0] != '}') {
+                buffer++;
+            }
+            buffer += 2;
+            for (i = 0; buffer[i] != ' '; i++) {
+            }
+            if (buffer[i - 1] == ',') {
+                i++;
+                while (buffer[i] != ' ') {
+                    i++;
+                }
+            }
+            buffer[i] = 0;
+            ex_team[ex_count++] = vice_stralloc(buffer);
+            buffer += (i + 1);
+            ex_team[ex_count++] = vice_stralloc(buffer);
+            ex_team[ex_count] = NULL;
+        } else {
+            found_end = 1;
+        }
+    }
+
+    found_start = 0;
+    found_end = 0;
+
+    while (found_start == 0) {
+        line_size = get_line(infile);
         if (line_size >= strlen("@chapter Acknowledgments")) {
             if (!strncmp(line_buffer, "@chapter Acknowledgments", 24)) { 
                 found_start = 1;
@@ -295,6 +396,73 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
             if (!strncmp(line_buffer, "@node Copyright, Contacts, Acknowledgments, Top", 47)) {
                 found_end = 1;
             } else {
+                if (found_trans == 1) {
+                    if (!strcmp(line_buffer, "@c ---translation-team-end---")) {
+                        found_trans = 0;
+                    }
+                }
+                if (found_doc == 1) {
+                    if (!strcmp(line_buffer, "@c ---documentation-team-end---")) {
+                        found_doc = 0;
+                    }
+                }
+
+                if (found_trans == 1) {
+                    if (line_buffer[0] == '@') {
+                        buffer = vice_stralloc(line_buffer);
+                        ptr = buffer;
+                        while (ptr[0] != '{') {
+                            ptr++;
+                        }
+                        ptr++;
+                        for (i = 0; ptr[i] != '}'; i++) {
+                        }
+                        ptr[i] = 0;
+                        trans_team[trans_count++] = vice_stralloc(ptr);
+                        free(buffer);
+                    } else if (line_buffer[0] == 'P') {
+                        buffer = vice_stralloc(line_buffer);
+                        ptr = buffer;
+                        while (ptr[0] != ' ') {
+                            ptr++;
+                        }
+                        ptr++;
+                        while (ptr[0] != ' ') {
+                            ptr++;
+                        }
+                        ptr++;
+                        for (i = 0; ptr[i] != ' '; i++) {
+                        }
+                        ptr[i] = 0;
+                        trans_team[trans_count++] = vice_stralloc(ptr);
+                        trans_team[trans_count] = NULL;
+                        free(buffer);
+                    }
+                }
+
+                if (found_doc == 1) {
+                    if (line_buffer[0] == '@') {
+                        buffer = vice_stralloc(line_buffer);
+                        ptr = buffer + 3;
+                        for (i = 0; ptr[i] != '}'; i++) {
+                        }
+                        ptr[i] = 0;
+                        doc_team[doc_count++] = vice_stralloc(ptr);
+                        doc_team[doc_count] = NULL;
+                        free(buffer);
+                    }
+                }
+
+                if (found_trans == 0) {
+                    if (!strcmp(line_buffer, "@c ---translation-team---")) {
+                        found_trans = 1;
+                    }
+                }
+                if (found_doc == 0) {
+                    if (!strcmp(line_buffer, "@c ---documentation-team---")) {
+                        found_doc = 1;
+                    }
+                }
                 if (checklineignore() == 0) {
                     replacetags();
 #ifdef WINMIPS
@@ -306,11 +474,57 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
             }
         }
     }
+
 #ifdef WINMIPS
-    fprintf(outfile, "\"\\n\",\n};\n#endif\n");
+    fprintf(outfile, "\"\\n\",\n};\n\n");
 #else
-    fprintf(outfile, "\"\\n\";\n#endif\n");
+    fprintf(outfile, "\"\\n\";\n\n");
 #endif
+    
+    fprintf(outfile, "vice_team_t core_team[] = {\n");
+
+    i = 0;
+    while (core_team[i] != NULL) {
+        fprintf(outfile, "    { \"%s\", \"%s\" },\n", core_team[i], core_team[i + 1]);
+        free(core_team[i++]);
+        free(core_team[i++]);
+    }
+    fprintf(outfile, "    { NULL, NULL }\n");
+    fprintf(outfile, "};\n\n");
+
+    fprintf(outfile, "vice_team_t ex_team[] = {\n");
+
+    i = 0;
+    while (ex_team[i] != NULL) {
+        fprintf(outfile, "    { \"%s\", \"%s\" },\n", ex_team[i], ex_team[i + 1]);
+        free(ex_team[i++]);
+        free(ex_team[i++]);
+    }
+    fprintf(outfile, "    { NULL, NULL }\n");
+    fprintf(outfile, "};\n\n");
+
+    fprintf(outfile, "vice_trans_t trans_team[] = {\n");
+
+    i = 0;
+    while (trans_team[i] != NULL) {
+        fprintf(outfile, "    { \"%s\", \"%s\" },\n", trans_team[i], trans_team[i + 1]);
+        free(trans_team[i++]);
+        free(trans_team[i++]);
+    }
+    fprintf(outfile, "    { NULL, NULL }\n");
+    fprintf(outfile, "};\n\n");
+
+    fprintf(outfile, "char *doc_team[] = {\n");
+
+    i = 0;
+    while (doc_team[i] != NULL) {
+        fprintf(outfile, "    \"%s\",\n", doc_team[i]);
+        free(doc_team[i++]);
+    }
+    fprintf(outfile, "    NULL\n");
+    fprintf(outfile, "};\n\n");
+
+    fprintf(outfile, "#endif\n");
 
     fclose(infile);
     fclose(sedfile);
