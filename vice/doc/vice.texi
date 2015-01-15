@@ -24217,18 +24217,19 @@ Internationalization Team:
 
 @itemize @bullet
 
-@c ---translation-team---
 @item
+@c ---translation-team---
 @b{Mikkel Holm Olsen}
-Provided the Danish user interface translations and fixed a few
-monitor bugs.
+Provided the Danish user interface translations and fixed a few monitor bugs.
+
+@b{Martin Pottendorfer}
+Provided the German user interface translations.
 
 @b{Manuel Antonio Rodriguez Bas}
 Provided the Spanish user interface translations.
 
 @b{Paul Dubé}
-From Rivière-du-Loup, Québec, provided the French user
-interface translations.
+Provided the French user interface translations.
 
 @b{Czirkos Zoltan} and @b{Karai Csaba}
 Provided the Hungarian user interface translations.
@@ -24239,34 +24240,30 @@ Provided the Italian user interface translations.
 @b{Jesse Lee}
 Provided the Korean user interface translations.
 
-@b{Jarek Sobolewski}
-Provided the new Polish user interface translations.
-
-@b{Michael Litvinov}
-Provided the Russian user interface translations.
-
 @b{Marco van den Heuvel}
 Provided the Dutch user interface translations.
 
-@b{Martin Pottendorfer}
-Provided the German user interface translations.
+@b{Jarek Sobolewski}
+Provided the Polish user interface translations.
+
+@b{Michael Litvinov}
+Provided the Russian user interface translations.
 
 @b{Peter Krefting}
 Provided the Swedish user interface translations.
 
 @b{Emir Akaydin}
-Provided the Turkish user interface translations (in world
-record time).
-@c ---translation-team-end---
+Provided the Turkish user interface translations.
 
+@c ---translation-team-end---
 @end itemize
 
 Documentation Team:
 
 @itemize @bullet
 
-@c ---documentation-team---
 @item
+@c ---documentation-team---
 @b{Daniel Kahlin}
 
 @b{Groepaz}
@@ -24276,7 +24273,8 @@ Documentation Team:
 @b{Marco van den Heuvel}
 
 @b{Olaf Seibert}
-@c ---documentation-team---
+
+@c ---documentation-team-end---
 
 @end itemize
 
