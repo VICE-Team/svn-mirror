@@ -49,4 +49,19 @@ extern const char info_license_text40[];
 extern const char info_warranty_text40[];
 #endif
 
+typedef struct vice_team_s {
+    char *years;
+    char *name;
+} vice_team_t;
+
+typedef struct vice_trans_s {
+    char *name;
+    char *language;
+} vice_trans_t;
+
+extern vice_team_t core_team[];
+extern vice_team_t ex_team[];
+extern char *doc_team[];
+extern vice_trans_t trans_team[];
+
 #endif

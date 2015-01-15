@@ -4,6 +4,30 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 
+# extract years and name from input
+extractnames()
+{
+   shift
+   shift
+   years=$1
+   shift
+   if test x"$years" = "x1993-1994,"; then
+     years="$years $1"
+     shift
+   fi
+   name="$*"
+}
+
+extractitem()
+{
+  item=`echo $* | sed -e "s/@b{//" -e "s/}//"`
+}
+
+extractlang()
+{
+  language=$3
+}
+
 # use system echo if possible, as it supports backslash expansion
 if test -f /bin/echo; then
   ECHO=/bin/echo
@@ -69,11 +93,73 @@ checkoutput()
 }
 
 outputok=no
+coreteamsection=no
+exteamsection=no
+transteamsection=no
+docteamsection=no
+
+rm -f coreteam.tmp exteam.tmp transteam.tmp docteam.tmp
+
 while read data
 do
+  if test x"$data" = "x@c ---vice-core-team-end---"; then
+    coreteamsection=no
+  fi
+
+  if test x"$data" = "x@c ---ex-team-end---"; then
+    exteamsection=no
+  fi
+
+  if test x"$data" = "x@c ---translation-team-end---"; then
+    transteamsection=no
+  fi
+
+  if test x"$data" = "x@c ---documentation-team-end---"; then
+    docteamsection=no
+  fi
+
+  if test x"$coreteamsection" = "xyes"; then
+    extractnames $data
+    $ECHO >>coreteam.tmp "    { \"$years\", \"$name\" },"
+  fi
+
+  if test x"$exteamsection" = "xyes"; then
+    extractnames $data
+    $ECHO >>exteam.tmp "    { \"$years\", \"$name\" },"
+  fi
+
+  if test x"$transteamsection" = "xyes"; then
+    extractitem $data
+    read data
+    extractlang $data
+    read data
+    $ECHO >>transteam.tmp "    { \"$item\", \"$language\" },"
+  fi
+
+  if test x"$docteamsection" = "xyes"; then
+    extractitem $data
+    read data
+    $ECHO >>docteam.tmp "    \"$item\","
+  fi
+
+  if test x"$data" = "x@c ---vice-core-team---"; then
+    coreteamsection=yes
+  fi
+
+  if test x"$data" = "x@c ---ex-team---"; then
+    exteamsection=yes
+  fi
+
+  if test x"$data" = "x@c ---translation-team---"; then
+    transteamsection=yes
+  fi
+
+  if test x"$data" = "x@c ---documentation-team---"; then
+    docteamsection=yes
+  fi
+
   if test x"$data" = "x@node Copyright, Contacts, Acknowledgments, Top"; then
     $ECHO "\"$linefeed\";"
-    $ECHO "#endif"
     outputok=no
   fi
   if test x"$outputok" = "xyes"; then
@@ -90,3 +176,29 @@ do
     outputok=yes
   fi
 done
+
+$ECHO ""
+$ECHO "vice_team_t core_team[] = {"
+cat coreteam.tmp
+rm -f coreteam.tmp
+$ECHO "    { NULL, NULL }"
+$ECHO "};"
+$ECHO ""
+$ECHO "vice_team_t ex_team[] = {"
+cat exteam.tmp
+rm -f exteam.tmp
+$ECHO "    { NULL, NULL }"
+$ECHO "};"
+$ECHO ""
+$ECHO "char *doc_team[] = {"
+cat docteam.tmp
+rm -f docteam.tmp
+$ECHO "    NULL"
+$ECHO "};"
+$ECHO ""
+$ECHO "vice_trans_t trans_team[] = {"
+cat transteam.tmp
+rm -f transteam.tmp
+$ECHO "    { NULL, NULL }"
+$ECHO "};"
+$ECHO "#endif"
