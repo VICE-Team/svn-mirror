@@ -24276,7 +24276,7 @@ Documentation Team:
 @b{Marco van den Heuvel}
 
 @b{Olaf Seibert}
-@c ---translation-team-end---
+@c ---documentation-team---
 
 @end itemize
 
