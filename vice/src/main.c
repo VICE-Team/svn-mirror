@@ -48,6 +48,7 @@
 #include "drive.h"
 #include "fullscreen.h"
 #include "gfxoutput.h"
+#include "info.h"
 #include "init.h"
 #include "initcmdline.h"
 #ifdef HAS_TRANSLATION
@@ -219,11 +220,13 @@ int main_program(int argc, char **argv)
     }
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Current VICE team members:");
-    log_message(LOG_DEFAULT, "D. Lem, A. Matthies, M. Pottendorfer, S. Trikaliotis, M. van den Heuvel,");
-    log_message(LOG_DEFAULT, "C. Vogelgsang, F. Gennari, D. Kahlin, A. Lankila, Groepaz, I. Korb,");
-    log_message(LOG_DEFAULT, "E. Smith, O. Seibert, M. Sutton, U. Schulz, S. Haubenthal, T. Giesel,");
-    log_message(LOG_DEFAULT, "K. Zsolt.");
-
+    for (i = 0; core_team[i].name; i++) {
+        if (core_team[i + 1].name) {
+            log_message(LOG_DEFAULT, "%s,", core_team[i].name);
+        } else {
+            log_message(LOG_DEFAULT, "%s.", core_team[i].name);
+        }
+    }
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");
     log_message(LOG_DEFAULT, "See the \"About VICE\" command for more info.");
