@@ -24231,7 +24231,10 @@ Provided the Spanish user interface translations.
 @b{Paul Dubé}
 Provided the French user interface translations.
 
-@b{Czirkos Zoltan} and @b{Karai Csaba}
+@b{Czirkos Zoltan}
+Provided the Hungarian user interface translations.
+
+@b{Karai Csaba}
 Provided the Hungarian user interface translations.
 
 @b{Andrea Musuruane}
