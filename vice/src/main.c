@@ -92,8 +92,9 @@ static int init_done;
 /* This is the main program entry point.  Call this from `main()'.  */
 int main_program(int argc, char **argv)
 {
-    int i;
+    int i, n;
     char *program_name;
+    char *tmp;
     int ishelp = 0;
 
     lib_init_rand();
@@ -219,14 +220,26 @@ int main_program(int argc, char **argv)
                     program_name, machine_name);
     }
     log_message(LOG_DEFAULT, " ");
+
     log_message(LOG_DEFAULT, "Current VICE team members:");
+    tmp = lib_malloc(80);
+    n = 0; *tmp = 0;
     for (i = 0; core_team[i].name; i++) {
+        n += strlen(core_team[i].name);
+        if (n > 74) {
+            log_message(LOG_DEFAULT, tmp);
+            n = 0; *tmp = 0;
+        }
+        strcat(tmp, core_team[i].name);
         if (core_team[i + 1].name) {
-            log_message(LOG_DEFAULT, "%s,", core_team[i].name);
+            strcat(tmp, ", ");
         } else {
-            log_message(LOG_DEFAULT, "%s.", core_team[i].name);
+            strcat(tmp, ".");
+            log_message(LOG_DEFAULT, tmp);
         }
     }
+    lib_free(tmp);
+
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");
     log_message(LOG_DEFAULT, "See the \"About VICE\" command for more info.");
