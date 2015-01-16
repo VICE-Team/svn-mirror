@@ -120,12 +120,12 @@ do
 
   if test x"$coreteamsection" = "xyes"; then
     extractnames $data
-    $ECHO >>coreteam.tmp "    { \"$years\", \"$name\" },"
+    $ECHO >>coreteam.tmp "    { \"$years\", \"$name\", \"@b{$name}\" },"
   fi
 
   if test x"$exteamsection" = "xyes"; then
     extractnames $data
-    $ECHO >>exteam.tmp "    { \"$years\", \"$name\" },"
+    $ECHO >>exteam.tmp "    { \"$years\", \"$name\", \"@b{$name}\" },"
   fi
 
   if test x"$transteamsection" = "xyes"; then
@@ -133,7 +133,7 @@ do
     read data
     extractlang $data
     read data
-    $ECHO >>transteam.tmp "    { \"$item\", \"$language\" },"
+    $ECHO >>transteam.tmp "    { \"$item\", \"$language\", \"@b{$item}\" },"
   fi
 
   if test x"$docteamsection" = "xyes"; then
@@ -181,13 +181,13 @@ $ECHO ""
 $ECHO "vice_team_t core_team[] = {"
 cat coreteam.tmp
 rm -f coreteam.tmp
-$ECHO "    { NULL, NULL }"
+$ECHO "    { NULL, NULL, NULL }"
 $ECHO "};"
 $ECHO ""
 $ECHO "vice_team_t ex_team[] = {"
 cat exteam.tmp
 rm -f exteam.tmp
-$ECHO "    { NULL, NULL }"
+$ECHO "    { NULL, NULL, NULL }"
 $ECHO "};"
 $ECHO ""
 $ECHO "char *doc_team[] = {"
@@ -199,6 +199,6 @@ $ECHO ""
 $ECHO "vice_trans_t trans_team[] = {"
 cat transteam.tmp
 rm -f transteam.tmp
-$ECHO "    { NULL, NULL }"
+$ECHO "    { NULL, NULL, NULL }"
 $ECHO "};"
 $ECHO "#endif"

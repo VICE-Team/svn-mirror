@@ -52,11 +52,13 @@ extern const char info_warranty_text40[];
 typedef struct vice_team_s {
     char *years;
     char *name;
+    char *emailname;
 } vice_team_t;
 
 typedef struct vice_trans_s {
     char *name;
     char *language;
+    char *emailname;
 } vice_trans_t;
 
 extern vice_team_t core_team[];
