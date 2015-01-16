@@ -213,7 +213,7 @@ UI_CALLBACK(ui_about)
 #endif
         textlist[i++] = lib_stralloc("");
         for (j = 0; core_team[j].name; j++) {
-            textlist[i++] = util_concat("Copyright C ", core_team[j].years, " ", core_team[j].name", NULL);
+            textlist[i++] = util_concat("Copyright C ", core_team[j].years, " ", core_team[j].name, NULL);
         }
         textlist[i++] = lib_stralloc("");
         textlist[i++] = lib_stralloc("Official VICE homepage:");
