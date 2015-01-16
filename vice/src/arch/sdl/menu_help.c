@@ -322,6 +322,8 @@ static UI_MENU_CALLBACK(about_callback)
 {
     int active = 1;
     int i;
+    int j;
+    char *tmp;
 
     if (activated) {
         sdl_ui_clear();
@@ -337,16 +339,11 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("SDL " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER, i++);
         i++;
         sdl_ui_print_center("The VICE Team", i++);
-        sdl_ui_print_center("(C) 1999-2015 Andreas Matthies", i++);
-        sdl_ui_print_center("(C) 1999-2015 Martin Pottendorfer", i++);
-        sdl_ui_print_center("(C) 2005-2015 Marco van den Heuvel", i++);
-        sdl_ui_print_center("(C) 2007-2015 Fabrizio Gennari", i++);
-        sdl_ui_print_center("(C) 2007-2015 Daniel Kahlin", i++);
-        sdl_ui_print_center("(C) 2009-2015 Groepaz", i++);
-        sdl_ui_print_center("(C) 2009-2015 Errol Smith", i++);
-        sdl_ui_print_center("(C) 2010-2015 Olaf Seibert", i++);
-        sdl_ui_print_center("(C) 2011-2015 Marcus Sutton", i++);
-        sdl_ui_print_center("(C) 2011-2015 Kajtar Zsolt", i++);
+        for (j = 0; core_team[j].name; j++) {
+            tmp = util_concat("(C) ", core_team[j].years, " ", core_team[j].name, NULL);
+            sdl_ui_print_center(tmp, i++);
+            lib_free(tmp);
+        }
         sdl_ui_refresh();
 
         while (active) {
