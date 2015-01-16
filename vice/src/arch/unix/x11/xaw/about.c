@@ -127,7 +127,6 @@ static char *textlist[100] = { NULL };
 static Widget build_info_dialog(Widget parent, int *return_flag)
 {
     Widget shell, pane, info_form, button_form, tmp, prevlabel = NULL;
-    String str;
     int i = 0;
 
     shell = ui_create_transient_shell(parent, "infoDialogShell");
