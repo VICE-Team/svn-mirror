@@ -980,28 +980,27 @@ void ui_dispatch_events(void)
                 break;
             case MENU_ABOUT:
                 char *abouttext;
+                char *tmp;
 
+                tmp = util_concat("BeVICE Version ", VERSION,
 #ifdef USE_SVN_REVISION
-                abouttext = util_concat("BeVICE Version ", VERSION, "rev " VICE_SVN_REV_STRING,
-#else
-                abouttext = util_concat("BeVICE Version ", VERSION,
+                                  "rev " VICE_SVN_REV_STRING,
 #endif
-                                        "\n (", PLATFORM_CPU, " ", PLATFORM_OS, " ", PLATFORM_COMPILER, ")\n\n",
-                                        "(c) 1999-2015 Andreas Matthies\n",
-                                        "(c) 1999-2015 Martin Pottendorfer\n",
-                                        "(c) 2005-2015 Marco van den Heuvel\n",
-                                        "(c) 2007-2015 Fabrizio Gennari\n",
-                                        "(c) 2007-2015 Daniel Kahlin\n",
-                                        "(c) 2009-2015 Groepaz\n",
-                                        "(c) 2009-2015 Errol Smith\n",
-                                        "(c) 2010-2015 Olaf Seibert\n",
-                                        "(c) 2011-2015 Marcus Sutton\n",
-                                        "(c) 2011-2015 Kajtar Zsolt\n",
+                                  "\n (", PLATFORM_CPU, " ", PLATFORM_OS, " ", PLATFORM_COMPILER, ")\n\n",
+                                  NULL);
+                for (i = 0; core_team[i].name; i++) {
+                    abouttext = util_concat(tmp, "(c) ", core_team[i].years, " ", core_team[i].name, "\n", NULL);
+                    lib_free(tmp);
+                    tmp = abouttext;
+                }
+
+                abouttext = util_concat(tmp,
                                         "\nOfficial VICE homepage:\n",
                                         "http://vice-emu.sourceforge.net/",
                                         NULL);
+                lib_free(tmp);
                 ui_message(abouttext);
-                free(abouttext);
+                lib_free(abouttext);
                 break;
             case MENU_CONTRIBUTORS:
                 ui_show_text("Contributors", "Who made what?", info_contrib_text);
