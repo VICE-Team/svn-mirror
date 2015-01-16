@@ -592,42 +592,104 @@ static tui_menu_item_def_t reset_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static char *center_text_70(char *text)
+{
+    char *retval = NULL;
+    char *spaces;
+    int space_size = (70 - strlen(text)) / 2;
+
+    spaces = lib_malloc(space_size + 1);
+    memset(spaces, 32, space_size);
+    spaces[space_size] = 0;
+
+    retval = util_concat(spaces, text, NULL);
+    lib_free(spaces);
+
+    return retval;
+}
+
+static char *authors_start[] = {
+    "V I C E",
+#ifdef USE_SVN_REVISION
+    "Version " VERSION "rev " VICE_SVN_REV_STRING,
+#else
+    "Version " VERSION,
+#endif
+#ifdef UNSTABLE
+    "(unstable)",
+#endif
+    NULL
+};
+
+static char *authors_end[] = {
+    "Official VICE homepage:",
+    "http://vice-emu.sourceforge.net/",
+    NULL
+};
+
+#ifdef UNSTABLE
+static char *authors_unstable[] = {
+    "WARNING: this is an *unstable* test version!",
+    "Please check out the homepage for the latest updates.",
+    NULL
+};
+#endif
+
 /* this is getting too big for a static dialog, so it's been
    turned into a scrolling text view. */
 static TUI_MENU_CALLBACK(show_copyright_callback)
 {
     if (been_activated) {
-        const char *str_list = "\n"
-                               "                               V I C E\n"
-#ifdef USE_SVN_REVISION
-                               "                             Version " VERSION "rev " VICE_SVN_REV_STRING "\n"
-#else
-                               "                             Version " VERSION "\n"
-#endif
+        char *str_list;
+        char *tmp1, tmp2;
+        int i;
+        
+        str_list = lib_stralloc("\n");
+        for (i = 0; authors_start[i]; i++) {
+            tmp1 = center_text_70(authors_start[i]);
+            tmp2 = util_concat(str_list, tmp1, "\n", NULL);
+            lib_free(tmp1);
+            lib_free(str_list);
+            str_list = tmp2;
+        }
+        tmp1 = util_concat(str_list, "\n", NULL);
+        lib_free(str_list);
+        str_list = tmp1;
+        for (i = 0; core_team[i].name; i++) {
+            tmp1 = util_concat("Copyright (c) ", core_team[i].years, " ", core_team[i].name, NULL);
+            tmp2 = center_text_70(tmp1);
+            lib_free(tmp1);
+            tmp1 = util_concat(str_list, tmp2, "\n", NULL);
+            lib_free(str_list);
+            str_list = tmp1;
+        }
+        tmp1 = util_concat(str_list, "\n", NULL);
+        lib_free(str_list);
+        str_list = tmp1;
+        for (i = 0; authors_end[i]; i++) {
+            tmp1 = center_text_70(authors_end[i]);
+            tmp2 = util_concat(str_list, tmp1, "\n", NULL);
+            lib_free(tmp1);
+            lib_free(str_list);
+            str_list = tmp2;
+        }
 #ifdef UNSTABLE
-                               "                              (unstable)\n"
+        tmp1 = util_concat(str_list, "\n", NULL);
+        lib_free(str_list);
+        str_list = tmp1;
+        for (i = 0; authors_unstable[i]; i++) {
+            tmp1 = center_text_70(authors_unstable[i]);
+            tmp2 = util_concat(str_list, tmp1, "\n", NULL);
+            lib_free(tmp1);
+            lib_free(str_list);
+            str_list = tmp2;
+        }
 #endif
-                               "\n"
-                               "               Copyright (c) 1999-2015 Andreas Matthies\n"
-                               "             Copyright (c) 1999-2015 Martin Pottendorfer\n"
-                               "             Copyright (c) 2005-2015 Marco van den Heuvel\n"
-                               "               Copyright (c) 2007-2015 Fabrizio Gennari\n"
-                               "                Copyright (c) 2007-2015 Daniel Kahlin\n"
-                               "                   Copyright (c) 2009-2015 Groepaz\n"
-                               "                 Copyright (c) 2009-2015 Errol Smith\n"
-                               "                 Copyright (c) 2010-2015 Olaf Seibert\n"
-                               "                 Copyright (c) 2011-2015 Marcus Sutton\n"
-                               "                  Copyright (c) 2011-2015 Kajtar Zsolt\n"
-                               "\n"
-                               "                       Official VICE homepage:\n"
-                               "                   http://vice-emu.sourceforge.net/\n"
-#ifdef UNSTABLE
-                               "\n"
-                               "             WARNING: this is an *unstable* test version!\n"
-                               "        Please check out the homepage for the latest updates.\n"
-#endif
-                               "\n";
+        tmp1 = util_concat(str_list, "\n", NULL);
+        lib_free(str_list);
+        str_list = tmp1;
         tui_view_text(70, 20, NULL, str_list);
+        lib_free(str_list);
     }
     return NULL;
 }
