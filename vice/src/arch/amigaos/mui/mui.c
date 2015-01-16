@@ -34,6 +34,7 @@
 #define _INLINE_MUIMASTER_H
 #endif
 
+#include "info.h"
 #include "mui.h"
 #include "private.h"
 #include "platform_discovery.h"
@@ -395,7 +396,7 @@ void ui_about(void)
 {
     APTR gui = GroupObject, End;
     int i = 0;
-    static const char *authors[] = {
+    static const char *authors_start[] = {
         "VICE",
         "",
         "Versatile Commodore Emulator",
@@ -407,28 +408,32 @@ void ui_about(void)
 #endif
         "",
         "The VICE Team",
-        "Copyright \xa9 1999-2015 Andreas Matthies",
-        "Copyright \xa9 1999-2015 Martin Pottendorfer",
-        "Copyright \xa9 2005-2015 Marco van den Heuvel",
-        "Copyright \xa9 2007-2015 Fabrizio Gennari",
-        "Copyright \xa9 2007-2015 Daniel Kahlin",
-        "Copyright \xa9 2009-2015 Groepaz",
-        "Copyright \xa9 2009-2015 Errol Smith",
-        "Copyright \xa9 2009-2015 Olaf Seibert",
-        "Copyright \xa9 2011-2015 Marcus Sutton",
-        "Copyright \xa9 2011-2015 Kajtar Zsolt",
+        NULL);
+
+    static const char *authors_end[] = {
         "",
         "Official VICE homepage:",
         "http://vice-emu.sourceforge.net/",
         NULL};
 
-    while (authors[i] != NULL) {
+    char *tmp = NULL;
+
+    for (i = 0; authors_start[i] != NULL; i++) {
         if (i <= 5) { /* centered */
-            DoMethod(gui, OM_ADDMEMBER, CLabel(authors[i]));
+            DoMethod(gui, OM_ADDMEMBER, CLabel(authors_start[i]));
         } else {
-            DoMethod(gui, OM_ADDMEMBER, LLabel(authors[i]));
+            DoMethod(gui, OM_ADDMEMBER, LLabel(authors_start[i]));
         }
-        i++;
+    }
+
+    for (i = 0; core_team[i].name; i++) {
+        tmp = util_concat("Copyright \xa9 ", core_team[i].years, " ", core_team[i].name, NULL);
+        DoMethod(gui, OM_ADDMEMBER, LLabel(tmp));
+        lib_free(tmp);
+    }
+
+    for (i = 0; authors_end[i] != NULL) {
+        DoMethod(gui, OM_ADDMEMBER, LLabel(authors_end[i]));
     }
 
     mui_show_dialog(gui, translate_text(IDS_ABOUT), NULL);
