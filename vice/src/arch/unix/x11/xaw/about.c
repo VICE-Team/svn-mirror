@@ -58,6 +58,7 @@
 #include "lib.h"
 #include "platform_discovery.h"
 #include "uiapi.h"
+#include "util.h"
 #include "version.h"
 #include "vicefeatures.h"
 #include "videoarch.h"
@@ -121,11 +122,13 @@ static UI_CALLBACK(info_dialog_features_callback)
     lib_free(features);
 }
 
-static Widget build_info_dialog(Widget parent, int *return_flag, ...)
+static char *textlist[100] = { NULL };
+
+static Widget build_info_dialog(Widget parent, int *return_flag)
 {
     Widget shell, pane, info_form, button_form, tmp, prevlabel = NULL;
-    va_list arglist;
     String str;
+    int i = 0;
 
     shell = ui_create_transient_shell(parent, "infoDialogShell");
     pane = XtVaCreateManagedWidget("infoDialog",
@@ -140,11 +143,10 @@ static Widget build_info_dialog(Widget parent, int *return_flag, ...)
                                           XtNskipAdjust, True,
                                           XtNorientation, XtorientHorizontal,
                                           NULL);
-    va_start(arglist, return_flag);
-    while ((str = va_arg(arglist, String))) {
+    while (textlist[i]) {
         tmp = XtVaCreateManagedWidget("infoString",
                                       labelWidgetClass, info_form,
-                                      XtNlabel, str,
+                                      XtNlabel, textlist[i],
                                       XtNjustify, XtJustifyCenter,
                                       XtNresize, False,
                                       XtNwidth, 220,
@@ -153,8 +155,8 @@ static Widget build_info_dialog(Widget parent, int *return_flag, ...)
             XtVaSetValues(tmp, XtNfromVert, prevlabel, NULL);
         }
         prevlabel = tmp;
+        i++;
     }
-    va_end(arglist);
     tmp = XtVaCreateManagedWidget("closeButton",
                                   commandWidgetClass, button_form,
                                   NULL);
@@ -186,44 +188,40 @@ UI_CALLBACK(ui_about)
 {
     static Widget info_dialog;
     static int is_closed;
+    int i = 0;
+    int j;
 
     if (!info_dialog) {
-        info_dialog = build_info_dialog(_ui_top_level, &is_closed,
-                                        "",
-                                        "V I C E",
-                                        "",
+        textlist[i++] = lib_stralloc("");
+        textlist[i++] = lib_stralloc("V I C E");
+        textlist[i++] = lib_stralloc("");
 #ifdef USE_SVN_REVISION
 #ifdef USE_XAW3D
-                                        "Version " VERSION " rev " VICE_SVN_REV_STRING " (XAW3D " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+        textlist[i++] = lib_stralloc("Version " VERSION " rev " VICE_SVN_REV_STRING " (XAW3D " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")");
 #else
-                                        "Version " VERSION " rev " VICE_SVN_REV_STRING " (XAW " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+        textlist[i++] = lib_stralloc("Version " VERSION " rev " VICE_SVN_REV_STRING " (XAW " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")");
 #endif
 #else
 #ifdef USE_XAW3D
-                                        "Version " VERSION " (XAW3D " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+        textlist[i++] = lib_stralloc("Version " VERSION " (XAW3D " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")");
 #else
-                                        "Version " VERSION " (XAW " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+        textlist[i++] = lib_stralloc("Version " VERSION " (XAW " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")");
 #endif
 #endif
 #ifdef UNSTABLE
-                                        "(unstable)",
+        textlist[i++] = lib_stralloc("(unstable)");
 #endif
-                                        "",
-                                        "Copyright C 1999-2015 Andreas Matthies",
-                                        "Copyright C 1999-2015 Martin Pottendorfer",
-                                        "Copyright C 2005-2015 Marco van den Heuvel",
-                                        "Copyright C 2007-2015 Fabrizio Gennari",
-                                        "Copyright C 2007-2015 Daniel Kahlin",
-                                        "Copyright C 2009-2015 Groepaz",
-                                        "Copyright C 2009-2015 Errol Smith",
-                                        "Copyright C 2009-2015 Olaf Seibert",
-                                        "Copyright C 2011-2015 Marcus Sutton",
-                                        "Copyright C 2011-2015 Kajtar Zsolt",
-                                        "",
-                                        _("Official VICE homepage:"),
-                                        "http://vice-emu.sourceforge.net/",
-                                        "",
-                                        NULL);
+        textlist[i++] = lib_stralloc("");
+        for (j = 0; core_team[j].name; j++) {
+            textlist[i++] = util_concat("Copyright C ", core_team[j].years, " ", core_team[j].name", NULL);
+        }
+        textlist[i++] = lib_stralloc("");
+        textlist[i++] = lib_stralloc("Official VICE homepage:");
+        textlist[i++] = lib_stralloc("http://vice-emu.sourceforge.net/");
+        textlist[i++] = lib_stralloc("");
+        textlist[i] = NULL;
+
+        info_dialog = build_info_dialog(_ui_top_level, &is_closed);
     }
     vsync_suspend_speed_eval();
     ui_popup(XtParent(info_dialog), _("VICE Information"), False);
@@ -233,4 +231,16 @@ UI_CALLBACK(ui_about)
         ui_dispatch_next_event();
     }
     ui_popdown(XtParent(info_dialog));
+}
+
+void ui_about_shutdown(void)
+{
+    int i;
+
+    if (textlist[0]) {
+        for (i = 0; textlist[i]; i++) {
+            lib_free(textlist[i]);
+        }
+        textlist[0] = NULL;
+    }
 }

@@ -1081,4 +1081,5 @@ void uimenu_shutdown(void)
 {
     lib_free(registered_hotkeys);
     lib_free(checkmark_menu_items);
+    ui_about_shutdown();
 }
