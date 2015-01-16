@@ -485,33 +485,39 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
 
     i = 0;
     while (core_team[i] != NULL) {
-        fprintf(outfile, "    { \"%s\", \"%s\" },\n", core_team[i], core_team[i + 1]);
+        sprintf(line_buffer, "@b{%s}", core_team[i + 1]);
+        replacetags();
+        fprintf(outfile, "    { \"%s\", \"%s\", \"%s\" },\n", core_team[i], core_team[i + 1], line_buffer);
         free(core_team[i++]);
         free(core_team[i++]);
     }
-    fprintf(outfile, "    { NULL, NULL }\n");
+    fprintf(outfile, "    { NULL, NULL, NULL }\n");
     fprintf(outfile, "};\n\n");
 
     fprintf(outfile, "vice_team_t ex_team[] = {\n");
 
     i = 0;
     while (ex_team[i] != NULL) {
-        fprintf(outfile, "    { \"%s\", \"%s\" },\n", ex_team[i], ex_team[i + 1]);
+        sprintf(line_buffer, "@b{%s}", ex_team[i + 1]);
+        replacetags();
+        fprintf(outfile, "    { \"%s\", \"%s\", \"%s\" },\n", ex_team[i], ex_team[i + 1], line_buffer);
         free(ex_team[i++]);
         free(ex_team[i++]);
     }
-    fprintf(outfile, "    { NULL, NULL }\n");
+    fprintf(outfile, "    { NULL, NULL, NULL }\n");
     fprintf(outfile, "};\n\n");
 
     fprintf(outfile, "vice_trans_t trans_team[] = {\n");
 
     i = 0;
     while (trans_team[i] != NULL) {
-        fprintf(outfile, "    { \"%s\", \"%s\" },\n", trans_team[i], trans_team[i + 1]);
+        sprintf(line_buffer, "@b{%s}", trans_team[i]);
+        replacetags();
+        fprintf(outfile, "    { \"%s\", \"%s\", \"%s\" },\n", trans_team[i], trans_team[i + 1], line_buffer);
         free(trans_team[i++]);
         free(trans_team[i++]);
     }
-    fprintf(outfile, "    { NULL, NULL }\n");
+    fprintf(outfile, "    { NULL, NULL, NULL }\n");
     fprintf(outfile, "};\n\n");
 
     fprintf(outfile, "char *doc_team[] = {\n");
