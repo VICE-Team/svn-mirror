@@ -146,7 +146,7 @@ s/@b{Jarek Sobolewski}/Jarek Sobolewski <r@sledinmay.com>/g
 s/@b{Magnus Lind}/Magnus Lind/g
 s/@b{Manuel Antonio Rodriguez Bas}/Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>/g
 s/@b{Helfried Peyrl}/Helfried Peyrl/g
-s/@b{Benjamin 'BeRo' Rosseaux}/Benjamin 'BeRo' Rosseaux/g
+s/@b{Benjamin 'BeRo' Rosseaux}/Benjamin 'BeRo' Rosseaux <benjamin@rosseaux.com>/g
 s/@b{Peter Rittwage}/Peter Rittwage/g
 s/@b{Robert McIntyre}/Robert McIntyre/g
 s/@b{István Fábián}/István Fábián/g
