@@ -52,6 +52,36 @@ checkoutput()
   esac
 }
 
+splititem4()
+{
+  item1=$1
+  item2=$2
+  item3=$3
+  item4=$4
+}
+
+buildlists()
+{
+  CORETEAM_MEMBERS=""
+  EXTEAM_MEMBERS=""
+  TRANSTEAM_MEMBERS=""
+
+  for i in $MEMBERS
+  do
+    item=`echo $i | sed 's/+/ /g'`
+    splititem4 $item
+    if test x"$item1" = "xCORE"; then
+      CORETEAM_MEMBERS="$CORETEAM_MEMBERS $i"
+    fi
+    if test x"$item1" = "xEX"; then
+      EXTEAM_MEMBERS="$EXTEAM_MEMBERS $i"
+    fi
+    if test x"$item1" = "xTRANS"; then
+      TRANSTEAM_MEMBERS="$TRANSTEAM_MEMBERS $i"
+    fi
+  done
+}
+
 rm -f try.tmp
 $ECHO "\\\\n" >try.tmp
 n1=`cat	try.tmp	| wc -c`
@@ -103,7 +133,7 @@ exteamsection=no
 transteamsection=no
 docteamsection=no
 
-rm -f coreteam.tmp exteam.tmp transteam.tmp docteam.tmp
+rm -f coreteam.tmp exteam.tmp transteam.tmp docteam.tmp team.tmp
 
 while read data
 do
@@ -126,11 +156,17 @@ do
   if test x"$coreteamsection" = "xyes"; then
     extractnames $data
     $ECHO >>coreteam.tmp "    { \"$years\", \"$name\", \"@b{$name}\" },"
+    yearencoded=`$ECHO "$years" | sed 's/ /_/g'`
+    nameencoded=`$ECHO "$name" | sed 's/ /_/g'`
+    $ECHO >>team.tmp "CORE+$yearencoded+$nameencoded"
   fi
 
   if test x"$exteamsection" = "xyes"; then
     extractnames $data
     $ECHO >>exteam.tmp "    { \"$years\", \"$name\", \"@b{$name}\" },"
+    yearencoded=`$ECHO "$years" | sed 's/ /_/g'`
+    nameencoded=`$ECHO "$name" | sed 's/ /_/g'`
+    $ECHO >>team.tmp "EX+$yearencoded+$nameencoded"
   fi
 
   if test x"$transteamsection" = "xyes"; then
@@ -141,6 +177,8 @@ do
     extractlang $data
     read data
     $ECHO >>transteam.tmp "    { \"$years\", \"$item\", \"$language\", \"@b{$item}\" },"
+    nameencoded=`$ECHO "$item" | sed 's/ /_/g'`
+    $ECHO >>team.tmp "TRANS+$years+$nameencoded+$language"
   fi
 
   if test x"$docteamsection" = "xyes"; then
