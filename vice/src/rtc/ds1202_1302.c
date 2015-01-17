@@ -31,6 +31,7 @@
 #include "rtc.h"
 #include "snapshot.h"
 
+#include <time.h>
 #include <string.h>
 
 /* The DS1202 and DS1302 are serial line based RTCs, they have the following features:
@@ -98,6 +99,53 @@
    - C64/C128 IDE64 cartridge (1302)
    - CMD Smartmouse (1202)
  */
+
+/* ---------------------------------------------------------------------------------------------------- */
+
+#define DS1202_1302_RAM_SIZE   32
+#define DS1202_1302_REG_SIZE   8
+
+struct rtc_ds1202_1302_s {
+    int rtc_type;
+    int clock_halt;
+    time_t clock_halt_latch;
+    int am_pm;
+    int write_protect;
+    time_t latch;
+    time_t offset;
+    time_t old_offset;
+    BYTE *clock_regs;
+    BYTE old_clock_regs[DS1202_1302_REG_SIZE];
+    BYTE trickle_charge;
+    BYTE *ram;
+    BYTE old_ram[DS1202_1302_RAM_SIZE];
+    BYTE state;
+    BYTE reg;
+    BYTE bit;
+    BYTE output_bit;
+    BYTE io_byte;
+    BYTE sclk_line;
+    BYTE clock_register;
+    char *device;
+};
+
+#define DS1202_1302_REG_SECONDS_CH       0
+#define DS1202_1302_REG_MINUTES          1
+#define DS1202_1302_REG_HOURS            2
+#define DS1202_1302_REG_DAYS_OF_MONTH    3
+#define DS1202_1302_REG_MONTHS           4
+#define DS1202_1302_REG_DAYS_OF_WEEK     5
+#define DS1202_1302_REG_YEARS            6
+#define DS1202_1302_REG_WRITE_PROTECT    7
+#define DS1302_REG_TRICKLE_CHARGE        8
+
+#define DS1202_1302_BURST   31
+
+#define DS1202_1302_INPUT_COMMAND_BITS        0
+#define DS1202_1302_INPUT_SINGLE_DATA_BITS    1
+#define DS1202_1302_INPUT_BURST_DATA_BITS     2
+#define DS1202_1302_OUTPUT_SINGLE_DATA_BITS   3
+#define DS1202_1302_OUTPUT_BURST_DATA_BITS    4
 
 /* ---------------------------------------------------------------------------------------------------- */
 
@@ -262,7 +310,7 @@ static void ds1202_1302_decode_command(rtc_ds1202_1302_t *context)
     if (read && !burst && !clock_reg) {
         context->state = DS1202_1302_OUTPUT_SINGLE_DATA_BITS;
         context->bit = 0;
-        context->io_byte = (context->ram[context->reg * 2] << 4) | (context->ram[(context->reg * 2) + 1] & 0xf);
+        context->io_byte = context->ram[context->reg];
     }
 
     /* check for DS1202_1302_OUTPUT_BURST_DATA_BITS and clock */
@@ -283,7 +331,7 @@ static void ds1202_1302_decode_command(rtc_ds1202_1302_t *context)
         context->state = DS1202_1302_OUTPUT_BURST_DATA_BITS;
         context->reg = 0;
         context->bit = 0;
-        context->io_byte = (context->ram[0] << 4) | (context->ram[1] & 0xf);
+        context->io_byte = context->ram[0];
     }
 }
 
@@ -320,7 +368,7 @@ static BYTE ds1202_1302_read_burst_data_bit(rtc_ds1202_1302_t *context)
                 context->io_byte = 0;
             } else {
                 context->bit = 0;
-                context->io_byte = (context->ram[context->reg * 2] << 4) | (context->ram[(context->reg * 2) + 1] & 0xf);
+                context->io_byte = context->ram[context->reg];
             }
         }
     }
@@ -404,8 +452,7 @@ static void ds1202_1302_write_burst_data_bit(rtc_ds1202_1302_t *context, unsigne
                 }
             }
         } else {
-            context->ram[context->reg * 2] = (context->io_byte >> 4) | 0x40;
-            context->ram[(context->reg * 2) + 1] = (context->io_byte & 0xf) | 0x40;
+            context->ram[context->reg] = context->io_byte;
             context->reg++;
             if (context->reg == 32) {
                 context->state = DS1202_1302_INPUT_COMMAND_BITS;
@@ -517,8 +564,7 @@ static void ds1202_1302_write_single_data_bit(rtc_ds1202_1302_t *context, unsign
                     break;
             }
         } else {
-            context->ram[context->reg * 2] = (context->io_byte >> 4) | 0x40;
-            context->ram[(context->reg * 2) + 1] = (context->io_byte & 0xf) | 0x40;
+            context->ram[context->reg] = context->io_byte;
         }
         context->state = DS1202_1302_INPUT_COMMAND_BITS;
         context->bit = 0;
