@@ -28,6 +28,11 @@ extractlang()
   language=$3
 }
 
+extractyears()
+{
+  years=$3
+}
+
 # use system echo if possible, as it supports backslash expansion
 if test -f /bin/echo; then
   ECHO=/bin/echo
@@ -131,9 +136,11 @@ do
   if test x"$transteamsection" = "xyes"; then
     extractitem $data
     read data
+    extractyears $data
+    read data
     extractlang $data
     read data
-    $ECHO >>transteam.tmp "    { \"$item\", \"$language\", \"@b{$item}\" },"
+    $ECHO >>transteam.tmp "    { \"$years\", \"$item\", \"$language\", \"@b{$item}\" },"
   fi
 
   if test x"$docteamsection" = "xyes"; then
@@ -199,6 +206,6 @@ $ECHO ""
 $ECHO "vice_trans_t trans_team[] = {"
 cat transteam.tmp
 rm -f transteam.tmp
-$ECHO "    { NULL, NULL, NULL }"
+$ECHO "    { NULL, NULL, NULL, NULL }"
 $ECHO "};"
 $ECHO "#endif"

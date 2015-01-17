@@ -56,6 +56,7 @@ typedef struct vice_team_s {
 } vice_team_t;
 
 typedef struct vice_trans_s {
+    char *years;
     char *name;
     char *language;
     char *emailname;
