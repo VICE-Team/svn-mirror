@@ -44,6 +44,14 @@ else
   fi
 fi
 
+checkoutput()
+{
+  dooutput=yes
+  case "$data" in
+      @c*|"@itemize @bullet"|@item|"@end itemize") dooutput=no ;;
+  esac
+}
+
 rm -f try.tmp
 $ECHO "\\\\n" >try.tmp
 n1=`cat	try.tmp	| wc -c`
@@ -88,14 +96,6 @@ $ECHO "#ifndef VICE_INFOCONTRIB_H"
 $ECHO "#define VICE_INFOCONTRIB_H"
 $ECHO ""
 $ECHO "const char info_contrib_text[] ="
-
-checkoutput()
-{
-  dooutput=yes
-  case "$data" in
-      @c*|"@itemize @bullet"|@item|"@end itemize") dooutput=no ;;
-  esac
-}
 
 outputok=no
 coreteamsection=no
