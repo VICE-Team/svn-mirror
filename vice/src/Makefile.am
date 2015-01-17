@@ -481,7 +481,7 @@ svnversion.h: svnversion.h.indirect
 
 infocontrib.h:	$(top_srcdir)/doc/vice.texi
 	echo "generating infocontrib.h..."
-	$(SHELL) $(srcdir)/geninfocontrib_h.sh <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >infocontrib.h
+	$(SHELL) $(srcdir)/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >infocontrib.h
 
 translate.h:	$(srcdir)/translate.txt ./gentranslate_h.sh
 	echo "generating translate.h..."
