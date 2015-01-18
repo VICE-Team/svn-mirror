@@ -292,109 +292,109 @@
 /* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
    execute NMI. NMI can _not_ take over an in progress IRQ. */
 /* FIXME: LOCAL_STATUS() should check byte ready first.  */
-#define DO_INTERRUPT(int_kind)                                                                                    \
-    do {                                                                                                          \
-        BYTE ik = (int_kind);                                                                                     \
-                                                                                                                  \
-        if (ik & (IK_IRQ | IK_IRQPEND | IK_NMI)) {                                                                \
-            if ((ik & IK_NMI)                                                                                     \
-                 && interrupt_check_nmi_delay(CPU_INT_STATUS, CLK)) {                                             \
-                TRACE_NMI(CLK);                                                                                   \
-                if (monitor_mask[CALLER] & (MI_STEP)) {                                                           \
-                    monitor_check_icount_interrupt();                                                             \
-                }                                                                                                 \
-                interrupt_ack_nmi(CPU_INT_STATUS);                                                                \
-                if (NMI_CYCLES == 7) {                                                                            \
-                    LOAD(reg_pc);   /* dummy reads */                                                             \
-                    CLK_ADD(CLK, 1);                                                                              \
-                    LOAD(reg_pc);                                                                                 \
-                    CLK_ADD(CLK, 1);                                                                              \
-                }                                                                                                 \
-                LOCAL_SET_BREAK(0);                                                                               \
-                PUSH(reg_pc >> 8);                                                                                \
-                PUSH(reg_pc & 0xff);                                                                              \
-                CLK_ADD(CLK, 2);                                                                                  \
-                PUSH(LOCAL_STATUS());                                                                             \
-                CLK_ADD(CLK, 1);                                                                                  \
-                LOCAL_SET_DECIMAL(0);                                                                             \
-                LOCAL_SET_INTERRUPT(1);                                                                           \
-                JUMP(LOAD_ADDR(0xfffa));                                                                          \
-                SET_LAST_OPCODE(0);                                                                               \
-                CLK_ADD(CLK, 2);                                                                                  \
-            }                                                                                                     \
-            if ((ik & (IK_IRQ | IK_IRQPEND)) && (!LOCAL_INTERRUPT() || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))     \
-                    && interrupt_check_irq_delay(CPU_INT_STATUS, CLK)) {                                          \
-                TRACE_IRQ(CLK);                                                                                   \
-                if (monitor_mask[CALLER] & (MI_STEP)) {                                                           \
-                    monitor_check_icount_interrupt();                                                             \
-                }                                                                                                 \
-                interrupt_ack_irq(CPU_INT_STATUS);                                                                \
-                if (NMI_CYCLES == 7) {                                                                            \
-                    LOAD(reg_pc);   /* dummy reads */                                                             \
-                    CLK_ADD(CLK, 1);                                                                              \
-                    LOAD(reg_pc);                                                                                 \
-                    CLK_ADD(CLK, 1);                                                                              \
-                }                                                                                                 \
-                LOCAL_SET_BREAK(0);                                                                               \
-                PUSH(reg_pc >> 8);                                                                                \
-                PUSH(reg_pc & 0xff);                                                                              \
-                CLK_ADD(CLK, 2);                                                                                  \
-                PUSH(LOCAL_STATUS());                                                                             \
-                CLK_ADD(CLK, 1);                                                                                  \
-                LOCAL_SET_DECIMAL(0);                                                                             \
-                LOCAL_SET_INTERRUPT(1);                                                                           \
-                JUMP(LOAD_ADDR(0xfffe));                                                                          \
-                SET_LAST_OPCODE(0);                                                                               \
-                CLK_ADD(CLK, 2);                                                                                  \
-            }                                                                                                     \
-        }                                                                                                         \
-        if (ik & (IK_TRAP | IK_RESET)) {                                                                          \
-            if (ik & IK_TRAP) {                                                                                   \
-                EXPORT_REGISTERS();                                                                               \
-                interrupt_do_trap(CPU_INT_STATUS, (WORD)reg_pc);                                                  \
-                IMPORT_REGISTERS();                                                                               \
-                if (CPU_INT_STATUS->global_pending_int & IK_RESET) {                                              \
-                    ik |= IK_RESET;                                                                               \
-                }                                                                                                 \
-            }                                                                                                     \
-            if (ik & IK_RESET) {                                                                                  \
-                interrupt_ack_reset(CPU_INT_STATUS);                                                              \
-                cpu_reset();                                                                                      \
-                bank_start = bank_limit = 0; /* prevent caching */                                                \
-                JUMP(LOAD_ADDR(0xfffc));                                                                          \
-                DMA_ON_RESET;                                                                                     \
-            }                                                                                                     \
-        }                                                                                                         \
-        if (ik & (IK_MONITOR | IK_DMA)) {                                                                         \
-            if (ik & IK_MONITOR) {                                                                                \
-                if (monitor_force_import(CALLER)) {                                                               \
-                    IMPORT_REGISTERS();                                                                           \
-                }                                                                                                 \
-                if (monitor_mask[CALLER]) {                                                                       \
-                    EXPORT_REGISTERS();                                                                           \
-                }                                                                                                 \
-                if (monitor_mask[CALLER] & (MI_STEP)) {                                                           \
-                    monitor_check_icount((WORD)reg_pc);                                                           \
-                    IMPORT_REGISTERS();                                                                           \
-                }                                                                                                 \
-                if (monitor_mask[CALLER] & (MI_BREAK)) {                                                          \
-                    if (monitor_check_breakpoints(CALLER, (WORD)reg_pc)) {                                        \
-                        monitor_startup(CALLER);                                                                  \
-                        IMPORT_REGISTERS();                                                                       \
-                    }                                                                                             \
-                }                                                                                                 \
-                if (monitor_mask[CALLER] & (MI_WATCH)) {                                                          \
-                    monitor_check_watchpoints(LAST_OPCODE_ADDR, (WORD)reg_pc);                                    \
-                    IMPORT_REGISTERS();                                                                           \
-                }                                                                                                 \
-            }                                                                                                     \
-            if (ik & IK_DMA) {                                                                                    \
-                EXPORT_REGISTERS();                                                                               \
-                DMA_FUNC;                                                                                         \
-                interrupt_ack_dma(CPU_INT_STATUS);                                                                \
-                IMPORT_REGISTERS();                                                                               \
-            }                                                                                                     \
-        }                                                                                                         \
+#define DO_INTERRUPT(int_kind)                                                                                \
+    do {                                                                                                      \
+        BYTE ik = (int_kind);                                                                                 \
+                                                                                                              \
+        if (ik & (IK_IRQ | IK_IRQPEND | IK_NMI)) {                                                            \
+            if ((ik & IK_NMI)                                                                                 \
+                 && interrupt_check_nmi_delay(CPU_INT_STATUS, CLK)) {                                         \
+                TRACE_NMI(CLK);                                                                               \
+                if (monitor_mask[CALLER] & (MI_STEP)) {                                                       \
+                    monitor_check_icount_interrupt();                                                         \
+                }                                                                                             \
+                interrupt_ack_nmi(CPU_INT_STATUS);                                                            \
+                if (NMI_CYCLES == 7) {                                                                        \
+                    LOAD(reg_pc);   /* dummy reads */                                                         \
+                    CLK_ADD(CLK, 1);                                                                          \
+                    LOAD(reg_pc);                                                                             \
+                    CLK_ADD(CLK, 1);                                                                          \
+                }                                                                                             \
+                LOCAL_SET_BREAK(0);                                                                           \
+                PUSH(reg_pc >> 8);                                                                            \
+                PUSH(reg_pc & 0xff);                                                                          \
+                CLK_ADD(CLK, 2);                                                                              \
+                PUSH(LOCAL_STATUS());                                                                         \
+                CLK_ADD(CLK, 1);                                                                              \
+                LOCAL_SET_DECIMAL(0);                                                                         \
+                LOCAL_SET_INTERRUPT(1);                                                                       \
+                JUMP(LOAD_ADDR(0xfffa));                                                                      \
+                SET_LAST_OPCODE(0);                                                                           \
+                CLK_ADD(CLK, 2);                                                                              \
+            }                                                                                                 \
+            if ((ik & (IK_IRQ | IK_IRQPEND)) && (!LOCAL_INTERRUPT() || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO)) \
+                    && interrupt_check_irq_delay(CPU_INT_STATUS, CLK)) {                                      \
+                TRACE_IRQ(CLK);                                                                               \
+                if (monitor_mask[CALLER] & (MI_STEP)) {                                                       \
+                    monitor_check_icount_interrupt();                                                         \
+                }                                                                                             \
+                interrupt_ack_irq(CPU_INT_STATUS);                                                            \
+                if (NMI_CYCLES == 7) {                                                                        \
+                    LOAD(reg_pc);   /* dummy reads */                                                         \
+                    CLK_ADD(CLK, 1);                                                                          \
+                    LOAD(reg_pc);                                                                             \
+                    CLK_ADD(CLK, 1);                                                                          \
+                }                                                                                             \
+                LOCAL_SET_BREAK(0);                                                                           \
+                PUSH(reg_pc >> 8);                                                                            \
+                PUSH(reg_pc & 0xff);                                                                          \
+                CLK_ADD(CLK, 2);                                                                              \
+                PUSH(LOCAL_STATUS());                                                                         \
+                CLK_ADD(CLK, 1);                                                                              \
+                LOCAL_SET_DECIMAL(0);                                                                         \
+                LOCAL_SET_INTERRUPT(1);                                                                       \
+                JUMP(LOAD_ADDR(0xfffe));                                                                      \
+                SET_LAST_OPCODE(0);                                                                           \
+                CLK_ADD(CLK, 2);                                                                              \
+            }                                                                                                 \
+        }                                                                                                     \
+        if (ik & (IK_TRAP | IK_RESET)) {                                                                      \
+            if (ik & IK_TRAP) {                                                                               \
+                EXPORT_REGISTERS();                                                                           \
+                interrupt_do_trap(CPU_INT_STATUS, (WORD)reg_pc);                                              \
+                IMPORT_REGISTERS();                                                                           \
+                if (CPU_INT_STATUS->global_pending_int & IK_RESET) {                                          \
+                    ik |= IK_RESET;                                                                           \
+                }                                                                                             \
+            }                                                                                                 \
+            if (ik & IK_RESET) {                                                                              \
+                interrupt_ack_reset(CPU_INT_STATUS);                                                          \
+                cpu_reset();                                                                                  \
+                bank_start = bank_limit = 0; /* prevent caching */                                            \
+                JUMP(LOAD_ADDR(0xfffc));                                                                      \
+                DMA_ON_RESET;                                                                                 \
+            }                                                                                                 \
+        }                                                                                                     \
+        if (ik & (IK_MONITOR | IK_DMA)) {                                                                     \
+            if (ik & IK_MONITOR) {                                                                            \
+                if (monitor_force_import(CALLER)) {                                                           \
+                    IMPORT_REGISTERS();                                                                       \
+                }                                                                                             \
+                if (monitor_mask[CALLER]) {                                                                   \
+                    EXPORT_REGISTERS();                                                                       \
+                }                                                                                             \
+                if (monitor_mask[CALLER] & (MI_STEP)) {                                                       \
+                    monitor_check_icount((WORD)reg_pc);                                                       \
+                    IMPORT_REGISTERS();                                                                       \
+                }                                                                                             \
+                if (monitor_mask[CALLER] & (MI_BREAK)) {                                                      \
+                    if (monitor_check_breakpoints(CALLER, (WORD)reg_pc)) {                                    \
+                        monitor_startup(CALLER);                                                              \
+                        IMPORT_REGISTERS();                                                                   \
+                    }                                                                                         \
+                }                                                                                             \
+                if (monitor_mask[CALLER] & (MI_WATCH)) {                                                      \
+                    monitor_check_watchpoints(LAST_OPCODE_ADDR, (WORD)reg_pc);                                \
+                    IMPORT_REGISTERS();                                                                       \
+                }                                                                                             \
+            }                                                                                                 \
+            if (ik & IK_DMA) {                                                                                \
+                EXPORT_REGISTERS();                                                                           \
+                DMA_FUNC;                                                                                     \
+                interrupt_ack_dma(CPU_INT_STATUS);                                                            \
+                IMPORT_REGISTERS();                                                                           \
+            }                                                                                                 \
+        }                                                                                                     \
     } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -427,7 +427,7 @@
 
 #define LOAD_IND_X(addr) (CLK_ADD(CLK, CYCLES_3), LOAD(LOAD_ZERO_ADDR((addr) + reg_x)))
 
-#define LOAD_IND_Y(addr)                                                     \
+#define LOAD_IND_Y(addr)                                                      \
     (CLK_ADD(CLK, CYCLES_2), ((LOAD_ZERO_ADDR((addr)) & 0xff) + reg_y) > 0xff \
      ? (LOAD(reg_pc + 1),                                                     \
         CLK_ADD(CLK, CYCLES_1),                                               \
