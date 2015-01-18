@@ -29,6 +29,8 @@
 
 #include "types.h"
 
+#include <time.h>
+
 #define RTC_MONTH_JAN   0
 #define RTC_MONTH_FEB   1
 #define RTC_MONTH_MAR   2
