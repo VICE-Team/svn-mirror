@@ -234,6 +234,54 @@ static char *ex_team[200];
 static char *trans_team[200];
 static char *doc_team[100];
 
+static char *all_team[300];
+
+static int is_in_all_team_list(char *name)
+{
+    int i;
+
+    for (i = 0; all_team[i]; i++) {
+        if (!strcmp(name, all_team[i])) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static void fill_all_team_list(void)
+{
+    int count = 0;
+    int i = 0;
+
+    all_team[count] = NULL;
+
+    while (core_team[i] != NULL) {
+        if (is_in_all_team_list(core_team[i + 1]) == 0) {
+            all_team[count++] = core_team[i + 1];
+            all_team[count] = NULL;
+        }
+        i += 2;
+    }
+
+    i = 0;
+    while (ex_team[i] != NULL) {
+        if (is_in_all_team_list(ex_team[i + 1]) == 0) {
+            all_team[count++] = ex_team[i + 1];
+            all_team[count] = NULL;
+        }
+        i += 2;
+    }
+
+    i = 0;
+    while (trans_team[i] != NULL) {
+        if (is_in_all_team_list(trans_team[i]) == 0) {
+            all_team[count++] = trans_team[i];
+            all_team[count] = NULL;
+        }
+        i += 3;
+    }
+}
+
 static void generate_infocontrib(char *in_filename, char *out_filename, char *sed_filename)
 {
     int found_start = 0;
@@ -731,10 +779,103 @@ static void generate_readme(char *filename)
     rename(line_buffer, filename);
 }
 
+static void generate_index_html(char *filename)
+{
+    FILE *infile = NULL;
+    FILE *outfile = NULL;
+    int i = 0;
+    int found_start = 0;
+    int found_end = 0;
+    int found_eof = 0;
+    int line_size;
+
+    infile = fopen(filename, "rb");
+    if (infile == NULL) {
+        printf("cannot open %s for reading\n", filename);
+        return;
+    }
+
+    sprintf(line_buffer, "%s.tmp", filename);
+    outfile = fopen(line_buffer, "wb");
+    if (outfile == NULL) {
+        printf("cannot open %s for writing\n", line_buffer);
+        fclose(infile);
+        return;
+    }
+
+    fill_all_team_list();
+
+    while (found_start == 0) {
+        line_size = get_line(infile);
+        if (!strcmp(line_buffer, "<!--teamstart-->")) { 
+            found_start = 1;
+        }
+        if (line_size == 0) {
+            fprintf(outfile, "\n");
+        } else {
+            fprintf(outfile, "%s\n", line_buffer);
+        }
+    }
+
+    fprintf(outfile, "<p>\n");
+    fprintf(outfile, "Current VICE team members:\n");
+
+    fprintf(outfile, "%s", core_team[i + 1]);
+    i = 2;
+    while (core_team[i] != NULL) {
+        fprintf(outfile, ",\n");
+        fprintf(outfile, "%s", core_team[i + 1]);
+        i += 2;
+    }
+    fprintf(outfile, ".\n");
+    fprintf(outfile, "</p>\n\n");
+    fprintf(outfile, "<p>Of course our warm thanks go to everyone who has helped us in developing\n");
+    fprintf(outfile, "VICE during these past few years. For a more detailed list look in the\n");
+    fprintf(outfile, "<a href=\"vice_16.html\">documentation</a>.\n\n\n");
+    fprintf(outfile, "<hr>\n\n");
+    fprintf(outfile, "<h1><a NAME=\"copyright\"></a>Copyright</h1>\n\n");
+    fprintf(outfile, "<p>\n");
+    fprintf(outfile, "The VICE is copyrighted to\n");
+
+    fprintf(outfile, "%s", all_team[0]);
+    for (i = 1; all_team[i]; i++) {
+        fprintf(outfile, ",\n%s", all_team[i]);
+    }
+    fprintf(outfile, ".\n");
+    fprintf(outfile, "<!--teamend-->\n");
+
+    while (found_end == 0) {
+        line_size = get_line(infile);
+        if (!strcmp(line_buffer, "<!--teamend-->")) { 
+            found_end = 1;
+        }
+    }
+
+    while (found_eof == 0) {
+        line_size = get_line(infile);
+        if (line_size == -1) {
+            found_eof = 1;
+        } else {
+            if (line_size == 0) {
+                fprintf(outfile, "\n");
+            } else {
+                fprintf(outfile, "%s\n", line_buffer);
+            }
+        }
+    }
+
+    fclose(outfile);
+    fclose(infile);
+
+    sprintf(line_buffer, "%s.tmp", filename);
+    unlink(filename);
+    rename(line_buffer, filename);
+}
+
 int main(int argc, char *argv[])
 {
     int i;
-    if (argc < 6) {
+    if (argc < 7) {
         printf("too few arguments\n");
         exit(1);
     }
@@ -746,6 +887,8 @@ int main(int argc, char *argv[])
     generate_osx_credits_html(argv[5]);
 
     generate_readme(argv[6]);
+
+    generate_index_html(argv[7]);
 
     for (i = 0; core_team[i] != NULL; i++) {
         free(core_team[i++]);

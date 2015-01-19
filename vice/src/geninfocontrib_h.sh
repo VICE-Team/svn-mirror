@@ -505,7 +505,9 @@ if test x"$1" = "xindexhtml"; then
         if test x"$decodedname" != "x"; then
           $ECHO "$decodedname,"
         fi
-        decodedname=`$ECHO "$i" | sed 's/_/ /g'`
+        if test x"$i" != "x"; then
+          decodedname=`$ECHO "$i" | sed 's/_/ /g'`
+        fi
       done
       $ECHO "$decodename."
       IFS=''
