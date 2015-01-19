@@ -543,15 +543,60 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
     fclose(outfile);
 }
 
+static void generate_authors(char *filename)
+{
+    FILE *outfile = NULL;
+    int i = 0;
+
+    outfile = fopen(filename, "wb");
+
+    if (outfile == NULL) {
+        printf("cannot open %s for writing\n", filename);
+        return;
+    }
+
+    fprintf(outfile, "Core Team Members:\n\n");
+
+    while (core_team[i] != NULL) {
+        sprintf(line_buffer, "@b{%s}", core_team[i + 1]);
+        replacetags();
+        fprintf(outfile, "%s\n", line_buffer);
+        i += 2;
+    }
+
+    fprintf(outfile, "\n\nInactive/Ex Team Members:\n\n");
+
+    i = 0;
+    while (ex_team[i] != NULL) {
+        sprintf(line_buffer, "@b{%s}", ex_team[i + 1]);
+        replacetags();
+        fprintf(outfile, "%s\n", line_buffer);
+        i += 2;
+    }
+
+    fprintf(outfile, "\n\nTranslation Team Members:\n\n");
+
+    i = 0;
+    while (trans_team[i] != NULL) {
+        sprintf(line_buffer, "@b{%s}", trans_team[i]);
+        replacetags();
+        fprintf(outfile, "%s\n", line_buffer);
+        i += 3;
+    }
+    fclose(outfile);
+}
+
 int main(int argc, char *argv[])
 {
     int i;
-    if (argc < 3) {
+    if (argc < 4) {
         printf("too few arguments\n");
         exit(1);
     }
 
     generate_infocontrib(argv[1], argv[2], argv[3]);
+
+    generate_authors(argv[4]);
 
     for (i = 0; core_team[i] != NULL; i++) {
         free(core_team[i++]);
