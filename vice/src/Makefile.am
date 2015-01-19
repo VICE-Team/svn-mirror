@@ -484,6 +484,9 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi
 	$(SHELL) $(srcdir)/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >infocontrib.h
 	$(SHELL) $(srcdir)/geninfocontrib_h.sh AUTHORS | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >../AUTHORS
 	$(SHELL) $(srcdir)/geninfocontrib_h.sh OSXcreditshtml >arch/unix/macosx/Resources/Credits.html
+	cp $(top_srcdir)/README ./README.tmp
+	$(SHELL) $(srcdir)/geninfocontrib_h.sh README <README.tmp >../README
+	rm -f README.tmp
 
 translate.h:	$(srcdir)/translate.txt ./gentranslate_h.sh
 	echo "generating translate.h..."

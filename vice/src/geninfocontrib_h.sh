@@ -342,3 +342,89 @@ if test x"$1" = "xOSXcreditshtml"; then
   $ECHO "</body>"
   $ECHO "</html>"
 fi
+
+# -----------------------------------------------------------
+# README output type
+
+if test x"$1" = "xREADME"; then
+  MEMBERS=`cat team.tmp`
+  buildlists
+  outputok=no
+
+  $ECHO ""
+  $ECHO "  VICE  2.4                                                        Nov 2012"
+  $ECHO ""
+  $ECHO ""
+  $ECHO "                 _______________"
+  $ECHO "                |      ||      ||"
+  $ECHO "                |      ||      ||____________________________"
+  $ECHO "                |      ||      ||    ||         ||          ||"
+  $ECHO "                |      ||      ||    ||    |    ||    ______||"
+  $ECHO "                |      ||      ||    ||    |----||          ||"
+  $ECHO "                |      ||      ||    ||    |    ||    ------||"
+  $ECHO "                |              ||____||_________||__________||"
+  $ECHO "                 \\            // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+  $ECHO "                  \\          //"
+  $ECHO "                   \\________//   Versatile Commodore 8-bit Emulator"
+  $ECHO ""
+  $ECHO ""
+  $ECHO ""
+  $ECHO ""
+  $ECHO ""
+
+  old_IFS=$IFS
+  IFS=''
+  while read data
+  do
+    if test x"$data" = "x ----------------------------------------------------------------------------"; then
+      outputok=yes
+    fi
+
+    if test x"$data" = "x VICE, the Versatile Commodore Emulator"; then
+      IFS=$old_IFS
+      $ECHO " VICE, the Versatile Commodore Emulator"
+      $ECHO ""
+      $ECHO "    Core Team Members:"
+      for i in $CORETEAM_MEMBERS
+      do
+        decodedall=`$ECHO "$i" | sed 's/+/ /g'`
+        splititem4 $decodedall
+        decodedyear=`$ECHO "$item2" | sed 's/_/ /g'`
+        decodedname=`$ECHO "$item3" | sed 's/_/ /g'`
+        $ECHO "    $decodedyear $decodedname"
+      done
+      $ECHO ""
+      $ECHO "    Inactive/Ex Team Members:"
+      for i in $EXTEAM_MEMBERS
+      do
+        decodedall=`$ECHO "$i" | sed 's/+/ /g'`
+        splititem4 $decodedall
+        decodedyear=`$ECHO "$item2" | sed 's/_/ /g'`
+        decodedname=`$ECHO "$item3" | sed 's/_/ /g'`
+        $ECHO "    $decodedyear $decodedname"
+      done
+      $ECHO ""
+      $ECHO "Translation Team Members:"
+      $ECHO ""
+      for i in $TRANSTEAM_MEMBERS
+      do
+        decodedall=`$ECHO "$i" | sed 's/+/ /g'`
+        splititem4 $decodedall
+        decodedyear=`$ECHO "$item2" | sed 's/_/ /g'`
+        decodedname=`$ECHO "$item3" | sed 's/_/ /g'`
+        $ECHO "    $decodedyear $decodedname"
+      done
+      $ECHO ""
+      IFS=''
+      read data
+      while test x"$data" != "x  This program is free software; you can redistribute it and/or"
+      do
+        read data
+      done
+    fi
+
+    if test x"$outputok" = "xyes"; then
+      $ECHO "$data"
+    fi
+  done
+fi

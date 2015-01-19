@@ -151,41 +151,58 @@
 
  VICE, the Versatile Commodore Emulator
 
-    Copyright C 1999-2015 Andreas Matthies
-    Copyright C 1999-2015 Martin Pottendorfer
-    Copyright C 2005-2015 Marco van den Heuvel
-    Copyright C 2007-2015 Fabrizio Gennari
-    Copyright C 2007-2015 Daniel Kahlin
-    Copyright C 2009-2015 Groepaz
-    Copyright C 2009-2015 Errol Smith
-    Copyright C 2010-2015 Olaf Seibert
-    Copyright C 2011-2015 Marcus Sutton
-    Copyright C 2011-2015 Kajtar Zsolt
+    Core Team Members:
+    1999-2015 Andreas Matthies
+    1999-2015 Martin Pottendorfer
+    2005-2015 Marco van den Heuvel
+    2007-2015 Fabrizio Gennari
+    2007-2015 Daniel Kahlin
+    2009-2015 Groepaz
+    2009-2015 Errol Smith
+    2010-2015 Olaf Seibert
+    2011-2015 Marcus Sutton
+    2011-2015 Kajtar Zsolt
 
-    Copyright C 2012-2014 Benjamin Rosseaux
-    Copyright C 2011-2014 Ulrich Schulz
-    Copyright C 2011-2014 Stefan Haubenthal
-    Copyright C 2011-2014 Thomas Giesel
-    Copyright C 2009-2014 Ingo Korb
-    Copyright C 2008-2014 Antti S. Lankila
-    Copyright C 2006-2014 Christian Vogelgsang
-    Copyright C 1998-2014 Dag Lem
-    Copyright C 2000-2012 Spiro Trikaliotis
-    Copyright C 2007-2011 Hannu Nuotio
-    Copyright C 1998-2010 Andreas Boose
-    Copyright C 1998-2010 Tibor Biczo
-    Copyright C 2007-2010 M. Kiesel
-    Copyright C 1999-2007 Andreas Dehmel
-    Copyright C 2003-2005 David Hansel
-    Copyright C 2000-2004 Markus Brenner
+    Inactive/Ex Team Members:
+    2012-2014 Benjamin 'BeRo' Rosseaux
+    2011-2014 Ulrich Schulz
+    2011-2014 Stefan Haubenthal
+    2011-2014 Thomas Giesel
+    2009-2014 Ingo Korb
+    2008-2014 Antti S. Lankila
+    2006-2014 Christian Vogelgsang
+    1998-2014 Dag Lem
+    2000-2011 Spiro Trikaliotis
+    2007-2011 Hannu Nuotio
+    1998-2010 Andreas Boose
+    1998-2010 Tibor Biczo
+    2007-2010 M. Kiesel
+    1999-2007 Andreas Dehmel
+    2003-2005 David Hansel
+    2000-2004 Markus Brenner
+    1999-2004 Thomas Bretz
+    1997-2001 Daniel Sladic
+    1996-2001 André Fachat
+    1996-1999 Ettore Perazzoli
+    1993-1994, 1997-1999 Teemu Rantanen
+    1993-1996 Jouko Valta
+    1993-1994 Jarkko Sonninen
 
-    Copyright C 1999-2004 Thomas Bretz
-    Copyright C 1997-2001 Daniel Sladic
-    Copyright C 1996-2001 André Fachat
-    Copyright C 1996-1999 Ettore Perazzoli
-    Copyright C 1993-1994, 1997-1999 Teemu Rantanen
-    Copyright C 1993-1996 Jouko Valta
-    Copyright C 1993-1994 Jarkko Sonninen
+Translation Team Members:
+
+    2009-2015 Mikkel Holm Olsen
+    2000-2015 Martin Pottendorfer
+    2011-2015 Manuel Antonio Rodriguez Bas
+    2004-2015 Paul Dubé
+    2006-2015 Czirkos Zoltan
+    2006-2015 Karai Csaba
+    2001-2015 Andrea Musuruane
+    2011-2015 Jesse Lee
+    2005-2015 Marco van den Heuvel
+    2011-2015 Jarek Sobolewski
+    2010-2015 Michael Litvinov
+    2000-2015 Peter Krefting
+    2008-2015 Emir Akaydin
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License as
