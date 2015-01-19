@@ -53,6 +53,10 @@ int get_line(FILE *file)
         line_buffer[counter - 1] = 0;
     }
 
+    if (feof(file)) {
+        return -1;
+    }
+
     return counter - 1;
 }
 
@@ -637,10 +641,100 @@ static void generate_osx_credits_html(char *filename)
     fclose(outfile);
 }
 
+static void generate_readme(char *filename)
+{
+    FILE *infile = NULL;
+    FILE *outfile = NULL;
+    int i = 0;
+    int found_start = 0;
+    int found_end = 0;
+    int found_eof = 0;
+    int line_size;
+
+    infile = fopen(filename, "rb");
+    if (infile == NULL) {
+        printf("cannot open %s for reading\n", filename);
+        return;
+    }
+
+    sprintf(line_buffer, "%s.tmp", filename);
+    outfile = fopen(line_buffer, "wb");
+    if (outfile == NULL) {
+        printf("cannot open %s for writing\n", line_buffer);
+        fclose(infile);
+        return;
+    }
+
+    while (found_start == 0) {
+        line_size = get_line(infile);
+        if (!strcmp(line_buffer, " VICE, the Versatile Commodore Emulator")) { 
+            found_start = 1;
+        }
+        if (line_size == 0) {
+            fprintf(outfile, "\n");
+        } else {
+            fprintf(outfile, "%s\n", line_buffer);
+        }
+    }
+
+    fprintf(outfile, "\n    Core Team Members:\n");
+
+    while (core_team[i] != NULL) {
+        fprintf(outfile, "    %s %s\n", core_team[i], core_team[i + 1]);
+        i += 2;
+    }
+
+    fprintf(outfile, "\n    Inactive/Ex Team Members:\n");
+
+    i = 0;
+    while (ex_team[i] != NULL) {
+        fprintf(outfile, "    %s %s\n", ex_team[i], ex_team[i + 1]);
+        i += 2;
+    }
+
+    fprintf(outfile, "\n    Translation Team Members:\n");
+
+    i = 0;
+    while (trans_team[i] != NULL) {
+        fprintf(outfile, "    %s %s\n", trans_team[i + 1], trans_team[i]);
+        i += 3;
+    }
+
+    fprintf(outfile, "\n");
+    fprintf(outfile, "  This program is free software; you can redistribute it and/or\n");
+
+    while (found_end == 0) {
+        line_size = get_line(infile);
+        if (!strcmp(line_buffer, "  This program is free software; you can redistribute it and/or")) { 
+            found_end = 1;
+        }
+    }
+
+    while (found_eof == 0) {
+        line_size = get_line(infile);
+        if (line_size == -1) {
+            found_eof = 1;
+        } else {
+            if (line_size == 0) {
+                fprintf(outfile, "\n");
+            } else {
+                fprintf(outfile, "%s\n", line_buffer);
+            }
+        }
+    }
+
+    fclose(outfile);
+    fclose(infile);
+
+    sprintf(line_buffer, "%s.tmp", filename);
+    unlink(filename);
+    rename(line_buffer, filename);
+}
+
 int main(int argc, char *argv[])
 {
     int i;
-    if (argc < 5) {
+    if (argc < 6) {
         printf("too few arguments\n");
         exit(1);
     }
@@ -650,6 +744,8 @@ int main(int argc, char *argv[])
     generate_authors(argv[4]);
 
     generate_osx_credits_html(argv[5]);
+
+    generate_readme(argv[6]);
 
     for (i = 0; core_team[i] != NULL; i++) {
         free(core_team[i++]);

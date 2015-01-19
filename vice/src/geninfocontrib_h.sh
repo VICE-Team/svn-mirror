@@ -433,7 +433,7 @@ if test x"$1" = "xREADME"; then
         $ECHO "    $decodedyear $decodedname"
       done
       $ECHO ""
-      $ECHO "Translation Team Members:"
+      $ECHO "    Translation Team Members:"
       $ECHO ""
       for i in $TRANSTEAM_MEMBERS
       do
