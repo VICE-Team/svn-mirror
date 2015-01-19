@@ -90,6 +90,27 @@ buildlists()
   done
 }
 
+buildallmembers()
+{
+  ALL_MEMBERS=""
+
+  for i in $MEMBERS
+  do
+    item=`echo $i | sed 's/+/ /g'`
+    splititem4 $item
+    duplicate=no
+    for j in $ALL_MEMBERS
+    do
+      if test x"$item3" = "x$j"; then
+        duplicate=yes
+      fi
+    done
+    if test x"$duplicate" = "xno"; then
+      ALL_MEMBERS="$ALL_MEMBERS $item3"
+    fi
+  done
+}
+
 rm -f try.tmp
 $ECHO "\\\\n" >try.tmp
 n1=`cat	try.tmp	| wc -c`
@@ -369,8 +390,6 @@ if test x"$1" = "xREADME"; then
   $ECHO ""
   $ECHO ""
   $ECHO ""
-  $ECHO ""
-  $ECHO ""
 
   old_IFS=$IFS
   IFS=''
@@ -426,5 +445,67 @@ if test x"$1" = "xREADME"; then
     if test x"$outputok" = "xyes"; then
       $ECHO "$data"
     fi
+  done
+fi
+
+# -----------------------------------------------------------
+# index.html output type
+
+if test x"$1" = "xindexhtml"; then
+  MEMBERS=`cat team.tmp`
+  buildlists
+
+  old_IFS=$IFS
+  IFS=''
+  while read data
+  do
+    if test x"$data" = "x<!--teamstart-->"; then
+      IFS=$old_IFS
+      $ECHO "<!--teamstart-->"
+      $ECHO "<p>"
+      $ECHO "Current VICE team members:"
+      decodedname=""
+      for i in $CORETEAM_MEMBERS
+      do
+        if test x"$decodedname" != "x"; then
+          $ECHO "$decodedname,"
+        fi
+        decodedall=`$ECHO "$i" | sed 's/+/ /g'`
+        splititem4 $decodedall
+        decodedname=`$ECHO "$item3" | sed 's/_/ /g'`
+      done
+      $ECHO "$decodedname."
+      $ECHO "</p>"
+      $ECHO ""
+      $ECHO "<p>Of course our warm thanks go to everyone who has helped us in developing"
+      $ECHO "VICE during these past few years. For a more detailed list look in the"
+      $ECHO "<a href=\"vice_16.html\">documentation</a>."
+      $ECHO ""
+      $ECHO ""
+      $ECHO "<hr>"
+      $ECHO ""
+      $ECHO "<h1><a NAME=\"copyright\"></a>Copyright</h1>"
+      $ECHO ""
+      $ECHO "<p>"
+      $ECHO "The VICE is copyrighted to"
+      buildallmembers
+      decodedname=""
+      for i in $ALL_MEMBERS
+      do
+        if test x"$decodedname" != "x"; then
+          $ECHO "$decodedname,"
+        fi
+        decodedname=`$ECHO "$i" | sed 's/_/ /g'`
+      done
+      $ECHO "$decodename."
+      IFS=''
+      read data
+      while test x"$data" != "x<!--teamend-->"
+      do
+        read data
+      done
+    fi
+
+    $ECHO "$data"
   done
 fi

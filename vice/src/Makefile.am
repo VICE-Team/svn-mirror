@@ -487,6 +487,9 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi
 	cp $(top_srcdir)/README ./README.tmp
 	$(SHELL) $(srcdir)/geninfocontrib_h.sh README <README.tmp >../README
 	rm -f README.tmp
+	cp $(top_srcdir)/doc/html/index.html ./index.tmp
+	$(SHELL) $(srcdir)/geninfocontrib_h.sh indexhtml <index.tmp >../doc/html/index.html
+	rm -f index.tmp
 
 translate.h:	$(srcdir)/translate.txt ./gentranslate_h.sh
 	echo "generating translate.h..."
