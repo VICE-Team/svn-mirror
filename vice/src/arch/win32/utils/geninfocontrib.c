@@ -437,6 +437,15 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
                         trans_team[trans_count++] = vice_stralloc(ptr);
                         trans_team[trans_count] = NULL;
                         free(buffer);
+                    } else if (line_buffer[0] == 'C') {
+                        buffer = vice_stralloc(line_buffer);
+                        ptr = buffer;
+                        while (ptr[0] != '}') {
+                            ptr++;
+                        }
+                        ptr += 2;
+                        trans_team[trans_count++] = vice_stralloc(ptr);
+                        free(buffer);
                     }
                 }
 
@@ -488,8 +497,7 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
         sprintf(line_buffer, "@b{%s}", core_team[i + 1]);
         replacetags();
         fprintf(outfile, "    { \"%s\", \"%s\", \"%s\" },\n", core_team[i], core_team[i + 1], line_buffer);
-        free(core_team[i++]);
-        free(core_team[i++]);
+        i += 2;
     }
     fprintf(outfile, "    { NULL, NULL, NULL }\n");
     fprintf(outfile, "};\n\n");
@@ -501,8 +509,7 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
         sprintf(line_buffer, "@b{%s}", ex_team[i + 1]);
         replacetags();
         fprintf(outfile, "    { \"%s\", \"%s\", \"%s\" },\n", ex_team[i], ex_team[i + 1], line_buffer);
-        free(ex_team[i++]);
-        free(ex_team[i++]);
+        i += 2;
     }
     fprintf(outfile, "    { NULL, NULL, NULL }\n");
     fprintf(outfile, "};\n\n");
@@ -513,11 +520,10 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
     while (trans_team[i] != NULL) {
         sprintf(line_buffer, "@b{%s}", trans_team[i]);
         replacetags();
-        fprintf(outfile, "    { \"%s\", \"%s\", \"%s\" },\n", trans_team[i], trans_team[i + 1], line_buffer);
-        free(trans_team[i++]);
-        free(trans_team[i++]);
+        fprintf(outfile, "    { \"%s\", \"%s\", \"%s\", \"%s\" },\n", trans_team[i + 1], trans_team[i], trans_team[i + 2], line_buffer);
+        i += 3;
     }
-    fprintf(outfile, "    { NULL, NULL, NULL }\n");
+    fprintf(outfile, "    { NULL, NULL, NULL, NULL }\n");
     fprintf(outfile, "};\n\n");
 
     fprintf(outfile, "char *doc_team[] = {\n");
@@ -525,7 +531,7 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
     i = 0;
     while (doc_team[i] != NULL) {
         fprintf(outfile, "    \"%s\",\n", doc_team[i]);
-        free(doc_team[i++]);
+        i++;
     }
     fprintf(outfile, "    NULL\n");
     fprintf(outfile, "};\n\n");
@@ -539,12 +545,29 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
 
 int main(int argc, char *argv[])
 {
+    int i;
     if (argc < 3) {
         printf("too few arguments\n");
         exit(1);
     }
 
     generate_infocontrib(argv[1], argv[2], argv[3]);
+
+    for (i = 0; core_team[i] != NULL; i++) {
+        free(core_team[i++]);
+    }
+
+    for (i = 0; ex_team[i] != NULL; i++) {
+        free(ex_team[i++]);
+    }
+
+    for (i = 0; trans_team[i] != NULL; i++) {
+        free(trans_team[i++]);
+    }
+
+    for (i = 0; doc_team[i] != NULL; i++) {
+        free(doc_team[i++]);
+    }
 
     return 0;
 }

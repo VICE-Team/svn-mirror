@@ -111,6 +111,16 @@ buildallmembers()
   done
 }
 
+reverselist()
+{
+  REVLIST=""
+
+  for i in $*
+  do
+    REVLIST="$i $REVLIST"
+  done
+}
+
 rm -f try.tmp
 $ECHO "\\\\n" >try.tmp
 n1=`cat	try.tmp	| wc -c`
@@ -504,6 +514,131 @@ if test x"$1" = "xindexhtml"; then
       do
         read data
       done
+    fi
+
+    $ECHO "$data"
+  done
+fi
+
+# -----------------------------------------------------------
+# os2 dialogs.rc output type
+
+if test x"$1" = "xos2dialogs"; then
+  MEMBERS=`cat team.tmp`
+  buildlists
+  reverselist $CORETEAM_MEMBERS
+
+  number=76
+  for i in $REVLIST
+  do
+    number=`expr $number + 7`
+  done
+
+  old_IFS=$IFS
+  IFS=''
+  read data
+  while test x"$data" != "x#include <pmwin.h>"
+  do
+    $ECHO "$data"
+    read data
+  done
+
+  $ECHO "#include <pmwin.h>"
+  $ECHO "#endif"
+  $ECHO ""
+  $ECHO "#ifdef WATCOM_COMPILE"
+  $ECHO "POINTER PTR_DRAGOK \"..\\\\icons\\\\check.ico\""
+  $ECHO "ICON    PTR_INFO   \"..\\\\icons\\\\info.ico\""
+  $ECHO "ICON    PTR_SKULL  \"..\\\\icons\\\\skull.ico\""
+  $ECHO "ICON    PTR_NOTE   \"..\\\\icons\\\\note.ico\""
+  $ECHO "#else"
+  $ECHO "POINTER PTR_DRAGOK \"..\\\\..\\\\icons\\\\check.ico\""
+  $ECHO "ICON    PTR_INFO   \"..\\\\..\\\\icons\\\\info.ico\""
+  $ECHO "ICON    PTR_SKULL  \"..\\\\..\\\\icons\\\\skull.ico\""
+  $ECHO "ICON    PTR_NOTE   \"..\\\\..\\\\icons\\\\note.ico\""
+  $ECHO "#endif"
+  $ECHO ""
+  $ECHO "#if defined __X64__ || defined __X64DTV__"
+  $ECHO "#ifdef WATCOM_COMPILE"
+  $ECHO "ICON    IDM_VICE2  \"..\\\\icons\\\\x64.ico\""
+  $ECHO "ICON    DLG_VSID   \"..\\\\icons\\\\vsid.ico\""
+  $ECHO "#else"
+  $ECHO "ICON    IDM_VICE2  \"..\\\\..\\\\icons\\\\x64.ico\""
+  $ECHO "ICON    DLG_VSID   \"..\\\\..\\\\icons\\\\vsid.ico\""
+  $ECHO "#endif"
+  $ECHO "#endif"
+  $ECHO ""
+  $ECHO "#ifdef __XPET__"
+  $ECHO "#ifdef WATCOM_COMPILE"
+  $ECHO "ICON    IDM_VICE2 \"..\\\\icons\\\\xpet.ico\""
+  $ECHO "#else"
+  $ECHO "ICON    IDM_VICE2 \"..\\\\..\\\\icons\\\\xpet.ico\""
+  $ECHO "#endif"
+  $ECHO "#endif"
+  $ECHO ""
+  $ECHO "#ifdef __XCBM__"
+  $ECHO "#ifdef WATCOM_COMPILE"
+  $ECHO "ICON    IDM_VICE2 \"..\\\\icons\\\\xcbm2.ico\""
+  $ECHO "#else"
+  $ECHO "ICON    IDM_VICE2 \"..\\\\..\\\\icons\\\\xcbm2.ico\""
+  $ECHO "#endif"
+  $ECHO "#endif"
+  $ECHO ""
+  $ECHO "#ifdef __X128__"
+  $ECHO "#ifdef WATCOM_COMPILE"
+  $ECHO "ICON    IDM_VICE2 \"..\\\\icons\\\\x128.ico\""
+  $ECHO "#else"
+  $ECHO "ICON    IDM_VICE2 \"..\\\\..\\\\icons\\\\x128.ico\""
+  $ECHO "#endif"
+  $ECHO "#endif"
+  $ECHO ""
+  $ECHO "#ifdef __XVIC__"
+  $ECHO "#ifdef WATCOM_COMPILE"
+  $ECHO "ICON    IDM_VICE2 \"..\\\\icons\\\\xvic.ico\""
+  $ECHO "#else"
+  $ECHO "ICON    IDM_VICE2 \"..\\\\..\\\\icons\\\\xvic.ico\""
+  $ECHO "#endif"
+  $ECHO "#endif"
+  $ECHO ""
+  $ECHO "#ifdef __XPLUS4__"
+  $ECHO "#ifdef WATCOM_COMPILE"
+  $ECHO "ICON    IDM_VICE2 \"..\\\\icons\\\\xplus4.ico\""
+  $ECHO "#else"
+  $ECHO "ICON    IDM_VICE2 \"..\\\\..\\\\icons\\\\xplus4.ico\""
+  $ECHO "#endif"
+  $ECHO "#endif"
+  $ECHO ""
+
+  read data
+  while test x"$data" != "xDLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE"
+  do
+    read data
+  done
+
+  $ECHO "DLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE"
+
+  while read data
+  do
+    if test x"$data" = "x        /* start core members */"; then
+      IFS=$old_IFS
+      $ECHO "        /* start core members */"
+      for i in $REVLIST
+      do
+        decodedall=`$ECHO "$i" | sed 's/+/ /g'`
+        splititem4 $decodedall
+        decodedyear=`$ECHO "$item2" | sed 's/_/ /g'`
+        decodedname=`$ECHO "$item3" | sed 's/_/ /g'`
+        $ECHO "        TEXT(\"Copyright (c) $decodedyear $decodedname\", 15, $number, 180, 7)"
+        number=`expr $number - 7`
+      done
+      $ECHO "        /* end core members */"
+      IFS=''
+      read data
+      while test x"$data" != "x        /* end core members */"
+      do
+        read data
+      done
+      read data
     fi
 
     $ECHO "$data"

@@ -490,6 +490,10 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi
 	cp $(top_srcdir)/doc/html/index.html ./index.tmp
 	$(SHELL) $(srcdir)/geninfocontrib_h.sh indexhtml <index.tmp >../doc/html/index.html
 	rm -f index.tmp
+	cp $(top_srcdir)/src/arch/os2/dialogs/dialogs.rc ./dialogs.tmp
+	$(SHELL) $(srcdir)/geninfocontrib_h.sh os2dialogs <dialogs.tmp >arch/os2/dialogs/dialogs.rc
+	rm -f dialogs.tmp
+	rm -f team.tmp
 
 translate.h:	$(srcdir)/translate.txt ./gentranslate_h.sh
 	echo "generating translate.h..."
