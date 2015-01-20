@@ -481,7 +481,13 @@ svnversion.h.indirect:
 
 svnversion.h: svnversion.h.indirect
 
-infocontrib.h:	$(top_srcdir)/doc/vice.texi
+if NATIVE_TOOLS
+infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed $(srcdir)/arch/win32/utils/geninfocontrib.c
+	echo "generating infocontrib.h..."
+	$(NATIVE_TOOLS_COMPILER) -o geninfocontrib $(srcdir)/arch/win32/utils/geninfocontrib.c
+	./geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/infocontrib.sed AUTHORS src/arch/unix/macosx/Resources/Credits.html README doc/html/index.html src/arch/os2/dialogs/dialogs.rc
+else
+infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed
 	echo "generating infocontrib.h..."
 	$(SHELL) $(srcdir)/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >infocontrib.h
 	$(SHELL) $(srcdir)/geninfocontrib_h.sh AUTHORS | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >../AUTHORS
@@ -496,6 +502,7 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi
 	$(SHELL) $(srcdir)/geninfocontrib_h.sh os2dialogs <dialogs.tmp >arch/os2/dialogs/dialogs.rc
 	rm -f dialogs.tmp
 	rm -f team.tmp
+endif
 
 if NATIVE_TOOLS
 translate.h translate_table.h:	$(srcdir)/translate.txt $(srcdir)/arch/win32/utils/gentranslate.c
