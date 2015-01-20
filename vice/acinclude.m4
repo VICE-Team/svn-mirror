@@ -343,6 +343,9 @@ do
     --enable-arch=*)
       argvalid=yes
       ;;
+    --enable-native-tools=*)
+      argvalid=yes
+      ;;
     --enable-*)
       argvalid=no
       for i in [$]vice_arg_enable_list
