@@ -72,32 +72,6 @@ static int unused_bits_in_registers[0x40] =
     0xff /* $D03C */, 0xff /* $D03D */, 0xff /* $D03E */, 0xff    /* $D03F */
 };
 
-/* Unused bits in VIC-II DTV registers: these are always 1 when read.  */
-static int unused_bits_in_registers_dtv[0x50] =
-{
-    0x00 /* $D000 */, 0x00 /* $D001 */, 0x00 /* $D002 */, 0x00 /* $D003 */,
-    0x00 /* $D004 */, 0x00 /* $D005 */, 0x00 /* $D006 */, 0x00 /* $D007 */,
-    0x00 /* $D008 */, 0x00 /* $D009 */, 0x00 /* $D00A */, 0x00 /* $D00B */,
-    0x00 /* $D00C */, 0x00 /* $D00D */, 0x00 /* $D00E */, 0x00 /* $D00F */,
-    0x00 /* $D010 */, 0x00 /* $D011 */, 0x00 /* $D012 */, 0x00 /* $D013 */,
-    0x00 /* $D014 */, 0x00 /* $D015 */, 0xc0 /* $D016 */, 0x00 /* $D017 */,
-    0x01 /* $D018 */, 0x70 /* $D019 */, 0xf0 /* $D01A */, 0x00 /* $D01B */,
-    0x00 /* $D01C */, 0x00 /* $D01D */, 0x00 /* $D01E */, 0x00 /* $D01F */,
-    0x00 /* $D020 */, 0x00 /* $D021 */, 0x00 /* $D022 */, 0x00 /* $D023 */,
-    0x00 /* $D024 */, 0xf0 /* $D025 */, 0xf0 /* $D026 */, 0xf0 /* $D027 */,
-    0xf0 /* $D028 */, 0xf0 /* $D029 */, 0xf0 /* $D02A */, 0xf0 /* $D02B */,
-    0xf0 /* $D02C */, 0xf0 /* $D02D */, 0xf0 /* $D02E */, 0xff /* $D02F */,
-    0xff /* $D030 */, 0xff /* $D031 */, 0xff /* $D032 */, 0xff /* $D033 */,
-    0xff /* $D034 */, 0xff /* $D035 */, 0x00 /* $D036 */, 0x00 /* $D037 */,
-    0x00 /* $D038 */, 0xf0 /* $D039 */, 0x00 /* $D03A */, 0x00 /* $D03B */,
-    0x80 /* $D03C */, 0x00 /* $D03D */, 0xff /* $D03E */, 0xfc /* $D03F */,
-    0xf8 /* $D040 */, 0x00 /* $D041 */, 0x00 /* $D042 */, 0x00 /* $D043 */,
-    0x80 /* $D044 */, 0xc0 /* $D045 */, 0x00 /* $D046 */, 0x00 /* $D047 */,
-    0xf0 /* $D048 */, 0x00 /* $D049 */, 0x00 /* $D04A */, 0xc0 /* $D04B */,
-    0x00 /* $D04C */, 0xc0 /* $D04D */, 0x00 /* $D04E */, 0xf0    /* $D04F */
-};
-
-
 /* Store a value in the video bank (it is assumed to be in RAM).  */
 inline static void vicii_local_store_vbank(WORD addr, BYTE value)
 {
@@ -808,8 +782,6 @@ inline static void d020_store(BYTE value)
 inline static void d021_store(BYTE value)
 {
     int x_pos;
-    BYTE cmask;
-    cmask = 0x0f;
 
     value = (vicii.regs[0x21] & 0xf0) | (value & 0x0f);
 
@@ -839,9 +811,6 @@ inline static void d021_store(BYTE value)
 inline static void ext_background_store(WORD addr, BYTE value)
 {
     int char_num;
-
-    BYTE cmask;
-    cmask = 0x0f;
 
     value = (vicii.regs[addr] & 0xf0) | (value & 0x0f);
 
