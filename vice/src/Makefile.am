@@ -495,12 +495,14 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi
 	rm -f dialogs.tmp
 	rm -f team.tmp
 
+if NATIVE_TOOLS
+translate.h:	$(srcdir)/translate.txt $(srcdir)/arch/win32/utils/gentranslate.c
+	echo "generating translate.h..."
+	$(NATIVE_TOOLS_COMPILER) -o gentranslate $(srcdir)/arch/win32/utils/gentranslate.c
+	./gentranslate $(srcdir)/translate.txt ./translate.h ./translate_table.h
+else
 translate.h:	$(srcdir)/translate.txt ./gentranslate_h.sh
 	echo "generating translate.h..."
-if MINIX_SUPPORT
-	cc $(srcdir)/arch/win32/utils/gentranslate.c -o gentranslate
-	./gentranslate translate.txt translate.h translate_table.h
-else
 	$(SHELL) ./gentranslate_h.sh <$(srcdir)/translate.txt >translate.h
 endif
 
