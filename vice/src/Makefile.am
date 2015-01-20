@@ -466,9 +466,11 @@ endif
 if HAVE_TRANSLATION
 BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
 
+if !NATIVE_TOOLS
 translate_table.h:	$(srcdir)/translate.txt $(srcdir)/gentranslatetable.sh
 	echo "generating translate_table.h..."
 	$(SHELL) $(srcdir)/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
+endif
 else
 BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
 endif
@@ -496,7 +498,7 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi
 	rm -f team.tmp
 
 if NATIVE_TOOLS
-translate.h:	$(srcdir)/translate.txt $(srcdir)/arch/win32/utils/gentranslate.c
+translate.h translate_table.h:	$(srcdir)/translate.txt $(srcdir)/arch/win32/utils/gentranslate.c
 	echo "generating translate.h..."
 	$(NATIVE_TOOLS_COMPILER) -o gentranslate $(srcdir)/arch/win32/utils/gentranslate.c
 	./gentranslate $(srcdir)/translate.txt ./translate.h ./translate_table.h
