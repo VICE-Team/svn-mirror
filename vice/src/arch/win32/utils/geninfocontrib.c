@@ -282,7 +282,7 @@ static void fill_all_team_list(void)
     }
 }
 
-static void generate_infocontrib(char *in_filename, char *out_filename, char *sed_filename)
+static void generate_infocontrib(char *in_path, char *out_path, char *in_filename, char *out_filename, char *sed_filename)
 {
     int found_start = 0;
     int found_end = 0;
@@ -298,22 +298,25 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
     size_t line_size;
     FILE *infile, *outfile, *sedfile;
 
-    infile = fopen(in_filename, "rb");
+    sprintf(line_buffer, "%s%s", in_path, in_filename);
+    infile = fopen(line_buffer, "rb");
     if (infile == NULL) {
-        printf("cannot open %s for reading\n", in_filename);
+        printf("cannot open %s for reading\n", line_buffer);
         return;
     }
 
-    sedfile = fopen(sed_filename, "rb");
+    sprintf(line_buffer, "%s%s", in_path, sed_filename);
+    sedfile = fopen(line_buffer, "rb");
     if (sedfile == NULL) {
-        printf("cannot open %s for reading\n", sed_filename);
+        printf("cannot open %s for reading\n", line_buffer);
         fclose(infile);
         return;
     }
 
-    outfile = fopen(out_filename, "wb");
+    sprintf(line_buffer, "%s%s", out_path, out_filename);
+    outfile = fopen(line_buffer, "wb");
     if (outfile == NULL) {
-        printf("cannot open %s for writing\n", out_filename);
+        printf("cannot open %s for writing\n", line_buffer);
         fclose(infile);
         fclose(sedfile);
         return;
@@ -595,15 +598,16 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
     fclose(outfile);
 }
 
-static void generate_authors(char *filename)
+static void generate_authors(char *out_path, char *filename)
 {
     FILE *outfile = NULL;
     int i = 0;
 
-    outfile = fopen(filename, "wb");
+    sprintf(line_buffer, "%s%s", out_path, filename);
+    outfile = fopen(line_buffer, "wb");
 
     if (outfile == NULL) {
-        printf("cannot open %s for writing\n", filename);
+        printf("cannot open %s for writing\n", line_buffer);
         return;
     }
 
@@ -638,15 +642,16 @@ static void generate_authors(char *filename)
     fclose(outfile);
 }
 
-static void generate_osx_credits_html(char *filename)
+static void generate_osx_credits_html(char *out_path, char *filename)
 {
     FILE *outfile = NULL;
     int i = 0;
 
-    outfile = fopen(filename, "wb");
+    sprintf(line_buffer, "%s%s", out_path, filename);
+    outfile = fopen(line_buffer, "wb");
 
     if (outfile == NULL) {
-        printf("cannot open %s for writing\n", filename);
+        printf("cannot open %s for writing\n", line_buffer);
         return;
     }
     fprintf(outfile, "<html>\n");
@@ -689,7 +694,7 @@ static void generate_osx_credits_html(char *filename)
     fclose(outfile);
 }
 
-static void generate_readme(char *filename)
+static void generate_readme(char *in_path, char *out_path, char *filename)
 {
     FILE *infile = NULL;
     FILE *outfile = NULL;
@@ -698,14 +703,16 @@ static void generate_readme(char *filename)
     int found_end = 0;
     int found_eof = 0;
     int line_size;
+    char *tmpname;
 
-    infile = fopen(filename, "rb");
+    sprintf(line_buffer, "%s%s", in_path, filename);
+    infile = fopen(line_buffer, "rb");
     if (infile == NULL) {
-        printf("cannot open %s for reading\n", filename);
+        printf("cannot open %s for reading\n", line_buffer);
         return;
     }
 
-    sprintf(line_buffer, "%s.tmp", filename);
+    sprintf(line_buffer, "%s%s.tmp", out_path, filename);
     outfile = fopen(line_buffer, "wb");
     if (outfile == NULL) {
         printf("cannot open %s for writing\n", line_buffer);
@@ -774,12 +781,15 @@ static void generate_readme(char *filename)
     fclose(outfile);
     fclose(infile);
 
-    sprintf(line_buffer, "%s.tmp", filename);
-    unlink(filename);
-    rename(line_buffer, filename);
+    sprintf(line_buffer, "%s%s", out_path, filename);
+    tmpname = vice_stralloc(line_buffer);
+    sprintf(line_buffer, "%s%s.tmp", out_path, filename);
+    unlink(tmpname);
+    rename(line_buffer, tmpname);
+    free(tmpname);
 }
 
-static void generate_index_html(char *filename)
+static void generate_index_html(char *in_path, char *out_path, char *filename)
 {
     FILE *infile = NULL;
     FILE *outfile = NULL;
@@ -788,14 +798,16 @@ static void generate_index_html(char *filename)
     int found_end = 0;
     int found_eof = 0;
     int line_size;
+    char *tmpname;
 
-    infile = fopen(filename, "rb");
+    sprintf(line_buffer, "%s%s", in_path, filename);
+    infile = fopen(line_buffer, "rb");
     if (infile == NULL) {
-        printf("cannot open %s for reading\n", filename);
+        printf("cannot open %s for reading\n", line_buffer);
         return;
     }
 
-    sprintf(line_buffer, "%s.tmp", filename);
+    sprintf(line_buffer, "%s%s.tmp", out_path, filename);
     outfile = fopen(line_buffer, "wb");
     if (outfile == NULL) {
         printf("cannot open %s for writing\n", line_buffer);
@@ -867,12 +879,15 @@ static void generate_index_html(char *filename)
     fclose(outfile);
     fclose(infile);
 
-    sprintf(line_buffer, "%s.tmp", filename);
-    unlink(filename);
-    rename(line_buffer, filename);
+    sprintf(line_buffer, "%s%s", out_path, filename);
+    tmpname = vice_stralloc(line_buffer);
+    sprintf(line_buffer, "%s%s.tmp", out_path, filename);
+    unlink(tmpname);
+    rename(line_buffer, tmpname);
+    free(tmpname);
 }
 
-static void generate_os2_dialog_rc(char *filename)
+static void generate_os2_dialog_rc(char *in_path, char *out_path, char *filename)
 {
     FILE *infile = NULL;
     FILE *outfile = NULL;
@@ -882,14 +897,16 @@ static void generate_os2_dialog_rc(char *filename)
     int found_eof = 0;
     int line_size;
     int number = 76;
+    char *tmpname;
 
-    infile = fopen(filename, "rb");
+    sprintf(line_buffer, "%s%s", in_path, filename);
+    infile = fopen(line_buffer, "rb");
     if (infile == NULL) {
-        printf("cannot open %s for reading\n", filename);
+        printf("cannot open %s for reading\n", line_buffer);
         return;
     }
 
-    sprintf(line_buffer, "%s.tmp", filename);
+    sprintf(line_buffer, "%s%s.tmp", out_path, filename);
     outfile = fopen(line_buffer, "wb");
     if (outfile == NULL) {
         printf("cannot open %s for writing\n", line_buffer);
@@ -947,9 +964,12 @@ static void generate_os2_dialog_rc(char *filename)
     fclose(outfile);
     fclose(infile);
 
-    sprintf(line_buffer, "%s.tmp", filename);
-    unlink(filename);
-    rename(line_buffer, filename);
+    sprintf(line_buffer, "%s%s", out_path, filename);
+    tmpname = vice_stralloc(line_buffer);
+    sprintf(line_buffer, "%s%s.tmp", out_path, filename);
+    unlink(tmpname);
+    rename(line_buffer, tmpname);
+    free(tmpname);
 }
 
 int main(int argc, char *argv[])
@@ -960,17 +980,28 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    generate_infocontrib(argv[1], argv[2], argv[3]);
+    /* argv[1] = top src dir */
+    /* argv[2] = top build dir */
+    /* argv[3] = vice.texi file for reading */
+    /* argv[4] = infocontrib.h file for writing */
+    /* argv[5] = infocontrib.c file for reading */
+    /* argv[6] = AUTHORS file for writing */
+    /* argv[7] = Credits.html file for writing */
+    /* argv[8] = README file for reading and writing */
+    /* argv[9] = index.html file for reading and writing */
+    /* argv[10] = dialogs.rc file for reading and writing */
 
-    generate_authors(argv[4]);
+    generate_infocontrib(argv[1], argv[2], argv[3], argv[4], argv[5]);
 
-    generate_osx_credits_html(argv[5]);
+    generate_authors(argv[2], argv[6]);
 
-    generate_readme(argv[6]);
+    generate_osx_credits_html(argv[2], argv[7]);
 
-    generate_index_html(argv[7]);
+    generate_readme(argv[1], argv[2], argv[8]);
 
-    generate_os2_dialog_rc(argv[8]);
+    generate_index_html(argv[1], argv[2], argv[9]);
+
+    generate_os2_dialog_rc(argv[1], argv[2], argv[10]);
 
     for (i = 0; core_team[i] != NULL; i++) {
         free(core_team[i++]);
