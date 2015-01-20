@@ -948,10 +948,8 @@ static void generate_os2_dialog_rc(char *filename)
     fclose(infile);
 
     sprintf(line_buffer, "%s.tmp", filename);
-#if 0
     unlink(filename);
     rename(line_buffer, filename);
-#endif
 }
 
 int main(int argc, char *argv[])
