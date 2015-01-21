@@ -354,24 +354,26 @@ EXTRA_DIST = \
 
 BUILT_SOURCES = res.h menuid.h stringid.h
 
+if NATIVE_TOOLS
+res.h menuid.h stringid.h:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
+	$(NATIVE_TOOLS_COMPILER) -o genwinres $(srcdir)/utils/genwinres.c
+	./genwinres res.h menuid.h stringid.h $(srcdir)res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings/txt
+else
 resall.txt:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
-@CROSS_TRUE@	cat >$@ $^
+	cat >$@ $^
 
-@CROSS_TRUE@res.h:	resall.txt
-@CROSS_TRUE@	echo "generating "$@
-@CROSS_TRUE@	. $(srcdir)/genwinres.sh <resall.txt >res.h
+res.h:	resall.txt
+	echo "generating "$@
+	. $(srcdir)/genwinres.sh <resall.txt >res.h
 
-@CROSS_TRUE@menuid.h:	resall.txt
-@CROSS_TRUE@	echo "generating "$@
-@CROSS_TRUE@	. $(srcdir)/genmenuid.sh <resall.txt >menuid.h
+menuid.h:	resall.txt
+	echo "generating "$@
+	. $(srcdir)/genmenuid.sh <resall.txt >menuid.h
 
-@CROSS_TRUE@stringid.h:	resall.txt
-@CROSS_TRUE@	echo "generating "$@
-@CROSS_TRUE@	. $(srcdir)/genstringid.sh <resall.txt >stringid.h
-
-@CROSS_FALSE@res.h menuid.h stringid.h:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
-@CROSS_FALSE@	(cd utils; $(MAKE))
-@CROSS_FALSE@	utils/genwinres$(EXEEXT) res.h menuid.h stringid.h $(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
+stringid.h:	resall.txt
+	echo "generating "$@
+	. $(srcdir)/genstringid.sh <resall.txt >stringid.h
+endif
 
 resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc \
