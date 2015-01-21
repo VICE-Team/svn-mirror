@@ -1073,7 +1073,7 @@ static void generate_vice_1(char *out_path, char *filename)
 int main(int argc, char *argv[])
 {
     int i;
-    if (argc < 8) {
+    if (argc < 11) {
         printf("too few arguments\n");
         exit(1);
     }
