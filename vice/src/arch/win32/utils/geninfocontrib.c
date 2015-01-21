@@ -972,6 +972,101 @@ static void generate_os2_dialog_rc(char *in_path, char *out_path, char *filename
     free(tmpname);
 }
 
+static void generate_vice_1(char *out_path, char *filename)
+{
+    FILE *outfile = NULL;
+    int i = 0;
+    char *header;
+
+    sprintf(line_buffer, "%s%s", out_path, filename);
+    outfile = fopen(line_buffer, "wb");
+
+    if (outfile == NULL) {
+        printf("cannot open %s for writing\n", line_buffer);
+        return;
+    }
+
+    fill_all_team_list();
+
+    header = ".TH VICE 1 \"Feb 2004\" VICE\n"
+             ".SH NAME\n"
+             "VICE \\- Versatile Commodore Emulator and Virtual Commodore Environment\n"
+             ".SH DESCRIPTION\n"
+             ".I VICE\n"
+             "is a multi\\-platform emulator of the Commodore PET, CBM-II,\n"
+             "VIC20, C64, C64DTV, C128 and Plus4 8\\-bit computers. The emulators run as\n"
+             "separate programs, but have the same user interface, share the same\n"
+             "settings and support the same file formats. Also some external\n"
+             "utilities are provided.\n"
+             ".P\n"
+             "VICE is made up of the following programs:\n"
+             ".TP 8\n"
+             ".B x64\n"
+             "a fast Commodore 64 emulator\n"
+             ".TP\n"
+             ".B x64sc\n"
+             "an accurate Commodore 64 emulator\n"
+             ".TP\n"
+             ".B xscpu64\n"
+             "an accurate SCPU64 emulator\n"
+             ".TP\n"
+             ".B x64dtv\n"
+             "a C64DTV emulator\n"
+             ".TP\n"
+             ".B x128\n"
+             "a Commodore 128 emulator\n"
+             ".TP\n"
+             ".B xvic\n"
+             "a Commodore VIC20 emulator\n"
+             ".TP\n"
+             ".B xpet\n"
+             "a Commodore PET emulator\n"
+             ".TP\n"
+             ".B xplus4\n"
+             "a Commodore Plus4 emulator\n"
+             ".TP\n"
+             ".B xcbm2\n"
+             "a Commodore CBM-II emulator\n"
+             ".TP\n"
+             ".B vsid\n"
+             "a SID player\n"
+             ".TP\n"
+             ".B c1541\n"
+             "a stand-alone disk image maintenance utility;\n"
+             ".TP\n"
+             ".B petcat\n"
+             "a Commodore BASIC (de)tokenizer;\n"
+             ".TP\n"
+             ".B cartconv\n"
+             "a cartridge file (bin<--->crt) converter;\n"
+             ".PP\n"
+             "The whole documentation for these programs is available in HTML\n"
+             "format; the main file should be installed on your system as\n"
+             "/usr/local/lib/vice/doc/vice_toc.html.\n"
+             ".P\n"
+             "For up to date news about VICE, have a look at the official home page\n"
+             "at\n"
+             ".P\n"
+             ".RS\n"
+             "http://vice-emu.sourceforge.net/\n"
+             ".SH SEE ALSO\n"
+             ".BR petcat (1),\n"
+             ".BR c1541 (1)\n"
+             ".SH AUTHORS\n";
+
+    fprintf(outfile, header);
+
+    for (i = 0; all_team[i]; i++) {
+        sprintf(line_buffer, "@b{%s}", all_team[i]);
+        replacetags();
+        fprintf(outfile, "%s\n.br\n", line_buffer);
+    }
+    fprintf(outfile, "with several contributions from other people around the world; see the\n");
+    fprintf(outfile, "HTML documentation for more information.\n\n\n");
+
+    fclose(outfile);
+}
+
 int main(int argc, char *argv[])
 {
     int i;
@@ -990,6 +1085,7 @@ int main(int argc, char *argv[])
     /* argv[8] = README file for reading and writing */
     /* argv[9] = index.html file for reading and writing */
     /* argv[10] = dialogs.rc file for reading and writing */
+    /* argv[11] = vice.1 file for writing */
 
     generate_infocontrib(argv[1], argv[2], argv[3], argv[4], argv[5]);
 
@@ -1002,6 +1098,8 @@ int main(int argc, char *argv[])
     generate_index_html(argv[1], argv[2], argv[9]);
 
     generate_os2_dialog_rc(argv[1], argv[2], argv[10]);
+
+    generate_vice_1(argv[2], argv[11]);
 
     for (i = 0; core_team[i] != NULL; i++) {
         free(core_team[i++]);

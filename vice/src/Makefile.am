@@ -485,7 +485,7 @@ if NATIVE_TOOLS
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed $(srcdir)/arch/win32/utils/geninfocontrib.c
 	echo "generating infocontrib.h..."
 	$(NATIVE_TOOLS_COMPILER) -o geninfocontrib $(srcdir)/arch/win32/utils/geninfocontrib.c
-	./geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/infocontrib.sed AUTHORS src/arch/unix/macosx/Resources/Credits.html README doc/html/index.html src/arch/os2/dialogs/dialogs.rc
+	./geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/infocontrib.sed AUTHORS src/arch/unix/macosx/Resources/Credits.html README doc/html/index.html src/arch/os2/dialogs/dialogs.rc man/vice.1
 else
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed
 	echo "generating infocontrib.h..."
@@ -501,6 +501,7 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed
 	cp $(top_srcdir)/src/arch/os2/dialogs/dialogs.rc ./dialogs.tmp
 	$(SHELL) $(srcdir)/geninfocontrib_h.sh os2dialogs <dialogs.tmp >arch/os2/dialogs/dialogs.rc
 	rm -f dialogs.tmp
+	$(SHELL) $(srcdir)/geninfocontrib_h.sh vice1 | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >../man/vice.1
 	rm -f team.tmp
 endif
 

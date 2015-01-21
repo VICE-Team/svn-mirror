@@ -646,3 +646,90 @@ if test x"$1" = "xos2dialogs"; then
     $ECHO "$data"
   done
 fi
+
+# -----------------------------------------------------------
+# vice.1 man output type
+
+if test x"$1" = "xvice1"; then
+  MEMBERS=`cat team.tmp`
+  buildlists
+  buildallmembers
+
+  $ECHO ".TH VICE 1 \"Feb 2004\" VICE"
+  $ECHO ".SH NAME"
+  $ECHO "VICE \\- Versatile Commodore Emulator and Virtual Commodore Environment"
+  $ECHO ".SH DESCRIPTION"
+  $ECHO ".I VICE"
+  $ECHO "is a multi\\-platform emulator of the Commodore PET, CBM-II,"
+  $ECHO "VIC20, C64, C64DTV, C128 and Plus4 8\\-bit computers. The emulators run as"
+  $ECHO "separate programs, but have the same user interface, share the same"
+  $ECHO "settings and support the same file formats. Also some external"
+  $ECHO "utilities are provided."
+  $ECHO ".P"
+  $ECHO "VICE is made up of the following programs:"
+  $ECHO ".TP 8"
+  $ECHO ".B x64"
+  $ECHO "a fast Commodore 64 emulator"
+  $ECHO ".TP"
+  $ECHO ".B x64sc"
+  $ECHO "an accurate Commodore 64 emulator"
+  $ECHO ".TP"
+  $ECHO ".B xscpu64"
+  $ECHO "an accurate SCPU64 emulator"
+  $ECHO ".TP"
+  $ECHO ".B x64dtv"
+  $ECHO "a C64DTV emulator"
+  $ECHO ".TP"
+  $ECHO ".B x128"
+  $ECHO "a Commodore 128 emulator"
+  $ECHO ".TP"
+  $ECHO ".B xvic"
+  $ECHO "a Commodore VIC20 emulator"
+  $ECHO ".TP"
+  $ECHO ".B xpet"
+  $ECHO "a Commodore PET emulator"
+  $ECHO ".TP"
+  $ECHO ".B xplus4"
+  $ECHO "a Commodore Plus4 emulator"
+  $ECHO ".TP"
+  $ECHO ".B xcbm2"
+  $ECHO "a Commodore CBM-II emulator"
+  $ECHO ".TP"
+  $ECHO ".B vsid"
+  $ECHO "a SID player"
+  $ECHO ".TP"
+  $ECHO ".B c1541"
+  $ECHO "a stand-alone disk image maintenance utility;"
+  $ECHO ".TP"
+  $ECHO ".B petcat"
+  $ECHO "a Commodore BASIC (de)tokenizer;"
+  $ECHO ".TP"
+  $ECHO ".B cartconv"
+  $ECHO "a cartridge file (bin<--->crt) converter;"
+  $ECHO ".PP"
+  $ECHO "The whole documentation for these programs is available in HTML"
+  $ECHO "format; the main file should be installed on your system as"
+  $ECHO "/usr/local/lib/vice/doc/vice_toc.html."
+  $ECHO ".P"
+  $ECHO "For up to date news about VICE, have a look at the official home page"
+  $ECHO "at"
+  $ECHO ".P"
+  $ECHO ".RS"
+  $ECHO "http://vice-emu.sourceforge.net/"
+  $ECHO ".SH SEE ALSO"
+  $ECHO ".BR petcat (1),"
+  $ECHO ".BR c1541 (1)"
+  $ECHO ".SH AUTHORS"
+  for i in $ALL_MEMBERS
+  do
+    decodedall=`$ECHO "$i" | sed 's/+/ /g'`
+    splititem4 $decodedall
+    decodedname=`$ECHO "$item3" | sed 's/_/ /g'`
+    $ECHO "@b{$decodedname}"
+    $ECHO ".br"
+  done
+  $ECHO "with several contributions from other people around the world; see the"
+  $ECHO "HTML documentation for more information."
+  $ECHO ""
+  $ECHO ""
+fi

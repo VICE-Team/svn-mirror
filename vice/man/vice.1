@@ -3,43 +3,52 @@
 VICE \- Versatile Commodore Emulator and Virtual Commodore Environment
 .SH DESCRIPTION
 .I VICE
-is a multi\-platform emulator of the Commodore PET, CBM-II (C610),
-VIC20, C64, C64DTV, C128 and Plus4 8\-bit computers.  The emulators run as
+is a multi\-platform emulator of the Commodore PET, CBM-II,
+VIC20, C64, C64DTV, C128 and Plus4 8\-bit computers. The emulators run as
 separate programs, but have the same user interface, share the same
-settings  and support the same file formats.  Also some external
+settings and support the same file formats. Also some external
 utilities are provided.
 .P
 VICE is made up of the following programs:
 .TP 8
 .B x64
-a fast Commodore 64 emulator for the X Window System
+a fast Commodore 64 emulator
 .TP
 .B x64sc
-an accurate Commodore 64 emulator for the X Window System
+an accurate Commodore 64 emulator
+.TP
+.B xscpu64
+an accurate SCPU64 emulator
 .TP
 .B x64dtv
-a C64DTV emulator for the X Window System
+a C64DTV emulator
 .TP
 .B x128
-a Commodore 128 emulator for the X Window System
+a Commodore 128 emulator
 .TP
 .B xvic
-a Commodore VIC20 emulator for the X Window System
+a Commodore VIC20 emulator
 .TP
 .B xpet
-a Commodore PET emulator for the X Window System
+a Commodore PET emulator
 .TP
 .B xplus4
-a Commodore Plus4 emulator for the X Window System
+a Commodore Plus4 emulator
 .TP
 .B xcbm2
-a Commodore CBM-II (C610) emulator for the X Window System
+a Commodore CBM-II emulator
+.TP
+.B vsid
+a SID player
 .TP
 .B c1541
 a stand-alone disk image maintenance utility;
 .TP
 .B petcat
 a Commodore BASIC (de)tokenizer;
+.TP
+.B cartconv
+a cartridge file (bin<--->crt) converter;
 .PP
 The whole documentation for these programs is available in HTML
 format; the main file should be installed on your system as
@@ -54,40 +63,95 @@ http://vice-emu.sourceforge.net/
 .BR petcat (1),
 .BR c1541 (1)
 .SH AUTHORS
-Andreas Boose <boose@linux.rz.fh-hannover.de>
-.br
-Dag Lem <resid@nimrod.no>
-.br
-Tibor Biczo <crown@mail.matav.hu>
-.br
-Andreas Dehmel <zarquon@t-online.de>
-.br
-Thomas Bretz <tbretz@ph.tum.de>
-.br
 Andreas Matthies <andreas.matthies@gmx.net>
 .br
-Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>
-.br
-Markus Brenner <markus@brenner.de>
-.br
-Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
+Martin Pottendorder <pottendo@gmx.net>
 .br
 Marco van den Heuvel <blackystardust68@yahoo.com>
 .br
+Fabrizio Gennari <fabrizio.ge@tiscalinet.it>
+.br
+Daniel Kahlin <daniel@kahlin.net>
+.br
+Groepaz <groepaz@gmx.net>
+.br
+Errol Smith <strobey@users.sourceforge.net>
+.br
+Olaf Seibert <rhialto@falu.nl>
+.br
+Marcus Sutton <loggedoubt@gmail.com>
+.br
+Kajtar Zsolt <soci@c64.rulez.org>
+.br
+Benjamin 'BeRo' Rosseaux <benjamin@rosseaux.com>
+.br
+Ulrich Schulz <peiselulli@t-online.de>
+.br
+Stefan Haubenthal <polluks@users.sourceforge.net>
+.br
+Thomas Giesel <skoe@directbox.com>
+.br
+Ingo Korb <ingo@akana.de>
+.br
+Antti S. Lankila <alankila@bel.fi>
+.br
+Christian Vogelgsang <chris@vogelgsang.org>
+.br
+Dag Lem <resid@nimrod.no>
+.br
+Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
+.br
+Hannu Nuotio <hannu.nuotio@tut.fi>
+.br
+Andreas Boose <viceteam@t-online.de>
+.br
+Tibor Biczo <crown@mail.matav.hu>
+.br
+M. Kiesel <mayne@users.sourceforge.net>
+.br
+Andreas Dehmel <zarquon@t-online.de>
+.br
 David Hansel <david@hansels.net>
+.br
+Markus Brenner <markus@brenner.de>
+.br
+Thomas Bretz <tbretz@ph.tum.de>
 .br
 Daniel Sladic <sladic@eecg.toronto.edu>
 .br
-Ettore Perazzoli
+André Fachat <fachat@physik.tu-chemnitz.de>
+.br
+Ettore Perazzoli <ettore@comm2000.it>
 .br
 Teemu Rantanen <tvr@cs.hut.fi>
-.br
-Andr\('e Fachat <fachat@physik.tu-chemnitz.de>
 .br
 Jouko Valta <jopi@stekt.oulu.fi>
 .br
 Jarkko Sonninen <sonninen@lut.fi>
-
+.br
+Mikkel Holm Olsen <vice-dk@symlink.dk>
+.br
+Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+.br
+Paul Dubé 
+.br
+Czirkos Zoltan <cirix@fw.hu>
+.br
+Karai Csaba <cskarai@freemail.hu>
+.br
+Andrea Musuruane <musuruan@bmm.it>
+.br
+Jesse Lee <interpreters.jesse@gmail.com>
+.br
+Jarek Sobolewski <r@sledinmay.com>
+.br
+Michael Litvinov <litvinov.m@i.ua>
+.br
+Peter Krefting <peter@softwolves.pp.se>
+.br
+Emir Akaydin (aka: Skate) <emir@akaydin.com>
+.br
 with several contributions from other people around the world; see the
 HTML documentation for more information.
+
 
