@@ -434,7 +434,6 @@ if test x"$1" = "xREADME"; then
       done
       $ECHO ""
       $ECHO "    Translation Team Members:"
-      $ECHO ""
       for i in $TRANSTEAM_MEMBERS
       do
         decodedall=`$ECHO "$i" | sed 's/+/ /g'`
@@ -509,7 +508,7 @@ if test x"$1" = "xindexhtml"; then
           decodedname=`$ECHO "$i" | sed 's/_/ /g'`
         fi
       done
-      $ECHO "$decodename."
+      $ECHO "$decodedname."
       IFS=''
       read data
       while test x"$data" != "x<!--teamend-->"
@@ -722,10 +721,8 @@ if test x"$1" = "xvice1"; then
   $ECHO ".SH AUTHORS"
   for i in $ALL_MEMBERS
   do
-    decodedall=`$ECHO "$i" | sed 's/+/ /g'`
-    splititem4 $decodedall
-    decodedname=`$ECHO "$item3" | sed 's/_/ /g'`
-    $ECHO "@b{$decodedname}"
+    decoded=`$ECHO "$i" | sed 's/_/ /g'`
+    $ECHO "@b{$decoded}"
     $ECHO ".br"
   done
   $ECHO "with several contributions from other people around the world; see the"
