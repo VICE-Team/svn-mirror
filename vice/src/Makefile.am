@@ -578,7 +578,7 @@ c128kernalse.h: $(EMBEDDED_DEPENDS) bin2c
 	./bin2c $(top_srcdir)/data/C128/kernalse c128kernalse.h "static BYTE kernal_se[C128_KERNAL_ROM_IMAGE_SIZE]"
 
 c128kernalch.h: $(EMBEDDED_DEPENDS) bin2c
-	./bin2c.sh $(top_srcdir)/data/C128/kernalch c128kernalch.h "static BYTE kernal_ch[C128_KERNAL_ROM_IMAGE_SIZE]"
+	./bin2c $(top_srcdir)/data/C128/kernalch c128kernalch.h "static BYTE kernal_ch[C128_KERNAL_ROM_IMAGE_SIZE]"
 
 c64basic.h: $(EMBEDDED_DEPENDS) bin2c
 	./bin2c $(top_srcdir)/data/C64/basic c64basic.h "BYTE c64memrom_basic64_rom[C64_BASIC_ROM_SIZE]"
