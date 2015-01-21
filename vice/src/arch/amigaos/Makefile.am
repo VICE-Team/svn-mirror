@@ -134,6 +134,7 @@ libarch_a_SOURCES = \
 EXTRA_DIST = \
 	intl_text.c \
 	fixdeps.c \
+	genamigaintl.c \
 	genintl_h.sh.in \
 	genintltable.sh \
 	intl.txt \
@@ -141,6 +142,12 @@ EXTRA_DIST = \
 
 BUILT_SOURCES = intl.h intl_table.h
 
+if NATIVE_TOOLS
+intl.h intl_table.h:	$(srcdir)/intl.txt
+	echo "generating intl.h and intl_table.h..."
+	$(NATIVE_TOOLS_COMPILER) -o genamigaintl genamigaintl.c
+	./genamigaintl $(srcdir)/intl.txt intl.h intl_table.h
+else
 intl.h: $(srcdir)/intl.txt
 	echo "generating intl.h..."
 	$(SHELL) genintl_h.sh <$(srcdir)/intl.txt >intl.h
@@ -148,3 +155,4 @@ intl.h: $(srcdir)/intl.txt
 intl_table.h: $(srcdir)/intl.txt
 	echo "generating intl_table.h..."
 	$(SHELL) $(srcdir)/genintltable.sh <$(srcdir)/intl.txt >intl_table.h
+endif
