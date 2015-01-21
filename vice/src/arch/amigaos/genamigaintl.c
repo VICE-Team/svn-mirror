@@ -74,7 +74,6 @@ static void generate_intl(char *in_filename, char *out_filename, char *table_fil
     FILE *infile = NULL;
     FILE *outfile = NULL;
     FILE *outfile_table = NULL;
-    int found_eof = 0;
     int line_size;
     char *header;
     char *table_header;
