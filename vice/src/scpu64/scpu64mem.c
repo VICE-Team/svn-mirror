@@ -99,6 +99,7 @@ BYTE mem_tooslow[1];
 static int traps_pending;
 
 #ifdef USE_EMBEDDED
+#define C64_CHARGEN_ROM_SIZE SCPU64_CHARGEN_ROM_SIZE
 #include "c64chargen.h"
 #else
 BYTE mem_chargen_rom[SCPU64_CHARGEN_ROM_SIZE];
