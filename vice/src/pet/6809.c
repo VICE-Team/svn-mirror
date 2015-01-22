@@ -2765,7 +2765,7 @@ static DWORD ld32(DWORD arg, int CLK6809, int CLK6309)
     return arg;
 }
 
-static void st32(WORD arg, int CLK6809, int CLK6309)
+static void st32(DWORD arg, int CLK6809, int CLK6309)
 {
     Z = arg;
     N = arg >> 24;
@@ -4658,17 +4658,17 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 
             case 0x10dc:        /* LDQ direct */
                 direct();
-                F = ld32(RDMEM32(ea), 1, 0);
+                Q = ld32(RDMEM32(ea), 1, 0);
                 break;
 
             case 0x10fc:        /* LDQ extended */
                 extended();
-                F = ld32(RDMEM32(ea), 1, 0);
+                Q = ld32(RDMEM32(ea), 1, 0);
                 break;
 
             case 0x10ec:        /* LDQ indexed */
                 indexed();
-                F = ld32(RDMEM32(ea), 1, 1);
+                Q = ld32(RDMEM32(ea), 1, 1);
                 break;
 #endif
 
