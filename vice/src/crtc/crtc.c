@@ -672,7 +672,7 @@ static void crtc_raster_draw_alarm_handler(CLOCK offset, void *data)
                 if (crtc.current_charline == crtc.regs[6]) {
                     new_venable = 0;
                 }
-                if ((crtc.current_charline == crtc.regs[7])) {
+                if (crtc.current_charline == crtc.regs[7]) {
                     /* printf("hsync starts at clk=%d\n",crtc.rl_start); */
                     new_vsync = (crtc.regs[3] >> 4) & 0x0f;
                     if (!new_vsync) {

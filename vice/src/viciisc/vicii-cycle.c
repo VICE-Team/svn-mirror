@@ -343,7 +343,7 @@ int vicii_cycle(void)
      * Trigger a raster IRQ if the raster comparison goes from
      * non-match to match.
      */
-    if ((vicii.raster_line == vicii.raster_irq_line)) {
+    if (vicii.raster_line == vicii.raster_irq_line) {
         if (!vicii.raster_irq_triggered) {
             vicii_irq_raster_trigger();
             vicii.raster_irq_triggered = 1;
