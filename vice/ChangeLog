@@ -1,5 +1,455 @@
 ------------------------------------------------------------------------------
 
+2015-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.15
+
+
+2015-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	po/sv.po, src/translate_text.c: Did a 'make trans-update'.
+
+2015-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2015-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Some 6309 fixes.
+
+2015-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/beos/ppc-build-sdl.sh, build/beos/ppc-build.sh,
+	build/mingw32/build-cross.sh, build/nextstep/build.sh,
+	build/openstep/build.sh, build/openwatcom/win32-build.sh,
+	build/rhapsody/build.sh: Added '--enable-native-tools' to some of the
+	build scripts.
+
+2015-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/crtc/crtc.c, src/viciisc/vicii-cycle.c: Some warning fixes.
+
+2015-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/scpu64/scpu64mem.c: Fixed.
+
+2015-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2015-01-22  Marcus Sutton <loggedoubt@gmail.com>
+
+	* gcccpu.sh: Fixed gcccpu.sh so that it only compiles cpu files
+	(including z80.c) with -O0 or -O1 that would really be hard to compile
+	otherwise. It now also prints messages about what it is doing.
+
+2015-01-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/statusbar.cc, src/arch/beos/ui.cc: Fixed BeVICE
+	compile again, hopefully keeping up with changes in trunk this time.
+
+2015-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Fixed a typo.
+
+2015-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/palette2c.c: Use native tools when making
+	'embedded' header files.
+
+2015-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/genamigaintl.c: Removed unused var.
+
+2015-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos, src/arch/amigaos/Makefile.am,
+	src/arch/amigaos/genamigaintl.c, src/arch/amigaos/genintltable.sh: Use
+	the genamigaintl program when native tools are used.
+
+2015-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32: Added some svn ignores.
+
+2015-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/utils/Makefile.am: Use
+	the genwinres program when native tools are used.
+
+2015-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c: Fixed.
+
+2015-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* man/vice.1: Forgot to include the actual man.
+
+2015-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c, src/geninfocontrib_h.sh:
+	Updated the man a bit.
+
+2015-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/geninfocontrib_h.sh: Some last fixes.
+
+2015-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* man/vice.1, src/Makefile.am, src/arch/win32/utils/geninfocontrib.c,
+	src/arch/win32/vs_tmpl/geninfocontrib.tmpl, src/geninfocontrib_h.sh:
+	Added automatic generation of the vice.1 (man) file.
+
+2015-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4: Fixed.
+
+2015-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src: Added some svn ignores.
+
+2015-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Use geninfocontrib program for 'native tools'
+	feature
+
+2015-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* README, doc/html/index.html, src/arch/win32/utils/geninfocontrib.c,
+	src/arch/win32/vs_tmpl/geninfocontrib.tmpl: Restructured the
+	geninfocontrib program.
+
+2015-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c: Fixed rename.
+
+2015-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src: Added some svn ignores.
+
+2015-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/monitor/mon_lex.c, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h: Let's do this correctly.
+
+2015-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/viciivsid/viciivsid-mem.c: Removed unused code.
+
+2015-01-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* README, doc/html/index.html, src/Makefile.am,
+	src/arch/win32/utils/gentranslate.c: Use gentranslate program for
+	'native tools' feature
+
+2015-01-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added '--enable-native-tools' to the configure
+	script.
+
+2015-01-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c,
+	src/arch/win32/vs_tmpl/geninfocontrib.tmpl: Added auto-generation of
+	the os/2 dialogs.rc file to the windows geninfocontrib program.
+
+2015-01-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html, src/arch/win32/utils/geninfocontrib.c,
+	src/arch/win32/vs_tmpl/geninfocontrib.tmpl, src/geninfocontrib_h.sh:
+	Added auto-generation of the index.html file to the windows
+	geninfocontrib program.
+
+2015-01-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* README, src/arch/win32/utils/geninfocontrib.c,
+	src/arch/win32/vs_tmpl/geninfocontrib.tmpl, src/geninfocontrib_h.sh:
+	Added auto-generation of the README file to the windows geninfocontrib
+	program.
+
+2015-01-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c,
+	src/arch/win32/vs_tmpl/geninfocontrib.tmpl: Added auto-generation of
+	the osx credits html file to the windows geninfocontrib program.
+
+2015-01-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c,
+	src/arch/win32/vs_tmpl/geninfocontrib.tmpl: Added auto-generation of
+	the AUTHORS file to the windows geninfocontrib program.
+
+2015-01-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/win32/utils/geninfocontrib.c,
+	src/geninfocontrib_h.sh: Added auto-generation of the os/2 dialogs.rc
+	file to the geninfocontrib_h.sh script.
+
+2015-01-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dialogs.rc: Added comments to be used by the
+	automatic team generation code.
+
+2015-01-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html, src/Makefile.am, src/geninfocontrib_h.sh: Added
+	auto-generation of the index.html file to the geninfocontrib_h.sh
+	script.
+
+2015-01-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* README, src/Makefile.am, src/geninfocontrib_h.sh: Added
+	auto-generation of the README file to the geninfocontrib_h.sh script.
+
+2015-01-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/uihelp.c: Changed the windows
+	gui to use the new automatically generated team list.
+
+2015-01-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/65816core.c, src/65c02core.c, src/arch/win32/res.rc: Cosmetic
+	fixes.
+
+2015-01-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/rtc.h: Added missing include.
+
+2015-01-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Fixed team position markers.
+
+2015-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Added some html comment tags to be used for
+	re-generating the file with team data filled in.
+
+2015-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/unix/macosx/Resources/Credits.html,
+	src/geninfocontrib_h.sh: Added auto-generation of the Mac OS X
+	Credits.html file to the geninfocontrib_h.sh script.
+
+2015-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* AUTHORS, src/Makefile.am, src/geninfocontrib_h.sh: Added
+	auto-generation of the AUTHORS file to the geninfocontrib_h.sh script.
+
+2015-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/geninfocontrib_h.sh: Made geninfocontrib_h.sh
+	accept a parameter, this way the script can be (re-)used for
+	generating other member-list related files.
+
+2015-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/geninfocontrib_h.sh: Added the creation of a team list file for
+	later usage.
+
+2015-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/geninfocontrib_h.sh: Restructured a bit.
+
+2015-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/geninfocontrib_h.sh, src/info.h: Added years element to the
+	translators structure.
+
+2015-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added 'years' for the translators.
+
+2015-01-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/rtc/ds1202_1302.c, src/rtc/ds1202_1302.h: Remove double encoding
+
+2015-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/infocontrib.sed: Fixed an email.
+
+2015-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c: Extended to include email.
+
+2015-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/geninfocontrib_h.sh, src/info.h: Extended to include email.
+
+2015-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/Makefile.am: Added vice_21.html and vice_22.html to the
+	Makefile.am.
+
+2015-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Some fixes.
+
+2015-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/about.c: Removed unneeded var.
+
+2015-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/about.c: Fixed a typo.
+
+2015-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/about.c, src/arch/unix/x11/xaw/uimenu.c,
+	src/arch/unix/x11/xaw/uimenu.h: Changed the xaw gui to use the new
+	automatically generated team list.
+
+2015-01-15  groepaz <groepaz@gmx.net>
+
+	* src/main.c: cosmetic fix, more compact output
+
+2015-01-15  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/about.c: use auto generated team list in GTK
+
+2015-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_help.c: Changed the sdl gui to use the new
+	automatically generated team list.
+
+2015-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/menudefs.c: Changed the dos tui to use the new
+	automatically generated team list.
+
+2015-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui.cc: Changed the beos gui to use the new
+	automatically generated team list.
+
+2015-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/mui.c: Changed the amiga gui to use the new
+	automatically generated team list.
+
+2015-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c: Enhance the windows
+	geninfocontrib.c to do the same as the unix script.
+
+2015-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/main.c: Startup log code now uses the autogenerated core team
+	member list.
+
+2015-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/info.c: Added missing include.
+
+2015-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/geninfocontrib_h.sh, src/info.h: Extended geninfocontrib_h.sh to
+	also generate 'team member' information to be used by the GUI's,
+	startup code and home page generator.
+
+2015-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Fixed.
+
+2015-01-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Comment fix.
+
+2015-01-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.texi, doc/vice.txt: Updated the documentation
+	concerning translators, added the 'documentation team' to the
+	documentation, and added some 'comments/tags' for the upcoming
+	'infocontrib enhancement'.
+
+2015-01-14  groepaz <groepaz@gmx.net>
+
+	* doc/html/index.html: added 'support' tab that links to the ml
+	subscription page on sf
+
+2015-01-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c: Fixed.
+
+2015-01-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi,
+	po/translations-status.txt, src/c128/c128-cmdline-options.c,
+	src/c64/cart/retroreplay.c, src/event.c, src/translate.txt,
+	src/translate_text.c: Started on a command-line options fixup run.
+
+2015-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/uiapi.c: Removed some resources from the amiga port
+	of vsid.
+
+2015-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsid.c, src/viciivsid/viciivsid.c: Removed some more
+	resource references from vsid.
+
+2015-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/ui-resources.c: Reverted "Windows0*" resources,
+	since they are used by the unix vsid port.
+
+2015-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/unix/x11/ui-cmdline-options.c,
+	src/arch/unix/x11/ui-resources.c: Removed some unix resources from
+	vsid.
+
+2015-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/gnome/gtk2legacy.c: Style fixes.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/sdl/ui.c: Removed
+	the "SDLStatusbar" resource from the SDL vsid port.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/ko.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resds12c887rtc.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resmouse.rc,
+	src/arch/win32/resuserportrtc.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po: Did a
+	'make update-po'.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/translate_text.c: Fixed.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/ko.po: Updated.
+
+2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated.
+
 2015-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, Makefile.am, build/android/build-android.sh,
