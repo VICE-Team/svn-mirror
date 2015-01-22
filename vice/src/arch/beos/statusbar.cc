@@ -114,11 +114,14 @@ void ViceStatusbar::DisplayDriveStatus(int drive_num, int drive_led_color, doubl
     if (!erase_bar) {
         drawview->DrawString(str, BPoint(160, 10 + drive_offset));
         drawview->DrawString(str2, BPoint(173, 10 + drive_offset));
+        /* this is a bit of a hack. */
         switch (drive_led_color) {
-            case DRIVE_ACTIVE_GREEN:
+            case DRIVE_LED1_GREEN:
+            case DRIVE_LED2_GREEN:
+            case DRIVE_LED1_GREEN | DRIVE_LED2_GREEN:
                 led_col = statusbar_green_led;
                 break;
-            case DRIVE_ACTIVE_RED:
+            case DRIVE_LED1_RED | DRIVE_LED2_RED:
                 led_col = statusbar_red_led;
                 break;
             default:
@@ -132,7 +135,7 @@ void ViceStatusbar::DisplayDriveStatus(int drive_num, int drive_led_color, doubl
     Draw(frame);
 }
 
-void ViceStatusbar::DisplayTapeStatus(int enabled, int counter,int motor, int control)
+void ViceStatusbar::DisplayTapeStatus(int enabled, int counter, int motor, int control)
 {
     char str[20];
     BRect frame;
@@ -186,16 +189,16 @@ void ViceStatusbar::DisplayImage(int drive_num, const char *image)
     BRect frame;
 
     if (drive_num < 0) {
-        drive_num=4; /* tape image */
+        drive_num = 4; /* tape image */
     }
-	
+
     frame = BRect(220, 1 + drive_num * 13, 250, 13 + drive_num * 13);
     frame.right = Bounds().Width() - 5;
     statusbitmap->Lock();
     drawview->SetLowColor(statusbar_background);
     drawview->FillRect(frame, B_SOLID_LOW);
     if (image) {
-        drawview->DrawString(image, BPoint(220,10+drive_num*13));
+        drawview->DrawString(image, BPoint(220, 10 + drive_num * 13));
     }
     drawview->Sync();
     statusbitmap->Unlock();
@@ -204,11 +207,11 @@ void ViceStatusbar::DisplayImage(int drive_num, const char *image)
 
 static struct _xy { int x; int y; } direction_offset[] = 
 {
-    { 6, 1 },		/* up    */
-    { 6, 11 },		/* down  */
-    { 1, 6 },		/* left  */
-    { 11, 6 },		/* right */
-    { 6, 6 }		/* fire  */
+    { 6, 1 },   /* up    */
+    { 6, 11 },  /* down  */
+    { 1, 6 },   /* left  */
+    { 11, 6 },  /* right */
+    { 6, 6 }    /* fire  */
 };
 
 static BRect joystickframe = BRect(10, 20, 130, 39);
@@ -220,18 +223,18 @@ void ViceStatusbar::EnableJoyport(int on)
     drawview->FillRect(joystickframe, B_SOLID_LOW);
     if (on) {
         drawview->DrawString("Port A", BPoint(10, 30));
-        drawview->DrawString("Port B", BPoint(80,30));
+        drawview->DrawString("Port B", BPoint(80, 30));
     }
     drawview->Sync();
     statusbitmap->Unlock();
     Draw(joystickframe);
-}	
+}
 
 void ViceStatusbar::DisplayJoyport(int port_num, int status)
 {
     int dir_index;
     BRect frame, led_template, led;
-	
+
     frame = BRect(45, 20, 79, 39);
     frame.OffsetBy((port_num - 1) * 70, 0);
     led_template = frame;
@@ -268,6 +271,6 @@ void ViceStatusbar::DisplayMessage(const char *text)
 }
 
 void ViceStatusbar::Draw(BRect rect)
-{	
+{
     DrawBitmap(statusbitmap,rect,rect);
 }

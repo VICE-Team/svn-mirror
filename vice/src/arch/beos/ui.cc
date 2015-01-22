@@ -678,7 +678,7 @@ static char *get_compiletime_features(void)
         len += strlen(list->descr) + strlen(list->symbol) + (15);
         ++list;
     }
-    str = lib_malloc(len);
+    str = (char *)lib_malloc(len);
     lstr = str;
     list = vice_get_feature_list();
     while (list->symbol) {
@@ -989,7 +989,7 @@ void ui_dispatch_events(void)
                                   "\n (", PLATFORM_CPU, " ", PLATFORM_OS, " ", PLATFORM_COMPILER, ")\n\n",
                                   NULL);
                 for (i = 0; core_team[i].name; i++) {
-                    abouttext = util_concat(tmp, "(c) ", core_team[i].years, " ", core_team[i].name, "\n", NULL);
+                    abouttext = util_concat(tmp, "\xC2\xA9 ", core_team[i].years, " ", core_team[i].name, "\n", NULL);
                     lib_free(tmp);
                     tmp = abouttext;
                 }
