@@ -34,7 +34,7 @@ single_build=no
 mkdir bins
 
 if test x"$build_i386" = "xyes"; then
-  CFLAGS="-arch i386" ./configure -v --host=i386-apple-rhapsody --prefix=/usr/local -disable-nls --without-resid
+  CFLAGS="-arch i386" ./configure -v --host=i386-apple-rhapsody --prefix=/usr/local -disable-nls --without-resid --enable-native-tools
   make
   makedone=yes
   if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
@@ -57,7 +57,7 @@ if test x"$build_ppc" = "xyes"; then
   if test x"$makedone" = "xyes"; then
     make clean
   fi
-  CFLAGS="-arch ppc" ./configure -v --host=ppc-apple-rhapsody --prefix=/usr/local -disable-nls --without-resid
+  CFLAGS="-arch ppc" ./configure -v --host=ppc-apple-rhapsody --prefix=/usr/local -disable-nls --without-resid --enable-native-tools
   make
   if [ ! -e src/x64 -o ! -e src/xscpu64 -o ! -e src/x64dtv -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/xcbm5x0 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
   then

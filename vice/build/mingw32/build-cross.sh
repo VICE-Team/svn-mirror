@@ -332,7 +332,7 @@ create_vice()
   cd ../..
 
   echo "Configure VICE..."
-  CFLAGS="$TGR_CFLAGS" CXXFLAGS="$TGR_CXXFLAGS" CXX="$TRG_CXX" CC="$TRG_CC" AR="$TRG_AR" RANLIB="$TRG_RANLIB" STRIP="$TRG_STRIP" WINDRES="$TRG_WINDRES" ./configure --enable-ffmpeg --host=i386-mingw32 $*
+  CFLAGS="$TGR_CFLAGS" CXXFLAGS="$TGR_CXXFLAGS" CXX="$TRG_CXX" CC="$TRG_CC" AR="$TRG_AR" RANLIB="$TRG_RANLIB" STRIP="$TRG_STRIP" WINDRES="$TRG_WINDRES" ./configure --enable-ffmpeg --host=i386-mingw32 --enable-native-tools $*
 
   echo "Make VICE..."
   make
