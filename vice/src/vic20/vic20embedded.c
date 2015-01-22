@@ -78,7 +78,6 @@ static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int
 size_t embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsize)
 {
     size_t retval;
-    int i = 0;
 
     if ((retval = embedded_check_extra(name, dest, minsize, maxsize)) != 0) {
         return retval;

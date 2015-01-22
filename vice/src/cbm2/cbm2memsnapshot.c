@@ -307,7 +307,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         /* basic */
         SMW_BA(m, mem_rom + 0x8000, 0x4000);
         /* chargen */
-        if ((machine_class == VICE_MACHINE_CBM5x0)) {
+        if (machine_class == VICE_MACHINE_CBM5x0) {
             SMW_BA(m, mem_chargen_rom, 0x1000);
         } else {
             SMW_BA(m, mem_chargen_rom, 0x0800);
