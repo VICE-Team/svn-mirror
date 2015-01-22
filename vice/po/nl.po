@@ -4532,12 +4532,11 @@ msgstr "Speciale opties aanwezig bij het compileren"
 
 #: src/arch/unix/x11/gnome/about.c:128
 msgid "Text cannot be displayed."
-msgstr ""
+msgstr "Tekst kan niet getoont worden."
 
 #: src/arch/unix/x11/gnome/about.c:142
-#, fuzzy
 msgid "The VICE Team:"
-msgstr "Het VICE team"
+msgstr "Het VICE Team:"
 
 #: src/arch/unix/x11/gnome/about.c:148
 msgid "Official VICE homepage:"
@@ -10770,7 +10769,7 @@ msgstr "Zet C128 model (c128/c128dcr, pal/ntsc)"
 msgid ""
 "Set C128 machine type (0: International, 1: Finnish, 2: French, 3: German, "
 "4: Italian, 5: Norwegian, 6: Swedish, 7: Swiss)"
-msgstr ""
+msgstr "Zet C128 machine soort (0: Internationaal, 1: Fins, 2: Frans, 3: Duits, 4: Italiaans, 5: Noors, 6: Zweeds, 7: Zwitsers)"
 
 #: src/translate_text.c.po.c:4339
 msgid "Disable RAM banks 2 and 3"
@@ -11137,7 +11136,7 @@ msgstr "Zet RR Flash Jumper"
 
 #: src/translate_text.c.po.c:6024
 msgid "Set RR Revision (0: Retro Replay, 1: Nordic Replay)"
-msgstr ""
+msgstr "Zet RR Revisie (0: Retro Replay, 1: Nordic Replay)"
 
 #: src/translate_text.c.po.c:6058
 msgid "Disable the RAM Expansion Unit"
@@ -12642,24 +12641,21 @@ msgid "Playback recorded events"
 msgstr "Afspelen opgenomen gebeurtenissen"
 
 #: src/translate_text.c.po.c:12655
-#, fuzzy
 msgid "Set event snapshot directory"
-msgstr "Selecteer aanvankelijke snapshot folder."
+msgstr "Selecteer gebeurtenis momentopname folder"
 
 #: src/translate_text.c.po.c:12672
-#, fuzzy
 msgid "Set event start snapshot"
-msgstr "Opslaan nieuwe momentopname"
+msgstr "Selecteer start gebeurtenis momentopname"
 
 #: src/translate_text.c.po.c:12689
-#, fuzzy
 msgid "Set event end snapshot"
-msgstr "Opslaan nieuwe momentopname"
+msgstr "Selecteer eind gebeurtenis momentopname"
 
 #: src/translate_text.c.po.c:12706
 msgid ""
 "Set event start mode (0: file save, 1: file load, 2: reset, 3: playback)"
-msgstr ""
+msgstr "Zet gebeurtenis start modus (0: bestand opslaan, 1: bestand laden, 2: reset, 4: afspelen)"
 
 #: src/translate_text.c.po.c:12723
 msgid "Execute monitor commands from file"
