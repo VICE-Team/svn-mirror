@@ -38,8 +38,8 @@ resource range:                 N/A
 resource default:               ""
 resource function:              set_initial_dir()
 resource var:                   ui_resources.initialdir[1]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:				vsid
+resource emulators:             x64/x64sc/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				xscpu64/x64dtv/vsid
 prepocessor:
 command-line:                   -initialtapedir
 platform gui present:           amigaos
@@ -101,8 +101,8 @@ resource range:                 N/A
 resource default:               ""
 resource function:              set_initial_dir()
 resource var:                   ui_resources.initialdir[4]
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
-not used in:				vsid
+resource emulators:             x64/x64sc/xscpu64/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
+not used in:				x64dtv/vsid
 prepocessor:
 command-line:                   -initialcartdir
 platform gui present:           amigaos
@@ -15867,9 +15867,10 @@ prepocessor:
 command-line:                   NONE (fixme)
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-fixme: apparently this resource appears ONLY in event.c and nowhere else in the code,
-       and it is only declared, never used. in (at least) GTK ui the option is present
-       in the UI, but it does not use the resource at all
+gpz fixme: apparently this resource appears ONLY in event.c and nowhere else in the code,
+           and it is only declared, never used. in (at least) GTK ui the option is present
+           in the UI, but it does not use the resource at all
+blacky note: the variable it sets is used in event.c, when set it will include the disk images in the event files.
 
 event.c:
 --------

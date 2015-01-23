@@ -40,6 +40,7 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "loadlibs.h"
+#include "machine.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -139,16 +140,24 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_string_t init_resources_string[] = {
-    { "InitialTapeDir", "", RES_EVENT_NO, NULL,
-      &ui_resources.initialdir[1], set_initial_dir, (void *)1 },
     { "InitialDiskDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[2], set_initial_dir, (void *)2 },
     { "InitialAutostartDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[3], set_initial_dir, (void *)3 },
-    { "InitialCartDir", "", RES_EVENT_NO, NULL,
-      &ui_resources.initialdir[4], set_initial_dir, (void *)4 },
     { "InitialSnapshotDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[5], set_initial_dir, (void *)5 },
+    { NULL }
+};
+
+static const resource_string_t init_tape_resources_string[] = {
+    { "InitialTapeDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[1], set_initial_dir, (void *)1 },
+    { NULL }
+};
+
+static const resource_string_t init_cart_resources_string[] = {
+    { "InitialCartDir", "", RES_EVENT_NO, NULL,
+      &ui_resources.initialdir[4], set_initial_dir, (void *)4 },
     { NULL }
 };
 
@@ -180,6 +189,16 @@ int ui_resources_init(void)
         if (resources_register_string(init_resources_string) < 0) {
             return -1;
         }
+        if (machine_class != VICE_MACHINE_SCPU64 && machine_class != VICE_MACHINE_C64DTV) {
+            if (resources_register_string(init_tape_resources_string) < 0) {
+                return -1;
+            }
+        }
+        if (machine_class != VICE_MACHINE_C64DTV) {
+            if (resources_register_string(init_cart_resources_string) < 0) {
+                return -1;
+            }
+        }
     }
 
     return resources_register_int(resources_int);
@@ -201,11 +220,6 @@ void ui_resources_shutdown(void)
 /* UI-related command-line options.  */
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-initialtapedir", SET_RESOURCE, 1,
-      NULL, NULL, "InitialTapeDir", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_TAPE_DIR,
-      NULL, NULL },
     { "-initialdiskdir", SET_RESOURCE, 1,
       NULL, NULL, "InitialDiskDir", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -225,6 +239,24 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "InitialSnapshotDir", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDS_SPECIFY_INITIAL_SNAPSHOT_DIR,
+      NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t tape_cmdline_options[] = {
+    { "-initialtapedir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialTapeDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_TAPE_DIR,
+      NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t cart_cmdline_options[] = {
+    { "-initialcartdir", SET_RESOURCE, 1,
+      NULL, NULL, "InitialCartDir", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDS_SPECIFY_INITIAL_CART_DIR,
       NULL, NULL },
     { NULL }
 };
@@ -297,6 +329,16 @@ int ui_cmdline_options_init(void)
     if (machine_class != VICE_MACHINE_VSID) {
         if (cmdline_register_options(cmdline_options) < 0) {
             return -1;
+        }
+        if (machine_class != VICE_MACHINE_SCPU64 && machine_class != VICE_MACHINE_C64DTV) {
+            if (cmdline_register_options(tape_cmdline_options) < 0) {
+                return -1;
+            }
+        }
+        if (machine_class != VICE_MACHINE_C64DTV) {
+            if (cmdline_register_options(cart_cmdline_options) < 0) {
+                return -1;
+            }
         }
     }
 
