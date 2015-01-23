@@ -54,14 +54,19 @@ command-line options:
 
 @table @code
 
-@cindex -something
+@findex -something
 @item -something <value>
-Set something to <value>.
+Set something to <value>
+(@code{SomeResource})
+(all emulators except c128).
+(0: on, 1: off, 2: something else)
 
-@cindex -something, +something
+@findex -something, +something
 @item -something
 @itemx +something
 Enable/disable something
+(@code{SomeResource=1}, @code{SomeResource=0})
+(xvic only).
 
 @end table
 
@@ -72,7 +77,19 @@ resources:
 
 @vindex SomeResource
 @item SomeResource
-Boolean to enable some option.
+Boolean to enable some option
+(all emulators except x128).
+
+@vindex SomeResource
+@item SomeResource
+Integer specifying the mode to use
+(xvic only).
+(0: on, 1: off, 2: something else)
+
+@vindex SomeResource
+@item SomeResource
+String specifying the filename of the ROM
+(xplus4 and x64 only).
 
 @c NOTE: put commands above this block, not in between
 @vindex SomeResource1
@@ -83,7 +100,8 @@ Boolean to enable some option.
 @itemx SomeResource2
 @itemx SomeResource3
 @itemx SomeResource4
-Boolean to enable some option.
+Boolean to enable some option
+(xplus4, xvic and vsid only).
 
 @end table
 
@@ -107,7 +125,47 @@ preformatted text:
 @end example
 
 Warning: using more than 77 characters per line will produce bugs in the pdf
-         output (and possibly others) - use @smallexample instead in such cases.
+         output (and possibly others) - use @smallexample instead in such
+         cases.
+
+------------------------------------------------------------------------------
+
+platform specific sections:
+===========================
+
+When VICE is configured with the --enable-platformdox option, the configure
+script will try to detect what platform is being compiled for and it will
+tell the documentation generation system to make the documentation platform
+specific. Only the parts of the vice.texi that are for the platform being
+compiled for will show up in the resulting documentation files.
+
+Certain variables are defined to indicate which platform the documentation
+needs to be generated for:
+
+- platformamigaos3 (amiga os 3.x)
+- platformamigaos4 (amiga os 4.x)
+- platformmorphos  (morphos)
+- platformaros     (aros)
+- platformamiga    (will be set when using platformamigaos3,
+                    platformamigaos4, platformmorphos or platformaros)
+- platformbeos     (beos, zeta or haiku)
+- platformdos      (dos)
+- platformos2      (os/2)
+- platformsdl      (sdl)
+- platformxaw      (xaw)
+- platformgtk2     (gtk2)
+- platformgtk3     (gtk3)
+- platformunix     (will be set when using platformxaw, platformgtk2 or
+                    platformgtk3)
+- platformosx      (mac os x)
+- platformwindows  (windows)
+- platformall      (sets all previous variables)
+
+An example of a platform specific section would be:
+
+@ifset platformamiga
+* AmigaOS-specific features::
+@end ifset
 
 ------------------------------------------------------------------------------
 
@@ -122,12 +180,13 @@ to generate them:
 
 - html (doc/html/vice_*.html)
   The included doc/html/texi2html perl script is used to convert from texi to
-  html. Perl needs to be installed to be able to generate the html documenation.
+  html. Perl needs to be installed to be able to generate the html
+  documentation.
 
 - text (doc/vice.txt)
-  Makeinfo is used to convert from texi to text, and the included doc/fixdox.sh
-  shell script is used to 'post-fix' the text. Makeinfo needs to be installed
-  to be able to generate the text documentation.
+  Makeinfo is used to convert from texi to text, and the included
+  doc/fixdox.sh shell script is used to 'post-fix' the text. Makeinfo needs to
+  be installed to be able to generate the text documentation.
 
 - pdf (doc/vice.pdf)
   Texi2dvi is used to convert from texi to pdf. Texi2dvi needs to be installed
@@ -165,15 +224,41 @@ to generate them:
   http://go.microsoft.com/fwlink/?LinkId=14188
 
 - os/2 inf (doc/vice.inf)
-  Texi2ipf in combination with either ipfc (which is part of the ibm visual age
-  c++ package) or wipfc (which is part of the openwatcom package) is used to
-  convert from texi to os/2 inf. Texi2ipf and (w)ipfc needs to be installed to
-  be able to generate os/2 inf documentation.
+  Texi2ipf in combination with either ipfc (which is part of the ibm visual
+  age c++ package) or wipfc (which is part of the openwatcom package) is used
+  to convert from texi to os/2 inf. Texi2ipf and (w)ipfc needs to be installed
+  to be able to generate os/2 inf documentation.
 
 - info (doc/vice.info)
   Makeinfo is used to convert texi to info. Makeinfo needs to be installed to
   be able to generate info documentation.
   
+------------------------------------------------------------------------------
+
+other files generated from the documentation:
+=============================================
+
+Some other files are (re-)generated from information contained in the
+documentation, the sections that are used for this are indicated by a comment
+line:
+
+@c section used in file generation, keep to the format used.
+...
+@c end of file generation section.
+
+Do not remove any comments in these sections and keep to the format being used
+in these sections.
+
+Files generated from these sections are:
+
+src/infocontrib.h                             (fully generated)
+AUTHORS                                       (fully generated)
+src/arch/unix/macosx/Resources/Credits.html   (fully generated)
+README                                        (partially generated)
+doc/html/index.html                           (partially generated)
+src/arch/os2/dialogs/dialogs.rc               (partially generated)
+man/vice.1                                    (fully generated)
+
 ------------------------------------------------------------------------------
 
 how to use the checkdoc tool:

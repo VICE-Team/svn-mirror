@@ -162,6 +162,7 @@ notice identical to this one.
 
 @c page
 @vskip 0pt plus 1filll
+@c section used in file generation, keep to the format used.
 @c ---vice-core-team---
 Copyright @copyright{} 1999-2015 Andreas Matthies
 Copyright @copyright{} 1999-2015 Martin Pottendorfer
@@ -200,6 +201,7 @@ Copyright @copyright{} 1993-1994, 1997-1999 Teemu Rantanen
 Copyright @copyright{} 1993-1996 Jouko Valta
 Copyright @copyright{} 1993-1994 Jarkko Sonninen
 @c ---ex-team-end---
+@c end of file generation section.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -23948,6 +23950,7 @@ Version 2 and 3 of the SID header ends here. This offset is the start of the
 binary C64 data. See also 'loadAddress' for what the first 2 bytes of 'data'
 might indicate.
 
+@c section used in file generation, keep to the format used.
 @node Acknowledgments, Copyright, File formats, Top
 @chapter Acknowledgments
 
@@ -24748,6 +24751,7 @@ Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha
 Peternel, Per Håkan Sundell and David Horrocks for writing
 cool emulators to compete with.  @t{:-)}
 
+@c end of file generation section.
 @node Copyright, Contacts, Acknowledgments, Top
 @chapter Copyright
 
