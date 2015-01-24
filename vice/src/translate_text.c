@@ -10803,6 +10803,23 @@ translate_t string_table[] = {
 #endif
 
 /* printerdrv/output-select.c */
+/* en */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME,    N_("Specify name of output device for device #6")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME_TR, ""},  /* fuzzy */
+#endif
+
+/* printerdrv/output-select.c */
 /* en */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME,    N_("Specify name of output device for the userport printer")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_DA, "Angiv navn på uddataenhed for brugerports-printer"},

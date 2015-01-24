@@ -1539,6 +1539,9 @@ IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME
 IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME
 
 /* printerdrv/output-select.c */
+IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME
+
+/* printerdrv/output-select.c */
 IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME
 
 /* printerdrv/output-text.c */

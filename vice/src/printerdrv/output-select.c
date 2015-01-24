@@ -112,6 +112,11 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME,
       NULL, NULL },
+    { "-pr6output", SET_RESOURCE, 1,
+      NULL, NULL, "Printer6Output", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME,
+      NULL, NULL },
     { NULL }
 };
 
