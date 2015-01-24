@@ -53,13 +53,13 @@ int winmain_cmd_show;
 
 #ifndef IDE_COMPILE
 #  if !defined(__MSVCRT__) && !defined(_MSC_VER) && !defined(_WIN64) && !defined(__WATCOMC__) && !defined(WATCOM_COMPILE)
-extern void __GetMainArgs (int *, char ***, char ***, int);
+extern void __GetMainArgs(int *, char ***, char ***, int);
 #  else
 typedef struct {
     int newmode;
 } _startupinfo;
 
-extern void __wgetmainargs (int *, wchar_t ***, wchar_t ***, int, _startupinfo *);
+extern void __wgetmainargs(int *, wchar_t ***, wchar_t ***, int, _startupinfo *);
 #  endif
 #endif
 
