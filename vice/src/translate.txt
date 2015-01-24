@@ -1286,6 +1286,54 @@ IDCLS_ENABLE_FSDEVICE_11_CONVERT_P00
 /* fsdevice/fsdevice-cmdline-options.c */
 IDCLS_DISABLE_FSDEVICE_11_CONVERT_P00
 
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_ENABLE_FSDEVICE_8_SAVE_P00
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_DISABLE_FSDEVICE_8_SAVE_P00
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_ENABLE_FSDEVICE_9_SAVE_P00
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_DISABLE_FSDEVICE_9_SAVE_P00
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_ENABLE_FSDEVICE_10_SAVE_P00
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_DISABLE_FSDEVICE_10_SAVE_P00
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_ENABLE_FSDEVICE_11_SAVE_P00
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_DISABLE_FSDEVICE_11_SAVE_P00
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM
+
+/* fsdevice/fsdevice-cmdline-options.c */
+IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM
+
 /* gfxoutputdrv/ffmpegdrv.c */
 IDCLS_SET_AUDIO_STREAM_BITRATE
 

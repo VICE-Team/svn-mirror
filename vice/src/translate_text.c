@@ -9374,6 +9374,278 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_FSDEVICE_11_CONVERT_P00_TR, ""},  /* fuzzy */
 #endif
 
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00,    N_("Enable saving of P00 files on drive 8")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_FSDEVICE_8_SAVE_P00_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00,    N_("Disable saving of P00 files on drive 8")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_FSDEVICE_8_SAVE_P00_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00,    N_("Enable saving of P00 files on drive 9")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_FSDEVICE_9_SAVE_P00_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00,    N_("Disable saving of P00 files on drive 9")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_FSDEVICE_9_SAVE_P00_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00,    N_("Enable saving of P00 files on drive 10")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_FSDEVICE_10_SAVE_P00_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00,    N_("Disable saving of P00 files on drive 10")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_FSDEVICE_10_SAVE_P00_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00,    N_("Enable saving of P00 files on drive 11")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_FSDEVICE_11_SAVE_P00_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00,    N_("Disable saving of P00 files on drive 11")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_FSDEVICE_11_SAVE_P00_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM,    N_("Hide CBM files (only show P00 files) for drive 8")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_FSDEVICE_8_HIDE_CBM_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM,    N_("Do not hide CBM files (show all files) for drive 8")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_FSDEVICE_8_HIDE_CBM_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM,    N_("Hide CBM files (only show P00 files) for drive 9")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_FSDEVICE_9_HIDE_CBM_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM,    N_("Do not hide CBM files (show all files) for drive 9")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_FSDEVICE_9_HIDE_CBM_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM,    N_("Hide CBM files (only show P00 files) for drive 10")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_FSDEVICE_10_HIDE_CBM_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM,    N_("Do not hide CBM files (show all files) for drive 10")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_FSDEVICE_10_HIDE_CBM_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM,    N_("Hide CBM files (only show P00 files) for drive 11")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_FSDEVICE_11_HIDE_CBM_TR, ""},  /* fuzzy */
+#endif
+
+/* fsdevice/fsdevice-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM,    N_("Do not hide CBM files (show all files) for drive 11")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_FSDEVICE_11_HIDE_CBM_TR, ""},  /* fuzzy */
+#endif
+
 /* gfxoutputdrv/ffmpegdrv.c */
 /* en */ {IDCLS_SET_AUDIO_STREAM_BITRATE,    N_("Set bitrate for audio stream in media file")},
 #ifdef HAS_TRANSLATION
