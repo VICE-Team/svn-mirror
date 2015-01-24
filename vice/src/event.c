@@ -95,7 +95,6 @@ static char *event_snapshot_path_str = NULL;
 static int event_start_mode;
 static int event_image_include;
 
-
 static char *event_snapshot_path(const char *snapshot_file)
 {
     lib_free(event_snapshot_path_str);
@@ -1256,13 +1255,21 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SET_EVENT_END_SNAPSHOT,
       NULL, NULL },
-
     { "-eventstartmode", SET_RESOURCE, 1,
       NULL, NULL, "EventStartMode", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODE, IDCLS_SET_EVENT_START_MODE,
       NULL, NULL },
-
+    { "-eventimageinc", SET_RESOURCE, 0,
+      NULL, NULL, "EventImageInclude", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_EVENT_IMAGE_INCLUDE,
+      NULL, NULL },
+    { "+eventimageinc", SET_RESOURCE, 0,
+      NULL, NULL, "EventImageInclude", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_EVENT_IMAGE_INCLUDE,
+      NULL, NULL },
     { NULL }
 };
 

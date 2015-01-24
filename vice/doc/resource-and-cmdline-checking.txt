@@ -15851,8 +15851,6 @@ description:    "Set event start mode (0: file save, 1: file load, 2: reset, 3: 
 resource:       "EventStartMode"
 action:         N/A
 
--------blacky command line fixup run------------------------------------------------------------------------------------------------
-
 event.c:
 --------
 resource type:                  bool
@@ -15864,13 +15862,27 @@ resource var:                   event_image_include
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -eventimageinc / +eventimageinc
 platform gui present:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 gpz fixme: apparently this resource appears ONLY in event.c and nowhere else in the code,
            and it is only declared, never used. in (at least) GTK ui the option is present
            in the UI, but it does not use the resource at all
 blacky note: the variable it sets is used in event.c, when set it will include the disk images in the event files.
+
+event.c:
+--------
+command line:   -eventimageinc
+description:    "Enable including disk images"
+resource:       "EventImageInclude" (set to 1)
+action:         N/A
+
+event.c:
+--------
+command line:   +eventimageinc
+description:    "Disable including disk images"
+resource:       "EventImageInclude" (set to 0)
+action:         N/A
 
 event.c:
 --------
@@ -15992,6 +16004,8 @@ command line:   -fs11 <Name>
 description:    "Use <name> as directory for file system device #11"
 resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice11Dir")
+
+-------blacky command line fixup run------------------------------------------------------------------------------------------------
 
 fsdevice/fsdevice-resources.c:
 ------------------------------

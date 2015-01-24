@@ -12805,6 +12805,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_EVENT_START_MODE_TR, ""},  /* fuzzy */
 #endif
 
+/* event.c */
+/* en */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE,    N_("Enable including disk images")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_EVENT_IMAGE_INCLUDE_TR, ""},  /* fuzzy */
+#endif
+
+/* event.c */
+/* en */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE,    N_("Disable including disk images")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_EVENT_IMAGE_INCLUDE_TR, ""},  /* fuzzy */
+#endif
+
 /* monitor.c */
 /* en */ {IDCLS_EXECUTE_MONITOR_FROM_FILE,    N_("Execute monitor commands from file")},
 #ifdef HAS_TRANSLATION
