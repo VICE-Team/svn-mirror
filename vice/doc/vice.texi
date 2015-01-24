@@ -4231,7 +4231,7 @@ Specify printer text output device for IEC printer #4-5
 @cindex -pr5output
 @item -pr4output <name>
 @itemx -pr5output <name>
-Specify name of output device for device #4-5
+Specify name of output device for device #4-5 (text/graphics)
 
 @findex -pr4drv
 @item -pr4drv <name>
