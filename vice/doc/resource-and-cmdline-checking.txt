@@ -10955,7 +10955,7 @@ not used in:
 prepocessor:
 command-line:                   -soundfragsize
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:         amigaos/beos/dos/os2/sdl/unix/osx/windows
 
 sound.c:
 --------
@@ -13384,8 +13384,8 @@ not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplu
 prepocessor:
 command-line:                   -intfunc
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/windows
-platform range incorrect:		osx
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/windows/osx
+platform range incorrect:
 fixme: fix documentation, int
 
 c128/functionrom.c:
@@ -15167,9 +15167,9 @@ not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -parallel8
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			os2
+platform range correct:
+platform range incorrect:
+platform gui missing:           os2
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -15192,9 +15192,9 @@ not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -parallel9
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			os2
+platform range correct:
+platform range incorrect:
+platform gui missing:           os2
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -15217,9 +15217,9 @@ not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -parallel10
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			os2
+platform range correct:
+platform range incorrect:
+platform gui missing:           os2
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -15242,9 +15242,9 @@ not used in:                    x64dtv/xcbm5x0/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -parallel11
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			os2
+platform range correct:
+platform range incorrect:
+platform gui missing:           os2
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -16545,10 +16545,10 @@ resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet
 not used in:
 prepocessor:
 command-line:                   -jamaction
-platform gui present:           amigaos/beos/dos/sdl/unix/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			os2/osx
+platform gui present:           amigaos/beos/dos/sdl/unix/windows/osx
+platform range correct:
+platform range incorrect:
+platform gui missing:           os2
 fixme: add to documentation
 
 machine.c:
