@@ -14391,6 +14391,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SOUND_OUTPUT_MODE_TR, "Ses çýkýþý modu: "},
 #endif
 
+/* sound.c */
+/* en */ {IDCLS_SOUND_SUSPEND_TIME,    N_("Specify the pause interval when audio underflows (clicks) happen. 0 means no pause is done.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SOUND_SUSPEND_TIME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SOUND_SUSPEND_TIME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SOUND_SUSPEND_TIME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SOUND_SUSPEND_TIME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SOUND_SUSPEND_TIME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SOUND_SUSPEND_TIME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SOUND_SUSPEND_TIME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SOUND_SUSPEND_TIME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SOUND_SUSPEND_TIME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SOUND_SUSPEND_TIME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SOUND_SUSPEND_TIME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SOUND_SUSPEND_TIME_TR, ""},  /* fuzzy */
+#endif
+
+/* sound.c */
+/* en */ {IDCLS_SOUND_VOLUME,    N_("Specify the sound volume (0..100)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SOUND_VOLUME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SOUND_VOLUME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SOUND_VOLUME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SOUND_VOLUME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SOUND_VOLUME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SOUND_VOLUME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SOUND_VOLUME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SOUND_VOLUME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SOUND_VOLUME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SOUND_VOLUME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SOUND_VOLUME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SOUND_VOLUME_TR, ""},  /* fuzzy */
+#endif
+
 /* sysfile.c */
 /* en */ {IDCLS_P_PATH,    N_("<Path>")},
 #ifdef HAS_TRANSLATION

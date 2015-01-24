@@ -598,6 +598,16 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_OUTPUT_MODE, IDCLS_SOUND_OUTPUT_MODE,
       NULL, NULL },
+    { "-soundsuspend", SET_RESOURCE, 1,
+      NULL, NULL, "SoundSuspendTime", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_SECONDS, IDCLS_SOUND_SUSPEND_TIME,
+      NULL, NULL },
+    { "-soundvolume", SET_RESOURCE, 1,
+      NULL, NULL, "SoundVolume", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VOLUME, IDCLS_SOUND_VOLUME,
+      NULL, NULL },
     { NULL }
 };
 

@@ -2181,6 +2181,12 @@ IDCLS_P_OUTPUT_MODE
 /* sound.c */
 IDCLS_SOUND_OUTPUT_MODE
 
+/* sound.c */
+IDCLS_SOUND_SUSPEND_TIME
+
+/* sound.c */
+IDCLS_SOUND_VOLUME
+
 /* sysfile.c */
 IDCLS_P_PATH
 
