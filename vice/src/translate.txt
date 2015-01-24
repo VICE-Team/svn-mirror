@@ -182,6 +182,12 @@ IDCLS_ENABLE_JOY_OPPOSITE
 /* joystick.c */
 IDCLS_DISABLE_JOY_OPPOSITE
 
+/* joystick.c */
+IDCLS_ENABLE_KEYSET
+
+/* joystick.c */
+IDCLS_DISABLE_KEYSET
+
 /* c64dtv/c64dtvflash.c */
 IDCLS_ENABLE_DTV_FLASH_LOG
 

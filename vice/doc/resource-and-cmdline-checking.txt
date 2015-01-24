@@ -16121,8 +16121,6 @@ description:    "Disable on-read support for P00 files on drive 11"
 resource:       "FSDevice11ConvertP00" (set to 0)
 action:         N/A
 
--------blacky command line fixup run------------------------------------------------------------------------------------------------
-
 fsdevice/fsdevice-resources.c:
 ------------------------------
 resource type:                  bool
@@ -16134,9 +16132,23 @@ resource var:                   fsdevice_save_p00_enabled[0]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -fs8savep00 / +fs8savep00
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs8savep00
+description:    "Enable saving of P00 files on drive 8"
+resource:       "FSDevice8SaveP00" (set to 1)
+action:         N/A
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   +fs8savep00
+description:    "Disable saving of P00 files on drive 8"
+resource:       "FSDevice8SaveP00" (set to 0)
+action:         N/A
 
 fsdevice/fsdevice-resources.c:
 ------------------------------
@@ -16149,9 +16161,23 @@ resource var:                   fsdevice_save_p00_enabled[1]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -fs9savep00 / +fs9savep00
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs9savep00
+description:    "Enable saving of P00 files on drive 9"
+resource:       "FSDevice9SaveP00" (set to 1)
+action:         N/A
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   +fs9savep00
+description:    "Disable saving of P00 files on drive 9"
+resource:       "FSDevice9SaveP00" (set to 0)
+action:         N/A
 
 fsdevice/fsdevice-resources.c:
 ------------------------------
@@ -16164,9 +16190,23 @@ resource var:                   fsdevice_save_p00_enabled[2]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -fs10savep00 / +fs10savep00
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs10savep00
+description:    "Enable saving of P00 files on drive 10"
+resource:       "FSDevice10SaveP00" (set to 1)
+action:         N/A
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   +fs10savep00
+description:    "Disable saving of P00 files on drive 10"
+resource:       "FSDevice10SaveP00" (set to 0)
+action:         N/A
 
 fsdevice/fsdevice-resources.c:
 ------------------------------
@@ -16179,9 +16219,23 @@ resource var:                   fsdevice_save_p00_enabled[3]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -fs11savep00 / +fs11savep00
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs11savep00
+description:    "Enable saving of P00 files on drive 11"
+resource:       "FSDevice11SaveP00" (set to 1)
+action:         N/A
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   +fs11savep00
+description:    "Disable saving of P00 files on drive 11"
+resource:       "FSDevice11SaveP00" (set to 0)
+action:         N/A
 
 fsdevice/fsdevice-resources.c:
 ------------------------------
@@ -16194,9 +16248,23 @@ resource var:                   fsdevice_hide_cbm_files_enabled[0]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -fs8hidecbm / +fs8hidecbm
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs8hidecbm
+description:    "Hide CBM files (only show P00 files) for drive 8"
+resource:       "FSDevice8HideCBMFiles" (set to 1)
+action:         N/A
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   +fs8hidecbm
+description:    "Do not hide CBM files (show all files) for drive 8"
+resource:       "FSDevice8HideCBMFiles" (set to 0)
+action:         N/A
 
 fsdevice/fsdevice-resources.c:
 ------------------------------
@@ -16209,9 +16277,23 @@ resource var:                   fsdevice_hide_cbm_files_enabled[1]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -fs9hidecbm / +fs9hidecbm
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs9hidecbm
+description:    "Hide CBM files (only show P00 files) for drive 9"
+resource:       "FSDevice9HideCBMFiles" (set to 1)
+action:         N/A
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   +fs9hidecbm
+description:    "Do not hide CBM files (show all files) for drive 9"
+resource:       "FSDevice9HideCBMFiles" (set to 0)
+action:         N/A
 
 fsdevice/fsdevice-resources.c:
 ------------------------------
@@ -16224,9 +16306,23 @@ resource var:                   fsdevice_hide_cbm_files_enabled[2]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -fs10hidecbm / +fs10hidecbm
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs10hidecbm
+description:    "Hide CBM files (only show P00 files) for drive 10"
+resource:       "FSDevice10HideCBMFiles" (set to 1)
+action:         N/A
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   +fs10hidecbm
+description:    "Do not hide CBM files (show all files) for drive 10"
+resource:       "FSDevice10HideCBMFiles" (set to 0)
+action:         N/A
 
 fsdevice/fsdevice-resources.c:
 ------------------------------
@@ -16239,9 +16335,23 @@ resource var:                   fsdevice_hide_cbm_files_enabled[3]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -fs11hidecbm / +fs11hidecbm
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs11hidecbm
+description:    "Hide CBM files (only show P00 files) for drive 11"
+resource:       "FSDevice11HideCBMFiles" (set to 1)
+action:         N/A
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   +fs11hidecbm
+description:    "Do not hide CBM files (show all files) for drive 11"
+resource:       "FSDevice11HideCBMFiles" (set to 0)
+action:         N/A
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
@@ -16570,11 +16680,26 @@ resource var:                   keep_monitor_open
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -keepmonopen / +keepmonopen
 platform gui present:           unix
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
-note: this one only makes sense as an option for platforms that can offer more
-      than one window at a time - ie _not_ for: SDL/DOS/(?)
+platform gui missing:           amigaos/beos/os2/osx/windows
+gpz note: this one only makes sense as an option for platforms that can offer more
+          than one window at a time - ie _not_ for: SDL/DOS
+blacky note: agreed
+
+monitor/monitor.c:
+------------------
+command line:   -keepmonopen
+description:    "Keep the monitor open"
+resource:       "KeepMonitorOpen" (set to 1)
+action:         N/A
+
+monitor/monitor.c:
+------------------
+command line:   +keepmonopen
+description:    "Do not keep the monitor open"
+resource:       "KeepMonitorOpen" (set to 1)
+action:         N/A
 
 pet/pet-resources.c:
 --------------------
@@ -16779,10 +16904,24 @@ resource var:                   petres.crtc
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -crtc / +crtc
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
 fixme: fix documentation, bool
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -crtc
+description:    "Enable CRTC"
+resource:       "Crtc" (set to 1)
+action:         N/A
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   +crtc
+description:    "Disable CRTC"
+resource:       "Crtc" (set to 0)
+action:         N/A
 
 pet/pet-resources.c:
 --------------------
@@ -16795,12 +16934,19 @@ resource var:                   petres.video
 resource emulators:             xpet
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -videosize
 platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform range correct:
 platform range incorrect:
 platform gui missing:           sdl
 fixme: fix documentation, int
+
+pet/pet-cmdline-options.c:
+--------------------------
+command line:   -videosize <size>
+description:    "Set video size (0: Automatic, 40: 40 Columns, 80: 80 Columns)"
+resource:       "VideoSize"
+action:         N/A
 
 pet/pet-resources.c:
 --------------------
@@ -17523,10 +17669,17 @@ resource var:                   output_select[2].output_name
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -pr6output
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
 fixme: add to documentation
+
+printerdrv/output-select.c:
+---------------------------
+command line:   -pr6output <Name>
+description:    "Specify name of output device for device #6"
+resource:       "Printer6Output"
+action:         N/A
 
 printerdrv/output-select.c:
 ---------------------------
@@ -17865,7 +18018,7 @@ resource var:                   sync_factor
 resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   -model / NONE ?? (fixme)
+command-line:                   -model
 platform gui present:           amigaos/beos/sdl/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -17920,7 +18073,7 @@ resource var:                   sid_stereo_address_start
 resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE ?? (fixme)
+command-line:                   -sidstereoaddress
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
@@ -17940,7 +18093,7 @@ resource var:                   sid_triple_address_start
 resource emulators:             xscpu64
 not used in:                    x64/x64sc/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE ?? (fixme)
+command-line:                   -sidtripleaddress
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
@@ -18424,9 +18577,16 @@ resource var:                   suspend_time
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -soundsuspend
 platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+
+sound.c:
+--------
+command line:   -soundsuspend <seconds>
+description:    "Specify the pause interval when audio underflows (clicks) happen. 0 means no pause is done."
+resource:       "SoundSuspendTime"
+action:         N/A
 
 sound.c:
 --------
@@ -18439,12 +18599,19 @@ resource var:                   volume
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -soundvolume
 platform gui present:           amigaos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			beos/os2
 fixme: fix documentation, remove default
+
+sound.c:
+--------
+command line:   -soundvolume <volume>
+description:    "Specify the sound volume (0..100)"
+resource:       "SoundVolume"
+action:         N/A
 
 sound.c:
 --------
@@ -18830,7 +18997,7 @@ resource var:                   cartridge_type
 resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   NONE (CORRECT)
 platform gui present:			os2/osx (FIX!)
 platform range correct:		
 platform range incorrect:		
@@ -18959,7 +19126,7 @@ resource function:              set_sync_factor()
 resource var:                   sync_factor
 resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
-prepocessor:                    #ifdef COMMON_KBD
+prepocessor:                    
 command-line:                   -pal / -ntsc / -model
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx
 platform range correct:		
@@ -19705,7 +19872,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_A][JOYSTICK_KEYSET_N
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/sdl/unix(XAW)
 
@@ -19720,7 +19887,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_A][JOYSTICK_KEYSET_N
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/sdl/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
@@ -19735,7 +19902,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_A][JOYSTICK_KEYSET_N
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/sdl/unix(XAW)
 
@@ -19750,7 +19917,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_A][JOYSTICK_KEYSET_E
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/sdl/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
@@ -19765,7 +19932,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_A][JOYSTICK_KEYSET_S
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/sdl/unix(XAW)
 
@@ -19780,7 +19947,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_A][JOYSTICK_KEYSET_S
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/sdl/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
@@ -19795,7 +19962,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_A][JOYSTICK_KEYSET_S
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/sdl/unix(XAW)
 
@@ -19810,7 +19977,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_A][JOYSTICK_KEYSET_W
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/sdl/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
@@ -19825,7 +19992,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_A][JOYSTICK_KEYSET_F
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/sdl/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
@@ -19840,7 +20007,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_B][JOYSTICK_KEYSET_N
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/sdl/unix(XAW)
 
@@ -19855,7 +20022,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_B][JOYSTICK_KEYSET_N
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/sdl/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
@@ -19870,7 +20037,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_B][JOYSTICK_KEYSET_N
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/sdl/unix(XAW)
 
@@ -19885,7 +20052,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_B][JOYSTICK_KEYSET_E
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/sdl/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
@@ -19900,7 +20067,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_B][JOYSTICK_KEYSET_S
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/sdl/unix(XAW)
 
@@ -19915,7 +20082,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_B][JOYSTICK_KEYSET_S
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/sdl/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
@@ -19930,7 +20097,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_B][JOYSTICK_KEYSET_S
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/unix(GTK)/osx/windows
 platform gui missing:           amigaos/sdl/unix(XAW)
 
@@ -19945,7 +20112,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_B][JOYSTICK_KEYSET_W
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/sdl/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
@@ -19960,7 +20127,7 @@ resource var:                   joykeys[JOYSTICK_KEYSET_IDX_B][JOYSTICK_KEYSET_F
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           beos/dos/sdl/unix(GTK)/osx/windows
 platform gui missing:           amigaos/unix(XAW)
 
@@ -19975,9 +20142,23 @@ resource var:                   joykeys_enable
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef COMMON_KBD
-command-line:                   NONE (fixme ??)
+command-line:                   -keyset / +keyset
 platform gui present:           amigaos/dos/sdl/unix/osx/windows
 platform gui missing:			beos
+
+joystick.c:
+-----------
+command line:   -keyset
+description:    "Enable keyset"
+resource:       "KeySetEnable" (set to 1)
+action:         N/A
+
+joystick.c:
+-----------
+command line:   +keyset
+description:    "Disable keyset"
+resource:       "KeySetEnable" (set to 0)
+action:         N/A
 
 pet/pet-resources.c:
 --------------------
@@ -20554,6 +20735,8 @@ command line:   +midi
 description:    "Disable MIDI emulation"
 resource:       "MIDIEnable" (set to 0)
 action:         N/A
+
+-------blacky command line fixup run------------------------------------------------------------------------------------------------
 
 c64/cart/c64acia1.c:
 --------------------

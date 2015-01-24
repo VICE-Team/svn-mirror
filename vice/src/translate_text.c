@@ -3134,6 +3134,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_JOY_OPPOSITE_TR, ""},  /* fuzzy */
 #endif
 
+/* joystick.c */
+/* en */ {IDCLS_ENABLE_KEYSET,    N_("Enable keyset")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_KEYSET_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_KEYSET_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_KEYSET_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_KEYSET_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_KEYSET_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_KEYSET_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_KEYSET_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_KEYSET_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_KEYSET_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_KEYSET_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_KEYSET_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_KEYSET_TR, ""},  /* fuzzy */
+#endif
+
+/* joystick.c */
+/* en */ {IDCLS_DISABLE_KEYSET,    N_("Disable keyset")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_KEYSET_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_KEYSET_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_KEYSET_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_KEYSET_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_KEYSET_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_KEYSET_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_KEYSET_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_KEYSET_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_KEYSET_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_KEYSET_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_KEYSET_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_KEYSET_TR, ""},  /* fuzzy */
+#endif
+
 /* autostart.c */
 /* en */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START,    N_("On autostart, load to BASIC start (without ',1')")},
 #ifdef HAS_TRANSLATION
