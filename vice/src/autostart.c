@@ -41,6 +41,7 @@
 #include "autostart.h"
 #include "autostart-prg.h"
 #include "attach.h"
+#include "cartridge.h"
 #include "charset.h"
 #include "cmdline.h"
 #include "datasette.h"
@@ -1304,6 +1305,16 @@ int autostart_autodetect(const char *file_name, const char *program_name,
                     file_name);
         return 0;
     }
+
+    if ((machine_class == VICE_MACHINE_C64) || (machine_class == VICE_MACHINE_C64SC) ||
+       (machine_class == VICE_MACHINE_SCPU64) ||(machine_class == VICE_MACHINE_C128)) {
+        if (cartridge_attach_image(CARTRIDGE_CRT, file_name) == 0) {
+            log_message(autostart_log, "`%s' recognized as cartridge image.",
+                        file_name);
+            return 0;
+        }
+    }
+
     if (autostart_prg(file_name, runmode) == 0) {
         log_message(autostart_log, "`%s' recognized as program/p00 file.",
                     file_name);

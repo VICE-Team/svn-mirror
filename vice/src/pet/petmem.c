@@ -1800,3 +1800,9 @@ void petmem_check_info(petres_t *pi)
         pi->videoSize = 0x1000;
     }
 }
+
+/* dummy function to satisfy the global cartridge system */
+int cartridge_attach_image(int type, char *name)
+{
+    return -1;
+}
