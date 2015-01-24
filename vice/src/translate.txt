@@ -1436,6 +1436,15 @@ IDCLS_PET_RAM_SIZE
 /* pet/pet-cmdline-options.c */
 IDCLS_PET_IO_SIZE
 
+/* pet/pet-cmdline-options.c */
+IDCLS_ENABLE_CRTC
+
+/* pet/pet-cmdline-options.c */
+IDCLS_DISABLE_CRTC
+
+/* pet/pet-cmdline-options.c */
+IDCLS_SET_VIDEO_SIZE
+
 /* pet/petpia1.c */
 IDCLS_ENABLE_USERPORT_DIAG_PIN
 

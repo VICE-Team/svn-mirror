@@ -10224,6 +10224,57 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_PET_IO_SIZE_TR, ""},  /* fuzzy */
 #endif
 
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_CRTC,    N_("Enable CRTC")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_CRTC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_CRTC_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_CRTC_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_CRTC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_CRTC_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_CRTC_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_CRTC_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_CRTC_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_CRTC_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_CRTC_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_CRTC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_CRTC_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_CRTC,    N_("Disable CRTC")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_CRTC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_CRTC_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_CRTC_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_CRTC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_CRTC_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_CRTC_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_CRTC_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_CRTC_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_CRTC_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_CRTC_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_CRTC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_CRTC_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/pet-cmdline-options.c */
+/* en */ {IDCLS_SET_VIDEO_SIZE,    N_("Set video size (0: Automatic, 40: 40 Columns, 80: 80 Columns)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_VIDEO_SIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_VIDEO_SIZE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_VIDEO_SIZE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_VIDEO_SIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_VIDEO_SIZE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_VIDEO_SIZE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_VIDEO_SIZE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_VIDEO_SIZE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_VIDEO_SIZE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_VIDEO_SIZE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_VIDEO_SIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_VIDEO_SIZE_TR, ""},  /* fuzzy */
+#endif
+
 /* pet/petpia1.c */
 /* en */ {IDCLS_ENABLE_USERPORT_DIAG_PIN,    N_("Enable userport diagnostic pin")},
 #ifdef HAS_TRANSLATION

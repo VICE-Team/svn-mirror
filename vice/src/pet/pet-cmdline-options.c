@@ -256,6 +256,21 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_SIZE, IDCLS_PET_IO_SIZE,
       NULL, NULL },
+    { "-crtc", SET_RESOURCE, 0,
+      NULL, NULL, "Crtc", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_CRTC,
+      NULL, NULL },
+    { "+crtc", SET_RESOURCE, 0,
+      NULL, NULL, "Crtc", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_CRTC,
+      NULL, NULL },
+    { "-videosize", SET_RESOURCE, 1,
+      NULL, NULL, "VideoSize", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_SIZE, IDCLS_SET_VIDEO_SIZE,
+      NULL, NULL },
     { NULL }
 };
 
