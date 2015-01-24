@@ -16005,8 +16005,6 @@ description:    "Use <name> as directory for file system device #11"
 resource:       N/A
 action:         cmdline_fsdirectory() (sets "FSDevice11Dir")
 
--------blacky command line fixup run------------------------------------------------------------------------------------------------
-
 fsdevice/fsdevice-resources.c:
 ------------------------------
 resource type:                  bool
@@ -16018,9 +16016,23 @@ resource var:                   fsdevice_convert_p00_enabled[0]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -fs8convertp00 / +fs8convertp00
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs8convertp00
+description:    "Enable on-read support for P00 files on drive 8"
+resource:       "FSDevice8ConvertP00" (set to 0)
+action:         N/A
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs8convertp00
+description:    "Disable on-read support for P00 files on drive 8"
+resource:       "FSDevice8ConvertP00" (set to 0)
+action:         N/A
 
 fsdevice/fsdevice-resources.c:
 ------------------------------
@@ -16033,9 +16045,23 @@ resource var:                   fsdevice_convert_p00_enabled[1]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -fs9convertp00 / +fs9convertp00
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs9convertp00
+description:    "Enable on-read support for P00 files on drive 9"
+resource:       "FSDevice9ConvertP00" (set to 0)
+action:         N/A
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs9convertp00
+description:    "Disable on-read support for P00 files on drive 9"
+resource:       "FSDevice9ConvertP00" (set to 0)
+action:         N/A
 
 fsdevice/fsdevice-resources.c:
 ------------------------------
@@ -16048,9 +16074,23 @@ resource var:                   fsdevice_convert_p00_enabled[2]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -fs10convertp00 / +fs10convertp00
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs10convertp00
+description:    "Enable on-read support for P00 files on drive 10"
+resource:       "FSDevice10ConvertP00" (set to 0)
+action:         N/A
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs10convertp00
+description:    "Disable on-read support for P00 files on drive 10"
+resource:       "FSDevice10ConvertP00" (set to 0)
+action:         N/A
 
 fsdevice/fsdevice-resources.c:
 ------------------------------
@@ -16063,9 +16103,25 @@ resource var:                   fsdevice_convert_p00_enabled[3]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -fs11convertp00 / +fs11convertp00
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs11convertp00
+description:    "Enable on-read support for P00 files on drive 11"
+resource:       "FSDevice11ConvertP00" (set to 0)
+action:         N/A
+
+fsdevice/fsdevice-cmdline-options.c:
+------------------------------------
+command line:   -fs11convertp00
+description:    "Disable on-read support for P00 files on drive 11"
+resource:       "FSDevice11ConvertP00" (set to 0)
+action:         N/A
+
+-------blacky command line fixup run------------------------------------------------------------------------------------------------
 
 fsdevice/fsdevice-resources.c:
 ------------------------------
