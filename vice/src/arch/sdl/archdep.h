@@ -81,6 +81,9 @@ extern int archdep_require_vkbd(void);
 /* Default sound output mode */
 #define ARCHDEP_SOUND_OUTPUT_MODE SOUND_OUTPUT_SYSTEM
 
+/* define if the platform supports the monitor in a seperate window */
+/* #define ARCHDEP_SEPERATE_MONITOR_WINDOW */
+
 #ifdef AMIGA_SUPPORT
 #include "archdep_amiga.h"
 #endif

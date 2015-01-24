@@ -13298,6 +13298,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_INITIAL_BREAKPOINT_TR, "Monitör için dahili bir kesme noktasý ayarla"},
 #endif
 
+/* monitor.c */
+/* en */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN,    N_("Keep the monitor open")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_KEEP_MONITOR_OPEN_TR, ""},  /* fuzzy */
+#endif
+
+/* monitor.c */
+/* en */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN,    N_("Do not keep the monitor open")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_KEEP_MONITOR_OPEN_TR, ""},  /* fuzzy */
+#endif
+
 /* monitor_network.c */
 /* en */ {IDCLS_ENABLE_REMOTE_MONITOR,    N_("Enable remote monitor")},
 #ifdef HAS_TRANSLATION

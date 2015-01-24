@@ -148,4 +148,7 @@ extern struct console_s *uimon_console_open_mdi(const char *id, void *,
 /* Keyword to use for a static prototype */
 #define STATIC_PROTOTYPE static
 
+/* define if the platform supports the monitor in a seperate window */
+#define ARCHDEP_SEPERATE_MONITOR_WINDOW
+
 #endif

@@ -123,4 +123,7 @@
 #define STATIC_PROTOTYPE static
 #endif
 
+/* define if the platform supports the monitor in a seperate window */
+#define ARCHDEP_SEPERATE_MONITOR_WINDOW
+
 #endif

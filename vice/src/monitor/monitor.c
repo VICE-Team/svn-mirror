@@ -1390,18 +1390,22 @@ static int monitor_set_initial_breakpoint(const char *param, void *extra_param)
     return 0;
 }
 
-static int keep_monitor_open = 1;
+static int keep_monitor_open = 0;
 
+#ifdef ARCHDEP_SEPERATE_MONITOR_WINDOW
 static int set_keep_monitor_open(int val, void *param)
 {
     keep_monitor_open = val ? 1 : 0;
 
     return 0;
 }
+#endif
 
 static const resource_int_t resources_int[] = {
+#ifdef ARCHDEP_SEPERATE_MONITOR_WINDOW
     { "KeepMonitorOpen", 1, RES_EVENT_NO, NULL,
       &keep_monitor_open, set_keep_monitor_open, NULL },
+#endif
     { NULL }
 };
 
@@ -1431,6 +1435,18 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_VALUE, IDCLS_SET_INITIAL_BREAKPOINT,
       NULL, NULL },
+#ifdef ARCHDEP_SEPERATE_MONITOR_WINDOW
+    { "-keepmonopen", SET_RESOURCE, 0,
+      NULL, NULL, "KeepMonitorOpen", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_KEEP_MONITOR_OPEN,
+      NULL, NULL },
+    { "+keepmonopen", SET_RESOURCE, 0,
+      NULL, NULL, "KeepMonitorOpen", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_KEEP_MONITOR_OPEN,
+      NULL, NULL },
+#endif
     { NULL }
 };
 
