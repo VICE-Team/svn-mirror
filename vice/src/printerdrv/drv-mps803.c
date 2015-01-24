@@ -25,6 +25,8 @@
  *
  */
 
+/* #define DEBUG_MPS803 */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -41,6 +43,11 @@
 #include "sysfile.h"
 #include "types.h"
 
+#ifdef DEBUG_MPS803
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
 
 #define MAX_COL 480
 #define MAX_ROW 66 * 10
@@ -465,22 +472,26 @@ static void drv_mps803_close(unsigned int prnr, unsigned int secondary)
 
 static int drv_mps803_putc(unsigned int prnr, unsigned int secondary, BYTE b)
 {
+    DBG(("drv_mps803_putc(%d,%d:$%02x)\n", prnr, secondary, b));
     print_char(&drv_mps803[prnr], prnr, b);
     return 0;
 }
 
 static int drv_mps803_getc(unsigned int prnr, unsigned int secondary, BYTE *b)
 {
+    DBG(("drv_mps803_getc(%d,%d)\n", prnr, secondary));
     return output_select_getc(prnr, b);
 }
 
 static int drv_mps803_flush(unsigned int prnr, unsigned int secondary)
 {
+    DBG(("drv_mps803_flush(%d,%d)\n", prnr, secondary));
     return output_select_flush(prnr);
 }
 
 static int drv_mps803_formfeed(unsigned int prnr)
 {
+    DBG(("drv_mps803_formfeed(%d)\n", prnr));
     return 0;
 }
 
@@ -526,5 +537,6 @@ int drv_mps803_init(void)
 
 void drv_mps803_shutdown(void)
 {
+    DBG(("drv_mps803_shutdown\n"));
     palette_free(palette);
 }

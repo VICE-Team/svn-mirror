@@ -2,7 +2,7 @@
  * interface-serial.c - Serial printer interface.
  *
  * Written by
- *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -517,6 +517,7 @@ void interface_serial_init(void)
     interface_serial_log = log_open("Serial Interface");
 }
 
+/* called by printer.serial.c:printer_serial_shutdown() */
 void interface_serial_shutdown(void)
 {
     int i;
