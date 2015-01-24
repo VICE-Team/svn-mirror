@@ -94,6 +94,7 @@ static int set_chargen_rom_name(const char *val, void *param)
 static int set_kernal_rom_name(const char *val, void *param)
 {
     int ret;
+    log_verbose("set_kernal_rom_name val:%s.", val);
     if (util_string_set(&kernal_rom_name, val)) {
         return 0;
     }
@@ -177,6 +178,7 @@ static int set_cia2_model(int val, void *param)
 
 static int set_kernal_revision(int val, void *param)
 {
+    log_verbose("set_kernal_revision1 val:%d kernal_revision: %d.", val, kernal_revision);
     if(!c64rom_isloaded()) {
         return 0;
     }
@@ -186,6 +188,8 @@ static int set_kernal_revision(int val, void *param)
         kernal_revision = val;
     }
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    log_verbose("set_kernal_revision2 val:%d kernal_revision: %d.", val, kernal_revision);
     return 0;
 }
 
