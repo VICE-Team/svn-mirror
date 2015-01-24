@@ -1057,7 +1057,7 @@ static void generate_vice_1(char *out_path, char *filename)
              ".BR c1541 (1)\n"
              ".SH AUTHORS\n";
 
-    fprintf(outfile, header);
+    fprintf(outfile, "%s", header);
 
     for (i = 0; all_team[i]; i++) {
         sprintf(line_buffer, "@b{%s}", all_team[i]);
