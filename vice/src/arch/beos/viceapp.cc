@@ -59,7 +59,7 @@ int32 vice_start_main(void* data)
 
 void ViceApp::ReadyToRun()
 {
-    vicethread = spawn_thread(vice_start_main,"vicethread",B_NORMAL_PRIORITY,NULL);
+    vicethread = spawn_thread(vice_start_main, "vicethread", B_NORMAL_PRIORITY, NULL);
     resume_thread(vicethread);
 }
 

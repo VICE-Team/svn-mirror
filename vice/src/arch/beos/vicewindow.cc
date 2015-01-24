@@ -84,7 +84,7 @@ void ViceWindow::Update_Menu_Toggles(ui_menu_toggle *toggle_list)
     for (i = 0; toggle_list[i].name != NULL; i++) {
         resources_get_int(toggle_list[i].name, &value);
         if (item = menubar->FindItem(toggle_list[i].item_id)) {
-                item->SetMarked(value ? true : false);
+            item->SetMarked(value ? true : false);
         }
     }
 }
@@ -112,7 +112,6 @@ void ViceWindow::Update_Menu_Value_Lists(ui_res_value_list *value_list)
             }
         }
     }
-
 }
 
 void ViceWindow::Update_Menu_String_Lists(ui_res_string_list *string_list)
