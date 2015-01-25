@@ -39,6 +39,7 @@
 #endif
 
 #include "archdep.h"
+#include "cmdline.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
@@ -139,6 +140,33 @@ int network_resources_init(void)
 
     return resources_register_int(resources_int);
 }
+
+/*---------------------------------------------------------------------*/
+
+static const cmdline_option_t cmdline_options[] = {
+    { "-netplayserver", SET_RESOURCE, 1,
+      NULL, NULL, "NetworkServerName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_HOSTNAME, IDCLS_SET_NETPLAY_SERVER,
+      NULL, NULL },
+    { "-netplaybind", SET_RESOURCE, 1,
+      NULL, NULL, "NetworkServerBindAddress", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_HOSTNAME, IDCLS_SET_NETPLAY_BIND_ADDRESS,
+      NULL, NULL },
+    { "-netplayport", SET_RESOURCE, 1,
+      NULL, NULL, "NetworkServerPort", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_PORT, IDCLS_SET_NETPLAY_PORT,
+      NULL, NULL },
+    { NULL }
+};
+
+int network_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
 
 /*---------------------------------------------------------------------*/
 

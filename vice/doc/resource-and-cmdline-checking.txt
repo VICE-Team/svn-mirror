@@ -21334,8 +21334,6 @@ resource:       "TraceMode"
 action:         N/A
 fixme: add to documentation
 
--------blacky command line fixup run------------------------------------------------------------------------------------------------
-
 debug.c:
 --------
 resource type:                  int
@@ -21347,12 +21345,19 @@ resource var:                   debug_autoplay_frames
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef DEBUG
-command-line:                   NONE (fixme)
+command-line:                   -autoplaybackframes
 platform gui present:           unix/sdl
 platform range correct:
 platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/osx/windows
 fixme: Add to documentation
+
+debug.c:
+--------
+command line:   -autoplaybackframes <frames>
+description:    "Set the amount of automatic playback frames"
+resource:       "AutoPlaybackFrames"
+action:         N/A
 
 diskimage/rawimage.c:
 ---------------------
@@ -21365,9 +21370,16 @@ resource var:                   raw_drive_driver
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_RAWDRIVE
-command-line:                   NONE (fixme)
+command-line:                   -rawdrive
 platform gui present:           sdl/unix
 platform gui missing:           amigaos/beos/dos/os2/osx/windows
+
+diskimage/rawimage.c:
+---------------------
+command line:   -rawdrive <name>
+description:    "Set raw drive device name"
+resource:       "RawDriveDriver"
+action:         N/A
 
 gfxoutputdrv/ffmpegdrv.c:
 -------------------------
@@ -21380,7 +21392,7 @@ resource var:                   ffmpeg_format
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_FFMPEG
-command-line:                   NONE (fixme)
+command-line:                   NONE (CORRECT)
 platform gui present:           sdl/unix(GTK)/windows
 platform gui missing:           amigaos/beos/dos/os2/unix(XAW)/osx
 
@@ -21445,7 +21457,7 @@ resource var:                   audio_codec
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_FFMPEG
-command-line:                   NONE (fixme)
+command-line:                   NONE (CORRECT)
 platform gui present:           sdl/unix(GTK)
 platform gui missing:           amigaos/beos/dos/os2/unix(XAW)/osx/windows
 
@@ -21460,7 +21472,7 @@ resource var:                   video_codec
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_FFMPEG
-command-line:                   NONE (fixme)
+command-line:                   NONE (CORRECT)
 platform gui present:           sdl/unix(GTK)/windows
 platform gui missing:           amigaos/beos/dos/os2/unix(XAW)/osx
 
@@ -21475,7 +21487,7 @@ resource var:                   video_halve_framerate
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_FFMPEG
-command-line:                   NONE (fixme)
+command-line:                   NONE (CORRECT)
 platform gui present:           unix(GTK)
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
 
@@ -21490,7 +21502,7 @@ resource var:                   quicktime_format
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
-command-line:                   NONE (fixme ??)
+command-line:                   NONE (CORRECT)
 platform gui present:
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
@@ -21564,7 +21576,7 @@ resource var:                   audio_codec
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
-command-line:                   NONE (fixme)
+command-line:                   NONE (CORRECT)
 platform gui present:
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
@@ -21582,7 +21594,7 @@ resource var:                   video_codec
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_QUICKTIME
-command-line:                   NONE (fixme)
+command-line:                   NONE (CORRECT)
 platform gui present:
 platform gui missing:           sdl/osx/windows
 fixme: add to documentation
@@ -21765,10 +21777,17 @@ resource var:                   server_name
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_NETWORK
-command-line:                   NONE (fixme)
+command-line:                   -netplayserver
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform gui missing:			os2
 fixme: fix documentation, network support only
+
+network.c:
+----------
+command line:   -netplayserver <hostname>
+description:    "Set the netplay server hostname"
+resource:       "NetworkServerName"
+action:         N/A
 
 network.c:
 ----------
@@ -21781,10 +21800,17 @@ resource var:                   server_bind_address
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_NETWORK
-command-line:                   NONE (fixme)
+command-line:                   -netplaybind
 platform gui present:           amigaos/dos/sdl/unix/windows
 platform gui missing:			beos/os2/osx
 fixme: fix documentation, network support only
+
+network.c:
+----------
+command line:   -netplaybind <hostname>
+description:    "Set the netplay binding address"
+resource:       "NetworkServerBindAddress"
+action:         N/A
 
 network.c:
 ----------
@@ -21797,12 +21823,21 @@ resource var:                   res_server_port
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_NETWORK
-command-line:                   NONE (fixme)
+command-line:                   -netplayport
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			os2
 fixme: fix documentation, network support only
+
+network.c:
+----------
+command line:   -netplayport <port>
+description:    "Set the netplay port (0..65535)"
+resource:       "NetworkServerPort"
+action:         N/A
+
+-------blacky command line fixup run------------------------------------------------------------------------------------------------
 
 network.c:
 ----------

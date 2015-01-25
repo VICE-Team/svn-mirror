@@ -325,6 +325,12 @@ int machine_cmdline_options_init(void)
         init_resource_fail("autostart");
         return -1;
     }
+#ifdef HAVE_NETWORK
+    if (network_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("network");
+        return -1;
+    }
+#endif
 #ifdef DEBUG
     if (debug_cmdline_options_init() < 0) {
         init_cmdline_options_fail("debug");

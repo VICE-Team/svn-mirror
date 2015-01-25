@@ -2848,8 +2848,25 @@ IDCLS_DISABLE_EASYFLASH_JUMPER
 /* c64/cart/easyflash.c */
 IDCLS_ENABLE_EASYFLASH_CRT_WRITING
 
-/* c64/cart/lash.c */
+/* c64/cart/easyflash.c */
 IDCLS_DISABLE_EASYFLASH_CRT_WRITING
+
+#ifdef HAVE_NETWORK
+/* network.c */
+IDCLS_P_HOSTNAME
+
+/* network.c */
+IDCLS_P_PORT
+
+/* network.c */
+IDCLS_SET_NETPLAY_SERVER
+
+/* network.c */
+IDCLS_SET_NETPLAY_BIND_ADDRESS
+
+/* network.c */
+IDCLS_SET_NETPLAY_PORT
+#endif
 
 /* scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_SIMM_SIZE

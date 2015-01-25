@@ -15874,6 +15874,93 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_DS12C887RTC_SAVE_TR, ""},  /* fuzzy */
 #endif
 
+#ifdef HAVE_NETWORK
+/* network.c */
+/* en */ {IDCLS_P_HOSTNAME,    N_("<hostname>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_HOSTNAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_HOSTNAME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_HOSTNAME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_HOSTNAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_HOSTNAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_HOSTNAME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_HOSTNAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_HOSTNAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_HOSTNAME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_HOSTNAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_HOSTNAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_HOSTNAME_TR, ""},  /* fuzzy */
+#endif
+
+/* network.c */
+/* en */ {IDCLS_P_PORT,    N_("<port>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_PORT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_PORT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_PORT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_PORT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_PORT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_PORT_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_PORT_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_PORT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_PORT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_PORT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_PORT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_PORT_TR, ""},  /* fuzzy */
+#endif
+
+/* network.c */
+/* en */ {IDCLS_SET_NETPLAY_SERVER,    N_("Set the netplay server hostname")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_NETPLAY_SERVER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_NETPLAY_SERVER_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_NETPLAY_SERVER_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_NETPLAY_SERVER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_NETPLAY_SERVER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_NETPLAY_SERVER_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_NETPLAY_SERVER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_NETPLAY_SERVER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_NETPLAY_SERVER_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_NETPLAY_SERVER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_NETPLAY_SERVER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_NETPLAY_SERVER_TR, ""},  /* fuzzy */
+#endif
+
+/* network.c */
+/* en */ {IDCLS_SET_NETPLAY_BIND_ADDRESS,    N_("Set the netplay binding address")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_NETPLAY_BIND_ADDRESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_NETPLAY_BIND_ADDRESS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_NETPLAY_BIND_ADDRESS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_NETPLAY_BIND_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_NETPLAY_BIND_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_NETPLAY_BIND_ADDRESS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_NETPLAY_BIND_ADDRESS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_NETPLAY_BIND_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_NETPLAY_BIND_ADDRESS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_NETPLAY_BIND_ADDRESS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_NETPLAY_BIND_ADDRESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_NETPLAY_BIND_ADDRESS_TR, ""},  /* fuzzy */
+#endif
+
+/* network.c */
+/* en */ {IDCLS_SET_NETPLAY_PORT,    N_("Set the netplay port (0..65535)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_NETPLAY_PORT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_NETPLAY_PORT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_NETPLAY_PORT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_NETPLAY_PORT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_NETPLAY_PORT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_NETPLAY_PORT_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_NETPLAY_PORT_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_NETPLAY_PORT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_NETPLAY_PORT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_NETPLAY_PORT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_NETPLAY_PORT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_NETPLAY_PORT_TR, ""},  /* fuzzy */
+#endif
+#endif
+
 /* scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SET_SIMM_SIZE,    N_("Size of the SIMM RAM (0/1/4/8/16 MB)")},
 #ifdef HAS_TRANSLATION
