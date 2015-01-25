@@ -20736,8 +20736,6 @@ description:    "Disable MIDI emulation"
 resource:       "MIDIEnable" (set to 0)
 action:         N/A
 
--------blacky command line fixup run------------------------------------------------------------------------------------------------
-
 c64/cart/c64acia1.c:
 --------------------
 resource type:                  int
@@ -20749,11 +20747,18 @@ resource var:                   acia.irq_res
 resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-command-line:                   NONE (fixme)
+command-line:                   -acia1irq
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           dos/os2
+
+c64/cart/c64acia1.c:
+--------------------
+command line:   -acia1irq <interrupt>
+description:    "Set the ACIA interrupt (0: None, 1: NMI, 2: IRQ)"
+resource:       "Acia1Irq"
+action:         N/A
 
 c64/cart/c64acia1.c:
 --------------------
@@ -20766,11 +20771,18 @@ resource var:                   acia.mode
 resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-command-line:                   NONE (fixme)
+command-line:                   -acia1mode
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           dos/os2
+
+c64/cart/c64acia1.c:
+--------------------
+command line:   -acia1mode <mode>
+description:    "Set the ACIA mode (0: Normal, 1: Swiftlink, 2: Turbo232)"
+resource:       "Acia1Mode"
+action:         N/A
 
 c64/cart/c64acia1.c:
 --------------------
@@ -20828,11 +20840,18 @@ resource var:                   acia_base
 resource emulators:             x64/x64sc/xscpu64/x128/xvic
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-command-line:                   NONE (fixme)
+command-line:                   -acia1base
 platform gui present:           amigaos/beos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           dos/os2
+
+c64/cart/c64acia1.c:
+--------------------
+command line:   -acia1base <Base address>
+description:    "Set the base address of the ACIA cartridge. [list of addresses]"
+resource:       "Acia1Base"
+action:         N/A
 
 c64/cart/ide64.c:
 -----------------
@@ -21285,6 +21304,8 @@ description:    "Trace mode (0=normal 1=small 2=history)"
 resource:       "TraceMode"
 action:         N/A
 fixme: add to documentation
+
+-------blacky command line fixup run------------------------------------------------------------------------------------------------
 
 debug.c:
 --------

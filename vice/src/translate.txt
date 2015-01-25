@@ -339,6 +339,18 @@ IDCLS_ENABLE_DEXX_ACIA_RS232_EMU
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    scpu64/scpu64-cmdline-options.c */
 IDCLS_DISABLE_DEXX_ACIA_RS232_EMU
+
+/* c64/cart/c64acia1.c */
+IDCLS_P_IRQ
+
+/* c64/cart/c64acia1.c */
+IDCLS_SET_ACIA_IRQ
+
+/* c64/cart/c64acia1.c */
+IDCLS_SET_ACIA_MODE
+
+/* c64/cart/c64acia1.c */
+IDCLS_SET_ACIA_BASE
 #endif   /* HAVE_RS232 */
 
 /* plus4/plus4acia.c */

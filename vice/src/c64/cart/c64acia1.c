@@ -60,6 +60,7 @@ extern int acia1_set_mode(int mode);
 #include "c64export.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "lib.h"
 #include "machine.h"
 #include "maincpu.h"
 
@@ -80,6 +81,9 @@ static int acia_enabled = 0;
 
 /* Base address of the ACIA RS232 interface */
 static int acia_base = 0xde00;
+
+static char *acia_base_list = NULL;
+
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -295,6 +299,11 @@ int aciacart_resources_init(void)
 
 void aciacart_resources_shutdown(void)
 {
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
+    if (acia_base_list) {
+        lib_free(acia_base_list);
+    }
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -329,10 +338,61 @@ void aciacart_init(void)
     acia1_init();
 }
 
+/* ------------------------------------------------------------------------- */
+
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
+static const cmdline_option_t cart_cmdline_options[] =
+{
+    { "-acia1irq", SET_RESOURCE, 1,
+      NULL, NULL, "Acia1Irq", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_IRQ, IDCLS_SET_ACIA_IRQ,
+      NULL, NULL },
+    { "-acia1mode", SET_RESOURCE, 1,
+      NULL, NULL, "Acia1Mode", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODE, IDCLS_SET_ACIA_MODE,
+      NULL, NULL },
+    { NULL }
+};
+
+static cmdline_option_t base_cmdline_options[] =
+{
+    { "-acia1base", SET_RESOURCE, 1,
+      NULL, NULL, "Acia1Base", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
+      IDCLS_P_BASE_ADDRESS, IDCLS_SET_ACIA_BASE,
+      NULL, NULL },
+    { NULL }
+};
+#endif
+
 int aciacart_cmdline_options_init(void)
 {
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
+    if (machine_class == VICE_MACHINE_C128) {
+        acia_base_list = lib_stralloc(". (0xD700, 0xDE00, 0xDF00)");
+    } else if (machine_class == VICE_MACHINE_VIC20) {
+        acia_base_list = lib_stralloc(". (0x9800, 0x9C00)");
+    } else {
+        acia_base_list = lib_stralloc(". (0xDE00, 0xDF00)");
+    }
+
+    base_cmdline_options[0].description = acia_base_list;
+
+    if (cmdline_register_options(base_cmdline_options) < 0) {
+          return -1;
+    }
+
+    if (cmdline_register_options(cart_cmdline_options) < 0) {
+          return -1;
+    }
+#endif
+
     return acia1_cmdline_options_init();
 }
+
+/* ------------------------------------------------------------------------- */
 
 void aciacart_detach(void)
 {

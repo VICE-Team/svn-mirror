@@ -3951,7 +3951,76 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV, "Inaktivera ACIA-RS232-gränssnittsemulering"},
 /* tr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_TR, "ACIA RS232 arabirim emülasyonunu pasifleþtir"},
 #endif
+
+/* c64/cart/c64acia1.c */
+/* en */ {IDCLS_P_IRQ,    N_("<interrupt>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_IRQ_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_IRQ_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_IRQ_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_IRQ_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_IRQ_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_IRQ_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_IRQ_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_IRQ_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_IRQ_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_IRQ_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_IRQ_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_IRQ_TR, ""},  /* fuzzy */
 #endif
+
+/* c64/cart/c64acia1.c */
+/* en */ {IDCLS_SET_ACIA_IRQ,    N_("Set the ACIA interrupt (0: None, 1: NMI, 2: IRQ)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_ACIA_IRQ_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_ACIA_IRQ_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_ACIA_IRQ_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_ACIA_IRQ_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_ACIA_IRQ_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_ACIA_IRQ_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_ACIA_IRQ_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_ACIA_IRQ_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_ACIA_IRQ_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_ACIA_IRQ_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_ACIA_IRQ_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_ACIA_IRQ_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/c64acia1.c */
+/* en */ {IDCLS_SET_ACIA_MODE,    N_("Set the ACIA mode (0: Normal, 1: Swiftlink, 2: Turbo232)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_ACIA_MODE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_ACIA_MODE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_ACIA_MODE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_ACIA_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_ACIA_MODE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_ACIA_MODE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_ACIA_MODE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_ACIA_MODE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_ACIA_MODE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_ACIA_MODE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_ACIA_MODE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_ACIA_MODE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/c64acia1.c */
+/* en */ {IDCLS_SET_ACIA_BASE,    N_("Set the base address of the ACIA cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_ACIA_BASE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_ACIA_BASE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_ACIA_BASE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_ACIA_BASE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_ACIA_BASE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_ACIA_BASE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_ACIA_BASE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_ACIA_BASE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_ACIA_BASE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_ACIA_BASE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_ACIA_BASE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_ACIA_BASE_TR, ""},  /* fuzzy */
+#endif
+#endif
+
 
 /* plus4/plus4acia.c */
 /* en */ {IDCLS_ENABLE_ACIA_EMU,    N_("Enable the ACIA emulation")},
