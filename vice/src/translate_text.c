@@ -15993,4 +15993,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_HIRES_EMULATION_BOARD_TR, ""},  /* fuzzy */
 #endif
 
+#ifdef HAVE_RAWDRIVE
+/* diskimage/rawimage.c */
+/* en */ {IDCLS_SET_RAW_DRIVE_DEVICE,    N_("Set raw drive device name")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_RAW_DRIVE_DEVICE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_RAW_DRIVE_DEVICE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_RAW_DRIVE_DEVICE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_RAW_DRIVE_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_RAW_DRIVE_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_RAW_DRIVE_DEVICE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_RAW_DRIVE_DEVICE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_RAW_DRIVE_DEVICE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_RAW_DRIVE_DEVICE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_RAW_DRIVE_DEVICE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_RAW_DRIVE_DEVICE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_RAW_DRIVE_DEVICE_TR, ""},  /* fuzzy */
+#endif
+#endif
+
 };
