@@ -188,6 +188,11 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_VALUE, IDCLS_TRACE_MODE,
       NULL, NULL },
+    { "-autoplaybackframes", SET_RESOURCE, 1,
+      NULL, NULL, "AutoPlaybackFrames", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_FRAMES, IDCLS_SET_AUTO_PLAYBACK_FRAMES,
+      NULL, NULL },
 #endif
     { NULL }
 };

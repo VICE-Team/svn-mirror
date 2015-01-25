@@ -1991,6 +1991,12 @@ IDCLS_DONT_TRACE_DRIVE3_CPU
 
 /* debug.c */
 IDCLS_TRACE_MODE
+
+/* debug.c */
+IDCLS_P_FRAMES
+
+/* debug.c */
+IDCLS_SET_AUTO_PLAYBACK_FRAMES
 #endif   /* DEBUG */
 
 /* event.c */
