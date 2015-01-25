@@ -2866,6 +2866,9 @@ IDCLS_SET_NETPLAY_BIND_ADDRESS
 
 /* network.c */
 IDCLS_SET_NETPLAY_PORT
+
+/* network.c */
+IDCLS_SET_NETPLAY_CONTROL
 #endif
 
 /* scpu64/scpu64-cmdline-options.c */

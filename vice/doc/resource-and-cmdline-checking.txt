@@ -21837,8 +21837,6 @@ description:    "Set the netplay port (0..65535)"
 resource:       "NetworkServerPort"
 action:         N/A
 
--------blacky command line fixup run------------------------------------------------------------------------------------------------
-
 network.c:
 ----------
 resource type:                  int
@@ -21850,10 +21848,17 @@ resource var:                   network_control
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:                    #ifdef HAVE_NETWORK
-command-line:                   NONE (fixme)
+command-line:                   -netplayctrl
 platform gui present:           sdl/unix/osx/windows
 platform gui missing:           amigaos/beos/dos/os2
 fixme: fix documentation
+
+network.c:
+----------
+command line:   -netplayctrl <key,joy1,joy2,dev,rsrc>
+description:    "Set the netplay control elements (keyboard, joystick1, joystick2, devices and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: Both)"
+resource:       N/A
+action:         network_control_cmd (sets "NetworkControl")
 
 rs232drv/rs232drv.c:
 --------------------
@@ -22129,6 +22134,8 @@ command line:   -residfilterbias <number>
 description:    "reSID filter bias setting, which can be used to adjust DAC bias in millivolts."
 resource:       "SidResidFilterBias"
 action:         N/A
+
+-------blacky command line fixup run------------------------------------------------------------------------------------------------
 
 sid/sid-resources.c:
 --------------------

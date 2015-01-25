@@ -15959,6 +15959,23 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SET_NETPLAY_PORT_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_NETPLAY_PORT_TR, ""},  /* fuzzy */
 #endif
+
+/* network.c */
+/* en */ {IDCLS_SET_NETPLAY_CONTROL,    N_("Set the netplay control elements (keyboard, joystick1, joystick2, devices and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: Both)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_NETPLAY_CONTROL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_NETPLAY_CONTROL_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_NETPLAY_CONTROL_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_NETPLAY_CONTROL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_NETPLAY_CONTROL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_NETPLAY_CONTROL_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_NETPLAY_CONTROL_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_NETPLAY_CONTROL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_NETPLAY_CONTROL_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_NETPLAY_CONTROL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_NETPLAY_CONTROL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_NETPLAY_CONTROL_TR, ""},  /* fuzzy */
+#endif
 #endif
 
 /* scpu64/scpu64-cmdline-options.c */

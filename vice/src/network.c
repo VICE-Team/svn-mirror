@@ -143,6 +143,62 @@ int network_resources_init(void)
 
 /*---------------------------------------------------------------------*/
 
+static void network_set_mask(int offset, int val)
+{
+    switch (val) {
+        case 1:
+            network_control |= 1 << offset;
+            break;
+        case 2:
+            network_control |= 1 << (offset + NETWORK_CONTROL_CLIENTOFFSET);
+            break;
+        case 3:
+            network_control |= 1 << offset;
+            network_control |= 1 << (offset + NETWORK_CONTROL_CLIENTOFFSET);
+            break;
+        default:
+        case 0:
+            break;
+    }
+}
+
+static int network_control_cmd(const char *param, void *extra_param)
+{
+    int keyb;
+    int joy1;
+    int joy2;
+    int dev;
+    int rsrc;
+
+    if (strlen(param) != 9) {
+        return -1;
+    }
+
+    if (param[1] != ',' || param[3] != ',' || param[5] != ',' || param[7] != ',') {
+        return -1;
+    }
+
+    keyb = param[0] - '0';
+    joy1 = param[2] - '0';
+    joy2 = param[4] - '0';
+    dev = param[6] - '0';
+    rsrc = param[8] - '0';
+
+    if (keyb < 0 || keyb > 3 || joy1 < 0 || joy1 > 3 || joy2 < 0 || joy2 > 3 || dev < 0 || dev > 3 || rsrc < 0 || rsrc > 2) {
+        return -1;
+    }
+
+    network_control = 0;
+
+    network_set_mask(0, keyb);
+    network_set_mask(1, joy1);
+    network_set_mask(2, joy2);
+    network_set_mask(3, dev);
+    network_set_mask(4, rsrc);
+
+    return 0;
+}
+
 static const cmdline_option_t cmdline_options[] = {
     { "-netplayserver", SET_RESOURCE, 1,
       NULL, NULL, "NetworkServerName", NULL,
@@ -159,6 +215,11 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_PORT, IDCLS_SET_NETPLAY_PORT,
       NULL, NULL },
+    { "-netplayctrl", CALL_FUNCTION, 1,
+      network_control_cmd, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_NETPLAY_CONTROL,
+      "<key,joy1,joy2,dev,rsrc>", NULL },
     { NULL }
 };
 
