@@ -93,27 +93,35 @@ static int set_chargen_rom_name(const char *val, void *param)
 
 static int set_kernal_rom_name(const char *val, void *param)
 {
-    int ret;
+    int ret, changed = 1;
     log_verbose("set_kernal_rom_name val:%s.", val);
+    if ((val != NULL) && (kernal_rom_name != NULL)) {
+        changed = (strcmp(val, kernal_rom_name) != 0);
+    }
     if (util_string_set(&kernal_rom_name, val)) {
         return 0;
     }
-
     /* load kernal without a kernal overriding buffer */
     ret = c64rom_load_kernal(kernal_rom_name, NULL);
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    if (changed) {
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
     return ret;
 }
 
 static int set_basic_rom_name(const char *val, void *param)
 {
-    int ret;
+    int ret, changed = 1;
+    if ((val != NULL) && (basic_rom_name != NULL)) {
+        changed = (strcmp(val, basic_rom_name) != 0);
+    }
     if (util_string_set(&basic_rom_name, val)) {
         return 0;
     }
-
     ret = c64rom_load_basic(basic_rom_name);
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    if (changed) {
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
     return ret;
 }
 
@@ -178,18 +186,19 @@ static int set_cia2_model(int val, void *param)
 
 static int set_kernal_revision(int val, void *param)
 {
-    log_verbose("set_kernal_revision1 val:%d kernal_revision: %d.", val, kernal_revision);
+    log_verbose("set_kernal_revision val:%d kernal_revision: %d", val, kernal_revision);
     if(!c64rom_isloaded()) {
         return 0;
     }
     if ((val != -1) && (patch_rom_idx(val) < 0)) {
-        kernal_revision = -1;
-    } else {
-        kernal_revision = val;
+        val = -1;
     }
     memcpy(c64memrom_kernal64_trap_rom, c64memrom_kernal64_rom, C64_KERNAL_ROM_SIZE);
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-    log_verbose("set_kernal_revision2 val:%d kernal_revision: %d.", val, kernal_revision);
+    if (kernal_revision != val) {
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
+    kernal_revision = val;
+    log_verbose("set_kernal_revision new kernal_revision: %d", kernal_revision);
     return 0;
 }
 
