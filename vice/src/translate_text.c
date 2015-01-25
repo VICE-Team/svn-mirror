@@ -11954,6 +11954,42 @@ translate_t string_table[] = {
 #endif
 #endif
 
+#ifdef HAVE_HARDSID
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_HARDSID_MAIN,    N_("Set the HardSID device for the main SID output")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_HARDSID_MAIN_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_HARDSID_MAIN_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_HARDSID_MAIN_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_HARDSID_MAIN_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_HARDSID_MAIN_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_HARDSID_MAIN_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_HARDSID_MAIN_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_HARDSID_MAIN_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_HARDSID_MAIN_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_HARDSID_MAIN_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_HARDSID_MAIN_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_HARDSID_MAIN_TR, ""},  /* fuzzy */
+#endif
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_HARDSID_RIGHT,    N_("Set the HardSID device for the right SID output")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_HARDSID_RIGHT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_HARDSID_RIGHT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_HARDSID_RIGHT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_HARDSID_RIGHT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_HARDSID_RIGHT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_HARDSID_RIGHT_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_HARDSID_RIGHT_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_HARDSID_RIGHT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_HARDSID_RIGHT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_HARDSID_RIGHT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_HARDSID_RIGHT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_HARDSID_RIGHT_TR, ""},  /* fuzzy */
+#endif
+#endif
+
 /* vdc/vdc-cmdline-options.c, crtc/crtc-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_STRETCH_VERTICAL,    N_("Enable additional vertical stretching.")},
 #ifdef HAS_TRANSLATION

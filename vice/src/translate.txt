@@ -1739,6 +1739,14 @@ IDCLS_DISABLE_SID_FILTERS
 IDCLS_RESID_SAMPLING_METHOD
 #endif   /* HAVE_RESID */
 
+#ifdef HAVE_HARDSID
+/* sid/sid-cmdline-options.c */
+IDCLS_HARDSID_MAIN
+
+/* sid/sid-cmdline-options.c */
+IDCLS_HARDSID_RIGHT
+#endif
+
 /* sid/sid-cmdline-options.c, vsync.c */
 IDCLS_P_PERCENT
 

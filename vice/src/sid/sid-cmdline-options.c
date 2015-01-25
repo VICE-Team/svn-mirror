@@ -33,6 +33,7 @@
 #include <string.h>
 
 #include "cmdline.h"
+#include "hardsid.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
@@ -180,6 +181,22 @@ static const cmdline_option_t resid_cmdline_options[] = {
 };
 #endif
 
+#ifdef HAVE_HARDSID
+static const cmdline_option_t hardsid_cmdline_options[] = {
+    { "-hardsidmain", SET_RESOURCE, 1,
+      NULL, NULL, "SidHardSIDMain", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_DEVICE, IDCLS_HARDSID_MAIN,
+      NULL, NULL },
+    { "-hardsidright", SET_RESOURCE, 1,
+      NULL, NULL, "SidHardSIDRight", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_DEVICE, IDCLS_HARDSID_RIGHT,
+      NULL, NULL },
+    { NULL }
+};
+#endif
+
 static cmdline_option_t stereo_cmdline_options[] = {
     { "-sidstereo", SET_RESOURCE, 1,
       NULL, NULL, "SidStereo", NULL,
@@ -265,6 +282,14 @@ int sid_cmdline_options_init(void)
 #ifdef HAVE_RESID
     if (cmdline_register_options(resid_cmdline_options) < 0) {
         return -1;
+    }
+#endif
+
+#ifdef HAVE_HARDSID
+    if (hardsid_available()) {
+        if (cmdline_register_options(hardsid_cmdline_options) < 0) {
+            return -1;
+        }
     }
 #endif
 

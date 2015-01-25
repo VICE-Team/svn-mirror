@@ -22135,8 +22135,6 @@ description:    "reSID filter bias setting, which can be used to adjust DAC bias
 resource:       "SidResidFilterBias"
 action:         N/A
 
--------blacky command line fixup run------------------------------------------------------------------------------------------------
-
 sid/sid-resources.c:
 --------------------
 resource type:                  int
@@ -22148,7 +22146,7 @@ resource var:                   sid_hardsid_main
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
 not used in:
 prepocessor:                    #ifdef HAVE_HARDSID
-command-line:                   NONE (fixme)
+command-line:                   -hardsidmain
 platform gui present:           windows
 platform range correct:
 platform range incorrect:
@@ -22156,6 +22154,13 @@ platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx
 fixme: add to documentation
 note: hardsid is essentially abandoned and there are no drivers for current OSs.
       we also have noone who could test it in the team(?) we should think about removing it
+
+sid/sid-cmdline-options.c:
+--------------------------
+command line:   -hardsidmain <device>
+description:    "Set the HardSID device for the main SID output"
+resource:       "SidHardSIDMain"
+action:         N/A
 
 sid/sid-resources.c:
 --------------------
@@ -22168,7 +22173,7 @@ resource var:                   sid_hardsid_right
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xplus4/xpet/xvic/vsid
 not used in:
 prepocessor:                    #ifdef HAVE_HARDSID
-command-line:                   NONE (fixme)
+command-line:                   -hardsidright
 platform gui present:           windows
 platform range correct:
 platform range incorrect:
@@ -22176,6 +22181,13 @@ platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx
 fixme: add to documentation
 note: hardsid is essentially abandoned and there are no drivers for current OSs.
       we also have noone who could test it in the team(?) we should think about removing it
+
+sid/sid-cmdline-options.c:
+--------------------------
+command line:   -hardsidright <device>
+description:    "Set the HardSID device for the right SID output"
+resource:       "SidHardSIDRight"
+action:         N/A
 
 translate.c:
 ------------
@@ -22824,6 +22836,8 @@ description:    "Disable hiding of mouse pointer inside the window"
 resource:       "HideMousePtr" (set to 0)
 action:         N/A
 fixme: add to documentation
+
+-------blacky command line fixup run------------------------------------------------------------------------------------------------
 
 arch/os2/rs232.c:
 -----------------
