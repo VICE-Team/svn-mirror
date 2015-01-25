@@ -70,6 +70,12 @@ static int set_sprite_background_collisions_enabled(int val, void *param)
     return 0;
 }
 
+static int set_vsp_bug_enabled(int val, void *param)
+{
+    vicii_resources.vsp_bug_enabled = val;
+    return 0;
+}
+
 static int set_new_luminances(int val, void *param)
 {
     vicii_resources.new_luminances = val;
@@ -150,6 +156,9 @@ static const resource_int_t resources_int[] =
     { "VICIIModel", VICII_MODEL_6569, RES_EVENT_NO, NULL,
       &vicii_resources.model,
       set_model, NULL },
+    { "VICIIVSPBug", 0, RES_EVENT_SAME, NULL,
+      &vicii_resources.vsp_bug_enabled,
+      set_vsp_bug_enabled, NULL },
     { NULL }
 };
 

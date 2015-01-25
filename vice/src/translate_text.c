@@ -12465,6 +12465,40 @@ translate_t string_table[] = {
 #endif
 
 /* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_VSPBUG,    N_("Enable VSP bug emulation")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_VSPBUG_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_VSPBUG_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_VSPBUG_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_VSPBUG_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_VSPBUG_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_VSPBUG_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_VSPBUG_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_VSPBUG_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_VSPBUG_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_VSPBUG_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_VSPBUG_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_VSPBUG_TR, ""},  /* fuzzy */
+#endif
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_VSPBUG,    N_("Disable VSP bug emulation")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_VSPBUG_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_VSPBUG_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_VSPBUG_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_VSPBUG_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_VSPBUG_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_VSPBUG_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_VSPBUG_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_VSPBUG_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_VSPBUG_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_VSPBUG_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_VSPBUG_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_VSPBUG_TR, ""},  /* fuzzy */
+#endif
+
+/* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_USE_NEW_LUMINANCES,    N_("Use new luminances")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_USE_NEW_LUMINANCES_DA, "Brug nye lysstyrker"},

@@ -32,6 +32,8 @@
 #include "vice.h"
 
 #include "debug.h"
+#include "lib.h"
+#include "log.h"
 #include "maincpu.h"
 #include "types.h"
 #include "vicii-chip-model.h"
@@ -40,12 +42,9 @@
 #include "vicii-fetch.h"
 #include "vicii-irq.h"
 #include "vicii-lightpen.h"
+#include "vicii-resources.h"
 #include "vicii.h"
 #include "viciitypes.h"
-
-#ifdef DEBUG
-#include "log.h"
-#endif
 
 static inline void check_badline(void)
 {
@@ -255,6 +254,7 @@ int vicii_cycle(void)
 {
     int ba_low = 0;
     int can_sprite_sprite, can_sprite_background;
+    int may_crash;
 
     /*VICII_DEBUG_CYCLE(("cycle: line %i, clk %i", vicii.raster_line, vicii.raster_cycle));*/
 
@@ -397,6 +397,8 @@ int vicii_cycle(void)
      *
      */
 
+    may_crash = !vicii.bad_line && vicii.idle_state; /* flag for "VSP bug" simulation */
+
     /* Check DEN bit on first DMA line */
     if ((vicii.raster_line == VICII_FIRST_DMA_LINE) && !vicii.allow_bad_lines) {
         vicii.allow_bad_lines = (vicii.regs[0x11] & 0x10) ? 1 : 0;
@@ -405,6 +407,32 @@ int vicii_cycle(void)
     /* Check badline condition, trigger fetches */
     if (vicii.allow_bad_lines) {
         check_badline();
+    }
+
+    /* simulate the "VSP bug" problem */
+    if(vicii_resources.vsp_bug_enabled) {
+        /* FIXME: no support for "vsp channels", see VSP Lab (http://csdb.dk/release/?id=120810) */
+        if(vicii.bad_line && may_crash && (vicii.raster_cycle >= VICII_PAL_CYCLE(16)) &&
+           (vicii.raster_cycle < VICII_PAL_CYCLE(55))) {
+            int page, row;
+            for(page = 0; page < 256; page++) {
+                int seen0 = 0, seen1 = 0, fragile, result;
+                int firstrow = 7;
+                for(row = firstrow; row <= 0xff; row += 8) {
+                    seen0 |= vicii.ram_base_phi1[(page << 8) | row] ^ 255;
+                    seen1 |= vicii.ram_base_phi1[(page << 8) | row];
+                }
+                fragile = seen0 & seen1;
+                if(fragile && (lib_unsigned_rand(0, 0xff) < 10)) {
+                    result = fragile & lib_unsigned_rand(0, 0xff);
+                    for(row = firstrow; row <= 0xff; row += 8) {
+                        log_message(vicii.log, "VSP Bug: Corrupting %04x, fragile %02x, new bits %02x", (page << 8) | row, fragile, result);
+                        vicii.ram_base_phi1[(page << 8) | row] &= ~fragile;
+                        vicii.ram_base_phi1[(page << 8) | row] |= result;
+                    }
+                }
+            }
+        }
     }
 
     /* Update VC (Cycle 14 on PAL) */

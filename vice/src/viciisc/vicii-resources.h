@@ -45,6 +45,9 @@ struct vicii_resources_s {
 
     /* VIC-II model */
     int model;
+
+    /* Flag: Do we emulate the "VSP bug" behaviour? */
+    int vsp_bug_enabled;
 };
 typedef struct vicii_resources_s vicii_resources_t;
 

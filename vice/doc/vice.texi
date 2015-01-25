@@ -5894,7 +5894,7 @@ C64 graphics package GoDot
 
 @vindex VICIIModel
 @item VICIIModel
-Integer that specifies VIC-II model (x64sc only).
+Integer that specifies VIC-II model (x64sc/xscpu64 only).
 (6569/6569r1/8565/6567/8562/6567r56a/6572)
 
 @vindex VICIICheckSsColl
@@ -5906,6 +5906,10 @@ detection must be emulated.
 @item VICIICheckSbColl
 Boolean specifying whether the sprite-background hardware collision
 detection must be emulated.
+
+@vindex VICIIVSPBug
+@item VICIIVSPBug
+Boolean specifying whether the "VSP Bug" must be emulated. (x64sc/xscpu64 only).
 
 @vindex VICIIVideoCache
 @item VICIIVideoCache
@@ -6008,6 +6012,12 @@ Enable/disable emulation of hardware sprite-sprite collision detection
 @itemx +VICIIchecksb
 Enable/disable emulation of hardware sprite-background collision detection
 (@code{VICIICheckSbColl=1}, @code{VICIICheckSbColl=0}).
+
+@findex -VICIIvspbug, +VICIIvspbug
+@item -VICIIvspbug
+@itemx +VICIIvspbug
+Enable/disable emulation of the "VSP bug"
+(@code{VICIIVSPBug=1}, @code{VICIIVSPBug=0}).
 
 @findex -VICIIvcache, +VICIIvcache
 @item -VICIIvcache

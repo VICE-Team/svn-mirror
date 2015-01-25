@@ -12480,6 +12480,35 @@ action:         N/A
 viciisc/vicii-resources.c:
 --------------------------
 resource type:                  bool
+resource name:                  "VICIIVSPBug"
+resource range:                 0/1
+resource default:               0
+resource function:              set_vsp_bug_enabled()
+resource var:                   vicii_resources.vsp_bug_enabled
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIvspbug / +VICIIvspbug
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           unix
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIvspbug
+description:    "Enable VSP bug emulation"
+resource:       "VICIIVSPBug" (set to 1)
+action:         N/A
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   +VICIIvspbug
+description:    "Disable VSP bug emulation"
+resource:       "VICIIVSPBug" (set to 0)
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  bool
 resource name:                  "VICIINewLuminances"
 resource range:                 0/1
 resource default:               1

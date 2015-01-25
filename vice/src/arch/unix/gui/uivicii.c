@@ -160,6 +160,7 @@ static UI_CALLBACK(openGL_set_desktoprefresh)
 
 UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
 UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
+UI_MENU_DEFINE_TOGGLE(VICIIVSPBug)
 
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
@@ -206,6 +207,8 @@ ui_menu_entry_t vicii_submenu[] = {
       (ui_callback_t)toggle_VICIICheckSsColl, NULL, NULL },
     { N_("Sprite-background collisions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICIICheckSbColl, NULL, NULL },
+    { N_("VSP bug emulation"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_VICIIVSPBug, NULL, NULL },
 #ifdef HAVE_HWSCALE
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Hardware scaling"), UI_MENU_TYPE_TICK,

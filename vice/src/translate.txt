@@ -1839,6 +1839,12 @@ IDCLS_ENABLE_SPRITE_SPRITE
 IDCLS_DISABLE_SPRITE_SPRITE
 
 /* vicii/vicii-cmdline-options.c */
+IDCLS_ENABLE_VSPBUG
+
+/* vicii/vicii-cmdline-options.c */
+IDCLS_DISABLE_VSPBUG
+
+/* vicii/vicii-cmdline-options.c */
 IDCLS_USE_NEW_LUMINANCES
 
 /* vicii/vicii-cmdline-options.c */
