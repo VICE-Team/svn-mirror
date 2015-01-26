@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "cmdline.h"
 #include "resources.h"
 #include "rs232drv.h"
 #include "util.h"
@@ -54,9 +55,19 @@ int rs232_resources_init(void)
     return resources_register_string(resources_string);
 }
 
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-serialfile", SET_RESOURCE, 1,
+      NULL, NULL, "SerialFile", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      "<filename>", "Set the serial filename" },
+    { NULL }
+};
+
 int rs232_cmdline_options_init(void)
 {
-    return 0;
+    return cmdline_register_options(cmdline_options);
 }
 
 void rs232_init(void)

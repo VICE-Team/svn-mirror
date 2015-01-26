@@ -22837,8 +22837,6 @@ resource:       "HideMousePtr" (set to 0)
 action:         N/A
 fixme: add to documentation
 
--------blacky command line fixup run------------------------------------------------------------------------------------------------
-
 arch/os2/rs232.c:
 -----------------
 resource type:                  string
@@ -22850,10 +22848,17 @@ resource var:                   SerialFile
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -serialfile
 platform gui present:           os2
 platform gui missing:
 fixme: add to documentation
+
+arch/os2/rs232.c:
+-----------------
+command line:   -serialfile <filename>
+description:    "Set the serial filename"
+resource:       "SerialFile"
+action:         N/A
 
 arch/os2/ui.c:
 --------------
@@ -22991,7 +22996,7 @@ resource var:                   joy[0].direction[KEYSET_N]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           os2
 platform gui missing:
 fixme: add to documentation
@@ -23007,7 +23012,7 @@ resource var:                   joy[0].direction[KEYSET_S]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           os2
 platform gui missing:
 fixme: add to documentation
@@ -23023,7 +23028,7 @@ resource var:                   joy[0].direction[KEYSET_W]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           os2
 platform gui missing:
 fixme: add to documentation
@@ -23039,7 +23044,7 @@ resource var:                   joy[0].direction[KEYSET_E]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           os2
 platform gui missing:
 fixme: add to documentation
@@ -23055,7 +23060,7 @@ resource var:                   joy[1].direction[KEYSET_N]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           os2
 platform gui missing:
 fixme: add to documentation
@@ -23071,7 +23076,7 @@ resource var:                   joy[1].direction[KEYSET_S]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           os2
 platform gui missing:
 fixme: add to documentation
@@ -23087,7 +23092,7 @@ resource var:                   joy[1].direction[KEYSET_W]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           os2
 platform gui missing:
 fixme: add to documentation
@@ -23103,7 +23108,7 @@ resource var:                   joy[1].direction[KEYSET_E]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platform gui present:           os2
 platform gui missing:
 fixme: add to documentation
@@ -23119,7 +23124,7 @@ resource var:                   keyset[0][KEYSET_NW]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23136,7 +23141,7 @@ resource var:                   keyset[0][KEYSET_N]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23153,7 +23158,7 @@ resource var:                   keyset[0][KEYSET_NE]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23170,7 +23175,7 @@ resource var:                   keyset[0][KEYSET_E]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23187,7 +23192,7 @@ resource var:                   keyset[0][KEYSET_SE]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23204,7 +23209,7 @@ resource var:                   keyset[0][KEYSET_S]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23221,7 +23226,7 @@ resource var:                   keyset[0][KEYSET_SW]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23238,7 +23243,7 @@ resource var:                   keyset[0][KEYSET_W]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23255,7 +23260,7 @@ resource var:                   keyset[0][KEYSET_FIRE]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23272,7 +23277,7 @@ resource var:                   keyset[1][KEYSET_NW]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23289,7 +23294,7 @@ resource var:                   keyset[1][KEYSET_N]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23306,7 +23311,7 @@ resource var:                   keyset[1][KEYSET_NE]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23323,7 +23328,7 @@ resource var:                   keyset[1][KEYSET_E]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23340,7 +23345,7 @@ resource var:                   keyset[1][KEYSET_SE]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23357,7 +23362,7 @@ resource var:                   keyset[1][KEYSET_S]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23374,7 +23379,7 @@ resource var:                   keyset[1][KEYSET_SW]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23391,7 +23396,7 @@ resource var:                   keyset[1][KEYSET_W]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23408,7 +23413,7 @@ resource var:                   keyset[1][KEYSET_FIRE]
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			os2
 platform gui present:           
 platform gui missing:
@@ -23569,6 +23574,8 @@ fixme: add to documentation
 
 SDL ONLY COMMON RESOURCES/CMDLINES:
 ===================================
+
+-------blacky command line fixup run------------------------------------------------------------------------------------------------
 
 arch/sdl/video.c:
 -----------------
