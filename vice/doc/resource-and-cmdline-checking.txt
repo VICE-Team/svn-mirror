@@ -23575,8 +23575,6 @@ fixme: add to documentation
 SDL ONLY COMMON RESOURCES/CMDLINES:
 ===================================
 
--------blacky command line fixup run------------------------------------------------------------------------------------------------
-
 arch/sdl/video.c:
 -----------------
 resource type:                  int
@@ -23588,7 +23586,7 @@ resource var:                   sdl_window_width
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE (fixme ??)
+command-line:                   NONE (CORRECT)
 platform gui present:
 platform gui missing:           sdl
 fixme: add to documentation
@@ -23605,7 +23603,7 @@ resource var:                   sdl_window_height
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE (fixme ??)
+command-line:                   NONE (CORRECT)
 platform gui present:
 platform gui missing:           sdl
 fixme: add to documentation
@@ -23855,7 +23853,7 @@ resource var:                   video_param.show_key_codes
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   NONE (CORRECT)
 platform gui present:           osx
 platform gui missing:
 fixme: add to documentation
@@ -24301,7 +24299,7 @@ resource var:                   joy_a.axis[HID_X_AXIS].min
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			osx
 platform gui present:           
 platform gui missing:
@@ -24318,7 +24316,7 @@ resource var:                   joy_a.axis[HID_Y_AXIS].min
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			osx
 platform gui present:           
 platform gui missing:
@@ -24335,7 +24333,7 @@ resource var:                   joy_b.axis[HID_X_AXIS].min
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			osx
 platform gui present:           
 platform gui missing:
@@ -24352,7 +24350,7 @@ resource var:                   joy_b.axis[HID_Y_AXIS].min
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			osx
 platform gui present:           
 platform gui missing:
@@ -24369,7 +24367,7 @@ resource var:                   joy_a.axis[HID_X_AXIS].max
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			osx
 platform gui present:           
 platform gui missing:
@@ -24386,7 +24384,7 @@ resource var:                   joy_a.axis[HID_Y_AXIS].max
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			osx
 platform gui present:           
 platform gui missing:
@@ -24403,7 +24401,7 @@ resource var:                   joy_b.axis[HID_X_AXIS].max
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			osx
 platform gui present:           
 platform gui missing:
@@ -24420,7 +24418,7 @@ resource var:                   joy_b.axis[HID_Y_AXIS].max
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			osx
 platform gui present:           
 platform gui missing:
@@ -24437,7 +24435,7 @@ resource var:                   joy_a.axis[HID_X_AXIS].logical
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			osx
 platform gui present:           
 platform gui missing:
@@ -24454,7 +24452,7 @@ resource var:                   joy_a.axis[HID_Y_AXIS].logical
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			osx
 platform gui present:           
 platform gui missing:
@@ -24471,7 +24469,7 @@ resource var:                   joy_b.axis[HID_X_AXIS].logical
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			osx
 platform gui present:           
 platform gui missing:
@@ -24488,7 +24486,7 @@ resource var:                   joy_b.axis[HID_Y_AXIS].logical
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic
 not used in:                    vsid
 prepocessor:
-command-line:                   NONE
+command-line:                   NONE (CORRECT)
 platforms to check:			osx
 platform gui present:           
 platform gui missing:
@@ -24743,6 +24741,20 @@ fixme: add to documentation
 
 arch/unix/ui-threads.c:
 -----------------------
+command line:   -alphablending
+description:    "Enable alpha blending"
+resource:       "AlphaBlending" (set to 1)
+action:         N/A
+
+arch/unix/ui-threads.c:
+-----------------------
+command line:   +alphablending
+description:    "Disable alpha blending"
+resource:       "AlphaBlending" (set to 0)
+action:         N/A
+
+arch/unix/ui-threads.c:
+-----------------------
 resource type:                  int
 resource name:                  "DThreadRate"
 resource range:                 N/A
@@ -24752,10 +24764,17 @@ resource var:                   dthread_rfp
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:                    #if defined(USE_UI_THREADS) && defined(HAVE_HWSCALE)
-command-line:                   NONE (fixme)
+command-line:                   -displaythreadrate
 platform gui present:           unix(GTK)
 platform gui missing:			
 fixme: add to documentation
+
+arch/unix/ui-threads.c:
+-----------------------
+command line:   -displaythreadrate <milliseconds>
+description:    "Set the display thread rate"
+resource:       "DThreadRate"
+action:         N/A
 
 arch/unix/ui-threads.c:
 -----------------------
@@ -24768,12 +24787,19 @@ resource var:                   dthread_ghosting
 resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 not used in:
 prepocessor:                    #if defined(USE_UI_THREADS) && defined(HAVE_HWSCALE)
-command-line:                   NONE (fixme)
+command-line:                   -displaythreadghosting
 platform gui present:           unix(GTK)
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			
 fixme: add to documentation
+
+arch/unix/ui-threads.c:
+-----------------------
+command line:   -displaythreadghosting <frames>
+description:    "Set the display thread frame backbuffer amount"
+resource:       "DThreadGhosting"
+action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -24841,4 +24867,3 @@ platform gui present:           windows
 fixme: add to documentation
 
 ------------------------------------------------------------------------------------------------------------------------------------
-

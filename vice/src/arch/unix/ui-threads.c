@@ -40,10 +40,12 @@
 #include <errno.h>
 #include <string.h>
 
+#include "cmdline.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "machine.h"
+#include "translate.h"
 #include "videoarch.h"
 #include "vsync.h"
 #include "ui-threads.h"
@@ -158,6 +160,31 @@ static resource_int_t resources_uithreads[] = {
       &dthread_rfp, set_dthread_rfp, NULL },
     { "DThreadGhosting", 2, RES_EVENT_NO, NULL,
       &dthread_ghosting, set_dthread_ghosting, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-alphablending", SET_RESOURCE, 0,
+      NULL, NULL, "AlphaBlending", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Enable alpha blending") },
+    { "+alphablending", SET_RESOURCE, 0,
+      NULL, NULL, "AlphaBlending", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Disable alpha blending") },
+    { "-displaythreadrate", SET_RESOURCE, 1,
+      NULL, NULL, "DThreadRate", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      N_("<milliseconds>"), N_("Set the display thread rate") },
+    { "-displaythreadghosting", SET_RESOURCE, 1,
+      NULL, NULL, "DThreadGhosting", NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      N_("<frames>"), N_("Set the display thread frame backbuffer amount") },
     { NULL }
 };
 
@@ -342,8 +369,14 @@ void dthread_init(void)
     struct sched_param param;
     pthread_attr_t attr;
 
-    resources_register_int(resources_uithreads);
-    
+    if (resources_register_int(resources_uithreads) < 0) {
+        exit (-1);
+    }
+
+    if (cmdline_register_options(cmdline_options) < 0) {
+        exit (-1);
+    }
+
     if (console_mode) {
         is_coroutine = 1;	/* enforce single threaded execution */
         return;
