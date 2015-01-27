@@ -40,7 +40,6 @@
 #include "resources.h"
 #include "uiapi.h"
 #include "uiattach.h"
-#include "uic64_256k.h"
 #include "uic64cart.h"
 #include "uicommands.h"
 #include "uidatasette.h"
@@ -68,8 +67,6 @@
 #include "uinetplay.h"
 #include "uilightpen.h"
 #include "uiperipheraliec.h"
-#include "uiplus256k.h"
-#include "uiplus60k.h"
 #include "uiprinteriec.h"
 #include "uiram.h"
 #include "uiramcart.h"
@@ -231,15 +228,6 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("Banks 2 & 3"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_C128FullBanks, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-#if 0
-    { N_("256K RAM Expansion"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, c64_256k_submenu },
-    { N_("PLUS60K RAM Expansion"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, plus60k_submenu },
-    { N_("PLUS256K RAM Expansion"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, plus256k_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-#endif
     { CARTRIDGE_NAME_GEORAM, UI_MENU_TYPE_NORMAL,
       NULL, NULL, georam_c64_submenu },
     { CARTRIDGE_NAME_REU, UI_MENU_TYPE_NORMAL,

@@ -1,5 +1,5 @@
 /*
- * uic64_256k.h
+ * uic64memoryhacks.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,9 +24,11 @@
  *
  */
 
-#ifndef VICE_UI_C64_256K_H
-#define VICE_UI_C64_256K_H
+#ifndef VICE_UIC64MEMORYHACKS_H
+#define VICE_UIC64MEMORYHACKS_H
 
-extern struct ui_menu_entry_s c64_256k_submenu[];
+#include "uimenu.h"
+
+extern struct ui_menu_entry_s c64_memory_hacks_submenu[];
 
 #endif

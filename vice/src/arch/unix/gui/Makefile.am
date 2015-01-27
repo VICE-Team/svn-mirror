@@ -36,12 +36,12 @@ libarchgui_a_SOURCES = \
 	uiattach.c \
 	uiautostart.h \
 	uiautostart.c \
-	uic64_256k.c \
-	uic64_256k.h \
 	uic64cart.c \
 	uic64cart.h \
 	uic64dtv.c \
 	uic64dtv.h \
+	uic64memoryhacks.c \
+	uic64memoryhacks.h \
 	uicartridge.h \
 	uicbm2cart.c \
 	uicbm2cart.h \
@@ -131,12 +131,8 @@ libarchgui_a_SOURCES = \
 	uipethre.h \
 	uipetreu.c \
 	uipetreu.h \
-	uiplus256k.c \
-	uiplus256k.h \
 	uiplus4cart.c \
 	uiplus4cart.h \
-	uiplus60k.c \
-	uiplus60k.h \
 	uiprinter.c \
 	uiprinter.h \
 	uiprinteriec.c \
