@@ -3821,19 +3821,19 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_EXPERT_SETTINGS_SV, "Inställningar för Expert Cartridge..." },
 /* tr */ { IDMS_EXPERT_SETTINGS_TR, "Expert Kartuþu ayarlarý..." },
 
-/* en */ { IDMS_PLUS60K_SETTINGS,    "PLUS60K settings..." },
-/* da */ { IDMS_PLUS60K_SETTINGS_DA, "PLUS60K-indstillinger..." },
-/* de */ { IDMS_PLUS60K_SETTINGS_DE, "PLUS60K Einstellungen..." },
-/* es */ { IDMS_PLUS60K_SETTINGS_ES, "Ajustes PLUS60K..." },
-/* fr */ { IDMS_PLUS60K_SETTINGS_FR, "Paramètres PLUS60K..." },
-/* hu */ { IDMS_PLUS60K_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_PLUS60K_SETTINGS_IT, "Impostazioni PLUS256K..." },
-/* ko */ { IDMS_PLUS60K_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_PLUS60K_SETTINGS_NL, "PLUS60K instellingen..." },
-/* pl */ { IDMS_PLUS60K_SETTINGS_PL, "Ustawienia PLUS60K..." },
-/* ru */ { IDMS_PLUS60K_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_PLUS60K_SETTINGS_SV, "PLUS60K-inställningar..." },
-/* tr */ { IDMS_PLUS60K_SETTINGS_TR, "PLUS60K Ayarlarý..." },
+/* en */ { IDMS_C64_MEMORY_HACKS_SETTINGS,    "Memory expansion hacks settings..." },
+/* da */ { IDMS_C64_MEMORY_HACKS_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_C64_MEMORY_HACKS_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_C64_MEMORY_HACKS_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_C64_MEMORY_HACKS_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_C64_MEMORY_HACKS_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_C64_MEMORY_HACKS_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_C64_MEMORY_HACKS_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_C64_MEMORY_HACKS_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_C64_MEMORY_HACKS_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_C64_MEMORY_HACKS_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_C64_MEMORY_HACKS_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_C64_MEMORY_HACKS_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_PLUS256K_FILENAME,    "PLUS256K file" },
 /* da */ { IDS_PLUS256K_FILENAME_DA, "PLUS256K-fil" },
@@ -3862,34 +3862,6 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_PLUS256K_FILENAME_SELECT_RU, "Select file for PLUS256K" },
 /* sv */ { IDS_PLUS256K_FILENAME_SELECT_SV, "Ange fil för PLUS256K" },
 /* tr */ { IDS_PLUS256K_FILENAME_SELECT_TR, "PLUS256K için dosya seçin" },
-
-/* en */ { IDMS_PLUS256K_SETTINGS,    "PLUS256K settings..." },
-/* da */ { IDMS_PLUS256K_SETTINGS_DA, "PLUS256K-indstillinger..." },
-/* de */ { IDMS_PLUS256K_SETTINGS_DE, "PLUS256K Einstellungen..." },
-/* es */ { IDMS_PLUS256K_SETTINGS_ES, "Ajustes PLUS256K..." },
-/* fr */ { IDMS_PLUS256K_SETTINGS_FR, "Paramètres PLUS256K..." },
-/* hu */ { IDMS_PLUS256K_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_PLUS256K_SETTINGS_IT, "Impostazioni PLUS256K..." },
-/* ko */ { IDMS_PLUS256K_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_PLUS256K_SETTINGS_NL, "PLUS256K instellingen..." },
-/* pl */ { IDMS_PLUS256K_SETTINGS_PL, "Ustawienia PLUS256K..." },
-/* ru */ { IDMS_PLUS256K_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_PLUS256K_SETTINGS_SV, "PLUS256K-inställningar..." },
-/* tr */ { IDMS_PLUS256K_SETTINGS_TR, "PLUS256K Ayarlarý..." },
-
-/* en */ { IDMS_256K_SETTINGS,    "256K settings..." },
-/* da */ { IDMS_256K_SETTINGS_DA, "256k-indstillinger..." },
-/* de */ { IDMS_256K_SETTINGS_DE, "256K Einstellungen..." },
-/* es */ { IDMS_256K_SETTINGS_ES, "Ajustes 256K..." },
-/* fr */ { IDMS_256K_SETTINGS_FR, "Paramètres 256K..." },
-/* hu */ { IDMS_256K_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_256K_SETTINGS_IT, "Impostazioni 256K..." },
-/* ko */ { IDMS_256K_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_256K_SETTINGS_NL, "256K instellingen..." },
-/* pl */ { IDMS_256K_SETTINGS_PL, "Ustawienia 256K..." },
-/* ru */ { IDMS_256K_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_256K_SETTINGS_SV, "256K-inställningar..." },
-/* tr */ { IDMS_256K_SETTINGS_TR, "256K Ayarlarý..." },
 
 /* en */ { IDMS_IDE64_SETTINGS,    "IDE64 settings..." },
 /* da */ { IDMS_IDE64_SETTINGS_DA, "IDE64-indstillinger..." },
@@ -6439,20 +6411,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ACIA_SETTINGS_SV, "ACIA-inställningar" },
 /* tr */ { IDS_ACIA_SETTINGS_TR, "ACIA Ayarlarý" },
 
-/* en */ { IDS_256K_ENABLED,    "256K Enabled" },
-/* da */ { IDS_256K_ENABLED_DA, "256K aktiveret" },
-/* de */ { IDS_256K_ENABLED_DE, "256K aktiviert" },
-/* es */ { IDS_256K_ENABLED_ES, "Permitir 256K" },
-/* fr */ { IDS_256K_ENABLED_FR, "256K Activé" },
-/* hu */ { IDS_256K_ENABLED_HU, "256K engedélyezve" },
-/* it */ { IDS_256K_ENABLED_IT, "Attivato 256K" },
-/* ko */ { IDS_256K_ENABLED_KO, "" },  /* fuzzy */
-/* nl */ { IDS_256K_ENABLED_NL, "256K aan" },
-/* pl */ { IDS_256K_ENABLED_PL, "W³±cz 256K" },
-/* ru */ { IDS_256K_ENABLED_RU, "256K Enabled" },
-/* sv */ { IDS_256K_ENABLED_SV, "256K aktiverat" },
-/* tr */ { IDS_256K_ENABLED_TR, "256K Aktif" },
-
 /* en */ { IDS_256K_BASE,    "256K base address" },
 /* da */ { IDS_256K_BASE_DA, "256k-baseadresse" },
 /* de */ { IDS_256K_BASE_DE, "256K Basis Adresse" },
@@ -6494,20 +6452,6 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_256K_FILENAME_SELECT_RU, "Select file for 256K" },
 /* sv */ { IDS_256K_FILENAME_SELECT_SV, "Ange fil för 256K" },
 /* tr */ { IDS_256K_FILENAME_SELECT_TR, "256K için dosya seçin" },
-
-/* en */ { IDS_256K_SETTINGS,    "256K settings" },
-/* da */ { IDS_256K_SETTINGS_DA, "256k-indstillinger" },
-/* de */ { IDS_256K_SETTINGS_DE, "256K Einstellungen" },
-/* es */ { IDS_256K_SETTINGS_ES, "Ajustes 256K" },
-/* fr */ { IDS_256K_SETTINGS_FR, "Paramètres 256K" },
-/* hu */ { IDS_256K_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_256K_SETTINGS_IT, "Impostazioni 256K" },
-/* ko */ { IDS_256K_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_256K_SETTINGS_NL, "256K instellingen" },
-/* pl */ { IDS_256K_SETTINGS_PL, "Ustawienia 256K" },
-/* ru */ { IDS_256K_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_256K_SETTINGS_SV, "256K-inställningar" },
-/* tr */ { IDS_256K_SETTINGS_TR, "256K Ayarlarý" },
 
 /* en */ { IDS_C64DTV_ROM_FILENAME_SELECT,    "Select file for C64DTV ROM" },
 /* da */ { IDS_C64DTV_ROM_FILENAME_SELECT_DA, "Vælg fil for C64DTV-ROM" },
@@ -8359,19 +8303,19 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PET_DWW_SETTINGS_SV, "PET DWW-Inställningar" },
 /* tr */ { IDS_PET_DWW_SETTINGS_TR, "PET DWW Ayarlarý" },
 
-/* en */ { IDS_PLUS256K_SETTINGS,    "PLUS256K settings" },
-/* da */ { IDS_PLUS256K_SETTINGS_DA, "PLUS256K-indstillinger" },
-/* de */ { IDS_PLUS256K_SETTINGS_DE, "PLUS256K Einstellungen" },
-/* es */ { IDS_PLUS256K_SETTINGS_ES, "Ajustes PLUS256K" },
-/* fr */ { IDS_PLUS256K_SETTINGS_FR, "Paramètres PLUS256K" },
-/* hu */ { IDS_PLUS256K_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_PLUS256K_SETTINGS_IT, "Impostazioni PLUS256K" },
-/* ko */ { IDS_PLUS256K_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_PLUS256K_SETTINGS_NL, "PLUS256K instellingen" },
-/* pl */ { IDS_PLUS256K_SETTINGS_PL, "Ustawienia PLUS256K" },
-/* ru */ { IDS_PLUS256K_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_PLUS256K_SETTINGS_SV, "PLUS256K-inställningar" },
-/* tr */ { IDS_PLUS256K_SETTINGS_TR, "PLUS256K Ayarlarý" },
+/* en */ { IDS_MEMORY_HACK_DEVICE,    "Memory expansion hack device" },
+/* da */ { IDS_MEMORY_HACK_DEVICE_DA, "" },  /* fuzzy */
+/* de */ { IDS_MEMORY_HACK_DEVICE_DE, "" },  /* fuzzy */
+/* es */ { IDS_MEMORY_HACK_DEVICE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_MEMORY_HACK_DEVICE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MEMORY_HACK_DEVICE_HU, "" },  /* fuzzy */
+/* it */ { IDS_MEMORY_HACK_DEVICE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_MEMORY_HACK_DEVICE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_MEMORY_HACK_DEVICE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_MEMORY_HACK_DEVICE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_MEMORY_HACK_DEVICE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_MEMORY_HACK_DEVICE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_MEMORY_HACK_DEVICE_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_PLUS60K_BASE,    "PLUS60K base address" },
 /* da */ { IDS_PLUS60K_BASE_DA, "Baseadresse for PLUS60K" },
@@ -8415,19 +8359,19 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PLUS60K_FILENAME_SELECT_SV, "Ange fil för PLUS60K" },
 /* tr */ { IDS_PLUS60K_FILENAME_SELECT_TR, "PLUS60K için dosya seçin" },
 
-/* en */ { IDS_PLUS60K_SETTINGS,    "PLUS60K settings" },
-/* da */ { IDS_PLUS60K_SETTINGS_DA, "PLUS60K-indstillinger" },
-/* de */ { IDS_PLUS60K_SETTINGS_DE, "PLUS60K Einstellungen" },
-/* es */ { IDS_PLUS60K_SETTINGS_ES, "Ajustes PLUS60K" },
-/* fr */ { IDS_PLUS60K_SETTINGS_FR, "Paramètres PLUS60K" },
-/* hu */ { IDS_PLUS60K_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_PLUS60K_SETTINGS_IT, "Impostazioni PLUS256K" },
-/* ko */ { IDS_PLUS60K_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_PLUS60K_SETTINGS_NL, "PLUS60K instellingen" },
-/* pl */ { IDS_PLUS60K_SETTINGS_PL, "Ustawienia PLUS60K" },
-/* ru */ { IDS_PLUS60K_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_PLUS60K_SETTINGS_SV, "PLUS60K-inställningar" },
-/* tr */ { IDS_PLUS60K_SETTINGS_TR, "PLUS60K Ayarlarý" },
+/* en */ { IDS_C64_MEMORY_HACKS_SETTINGS,    "Memory expansion hacks settings" },
+/* da */ { IDS_C64_MEMORY_HACKS_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_C64_MEMORY_HACKS_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_C64_MEMORY_HACKS_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_C64_MEMORY_HACKS_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_C64_MEMORY_HACKS_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_C64_MEMORY_HACKS_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_C64_MEMORY_HACKS_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_C64_MEMORY_HACKS_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_C64_MEMORY_HACKS_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_C64_MEMORY_HACKS_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_C64_MEMORY_HACKS_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_C64_MEMORY_HACKS_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_VALUE_FIRST_BYTE,    "Value of first byte" },
 /* da */ { IDS_VALUE_FIRST_BYTE_DA, "Værdi på første byte" },

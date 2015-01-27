@@ -1,5 +1,5 @@
 /*
- * uiplus60k.h
+ * uic64memoryhacks.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,9 +24,9 @@
  *
  */
 
-#ifndef VICE_UIPLUS60K_H
-#define VICE_UIPLUS60K_H
+#ifndef VICE_UIC64MEMORYHACKS_H
+#define VICE_UIC64MEMORYHACKS_H
 
-extern void ui_plus60k_settings_dialog(video_canvas_t *canvas);
+extern void ui_c64_memory_hacks_settings_dialog(video_canvas_t *canvas);
 
 #endif

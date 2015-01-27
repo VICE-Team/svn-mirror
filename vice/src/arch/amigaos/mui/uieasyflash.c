@@ -32,7 +32,6 @@
 
 #include "cartridge.h"
 #include "intl.h"
-#include "uiplus60k.h"
 #include "translate.h"
 
 static int ui_easyflash_enable_translate[] = {

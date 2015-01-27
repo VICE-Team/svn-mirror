@@ -39,7 +39,7 @@
 
 #include "mui/uiacia.h"
 #include "mui/uiburstmod.h"
-#include "mui/uic64_256k.h"
+#include "mui/uic64memoryhacks.h"
 #include "mui/uic64model.h"
 #include "mui/uidigimax.h"
 #include "mui/uidrivec64.h"
@@ -54,8 +54,6 @@
 #include "mui/uimmc64.h"
 #include "mui/uimmcreplay.h"
 #include "mui/uimouse.h"
-#include "mui/uiplus256k.h"
-#include "mui/uiplus60k.h"
 #include "mui/uiprinter.h"
 #include "mui/uiramcart.h"
 #include "mui/uiretroreplay.h"
@@ -169,14 +167,8 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
         case IDM_EXPERT_SETTINGS:
             ui_expert_settings_dialog(canvas);
             break;
-        case IDM_PLUS60K_SETTINGS:
-            ui_plus60k_settings_dialog(canvas);
-            break;
-        case IDM_PLUS256K_SETTINGS:
-            ui_plus256k_settings_dialog(canvas);
-            break;
-        case IDM_C64_256K_SETTINGS:
-            ui_c64_256k_settings_dialog(canvas);
+        case IDM_C64_MEMORY_HACKS_SETTINGS:
+            ui_c64_memory_hacks_settings_dialog(canvas);
             break;
         case IDM_MMC64_SETTINGS:
             ui_mmc64_settings_dialog(canvas);

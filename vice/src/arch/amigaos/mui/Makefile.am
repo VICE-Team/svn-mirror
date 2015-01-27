@@ -30,10 +30,10 @@ libarchmui_a_SOURCES = \
 	uiautostart.h \
 	uiburstmod.c \
 	uiburstmod.h \
-	uic64_256k.c \
-	uic64_256k.h \
 	uic64dtv.c \
 	uic64dtv.h \
+	uic64memoryhacks.c \
+	uic64memoryhacks.h \
 	uic64model.c \
 	uic64model.h \
 	uic128settings.c \
@@ -102,12 +102,8 @@ libarchmui_a_SOURCES = \
 	uipetreu.h \
 	uipetsettings.c \
 	uipetsettings.h \
-	uiplus256k.c \
-	uiplus256k.h \
 	uiplus4settings.c \
 	uiplus4settings.h \
-	uiplus60k.c \
-	uiplus60k.h \
 	uiprinter.c \
 	uiprinter.h \
 	uiram.c \
