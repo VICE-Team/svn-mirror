@@ -1,4 +1,4 @@
-dnl
+\dnl
 dnl This file is part of VICE, the Versatile Commodore Emulator.
 dnl See README for copyright notice.
 dnl
@@ -2445,6 +2445,8 @@ READLINE_LIBS=
 EDITLINE_LIBS=
 if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
   if test x"$with_readline" != "xno" ; then
+    READLINE_HEADER_PRESENT=yes
+    AC_CHECK_HEADERS(readline/readline.h,,[READLINE_HEADER_PRESENT=no],)
     READLINE=""
     unset ac_cv_lib_readline_readline
     old_LIBS="$LIBS"
@@ -2633,8 +2635,11 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
     fi
     X_LIBS="$GTK_LIBS $GTKGL_LIBS $X_LIBS $VTE_LIBS"
     LINK_X_LIBS="$GTK_LIBS $GTKGL_LIBS $LINK_X_LIBS $VTE_LIBS"
+    if test x"$ac_cv_lib_readline_readline" = "xyes" -a x"READLINE_HEADER_PRESENT" = "xyes"; then
+      AC_DEFINE(HAVE_READLINE,,[Enable the readline library])
+    fi
   else
-    if test "$ac_cv_lib_readline_readline" = "no"; then
+    if test x"$ac_cv_lib_readline_readline" = "xno" -o x"READLINE_HEADER_PRESENT" = "xno"; then
       AC_MSG_ERROR(The Xaw port needs Readline)
     fi
     LINK_X_LIBS=${READLINE_LIBS} ${LINK_X_LIBS}
@@ -3080,7 +3085,7 @@ if test x"$is_unix" = "xyes"; then
       
       AC_CHECK_HEADERS(stdlib.h,AC_DEFINE(HAVE_STDLIB,,[We are using stdlib.h]))
 
-      if test x"$READLINE" != x ; then
+      if test x"$READLINE" != "x"; then
         ARCH_EXTRA_SUBDIR="$ARCH_EXTRA_SUBDIR readline"
       fi
     fi

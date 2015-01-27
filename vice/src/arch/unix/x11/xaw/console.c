@@ -40,7 +40,7 @@
 
 static console_t *console_log_local = NULL;
 
-#if defined(HAVE_READLINE)
+#if defined(HAVE_READLINE) && defined(HAVE_READLINE_READLINE_H)
 #include <readline/readline.h>
 #include <readline/history.h>
 #else
@@ -49,7 +49,7 @@ static FILE *mon_input, *mon_output;
 
 int console_init(void)
 {
-#if defined(HAVE_READLINE) && defined(HAVE_RLNAME)
+#if defined(HAVE_READLINE) && defined(HAVE_READLINE_READLINE_H) && defined(HAVE_RLNAME)
     rl_readline_name = "VICE";
 #endif
 
@@ -75,7 +75,7 @@ console_t *uimon_window_open(void)
             printf("\033]2;VICE monitor console (%d)\007", (int)mypid); 
         }
 
-#if !defined(HAVE_READLINE)
+#if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
         mon_input = stdin;
         mon_output = stdout;
 #endif
@@ -121,7 +121,18 @@ int uimon_out(const char *buffer)
     return 0;
 }
 
-#ifndef HAVE_READLINE
+#if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
+int console_out(console_t *log, const char *format, ...)
+{
+    va_list ap;
+
+    va_start(ap, format);
+    vfprintf(mon_output, format, ap);
+    va_end(ap);
+
+    return 0;
+}
+
 static char *readline(const char *prompt)
 {
     char *p = lib_malloc(1024);
@@ -172,4 +183,3 @@ void uimon_notify_change( void )
 void uimon_set_interface(struct monitor_interface_s **monitor_interface_init, int count)
 {
 }
-
