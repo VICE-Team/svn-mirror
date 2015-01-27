@@ -1,5 +1,5 @@
 /*
- * uiplus60k.h - +60K EXPANSION UI interface for MS-DOS.
+ * uic64memoryhacks.h - C64 256K/+60K/+256K EXPANSION UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,11 +24,11 @@
  *
  */
 
-#ifndef UIPLUS60K_H
-#define UIPLUS60K_H
+#ifndef UIC64MEMORYHACKS_H
+#define UIC64MEMORYHACKS_H
 
 struct tui_menu;
 
-extern void uiplus60k_init(struct tui_menu *parent_submenu);
+extern void uic64_memory_hacks_init(struct tui_menu *parent_submenu);
 
 #endif

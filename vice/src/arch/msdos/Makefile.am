@@ -87,14 +87,14 @@ libarch_a_SOURCES = \
 	uiattach.c \
 	uiburstmod.c \
 	uiburstmod.h \
-	uic64_256k.c \
-	uic64_256k.h \
 	uic64cart.c \
 	uic64cart.h \
 	uic64dtv.c \
 	uic64dtv.h \
 	uic64dtvmodel.c \
 	uic64dtvmodel.h \
+	uic64memoryhacks.c \
+	uic64memoryhacks.h \
 	uic64model.c \
 	uic64model.h \
 	uic128model.c \
@@ -157,10 +157,6 @@ libarch_a_SOURCES = \
 	uiplus4cart.h \
 	uiplus4model.c \
 	uiplus4model.h \
- 	uiplus256k.c \
- 	uiplus256k.h \
-	uiplus60k.c \
-	uiplus60k.h \
 	uiprinter.c \
 	uiprinter.h \
 	uiramcart.c \
