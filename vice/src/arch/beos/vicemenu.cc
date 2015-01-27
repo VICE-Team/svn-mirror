@@ -858,18 +858,13 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) {
-            menu->AddItem(submenu = new BMenu("PLUS60K Options"));
-                submenu->AddItem(new BMenuItem("PLUS60K emulation", new BMessage(MENU_TOGGLE_PLUS60K)));
-                submenu->AddItem(extsubmenu = new BMenu("PLUS60K base"));
+            menu->AddItem(submenu = new BMenu("Memory Expansion Hacks Options"));
+                submenu->AddItem(extsubmenu = new BMenu("Memory Expansion Hack Device"));
                     extsubmenu->SetRadioMode(true);
-                    extsubmenu->AddItem(new BMenuItem("$D040", new BMessage(MENU_PLUS60K_BASE_D040)));
-                    extsubmenu->AddItem(new BMenuItem("$D100", new BMessage(MENU_PLUS60K_BASE_D100)));
-                submenu->AddItem(new BMenuItem("PLUS60K File", new BMessage(MENU_PLUS60K_FILE)));
-            menu->AddItem(submenu = new BMenu("PLUS256K Options"));
-                submenu->AddItem(new BMenuItem("PLUS256K emulation", new BMessage(MENU_TOGGLE_PLUS256K)));
-                submenu->AddItem(new BMenuItem("PLUS256K File", new BMessage(MENU_PLUS256K_FILE)));
-            menu->AddItem(submenu = new BMenu("C64_256K Options"));
-                submenu->AddItem(new BMenuItem("C64_256K emulation", new BMessage(MENU_TOGGLE_C64_256K)));
+                    extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_C64_MEMORY_HACKS_NONE)));
+                    extsubmenu->AddItem(new BMenuItem("C64 256K", new BMessage(MENU_C64_MEMORY_HACKS_256K)));
+                    extsubmenu->AddItem(new BMenuItem("+60K", new BMessage(MENU_C64_MEMORY_HACKS_PLUS60K)));
+                    extsubmenu->AddItem(new BMenuItem("+256K", new BMessage(MENU_C64_MEMORY_HACKS_PLUS256K)));
                 submenu->AddItem(extsubmenu = new BMenu("C64_256K base"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("$DE00-$DE7F", new BMessage(MENU_C64_256K_BASE_DE00)));
@@ -877,6 +872,12 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("$DF00-$DF7F", new BMessage(MENU_C64_256K_BASE_DF00)));
                     extsubmenu->AddItem(new BMenuItem("$DF80-$DFFF", new BMessage(MENU_C64_256K_BASE_DF80)));
                 submenu->AddItem(new BMenuItem("C64_256K File", new BMessage(MENU_C64_256K_FILE)));
+                submenu->AddItem(extsubmenu = new BMenu("PLUS60K base"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("$D040", new BMessage(MENU_PLUS60K_BASE_D040)));
+                    extsubmenu->AddItem(new BMenuItem("$D100", new BMessage(MENU_PLUS60K_BASE_D100)));
+                submenu->AddItem(new BMenuItem("PLUS60K File", new BMessage(MENU_PLUS60K_FILE)));
+                submenu->AddItem(new BMenuItem("PLUS256K File", new BMessage(MENU_PLUS256K_FILE)));
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {

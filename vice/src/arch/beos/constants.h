@@ -249,9 +249,6 @@ const uint32 MENU_TOGGLE_ISEPIC_SWITCH            = 'M167';
 
 const uint32 MENU_TOGGLE_ISEPIC_SWC               = 'M316';
 
-const uint32 MENU_TOGGLE_PLUS60K                  = 'M144';
-const uint32 MENU_TOGGLE_PLUS256K                 = 'M145';
-const uint32 MENU_TOGGLE_C64_256K                 = 'M146';
 const uint32 MENU_TOGGLE_PETREU                   = 'M147';
 const uint32 MENU_TOGGLE_PETDWW                   = 'M148';
 const uint32 MENU_TOGGLE_PETHRE                   = 'M034';
@@ -284,6 +281,11 @@ const uint32 MENU_TOGGLE_EASYFLASH_JUMPER         = 'M187';
 const uint32 MENU_TOGGLE_EASYFLASH_AUTOSAVE       = 'M188';
 
 const uint32 MENU_EASYFLASH_SAVE_NOW              = 'M189';
+
+const uint32 MENU_C64_MEMORY_HACKS_NONE           = 'M144';
+const uint32 MENU_C64_MEMORY_HACKS_256K           = 'M145';
+const uint32 MENU_C64_MEMORY_HACKS_PLUS60K        = 'M146';
+const uint32 MENU_C64_MEMORY_HACKS_PLUS256K       = 'M575';
 
 const uint32 MENU_VDC_REV_0                       = 'M172';
 const uint32 MENU_VDC_REV_1                       = 'M173';

@@ -42,6 +42,7 @@
 
 extern "C" {
 #include "archdep.h"
+#include "c64-memory-hacks.h"
 #include "c64ui.h"
 #include "c64model.h"
 #include "cartridge.h"
@@ -100,9 +101,6 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "IsepicCartridgeEnabled", MENU_TOGGLE_ISEPIC },
     { "IsepicSwitch", MENU_TOGGLE_ISEPIC_SWITCH },
     { "IsepicImageWrite", MENU_TOGGLE_ISEPIC_SWC },
-    { "PLUS60K", MENU_TOGGLE_PLUS60K },
-    { "PLUS256K", MENU_TOGGLE_PLUS256K },
-    { "C64_256K", MENU_TOGGLE_C64_256K },
     { "DIGIMAX", MENU_TOGGLE_DIGIMAX },
     { "MMC64", MENU_TOGGLE_MMC64 },
     { "MMC64_flashjumper", MENU_TOGGLE_MMC64_FLASHJUMPER },
@@ -190,6 +188,14 @@ ui_res_possible_values GeoRAMSize[] = {
 ui_res_possible_values RamCartSize[] = {
     { 64, MENU_RAMCART_SIZE_64 },
     { 128, MENU_RAMCART_SIZE_128 },
+    { -1, 0 }
+};
+
+ui_res_possible_values C64MemoryHacks[] = {
+    { MEMORY_HACK_NONE, MENU_C64_MEMORY_HACKS_NONE },
+    { MEMORY_HACK_C64_256K, MENU_C64_MEMORY_HACKS_256K },
+    { MEMORY_HACK_PLUS60K, MENU_C64_MEMORY_HACKS_PLUS60K },
+    { MEMORY_HACK_PLUS256K, MENU_C64_MEMORY_HACKS_PLUS256K },
     { -1, 0 }
 };
 
@@ -369,6 +375,7 @@ ui_res_value_list c64_ui_res_values[] = {
     { "ExpertCartridgeMode", ExpertModes },
     { "RRrevision", RRrevs },
     { "DS12C887RTCbase", c64_DS12C887RTC_base },
+    { "MemoryHack", C64MemoryHacks },
     { NULL, NULL }
 };
 
