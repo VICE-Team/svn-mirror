@@ -1047,18 +1047,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             toggle("ExpertImageWrite");
             return;
 
-#ifdef __X64__
-        case IDM_PLUS60K:
-            toggle("PLUS60K");
-            return;
-        case IDM_PLUS256K:
-            toggle("PLUS256K");
-            return;
-        case IDM_C64_256K:
-            toggle("C64_256K");
-            return;
-#endif
-
 #if defined(__X64__) || defined(__XSCPU64__)
         case IDM_BURST_NONE:
             resources_set_int("BurstMod", 0);
@@ -1277,6 +1265,18 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_C64_256K_BASEDF00:
         case IDM_C64_256K_BASEDF80:
             resources_set_int("C64_256Kbase", ((idm & 3) * 80) + 0xde00);
+            return;
+        case IDM_MEMORY_HACK_NONE:
+            resources_set_int("MemoryHack", MEMORY_HACK_NONE);
+            return;
+        case IDM_MEMORY_HACK_C64_256K:
+            resources_set_int("MemoryHack", MEMORY_HACK_C64_256K);
+            return;
+        case IDM_MEMORY_HACK_PLUS60K:
+            resources_set_int("MemoryHack", MEMORY_HACK_PLUS60K);
+            return;
+        case IDM_MEMORY_HACK_PLUS256K:
+            resources_set_int("MemoryHack", MEMORY_HACK_PLUS256K);
             return;
         case IDM_C64_256KFILE:
             resources_set_string("C64_256Kfilename", ViceFileSelect(hwnd, 1));
@@ -2252,17 +2252,12 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_SAVE_EXPERT, "ExpertImageWrite");
             WinEnableMenuItem(hwnd, IDM_EXPERTFILE, val);
 #ifdef __X64__
-            resources_get_int("PLUS60K", &val);
-            WinCheckMenuItem(hwnd, IDM_PLUS60K, val);
-            WinEnableMenuItem(hwnd, IDM_PLUS60KBASE, val);
-            WinEnableMenuItem(hwnd, IDM_PLUS60KFILE, val);
-            resources_get_int("PLUS256K", &val);
-            WinCheckMenuItem(hwnd, IDM_PLUS256K, val);
-            WinEnableMenuItem(hwnd, IDM_PLUS256KFILE, val);
-            resources_get_int("C64_256K", &val);
-            WinCheckMenuItem(hwnd, IDM_C64_256K, val);
-            WinEnableMenuItem(hwnd, IDM_C64_256K_BASE, val);
-            WinEnableMenuItem(hwnd, IDM_C64_256KFILE, val);
+            resources_get_int("MemoryHack", &val);
+            WinEnableMenuItem(hwnd, IDM_C64_256K_BASE, val == MEMORY_HACK_C64_256K);
+            WinEnableMenuItem(hwnd, IDM_C64_256KFILE, val == MEMORY_HACK_C64_256K);
+            WinEnableMenuItem(hwnd, IDM_PLUS60KBASE, val == MEMORY_HACK_PLUS60K);
+            WinEnableMenuItem(hwnd, IDM_PLUS60KFILE, val == MEMORY_HACK_PLUS60K);
+            WinEnableMenuItem(hwnd, IDM_PLUS256KFILE, val == MEMORY_HACK_PLUS256K);
 #endif
 
 #ifdef __X64SC__
@@ -2600,6 +2595,13 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_C64_256K_BASEDE80, val == 0xde80);
             WinCheckMenuItem(hwnd, IDM_C64_256K_BASEDF00, val == 0xdf00);
             WinCheckMenuItem(hwnd, IDM_C64_256K_BASEDF80, val == 0xdf80);
+            return;
+        case IDM_C64_MEMORY_HACK_DEVICE:
+            resources_get_int("MemoryHack", &val);
+            WinCheckMenuItem(hwnd, IDM_MEMORY_HACK_NONE, val == MEMORY_HACK_NONE);
+            WinCheckMenuItem(hwnd, IDM_MEMORY_HACK_C64_256K, val == MEMORY_HACK_C64_256K);
+            WinCheckMenuItem(hwnd, IDM_MEMORY_HACK_PLUS60K, val == MEMORY_HACK_PLUS60K);
+            WinCheckMenuItem(hwnd, IDM_MEMORY_HACK_PLUS256K, val == MEMORY_HACK_PLUS256K);
             return;
 #endif
 #endif

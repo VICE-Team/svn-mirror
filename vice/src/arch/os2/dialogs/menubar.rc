@@ -1071,35 +1071,32 @@ BEGIN
         END
 
 #ifndef (__XSCPU64__)
-        SUBMENU "PLUS60K Settings",                       IDM_PLUS60K_SETTINGS,         MIS_TEXT
+        SUBMENU "C64 Memory Expansion Hack Settings",     IDM_MEMORY_HACKS_SETTINGS,    MIS_TEXT
         BEGIN
-            MENUITEM "PLUS~60K - Memory Expansion",       IDM_PLUS60K,                  MIS_TEXT
-            SUBMENU "PLUS60K Base ~Address",              IDM_PLUS60KBASE,              MIS_TEXT
+            SUBMENU "C64 Memory Expansion Hack Device",   IDM_C64_MEMORY_HACK_DEVICE,   MIS_TEXT
             BEGIN
-                MENUITEM "$~D040",                        IDM_PLUS60KD040,              MIS_TEXT
-                MENUITEM "$D~100",                        IDM_PLUS60KD100,              MIS_TEXT
+                MENUITEM "None",                          IDM_MEMORY_HACK_NONE,         MIS_TEXT
+                MENUITEM "C64 256K",                      IDM_MEMORY_HACK_C64_256K,     MIS_TEXT
+                MENUITEM "+60K",                          IDM_MEMORY_HACK_PLUS60K,      MIS_TEXT
+                MENUITEM "+256K",                         IDM_MEMORY_HACK_PLUS256K,     MIS_TEXT
             END
-            MENUITEM "PLUS60K Filename",                  IDM_PLUS60KFILE,              MIS_TEXT
+            SUBMENU "C64 256K Base",                      IDM_C64_256K_BASE,            MIS_TEXT
+            BEGIN
+                MENUITEM "$DE00-$DE7F",                   IDM_C64_256K_BASEDE00,        MIS_TEXT
+                MENUITEM "$DE80-$DEFF",                   IDM_C64_256K_BASEDE80,        MIS_TEXT
+                MENUITEM "$DF00-$DF7F",                   IDM_C64_256K_BASEDF00,        MIS_TEXT
+                MENUITEM "$DF80-$DFFF",                   IDM_C64_256K_BASEDF80,        MIS_TEXT
+            END
+            MENUITEM "C64 256K Filename",                 IDM_C64_256KFILE,             MIS_TEXT
+            SUBMENU "+60K Base ~Address",                 IDM_PLUS60KBASE,              MIS_TEXT
+            BEGIN
+                MENUITEM "$D040",                         IDM_PLUS60KD040,              MIS_TEXT
+                MENUITEM "$D100",                         IDM_PLUS60KD100,              MIS_TEXT
+            END
+            MENUITEM "+60K Filename",                     IDM_PLUS60KFILE,              MIS_TEXT
+            MENUITEM "+256K Filename",                    IDM_PLUS256KFILE,             MIS_TEXT
         END
 
-        SUBMENU "PLUS256K Settings",                      IDM_PLUS256K_SETTINGS,        MIS_TEXT
-        BEGIN
-            MENUITEM "PLUS2~56K - Memory Expansion",      IDM_PLUS256K,                 MIS_TEXT
-            MENUITEM "PLUS256K Filename",                 IDM_PLUS256KFILE,             MIS_TEXT
-        END
-
-        SUBMENU "256K Settings",                          IDM_C64_256K_SETTINGS,        MIS_TEXT
-        BEGIN
-            MENUITEM "~256K - Memory Expansion",          IDM_C64_256K,                 MIS_TEXT
-            SUBMENU "256K ~Base",                         IDM_C64_256K_BASE,            MIS_TEXT
-            BEGIN
-                MENUITEM "$~DE00-$DE7F",                  IDM_C64_256K_BASEDE00,        MIS_TEXT
-                MENUITEM "$D~E80-$DEFF",                  IDM_C64_256K_BASEDE80,        MIS_TEXT
-                MENUITEM "$DF~00-$DF7F",                  IDM_C64_256K_BASEDF00,        MIS_TEXT
-                MENUITEM "$D~F80-$DFFF",                  IDM_C64_256K_BASEDF80,        MIS_TEXT
-            END
-            MENUITEM "256K Filename",                     IDM_C64_256KFILE,             MIS_TEXT
-        END
 #endif
 #endif
 

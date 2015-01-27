@@ -368,15 +368,13 @@
 #define IDM_VIC20_MC_WRITEBACK       0x21d
 #define IDM_VIC20_MC_FILE            0x21e
 
-#define IDM_PLUS60K_SETTINGS         0x1f3
-#define IDM_PLUS60K                  0x17c
+#define IDM_MEMORY_HACKS_SETTINGS    0x1f3
+
 #define IDM_PLUS60KBASE              0x17d
 #define IDM_PLUS60KD040              0x17e
 #define IDM_PLUS60KD100              0x17f
 #define IDM_PLUS60KFILE              0x14d
 
-#define IDM_PLUS256K_SETTINGS        0x1f4
-#define IDM_PLUS256K                 0x18b
 #define IDM_PLUS256KFILE             0x14e
 
 #define IDM_DQBB_SETTINGS            0x1f1
@@ -399,8 +397,13 @@
 #define IDM_SAVE_EXPERT              0x28c
 #define IDM_EXPERTFILE               0x28d
 
-#define IDM_C64_256K_SETTINGS        0x1f5
-#define IDM_C64_256K                 0x16d
+#define IDM_C64_MEMORY_HACK_DEVICE   0x1f4
+
+#define IDM_MEMORY_HACK_NONE         0x1f5
+#define IDM_MEMORY_HACK_C64_256K     0x350
+#define IDM_MEMORY_HACK_PLUS60K      0x351
+#define IDM_MEMORY_HACK_PLUS256K     0x352
+
 #define IDM_C64_256K_BASE            0x16e
 #define IDM_C64_256K_BASEDE00        0x18c
 #define IDM_C64_256K_BASEDE80        0x18d
