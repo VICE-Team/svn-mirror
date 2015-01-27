@@ -53,7 +53,7 @@ UI_CALLBACK(set_plus256k_image_name)
 }
 
 static ui_menu_entry_t c64_memory_hacks_device_submenu[] = {
-    { _("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_MemoryHack,
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_MemoryHack,
       (ui_callback_data_t)MEMORY_HACK_NONE, NULL },
     { "C64 256K", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MemoryHack,
       (ui_callback_data_t)MEMORY_HACK_C64_256K, NULL },

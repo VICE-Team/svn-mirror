@@ -43,6 +43,7 @@
 #include "uiapi.h"
 #include "uiattach.h"
 #include "uic64cart.h"
+#include "uic64memoryhacks.h"
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uidigimax.h"
