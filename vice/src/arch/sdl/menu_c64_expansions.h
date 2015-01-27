@@ -31,8 +31,6 @@
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t c64_256k_menu[];
-extern const ui_menu_entry_t plus60k_menu[];
-extern const ui_menu_entry_t plus256k_menu[];
+extern const ui_menu_entry_t c64_memory_hacks_menu[];
 
 #endif

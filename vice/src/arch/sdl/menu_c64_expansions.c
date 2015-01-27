@@ -30,23 +30,43 @@
 
 #include "types.h"
 
+#include "c64-memory-hacks.h"
 #include "menu_c64_expansions.h"
 #include "menu_common.h"
 #include "uimenu.h"
 
-/* C64 256K MEMORY EXPANSION HACK MENU */
+/* MEMORY EXPANSION HACK MENU */
 
-UI_MENU_DEFINE_TOGGLE(C64_256K)
+UI_MENU_DEFINE_RADIO(MemoryHack)
+
 UI_MENU_DEFINE_RADIO(C64_256Kbase)
 UI_MENU_DEFINE_FILE_STRING(C64_256Kfilename)
 
-const ui_menu_entry_t c64_256k_menu[] = {
-    { "Enable C64 256K",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_C64_256K_callback,
-      NULL },
+UI_MENU_DEFINE_RADIO(PLUS60Kbase)
+UI_MENU_DEFINE_FILE_STRING(PLUS60Kfilename)
+
+UI_MENU_DEFINE_FILE_STRING(PLUS256Kfilename)
+
+const ui_menu_entry_t c64_memory_hacks_menu[] = {
+    SDL_MENU_ITEM_TITLE("Memory Expansion Hack Device"),
+    { "None",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MemoryHack_callback,
+      (ui_callback_data_t)MEMORY_HACK_NONE },
+    { "C64 256K",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MemoryHack_callback,
+      (ui_callback_data_t)MEMORY_HACK_C64_256K },
+    { "+60K",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MemoryHack_callback,
+      (ui_callback_data_t)MEMORY_HACK_PLUS60K },
+    { "+256K",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MemoryHack_callback,
+      (ui_callback_data_t)MEMORY_HACK_PLUS256K },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Base address"),
+    SDL_MENU_ITEM_TITLE("C64 256K Base address"),
     { "$DE00",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_C64_256Kbase_callback,
@@ -64,28 +84,13 @@ const ui_menu_entry_t c64_256k_menu[] = {
       radio_C64_256Kbase_callback,
       (ui_callback_data_t)0xdf80 },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("RAM image"),
+    SDL_MENU_ITEM_TITLE("C64 256K RAM image"),
     { "C64 256K image file",
       MENU_ENTRY_DIALOG,
       file_string_C64_256Kfilename_callback,
       (ui_callback_data_t)"Select C64 256K image" },
-    SDL_MENU_LIST_END
-};
-
-
-/* PLUS60K MEMORY EXPANSION HACK MENU */
-
-UI_MENU_DEFINE_TOGGLE(PLUS60K)
-UI_MENU_DEFINE_RADIO(PLUS60Kbase)
-UI_MENU_DEFINE_FILE_STRING(PLUS60Kfilename)
-
-const ui_menu_entry_t plus60k_menu[] = {
-    { "Enable PLUS60K",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_PLUS60K_callback,
-      NULL },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Base address"),
+    SDL_MENU_ITEM_TITLE("+60K Base address"),
     { "$D040",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_PLUS60Kbase_callback,
@@ -95,30 +100,16 @@ const ui_menu_entry_t plus60k_menu[] = {
       radio_PLUS60Kbase_callback,
       (ui_callback_data_t)0xd100 },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("RAM image"),
-    { "PLUS60K image file",
+    SDL_MENU_ITEM_TITLE("+60K RAM image"),
+    { "+60K image file",
       MENU_ENTRY_DIALOG,
       file_string_PLUS60Kfilename_callback,
-      (ui_callback_data_t)"Select PLUS60K image" },
-    SDL_MENU_LIST_END
-};
-
-
-/* PLUS256K MEMORY EXPANSION HACK MENU */
-
-UI_MENU_DEFINE_TOGGLE(PLUS256K)
-UI_MENU_DEFINE_FILE_STRING(PLUS256Kfilename)
-
-const ui_menu_entry_t plus256k_menu[] = {
-    { "Enable PLUS256K",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_PLUS256K_callback,
-      NULL },
+      (ui_callback_data_t)"Select +60K image" },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("RAM image"),
-    { "PLUS256K image file",
+    SDL_MENU_ITEM_TITLE("+256K RAM image"),
+    { "+256K image file",
       MENU_ENTRY_DIALOG,
       file_string_PLUS256Kfilename_callback,
-      (ui_callback_data_t)"Select PLUS256K image" },
+      (ui_callback_data_t)"Select +256K image" },
     SDL_MENU_LIST_END
 };
