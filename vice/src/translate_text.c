@@ -503,23 +503,6 @@ translate_t string_table[] = {
 /* tr */ {IDGS_STORE_SOUNDDEVICE_FAILED_TR, "ses aygýtýna saklama baþarýsýz oldu."},
 #endif
 
-/* c64/c64export.c */
-/* en */ {IDGS_RESOURCE_S_BLOCKED_BY_S,    N_("Resource %s blocked by %s.")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_RESOURCE_S_BLOCKED_BY_S_DA, "Resoursen %s er blokeret af %s."},
-/* de */ {IDGS_RESOURCE_S_BLOCKED_BY_S_DE, "Resource %s wird von %s blockiert."},
-/* es */ {IDGS_RESOURCE_S_BLOCKED_BY_S_ES, "Recursos %s bloqueados por %s."},
-/* fr */ {IDGS_RESOURCE_S_BLOCKED_BY_S_FR, "La ressource %s est bloquée par %s."},
-/* hu */ {IDGS_RESOURCE_S_BLOCKED_BY_S_HU, "A %s erõforrást %s fogja."},
-/* it */ {IDGS_RESOURCE_S_BLOCKED_BY_S_IT, "Risorsa %s bloccata da %s."},
-/* ko */ {IDGS_RESOURCE_S_BLOCKED_BY_S_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RESOURCE_S_BLOCKED_BY_S_NL, "Bron %s geblokeerd door %s."},
-/* pl */ {IDGS_RESOURCE_S_BLOCKED_BY_S_PL, "Zasób %s blokowany przez %s."},
-/* ru */ {IDGS_RESOURCE_S_BLOCKED_BY_S_RU, "Resource %s blocked by %s."},
-/* sv */ {IDGS_RESOURCE_S_BLOCKED_BY_S_SV, "Resursen %s blockeras av %s."},
-/* tr */ {IDGS_RESOURCE_S_BLOCKED_BY_S_TR, "Kaynak %s, %s tarafýndan bloklandý."},
-#endif
-
 #ifdef HAVE_NETWORK
 /* network.c */
 /* en */ {IDGS_TESTING_BEST_FRAME_DELAY,    N_("Testing best frame delay...")},
@@ -14804,40 +14787,6 @@ translate_t string_table[] = {
 #endif
 
 /* c64/plus256k.c */
-/* en */ {IDCLS_ENABLE_PLUS256K_EXPANSION,    N_("Enable the PLUS256K RAM expansion")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_PLUS256K_EXPANSION_DA, "Aktivér PLUS256K RAM-udviddelse"},
-/* de */ {IDCLS_ENABLE_PLUS256K_EXPANSION_DE, "PLUS256K RAM Erweiterung aktivieren"},
-/* es */ {IDCLS_ENABLE_PLUS256K_EXPANSION_ES, "Permitir expansión RAM PLUS256K"},
-/* fr */ {IDCLS_ENABLE_PLUS256K_EXPANSION_FR, "Activer l'expansion PLUS256K RAM"},
-/* hu */ {IDCLS_ENABLE_PLUS256K_EXPANSION_HU, "PLUS256K RAM kiterjesztés engedélyezése"},
-/* it */ {IDCLS_ENABLE_PLUS256K_EXPANSION_IT, "Attiva l'espansione RAM PLUS256K"},
-/* ko */ {IDCLS_ENABLE_PLUS256K_EXPANSION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_PLUS256K_EXPANSION_NL, "Activeer de PLUS256K geheugenuitbreiding"},
-/* pl */ {IDCLS_ENABLE_PLUS256K_EXPANSION_PL, "W³±cz rozszerzenie RAM PLUS256K"},
-/* ru */ {IDCLS_ENABLE_PLUS256K_EXPANSION_RU, "Enable the PLUS256K RAM expansion"},
-/* sv */ {IDCLS_ENABLE_PLUS256K_EXPANSION_SV, "Aktivera PLUS256K RAM-expansion"},
-/* tr */ {IDCLS_ENABLE_PLUS256K_EXPANSION_TR, "PLUS256K RAM geniþletmesini aktif et"},
-#endif
-
-/* c64/plus256k.c */
-/* en */ {IDCLS_DISABLE_PLUS256K_EXPANSION,    N_("Disable the PLUS256K RAM expansion")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_PLUS256K_EXPANSION_DA, "Deaktivér PLUS256K RAM-udviddelse"},
-/* de */ {IDCLS_DISABLE_PLUS256K_EXPANSION_DE, "PLUS256K RAM Erweiterung deaktivieren"},
-/* es */ {IDCLS_DISABLE_PLUS256K_EXPANSION_ES, "Deshabilitar expansión RAM PLUS256K"},
-/* fr */ {IDCLS_DISABLE_PLUS256K_EXPANSION_FR, "Désactiver l'expansion PLUS256K RAM"},
-/* hu */ {IDCLS_DISABLE_PLUS256K_EXPANSION_HU, "PLUS256K RAM kiterjesztés tiltása"},
-/* it */ {IDCLS_DISABLE_PLUS256K_EXPANSION_IT, "Disattiva l'espansione RAM PLUS256K"},
-/* ko */ {IDCLS_DISABLE_PLUS256K_EXPANSION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_PLUS256K_EXPANSION_NL, "De PLUS256K geheugenuitbreiding uitschakelen"},
-/* pl */ {IDCLS_DISABLE_PLUS256K_EXPANSION_PL, "Wy³±cz rozszerzenie RAM PLUS256K"},
-/* ru */ {IDCLS_DISABLE_PLUS256K_EXPANSION_RU, "Disable the PLUS256K RAM expansion"},
-/* sv */ {IDCLS_DISABLE_PLUS256K_EXPANSION_SV, "Inaktivera PLUS256K RAM-expansion"},
-/* tr */ {IDCLS_DISABLE_PLUS256K_EXPANSION_TR, "PLUS256K RAM geniþletmesini pasifleþtir"},
-#endif
-
-/* c64/plus256k.c */
 /* en */ {IDCLS_SPECIFY_PLUS256K_NAME,    N_("Specify name of PLUS256K image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_PLUS256K_NAME_DA, "Angiv navn på PLUS256K-image"},
@@ -14852,40 +14801,6 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SPECIFY_PLUS256K_NAME_RU, "Specify name of PLUS256K image"},
 /* sv */ {IDCLS_SPECIFY_PLUS256K_NAME_SV, "Ange namn på PLUS256K-avbildning"},
 /* tr */ {IDCLS_SPECIFY_PLUS256K_NAME_TR, "PLUS256K imajýnýn ismini belirt"},
-#endif
-
-/* c64/plus60k.c */
-/* en */ {IDCLS_ENABLE_PLUS60K_EXPANSION,    N_("Enable the PLUS60K RAM expansion")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_PLUS60K_EXPANSION_DA, "Aktivér PLUS60K RAM-udviddelse"},
-/* de */ {IDCLS_ENABLE_PLUS60K_EXPANSION_DE, "PLUS60K RAM Erweiterung aktivieren"},
-/* es */ {IDCLS_ENABLE_PLUS60K_EXPANSION_ES, "Permitir expansión RAM PLUS60K"},
-/* fr */ {IDCLS_ENABLE_PLUS60K_EXPANSION_FR, "Activer l'expansion PLUS60K RAM"},
-/* hu */ {IDCLS_ENABLE_PLUS60K_EXPANSION_HU, "PLUS60K RAM bõvítés engedélyezése"},
-/* it */ {IDCLS_ENABLE_PLUS60K_EXPANSION_IT, "Attiva l'espansione RAM PLUS60K"},
-/* ko */ {IDCLS_ENABLE_PLUS60K_EXPANSION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_PLUS60K_EXPANSION_NL, "Activeer de PLUS60K geheugenuitbreiding"},
-/* pl */ {IDCLS_ENABLE_PLUS60K_EXPANSION_PL, "W³±cz rozszerzenie RAM PLUS60K"},
-/* ru */ {IDCLS_ENABLE_PLUS60K_EXPANSION_RU, "Enable the PLUS60K RAM expansion"},
-/* sv */ {IDCLS_ENABLE_PLUS60K_EXPANSION_SV, "Aktivera PLUS60K RAM-expansionen"},
-/* tr */ {IDCLS_ENABLE_PLUS60K_EXPANSION_TR, "PLUS60K RAM geniþletmesini aktif et"},
-#endif
-
-/* c64/plus60k.c */
-/* en */ {IDCLS_DISABLE_PLUS60K_EXPANSION,    N_("Disable the PLUS60K RAM expansion")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_PLUS60K_EXPANSION_DA, "Deaktivér PLUS60K RAM-udviddelse"},
-/* de */ {IDCLS_DISABLE_PLUS60K_EXPANSION_DE, "PLUS60K RAM Erweiterung deaktivieren"},
-/* es */ {IDCLS_DISABLE_PLUS60K_EXPANSION_ES, "Deshabilitar expansión RAM PLUS60K"},
-/* fr */ {IDCLS_DISABLE_PLUS60K_EXPANSION_FR, "Désactiver l'expansion PLUS60K RAM"},
-/* hu */ {IDCLS_DISABLE_PLUS60K_EXPANSION_HU, "PLUS60K RAM bõvítés tiltása"},
-/* it */ {IDCLS_DISABLE_PLUS60K_EXPANSION_IT, "Disattiva l'espansione RAM PLUS60K"},
-/* ko */ {IDCLS_DISABLE_PLUS60K_EXPANSION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_PLUS60K_EXPANSION_NL, "De PLUS60K geheugenuitbreiding uitschakelen"},
-/* pl */ {IDCLS_DISABLE_PLUS60K_EXPANSION_PL, "Wy³±cz rozszerzenie RAM PLUS60K"},
-/* ru */ {IDCLS_DISABLE_PLUS60K_EXPANSION_RU, "Disable the PLUS60K RAM expansion"},
-/* sv */ {IDCLS_DISABLE_PLUS60K_EXPANSION_SV, "Inaktivera PLUS60K RAM-expansion"},
-/* tr */ {IDCLS_DISABLE_PLUS60K_EXPANSION_TR, "PLUS60K RAM geniþletmesini pasifleþtir"},
 #endif
 
 /* c64/plus60k.c */
@@ -14923,40 +14838,6 @@ translate_t string_table[] = {
 #endif
 
 /* c64/c64_256k.c */
-/* en */ {IDCLS_ENABLE_C64_256K_EXPANSION,    N_("Enable the 256K RAM expansion")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_C64_256K_EXPANSION_DA, "Aktivér 256k RAM-udviddelse"},
-/* de */ {IDCLS_ENABLE_C64_256K_EXPANSION_DE, "256K RAM Erweiterung aktivieren"},
-/* es */ {IDCLS_ENABLE_C64_256K_EXPANSION_ES, "Permitir expansión RAM 256K"},
-/* fr */ {IDCLS_ENABLE_C64_256K_EXPANSION_FR, "Activer l'expansion RAM 256K"},
-/* hu */ {IDCLS_ENABLE_C64_256K_EXPANSION_HU, "256K RAM kiterjesztés engedélyezése"},
-/* it */ {IDCLS_ENABLE_C64_256K_EXPANSION_IT, "Attiva l'espansione 256K RAM"},
-/* ko */ {IDCLS_ENABLE_C64_256K_EXPANSION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_C64_256K_EXPANSION_NL, "Activeer de 256K geheugenuitbreiding"},
-/* pl */ {IDCLS_ENABLE_C64_256K_EXPANSION_PL, "W³±cz rozszerzenie RAM 256K"},
-/* ru */ {IDCLS_ENABLE_C64_256K_EXPANSION_RU, "Enable the 256K RAM expansion"},
-/* sv */ {IDCLS_ENABLE_C64_256K_EXPANSION_SV, "Aktivera 256K RAM-expansion"},
-/* tr */ {IDCLS_ENABLE_C64_256K_EXPANSION_TR, "256K RAM geniþletmesini aktif et"},
-#endif
-
-/* c64/c64_256k.c */
-/* en */ {IDCLS_DISABLE_C64_256K_EXPANSION,    N_("Disable the 256K RAM expansion")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_C64_256K_EXPANSION_DA, "Deaktivér 256k RAM-udviddelse"},
-/* de */ {IDCLS_DISABLE_C64_256K_EXPANSION_DE, "256K RAM Erweiterung deaktivieren"},
-/* es */ {IDCLS_DISABLE_C64_256K_EXPANSION_ES, "Deshabilitar expansión RAM 256K"},
-/* fr */ {IDCLS_DISABLE_C64_256K_EXPANSION_FR, "Désactiver l'expansion RAM 256K"},
-/* hu */ {IDCLS_DISABLE_C64_256K_EXPANSION_HU, "256K RAM kiterjesztés tiltása"},
-/* it */ {IDCLS_DISABLE_C64_256K_EXPANSION_IT, "Disattiva l'espansione 256K RAM"},
-/* ko */ {IDCLS_DISABLE_C64_256K_EXPANSION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_C64_256K_EXPANSION_NL, "De 256K geheugenuitbreiding uitschakelen"},
-/* pl */ {IDCLS_DISABLE_C64_256K_EXPANSION_PL, "Wy³±cz rozszerzenie RAM 256K"},
-/* ru */ {IDCLS_DISABLE_C64_256K_EXPANSION_RU, "Disable the 256K RAM expansion"},
-/* sv */ {IDCLS_DISABLE_C64_256K_EXPANSION_SV, "Inaktivera 256K RAM-expansion"},
-/* tr */ {IDCLS_DISABLE_C64_256K_EXPANSION_TR, "256K RAM geniþletmesini pasifleþtir"},
-#endif
-
-/* c64/c64_256k.c */
 /* en */ {IDCLS_SPECIFY_C64_256K_NAME,    N_("Specify name of 256K image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_C64_256K_NAME_DA, "Angiv navn på 256k-image"},
@@ -14988,6 +14869,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_C64_256K_BASE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_C64_256K_BASE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_C64_256K_BASE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/c64-memory-hacks.c */
+/* en */ {IDCLS_SET_MEMORY_HACK,    N_("Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: +256K)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_MEMORY_HACK_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_MEMORY_HACK_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_MEMORY_HACK_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_MEMORY_HACK_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_MEMORY_HACK_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_MEMORY_HACK_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_MEMORY_HACK_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_MEMORY_HACK_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_MEMORY_HACK_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_MEMORY_HACK_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_MEMORY_HACK_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_MEMORY_HACK_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */

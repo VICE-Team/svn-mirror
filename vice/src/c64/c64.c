@@ -34,6 +34,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "c64-cmdline-options.h"
+#include "c64-memory-hacks.h"
 #include "c64-resources.h"
 #include "c64-snapshot.h"
 #include "c64.h"
@@ -390,6 +391,10 @@ int machine_resources_init(void)
         init_resource_fail("c64export");
         return -1;
     }
+    if (memory_hacks_resources_init() < 0) {
+        init_resource_fail("memory hacks");
+        return -1;
+    }
     if (plus60k_resources_init() < 0) {
         init_resource_fail("plus60k");
         return -1;
@@ -553,6 +558,10 @@ int machine_cmdline_options_init(void)
     }
     if (c64_cmdline_options_init() < 0) {
         init_cmdline_options_fail("c64");
+        return -1;
+    }
+    if (memory_hacks_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("memory hacks");
         return -1;
     }
     if (plus60k_cmdline_options_init() < 0) {

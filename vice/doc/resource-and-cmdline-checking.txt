@@ -5308,20 +5308,6 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 
 c64/c64_256k.c:
 ---------------
-command line:   -256k
-description:    "Enable the 256K RAM expansion"
-resource:       "C64_256K" (set to 1)
-action:         N/A
-
-c64/c64_256k.c:
----------------
-command line:   +256k
-description:    "Disable the 256K RAM expansion"
-resource:       "C64_256K" (set to 0)
-action:         N/A
-
-c64/c64_256k.c:
----------------
 resource type:                  int
 resource name:                  "C64_256Kbase"
 resource range:                 N/A ($DE00/$DE80/$DF00/$DF80)
@@ -7498,34 +7484,6 @@ description:    "Specify name of PLUS256K image"
 resource:       "PLUS256Kfilename"
 action:         N/A
 
-c64/plus256k.c:
----------------
-resource type:                  bool
-resource name:                  "PLUS256K"
-resource range:                 0/1
-resource default:               0
-resource function:              set_plus256k_enabled()
-resource var:                   plus256k_enabled
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -plus256k / +plus256k
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-
-c64/plus256k.c:
----------------
-command line:   -plus256k
-description:    "Enable the PLUS256K RAM expansion"
-resource:       "PLUS256K" (set to 1)
-action:         N/A
-
-c64/plus256k.c:
----------------
-command line:   +plus256k
-description:    "Disable the PLUS256K RAM expansion"
-resource:       "PLUS256K" (set to 0)
-action:         N/A
-
 c64/plus60k.c:
 --------------
 resource type:                  string
@@ -7549,34 +7507,6 @@ action:         N/A
 
 c64/plus60k.c:
 --------------
-resource type:                  bool
-resource name:                  "PLUS60K"
-resource range:                 0/1
-resource default:               0
-resource function:              set_plus60k_enabled()
-resource var:                   plus60k_enabled
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -plus60k / +plus60k
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-
-c64/plus60k.c:
---------------
-command line:   -plus60k
-description:    "Enable the PLUS60K RAM expansion"
-resource:       "PLUS60K" (set to 1)
-action:         N/A
-
-c64/plus60k.c:
---------------
-command line:   +plus60k
-description:    "Disable the PLUS60K RAM expansion"
-resource:       "PLUS60K" (set to 0)
-action:         N/A
-
-c64/plus60k.c:
---------------
 resource type:                  int
 resource name:                  "PLUS60Kbase"
 resource range:                 N/A ($D040/$D100)
@@ -7595,6 +7525,30 @@ c64/plus60k.c:
 command line:   -plus60kbase <Base address>
 description:    "Base address of the PLUS60K expansion. (0xD040, 0xD100)"
 resource:       "PLUS60Kbase"
+action:         N/A
+
+c64/c64-memory-hacks.c:
+-----------------------
+resource type:                  int
+resource name:                  "MemoryHack"
+resource range:                 0..3 (MEMORY_HACK_NONE (0), MEMORY_HACK_C64_256K (1), MEMORY_HACK_PLUS60K (2), MEMORY_HACK_PLUS256K (3))
+resource default:               MEMORY_HACK_NONE (0)
+resource function:              set_memory_hack()
+resource var:                   memory_hack
+resource emulators:             x64/x64sc
+not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -memoryexphack
+platform gui present:           amigaos/beos/dos/os2/sdl
+platform range correct:		amigaos/beos/dos/os2/sdl
+platform range incorrect:		
+platform gui missing:           unix/osx/windows
+
+c64/c64-memory-hacks.c:
+-----------------------
+command line:   -memoryexphack <device>
+description:    "Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: +256K)"
+resource:       "MemoryHack"
 action:         N/A
 
 c64/vsid-resources.c:

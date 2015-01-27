@@ -65,6 +65,8 @@ libvsid_a_SOURCES = \
 libc64_a_SOURCES = \
 	c64-cmdline-options.c \
 	c64-cmdline-options.h \
+	c64-memory-hacks.c \
+	c64-memory-hacks.h \
 	c64-resources.c \
 	c64-resources.h \
 	c64-snapshot.c \
@@ -132,6 +134,8 @@ libc64_a_SOURCES = \
 libc64sc_a_SOURCES = \
 	c64-cmdline-options.c \
 	c64-cmdline-options.h \
+	c64-memory-hacks.c \
+	c64-memory-hacks.h \
 	c64-resources.c \
 	c64-resources.h \
 	c64-snapshot.c \

@@ -6664,9 +6664,6 @@ Integer specifying the type of emulated board (not available in xscpu64).
 Integer specifying if the IEC bus resets when the CPU resets.
 (0=No, 1=Yes)
 
-@vindex PLUS60K
-@item PLUS60K
-Boolean to enable/disable the PLUS60K RAM expansion.
 @vindex PLUS60Kfilename
 @item PLUS60Kfilename
 String specifying the filename of the PLUS60K RAM image.
@@ -6674,16 +6671,10 @@ String specifying the filename of the PLUS60K RAM image.
 @item PLUS60Kbase
 Integer that specifies the base address of the PLUS60K RAM expansion.
 (0xD040/0xD100)
-@vindex PLUS256K
-@item PLUS256K
-Boolean to enable/disable the PLUS256K RAM expansion.
 @vindex PLUS256Kfilename
 @item PLUS256Kfilename
 String specifying the filename of the PLUS256K RAM image.
 
-@vindex C64_256K
-@item C64_256K
-Boolean to enable/disable the 256K RAM expansion.
 @vindex C64_256Kfilename
 @item C64_256Kfilename
 String specifying the filename of the 256K RAM image.
@@ -6712,11 +6703,6 @@ Set IEC reset bahaviour
 (not available for x64dtv).
 (0=Do not reset with CPU reset, 1=Reset with CPU reset)
 
-@findex -plus60k, +plus60k
-@item -plus60k
-@itemx +plus60k
-Enable/Disable the PLUS60K RAM expansion
-(@code{PLUS60K=1}, @code{PLUS60K=0}).
 @findex -plus60kimage
 @item -plus60kimage <name>
 Specify name of PLUS60K image
@@ -6727,21 +6713,11 @@ Base address of the PLUS60K expansion
 (@code{PLUS60Kbase}).
 (0xD040/0xD100)
 
-@findex -plus256k, +plus256k
-@item -plus256k
-@itemx +plus256k
-Enable/Disable the PLUS256K RAM expansion
-(@code{PLUS256K=1}, @code{PLUS256K=0}).
 @findex -plus256kimage
 @item -plus256kimage <name>
 Specify name of PLUS256K image
 (@code{PLUS256Kfilename}).
 
-@findex -256k, +256k
-@item -256k
-@itemx +256k
-Enable/Disable the 256K RAM expansion
-(@code{C64_256K=1}, @code{C64_256K=0}).
 @findex -256kimage
 @item -256kimage <name>
 Specify name of 256K image

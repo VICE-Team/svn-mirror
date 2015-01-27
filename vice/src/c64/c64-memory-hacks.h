@@ -1,5 +1,5 @@
 /*
- * plus60k.h - +60K EXPANSION HACK emulation.
+ * c64-memory-hacks.h - 256K/PLUS60K/PLUS256K EXPANSION HACK control.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,27 +24,17 @@
  *
  */
 
-#ifndef VICE_PLUS60K_H
-#define VICE_PLUS60K_H
+#ifndef VICE_C64_MEMORY_HACKS_H
+#define VICE_C64_MEMORY_HACKS_H
 
 #include "types.h"
 
-extern int plus60k_enabled;
-extern int plus60k_base;
-extern int plus60k_resources_init(void);
-extern void plus60k_resources_shutdown(void);
-extern int plus60k_cmdline_options_init(void);
-extern void plus60k_init(void);
-extern void plus60k_reset(void);
-extern void plus60k_shutdown(void);
+#define MEMORY_HACK_NONE       0
+#define MEMORY_HACK_C64_256K   1
+#define MEMORY_HACK_PLUS60K    2
+#define MEMORY_HACK_PLUS256K   3
 
-extern void plus60k_vicii_mem_vbank_store(WORD addr, BYTE value);
-extern void plus60k_vicii_mem_vbank_39xx_store(WORD addr, BYTE value);
-extern void plus60k_vicii_mem_vbank_3fxx_store(WORD addr, BYTE value);
-extern void plus60k_ram_hi_store(WORD addr, BYTE value);
-extern BYTE plus60k_ram_read(WORD addr);
-extern void plus60k_ram_store(WORD addr, BYTE value);
-
-extern int set_plus60k_enabled(int value);
+extern int memory_hacks_resources_init(void);
+extern int memory_hacks_cmdline_options_init(void);
 
 #endif
