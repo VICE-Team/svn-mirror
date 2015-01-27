@@ -16,9 +16,9 @@ src/arch/unix/gui/plus4ui.c
 src/arch/unix/gui/uiacia1.c
 src/arch/unix/gui/uiattach.c
 src/arch/unix/gui/uiautostart.c
-src/arch/unix/gui/uic64_256k.c
 src/arch/unix/gui/uic64cart.c
 src/arch/unix/gui/uic64dtv.c
+src/arch/unix/gui/uic64memoryhacks.c
 src/arch/unix/gui/uicmdline.c
 src/arch/unix/gui/uicommands.c
 src/arch/unix/gui/uicrtc.c
@@ -58,8 +58,6 @@ src/arch/unix/gui/uiperipheralieee.c
 src/arch/unix/gui/uipetcolour.c
 src/arch/unix/gui/uipetdww.c
 src/arch/unix/gui/uipetreu.c
-src/arch/unix/gui/uiplus256k.c
-src/arch/unix/gui/uiplus60k.c
 src/arch/unix/gui/uiprinter.c
 src/arch/unix/gui/uiprinteriec.c
 src/arch/unix/gui/uiprinteriecplus4.c
