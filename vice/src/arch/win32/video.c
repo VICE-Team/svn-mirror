@@ -229,10 +229,13 @@ int video_arch_cmdline_options_init(void)
         if (cmdline_register_options(generated_cmdline_options) < 0) {
             return -1;
         }
-#endif
-
         return cmdline_register_options(cmdline_options);
     }
+#else
+    if (machine_class != VICE_MACHINE_VSID) {
+        return cmdline_register_options(cmdline_options);
+    }
+#endif
     return 0;
 }
 
