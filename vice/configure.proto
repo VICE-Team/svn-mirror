@@ -342,8 +342,17 @@ AC_CHECK_PROG(SVN, svn, svn, :)
 AC_CHECK_PROG(SVNVERSION, svnversion, svnversion, :)
 AC_PROG_INSTALL
 AC_PROG_LN_S
-AC_PROG_YACC
-AM_PROG_LEX
+
+AC_CHECK_PROGS(YACC, byacc yacc 'bison -y', [no])
+if test x"$YACC" = "xno"; then
+  AC_MSG_ERROR([byacc yacc or bison not found!])
+fi
+
+AC_CHECK_PROGS(LEX, flex lex, [no])
+if test x"$LEX" = "xno"; then
+  AC_MSG_ERROR([flex or lex not found!])
+fi
+
 AM_PROG_AS
 
 dnl check if ar truncates object names
