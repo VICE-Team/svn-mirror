@@ -31,8 +31,6 @@
 
 extern int cs256k_enabled;
 
-extern int cs256k_resources_init(void);
-extern int cs256k_cmdline_options_init(void);
 extern void cs256k_init(void);
 extern void cs256k_reset(void);
 extern void cs256k_shutdown(void);
@@ -41,5 +39,7 @@ extern BYTE cs256k_reg_read(WORD addr);
 extern void cs256k_reg_store(WORD addr, BYTE value);
 extern void cs256k_store(WORD addr, BYTE value);
 extern BYTE cs256k_read(WORD addr);
+
+extern int set_cs256k_enabled(int value);
 
 #endif

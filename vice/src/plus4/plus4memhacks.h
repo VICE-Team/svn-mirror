@@ -1,5 +1,5 @@
 /*
- * plus4memhannes256k.h - HANNES 256K EXPANSION emulation.
+ * plus4memhacks.h - Plus4 memory expansion hacks control.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,27 +24,18 @@
  *
  */
 
-#ifndef VICE_H256K_H
-#define VICE_H256K_H
+#ifndef VICE_PLUS4MEMORYHACKS_H
+#define VICE_PLUS4MEMORYHACKS_H
 
 #include "types.h"
 
-#define H256K_DISABLED  0
-#define H256K_256K      1
-#define H256K_1024K     2
-#define H256K_4096K     3
+#define MEMORY_HACK_NONE     0
+#define MEMORY_HACK_C256K    1
+#define MEMORY_HACK_H256K    2
+#define MEMORY_HACK_H1024K   3
+#define MEMORY_HACK_H4096K   4
 
-extern int h256k_enabled;
-
-extern void h256k_init(void);
-extern void h256k_reset(void);
-extern void h256k_shutdown(void);
-
-extern BYTE h256k_reg_read(WORD addr);
-extern void h256k_reg_store(WORD addr, BYTE value);
-extern void h256k_store(WORD addr, BYTE value);
-extern BYTE h256k_read(WORD addr);
-
-extern int set_h256k_enabled(int val);
+extern int plus4_memory_hacks_resources_init(void);
+extern int plus4_memory_hacks_cmdline_options_init(void);
 
 #endif

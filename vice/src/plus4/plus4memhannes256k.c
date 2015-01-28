@@ -60,8 +60,7 @@ static int h256k_bound = 1;
 
 BYTE *h256k_ram = NULL;
 
-
-static int set_h256k_enabled(int val, void *param)
+int set_h256k_enabled(int val)
 {
     switch (val) {
         case H256K_DISABLED:
@@ -86,63 +85,9 @@ static int set_h256k_enabled(int val, void *param)
                 return -1;
             }
         }
-
-        h256k_enabled = val;
-
-        if (cs256k_enabled) {
-            resources_set_int("CS256K", 0);
-        }
-        switch (h256k_enabled) {
-        case H256K_256K:
-            resources_set_int("RamSize", 256);
-            break;
-        case H256K_1024K:
-            resources_set_int("RamSize", 1024);
-            break;
-        case H256K_4096K:
-            resources_set_int("RamSize", 4096);
-            break;
-        }
+        h256k_enabled = 1;
     }
     return 0;
-}
-
-static const resource_int_t resources_int[] = {
-    { "H256K", H256K_DISABLED, RES_EVENT_SAME, NULL,
-      &h256k_enabled, set_h256k_enabled, NULL },
-    { NULL }
-};
-
-int h256k_resources_init(void)
-{
-    return resources_register_int(resources_int);
-}
-
-/* ------------------------------------------------------------------------- */
-
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-h256k", SET_RESOURCE, 0,
-      NULL, NULL, "H256K", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_H256K_EXPANSION,
-      NULL, NULL },
-    { "-h1024k", SET_RESOURCE, 0,
-      NULL, NULL, "H256K", (resource_value_t)2,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_H1024K_EXPANSION,
-      NULL, NULL },
-    { "-h4096k", SET_RESOURCE, 0,
-      NULL, NULL, "H256K", (resource_value_t)3,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_H4096K_EXPANSION,
-      NULL, NULL },
-    { NULL }
-};
-
-int h256k_cmdline_options_init(void)
-{
-    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */

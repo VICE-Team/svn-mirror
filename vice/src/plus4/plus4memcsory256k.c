@@ -57,8 +57,7 @@ static int cs256k_segment = 3;
 
 BYTE *cs256k_ram = NULL;
 
-
-static int set_cs256k_enabled(int value, void *param)
+int set_cs256k_enabled(int value)
 {
     int val = value ? 1 : 0;
 
@@ -69,51 +68,15 @@ static int set_cs256k_enabled(int value, void *param)
             }
         }
         cs256k_enabled = 0;
-        return 0;
     } else {
         if (!cs256k_enabled) {
             if (cs256k_activate() < 0) {
                 return -1;
             }
         }
-
         cs256k_enabled = 1;
-
-        if (h256k_enabled) {
-            resources_set_int("H256K", 0);
-        }
-        resources_set_int("RamSize", 256);
-
-        return 0;
     }
-}
-
-static const resource_int_t resources_int[] = {
-    { "CS256K", 0, RES_EVENT_SAME, NULL,
-      &cs256k_enabled, set_cs256k_enabled, NULL },
-    { NULL }
-};
-
-int cs256k_resources_init(void)
-{
-    return resources_register_int(resources_int);
-}
-
-/* ------------------------------------------------------------------------- */
-
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-cs256k", SET_RESOURCE, 0,
-      NULL, NULL, "CS256K", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_CS256K_EXPANSION,
-      NULL, NULL },
-    { NULL }
-};
-
-int cs256k_cmdline_options_init(void)
-{
-    return cmdline_register_options(cmdline_options);
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */

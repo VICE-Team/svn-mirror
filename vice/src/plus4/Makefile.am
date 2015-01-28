@@ -40,6 +40,8 @@ libplus4_a_SOURCES = \
 	plus4mem.h \
 	plus4memcsory256k.c \
 	plus4memcsory256k.h \
+	plus4memhacks.c \
+	plus4memhacks.h \
 	plus4memhannes256k.c \
 	plus4memhannes256k.h \
 	plus4memlimit.c \

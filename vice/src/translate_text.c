@@ -14889,20 +14889,37 @@ translate_t string_table[] = {
 #endif
 
 /* c64/c64-memory-hacks.c */
-/* en */ {IDCLS_SET_MEMORY_HACK,    N_("Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: +256K)")},
+/* en */ {IDCLS_SET_C64_MEMORY_HACK,    N_("Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: +256K)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_MEMORY_HACK_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_MEMORY_HACK_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SET_MEMORY_HACK_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_SET_MEMORY_HACK_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_MEMORY_HACK_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_MEMORY_HACK_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_SET_MEMORY_HACK_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_MEMORY_HACK_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_SET_MEMORY_HACK_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_SET_MEMORY_HACK_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_MEMORY_HACK_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SET_MEMORY_HACK_TR, ""},  /* fuzzy */
+/* da */ {IDCLS_SET_C64_MEMORY_HACK_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_C64_MEMORY_HACK_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_C64_MEMORY_HACK_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_C64_MEMORY_HACK_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_C64_MEMORY_HACK_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_C64_MEMORY_HACK_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_C64_MEMORY_HACK_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_C64_MEMORY_HACK_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_C64_MEMORY_HACK_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_C64_MEMORY_HACK_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_C64_MEMORY_HACK_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_C64_MEMORY_HACK_TR, ""},  /* fuzzy */
+#endif
+
+/* plus4/plus4memhacks.c */
+/* en */ {IDCLS_SET_PLUS4_MEMORY_HACK,    N_("Set the 'memory expansion hack' device (0: None, 1: CSORY 256K, 2: HANNES 256K, 3: HANNES 1024K, 4: HANNES 4096K)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_PLUS4_MEMORY_HACK_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_PLUS4_MEMORY_HACK_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_PLUS4_MEMORY_HACK_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_PLUS4_MEMORY_HACK_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_PLUS4_MEMORY_HACK_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_PLUS4_MEMORY_HACK_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_PLUS4_MEMORY_HACK_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_PLUS4_MEMORY_HACK_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_PLUS4_MEMORY_HACK_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_PLUS4_MEMORY_HACK_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_PLUS4_MEMORY_HACK_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_PLUS4_MEMORY_HACK_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */
@@ -14988,74 +15005,6 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_RU, "Attach raw 16kB Simons Basic cartridge image"},
 /* sv */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_SV, "Anslut rå 16kB Simons Basic-insticksmodulavbildning"},
 /* tr */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_TR, "Düz 16kB Simons Basic kartuþ imajý yerleþtir"},
-#endif
-
-/* plus4/plus4memcsory256k.c */
-/* en */ {IDCLS_ENABLE_CS256K_EXPANSION,    N_("Enable the CSORY 256K RAM expansion")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_CS256K_EXPANSION_DA, "Aktivér CSORY 256k RAM-udviddelse"},
-/* de */ {IDCLS_ENABLE_CS256K_EXPANSION_DE, "CSORY 256K RAM Erweiterung aktivieren"},
-/* es */ {IDCLS_ENABLE_CS256K_EXPANSION_ES, "Permitir expansión RAM CSORY 256KB"},
-/* fr */ {IDCLS_ENABLE_CS256K_EXPANSION_FR, "Activer l'expansion RAM 256K CSORY"},
-/* hu */ {IDCLS_ENABLE_CS256K_EXPANSION_HU, "CSORY 256K RAM kiterjesztés engedélyezése"},
-/* it */ {IDCLS_ENABLE_CS256K_EXPANSION_IT, "Attiva l'espansione RAM CSORY 256K"},
-/* ko */ {IDCLS_ENABLE_CS256K_EXPANSION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_CS256K_EXPANSION_NL, "Activeer de CSORY 256K geheugenuitbreiding"},
-/* pl */ {IDCLS_ENABLE_CS256K_EXPANSION_PL, "W³±cz rozszerzenie RAM CSORY 256K"},
-/* ru */ {IDCLS_ENABLE_CS256K_EXPANSION_RU, "Enable the CSORY 256K RAM expansion"},
-/* sv */ {IDCLS_ENABLE_CS256K_EXPANSION_SV, "Aktivera CSORY 256K RAM-expansion"},
-/* tr */ {IDCLS_ENABLE_CS256K_EXPANSION_TR, "CSORY 256K RAM geniþletmesini aktif et"},
-#endif
-
-/* plus4/plus4memhannes256k.c */
-/* en */ {IDCLS_ENABLE_H256K_EXPANSION,    N_("Enable the HANNES 256K RAM expansion")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_H256K_EXPANSION_DA, "Aktivér HANNES 256k RAM-udviddelse"},
-/* de */ {IDCLS_ENABLE_H256K_EXPANSION_DE, "HANNES 256K RAM Erweiterung aktivieren"},
-/* es */ {IDCLS_ENABLE_H256K_EXPANSION_ES, "Permitir expansión RAM HANNES 256KB"},
-/* fr */ {IDCLS_ENABLE_H256K_EXPANSION_FR, "Activer l'expansion RAM 256K HANNES"},
-/* hu */ {IDCLS_ENABLE_H256K_EXPANSION_HU, "HANNES 256K RAM kiterjesztés engedélyezése"},
-/* it */ {IDCLS_ENABLE_H256K_EXPANSION_IT, "Attiva l'espansione RAM HANNES 256K"},
-/* ko */ {IDCLS_ENABLE_H256K_EXPANSION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_H256K_EXPANSION_NL, "Activeer de HANNES 256K geheugenuitbreiding"},
-/* pl */ {IDCLS_ENABLE_H256K_EXPANSION_PL, "W³±cz rozszerzenie RAM HANNES 256K"},
-/* ru */ {IDCLS_ENABLE_H256K_EXPANSION_RU, "Enable the HANNES 256K RAM expansion"},
-/* sv */ {IDCLS_ENABLE_H256K_EXPANSION_SV, "Aktivera HANNES 256K RAM-expansion"},
-/* tr */ {IDCLS_ENABLE_H256K_EXPANSION_TR, "HANNES 256K RAM geniþletmesini aktif et"},
-#endif
-
-/* plus4/plus4memhannes256k.c */
-/* en */ {IDCLS_ENABLE_H1024K_EXPANSION,    N_("Enable the HANNES 1024K RAM expansion")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_H1024K_EXPANSION_DA, "Aktivér HANNES 1024k RAM-udviddelse"},
-/* de */ {IDCLS_ENABLE_H1024K_EXPANSION_DE, "HANNES 1024K RAM Erweiterung aktivieren"},
-/* es */ {IDCLS_ENABLE_H1024K_EXPANSION_ES, "Permitir expansión RAM HANNES 1024KB"},
-/* fr */ {IDCLS_ENABLE_H1024K_EXPANSION_FR, "Activer l'expansion RAM 1024K HANNES"},
-/* hu */ {IDCLS_ENABLE_H1024K_EXPANSION_HU, "HANNES 1024K RAM kiterjesztés engedélyezése"},
-/* it */ {IDCLS_ENABLE_H1024K_EXPANSION_IT, "Attiva l'espansione RAM HANNES 1024K"},
-/* ko */ {IDCLS_ENABLE_H1024K_EXPANSION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_H1024K_EXPANSION_NL, "Activeer de HANNES 1024K geheugenuitbreiding"},
-/* pl */ {IDCLS_ENABLE_H1024K_EXPANSION_PL, "W³±cz rozszerzenie HANNES 1024K RAM"},
-/* ru */ {IDCLS_ENABLE_H1024K_EXPANSION_RU, "Enable the HANNES 1024K RAM expansion"},
-/* sv */ {IDCLS_ENABLE_H1024K_EXPANSION_SV, "Aktivera HANNES 1024K RAM-expansion"},
-/* tr */ {IDCLS_ENABLE_H1024K_EXPANSION_TR, "HANNES 1024K RAM geniþletmesini aktif et"},
-#endif
-
-/* plus4/plus4memhannes256k.c */
-/* en */ {IDCLS_ENABLE_H4096K_EXPANSION,    N_("Enable the HANNES 4096K RAM expansion")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_H4096K_EXPANSION_DA, "Aktivér HANNES 4096k RAM-udviddelse"},
-/* de */ {IDCLS_ENABLE_H4096K_EXPANSION_DE, "HANNES 4096K RAM Erweiterung aktivieren"},
-/* es */ {IDCLS_ENABLE_H4096K_EXPANSION_ES, "Permitir expansión RAM HANNES 4096KB"},
-/* fr */ {IDCLS_ENABLE_H4096K_EXPANSION_FR, "Activer l'expansion RAM 4096K HANNES"},
-/* hu */ {IDCLS_ENABLE_H4096K_EXPANSION_HU, "HANNES 4096K RAM kiterjesztés engedélyezése"},
-/* it */ {IDCLS_ENABLE_H4096K_EXPANSION_IT, "Attiva l'espansione RAM HANNES 4096K"},
-/* ko */ {IDCLS_ENABLE_H4096K_EXPANSION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_H4096K_EXPANSION_NL, "Activeer de HANNES 4096K geheugenuitbreiding"},
-/* pl */ {IDCLS_ENABLE_H4096K_EXPANSION_PL, "W³±cz rozszerzenie HANNES 4096K RAM"},
-/* ru */ {IDCLS_ENABLE_H4096K_EXPANSION_RU, "Enable the HANNES 4096K RAM expansion"},
-/* sv */ {IDCLS_ENABLE_H4096K_EXPANSION_SV, "Aktivera HANNES 4096K RAM-expansion"},
-/* tr */ {IDCLS_ENABLE_H4096K_EXPANSION_TR, "HANNES 4096K RAM geniþletmesini aktif et"},
 #endif
 
 /* c64dtv/c64dtvblitter.c */

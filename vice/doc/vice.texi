@@ -8530,15 +8530,6 @@ Specify name of Cartridge 2 high ROM image
 
 @table @code
 
-@vindex H256K
-@item H256K
-Integer, enables the HANNES 256K RAM expansion (0: disabled, 1: 256kB, 2: 1024kB,
-3: 4096kB)
-
-@vindex CS256K
-@item CS256K
-Boolean, enables the CSORY 256K RAM expansion
-
 @vindex Acia1Enable
 @item Acia1Enable
 Boolean specifying whether the ACIA should be emulated or not.
@@ -8553,19 +8544,6 @@ Boolean specifying whether the ACIA should be emulated or not.
 @cindex -ramsize
 @item -ramsize <ramsize>
 Specify size of RAM installed in kb (16/32/64)
-
-@cindex -h256k
-@item -h256k
-Enable the HANNES 256K RAM expansion
-@cindex -h1024k
-@item -h1024k
-Enable the HANNES 1024K RAM expansion
-@cindex -h4096k
-@item -h4096k
-Enable the HANNES 4096K RAM expansion
-@cindex -cs256k
-@item -cs256k
-Enable the CSORY 256K RAM expansion
 
 @cindex -acia, +acia
 @item -acia

@@ -1,5 +1,5 @@
 /*
- * c64-memory-hacks.c - C64-256K/PLUS60K/PLUS256K EXPANSION HACK control.
+ * plus4memhacks.c - Plus4 memory hacks control.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -30,66 +30,70 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64-memory-hacks.h"
-#include "c64_256k.h"
 #include "cmdline.h"
-#include "plus256k.h"
-#include "plus60k.h"
+#include "lib.h"
+#include "plus4memcsory256k.h"
+#include "plus4memhacks.h"
+#include "plus4memhannes256k.h"
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
 
 static int memory_hack = 0;
 
-static int set_memory_hack(int value, void *param)
+static int set_memory_hack(int val, void *param)
 {
-    if (value == memory_hack) {
+    if (val == memory_hack) {
         return 0;
     }
 
-    switch (value) {
+    switch (val) {
         case MEMORY_HACK_NONE:
-        case MEMORY_HACK_C64_256K:
-        case MEMORY_HACK_PLUS60K:
-        case MEMORY_HACK_PLUS256K:
+        case MEMORY_HACK_C256K:
+        case MEMORY_HACK_H256K:
+        case MEMORY_HACK_H1024K:
+        case MEMORY_HACK_H4096K:
             break;
         default:
             return -1;
     }
 
     switch (memory_hack) {
-        case MEMORY_HACK_C64_256K:
-            set_c64_256k_enabled(0);
-            break;
-        case MEMORY_HACK_PLUS60K:
-            set_plus60k_enabled(0);
-            break;
-        case MEMORY_HACK_PLUS256K:
-            set_plus256k_enabled(0);
-            break;
         case MEMORY_HACK_NONE:
-        default:
+            break;
+        case MEMORY_HACK_C256K:
+            set_cs256k_enabled(0);
+            break;
+        case MEMORY_HACK_H256K:
+        case MEMORY_HACK_H1024K:
+        case MEMORY_HACK_H4096K:
+            set_h256k_enabled(H256K_DISABLED);
             break;
     }
 
-    switch (value) {
-        case MEMORY_HACK_C64_256K:
-            set_c64_256k_enabled(1);
-            break;
-        case MEMORY_HACK_PLUS60K:
-            set_plus60k_enabled(1);
-            break;
-        case MEMORY_HACK_PLUS256K:
-            set_plus256k_enabled(1);
-            break;
+    memory_hack = val;
+
+    switch (memory_hack) {
         case MEMORY_HACK_NONE:
+            resources_set_int("RamSize", 64);
             break;
-        default:
-            return -1;
+        case MEMORY_HACK_C256K:
+            set_cs256k_enabled(1);
+            resources_set_int("RamSize", 256);
+            break;
+        case MEMORY_HACK_H256K:
+            set_h256k_enabled(H256K_256K);
+            resources_set_int("RamSize", 256);
+            break;
+        case MEMORY_HACK_H1024K:
+            set_h256k_enabled(H256K_1024K);
+            resources_set_int("RamSize", 1024);
+            break;
+        case MEMORY_HACK_H4096K:
+            set_h256k_enabled(H256K_4096K);
+            resources_set_int("RamSize", 4096);
             break;
     }
-
-    memory_hack = value;
 
     return 0;
 }
@@ -100,7 +104,7 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-int memory_hacks_resources_init(void)
+int plus4_memory_hacks_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
@@ -112,12 +116,12 @@ static const cmdline_option_t cmdline_options[] =
     { "-memoryexphack", SET_RESOURCE, 1,
       NULL, NULL, "MemoryHack", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_DEVICE, IDCLS_SET_C64_MEMORY_HACK,
+      IDCLS_P_DEVICE, IDCLS_SET_PLUS4_MEMORY_HACK,
       NULL, NULL },
     { NULL }
 };
 
-int memory_hacks_cmdline_options_init(void)
+int plus4_memory_hacks_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

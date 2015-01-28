@@ -17402,64 +17402,28 @@ description:    "Specify size of RAM installed in kb (16/32/64)"
 resource:       "RamSize"
 action:         N/A
 
-plus4/plus4memcsory256k.c:
---------------------------
-resource type:                  bool
-resource name:                  "CS256K"
-resource range:                 0/1
-resource default:               0
-resource function:              set_cs256k_enabled()
-resource var:                   cs256k_enabled
-resource emulators:             xplus4
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
-prepocessor:
-command-line:                   -cs256k (fixme: no option to switch it off)
-platform gui present:           amigaos/sdl/unix/osx/windows
-platform gui missing:			beos/dos/os2
-
-plus4/plus4memcsory256k.c:
---------------------------
-command line:   -cs256k
-description:    "Enable the CSORY 256K RAM expansion"
-resource:       "CS256K" (set to 1) (fixme: make a better system for this)
-action:         N/A
-
-plus4/plus4memhannes256k.c:
----------------------------
+plus4/plus4memhacks.c:
+----------------------
 resource type:                  int
-resource name:                  "H256K"
-resource range:                 0..3 (H256K_DISABLED (0), H256K_256K (1), H256K_1024K (2), H256K_4096K (3))
-resource default:               H256K_DISABLED (0)
-resource function:              set_h256k_enabled()
-resource var:                   h256k_enabled
+resource name:                  "MemoryHack"
+resource range:                 0..4 (MEMORY_HACK_NONE (0), MEMORY_HACK_C256K (1), MEMORY_HACK_H256K (2), MEMORY_HACK_H1024K (3), MEMORY_HACK_H4096K (4))
+resource default:               MEMORY_HACK_NONE (0)
+resource function:              set_memory_hack()
+resource var:                   memory_hack
 resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
-command-line:                   -h256k / -h1024k / -h4096k
-platform gui present:           amigaos/sdl/unix/osx/windows
+command-line:                   -memoryexphack
+platform gui present:           
 platform range correct:		
 platform range incorrect:		
-platform gui missing:			beos/dos/os2
+platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 
-plus4/plus4memhannes256k.c:
----------------------------
-command line:   -h256k
-description:    "Enable the HANNES 256K RAM expansion"
-resource:       "H256K" (set to 1) (fixme: make a better system for this)
-action:         N/A
-
-plus4/plus4memhannes256k.c:
----------------------------
-command line:   -h1024k
-description:    "Enable the HANNES 1024K RAM expansion"
-resource:       "H256K" (set to 2) (fixme: make a better system for this)
-action:         N/A
-
-plus4/plus4memhannes256k.c:
----------------------------
-command line:   -h4096k
-description:    "Enable the HANNES 4096K RAM expansion"
-resource:       "H256K" (set to 3) (fixme: make a better system for this)
+plus4/plus4memhacks.c:
+----------------------
+command line:   -memoryexphack <device>
+description:    "Set the 'memory expansion hack' device (0: None, 1: CSORY 256K, 2: HANNES 256K, 3: HANNES 1024K, 4: HANNES 4096K)"
+resource:       "MemoryHack"
 action:         N/A
 
 plus4/ted-resources.c:
