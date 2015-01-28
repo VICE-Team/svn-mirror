@@ -1,5 +1,5 @@
 /*
- * uic64_256k.h - Implementation of the 256K EXPANSION settings dialog box.
+ * uic64memoryhacks.h - Implementation of the C64 memory expansion hacks (C64 256K/+60K/+256K) settings dialog box.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,9 +24,9 @@
  *
  */
 
-#ifndef VICE_UIC64_256K_H
-#define VICE_UIC64_256K_H
+#ifndef VICE_UIC64MEMORYHACKS_H
+#define VICE_UIC64MEMORYHACKS_H
 
-extern void ui_c64_256k_settings_dialog(HWND hwnd);
+extern void ui_c64_memory_hacks_settings_dialog(HWND hwnd);
 
 #endif

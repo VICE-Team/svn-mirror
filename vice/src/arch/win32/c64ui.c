@@ -38,9 +38,9 @@
 #include "translate.h"
 #include "ui.h"
 #include "uiacia.h"
-#include "uic64_256k.h"
 #include "uic64burstmod.h"
 #include "uic64cart.h"
+#include "uic64memoryhacks.h"
 #include "uic64model.h"
 #include "uicia.h"
 #include "uidigimax.h"
@@ -61,8 +61,6 @@
 #include "uimmc64.h"
 #include "uimmcreplay.h"
 #include "uimouse.h"
-#include "uiplus256k.h"
-#include "uiplus60k.h"
 #include "uiramcart.h"
 #include "uiretroreplay.h"
 #include "uireu.h"
@@ -374,9 +372,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
 #ifdef HAVE_D3D9_H
     { IDM_TOGGLE_FULLSCREEN, IDS_MI_TOGGLE_FULLSCREEN },
 #endif
-    { IDM_PLUS60K_SETTINGS, IDS_MI_PLUS60K_SETTINGS },
-    { IDM_PLUS256K_SETTINGS, IDS_MI_PLUS256K_SETTINGS },
-    { IDM_C64_256K_SETTINGS, IDS_MI_C64_256K_SETTINGS },
+    { IDM_C64_MEMORY_HACKS_SETTINGS, IDS_MI_C64_MEMORY_HACKS_SETTINGS },
     { IDM_USERPORT_RTC_SETTINGS, IDS_MI_USERPORT_RTC_SETTINGS },
     { 0, 0 }
 };
@@ -578,14 +574,8 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_ISEPIC_SETTINGS:
             ui_isepic_settings_dialog(hwnd);
             break;
-        case IDM_PLUS60K_SETTINGS:
-            ui_plus60k_settings_dialog(hwnd);
-            break;
-        case IDM_PLUS256K_SETTINGS:
-            ui_plus256k_settings_dialog(hwnd);
-            break;
-        case IDM_C64_256K_SETTINGS:
-            ui_c64_256k_settings_dialog(hwnd);
+        case IDM_C64_MEMORY_HACKS_SETTINGS:
+            ui_c64_memory_hacks_settings_dialog(hwnd);
             break;
 #ifdef HAVE_MIDI
         case IDM_MIDI_SETTINGS:

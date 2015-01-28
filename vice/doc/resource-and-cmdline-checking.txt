@@ -7539,10 +7539,10 @@ resource emulators:             x64/x64sc
 not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -memoryexphack
-platform gui present:           amigaos/beos/dos/os2/sdl
-platform range correct:		amigaos/beos/dos/os2/sdl
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/windows
 platform range incorrect:		
-platform gui missing:           unix/osx/windows
+platform gui missing:           osx
 
 c64/c64-memory-hacks.c:
 -----------------------

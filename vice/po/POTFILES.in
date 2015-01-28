@@ -128,8 +128,8 @@ src/arch/win32/resacia.rc.po.c
 src/arch/win32/resautostart.rc.po.c
 src/arch/win32/resc128.rc.po.c
 src/arch/win32/resc64.rc.po.c
-src/arch/win32/resc64_256k.rc.po.c
 src/arch/win32/resc64dtv.rc.po.c
+src/arch/win32/resc64memoryhacks.rc.po.c
 src/arch/win32/rescbm2common.rc.po.c
 src/arch/win32/rescbm2.rc.po.c
 src/arch/win32/rescbm5x0.rc.po.c
@@ -158,9 +158,7 @@ src/arch/win32/respet.rc.po.c
 src/arch/win32/respetcolour.rc.po.c
 src/arch/win32/respetdww.rc.po.c
 src/arch/win32/respetreu.rc.po.c
-src/arch/win32/resplus256k.rc.po.c
 src/arch/win32/resplus4.rc.po.c
-src/arch/win32/resplus60k.rc.po.c
 src/arch/win32/resramcart.rc.po.c
 src/arch/win32/resretroreplay.rc.po.c
 src/arch/win32/resreu.rc.po.c

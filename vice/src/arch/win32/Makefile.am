@@ -71,7 +71,7 @@ libarch_a_SOURCES = \
 	resc128.rc \
 	resc64.rc \
 	resc64dtv.rc \
-	resc64_256k.rc \
+	resc64memoryhacks.rc \
 	rescbm2common.rc \
 	rescbm2.rc \
 	rescbm5x0.rc \
@@ -101,9 +101,7 @@ libarch_a_SOURCES = \
 	respetcolour.rc \
 	respetdww.rc \
 	respetreu.rc \
-	resplus256k.rc \
 	resplus4.rc \
-	resplus60k.rc \
 	resramcart.rc \
 	resretroreplay.rc \
 	resreu.rc \
@@ -143,8 +141,6 @@ libarch_a_SOURCES = \
 	uic128.h \
 	uic128model.c \
 	uic128model.h \
-	uic64_256k.c \
-	uic64_256k.h \
 	uic64burstmod.c \
 	uic64burstmod.h \
 	uic64cart.c \
@@ -153,6 +149,8 @@ libarch_a_SOURCES = \
 	uic64dtv.h \
 	uic64dtvmodel.c \
 	uic64dtvmodel.h \
+	uic64memoryhacks.c \
+	uic64memoryhacks.h \
 	uic64model.c \
 	uic64model.h \
 	uicart.c \
@@ -241,16 +239,12 @@ libarch_a_SOURCES = \
 	uipetreu.h \
 	uipetset.c \
 	uipetset.h \
-	uiplus256k.c \
-	uiplus256k.h \
 	uiplus4cart.c \
 	uiplus4cart.h \
 	uiplus4mem.c \
 	uiplus4mem.h \
 	uiplus4model.c \
 	uiplus4model.h \
-	uiplus60k.c \
-	uiplus60k.h \
 	uiquicksnapshot.c \
 	uiquicksnapshot.h \
 	uiram.c \
@@ -404,10 +398,9 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
-	$(srcdir)/resmmc64.rc $(srcdir)/resplus256k.rc $(srcdir)/resplus60k.rc \
-	$(srcdir)/resc64_256k.rc $(srcdir)/reside64.rc \
-	$(srcdir)/resautostart.rc $(srcdir)/resdrivec64.rc \
-	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc \
+	$(srcdir)/resmmc64.rc $(srcdir)/resc64memoryhacks.rc \
+	$(srcdir)/reside64.rc $(srcdir)/resautostart.rc \
+	$(srcdir)/resdrivec64.rc $(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc \
 	$(srcdir)/restfe.rc $(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc \
 	$(srcdir)/resisepic.rc $(srcdir)/reslightpen.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
@@ -418,17 +411,16 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
-	$(srcdir)/resmmc64.rc $(srcdir)/resramcart.rc $(srcdir)/resplus256k.rc \
-	$(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc \
-	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
-	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
-	$(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc $(srcdir)/resisepic.rc \
-	$(srcdir)/reslightpen.rc $(srcdir)/reseasyflash.rc \
-	$(srcdir)/resmagicvoice.rc $(srcdir)/resexpert.rc \
-	$(srcdir)/ressoundexpander.rc $(srcdir)/resautostart.rc \
-	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc \
-	$(srcdir)/rescia.rc $(srcdir)/resds12c887rtc.rc \
-	$(srcdir)/resuserportrtc.rc
+	$(srcdir)/resmmc64.rc $(srcdir)/resramcart.rc \
+	$(srcdir)/resc64memoryhacks.rc $(srcdir)/resrs232user.rc \
+	$(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/resdigimax.rc \
+	$(srcdir)/resmouse.rc $(srcdir)/restfe.rc $(srcdir)/resmidi.rc \
+	$(srcdir)/resdqbb.rc $(srcdir)/resisepic.rc $(srcdir)/reslightpen.rc \
+	$(srcdir)/reseasyflash.rc $(srcdir)/resmagicvoice.rc \
+	$(srcdir)/resexpert.rc $(srcdir)/ressoundexpander.rc \
+	$(srcdir)/resautostart.rc $(srcdir)/resmmcreplay.rc \
+	$(srcdir)/resretroreplay.rc $(srcdir)/rescia.rc \
+	$(srcdir)/resds12c887rtc.rc $(srcdir)/resuserportrtc.rc
 
 resscpu64cat.rc: $(srcdir)/resscpu64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
