@@ -51,12 +51,22 @@ static UI_CALLBACK(datasette_settings)
     int current;
     long res;
 
-    if (what) {
-        prompt = title = _("Datasette speed tuning");
-        resource = "DatasetteSpeedTuning";
-    } else {
-        prompt = title = _("Datasette zero gap delay");
-        resource = "DatasetteZeroGapDelay";
+    switch(what) {
+        case 0:
+            prompt = title = _("Datasette zero gap delay");
+            resource = "DatasetteZeroGapDelay";
+            break;
+        case 1:
+            prompt = title = _("Datasette speed tuning");
+            resource = "DatasetteSpeedTuning";
+            break;
+        case 2:
+            prompt = title = _("Datasette tape wobble");
+            resource = "DatasetteTapeWobble";
+            break;
+        default:
+            log_error(LOG_DEFAULT, "internal error");
+            return;
     }
 
     resources_get_int(resource, &current);
@@ -79,13 +89,6 @@ static UI_CALLBACK(datasette_settings)
 UI_MENU_DEFINE_TOGGLE(DatasetteResetWithCPU)
 
 ui_menu_entry_t datasette_control_submenu[] = {
-    { N_("Reset Datasette with CPU"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DatasetteResetWithCPU, NULL, NULL },
-    { N_("Datasette zero gap delay"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)datasette_settings, (ui_callback_data_t)0, NULL },
-    { N_("Datasette speed tuning"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)datasette_settings, (ui_callback_data_t)1, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Stop"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_STOP, NULL },
     { N_("Play"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
@@ -98,6 +101,15 @@ ui_menu_entry_t datasette_control_submenu[] = {
       (ui_callback_data_t)DATASETTE_CONTROL_RECORD, NULL },
     { N_("Reset"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_RESET, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Reset Datasette with CPU"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DatasetteResetWithCPU, NULL, NULL },
+    { N_("Datasette zero gap delay"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)datasette_settings, (ui_callback_data_t)0, NULL },
+    { N_("Datasette speed tuning"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)datasette_settings, (ui_callback_data_t)1, NULL },
+    { N_("Datasette tape wobble"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)datasette_settings, (ui_callback_data_t)2, NULL },
     { NULL }
 };
 

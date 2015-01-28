@@ -13163,6 +13163,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_CYCLES_ADDED_GAP_TAP_TR, "Baðlantý anýnda her boþluk için eklenecek cycle sayýsýný ayarla"},
 #endif
 
+/* datasette.c */
+/* en */ {IDCLS_SET_TAPE_WOBBLE,    N_("Set maximum random number of cycles added to each gap in the tap")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_TAPE_WOBBLE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_TAPE_WOBBLE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_TAPE_WOBBLE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_TAPE_WOBBLE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_TAPE_WOBBLE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_TAPE_WOBBLE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_TAPE_WOBBLE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_TAPE_WOBBLE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_TAPE_WOBBLE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_TAPE_WOBBLE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_TAPE_WOBBLE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_TAPE_WOBBLE_TR, ""},  /* fuzzy */
+#endif
+
 #ifdef DEBUG
 /* debug.c */
 /* en */ {IDCLS_TRACE_MAIN_CPU,    N_("Trace the main CPU")},

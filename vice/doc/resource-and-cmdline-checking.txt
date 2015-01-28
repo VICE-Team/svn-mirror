@@ -8328,6 +8328,28 @@ description:    "Set number of cycles added to each gap in the tap"
 resource:       "DatasetteSpeedTuning"
 action:         N/A
 
+datasette.c:
+------------
+resource type:                  int
+resource name:                  "DatasetteTapeWobble"
+resource range:                 0+
+resource default:               10
+resource function:              set_datasette_tape_wobble()
+resource var:                   datasette_tape_wobble
+resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
+not used in:                    xscpu64/x64dtv/vsid
+prepocessor:
+command-line:                   -dstapewobble
+platform gui missing:           unix
+platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
+
+datasette.c:
+------------
+command line:   -dstapewobble <value>
+description:    "Set maximum random number of cycles added to each gap in the tap"
+resource:       "DatasetteTapeWobble"
+action:         N/A
+
 drive/drive-resources.c:
 ------------------------
 resource type:                  int

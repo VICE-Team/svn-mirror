@@ -1963,6 +1963,9 @@ IDCLS_SET_ZERO_TAP_DELAY
 /* datasette.c */
 IDCLS_SET_CYCLES_ADDED_GAP_TAP
 
+/* datasette.c */
+IDCLS_SET_TAPE_WOBBLE
+
 #ifdef DEBUG
 /* debug.c */
 IDCLS_TRACE_MAIN_CPU
