@@ -47,6 +47,16 @@ static int set_memory_hack(int value, void *param)
         return 0;
     }
 
+    switch (value) {
+        case MEMORY_HACK_NONE:
+        case MEMORY_HACK_C64_256K:
+        case MEMORY_HACK_PLUS60K:
+        case MEMORY_HACK_PLUS256K:
+            break;
+        default:
+            return -1;
+    }
+
     switch (memory_hack) {
         case MEMORY_HACK_C64_256K:
             set_c64_256k_enabled(0);
