@@ -335,7 +335,7 @@ inline static int fetch_gap(CLOCK *gap, int *direction, long read_tap)
     /* add some random wobble */
     if (datasette_tape_wobble) {
         wobble = lib_unsigned_rand(-datasette_tape_wobble, datasette_tape_wobble);
-        if ((wobble >= 0) || (*gap > -wobble)) {
+        if ((wobble >= 0) || (*gap > (CLOCK)-wobble)) {
             *gap += wobble;
         } else {
             *gap = 0;
