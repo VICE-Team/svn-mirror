@@ -33,6 +33,7 @@
 #include "c64ui.h"
 #include "fullscreenarch.h"
 #include "lib.h"
+#include "machine.h"
 #include "resources.h"
 #include "uiapi.h"
 #include "uipalette.h"
@@ -160,7 +161,20 @@ static UI_CALLBACK(openGL_set_desktoprefresh)
 
 UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
 UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
-UI_MENU_DEFINE_TOGGLE(VICIIVSPBug)
+
+static UI_CALLBACK(toggle_VICIIVSPBug)
+{
+    int n;
+    if ((machine_class != VICE_MACHINE_C64SC) && (machine_class != VICE_MACHINE_SCPU64)) {
+        ui_menu_set_sensitive(w, 0);
+        return;
+    }
+
+    if (!CHECK_MENUS) {
+        resources_get_int("VICIIVSPBug", &n);
+        resources_set_int("VICIIVSPBug", (n ^ 1) & 1);
+    }
+}
 
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
