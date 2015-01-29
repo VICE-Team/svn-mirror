@@ -43,6 +43,8 @@ static int memory_hack = 0;
 
 static int set_memory_hack(int val, void *param)
 {
+    int ramsize;
+
     if (val == memory_hack) {
         return 0;
     }
@@ -75,7 +77,10 @@ static int set_memory_hack(int val, void *param)
 
     switch (memory_hack) {
         case MEMORY_HACK_NONE:
-            resources_set_int("RamSize", 64);
+            resources_get_int("RamSize", &ramsize);
+            if (ramsize > 64) {
+                resources_set_int("RamSize", 64);
+            }
             break;
         case MEMORY_HACK_C256K:
             set_cs256k_enabled(1);

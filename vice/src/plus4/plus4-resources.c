@@ -161,7 +161,7 @@ static int set_ram_size_plus4(int rs, void *param)
 
     ram_size_plus4 = rs;
 
-    if (ram_size_plus4 == 64) {
+    if (ram_size_plus4 <= 64) {
         resources_get_int("MemoryHack", &hack);
         if (hack) {
             resources_set_int("MemoryHack", 0);

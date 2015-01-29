@@ -34,6 +34,7 @@
 #include "menu_joystick.h"
 #include "menu_ram.h"
 #include "menu_rom.h"
+#include "plus4memhacks.h"
 #include "plus4model.h"
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
@@ -107,9 +108,8 @@ static const ui_menu_entry_t v364speech_menu[] = {
     SDL_MENU_LIST_END
 };
 
+UI_MENU_DEFINE_RADIO(MemoryHack)
 UI_MENU_DEFINE_RADIO(RamSize)
-UI_MENU_DEFINE_TOGGLE(CS256K)
-UI_MENU_DEFINE_RADIO(H256K)
 UI_MENU_DEFINE_TOGGLE(Acia1Enable)
 
 const ui_menu_entry_t plus4_hardware_menu[] = {
@@ -161,21 +161,26 @@ const ui_menu_entry_t plus4_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_RamSize_callback,
       (ui_callback_data_t)64 },
+    SDL_MENU_ITEM_TITLE("Memory expansion hack"),
+    { "None",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MemoryHack_callback,
+      (ui_callback_data_t)MEMORY_HACK_NONE},
     { "256kB (CSORY)",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_CS256K_callback,
-      NULL },
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_MemoryHack_callback,
+      (ui_callback_data_t)MEMORY_HACK_C256K},
     { "256kB (HANNES)",
       MENU_ENTRY_RESOURCE_RADIO,
-      radio_H256K_callback,
-      (ui_callback_data_t)1 },
+      radio_MemoryHack_callback,
+      (ui_callback_data_t)MEMORY_HACK_H256K },
     { "1024kB (HANNES)",
       MENU_ENTRY_RESOURCE_RADIO,
-      radio_H256K_callback,
-      (ui_callback_data_t)2 },
+      radio_MemoryHack_callback,
+      (ui_callback_data_t)MEMORY_HACK_H1024K },
     { "4096kB (HANNES)",
       MENU_ENTRY_RESOURCE_RADIO,
-      radio_H256K_callback,
-      (ui_callback_data_t)3 },
+      radio_MemoryHack_callback,
+      (ui_callback_data_t)MEMORY_HACK_H4096K },
     SDL_MENU_LIST_END
 };
