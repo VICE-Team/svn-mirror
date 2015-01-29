@@ -29,11 +29,11 @@
 #include <stdio.h>
 
 #include "datasette.h"
+#include "log.h"
 #include "resources.h"
 #include "uiapi.h"
 #include "uimenu.h"
 #include "util.h"
-
 
 static UI_CALLBACK(ui_datasette_control)
 {
