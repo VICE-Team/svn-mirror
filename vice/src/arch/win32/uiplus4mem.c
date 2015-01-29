@@ -28,6 +28,7 @@
 
 #include <windows.h>
 
+#include "plus4memhacks.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -74,7 +75,7 @@ static int move_buttons_group[] = {
 
 static void init_dialog(HWND hwnd)
 {
-    int n, res, res256k;
+    int n, res, hack;
     int xstart;
     int xpos;
     RECT rect;
@@ -119,8 +120,8 @@ static void init_dialog(HWND hwnd)
             n = IDC_SELECT_PLUS4_MEM_1024_HANNES;
             break;
         case 256:
-            resources_get_int("H256K", &res256k);
-            if (res256k == 0) {
+            resources_get_int("MemoryHack", &hack);
+            if (hack == MEMORY_HACK_C256K) {
                 n = IDC_SELECT_PLUS4_MEM_256_CSORY;
             } else {
                 n = IDC_SELECT_PLUS4_MEM_256_HANNES;
@@ -131,7 +132,7 @@ static void init_dialog(HWND hwnd)
             n = IDC_SELECT_PLUS4_MEM_64;
             break;
     }
-    if (res == 256 && res256k == 0) {
+    if (res == 256 && hack != MEMORY_HACK_C256K) {
         res++;
     }
     orig_ramsize = set_ramsize = res;
@@ -143,16 +144,16 @@ static void end_dialog(void)
 {
     if (orig_ramsize != set_ramsize) {
         if (set_ramsize == 257) {
-            resources_set_int("CS256K", 1);
+            resources_set_int("MemoryHack", MEMORY_HACK_C256K);
         }
         if (set_ramsize == 256) {
-            resources_set_int("H256K", 1);
+            resources_set_int("MemoryHack", MEMORY_HACK_H256K);
         }
         if (set_ramsize == 1024) {
-            resources_set_int("H256K", 2);
+            resources_set_int("MemoryHack", MEMORY_HACK_H1024K);
         }
         if (set_ramsize == 4096) {
-            resources_set_int("H256K", 3);
+            resources_set_int("MemoryHack", MEMORY_HACK_H4096K);
         }
         if (set_ramsize < 256) {
             resources_set_int("RamSize", set_ramsize);

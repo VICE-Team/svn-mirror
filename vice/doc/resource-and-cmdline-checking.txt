@@ -17414,10 +17414,10 @@ resource emulators:             xplus4
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xvic/vsid
 prepocessor:
 command-line:                   -memoryexphack
-platform gui present:           amigaos/sdl/unix
-platform range correct:		amigaos/sdl/unix
+platform gui present:           amigaos/sdl/unix/windows
+platform range correct:		amigaos/sdl/unix/windows
 platform range incorrect:		
-platform gui missing:           beos/dos/os2/osx/windows
+platform gui missing:           beos/dos/os2/osx
 
 plus4/plus4memhacks.c:
 ----------------------
