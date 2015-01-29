@@ -325,9 +325,14 @@ static SWORD *getbuf2(int len)
     return buf2;
 }
 
+int sid_sound_machine_init_vbr(sound_t *psid, int speed, int cycles_per_sec, int factor)
+{
+    return sid_engine.init(psid, speed * factor / 1000, cycles_per_sec, factor);
+}
+
 int sid_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
-    return sid_engine.init(psid, speed, cycles_per_sec);
+    return sid_engine.init(psid, speed, cycles_per_sec, 1000);
 }
 
 void sid_sound_machine_close(sound_t *psid)

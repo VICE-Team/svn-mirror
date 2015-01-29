@@ -61,7 +61,7 @@ static io_source_list_t *sidcart_list_item = NULL;
 static int sidcart_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     if (!sidcart_clock && cycles_per_sec == VIC20_PAL_CYCLES_PER_SEC) {
-        return sid_sound_machine_init(psid, (int)(speed * 1.125), cycles_per_sec);
+        return sid_sound_machine_init_vbr(psid, speed, cycles_per_sec, 1125);
     } else {
         return sid_sound_machine_init(psid, speed, cycles_per_sec);
     }

@@ -54,9 +54,9 @@ static int sidcart_sound_machine_init(sound_t *psid, int speed, int cycles_per_s
 {
     if (!sidcart_clock) {
         if (cycles_per_sec == PLUS4_PAL_CYCLES_PER_SEC) {
-            return sid_sound_machine_init(psid, (int)(speed * 1.8), cycles_per_sec);
+            return sid_sound_machine_init_vbr(psid, speed, cycles_per_sec, 1800);
         } else {
-            return sid_sound_machine_init(psid, (int)(speed * 1.75), cycles_per_sec);
+            return sid_sound_machine_init_vbr(psid, speed, cycles_per_sec, 1750);
         }
     } else {
         return sid_sound_machine_init(psid, speed, cycles_per_sec);

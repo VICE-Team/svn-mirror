@@ -65,11 +65,31 @@ extern "C" {
 
 struct sound_s
 {
+    /* speed factor */
+    int factor;
+
     /* resid sid implementation */
     reSID::SID *sid;
 };
 
 typedef struct sound_s sound_t;
+
+/* manage temporary buffers. if the requested size is smaller or equal to the
+ * size of the already allocated buffer, reuse it.  */
+static SWORD *buf = NULL;
+static int blen = 0;
+
+static SWORD *getbuf(int len)
+{
+    if ((buf == NULL) || (blen < len)) {
+        if (buf) {
+            lib_free(buf);
+        }
+        blen = len;
+        buf = (SWORD *)lib_calloc(len, 1);
+    }
+    return buf;
+}
 
 static sound_t *resid_open(BYTE *sidstate)
 {
@@ -86,7 +106,7 @@ static sound_t *resid_open(BYTE *sidstate)
     return psid;
 }
 
-static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
+static int resid_init(sound_t *psid, int speed, int cycles_per_sec, int factor)
 {
     sampling_method method;
     char model_text[100];
@@ -120,6 +140,8 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
 
     passband = speed * passband_percentage / 200.0;
     gain = gain_percentage / 100.0;
+
+    psid->factor = factor;
 
     switch (model) {
       default:
@@ -197,6 +219,11 @@ static void resid_close(sound_t *psid)
 {
     delete psid->sid;
     delete psid;
+
+    if (buf) {
+        lib_free(buf);
+        buf = NULL;
+    }
 }
 
 static BYTE resid_read(sound_t *psid, WORD addr)
@@ -217,7 +244,16 @@ static void resid_reset(sound_t *psid, CLOCK cpu_clk)
 static int resid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                                    int interleave, int *delta_t)
 {
-    return psid->sid->clock(*delta_t, pbuf, nr, interleave);
+    SWORD *tmp_buf;
+    int retval;
+
+    if (psid->factor == 1000) {
+        return psid->sid->clock(*delta_t, pbuf, nr, interleave);
+    }
+    tmp_buf = getbuf(2 * nr * psid->factor / 1000);
+    retval = psid->sid->clock(*delta_t, tmp_buf, nr * psid->factor / 1000, interleave) * 1000 / psid->factor;
+    memcpy(pbuf, tmp_buf, 2 * nr);
+    return retval;
 }
 
 static void resid_prevent_clk_overflow(sound_t *psid, CLOCK sub)

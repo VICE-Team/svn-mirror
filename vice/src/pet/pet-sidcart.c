@@ -43,7 +43,7 @@ int sidcart_clock;
 static int sidcart_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     if (!sidcart_clock) {
-        return sid_sound_machine_init(psid, (int)(speed * 1.015), cycles_per_sec);
+        return sid_sound_machine_init_vbr(psid, speed, cycles_per_sec, 1015);
     } else {
         return sid_sound_machine_init(psid, speed, cycles_per_sec);
     }
