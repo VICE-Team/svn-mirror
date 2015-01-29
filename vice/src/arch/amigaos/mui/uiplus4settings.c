@@ -30,6 +30,7 @@
 #endif
 #include "mui.h"
 
+#include "plus4memhacks.h"
 #include "uiplus4settings.h"
 #include "intl.h"
 #include "translate.h"
@@ -72,20 +73,28 @@ static APTR build_gui(void)
 void ui_plus4_settings_dialog(void)
 {
     APTR window;
-    int h256k, cs256k, ramsize, val;
+    int memoryhack, ramsize, val;
 
     window = mui_make_simple_window(build_gui(), translate_text(IDS_PLUS4_SETTINGS));
 
     if (window != NULL) {
         mui_add_window(window);
-        resources_get_value("H256K", (void *)&h256k);
-        resources_get_value("CS256K", (void *)&cs256k);
+        resources_get_value("MemoryHack", (void *)&memoryhack);
         resources_get_value("RamSize", (void *)&ramsize);
-        if (cs256k != 0 || h256k != 0) {
-            if (cs256k == 1) {
-                set(plus4_ram_size, MUIA_Cycle_Active, 3);
-            } else {
-                set(plus4_ram_size, MUIA_Cycle_Active, h256k+3);
+        if (memoryhack) {
+            switch (memoryhack) {
+                case MEMORY_HACK_C256K:
+                    set(plus4_ram_size, MUIA_Cycle_Active, 3);
+                    break;
+                case MEMORY_HACK_H256K:
+                    set(plus4_ram_size, MUIA_Cycle_Active, 4);
+                    break;
+                case MEMORY_HACK_H1024K:
+                    set(plus4_ram_size, MUIA_Cycle_Active, 5);
+                    break;
+                case MEMORY_HACK_H4096K:
+                    set(plus4_ram_size, MUIA_Cycle_Active, 6);
+                    break;
             }
         } else {
             switch(ramsize) {
@@ -114,16 +123,16 @@ void ui_plus4_settings_dialog(void)
                     resources_set_int("RamSize", 64);
                     break;
                 case 3:
-                    resources_set_int("CS256K", 1);
+                    resources_set_int("MemoryHack", MEMORY_HACK_C256K);
                     break;
                 case 4:
-                    resources_set_int("H256K", 1);
+                    resources_set_int("MemoryHack", MEMORY_HACK_H256K);
                     break;
                 case 5:
-                    resources_set_int("H256K", 2);
+                    resources_set_int("MemoryHack", MEMORY_HACK_H1024K);
                     break;
                 case 6:
-                    resources_set_int("H256K", 3);
+                    resources_set_int("MemoryHack", MEMORY_HACK_H4096K);
                     break;
             }
         }

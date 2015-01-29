@@ -147,6 +147,8 @@ static int set_c2hi_rom_name(const char *val, void *param)
 
 static int set_ram_size_plus4(int rs, void *param)
 {
+    int hack;
+
     switch (rs) {
         case 16:
         case 32:
@@ -159,8 +161,11 @@ static int set_ram_size_plus4(int rs, void *param)
 
     ram_size_plus4 = rs;
 
-    if (ram_size_plus4 < 256) {
-        resources_set_int("MemoryHack", 0);
+    if (ram_size_plus4 == 64) {
+        resources_get_int("MemoryHack", &hack);
+        if (hack) {
+            resources_set_int("MemoryHack", 0);
+        }
     }
 
     vsync_suspend_speed_eval();
