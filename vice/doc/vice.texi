@@ -9987,43 +9987,54 @@ optionally the expansion library for access to expansion cards like Catweasel or
 @c @node FIXME
 @subsubsection AmigaOS4 specific resources
 
-These are all generic joystick related resources and are therefor present in all emulators except VSID.
+These are all generic joystick related resources and are therefor present in all emulators except vsid.
 
 @table @code
 
 @vindex JOYAI1_ID
 @item JOYAI1_ID
 String specifying the AmigaInput ID of hardware joystick 1.
+
 @vindex JOYAI2_ID
 @item JOYAI2_ID
 String specifying the AmigaInput ID of hardware joystick 2.
+
 @vindex JOYAI1_Up
 @item JOYAI1_Up
 String specifying the AmigaInput event ID for the up direction of hardware joystick 1.
+
 @vindex JOYAI2_Up
 @item JOYAI2_Up
 String specifying the AmigaInput event ID for the up direction of hardware joystick 2.
+
 @vindex JOYAI1_Down
 @item JOYAI1_Down
 String specifying the AmigaInput event ID for the down direction of hardware joystick 1.
+
 @vindex JOYAI2_Down
 @item JOYAI2_Down
 String specifying the AmigaInput event ID for the down direction of hardware joystick 2.
+
 @vindex JOYAI1_Left
 @item JOYAI1_Left
 String specifying the AmigaInput event ID for the left direction of hardware joystick 1.
+
 @vindex JOYAI2_Left
 @item JOYAI2_Left
 String specifying the AmigaInput event ID for the left direction of hardware joystick 2.
+
 @vindex JOYAI1_Right
 @item JOYAI1_Right
 String specifying the AmigaInput event ID for the right direction of hardware joystick 1.
+
 @vindex JOYAI2_Right
 @item JOYAI2_Right
 String specifying the AmigaInput event ID for the right direction of hardware joystick 2.
+
 @vindex JOYAI1_Fire
 @item JOYAI1_Fire
 String specifying the AmigaInput event ID for the fire button of hardware joystick 1.
+
 @vindex JOYAI2_Fire
 @item JOYAI2_Fire
 String specifying the AmigaInput event ID for the fire button of hardware joystick 2.
@@ -10034,20 +10045,27 @@ String specifying the AmigaInput event ID for the fire button of hardware joysti
 
 @vindex JoyDevice1
 @item JoyDevice1
-Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+(0: None, 1: Numpad, 2: Keyset 1/AI, 3: Keyset 2/AI)
+
 @vindex JoyDevice2
 @item JoyDevice2
-Integer specifying which joystick device the emulator should use for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0: None, 1: Numpad, 2: Keyset 1/AI, 3: Keyset 2/AI)
+
 @vindex JoyDevice3
 @item JoyDevice3
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+(0: None, 1: Numpad, 2: Keyset 1/AI, 3: Keyset 2/AI)
+
 @vindex JoyDevice4
 @item JoyDevice4
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
+(0: None, 1: Numpad, 2: Keyset 1/AI, 3: Keyset 2/AI)
 
 @end table
 
@@ -10061,25 +10079,28 @@ Integer specifying which joystick device the emulator should use for the emulati
 Set the device for joystick emulation of port 1
 (@code{JoyDevice1})
 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+(0: None, 1: Numpad, 2: Keyset 1/AI, 3: Keyset 2/AI)
+
 @findex -joydev2
 @item -joydev2 <0-3>
 Set the device for joystick emulation of port 2
 (@code{JoyDevice2})
 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+(0: None, 1: Numpad, 2: Keyset 1/AI, 3: Keyset 2/AI)
+
 @findex -extrajoydev1
 @item -extrajoydev1 <0-3>
 Set device for extra joystick port 1
 (@code{JoyDevice3})
 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+(0: None, 1: Numpad, 2: Keyset 1/AI, 3: Keyset 2/AI)
+
 @findex -extrajoydev2
 @item -extrajoydev2 <0-3>
 Set device for extra joystick port 2
 (@code{JoyDevice4})
 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+(0: None, 1: Numpad, 2: Keyset 1/AI, 3: Keyset 2/AI)
 
 @end table
 

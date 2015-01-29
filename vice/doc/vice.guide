@@ -9009,7 +9009,7 @@ AmigaOS4 specific resources
 ...........................
 
 These are all generic joystick related resources and are therefor
-present in all emulators except VSID.
+present in all emulators except vsid.
 
 `JOYAI1_ID'
      String specifying the AmigaInput ID of hardware joystick 1.
@@ -9060,47 +9060,48 @@ present in all emulators except VSID.
 `JoyDevice1'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 1 (all emulators except xcbm2, xpet
-     and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+     and vsid).  (0: None, 1: Numpad, 2: Keyset 1/AI, 3: Keyset 2/AI)
 
 `JoyDevice2'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 2 (all emulators except xcbm2, xpet,
-     xvic and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+     xvic and vsid).  (0: None, 1: Numpad, 2: Keyset 1/AI, 3: Keyset
+     2/AI)
 
 `JoyDevice3'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 1 (all emulators except
-     xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI, 3=Keyset
+     xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Keyset 1/AI, 3: Keyset
      2/AI)
 
 `JoyDevice4'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 2 (all emulators except
-     xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI,
-     3=Keyset 2/AI)
+     xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Keyset 1/AI,
+     3: Keyset 2/AI)
 
 AmigaOS4 specific command-line options
 ......................................
 
 `-joydev1 <0-3>'
      Set the device for joystick emulation of port 1 (`JoyDevice1')
-     (all emulators except xcbm2, xpet and vsid).  (0=None, 1=Numpad,
-     2=Keyset 1/AI, 3=Keyset 2/AI)
+     (all emulators except xcbm2, xpet and vsid).  (0: None, 1: Numpad,
+     2: Keyset 1/AI, 3: Keyset 2/AI)
 
 `-joydev2 <0-3>'
      Set the device for joystick emulation of port 2 (`JoyDevice2')
-     (all emulators except xcbm2, xpet, xvic and vsid).  (0=None,
-     1=Numpad, 2=Keyset 1/AI, 3=Keyset 2/AI)
+     (all emulators except xcbm2, xpet, xvic and vsid).  (0: None, 1:
+     Numpad, 2: Keyset 1/AI, 3: Keyset 2/AI)
 
 `-extrajoydev1 <0-3>'
      Set device for extra joystick port 1 (`JoyDevice3') (all emulators
-     except xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Keyset 1/AI,
-     3=Keyset 2/AI)
+     except xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Keyset 1/AI, 3:
+     Keyset 2/AI)
 
 `-extrajoydev2 <0-3>'
      Set device for extra joystick port 2 (`JoyDevice4') (all emulators
-     except xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset
-     1/AI, 3=Keyset 2/AI)
+     except xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Keyset
+     1/AI, 3: Keyset 2/AI)
 
 
 @EndNode

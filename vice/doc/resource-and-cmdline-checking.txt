@@ -252,8 +252,6 @@ action:         N/A
 FIXED/CORRECT AMIGAOS4 ONLY RESOURCES/CMDLINES:
 ===============================================
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 arch/amigaos/joyai.c:
 ---------------------
 resource type:                  string
@@ -514,6 +512,8 @@ action:         N/A
 
 FIXED/CORRECT AMIGAOS3/MORPHOS/AROS ONLY COMMON RESOURCES/CMDLINES:
 ===================================================================
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 arch/amigaos/joyll.c:
 ---------------------
