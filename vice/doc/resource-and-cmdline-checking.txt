@@ -143,7 +143,7 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_fullscreen_enabled()
 resource var:                   ui_resources.fullscreenenabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
 not used in:
 prepocessor:
 command-line:                   -fullscreen / +fullscreen
@@ -171,7 +171,7 @@ resource range:                 0/1
 resource default:               1
 resource function:              set_statusbar_enabled()
 resource var:                   ui_resources.statusbarenabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
 not used in:
 prepocessor:
 command-line:                   -statusbar / +statusbar
@@ -251,6 +251,8 @@ action:         N/A
 
 FIXED/CORRECT AMIGAOS4 ONLY RESOURCES/CMDLINES:
 ===============================================
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 arch/amigaos/joyai.c:
 ---------------------

@@ -8798,7 +8798,8 @@ Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific resources
 
 `InitialTapeDir'
      String specifying the initial tape directory, which is used by the
-     tape image file browser dialog (all emulators except vsid).
+     tape image file browser dialog (all emulators except xscpu64,
+     x64dtv and vsid).
 
 `InitialDiskDir'
      String specifying the initial tape directory, which is used by the
@@ -8812,7 +8813,7 @@ Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific resources
 `InitialCartDir'
      String specifying the initial cartridge directory, which is used
      by the cartridge image file browser dialog (all emulators except
-     vsid).
+     x64dtv and vsid).
 
 `InitialSnapshotDir'
      String specifying the initial snapshots directory, which is used
@@ -8826,7 +8827,7 @@ Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific resources
 
 `SaveResourcesOnExit'
      Boolean specifying whether the emulator should save changed
-     settings before exiting.  If this is enabled, the user will be
+     settings before exiting. If this is enabled, the user will be
      always prompted first, in case the settings have changed.
 
 `ConfirmOnExit'
@@ -8841,7 +8842,8 @@ Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific command-line options
 
 `-initialtapedir <Name>'
      Select the initial tape images directory for the file browser
-     dialog (`InitialTapeDir') (all emulators except vsid).
+     dialog (`InitialTapeDir') (all emulators except xscpu64, x64dtv
+     and vsid).
 
 `-initialdiskdir <Name>'
      Select the initial disk images directory for the file browser
@@ -8853,7 +8855,7 @@ Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific command-line options
 
 `-initialcartdir <Name>'
      Select the initial cartridge images directory for the file browser
-     dialog (`InitialCartDir') (all emulators except vsid).
+     dialog (`InitialCartDir') (all emulators except x64dtv and vsid).
 
 `-initialsnapshotdir <Name>'
      Select the initial snapshot directory for the file browser dialog
@@ -8861,7 +8863,7 @@ Amiga (AmigaOS3/AmigaOS4/MorphOS/AROS) specific command-line options
 
 `-fullscreen'
 `+fullscreen'
-     Enable/Disable fullscreen mode (`FullscreenEnabled=1',
+     Enable/disable fullscreen mode (`FullscreenEnabled=1',
      `FullscreenEnabled=0').
 
 `-statusbar'

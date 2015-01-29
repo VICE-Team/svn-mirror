@@ -9730,21 +9730,31 @@ platforms (this includes AmigaOS3, AmigaOS4, Morphos and AROS), and are thus not
 @vindex InitialDefaultDir
 @item InitialDefaultDir
 String specifying the initial default directory, which is used by the generic file browser dialog.
+
 @vindex InitialTapeDir
 @item InitialTapeDir
-String specifying the initial tape directory, which is used by the tape image file browser dialog (all emulators except vsid).
+String specifying the initial tape directory, which is used by the tape image file browser dialog
+(all emulators except xscpu64, x64dtv and vsid).
+
 @vindex InitialDiskDir
 @item InitialDiskDir
-String specifying the initial tape directory, which is used by the disk image file browser dialog (all emulators except vsid).
+String specifying the initial tape directory, which is used by the disk image file browser dialog
+(all emulators except vsid).
+
 @vindex InitialAutostartDir
 @item InitialAutostartDir
-String specifying the initial autostart directory, which is used by the autostart image file browser dialog (all emulators except vsid).
+String specifying the initial autostart directory, which is used by the autostart image file browser dialog
+(all emulators except vsid).
+
 @vindex InitialCartDir
 @item InitialCartDir
-String specifying the initial cartridge directory, which is used by the cartridge image file browser dialog (all emulators except vsid).
+String specifying the initial cartridge directory, which is used by the cartridge image file browser dialog
+(all emulators except x64dtv and vsid).
+
 @vindex InitialSnapshotDir
 @item InitialSnapshotDir
-String specifying the initial snapshots directory, which is used by the snapshots file browser dialog (all emulators except vsid).
+String specifying the initial snapshots directory, which is used by the snapshots file browser dialog
+(all emulators except vsid).
 
 @vindex FullscreenEnabled
 @item FullscreenEnabled
@@ -9757,7 +9767,7 @@ Boolean to enable/disable the statusbar.
 @vindex SaveResourcesOnExit
 @item SaveResourcesOnExit
 Boolean specifying whether the emulator should save changed settings
-before exiting.  If this is enabled, the user will be always prompted
+before exiting. If this is enabled, the user will be always prompted
 first, in case the settings have changed.
 
 @vindex ConfirmOnExit
@@ -9775,26 +9785,31 @@ Boolean specifying whether to show a confirmation dialog on exit.
 @item -initialdefaultdir <Name>
 Select the initial default directory for the file browser dialog
 (@code{InitialDefaultDir}).
+
 @findex -initialtapedir
 @item -initialtapedir <Name>
 Select the initial tape images directory for the file browser dialog
 (@code{InitialTapeDir})
-(all emulators except vsid).
+(all emulators except xscpu64, x64dtv and vsid).
+
 @findex -initialdiskdir
 @item -initialdiskdir <Name>
 Select the initial disk images directory for the file browser dialog
 (@code{InitialDiskDir})
 (all emulators except vsid).
+
 @findex -initialautostartdir
 @item -initialautostartdir <Name>
 Select the initial autostart directory for the file browser dialog
 (@code{InitialAutostartDir})
 (all emulators except vsid).
+
 @findex -initialcartdir
 @item -initialcartdir <Name>
 Select the initial cartridge images directory for the file browser dialog
 (@code{InitialCartDir})
-(all emulators except vsid).
+(all emulators except x64dtv and vsid).
+
 @findex -initialsnapshotdir
 @item -initialsnapshotdir <Name>
 Select the initial snapshot directory for the file browser dialog
@@ -9804,7 +9819,7 @@ Select the initial snapshot directory for the file browser dialog
 @findex -fullscreen, +fullscreen
 @item -fullscreen
 @itemx +fullscreen
-Enable/Disable fullscreen mode
+Enable/disable fullscreen mode
 (@code{FullscreenEnabled=1}, @code{FullscreenEnabled=0}).
 
 @findex -statusbar, +statusbar
