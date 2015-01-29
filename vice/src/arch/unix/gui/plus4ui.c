@@ -34,6 +34,7 @@
 #include "icon.h"
 #include "machine.h"
 #include "machine-video.h"
+#include "plus4memhacks.h"
 #include "plus4model.h"
 #include "plus4ui.h"
 #include "resources.h"
@@ -226,8 +227,7 @@ static ui_menu_entry_t set_model_submenu[] = {
 };
 
 UI_MENU_DEFINE_RADIO(RamSize)
-UI_MENU_DEFINE_RADIO(H256K)
-UI_MENU_DEFINE_RADIO(CS256K)
+UI_MENU_DEFINE_RADIO(MemoryHack)
 
 ui_menu_entry_t set_ram_submenu[] = {
     { "16kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RamSize,
@@ -236,14 +236,14 @@ ui_menu_entry_t set_ram_submenu[] = {
       (ui_callback_data_t)32, NULL },
     { "64kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RamSize,
       (ui_callback_data_t)64, NULL },
-    { "256kB (CSORY)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_CS256K,
-      (ui_callback_data_t)1, NULL },
-    { "256kB (HANNES)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_H256K,
-      (ui_callback_data_t)1, NULL },
-    { "1024kB (HANNES)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_H256K,
-      (ui_callback_data_t)2, NULL },
-    { "4096kB (HANNES)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_H256K,
-      (ui_callback_data_t)3, NULL },
+    { "256kB (CSORY)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MemoryHack,
+      (ui_callback_data_t)MEMORY_HACK_C256K, NULL },
+    { "256kB (HANNES)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MemoryHack,
+      (ui_callback_data_t)MEMORY_HACK_H256K, NULL },
+    { "1024kB (HANNES)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MemoryHack,
+      (ui_callback_data_t)MEMORY_HACK_H1024K, NULL },
+    { "4096kB (HANNES)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MemoryHack,
+      (ui_callback_data_t)MEMORY_HACK_H4096K, NULL },
     { NULL }
 };
 
