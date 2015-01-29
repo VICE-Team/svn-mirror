@@ -9875,33 +9875,47 @@ can also be done using catweaselsid.device.
 
 @vindex JoyFire1
 @item JoyFire1
-Integer specifying the code of the button to use for fire for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
+Integer specifying the code of the button to use for fire for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+
 @vindex JoyFire2
 @item JoyFire2
-Integer specifying the code of the button to use for fire for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
+Integer specifying the code of the button to use for fire for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+
 @vindex JoyFire3
 @item JoyFire3
-Integer specifying the code of the button to use for fire for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
+Integer specifying the code of the button to use for fire for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+
 @vindex JoyFire4
 @item JoyFire4
-Integer specifying the code of the button to use for fire for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
+Integer specifying the code of the button to use for fire for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
 
 @vindex JoyDevice1
 @item JoyDevice1
-Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @vindex JoyDevice2
 @item JoyDevice2
-Integer specifying which joystick device the emulator should use for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @vindex JoyDevice3
 @item JoyDevice3
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @vindex JoyDevice4
 @item JoyDevice4
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 @end table
 
@@ -9926,25 +9940,25 @@ Boolean to enable/disable video overlay mode.
 Set the device for joystick emulation of port 1
 (@code{JoyDevice1})
 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 @findex -joydev2
 @item -joydev2 <0-5>
 Set the device for joystick emulation of port 2
 (@code{JoyDevice2})
 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 @findex -extrajoydev1
 @item -extrajoydev1 <0-5>
 Set device for extra joystick port 1
 (@code{JoyDevice3})
 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 @findex -extrajoydev2
 @item -extrajoydev2 <0-5>
 Set device for extra joystick port 2
 (@code{JoyDevice4})
 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 @end table
 
@@ -10135,33 +10149,47 @@ can also be done using catweaselsid.device.
 
 @vindex JoyFire1
 @item JoyFire1
-Integer specifying the code of the button to use for fire for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
+Integer specifying the code of the button to use for fire for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+
 @vindex JoyFire2
 @item JoyFire2
-Integer specifying the code of the button to use for fire for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
+Integer specifying the code of the button to use for fire for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+
 @vindex JoyFire3
 @item JoyFire3
-Integer specifying the code of the button to use for fire for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
+Integer specifying the code of the button to use for fire for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+
 @vindex JoyFire4
 @item JoyFire4
-Integer specifying the code of the button to use for fire for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
+Integer specifying the code of the button to use for fire for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
 
 @vindex JoyDevice1
 @item JoyDevice1
-Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @vindex JoyDevice2
 @item JoyDevice2
-Integer specifying which joystick device the emulator should use for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @vindex JoyDevice3
 @item JoyDevice3
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @vindex JoyDevice4
 @item JoyDevice4
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 @end table
 
@@ -10186,25 +10214,28 @@ Boolean to enable/disable video overlay mode.
 Set the device for joystick emulation of port 1
 (@code{JoyDevice1})
 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @findex -joydev2
 @item -joydev2 <0-5>
 Set the device for joystick emulation of port 2
 (@code{JoyDevice2})
 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @findex -extrajoydev1
 @item -extrajoydev1 <0-5>
 Set device for extra joystick port 1
 (@code{JoyDevice3})
 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @findex -extrajoydev2
 @item -extrajoydev2 <0-5>
 Set device for extra joystick port 2
 (@code{JoyDevice4})
 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 @end table
 
@@ -10250,33 +10281,47 @@ The AROS port uses the AHI or SDL sound system, the CGX graphics system, the Low
 
 @vindex JoyFire1
 @item JoyFire1
-Integer specifying the code of the button to use for fire for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
+Integer specifying the code of the button to use for fire for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+
 @vindex JoyFire2
 @item JoyFire2
-Integer specifying the code of the button to use for fire for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
+Integer specifying the code of the button to use for fire for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+
 @vindex JoyFire3
 @item JoyFire3
-Integer specifying the code of the button to use for fire for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
+Integer specifying the code of the button to use for fire for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+
 @vindex JoyFire4
 @item JoyFire4
-Integer specifying the code of the button to use for fire for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
+Integer specifying the code of the button to use for fire for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
 
 @vindex JoyDevice1
 @item JoyDevice1
-Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @vindex JoyDevice2
 @item JoyDevice2
-Integer specifying which joystick device the emulator should use for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @vindex JoyDevice3
 @item JoyDevice3
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @vindex JoyDevice4
 @item JoyDevice4
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 @end table
 
@@ -10301,25 +10346,28 @@ Boolean to enable/disable video overlay mode.
 Set the device for joystick emulation of port 1
 (@code{JoyDevice1})
 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @findex -joydev2
 @item -joydev2 <0-5>
 Set the device for joystick emulation of port 2
 (@code{JoyDevice2})
 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @findex -extrajoydev1
 @item -extrajoydev1 <0-5>
 Set device for extra joystick port 1
 (@code{JoyDevice3})
 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
 @findex -extrajoydev2
 @item -extrajoydev2 <0-5>
 Set device for extra joystick port 2
 (@code{JoyDevice4})
 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 @end table
 

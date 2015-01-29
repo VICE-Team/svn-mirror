@@ -8928,24 +8928,26 @@ AmigaOS3 specific resources
 `JoyDevice1'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 1 (all emulators except xcbm2, xpet
-     and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+     and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5:
+     Joy3)
 
 `JoyDevice2'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 2 (all emulators except xcbm2, xpet,
-     xvic and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+     xvic and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2,
+     5: Joy3)
 
 `JoyDevice3'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 1 (all emulators except
-     xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
-     5=Joy3)
+     xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4:
+     Joy2, 5: Joy3)
 
 `JoyDevice4'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 2 (all emulators except
-     xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1,
-     4=Joy2, 5=Joy3)
+     xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1,
+     4: Joy2, 5: Joy3)
 
 The following resource is only present if the CGX video system is
 present and used at compile time, and cgxvideo.library is present at
@@ -8959,23 +8961,23 @@ AmigaOS3 specific command-line options
 
 `-joydev1 <0-5>'
      Set the device for joystick emulation of port 1 (`JoyDevice1')
-     (all emulators except xcbm2, xpet and vsid).  (0=None, 1=Numpad,
-     2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+     (all emulators except xcbm2, xpet and vsid).  (0: None, 1: Numpad,
+     2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 `-joydev2 <0-5>'
      Set the device for joystick emulation of port 2 (`JoyDevice2')
-     (all emulators except xcbm2, xpet, xvic and vsid).  (0=None,
-     1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+     (all emulators except xcbm2, xpet, xvic and vsid).  (0: None, 1:
+     Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 `-extrajoydev1 <0-5>'
      Set device for extra joystick port 1 (`JoyDevice3') (all emulators
-     except xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1,
-     4=Joy2, 5=Joy3)
+     except xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1,
+     4: Joy2, 5: Joy3)
 
 `-extrajoydev2 <0-5>'
      Set device for extra joystick port 2 (`JoyDevice4') (all emulators
-     except xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Joy0,
-     3=Joy1, 4=Joy2, 5=Joy3)
+     except xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Joy0,
+     3: Joy1, 4: Joy2, 5: Joy3)
 
 The following command-line option is only present if the CGX video
 system is present and used at compile time, and cgxvideo.library is
@@ -9149,24 +9151,26 @@ MorphOS specific resources
 `JoyDevice1'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 1 (all emulators except xcbm2, xpet
-     and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+     and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5:
+     Joy3)
 
 `JoyDevice2'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 2 (all emulators except xcbm2, xpet,
-     xvic and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+     xvic and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2,
+     5: Joy3)
 
 `JoyDevice3'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 1 (all emulators except
-     xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
-     5=Joy3)
+     xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4:
+     Joy2, 5: Joy3)
 
 `JoyDevice4'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 2 (all emulators except
-     xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1,
-     4=Joy2, 5=Joy3)
+     xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1,
+     4: Joy2, 5: Joy3)
 
 The following resource is only present if the CGX video system is
 present and used at compile time, and cgxvideo.library is present at
@@ -9180,23 +9184,23 @@ MorphOS specific command-line options
 
 `-joydev1 <0-5>'
      Set the device for joystick emulation of port 1 (`JoyDevice1')
-     (all emulators except xcbm2, xpet and vsid).  (0=None, 1=Numpad,
-     2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+     (all emulators except xcbm2, xpet and vsid).  (0: None, 1: Numpad,
+     2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 `-joydev2 <0-5>'
      Set the device for joystick emulation of port 2 (`JoyDevice2')
-     (all emulators except xcbm2, xpet, xvic and vsid).  (0=None,
-     1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+     (all emulators except xcbm2, xpet, xvic and vsid).  (0: None, 1:
+     Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 `-extrajoydev1 <0-5>'
      Set device for extra joystick port 1 (`JoyDevice3') (all emulators
-     except xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1,
-     4=Joy2, 5=Joy3)
+     except xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1,
+     4: Joy2, 5: Joy3)
 
 `-extrajoydev2 <0-5>'
      Set device for extra joystick port 2 (`JoyDevice4') (all emulators
-     except xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Joy0,
-     3=Joy1, 4=Joy2, 5=Joy3)
+     except xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Joy0,
+     3: Joy1, 4: Joy2, 5: Joy3)
 
 The following command-line option is only present if the CGX video
 system is present and used at compile time, and cgxvideo.library is
@@ -9249,24 +9253,26 @@ AROS specific resources
 `JoyDevice1'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 1 (all emulators except xcbm2, xpet
-     and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+     and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5:
+     Joy3)
 
 `JoyDevice2'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 2 (all emulators except xcbm2, xpet,
-     xvic and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+     xvic and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2,
+     5: Joy3)
 
 `JoyDevice3'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 1 (all emulators except
-     xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2,
-     5=Joy3)
+     xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4:
+     Joy2, 5: Joy3)
 
 `JoyDevice4'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 2 (all emulators except
-     xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1,
-     4=Joy2, 5=Joy3)
+     xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1,
+     4: Joy2, 5: Joy3)
 
 The following resource is only present if the CGX video system is
 present and used at compile time, and cgxvideo.library is present at
@@ -9280,23 +9286,23 @@ AROS specific command-line options
 
 `-joydev1 <0-5>'
      Set the device for joystick emulation of port 1 (`JoyDevice1')
-     (all emulators except xcbm2, xpet and vsid).  (0=None, 1=Numpad,
-     2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+     (all emulators except xcbm2, xpet and vsid).  (0: None, 1: Numpad,
+     2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 `-joydev2 <0-5>'
      Set the device for joystick emulation of port 2 (`JoyDevice2')
-     (all emulators except xcbm2, xpet, xvic and vsid).  (0=None,
-     1=Numpad, 2=Joy0, 3=Joy1, 4=Joy2, 5=Joy3)
+     (all emulators except xcbm2, xpet, xvic and vsid).  (0: None, 1:
+     Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 `-extrajoydev1 <0-5>'
      Set device for extra joystick port 1 (`JoyDevice3') (all emulators
-     except xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Joy0, 3=Joy1,
-     4=Joy2, 5=Joy3)
+     except xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Joy0, 3: Joy1,
+     4: Joy2, 5: Joy3)
 
 `-extrajoydev2 <0-5>'
      Set device for extra joystick port 2 (`JoyDevice4') (all emulators
-     except xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Joy0,
-     3=Joy1, 4=Joy2, 5=Joy3)
+     except xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Joy0,
+     3: Joy1, 4: Joy2, 5: Joy3)
 
 The following command-line option is only present if the CGX video
 system is present and used at compile time, and cgxvideo.library is

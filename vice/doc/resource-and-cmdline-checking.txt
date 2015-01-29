@@ -513,8 +513,6 @@ action:         N/A
 FIXED/CORRECT AMIGAOS3/MORPHOS/AROS ONLY COMMON RESOURCES/CMDLINES:
 ===================================================================
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 arch/amigaos/joyll.c:
 ---------------------
 resource type:                  int
@@ -680,7 +678,7 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_videooverlay_enabled()
 resource var:                   ui_resources.videooverlayenabled
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used in vsid)
 not used in:
 prepocessor:                    #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
 command-line:                   -videooverlay / +videooverlay
@@ -705,6 +703,8 @@ action:         N/A
 
 FIXED/CORRECT BEOS ONLY COMMON RESOURCES/CMDLINES:
 ==================================================
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 arch/beos/ui.cc:
 ----------------
