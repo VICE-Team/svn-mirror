@@ -4703,8 +4703,6 @@ description:    "Specify name of international character generator ROM image"
 resource:       "ChargenIntName"
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 c128/c128-resources.c:
 ----------------------
 resource type:                  string
@@ -5036,6 +5034,21 @@ resource:       N/A
 action:         set_c128_model() (sets "MachineVideoStandard", "CIA1Model", "CIA2Model", "VICIINewLuminances", "VDCRevision", "VDC64KB",
                 "SidEngine" and "SidModel");
 
+c128/c128-resources.c:
+----------------------
+resource type:                  int
+resource name:                  "CIA1Model"
+resource range:                 0/1 (CIA_MODEL_6526 (0), CIA_MODEL_6526A (1))
+resource default:               CIA_MODEL_6526A
+resource function:              set_cia1_model()
+resource var:                   cia1_model
+resource emulators:             x128
+not used in:                    x64/x64sc/xscpu64/x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -ciamodel / -cia1model / -model
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
 c128/c128-cmdline-options.c:
 ----------------------------
 command line:   -ciamodel <Model>
@@ -5209,7 +5222,6 @@ command-line:                   -burstmod
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		amigaos/beos/dos/os2/sdl/unix/windows
 platform range incorrect:		osx
-fixme: fix documentation, int and range
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -5284,20 +5296,6 @@ command line:   -256kimage <Name>
 description:    "Specify name of 256K image"
 resource:       "C64_256Kfilename"
 action:         N/A
-
-c64/c64_256k.c:
----------------
-resource type:                  bool
-resource name:                  "C64_256K"
-resource range:                 0/1
-resource default:               0
-resource function:              set_c64_256k_enabled()
-resource var:                   c64_256k_enabled
-resource emulators:             x64/x64sc
-not used in:                    xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -256k / +256k
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 
 c64/c64_256k.c:
 ---------------
@@ -5838,6 +5836,8 @@ command line:   -dqbbimage <Name>
 description:    "Specify Double Quick Brown Box filename"
 resource:       "DQBBfilename"
 action:         N/A
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 c64/cart/dqbb.c:
 ----------------

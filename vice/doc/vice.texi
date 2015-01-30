@@ -5120,8 +5120,8 @@ after enabling it from the user interface.
 
 @vindex IOCollisionHandling
 @item IOCollisionHandling
-Integer specifying the way the I/O collisions should be handled, (0: error message and 
-detach all involved carts, 1: error message and detach last attached involved 
+Integer specifying the way the I/O collisions should be handled.
+(0: error message and detach all involved carts, 1: error message and detach last attached involved 
 carts, 2: warning in log and 'AND' the valid return values)
 
 @vindex CartridgeReset
@@ -5130,16 +5130,19 @@ Boolean specifying whether the machine should be reset when a cartridge is chang
 @vindex CartridgeType
 @item CartridgeType
 Integer specifying the type of cartridge emulated in the "main" slot
+
 @vindex CartridgeFile
 @item CartridgeFile
-String specifying the filename of the image for the cartridge emulated in the "main" slot
+String specifying the filename of the image for the cartridge emulated in the "main" slot.
 
 @vindex DQBB
 @item DQBB
 Boolean specifying whether the Double Quick Brown Box should be emulated or not.
+
 @vindex DQBBfilename
 @item DQBBfilename
 String specifying the filename of the DQBB RAM image.
+
 @vindex DQBBImageWrite
 @item DQBBImageWrite
 Boolean, if true write back the DQBB image file automatically, incase the RAM
@@ -5343,87 +5346,111 @@ contents changed, when detaching or quitting the emulator.
 
 @table @code
 
-@cindex -iocollision
+@findex -iocollision
 @item -iocollision <method>
-Select the way the I/O collisions should be handled, (0: error message and 
-detach all involved carts, 1: error message and detach last attached involved 
+Select the way the I/O collisions should be handled
+(@code{IOCollisionHandling}).
+(0: error message and detach all involved carts, 1: error message and detach last attached involved 
 carts, 2: warning in log and 'AND' the valid return values
 
 @findex +cart
 @item +cart
 Disable all cartridges (which would eventually be enabled in the config file).
+
 @cindex -cartreset, +cartreset
 @item -cartreset
 @itemx +cartreset
 Reset/Do not reset machine if a cartridge is attached or detached
+
 @findex -cart8
 @item -cart8 <name>
 Attach generic 8KB cartridge image.
+
 @findex -cart16
 @item -cart16 <name>
 Attach generic 16KB cartridge image.
+
 @findex -cartultimax
 @item -cartultimax <name>
 Attach generic 16kB Ultimax cartridge image.
+
 @findex -cartcrt
 @item -cartcrt <name>
 Attach CRT cartridge image.
+
 @findex -cartap
 @item -cartap <name>
 Attach raw 32KB Atomic Power cartridge image.
+
 @findex -cartar2
 @item -cartar2 <name>
 Attach raw 16kB Action Replay MK2 cartridge image.
+
 @findex -cartar3
 @item -cartar3 <name>
 Attach raw 16KB Action Replay MK3 cartridge image.
+
 @findex -cartar4
 @item -cartar4 <name>
 Attach raw 32KB Action Replay MK4 cartridge image.
+
 @findex -cartar5
 @item -cartar5 <name>
 Attach raw 32KB Action Replay cartridge image.
+
 @findex -cartcap
 @item -cartcap <name>
 Attach raw 8kB Capture cartridge image.
+
 @findex -cartcomal
 @item -cartcomal <name>
 Attach raw 64kB Comal 80 cartridge image.
+
 @findex -cartdep256
 @item -cartdep256 <name>
 Attach raw Dela EP256 cartridge image.
+
 @findex -cartdep64
 @item -cartdep64 <name>
 Attach raw Dela EP64 cartridge image.
+
 @findex -cartdep7x8
 @item -cartdep7x8 <name>
 Attach raw Dela EP7x8 cartridge image.
+
 @findex -cartdin
 @item -cartdin <name>
 Attach raw 128kB Dinamic cartridge image.
+
 @findex -cartdsm
 @item -cartdsm <name>
 Attach raw 8kB Diashow-Maker cartridge image.
+
 @findex -cartdqbb
 @item -cartdqbb <name>
 Attach raw 16kB Double Quick Brown Box cartridge image.
+
 @findex -dqbb, +dqbb
 @item -dqbb
 @itemx +dqbb
-Enable/Disable Double Quick Brown Box
+Enable/disable Double Quick Brown Box
 (@code{DQBB=1}, @code{DQBB=0}).
+
 @findex -dqbbimage
 @item -dqbbimage <name>
 Specify Double Quick Brown Box filename
 (@code{DQBBfilename}).
+
 @findex -dqbbimagerw, +dqbbimagerw
 @item -dqbbimagerw
 @itemx +dqbbimagerw
 Allow/Disallow writing to DQBB image
 (@code{DQBBImageWrite=1}, @code{DQBBImageWrite=0}).
+
 @findex -carteasy
 @item -carteasy <name>
 Attach raw EasyFlash cartridge image.
+
 @findex -easyflashjumper, +easyflashjumper
 @item -easyflashjumper
 @itemx +easyflashjumper
@@ -5434,15 +5461,19 @@ Enable/Disable EasyFlash jumper
 @itemx +easyflashcrtwrite
 Allow/Disallow writing to EasyFlash .crt image
 (@code{EasyFlashWriteCRT=1}, @code{EasyFlashWriteCRT=0}).
+
 @findex -cartepyx
 @item -cartepyx <name>
 Attach raw 8KB Epyx FastLoad cartridge image.
+
 @findex -cartexos
 @item -cartexos <name>
 Attach raw 8kB EXOS cartridge image.
+
 @findex -cartexpert
 @item -cartexpert <name>
 Attach raw 8kB Expert Cartridge image.
+
 @findex -expert, +expert
 @item -expert
 @itemx +expert
@@ -5462,36 +5493,47 @@ Allow/Disallow writing to Expert Cartridge image
 Set Expert Cartridge mode
 (@code{ExpertCartridgeMode}).
 (0=off, 1=prg, 2=on)
+
 @findex -cartf64
 @item -cartf64 <Name>
 Attach raw 32kB Formel 64 image.
+
 @findex -cartfc1
 @item -cartfc1 <name>
 Attach raw 16kB Final Cartridge image.
+
 @findex -cartfc3
 @item -cartfc3 <name>
 Attach raw 64kB Final Cartridge III image.
+
 @findex -cartfcplus
 @item -cartfcplus <name>
 Attach raw 32kB Final Cartridge Plus image.
+
 @findex -cartff
 @item -cartff <name>
 Attach raw 8kB Freeze Frame image.
+
 @findex -cartfm
 @item -cartfm <name>
 Attach raw 32kB Freeze Machine image.
+
 @findex -cartfp
 @item -cartfp <name>
 Attach raw 128kB Fun Play/Power Play cartridge image.
+
 @findex -cartgk
 @item -cartgk <name>
 Attach raw 8KB Game Killer cartridge image.
+
 @findex -cartgs
 @item -cartgs <name>
 Attach raw 512kB Game System cartridge image.
+
 @findex -cartide64
 @item -cartide64 <name>
 Attach raw 64KB or 128KB IDE64 cartridge image.
+
 @findex -IDE64image1
 @item -IDE64image1 <name>
 @findex -IDE64image2
@@ -5567,9 +5609,11 @@ Enable/Disable IDE64 USB server
 @cindex -IDE64USBAddress
 @item -IDE64USBAddress <name>
 The local address the IDE64 USB server should bind to
+
 @findex -cartieee
 @item -cartieee <name>
 Attach CBM IEEE-488 cartridge image.
+
 @cindex -ieee488, +ieee488
 @item -ieee488
 @itemx +ieee488
@@ -5588,9 +5632,11 @@ Enable/Disable the ISEPIC cart
 @itemx +isepicswitch
 Enable/Disable the ISEPIC switch
 (@code{IsepicSwitch=1}, @code{IsepicSwitch=0}).
+
 @findex -cartisepic
 @item -cartisepic <name>
 Attach raw 2kB ISEPIC cartridge image.
+
 @findex -isepicimagename
 @item -isepicimagename <name>
 Set ISEPIC image name
@@ -5600,32 +5646,41 @@ Set ISEPIC image name
 @itemx +isepicimagerw
 Allow/Disallow writing to ISEPIC image
 (@code{IsepicImageWrite=1}, @code{IsepicImageWrite=0}).
+
 @findex -cartkcs
 @item -cartkcs <name>
 Attach raw 16kB KCS Power cartridge image.
+
 @findex -cartks
 @item -cartks <name>
 Attach raw 24kB Kingsoft cartridge image.
+
 @findex -cartmach5
 @item -cartmach5 <name>
 Attach raw 8kB MACH 5 cartridge image.
+
 @findex -cartmd
 @item -cartmd <name>
 Attach raw 32/64/128kB Magic Desk cartridge image.
+
 @findex -cartmf
 @item -cartmf <name>
 Attach raw Magic Formel cartridge image.
+
 @findex -cartmikro
 @item -cartmikro <name>
 Attach raw 8kB Mikro Assembler cartridge image.
+
 @findex -mmc64, +mmc64
 @item -mmc64
 @itemx +mmc64
 Enable/Disable the MMC64 expansion
 (@code{MMC64=1}, @code{MMC64=0}).
+
 @findex -cartmmc64
 @item -cartmmc64 <name>
 Attach raw 8kB MMC64 cartridge image.
+
 @findex -mmc64bios
 @item -mmc64bios <name>
 Specify name of MMC64 BIOS image
@@ -5665,9 +5720,11 @@ Specify MMC64 revision
 Specify MMC64 SD type
 (@code{MMC64_sd_type}).
 (0=Auto, 1=MMC, 2=SD, 3=SDHC)
+
 @findex -cartmmcr
 @item -cartmmcr <name>
 Attach raw 512kB MMC Replay cartridge image.
+
 @findex -mmcrrescue, +mmcrrescue
 @item -mmcrrescue
 @itemx +mmcrrescue
@@ -5701,9 +5758,11 @@ Specify MMC Replay EEPROM image filename
 @itemx +mmcreepromrw
 Allow/Disallow writes to MMC Replay EEPROM image
 (@code{MMCREEPROMRW=1}, @code{MMCREEPROMRW=0}).
+
 @findex -cartmv
 @item -cartmv <name>
 Attach raw 16kB Magic Voice cartridge image.
+
 @findex -magicvoiceimage
 @item -magicvoiceimage <name>
 Specify Magic Voice cartridge ROM image filename
@@ -5713,18 +5772,23 @@ Specify Magic Voice cartridge ROM image filename
 @itemx +magicvoice
 Enable/Disable Magic Voice cartridge
 (@code{MagicVoiceCartridgeEnabled=1}, @code{MagicVoiceCartridgeEnabled=0}).
+
 @findex -cartocean
 @item -cartocean <name>
 Attach raw Ocean cartridge image.
+
 @findex -cartp64
 @item -cartp64 <name>
 Attach raw 256KB Prophet 64 cartridge image.
+
 @findex -cartpf
 @item -cartpf <name>
 Attach raw 64kb Pagefox cartridge image.
+
 @findex -cartramcart
 @item -cartramcart <name>
 Attach raw RamCart cartridge image.
+
 @findex -ramcart, +ramcart
 @item -ramcart
 @itemx +ramcart
@@ -5744,15 +5808,19 @@ Specify name of RAMCART image
 @itemx +ramcartimagerw
 Allow/Disallow writing to RAMCart image
 (@code{RAMCARTImageWrite=1}, @code{RAMCARTImageWrite=0}).
+
 @findex -cartrep256
 @item -cartrep256 <name>
 Attach raw REX EP256 cartridge image.
+
 @findex -cartross
 @item -cartross <name>
 Attach raw 16/32kB ROSS cartridge image.
+
 @findex -cartrr
 @item -cartrr <name>
 Attach raw 64KB Retro Replay cartridge image.
+
 @cindex -rrbioswrite, +rrbioswrite
 @item -rrbioswrite
 @itemx +rrbioswrite
@@ -5765,42 +5833,55 @@ Set/Unset RR Bank Jumper
 @item -rrflashjumper
 @itemx +rrflashjumper
 Set/Unset RR Flash Jumper
+
 @findex -cartru
 @item -cartru <name>
 Attach raw 8kB REX Utility cartridge image.
+
 @findex -carts64
 @item -carts64 <name>
 Attach raw 4kB Snapshot 64 cartridge image.
+
 @findex -cartsb
 @item -cartsb <name>
 Attach raw Structured Basic cartridge image.
+
 @findex -cartse5
 @item -cartse5 <name>
 Attach raw 16kB Super Explode V5 cartridge image.
+
 @findex -cartsg
 @item -cartsg <name>
 Attach raw 64kB Super Games cartridge image.
+
 @findex -cartsilver
 @item -cartsilver <Name>
 Attach raw Silverrock 128 cartridge image.
+
 @findex -cartsimon
 @item -cartsimon <name>
 Attach raw 16kB Simons Basic cartridge image.
+
 @findex -cartss4
 @item -cartss4 <name>
 Attach raw 32KB Super Snapshot V4 cartridge image.
+
 @findex -cartss5
 @item -cartss5 <name>
 Attach raw 64KB Super Snapshot V5 cartridge image.
+
 @findex -cartstar
 @item -cartstar <name>
 Attach raw 16KB Stardos cartridge image.
+
 @findex -cartwl
 @item -cartwl <name>
 Attach raw 16KB Westermann Learning cartridge image.
+
 @findex -cartws
 @item -cartws <name>
 Attach raw 8kB Warp Speed cartridge image.
+
 @findex -cartzaxxon
 @item -cartzaxxon <name>
 Attach raw 16kB Zaxxon cartridge image.
@@ -5818,12 +5899,13 @@ Attach raw 16kB Zaxxon cartridge image.
 @item CIA1Model
 @c the exceptions will be corrected as the resource list is implemented
 Integer specifying CIA1 model (all emulators except x64dtv/xpet/xplus4/xvic).
-(0=old 6526, 1=new 6526A)
+(0: old 6526, 1: new 6526A)
+
 @vindex CIA2Model
 @item CIA2Model
 @c the exceptions will be corrected as the resource list is implemented
 Integer specifying CIA2 model (all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic).
-(0=old 6526, 1=new 6526A)
+(0: old 6526, 1: new 6526A)
 
 @end table
 
@@ -5838,21 +5920,23 @@ Set both CIA models
 (@code{CIA1Model}, @code{CIA2Model})
 @c the exceptions will be corrected as the resource list is implemented
 (all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic).
-(0=old 6526, 1=new 6526A)
+(0: old 6526, 1: new 6526A)
+
 @findex -cia1model
 @item -cia1model <model>
 Set CIA1 model
 (@code{CIA1Model})
 @c the exceptions will be corrected as the resource list is implemented
 (all emulators except x64dtv/xpet/xplus4/xvic).
-(0=old 6526, 1=new 6526A)
+(0: old 6526, 1: new 6526A)
+
 @findex -cia2model
 @item -cia2model <model>
 Set CIA2 model
 (@code{CIA2Model})
 @c the exceptions will be corrected as the resource list is implemented
 (all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic).
-(0=old 6526, 1=new 6526A)
+(0: old 6526, 1: new 6526A)
 
 @end table
 
@@ -6407,6 +6491,7 @@ Integer specifying the base address for the emulated ACIA chip.
 @vindex DIGIMAX
 @item DIGIMAX
 Boolean specifying whether the DigiMAX cartridge should be emulated or not.
+
 @vindex DIGIMAXbase
 @item DIGIMAXbase
 Integer specifying the DigiMAX base address.
@@ -6487,10 +6572,13 @@ Boolean specifying whether the SFX Sound Sampler should be emulated or not.
 @item -acia1
 @itemx +acia1
 Enable/Disable the $DE** ACIA RS232 interface emulation
-@cindex -digimax, +digimax
+
+@findex -digimax, +digimax
 @item -digimax
 @itemx +digimax
-Enable/Disable the DigiMAX cartridge
+Enable/disable the DigiMAX cartridge
+(@code{DIGIMAX=1}, @code{DIGIMAX=0}).
+
 @cindex -digimaxbase
 @item -digimaxbase <base address>
 Base address of the DigiMAX cartridge
@@ -6506,9 +6594,11 @@ Enable/Disable MIDI emulation
 @itemx +georam
 Enable/Disable the GEORAM expansion unit
 (@code{GEORAM=1}, @code{GEORAM=0}).
+
 @findex -cartgeoram
 @item -cartgeoram <name>
 Attach raw GEO-RAM cartridge image.
+
 @findex -georamimage
 @item -georamimage <name>
 Specify name of GEORAM image
@@ -6528,9 +6618,11 @@ Size of the GEORAM expansion unit
 @itemx +reu
 Enable/disable emulation of the RAM Expansion Module
 (@code{REU=1}, @code{REU=0}).
+
 @findex -cartreu
 @item -cartreu <name>
 Attach raw REU cartridge image.
+
 @findex -reuimage
 @item -reuimage <name>
 Specify name of REU image
@@ -6571,12 +6663,15 @@ Set the system ethernet interface for TFE emulation
 @item -tferrnet
 @itemx +tferrnet
 Enable/Disable RRNet mode of TFE emulation
-@cindex -burstmod
+
+@findex -burstmod
 @item -burstmod <value>
-Enable/Disable burst modification. If it's 1 the cable is connected to CIA1, if 2
-then to CIA2 and 0 disables it. This is emulates the fast serial bus connection
+Set the kind of burst modification. This is emulates the fast serial bus connection
 as described at @uref{http://www.cs.tut.fi/~albert/Dev/burst/}, with the wire to
-the tape port cut.
+the tape port cut
+(@code{BurstMod}).
+(0: None, 1: CIA-1, 2: CIA-2)
+
 @end table
 
 @node C64/128 system ROM settings,  , C64 I/O extension settings, C64/128-specific
@@ -6668,21 +6763,22 @@ Specify Kernal revision (@code{KernalRev}).
 @vindex GlueLogic
 @item GlueLogic
 Integer specifying the type of emulated glue-logic.
-(0=discrete, 1=custom IC)
+(0: discrete, 1: custom IC)
 
 @vindex BurstMod
 @item BurstMod
-Boolean, enable/disable the Burst-Mode modification.
+Integer specifying the kind of Burst-Mode modification.
+(0: None, 1: CIA-1, 2: CIA-2)
 
 @vindex BoardType
 @item BoardType
 Integer specifying the type of emulated board (not available in xscpu64).
-(0=C64, 1=MAX)
+(0: C64, 1: MAX)
 
 @vindex IECReset
 @item IECReset
 Integer specifying if the IEC bus resets when the CPU resets.
-(0=No, 1=Yes)
+(0: No, 1: Yes)
 
 @vindex PLUS60Kfilename
 @item PLUS60Kfilename
@@ -6698,6 +6794,7 @@ String specifying the filename of the PLUS256K RAM image.
 @vindex C64_256Kfilename
 @item C64_256Kfilename
 String specifying the filename of the 256K RAM image.
+
 @vindex C64_256Kbase
 @item C64_256Kbase
 Integer that specifies the base address of the 256K RAM expansion.
@@ -6712,16 +6809,14 @@ Integer that specifies the base address of the 256K RAM expansion.
 @findex -gluelogictype
 @item -gluelogictype <type>
 Set glue logic type
-(@code{GlueLogic})
-(not available for x64dtv).
-(0=discrete, 1=252535-01)
+(@code{GlueLogic}).
+(0: discrete, 1: 252535-01)
 
 @findex -iecreset
 @item -iecreset <value>
 Set IEC reset bahaviour
-(@code{IECReset})
-(not available for x64dtv).
-(0=Do not reset with CPU reset, 1=Reset with CPU reset)
+(@code{IECReset}).
+(0: Do not reset with CPU reset, 1: Reset with CPU reset)
 
 @findex -plus60kimage
 @item -plus60kimage <name>
@@ -6742,6 +6837,7 @@ Specify name of PLUS256K image
 @item -256kimage <name>
 Specify name of 256K image
 (@code{C64_256Kfilename}).
+
 @findex -256kbase
 @item -256kbase <base address>
 Base address of the 256K expansion
@@ -6970,9 +7066,11 @@ String specifying the filename of the German character generator ROM image.
 @vindex ChargenFRName
 @item ChargenFRName
 String specifying the filename of the French character generator ROM image.
+
 @vindex ChargenSEName
 @item ChargenSEName
 String specifying the filename of the Swedish character generator ROM image.
+
 @vindex ChargenCHName
 @item ChargenCHName
 String specifying the filename of the Swiss character generator ROM image.
@@ -6980,24 +7078,31 @@ String specifying the filename of the Swiss character generator ROM image.
 @vindex KernalIntName
 @item KernalIntName
 String specifying the filename of the international Kernal ROM image.
+
 @vindex KernalDEName
 @item KernalDEName
 String specifying the filename of the German Kernal ROM image.
+
 @vindex KernalFIName
 @item KernalFIName
 String specifying the filename of the Finnish Kernal ROM image.
+
 @vindex KernalFRName
 @item KernalFRName
 String specifying the filename of the French Kernal ROM image.
+
 @vindex KernalITName
 @item KernalITName
 String specifying the filename of the Italian Kernal ROM image.
+
 @vindex KernalNOName
 @item KernalNOName
 String specifying the filename of the Norwegian Kernal ROM image.
+
 @vindex KernalSEName
 @item KernalSEName
 String specifying the filename of the Swedish Kernal ROM image.
+
 @vindex KernalCHName
 @item KernalCHName
 String specifying the filename of the Swiss Kernal ROM image.
@@ -7011,6 +7116,7 @@ Strings specifying the filename of the Basic ROM images.
 @vindex Kernal64Name
 @item Kernal64Name
 String specifying the filename of the C64 Kernal ROM image.
+
 @vindex Basic64Name
 @item Basic64Name
 String specifying the filename of the C64 Basic ROM image.
@@ -7040,6 +7146,7 @@ String specifying the filename of the ROM image for the external function ROM.
 @item -basic64 <name>
 Specify name of C64 mode BASIC ROM image
 (@code{Basic64Name}).
+
 @findex -kernal64
 @item -kernal64 <name>
 Specify name of C64 mode Kernal ROM image
@@ -7049,6 +7156,7 @@ Specify name of C64 mode Kernal ROM image
 @item -basiclo <name>
 Specify name of BASIC ROM image (lower part)
 (@code{BasicLoName}).
+
 @findex -basichi
 @item -basichi <name>
 Specify name of BASIC ROM image (higher part)
@@ -7058,30 +7166,37 @@ Specify name of BASIC ROM image (higher part)
 @item -kernal <name>
 Specify name of international Kernal ROM image
 (@code{KernalIntName}).
+
 @findex -kernalde
 @item -kernalde <name>
 Specify name of German Kernal ROM image
 (@code{KernalDEName}).
+
 @findex -kernalfi
 @item -kernalfi <name>
 Specify name of Finnish Kernal ROM image
 (@code{KernalFIName}).
+
 @findex -kernalfr
 @item -kernalfr <name>
 Specify name of French Kernal ROM image
 (@code{KernalFRName}).
+
 @findex -kernalit
 @item -kernalit <name>
 Specify name of Italian Kernal ROM image
 (@code{KernalITName}).
+
 @findex -kernalno
 @item -kernalno <name>
 Specify name of Norwegian Kernal ROM image
 (@code{KernalNOName}).
+
 @findex -kernalse
 @item -kernalse <name>
 Specify name of Swedish Kernal ROM image
 (@code{KernalSEName}).
+
 @cindex -kernalch
 @item -kernalch <name>
 Specify name of Swiss Kernal ROM image
@@ -7100,10 +7215,12 @@ Specify name of German character generator ROM image
 @item -chargfr <name>
 Specify name of French character generator ROM image
 (@code{ChargenFRName}).
+
 @findex -chargse
 @item -chargse <name>
 Specify name of Swedish character generator ROM image
 (@code{ChargenSEName}).
+
 @cindex -chargch
 @item -chargch <name>
 Specify name of Swiss character generator ROM image
@@ -7138,13 +7255,16 @@ Boolean, status of the 40/80 columns key
 @vindex Go64Mode
 @item Go64Mode
 Boolean, if true enter C64 mode on reset
+
 @vindex C128FullBanks
 @item C128FullBanks
 Boolean to enable/disable RAM banks 2 and 3.
+
 @vindex MachineType
 @item MachineType
 Integer specifying the C128 machine type. (0: Internatinal, 1: Finnish, 2: French,
 3: German, 4: Italian, 5: Norwegian, 6: Swedish)
+
 @vindex MachineVideoStandard
 @item MachineVideoStandard
 Integer that specifies the video standard of the emulated machine
@@ -7745,8 +7865,9 @@ Enable/Disable RRNet mode of TFE emulation
 @findex -digimax, +digimax
 @item -digimax
 @itemx +digimax
-Enable/Disable the DigiMAX cartridge (using the MasC=uerade cartridge adapter)
+Enable/disable the DigiMAX cartridge (using the MasC=uerade cartridge adapter)
 (@code{DIGIMAX=1}, @code{DIGIMAX=0}).
+
 @cindex -digimaxbase
 @item -digimaxbase <base address>
 Base address of the DigiMAX cartridge
