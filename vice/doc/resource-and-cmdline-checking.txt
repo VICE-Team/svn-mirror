@@ -704,8 +704,6 @@ action:         N/A
 FIXED/CORRECT BEOS ONLY COMMON RESOURCES/CMDLINES:
 ==================================================
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 arch/beos/ui.cc:
 ----------------
 resource type:                  bool
@@ -714,7 +712,7 @@ resource range:                 0/1
 resource default:               0
 resource function:              set_joystickdisplay()
 resource var:                   joystickdisplay
-resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+resource emulators:             x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid (fixme: should not be used for vsid)
 not used in:
 prepocessor:
 command-line:                   -joydisplay / +joydisplay
@@ -1224,6 +1222,8 @@ FIXED/CORRECT OS/2 ONLY OPTIONAL RESOURCES/CMDLINES:
 
 FIXED/CORRECT SDL ONLY COMMON RESOURCES/CMDLINES:
 =================================================
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 arch/sdl/kbd.c:
 ---------------

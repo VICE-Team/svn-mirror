@@ -9337,7 +9337,7 @@ BeOS specific resources
 
 `SaveResourcesOnExit'
      Boolean specifying whether the emulator should save changed
-     settings before exiting.  If this is enabled, the user will be
+     settings before exiting. If this is enabled, the user will be
      always prompted first, in case the settings have changed.
 
 `ConfirmOnExit'
@@ -9349,26 +9349,26 @@ BeOS specific resources
 `JoyDevice1'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 1 (all emulators except xcbm2, xpet
-     and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
-     4..19=Hardware joysticks)
+     and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19:
+     Hardware joysticks)
 
 `JoyDevice2'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 2 (all emulators except xcbm2, xpet,
-     xvic and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
-     4..19=Hardware joysticks)
+     xvic and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2,
+     4..19: Hardware joysticks)
 
 `JoyDevice3'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 1 (all emulators except
-     xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
-     4..19=Hardware joysticks)
+     xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2,
+     4..19: Hardware joysticks)
 
 `JoyDevice4'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 2 (all emulators except
-     xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1,
-     3=Keyset 2, 4..19=Hardware joysticks)
+     xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3:
+     Keyset 2, 4..19: Hardware joysticks)
 
 BeOS specific command-line options
 ----------------------------------
@@ -9396,23 +9396,23 @@ BeOS specific command-line options
 
 `-joydev1 <0-19>'
      Set the device for joystick emulation of port 1 (`JoyDevice1')
-     (all emulators except xcbm2, xpet and vsid).  (0=None, 1=Numpad,
-     2=Keyset 1, 3=Keyset 2, 4..19=Hardware joysticks)
+     (all emulators except xcbm2, xpet and vsid).  (0: None, 1: Numpad,
+     2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
 
 `-joydev2 <0-19>'
      Set the device for joystick emulation of port 2 (`JoyDevice2')
-     (all emulators except xcbm2, xpet, xvic and vsid).  (0=None,
-     1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware joysticks)
+     (all emulators except xcbm2, xpet, xvic and vsid).  (0: None, 1:
+     Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
 
 `-extrajoydev1 <0-19>'
      Set device for extra joystick port 1 (`JoyDevice3') (all emulators
-     except xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset
-     2, 4..19=Hardware joysticks)
+     except xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3:
+     Keyset 2, 4..19: Hardware joysticks)
 
 `-extrajoydev2 <0-19>'
      Set device for extra joystick port 2 (`JoyDevice4') (all emulators
-     except xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1,
-     3=Keyset 2, 4..19=Hardware joysticks)
+     except xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Keyset
+     1, 3: Keyset 2, 4..19: Hardware joysticks)
 
 
 @EndNode
@@ -9574,19 +9574,19 @@ DOS specific resources
      display.
 
 `ShowStatusbar'
-     Integer specifying the mode of the statusbar.  (0=Off, 1=On,
-     2=Auto)
+     Integer specifying the mode of the statusbar.  (0: Off, 1: On, 2:
+     Auto)
 
 `VGAMode'
-     Integer specifying the VGA mode.  (0=320x200x8, 1=360x240x8,
-     2=360x270x8, 3=376x282x8, 4=400x300x8, 5=640x480x8, 6=800x600x8,
-     7=1024x768x8, 8=320x200x16, 9=400x300x16, 10=640x480x16,
-     11=800x600x16, 12=1024x768x16, 13=640x480x32, 14=800x600x32,
-     15=1024x768x32)
+     Integer specifying the VGA mode.  (0: 320x200x8, 1: 360x240x8, 2:
+     360x270x8, 3: 376x282x8, 4: 400x300x8, 5: 640x480x8, 6: 800x600x8,
+     7: 1024x768x8, 8: 320x200x16, 9: 400x300x16, 10: 640x480x16, 11:
+     800x600x16, 12: 1024x768x16, 13: 640x480x32, 14: 800x600x32, 15:
+     1024x768x32)
 
 `Speed'
-     Integer specifying the maximum relative speed, as a percentage.
-     `0' stands for "no limit".
+     Integer specifying the maximum relative speed, as a percentage. `0'
+     stands for "no limit".
 
 `RefreshRate'
      Integer specifying the refresh rate, a value of `n' specifies a
@@ -9604,26 +9604,26 @@ DOS specific resources
 `JoyDevice1'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 1 (all emulators except xcbm2, xpet
-     and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick
-     1, 5=Joystick 2)
+     and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4:
+     Joystick 1, 5: Joystick 2)
 
 `JoyDevice2'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 2 (all emulators except xcbm2, xpet,
-     xvic and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
-     4=Joystick 1, 5=Joystick 2)
+     xvic and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4:
+     Joystick 1, 5: Joystick 2)
 
 `JoyDevice3'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 1 (all emulators except
-     xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
-     4=Joystick 1, 5=Joystick 2)
+     xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2,
+     4: Joystick 1, 5: Joystick 2)
 
 `JoyDevice4'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 2 (all emulators except
-     xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1,
-     3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+     xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3:
+     Keyset 2, 4: Joystick 1, 5: Joystick 2)
 
 The following resource is only available if the midas sound driver is
 not used during compile time.
@@ -9636,50 +9636,54 @@ DOS specific command-line options
 
 `-leds'
 `+leds'
-     Enable/Disable usage of keyboard leds (`UseLeds=1', `UseLeds=0').
+     Enable/disable usage of keyboard leds (`UseLeds=1', `UseLeds=0').
 
 `-statusbar <Mode>'
-     Set the statusbar mode (`ShowStatusbar').
+     Set the statusbar mode (`ShowStatusbar').  (0: Off, 1: On, 2: Auto)
 
 `-vgamode <Mode>'
-     Set the VGA mode (`VGAMode').
+     Set the VGA mode (`VGAMode').  (0: 320x200x8, 1: 360x240x8, 2:
+     360x270x8, 3: 376x282x8, 4: 400x300x8, 5: 640x480x8, 6: 800x600x8,
+     7: 1024x768x8, 8: 320x200x16, 9: 400x300x16, 10: 640x480x16, 11:
+     800x600x16, 12: 1024x768x16, 13: 640x480x32, 14: 800x600x32, 15:
+     1024x768x32)
 
 `-speed <percent>'
      Specifies the maximum speed as a percentage. `0' stands for "no
-     limit". (`Speed')
+     limit" (`Speed').
 
 `-refresh <value>'
      Specifies refresh rate, a value of `n' specifies a refresh rate of
-     1/`n'. A value of `0' enables automatic frame skipping.
-     (`RefreshRate')
+     1/`n'. A value of `0' enables automatic frame skipping
+     (`RefreshRate').
 
 `-warp'
 `+warp'
      Enable/Disable warp mode (`WarpMode=1', `WarpMode=0').
 
 `-joyhwtype <type>'
-     Set the joystick hardware type. (`HwJoyType').  See `DOS joystick
-     hardware types' for the types.
+     Set the joystick hardware type (`HwJoyType') (all emulators except
+     vsid).  See `DOS joystick hardware types' for the types.
 
 `-joydev1 <0-5>'
      Set the device for joystick emulation of port 1 (`JoyDevice1')
-     (all emulators except xcbm2, xpet and vsid).  (0=None, 1=Numpad,
-     2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+     (all emulators except xcbm2, xpet and vsid).  (0: None, 1: Numpad,
+     2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)
 
 `-joydev2 <0-5>'
      Set the device for joystick emulation of port 2 (`JoyDevice2')
-     (all emulators except xcbm2, xpet, xvic and vsid).  (0=None,
-     1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+     (all emulators except xcbm2, xpet, xvic and vsid).  (0: None, 1:
+     Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)
 
 `-extrajoydev1 <0-5>'
      Set device for extra joystick port 1 (`JoyDevice3') (all emulators
-     except xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset
-     2, 4=Joystick 1, 5=Joystick 2)
+     except xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3:
+     Keyset 2, 4: Joystick 1, 5: Joystick 2)
 
 `-extrajoydev2 <0-5>'
      Set device for extra joystick port 2 (`JoyDevice4') (all emulators
-     except xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1,
-     3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+     except xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Keyset
+     1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)
 
 The following command-line option is only available if the midas sound
 driver is not used during compile time.

@@ -10416,7 +10416,7 @@ Boolean to enable/disable displaying the joystick status in the emulator window.
 @vindex SaveResourcesOnExit
 @item SaveResourcesOnExit
 Boolean specifying whether the emulator should save changed settings
-before exiting.  If this is enabled, the user will be always prompted
+before exiting. If this is enabled, the user will be always prompted
 first, in case the settings have changed.
 
 @vindex ConfirmOnExit
@@ -10429,20 +10429,27 @@ Boolean specifying whether to use the BeOS DirectWindow API.
 
 @vindex JoyDevice1
 @item JoyDevice1
-Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware joysticks)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
+
 @vindex JoyDevice2
 @item JoyDevice2
-Integer specifying which joystick device the emulator should use for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware joysticks)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
+
 @vindex JoyDevice3
 @item JoyDevice3
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware joysticks)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
+
 @vindex JoyDevice4
 @item JoyDevice4
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware joysticks)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
 
 @end table
 
@@ -10482,25 +10489,28 @@ Enable/disable usage of the BeOS DirectWindow API
 Set the device for joystick emulation of port 1
 (@code{JoyDevice1})
 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware joysticks)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
+
 @findex -joydev2
 @item -joydev2 <0-19>
 Set the device for joystick emulation of port 2
 (@code{JoyDevice2})
 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware joysticks)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
+
 @findex -extrajoydev1
 @item -extrajoydev1 <0-19>
 Set device for extra joystick port 1
 (@code{JoyDevice3})
 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware joysticks)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
+
 @findex -extrajoydev2
 @item -extrajoydev2 <0-19>
 Set device for extra joystick port 2
 (@code{JoyDevice4})
 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4..19=Hardware joysticks)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
 
 @end table
 
@@ -10636,16 +10646,16 @@ Boolean to enable/disable using the keyboard leds for status display.
 @vindex ShowStatusbar
 @item ShowStatusbar
 Integer specifying the mode of the statusbar.
-(0=Off, 1=On, 2=Auto)
+(0: Off, 1: On, 2: Auto)
 
 @vindex VGAMode
 @item VGAMode
 Integer specifying the VGA mode.
-(0=320x200x8, 1=360x240x8, 2=360x270x8, 3=376x282x8, 4=400x300x8, 5=640x480x8, 6=800x600x8, 7=1024x768x8, 8=320x200x16, 9=400x300x16, 10=640x480x16, 11=800x600x16, 12=1024x768x16, 13=640x480x32, 14=800x600x32, 15=1024x768x32)
+(0: 320x200x8, 1: 360x240x8, 2: 360x270x8, 3: 376x282x8, 4: 400x300x8, 5: 640x480x8, 6: 800x600x8, 7: 1024x768x8, 8: 320x200x16, 9: 400x300x16, 10: 640x480x16, 11: 800x600x16, 12: 1024x768x16, 13: 640x480x32, 14: 800x600x32, 15: 1024x768x32)
 
 @vindex Speed
 @item Speed
-Integer specifying the maximum relative speed, as a percentage.  @code{0}
+Integer specifying the maximum relative speed, as a percentage. @code{0}
 stands for ``no limit''.
 
 @vindex RefreshRate
@@ -10660,25 +10670,33 @@ Boolean specifying whether ``warp mode'' is turned on or not.
 
 @vindex HwJoyType
 @item HwJoyType
-Integer specifying the hardware type of the joystick (all emulators except vsid).
+Integer specifying the hardware type of the joystick
+(all emulators except vsid).
 See @code{'DOS joystick hardware types'} for the types.
 
 @vindex JoyDevice1
 @item JoyDevice1
-Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)
+
 @vindex JoyDevice2
 @item JoyDevice2
-Integer specifying which joystick device the emulator should use for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)
+
 @vindex JoyDevice3
 @item JoyDevice3
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)
+
 @vindex JoyDevice4
 @item JoyDevice4
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)
 
 @end table
 
@@ -10700,38 +10718,43 @@ Boolean to enable/disable triple buffering if possible.
 @findex -leds, +leds
 @item -leds
 @itemx +leds
-Enable/Disable usage of keyboard leds
+Enable/disable usage of keyboard leds
 (@code{UseLeds=1}, @code{UseLeds=0}).
 
 @findex -statusbar
 @item -statusbar <Mode>
 Set the statusbar mode
 (@code{ShowStatusbar}).
+(0: Off, 1: On, 2: Auto)
 
 @findex -vgamode
 @item -vgamode <Mode>
 Set the VGA mode
 (@code{VGAMode}).
+(0: 320x200x8, 1: 360x240x8, 2: 360x270x8, 3: 376x282x8, 4: 400x300x8, 5: 640x480x8, 6: 800x600x8, 7: 1024x768x8, 8: 320x200x16, 9: 400x300x16, 10: 640x480x16, 11: 800x600x16, 12: 1024x768x16, 13: 640x480x32, 14: 800x600x32, 15: 1024x768x32)
 
 @findex -speed
 @item -speed <percent>
-Specifies the maximum speed as a percentage. @code{0} stands for ``no
-limit''. (@code{Speed})
+Specifies the maximum speed as a percentage. @code{0} stands for ``no limit''
+(@code{Speed}).
 
 @findex -refresh
 @item -refresh <value>
 Specifies refresh rate, a value of @code{n} specifies a refresh rate of
-1/@code{n}. A value of @code{0} enables automatic frame skipping.
-(@code{RefreshRate})
+1/@code{n}. A value of @code{0} enables automatic frame skipping
+(@code{RefreshRate}).
 
 @findex -warp, +warp
 @item -warp
 @itemx +warp
-Enable/Disable warp mode (@code{WarpMode=1}, @code{WarpMode=0}).
+Enable/Disable warp mode
+(@code{WarpMode=1}, @code{WarpMode=0}).
 
 @findex -joyhwtype
 @item -joyhwtype <type>
-Set the joystick hardware type. (@code{HwJoyType}).
+Set the joystick hardware type
+(@code{HwJoyType})
+(all emulators except vsid).
 See @code{DOS joystick hardware types} for the types.
 
 @findex -joydev1
@@ -10739,25 +10762,28 @@ See @code{DOS joystick hardware types} for the types.
 Set the device for joystick emulation of port 1
 (@code{JoyDevice1})
 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)
+
 @findex -joydev2
 @item -joydev2 <0-5>
 Set the device for joystick emulation of port 2
 (@code{JoyDevice2})
 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)
+
 @findex -extrajoydev1
 @item -extrajoydev1 <0-5>
 Set device for extra joystick port 1
 (@code{JoyDevice3})
 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)
+
 @findex -extrajoydev2
 @item -extrajoydev2 <0-5>
 Set device for extra joystick port 2
 (@code{JoyDevice4})
 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=Joystick 2)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: Joystick 2)
 
 @end table
 
@@ -10768,7 +10794,8 @@ Set device for extra joystick port 2
 @findex -triplebuf, +triplebuf
 @item -triplebuf
 @itemx +triplebuf
-Enable/Disable triple buffering (@code{TripleBuffering=1}, @code{TripleBuffering=0}).
+Enable/Disable triple buffering
+(@code{TripleBuffering=1}, @code{TripleBuffering=0}).
 
 @end table
 
