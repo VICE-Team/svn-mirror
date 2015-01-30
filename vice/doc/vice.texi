@@ -2397,26 +2397,39 @@ disables it.
 
 @vindex AutostartPrgDiskImage
 @item AutostartPrgDiskImage
-String specifying the filename of the disk image used when autostarting a prg file and "copy to D64" is enabled.
+String specifying the filename of the disk image used when autostarting a prg file and "copy to D64" is enabled
+(all emulators except vsid).
+
 @vindex AutostartBasicLoad
 @item AutostartBasicLoad
-Boolean, if true load to basic start using ,8 when autostarting.
+Boolean, if true load to basic start using ,8 when autostarting
+(all emulators except vsid).
+
 @vindex AutostartRunWithColon
 @item AutostartRunWithColon
-Boolean, if true put a colon after the load command when autostarting.
+Boolean, if true put a colon after the load command when autostarting
+(all emulators except vsid).
+
 @vindex AutostartHandleTrueDriveEmulation
 @item AutostartHandleTrueDriveEmulation
 Boolean, if true handle (enable/disable) True Drive Emulation on autostart.
+
 @vindex AutostartWarp
 @item AutostartWarp
-Boolean, if true temporarily enable warp mode when autostarting.
+Boolean, if true temporarily enable warp mode when autostarting
+(all emulators except vsid).
+
 @vindex AutostartPrgMode
 @item AutostartPrgMode
-Integer specifying the autostart mode for prg files.
-(0=virtual filesystem, 1=inject to RAM, 2=copy to D64)
+Integer specifying the autostart mode for prg files
+(all emulators except vsid).
+(0: virtual filesystem, 1: inject to RAM, 2: copy to D64)
+
 @vindex AutostartDelayRandom
 @item AutostartDelayRandom
-Boolean, enables a short random delay on autostart.
+Boolean, enables a short random delay on autostart
+(all emulators except vsid).
+
 @vindex AutostartDelay
 @item AutostartDelay
 Integer specifying the maximum delay in frames.
@@ -2433,17 +2446,19 @@ Integer specifying the maximum delay in frames.
 @findex -autostartprgdiskimage
 @item -autostartprgdiskimage <Name>
 Set disk image for autostart of PRG files
-(@code{AutostartPrgDiskImage}).
-(all emulators except vsid)
+(@code{AutostartPrgDiskImage})
+(all emulators except vsid).
+
 @findex -basicload, +basicload
 @item -basicload
 On autostart, load to BASIC start (without ',1')
-(@code{AutostartBasicLoad=1}).
-(all emulators except vsid)
+(@code{AutostartBasicLoad=1})
+(all emulators except vsid).
 @item +basicload
 On autostart, load with ',1'
-(@code{AutostartBasicLoad=0}).
-(all emulators except vsid)
+(@code{AutostartBasicLoad=0})
+(all emulators except vsid).
+
 @findex -autostartwithcolon, +autostartwithcolon
 @item -autostartwithcolon
 On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'
@@ -2451,30 +2466,35 @@ On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'
 (all emulators except vsid)
 @item +autostartwithcolon
 On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'
-(@code{AutostartRunWithColon=0}).
-(all emulators except vsid)
+(@code{AutostartRunWithColon=0})
+(all emulators except vsid).
+
 @cindex -autostart-handle-tde, +autostart-handle-tde
 @item -autostart-handle-tde
 @itemx +autostart-handle-tde
 Handle/Do not handle True Drive Emulation on autostart
+
 @findex -autostart-warp, +autostart-warp
 @item -autostart-warp
 @itemx +autostart-warp
-Enable/Disable warp mode during autostart
-(@code{AutostartWarp=1}, @code{AutostartWarp=0}).
-(all emulators except vsid)
+Enable/disable warp mode during autostart
+(@code{AutostartWarp=1}, @code{AutostartWarp=0})
+(all emulators except vsid).
+
 @findex -autostartprgmode
 @item -autostartprgmode <Mode>
 Set autostart mode for PRG files
 (@code{AutostartPrgMode})
 (all emulators except vsid).
-(0=VirtualFS, 1=Inject, 2=Disk image)
+(0: virtual filesystem, 1: inject to RAM, 2: copy to D64)
+
 @findex -autostart-delay-random, +autostart-delay-random
 @item -autostart-delay-random
 @itemx +autostart-delay-random
-Enable/Disable random delay on autostart
-(@code{AutostartDelayRandom}).
-(all emulators except vsid)
+Enable/disable random delay on autostart
+(@code{AutostartDelayRandom})
+(all emulators except vsid).
+
 @cindex -autostart-delay
 @item -autostart-delay <seconds>
 Set initial autostart delay (0: use default)
@@ -6942,9 +6962,11 @@ Enable/Disable video to audio leak emulation.
 @vindex ChargenIntName
 @item ChargenIntName
 String specifying the filename of the international character generator ROM image.
+
 @vindex ChargenDEName
 @item ChargenDEName
 String specifying the filename of the German character generator ROM image.
+
 @vindex ChargenFRName
 @item ChargenFRName
 String specifying the filename of the French character generator ROM image.
@@ -7068,10 +7090,12 @@ Specify name of Swiss Kernal ROM image
 @item -chargen <name>
 Specify name of international character generator ROM image
 (@code{ChargenIntName}).
+
 @findex -chargde
 @item -chargde <name>
 Specify name of German character generator ROM image
 (@code{ChargenDEName}).
+
 @findex -chargfr
 @item -chargfr <name>
 Specify name of French character generator ROM image
@@ -10846,7 +10870,8 @@ This section lists the settings and commands that are common and specific to SDL
 
 @vindex HotkeyFile
 @item HotkeyFile
-String specifying the name of the hotkey file.
+String specifying the name of the hotkey file
+(all emulators except vsid).
 
 @vindex MenuKey
 @item MenuKey
@@ -10887,7 +10912,7 @@ Integer specifying the keycode for 'map' in the SDL menu.
 @vindex SaveResourcesOnExit
 @item SaveResourcesOnExit
 Boolean specifying whether the emulator should save changed settings
-before exiting.  If this is enabled, the user will be always prompted
+before exiting. If this is enabled, the user will be always prompted
 first, in case the settings have changed.
 
 @vindex ConfirmOnExit
@@ -10896,17 +10921,18 @@ Boolean specifying whether to show a confirmation dialog on exit.
 
 @vindex SDLStatusbar
 @item SDLStatusbar
-Boolean to enable/disable the statusbar.
+Boolean to enable/disable the statusbar
+(all emulators except vsid).
 
 @vindex SDLBitdepth
 @item SDLBitdepth
 Integer specifying the bitdepth used.
-(0=current, 8, 15, 16, 24, 32)
+(0: current, 8, 15, 16, 24, 32)
 
 @vindex SDLLimitMode
 @item SDLLimitMode
 Integer specifying the resolution limit mode.
-(0=off, 1=max, 2=fixed)
+(0: off, 1: max, 2: fixed)
 
 @vindex SDLCustomWidth
 @item SDLCustomWidth
@@ -10918,120 +10944,152 @@ Integer specifying the custom resolution height.
 
 @vindex JoyDevice1
 @item JoyDevice1
-Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was present in the compile time SDL library))
+Integer specifying which joystick device the emulator should use for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support was present in the compile time SDL library))
+
 @vindex JoyDevice2
 @item JoyDevice2
-Integer specifying which joystick device the emulator should use for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was present in the compile time SDL library))
+Integer specifying which joystick device the emulator should use for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support was present in the compile time SDL library))
+
 @vindex JoyDevice3
 @item JoyDevice3
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was present in the compile time SDL library))
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support was present in the compile time SDL library))
+
 @vindex JoyDevice4
 @item JoyDevice4
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was present in the compile time SDL library))
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support was present in the compile time SDL library))
 
 @vindex CrtcSDLFullscreenMode
 @item CrtcSDLFullscreenMode
-Integer specifying the fullscreen mode (xcbm2 and xpet only).
+Integer specifying the fullscreen mode
+(xcbm2 and xpet only).
 
 @vindex CrtcHwScale
 @item CrtcHwScale
-Boolean specifying whether to enable or disable hardware scaling (xcbm2 and xpet only).
+Boolean specifying whether to enable or disable hardware scaling
+(xcbm2 and xpet only).
 
 @vindex CrtcFullscreenDevice
 @item CrtcFullscreenDevice
-String specifying the fullscreen device (xcbm2 and xpet only).
+String specifying the fullscreen device
+(xcbm2 and xpet only).
 
 @vindex CrtcFullscreen
 @item CrtcFullscreen
-Boolean specifying whether to use fullscreen mode or not (xcbm2 and xpet only).
+Boolean specifying whether to use fullscreen mode or not
+(xcbm2 and xpet only).
 
 @vindex CrtcFullscreenStatusbar
 @item CrtcFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not (xcbm2 and xpet only).
+Boolean specifying whether to show the status bar in fullscreen mode or not
+(xcbm2 and xpet only).
 
 @vindex TEDSDLFullscreenMode
 @item TEDSDLFullscreenMode
-Integer specifying the fullscreen mode (xplus4 only).
+Integer specifying the fullscreen mode
+(xplus4 only).
 
 @vindex TEDHwScale
 @item TEDHwScale
-Boolean specifying whether to enable or disable hardware scaling (xplus4 only).
+Boolean specifying whether to enable or disable hardware scaling
+(xplus4 only).
 
 @vindex TEDFullscreenDevice
 @item TEDFullscreenDevice
-String specifying the fullscreen device (xplus4 only).
+String specifying the fullscreen device
+(xplus4 only).
 
 @vindex TEDFullscreen
 @item TEDFullscreen
-Boolean specifying whether to use fullscreen mode or not (xplus4 only).
+Boolean specifying whether to use fullscreen mode or not
+(xplus4 only).
 
 @vindex TEDFullscreenStatusbar
 @item TEDFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not (xplus4 only).
+Boolean specifying whether to show the status bar in fullscreen mode or not
+(xplus4 only).
 
 @vindex VDCSDLFullscreenMode
 @item VDCSDLFullscreenMode
-Integer specifying the fullscreen mode (x128 only).
+Integer specifying the fullscreen mode
+(x128 only).
 
 @vindex VDCHwScale
 @item VDCHwScale
-Boolean specifying whether to enable or disable hardware scaling (x128 only).
+Boolean specifying whether to enable or disable hardware scaling
+(x128 only).
 
 @vindex VDCFullscreenDevice
 @item VDCFullscreenDevice
-String specifying the fullscreen device (x128 only).
+String specifying the fullscreen device
+(x128 only).
 
 @vindex VDCFullscreen
 @item VDCFullscreen
-Boolean specifying whether to use fullscreen mode or not (x128 only).
+Boolean specifying whether to use fullscreen mode or not
+(x128 only).
 
 @vindex VDCFullscreenStatusbar
 @item VDCFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not (x128 only).
+Boolean specifying whether to show the status bar in fullscreen mode or not
+(x128 only).
 
 @vindex VICSDLFullscreenMode
 @item VICSDLFullscreenMode
-Integer specifying the fullscreen mode (xvic only).
+Integer specifying the fullscreen mode
+(xvic only).
 
 @vindex VICHwScale
 @item VICHwScale
-Boolean specifying whether to enable or disable hardware scaling (xvic only).
+Boolean specifying whether to enable or disable hardware scaling
+(xvic only).
 
 @vindex VICFullscreenDevice
 @item VICFullscreenDevice
-String specifying the fullscreen device (xvic only).
+String specifying the fullscreen device
+(xvic only).
 
 @vindex VICFullscreen
 @item VICFullscreen
-Boolean specifying whether to use fullscreen mode or not (xvic only).
+Boolean specifying whether to use fullscreen mode or not
+(xvic only).
 
 @vindex VICFullscreenStatusbar
 @item VICFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not (xvic only).
+Boolean specifying whether to show the status bar in fullscreen mode or not
+(xvic only).
 
 @vindex VICIISDLFullscreenMode
 @item VICIISDLFullscreenMode
-Integer specifying the fullscreen mode (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+Integer specifying the fullscreen mode
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex VICIIHwScale
 @item VICIIHwScale
-Boolean specifying whether to enable or disable hardware scaling (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+Boolean specifying whether to enable or disable hardware scaling
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex VICIIFullscreenDevice
 @item VICIIFullscreenDevice
-String specifying the fullscreen device (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+String specifying the fullscreen device
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex VICIIFullscreen
 @item VICIIFullscreen
-Boolean specifying whether to use fullscreen mode or not (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+Boolean specifying whether to use fullscreen mode or not
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex VICIIFullscreenStatusbar
 @item VICIIFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+Boolean specifying whether to show the status bar in fullscreen mode or not
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @end table
 
@@ -11041,13 +11099,13 @@ Boolean specifying whether to show the status bar in fullscreen mode or not (all
 
 @vindex AspectRatio
 @item AspectRatio
-String/float specifying the aspect ratio
-(0.5-2.0).
+String/float specifying the aspect ratio.
+(0.5-2.0)
 
 @vindex SDLGLAspectMode
 @item SDLGLAspectMode
-Integer specifying the OpenGL aspect mode
-(0=off, 1=custom, 2=true).
+Integer specifying the OpenGL aspect mode.
+(0: off, 1: custom, 2: true)
 
 @vindex SDLGLFlipX
 @item SDLGLFlipX
@@ -11070,12 +11128,12 @@ String specifying the name of the joystick map file.
 @vindex JoyThreshold
 @item JoyThreshold
 Integer specifying the joystick threshold.
-(0-32767)
+(0..32767)
 
 @vindex JoyFuzz
 @item JoyFuzz
 Integer specifying the joystick fuzz.
-(0-32767)
+(0..32767)
 
 @end table
 
@@ -11100,7 +11158,8 @@ Boolean to enable/disable overclocking.
 @findex -hotkeyfile
 @item -hotkeyfile <name>
 Set the hotkey file name
-(@code{HotkeyFile}).
+(@code{HotkeyFile})
+(all emulators except vsid).
 
 @findex -menukey
 @item -menukey <key>
@@ -11165,17 +11224,20 @@ Never confirm quitting VICE
 @item -statusbar
 @itemx +statusbar
 Enable/disable the statusbar
-(@code{SDLStatusbar=1}, @code{SDLStatusbar=0}).
+(@code{SDLStatusbar=1}, @code{SDLStatusbar=0})
+(all emulators except vsid).
 
 @findex -sdlbitdepth
 @item -sdlbitdepth <bpp>
 Set the display bitdepth
 (@code{SDLBitdepth}).
+(0: current, 8, 15, 16, 24, 32)
 
 @findex -sdllimitmode
 @item -sdllimitmode <mode>
 Set the resolution limit mode
 (@code{SDLLimitMode}).
+(0: off, 1: max, 2: fixed)
 
 @findex -sdlcustomw
 @item -sdlcustomw <width>
@@ -11192,25 +11254,28 @@ Set the custom resolution height
 Set the device for joystick emulation of port 1
 (@code{JoyDevice1})
 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was present in the compile time SDL library))
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support was present in the compile time SDL library))
+
 @findex -joydev2
 @item -joydev2 <0-3> / <0-4>
 Set the device for joystick emulation of port 2
 (@code{JoyDevice2})
 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was present in the compile time SDL library))
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support was present in the compile time SDL library))
+
 @findex -extrajoydev1
 @item -extrajoydev1 <0-3> / <0-4>
 Set device for extra joystick port 1
 (@code{JoyDevice3})
 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was present in the compile time SDL library))
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support was present in the compile time SDL library))
+
 @findex -extrajoydev2
 @item -extrajoydev2 <0-3> / <0-4>
 Set device for extra joystick port 2
 (@code{JoyDevice4})
 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was present in the compile time SDL library))
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support was present in the compile time SDL library))
 
 @findex -CRTCSDLfullmode
 @item -CRTCSDLfullmode <Mode>
@@ -11301,7 +11366,7 @@ Set the fullscreen mode
 @item +VIChwscale
 Enable/Disable hardware scaling
 (@code{VICHwScale=1}, @code{VICHwScale=0})
-(x128 only).
+(xvic only).
 
 @findex -VICfulldevice
 @item -VICfulldevice <device>
@@ -11358,7 +11423,7 @@ Set the aspect ratio
 @item -sdlaspectmode <mode>
 Set the aspect mode
 (@code{SDLGLAspectMode}).
-(0=off, 1=custom, 2=true)
+(0: off, 1: custom, 2: true)
 
 @findex -sdlflipx, +sdlflipx
 @item -sdlflipx
@@ -11432,7 +11497,7 @@ This section lists the settings and commands that are common and specific to Uni
 @vindex SaveResourcesOnExit
 @item SaveResourcesOnExit
 Boolean specifying whether the emulator should save changed settings
-before exiting.  If this is enabled, the user will be always prompted
+before exiting. If this is enabled, the user will be always prompted
 first, in case the settings have changed.
 
 @vindex ConfirmOnExit
@@ -11441,107 +11506,134 @@ Boolean specifying whether to show a confirmation dialog on exit.
 
 @vindex HTMLBrowserCommand
 @item HTMLBrowserCommand
-String specifying the command to run the help browser.  The help browser
+String specifying the command to run the help browser. The help browser
 can be any HTML browser, and every @samp{%s} in the string is replaced
-with the name of the toplevel file of the VICE documentation.  For
+with the name of the toplevel file of the VICE documentation. For
 example, the default value @samp{netscape %s} runs Netscape Navigator.
 
 @vindex CrtcHwScale
 @item CrtcHwScale
-Boolean specifying whether to enable or disable hardware scaling (xcbm2 and xpet only).
+Boolean specifying whether to enable or disable hardware scaling
+(xcbm2 and xpet only).
 
 @vindex CrtcFullscreenDevice
 @item CrtcFullscreenDevice
-String specifying the fullscreen device (xcbm2 and xpet only).
+String specifying the fullscreen device
+(xcbm2 and xpet only).
 
 @vindex CrtcFullscreen
 @item CrtcFullscreen
-Boolean specifying whether to use fullscreen mode or not (xcbm2 and xpet only).
+Boolean specifying whether to use fullscreen mode or not
+(xcbm2 and xpet only).
 
 @vindex CrtcFullscreenStatusbar
 @item CrtcFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not (xcbm2 and xpet only).
+Boolean specifying whether to show the status bar in fullscreen mode or not
+(xcbm2 and xpet only).
 
 @vindex TEDHwScale
 @item TEDHwScale
-Boolean specifying whether to enable or disable hardware scaling (xplus4 only).
+Boolean specifying whether to enable or disable hardware scaling
+(xplus4 only).
 
 @vindex TEDFullscreenDevice
 @item TEDFullscreenDevice
-String specifying the fullscreen device (xplus4 only).
+String specifying the fullscreen device
+(xplus4 only).
 
 @vindex TEDFullscreen
 @item TEDFullscreen
-Boolean specifying whether to use fullscreen mode or not (xplus4 only).
+Boolean specifying whether to use fullscreen mode or not
+(xplus4 only).
 
 @vindex TEDFullscreenStatusbar
 @item TEDFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not (xplus4 only).
+Boolean specifying whether to show the status bar in fullscreen mode or not
+(xplus4 only).
 
 @vindex VDCHwScale
 @item VDCHwScale
-Boolean specifying whether to enable or disable hardware scaling (x128 only).
+Boolean specifying whether to enable or disable hardware scaling
+(x128 only).
 
 @vindex VDCFullscreenDevice
 @item VDCFullscreenDevice
-String specifying the fullscreen device (x128 only).
+String specifying the fullscreen device
+(x128 only).
 
 @vindex VDCFullscreen
 @item VDCFullscreen
-Boolean specifying whether to use fullscreen mode or not (x128 only).
+Boolean specifying whether to use fullscreen mode or not
+(x128 only).
 
 @vindex VDCFullscreenStatusbar
 @item VDCFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not (x128 only).
+Boolean specifying whether to show the status bar in fullscreen mode or not
+(x128 only).
 
 @vindex VICHwScale
 @item VICHwScale
-Boolean specifying whether to enable or disable hardware scaling (xvic only).
+Boolean specifying whether to enable or disable hardware scaling
+(xvic only).
 
 @vindex VICFullscreenDevice
 @item VICFullscreenDevice
-String specifying the fullscreen device (xvic only).
+String specifying the fullscreen device
+(xvic only).
 
 @vindex VICFullscreen
 @item VICFullscreen
-Boolean specifying whether to use fullscreen mode or not (xvic only).
+Boolean specifying whether to use fullscreen mode or not
+(xvic only).
 
 @vindex VICFullscreenStatusbar
 @item VICFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not (xvic only).
+Boolean specifying whether to show the status bar in fullscreen mode or not
+(xvic only).
 
 @vindex VICIIHwScale
 @item VICIIHwScale
-Boolean specifying whether to enable or disable hardware scaling (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+Boolean specifying whether to enable or disable hardware scaling
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex VICIIFullscreenDevice
 @item VICIIFullscreenDevice
-String specifying the fullscreen device (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+String specifying the fullscreen device
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex VICIIFullscreen
 @item VICIIFullscreen
-Boolean specifying whether to use fullscreen mode or not (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+Boolean specifying whether to use fullscreen mode or not
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex VICIIFullscreenStatusbar
 @item VICIIFullscreenStatusbar
-Boolean specifying whether to show the status bar in fullscreen mode or not (all emulators except xcbm2, xpet, xplus4, xvic and vsid).
+Boolean specifying whether to show the status bar in fullscreen mode or not
+(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @vindex JoyDevice1
 @item JoyDevice1
-Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 1, 5: Analog joystick 2, 6: Analog joystick 3, 7: Analog joystick 4, 8: Analog joystick 5, 9: Analog joystick 6, 10: Digital joystick 1, 11: Digital joystick 2, 12: USB joystick 1, 13: USB joystick 2)
+
 @vindex JoyDevice2
 @item JoyDevice2
-Integer specifying which joystick device the emulator should use for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 1, 5: Analog joystick 2, 6: Analog joystick 3, 7: Analog joystick 4, 8: Analog joystick 5, 9: Analog joystick 6, 10: Digital joystick 1, 11: Digital joystick 2, 12: USB joystick 1, 13: USB joystick 2)
+
 @vindex JoyDevice3
 @item JoyDevice3
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 1, 5: Analog joystick 2, 6: Analog joystick 3, 7: Analog joystick 4, 8: Analog joystick 5, 9: Analog joystick 6, 10: Digital joystick 1, 11: Digital joystick 2, 12: USB joystick 1, 13: USB joystick 2)
+
 @vindex JoyDevice4
 @item JoyDevice4
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 1, 5: Analog joystick 2, 6: Analog joystick 3, 7: Analog joystick 4, 8: Analog joystick 5, 9: Analog joystick 6, 10: Digital joystick 1, 11: Digital joystick 2, 12: USB joystick 1, 13: USB joystick 2)
 
 @end table
 
@@ -11584,7 +11676,7 @@ String specifying the MIDI output device
 @item MIDIDriver
 Enum specifying the MIDI driver
 (x64, x64sc, xscpu64, x128 and xvic only).
-(0=OSS, 1=ALSA)
+(0: OSS, 1: ALSA)
 
 @end table
 
@@ -11600,7 +11692,7 @@ Enum specifying the MIDI driver
 @itemx RsDevice2Baud
 @itemx RsDevice3Baud
 @itemx RsDevice4Baud
-Integer specifying the RS232 baudrate devices if the device file points
+Integers specifying the RS232 baudrate devices if the device file points
 to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings})
 (all emulators except vsid).
 
@@ -11626,7 +11718,7 @@ Never confirm quitting VICE
 (@code{ConfirmOnExit=0}).
 
 @findex -htmlbrowser
-@item -htmlbrowser COMMAND
+@item -htmlbrowser <Command>
 Specify the command to run the HTML browser for the on-line help
 (@code{HTMLBrowserCommand}).
 
@@ -11668,7 +11760,7 @@ Enable/Disable hardware scaling
 @item +VIChwscale
 Enable/Disable hardware scaling
 (@code{VICHwScale=1}, @code{VICHwScale=0})
-(x128 only).
+(xvic only).
 
 @findex -VICfulldevice
 @item -VICfulldevice <device>
@@ -11694,25 +11786,28 @@ Select fullscreen device
 Set the device for joystick emulation of port 1
 (@code{JoyDevice1})
 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 1, 5: Analog joystick 2, 6: Analog joystick 3, 7: Analog joystick 4, 8: Analog joystick 5, 9: Analog joystick 6, 10: Digital joystick 1, 11: Digital joystick 2, 12: USB joystick 1, 13: USB joystick 2)
+
 @findex -joydev2
 @item -joydev2 <0-3> / <0-9> / <0-11> / <0-13>
 Set the device for joystick emulation of port 2
 (@code{JoyDevice2})
 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 1, 5: Analog joystick 2, 6: Analog joystick 3, 7: Analog joystick 4, 8: Analog joystick 5, 9: Analog joystick 6, 10: Digital joystick 1, 11: Digital joystick 2, 12: USB joystick 1, 13: USB joystick 2)
+
 @findex -extrajoydev1
 @item -extrajoydev1 <0-3> / <0-9> / <0-11> / <0-13>
 Set device for extra joystick port 1
 (@code{JoyDevice3})
 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 1, 5: Analog joystick 2, 6: Analog joystick 3, 7: Analog joystick 4, 8: Analog joystick 5, 9: Analog joystick 6, 10: Digital joystick 1, 11: Digital joystick 2, 12: USB joystick 1, 13: USB joystick 2)
+
 @findex -extrajoydev2
 @item -extrajoydev2 <0-3> / <0-9> / <0-11> / <0-13>
 Set device for extra joystick port 2
 (@code{JoyDevice4})
 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 1, 5: Analog joystick 2, 6: Analog joystick 3, 7: Analog joystick 4, 8: Analog joystick 5, 9: Analog joystick 6, 10: Digital joystick 1, 11: Digital joystick 2, 12: USB joystick 1, 13: USB joystick 2)
 
 @end table
 
@@ -11758,7 +11853,7 @@ Specify MIDI-Out device
 Specify MIDI driver
 (@code{MIDIDriver})
 (x64, x64sc, xscpu64, x128 and xvic only).
-(0=OSS, 1=ALSA)
+(0: OSS, 1: ALSA)
 
 @end table
 
@@ -11811,14 +11906,16 @@ This section lists the settings and commands that are common and specific to the
 @vindex DisplayDepth
 @item DisplayDepth
 Integer specifying the depth of the host display. The value @samp{0}
-(the default) causes the emulator to autodetect it.
+(the default) causes the emulator to autodetect it
+(all emulators except vsid).
 (0..32)
 
 @vindex PrivateColormap
 @item PrivateColormap
 Boolean specifying whether VICE should install a private colormap at
 startup. This only makes sense for 8-bit displays that could run out of
-colors if other color-hungry applications are running at the same time.
+colors if other color-hungry applications are running at the same time
+(all emulators except vsid).
 
 @vindex UseXSync
 @item UseXSync
@@ -11836,6 +11933,7 @@ values are: 0 = do not use MITSHM, 1 = do use MITSHM, -1 = try to
 autodetect availability on startup (default). The last is a simple test
 if the emulator runs across a network and if so disables MITSHM (If you
 have problems with this test please report it).
+(-1: auto, 1: off, 2: on)
 
 @vindex Window0Width
 @vindex Window0Height
@@ -11845,7 +11943,9 @@ have problems with this test please report it).
 @itemx Window0Height
 @itemx Window0Xpos
 @itemx Window0Ypos
-Integers specifying the position and size of the (first) emulator window.
+Integers specifying the position and size of the (first) emulator window
+(all emulators except vsid).
+
 @vindex Window1Width
 @vindex Window1Height
 @vindex Window1Xpos
@@ -11854,7 +11954,8 @@ Integers specifying the position and size of the (first) emulator window.
 @itemx Window1Height
 @itemx Window1Xpos
 @itemx Window1Ypos
-Integers specifying the position and size of the (second) emulator window.
+Integers specifying the position and size of the (second) emulator window
+(x128 only).
 
 @end table
 
@@ -11870,7 +11971,7 @@ String/float specifying the aspect ratio
 @vindex KeepAspectRatio
 @item KeepAspectRatio
 Boolean specifying whether the aspect ratio of the output window should be preserved.
-(0=free scaling, 1=scale with fixed aspect ratio)
+(0: free scaling, 1: scale with fixed aspect ratio)
 
 @vindex TrueAspectRatio
 @item TrueAspectRatio
@@ -11888,7 +11989,8 @@ String specifying the YUV FOURCC format to use.
 
 @vindex UseFullscreen
 @item UseFullscreen
-Boolean specifying whether fullscreen mode is currently in use.
+Boolean specifying whether fullscreen mode is currently in use
+(all emulators except vsid).
 
 @vindex CrtcXRANDRFullscreenMode
 @item CrtcXRANDRFullscreenMode
@@ -11959,20 +12061,23 @@ integer specifying VidMode fullscreen mode
 
 @findex -displaydepth
 @item -displaydepth <value>
-Specify the display depth (@code{DisplayDepth}).
+Specify the display depth
+(@code{DisplayDepth})
+(all emulators except vsid).
 (0..32)
 
 @findex -colormap, +colormap
 @item -colormap
 @itemx +colormap
 Enable/disable installation of a private colormap
-(@code{PrivateColormap=1}, @code{PrivateColormap=0}).
+(@code{PrivateColormap=1}, @code{PrivateColormap=0})
+(all emulators except vsid).
 
 @findex -xsync, +xsync
 @item -xsync
 @itemx +xsync
-Enable/disable usage of @code{XSync()} when updating the emulation
-window (@code{UseXSync=1}, @code{UseXSync=0}).
+Enable/disable usage of @code{XSync()} when updating the emulation window
+(@code{UseXSync=1}, @code{UseXSync=0}).
 
 @findex -mitshm, +mitshm
 @item -mitshm
@@ -12021,7 +12126,8 @@ Set the YUV FOURCC format to use
 @item -fullscreen
 @itemx +fullscreen
 Enable/disable fullscreen mode
-(@code{UseFullscreen=1}, (@code{UseFullscreen=0}).
+(@code{UseFullscreen=1}, (@code{UseFullscreen=0})
+(all emulators except vsid).
 
 @findex -CrtcXRANDRfullmode
 @item -CrtcXRANDRfullmode <mode>
@@ -12125,7 +12231,7 @@ This section lists the settings and commands that are common and specific to the
 @vindex KeepAspectRatio
 @item KeepAspectRatio
 Boolean specifying whether the aspect ratio of the output window should be preserved.
-(0=free scaling, 1=scale with fixed aspect ratio)
+(0: free scaling, 1: scale with fixed aspect ratio)
 
 @vindex TrueAspectRatio
 @item TrueAspectRatio
@@ -12201,7 +12307,8 @@ This section lists the settings and commands that are common and specific to the
 
 @vindex MouseSensitivity
 @item MouseSensitivity
-Integer specifying the sensitivity of the mouse (all emulators except xcbm2, xcbm5x0, xpet, xplus4 and vsid).
+Integer specifying the sensitivity of the mouse
+(all emulators except xcbm2, xcbm5x0, xpet, xplus4 and vsid).
 (0..40)
 
 @vindex MonitorDimensions
@@ -12210,19 +12317,28 @@ String that holds the dimensions and position in an encoded form.
 
 @vindex InitialDefaultDir
 @item InitialDefaultDir
-String specifying the initial default directory, which is used by the generic file browser dialog (all emulators except vsid).
+String specifying the initial default directory, which is used by the generic file browser dialog.
 @vindex InitialTapeDir
+
 @item InitialTapeDir
-String specifying the initial tape directory, which is used by the tape image file browser dialog (all emulators except x64dtv, xscpu64 and vsid).
+String specifying the initial tape directory, which is used by the tape image file browser dialog
+(all emulators except x64dtv, xscpu64 and vsid).
+
 @vindex InitialDiskDir
 @item InitialDiskDir
-String specifying the initial tape directory, which is used by the disk image file browser dialog (all emulators except vsid).
+String specifying the initial tape directory, which is used by the disk image file browser dialog
+(all emulators except vsid).
+
 @vindex InitialAutostartDir
 @item InitialAutostartDir
-String specifying the initial autostart directory, which is used by the autostart image file browser dialog (all emulators except vsid).
+String specifying the initial autostart directory, which is used by the autostart image file browser dialog
+(all emulators except vsid).
+
 @vindex InitialCartDir
 @item InitialCartDir
-String specifying the initial cartridge directory, which is used by the cartridge image file browser dialog (all emulators except x64dtv and vsid).
+String specifying the initial cartridge directory, which is used by the cartridge image file browser dialog
+(all emulators except x64dtv and vsid).
+
 @vindex InitialSnapshotDir
 @item InitialSnapshotDir
 String specifying the initial snapshots directory, which is used by the snapshots file browser dialog (all emulators except vsid).
@@ -12230,7 +12346,7 @@ String specifying the initial snapshots directory, which is used by the snapshot
 @vindex SaveResourcesOnExit
 @item SaveResourcesOnExit
 Boolean specifying whether the emulator should save changed settings
-before exiting.  If this is enabled, the user will be always prompted
+before exiting. If this is enabled, the user will be always prompted
 first, in case the settings have changed.
 
 @vindex ConfirmOnExit
@@ -12245,94 +12361,107 @@ Boolean specifying whether to use only the first CPU on an SMP system, or all CP
 @vindex Window0Ypos
 @item Window0Xpos
 @itemx Window0Ypos
-Integers specifying the position and size of the (first) emulator window (all emulators except vsid).
+Integers specifying the position and size of the (first) emulator window
+(all emulators except vsid).
+
 @vindex Window1Xpos
 @vindex Window1Ypos
 @item Window1Xpos
 @itemx Window1Ypos
-Integers specifying the position and size of the (second) emulator window (x128 only).
-
-@vindex VBLANKSync
-@item VBLANKSync
-Boolean to enable/disable vertical blank sync.
+Integers specifying the position and size of the (second) emulator window
+(x128 only).
 
 @vindex AlwaysOnTop
 @item AlwaysOnTop
-Boolean specifying if the emulator should stay on top.
-
-@vindex KeepAspectRatio
-@item KeepAspectRatio
-Boolean specifying whether the aspect ratio of the output window should be preserved.
-(0=free scaling, 1=scale with fixed aspect ratio)
-
-@vindex TrueAspectRatio
-@item TrueAspectRatio
-Boolean specifying whether to use the true (non square pixels) aspect ratio.
-
-@vindex AspectRatio
-@item AspectRatio
-Integer specifying the aspect ratio
-(500-2000).
+Boolean specifying if the emulator window should stay on top of other windows.
 
 @vindex JoyDevice1
 @item JoyDevice1
-Integer specifying which joystick device the emulator should use for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)
+
 @vindex JoyDevice2
 @item JoyDevice2
-Integer specifying which joystick device the emulator should use for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+Integer specifying which joystick device the emulator should use for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)
+
 @vindex JoyDevice3
 @item JoyDevice3
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)
+
 @vindex JoyDevice4
 @item JoyDevice4
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)
 
 @vindex JoyAutofire1Speed
 @item JoyAutofire1Speed
-Integer specifying the autofire speed for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
-(0-32)
+Integer specifying the autofire speed for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+(0..32)
+
 @vindex JoyAutofire2Speed
 @item JoyAutofire2Speed
-Integer specifying the autofire speed for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
-(0-32)
+Integer specifying the autofire speed for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+(0..32)
+
 @vindex JoyAutofire3Speed
 @item JoyAutofire3Speed
-Integer specifying the autofire speed for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
-(0-32)
+Integer specifying the autofire speed for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+(0..32)
+
 @vindex JoyAutofire4Speed
 @item JoyAutofire4Speed
-Integer specifying the autofire speed for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
-(0-32)
+Integer specifying the autofire speed for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
+(0..32)
 
 @vindex JoyAutofire1Button
 @item JoyAutofire1Button
-Integer specifying the the code of the button to use for autofire for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
+Integer specifying the the code of the button to use for autofire for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+
 @vindex JoyAutofire2Button
 @item JoyAutofire2Button
-Integer specifying the the code of the button to use for autofire for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
+Integer specifying the the code of the button to use for autofire for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+
 @vindex JoyAutofire3Button
 @item JoyAutofire3Button
-Integer specifying the the code of the button to use for autofire for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
+Integer specifying the the code of the button to use for autofire for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+
 @vindex JoyAutofire4Button
 @item JoyAutofire4Button
-Integer specifying the the code of the button to use for autofire for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
+Integer specifying the the code of the button to use for autofire for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
 
 @vindex JoyFire1Button
 @item JoyFire1Button
-Integer specifying the the code of the button to use for fire for the emulation of joystick 1 (all emulators except xcbm2, xpet and vsid).
+Integer specifying the the code of the button to use for fire for the emulation of joystick 1
+(all emulators except xcbm2, xpet and vsid).
+
 @vindex JoyFire2Button
 @item JoyFire2Button
-Integer specifying the the code of the button to use for fire for the emulation of joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
+Integer specifying the the code of the button to use for fire for the emulation of joystick 2
+(all emulators except xcbm2, xpet, xvic and vsid).
+
 @vindex JoyFire3Button
 @item JoyFire3Button
-Integer specifying the the code of the button to use for fire for the emulation of extra joystick 1 (all emulators except xcbm5x0 and vsid).
+Integer specifying the the code of the button to use for fire for the emulation of extra joystick 1
+(all emulators except xcbm5x0 and vsid).
+
 @vindex JoyFire4Button
 @item JoyFire4Button
-Integer specifying the the code of the button to use for fire for the emulation of extra joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
+Integer specifying the the code of the button to use for fire for the emulation of extra joystick 2
+(all emulators except xcbm5x0, xplus4 and vsid).
 
 @end table
 
@@ -12358,32 +12487,61 @@ Integer specifying the MIDI output device
 
 @vindex DX9Disable
 @item DX9Disable
-Boolean specifying whether to disable the DirectX 9 video driver and fall back on the GDI video driver.
-(0=use GDI, 1=use DX9)
+Boolean specifying whether to disable the DirectX 9 video driver and fall back on the GDI video driver
+(all emulators except vsid).
+(0: use GDI, 1: use DX9)
 
 @vindex DXPrimarySurfaceRendering
 @item DXPrimarySurfaceRendering
-Boolean to enable/disable rendering to DirectX primary surface.
+Boolean to enable/disable rendering to DirectX primary surface
+(all emulators except vsid).
 
 @vindex FullscreenEnabled
 @item FullscreenEnabled
-Boolean to enable/disable fullscreen mode.
+Boolean to enable/disable fullscreen mode
+(all emulators except vsid).
 
 @vindex FullscreenDevice
 @item FullscreenDevice
-Integer specifying the fullscreen device.
+Integer specifying the fullscreen device
+(all emulators except vsid).
 
 @vindex FullscreenWidth
 @item FullscreenWidth
-Integer specifying the width of the fullscreen display.
+Integer specifying the width of the fullscreen display
+(all emulators except vsid).
 
 @vindex FullscreenHeight
 @item FullscreenHeight
-Integer specifying the height of the fullscreen display.
+Integer specifying the height of the fullscreen display
+(all emulators except vsid).
 
 @vindex FullscreenRefreshRate
 @item FullscreenRefreshRate
-Integer specifying the refresh rate of the fullscreen display.
+Integer specifying the refresh rate of the fullscreen display
+(all emulators except vsid).
+
+@vindex VBLANKSync
+@item VBLANKSync
+Boolean to enable/disable vertical blank sync
+(all emulators except vsid).
+
+@vindex KeepAspectRatio
+@item KeepAspectRatio
+Boolean specifying whether the aspect ratio of the output window should be preserved
+(all emulators except vsid).
+(0: free scaling, 1: scale with fixed aspect ratio)
+
+@vindex TrueAspectRatio
+@item TrueAspectRatio
+Boolean specifying whether to use the true (non square pixels) aspect ratio
+(all emulators except vsid).
+
+@vindex AspectRatio
+@item AspectRatio
+Integer specifying the aspect ratio
+(all emulators except vsid).
+(500..2000)
 
 @end table
 
@@ -12401,28 +12559,38 @@ Set the sensitivity of the mouse
 
 @findex -initialdefaultdir
 @item -initialdefaultdir <Name>
-Select the initial default directory for the file browser dialog (all emulators except vsid)
+Select the initial default directory for the file browser dialog
 (@code{InitialDefaultDir}).
+
 @findex -initialtapedir
 @item -initialtapedir <Name>
-Select the initial tape images directory for the file browser dialog (all emulators except x64dtv, xscpu64 and vsid)
-(@code{InitialTapeDir}).
+Select the initial tape images directory for the file browser dialog
+(@code{InitialTapeDir})
+(all emulators except x64dtv, xscpu64 and vsid).
+
 @findex -initialdiskdir
 @item -initialdiskdir <Name>
-Select the initial disk images directory for the file browser dialog (all emulators except vsid)
-(@code{InitialDiskDir}).
+Select the initial disk images directory for the file browser dialog
+(@code{InitialDiskDir})
+(all emulators except vsid).
+
 @findex -initialautostartdir
 @item -initialautostartdir <Name>
-Select the initial autostart directory for the file browser dialog (all emulators except vsid)
-(@code{InitialAutostartDir}).
+Select the initial autostart directory for the file browser dialog
+(@code{InitialAutostartDir})
+(all emulators except vsid).
+
 @findex -initialcartdir
 @item -initialcartdir <Name>
-Select the initial cartridge images directory for the file browser dialog (all emulators except x64dtv and vsid)
-(@code{InitialCartDir}).
+Select the initial cartridge images directory for the file browser dialog
+(@code{InitialCartDir})
+(all emulators except x64dtv and vsid).
+
 @findex -initialsnapshotdir
 @item -initialsnapshotdir <Name>
-Select the initial snapshot directory for the file browser dialog (all emulators except vsid)
-(@code{InitialSnapshotDir}).
+Select the initial snapshot directory for the file browser dialog
+(@code{InitialSnapshotDir})
+(all emulators except vsid).
 
 @findex -saveres, +saveres
 @item -saveres
@@ -12446,62 +12614,39 @@ Only use the first CPU on SMP systems
 Use all CPUs on SMP systems
 (@code{SingleCPU=0}).
 
-@findex -vblanksync, +vblanksync
-@item -vblanksync
-@itemx +vblanksync
-Enable/disable vertical blank sync
-(@code{VBLANKSync=1}, @code{VBLANKSync=0}).
-
 @findex -alwaysontop, +alwaysontop
 @item -alwaysontop
 @itemx +alwaysontop
 Enable/disable always on top feature
 (@code{AlwaysOnTop=1}, @code{AlwaysOnTop=0}).
 
-@findex -keepaspect, +keepaspect
-@item -keepaspect
-Enable keeping of the aspect ratio when scaling
-(@code{KeepAspectRatio=1}).
-@item +keepaspect
-Disable keeping of the aspect ratio when scaling (freescaling)
-(@code{KeepAspectRatio=0}).
-
-@findex -trueaspect, +trueaspect
-@item -trueaspect
-@itemx +trueaspect
-Enable/disable whether to use the true (non square pixels) aspect ratio
-(@code{TrueAspectRatio=1}, (@code{TrueAspectRatio=0}).
-
-@findex -aspect
-@item -aspect <aspect ratio>
-Set the aspect ratio
-(@code{AspectRatio}).
-(500-2000)
-
 @findex -joydev1
 @item -joydev1 <0-5>
 Set the device for joystick emulation of port 1
 (@code{JoyDevice1})
 (all emulators except xcbm2, xpet and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)
+
 @findex -joydev2
 @item -joydev2 <0-5>
 Set the device for joystick emulation of port 2
 (@code{JoyDevice2})
 (all emulators except xcbm2, xpet, xvic and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)
+
 @findex -extrajoydev1
 @item -extrajoydev1 <0-5>
 Set device for extra joystick port 1
 (@code{JoyDevice3})
 (all emulators except xcbm5x0 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)
+
 @findex -extrajoydev2
 @item -extrajoydev2 <0-5>
 Set device for extra joystick port 2
 (@code{JoyDevice4})
 (all emulators except xcbm5x0, xplus4 and vsid).
-(0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)
 
 @end table
 
@@ -12530,29 +12675,65 @@ Specify MIDI-Out device
 @findex -dx9disable
 @item -dx9disable
 Disable DirectX 9 video driver and fall back on the GDI video driver
-(@code{DX9Disable=1}).
+(@code{DX9Disable=1})
+(all emulators except vsid).
 
 @findex -dx9enable
 @item -dx9enable
 Enable DirectX 9 video driver
-(@code{DX9Disable=1}).
+(@code{DX9Disable=1})
+(all emulators except vsid).
 
 @findex -dxpsrender, +dxpsrender
 @item -dxpsrender
 @itemx +dxpsrender
 Enable/disable rendering to DirectX primary surface
-(@code{DXPrimarySurfaceRendering=1}, @code{DXPrimarySurfaceRendering=0}).
+(@code{DXPrimarySurfaceRendering=1}, @code{DXPrimarySurfaceRendering=0})
+(all emulators except vsid).
 
 @findex -fullscreen, +fullscreen
 @item -fullscreen
 @itemx +fullscreen
 Enable/Disable fullscreen mode
-(@code{FullscreenEnabled=1}, @code{FullscreenEnabled=0}).
+(@code{FullscreenEnabled=1}, @code{FullscreenEnabled=0})
+(all emulators except vsid).
 
 @findex -fullscreendevice
 @item -fullscreendevice <number>
 Specify fullscreen device
-(@code{FullscreenDevice}).
+(@code{FullscreenDevice})
+(all emulators except vsid).
+
+@findex -vblanksync, +vblanksync
+@item -vblanksync
+@itemx +vblanksync
+Enable/disable vertical blank sync
+(@code{VBLANKSync=1}, @code{VBLANKSync=0})
+(all emulators except vsid).
+
+@findex -keepaspect, +keepaspect
+@item -keepaspect
+Enable keeping of the aspect ratio when scaling
+(@code{KeepAspectRatio=1})
+(all emulators except vsid).
+@item +keepaspect
+Disable keeping of the aspect ratio when scaling (freescaling)
+(@code{KeepAspectRatio=0})
+(all emulators except vsid).
+
+@findex -trueaspect, +trueaspect
+@item -trueaspect
+@itemx +trueaspect
+Enable/disable whether to use the true (non square pixels) aspect ratio
+(@code{TrueAspectRatio=1}, (@code{TrueAspectRatio=0})
+(all emulators except vsid).
+
+@findex -aspect
+@item -aspect <aspect ratio>
+Set the aspect ratio
+(@code{AspectRatio})
+(all emulators except vsid).
+(500..2000)
 
 @end table
 

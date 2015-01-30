@@ -2231,28 +2231,33 @@ All these resources are available for all emulators except vsid.
 
 `AutostartPrgDiskImage'
      String specifying the filename of the disk image used when
-     autostarting a prg file and "copy to D64" is enabled.
+     autostarting a prg file and "copy to D64" is enabled (all
+     emulators except vsid).
 
 `AutostartBasicLoad'
-     Boolean, if true load to basic start using ,8 when autostarting.
+     Boolean, if true load to basic start using ,8 when autostarting
+     (all emulators except vsid).
 
 `AutostartRunWithColon'
      Boolean, if true put a colon after the load command when
-     autostarting.
+     autostarting (all emulators except vsid).
 
 `AutostartHandleTrueDriveEmulation'
      Boolean, if true handle (enable/disable) True Drive Emulation on
      autostart.
 
 `AutostartWarp'
-     Boolean, if true temporarily enable warp mode when autostarting.
+     Boolean, if true temporarily enable warp mode when autostarting
+     (all emulators except vsid).
 
 `AutostartPrgMode'
-     Integer specifying the autostart mode for prg files.  (0=virtual
-     filesystem, 1=inject to RAM, 2=copy to D64)
+     Integer specifying the autostart mode for prg files (all emulators
+     except vsid).  (0: virtual filesystem, 1: inject to RAM, 2: copy
+     to D64)
 
 `AutostartDelayRandom'
-     Boolean, enables a short random delay on autostart.
+     Boolean, enables a short random delay on autostart (all emulators
+     except vsid).
 
 `AutostartDelay'
      Integer specifying the maximum delay in frames.
@@ -2264,16 +2269,16 @@ All these command-line options are available for all emulators except
 vsid.
 
 `-autostartprgdiskimage <Name>'
-     Set disk image for autostart of PRG files
-     (`AutostartPrgDiskImage').  (all emulators except vsid)
+     Set disk image for autostart of PRG files (`AutostartPrgDiskImage')
+     (all emulators except vsid).
 
 `-basicload'
      On autostart, load to BASIC start (without ',1')
-     (`AutostartBasicLoad=1').  (all emulators except vsid)
+     (`AutostartBasicLoad=1') (all emulators except vsid).
 
 `+basicload'
-     On autostart, load with ',1' (`AutostartBasicLoad=0').  (all
-     emulators except vsid)
+     On autostart, load with ',1' (`AutostartBasicLoad=0') (all
+     emulators except vsid).
 
 `-autostartwithcolon'
      On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'
@@ -2281,7 +2286,7 @@ vsid.
 
 `+autostartwithcolon'
      On autostart, do not use the 'RUN' command with a colon; i.e.,
-     'RUN' (`AutostartRunWithColon=0').  (all emulators except vsid)
+     'RUN' (`AutostartRunWithColon=0') (all emulators except vsid).
 
 `-autostart-handle-tde'
 `+autostart-handle-tde'
@@ -2289,17 +2294,18 @@ vsid.
 
 `-autostart-warp'
 `+autostart-warp'
-     Enable/Disable warp mode during autostart (`AutostartWarp=1',
-     `AutostartWarp=0').  (all emulators except vsid)
+     Enable/disable warp mode during autostart (`AutostartWarp=1',
+     `AutostartWarp=0') (all emulators except vsid).
 
 `-autostartprgmode <Mode>'
      Set autostart mode for PRG files (`AutostartPrgMode') (all
-     emulators except vsid).  (0=VirtualFS, 1=Inject, 2=Disk image)
+     emulators except vsid).  (0: virtual filesystem, 1: inject to RAM,
+     2: copy to D64)
 
 `-autostart-delay-random'
 `+autostart-delay-random'
-     Enable/Disable random delay on autostart (`AutostartDelayRandom').
-     (all emulators except vsid)
+     Enable/disable random delay on autostart (`AutostartDelayRandom')
+     (all emulators except vsid).
 
 `-autostart-delay <seconds>'
      Set initial autostart delay (0: use default)
@@ -9722,7 +9728,8 @@ SDL specific resources
 ----------------------
 
 `HotkeyFile'
-     String specifying the name of the hotkey file.
+     String specifying the name of the hotkey file (all emulators
+     except vsid).
 
 `MenuKey'
      Integer specifying the keycode for activating the SDL menu.
@@ -9753,22 +9760,23 @@ SDL specific resources
 
 `SaveResourcesOnExit'
      Boolean specifying whether the emulator should save changed
-     settings before exiting.  If this is enabled, the user will be
+     settings before exiting. If this is enabled, the user will be
      always prompted first, in case the settings have changed.
 
 `ConfirmOnExit'
      Boolean specifying whether to show a confirmation dialog on exit.
 
 `SDLStatusbar'
-     Boolean to enable/disable the statusbar.
+     Boolean to enable/disable the statusbar (all emulators except
+     vsid).
 
 `SDLBitdepth'
-     Integer specifying the bitdepth used.  (0=current, 8, 15, 16, 24,
+     Integer specifying the bitdepth used.  (0: current, 8, 15, 16, 24,
      32)
 
 `SDLLimitMode'
-     Integer specifying the resolution limit mode.  (0=off, 1=max,
-     2=fixed)
+     Integer specifying the resolution limit mode.  (0: off, 1: max, 2:
+     fixed)
 
 `SDLCustomWidth'
      Integer specifying the custom resolution width.
@@ -9779,30 +9787,30 @@ SDL specific resources
 `JoyDevice1'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 1 (all emulators except xcbm2, xpet
-     and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick
-     (only if joystick support was present in the compile time SDL
-     library))
+     and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4:
+     Joystick (only if joystick support was present in the compile time
+     SDL library))
 
 `JoyDevice2'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 2 (all emulators except xcbm2, xpet,
-     xvic and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
-     4=Joystick (only if joystick support was present in the compile
-     time SDL library))
+     xvic and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4:
+     Joystick (only if joystick support was present in the compile time
+     SDL library))
 
 `JoyDevice3'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 1 (all emulators except
-     xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
-     4=Joystick (only if joystick support was present in the compile
+     xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2,
+     4: Joystick (only if joystick support was present in the compile
      time SDL library))
 
 `JoyDevice4'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 2 (all emulators except
-     xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1,
-     3=Keyset 2, 4=Joystick (only if joystick support was present in
-     the compile time SDL library))
+     xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3:
+     Keyset 2, 4: Joystick (only if joystick support was present in the
+     compile time SDL library))
 
 `CrtcSDLFullscreenMode'
      Integer specifying the fullscreen mode (xcbm2 and xpet only).
@@ -9901,11 +9909,11 @@ The following resources are only present if the OpenGL library is
 present and used at compile time.
 
 `AspectRatio'
-     String/float specifying the aspect ratio (0.5-2.0).
+     String/float specifying the aspect ratio.  (0.5-2.0)
 
 `SDLGLAspectMode'
-     Integer specifying the OpenGL aspect mode (0=off, 1=custom,
-     2=true).
+     Integer specifying the OpenGL aspect mode.  (0: off, 1: custom, 2:
+     true)
 
 `SDLGLFlipX'
      Boolean to enable/disable OpenGL horizontal screen flip.
@@ -9921,10 +9929,10 @@ vsid.
      String specifying the name of the joystick map file.
 
 `JoyThreshold'
-     Integer specifying the joystick threshold.  (0-32767)
+     Integer specifying the joystick threshold.  (0..32767)
 
 `JoyFuzz'
-     Integer specifying the joystick fuzz.  (0-32767)
+     Integer specifying the joystick fuzz.  (0..32767)
 
 The following resource is only present if compiling for native dingoo.
 
@@ -9935,7 +9943,8 @@ SDL specific command-line options
 ---------------------------------
 
 `-hotkeyfile <name>'
-     Set the hotkey file name (`HotkeyFile').
+     Set the hotkey file name (`HotkeyFile') (all emulators except
+     vsid).
 
 `-menukey <key>'
      Set the keycode of the SDL menu activation key (`MenuKey').
@@ -9977,13 +9986,16 @@ SDL specific command-line options
 
 `-statusbar'
 `+statusbar'
-     Enable/disable the statusbar (`SDLStatusbar=1', `SDLStatusbar=0').
+     Enable/disable the statusbar (`SDLStatusbar=1', `SDLStatusbar=0')
+     (all emulators except vsid).
 
 `-sdlbitdepth <bpp>'
-     Set the display bitdepth (`SDLBitdepth').
+     Set the display bitdepth (`SDLBitdepth').  (0: current, 8, 15, 16,
+     24, 32)
 
 `-sdllimitmode <mode>'
-     Set the resolution limit mode (`SDLLimitMode').
+     Set the resolution limit mode (`SDLLimitMode').  (0: off, 1: max,
+     2: fixed)
 
 `-sdlcustomw <width>'
      Set the custom resolution width (`SDLCustomWidth').
@@ -9993,27 +10005,27 @@ SDL specific command-line options
 
 `-joydev1 <0-3> / <0-4>'
      Set the device for joystick emulation of port 1 (`JoyDevice1')
-     (all emulators except xcbm2, xpet and vsid).  (0=None, 1=Numpad,
-     2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick support was
-     present in the compile time SDL library))
+     (all emulators except xcbm2, xpet and vsid).  (0: None, 1: Numpad,
+     2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick support
+     was present in the compile time SDL library))
 
 `-joydev2 <0-3> / <0-4>'
      Set the device for joystick emulation of port 2 (`JoyDevice2')
-     (all emulators except xcbm2, xpet, xvic and vsid).  (0=None,
-     1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick (only if joystick
+     (all emulators except xcbm2, xpet, xvic and vsid).  (0: None, 1:
+     Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick (only if joystick
      support was present in the compile time SDL library))
 
 `-extrajoydev1 <0-3> / <0-4>'
      Set device for extra joystick port 1 (`JoyDevice3') (all emulators
-     except xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset
-     2, 4=Joystick (only if joystick support was present in the compile
-     time SDL library))
+     except xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3:
+     Keyset 2, 4: Joystick (only if joystick support was present in the
+     compile time SDL library))
 
 `-extrajoydev2 <0-3> / <0-4>'
      Set device for extra joystick port 2 (`JoyDevice4') (all emulators
-     except xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1,
-     3=Keyset 2, 4=Joystick (only if joystick support was present in
-     the compile time SDL library))
+     except xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Keyset
+     1, 3: Keyset 2, 4: Joystick (only if joystick support was present
+     in the compile time SDL library))
 
 `-CRTCSDLfullmode <Mode>'
      Set the fullscreen mode (`CrtcSDLFullscreenMode') (xcbm2 and xpet
@@ -10071,7 +10083,7 @@ SDL specific command-line options
 `-VIChwscale'
 `+VIChwscale'
      Enable/Disable hardware scaling (`VICHwScale=1', `VICHwScale=0')
-     (x128 only).
+     (xvic only).
 
 `-VICfulldevice <device>'
      Select fullscreen device (`VICFullscreenDevice') (xvic only).
@@ -10108,7 +10120,8 @@ library is present and used at compile time.
      Set the aspect ratio (`AspectRatio').  (0.5-2.0)
 
 `-sdlaspectmode <mode>'
-     Set the aspect mode (`SDLGLAspectMode').  (0=off, 1=custom, 2=true)
+     Set the aspect mode (`SDLGLAspectMode').  (0: off, 1: custom, 2:
+     true)
 
 `-sdlflipx'
 `+sdlflipx'
@@ -10158,17 +10171,17 @@ Unix specific resources
 
 `SaveResourcesOnExit'
      Boolean specifying whether the emulator should save changed
-     settings before exiting.  If this is enabled, the user will be
+     settings before exiting. If this is enabled, the user will be
      always prompted first, in case the settings have changed.
 
 `ConfirmOnExit'
      Boolean specifying whether to show a confirmation dialog on exit.
 
 `HTMLBrowserCommand'
-     String specifying the command to run the help browser.  The help
+     String specifying the command to run the help browser. The help
      browser can be any HTML browser, and every `%s' in the string is
      replaced with the name of the toplevel file of the VICE
-     documentation.  For example, the default value `netscape %s' runs
+     documentation. For example, the default value `netscape %s' runs
      Netscape Navigator.
 
 `CrtcHwScale'
@@ -10251,38 +10264,38 @@ Unix specific resources
 `JoyDevice1'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 1 (all emulators except xcbm2, xpet
-     and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog
-     joystick 1, 5=Analog joystick 2, 6=Analog joystick 3, 7=Analog
-     joystick 4, 8=Analog joystick 5, 9=Analog joystick 6, 10=Digital
-     joystick 1, 11=Digital joystick 2, 12=USB joystick 1, 13=USB
-     joystick 2)
+     and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4:
+     Analog joystick 1, 5: Analog joystick 2, 6: Analog joystick 3, 7:
+     Analog joystick 4, 8: Analog joystick 5, 9: Analog joystick 6, 10:
+     Digital joystick 1, 11: Digital joystick 2, 12: USB joystick 1,
+     13: USB joystick 2)
 
 `JoyDevice2'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 2 (all emulators except xcbm2, xpet,
-     xvic and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
-     4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3,
-     7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6,
-     10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1,
-     13=USB joystick 2)
+     xvic and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4:
+     Analog joystick 1, 5: Analog joystick 2, 6: Analog joystick 3, 7:
+     Analog joystick 4, 8: Analog joystick 5, 9: Analog joystick 6, 10:
+     Digital joystick 1, 11: Digital joystick 2, 12: USB joystick 1,
+     13: USB joystick 2)
 
 `JoyDevice3'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 1 (all emulators except
-     xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
-     4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3,
-     7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6,
-     10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1,
-     13=USB joystick 2)
+     xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2,
+     4: Analog joystick 1, 5: Analog joystick 2, 6: Analog joystick 3,
+     7: Analog joystick 4, 8: Analog joystick 5, 9: Analog joystick 6,
+     10: Digital joystick 1, 11: Digital joystick 2, 12: USB joystick
+     1, 13: USB joystick 2)
 
 `JoyDevice4'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 2 (all emulators except
-     xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1,
-     3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog
-     joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog
-     joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB
-     joystick 1, 13=USB joystick 2)
+     xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3:
+     Keyset 2, 4: Analog joystick 1, 5: Analog joystick 2, 6: Analog
+     joystick 3, 7: Analog joystick 4, 8: Analog joystick 5, 9: Analog
+     joystick 6, 10: Digital joystick 1, 11: Digital joystick 2, 12:
+     USB joystick 1, 13: USB joystick 2)
 
 The available joysticks might differ depending on operating system and
 joystick support in the OS.
@@ -10314,7 +10327,7 @@ support is available at compile time.
 
 `MIDIDriver'
      Enum specifying the MIDI driver (x64, x64sc, xscpu64, x128 and
-     xvic only).  (0=OSS, 1=ALSA)
+     xvic only).  (0: OSS, 1: ALSA)
 
 The following resources are only available if RS232 device support or
 RS232 network support is available at compile time.
@@ -10323,7 +10336,7 @@ RS232 network support is available at compile time.
 `RsDevice2Baud'
 `RsDevice3Baud'
 `RsDevice4Baud'
-     Integer specifying the RS232 baudrate devices if the device file
+     Integers specifying the RS232 baudrate devices if the device file
      points to a special device (like `/dev/ttyS0'; see @{"RS232 settings" Link "RS232 settings"})
      (all emulators except vsid).
 
@@ -10341,7 +10354,7 @@ Unix specific command-line options
 `+confirmexit'
      Never confirm quitting VICE (`ConfirmOnExit=0').
 
-`-htmlbrowser COMMAND'
+`-htmlbrowser <Command>'
      Specify the command to run the HTML browser for the on-line help
      (`HTMLBrowserCommand').
 
@@ -10370,7 +10383,7 @@ Unix specific command-line options
 `-VIChwscale'
 `+VIChwscale'
      Enable/Disable hardware scaling (`VICHwScale=1', `VICHwScale=0')
-     (x128 only).
+     (xvic only).
 
 `-VICfulldevice <device>'
      Select fullscreen device (`VICFullscreenDevice') (xvic only).
@@ -10387,35 +10400,35 @@ Unix specific command-line options
 
 `-joydev1 <0-3> / <0-9> / <0-11> / <0-13>'
      Set the device for joystick emulation of port 1 (`JoyDevice1')
-     (all emulators except xcbm2, xpet and vsid).  (0=None, 1=Numpad,
-     2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2,
-     6=Analog joystick 3, 7=Analog joystick 4, 8=Analog joystick 5,
-     9=Analog joystick 6, 10=Digital joystick 1, 11=Digital joystick 2,
-     12=USB joystick 1, 13=USB joystick 2)
+     (all emulators except xcbm2, xpet and vsid).  (0: None, 1: Numpad,
+     2: Keyset 1, 3: Keyset 2, 4: Analog joystick 1, 5: Analog joystick
+     2, 6: Analog joystick 3, 7: Analog joystick 4, 8: Analog joystick
+     5, 9: Analog joystick 6, 10: Digital joystick 1, 11: Digital
+     joystick 2, 12: USB joystick 1, 13: USB joystick 2)
 
 `-joydev2 <0-3> / <0-9> / <0-11> / <0-13>'
      Set the device for joystick emulation of port 2 (`JoyDevice2')
-     (all emulators except xcbm2, xpet, xvic and vsid).  (0=None,
-     1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Analog joystick 1, 5=Analog
-     joystick 2, 6=Analog joystick 3, 7=Analog joystick 4, 8=Analog
-     joystick 5, 9=Analog joystick 6, 10=Digital joystick 1, 11=Digital
-     joystick 2, 12=USB joystick 1, 13=USB joystick 2)
+     (all emulators except xcbm2, xpet, xvic and vsid).  (0: None, 1:
+     Numpad, 2: Keyset 1, 3: Keyset 2, 4: Analog joystick 1, 5: Analog
+     joystick 2, 6: Analog joystick 3, 7: Analog joystick 4, 8: Analog
+     joystick 5, 9: Analog joystick 6, 10: Digital joystick 1, 11:
+     Digital joystick 2, 12: USB joystick 1, 13: USB joystick 2)
 
 `-extrajoydev1 <0-3> / <0-9> / <0-11> / <0-13>'
      Set device for extra joystick port 1 (`JoyDevice3') (all emulators
-     except xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset
-     2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog joystick 3,
-     7=Analog joystick 4, 8=Analog joystick 5, 9=Analog joystick 6,
-     10=Digital joystick 1, 11=Digital joystick 2, 12=USB joystick 1,
-     13=USB joystick 2)
+     except xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3:
+     Keyset 2, 4: Analog joystick 1, 5: Analog joystick 2, 6: Analog
+     joystick 3, 7: Analog joystick 4, 8: Analog joystick 5, 9: Analog
+     joystick 6, 10: Digital joystick 1, 11: Digital joystick 2, 12:
+     USB joystick 1, 13: USB joystick 2)
 
 `-extrajoydev2 <0-3> / <0-9> / <0-11> / <0-13>'
      Set device for extra joystick port 2 (`JoyDevice4') (all emulators
-     except xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1,
-     3=Keyset 2, 4=Analog joystick 1, 5=Analog joystick 2, 6=Analog
-     joystick 3, 7=Analog joystick 4, 8=Analog joystick 5, 9=Analog
-     joystick 6, 10=Digital joystick 1, 11=Digital joystick 2, 12=USB
-     joystick 1, 13=USB joystick 2)
+     except xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Keyset
+     1, 3: Keyset 2, 4: Analog joystick 1, 5: Analog joystick 2, 6:
+     Analog joystick 3, 7: Analog joystick 4, 8: Analog joystick 5, 9:
+     Analog joystick 6, 10: Digital joystick 1, 11: Digital joystick 2,
+     12: USB joystick 1, 13: USB joystick 2)
 
 The available joysticks might differ depending on operating system and
 joystick support in the OS.
@@ -10447,7 +10460,7 @@ ALSA support is available at compile time.
 
 `-mididrv <driver>'
      Specify MIDI driver (`MIDIDriver') (x64, x64sc, xscpu64, x128 and
-     xvic only).  (0=OSS, 1=ALSA)
+     xvic only).  (0: OSS, 1: ALSA)
 
 The following command-line options are only available if RS232 device
 support or RS232 network support is available at compile time.
@@ -10480,13 +10493,14 @@ XAW GUI specific resources
 
 `DisplayDepth'
      Integer specifying the depth of the host display. The value `0'
-     (the default) causes the emulator to autodetect it.  (0..32)
+     (the default) causes the emulator to autodetect it (all emulators
+     except vsid).  (0..32)
 
 `PrivateColormap'
      Boolean specifying whether VICE should install a private colormap
      at startup. This only makes sense for 8-bit displays that could
      run out of colors if other color-hungry applications are running
-     at the same time.
+     at the same time (all emulators except vsid).
 
 `UseXSync'
      Boolean specifying whether `XSync()' is called after updating the
@@ -10502,21 +10516,21 @@ XAW GUI specific resources
      1 = do use MITSHM, -1 = try to autodetect availability on startup
      (default). The last is a simple test if the emulator runs across a
      network and if so disables MITSHM (If you have problems with this
-     test please report it).
+     test please report it).  (-1: auto, 1: off, 2: on)
 
 `Window0Width'
 `Window0Height'
 `Window0Xpos'
 `Window0Ypos'
      Integers specifying the position and size of the (first) emulator
-     window.
+     window (all emulators except vsid).
 
 `Window1Width'
 `Window1Height'
 `Window1Xpos'
 `Window1Ypos'
      Integers specifying the position and size of the (second) emulator
-     window.
+     window (x128 only).
 
 The following resources are only available if Xvideo support is present
 at compile time.
@@ -10526,7 +10540,7 @@ at compile time.
 
 `KeepAspectRatio'
      Boolean specifying whether the aspect ratio of the output window
-     should be preserved.  (0=free scaling, 1=scale with fixed aspect
+     should be preserved.  (0: free scaling, 1: scale with fixed aspect
      ratio)
 
 `TrueAspectRatio'
@@ -10540,7 +10554,8 @@ The following resources are only available if XRandr support is present
 at compile time.
 
 `UseFullscreen'
-     Boolean specifying whether fullscreen mode is currently in use.
+     Boolean specifying whether fullscreen mode is currently in use
+     (all emulators except vsid).
 
 `CrtcXRANDRFullscreenMode'
      integer specifying XRANDR fullscreen mode (xcbm2 and xpet only).
@@ -10584,12 +10599,14 @@ XAW GUI specific command-line options
 .....................................
 
 `-displaydepth <value>'
-     Specify the display depth (`DisplayDepth').  (0..32)
+     Specify the display depth (`DisplayDepth') (all emulators except
+     vsid).  (0..32)
 
 `-colormap'
 `+colormap'
      Enable/disable installation of a private colormap
-     (`PrivateColormap=1', `PrivateColormap=0').
+     (`PrivateColormap=1', `PrivateColormap=0') (all emulators except
+     vsid).
 
 `-xsync'
 `+xsync'
@@ -10629,7 +10646,7 @@ is present at compile time.
 `-fullscreen'
 `+fullscreen'
      Enable/disable fullscreen mode (`UseFullscreen=1',
-     (`UseFullscreen=0').
+     (`UseFullscreen=0') (all emulators except vsid).
 
 `-CrtcXRANDRfullmode <mode>'
      Select fullscreen mode (`CrtcXRANDRFullscreenMode').  (xcbm2 and
@@ -10691,7 +10708,7 @@ GTK GUI specific resources
 
 `KeepAspectRatio'
      Boolean specifying whether the aspect ratio of the output window
-     should be preserved.  (0=free scaling, 1=scale with fixed aspect
+     should be preserved.  (0: free scaling, 1: scale with fixed aspect
      ratio)
 
 `TrueAspectRatio'
@@ -10751,7 +10768,7 @@ Windows GUI specific resources
 
 `InitialDefaultDir'
      String specifying the initial default directory, which is used by
-     the generic file browser dialog (all emulators except vsid).
+     the generic file browser dialog.
 
 `InitialTapeDir'
      String specifying the initial tape directory, which is used by the
@@ -10778,7 +10795,7 @@ Windows GUI specific resources
 
 `SaveResourcesOnExit'
      Boolean specifying whether the emulator should save changed
-     settings before exiting.  If this is enabled, the user will be
+     settings before exiting. If this is enabled, the user will be
      always prompted first, in case the settings have changed.
 
 `ConfirmOnExit'
@@ -10798,64 +10815,51 @@ Windows GUI specific resources
      Integers specifying the position and size of the (second) emulator
      window (x128 only).
 
-`VBLANKSync'
-     Boolean to enable/disable vertical blank sync.
-
 `AlwaysOnTop'
-     Boolean specifying if the emulator should stay on top.
-
-`KeepAspectRatio'
-     Boolean specifying whether the aspect ratio of the output window
-     should be preserved.  (0=free scaling, 1=scale with fixed aspect
-     ratio)
-
-`TrueAspectRatio'
-     Boolean specifying whether to use the true (non square pixels)
-     aspect ratio.
-
-`AspectRatio'
-     Integer specifying the aspect ratio (500-2000).
+     Boolean specifying if the emulator window should stay on top of
+     other windows.
 
 `JoyDevice1'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 1 (all emulators except xcbm2, xpet
-     and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick
-     1, 5=joystick 2)
+     and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4:
+     Joystick 1, 5: joystick 2)
 
 `JoyDevice2'
      Integer specifying which joystick device the emulator should use
      for the emulation of joystick 2 (all emulators except xcbm2, xpet,
-     xvic and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
-     4=Joystick 1, 5=joystick 2)
+     xvic and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4:
+     Joystick 1, 5: joystick 2)
 
 `JoyDevice3'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 1 (all emulators except
-     xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2,
-     4=Joystick 1, 5=joystick 2)
+     xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2,
+     4: Joystick 1, 5: joystick 2)
 
 `JoyDevice4'
      Integer specifying which joystick device the emulator should use
      for the emulation of extra joystick 2 (all emulators except
-     xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1,
-     3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+     xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3:
+     Keyset 2, 4: Joystick 1, 5: joystick 2)
 
 `JoyAutofire1Speed'
      Integer specifying the autofire speed for the emulation of
-     joystick 1 (all emulators except xcbm2, xpet and vsid).  (0-32)
+     joystick 1 (all emulators except xcbm2, xpet and vsid).  (0..32)
 
 `JoyAutofire2Speed'
      Integer specifying the autofire speed for the emulation of
      joystick 2 (all emulators except xcbm2, xpet, xvic and vsid).
-     (0-32)
+     (0..32)
 
 `JoyAutofire3Speed'
      Integer specifying the autofire speed for the emulation of extra
-     joystick 1 (all emulators except xcbm5x0 and vsid).  (0-32)
+     joystick 1 (all emulators except xcbm5x0 and vsid).  (0..32)
 
 `JoyAutofire4Speed'
      Integer specifying the autofire speed for the emulation of extra
-     joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).  (0-32)
+     joystick 2 (all emulators except xcbm5x0, xplus4 and vsid).
+     (0..32)
 
 `JoyAutofire1Button'
      Integer specifying the the code of the button to use for autofire
@@ -10913,25 +10917,49 @@ available at compile time.
 
 `DX9Disable'
      Boolean specifying whether to disable the DirectX 9 video driver
-     and fall back on the GDI video driver.  (0=use GDI, 1=use DX9)
+     and fall back on the GDI video driver (all emulators except vsid).
+     (0: use GDI, 1: use DX9)
 
 `DXPrimarySurfaceRendering'
-     Boolean to enable/disable rendering to DirectX primary surface.
+     Boolean to enable/disable rendering to DirectX primary surface
+     (all emulators except vsid).
 
 `FullscreenEnabled'
-     Boolean to enable/disable fullscreen mode.
+     Boolean to enable/disable fullscreen mode (all emulators except
+     vsid).
 
 `FullscreenDevice'
-     Integer specifying the fullscreen device.
+     Integer specifying the fullscreen device (all emulators except
+     vsid).
 
 `FullscreenWidth'
-     Integer specifying the width of the fullscreen display.
+     Integer specifying the width of the fullscreen display (all
+     emulators except vsid).
 
 `FullscreenHeight'
-     Integer specifying the height of the fullscreen display.
+     Integer specifying the height of the fullscreen display (all
+     emulators except vsid).
 
 `FullscreenRefreshRate'
-     Integer specifying the refresh rate of the fullscreen display.
+     Integer specifying the refresh rate of the fullscreen display (all
+     emulators except vsid).
+
+`VBLANKSync'
+     Boolean to enable/disable vertical blank sync (all emulators
+     except vsid).
+
+`KeepAspectRatio'
+     Boolean specifying whether the aspect ratio of the output window
+     should be preserved (all emulators except vsid).  (0: free
+     scaling, 1: scale with fixed aspect ratio)
+
+`TrueAspectRatio'
+     Boolean specifying whether to use the true (non square pixels)
+     aspect ratio (all emulators except vsid).
+
+`AspectRatio'
+     Integer specifying the aspect ratio (all emulators except vsid).
+     (500..2000)
 
 Windows GUI specific command-line options
 -----------------------------------------
@@ -10942,28 +10970,28 @@ Windows GUI specific command-line options
 
 `-initialdefaultdir <Name>'
      Select the initial default directory for the file browser dialog
-     (all emulators except vsid) (`InitialDefaultDir').
+     (`InitialDefaultDir').
 
 `-initialtapedir <Name>'
      Select the initial tape images directory for the file browser
-     dialog (all emulators except x64dtv, xscpu64 and vsid)
-     (`InitialTapeDir').
+     dialog (`InitialTapeDir') (all emulators except x64dtv, xscpu64
+     and vsid).
 
 `-initialdiskdir <Name>'
      Select the initial disk images directory for the file browser
-     dialog (all emulators except vsid) (`InitialDiskDir').
+     dialog (`InitialDiskDir') (all emulators except vsid).
 
 `-initialautostartdir <Name>'
      Select the initial autostart directory for the file browser dialog
-     (all emulators except vsid) (`InitialAutostartDir').
+     (`InitialAutostartDir') (all emulators except vsid).
 
 `-initialcartdir <Name>'
      Select the initial cartridge images directory for the file browser
-     dialog (all emulators except x64dtv and vsid) (`InitialCartDir').
+     dialog (`InitialCartDir') (all emulators except x64dtv and vsid).
 
 `-initialsnapshotdir <Name>'
      Select the initial snapshot directory for the file browser dialog
-     (all emulators except vsid) (`InitialSnapshotDir').
+     (`InitialSnapshotDir') (all emulators except vsid).
 
 `-saveres'
 `+saveres'
@@ -10982,51 +11010,30 @@ Windows GUI specific command-line options
 `+singlecpu'
      Use all CPUs on SMP systems (`SingleCPU=0').
 
-`-vblanksync'
-`+vblanksync'
-     Enable/disable vertical blank sync (`VBLANKSync=1',
-     `VBLANKSync=0').
-
 `-alwaysontop'
 `+alwaysontop'
      Enable/disable always on top feature (`AlwaysOnTop=1',
      `AlwaysOnTop=0').
 
-`-keepaspect'
-     Enable keeping of the aspect ratio when scaling
-     (`KeepAspectRatio=1').
-
-`+keepaspect'
-     Disable keeping of the aspect ratio when scaling (freescaling)
-     (`KeepAspectRatio=0').
-
-`-trueaspect'
-`+trueaspect'
-     Enable/disable whether to use the true (non square pixels) aspect
-     ratio (`TrueAspectRatio=1', (`TrueAspectRatio=0').
-
-`-aspect <aspect ratio>'
-     Set the aspect ratio (`AspectRatio').  (500-2000)
-
 `-joydev1 <0-5>'
      Set the device for joystick emulation of port 1 (`JoyDevice1')
-     (all emulators except xcbm2, xpet and vsid).  (0=None, 1=Numpad,
-     2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+     (all emulators except xcbm2, xpet and vsid).  (0: None, 1: Numpad,
+     2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)
 
 `-joydev2 <0-5>'
      Set the device for joystick emulation of port 2 (`JoyDevice2')
-     (all emulators except xcbm2, xpet, xvic and vsid).  (0=None,
-     1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+     (all emulators except xcbm2, xpet, xvic and vsid).  (0: None, 1:
+     Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)
 
 `-extrajoydev1 <0-5>'
      Set device for extra joystick port 1 (`JoyDevice3') (all emulators
-     except xcbm5x0 and vsid).  (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset
-     2, 4=Joystick 1, 5=joystick 2)
+     except xcbm5x0 and vsid).  (0: None, 1: Numpad, 2: Keyset 1, 3:
+     Keyset 2, 4: Joystick 1, 5: joystick 2)
 
 `-extrajoydev2 <0-5>'
      Set device for extra joystick port 2 (`JoyDevice4') (all emulators
-     except xcbm5x0, xplus4 and vsid).  (0=None, 1=Numpad, 2=Keyset 1,
-     3=Keyset 2, 4=Joystick 1, 5=joystick 2)
+     except xcbm5x0, xplus4 and vsid).  (0: None, 1: Numpad, 2: Keyset
+     1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)
 
 The following command-line options are only available if MIDI support
 is available at compile time.
@@ -11044,23 +11051,49 @@ support is available at compile time.
 
 `-dx9disable'
      Disable DirectX 9 video driver and fall back on the GDI video
-     driver (`DX9Disable=1').
+     driver (`DX9Disable=1') (all emulators except vsid).
 
 `-dx9enable'
-     Enable DirectX 9 video driver (`DX9Disable=1').
+     Enable DirectX 9 video driver (`DX9Disable=1') (all emulators
+     except vsid).
 
 `-dxpsrender'
 `+dxpsrender'
      Enable/disable rendering to DirectX primary surface
-     (`DXPrimarySurfaceRendering=1', `DXPrimarySurfaceRendering=0').
+     (`DXPrimarySurfaceRendering=1', `DXPrimarySurfaceRendering=0')
+     (all emulators except vsid).
 
 `-fullscreen'
 `+fullscreen'
      Enable/Disable fullscreen mode (`FullscreenEnabled=1',
-     `FullscreenEnabled=0').
+     `FullscreenEnabled=0') (all emulators except vsid).
 
 `-fullscreendevice <number>'
-     Specify fullscreen device (`FullscreenDevice').
+     Specify fullscreen device (`FullscreenDevice') (all emulators
+     except vsid).
+
+`-vblanksync'
+`+vblanksync'
+     Enable/disable vertical blank sync (`VBLANKSync=1', `VBLANKSync=0')
+     (all emulators except vsid).
+
+`-keepaspect'
+     Enable keeping of the aspect ratio when scaling
+     (`KeepAspectRatio=1') (all emulators except vsid).
+
+`+keepaspect'
+     Disable keeping of the aspect ratio when scaling (freescaling)
+     (`KeepAspectRatio=0') (all emulators except vsid).
+
+`-trueaspect'
+`+trueaspect'
+     Enable/disable whether to use the true (non square pixels) aspect
+     ratio (`TrueAspectRatio=1', (`TrueAspectRatio=0') (all emulators
+     except vsid).
+
+`-aspect <aspect ratio>'
+     Set the aspect ratio (`AspectRatio') (all emulators except vsid).
+     (500..2000)
 
 
 @EndNode
@@ -19961,14 +19994,14 @@ Index of Resources
  @{" 40/80ColumnKey " Link "C128-specific"}                       C128-specific
  @{" Acia1Base " Link "C64 I-O extension resources"}                            C64 I-O extension resources
  @{" Acia1Dev " Link "RS232 resources"}                             RS232 resources
- @{" Acia1Enable " Link "PLUS4-specific"}                          PLUS4-specific
  @{" Acia1Enable " Link "C64 I-O extension resources"}                          C64 I-O extension resources
+ @{" Acia1Enable " Link "PLUS4-specific"}                          PLUS4-specific
  @{" Acia1Irq " Link "RS232 resources"}                             RS232 resources
  @{" Acia1Mode " Link "C64 I-O extension resources"}                            C64 I-O extension resources
  @{" AlwaysOnTop " Link "Windows-specific features"}                          Windows-specific features
  @{" AspectRatio " Link "XAW-specific features"}                          XAW-specific features
- @{" AspectRatio " Link "SDL-specific features"}                          SDL-specific features
  @{" AspectRatio " Link "Windows-specific features"}                          Windows-specific features
+ @{" AspectRatio " Link "SDL-specific features"}                          SDL-specific features
  @{" AttachDevice10Readonly " Link "Misc resources"}               Misc resources
  @{" AttachDevice11Readonly " Link "Misc resources"}               Misc resources
  @{" AttachDevice8Readonly " Link "Misc resources"}                Misc resources
@@ -19986,12 +20019,12 @@ Index of Resources
  @{" Basic64Name " Link "C128-specific"}                          C128-specific
  @{" BasicHiName " Link "C128-specific"}                          C128-specific
  @{" BasicLoName " Link "C128-specific"}                          C128-specific
- @{" BasicName " Link "CBM-II model"}                            CBM-II model
- @{" BasicName " Link "VIC20 system ROM resources"}                            VIC20 system ROM resources
  @{" BasicName " Link "PLUS4-specific"}                            PLUS4-specific
+ @{" BasicName " Link "CBM-II model"}                            CBM-II model
  @{" BasicName " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
  @{" BasicName " Link "VSID-specific"}                            VSID-specific
  @{" BasicName " Link "PET model"}                            PET model
+ @{" BasicName " Link "VIC20 system ROM resources"}                            VIC20 system ROM resources
  @{" BoardType " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" BurstMod " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" C128FullBanks " Link "C128-specific"}                        C128-specific
@@ -20007,31 +20040,31 @@ Index of Resources
  @{" Cart2Name " Link "CBM-II model"}                            CBM-II model
  @{" Cart4Name " Link "CBM-II model"}                            CBM-II model
  @{" Cart6Name " Link "CBM-II model"}                            CBM-II model
- @{" CartridgeFile " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" CartridgeFile " Link "C64 cartridges"}                        C64 cartridges
- @{" CartridgeReset " Link "C64 cartridges"}                       C64 cartridges
- @{" CartridgeReset " Link "PLUS4-specific"}                       PLUS4-specific
+ @{" CartridgeFile " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" CartridgeReset " Link "VIC20 cartridges"}                       VIC20 cartridges
- @{" CartridgeType " Link "C64 cartridges"}                        C64 cartridges
+ @{" CartridgeReset " Link "PLUS4-specific"}                       PLUS4-specific
+ @{" CartridgeReset " Link "C64 cartridges"}                       C64 cartridges
  @{" CartridgeType " Link "VIC20 cartridges"}                        VIC20 cartridges
+ @{" CartridgeType " Link "C64 cartridges"}                        C64 cartridges
  @{" ChargenCHName " Link "C128-specific"}                        C128-specific
  @{" ChargenDEName " Link "C128-specific"}                        C128-specific
  @{" ChargenFRName " Link "C128-specific"}                        C128-specific
  @{" ChargenIntName " Link "C128-specific"}                       C128-specific
- @{" ChargenName " Link "VIC20 system ROM resources"}                          VIC20 system ROM resources
- @{" ChargenName " Link "VSID-specific"}                          VSID-specific
- @{" ChargenName " Link "CBM-II model"}                          CBM-II model
- @{" ChargenName " Link "PET model"}                          PET model
  @{" ChargenName " Link "SCPU64-specific"}                          SCPU64-specific
  @{" ChargenName " Link "C64-128 system ROM resources"}                          C64-128 system ROM resources
+ @{" ChargenName " Link "VIC20 system ROM resources"}                          VIC20 system ROM resources
+ @{" ChargenName " Link "PET model"}                          PET model
+ @{" ChargenName " Link "VSID-specific"}                          VSID-specific
+ @{" ChargenName " Link "CBM-II model"}                          CBM-II model
  @{" ChargenSEName " Link "C128-specific"}                        C128-specific
  @{" CIA1Model " Link "C64 cartridges"}                            C64 cartridges
  @{" CIA2Model " Link "C64 cartridges"}                            C64 cartridges
- @{" ConfirmOnExit " Link "AmigaOS-specific features"}                        AmigaOS-specific features
- @{" ConfirmOnExit " Link "SDL-specific features"}                        SDL-specific features
- @{" ConfirmOnExit " Link "Unix-specific features"}                        Unix-specific features
- @{" ConfirmOnExit " Link "Windows-specific features"}                        Windows-specific features
  @{" ConfirmOnExit " Link "BeOS-specific features"}                        BeOS-specific features
+ @{" ConfirmOnExit " Link "Windows-specific features"}                        Windows-specific features
+ @{" ConfirmOnExit " Link "Unix-specific features"}                        Unix-specific features
+ @{" ConfirmOnExit " Link "SDL-specific features"}                        SDL-specific features
+ @{" ConfirmOnExit " Link "AmigaOS-specific features"}                        AmigaOS-specific features
  @{" CPUswitch " Link "PET settings"}                            PET settings
  @{" Crtc " Link "PET model"}                                 PET model
  @{" CrtcAudioLeak " Link "PET model"}                        PET model
@@ -20195,8 +20228,8 @@ Index of Resources
  @{" FSDevice9SaveP00 " Link "File system device resources"}                     File system device resources
  @{" FSFlashDir " Link "Monitor DTV features"}                           Monitor DTV features
  @{" FullscreenDevice " Link "Windows-specific features"}                     Windows-specific features
- @{" FullscreenEnabled " Link "AmigaOS-specific features"}                    AmigaOS-specific features
  @{" FullscreenEnabled " Link "Windows-specific features"}                    Windows-specific features
+ @{" FullscreenEnabled " Link "AmigaOS-specific features"}                    AmigaOS-specific features
  @{" FullscreenHeight " Link "Windows-specific features"}                     Windows-specific features
  @{" FullscreenRefreshRate " Link "Windows-specific features"}                Windows-specific features
  @{" FullscreenWidth " Link "Windows-specific features"}                      Windows-specific features
@@ -20265,16 +20298,16 @@ Index of Resources
  @{" IEEE488Image " Link "C64 cartridges"}                         C64 cartridges
  @{" InitialAutostartDir " Link "Windows-specific features"}                  Windows-specific features
  @{" InitialAutostartDir " Link "AmigaOS-specific features"}                  AmigaOS-specific features
- @{" InitialCartDir " Link "Windows-specific features"}                       Windows-specific features
  @{" InitialCartDir " Link "AmigaOS-specific features"}                       AmigaOS-specific features
- @{" InitialDefaultDir " Link "AmigaOS-specific features"}                    AmigaOS-specific features
+ @{" InitialCartDir " Link "Windows-specific features"}                       Windows-specific features
  @{" InitialDefaultDir " Link "Windows-specific features"}                    Windows-specific features
- @{" InitialDiskDir " Link "Windows-specific features"}                       Windows-specific features
+ @{" InitialDefaultDir " Link "AmigaOS-specific features"}                    AmigaOS-specific features
  @{" InitialDiskDir " Link "AmigaOS-specific features"}                       AmigaOS-specific features
+ @{" InitialDiskDir " Link "Windows-specific features"}                       Windows-specific features
  @{" InitialSnapshotDir " Link "Windows-specific features"}                   Windows-specific features
  @{" InitialSnapshotDir " Link "AmigaOS-specific features"}                   AmigaOS-specific features
- @{" InitialTapeDir " Link "Windows-specific features"}                       Windows-specific features
  @{" InitialTapeDir " Link "AmigaOS-specific features"}                       AmigaOS-specific features
+ @{" InitialTapeDir " Link "Windows-specific features"}                       Windows-specific features
  @{" InternalFunctionName " Link "C128-specific"}                 C128-specific
  @{" InternalFunctionROM " Link "C128-specific"}                  C128-specific
  @{" IOCollisionHandling " Link "VIC20 cartridges"}                  VIC20 cartridges
@@ -20304,61 +20337,61 @@ Index of Resources
  @{" JoyAutofire3Speed " Link "Windows-specific features"}                    Windows-specific features
  @{" JoyAutofire4Button " Link "Windows-specific features"}                   Windows-specific features
  @{" JoyAutofire4Speed " Link "Windows-specific features"}                    Windows-specific features
- @{" JoyDevice1 " Link "Unix-specific features"}                           Unix-specific features
- @{" JoyDevice1 " Link "Keyboard options"}                           Keyboard options
- @{" JoyDevice1 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
- @{" JoyDevice1 " Link "BeOS-specific features"}                           BeOS-specific features
- @{" JoyDevice1 " Link "SDL-specific features"}                           SDL-specific features
- @{" JoyDevice1 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
  @{" JoyDevice1 " Link "MorphOS-specific features"}                           MorphOS-specific features
- @{" JoyDevice1 " Link "AROS-specific features"}                           AROS-specific features
+ @{" JoyDevice1 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
+ @{" JoyDevice1 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
+ @{" JoyDevice1 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice1 " Link "Unix-specific features"}                           Unix-specific features
  @{" JoyDevice1 " Link "Windows-specific features"}                           Windows-specific features
+ @{" JoyDevice1 " Link "AROS-specific features"}                           AROS-specific features
+ @{" JoyDevice1 " Link "SDL-specific features"}                           SDL-specific features
  @{" JoyDevice1 " Link "DOS-specific features"}                           DOS-specific features
+ @{" JoyDevice1 " Link "Keyboard options"}                           Keyboard options
  @{" JoyDevice2 " Link "DOS-specific features"}                           DOS-specific features
+ @{" JoyDevice2 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
+ @{" JoyDevice2 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice2 " Link "AROS-specific features"}                           AROS-specific features
+ @{" JoyDevice2 " Link "Windows-specific features"}                           Windows-specific features
+ @{" JoyDevice2 " Link "Unix-specific features"}                           Unix-specific features
+ @{" JoyDevice2 " Link "SDL-specific features"}                           SDL-specific features
  @{" JoyDevice2 " Link "Keyboard options"}                           Keyboard options
  @{" JoyDevice2 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
- @{" JoyDevice2 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
  @{" JoyDevice2 " Link "MorphOS-specific features"}                           MorphOS-specific features
- @{" JoyDevice2 " Link "Windows-specific features"}                           Windows-specific features
- @{" JoyDevice2 " Link "AROS-specific features"}                           AROS-specific features
- @{" JoyDevice2 " Link "Unix-specific features"}                           Unix-specific features
- @{" JoyDevice2 " Link "BeOS-specific features"}                           BeOS-specific features
- @{" JoyDevice2 " Link "SDL-specific features"}                           SDL-specific features
- @{" JoyDevice3 " Link "MorphOS-specific features"}                           MorphOS-specific features
- @{" JoyDevice3 " Link "Windows-specific features"}                           Windows-specific features
  @{" JoyDevice3 " Link "SDL-specific features"}                           SDL-specific features
- @{" JoyDevice3 " Link "Keyboard options"}                           Keyboard options
- @{" JoyDevice3 " Link "Unix-specific features"}                           Unix-specific features
- @{" JoyDevice3 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
  @{" JoyDevice3 " Link "AROS-specific features"}                           AROS-specific features
- @{" JoyDevice3 " Link "DOS-specific features"}                           DOS-specific features
+ @{" JoyDevice3 " Link "Unix-specific features"}                           Unix-specific features
  @{" JoyDevice3 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
+ @{" JoyDevice3 " Link "MorphOS-specific features"}                           MorphOS-specific features
+ @{" JoyDevice3 " Link "Keyboard options"}                           Keyboard options
+ @{" JoyDevice3 " Link "DOS-specific features"}                           DOS-specific features
  @{" JoyDevice3 " Link "BeOS-specific features"}                           BeOS-specific features
- @{" JoyDevice4 " Link "BeOS-specific features"}                           BeOS-specific features
- @{" JoyDevice4 " Link "AROS-specific features"}                           AROS-specific features
- @{" JoyDevice4 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
- @{" JoyDevice4 " Link "Keyboard options"}                           Keyboard options
- @{" JoyDevice4 " Link "Windows-specific features"}                           Windows-specific features
- @{" JoyDevice4 " Link "SDL-specific features"}                           SDL-specific features
+ @{" JoyDevice3 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
+ @{" JoyDevice3 " Link "Windows-specific features"}                           Windows-specific features
  @{" JoyDevice4 " Link "Unix-specific features"}                           Unix-specific features
- @{" JoyDevice4 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
- @{" JoyDevice4 " Link "DOS-specific features"}                           DOS-specific features
+ @{" JoyDevice4 " Link "SDL-specific features"}                           SDL-specific features
+ @{" JoyDevice4 " Link "AROS-specific features"}                           AROS-specific features
  @{" JoyDevice4 " Link "MorphOS-specific features"}                           MorphOS-specific features
+ @{" JoyDevice4 " Link "AmigaOS4-specific features"}                           AmigaOS4-specific features
+ @{" JoyDevice4 " Link "DOS-specific features"}                           DOS-specific features
+ @{" JoyDevice4 " Link "AmigaOS3-specific features"}                           AmigaOS3-specific features
+ @{" JoyDevice4 " Link "Keyboard options"}                           Keyboard options
+ @{" JoyDevice4 " Link "BeOS-specific features"}                           BeOS-specific features
+ @{" JoyDevice4 " Link "Windows-specific features"}                           Windows-specific features
  @{" JoyFire1 " Link "AROS-specific features"}                             AROS-specific features
- @{" JoyFire1 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" JoyFire1 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" JoyFire1 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" JoyFire1Button " Link "Windows-specific features"}                       Windows-specific features
- @{" JoyFire2 " Link "AROS-specific features"}                             AROS-specific features
  @{" JoyFire2 " Link "MorphOS-specific features"}                             MorphOS-specific features
+ @{" JoyFire2 " Link "AROS-specific features"}                             AROS-specific features
  @{" JoyFire2 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" JoyFire2Button " Link "Windows-specific features"}                       Windows-specific features
  @{" JoyFire3 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" JoyFire3 " Link "AROS-specific features"}                             AROS-specific features
  @{" JoyFire3 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" JoyFire3Button " Link "Windows-specific features"}                       Windows-specific features
+ @{" JoyFire4 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" JoyFire4 " Link "AROS-specific features"}                             AROS-specific features
  @{" JoyFire4 " Link "MorphOS-specific features"}                             MorphOS-specific features
- @{" JoyFire4 " Link "AmigaOS3-specific features"}                             AmigaOS3-specific features
  @{" JoyFire4Button " Link "Windows-specific features"}                       Windows-specific features
  @{" JoyFuzz " Link "SDL-specific features"}                              SDL-specific features
  @{" JoyMapFile " Link "SDL-specific features"}                           SDL-specific features
@@ -20366,9 +20399,9 @@ Index of Resources
  @{" JoystickDisplay " Link "BeOS-specific features"}                      BeOS-specific features
  @{" JoyThreshold " Link "SDL-specific features"}                         SDL-specific features
  @{" KbdbufDelay " Link "Keyboard options"}                          Keyboard options
+ @{" KeepAspectRatio " Link "GTK-specific features"}                      GTK-specific features
  @{" KeepAspectRatio " Link "Windows-specific features"}                      Windows-specific features
  @{" KeepAspectRatio " Link "XAW-specific features"}                      XAW-specific features
- @{" KeepAspectRatio " Link "GTK-specific features"}                      GTK-specific features
  @{" KeepMonitorOpen " Link "Monitor options"}                      Monitor options
  @{" Kernal64Name " Link "C128-specific"}                         C128-specific
  @{" KernalCHName " Link "C128-specific"}                         C128-specific
@@ -20377,12 +20410,12 @@ Index of Resources
  @{" KernalFRName " Link "C128-specific"}                         C128-specific
  @{" KernalIntName " Link "C128-specific"}                        C128-specific
  @{" KernalITName " Link "C128-specific"}                         C128-specific
- @{" KernalName " Link "PET model"}                           PET model
  @{" KernalName " Link "C64-128 system ROM resources"}                           C64-128 system ROM resources
- @{" KernalName " Link "PLUS4-specific"}                           PLUS4-specific
- @{" KernalName " Link "CBM-II model"}                           CBM-II model
- @{" KernalName " Link "VSID-specific"}                           VSID-specific
  @{" KernalName " Link "VIC20 system ROM resources"}                           VIC20 system ROM resources
+ @{" KernalName " Link "PET model"}                           PET model
+ @{" KernalName " Link "VSID-specific"}                           VSID-specific
+ @{" KernalName " Link "CBM-II model"}                           CBM-II model
+ @{" KernalName " Link "PLUS4-specific"}                           PLUS4-specific
  @{" KernalNOName " Link "C128-specific"}                         C128-specific
  @{" KernalRev " Link "C64-128 system ROM resources"}                            C64-128 system ROM resources
  @{" KernalSEName " Link "C128-specific"}                         C128-specific
@@ -20437,11 +20470,11 @@ Index of Resources
  @{" MenuKeyUp " Link "SDL-specific features"}                            SDL-specific features
  @{" MIDIDriver " Link "Unix-specific features"}                           Unix-specific features
  @{" MIDIEnable " Link "C64 I-O extension resources"}                           C64 I-O extension resources
- @{" MIDIInDev " Link "Unix-specific features"}                            Unix-specific features
  @{" MIDIInDev " Link "Windows-specific features"}                            Windows-specific features
+ @{" MIDIInDev " Link "Unix-specific features"}                            Unix-specific features
  @{" MIDIMode " Link "C64 I-O extension resources"}                             C64 I-O extension resources
- @{" MIDIOutDev " Link "Windows-specific features"}                           Windows-specific features
  @{" MIDIOutDev " Link "Unix-specific features"}                           Unix-specific features
+ @{" MIDIOutDev " Link "Windows-specific features"}                           Windows-specific features
  @{" MITSHM " Link "XAW-specific features"}                               XAW-specific features
  @{" MMC64 " Link "C64 cartridges"}                                C64 cartridges
  @{" MMC64BIOSfilename " Link "C64 cartridges"}                    C64 cartridges
@@ -20526,11 +20559,11 @@ Index of Resources
  @{" RAMInitPatternInvert " Link "Monitor options"}                 Monitor options
  @{" RAMInitStartValue " Link "Monitor options"}                    Monitor options
  @{" RAMInitValueInvert " Link "Monitor options"}                   Monitor options
- @{" RamSize " Link "PET model"}                              PET model
  @{" RamSize " Link "CBM-II model"}                              CBM-II model
+ @{" RamSize " Link "PET model"}                              PET model
  @{" RawDriveDriver " Link "Drive resources"}                       Drive resources
- @{" RefreshRate " Link "Performance resources"}                          Performance resources
  @{" RefreshRate " Link "DOS-specific features"}                          DOS-specific features
+ @{" RefreshRate " Link "Performance resources"}                          Performance resources
  @{" REU " Link "C64 I-O extension resources"}                                  C64 I-O extension resources
  @{" REUfilename " Link "C64 I-O extension resources"}                          C64 I-O extension resources
  @{" REUImageWrite " Link "C64 I-O extension resources"}                        C64 I-O extension resources
@@ -20554,9 +20587,9 @@ Index of Resources
  @{" RsUserDev " Link "RS232 resources"}                            RS232 resources
  @{" RsUserEnable " Link "RS232 resources"}                         RS232 resources
  @{" SaveResourcesOnExit " Link "BeOS-specific features"}                  BeOS-specific features
+ @{" SaveResourcesOnExit " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" SaveResourcesOnExit " Link "Unix-specific features"}                  Unix-specific features
  @{" SaveResourcesOnExit " Link "SDL-specific features"}                  SDL-specific features
- @{" SaveResourcesOnExit " Link "AmigaOS-specific features"}                  AmigaOS-specific features
  @{" SaveResourcesOnExit " Link "Windows-specific features"}                  Windows-specific features
  @{" SDLBitdepth " Link "SDL-specific features"}                          SDL-specific features
  @{" SDLCustomHeight " Link "SDL-specific features"}                      SDL-specific features
@@ -20568,23 +20601,23 @@ Index of Resources
  @{" SDLStatusbar " Link "SDL-specific features"}                         SDL-specific features
  @{" SFXSoundExpander " Link "C64 I-O extension resources"}                     C64 I-O extension resources
  @{" SFXSoundExpander " Link "VIC20 cartridges"}                     VIC20 cartridges
- @{" SFXSoundExpanderChip " Link "VIC20 cartridges"}                 VIC20 cartridges
  @{" SFXSoundExpanderChip " Link "C64 I-O extension resources"}                 C64 I-O extension resources
+ @{" SFXSoundExpanderChip " Link "VIC20 cartridges"}                 VIC20 cartridges
  @{" SFXSoundExpanderIOSwap " Link "VIC20 cartridges"}               VIC20 cartridges
- @{" SFXSoundSampler " Link "C64 I-O extension resources"}                      C64 I-O extension resources
  @{" SFXSoundSampler " Link "VIC20 cartridges"}                      VIC20 cartridges
+ @{" SFXSoundSampler " Link "C64 I-O extension resources"}                      C64 I-O extension resources
  @{" SFXSoundSamplerIOSwap " Link "VIC20 cartridges"}                VIC20 cartridges
  @{" ShowStatusbar " Link "DOS-specific features"}                        DOS-specific features
- @{" SidAddress " Link "PLUS4-specific"}                           PLUS4-specific
  @{" SidAddress " Link "VIC20 cartridges"}                           VIC20 cartridges
+ @{" SidAddress " Link "PLUS4-specific"}                           PLUS4-specific
  @{" SidAddress " Link "PET model"}                           PET model
- @{" SidCart " Link "PET model"}                              PET model
  @{" SidCart " Link "PLUS4-specific"}                              PLUS4-specific
  @{" SidCart " Link "VIC20 cartridges"}                              VIC20 cartridges
+ @{" SidCart " Link "PET model"}                              PET model
  @{" SIDCartJoy " Link "PLUS4-specific"}                           PLUS4-specific
+ @{" SidClock " Link "VIC20 cartridges"}                             VIC20 cartridges
  @{" SidClock " Link "PLUS4-specific"}                             PLUS4-specific
  @{" SidClock " Link "PET model"}                             PET model
- @{" SidClock " Link "VIC20 cartridges"}                             VIC20 cartridges
  @{" SidEngine " Link "SID resources"}                            SID resources
  @{" SidFilters " Link "SID resources"}                           SID resources
  @{" SidModel " Link "SID resources"}                             SID resources
@@ -20610,8 +20643,8 @@ Index of Resources
  @{" SoundVolume " Link "Sound resources"}                          Sound resources
  @{" SpeechEnabled " Link "PLUS4-specific"}                        PLUS4-specific
  @{" SpeechImage " Link "PLUS4-specific"}                          PLUS4-specific
- @{" Speed " Link "Performance resources"}                                Performance resources
  @{" Speed " Link "DOS-specific features"}                                DOS-specific features
+ @{" Speed " Link "Performance resources"}                                Performance resources
  @{" StatusBarEnabled " Link "AmigaOS-specific features"}                     AmigaOS-specific features
  @{" SuperPET " Link "PET model"}                             PET model
  @{" TEDAudioLeak " Link "PLUS4-specific"}                         PLUS4-specific
@@ -20627,10 +20660,10 @@ Index of Resources
  @{" TEDFilter " Link "PLUS4-specific"}                            PLUS4-specific
  @{" TEDFullscreen " Link "SDL-specific features"}                        SDL-specific features
  @{" TEDFullscreen " Link "Unix-specific features"}                        Unix-specific features
- @{" TEDFullscreenDevice " Link "SDL-specific features"}                  SDL-specific features
  @{" TEDFullscreenDevice " Link "Unix-specific features"}                  Unix-specific features
- @{" TEDFullscreenStatusbar " Link "Unix-specific features"}               Unix-specific features
+ @{" TEDFullscreenDevice " Link "SDL-specific features"}                  SDL-specific features
  @{" TEDFullscreenStatusbar " Link "SDL-specific features"}               SDL-specific features
+ @{" TEDFullscreenStatusbar " Link "Unix-specific features"}               Unix-specific features
  @{" TEDHwScale " Link "Unix-specific features"}                           Unix-specific features
  @{" TEDHwScale " Link "SDL-specific features"}                           SDL-specific features
  @{" TEDPALBlur " Link "PLUS4-specific"}                           PLUS4-specific
@@ -20644,9 +20677,9 @@ Index of Resources
  @{" TEDXRANDRFullscreenMode " Link "XAW-specific features"}              XAW-specific features
  @{" TFEIOSwap " Link "VIC20 cartridges"}                            VIC20 cartridges
  @{" TripleBuffering " Link "DOS-specific features"}                      DOS-specific features
+ @{" TrueAspectRatio " Link "Windows-specific features"}                      Windows-specific features
  @{" TrueAspectRatio " Link "XAW-specific features"}                      XAW-specific features
  @{" TrueAspectRatio " Link "GTK-specific features"}                      GTK-specific features
- @{" TrueAspectRatio " Link "Windows-specific features"}                      Windows-specific features
  @{" UseFullscreen " Link "XAW-specific features"}                        XAW-specific features
  @{" UseFullscreen " Link "XAW-specific features"}                        XAW-specific features
  @{" UseLeds " Link "DOS-specific features"}                              DOS-specific features
@@ -20672,8 +20705,8 @@ Index of Resources
  @{" VDCFullscreenDevice " Link "SDL-specific features"}                  SDL-specific features
  @{" VDCFullscreenStatusbar " Link "Unix-specific features"}               Unix-specific features
  @{" VDCFullscreenStatusbar " Link "SDL-specific features"}               SDL-specific features
- @{" VDCHwScale " Link "SDL-specific features"}                           SDL-specific features
  @{" VDCHwScale " Link "Unix-specific features"}                           Unix-specific features
+ @{" VDCHwScale " Link "SDL-specific features"}                           SDL-specific features
  @{" VDCPALBlur " Link "C128-specific"}                           C128-specific
  @{" VDCPaletteFile " Link "C128-specific"}                       C128-specific
  @{" VDCPALOddLineOffset " Link "C128-specific"}                  C128-specific
@@ -20698,10 +20731,10 @@ Index of Resources
  @{" VICExternalPalette " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" VICFilter " Link "VIC20 cartridges"}                            VIC20 cartridges
  @{" VicFlashPluginWriteBack " Link "VIC20 cartridges"}              VIC20 cartridges
- @{" VICFullscreen " Link "SDL-specific features"}                        SDL-specific features
  @{" VICFullscreen " Link "Unix-specific features"}                        Unix-specific features
- @{" VICFullscreenDevice " Link "SDL-specific features"}                  SDL-specific features
+ @{" VICFullscreen " Link "SDL-specific features"}                        SDL-specific features
  @{" VICFullscreenDevice " Link "Unix-specific features"}                  Unix-specific features
+ @{" VICFullscreenDevice " Link "SDL-specific features"}                  SDL-specific features
  @{" VICFullscreenStatusbar " Link "Unix-specific features"}               Unix-specific features
  @{" VICFullscreenStatusbar " Link "SDL-specific features"}               SDL-specific features
  @{" VICHwScale " Link "SDL-specific features"}                           SDL-specific features
@@ -20721,10 +20754,10 @@ Index of Resources
  @{" VICIIFilter " Link "VIC-II resources"}                          VIC-II resources
  @{" VICIIFullscreen " Link "Unix-specific features"}                      Unix-specific features
  @{" VICIIFullscreen " Link "SDL-specific features"}                      SDL-specific features
- @{" VICIIFullscreenDevice " Link "SDL-specific features"}                SDL-specific features
  @{" VICIIFullscreenDevice " Link "Unix-specific features"}                Unix-specific features
- @{" VICIIFullscreenStatusbar " Link "SDL-specific features"}             SDL-specific features
+ @{" VICIIFullscreenDevice " Link "SDL-specific features"}                SDL-specific features
  @{" VICIIFullscreenStatusbar " Link "Unix-specific features"}             Unix-specific features
+ @{" VICIIFullscreenStatusbar " Link "SDL-specific features"}             SDL-specific features
  @{" VICIIHwScale " Link "Unix-specific features"}                         Unix-specific features
  @{" VICIIHwScale " Link "SDL-specific features"}                         SDL-specific features
  @{" VICIIModel " Link "VIC-II resources"}                           VIC-II resources
@@ -20748,25 +20781,25 @@ Index of Resources
  @{" VICVideoCache " Link "VIC20 cartridges"}                        VIC20 cartridges
  @{" VICVidmodeFullscreenMode " Link "XAW-specific features"}             XAW-specific features
  @{" VICXRANDRFullscreenMode " Link "XAW-specific features"}              XAW-specific features
+ @{" VideoOverlayEnabled " Link "AmigaOS3-specific features"}                  AmigaOS3-specific features
  @{" VideoOverlayEnabled " Link "AROS-specific features"}                  AROS-specific features
  @{" VideoOverlayEnabled " Link "MorphOS-specific features"}                  MorphOS-specific features
- @{" VideoOverlayEnabled " Link "AmigaOS3-specific features"}                  AmigaOS3-specific features
  @{" VideoSize " Link "PET model"}                            PET model
  @{" VirtualDevices " Link "No traps resources"}                       No traps resources
- @{" WarpMode " Link "DOS-specific features"}                             DOS-specific features
  @{" WarpMode " Link "Performance resources"}                             Performance resources
+ @{" WarpMode " Link "DOS-specific features"}                             DOS-specific features
  @{" Window0Height " Link "XAW-specific features"}                        XAW-specific features
  @{" Window0Width " Link "XAW-specific features"}                         XAW-specific features
  @{" Window0Xpos " Link "Windows-specific features"}                          Windows-specific features
  @{" Window0Xpos " Link "XAW-specific features"}                          XAW-specific features
- @{" Window0Ypos " Link "XAW-specific features"}                          XAW-specific features
  @{" Window0Ypos " Link "Windows-specific features"}                          Windows-specific features
+ @{" Window0Ypos " Link "XAW-specific features"}                          XAW-specific features
  @{" Window1Height " Link "XAW-specific features"}                        XAW-specific features
  @{" Window1Width " Link "XAW-specific features"}                         XAW-specific features
  @{" Window1Xpos " Link "XAW-specific features"}                          XAW-specific features
  @{" Window1Xpos " Link "Windows-specific features"}                          Windows-specific features
- @{" Window1Ypos " Link "XAW-specific features"}                          XAW-specific features
  @{" Window1Ypos " Link "Windows-specific features"}                          Windows-specific features
+ @{" Window1Ypos " Link "XAW-specific features"}                          XAW-specific features
 
 
 @EndNode
@@ -20784,18 +20817,18 @@ Index of Command-line options
  @{" -256kbase " Link "C64-128 system ROM options"}                            C64-128 system ROM options
  @{" -256kimage " Link "C64-128 system ROM options"}                           C64-128 system ROM options
  @{" -alwaysontop, +alwaysontop " Link "Windows-specific features"}           Windows-specific features
- @{" -aspect " Link "Windows-specific features"}                              Windows-specific features
  @{" -aspect " Link "XAW-specific features"}                              XAW-specific features
  @{" -aspect " Link "SDL-specific features"}                              SDL-specific features
+ @{" -aspect " Link "Windows-specific features"}                              Windows-specific features
  @{" -autostart-delay-random, +autostart-delay-random " Link "Resources and command-line"} Resources and command-line
  @{" -autostart-warp, +autostart-warp " Link "Resources and command-line"}     Resources and command-line
  @{" -autostartprgdiskimage " Link "Resources and command-line"}               Resources and command-line
  @{" -autostartprgmode " Link "Resources and command-line"}                    Resources and command-line
  @{" -autostartwithcolon, +autostartwithcolon " Link "Resources and command-line"} Resources and command-line
+ @{" -basic " Link "CBM-II model"}                               CBM-II model
  @{" -basic " Link "VSID-specific"}                               VSID-specific
  @{" -basic " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -basic " Link "PET model"}                               PET model
- @{" -basic " Link "CBM-II model"}                               CBM-II model
  @{" -basic <Name> " Link "PLUS4-specific"}                        PLUS4-specific
  @{" -basic64 " Link "C128-specific"}                             C128-specific
  @{" -basichi " Link "C128-specific"}                             C128-specific
@@ -20870,23 +20903,23 @@ Index of Command-line options
  @{" -cartws " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartzaxxon " Link "C64 cartridges"}                          C64 cartridges
  @{" -chargde " Link "C128-specific"}                             C128-specific
- @{" -chargen " Link "CBM-II model"}                             CBM-II model
+ @{" -chargen " Link "PET model"}                             PET model
  @{" -chargen " Link "VIC20 system ROM options"}                             VIC20 system ROM options
  @{" -chargen " Link "SCPU64-specific"}                             SCPU64-specific
- @{" -chargen " Link "PET model"}                             PET model
- @{" -chargen " Link "VSID-specific"}                             VSID-specific
  @{" -chargen " Link "C128-specific"}                             C128-specific
+ @{" -chargen " Link "CBM-II model"}                             CBM-II model
+ @{" -chargen " Link "VSID-specific"}                             VSID-specific
  @{" -chargfr " Link "C128-specific"}                             C128-specific
  @{" -chargse " Link "C128-specific"}                             C128-specific
  @{" -cia1model " Link "C64 cartridges"}                           C64 cartridges
  @{" -cia2model " Link "C64 cartridges"}                           C64 cartridges
  @{" -ciamodel " Link "C64 cartridges"}                            C64 cartridges
  @{" -colormap, +colormap " Link "XAW-specific features"}                 XAW-specific features
- @{" -confirmexit, +confirmexit " Link "SDL-specific features"}           SDL-specific features
- @{" -confirmexit, +confirmexit " Link "Unix-specific features"}           Unix-specific features
  @{" -confirmexit, +confirmexit " Link "BeOS-specific features"}           BeOS-specific features
  @{" -confirmexit, +confirmexit " Link "Windows-specific features"}           Windows-specific features
  @{" -confirmexit, +confirmexit " Link "AmigaOS-specific features"}           AmigaOS-specific features
+ @{" -confirmexit, +confirmexit " Link "SDL-specific features"}           SDL-specific features
+ @{" -confirmexit, +confirmexit " Link "Unix-specific features"}           Unix-specific features
  @{" -Crtcbrightness " Link "PET model"}                      PET model
  @{" -Crtccontrast " Link "PET model"}                        PET model
  @{" -Crtccrtblur " Link "PET model"}                         PET model
@@ -20896,11 +20929,11 @@ Index of Command-line options
  @{" -Crtcextpal " Link "PET model"}                          PET model
  @{" -Crtcfilter " Link "PET model"}                          PET model
  @{" -CRTCfull, +CRTCfull " Link "SDL-specific features"}                 SDL-specific features
- @{" -CRTCfulldevice " Link "Unix-specific features"}                      Unix-specific features
  @{" -CRTCfulldevice " Link "SDL-specific features"}                      SDL-specific features
+ @{" -CRTCfulldevice " Link "Unix-specific features"}                      Unix-specific features
  @{" -Crtcgamma " Link "PET model"}                           PET model
- @{" -CRTChwscale, +CRTChwscale " Link "Unix-specific features"}           Unix-specific features
  @{" -CRTChwscale, +CRTChwscale " Link "SDL-specific features"}           SDL-specific features
+ @{" -CRTChwscale, +CRTChwscale " Link "Unix-specific features"}           Unix-specific features
  @{" -Crtcintpal " Link "PET model"}                          PET model
  @{" -Crtcoddlinesoffset " Link "PET model"}                  PET model
  @{" -Crtcoddlinesphase " Link "PET model"}                   PET model
@@ -20982,38 +21015,38 @@ Index of Command-line options
  @{" -expertimagename " Link "C64 cartridges"}                     C64 cartridges
  @{" -expertimagerw, +expertimagerw " Link "C64 cartridges"}       C64 cartridges
  @{" -expertmode " Link "C64 cartridges"}                          C64 cartridges
- @{" -extrajoydev1 " Link "AROS-specific features"}                        AROS-specific features
- @{" -extrajoydev1 " Link "Windows-specific features"}                        Windows-specific features
- @{" -extrajoydev1 " Link "SDL-specific features"}                        SDL-specific features
+ @{" -extrajoydev1 " Link "BeOS-specific features"}                        BeOS-specific features
  @{" -extrajoydev1 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
  @{" -extrajoydev1 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
- @{" -extrajoydev1 " Link "DOS-specific features"}                        DOS-specific features
- @{" -extrajoydev1 " Link "Unix-specific features"}                        Unix-specific features
  @{" -extrajoydev1 " Link "MorphOS-specific features"}                        MorphOS-specific features
- @{" -extrajoydev1 " Link "BeOS-specific features"}                        BeOS-specific features
- @{" -extrajoydev2 " Link "Windows-specific features"}                        Windows-specific features
- @{" -extrajoydev2 " Link "SDL-specific features"}                        SDL-specific features
+ @{" -extrajoydev1 " Link "AROS-specific features"}                        AROS-specific features
+ @{" -extrajoydev1 " Link "DOS-specific features"}                        DOS-specific features
+ @{" -extrajoydev1 " Link "SDL-specific features"}                        SDL-specific features
+ @{" -extrajoydev1 " Link "Unix-specific features"}                        Unix-specific features
+ @{" -extrajoydev1 " Link "Windows-specific features"}                        Windows-specific features
  @{" -extrajoydev2 " Link "DOS-specific features"}                        DOS-specific features
- @{" -extrajoydev2 " Link "Unix-specific features"}                        Unix-specific features
+ @{" -extrajoydev2 " Link "SDL-specific features"}                        SDL-specific features
+ @{" -extrajoydev2 " Link "Windows-specific features"}                        Windows-specific features
  @{" -extrajoydev2 " Link "BeOS-specific features"}                        BeOS-specific features
- @{" -extrajoydev2 " Link "AROS-specific features"}                        AROS-specific features
- @{" -extrajoydev2 " Link "MorphOS-specific features"}                        MorphOS-specific features
- @{" -extrajoydev2 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
  @{" -extrajoydev2 " Link "AmigaOS3-specific features"}                        AmigaOS3-specific features
+ @{" -extrajoydev2 " Link "Unix-specific features"}                        Unix-specific features
+ @{" -extrajoydev2 " Link "AmigaOS4-specific features"}                        AmigaOS4-specific features
+ @{" -extrajoydev2 " Link "MorphOS-specific features"}                        MorphOS-specific features
+ @{" -extrajoydev2 " Link "AROS-specific features"}                        AROS-specific features
  @{" -fewriteback, +fewriteback " Link "VIC20 cartridges"}           VIC20 cartridges
  @{" -fourcc " Link "XAW-specific features"}                              XAW-specific features
  @{" -fpwriteback, +fpwriteback " Link "VIC20 cartridges"}           VIC20 cartridges
- @{" -fullscreen, +fullscreen " Link "Windows-specific features"}             Windows-specific features
- @{" -fullscreen, +fullscreen " Link "XAW-specific features"}             XAW-specific features
  @{" -fullscreen, +fullscreen " Link "XAW-specific features"}             XAW-specific features
  @{" -fullscreen, +fullscreen " Link "AmigaOS-specific features"}             AmigaOS-specific features
+ @{" -fullscreen, +fullscreen " Link "Windows-specific features"}             Windows-specific features
+ @{" -fullscreen, +fullscreen " Link "XAW-specific features"}             XAW-specific features
  @{" -fullscreendevice " Link "Windows-specific features"}                    Windows-specific features
- @{" -georam, +georam " Link "VIC20 cartridges"}                     VIC20 cartridges
  @{" -georam, +georam " Link "C64 I-O extension options"}                     C64 I-O extension options
+ @{" -georam, +georam " Link "VIC20 cartridges"}                     VIC20 cartridges
  @{" -georamimage " Link "C64 I-O extension options"}                         C64 I-O extension options
  @{" -georamimage " Link "VIC20 cartridges"}                         VIC20 cartridges
- @{" -georamimagerw, +georamimagerw " Link "VIC20 cartridges"}       VIC20 cartridges
  @{" -georamimagerw, +georamimagerw " Link "C64 I-O extension options"}       C64 I-O extension options
+ @{" -georamimagerw, +georamimagerw " Link "VIC20 cartridges"}       VIC20 cartridges
  @{" -georamsize " Link "C64 I-O extension options"}                          C64 I-O extension options
  @{" -georamsize " Link "VIC20 cartridges"}                          VIC20 cartridges
  @{" -gluelogictype " Link "C64-128 system ROM options"}                       C64-128 system ROM options
@@ -21050,10 +21083,10 @@ Index of Command-line options
  @{" -initialdefaultdir " Link "Windows-specific features"}                   Windows-specific features
  @{" -initialdiskdir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
  @{" -initialdiskdir " Link "Windows-specific features"}                      Windows-specific features
- @{" -initialsnapshotdir " Link "Windows-specific features"}                  Windows-specific features
  @{" -initialsnapshotdir " Link "AmigaOS-specific features"}                  AmigaOS-specific features
- @{" -initialtapedir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
+ @{" -initialsnapshotdir " Link "Windows-specific features"}                  Windows-specific features
  @{" -initialtapedir " Link "Windows-specific features"}                      Windows-specific features
+ @{" -initialtapedir " Link "AmigaOS-specific features"}                      AmigaOS-specific features
  @{" -iosize " Link "PET settings"}                              PET settings
  @{" -isepic, +isepic " Link "C64 cartridges"}                     C64 cartridges
  @{" -isepicimagename " Link "C64 cartridges"}                     C64 cartridges
@@ -21061,8 +21094,8 @@ Index of Command-line options
  @{" -isepicswitch, +isepicswitch " Link "C64 cartridges"}         C64 cartridges
  @{" -joydev1 " Link "Unix-specific features"}                             Unix-specific features
  @{" -joydev1 " Link "DOS-specific features"}                             DOS-specific features
- @{" -joydev1 " Link "Windows-specific features"}                             Windows-specific features
  @{" -joydev1 " Link "BeOS-specific features"}                             BeOS-specific features
+ @{" -joydev1 " Link "Windows-specific features"}                             Windows-specific features
  @{" -joydev1 " Link "AROS-specific features"}                             AROS-specific features
  @{" -joydev1 " Link "MorphOS-specific features"}                             MorphOS-specific features
  @{" -joydev1 " Link "AmigaOS4-specific features"}                             AmigaOS4-specific features
@@ -21084,8 +21117,8 @@ Index of Command-line options
  @{" -joyopposite, +joyopposite " Link "Keyboard options"}           Keyboard options
  @{" -joythreshold " Link "SDL-specific features"}                        SDL-specific features
  @{" -keepaspect, +keepaspect " Link "XAW-specific features"}             XAW-specific features
- @{" -keepaspect, +keepaspect " Link "Windows-specific features"}             Windows-specific features
  @{" -keepaspect, +keepaspect " Link "GTK-specific features"}             GTK-specific features
+ @{" -keepaspect, +keepaspect " Link "Windows-specific features"}             Windows-specific features
  @{" -keepenv " Link "VSID-specific"}                             VSID-specific
  @{" -kernal " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" -kernal " Link "CBM-II model"}                              CBM-II model
@@ -21117,8 +21150,8 @@ Index of Command-line options
  @{" -menukeyselect " Link "SDL-specific features"}                       SDL-specific features
  @{" -menukeyup " Link "SDL-specific features"}                           SDL-specific features
  @{" -mididrv " Link "Unix-specific features"}                             Unix-specific features
- @{" -midiin " Link "Unix-specific features"}                              Unix-specific features
  @{" -midiin " Link "Windows-specific features"}                              Windows-specific features
+ @{" -midiin " Link "Unix-specific features"}                              Unix-specific features
  @{" -midiout " Link "Unix-specific features"}                             Unix-specific features
  @{" -midiout " Link "Windows-specific features"}                             Windows-specific features
  @{" -mitshm, +mitshm " Link "XAW-specific features"}                     XAW-specific features
@@ -21245,9 +21278,9 @@ Index of Command-line options
  @{" -TEDVidmodefullmode " Link "XAW-specific features"}                  XAW-specific features
  @{" -TEDXRANDRfullmode " Link "XAW-specific features"}                   XAW-specific features
  @{" -triplebuf, +triplebuf " Link "DOS-specific features"}               DOS-specific features
- @{" -trueaspect, +trueaspect " Link "XAW-specific features"}             XAW-specific features
- @{" -trueaspect, +trueaspect " Link "GTK-specific features"}             GTK-specific features
  @{" -trueaspect, +trueaspect " Link "Windows-specific features"}             Windows-specific features
+ @{" -trueaspect, +trueaspect " Link "GTK-specific features"}             GTK-specific features
+ @{" -trueaspect, +trueaspect " Link "XAW-specific features"}             XAW-specific features
  @{" -truedrive, +truedrive " Link "Drive options"}               Drive options
  @{" -tune " Link "VSID-specific"}                                VSID-specific
  @{" -userportdac, +userportdac " Link "PET model"}           PET model
@@ -21262,8 +21295,8 @@ Index of Command-line options
  @{" -VDCdsize, +VDCdsize " Link "C128-specific"}                 C128-specific
  @{" -VDCfull, +VDCfull " Link "SDL-specific features"}                   SDL-specific features
  @{" -VDCgamma " Link "C128-specific"}                            C128-specific
- @{" -VDChwscale, +VDChwscale " Link "Unix-specific features"}             Unix-specific features
  @{" -VDChwscale, +VDChwscale " Link "SDL-specific features"}             SDL-specific features
+ @{" -VDChwscale, +VDChwscale " Link "Unix-specific features"}             Unix-specific features
  @{" -VDCoddlinesoffset " Link "C128-specific"}                   C128-specific
  @{" -VDCoddlinesphase " Link "C128-specific"}                    C128-specific
  @{" -VDCpalette " Link "C128-specific"}                          C128-specific
@@ -21298,8 +21331,8 @@ Index of Command-line options
  @{" -VICIIextpal " Link "VIC-II options"}                         VIC-II options
  @{" -VICIIfilter " Link "VIC-II options"}                         VIC-II options
  @{" -VICIIfull, +VICIIfull " Link "SDL-specific features"}               SDL-specific features
- @{" -VICIIfulldevice " Link "Unix-specific features"}                     Unix-specific features
  @{" -VICIIfulldevice " Link "SDL-specific features"}                     SDL-specific features
+ @{" -VICIIfulldevice " Link "Unix-specific features"}                     Unix-specific features
  @{" -VICIIgamma " Link "VIC-II options"}                          VIC-II options
  @{" -VICIIhwscale, +VICIIhwscale " Link "SDL-specific features"}         SDL-specific features
  @{" -VICIIhwscale, +VICIIhwscale " Link "Unix-specific features"}         Unix-specific features

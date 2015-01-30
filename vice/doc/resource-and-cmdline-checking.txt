@@ -1223,8 +1223,6 @@ FIXED/CORRECT OS/2 ONLY OPTIONAL RESOURCES/CMDLINES:
 FIXED/CORRECT SDL ONLY COMMON RESOURCES/CMDLINES:
 =================================================
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 arch/sdl/kbd.c:
 ---------------
 resource type:                  string
@@ -3406,7 +3404,6 @@ prepocessor:
 command-line:                   -joydev1
 platform gui present:           windows
 platform range correct:		windows
-fixme: better arch sections in documentation
 
 arch/win32/joy.c:
 -----------------
@@ -3414,7 +3411,6 @@ command line:   -joydev1 <number>
 description:    "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 resource:       "JoyDevice1"
 action:         N/A
-fixme: fix documentation
 
 arch/win32/joy.c:
 -----------------
@@ -3430,7 +3426,6 @@ prepocessor:
 command-line:                   -joydev2
 platform gui present:           windows
 platform range correct:		windows
-fixme: better arch sections in documentation
 
 arch/win32/joy.c:
 -----------------
@@ -3438,7 +3433,6 @@ command line:   -joydev2 <number>
 description:    "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 resource:       "JoyDevice2"
 action:         N/A
-fixme: fix documentation
 
 arch/win32/joy.c:
 -----------------
@@ -3454,7 +3448,6 @@ prepocessor:
 command-line:                   -extrajoydev1
 platform gui present:           windows
 platform range correct:		windows
-fixme: better arch sections in documentation
 
 arch/win32/joy.c:
 -----------------
@@ -3462,7 +3455,6 @@ command line:   -extrajoydev1 <number>
 description:    "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 resource:       "JoyDevice3"
 action:         N/A
-fixme: fix documentation
 
 arch/win32/joy.c:
 -----------------
@@ -3478,7 +3470,6 @@ prepocessor:
 command-line:                   -extrajoydev2
 platform gui present:           windows
 platform range correct:		windows
-fixme: better arch sections in documentation
 
 arch/win32/joy.c:
 -----------------
@@ -3486,7 +3477,6 @@ command line:   -extrajoydev2 <number>
 description:    "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4: Joystick 1, 5: joystick 2)"
 resource:       "JoyDevice4"
 action:         N/A
-fixme: fix documentation
 
 arch/win32/joy.c:
 -----------------
@@ -4378,69 +4368,6 @@ description:    "Disable hardware scaling"
 resource:       "VICIIHwScale" (set to 0)
 action:         N/A
 
-vicii/vicii-resources.c:
-------------------------
-resource type:                  string
-resource name:                  "VICIIFullscreenDevice"
-resource range:                 N/A
-resource default:               video_chip_cap->fullscreen.device_name[0]
-resource function:              set_fullscreen_device()
-resource var:                   vicii.raster->canvas->videoconfig->fullscreen_device
-resource emulators:             x64/x64dtv/x128/xcbm5x0
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIfulldevice
-platform gui present:			unix
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIfulldevice <device>
-description:    "Select fullscreen device"
-resource:       "VICIIFullscreenDevice"
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  bool
-resource name:                  "VICIIFullscreen"
-resource range:                 0/1
-resource default:               0
-resource function:              set_fullscreen_enabled()
-resource var:                   vicii.raster->canvas->videoconfig->fullscreen_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIfull / +VICIIfull
-platform gui present:			sdl/unix
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   -VICIIfull
-description:    "Enable fullscreen"
-resource:       "VICIIFullscreen" (set to 1)
-action:         N/A
-
-vicii/vicii-cmdline-options.c:
-------------------------------
-command line:   +VICIIfull
-description:    "Disable fullscreen"
-resource:       "VICIIFullscreen" (set to 0)
-action:         N/A
-
-vicii/vicii-resources.c:
-------------------------
-resource type:                  bool
-resource name:                  "VICIIFullscreenStatusbar"
-resource range:                 0/1
-resource default:               0
-resource function:              set_fullscreen_statusbar()
-resource var:                   vicii.raster->canvas->videoconfig->fullscreen_statusbar_enabled
-resource emulators:             x64/x64dtv/x128/xcbm5x0
-not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   NONE (CORRECT)
-platform gui present:			unix
-
 viciisc/vicii-resources.c:
 --------------------------
 resource type:                  bool
@@ -4469,6 +4396,76 @@ description:    "Disable hardware scaling"
 resource:       "VICIIHwScale" (set to 0)
 action:         N/A
 
+vicii/vicii-resources.c:
+------------------------
+resource type:                  string
+resource name:                  "VICIIFullscreenDevice"
+resource range:                 N/A
+resource default:               video_chip_cap->fullscreen.device_name[0]
+resource function:              set_fullscreen_device()
+resource var:                   vicii.raster->canvas->videoconfig->fullscreen_device
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIfulldevice
+platform gui present:			unix
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIfulldevice <device>
+description:    "Select fullscreen device"
+resource:       "VICIIFullscreenDevice"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  string
+resource name:                  "VICIIFullscreenDevice"
+resource range:                 N/A
+resource default:               video_chip_cap->fullscreen.device_name[0]
+resource function:              set_fullscreen_device()
+resource var:                   vicii.raster->canvas->videoconfig->fullscreen_device
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIfulldevice
+platform gui present:			unix
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIfulldevice <device>
+description:    "Select fullscreen device"
+resource:       "VICIIFullscreenDevice"
+action:         N/A
+
+vicii/vicii-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "VICIIFullscreen"
+resource range:                 0/1
+resource default:               0
+resource function:              set_fullscreen_enabled()
+resource var:                   vicii.raster->canvas->videoconfig->fullscreen_enabled
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIfull / +VICIIfull
+platform gui present:			sdl/unix
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   -VICIIfull
+description:    "Enable fullscreen"
+resource:       "VICIIFullscreen" (set to 1)
+action:         N/A
+
+vicii/vicii-cmdline-options.c:
+------------------------------
+command line:   +VICIIfull
+description:    "Disable fullscreen"
+resource:       "VICIIFullscreen" (set to 0)
+action:         N/A
+
 viciisc/vicii-resources.c:
 --------------------------
 resource type:                  bool
@@ -4497,6 +4494,20 @@ description:    "Disable fullscreen"
 resource:       "VICIIFullscreen" (set to 0)
 action:         N/A
 
+vicii/vicii-resources.c:
+------------------------
+resource type:                  bool
+resource name:                  "VICIIFullscreenStatusbar"
+resource range:                 0/1
+resource default:               0
+resource function:              set_fullscreen_statusbar()
+resource var:                   vicii.raster->canvas->videoconfig->fullscreen_statusbar_enabled
+resource emulators:             x64/x64dtv/x128/xcbm5x0
+not used in:                    x64sc/xscpu64/xcbm2/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   NONE (CORRECT)
+platform gui present:			unix
+
 viciisc/vicii-resources.c:
 --------------------------
 resource type:                  bool
@@ -4510,27 +4521,6 @@ not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/v
 prepocessor:
 command-line:                   NONE (CORRECT)
 platform gui present:			unix
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  string
-resource name:                  "VICIIFullscreenDevice"
-resource range:                 N/A
-resource default:               video_chip_cap->fullscreen.device_name[0]
-resource function:              set_fullscreen_device()
-resource var:                   vicii.raster->canvas->videoconfig->fullscreen_device
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIfulldevice
-platform gui present:			unix
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIfulldevice <device>
-description:    "Select fullscreen device"
-resource:       "VICIIFullscreenDevice"
-action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -4550,7 +4540,6 @@ not used in:                    vsid
 prepocessor:
 command-line:                   -autostartprgdiskimage
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform gui missing:
 
 autostart.c:
 ------------
@@ -4713,6 +4702,8 @@ command line:   -chargen <Name>
 description:    "Specify name of international character generator ROM image"
 resource:       "ChargenIntName"
 action:         N/A
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 c128/c128-resources.c:
 ----------------------
