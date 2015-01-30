@@ -127,8 +127,8 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
 
 #define LOAD(a)           (*drv->cpud->read_func_ptr[(a) >> 8])(drv, (WORD)(a))
 #define LOAD_ZERO(a)      (*drv->cpud->read_func_ptr[0])(drv, (WORD)(a))
-#define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
-#define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
+#define LOAD_ADDR(a)      (LOAD((a)) | (LOAD((a) + 1) << 8))
+#define LOAD_ZERO_ADDR(a) (LOAD_ZERO((a)) | (LOAD_ZERO((a) + 1) << 8))
 #define STORE(a, b)       (*drv->cpud->store_func_ptr[(a) >> 8])(drv, (WORD)(a), (BYTE)(b))
 #define STORE_ZERO(a, b)  (*drv->cpud->store_func_ptr[0])(drv, (WORD)(a), (BYTE)(b))
 
