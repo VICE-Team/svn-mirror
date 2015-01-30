@@ -58,8 +58,14 @@ command-line options:
 @item -something <value>
 Set something to <value>
 (@code{SomeResource})
-(all emulators except c128).
+(all emulators except x128).
 (0: on, 1: off, 2: something else)
+
+@findex SomeResource
+@item SomeResource
+Set the volume
+(xplus4 only).
+(0..100)
 
 @findex -something, +something
 @item -something
@@ -85,6 +91,12 @@ Boolean to enable some option
 Integer specifying the mode to use
 (xvic only).
 (0: on, 1: off, 2: something else)
+
+@vindex SomeResource
+@item SomeResource
+Integer specifying the volume
+(xplus4 only).
+(0..100)
 
 @vindex SomeResource
 @item SomeResource
@@ -149,14 +161,15 @@ needs to be generated for:
 - platformamiga    (will be set when using platformamigaos3,
                     platformamigaos4, platformmorphos or platformaros)
 - platformbeos     (beos, zeta or haiku)
+- platformdingoo   (dingoo)
 - platformdos      (dos)
 - platformos2      (os/2)
 - platformsdl      (sdl)
 - platformxaw      (xaw)
 - platformgtk2     (gtk2)
 - platformgtk3     (gtk3)
-- platformunix     (will be set when using platformxaw, platformgtk2 or
-                    platformgtk3)
+- platformunix     (will be set when using platformxaw, platformgtk2,
+                    platformgtk3 or platformdingoo)
 - platformosx      (mac os x)
 - platformwindows  (windows)
 - platformall      (sets all previous variables)
