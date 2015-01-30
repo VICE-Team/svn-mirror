@@ -7362,6 +7362,23 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/c64cart.c */
+/* en */ {IDCLS_ATTACH_RAW_RGCD_CART,    N_("Attach raw 64kB RGCD cartridge image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ATTACH_RAW_RGCD_CART_DA, "Tilslut råt 64kB RGCD cartridge image"},
+/* de */ {IDCLS_ATTACH_RAW_RGCD_CART_DE, "64kB RGCD Image (raw) einlegen"},
+/* es */ {IDCLS_ATTACH_RAW_RGCD_CART_ES, "Insertar imagen cartucho RGCD 64KB"},
+/* fr */ {IDCLS_ATTACH_RAW_RGCD_CART_FR, "Attacher une image de cartouche 64 ko RGCD"},
+/* hu */ {IDCLS_ATTACH_RAW_RGCD_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_RAW_RGCD_CART_IT, "Seleziona immagine cartuccia RGCD di 64kB"},
+/* ko */ {IDCLS_ATTACH_RAW_RGCD_CART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_RGCD_CART_NL, "Koppel binair 64kB RGCD cartridge bestand"},
+/* pl */ {IDCLS_ATTACH_RAW_RGCD_CART_PL, "Zamontuj surowy obraz kartrid¿a 64kB RGCD"},
+/* ru */ {IDCLS_ATTACH_RAW_RGCD_CART_RU, "Attach raw 64kB RGCD cartridge image"},
+/* sv */ {IDCLS_ATTACH_RAW_RGCD_CART_SV, "Anslut rå 64kB RGCD-insticksmodulavbildning"},
+/* tr */ {IDCLS_ATTACH_RAW_RGCD_CART_TR, "Düz 64kB RGCD kartuþ imajý yerleþtir"},
+#endif
+
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_ROSS_CART,    N_("Attach raw 16/32kB ROSS cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_ROSS_CART_DA, "Tilslut råt 16/32kB ROSS cartridge image"},
@@ -7372,7 +7389,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ATTACH_RAW_ROSS_CART_IT, "Seleziona immagine cartuccia ROSS di 16/32kB"},
 /* ko */ {IDCLS_ATTACH_RAW_ROSS_CART_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ATTACH_RAW_ROSS_CART_NL, "Koppel binair 16/32kB ROSS cartridge bestand"},
-/* pl */ {IDCLS_ATTACH_RAW_ROSS_CART_PL, "Zamontuj surowy obraz kartrid¿a 12/32kB ROSS"},
+/* pl */ {IDCLS_ATTACH_RAW_ROSS_CART_PL, "Zamontuj surowy obraz kartrid¿a 16/32kB ROSS"},
 /* ru */ {IDCLS_ATTACH_RAW_ROSS_CART_RU, "Attach raw 16/32kB ROSS cartridge image"},
 /* sv */ {IDCLS_ATTACH_RAW_ROSS_CART_SV, "Anslut rå 16/32kB ROSS-insticksmodulavbildning"},
 /* tr */ {IDCLS_ATTACH_RAW_ROSS_CART_TR, "Düz 16/32kB ROSS kartuþ imajý yerleþtir"},

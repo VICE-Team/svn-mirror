@@ -200,8 +200,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_KINGSOFT             54 /* kingsoft.c */
 #define CARTRIDGE_SILVERROCK_128       55 /* silverrock128.c */
 #define CARTRIDGE_FORMEL64             56 /* formel64.c */
+#define CARTRIDGE_RGCD                 57 /* rgcd.c */
 
-#define CARTRIDGE_LAST                 56 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 57 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -274,6 +275,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_REU                "RAM Expansion Module" /* http://www.retroport.de/C64_C128_Hardware.html */
 #define CARTRIDGE_NAME_REX_EP256          "REX 256k EPROM Cart" /* http://www.retroport.de/Rex.html */
 #define CARTRIDGE_NAME_REX                "REX Utility"
+#define CARTRIDGE_NAME_RGCD               "RGCD"
 #define CARTRIDGE_NAME_RRNET              "RR-Net" /* see manual */
 #define CARTRIDGE_NAME_RETRO_REPLAY       "Retro Replay" /* see manual */
 #define CARTRIDGE_NAME_ROSS               "ROSS"

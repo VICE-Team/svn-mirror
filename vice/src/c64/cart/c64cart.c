@@ -196,6 +196,7 @@ static cartridge_info_t cartlist[] = {
     { CARTRIDGE_NAME_RETRO_REPLAY,        CARTRIDGE_RETRO_REPLAY,        CARTRIDGE_GROUP_FREEZER },
     { CARTRIDGE_NAME_REX,                 CARTRIDGE_REX,                 CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_REX_EP256,           CARTRIDGE_REX_EP256,           CARTRIDGE_GROUP_UTIL },
+    { CARTRIDGE_NAME_RGCD,                CARTRIDGE_RGCD,                CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_ROSS,                CARTRIDGE_ROSS,                CARTRIDGE_GROUP_UTIL },
     { CARTRIDGE_NAME_SILVERROCK_128,      CARTRIDGE_SILVERROCK_128,      CARTRIDGE_GROUP_GAME },
     { CARTRIDGE_NAME_SIMONS_BASIC,        CARTRIDGE_SIMONS_BASIC,        CARTRIDGE_GROUP_UTIL },
@@ -288,6 +289,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_SUPER_SNAPSHOT_V5:
         case CARTRIDGE_COMAL80:
         case CARTRIDGE_STRUCTURED_BASIC:
+        case CARTRIDGE_RGCD:
         case CARTRIDGE_ROSS:
         case CARTRIDGE_DELA_EP64:
         case CARTRIDGE_DELA_EP7x8:

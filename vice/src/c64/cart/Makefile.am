@@ -119,6 +119,8 @@ libc64cart_a_SOURCES = \
 	rexep256.h \
 	rexutility.c \
 	rexutility.h \
+	rgcd.c \
+	rgcd.h \
 	ross.c \
 	ross.h \
 	silverrock128.c \

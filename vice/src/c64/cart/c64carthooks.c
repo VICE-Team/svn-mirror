@@ -112,6 +112,7 @@
 #include "reu.h"
 #include "rexep256.h"
 #include "rexutility.h"
+#include "rgcd.h"
 #include "ross.h"
 #include "silverrock128.h"
 #include "simonsbasic.h"
@@ -424,6 +425,11 @@ static const cmdline_option_t cmdline_options[] =
       cart_attach_cmdline, (void *)CARTRIDGE_REX_EP256, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_REX_EP256_CART,
+      NULL, NULL },
+    { "-cartrgcd", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_RGCD, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_RGCD_CART,
       NULL, NULL },
     { "-cartross", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_ROSS, NULL, NULL,
@@ -931,6 +937,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return rex_bin_attach(filename, rawcart);
         case CARTRIDGE_REX_EP256:
             return rexep256_bin_attach(filename, rawcart);
+        case CARTRIDGE_RGCD:
+            return rgcd_bin_attach(filename, rawcart);
         case CARTRIDGE_ROSS:
             return ross_bin_attach(filename, rawcart);
         case CARTRIDGE_SILVERROCK_128:
@@ -1122,6 +1130,9 @@ void cart_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_REX_EP256:
             rexep256_config_setup(rawcart);
+            break;
+        case CARTRIDGE_RGCD:
+            rgcd_config_setup(rawcart);
             break;
         case CARTRIDGE_ROSS:
             ross_config_setup(rawcart);
@@ -1527,6 +1538,9 @@ void cart_detach(int type)
         case CARTRIDGE_REX_EP256:
             rexep256_detach();
             break;
+        case CARTRIDGE_RGCD:
+            rgcd_detach();
+            break;
         case CARTRIDGE_ROSS:
             ross_detach();
             break;
@@ -1759,6 +1773,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_REX_EP256:
             rexep256_config_init();
+            break;
+        case CARTRIDGE_RGCD:
+            rgcd_config_init();
             break;
         case CARTRIDGE_ROSS:
             ross_config_init();
@@ -2662,6 +2679,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_RGCD:
+                if (rgcd_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_ROSS:
                 if (ross_snapshot_write_module(s) < 0) {
                     return -1;
@@ -3123,6 +3145,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_REX_EP256:
                 if (rexep256_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_RGCD:
+                if (rgcd_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;
