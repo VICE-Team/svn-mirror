@@ -9666,8 +9666,6 @@ description:    "Specify 4K extension ROM name at $B***"
 resource:       "RomModuleBName"
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 pet/pet-resources.c:
 --------------------
 resource type:                  int
@@ -10439,6 +10437,8 @@ command line:   -TEDbrightness <0-2000>
 description:    "Set brightness of internal calculated palette"
 resource:       "TEDColorBrightness"
 action:         N/A
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 plus4/ted-resources.c:
 ----------------------

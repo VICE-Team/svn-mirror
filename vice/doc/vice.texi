@@ -7907,10 +7907,12 @@ Boolean, swap/don't swap  io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O
 @vindex SidCart
 @item SidCart
 Boolean specifying whether SID-Cart emulation is enabled or not.
+
 @vindex SidAddress
 @item SidAddress
 Integer that specifies the base address of the emulated SID chip.
-(0x9800/0x9C00)
+(0x9800, 0x9C00)
+
 @vindex SidClock
 @item SidClock
 Integer specifying the clock rate used for the emulated SID chip
@@ -7998,7 +8000,7 @@ Enable/Disable SID Cartridge
 @item -sidcartaddress <address>
 Specify address of the SID Cartridge
 (@code{SidAddress}).
-(0x9800/0x9C00)
+(0x9800, 0x9C00)
 
 @findex -sidcartclock
 @item -sidcartclock <clock>
@@ -8576,35 +8578,42 @@ integer specifying border display mode (0: normal, 1: full, 2: debug, 3:none)
 @findex -TEDvcache, +TEDvcache
 @item -TEDvcache
 @itemx +TEDvcache
-Enable/Disable the video cache
+Enable/disable the video cache
 (@code{TEDVideoCache=1}, @code{TEDVideoCache=0}).
+
 @findex -TEDdsize, +TEDdsize
 @item -TEDdsize
 @itemx +TEDdsize
-Enable/Disable double size
+Enable/disable double size
 (@code{TEDDoubleSize=1}, @code{TEDDoubleSize=0}).
+
 @findex -TEDdscan, +TEDdscan
 @item -TEDdscan
 @itemx +TEDdscan
-Enable/Disable double scan
+Enable/disable double scan
 (@code{TEDDoubleScan=1}, @code{TEDDoubleScan=0}).
+
 @findex -TEDfilter
 @item -TEDfilter <Mode>
 Select rendering filter
 (@code{TEDFilter}).
 (0=none, 1=CRT emulation, 2=scale2x)
+
 @findex -TEDintpal
 @item -TEDintpal
 Use an internal calculated palette
 (@code{TEDExternalPalette=0}).
+
 @findex -TEDextpal
 @item -TEDextpal
 Use an external palette (file)
 (@code{TEDExternalPalette=1}).
+
 @findex -TEDpalette
 @item -TEDpalette <name>
 Specify name of the external palette file
 (@code{TEDPaletteFile}).
+
 @cindex -TEDXRANDRfullmode
 @item -TEDXRANDRfullmode <mode>
 Select fullscreen mode
@@ -8619,14 +8628,17 @@ Set TED border display mode (0: normal, 1: full, 2: debug, 3:none)
 @item -TEDsaturation <0-2000>
 Set saturation of internal calculated palette
 (@code{TEDColorSaturation}).
+
 @findex -TEDcontrast
 @item -TEDcontrast <0-2000>
 Set contrast of internal calculated palette
 (@code{TEDColorContrast}).
+
 @findex -TEDbrightness
 @item -TEDbrightness <0-2000>
 Set brightness of internal calculated palette
 (@code{TEDColorBrightness}).
+
 @findex -TEDgamma
 @item -TEDgamma <0-4000>
 Set gamma of internal calculated palette
@@ -8668,8 +8680,7 @@ Enable/Disable video to audio leak emulation.
 
 @vindex CartridgeReset
 @item CartridgeReset
-Boolean specifying whether the machine should be reset when a cartridge is
-changed.
+Boolean specifying whether the machine should be reset when a cartridge is changed.
 
 @vindex DIGIBLASTER
 @item DIGIBLASTER
@@ -8678,6 +8689,7 @@ Boolean to enable/disable the Digiblaster emulation.
 @vindex SpeechEnabled
 @item SpeechEnabled
 Boolean to enable/disable the emulation of the V364 speech chip.
+
 @vindex SpeechImage
 @item SpeechImage
 String specifying the filename of the speech ROM image.
@@ -8685,14 +8697,17 @@ String specifying the filename of the speech ROM image.
 @vindex SidCart
 @item SidCart
 Boolean specifying whether SID-Cart emulation is enabled or not.
+
 @vindex SidAddress
 @item SidAddress
 Integer that specifies the base address of the emulated SID chip.
-(0xFD40/0xFE80)
+(0xFD40, 0xFE80)
+
 @vindex SidClock
 @item SidClock
 Integer specifying the clock rate used for the emulated SID chip
-(0=C64, 1=Plus4)
+(0: C64, 1: Plus4)
+
 @vindex SIDCartJoy
 @item SIDCartJoy
 Boolean to enable/disable the emulation of the SID-Cart joystick.
@@ -8709,6 +8724,7 @@ Boolean to enable/disable the emulation of the SID-Cart joystick.
 @itemx +cartreset
 Do/don't reset machine if a cartridge is attached or detached
 (@code{CartridgeReset=1}, @code{CartridgeReset}).
+
 @cindex -cart
 @item -cart <Name>
 Smart-attach cartridge image
@@ -8719,32 +8735,32 @@ Disable default cartridge
 @findex -digiblaster, +digiblaster
 @item -digiblaster
 @itemx +digiblaster
-Enable/Disable the digiblaster add-on
+Enable/disable the digiblaster add-on
 (@code{DIGIBLASTER=1}, @code{DIGIBLASTER=0}).
 
 @findex -sidcart, +sidcart
 @item -sidcart
 @item +sidcart
-Enable/Disable SID Cartridge
+Enable/disable SID Cartridge
 (@code{SidCart=1}, @code{SidCart=0}).
 
 @findex -sidcartjoy, +sidcartjoy
 @item -sidcartjoy
 @item +sidcartjoy
-Enable/Disable SID cartridge joystick
+Enable/disable SID cartridge joystick
 (@code{SIDCartJoy=1}, @code{SIDCartJoy=0}).
 
 @findex -sidcartaddress
 @item -sidcartaddress <address>
 Specify address of the SID Cartridge
 (@code{SidAddress}).
-(0xFD40/0xFE80)
+(0xFD40, 0xFE80)
 
 @findex -sidcartclock
 @item -sidcartclock <clock>
 Specify clock of the SID Cartridge
 (@code{SidClock}).
-(0=C64, 1=Plus4)
+(0: C64, 1: Plus4)
 
 @findex -speech, +speech
 @item -speech
@@ -8898,12 +8914,12 @@ file, command line options or right-menu items):
 @vindex RamSize
 @item RamSize
 Integer specifying the size of the memory in kByte. 96k denotes a 8096, 128k a 8296.
-(4/8/16/32/96/128)
+(4, 8, 16, 32, 96, 128)
 
 @vindex IOSize
 @item IOSize
 Integer specifying the size of the I/O area in Bytes for the 8296 model.
-(256/2048)
+(256, 2048)
 
 @vindex VideoSize
 @item VideoSize
@@ -8940,7 +8956,7 @@ oldest PET 2001.
 
 @vindex DiagPin
 @item DiagPin
-Set the diagnositc pin on the PET userport (see below).
+Set the diagnostic pin on the PET userport (see below).
 
 @vindex ChargenName
 @item ChargenName
@@ -9221,9 +9237,11 @@ Enable/Disable video to audio leak emulation.
 @vindex PETREU
 @item PETREU
 Boolean specifying whether PET REU emulation is enabled or not.
+
 @vindex PETREUfilename
 @item PETREUfilename
 String specifying the filename of the PET REU image.
+
 @vindex PETREUsize
 @item PETREUsize
 Integer specifying the size of the emulated PET REU in KB (128, 512, 1024, 2048)
@@ -9231,6 +9249,7 @@ Integer specifying the size of the emulated PET REU in KB (128, 512, 1024, 2048)
 @vindex PETDWW
 @item PETDWW
 Boolean specifying whether DWW emulation is enabled or not.
+
 @vindex PETDWWfilename
 @item PETDWWfilename
 String specifying the filename of the DWW image RAM image.
@@ -9257,14 +9276,16 @@ Boolean specifying whether userport DAC emulation is enabled.
 @vindex SidCart
 @item SidCart
 Boolean specifying whether SID Cart emulation is enabled or not.
+
 @vindex SidAddress
 @item SidAddress
 Integer that specifies the base address of the emulated SID chip.
-(0x8F00/0xE900)
+(0x8F00, 0xE900)
+
 @vindex SidClock
 @item SidClock
 Integer specifying the clock rate used for the emulated SID chip.
-(0=C64, 1=PET)
+(0: C64, 1: PET)
 
 @end table
 
@@ -9276,13 +9297,14 @@ Integer specifying the clock rate used for the emulated SID chip.
 @findex -petreu, +petreu
 @item -petreu
 @itemx +petreu
-Enable or disable the PET Memory Expansion Unit
+Enable/disable the PET Memory Expansion Unit
 (@code{PETREU=1}, @code{PETREU=0}).
 
 @findex -petreuimage
 @item -petreuimage <name>
 Specify name of PET Ram and Expansion Unit image
 (@code{PETREUfilename}).
+
 @cindex -petreuramsize
 @item -petreuramsize <size in KB>
 Size of the PET Ram and Expansion Unit
@@ -9296,8 +9318,9 @@ Enable or disable the userport DAC
 @findex -petdww, +petdww
 @item -petdww
 @itemx +petdww
-Enable/Disable the PET DWW hi-res board (30xx models only)
+Enable/disable the PET DWW hi-res board (30xx models only)
 (@code{PETDWW=1}, @code{PETDWW=0}).
+
 @findex -petdwwimage
 @item -petdwwimage <name>
 Specify name of PET DWW RAM image
@@ -9306,7 +9329,7 @@ Specify name of PET DWW RAM image
 @findex -pethre, +pethre
 @item -pethre
 @itemx +pethre
-Enable/Disable the PET HRE extension (model 8296 only)
+Enable/disable the PET HRE extension (model 8296 only)
 (@code{PETHRE=1}, @code{PETHRE=0}).
 
 @cindex -colour-rgbi, -colour-analog, -colour-analog-bg
@@ -9320,20 +9343,20 @@ Select the analog colour background on PET 4032
 @findex -sidcart, +sidcart
 @item -sidcart
 @itemx +sidcart
-Enable/Disable the SID Cartridge
+Enable/disable the SID Cartridge
 (@code{SidCart=1}, @code{SidCart=0}).
 
 @findex -sidcartaddress
 @item -sidcartaddress <address>
 Specify address of the SID Cartridge
 (@code{SidAddress}).
-(0x8F00/0xE900)
+(0x8F00, 0xE900)
 
 @findex -sidcartclock
 @item -sidcartclock <clock>
 Specify clock of the SID Cartridge
 (@code{SidClock}).
-(0=C64, 1=PET)
+(0: C64, 1: PET)
 
 @end table
 
@@ -9460,13 +9483,13 @@ Specify the PET model you want to emulate.
 @item -iosize <size>
 Specify size of I/O in Bytes
 (@code{IOSize}).
-(256/2048)
+(256, 2048)
 
 @findex -ramsize
 @item -ramsize <size>
 Specify size of RAM in KB
 (@code{RamSize}).
-(8/16/32/96/128)
+(8, 16, 32, 96, 128)
 
 @findex -petram9, +petram9
 @item -petram9
@@ -9483,7 +9506,7 @@ Switch on/off RAM mapping at address $A000-$AFFF
 @findex -superpet, +superpet
 @item -superpet
 @itemx +superpet
-Enable/Disable SuperPET I/O and CPU emulation
+Enable/disable SuperPET I/O and CPU emulation
 (@code{SuperPET}).
 
 @cindex -cpu6502
