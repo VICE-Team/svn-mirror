@@ -1366,10 +1366,12 @@ specified afterwards on the command line.
 @cindex -config
 @item -config <filename>
 Specify config file
+
 @findex -logfile
 @item -logfile <name>
 Specify log file name
 (@code{LogFileName}).
+
 @cindex -verbose
 @item -verbose
 Enable verbose log output.
@@ -2878,6 +2880,7 @@ available for example).
 @item JoyOpposite
 Boolean, if true allow (usually impossible) bitcombinations for opposite directions.
 (all emulators except vsid)
+
 @vindex UserportJoy
 @item UserportJoy
 Boolean, enables extra joysticks if true.
@@ -2952,7 +2955,8 @@ Boolean that specifies whether user defined keysets are enabled.
 
 @vindex KbdbufDelay
 @item KbdbufDelay
-Integer specifying the additional keyboard delay (0=use default).
+Integer specifying the additional keyboard delay.
+(0: use default)
 
 @end table
 
@@ -3004,6 +3008,7 @@ Set lightpen type
 @item -keybuf-delay <value>
 Set additional keyboard buffer delay
 (@code{KbdbufDelay}).
+(0: use default)
 
 @end table
 
@@ -3279,13 +3284,18 @@ drive.
 @vindex DatasetteResetWithCPU
 @item DatasetteResetWithCPU
 Boolean specifying whether to reset (rewind) the tape when resetting the CPU.
+
 @vindex DatasetteZeroGapDelay
 @item DatasetteZeroGapDelay
 Integer specifying the delay in cycles for a zero in the tap.
+
 @vindex DatasetteSpeedTuning
 @item DatasetteSpeedTuning
 Integer specifying the number of cycles added to each gap in the tap.
 
+@vindex DatasetteTapeWobble
+@item DatasetteTapeWobble
+Integer specifying the maximum random number of cycles added to each gap in the tap.
 @end table
 
 @subsection Tape command-line options
@@ -3295,7 +3305,7 @@ Integer specifying the number of cycles added to each gap in the tap.
 @findex -dsresetwithcpu, +dsresetwithcpu
 @item -dsresetwithcpu
 @itemx +dsresetwithcpu
-Enable/Disable automatic Datasette-Reset
+Enable/disable automatic Datasette-Reset
 (@code{DatasetteResetWithCPU=1}, @code{DatasetteResetWithCPU=0}).
 
 @findex -dszerogapdelay
@@ -3307,6 +3317,11 @@ Set delay in cycles for a zero in the tap
 @item -dsspeedtuning <value>
 Set number of cycles added to each gap in the tap
 (@code{DatasetteSpeedTuning}).
+
+@findex -dstapewobble
+@item -dstapewobble <value>
+Set maximum random number of cycles added to each gap in the tap
+(@code{DatasetteTapeWobble}).
 
 @end table
 
@@ -3544,7 +3559,7 @@ not for drives 8 to 11 respectively.
 @itemx Drive10ExtendImagePolicy
 @itemx Drive11ExtendImagePolicy
 Integer specifying the policy for 40-track support for drives 8 to 11.
-(0=never extend, 1=ask on extend, 2=extend on access)
+(0: never extend, 1: ask on extend, 2: extend on access)
 
 @vindex Drive8IdleMethod
 @vindex Drive9IdleMethod
@@ -3556,8 +3571,9 @@ Integer specifying the policy for 40-track support for drives 8 to 11.
 @itemx Drive11IdleMethod
 Integers specifying the idling method for the drive CPU.
 @xref{Drive settings}.
-(0=none, 1=skip cycles, 2=trap idle)
+(0: none, 1: skip cycles, 2: trap idle)
 
+@vindex DosName1540
 @vindex DosName1541
 @vindex DosName1541ii
 @vindex DosName1570
@@ -3565,7 +3581,8 @@ Integers specifying the idling method for the drive CPU.
 @vindex DosName1581
 @vindex DosName2000
 @vindex DosName4000
-@item DosName1541
+@item DosName1540
+@itemx DosName1541
 @itemx DosName1541ii
 @itemx DosName1570
 @itemx DosName1571
@@ -3669,7 +3686,7 @@ Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS)
 Specifies <method> as the idling method for drives 8-11 respectively
 (@code{Drive8IdleMethod}, @code{Drive9IdleMethod},
 @code{Drive10IdleMethod}), @code{Drive11IdleMethod}).
-(0=no traps, 1=skip cycles, 2=trap idle)
+(0: none, 1: skip cycles, 2: trap idle)
 
 @findex -drive8extend
 @findex -drive9extend
@@ -3682,7 +3699,7 @@ Specifies <method> as the idling method for drives 8-11 respectively
 Specifies <method> as the track 40 extend policy in drives 8-11 respectively
 (@code{Drive8ExtendImagePolicy}, @code{Drive9ExtendImagePolicy},
 @code{Drive10ExtendImagePolicy}, @code{Drive11ExtendImagePolicy}).
-(0=never, 1=ask, 2=on access)
+(0: never extend, 1: ask on extend, 2: extend on access)
 
 @findex -dos1540
 @item -dos1540 <name>
@@ -3776,87 +3793,102 @@ Specify the ROM name for the 1001, 8050 and 8250 emulations
 
 @findex -drive8ram2000, +drive8ram2000
 @item -drive8ram2000, +drive8ram2000
-Enable/Disable 8KB RAM expansion at $2000-$3FFF for drive 8
+Enable/disable 8KB RAM expansion at $2000-$3FFF for drive 8
 (@code{Drive8RAM2000=1}, @code{Drive8RAM2000=0}).
+
 @findex -drive9ram2000, +drive9ram2000
 @item -drive9ram2000, +drive9ram2000
-Enable/Disable 8KB RAM expansion at $2000-$3FFF for drive 9
+Enable/disable 8KB RAM expansion at $2000-$3FFF for drive 9
 (@code{Drive9RAM2000=1}, @code{Drive9RAM2000=0}).
+
 @findex -drive10ram2000, +drive10ram2000
 @item -drive10ram2000, +drive10ram2000
-Enable/Disable 8KB RAM expansion at $2000-$3FFF for drive 10
+Enable/disable 8KB RAM expansion at $2000-$3FFF for drive 10
 (@code{Drive10RAM2000=1}, @code{Drive10RAM2000=0}).
+
 @findex -drive11ram2000, +drive11ram2000
 @item -drive11ram2000, +drive11ram2000
-Enable/Disable 8KB RAM expansion at $2000-$3FFF for drive 11
+Enable/disable 8KB RAM expansion at $2000-$3FFF for drive 11
 (@code{Drive11RAM2000=1}, @code{Drive11RAM2000=0}).
 
 @findex -drive8ram4000, +drive8ram4000
 @item -drive8ram4000, +drive8ram4000
-Enable/Disable 8KB RAM expansion at $4000-$5FFF for drive 8
+Enable/disable 8KB RAM expansion at $4000-$5FFF for drive 8
 (@code{Drive8RAM4000=1}, @code{Drive8RAM4000=0}).
+
 @findex -drive9ram4000, +drive9ram4000
 @item -drive9ram4000, +drive9ram4000
-Enable/Disable 8KB RAM expansion at $4000-$5FFF for drive 9
+Enable/disable 8KB RAM expansion at $4000-$5FFF for drive 9
 (@code{Drive9RAM4000=1}, @code{Drive9RAM4000=0}).
+
 @findex -drive10ram4000, +drive10ram4000
 @item -drive10ram4000, +drive10ram4000
-Enable/Disable 8KB RAM expansion at $4000-$5FFF for drive 10
+Enable/disable 8KB RAM expansion at $4000-$5FFF for drive 10
 (@code{Drive10RAM4000=1}, @code{Drive10RAM4000=0}).
+
 @findex -drive11ram4000, +drive11ram4000
 @item -drive11ram4000, +drive11ram4000
-Enable/Disable 8KB RAM expansion at $4000-$5FFF for drive 11
+Enable/disable 8KB RAM expansion at $4000-$5FFF for drive 11
 (@code{Drive11RAM4000=1}, @code{Drive11RAM4000=0}).
 
 @findex -drive8ram6000, +drive8ram6000
 @item -drive8ram6000, +drive8ram6000
-Enable/Disable 8KB RAM expansion at $6000-$7FFF for drive 8
+Enable/disable 8KB RAM expansion at $6000-$7FFF for drive 8
 (@code{Drive8RAM6000=1}, @code{Drive8RAM6000=0}).
+
 @findex -drive9ram6000, +drive9ram6000
 @item -drive9ram6000, +drive9ram6000
-Enable/Disable 8KB RAM expansion at $6000-$7FFF for drive 9
+Enable/disable 8KB RAM expansion at $6000-$7FFF for drive 9
 (@code{Drive9RAM6000=1}, @code{Drive9RAM6000=0}).
+
 @findex -drive10ram6000, +drive10ram6000
 @item -drive10ram6000, +drive10ram6000
-Enable/Disable 8KB RAM expansion at $6000-$7FFF for drive 10
+Enable/disable 8KB RAM expansion at $6000-$7FFF for drive 10
 (@code{Drive10RAM6000=1}, @code{Drive10RAM6000=0}).
+
 @findex -drive11ram6000, +drive11ram6000
 @item -drive11ram6000, +drive11ram6000
-Enable/Disable 8KB RAM expansion at $6000-$7FFF for drive 11
+Enable/disable 8KB RAM expansion at $6000-$7FFF for drive 11
 (@code{Drive11RAM6000=1}, @code{Drive11RAM6000=0}).
 
 @findex -drive8ram8000, +drive8ram8000
 @item -drive8ram8000, +drive8ram8000
-Enable/Disable 8KB RAM expansion at $8000-$9FFF for drive 8
+Enable/disable 8KB RAM expansion at $8000-$9FFF for drive 8
 (@code{Drive8RAM8000=1}, @code{Drive8RAM8000=0}).
+
 @findex -drive9ram8000, +drive9ram8000
 @item -drive9ram8000, +drive9ram8000
-Enable/Disable 8KB RAM expansion at $8000-$9FFF for drive 9
+Enable/disable 8KB RAM expansion at $8000-$9FFF for drive 9
 (@code{Drive9RAM8000=1}, @code{Drive9RAM8000=0}).
+
 @findex -drive10ram8000, +drive10ram8000
 @item -drive10ram8000, +drive10ram8000
-Enable/Disable 8KB RAM expansion at $8000-$9FFF for drive 10
+Enable/disable 8KB RAM expansion at $8000-$9FFF for drive 10
 (@code{Drive10RAM8000=1}, @code{Drive10RAM8000=0}).
+
 @findex -drive11ram8000, +drive11ram8000
 @item -drive11ram8000, +drive11ram8000
-Enable/Disable 8KB RAM expansion at $8000-$9FFF for drive 11
+Enable/disable 8KB RAM expansion at $8000-$9FFF for drive 11
 (@code{Drive11RAM8000=1}, @code{Drive11RAM8000=0}).
 
 @findex -drive8rama000, +drive8rama000
 @item -drive8rama000, +drive8rama000
-Enable/Disable 8KB RAM expansion at $A000-$BFFF for drive 8
+Enable/disable 8KB RAM expansion at $A000-$BFFF for drive 8
 (@code{Drive8RAMA000=1}, @code{Drive8RAMA000=0}).
+
 @findex -drive9rama000, +drive9rama000
 @item -drive9rama000, +drive9rama000
-Enable/Disable 8KB RAM expansion at $A000-$BFFF for drive 9
+Enable/disable 8KB RAM expansion at $A000-$BFFF for drive 9
 (@code{Drive9RAMA000=1}, @code{Drive9RAMA000=0}).
+
 @findex -drive10rama000, +drive10rama000
 @item -drive10rama000, +drive10rama000
-Enable/Disable 8KB RAM expansion at $A000-$BFFF for drive 10
+Enable/disable 8KB RAM expansion at $A000-$BFFF for drive 10
 (@code{Drive10RAMA000=1}, @code{Drive10RAMA000=0}).
+
 @findex -drive11rama000, +drive11rama000
 @item -drive11rama000, +drive11rama000
-Enable/Disable 8KB RAM expansion at $A000-$BFFF for drive 11
+Enable/disable 8KB RAM expansion at $A000-$BFFF for drive 11
 (@code{Drive11RAMA000=1}, @code{Drive11RAMA000=0}).
 
 @cindex -drive8profdos, +drive8profdos
@@ -4728,6 +4760,7 @@ Integer specifying whether the emulator is running as server or client (0: clien
 @vindex LogFileName
 @item LogFileName
 String specifying the filename of the current log file.
+
 @vindex FliplistName
 @item FliplistName
 String specifying the filename of the current flip list. (Drive 8 only)
@@ -5352,13 +5385,15 @@ String specifying the filename of the RAMCart RAM image.
 @item RAMCARTImageWrite
 Boolean, if true write back the RAMCart image file automatically, incase the RAM
 contents changed, when detaching or quitting the emulator.
+
 @vindex RAMCART_RO
 @item RAMCART_RO
-Boolean, if true the RAMCart contents are read only
+Boolean, if true the RAMCart contents are read only.
+
 @vindex RAMCARTsize
 @item RAMCARTsize
 Integer specifying the size of the RAMCart in KB.
-(64/128)
+(64, 128)
 
 @vindex RRrevision
 @item RRrevision
@@ -5864,7 +5899,7 @@ Enable/disable the RAMCART expansion
 @item -ramcartsize <size in KB>
 Size of the RAMCART expansion
 (@code{RAMCARTsize}).
-(64/128)
+(64, 128)
 
 @findex -ramcartimage
 @item -ramcartimage <name>
@@ -5874,8 +5909,18 @@ Specify name of RAMCART image
 @findex -ramcartimagerw, +ramcartimagerw
 @item -ramcartimagerw
 @itemx +ramcartimagerw
-Allow/Disallow writing to RAMCart image
+Allow/disallow writing to RAMCart image
 (@code{RAMCARTImageWrite=1}, @code{RAMCARTImageWrite=0}).
+
+@findex -ramcartro
+@item -ramcartro
+Set the RamCart switch to read-only
+(@code{RAMCART_RO=1}).
+
+@findex -ramcartrw
+@item -ramcartrw
+Set the RamCart switch to read-only
+(@code{RAMCART_RO=0}).
 
 @findex -cartrep256
 @item -cartrep256 <name>
@@ -6607,13 +6652,16 @@ Enum specifying the type of emulated MIDI interface (0: Sequential, 1: Passport/
 @vindex REU
 @item REU
 Boolean specifying whether the RAM Expansion Module should be emulated or not.
+
 @vindex REUfilename
 @item REUfilename
 String specifying the filename of the REU image.
+
 @vindex REUImageWrite
 @item REUImageWrite
 Boolean, if true write back the REU image file automatically, incase the RAM
 contents changed, when detaching or quitting the emulator.
+
 @vindex REUsize
 @item REUsize
 Integer specifying the size of the emulated REU in KB.
@@ -6622,6 +6670,7 @@ Integer specifying the size of the emulated REU in KB.
 @vindex SFXSoundExpander
 @item SFXSoundExpander
 Boolean specifying whether the SFX Sound Expander should be emulated or not.
+
 @vindex SFXSoundExpanderChip
 @item SFXSoundExpanderChip
 Integer specifying which YM chip is emulated.
@@ -6702,31 +6751,37 @@ Attach raw REU cartridge image.
 @item -reuimage <name>
 Specify name of REU image
 (@code{REUfilename}).
+
 @findex -reuimagerw, +reuimagerw
 @item -reuimagerw
 @itemx +reuimagerw
-Allow/Disallow writing to REU image
+Allow/disallow writing to REU image
 (@code{REUImageWrite=1}, @code{REUImageWrite=0}).
+
 @findex -reusize
 @item -reusize <size in KB>
 Size of the RAM expansion unit
 (@code{REUsize}).
 (128, 256, 512, 1024, 2048, 4096, 8192, 16384)
+
 @findex -sfxse, +sfxse
 @item -sfxse
 @itemx +sfxse
-Enable/Disable the SFX soundexpander cartridge
+Enable/disable the SFX soundexpander cartridge
 (@code{SFXSoundExpander=1}, @code{SFXSoundExpander=0}).
+
 @findex -sfxsetype
 @item -sfxsetype <type>
 Set YM chip type
 (@code{SFXSoundExpanderChip}).
-(3526 / 3812)
+(3526, 3812)
+
 @findex -sfxss, +sfxss
 @item -sfxss
 @itemx +sfxss
-Enable/Disable the SFX Sound Sampler cartridge
+Enable/disable the SFX Sound Sampler cartridge
 (@code{SFXSoundSampler=1}, @code{SFXSoundSampler=0}).
+
 @cindex -tfe, +tfe
 @item -tfe
 @itemx +tfe
@@ -6855,13 +6910,20 @@ Integer specifying the type of emulated board (not available in xscpu64).
 Integer specifying if the IEC bus resets when the CPU resets.
 (0: No, 1: Yes)
 
+@vindex MemoryHack
+@item MemoryHack
+Integer specifying what memory expansion hack is active.
+(0: None, 1: C64 256K, 2: PLUS60K, 3: PLUS256K)
+
 @vindex PLUS60Kfilename
 @item PLUS60Kfilename
 String specifying the filename of the PLUS60K RAM image.
+
 @vindex PLUS60Kbase
 @item PLUS60Kbase
 Integer that specifies the base address of the PLUS60K RAM expansion.
-(0xD040/0xD100)
+(0xD040, 0xD100)
+
 @vindex PLUS256Kfilename
 @item PLUS256Kfilename
 String specifying the filename of the PLUS256K RAM image.
@@ -6893,15 +6955,23 @@ Set IEC reset bahaviour
 (@code{IECReset}).
 (0: Do not reset with CPU reset, 1: Reset with CPU reset)
 
+@findex -memoryexphack
+@item -memoryexphack <device>
+Set active memory expansion hack
+(@code{MemoryHack}).
+(0: None, 1: C64 256K, 2: PLUS60K, 3: PLUS256K)
+
 @findex -plus60kimage
 @item -plus60kimage <name>
 Specify name of PLUS60K image
 (@code{PLUS60Kfilename}).
+
 @findex -plus60kbase
 @item -plus60kbase <base address>
 Base address of the PLUS60K expansion
 (@code{PLUS60Kbase}).
 (0xD040/0xD100)
+
 
 @findex -plus256kimage
 @item -plus256kimage <name>
@@ -7478,7 +7548,7 @@ bug is intended for testing DTV software.
 @item -dtvrev <revision>
 Specify DTV revision
 (@code{DtvRevision}).
-(2/3)
+(2: DTV2, 3: DTV3)
 
 @end table
 
@@ -7576,14 +7646,16 @@ to "ramXX", where XX is the starting bank (usually "bank00").
 @vindex DtvRevision
 @item DtvRevision
 Integer specifying the emulated DTV revision.
-(2=DTV2, 3=DTV3)
+(2: DTV2, 3: DTV3)
 
 @vindex c64dtvromfilename
 @item c64dtvromfilename
 String specifying the filename of the DTV Flash ROM image.
+
 @vindex c64dtvromrw
 @item c64dtvromrw
 Boolean that specifies whether the emulated Flash ROM is writeable.
+
 @vindex FSFlashDir
 @item FSFlashDir
 String specifying the working directory for the flash file system.
@@ -7611,8 +7683,8 @@ Boolean, enables Flash ROM logging.
 
 @vindex MachineVideoStandard
 @item MachineVideoStandard
-Integer that specifies the video standard of the emulated machine
-(-1=PAL, -2=NTSC).
+Integer that specifies the video standard of the emulated machine.
+(-1: PAL, -2: NTSC)
 
 @end table
 
@@ -7785,19 +7857,24 @@ contents changed, when detaching or quitting the emulator.
 @vindex TFEIOSwap
 @item TFEIOSwap
 Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+
 @vindex SFXSoundExpander
 @item SFXSoundExpander
 Boolean specifying whether the SFX Sound Expander should be emulated or not.
+
 @vindex SFXSoundExpanderChip
 @item SFXSoundExpanderChip
 Integer specifying which YM chip is emulated.
 (3526, 3812)
+
 @vindex SFXSoundExpanderIOSwap
 @item SFXSoundExpanderIOSwap
 Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+
 @vindex SFXSoundSampler
 @item SFXSoundSampler
 Boolean specifying whether the SFX Sound Sampler should be emulated or not.
+
 @vindex SFXSoundSamplerIOSwap
 @item SFXSoundSamplerIOSwap
 Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
@@ -7954,13 +8031,15 @@ Base address of the DigiMAX cartridge
 @findex -sfxse, +sfxse
 @item -sfxse
 @itemx +sfxse
-Enable/Disable the SFX soundexpander cartridge
+Enable/disable the SFX soundexpander cartridge (using the MasC=uerade cartridge adapter)
 (@code{SFXSoundExpander=1}, @code{SFXSoundExpander=0}).
+
 @findex -sfxsetype
 @item -sfxsetype <type>
 Set YM chip type
 (@code{SFXSoundExpanderChip}).
-(3526 / 3812)
+(3526, 3812)
+
 @cindex -sfxseioswap, +sfxseioswap
 @item -sfxseioswap
 @itemx +sfxseioswap
@@ -7970,10 +8049,11 @@ Swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
 @item -sfxssioswap
 @itemx +sfxssioswap
 Swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+
 @findex -sfxss, +sfxss
 @item -sfxss
 @itemx +sfxss
-Enable/Disable the SFX Sound Sampler cartridge
+Enable/disable the SFX Sound Sampler cartridge
 (@code{SFXSoundSampler=1}, @code{SFXSoundSampler=0}).
 
 @cindex -georamioswap, +georamioswap
@@ -8860,8 +8940,7 @@ Set the diagnositc pin on the PET userport (see below).
 
 @vindex ChargenName
 @item ChargenName
-String specifying the name of the character generator ROM (default
-@file{chargen}).
+String specifying the name of the character generator ROM (default @file{chargen}).
 
 @vindex KernalName
 @item KernalName
@@ -8889,8 +8968,7 @@ an expansion ROM image of 4k.
 @vindex RomModuleBName
 @item RomModuleBName
 String specifying the filename for the $B*** Expansion ROM file. This file contains
-an expansion ROM image of 4k.
-This file overlays the lowest 4k of a BASIC 4 ROM.
+an expansion ROM image of 4k. This file overlays the lowest 4k of a BASIC 4 ROM.
 
 @end table
 
@@ -8971,19 +9049,23 @@ Boolean specifying whether to use external palette file or not.
 
 @vindex CrtcColorSaturation
 @item CrtcColorSaturation
-integer specifying saturation of internal calculated palette (0..2000).
+Integer specifying saturation of internal calculated palette.
+(0..2000)
 
 @vindex CrtcColorContrast
 @item CrtcColorContrast
-integer specifying contrast of internal calculated palette (0..2000).
+Integer specifying contrast of internal calculated palette.
+(0..2000)
 
 @vindex CrtcColorBrightness
 @item CrtcColorBrightness
-integer specifying brightness of internal calculated palette (0..2000).
+Integer specifying brightness of internal calculated palette.
+(0..2000)
 
 @vindex CrtcColorGamma
 @item CrtcColorGamma
-integer specifying gamma of internal calculated palette (0..4000).
+Integer specifying gamma of internal calculated palette.
+(0..4000)
 
 @vindex CrtcColorTint
 @item CrtcColorTint
@@ -8991,19 +9073,23 @@ integer specifying tint of internal calculated palette [1000] <0-2000>
 
 @vindex CrtcPALScanLineShade
 @item CrtcPALScanLineShade
-integer specifying amount of scan line shading for the CRT emulation (0..1000).
+Integer specifying amount of scan line shading for the CRT emulation.
+(0..1000)
 
 @vindex CrtcPALBlur
 @item CrtcPALBlur
-integer specifying amount of horizontal blur for the CRT emulation (0..1000).
+Integer specifying amount of horizontal blur for the CRT emulation.
+(0..1000)
 
 @vindex CrtcPALOddLinePhase
 @item CrtcPALOddLinePhase
-integer specifying phase for color carrier in odd lines (0..2000).
+Integer specifying phase for color carrier in odd lines
+(0..2000)
 
 @vindex CrtcPALOddLineOffset
 @item CrtcPALOddLineOffset
-integer specifying phase offset for color carrier in odd lines (0..2000).
+Integer specifying phase offset for color carrier in odd lines.
+(0..2000)
 
 @vindex CrtcAudioLeak
 @item CrtcAudioLeak
@@ -9011,7 +9097,8 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 
 @vindex CrtcFilter
 @item CrtcFilter
-integer specifying rendering filter (0=none, 1=CRT emulation, 2=scale2x).
+Integer specifying rendering filter.
+(0: None, 2: CRT emulation, 3: Scale2x)
 
 @end table
 
@@ -9022,40 +9109,48 @@ integer specifying rendering filter (0=none, 1=CRT emulation, 2=scale2x).
 @findex -Crtcvcache, +Crtcvcache
 @item -Crtcvcache
 @itemx +Crtcvcache
-Enable/Disable the video cache
+Enable/disable the video cache
 (@code{CrtcVideoCache=1}, @code{CrtcVideoCache=0}).
+
 @findex -Crtcdsize, +Crtcdsize
 @item -Crtcdsize
 @itemx +Crtcdsize
-Enable/Disable double size
+Enable/disable double size
 (@code{CrtcDoubleSize=1}, @code{CrtcDoubleSize=0}).
+
 @findex -CRTCstretchvertical, +CRTCstretchvertical
 @item -CRTCstretchvertical
 @itemx +CRTCstretchvertical
-Enable/Disable vertical stretching
+Enable/disable vertical stretching
 (@code{CrtcStretchVertical=1}, @code{CrtcStretchVertical=0}).
+
 @findex -Crtcdscan, +Crtcdscan
 @item -Crtcdscan
 @itemx +Crtcdscan
-Enable/Disable double scan
+Enable/disable double scan
 (@code{CrtcDoubleScan=1}, @code{CrtcDoubleScan=0}).
+
 @findex -Crtcfilter
 @item -Crtcfilter <Mode>
 Select rendering filter
 (@code{CrtcFilter}).
-(0=none, 1=CRT emulation, 2=scale2x)
+(0: None, 2: CRT emulation, 3: Scale2x)
+
 @findex -Crtcintpal
 @item -Crtcintpal
 Use an internal calculated palette
 (@code{CrtcExternalPalette=0}).
+
 @findex -Crtcextpal
 @item -Crtcextpal
 Use an external palette (file)
 (@code{CrtcExternalPalette=1}).
+
 @findex -Crtcpalette
 @item -Crtcpalette <name>
 Specify the name of the palette file
 (@code{CrtcPaletteFile}).
+
 @cindex -CrtcVidmodefullmode
 @item -CrtcVidmodefullmode <mode>
 Select fullscreen mode
@@ -9064,33 +9159,41 @@ Select fullscreen mode
 @item -Crtcsaturation <0-2000>
 Set saturation of internal calculated palette
 (@code{CrtcColorSaturation}).
+
 @findex -Crtccontrast
 @item -Crtccontrast <0-2000>
 Set contrast of internal calculated palette
 (@code{CrtcColorContrast}).
+
 @findex -Crtcbrightness
 @item -Crtcbrightness <0-2000>
 Set brightness of internal calculated palette
 (@code{CrtcColorBrightness}).
+
 @findex -Crtcgamma
 @item -Crtcgamma <0-4000>
 Set gamma of internal calculated palette
 (@code{CrtcColorGamma}).
+
 @cindex -Crtctint
 @item -Crtctint <0-2000>
 Set tint of internal calculated palette [1000]
+
 @findex -Crtcoddlinesphase
 @item -Crtcoddlinesphase <0-2000>
 Set phase for color carrier in odd lines
 (@code{CrtcPALOddLinePhase}).
+
 @findex -Crtcoddlinesoffset
 @item -Crtcoddlinesoffset <0-2000>
 Set phase offset for color carrier in odd lines
 (@code{CrtcPALOddLineOffset}).
+
 @findex -Crtccrtblur
 @item -Crtccrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation
 (@code{CrtcPALBlur}).
+
 @findex -Crtccrtscanlineshade
 @item -Crtccrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation
@@ -9283,10 +9386,12 @@ Specify filename of the character generator ROM file
 @item -rom9 <name>
 Specify the filename for the ROM image file for the $9***
 cartridge area (@code{RomModule9Name}).
+
 @findex -romA
 @item -romA <name>
 Specify the filename for the ROM image file for the $A***
 cartridge area (@code{RomModuleAName}).
+
 @findex -romB
 @item -romB <name>
 Specify the filename for the ROM image file for the $B***
@@ -9844,8 +9949,7 @@ Integer that specifies the currently played sub tune.
 
 @vindex ChargenName
 @item ChargenName
-String specifying the name of the character generator ROM (default
-@file{chargen}).
+String specifying the name of the character generator ROM (default @file{chargen}).
 
 @vindex KernalName
 @item KernalName
@@ -9868,14 +9972,17 @@ Override PSID settings for Video standard and SID model
 @findex -tune
 @item -tune <number>
 Specify PSID tune <number>
+
 @findex -chargen
 @item -chargen <name>
 Specify name of character generator ROM image
 (@code{ChargenName}).
+
 @findex -kernal
 @item -kernal <name>
 Specify name of the Kernal ROM image
 (@code{KernalName}).
+
 @findex -basic
 @item -basic <name>
 Specify name of the Basic ROM image

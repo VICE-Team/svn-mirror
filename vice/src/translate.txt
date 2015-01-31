@@ -580,6 +580,12 @@ IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE
 IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE
 
 /* c64/cart/ramcart.c */
+IDCLS_RAMCART_READ_ONLY
+
+/* c64/cart/ramcart.c */
+IDCLS_RAMCART_READ_WRITE
+
+/* c64/cart/ramcart.c */
 IDCLS_RAMCART_SIZE
 
 /* c64/cart/dqbb.c */

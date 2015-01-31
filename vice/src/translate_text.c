@@ -5422,6 +5422,40 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/ramcart.c */
+/* en */ {IDCLS_RAMCART_READ_ONLY,    N_("Set the RAMCart switch to read-only")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_RAMCART_READ_ONLY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_RAMCART_READ_ONLY_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_RAMCART_READ_ONLY_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_RAMCART_READ_ONLY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RAMCART_READ_ONLY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_RAMCART_READ_ONLY_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_RAMCART_READ_ONLY_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_RAMCART_READ_ONLY_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_RAMCART_READ_ONLY_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_RAMCART_READ_ONLY_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_RAMCART_READ_ONLY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_RAMCART_READ_ONLY_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/ramcart.c */
+/* en */ {IDCLS_RAMCART_READ_WRITE,    N_("Set the RAMCart switch to read/write")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_RAMCART_READ_WRITE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_RAMCART_READ_WRITE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_RAMCART_READ_WRITE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_RAMCART_READ_WRITE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RAMCART_READ_WRITE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_RAMCART_READ_WRITE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_RAMCART_READ_WRITE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_RAMCART_READ_WRITE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_RAMCART_READ_WRITE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_RAMCART_READ_WRITE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_RAMCART_READ_WRITE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_RAMCART_READ_WRITE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/ramcart.c */
 /* en */ {IDCLS_RAMCART_SIZE,    N_("Size of the RAMCART expansion. (64/128)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_RAMCART_SIZE_DA, ""},  /* fuzzy */

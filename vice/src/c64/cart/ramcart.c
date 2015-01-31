@@ -477,6 +477,16 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE,
       NULL, NULL },
+    { "-ramcartro", SET_RESOURCE, 0,
+      NULL, NULL, "RAMCART_RO", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_RAMCART_READ_ONLY,
+      NULL, NULL },
+    { "-ramcartrw", SET_RESOURCE, 0,
+      NULL, NULL, "RAMCART_RO", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_RAMCART_READ_WRITE,
+      NULL, NULL },
     { NULL }
 };
 

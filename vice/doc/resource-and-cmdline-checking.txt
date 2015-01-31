@@ -7213,8 +7213,6 @@ description:    "Disable the RamCart expansion"
 resource:       "RAMCART" (set to 0)
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 c64/cart/ramcart.c:
 -------------------
 resource type:                  bool
@@ -7226,9 +7224,23 @@ resource var:                   ramcart_readonly
 resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
-command-line:                   NONE (fixme)
+command-line:                   -ramcartro / -ramcartrw
 platform gui present:           amigaos/dos/sdl/osx/windows/unix
 platform gui missing:           beos/os2
+
+c64/cart/ramcart.c:
+-------------------
+command line:   -ramcartro
+description:    "Set the RAMCart switch to read-only"
+resource:       "RAMCART_RO" (set to 1)
+action:         N/A
+
+c64/cart/ramcart.c:
+-------------------
+command line:   -ramcartrw
+description:    "Set the RAMCart switch to read/write"
+resource:       "RAMCART_RO" (set to 0)
+action:         N/A
 
 c64/cart/ramcart.c:
 -------------------
@@ -9646,6 +9658,8 @@ command line:   -romB <Name>
 description:    "Specify 4K extension ROM name at $B***"
 resource:       "RomModuleBName"
 action:         N/A
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 pet/pet-resources.c:
 --------------------
