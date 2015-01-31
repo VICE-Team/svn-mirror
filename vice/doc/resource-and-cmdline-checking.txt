@@ -5685,6 +5685,13 @@ action:         cart_attach_cmdline()
 
 c64/cart/c64carthooks.c:
 ------------------------
+command line:   -cartrgcd <Name>
+description:    "Attach raw 64kB RGCD cartridge image"
+resource:       N/A
+action:         cart_attach_cmdline()
+
+c64/cart/c64carthooks.c:
+------------------------
 command line:   -cartross <Name>
 description:    "Attach raw 16/32kB ROSS cartridge image"
 resource:       N/A

@@ -129,6 +129,7 @@ raw Ocean cartridge image                       sdl/unix
 raw Pagefox cartridge image                     sdl/unix
 raw Prophet64 cartridge name                    sdl/unix
 raw Retro Replay cartridge image                amigaos/msdos/sdl/unix/windows
+raw RGCD cartridge image					unix
 raw REX EP256 cartridge image                   sdl/unix
 raw REX Utility cartridge image                 sdl/unix
 raw ROSS cartridge image                        sdl/unix

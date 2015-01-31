@@ -5926,6 +5926,10 @@ Set the RamCart switch to read-only
 @item -cartrep256 <name>
 Attach raw REX EP256 cartridge image.
 
+@findex -cartrgcd
+@item -cartrgcd <Name>
+Attach raw 64kB RGCD cartridge image.
+
 @findex -cartross
 @item -cartross <name>
 Attach raw 16/32kB ROSS cartridge image.
