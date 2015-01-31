@@ -2832,13 +2832,12 @@ Sound resources
 
 `SoundSpeedAdjustment'
      Integer specifying what speed adjustment method the audio renderer
-     should use.  (0=flexible, 1=adjusting, 2=exact)
+     should use.  (0: flexible, 1: adjusting, 2: exact)
 
 `SoundSampleRate'
-     Integer specifying the sampling frequency, ranging from 8000 to
-     48000 Hz (not all the sound cards and/or sound drivers can support
-     all the frequencies, so actually the nearest candidate will be
-     chosen).
+     Integer specifying the sampling frequency in Hz (not all the sound
+     cards and/or sound drivers can support all the frequencies, so
+     actually the nearest candidate will be chosen).  (8000..48000)
 
 `SoundBufferSize'
      Integer specifying the size of the audio buffer, in milliseconds.
@@ -2941,8 +2940,8 @@ Sound resources
      String specifying additional arguments for sound recording.
 
 `SoundFragmentSize'
-     Integer specifying the fragment size.  (0=very small, 1=small,
-     2=medium, 3=large, 4=very large)
+     Integer specifying the fragment size.  (0: very small, 1: small,
+     2: medium, 3: large, 4: very large)
 
 `SoundVolume'
      Integer specifying the master volume in percent. [100] (0..100)
@@ -2971,10 +2970,11 @@ Sound command-line options
 
 `-soundsync <sync>'
      Specify the sound speed adjustment method (`SoundSpeedAdjustment').
-     (0=flexible, 1=adjusting, 2=exact)
+     (0: flexible, 1: adjusting, 2: exact)
 
 `-soundrate <value>'
      Specify the sound playback sample rate (`SoundSampleRate').
+     (8000..48000)
 
 `-soundoutput <output mode>'
      Sound output mode: (0: system decides mono/stereo, 1: always mono,
@@ -2985,8 +2985,8 @@ Sound command-line options
      (`SoundBufferSize').
 
 `-soundfragsize <value>'
-     Set sound fragment size (`SoundFragmentSize').  (0=very small,
-     1=small, 2=medium, 3=large, 4=very large)
+     Set sound fragment size (`SoundFragmentSize').  (0: very small, 1:
+     small, 2: medium, 3: large, 4: very large)
 
 `-sounddev <Name>'
      Specifies the name of the audio device
@@ -3766,7 +3766,7 @@ Printer resources
 `Printer5'
 `Printer6'
      Integer specifying how the printer (device 4-6) is being emulated.
-     (0=None, 1=FS, 2=Real)
+     (0: None, 1: Filesystem, 2: Real)
 
 `Printer4Driver'
      String specifying the printer output driver.  (raw, ascii, mps803,
@@ -3823,13 +3823,16 @@ Printer command-line options
      Enable/Disable IEC device emulation for device #7
 
 `-device4 <type>'
-     Set device type for device 4 (`Printer4').  (0=None, 1=FS, 2=Real)
+     Set device type for device 4 (`Printer4').  (0: None, 1:
+     Filesystem, 2: Real)
 
 `-device5 <type>'
-     Set device type for device 5 (`Printer5').  (0=None, 1=FS, 2=Real)
+     Set device type for device 5 (`Printer5').  (0: None, 1:
+     Filesystem, 2: Real)
 
 `-device6 <type>'
-     Set device type for device 6 (`Printer6').  (0=None, 1=FS, 2=Real)
+     Set device type for device 6 (`Printer6').  (0: None, 1:
+     Filesystem, 2: Real)
 
 `-prtxtdev1 <name>'
 `-prtxtdev2 <name>'
@@ -3846,15 +3849,15 @@ Printer command-line options
 
 `-pr4drv <name>'
      Specify name of printer driver for device #4 (`Printer4Driver').
-     (ascii/mps803/nl10/raw)
+     (raw, ascii, mps803, nl10)
 
 `-pr5drv <name>'
      Specify name of printer driver for device #5 (`Printer5Driver').
-     (ascii/mps803/nl10/raw)
+     (raw, ascii, mps803, nl10)
 
 `-pr6drv <name>'
      Specify name of printer driver for device #6 (`Printer6Driver').
-     (1520/raw)
+     (raw, 1520)
 
 `-pruser'
 `+pruser'
@@ -4247,7 +4250,7 @@ Miscellaneous resources
 `Directory'
      String specifying the search path for system files.  It is defined
      as a sequence of directory names, separated by colons (`:'), just
-     like the `PATH' variable in the shell.  The special string `$$'
+     like the `PATH' variable in the shell. The special string `$$'
      stands for the default search path.
 
 `DoCoreDump'
@@ -5585,7 +5588,7 @@ VIC-II command-line options
 
 `-VICIInewluminance'
 `+VICIInewluminance'
-     Enable/Disable new luminances (`VICIINewLuminances=1',
+     Enable/disable new luminances (`VICIINewLuminances=1',
      `VICIINewLuminances=0').
 
 `-VICIIsaturation <0-2000>'
@@ -5706,8 +5709,8 @@ SID resources
 .............
 
 `SidStereo'
-     Integer specifying the amount of emulated extra SIDs.  (0=off, 1=1
-     extra sid, 2=2 extra sids)
+     Integer specifying the amount of emulated extra SIDs.  (0: off, 1:
+     1 extra sid, 2: 2 extra sids)
 
 `SidStereoAddressStart'
      Integer specifying the base address of the second SID.
@@ -5720,13 +5723,13 @@ SID resources
      emulated.
 
 `SidModel'
-     Integer specifying what model of the SID must be emulated.
-     (0=6581, 1=8580, 2=8580D, 3=6581R4, 4=DTVSID)
+     Integer specifying what model of the SID must be emulated.  (0:
+     6581, 1: 8580, 2: 8580D, 3: 6581R4, 4: DTVSID)
 
 `SidEngine'
-     Integer specifying what SID engine will be used.  (0=FastSID,
-     1=ReSID, 2=Catweasel MKIII, 3=HardSID, 4=ParSID Port 1, 5=ParSID
-     Port 2, 6=ParSID Port 3)
+     Integer specifying what SID engine will be used.  (0: FastSID, 1:
+     ReSID, 2: Catweasel MKIII, 3: HardSID, 4: ParSID Port 1, 5: ParSID
+     Port 2, 6: ParSID Port 3)
 
 `SidResidSampling'
      Integer specifying the sampling method (`0': Fast, `1':
@@ -5755,6 +5758,7 @@ SID command-line options
 
 `-sidstereo'
      Specify the amount of extra SID chips to emulate (`SidStereo').
+     (0: off, 1: 1 extra sid, 2: 2 extra sids)
 
 `-sidstereoaddress `ADDRESS''
      Specifies the start address for the second SID chip
@@ -6293,7 +6297,7 @@ VDC command-line options
 
 `-VDCdsize'
 `+VDCdsize'
-     Enable/Disable double size (`VDCDoubleSize=1', `VDCDoubleSize=0').
+     Enable/disable double size (`VDCDoubleSize=1', `VDCDoubleSize=0').
 
 `-VDCstretchvertical'
 `+VDCstretchvertical'
@@ -6302,7 +6306,7 @@ VDC command-line options
 
 `-VDCdscan'
 `+VDCdscan'
-     Enable/Disable double scan (`VDCDoubleScan=1', `VDCDoubleScan=0').
+     Enable/disable double scan (`VDCDoubleScan=1', `VDCDoubleScan=0').
 
 `-VDCintpal'
      Use an internal calculated palette
@@ -7000,7 +7004,7 @@ VIC20 cartridge resources
 
 `SidClock'
      Integer specifying the clock rate used for the emulated SID chip
-     (0=C64, 1=VIC20)
+     (0: C64, 1: VIC20)
 
 `DIGIMAX'
      Boolean specifying whether the DigiMAX cartridge (using the
@@ -7049,7 +7053,7 @@ VIC20 cartridge command-line options
 
 `-fewriteback'
 `+fewriteback'
-     Enable/Disable Final Expansion write back to ROM file
+     Enable/disable Final Expansion write back to ROM file
      (`FinalExpansionWriteBack=1', `FinalExpansionWriteBack=0').
 
 `-cartfp <name>'
@@ -7066,14 +7070,15 @@ VIC20 cartridge command-line options
 
 `-sidcart'
 `+sidcart'
-     Enable/Disable SID Cartridge (`SidCart=1', `SidCart=0').
+     Enable/disable SID Cartridge (`SidCart=1', `SidCart=0').
 
 `-sidcartaddress <address>'
      Specify address of the SID Cartridge (`SidAddress').  (0x9800,
      0x9C00)
 
 `-sidcartclock <clock>'
-     Specify clock of the SID Cartridge (`SidClock').  (0=C64, 1=VIC20)
+     Specify clock of the SID Cartridge (`SidClock').  (0: C64, 1:
+     VIC20)
 
 `-tfeioswap'
 `+tfeioswap'
@@ -7203,8 +7208,8 @@ VIC resources
      emulation.
 
 `VICFilter'
-     Integer specifying the rendering filter.  (0=none, 1=CRT
-     emulation, 2=scale2x)
+     Integer specifying the rendering filter.  (0: None, 1: CRT
+     emulation, 2: Scale2x)
 
 `VICBorderMode'
      integer specifying border display mode (0: normal, 1: full, 2:
@@ -7229,8 +7234,8 @@ VIC command-line options
      `VICDoubleScan=0').
 
 `-VICfilter <Mode>'
-     Select rendering filter (`VICFilter').  (0=none, 1=CRT emulation,
-     2=scale2x)
+     Select rendering filter (`VICFilter').  (0: None, 1: CRT
+     emulation, 2: Scale2x)
 
 `-VICpalette NAME'
      Specify the name of the palette file (`VICPaletteFile').
@@ -7547,8 +7552,8 @@ TED resources
      emulation.
 
 `TEDFilter'
-     Integer specifying rendering filter.  (0=none, 1=CRT emulation,
-     2=scale2x)
+     Integer specifying rendering filter.  (0: None, 1: CRT emulation,
+     2: Scale2x)
 
 `TEDBorderMode'
      integer specifying border display mode (0: normal, 1: full, 2:
@@ -7571,8 +7576,8 @@ TED command-line options
      Enable/disable double scan (`TEDDoubleScan=1', `TEDDoubleScan=0').
 
 `-TEDfilter <Mode>'
-     Select rendering filter (`TEDFilter').  (0=none, 1=CRT emulation,
-     2=scale2x)
+     Select rendering filter (`TEDFilter').  (0: None, 1: CRT
+     emulation, 2: Scale2x)
 
 `-TEDintpal'
      Use an internal calculated palette (`TEDExternalPalette=0').
@@ -8128,8 +8133,7 @@ PET I/O extension command-line options
 
 `-userportdac'
 `+userportdac'
-     Enable or disable the userport DAC (`UserportDAC=1',
-     `UserportDAC=0').
+     Enable/disable the userport DAC (`UserportDAC=1', `UserportDAC=0').
 
 `-petdww'
 `+petdww'

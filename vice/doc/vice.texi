@@ -3082,13 +3082,14 @@ Boolean specifying whether audio emulation is turned on.
 @vindex SoundSpeedAdjustment
 @item SoundSpeedAdjustment
 Integer specifying what speed adjustment method the audio renderer should use.
-(0=flexible, 1=adjusting, 2=exact)
+(0: flexible, 1: adjusting, 2: exact)
 
 @vindex SoundSampleRate
 @item SoundSampleRate
-Integer specifying the sampling frequency, ranging from 8000 to 48000 Hz
+Integer specifying the sampling frequency in Hz
 (not all the sound cards and/or sound drivers can support all the
 frequencies, so actually the nearest candidate will be chosen).
+(8000..48000)
 
 @vindex SoundBufferSize
 @item SoundBufferSize
@@ -3196,10 +3197,12 @@ script detected the corresponding development support at the time of compilation
 @vindex SoundRecordDeviceArg
 @item SoundRecordDeviceArg
 String specifying additional arguments for sound recording.
+
 @vindex SoundFragmentSize
 @item SoundFragmentSize
 Integer specifying the fragment size.
-(0=very small, 1=small, 2=medium, 3=large, 4=very large)
+(0: very small, 1: small, 2: medium, 3: large, 4: very large)
+
 @vindex SoundVolume
 @item SoundVolume
 Integer specifying the master volume in percent. [100] (0..100)
@@ -3228,12 +3231,13 @@ Enable/disable sound emulation
 @item -soundsync <sync>
 Specify the sound speed adjustment method
 (@code{SoundSpeedAdjustment}).
-(0=flexible, 1=adjusting, 2=exact)
+(0: flexible, 1: adjusting, 2: exact)
 
 @findex -soundrate
 @item -soundrate <value>
 Specify the sound playback sample rate
 (@code{SoundSampleRate}).
+(8000..48000)
 
 @cindex -soundoutput 
 @item -soundoutput <output mode>
@@ -3248,7 +3252,7 @@ Specify the size of the audio buffer in milliseconds
 @item -soundfragsize <value>
 Set sound fragment size
 (@code{SoundFragmentSize}).
-(0=very small, 1=small, 2=medium, 3=large, 4=very large)
+(0: very small, 1: small, 2: medium, 3: large, 4: very large)
 
 @cindex -sounddev
 @item -sounddev <Name>
@@ -4179,7 +4183,7 @@ Integer (ranging from 0 to 2, for device 1-3) specifying what printer device
 @itemx Printer5
 @itemx Printer6
 Integer specifying how the printer (device 4-6) is being emulated.
-(0=None, 1=FS, 2=Real)
+(0: None, 1: Filesystem, 2: Real)
 
 @vindex Printer4Driver
 @item Printer4Driver
@@ -4251,19 +4255,19 @@ Enable/Disable IEC device emulation for device #7
 @item -device4 <type>
 Set device type for device 4
 (@code{Printer4}).
-(0=None, 1=FS, 2=Real)
+(0: None, 1: Filesystem, 2: Real)
 
 @findex -device5
 @item -device5 <type>
 Set device type for device 5
 (@code{Printer5}).
-(0=None, 1=FS, 2=Real)
+(0: None, 1: Filesystem, 2: Real)
 
 @findex -device6
 @item -device6 <type>
 Set device type for device 6
 (@code{Printer6}).
-(0=None, 1=FS, 2=Real)
+(0: None, 1: Filesystem, 2: Real)
 
 @cindex -prtxtdev1
 @cindex -prtxtdev2
@@ -4289,19 +4293,19 @@ Specify name of output device for device #4-5 (text/graphics)
 @item -pr4drv <name>
 Specify name of printer driver for device #4
 (@code{Printer4Driver}).
-(ascii/mps803/nl10/raw)
+(raw, ascii, mps803, nl10)
 
 @findex -pr5drv
 @item -pr5drv <name>
 Specify name of printer driver for device #5
 (@code{Printer5Driver}).
-(ascii/mps803/nl10/raw)
+(raw, ascii, mps803, nl10)
 
 @findex -pr6drv
 @item -pr6drv <name>
 Specify name of printer driver for device #6
 (@code{Printer6Driver}).
-(1520/raw)
+(raw, 1520)
 
 @cindex -pruser, +pruser
 @item -pruser
@@ -4698,7 +4702,7 @@ categories.
 @item Directory
 String specifying the search path for system files.  It is defined as a
 sequence of directory names, separated by colons (@samp{:}), just like
-the @code{PATH} variable in the shell.  The special string @samp{$$}
+the @code{PATH} variable in the shell. The special string @samp{$$}
 stands for the default search path.
 
 @c FIXME: add the following section to archdep stuff:
@@ -6263,10 +6267,12 @@ Enable/disable the double scan mode
 Select rendering filter
 (@code{VICIIFilter}).
 (0=none, 1=CRT emulation, 2=scale2x)
+
 @findex -VICIIintpal
 @item -VICIIintpal
 Use an internal calculated palette
 (@code{VICIIExternalPalette=0}).
+
 @findex -VICIIextpal
 @item -VICIIextpal
 Use an external palette (file)
@@ -6295,25 +6301,29 @@ Set VIC-II model (x64sc only)
 @findex -VICIInewluminance, +VICIInewluminance
 @item -VICIInewluminance
 @item +VICIInewluminance
-Enable/Disable new luminances
+Enable/disable new luminances
 (@code{VICIINewLuminances=1}, @code{VICIINewLuminances=0}).
 
 @findex -VICIIsaturation
 @item -VICIIsaturation <0-2000>
 Set saturation of internal calculated palette
 (@code{VICIIColorSaturation}).
+
 @findex -VICIIcontrast
 @item -VICIIcontrast <0-2000>
 Set contrast of internal calculated palette
 (@code{VICIIColorContrast}).
+
 @findex -VICIIbrightness
 @item -VICIIbrightness <0-2000>
 Set brightness of internal calculated palette
 (@code{VICIIColorBrightness}).
+
 @findex -VICIIgamma
 @item -VICIIgamma <0-4000>
 Set gamma of internal calculated palette
 (@code{VICIIColorGamma}).
+
 @cindex -VICIItint
 @item -VICIItint <0-2000>
 Set tint of internal calculated palette
@@ -6325,10 +6335,12 @@ Set phase for color carrier in odd lines
 @item -VICIIoddlinesoffset <0-2000>
 Set phase offset for color carrier in odd lines
 (@code{VICIIPALOddLineOffset}).
+
 @findex -VICIIcrtblur
 @item -VICIIcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation
 (@code{VICIIPALBlur}).
+
 @findex -VICIIcrtscanlineshade
 @item -VICIIcrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation
@@ -6432,7 +6444,7 @@ almost 20kHz).
 @vindex SidStereo
 @item SidStereo
 Integer specifying the amount of emulated extra SIDs.
-(0=off, 1=1 extra sid, 2=2 extra sids)
+(0: off, 1: 1 extra sid, 2: 2 extra sids)
 
 @vindex SidStereoAddressStart
 @item SidStereoAddressStart
@@ -6449,12 +6461,12 @@ Boolean specifying whether the built-in SID filters must be emulated.
 @vindex SidModel
 @item SidModel
 Integer specifying what model of the SID must be emulated.
-(0=6581, 1=8580, 2=8580D, 3=6581R4, 4=DTVSID)
+(0: 6581, 1: 8580, 2: 8580D, 3: 6581R4, 4: DTVSID)
 
 @vindex SidEngine
 @item SidEngine
 Integer specifying what SID engine will be used.
-(0=FastSID, 1=ReSID, 2=Catweasel MKIII, 3=HardSID, 4=ParSID Port 1, 5=ParSID Port 2, 6=ParSID Port 3)
+(0: FastSID, 1: ReSID, 2: Catweasel MKIII, 3: HardSID, 4: ParSID Port 1, 5: ParSID Port 2, 6: ParSID Port 3)
 
 @vindex SidResidSampling
 @item SidResidSampling
@@ -6486,6 +6498,7 @@ in millivolts. [0] (-5000..5000)
 @item -sidstereo
 Specify the amount of extra SID chips to emulate
 (@code{SidStereo}).
+(0: off, 1: 1 extra sid, 2: 2 extra sids)
 
 @cindex -sidstereoaddress
 @item -sidstereoaddress @code{ADDRESS}
@@ -7110,45 +7123,54 @@ integer specifying rendering filter, 0:none, 1:CRT emulation, 2: scale2x
 @item -VDCvcache
 @itemx +VDCvcache
 Enable/Disable the video cache
+
 @findex -VDCdsize, +VDCdsize
 @item -VDCdsize
 @itemx +VDCdsize
-Enable/Disable double size
+Enable/disable double size
 (@code{VDCDoubleSize=1}, @code{VDCDoubleSize=0}).
+
 @findex -VDCstretchvertical, +VDCstretchvertical
 @item -VDCstretchvertical
 @itemx +VDCstretchvertical
 Enable/Disable vertical stretching
 (@code{VDCStretchVertical=1}, @code{VDCStretchVertical=0}).
+
 @findex -VDCdscan, +VDCdscan
 @item -VDCdscan
 @itemx +VDCdscan
-Enable/Disable double scan
+Enable/disable double scan
 (@code{VDCDoubleScan=1}, @code{VDCDoubleScan=0}).
+
 @cindex -VDCintpal
 @item -VDCintpal
 Use an internal calculated palette
 @cindex -VDCextpal
 @item -VDCextpal
 Use an external palette (file)
+
 @findex -VDCpalette
 @item -VDCpalette <name>
 Specify name of file of external palette
 (@code{VDCPaletteFile}).
+
 @cindex -VDCXRANDRfullmode
 @item -VDCXRANDRfullmode <mode>
 Select fullscreen mode
 @cindex -VDCVidmodefullmode
 @item -VDCVidmodefullmode <mode>
 Select fullscreen mode
+
 @findex -VDC16KB
 @item -VDC16KB
 Set the VDC memory size to 16KB
 (@code{VDC64KB=0}).
+
 @findex -VDC64KB
 @item -VDC64KB
 Set the VDC memory size to 64KB
 (@code{VDC64KB=1}).
+
 @cindex -VDCRevision
 @item -VDCRevision <number>
 Set VDC revision (0..2)
@@ -7157,33 +7179,41 @@ Set VDC revision (0..2)
 @item -VDCsaturation <0-2000>
 Set saturation of internal calculated palette
 (@code{VDCColorSaturation}).
+
 @findex -VDCcontrast
 @item -VDCcontrast <0-2000>
 Set contrast of internal calculated palette
 (@code{VDCColorContrast}).
+
 @findex -VDCbrightness
 @item -VDCbrightness <0-2000>
 Set brightness of internal calculated palette
 (@code{VDCColorBrightness}).
+
 @findex -VDCgamma
 @item -VDCgamma <0-4000>
 Set gamma of internal calculated palette
 (@code{VDCColorGamma}).
+
 @cindex -VDCtint
 @item -VDCtint <0-2000>
 Set tint of internal calculated palette [1000]
+
 @findex -VDCoddlinesphase
 @item -VDCoddlinesphase <0-2000>
 Set phase for color carrier in odd lines
 (@code{VDCPALOddLinePhase}).
+
 @findex -VDCoddlinesoffset
 @item -VDCoddlinesoffset <0-2000>
 Set phase offset for color carrier in odd lines
 (@code{VDCPALOddLineOffset}).
+
 @findex -VDCcrtblur
 @item -VDCcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation
 (@code{VDCPALBlur}).
+
 @findex -VDCcrtscanlineshade
 @item -VDCcrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation
@@ -7728,8 +7758,7 @@ Use NTSC sync factor
 
 @vindex ChargenName
 @item ChargenName
-String specifying the name of the character generator ROM (default
-@file{chargen}).
+String specifying the name of the character generator ROM (default @file{chargen}).
 
 @end table
 
@@ -7818,6 +7847,7 @@ changed.
 @vindex CartridgeType
 @item CartridgeType
 Integer specifying the type of cartridge emulated.
+
 @vindex CartridgeFile
 @item CartridgeFile
 String specifying the filename of the image for the current cartridge.
@@ -7853,6 +7883,7 @@ contents changed, when detaching or quitting the emulator.
 @vindex MegaCartNvRAMfilename
 @item MegaCartNvRAMfilename
 String specifying the filename of the MegaCart NvRAM image.
+
 @vindex MegaCartNvRAMWriteBack
 @item MegaCartNvRAMWriteBack
 Boolean, if true write back the NvRAM image file automatically, incase the RAM
@@ -7916,7 +7947,7 @@ Integer that specifies the base address of the emulated SID chip.
 @vindex SidClock
 @item SidClock
 Integer specifying the clock rate used for the emulated SID chip
-(0=C64, 1=VIC20)
+(0: C64, 1: VIC20)
 
 @vindex DIGIMAX
 @item DIGIMAX
@@ -7957,10 +7988,12 @@ Specify generic extension ROM name
 @cindex -cartmega
 @item -cartmega <name>
 Specify Mega-Cart extension ROM name
+
 @findex -mcnvramfile
 @item -mcnvramfile <name>
 Set Mega-Cart NvRAM filename
 (@code{MegaCartNvRAMfilename}).
+
 @findex -mcnvramwriteback, +mcnvramwriteback
 @item -mcnvramwriteback
 @itemx +mcnvramwriteback
@@ -7970,15 +8003,17 @@ Enable/Disable Mega-Cart NvRAM writeback
 @cindex -cartfe
 @item -cartfe <name>
 Specify Final Expansion extension ROM name
+
 @findex -fewriteback, +fewriteback
 @item -fewriteback
 @itemx +fewriteback
-Enable/Disable Final Expansion write back to ROM file
+Enable/disable Final Expansion write back to ROM file
 (@code{FinalExpansionWriteBack=1}, @code{FinalExpansionWriteBack=0}).
 
 @cindex -cartfp
 @item -cartfp <name>
 Specify Vic Flash Plugin extension ROM name
+
 @findex -fpwriteback, +fpwriteback
 @item -fpwriteback
 @itemx +fpwriteback
@@ -7993,7 +8028,7 @@ Enable/Disable VIC-1112 IEEE488 interface
 @findex -sidcart, +sidcart
 @item -sidcart
 @item +sidcart
-Enable/Disable SID Cartridge
+Enable/disable SID Cartridge
 (@code{SidCart=1}, @code{SidCart=0}).
 
 @findex -sidcartaddress
@@ -8006,7 +8041,7 @@ Specify address of the SID Cartridge
 @item -sidcartclock <clock>
 Specify clock of the SID Cartridge
 (@code{SidClock}).
-(0=C64, 1=VIC20)
+(0: C64, 1: VIC20)
 
 @cindex -tfeioswap, +tfeioswap
 @item -tfeioswap
@@ -8172,7 +8207,7 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 @vindex VICFilter
 @item VICFilter
 Integer specifying the rendering filter.
-(0=none, 1=CRT emulation, 2=scale2x)
+(0: None, 1: CRT emulation, 2: Scale2x)
 
 @vindex VICBorderMode
 @item VICBorderMode
@@ -8207,7 +8242,7 @@ Enable/disable the double scan mode
 @item -VICfilter <Mode>
 Select rendering filter
 (@code{VICFilter}).
-(0=none, 1=CRT emulation, 2=scale2x)
+(0: None, 1: CRT emulation, 2: Scale2x)
 
 @findex -VICpalette
 @item -VICpalette NAME
@@ -8218,10 +8253,12 @@ Specify the name of the palette file
 @item -VICintpal
 Use an internal calculated palette
 (@code{VICExternalPalette=0}).
+
 @findex -VICextpal
 @item -VICextpal
 Use an external palette (file)
 (@code{VICExternalPalette=1}).
+
 @cindex -VICXRANDRfullmode
 @item -VICXRANDRfullmode <mode>
 Select fullscreen mode
@@ -8236,33 +8273,41 @@ Set VIC border display mode (0: normal, 1: full, 2: debug, 3:none)
 @item -VICsaturation <0-2000>
 Set saturation of internal calculated palette
 (@code{VICColorSaturation}).
+
 @findex -VICcontrast
 @item -VICcontrast <0-2000>
 Set contrast of internal calculated palette
 (@code{VICColorContrast}).
+
 @findex -VICbrightness
 @item -VICbrightness <0-2000>
 Set brightness of internal calculated palette
 (@code{VICColorBrightness}).
+
 @findex -VICgamma
 @item -VICgamma <0-4000>
 Set gamma of internal calculated palette
 (@code{VICColorGamma}).
+
 @cindex -VICtint
 @item -VICtint <0-2000>
 Set tint of internal calculated palette [1000]
+
 @findex -VICoddlinesphase
 @item -VICoddlinesphase <0-2000>
 Set phase for color carrier in odd lines
 (@code{VICPALOddLinePhase}).
+
 @findex -VICoddlinesoffset
 @item -VICoddlinesoffset <0-2000>
 Set phase offset for color carrier in odd lines.
 (@code{VICPALOddLineOffset}).
+
 @findex -VICcrtblur
 @item -VICcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation
 (@code{VICPALBlur}).
+
 @findex -VICcrtscanlineshade
 @item -VICcrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation
@@ -8563,7 +8608,7 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 @vindex TEDFilter
 @item TEDFilter
 Integer specifying rendering filter.
-(0=none, 1=CRT emulation, 2=scale2x)
+(0: None, 1: CRT emulation, 2: Scale2x)
 
 @vindex TEDBorderMode
 @item TEDBorderMode
@@ -8597,7 +8642,7 @@ Enable/disable double scan
 @item -TEDfilter <Mode>
 Select rendering filter
 (@code{TEDFilter}).
-(0=none, 1=CRT emulation, 2=scale2x)
+(0: None, 1: CRT emulation, 2: Scale2x)
 
 @findex -TEDintpal
 @item -TEDintpal
@@ -8643,21 +8688,26 @@ Set brightness of internal calculated palette
 @item -TEDgamma <0-4000>
 Set gamma of internal calculated palette
 (@code{TEDColorGamma}).
+
 @cindex -TEDtint
 @item -TEDtint <0-2000>
 Set tint of internal calculated palette [1000]
+
 @findex -TEDoddlinesphase
 @item -TEDoddlinesphase <0-2000>
 Set phase for color carrier in odd lines
 (@code{TEDPALOddLinePhase}).
+
 @findex -TEDoddlinesoffset
 @item -TEDoddlinesoffset <0-2000>
 Set phase offset for color carrier in odd lines
 (@code{TEDPALOddLineOffset}).
+
 @findex -TEDcrtblur
 @item -TEDcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation
 (@code{TEDPALBlur}).
+
 @findex -TEDcrtscanlineshade
 @item -TEDcrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation
@@ -9312,7 +9362,7 @@ Size of the PET Ram and Expansion Unit
 @findex -userportdac, +userportdac
 @item -userportdac
 @itemx +userportdac
-Enable or disable the userport DAC
+Enable/disable the userport DAC
 (@code{UserportDAC=1}, @code{UserportDAC=0}).
 
 @findex -petdww, +petdww
