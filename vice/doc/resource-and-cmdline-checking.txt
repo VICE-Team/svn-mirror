@@ -5837,8 +5837,6 @@ description:    "Specify Double Quick Brown Box filename"
 resource:       "DQBBfilename"
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 c64/cart/dqbb.c:
 ----------------
 resource type:                  bool
@@ -7214,6 +7212,8 @@ command line:   +ramcart
 description:    "Disable the RamCart expansion"
 resource:       "RAMCART" (set to 0)
 action:         N/A
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 c64/cart/ramcart.c:
 -------------------

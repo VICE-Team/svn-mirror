@@ -4721,8 +4721,8 @@ C64 cartridge resources
      quitting the emulator.
 
 `ExpertCartridgeMode'
-     Integer specifying the state of the expert cartridge switch
-     (0=off, 1=prg, 2=on).
+     Integer specifying the state of the expert cartridge switch.  (0:
+     off, 1: prg, 2: on)
 
 `IDE64version4'
      Boolean specifying whether the emulated card version is V4.1 or
@@ -4787,7 +4787,8 @@ C64 cartridge resources
      String specifying the filename of the ISEPIC RAM image.
 
 `IsepicSwitch'
-     Boolean specifying the status of the ISEPIC switch.  (0=off, 1=on)
+     Boolean specifying the status of the ISEPIC switch.  (0: off, 1:
+     on)
 
 `IsepicImageWrite'
      Boolean, if true write back the ISEPIC image file automatically,
@@ -4816,8 +4817,8 @@ C64 cartridge resources
      Boolean that specifies whether the MMC64 flash jumper is set.
 
 `MMC64_revision'
-     Integer specifying the MMC64 hardware revision.  (0=Rev. A, 1=Rev.
-     B)
+     Integer specifying the MMC64 hardware revision.  (0: Revision A,
+     1: Revision B)
 
 `MMC64imagefilename'
      String specifying the filename of the SD-Card image used by the
@@ -4828,7 +4829,7 @@ C64 cartridge resources
 
 `MMC64_sd_type'
      Integer that specifies the reported type for the emulated SD-Card.
-     (0=Auto, 1=MMC, 2=SD, 3=SDHC)
+     (0: Auto, 1: MMC, 2: SD, 3: SDHC)
 
 `MMCRCardImage'
      String specifying the filename of the SD-Card image used by the
@@ -4852,7 +4853,7 @@ C64 cartridge resources
 
 `MMCRSDType'
      Integer that specifies the reported type for the emulated SD-Card.
-     (0=Auto, 1=MMC, 2=SD, 3=SDHC)
+     (0: Auto, 1: MMC, 2: SD, 3: SDHC)
 
 `MMCREEPROMRW'
      Boolean specifying if the MMCR EEPROM image is writeable.
@@ -4966,7 +4967,7 @@ C64 cartridge command-line options
 
 `-dqbbimagerw'
 `+dqbbimagerw'
-     Allow/Disallow writing to DQBB image (`DQBBImageWrite=1',
+     Allow/disallow writing to DQBB image (`DQBBImageWrite=1',
      `DQBBImageWrite=0').
 
 `-carteasy <name>'
@@ -4974,7 +4975,7 @@ C64 cartridge command-line options
 
 `-easyflashjumper'
 `+easyflashjumper'
-     Enable/Disable EasyFlash jumper (`EasyFlashJumper=1',
+     Enable/disable EasyFlash jumper (`EasyFlashJumper=1',
      `EasyFlashJumper=0').
 
 `-easyflashcrtwrite'
@@ -5005,8 +5006,8 @@ C64 cartridge command-line options
      (`ExpertImageWrite=1', `ExpertImageWrite=0').
 
 `-expertmode <mode>'
-     Set Expert Cartridge mode (`ExpertCartridgeMode').  (0=off, 1=prg,
-     2=on)
+     Set Expert Cartridge mode (`ExpertCartridgeMode').  (0: off, 1:
+     prg, 2: on)
 
 `-cartf64 <Name>'
      Attach raw 32kB Formel 64 image.
@@ -5118,12 +5119,12 @@ C64 cartridge command-line options
 
 `-isepic'
 `+isepic'
-     Enable/Disable the ISEPIC cart (`IsepicCartridgeEnabled=1',
+     Enable/disable the ISEPIC cart (`IsepicCartridgeEnabled=1',
      `IsepicCartridgeEnabled=0').
 
 `-isepicswitch'
 `+isepicswitch'
-     Enable/Disable the ISEPIC switch (`IsepicSwitch=1',
+     Enable/disable the ISEPIC switch (`IsepicSwitch=1',
      `IsepicSwitch=0').
 
 `-cartisepic <name>'
@@ -5134,7 +5135,7 @@ C64 cartridge command-line options
 
 `-isepicimagerw'
 `+isepicimagerw'
-     Allow/Disallow writing to ISEPIC image (`IsepicImageWrite=1',
+     Allow/disallow writing to ISEPIC image (`IsepicImageWrite=1',
      `IsepicImageWrite=0').
 
 `-cartkcs <name>'
@@ -5157,7 +5158,7 @@ C64 cartridge command-line options
 
 `-mmc64'
 `+mmc64'
-     Enable/Disable the MMC64 expansion (`MMC64=1', `MMC64=0').
+     Enable/disable the MMC64 expansion (`MMC64=1', `MMC64=0').
 
 `-cartmmc64 <name>'
      Attach raw 8kB MMC64 cartridge image.
@@ -5186,35 +5187,36 @@ C64 cartridge command-line options
      Do not save the MMC64 bios when changed (`MMC64_bios_write'=0).
 
 `-mmc64rev <revision>'
-     Specify MMC64 revision (`MMC64_revision').  (0=Rev. A, 1=Rev. B)
+     Specify MMC64 revision (`MMC64_revision').  (0: Revision A, 1:
+     Revision B)
 
 `-mmc64sdtype <type>'
-     Specify MMC64 SD type (`MMC64_sd_type').  (0=Auto, 1=MMC, 2=SD,
-     3=SDHC)
+     Specify MMC64 SD type (`MMC64_sd_type').  (0: Auto, 1: MMC, 2: SD,
+     3: SDHC)
 
 `-cartmmcr <name>'
      Attach raw 512kB MMC Replay cartridge image.
 
 `-mmcrrescue'
 `+mmcrrescue'
-     Enable/Disable MMC Replay rescue mode (`MMCRRescueMode=1',
+     Enable/disable MMC Replay rescue mode (`MMCRRescueMode=1',
      `MMCRRescueMode=0').
 
 `-mmcrimagerw'
 `+mmcrimagerw'
-     Allow/Disallow writing to MMC Replay image (`MMCRImageWrite=1',
+     Allow/disallow writing to MMC Replay image (`MMCRImageWrite=1',
      `MMCRImageWrite=0').
 
 `-mmcrsdtype <type>'
-     Specify MMC Replay SD type (`MMCRSDType').  (0=Auto, 1=MMC, 2=SD,
-     3=SDHC)
+     Specify MMC Replay SD type (`MMCRSDType').  (0: Auto, 1: MMC, 2:
+     SD, 3: SDHC)
 
 `-mmcrcardimage <filename>'
      Specify MMC Replay card image filename (`MMCRCardImage').
 
 `-mmcrcardrw'
 `+mmcrcardrw'
-     Allow/Disallow writes to MMC Replay card image (`MMCRCardRW=1',
+     Allow/disallow writes to MMC Replay card image (`MMCRCardRW=1',
      `MMCRCardRW=0').
 
 `-mmcreepromimage <filename>'
@@ -5222,7 +5224,7 @@ C64 cartridge command-line options
 
 `-mmcreepromrw'
 `+mmcreepromrw'
-     Allow/Disallow writes to MMC Replay EEPROM image
+     Allow/disallow writes to MMC Replay EEPROM image
      (`MMCREEPROMRW=1', `MMCREEPROMRW=0').
 
 `-cartmv <name>'
@@ -5234,7 +5236,7 @@ C64 cartridge command-line options
 
 `-magicvoice'
 `+magicvoice'
-     Enable/Disable Magic Voice cartridge
+     Enable/disable Magic Voice cartridge
      (`MagicVoiceCartridgeEnabled=1', `MagicVoiceCartridgeEnabled=0').
 
 `-cartocean <name>'
@@ -5251,7 +5253,7 @@ C64 cartridge command-line options
 
 `-ramcart'
 `+ramcart'
-     Enable/Disable the RAMCART expansion (`RAMCART=1', `RAMCART=0').
+     Enable/disable the RAMCART expansion (`RAMCART=1', `RAMCART=0').
 
 `-ramcartsize <size in KB>'
      Size of the RAMCART expansion (`RAMCARTsize').  (64/128)
@@ -5877,7 +5879,7 @@ C64 I/O extension resources
      emulator.
 
 `GEORAMsize'
-     Integer specifying the size of the emulated GEO-RAM in KB (64,
+     Integer specifying the size of the emulated GEO-RAM in KB.  (64,
      128, 256, 512, 1024, 2048, 4096).
 
 `MIDIEnable'
@@ -5947,7 +5949,7 @@ C64 I/O extension command-line options
 
 `-georam'
 `+georam'
-     Enable/Disable the GEORAM expansion unit (`GEORAM=1', `GEORAM=0').
+     Enable/disable the GEORAM expansion unit (`GEORAM=1', `GEORAM=0').
 
 `-cartgeoram <name>'
      Attach raw GEO-RAM cartridge image.
@@ -5957,12 +5959,12 @@ C64 I/O extension command-line options
 
 `-georamimagerw'
 `+georamimagerw'
-     Allow/Disallow writing to GEORAM image (`GEORAMImageWrite=1',
+     Allow/disallow writing to GEORAM image (`GEORAMImageWrite=1',
      `GEORAMImageWrite=0').
 
 `-georamsize <size in KB>'
-     Size of the GEORAM expansion unit (`GEORAMsize').
-     (64/128/256/512/1024/2048/4096)
+     Size of the GEORAM expansion unit (`GEORAMsize').  (64, 128, 256,
+     512, 1024, 2048, 4096)
 
 `-reu'
 `+reu'
@@ -6950,7 +6952,7 @@ VIC20 cartridge resources
      MasC=uerade cartridge adapter) should be emulated or not.
 
 `GEORAMsize'
-     Integer specifying the size of the emulated GEO-RAM in KB (64,
+     Integer specifying the size of the emulated GEO-RAM in KB.  (64,
      128, 256, 512, 1024, 2048, 4096).
 
 `GEORAMImageWrite'
@@ -7097,7 +7099,7 @@ VIC20 cartridge command-line options
 
 `-georam'
 `+georam'
-     Enable/Disable the GEORAM expansion unit (using the MasC=uerade
+     Enable/disable the GEORAM expansion unit (using the MasC=uerade
      cartridge adapter) (`GEORAM=1', `GEORAM=0').
 
 `-georamimage <name>'
@@ -7105,12 +7107,12 @@ VIC20 cartridge command-line options
 
 `-georamimagerw'
 `+georamimagerw'
-     Allow/Disallow writing to GEORAM image (`GEORAMImageWrite=1',
+     Allow/disallow writing to GEORAM image (`GEORAMImageWrite=1',
      `GEORAMImageWrite=0').
 
 `-georamsize <size in KB>'
-     Size of the GEORAM expansion unit (`GEORAMsize').
-     (64/128/256/512/1024/2048/4096)
+     Size of the GEORAM expansion unit (`GEORAMsize').  (64, 128, 256,
+     512, 1024, 2048, 4096)
 
 VIC settings
 ------------
