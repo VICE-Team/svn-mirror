@@ -84,7 +84,7 @@ DeviceView::DeviceView(BRect r, int device_num) : BView(r, "device_view", B_FOLL
     r.InsetBy(10, 10);
     box = new BBox(r);
     AddChild(box);
-	
+
     /* the directory related controls */
     msg = new BMessage(MESSAGE_DEVICE_DIRECTORY);
     msg->AddInt32("device", device_num);
@@ -110,7 +110,7 @@ DeviceView::DeviceView(BRect r, int device_num) : BView(r, "device_view", B_FOLL
     /* some explanations */
     r=box->Bounds();
     r.InsetBy(5, 5);
-    r.top += 100;		
+    r.top += 100;
     instruction = new BTextView(r, "instructions", BRect(20, 5, r.Width() - 20, r.Height() - 5), B_FOLLOW_NONE, B_WILL_DRAW);
     box->AddChild(instruction);
     instruction->MakeEditable(false);
@@ -145,16 +145,11 @@ static DeviceWindow *devicewindow = NULL;
 DeviceWindow::DeviceWindow() 
     : BWindow(BRect(50, 50, 400, 270),"Device settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
-    BRect frame, r;
-    BView *printerview;
+    BRect frame;
     BTabView *tabview;
     BTab *tab;
-    BBox *box;
-    BCheckBox *checkbox;
     int device_num;
-    int printer4;
-    const char *printerfile;
-    char str[20];	
+    char str[20];
 
     frame = Bounds();
     tabview = new BTabView(frame, "tab_view");
@@ -165,31 +160,10 @@ DeviceWindow::DeviceWindow()
     frame.OffsetTo(3, 3);
     frame.bottom -= tabview->TabHeight();
 
-    /* the printer 4 device */
-    r = frame;
-    tab = new BTab();
-    tabview->AddTab(printerview = new BView(r, "printerview", B_FOLLOW_NONE, B_WILL_DRAW), tab);
-    tab->SetLabel("Printer 4");
-    printerview->SetViewColor(220,220,220,0);
-
-    resources_get_int("Printer4", &printer4);
-    resources_get_string("PrinterTextDevice1", &printerfile);
-    r.InsetBy(10, 10);
-    box = new BBox(r);
-    printerview->AddChild(box);
-
-    checkbox = new BCheckBox(BRect(20, 20, 200, 30), "printer4", "Printer 4 enabled", new BMessage(MESSAGE_DEVICE_PRINTER4));
-    checkbox->SetValue(printer4);
-    box->AddChild(checkbox);
-
-    printertextcontrol = new BTextControl(BRect(10, 50, 240, 60), "printerfile", "Output to file", printerfile, new BMessage(MESSAGE_DEVICE_PRINTERFILE));
-    printertextcontrol->SetDivider(80);
-    box->AddChild(printertextcontrol);
-
     /* the disk devices 8-11 */
     for (device_num = 8; device_num < 12; device_num++) {
         tab = new BTab();
-        tabview->AddTab(dv[device_num - 8] = new DeviceView(frame,device_num), tab);
+        tabview->AddTab(dv[device_num - 8] = new DeviceView(frame, device_num), tab);
         sprintf(str, "Drive %d", device_num);
         tab->SetLabel(str);
     }
@@ -201,10 +175,11 @@ DeviceWindow::DeviceWindow()
 
 DeviceWindow::~DeviceWindow() 
 {
-    devicewindow = NULL;	
+    devicewindow = NULL;
 }
 
-void DeviceWindow::MessageReceived(BMessage *msg) {
+void DeviceWindow::MessageReceived(BMessage *msg)
+{
     int32 device_num;
     int32 resource_index;
     char str[256];
@@ -214,14 +189,8 @@ void DeviceWindow::MessageReceived(BMessage *msg) {
     BMessage *newmsg;
 
     msg->FindInt32("device", &device_num);
-	
+
     switch (msg->what) {
-        case MESSAGE_DEVICE_PRINTER4:
-            resources_toggle("Printer4", NULL);
-            break;
-        case MESSAGE_DEVICE_PRINTERFILE:
-            resources_set_string("PrinterTextDevice1", printertextcontrol->Text());
-            break;
         case MESSAGE_DEVICE_P00:
             msg->FindInt32("type", &resource_index);
             resources_get_int_sprintf(resource_p00_name[resource_index], &res_val, device_num);
@@ -262,7 +231,8 @@ void DeviceWindow::MessageReceived(BMessage *msg) {
     }
 }
 
-void ui_device() {
+void ui_device()
+{
     thread_id devicethread;
     status_t exit_value;
 
