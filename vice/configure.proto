@@ -350,7 +350,7 @@ fi
 
 AM_PROG_LEX
 
-if test x"$LEX" = "x${am_missing_run}flex" -o "x"$LEX" = "x"; then
+if test x"$LEX" = "x${am_missing_run}flex" -o "x$LEX" = "x"; then
   AC_MSG_ERROR([flex or lex not found!])
 fi
 
