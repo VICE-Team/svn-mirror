@@ -72,9 +72,9 @@ LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_DS12C887RTC_CAPTION "Ajustes DS12C887 RTC"
   IDS_DS12C887RTC_ENABLE  "Permitir expansión DS12C887 RTC"
-  IDS_DS12C887RTC_RUNMODE "Start with running oscillator"
+  IDS_DS12C887RTC_RUNMODE "Comenzar con running oscillator"
   IDS_DS12C887RTC_BASE    "DS12C887 RTC base"
-  IDS_DS12C887RTC_SAVE    "Save RTC data when changed"
+  IDS_DS12C887RTC_SAVE    "Grabar datos RTC cuando cambien"
 END
 
 

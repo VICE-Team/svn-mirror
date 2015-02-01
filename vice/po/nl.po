@@ -10689,7 +10689,9 @@ msgstr "De IEEE488 interface emulatie uitschakelen"
 msgid ""
 "Patch the Kernal ROM to the specified <revision> (1: rev. 1, 2: rev. 2, 3: "
 "rev. 3, 67/sx: sx64, 100/4064: 4064)"
-msgstr "Verbeter de Kernal ROM naar de opgegeven <revisie> (1: rev. 1, 2: rev. 2, 3: rev. 3, 67/sx: sx64, 100/4064: 4064)"
+msgstr ""
+"Verbeter de Kernal ROM naar de opgegeven <revisie> (1: rev. 1, 2: rev. 2, 3: "
+"rev. 3, 67/sx: sx64, 100/4064: 4064)"
 
 #: src/translate_text.c.po.c:3860
 msgid "Disable the ACIA RS232 interface emulation"
@@ -11872,7 +11874,8 @@ msgstr "Activeer ondersteuning voor het lezen van P00 bestanden voor drive 8"
 
 #: src/translate_text.c.po.c:9310
 msgid "Disable on-read support for P00 files on drive 8"
-msgstr "Ondersteuning voor het lezen van P00 bestanden voor drive 8 uitschakelen"
+msgstr ""
+"Ondersteuning voor het lezen van P00 bestanden voor drive 8 uitschakelen"
 
 #: src/translate_text.c.po.c:9327
 msgid "Enable on-read support for P00 files on drive 9"
@@ -11880,7 +11883,8 @@ msgstr "Activeer ondersteuning voor het lezen van P00 bestanden voor drive 9"
 
 #: src/translate_text.c.po.c:9344
 msgid "Disable on-read support for P00 files on drive 9"
-msgstr "Ondersteuning voor het lezen van P00 bestanden voor drive 9 uitschakelen"
+msgstr ""
+"Ondersteuning voor het lezen van P00 bestanden voor drive 9 uitschakelen"
 
 #: src/translate_text.c.po.c:9361
 msgid "Enable on-read support for P00 files on drive 10"
@@ -11888,7 +11892,8 @@ msgstr "Activeer ondersteuning voor het lezen van P00 bestanden voor drive 10"
 
 #: src/translate_text.c.po.c:9378
 msgid "Disable on-read support for P00 files on drive 10"
-msgstr "Ondersteuning voor het lezen van P00 bestanden voor drive 10 uitschakelen"
+msgstr ""
+"Ondersteuning voor het lezen van P00 bestanden voor drive 10 uitschakelen"
 
 #: src/translate_text.c.po.c:9395
 msgid "Enable on-read support for P00 files on drive 11"
@@ -11896,7 +11901,8 @@ msgstr "Activeer ondersteuning voor het lezen van P00 bestanden voor drive 11"
 
 #: src/translate_text.c.po.c:9412
 msgid "Disable on-read support for P00 files on drive 11"
-msgstr "Ondersteuning voor het lezen van P00 bestanden voor drive 11 uitschakelen"
+msgstr ""
+"Ondersteuning voor het lezen van P00 bestanden voor drive 11 uitschakelen"
 
 #: src/translate_text.c.po.c:9429
 msgid "Enable saving of P00 files on drive 8"
@@ -13114,7 +13120,9 @@ msgstr ""
 msgid ""
 "Specify the pause interval when audio underflows (clicks) happen. 0 means no "
 "pause is done."
-msgstr "Geef de pauze interval wanneer audio onderloopt (kliks) gebeurt: 0 betekent dat er geen pauze zal gebeuren."
+msgstr ""
+"Geef de pauze interval wanneer audio onderloopt (kliks) gebeurt: 0 betekent "
+"dat er geen pauze zal gebeuren."
 
 #: src/translate_text.c.po.c:14585
 msgid "Specify the sound volume"
@@ -13175,14 +13183,19 @@ msgstr ""
 
 #: src/translate_text.c.po.c:14857
 msgid ""
-"Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: +256K)"
-msgstr "Zet de 'geheugen uitbreidingen hack' apparaat (0: Geen, 1: C64 256K, 2: +60K, 3: +256K)"
+"Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: "
+"+256K)"
+msgstr ""
+"Zet de 'geheugen uitbreidingen hack' apparaat (0: Geen, 1: C64 256K, 2: "
+"+60K, 3: +256K)"
 
 #: src/translate_text.c.po.c:14874
 msgid ""
 "Set the 'memory expansion hack' device (0: None, 1: CSORY 256K, 2: HANNES "
 "256K, 3: HANNES 1024K, 4: HANNES 4096K)"
-msgstr "Zet de 'geheugen uitbreidingen hack' apparaat (0: Geen, 1: CSORY 256K, 2: HANNES 256K, 3: HANNES 1024K, 4: HANNES 4096K)"
+msgstr ""
+"Zet de 'geheugen uitbreidingen hack' apparaat (0: Geen, 1: CSORY 256K, 2: "
+"HANNES 256K, 3: HANNES 1024K, 4: HANNES 4096K)"
 
 #: src/translate_text.c.po.c:14908
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
@@ -13369,8 +13382,10 @@ msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
 "Both)"
-msgstr "Zet de netplay controlle onderdelen (toetsenbord, joystick1, joystick2, apparaten en resources), "
-"elk onderdeel heeft een waarde (0: Geen, 1: Server, 2: Client, 3: Beiden)"
+msgstr ""
+"Zet de netplay controlle onderdelen (toetsenbord, joystick1, joystick2, "
+"apparaten en resources), elk onderdeel heeft een waarde (0: Geen, 1: Server, "
+"2: Client, 3: Beiden)"
 
 #: src/translate_text.c.po.c:15847
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"

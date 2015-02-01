@@ -130,7 +130,7 @@ BEGIN
   IDS_INTERPOLATING      "Interpolando"
   IDS_RESAMPLING         "Remuestreo"
   IDS_FAST_RESAMPLING    "Remuestreo rápido"
-  IDS_SID_RESID_GROUP    "reSID options"
+  IDS_SID_RESID_GROUP    "Opciones reSID"
   IDS_SID_RESID_SAMPLE   "Método de muestreo"
   IDS_SID_RESID_PASSBAND "Pasabanda (0..90%)"
   IDS_HARDSID_GROUP      "Selección de periférico"

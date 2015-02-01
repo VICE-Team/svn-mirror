@@ -155,8 +155,8 @@ BEGIN
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "Ajustes periférico esclavo secundario IDE64"
     IDS_IDE64_SETTINGS              "Ajustes IDE64"
     IDS_IDE64_V4                    "Permitir IDE64 V4"
-    IDS_IDE64_USB_SERVER            "Enable IDE64 USB server"
-    IDS_IDE64_RTC_SAVE              "Save IDE64 RTC data when changed"
+    IDS_IDE64_USB_SERVER            "Permitir IDE64 USB server"
+    IDS_IDE64_RTC_SAVE              "Grabar datos IDE64 RTC cuando cambien"
     IDS_IDE64_IMAGE                 "Fichero imagen periférico ATA"
     IDS_IDE64_GEOMETRY              "Geometria"
     IDS_IDE64_AUTODETECT            "Autodetección del tamaño de la imagen"
@@ -165,7 +165,7 @@ BEGIN
     IDS_IDE64_SECTORS               "Sectores"
     IDS_IDE64_TOTAL_SIZE            "Tamaño total: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Selecionar fichero imagen periférico ATA"
-    IDS_IDE64_USB_SERVER_BIND_LABEL "IDE64 USB Server address to bind to"
+    IDS_IDE64_USB_SERVER_BIND_LABEL "Direccion servidor IDE64 USB para enlazar"
 END
 
 

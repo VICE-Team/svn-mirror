@@ -87,9 +87,9 @@ BEGIN
   IDS_MOUSE_TYPE_LABEL        "Tipo ratón"
   IDS_MOUSE_PORT_LABEL        "Puerto del ratón"
   IDS_P_SENSITIVITY           "<sensibilidad>"
-  IDS_DESC_MOUSE_SENSITIVITY  "Sensitivity of the mouse."
+  IDS_DESC_MOUSE_SENSITIVITY  "Sensibilidad del ratón."
   IDS_MOUSE_SENSITIVITY_LABEL "Sensibilidad del ratón"
-  IDS_SMART_MOUSE_RTC_SAVE    "Save Smart Mouse RTC data when changed"
+  IDS_SMART_MOUSE_RTC_SAVE    "Grabar datos Smart Mouse RTC cuando cambien"
 END
 
 
