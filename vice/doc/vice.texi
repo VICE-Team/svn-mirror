@@ -5013,6 +5013,8 @@ REX Utility
 @item
 Retro Replay
 @item
+RGCD
+@item
 ROSS
 @item
 Simons' BASIC
@@ -16241,6 +16243,8 @@ Ocean .crt file
 Prophet64 .crt file
 @item rep256
 REX 256k EPROM Cart .crt file, extra files can be inserted (1)(2)(3)
+@item rgcd
+RGCD .crt file
 @item ross
 ROSS .crt file
 @item rr
