@@ -4,7 +4,7 @@
  * Written by
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andre' Fachat <a.fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <viceteam@t-online.de>
  *  Thomas Bretz <tbretz@ph.tum.de>
  *
@@ -769,17 +769,26 @@ static void advance_loadingtape(void)
 
 static void advance_hasdisk(void)
 {
-    char *tmp;
+    char *tmp, *temp_name;
     int traps;
 
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
         case YES:
+
+            /* autostart_program_name may be petscii or ascii at this point,
+               ANDing the charcodes with 0x7f here is a cheap way to prevent
+               illegal characters in the printed message */
             if (autostart_program_name) {
-                log_message(autostart_log, "Loading program '%s'",
-                            autostart_program_name);
+                temp_name = tmp = lib_stralloc(autostart_program_name);
+                while (*tmp) {
+                    *tmp++ &= 0x7f;
+                }
+                log_message(autostart_log, "Loading program '%s'", temp_name);
+                lib_free(temp_name);
             } else {
                 log_message(autostart_log, "Loading program '*'");
             }
+
             orig_drive_true_emulation_state = get_true_drive_emulation_state();
             if (handle_drive_true_emulation_overridden) {
                 resources_get_int("VirtualDevices", &traps);
@@ -993,13 +1002,26 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
                                  unsigned int runmode)
 {
     int rnd;
+    char *temp_name, *temp;
 
     if (!autostart_enabled) {
         return;
     }
 
+    /* program_name may be petscii or ascii at this point, ANDing the charcodes
+       with 0x7f here is a cheap way to prevent illegal characters in the
+       printed message */
+    if (program_name) {
+        temp_name = temp = lib_stralloc(program_name);
+        while (*temp) {
+            *temp++ &= 0x7f;
+        }
+    }
     log_message(autostart_log, "Resetting the machine to autostart '%s'",
-                program_name ? program_name : "*");
+                program_name ? temp_name : "*");
+    if (program_name) {
+        lib_free(temp_name);
+    }
 
     /* on x128 autostart will only work in 40 columns mode (and can not be fixed
        easily for VDC mode). We work around that by switching to 40 columns and
@@ -1098,7 +1120,7 @@ int autostart_tape(const char *file_name, const char *program_name,
                 tape_seek_start(tape_image_dev1);
             }
         }
-        resources_set_int("VirtualDevices", 1); /* Kludge: iAN CooG - for t64 images we need devtraps ON */
+        resources_set_int("VirtualDevices", 1); /* Kludge: for t64 images we need devtraps ON */
         reboot_for_autostart(program_name, AUTOSTART_HASTAPE, runmode);
 
         return 0;
