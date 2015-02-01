@@ -348,8 +348,9 @@ if test x"$YACC" = "xno"; then
   AC_MSG_ERROR([byacc yacc or bison not found!])
 fi
 
-AC_CHECK_PROGS(LEX, flex lex, [no])
-if test x"$LEX" = "xno"; then
+AM_PROG_LEX
+
+if test x"$LEX" = "x${am_missing_run}flex" -o "x"$LEX" = "x"; then
   AC_MSG_ERROR([flex or lex not found!])
 fi
 
