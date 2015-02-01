@@ -13420,23 +13420,6 @@ translate_t string_table[] = {
 #endif
 
 /* debug.c */
-/* en */ {IDCLS_P_FRAMES,    N_("<frames>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_FRAMES_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_P_FRAMES_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_P_FRAMES_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_P_FRAMES_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_FRAMES_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_FRAMES_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_P_FRAMES_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_FRAMES_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_P_FRAMES_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_P_FRAMES_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_FRAMES_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_P_FRAMES_TR, ""},  /* fuzzy */
-#endif
-
-/* debug.c */
 /* en */ {IDCLS_SET_AUTO_PLAYBACK_FRAMES,    N_("Set the amount of automatic playback frames")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_AUTO_PLAYBACK_FRAMES_DA, ""},  /* fuzzy */
@@ -13453,6 +13436,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_AUTO_PLAYBACK_FRAMES_TR, ""},  /* fuzzy */
 #endif
 
+#endif
+
+/* debug.c */
+/* en */ {IDCLS_P_FRAMES,    N_("<frames>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_FRAMES_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_FRAMES_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_FRAMES_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_FRAMES_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_FRAMES_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_FRAMES_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_FRAMES_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_FRAMES_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_FRAMES_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_FRAMES_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_FRAMES_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_FRAMES_TR, ""},  /* fuzzy */
 #endif
 
 /* event.c */

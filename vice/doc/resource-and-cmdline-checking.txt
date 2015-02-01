@@ -12692,8 +12692,6 @@ description:    "Amount of horizontal blur for the CRT emulation."
 resource:       "VICIIPALBlur"
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 vicii/vicii-resources.c:
 ------------------------
 resource type:                  int
@@ -12711,6 +12709,28 @@ platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
+command line:   -VICIIoddlinesphase <0-2000>
+description:    "Set phase for color carrier in odd lines"
+resource:       "VICIIPALOddLinePhase"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIPALOddLinePhase"
+resource range:                 0..2000
+resource default:               1125
+resource function:              set_pal_oddlinesphase()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIoddlinesphase
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
 command line:   -VICIIoddlinesphase <0-2000>
 description:    "Set phase for color carrier in odd lines"
 resource:       "VICIIPALOddLinePhase"
@@ -12738,6 +12758,28 @@ description:    "Set phase offset for color carrier in odd lines"
 resource:       "VICIIPALOddLineOffset"
 action:         N/A
 
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIPALOddLineOffset"
+resource range:                 0..2000
+resource default:               875
+resource function:              set_pal_oddlinesoffset()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIoddlinesoffset
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIoddlinesoffset <0-2000>
+description:    "Set phase offset for color carrier in odd lines"
+resource:       "VICIIPALOddLineOffset"
+action:         N/A
+
 vicii/vicii-resources.c:
 ------------------------
 resource type:                  int
@@ -12755,6 +12797,28 @@ platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
+command line:   -VICIIfilter <Mode>
+description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
+resource:       "VICIIFilter"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIFilter"
+resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1), VIDEO_FILTER_SCALE2X (2))
+resource default:               VIDEO_FILTER_CRT (1)
+resource function:              set_chip_rendermode()
+resource var:                   vicii.raster->canvas->videoconfig->filter
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIfilter
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
+platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
 command line:   -VICIIfilter <Mode>
 description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
 resource:       "VICIIFilter"
@@ -12811,72 +12875,6 @@ command line:   -VICIImodel <Model>
 description:    "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a/6572)"
 resource:       N/A
 action:         set_vicii_model() (sets "VICIIModel")
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIPALOddLinePhase"
-resource range:                 0..2000
-resource default:               1125
-resource function:              set_pal_oddlinesphase()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_phase
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIoddlinesphase
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIoddlinesphase <0-2000>
-description:    "Set phase for color carrier in odd lines"
-resource:       "VICIIPALOddLinePhase"
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIPALOddLineOffset"
-resource range:                 0..2000
-resource default:               875
-resource function:              set_pal_oddlinesoffset()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.pal_oddlines_offset
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIoddlinesoffset
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIoddlinesoffset <0-2000>
-description:    "Set phase offset for color carrier in odd lines"
-resource:       "VICIIPALOddLineOffset"
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIFilter"
-resource range:                 0..2 (VIDEO_FILTER_NONE (0), VIDEO_FILTER_CRT (1), VIDEO_FILTER_SCALE2X (2))
-resource default:               VIDEO_FILTER_CRT (1)
-resource function:              set_chip_rendermode()
-resource var:                   vicii.raster->canvas->videoconfig->filter
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIfilter
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
-platform range correct:		amigaos/beos/dos/os2/sdl/unix/osx/windows
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIfilter <Mode>
-description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-resource:       "VICIIFilter"
-action:         N/A
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -13159,7 +13157,7 @@ fixme: update documentation with range
 
 autostart.c:
 ------------
-command line:   -autostart-delay <Seconds>
+command line:   -autostart-delay <frames>
 description:    "Set initial autostart delay (0: use default)"
 resource:       "AutostartDelay"
 action:         N/A
@@ -13225,7 +13223,6 @@ platform gui present:           amigaos/os2/unix/osx/windows
 platform range correct:
 platform range incorrect:
 platform gui missing:           beos/dos/sdl
-fixme: fix documentation, range
 
 c128/c128-cmdline-options.c:
 ----------------------------
@@ -13251,7 +13248,6 @@ platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           os2
-fixme: fix documentation, range
 
 sid/sid-cmdline-options.c:
 --------------------------
@@ -13405,7 +13401,6 @@ command-line:                   -intfunc
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		amigaos/beos/dos/os2/sdl/unix/windows/osx
 platform range incorrect:
-fixme: fix documentation, int
 
 c128/functionrom.c:
 -------------------
@@ -13429,7 +13424,6 @@ command-line:                   -extfunc
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		amigaos/beos/dos/os2/sdl/unix/windows
 platform range incorrect:		osx
-fixme: fix documentation, int
 
 c128/functionrom.c:
 -------------------
@@ -13452,7 +13446,6 @@ prepocessor:
 command-line:                   -intfuncrtcsave / +intfuncrtcsave
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
 platform gui missing:
-fixme: add to documentation
 
 c128/functionrom.c:
 -------------------
@@ -13460,7 +13453,6 @@ command line:   -intfuncrtcsave
 description:    "Enable saving of the internal function RTC data when changed."
 resource:       "InternalFunctionROMRTCSave" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 c128/functionrom.c:
 -------------------
@@ -13468,7 +13460,6 @@ command line:   +intfuncrtcsave
 description:    "Disable saving of the internal function RTC data when changed."
 resource:       "InternalFunctionROMRTCSave" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 c128/functionrom.c:
 -------------------
@@ -13484,7 +13475,6 @@ prepocessor:
 command-line:                   -extfuncrtcsave / +extfuncrtcsave
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows/osx
 platform gui missing:
-fixme: add to documentation
 
 c128/functionrom.c:
 -------------------
@@ -13492,7 +13482,6 @@ command line:   -extfuncrtcsave
 description:    "Enable saving of the external function RTC data when changed."
 resource:       "ExternalFunctionROMRTCSave" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 c128/functionrom.c:
 -------------------
@@ -13500,7 +13489,8 @@ command line:   +extfuncrtcsave
 description:    "Disable saving of the external function RTC data when changed."
 resource:       "ExternalFunctionROMRTCSave" (set to 0)
 action:         N/A
-fixme: add to documentation
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 c64/c64-resources.c:
 --------------------

@@ -389,7 +389,7 @@ static const cmdline_option_t cmdline_options[] =
     { "-autostart-delay", SET_RESOURCE, 1,
       NULL, NULL, "AutostartDelay", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_SECONDS, IDCLS_SET_AUTOSTART_DELAY,
+      IDCLS_P_FRAMES, IDCLS_SET_AUTOSTART_DELAY,
       NULL, NULL },
     { "-autostart-delay-random", SET_RESOURCE, 0,
       NULL, NULL, "AutostartDelayRandom", (resource_value_t)1,

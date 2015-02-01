@@ -1404,15 +1404,18 @@ Attach <Name> as a tape image file.
 @itemx -11 <Name>
 Attach <Name> as a disk image to device 8, 9, 10 or 11.
 
-@cindex -attach8ro
-@cindex -attach9ro
-@cindex -attach10ro
-@cindex -attach11ro
+@findex -attach8ro
+@findex -attach9ro
+@findex -attach10ro
+@findex -attach11ro
 @item -attach8ro
 @itemx -attach9ro
 @itemx -attach10ro
 @itemx -attach11ro
 Attach disk image for drive #8-11 read only
+(@code{AttachDevice8Readonly=1}, @code{AttachDevice9Readonly=1}, @code{AttachDevice10Readonly=1}, @code{AttachDevice11Readonly=1})
+(all emulators except vsid).
+
 @cindex -attach8rw
 @cindex -attach9rw
 @cindex -attach10rw
@@ -1422,6 +1425,8 @@ Attach disk image for drive #8-11 read only
 @itemx -attach10rw
 @itemx -attach11rw
 Attach disk image for drive #8-11 read write (if possible)
+(@code{AttachDevice8Readonly=0}, @code{AttachDevice9Readonly=0}, @code{AttachDevice10Readonly=0}, @code{AttachDevice11Readonly=0})
+(all emulators except vsid).
 
 @end table
 
@@ -2414,7 +2419,8 @@ Boolean, if true put a colon after the load command when autostarting
 
 @vindex AutostartHandleTrueDriveEmulation
 @item AutostartHandleTrueDriveEmulation
-Boolean, if true handle (enable/disable) True Drive Emulation on autostart.
+Boolean, if true handle (enable/disable) True Drive Emulation on autostart
+(all emulators except vsid).
 
 @vindex AutostartWarp
 @item AutostartWarp
@@ -2434,7 +2440,9 @@ Boolean, enables a short random delay on autostart
 
 @vindex AutostartDelay
 @item AutostartDelay
-Integer specifying the maximum delay in frames.
+Integer specifying the maximum delay in frames (0: use default)
+(all emulators except vsid).
+(0..1000)
 
 @end table
 
@@ -2471,10 +2479,12 @@ On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'
 (@code{AutostartRunWithColon=0})
 (all emulators except vsid).
 
-@cindex -autostart-handle-tde, +autostart-handle-tde
+@findex -autostart-handle-tde, +autostart-handle-tde
 @item -autostart-handle-tde
 @itemx +autostart-handle-tde
 Handle/Do not handle True Drive Emulation on autostart
+(@code{AutostartHandleTrueDriveEmulation=1}, @code{AutostartHandleTrueDriveEmulation=0})
+(all emulators except vsid).
 
 @findex -autostart-warp, +autostart-warp
 @item -autostart-warp
@@ -2497,9 +2507,12 @@ Enable/disable random delay on autostart
 (@code{AutostartDelayRandom})
 (all emulators except vsid).
 
-@cindex -autostart-delay
+@findex -autostart-delay
 @item -autostart-delay <seconds>
 Set initial autostart delay (0: use default)
+(@code{AutostartDelay})
+(all emulators except vsid).
+(0..1000)
 
 @end table
 
@@ -4005,7 +4018,9 @@ Booleans that specify whether IEC device emulation for device #8 to #11 is enabl
 @itemx FileSystemDevice9
 @itemx FileSystemDevice10
 @itemx FileSystemDevice11
-Enum specifying the device type for device 8-11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM (Real), 3: BLOCK DEVICE (Raw))
+Integers specifying the device type for device 8-11 respectively
+(all emulators except vsid).
+(0: None, 1: Filesystem, 2: OpenCBM (Real), 3: Block Device (Raw))
 
 @vindex FSDevice8ConvertP00
 @vindex FSDevice9ConvertP00
@@ -4076,15 +4091,18 @@ Enable/Disable IEC device emulation for device #10
 @itemx +iecdevice11
 Enable/Disable IEC device emulation for device #11
 
-@cindex -device8
-@cindex -device9
-@cindex -device10
-@cindex -device11
+@findex -device8
+@findex -device9
+@findex -device10
+@findex -device11
 @item -device8 <type>
 @itemx -device9 <type>
 @itemx -device10 <type>
 @itemx -device11 <type>
-Set device type for device 8-11 (0: None, 1: Filesystem, 2: OpenCBM (Real), 3: Block device (Raw))
+Set device type for device 8-11 respectively
+(@code{FileSystemDevice8}, @code{FileSystemDevice9}, @code{FileSystemDevice10}, @code{FileSystemDevice11})
+(all emulators except vsid).
+(0: None, 1: Filesystem, 2: OpenCBM (Real), 3: Block device (Raw))
 
 @cindex -fs8
 @cindex -fs9
@@ -4777,7 +4795,8 @@ String specifying the filename of the current flip list. (Drive 8 only)
 @itemx AttachDevice9Readonly
 @itemx AttachDevice10Readonly
 @itemx AttachDevice11Readonly
-Booleans that specify whether to attach images on drives 8 to 11 read-only.
+Booleans that specify whether to attach images on drives 8 to 11 read-only or not
+(all emulators except vsid).
 
 @end table
 
@@ -6119,8 +6138,9 @@ C64 graphics package GoDot
 
 @vindex VICIIModel
 @item VICIIModel
-Integer that specifies VIC-II model (x64sc/xscpu64 only).
-(6569/6569r1/8565/6567/8562/6567r56a/6572)
+Integer that specifies VIC-II model
+(x64sc/xscpu64 only).
+(6569, 6569r1, 8565, 6567, 8562, 6567r56a, 6572)
 
 @vindex VICIICheckSsColl
 @item VICIICheckSsColl
@@ -6134,7 +6154,8 @@ detection must be emulated.
 
 @vindex VICIIVSPBug
 @item VICIIVSPBug
-Boolean specifying whether the "VSP Bug" must be emulated. (x64sc/xscpu64 only).
+Boolean specifying whether the "VSP Bug" must be emulated
+(x64sc/xscpu64 only).
 
 @vindex VICIIVideoCache
 @item VICIIVideoCache
@@ -6212,7 +6233,7 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 @vindex VICIIFilter
 @item VICIIFilter
 Integer specifying rendering filter.
-(0=none, 1=CRT emulation, 2=scale2x)
+(0: None, 1: CRT emulation, 2: Scale2x)
 
 @vindex VICIIBorderMode
 @item VICIIBorderMode
@@ -6242,7 +6263,8 @@ Enable/disable emulation of hardware sprite-background collision detection
 @item -VICIIvspbug
 @itemx +VICIIvspbug
 Enable/disable emulation of the "VSP bug"
-(@code{VICIIVSPBug=1}, @code{VICIIVSPBug=0}).
+(@code{VICIIVSPBug=1}, @code{VICIIVSPBug=0})
+(x64sc/xscpu64 only).
 
 @findex -VICIIvcache, +VICIIvcache
 @item -VICIIvcache
@@ -6266,7 +6288,7 @@ Enable/disable the double scan mode
 @item -VICIIfilter <Mode>
 Select rendering filter
 (@code{VICIIFilter}).
-(0=none, 1=CRT emulation, 2=scale2x)
+(0: None, 1: CRT emulation, 2: Scale2x)
 
 @findex -VICIIintpal
 @item -VICIIintpal
@@ -6292,11 +6314,13 @@ Select fullscreen mode
 @cindex -VICIIborders
 @item -VICIIborders <mode>
 Set VIC-II border display mode (0: normal, 1: full, 2: debug, 3:none)
+
 @findex -VICIImodel
 @item -VICIImodel <model>
-Set VIC-II model (x64sc only)
-(@code{VICIIModel}).
-(6569/6569r1/8565/6567/8562/6567r56a/6572)
+Set VIC-II model
+(@code{VICIIModel})
+(x64sc and xscpu64 only).
+(6569, 6569r1, 8565, 6567, 8562, 6567r56a, 6572)
 
 @findex -VICIInewluminance, +VICIInewluminance
 @item -VICIInewluminance
@@ -6327,10 +6351,12 @@ Set gamma of internal calculated palette
 @cindex -VICIItint
 @item -VICIItint <0-2000>
 Set tint of internal calculated palette
+
 @findex -VICIIoddlinesphase
 @item -VICIIoddlinesphase <0-2000>
 Set phase for color carrier in odd lines
 (@code{VICIIPALOddLinePhase}).
+
 @findex -VICIIoddlinesoffset
 @item -VICIIoddlinesoffset <0-2000>
 Set phase offset for color carrier in odd lines
@@ -6448,11 +6474,21 @@ Integer specifying the amount of emulated extra SIDs.
 
 @vindex SidStereoAddressStart
 @item SidStereoAddressStart
-Integer specifying the base address of the second SID.
+Integer specifying the base address of the second SID
+(x64, x64sc, xscpu64, x128 and vsid only).
+(x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
+0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
+0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
+0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
 
 @vindex SidTripleAddressStart
 @item SidTripleAddressStart
-Integer specifying the base address of the third SID.
+Integer specifying the base address of the third SID
+(x64, x64sc, xscpu64, x128 and vsid only).
+(x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
+0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
+0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
+0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
 
 @vindex SidFilters
 @item SidFilters
@@ -6500,15 +6536,25 @@ Specify the amount of extra SID chips to emulate
 (@code{SidStereo}).
 (0: off, 1: 1 extra sid, 2: 2 extra sids)
 
-@cindex -sidstereoaddress
-@item -sidstereoaddress @code{ADDRESS}
+@findex -sidstereoaddress
+@item -sidstereoaddress <Base address>
 Specifies the start address for the second SID chip
-(@code{SidStereoAddressStart}).
+(@code{SidStereoAddressStart})
+(x64, x64sc, xscpu64, x128 and vsid only).
+(x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
+0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
+0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
+0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
 
-@cindex -sidtripleaddress
+@findex -sidtripleaddress
 @item -sidtripleaddress @code{ADDRESS}
 Specifies the start address for the third SID chip
-(@code{SidTripleAddressStart}).
+(@code{SidTripleAddressStart})
+(x64, x64sc, xscpu64, x128 and vsid only).
+(x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
+0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
+0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
+0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
 
 @findex -sidenginemodel
 @item -sidenginemodel <engine and model>
@@ -7302,17 +7348,29 @@ String specifying the filename of the C64 Basic ROM image.
 
 @vindex InternalFunctionROM
 @item InternalFunctionROM
-Sets the internal function ROM type (0: None, 1: ROM, 2: RAM, 3: RAM+RTC).
+Integer specifying the internal function ROM type
+(0: None, 1: ROM, 2: RAM, 3: RTC).
+
 @vindex InternalFunctionName
 @item InternalFunctionName
 String specifying the filename of the ROM image for the internal function ROM.
 
+@vindex InternalFunctionROMRTCSave
+@item InternalFunctionROMRTCSave
+Boolean to enable/disable the saving of the Internal Function RTC data when changed.
+
 @vindex ExternalFunctionROM
 @item ExternalFunctionROM
-Sets the external function ROM type (0: None, 1: ROM, 2: RAM, 3: RAM+RTC).
+Integer specifying the external function ROM type
+(0: None, 1: ROM, 2: RAM, 3: RTC)
+
 @vindex ExternalFunctionName
 @item ExternalFunctionName
 String specifying the filename of the ROM image for the external function ROM.
+
+@vindex ExternalFunctionROMRTCSave
+@item ExternalFunctionROMRTCSave
+Boolean to enable/disable the saving of the External Function RTC data when changed.
 
 @end table
 
@@ -7376,9 +7434,10 @@ Specify name of Norwegian Kernal ROM image
 Specify name of Swedish Kernal ROM image
 (@code{KernalSEName}).
 
-@cindex -kernalch
+@findex -kernalch
 @item -kernalch <name>
 Specify name of Swiss Kernal ROM image
+(@code{KernalCHName}).
 
 @findex -chargen
 @item -chargen <name>
@@ -7400,23 +7459,44 @@ Specify name of French character generator ROM image
 Specify name of Swedish character generator ROM image
 (@code{ChargenSEName}).
 
-@cindex -chargch
+@findex -chargch
 @item -chargch <name>
 Specify name of Swiss character generator ROM image
+(@code{ChargenCHName}).
 
-@cindex -intfunc
+@findex -intfunc
 @item -intfunc <type>
-Set the internal Function ROM type (0: None, 1: ROM, 2: RAM, 3: RTC)
-@cindex -intfrom
+Set the internal Function ROM type
+(@code{InternalFunctionROM}).
+(0: None, 1: ROM, 2: RAM, 3: RTC)
+
+@findex -intfrom
 @item -intfrom <name>
 Specify name of internal Function ROM image
+(@code{InternalFunctionName}).
 
-@cindex -extfunc
+@findex -intfuncrtcsave, +intfuncrtcsave
+@item -intfuncrtcsave
+@itemx +intfuncrtcsave
+Enable/disable the saving of the Internal Function RTC data when changed
+(@code{InternalFunctionROMRTCSave=1}, @code{InternalFunctionROMRTCSave=0}).
+
+@findex -extfunc
 @item -extfunc <type>
-Set the external Function ROM type (0: None, 1: ROM, 2: RAM, 3: RTC)
-@cindex -extfrom
+Set the external Function ROM type
+(@code{ExternalFunctionROM}).
+(0: None, 1: ROM, 2: RAM, 3: RTC)
+
+@findex -extfrom
 @item -extfrom <name>
 Specify name of external Function ROM image
+(@code{ExternalFunctionName}).
+
+@findex -extfuncrtcsave, +extfuncrtcsave
+@item -extfuncrtcsave
+@itemx +extfuncrtcsave
+Enable/disable the saving of the External Function RTC data when changed
+(@code{ExternalFunctionROMRTCSave=1}, @code{ExternalFunctionROMRTCSave=0}).
 
 @end table
 
@@ -7430,10 +7510,12 @@ Specify name of external Function ROM image
 
 @vindex 40/80ColumnKey
 @item 40/80ColumnKey
-Boolean, status of the 40/80 columns key
+Boolean specifying the status of the 40/80 columns key.
+(0: Not pressed, 1: Pressed)
+
 @vindex Go64Mode
 @item Go64Mode
-Boolean, if true enter C64 mode on reset
+Boolean, if true enter C64 mode on reset.
 
 @vindex C128FullBanks
 @item C128FullBanks
@@ -7441,8 +7523,8 @@ Boolean to enable/disable RAM banks 2 and 3.
 
 @vindex MachineType
 @item MachineType
-Integer specifying the C128 machine type. (0: Internatinal, 1: Finnish, 2: French,
-3: German, 4: Italian, 5: Norwegian, 6: Swedish)
+Integer specifying the C128 machine type.
+(0: International, 1: Finnish, 2: French, 3: German, 4: Italian, 5: Norwegian, 6: Swedish)
 
 @vindex MachineVideoStandard
 @item MachineVideoStandard
@@ -7456,18 +7538,23 @@ Integer that specifies the video standard of the emulated machine
 
 @table @code
 
-@cindex -40col
+@findex -40col
 @item -40col
 Activate 40 column mode
-@cindex -80col
+(@code{40/80ColumnKey=1}).
+
+@findex -80col
 @item -80col
 Activate 80 column mode
+(@code{40/80ColumnKey=0}).
 
-@cindex -go64, +go64
+@findex -go64, +go64
 @item -go64
 Always switch to C64 mode on reset
+(@code{Go64Mode=1}.
 @item +go64
 Always switch to C128 mode on reset
+(@code{Go64Mode=0}.
 
 @findex -pal
 @item -pal
@@ -7491,6 +7578,12 @@ Set the C128 model
 @itemx +c128fullbanks
 Enable/disable RAM banks 2 and 3
 (@code{C128FullBanks=1}, @code{C128FullBanks=0}).
+
+@findex -machinetype
+@item -machinetype <Type>
+Set the C128 machine type
+(@code{MachineType}).
+(0: International, 1: Finnish, 2: French, 3: German, 4: Italian, 5: Norwegian, 6: Swedish)
 
 @end table
 
