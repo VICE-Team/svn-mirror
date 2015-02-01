@@ -554,6 +554,11 @@ int cartridge_attach_image(int type, const char *filename)
 
     if (type == CARTRIDGE_CRT) {
         carttype = crt_getid(abs_filename);
+        if (carttype == -1) {
+            log_message(LOG_DEFAULT, "CART: '%s' is not a valid CRT file.", abs_filename);
+            lib_free(abs_filename);
+            return -1;
+        }
     } else {
         carttype = type;
     }
