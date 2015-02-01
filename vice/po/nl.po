@@ -945,9 +945,8 @@ msgid "AND values"
 msgstr "doe een AND met de waarden"
 
 #: src/arch/unix/gui/c64scui.c:323
-#, fuzzy
 msgid "C64 Memory Expansions Hack"
-msgstr "Geheugen uitbredingen"
+msgstr "Geheugen uitbreidingen hack"
 
 #: src/arch/unix/gui/c64scui.c:357 src/arch/unix/gui/c64ui.c:418
 msgid "Burst Mode Modification"
@@ -978,9 +977,8 @@ msgid "Old NTSC-M"
 msgstr "Oud NTSC-M"
 
 #: src/arch/unix/gui/c64ui.c:384
-#, fuzzy
 msgid "Memory Expansions Hack"
-msgstr "Geheugen uitbredingen"
+msgstr "Geheugen uitbreidingen hack"
 
 #: src/arch/unix/gui/cbm2ui.c:122
 msgid "Basic 128k, low chars"
@@ -1617,52 +1615,43 @@ msgstr "Hummer ADC"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:42
 #: src/arch/win32/resc64memoryhacks.rc.po.c:52
-#, fuzzy
 msgid "C64 256K file"
-msgstr "256K bestand"
+msgstr "C64 256K bestand"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:47
 #: src/arch/win32/resc64memoryhacks.rc.po.c:55
-#, fuzzy
 msgid "+60K file"
-msgstr "256K bestand"
+msgstr "+60K bestand"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:52
 #: src/arch/win32/resc64memoryhacks.rc.po.c:57
-#, fuzzy
 msgid "+256K file"
-msgstr "256K bestand"
+msgstr "+256K bestand"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:88
-#, fuzzy
 msgid "C64 memory expansions hack device"
-msgstr "Geheugen uitbredingen"
+msgstr "C64 geheugen uitbreidingen hack apparaat"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:91
 #: src/arch/win32/resc64memoryhacks.rc.po.c:51
-#, fuzzy
 msgid "C64 256K base address"
-msgstr "256K basisadres"
+msgstr "C64 256K basisadres"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:93
-#, fuzzy
 msgid "C64 256K image name"
-msgstr "Apparaat 2 bestand naam"
+msgstr "C64 256K bestand naam"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:97
-#, fuzzy
 msgid "+60K Base address"
-msgstr "Basisadres"
+msgstr "+60K basisadres"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:99
-#, fuzzy
 msgid "+60K Image name"
-msgstr "Bestandsnaam"
+msgstr "+60K bestandsnaam"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:103
-#, fuzzy
 msgid "+256K image name"
-msgstr "Bestandsnaam"
+msgstr "+256K bestandsnaam"
 
 #: src/arch/unix/gui/uicmdline.c:37 src/arch/amigaos/intl_text.c.po.c:5872
 #, c-format
@@ -2165,9 +2154,8 @@ msgid "Datasette speed tuning"
 msgstr "Datasette snelheid regeling"
 
 #: src/arch/unix/gui/uidatasette.c:64 src/arch/unix/gui/uidatasette.c:111
-#, fuzzy
 msgid "Datasette tape wobble"
-msgstr "Datasette regeling"
+msgstr "Datasette tape wiebel"
 
 #: src/arch/unix/gui/uidatasette.c:79
 #, c-format
@@ -4366,9 +4354,8 @@ msgid "Sprite-background collisions"
 msgstr "Sprite-achtergrond botsingen"
 
 #: src/arch/unix/gui/uivicii.c:224
-#, fuzzy
 msgid "VSP bug emulation"
-msgstr "VIC CRT emulatie"
+msgstr "VSP bug emulatie"
 
 #: src/arch/unix/gui/vic20ui.c:205 src/arch/win32/resvic20.rc.po.c:523
 msgid "No expansion memory"
@@ -4496,7 +4483,7 @@ msgstr "VIC model"
 
 #: src/arch/unix/gui/vic20ui.c:461
 msgid "Memory expansions"
-msgstr "Geheugen uitbredingen"
+msgstr "Geheugen uitbreidingen"
 
 #: src/arch/unix/gui/vic20ui.c:499
 msgid "Ethernet emulation (MasC=uerade)"
@@ -7392,9 +7379,8 @@ msgstr "PET64 NTSC"
 #: src/arch/win32/resc64memoryhacks.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:3800
 #: src/arch/amigaos/intl_text.c.po.c:8338
-#, fuzzy
 msgid "Memory expansion hacks settings"
-msgstr "Userport RTC uitbreiding instellingen"
+msgstr "Geheugen uitbreiding hacks instellingen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:56 src/arch/win32/resc64dtv.rc.po.c:455
 #: src/arch/win32/resc64dtv.rc.po.c:466
@@ -7457,29 +7443,24 @@ msgstr "Hardwarematig flash bestandssysteem"
 
 #: src/arch/win32/resc64memoryhacks.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:8282
-#, fuzzy
 msgid "Memory expansion hack device"
-msgstr "Geheugen uitbredingen"
+msgstr "Geheugen uitbreidingen hack apparaat"
 
 #: src/arch/win32/resc64memoryhacks.rc.po.c:53
-#, fuzzy
 msgid "Select file for C64 256K"
-msgstr "Selecteer bestand voor 256K"
+msgstr "Selecteer bestand voor C64 256K"
 
 #: src/arch/win32/resc64memoryhacks.rc.po.c:54
-#, fuzzy
 msgid "+60K base address"
-msgstr "256K basisadres"
+msgstr "+60K basisadres"
 
 #: src/arch/win32/resc64memoryhacks.rc.po.c:56
-#, fuzzy
 msgid "Select file for +60K"
-msgstr "Selecteer bestand voor 256K"
+msgstr "Selecteer bestand voor +60K"
 
 #: src/arch/win32/resc64memoryhacks.rc.po.c:58
-#, fuzzy
 msgid "Select file for +256K"
-msgstr "Selecteer bestand voor 256K"
+msgstr "Selecteer bestand voor +256K"
 
 #: src/arch/win32/rescbm2common.rc.po.c:152
 #: src/arch/amigaos/intl_text.c.po.c:6516
@@ -10532,14 +10513,12 @@ msgid "Disable opposite joystick directions"
 msgstr "Tegenovergestelde richtingen niet toestaan"
 
 #: src/translate_text.c.po.c:3077
-#, fuzzy
 msgid "Enable keyset"
-msgstr "Activeer Joy Keys"
+msgstr "Activeer keyset"
 
 #: src/translate_text.c.po.c:3094
-#, fuzzy
 msgid "Disable keyset"
-msgstr "Definieer keysets"
+msgstr "Keyset uitschakelen"
 
 #: src/translate_text.c.po.c:3111
 msgid "On autostart, load to BASIC start (without ',1')"
@@ -10707,34 +10686,30 @@ msgid "Disable the IEEE488 interface emulation"
 msgstr "De IEEE488 interface emulatie uitschakelen"
 
 #: src/translate_text.c.po.c:3825
-#, fuzzy
 msgid ""
 "Patch the Kernal ROM to the specified <revision> (1: rev. 1, 2: rev. 2, 3: "
 "rev. 3, 67/sx: sx64, 100/4064: 4064)"
-msgstr "Verbeter de Kernal ROM naar de opgegeven <revisie>"
+msgstr "Verbeter de Kernal ROM naar de opgegeven <revisie> (1: rev. 1, 2: rev. 2, 3: rev. 3, 67/sx: sx64, 100/4064: 4064)"
 
 #: src/translate_text.c.po.c:3860
 msgid "Disable the ACIA RS232 interface emulation"
 msgstr "De ACIA RS232 interface emulatie aflsuiten"
 
 #: src/translate_text.c.po.c:3877
-#, fuzzy
 msgid "interrupt"
-msgstr "ACIA interrupt"
+msgstr "interrupt"
 
 #: src/translate_text.c.po.c:3894
 msgid "Set the ACIA interrupt (0: None, 1: NMI, 2: IRQ)"
-msgstr ""
+msgstr "Zet de ACIA interrupt (0: Geen, 1: NMI, 2: IRQ)"
 
 #: src/translate_text.c.po.c:3911
-#, fuzzy
 msgid "Set the ACIA mode (0: Normal, 1: Swiftlink, 2: Turbo232)"
-msgstr "Zet border weergavemodus (0: normaal, 1: volledig, 2: debug)"
+msgstr "Zet de ACIA modus (0: normaal, 1: Swiftlink, 2: Turbo232)"
 
 #: src/translate_text.c.po.c:3928
-#, fuzzy
 msgid "Set the base address of the ACIA cartridge"
-msgstr "Basisadres van de DigiMAX cartridge"
+msgstr "Zet de basisadres van de ACIA cartridge"
 
 #: src/translate_text.c.po.c:3947
 msgid "Enable the ACIA emulation"
@@ -11047,14 +11022,12 @@ msgid "Do not write to RAMCart image"
 msgstr "Schrijf niet naar RAMCart bestand"
 
 #: src/translate_text.c.po.c:5345
-#, fuzzy
 msgid "Set the RAMCart switch to read-only"
-msgstr "Zet de MMC64 als alleen-lezen"
+msgstr "Zet de RAMCart schakelaar naar alleen-lezen"
 
 #: src/translate_text.c.po.c:5362
-#, fuzzy
 msgid "Set the RAMCart switch to read/write"
-msgstr "Zet de MMC64 als lezen/schrijven"
+msgstr "Zet de RAMCart schakelaar naar lezen/schrijven"
 
 #: src/translate_text.c.po.c:5379
 msgid "Size of the RAMCART expansion. (64/128)"
@@ -11432,9 +11405,8 @@ msgid "Attach raw REX EP256 cartridge image"
 msgstr "Koppel binair REX EP256 cartridge bestand"
 
 #: src/translate_text.c.po.c:7319
-#, fuzzy
 msgid "Attach raw 64kB RGCD cartridge image"
-msgstr "Koppel binair 64KB IDE64 cartridge bestand"
+msgstr "Koppel binair 64KB RGCD cartridge bestand"
 
 #: src/translate_text.c.po.c:7336
 msgid "Attach raw 16/32kB ROSS cartridge image"
@@ -11896,107 +11868,99 @@ msgstr "Gebruik <naam> als directory voor bestandssysteemapparaat #11"
 
 #: src/translate_text.c.po.c:9293
 msgid "Enable on-read support for P00 files on drive 8"
-msgstr ""
+msgstr "Activeer ondersteuning voor het lezen van P00 bestanden voor drive 8"
 
 #: src/translate_text.c.po.c:9310
 msgid "Disable on-read support for P00 files on drive 8"
-msgstr ""
+msgstr "Ondersteuning voor het lezen van P00 bestanden voor drive 8 uitschakelen"
 
 #: src/translate_text.c.po.c:9327
 msgid "Enable on-read support for P00 files on drive 9"
-msgstr ""
+msgstr "Activeer ondersteuning voor het lezen van P00 bestanden voor drive 9"
 
 #: src/translate_text.c.po.c:9344
 msgid "Disable on-read support for P00 files on drive 9"
-msgstr ""
+msgstr "Ondersteuning voor het lezen van P00 bestanden voor drive 9 uitschakelen"
 
 #: src/translate_text.c.po.c:9361
 msgid "Enable on-read support for P00 files on drive 10"
-msgstr ""
+msgstr "Activeer ondersteuning voor het lezen van P00 bestanden voor drive 10"
 
 #: src/translate_text.c.po.c:9378
 msgid "Disable on-read support for P00 files on drive 10"
-msgstr ""
+msgstr "Ondersteuning voor het lezen van P00 bestanden voor drive 10 uitschakelen"
 
 #: src/translate_text.c.po.c:9395
 msgid "Enable on-read support for P00 files on drive 11"
-msgstr ""
+msgstr "Activeer ondersteuning voor het lezen van P00 bestanden voor drive 11"
 
 #: src/translate_text.c.po.c:9412
 msgid "Disable on-read support for P00 files on drive 11"
-msgstr ""
+msgstr "Ondersteuning voor het lezen van P00 bestanden voor drive 11 uitschakelen"
 
 #: src/translate_text.c.po.c:9429
-#, fuzzy
 msgid "Enable saving of P00 files on drive 8"
-msgstr "Activeer geluidsemulatie van diskdrives"
+msgstr "Activeer opslaan van P00 bestanden voor drive 8"
 
 #: src/translate_text.c.po.c:9446
-#, fuzzy
 msgid "Disable saving of P00 files on drive 8"
-msgstr "Geluidsemulatie van diskdrives uitschakelen"
+msgstr "Opslaan van P00 bestanden voor drive 8 uitschakelen"
 
 #: src/translate_text.c.po.c:9463
-#, fuzzy
 msgid "Enable saving of P00 files on drive 9"
-msgstr "Activeer geluidsemulatie van diskdrives"
+msgstr "Activeer opslaan van P00 bestanden voor drive 9"
 
 #: src/translate_text.c.po.c:9480
-#, fuzzy
 msgid "Disable saving of P00 files on drive 9"
-msgstr "Geluidsemulatie van diskdrives uitschakelen"
+msgstr "Opslaan van P00 bestanden voor drive 9 uitschakelen"
 
 #: src/translate_text.c.po.c:9497
-#, fuzzy
 msgid "Enable saving of P00 files on drive 10"
-msgstr "Activeer geluidsemulatie van diskdrives"
+msgstr "Activeer opslaan van P00 bestanden voor drive 10"
 
 #: src/translate_text.c.po.c:9514
-#, fuzzy
 msgid "Disable saving of P00 files on drive 10"
-msgstr "Geluidsemulatie van diskdrives uitschakelen"
+msgstr "Opslaan van P00 bestanden voor drive 10 uitschakelen"
 
 #: src/translate_text.c.po.c:9531
-#, fuzzy
 msgid "Enable saving of P00 files on drive 11"
-msgstr "Activeer geluidsemulatie van diskdrives"
+msgstr "Activeer opslaan van P00 bestanden voor drive 11"
 
 #: src/translate_text.c.po.c:9548
-#, fuzzy
 msgid "Disable saving of P00 files on drive 11"
-msgstr "Geluidsemulatie van diskdrives uitschakelen"
+msgstr "Opslaan van P00 bestanden voor drive 11 uitschakelen"
 
 #: src/translate_text.c.po.c:9565
 msgid "Hide CBM files (only show P00 files) for drive 8"
-msgstr ""
+msgstr "Verberg CBM bestanden (toon alleen P00 bestanden) voor drive 8"
 
 #: src/translate_text.c.po.c:9582
 msgid "Do not hide CBM files (show all files) for drive 8"
-msgstr ""
+msgstr "Verberg CBM bestanden niet (toon alle bestanden) voor drive 8"
 
 #: src/translate_text.c.po.c:9599
 msgid "Hide CBM files (only show P00 files) for drive 9"
-msgstr ""
+msgstr "Verberg CBM bestanden (toon alleen P00 bestanden) voor drive 9"
 
 #: src/translate_text.c.po.c:9616
 msgid "Do not hide CBM files (show all files) for drive 9"
-msgstr ""
+msgstr "Verberg CBM bestanden niet (toon alle bestanden) voor drive 9"
 
 #: src/translate_text.c.po.c:9633
 msgid "Hide CBM files (only show P00 files) for drive 10"
-msgstr ""
+msgstr "Verberg CBM bestanden (toon alleen P00 bestanden) voor drive 10"
 
 #: src/translate_text.c.po.c:9650
 msgid "Do not hide CBM files (show all files) for drive 10"
-msgstr ""
+msgstr "Verberg CBM bestanden niet (toon alle bestanden) voor drive 10"
 
 #: src/translate_text.c.po.c:9667
 msgid "Hide CBM files (only show P00 files) for drive 11"
-msgstr ""
+msgstr "Verberg CBM bestanden (toon alleen P00 bestanden) voor drive 11"
 
 #: src/translate_text.c.po.c:9684
 msgid "Do not hide CBM files (show all files) for drive 11"
-msgstr ""
+msgstr "Verberg CBM bestanden niet (toon alle bestanden) voor drive 11"
 
 #: src/translate_text.c.po.c:9701
 msgid "Set bitrate for audio stream in media file"
@@ -12140,18 +12104,16 @@ msgid "PET I/O size (256/2048)"
 msgstr "PET I/O grootte (256/2048)"
 
 #: src/translate_text.c.po.c:10279
-#, fuzzy
 msgid "Enable CRTC"
-msgstr "Activeer opslaan van de RTC"
+msgstr "Activeer CRTC"
 
 #: src/translate_text.c.po.c:10296
-#, fuzzy
 msgid "Disable CRTC"
-msgstr "Uit"
+msgstr "CRTC uitschakelen"
 
 #: src/translate_text.c.po.c:10313
 msgid "Set video size (0: Automatic, 40: 40 Columns, 80: 80 Columns)"
-msgstr ""
+msgstr "Zet video grootte (0: Automatisch, 40: 40 Kolommen, 80: 80 Kolommen)"
 
 #: src/translate_text.c.po.c:10330
 msgid "Enable userport diagnostic pin"
@@ -12286,9 +12248,8 @@ msgid "Specify name of output device for device #5"
 msgstr "Geef de naam van het uitvoer apparaat voor apparaat #5"
 
 #: src/translate_text.c.po.c:10857
-#, fuzzy
 msgid "Specify name of output device for device #6"
-msgstr "Geef de naam van het uitvoer apparaat voor apparaat #4"
+msgstr "Geef de naam van het uitvoer apparaat voor apparaat #6"
 
 #: src/translate_text.c.po.c:10874
 msgid "Specify name of output device for the userport printer"
@@ -12533,11 +12494,11 @@ msgstr "reSID versterking procent (90 - 100)"
 
 #: src/translate_text.c.po.c:11907
 msgid "Set the HardSID device for the main SID output"
-msgstr ""
+msgstr "Zet de HardSID apparaat voor de hoofd SID uitvoer"
 
 #: src/translate_text.c.po.c:11924
 msgid "Set the HardSID device for the right SID output"
-msgstr ""
+msgstr "Zet de HardSID apparaat vood de rechter SID uitvoer"
 
 #: src/translate_text.c.po.c:11942
 msgid "Enable additional vertical stretching."
@@ -12652,14 +12613,12 @@ msgid "Disable sprite-sprite collision registers"
 msgstr "Sprite-sprite botsing registers uitschakelen"
 
 #: src/translate_text.c.po.c:12452
-#, fuzzy
 msgid "Enable VSP bug emulation"
-msgstr "Activeer MIDI emulatie"
+msgstr "Activeer VSP bug emulatie"
 
 #: src/translate_text.c.po.c:12469
-#, fuzzy
 msgid "Disable VSP bug emulation"
-msgstr "MIDI emulatie uitschakelen"
+msgstr "VSP bug emulatie uitschakelen"
 
 #: src/translate_text.c.po.c:12486
 msgid "Use new luminances"
@@ -12822,9 +12781,8 @@ msgid "Set number of cycles added to each gap in the tap"
 msgstr "Zet aantal extra cycli voor elk gat in de tap"
 
 #: src/translate_text.c.po.c:13132
-#, fuzzy
 msgid "Set maximum random number of cycles added to each gap in the tap"
-msgstr "Zet aantal extra cycli voor elk gat in de tap"
+msgstr "Zet maximaal willekeurige extra aantal cycli voor elk gat in de tap"
 
 #: src/translate_text.c.po.c:13150
 msgid "Trace the main CPU"
@@ -12871,14 +12829,12 @@ msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Traceermodus (0=normaal 1=klein 2=geschiedenis"
 
 #: src/translate_text.c.po.c:13337
-#, fuzzy
 msgid "Set the amount of automatic playback frames"
-msgstr "Geef het aantal automatische weergave frames"
+msgstr "Zet het aantal automatische weergave frames"
 
 #: src/translate_text.c.po.c:13356
-#, fuzzy
 msgid "frames"
-msgstr "frame #"
+msgstr "frames"
 
 #: src/translate_text.c.po.c:13373
 msgid "Playback recorded events"
@@ -12904,14 +12860,12 @@ msgstr ""
 "4: afspelen)"
 
 #: src/translate_text.c.po.c:13458
-#, fuzzy
 msgid "Enable including disk images"
-msgstr "40-sporen schijfbestand"
+msgstr "Activeer het inbegrijpen van disk bestanden"
 
 #: src/translate_text.c.po.c:13475
-#, fuzzy
 msgid "Disable including disk images"
-msgstr "Geluidsemulatie van diskdrives uitschakelen"
+msgstr "Het inbegrijpen van disk bestanden uitschakelen"
 
 #: src/translate_text.c.po.c:13492
 msgid "Execute monitor commands from file"
@@ -12926,14 +12880,12 @@ msgid "Set an initial breakpoint for the monitor"
 msgstr "Zet een beginnende breakpunt voor de monitor"
 
 #: src/translate_text.c.po.c:13543
-#, fuzzy
 msgid "Keep the monitor open"
 msgstr "Hou de monitor open"
 
 #: src/translate_text.c.po.c:13560
-#, fuzzy
 msgid "Do not keep the monitor open"
-msgstr "Hou de monitor open"
+msgstr "Hou de monitor niet open"
 
 #: src/translate_text.c.po.c:13577
 msgid "Enable remote monitor"
@@ -13162,12 +13114,11 @@ msgstr ""
 msgid ""
 "Specify the pause interval when audio underflows (clicks) happen. 0 means no "
 "pause is done."
-msgstr ""
+msgstr "Geef de pauze interval wanneer audio onderloopt (kliks) gebeurt: 0 betekent dat er geen pauze zal gebeuren."
 
 #: src/translate_text.c.po.c:14585
-#, fuzzy
 msgid "Specify the sound volume"
-msgstr "Geef geluidsstuurprogramma"
+msgstr "Geef het geluidsvolume"
 
 #: src/translate_text.c.po.c:14619
 msgid "Define search path to locate system files"
@@ -13224,15 +13175,14 @@ msgstr ""
 
 #: src/translate_text.c.po.c:14857
 msgid ""
-"Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: "
-"+256K)"
-msgstr ""
+"Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: +256K)"
+msgstr "Zet de 'geheugen uitbreidingen hack' apparaat (0: Geen, 1: C64 256K, 2: +60K, 3: +256K)"
 
 #: src/translate_text.c.po.c:14874
 msgid ""
 "Set the 'memory expansion hack' device (0: None, 1: CSORY 256K, 2: HANNES "
 "256K, 3: HANNES 1024K, 4: HANNES 4096K)"
-msgstr ""
+msgstr "Zet de 'geheugen uitbreidingen hack' apparaat (0: Geen, 1: CSORY 256K, 2: HANNES 256K, 3: HANNES 1024K, 4: HANNES 4096K)"
 
 #: src/translate_text.c.po.c:14908
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
@@ -13395,35 +13345,32 @@ msgid "Disable saving of the DS12C887 RTC data when changed."
 msgstr "Opslaan van de DS12C887 RTC data indien gewijzigd uitschakelen."
 
 #: src/translate_text.c.po.c:15744
-#, fuzzy
 msgid "hostname"
-msgstr "Hostnaam:"
+msgstr "Hostnaam"
 
 #: src/translate_text.c.po.c:15761
-#, fuzzy
 msgid "port"
-msgstr "Userport"
+msgstr "poort"
 
 #: src/translate_text.c.po.c:15778
-#, fuzzy
 msgid "Set the netplay server hostname"
-msgstr "Netplay Server naam"
+msgstr "Zet de netplay server hostnaam"
 
 #: src/translate_text.c.po.c:15795
 msgid "Set the netplay binding address"
-msgstr ""
+msgstr "Zet de netplay binding adres"
 
 #: src/translate_text.c.po.c:15812
-#, fuzzy
 msgid "Set the netplay port"
-msgstr "Netplay TCP poort"
+msgstr "Zet de netplay poort"
 
 #: src/translate_text.c.po.c:15829
 msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
 "Both)"
-msgstr ""
+msgstr "Zet de netplay controlle onderdelen (toetsenbord, joystick1, joystick2, apparaten en resources), "
+"elk onderdeel heeft een waarde (0: Geen, 1: Server, 2: Client, 3: Beiden)"
 
 #: src/translate_text.c.po.c:15847
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
@@ -13454,355 +13401,5 @@ msgid "Disable HiRes Emulation Board"
 msgstr "PET High Res Emulation bord uitschakelen"
 
 #: src/translate_text.c.po.c:15967
-#, fuzzy
 msgid "Set raw drive device name"
-msgstr "Geluid stuurprogramma naam"
-
-#~ msgid "256K RAM Expansion"
-#~ msgstr "256K geheugenuitbreiding"
-
-#~ msgid "PLUS60K RAM Expansion"
-#~ msgstr "PLUS60K geheugenuitbreiding"
-
-#~ msgid "PLUS256K RAM Expansion"
-#~ msgstr "PLUS256K geheugenuitbreiding"
-
-#~ msgid "PLUS60K settings"
-#~ msgstr "PLUS60K instellingen"
-
-#~ msgid "PLUS256K settings"
-#~ msgstr "PLUS256K instellingen"
-
-#~ msgid "256K settings"
-#~ msgstr "256K instellingen"
-
-#~ msgid "Enable the 256K RAM expansion"
-#~ msgstr "Activeer de 256K geheugenuitbreiding"
-
-#~ msgid "Enable the PLUS256K RAM expansion"
-#~ msgstr "Activeer de PLUS256K geheugenuitbreiding"
-
-#~ msgid "Enable the PLUS60K RAM expansion"
-#~ msgstr "Activeer de PLUS60K geheugenuitbreiding"
-
-#~ msgid "256K Enabled"
-#~ msgstr "256K aan"
-
-#~ msgid "Resource %s blocked by %s."
-#~ msgstr "Bron %s geblokeerd door %s."
-
-#~ msgid "Disable the PLUS256K RAM expansion"
-#~ msgstr "De PLUS256K geheugenuitbreiding uitschakelen"
-
-#~ msgid "Disable the PLUS60K RAM expansion"
-#~ msgstr "De PLUS60K geheugenuitbreiding uitschakelen"
-
-#~ msgid "Disable the 256K RAM expansion"
-#~ msgstr "De 256K geheugenuitbreiding uitschakelen"
-
-#~ msgid "Enable the CSORY 256K RAM expansion"
-#~ msgstr "Activeer de CSORY 256K geheugenuitbreiding"
-
-#~ msgid "Enable the HANNES 256K RAM expansion"
-#~ msgstr "Activeer de HANNES 256K geheugenuitbreiding"
-
-#~ msgid "Enable the HANNES 1024K RAM expansion"
-#~ msgstr "Activeer de HANNES 1024K geheugenuitbreiding"
-
-#~ msgid "Enable the HANNES 4096K RAM expansion"
-#~ msgstr "Activeer de HANNES 4096K geheugenuitbreiding"
-
-#~ msgid ""
-#~ "Mikkel Holm Olsen - Danish\n"
-#~ "Martin Pottendorfer - German\n"
-#~ "Manuel Antonio Rodriguez Bas - Spanish\n"
-#~ "Paul Dube - French\n"
-#~ "Czirkos Zoltan, Karai Csaba - Hungarian\n"
-#~ "Andrea Musuruane - Italian\n"
-#~ "Jesse Lee - Korean\n"
-#~ "Marco van den Heuvel - Dutch\n"
-#~ "Jarek Sobolewski - Polish\n"
-#~ "Mihail Litvinov - Russian\n"
-#~ "Peter Krefting - Swedish\n"
-#~ "Emir Akaydin (aka: Skate) - Turkish\n"
-#~ msgstr ""
-#~ "Mikkel Holm Olsen - Deens\n"
-#~ "Martin Pottendorfer - Duits\n"
-#~ "Manuel Antonio Rodriguez Bas - Spaans\n"
-#~ "Paul Dube - Frans\n"
-#~ "Czirkos Zoltan, Karai Csaba - Hongaars\n"
-#~ "Andrea Musuruane - Italiaans\n"
-#~ "Jesse Lee - Koreaans\n"
-#~ "Marco van den Heuvel - Nederlands\n"
-#~ "Jarek Sobolewski - Pools\n"
-#~ "Mihail Litvinov - Russisch\n"
-#~ "Peter Krefting - Zweeds\n"
-#~ "Emir Akaydin (aka: Skate) - Turks\n"
-
-#~ msgid "VICE"
-#~ msgstr "VICE"
-
-#~ msgid "Versatile Commodore Emulator"
-#~ msgstr "Versatile Commodore Emulator"
-
-#~ msgid "Version 0.0"
-#~ msgstr "Versie 0.0"
-
-#~ msgid "Copyright (c) 1999-2015 Andreas Matthies"
-#~ msgstr "Copyright (c) 1999-2015 Andreas Matthies"
-
-#~ msgid "Copyright (c) 1999-2015 Martin Pottendorfer"
-#~ msgstr "Copyright (c) 1999-2015 Martin Pottendorfer"
-
-#~ msgid "Copyright (c) 2005-2015 Marco van den Heuvel"
-#~ msgstr "Copyright (c) 2005-2015 Marco van den Heuvel"
-
-#~ msgid "Copyright (c) 2007-2015 Fabrizio Gennari"
-#~ msgstr "Copyright (c) 2007-2015 Fabrizio Gennari"
-
-#~ msgid "Copyright (c) 2007-2015 Daniel Kahlin"
-#~ msgstr "Copyright (c) 2007-2015 Daniel Kahlin"
-
-#~ msgid "Copyright (c) 2009-2015 Groepaz"
-#~ msgstr "Copyright (c) 2009-2015 Groepaz"
-
-#~ msgid "Copyright (c) 2009-2015 Errol Smith"
-#~ msgstr "Copyright (c) 2009-2015 Errol Smith"
-
-#~ msgid "Copyright (c) 2010-2015 Olaf Seibert"
-#~ msgstr "Copyright (c) 2010-2015 Olaf Seibert"
-
-#~ msgid "Copyright (c) 2011-2015 Marcus Sutton"
-#~ msgstr "Copyright (c) 2011-2015 Marcus Sutton"
-
-#~ msgid "Copyright (c) 2011-2015 Kajtar Zsolt"
-#~ msgstr "Copyright (c) 2011-2015 Kajtar Zsolt"
-
-#~ msgid "Attach Action Replay V5 image"
-#~ msgstr "Koppel Action Replay V5 bestand"
-
-#~ msgid "Confirm quiting VICE"
-#~ msgstr "Bevestigen van het aflsuiten van VICE"
-
-#~ msgid "Copyright (c) 1998-2014 Dag Lem"
-#~ msgstr "Copyright (c) 1998-2014 Dag Lem"
-
-#~ msgid "Copyright (c) 2006-2014 Christian Vogelgsang"
-#~ msgstr "Copyright (c) 2006-2014 Christian Vogelgsang"
-
-#~ msgid "Copyright (c) 2008-2014 Antti S. Lankila"
-#~ msgstr "Copyright (c) 2008-2014 Antti S. Lankila"
-
-#~ msgid "Copyright (c) 2009-2014 Ingo Korb"
-#~ msgstr "Copyright (c) 2009-2014 Ingo Korb"
-
-#~ msgid "Copyright (c) 2011-2014 Ulrich Schulz"
-#~ msgstr "Copyright (c) 2011-2014 Ulrich Schulz"
-
-#~ msgid "Copyright (c) 2011-2014 Stefan Haubenthal"
-#~ msgstr "Copyright (c) 2011-2014 Stefan Haubenthal"
-
-#~ msgid "Copyright (c) 2011-2014 Thomas Giesel"
-#~ msgstr "Copyright (c) 2011-2014 Thomas Giesel"
-
-#~ msgid "Copyright (c) 2012-2014 Benjamin 'BeRo' Rosseaux"
-#~ msgstr "Copyright (c) 2012-2014 Benjamin 'BeRo' Rosseaux"
-
-#~ msgid "Never confirm quiting VICE"
-#~ msgstr "Niet bevestigen van het afsluiten van VICE"
-
-#~ msgid "Size of the RAM expansion unit"
-#~ msgstr "Grootte van de RAM uitbreidingseenheid (REU)"
-
-#~ msgid "Set input device for joystick #1"
-#~ msgstr "Zet invoer apparaat voor joystick #1"
-
-#~ msgid "Set input device for joystick #2"
-#~ msgstr "Zet invoer apparaat voor joystick #2"
-
-#~ msgid "Set input device for extra joystick #1"
-#~ msgstr "Zet invoer apparaat voor extra joystick #1"
-
-#~ msgid "Set input device for extra joystick #2"
-#~ msgstr "Zet invoer apparaat voor extra joystick #2"
-
-#~ msgid "Specify PET model to emulate"
-#~ msgstr "Geef PET model om te emuleren"
-
-#~ msgid "Specify memory configuration"
-#~ msgstr "Geef geheugenconfiguratie"
-
-#~ msgid "Set lightpen type"
-#~ msgstr "Geef de lichtpen soort op"
-
-#~ msgid "Specify baudrate of 4th RS232 device"
-#~ msgstr "Geef de baudrate van het vierde RS232 apparaat"
-
-#~ msgid "Disable checkpoint `checknum'."
-#~ msgstr "Checkpunt `checknum' uitschakelen."
-
-#~ msgid "Enable checkpoint `checknum'."
-#~ msgstr "Activeer checkpunt `checknum'."
-
-#~ msgid "Double vertical"
-#~ msgstr "Dubbel vertikaal"
-
-#~ msgid "Extend image to 40-track format?"
-#~ msgstr "Bestand uitbreiden naar 40-sporen formaat?"
-
-#~ msgid "Select romset archive"
-#~ msgstr "Selecteer romsetarchief"
-
-#~ msgid "Cannot load romset archive!"
-#~ msgstr "Kan romsetarchief niet laden!"
-
-#~ msgid "Cannot save romset archive!"
-#~ msgstr "Kan romsetarchief niet opslaan!"
-
-#~ msgid "Cannot load romset file!"
-#~ msgstr "Kan romsetbestand niet laden!"
-
-#~ msgid "Cannot save romset file!"
-#~ msgstr "Kan romsetbestand niet opslaan!"
-
-#~ msgid "Select romset file"
-#~ msgstr "Selecteer romsetbestand"
-
-#~ msgid "Romset"
-#~ msgstr "Romset"
-
-#~ msgid "Romset archive"
-#~ msgstr "Romset archief"
-
-#~ msgid "Load archive"
-#~ msgstr "Laad archief"
-
-#~ msgid "Save archive"
-#~ msgstr "Opslaan archief"
-
-#~ msgid "Configuration"
-#~ msgstr "Configuratie"
-
-#~ msgid "Apply"
-#~ msgstr "Toepassen"
-
-#~ msgid "New"
-#~ msgstr "Nieuw"
-
-#~ msgid "Delete"
-#~ msgstr "Verwijderen"
-
-#~ msgid "Romset file"
-#~ msgstr "Romsetbestand"
-
-#~ msgid "Load romset"
-#~ msgstr "Laad romset"
-
-#~ msgid "Save romset"
-#~ msgstr "Opslaan romset"
-
-#~ msgid "New configuration"
-#~ msgstr "Nieuwe configuratie"
-
-#~ msgid "Enter configuration name"
-#~ msgstr "Geef configuratie naam"
-
-#~ msgid "Computer resources saved to romset"
-#~ msgstr "Computer resources opgeslagen naar romset"
-
-#~ msgid "Drive resources"
-#~ msgstr "Drive resources"
-
-#~ msgid "Drive resources saved to romset"
-#~ msgstr "Drive resources opgeslagen naar romset"
-
-#~ msgid "International Kernal"
-#~ msgstr "Internationale Kernal"
-
-#~ msgid "German Kernal"
-#~ msgstr "Duitse Kernal"
-
-#~ msgid "Finnish Kernal"
-#~ msgstr "Finse Kernal"
-
-#~ msgid "French Kernal"
-#~ msgstr "Franse Kernal"
-
-#~ msgid "Italian Kernal"
-#~ msgstr "Italiaanse Kernal"
-
-#~ msgid "Norwegian Kernal"
-#~ msgstr "Noorse Kernal"
-
-#~ msgid "Swedish Kernal"
-#~ msgstr "Zweedse Kernal"
-
-#~ msgid "Swiss Kernal"
-#~ msgstr "Zwitse Kernal"
-
-#~ msgid "International Character"
-#~ msgstr "Internationale Karakters"
-
-#~ msgid "German Character"
-#~ msgstr "Duitse Karakters"
-
-#~ msgid "French Character"
-#~ msgstr "Franse Karakters"
-
-#~ msgid "Swedish Character"
-#~ msgstr "Zweedse Karakters"
-
-#~ msgid "Swiss Character"
-#~ msgstr "Zwitse Karakters"
-
-#~ msgid "C64 mode Kernal"
-#~ msgstr "C64 modus kernal"
-
-#~ msgid "C64 mode Basic"
-#~ msgstr "C64 modus basic"
-
-#~ msgid "6581R3 4885 (very light)"
-#~ msgstr "6581R3 4885 (heel licht)"
-
-#~ msgid "6581R3 0486S (light)"
-#~ msgstr "6581R3 0486S (licht)"
-
-#~ msgid "6581R3 3984 (light avg)"
-#~ msgstr "6581R3 3984 (licht gem)"
-
-#~ msgid "6581R4AR 3789 (avg)"
-#~ msgstr "6581R4AR 3789 (med)"
-
-#~ msgid "6581R3 4485 (dark)"
-#~ msgstr "6581R3 4485 (donker)"
-
-#~ msgid "6581R4 1986S (very dark)"
-#~ msgstr "6581R4 1986S (erg donker)"
-
-#~ msgid "8580 3691 (light)"
-#~ msgstr "8580 3691 (licht)"
-
-#~ msgid "8580 3691 + digi boost"
-#~ msgstr "8580 3691 + digi boost"
-
-#~ msgid "8580 1489 (dark)"
-#~ msgstr "8580 1489 (donker)"
-
-#~ msgid "8580 1489 + digi boost"
-#~ msgstr "8580 1489 + digi boost"
-
-#~ msgid ""
-#~ "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-#~ "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-#~ "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-#~ "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-#~ "8580R5 1489D"
-#~ msgstr ""
-#~ "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
-#~ "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
-#~ "1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
-#~ "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
-#~ "8580R5 1489 + digiboost"
-
-#~ msgid "Delete checkpoint `checknum'."
-#~ msgstr "Verwijder checkpunt `checknum'."
+msgstr "Zet binair drive bestandsnaam"
