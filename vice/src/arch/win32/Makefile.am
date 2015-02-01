@@ -351,7 +351,7 @@ BUILT_SOURCES = res.h menuid.h stringid.h
 if NATIVE_TOOLS
 res.h menuid.h stringid.h:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 	$(NATIVE_TOOLS_COMPILER) -o genwinres $(srcdir)/utils/genwinres.c
-	./genwinres res.h menuid.h stringid.h $(srcdir)res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
+	./genwinres res.h menuid.h stringid.h $(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 else
 resall.txt:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 	cat >$@ $^
