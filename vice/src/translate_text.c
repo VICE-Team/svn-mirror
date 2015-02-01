@@ -3882,20 +3882,20 @@ translate_t string_table[] = {
 #endif
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
-/* en */ {IDCLS_PATCH_KERNAL_TO_REVISION,    N_("Patch the Kernal ROM to the specified <revision>")},
+/* en */ {IDCLS_PATCH_KERNAL_TO_REVISION,    N_("Patch the Kernal ROM to the specified <revision> (1: rev. 1, 2: rev. 2, 3: rev. 3, 67/sx: sx64, 100/4064: 4064)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_PATCH_KERNAL_TO_REVISION_DA, "Patch kerne-ROM til den angivne <revision>"},
-/* de */ {IDCLS_PATCH_KERNAL_TO_REVISION_DE, "Kernal ROM auf spezifizierte <Revision> verändern"},
-/* es */ {IDCLS_PATCH_KERNAL_TO_REVISION_ES, "Parchear la ROM Kernal a la versión <revisión>"},
-/* fr */ {IDCLS_PATCH_KERNAL_TO_REVISION_FR, "Mettre à jour le ROM Kernal à la <revision> spécifiée"},
-/* hu */ {IDCLS_PATCH_KERNAL_TO_REVISION_HU, "A Kernal ROM átírása adott <változatra>"},
-/* it */ {IDCLS_PATCH_KERNAL_TO_REVISION_IT, "Fai il patch della ROM del Kernal alla <revisione> specificata"},
+/* da */ {IDCLS_PATCH_KERNAL_TO_REVISION_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_PATCH_KERNAL_TO_REVISION_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_PATCH_KERNAL_TO_REVISION_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_PATCH_KERNAL_TO_REVISION_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PATCH_KERNAL_TO_REVISION_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PATCH_KERNAL_TO_REVISION_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_PATCH_KERNAL_TO_REVISION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_PATCH_KERNAL_TO_REVISION_NL, "Verbeter de Kernal ROM naar de opgegeven <revisie>"},
-/* pl */ {IDCLS_PATCH_KERNAL_TO_REVISION_PL, "Za³ataj ROM Kernala do konkretnej <wersji>"},
-/* ru */ {IDCLS_PATCH_KERNAL_TO_REVISION_RU, "Patch the Kernal ROM to the specified <revision>"},
-/* sv */ {IDCLS_PATCH_KERNAL_TO_REVISION_SV, "Patcha kernal-ROM till angiven <utgåva>"},
-/* tr */ {IDCLS_PATCH_KERNAL_TO_REVISION_TR, "Kernal ROM'u belirtilmiþ <revizyon>'a yama"},
+/* nl */ {IDCLS_PATCH_KERNAL_TO_REVISION_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PATCH_KERNAL_TO_REVISION_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_PATCH_KERNAL_TO_REVISION_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_PATCH_KERNAL_TO_REVISION_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_PATCH_KERNAL_TO_REVISION_TR, ""},  /* fuzzy */
 #endif
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)

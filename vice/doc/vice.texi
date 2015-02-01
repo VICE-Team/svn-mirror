@@ -4644,25 +4644,6 @@ The local address the remote monitor should bind to
 @c ----------------------------------------------------------------
 
 @c @node FIXME
-@section Machine settings
-
-@c @node FIXME
-@subsection Machine command-line options
-
-@table @code
-
-@cindex -ntscold
-@item -ntscold
-Use old NTSC sync factor
-@cindex -paln
-@item -paln
-Use PAL-N sync factor
-
-@end table
-
-@c ----------------------------------------------------------------
-
-@c @node FIXME
 @section Memory settings
 
 @c @node FIXME
@@ -4857,7 +4838,7 @@ and thus are not present in the other emulators.
 * VIC-II settings::             Settings that control the video chip.
 * SID settings::                Settings that control the audio chip.
 * C64 I/O extension settings::  Settings that enable special extensions.
-* C64/128 system ROM settings::  Settings to control the system ROMs.
+* C64 system ROM settings::     Settings to control the C64 system ROMs.
 @end menu
 
 @node C64 cartridges, VIC-II settings, C64/128-specific, C64/128-specific
@@ -5074,6 +5055,8 @@ ACIA (Swiftlink, Turbo232)
 @item
 DigiMAX
 @item
+DS12C887 RTC
+@item
 Ethernet (The Final Ethernet, RR-Net)
 @item
 GEO-RAM
@@ -5183,9 +5166,139 @@ carts, 2: warning in log and 'AND' the valid return values)
 @vindex CartridgeReset
 @item CartridgeReset
 Boolean specifying whether the machine should be reset when a cartridge is changed.
+
 @vindex CartridgeType
 @item CartridgeType
-Integer specifying the type of cartridge emulated in the "main" slot
+Integer specifying the type of cartridge emulated in the "main" slot.
+
+The following cartridge types are valid:
+
+@itemize @bullet
+@item
+-6: Ultimax
+@item
+-3: Generic 8k
+@item
+-2: Generic 16k
+@item
+-1: None
+@item
+ 0: CRT
+@item
+ 1: Action Replay V5
+@item
+ 2: KCS Power Cartridge
+@item
+ 3: The Final Cartridge III
+@item
+ 4: Simons' BASIC
+@item
+ 5: Ocean
+@item
+ 6: Expert Cartridge
+@item
+ 7: Fun Play
+@item
+ 8: Super Games
+@item
+ 9: Atomic Power / Nordic Power
+@item
+10: Epyx FastLoad
+@item
+11: Westermann Learning
+@item
+12: REX Utility
+@item
+13: The Final Cartridge
+@item
+14: Magic Formel
+@item
+15: C64 Games System
+@item
+16: Warp Speed
+@item
+17: Dinamic
+@item
+18: Zaxxon
+@item
+19: Magic Desk
+@item
+20: Super Snapshot V5
+@item
+21: Comal 80
+@item
+22: Structured BASIC
+@item
+23: ROSS
+@item
+24: Dela EP64
+@item
+25: Dela EP7x8
+@item
+26: Dela EP256
+@item
+27: REX 256k EPROM Cart
+@item
+28: Mikro Assembler
+@item
+29: Final Cartridge Plus
+@item
+30: Action Replay MK4
+@item
+31: Stardos
+@item
+32: EasyFlash
+@item
+33: EasyFlash Xbank
+@item
+34: Capture
+@item
+35: Action Replay MK3
+@item
+36: Retro Replay
+@item
+37: MMC64
+@item
+38: MMC Replay
+@item
+39: IDE64
+@item
+40: Super Snapshot V4
+@item
+41: IEEE-488 Interface
+@item
+42: Game Killer
+@item
+43: Prophet64
+@item
+44: EXOS
+@item
+45: Freeze Frame
+@item
+46: Freeze Machine
+@item
+47: Snapshot 64
+@item
+48: Super Explode V5.0
+@item
+49: Magic Voice
+@item
+50: Action Replay MK2
+@item
+51: MACH 5
+@item
+52: Diashow-Maker
+@item
+53: Pagefox
+@item
+54: Kingsoft
+@item
+55: Silverrock 128K Cartridge
+@item
+56: Formel 64
+@item
+57: RGCD
+@end itemize
 
 @vindex CartridgeFile
 @item CartridgeFile
@@ -5297,12 +5410,14 @@ String specifying the address the IDE64 USB server listens to (ip4://127.0.0.1:6
 @vindex IDE64USBServer
 @item IDE64USBServer
 Boolean specifying whether the IDE64 USB server is enabled.
+
 @vindex IEEE488
 @item IEEE488
 Boolean specifying whether the IEEE488 interface should be emulated or not.
+
 @vindex IEEE488Image
 @item IEEE488Image
-String specifying the filename of the IEEE488 ROM image
+String specifying the filename of the IEEE488 ROM image.
 
 @vindex IsepicCartridgeEnabled
 @item IsepicCartridgeEnabled
@@ -5421,12 +5536,15 @@ Integer specifying the size of the RAMCart in KB.
 @vindex RRrevision
 @item RRrevision
 Integer specifying the RR hardware revision (0=retro replay, 1=nordic replay)
+
 @vindex RRFlashJumper
 @item RRFlashJumper
 Boolean specifying whether the RR flash jumper is set or not.
+
 @vindex RRBankJumper
 @item RRBankJumper
 Boolean specifying whether the RR bank jumper is set or not.
+
 @vindex RRBiosWrite
 @item RRBiosWrite
 Boolean, if true write back the RR Flash ROM image file automatically, incase the
@@ -5449,10 +5567,11 @@ carts, 2: warning in log and 'AND' the valid return values
 @item +cart
 Disable all cartridges (which would eventually be enabled in the config file).
 
-@cindex -cartreset, +cartreset
+@findex -cartreset, +cartreset
 @item -cartreset
 @itemx +cartreset
 Reset/Do not reset machine if a cartridge is attached or detached
+(@code{CartridgeReset=1}, @code{CartridgeReset=0}).
 
 @findex -cart8
 @item -cart8 <name>
@@ -5719,14 +5838,16 @@ The local address the IDE64 USB server should bind to
 @item -cartieee <name>
 Attach CBM IEEE-488 cartridge image.
 
-@cindex -ieee488, +ieee488
+@findex -ieee488, +ieee488
 @item -ieee488
 @itemx +ieee488
-Enable (@code{IEEE488=1}) or disable (@code{IEEE488=0}) emulation of the
-IEEE488 interface.
-@cindex -ieee488image
+Enable/disable emulation of the IEEE488 interface
+(@code{IEEE488=1}, @code{IEEE488=0}).
+.
+@findex -ieee488image
 @item -ieee488image <name>
 Set IEEE488 interface image name
+(@code{IEEE488Image}).
 
 @findex -isepic, +isepic
 @item -isepic
@@ -5965,14 +6086,18 @@ Attach raw 64KB Retro Replay cartridge image.
 @item -rrbioswrite
 @itemx +rrbioswrite
 Enable/Disable saving of the RR ROM at exit
-@cindex -rrbankjumper, +rrbankjumper
+
+@findex -rrbankjumper, +rrbankjumper
 @item -rrbankjumper
 @itemx +rrbankjumper
-Set/Unset RR Bank Jumper
-@cindex -rrflashjumper, +rrflashjumper
+Set/unset RR Bank Jumper
+(@code{RRBankJumper=1}, @code{RRBankJumper=0}).
+
+@findex -rrflashjumper, +rrflashjumper
 @item -rrflashjumper
 @itemx +rrflashjumper
-Set/Unset RR Flash Jumper
+Set/unset RR Flash Jumper
+(@code{RRFlashJumper=1}, @code{RRFlashJumper=0}).
 
 @findex -cartru
 @item -cartru <name>
@@ -6480,6 +6605,13 @@ Integer specifying the base address of the second SID
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
+(x64/x64sc/xscpu64/vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
+0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
+0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
+0xD7C0, 0xD7E0, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0,
+0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
+0xDFC0, 0xDFE0)
 
 @vindex SidTripleAddressStart
 @item SidTripleAddressStart
@@ -6489,6 +6621,13 @@ Integer specifying the base address of the third SID
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
+(x64/x64sc/xscpu64/vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
+0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
+0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
+0xD7C0, 0xD7E0, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0,
+0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
+0xDFC0, 0xDFE0)
 
 @vindex SidFilters
 @item SidFilters
@@ -6545,6 +6684,13 @@ Specifies the start address for the second SID chip
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
+(x64/x64sc/xscpu64/vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
+0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
+0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
+0xD7C0, 0xD7E0, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0,
+0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
+0xDFC0, 0xDFE0)
 
 @findex -sidtripleaddress
 @item -sidtripleaddress @code{ADDRESS}
@@ -6555,6 +6701,13 @@ Specifies the start address for the third SID chip
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
+(x64/x64sc/xscpu64/vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
+0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
+0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
+0xD7C0, 0xD7E0, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0,
+0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
+0xDFC0, 0xDFE0)
 
 @findex -sidenginemodel
 @item -sidenginemodel <engine and model>
@@ -6600,7 +6753,7 @@ reSID filter bias setting, which can be used to adjust DAC bias in millivolts.
 @end table
 
 
-@node C64 I/O extension settings, C64/128 system ROM settings, SID settings, C64/128-specific
+@node C64 I/O extension settings, C64 system ROM settings, SID settings, C64/128-specific
 @subsection C64 I/O extension settings
 
 I/O extensions are (usually) cartridges which do not map into ROM space,
@@ -6619,6 +6772,9 @@ The following I/O extensions are available:
 
 @cindex DigiMAX
 @item DigiMAX
+
+@cindex DS12C887 RTC
+@item DS12C887 RTC
 
 @cindex Ethernet (The Final Ethernet, RR-Net)
 @item Ethernet (The Final Ethernet, RR-Net)
@@ -6671,6 +6827,27 @@ Boolean specifying whether the DigiMAX cartridge should be emulated or not.
 @vindex DIGIMAXbase
 @item DIGIMAXbase
 Integer specifying the DigiMAX base address.
+(0xDD00: useport, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
+0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
+
+@vindex DS12C887RTC
+@item DS12C887RTC
+Boolean specifying whether the DS12C887 RTC cartridge should be emulated or not.
+
+@vindex DS12C887RTCbase
+@item DS12C887RTCbase
+Integer specifying the DS12C887 RTC base address.
+x128: (0xD700, 0xDE00, 0xDF00)
+x64/x64sc/xscpu64: (0xD500, 0xD600, 0xD700, 0xDE00, 0xDF00)
+
+@vindex DS12C887RTCRunMode
+@item DS12C887RTCRunMode
+Boolean specifying whether the DS12C887 RTC cartridge starts out running or halted.
+(0: halted, 1: running)
+
+@vindex DS12C887RTCSave
+@item DS12C887RTCSave
+Boolean specifying whether the DS12C887 RTC data should be saved when changed or not.
 
 @vindex ETHERNET_ACTIVE
 @item ETHERNET_ACTIVE
@@ -6762,9 +6939,40 @@ Enable/Disable the $DE** ACIA RS232 interface emulation
 Enable/disable the DigiMAX cartridge
 (@code{DIGIMAX=1}, @code{DIGIMAX=0}).
 
-@cindex -digimaxbase
+@findex -digimaxbase
 @item -digimaxbase <base address>
 Base address of the DigiMAX cartridge
+(@code{DIGIMAXbase}).
+(0xDD00: useport, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
+0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
+
+@findex -ds12c887rtc, +ds12c887rtc
+@item -ds12c887rtc
+@itemx +ds12c887rtc
+Enable/disable the DS12C887 RTC cartridge
+(@code{DS12C887RTC=1}, @code{DS12C887RTC=0}).
+
+@findex -ds12c887rtcbase
+@item -ds12c887rtcbase <base address>
+Base address of the DS12C887 RTC cartridge
+(@code{DS12C887RTCbase}).
+x128: (0xD700, 0xDE00, 0xDF00)
+x64/x64sc/xscpu64: (0xD500, 0xD600, 0xD700, 0xDE00, 0xDF00)
+
+@findex -ds12c887rtchalted, -ds12c887rtcrunning
+@item -ds12c887rtchalted
+Set the DS12C887 RTC oscillator to 'halted'
+(@code{DS12C887RTCRunMode=0}).
+@item +ds12c887rtcrunning
+Set the DS12C887 RTC oscillator to 'running'
+(@code{DS12C887RTCRunMode=1}).
+
+@findex -ds12c887rtcsave, +ds12c887rtcsave
+@item -ds12c887rtcsave
+@itemx +ds12c887rtcsave
+Enable/disable saving of the DS12C887 RTC data when changed
+(@code{DS12C887RTCSave=1}, @code{DS12C887RTCSave=0}).
+
 @cindex -miditype
 @item -miditype <0-4>
 MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)
@@ -6867,44 +7075,42 @@ the tape port cut
 
 @end table
 
-@node C64/128 system ROM settings,  , C64 I/O extension settings, C64/128-specific
-@subsection C64/128 system ROM settings
+@node C64 system ROM settings,  , C64 I/O extension settings, C64/128-specific
+@subsection C64 system ROM settings
 
 These settings can be used to control what system ROMs are loaded in the
-C64/128 emulators at startup.  They cannot be changed from the menus.
+C64 emulator at startup. They cannot be changed from the menus.
 
 @menu
-* C64/128 system ROM resources::
-* C64/128 system ROM options::
+* C64 system ROM resources::
+* C64 system ROM options::
 @end menu
 
-@node C64/128 system ROM resources, C64/128 system ROM options, C64/128 system ROM settings, C64/128 system ROM settings
-@subsubsection C64/128 system ROM resources
+@node C64 system ROM resources, C64 system ROM options, C64 system ROM settings, C64 system ROM settings
+@subsubsection C64 system ROM resources
 
 @table @code
+
+@vindex BasicName
+@item BasicName
+String specifying the name of the Basic ROM (default @file{basic}).
+
+@vindex ChargenName
+@item ChargenName
+String specifying the name of the character generator ROM (default @file{chargen}).
 
 @vindex KernalName
 @item KernalName
 String specifying the name of the Kernal ROM (default @file{kernal}).
 
-@vindex BasicName
-@item BasicName
-String specifying the name of the Basic ROM (default @file{basic}).  In
-the C128 emulator, the ROM image must actually include the editor ROM too.
-
-@vindex ChargenName
-@item ChargenName
-String specifying the name of the character generator ROM (default
-@file{chargen}).
-
 @vindex KernalRev
 @item KernalRev
-String specifying the Kernal revision.  This resource can be used to
+String specifying the Kernal revision. This resource can be used to
 control what revision of the C64 kernal is being used; it cannot be
-changed at runtime.  VICE is able to automatically convert one ROM
-revision into another, by manually patching the loaded image.  This way,
+changed at runtime. VICE is able to automatically convert one ROM
+revision into another, by manually patching the loaded image. This way,
 it is possible to use any of the ROM revisions without changing the ROM
-set.  Valid values are:
+set. Valid values are:
 
 @table @code
 @item 0
@@ -6921,28 +7127,31 @@ Commodore 4064 (also known as ``PET64'' or ``Educator 64'') ROM.
 
 @end table
 
-@node C64/128 system ROM options,  , C64/128 system ROM resources, C64/128 system ROM settings
+@node C64 system ROM options, , C64 system ROM resources, C64 system ROM settings
 @subsubsection C64 system ROM command-line options
 
 @table @code
 
-@cindex -kernal
-@item -kernal NAME
-Specify @file{NAME} as the Kernal ROM file (@code{KernalName}).
+@findex -basic
+@item -basic <name>
+Specify filename of the Basic ROM file
+(@code{BasicName}).
 
-@cindex -basic
-@item -basic NAME
-Specify @file{NAME} as the Basic ROM file (@code{BasicName}).
-
-@cindex -chargen
-@item -chargen NAME
-Specify @file{NAME} as the character generator ROM file
+@findex -chargen
+@item -chargen <name>
+Specify filename of the character generator ROM file
 (@code{ChargenName}).
 
-@cindex -kernalrev
-@item -kernalrev REVISION
-Specify Kernal revision (@code{KernalRev}).
+@findex -kernal
+@item -kernal NAME
+Specify filename of the Kernal ROM file
+(@code{KernalName}).
 
+@findex -kernalrev
+@item -kernalrev <revision>
+Specify Kernal revision
+(@code{KernalRev}).
+(1/2/3, 67/sx, 100/4064)
 @end table
 
 @c @node FIXME
@@ -6999,6 +7208,12 @@ String specifying the filename of the 256K RAM image.
 @item C64_256Kbase
 Integer that specifies the base address of the 256K RAM expansion.
 (0xDE00/0xDE80/0xDF00/0xDF80)
+
+@vindex MachineVideoStandard
+@item MachineVideoStandard
+Integer that specifies the video standard of the emulated machine
+(-4: PAL-N, -3: Old NTSC, -1: PAL, -2: NTSC).
+
 @end table
 
 @c @node FIXME
@@ -7051,6 +7266,26 @@ Specify name of 256K image
 Base address of the 256K expansion
 (@code{C64_256Kbase}).
 (0xDE00/0xDE80/0xDF00/0xDF80)
+
+@findex -pal
+@item -pal
+Use PAL sync factor
+(@code{MachineVideoStandard=-1}).
+
+@findex -ntsc
+@item -ntsc
+Use NTSC sync factor
+(@code{MachineVideoStandard=-2}).
+
+@findex -ntscold
+@item -ntscold
+Use old NTSC sync factor
+(@code{MachineVideoStandard=-3}).
+
+@findex -paln
+@item -paln
+Use PAL-N sync factor
+(@code{MachineVideoStandard=-4}).
 
 @findex -model
 @item -model <Model>
@@ -8026,7 +8261,10 @@ contents changed, when detaching or quitting the emulator.
 
 @vindex GEORAMIOSwap
 @item GEORAMIOSwap
-Boolean, swap/don't swap  io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)
+Boolean specifying whether the io mapping should be swapped
+(map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)
+or not
+(map cart I/O-2 to VIC20 I/O-2 and cart I/O-2 to VIC20 I/O-3).
 
 @vindex SidCart
 @item SidCart
@@ -8045,6 +8283,30 @@ Integer specifying the clock rate used for the emulated SID chip
 @vindex DIGIMAX
 @item DIGIMAX
 Boolean specifying whether the DigiMAX cartridge (using the MasC=uerade cartridge adapter) should be emulated or not.
+
+@vindex DIGIMAXbase
+@item DIGIMAXbase
+Integer specifying the DigiMAX base address.
+(0x9800, 0x9820, 0x9840, 0x9860, 0x9880, 0x98A0, 0x98C0, 0x98E0,
+0x9C00, 0x9C20, 0x9C40, 0x9C60, 0x9C80, 0x9CA0, 0x9CC0, 0x9CE0)
+
+@vindex DS12C887RTC
+@item DS12C887RTC
+Boolean specifying whether the DS12C887 RTC cartridge (using the MasC=uerade cartridge adapter) should be emulated or not.
+
+@vindex DS12C887RTCbase
+@item DS12C887RTCbase
+Integer specifying the DS12C887 RTC base address.
+(0x9800, 0x9C00)
+
+@vindex DS12C887RTCRunMode
+@item DS12C887RTCRunMode
+Boolean specifying whether the DS12C887 RTC cartridge starts out running or halted.
+(0: halted, 1: running)
+
+@vindex DS12C887RTCSave
+@item DS12C887RTCSave
+Boolean specifying whether the DS12C887 RTC data should be saved when changed or not.
 
 @end table
 
@@ -8158,9 +8420,38 @@ Enable/Disable RRNet mode of TFE emulation
 Enable/disable the DigiMAX cartridge (using the MasC=uerade cartridge adapter)
 (@code{DIGIMAX=1}, @code{DIGIMAX=0}).
 
-@cindex -digimaxbase
+@findex -digimaxbase
 @item -digimaxbase <base address>
 Base address of the DigiMAX cartridge
+(@code{DIGIMAXbase}).
+(0x9800, 0x9820, 0x9840, 0x9860, 0x9880, 0x98A0, 0x98C0, 0x98E0,
+0x9C00, 0x9C20, 0x9C40, 0x9C60, 0x9C80, 0x9CA0, 0x9CC0, 0x9CE0)
+
+@findex -ds12c887rtc, +ds12c887rtc
+@item -ds12c887rtc
+@itemx +ds12c887rtc
+Enable/disable the DS12C887 RTC cartridge (using the MasC=uerade cartridge adapter)
+(@code{DS12C887RTC=1}, @code{DS12C887RTC=0}).
+
+@findex -ds12c887rtcbase
+@item -ds12c887rtcbase <base address>
+Base address of the DS12C887 RTC cartridge
+(@code{DS12C887RTCbase}).
+(0x9800, 0x9C00)
+
+@findex -ds12c887rtchalted, -ds12c887rtcrunning
+@item -ds12c887rtchalted
+Set the DS12C887 RTC oscillator to 'halted'
+(@code{DS12C887RTCRunMode=0}).
+@item +ds12c887rtcrunning
+Set the DS12C887 RTC oscillator to 'running'
+(@code{DS12C887RTCRunMode=1}).
+
+@findex -ds12c887rtcsave, +ds12c887rtcsave
+@item -ds12c887rtcsave
+@itemx +ds12c887rtcsave
+Enable/disable saving of the DS12C887 RTC data when changed
+(@code{DS12C887RTCSave=1}, @code{DS12C887RTCSave=0}).
 
 @findex -sfxse, +sfxse
 @item -sfxse
@@ -8190,10 +8481,13 @@ Swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
 Enable/disable the SFX Sound Sampler cartridge
 (@code{SFXSoundSampler=1}, @code{SFXSoundSampler=0}).
 
-@cindex -georamioswap, +georamioswap
+@findex -georamioswap, +georamioswap
 @item -georamioswap
-@itemx +georamioswap
-Swap/don't swap  io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)
+Swap the io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)
+(@code{GEORAMIOSwap=1}).
+@item +georamioswap
+Do not swap the io mapping (map cart I/O-2 to VIC20 I/O-2 and cart I/O-2 to VIC20 I/O-3)
+(@code{GEORAMIOSwap=0}).
 
 @findex -georam, +georam
 @item -georam
@@ -21499,6 +21793,10 @@ Camels"@dots{}
                       51 - MACH 5
                       52 - Diashow-Maker
                       53 - Pagefox
+                      54 - Kingsoft
+                      55 - Silverrock 128K Cartridge
+                      56 - Formel 64
+                      57 - RGCD
               0018 - Cartridge port EXROM line status
                       0 - inactive
                       1 - active

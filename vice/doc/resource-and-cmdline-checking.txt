@@ -13490,8 +13490,6 @@ description:    "Disable saving of the external function RTC data when changed."
 resource:       "ExternalFunctionROMRTCSave" (set to 0)
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 c64/c64-resources.c:
 --------------------
 resource type:                  string
@@ -13506,7 +13504,6 @@ prepocessor:
 command-line:                   -chargen / -model
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
-fixme: fix documentation, it says c128 and c64, but c128 does NOT have this resource
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -13529,7 +13526,6 @@ prepocessor:
 command-line:                   -kernal / -model
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
-fixme: fix documentation, it says c128 and c64, c128 does NOT have this resource
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -13552,7 +13548,6 @@ prepocessor:
 command-line:                   -basic
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
-fixme: documentation says c128/c64, but c128 does NOT have this resource
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -13575,15 +13570,13 @@ prepocessor:
 command-line:                   -kernalrev
 platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
-fixme: fix documentation, it says c64 and c128, c128 does NOT have this resource
 
 c64/c64-cmdline-options.c:
 --------------------------
 command line:   -kernalrev <Revision>
-description:    "Patch the Kernal ROM to the specified <revision>"
-resource:       "KernalRev"
-action:         patch_rom(<Revision>) (sets "KernalRev")
-fixme: description is misleading, allowed are "1", "2", "3", "67", "100", "4064, "sx"
+description:    "Patch the Kernal ROM to the specified <revision> (1: rev. 1, 2: rev. 2, 3: rev. 3, 67/sx: sx64, 100/4064: 4064)"
+resource:       N/A
+action:         patch_rom() (sets "KernalRev")
 
 c64/c64-resources.c:
 --------------------
@@ -13622,7 +13615,6 @@ command line:   -ntscold
 description:    "Use old NTSC sync factor"
 resource:       N/A
 action:         set_video_standard() (sets "MachineVideoStandard" and "VICIIModel")
-fixme: fix documentation, mention emulators
 
 c64/c64-cmdline-options.c:
 --------------------------
@@ -13630,7 +13622,6 @@ command line:   -paln
 description:    "Use PAL-N sync factor"
 resource:       N/A
 action:         set_video_standard() (sets "MachineVideoStandard" and "VICIIModel")
-fixme: fix documentation, mention emulators
 
 c64/c64-resources.c:
 --------------------
@@ -13650,7 +13641,6 @@ platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           os2
-fixme: fix documentation, range
 
 c64/c64-resources.c:
 --------------------
@@ -13670,7 +13660,6 @@ platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           os2
-fixme: fix documentation, range
 
 c64/cart/c64cart.c:
 -------------------
@@ -13705,7 +13694,7 @@ c64/cart/c64cart.c:
 -------------------
 resource type:                  int
 resource name:                  "CartridgeType"
-resource range:                 -6 / -3..56 (CARTRIDGE_ULTIMAX (-6), CARTRIDGE_GENERIC_8KB (-3), CARTRIDGE_GENERIC_16KB (-2), CARTRIDGE_NONE (-1),
+resource range:                 -6 / -3..57 (CARTRIDGE_ULTIMAX (-6), CARTRIDGE_GENERIC_8KB (-3), CARTRIDGE_GENERIC_16KB (-2), CARTRIDGE_NONE (-1),
                                         CARTRIDGE_CRT (0), CARTRIDGE_ACTION_REPLAY (1), CARTRIDGE_KCS_POWER (2), CARTRIDGE_FINAL_III (3),
                                         CARTRIDGE_SIMONS_BASIC (4), CARTRIDGE_OCEAN (5), CARTRIDGE_EXPERT (6), CARTRIDGE_FUNPLAY (7), CARTRIDGE_SUPER_GAMES (8),
                                         CARTRIDGE_ATOMIC_POWER (9), CARTRIDGE_EPYX_FASTLOAD (10), CARTRIDGE_WESTERMANN (11), CARTRIDGE_REX (12),
@@ -13719,7 +13708,7 @@ resource range:                 -6 / -3..56 (CARTRIDGE_ULTIMAX (-6), CARTRIDGE_G
                                         CARTRIDGE_GAME_KILLER (42), CARTRIDGE_P64 (43), CARTRIDGE_EXOS (44), CARTRIDGE_FREEZE_FRAME (45),
                                         CARTRIDGE_FREEZE_MACHINE (46), CARTRIDGE_SNAPSHOT64 (47), CARTRIDGE_SUPER_EXPLODE_V5 (48), CARTRIDGE_MAGIC_VOICE (49),
                                         CARTRIDGE_ACTION_REPLAY2 (50), CARTRIDGE_MACH5 (51), CARTRIDGE_DIASHOW_MAKER (52), CARTRIDGE_PAGEFOX (53),
-                                        CARTRIDGE_KINGSOFT (54), CARTRIDGE_SILVERROCK_128 (55), CARTRIDGE_FORMEL64 (56))
+                                        CARTRIDGE_KINGSOFT (54), CARTRIDGE_SILVERROCK_128 (55), CARTRIDGE_FORMEL64 (56), CARTRIDGE_RGCD (57))
 resource default:               CARTRIDGE_NONE (-1)
 resource function:              set_cartridge_type()
 resource var:                   cartridge_type
@@ -13731,7 +13720,6 @@ platform gui present:           os2 (FIX!)
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl/unix/osx/windows (CORRECT)
-fixme: fix documentation, range
 note: CartridgeType and CartridgeFile are used for the _default_ cartridge. its
       questionable to have a commandline option for it. UIs should use cartridge_set_default()
       from cartridge.h to set the currently selected "main slot" cartridge as default
@@ -13752,7 +13740,6 @@ prepocessor:
 command-line:                   -ieee488image
 platform gui present:           unix
 platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
-fixme: string is only used for command-line ??
 
 c64/cart/c64tpi.c:
 ------------------
@@ -13812,7 +13799,6 @@ command-line:                   -digimaxbase
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx/windows
 platform range correct:		amigaos/beos/dos/os2/sdl/unix/windows
 platform range incorrect:		osx
-fixme: fix documentation, add range
 
 c64/cart/digimax.c:
 -------------------
@@ -13820,7 +13806,6 @@ command line:   -digimaxbase <Base address>
 description:    "Base address of the DigiMAX cartridge. ([address range])"
 resource:       "DIGIMAXbase"
 action:         N/A
-fixme: fix documentation, range
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -13836,7 +13821,6 @@ prepocessor:
 command-line:                   -ds12c887rtc / +ds12c887rtc
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform gui missing:           osx
-fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -13844,7 +13828,6 @@ command line:   -ds12c887rtc
 description:    "Enable the DS12C887 RTC cartridge"
 resource:       "DS12C887RTC" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -13852,7 +13835,6 @@ command line:   +ds12c887rtc
 description:    "Disable the DS12C887 RTC cartridge"
 resource:       "DS12C887RTC" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -13871,7 +13853,6 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           osx
-fixme: add to documentation
 fixme: fix to also work for $D100, $D200 and $D300
 
 c64/cart/ds12c887rtc.c:
@@ -13880,7 +13861,6 @@ command line:   -ds12c887rtcbase <Base address>
 description:    "Base address of the DS12C887 RTC cartridge. ([address range])"
 resource:       "DS12C887RTCbase"
 action:         N/A
-fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -13898,7 +13878,6 @@ platform gui present:           sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/osx
-fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -13906,7 +13885,6 @@ command line:   -ds12c887rtchalted
 description:    "Set the RTC oscillator to 'halted'"
 resource:       "DS12C887RTCRunMode" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -13914,7 +13892,6 @@ command line:   -ds12c887rtcrunning
 description:    "Set the RTC oscillator to 'running'"
 resource:       "DS12C887RTCRunMode" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -13930,7 +13907,6 @@ prepocessor:
 command-line:                   -ds12c887rtcsave / +ds12c887rtcsave
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform gui missing:           osx
-fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -13938,7 +13914,6 @@ command line:   -ds12c887rtcsave
 description:    "Enable saving of the DS12C887 RTC data when changed."
 resource:       "DS12C887RTCSave" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 c64/cart/ds12c887rtc.c:
 -----------------------
@@ -13946,14 +13921,14 @@ command line:   +ds12c887rtcsave
 description:    "Disable saving of the DS12C887 RTC data when changed."
 resource:       "DS12C887RTCSave" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 c64/cart/georam.c:
 ------------------
 resource type:                  bool
 resource name:                  "GEORAMIOSwap"
 resource range:                 0/1
-resource default:               resource function:              set_georam_io_swap()
+resource default:			0
+resource function:              set_georam_io_swap()
 resource var:                   georam_io_swap
 resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
@@ -14033,6 +14008,8 @@ command line:   +rrbankjumper
 description:    "Unset RR Bank Jumper"
 resource:       "RRBankJumper" (set to 0)
 action:         N/A
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 c64/cart/retroreplay.c:
 -----------------------
