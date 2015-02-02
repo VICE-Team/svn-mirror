@@ -14009,8 +14009,6 @@ description:    "Unset RR Bank Jumper"
 resource:       "RRBankJumper" (set to 0)
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 c64/cart/retroreplay.c:
 -----------------------
 resource type:                  bool
@@ -14063,7 +14061,6 @@ command line:   -rrrev <Revision>
 description:    "Set RR Revision (0: Retro Replay, 1: Nordic Replay)"
 resource:       "RRrevision"
 action:         N/A
-fixme: add to documentation
 
 c64/cart/sfx_soundexpander.c:
 -----------------------------
@@ -14185,7 +14182,6 @@ prepocessor:
 command-line:                   NONE (CORRECT)
 platform gui present:           
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix/osx/windows (CORRECT)
-fixme: add to documentation, it says c64 and c128, c128 does NOT have this resource
 
 c64/vsid-resources.c:
 ---------------------
@@ -14225,7 +14221,6 @@ command line:   -ntscold
 description:    "Use old NTSC sync factor"
 resource:       "MachineVideoStandard" (set to MACHINE_SYNC_NTSCOLD)
 action:         N/A
-fixme: fix documentation, mention emulators
 
 c64/psid.c:
 -----------
@@ -14233,7 +14228,6 @@ command line:   -paln
 description:    "Use PAL-N sync factor"
 resource:       "MachineVideoStandard" (set to MACHINE_SYNC_PALN)
 action:         N/A
-fixme: fix documentation, mention emulators
 
 c64/vsid-resources.c:
 ---------------------
@@ -14253,7 +14247,6 @@ platform gui present:           beos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/dos/os2
-fixme: fix documentation, range
 
 c64/vsid-resources.c:
 ---------------------
@@ -14273,7 +14266,6 @@ platform gui present:           beos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/dos/os2
-fixme: fix documentation, range
 
 c64dtv/c64dtv-resources.c:
 --------------------------
@@ -14289,7 +14281,6 @@ prepocessor:
 command-line:                   -chargen
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
-fixme: add to documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -14297,7 +14288,6 @@ command line:   -chargen <Name>
 description:    "Specify name of character generator ROM image"
 resource:       "ChargenName"
 action:         N/A
-fixme: add to documentation
 
 c64dtv/c64dtv-resources.c:
 --------------------------
@@ -14313,7 +14303,6 @@ prepocessor:
 command-line:                   -kernal
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
-fixme: add to documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -14321,7 +14310,6 @@ command line:   -kernal <Name>
 description:    "Specify name of Kernal ROM image"
 resource:       "KernalName"
 action:         N/A
-fixme: add to documentation
 
 c64dtv/c64dtv-resources.c:
 --------------------------
@@ -14337,7 +14325,6 @@ prepocessor:
 command-line:                   -basic
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
-fixme: add to documentation
 
 c64dtv/c64dtv-cmdline-options.c:
 --------------------------------
@@ -14345,7 +14332,6 @@ command line:   -basic <Name>
 description:    "Specify name of BASIC ROM image"
 resource:       "BasicName"
 action:         N/A
-fixme: add to documentation
 
 c64dtv/flash-trap.c:
 --------------------
@@ -14368,7 +14354,6 @@ command line:   -fsflash <Name>
 description:    "Use <name> as directory for flash file system device"
 resource:       "FSFlashDir"
 action:         N/A
-fixme: fix documentation
 
 c64dtv/flash-trap.c:
 --------------------
@@ -14398,6 +14383,8 @@ command line:   +trueflashfs
 description:    "Disable true hardware flash file system"
 resource:       "FlashTrueFS" (set to 0)
 action:         N/A
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 c64/cart/ide64.c:
 -----------------

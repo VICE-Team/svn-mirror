@@ -5537,7 +5537,8 @@ Integer specifying the size of the RAMCart in KB.
 
 @vindex RRrevision
 @item RRrevision
-Integer specifying the RR hardware revision (0=retro replay, 1=nordic replay)
+Integer specifying the RR hardware revision.
+(0: Retro Replay, 1: Nordic Replay)
 
 @vindex RRFlashJumper
 @item RRFlashJumper
@@ -6084,10 +6085,11 @@ Attach raw 16/32kB ROSS cartridge image.
 @item -cartrr <name>
 Attach raw 64KB Retro Replay cartridge image.
 
-@cindex -rrbioswrite, +rrbioswrite
+@findex -rrbioswrite, +rrbioswrite
 @item -rrbioswrite
 @itemx +rrbioswrite
-Enable/Disable saving of the RR ROM at exit
+Enable/disable saving of the RR ROM at exit
+(@code{RRBiosWrite=1}, @code{RRBiosWrite=0}).
 
 @findex -rrbankjumper, +rrbankjumper
 @item -rrbankjumper
@@ -6100,6 +6102,12 @@ Set/unset RR Bank Jumper
 @itemx +rrflashjumper
 Set/unset RR Flash Jumper
 (@code{RRFlashJumper=1}, @code{RRFlashJumper=0}).
+
+@findex -rrrev
+@item -rrrev <Revision>
+Set the RR revision
+(@code{RRrevision}).
+(0: Retro Replay, 1: Nordic Replay)
 
 @findex -cartru
 @item -cartru <name>
@@ -7145,7 +7153,7 @@ Specify filename of the character generator ROM file
 (@code{ChargenName}).
 
 @findex -kernal
-@item -kernal NAME
+@item -kernal <name>
 Specify filename of the Kernal ROM file
 (@code{KernalName}).
 
@@ -7887,14 +7895,16 @@ file system instead.
 
 @table @code
 
-@cindex -trueflashfs, +trueflashfs
+@findex -trueflashfs, +trueflashfs
 @item -trueflashfs
 @itemx +trueflashfs
-Enable or disable true hardware flash file system
+Enable/disable true hardware flash file system
+(@code{FlashTrueFS=1}, @code{FlashTrueFS=0}).
 
-@cindex -fsflash
-@item -fsflash NAME
-Specify @file{NAME} as directory for flash file system device
+@findex -fsflash
+@item -fsflash <name>
+Specify the directory for the flash file system device
+(@code{FSFlashDir}).
 
 @end table
 
@@ -8012,6 +8022,18 @@ to "ramXX", where XX is the starting bank (usually "bank00").
 Integer specifying the emulated DTV revision.
 (2: DTV2, 3: DTV3)
 
+@vindex ChargenName
+@item ChargenName
+String specifying the name of the character generator ROM (default @file{chargen}).
+
+@vindex KernalName
+@item KernalName
+String specifying the name of the Kernal ROM (default @file{kernal}).
+
+@vindex BasicName
+@item BasicName
+String specifying the name of the Basic ROM (default @file{basic}).
+
 @vindex c64dtvromfilename
 @item c64dtvromfilename
 String specifying the filename of the DTV Flash ROM image.
@@ -8023,6 +8045,7 @@ Boolean that specifies whether the emulated Flash ROM is writeable.
 @vindex FSFlashDir
 @item FSFlashDir
 String specifying the working directory for the flash file system.
+
 @vindex FlashTrueFS
 @item FlashTrueFS
 Boolean, enables true hardware flash file system.
@@ -8072,6 +8095,21 @@ Use PAL sync factor
 @item -ntsc
 Use NTSC sync factor
 (@code{MachineVideoStandard=-2}).
+
+@findex -chargen
+@item -chargen <name>
+Specify filename of the character generator ROM file
+(@code{ChargenName}).
+
+@findex -kernal
+@item -kernal <name>
+Specify filename of the Kernal ROM file
+(@code{KernalName}).
+
+@findex -basic
+@item -basic <name>
+Specify the filename of the Basic ROM file
+(@code{BasicName}).
 
 @end table
 
@@ -8234,7 +8272,7 @@ Integer specifying which YM chip is emulated.
 
 @vindex SFXSoundExpanderIOSwap
 @item SFXSoundExpanderIOSwap
-Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+Boolean, swap io mapping (map cart I/O to VIC20 I/O-2) or don't swap io mapping (map cart I/O to VIC20 I/O-3).
 
 @vindex SFXSoundSampler
 @item SFXSoundSampler
@@ -8242,7 +8280,8 @@ Boolean specifying whether the SFX Sound Sampler should be emulated or not.
 
 @vindex SFXSoundSamplerIOSwap
 @item SFXSoundSamplerIOSwap
-Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+Boolean, swap io mapping (map cart I/O to VIC20 I/O-2) or don't swap io mapping (map cart I/O to VIC20 I/O-3).
+
 @vindex GEORAMfilename
 @item GEORAMfilename
 String specifying the filename of the GEORAM image.
@@ -8467,15 +8506,21 @@ Set YM chip type
 (@code{SFXSoundExpanderChip}).
 (3526, 3812)
 
-@cindex -sfxseioswap, +sfxseioswap
+@findex -sfxseioswap, +sfxseioswap
 @item -sfxseioswap
-@itemx +sfxseioswap
-Swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+Swap io mapping (map cart I/O to VIC20 I/O-2)
+(@code{SFXSoundExpanderIOSwap=1}).
+@item +sfxseioswap
+Swap io mapping (map cart I/O to VIC20 I/O-3)
+(@code{SFXSoundExpanderIOSwap=0}).
 
-@cindex -sfxssioswap, +sfxssioswap
+@findex -sfxssioswap, +sfxssioswap
 @item -sfxssioswap
-@itemx +sfxssioswap
-Swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+Swap io mapping (map cart I/O to VIC20 I/O-2)
+(@code{SFXSoundSamplerIOSwap=1}).
+@item +sfxssioswap
+Don't swap io mapping (map cart I/O to VIC20 I/O-3)
+(@code{SFXSoundSamplerIOSwap=0}).
 
 @findex -sfxss, +sfxss
 @item -sfxss
@@ -10425,6 +10470,33 @@ String specifying the name of the Kernal ROM (default @file{kernal}).
 @item BasicName
 String specifying the name of the Basic ROM (default @file{basic}).
 
+@vindex KernalRev
+@item KernalRev
+String specifying the Kernal revision. This resource can be used to
+control what revision of the C64 kernal is being used; it cannot be
+changed at runtime. VICE is able to automatically convert one ROM
+revision into another, by manually patching the loaded image. This way,
+it is possible to use any of the ROM revisions without changing the ROM
+set. Valid values are:
+
+@table @code
+@item 0
+Kernal revision 0;
+@item 3
+Kernal revision 3;
+@item sx
+@itemx 67
+Commodore SX-64 ROM;
+@item 100
+@item 4064
+Commodore 4064 (also known as ``PET64'' or ``Educator 64'') ROM.
+@end table
+
+@vindex MachineVideoStandard
+@item MachineVideoStandard
+Integer that specifies the video standard of the emulated machine
+(-4: PAL-N, -3: Old NTSC, -1: PAL, -2: NTSC).
+
 @end table
 
 @c @node FIXME
@@ -10435,9 +10507,12 @@ String specifying the name of the Basic ROM (default @file{basic}).
 @findex -keepenv
 @item -keepenv
 Override PSID settings for Video standard and SID model
+(@code{PSIDKeepEnv=1}).
+
 @findex -tune
 @item -tune <number>
 Specify PSID tune <number>
+(@code{PSIDTune}).
 
 @findex -chargen
 @item -chargen <name>
@@ -10453,6 +10528,26 @@ Specify name of the Kernal ROM image
 @item -basic <name>
 Specify name of the Basic ROM image
 (@code{BasicName}).
+
+@findex -pal
+@item -pal
+Use PAL sync factor
+(@code{MachineVideoStandard=-1}).
+
+@findex -ntsc
+@item -ntsc
+Use NTSC sync factor
+(@code{MachineVideoStandard=-2}).
+
+@findex -ntscold
+@item -ntscold
+Use old NTSC sync factor
+(@code{MachineVideoStandard=-3}).
+
+@findex -paln
+@item -paln
+Use PAL-N sync factor
+(@code{MachineVideoStandard=-4}).
 
 @end table
 
