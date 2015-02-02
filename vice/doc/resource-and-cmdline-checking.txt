@@ -14384,8 +14384,6 @@ description:    "Disable true hardware flash file system"
 resource:       "FlashTrueFS" (set to 0)
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 c64/cart/ide64.c:
 -----------------
 resource type:                  bool
@@ -14407,8 +14405,6 @@ command line:   -IDE64rtcsave
 description:    "Enable saving of IDE64 RTC data when changed."
 resource:       "IDE64RTCSave" (set to 1)
 action:         N/A
-FIXME: how did this change with the new RTC stuff?
-blacky note: when the rtc saving got implemented the rtc save command-line options got added as well.
 
 c64/cart/ide64.c:
 -----------------
@@ -14433,7 +14429,6 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			windows
-fixme: fix documentation for xcbm2
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -14456,7 +14451,6 @@ description:    "Specify CBM-II model to emulate (610, 620, 620+, 710, 720, 720+
 			"Specify CBM-II model to emulate (510)"
 resource:       N/A
 action:         cbm2_set_model() (sets "ModelLine", "MachineVideoStandard", "RamSize", "KernalName", "BasicName" and "ChargenName")
-fixme: fix documentation
 
 cbm2/cbm2-resources.c:
 ----------------------
@@ -14468,6 +14462,23 @@ resource function:              set_ramsize()
 resource var:                   ramsize
 resource emulators:             xcbm2
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -ramsize / -model
+platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
+platform gui missing:			dos
+
+cbm2/cbm5x0-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "RamSize"
+resource range:                 N/A (64/128/256/512/1024)
+resource default:               64
+resource function:              set_ramsize()
+resource var:                   ramsize
+resource emulators:             xcbm5x0
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -ramsize / -model
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
@@ -14499,6 +14510,23 @@ platform range correct:
 platform range incorrect:
 platform gui missing:           dos/sdl
 
+cbm2/cbm5x0-resources.c:
+------------------------
+resource type:                  int
+resource name:                  "ModelLine"
+resource range:                 1..2 (LINE_6x0_60HZ (1), LINE_6x0_50HZ (2))
+resource default:               LINE_6x0_50HZ (2)
+resource function:              set_cbm2_model_line()
+resource var:                   cbm2_model_line
+resource emulators:             xcbm5x0
+not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -model
+platform gui present:           amigaos/beos/os2/unix/osx/windows
+platform range correct:
+platform range incorrect:
+platform gui missing:           dos/sdl
+
 cbm2/cbm2cart.c:
 ----------------
 resource type:                  string
@@ -14515,7 +14543,6 @@ platform gui present:           amigaos/os2/sdl/unix/windows
 platform gui missing:           beos/dos/osx
 gpz note: UIs should use cartridge_attach_image() and not change this resource directly
 blacky note: agreed, so instead of 'checking' for the resource the 'cartridge_attach_image()' usage needs to be checked for.
-fixme: fix documentation, string
 
 cbm2/cbm2cart.c:
 ----------------
@@ -14540,7 +14567,6 @@ platform gui present:           amigaos/os2/sdl/unix/windows
 platform gui missing:           beos/dos/osx
 gpz note: UIs should use cartridge_attach_image() and not change this resource directly
 blacky note: agreed, so instead of 'checking' for the resource the 'cartridge_attach_image()' usage needs to be checked for.
-fixme: fix documentation, string
 
 cbm2/cbm2cart.c:
 ----------------
@@ -14565,7 +14591,6 @@ platform gui present:           amigaos/os2/sdl/unix/windows
 platform gui missing:           beos/dos/osx
 gpz note: UIs should use cartridge_attach_image() and not change this resource directly
 blacky note: agreed, so instead of 'checking' for the resource the 'cartridge_attach_image()' usage needs to be checked for.
-fixme: fix documentation, string
 
 cbm2/cbm2cart.c:
 ----------------
@@ -14590,7 +14615,6 @@ platform gui present:           amigaos/os2/sdl/unix/windows
 platform gui missing:           beos/dos/osx
 gpz note: UIs should use cartridge_attach_image() and not change this resource directly
 blacky note: agreed, so instead of 'checking' for the resource the 'cartridge_attach_image()' usage needs to be checked for.
-fixme: fix documentation, string
 
 cbm2/cbm2cart.c:
 ----------------
@@ -14613,7 +14637,6 @@ prepocessor:
 command-line:                   -cartreset / +cartreset
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
-fixme: add to documentation
 
 cbm2/cbm2cart.c:
 ----------------
@@ -14621,7 +14644,6 @@ command line:   -cartreset
 description:    "Reset machine if a cartridge is attached or detached"
 resource:       "CartridgeReset" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 cbm2/cbm2cart.c:
 ----------------
@@ -14629,7 +14651,6 @@ command line:   +cartreset
 description:    "Do not reset machine if a cartridge is attached or detached"
 resource:       "CartridgeReset" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 cbm2/cbm2cart.c:
 ----------------
@@ -14645,7 +14666,6 @@ prepocessor:
 command-line:                   -ram08 / +ram08
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
-fixme: fix documentation, bool
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -14675,7 +14695,6 @@ prepocessor:
 command-line:                   -ram1 / +ram1
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
-fixme: fix documentation, bool
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -14705,7 +14724,6 @@ prepocessor:
 command-line:                   -ram2 / +ram2
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
-fixme: fix documentation, bool
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -14735,7 +14753,6 @@ prepocessor:
 command-line:                   -ram4 / +ram4
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
-fixme: fix documentation, bool
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -14765,7 +14782,6 @@ prepocessor:
 command-line:                   -ram6 / +ram6
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
-fixme: fix documentation, bool
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -14795,7 +14811,6 @@ prepocessor:
 command-line:                   -ramC / +ramC
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
-fixme: fix documentation, bool
 
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
@@ -14817,43 +14832,6 @@ command line:   +cart
 description:    "Disable default cartridge"
 resource:       N/A
 action:         cart_attach_cmdline() (note: research what resources are used)
-fixme: add to documentation
-
-cbm2/cbm5x0-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "RamSize"
-resource range:                 N/A (64/128/256/512/1024)
-resource default:               64
-resource function:              set_ramsize()
-resource var:                   ramsize
-resource emulators:             xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -ramsize / -model
-platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			dos
-fixme: fix documentation for xcbm5x0
-
-cbm2/cbm5x0-resources.c:
-------------------------
-resource type:                  int
-resource name:                  "ModelLine"
-resource range:                 1..2 (LINE_6x0_60HZ (1), LINE_6x0_50HZ (2))
-resource default:               LINE_6x0_50HZ (2)
-resource function:              set_cbm2_model_line()
-resource var:                   cbm2_model_line
-resource emulators:             xcbm5x0
-not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -model
-platform gui present:           amigaos/beos/os2/unix/osx/windows
-platform range correct:
-platform range incorrect:
-platform gui missing:           dos/sdl
-fixme: fix documentation
 
 crtc/crtc-resources.c:
 ----------------------
@@ -14871,7 +14849,6 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
-fixme: fix documentation, remove default
 
 crtc/crtc-cmdline-options.c:
 ----------------------------
@@ -14879,7 +14856,6 @@ command line:   -CRTCtint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "CrtcColorTint"
 action:         N/A
-fixme: fix documentation, remove default
 
 crtc/crtc-resources.c:
 ----------------------
@@ -14946,7 +14922,6 @@ command line:   -debug
 description:    "Don't call exception handler"
 resource:       "DoCoreDump" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 initcmdline.c:
 --------------
@@ -14954,7 +14929,6 @@ command line:   +debug
 description:    "Call exception handler (default)"
 resource:       "DoCoreDump" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 drive/drive-resources.c:
 ------------------------
@@ -15001,7 +14975,6 @@ platform gui present:           amigaos/dos/sdl/unix
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			beos/os2/osx/windows
-fixme: add to documentation
 
 drive/drive-cmdline-options.c:
 ------------------------------
@@ -15009,7 +14982,6 @@ command line:   -drivesoundvolume <Volume>
 description:    "Set volume for disk drive sound emulation (0-4000)"
 resource:       "DriveSoundEmulationVolume"
 action:         N/A
-fixme: add to documentation
 
 drive/drive-resources.c:
 ------------------------
@@ -15150,7 +15122,6 @@ command line:   -parallel8 <Type>
 description:    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"
 resource:       "Drive8ParallelCable"
 action:         N/A
-fixme: fix documentation, range
 
 drive/iec/c64exp/c64exp-resources.c:
 ------------------------------------
@@ -15175,7 +15146,6 @@ command line:   -parallel9 <Type>
 description:    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"
 resource:       "Drive9ParallelCable"
 action:         N/A
-fixme: fix documentation, range
 
 drive/iec/c64exp/c64exp-resources.c:
 ------------------------------------
@@ -15200,7 +15170,6 @@ command line:   -parallel10 <Type>
 description:    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"
 resource:       "Drive10ParallelCable"
 action:         N/A
-fixme: fix documentation, range
 
 drive/iec/c64exp/c64exp-resources.c:
 ------------------------------------
@@ -15225,7 +15194,6 @@ command line:   -parallel11 <Type>
 description:    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"
 resource:       "Drive11ParallelCable"
 action:         N/A
-fixme: fix documentation, range
 
 drive/iec/c64exp/c64exp-resources.c:
 ------------------------------------
@@ -15357,7 +15325,6 @@ prepocessor:
 command-line:                   -drive8supercard / +drive8supercard
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -15365,7 +15332,6 @@ command line:   -drive8supercard
 description:    "Enable SuperCard+"
 resource:       "Drive8SuperCard" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -15373,7 +15339,6 @@ command line:   +drive8supercard
 description:    "Disable SuperCard+"
 resource:       "Drive8SuperCard" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-resources.c:
 ------------------------------------
@@ -15389,7 +15354,6 @@ prepocessor:
 command-line:                   -drive9supercard / +drive9supercard
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -15397,7 +15361,6 @@ command line:   -drive9supercard
 description:    "Enable SuperCard+"
 resource:       "Drive9SuperCard" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -15405,7 +15368,6 @@ command line:   +drive9supercard
 description:    "Disable SuperCard+"
 resource:       "Drive9SuperCard" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-resources.c:
 ------------------------------------
@@ -15421,7 +15383,6 @@ prepocessor:
 command-line:                   -drive10supercard / +drive10supercard
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -15429,7 +15390,6 @@ command line:   -drive10supercard
 description:    "Enable SuperCard+"
 resource:       "Drive10SuperCard" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -15437,7 +15397,6 @@ command line:   +drive10supercard
 description:    "Disable SuperCard+"
 resource:       "Drive10SuperCard" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-resources.c:
 ------------------------------------
@@ -15453,7 +15412,6 @@ prepocessor:
 command-line:                   -drive11supercard / +drive11supercard
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -15461,7 +15419,6 @@ command line:   -drive11supercard
 description:    "Enable SuperCard+"
 resource:       "Drive11SuperCard" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -15469,7 +15426,6 @@ command line:   +drive11supercard
 description:    "Disable SuperCard+"
 resource:       "Drive11SuperCard" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-resources.c:
 ------------------------------------
@@ -15507,7 +15463,6 @@ prepocessor:
 command-line:                   -supercard
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
-fixme: add to documentation
 
 drive/iec/c64exp/c64exp-cmdline-options.c:
 ------------------------------------------
@@ -15515,7 +15470,6 @@ command line:   -supercard <Name>
 description:    "Specify name of SuperCard+ ROM image"
 resource:       "DriveSuperCardName"
 action:         N/A
-fixme: add to documentation
 
 drive/iec/iec-resources.c:
 --------------------------
@@ -15582,6 +15536,8 @@ command line:   -dos4000 <Name>
 description:    "Specify name of 4000 DOS ROM image"
 resource:       "DosName4000"
 action:         N/A
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 drive/iec/plus4exp/plus4exp-resources.c:
 ----------------------------------------

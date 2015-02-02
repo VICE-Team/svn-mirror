@@ -3477,6 +3477,11 @@ Boolean controlling whether the ``true'' drive emulation is turned on.
 @item DriveSoundEmulation
 Boolean controlling whether the drive noise emulation is turned on.
 
+@vindex DriveSoundEmulationVolume
+@item DriveSoundEmulationVolume
+Integer specifying the volume of the drive noise emulation.
+(0..4000)
+
 @vindex Drive8Type
 @vindex Drive9Type
 @vindex Drive10Type
@@ -3503,6 +3508,22 @@ values are @code{1541} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
 @code{8050} [all emulators except x64dtv, xplus4 and vsid],
 @code{8250} [all emulators except x64dtv, xplus4 and vsid].
 
+@vindex Drive8RTCSave
+@item Drive8RTCSave
+Integer specifying whether the RTC data of drive 8 should be saved when changed or not (drive type 2000/4000 only).
+
+@vindex Drive9RTCSave
+@item Drive9RTCSave
+Integer specifying whether the RTC data of drive 9 should be saved when changed or not (drive type 2000/4000 only).
+
+@vindex Drive10RTCSave
+@item Drive10RTCSave
+Integer specifying whether the RTC data of drive 10 should be saved when changed or not (drive type 2000/4000 only).
+
+@vindex Drive11RTCSave
+@item Drive11RTCSave
+Integer specifying whether the RTC data of drive 11 should be saved when changed or not (drive type 2000/4000 only).
+
 @vindex Drive8ParallelCable
 @vindex Drive9ParallelCable
 @vindex Drive10ParallelCable
@@ -3511,8 +3532,8 @@ values are @code{1541} [all emulators except xcbm2, xcbm5x0, xpet and vsid],
 @itemx Drive9ParallelCable
 @itemx Drive10ParallelCable
 @itemx Drive11ParallelCable
-integer controlling what type of parallel cable is emulated for drives 8 to 11.
-(0: none, 1: speed-DOS, 2: Professional DOS, 3: Formel64)
+integers controlling what type of parallel cable is emulated for drives 8 to 11.
+(0: None, 1: Speed-DOS, 2: Professional DOS, 3: Formel64)
 
 @vindex Drive8ProfDOS
 @vindex Drive9ProfDOS
@@ -3523,6 +3544,16 @@ integer controlling what type of parallel cable is emulated for drives 8 to 11.
 @itemx Drive10ProfDOS
 @itemx Drive11ProfDOS
 Booleans controlling whether Professional DOS is emulated or not for drives 8 to 11.
+
+@vindex Drive8SuperCard
+@vindex Drive9SuperCard
+@vindex Drive10SuperCard
+@vindex Drive11SuperCard
+@item Drive8SuperCard
+@itemx Drive9SuperCard
+@itemx Drive10SuperCard
+@itemx Drive11SuperCard
+Booleans controlling whether Super Card is emulated or not for drives 8 to 11.
 
 @vindex Drive8RAM2000
 @vindex Drive8RAM4000
@@ -3636,6 +3667,10 @@ Strings specifying the names of the ROM images for the drive emulation.
 @item DriveProfDOS1571Name
 String specifying the filename of the 1571 professional DOS ROM image.
 
+@vindex DriveSuperCardName
+@item DriveSuperCardName
+String specifying the filename of the Super Card ROM image.
+
 @end table
 
 @node Drive options,  , Drive resources, Drive settings
@@ -3649,11 +3684,16 @@ String specifying the filename of the 1571 professional DOS ROM image.
 Enable/disable true drive emulation
 (@code{DriveTrueEmulation=1}, @code{DriveTrueEmulation=0}).
 
-@cindex -drivesound, +drivesound
+@findex -drivesound, +drivesound
 @item -drivesound
 @itemx +drivesound
-Turns drive sound emulation on (@code{DriveSoundEmulation=1}) and off
-(@code{DriveSoundEmulation=0}), respectively.
+Enable/disable drive sound emulation
+(@code{DriveSoundEmulation=1}, @code{DriveSoundEmulation=0}).
+
+@findex -drivesoundvolume
+@item -drivesoundvolume <Volume>
+Set the volume of the drive sound emulation
+(@code{DriveSoundEmulationVolume=1}, @code{DriveSoundEmulationVolume=0}).
 
 @findex -drive8type
 @findex -drive9type
@@ -3682,15 +3722,42 @@ Possible values for @code{TYPE} are
 @code{8050} [all emulators except x64dtv, xplus4 and vsid]
 and @code{8250} [all emulators except x64dtv, xplus4 and vsid].
 
-@cindex -parallel8
-@cindex -parallel9
-@cindex -parallel10
-@cindex -parallel11
+@findex -drive8rtcsave / +drive8rtcsave
+@item -drive8rtcsave
+@itemx -drive8rtcsave
+Enable/disable the saving of the RTC data for drive 8 when changed (drive type 2000/4000 only)
+(@code{Drive8RTCSave=1}, @code{Drive8RTCSave=0}).
+
+@findex -drive9rtcsave / +drive9rtcsave
+@item -drive9rtcsave
+@itemx -drive9rtcsave
+Enable/disable the saving of the RTC data for drive 9 when changed (drive type 2000/4000 only)
+(@code{Drive9RTCSave=1}, @code{Drive9RTCSave=0}).
+
+@findex -drive10rtcsave / +drive10rtcsave
+@item -drive10rtcsave
+@itemx -drive10rtcsave
+Enable/disable the saving of the RTC data for drive 10 when changed (drive type 2000/4000 only)
+(@code{Drive10RTCSave=1}, @code{Drive10RTCSave=0}).
+
+@findex -drive11rtcsave / +drive11rtcsave
+@item -drive11rtcsave
+@itemx -drive11rtcsave
+Enable/disable the saving of the RTC data for drive 11 when changed (drive type 2000/4000 only)
+(@code{Drive11RTCSave=1}, @code{Drive11RTCSave=0}).
+
+@findex -parallel8
+@findex -parallel9
+@findex -parallel10
+@findex -parallel11
 @item -parallel8 <type>
 @itemx -parallel9 <type>
 @itemx -parallel10 <type>
 @itemx -parallel11 <type>
-Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS)
+Set parallel cable type for drives 8-11 respectively
+(@code{Drive8ParallelCable}, @code{Drive9ParallelCable},
+@code{Drive10ParallelCable}, @code{Drive11ParallelCable}).
+(0: None, 1: Standard, 2: Dolphin DOS, 3: Formel 64)
 
 @findex -drive8idle
 @findex -drive9idle
@@ -3908,19 +3975,63 @@ Enable/disable 8KB RAM expansion at $A000-$BFFF for drive 10
 Enable/disable 8KB RAM expansion at $A000-$BFFF for drive 11
 (@code{Drive11RAMA000=1}, @code{Drive11RAMA000=0}).
 
-@cindex -drive8profdos, +drive8profdos
-@cindex -drive9profdos, +drive9profdos
-@cindex -drive10profdos, +drive10profdos
-@cindex -drive11profdos, +drive11profdos
-@item -drive8profdos, +drive8profdos
-@itemx -drive9profdos, +drive9profdos
-@itemx -drive10profdos, +drive10profdos
-@itemx -drive11profdos, +drive11profdos
-Enable/Disable Professional DOS
+@findex -drive8profdos, +drive8profdos
+@item -drive8profdos
+@itemx +drive8profdos
+Enable/disable Professional DOS for drive 8
+(@code{Drive8ProfDOS=1}, @code{Drive8ProfDOS=0}).
 
-@cindex -profdos1571
+@findex -drive9profdos, +drive9profdos
+@item -drive9profdos
+@itemx +drive9profdos
+Enable/disable Professional DOS for drive 9
+(@code{Drive9ProfDOS=1}, @code{Drive9ProfDOS=0}).
+
+@findex -drive10profdos, +drive10profdos
+@item -drive10profdos
+@itemx +drive10profdos
+Enable/disable Professional DOS for drive 10
+(@code{Drive10ProfDOS=1}, @code{Drive10ProfDOS=0}).
+
+@findex -drive11profdos, +drive11profdos
+@item -drive11profdos
+@itemx +drive11profdos
+Enable/disable Professional DOS for drive 11
+(@code{Drive11ProfDOS=1}, @code{Drive11ProfDOS=0}).
+
+@findex -profdos1571
 @item -profdos1571 <name>
 Specify name of Professional DOS 1571 ROM image
+(@code{DriveProfDOS1571Name}).
+
+@findex -drive8supercard, +drive8supercard
+@item -drive8supercard
+@itemx +drive8supercard
+Enable/disable Super Card for drive 8
+(@code{Drive8SuperCard=1}, @code{Drive8SuperCard=0}).
+
+@findex -drive9supercard, +drive9supercard
+@item -drive9supercard
+@itemx +drive9supercard
+Enable/disable Super Card for drive 9
+(@code{Drive9SuperCard=1}, @code{Drive9SuperCard=0}).
+
+@findex -drive10supercard, +drive10supercard
+@item -drive10supercard
+@itemx +drive10supercard
+Enable/disable Super Card for drive 10
+(@code{Drive10SuperCard=1}, @code{Drive10SuperCard=0}).
+
+@findex -drive11supercard, +drive11supercard
+@item -drive11supercard
+@itemx +drive11supercard
+Enable/disable Super Card for drive 11
+(@code{Drive11SuperCard=1}, @code{Drive11SuperCard=0}).
+
+@findex -supercard
+@item -supercard <name>
+Specify name of Super Card ROM image
+(@code{DriveSuperCardName}).
 
 @end table
 
@@ -4742,8 +4853,7 @@ emulator's system files.
 @end ifset
 @vindex DoCoreDump
 @item DoCoreDump
-Boolean specifying whether the emulator should dump core when it gets a
-signal.
+Boolean specifying whether the emulator should dump core when it gets a signal.
 
 @vindex NetworkServerName
 @item NetworkServerName
@@ -4790,11 +4900,17 @@ Booleans that specify whether to attach images on drives 8 to 11 read-only or no
 Specify the system file search path
 (@code{Directory}).
 
-@cindex -core, +core
+@findex -core, +core
 @item -core
-Enable generation of core dumps (@code{DoCoreDump=1})
-@item +core
-Disable generation of core dumps (@code{DoCoreDump=0})
+@itemx +core
+Enable/disable generation of core dumps
+(@code{DoCoreDump=1}, @code{DoCoreDump=0})
+
+@findex -debug, +debug
+@item -debug
+@itemx +debug
+Disable/enable calling of the exception handler
+(@code{DoCoreDump=1}, @code{DoCoreDump=0})
 
 @end table
 
@@ -5413,6 +5529,10 @@ String specifying the address the IDE64 USB server listens to (ip4://127.0.0.1:6
 @item IDE64USBServer
 Boolean specifying whether the IDE64 USB server is enabled.
 
+@vindex IDE64RTCSave
+@item IDE64RTCSave
+Boolean specifying whether the IDE64 RTC data should be saved when changed or not.
+
 @vindex IEEE488
 @item IEEE488
 Boolean specifying whether the IEEE488 interface should be emulated or not.
@@ -5836,6 +5956,12 @@ Enable/Disable IDE64 USB server
 @cindex -IDE64USBAddress
 @item -IDE64USBAddress <name>
 The local address the IDE64 USB server should bind to
+
+@findex -IDE64rtcsave, +IDE64rtcsave
+@item -IDE64rtcsave
+@itemx +IDE64rtcsave
+Enable/disable saving of IDE64 RTC data when changed
+(@code{IDE64RTCSave=1}, @code{IDE64RTCSave=0}).
 
 @findex -cartieee
 @item -cartieee <name>
@@ -9573,7 +9699,8 @@ Integer specifying gamma of internal calculated palette.
 
 @vindex CrtcColorTint
 @item CrtcColorTint
-integer specifying tint of internal calculated palette [1000] <0-2000>
+Integer specifying tint of internal calculated palette.
+(0..2000)
 
 @vindex CrtcPALScanLineShade
 @item CrtcPALScanLineShade
@@ -9679,9 +9806,10 @@ Set brightness of internal calculated palette
 Set gamma of internal calculated palette
 (@code{CrtcColorGamma}).
 
-@cindex -Crtctint
+@findex -Crtctint
 @item -Crtctint <0-2000>
-Set tint of internal calculated palette [1000]
+Set tint of internal calculated palette
+(@code{CrtcColorTint}).
 
 @findex -Crtcoddlinesphase
 @item -Crtcoddlinesphase <0-2000>
@@ -9703,10 +9831,11 @@ Amount of horizontal blur for the CRT emulation
 Amount of scan line shading for the CRT emulation
 (@code{CrtcPALScanLineShade}).
 
-@cindex -Crtcaudioleak, +Crtcaudioleak
+@findex -Crtcaudioleak, +Crtcaudioleak
 @item -Crtcaudioleak
 @item +Crtcaudioleak
-Enable/Disable video to audio leak emulation.
+Enable/disable video to audio leak emulation
+(@code{CrtcAudioLeak=1}, @code{CrtcAudioLeak=0}).
 
 @end table
 
@@ -10235,34 +10364,53 @@ file, command line options or right-menu items):
 
 @vindex RamSize
 @item RamSize
-Size of memory in kByte.  Possible values are 128, 256, 512 and 1024
+Size of memory in kByte.
+xcbm2: (128, 256, 512, 1024)
+xcbm5x0: (64, 128, 256, 512, 1024)
 
 @vindex Ram08
-@vindex Ram1
-@vindex Ram2
-@vindex Ram4
-@vindex Ram6
-@vindex RamC
 @item Ram08
-@itemx Ram1
-@itemx Ram2
-@itemx Ram4
-@itemx Ram6
-@itemx RamC
-Expanded CBM-II models could map RAM to the expansion ROM areas
-at $0800-$0fff, $1000-$1fff, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF
-and $c000-$cfff respectively.
+Boolean specifying whether the RAM should be mapped to the expansion ROM area at $0800-$0FFF or not.
+
+@vindex Ram1
+@item Ram1
+Boolean specifying whether the RAM should be mapped to the expansion ROM area at $1000-$1FFF or not.
+
+@vindex Ram2
+@item Ram2
+Boolean specifying whether the RAM should be mapped to the expansion ROM area at $2000-$3FFF or not.
+
+@vindex Ram4
+@item Ram4
+Boolean specifying whether the RAM should be mapped to the expansion ROM area at $4000-$5FFF or not.
+
+@vindex Ram6
+@item Ram6
+Boolean specifying whether the RAM should be mapped to the expansion ROM area at $6000-$7FFF or not.
+
+@vindex RamC
+@item RamC
+Boolean specifying whether the RAM should be mapped to the expansion ROM area at $C000-$CFFF or not.
+
+@vindex CartridgeReset
+@item CartridgeReset
+Boolean specifying whether the machine should be reset when a cartridge is changed.
 
 @vindex Cart1Name
-@vindex Cart2Name
-@vindex Cart4Name
-@vindex Cart6Name
 @item Cart1Name
-@itemx Cart2Name
-@itemx Cart4Name
-@itemx Cart6Name
-Specify @file{NAME} as the $1000-$1FFF, $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
-Expansion ROM file.  This file contains an 8k ROM dump.
+String specifying the filename for the $1000-$1FFF expansion ROM file. This file contains an 8k ROM dump.
+
+@vindex Cart2Name
+@item Cart2Name
+String specifying the filename for the $2000-$3FFF expansion ROM file. This file contains an 8k ROM dump.
+
+@vindex Cart4Name
+@item Cart4Name
+String specifying the filename for the $4000-$5FFF expansion ROM file. This file contains an 8k ROM dump.
+
+@vindex Cart6Name
+@item Cart6Name
+String specifying the filename for the $6000-$6FFF expansion ROM file. This file contains an 8k ROM dump.
 
 @vindex ModelLine
 @item ModelLine
@@ -10270,7 +10418,8 @@ The CBM-II business models have two hardcoded lines at one of the I/O ports.
 From those lines the kernal determines how it should init the
 CRTC video chip for either 50Hz (Europe) or 60Hz (North America),
 and either for 8 (C6x0) or 14 (C7x0) scanlines per character.
-0 = CBM 7x0 (50Hz), 1 = 60Hz C6x0, 2 = 50Hz C6x0).
+xcbm2: (0: CBM 7x0 (50Hz), 1: 60Hz C6x0, 2: 50Hz C6x0)
+xcbm5x0: (1: 60Hz C5x0, 2: 50Hz C5x0)
 
 @vindex ChargenName
 @item ChargenName
@@ -10352,22 +10501,35 @@ Specify the name of the Basic ROM file
 Specify the filename for the character generator ROM file
 (@code{ChargenName}).
 
-@cindex -cart1
+@findex +cart
+@item +cart
+Disable all cartridges (which would eventually be enabled in the config file).
+
+@findex -cartreset, +cartreset
+@item -cartreset
+@itemx +cartreset
+Reset/do not reset machine if a cartridge is attached or detached
+(@code{CartridgeReset=1}, @code{CartridgeReset=0}).
+
+@findex -cart1
 @item -cart1 <name>
-Specify @file{NAME} as the ROM image file for the
-cartridge area $1000-$1FFF (@code{Cart1Name}).
-@cindex -cart2
+Specify the filename for the ROM image file for the cartridge area $1000-$1FFF
+(@code{Cart1Name}).
+
+@findex -cart2
 @item -cart2 <name>
-Specify @file{NAME} as the ROM image file for the
-cartridge area $2000-$3fff (@code{Cart2Name}).
-@cindex -cart4
+Specify the filename for the ROM image file for the cartridge area $2000-$2FFF
+(@code{Cart2Name}).
+
+@findex -cart4
 @item -cart4 <name>
-Specify @file{NAME} as the ROM image file for the
-cartridge area $4000-$5fff (@code{Cart4Name}).
-@cindex -cart6
+Specify the filename for the ROM image file for the cartridge area $4000-$5FFF
+(@code{Cart4Name}).
+
+@findex -cart6
 @item -cart6 <name>
-Specify @file{NAME} as the ROM image file for the
-cartridge area $6000-$7fff (@code{Cart6Name}).
+Specify the filename for the ROM image file for the cartridge area $6000-$7FFF
+(@code{Cart6Name}).
 @end table
 
 @node CBM-II commandline options, CBM-II colors, CBM-II model, CBM-II-specific
@@ -10377,44 +10539,65 @@ These are the commandline options specific for the CBM-II models.
 
 @table @code
 
-@cindex -ramsize
-@item -ramsize <ramsize>
-Specify size of RAM (64/128/256/512/1024 kByte)
+@findex -pal
+@item -pal
+Use PAL sync factor
+(@code{MachineVideoStandard=-1}).
 
-@cindex -ram08, +ram08
+@findex -ntsc
+@item -ntsc
+Use NTSC sync factor
+(@code{MachineVideoStandard=-2}).
+
+@findex -ramsize
+@item -ramsize <ramsize>
+Specify size of RAM
+(@code{RamSize}).
+xcbm2: (128, 256, 512, 1024)
+xcbm5x0: (64, 128, 256, 512, 1024)
+
+@findex -ram08, +ram08
 @item -ram08
 @itemx +ram08
-Enable/Disable RAM mapping in bank 15 on addresses  $0800-$0FFF
-resp (@code{Ram08}).
-@cindex -ram1, +ram1
+Enable/disable RAM mapping in bank 15 at address $0800-$0FFF
+(@code{Ram08=1}, @code{Ram08=0}).
+
+@findex -ram1, +ram1
 @item -ram1
 @itemx +ram1
-Enable/Disable RAM mapping in bank 15 on addresses  $1000-$1FFF
-resp (@code{Ram1}).
-@cindex -ram2, +ram2
+Enable/disable RAM mapping in bank 15 at address $1000-$1FFF
+(@code{Ram1=1}, @code{Ram1=0}).
+
+@findex -ram2, +ram2
 @item -ram2
 @itemx +ram2
-Enable/Disable RAM mapping in bank 15 on addresses  $2000-$3FFF
-resp (@code{Ram2}).
-@cindex -ram4, +ram4
+Enable/disable RAM mapping in bank 15 at address $2000-$3FFF
+(@code{Ram2=1}, @code{Ram2=0}).
+
+@findex -ram4, +ram4
 @item -ram4
 @itemx +ram4
-Enable/Disable RAM mapping in bank 15 on addresses  $4000-$5FFF
-resp (@code{Ram4}).
-@cindex -ram6, +ram6
+Enable/disable RAM mapping in bank 15 at address $4000-$5FFF
+(@code{Ram4=1}, @code{Ram4=0}).
+
+@findex -ram6, +ram6
 @item -ram6
 @itemx +ram6
-Enable/Disable RAM mapping in bank 15 on addresses  $6000-$7FFF
-resp (@code{Ram6}).
-@cindex -ramC, +ramC
+Enable/disable RAM mapping in bank 15 at address $6000-$7FFF
+(@code{Ram6=1}, @code{Ram6=0}).
+
+@findex -ramC, +ramC
 @item -ramC
 @itemx +ramC
-Enable/Disable RAM mapping in bank 15 on addresses  $C000-$CFFF
-resp (@code{RamC}).
+Enable/disable RAM mapping in bank 15 at address $C000-$CFFF
+(@code{RamC=1}, @code{RamC=0}).
 
-@cindex -model
+@findex -model
 @item -model <modelnumber>
 Specify CBM-II model to emulate
+(@code{ModelLine}, @code{MachineVideoStandard}, @code{RamSize}, @code{KernalName}, @code{BasicName}, @code{ChargenName}).
+xcbm2: (610, 620, 620+, 710, 720, 720+)
+xcbm5x0: (510)
 
 @end table
 
