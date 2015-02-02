@@ -853,7 +853,7 @@ static PWindowDimensions LoadMonitorDimensions(HWND hwnd)
              * read some additional data that might be available.
              * not used now, but might be in the future.
              */
-            char *extra_data = GetExtraData(&p, &len);
+            char *extra_data = (char *)GetExtraData(&p, &len);
             lib_free(extra_data);
         }
 
@@ -1309,9 +1309,8 @@ static LRESULT CALLBACK mon_window_proc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
         case WM_PAINT:
             {
                 PAINTSTRUCT ps;
-                HDC hdc;
 
-                hdc = BeginPaint(hwnd, &ps);
+                BeginPaint(hwnd, &ps);
                 EndPaint(hwnd, &ps);
 
                 return 0;

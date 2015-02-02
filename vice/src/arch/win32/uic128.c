@@ -319,11 +319,8 @@ static void end_rambanks_dialog(HWND hwnd)
 
 static INT_PTR CALLBACK rambanks_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    int command;
-
     switch (msg) {
         case WM_COMMAND:
-            command = LOWORD(wparam);
             return FALSE;
         case WM_NOTIFY:
             switch (((NMHDR FAR *)lparam)->code) {

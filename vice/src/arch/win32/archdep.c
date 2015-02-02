@@ -191,7 +191,7 @@ static BOOL verify_exe(char *file_name)
     DWORD version_info_size;
     BOOL bResult = FALSE;
     char *company_name = NULL;
-    int company_name_length = 0;
+    unsigned int company_name_length = 0;
 
     version_info_size = GetFileVersionInfoSize(file_name, NULL);
 

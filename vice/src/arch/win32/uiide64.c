@@ -158,13 +158,10 @@ static void init_ide64_dialog(HWND hwnd, int num)
     int res_value, index;
     TCHAR memb[20];
     HWND ide64_hwnd;
-    HWND parent_hwnd;
     int xsize, ysize;
     char tmp[256];
     const char *ide64file;
     TCHAR *st_ide64file;
-
-    parent_hwnd = GetParent(hwnd);
 
     uilib_localize_dialog(hwnd, ide64_dialog);
 

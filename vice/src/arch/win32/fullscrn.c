@@ -99,25 +99,22 @@ int fullscreen_get_nesting_level(void)
 static void fullscreen_set_res_from_current_display(void)
 {
 #ifdef HAVE_D3D9_H
-    int bitdepth, width, height, refreshrate;
+    int width, height, refreshrate;
 
     if (video_dx9_enabled()) {
         D3DDISPLAYMODE mode;
 
         if (S_OK == IDirect3D9_GetAdapterDisplayMode(d3d, D3DADAPTER_DEFAULT , &mode)) {
-            bitdepth = 32;
             width = mode.Width;
             height = mode.Height;
             refreshrate = mode.RefreshRate;
         } else {
             /* provide defaults if GetDisplayMode fails for some reason */
             log_debug("fullscreen_get_current_display_dx9 failed to get mode!");
-            bitdepth = 32;
             width = 640;
             height = 480;
             refreshrate = 0;
         }
-        bitdepth = 32;
         resources_set_int("FullscreenWidth", width);
         resources_set_int("FullscreenHeight", height);
         resources_set_int("FullscreenRefreshRate", refreshrate);

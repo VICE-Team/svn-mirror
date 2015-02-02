@@ -490,7 +490,7 @@ static void resize_joystick_dialog_elements(HWND hwnd)
     int xpos;
     int xstart;
     int xpos1, xpos2, xpos3;
-    int distance1, distance2;
+    int distance1;
     RECT rect;
     int i;
 
@@ -550,9 +550,6 @@ static void resize_joystick_dialog_elements(HWND hwnd)
 
     /* get the max x of the joy calibrate button */
     uilib_get_element_min_x(hwnd, IDC_JOY_CALIBRATE, &xpos2);
-
-    /* calculate distance between config keyset b button and joy calibrate button */
-    distance2 = xpos3 - xpos2;
 
     /* adjust the size of the button group */
     uilib_adjust_group_width(hwnd, joystick_button_group);

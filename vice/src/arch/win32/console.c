@@ -635,7 +635,7 @@ static void console_out_character(console_private_t *pcp, const unsigned char ch
     cursor(pcp, CS_RESUME);
 }
 
-static void console_out_printables_only(console_private_t *pcp, const unsigned char *buffer, unsigned int length)
+static void console_out_printables_only(console_private_t *pcp, char *buffer, unsigned int length)
 {
     cursor(pcp, CS_SUSPEND);
 
@@ -1479,9 +1479,8 @@ static LRESULT CALLBACK console_window_proc(HWND hwnd, UINT msg, WPARAM wParam, 
         case WM_PAINT:
             {
                 PAINTSTRUCT ps;
-                HDC hdc;
 
-                hdc = BeginPaint(hwnd, &ps);
+                BeginPaint(hwnd, &ps);
 
                 redraw_window(pcp, &ps);
 
