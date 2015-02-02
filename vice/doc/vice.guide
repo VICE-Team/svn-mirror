@@ -4539,6 +4539,8 @@ The following cartridges are emulated in this slot:
 
    * Retro Replay
 
+   * RGCD
+
    * ROSS
 
    * Simons' BASIC
@@ -13720,6 +13722,9 @@ The following cartridge types are supported:
 `rep256'
      REX 256k EPROM Cart .crt file, extra files can be inserted
      (1)(2)(3)
+
+`rgcd'
+     RGCD .crt file
 
 `ross'
      ROSS .crt file

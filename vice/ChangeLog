@@ -1,5 +1,560 @@
 ------------------------------------------------------------------------------
 
+2015-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.16
+
+2015-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am: Fixed another typo.
+
+2015-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am: Fixed a typo.
+
+2015-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64memoryhacks.rc,
+	src/arch/win32/resds12c887rtc.rc, src/arch/win32/reside64.rc,
+	src/arch/win32/resmouse.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressiddtv.rc,
+	src/arch/win32/resuserportrtc.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2015-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2015-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2015-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added rgcd to some more locations in the
+	documentation.
+
+2015-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed a typo.
+
+2015-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/c64/cart/c64-generic.c, src/translate_text.c: Some more
+	documentation updates.
+
+2015-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed flex/lex problem (bug #600).
+
+2015-02-01  groepaz <groepaz@gmx.net>
+
+	* src/autostart.c: hacks to prevent illegal character codes in log
+	messages
+
+2015-02-01  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cart.c: exit cartridge_attach_image early when
+	CARTRIDGE_CRT was used as type and the file is not a valid CRT image.
+
+2015-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/autostart.c, src/translate.txt, src/translate_text.c: Some more
+	documentation updates.
+
+2015-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Some more documentation updates.
+
+2015-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Some more documentation updates.
+
+2015-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/gui-feature-checking.txt, doc/resource-and-cmdline-checking.txt,
+	doc/vice.texi, src/arch/win32/vs_tmpl/c64cart.tmpl: Added rgcd cart to
+	the documentation, 'checking' files and windows msvc template.
+
+2015-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/c64/cart/ramcart.c, src/translate.txt, src/translate_text.c: Some
+	more documentation updates.
+
+2015-01-31  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_device.cc, src/arch/beos/ui_device.h: Removed
+	"Printer 4" tab from BeVICE Device settings dialog. The settings are
+	duplicated in the menu and in the future Printer settings dialog.
+
+2015-01-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Some more documentation updates.
+
+2015-01-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Some more documentation updates.
+
+2015-01-30  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/Makefile.am, src/c64/cart/c64cart.c,
+	src/c64/cart/c64carthooks.c, src/c64/cart/crt.c, src/c64/cart/rgcd.c,
+	src/c64/cart/rgcd.h, src/cartconv.c, src/cartridge.h,
+	src/translate.txt, src/translate_text.c: added support for the 64k
+	RGCD cartridge (crt id 57)
+
+2015-01-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Some more documentation updates.
+
+2015-01-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Documentation-Howto.txt: Updated.
+
+2015-01-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drivecpu65c02.c: Just to be consistent
+
+2015-01-30  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/magicdesk.c: fix number of banks, fix snapshot
+
+2015-01-30  groepaz <groepaz@gmx.net>
+
+	* src/drive/drivecpu.c: academic fix
+
+2015-01-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drivecpu.c, src/drive/drivecpu65c02.c: A rather strange
+	bug...
+
+2015-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Dos related documentation updates.
+
+2015-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Amigaos 3.x, aros and morphos related documentation updates.
+
+2015-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.pdf, doc/vice.texi, doc/vice.txt: Amigaos 4.x
+	related documentation updates.
+
+2015-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.texi, doc/vice.txt:
+	Generic amiga related documentation updates.
+
+2015-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt: Updated.
+
+2015-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/pet-sidcart.c, src/plus4/plus4-sidcart.c, src/sid/fastsid.c,
+	src/sid/fastsid.h, src/sid/resid-dtv.cc, src/sid/resid.cc,
+	src/sid/sid.c, src/sid/sid.h, src/vic20/cart/vic20-sidcart.c: Fixed
+	the sidcart c64 clock speed issue.
+
+2015-01-29  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uidatasette.c: added missing include
+
+2015-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/win32/uiplus4mem.c:
+	Fixed the windows plus4 memory hacks (CS256K/H256K/H1024K/H4096K) gui
+	elements.
+
+2015-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/unix/gui/plus4ui.c:
+	Fixed the unix plus4 memory hacks (CS256K/H256K/H1024K/H4096K) gui
+	elements.
+
+2015-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/sdl/menu_plus4hw.c,
+	src/plus4/plus4-resources.c, src/plus4/plus4memhacks.c: Fixed the sdl
+	plus4 memory hacks (CS256K/H256K/H1024K/H4096K) gui elements.
+
+2015-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/amigaos/mui/uiplus4settings.c, src/plus4/plus4-resources.c:
+	Fixed the amiga plus4 memory hacks (CS256K/H256K/H1024K/H4096K) gui
+	elements.
+
+2015-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi,
+	src/arch/win32/vs_tmpl/plus4.tmpl, src/c64/c64-memory-hacks.c,
+	src/plus4/Makefile.am, src/plus4/plus4-cmdline-options.c,
+	src/plus4/plus4-resources.c, src/plus4/plus4memcsory256k.c,
+	src/plus4/plus4memcsory256k.h, src/plus4/plus4memhacks.c,
+	src/plus4/plus4memhacks.h, src/plus4/plus4memhannes256k.c,
+	src/plus4/plus4memhannes256k.h, src/translate.txt,
+	src/translate_text.c: Put the CS256K and H256/1024/4096K expansion
+	activation under the control of a new resource "MemoryHack".
+
+2015-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64-memory-hacks.c: Replaced '0' with a a define.
+
+2015-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64-memory-hacks.c: Added some range checking.
+
+2015-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Configure now stops w with an error if yacc (or
+	bison or byacc) and lex (or flex) is not present.
+
+2015-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, po/POTFILES.in,
+	src/arch/win32/Makefile.am, src/arch/win32/c64ui.c,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64_256k.rc,
+	src/arch/win32/resc64memoryhacks.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resmenu.txt, src/arch/win32/resplus256k.rc,
+	src/arch/win32/resplus60k.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/uic64_256k.c, src/arch/win32/uic64_256k.h,
+	src/arch/win32/uic64memoryhacks.c, src/arch/win32/uic64memoryhacks.h,
+	src/arch/win32/uiplus256k.c, src/arch/win32/uiplus256k.h,
+	src/arch/win32/uiplus60k.c, src/arch/win32/uiplus60k.h,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl:
+	Fixed the windows memory hacks (256K/+60K/+256K) gui elements.
+
+2015-01-28  groepaz <groepaz@gmx.net>
+
+	* src/datasette.c: fix warning
+
+2015-01-28  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/arch/unix/gui/uidatasette.c, src/datasette.c, src/translate.txt,
+	src/translate_text.c: added emulation of random tape wobble
+
+2015-01-28  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/supergames.c: fix snapshot
+
+2015-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/video.c: Fixed.
+
+2015-01-28  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/supergames.c: fix cartridge register disabling
+
+2015-01-28  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uivicii.c: disable VSP bug item for machines that
+	do not use viciisc
+
+2015-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.txt, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/uic64memoryhacks.c: Fixed.
+
+2015-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in: Fixed POTFILES.in for the recent changes.
+
+2015-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/c128ui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/uic64_256k.c, src/arch/unix/gui/uic64_256k.h,
+	src/arch/unix/gui/uic64memoryhacks.c,
+	src/arch/unix/gui/uic64memoryhacks.h, src/arch/unix/gui/uiplus256k.c,
+	src/arch/unix/gui/uiplus256k.h, src/arch/unix/gui/uiplus60k.c,
+	src/arch/unix/gui/uiplus60k.h: Fixed the unix memory hacks
+	(256K/+60K/+256K) gui elements.
+
+2015-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c64_expansions.c,
+	src/arch/sdl/menu_c64_expansions.h, src/arch/sdl/menu_c64hw.c,
+	src/arch/win32/vs_tmpl/c64.tmpl, src/arch/win32/vs_tmpl/c64sc.tmpl:
+	Fixed the sdl memory hacks (256K/+60K/+256K) gui elements.
+
+2015-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uic64memoryhacks.c, src/arch/os2/dialogs/menubar.c,
+	src/arch/os2/dialogs/menubar.h, src/arch/os2/dialogs/menubar.rc: Fixed
+	the os/2 memory hacks (256K/+60K/+256K) gui elements.
+
+2015-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c64ui.c,
+	src/arch/msdos/uic64_256k.c, src/arch/msdos/uic64_256k.h,
+	src/arch/msdos/uic64memoryhacks.h, src/arch/msdos/uiplus256k.c,
+	src/arch/msdos/uiplus256k.h, src/arch/msdos/uiplus60k.c,
+	src/arch/msdos/uiplus60k.h: Fixed the dos memory hacks
+	(256K/+60K/+256K) gui elements.
+
+2015-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/vicemenu.cc: Fixed the beos memory hacks
+	(256K/+60K/+256K) gui elements.
+
+2015-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/Makefile.am, src/arch/amigaos/mui/uic64_256k.c,
+	src/arch/amigaos/mui/uic64_256k.h,
+	src/arch/amigaos/mui/uic64memoryhacks.c,
+	src/arch/amigaos/mui/uic64memoryhacks.h,
+	src/arch/amigaos/mui/uieasyflash.c, src/arch/amigaos/mui/uiplus256k.c,
+	src/arch/amigaos/mui/uiplus256k.h, src/arch/amigaos/mui/uiplus60k.c,
+	src/arch/amigaos/mui/uiplus60k.h, src/arch/amigaos/uires.h: Fixed the
+	amigaos memory hacks (256K/+60K/+256K) gui elements.
+
+2015-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.texi,
+	src/c64/Makefile.am, src/c64/c64-memory-hacks.c,
+	src/c64/c64-memory-hacks.h, src/c64/c64.c, src/c64/c64_256k.c,
+	src/c64/c64_256k.h, src/c64/c64io.c, src/c64/plus256k.c,
+	src/c64/plus256k.h, src/c64/plus60k.c, src/c64/plus60k.h,
+	src/cartio.h, src/translate.txt, src/translate_text.c: Put the
+	C64-256K, +60K and +256K expansion activation under the control of a
+	new resource "MemoryHack".
+
+2015-01-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/unix/x11/gnome/uimon.c,
+	src/arch/unix/x11/xaw/console.c: Added checks for readline headers and
+	fixed the monitor code to deal with it.
+
+2015-01-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/unix/ui-threads.c:
+	Added the -/+alphablending, -displaythreadrate and
+	-displaythreadghosting command line options.
+
+2015-01-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/ui-threads.c, src/arch/unix/ui-threads.h: Coding style
+	fixes.
+
+2015-01-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/es.po, po/translations-status.txt: Updated.
+
+2015-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/os2/rs232.c: Added
+	the -serialfile command line option to the os/2 port.
+
+2015-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/sid/sid-cmdline-options.c, src/translate.txt,
+	src/translate_text.c: Added -hardsidmain and -hardsidright command
+	line options.
+
+2015-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/network.c,
+	src/translate.txt, src/translate_text.c: Added -netplayctrl command
+	line option.
+
+2015-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/c128/c128.c,
+	src/c64/c64.c, src/c64dtv/c64dtv.c, src/cbm2/cbm2.c,
+	src/cbm2/cbm5x0.c, src/network.c, src/network.h, src/pet/pet.c,
+	src/plus4/plus4.c, src/scpu64/scpu64.c, src/translate.txt,
+	src/translate_text.c, src/vic20/vic20.c: Added -netplayserver,
+	-netplaybind and -netplayport command line options.
+
+2015-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/diskimage.tmpl, src/diskimage/rawimage.c,
+	src/translate.txt, src/translate_text.c: Added -rawdrive command line
+	option.
+
+2015-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/debug.c, src/translate.txt, src/translate_text.c: Added
+	-autoplaybackframes command line option.
+
+2015-01-25  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt, doc/vice.pdf, doc/vice.texi,
+	doc/vice.txt, src/arch/unix/gui/uivicii.c, src/translate.txt,
+	src/translate_text.c, src/viciisc/vicii-cmdline-options.c,
+	src/viciisc/vicii-cycle.c, src/viciisc/vicii-resources.c,
+	src/viciisc/vicii-resources.h: added VSP-bug emulation, based on code
+	by LFT
+
+2015-01-25  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64-resources.c: only reset machine when kernal/basic
+	actually changed
+
+2015-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/c64/cart/c64acia1.c,
+	src/translate.txt, src/translate_text.c: Added the -acia1irq,
+	-acia1mode and -acia1base command line options.
+
+2015-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/joystick.c,
+	src/translate.txt, src/translate_text.c: Added -keyset command line
+	option.
+
+2015-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sound.c, src/translate.txt, src/translate_text.c: Added
+	-soundsuspend and -soundvolume command line options.
+
+2015-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/printerdrv/output-select.c, src/translate.txt,
+	src/translate_text.c: Added -pr6output command line options.
+
+2015-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/pet-cmdline-options.c, src/translate.txt,
+	src/translate_text.c: Added -/+crtc and -videosize command line
+	options.
+
+2015-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/archdep.h, src/arch/beos/archdep.h,
+	src/arch/msdos/archdep.h, src/arch/os2/archdep.h,
+	src/arch/sdl/archdep.h, src/arch/unix/archdep.h,
+	src/arch/win32/archdep.h, src/monitor/monitor.c, src/translate.txt,
+	src/translate_text.c: Added 'ARCHDEP_SEPERATE_MONITOR_WINDOW' define
+	to indicate if the current platform can have the monitor open in a
+	different window, and can therefor use the "KeepMonitorOpen" resource,
+	and added the -/+keepmonopen command line options.
+
+2015-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/winmain.c: Some more coding style fixes.
+
+2015-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/fsdevice/fsdevice-cmdline-options.c, src/translate.txt,
+	src/translate_text.c: Added -/+fs*savep00 and -/+fs*hidecbm command
+	line options.
+
+2015-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/viceapp.cc, src/arch/beos/vicewindow.cc: Some coding
+	style fixes.
+
+2015-01-24  groepaz <groepaz@gmx.net>
+
+	* src/autostart.c, src/pet/petmem.c: also accept .crt files for
+	autostarting and drag'n'drop
+
+2015-01-24  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.txt: updated
+
+2015-01-24  groepaz <groepaz@gmx.net>
+
+	* doc/resource-and-cmdline-checking.txt: cosmetics
+
+2015-01-24  groepaz <groepaz@gmx.net>
+
+	* src: svn ignore team.tmp
+
+2015-01-24  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/utils/geninfocontrib.c: fix warning
+
+2015-01-24  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: added valid values for -pr4output -pr5output
+
+2015-01-23  groepaz <groepaz@gmx.net>
+
+	* src/printerdrv/driver-select.c, src/printerdrv/drv-mps803.c,
+	src/printerdrv/interface-serial.c: added some debug output
+
+2015-01-23  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64-resources.c: issue hard reset on kernal version change
+
+2015-01-23  groepaz <groepaz@gmx.net>
+
+	* src/fsdevice/fsdevice-cmdline-options.c: <@_tlr> Please at least
+	test the issue you were trying to fix before committing. :)
+
+2015-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt,
+	src/fsdevice/fsdevice-cmdline-options.c, src/translate.txt,
+	src/translate_text.c: Added some command line options.
+
+2015-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/event.c,
+	src/translate.txt, src/translate_text.c: Added -eventimageinc /
+	+eventimageinc command line options.
+
+2015-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/resource-and-cmdline-checking.txt, src/arch/amigaos/uiapi.c:
+	Updated.
+
+2015-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Documentation-Howto.txt, doc/vice.texi: Updated the
+	documentation howto a bit.
+
+2015-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm2memsnapshot.c, src/core/ciacore.c,
+	src/vic20/vic20embedded.c: Fixed some warnings.
+
+2015-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src: Added some svn ignores.
+
 2015-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, build/android/build-android.sh, configure.proto,
@@ -8,7 +563,6 @@
 	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
 	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
 	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.15
-
 
 2015-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
 
