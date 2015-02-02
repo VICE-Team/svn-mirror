@@ -1806,3 +1806,4 @@ int cartridge_attach_image(int type, char *name)
 {
     return -1;
 }
+
