@@ -349,8 +349,10 @@ EXTRA_DIST = \
 BUILT_SOURCES = res.h menuid.h stringid.h
 
 if NATIVE_TOOLS
-res.h menuid.h stringid.h:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
+genwinres:	$(srcdir)/utils/genwinres.c
 	$(NATIVE_TOOLS_COMPILER) -o genwinres $(srcdir)/utils/genwinres.c
+
+res.h menuid.h stringid.h:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt genwinres
 	./genwinres res.h menuid.h stringid.h $(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 else
 resall.txt:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt

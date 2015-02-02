@@ -143,9 +143,11 @@ EXTRA_DIST = \
 BUILT_SOURCES = intl.h intl_table.h
 
 if NATIVE_TOOLS
-intl.h intl_table.h:	$(srcdir)/intl.txt
+genamigaintl:	$(srcdir)/intl.txt $(srcdir)/genamigaintl.c
+	$(NATIVE_TOOLS_COMPILER) -o genamigaintl $(srcdir)/genamigaintl.c
+
+intl.h intl_table.h:	$(srcdir)/intl.txt genamigaintl
 	echo "generating intl.h and intl_table.h..."
-	$(NATIVE_TOOLS_COMPILER) -o genamigaintl genamigaintl.c
 	./genamigaintl $(srcdir)/intl.txt intl.h intl_table.h
 else
 intl.h: $(srcdir)/intl.txt

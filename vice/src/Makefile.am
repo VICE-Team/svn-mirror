@@ -483,9 +483,11 @@ svnversion.h.indirect:
 svnversion.h: svnversion.h.indirect
 
 if NATIVE_TOOLS
-infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed $(srcdir)/arch/win32/utils/geninfocontrib.c
-	echo "generating infocontrib.h..."
+geninfocontrib:	$(srcdir)/arch/win32/utils/geninfocontrib.c
 	$(NATIVE_TOOLS_COMPILER) -o geninfocontrib $(srcdir)/arch/win32/utils/geninfocontrib.c
+
+infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed geninfocontrib
+	echo "generating infocontrib.h..."
 	./geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/infocontrib.sed AUTHORS src/arch/unix/macosx/Resources/Credits.html README doc/html/index.html src/arch/os2/dialogs/dialogs.rc man/vice.1
 else
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed
@@ -507,9 +509,11 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed
 endif
 
 if NATIVE_TOOLS
-translate.h translate_table.h:	$(srcdir)/translate.txt $(srcdir)/arch/win32/utils/gentranslate.c
-	echo "generating translate.h..."
+gentranslate:	$(srcdir)/translate.txt $(srcdir)/arch/win32/utils/gentranslate.c
 	$(NATIVE_TOOLS_COMPILER) -o gentranslate $(srcdir)/arch/win32/utils/gentranslate.c
+
+translate.h translate_table.h:	$(srcdir)/translate.txt gentranslate
+	echo "generating translate.h..."
 	./gentranslate $(srcdir)/translate.txt ./translate.h ./translate_table.h
 else
 translate.h:	$(srcdir)/translate.txt ./gentranslate_h.sh
