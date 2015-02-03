@@ -22080,11 +22080,11 @@ Camels"@dots{}
                       56 - Formel 64
                       57 - RGCD
               0018 - Cartridge port EXROM line status
-                      0 - inactive
-                      1 - active
+                      0 - active (lo)
+                      1 - inactive (hi)
               0019 - Cartridge port GAME line status
-                      0 - inactive
-                      1 - active
+                      0 - active (lo)
+                      1 - inactive (hi)
          001A-001F - Reserved for future use
          0020-003F - 32-byte cartridge  name  "CCSMON"  (uppercase,  padded
                      with null characters)
@@ -22193,10 +22193,10 @@ $8000-9FFF and $E000-FFFF.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8Kb
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-9FFF
 @end multitable
@@ -22221,10 +22221,10 @@ $8000-9FFF and $E000-FFFF.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 4Kb (ULTIMAX mode)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $F000-F7FF
 @end multitable
@@ -22249,10 +22249,10 @@ $8000-9FFF and $E000-FFFF.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-BFFF
 @end multitable
@@ -22275,10 +22275,10 @@ $8000-9FFF and $E000-FFFF.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 32Kb (4 banks of 8Kb each)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-9FFF (all modules)
 @end multitable
@@ -22321,10 +22321,10 @@ $8000-9FFF and $E000-FFFF.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb (2 banks of 8K each)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab module #1 - $8000-9FFF
                    module #2 - $A000-BFFF
@@ -22351,10 +22351,10 @@ $8000-9FFF and $E000-FFFF.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 64Kb (4 banks of 16Kb each)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-BFFF (all modules)
 @end multitable
@@ -22431,10 +22431,10 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb (2 banks of 8kb each)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab module #1 - $8000-9FFF
                    module #2 - $A000-BFFF
@@ -22472,10 +22472,10 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 32Kb, 128Kb, 256Kb or 512Kb sizes (4, 16, 32 or 64 banks of 8Kb)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab Banks 00-15 - $8000-9FFF
                    Banks 16-31 - $A000-BFFF  (except Terminator 2)
@@ -22528,7 +22528,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
     $8000-$9FFF.
 
     Bank switching is done by writing to $DE00. The lower six bits give the
-    bank number (ranging from 0-63). Bit 8 in this selection word is always
+    bank number (ranging from 0-63). Bit 7 in this selection word is always
     set.
 
 
@@ -22538,10 +22538,10 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8Kb
-@item GAME
-@tab active (1)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-9FFF
 @end multitable
@@ -22564,10 +22564,10 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 128Kb (16 banks of 8Kb modules)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-9FFF (all modules)
 @end multitable
@@ -22638,10 +22638,12 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 64Kb (4 banks of 16Kb each)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
+@item Startup mode
+@tab 16k game
 @item Load address
 @tab $8000-BFFF (all modules)
 @end multitable
@@ -22672,13 +22674,13 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
     $DF00 register is as follows:
 
 @example
-    bit  meaning
-    ---  -------
-    0    bank bit 0
-    1    bank bit 1
-    2    inverted GAME line
-    3    inverted EXROM line
-    4-7  unused
+    bit   meaning
+    ---   -------
+     0    bank bit 0
+     1    bank bit 1
+     2    mode (0 = EXROM/GAME (bridged on the same wire - 16k config) 1 = cartridge disabled)
+     3    write-protect-latch  (1 = no more changes are possible until the next hardware-reset )
+    4-7   unused
 @end example
 
 @c @node FIXME
@@ -22687,10 +22689,10 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
 @multitable @columnfractions .3 .7
 @item Size
 @tab 32Kb (4 banks of 8Kb modules)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-9FFF (all modules)
 @end multitable
@@ -22748,10 +22750,10 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8Kb
-@item GAME
-@tab active (1)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-9FFF
 @end multitable
@@ -22781,10 +22783,10 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-BFFF
 @end multitable
@@ -22809,10 +22811,10 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8K
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-9FFF
 @end multitable
@@ -22838,10 +22840,10 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb
-@item GAME
-@tab active (1)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-BFFF
 @end multitable
@@ -22868,10 +22870,10 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
 @multitable @columnfractions .3 .7
 @item Size
 @tab 64Kb (8 banks of 8Kb)
-@item GAME
-@tab Inactive (0)
 @item EXROM
-@tab Inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load Address
 @tab $E000-FFFF
 @end multitable
@@ -22915,10 +22917,10 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
 @multitable @columnfractions .3 .7
 @item Size
 @tab 512Kb (64 banks of 8Kb each)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-9FFF (all modules)
 @end multitable
@@ -22972,10 +22974,10 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-BFFF
 @end multitable
@@ -23005,10 +23007,10 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
 @multitable @columnfractions .3 .7
 @item Size
 @tab 128Kb (16 banks of 8Kb each)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-9FFF (all modules)
 @end multitable
@@ -23057,10 +23059,10 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
 @multitable @columnfractions .3 .7
 @item Size
 @tab 20Kb (3 banks of different sizes)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-8FFF (mirrored in $9000-9FFF, module 0, chip U1)
                     $A000-BFFF (banked modules 1 and 2, chip U2)
@@ -23103,11 +23105,13 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
 @multitable @columnfractions .3 .7
 @item Size
 @tab 32Kb, 64Kb or 128Kb sizes (4 to 16 banks of 8Kb each)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab active (1)
-@item Load address 
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Startup mode
+@tab 8k Game
+@item Load address
 @tab (banks 00-15) - $8000-9FFF
 @end multitable
 
@@ -23134,8 +23138,8 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
     This cartridge type is very similar to the OCEAN cart type: ROM  memory
     is  organized  in  8Kb  ($2000)  banks  located  at  $8000-$9FFF.  Bank
     switching is done by writing the bank number to $DE00. Deviant from the
-    Ocean type, bit 8 is cleared for selecting one of the ROM banks. If bit
-    8 is set ($DE00 = $80), the GAME/EXROM lines are disabled,  turning  on
+    Ocean type, bit 7 is cleared for selecting one of the ROM banks. If bit
+    7 is set ($DE00 = $80), the GAME/EXROM lines are disabled,  turning  on
     RAM at $8000-$9FFF instead of ROM.
 
     In the cartridge header, EXROM ($18) is set to 0, GAME ($19) is set  to
@@ -23159,10 +23163,10 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
 @multitable @columnfractions .3 .7
 @item Size
 @tab 64Kb (4 banks of 16Kb each)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-BFFF
 @end multitable
@@ -23210,10 +23214,10 @@ C080: 50 DE BC FE C3 C2 CD 38 30 85 07 20 1A AD A5 76  P.?....80Ö???≠•v
 @multitable @columnfractions .3 .7
 @item Size
 @tab 64Kb (4 banks of 16Kb each)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-BFFF
 @end multitable
@@ -23257,10 +23261,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb (2 banks of 8Kb each)
+@item EXROM
+@tab inactive (hi) (1)
 @item GAME
 @tab active (0)
-@item EXROM
-@tab active (1)
 @item Load address
 @tab $8000-9FFF
 @end multitable
@@ -23278,10 +23282,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb or 32Kb sizes (1 or 2 banks of 16Kb each)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-BFFF
 @end multitable
@@ -23312,10 +23316,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @tab 8Kb to 72kb sizes (1 to 9 banks of 8Kb each,
                               or 1 bank of 8Kb and 1 or 2 banks
                               of 32Kb each)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-9FFF
 @end multitable
@@ -23370,10 +23374,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8Kb to 64kb sizes (1 to 8 banks of 8Kb each)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-9FFF
 @end multitable
@@ -23420,10 +23424,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8Kb to 262kb sizes (1 to 33 banks of 8Kb each)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-9FFF
 @end multitable
@@ -23476,10 +23480,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @item Size
 @tab 8Kb to 262kb sizes (1 bank of 8Kb and 1 to 8 banks of either
                                8Kb, 16Kb or 32Kb)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-9FFF
 @end multitable
@@ -23533,10 +23537,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8Kb (1 bank of 8Kb)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-9FFF
 @end multitable
@@ -23562,10 +23566,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @multitable @columnfractions .3 .7
 @item Size
 @tab 32Kb (1 bank of 32Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $0000-$7FFF
 @end multitable
@@ -23601,10 +23605,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @multitable @columnfractions .3 .7
 @item Size
 @tab 32Kb (4 banks of 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -23651,10 +23655,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb (2 banks of 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-$9FFF (bank 0),
                    $E000-$FFFF (bank 1)
@@ -23692,10 +23696,10 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @multitable @columnfractions .3 .7
 @item Size
 @tab 1024Kb (64 banks of 2 * 8Kb)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-$9FFF (ROML), $A000-$BFFF or $E000-$FFFF (ROMH)
 @end multitable
@@ -23739,9 +23743,9 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @multitable @columnfractions .3 .7
 @item Size
 @tab -
-@item GAME
-@tab -
 @item EXROM
+@tab -
+@item GAME
 @tab -
 @item Load address
 @tab -
@@ -23757,10 +23761,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8Kb (1 bank of 8Kb)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $E000-$FFFF
 @end multitable
@@ -23800,10 +23804,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb (2 banks of 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -23843,10 +23847,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 32Kb, 64Kb or 128Kb (4, 8 or 16 banks of 8Kb)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -23978,10 +23982,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8Kb (1 bank of 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -24071,10 +24075,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 64Kb or 512Kb (8 or 64 banks of 8Kb)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -24198,10 +24202,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 64Kb or 128Kb (4 or 8 banks of 16Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-$BFFF
 @end multitable
@@ -24254,10 +24258,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 32Kb (4 banks of 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -24319,10 +24323,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 4Kb (1 bank of 4Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-$8FFF
 @end multitable
@@ -24359,10 +24363,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8Kb (1 bank of 8Kb)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $E000-$FFFF
 @end multitable
@@ -24391,10 +24395,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 256Kb (32 banks of 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -24427,10 +24431,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8Kb (1 bank of 8Kb)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab active (1)
+@tab inactive (hi) (1)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $E000-$FFFF
 @end multitable
@@ -24457,10 +24461,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8Kb (1 bank of 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -24487,10 +24491,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb or 32Kb (2 or 4 banks of 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -24533,10 +24537,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 4Kb (1 bank of 4Kb)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $E000-$EFFF
 @end multitable
@@ -24566,10 +24570,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb (2 banks of 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -24604,10 +24608,10 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb (2 banks of 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
 @item Load address
 @tab $8000-$9FFF (bank 1),
                    $A000-$BFFF (bank 2)
@@ -24662,10 +24666,12 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 16Kb (2 banks of 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Startup mode
+@tab 8k Game
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -24699,10 +24705,12 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 4Kb or 8Kb (1 bank of 4Kb or 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Startup mode
+@tab 8k Game
 @item Load address
 @tab $8000-$8FFF (4Kb),
                    $8000-$9FFF (8Kb)
@@ -24731,10 +24739,12 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 8Kb (1 bank of 8Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Startup mode
+@tab 8k Game
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -24762,10 +24772,12 @@ load files of this type.
 @multitable @columnfractions .3 .7
 @item Size
 @tab 64Kb (4 banks of 16Kb)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab active (1)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
+@item Startup mode
+@tab 16k Game
 @item Load address
 @tab $8000-$BFFF
 @end multitable
@@ -24826,10 +24838,12 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???Ç????????????
 @multitable @columnfractions .3 .7
 @item Size
 @tab -
-@item GAME
-@tab -
 @item EXROM
-@tab -
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
+@item Startup mode
+@tab 16k Game
 @item Load address
 @tab -
 @end multitable
@@ -24842,10 +24856,12 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???Ç????????????
 @multitable @columnfractions .3 .7
 @item Size
 @tab 128k (16 banks of 8k)
-@item GAME
-@tab active (1)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Startup mode
+@tab 8k Game
 @item Load address
 @tab $8000-$9FFF
 @end multitable
@@ -24858,13 +24874,41 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???Ç????????????
 @multitable @columnfractions .3 .7
 @item Size
 @tab 32kb (4 banks of 8k)
-@item GAME
-@tab inactive (0)
 @item EXROM
-@tab inactive (0)
+@tab active (lo) (0)
+@item GAME
+@tab active (lo) (0)
 @item Load address
 @tab $E000-$FFFF
 @end multitable
+
+@c @node FIXME
+@subsubsection 57 - RGCD
+
+@c FIXME: todo
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 64kb (8 banks of 8k)
+@item EXROM
+@tab active (lo) (0)
+@item GAME
+@tab inactive (hi) (1)
+@item Startup mode
+@tab 8k Game
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+    This cartridge type is very similar to the Magic Desk cart type: ROM  memory
+    is  organized  in  8Kb  ($2000)  banks  located  at  $8000-$9FFF.  Bank
+    switching is done by writing the bank number to $DE00.
+
+@example
+    bit 0-2   bank number
+    bit 3     exrom (1 = cart disabled)
+@end example
+
 
 @c @node FIXME
 @section The PSID image format for ripped SID tunes

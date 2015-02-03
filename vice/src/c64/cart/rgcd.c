@@ -120,14 +120,14 @@ static const c64export_resource_t export_res = {
 
 void rgcd_config_init(void)
 {
-    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
     rgcd_io1_store((WORD)0xde00, 0);
 }
 
 void rgcd_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000 * MAXBANKS);
-    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
