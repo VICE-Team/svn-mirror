@@ -3475,11 +3475,13 @@ Boolean controlling whether the ``true'' drive emulation is turned on.
 
 @vindex DriveSoundEmulation
 @item DriveSoundEmulation
-Boolean controlling whether the drive noise emulation is turned on.
+Boolean controlling whether the drive noise emulation is turned on
+(all emulators except vsid).
 
 @vindex DriveSoundEmulationVolume
 @item DriveSoundEmulationVolume
-Integer specifying the volume of the drive noise emulation.
+Integer specifying the volume of the drive noise emulation
+(all emulators except vsid).
 (0..4000)
 
 @vindex Drive8Type
@@ -3532,8 +3534,10 @@ Integer specifying whether the RTC data of drive 11 should be saved when changed
 @itemx Drive9ParallelCable
 @itemx Drive10ParallelCable
 @itemx Drive11ParallelCable
-integers controlling what type of parallel cable is emulated for drives 8 to 11.
-(0: None, 1: Speed-DOS, 2: Professional DOS, 3: Formel64)
+integers controlling what type of parallel cable is emulated for drives 8 to 11
+(x64, x64sc, xscpu64, x128 and xplus4 only).
+x64/x64sc/xscpu64/x128: (0: None, 1: Standard, 2: Professional DOS, 3: Formel64)
+xplus4: (0: None, 1: Standard)
 
 @vindex Drive8ProfDOS
 @vindex Drive9ProfDOS
@@ -3543,7 +3547,8 @@ integers controlling what type of parallel cable is emulated for drives 8 to 11.
 @itemx Drive9ProfDOS
 @itemx Drive10ProfDOS
 @itemx Drive11ProfDOS
-Booleans controlling whether Professional DOS is emulated or not for drives 8 to 11.
+Booleans controlling whether Professional DOS is emulated or not for drives 8 to 11
+(x64, x64sc, xscpu64 and x128 only).
 
 @vindex Drive8SuperCard
 @vindex Drive9SuperCard
@@ -3553,7 +3558,8 @@ Booleans controlling whether Professional DOS is emulated or not for drives 8 to
 @itemx Drive9SuperCard
 @itemx Drive10SuperCard
 @itemx Drive11SuperCard
-Booleans controlling whether Super Card is emulated or not for drives 8 to 11.
+Booleans controlling whether Super Card is emulated or not for drives 8 to 11
+(x64, x64sc, xscpu64 and x128 only).
 
 @vindex Drive8RAM2000
 @vindex Drive8RAM4000
@@ -3665,11 +3671,13 @@ Strings specifying the names of the ROM images for the drive emulation.
 
 @vindex DriveProfDOS1571Name
 @item DriveProfDOS1571Name
-String specifying the filename of the 1571 professional DOS ROM image.
+String specifying the filename of the 1571 professional DOS ROM image
+(x64, x64sc, xscpu64 and x128 only).
 
 @vindex DriveSuperCardName
 @item DriveSuperCardName
-String specifying the filename of the Super Card ROM image.
+String specifying the filename of the Super Card ROM image
+(x64, x64sc, xscpu64 and x128 only).
 
 @end table
 
@@ -3688,12 +3696,14 @@ Enable/disable true drive emulation
 @item -drivesound
 @itemx +drivesound
 Enable/disable drive sound emulation
-(@code{DriveSoundEmulation=1}, @code{DriveSoundEmulation=0}).
+(@code{DriveSoundEmulation=1}, @code{DriveSoundEmulation=0})
+(all emulators except vsid).
 
 @findex -drivesoundvolume
 @item -drivesoundvolume <Volume>
 Set the volume of the drive sound emulation
-(@code{DriveSoundEmulationVolume=1}, @code{DriveSoundEmulationVolume=0}).
+(@code{DriveSoundEmulationVolume=1}, @code{DriveSoundEmulationVolume=0})
+(all emulators except vsid).
 
 @findex -drive8type
 @findex -drive9type
@@ -3756,8 +3766,10 @@ Enable/disable the saving of the RTC data for drive 11 when changed (drive type 
 @itemx -parallel11 <type>
 Set parallel cable type for drives 8-11 respectively
 (@code{Drive8ParallelCable}, @code{Drive9ParallelCable},
-@code{Drive10ParallelCable}, @code{Drive11ParallelCable}).
-(0: None, 1: Standard, 2: Dolphin DOS, 3: Formel 64)
+@code{Drive10ParallelCable}, @code{Drive11ParallelCable})
+(x64, x64sc, xscpu64, x128 and xplus4 only).
+x64/x64sc/xscpu64/x128: (0: None, 1: Standard, 2: Professional DOS, 3: Formel64)
+xplus4: (0: None, 1: Standard)
 
 @findex -drive8idle
 @findex -drive9idle
@@ -3979,59 +3991,69 @@ Enable/disable 8KB RAM expansion at $A000-$BFFF for drive 11
 @item -drive8profdos
 @itemx +drive8profdos
 Enable/disable Professional DOS for drive 8
-(@code{Drive8ProfDOS=1}, @code{Drive8ProfDOS=0}).
+(@code{Drive8ProfDOS=1}, @code{Drive8ProfDOS=0})
+(x64, x64sc, xscpu64 and x128 only).
 
 @findex -drive9profdos, +drive9profdos
 @item -drive9profdos
 @itemx +drive9profdos
 Enable/disable Professional DOS for drive 9
-(@code{Drive9ProfDOS=1}, @code{Drive9ProfDOS=0}).
+(@code{Drive9ProfDOS=1}, @code{Drive9ProfDOS=0})
+(x64, x64sc, xscpu64 and x128 only).
 
 @findex -drive10profdos, +drive10profdos
 @item -drive10profdos
 @itemx +drive10profdos
 Enable/disable Professional DOS for drive 10
-(@code{Drive10ProfDOS=1}, @code{Drive10ProfDOS=0}).
+(@code{Drive10ProfDOS=1}, @code{Drive10ProfDOS=0})
+(x64, x64sc, xscpu64 and x128 only).
 
 @findex -drive11profdos, +drive11profdos
 @item -drive11profdos
 @itemx +drive11profdos
 Enable/disable Professional DOS for drive 11
-(@code{Drive11ProfDOS=1}, @code{Drive11ProfDOS=0}).
+(@code{Drive11ProfDOS=1}, @code{Drive11ProfDOS=0})
+(x64, x64sc, xscpu64 and x128 only).
 
 @findex -profdos1571
 @item -profdos1571 <name>
 Specify name of Professional DOS 1571 ROM image
-(@code{DriveProfDOS1571Name}).
+(@code{DriveProfDOS1571Name})
+(x64, x64sc, xscpu64 and x128).
 
 @findex -drive8supercard, +drive8supercard
 @item -drive8supercard
 @itemx +drive8supercard
 Enable/disable Super Card for drive 8
-(@code{Drive8SuperCard=1}, @code{Drive8SuperCard=0}).
+(@code{Drive8SuperCard=1}, @code{Drive8SuperCard=0})
+(x64, x64sc, xscpu64 and x128 only).
 
 @findex -drive9supercard, +drive9supercard
 @item -drive9supercard
 @itemx +drive9supercard
 Enable/disable Super Card for drive 9
-(@code{Drive9SuperCard=1}, @code{Drive9SuperCard=0}).
+(@code{Drive9SuperCard=1}, @code{Drive9SuperCard=0})
+(x64, x64sc, xscpu64 and x128 only).
 
 @findex -drive10supercard, +drive10supercard
 @item -drive10supercard
 @itemx +drive10supercard
 Enable/disable Super Card for drive 10
-(@code{Drive10SuperCard=1}, @code{Drive10SuperCard=0}).
+(@code{Drive10SuperCard=1}, @code{Drive10SuperCard=0})
+(x64, x64sc, xscpu64 and x128 only).
 
 @findex -drive11supercard, +drive11supercard
 @item -drive11supercard
 @itemx +drive11supercard
 Enable/disable Super Card for drive 11
-(@code{Drive11SuperCard=1}, @code{Drive11SuperCard=0}).
+(@code{Drive11SuperCard=1}, @code{Drive11SuperCard=0})
+(x64, x64sc, xscpu64 and x128 only).
 
 @findex -supercard
 @item -supercard <name>
 Specify name of Super Card ROM image
-(@code{DriveSuperCardName}).
+(@code{DriveSuperCardName})
+(x64, x64sc, xscpu64 and x128 only).
 
 @end table
 
@@ -4141,8 +4163,8 @@ Integers specifying the device type for device 8-11 respectively
 @itemx FSDevice9ConvertP00
 @itemx FSDevice10ConvertP00
 @itemx FSDevice11ConvertP00
-Booleans specifying whether on-read support for P00 files is enabled on
-drives 8, 9, 10 and 11 respectively (on by default).
+Booleans specifying whether on-read support for P00 files is enabled on drives 8, 9, 10 and 11 respectively
+(all emulators except vsid).
 
 @vindex FSDevice8SaveP00
 @vindex FSDevice9SaveP00
@@ -4152,8 +4174,8 @@ drives 8, 9, 10 and 11 respectively (on by default).
 @itemx FSDevice9SaveP00
 @itemx FSDevice10SaveP00
 @itemx FSDevice11SaveP00
-Booleans specifying whether the drives should create P00 files instead
-of plain CBM ones (on by default for drives 8-10, off for 11).
+Booleans specifying whether the drives should create P00 files instead of plain CBM ones for drives 8, 9, 10 and 11 respectively
+(all emulators except vsid).
 
 @vindex FSDevice8HideCBMFiles
 @vindex FSDevice9HideCBMFiles
@@ -4163,8 +4185,8 @@ of plain CBM ones (on by default for drives 8-10, off for 11).
 @itemx FSDevice9HideCBMFiles
 @itemx FSDevice10HideCBMFiles
 @itemx FSDevice11HideCBMFiles
-Booleans specifying whether non-P00 files should be invisible to
-programs running in the emulator (do not hide by default).
+Booleans specifying whether non-P00 files should be invisible for drives 8, 9, 10 and 11 respectively
+(all emulators except vsid).
 
 @vindex FSDevice8Dir
 @vindex FSDevice9Dir
@@ -4174,8 +4196,8 @@ programs running in the emulator (do not hide by default).
 @itemx FSDevice9Dir
 @itemx FSDevice10Dir
 @itemx FSDevice11Dir
-Strings specifying the directories to which drives 8, 9, 10 and 11
-have access.
+Strings specifying the directories to which drives 8, 9, 10 and 11 have access
+(all emulators except vsid).
 
 @end table
 
@@ -4215,21 +4237,108 @@ Set device type for device 8-11 respectively
 (all emulators except vsid).
 (0: None, 1: Filesystem, 2: OpenCBM (Real), 3: Block device (Raw))
 
-@cindex -fs8
-@cindex -fs9
-@cindex -fs10
-@cindex -fs11
+@findex -fs8
+@findex -fs9
+@findex -fs10
+@findex -fs11
 @item -fs8 <Name>
 @itemx -fs9 <Name>
 @itemx -fs10 <Name>
 @itemx -fs11 <Name>
-Specify the paths for the file system access on drives 8, 9, 10 and 11,
-respectively (@code{FSDevice8Dir}, @code{FSDevice9Dir},
-@code{FSDevice10Dir} and @code{FSDevice11Dir}).
+Specify the paths for the file system access on drives 8, 9, 10 and 11, respectively
+(@code{FSDevice8Dir}, @code{FSDevice9Dir},
+@code{FSDevice10Dir} and @code{FSDevice11Dir})
+(all emulators except vsid).
 
-@cindex -flipname
+@findex -fs8convertp00 / +fs8convertp00
+@item -fs8convertp00
+@itemx +fs8convertp00
+Enable/disable on-read support for P00 files on drive 8
+(@code{FSDevice8ConvertP00=1}, @code{FSDevice8ConvertP00=0})
+(all emulators except vsid).
+
+@findex -fs9convertp00 / +fs9convertp00
+@item -fs9convertp00
+@itemx +fs9convertp00
+Enable/disable on-read support for P00 files on drive 9
+(@code{FSDevice9ConvertP00=1}, @code{FSDevice9ConvertP00=0})
+(all emulators except vsid).
+
+@findex -fs10convertp00 / +fs10convertp00
+@item -fs10convertp00
+@itemx +fs10convertp00
+Enable/disable on-read support for P00 files on drive 10
+(@code{FSDevice10ConvertP00=1}, @code{FSDevice10ConvertP00=0})
+(all emulators except vsid).
+
+@findex -fs11convertp00 / +fs11convertp00
+@item -fs11convertp00
+@itemx +fs11convertp00
+Enable/disable on-read support for P00 files on drive 11
+(@code{FSDevice11ConvertP00=1}, @code{FSDevice11ConvertP00=0})
+(all emulators except vsid).
+
+@findex -fs8savep00 / +fs8savep00
+@item -fs8savep00
+@itemx +fs8savep00
+Enable/disable saving P00 files on drive 8
+(@code{FSDevice8SaveP00=1}, @code{FSDevice8SaveP00=0})
+(all emulators except vsid).
+
+@findex -fs9savep00 / +fs9savep00
+@item -fs9savep00
+@itemx +fs9savep00
+Enable/disable saving P00 files on drive 9
+(@code{FSDevice9SaveP00=1}, @code{FSDevice9SaveP00=0})
+(all emulators except vsid).
+
+@findex -fs10savep00 / +fs10savep00
+@item -fs10savep00
+@itemx +fs10savep00
+Enable/disable saving P00 files on drive 10
+(@code{FSDevice10SaveP00=1}, @code{FSDevice10SaveP00=0})
+(all emulators except vsid).
+
+@findex -fs11savep00 / +fs11savep00
+@item -fs11savep00
+@itemx +fs11savep00
+Enable/disable saving P00 files on drive 11
+(@code{FSDevice11SaveP00=1}, @code{FSDevice11SaveP00=0})
+(all emulators except vsid).
+
+@findex -fs8hidecbm / +fs8hidecbm
+@item -fs8hidecbm
+@itemx +fs8hidecbm
+Enable/disable hiding of CBM files for drive 8
+(@code{FSDevice8HideCBMFiles=1}, @code{FSDevice8HideCBMFiles=0})
+(all emulators except vsid).
+
+@findex -fs9hidecbm / +fs9hidecbm
+@item -fs9hidecbm
+@itemx +fs9hidecbm
+Enable/disable hiding of CBM files for drive 9
+(@code{FSDevice9HideCBMFiles=1}, @code{FSDevice9HideCBMFiles=0})
+(all emulators except vsid).
+
+@findex -fs10hidecbm / +fs10hidecbm
+@item -fs10hidecbm
+@itemx +fs10hidecbm
+Enable/disable hiding of CBM files for drive 10
+(@code{FSDevice10HideCBMFiles=1}, @code{FSDevice10HideCBMFiles=0})
+(all emulators except vsid).
+
+@findex -fs11hidecbm / +fs11hidecbm
+@item -fs11hidecbm
+@itemx +fs11hidecbm
+Enable/disable hiding of CBM files for drive 11
+(@code{FSDevice11HideCBMFiles=1}, @code{FSDevice11HideCBMFiles=0})
+(all emulators except vsid).
+
+@findex -flipname
 @item -flipname <name>
 Specify name of the flip list file image
+(@code{FliplistName})
+(all emulators except vsid).
 
 @end table
 
@@ -4853,7 +4962,8 @@ emulator's system files.
 @end ifset
 @vindex DoCoreDump
 @item DoCoreDump
-Boolean specifying whether the emulator should dump core when it gets a signal.
+Boolean specifying whether the emulator should dump core when it gets a signal
+(all emulators except vsid).
 
 @vindex NetworkServerName
 @item NetworkServerName
@@ -4877,6 +4987,7 @@ String specifying the filename of the current log file.
 @vindex FliplistName
 @item FliplistName
 String specifying the filename of the current flip list. (Drive 8 only)
+(all emulators except vsid).
 
 @vindex AttachDevice8Readonly
 @vindex AttachDevice9Readonly
@@ -4905,12 +5016,14 @@ Specify the system file search path
 @itemx +core
 Enable/disable generation of core dumps
 (@code{DoCoreDump=1}, @code{DoCoreDump=0})
+(all emulators except vsid).
 
 @findex -debug, +debug
 @item -debug
 @itemx +debug
 Disable/enable calling of the exception handler
 (@code{DoCoreDump=1}, @code{DoCoreDump=0})
+(all emulators except vsid).
 
 @end table
 
@@ -15327,21 +15440,51 @@ Version numbers: Major 0, Minor 0
 
 @vindex DoodleOversizeHandling
 @item DoodleOversizeHandling
-Integer specifying  the way the oversized input should be handled, (0: scale down, 
-1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 
-5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 
-9:  crop right bottom)
+Integer specifying the way the oversized input should be handled
+(all emulators except vsid).
+(0: scale down, 1: crop left top, 2: crop center top,
+3: crop right top, 4: crop left center, 5: crop center,
+6: crop right center, 7: crop left bottom, 8: crop center bottom, 
+9: crop right bottom)
+
+@vindex DoodleUndersizeHandling
+@item DoodleUndersizeHandling
+Integer specifying the way the undersized input should be handled
+(all emulators except vsid).
+(0: scale, 1: borderize)
+
 @vindex DoodleMultiColorHandling
 @item DoodleMultiColorHandling
-Integer specifying  the way the multicolor to hires should be handled, (0: b&w, 
-1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)
+Integer specifying the way the multicolor to hires should be handled
+(all emulators except vsid).
+(0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)
+
 @vindex DoodleTEDLumHandling
 @item DoodleTEDLumHandling
-Integer specifying the way the TED luminosity should be handled, (0: ignore, 1: dither)
+Integer specifying the way the TED luminosity should be handled
+(all emulators except vsid).
+(0: ignore, 1: dither)
+
 @vindex DoodleCRTCTextColor
 @item DoodleCRTCTextColor
-Integer specifying the text color used when making screenshots from a CRTC window
-in doodle format. (0: white, 1: amber, 2: green)
+Integer specifying the text color used when making screenshots from a CRTC window in doodle format
+(all emulators except vsid).
+(0: white, 1: amber, 2: green)
+
+@vindex KoalaOversizeHandling
+@item KoalaOversizeHandling
+Integer specifying the way the oversized input should be handled
+(all emulators except vsid).
+(0: scale down, 1: crop left top, 2: crop center top,
+3: crop right top, 4: crop left center, 5: crop center,
+6: crop right center, 7: crop left bottom, 8: crop center bottom, 
+9: crop right bottom)
+
+@vindex KoalaUndersizeHandling
+@item KoalaUndersizeHandling
+Integer specifying the way the undersized input should be handled
+(all emulators except vsid).
+(0: scale, 1: borderize)
 
 @vindex FFMPEGFormat
 @item FFMPEGFormat
@@ -15369,18 +15512,60 @@ Boolean, if true record only every other frame.
 
 @table @code
 
-@cindex -doodleoversize
+@findex -doodleoversize
 @item -doodleoversize <method>
-Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)
-@cindex -doodlemc
+Select the way the oversized input should be handled
+(@code{DoodleOversizeHandling})
+(all emulators except vsid).
+(0: scale down, 1: crop left top, 2: crop center top,
+3: crop right top, 4: crop left center, 5: crop center,
+6: crop right center, 7: crop left bottom,
+8: crop center bottom, 9: crop right bottom)
+
+@findex -doodleundersize
+@item -doodleundersize <method>
+Select the way the undersized input should be handled
+(@code{DoodleUndersizeHandling})
+(all emulators except vsid).
+(0: scale, 1: borderize)
+
+@findex -doodlemc
 @item -doodlemc <method>
-Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)
-@cindex -doodletedlum
+Select the way the multicolor to hires should be handled
+(@code{DoodleMultiColorHandling})
+(all emulators except vsid).
+(0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale, 4: best cell colors)
+
+@findex -doodletedlum
 @item -doodletedlum <method>
-Select the way the TED luminosity should be handled, (0: ignore, 1: dither)
-@cindex -doodlecrtctextcolor
+Select the way the TED luminosity should be handled
+(@code{DoodleTEDLumHandling})
+(all emulators except vsid).
+(0: ignore, 1: dither)
+
+@findex -doodlecrtctextcolor
 @item -doodlecrtctextcolor <color>
-Select the CRTC text color (0: white, 1: amber, 2: green)
+Select the CRTC text color
+(@code{DoodleCRTCTextColor})
+(all emulators except vsid).
+(0: white, 1: amber, 2: green)
+
+@findex -koalaoversize
+@item -koalaoversize <method>
+Select the way the oversized input should be handled
+(@code{KoalaOversizeHandling})
+(all emulators except vsid).
+(0: scale down, 1: crop left top, 2: crop center top,
+3: crop right top, 4: crop left center, 5: crop center,
+6: crop right center, 7: crop left bottom,
+8: crop center bottom, 9: crop right bottom)
+
+@findex -koalaundersize
+@item -koalaundersize <method>
+Select the way the undersized input should be handled
+(@code{KoalaUndersizeHandling})
+(all emulators except vsid).
+(0: scale, 1: borderize)
 
 @cindex -ffmpegaudiobitrate
 @item -ffmpegaudiobitrate <value>
@@ -15510,20 +15695,29 @@ b. Snapshots may not be 100% accurate even with all the recommended settings.
 
 @vindex EventSnapshotDir
 @item EventSnapshotDir
-String specifying the directory used for loading and saving snapshots.
+String specifying the directory used for loading and saving snapshots
+(all emulators except vsid).
+
 @vindex EventStartSnapshot
 @item EventStartSnapshot
-String specifying the filename for the start snapshot. ["start.vsf"]
+String specifying the filename for the start snapshot
+(all emulators except vsid).
+
 @vindex EventEndSnapshot
 @item EventEndSnapshot
-String specifying the filename for the end snapshot. ["end.vsf"]
+String specifying the filename for the end snapshot
+(all emulators except vsid).
+
 @vindex EventStartMode
 @item EventStartMode
-Integer specifying how to start event recording. (0: save new snapshot, 1: load
-existing snapshot, 2: reset, 3: playback)
+Integer specifying how to start event recording
+(all emulators except vsid).
+(0: save new snapshot, 1: load existing snapshot, 2: reset, 3: playback)
+
 @vindex EventImageInclude
 @item EventImageInclude
-Boolean specifying whether to include ROM and Disk images in the snapshots. [1]
+Boolean specifying whether to include ROM and Disk images in the snapshots
+(all emulators except vsid).
 
 @end table
 
@@ -15531,9 +15725,43 @@ Boolean specifying whether to include ROM and Disk images in the snapshots. [1]
 @section Event history command-line options
 
 @table @code
-@cindex -playback
+@findex -playback
 @item -playback
 Playback recorded events
+(all emulators except vsid).
+
+@findex -eventsnapshotdir
+@item -eventsnapshotdir <Name>
+Set event snapshot directory
+(@code{EventSnapshotDir})
+(all emulators except vsid).
+
+@findex -eventstartsnapshot
+@item -eventstartsnapshot <Name>
+Set event start snapshot filename
+(@code{EventStartSnapshot})
+(all emulators except vsid).
+
+@findex -eventendsnapshot
+@item -eventendsnapshot <Name>
+Set event end snapshot filename
+(@code{EventEndSnapshot})
+(all emulators except vsid).
+
+@findex -eventstartmode
+@item -eventstartmode <Mode>
+Set event start mode
+(@code{EventStartMode})
+(all emulators except vsid).
+(0: save new snapshot, 1: load existing snapshot, 2: reset, 3: playback)
+
+@findex -eventimageinc / +eventimageinc
+@item -eventimageinc
+@itemx +eventimageinc
+Enable/disable the inclusion of disk images in the event
+(@code{EventImageInclude=1}, @code{EventImageInclude=0})
+(all emulators except vsid).
+
 @end table
 
 @c -----------------------------------------------------------------

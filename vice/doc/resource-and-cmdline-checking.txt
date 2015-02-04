@@ -15537,8 +15537,6 @@ description:    "Specify name of 4000 DOS ROM image"
 resource:       "DosName4000"
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 drive/iec/plus4exp/plus4exp-resources.c:
 ----------------------------------------
 resource type:                  int
@@ -15555,7 +15553,6 @@ platform gui present:           amigaos/dos/os2/unix/osx/windows/sdl
 platform range correct:
 platform range incorrect:
 platform gui missing:           beos
-fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
 ----------------------------------------------
@@ -15563,7 +15560,6 @@ command line:   -parallel8 <Type>
 description:    "Set parallel cable type (0: none, 1: standard)"
 resource:       "Drive8ParallelCable"
 action:         N/A
-fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-resources.c:
 ----------------------------------------
@@ -15581,7 +15577,6 @@ platform gui present:           amigaos/dos/os2/unix/osx/windows/sdl
 platform range correct:
 platform range incorrect:
 platform gui missing:           beos
-fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
 ----------------------------------------------
@@ -15589,7 +15584,6 @@ command line:   -parallel9 <Type>
 description:    "Set parallel cable type (0: none, 1: standard)"
 resource:       "Drive9ParallelCable"
 action:         N/A
-fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-resources.c:
 ----------------------------------------
@@ -15607,7 +15601,6 @@ platform gui present:           amigaos/dos/os2/unix/osx/windows/sdl
 platform range correct:
 platform range incorrect:
 platform gui missing:           beos
-fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
 ----------------------------------------------
@@ -15615,7 +15608,6 @@ command line:   -parallel10 <Type>
 description:    "Set parallel cable type (0: none, 1: standard)"
 resource:       "Drive10ParallelCable"
 action:         N/A
-fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-resources.c:
 ----------------------------------------
@@ -15633,7 +15625,6 @@ platform gui present:           amigaos/dos/os2/unix/osx/windows/sdl
 platform range correct:
 platform range incorrect:
 platform gui missing:           beos
-fixme: add to documentation
 
 drive/iec/plus4exp/plus4exp-cmdline-options.c:
 ----------------------------------------------
@@ -15641,7 +15632,6 @@ command line:   -parallel11 <Type>
 description:    "Set parallel cable type (0: none, 1: standard)"
 resource:       "Drive11ParallelCable"
 action:         N/A
-fixme: add to documentation
 
 drive/iec128dcr/iec128dcr-resources.c:
 --------------------------------------
@@ -16325,7 +16315,6 @@ platform gui present:           unix(GTK)
 platform range correct:
 platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
-fixme: add to documentation
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
@@ -16333,7 +16322,6 @@ command line:   -doodleundersize <method>
 description:    "Select the way the undersized input should be handled, (0: scale up, 1: borderize)"
 resource:       "DoodleUndersizeHandling"
 action:         N/A
-fixme: add to documentation
 
 gfxoutputdrv/doodledrv.c:
 -------------------------
@@ -16427,7 +16415,6 @@ platform gui present:           unix(GTK)
 platform range correct:
 platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
-fixme: add to documentation
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
@@ -16435,7 +16422,6 @@ command line:   -koalaoversize <method>
 description:    "Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)"
 resource:       "KoalaOversizeHandling"
 action:         N/A
-fixme: add to documentation
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
@@ -16453,7 +16439,6 @@ platform gui present:           unix(GTK)
 platform range correct:
 platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
-fixme: add to documentation
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
@@ -16461,7 +16446,8 @@ command line:   -koalaundersize <method>
 description:    "Select the way the undersized input should be handled, (0: scale up, 1: borderize)"
 resource:       "KoalaUndersizeHandling"
 action:         N/A
-fixme: add to documentation
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
