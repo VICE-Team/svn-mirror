@@ -9311,7 +9311,8 @@ Integer specifying rendering filter.
 
 @vindex TEDBorderMode
 @item TEDBorderMode
-integer specifying border display mode (0: normal, 1: full, 2: debug, 3:none)
+Integer specifying border display mode.
+(0: normal, 1: full, 2: debug, 3: none)
 
 @end table
 
@@ -9364,9 +9365,12 @@ Select fullscreen mode
 @cindex -TEDVidmodefullmode
 @item -TEDVidmodefullmode <mode>
 Select fullscreen mode
-@cindex -TEDborders
+
+@findex -TEDborders
 @item -TEDborders <mode>
-Set TED border display mode (0: normal, 1: full, 2: debug, 3:none)
+Set TED border display mode
+(@code{TEDBorderMode}).
+(0: normal, 1: full, 2: debug, 3: none)
 
 @findex -TEDsaturation
 @item -TEDsaturation <0-2000>
@@ -9542,23 +9546,27 @@ String specifying the name of the Basic ROM (default @file{basic}).
 
 @vindex FunctionLowName
 @item FunctionLowName
-String specifying the filenames of the Lo Function ROM.
+String specifying the filename of the Lo Function ROM.
+
 @vindex FunctionHighName
 @item FunctionHighName
-String specifying the filenames of the High Function ROM.
+String specifying the filename of the High Function ROM.
 
 @vindex c1loName
 @item c1loName
-String specifying the filenames of cartridge 1 Lo ROM.
+String specifying the filename of cartridge 1 Lo ROM.
+
 @vindex c1hiName
 @item c1hiName
-String specifying the filenames of cartridge 1 High ROM.
+String specifying the filename of cartridge 1 High ROM.
+
 @vindex c2loName
 @item c2loName
-String specifying the filenames of cartridge 2 Lo ROM.
+String specifying the filename of cartridge 2 Lo ROM.
+
 @vindex c2hiName
 @item c2hiName
-String specifying the filenames of cartridge 2 High ROM.
+String specifying the filename of cartridge 2 High ROM.
 
 @end table
 
@@ -9577,25 +9585,35 @@ Specify name of the Kernal ROM image
 Specify name of the BASIC ROM image
 (@code{BasicName}).
 
-@cindex -functionlo
+@findex -functionlo
 @item -functionlo <name>
 Specify name of Function low ROM image
-@cindex -functionhi
+(@code{FunctionLowName}).
+
+@findex -functionhi
 @item -functionhi <name>
 Specify name of Function high ROM image
+(@code{FunctionHighName}).
 
-@cindex -c1lo
+@findex -c1lo
 @item -c1lo <name>
 Specify name of Cartridge 1 low ROM image
-@cindex -c1hi
+(@code{c1loName}).
+
+@findex -c1hi
 @item -c1hi <name>
 Specify name of Cartridge 1 high ROM image
-@cindex -c2lo
+(@code{c1HiName}).
+
+@findex -c2lo
 @item -c2lo <name>
 Specify name of Cartridge 2 low ROM image
-@cindex -c2hi
+(@code{c2loName}).
+
+@findex -c2hi
 @item -c2hi <name>
 Specify name of Cartridge 2 high ROM image
+(@code{c2HiName}).
 
 @end table
 
@@ -9606,6 +9624,21 @@ Specify name of Cartridge 2 high ROM image
 @subsubsection PLUS4 resources
 
 @table @code
+
+@vindex MachineVideoStandard
+@item MachineVideoStandard
+Integer that specifies the video standard of the emulated machine
+(-1: PAL, -2: NTSC).
+
+@vindex RamSize
+@item RamSize
+Integer specifying the size of the memory in kByte.
+(16, 32, 64)
+
+@vindex MemoryHack
+@item MemoryHack
+Integer specifying what memory expansion hack is active.
+(0: None, 1: C256K, 2: H256K, 3: H1024K, 4: H4096K)
 
 @vindex Acia1Enable
 @item Acia1Enable
@@ -9618,9 +9651,35 @@ Boolean specifying whether the ACIA should be emulated or not.
 
 @table @code
 
-@cindex -ramsize
+@findex -model
+@item -model <model>
+Specify the PLUS4 model you want to emulate
+(@code{MachineVideoStandard}, @code{RamSize}, @code{KernalName},
+@code{BasicName}, @code{FunctionLowName}, @code{FunctionHighName},
+@code{Acia1Enable}, @code{SpeechImage}, @code{SpeechEnabled}).
+(c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)
+
+@findex -pal
+@item -pal
+Use PAL sync factor
+(@code{MachineVideoStandard=-1}).
+
+@findex -ntsc
+@item -ntsc
+Use NTSC sync factor
+(@code{MachineVideoStandard=-2}).
+
+@findex -ramsize
 @item -ramsize <ramsize>
-Specify size of RAM installed in kb (16/32/64)
+Specify size of RAM installed in kb
+(@code{RamSize}).
+(16, 32, 64)
+
+@findex -memoryexphack
+@item -memoryexphack <device>
+Set active memory expansion hack
+(@code{MemoryHack}).
+(0: None, 1: C256K, 2: H256K, 3: H1024K, 4: H4096K)
 
 @cindex -acia, +acia
 @item -acia
@@ -9703,7 +9762,7 @@ Boolean to enable/disable the "blank screen on EOI" feature of the oldest PET 20
 
 @vindex DiagPin
 @item DiagPin
-Set the diagnostic pin on the PET userport (see below).
+Boolean to enable/disable the diagnostic pin on the PET userport (see below).
 
 @vindex ChargenName
 @item ChargenName
@@ -10001,7 +10060,8 @@ String specifying the filename of the PET REU image.
 
 @vindex PETREUsize
 @item PETREUsize
-Integer specifying the size of the emulated PET REU in KB (128, 512, 1024, 2048)
+Integer specifying the size of the emulated PET REU in KB.
+(128, 512, 1024, 2048)
 
 @vindex PETDWW
 @item PETDWW
@@ -10017,14 +10077,13 @@ Boolean specifying whether HRE emulation is enabled or not.
 
 @vindex PETColour
 @item PETColour
-Integer selecting the colour extension:
-0 = off;
-1 = RGBI;
-2 = Analog.
+Integer selecting the colour extension.
+(0: off, 1: RGBI, 2: Analog)
 
 @vindex PETColourBG
 @item PETColourBG
-Analog colour background on PET 4032 (0-255).
+Iteger specifying the analog colour background on PET 4032.
+(0..255)
 
 @vindex UserportDAC
 @item UserportDAC
@@ -10062,9 +10121,11 @@ Enable/disable the PET Memory Expansion Unit
 Specify name of PET Ram and Expansion Unit image
 (@code{PETREUfilename}).
 
-@cindex -petreuramsize
+@findex -petreuramsize
 @item -petreuramsize <size in KB>
 Size of the PET Ram and Expansion Unit
+(@code{PETREUsize}).
+(128, 512, 1024, 2048)
 
 @findex -userportdac, +userportdac
 @item -userportdac
@@ -10089,13 +10150,20 @@ Specify name of PET DWW RAM image
 Enable/disable the PET HRE extension (model 8296 only)
 (@code{PETHRE=1}, @code{PETHRE=0}).
 
-@cindex -colour-rgbi, -colour-analog, -colour-analog-bg
+@findex -colour-rgbi
 @item -colour-rgbi
 Enable the RGBI colour extension to PET 4032
+(@code{PETColour=1}).
+
+@findex -colour-analog
 @item -colour-analog
 Enable the analog colour extension to PET 4032
+(@code{PETColour=2}).
+
+@findex -colour-analog-bg
 @item -colour-analog-bg <Colour 0-255>
 Select the analog colour background on PET 4032
+(@code{PETColourBG}).
 
 @findex -sidcart, +sidcart
 @item -sidcart
@@ -10261,7 +10329,7 @@ Use NTSC sync factor
 (@code{MachineVideoStandard=-2}).
 
 @findex -model
-@item -model MODEL
+@item -model <model>
 Specify the PET model you want to emulate
 (@code{Basic1}, @code{Basic1Chars}, @code{ChargenName}, @code{KernalName},
 @code{BasicName}, @code{EditorName}, @code{RomModule9Name}, @code{RomModuleAName},
@@ -10338,11 +10406,11 @@ Enable/disable PET 2001 character generator
 Enable/disable EOI blanking the screen
 (@code{EoiBlank=1}, @code{EoiBlank=0}).
 
-@cindex -diagpin, +diagpin
+@findex -diagpin, +diagpin
 @item -diagpin
 @itemx +diagpin
-Enable (@code{DiagPin=1}) or disable (@code{DiagPin=0}) the
-diagnostic pin at the PET userport.
+Enable/disable the diagnostic pin at the PET userport
+(@code{DiagPin=1}. @code{DiagPin=0}).
 
 @end table
 

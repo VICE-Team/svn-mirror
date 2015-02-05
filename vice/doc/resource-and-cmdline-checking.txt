@@ -16983,8 +16983,6 @@ description:    "Set SuperPET CPU switch to 'Prog'"
 resource:       "CPUswitch" (set to SUPERPET_CPU_PROG)
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 pet/pet-resources.c:
 --------------------
 resource type:                  int
@@ -17001,7 +16999,6 @@ platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			os2/osx
-fixme: add to documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -17009,7 +17006,6 @@ command line:   -colour-rgbi
 description:    "RGBI colour extension to PET 4032"
 resource:       "PETColour" (set to PET_COLOUR_TYPE_RGBI)
 action:         N/A
-fixme: add to documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -17017,7 +17013,6 @@ command line:   -colour-analog
 description:    "Analog colour extension to PET 4032"
 resource:       "PETColour" (set to PET_COLOUR_TYPE_ANALOG)
 action:         N/A
-fixme: add to documentation
 
 pet/pet-resources.c:
 --------------------
@@ -17033,7 +17028,6 @@ prepocessor:
 command-line:                   -colour-analog-bg
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
-fixme: add to documentation
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -17041,7 +17035,6 @@ command line:   -colour-analog-bg <Colour 0-255>
 description:    "Analog colour background on PET 4032"
 resource:       "PETColourBG"
 action:         N/A
-fixme: add to documentation
 
 pet/petpia1.c:
 --------------
@@ -17057,7 +17050,6 @@ prepocessor:
 command-line:                   -diagpin / +diagpin
 platform gui present:           os2/unix/osx
 platform gui missing:           amigaos/beos/dos/sdl/windows
-fixme: fix documentation, bool
 
 pet/petpia1.c:
 --------------
@@ -17096,7 +17088,6 @@ command line:   -petreuramsize <size in KB>
 description:    "Size of the PET Ram and Expansion Unit. (128/512/1024/2048)"
 resource:       "PETREUsize"
 action:         N/A
-fixme: fix documentation, range
 
 plus4/plus4-resources.c:
 ------------------------
@@ -17246,7 +17237,6 @@ platform gui present:           amigaos/beos/dos/os2/sdl/osx/unix
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           windows
-fixme: fix documentation for xplus4
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
@@ -17255,7 +17245,6 @@ description:    "Set Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, 
 resource:       N/A
 action:         set_plus4_model() (sets "MachineVideoStandard", "RamSize", "KernalName", "BasicName", "FunctionLowName", "FunctionHighName",
                 "Acia1Enable", "SpeechImage", "SpeechEnabled")
-fixme: add to documentation
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
@@ -17287,7 +17276,6 @@ platform gui present:           amigaos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           beos/dos/osx
-fixme: add to documentation
 
 plus4/plus4-cmdline-options.c:
 ------------------------------
@@ -17336,6 +17324,8 @@ platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			os2/osx
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 plus4/ted-cmdline-options.c:
 ----------------------------
