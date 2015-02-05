@@ -16447,8 +16447,6 @@ description:    "Select the way the undersized input should be handled, (0: scal
 resource:       "KoalaUndersizeHandling"
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 gfxoutputdrv/koaladrv.c:
 ------------------------
 resource type:                  int
@@ -16465,7 +16463,6 @@ platform gui present:           unix(GTK)
 platform range correct:
 platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
-fixme: add to documentation
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
@@ -16473,7 +16470,6 @@ command line:   -koalatedlum <method>
 description:    "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)"
 resource:       "KoalaTEDLumHandling"
 action:         N/A
-fixme: add to documentation
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
@@ -16491,7 +16487,6 @@ platform gui present:           unix(GTK)
 platform range correct:
 platform range incorrect:
 platform gui missing:           amigaos/beos/dos/os2/sdl/unix(XAW)/osx/windows
-fixme: add to documentation
 
 gfxoutputdrv/koaladrv.c:
 ------------------------
@@ -16499,7 +16494,6 @@ command line:   -koalacrtctextcolor <color>
 description:    "Select the CRTC text color (0: white, 1: amber, 2: green)"
 resource:       "KoalaCRTCTextColor"
 action:         N/A
-fixme: add to documentation
 
 lightpen.c:
 -----------
@@ -16547,7 +16541,6 @@ platform gui present:           dos/sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/os2
-fixme: fix documentation, range
 
 lightpen.c:
 -----------
@@ -16555,7 +16548,6 @@ command line:   -lightpentype <Type>
 description:    "Set lightpen type. (0: Pen with button Up, 1: Pen with button Left, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifel, 5: Inkwell Pen)"
 resource:       "LightpenType"
 action:         N/A
-fixme: fix documentation, range
 
 machine.c:
 ----------
@@ -16574,7 +16566,6 @@ platform gui present:           amigaos/beos/dos/sdl/unix/windows/osx
 platform range correct:
 platform range incorrect:
 platform gui missing:           os2
-fixme: add to documentation
 
 machine.c:
 ----------
@@ -16582,7 +16573,6 @@ command line:   -jamaction <Type>
 description:    "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)"
 resource:       "JAMAction"
 action:         N/A
-fixme: add to documentation
 
 monitor/monitor.c:
 ------------------
@@ -16630,7 +16620,6 @@ prepocessor:
 command-line:                   -editor / -model
 platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
 platform gui missing:			os2
-fixme: fix documentation, string
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -16638,7 +16627,6 @@ command line:   -editor <Name>
 description:    "Specify name of Editor ROM image"
 resource:       "EditorName"
 action:         N/A
-fixme: fix documentation
 
 pet/pet-resources.c:
 --------------------
@@ -16822,7 +16810,6 @@ prepocessor:
 command-line:                   -crtc / +crtc
 platform gui present:           beos/dos/os2/sdl/unix/osx/windows
 platform gui missing:           amigaos
-fixme: fix documentation, bool
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -16854,7 +16841,6 @@ platform gui present:           amigaos/beos/dos/os2/unix/osx/windows
 platform range correct:
 platform range incorrect:
 platform gui missing:           sdl
-fixme: fix documentation, int
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -16877,7 +16863,6 @@ prepocessor:
 command-line:                   -basic1 / +basic1 / -model
 platform gui present:           os2/unix/osx
 platform gui missing:           amigaos/beos/dos/sdl/windows
-fixme: fix documentation bool
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -16901,7 +16886,6 @@ resource:       N/A
 action:         pet_set_model() (sets "Basic1", "Basic1Chars", "ChargenName", "KernalName", "BasicName", "EditorName", "RomModule9Name",
                 "RomModuleAName", "RomModuleBName", "H6809RomAName", "H6809RomBName", "H6809RomCName", "H6809RomDName", "H6809RomEName",
                 "H6809RomFName")
-fixme: fix documentation
 
 pet/pet-resources.c:
 --------------------
@@ -16917,7 +16901,6 @@ prepocessor:
 command-line:                   -basic1char / +basic1char / -model
 platform gui present:           os2/unix/osx
 platform gui missing:           amigaos/beos/dos/sdl/windows
-fixme: fix documentation bool
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -16947,7 +16930,6 @@ prepocessor:
 command-line:                   -eoiblank / +eoiblank
 platform gui present:           os2/unix/osx
 platform gui missing:           amigaos/beos/dos/sdl/windows
-fixme: fix documentation, bool
 
 pet/pet-cmdline-options.c:
 --------------------------
@@ -17000,6 +16982,8 @@ command line:   -cpuprog
 description:    "Set SuperPET CPU switch to 'Prog'"
 resource:       "CPUswitch" (set to SUPERPET_CPU_PROG)
 action:         N/A
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 pet/pet-resources.c:
 --------------------

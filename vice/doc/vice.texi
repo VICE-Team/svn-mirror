@@ -2916,11 +2916,14 @@ Integer that specifies the joystick port the emulated mouse is connected to.
 
 @vindex Lightpen
 @item Lightpen
-Boolean, enables lightpen emulation
+Boolean to enable/disable lightpen emulation
+(x64, x64sc, xscpu64, x128 and xvic only).
+
 @vindex LightpenType
 @item LightpenType
-Integer specifying the type of lightpen. (0=Pen with button Up, 1=Pen with button Left,
- 2=Datel Pen, 3=Magnum Light Phaser, 4=Stack Light Rifle)
+Integer specifying the type of lightpen
+(x64, x64sc, xscpu64, x128 and xvic only).
+(0: Pen with button Up, 1: Pen with button Left, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifle)
 
 @vindex KeySet1NorthWest
 @vindex KeySet1North
@@ -3009,13 +3012,19 @@ Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 
 @item -mouseport <value>
 Select the joystick port the mouse is attached to
 
-@cindex -lightpen, +lightpen
+@findex -lightpen, +lightpen
 @item -lightpen
 @itemx +lightpen
-Enable/Disable lightpen emulation
-@cindex -lightpentype
+Enable/disable lightpen emulation
+(@code{Lightpen=1}, @code{Lightpen=0})
+(x64, x64sc, xscpu64, x128 and xvic only).
+
+@findex -lightpentype
 @item -lightpentype <type>
 Set lightpen type
+(@code{LightpenType})
+(x64, x64sc, xscpu64, x128 and xvic only).
+(0: Pen with button Up, 1: Pen with button Left, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifle)
 
 @findex -keybuf-delay
 @item -keybuf-delay <value>
@@ -4850,6 +4859,12 @@ lead to strange effects.
 @item -initbreak <address>
 Set an initial breakpoint for the monitor. Addresses with prefix "0x" are hexadecimal.
 
+@findex -keepmonopen, +keepmonopen
+@item -keepmonopen
+@itemx +keepmonopen
+Enable/disable keeping the monitor window open
+(@code{KeepMonitorOpen=1}, @code{KeepMonitorOpen=0}).
+
 @cindex -remotemonitor, +remotemonitor
 @item -remotemonitor
 @itemx +remotemonitor
@@ -4917,6 +4932,11 @@ categories.
 @subsection Miscellaneous resources
 
 @table @code
+@vindex JAMAction
+@item JAMAction
+Integer specifying the action to take when the CPU encounters a 'JAM' opcode.
+(0: show dialog, 1: continue emulation, 2: start monitor, 3: soft reset, 4: hard reset, 5: quit emulator)
+
 @vindex Directory
 @item Directory
 String specifying the search path for system files.  It is defined as a
@@ -5006,6 +5026,12 @@ Booleans that specify whether to attach images on drives 8 to 11 read-only or no
 @subsection Miscellaneous command-line options
 
 @table @code
+@findex -jamaction
+@item -jamaction <Type>
+Specify the action to take when the CPU encounters a 'JAM' opcode
+(@code{JAMAction})
+(0: Show dialog, 1: continue emulation, 2: start monitor, 3: soft reset, 4: hard reset, 5: quit emulator).
+
 @findex -directory
 @item -directory <Path>
 Specify the system file search path
@@ -9646,8 +9672,8 @@ Integer specifying the size of the I/O area in Bytes for the 8296 model.
 
 @vindex VideoSize
 @item VideoSize
-The number of columns on the screen (40 or 80).  A 0 auto-detects this
-from the ROM.
+Integer specifying the number of columns on the screen.
+(0: Automatic from ROM, 40: 40 columns, 80: 80 columns)
 
 @vindex Ram9
 @item Ram9
@@ -9664,18 +9690,16 @@ and disables/enables the 8x96 mappings.
 
 @vindex Basic1
 @item Basic1
-If (by checksum) a version 1 kernal is detected, then the
-kernal ROM is patched to make the IEEE488 interface work.
+Boolean to enable/disable the patching of a version 1 kernal ROM to make the IEEE488 interface work.
 
 @vindex Basic1Chars
 @item Basic1Chars
-Exchanges some character in the character ROM that have changed
-between the first PET 2001 and all newer versions.
+Boolean to enable/disable the exchanges of some characters in the character ROM
+that have changed between the first PET 2001 and all newer versions.
 
 @vindex EoiBlank
 @item EoiBlank
-This resource enables the "blank screen on EOI" feature of the
-oldest PET 2001.
+Boolean to enable/disable the "blank screen on EOI" feature of the oldest PET 2001.
 
 @vindex DiagPin
 @item DiagPin
@@ -9695,7 +9719,7 @@ String specifying the name of the Basic ROM (default @file{basic4}).
 
 @vindex EditorName
 @item EditorName
-Specify @file{NAME} as the editor ROM file.  This file contains
+String specifying the filename of the editor ROM file. This file contains
 an overlay for the editor ROM at $E000-$E7FF if necessary.
 
 @vindex RomModule9Name
@@ -9763,7 +9787,7 @@ will emulate a PET 3032 while @samp{xpet -model 8296} will emulate a PET
 
 @vindex Crtc
 @item Crtc
-Enables CRTC 6545 emulation (all models from 40xx and above)
+Boolean specifying whether to enable/disable CRTC 6545 emulation (all models from 40xx and above).
 
 @vindex CrtcVideoCache
 @item CrtcVideoCache
@@ -9850,6 +9874,13 @@ Integer specifying rendering filter.
 @subsubsection CRTC command-line options
 
 @table @code
+
+@findex -crtc, +crtc
+@item -crtc
+@itemx +crtc
+Enable/disable the 6545 CRTC emulation
+(@code{Crtc=1}, @code{Crtc=0}).
+
 @findex -Crtcvcache, +Crtcvcache
 @item -Crtcvcache
 @itemx +Crtcvcache
@@ -10126,9 +10157,10 @@ Specify filename of the Kernal ROM file
 Specify filename of the BASIC ROM file
 (@code{BasicName}).
 
-@cindex -editor
+@findex -editor
 @item -editor NAME
-Specify @file{NAME} as the editor ROM file (@code{EditorName}).
+Specify the filename for the editor ROM file
+(@code{EditorName}).
 
 @findex -chargen
 @item -chargen <name>
@@ -10150,24 +10182,35 @@ cartridge area (@code{RomModuleAName}).
 Specify the filename for the ROM image file for the $B***
 cartridge area (@code{RomModuleBName}).
 
-@cindex -6809romA
+@findex -6809romA
 @item -6809romA <Name>
 Specify 4K to 24K ROM file name at $A000 for 6809
+(@code{H6809RomAName}).
+
 @cindex -6809romB
 @item -6809romB <Name>
 Specify 4K to 20K ROM file name at $B000 for 6809
-@cindex -6809romC
+(@code{H6809RomBName}).
+
+@findex -6809romC
 @item -6809romC <Name>
 Specify 4K to 16K ROM file name at $C000 for 6809
-@cindex -6809romD
+(@code{H6809RomCName}).
+
+@findex -6809romD
 @item -6809romD <Name>
 Specify 4K to 12K ROM file name at $D000 for 6809
-@cindex -6809romE
+(@code{H6809RomDName}).
+
+@findex -6809romE
 @item -6809romE <Name>
 Specify 2K or 8K ROM file name at $E000 for 6809
-@cindex -6809romF
+(@code{H6809RomEName}).
+
+@findex -6809romF
 @item -6809romF <Name>
 Specify 4K ROM file name at $F000 for 6809
+(@code{H6809RomFName}).
 
 @end table
 
@@ -10189,9 +10232,15 @@ the BASIC, but directly jumps into the builtin machine monitor.
 
 @table @code
 
+@vindex MachineVideoStandard
+@item MachineVideoStandard
+Integer that specifies the video standard of the emulated machine
+(-1: PAL, -2: NTSC).
+
 @vindex CPUswitch
 @item CPUswitch
-Integer specifying the status of the SuperPET CPU switch (0: 6502, 1: 6809, 2: PROG)
+Integer specifying the status of the SuperPET CPU switch
+(0: 6502, 1: 6809, 2: Prog.)
 
 @end table
 
@@ -10201,9 +10250,24 @@ These are the commandline options specific for the PET models.
 
 @table @code
 
-@cindex -model
+@findex -pal
+@item -pal
+Use PAL sync factor
+(@code{MachineVideoStandard=-1}).
+
+@findex -ntsc
+@item -ntsc
+Use NTSC sync factor
+(@code{MachineVideoStandard=-2}).
+
+@findex -model
 @item -model MODEL
-Specify the PET model you want to emulate.
+Specify the PET model you want to emulate
+(@code{Basic1}, @code{Basic1Chars}, @code{ChargenName}, @code{KernalName},
+@code{BasicName}, @code{EditorName}, @code{RomModule9Name}, @code{RomModuleAName},
+@code{RomModuleBName}, @code{H6809RomAName}, @code{H6809RomBName}, @code{H6809RomCName},
+@code{H6809RomDName}, @code{H6809RomEName}, @code{H6809RomFName}).
+(2001, 3008, 3016, 3032, 3032B, 4016, 4032, 4032B, 8032, 8096, 8296, SuperPET)
 
 @findex -iosize
 @item -iosize <size>
@@ -10216,6 +10280,12 @@ Specify size of I/O in Bytes
 Specify size of RAM in KB
 (@code{RamSize}).
 (8, 16, 32, 96, 128)
+
+@findex -videosize
+@item -videosize <size>
+Specify video size
+(@code{VideoSize}).
+(0: Automatic from ROM, 40: 40 columns, 80: 80 columns)
 
 @findex -petram9, +petram9
 @item -petram9
@@ -10235,30 +10305,38 @@ Switch on/off RAM mapping at address $A000-$AFFF
 Enable/disable SuperPET I/O and CPU emulation
 (@code{SuperPET}).
 
-@cindex -cpu6502
+@findex -cpu6502
 @item -cpu6502
 Set SuperPET CPU switch to '6502'
-@cindex -cpu6809
+(@code{CPUswitch=0}).
+
+@findex -cpu6809
 @item -cpu6809
 Set SuperPET CPU switch to '6809'
-@cindex -cpuprog
+(@code{CPUswitch=1}).
+
+@findex -cpuprog
 @item -cpuprog
 Set SuperPET CPU switch to 'Prog'
+(@code{CPUswitch=2}).
 
-@cindex -basic1, +basic1
-@item -basic1, +basic1
-Enable/Disable patching the IEEE488 section of the PET2001 ROM when detected
-(@code{Basic1}).
+@findex -basic1, +basic1
+@item -basic1
+@itemx +basic1
+Enable/disable patching the IEEE488 section of the PET2001 ROM when detected
+(@code{Basic1=1}, @code{Basic1=0}).
 
-@cindex -basic1char, +basic1char
-@item -basic1char, +basic1char
-Enable/Disable PET 2001 character generator
-(@code{Basic1Chars}).
+@findex -basic1char, +basic1char
+@item -basic1char
+@itemx +basic1char
+Enable/disable PET 2001 character generator
+(@code{Basic1Chars=1}, @code{Basic1Chars=0}).
 
-@cindex -eoiblank, +eoiblank
-@item -eoiblank, +eoiblank
-Enable/Disable EOI blanking the screen
-(@code{EoiBlank}).
+@findex -eoiblank, +eoiblank
+@item -eoiblank
+@itemx +eoiblank
+Enable/disable EOI blanking the screen
+(@code{EoiBlank=1}, @code{EoiBlank=0}).
 
 @cindex -diagpin, +diagpin
 @item -diagpin
@@ -15486,6 +15564,18 @@ Integer specifying the way the undersized input should be handled
 (all emulators except vsid).
 (0: scale, 1: borderize)
 
+@vindex KoalaTEDLumHandling
+@item KoalaTEDLumHandling
+Integer specifying the way the TED luminosity should be handled
+(all emulators except vsid).
+(0: ignore, 1: dither)
+
+@vindex KoalaCRTCTextColor
+@item KoalaCRTCTextColor
+Integer specifying the text color used when making screenshots from a CRTC window in doodle format
+(all emulators except vsid).
+(0: white, 1: amber, 2: green)
+
 @vindex FFMPEGFormat
 @item FFMPEGFormat
 String specifying the current FFMPEG output driver.
@@ -15566,6 +15656,20 @@ Select the way the undersized input should be handled
 (@code{KoalaUndersizeHandling})
 (all emulators except vsid).
 (0: scale, 1: borderize)
+
+@findex -koalatedlum
+@item -koalatedlum <method>
+Select the way the TED luminosity should be handled
+(@code{KoalaTEDLumHandling})
+(all emulators except vsid).
+(0: ignore, 1: dither)
+
+@findex -koalacrtctextcolor
+@item -koalacrtctextcolor <color>
+Select the CRTC text color
+(@code{KoalaCRTCTextColor})
+(all emulators except vsid).
+(0: white, 1: amber, 2: green)
 
 @cindex -ffmpegaudiobitrate
 @item -ffmpegaudiobitrate <value>
