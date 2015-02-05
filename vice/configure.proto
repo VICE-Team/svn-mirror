@@ -67,9 +67,9 @@ VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of t
 dnl this hack is needed because the default for the auto-tools
 dnl is 'no', and we want the default to be 'yes' unless
 dnl '--disable-option-checking' is used.
+enable_option_checking=yes
 for command_option in $@
 do
-  enable_option_checking=yes
   if test x"$command_option" = "x--disable-option-checking"; then
     enable_option_checking=no
   fi
