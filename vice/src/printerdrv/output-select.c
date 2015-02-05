@@ -100,43 +100,86 @@ int output_select_userport_init_resources(void)
     return resources_register_string(resources_string_userport);
 }
 
-static const cmdline_option_t cmdline_options[] =
+static cmdline_option_t cmdline_options[] =
 {
     { "-pr4output", SET_RESOURCE, 1,
       NULL, NULL, "Printer4Output", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME,
       NULL, NULL },
     { "-pr5output", SET_RESOURCE, 1,
       NULL, NULL, "Printer5Output", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME,
       NULL, NULL },
     { "-pr6output", SET_RESOURCE, 1,
       NULL, NULL, "Printer6Output", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME,
       NULL, NULL },
     { NULL }
 };
 
-static const cmdline_option_t cmdline_options_userport[] =
+static cmdline_option_t cmdline_options_userport[] =
 {
     { "-pruseroutput", SET_RESOURCE, 1,
       NULL, NULL, "PrinterUserportOutput", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME,
       NULL, NULL },
     { NULL }
 };
 
+static char *printer_output_names = NULL;
+
+static build_printer_output_names(void)
+{
+    output_select_list_t *list;
+    char *tmp1, *tmp2;
+
+    list = output_select_list;
+
+    if (list != NULL) {
+        tmp1 = util_concat(". (", list->output_select.output_name, NULL);
+        list = list->next;
+        while (list) {
+            tmp2 = util_concat(tmp1, ", ", list->output_select.output_name, NULL);
+            lib_free(tmp1);
+            tmp1 = tmp2;
+            list = list->next;
+        }
+        printer_output_names = util_concat(tmp1, ")", NULL);
+        lib_free(tmp1);
+    }
+}
+
 int output_select_init_cmdline_options(void)
 {
+    int i;
+
+    if (!printer_output_names) {
+        build_printer_output_names();
+    }
+    if (!printer_output_names) {
+        return -1;
+    }
+    for (i = 0; i < 3; i++) {
+        cmdline_options[i].description = printer_output_names;
+    }
+
     return cmdline_register_options(cmdline_options);
 }
 
 int output_select_userport_init_cmdline_options(void)
 {
+    if (!printer_output_names) {
+        build_printer_output_names();
+    }
+    if (!printer_output_names) {
+        return -1;
+    }
+    cmdline_options_userport[0].description = printer_output_names;
+
     return cmdline_register_options(cmdline_options_userport);
 }
 
@@ -150,6 +193,10 @@ void output_select_shutdown(void)
         next = list->next;
         lib_free(list);
         list = next;
+    }
+    if (printer_output_names) {
+        lib_free(printer_output_names);
+        printer_output_names = NULL;
     }
 }
 

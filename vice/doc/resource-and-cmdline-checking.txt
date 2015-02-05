@@ -17325,8 +17325,6 @@ platform range correct:
 platform range incorrect:		
 platform gui missing:			os2/osx
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 plus4/ted-cmdline-options.c:
 ----------------------------
 command line:   -TEDborders <Mode>
@@ -17350,7 +17348,6 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
-fixme: fix documentation, remove default
 
 plus4/ted-cmdline-options.c:
 ----------------------------
@@ -17358,7 +17355,6 @@ command line:   -TEDtint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "TEDColorTint"
 action:         N/A
-fixme: fix documentation, remove default
 
 plus4/ted-resources.c:
 ----------------------
@@ -17403,7 +17399,6 @@ prepocessor:
 command-line:                   -pruserdrv
 platform gui present:           amigaos/beos/dos/sdl/unix/windows
 platform gui missing:			os2/osx
-fixme: fix documentation, range
 
 printerdrv/driver-select.c:
 ---------------------------
@@ -17416,7 +17411,7 @@ printerdrv/interface-serial.c:
 ------------------------------
 resource type:                  int
 resource name:                  "Printer7"
-resource range:                 0..2 (PRINTER_DEVICE_NONE (0), PRINTER_DEVICE_FS (1), PRINTER_DEVICE_REAL (2))
+resource range:                 0..2 (PRINTER_DEVICE_NONE (0), PRINTER_DEVICE_REAL (2))
 resource default:               PRINTER_DEVICE_NONE (0)
 resource function:              set_printer_enabled()
 resource var:                   printer_enabled[3]
@@ -17428,7 +17423,6 @@ platform gui present:           sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2/osx
-fixme: add to documentation
 
 printerdrv/interface-serial.c:
 ------------------------------
@@ -17436,7 +17430,6 @@ command line:   -device7 <Type>
 description:    "Set device type for device #7 (0: None, 2: Real)"
 resource:       "Printer7"
 action:         N/A
-fixme: fix documentation, says bool, but is int with range
 
 printerdrv/interface-userport.c:
 --------------------------------
@@ -17482,10 +17475,12 @@ command-line:                   -pr4output
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:			dos
 
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
+
 printerdrv/output-select.c:
 ---------------------------
 command line:   -pr4output <Name>
-description:    "Specify name of output device for device #4"
+description:    "Specify name of output device for device #4. ([auto generated list])"
 resource:       "Printer4Output"
 action:         N/A
 
@@ -17507,7 +17502,7 @@ platform gui missing:			dos
 printerdrv/output-select.c:
 ---------------------------
 command line:   -pr5output <Name>
-description:    "Specify name of output device for device #5"
+description:    "Specify name of output device for device #5. ([auto generated list])"
 resource:       "Printer5Output"
 action:         N/A
 
@@ -17530,7 +17525,7 @@ fixme: add to documentation
 printerdrv/output-select.c:
 ---------------------------
 command line:   -pr6output <Name>
-description:    "Specify name of output device for device #6"
+description:    "Specify name of output device for device #6. ([auto generated list])"
 resource:       "Printer6Output"
 action:         N/A
 
