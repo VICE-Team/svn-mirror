@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-01 15:06-0800\n"
-"PO-Revision-Date: 2015-01-12 18:55+0100\n"
+"PO-Revision-Date: 2015-02-08 11:22+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -936,9 +936,8 @@ msgid "AND values"
 msgstr "AND Werte"
 
 #: src/arch/unix/gui/c64scui.c:323
-#, fuzzy
 msgid "C64 Memory Expansions Hack"
-msgstr "Speicher Erweiterungen"
+msgstr "C64 Speicher Erweiterungshack"
 
 #: src/arch/unix/gui/c64scui.c:357 src/arch/unix/gui/c64ui.c:418
 msgid "Burst Mode Modification"
@@ -969,9 +968,8 @@ msgid "Old NTSC-M"
 msgstr "NTSC-M alt"
 
 #: src/arch/unix/gui/c64ui.c:384
-#, fuzzy
 msgid "Memory Expansions Hack"
-msgstr "Speicher Erweiterungen"
+msgstr "Speicher Erweiterungshack"
 
 #: src/arch/unix/gui/cbm2ui.c:122
 msgid "Basic 128k, low chars"
@@ -1562,21 +1560,20 @@ msgid "Attach raw 16KB cartridge image"
 msgstr "16KB Erweiterungsmodul (raw) Image einlegen"
 
 #: src/arch/unix/gui/uic64cart.c:113
-#, fuzzy
 msgid "Attach raw ultimax cartridge image"
-msgstr "RamCart Image (raw) einlegen"
+msgstr "Ultimax Image (raw) einlegen"
 
 #: src/arch/unix/gui/uic64cart.c:116
 msgid "Freezer"
-msgstr ""
+msgstr "Freezer"
 
 #: src/arch/unix/gui/uic64cart.c:117
 msgid "Games"
-msgstr ""
+msgstr "Spiele"
 
 #: src/arch/unix/gui/uic64cart.c:118
 msgid "Utilities"
-msgstr ""
+msgstr "Utilities"
 
 #: src/arch/unix/gui/uic64cart.c:120 src/arch/unix/gui/vic20ui.c:329
 #: src/arch/win32/res.rc.po.c:1422 src/arch/amigaos/intl_text.c.po.c:1028
@@ -1609,52 +1606,43 @@ msgstr "Hummer ADC"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:42
 #: src/arch/win32/resc64memoryhacks.rc.po.c:52
-#, fuzzy
 msgid "C64 256K file"
-msgstr "256K Datei"
+msgstr "C64 256K Datei"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:47
 #: src/arch/win32/resc64memoryhacks.rc.po.c:55
-#, fuzzy
 msgid "+60K file"
-msgstr "256K Datei"
+msgstr "+60K Datei"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:52
 #: src/arch/win32/resc64memoryhacks.rc.po.c:57
-#, fuzzy
 msgid "+256K file"
-msgstr "256K Datei"
+msgstr "+256K Datei"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:88
-#, fuzzy
 msgid "C64 memory expansions hack device"
-msgstr "Speicher Erweiterungen"
+msgstr "C64 Speicher Erweiterungshack Gerät"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:91
 #: src/arch/win32/resc64memoryhacks.rc.po.c:51
-#, fuzzy
 msgid "C64 256K base address"
-msgstr "256K Basis Adresse"
+msgstr "C64 256K Basis Adresse"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:93
-#, fuzzy
 msgid "C64 256K image name"
-msgstr "C64DTV ROM Image Name"
+msgstr "C64 256K Image Name"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:97
-#, fuzzy
 msgid "+60K Base address"
-msgstr "Basis Adresse"
+msgstr "+60K Basis Adresse"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:99
-#, fuzzy
 msgid "+60K Image name"
-msgstr "Imagedatei Name"
+msgstr "+60K Imagedatei Name"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:103
-#, fuzzy
 msgid "+256K image name"
-msgstr "256K Image"
+msgstr "+256K Imagedate Name"
 
 #: src/arch/unix/gui/uicmdline.c:37 src/arch/amigaos/intl_text.c.po.c:5872
 #, c-format
@@ -1690,9 +1678,8 @@ msgstr "Kann /bin/sh nicht starten."
 #. If a child process could not be created,
 #. or its status could not be retrieved
 #: src/arch/unix/gui/uicommands.c:158
-#, fuzzy
 msgid "Couldn't run terminal"
-msgstr "Kann xterm nicht starten."
+msgstr "Kann Terminal nicht starten."
 
 #: src/arch/unix/gui/uicommands.c:163
 msgid "Unknown error while running c1541"
@@ -2154,9 +2141,8 @@ msgid "Datasette speed tuning"
 msgstr "Bandlaufwerk Geschwindigkeitskontrolle"
 
 #: src/arch/unix/gui/uidatasette.c:64 src/arch/unix/gui/uidatasette.c:111
-#, fuzzy
 msgid "Datasette tape wobble"
-msgstr "Bandlaufwerk Kontrolle"
+msgstr "Bandlaufwerk Bandeiern"
 
 #: src/arch/unix/gui/uidatasette.c:79
 #, c-format
@@ -2422,9 +2408,8 @@ msgstr "Floppy Einstellungen"
 
 #: src/arch/unix/gui/uidrivec128.c:257 src/arch/unix/gui/uidrivec64vic20.c:165
 #: src/arch/unix/gui/uidriveplus4.c:314
-#, fuzzy
 msgid "Load new 1540 ROM"
-msgstr "1541 ROM laden"
+msgstr "Neues 1541 ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:260 src/arch/unix/gui/uidrivec64vic20.c:168
 #: src/arch/unix/gui/uidriveplus4.c:317
@@ -4348,9 +4333,8 @@ msgid "Sprite-background collisions"
 msgstr "Sprite-Hintergrund Kollisionen"
 
 #: src/arch/unix/gui/uivicii.c:224
-#, fuzzy
 msgid "VSP bug emulation"
-msgstr "VIC CRT Emulation"
+msgstr "VSP Fehler Emulation"
 
 #: src/arch/unix/gui/vic20ui.c:205 src/arch/win32/resvic20.rc.po.c:523
 msgid "No expansion memory"
@@ -4548,14 +4532,12 @@ msgid "Compile time features"
 msgstr "Kompilierte Funktionen"
 
 #: src/arch/unix/x11/gnome/about.c:128
-#, fuzzy
 msgid "Text cannot be displayed."
-msgstr "Text kann nicht dargestellt werden.\n"
+msgstr "Text kann nicht dargestellt werden."
 
 #: src/arch/unix/x11/gnome/about.c:142
-#, fuzzy
 msgid "The VICE Team:"
-msgstr "Das VICE Team"
+msgstr "Das VICE Team:"
 
 #: src/arch/unix/x11/gnome/about.c:148
 msgid "Official VICE homepage:"
@@ -5755,14 +5737,12 @@ msgid "Who made what?"
 msgstr "Wer hat was gemacht?"
 
 #: src/arch/win32/res.rc.po.c:1012
-#, fuzzy
 msgid "VICE compile time features"
-msgstr "Kompilierte Funktionen"
+msgstr "VICE kompilierte Funktionen"
 
 #: src/arch/win32/res.rc.po.c:1013
-#, fuzzy
 msgid "What compile time features are available?"
-msgstr "Welche Kommandozeilen Parameter sind verfügbar?"
+msgstr "Welche kompiliertern Funtionen sind verfügbar?"
 
 #: src/arch/win32/res.rc.po.c:1016 src/arch/amigaos/intl_text.c.po.c:4990
 msgid "VICE is distributed WITHOUT ANY WARRANTY!"
@@ -7371,9 +7351,8 @@ msgstr "PET64 NTSC"
 #: src/arch/win32/resc64memoryhacks.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:3800
 #: src/arch/amigaos/intl_text.c.po.c:8338
-#, fuzzy
 msgid "Memory expansion hacks settings"
-msgstr "Userport RTC Erweiterung Einstellungen"
+msgstr "Speicher Erweiterungshack Einstellungen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:56 src/arch/win32/resc64dtv.rc.po.c:455
 #: src/arch/win32/resc64dtv.rc.po.c:466
@@ -7436,29 +7415,24 @@ msgstr "True flash Dateisystem"
 
 #: src/arch/win32/resc64memoryhacks.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:8282
-#, fuzzy
 msgid "Memory expansion hack device"
-msgstr "Speicher Erweiterungen"
+msgstr "Speicher Erweiterungeshack Gerät"
 
 #: src/arch/win32/resc64memoryhacks.rc.po.c:53
-#, fuzzy
 msgid "Select file for C64 256K"
-msgstr "Datei für 256K auswählen"
+msgstr "Datei für C64 256K auswählen"
 
 #: src/arch/win32/resc64memoryhacks.rc.po.c:54
-#, fuzzy
 msgid "+60K base address"
-msgstr "256K Basis Adresse"
+msgstr "+60K Basis Adresse"
 
 #: src/arch/win32/resc64memoryhacks.rc.po.c:56
-#, fuzzy
 msgid "Select file for +60K"
-msgstr "Datei für 256K auswählen"
+msgstr "Datei für +60K auswählen"
 
 #: src/arch/win32/resc64memoryhacks.rc.po.c:58
-#, fuzzy
 msgid "Select file for +256K"
-msgstr "Datei für 256K auswählen"
+msgstr "Datei für +256K auswählen"
 
 #: src/arch/win32/rescbm2common.rc.po.c:152
 #: src/arch/amigaos/intl_text.c.po.c:6516
@@ -8714,9 +8688,8 @@ msgid "VICE Message"
 msgstr "VICE Nachricht"
 
 #: src/arch/amigaos/intl_text.c.po.c:5018
-#, fuzzy
 msgid "Which compile time features are available?"
-msgstr "Welche Kommandozeilen Parameter sind verfügbar?"
+msgstr "Welche kompilierten Funktionen sind verfügbar?"
 
 #: src/arch/amigaos/intl_text.c.po.c:5074
 msgid "The device on this port is not a gamepad"
@@ -10503,24 +10476,20 @@ msgstr ""
 "5 = Reset, 6 = Reset Zähler."
 
 #: src/translate_text.c.po.c:3043
-#, fuzzy
 msgid "Enable opposite joystick directions"
-msgstr "Gegenüberliegende Richtungen zulassen"
+msgstr "Gegenüberliegende Joystick Richtungen zulassen"
 
 #: src/translate_text.c.po.c:3060
-#, fuzzy
 msgid "Disable opposite joystick directions"
-msgstr "Gegenüberliegende Richtungen zulassen"
+msgstr "Gegenüberliegende Joystick Richtungen verhindern"
 
 #: src/translate_text.c.po.c:3077
-#, fuzzy
 msgid "Enable keyset"
-msgstr "Maus aktivieren"
+msgstr "Tastaturbelegung aktivieren"
 
 #: src/translate_text.c.po.c:3094
-#, fuzzy
 msgid "Disable keyset"
-msgstr "Keymap definieren"
+msgstr "Tastaturbelegung deaktivieren"
 
 #: src/translate_text.c.po.c:3111
 msgid "On autostart, load to BASIC start (without ',1')"
@@ -10682,34 +10651,30 @@ msgid "Disable the IEEE488 interface emulation"
 msgstr "IEEE488 Schnittstellen-Emulation deaktivieren"
 
 #: src/translate_text.c.po.c:3825
-#, fuzzy
 msgid ""
 "Patch the Kernal ROM to the specified <revision> (1: rev. 1, 2: rev. 2, 3: "
 "rev. 3, 67/sx: sx64, 100/4064: 4064)"
-msgstr "Kernal ROM auf spezifizierte <Revision> verändern"
+msgstr "Kernal ROM auf <revision> modifzieren (1: rev. 1, 2: rev. 2, 3: rev. 3, 67/sx: sx64, 100/4064: 4064)"
 
 #: src/translate_text.c.po.c:3860
 msgid "Disable the ACIA RS232 interface emulation"
 msgstr "ACIA RS232 Schnittstellen-Emulation deaktivieren"
 
 #: src/translate_text.c.po.c:3877
-#, fuzzy
 msgid "interrupt"
-msgstr "ACIA Interrupt"
+msgstr "Interrupt"
 
 #: src/translate_text.c.po.c:3894
 msgid "Set the ACIA interrupt (0: None, 1: NMI, 2: IRQ)"
-msgstr ""
+msgstr "ACIA Interrupt setzen (0: None, 1: NMI, 2: IRQ)"
 
 #: src/translate_text.c.po.c:3911
-#, fuzzy
 msgid "Set the ACIA mode (0: Normal, 1: Swiftlink, 2: Turbo232)"
-msgstr "Rahmen Darstellung Modus (0: Normal, 1: Voll, 2: Debug)"
+msgstr "ACIA Modus setzen (0: Normal, 1: Swiftlink, 2: Turbo232)"
 
 #: src/translate_text.c.po.c:3928
-#, fuzzy
 msgid "Set the base address of the ACIA cartridge"
-msgstr "Basis Adresse für DigiMAX Erweiterung"
+msgstr "Basis Adresse für ACIA Erweiterung"
 
 #: src/translate_text.c.po.c:3947
 msgid "Enable the ACIA emulation"
@@ -10813,7 +10778,7 @@ msgstr "Wähle C128 Modell (c128/c128dcr, pal/ntsc)"
 msgid ""
 "Set C128 machine type (0: International, 1: Finnish, 2: French, 3: German, "
 "4: Italian, 5: Norwegian, 6: Swedish, 7: Swiss)"
-msgstr ""
+msgstr "Wähle C128 Modell (0: International, 1: Finnisch, 2: Französisch, 3: Deutsch, 4: Italienisch , 5: Norwegisch, 6: Schwedisch, 7: Schweiz)"
 
 #: src/translate_text.c.po.c:4425
 msgid "Disable RAM banks 2 and 3"
@@ -10926,14 +10891,12 @@ msgid "size in KB"
 msgstr "Größe in KB"
 
 #: src/translate_text.c.po.c:4886
-#, fuzzy
 msgid "size"
-msgstr "RAM Größe"
+msgstr "Größe"
 
 #: src/translate_text.c.po.c:4920
-#, fuzzy
 msgid "clock"
-msgstr "SID Takt"
+msgstr "Takt"
 
 #: src/translate_text.c.po.c:4937
 msgid "Size of the GEORAM expansion unit"
@@ -11020,14 +10983,12 @@ msgid "Do not write to RAMCart image"
 msgstr "Kein Schreibzugriff auf RAMCart Image"
 
 #: src/translate_text.c.po.c:5345
-#, fuzzy
 msgid "Set the RAMCart switch to read-only"
-msgstr "MMC64 Karte Schreibschutz"
+msgstr "RAMCart Schalter auf Schreibschutz"
 
 #: src/translate_text.c.po.c:5362
-#, fuzzy
 msgid "Set the RAMCart switch to read/write"
-msgstr "MMC64 Karte Schreibzugriff"
+msgstr "RAMCart Schalter auf Schreibzugriff"
 
 #: src/translate_text.c.po.c:5379
 msgid "Size of the RAMCART expansion. (64/128)"
@@ -11191,7 +11152,7 @@ msgstr "Aktviere RR Flash Jumper"
 
 #: src/translate_text.c.po.c:6144
 msgid "Set RR Revision (0: Retro Replay, 1: Nordic Replay)"
-msgstr ""
+msgstr "RR Revision (0: Retro Replay, 1: Nordic Replay)"
 
 #: src/translate_text.c.po.c:6178
 msgid "Disable the RAM Expansion Unit"
@@ -11405,9 +11366,8 @@ msgid "Attach raw REX EP256 cartridge image"
 msgstr "REX EP256 Image (raw) einlegen"
 
 #: src/translate_text.c.po.c:7319
-#, fuzzy
 msgid "Attach raw 64kB RGCD cartridge image"
-msgstr "64kB IDE64 Image einlegen"
+msgstr "64kB RGBD Image (raw) einlegen"
 
 #: src/translate_text.c.po.c:7336
 msgid "Attach raw 16/32kB ROSS cartridge image"
@@ -11696,9 +11656,8 @@ msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 msgstr "40 Spur Erweiterungsmethode (0: nie, 1: Rückfrage, 2: bei Bedarf)"
 
 #: src/translate_text.c.po.c:8613
-#, fuzzy
 msgid "Specify name of 1540 DOS ROM image"
-msgstr "Name der 1541 DOS ROM Image Datei definieren"
+msgstr "Name der 1540 DOS ROM Image Datei definieren"
 
 #: src/translate_text.c.po.c:8630
 msgid "Specify name of 1541 DOS ROM image"
@@ -11885,76 +11844,68 @@ msgid "Disable on-read support for P00 files on drive 11"
 msgstr ""
 
 #: src/translate_text.c.po.c:9429
-#, fuzzy
 msgid "Enable saving of P00 files on drive 8"
-msgstr "Sound Emulation für Disklaufwerke aktivieren"
+msgstr "Speichern von P00 Dateien auf Laufwerk 8 aktivieren"
 
 #: src/translate_text.c.po.c:9446
-#, fuzzy
 msgid "Disable saving of P00 files on drive 8"
-msgstr "Sound Emulation für Disklaufwerke deaktivieren"
+msgstr "Speichern von P00 Dateien auf Laufwerk 8 deaktivieren"
 
 #: src/translate_text.c.po.c:9463
-#, fuzzy
 msgid "Enable saving of P00 files on drive 9"
-msgstr "Sound Emulation für Disklaufwerke aktivieren"
+msgstr "Speichern von P00 Dateien auf Laufwerk 9 aktivieren"
 
 #: src/translate_text.c.po.c:9480
-#, fuzzy
 msgid "Disable saving of P00 files on drive 9"
-msgstr "Sound Emulation für Disklaufwerke deaktivieren"
+msgstr "Speichern von P00 Dateien auf Laufwerk 9 deaktivieren"
 
 #: src/translate_text.c.po.c:9497
-#, fuzzy
 msgid "Enable saving of P00 files on drive 10"
-msgstr "Sound Emulation für Disklaufwerke aktivieren"
+msgstr "Speichern von P00 Dateien auf Laufwerk 10 aktivieren"
 
 #: src/translate_text.c.po.c:9514
-#, fuzzy
 msgid "Disable saving of P00 files on drive 10"
-msgstr "Sound Emulation für Disklaufwerke deaktivieren"
+msgstr "Speichern von P00 Dateien auf Laufwerk 10 deaktivieren"
 
 #: src/translate_text.c.po.c:9531
-#, fuzzy
 msgid "Enable saving of P00 files on drive 11"
-msgstr "Sound Emulation für Disklaufwerke aktivieren"
+msgstr "Speichern von P00 Dateien auf Laufwerk 11 aktivieren"
 
 #: src/translate_text.c.po.c:9548
-#, fuzzy
 msgid "Disable saving of P00 files on drive 11"
-msgstr "Sound Emulation für Disklaufwerke deaktivieren"
+msgstr "Speichern von P00 Dateien auf Laufwerk 11 deaktivieren"
 
 #: src/translate_text.c.po.c:9565
 msgid "Hide CBM files (only show P00 files) for drive 8"
-msgstr ""
+msgstr "Laufwerk 8 CBM Dateien ausblenden (nur P00 Dateien zeigen)"
 
 #: src/translate_text.c.po.c:9582
 msgid "Do not hide CBM files (show all files) for drive 8"
-msgstr ""
+msgstr "Laufwerk 8 alle Dateien zeigen (CBM Dateien nicht ausblenden)"
 
 #: src/translate_text.c.po.c:9599
 msgid "Hide CBM files (only show P00 files) for drive 9"
-msgstr ""
+msgstr "Laufwerk 9 CBM Dateien ausblenden (nur P00 Dateien zeigen)"
 
 #: src/translate_text.c.po.c:9616
 msgid "Do not hide CBM files (show all files) for drive 9"
-msgstr ""
+msgstr "Laufwerk 9 alle Dateien zeigen (CBM Dateien nicht ausblenden)"
 
 #: src/translate_text.c.po.c:9633
 msgid "Hide CBM files (only show P00 files) for drive 10"
-msgstr ""
+msgstr "Laufwerk 10 CBM Dateien ausblenden (nur P00 Dateien zeigen)"
 
 #: src/translate_text.c.po.c:9650
 msgid "Do not hide CBM files (show all files) for drive 10"
-msgstr ""
+msgstr "Laufwerk 10 alle Dateien zeigen (CBM Dateien nicht ausblenden)"
 
 #: src/translate_text.c.po.c:9667
 msgid "Hide CBM files (only show P00 files) for drive 11"
-msgstr ""
+msgstr "Laufwerk 11 CBM Dateien ausblenden (nur P00 Dateien zeigen)"
 
 #: src/translate_text.c.po.c:9684
 msgid "Do not hide CBM files (show all files) for drive 11"
-msgstr ""
+msgstr "Laufwerk 11 alle Dateien zeigen (CBM Dateien nicht ausblenden)"
 
 #: src/translate_text.c.po.c:9701
 msgid "Set bitrate for audio stream in media file"
@@ -12086,25 +12037,23 @@ msgstr "Analog Hintergrundfarbe für PET 4032"
 
 #: src/translate_text.c.po.c:10245
 msgid "PET RAM size (4/8/16/32/96/128)"
-msgstr ""
+msgstr "PET RAM Größe (4/8/16/32/96/128)"
 
 #: src/translate_text.c.po.c:10262
 msgid "PET I/O size (256/2048)"
-msgstr ""
+msgstr "PET I/O Größe (256/2048)"
 
 #: src/translate_text.c.po.c:10279
-#, fuzzy
 msgid "Enable CRTC"
-msgstr "REU aktivieren"
+msgstr "CRTC aktivieren"
 
 #: src/translate_text.c.po.c:10296
-#, fuzzy
 msgid "Disable CRTC"
-msgstr "Deaktiviert"
+msgstr "CRTC deaktivieren"
 
 #: src/translate_text.c.po.c:10313
 msgid "Set video size (0: Automatic, 40: 40 Columns, 80: 80 Columns)"
-msgstr ""
+msgstr "Video Größe (0: Automatisch, 40: 40 Spalten, 80: 80 Spalten)"
 
 #: src/translate_text.c.po.c:10330
 msgid "Enable userport diagnostic pin"
@@ -12179,9 +12128,8 @@ msgid "Amount of scan line shading for the CRT emulation"
 msgstr "Wert für Scanline Schatten für CRT Emulation"
 
 #: src/translate_text.c.po.c:10636
-#, fuzzy
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a/6572)"
-msgstr "Wähle VIC-II Modell (6569/6569r1/8565/6567/8562/6567r56a)"
+msgstr "Wähle VIC-II Modell (6569/6569r1/8565/6567/8562/6567r56a/6572)"
 
 #: src/translate_text.c.po.c:10653
 msgid "Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)"
@@ -12235,9 +12183,8 @@ msgid "Specify name of output device for device #5"
 msgstr "Name für Druckerausgabe Datei Gerät #5 definieren"
 
 #: src/translate_text.c.po.c:10857
-#, fuzzy
 msgid "Specify name of output device for device #6"
-msgstr "Name für Druckerausgabe Datei Gerät #4 definieren"
+msgstr "Name für Druckerausgabe Datei Gerät #6 definieren"
 
 #: src/translate_text.c.po.c:10874
 msgid "Specify name of output device for the userport printer"
@@ -12413,27 +12360,27 @@ msgstr "SID Modul deaktivieren"
 
 #: src/translate_text.c.po.c:11632
 msgid "SID cartridge address (0x8F00/0xE900)"
-msgstr ""
+msgstr "SID Modul Adresse (0x8F00/0xE900)"
 
 #: src/translate_text.c.po.c:11649
 msgid "SID cartridge address (0xFD40/0xFE80)"
-msgstr ""
+msgstr "SID Modul Adresse (0xFD40/0xFE80)"
 
 #: src/translate_text.c.po.c:11666
 msgid "SID cartridge address (0x9800/0x9C00)"
-msgstr ""
+msgstr "SID Module Adresse (0x9800/0x9C00)"
 
 #: src/translate_text.c.po.c:11683
 msgid "SID cartridge clock (0: C64 clock, 1: PET clock)"
-msgstr ""
+msgstr "SID Module Takt (0: C64 Takt, 1: PET Takt)"
 
 #: src/translate_text.c.po.c:11700
 msgid "SID cartridge clock (0: C64 clock, 1: PLUS4 clock)"
-msgstr ""
+msgstr "SID Modul Takt (0: C64 Takt, 1: PLUS4 Takt)"
 
 #: src/translate_text.c.po.c:11717
 msgid "SID cartridge clock (0: C64 clock, 1: VIC20 clock)"
-msgstr ""
+msgstr "SID Modul Takt (0: C64 Takt, 1: VIC20 Takt)"
 
 #: src/translate_text.c.po.c:11751
 msgid "Specify base address for 2nd SID"
@@ -12483,11 +12430,11 @@ msgstr "reSID Gain in Prozent (90 - 100)"
 
 #: src/translate_text.c.po.c:11907
 msgid "Set the HardSID device for the main SID output"
-msgstr ""
+msgstr "HardSID Gerät für SID Ausgabe (main)"
 
 #: src/translate_text.c.po.c:11924
 msgid "Set the HardSID device for the right SID output"
-msgstr ""
+msgstr "HardSID Gerät für SID Ausgabe (rechts)"
 
 #: src/translate_text.c.po.c:11942
 msgid "Enable additional vertical stretching."
@@ -12602,14 +12549,12 @@ msgid "Disable sprite-sprite collision registers"
 msgstr "Sprite-Sprite Kollisionen deaktivieren"
 
 #: src/translate_text.c.po.c:12452
-#, fuzzy
 msgid "Enable VSP bug emulation"
-msgstr "MIDI Emulation aktivieren"
+msgstr "VSP Fehler Emulation aktivieren"
 
 #: src/translate_text.c.po.c:12469
-#, fuzzy
 msgid "Disable VSP bug emulation"
-msgstr "MIDI Emulation deaktivieren"
+msgstr "VSP Fehler Emulation deaktivieren"
 
 #: src/translate_text.c.po.c:12486
 msgid "Use new luminances"
@@ -12620,12 +12565,10 @@ msgid "Use old luminances"
 msgstr "Alte Helligkeitsemulation"
 
 #: src/translate_text.c.po.c:12520
-#, fuzzy
 msgid "Enable the possibility of hardware scaling"
 msgstr "Hardwareunterstützung für Skalierung aktivieren"
 
 #: src/translate_text.c.po.c:12537
-#, fuzzy
 msgid "Disable the possibility of hardware scaling"
 msgstr "Hardwareunterstützung für Skalierung deaktivieren"
 
@@ -12770,9 +12713,8 @@ msgid "Set number of cycles added to each gap in the tap"
 msgstr "Setze Anzahl der Zyklen für jedes Loch im Tap"
 
 #: src/translate_text.c.po.c:13132
-#, fuzzy
 msgid "Set maximum random number of cycles added to each gap in the tap"
-msgstr "Setze Anzahl der Zyklen für jedes Loch im Tap"
+msgstr "Setze maximal Zufallszahl der Zyklen für jedes Loch im Tap"
 
 #: src/translate_text.c.po.c:13150
 msgid "Trace the main CPU"
@@ -12819,48 +12761,41 @@ msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Verfolgung Modus (0=normal 1=klein 2=Geschichte)"
 
 #: src/translate_text.c.po.c:13337
-#, fuzzy
 msgid "Set the amount of automatic playback frames"
 msgstr "Frames für automatische Wiedergabe eingeben"
 
 #: src/translate_text.c.po.c:13356
-#, fuzzy
 msgid "frames"
-msgstr "Rahmen #"
+msgstr "Rahmen"
 
 #: src/translate_text.c.po.c:13373
 msgid "Playback recorded events"
 msgstr "Wiedergabe von aufgenommener Ereignisse"
 
 #: src/translate_text.c.po.c:13390
-#, fuzzy
 msgid "Set event snapshot directory"
-msgstr "Initiales Snapshot verzeichnis wählen."
+msgstr "Event Snapshot Verzeichnis wählen."
 
 #: src/translate_text.c.po.c:13407
-#, fuzzy
 msgid "Set event start snapshot"
-msgstr "Snapshot speichern"
+msgstr "Snapshot speichern starten"
 
 #: src/translate_text.c.po.c:13424
-#, fuzzy
 msgid "Set event end snapshot"
-msgstr "Speichere neuen Snapshot"
+msgstr "Event Snapshot beenden"
 
 #: src/translate_text.c.po.c:13441
 msgid ""
 "Set event start mode (0: file save, 1: file load, 2: reset, 3: playback)"
-msgstr ""
+msgstr "Event Start Modus (0: File speichern, 1: File laden, 2: Reset, 3: Playback)"
 
 #: src/translate_text.c.po.c:13458
-#, fuzzy
 msgid "Enable including disk images"
-msgstr "Erweiterung Disk Image"
+msgstr "Disk Image inkludieren"
 
 #: src/translate_text.c.po.c:13475
-#, fuzzy
 msgid "Disable including disk images"
-msgstr "Sound Emulation für Disklaufwerke deaktivieren"
+msgstr "Disk Image exkludieren"
 
 #: src/translate_text.c.po.c:13492
 msgid "Execute monitor commands from file"
@@ -12875,14 +12810,12 @@ msgid "Set an initial breakpoint for the monitor"
 msgstr "Setze initialen Breakpoint für Monitor"
 
 #: src/translate_text.c.po.c:13543
-#, fuzzy
 msgid "Keep the monitor open"
 msgstr "Monitor göffnet halten"
 
 #: src/translate_text.c.po.c:13560
-#, fuzzy
 msgid "Do not keep the monitor open"
-msgstr "Monitor göffnet halten"
+msgstr "Monitor nicht göffnet halten"
 
 #: src/translate_text.c.po.c:13577
 msgid "Enable remote monitor"
@@ -13057,11 +12990,10 @@ msgid "Set sound buffer size to <value> msec"
 msgstr "Setze Source Buffer Größe zu <Wert> msek"
 
 #: src/translate_text.c.po.c:14398
-#, fuzzy
 msgid ""
 "Set sound fragment size (0: very small, 1: small, 2: medium, 3: large, 4: "
 "very large)"
-msgstr "Setze Sound Fragmentgröße (0 = klein, 1 = mittel, 2 = groß)"
+msgstr "Setze Sound Fragmentgröße (0 = sehr klein, 1 = klein, 2 = mittel, 3 = groß, 4 = sehr groß)"
 
 #: src/translate_text.c.po.c:14415
 msgid "Specify sound driver"
@@ -13108,12 +13040,11 @@ msgstr ""
 msgid ""
 "Specify the pause interval when audio underflows (clicks) happen. 0 means no "
 "pause is done."
-msgstr ""
+msgstr "Pause Interval bei Audio unterlauf (Klicks) definineren. (0: keine Pause)"
 
 #: src/translate_text.c.po.c:14585
-#, fuzzy
 msgid "Specify the sound volume"
-msgstr "Sound Treiber spezifieren"
+msgstr "Sound Lautstärke spezifieren"
 
 #: src/translate_text.c.po.c:14619
 msgid "Define search path to locate system files"
@@ -13171,13 +13102,13 @@ msgstr "Basis Adresse für 256K RAM Erweiterung. (0xDE00/0xDE80/0xDF00/0xDF80)"
 msgid ""
 "Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: "
 "+256K)"
-msgstr ""
+msgstr "Speichererweiterungshack Gerät (0: kein, 1: C64 256K, 2: +60K, 3: +256K)"
 
 #: src/translate_text.c.po.c:14874
 msgid ""
 "Set the 'memory expansion hack' device (0: None, 1: CSORY 256K, 2: HANNES "
 "256K, 3: HANNES 1024K, 4: HANNES 4096K)"
-msgstr ""
+msgstr "Speicher Erweiterungshack Gerät (0: Kein, 1: CSORY 256K, 2: HANNES 256K, 3: HANNES 1024K, 4: HANNES 4096K)"
 
 #: src/translate_text.c.po.c:14908
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
@@ -13341,28 +13272,24 @@ msgid "Disable saving of the DS12C887 RTC data when changed."
 msgstr "DS12C887 RTC Daten bei Änderung nicht speichern."
 
 #: src/translate_text.c.po.c:15744
-#, fuzzy
 msgid "hostname"
-msgstr "Hostname:"
+msgstr "Hostname"
 
 #: src/translate_text.c.po.c:15761
-#, fuzzy
 msgid "port"
-msgstr "<Port>"
+msgstr "Port"
 
 #: src/translate_text.c.po.c:15778
-#, fuzzy
 msgid "Set the netplay server hostname"
-msgstr "Netplay Server Name"
+msgstr "Netplay Server Name setzen"
 
 #: src/translate_text.c.po.c:15795
 msgid "Set the netplay binding address"
-msgstr ""
+msgstr "Netplay Bindadresse setzen"
 
 #: src/translate_text.c.po.c:15812
-#, fuzzy
 msgid "Set the netplay port"
-msgstr "Netplay TCP Port"
+msgstr "Netplay TCP Port setzen"
 
 #: src/translate_text.c.po.c:15829
 msgid ""
@@ -13370,6 +13297,8 @@ msgid ""
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
 "Both)"
 msgstr ""
+"Netplay Steuerelemente (Tastatur, Joystick 1, Joystick 2, Geräte und\n"
+"Resourcen), für jedes Element (0: Kein, 1: Server, 2: Client, 3: Beide)"
 
 #: src/translate_text.c.po.c:15847
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
@@ -13400,9 +13329,8 @@ msgid "Disable HiRes Emulation Board"
 msgstr "HiRes Emulation Board aktivieren"
 
 #: src/translate_text.c.po.c:15967
-#, fuzzy
 msgid "Set raw drive device name"
-msgstr "Sound Gerätename"
+msgstr "Raw Laufwerk Gerätename setzen"
 
 #~ msgid "256K RAM Expansion"
 #~ msgstr "256K RAM Erweiterung"
