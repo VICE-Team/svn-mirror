@@ -3120,7 +3120,7 @@ Integer specifying the size of the audio buffer, in milliseconds.
 @vindex SoundSuspendTime
 @item SoundSuspendTime
 Integer specifying the pause interval when audio underflows (``clicks'')
-happen.  @code{0} means no pause is done.
+happen. @code{0} means no pause is done.
 
 @vindex SoundDeviceName
 @item SoundDeviceName
@@ -3150,14 +3150,7 @@ Implemented drivers are:
 @item
 @code{dummy}, fully emulating the sound output chip(s), but not actually playing samples.
 @item
-@code{dump}, writing all the write accesses to the registers to a file
-(specified by @code{SoundDeviceArg}, default value is
-@code{vicesnd.sid});
-@item
 @code{dx}, for the Windows Direct-X sound driver.
-@item
-@code{fs}, writing samples to a file (specified by
-@code{SoundDeviceArg}; default is @file{vicesnd.raw});
 @item
 @code{hpux}, for the HP-UX audio device (unfinished;
 @code{SoundDeviceArg} specifies the audio device, @file{/dev/audio} by
@@ -3172,9 +3165,6 @@ default).
 @code{sgi}, for the Silicon Graphics audio device (@code{SoundDeviceArg}
 specifies the audio device, @file{/dev/audio} by default);
 @item
-@code{speed}, like @code{dummy} but also calculating samples (mainly
-used to evaluate the speed of the sample generator);
-@item
 @code{sun}, for the Solaris and NetBDS audio device (unfinished;
 @code{SoundDeviceArg} specifies the audio device, @file{/dev/audio} by
 default).
@@ -3188,6 +3178,10 @@ default);
 
 These drivers will actually be present only if the VICE configuration
 script detected the corresponding development support at the time of compilation.
+
+@item
+@code{speed}, like @code{dummy} but also calculating samples (mainly
+used to evaluate the speed of the sample generator);
 
 @vindex SoundDeviceArg
 @item SoundDeviceArg
@@ -3204,6 +3198,12 @@ Implemented drivers are:
 @item
 @code{aiff}, for the Apple Interchange File Format 16bit sound recorder driver.
 @item
+@code{dump}, writing all the write accesses to the registers to a file
+(specified by @code{SoundDeviceArg}, default value is
+@code{vicesnd.sid});
+@item
+@code{fs}, writing samples to a file (specified by
+@code{SoundDeviceArg}; default is @file{vicesnd.raw});
 @code{iff}, for the Amiga Interchange File Format (8SVX) 8bit sound recorder driver.
 @item
 @code{mp3}, for the MP3 sound recorder driver.
@@ -3227,14 +3227,17 @@ Integer specifying the fragment size.
 
 @vindex SoundVolume
 @item SoundVolume
-Integer specifying the master volume in percent. [100] (0..100)
+Integer specifying the master volume in percent.
+(0..100)
+
 @vindex SoundOutput
 @item SoundOutput
-Enum specifying how the type of sound output. Output is selectable between 'system' 
+Integer specifying the type of sound output. Output is selectable between 'system' 
 (system decides to use mono or stereo output based on the presence of a stereo sid), 
 'always mono' (output is always mono, stereo streams are mixed into a mono stream) 
 or 'always stereo' (output is always stereo, mono streams are multiplexed to a stereo 
-stream). (0=system, 1=mono, 2=stereo)
+stream).
+(0: system, 1: mono, 2: stereo)
 
 @end table
 
@@ -3261,9 +3264,11 @@ Specify the sound playback sample rate
 (@code{SoundSampleRate}).
 (8000..48000)
 
-@cindex -soundoutput 
+@findex -soundoutput 
 @item -soundoutput <output mode>
-Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always stereo)
+Sound output mode
+(@code{SoundOutput}).
+(0: system decides mono/stereo, 1: always mono, 2: always stereo)
 
 @findex -soundbufsize
 @item -soundbufsize <value>
@@ -3276,23 +3281,38 @@ Set sound fragment size
 (@code{SoundFragmentSize}).
 (0: very small, 1: small, 2: medium, 3: large, 4: very large)
 
-@cindex -sounddev
+@findex -sounddev
 @item -sounddev <Name>
-Specifies the name of the audio device (ahi/aix/allegro/alsa/arts/beos/bsp/coreaudio/dart/dummy/dx/hpux/midas/pulse/sdl/sgi/sun/uss/wmm)
+Specifies the name of the audio device
 (@code{SoundDeviceName}).
+(ahi/aix/allegro/alsa/arts/beos/bsp/coreaudio/dart/dummy/dx/hpux/midas/pulse/sdl/sgi/sun/uss/wmm)
 
-@cindex -soundarg
+@findex -soundarg
 @item -soundarg <args>
 Specifies an additional parameter for the audio device
 (@code{SoundDeviceArg}).
 
-@cindex -soundrecdev
+@findex -soundrecdev
 @item -soundrecdev <name>
-Specify recording sound driver (aiff/dump/fs/iff/mp3/speed/voc/wav)
+Specify recording sound driver
+(@code{SoundRecordDeviceName}).
+(aiff/dump/fs/iff/mp3/speed/voc/wav)
 
-@cindex -soundrecarg
+@findex -soundrecarg
 @item -soundrecarg <args>
 Specify initialization parameters for recording sound driver
+(@code{SoundRecordDeviceArg}).
+
+@findex -soundsuspend
+@item -soundsuspend <seconds>
+Specify the pause interval when audio underflows (clicks) happen. 0 means no pause is done
+(@code{SoundSuspendTime}).
+
+@findex -soundvolume
+@item -soundvolume <volume>
+Specify the sound volume
+(@code{SoundVolume}).
+(0..100)
 
 @end table
 
@@ -4216,22 +4236,29 @@ Strings specifying the directories to which drives 8, 9, 10 and 11 have access
 
 @table @code
 
-@cindex -iecdevice8, +iecdevice8
+@findex -iecdevice8, +iecdevice8
 @item -iecdevice8
 @itemx +iecdevice8
-Enable/Disable IEC device emulation for device #8
-@cindex -iecdevice9, +iecdevice9
+Enable/disable IEC device emulation for device #8
+(@code{IECDevice8=1}, @code{IECDevice8=0}).
+
+@findex -iecdevice9, +iecdevice9
 @item -iecdevice9
 @itemx +iecdevice9
-Enable/Disable IEC device emulation for device #9
-@cindex -iecdevice10, +iecdevice10
+Enable/disable IEC device emulation for device #9
+(@code{IECDevice9=1}, @code{IECDevice9=0}).
+
+@findex -iecdevice10, +iecdevice10
 @item -iecdevice10
 @itemx +iecdevice10
-Enable/Disable IEC device emulation for device #10
-@cindex -iecdevice11, +iecdevice11
+Enable/disable IEC device emulation for device #10
+(@code{IECDevice10=1}, @code{IECDevice10=0}).
+
+@findex -iecdevice11, +iecdevice11
 @item -iecdevice11
 @itemx +iecdevice11
-Enable/Disable IEC device emulation for device #11
+Enable/disable IEC device emulation for device #11
+(@code{IECDevice11=1}, @code{IECDevice11=0}).
 
 @findex -device8
 @findex -device9
@@ -4418,8 +4445,10 @@ Strings specifying the printer devices (@pxref{Printer settings}).
 
 @vindex Printer4TextDevice
 @vindex Printer5TextDevice
+@vindex Printer6TextDevice
 @item Printer4TextDevice
 @itemx Printer5TextDevice
+@itemx Printer6TextDevice
 Integer (ranging from 0 to 2, for device 1-3) specifying what printer device
 (@pxref{Printer settings}) the IEC printer is using.
 
@@ -4454,8 +4483,10 @@ String specifying the printer output driver.
 
 @vindex Printer4Output
 @vindex Printer5Output
+@vindex Printer6Output
 @item Printer4Output
 @itemx Printer5Output
+@itemx Printer6Output
 Strings specifying the IEC printer output device.
 (text, graphics)
 
@@ -4476,6 +4507,7 @@ String specifying the user-port printer output driver.
 @vindex PrinterUserportOutput
 @item PrinterUserportOutput
 String specifying the user-port printer output device.
+(text, graphics)
 
 @end table
 
@@ -4484,25 +4516,29 @@ String specifying the user-port printer output device.
 
 @table @code
 
-@cindex -iecdevice4, +iecdevice4
+@findex -iecdevice4, +iecdevice4
 @item -iecdevice4
 @itemx +iecdevice4
-Enable/Disable IEC device emulation for device #4
+Enable/disable IEC device emulation for device #4
+(@code{IECDevice4=1}, @code{IECDevice4=0}).
 
-@cindex -iecdevice5, +iecdevice5
+@findex -iecdevice5, +iecdevice5
 @item -iecdevice5
 @itemx +iecdevice5
-Enable/Disable IEC device emulation for device #5
+Enable/disable IEC device emulation for device #5
+(@code{IECDevice5=1}, @code{IECDevice5=0}).
 
-@cindex -iecdevice6, +iecdevice6
+@findex -iecdevice6, +iecdevice6
 @item -iecdevice6
 @itemx +iecdevice6
-Enable/Disable IEC device emulation for device #6
+Enable/disable IEC device emulation for device #6
+(@code{IECDevice6=1}, @code{IECDevice6=0}).
 
-@cindex -iecdevice7, +iecdevice7
+@findex -iecdevice7, +iecdevice7
 @item -iecdevice7
 @itemx +iecdevice7
-Enable/Disable IEC device emulation for device #7
+Enable/disable IEC device emulation for device #7
+(@code{IECDevice7=1}, @code{IECDevice7=0}).
 
 @findex -device4
 @item -device4 <type>
@@ -4528,19 +4564,23 @@ Set device type for device 7
 (@code{Printer7}).
 (0: None, 2: Real)
 
-@cindex -prtxtdev1
-@cindex -prtxtdev2
-@cindex -prtxtdev3
+@findex -prtxtdev1
+@findex -prtxtdev2
+@findex -prtxtdev3
 @item -prtxtdev1 <name>
 @itemx -prtxtdev2 <name>
 @itemx -prtxtdev3 <name>
 Specify name of printer text device or dump file
+(@code{PrinterTextDevice1}, @code{PrinterTextDevice2}, @code{PrinterTextDevice3}).
 
-@cindex -pr4txtdev
-@cindex -pr5txtdev
+@findex -pr4txtdev
+@findex -pr5txtdev
+@findex -pr6txtdev
 @item -pr4txtdev <0-2>
 @itemx -pr5txtdev <0-2>
-Specify printer text output device for IEC printer #4-5
+@itemx -pr6txtdev <0-2>
+Specify printer text output device for IEC printer #4-6
+(@code{Printer4TextDevice}, @code{Printer5TextDevice}, @code{Printer6TextDevice}).
 
 @findex -pr4output
 @item -pr4output <name>
@@ -4552,6 +4592,12 @@ Specify name of output device for device #4
 @item -pr5output <name>
 Specify name of output device for device #5
 (@code{Printer5Output}).
+(text, graphics)
+
+@findex -pr6output
+@item -pr6output <name>
+Specify name of output device for device #6
+(@code{Printer6Output}).
 (text, graphics)
 
 @findex -pr4drv
@@ -4578,13 +4624,16 @@ Specify name of printer driver for device #6
 Enable/disable emulation of the userport printer emulation
 (@code{PrUser=1}, @code{PrUser=0}).
 
-@cindex -prusertxtdev
+@findex -prusertxtdev
 @item -prusertxtdev <0-2>
 Specify printer text output device for userport printer
+(@code{PrinterUserportTextDevice}).
 
-@cindex -pruseroutput
+@findex -pruseroutput
 @item -pruseroutput <name>
 Specify name of output device for the userport printer
+(@code{PrinterUserportOutput}).
+(text, graphics)
 
 @findex -pruserdrv
 @item -pruserdrv <name>
@@ -4908,12 +4957,18 @@ The local address the remote monitor should bind to
 @vindex RAMInitStartValue
 @item RAMInitStartValue
 Integer specifying the value for the very first RAM address after powerup
+(all emulators except vsid).
+(0..255)
+
 @vindex RAMInitValueInvert
 @item RAMInitValueInvert
 Integer specifying the length of the memory block initialized with the same value
+(all emulators except vsid).
+
 @vindex RAMInitPatternInvert
 @item RAMInitPatternInvert
 Integer specifying the length of the memory block initialized with the same pattern
+(all emulators except vsid).
 
 @end table
 
@@ -4922,15 +4977,24 @@ Integer specifying the length of the memory block initialized with the same patt
 
 @table @code
 
-@cindex -raminitstartvalue
+@findex -raminitstartvalue
 @item -raminitstartvalue <value>
 Set the value for the very first RAM address after powerup
+(@code{RAMInitStartValue})
+(all emulators except vsid).
+(0..255)
+
 @cindex -raminitvalueinvert
 @item -raminitvalueinvert <num of bytes>
 Length of memory block initialized with the same value
-@cindex -raminitpatterninvert
+(@code{RAMInitValueInvert})
+(all emulators except vsid).
+
+@findex -raminitpatterninvert
 @item -raminitpatterninvert <num of bytes>
 Length of memory block initialized with the same pattern
+(@code{RAMInitPatternInvert})
+(all emulators except vsid).
 
 @end table
 
@@ -7361,7 +7425,7 @@ Enable/Disable RRNet mode of TFE emulation
 
 @findex -burstmod
 @item -burstmod <value>
-Set the kind of burst modification. This is emulates the fast serial bus connection
+Set the kind of burst modification. This emulates the fast serial bus connection
 as described at @uref{http://www.cs.tut.fi/~albert/Dev/burst/}, with the wire to
 the tape port cut
 (@code{BurstMod}).
@@ -8249,10 +8313,11 @@ can be used simultaneously with either Hummer ADC or userport joystick.
 Enable/Disable Hummer ADC
 (@code{HummerADC=1}, @code{HummerADC=0}).
 
-@cindex -ps2mouse, +ps2mouse
+@findex -ps2mouse, +ps2mouse
 @item -ps2mouse
 @itemx +ps2mouse
-Enable or disable PS/2 mouse on userport
+Enable/disable PS/2 mouse on userport
+(@code{ps2mouse=1}, @code{ps2mouse=0}).
 
 @end table
 
@@ -8340,7 +8405,7 @@ Boolean to enable/disable the Hummer ADC emulation.
 
 @vindex ps2mouse
 @item ps2mouse
-Boolean, enables PS/2 Mouse emulation.
+Boolean to enable/disable PS/2 Mouse emulation.
 
 @vindex DtvBlitterLog
 @item DtvBlitterLog
@@ -8412,9 +8477,46 @@ Specify the filename of the Basic ROM file
 @item ChargenName
 String specifying the name of the character generator ROM (default @file{chargen}).
 
+@vindex SCPU64Name
+@item SCPU64Name
+String specifying the name of the SCPU64 ROM (default @file{scpu64}).
+
+@vindex MachineVideoStandard
+@item MachineVideoStandard
+Integer that specifies the video standard of the emulated machine
+(-4: PAL-N, -3: Old NTSC, -1: PAL, -2: NTSC).
+
+@vindex IECReset
+@item IECReset
+Integer specifying if the IEC bus resets when the CPU resets.
+(0: No, 1: Yes)
+
+@vindex BurstMod
+@item BurstMod
+Integer specifying the kind of Burst-Mode modification.
+(0: None, 1: CIA-1, 2: CIA-2)
+
+@vindex SIMMSize
+@item SIMMSize
+Integer specifying the size of the SIMM RAM.
+(0, 1, 4, 8, 16)
+
+@vindex JiffySwitch
+@item JiffySwitch
+Boolean to enable/disable the jiffy switch.
+
+@vindex SpeedSwitch
+@item SpeedSwitch
+Boolean to enable/disable the speed switch.
+
+@vindex GlueLogic
+@item GlueLogic
+Integer specifying the type of emulated glue-logic.
+(0: discrete, 1: custom IC)
+
 @end table
 
-'@c @node FIXME
+@c @node FIXME
 @subsection SCPU64 command-line options
 
 @table @code
@@ -8423,6 +8525,77 @@ String specifying the name of the character generator ROM (default @file{chargen
 @item -chargen <name>
 Specify filename of the character generator ROM file
 (@code{ChargenName}).
+
+@findex -scpu64
+@item -scpu64 <Name>
+Specify filename of the SCPU64 ROM file
+(@code{SCPU64Name}).
+
+@findex -model
+@item -model <Model>
+Set the C64 model
+(@code{MachineVideoStandard}, @code{CIA1Model}, @code{CIA2Model},
+@code{VICIINewLuminances}, @code{IECReset}, @code{ChargenName},
+@code{SidEngine}, @code{SidModel}).
+(c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs)
+
+@findex -pal
+@item -pal
+Use PAL sync factor
+(@code{MachineVideoStandard=-1}).
+
+@findex -ntsc
+@item -ntsc
+Use NTSC sync factor
+(@code{MachineVideoStandard=-2}).
+
+@findex -ntscold
+@item -ntscold
+Use old NTSC sync factor
+(@code{MachineVideoStandard=-3}).
+
+@findex -paln
+@item -paln
+Use PAL-N sync factor
+(@code{MachineVideoStandard=-4}).
+
+@findex -iecreset
+@item -iecreset <value>
+Set IEC reset bahaviour
+(@code{IECReset}).
+(0: Do not reset with CPU reset, 1: Reset with CPU reset)
+
+@findex -burstmod
+@item -burstmod <value>
+Set the kind of burst modification. This emulates the fast serial bus connection
+as described at @uref{http://www.cs.tut.fi/~albert/Dev/burst/}, with the wire to
+the tape port cut
+(@code{BurstMod}).
+(0: None, 1: CIA-1, 2: CIA-2)
+
+@findex -simmsize
+@item -simmsize <number>
+Set the size of the SIMM RAM
+(@code{SIMMSize}).
+(0, 1, 4, 8, 16)
+
+@findex -jiffyswitch, +jiffyswitch
+@item -jiffyswitch
+@itemx +jiffyswitch
+Enable/disable the jiffy swicth
+(@code{JiffySwitch=1}, @code{JiffySwitch=0}).
+
+@findex -speedswitch, +speedswitch
+@item -speedswitch
+@itemx +speedswitch
+Enable/disable the speed swicth
+(@code{SpeedSwitch=1}, @code{SpeedSwitch=0}).
+
+@findex -gluelogictype
+@item -gluelogictype <type>
+Set glue logic type
+(@code{GlueLogic}).
+(0: discrete, 1: 252535-01)
 
 @end table
 
