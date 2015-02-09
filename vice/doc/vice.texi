@@ -2896,11 +2896,15 @@ Boolean, if true allow (usually impossible) bitcombinations for opposite directi
 
 @vindex UserportJoy
 @item UserportJoy
-Boolean, enables extra joysticks if true.
+Boolean to enable/disable extra joysticks
+(all emulators except xcbm5x0 and vsid).
+
 @vindex UserportJoyType
 @item UserportJoyType
-Integer specifying the type of adapter used for the extra joysticks. (0=Classical Games/
-Protovision, 1=PET, 2=Hummer, 3=OEM, 4=Digital Excess/Hitmen, 5=Kingsoft, 6=Starbyte)
+Integer specifying the type of adapter used for the extra joysticks
+(all emulators except xcbm5x0 and vsid).
+(0: Classical Games/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: Digital Excess/Hitmen, 5: Kingsoft, 6: Starbyte)
+4, 5 and 6 are x64, x64sc, xscpu64 and x128 only.
 
 @vindex Mouse
 @item Mouse
@@ -2997,9 +3001,24 @@ Set device for extra joystick port 1 and 2.
 @findex -joyopposite, +joyopposite
 @item -joyopposite
 @itemx +joyopposite
-Enable/Disable opposite joystick directions
+Enable/disable opposite joystick directions
 (@code{JoyOpposite=1}, @code{JoyOpposite=0}).
 (all emulators except vsid)
+
+@findex -userportjoy, +userportjoy
+@item -userportjoy
+@itemx +userportjoy
+Enable/disable extra joystick(s)
+(@code{UserportJoy=1}, @code{UserportJoy=0}).
+(all emulators except xcbm5x0 and vsid).
+
+@findex -userportjoytype
+@item -userportjoytype <Type>
+Set extra joystick type
+(@code{UserportJoyType})
+(all emulators except xcbm5x0 and vsid).
+(0: Classical Games/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: Digital Excess/Hitmen, 5: Kingsoft, 6: Starbyte)
+4, 5 and 6 are x64, x64sc, xscpu64 and x128 only.
 
 @cindex -mouse, +mouse
 @item -mouse
@@ -4677,11 +4696,11 @@ on and off with this resource.
 
 @table @code
 
-@cindex -virtualdev, +virtualdev
+@findex -virtualdev, +virtualdev
 @item -virtualdev
 @itemx +virtualdev
-Enable (@code{VirtualDevices=1}) or disable (@code{VirtualDevices=0})
-virtual devices.
+Enable/disable virtual devices
+(@code{VirtualDevices=1}, @code{VirtualDevices=0}).
 
 @end table
 
@@ -5103,6 +5122,16 @@ String specifying the filename of the current flip list. (Drive 8 only)
 Booleans that specify whether to attach images on drives 8 to 11 read-only or not
 (all emulators except vsid).
 
+@vindex UserportRTC
+@item UserportRTC
+Boolean specifying whether the userport RTC is emulated or not
+(x64, x64sc, xscpu64 and x128 only).
+
+@vindex UserportRTCSave
+@item UserportRTCSave
+Boolean specifying whether the userport RTC data is saved when changed or not
+(x64, x64sc, xscpu64 and x128 only).
+
 @end table
 
 @node Misc options,  , Misc resources, Misc settings
@@ -5133,6 +5162,20 @@ Enable/disable generation of core dumps
 Disable/enable calling of the exception handler
 (@code{DoCoreDump=1}, @code{DoCoreDump=0})
 (all emulators except vsid).
+
+@findex -userportrtc, +userportrtc
+@item -userportrtc
+@itemx +userportrtc
+Enable/disable the userport RTC emulation
+(@code{UserportRTC=1}, @code{UserportRTC=0})
+(x64, x64sc, xscpu64 and x128 only).
+
+@findex -userportrtcsave, +userportrtcsave
+@item -userportrtcsave
+@itemx +userportrtcsave
+Disable/enable saving of the userport RTC data when changed
+(@code{UserportRTCSave=1}, @code{UserportRTCSave=0})
+(x64, x64sc, xscpu64 and x128 only).
 
 @end table
 
@@ -6687,7 +6730,8 @@ Integer specifying gamma of internal calculated palette.
 
 @vindex VICIIColorTint
 @item VICIIColorTint
-integer specifying tint of internal calculated palette [1000] <0-2000>
+Integer specifying tint of internal calculated palette.
+(0..2000)
 
 @vindex VICIIPALScanLineShade
 @item VICIIPALScanLineShade
@@ -6720,7 +6764,8 @@ Integer specifying rendering filter.
 
 @vindex VICIIBorderMode
 @item VICIIBorderMode
-integer specifying border display mode (0: normal, 1: full, 2: debug, 3:none)
+Integer specifying border display mode.
+(0: normal, 1: full, 2: debug, 3: none)
 
 @end table
 
@@ -6794,9 +6839,12 @@ Select fullscreen mode
 @cindex -VICIIVidmodefullmode
 @item -VICIIVidmodefullmode <mode>
 Select fullscreen mode
-@cindex -VICIIborders
+
+@findex -VICIIborders
 @item -VICIIborders <mode>
-Set VIC-II border display mode (0: normal, 1: full, 2: debug, 3:none)
+Set VIC-II border display mode
+(@code{VICIIBorderMode}).
+(0: normal, 1: full, 2: debug, 3: none)
 
 @findex -VICIImodel
 @item -VICIImodel <model>
@@ -6831,9 +6879,10 @@ Set brightness of internal calculated palette
 Set gamma of internal calculated palette
 (@code{VICIIColorGamma}).
 
-@cindex -VICIItint
+@findex -VICIItint
 @item -VICIItint <0-2000>
 Set tint of internal calculated palette
+(@code{VICIIColorTint}).
 
 @findex -VICIIoddlinesphase
 @item -VICIIoddlinesphase <0-2000>
@@ -6855,10 +6904,11 @@ Amount of horizontal blur for the CRT emulation
 Amount of scan line shading for the CRT emulation
 (@code{VICIIPALScanLineShade}).
 
-@cindex -VICIIaudioleak, +VICIIaudioleak
+@findex -VICIIaudioleak, +VICIIaudioleak
 @item -VICIIaudioleak
 @item +VICIIaudioleak
-Enable/Disable video to audio leak emulation.
+Enable/disable video to audio leak emulation
+(@code{VICIIAudioLeak=1}, @code{VICIIAudioLeak=0}).
 
 @end table
 
@@ -7674,7 +7724,8 @@ Boolean to enabled/disable full 64k video ram.
 
 @vindex VDCRevision
 @item VDCRevision
-Integer specifying the VDC hardware revision. (0: Rev 0, 1: Rev 1, 2: Rev 2)
+Integer specifying the VDC hardware revision
+(0: Rev 0, 1: Rev 1, 2: Rev 2).
 
 @vindex VDCVideoCache
 @item VDCVideoCache
@@ -7723,7 +7774,8 @@ Integer specifying gamma of internal calculated palette.
 
 @vindex VDCColorTint
 @item VDCColorTint
-integer specifying tint of internal calculated palette [1000] <0-2000>
+Integer specifying tint of internal calculated palette.
+(0..2000)
 
 @vindex VDCPALScanLineShade
 @item VDCPALScanLineShade
@@ -7751,17 +7803,19 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 
 @vindex VDCFilter
 @item VDCFilter
-integer specifying rendering filter, 0:none, 1:CRT emulation, 2: scale2x
+Integer specifying rendering filter
+(0: None, 1: CRT emulation, 2: Scale2x)
 @end table
 
 @c @node FIXME
 @subsubsection VDC command-line options
 
 @table @code
-@cindex -VDCvcache, +VDCvcache
+@findex -VDCvcache, +VDCvcache
 @item -VDCvcache
 @itemx +VDCvcache
-Enable/Disable the video cache
+Enable/disable the video cache
+(@code{VDCVideoCache=1}, @code{VDCVideoCache=0}).
 
 @findex -VDCdsize, +VDCdsize
 @item -VDCdsize
@@ -7781,12 +7835,15 @@ Enable/Disable vertical stretching
 Enable/disable double scan
 (@code{VDCDoubleScan=1}, @code{VDCDoubleScan=0}).
 
-@cindex -VDCintpal
+@findex -VDCintpal
 @item -VDCintpal
 Use an internal calculated palette
-@cindex -VDCextpal
+(@code{VDCExternalPalette=0}).
+
+@findex -VDCextpal
 @item -VDCextpal
 Use an external palette (file)
+(@code{VDCExternalPalette=1}).
 
 @findex -VDCpalette
 @item -VDCpalette <name>
@@ -7810,9 +7867,11 @@ Set the VDC memory size to 16KB
 Set the VDC memory size to 64KB
 (@code{VDC64KB=1}).
 
-@cindex -VDCRevision
+@findex -VDCRevision
 @item -VDCRevision <number>
-Set VDC revision (0..2)
+Set VDC revision
+(@code{VDCRevision}).
+(0..2)
 
 @findex -VDCsaturation
 @item -VDCsaturation <0-2000>
@@ -7834,9 +7893,10 @@ Set brightness of internal calculated palette
 Set gamma of internal calculated palette
 (@code{VDCColorGamma}).
 
-@cindex -VDCtint
+@findex -VDCtint
 @item -VDCtint <0-2000>
-Set tint of internal calculated palette [1000]
+Set tint of internal calculated palette
+(@code{VDCColorTint}).
 
 @findex -VDCoddlinesphase
 @item -VDCoddlinesphase <0-2000>
@@ -7858,10 +7918,17 @@ Amount of horizontal blur for the CRT emulation
 Amount of scan line shading for the CRT emulation
 (@code{VDCPALScanLineShade}).
 
-@cindex -VDCaudioleak, +VDCaudioleak
+@findex -VDCaudioleak, +VDCaudioleak
 @item -VDCaudioleak
 @item +VDCaudioleak
-Enable/Disable video to audio leak emulation.
+Enable/disable video to audio leak emulation
+(@code{VDCAudioLeak=1}, @code{VDCAudioLeak=0}).
+
+@findex -VDCfilter
+@item -VDCfilter <Mode>
+Select rendering filter
+(@code{VDCFilter}).
+(0: None, 1: CRT emulation, 2: Scale2x)
 
 @end table
 
@@ -8669,9 +8736,55 @@ but you also have to enable the IEEE488 hardware by menu.
 @item CartridgeReset
 Boolean specifying whether the machine should be reset when a cartridge is
 changed.
+
 @vindex CartridgeType
 @item CartridgeType
 Integer specifying the type of cartridge emulated.
+
+The following cartridge types are valid:
+
+@itemize @bullet
+@item
+    -1: None
+@item
+     1: Generic
+@item
+     2: Megacart
+@item
+     3: Final Expansion
+@item
+     4: Vic Flash Plugin
+@item
+     5: IEEE-4888
+@item
+     6: SIDCart
+@item
+0x8000: Auto Detect
+@item
+0x8002: 4KB at $2000-$2FFF
+@item
+0x8003: 8KB at $2000-$3FFF
+@item
+0x8004: 4KB at $6000-$6FFF
+@item
+0x8005: 8KB at $6000-$7FFF
+@item
+0x8006: 4KB at $A000-$AFFF
+@item
+0x8007: 8KB at $A000-$BFFF
+@item
+0x8008: 4KB at $B000-$BFFF
+@item
+0x8009: 8KB at $4000-$5FFF
+@item
+0x800A: 4KB at $4000-$4FFF
+@item
+0x8013: 16KB at $2000-$5FFF
+@item
+0x8015: 16KB at $6000-$9FFF
+@item
+0x8019: 16KB at $4000-$7FFF
+@end itemize
 
 @vindex CartridgeFile
 @item CartridgeFile
@@ -8679,9 +8792,10 @@ String specifying the filename of the image for the current cartridge.
 
 @vindex IOCollisionHandling
 @item IOCollisionHandling
-Integer specifying the way the I/O collisions should be handled, (0: error message and 
-detach all involved carts, 1: error message and detach last attached involved 
-carts, 2: warning in log and 'AND' the valid return values)
+Integer specifying the way the I/O collisions should be handled.
+(0: error message and detach all involved carts,
+1: error message and detach last attached involved carts,
+2: warning in log and 'AND' the valid return values)
 
 @vindex GenericCartridgeFile2000
 @vindex GenericCartridgeFile4000
@@ -8806,6 +8920,15 @@ Boolean specifying whether the DS12C887 RTC cartridge starts out running or halt
 @item DS12C887RTCSave
 Boolean specifying whether the DS12C887 RTC data should be saved when changed or not.
 
+@vindex IEEE488
+@item IEEE488
+Boolean specifying whether the IEEE488 interface should be emulated or not.
+
+@vindex MachineVideoStandard
+@item MachineVideoStandard
+Integer that specifies the video standard of the emulated machine
+(-1: PAL, -2: NTSC).
+
 @end table
 
 @c @node FIXME
@@ -8813,11 +8936,19 @@ Boolean specifying whether the DS12C887 RTC data should be saved when changed or
 
 @table @code
 
-@cindex -iocollision
+@findex -iocollision
 @item -iocollision <method>
-Select the way the I/O collisions should be handled, (0: error message and 
-detach all involved carts, 1: error message and detach last attached involved 
-carts, 2: warning in log and 'AND' the valid return values
+Select the way the I/O collisions should be handled
+(@code{IOCollisionHandling}).
+(0: error message and detach all involved carts,
+1: error message and detach last attached involved carts,
+2: warning in log and 'AND' the valid return values
+
+@findex -cartreset, +cartreset
+@item -cartreset
+@itemx +cartreset
+Do/don't reset machine if a cartridge is attached or detached
+(@code{CartridgeReset=1}, @code{CartridgeReset}).
 
 @cindex -cart2
 @item -cart2 <name>
@@ -8873,10 +9004,11 @@ Specify Vic Flash Plugin extension ROM name
 Enable/Disable Vic Flash Plugin write back to ROM file
 (@code{VicFlashPluginWriteBack=1}, @code{VicFlashPluginWriteBack=0}).
 
-@cindex -ieee488, +ieee488
+@findex -ieee488, +ieee488
 @item -ieee488
 @itemx +ieee488
-Enable/Disable VIC-1112 IEEE488 interface
+Enable/disable VIC-1112 IEEE488 interface
+(@code{IEEE488=1}, @code{IEEE488=0}).
 
 @findex -sidcart, +sidcart
 @item -sidcart
@@ -9016,6 +9148,22 @@ Size of the GEORAM expansion unit
 (@code{GEORAMsize}).
 (64, 128, 256, 512, 1024, 2048, 4096)
 
+@findex -model
+@item -model <model>
+Specify the VIC20 model you want to emulate
+(@code{MachineVideoStandard}, @code{RamBlock0}, @code{RamBlock1}, @code{RamBlock2}, @code{RamBlock3} and @code{RamBlock5}).
+(vic20/vic20pal/vic20ntsc, vic21)
+
+@findex -pal
+@item -pal
+Use PAL sync factor
+(@code{MachineVideoStandard=-1}).
+
+@findex -ntsc
+@item -ntsc
+Use NTSC sync factor
+(@code{MachineVideoStandard=-2}).
+
 @end table
 
 @c @node FIXME
@@ -9069,7 +9217,8 @@ Integer specifying gamma of internal calculated palette.
 
 @vindex VICColorTint
 @item VICColorTint
-integer specifying tint of internal calculated palette [1000] <0-2000>
+Integer specifying tint of internal calculated palette.
+(0..2000)
 
 @vindex VICPALScanLineShade
 @item VICPALScanLineShade
@@ -9102,7 +9251,8 @@ Integer specifying the rendering filter.
 
 @vindex VICBorderMode
 @item VICBorderMode
-integer specifying border display mode (0: normal, 1: full, 2: debug, 3:none)
+Integer specifying border display mode
+(0: normal, 1: full, 2: debug, 3: none)
 
 @end table
 
@@ -9156,9 +9306,12 @@ Select fullscreen mode
 @cindex -VICVidmodefullmode
 @item -VICVidmodefullmode <mode>
 Select fullscreen mode
-@cindex -VICborders
+
+@findex -VICborders
 @item -VICborders <mode>
-Set VIC border display mode (0: normal, 1: full, 2: debug, 3:none)
+Set VIC border display mode
+(@code{VICBorderMode}).
+(0: normal, 1: full, 2: debug, 3: none)
 
 @findex -VICsaturation
 @item -VICsaturation <0-2000>
@@ -9180,9 +9333,10 @@ Set brightness of internal calculated palette
 Set gamma of internal calculated palette
 (@code{VICColorGamma}).
 
-@cindex -VICtint
+@findex -VICtint
 @item -VICtint <0-2000>
-Set tint of internal calculated palette [1000]
+Set tint of internal calculated palette
+(@code{VICColorTint}).
 
 @findex -VICoddlinesphase
 @item -VICoddlinesphase <0-2000>
@@ -9204,10 +9358,11 @@ Amount of horizontal blur for the CRT emulation
 Amount of scan line shading for the CRT emulation
 (@code{VICPALScanLineShade}).
 
-@cindex -VICaudioleak, +VICaudioleak
+@findex -VICaudioleak, +VICaudioleak
 @item -VICaudioleak
 @item +VICaudioleak
-Enable/Disable video to audio leak emulation.
+Enable/disable video to audio leak emulation
+(@code{VICAudioLeak=1}, @code{VICAudioLeak=0}).
 
 @end table
 
@@ -9289,9 +9444,9 @@ Booleans specifying whether RAM blocks 0, 1, 2, 3 and 5 must be enabled.
 
 @table @code
 
-@cindex -memory
-@item -memory CONFIG
-Specify memory configuration.  It must be a comma-separated list of
+@findex -memory
+@item -memory <config>
+Specify memory configuration. It must be a comma-separated list of
 options, each of which can be one the following:
 
 @itemize @bullet
@@ -9311,8 +9466,7 @@ options, each of which can be one the following:
 @code{0}, @code{1}, @code{2}, @code{3}, @code{5} (memory in respective
 blocks);
 @item
-@code{04}, @code{20}, @code{40}, @code{60}, @code{A0} (memory at
-respective address.
+@code{04}, @code{20}, @code{40}, @code{60}, @code{A0} (memory at respective address.
 @end itemize
 
 For example,

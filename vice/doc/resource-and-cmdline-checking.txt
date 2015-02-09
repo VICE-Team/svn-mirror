@@ -18458,8 +18458,6 @@ description:    "Sound output mode: (0: system decides mono/stereo, 1: always mo
 resource:       "SoundOutput"
 action:         N/A
 
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
-
 traps.c:
 --------
 resource type:                  bool
@@ -18503,7 +18501,6 @@ prepocessor:
 command-line:                   -userportjoy / +userportjoy
 platform gui present:           amigaos/beos/dos/os2/unix/sdl/windows
 platform gui missing:			osx
-fixme: add to documentation
 
 userport/userport_joystick.c:
 -----------------------------
@@ -18511,7 +18508,6 @@ command line:   -userportjoy
 description:    "Enable Userport joystick adapter"
 resource:       "UserportJoy" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 userport/userport_joystick.c:
 -----------------------------
@@ -18519,7 +18515,6 @@ command line:   +userportjoy
 description:    "Disable Userport joystick adapter"
 resource:       "UserportJoy" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 userport/userport_joystick.c:
 -----------------------------
@@ -18538,7 +18533,6 @@ platform gui present:           amigaos/beos/dos/os2/unix/sdl/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
-fixme: add to documentation
 
 userport/userport_joystick.c:
 -----------------------------
@@ -18546,7 +18540,6 @@ command line:   -userportjoytype <Type>
 description:    "Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
 resource:       "UserportJoyType"
 action:         N/A
-fixme: add to documentation
 
 userport/userport_rtc.c:
 ------------------------
@@ -18562,7 +18555,6 @@ prepocessor:
 command-line:                   -userportrtc / +userportrtc
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform gui missing:			osx
-fixme: add to documentation
 
 userport/userport_rtc.c:
 ------------------------
@@ -18570,7 +18562,6 @@ command line:   -userportrtc
 description:    "Enable Userport RTC"
 resource:       "UserportRTC" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 userport/userport_rtc.c:
 ------------------------
@@ -18578,7 +18569,6 @@ command line:   +userportrtc
 description:    "Disable Userport RTC"
 resource:       "UserportRTC" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 userport/userport_rtc.c:
 ------------------------
@@ -18594,7 +18584,6 @@ prepocessor:
 command-line:                   -userportrtcsave / +userportrtcsave
 platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform gui missing:			osx
-fixme: add to documentation
 
 userport/userport_rtc.c:
 ------------------------
@@ -18602,7 +18591,6 @@ command line:   -userportrtcsave
 description:    "Enable saving of the Userport RTC data when changed."
 resource:       "UserportRTCSave" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 userport/userport_rtc.c:
 ------------------------
@@ -18610,7 +18598,6 @@ command line:   +userportrtcsave
 description:    "Disable saving of the Userport RTC data when changed."
 resource:       "UserportRTCSave" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 vdc/vdc-resources.c:
 --------------------
@@ -18710,7 +18697,6 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
-fixme: fix documentation, remove default
 
 vdc/vdc-cmdline-options.c:
 --------------------------
@@ -18718,7 +18704,6 @@ command line:   -VDCtint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VDCColorTint"
 action:         N/A
-fixme: fix documentation, remove default
 
 vdc/vdc-resources.c:
 --------------------
@@ -18772,7 +18757,6 @@ command line:   -VDCfilter <Mode>
 description:    "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
 resource:       "VDCFilter"
 action:         N/A
-fixme: add to documentation
 
 vic20/cart/vic20-ieee488.c:
 ---------------------------
@@ -18788,7 +18772,6 @@ prepocessor:
 command-line:                   -ieee488 / +ieee488
 platform gui present:           amigaos/beos/os2/sdl/unix/osx/windows
 platform gui missing:           dos
-fixme: add to documentation
 
 vic20/cart/vic20-ieee488.c:
 ---------------------------
@@ -18826,7 +18809,6 @@ platform range correct:
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/sdl/unix/windows (CORRECT)
 note: UIs should not modify this directly, use cartridge_set_default() from cartridge.h instead
-fixme: fix documenation, range
 fixme: os2/osx ports
 
 vic20/cart/vic20cart.c:
@@ -18850,7 +18832,6 @@ command line:   -cartreset
 description:    "Reset machine if a cartridge is attached or detached"
 resource:       "CartridgeReset" (set to 1)
 action:         N/A
-fixme: add to documentation
 
 vic20/cart/vic20cart.c:
 -----------------------
@@ -18858,7 +18839,6 @@ command line:   +cartreset
 description:    "Do not reset machine if a cartridge is attached or detached"
 resource:       "CartridgeReset" (set to 0)
 action:         N/A
-fixme: add to documentation
 
 vic20/vic-resources.c:
 ----------------------
@@ -18900,7 +18880,6 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
-fixme: fix documentation, remove default
 
 vic20/vic-cmdline-options.c:
 ----------------------------
@@ -18908,7 +18887,6 @@ command line:   -VICtint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VICColorTint"
 action:         N/A
-fixme: fix documentation, remove default
 
 vic20/vic-resources.c:
 ----------------------
@@ -18955,7 +18933,6 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/osx
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			windows
-fixme: fix documentation for xvic
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
@@ -18963,7 +18940,6 @@ command line:   -model <Model>
 description:    "Set VIC20 model (vic20/vic20pal/vic20ntsc, vic21)"
 resource:       N/A
 action:         set_vic20_model() (sets "MachineVideoStandard", "RamBlock0", "RamBlock1", "RamBlock2", "RamBlock3" and "RamBlock5")
-fixme: add to documentation
 
 vic20/vic20-cmdline-options.c:
 ------------------------------
@@ -19060,7 +19036,6 @@ command line:   -memory <spec>
 description:    "Specify memory configuration. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / (04/20/40/60/a0)"
 resource:       N/A
 action:         cmdline_memory() (sets "RAMBlock0", "RAMBlock1", "RAMBlock2", "RAMBlock3" and "RAMBlock5")
-fixme: fix documentation
 
 vic20/vic20io.c:
 ----------------
@@ -19110,6 +19085,30 @@ description:    "Set border display mode (0: normal, 1: full, 2: debug)"
 resource:       N/A
 action:         border_set_func() (set "VICIIBorderMode")
 
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIBorderMode"
+resource range:                 0..3 (VICII_NORMAL_BORDERS (0), VICII_FULL_BORDERS (1), VICII_DEBUG_BORDERS (2), VICII_NO_BORDERS (3))
+resource default:               VICII_NORMAL_BORDERS (0)
+resource function:              set_border_mode()
+resource var:                   vicii_resources.border_mode
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIIborders
+platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
+platform range correct:		
+platform range incorrect:		
+platform gui missing:			os2
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
+command line:   -VICIIborders <Mode>
+description:    "Set border display mode (0: normal, 1: full, 2: debug)"
+resource:       N/A
+action:         border_set_func() (set "VICIIBorderMode")
+
 vicii/vicii-resources.c:
 ------------------------
 resource type:                  int
@@ -19126,10 +19125,33 @@ platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:			osx
-fixme: fix documentation, remove default
 
 vicii/vicii-cmdline-options.c:
 ------------------------------
+command line:   -VICIItint <0-2000>
+description:    "Set tint of internal calculated palette"
+resource:       "VICIIColorTint"
+action:         N/A
+
+viciisc/vicii-resources.c:
+--------------------------
+resource type:                  int
+resource name:                  "VICIIColorTint"
+resource range:                 0..2000
+resource default:               1000
+resource function:              set_color_tint()
+resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_tint
+resource emulators:             x64sc/xscpu64
+not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -VICIItint
+platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
+platform range correct:		
+platform range incorrect:		
+platform gui missing:			osx
+
+viciisc/vicii-cmdline-options.c:
+--------------------------------
 command line:   -VICIItint <0-2000>
 description:    "Set tint of internal calculated palette"
 resource:       "VICIIColorTint"
@@ -19162,55 +19184,6 @@ vicii/vicii-cmdline-options.c:
 command line:   +VICIIaudioleak
 description:    "Disable audio leak emulation"
 resource:       "VICIIAudioLeak" (set to 0)
-action:         N/A
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIBorderMode"
-resource range:                 0..3 (VICII_NORMAL_BORDERS (0), VICII_FULL_BORDERS (1), VICII_DEBUG_BORDERS (2), VICII_NO_BORDERS (3))
-resource default:               VICII_NORMAL_BORDERS (0)
-resource function:              set_border_mode()
-resource var:                   vicii_resources.border_mode
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIIborders
-platform gui present:           amigaos/beos/dos/sdl/unix/osx/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			os2
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIIborders <Mode>
-description:    "Set border display mode (0: normal, 1: full, 2: debug)"
-resource:       N/A
-action:         border_set_func() (set "VICIIBorderMode")
-
-viciisc/vicii-resources.c:
---------------------------
-resource type:                  int
-resource name:                  "VICIIColorTint"
-resource range:                 0..2000
-resource default:               1000
-resource function:              set_color_tint()
-resource var:                   vicii.raster->canvas->videoconfig->video_resources.color_tint
-resource emulators:             x64sc/xscpu64
-not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
-prepocessor:
-command-line:                   -VICIItint
-platform gui present:           amigaos/beos/dos/os2/sdl/unix/windows
-platform range correct:		
-platform range incorrect:		
-platform gui missing:			osx
-fixme: fix documentation, remove default
-
-viciisc/vicii-cmdline-options.c:
---------------------------------
-command line:   -VICIItint <0-2000>
-description:    "Set tint of internal calculated palette"
-resource:       "VICIIColorTint"
 action:         N/A
 
 viciisc/vicii-resources.c:
@@ -19246,6 +19219,8 @@ action:         N/A
 
 'COMMON_KBD' RESOURCES/CMDLINES:
 ================================
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 c128/c128-resources.c:
 ----------------------
