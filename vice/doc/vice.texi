@@ -17348,9 +17348,12 @@ between ASCII, PETSCII and tokenized BASIC.
 @cindex -help
 @item -help
 Output help text
+@cindex -?
+@item -?
+Same as above
 @cindex -v
 @item -v
-Same as above
+verbose output
 @cindex -c
 @item -c
 controls (interpret also control codes) (default if textmode)
