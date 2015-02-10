@@ -17363,6 +17363,9 @@ no controls (suppress control codes in printout) (default if non-textmode)
 @cindex -ic
 @item -ic
 interpret control codes case-insensitive
+@cindex -d
+@item -d
+output raw codes in decimal
 @cindex -h
 @item -h
 write header (default if output is stdout)
