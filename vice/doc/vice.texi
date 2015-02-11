@@ -2774,47 +2774,75 @@ file'').
 
 @vindex KeymapIndex
 @item KeymapIndex
-Integer identifying which keymap is being used; @code{0} indicates
-symbolic mapping, @code{1} positional mapping.  For the PET the even
-values represent symbolic mapping, odd positional.  Then add @code{0}
-for UK business keyboard or @code{2} for graphics keyboard.
+Integer identifying which keymap is being used.
+x128: (0: symbolic, 1: positional)
+x64/x64sc/x64dtv: (0: symbolic, 1: positional, 2: german positional)
+xcbm2/xcbm5x0/xpet: (0: UK business symbolic, 1: UK business positional,
+2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic,
+5: German business positional)
 
 @vindex KeymapSymFile
 @item KeymapSymFile
 String specifying the name of the keymap file for the symbolic mapping
-(@pxref{Keyboard emulation}, all but PET and CBM-II).
+(@pxref{Keyboard emulation}
+@c will be updated as check is done
+(all emulators except xscpu64, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
+
 @vindex KeymapSymDeFile
 @item KeymapSymDeFile
-String specifying the name of the keymap file for the symbolic mapping (de)
+String specifying the name of the keymap file for the german symbolic mapping.
+@c will be updated as check is done
+(all emulators except x128, xscpu64, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
 
 @vindex KeymapPosFile
 @item KeymapPosFile
 String specifying the name of the keymap file for the positional mapping
-(@pxref{Keyboard emulation}, all but PET and CBM-II).
+(@pxref{Keyboard emulation}
+@c will be updated as check is done
+(all emulators except xscpu64, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
 
 @vindex KeymapBusinessUKSymFile
-@vindex KeymapBusinessUKPosFile
 @item KeymapBusinessUKSymFile
-@itemx KeymapBusinessUKPosFile
+String specifying the name of the keymap file for the symbolic
+mapping for the UK business keyboard
+(@pxref{Keyboard emulation}
+(xcbm2, xcbm5x0 and xpet only).
+
+@vindex KeymapBusinessUKPosFile
+@item KeymapBusinessUKPosFile
+String specifying the name of the keymap file for the positional
+mapping for the UK business keyboard
+(@pxref{Keyboard emulation}
+(xcbm2, xcbm5x0 and xpet only).
+
 String specifying the name of the keymap file for the symbolic
 and positional mapping for the UK business keyboard
 (@pxref{Keyboard emulation}, PET and CBM-II).
 
 @vindex KeymapGraphicsSymFile
-@vindex KeymapGraphicsPosFile
 @item KeymapGraphicsSymFile
-@itemx KeymapGraphicsPosFile
-String specifying the name of the keymap file for the symbolic and
+String specifying the name of the keymap file for the symbolic
+mapping for the graphics keyboard (@pxref{Keyboard emulation}
+(xcbm2, xcbm5x0 and xpet only).
+
+@vindex KeymapGraphicsPosFile
+@item KeymapGraphicsPosFile
+String specifying the name of the keymap file for the
 positional mapping for the graphics keyboard
-(@pxref{Keyboard emulation}, PET only).
+(@pxref{Keyboard emulation}
+(xcbm2, xcbm5x0 and xpet only).
 
 @vindex KeymapBusinessDESymFile
-@vindex KeymapBusinessDEPosFile
 @item KeymapBusinessDESymFile
-@itemx KeymapBusinessDEPosFile
 String specifying the name of the keymap file for the symbolic
-and positional mapping for the German business keyboard.
-(@pxref{Keyboard emulation}, PET only).
+mapping for the German business keyboard (@pxref{Keyboard emulation}
+(xcbm2, xcbm5x0 and xpet only).
+
+@vindex KeymapBusinessDEPosFile
+@item KeymapBusinessDEPosFile
+String specifying the name of the keymap file for the positional
+mapping for the German business keyboard (@pxref{Keyboard emulation}
+(xcbm2, xcbm5x0 and xpet only).
 
 @end table
 
@@ -2824,44 +2852,78 @@ and positional mapping for the German business keyboard.
 
 @table @code
 
-@cindex -keymap
+@findex -keymap
 @item -keymap <number>
-Specifies which keymap is being used; @code{0} indicates symbolic
-mapping, @code{1} positional mapping (as for the @code{KeymapIndex}
-resource).
+Specifies which keymap is being used
+(@code{KeymapIndex}).
+x128: (0: symbolic, 1: positional)
+x64/x64sc/x64dtv: (0: symbolic, 1: positional, 2: german positional)
+xcbm2/xcbm5x0/xpet: (0: UK business symbolic, 1: UK business positional,
+2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic,
+5: German business positional)
 
-@cindex -symkeymap
+@findex -symkeymap
 @item -symkeymap <Name>
-Specify <Name> as the symbolic keymap file (@code{KeymapSymFile}).
+Specify filename of the symbolic keymap file
+(@code{KeymapSymFile})
+@c will be updated as check is done
+(all emulators except xscpu64, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
 
-@cindex -poskeymap
+@findex -poskeymap
 @item -poskeymap <Name>
-Specify <Name> as the positional keymap file (@code{KeymapPosFile}).
+Specify filename of the positional keymap file
+(@code{KeymapPosFile})
+@c will be updated as check is done
+(all emulators except xscpu64, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
 
-@cindex -symdekeymap
-@item -symdekeymap NAME
-Specify @file{NAME} as the symbolic keymap file (@code{KeymapSymDeFile}).
+@findex -symdekeymap
+@item -symdekeymap <Name>
+Specify filename of the symbolic keymap file
+(@code{KeymapSymDeFile})
+@c will be updated as check is done
+(all emulators except x128, xscpu64, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
 
-@cindex -buksymkeymap, -bukposkeymap
+@findex -buksymkeymap
 @item -buksymkeymap <Name>
-@itemx -bukposkeymap <Name>
-Specify <Name> as the symbolic/positional keymap file for the
+Specify filename for the symbolic keymap file for the
 UK business keyboard
-(@code{KeymapBusinessUKSymFile}, @code{KeymapBusinessUKPosFile}, PET and CBM-II).
+(@code{KeymapBusinessUKSymFile})
+(xcbm2, xcbm5x0 and xpet only).
 
-@cindex -grsymkeymap, -grposkeymap
+@findex -bukposkeymap
+@item -bukposkeymap <Name>
+Specify filename for the positional keymap file for the
+UK business keyboard
+(@code{KeymapBusinessUKPosFile})
+(xcbm2, xcbm5x0 and xpet only).
+
+@findex -grsymkeymap
 @item -grsymkeymap <Name>
-@itemx -grposkeymap <Name>
-Specify <Name> as the symbolic/positional keymap file for the
+Specify filename for the symbolic keymap file for the
 graphics keyboard
-(@code{KeymapGraphicsSymFile}, @code{KeymapGraphicsPosFile}, PET only).
+(@code{KeymapGraphicsSymFile})
+(xcbm2, xcbm5x0, xpet only).
 
-@cindex -bdesymkeymap, -bdeposkeymap
+@findex -grposkeymap
+@item -grposkeymap <Name>
+Specify filename for the positional keymap file for the
+graphics keyboard
+(@code{KeymapGraphicsPosFile})
+(xcbm2, xcbm5x0 and xpet only).
+
+@findex -bdesymkeymap
 @item -bdesymkeymap <Name>
-@itemx -bdeposkeymap <Name>
-Specify <Name> as the symbolic/positional keymap file for the
+Specify filename for the symbolic keymap file for the
 German business keyboard
-(@code{KeymapBusinessDESymFile}, @code{KeymapBusinessDEPosFile}, PET and CBM-II only).
+(@code{KeymapBusinessDESymFile})
+(xcbm2, xcbm5x0 and xpet only).
+
+@findex -bdeposkeymap
+@item -bdeposkeymap <Name>
+Specify filename for the positional keymap file for the
+German business keyboard
+(@code{KeymapBusinessDEPosFile})
+(xcbm2, xcbm5x0 and xpet only).
 
 @end table
 
