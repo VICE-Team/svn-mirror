@@ -2952,3 +2952,8 @@ void event_record_in_list(event_list_state_t *list, unsigned int type, void *dat
 void archdep_ui_init(int argc, char *argv[])
 {
 }
+
+void ui_error_string(const char *text) /* win32 needs this */
+{
+}
+
