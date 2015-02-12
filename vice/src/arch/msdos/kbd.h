@@ -6,7 +6,7 @@
  *  Andreas Boose <viceteam@t-online.de>
  * Based on the X11 code by
  *  Jouko Valta <jopi@stekt.oulu.fi>
- *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andre Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
