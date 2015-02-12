@@ -63,33 +63,12 @@
 
    - INSTALL, installation instructions;
 
-   - doc/html/plain/NEWS, list of user-visible changes between this
-     and older versions of VICE;
+   - NEWS, list of user-visible changes between this and older versions of VICE;
 
    - FEEDBACK, something you should read before reporting bugs or sending mail 
      to any of the authors;
 
  The following documents are provided in the source distribution:
-
-   - in the doc/html/plain directory:
- 
-     - 64doc.txt, documentation about the C64 internals;
-     - PETdoc.txt, documentation about the PET internals;
-     - cbm_basic_tokens.txt, a list of the CBM BASIC tokens, as supported by the 
-       petcat utility;
-     - serial.txt, description of the IEC serial bus used on the C64, VIC20 and 
-       C128;
-     - drive_info.txt, information about the CBM disk drives;
-     - VIC-Article.txt, VIC-Artikel.txt, documentation about the VIC-II 
-       internals;
-     - VIC-Addendum.txt, some corrections and additions to above article;
-     - pixel_aspect.txt, documentation on how pixel aspect ratio has been
-       determined;
-     - 65802and65816.txt, documentation on the 65802 and 65816 CPUs;
-     - 65C02.txt, documentation on the 65C02 CPU;
-     - 65CE02.txt, documentation on the 65CE02 CPU;
-     - 6809and6309.txt, documentation on the 6809 and 6309 CPUs;
-     - z80.txt, documentation on the Z80 CPU;
 
    - in the doc directory:
 
