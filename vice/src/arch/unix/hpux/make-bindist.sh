@@ -232,8 +232,8 @@ installfile data/CBM-II/rom256l.vrs vice/vice-RUN runtmp /usr/local/lib/vice/CBM
 installfile data/CBM-II/rom500.vrs vice/vice-RUN runtmp /usr/local/lib/vice/CBM-II/rom500.vrs run 0644
 installfile data/CBM-II/white.vpl vice/vice-RUN runtmp /usr/local/lib/vice/CBM-II/white.vpl run 0644
 installfile data/CBM-II/x11_buks.vkm vice/vice-RUN runtmp /usr/local/lib/vice/CBM-II/x11_buks.vkm run 0644
-installfile doc/html/plain/COPYING vice/vice-RUN runtmp /usr/local/lib/vice/doc/COPYING run 0644
-installfile doc/html/plain/NEWS vice/vice-RUN runtmp /usr/local/lib/vice/doc/NEWS run 0644
+installfile COPYING vice/vice-RUN runtmp /usr/local/lib/vice/doc/COPYING run 0644
+installfile NEWS vice/vice-RUN runtmp /usr/local/lib/vice/doc/NEWS run 0644
 installfile doc/NLS-Howto.txt vice/vice-RUN runtmp /usr/local/lib/vice/doc/NLS-Howto.txt run 0644
 installfile doc/html/amigaos.html vice/vice-RUN runtmp /usr/local/lib/vice/doc/amigaos.html run 0644
 installfile doc/html/beos.html vice/vice-RUN runtmp /usr/local/lib/vice/doc/beos.html run 0644

@@ -223,17 +223,12 @@ copy doc\Vice_for_OS2.txt      Vice2\doc
 
 md Vice2\doc\readme
 copy  ..\..\..\AUTHORS                Vice2\doc\readme
-copy  ..\..\..\doc\html\plain\BUGS    Vice2\doc\readme
-copy  ..\..\..\doc\html\plain\COPYING Vice2\doc\readme
+copy  ..\..\..\COPYING                Vice2\doc\readme
 copy  ..\..\..\FEEDBACK               Vice2\doc\readme
-copy  ..\..\..\doc\html\plain\NEWS    Vice2\doc\readme
+copy  ..\..\..\NEWS                   Vice2\doc\readme
 copy  ..\..\..\README                 Vice2\doc\readme
-copy  ..\..\..\doc\html\plain\TODO    Vice2\doc\readme
 
 copy  ..\..\..\doc\vice.inf           Vice2\doc
-
-md Vice2\doc\txt
-xcopy ..\..\..\doc\html\plain\*.txt Vice2\doc\txt
 
 md Vice2\doc\html
 xcopy ..\..\..\doc\html\*.html Vice2\doc\html

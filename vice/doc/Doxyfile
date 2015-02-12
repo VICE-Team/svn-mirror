@@ -689,7 +689,6 @@ EXCLUDE_SYMBOLS        =
 EXAMPLE_PATH           = . \
                          ./building \
                          ./readmes \
-                         ./html/plain \
                          ./..
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the 

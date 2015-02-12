@@ -1003,7 +1003,7 @@ void mem_toggle_watchpoints(int flag, void *context)
 }
 
 /*
- * From vice/doc/html/plain/PETdoc.txt:
+ * From PETdoc.txt:
  *
  * $fff0 register in PET 8x96
  * 8096 exp-mem (64K):

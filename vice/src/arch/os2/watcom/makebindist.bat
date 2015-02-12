@@ -244,15 +244,10 @@ copy  "..\..\..\..\doc\readmes\Readme-OS2/.txt %VICEDIR%\doc
 
 mkdir %VICEDIR%\doc\readme
 copy  ..\..\..\..\AUTHORS                %VICEDIR%\doc\readme
-copy  ..\..\..\..\doc\html\plain\BUGS    %VICEDIR%\doc\readme
-copy  ..\..\..\..\doc\html\plain\COPYING %VICEDIR%\doc\readme
+copy  ..\..\..\..\COPYING                %VICEDIR%\doc\readme
 copy  ..\..\..\..\FEEDBACK               %VICEDIR%\doc\readme
-copy  ..\..\..\..\doc\html\plain\NEWS    %VICEDIR%\doc\readme
+copy  ..\..\..\..\NEWS                   %VICEDIR%\doc\readme
 copy  ..\..\..\..\README                 %VICEDIR%\doc\readme
-copy  ..\..\..\..\doc\html\plain\TODO    %VICEDIR%\doc\readme
-
-mkdir %VICEDIR%\doc\txt
-xcopy ..\..\..\..\doc\html\plain\*.txt %VICEDIR%\doc\txt
 
 mkdir %VICEDIR%\doc\html
 xcopy ..\..\..\..\doc\html\*.html %VICEDIR%\doc\html

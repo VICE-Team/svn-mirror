@@ -114,10 +114,10 @@ mkdir %VICEDIR%\html
 copy ..\..\..\..\doc\html\*.html %VICEDIR%\html
 mkdir %VICEDIR%\html\images
 copy ..\..\..\..\doc\html\images\* %VICEDIR%\html\images
-mkdir %VICEDIR%\html\plain
-copy ..\..\..\..\doc\html\plain\* %VICEDIR%\html\plain
 copy ..\..\..\..\FEEDBACK %VICEDIR%
 copy ..\..\..\..\README %VICEDIR%
+copy ..\..\..\..\COPYING %VICEDIR%
+copy ..\..\..\..\NEWS %VICEDIR%
 copy ..\..\..\..\doc\readmes\ReadmeSDL.txt %VICEDIR%
 mkdir %VICEDIR%\doc
 copy ..\..\..\..\doc\vice.chm %VICEDIR\doc
