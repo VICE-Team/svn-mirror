@@ -44,7 +44,7 @@
  *   Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
  *
  * Support for Final Cartridge III extensions to c64 2.0 basic
- *   Matti 'ccr' Hämäläinen <ccr@tnsp.org>
+ *   Matti 'ccr' Hamalainen <ccr@tnsp.org>
  *
  * Support for many of the other extensions by
  *   Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -845,7 +845,7 @@ const char *simonskw[] = {
 };
 
 
-/* Final Cartridge III Keywords -- Matti 'ccr' Hämäläinen */
+/* Final Cartridge III Keywords -- Matti 'ccr' Hamalainen */
 
 const char *fc3kw[] = {
     "off",     "auto",  "del",     "renum",   "?ERROR?", "find", "old",   "dload",
