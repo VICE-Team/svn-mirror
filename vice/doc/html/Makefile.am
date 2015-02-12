@@ -12,8 +12,8 @@ doc_DATA = \
 	images/vice-logo-small.png \
 	index.html \
 	macosx.html \
-	plain/COPYING \
-	plain/NEWS \
+	COPYING \
+	NEWS \
 	qnx.html \
 	sco.html \
 	solaris.html \
@@ -50,3 +50,9 @@ vice_1.html vice_2.html vice_3.html vice_4.html vice_5.html vice_6.html vice_7.h
 vice_toc.html: $(top_srcdir)/doc/vice.texi
 	(cd $(builddir); \
 	$(PERL) $(srcdir)/texi2html -number -split_chapter -D$(PLATFORM_DOX_FLAGS) $(top_srcdir)/doc/vice.texi)
+
+COPYING: ../../COPYING
+	cp ../../COPYING COPYING
+
+NEWS: ../../NEWS
+	cp ../../NEWS NEWS
