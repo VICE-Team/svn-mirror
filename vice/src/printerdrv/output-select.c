@@ -132,7 +132,7 @@ static cmdline_option_t cmdline_options_userport[] =
 
 static char *printer_output_names = NULL;
 
-static build_printer_output_names(void)
+static void build_printer_output_names(void)
 {
     output_select_list_t *list;
     char *tmp1, *tmp2;
