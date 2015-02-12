@@ -88,66 +88,6 @@
 */
 
 /*!
-  \page technical Technical Documentation
-  \subpage tech65816
-  \n
-  \subpage tech65c02
-  \n
-  \subpage tech65ce02
-  \n
-  \subpage tech6809
-  \n
-  \subpage techz80
-  \n
-  \subpage tech64doc
-  \n
-  \subpage techpetdoc
-  \n
-  \subpage techvicart
-  \n
-  \subpage techvicartde
-  \n
-  \subpage techvicartadd
-  \n
-  \subpage techaspect
-  \n
-  \subpage techtokens
-  \n
-  \subpage techdrives
-  \n
-  \subpage techserial
-*/
-/*!
-  \page tech64doc C64doc
-  \htmlinclude 64doc.txt
-  \page tech65816 65816 and 65802
-  \htmlinclude 65802and65816.txt
-  \page tech65c02 65C02
-  \htmlinclude 65C02.txt
-  \page tech65ce02 65CE02
-  \htmlinclude 65CE02.txt
-  \page tech6809 6809 and 6309
-  \htmlinclude 6809and6309.txt
-  \page techpetdoc PETdoc
-  \htmlinclude PETdoc.txt
-  \page techvicart VIC Article
-  \htmlinclude VIC-Article.txt
-  \page techvicartde VIC Article (german)
-  \htmlinclude VIC-Artikel.txt
-  \page techvicartadd VIC-Article addendum
-  \htmlinclude VIC-Addendum.txt
-  \page techtokens Basic tokens
-  \htmlinclude cbm_basic_tokens.txt
-  \page techdrives CBM Drive info
-  \htmlinclude drive_info.txt
-  \page techaspect Pixel aspect ratio
-  \htmlinclude pixel_aspect.txt
-  \page techserial Serial bus
-  \htmlinclude serial.txt
-  \page techz80 Z80
-  \htmlinclude z80.txt
-*/
-/*!
   \page readmes ReadMes
   \subpage readme
   \n

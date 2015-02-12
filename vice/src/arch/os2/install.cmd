@@ -139,12 +139,6 @@ end
 
 curdir = directory(origdir'\doc\txt')
 
-CALL createShadow "<VICE2_TEXT>", '64doc.txt'
-CALL createShadow "<VICE2_TEXT>", 'cbm_basic_tokens.txt'
-CALL createShadow "<VICE2_TEXT>", 'drive_info.txt'
-CALL createShadow "<VICE2_TEXT>", 'mon.txt'
-CALL createShadow "<VICE2_TEXT>", 'PETdoc.txt'
-CALL createShadow "<VICE2_TEXT>", 'serial.txt'
 /*
  CALL createShadow "<VICE2_TEXT>", 'Evaluation'
  */

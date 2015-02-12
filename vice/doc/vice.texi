@@ -781,7 +781,7 @@ SuperPET (MicroMainFrame 9000) models, covering the whole series.
 The hardware is pretty much the same in each and that is why one single
 program is enough to emulate all of them.  For more detailed information
 about PET hardware please refer to the @file{PETdoc} file.
-@c FIXME: add link to doc/html/plain/PETdoc.txt
+@c FIXME: add link to PETdoc.txt
 
 Both the 40 column and 80 column CRTC video chips are emulated (from the
 4032 onward), but a few of the features are not implemented yet (numbers
@@ -802,7 +802,7 @@ instead.  Also, the video controller can handle a larger address range.
 The PET 8x96 model emulations run the Commodore LOS-96 operating system
 - basically an improved BASIC 4 version with up to 32k for BASIC
 text and 32k for variables.  See @file{PETdoc} for more information.
-@c FIXME: add link to doc/html/plain/PETdoc.txt
+@c FIXME: add link to PETdoc.txt
 
 The PET 8296-G is a 8296 with built-in 8250 low-profile dual disk drive.
 

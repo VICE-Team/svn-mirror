@@ -12,22 +12,8 @@ doc_DATA = \
 	images/vice-logo-small.png \
 	index.html \
 	macosx.html \
-	plain/64doc.txt \
-	plain/65802and65816.txt \
-	plain/65C02.txt \
-	plain/65CE02.txt \
-	plain/6809and6309.txt \
 	plain/COPYING \
 	plain/NEWS \
-	plain/PETdoc.txt \
-	plain/VIC-Addendum.txt \
-	plain/VIC-Article.txt \
-	plain/VIC-Artikel.txt \
-	plain/cbm_basic_tokens.txt \
-	plain/drive_info.txt \
-	plain/serial.txt \
-	plain/pixel_aspect.txt \
-	plain/z80.txt \
 	qnx.html \
 	sco.html \
 	solaris.html \

@@ -528,9 +528,6 @@ _END
                         </QPM:Dir>
 
                         <QPM:Dir name="doc">
-                           <QPM:File>64doc.txt</QPM:File>
-                           <QPM:File>65C02.txt</QPM:File>
-                           <QPM:File>BUGS</QPM:File>
                            <QPM:File>CIA-README.txt</QPM:File>
                            <QPM:File>COPYING</QPM:File>
                            <QPM:File>CommodoreInnovationPriceSoftware2008.jpg</QPM:File>
@@ -545,7 +542,6 @@ _END
                            <QPM:File>NEWS</QPM:File>
                            <QPM:File>NLS-Howto.txt</QPM:File>
                            <QPM:File>OpenVMS-Howto.txt</QPM:File>
-                           <QPM:File>PETdoc.txt</QPM:File>
                            <QPM:File>Readme-Amiga.txt</QPM:File>
                            <QPM:File>Readme-BeOS.txt</QPM:File>
                            <QPM:File>Readme-DOS.txt</QPM:File>
@@ -553,25 +549,17 @@ _END
                            <QPM:File>Readme-OS2.txt</QPM:File>
                            <QPM:File>Readme-SDL.txt</QPM:File>
                            <QPM:File>SDL-Howto.txt</QPM:File>
-                           <QPM:File>TODO</QPM:File>
-                           <QPM:File>VIC-Addendum.txt</QPM:File>
-                           <QPM:File>VIC-Article.txt</QPM:File>
-                           <QPM:File>VIC-Artikel.txt</QPM:File>
                            <QPM:File>Win32-Cygwin-Howto.txt</QPM:File>
                            <QPM:File>Win32-Mingw32-Howto.txt</QPM:File>
                            <QPM:File>amigaos.html</QPM:File>
                            <QPM:File>beos.html</QPM:File>
-                           <QPM:File>cbm_basic_tokens.txt</QPM:File>
                            <QPM:File>coding-guidelines.txt</QPM:File>
-                           <QPM:File>drive_info.txt</QPM:File>
                            <QPM:File>iec-bus.txt</QPM:File>
                            <QPM:File>index.html</QPM:File>
                            <QPM:File>macosx.html</QPM:File>
                            <QPM:File>new.gif</QPM:File>
-                           <QPM:File>pixel_aspect.txt</QPM:File>
                            <QPM:File>qnx.html</QPM:File>
                            <QPM:File>sco.html</QPM:File>
-                           <QPM:File>serial.txt</QPM:File>
                            <QPM:File>solaris.html</QPM:File>
                            <QPM:File>vice-logo-small.png</QPM:File>
                            <QPM:File>vice-logo.jpg</QPM:File>
