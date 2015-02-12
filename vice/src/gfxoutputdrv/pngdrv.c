@@ -104,18 +104,6 @@ static int pngdrv_open(screenshot_t *screenshot, const char *filename)
     png_init_io(sdata->png_ptr, sdata->fd);
     png_set_compression_level(sdata->png_ptr, Z_BEST_COMPRESSION);
 
-/*
-pngdrv.c:102: warning: ‘width’ is deprecated (declared at /usr/include/libpng14/png.h:639)
-pngdrv.c:103: warning: ‘height’ is deprecated (declared at /usr/include/libpng14/png.h:640)
-pngdrv.c:104: warning: ‘bit_depth’ is deprecated (declared at /usr/include/libpng14/png.h:651)
-pngdrv.c:105: warning: ‘color_type’ is deprecated (declared at /usr/include/libpng14/png.h:653)
-*/
-/*
-    sdata->info_ptr->width = screenshot->width;
-    sdata->info_ptr->height= screenshot->height;
-    sdata->info_ptr->bit_depth = 8;
-    sdata->info_ptr->color_type = PNG_COLOR_TYPE_RGB_ALPHA;
-*/
     png_set_IHDR(sdata->png_ptr, sdata->info_ptr, screenshot->width, screenshot->height,
                  8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
                  PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
@@ -254,18 +242,6 @@ static int pngdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
     png_init_io(pngdrv_memmap_png_ptr, pngdrv_memmap_fd);
     png_set_compression_level(pngdrv_memmap_png_ptr, Z_BEST_COMPRESSION);
 
-/*
-pngdrv.c:251: warning: ‘width‘ is deprecated (declared at /usr/include/libpng14/png.h:639)
-pngdrv.c:252: warning: ‘height‘ is deprecated (declared at /usr/include/libpng14/png.h:640)
-pngdrv.c:253: warning: ‘bit_depth‘ is deprecated (declared at /usr/include/libpng14/png.h:651)
-pngdrv.c:254: warning: ‘color_type‘ is deprecated (declared at /usr/include/libpng14/png.h:653)
-*/
-/*
-    pngdrv_memmap_info_ptr->width = x_size;
-    pngdrv_memmap_info_ptr->height= y_size;
-    pngdrv_memmap_info_ptr->bit_depth = 8;
-    pngdrv_memmap_info_ptr->color_type = PNG_COLOR_TYPE_RGB_ALPHA;
-*/
     png_set_IHDR(pngdrv_memmap_png_ptr, pngdrv_memmap_info_ptr, x_size, y_size,
                  8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
                  PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);

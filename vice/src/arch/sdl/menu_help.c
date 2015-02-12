@@ -210,6 +210,20 @@ static unsigned int scroll_up(const char *text, int first_line, int amount)
     return line;
 }
 
+#define CHARCODE_UMLAUT_A_LOWER         0xe4
+#define CHARCODE_UMLAUT_A_UPPER         0xc4
+
+#define CHARCODE_UMLAUT_O_LOWER         0xf6
+#define CHARCODE_UMLAUT_O_UPPER         0xd6
+
+#define CHARCODE_UMLAUT_U_LOWER         0xfc
+#define CHARCODE_UMLAUT_U_UPPER         0xdc
+
+#define CHARCODE_GRAVE_E_LOWER          0xe8
+#define CHARCODE_AIGU_E_LOWER           0xe9
+
+#define CHARCODE_KROUZEK_A_LOWER        0xe5
+
 static void show_text(const char *text)
 {
     int first_line = 0;
@@ -238,24 +252,31 @@ static void show_text(const char *text)
                     case '`':
                         string[x + z] = '\'';
                         break;
-                    case 'ä':
+                    case CHARCODE_UMLAUT_A_LOWER:
+		    case CHARCODE_KROUZEK_A_LOWER:
                         string[x + z] = 'a';
+                        break;
+                    case CHARCODE_UMLAUT_A_UPPER:
+                        string[x + z] = 'A';
                         break;
                     case '~':
                         string[x + z] = '-';
                         break;
-                    case 'é':
-                    case 'è':
+                    case CHARCODE_GRAVE_E_LOWER:
+                    case CHARCODE_AIGU_E_LOWER:
                         string[x + z] = 'e';
                         break;
-                    case 'Ö':
+                    case CHARCODE_UMLAUT_O_UPPER:
                         string[x + z] = 'O';
                         break;
-                    case 'ö':
+                    case CHARCODE_UMLAUT_O_LOWER:
                         string[x + z] = 'o';
                         break;
-                    case 'å':
-                        string[x + z] = 'a';
+                    case CHARCODE_UMLAUT_U_UPPER:
+                        string[x + z] = 'U';
+                        break;
+                    case CHARCODE_UMLAUT_U_LOWER:
+                        string[x + z] = 'u';
                         break;
                     case '_':
                         string[x + z] = (unsigned char)164;

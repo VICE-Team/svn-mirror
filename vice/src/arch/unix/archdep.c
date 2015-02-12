@@ -421,11 +421,11 @@ char *archdep_filename_parameter(const char *name)
 /*
     "special" chars in *unix are:
 
-    "'\[]()´
+    "'\[]() and acute/forward tick
 
     tested unproblematic (no escaping):
 
-    "'()´
+    "'() and acute/forward tick
 
     tested problematic (need escaping):
 

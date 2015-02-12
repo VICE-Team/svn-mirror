@@ -318,7 +318,7 @@ static void bresenham_par(plot_t *mps, int x0, int y0, int x1, int y1, int wd)
         if (e2 > -dy) {
             err -= dy;
             xo  += sx;
-            /* mps->colour = vice_max(1, (mps->colour+1) % 4); // DEBUG */
+            /* mps->colour = vice_max(1, (mps->colour+1) % 4); *//* DEBUG */
             mps->scribe_state = scribe;
             bresenham(mps, x0 + xo, y0 + yo, x1 + xo, y1 + yo);
             if (wd > 1) {
@@ -329,7 +329,7 @@ static void bresenham_par(plot_t *mps, int x0, int y0, int x1, int y1, int wd)
         if (e2 < dx) {
             err += dx;
             yo  += sy;
-            /* mps->colour = vice_max(1, (mps->colour+1) % 4); // DEBUG */
+            /* mps->colour = vice_max(1, (mps->colour+1) % 4); *//* DEBUG */
             mps->scribe_state = scribe;
             bresenham(mps, x0 + xo, y0 + yo, x1 + xo, y1 + yo);
             if (wd > 1) {
@@ -394,7 +394,7 @@ static void draw(plot_t *mps, int from_x, int from_y, int to_x, int to_y)
     /* Every line re-starts the dashed line state */
     mps->scribe_state = 0;
 
-    //bresenham(mps, from_x, from_y, to_x, to_y);
+    /*bresenham(mps, from_x, from_y, to_x, to_y);*/
     bresenham_par(mps, from_x, from_y, to_x, to_y, PIXELS_PER_STEP);
 }
 
@@ -408,18 +408,18 @@ char *punct[32] = {
     /* # */ "9 d 8888 u 1 d 6666 u 7 d 2222 u 9 d 4444",
     /* $ */ "96 d 6697447966 u 7 d 222222",
     /* % */ "8 d 9999 u 444 d 4268 u 332 d 6248",
-    /* & */ "6666 d 777789321123699",               // long line first
+    /* & */ "6666 d 777789321123699",               /* long line first */
     /* ' */ "888899 d 22",
     /* ( */ "6666 d 478888896",
     /* ) */ "66   d 698888874",
-    /* * */ "8 d 9999 u 4444 d 3333 u 7788 d 2222", // vertical down last
-    /* + */ "888 d 6666 u 11 d 8888",               // right, then down
+    /* * */ "8 d 9999 u 4444 d 3333 u 7788 d 2222", /* vertical down last */
+    /* + */ "888 d 6666 u 11 d 8888",               /* right, then down */
     /* , */ "66 d 98426",
     /* - */ "888 d 66666",
     /* . */ "666 d 8624",
     /* / */ "d 9999",
     /* 0 */ "8 d 8888966322221447 9999",
-    /* 1 */ "88888 d 9222222 u 4 d 66",             // down
+    /* 1 */ "88888 d 9222222 u 4 d 66",             /* down */
     /* 2 */ "88888 d 9663211116666",
     /* 3 */ "88888 d 9663214 u 6 d321447",
     /* 4 */ "9966 d 44448999222222",
@@ -465,7 +465,7 @@ char *uppercase[32] = {
     /* Y */ "66 d 888778 u 6666 d 211", /* ?? */
     /* Z */ "888888 d 66662111126666",
     /* [ */ "66 d 44 888888 66",
-    /* £ */ "99999 d 41222266 u 887 d 44 u 1 d 1369 u 4 d 7",   /* ?? */
+/* pound */ "99999 d 41222266 u 887 d 44 u 1 d 1369 u 4 d 7",   /* ?? */
     /* ] */ "d 666 888888 44 ",
     /* ^ */ "66 d 88888 11 u 99 d 33",
     /* <-*/ "66999 d 44444 333 u 777 d 999",
@@ -478,7 +478,7 @@ char *lowercase[32] = {
     /* c */ "999 d 74122369",
     /* d */ "999888 d 22222244788966",
     /* e */ "88 d 666874122366",
-    /* f */ "6 d 888886 u 112 d 66",// ??
+    /* f */ "6 d 888886 u 112 d 66",/* ?? */
     /* g */ "996 d 1478963222147",
     /* h */ "d 888888 u 22 d 663222",
     /* i */ "66 d 888 u 8 d 8",
@@ -487,22 +487,22 @@ char *lowercase[32] = {
     /* l */ "888889 d 222222 6",
     /* m */ "d 8888 u 2 d 93222 u 888 d 93222",
     /* n */ "d 8888 u 2 d 963222",
-    /* o */ "8 d 8896322147",           // clockwise
-    /* p */ "8 d 66987442222",          // anti-clockwise
-    /* q */ "6663 d 4888884412366",     // anti-clockwise
-    /* r */ "8888 d 3222 u 888 d 963",  // from serif down, then top bow
+    /* o */ "8 d 8896322147",           /* clockwise */
+    /* p */ "8 d 66987442222",          /* anti-clockwise */
+    /* q */ "6663 d 4888884412366",     /* anti-clockwise */
+    /* r */ "8888 d 3222 u 888 d 963",  /* from serif down, then top bow */
     /* s */ "8 d 369747963",
-    /* t */ "8888 d 66 u 78 d 2222226", // down
-    /* u */ "8888 d 22226668888",       // down right up
+    /* t */ "8888 d 66 u 78 d 2222226", /* down */
+    /* u */ "8888 d 22226668888",       /* down right up */
     /* v */ "8888 d 22339988",
     /* w */ "8888 d 222398 u 2 d 39888",
     /* x */ "d 9999 u 4444 d 3333",
-    /* y */ "8888 d 233 u 998 d 21111", // top left to middle, top right to left bottom
-    /* z */ "8888 d 666611116666",      // top to bottom
+    /* y */ "8888 d 233 u 998 d 21111", /* top left to middle, top right to left bottom */
+    /* z */ "8888 d 666611116666",      /* top to bottom */
     /* | */ "9998888 d 22222222",
     /* __*/ "2 d 66666666",
-    /* ^_*/ "d 666666777111",// too wide?
-    /* pi*/ "6 d 88866222 u 44488 d 9669 ",// clockwise square, then hat
+    /* ^_*/ "d 666666777111",/* too wide? */
+    /* pi*/ "6 d 88866222 u 44488 d 9669 ",/* clockwise square, then hat */
     /* []*/ "d 8888886666622222244444",
 };
 

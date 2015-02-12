@@ -146,6 +146,36 @@ Many different compilers are used to compile the common code parts.
 
 #endif
 
+- Refrain from using any non ASCII characters in source files, unless absolutely
+  necessary. Previously a common trap were copyright headers - make sure to
+  use latin letters only to write your name etc. or in other words: such chars
+  should not be used anywhere, except in a few selected (usually translation
+  related) files that contain tables of strings.
+  The reason for this is that various tools get confused or even choke on any-
+  thing that isnt the encoding they expect (and plain ascii always works). It
+  also ensures that all files can be edited by anyone at any time without intro-
+  ducing weird side effects.
+  On a *nix system you may use the "file" command to check the files you
+  changed, normally it should always say "ASCII text" (not ISO-8859, and
+  definately not UTF-8 Unicode).
+
+current exceptions from this rule are:
+
+src/infocontrib.h:                 ISO-8859                     (generated file)
+
+src/translate_text.c:              ISO-8859                        (translation)
+src/translate_text.c.po.c:         ISO-8859             (translation, generated)
+
+src/arch/amigaos/intl.c:           ISO-8859                        (translation)
+src/arch/amigaos/intl_text.c:      ISO-8859                        (translation)
+src/arch/amigaos/intl_text.c.po.c: ISO-8859             (translation, generated)
+
+src/arch/win32/res*.rc.po.c:       ISO-8859             (translation, generated)
+
+src/arch/win32/vs_tmpl/mkmsvc.c:   UTF-8 Unicode, CRLF line terminators
+
+Keep in mind that editing the translation related files need special care, make
+sure not to mess up the file by somehow converting the encoding!
 
 intl code guidelines
 --------------------
