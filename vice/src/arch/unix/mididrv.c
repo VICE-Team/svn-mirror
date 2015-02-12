@@ -6,7 +6,7 @@
  *  Dirk Jagdmann <doj@cubic.org>
  *
  * Based on code by
- *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

@@ -657,7 +657,7 @@ const char *warsawkwdb[] = {
 };
 
 
-/* @Basic (Atbasic) Keywords (Tokens CC - F6) -- André Fachat */
+/* @Basic (Atbasic) Keywords (Tokens CC - F6) -- Andre Fachat */
 
 const char *atbasickwcc[] = {
     "trace",  "delete",  "auto",      "old",     "dump",    "find",    "renumber", "dload",

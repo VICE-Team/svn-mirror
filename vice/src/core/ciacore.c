@@ -2,7 +2,7 @@
  * ciacore.c - Template file for MOS6526 (CIA) emulation.
  *
  * Written by
- *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andre Fachat <fachat@physik.tu-chemnitz.de>
  *
  * Patches and improvements by
  *  Ettore Perazzoli <ettore@comm2000.it>

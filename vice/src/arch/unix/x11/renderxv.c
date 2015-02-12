@@ -26,7 +26,7 @@
 
 /* The PAL Y/C and PAL Composite emulation is based on work by John
    Selck <graham@cruise.de>. The Xv probing and allocation code is
-   loosely based on testxv.c (by André Werthmann) and VideoLAN. */
+   loosely based on testxv.c (by Andre Werthmann) and VideoLAN. */
 
 #include "vice.h"
 

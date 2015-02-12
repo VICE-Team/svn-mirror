@@ -7,7 +7,7 @@
  * Based on old code by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Jouko Valta <jopi@stekt.oulu.fi>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andre Fachat <fachat@physik.tu-chemnitz.de>
  *  Bernhard Kuhn <kuhn@eikon.e-technik.tu-muenchen.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

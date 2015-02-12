@@ -1,9 +1,9 @@
 /*! \file aciacore.c \n
- *  \author André Fachat, Spiro Trikaliotis\n
+ *  \author Andre Fachat, Spiro Trikaliotis\n
  *  \brief  Template file for ACIA 6551 emulation.
  *
  * Written by
- *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andre Fachat <fachat@physik.tu-chemnitz.de>
  *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

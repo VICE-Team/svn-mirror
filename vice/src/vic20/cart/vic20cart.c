@@ -5,7 +5,7 @@
  *  Daniel Kahlin <daniel@kahlin.net>
  *
  * Based on code by
- *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andre Fachat <fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
