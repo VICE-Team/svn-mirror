@@ -3,7 +3,7 @@
  *  \brief Definitions for MOS6526 (CIA) chip emulation.
  *
  *  \author Jouko Valta <jopi@stekt.oulu.fi>
- *  \author André Fachat <fachat@physik.tu-chemnitz.de>
+ *  \author Andre Fachat <fachat@physik.tu-chemnitz.de>
  *  \author Andreas Boose <viceteam@t-online.de>
  *
  *  \page cia CIA timer emulation

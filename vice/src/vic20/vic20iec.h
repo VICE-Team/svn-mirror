@@ -3,7 +3,7 @@
  *
  * Written by
  *  Daniel Sladic <sladic@eecg.toronto.edu>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andre Fachat <fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
