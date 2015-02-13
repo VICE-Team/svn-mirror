@@ -162,11 +162,10 @@ static char tmp2[0x200];
 static char tmpc[0x200];
 static char tmpmsg[0x200];
 
-int readtexi(FILE *tf)
+void readtexi(FILE *tf)
 {
-    int c,cl = 0;
-    char *msg,*str;
-    char *t;
+    int c;
+    char *msg;
     int status = 0;
     ITEM *itm, *itm1, *itm2;
     int itmcnt;
@@ -182,7 +181,6 @@ int readtexi(FILE *tf)
             newline = 0;
             fscanf(tf, "%s", tmp);
             /*DBG(("[%s]\n",tmp));*/
-            cl = 0;
             if (!strcmp(tmp, "vindex")) {
 #if 1
                 fscanf(tf, " ");
@@ -357,7 +355,7 @@ checkmsg:
     }
 }
 
-int readvicerc(FILE *tf, char *emu, int tag)
+void readvicerc(FILE *tf, char *emu, int tag)
 {
     char tmp[0x100];
     int c;
@@ -391,7 +389,7 @@ int readvicerc(FILE *tf, char *emu, int tag)
 
 }
 
-int readviceopt(FILE *tf, char *emu, int tag)
+void readviceopt(FILE *tf, char *emu, int tag)
 {
     char tmp[0x100];
     int c;
@@ -508,7 +506,7 @@ void checkresources(void)
 
     printf("\n** checking resources...\n\n");
 
-    printf("The following resources are incorrectly marked '@cindex'\n"
+    printf("The following resources are incorrectly marked '@findex'\n"
            "fix them first to use '@vindex' and then check again:\n\n");
 
     list1 = &reslistrc;
@@ -658,7 +656,7 @@ void checkresources(void)
 
 void printresources(void)
 {
-    ITEM *list1, *itm, *itm2;
+    ITEM *list1;
     int num, miss;
 
     printf("\n** listing resources...\n\n");
@@ -689,7 +687,7 @@ void printresources(void)
 
 void printoptions(void)
 {
-    ITEM *list1, *itm, *itm2;
+    ITEM *list1;
     int num, miss;
 
     printf("\n** listing options...\n\n");
@@ -728,8 +726,8 @@ void checkoptions(void)
 
     printf("\n** checking command line options...\n\n");
 
-    printf("The following look like options, but they do not appear in '@cindex'.\n"
-           "fix them first to use '@cindex' and then check again:\n\n");
+    printf("The following look like options, but they do not appear in '@findex'.\n"
+           "fix them first to use '@findex' and then check again:\n\n");
 
     list1 = &optlisttexitm;
     i = 0;
@@ -879,7 +877,7 @@ int printres = 0;
 int main(int argc, char *argv[])
 {
 FILE *tf;
-int n;
+/*int n;*/
 
     if (argc != 5) {
         printf("checkdoc - scan vice.texi for some common problems\n\n");

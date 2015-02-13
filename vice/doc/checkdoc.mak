@@ -33,7 +33,7 @@ help:
 	echo -ne "clean\tremove temp files\n"
 	echo -ne "update\tgenerate documentation\n"
 
-vice.opts.tmp: $(PROGS) checkdoc.mak
+vice.opts.tmp: $(PROGS) checkdoc.mak checkdoc.mon
 	echo "creating vice.opts.tmp"
 	echo "[C64]" > vice.opts.tmp
 	LANGUAGE="en" x64 -help >> vice.opts.tmp
@@ -62,7 +62,7 @@ vice.opts.tmp: $(PROGS) checkdoc.mak
 	echo "[cartconv]" >> vice.opts.tmp
 	-LANGUAGE="en" cartconv -help >> vice.opts.tmp
 
-vice.rc.tmp: $(PROGS) checkdoc.mak
+vice.rc.tmp: $(PROGS) checkdoc.mak checkdoc.mon
 	echo "creating vice.rc.tmp"
 	rm -f vice.rc.tmp
 	x64 -config vice.rc.tmp -initbreak 0xfce2 -moncommands checkdoc.mon
@@ -79,7 +79,7 @@ vice.rc.tmp: $(PROGS) checkdoc.mak
 	
 checkdoc: checkdoc.c
 	echo "creating checkdoc"
-	gcc -o checkdoc checkdoc.c
+	gcc -Wall -o checkdoc checkdoc.c
 
 full: checkdoc vice.opts.tmp vice.rc.tmp fixme nodes
 	./checkdoc -all vice.texi vice.rc.tmp vice.opts.tmp
@@ -109,6 +109,7 @@ fixme:
 	echo -ne "\n"
 
 todo: fixme
+all: full
 
 nodes:
 	echo -ne "nodes that need fixing ("
