@@ -2535,6 +2535,11 @@ void monitor_startup(MEMSPACE mem)
     char prompt[40];
     char *p;
 
+    if (console_mode) {
+        log_message(LOG_DEFAULT, "FIXME: monitor in console mode is not supported right now.");
+        return;
+    }
+
     if (mem != e_default_space) {
         default_memspace = mem;
     }
