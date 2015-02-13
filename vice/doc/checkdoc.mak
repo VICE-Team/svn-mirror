@@ -99,20 +99,22 @@ listopt: checkdoc vice.opts.tmp vice.rc.tmp
 update: vice.texi
 	make --silent
 
+.PHONY: fixme
+
 fixme:
 	echo -ne "list of FIXMEs ("
-	echo -ne `grep -n "@c " vice.texi | grep -v "\-\-\-" | grep -v "@node" | grep -i "fixme" | wc -l`
+	echo -ne `grep -an "@c " vice.texi | grep -v "\-\-\-" | grep -v "@node" | grep -i "fixme" | wc -l`
 	echo -ne "):\n"
-	grep -n "@c " vice.texi | grep -v "\-\-\-" | grep -v "@node" | grep -i "fixme"
+	grep -an "@c " vice.texi | grep -v "\-\-\-" | grep -v "@node" | grep -i "fixme"
 	echo -ne "\n"
 
 todo: fixme
 
 nodes:
 	echo -ne "nodes that need fixing ("
-	echo -ne `grep -n "@c " vice.texi | grep -v "\-\-\-" | grep -i "fixme" | grep "@node" | wc -l`
+	echo -ne `grep -an "@c " vice.texi | grep -v "\-\-\-" | grep -i "fixme" | grep "@node" | wc -l`
 	echo -ne "):\n"
-	grep -n "@c " vice.texi | grep -v "\-\-\-" | grep -i "fixme" | grep "@node"
+	grep -an "@c " vice.texi | grep -v "\-\-\-" | grep -i "fixme" | grep "@node"
 	echo -ne "\n"
 
 clean:

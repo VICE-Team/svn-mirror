@@ -155,14 +155,16 @@ ITEM optlisttex2 = { NULL, NULL, 0};
 ITEM optlisttexitm = { NULL, NULL, 0};
 ITEM optlistnew = { NULL, NULL, 0};
 
+
+static char tmp[0x200];
+static char tmp1[0x20][0x200];
+static char tmp2[0x200];
+static char tmpc[0x200];
+static char tmpmsg[0x200];
+
 int readtexi(FILE *tf)
 {
     int c,cl = 0;
-    char tmp[0x100];
-    char tmp1[0x20][0x100];
-    char tmp2[0x100];
-    char tmpc[0x100];
-    char tmpmsg[0x100];
     char *msg,*str;
     char *t;
     int status = 0;
@@ -179,8 +181,10 @@ int readtexi(FILE *tf)
         if (newline && (c == '@')) {
             newline = 0;
             fscanf(tf, "%s", tmp);
+            /*DBG(("[%s]\n",tmp));*/
             cl = 0;
             if (!strcmp(tmp, "vindex")) {
+#if 1
                 fscanf(tf, " ");
                 itmcnt = 0;
                 c = getstr(tf, tmp1[itmcnt]);
@@ -196,7 +200,9 @@ int readtexi(FILE *tf)
                 itmcnt++;
                 aliasitm = NULL;
                 newline = 1;
-            } else if (!strcmp(tmp, "cindex")) {
+#endif
+            } else if (/* !strcmp(tmp, "cindex") || */ !strcmp(tmp, "findex")) {
+#if 1
                 fscanf(tf, " ");
                 c = getstr(tf, tmp1[itmcnt]);
                 if ((tmp1[itmcnt][0] == '-') || (tmp1[itmcnt][0] == '+')) {
@@ -214,6 +220,8 @@ int readtexi(FILE *tf)
                 } else {
                     list_addstr(&optlisttex2, tmpc);
                 }
+#endif
+#if 1
                 if (c != '\n') {
                     c = skipuntil(tf, '\n');
                 }
@@ -223,6 +231,7 @@ int readtexi(FILE *tf)
                 status = 0x02;
                 aliasitm = NULL;
                 newline = 1;
+#endif
             } else if (!strcmp(tmp, "item")) {
                 fscanf(tf, " ");
                 c = getstr(tf, tmp2);
@@ -275,14 +284,14 @@ int readtexi(FILE *tf)
                 } 
                 aliasitm = itm;
                 newline = 1;
-            } else if (!strcmp(tmp, "end")) {
+            } else if (!strcmp(tmp, "end") || !strcmp(tmp, "bye")) {
                 c = skipuntil(tf, '\n');
                 if ((c == ' ') || (c == '\n') || (c == '\r') || (c == '\t')) {
                     c = skipblank(tf);
                 }
                 status = 0;
                 newline = 1;
-            } 
+            }
 #if 0
             else if (!strcmp(tmp, "c")) {
                 c = skipuntil(tf, '\n');
@@ -870,13 +879,20 @@ int printres = 0;
 int main(int argc, char *argv[])
 {
 FILE *tf;
-    
+int n;
+
     if (argc != 5) {
         printf("checkdoc - scan vice.texi for some common problems\n\n");
         printf("usage: checkdoc [-all | -opt | -res] texifile vicerc optsfile\n");
         exit(-1);
     }
-
+#if 0
+    n = 0; while (n != 5) {
+        printf("<%s> ", argv[n]);
+        n++;
+    }
+    printf("\n");
+#endif
     if (!strcmp(argv[1],"-all")) {
         checkopt++;
         checkres++;
@@ -902,8 +918,7 @@ FILE *tf;
 
     printf("** initializing...\n\n");
 
-    tf = fopen(vicetexiname,"rb");
-    if (!tf) {
+    if ((tf = fopen(vicetexiname,"rb")) == NULL) {
         fprintf(stderr, "error: couldn't open %s.\n", vicetexiname);
         exit(-1);
     }
@@ -911,12 +926,12 @@ FILE *tf;
     readtexi(tf);
     fclose(tf);
 
-    tf = fopen(vicercname,"rb");
-    if (!tf) {
+    if ((tf = fopen(vicercname,"rb")) == NULL) {
         fprintf(stderr, "error: couldn't open %s.\n", vicercname);
         exit(-1);
     }
     printf("reading %s.\n", vicercname);
+
     readvicerc(tf,"PLUS4", IS_PLUS4);
     readvicerc(tf,"CBM-II", IS_CBM2);
     readvicerc(tf,"CBM-II-5x0", IS_B500);
