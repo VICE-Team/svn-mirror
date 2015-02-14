@@ -62,7 +62,11 @@
 
 int new_cmd = 1, quote = 0, opt_asm = 0, cur_len = 0, last_len = 0, dont_match_reg_a = 0;
 int temp, push_back;
+
+#ifndef YY_SKIP_YYWRAP
 static int yywrap(void);
+#endif
+
 YY_BUFFER_STATE my_state;
 
 #define YY_USER_ACTION { last_len = cur_len; cur_len += yyleng; }
@@ -568,8 +572,9 @@ void make_buffer(char *str)
     assert(my_state);
 }
 
+#ifndef YY_SKIP_YYWRAP
 static int yywrap(void)
 {
     return 1;
 }
-
+#endif
