@@ -61,7 +61,6 @@ VICE_ARG_ENABLE_LIST(native-tools,[  --enable-native-tools[[=compiler]]    enabl
 dnl register ReSID options here to pass arg checks
 VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of functions [default=yes]])
 VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
-VICE_ARG_ENABLE_LIST(sse,         [  --enable-sse            enable the use of SSE [[default=yes]]])
 VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
 
 dnl this hack is needed because the default for the auto-tools
@@ -3188,7 +3187,7 @@ if test x"$is_unix" = "xyes"; then
       AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, true)
       sol_version=`uname -r`
       if test x"$sol_version" = "x5.7"; then
-        ac_configure_args="$ac_configure_args --disable-sse"
+        ac_configure_args="$ac_configure_args"
       fi
       ;;
     sco3.2v4*)
