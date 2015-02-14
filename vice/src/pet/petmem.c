@@ -33,6 +33,7 @@
 #include <stdlib.h>
 
 #include "6809.h"
+#include "cartridge.h"
 #include "crtc-mem.h"
 #include "crtctypes.h"
 #include "lib.h"
@@ -1802,7 +1803,7 @@ void petmem_check_info(petres_t *pi)
 }
 
 /* dummy function to satisfy the global cartridge system */
-int cartridge_attach_image(int type, char *name)
+int cartridge_attach_image(int type, const char *name)
 {
     return -1;
 }
