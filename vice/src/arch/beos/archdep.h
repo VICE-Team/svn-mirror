@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -43,20 +44,20 @@
 #define ARCHDEP_FINDPATH_SEPARATOR_STRING ";"
 
 /* Modes for fopen().  */
-#define MODE_READ              "rb"
+#define MODE_READ              "r"
 #define MODE_READ_TEXT         "rt"
-#define MODE_READ_WRITE        "r+b"
-#define MODE_WRITE             "wb"
+#define MODE_READ_WRITE        "r+"
+#define MODE_WRITE             "w"
 #define MODE_WRITE_TEXT        "wt"
-#define MODE_APPEND            "ab"
-#define MODE_APPEND_READ_WRITE "a+b"
+#define MODE_APPEND            "a"
+#define MODE_APPEND_READ_WRITE "a+"
 
 /* Printer default devices.  */
 #define ARCHDEP_PRINTER_DEFAULT_DEV1 "PrinterFile"
-#define ARCHDEP_PRINTER_DEFAULT_DEV2 "LPT:"
-#define ARCHDEP_PRINTER_DEFAULT_DEV3 "hmm"
+#define ARCHDEP_PRINTER_DEFAULT_DEV2 "/dev/parallel/parallel1"
+#define ARCHDEP_PRINTER_DEFAULT_DEV3 "/dev/printer/usb/"
 
-/* Default rs232 devices */
+/* Default RS232 devices.  */
 #define ARCHDEP_RS232_DEV1 "10.0.0.1:25232"
 #define ARCHDEP_RS232_DEV2 "10.0.0.1:25232"
 #define ARCHDEP_RS232_DEV3 "10.0.0.1:25232"
@@ -87,7 +88,7 @@
 #define ARCHDEP_TED_DBUF   0
 
 /* Default location of raw disk images.  */
-#define ARCHDEP_RAWDRIVE_DEFAULT "A:FIXME!!!"
+#define ARCHDEP_RAWDRIVE_DEFAULT "/dev/disk/floppy/raw"
 
 /* Access types */
 #define ARCHDEP_R_OK R_OK
@@ -96,28 +97,25 @@
 #define ARCHDEP_F_OK F_OK
 
 /* Standard line delimiter.  */
-#define ARCHDEP_LINE_DELIMITER "\r\n"
+#define ARCHDEP_LINE_DELIMITER "\n"
 
 /* Ethernet default device */
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE ""
 
 /* Default sound fragment size */
-#define ARCHDEP_SOUND_FRAGMENT_SIZE 1
-
-/* No key symcode.  */
-#define ARCHDEP_KEYBOARD_SYM_NONE 0
-
-/* When using the ascii printer driver we need a return before the newline */
-#define ARCHDEP_PRINTER_RETURN_BEFORE_NEWLINE
-
-/* what to use to return an error when a socket error happens */
-#define ARCHDEP_SOCKET_ERROR errno
+#define ARCHDEP_SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_SMALL
 
 /* Default sound output mode */
 #define ARCHDEP_SOUND_OUTPUT_MODE SOUND_OUTPUT_SYSTEM
 
+/* No key symcode.  */
+#define ARCHDEP_KEYBOARD_SYM_NONE 0
+
+/* what to use to return an error when a socket error happens */
+#define ARCHDEP_SOCKET_ERROR errno
+
 /* Keyword to use for a static prototype */
-#ifdef WORDS_BIGENDIAN
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
 #define STATIC_PROTOTYPE extern
 #else
 #define STATIC_PROTOTYPE static
