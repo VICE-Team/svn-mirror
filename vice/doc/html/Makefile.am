@@ -76,11 +76,11 @@ vice_toc.html: $(top_srcdir)/doc/vice.texi
 	(cd $(builddir); \
 	$(PERL) $(srcdir)/texi2html -number -split_chapter -D$(PLATFORM_DOX_FLAGS) $(top_srcdir)/doc/vice.texi)
 
-COPYING: ../../COPYING
-	cp ../../COPYING COPYING
+COPYING: $(top_srcdir)/COPYING
+	cp $< $@
 
-NEWS: ../../NEWS
-	cp ../../NEWS NEWS
+NEWS: $(top_srcdir)/NEWS
+	cp $< $@
 
 clean:	clean-am
 	rm -f $(CLEAN_STUFF)
