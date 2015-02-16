@@ -2581,21 +2581,22 @@ Booolean specifying whether ``warp mode'' is turned on or not.
 
 @table @code
 
-@cindex -speed
+@findex -speed
 @item -speed <percent>
-Specifies the maximum speed as a percentage.  @code{0} stands for ``no
-limit''.  (Same as setting the @code{Speed} resource.)
+Specifies the maximum speed as a percentage. @code{0} stands for ``no limit''
+(@code{Speed}).
 
-@cindex -refresh
+@findex -refresh
 @item -refresh <value>
-Specifies refresh rate; a value of @code{n} specifies a refresh rate of
-1/@code{n}.  A value of @code{0} enables automatic frame skipping.
-(Same as setting the @code{RefreshRate} resource.)
+Specifies refresh rate, a value of @code{n} specifies a refresh rate of
+1/@code{n}. A value of @code{0} enables automatic frame skipping
+(@code{RefreshRate}).
 
-@cindex -warp, +warp
+@findex -warp, +warp
 @item -warp
 @itemx +warp
-Enables/disables warp mode (@code{WarpMode=1}, @code{WarpMode=0}).
+Enable/Disable warp mode
+(@code{WarpMode=1}, @code{WarpMode=0}).
 
 @end table
 
@@ -2740,6 +2741,21 @@ Boolean, if true enable Open-GL frame sync.
 @item openGL_no_sync
 Boolean, if true Open-GL sync is not available.
 
+@vindex Speed
+@item Speed
+Integer specifying the maximum relative speed, as a percentage. @code{0}
+stands for ``no limit''.
+
+@vindex RefreshRate
+@item RefreshRate
+Integer specifying the refresh rate, a value of @code{n} specifies a
+refresh rate of 1/@code{n}. A value of @code{0} enables automatic frame
+skipping.
+
+@vindex WarpMode
+@item WarpMode
+Boolean specifying whether ``warp mode'' is turned on or not.
+
 @end table
 
 @node Keyboard settings, Sound settings, Video settings, Settings and resources
@@ -2775,8 +2791,8 @@ file'').
 @vindex KeymapIndex
 @item KeymapIndex
 Integer identifying which keymap is being used.
-x128: (0: symbolic, 1: positional)
-x64/x64sc/x64dtv: (0: symbolic, 1: positional, 2: german positional)
+x128/xplus4/xvic: (0: symbolic, 1: positional)
+x64/x64sc/xscpu64/x64dtv: (0: symbolic, 1: positional, 2: german positional)
 xcbm2/xcbm5x0/xpet: (0: UK business symbolic, 1: UK business positional,
 2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic,
 5: German business positional)
@@ -2786,20 +2802,20 @@ xcbm2/xcbm5x0/xpet: (0: UK business symbolic, 1: UK business positional,
 String specifying the name of the keymap file for the symbolic mapping
 (@pxref{Keyboard emulation}
 @c will be updated as check is done
-(all emulators except xscpu64, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
+(all emulators except xcbm2, xcbm5x0, xpet and vsid).
 
 @vindex KeymapSymDeFile
 @item KeymapSymDeFile
 String specifying the name of the keymap file for the german symbolic mapping.
 @c will be updated as check is done
-(all emulators except x128, xscpu64, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
+(all emulators except x128, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
 
 @vindex KeymapPosFile
 @item KeymapPosFile
 String specifying the name of the keymap file for the positional mapping
 (@pxref{Keyboard emulation}
 @c will be updated as check is done
-(all emulators except xscpu64, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
+(all emulators except xcbm2, xcbm5x0, xpet, xplus4 and vsid).
 
 @vindex KeymapBusinessUKSymFile
 @item KeymapBusinessUKSymFile
@@ -2856,8 +2872,8 @@ mapping for the German business keyboard (@pxref{Keyboard emulation}
 @item -keymap <number>
 Specifies which keymap is being used
 (@code{KeymapIndex}).
-x128: (0: symbolic, 1: positional)
-x64/x64sc/x64dtv: (0: symbolic, 1: positional, 2: german positional)
+x128/xplus4/xvic: (0: symbolic, 1: positional)
+x64/x64sc/xscpu64/x64dtv: (0: symbolic, 1: positional, 2: german positional)
 xcbm2/xcbm5x0/xpet: (0: UK business symbolic, 1: UK business positional,
 2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic,
 5: German business positional)
@@ -2867,21 +2883,21 @@ xcbm2/xcbm5x0/xpet: (0: UK business symbolic, 1: UK business positional,
 Specify filename of the symbolic keymap file
 (@code{KeymapSymFile})
 @c will be updated as check is done
-(all emulators except xscpu64, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
+(all emulators except xcbm2, xcbm5x0, xpet and vsid).
 
 @findex -poskeymap
 @item -poskeymap <Name>
 Specify filename of the positional keymap file
 (@code{KeymapPosFile})
 @c will be updated as check is done
-(all emulators except xscpu64, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
+(all emulators except xcbm2, xcbm5x0, xpet and vsid).
 
 @findex -symdekeymap
 @item -symdekeymap <Name>
 Specify filename of the symbolic keymap file
 (@code{KeymapSymDeFile})
 @c will be updated as check is done
-(all emulators except x128, xscpu64, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
+(all emulators except x128, xcbm2, xcbm5x0, xpet, xplus4, xvic and vsid).
 
 @findex -buksymkeymap
 @item -buksymkeymap <Name>
@@ -3009,7 +3025,8 @@ Integer specifying the type of lightpen
 @itemx KeySet1SouthWest
 @itemx KeySet1West
 @itemx KeySet1Fire
-Integers specifying the keycodes for keyset 1.
+Integers specifying the keycodes for keyset 1
+(all emulators except vsid).
 
 @vindex KeySet2NorthWest
 @vindex KeySet2North
@@ -3029,11 +3046,13 @@ Integers specifying the keycodes for keyset 1.
 @itemx KeySet2SouthWest
 @itemx KeySet2West
 @itemx KeySet2Fire
-Integers specifying the keycodes for keyset 2.
+Integers specifying the keycodes for keyset 2
+(all emulators except vsid).
 
 @vindex KeySetEnable
 @item KeySetEnable
-Boolean that specifies whether user defined keysets are enabled.
+Boolean that specifies whether user defined keysets are enabled
+(all emulators except vsid).
 
 @vindex KbdbufDelay
 @item KbdbufDelay
@@ -3106,6 +3125,13 @@ Set lightpen type
 (@code{LightpenType})
 (x64, x64sc, xscpu64, x128 and xvic only).
 (0: Pen with button Up, 1: Pen with button Left, 2: Datel Pen, 3: Magnum Light Phaser, 4: Stack Light Rifle)
+
+@findex -keyset, +keyset
+@item -keyset
+@itemx +keyset
+Enable/disable user defined keyset
+(@code{KeySetEnable=1}, @code{KeySetEnable=0})
+(all emulators except vsid).
 
 @findex -keybuf-delay
 @item -keybuf-delay <value>
@@ -4860,9 +4886,8 @@ Strings specifying the RS232 devices (@pxref{RS232 settings}).
 
 @vindex Acia1Dev
 @item Acia1Dev
-Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device
-(@pxref{RS232 settings}) the ACIA is using (All emulators except C64DTV and
-VSID, and only if RS232 support is enabled and supported at compile time).
+Integer specifying what RS232 device (@pxref{RS232 settings}) the ACIA is using
+(all emulators except x64dtv and vsid, and only if RS232 support is enabled and supported at compile time).
 
 @vindex Acia1Irq
 @item Acia1Irq
@@ -4903,9 +4928,10 @@ the user-port interface is using (C64, C128 and VIC20).
 Specify <Name> as RS232 devices 1, 2, 3 and 4, respectively
 (@code{RsDevice1}, @code{RsDevice2} @code{RsDevice3} and @code{RsDevice4}).
 
-@cindex -myaciadev
+@findex -myaciadev
 @item -myaciadev <0-3>
-Specify RS232 device the ACIA should work on (all emulators except C64DTV and VSID)
+Specify RS232 device the ACIA should work on
+(all emulators except x64dtv and vsid, and only if RS232 support is enabled and supported at compile time)
 
 @cindex -rsuser, +rsuser
 @item -rsuser
@@ -7353,11 +7379,14 @@ Integer specifying the size of the emulated GEO-RAM in KB.
 
 @vindex MIDIEnable
 @item MIDIEnable
-Boolean specifying whether the MIDI cartridge should be emulated or not.
+Boolean specifying whether the MIDI cartridge should be emulated or not
+(x64/x64sc/xscpu64/x128 only, and only if MIDI support is enabled and available at compile time).
+
 @vindex MIDIMode
 @item MIDIMode
-Enum specifying the type of emulated MIDI interface (0: Sequential, 1: Passport/Syntech,
-2: DATEL/Siel/JMS, 3: Namesoft, 4: Maplin)
+Integer specifying the type of emulated MIDI interface
+(x64, x64sc, xscpu64 and x128 only, and only if MIDI support is enabled and available at compile time).
+(0: Sequential, 1: Passport/Syntech, 2: DATEL/Siel/JMS, 3: Namesoft, 4: Maplin)
 
 @vindex REU
 @item REU
@@ -7443,13 +7472,20 @@ Set the DS12C887 RTC oscillator to 'running'
 Enable/disable saving of the DS12C887 RTC data when changed
 (@code{DS12C887RTCSave=1}, @code{DS12C887RTCSave=0}).
 
-@cindex -miditype
+@findex -miditype
 @item -miditype <0-4>
-MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)
-@cindex -midi, +midi
+Set MIDI interface type
+(@code{MIDIMode})
+(x64, x64sc, xscpu64 and x128 only, and only if MIDI support is enabled and available at compile time).
+(0: Sequential, 1: Passport/Syntech, 2: DATEL/Siel/JMS, 3: Namesoft, 4: Maplin)
+
+@findex -midi, +midi
 @item -midi
 @itemx +midi
-Enable/Disable MIDI emulation
+Enable/disable MIDI emulation
+(@code{MIDIEnable=1}, @code{MIDIEnable=0})
+(x64, x64sc, xscpu64 and x128 only, and only if MIDI support is enabled and available at compile time).
+(0: Sequential, 1: Passport/Syntech, 2: DATEL/Siel/JMS, 3: Namesoft, 4: Maplin)
 
 @findex -georam, +georam
 @item -georam
@@ -12402,21 +12438,6 @@ Integer specifying the mode of the statusbar.
 Integer specifying the VGA mode.
 (0: 320x200x8, 1: 360x240x8, 2: 360x270x8, 3: 376x282x8, 4: 400x300x8, 5: 640x480x8, 6: 800x600x8, 7: 1024x768x8, 8: 320x200x16, 9: 400x300x16, 10: 640x480x16, 11: 800x600x16, 12: 1024x768x16, 13: 640x480x32, 14: 800x600x32, 15: 1024x768x32)
 
-@vindex Speed
-@item Speed
-Integer specifying the maximum relative speed, as a percentage. @code{0}
-stands for ``no limit''.
-
-@vindex RefreshRate
-@item RefreshRate
-Integer specifying the refresh rate, a value of @code{n} specifies a
-refresh rate of 1/@code{n}. A value of @code{0} enables automatic frame
-skipping.
-
-@vindex WarpMode
-@item WarpMode
-Boolean specifying whether ``warp mode'' is turned on or not.
-
 @vindex HwJoyType
 @item HwJoyType
 Integer specifying the hardware type of the joystick
@@ -12481,23 +12502,6 @@ Set the statusbar mode
 Set the VGA mode
 (@code{VGAMode}).
 (0: 320x200x8, 1: 360x240x8, 2: 360x270x8, 3: 376x282x8, 4: 400x300x8, 5: 640x480x8, 6: 800x600x8, 7: 1024x768x8, 8: 320x200x16, 9: 400x300x16, 10: 640x480x16, 11: 800x600x16, 12: 1024x768x16, 13: 640x480x32, 14: 800x600x32, 15: 1024x768x32)
-
-@findex -speed
-@item -speed <percent>
-Specifies the maximum speed as a percentage. @code{0} stands for ``no limit''
-(@code{Speed}).
-
-@findex -refresh
-@item -refresh <value>
-Specifies refresh rate, a value of @code{n} specifies a refresh rate of
-1/@code{n}. A value of @code{0} enables automatic frame skipping
-(@code{RefreshRate}).
-
-@findex -warp, +warp
-@item -warp
-@itemx +warp
-Enable/Disable warp mode
-(@code{WarpMode=1}, @code{WarpMode=0}).
 
 @findex -joyhwtype
 @item -joyhwtype <type>

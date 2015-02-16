@@ -8299,20 +8299,20 @@ translate_t string_table[] = {
 
 #ifdef COMMON_KBD
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_KEYMAP_INDEX,    N_("Specify index of keymap file")},
+/* en */ {IDCLS_SPECIFY_KEYMAP_INDEX,    N_("Specify index of keymap file (0: UK business symbolic, 1: UK business positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic, 5: German business positional)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_KEYMAP_INDEX_DA, "Angiv indeks for tastaturindstillingsfil"},
-/* de */ {IDCLS_SPECIFY_KEYMAP_INDEX_DE, "Index der Keymap Datei definieren"},
-/* es */ {IDCLS_SPECIFY_KEYMAP_INDEX_ES, "Especificar índice fichero teclado"},
-/* fr */ {IDCLS_SPECIFY_KEYMAP_INDEX_FR, "Spécifier l'index du fichier de mappage clavier"},
-/* hu */ {IDCLS_SPECIFY_KEYMAP_INDEX_HU, "Adja meg a billentyûzet leképzés fájl típusát"},
-/* it */ {IDCLS_SPECIFY_KEYMAP_INDEX_IT, "Specifica l'indice del file della mappa della tastiera"},
+/* da */ {IDCLS_SPECIFY_KEYMAP_INDEX_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_KEYMAP_INDEX_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_KEYMAP_INDEX_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_KEYMAP_INDEX_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_KEYMAP_INDEX_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_KEYMAP_INDEX_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_KEYMAP_INDEX_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_KEYMAP_INDEX_NL, "Geef de index van het keymapbestand"},
-/* pl */ {IDCLS_SPECIFY_KEYMAP_INDEX_PL, "Okre¶l indeks pliku uk³adu klawiatury"},
-/* ru */ {IDCLS_SPECIFY_KEYMAP_INDEX_RU, "Specify index of keymap file"},
-/* sv */ {IDCLS_SPECIFY_KEYMAP_INDEX_SV, "Ange index o tangentbordsfil"},
-/* tr */ {IDCLS_SPECIFY_KEYMAP_INDEX_TR, "Tuþ haritasý dosyasýnýn indeksini belirt"},
+/* nl */ {IDCLS_SPECIFY_KEYMAP_INDEX_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_KEYMAP_INDEX_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_KEYMAP_INDEX_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_KEYMAP_INDEX_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_KEYMAP_INDEX_TR, ""},  /* fuzzy */
 #endif
 
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */

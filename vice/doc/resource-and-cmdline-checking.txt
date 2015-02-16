@@ -19641,12 +19641,10 @@ note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.source
 cbm2/cbm2-cmdline-options.c:
 ----------------------------
 command line:   -keymap <number>
-description:    "Specify index of keymap file" (fixme: needs better description)
+description:    "Specify index of keymap file (0: UK business symbolic, 1: UK business positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic, 5: German business positional)"
 resource:       "KeymapIndex"
 action:         N/A
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
-
----blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 joystick.c:
 -----------
@@ -19993,7 +19991,6 @@ command line:   -bukposkeymap <Name>
 description:    "Specify name of UK business keyboard positional keymap file"
 resource:       "KeymapBusinessUKPosFile"
 action:         N/A
-fixme: fix documentation
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-resources.c:
@@ -20042,7 +20039,6 @@ command line:   -grposkeymap <Name>
 description:    "Specify name of graphics keyboard positional keymap file"
 resource:       "KeymapGraphicsPosFile"
 action:         N/A
-fixme: fix documentation
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-resources.c:
@@ -20091,7 +20087,6 @@ command line:   -bdeposkeymap <Name>
 description:    "Specify name of German business keyboard positional keymap file"
 resource:       "KeymapBusinessDEPosFile"
 action:         N/A
-fixme: fix documentation
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
 
 pet/pet-resources.c:
@@ -20116,7 +20111,7 @@ note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.source
 pet/pet-cmdline-options.c:
 --------------------------
 command line:   -keymap <number>
-description:    "Specify index of keymap file" (fixme: needs better description)
+description:    "Specify index of keymap file (0: UK business symbolic, 1: UK business positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic, 5: German business positional)"
 resource:       "KeymapIndex"
 action:         N/A
 note: keyboard maps on PET/CBM2 are broken and messy, see http://vice-emu.sourceforge.net/wiki/index.php/Keymaps
@@ -20254,7 +20249,6 @@ command line:   -symdekeymap <Name>
 description:    "Specify name of symbolic German keymap file"
 resource:       "KeymapSymDeFile"
 action:         N/A
-fixme: fix documentation
 
 scpu64/scpu64-resources.c:
 --------------------------
@@ -20272,7 +20266,6 @@ platform gui present:           unix/osx/windows
 platform range correct:
 platform range incorrect:
 platform gui missing:           amigaos/beos/dos/sdl
-fixme: fix documentation, range
 
 scpu64/scpu64-cmdline-options.c:
 --------------------------------
@@ -20293,7 +20286,7 @@ resource emulators:             xvic
 not used in:                    x64/x64sc/xscpu64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/vsid
 prepocessor:                    #ifdef COMMON_KBD
 command-line:                   -symkeymap
-platform gui present:   	osx/windows/unix
+platform gui present:			osx/windows/unix
 platform gui missing:           amigaos/beos/dos/sdl
 
 vic20/vic20-cmdline-options.c:
@@ -20507,7 +20500,6 @@ platform gui present:           sdl/unix/osx/windows
 platform range correct:		
 platform range incorrect:		
 platform gui missing:           amigaos/beos/dos/os2
-fixme: fix documentation
 
 midi.c:
 -------
@@ -20522,6 +20514,8 @@ command line:   +midi
 description:    "Disable MIDI emulation"
 resource:       "MIDIEnable" (set to 0)
 action:         N/A
+
+---blacky dox fixing run------------------------------------------------------------------------------------------------------------
 
 c64/cart/c64acia1.c:
 --------------------
