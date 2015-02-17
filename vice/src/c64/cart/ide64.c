@@ -76,6 +76,11 @@
 #define debug(x)
 #endif
 
+#ifndef HAVE_FSEEKO
+#define fseeko(a, b, c) fseek(a, b, c)
+#define ftello(a) ftell(a)
+#endif
+
 #define LATENCY_TIMER 4000
 
 /* Current IDE64 bank */
@@ -361,8 +366,8 @@ static void detect_ide64_image(struct drive_s *drive)
             }
         } else {
             off_t size = 0;
-            if (fseek(file, 0, SEEK_END) == 0) {
-                size = ftell(file);
+            if (fseeko(file, 0, SEEK_END) == 0) {
+                size = ftello(file);
                 if (size < 0) {
                     size = 0;
                 }

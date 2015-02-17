@@ -50,6 +50,11 @@
 #include "maincpu.h"
 #include "monitor.h"
 
+#ifndef HAVE_FSEEKO
+#define fseeko(a, b, c) fseek(a, b, c)
+#define ftello(a) ftell(a)
+#endif
+
 #define ATA_UNC  0x40
 #define ATA_IDNF 0x10
 #define ATA_ABRT 0x04
@@ -247,7 +252,7 @@ static int seek_sector(ata_drive_t *drv)
     drv->busy |= 2;
     alarm_set(drv->head_alarm, maincpu_clk + (CLOCK)(abs(drv->pos - lba) * drv->seek_time / drv->geometry.size));
     ata_change_power_mode(drv, 0xff);
-    if (fseek(drv->file, (off_t)lba * drv->sector_size, SEEK_SET)) {
+    if (fseeko(drv->file, (off_t)lba * drv->sector_size, SEEK_SET)) {
         drv->error = drv->atapi ? 0x54 : ATA_IDNF;
     }
     drv->pos = lba;
@@ -1387,7 +1392,7 @@ int ata_snapshot_write_module(ata_drive_t *drv, snapshot_t *s)
         standby_clk = drv->standby_alarm->context->pending_alarms[drv->standby_alarm->pending_idx].clk;
     }
     if (drv->file) {
-        pos = ftell(drv->file);
+        pos = ftello(drv->file);
         if (pos < 0) {
             pos = 0;
         }
@@ -1550,7 +1555,7 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
     }
 
     if (drv->file) {
-        fseek(drv->file, (off_t)pos * drv->sector_size, SEEK_SET);
+        fseeko(drv->file, (off_t)pos * drv->sector_size, SEEK_SET);
     }
     if (!drv->atapi) { /* atapi supports disc change events */
         drv->readonly = 1; /* make sure for ata that there's no filesystem corruption */
