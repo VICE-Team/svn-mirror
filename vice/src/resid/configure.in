@@ -131,8 +131,8 @@ AS_IF([test "$resid_cv_builtin_expect" = no],
   [AC_SUBST([HAVE_BUILTIN_EXPECT], [1])])
 
 AC_CACHE_CHECK([for log1p], [resid_cv_log1p],
-  [AC_COMPILE_IFELSE([int main() { log1p(1); }],
-    [resid_cv_log1p=yes], [resid_cv_log1p=no])])
+  [AC_TRY_COMPILE([#include <math.h>], [ log1p(1); ],
+    resid_cv_log1p=yes, resid_cv_log1p=no)])
 
 AS_IF([test "$resid_cv_log1p" = no],
   [AC_SUBST([HAVE_LOG1P], [0])],
