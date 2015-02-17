@@ -5956,6 +5956,35 @@ description:    "Disable writing to EasyFlash .crt image"
 resource:       "EasyFlashWriteCRT" (set to 0)
 action:         N/A
 
+c64/cart/easyflash.c:
+---------------------
+resource type:                  bool
+resource name:                  "EasyFlashOptimizeCRT"
+resource range:                 0/1
+resource default:               1
+resource function:              set_easyflash_crt_optimize()
+resource var:                   easyflash_crt_optimize
+resource emulators:             x64/x64sc/xscpu64/x128
+not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
+prepocessor:
+command-line:                   -easyflashcrtoptimize / +easyflashcrtoptimize
+platform gui present:           unix
+platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+
+c64/cart/easyflash.c:
+---------------------
+command line:   -easyflashcrtoptimize
+description:    "Enable EasyFlash .crt image optimize on write"
+resource:       "EasyFlashOptimizeCRT" (set to 1)
+action:         N/A
+
+c64/cart/easyflash.c:
+---------------------
+command line:   +easyflashcrtoptimize
+description:    "Disable EasyFlash .crt image optimize on write"
+resource:       "EasyFlashOptimizeCRT" (set to 0)
+action:         N/A
+
 c64/cart/expert.c:
 ------------------
 resource type:                  string

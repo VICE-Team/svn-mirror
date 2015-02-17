@@ -38,6 +38,7 @@
 
 UI_MENU_DEFINE_TOGGLE(EasyFlashJumper)
 UI_MENU_DEFINE_TOGGLE(EasyFlashWriteCRT)
+UI_MENU_DEFINE_TOGGLE(EasyFlashOptimizeCRT)
 
 static UI_CALLBACK(easyflash_flush_callback);
 static UI_CALLBACK(easyflash_save_callback);
@@ -45,9 +46,11 @@ static UI_CALLBACK(easyflash_save_callback);
 ui_menu_entry_t easyflash_submenu[] = {
     { N_("Enable jumper"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_EasyFlashJumper, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_EasyFlashWriteCRT, NULL, NULL },
+    { N_("Optimize image when saving"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_EasyFlashOptimizeCRT, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)easyflash_flush_callback, NULL, NULL },
     { N_("Save image as"), UI_MENU_TYPE_DOTS,

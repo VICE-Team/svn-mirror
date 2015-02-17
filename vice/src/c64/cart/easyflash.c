@@ -66,6 +66,9 @@ static int easyflash_jumper;
 /* writing back to crt enabled */
 static int easyflash_crt_write;
 
+/* optimizing crt enabled */
+static int easyflash_crt_optimize;
+
 /* backup of the registers */
 static BYTE easyflash_register_00, easyflash_register_02;
 
@@ -204,12 +207,18 @@ static int set_easyflash_crt_write(int val, void *param)
     return 0;
 }
 
+static int set_easyflash_crt_optimize(int val, void *param)
+{
+    easyflash_crt_optimize = val ? 1 : 0;
+    return 0;
+}
+
 static int easyflash_write_chip_if_not_empty(FILE* fd, crt_chip_header_t *chip, BYTE* data)
 {
     int i;
 
     for (i = 0; i < chip->size; i++) {
-        if (data[i] != 0xff) {
+        if ((data[i] != 0xff) || (easyflash_crt_optimize == 0)) {
             if (crt_write_chip(data, chip, fd)) {
                 return -1;
             }
@@ -226,6 +235,8 @@ static const resource_int_t resources_int[] = {
       &easyflash_jumper, set_easyflash_jumper, NULL },
     { "EasyFlashWriteCRT", 1, RES_EVENT_STRICT, (resource_value_t)0,
       &easyflash_crt_write, set_easyflash_crt_write, NULL },
+    { "EasyFlashOptimizeCRT", 1, RES_EVENT_STRICT, (resource_value_t)1,
+      &easyflash_crt_optimize, set_easyflash_crt_optimize, NULL },
     { NULL }
 };
 
@@ -261,6 +272,16 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "EasyFlashWriteCRT", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_EASYFLASH_CRT_WRITING,
+      NULL, NULL },
+    { "-easyflashcrtoptimize", SET_RESOURCE, 0,
+      NULL, NULL, "EasyFlashOptimizeCRT", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE,
+      NULL, NULL },
+    { "+easyflashcrtoptimize", SET_RESOURCE, 0,
+      NULL, NULL, "EasyFlashOptimizeCRT", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE,
       NULL, NULL },
     { NULL }
 };

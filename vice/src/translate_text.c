@@ -15655,6 +15655,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_EASYFLASH_CRT_WRITING_TR, "EasyFlash .crt imajýna yazmayý pasifleþtir"},
 #endif
 
+/* c64/cart/easyflash.c */
+/* en */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE,    N_("Enable EasyFlash .crt image optimize on write")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/easyflash.c */
+/* en */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE,    N_("Disable writing to EasyFlash .crt image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/digimax.c */
 /* en */ {IDCLS_ENABLE_DIGIMAX,    N_("Enable the DigiMAX cartridge")},
 #ifdef HAS_TRANSLATION

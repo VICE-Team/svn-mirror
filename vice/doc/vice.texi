@@ -5797,6 +5797,10 @@ Boolean specifying whether the Easy Flash jumper is set.
 Boolean, if true write back the Easy Flash image file automatically, incase the
 contents changed, when detaching or quitting the emulator.
 
+@vindex EasyFlashOptimizeCRT
+@item EasyFlashOptimizeCRT
+Boolean, if true omit empty (filled with $ff) banks from the .crt image when writing.
+
 @vindex ExpertCartridgeEnabled
 @item ExpertCartridgeEnabled
 Boolean specifying whether the Expert Cartridge should be emulated or not.
@@ -6149,6 +6153,12 @@ Enable/disable EasyFlash jumper
 @itemx +easyflashcrtwrite
 Allow/Disallow writing to EasyFlash .crt image
 (@code{EasyFlashWriteCRT=1}, @code{EasyFlashWriteCRT=0}).
+
+@findex -easyflashcrtoptimize, +easyflashcrtoptimize
+@item -easyflashcrtoptimize
+@itemx +easyflashcrtoptimize
+Allow/Disallow EasyFlash .crt image optimizing (omitting of empty banks) on write
+(@code{EasyFlashOptimizeCRT=1}, @code{EasyFlashOptimizeCRT=0}).
 
 @findex -cartepyx
 @item -cartepyx <name>
