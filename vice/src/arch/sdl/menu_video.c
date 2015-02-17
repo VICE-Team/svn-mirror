@@ -107,6 +107,8 @@ static const ui_menu_entry_t ted_border_menu[] = {
     SDL_MENU_LIST_END
 };
 
+UI_MENU_DEFINE_TOGGLE(VICIIVSPBug)
+
 /* audio leak */
 
 UI_MENU_DEFINE_TOGGLE(VICIIAudioLeak)
@@ -788,6 +790,10 @@ const ui_menu_entry_t c64sc_video_menu[] = {
     { "VICII Audio Leak emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIAudioLeak_callback,
+      NULL },
+    { "VICII VSP-bug emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIVSPBug_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     { "Enable Sprite-Sprite collisions",

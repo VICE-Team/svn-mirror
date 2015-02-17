@@ -459,6 +459,7 @@ static const ui_menu_entry_t isepic_cart_menu[] = {
 
 UI_MENU_DEFINE_TOGGLE(EasyFlashJumper)
 UI_MENU_DEFINE_TOGGLE(EasyFlashWriteCRT)
+UI_MENU_DEFINE_TOGGLE(EasyFlashOptimizeCRT)
 
 
 static const ui_menu_entry_t easyflash_cart_menu[] = {
@@ -469,6 +470,10 @@ static const ui_menu_entry_t easyflash_cart_menu[] = {
     { "Save image on detach",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EasyFlashWriteCRT_callback,
+      NULL },
+    { "Optimize image on write",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_EasyFlashOptimizeCRT_callback,
       NULL },
     { "Save image now",
       MENU_ENTRY_OTHER,

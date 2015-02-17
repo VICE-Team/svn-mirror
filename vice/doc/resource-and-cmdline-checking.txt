@@ -5968,8 +5968,8 @@ resource emulators:             x64/x64sc/xscpu64/x128
 not used in:                    x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -easyflashcrtoptimize / +easyflashcrtoptimize
-platform gui present:           unix
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
+platform gui present:           unix/sdl
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
 
 c64/cart/easyflash.c:
 ---------------------
@@ -8381,8 +8381,8 @@ resource emulators:             x64/x64sc/x128/xcbm5x0/xcbm2/xpet/xplus4/xvic
 not used in:                    xscpu64/x64dtv/vsid
 prepocessor:
 command-line:                   -dstapewobble
-platform gui missing:           unix
-platform gui present:           amigaos/beos/dos/os2/sdl/osx/windows
+platform gui missing:           unix/sdl
+platform gui present:           amigaos/beos/dos/os2/osx/windows
 
 datasette.c:
 ------------
@@ -12865,8 +12865,8 @@ resource emulators:             x64sc/xscpu64
 not used in:                    x64/x64dtv/x128/xcbm2/xcbm5x0/xpet/xplus4/xvic/vsid
 prepocessor:
 command-line:                   -VICIIvspbug / +VICIIvspbug
-platform gui missing:           amigaos/beos/dos/os2/sdl/osx/windows
-platform gui present:           unix
+platform gui missing:           amigaos/beos/dos/os2/osx/windows
+platform gui present:           unix/sdl
 
 viciisc/vicii-cmdline-options.c:
 --------------------------------
