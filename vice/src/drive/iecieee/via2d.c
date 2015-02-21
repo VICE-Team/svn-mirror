@@ -198,13 +198,17 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
         /* the new coil line activated */
         int new_stepper_position = byte & 3;
 
-        /* the previous coil line currently active 
-           track 0: position 0
-           track 1: position 1
-           track 2: position 2
-           track 3: position 3
-           track 4: position 0
-           ... */
+        /*
+          track halftrack stepper
+          log.  log.phys. position
+          1     2   0     0
+          1.5   3   1     1
+          2     4   2     2
+          2.5   5   3     3
+          3     6   4     0
+          3.5   7   5     1
+          ... */
+
         int old_stepper_position = track_number & 3;
 
         /* FIXME: emulating the mechanical delay with such naive approach does
@@ -247,11 +251,18 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
          */
         /* if ((*(via_context->clk_ptr) - via2p->drive->stepper_last_change_clk) >= 2000) */ {
             /* presumably only single steps work */
-            if (step_count == 1 || step_count == -1) {
+            /* TODO: the general assumption for the case when opposite coils are active is
+                    that the stepper will _not_ move at all. however, that doesnt seem to
+                    be true in all cases. when the stepper is already moving (up or down),
+                    and such "double step" takes place with the right timing, then it would
+                    actually result in two steps (in the "current" direction!). this seems
+                    unreliable on real hw as well, and only very few original titles need it.
+                    allowing it always does more harm than good, so we should simply ignore
+                    this condition for the time being. */
+            if ((step_count == 1) || (step_count == -1)) {
                 DBG(("VIA2: store_prb drive_move_head(%d) (%02x to %02x) clk:%d delay:%d", 
                      step_count, poldpb, byte, *(via_context->clk_ptr), 
                      (*(via_context->clk_ptr) - via2p->drive->stepper_last_change_clk)));
-                /* printf("%d\n",(*(via_context->clk_ptr) - via2p->drive->stepper_last_change_clk)); */
                 drive_move_head(step_count, via2p->drive);
             }
         }
