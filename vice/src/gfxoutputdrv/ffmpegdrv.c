@@ -374,7 +374,7 @@ static void ffmpegdrv_close_audio(void)
     audio_is_open = 0;
     ffmpegdrv_audio_in.buffer = NULL;
     ffmpegdrv_audio_in.size = 0;
-+    VICE_P_SWR_FREE(&swr_ctx);
+    VICE_P_SWR_FREE(&swr_ctx);
 }
 
 static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t ** audio_in)
