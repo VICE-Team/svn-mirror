@@ -343,6 +343,9 @@ do
     --enable-arch=*)
       argvalid=yes
       ;;
+    --enable-make-command=*)
+      argvalid=yes
+      ;;
     --enable-native-tools=*)
       argvalid=yes
       ;;

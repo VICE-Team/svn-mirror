@@ -65,6 +65,7 @@ static char screendrivername[MAXSCRNDRVLEN];
 static OPENFILENAME ofn;
 static gfxoutputdrv_t *selected_driver;
 
+#ifdef HAVE_FFMPEG
 static void update_ffmpeg_codecs(HWND hwnd)
 {
     HWND audio_codec_combo, video_codec_combo;
@@ -95,6 +96,7 @@ static void update_ffmpeg_codecs(HWND hwnd)
             }
             if (!codec_set) {
                 SendMessage(audio_codec_combo,CB_SETCURSEL,0 , 0);
+                resources_set_int("FFMPEGAudioCodec", current_format->audio_codecs[0].id);
             }
             EnableWindow(audio_codec_combo, 1);
         } else {
@@ -116,6 +118,7 @@ static void update_ffmpeg_codecs(HWND hwnd)
             }
             if (!codec_set) {
                 SendMessage(video_codec_combo,CB_SETCURSEL,0 , 0);
+                resources_set_int("FFMPEGVideoCodec", current_format->video_codecs[0].id);
             }
             EnableWindow(video_codec_combo, 1);
         } else {
@@ -125,17 +128,22 @@ static void update_ffmpeg_codecs(HWND hwnd)
         }
     }
 }
+#endif
 
 static void enable_ffmpeg_settings(HWND hwnd, int enable)
 {
+#ifdef HAVE_FFMPEG
+    if (enable) {
+        update_ffmpeg_codecs(hwnd);
+    }
+#else
+    enable = 0;
+#endif
     EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT), enable);
     EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOCODEC), enable);
     EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOCODEC), enable);
     EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOBITRATE), enable);
     EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOBITRATE), enable);
-    if (enable) {
-        update_ffmpeg_codecs(hwnd);
-    }
 }
 
 static uilib_localize_dialog_param mediafile_parent_dialog_trans[] = {
@@ -193,16 +201,15 @@ static void init_mediafile_dialog(HWND hwnd)
 {
     HWND combo;
     gfxoutputdrv_t *driver;
-    const char *ffmpeg_format;
     int i;
-    int have_ffmpeg = 0;
-    int enable_ffmpeg = 0;
-    int bitrate;
-    TCHAR st[256];
     HWND parent_hwnd;
     int xpos;
     int xstart;
     RECT rect;
+    int enable_ffmpeg;
+#ifdef HAVE_FFMPEG
+    int have_ffmpeg = 0;
+#endif
 
     parent_hwnd = GetParent(hwnd);
 
@@ -267,9 +274,11 @@ static void init_mediafile_dialog(HWND hwnd)
     driver = gfxoutput_drivers_iter_init();
     for (i = 0; i < gfxoutput_num_drivers(); i++) {
         SendMessage(combo,CB_ADDSTRING, 0, (LPARAM)driver->displayname);
+#ifdef HAVE_FFMPEG
         if (strcmp(driver->name, "FFMPEG") == 0) {
             have_ffmpeg = 1;
         }
+#endif
         if (driver == selected_driver) {
             SendMessage(combo, CB_SETCURSEL, (WPARAM)i, 0);
         }
@@ -283,6 +292,10 @@ static void init_mediafile_dialog(HWND hwnd)
     }
 
     enable_ffmpeg = (strcmp(selected_driver->name, "FFMPEG") == 0);
+#ifdef HAVE_FFMPEG
+    const char *ffmpeg_format;
+    int bitrate;
+    TCHAR st[256];
 
     if (have_ffmpeg == 1) {
         resources_get_string("FFMPEGFormat", &ffmpeg_format);
@@ -302,15 +315,18 @@ static void init_mediafile_dialog(HWND hwnd)
         _stprintf(st, TEXT("%d"), bitrate);
         SetDlgItemText(hwnd, IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, st);
     }
+#endif
     enable_ffmpeg_settings(hwnd, enable_ffmpeg);
 }
 
 static UINT_PTR APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
     TCHAR st_selection[MAXSCRNDRVLEN];
+#ifdef HAVE_FFMPEG
     char s_selection[MAXSCRNDRVLEN];
     const char *ffmpeg_format;
     int i, j;
+#endif
 
     switch (uimsg) {
         case WM_INITDIALOG:
@@ -321,10 +337,13 @@ static UINT_PTR APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg, WPARAM wpara
                 case IDC_SCREENSHOT_DRIVER:
                     GetDlgItemText(hwnd, IDC_SCREENSHOT_DRIVER, st_selection, MAXSCRNDRVLEN);
                     system_wcstombs(screendrivername, st_selection, MAXSCRNDRVLEN);
+#ifdef HAVE_FFMPEG
                     enable_ffmpeg_settings(hwnd, strcmp(screendrivername, "FFMPEG") == 0 ? 1 : 0);
                     /* could be shortened this way */
                     //enable_ffmpeg_settings(hwnd, (strcmp(screendrivername, "FFMPEG") == 0) );
+#endif
                     break;
+#ifdef HAVE_FFMPEG
                 case IDC_SCREENSHOT_FFMPEGFORMAT:
                     GetDlgItemText(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT, st_selection, MAXSCRNDRVLEN);
                     resources_get_string("FFMPEGFormat", &ffmpeg_format);
@@ -354,6 +373,7 @@ static UINT_PTR APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg, WPARAM wpara
                     _stscanf(st_selection, TEXT("%d"), &i);
                     resources_set_int("FFMPEGVideoBitrate", i);
                     break;
+#endif
             }
     }
     return 0;

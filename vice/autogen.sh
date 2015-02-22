@@ -96,21 +96,24 @@ buildfiles() {
 
 	# Save some files which should not be overwritten
 
-	for A in $FILES_TO_REMEMBER; do
-		[ -e $A ] && mv $A $A.backup
-	done
+	if [ -f configure.ac ] || [ -f configure.in ]; then
 
-	do_aclocal
+		for A in $FILES_TO_REMEMBER; do
+			[ -e $A ] && mv $A $A.backup
+		done
 
-	do_autoconf
-	do_autoheader
-	do_automake
+		do_aclocal
 
-	# Restore the files which should not be overwritten
+		do_autoconf
+		do_autoheader
+		do_automake
 
-	for A in $FILES_TO_REMEMBER; do
-		[ -e $A ] && mv $A.backup $A
-	done
+		# Restore the files which should not be overwritten
+
+		for A in $FILES_TO_REMEMBER; do
+			[ -e $A ] && mv $A.backup $A
+		done
+	fi
 }
 
 automake_line=`automake --version`

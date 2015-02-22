@@ -129,6 +129,14 @@ petcat:
 cartconv:
 	(cd src; $(MAKE) cartconv)
 
+ffmpeglibs:
+	(cd src/lib; $(MAKE) ffmpeglibs)
+
+ffmpeglibs-install:
+	(cd src/lib; $(MAKE) ffmpeglibs-install)
+
+ffmpeglibs-clean:
+	(cd src/lib; $(MAKE) clean)
 
 install: installvice
 
@@ -402,12 +410,27 @@ bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_syllable.sh $(STRIP) $(VICE_VERSION) $(prefix) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(top_srcdir)
 endif
 
-@MAKE_BINDIST_TRUE@installvice:
-@MAKE_BINDIST_TRUE@	@echo this platform doesn\'t use \"make install\", use \"make bindist\" instead
+if HAVE_SHARED_FFMPEG
+EXTRA_INSTALLS = ffmpeglibs-install
+EXTRA_CLEANS = ffmpeglibs-clean
+else
+if HAVE_STATIC_FFMPEG
+EXTRA_INSTALLS =
+EXTRA_CLEANS = ffmpeglibs-clean
+else
+EXTRA_INSTALLS =
+EXTRA_CLEANS =
+endif
+endif
 
-@MAKE_BINDIST_FALSE@installvice: install-recursive
+if MAKE_BINDIST
+installvice:
+	@echo this platform doesn\'t use \"make install\", use \"make bindist\" instead
+else
+installvice: install-recursive $(EXTRA_INSTALLS)
+endif
 
-cleantrans:
+clean-trans:
 	rm `find $(top_srcdir) -name "*.po.c"`
 
 # Manually define the dist targets so the correct tar usage will be used.
@@ -431,3 +454,5 @@ dist dist-all:
 
 $(top_srcdir)/configure.ac: $(top_srcdir)/configure.proto
 	$(am__cd) $(srcdir) && $(SHELL) autogen.sh
+
+clean: $(EXTRA_CLEANS) clean-recursive

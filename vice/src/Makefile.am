@@ -1088,6 +1088,7 @@ iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
+p64_lib = $(top_builddir)/src/lib/p64/libp64.a
 parallel_lib = $(top_builddir)/src/parallel/libparallel.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
 platform_lib = $(top_builddir)/src/platform/libplatform.a
@@ -1113,14 +1114,13 @@ video_lib = $(top_builddir)/src/video/libvideo.a
 vsid_lib = $(top_builddir)/src/c64/libvsid.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 xcbm5x0_lib = $(top_builddir)/src/cbm2/libcbm5x0.a
-p64_lib = $(top_builddir)/src/lib/p64/libp64.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@
 resid_libs = @RESID_LIBS@
 resid_dtv_libs = @RESID_DTV_LIBS@
 
 # external libraries required for all emulators
-emu_extlibs = @X_LIBS@ @UI_LIBS@ @SDL_EXTRA_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @FFMPEG_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @EDITLINE_LIBS@ @ARCH_LIBS@
+emu_extlibs = @X_LIBS@ @UI_LIBS@ @SDL_EXTRA_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @EDITLINE_LIBS@ @ARCH_LIBS@
 
 driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
@@ -1193,8 +1193,6 @@ bin_PROGRAMS = vsid x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 x
 
 EXTRA_PROGRAMS =
 
-bla = 
-
 # vsid
 vsid_libs =  \
 	@VSID_WINRES@ \
@@ -1209,6 +1207,7 @@ vsid_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(resid_libs) \
+	$(ffmpeg_libs) \
 	$(platform_lib)
 
 vsid_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
@@ -1220,6 +1219,7 @@ vsid_LDFLAGS = @vsid_LDFLAGS@
 vsid-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
+	@FFMPEG_DEP@ \
 	libvsid \
 	libraster \
 	libsid \
@@ -1245,8 +1245,8 @@ x64_libs =  \
 	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
-	$(p64_lib) \
 	$(iecbus_lib) \
+	$(p64_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
@@ -1260,6 +1260,7 @@ x64_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
+	$(ffmpeg_libs) \
 	$(platform_lib)
 
 x64_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
@@ -1271,6 +1272,7 @@ x64_LDFLAGS = @x64_LDFLAGS@
 x64-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
+	@FFMPEG_DEP@ \
 	libc64 \
 	libc64cartsystem \
 	libc64cart \
@@ -1333,6 +1335,7 @@ x64sc_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
+	$(ffmpeg_libs) \
 	$(platform_lib)
 
 x64sc_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
@@ -1344,6 +1347,7 @@ x64sc_LDFLAGS = @x64_LDFLAGS@
 x64sc-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DEP@ \
+	@FFMPEG_DEP@ \
 	libc64sc \
 	libc64cartsystem \
 	libc64cart \
@@ -1404,6 +1408,7 @@ x64dtv_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_dtv_libs) \
+	$(ffmpeg_libs) \
 	$(c64dtvstubs_lib) \
 	$(platform_lib)
 
@@ -1416,6 +1421,7 @@ x64dtv_LDFLAGS = @x64_LDFLAGS@
 x64dtv-all: \
 	$(BUILT_SOURCES) \
 	@RESID_DTV_DEP@ \
+	@FFMPEG_DEP@ \
 	libc64dtv \
 	libc64dtvstubs \
 	libc64c64dtv \
@@ -1478,6 +1484,7 @@ xscpu64_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
+	$(ffmpeg_libs) \
 	$(platform_lib)
 
 xscpu64_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
@@ -1523,6 +1530,7 @@ xscpu64-all: \
 	libuserport \
 	libplatform \
 	@RESID_DEP@ \
+	@FFMPEG_DEP@ \
 	xscpu64$(EXEEXT)
 
 # x128
@@ -1555,6 +1563,7 @@ x128_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
+	$(ffmpeg_libs) \
 	$(platform_lib)
 
 x128_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
@@ -1602,6 +1611,7 @@ x128-all: \
 	libuserport \
 	libplatform \
 	@RESID_DEP@ \
+	@FFMPEG_DEP@ \
 	x128$(EXEEXT)
 
 # xvic
@@ -1629,6 +1639,7 @@ xvic_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
+	$(ffmpeg_libs) \
 	$(platform_lib)
 
 xvic_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
@@ -1671,6 +1682,7 @@ xvic-all: \
 	libuserport \
 	libplatform \
 	@RESID_DEP@ \
+	@FFMPEG_DEP@ \
 	xvic$(EXEEXT)
 
 # xpet
@@ -1694,6 +1706,7 @@ xpet_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
+	$(ffmpeg_libs) \
 	$(platform_lib)
 
 xpet_SOURCES = $(base_sources) $(mouse_sources)
@@ -1732,6 +1745,7 @@ xpet-all: \
 	libuserport \
 	libplatform \
 	@RESID_DEP@ \
+	@FFMPEG_DEP@ \
 	xpet$(EXEEXT)
 
 # xplus4
@@ -1756,6 +1770,7 @@ xplus4_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
+	$(ffmpeg_libs) \
 	$(platform_lib)
 
 xplus4_SOURCES = $(base_sources) $(mouse_sources)
@@ -1795,6 +1810,7 @@ xplus4-all: \
 	libuserport \
 	libplatform \
 	@RESID_DEP@ \
+	@FFMPEG_DEP@ \
 	xplus4$(EXEEXT)
 
 # xcbm2
@@ -1818,6 +1834,7 @@ xcbm2_libs = \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
+	$(ffmpeg_libs) \
 	$(platform_lib)
 
 xcbm2_SOURCES = $(base_sources) $(mouse_sources)
@@ -1836,6 +1853,7 @@ xcbm2-all: \
 	libarch \
 	libsid \
 	@RESID_DEP@ \
+	@FFMPEG_DEP@ \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
@@ -1879,6 +1897,7 @@ xcbm5x0_libs = \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
+	$(ffmpeg_libs) \
 	$(platform_lib)
 
 xcbm5x0_SOURCES = $(base_sources) $(mouse_sources)
@@ -1897,6 +1916,7 @@ xcbm5x0-all: \
 	libarch \
 	libsid \
 	@RESID_DEP@ \
+	@FFMPEG_DEP@ \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
@@ -2020,7 +2040,7 @@ DISTCLEANFILES = $(BUILT_SOURCES)
 	libtape libarch libvicii libviciisc libviciidtv libviciivsid libvdc
 	libsid libcrtc libvideo libserial libparallel libcore libiecbus
 	libfileio librtc libuserport libp64 libscpu64 @RESID_DEP@
-	@RESID_DTV_DEP@
+	@RESID_DTV_DEP@ @FFMPEG_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -2076,12 +2096,14 @@ libdriveieee:
 	(cd drive && $(MAKE) libdriveieee)
 libdrivetcbm:
 	(cd drive && $(MAKE) libdrivetcbm)
-libgfxoutputdrv:
-	(cd gfxoutputdrv && $(MAKE))
+libffmpeg:
+	(cd lib/libffmpeg && $(MAKE))
 libfileio:
 	(cd fileio && $(MAKE))
 libfsdevice:
 	(cd fsdevice && $(MAKE))
+libgfxoutputdrv:
+	(cd gfxoutputdrv && $(MAKE))
 libiecbus:
 	(cd iecbus && $(MAKE))
 libimagecontents:
@@ -2173,3 +2195,23 @@ xvicow$(EXEEXT): xvic$(EXEEXT)
 
 vsidow$(EXEEXT): vsid$(EXEEXT)
 	wrc -fe=vsidow$(EXEEXT) arch/win32/resvsid.res vsid$(EXEEXT)
+
+if HAVE_SHARED_FFMPEG
+$(top_builddir)/src/libffmpeg.a: libffmpeg
+	touch dummy.c
+	$(CC) -o dummy.o -c dummy.c
+	$(AR) cru $(top_builddir)/src/libffmpeg.a dummy.o
+	rm dummy.o dummy.c
+endif
+
+if HAVE_STATIC_FFMPEG
+$(top_builddir)/src/libffmpeg.a: libffmpeg
+	$(AR) cqT $(top_builddir)/src/libffmpeg.a \
+	$(top_builddir)/src/lib/libffmpeg/libavformat/libavformat.a \
+	$(top_builddir)/src/lib/libffmpeg/libavcodec/libavcodec.a \
+	$(top_builddir)/src/lib/libffmpeg/libavutil/libavutil.a \
+	$(top_builddir)/src/lib/libffmpeg/libswscale/libswscale.a \
+	$(top_builddir)/src/lib/libffmpeg/libswresample/libswresample.a \
+	$(top_builddir)/src/lib/libffmpeg/lib/libmp3lame.a \
+	$(top_builddir)/src/lib/libffmpeg/lib/libx264.a
+endif
