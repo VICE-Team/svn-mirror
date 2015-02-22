@@ -882,7 +882,7 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
         return 0;
     }
 
-    if (audio_st.st && video_pts > audio_pts) {
+   if (audio_st.st && video_st.next_pts > audio_st.next_pts) {
         /* drop this frame */
         return 0;
     }
