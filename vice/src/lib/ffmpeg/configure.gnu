@@ -4,6 +4,7 @@ srcdir=""
 shared=no
 static=no
 makecommand=""
+extra_enables=""
 
 for i in $*
 do
@@ -19,6 +20,9 @@ do
       ;;
     --enable-static-ffmpeg)
       static=yes
+      ;;
+    --enable-win32thread)
+      extra_enables="$extra_enables --enable-win32thread"
       ;;
   esac
 done
@@ -60,7 +64,7 @@ fi
 cd ../libffmpeg
 cur=`pwd`
 if test x"$shared" = "xyes"; then
-  $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib"
+  $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib" $extra_enables
 else
-  $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --disable-shared --enable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib"
+  $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --disable-shared --enable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib" $extra_enables
 fi

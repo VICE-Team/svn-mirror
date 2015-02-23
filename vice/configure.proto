@@ -1,4 +1,4 @@
-\dnl
+dnl
 dnl This file is part of VICE, the Versatile Commodore Emulator.
 dnl See README for copyright notice.
 dnl
@@ -1710,8 +1710,10 @@ if test x"$enable_static_ffmpeg" = "xyes"; then
 
   AC_MSG_RESULT([yes (static internal)])
 
-  AC_CHECK_LIB(pthread, pthread_create,, [ AC_MSG_ERROR([Needed pthread lib missing]) ])
-  AC_CHECK_LIB(rt, clock_gettime, , [ AC_MSG_ERROR([Needed rt lib missing]) ])
+  if test x"$is_unix" = "xyes"; then
+    AC_CHECK_LIB(pthread, pthread_create,, [ AC_MSG_ERROR([Needed pthread lib missing]) ])
+    AC_CHECK_LIB(rt, clock_gettime, , [ AC_MSG_ERROR([Needed rt lib missing]) ])
+  fi
 
   FFMPEG_DO_SUBDIRS=yes
   HAVE_STATIC_FFMPEG=yes
@@ -1780,7 +1782,11 @@ if test x"$HAVE_SHARED_FFMPEG" != "xyes" -a x"$HAVE_STATIC_FFMPEG" != "xyes" -a 
 fi
 
 if test x"$FFMPEG_DO_SUBDIRS" = "xyes"; then
-  ac_configure_args="$ac_configure_args --enable-make-command=${MAKE-make}"
+  if test x"$is_win32" = "xyes"; then
+      ac_configure_args="$ac_configure_args --enable-make-command=${MAKE-make} --enable-win32thread"
+  else
+      ac_configure_args="$ac_configure_args --enable-make-command=${MAKE-make}"
+  fi
   AC_CONFIG_SUBDIRS(src/lib/ffmpeg)
 fi
 
