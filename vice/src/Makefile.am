@@ -1118,6 +1118,7 @@ xcbm5x0_lib = $(top_builddir)/src/cbm2/libcbm5x0.a
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@
 resid_libs = @RESID_LIBS@
 resid_dtv_libs = @RESID_DTV_LIBS@
+ffmpeg_libs = @FFMPEG_LIBS@
 
 # external libraries required for all emulators
 emu_extlibs = @X_LIBS@ @UI_LIBS@ @SDL_EXTRA_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @EDITLINE_LIBS@ @ARCH_LIBS@
