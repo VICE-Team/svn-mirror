@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-01 15:06-0800\n"
+"POT-Creation-Date: 2015-02-23 01:37-0500\n"
 "PO-Revision-Date: 2012-10-30 14:45+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2256,7 +2256,7 @@ msgstr "Имя образа"
 msgid "Save image when changed"
 msgstr "Save image when changed"
 
-#: src/arch/unix/gui/uidqbb.c:54 src/arch/unix/gui/uieasyflash.c:51
+#: src/arch/unix/gui/uidqbb.c:54 src/arch/unix/gui/uieasyflash.c:54
 #: src/arch/unix/gui/uiexpert.c:65 src/arch/unix/gui/uigeoram.c:76
 #: src/arch/unix/gui/uiisepic.c:56 src/arch/unix/gui/uimmc64.c:85
 #: src/arch/unix/gui/uimmcreplay.c:70 src/arch/unix/gui/uiramcart.c:68
@@ -2264,7 +2264,7 @@ msgstr "Save image when changed"
 msgid "Save image now"
 msgstr "Сохранить образ сейчас"
 
-#: src/arch/unix/gui/uidqbb.c:56 src/arch/unix/gui/uieasyflash.c:53
+#: src/arch/unix/gui/uidqbb.c:56 src/arch/unix/gui/uieasyflash.c:56
 #: src/arch/unix/gui/uiexpert.c:67 src/arch/unix/gui/uigeoram.c:78
 #: src/arch/unix/gui/uiisepic.c:58 src/arch/unix/gui/uimmc64.c:87
 #: src/arch/unix/gui/uimmcreplay.c:72 src/arch/unix/gui/uiramcart.c:70
@@ -2277,7 +2277,7 @@ msgstr "Сохранить образ как"
 msgid "DQBB file"
 msgstr "Файл DQBB"
 
-#: src/arch/unix/gui/uidqbb.c:72 src/arch/unix/gui/uieasyflash.c:64
+#: src/arch/unix/gui/uidqbb.c:72 src/arch/unix/gui/uieasyflash.c:67
 #: src/arch/unix/gui/uiexpert.c:83 src/arch/unix/gui/uigeoram.c:119
 #: src/arch/unix/gui/uiisepic.c:83 src/arch/unix/gui/uimmc64.c:135
 #: src/arch/unix/gui/uimmcreplay.c:109 src/arch/unix/gui/uiramcart.c:95
@@ -2592,9 +2592,14 @@ msgstr "Trap idle"
 msgid "Load new 1551 ROM"
 msgstr "Загрузить новый 1551 ROM"
 
-#: src/arch/unix/gui/uieasyflash.c:46
+#: src/arch/unix/gui/uieasyflash.c:47
 msgid "Enable jumper"
 msgstr "Enable jumper"
+
+#: src/arch/unix/gui/uieasyflash.c:51
+#, fuzzy
+msgid "Optimize image when saving"
+msgstr "Save image when changed"
 
 #: src/arch/unix/gui/uiexpert.c:53 src/arch/win32/resexpert.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:7062
@@ -7695,7 +7700,7 @@ msgstr ""
 msgid "CIA settings"
 msgstr ""
 
-#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:15573
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:15607
 msgid "Enable the DigiMAX cartridge"
 msgstr "Enable the DigiMAX cartridge"
 
@@ -11747,8 +11752,11 @@ msgid "Disable RAM mapping in $C000-$CFFF"
 msgstr "Disable RAM mapping in $C000-$CFFF"
 
 #: src/translate_text.c.po.c:8221
-msgid "Specify index of keymap file"
-msgstr "Specify index of keymap file"
+msgid ""
+"Specify index of keymap file (0: UK business symbolic, 1: UK business "
+"positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business "
+"symbolic, 5: German business positional)"
+msgstr ""
 
 #: src/translate_text.c.po.c:8238
 msgid "Specify name of graphics keyboard symbolic keymap file"
@@ -13490,114 +13498,122 @@ msgstr "Disable EasyFlash jumper"
 msgid "Enable writing to EasyFlash .crt image"
 msgstr "Enable writing to EasyFlash .crt image"
 
-#: src/translate_text.c.po.c:15556
+#: src/translate_text.c.po.c:15556 src/translate_text.c.po.c:15590
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "Disable writing to EasyFlash .crt image"
 
-#: src/translate_text.c.po.c:15590
+#: src/translate_text.c.po.c:15573
+#, fuzzy
+msgid "Enable EasyFlash .crt image optimize on write"
+msgstr "Enable writing to EasyFlash .crt image"
+
+#: src/translate_text.c.po.c:15624
 msgid "Disable the DigiMAX cartridge"
 msgstr "Disable the DigiMAX cartridge"
 
-#: src/translate_text.c.po.c:15607
+#: src/translate_text.c.po.c:15641
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Base address of the DigiMAX cartridge"
 
-#: src/translate_text.c.po.c:15624
+#: src/translate_text.c.po.c:15658
 msgid "Enable the DS12C887 RTC cartridge"
 msgstr ""
 
-#: src/translate_text.c.po.c:15641
+#: src/translate_text.c.po.c:15675
 msgid "Disable the DS12C887 RTC cartridge"
 msgstr ""
 
-#: src/translate_text.c.po.c:15658
+#: src/translate_text.c.po.c:15692
 #, fuzzy
 msgid "Set the RTC oscillator to 'halted'"
 msgstr "Set the MMC64 card to read/write"
 
-#: src/translate_text.c.po.c:15675
+#: src/translate_text.c.po.c:15709
 msgid "Set the RTC oscillator to 'running'"
 msgstr ""
 
-#: src/translate_text.c.po.c:15692
+#: src/translate_text.c.po.c:15726
 msgid "Base address of the DS12C887 RTC cartridge"
 msgstr "Base address of the DS12C887 RTC cartridge"
 
-#: src/translate_text.c.po.c:15709
+#: src/translate_text.c.po.c:15743
 #, fuzzy
 msgid "Enable saving of the DS12C887 RTC data when changed."
 msgstr "Enable saving of the RR ROM at exit"
 
-#: src/translate_text.c.po.c:15726
+#: src/translate_text.c.po.c:15760
 #, fuzzy
 msgid "Disable saving of the DS12C887 RTC data when changed."
 msgstr "Disable saving of the RR ROM at exit"
 
-#: src/translate_text.c.po.c:15744
+#: src/translate_text.c.po.c:15778
 #, fuzzy
 msgid "hostname"
 msgstr "Hostname:"
 
-#: src/translate_text.c.po.c:15761
+#: src/translate_text.c.po.c:15795
 #, fuzzy
 msgid "port"
 msgstr "TCP порт"
 
-#: src/translate_text.c.po.c:15778
+#: src/translate_text.c.po.c:15812
 #, fuzzy
 msgid "Set the netplay server hostname"
 msgstr "Netplay Server name"
 
-#: src/translate_text.c.po.c:15795
+#: src/translate_text.c.po.c:15829
 msgid "Set the netplay binding address"
 msgstr ""
 
-#: src/translate_text.c.po.c:15812
+#: src/translate_text.c.po.c:15846
 #, fuzzy
 msgid "Set the netplay port"
 msgstr "Netplay TCP port"
 
-#: src/translate_text.c.po.c:15829
+#: src/translate_text.c.po.c:15863
 msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
 "Both)"
 msgstr ""
 
-#: src/translate_text.c.po.c:15847
+#: src/translate_text.c.po.c:15881
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
 msgstr ""
 
-#: src/translate_text.c.po.c:15864
+#: src/translate_text.c.po.c:15898
 msgid "Turn on Jiffy switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:15881
+#: src/translate_text.c.po.c:15915
 msgid "Turn off Jiffy switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:15898
+#: src/translate_text.c.po.c:15932
 msgid "Turn on Speed switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:15915
+#: src/translate_text.c.po.c:15949
 msgid "Turn off Speed switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:15932
+#: src/translate_text.c.po.c:15966
 #, fuzzy
 msgid "Enable HiRes Emulation Board"
 msgstr "Enable lightpen emulation"
 
-#: src/translate_text.c.po.c:15949
+#: src/translate_text.c.po.c:15983
 #, fuzzy
 msgid "Disable HiRes Emulation Board"
 msgstr "Enable lightpen emulation"
 
-#: src/translate_text.c.po.c:15967
+#: src/translate_text.c.po.c:16001
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Название звукового устройства"
+
+#~ msgid "Specify index of keymap file"
+#~ msgstr "Specify index of keymap file"
 
 #~ msgid "256K RAM Expansion"
 #~ msgstr "256K расширение RAM"

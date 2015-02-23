@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-01 15:06-0800\n"
+"POT-Creation-Date: 2015-02-23 01:37-0500\n"
 "PO-Revision-Date: 2015-02-11 21:16+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2214,7 +2214,7 @@ msgstr "Imagedatei Name"
 msgid "Save image when changed"
 msgstr "Imagedatei bei Änderung speichern"
 
-#: src/arch/unix/gui/uidqbb.c:54 src/arch/unix/gui/uieasyflash.c:51
+#: src/arch/unix/gui/uidqbb.c:54 src/arch/unix/gui/uieasyflash.c:54
 #: src/arch/unix/gui/uiexpert.c:65 src/arch/unix/gui/uigeoram.c:76
 #: src/arch/unix/gui/uiisepic.c:56 src/arch/unix/gui/uimmc64.c:85
 #: src/arch/unix/gui/uimmcreplay.c:70 src/arch/unix/gui/uiramcart.c:68
@@ -2222,7 +2222,7 @@ msgstr "Imagedatei bei Änderung speichern"
 msgid "Save image now"
 msgstr "Imagedatei jetzt speichern"
 
-#: src/arch/unix/gui/uidqbb.c:56 src/arch/unix/gui/uieasyflash.c:53
+#: src/arch/unix/gui/uidqbb.c:56 src/arch/unix/gui/uieasyflash.c:56
 #: src/arch/unix/gui/uiexpert.c:67 src/arch/unix/gui/uigeoram.c:78
 #: src/arch/unix/gui/uiisepic.c:58 src/arch/unix/gui/uimmc64.c:87
 #: src/arch/unix/gui/uimmcreplay.c:72 src/arch/unix/gui/uiramcart.c:70
@@ -2235,7 +2235,7 @@ msgstr "Imagedatei speichern"
 msgid "DQBB file"
 msgstr "DQBB Datei"
 
-#: src/arch/unix/gui/uidqbb.c:72 src/arch/unix/gui/uieasyflash.c:64
+#: src/arch/unix/gui/uidqbb.c:72 src/arch/unix/gui/uieasyflash.c:67
 #: src/arch/unix/gui/uiexpert.c:83 src/arch/unix/gui/uigeoram.c:119
 #: src/arch/unix/gui/uiisepic.c:83 src/arch/unix/gui/uimmc64.c:135
 #: src/arch/unix/gui/uimmcreplay.c:109 src/arch/unix/gui/uiramcart.c:95
@@ -2549,9 +2549,14 @@ msgstr "Trap idle"
 msgid "Load new 1551 ROM"
 msgstr "Neues 1551 ROM laden"
 
-#: src/arch/unix/gui/uieasyflash.c:46
+#: src/arch/unix/gui/uieasyflash.c:47
 msgid "Enable jumper"
 msgstr "Jumper aktivieren"
+
+#: src/arch/unix/gui/uieasyflash.c:51
+#, fuzzy
+msgid "Optimize image when saving"
+msgstr "Imagedatei bei Änderung speichern"
 
 #: src/arch/unix/gui/uiexpert.c:53 src/arch/win32/resexpert.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:7062
@@ -7547,7 +7552,7 @@ msgstr "CBM5x0 Modell Einstellungen"
 msgid "CIA settings"
 msgstr "CIA Einstellungen"
 
-#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:15573
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:15607
 msgid "Enable the DigiMAX cartridge"
 msgstr "DigiMAX Cartridge aktivieren"
 
@@ -10654,7 +10659,9 @@ msgstr "IEEE488 Schnittstellen-Emulation deaktivieren"
 msgid ""
 "Patch the Kernal ROM to the specified <revision> (1: rev. 1, 2: rev. 2, 3: "
 "rev. 3, 67/sx: sx64, 100/4064: 4064)"
-msgstr "Kernal ROM auf <revision> modifzieren (1: rev. 1, 2: rev. 2, 3: rev. 3, 67/sx: sx64, 100/4064: 4064)"
+msgstr ""
+"Kernal ROM auf <revision> modifzieren (1: rev. 1, 2: rev. 2, 3: rev. 3, 67/"
+"sx: sx64, 100/4064: 4064)"
 
 #: src/translate_text.c.po.c:3860
 msgid "Disable the ACIA RS232 interface emulation"
@@ -10778,7 +10785,9 @@ msgstr "Wähle C128 Modell (c128/c128dcr, pal/ntsc)"
 msgid ""
 "Set C128 machine type (0: International, 1: Finnish, 2: French, 3: German, "
 "4: Italian, 5: Norwegian, 6: Swedish, 7: Swiss)"
-msgstr "Wähle C128 Modell (0: International, 1: Finnisch, 2: Französisch, 3: Deutsch, 4: Italienisch , 5: Norwegisch, 6: Schwedisch, 7: Schweiz)"
+msgstr ""
+"Wähle C128 Modell (0: International, 1: Finnisch, 2: Französisch, 3: "
+"Deutsch, 4: Italienisch , 5: Norwegisch, 6: Schwedisch, 7: Schweiz)"
 
 #: src/translate_text.c.po.c:4425
 msgid "Disable RAM banks 2 and 3"
@@ -11555,8 +11564,11 @@ msgid "Disable RAM mapping in $C000-$CFFF"
 msgstr "RAM Zuordnung in $C000-$CFFF deaktivieren"
 
 #: src/translate_text.c.po.c:8221
-msgid "Specify index of keymap file"
-msgstr "Index der Keymap Datei definieren"
+msgid ""
+"Specify index of keymap file (0: UK business symbolic, 1: UK business "
+"positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business "
+"symbolic, 5: German business positional)"
+msgstr ""
 
 #: src/translate_text.c.po.c:8238
 msgid "Specify name of graphics keyboard symbolic keymap file"
@@ -12787,7 +12799,8 @@ msgstr "Event Snapshot beenden"
 #: src/translate_text.c.po.c:13441
 msgid ""
 "Set event start mode (0: file save, 1: file load, 2: reset, 3: playback)"
-msgstr "Event Start Modus (0: File speichern, 1: File laden, 2: Reset, 3: Playback)"
+msgstr ""
+"Event Start Modus (0: File speichern, 1: File laden, 2: Reset, 3: Playback)"
 
 #: src/translate_text.c.po.c:13458
 msgid "Enable including disk images"
@@ -12993,7 +13006,9 @@ msgstr "Setze Source Buffer Größe zu <Wert> msek"
 msgid ""
 "Set sound fragment size (0: very small, 1: small, 2: medium, 3: large, 4: "
 "very large)"
-msgstr "Setze Sound Fragmentgröße (0 = sehr klein, 1 = klein, 2 = mittel, 3 = groß, 4 = sehr groß)"
+msgstr ""
+"Setze Sound Fragmentgröße (0 = sehr klein, 1 = klein, 2 = mittel, 3 = groß, "
+"4 = sehr groß)"
 
 #: src/translate_text.c.po.c:14415
 msgid "Specify sound driver"
@@ -13040,7 +13055,8 @@ msgstr ""
 msgid ""
 "Specify the pause interval when audio underflows (clicks) happen. 0 means no "
 "pause is done."
-msgstr "Pause Interval bei Audio unterlauf (Klicks) definineren. (0: keine Pause)"
+msgstr ""
+"Pause Interval bei Audio unterlauf (Klicks) definineren. (0: keine Pause)"
 
 #: src/translate_text.c.po.c:14585
 msgid "Specify the sound volume"
@@ -13102,13 +13118,16 @@ msgstr "Basis Adresse für 256K RAM Erweiterung. (0xDE00/0xDE80/0xDF00/0xDF80)"
 msgid ""
 "Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: "
 "+256K)"
-msgstr "Speichererweiterungshack Gerät (0: kein, 1: C64 256K, 2: +60K, 3: +256K)"
+msgstr ""
+"Speichererweiterungshack Gerät (0: kein, 1: C64 256K, 2: +60K, 3: +256K)"
 
 #: src/translate_text.c.po.c:14874
 msgid ""
 "Set the 'memory expansion hack' device (0: None, 1: CSORY 256K, 2: HANNES "
 "256K, 3: HANNES 1024K, 4: HANNES 4096K)"
-msgstr "Speicher Erweiterungshack Gerät (0: Kein, 1: CSORY 256K, 2: HANNES 256K, 3: HANNES 1024K, 4: HANNES 4096K)"
+msgstr ""
+"Speicher Erweiterungshack Gerät (0: Kein, 1: CSORY 256K, 2: HANNES 256K, 3: "
+"HANNES 1024K, 4: HANNES 4096K)"
 
 #: src/translate_text.c.po.c:14908
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
@@ -13231,67 +13250,72 @@ msgstr "EasyFlash Jumer deaktivieren"
 msgid "Enable writing to EasyFlash .crt image"
 msgstr "Schreibzugriff auf EasyFlash CRT Image erlauben"
 
-#: src/translate_text.c.po.c:15556
+#: src/translate_text.c.po.c:15556 src/translate_text.c.po.c:15590
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "Schreibzugriff auf EasyFlash ROM Image verhindern"
 
-#: src/translate_text.c.po.c:15590
+#: src/translate_text.c.po.c:15573
+#, fuzzy
+msgid "Enable EasyFlash .crt image optimize on write"
+msgstr "Schreibzugriff auf EasyFlash CRT Image erlauben"
+
+#: src/translate_text.c.po.c:15624
 msgid "Disable the DigiMAX cartridge"
 msgstr "DigiMAX Cartridge deaktivieren"
 
-#: src/translate_text.c.po.c:15607
+#: src/translate_text.c.po.c:15641
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basis Adresse für DigiMAX Erweiterung"
 
-#: src/translate_text.c.po.c:15624
+#: src/translate_text.c.po.c:15658
 msgid "Enable the DS12C887 RTC cartridge"
 msgstr "DS12C887 RTC Modul aktivieren"
 
-#: src/translate_text.c.po.c:15641
+#: src/translate_text.c.po.c:15675
 msgid "Disable the DS12C887 RTC cartridge"
 msgstr "DS12C887 RTC Modul deaktivieren"
 
-#: src/translate_text.c.po.c:15658
+#: src/translate_text.c.po.c:15692
 msgid "Set the RTC oscillator to 'halted'"
 msgstr "Setze RTC Oszillator auf 'gestoppt'"
 
-#: src/translate_text.c.po.c:15675
+#: src/translate_text.c.po.c:15709
 msgid "Set the RTC oscillator to 'running'"
 msgstr "Setze RTC Oszillator auf 'laufend'"
 
-#: src/translate_text.c.po.c:15692
+#: src/translate_text.c.po.c:15726
 msgid "Base address of the DS12C887 RTC cartridge"
 msgstr "Basis Adresse für DS12C887 RTC Modul"
 
-#: src/translate_text.c.po.c:15709
+#: src/translate_text.c.po.c:15743
 msgid "Enable saving of the DS12C887 RTC data when changed."
 msgstr "DS12C887 RTC Daten bei Änderung speichern."
 
-#: src/translate_text.c.po.c:15726
+#: src/translate_text.c.po.c:15760
 msgid "Disable saving of the DS12C887 RTC data when changed."
 msgstr "DS12C887 RTC Daten bei Änderung nicht speichern."
 
-#: src/translate_text.c.po.c:15744
+#: src/translate_text.c.po.c:15778
 msgid "hostname"
 msgstr "Hostname"
 
-#: src/translate_text.c.po.c:15761
+#: src/translate_text.c.po.c:15795
 msgid "port"
 msgstr "Port"
 
-#: src/translate_text.c.po.c:15778
+#: src/translate_text.c.po.c:15812
 msgid "Set the netplay server hostname"
 msgstr "Netplay Server Name setzen"
 
-#: src/translate_text.c.po.c:15795
+#: src/translate_text.c.po.c:15829
 msgid "Set the netplay binding address"
 msgstr "Netplay Bindadresse setzen"
 
-#: src/translate_text.c.po.c:15812
+#: src/translate_text.c.po.c:15846
 msgid "Set the netplay port"
 msgstr "Netplay TCP Port setzen"
 
-#: src/translate_text.c.po.c:15829
+#: src/translate_text.c.po.c:15863
 msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
@@ -13300,37 +13324,40 @@ msgstr ""
 "Netplay Steuerelemente (Tastatur, Joystick 1, Joystick 2, Geräte und\n"
 "Resourcen), für jedes Element (0: Kein, 1: Server, 2: Client, 3: Beide)"
 
-#: src/translate_text.c.po.c:15847
+#: src/translate_text.c.po.c:15881
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
 msgstr "Größe des SIMM RAM (0/1/4/8/16 MB)"
 
-#: src/translate_text.c.po.c:15864
+#: src/translate_text.c.po.c:15898
 msgid "Turn on Jiffy switch"
 msgstr "Jiffy Schalter einschalten"
 
-#: src/translate_text.c.po.c:15881
+#: src/translate_text.c.po.c:15915
 msgid "Turn off Jiffy switch"
 msgstr "Jiffy Schalter ausschalten"
 
-#: src/translate_text.c.po.c:15898
+#: src/translate_text.c.po.c:15932
 msgid "Turn on Speed switch"
 msgstr "Speed Schalter einschalten"
 
-#: src/translate_text.c.po.c:15915
+#: src/translate_text.c.po.c:15949
 msgid "Turn off Speed switch"
 msgstr "Speed Schalter ausschalten"
 
-#: src/translate_text.c.po.c:15932
+#: src/translate_text.c.po.c:15966
 msgid "Enable HiRes Emulation Board"
 msgstr "HiRes Emulation Board aktivieren"
 
-#: src/translate_text.c.po.c:15949
+#: src/translate_text.c.po.c:15983
 msgid "Disable HiRes Emulation Board"
 msgstr "HiRes Emulation Board aktivieren"
 
-#: src/translate_text.c.po.c:15967
+#: src/translate_text.c.po.c:16001
 msgid "Set raw drive device name"
 msgstr "Raw Laufwerk Gerätename setzen"
+
+#~ msgid "Specify index of keymap file"
+#~ msgstr "Index der Keymap Datei definieren"
 
 #~ msgid "256K RAM Expansion"
 #~ msgstr "256K RAM Erweiterung"
