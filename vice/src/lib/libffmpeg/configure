@@ -4864,8 +4864,9 @@ enabled libwavpack        && require libwavpack wavpack/wavpack.h WavpackOpenFil
 enabled libwebp           && require_pkg_config libwebp webp/encode.h WebPGetEncoderVersion &&
                              { check_code cc webp/encode.h "WebPPicture wp; wp.use_argb++" ||
                                die "ERROR: libwebp too old."; }
-enabled libx264           && { check_lib 'x264.h' x264_encoder_encode -lx264 ||
-                               check_lib2 'x264.h' x264_encoder_encode "-lx264 -ldl" } &&
+enabled libx264           && { check_lib2 x264.h x264_encoder_encode -lx264 ||
+                               check_lib2 "stdint.h x264.h" x264_encoder_encode -lx264 ||
+                               check_lib2 "inttypes.h x264.h" x264_encoder_encode -lx264;} &&
                              { check_cpp_condition x264.h "X264_BUILD >= 118" ||
                                die "ERROR: libx264 must be installed and version must be >= 0.118."; }
 enabled libx265           && require_pkg_config x265 x265.h x265_encoder_encode &&
