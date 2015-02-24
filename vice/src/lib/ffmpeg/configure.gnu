@@ -21,8 +21,8 @@ do
     --enable-static-ffmpeg)
       static=yes
       ;;
-    --enable-win32thread)
-      extra_enables="$extra_enables --enable-win32thread"
+    --enable-w32threads)
+      extra_enables="$extra_enables --enable-w32threads"
       ;;
   esac
 done
