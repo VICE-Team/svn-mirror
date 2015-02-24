@@ -1715,6 +1715,11 @@ if test x"$enable_static_ffmpeg" = "xyes"; then
     AC_CHECK_LIB(rt, clock_gettime, , [ AC_MSG_ERROR([Needed rt lib missing]) ])
   fi
 
+  if test x"$is_win32" = "xyes"; then
+    AC_CHECK_LIB(iconv, libiconv_open,, [ AC_MSG_ERROR([Needed iconv lib missing]) ])
+    AC_CHECK_LIB(pthread, _imp__pthread_self, , [ AC_MSG_ERROR([Needed pthread lib missing]) ])
+  fi
+
   FFMPEG_DO_SUBDIRS=yes
   HAVE_STATIC_FFMPEG=yes
 

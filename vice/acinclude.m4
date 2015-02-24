@@ -346,7 +346,7 @@ do
     --enable-make-command*)
       argvalid=yes
       ;;
-    --enable-win32thread)
+    --enable-w32threads)
       argvalid=yes
       ;;
     --enable-native-tools=*)
