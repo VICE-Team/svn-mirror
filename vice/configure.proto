@@ -1687,7 +1687,7 @@ if test x"$enable_shared_ffmpeg" = "xyes"; then
     FFMPEG_INCLUDES="-I\$(top_srcdir)/src/lib/libffmpeg"
 
     FFMPEG_DO_SUBDIRS=yes
-    HAVE_FFMPEG_SHARED=yes
+    HAVE_SHARED_FFMPEG=yes
 
     dnl --- define obsolete variables as long as they are not removed from driver code ---
     AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
