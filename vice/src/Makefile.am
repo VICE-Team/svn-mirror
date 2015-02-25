@@ -2224,7 +2224,7 @@ if HAVE_SHARED_FFMPEG
 EXTRA_CLEAN = clean-ffmpeg
 else
 if HAVE_STATIC_FFMPEG
-EXTRA_CLEAN = clean-ffmeg
+EXTRA_CLEAN = clean-ffmpeg
 else
 EXTRA_CLEAN =
 endif
