@@ -36,7 +36,7 @@
 #include "uiapi.h"
 #include "dynlib.h"
 
-#ifdef SHARED_FFMPEG
+#ifndef STATIC_FFMPEG
 
 /* define major version if its not already defined */
 #ifndef LIBAVCODEC_VERSION_MAJOR
