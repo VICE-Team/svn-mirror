@@ -1716,8 +1716,15 @@ if test x"$enable_static_ffmpeg" = "xyes"; then
   fi
 
   if test x"$is_win32" = "xyes"; then
+    win32_pthreads=no
     AC_CHECK_LIB(iconv, libiconv_open,, [ AC_MSG_ERROR([Needed iconv lib missing]) ])
-    AC_CHECK_LIB(pthread, _imp__pthread_self, , [ AC_MSG_ERROR([Needed pthread lib missing]) ])
+    AC_CHECK_LIB(pthreadGC2, _imp__pthread_self, [ win32_pthreads=yes ])
+    if test x"$win32_pthreads" = "xno"; then
+      AC_CHECK_LIB(pthread, _imp__pthread_self, [ win32_pthreads=yes ])
+    fi
+    if test x"$win32_pthreads" = "xno"; then
+      AC_MSG_ERROR([Needed pthread lib missing])
+    fi
   fi
 
   FFMPEG_DO_SUBDIRS=yes
