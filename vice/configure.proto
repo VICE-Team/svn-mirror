@@ -1713,6 +1713,7 @@ if test x"$enable_static_ffmpeg" = "xyes"; then
   if test x"$is_unix" = "xyes"; then
     AC_CHECK_LIB(pthread, pthread_create,, [ AC_MSG_ERROR([Needed pthread lib missing]) ])
     AC_CHECK_LIB(rt, clock_gettime, , [ AC_MSG_ERROR([Needed rt lib missing]) ])
+    AC_CHECK_LIB(bz2, BZ2_bzDecompressInit, , [ AC_MSG_ERROR([Needed bz2 lib missing]) ])
   fi
 
   if test x"$is_win32" = "xyes"; then
