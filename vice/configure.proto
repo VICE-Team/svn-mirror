@@ -1715,7 +1715,7 @@ if test x"$enable_static_ffmpeg" = "xyes"; then
     AC_CHECK_LIB(rt, clock_gettime,,)
     AC_CHECK_LIB(bz2, BZ2_bzDecompressInit,,)
     AC_CHECK_LIB(lzma, lzma_code,,)
-    AC_CHECK_LIB(va, vaBeginePicture,,)
+    AC_CHECK_LIB(va, vaBeginPicture,,)
   fi
 
   if test x"$is_win32" = "xyes"; then
