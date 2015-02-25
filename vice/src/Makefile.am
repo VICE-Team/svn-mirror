@@ -2216,3 +2216,19 @@ $(top_builddir)/src/libffmpeg.a: libffmpeg
 	$(top_builddir)/src/lib/libffmpeg/lib/libmp3lame.a \
 	$(top_builddir)/src/lib/libffmpeg/lib/libx264.a
 endif
+
+clean-ffmpeg:
+	rm -f $(top_builddir)/src/libffmpeg.a
+
+if HAVE_SHARED_FFMPEG
+EXTRA_CLEAN = clean-ffmpeg
+else
+if HAVE_STATIC_FFMPEG
+EXTRA_CLEAN = clean-ffmeg
+else
+EXTRA_CLEAN =
+endif
+endif
+
+clean: clean-recursive $(EXTRA_CLEAN)
+	
