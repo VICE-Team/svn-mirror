@@ -6,6 +6,7 @@ static=no
 makecommand=""
 extra_generic_enables=""
 extra_ffmpeg_enables=""
+extra_x264_enables=""
 
 for i in $*
 do
@@ -24,6 +25,7 @@ do
       ;;
     --enable-w32threads)
       extra_ffmpeg_enables="$extra_ffmpeg_enables $i"
+      extra_x264_enables="$extra_x264_enables --enable-win32thread"
       ;;
     --host=*)
       extra_generic_enables="$extra_generic_enables $i"
@@ -54,10 +56,10 @@ fi
 cd ../libx264
 cur=`pwd`
 if test x"$shared" = "xyes"; then
-  $srcdir/../libx264/configure --enable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables
+  $srcdir/../libx264/configure --enable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_x264_enables
   $makecommand install
 else
-  $srcdir/../libx264/configure --disable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables
+  $srcdir/../libx264/configure --disable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_264_enables
   $makecommand install
 fi
 
