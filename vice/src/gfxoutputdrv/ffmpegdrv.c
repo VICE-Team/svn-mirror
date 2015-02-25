@@ -73,7 +73,9 @@ static gfxoutputdrv_codec_t avi_video_codeclist[] = {
 
 static gfxoutputdrv_codec_t mp4_video_codeclist[] = {
     { AV_CODEC_ID_H264, "H264" },
+#ifndef AV_CODEC_ID_H265
     { AV_CODEC_ID_H265, "H265" },
+#endif
     { 0, NULL }
 };
 
