@@ -165,8 +165,8 @@ static int load_avcodec(ffmpeglib_t *lib)
             return -1;
         }
 
-		GET_SYMBOL_AND_TEST_AVCODEC(av_init_packet);
-		GET_SYMBOL_AND_TEST_AVCODEC(avcodec_open2);
+        GET_SYMBOL_AND_TEST_AVCODEC(av_init_packet);
+        GET_SYMBOL_AND_TEST_AVCODEC(avcodec_open2);
         GET_SYMBOL_AND_TEST_AVCODEC(avcodec_close);
         GET_SYMBOL_AND_TEST_AVCODEC(avcodec_find_encoder);
         GET_SYMBOL_AND_TEST_AVCODEC(avcodec_encode_audio2);
