@@ -41,6 +41,10 @@
 #  include "swresample.h"
 #endif
 
+/* "libavutil/opt.h" */
+int av_opt_set_int(void*, const char*, int64_t, int);
+int av_opt_set_sample_fmt(void*, const char*, enum AVSampleFormat, int);
+
 /* generic version function */
 typedef unsigned (*ffmpeg_version_t)(void);
 
@@ -92,7 +96,7 @@ typedef AVFrame* (*av_frame_alloc_t)(void);
 typedef int (*av_frame_get_buffer_t)(AVFrame*, int);
 typedef int(*av_compare_ts_t)(int64_t, AVRational, int64_t, AVRational);
 typedef int(*av_get_channel_layout_nb_channels_t)(uint64_t);
-typedef int(*av_opt_set_int_t)(void*,const char*, int64_t, int);
+typedef int(*av_opt_set_int_t)(void*, const char*, int64_t, int);
 typedef int(*av_opt_set_sample_fmt_t)(void*, const char*, enum AVSampleFormat, int);
 typedef int64_t(*av_rescale_rnd_t)(int64_t, int64_t, int64_t, enum AVRounding);
 typedef int64_t(*av_rescale_q_t)(int64_t, AVRational, AVRational);
