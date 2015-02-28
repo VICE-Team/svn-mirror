@@ -59,7 +59,7 @@ if test x"$shared" = "xyes"; then
   $srcdir/../libx264/configure --enable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_x264_enables
   $makecommand install
 else
-  $srcdir/../libx264/configure --disable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_264_enables
+  $srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_264_enables
   $makecommand install
 fi
 
