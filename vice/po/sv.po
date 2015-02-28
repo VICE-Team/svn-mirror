@@ -1,7 +1,7 @@
 # Swedish translation file for VICE
 # Copyright 2000-2014
 # Peter Krefting <peter@softwolves.pp.se>, 2011, 2012, 2014.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.4\n"

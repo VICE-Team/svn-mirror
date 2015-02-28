@@ -2504,9 +2504,8 @@ msgid "Enable jumper"
 msgstr "점퍼 사용가능하게하기"
 
 #: src/arch/unix/gui/uieasyflash.c:51
-#, fuzzy
 msgid "Optimize image when saving"
-msgstr "변경된 이미지 저장하기"
+msgstr ""
 
 #: src/arch/unix/gui/uiexpert.c:53 src/arch/win32/resexpert.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:7062
@@ -12867,9 +12866,8 @@ msgid "Disable writing to EasyFlash .crt image"
 msgstr ""
 
 #: src/translate_text.c.po.c:15573
-#, fuzzy
 msgid "Enable EasyFlash .crt image optimize on write"
-msgstr "EasyFlash 카트리지 가 삽입되지 않았습니다"
+msgstr ""
 
 #: src/translate_text.c.po.c:15624
 msgid "Disable the DigiMAX cartridge"

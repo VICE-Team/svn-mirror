@@ -1,6 +1,6 @@
 # German Translation File for VICE
 # Copyright (C) 2000 Free Software Foundation, Inc.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.5\n"
@@ -11567,7 +11567,10 @@ msgid ""
 "Specify index of keymap file (0: UK business symbolic, 1: UK business "
 "positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business "
 "symbolic, 5: German business positional)"
-msgstr "Index der Keymap Datei definieren (0: UK business symbolic, 1: UK business positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic, 5: German business positional)"
+msgstr ""
+"Index der Keymap Datei definieren (0: UK business symbolic, 1: UK business "
+"positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business "
+"symbolic, 5: German business positional)"
 
 #: src/translate_text.c.po.c:8238
 msgid "Specify name of graphics keyboard symbolic keymap file"
