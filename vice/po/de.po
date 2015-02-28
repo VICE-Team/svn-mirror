@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-23 01:37-0500\n"
-"PO-Revision-Date: 2015-02-11 21:16+0100\n"
+"PO-Revision-Date: 2015-02-28 12:04+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -2554,9 +2554,8 @@ msgid "Enable jumper"
 msgstr "Jumper aktivieren"
 
 #: src/arch/unix/gui/uieasyflash.c:51
-#, fuzzy
 msgid "Optimize image when saving"
-msgstr "Imagedatei bei Änderung speichern"
+msgstr "Imagedatei beim Speichern optimieren"
 
 #: src/arch/unix/gui/uiexpert.c:53 src/arch/win32/resexpert.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:7062
@@ -11568,7 +11567,7 @@ msgid ""
 "Specify index of keymap file (0: UK business symbolic, 1: UK business "
 "positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business "
 "symbolic, 5: German business positional)"
-msgstr ""
+msgstr "Index der Keymap Datei definieren (0: UK business symbolic, 1: UK business positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business symbolic, 5: German business positional)"
 
 #: src/translate_text.c.po.c:8238
 msgid "Specify name of graphics keyboard symbolic keymap file"
@@ -13255,9 +13254,8 @@ msgid "Disable writing to EasyFlash .crt image"
 msgstr "Schreibzugriff auf EasyFlash ROM Image verhindern"
 
 #: src/translate_text.c.po.c:15573
-#, fuzzy
 msgid "Enable EasyFlash .crt image optimize on write"
-msgstr "Schreibzugriff auf EasyFlash CRT Image erlauben"
+msgstr "EasyFlash .crt Image beim Speichern optimieren"
 
 #: src/translate_text.c.po.c:15624
 msgid "Disable the DigiMAX cartridge"
