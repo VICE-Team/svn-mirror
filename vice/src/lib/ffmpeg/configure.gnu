@@ -78,10 +78,18 @@ fi
 cd ../libx264
 cur=`pwd`
 if test x"$shared" = "xyes"; then
-  $srcdir/../libx264/configure --enable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_x264_enables
+  if test x"$host" != "x"; then
+    $srcdir/../libx264/configure --enable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_x264_enables --cross-prefix=$host-
+  else
+    $srcdir/../libx264/configure --enable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_x264_enables
+  fi
   $makecommand install
 else
-  $srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_264_enables
+  if test x"$host" != "x"; then
+    $srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg --enable-win32thread --cross-prefix=$host-
+  else
+    $srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg --enable-win32thread
+  fi
   $makecommand install
 fi
 
