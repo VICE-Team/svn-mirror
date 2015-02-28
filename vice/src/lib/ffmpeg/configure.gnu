@@ -1,5 +1,23 @@
 #!/bin/sh
 
+splitcpuos()
+{
+  cpu=$1
+  shift
+  man=$1
+  shift
+  if test x"$2" != "x"; then
+    os=$1
+    shift
+    for i in $*
+    do
+      os="$os-$i"
+    done
+  else
+    os=$1
+  fi
+}
+
 srcdir=""
 shared=no
 static=no
@@ -7,6 +25,9 @@ makecommand=""
 extra_generic_enables=""
 extra_ffmpeg_enables=""
 extra_x264_enables=""
+host=""
+cpu=""
+os=""
 
 for i in $*
 do
@@ -28,7 +49,8 @@ do
       extra_x264_enables="$extra_x264_enables --enable-win32thread"
       ;;
     --host=*)
-      extra_generic_enables="$extra_generic_enables $i"
+      host=`echo $i | sed -e 's/^[^=]*=//g'`
+      splitcpuos $host
       ;;
   esac
 done
@@ -70,7 +92,15 @@ fi
 cd ../libffmpeg
 cur=`pwd`
 if test x"$shared" = "xyes"; then
-  $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib -Llib64" $extra_ffmpeg_enables $extra_generic_enables
+  if test x"$host" != "x"; then
+    $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib -Llib64" $extra_ffmpeg_enables $extra_generic_enables --arch=$cpu --target-os=$os --cross-prefix=$host-
+  else
+    $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib -Llib64" $extra_ffmpeg_enables $extra_generic_enables
+  fi
 else
-  $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib -Llib64" $extra_ffmpeg_enables $extra_generic_enables
+  if test x"$host" != "x"; then
+    $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib -Llib64" $extra_ffmpeg_enables $extra_generic_enables --arch=$cpu --target-os=$os --cross-prefix=$host-
+  else
+    $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib -Llib64" $extra_ffmpeg_enables $extra_generic_enables
+  fi
 fi
