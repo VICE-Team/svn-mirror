@@ -49,7 +49,7 @@ do
       extra_x264_enables="$extra_x264_enables --enable-win32thread"
       ;;
     --host*)
-      host=`echo $i | sed -e 's/^[^=]*=//g'`
+      host=`echo $i | sed -e 's/^[^=]*=//g' | sed 's/-/ /g'`
       splitcpuos $host
       ;;
   esac
