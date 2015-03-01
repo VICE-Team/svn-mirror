@@ -118,7 +118,7 @@ __END
 ${SHELL} $config_line
 $makecommand install
 
-if [ -f "$cur/../libffmpeg/lib64/libmp3lame.a: ]; then
+if [ -f "$cur/../libffmpeg/lib64/libx264.a: ]; then
   cp $cur/../libffmpeg/lib64/libx264.a $cur/../libffmpeg/lib/libx264.a
 fi
 
