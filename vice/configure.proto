@@ -1702,7 +1702,7 @@ fi
 dnl static vice included ffmpeg
 if test x"$enable_static_ffmpeg" = "xyes"; then
   FFMPEG_DEP=libffmpeg
-  FFMPEG_LIBS="\$(top_builddir)/src/libffmpeg.a"
+  FFMPEG_LIBS="\$(top_builddir)/src/lib/libffmpeg/libavformat/libavformat.a \$(top_builddir)/src/lib/libffmpeg/libavcodec/libavcodec.a \$(top_builddir)/src/lib/libffmpeg/libavutil/libavutil.a \$(top_builddir)/src/lib/libffmpeg/libswscale/libswscale.a \$(top_builddir)/src/lib/libffmpeg/libswresample/libswresample.a \$(top_builddir)/src/lib/libffmpeg/lib/libmp3lame.a \$(top_builddir)/src/lib/libffmpeg/lib/libx264.a"
   FFMPEG_DIR="$FFMPEG_DIR liblame libx264 libffmpeg"
   AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
   AC_DEFINE([STATIC_FFMPEG],,[FFMPEG libraries are static])

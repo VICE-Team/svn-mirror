@@ -2206,15 +2206,19 @@ $(top_builddir)/src/libffmpeg.a: libffmpeg
 endif
 
 if HAVE_STATIC_FFMPEG
-$(top_builddir)/src/libffmpeg.a: libffmpeg
-	$(AR) cqT $(top_builddir)/src/libffmpeg.a \
-	$(top_builddir)/src/lib/libffmpeg/libavformat/libavformat.a \
-	$(top_builddir)/src/lib/libffmpeg/libavcodec/libavcodec.a \
-	$(top_builddir)/src/lib/libffmpeg/libavutil/libavutil.a \
-	$(top_builddir)/src/lib/libffmpeg/libswscale/libswscale.a \
-	$(top_builddir)/src/lib/libffmpeg/libswresample/libswresample.a \
-	$(top_builddir)/src/lib/libffmpeg/lib/libmp3lame.a \
-	$(top_builddir)/src/lib/libffmpeg/lib/libx264.a
+$(top_builddir)/src/lib/libffmpeg/libavformat/libavformat.a: libffmpeg
+
+$(top_builddir)/src/lib/libffmpeg/libavcodec/libavcodec.a: libffmpeg
+
+$(top_builddir)/src/lib/libffmpeg/libavutil/libavutil.a: libffmpeg
+
+$(top_builddir)/src/lib/libffmpeg/libswscale/libswscale.a: libffmpeg
+
+$(top_builddir)/src/lib/libffmpeg/libswresample/libswresample.a: libffmpeg
+
+$(top_builddir)/src/lib/libffmpeg/lib/libmp3lame.a: libffmpeg
+
+$(top_builddir)/src/lib/libffmpeg/lib/libx264.a: libffmpeg
 endif
 
 clean-ffmpeg:
