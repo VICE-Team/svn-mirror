@@ -1728,6 +1728,8 @@ if test x"$enable_static_ffmpeg" = "xyes"; then
     if test x"$win32_pthreads" = "xno"; then
       AC_MSG_ERROR([Needed pthread lib missing])
     fi
+    dnl Add -lws2_32
+    LIBS="$LIBS -lws2_32"
   fi
 
   FFMPEG_DO_SUBDIRS=yes
