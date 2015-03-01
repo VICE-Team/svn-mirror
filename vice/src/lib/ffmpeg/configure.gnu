@@ -48,7 +48,7 @@ do
       extra_ffmpeg_enables="$extra_ffmpeg_enables $i"
       extra_x264_enables="$extra_x264_enables --enable-win32thread"
       ;;
-    --host=*)
+    --host*)
       host=`echo $i | sed -e 's/^[^=]*=//g'`
       splitcpuos $host
       ;;
@@ -64,12 +64,17 @@ fi
 cd ../liblame
 cur=`pwd`
 if test x"$shared" = "xyes"; then
-  $srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables
+  config_line="$srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables"
   $makecommand install
 else
-  $srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables
-  $makecommand install
+  config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables"
 fi
+cat <<__END
+Running configure in liblame with $config_line
+__END
+
+$config_line
+$makecommand install
 
 if [ ! -d "../libx264" ]; then
   mkdir ../libx264
@@ -79,19 +84,24 @@ cd ../libx264
 cur=`pwd`
 if test x"$shared" = "xyes"; then
   if test x"$host" != "x"; then
-    $srcdir/../libx264/configure --enable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_x264_enables --cross-prefix=$host-
+    config_line="$srcdir/../libx264/configure --enable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_x264_enables --host=$host --cross-prefix=$host-"
   else
-    $srcdir/../libx264/configure --enable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_x264_enables
+    config_line="$srcdir/../libx264/configure --enable-shared --enable-static --prefix=$cur/../libffmpeg $extra_generic_enables $extra_x264_enables"
   fi
-  $makecommand install
 else
   if test x"$host" != "x"; then
-    $srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg --enable-win32thread --cross-prefix=$host-
+    config_line="$srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg --enable-win32thread --host=$host --cross-prefix=$host-"
   else
-    $srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg --enable-win32thread
+    config_line="$srcdir/../libx264/configure --enable-static --prefix=$cur/../libffmpeg --enable-win32thread"
   fi
-  $makecommand install
 fi
+
+cat <<__END
+Running configure in libx264 with $config_line
+__END
+
+$config_line
+$makecommand install
 
 if [ ! -d "../libffmpeg" ]; then
   mkdir ../libffmpeg
@@ -101,14 +111,20 @@ cd ../libffmpeg
 cur=`pwd`
 if test x"$shared" = "xyes"; then
   if test x"$host" != "x"; then
-    $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib -Llib64" $extra_ffmpeg_enables $extra_generic_enables --arch=$cpu --target-os=$os --cross-prefix=$host-
+    config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl --extra-cflags=\"-Iinclude\" --extra-ldflags=\"-Llib -Llib64\" $extra_ffmpeg_enables $extra_generic_enables --arch=$cpu --target-os=$os --cross-prefix=$host-"
   else
-    $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib -Llib64" $extra_ffmpeg_enables $extra_generic_enables
+    config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-shared --disable-static --disable-programs --enable-gpl --extra-cflags=\"-Iinclude\" --extra-ldflags=\"-Llib -Llib64\" $extra_ffmpeg_enables $extra_generic_enables"
   fi
 else
   if test x"$host" != "x"; then
-    $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib -Llib64" $extra_ffmpeg_enables $extra_generic_enables --arch=$cpu --target-os=$os --cross-prefix=$host-
+    config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl --extra-cflags=\"-Iinclude\" --extra-ldflags=\"-Llib -Llib64\" $extra_ffmpeg_enables $extra_generic_enables --arch=$cpu --target-os=$os --cross-prefix=$host-"
   else
-    $srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl --extra-cflags="-Iinclude" --extra-ldflags="-Llib -Llib64" $extra_ffmpeg_enables $extra_generic_enables
+    config_line="$srcdir/../libffmpeg/configure --enable-libmp3lame --enable-libx264 --enable-static --disable-programs --enable-gpl --extra-cflags=\"-Iinclude\" --extra-ldflags=\"-Llib -Llib64\" $extra_ffmpeg_enables $extra_generic_enables"
   fi
 fi
+
+cat <<__END
+Running configure in libffmpeg with $config_line
+__END
+
+$config_line
