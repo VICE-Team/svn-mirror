@@ -83,6 +83,10 @@ __END
 ${SHELL} $config_line
 $makecommand install
 
+if [ ! -d "$cur/../libffmpeg/lib ]; then
+  mkdir $cur/../libffmpeg/lib
+fi
+
 if [ -f "$cur/../libffmpeg/lib64/libmp3lame.a ]; then
   cp $cur/../libffmpeg/lib64/libmp3lame.a $cur/../libffmpeg/lib/libmp3lame.a
 fi
