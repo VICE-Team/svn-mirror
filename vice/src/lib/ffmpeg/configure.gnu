@@ -64,10 +64,17 @@ fi
 cd ../liblame
 cur=`pwd`
 if test x"$shared" = "xyes"; then
-  config_line="$srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables"
-  $makecommand install
+  if test x"$host" != "x"; then
+    config_line="$srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables --host=$host"
+  else
+    config_line="$srcdir/../liblame/configure -v --enable-shared --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables"
+  fi
 else
-  config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables"
+  if test x"$host" != "x": then
+    config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables --host=$host"
+  else
+    config_line="$srcdir/../liblame/configure -v --disable-shared --enable-static --disable-frontend --prefix=$cur/../libffmpeg $extra_generic_enables"
+  fi
 fi
 cat <<__END
 Running configure in liblame with $config_line
