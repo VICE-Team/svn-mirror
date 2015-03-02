@@ -11603,7 +11603,10 @@ msgid ""
 "Specify index of keymap file (0: UK business symbolic, 1: UK business "
 "positional, 2: Graphics symbolic, 3: Graphics positional, 4: German business "
 "symbolic, 5: German business positional)"
-msgstr "Geef index van het keymapbestand (0: UK business symbolisch, 1: UK business positioneel, 2: grafisch symbolisch, 3: graphisch positioneel, 4: Duits business symbolisch, 5: Duits business positioneel)"
+msgstr ""
+"Geef index van het keymapbestand (0: UK business symbolisch, 1: UK business "
+"positioneel, 2: grafisch symbolisch, 3: graphisch positioneel, 4: Duits "
+"business symbolisch, 5: Duits business positioneel)"
 
 #: src/translate_text.c.po.c:8238
 msgid "Specify name of graphics keyboard symbolic keymap file"
@@ -13330,7 +13333,8 @@ msgstr "Schrijven naar het EasyFlash .crt bestand uitschakelen"
 
 #: src/translate_text.c.po.c:15573
 msgid "Enable EasyFlash .crt image optimize on write"
-msgstr "Activeer optimalizeren van het schrijven naar het EasyFlash .crt bestand"
+msgstr ""
+"Activeer optimalizeren van het schrijven naar het EasyFlash .crt bestand"
 
 #: src/translate_text.c.po.c:15624
 msgid "Disable the DigiMAX cartridge"

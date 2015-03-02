@@ -90,16 +90,16 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_C64_MEMORY_HACKS_CAPTION "Memory expansion hacks settings"
-  IDS_C64_MEMORY_HACKS_DEVICE  "Memory expansion hack device"
-  IDS_C64_256K_BASE            "C64 256K base address"
-  IDS_C64_256K_FILE            "C64 256K file"
-  IDS_C64_256K_SELECT_FILE     "Select file for C64 256K"
-  IDS_PLUS60K_BASE             "+60K base address"
-  IDS_PLUS60K_FILE             "+60K file"
-  IDS_PLUS60K_SELECT_FILE      "Select file for +60K"
-  IDS_PLUS256K_FILE            "+256K file"
-  IDS_PLUS256K_SELECT_FILE     "Select file for +256K"
+  IDS_C64_MEMORY_HACKS_CAPTION "Speicher Erweiterungshack Einstellungen"
+  IDS_C64_MEMORY_HACKS_DEVICE  "Speicher Erweiterungeshack Gerät"
+  IDS_C64_256K_BASE            "C64 256K Basis Adresse"
+  IDS_C64_256K_FILE            "C64 256K Datei"
+  IDS_C64_256K_SELECT_FILE     "Datei für C64 256K auswählen"
+  IDS_PLUS60K_BASE             "+60K Basis Adresse"
+  IDS_PLUS60K_FILE             "+60K Datei"
+  IDS_PLUS60K_SELECT_FILE      "Datei für +60K auswählen"
+  IDS_PLUS256K_FILE            "+256K Datei"
+  IDS_PLUS256K_SELECT_FILE     "Datei für +256K auswählen"
 END
 
 

@@ -3823,7 +3823,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_C64_MEMORY_HACKS_SETTINGS,    "Memory expansion hacks settings..." },
 /* da */ { IDMS_C64_MEMORY_HACKS_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C64_MEMORY_HACKS_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_C64_MEMORY_HACKS_SETTINGS_DE, "Speicher Erweiterungshack Einstellungen..." },
 /* es */ { IDMS_C64_MEMORY_HACKS_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_C64_MEMORY_HACKS_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C64_MEMORY_HACKS_SETTINGS_HU, "" },  /* fuzzy */
@@ -5041,7 +5041,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE,    "Which compile time features are available?" },
 /* da */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_DA, "" },  /* fuzzy */
-/* de */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_DE, "" },  /* fuzzy */
+/* de */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_DE, "Welche kompilierten Funktionen sind verfügbar?" },
 /* es */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_ES, "¿Qué opciones en tiempo de compilación están disponibles?" },
 /* fr */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_FR, "" },  /* fuzzy */
 /* hu */ { IDMES_WHICH_COMPILE_FEATURES_AVAILABLE_HU, "" },  /* fuzzy */
@@ -8305,7 +8305,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_MEMORY_HACK_DEVICE,    "Memory expansion hack device" },
 /* da */ { IDS_MEMORY_HACK_DEVICE_DA, "" },  /* fuzzy */
-/* de */ { IDS_MEMORY_HACK_DEVICE_DE, "" },  /* fuzzy */
+/* de */ { IDS_MEMORY_HACK_DEVICE_DE, "Speicher Erweiterungeshack Gerät" },
 /* es */ { IDS_MEMORY_HACK_DEVICE_ES, "" },  /* fuzzy */
 /* fr */ { IDS_MEMORY_HACK_DEVICE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_MEMORY_HACK_DEVICE_HU, "" },  /* fuzzy */
@@ -8361,7 +8361,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_C64_MEMORY_HACKS_SETTINGS,    "Memory expansion hacks settings" },
 /* da */ { IDS_C64_MEMORY_HACKS_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_C64_MEMORY_HACKS_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDS_C64_MEMORY_HACKS_SETTINGS_DE, "Speicher Erweiterungshack Einstellungen" },
 /* es */ { IDS_C64_MEMORY_HACKS_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDS_C64_MEMORY_HACKS_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_C64_MEMORY_HACKS_SETTINGS_HU, "" },  /* fuzzy */

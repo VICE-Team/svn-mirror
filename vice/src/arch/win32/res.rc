@@ -2506,8 +2506,8 @@ BEGIN
 #endif
   IDS_VICE_CONTRIBUTORS                "VICE Hackers"
   IDS_WHO_MADE_WHAT                    "Wer hat was gemacht?"
-  IDS_VICE_FEATURES                    "VICE compile time features"
-  IDS_WHAT_FEATURES_ARE_AVAILABLE      "What compile time features are available?"
+  IDS_VICE_FEATURES                    "VICE kompilierte Funktionen"
+  IDS_WHAT_FEATURES_ARE_AVAILABLE      "Welche kompiliertern Funtionen sind verfügbar?"
   IDS_LICENSE                          "Lizenz"
   IDS_NO_WARRANTY                      "Keine Garantie!"
   IDS_VICE_WITHOUT_WARRANTY            "VICE ist ohne Garantie"
