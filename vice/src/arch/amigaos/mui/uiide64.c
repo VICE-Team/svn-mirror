@@ -69,7 +69,7 @@ static ui_to_from_t ui_to_from_v4[] = {
     { NULL, MUI_TYPE_CYCLE, "IDE64version4", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "IDE64USBServer", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
     { NULL, MUI_TYPE_TEXT, "IDE64USBServerAddress", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_CYCLE, "IDE64RTCSave", ui_ide64_autodetect, ui_ide64_autodect_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "IDE64RTCSave", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
     UI_END /* mandatory */
 };
 

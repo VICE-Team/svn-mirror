@@ -408,7 +408,7 @@ void ui_about(void)
 #endif
         "",
         "The VICE Team",
-        NULL);
+        NULL};
 
     static const char *authors_end[] = {
         "",
@@ -432,7 +432,7 @@ void ui_about(void)
         lib_free(tmp);
     }
 
-    for (i = 0; authors_end[i] != NULL) {
+    for (i = 0; authors_end[i] != NULL; i++) {
         DoMethod(gui, OM_ADDMEMBER, LLabel(authors_end[i]));
     }
 
