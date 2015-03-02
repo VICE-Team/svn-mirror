@@ -2202,6 +2202,7 @@ $(top_builddir)/src/libffmpeg.a: libffmpeg
 	touch dummy.c
 	$(CC) -o dummy.o -c dummy.c
 	$(AR) cru $(top_builddir)/src/libffmpeg.a dummy.o
+	$(RANLIB) $(top_builddir)/src/libffmpeg.a
 	rm dummy.o dummy.c
 endif
 
