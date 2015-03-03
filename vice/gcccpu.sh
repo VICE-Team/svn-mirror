@@ -14,6 +14,9 @@ filename=no
 for i in $*
 do
   case "$i" in
+    *asm*.c|*mon_*.c)
+      cpufile=no
+      ;;
     *c64cpu.c|*c64dtvcpu.c|*z80.c)
       cpufile=yes
       cpuopt=-O1
