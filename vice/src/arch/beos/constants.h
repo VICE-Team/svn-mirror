@@ -353,6 +353,7 @@ const uint32 MENU_BURSTMOD_CIA2                   = 'M092';
 
 const uint32 MENU_DRIVE_SETTINGS                  = 'M200';
 const uint32 MENU_DEVICE_SETTINGS                 = 'M201';
+const uint32 MENU_PRINTER_SETTINGS                = 'M297';
 const uint32 MENU_SOUND_SETTINGS                  = 'M202';
 
 const uint32 MENU_JAM_ACTION_ASK                  = 'M519';

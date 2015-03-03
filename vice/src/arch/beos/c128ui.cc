@@ -52,6 +52,7 @@ extern "C" {
 #include "ui.h"
 #include "ui_drive.h"
 #include "ui_ide64.h"
+#include "ui_printer.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
 #include "ui_video.h"
@@ -356,6 +357,9 @@ static void c128_ui_specific(void *msg, void *window)
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(c128_drive_types, HAS_PARA_CABLE | HAS_PROFDOS);
+            break;
+        case MENU_PRINTER_SETTINGS:
+            ui_printer(HAS_USERPORT_PRINTER | HAS_IEC_BUS);
             break;
         case MENU_REU_FILE:
             ui_select_file(B_SAVE_PANEL, REU_FILE, (void*)0);

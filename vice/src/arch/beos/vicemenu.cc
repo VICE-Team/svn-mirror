@@ -599,7 +599,7 @@ BMenuBar *menu_create(int machine_class)
                 submenu->SetRadioMode(true);
                 submenu->AddItem(new BMenuItem("Joy1", new BMessage(MENU_MOUSE_PORT_JOY1)));
                 submenu->AddItem(new BMenuItem("Joy2", new BMessage(MENU_MOUSE_PORT_JOY2)));
-            menu->AddItem(new BMenuItem("Save Smart Moude RTC data when changed", new BMessage(MENU_TOGGLE_SMART_MOUSE_RTC_SAVE)));
+            menu->AddItem(new BMenuItem("Save Smart Mouse RTC data when changed", new BMessage(MENU_TOGGLE_SMART_MOUSE_RTC_SAVE)));
         uppermenu->AddSeparatorItem();
     }
 
@@ -994,7 +994,8 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("Device ...", new BMessage(MENU_DEVICE_SETTINGS)));
         uppermenu->AddItem(new BMenuItem("Drive ...", new BMessage(MENU_DRIVE_SETTINGS)));
 
-        uppermenu->AddItem(menu = new BMenu("Printer ..."));
+        uppermenu->AddItem(menu = new BMenu("Printer"));
+            menu->AddItem(new BMenuItem("Printer settings ...", new BMessage(MENU_PRINTER_SETTINGS)));
             menu->AddItem(submenu = new BMenu("Printer 4 ..."));
                 submenu->AddItem(extsubmenu = new BMenu("Printer 4 emulation"));
                     extsubmenu->SetRadioMode(true);
@@ -1135,15 +1136,15 @@ BMenuBar *menu_create(int machine_class)
     if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Joystick"));
         if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM6x0) {
-            menu->AddItem(new BMenuItem("Joystick/Keyset settings...", new BMessage(MENU_JOYSTICK_SETTINGS)));
+            menu->AddItem(new BMenuItem("Joystick/Keyset settings ...", new BMessage(MENU_JOYSTICK_SETTINGS)));
         }
         if (machine_class == VICE_MACHINE_PLUS4) {
             menu->AddItem(new BMenuItem("SID cart joystick emulation", new BMessage(MENU_TOGGLE_SIDCART_JOY)));
-            menu->AddItem(new BMenuItem("SID cart joystick settings...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
+            menu->AddItem(new BMenuItem("SID cart joystick settings ...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
         }
         if (machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_PLUS4) {
             menu->AddItem(new BMenuItem("Userport joystick emulation", new BMessage(MENU_TOGGLE_USERPORT_JOY)));
-            menu->AddItem(new BMenuItem("Userport joystick settings...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
+            menu->AddItem(new BMenuItem("Userport joystick settings ...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
             menu->AddItem(submenu = new BMenu("Userport joystick type"));
                 submenu->SetRadioMode(true);
                 submenu->AddItem(new BMenuItem("CGA", new BMessage(MENU_USERPORT_JOY_CGA)));

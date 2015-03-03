@@ -53,6 +53,7 @@ extern "C" {
 #include "ui.h"
 #include "ui_drive.h"
 #include "ui_ide64.h"
+#include "ui_printer.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
 #include "ui_video.h"
@@ -447,6 +448,9 @@ static void scpu64_ui_specific(void *msg, void *window)
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(scpu64_drive_types, HAS_PARA_CABLE | HAS_PROFDOS);
+            break;
+        case MENU_PRINTER_SETTINGS:
+            ui_printer(HAS_USERPORT_PRINTER | HAS_IEC_BUS);
             break;
         case MENU_IDE64_FILE1:
             ui_select_file(B_SAVE_PANEL, IDE64_FILE1, (void*)0);

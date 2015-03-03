@@ -48,6 +48,7 @@ extern "C" {
 #include "types.h"
 #include "ui.h"
 #include "ui_drive.h"
+#include "ui_printer.h"
 #include "ui_sidcart.h"
 #include "ui_vic20.h"
 #include "ui_vic.h"
@@ -294,6 +295,9 @@ void vic20_ui_specific(void *msg, void *window)
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(vic20_drive_types, HAS_NO_CAPS);
+            break;
+        case MENU_PRINTER_SETTINGS:
+            ui_printer(HAS_USERPORT_PRINTER | HAS_IEC_BUS);
             break;
         case MENU_SIDCART_SETTINGS:
             ui_sidcart(vic20_sidcart_address_text_pair, vic20_sidcart_clock_pair, vic20_sidcart_address_int_pair);

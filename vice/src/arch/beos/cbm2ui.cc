@@ -40,6 +40,7 @@ extern "C" {
 #include "ui.h"
 #include "ui_cbm2.h"
 #include "ui_drive.h"
+#include "ui_printer.h"
 #include "ui_sid.h"
 #include "ui_video.h"
 #include "video.h"
@@ -176,6 +177,9 @@ void cbm2_ui_specific(void *msg, void *window)
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(cbm2_drive_types, HAS_NO_CAPS);
+            break;
+        case MENU_PRINTER_SETTINGS:
+            ui_printer(HAS_USERPORT_PRINTER);
             break;
         case MENU_COMPUTER_KERNAL_ROM_FILE:
             ui_select_file(B_SAVE_PANEL, COMPUTER_KERNAL_ROM_FILE, (void*)0);

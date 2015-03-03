@@ -51,6 +51,7 @@ extern "C" {
 #include "resources.h"
 #include "ui.h"
 #include "ui_drive.h"
+#include "ui_printer.h"
 #include "ui_sidcart.h"
 #include "ui_ted.h"
 #include "ui_video.h"
@@ -157,6 +158,9 @@ static void plus4_ui_specific(void *msg, void *window)
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(plus4_drive_types, HAS_PARA_CABLE);
+            break;
+        case MENU_PRINTER_SETTINGS:
+            ui_printer(HAS_IEC_BUS);
             break;
         case MENU_SIDCART_SETTINGS:
             ui_sidcart(plus4_sidcart_address_text_pair, plus4_sidcart_clock_pair, plus4_sidcart_address_int_pair);

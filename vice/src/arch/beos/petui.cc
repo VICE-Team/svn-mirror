@@ -50,6 +50,7 @@ extern "C" {
 #include "ui.h"
 #include "ui_drive.h"
 #include "ui_pet.h"
+#include "ui_printer.h"
 #include "ui_sidcart.h"
 #include "ui_video.h"
 #include "util.h"
@@ -160,6 +161,9 @@ void pet_ui_specific(void *msg, void *window)
             break;
         case MENU_DRIVE_SETTINGS:
             ui_drive(pet_drive_types, HAS_NO_CAPS);
+            break;
+        case MENU_PRINTER_SETTINGS:
+            ui_printer(HAS_USERPORT_PRINTER);
             break;
         case MENU_SIDCART_SETTINGS:
             ui_sidcart(pet_sidcart_address_text_pair, pet_sidcart_clock_pair, pet_sidcart_address_int_pair);

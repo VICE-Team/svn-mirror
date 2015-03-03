@@ -72,6 +72,8 @@ libarch_a_SOURCES = \
 	ui_netplay.h \
 	ui_pet.cc \
 	ui_pet.h \
+	ui_printer.cc \
+	ui_printer.h \
 	ui_ram.cc \
 	ui_ram.h \
 	ui_sid.cc \
