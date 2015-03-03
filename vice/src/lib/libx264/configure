@@ -432,6 +432,7 @@ for opt do
                 exit 1
             fi
             ;;
+
         *)
             echo "Unknown option $opt, ignored"
             ;;
@@ -588,6 +589,11 @@ case $host_os in
         libm="-lm"
         HAVE_GETOPT_LONG=0
         CFLAGS="$CFLAGS -I\$(SRCPATH)/extras"
+        ;;
+    amigaos*)
+        SYS="AmigaOS"
+        define HAVE_MALLOC_H
+        LDFLAGS="$LDFLAGS -lm"
         ;;
     *)
         die "Unknown system $host, edit the configure"

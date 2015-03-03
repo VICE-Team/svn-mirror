@@ -78,3 +78,4 @@ typedef DWORD CLOCK;
 #define uint_to_void_ptr(x) ((void *)(unsigned long)(x))
 
 #endif
+
