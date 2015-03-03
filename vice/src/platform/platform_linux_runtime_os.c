@@ -121,7 +121,7 @@
 
 #include "vice.h"
 
-#if defined(__linux) && !defined(__ANDROID__)
+#if defined(__linux) && !defined(__ANDROID__) && !defined(AMIGA_AROS)
 
 #include <stdio.h>
 #include <stdlib.h>

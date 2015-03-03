@@ -134,7 +134,7 @@ extern char *platform_get_minix_runtime_cpu(void);
 #endif
 
 /* Linux */
-#if defined(__linux) && !defined(__ANDROID__)
+#if defined(__linux) && !defined(__ANDROID__) && !defined(AMIGA_AROS)
 #define RUNTIME_OS_CALL platform_get_linux_runtime_os
 #endif
 

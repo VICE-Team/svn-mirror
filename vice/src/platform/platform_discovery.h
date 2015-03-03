@@ -330,7 +330,7 @@
 
 
 /* Linux discovery */
-#if defined(__linux) && !defined(__ANDROID__)
+#if defined(__linux) && !defined(__ANDROID__) && !defined(AMIGA_AROS)
 #  include "platform_linux_libc_version.h"
 #endif
 
