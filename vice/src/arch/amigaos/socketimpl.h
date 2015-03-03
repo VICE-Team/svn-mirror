@@ -48,6 +48,8 @@
 #  include <clib/exec_protos.h>
 # endif
 # ifdef AMIGA_AROS
+#  undef WORD
+#  undef BYTE
 #  include <proto/exec.h>
 # endif
 # include <proto/socket.h>
