@@ -1,5 +1,274 @@
 ------------------------------------------------------------------------------
 
+2015-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.hlp, doc/vice.inf, doc/vice.pdf, po/da.po,
+	po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.4.18
+
+2015-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/Makefile: Even more 'dist' splits.
+
+2015-03-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/Makefile: Changed line ending to lf.
+
+2015-03-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libffmpeg/Makefile: Split up the 'dist' lists.
+
+2015-03-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Made libiconv check for windows ffmpeg optional.
+
+2015-03-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added ffmpeg configure option conflict checking.
+
+2015-03-03  Marcus Sutton <loggedoubt@gmail.com>
+
+	* gcccpu.sh: Stopped the z80 related files in src/monitor from being
+	treated as "cpu" files.
+
+2015-03-03  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/c128ui.cc,
+	src/arch/beos/c64dtvui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/cbm2ui.cc, src/arch/beos/cbm5x0ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/petui.cc,
+	src/arch/beos/plus4ui.cc, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/ui_printer.cc, src/arch/beos/ui_printer.h,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc: Added new Printer
+	settings dialog to BeVICE.
+
+2015-03-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/socketimpl.h, src/arch/amigaos/uiapi.c: Some more
+	AROS fixes.
+
+2015-03-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform.h, src/platform/platform_discovery.h,
+	src/platform/platform_linux_runtime_os.c: Some AROS fixes.
+
+2015-03-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/types.h, src/lib/libx264/configure: More amiga
+	fixes.
+
+2015-03-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/mui.c, src/arch/amigaos/mui/uiide64.c,
+	src/lib/libx264: Amiga port fixes.
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64memoryhacks.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed for win64 cross compile.
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/lib/libffmpeg/libavcodec,
+	src/lib/libffmpeg/libavdevice, src/lib/libffmpeg/libavfilter,
+	src/lib/libffmpeg/libavformat, src/lib/libffmpeg/libavutil,
+	src/lib/libffmpeg/libpostproc, src/lib/libffmpeg/libswresample,
+	src/lib/libffmpeg/libswscale, src/lib/libx264: Fixed win32 shared
+	ffmpeg compile.
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Fixed a typo.
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Fixed lib64 for libx264.
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Fixed quotations.
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/lib/libffmpeg, src/lib/libffmpeg/compat/msvcrt:
+	Fixed win32 static ffmpeg compiling.
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Use mkdir -p instead and fix a typo.
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: create lib dir incase lib64 was used.
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Fixed for lib64 compile.
+
+2015-03-01  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/lib/libffmpeg/common.mak: Fixed line endings.
+
+2015-03-01  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/lib/libffmpeg/common.mak: Removed property "eol-style".
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am: Do not use the dummy libffmpeg.a
+	library for static linking.
+
+2015-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: More cross compile fixes.
+
+2015-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Fixed typo.
+
+2015-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: More cross compile changes.
+
+2015-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Fixed cpu/os splitting.
+
+2015-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu, src/monitor/mon_lex.c,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h: Some more cross
+	compile fixes.
+
+2015-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: More cross compile changes.
+
+2015-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Better configure lines for cross
+	compiling ffmpeg.
+
+2015-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/sv.po, po/translations-status.txt: Did a
+	'make update-po'.
+
+2015-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Fixed warning.
+
+2015-02-28  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2015-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Removed --disable-shared from the
+	static ffmpeg configure line.
+
+2015-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Added -Llib64 to the ffmpeg configure
+	for x86_64 platforms.
+
+2015-02-25  groepaz <groepaz@gmx.net>
+
+	* src/gfxoutputdrv/ffmpeglib.c: codestyle
+
+2015-02-25  groepaz <groepaz@gmx.net>
+
+	* src/gfxoutputdrv/ffmpeglib.h: added prototypes to remove warnings
+
+2015-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fix typo.
+
+2015-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Check for -lva instead of -lvda.
+
+2015-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Improved and added ffmpeg needed library checks.
+
+2015-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added check for libbz2.
+
+2015-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/ffmpeglib.c: Use #ifndef STATIC_FFMPEG instead.
+
+2015-02-25  groepaz <groepaz@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: use ifdef not ifndef :)
+
+2015-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Some windows thread fixes.
+
+2015-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Don't use h265 if not present in
+	external ffmpeg dev.
+
+2015-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed windows pthread library detection.
+
+2015-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/lib/ffmpeg/configure.gnu: Fixed.
+
+2015-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/ffmpeg/configure.gnu: Attempt to fix for cross compiling.
+
+2015-02-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Fixed 'make clean' for libffmpeg.a
+
+2015-02-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed shared ffmpeg compile.
+
+2015-02-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4, configure.proto: Fixed for mingw compile.
+
+2015-02-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/lib/ffmpeg/configure.gnu: Fixed.
+
+2015-02-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* acinclude.m4, configure.proto, src/lib/ffmpeg/configure.gnu: Added
+	'--enable-win32thread' for windows host and made the pthread and rt
+	checks unix only.
+
+2015-02-23  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/lib/liblame/config.h.in: Fixed line endings.
+
+2015-02-23  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/lib/liblame/config.h.in: Fixed SVN eol-property.
+
 2015-02-23  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* build/android/build-android.sh, configure.proto, doc/vice.chm,
