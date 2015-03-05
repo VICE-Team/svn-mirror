@@ -14,7 +14,7 @@ splitcpuos()
       os="$os-$i"
     done
   else
-    os=$1
+    os=$man
   fi
 }
 
