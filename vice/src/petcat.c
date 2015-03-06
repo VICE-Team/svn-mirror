@@ -1786,7 +1786,7 @@ static void _p_toascii(int c, int ctrls)
             if (!ctrls) {
                 fputc('\n', dest);
             } else {
-                out_ctrl(c & 0xff);
+                out_ctrl((unsigned char)(c & 0xff));
             }
             break;
         case 0x0d: /* CBM carriage return */
@@ -1811,7 +1811,7 @@ static void _p_toascii(int c, int ctrls)
             fputc('_', dest);
             break;
         case 0x60: /* produces the same screencode as $c0! */
-            out_ctrl(c & 0xff);
+            out_ctrl((unsigned char)(c & 0xff));
             break;
 
         case 0x7b: /* produces the same screencode as $db! */
@@ -1819,7 +1819,7 @@ static void _p_toascii(int c, int ctrls)
         case 0x7d: /* produces the same screencode as $dd! */
         case 0x7e: /* PI produces the same screencode as $de! */
         case 0x7f: /* produces the same screencode as $df! */
-            out_ctrl(c & 0xff); /* shift+arrow up */
+            out_ctrl((unsigned char)(c & 0xff)); /* shift+arrow up */
             break;
 
         case 0xc0:
@@ -1835,7 +1835,7 @@ static void _p_toascii(int c, int ctrls)
             fprintf(dest, CLARIF_LP_ST "SHIFT--" CLARIF_RP_ST);
             break;
         case 0xde: /* PI produces the same screencode as $7e and $ff! */
-            out_ctrl(c & 0xff);
+            out_ctrl((unsigned char)(c & 0xff));
             break;
         case 0xdf: /* (*) produces the same screencode as $7f! */
             fprintf(dest, CLARIF_LP_ST "CBM-*" CLARIF_RP_ST);
@@ -1846,7 +1846,7 @@ static void _p_toascii(int c, int ctrls)
             if (!ctrls) {
                 fputc(' ', dest);
             } else {
-                out_ctrl(c & 0xff);
+                out_ctrl((unsigned char)(c & 0xff));
             }
             break;
         case 0xff: /* (*) PI produces the same screencode as $7e and $de! */
@@ -1860,7 +1860,7 @@ static void _p_toascii(int c, int ctrls)
                     break;
                 case 0x60:                /* 61 - 7F (produces same screencodes as C1...) */
                     if (ctrls) {
-                        out_ctrl(c & 0xff);
+                        out_ctrl((unsigned char)(c & 0xff));
                     } else {
                         fputc(c ^ 0x20, dest);
                     }
@@ -1869,7 +1869,7 @@ static void _p_toascii(int c, int ctrls)
                     fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, cbmkeys[c & 0x1f]);
                     break;
                 case 0xe0:                /* E1 - FE (produces same screencodes as A1...) */
-                    out_ctrl(c & 0xff);
+                    out_ctrl((unsigned char)(c & 0xff));
                     break;
                 case 0xc0:                /* (*) C0 - DF (produces same screencodes as 61...) */
                     fputc(c ^ 0x80, dest);
@@ -1884,7 +1884,7 @@ static void _p_toascii(int c, int ctrls)
                         } else if ((c > 0x7f) && (c < 0xa0) && *ctrl2[c & 0x1f]) {
                             fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, ctrl2[c & 0x1f]);
                         } else {
-                            out_ctrl(c & 0xff);
+                            out_ctrl((unsigned char)(c & 0xff));
                         }
                     }  /* ctrls */
             }  /* switch */
