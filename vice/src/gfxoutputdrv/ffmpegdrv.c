@@ -423,7 +423,12 @@ static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t *
     c->channel_layout = (channels == 1 ? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO);
     c->channels = VICE_P_AV_GET_CHANNEL_LAYOUT_NB_CHANNELS(c->channel_layout);
  
+#ifdef _MSC_VER
+    st->time_base.num = 1;
+	st->time_base.den = c->sample_rate;
+#else
     st->time_base = (AVRational){ 1, c->sample_rate };
+#endif
     audio_st.st = st;
     audio_st.next_pts = 0;
     audio_st.samples_count = 0;
@@ -470,6 +475,10 @@ static int ffmpegmovie_encode_audio(soundmovie_buffer_t *audio_in)
     AVFrame *frame;
     int ret;
 
+#ifdef _MSC_VER
+    AVRational tmp;
+#endif
+
     if (audio_st.st) {
         audio_st.frame->pts = audio_st.next_pts;
         audio_st.next_pts += audio_in->size;
@@ -502,7 +511,13 @@ static int ffmpegmovie_encode_audio(soundmovie_buffer_t *audio_in)
                 return -1;
             }
             frame = audio_st.frame;
+#ifdef _MSC_VER
+            tmp.num = 1;
+			tmp.den = c->sample_rate;
+            frame->pts = VICE_P_AV_RESCALE_Q(audio_st.samples_count, tmp, c->time_base);
+#else
             frame->pts = VICE_P_AV_RESCALE_Q(audio_st.samples_count, (AVRational){ 1, c->sample_rate }, c->time_base);
+#endif
             audio_st.samples_count += dst_nb_samples;
         }
 
@@ -680,9 +695,14 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     video_width = c->width = (screenshot->width + 15) & ~0xf;
     video_height = c->height = (screenshot->height + 15) & ~0xf;
     /* frames per second */
+#ifdef _MSC_VER
+    st->time_base.num = machine_get_cycles_per_frame();
+    st->time_base.den = (video_halve_framerate ? machine_get_cycles_per_second() / 2 : machine_get_cycles_per_second());
+#else
     st->time_base = (AVRational) {
         machine_get_cycles_per_frame(), (video_halve_framerate ? machine_get_cycles_per_second() / 2 : machine_get_cycles_per_second())
     };
+#endif
     c->time_base = st->time_base;
 
     c->gop_size = 12; /* emit one intra frame every twelve frames at most */

@@ -316,10 +316,12 @@ void av_log_format_line(void *ptr, int level, const char *fmt, va_list vl,
  * Useful to print debug messages that shouldn't get compiled in normally.
  */
 
-#ifdef DEBUG
+#ifndef _MSC_VER
+#  ifdef DEBUG
 #    define av_dlog(pctx, ...) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__)
-#else
+#  else
 #    define av_dlog(pctx, ...) do { if (0) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__); } while (0)
+#  endif
 #endif
 
 /**

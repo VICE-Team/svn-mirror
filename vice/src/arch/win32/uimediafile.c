@@ -209,6 +209,9 @@ static void init_mediafile_dialog(HWND hwnd)
     int enable_ffmpeg;
 #ifdef HAVE_FFMPEG
     int have_ffmpeg = 0;
+    const char *ffmpeg_format;
+    int bitrate;
+    TCHAR st[256];
 #endif
 
     parent_hwnd = GetParent(hwnd);
@@ -293,10 +296,6 @@ static void init_mediafile_dialog(HWND hwnd)
 
     enable_ffmpeg = (strcmp(selected_driver->name, "FFMPEG") == 0);
 #ifdef HAVE_FFMPEG
-    const char *ffmpeg_format;
-    int bitrate;
-    TCHAR st[256];
-
     if (have_ffmpeg == 1) {
         resources_get_string("FFMPEGFormat", &ffmpeg_format);
         combo = GetDlgItem(hwnd, IDC_SCREENSHOT_FFMPEGFORMAT);

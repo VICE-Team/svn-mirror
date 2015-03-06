@@ -32,10 +32,12 @@
 #include "archdep.h"
 
 #ifdef HAVE_FFMPEG_HEADER_SUBDIRS
+#  include "libavutil/rational.h"
 #  include "libavformat/avformat.h"
 #  include "libswscale/swscale.h"
 #  include "libswresample/swresample.h"
 #else
+#  include "rational.h"
 #  include "avformat.h"
 #  include "swscale.h"
 #  include "swresample.h"
