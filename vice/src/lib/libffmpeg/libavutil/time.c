@@ -26,11 +26,11 @@
 #if HAVE_GETTIMEOFDAY
 #include <sys/time.h>
 #endif
-#if HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 #if HAVE_WINDOWS_H
 #include <windows.h>
+#endif
+#if HAVE_UNISTD_H
+#include <unistd.h>
 #endif
 
 #include "time.h"

@@ -22,9 +22,6 @@
 #include <stdarg.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#if HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 #if HAVE_IO_H
 #include <io.h>
 #endif
@@ -35,6 +32,11 @@
 #undef stat
 #undef fstat
 #include <windows.h>
+
+#if HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 #include <share.h>
 #include <errno.h>
 

@@ -26,9 +26,6 @@
 
 #include "config.h"
 
-#if HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 #if HAVE_IO_H
 #include <io.h>
 #endif
@@ -52,6 +49,13 @@ static int flags;
 
 #if defined(_WIN32) && !defined(__MINGW32CE__) && HAVE_SETCONSOLETEXTATTRIBUTE
 #include <windows.h>
+#endif
+
+#if HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
+#if defined(_WIN32) && !defined(__MINGW32CE__) && HAVE_SETCONSOLETEXTATTRIBUTE
 static const uint8_t color[16 + AV_CLASS_CATEGORY_NB] = {
     [AV_LOG_PANIC  /8] = 12,
     [AV_LOG_FATAL  /8] = 12,

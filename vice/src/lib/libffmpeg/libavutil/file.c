@@ -23,9 +23,6 @@
 #include "mem.h"
 #include <fcntl.h>
 #include <sys/stat.h>
-#if HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 #if HAVE_IO_H
 #include <io.h>
 #endif
@@ -33,6 +30,10 @@
 #include <sys/mman.h>
 #elif HAVE_MAPVIEWOFFILE
 #include <windows.h>
+#endif
+
+#if HAVE_UNISTD_H
+#include <unistd.h>
 #endif
 
 typedef struct {

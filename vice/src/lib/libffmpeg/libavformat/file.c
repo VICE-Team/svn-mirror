@@ -27,13 +27,15 @@
 #if HAVE_IO_H
 #include <io.h>
 #endif
-#if HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 #include <sys/stat.h>
 #include <stdlib.h>
 #include "os_support.h"
 #include "url.h"
+
+#if HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 
 /* Some systems may not have S_ISFIFO */
 #ifndef S_ISFIFO
