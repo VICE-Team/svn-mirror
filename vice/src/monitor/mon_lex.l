@@ -187,7 +187,7 @@ HDIGIT  [0-9a-f]
         ii              { BEGIN(INITIAL);       return CMD_SCREENCODE_DISPLAY; }
         ignore          { BEGIN(INITIAL);       return CMD_IGNORE; }
         io              { BEGIN(INITIAL);       return CMD_IO; }
-        keybuf          { BEGIN(INITIAL);       return CMD_KEYBUF; }
+        keybuf          { BEGIN(ROL);           return CMD_KEYBUF; }
         list            { BEGIN(INITIAL);       return CMD_LIST; }
         load|l          { BEGIN(FNAME);         return CMD_LOAD; }
         load_labels|ll  { BEGIN(FNAME);         return CMD_LOAD_LABELS; }
