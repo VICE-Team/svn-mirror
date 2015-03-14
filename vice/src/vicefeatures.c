@@ -33,7 +33,7 @@
 #include "vicefeatures.h"
 
 /* FIXME: define "UNIX" for all supported unixish OS */
-#if !defined(__OS2__) && !defined(__BEOS__) && !defined(__MSDOS__) && !defined(AMIGA_SUPPORT) && !defined(WIN32)
+#if !defined(__OS2__) && !defined(BEOS_COMPILE) && !defined(__MSDOS__) && !defined(AMIGA_SUPPORT) && !defined(WIN32)
 #define UNIX
 #endif
 
