@@ -389,7 +389,9 @@ void mem_store2(DWORD addr, BYTE value)
                 addr = ((addr >> mem_conf_page_size) << mem_simm_page_size) | (addr & ((1 << mem_simm_page_size)-1));
                 addr &= mem_simm_ram_mask;
             }
-            mem_simm_ram[addr & 0x1ffff] = value;
+            if (mem_reg_hwenable) {
+                mem_simm_ram[addr & 0x1ffff] = value;
+            }
             scpu64_clock_write_stretch_simm(addr);
         } 
         return;
