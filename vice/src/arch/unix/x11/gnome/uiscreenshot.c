@@ -561,7 +561,7 @@ static GtkWidget *build_screenshot_dialog(void)
     }
     gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
 
-    frame = gtk_frame_new(_("Image Format"));
+    frame = gtk_frame_new(_("Media Format"));
     vbox = gtk_vbox_new(FALSE, 5);
 
     if (! buttons) {
@@ -746,7 +746,7 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
     }
 
     /* pop up and run the dialog */
-    ui_popup(screenshot_dialog, _("Save screenshot file"), FALSE);
+    ui_popup(screenshot_dialog, _("Save media file"), FALSE);
     res = gtk_dialog_run(GTK_DIALOG(screenshot_dialog));
     ui_popdown(screenshot_dialog);
 
