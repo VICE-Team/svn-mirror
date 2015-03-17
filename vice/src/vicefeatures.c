@@ -171,6 +171,38 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #endif
+#if defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
+    { "HAVE_FFMPEG_HEADER_SUBDIRS", "FFMPEG uses subdirs for headers",
+#ifndef HAVE_FFMPEG_HEADER_SUBDIRS
+        0 },
+#else
+        1 },
+#endif
+#endif
+#if defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
+    { "HAVE_FFMPEG_SWSCALE", "Have FFMPEG swscale lib available",
+#ifndef HAVE_FFMPEG_SWSCALE
+        0 },
+#else
+        1 },
+#endif
+#endif
+#if defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
+    { "SHARED_FFMPEG", "FFMPEG libraries are shared",
+#ifndef SHARED_FFMPEG
+        0 },
+#else
+        1 },
+#endif
+#endif
+#if defined(USE_SDLUI) || defined(UNIX) || defined(WIN32) /* (sdl/unix/windows) */
+    { "STATIC_FFMPEG", "FFMPEG libraries are static",
+#ifndef STATIC_FFMPEG
+        0 },
+#else
+        1 },
+#endif
+#endif
  /* (all) */
     { "HAVE_FULLSCREEN", "Enable Fullscreen support.",
 #ifndef HAVE_FULLSCREEN
