@@ -448,7 +448,7 @@ void uicommands_sound_record_stop(void)
 
     if (sound_is_recording()) {
         sound_stop_recording();
-        retval = util_concat(_("Sound Recording stopped"), "...", NULL);
+        retval = util_concat(_("Media Recording stopped"), "...", NULL);
         ui_display_statustext(retval, 10);
         lib_free(retval);
     }

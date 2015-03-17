@@ -921,7 +921,7 @@ void ui_dispatch_events(void)
                 break;
             case MENU_SOUND_RECORD_STOP:
                 resources_set_string("SoundRecordDeviceName", "");
-                ui_display_statustext("Sound Recording Stopped...", 1);
+                ui_display_statustext("Media Recording Stopped...", 1);
                 break;
             case MENU_DEVICE_SETTINGS:
                 ui_device();
