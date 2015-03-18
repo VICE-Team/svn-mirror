@@ -93,7 +93,7 @@ static int fsdevice_flush_mkdir(char *arg)
     int er;
 
     er = CBMDOS_IPE_OK;
-    if (ioutil_mkdir(arg, 0770)) {
+    if (ioutil_mkdir(arg, IOUTIL_MKDIR_RWXUG)) {
         er = CBMDOS_IPE_INVAL;
         if (ioutil_errno(IOUTIL_ERRNO_EEXIST)) {
             er = CBMDOS_IPE_FILE_EXISTS;
