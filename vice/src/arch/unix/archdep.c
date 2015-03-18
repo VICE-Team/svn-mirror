@@ -227,76 +227,88 @@ char *archdep_make_backup_filename(const char *fname)
     return util_concat(fname, "~", NULL);
 }
 
-char *archdep_default_resource_file_name(void)
+/* create the default directory where prefs, fliplist, autostart images etc are stored
+   a pointer to the resulting path is returned, and it should be freed by the caller. */
+static char *archdep_make_default_pref_path(int create)
 {
+    char *path;
     if (archdep_pref_path == NULL) {
         const char *home;
-      
         home = archdep_home_path();
-        return util_concat(home, "/.vice/vicerc", NULL);
+        path = util_concat(home, "/.vice", NULL);
     } else {
-        return util_concat(archdep_pref_path, "/vicerc", NULL);
+        path = lib_stralloc(archdep_pref_path);
     }
+    if(create) {
+        if (access(path, F_OK)) {
+            mkdir(path, S_IRWXU);
+        }
+    }
+    return path;
+}
+
+char *archdep_default_resource_file_name(void)
+{
+    char *fname;
+    const char *viceuserdir;
+
+    viceuserdir = archdep_make_default_pref_path(0);
+    fname = util_concat(viceuserdir, "/vicerc", NULL);
+    lib_free(viceuserdir);
+
+    return fname;
 }
 
 char *archdep_default_fliplist_file_name(void)
 {
-    if (archdep_pref_path == NULL) {
-        const char *home;
+    char *fname;
+    const char *viceuserdir;
 
-        home = archdep_home_path();
-        return util_concat(home, "/.vice/fliplist-", machine_get_name(), ".vfl", NULL);
-    } else {
-        return util_concat(archdep_pref_path, "/fliplist-", machine_get_name(), ".vfl", NULL);
-    }
+    viceuserdir = archdep_make_default_pref_path(0);
+    fname = util_concat(viceuserdir, "/fliplist-", machine_get_name(), ".vfl", NULL);
+    lib_free(viceuserdir);
+
+    return fname;
 }
 
 char *archdep_default_rtc_file_name(void)
 {
-    if (archdep_pref_path == NULL) {
-        const char *home;
-      
-        home = archdep_home_path();
-        return util_concat(home, "/.vice/vice.rtc", NULL);
-    } else {
-        return util_concat(archdep_pref_path, "/vice.rtc", NULL);
-    }
+    char *fname;
+    const char *viceuserdir;
+
+    viceuserdir = archdep_make_default_pref_path(0);
+    fname = util_concat(viceuserdir, "/vice.rtc", NULL);
+    lib_free(viceuserdir);
+
+    return fname;
 }
 
 char *archdep_default_autostart_disk_image_file_name(void)
 {
-    if (archdep_pref_path == NULL) {
-        const char *home;
+    char *fname;
+    const char *viceuserdir;
 
-        home = archdep_home_path();
-        return util_concat(home, "/.vice/autostart-", machine_get_name(), ".d64", NULL);
-    } else {
-        return util_concat(archdep_pref_path, "/autostart-", machine_get_name(), ".d64", NULL);
-    }
+    viceuserdir = archdep_make_default_pref_path(0);
+    fname = util_concat(viceuserdir, "/autostart-", machine_get_name(), ".d64", NULL);
+    lib_free(viceuserdir);
+
+    return fname;
 }
 
+/* same as archdep_default_resource_file_name() but also creates the directory */
+/* FIXME: checking for existance and creating the directory should perhaps be
+          handled in common code instead. for the time being its created always
+          here, which isnt 'nice' but shouldnt do any harm either. it is needed
+          so on a fresh install the related features work, ie before the settings
+          were saved (and thus the directory created) (see bug #629) */
 char *archdep_default_save_resource_file_name(void)
 { 
     char *fname;
-    const char *home;
     const char *viceuserdir;
 
-    if (archdep_pref_path == NULL) {
-        home = archdep_home_path();
-        viceuserdir = util_concat(home, "/.vice", NULL);
-    } else {
-        viceuserdir = archdep_pref_path;
-    }
-
-    if (access(viceuserdir, F_OK)) {
-        mkdir(viceuserdir, 0700);
-    }
-
+    viceuserdir = archdep_make_default_pref_path(1);
     fname = util_concat(viceuserdir, "/vicerc", NULL);
-    
-    if (archdep_pref_path==NULL) {
-        lib_free(viceuserdir);
-    }
+    lib_free(viceuserdir);
 
     return fname;
 }
@@ -546,6 +558,7 @@ int archdep_file_set_gzip(const char *name)
     return 0;
 }
 
+/* called by ioutil_mkdir, modes defined in ioutil.h */
 int archdep_mkdir(const char *pathname, int mode)
 {
 #ifndef __NeXT__
@@ -576,7 +589,7 @@ int archdep_fix_permissions(const char *file_name)
 {
     mode_t mask = umask(0);
     umask(mask);
-    return chmod(file_name, mask ^ 0666);
+    return chmod(file_name, mask ^ DEFFILEMODE); /* 0666 */
 }
 
 int archdep_file_is_blockdev(const char *name)

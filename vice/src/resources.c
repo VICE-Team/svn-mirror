@@ -1156,6 +1156,7 @@ int resources_save(const char *fname)
     /* get name for config file */
     if (fname == NULL) {
         if (vice_config_file == NULL) {
+            /* get default filename. this also creates the .vice directory if not present */
             default_name = archdep_default_save_resource_file_name();
         } else {
             default_name = lib_stralloc(vice_config_file);
