@@ -271,7 +271,7 @@ static int ioutil_count_dir_items(const char *path)
                     lib_free(filename);
                     filename = NULL;
                 }
-#endif // DT_LNK
+#endif /* DT_LNK */
             } else {
                 files_amount++;
             }
