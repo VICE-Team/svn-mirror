@@ -35,6 +35,7 @@
 #include <string.h>
 
 #include "archapi.h"
+#include "ioutil.h"
 #include "lib.h"
 #include "machine.h"
 #include "rtc.h"
@@ -822,8 +823,14 @@ void rtc_save_context(BYTE *ram, int ram_size, BYTE *regs, int reg_size, char *d
     size_t len = 0;
     int ok = 0;
     int i;
+    char *savedir;
 
     filename = archdep_default_rtc_file_name();
+
+    /* create the directory where the context should be written first */
+    util_fname_split(filename, &savedir, NULL);
+    ioutil_mkdir(savedir, IOUTIL_MKDIR_RWXU);
+    lib_free(savedir);
 
     if (util_file_exists(filename)) {
         infile = fopen(filename, "rb");

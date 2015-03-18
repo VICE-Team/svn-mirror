@@ -52,6 +52,7 @@
 #include "tapecontents.h"
 #include "diskcontents.h"
 #include "interrupt.h"
+#include "ioutil.h"
 #include "kbdbuf.h"
 #include "lib.h"
 #include "log.h"
@@ -1231,10 +1232,17 @@ int autostart_prg(const char *file_name, unsigned int runmode)
             boot_file_name = NULL;
             break;
         case AUTOSTART_PRG_MODE_DISK:
+            {
+            char *savedir;
             log_message(autostart_log, "Loading PRG file `%s' with autostart disk image.", file_name);
+            /* create the directory where the image should be written first */
+            util_fname_split(AutostartPrgDiskImage, &savedir, NULL);
+            ioutil_mkdir(savedir, IOUTIL_MKDIR_RWXU);
+            lib_free(savedir);
             result = autostart_prg_with_disk_image(file_name, finfo, autostart_log, AutostartPrgDiskImage);
             mode = AUTOSTART_HASDISK;
             boot_file_name = "*";
+            }
             break;
         default:
             log_error(autostart_log, "Invalid PRG autostart mode: %d", AutostartPrgMode);

@@ -35,6 +35,7 @@
 #include "attach.h"
 #include "cmdline.h"
 #include "fliplist.h"
+#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
@@ -325,6 +326,12 @@ int fliplist_save_list(unsigned int unit, const char *filename)
     int all_units = 0;
     fliplist_t flip;
     FILE *fp = NULL;
+    char *savedir;
+
+    /* create the directory where the fliplist should be written first */
+    util_fname_split(filename, &savedir, NULL);
+    ioutil_mkdir(savedir, IOUTIL_MKDIR_RWXU);
+    lib_free(savedir);
 
     if (unit == FLIPLIST_ALL_UNITS) {
         all_units = 1;
