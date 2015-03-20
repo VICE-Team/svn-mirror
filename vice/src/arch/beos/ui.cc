@@ -113,24 +113,25 @@ int window_count = 0;
 /* List of resources that can be switched on and off from the menus.  */
 ui_menu_toggle  toggle_list[] = {
     { "Sound", MENU_TOGGLE_SOUND },
+    { "SaveResourcesOnExit", MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT },
+    { "ConfirmOnExit", MENU_TOGGLE_CONFIRM_ON_EXIT },
+    { NULL, 0 }
+};
+
+ui_menu_toggle  non_vsid_toggles[] = {
     { "DriveTrueEmulation", MENU_TOGGLE_DRIVE_TRUE_EMULATION },
     { "DriveSoundEmulation", MENU_TOGGLE_DRIVE_SOUND_EMULATION },
-    { "AutostartHandleTrueDriveEmulation", MENU_TOGGLE_HANDLE_TDE_AUTOSTART },
     { "DirectWindow", MENU_TOGGLE_DIRECTWINDOW },
     { "WarpMode", MENU_TOGGLE_WARP_MODE },
     { "VirtualDevices", MENU_TOGGLE_VIRTUAL_DEVICES },
-    { "SaveResourcesOnExit", MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT },
-    { "ConfirmOnExit", MENU_TOGGLE_CONFIRM_ON_EXIT },
-    { "UserportJoy", MENU_TOGGLE_USERPORT_JOY },
+    { "IECDevice4", MENU_PRINTER_4_IEC },
     { "AutostartWarp", MENU_AUTOSTART_WARP },
     { "AutostartRunWithColon", MENU_USE_COLON_WITH_RUN },
     { "AutostartBasicLoad", MENU_LOAD_TO_BASIC_START },
     { "AutostartDelayRandom", MENU_AUTOSTART_DELAY_RANDOM },
+    { "AutostartHandleTrueDriveEmulation", MENU_TOGGLE_HANDLE_TDE_AUTOSTART },
+    { "UserportJoy", MENU_TOGGLE_USERPORT_JOY },
     { "JoyOpposite", MENU_ALLOW_OPPOSITE_JOY },
-    { "IECDevice4", MENU_PRINTER_4_IEC },
-    { "IECDevice5", MENU_PRINTER_5_IEC },
-    { "IECDevice6", MENU_PRINTER_6_IEC },
-    { "PrinterUserport", MENU_TOGGLE_USERPORT_PRINTER },
     { NULL, 0 }
 };
 
@@ -200,44 +201,11 @@ ui_res_possible_values Printer4Emulation[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values Printer5Emulation[] = {
-    { PRINTER_DEVICE_NONE, MENU_PRINTER_5_EMULATION_NONE },
-    { PRINTER_DEVICE_FS, MENU_PRINTER_5_EMULATION_FS },
-    { -1, 0 }
-};
-
-ui_res_possible_values Printer6Emulation[] = {
-    { PRINTER_DEVICE_NONE, MENU_PRINTER_6_EMULATION_NONE },
-    { PRINTER_DEVICE_FS, MENU_PRINTER_6_EMULATION_FS },
-    { -1, 0 }
-};
-
 ui_res_possible_strings Printer4Driver[] = {
     { "ascii", MENU_PRINTER_4_DRIVER_ASCII },
     { "mps803", MENU_PRINTER_4_DRIVER_MPS803 },
     { "nl10", MENU_PRINTER_4_DRIVER_NL10 },
     { "raw", MENU_PRINTER_4_DRIVER_RAW },
-    { NULL, 0 }
-};
-
-ui_res_possible_strings Printer5Driver[] = {
-    { "ascii", MENU_PRINTER_5_DRIVER_ASCII },
-    { "mps803", MENU_PRINTER_5_DRIVER_MPS803 },
-    { "nl10", MENU_PRINTER_5_DRIVER_NL10 },
-    { "raw", MENU_PRINTER_5_DRIVER_RAW },
-    { NULL, 0 }
-};
-
-ui_res_possible_strings Printer6Driver[] = {
-    { "1520", MENU_PRINTER_6_DRIVER_1520 },
-    { "raw", MENU_PRINTER_6_DRIVER_RAW },
-    { NULL, 0 }
-};
-
-ui_res_possible_strings UserportPrinterDriver[] = {
-    { "ascii", MENU_USERPORT_PRINTER_DRIVER_ASCII },
-    { "nl10", MENU_USERPORT_PRINTER_DRIVER_NL10 },
-    { "raw", MENU_USERPORT_PRINTER_DRIVER_RAW },
     { NULL, 0 }
 };
 
@@ -247,49 +215,10 @@ ui_res_possible_strings Printer4OutputType[] = {
     { NULL, 0 }
 };
 
-ui_res_possible_strings Printer5OutputType[] = {
-    { "text", MENU_PRINTER_5_TYPE_TEXT },
-    { "graphics", MENU_PRINTER_5_TYPE_GFX },
-    { NULL, 0 }
-};
-
-ui_res_possible_strings Printer6OutputType[] = {
-    { "text", MENU_PRINTER_6_TYPE_TEXT },
-    { "graphics", MENU_PRINTER_6_TYPE_GFX },
-    { NULL, 0 }
-};
-
-ui_res_possible_strings UserportPrinterOutputType[] = {
-    { "text", MENU_USERPORT_PRINTER_TYPE_TEXT },
-    { "graphics", MENU_USERPORT_PRINTER_TYPE_GFX },
-    { NULL, 0 }
-};
-
 ui_res_possible_values Printer4OutputDevice[] = {
     { 0, MENU_PRINTER_4_DEV_1 },
     { 1, MENU_PRINTER_4_DEV_2 },
     { 2, MENU_PRINTER_4_DEV_3 },
-    { -1, 0 }
-};
-
-ui_res_possible_values Printer5OutputDevice[] = {
-    { 0, MENU_PRINTER_5_DEV_1 },
-    { 1, MENU_PRINTER_5_DEV_2 },
-    { 2, MENU_PRINTER_5_DEV_3 },
-    { -1, 0 }
-};
-
-ui_res_possible_values Printer6OutputDevice[] = {
-    { 0, MENU_PRINTER_6_DEV_1 },
-    { 1, MENU_PRINTER_6_DEV_2 },
-    { 2, MENU_PRINTER_6_DEV_3 },
-    { -1, 0 }
-};
-
-ui_res_possible_values UserportPrinterOutputDevice[] = {
-    { 0, MENU_USERPORT_PRINTER_DEV_1 },
-    { 1, MENU_USERPORT_PRINTER_DEV_2 },
-    { 2, MENU_USERPORT_PRINTER_DEV_3 },
     { -1, 0 }
 };
 
@@ -307,29 +236,22 @@ ui_res_value_list value_list[] = {
     { "RefreshRate", RefreshRateValues },
     { "Speed", SpeedValues },
     { "MachineVideoStandard", SyncFactor },
-    { "EventStartMode", RecordingOptions },
-    { "UserportJoyType", UserportJoyType },
-    { "AutostartPrgMode", AutostartPrgMode },
-    { "Printer4", Printer4Emulation },
-    { "Printer5", Printer5Emulation },
-    { "Printer6", Printer6Emulation },
-    { "Printer4TextDevice", Printer4OutputDevice },
-    { "Printer5TextDevice", Printer5OutputDevice },
-    { "Printer6TextDevice", Printer6OutputDevice },
-    { "PrinterUserportTextDevice", UserportPrinterOutputDevice },
     { "JAMAction", CpuJamActions },
     { NULL, NULL }
 };
 
-ui_res_string_list string_list[] = {
+ui_res_value_list non_vsid_values[] = {
+    { "EventStartMode", RecordingOptions },
+    { "UserportJoyType", UserportJoyType },
+    { "AutostartPrgMode", AutostartPrgMode },
+    { "Printer4", Printer4Emulation },
+    { "Printer4TextDevice", Printer4OutputDevice },
+    { NULL, NULL }
+};
+
+ui_res_string_list non_vsid_strings[] = {
     { "Printer4Driver", Printer4Driver },
-    { "Printer5Driver", Printer5Driver },
-    { "Printer6Driver", Printer6Driver },
-    { "PrinterUserportDriver", UserportPrinterDriver },
     { "Printer4Output", Printer4OutputType },
-    { "Printer5Output", Printer5OutputType },
-    { "Printer6Output", Printer6OutputType },
-    { "PrinterUserportOutput", UserportPrinterOutputType },
     { NULL, NULL }
 };
 
@@ -689,10 +611,59 @@ static char *get_compiletime_features(void)
     return str;
 }
 
+int ui_handle_toggle_items(ui_menu_toggle *toggles, int msg_item_id)
+{
+    int m;
+    
+    for (m = 0; toggles[m].name != NULL; m++) {
+        if (toggles[m].item_id == msg_item_id) {
+            resources_toggle(toggles[m].name, NULL);
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+int ui_handle_value_items(ui_res_value_list *values, int msg_item_id)
+{
+    int m;
+    
+    for (m = 0; values[m].name != NULL; m++) {
+        ui_res_possible_values *vl = values[m].vals;
+
+        for (; vl->item_id > 0; vl++) {
+            if (vl->item_id == msg_item_id) {
+                resources_set_int(values[m].name, vl->value);
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
+int ui_handle_string_items(ui_res_string_list *string_list, int msg_item_id)
+{
+    int m;
+    
+    for (m = 0; string_list[m].name != NULL; m++) {
+        ui_res_possible_strings *vl = string_list[m].strings;
+
+        for (; vl->item_id > 0; vl++) {
+            if (vl->item_id == msg_item_id) {
+                resources_set_string(string_list[m].name, vl->string);
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
 void ui_dispatch_events(void)
 {
     int i;
-    int m;
     int attachdrive;
     int key;
 
@@ -960,15 +931,6 @@ void ui_dispatch_events(void)
             case MENU_PRINTER_4_SEND_FF:
                 printer_formfeed(0);
                 break;
-            case MENU_PRINTER_5_SEND_FF:
-                printer_formfeed(1);
-                break;
-            case MENU_PRINTER_6_SEND_FF:
-                printer_formfeed(2);
-                break;
-            case MENU_USERPORT_PRINTER_SEND_FF:
-                printer_formfeed(3);
-                break;
             case MENU_OUTPUT_DEVICE_1:
                 ui_select_file(B_SAVE_PANEL, PRINTER_OUTPUT_FILE1, (void*)0);
                 break;
@@ -1058,58 +1020,39 @@ void ui_dispatch_events(void)
                 if (message_queue[i].what >= 'M000' && message_queue[i].what <= 'M999') {
 
                     /* Handle the TOGGLE-Menuitems */
-                    for (m = 0; toggle_list[m].name != NULL; m++) {
-                        if (toggle_list[m].item_id == message_queue[i].what) {
-                            resources_toggle(toggle_list[m].name, NULL);
+                    if (ui_handle_toggle_items(toggle_list, message_queue[i].what)) {
+                        break;
+                    }
+                    if (machine_class != VICE_MACHINE_VSID) {
+                        if (ui_handle_toggle_items(non_vsid_toggles, message_queue[i].what)) {
                             break;
                         }
                     }
                     if (machine_specific_toggles) {
-                        for (m = 0; machine_specific_toggles[m].name != NULL; m++) {
-                            if (machine_specific_toggles[m].item_id == message_queue[i].what) {
-                                resources_toggle(machine_specific_toggles[m].name,NULL);
-                                break;
-                            }
+                        if (ui_handle_toggle_items(machine_specific_toggles, message_queue[i].what)) {
+                            break;
                         }
                     }
 
                     /* Handle VALUE-Menuitems */
-                    for (m = 0; value_list[m].name != NULL; m++) {
-
-                        ui_res_possible_values *vl = value_list[m].vals;
-
-                        for (; vl->item_id > 0; vl++) {
-                            if (vl->item_id == message_queue[i].what) {
-                                resources_set_value(value_list[m].name, (resource_value_t) vl->value);
-                                break;
-                            }
+                    if (ui_handle_value_items(value_list, message_queue[i].what)) {
+                        break;
+                    }
+                    if (machine_class != VICE_MACHINE_VSID) {
+                        if (ui_handle_value_items(non_vsid_values, message_queue[i].what)) {
+                            break;
+                        }
+                    }
+                    if (machine_specific_values) {
+                        if (ui_handle_value_items(machine_specific_values, message_queue[i].what)) {
+                            break;
                         }
                     }
 
                     /* Handle STRING-Menuitems */
-                    for (m = 0; string_list[m].name != NULL; m++) {
-
-                        ui_res_possible_strings *vl = string_list[m].strings;
-
-                        for (; vl->item_id > 0; vl++) {
-                            if (vl->item_id == message_queue[i].what) {
-                                resources_set_string(string_list[m].name, vl->string);
-                                break;
-                            }
-                        }
-                    }
-
-                    if (machine_specific_values) {
-                        for (m = 0; machine_specific_values[m].name != NULL; m++) {
-
-                            ui_res_possible_values *vl = machine_specific_values[m].vals;
-
-                            for (; vl->item_id > 0; vl++) {
-                                if (vl->item_id == message_queue[i].what) {
-                                    resources_set_value(machine_specific_values[m].name, (resource_value_t) vl->value);
-                                    break;
-                                }
-                            }
+                    if (machine_class != VICE_MACHINE_VSID) {
+                        if (ui_handle_string_items(non_vsid_strings, message_queue[i].what)) {
+                            break;
                         }
                     }
 
@@ -1259,7 +1202,11 @@ void ui_update_menus(void)
         windowlist[i]->Update_Menu_Toggles(machine_specific_toggles);
         windowlist[i]->Update_Menu_Value_Lists(value_list);
         windowlist[i]->Update_Menu_Value_Lists(machine_specific_values);
-        windowlist[i]->Update_Menu_String_Lists(string_list);
+        if (machine_class != VICE_MACHINE_VSID) {
+            windowlist[i]->Update_Menu_Toggles(non_vsid_toggles);
+            windowlist[i]->Update_Menu_Value_Lists(non_vsid_values);
+            windowlist[i]->Update_Menu_String_Lists(non_vsid_strings);
+        }
     }
 }
 

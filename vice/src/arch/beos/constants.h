@@ -132,42 +132,6 @@ const uint32 MENU_PRINTER_4_DEV_3                 = 'M279';
 const uint32 MENU_PRINTER_4_SEND_FF               = 'M280';
 const uint32 MENU_PRINTER_4_IEC                   = 'M281';
 
-const uint32 MENU_PRINTER_5_EMULATION_NONE        = 'M282';
-const uint32 MENU_PRINTER_5_EMULATION_FS          = 'M283';
-const uint32 MENU_PRINTER_5_DRIVER_ASCII          = 'M284';
-const uint32 MENU_PRINTER_5_DRIVER_MPS803         = 'M285';
-const uint32 MENU_PRINTER_5_DRIVER_NL10           = 'M286';
-const uint32 MENU_PRINTER_5_DRIVER_RAW            = 'M287';
-const uint32 MENU_PRINTER_5_TYPE_TEXT             = 'M288';
-const uint32 MENU_PRINTER_5_TYPE_GFX              = 'M289';
-const uint32 MENU_PRINTER_5_DEV_1                 = 'M290';
-const uint32 MENU_PRINTER_5_DEV_2                 = 'M291';
-const uint32 MENU_PRINTER_5_DEV_3                 = 'M292';
-const uint32 MENU_PRINTER_5_SEND_FF               = 'M293';
-const uint32 MENU_PRINTER_5_IEC                   = 'M294';
-
-const uint32 MENU_PRINTER_6_EMULATION_NONE        = 'M329';
-const uint32 MENU_PRINTER_6_EMULATION_FS          = 'M330';
-const uint32 MENU_PRINTER_6_DRIVER_1520           = 'M331';
-const uint32 MENU_PRINTER_6_DRIVER_RAW            = 'M332';
-const uint32 MENU_PRINTER_6_TYPE_TEXT             = 'M333';
-const uint32 MENU_PRINTER_6_TYPE_GFX              = 'M334';
-const uint32 MENU_PRINTER_6_DEV_1                 = 'M335';
-const uint32 MENU_PRINTER_6_DEV_2                 = 'M336';
-const uint32 MENU_PRINTER_6_DEV_3                 = 'M337';
-const uint32 MENU_PRINTER_6_SEND_FF               = 'M338';
-const uint32 MENU_PRINTER_6_IEC                   = 'M339';
-
-const uint32 MENU_TOGGLE_USERPORT_PRINTER         = 'M295';
-const uint32 MENU_USERPORT_PRINTER_DRIVER_ASCII   = 'M296';
-const uint32 MENU_USERPORT_PRINTER_DRIVER_NL10    = 'M298';
-const uint32 MENU_USERPORT_PRINTER_DRIVER_RAW     = 'M299';
-const uint32 MENU_USERPORT_PRINTER_TYPE_TEXT      = 'M303';
-const uint32 MENU_USERPORT_PRINTER_TYPE_GFX       = 'M304';
-const uint32 MENU_USERPORT_PRINTER_DEV_1          = 'M305';
-const uint32 MENU_USERPORT_PRINTER_DEV_2          = 'M306';
-const uint32 MENU_USERPORT_PRINTER_DEV_3          = 'M307';
-const uint32 MENU_USERPORT_PRINTER_SEND_FF        = 'M308';
 const uint32 MENU_OUTPUT_DEVICE_1                 = 'M309';
 const uint32 MENU_OUTPUT_DEVICE_2                 = 'M310';
 const uint32 MENU_OUTPUT_DEVICE_3                 = 'M311';
@@ -285,7 +249,7 @@ const uint32 MENU_EASYFLASH_SAVE_NOW              = 'M189';
 const uint32 MENU_C64_MEMORY_HACKS_NONE           = 'M144';
 const uint32 MENU_C64_MEMORY_HACKS_256K           = 'M145';
 const uint32 MENU_C64_MEMORY_HACKS_PLUS60K        = 'M146';
-const uint32 MENU_C64_MEMORY_HACKS_PLUS256K       = 'M575';
+const uint32 MENU_C64_MEMORY_HACKS_PLUS256K       = 'M298';
 
 const uint32 MENU_VDC_REV_0                       = 'M172';
 const uint32 MENU_VDC_REV_1                       = 'M173';
@@ -353,7 +317,7 @@ const uint32 MENU_BURSTMOD_CIA2                   = 'M092';
 
 const uint32 MENU_DRIVE_SETTINGS                  = 'M200';
 const uint32 MENU_DEVICE_SETTINGS                 = 'M201';
-const uint32 MENU_PRINTER_SETTINGS                = 'M297';
+const uint32 MENU_PRINTER_SETTINGS                = 'M299';
 const uint32 MENU_SOUND_SETTINGS                  = 'M202';
 
 const uint32 MENU_JAM_ACTION_ASK                  = 'M519';
