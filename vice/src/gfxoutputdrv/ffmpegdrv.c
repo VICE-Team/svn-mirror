@@ -562,8 +562,8 @@ static int ffmpegdrv_fill_rgb_image(screenshot_t *screenshot, AVFrame *pic)
     /* center the screenshot in the video */
     dx = (video_width - x_dim) / 2;
     dy = (video_height - y_dim) / 2;
-    bufferoffset = screenshot->x_offset + max(0, -dx)
-        + (screenshot->y_offset + max(0, -dy)) * screenshot->draw_buffer_line_size;
+    bufferoffset = screenshot->x_offset + (dx < 0 ? -dx : 0)
+        + (screenshot->y_offset + (dy < 0 ? -dy : 0)) * screenshot->draw_buffer_line_size;
 
     pix = 0;
 
