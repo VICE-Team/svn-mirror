@@ -552,6 +552,7 @@ static soundmovie_funcs_t ffmpegdrv_soundmovie_funcs = {
 static int ffmpegdrv_fill_rgb_image(screenshot_t *screenshot, AVFrame *pic)
 {
     int x, y;
+    int dx, dy;
     int colnum;
     int bufferoffset;
     int x_dim = screenshot->width;
@@ -559,21 +560,47 @@ static int ffmpegdrv_fill_rgb_image(screenshot_t *screenshot, AVFrame *pic)
     int pix;
 
     /* center the screenshot in the video */
-    bufferoffset = screenshot->x_offset
-                   + screenshot->y_offset * screenshot->draw_buffer_line_size;
+    dx = (video_width - x_dim) / 2;
+    dy = (video_height - y_dim) / 2;
+    bufferoffset = screenshot->x_offset + max(0, -dx)
+        + (screenshot->y_offset + max(0, -dy)) * screenshot->draw_buffer_line_size;
 
-    pix = 3 * ((video_width - x_dim) / 2 + (video_height - y_dim) / 2 * video_width);
+    pix = 0;
 
-    for (y = 0; y < y_dim; y++) {
+    for (y = 0; y < dy; y++) {
+        /* black upper border */
+        for (x = 0; x < video_width; x++) {
+            pic->data[0][pix] = pic->data[0][pix + 1] = pic->data[0][pix + 2] = 0;
+            pix += 3;
+        }
+    }
+
+    for (y = dy; y < dy + y_dim; y++) {
+        for (x = 0; x < dx; x++) {
+            /* black left border */
+            pic->data[0][pix] = pic->data[0][pix + 1] = pic->data[0][pix + 2] = 0;
+            pix += 3;
+        }
         for (x = 0; x < x_dim; x++) {
             colnum = screenshot->draw_buffer[bufferoffset + x];
             pic->data[0][pix++] = screenshot->palette->entries[colnum].red;
             pic->data[0][pix++] = screenshot->palette->entries[colnum].green;
             pic->data[0][pix++] = screenshot->palette->entries[colnum].blue;
         }
-        pix += (3 * (video_width - x_dim));
-
         bufferoffset += screenshot->draw_buffer_line_size;
+
+        for (x = dx + x_dim; x < video_width; x++) {
+            /* black right border */
+            pic->data[0][pix] = pic->data[0][pix + 1] = pic->data[0][pix + 2] = 0;
+            pix += 3;
+        }
+    }
+    for (y = dy + y_dim; y < video_height; y++) {
+        /* black lower border */
+        for (x = 0; x < video_width; x++) {
+            pic->data[0][pix] = pic->data[0][pix + 1] = pic->data[0][pix + 2] = 0;
+            pix += 3;
+        }
     }
 
     return 0;
@@ -692,8 +719,13 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     /* put sample parameters */
     c->bit_rate = video_bitrate;
     /* resolution should be a multiple of 16 */
+#if 0
     video_width = c->width = (screenshot->width + 15) & ~0xf;
     video_height = c->height = (screenshot->height + 15) & ~0xf;
+#else
+    video_width = c->width = screenshot->width & ~0xf;
+    video_height = c->height = screenshot->height & ~0xf;
+#endif
     /* frames per second */
     st->time_base = VICE_P_AV_D2Q(machine_get_cycles_per_frame() 
                                     / (double)(video_halve_framerate ? 
