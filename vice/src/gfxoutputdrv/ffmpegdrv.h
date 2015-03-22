@@ -58,6 +58,7 @@ extern gfxoutputdrv_format_t ffmpegdrv_formatlist[];
 #define VICE_P_AV_FRAME_MAKE_WRITABLE            av_frame_make_writable
 #define VICE_P_SWR_CONVERT                       swr_convert
 #define VICE_P_AV_RESCALE_Q                      av_rescale_q
+#define VICE_P_AV_D2Q                            av_d2q
 #define VICE_P_AVCODEC_ENCODE_AUDIO2             avcodec_encode_audio2
 #define VICE_P_SWS_FREECONTEXT                   sws_freeContext
 #define VICE_P_SWS_GETCONTEXT                    sws_getContext
@@ -96,6 +97,7 @@ extern gfxoutputdrv_format_t ffmpegdrv_formatlist[];
 #define VICE_P_AV_FRAME_MAKE_WRITABLE            (*ffmpeglib.p_av_frame_make_writable)
 #define VICE_P_SWR_CONVERT                       (*ffmpeglib.p_swr_convert)
 #define VICE_P_AV_RESCALE_Q                      (*ffmpeglib.p_av_rescale_q)
+#define VICE_P_AV_D2Q                            (*ffmpeglib.p_av_d2q)
 #define VICE_P_AVCODEC_ENCODE_AUDIO2             (*ffmpeglib.p_avcodec_encode_audio2)
 #define VICE_P_SWS_FREECONTEXT                   (*ffmpeglib.p_sws_freeContext)
 #define VICE_P_SWS_GETCONTEXT                    (*ffmpeglib.p_sws_getContext)

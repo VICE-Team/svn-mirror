@@ -267,6 +267,7 @@ static int load_avutil(ffmpeglib_t *lib)
         GET_SYMBOL_AND_TEST_AVUTIL(av_opt_set_sample_fmt);
         GET_SYMBOL_AND_TEST_AVUTIL(av_rescale_rnd);
         GET_SYMBOL_AND_TEST_AVUTIL(av_rescale_q);
+        GET_SYMBOL_AND_TEST_AVUTIL(av_d2q);
         GET_SYMBOL_AND_TEST_AVUTIL(av_frame_make_writable);
         GET_SYMBOL_AND_TEST_AVUTIL(av_frame_free);
         GET_SYMBOL_AND_TEST_AVUTIL(av_dict_set);
@@ -298,6 +299,7 @@ static void free_avutil(ffmpeglib_t *lib)
     lib->p_av_opt_set_sample_fmt = NULL;
     lib->p_av_rescale_rnd = NULL;
     lib->p_av_rescale_q = NULL;
+    lib->p_av_d2q = NULL;
     lib->p_av_frame_make_writable = NULL;
     lib->p_av_frame_free = NULL;
     lib->p_av_dict_set = NULL;

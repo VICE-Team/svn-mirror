@@ -102,6 +102,7 @@ typedef int(*av_opt_set_int_t)(void*, const char*, int64_t, int);
 typedef int(*av_opt_set_sample_fmt_t)(void*, const char*, enum AVSampleFormat, int);
 typedef int64_t(*av_rescale_rnd_t)(int64_t, int64_t, int64_t, enum AVRounding);
 typedef int64_t(*av_rescale_q_t)(int64_t, AVRational, AVRational);
+typedef AVRational(*av_d2q_t)(double d, int max);
 typedef int(*av_frame_make_writable_t)(AVFrame*);
 typedef void(*av_frame_free_t)(AVFrame**);
 typedef int(*av_dict_set_t)(AVDictionary**, const char*, const char*, int);
@@ -158,6 +159,7 @@ struct ffmpeglib_s {
     av_opt_set_sample_fmt_t     p_av_opt_set_sample_fmt;
     av_rescale_rnd_t            p_av_rescale_rnd;
     av_rescale_q_t              p_av_rescale_q;
+    av_d2q_t                    p_av_d2q;
     av_frame_make_writable_t    p_av_frame_make_writable;
     av_frame_free_t             p_av_frame_free;
     av_dict_set_t               p_av_dict_set;

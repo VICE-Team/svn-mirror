@@ -695,14 +695,11 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     video_width = c->width = (screenshot->width + 15) & ~0xf;
     video_height = c->height = (screenshot->height + 15) & ~0xf;
     /* frames per second */
-#ifdef _MSC_VER
-    st->time_base.num = machine_get_cycles_per_frame();
-    st->time_base.den = (video_halve_framerate ? machine_get_cycles_per_second() / 2 : machine_get_cycles_per_second());
-#else
-    st->time_base = (AVRational) {
-        machine_get_cycles_per_frame(), (video_halve_framerate ? machine_get_cycles_per_second() / 2 : machine_get_cycles_per_second())
-    };
-#endif
+    st->time_base = VICE_P_AV_D2Q(machine_get_cycles_per_frame() 
+                                    / (double)(video_halve_framerate ? 
+                                        machine_get_cycles_per_second() / 2 :
+                                        machine_get_cycles_per_second()), 
+                                  (1 << 16) - 1);
     c->time_base = st->time_base;
 
     c->gop_size = 12; /* emit one intra frame every twelve frames at most */
