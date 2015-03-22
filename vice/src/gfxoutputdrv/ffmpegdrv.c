@@ -747,6 +747,11 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
         c->codec_tag = MKTAG('X', 'V', 'I', 'D');
     }
 
+    /* Allow nonstandard framerates for MPEG1 codec */
+    if (c->codec_id == AV_CODEC_ID_MPEG1VIDEO) {
+        c->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
+    }
+
 #ifdef HAVE_FFMPEG_SWSCALE
     /* setup scaler */
     if (c->pix_fmt != PIX_FMT_RGB24) {
