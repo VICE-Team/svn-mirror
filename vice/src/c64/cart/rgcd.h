@@ -31,6 +31,7 @@
 
 #include "types.h"
 
+extern void rgcd_reset(void);
 extern void rgcd_config_init(void);
 extern void rgcd_config_setup(BYTE *rawcart);
 extern int rgcd_bin_attach(const char *filename, BYTE *rawcart);

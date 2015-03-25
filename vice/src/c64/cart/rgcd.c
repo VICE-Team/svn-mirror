@@ -60,26 +60,28 @@
     - 1 register at io1 / de00:
 
     bit 0-2   bank number
-    bit 3     exrom (1 = cart disabled)
+    bit 3     exrom (1 = cart rom and I/O disabled until reset/powercycle)
 */
 
 #define MAXBANKS 8
 
 static BYTE regval = 0;
+static BYTE disabled = 0;
 
 static void rgcd_io1_store(WORD addr, BYTE value)
 {
     regval = value & 0x0f;
-    cart_romlbank_set_slotmain(value & 0x07);
     cart_set_port_game_slotmain(0);
-    if (value & 0x08) {
+    disabled |= (value & 0x08) ? 1 : 0;
+    if (disabled) {
         /* turn off cart ROM */
         cart_set_port_exrom_slotmain(0);
     } else {
+        cart_romlbank_set_slotmain(value & 0x07);
         cart_set_port_exrom_slotmain(1);
     }
     cart_port_config_changed_slotmain();
-    DBG(("RGCD: Reg: %02x (Bank: %d, %s)\n", regval, (regval & 0x07), (regval & 0x08) ? "disabled" : "enabled"));
+    DBG(("RGCD: Reg: %02x (Bank: %d, %s)\n", regval, (regval & 0x07), disabled ? "disabled" : "enabled"));
 }
 
 static BYTE rgcd_io1_peek(WORD addr)
@@ -89,7 +91,7 @@ static BYTE rgcd_io1_peek(WORD addr)
 
 static int rgcd_dump(void)
 {
-    mon_out("Reg: %02x (Bank: %d, %s)\n", regval, (regval & 0x07), (regval & 0x08) ? "disabled" : "enabled");
+    mon_out("Reg: %02x (Bank: %d, %s)\n", regval, (regval & 0x07), disabled ? "disabled" : "enabled");
     return 0;
 }
 
@@ -118,8 +120,15 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
+void rgcd_reset(void)
+{
+    disabled = 0;
+    cart_set_port_exrom_slotmain(1);
+}
+
 void rgcd_config_init(void)
 {
+    disabled = 0;
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
     rgcd_io1_store((WORD)0xde00, 0);
 }
@@ -177,7 +186,7 @@ void rgcd_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   1
+#define CART_DUMP_VER_MINOR   2
 #define SNAP_MODULE_NAME  "CARTRGCD"
 
 int rgcd_snapshot_write_module(snapshot_t *s)
@@ -192,6 +201,7 @@ int rgcd_snapshot_write_module(snapshot_t *s)
 
     if (0
         || (SMW_B(m, (BYTE)regval) < 0)
+        || (SMW_B(m, (BYTE)disabled) < 0)
         || (SMW_BA(m, roml_banks, 0x2000 * MAXBANKS) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -218,6 +228,7 @@ int rgcd_snapshot_read_module(snapshot_t *s)
 
     if (0
         || (SMR_B(m, &regval) < 0)
+        || (SMR_B(m, &disabled) < 0)
         || (SMR_BA(m, roml_banks, 0x2000 * MAXBANKS) < 0)) {
         snapshot_module_close(m);
         return -1;

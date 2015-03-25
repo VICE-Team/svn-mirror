@@ -1933,6 +1933,9 @@ void cartridge_reset(void)
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_reset();
             break;
+        case CARTRIDGE_RGCD:
+            rgcd_reset();
+            break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_reset();
             break;
